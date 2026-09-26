@@ -168,6 +168,43 @@ function loadBoards() {
   try { return JSON.parse(text.slice(at + BOARDS_MARK.length, end)); }
   catch (e) { throw new Error('content/boards.js is not valid JSON after window.TU_BOARDS = (' + e.message + ')'); }
 }
+// Is a point inside an outline? (even-odd ray casting)
+function insideRing([x, y], ring) {
+  let c = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const [xi, yi] = ring[i], [xj, yj] = ring[j];
+    if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c;
+  }
+  return c;
+}
+// Two outlines: how far apart they are at their closest (and where), and how
+// long a stretch of one runs along the other.
+const segPoint = (p, a, c) => {
+  const dx = c[0] - a[0], dy = c[1] - a[1], len2 = dx * dx + dy * dy;
+  const t = len2 ? Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / len2)) : 0;
+  return [a[0] + t * dx, a[1] + t * dy];
+};
+function ringGap(A, B) {
+  let best = { d: Infinity, p: null, q: null };
+  for (const [P, Q] of [[A, B], [B, A]]) for (const p of P) for (let i = 0; i < Q.length; i++) {
+    const q = segPoint(p, Q[i], Q[(i + 1) % Q.length]), d = Math.hypot(p[0] - q[0], p[1] - q[1]);
+    if (d < best.d) best = { d, p, q };
+  }
+  return best;
+}
+function sharedBorder(A, B) {
+  let total = 0;
+  for (let i = 0; i < A.length; i++) {
+    const a = A[i], c = A[(i + 1) % A.length], len = Math.hypot(c[0] - a[0], c[1] - a[1]), n = Math.max(1, Math.ceil(len / 2));
+    for (let k = 0; k < n; k++) {
+      const t = (k + 0.5) / n, p = [a[0] + (c[0] - a[0]) * t, a[1] + (c[1] - a[1]) * t];
+      let near = Infinity;
+      for (let j = 0; j < B.length; j++) { const q = segPoint(p, B[j], B[(j + 1) % B.length]); near = Math.min(near, Math.hypot(p[0] - q[0], p[1] - q[1])); }
+      if (near < 1.5) total += len / n;
+    }
+  }
+  return total;
+}
 function checkBoards(boards, { verses }) {
   const textOf = ref => { const refs = expand(ref); return refs && refs.every(r => verses.has(r)) ? refs.map(r => verses.get(r)).join(' ') : null; };
   for (const b of boards) {
@@ -177,6 +214,14 @@ function checkBoards(boards, { verses }) {
     for (const l of b.lands || []) {
       if (!l.name || !Array.isArray(l.ring) || l.ring.length < 3) failures.push(`${where}: land ${l.id} needs a name and an outline`);
       if (!Array.isArray(l.label) || l.label[0] < 0 || l.label[1] < 0 || l.label[0] > b.size[0] || l.label[1] > b.size[1]) failures.push(`${where}: land ${l.id}'s label is off the map`);
+      else if (Array.isArray(l.ring) && !insideRing(l.label, l.ring)) failures.push(`${where}: land ${l.id}'s label isn't inside its outline`);
+    }
+    // A painted board: the picture must be in the repo, and small enough
+    // that a phone joining a game isn't kept waiting for it.
+    if (b.art) {
+      const file = path.join(ROOT, b.art);
+      if (!/\.(jpe?g|png|webp)$/i.test(b.art) || !fs.existsSync(file)) failures.push(`${where}: art ${b.art} isn't an image in the repo`);
+      else if (fs.statSync(file).size > 1024 * 1024) failures.push(`${where}: art ${b.art} is ${(fs.statSync(file).size / 1048576).toFixed(1)} MB; keep it under 1 MB, since every phone in a game loads it`);
     }
     const adj = {};
     for (const [x, y] of b.links || []) {
@@ -186,6 +231,22 @@ function checkBoards(boards, { verses }) {
     const first = [...ids][0], seen = new Set([first]), todo = [first];
     while (todo.length) for (const n of adj[todo.pop()] || []) if (!seen.has(n)) { seen.add(n); todo.push(n); }
     if (seen.size !== ids.size) failures.push(`${where}: every land must be reachable; can't reach ${[...ids].filter(i => !seen.has(i)).join(', ')}`);
+    // The outlines must agree with the borders, since players attack what
+    // looks next to them: lands in `links` share a stretch of border on the
+    // map (or face each other across a narrow sea), and lands that share one
+    // are in `links`. A board traced over a picture has to follow the
+    // picture's own borders for this to hold.
+    const ring = Object.fromEntries((b.lands || []).filter(l => Array.isArray(l.ring)).map(l => [l.id, l.ring]));
+    const linked = new Set((b.links || []).map(([x, y]) => [x, y].sort().join('|')));
+    const landIds = Object.keys(ring);
+    for (let i = 0; i < landIds.length; i++) for (let j = i + 1; j < landIds.length; j++) {
+      const x = landIds[i], y = landIds[j], key = [x, y].sort().join('|');
+      const shared = Math.min(sharedBorder(ring[x], ring[y]), sharedBorder(ring[y], ring[x]));
+      if (linked.has(key) && shared < 8) {
+        const g = ringGap(ring[x], ring[y]), mid = [(g.p[0] + g.q[0]) / 2, (g.p[1] + g.q[1]) / 2];
+        if (!(g.d <= 60 && (b.seas || []).some(sea => insideRing(mid, sea.ring)))) failures.push(`${where}: ${x} and ${y} are neighbours in links, but on the map they don't share a border (${Math.round(g.d)} apart${g.d <= 60 ? ', not across a sea' : ''})`);
+      } else if (!linked.has(key) && shared >= 8) failures.push(`${where}: ${x} and ${y} share a border on the map but aren't in links`);
+    }
     const homes = new Set();
     for (const k of b.kingdoms || []) {
       if (!ids.has(k.home)) failures.push(`${where}: kingdom ${k.name}'s home ${k.home} isn't on the map`);

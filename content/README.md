@@ -149,4 +149,10 @@ to a week: the questions come from the weeks in weeks.js.
 
 The map outlines were drawn by a script from a hand-drawn coastline and
 seed points; to change a border, change the outline and `links` together.
-tools/verify.mjs checks all of this.
+tools/verify.mjs checks all of this, including that the outlines agree with
+the borders, since players attack what looks next to them: each label sits
+inside its land's outline, two lands in `links` share a stretch of border
+on the map (or face each other across a narrow sea, like Egypt and Arabia
+across the Red Sea), and two lands that share a border are in `links`. A
+new map drawn over a picture has to trace the picture's own borders, so
+neighbouring outlines meet, with no gaps or overlaps.

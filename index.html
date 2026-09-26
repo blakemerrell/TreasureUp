@@ -4130,9 +4130,10 @@ const TreasureUp = (function () {
 
   // ----- the narrator, the ⋯ menu, and insight -----
 
-  // The big screen (the map, or the one shared screen) reads the narrator's
-  // lines aloud with the browser's own voice, unless it's turned off.
-  const riskVoiceOn = () => { try { return localStorage.getItem(NS + 'risk.voice') !== '0'; } catch (e) { return true; } };
+  // The big screen (the map, or the one shared screen) can read the
+  // narrator's lines aloud with the browser's own voice. It starts off;
+  // ⋯ turns it on, and this device remembers.
+  const riskVoiceOn = () => { try { return localStorage.getItem(NS + 'risk.voice') === '1'; } catch (e) { return false; } };
   function riskSpeak(text) {
     try {
       if (!riskVoiceOn() || !('speechSynthesis' in window)) return;
