@@ -196,10 +196,11 @@ function checkBoards(boards, { verses }) {
     if ((b.kingdoms || []).length < 2) failures.push(`${where}: needs at least 2 kingdoms`);
     if (b.walls && !ids.has(b.walls)) failures.push(`${where}: walls land ${b.walls} isn't on the map`);
     for (const m of (b.intro || '').matchAll(/\(([^)]+ \d+:\d+(?:[–-]\d+)?)\)/g)) if (textOf(m[1]) == null) failures.push(`${where}: intro reference "${m[1]}" does not exist`);
-    // The narrator's hook (the game's opening line) and story: each “quote”
-    // must be in the verse cited after it.
+    // The narrator's hook (the game's opening line), story and story moments
+    // (lines for the battles at Babylon): each “quote” must be in the verse
+    // cited after it.
     if (!b.hook) failures.push(`${where}: needs a hook, the narrator's opening line`);
-    for (const line of [b.hook || ''].concat(b.story || [])) {
+    for (const line of [b.hook || ''].concat(b.story || [], Object.values(b.moments || {}))) {
       for (const m of line.matchAll(/“([^”]+)”[^(“]*\(([^)]+)\)/g)) {
         const src = textOf(m[2]);
         if (src == null) failures.push(`${where}: story reference "${m[2]}" does not exist`);

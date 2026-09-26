@@ -140,6 +140,10 @@ to a week: the questions come from the weeks in weeks.js.
   `goal`. Each “quote” in it must be the exact words of the verse cited
   after it, in brackets.
 - `story`: the whole story, a tap away (⋯ → The story), quoted the same way.
+- `moments`: story lines the narrator adds at big moments, once a game,
+  quoted the same way: `walls` at the first attack on the walls; then, the
+  first time the walls land falls, `fallsMedesPersians` if Media or Persia
+  took it, `falls` otherwise.
 - `goal`, `turn` and `dice`: how to win, each step of a turn, and how the
   dice work (⋯ → How to play).
 
