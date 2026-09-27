@@ -148,6 +148,9 @@ to a week: the questions come from the weeks in weeks.js.
   quoted the same way: `walls` at the first attack on the walls; then, the
   first time the walls land falls, `fallsMedesPersians` if Media or Persia
   took it, `falls` otherwise.
+- `cheers`: `{ win, hold }`: verses the narrator adds after the first sweep
+  (`win`) or the first attack thrown back (`hold`) in a turn, taking turns
+  through each list; quoted the same way.
 - `seas`: `{ name, ring, label }`: each sea's outline and where its name
   sits, on the water.
 - `goal`, `turn` and `dice`: how to win, each step of a turn, and how the
