@@ -139,16 +139,19 @@ to a week: the questions come from the weeks in weeks.js.
   and armies sit (inside the land, clear of its landmark).
 - `links`: the borders, each pair once. Every land must be reachable.
 - `kingdoms`: `{ id, name, home, color }`, 2 to 5, each with its own home land.
-- `walls`: the land whose defender rolls 3 dice (Babylonia).
+- `walls`: Babylonia, the land the game is won with: take it and still hold
+  it when your next turn starts. Its gates stay shut in round 1, and its
+  walls (3 defending dice) stand until it first falls.
 - `intro`: the line on the first screen; its references must be real.
 - `hook`: the narrator's opening line when a game starts, read aloud with
   `goal`. Each “quote” in it must be the exact words of the verse cited
   after it, in brackets.
 - `story`: the whole story, a tap away (⋯ → The story), quoted the same way.
-- `moments`: story lines the narrator adds at big moments, once a game,
-  quoted the same way: `walls` at the first attack on the walls; then, the
-  first time the walls land falls, `fallsMedesPersians` if Media or Persia
-  took it, `falls` otherwise.
+- `moments`: story lines the narrator adds at big moments, quoted the same
+  way: `gates` as round 2 opens Babylon's gates; `walls` at the first attack
+  on the walls; the first time the walls land falls, `fallsMedesPersians` if
+  Media or Persia took it, `falls` otherwise; and when a kingdom wins by
+  holding it, `winPersia`, `winMedia` or `win` for the others.
 - `cheers`: `{ win, hold }`: verses the narrator adds after the first sweep
   (`win`) or the first attack thrown back (`hold`) in a turn, taking turns
   through each list; quoted the same way.
