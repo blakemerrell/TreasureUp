@@ -646,6 +646,7 @@
   .rk-win .row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 12px; border-radius: 10px; background: rgba(255,255,255,.08); font-weight: 800; font-size: clamp(15px, 1.4vw, 26px); }
   .rk-win .row b { color: var(--gold); }
   .rk-win .n { margin-top: 10px; font-weight: 700; font-size: clamp(14px, 1.2vw, 22px); color: #fde68a; }
+  .rk-win.brief .s, .rk-win.brief .rows, .rk-win.brief .n { display: none; }   /* too big for the map (a phone): the headline; the card below has the rest */
   /* Story: one step at a time, big buttons, words read aloud. */
   .rk-storytop { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
   .rk-chap { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); }
@@ -703,7 +704,10 @@
   .rk-mode b { font-size: 20px; font-weight: 900; } .rk-mode small { font-size: 14px; font-weight: 600; color: rgba(255,255,255,.78); line-height: 1.35; }
   .rk-mode.on { border: 2px solid var(--gold); background: rgba(252,211,77,.1); }
   /* A chapter opens each round, across the map on the shared screen. */
-  .rk-chapter { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 3%; background: rgba(5,5,15,.66); }
+  .rk-chapter { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 3%; overflow-y: auto; background: rgba(5,5,15,.66); }
+  .rk-chapter > :first-child { margin-top: auto; } .rk-chapter > :last-child { margin-bottom: auto; }   /* centred, but never cut off at the top */
+  .rk-chapter.full { position: fixed; z-index: 140; padding: calc(var(--sat) + 76px) 16px 16px; background: rgba(5,5,15,.985); }   /* too tall for the map (a phone): the whole screen, under the header */
+  #risk > .board-top { position: relative; z-index: 141; }   /* ⋯ and Exit stay reachable over a whole-screen chapter */
   .rk-chapter-card { display: grid; gap: 10px; width: min(900px, 94%); padding: clamp(16px, 3vw, 44px); border-radius: 26px; background: rgba(10,10,20,.92); border: 2px solid rgba(252,211,77,.55); }
   .rk-chapter-n { font-size: clamp(13px, 1.5vw, 26px); font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
   .rk-chapter-t { font-size: clamp(26px, 5vw, 84px); font-weight: 900; line-height: 1.05; }
@@ -4725,6 +4729,11 @@ const TreasureUp = (function () {
       <div class="rk-mapbox">${riskMap(g, u)}${overlay || ''}</div>
       <div class="rk-card">${rk.view ? riskViewHtml(g) : card}</div></div>`);
     $('riskMore').hidden = false;
+    // An overlay too big for the map (a phone's small map): the chapter takes
+    // the whole screen, and the winner shows just its headline.
+    const box = document.querySelector('#riskBody .rk-mapbox'), ch = box && box.querySelector('.rk-chapter'), win = box && box.querySelector('.rk-win');
+    if (ch && ch.scrollHeight > ch.clientHeight + 1) ch.classList.add('full');
+    if (win && win.offsetHeight > box.clientHeight - 8) win.classList.add('brief');
   }
 
   // The opening: one line of the story and how to win. The whole story is
