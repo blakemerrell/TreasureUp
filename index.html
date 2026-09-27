@@ -512,8 +512,9 @@
   .rk-mapbox { position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,.15); background: #16324f; }
   .rk-map { display: block; width: 100%; height: auto; }
   .rk-sea { fill: #16324f; }
+  .rk-art { pointer-events: none; }
   .rk-map .sea { fill: #8dbbe8; font-size: 15px; font-style: italic; text-anchor: middle; opacity: .75; pointer-events: none; }
-  .rk-land { stroke: #0b1020; stroke-width: 2.5; stroke-linejoin: round; transition: fill .3s; }
+  .rk-land { stroke: #0b1020; stroke-width: 2.5; stroke-linejoin: round; transition: fill .3s; fill-opacity: .45; }
   .rk-land.can { cursor: pointer; stroke: #fff; stroke-width: 3; filter: brightness(1.18); }
   .rk-land.from { stroke: #fff; stroke-width: 7; }
   .rk-land.to { stroke: var(--gold); stroke-width: 7; }
@@ -3994,8 +3995,9 @@ const TreasureUp = (function () {
       const cx = s.ring.reduce((n, p) => n + p[0], 0) / s.ring.length, cy = s.ring.reduce((n, p) => n + p[1], 0) / s.ring.length;
       return `<text class="sea" x="${Math.round(cx)}" y="${Math.round(cy)}">${esc(s.name)}</text>`;
     }).join('');
+    const art = B.art ? `<image class="rk-art" href="${esc(B.art)}" x="0" y="0" width="${B.size[0]}" height="${B.size[1]}" preserveAspectRatio="none"/>` : '';
     return `<svg class="rk-map" viewBox="0 0 ${B.size[0]} ${B.size[1]}" role="img" aria-label="Map of the ancient Near East">
-      <rect width="${B.size[0]}" height="${B.size[1]}" class="rk-sea"/>${seas}${lands}
+      <rect width="${B.size[0]}" height="${B.size[1]}" class="rk-sea"/>${art}${seas}${lands}
       ${wall ? `<polygon class="rk-walls" points="${wall.ring.map(p => p.join(',')).join(' ')}"/>` : ''}${labels}</svg>`;
   }
 
