@@ -514,9 +514,17 @@
   .rk-sea { fill: #16324f; }
   .rk-map .sea { fill: #8dbbe8; font-size: 15px; font-style: italic; text-anchor: middle; opacity: .75; pointer-events: none; }
   .rk-land { stroke: #0b1020; stroke-width: 2.5; stroke-linejoin: round; transition: fill .3s; }
-  .rk-land.can { cursor: pointer; stroke: #fff; stroke-width: 3; filter: brightness(1.18); }
-  .rk-land.from { stroke: #fff; stroke-width: 7; }
-  .rk-land.to { stroke: var(--gold); stroke-width: 7; }
+  .rk-land.can { cursor: pointer; stroke: #ffe9a8; stroke-width: 4; stroke-dasharray: 16 10; animation: rk-march 1.1s linear infinite; }
+  .rk-land.from { stroke: #fff7d6; stroke-width: 6; }
+  .rk-land.to { stroke: #ffd75e; stroke-width: 6; }
+  .rk-halo { fill: none; stroke: #ffd75e; stroke-width: 16; opacity: .45; filter: blur(9px); pointer-events: none; animation: rk-glow 1.8s ease-in-out infinite; }
+  .rk-halo.from { stroke-width: 24; opacity: .6; }
+  .rk-ray { stroke: #ffe9a8; stroke-width: 3; stroke-linecap: round; opacity: .85; pointer-events: none; animation: rk-ray 1.8s ease-in-out infinite; }
+  @keyframes rk-march { to { stroke-dashoffset: -26; } }
+  @keyframes rk-glow { 0%,100% { opacity: .3; } 50% { opacity: .62; } }
+  @keyframes rk-ray { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .rk-land.can, .rk-halo, .rk-ray { animation: none; } }
+  .rk-art { pointer-events: none; }
   .rk-walls { fill: none; stroke: var(--gold); stroke-width: 4; stroke-dasharray: 10 6; pointer-events: none; }
   .rk-lab { pointer-events: none; }
   .rk-lab.can { pointer-events: auto; cursor: pointer; }
@@ -3977,11 +3985,36 @@ const TreasureUp = (function () {
   function riskMap(g, ui) {
     const B = BOARD(), u = ui || {};
     const can = new Set(u.can || []);
-    const colorOf = id => { const L = g.lands && g.lands[id], s = L && L.o && seatOf(g, L.o); return s ? kingdomOf(s.k).color : '#566174'; };
+    const fillOf = id => { const L = g.lands && g.lands[id], s = L && L.o && seatOf(g, L.o); return s ? { c: kingdomOf(s.k).color, o: 0.45 } : { c: '#566174', o: 0.16 }; };
     const home = new Set((g.seats || []).map(s => kingdomOf(s.k).home));
     const mark = id => (can.has(id) ? ' can' : '') + (u.from === id ? ' from' : '') + (u.to === id ? ' to' : '');
-    const lands = B.lands.map(l => `<polygon class="rk-land${mark(l.id)}" data-land="${l.id}"
-      points="${l.ring.map(p => p.join(',')).join(' ')}" fill="${colorOf(l.id)}"><title>${esc(l.name)}</title></polygon>`).join('');
+    // Golden rays radiating outward from a ring, for highlighted lands.
+    const raysOf = ring => {
+      let area = 0;
+      for (let i = 0; i < ring.length; i++) { const p = ring[i], q = ring[(i + 1) % ring.length]; area += p[0] * q[1] - q[0] * p[1]; }
+      const cw = area > 0; // SVG y-down: positive area = clockwise on screen
+      let s = '';
+      for (let i = 0; i < ring.length; i++) {
+        const p = ring[i], q = ring[(i + 1) % ring.length];
+        const dx = q[0] - p[0], dy = q[1] - p[1], len = Math.hypot(dx, dy);
+        if (!len) continue;
+        let nx = dy / len, ny = -dx / len;
+        if (!cw) { nx = -nx; ny = -ny; }
+        const steps = Math.max(1, Math.floor(len / 30));
+        for (let k = 0; k < steps; k++) {
+          const t = (k + 0.5) / steps, px = p[0] + dx * t, py = p[1] + dy * t;
+          const r1 = 5 + (k % 2) * 3, r2 = r1 + 11;
+          s += `<line class="rk-ray" x1="${(px + nx * r1).toFixed(1)}" y1="${(py + ny * r1).toFixed(1)}" x2="${(px + nx * r2).toFixed(1)}" y2="${(py + ny * r2).toFixed(1)}"/>`;
+        }
+      }
+      return s;
+    };
+    const pts = ring => ring.map(p => p.join(',')).join(' ');
+    const lands = B.lands.map(l => { const f = fillOf(l.id); return `<polygon class="rk-land${mark(l.id)}" data-land="${l.id}"
+      points="${pts(l.ring)}" fill="${f.c}" fill-opacity="${f.o}"><title>${esc(l.name)}</title></polygon>`; }).join('');
+    const lit = B.lands.filter(l => mark(l.id));
+    const halos = lit.map(l => `<polygon class="rk-halo${u.from === l.id ? ' from' : ''}" points="${pts(l.ring)}"/>`).join('');
+    const rays = lit.map(l => raysOf(l.ring)).join('');
     const wall = B.lands.find(l => l.id === B.walls);
     const labels = B.lands.map(l => {
       const L = (g.lands || {})[l.id], [x, y] = l.label;
@@ -3991,11 +4024,11 @@ const TreasureUp = (function () {
         ${L ? `<circle r="21" class="badge"/><text class="ar" y="8">${L.a}</text>` : ''}</g>`;
     }).join('');
     const seas = B.seas.map(s => {
-      const cx = s.ring.reduce((n, p) => n + p[0], 0) / s.ring.length, cy = s.ring.reduce((n, p) => n + p[1], 0) / s.ring.length;
+      const cx = s.label ? s.label[0] : s.ring.reduce((n, p) => n + p[0], 0) / s.ring.length, cy = s.label ? s.label[1] : s.ring.reduce((n, p) => n + p[1], 0) / s.ring.length;
       return `<text class="sea" x="${Math.round(cx)}" y="${Math.round(cy)}">${esc(s.name)}</text>`;
     }).join('');
     return `<svg class="rk-map" viewBox="0 0 ${B.size[0]} ${B.size[1]}" role="img" aria-label="Map of the ancient Near East">
-      <rect width="${B.size[0]}" height="${B.size[1]}" class="rk-sea"/>${seas}${lands}
+      <rect width="${B.size[0]}" height="${B.size[1]}" class="rk-sea"/>${B.art ? `<image class="rk-art" href="${esc(B.art)}" x="0" y="0" width="${B.size[0]}" height="${B.size[1]}" preserveAspectRatio="none"/>` : ''}${halos}${lands}${rays}${seas}
       ${wall ? `<polygon class="rk-walls" points="${wall.ring.map(p => p.join(',')).join(' ')}"/>` : ''}${labels}</svg>`;
   }
 
