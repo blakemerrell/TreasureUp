@@ -4264,10 +4264,22 @@ const TreasureUp = (function () {
     rk.lastFight = riskFightKey(d);
     const watch = riskScenesOn() && d.d && d.d.length ? riskFireMs(d, fast) + (rk.role === 'player' ? 1000 : 300) : 0, settle = reduceMotion() ? 0 : 800, at = Date.now() + watch;
     if (watch) { rk.watch = { n: d.n }; setTimeout(() => riskWatchEnd(d.n), watch); }
-    rk.fx = { n: d.n, start: at, until: at + settle + 3400, settle, banner: watch ? sceneMs('fire', fast) + Math.min(d.a.length, d.d.length) * sceneMs('duel', fast) : settle };
-    setTimeout(() => { if (rk && rk.fx && rk.fx.n === d.n) { rk.fx = null; riskRender(); } }, watch + settle + 3400);
+    const fx = rk.fx = { n: d.n, start: at, until: at + settle + 3400, settle, banner: watch ? sceneMs('fire', fast) + Math.min(d.a.length, d.d.length) * sceneMs('duel', fast) : settle };
+    setTimeout(() => { if (rk && rk.fx === fx && !fx.moved) { rk.fx = null; riskRender(); } }, watch + settle + 3400);
   }
-  function riskWatchEnd(n) { if (rk && rk.watch && rk.watch.n === n) { rk.watch = null; riskRender(); } }
+  // The battle's been played out: the result, the narrator and the map now,
+  // the result for its full few seconds from here (a scene that ran late
+  // doesn't eat into them).
+  function riskWatchEnd(n) {
+    if (!rk || !rk.watch || rk.watch.n !== n) return;
+    rk.watch = null;
+    const fx = rk.fx;
+    if (fx && fx.n === n) {
+      fx.moved = true; fx.start = Date.now(); fx.until = fx.start + fx.settle + 3400;
+      setTimeout(() => { if (rk && rk.fx === fx) { rk.fx = null; riskRender(); } }, fx.settle + 3400);
+    }
+    riskRender();
+  }
   const riskCap = s => s.charAt(0).toUpperCase() + s.slice(1);
   // The attacker's dice so far, best first (the earlier roll first among equals).
   const riskRanked = got => got.map((v, i) => ({ v, i })).sort((x, y) => y.v - x.v || x.i - y.i);
