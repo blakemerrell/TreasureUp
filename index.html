@@ -1186,9 +1186,11 @@ const TreasureUp = (function () {
     const ids = Object.keys(S.answers)
       .filter(id => live.has(id) && S.answers[id].day < today)
       .map(id => {
-        const a = S.answers[id], rc = S.recall[id] || {};
-        const missed = !a.right || (rc.misses || 0) > 0;
-        return { id, missed, last: rc.last || a.day };
+        const a = S.answers[id], rc = S.recall[id];
+        // Missed: its last try was wrong. Once it has come back, that's the
+        // warm-up's answer, so one he remembers stops crowding out the rest.
+        const missed = rc ? (rc.misses || 0) > 0 : !a.right;
+        return { id, missed, last: rc ? rc.last : a.day };
       })
       .sort((x, y) => (y.missed - x.missed) || (x.last < y.last ? -1 : x.last > y.last ? 1 : 0))
       .slice(0, RECALL_PER_DAY)
