@@ -448,6 +448,11 @@ async function main(scripture, week, pages, online) {
     const choices = [q.right, ...(q.wrong || [])];
     if (new Set(choices).size !== choices.length) fail(where, `${label}: answer choices must all be different`);
     for (const c of choices) if (c && c.length > LIMITS.choiceChars) fail(where, `${label}: choice "${c}" is over ${LIMITS.choiceChars} characters`);
+    // A right answer much longer than both wrong ones can be picked without
+    // reading (the review found "pick the longest" right on 16 of 21 reels).
+    if (q.right && Array.isArray(q.wrong) && q.wrong.length && q.wrong.every(w => q.right.length > 1.25 * String(w || '').length)) {
+      note(`${where}: ${label}: the right answer is much longer than both wrong ones, so it can be picked without reading. Make the wrong ones the same length and shape`);
+    }
     const whyWords = (q.why || '').split(/\s+/).filter(Boolean).length;
     if (whyWords > LIMITS.whyWords) fail(where, `${label}: why is ${whyWords} words (max ${LIMITS.whyWords})`);
   }

@@ -903,8 +903,8 @@ window.TU_WEEKS = [
         "ref": "Isaiah 44:17",
         "speaker": "A man praying to an idol",
         "wrong": [
-          "The Lord, speaking to Israel",
-          "Nephi"
+          "Israel, praying in Babylon",
+          "Nephi, praying for help"
         ],
         "why": "He carved the idol himself, then prayed to it."
       },
@@ -914,7 +914,7 @@ window.TU_WEEKS = [
         "ref": "Isaiah 49:14",
         "speaker": "Zion, the Lord's people",
         "wrong": [
-          "The Lord, about Babylon",
+          "Babylon, after it fell",
           "Cyrus, the Lord’s shepherd"
         ],
         "why": "Zion felt forgotten. The Lord answered, “yet will I not forget thee” (Isaiah 49:15)."
@@ -1038,8 +1038,8 @@ window.TU_WEEKS = [
         "q": "In Isaiah 40:22, what do the people of the earth look like from God's throne?",
         "right": "Grasshoppers",
         "wrong": [
-          "Giants",
-          "Stars"
+          "Little ants",
+          "Specks of dust"
         ],
         "why": "Verse 22: “the inhabitants thereof are as grasshoppers.” Even the strongest rulers are small next to Him.",
         "source": "Isaiah 40:22",
@@ -1054,8 +1054,8 @@ window.TU_WEEKS = [
         "q": "In Isaiah 49:10, where does the Lord guide the people He has mercy on?",
         "right": "By springs of water",
         "wrong": [
-          "Through a burning desert with no rest",
-          "Back to Babylon"
+          "Along the rivers of Babylon",
+          "Through the shade of tall trees"
         ],
         "why": "Verse 10: “even by the springs of water shall he guide them.” After the furnace comes cool water.",
         "source": "Isaiah 49:10",
@@ -1071,8 +1071,8 @@ window.TU_WEEKS = [
         "q": "Which two people does the lesson suggest showing pictures of, because they prepared the way of the Lord?",
         "right": "John the Baptist and Joseph Smith",
         "wrong": [
-          "Moses and Aaron",
-          "Peter and Paul"
+          "John the Baptist and Isaiah",
+          "Joseph Smith and Moses"
         ],
         "why": "It suggests pictures of John the Baptist and Joseph Smith. John prepared the way for Jesus in His day; Joseph Smith helped prepare the way in ours.",
         "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/40?lang=eng",
@@ -1087,8 +1087,8 @@ window.TU_WEEKS = [
         "q": "According to the article, where does spiritual strength come from?",
         "right": "Heavenly Father and Jesus Christ",
         "wrong": [
-          "Your own willpower alone",
-          "Never making mistakes"
+          "Hard work and never giving up",
+          "Good friends who help you stay strong"
         ],
         "why": "It says Heavenly Father and Jesus Christ are your strength, and that there is no other source of spiritual strength.",
         "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/10/strength-training-with-isaiah?lang=eng",
@@ -1109,8 +1109,8 @@ window.TU_WEEKS = [
           "q": "Why does it matter that Isaiah 40 starts with “Comfort”?",
           "right": "The message turns from warnings to hope",
           "wrong": [
-            "Isaiah stopped writing for a while",
-            "The Babylonians asked for it"
+            "The warnings get even stronger from here",
+            "The captives were already safely home"
           ],
           "why": "The earlier chapters warned; now the Lord says “comfort ye my people” and “Fear not” (Isaiah 43:1)."
         },
@@ -1119,8 +1119,8 @@ window.TU_WEEKS = [
             "q": "The lesson says these comforting chapters were meant for the Jewish people how far in the future?",
             "right": "Over 150 years",
             "wrong": [
-              "The very next day",
-              "Only in our day"
+              "About 15 years",
+              "About 1,500 years"
             ],
             "why": "The lesson says they were meant to comfort the Jewish people over 150 years in the future, after Jerusalem and the temple were destroyed.",
             "source": "lesson",
@@ -1130,10 +1130,10 @@ window.TU_WEEKS = [
             "q": "Isaiah 40:3 describes a voice crying in the wilderness. In Luke 3, whose voice is it?",
             "right": "John the Baptist",
             "wrong": [
-              "Isaiah",
-              "Elijah"
+              "Zacharias the priest",
+              "Elijah the prophet"
             ],
-            "why": "The word of God came to “John the son of Zacharias in the wilderness” (Luke 3:2), the voice Isaiah described.",
+            "why": "The word of God came to “John the son of Zacharias in the wilderness” (Luke 3:2), and Luke says he is the voice Isaiah described (Luke 3:4).",
             "source": "Luke 3:2",
             "find": "John the son of Zacharias",
             "hunt": "Isaiah 40 describes a voice crying in the wilderness. In Luke 3, whose voice is it?"
@@ -1149,7 +1149,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0369a1 50%,#7dd3fc 115%)",
         "blobA": "rgba(125,211,252,.45)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "seek": "God asks twice for His sad children to be cheered up"
       },
       {
         "id": "isa40-eagles",
@@ -1161,20 +1162,20 @@ window.TU_WEEKS = [
           "ref": "Isaiah 40:31"
         },
         "question": {
-          "q": "Who does Isaiah 40:31 say will renew their strength?",
-          "right": "Those who wait upon the Lord",
+          "q": "A friend is worn out from doing everything alone. What would Isaiah 40:31 tell them?",
+          "right": "Lean on the Lord, and He'll share His strength",
           "wrong": [
-            "Those who never get tired",
-            "Those who work the hardest"
+            "Wait until you have the strength to do it all",
+            "Keep running, and you won't get weary"
           ],
-          "why": "“They that wait upon the LORD shall renew their strength.”"
+          "why": "“They that wait upon the LORD shall renew their strength.” The strength is His, and He shares it."
         },
         "bonus": {
           "q": "For the Strength of Youth explains what it means to wait upon the Lord. What does it say?",
           "right": "Patiently trusting Him while His blessings come",
           "wrong": [
-            "Standing still and doing nothing",
-            "Waiting in line at church"
+            "Waiting to act until you're sure you won't fail",
+            "Resting until your own strength comes back"
           ],
           "why": "It says these people patiently endure all things in faith, expecting the Lord's blessings to come as they trust Him.",
           "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/10/strength-training-with-isaiah?lang=eng",
@@ -1190,7 +1191,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#1e293b 0%,#475569 50%,#cbd5e1 115%)",
         "blobA": "rgba(226,232,240,.35)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "seek": "Tired? God's people will soar like great birds"
       },
       {
         "id": "isa48-river",
@@ -1203,10 +1205,10 @@ window.TU_WEEKS = [
         },
         "question": {
           "q": "What does Isaiah 48:18 say keeping the commandments brings?",
-          "right": "Peace like a river",
+          "right": "Peace that never stops, like a river",
           "wrong": [
-            "A bigger house",
-            "A life with no problems"
+            "A river of riches that keeps flowing in",
+            "Waves that wash all your troubles away"
           ],
           "why": "“Then had thy peace been as a river.”"
         },
@@ -1214,8 +1216,8 @@ window.TU_WEEKS = [
           "q": "The Friend's family idea for this week asks you to draw something. What?",
           "right": "A peaceful river or ocean waves",
           "wrong": [
-            "A lion's den",
-            "A burning furnace"
+            "An eagle flying high above the clouds",
+            "A refiner's fire and pure silver"
           ],
           "why": "The Friend says to draw a peaceful river or waves, then write on the back a commandment you want to do better at following.",
           "source": "https://www.churchofjesuschrist.org/study/friend/2026/10/come-follow-me/23-weekly-scripture-fun?lang=eng",
@@ -1231,7 +1233,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#134e4a 0%,#0f766e 45%,#5eead4 115%)",
         "blobA": "rgba(94,234,212,.4)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "seek": "If they had obeyed, they'd have had calm that never stops"
       },
       {
         "id": "isa42-bruised-reed",
@@ -1244,10 +1247,10 @@ window.TU_WEEKS = [
         },
         "question": {
           "q": "What do the bruised reed and smoking flax teach about Jesus?",
-          "right": "He doesn't give up on people who feel weak",
+          "right": "He keeps helping those who feel broken",
           "wrong": [
-            "He only helps strong people",
-            "He throws away broken things"
+            "He waits for people to feel strong first",
+            "He tosses what's cracked and starts fresh"
           ],
           "why": "“A bruised reed shall he not break”: He mends what others would throw away."
         },
@@ -1261,7 +1264,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#1c1917 0%,#57534e 45%,#d6d3d1 115%)",
         "blobA": "rgba(214,211,209,.35)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "seek": "He won't throw away something that's cracked or nearly out"
       },
       {
         "id": "isa43-witness",
@@ -1273,11 +1277,11 @@ window.TU_WEEKS = [
           "ref": "Isaiah 43:10"
         },
         "question": {
-          "q": "What does a witness of the Lord do?",
-          "right": "Tells what they know about Him",
+          "q": "Which of these is being a witness, the way Isaiah 43:10 means?",
+          "right": "Telling a friend how God answered your prayer",
           "wrong": [
-            "Keeps quiet about Him",
-            "Only listens to other people"
+            "Keeping every prayer He answered a secret",
+            "Repeating what you heard, without knowing it"
           ],
           "why": "“Ye are my witnesses”: a witness shares what they know firsthand."
         },
@@ -1291,7 +1295,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(155deg,#312e81 0%,#4f46e5 50%,#a5b4fc 115%)",
         "blobA": "rgba(165,180,252,.45)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "seek": "God says He picked them so they would learn who He is"
       },
       {
         "id": "isa44-cyrus",
@@ -1304,10 +1309,10 @@ window.TU_WEEKS = [
         },
         "question": {
           "q": "What did the Lord say Cyrus would do?",
-          "right": "Let Jerusalem and the temple be built again",
+          "right": "Let God's people go home and rebuild",
           "wrong": [
-            "Tear down the temple",
-            "Make Babylon the new Jerusalem"
+            "Build himself a temple in Babylon instead",
+            "Keep God's people as captives in Persia"
           ],
           "why": "He calls Cyrus “my shepherd,” saying to the temple, “Thy foundation shall be laid.”"
         },
@@ -1332,7 +1337,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#422006 0%,#a16207 50%,#fde68a 115%)",
         "blobA": "rgba(253,230,138,.4)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "seek": "God names a foreign king who will let His house be rebuilt"
       },
       {
         "id": "isa40-drop-bucket",
@@ -1347,8 +1353,8 @@ window.TU_WEEKS = [
           "q": "What does calling nations “a drop of a bucket” teach?",
           "right": "Even the biggest powers are small next to God",
           "wrong": [
-            "Nations are made of water",
-            "God doesn't care about people"
+            "Nations are too small for God to notice",
+            "Babylon will be washed away by a flood"
           ],
           "why": "Next to God, the mightiest empire is “as a drop of a bucket”."
         },
@@ -1374,7 +1380,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(165deg,#020617 0%,#1e3a8a 55%,#60a5fa 110%)",
         "blobA": "rgba(96,165,250,.4)",
-        "blobB": "rgba(0,0,0,.55)"
+        "blobB": "rgba(0,0,0,.55)",
+        "seek": "Countries are like a tiny speck of dirt on God's scale"
       },
       {
         "id": "isa44-idol",
@@ -1386,13 +1393,13 @@ window.TU_WEEKS = [
           "ref": "Isaiah 44:17"
         },
         "question": {
-          "q": "What's Isaiah's point about the carved idol?",
-          "right": "Something people made can't save them",
+          "q": "Which is most like the man's carved idol today?",
+          "right": "Trusting money or fame to fix everything",
           "wrong": [
-            "Wood is holy",
-            "Idols just need better carvers"
+            "Praying to God when you are scared or sad",
+            "Carving wood to make something beautiful"
           ],
-          "why": "He prays to his own carving, “Deliver me.” It can't."
+          "why": "Like the idol, money and fame are things people made. He prays to his carving, “Deliver me.” It can't."
         },
         "media": {
           "image": {
@@ -1419,8 +1426,8 @@ window.TU_WEEKS = [
           "q": "Why is it a problem that Babylon said “I am, and none else”?",
           "right": "Babylon was claiming the Lord's place",
           "wrong": [
-            "Babylon was being humble",
-            "Babylon was telling the truth"
+            "Babylon was afraid it had no one else",
+            "Babylon was praying to the wrong idol"
           ],
           "why": "Only the Lord can say “I am God, and there is none else” (Isaiah 46:9)."
         },
@@ -1434,7 +1441,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#450a0a 0%,#7f1d1d 45%,#f87171 115%)",
         "blobA": "rgba(248,113,113,.4)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "seek": "A city that lives for fun says it will never lose its kids"
       },
       {
         "id": "isa48-furnace",
@@ -1446,13 +1454,13 @@ window.TU_WEEKS = [
           "ref": "Isaiah 48:10"
         },
         "question": {
-          "q": "What does Isaiah 48:10 say the Lord does in the furnace of affliction?",
-          "right": "Refines and chooses His people",
+          "q": "Something hard happens to you. What does Isaiah 48:10 say it can be?",
+          "right": "A way the Lord is making you better",
           "wrong": [
-            "Gives up on them",
-            "Punishes them forever"
+            "A sign that the Lord has given up on you",
+            "A punishment that will never really end"
           ],
-          "why": "“I have refined thee… I have chosen thee in the furnace of affliction.”"
+          "why": "“I have refined thee… I have chosen thee in the furnace of affliction.” Hard times can refine, not reject."
         },
         "media": {
           "image": {
@@ -1464,7 +1472,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#1c1917 0%,#b45309 55%,#fbbf24 115%)",
         "blobA": "rgba(251,191,36,.45)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "seek": "Hard times can make you purer, like metal in the fire"
       },
       {
         "id": "isa49-palms",
@@ -1514,7 +1523,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#4c1d95 0%,#a21caf 50%,#f9a8d4 112%)",
         "blobA": "rgba(249,168,212,.45)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "seek": "God says you're engraved where He'll always see you"
       }
     ]
   }
