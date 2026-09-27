@@ -343,8 +343,38 @@ function expand(ref) {
   return out;
 }
 
+// The chapters of a week's reading block, the way the app plans the days:
+// "Isaiah 13–14; 22; 24–30; 35" -> Isaiah 13, Isaiah 14, Isaiah 22, …;
+// a book on its own ("Hosea 1–6; Joel") is every chapter of it.
+function blockChapters(reference, verses) {
+  const out = [];
+  let book = null;
+  for (const raw of String(reference || '').split(';')) {
+    const part = raw.trim();
+    if (/^\d? ?[A-Za-z][^\d]*$/.test(part)) {
+      book = part;
+      for (let c = 1; verses.has(`${book} ${c}:1`); c++) out.push(book + ' ' + c);
+      continue;
+    }
+    const m = /^(?:(.*?[A-Za-z].*?) )?(\d+)(?::\d+(?:[–-]\d+)?)?(?:[–-](\d+))?$/.exec(part);
+    if (!m) return null;
+    if (m[1]) book = m[1];
+    if (!book) return null;
+    const to = /:/.test(part) ? Number(m[2]) : Number(m[3] || m[2]);
+    for (let c = Number(m[2]); c <= to; c++) out.push(book + ' ' + c);
+  }
+  return out;
+}
+// Words a clue shares with its verse (4+ letters, not the little ones), so
+// "Find it in the chapter" can't be solved by matching words.
+const CLUE_SKIP = new Set('that this with from they them their there then than what when will shall have hath unto your yours into over upon were been being does doth even also only just like more most very much make made said says saith thee thou thine'.split(' '));
+const clueWords = t => new Set((String(t).toLowerCase().match(/[a-z’']+/g) || []).map(w => w.replace(/[’']s$/, '')).filter(w => w.length >= 4 && !CLUE_SKIP.has(w)));
+
 async function main(scripture, week, pages, online) {
   const { verses, books } = scripture;
+  // A block it can't read is a note: the app then plans a section a day, as before.
+  const block = blockChapters(week.reference, verses);
+  if (!block || !block.length) note(`week: reference "${week.reference}" can't be read as a list of chapters (like "Isaiah 13–14; 22; 24–30; 35"), so the days follow the sections, with no reading path`);
 
   const textOf = ref => {
     const refs = expand(ref);
@@ -427,6 +457,11 @@ async function main(scripture, week, pages, online) {
     const choices = [q.right, ...(q.wrong || [])];
     if (new Set(choices).size !== choices.length) fail(where, `${label}: answer choices must all be different`);
     for (const c of choices) if (c && c.length > LIMITS.choiceChars) fail(where, `${label}: choice "${c}" is over ${LIMITS.choiceChars} characters`);
+    // A right answer much longer than both wrong ones can be picked without
+    // reading (the review found "pick the longest" right on 16 of 21 reels).
+    if (q.right && Array.isArray(q.wrong) && q.wrong.length && q.wrong.every(w => q.right.length > 1.25 * String(w || '').length)) {
+      note(`${where}: ${label}: the right answer is much longer than both wrong ones, so it can be picked without reading. Make the wrong ones the same length and shape`);
+    }
     const whyWords = (q.why || '').split(/\s+/).filter(Boolean).length;
     if (whyWords > LIMITS.whyWords) fail(where, `${label}: why is ${whyWords} words (max ${LIMITS.whyWords})`);
   }
@@ -522,6 +557,19 @@ async function main(scripture, week, pages, online) {
 
     for (const k of ['hook', 'body']) if (!r[k]) fail(where, `missing ${k}`);
     if (r.hook && r.hook.length > LIMITS.hookChars) fail(where, `hook is ${r.hook.length} characters (max ${LIMITS.hookChars})`);
+
+    // Reading first: a reel comes on the day its chapter is read, and its
+    // headline (or `seek`) is the clue for "Find it in the chapter".
+    if (block && r.verse && r.verse.ref && !block.includes(r.verse.ref.replace(/:.*/, ''))) {
+      note(`${where}: ${r.verse.ref} is outside this week's reading (${week.reference}), so it comes on the day of its section's other reels`);
+    }
+    if (r.seek != null && (typeof r.seek !== 'string' || !r.seek.trim() || r.seek.length > LIMITS.hookChars + 20)) {
+      fail(where, `seek must be a short clue in plain words (max ${LIMITS.hookChars + 20} characters)`);
+    }
+    if (r.verse && r.verse.text) {
+      const v = clueWords(r.verse.text), shared = [...clueWords(r.seek || r.hook || '')].filter(w => v.has(w));
+      if (shared.length >= 2) note(`${where}: its ${r.seek ? 'seek clue' : 'headline'} repeats "${shared.join('", "')}" from the verse, so Find it in the chapter can be done by matching words. A \`seek\` in plain words fixes it (e.g. "tired" for "faint")`);
+    }
     const words = (r.body || '').split(/\s+/).filter(Boolean).length;
     if (words > LIMITS.bodyWords) fail(where, `body is ${words} words (max ${LIMITS.bodyWords})`);
 

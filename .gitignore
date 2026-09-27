@@ -2,3 +2,4 @@
 node_modules
 *.local
 tools/.scripture-cache/
+content/reading.js

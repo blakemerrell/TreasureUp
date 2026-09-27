@@ -56,14 +56,22 @@ deep (Go deeper): one per section, plus Friday's pieces.
   intro     a sentence or two on why it's worth reading
   q, right, wrong, why, source, find   as for a bonus: answerable only
             from the reading, and `find` must be inside `read`
-  A section's reading opens once its reels are answered. The cover
-  plans the week: a section a day, Friday's deep dive, Saturday's
-  puzzle, Sunday's family game.
+  A Go deeper comes on the day its passage is read. The page plans
+  the week from `reference`: its chapters a day or two at a time,
+  Monday to Saturday, each day's reels after its reading; Friday's
+  deep dive, Saturday's puzzle, Sunday's family game.
 
 Each reel:
   id        unique and stable. Changing it resets that reel's answer.
   section   index into `sections`
-  hook      the headline. Short.
+  hook      the headline. Short. It is also the clue for Find it in
+            the chapter (he taps the verse it describes), so say it
+            in plain words, not the verse's own.
+  seek      optional: a Find-it clue in plain words, for when the
+            headline repeats the verse's words ("Tired? God makes you
+            strong again" for "they that wait upon the LORD shall
+            renew their strength"). The checker notes a headline that
+            repeats two or more of its verse's words.
   body      plain words an 11-year-old reads easily. 75 words max.
             Scripture quoted here goes in “curly quotes” followed by
             its reference, e.g. “Thy dead men shall live” (Isaiah 26:19).
