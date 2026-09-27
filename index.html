@@ -597,28 +597,34 @@
   .rk-die i.on { visibility: visible; }
   .rk-die.att { background: #dc2626; color: #fff; }
   .rk-die.def { background: #f8fafc; color: #0b1020; }
-  .rk-fx { position: fixed; z-index: 140; display: grid; place-content: center; justify-items: center; gap: 10px; pointer-events: none; transition: opacity .45s; }
-  .rk-fx.gone { opacity: 0; }
-  .rk-fx .rk-die { width: clamp(34px, 6vw, 64px); height: clamp(34px, 6vw, 64px); border-radius: 12px; padding: clamp(5px, .9vw, 9px); box-shadow: 0 6px 18px rgba(0,0,0,.5); }
-  .rk-fx .rk-die i { width: 62%; height: 62%; }
-  .rk-fx-pairs { display: grid; gap: clamp(4px, 1vh, 10px); padding: clamp(8px, 1.5vw, 16px) clamp(10px, 2vw, 20px); border-radius: 18px; background: rgba(5,5,15,.82); }
-  .rk-fx-head, .rk-pair { display: grid; grid-template-columns: clamp(34px, 6vw, 64px) 5.2em clamp(34px, 6vw, 64px) 1.3em; align-items: center; justify-items: center; gap: clamp(6px, 1.2vw, 14px); }
-  .rk-fx-head { font-size: clamp(11px, 1.3vw, 15px); font-weight: 800; color: rgba(255,255,255,.7); }
+  /* A battle settles in the same panel it was rolled in: the dice in pairs,
+     highest against highest, and who won each. */
+  .rk-result { justify-items: center; }
+  .rk-fx-head, .rk-pair { display: grid; grid-template-columns: 38px 5.4em 38px 1.4em; align-items: center; justify-items: center; gap: 10px; }
+  .rk-screen.tv .rk-fx-head, .rk-screen.tv .rk-pair { grid-template-columns: 64px 6em 64px 1.6em; gap: 14px; }
+  .rk-fx-head { font-size: 13px; font-weight: 800; color: rgba(255,255,255,.7); }
+  .rk-screen.tv .rk-fx-head { font-size: 17px; }
   .rk-pair { opacity: 0; animation: rkPairIn .35s ease forwards; animation-delay: calc(.35s + var(--i) * .3s); }
-  .rk-pair .w { font-weight: 800; font-size: clamp(12px, 1.5vw, 18px); color: rgba(255,255,255,.85); }
-  .rk-pair .m { font-size: clamp(16px, 2.2vw, 26px); }
+  .rk-pair .w { font-weight: 800; font-size: 14px; color: rgba(255,255,255,.85); }
+  .rk-screen.tv .rk-pair .w { font-size: 19px; }
+  .rk-pair .m { font-size: 20px; }
+  .rk-screen.tv .rk-pair .m { font-size: 28px; }
   .rk-pair.win .m { color: var(--right); }
   .rk-pair.lose .m { color: #fca5a5; }
   .rk-pair.none .w { color: rgba(255,255,255,.45); font-weight: 600; }
-  .rk-gap { width: clamp(34px, 6vw, 64px); }
+  .rk-gap { width: 38px; }
+  .rk-screen.tv .rk-gap { width: 64px; }
   @keyframes rkPairIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-  .rk-fx.still .rk-pair { animation: none; opacity: 1; }
+  .rk-result .rk-pair { animation-delay: calc(.35s + var(--i) * .3s + var(--t0, 0ms)); }
+  .rk-result .rk-fx-say { animation-delay: calc(var(--settle) + var(--t0, 0ms)); }
+  .rk-result .rk-die.roll-in { animation-delay: var(--t0, 0ms); }
+  .rk-result.still .rk-pair, .rk-result.still .rk-fx-say { animation: none; opacity: 1; }
   .rk-die.roll-in { animation: rkRollIn .7s cubic-bezier(.2,.8,.3,1) both; }
   .rk-bt-row .rk-die.def.roll-in:nth-child(2) { animation-delay: .2s; }   /* the defenders' dice land one after another */
   .rk-bt-row .rk-die.def.roll-in:nth-child(3) { animation-delay: .4s; }
   @keyframes rkRollIn { from { transform: translateY(-34px) rotate(-540deg) scale(.4); opacity: 0; } 60% { opacity: 1; } to { transform: none; } }
   @media (prefers-reduced-motion: reduce) { .rk-die.roll-in, .rk-pair { animation: none; opacity: 1; } }
-  /* A battle being rolled: on a phone's card, and big over the TV's map. */
+  /* A battle being rolled: in the card, on every screen (the TV's is beside its map). */
   .rk-battle { display: grid; gap: 8px; padding: 10px 12px; border-radius: 14px; background: rgba(5,5,15,.93); border: 1px solid rgba(255,255,255,.15); margin-bottom: 10px; }
   .rk-bt-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .rk-bt-row .lbl { font-weight: 800; font-size: 13px; color: rgba(255,255,255,.85); }
@@ -631,10 +637,11 @@
   .rk-advice { margin-top: 10px; padding: 10px 12px; border-radius: 12px; background: rgba(125,211,252,.08); border: 1px solid rgba(125,211,252,.35); font-size: 14px; line-height: 1.45; }
   .rk-advice p { margin: 0 0 6px; }
   .rk-need { font-weight: 700; color: rgba(255,255,255,.9); }
-  .rk-fx-say { padding: 6px 14px; border-radius: 999px; background: rgba(5,5,15,.75); font-weight: 900; font-size: clamp(15px, 2.2vw, 24px); opacity: 0; transition: opacity .3s; text-align: center; }
+  .rk-fx-say { padding: 6px 14px; border-radius: 999px; background: rgba(255,255,255,.08); font-weight: 900; font-size: 16px; text-align: center; opacity: 0; animation: rkSayIn .3s ease forwards; animation-delay: var(--settle, 1s); }
+  .rk-screen.tv .rk-fx-say { font-size: 22px; }
   .rk-fx-say small { display: block; font-size: .65em; font-weight: 700; color: rgba(255,255,255,.75); }
-  .rk-fx.still .rk-fx-say { opacity: 1; }
-  .rk-fx.landed .rk-fx-say { opacity: 1; }
+  @keyframes rkSayIn { to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .rk-fx-say { animation: none; opacity: 1; } }
   /* The lobby and the one-screen setup. */
   .rk-kingdoms { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin-top: 10px; }
   .rk-king { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,.08); border: 2px solid transparent; font: inherit; font-weight: 800; color: #fff; text-align: left; }
@@ -4047,23 +4054,26 @@ const TreasureUp = (function () {
   const PIPS = { 1: [4], 2: [0, 8], 3: [0, 4, 8], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8] };
   const pips = n => Array.from({ length: 9 }, (_, i) => `<i${PIPS[n].includes(i) ? ' class="on"' : ''}></i>`).join('');
   const dieHtml = (n, cls) => `<span class="rk-die ${cls}" data-n="${n}" aria-label="${n}">${pips(n)}</span>`;
-  // A battle settles: the attacker's dice line up against the defenders',
-  // highest against highest, and each pair shows who won it (a tie goes to
-  // the defender). The die just rolled tumbles in first. Drawn over the
-  // screen, not inside it, so a redraw doesn't cut it short.
-  function riskMaybeRoll(g) {
+  // A battle settles where it was rolled: the same panel lines the
+  // attacker's dice up against the defenders', highest against highest, and
+  // each pair shows who won it (a tie goes to the defender), for a few
+  // seconds on every screen. rk.fx is the roll this screen is showing.
+  function riskNoteRoll(g) {
     const d = g && g.dice;
     if (!rk || !g) return;
     if (rk.rolled === undefined) { rk.rolled = d ? d.n : 0; return; }  // this screen's first look: don't replay an old roll
     if (!d || d.n === rk.rolled) return;
     rk.rolled = d.n;
-    const box = document.querySelector('#riskBody .rk-mapbox');
-    if (!box) return;
-    document.querySelectorAll('.rk-fx').forEach(x => x.remove());
-    const r = box.getBoundingClientRect(), fx = document.createElement('div');
-    fx.className = 'rk-fx' + (reduceMotion() ? ' still' : '');
-    fx.style.cssText = `left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px`;
-    const roll = d.roll || d.a, last = roll[roll.length - 1];
+    const settle = reduceMotion() ? 0 : 450 + 300 * Math.max(d.a.length, d.d.length);
+    rk.fx = { n: d.n, start: Date.now(), until: Date.now() + settle + 2600, settle };
+    setTimeout(() => { if (rk && rk.fx && rk.fx.n === d.n) { rk.fx = null; riskRender(); } }, settle + 2600);
+  }
+  function riskDiceHtml(g) {
+    const d = g.dice, fx = rk.fx;
+    if (!d || !fx || fx.n !== d.n || g.battle || Date.now() > fx.until) return '';
+    // A redraw mid-animation carries on from where it was (--t0 shifts the delays back).
+    const t0 = fx.start - Date.now(), still = reduceMotion() || -t0 > fx.settle + 400;
+    const roll = d.roll || d.a, last = still ? null : roll[roll.length - 1];
     let marked = false;
     const rows = d.a.map((n, i) => {
       const def = d.d[i], fresh = !marked && n === last && (marked = true);
@@ -4074,13 +4084,8 @@ const TreasureUp = (function () {
     const tie = d.a.some((n, i) => d.d[i] === n);
     const say = d.won ? esc(landName(d.to)) + ' falls!'
       : [d.ld ? esc(landName(d.to)) + ' loses ' + d.ld : '', d.la ? esc(landName(d.from)) + ' loses ' + d.la : ''].filter(Boolean).join(' · ');
-    fx.innerHTML = `<div class="rk-fx-pairs"><div class="rk-fx-head"><span>${esc(landName(d.from))}</span><span></span><span>${esc(landName(d.to))}${d.walls ? ' 🧱' : ''}</span><span></span></div>${rows}</div>
-      <div class="rk-fx-say">${say}${tie ? '<small>A tie goes to the defender</small>' : ''}</div>`;
-    $('risk').appendChild(fx);
-    const settle = reduceMotion() ? 0 : 450 + 300 * Math.max(d.a.length, d.d.length);
-    setTimeout(() => fx.classList.add('landed'), settle);
-    setTimeout(() => fx.classList.add('gone'), settle + 2600);
-    setTimeout(() => fx.remove(), settle + 3100);
+    return `<div class="rk-battle rk-result${still ? ' still' : ''}" style="--settle:${fx.settle}ms;--t0:${t0}ms"><div class="rk-fx-head"><span>${esc(landName(d.from))}</span><span></span><span>${esc(landName(d.to))}${d.walls ? ' 🧱' : ''}</span><span></span></div>${rows}
+      <div class="rk-fx-say">${say}${tie ? '<small>A tie goes to the defender</small>' : ''}</div></div>`;
   }
 
   // A battle being rolled: the defenders' dice (rolled first, all shown) and
@@ -4167,7 +4172,7 @@ const TreasureUp = (function () {
   const riskBody = html => { $('riskBody').innerHTML = html; $('riskMore').hidden = true; };
   function stopRisk() {
     if (rk) { (rk.unsub || []).forEach(f => { try { f(); } catch (e) {} }); clearInterval(rk.tick); }
-    document.querySelectorAll('.rk-fx, .rk-fort').forEach(x => x.remove());
+    document.querySelectorAll('.rk-fort').forEach(x => x.remove());
     try { if ('speechSynthesis' in window) speechSynthesis.cancel(); } catch (e) {}
     rk = null;
   }
@@ -4194,7 +4199,7 @@ const TreasureUp = (function () {
     const first = rk.gid === undefined;
     rk.gid = g.gid;
     if (first) return;
-    Object.assign(rk, { spoken: 0, rolled: 0, forted: 0, waitSent: null, fortSent: null, askSent: null, rollSent: null, defSent: null, bt: null, waitSeen: null, pulse: null, sel: {}, view: null });
+    Object.assign(rk, { spoken: 0, rolled: 0, fx: null, forted: 0, waitSent: null, fortSent: null, askSent: null, rollSent: null, defSent: null, bt: null, waitSeen: null, pulse: null, sel: {}, view: null });
   }
   function riskNarrate(g) {
     if (!rk || !g) return;
@@ -4378,7 +4383,7 @@ const TreasureUp = (function () {
     } else if (b) {
       html += `${riskBattleHtml(g)}<p class="rk-note">${mine && b.auto ? 'Time’s up, so your dice rolled by themselves. ' : ''}${mine ? 'Your defenders in ' + esc(landName(b.to)) : esc(landName(b.to)) + "'s defenders"} rolled ${andList(b.d)}. ${esc(s.name)} has rolled ${b.shown} of ${b.a.length} ${b.a.length === 1 ? 'die' : 'dice'}.</p>
         <p class="rk-note rk-need">${esc(riskNeed(b, s.name, mine ? 'your' : landName(b.to) + '’s'))}</p>`;
-    }
+    } else html += riskDiceHtml(g);                                     // a battle just settled: its dice, in pairs
     if (t.q && (t.phase === 'answer' || t.phase === 'place')) {
       const Q = gameQuestion(t.q), answered = !!t.result;
       html += `${riskQHead(g)}<p class="rk-q">${answered ? linkRefs(Q.text, Q.home) : esc(Q.text)}</p>
@@ -4483,6 +4488,7 @@ const TreasureUp = (function () {
     const g = rk.g;
     if (!g) { riskBody('<div class="live-big">The game has ended.</div>'); return; }
     riskSeeGame(g);
+    riskNoteRoll(g);
     if (g.state === 'lobby') {
       const B = BOARD(), taken = {};
       g.seats.forEach(s => { taken[s.k] = s; });
@@ -4512,7 +4518,6 @@ const TreasureUp = (function () {
     const card = g.state === 'over' ? riskOverCard(g, null) : g.story ? riskStartCard() : riskSayHtml(g) + riskWatchHtml(g);
     riskScreen(g, card, g.battle ? { from: g.battle.from, to: g.battle.to } : g.dice ? { from: g.dice.from, to: g.dice.to, quiet: true } : {});
     riskNarrate(g);
-    riskMaybeRoll(g);
     riskMaybeFort(g);
   }
 
@@ -4696,6 +4701,7 @@ const TreasureUp = (function () {
     const g = rk.g, me = riskConn().uid(), B = BOARD();
     if (!g) { riskBody('<div class="live-big">The game has ended.</div><p class="live-sub">Thanks for playing!</p>'); return; }
     riskSeeGame(g);
+    riskNoteRoll(g);
     const seat = seatOf(g, me);
     if (g.state === 'lobby') {
       const taken = {}, k = seat && kingdomOf(seat.k);
@@ -4723,7 +4729,6 @@ const TreasureUp = (function () {
       if (w && riskCanFort(g, me) && !riskLocked(rk.fortSent, w.n + '|' + w.ready) && !rk.view) ui = Object.assign(ui, { can: landsOf(g, me) });   // where the armies can go
     }
     riskScreen(g, card, Object.assign({ me }, ui));
-    riskMaybeRoll(g);
     riskMaybeFort(g);
   }
 
@@ -4804,7 +4809,8 @@ const TreasureUp = (function () {
     if (!rk || rk.role !== 'solo') return;
     const g = rk.g;
     riskSeeGame(g);
-    let card, ui = g.dice ? { from: g.dice.from, to: g.dice.to } : {};
+    riskNoteRoll(g);
+    let card, ui = g.dice ? { from: g.dice.from, to: g.dice.to, quiet: true } : {};
     if (g.state === 'over') card = riskOverCard(g, null);
     else if (g.story) card = riskStartCard();
     else if (rk.pass) {
@@ -4819,7 +4825,6 @@ const TreasureUp = (function () {
     }
     riskScreen(g, card, ui);
     riskNarrate(g);
-    riskMaybeRoll(g);
   }
 
   // The narrator's card on a player's own turn: what just happened, then
@@ -4878,7 +4883,8 @@ const TreasureUp = (function () {
       const alert = hit ? `<p class="rk-alert">🛡️ ${esc(seatOf(g, hit.uid).name)} just fortified ${esc(landName(hit.land))}, ${hit.land === sel.to ? 'the land you’re attacking' : 'next to ' + esc(landName(sel.from))}: ${g.lands[hit.land].a} there now.</p>` : '';
       const walls = sel.from && g.lands[B.walls].o !== me && adjacent(sel.from, B.walls)
         ? `<p class="rk-note">${esc(landName(B.walls))} has walls: its defender rolls 3 dice.</p>` : '';
-      return `${riskSayHtml(g)}${lastRoll}<p class="rk-q">${esc(next)}</p>${alert}${walls}${btns('<button class="btn" data-rk="done">Done attacking</button>', insightBtn)}${coach}`;
+      const settled = riskDiceHtml(g);                                  // the battle just settled, where he rolled it
+      return `${settled}${riskSayHtml(g)}${settled ? '' : lastRoll}<p class="rk-q">${esc(next)}</p>${alert}${walls}${btns('<button class="btn" data-rk="done">Done attacking</button>', insightBtn)}${coach}`;
     }
     const m = t.moved;
     const next = m ? `${m.n} moved to ${landName(m.to)}.` + (g.lands[m.from].a >= 2 ? ` Tap ${landName(m.to)} again to move another.` : '')
