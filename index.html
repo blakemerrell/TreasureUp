@@ -4644,7 +4644,7 @@ const TreasureUp = (function () {
     const fly = (s, x, y, t, ease) => s.o.animate([{ transform: `translate(${(s.at || [s.x])[0]}px, ${(s.at || [0, s.y])[1]}px)` }, { transform: `translate(${x}px, ${y}px)` }], { duration: t, easing: ease, fill: 'forwards' })
       .finished.catch(() => {}).then(() => { s.at = [x, y]; });
     await Promise.all([fly(a, mx, my + 6, dur * .3, 'cubic-bezier(.5,0,.8,.4)'), fly(g, mx, my - 6, dur * .3, 'cubic-bezier(.5,0,.8,.4)')]);
-    const burst = mk('circle', { class: 'rk-sc-burst', cx: mx, cy: my, r: 6 }), pop = mk('text', { class: 'rk-sc-pop' + (won ? '' : ' lose'), x: mx + 40, y: my + 6 });
+    const burst = mk('circle', { class: 'rk-sc-burst', cx: mx, cy: my, r: 6 }), pop = mk('text', { class: 'rk-sc-pop' + (won ? '' : ' lose'), x: mx, y: my - 22 });
     pop.textContent = `${a.v} ${won ? '>' : a.v === g.v ? '=' : '<'} ${g.v}`;
     burst.animate([{ transform: 'scale(1)', opacity: 1 }, { transform: 'scale(5)', opacity: 0 }], { duration: dur * .25, easing: 'ease-out', fill: 'forwards' });
     const [win, lose] = won ? [a, g] : [g, a];
@@ -4667,9 +4667,9 @@ const TreasureUp = (function () {
   async function riskSceneFire(sc, d) {
     const fast = sc.fast, { defs, ranked } = riskScenePair(sc);
     await riskSceneWait(sceneMs('fire', fast));
-    for (let r = 0; r < defs.length && r < ranked.length; r++) await riskSceneDuel(sc, ranked[r], defs[r], fast);
-    ranked.slice(defs.length).forEach(s => { s.o.style.opacity = 0; });
+    ranked.slice(defs.length).forEach(s => { s.o.style.transition = 'opacity .3s'; s.o.style.opacity = 0; });   // then the bench steps back: it doesn't fire
     sc.el.querySelectorAll('.rk-sc-bench').forEach(e => e.remove());
+    for (let r = 0; r < defs.length && r < ranked.length; r++) await riskSceneDuel(sc, ranked[r], defs[r], fast);
     if (d.won) {
       sc.figs.def.forEach(f => { f.style.transition = 'opacity .4s'; f.style.opacity = 0; });
       sc.el.querySelector('.rk-sc-dline').style.stroke = sc.ac;
