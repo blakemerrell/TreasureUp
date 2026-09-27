@@ -122,6 +122,9 @@ Rules the check script enforces:
 - Every lesson section needs at least one reel, and at least 3 questions
   (reel questions plus bonuses) so it fills a column on the family board.
 - Bodies stay under 75 words and hooks under 60 characters.
+- A right answer much longer than both wrong ones is a note: he could pick it without reading.
+  Make the wrong answers the same length and shape, using words from the same screen, and
+  wrong for a reason (a misreading of the verse, not a silly one).
 - A bonus's `find` words must be in its source verse, or on the Gospel
   Library page it cites (lesson, Friend, For the Strength of Youth, Liahona),
   and must not appear anywhere else in the app (the reels, questions and games; the
