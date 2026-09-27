@@ -516,16 +516,9 @@
   .rk-land { fill: #000; fill-opacity: 0; stroke: #0b1020; stroke-width: 2; stroke-opacity: .55; stroke-linejoin: round; }
   .rk-line { fill: none; stroke: var(--k); stroke-width: 11; stroke-linejoin: round; pointer-events: none; }   /* clipped: 5.5 inside the border */
   .rk-lab .badge.own { stroke: var(--k); stroke-width: 6; }
-  .rk-land.can { cursor: pointer; stroke: #ffe9a8; stroke-width: 4; stroke-dasharray: 16 10; animation: rk-march 1.1s linear infinite; }
-  .rk-land.from { stroke: #fff7d6; stroke-width: 6; }
-  .rk-land.to { stroke: #ffd75e; stroke-width: 6; }
-  .rk-halo { fill: none; stroke: #ffd75e; stroke-width: 16; opacity: .45; filter: blur(9px); pointer-events: none; animation: rk-glow 1.8s ease-in-out infinite; }
-  .rk-halo.from { stroke-width: 24; opacity: .6; }
-  .rk-ray { stroke: #ffe9a8; stroke-width: 3; stroke-linecap: round; opacity: .85; pointer-events: none; animation: rk-ray 1.8s ease-in-out infinite; }
-  @keyframes rk-march { to { stroke-dashoffset: -26; } }
-  @keyframes rk-glow { 0%,100% { opacity: .3; } 50% { opacity: .62; } }
-  @keyframes rk-ray { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
-  @media (prefers-reduced-motion: reduce) { .rk-land.can, .rk-halo, .rk-ray { animation: none; } }
+  .rk-land.can { cursor: pointer; stroke: #fff; stroke-width: 2.5; stroke-opacity: .9; }
+  .rk-land.from { stroke: #fff; stroke-width: 6; stroke-opacity: 1; }
+  .rk-land.to { stroke: #ffd75e; stroke-width: 6; stroke-opacity: 1; }
   .rk-art { pointer-events: none; }
   .rk-walls { fill: none; stroke: var(--gold); stroke-width: 4; stroke-dasharray: 10 6; pointer-events: none; }
   .rk-lab { pointer-events: none; }
@@ -3997,27 +3990,6 @@ const TreasureUp = (function () {
     const ownColor = id => { const L = g.lands && g.lands[id], s = L && L.o && seatOf(g, L.o); return s ? kingdomOf(s.k).color : ''; };
     const home = new Set((g.seats || []).map(s => kingdomOf(s.k).home));
     const mark = id => (can.has(id) ? ' can' : '') + (u.from === id ? ' from' : '') + (u.to === id ? ' to' : '');
-    // Golden rays radiating outward from a ring, for highlighted lands.
-    const raysOf = ring => {
-      let area = 0;
-      for (let i = 0; i < ring.length; i++) { const p = ring[i], q = ring[(i + 1) % ring.length]; area += p[0] * q[1] - q[0] * p[1]; }
-      const cw = area > 0; // SVG y-down: positive area = clockwise on screen
-      let s = '';
-      for (let i = 0; i < ring.length; i++) {
-        const p = ring[i], q = ring[(i + 1) % ring.length];
-        const dx = q[0] - p[0], dy = q[1] - p[1], len = Math.hypot(dx, dy);
-        if (!len) continue;
-        let nx = dy / len, ny = -dx / len;
-        if (!cw) { nx = -nx; ny = -ny; }
-        const steps = Math.max(1, Math.floor(len / 30));
-        for (let k = 0; k < steps; k++) {
-          const t = (k + 0.5) / steps, px = p[0] + dx * t, py = p[1] + dy * t;
-          const r1 = 5 + (k % 2) * 3, r2 = r1 + 11;
-          s += `<line class="rk-ray" x1="${(px + nx * r1).toFixed(1)}" y1="${(py + ny * r1).toFixed(1)}" x2="${(px + nx * r2).toFixed(1)}" y2="${(py + ny * r2).toFixed(1)}"/>`;
-        }
-      }
-      return s;
-    };
     const pts = ring => ring.map(p => p.join(',')).join(' ');
     // The painting stays clear: a land is tapped through a see-through
     // outline, and who holds it shows as a line of the kingdom's color just
@@ -4028,11 +4000,6 @@ const TreasureUp = (function () {
     const owned = B.lands.filter(l => ownColor(l.id));
     const clips = owned.map(l => `<clipPath id="rkc-${l.id}"><polygon points="${pts(l.ring)}"/></clipPath>`).join('');
     const edges = owned.map(l => `<polygon class="rk-line" style="--k:${ownColor(l.id)}" clip-path="url(#rkc-${l.id})" points="${pts(l.ring)}"/>`).join('');
-    // Gold halos and rays for lands to tap and a battle being fought, not
-    // for the last battle's marker (u.quiet), which keeps a plain outline.
-    const lit = B.lands.filter(l => can.has(l.id) || (!u.quiet && (u.from === l.id || u.to === l.id)));
-    const halos = lit.map(l => `<polygon class="rk-halo${u.from === l.id ? ' from' : ''}" points="${pts(l.ring)}"/>`).join('');
-    const rays = lit.map(l => raysOf(l.ring)).join('');
     const wall = B.lands.find(l => l.id === B.walls);
     const labels = B.lands.map(l => {
       const L = (g.lands || {})[l.id], [x, y] = l.label;
@@ -4046,7 +4013,7 @@ const TreasureUp = (function () {
       return `<text class="sea" x="${Math.round(cx)}" y="${Math.round(cy)}">${esc(s.name)}</text>`;
     }).join('');
     return `<svg class="rk-map" viewBox="0 0 ${B.size[0]} ${B.size[1]}" role="img" aria-label="Map of the ancient Near East">
-      <rect width="${B.size[0]}" height="${B.size[1]}" class="rk-sea"/>${B.art ? `<image class="rk-art" href="${esc(B.art)}" x="0" y="0" width="${B.size[0]}" height="${B.size[1]}" preserveAspectRatio="none"/>` : ''}<defs>${clips}</defs>${halos}${lands}${edges}${rays}${seas}
+      <rect width="${B.size[0]}" height="${B.size[1]}" class="rk-sea"/>${B.art ? `<image class="rk-art" href="${esc(B.art)}" x="0" y="0" width="${B.size[0]}" height="${B.size[1]}" preserveAspectRatio="none"/>` : ''}<defs>${clips}</defs>${lands}${edges}${seas}
       ${wall ? `<polygon class="rk-walls" points="${wall.ring.map(p => p.join(',')).join(' ')}"/>` : ''}${labels}</svg>`;
   }
 
@@ -4516,7 +4483,7 @@ const TreasureUp = (function () {
       return;
     }
     const card = g.state === 'over' ? riskOverCard(g, null) : g.story ? riskStartCard() : riskSayHtml(g) + riskWatchHtml(g);
-    riskScreen(g, card, g.battle ? { from: g.battle.from, to: g.battle.to } : g.dice ? { from: g.dice.from, to: g.dice.to, quiet: true } : {});
+    riskScreen(g, card, g.battle ? { from: g.battle.from, to: g.battle.to } : g.dice ? { from: g.dice.from, to: g.dice.to } : {});
     riskNarrate(g);
     riskMaybeFort(g);
   }
@@ -4810,7 +4777,7 @@ const TreasureUp = (function () {
     const g = rk.g;
     riskSeeGame(g);
     riskNoteRoll(g);
-    let card, ui = g.dice ? { from: g.dice.from, to: g.dice.to, quiet: true } : {};
+    let card, ui = g.dice ? { from: g.dice.from, to: g.dice.to } : {};
     if (g.state === 'over') card = riskOverCard(g, null);
     else if (g.story) card = riskStartCard();
     else if (rk.pass) {
