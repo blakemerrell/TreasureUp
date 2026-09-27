@@ -4005,11 +4005,12 @@ const TreasureUp = (function () {
     const home = new Set((g.seats || []).map(s => kingdomOf(s.k).home));
     const mark = id => (can.has(id) ? ' can' : '') + (u.from === id ? ' from' : '') + (u.to === id ? ' to' : '');
     const pts = ring => ring.map(p => p.join(',')).join(' ');
-    // The painting stays clear: a land is tapped through a see-through
-    // outline, and who holds it shows as a line of the kingdom's color just
-    // inside its border (clipped to the land, so two owners' lines sit side
-    // by side on a shared border) and a ring of that color on its badge.
-    const lands = B.lands.map(l => `<polygon class="rk-land${mark(l.id)}" data-land="${l.id}"
+    // Who holds a land shows in its kingdom's color: a wash over the land
+    // (so the map shows at a glance how much each kingdom holds), a line
+    // just inside its border (clipped to the land, so two owners' lines sit
+    // side by side on a shared border), and a ring on its badge. Neutral
+    // lands stay unpainted.
+    const lands = B.lands.map(l => `<polygon class="rk-land${mark(l.id)}" data-land="${l.id}"${ownColor(l.id) ? ` style="fill:${ownColor(l.id)};fill-opacity:.45"` : ''}
       points="${pts(l.ring)}"><title>${esc(l.name)}</title></polygon>`).join('');
     const owned = B.lands.filter(l => ownColor(l.id));
     const clips = owned.map(l => `<clipPath id="rkc-${l.id}"><polygon points="${pts(l.ring)}"/></clipPath>`).join('');
