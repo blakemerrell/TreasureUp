@@ -130,8 +130,12 @@ Each reel:
 Babylon Falls plays on the first board in `window.TU_BOARDS`. It isn't tied
 to a week: the questions come from the weeks in weeks.js.
 
+- `art`: the painted map everything is drawn over (a JPEG under 1 MB in
+  media/). Lands are see-through on it: a kingdom's color on its lands, a
+  light wash on neutral ones.
 - `lands`: `{ id, name, ring, label }`: the outline as `[x, y]` points on a
-  `size` map, and where the name and armies sit.
+  `size` map, traced along the painting's own borders, and where the name
+  and armies sit (inside the land, clear of its landmark).
 - `links`: the borders, each pair once. Every land must be reachable.
 - `kingdoms`: `{ id, name, home, color }`, 2 to 5, each with its own home land.
 - `walls`: the land whose defender rolls 3 dice (Babylonia).
@@ -144,12 +148,31 @@ to a week: the questions come from the weeks in weeks.js.
   quoted the same way: `walls` at the first attack on the walls; then, the
   first time the walls land falls, `fallsMedesPersians` if Media or Persia
   took it, `falls` otherwise.
+- `seas`: `{ name, ring, label }`: each sea's outline and where its name
+  sits, on the water.
 - `goal`, `turn` and `dice`: how to win, each step of a turn, and how the
   dice work (⋯ → How to play).
 
-The map outlines were drawn by a script from a hand-drawn coastline and
-seed points; to change a border, change the outline and `links` together.
-tools/verify.mjs checks all of this, including that the outlines agree with
+The outlines were traced from the painting by the scripts in
+tools/trace-board, in order:
+
+1. `regions.py <picture> <work folder>` floods each land outward from its
+   seed points (seeds.json) until it meets the painted borders. Where the
+   painting has no border, a cut in cuts.json draws one: Assyria from
+   Media, Syria from Babylonia along the Euphrates, Judah from Egypt, and
+   the plain's south-east tip given to Elam so Persis doesn't border
+   Babylonia (Persia moves first). Check `regions.png` in the work folder.
+2. `polygons.py <picture> <work folder>` turns the regions into outlines.
+3. `node simplify.js <work folder>` smooths them, each shared border once,
+   so neighbours stay exactly matched.
+4. `badges.py <work folder>` suggests badge spots; the chosen ones, and the
+   sea names', are in labels.json.
+5. `node board.js <work folder>` writes the lands, seas and `links` (worked
+   out from the outlines, plus the Red Sea crossing) into boards.js.
+
+They need Python 3 with numpy, scipy, scikit-image, shapely, rasterio and
+Pillow, and node with topojson-server, topojson-simplify and
+topojson-client. tools/verify.mjs checks all of this, including that the outlines agree with
 the borders, since players attack what looks next to them: each label sits
 inside its land's outline, two lands in `links` share a stretch of border
 on the map (or face each other across a narrow sea, like Egypt and Arabia
