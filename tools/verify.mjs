@@ -261,7 +261,16 @@ function checkBoards(boards, { verses }) {
     // (lines for the battles at Babylon) and cheers (verses after a sweep or a
     // failed attack): each “quote” must be in the verse cited after it.
     if (!b.hook) failures.push(`${where}: needs a hook, the narrator's opening line`);
-    for (const line of [b.hook || ''].concat(b.story || [], Object.values(b.moments || {}), ...Object.values(b.cheers || {}))) {
+    // A chapter opens each round (chapterPlan: which, for each game length):
+    // every length's plan names real chapters, one a round, opens with 1,
+    // has chapter 2 (Babylon's gates open) as round 2, and ends on the last.
+    const chapters = b.chapters || [];
+    for (const [rounds, plan] of Object.entries(b.chapterPlan || {})) {
+      if (!Array.isArray(plan) || plan.length !== Number(rounds)) failures.push(`${where}: chapterPlan ${rounds} needs one chapter a round`);
+      else if (plan.some(n => !chapters[n - 1]) || plan[0] !== 1 || plan[1] !== 2 || plan[plan.length - 1] !== chapters.length) failures.push(`${where}: chapterPlan ${rounds} must name real chapters, start 1, 2 and end on chapter ${chapters.length}`);
+    }
+    for (const c of chapters) if (!c.title || !c.text) failures.push(`${where}: every chapter needs a title and a text`);
+    for (const line of [b.hook || ''].concat(b.story || [], Object.values(b.moments || {}), ...Object.values(b.cheers || {}), chapters.map(c => c.text || ''))) {
       for (const m of line.matchAll(/“([^”]+)”[^(“]*\(([^)]+)\)/g)) {
         const src = textOf(m[2]);
         if (src == null) failures.push(`${where}: story reference "${m[2]}" does not exist`);
