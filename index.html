@@ -111,9 +111,10 @@
   /* XP bar fill. */
   #xpFill { transition: width .6s cubic-bezier(.22,1,.36,1); }
 
-  /* Toasts sit under the HUD so they never cover the answer buttons. */
+  /* Toasts sit under the HUD so they never cover the answer buttons, and
+     above the lesson and the game screens, where most of them happen. */
   #toasts {
-    position: fixed; z-index: 95; left: 0; right: 0;
+    position: fixed; z-index: 125; left: 0; right: 0;
     top: calc(var(--sat) + 62px);
     display: flex; flex-direction: column; align-items: center; gap: 7px;
     pointer-events: none;
@@ -124,7 +125,7 @@
 
   /* Level-up celebration. */
   #levelup {
-    position: fixed; inset: 0; z-index: 99;
+    position: fixed; inset: 0; z-index: 124;
     display: none; align-items: center; justify-content: center;
     background: radial-gradient(circle at 50% 45%, rgba(251,191,36,.22), rgba(3,3,10,.94));
   }
@@ -726,7 +727,7 @@
     font: inherit; font-size: 16px; font-weight: 800; color: #fff;
     background: rgba(255,255,255,.06); border: 2px solid rgba(255,255,255,.18); border-bottom-width: 4px;
   }
-  .ls-opt.on { background: rgba(88,204,2,.14); border-color: #58cc02; color: #d9f99d; }
+  .ls-opt.on { background: rgba(28,176,246,.16); border-color: #1cb0f6; color: #d6f1ff; }   /* picked, not checked yet: blue, since green means right */
   .ls-opt.good { background: rgba(88,204,2,.2); border-color: #58cc02; }
   .ls-opt.bad { background: rgba(255,75,75,.18); border-color: #ff4b4b; }
   .ls-opt:disabled { cursor: default; }
@@ -813,8 +814,8 @@
   .today-bar { margin-top: 9px; height: 6px; border-radius: 999px; background: rgba(255,255,255,.14); overflow: hidden; }
   .today-bar div { height: 100%; border-radius: 999px; background: var(--gold); }
   .today .board-link { margin-top: 12px; }
-  .board-link.ls-start { font-size: 17px; font-weight: 900; background: #58cc02; border-color: #58cc02; box-shadow: 0 4px 0 #46a302; cursor: pointer; }
-  .board-link.ls-start small { color: rgba(255,255,255,.92); }
+  .board-link.ls-start { font-size: 17px; font-weight: 900; color: #0b1a00; background: #58cc02; border-color: #58cc02; box-shadow: 0 4px 0 #46a302; cursor: pointer; }
+  .board-link.ls-start small { color: rgba(11,26,0,.78); }
   .today-alt { display: block; margin: 12px auto 0; font: inherit; font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,.62); background: none; border: 0; cursor: pointer; text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); }
   .week-map { margin-top: 16px; }
   button.wm-row { width: 100%; text-align: left; font-family: inherit; background: none; border: 0; border-bottom: 1px solid rgba(255,255,255,.08); cursor: pointer; }
@@ -1181,8 +1182,11 @@ const TreasureUp = (function () {
   // first, then the ones that have gone longest without coming back.
   function rollDay() {
     const today = dayKey();
-    if (S.daily && S.daily.day === today) return;
     const live = new Set(WEEK.reels.map(r => r.id));
+    // Today's, unless it was rolled from last week's reels (the app was open
+    // across Sunday night): then this week's is rolled instead.
+    if (S.daily && S.daily.day === today && S.daily.ids.every(id => live.has(id)) &&
+        (!S.daily.say || (WEEK.sayings || []).some(x => x.id === S.daily.say))) return;
     const ids = Object.keys(S.answers)
       .filter(id => live.has(id) && S.answers[id].day < today)
       .map(id => {
@@ -1481,7 +1485,7 @@ const TreasureUp = (function () {
         <div class="k-num word">${big}</div>
         <div class="k-note">${note}</div>
       </div>`;
-    const puzzle = left ? word('🧩', 'Puzzle', '🔒', `Opens when all ${total} reels are done`)
+    const puzzle = !WEEK.puzzle ? '' : left ? word('🧩', 'Puzzle', '🔒', `Opens when all ${total} reels are done`)
       : pz && pz.status === 'won' ? word('🧩', 'Puzzle', 'Solved!', 'Nice work', true)
       : pz && pz.status === 'lost' && pz.day === dayKey() ? word('🧩', 'Puzzle', 'Tomorrow', 'Out of tries for today')
       : word('🧩', 'Puzzle', 'Ready', 'It unlocked. Give it a try!');
@@ -2077,9 +2081,11 @@ const TreasureUp = (function () {
     const seed = (game() && game().seed) || '';
     const cols = WEEK.sections.map((name, s) => {
       const reels = WEEK.reels.filter(r => r.section === s);
-      let clues = reels.map(r => ({ id: r.id + ':q', q: r.question }))
-        .concat(reels.flatMap(r => bonusesOf(r).map((b, n) => ({ id: r.id + ':b' + n, q: b, bonus: true }))));
-      if (seed) clues = shuffled(clues, seed + '|' + s);   // "Play again": the tiles in a new order
+      let low = reels.map(r => ({ id: r.id + ':q', q: r.question }));
+      let high = reels.flatMap(r => bonusesOf(r).map((b, n) => ({ id: r.id + ':b' + n, q: b, bonus: true })));
+      // "Play again": the tiles in a new order, reel questions still the low values.
+      if (seed) { low = shuffled(low, seed + '|' + s); high = shuffled(high, seed + '|' + s + '|b'); }
+      const clues = low.concat(high);
       clues.forEach((c, k) => { c.value = 100 * (k + 1); c.col = s; });
       return { name, clues };
     });
@@ -2336,7 +2342,9 @@ const TreasureUp = (function () {
     return out;
   }
 
-  // This week's puzzle progress. A lost try resets the next day.
+  // This week's puzzle progress. A lost try resets the next day; a try still
+  // going gets its 4 mistakes back each day, and keeps the groups it found
+  // and its wrong guesses (trying one again stays free).
   function puzzleState() {
     const today = dayKey();
     let pz = S.puzzle;
@@ -2345,6 +2353,8 @@ const TreasureUp = (function () {
     }
     if (pz.status === 'lost' && pz.day !== today) {
       Object.assign(pz, { day: today, solved: [], mistakes: 0, guesses: [], status: 'playing' });
+    } else if (pz.status === 'playing' && pz.day !== today) {
+      Object.assign(pz, { day: today, mistakes: 0 });
     }
     return pz;
   }
@@ -2626,7 +2636,10 @@ const TreasureUp = (function () {
     const today = dayKey(), w = todaysWord();
     S.words = S.words || {};
     Object.keys(S.words).forEach(d => { if (dayDiff(d, today) > 14) delete S.words[d]; });
-    if (!S.words[today] || S.words[today].word !== w.word) S.words[today] = { word: w.word, guesses: [], status: 'playing' };
+    // A day already solved or lost keeps its word, even if the week changed
+    // under it, so a day's word never pays twice.
+    const had = S.words[today];
+    if (!had || (had.word !== w.word && had.status === 'playing' && !had.paid)) S.words[today] = { word: w.word, guesses: [], status: 'playing' };
     return S.words[today];
   }
 
@@ -2729,10 +2742,11 @@ const TreasureUp = (function () {
   function climbQuestions() {
     const seed = WEEK.title + '|' + dayKey();
     const easy = shuffled(WEEK.reels.map(r => ({ q: r.question, src: r.verse.ref, home: r.verse.ref })), seed + '|easy');
-    const hard = shuffled(WEEK.reels.flatMap(r => bonusesOf(r).map(b => ({ q: b, src: b.source, home: homeOf(r, b) }))), seed + '|hard');
-    const qs = easy.slice(0, 5).concat(hard.slice(0, 5));
-    for (const x of easy.slice(5)) if (qs.length < CLIMB_VALUES.length) qs.push(x);
-    return qs.slice(0, CLIMB_VALUES.length);
+    // Only bonuses he has already answered: a climb shows each answer, and an
+    // unanswered bonus's answer would then be free XP on its reel.
+    const hard = shuffled(WEEK.reels.flatMap(r => bonusesOf(r).map((b, n) => ({ q: b, src: b.source, home: homeOf(r, b), key: bonusKey(r.id, n) })))
+      .filter(x => S.bonus[x.key]), seed + '|hard').slice(0, 5);
+    return easy.slice(0, CLIMB_VALUES.length - hard.length).concat(hard);
   }
 
   const climbStatus = () => reelsLeft() ? 'Answer all ' + WEEK.reels.length + ' reels to unlock · ' + reelsLeft() + ' left'
@@ -2821,6 +2835,7 @@ const TreasureUp = (function () {
     const cur = c.qs[c.at];
     if (el.dataset.climbPick != null && c.picked == null) {
       c.picked = el.dataset.climbPick;
+      markStudied();                     // an answer counts, even if he leaves the climb partway
       if (c.paid) {
         if (S.climbDay !== dayKey()) S.climbDay = dayKey();
         if (c.picked === cur.q.right) { c.xp += 2; grantXp(2, 'Scripture Climb'); }
@@ -6050,11 +6065,12 @@ const TreasureUp = (function () {
 
   // Fill in the missing word: one word of the verse, and two from the week's other verses.
   function blankStep(r) {
-    const words = wordsOf(r.verse.text).filter(keyWord);
+    const all = wordsOf(r.verse.text), once = w => all.filter(x => x.toLowerCase() === w.toLowerCase()).length === 1;
+    const keys = all.filter(keyWord), words = keys.filter(once).length ? keys.filter(once) : keys;
     if (!words.length) return null;
-    const right = words[hash(r.id + '|blank') % words.length];
+    const right = words[hash(r.id + '|blank') % words.length], cap = w => /^[A-Z]/.test(w);
     const pool = [...new Map(WEEK.reels.filter(x => x.id !== r.id).flatMap(x => wordsOf(x.verse.text)).filter(keyWord)
-      .filter(w => w.toLowerCase() !== right.toLowerCase()).map(w => [w.toLowerCase(), w])).values()];
+      .filter(w => w.toLowerCase() !== right.toLowerCase() && cap(w) === cap(right)).map(w => [w.toLowerCase(), w])).values()];
     const near = pool.sort((a, b) => Math.abs(a.length - right.length) - Math.abs(b.length - right.length) || hash(a) - hash(b)).slice(0, 6);
     const wrong = shuffled(near, r.id + '|near').slice(0, 2);
     if (wrong.length < 2) return null;
@@ -6141,6 +6157,7 @@ const TreasureUp = (function () {
     $('home').scrollTop = 0;
     renderHud();
     if (L.level) levelUp(L.level);
+    if (L.at < L.steps.length) L.rewards.forEach(t => toast('🎁 Reward unlocked', t + ' · show a parent'));
   }
   function lessonReset() { Object.assign(lesson, { picked: null, built: [], matched: {}, sel: null, missR: null, misses: 0, checked: false, ok: null, earned: 0 }); }
 
@@ -6155,13 +6172,16 @@ const TreasureUp = (function () {
     return S.xp - before;
   }
 
+  // "Right first time" on the last screen counts the questions, not the practice.
+  const SCORED = { recall: 1, saywarm: 1, reel: 1, deep: 1 };
   const LESSON_KIND = { recall: 'Warm-up · remember this?', saywarm: 'Warm-up · who said it?', reel: 'Choose the right answer',
     blank: 'Fill in the missing word', order: 'Put the words in order', match: 'Match each idea to its verse', say: 'Who said it?', deep: 'Go deeper' };
 
   function renderLesson() {
     if (!lesson) return;
     const L = lesson, step = L.steps[L.at], xp = S.xp - L.xp0;
-    $('lessonBar').style.width = Math.round(L.at / L.steps.length * 100) + '%';
+    L.bar = Math.max(L.bar || 0, Math.round(L.at / L.steps.length * 100));   // a miss queued for the end never moves it back
+    $('lessonBar').style.width = L.bar + '%';
     $('lessonXp').textContent = xp ? '+' + xp + ' XP' : '';
     const body = $('lessonBody'), foot = $('lessonFoot');
     foot.className = 'ls-foot' + (L.checked ? (L.ok ? ' good' : ' bad') : '');
@@ -6262,6 +6282,12 @@ const TreasureUp = (function () {
   function lessonAction(el) {
     const L = lesson, step = L && L.steps[L.at], act = el.dataset.ls;
     if (!L) return;
+    // Check and Continue take each other's place, so a quick double tap
+    // would check and move on before he saw the answer.
+    if (act === 'check' || act === 'next') {
+      if (Date.now() - (L.tapAt || 0) < 400) return;
+      L.tapAt = Date.now();
+    }
     if (act === 'close') return closeLesson();
     if (act === 'nextlesson') { closeLesson(); return openLesson(''); }
     if (act === 'puzzle') { closeLesson(); return startGame('puzzle'); }
@@ -6272,7 +6298,7 @@ const TreasureUp = (function () {
     else if (act === 'check' && !L.checked) {
       L.ok = step.kind === 'order' ? L.built.map(i => step.tiles[i].w).join(' ') === step.words.join(' ') : L.picked === step.right;
       L.checked = true;
-      if (!step.retry) { L.scored++; if (L.ok) L.right++; }
+      if (!step.retry && SCORED[step.kind]) { L.scored++; if (L.ok) L.right++; }
       L.earned = recordStep(step, L.picked, L.ok);
       // A miss comes back at the end, with its choices in a new order.
       if (!L.ok) L.steps.push(Object.assign({}, step, { retry: true, choices: step.choices && shuffled(step.choices, 'again' + L.steps.length) }));
@@ -6281,7 +6307,6 @@ const TreasureUp = (function () {
       const pair = step.pairs.find(p => p.a === L.sel);
       if (pair && pair.b === el.dataset.v) { L.matched[L.sel] = el.dataset.v; L.sel = null; L.missR = null; }
       else { L.misses++; L.missR = el.dataset.v; }
-      if (Object.keys(L.matched).length === step.pairs.length) { L.scored++; if (!L.misses) L.right++; }
     }
     renderLesson();
   }
@@ -6948,13 +6973,19 @@ const TreasureUp = (function () {
       if (e.key === 'Escape') { closeParent(); closeBoard(); closeGames(); closeFam(); closeView(); if (!$('lesson').hidden) closeLesson(); if (!$('play').hidden) closePlay(); if (!$('live').hidden) liveExit(); }
     });
 
-    // Coming back after midnight brings the new day's warm-up without a reload.
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState !== 'visible') return;
-      if (S.daily && S.daily.day !== dayKey()) {
+    // Coming back after midnight, or staying open past it, brings the new
+    // day's warm-up without a reload; a new week (Sunday night to Monday)
+    // reloads, once nothing is open over the page.
+    const checkDay = () => {
+      const w = pickWeek(window.TU_WEEKS || []);
+      const busy = lesson || ['view', 'games', 'play', 'live', 'risk', 'board', 'fam', 'dev', 'parent'].some(id => !$(id).hidden);
+      if (w && w.title !== WEEK.title) { if (!busy) location.reload(); return; }
+      if (S.daily && S.daily.day !== dayKey() && !lesson) {
         rollDay(); save(); refreshHome(); renderHud();
       }
-    });
+    };
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkDay(); });
+    setInterval(checkDay, 60000);
   }
 
   /* ---------------- boot ---------------- */
