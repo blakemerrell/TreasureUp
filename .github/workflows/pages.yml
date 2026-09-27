@@ -42,6 +42,15 @@ jobs:
         env:
           SCRIPTURE_CACHE: ${{ runner.temp }}/scripture   # keep the data out of the published site
 
+      # The chapters of each week's reading, so he can read them in the app
+      # (tools/build-reading.mjs, from the data the check just downloaded).
+      # If it can't, the app still works and sends him to Gospel Library.
+      - name: Build the week's chapters
+        run: node tools/build-reading.mjs
+        continue-on-error: true
+        env:
+          SCRIPTURE_CACHE: ${{ runner.temp }}/scripture
+
       - uses: actions/configure-pages@v5
 
       # The app is a single self-contained index.html at the repo root,

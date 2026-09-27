@@ -731,10 +731,16 @@
   .ls-opt.good { background: rgba(88,204,2,.2); border-color: #58cc02; }
   .ls-opt.bad { background: rgba(255,75,75,.18); border-color: #ff4b4b; }
   .ls-opt:disabled { cursor: default; }
-  .ls-words { display: flex; flex-wrap: wrap; gap: 8px; }
-  .ls-word { padding: 10px 14px; border-radius: 14px; cursor: pointer; font: inherit; font-size: 16px; font-weight: 800; color: #fff; background: rgba(255,255,255,.08); border: 2px solid rgba(255,255,255,.2); border-bottom-width: 4px; }
-  .ls-word.used { visibility: hidden; }
-  .ls-line { min-height: 60px; padding: 8px 0 12px; margin-bottom: 16px; border-bottom: 2px solid rgba(255,255,255,.15); display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; }
+  /* Reading the chapter: the scripture itself, in a size he reads easily. */
+  .ls-chapter .ls-prompt { margin-bottom: 6px; }
+  .ls-gl { display: inline-block; margin: 0 0 14px; padding: 10px 0; font-size: 14px; font-weight: 800; color: var(--gold); text-decoration: underline; text-decoration-color: rgba(253,230,138,.35); }
+  .ls-v { margin: 0 0 12px; font-family: Georgia, 'Times New Roman', serif; font-size: 18px; line-height: 1.6; color: rgba(255,255,255,.94); }
+  .ls-v sup, .ls-find sup { margin-right: 5px; font-family: inherit; font-size: 11px; font-weight: 900; color: var(--gold); }
+  .ls-ch-end { margin: 18px 0 8px; text-align: center; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.45); }
+  .ls-foot .ls-read-hint { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.6); margin-bottom: 8px; }
+  /* Find it in the chapter: each verse is a choice. */
+  .ls-find { display: grid; gap: 8px; }
+  .ls-find .ls-opt { font-family: Georgia, 'Times New Roman', serif; font-size: 15.5px; font-weight: 500; line-height: 1.45; }
   .ls-match { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .ls-match .ls-opt { font-size: 14.5px; text-align: center; min-height: 58px; }
   .ls-match .ls-opt.done { opacity: .35; border-color: #58cc02; }
@@ -1128,8 +1134,11 @@ const TreasureUp = (function () {
     climbDay: null,  // last day a Scripture Climb paid XP
     sayRecall: {},   // sayingId -> last day it came back in a warm-up
     sayPos: null,    // Who said it?: where the current round was left { week, idx, right, seed }
-    history: [],     // finished weeks, for the year trail: { title, num, right, answered }
-    weekTitle: null, weekNum: null
+    history: [],     // finished weeks, for the year trail: { title, num, right, answered, read, chapters }
+    weekTitle: null, weekNum: null,
+    read: {},        // this week's chapters he has read: "Isaiah 40" -> the day
+    found: {},       // Find it in the chapter: reelId -> { right, day }  first try
+    weekChapters: 0  // how many chapters this week's reading has, for the year's count
   });
 
   // Every storage access is wrapped: private windows and blocked site data
@@ -1165,9 +1174,12 @@ const TreasureUp = (function () {
   const liveStreak = () =>
     !S.lastStudy ? 0 : missedDays() <= (S.freezes || 0) ? S.streak : 0;
 
-  function markStudied() {
+  // Reading first: a day counts once he reads. With no reading left to do
+  // (Sunday, or all caught up), an answer counts, as before.
+  function markStudied(read) {
     const today = dayKey();
     if (S.lastStudy === today) return;
+    if (!read && readingDue()) return;
     const missed = missedDays();
     if (S.lastStudy && missed === 0) S.streak += 1;
     else if (S.lastStudy && missed <= (S.freezes || 0)) {
@@ -1489,7 +1501,9 @@ const TreasureUp = (function () {
       : pz && pz.status === 'won' ? word('🧩', 'Puzzle', 'Solved!', 'Nice work', true)
       : pz && pz.status === 'lost' && pz.day === dayKey() ? word('🧩', 'Puzzle', 'Tomorrow', 'Out of tries for today')
       : word('🧩', 'Puzzle', 'Ready', 'It unlocked. Give it a try!');
+    const units = readingAll(), readN = units.filter(u => S.read[u.ref]).length;
     const tiles = [
+      units.length ? tile('📜', 'Chapters read', readN, units.length) : '',
       tile('📖', 'Reels', answered.length, total),
       tile('✅', 'Right first time', right, total),
       allBonus.length ? tile('🔎', 'Bonus finds', found, allBonus.length) : '',
@@ -1516,11 +1530,11 @@ const TreasureUp = (function () {
       <button class="report-row${a ? (a.right ? ' is-right' : ' is-wrong') : ' todo'}" ${a ? `data-view="${esc(id)}"` : `data-lesson="${key}"`}>
         <span class="st">${a ? (a.right ? '✓' : '✕') : ''}</span><span>${esc(name)}</span><span class="go">›</span></button>`;
     const deepRow = (d, key) => row(S.deep[d.id], '🧭 ' + (d.day === 'friday' ? d.title : 'Read ' + d.read), 'deep-' + d.id, key);
+    const dayKeyOf = d => keyOf(e => e.kind === 'day' && e.d === d);
     const parts = WEEK.sections.map((name, i) => {
-      const key = keyOf(e => e.kind === 'section' && e.i === i);
       return `<div class="lb-sec">${esc(name)}</div>` +
-        WEEK.reels.filter(r => r.section === i).map(r => row(S.answers[r.id], r.hook, r.id, key)).join('') +
-        deepItems().filter(d => d.section === i).map(d => deepRow(d, key)).join('');
+        WEEK.reels.filter(r => r.section === i).map(r => row(S.answers[r.id], r.hook, r.id, dayKeyOf(reelDay(r)))).join('') +
+        deepItems().filter(d => d.section === i && d.day !== 'friday').map(d => deepRow(d, dayKeyOf(deepDay(d)))).join('');
     });
     if (fridayItems().length) {
       const key = keyOf(e => e.kind === 'friday');
@@ -1696,19 +1710,149 @@ const TreasureUp = (function () {
     save();
   }
 
+  /* ---------------- the week's reading ---------------- */
+
+  // Reading first: every chapter of the week's reading block, a day or two's
+  // worth each day Monday to Saturday, in order. Each day's lesson opens with
+  // that day's chapters, read in the app or in Gospel Library, and its reels
+  // are the ones about what he just read. The text is content/reading.js,
+  // built at deploy from the scripture data the checker uses
+  // (tools/build-reading.mjs); without it, each chapter opens in Gospel Library.
+  const READING_DAYS = 6;             // Monday to Saturday; Sunday is church
+  const READ_WPM = 120;               // for "about 7 min": a steady pace for an 11-year-old in the KJV
+  const countWords = t => (String(t).match(/\S+/g) || []).length;
+  let readingCache = null;
+
+  // "Isaiah 13–14; 22" -> Isaiah 13, Isaiah 14, Isaiah 22, each with its verses
+  // (a part with verses, like "Genesis 5:21–24", is just those). A block it
+  // can't read gives no reading, and the days follow the sections as before.
+  function readingUnits() {
+    const text = window.TU_READING || {}, units = [];
+    let book = null;
+    const unit = (book, c, from, to, part) => {
+      const ch = book + ' ' + c, all = Array.isArray(text[ch]) ? text[ch] : null, whole = from == null;
+      if (whole) { from = 1; to = all ? all.length : null; }
+      const verses = all && to <= all.length ? all.slice(from - 1, to).map((t, k) => ({ n: from + k, t })) : null;
+      units.push({ ref: whole ? ch : ch + ':' + from + (to !== from ? '–' + to : ''), ch, book, c, whole, from, to, verses,
+                   words: verses ? verses.reduce((n, v) => n + countWords(v.t), 0) : 0 });
+    };
+    for (const raw of String(WEEK.reference || '').split(';')) {
+      const part = raw.trim();
+      if (/^\d? ?[A-Za-z][^\d]*$/.test(part)) {      // a book on its own ("Hosea 1–6; Joel"): every chapter, from the text
+        book = part;
+        let c = 1;
+        for (; Array.isArray(text[book + ' ' + c]); c++) unit(book, c);
+        if (c === 1) return [];                        // without the text, its chapters aren't known
+        continue;
+      }
+      const m = /^(?:(.*?[A-Za-z].*?) )?(\d+)(?::(\d+)(?:[–-](\d+))?)?(?:[–-](\d+))?$/.exec(part);
+      if (m && m[1]) book = m[1];
+      if (!m || !book) return [];
+      const last = m[3] ? Number(m[2]) : Number(m[5] || m[2]);
+      for (let c = Number(m[2]); c <= last; c++) m[3] ? unit(book, c, Number(m[3]), Number(m[4] || m[3])) : unit(book, c);
+    }
+    return units;
+  }
+  // The units split over Monday to Saturday in order, keeping the longest
+  // day as short as it can be: its reading, plus the reels and Go-deeper
+  // readings that come with it (about 150 words' worth of time each). By
+  // chapters, without the text.
+  const READ_ITEM_WORDS = 150;
+  function readingPlan() {
+    if (readingCache && readingCache.week === WEEK && readingCache.text === window.TU_READING) return readingCache.days;
+    const units = readingUnits(), days = DAY_NAMES.map(() => []);
+    const n = units.length, k = Math.min(READING_DAYS, n);
+    if (n) {
+      const extra = u => READ_ITEM_WORDS * (WEEK.reels.filter(r => r.verse.ref.replace(/:.*/, '') === u.ch).length +
+        deepItems().filter(x => deepPassage(x) && deepPassage(x).replace(/:.*/, '') === u.ch).length);
+      const w = units.map(u => units.every(x => x.words) ? u.words + extra(u) : 1), pre = [0];
+      w.forEach(x => pre.push(pre[pre.length - 1] + x));
+      // best[j][i]: the longest day when the first i units go in j days; cut[j][i]: where day j starts.
+      const best = [[0].concat(Array(n).fill(Infinity))], cut = [[]];
+      for (let j = 1; j <= k; j++) {
+        best[j] = Array(n + 1).fill(Infinity); cut[j] = [];
+        for (let i = j; i <= n; i++) for (let p = j - 1; p < i; p++) {
+          const v = Math.max(best[j - 1][p], pre[i] - pre[p]);
+          if (v < best[j][i]) { best[j][i] = v; cut[j][i] = p; }
+        }
+      }
+      for (let j = k, i = n; j > 0; j--) { const p = cut[j][i]; days[j - 1] = units.slice(p, i); i = p; }
+    }
+    readingCache = { week: WEEK, text: window.TU_READING, days };
+    return days;
+  }
+  const readingAll = () => readingPlan().flat();
+  // The day a verse's chapter is read, or -1.
+  function readingDayOf(ref) {
+    const m = /^(.+? \d+)(?::(\d+))?/.exec(ref || ''), plan = readingPlan();
+    if (!m) return -1;
+    const v = m[2] ? Number(m[2]) : null;
+    for (let d = 0; d < READING_DAYS; d++) {
+      if (plan[d].some(u => u.ch === m[1] && (v == null || u.whole || (v >= u.from && v <= u.to)))) return d;
+    }
+    return -1;
+  }
+  const lastReadingDay = () => { const p = readingPlan(); for (let d = READING_DAYS - 1; d >= 0; d--) if (p[d].length) return d; return 0; };
+  // Without a reading plan, a section a day as before.
+  const sectionDay = i => { const n = WEEK.sections.length; return n <= 5 ? i : Math.floor(i * 5 / n); };
+  // A reel comes on the day its chapter is read; one outside the reading,
+  // with its section's other reels.
+  function reelDay(r) {
+    if (!readingAll().length) return sectionDay(r.section);
+    const d = readingDayOf(r.verse.ref);
+    if (d >= 0) return d;
+    const mates = WEEK.reels.filter(x => x !== r && x.section === r.section).map(x => readingDayOf(x.verse.ref)).filter(x => x >= 0);
+    return mates.length ? Math.min.apply(null, mates) : lastReadingDay();
+  }
+  // Go deeper comes on the day its passage is read, or after its section's reels.
+  function deepDay(x) {
+    const d = readingAll().length && deepPassage(x) ? readingDayOf(deepPassage(x)) : -1;
+    if (d >= 0) return d;
+    const days = WEEK.reels.filter(r => r.section === x.section).map(reelDay);
+    return days.length ? Math.max.apply(null, days) : lastReadingDay();
+  }
+  const dayReels = d => WEEK.reels.filter(r => reelDay(r) === d);
+  const dayDeep = d => deepItems().filter(x => x.day !== 'friday' && deepDay(x) === d);
+  // "Isaiah 40", "Isaiah 40–41", "Isaiah 22; 24", "Genesis 5:21–24; Moses 7".
+  function unitsLabel(units) {
+    const out = [];
+    let prevBook = null;
+    for (let i = 0; i < units.length; i++) {
+      const u = units[i];
+      let j = i;
+      while (u.whole && units[j + 1] && units[j + 1].whole && units[j + 1].book === u.book && units[j + 1].c === units[j].c + 1) j++;
+      const nums = j > i ? u.c + '–' + units[j].c : u.whole ? String(u.c) : u.ref.slice(u.book.length + 1);
+      out.push(u.book === prevBook ? nums : u.book + ' ' + nums);
+      prevBook = u.book;
+      i = j;
+    }
+    return out.join('; ');
+  }
+  const minutesOf = units => { const w = units.reduce((n, u) => n + u.words, 0); return w ? Math.max(1, Math.round(w / READ_WPM)) : 0; };
+  // Reading due by today (today's and earlier days' chapters not read yet).
+  const readingDue = () => readingPlan().slice(0, todayIndex() + 1).flat().some(u => !S.read[u.ref]);
+  function recordRead(ref) {
+    if (S.read[ref]) return false;
+    S.read[ref] = dayKey();
+    markStudied(true);
+    save();
+    return true;
+  }
+
   /* ---------------- the week's plan and Go deeper ---------------- */
 
-  // A suggested pace for the week, Monday to Sunday: the lesson's sections
-  // one a day, Friday's deep dive (the children's part of the lesson and a
-  // magazine piece), Saturday's puzzle, and Sunday for church and a family
-  // game. Nothing is locked: reading ahead is fine.
+  // A suggested pace for the week, Monday to Sunday: the week's chapters a
+  // day or two at a time, each day's reels after its reading, Friday's deep
+  // dive (the children's part of the lesson and a magazine piece),
+  // Saturday's puzzle, and Sunday for church and a family game. Nothing is
+  // locked: reading ahead is fine.
   const DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   const deepItems = () => WEEK.deep || [];
   const fridayItems = () => deepItems().filter(d => d.day === 'friday');
   function weekPlan() {
-    const n = WEEK.sections.length, days = DAY_NAMES.map(() => []);
-    WEEK.sections.forEach((_, i) => days[n <= 5 ? i : Math.floor(i * 5 / n)].push({ kind: 'section', i }));
-    if (fridayItems().length) days[n <= 4 ? 4 : 5].push({ kind: 'friday' });
+    const days = DAY_NAMES.map(() => []), plan = readingPlan();
+    for (let d = 0; d < 6; d++) if (plan[d].length || dayReels(d).length || dayDeep(d).length) days[d].push({ kind: 'day', d });
+    if (fridayItems().length) days[4].push({ kind: 'friday' });
     if (WEEK.puzzle) days[5].push({ kind: 'puzzle' });
     days[6].push({ kind: 'family' });
     return days;
@@ -1719,17 +1863,24 @@ const TreasureUp = (function () {
   }
   // The cards one part of the plan asks for, and whether each is done.
   function entryItems(e) {
-    if (e.kind === 'section') {
-      return WEEK.reels.filter(r => r.section === e.i).map(r => ({ card: r.id, done: !!S.answers[r.id] }))
-        .concat(deepItems().filter(d => d.section === e.i).map(d => ({ card: 'deep-' + d.id, done: !!S.deep[d.id] })));
+    if (e.kind === 'day') {
+      return readingPlan()[e.d].map(u => ({ card: 'read-' + u.ref, done: !!S.read[u.ref] }))
+        .concat(dayReels(e.d).map(r => ({ card: r.id, done: !!S.answers[r.id] })))
+        .concat(dayDeep(e.d).map(d => ({ card: 'deep-' + d.id, done: !!S.deep[d.id] })));
     }
     if (e.kind === 'friday') return fridayItems().map(d => ({ card: 'deep-' + d.id, done: !!S.deep[d.id] }));
     if (e.kind === 'puzzle') return [{ card: 'puzzle', done: !!S.puzzle && S.puzzle.week === WEEK.title && S.puzzle.status === 'won' }];
     return [];
   }
-  const entryName = e => e.kind === 'section' ? WEEK.sections[e.i]
+  const entryName = e => e.kind === 'day' ? dayName(e.d)
     : e.kind === 'friday' ? "Deep dive: the children's lesson and a magazine piece"
     : e.kind === 'puzzle' ? 'The weekly puzzle' : 'Church, then a family game';
+  // A day of the plan by its reading ("Read Isaiah 40–41"), or, with no
+  // reading that day, by its reels' section.
+  function dayName(d) {
+    const units = readingPlan()[d], r = dayReels(d)[0];
+    return units.length ? 'Read ' + unitsLabel(units) : r ? WEEK.sections[r.section] : 'Go deeper';
+  }
   // Today's part: anything unfinished from earlier days, then today's.
   function todayEntries() {
     const plan = weekPlan(), t = todayIndex();
@@ -1741,7 +1892,7 @@ const TreasureUp = (function () {
     const t = todayIndex(), entries = todayEntries(), items = entries.flatMap(entryItems);
     const done = items.filter(x => x.done).length;
     const now = entries.find(e => entryItems(e).some(x => !x.done));
-    const behind = now && !weekPlan()[t].some(e => e.kind === now.kind && e.i === now.i);
+    const behind = now && !weekPlan()[t].some(e => e.kind === now.kind && e.d === now.d);
     let head, sub;
     if (!items.length) {
       head = t === 6 ? 'Church day' : 'Catch up, or read ahead';
@@ -1751,7 +1902,9 @@ const TreasureUp = (function () {
       head = '✓ Done for today';
       sub = t === 6 ? 'A new week starts tomorrow.' : 'Tomorrow: ' + (next ? entryName(next) : 'catch up, or read ahead');
     } else {
-      head = entryName(now);
+      // A day whose reading is done says so, not "Read …" again.
+      const units = now.kind === 'day' ? readingPlan()[now.d] : [];
+      head = units.length && units.every(u => S.read[u.ref]) ? unitsLabel(units) + ': finish up' : entryName(now);
       sub = `${behind ? 'Catching up first · ' : ''}${done} of ${items.length} done today`;
     }
     const warm = warmupsLeft().length;
@@ -2891,7 +3044,8 @@ const TreasureUp = (function () {
       const n = k + 1;
       return `<i class="${n === now ? 'now' : did.has(n) ? 'did' : n < now ? 'past' : ''}" title="Week ${n}"></i>`;
     }).join('');
-    return `<div class="mt-5"><div class="eyebrow">Your year · week ${now} of ${YEAR_WEEKS}</div><div class="trail">${dots}</div></div>`;
+    const read = (S.history || []).reduce((n, h) => n + (h.read || 0), 0) + Object.keys(S.read || {}).length;
+    return `<div class="mt-5"><div class="eyebrow">Your year · week ${now} of ${YEAR_WEEKS}${read ? ' · ' + read + (read === 1 ? ' chapter' : ' chapters') + ' read' : ''}</div><div class="trail">${dots}</div></div>`;
   }
 
   /* ---------------- live game (Kahoot-style) ---------------- */
@@ -5284,6 +5438,7 @@ const TreasureUp = (function () {
     for (const k in L.answers || {}) if (!has(B.answers, k) && has(R.answers, k) && L.answers[k].right) gained -= XP.firstTry;
     for (const k in L.bonus || {}) if (!has(B.bonus, k) && has(R.bonus, k) && L.bonus[k].right) gained -= XP.bonus;
     for (const k in L.deep || {}) if (!has(B.deep, k) && has(R.deep, k) && L.deep[k].right) gained -= XP.bonus;
+    for (const k in L.found || {}) if (!has(B.found, k) && has(R.found, k) && L.found[k].right) gained -= FIND_XP;
     for (const k in L.notes || {}) {
       if (L.notes[k].rewarded && !(has(B.notes, k) && B.notes[k].rewarded) && has(R.notes, k) && R.notes[k].rewarded) gained -= NOTE_XP;
     }
@@ -5297,7 +5452,7 @@ const TreasureUp = (function () {
       if (a && a.paid && r && r.paid && !(b0 && b0.paid)) gained -= typeof a.paid === 'number' ? a.paid : 10;
     }
     M.xp = (R.xp || 0) + Math.max(0, gained);
-    for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
+    for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
     // Notes: the later edit wins.
     M.notes = Object.assign({}, L.notes || {}, R.notes || {});
     for (const k in L.notes || {}) if (!has(R.notes, k) || (L.notes[k].at || 0) > (R.notes[k].at || 0)) M.notes[k] = L.notes[k];
@@ -6052,10 +6207,12 @@ const TreasureUp = (function () {
   // What a lesson holds, for the button that starts it.
   function lessonParts(e) {
     const parts = warmupsLeft().length ? ['Warm-up'] : [];
-    if (e && e.kind === 'section') {
-      const n = WEEK.reels.filter(r => r.section === e.i && !S.answers[r.id]).length;
+    if (e && e.kind === 'day') {
+      const toRead = readingPlan()[e.d].filter(u => !S.read[u.ref]), min = minutesOf(toRead);
+      if (toRead.length) parts.push('Read ' + unitsLabel(toRead) + (min ? ' (' + min + ' min)' : ''));
+      const n = dayReels(e.d).filter(r => !S.answers[r.id]).length;
       if (n) parts.push(n === 1 ? '1 reel' : n + ' reels');
-      if (deepItems().some(d => d.section === e.i && !S.deep[d.id])) parts.push('Go deeper');
+      if (dayDeep(e.d).some(d => !S.deep[d.id])) parts.push('Go deeper');
     } else if (e && e.kind === 'friday') {
       const n = fridayItems().filter(d => !S.deep[d.id]).length;
       parts.push(n === 1 ? '1 reading' : n + ' readings');
@@ -6080,28 +6237,59 @@ const TreasureUp = (function () {
     return { kind: 'blank', ref: r.verse.ref, home: r.verse.ref, before: r.verse.text.slice(0, at), after: r.verse.text.slice(at + right.length),
              right, choices: shuffled([right].concat(wrong), r.id + '|blankc') };
   }
-  // Put a phrase of the verse back in order.
-  function orderStep(r) {
-    const phrase = r.verse.text.split(/[,:;.…]/).map(x => x.trim()).find(c => { const n = wordsOf(c).length; return n >= 4 && n <= 8; })
-      || wordsOf(r.verse.text).slice(0, 7).join(' ');
-    const words = wordsOf(phrase);
-    let tiles = shuffled(words.map((w, i) => ({ w, i })), r.id + '|order');
-    if (tiles.every((t, i) => t.i === i)) tiles = tiles.reverse();
-    return { kind: 'order', ref: r.verse.ref, home: r.verse.ref, words, tiles };
+  // Find it in the chapter: a reel's headline (or its `seek`, a clue in plain
+  // words) and the verses around its verse; he taps the one it describes.
+  // The clue that shares the fewest words with its verse, so it takes
+  // reading, not matching words. Needs the chapter's text.
+  const FIND_XP = 10;
+  const clueWords = t => new Set(wordsOf(String(t).toLowerCase()).map(w => w.replace(/[’']s$/, '')).filter(w => w.length >= 4 && !LESSON_SKIP.has(w)));
+  function findStep(d, practice) {
+    const text = window.TU_READING || {};
+    if (!practice && dayReels(d).some(r => S.found[r.id])) return null;   // one a day
+    const cands = dayReels(d).map(r => {
+      const m = /^(.+? \d+):(\d+)(?:[–-](\d+))?$/.exec(r.verse.ref), all = m && text[m[1]];
+      if (!Array.isArray(all)) return null;
+      const from = Number(m[2]), to = Number(m[3] || m[2]);
+      if (to > all.length) return null;
+      const clue = r.seek || r.hook, v = clueWords(all.slice(from - 1, to).join(' '));
+      return { r, ch: m[1], all, from, to, clue, overlap: [...clueWords(clue)].filter(w => v.has(w)).length };
+    }).filter(Boolean);
+    if (!cands.length) return null;
+    const c = cands.sort((a, b) => a.overlap - b.overlap || hash(a.r.id + '|find') - hash(b.r.id + '|find'))[0];
+    if (!c) return null;
+    // About 7 verses, with the answer somewhere in them (not always the middle).
+    const span = Math.min(c.all.length, Math.max(7, c.to - c.from + 1));
+    const lo = Math.max(1, c.to - span + 1), hi = Math.min(c.from, c.all.length - span + 1);
+    const start = lo + hash(c.r.id + '|findat') % (hi - lo + 1);
+    const verses = c.all.slice(start - 1, start - 1 + span).map((t, k) => ({ n: String(start + k), t }));
+    const right = verses.filter(v => Number(v.n) >= c.from && Number(v.n) <= c.to).map(v => v.n);
+    // After he answers: the verse itself, so he sees how the clue says it in plain words.
+    const said = c.all.slice(c.from - 1, c.to).join(' '), cut = said.split(/\s+/);
+    return { kind: 'find', id: c.r.id, practice, clue: c.clue, ch: c.ch, home: c.r.verse.ref, verses, right,
+             answer: 'Verse ' + c.from + (c.to > c.from ? '–' + c.to : ''),
+             why: '“' + (cut.length > 30 ? cut.slice(0, 30).join(' ') + '…' : said) + '” (' + c.r.verse.ref + ')' };
   }
-  // Match each idea to its verse: the puzzle's tiles for this section.
-  function matchStep(section) {
-    const g = WEEK.puzzle && WEEK.puzzle.groups.find(x => x.section === section);
-    const seen = new Set();
-    const pairs = (g ? g.tiles : []).filter(t => !seen.has(t.ref) && seen.add(t.ref)).map(t => ({ a: t.text, b: t.ref }));
-    return pairs.length < 3 ? null : { kind: 'match', pairs, left: shuffled(pairs.map(p => p.a), 'L' + section), right: shuffled(pairs.map(p => p.b), 'R' + section) };
+  function recordFind(id, right) {
+    if (S.found[id]) return false;
+    S.found[id] = { right, day: dayKey() };
+    markStudied();
+    if (right) grantXp(FIND_XP, 'Found it in the chapter');
+    save();
+    return true;
   }
-  function sayStep(section) {
-    const list = WEEK.sayings || [];
-    if (!list.length) return null;
-    const chapters = new Set(WEEK.reels.filter(r => r.section === section).map(r => r.verse.ref.replace(/:.*/, '')));
-    const x = list.find(y => chapters.has(y.ref.replace(/:.*/, ''))) || list[hash(WEEK.title + section) % list.length];
-    return { kind: 'say', text: x.text, ref: x.ref, home: x.ref, right: x.speaker, choices: shuffled([x.speaker].concat(x.wrong), x.id + '|say'), why: x.why };
+  // The chapters a day's practice comes from: its reading, or its reels' chapters.
+  const dayChapters = d => new Set(readingPlan()[d].map(u => u.ch).concat(dayReels(d).map(r => r.verse.ref.replace(/:.*/, ''))));
+  // Match each idea to its verse: the puzzle's tiles from today's chapters.
+  function matchStep(d) {
+    const chs = dayChapters(d), seen = new Set();
+    const tiles = ((WEEK.puzzle && WEEK.puzzle.groups) || []).flatMap(g => g.tiles || []).filter(t => chs.has(String(t.ref).replace(/:.*/, '')));
+    const pairs = shuffled(tiles.filter(t => !seen.has(t.ref) && seen.add(t.ref)), WEEK.title + '|match' + d).slice(0, 4).map(t => ({ a: t.text, b: t.ref }));
+    return pairs.length < 3 ? null : { kind: 'match', pairs, left: shuffled(pairs.map(p => p.a), 'L' + d), right: shuffled(pairs.map(p => p.b), 'R' + d) };
+  }
+  // Who said it?: a line from today's chapters.
+  function sayStep(d) {
+    const chs = dayChapters(d), x = (WEEK.sayings || []).find(y => chs.has(y.ref.replace(/:.*/, '')));
+    return !x ? null : { kind: 'say', text: x.text, ref: x.ref, home: x.ref, right: x.speaker, choices: shuffled([x.speaker].concat(x.wrong), x.id + '|say'), why: x.why };
   }
   const deepStep = d => ({ kind: 'deep', id: d.id, d, home: deepHome(d), q: d.q, right: d.right, why: d.why, choices: choicesFor(d, 'deep|' + d.id) });
 
@@ -6113,17 +6301,21 @@ const TreasureUp = (function () {
     const x = S.daily.say && !S.daily.sayDone && (WEEK.sayings || []).find(y => y.id === S.daily.say);
     if (x) steps.push({ kind: 'saywarm', text: x.text, ref: x.ref, home: x.ref, right: x.speaker, why: x.why, choices: shuffled([x.speaker].concat(x.wrong), x.id + '|' + S.daily.day) });
     const practice = !!entry && entryItems(entry).every(i => i.done);
-    if (entry && entry.kind === 'section') {
-      const reels = WEEK.reels.filter(r => r.section === entry.i);
-      reels.filter(r => practice || !S.answers[r.id]).forEach(r => {
+    if (entry && entry.kind === 'day') {
+      // Reading first: the day's chapters, then finding a verse in them, then
+      // the reels about what he just read.
+      const d = entry.d;
+      readingPlan()[d].filter(u => practice || !S.read[u.ref]).forEach(u => steps.push({ kind: 'chapter', u }));
+      const f = findStep(d, practice);
+      if (f) steps.push(f);
+      dayReels(d).filter(r => practice || !S.answers[r.id]).forEach(r => {
         steps.push({ kind: 'read', r });
         steps.push({ kind: 'reel', id: r.id, home: r.verse.ref, q: r.question.q, right: r.question.right, why: r.question.why, choices: choicesFor(r.question, r.id) });
         const b = blankStep(r);
         if (b) steps.push(b);
       });
-      if (reels.length) steps.push(orderStep(reels[hash(WEEK.title + entry.i) % reels.length]));
-      [matchStep(entry.i), x ? null : sayStep(entry.i)].forEach(y => { if (y) steps.push(y); });
-      deepItems().filter(d => d.section === entry.i && (practice || !S.deep[d.id])).forEach(d => steps.push(deepStep(d)));
+      [matchStep(d), x ? null : sayStep(d)].forEach(y => { if (y) steps.push(y); });
+      dayDeep(d).filter(g => practice || !S.deep[g.id]).forEach(g => steps.push(deepStep(g)));
     } else if (entry && entry.kind === 'friday') {
       fridayItems().filter(d => practice || !S.deep[d.id]).forEach(d => steps.push(deepStep(d)));
     } else if (entry && entry.kind === 'puzzle') steps.push({ kind: 'puzzle' });
@@ -6159,7 +6351,7 @@ const TreasureUp = (function () {
     if (L.level) levelUp(L.level);
     if (L.at < L.steps.length) L.rewards.forEach(t => toast('🎁 Reward unlocked', t + ' · show a parent'));
   }
-  function lessonReset() { Object.assign(lesson, { picked: null, built: [], matched: {}, sel: null, missR: null, misses: 0, checked: false, ok: null, earned: 0 }); }
+  function lessonReset() { Object.assign(lesson, { picked: null, matched: {}, sel: null, missR: null, misses: 0, checked: false, ok: null, earned: 0, readOk: false }); }
 
   // Checking a step records it, the first time only.
   function recordStep(step, picked, ok) {
@@ -6169,13 +6361,14 @@ const TreasureUp = (function () {
     else if (step.kind === 'recall') recordRecall(step.id, picked);
     else if (step.kind === 'saywarm') recordSayWarm(picked);
     else if (step.kind === 'deep') recordDeep(step.id, picked);
+    else if (step.kind === 'find' && !step.practice) recordFind(step.id, ok);
     return S.xp - before;
   }
 
   // "Right first time" on the last screen counts the questions, not the practice.
-  const SCORED = { recall: 1, saywarm: 1, reel: 1, deep: 1 };
+  const SCORED = { recall: 1, saywarm: 1, reel: 1, deep: 1, find: 1 };
   const LESSON_KIND = { recall: 'Warm-up · remember this?', saywarm: 'Warm-up · who said it?', reel: 'Choose the right answer',
-    blank: 'Fill in the missing word', order: 'Put the words in order', match: 'Match each idea to its verse', say: 'Who said it?', deep: 'Go deeper' };
+    blank: 'Fill in the missing word', find: 'Find it in the chapter', match: 'Match each idea to its verse', say: 'Who said it?', deep: 'Go deeper' };
 
   function renderLesson() {
     if (!lesson) return;
@@ -6190,8 +6383,23 @@ const TreasureUp = (function () {
     const opt = (v, cls) => `<button class="ls-opt${cls}" data-ls="pick" data-v="${esc(v)}"${L.checked ? ' disabled' : ''}>${esc(v)}</button>`;
     const optCls = v => !L.checked ? (L.picked === v ? ' on' : '') : v === step.right ? ' good' : v === L.picked ? ' bad' : '';
     const opts = () => `<div class="ls-opts">${step.choices.map(c => opt(c, optCls(c))).join('')}</div>`;
-    let html = `<div class="ls-kind">${step.retry ? '↻ Try it again' : step.kind === 'read' ? 'Read' : step.kind === 'puzzle' ? 'Saturday' : LESSON_KIND[step.kind]}</div>`;
-    if (step.kind === 'read') {
+    const min = step.kind === 'chapter' ? minutesOf([step.u]) : 0;
+    let html = `<div class="ls-kind">${step.retry ? '↻ Try it again' : step.kind === 'read' ? 'Read' : step.kind === 'chapter' ? 'Read the chapter' + (min ? ' · about ' + min + ' min' : '') : step.kind === 'puzzle' ? 'Saturday' : LESSON_KIND[step.kind]}</div>`;
+    if (step.kind === 'chapter') {
+      // The chapter itself, or, without its text, the way to it in Gospel Library.
+      const u = step.u, gl = u.whole ? readLink(u.ch, true) : readLink(u.ref);
+      html += `<div class="ls-chapter">
+        <div class="ls-prompt">${esc(u.ref)}</div>
+        ${gl ? `<a class="ls-gl" data-ls="gl" href="${esc(gl)}" target="_blank" rel="noopener noreferrer">${u.verses ? 'Or read it in Gospel Library ↗' : 'Read it in Gospel Library ↗'}</a>` : ''}
+        ${u.verses ? u.verses.map(v => `<p class="ls-v"><sup>${v.n}</sup>${esc(v.t)}</p>`).join('') + `<p class="ls-ch-end">End of ${esc(u.ref)}</p>`
+                   : `<p class="reel-body">Read ${esc(u.ref)} in Gospel Library, then come back and tap “I read it”.</p>`}
+      </div>`;
+    } else if (step.kind === 'find') {
+      const cls = n => !L.checked ? (L.picked === n ? ' on' : '') : step.right.includes(n) ? ' good' : L.picked === n ? ' bad' : '';
+      html += `<div class="ls-prompt">${esc(step.clue)}</div>
+        <p class="ls-hint">Which verse of ${esc(step.ch)} says this? Tap it.</p>
+        <div class="ls-find">${step.verses.map(v => `<button class="ls-opt${cls(v.n)}" data-ls="pick" data-v="${v.n}"${L.checked ? ' disabled' : ''}><sup>${v.n}</sup>${esc(v.t)}</button>`).join('')}</div>`;
+    } else if (step.kind === 'read') {
       const r = step.r, img = r.media && r.media.image;
       html += `<div class="ls-read">
         ${img ? `<img src="${esc(img.src)}" alt="${esc(img.alt)}"><div class="credit" style="margin:-6px 0 10px">Picture: <a href="${esc(img.link)}" target="_blank" rel="noopener noreferrer">${esc(img.credit)}</a></div>` : ''}
@@ -6203,10 +6411,6 @@ const TreasureUp = (function () {
     } else if (step.kind === 'blank') {
       const fill = L.checked ? step.right : L.picked || '';
       html += `<div class="ls-verse" style="margin:6px 0 18px">“${esc(step.before)}<span class="ls-blank">${esc(fill) || '&nbsp;'}</span>${esc(step.after)}”<span class="ref">${L.checked ? linkRefs(step.ref) : esc(step.ref)}</span></div>${opts()}`;
-    } else if (step.kind === 'order') {
-      html += `<div class="ls-prompt" style="font-size:18px">From ${L.checked ? linkRefs(step.ref) : esc(step.ref)}</div>
-        <div class="ls-line">${L.built.map((ti, n) => `<button class="ls-word" data-ls="unt" data-n="${n}"${L.checked ? ' disabled' : ''}>${esc(step.tiles[ti].w)}</button>`).join('')}</div>
-        <div class="ls-words">${step.tiles.map((t, ti) => `<button class="ls-word${L.built.includes(ti) ? ' used' : ''}" data-ls="tile" data-i="${ti}"${L.checked ? ' disabled' : ''}>${esc(t.w)}</button>`).join('')}</div>`;
     } else if (step.kind === 'match') {
       const doneL = new Set(Object.keys(L.matched)), doneR = new Set(Object.values(L.matched));
       // Each verse opens in Gospel Library, to read before matching.
@@ -6233,9 +6437,15 @@ const TreasureUp = (function () {
     }
     body.innerHTML = html;
     body.scrollTop = 0;
+
     // The bottom: Continue, Check, or how it went.
     let footHtml;
     if (step.kind === 'read') footHtml = `<button class="ls-go" data-ls="next">Continue</button>`;
+    else if (step.kind === 'chapter') {
+      // Opens once he's reached the end of the chapter here, or gone to read it in Gospel Library.
+      footHtml = `<div class="ls-say ls-read-hint"${L.readOk ? ' hidden' : ''}>${step.u.verses ? 'Read to the end, then tap it.' : 'Open it in Gospel Library first.'}</div>
+        <button class="ls-go" data-ls="readdone"${L.readOk ? '' : ' disabled'}>I read ${esc(step.u.ref)}</button>`;
+    }
     else if (step.kind === 'puzzle') {
       footHtml = reelsLeft() ? `<button class="ls-go" data-ls="next">Continue</button>` : `<button class="ls-go" data-ls="puzzle">Start the puzzle</button>`;
     } else if (step.kind === 'match') {
@@ -6244,7 +6454,7 @@ const TreasureUp = (function () {
                      : `<button class="ls-go" disabled>Match them all</button>`;
       if (all) foot.className = 'ls-foot good';
     } else if (L.checked) {
-      const answer = step.kind === 'order' ? step.words.join(' ') : step.right;
+      const answer = step.kind === 'find' ? step.answer : step.right;
       footHtml = `<div class="ls-say">${L.ok ? ['Nice!', 'Great job!', 'You got it!'][L.at % 3] : 'Correct answer:'}${L.earned ? ` <span class="ls-earn">+${L.earned} XP</span>` : ''}</div>
         ${!L.ok ? `<div class="ls-why" style="font-weight:800;color:#fff">${esc(answer)}</div>` : ''}
         ${step.why ? `<div class="ls-why">${linkRefs(step.why, step.home)}</div>` : ''}
@@ -6252,10 +6462,15 @@ const TreasureUp = (function () {
         ${!L.ok ? `<div class="ls-why">It comes back at the end.</div>` : ''}
         <button class="ls-go" data-ls="next">Continue</button>`;
     } else {
-      const ready = step.kind === 'order' ? L.built.length === step.tiles.length : L.picked != null;
-      footHtml = `<button class="ls-go" data-ls="check"${ready ? '' : ' disabled'}>Check</button>`;
+      footHtml = `<button class="ls-go" data-ls="check"${L.picked != null ? '' : ' disabled'}>Check</button>`;
     }
     foot.innerHTML = `<div class="ls-foot-in">${footHtml}</div>`;
+    // Once the footer is drawn (it changes how much of the step shows):
+    if (step.kind === 'chapter' && step.u.verses && !L.readOk && body.scrollHeight - body.clientHeight < 60) lessonReadOk();   // all on one screen
+    if (step.kind === 'find' && L.checked) {       // the right verse, in the middle of what shows
+      const good = body.querySelector('.ls-find .good');
+      if (good) body.scrollTop = Math.max(0, good.offsetTop - body.offsetTop - Math.max(0, (body.clientHeight - good.offsetHeight) / 2));
+    }
   }
 
   function renderLessonEnd(body, foot) {
@@ -6279,24 +6494,34 @@ const TreasureUp = (function () {
       <button class="ls-alt" data-ls="close">Done for now</button>` : `<button class="ls-go" data-ls="close">Done</button>`}</div>`;
   }
 
+  // "I read it" opens: he reached the end of the chapter, or went to Gospel Library.
+  function lessonReadOk() {
+    if (!lesson || lesson.readOk) return;
+    lesson.readOk = true;
+    const b = $('lessonFoot').querySelector('[data-ls="readdone"]'), hint = $('lessonFoot').querySelector('.ls-read-hint');
+    if (b) b.disabled = false;
+    if (hint) hint.hidden = true;
+  }
+
   function lessonAction(el) {
     const L = lesson, step = L && L.steps[L.at], act = el.dataset.ls;
     if (!L) return;
     // Check and Continue take each other's place, so a quick double tap
     // would check and move on before he saw the answer.
-    if (act === 'check' || act === 'next') {
+    if (act === 'check' || act === 'next' || act === 'readdone') {
       if (Date.now() - (L.tapAt || 0) < 400) return;
       L.tapAt = Date.now();
     }
+    // Gone to read it in Gospel Library (the link opens as usual): "I read it" opens.
+    if (act === 'gl') { if (step && step.kind === 'chapter') lessonReadOk(); return; }
+    if (act === 'readdone') { if (!L.readOk) return; recordRead(step.u.ref); L.at++; lessonReset(); return renderLesson(); }
     if (act === 'close') return closeLesson();
     if (act === 'nextlesson') { closeLesson(); return openLesson(''); }
     if (act === 'puzzle') { closeLesson(); return startGame('puzzle'); }
     if (act === 'next') { stopClips(); L.at++; lessonReset(); return renderLesson(); }
     if (act === 'pick' && !L.checked) L.picked = el.dataset.v;
-    else if (act === 'tile' && !L.checked) L.built.push(Number(el.dataset.i));
-    else if (act === 'unt' && !L.checked) L.built.splice(Number(el.dataset.n), 1);
     else if (act === 'check' && !L.checked) {
-      L.ok = step.kind === 'order' ? L.built.map(i => step.tiles[i].w).join(' ') === step.words.join(' ') : L.picked === step.right;
+      L.ok = Array.isArray(step.right) ? step.right.includes(L.picked) : L.picked === step.right;
       L.checked = true;
       if (!step.retry && SCORED[step.kind]) { L.scored++; if (L.ok) L.right++; }
       L.earned = recordStep(step, L.picked, L.ok);
@@ -6327,7 +6552,7 @@ const TreasureUp = (function () {
     hook: 'Headline', body: 'Text', text: 'Text', ref: 'Reference', q: 'Question', right: 'Right answer',
     wrong: 'Wrong answers (one per line)', why: 'Why (shown after answering)', source: 'Where the answer is',
     hunt: 'Map game wording (names only the chapter)',
-    find: 'Exact words that settle it', intro: 'Intro', read: 'What he reads', title: 'Title', alt: 'Picture description',
+    find: 'Exact words that settle it', seek: 'Find-it clue (plain words, not the verse\'s own)', intro: 'Intro', read: 'What he reads', title: 'Title', alt: 'Picture description',
     credit: 'Credit', link: 'Picture page', src: 'Picture file', youtube: 'YouTube id', start: 'Start (seconds)',
     end: 'End (seconds)', channel: 'Channel', previewed: 'Clip watched', speaker: 'Who said it', clue: 'Clue',
     word: 'Word', section: 'Section number', dates: 'Dates', reference: 'Reading', lesson: 'Lesson link',
@@ -6901,6 +7126,10 @@ const TreasureUp = (function () {
 
     // A day's lesson.
     $('lessonExit').addEventListener('click', closeLesson);
+    $('lessonBody').addEventListener('scroll', () => {
+      const b = $('lessonBody'), step = lesson && lesson.steps[lesson.at];
+      if (step && step.kind === 'chapter' && b.scrollTop + b.clientHeight >= b.scrollHeight - 60) lessonReadOk();
+    }, { passive: true });
     $('lesson').addEventListener('click', e => {
       const clip = e.target.closest('button.clip');
       if (clip) { playClip(clip); return; }
@@ -7011,7 +7240,8 @@ const TreasureUp = (function () {
     const weekNum = Number((/\/(\d+)\?/.exec(WEEK.lesson) || [])[1]) || null;
     if (S.weekTitle && S.weekTitle !== WEEK.title) {
       const vals = Object.values(S.answers);
-      if (vals.length) S.history.push({ title: S.weekTitle, num: S.weekNum, right: vals.filter(a => a.right).length, answered: vals.length });
+      const read = Object.keys(S.read || {}).length;
+      if (vals.length || read) S.history.push({ title: S.weekTitle, num: S.weekNum, right: vals.filter(a => a.right).length, answered: vals.length, read, chapters: S.weekChapters || 0 });
     }
     S.weekTitle = WEEK.title;
     S.weekNum = weekNum;
@@ -7026,6 +7256,10 @@ const TreasureUp = (function () {
     Object.keys(S.sayings || {}).forEach(id => { if (!sayIds.has(id)) delete S.sayings[id]; });
     const deepIds = new Set((WEEK.deep || []).map(d => d.id));
     Object.keys(S.deep || {}).forEach(id => { if (!deepIds.has(id)) delete S.deep[id]; });
+    Object.keys(S.found || {}).forEach(id => { if (!live.has(id)) delete S.found[id]; });
+    const units = new Set(readingAll().map(u => u.ref));
+    Object.keys(S.read || {}).forEach(ref => { if (!units.has(ref)) delete S.read[ref]; });
+    S.weekChapters = units.size;
 
     rollDay();
     renderHome();
@@ -7081,6 +7315,8 @@ const TreasureUp = (function () {
      app opens on the week whose dates include today.
      ================================================================== -->
 <script src="content/weeks.js"></script>
+<!-- The chapters of each week's reading, built at deploy (tools/build-reading.mjs). -->
+<script src="content/reading.js"></script>
 <script src="content/boards.js"></script>
 <script>
 const WEEKS = window.TU_WEEKS || [];
