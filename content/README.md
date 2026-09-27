@@ -131,8 +131,9 @@ Babylon Falls plays on the first board in `window.TU_BOARDS`. It isn't tied
 to a week: the questions come from the weeks in weeks.js.
 
 - `art`: the painted map everything is drawn over (a JPEG under 1 MB in
-  media/). Nothing is painted over it: an owned land has a line of its
-  kingdom's color just inside its border, and a ring on its badge.
+  media/). An owned land is washed in its kingdom's color, with a line of
+  that color just inside its border and a ring on its badge; neutral lands
+  stay unpainted.
 - `lands`: `{ id, name, ring, label }`: the outline as `[x, y]` points on a
   `size` map, traced along the painting's own borders, and where the name
   and armies sit (inside the land, clear of its landmark).
