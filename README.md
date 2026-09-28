@@ -219,8 +219,7 @@ Tear down the war camp and the camps to win: Easy ★, Normal ★★, Hard ★�
 scripted player wins Normal in about 9 minutes and loses Hard. The council
 asks about every chapter read so far. Where a description borrows from history
 rather than the verses (the atlatl, the stepped platform of the hall), it
-says so, and the horse cart's notes that archaeologists haven't found horses
-in the ancient Americas.
+says so.
 
 **The council**: a button that asks a question from the mission's chapters (13
 for Alma 43, 11 for Alma 44, 10 for 3 Nephi 3, 11 for 3 Nephi 4, in `liberty/data.js`). A right answer brings

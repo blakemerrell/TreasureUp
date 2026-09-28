@@ -59,7 +59,7 @@
     stripling:    { name: 'Stripling warrior', hp: 190, speed: 64, dmg: 15, range: 20, cd: 0.9, armor: 4, sight: 180, cost: { grain: 90, timber: 60 }, time: 16, soldier: true, tier: true, needs: ['hall'],
                     about: '"Exceedingly valiant for courage" (Alma 53:20), "taught by their mothers" (Alma 56:47). Very hard to bring down.' },
     cart:         { name: 'Horse cart', hp: 90, speed: 78, dmg: 0, range: 0, cd: 1, armor: 1, sight: 140, cost: { grain: 60, timber: 40 }, time: 12, gathers: true, load: 30, tier: true, needs: ['stables'],
-                    about: 'Hauls three times what a worker can. The Nephites had "horses, and their chariots" (3 Nephi 3:22). The verses name horses; archaeologists haven\'t found them in the ancient Americas yet.' },
+                    about: 'Hauls three times what a worker can. The Nephites had "horses, and their chariots" (3 Nephi 3:22).' },
     prisoner:     { name: 'Prisoner', hp: 1, speed: 45, dmg: 0, range: 0, cd: 1, armor: 0, sight: 0, about: 'Yielded up as a prisoner (3 Nephi 4:27).' }
   };
 
