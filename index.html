@@ -2671,7 +2671,13 @@ const TreasureUp = (function () {
     family.push(gameRow('live', '📡', 'Live game', 'A quiz on the TV, and everyone answers on their own phone. Quick right answers score a bit more.', 'Phones needed · host or join with a code', false));
     family.push(gameRow('board', '📺', 'Scripture Showdown', 'A quiz-show board on one screen. A parent reads each question and gives the points; no phones needed.', 'One screen · play together', false));
     if (BOARD()) family.push(gameRow('babylon', '🏰', BOARD().title, 'A Risk-style map game for 2 to 4: the map on the TV and everyone on their own phone, or one screen passed around.', 'Put up the map, join with a code, or play on one screen', false));
-    $('gamesBody').innerHTML = `<div class="games-head">Every day</div>${rows.join('')}<div class="games-head">Family night</div>${family.join('')}`;
+    // Title of Liberty lives at liberty/, with its own progress (localStorage liberty.v1).
+    let lib = {};
+    try { lib = JSON.parse(localStorage.getItem('liberty.v1')) || {}; } catch (e) { /* storage blocked */ }
+    const libWon = Object.keys(lib.won || {}).length;
+    const strategy = gameRow('liberty', '🛡️', 'Title of Liberty', 'A strategy game from the Book of Mormon: gather the Nephites, build the walls, and outlast the Gadianton robbers. Read each chapter to open its mission.',
+      libWon ? libWon + ' of 2 missions won' : 'Starts with 3 Nephi 3 · no XP, just for fun', false);
+    $('gamesBody').innerHTML = `<div class="games-head">Every day</div>${rows.join('')}<div class="games-head">Family night</div>${family.join('')}<div class="games-head">Book of Mormon</div>${strategy}`;
   }
 
   function openGames() { renderGames(); $('games').hidden = false; }
@@ -2686,6 +2692,7 @@ const TreasureUp = (function () {
     else if (id === 'climb') openClimb();
     else if (id === 'live') liveStart();
     else if (id === 'babylon') riskChooser();
+    else if (id === 'liberty') location.href = 'liberty/';
   }
 
   let playing = null;   // 'puzzle' | 'sayings'
