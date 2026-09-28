@@ -1627,7 +1627,8 @@ window.TU_WEEKS = [
             }
           ]
         }
-      ]
+      ],
+      "approved": "92a19442"
     },
     "sayings": [
       {
@@ -1639,7 +1640,8 @@ window.TU_WEEKS = [
           "A seller, to the market",
           "A king, to his guests"
         ],
-        "why": "It's the Lord's invitation, even to those with “no money.” What He offers is free."
+        "why": "It's the Lord's invitation, even to those with “no money.” What He offers is free.",
+        "approved": "e72fb17a"
       },
       {
         "id": "say-griefs",
@@ -1650,7 +1652,8 @@ window.TU_WEEKS = [
           "Jesus, about Himself",
           "Abraham, about Isaac"
         ],
-        "why": "Isaiah wrote it centuries before Jesus was born. The griefs and sorrows are ours; He carried them."
+        "why": "Isaiah wrote it centuries before Jesus was born. The griefs and sorrows are ours; He carried them.",
+        "approved": "5370231d"
       },
       {
         "id": "say-sheep",
@@ -1661,7 +1664,8 @@ window.TU_WEEKS = [
           "A shepherd, about his flock",
           "Jesus, about His apostles"
         ],
-        "why": "Isaiah includes himself: “we have turned every one to his own way.” Everyone needs the Savior."
+        "why": "Isaiah includes himself: “we have turned every one to his own way.” Everyone needs the Savior.",
+        "approved": "e283ebf3"
       },
       {
         "id": "say-lamb-of-god",
@@ -1672,7 +1676,8 @@ window.TU_WEEKS = [
           "Isaiah, about the Passover lamb",
           "Peter, about the Savior"
         ],
-        "why": "John saw Jesus coming and called Him the Lamb of God, the lamb Isaiah saw (Isaiah 53:7)."
+        "why": "John saw Jesus coming and called Him the Lamb of God, the lamb Isaiah saw (Isaiah 53:7).",
+        "approved": "40c62b84"
       },
       {
         "id": "say-small-moment",
@@ -1683,7 +1688,8 @@ window.TU_WEEKS = [
           "Israel, to the Lord",
           "Babylon, to Israel"
         ],
-        "why": "The Lord says the forsaking lasts only a moment: “with great mercies will I gather thee.”"
+        "why": "The Lord says the forsaking lasts only a moment: “with great mercies will I gather thee.”",
+        "approved": "34997443"
       },
       {
         "id": "say-holy-place",
@@ -1694,7 +1700,8 @@ window.TU_WEEKS = [
           "Lucifer, in his pride",
           "Babylon's king, boasting"
         ],
-        "why": "“The high and lofty One that inhabiteth eternity” says it, and He lives with the humble too."
+        "why": "“The high and lofty One that inhabiteth eternity” says it, and He lives with the humble too.",
+        "approved": "8c165e0b"
       },
       {
         "id": "say-thoughts",
@@ -1705,7 +1712,8 @@ window.TU_WEEKS = [
           "A child, to his parents",
           "Isaiah, to King Ahaz"
         ],
-        "why": "The verse ends “saith the LORD.” His thoughts and ways are higher than ours."
+        "why": "The verse ends “saith the LORD.” His thoughts and ways are higher than ours.",
+        "approved": "91693c6a"
       },
       {
         "id": "say-founder-of-peace",
@@ -1716,7 +1724,8 @@ window.TU_WEEKS = [
           "Nephi, to Laman and Lemuel",
           "Alma, to his son Helaman"
         ],
-        "why": "The priests asked Abinadi what Isaiah 52:7 meant. He said the most beautiful messenger is the Lord Himself."
+        "why": "The priests asked Abinadi what Isaiah 52:7 meant. He said the most beautiful messenger is the Lord Himself.",
+        "approved": "ffd64440"
       }
     ],
     "words": [
@@ -1778,7 +1787,8 @@ window.TU_WEEKS = [
         "why": "Verse 2: “loose thyself from the bands of thy neck, O captive daughter of Zion.” He calls His people to break free.",
         "source": "Isaiah 52:2",
         "find": "loose thyself from the bands of thy neck",
-        "hunt": "In Isaiah 52, what does the Lord tell captive Zion to loose from her neck?"
+        "hunt": "In Isaiah 52, what does the Lord tell captive Zion to loose from her neck?",
+        "approved": "96a776a0"
       },
       {
         "id": "deep41-grave",
@@ -1794,7 +1804,8 @@ window.TU_WEEKS = [
         "why": "Verse 9: “with the rich in his death.” Jesus died between two thieves and was laid in a rich man's new tomb (Matthew 27:57–60).",
         "source": "Isaiah 53:9",
         "find": "with the rich in his death",
-        "hunt": "In Isaiah 53, His grave was with the wicked, and with whom in His death?"
+        "hunt": "In Isaiah 53, His grave was with the wicked, and with whom in His death?",
+        "approved": "51b1ec53"
       },
       {
         "id": "deep41-far-near",
@@ -1810,7 +1821,8 @@ window.TU_WEEKS = [
         "why": "Verse 19: “Peace, peace to him that is far off, and to him that is near.” No one has wandered too far.",
         "source": "Isaiah 57:19",
         "find": "Peace, peace to him that is far off, and to him that is near",
-        "hunt": "In Isaiah 57, the Lord offers peace to whom?"
+        "hunt": "In Isaiah 57, the Lord offers peace to whom?",
+        "approved": "67ac444a"
       },
       {
         "id": "deep41-rain",
@@ -1826,7 +1838,8 @@ window.TU_WEEKS = [
         "why": "Verse 11: “it shall not return unto me void.” Void means empty. Like rain that makes seeds grow, His word always does its work.",
         "source": "Isaiah 55:11",
         "find": "it shall not return unto me void",
-        "hunt": "In Isaiah 55, what does the Lord say His word will never do?"
+        "hunt": "In Isaiah 55, what does the Lord say His word will never do?",
+        "approved": "9b757ca9"
       },
       {
         "id": "deep41-kids",
@@ -1842,7 +1855,8 @@ window.TU_WEEKS = [
         ],
         "why": "It says to talk about how grief and sorrow can feel heavy and hard to carry, and why Jesus carried ours.",
         "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/41?lang=eng",
-        "find": "can feel heavy and hard to carry"
+        "find": "can feel heavy and hard to carry",
+        "approved": "1fbd9ca1"
       },
       {
         "id": "deep41-ftsoy",
@@ -1858,7 +1872,8 @@ window.TU_WEEKS = [
         ],
         "why": "It says not to worry that you can't do everything on your own, because you aren't supposed to. Heavenly Father has it figured out.",
         "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/10/isaiah-and-jeremiahs-messages-for-you?lang=eng",
-        "find": "Don’t worry that you can’t do everything yourself"
+        "find": "Don’t worry that you can’t do everything yourself",
+        "approved": "fe3ab470"
       }
     ],
     "reels": [
@@ -1902,7 +1917,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#451a03 0%,#b45309 50%,#fcd34d 115%)",
         "blobA": "rgba(252,211,77,.4)",
         "blobB": "rgba(0,0,0,.45)",
-        "seek": "God tells them to remember the couple their whole family came from"
+        "seek": "God tells them to remember the couple their whole family came from",
+        "approved": "489bbb75"
       },
       {
         "id": "isa52-beautiful-feet",
@@ -1945,7 +1961,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#052e16 0%,#15803d 50%,#86efac 115%)",
         "blobA": "rgba(134,239,172,.4)",
         "blobB": "rgba(0,0,0,.4)",
-        "seek": "A runner comes over the hills with happy news"
+        "seek": "A runner comes over the hills with happy news",
+        "approved": "5d8a2676"
       },
       {
         "id": "isa54-stakes",
@@ -1975,7 +1992,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#292524 0%,#78716c 50%,#e7e5e4 115%)",
         "blobA": "rgba(231,229,228,.35)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "8744ca30"
       },
       {
         "id": "isa53-despised",
@@ -2017,7 +2035,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#1f0a0a 0%,#7f1d1d 50%,#fca5a5 115%)",
         "blobA": "rgba(252,165,165,.35)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "c7e6f3fe"
       },
       {
         "id": "isa53-griefs",
@@ -2059,7 +2078,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(160deg,#0f172a 0%,#312e81 55%,#a5b4fc 115%)",
         "blobA": "rgba(165,180,252,.4)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "31118945"
       },
       {
         "id": "isa53-lamb",
@@ -2101,7 +2121,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#1c1917 0%,#44403c 50%,#f5f5f4 115%)",
         "blobA": "rgba(245,245,244,.35)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "d9f39185"
       },
       {
         "id": "isa54-kindness",
@@ -2144,7 +2165,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(155deg,#082f49 0%,#0e7490 50%,#a5f3fc 115%)",
         "blobA": "rgba(165,243,252,.4)",
         "blobB": "rgba(0,0,0,.4)",
-        "seek": "Even if the big hills vanish, God's love for you stays"
+        "seek": "Even if the big hills vanish, God's love for you stays",
+        "approved": "7ad3ca64"
       },
       {
         "id": "isa57-humble",
@@ -2175,7 +2197,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#2e1065 0%,#6d28d9 50%,#ddd6fe 115%)",
         "blobA": "rgba(221,214,254,.4)",
         "blobB": "rgba(0,0,0,.4)",
-        "seek": "God lives up in heaven, and also with people who are sorry and meek"
+        "seek": "God lives up in heaven, and also with people who are sorry and meek",
+        "approved": "f5c42712"
       },
       {
         "id": "isa55-waters",
@@ -2217,7 +2240,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#042f2e 0%,#0d9488 50%,#99f6e4 115%)",
         "blobA": "rgba(153,246,228,.4)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "127ab178"
       },
       {
         "id": "isa55-higher",
@@ -2260,7 +2284,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(165deg,#020617 0%,#1e40af 55%,#bfdbfe 112%)",
         "blobA": "rgba(191,219,254,.4)",
         "blobB": "rgba(0,0,0,.45)",
-        "seek": "God thinks bigger than we do, like the sky is above the ground"
+        "seek": "God thinks bigger than we do, like the sky is above the ground",
+        "approved": "00d43a1e"
       },
       {
         "id": "isa56-prayer",
@@ -2303,9 +2328,12 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#431407 0%,#c2410c 50%,#fdba74 115%)",
         "blobA": "rgba(253,186,116,.4)",
         "blobB": "rgba(0,0,0,.4)",
-        "seek": "God's temple will welcome people from every nation"
+        "seek": "God's temple will welcome people from every nation",
+        "approved": "830e9072"
       }
-    ]
+    ],
+    "approved": "c5002526",
+    "wordsApproved": "6eacd6fb"
   },
   {
     "dates": "October 12–18, 2026",
@@ -2405,7 +2433,8 @@ window.TU_WEEKS = [
             }
           ]
         }
-      ]
+      ],
+      "approved": "55f7971b"
     },
     "sayings": [
       {
@@ -2417,7 +2446,8 @@ window.TU_WEEKS = [
           "Isaiah, in Jerusalem",
           "Joseph, in Nazareth"
         ],
-        "why": "Jesus read Isaiah 61 aloud in the synagogue where He grew up, then said this about Himself (Luke 4:16–21)."
+        "why": "Jesus read Isaiah 61 aloud in the synagogue where He grew up, then said this about Himself (Luke 4:16–21).",
+        "approved": "46a0dd64"
       },
       {
         "id": "say-here-i-am",
@@ -2428,7 +2458,8 @@ window.TU_WEEKS = [
           "Isaiah, when the Lord called",
           "Samuel, when the Lord called"
         ],
-        "why": "The Lord promises, “he shall say, Here I am.” Young Samuel answered the Lord with “Here am I” (1 Samuel 3:4)."
+        "why": "The Lord promises, “he shall say, Here I am.” Young Samuel answered the Lord with “Here am I” (1 Samuel 3:4).",
+        "approved": "f0ec4b13"
       },
       {
         "id": "say-winepress-alone",
@@ -2439,7 +2470,8 @@ window.TU_WEEKS = [
           "A farmer, at harvest time",
           "Isaiah, in a vision"
         ],
-        "why": "In Isaiah 63 the Lord comes in red, like one who treads grapes, and says “of the people there was none with me.”"
+        "why": "In Isaiah 63 the Lord comes in red, like one who treads grapes, and says “of the people there was none with me.”",
+        "approved": "98243b13"
       },
       {
         "id": "say-we-are-the-clay",
@@ -2450,7 +2482,8 @@ window.TU_WEEKS = [
           "The Lord, speaking to Israel",
           "Jeremiah, at a potter's house"
         ],
-        "why": "Isaiah prays for his people: “thou art our father; we are the clay.” Jeremiah watches a potter in Jeremiah 18."
+        "why": "Isaiah prays for his people: “thou art our father; we are the clay.” Jeremiah watches a potter in Jeremiah 18.",
+        "approved": "36cbcdd6"
       },
       {
         "id": "say-new-heavens",
@@ -2461,7 +2494,8 @@ window.TU_WEEKS = [
           "Isaiah",
           "Moses"
         ],
-        "why": "The Lord promises to make the earth new, so that “the former shall not be remembered, nor come into mind.”"
+        "why": "The Lord promises to make the earth new, so that “the former shall not be remembered, nor come into mind.”",
+        "approved": "74ba3d27"
       },
       {
         "id": "say-holier-than-thou",
@@ -2472,7 +2506,8 @@ window.TU_WEEKS = [
           "The Lord, to the wicked",
           "A priest, at the temple"
         ],
-        "why": "Rebellious people said it, sure they were better than everyone else. That’s where the saying “holier than thou” comes from."
+        "why": "Rebellious people said it, sure they were better than everyone else. That’s where the saying “holier than thou” comes from.",
+        "approved": "68515271"
       },
       {
         "id": "say-earth-footstool",
@@ -2483,7 +2518,8 @@ window.TU_WEEKS = [
           "King David",
           "King Solomon"
         ],
-        "why": "“Thus saith the LORD.” No house anyone builds can hold Him. Solomon said much the same when he dedicated the temple (1 Kings 8:27)."
+        "why": "“Thus saith the LORD.” No house anyone builds can hold Him. Solomon said much the same when he dedicated the temple (1 Kings 8:27).",
+        "approved": "2f3a401a"
       },
       {
         "id": "say-mother-comforteth",
@@ -2494,7 +2530,8 @@ window.TU_WEEKS = [
           "A mother",
           "Isaiah"
         ],
-        "why": "The Lord compares His comfort to a mother comforting her child."
+        "why": "The Lord compares His comfort to a mother comforting her child.",
+        "approved": "7c91787c"
       }
     ],
     "words": [
@@ -2556,7 +2593,8 @@ window.TU_WEEKS = [
         "why": "They asked, “Wherefore have we fasted… and thou seest not?” But they were fasting for show while still fighting and making others work.",
         "source": "Isaiah 58:3",
         "find": "Wherefore have we fasted, say they, and thou seest not",
-        "hunt": "In Isaiah 58, what did the people complain about when they fasted?"
+        "hunt": "In Isaiah 58, what did the people complain about when they fasted?",
+        "approved": "06d5631a"
       },
       {
         "id": "deep42-high-places",
@@ -2572,7 +2610,8 @@ window.TU_WEEKS = [
         "why": "Verse 14: “I will cause thee to ride upon the high places of the earth.” The Scripture Helps say high places can mean sacred places where you feel God near.",
         "source": "Isaiah 58:14",
         "find": "I will cause thee to ride upon the high places of the earth",
-        "hunt": "In Isaiah 58, where will the Lord cause those who delight in Him to ride?"
+        "hunt": "In Isaiah 58, where will the Lord cause those who delight in Him to ride?",
+        "approved": "bd6c21f1"
       },
       {
         "id": "deep42-helmet",
@@ -2588,7 +2627,8 @@ window.TU_WEEKS = [
         "why": "Verse 17: “an helmet of salvation upon his head.” Paul uses the same armor for us: “take the helmet of salvation” (Ephesians 6:17).",
         "source": "Isaiah 59:17",
         "find": "an helmet of salvation upon his head",
-        "hunt": "In Isaiah 59, what does the Redeemer wear as a helmet?"
+        "hunt": "In Isaiah 59, what does the Redeemer wear as a helmet?",
+        "approved": "42f35b52"
       },
       {
         "id": "deep42-gentiles",
@@ -2604,7 +2644,8 @@ window.TU_WEEKS = [
         "why": "Verse 3: “And the Gentiles shall come to thy light, and kings to the brightness of thy rising.” The light draws people from every nation.",
         "source": "Isaiah 60:3",
         "find": "the Gentiles shall come to thy light",
-        "hunt": "In Isaiah 60, who shall come to the light?"
+        "hunt": "In Isaiah 60, who shall come to the light?",
+        "approved": "53b03d36"
       },
       {
         "id": "deep42-houses",
@@ -2620,7 +2661,8 @@ window.TU_WEEKS = [
         "why": "Verse 21: “they shall build houses, and inhabit them.” In the Millennium, no one’s work is wasted or taken away.",
         "source": "Isaiah 65:21",
         "find": "they shall build houses, and inhabit them",
-        "hunt": "In Isaiah 65, what will people do with the houses they build?"
+        "hunt": "In Isaiah 65, what will people do with the houses they build?",
+        "approved": "027ac19e"
       },
       {
         "id": "deep42-kids",
@@ -2636,7 +2678,8 @@ window.TU_WEEKS = [
         ],
         "why": "It suggests drawing your ideas and putting them in a box of Sabbath delights, so you can pull one out when you need something to do.",
         "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/42?lang=eng",
-        "find": "box of Sabbath delights"
+        "find": "box of Sabbath delights",
+        "approved": "a418b824"
       },
       {
         "id": "deep42-ftsoy",
@@ -2652,7 +2695,8 @@ window.TU_WEEKS = [
         ],
         "why": "It says the Millennium is a 1,000-year period after Jesus Christ’s Second Coming, when He reigns on the earth in peace.",
         "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/10/what-do-we-know-about-the-millennium?lang=eng",
-        "find": "It is a 1,000-year period"
+        "find": "It is a 1,000-year period",
+        "approved": "1359644e"
       }
     ],
     "reels": [
@@ -2695,7 +2739,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#422006 0%,#92400e 50%,#fcd34d 115%)",
         "blobA": "rgba(252,211,77,.4)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "842982d9"
       },
       {
         "id": "isa58-here-i-am",
@@ -2737,7 +2782,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0e7490 50%,#67e8f9 115%)",
         "blobA": "rgba(103,232,249,.35)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "28b355c3"
       },
       {
         "id": "isa58-sabbath-delight",
@@ -2792,7 +2838,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#14532d 0%,#15803d 50%,#86efac 115%)",
         "blobA": "rgba(134,239,172,.35)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "dc36eb0d"
       },
       {
         "id": "isa61-fulfilled",
@@ -2841,7 +2888,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(160deg,#1c1917 0%,#44403c 50%,#e7e5e4 115%)",
         "blobA": "rgba(231,229,228,.35)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "51797f40"
       },
       {
         "id": "isa61-beauty-for-ashes",
@@ -2883,7 +2931,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#1f2937 0%,#9d174d 55%,#f9a8d4 115%)",
         "blobA": "rgba(249,168,212,.4)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "db571afe"
       },
       {
         "id": "isa63-afflicted",
@@ -2925,7 +2974,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#450a0a 0%,#b91c1c 50%,#fde68a 115%)",
         "blobA": "rgba(253,230,138,.4)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "f0410c21"
       },
       {
         "id": "isa60-arise-shine",
@@ -2967,7 +3017,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(165deg,#312e81 0%,#c2410c 55%,#fdba74 115%)",
         "blobA": "rgba(253,186,116,.45)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "0a091658"
       },
       {
         "id": "isa60-everlasting-light",
@@ -2997,7 +3048,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#1e3a8a 0%,#3b82f6 50%,#f8fafc 115%)",
         "blobA": "rgba(248,250,252,.4)",
-        "blobB": "rgba(0,0,0,.35)"
+        "blobB": "rgba(0,0,0,.35)",
+        "approved": "a76f6c80"
       },
       {
         "id": "isa65-wolf-lamb",
@@ -3040,7 +3092,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#365314 0%,#65a30d 50%,#d9f99d 115%)",
         "blobA": "rgba(217,249,157,.4)",
         "blobB": "rgba(0,0,0,.4)",
-        "seek": "Wild animals that used to hunt will share a meal in peace"
+        "seek": "Wild animals that used to hunt will share a meal in peace",
+        "approved": "e906815d"
       },
       {
         "id": "isa65-before-they-call",
@@ -3070,7 +3123,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#1c1917 0%,#57534e 50%,#fde68a 115%)",
         "blobA": "rgba(253,230,138,.35)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "dec396ee"
       },
       {
         "id": "isa64-clay-potter",
@@ -3100,8 +3154,11 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#431407 0%,#9a3412 50%,#fed7aa 115%)",
         "blobA": "rgba(254,215,170,.4)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "5e083a87"
       }
-    ]
+    ],
+    "approved": "103a63e4",
+    "wordsApproved": "1b2dec33"
   }
 ];
