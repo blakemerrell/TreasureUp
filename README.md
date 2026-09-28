@@ -174,6 +174,49 @@ markup: `sh tools/build-css.sh`.
 
 ---
 
+## Title of Liberty (a separate game)
+
+A real-time strategy game in the style of Command & Conquer: Red Alert, from
+the Book of Mormon: one player against the computer, the Nephites under
+Lachoneus and Gidgiddoni against the Gadianton robbers. It lives at
+**https://blakemerrell.github.io/TreasureUp/liberty/**, apart from the app: it
+never changes XP, the streak or the family's data.
+
+**Reading opens each mission.** A mission stays locked until its chapter is
+read: in the game's own reader (the whole chapter, King James text; *I read
+it* opens at the end of the chapter) or in Gospel Library (the same rule as
+the app's reading). Mission 2 also needs mission 1 won.
+
+| Mission | What happens, and where it comes from |
+|---|---|
+| **1 · Gather to One Place** (3 Nephi 3) | Lachoneus's proclamation: send someone to each of five villages and their people march to Zarahemla with flocks and grain (3:13, 22); a village left too long is taken by raiders. Build walls round about, watchtowers and guards (3:14) before the robbers come down (a 14-minute clock: Giddianhi said he would come "on the morrow month", 3:8). Nobody can go north of the border into the wilderness: "we will wait till they shall come against us" (3:21). Optional: weapons, armor and shields (3:26). |
+| **2 · The Robbers Come Down** (3 Nephi 4) | Giddianhi's army attacks (4:7); **Cry unto the Lord** puts everyone on their knees for a moment, then they take less harm for a while (4:8–10). They fall back and can be pursued; Giddianhi is slowed, "weary because of his much fighting" (4:14). Then Zemnarihah's siege round about (4:16): a bar shows the robbers' food running out, since the Nephites have seven years' provisions and the wild game is gone (4:2–4, 18–20). When it runs out it's night, the border opens, and the armies can go to the three passes before the robbers march at dawn (4:24–26); a robber caught by two soldiers gives himself up (4:27). |
+
+**The council**: a button that asks a question from the mission's chapter (10
+for 3 Nephi 3, 11 for 3 Nephi 4, in `liberty/data.js`). A right answer brings
+40 grain and 60 timber; a wrong one shows the verse that answers it. Once a
+minute (30 seconds after a miss). Every gold verse reference in the game
+opens the verse itself.
+
+**Controls**: tap or click to choose, drag a box (on a touch screen, **Box
+select** first), then tap the ground, a robber, trees or a field, or an
+unfinished building. Right-click also gives orders. Workers build (walls are
+dragged as a line) and mend walls; Zarahemla trains workers and the barracks
+guards. Drag or arrow keys to look around, pinch or scroll to zoom, the small
+map to jump. Space pauses, H stops, Esc cancels.
+
+Progress (chapters read, stars) is kept on the device (`localStorage`,
+`liberty.v1`). The code is plain JavaScript with no build step:
+`liberty/data.js` (map, units, questions), `liberty/sim.js` (the rules),
+`liberty/missions.js` (the story), `liberty/ui.js` (drawing and controls) and
+`liberty/scripture.js`, the chapters' text, made by `node
+tools/build-liberty-text.mjs` from the same pinned data the checker uses.
+`node tools/test-liberty.mjs` plays both missions with a scripted player and
+checks every quotation in the game against the verse it cites; the deploy
+runs it and won't publish if it fails.
+
+---
+
 ## Hosting
 
 Every push to `main` redeploys through `.github/workflows/pages.yml` (about

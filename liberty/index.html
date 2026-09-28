@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a14">
+<title>Title of Liberty</title>
+<!-- A strategy game from the Book of Mormon. Each mission opens once its
+     chapter has been read. The rules live in data.js, sim.js and missions.js
+     (tested by tools/test-liberty.mjs); this page draws them and takes orders. -->
+<link rel="icon" href="../icons/icon-192.png">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a14; --panel: rgba(14, 16, 30, .92); --line: rgba(255, 255, 255, .12);
+    --gold: #fcd34d; --gold-deep: #d97706; --sky: #7dd3fc; --good: #6ee7b7; --warn: #fca5a5; --dim: rgba(255, 255, 255, .6);
+    --top: 48px; --bottom: 124px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--ink); color: #fff; overflow: hidden; overscroll-behavior: none;
+    font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif; -webkit-tap-highlight-color: transparent; }
+  /* The page itself never zooms or scrolls in a battle: fingers move the map instead. */
+  body.playing { touch-action: none; -webkit-user-select: none; user-select: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; touch-action: manipulation; }
+  button:disabled { cursor: default; opacity: .45; }
+  a { color: var(--gold); }
+  [hidden] { display: none !important; }
+  svg.i { width: 16px; height: 16px; vertical-align: -3px; flex: none; }
+
+  #view { position: fixed; inset: 0; display: block; touch-action: none; cursor: default; }
+  #view.placing { cursor: crosshair; }
+
+  /* ---------------------------------------------------------------- top bar */
+  #hud { position: fixed; left: 0; right: 0; top: 0; height: var(--top); display: flex; align-items: center; gap: 10px;
+    padding: 0 10px; padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right));
+    background: var(--panel); border-bottom: 1px solid var(--line); backdrop-filter: blur(6px); z-index: 10; }
+  .hb { flex: none; height: 34px; min-width: 34px; padding: 0 10px; border-radius: 10px; background: rgba(255, 255, 255, .08);
+    font-weight: 700; font-size: 14px; white-space: nowrap; }
+  .hb:hover { background: rgba(255, 255, 255, .14); }
+  .hb.gold { background: var(--gold); color: #1a1405; }
+  .hb.gold:disabled { background: rgba(252, 211, 77, .25); color: #fff; opacity: 1; }
+  .res { display: flex; align-items: center; gap: 5px; font-weight: 800; font-size: 15px; font-variant-numeric: tabular-nums; white-space: nowrap; flex: none; }
+  .res b { min-width: 2.2em; }
+  #clock { font-size: 13px; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  #clock b { color: #fff; font-size: 15px; font-variant-numeric: tabular-nums; }
+  #food { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--warn); font-weight: 700; white-space: nowrap; }
+  #food i { display: block; width: 90px; height: 8px; border-radius: 4px; background: rgba(255, 255, 255, .12); overflow: hidden; }
+  #food em { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #ef4444, #f59e0b); }
+  .grow { flex: 1; }
+
+  #cry { position: fixed; left: 50%; top: calc(var(--top) + 14px); max-width: calc(100vw - 24px); transform: translateX(-50%); z-index: 12;
+    padding: 12px 22px; border-radius: 999px; background: linear-gradient(180deg, #fde68a, #f59e0b); color: #1a1405;
+    font-weight: 900; font-size: 17px; box-shadow: 0 6px 30px rgba(245, 158, 11, .55); animation: glow 1.4s ease-in-out infinite; }
+  #cry small { display: block; font-weight: 700; font-size: 11px; opacity: .75; }
+  @keyframes glow { 50% { box-shadow: 0 6px 44px rgba(253, 230, 138, .9); } }
+
+  /* -------------------------------------------------------- goals and story */
+  #goals { position: fixed; left: 8px; top: calc(var(--top) + 8px); width: min(300px, 46vw); z-index: 9;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px; font-size: 13px; }
+  #goals summary { list-style: none; padding: 8px 12px; font-weight: 800; cursor: pointer; display: flex; justify-content: space-between; }
+  #goals summary::-webkit-details-marker { display: none; }
+  #goals summary::after { content: '▾'; color: var(--dim); }
+  #goals:not([open]) summary::after { content: '▸'; }
+  #goals ul { list-style: none; margin: 0; padding: 0 12px 10px; display: grid; gap: 6px; }
+  #goals li { display: grid; grid-template-columns: 18px 1fr auto; gap: 4px; align-items: baseline; line-height: 1.25; }
+  #goals li.done { color: var(--good); }
+  #goals li.opt { color: var(--dim); }
+  #goals li .n { font-variant-numeric: tabular-nums; font-weight: 700; }
+  .ref { color: var(--gold); font-weight: 700; font-size: 11px; white-space: nowrap; text-decoration: underline; text-decoration-color: rgba(252, 211, 77, .35); text-underline-offset: 2px; }
+  #goals .ref { font-size: 10px; padding: 0; }
+
+  #feed { position: fixed; right: 8px; top: calc(var(--top) + 8px); width: min(360px, 50vw); z-index: 9; display: grid; gap: 6px; pointer-events: none; }
+  .msg { pointer-events: none; background: var(--panel); border: 1px solid var(--line); border-left: 4px solid #fff; border-radius: 10px;
+    padding: 7px 10px; font-size: 13px; line-height: 1.3; animation: in .25s ease-out; transition: opacity .6s; }
+  .msg.tip { border-left-color: var(--sky); } .msg.warn { border-left-color: #ef4444; } .msg.good { border-left-color: #10b981; }
+  .msg.rule { border-left-color: var(--gold); } .msg.me { border-left-color: #a78bfa; }
+  .msg.old { opacity: 0; }
+  .msg .ref { margin-left: 4px; pointer-events: auto; }
+  @keyframes in { from { transform: translateY(-6px); opacity: 0; } }
+
+  /* ------------------------------------------------------------ bottom panel */
+  #panel { position: fixed; left: 0; right: 0; bottom: 0; height: var(--bottom); display: flex; gap: 10px; align-items: stretch;
+    padding: 8px 10px; padding-bottom: max(8px, env(safe-area-inset-bottom));
+    padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right));
+    background: var(--panel); border-top: 1px solid var(--line); backdrop-filter: blur(6px); z-index: 10; }
+  #selInfo { width: 220px; flex: none; font-size: 13px; line-height: 1.3; overflow: hidden; }
+  #selInfo h3 { margin: 0 0 3px; font-size: 16px; font-weight: 800; }
+  #selInfo p { margin: 3px 0 0; color: var(--dim); }
+  .hp { height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .12); overflow: hidden; margin: 4px 0; }
+  .hp em { display: block; height: 100%; background: #22c55e; }
+  #cmds { flex: 1; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 6px; overflow-y: auto; min-width: 0; }
+  .cmd { width: 84px; height: 50px; border-radius: 10px; background: rgba(255, 255, 255, .08); border: 1px solid var(--line);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; font-size: 12px; font-weight: 800; line-height: 1.1; padding: 2px; }
+  .cmd:hover { background: rgba(255, 255, 255, .15); }
+  .cmd small { font-weight: 600; font-size: 11px; color: var(--dim); display: flex; gap: 3px; align-items: center; }
+  .cmd small svg.i { width: 12px; height: 12px; vertical-align: 0; }
+  .cmd.poor { opacity: .5; }
+  .cmd.on { background: var(--gold); color: #1a1405; } .cmd.on small { color: #1a1405; }
+  .cmd.wide { width: 172px; }
+  .queue { display: flex; gap: 4px; align-items: center; font-size: 12px; color: var(--dim); width: 100%; }
+  .queue span { padding: 2px 6px; border-radius: 6px; background: rgba(255, 255, 255, .08); }
+  .queue span:first-of-type { background: linear-gradient(90deg, rgba(252, 211, 77, .45) var(--p, 0%), rgba(255, 255, 255, .08) var(--p, 0%)); }
+  .note { font-size: 12px; color: var(--dim); width: 100%; }
+  #side { display: flex; gap: 6px; flex: none; }
+  #mini { width: 144px; border-radius: 6px; border: 1px solid var(--line); background: #000; touch-action: none; cursor: pointer; }
+  .quick { display: grid; gap: 4px; align-content: start; }
+  .quick button { height: 32px; padding: 0 8px; border-radius: 8px; background: rgba(255, 255, 255, .08); font-size: 12px; font-weight: 700; white-space: nowrap; }
+  .quick button.on { background: var(--sky); color: #04202e; }
+
+  /* ------------------------------------------------ full screens and dialogs */
+  #screen { position: fixed; inset: 0; z-index: 20; overflow-y: auto; touch-action: pan-y; background: radial-gradient(ellipse at top, #1d1b3a 0%, var(--ink) 60%); }
+  #dialog { position: fixed; inset: 0; z-index: 30; overflow-y: auto; touch-action: pan-y; background: rgba(6, 7, 16, .78); backdrop-filter: blur(3px); padding: 0 12px 40px; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 18px 60px; }
+  .kicker { color: var(--gold); font-weight: 800; letter-spacing: .12em; text-transform: uppercase; font-size: 12px; }
+  h1 { font-size: clamp(34px, 7vw, 54px); line-height: 1; margin: 8px 0 6px; font-weight: 900; letter-spacing: -.01em; }
+  h1 span { background: linear-gradient(90deg, #fde68a, #f59e0b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  h2 { font-size: 24px; margin: 4px 0 8px; font-weight: 900; }
+  .lede { color: var(--dim); font-size: 16px; line-height: 1.45; margin: 0 0 20px; }
+  .cards { display: grid; gap: 14px; }
+  .card { background: rgba(255, 255, 255, .05); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
+  .card.locked { opacity: .92; }
+  .card .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .card p { margin: 6px 0 0; color: var(--dim); line-height: 1.4; font-size: 14px; }
+  .stars { color: var(--gold); letter-spacing: 2px; font-size: 18px; }
+  .stars .off { color: rgba(255, 255, 255, .2); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 44px; padding: 0 18px; border-radius: 12px;
+    background: rgba(255, 255, 255, .1); font-weight: 800; font-size: 15px; text-decoration: none; color: #fff; }
+  .btn:hover { background: rgba(255, 255, 255, .16); }
+  .btn.go { background: var(--gold); color: #1a1405; }
+  .btn.go:disabled { background: rgba(252, 211, 77, .25); color: #fff; }
+  .lock { font-size: 13px; color: var(--dim); margin-top: 8px; }
+  details.how { margin-top: 22px; background: rgba(255, 255, 255, .04); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; }
+  details.how summary { font-weight: 800; cursor: pointer; }
+  details.how li { margin: 6px 0; line-height: 1.4; color: rgba(255, 255, 255, .85); font-size: 14px; }
+  .aside { margin-top: 18px; font-size: 13px; color: var(--dim); line-height: 1.45; }
+
+  .brief li { margin: 10px 0; line-height: 1.45; font-size: 16px; }
+  .goalbox { margin: 16px 0; padding: 12px 14px; border-radius: 12px; background: rgba(252, 211, 77, .1); border: 1px solid rgba(252, 211, 77, .3); line-height: 1.4; }
+
+  /* the reader: the chapter, verse by verse */
+  .reader { position: fixed; inset: 0; display: flex; flex-direction: column; background: #f7f1e3; color: #2a2218; }
+  .reader header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid rgba(0, 0, 0, .1); background: #efe6d0; }
+  .reader header h2 { margin: 0; font-size: 20px; }
+  .reader header button { font-size: 22px; width: 40px; height: 40px; border-radius: 10px; }
+  .reader .verses { flex: 1; overflow-y: auto; padding: 18px max(18px, calc(50% - 340px)) 40px; font-family: Georgia, 'Times New Roman', serif; font-size: 19px; line-height: 1.6; }
+  .reader .verses p { margin: 0 0 12px; }
+  .reader .verses b { font-family: 'Outfit', sans-serif; color: #9a6b12; font-size: 13px; margin-right: 6px; vertical-align: 2px; }
+  .reader footer { padding: 12px 16px; padding-bottom: max(12px, env(safe-area-inset-bottom)); border-top: 1px solid rgba(0, 0, 0, .1); background: #efe6d0;
+    display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: center; }
+  .reader footer .hint { width: 100%; text-align: center; font-size: 13px; color: #6b5a3f; }
+  .reader footer .btn.go:disabled { background: #d9ceb5; color: #7a6a4f; }
+  .reader footer a { color: #8a5a0a; font-weight: 700; font-size: 14px; }
+
+  .dialog { max-width: 520px; margin: 10vh auto 0; padding: 20px; background: #15172b; border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 20px 60px rgba(0, 0, 0, .5); }
+  .dialog h2 { font-size: 21px; line-height: 1.25; }
+  .choices { display: grid; gap: 8px; margin-top: 14px; }
+  .choice { text-align: left; padding: 12px 14px; border-radius: 12px; background: rgba(255, 255, 255, .07); border: 1px solid var(--line); font-weight: 700; font-size: 15px; line-height: 1.3; }
+  .choice:hover { background: rgba(255, 255, 255, .13); }
+  .choice.right { background: rgba(16, 185, 129, .25); border-color: #10b981; }
+  .choice.wrong { background: rgba(239, 68, 68, .22); border-color: #ef4444; }
+  .verse { margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: #f7f1e3; color: #2a2218; font-family: Georgia, serif; font-size: 16px; line-height: 1.5; }
+  .verse b { font-family: 'Outfit', sans-serif; color: #9a6b12; font-size: 12px; margin-right: 4px; }
+  .verse p { margin: 0 0 8px; } .verse p:last-child { margin: 0; }
+  .say { margin-top: 12px; font-weight: 800; font-size: 16px; }
+  .say.good { color: var(--good); } .say.bad { color: var(--warn); }
+  .end h1 { font-size: 40px; }
+  .quote { font-family: Georgia, serif; font-size: 19px; line-height: 1.5; margin: 14px 0 4px; color: rgba(255, 255, 255, .92); }
+
+  #rotate { position: fixed; left: 50%; bottom: calc(var(--bottom) + 10px); transform: translateX(-50%); z-index: 11; font-size: 12px;
+    background: var(--panel); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; pointer-events: none; }
+
+  /* ------------------------------------------------------------ small screens */
+  @media (max-width: 760px) {
+    :root { --top: 44px; --bottom: 112px; }
+    #hud { gap: 7px; padding: 0 6px; }
+    .hb { padding: 0 8px; font-size: 13px; }
+    .res { font-size: 14px; } .res b { min-width: 1.8em; }
+    #food span { display: none; } #food i { width: 60px; }
+    #selInfo { width: 120px; font-size: 12px; } #selInfo h3 { font-size: 14px; } #selInfo p { display: none; }
+    #mini { width: 110px; }
+    .quick button { height: 28px; font-size: 11px; padding: 0 6px; }
+    .cmd { width: 72px; height: 46px; font-size: 11px; }
+    #goals { width: 210px; font-size: 12px; }
+    #feed { width: min(260px, 48vw); }
+    .msg { font-size: 12px; padding: 5px 8px; }
+    .msg:nth-last-child(n+3) { display: none; }
+  }
+  @media (max-width: 520px) {
+    #clock { display: none; }
+    #goals { width: 170px; }
+    #selInfo { display: none; }
+  }
+  @media (max-height: 460px) {
+    :root { --top: 40px; --bottom: 96px; }
+    #mini { width: 96px; }
+    .cmd { height: 40px; }
+  }
+</style>
+</head>
+<body>
+<canvas id="view" aria-label="The battlefield"></canvas>
+
+<header id="hud" hidden>
+  <button id="bMenu" class="hb" title="Menu (Esc)" aria-label="Menu">☰</button>
+  <div class="res" title="Grain: food for your people"><span id="iGrain"></span><b id="rGrain">0</b></div>
+  <div class="res" title="Timber: for walls and buildings"><span id="iTimber"></span><b id="rTimber">0</b></div>
+  <div class="res" title="Workers and guards"><span id="iPeople"></span><b id="rPeople">0</b></div>
+  <div id="clock"></div>
+  <div id="food" hidden title="The robbers' food (3 Nephi 4:18–20). When it runs out, they must go."><span>Robbers' food</span><i><em id="foodBar"></em></i></div>
+  <span class="grow"></span>
+  <button id="bCouncil" class="hb gold" title="Answer a question from the chapter for grain and timber">Council</button>
+  <button id="bSpeed" class="hb" title="Game speed">1×</button>
+  <button id="bPause" class="hb" title="Pause (Space)" aria-label="Pause">❚❚</button>
+</header>
+
+<button id="cry" hidden>Cry unto the Lord<small>3 Nephi 4:8–10</small></button>
+
+<details id="goals" open hidden><summary>Goals</summary><ul id="goalList"></ul></details>
+<div id="feed" aria-live="polite"></div>
+<div id="rotate" hidden>Turn your phone sideways for more room</div>
+
+<footer id="panel" hidden>
+  <div id="selInfo"></div>
+  <div id="cmds"></div>
+  <div id="side">
+    <canvas id="mini" aria-label="Map: tap to look there"></canvas>
+    <div class="quick">
+      <button id="bArmy" title="Select all your soldiers">Soldiers</button>
+      <button id="bIdle" title="Select workers with nothing to do">Idle workers</button>
+      <button id="bBox" title="Drag a box to select (for touch screens)">Box select</button>
+    </div>
+  </div>
+</footer>
+
+<div id="screen"></div>
+<div id="dialog" hidden></div>
+
+<script src="data.js"></script>
+<script src="sim.js"></script>
+<script src="missions.js"></script>
+<script src="scripture.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>
