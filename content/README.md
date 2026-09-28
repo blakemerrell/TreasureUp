@@ -38,7 +38,13 @@ git, pull first**: `git fetch test origin` and merge `test/main` (and
 Each week is one entry in the list in weeks.js. Add next week after
 the last one any time before its Monday; the app opens on the week whose dates
 include today, so it switches by itself. Weeks stay in date order.
-Drop weeks older than last week to keep the file small.
+Keep the file small: once a week is older than last week, move it to
+content/past/ with  node tools/archive-weeks.mjs  (the checker notes when
+one is due). The app loads weeks.js on every start and developer mode reads
+it through the GitHub API, which stops at 1 MB; a moved week stays readable
+in Past weeks, which loads its file (content/past/week-<num>.js) only when
+he opens it, with its chapters built at deploy like content/reading.js.
+Never just delete a week: Past weeks would lose it.
 
 Run  node tools/verify.mjs  after every edit. It checks every quote
 word for word against the scripture text, checks every reference
