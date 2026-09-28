@@ -15,7 +15,7 @@ const ok = (cond, what) => { console.log((cond ? '  ✓ ' : '  ✗ ') + what); i
 const tileOf = S.tileOf;
 
 function start(id) {
-  const W = new S.World();
+  const W = new S.World(undefined, MISSIONS.find(m => m.id === id).map);
   W.mission = MISSIONS.find(m => m.id === id);
   W.mission.setup(W);
   return W;
@@ -137,6 +137,83 @@ console.log('Mission 2 · The Robbers Come Down (3 Nephi 4)');
   ok(W.stats.prisoners > 0, 'robbers who are cut off give themselves up (3 Nephi 4:27)');
 }
 
+// ------------------------------------------------------------ mission 3
+console.log('Mission 3 · At the River Sidon (Alma 43–44)');
+{
+  const W = start('m3');
+  const M = W.mission, SD = D.SIDON;
+  const put = (u, x, y) => { const [fx, fy] = W.freeTileNear(x, y, 'p'); W.moveTo(u, fx, fy); };
+  ok(W.stronghold().name === 'Jershon' && M.host.length === M.hostTotal && W.border == null, 'Moroni meets them in Jershon; Zerahemnah\'s armies wait in Antionum');
+  const s0 = W.soldiers().find(u => !u.def.hero);
+  W.moveTo(s0, SD.ANTIONUM.x, SD.ANTIONUM.y);
+  ok(W.msgs.some(m => m.ref === 'Alma 43:18') && !W.passable(SD.ANTIONUM.x, SD.ANTIONUM.y, 'p'), 'the Nephites don\'t march into Antionum');
+  W.order(s0, { type: 'idle' });
+
+  // Arm them and train more (43:18–19).
+  const barracks = W.buildings('p', 'barracks')[0];
+  W.research(barracks, 'breastplates');
+  let ms = run(W, 400, 1, W => {
+    if (barracks.queue.length < 2) W.train(barracks, barracks.queue.length % 2 ? 'archer' : 'spearman');
+    for (const w of W.units('p').filter(u => u.type === 'worker' && u.order.type === 'idle')) { const f = W.nearestResource(SD.JERSHON.x, SD.JERSHON.y + 6, W.res.grain < W.res.timber ? 'grain' : 'timber'); if (f) W.gatherAt(w, f[0], f[1]); }
+  }, () => M.phase !== 'arm');
+  ok(M.phase === 'seek' && W.armor === 4, 'with breastplates and shields, the Lamanites are afraid and go into the wilderness (43:19–22) at ' + Math.round(W.t) + 's');
+
+  // Spies after them, messengers to Alma (43:23–24).
+  const troops = () => W.soldiers().filter(u => !u.def.hero);
+  put(troops()[0], SD.TRACKS.x - 2, SD.TRACKS.y - 2);
+  put(troops()[1], SD.ALMA.x + 2, SD.ALMA.y + 1);
+  ms = Math.max(ms, run(W, 200, 1, null, () => M.phase !== 'seek'));
+  ok(M.phase === 'ready' && W.route && W.cover.length === 2, 'the Lord shows Alma where they will come, and the spies find their course (43:24, 30)');
+
+  // Leave guards in Jershon, gather Manti's quarter, hide the armies (43:25–32).
+  const lehi = W.units('p').find(u => u.type === 'lehi'), moroni = W.units('p').find(u => u.type === 'moroni');
+  const east = SD.COVER[0], west = SD.COVER[1];
+  const spot = (c, i) => [c.x0 + 1 + (i % 4) * 2, c.y0 + 2 + Math.floor(i / 4) * 2];
+  const list = troops();
+  list.slice(0, 4).forEach((u, i) => put(u, SD.JERSHON.x + i, SD.JERSHON.y + 6));
+  list.slice(4, 5).forEach(u => put(u, SD.VILLAGES[0].x + 1, SD.VILLAGES[0].y + 3));
+  list.slice(5, 6).forEach(u => put(u, SD.VILLAGES[1].x + 1, SD.VILLAGES[1].y + 3));
+  list.slice(6, 7).forEach(u => put(u, SD.VILLAGES[2].x + 1, SD.VILLAGES[2].y + 3));
+  const eastArmy = [lehi, ...list.slice(7, 17)], westArmy = [moroni, ...list.slice(17)];
+  eastArmy.forEach((u, i) => put(u, ...spot(east, i)));
+  westArmy.forEach((u, i) => put(u, ...spot(west, i)));
+  ms = Math.max(ms, run(W, 120, 2, W => {
+    // The militia from the villages joins Moroni in the west valley.
+    for (const u of troops().filter(u => u.order.type === 'idle' && !eastArmy.includes(u) && !westArmy.includes(u) && S.dist(u, W.stronghold()) > 10 * 32)) { westArmy.push(u); put(u, ...spot(west, westArmy.length)); }
+  }, () => M.power(W) && M.power(W).id === 'come' && M.villages.every(v => v.state !== 'waiting')));
+  ok(M.hiddenReady(W) && W.soldiers().some(u => W.hidden(u)), `armies hidden south of the hill Riplah (${M.inCover(W, 'east')}) and in the west valley (${M.inCover(W, 'west')}) (43:31–32)`);
+  ok(M.villages.every(v => v.state !== 'waiting'), 'the people of that quarter gather to battle (43:26)');
+  M.usePower(W, 'come');
+
+  // They come past the hill, into the valley, and begin to cross: then Lehi (43:34–35).
+  ms = Math.max(ms, run(W, 200, 0.5, null, () => M.power(W) && M.power(W).id === 'lehi'));
+  const unseen = W.stats.fallen;
+  ok(M.flags.crossing && !M.flags.raided, 'they pass the hidden armies and begin to cross the river Sidon; Jershon is guarded (43:25, 35)');
+  M.usePower(W, 'lehi');
+  ms = Math.max(ms, run(W, 200, 0.5, W => { if (M.power(W) && M.power(W).id === 'moroni') M.usePower(W, 'moroni'); }, () => M.phase === 'dragons' && M.flags.shrink));
+  console.log(`    at ${Math.round(W.t)}s · Lamanites fallen ${W.stats.defeated} · Nephites fallen ${W.stats.fallen}`);
+  ok(M.flags.moroni && M.phase === 'dragons', 'driven over the river, they meet Moroni, and fight like dragons (43:40–44): ' + M.phase);
+  ok(M.power(W) && M.power(W).id === 'liberty', 'Moroni\'s men are about to shrink and flee (43:48)');
+  M.usePower(W, 'liberty');
+  ok(M.phase === 'flee' && W.boost.p > 1, 'they cry unto the Lord for their liberty, and the Lamanites flee to the waters (43:49–50)');
+
+  // Encircle them on both sides of the river (43:52).
+  ms = Math.max(ms, run(W, 30, 1));
+  const g = SD.GATHER, rx = SD.river(g.y);
+  W.soldiers().filter(u => S.tileOf(u.x) < rx).slice(0, 8).forEach((u, i) => put(u, g.x - 4 + (i % 4), g.y - 3 + Math.floor(i / 4) * 6));
+  W.soldiers().filter(u => S.tileOf(u.x) > rx + 1).slice(0, 8).forEach((u, i) => put(u, rx + 3 + (i % 2), g.y - 2 + Math.floor(i / 2)));
+  ms = Math.max(ms, run(W, 120, 1, null, () => M.phase === 'parley'));
+  console.log(`    at ${Math.round(W.t)}s · Lamanites fallen ${W.stats.defeated} · Nephites fallen ${W.stats.fallen} · banks ${JSON.stringify(M.banks(W))}`);
+  ok(M.phase === 'parley' && W.truce, 'encircled on both banks, Moroni stops the shedding of blood (43:52–54)');
+  const beforeCovenant = W.units('r').length;
+  ms = Math.max(ms, run(W, 300, 1, null, () => W.over));
+  console.log(`    Lamanites ${M.hostTotal}: ${W.stats.spared} spared by covenant · ${W.stats.defeated} fell · Nephites fallen ${W.stats.fallen} · at ${Math.round(W.t)}s · slowest step ${ms}ms`);
+  ok(W.msgs.some(m => m.ref === 'Alma 44:15') && W.msgs.some(m => m.ref === 'Alma 44:19'), 'many make a covenant of peace, then Zerahemnah too (44:15–20)');
+  ok(W.over && W.over.won && W.over.stars === 3, 'the war ends, Jershon kept, many spared: ' + (W.over ? W.over.title + ' ★' + W.over.stars : 'not over'));
+  ok(W.stats.spared > 0 && W.stats.spared <= beforeCovenant, 'those who covenant depart into the wilderness (44:20)');
+  ok(ms < 40, 'a step stays fast enough');
+}
+
 // ------------------------------------------------------------ quotes
 // Every quotation in the game, in its text or its comments, is checked
 // against the verses cited on the same line: the words must be there.
@@ -146,7 +223,7 @@ console.log('Quotes');
   const window = {};
   new Function('window', fs.readFileSync(new URL('../liberty/scripture.js', import.meta.url), 'utf8'))(window);
   const TEXT = window.LIBERTY_SCRIPTURE;
-  const norm = s => s.toLowerCase().replace(/[’']/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+  const norm = s => s.toLowerCase().replace(/\\/g, '').replace(/[’']/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
   let checked = 0;
   const bad = [];
   for (const file of ['data.js', 'sim.js', 'missions.js', 'ui.js']) {
@@ -155,7 +232,7 @@ console.log('Quotes');
       const quotes = [...line.matchAll(file === 'ui.js' ? /“([^”]+)”/g : /“([^”]+)”|"([a-z][^"]+)"/g)].map(m => m[1] || m[2]);
       if (!quotes.length) return;
       const verses = [];
-      for (const m of line.matchAll(/(3 Nephi \d+):(\d+(?:[–-]\d+)?(?:, ?\d+(?:[–-]\d+)?)*)/g)) {
+      for (const m of line.matchAll(/((?:[1-4] )?[A-Z][a-z]+ \d+):(\d+(?:[–-]\d+)?(?:, ?\d+(?:[–-]\d+)?)*)/g)) {
         for (const part of m[2].split(',')) {
           const [a, b] = part.trim().split(/[–-]/).map(Number);
           for (let v = a; v <= (b || a); v++) verses.push((TEXT[m[1]] || [])[v - 1] || '');

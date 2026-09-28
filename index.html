@@ -2675,8 +2675,8 @@ const TreasureUp = (function () {
     let lib = {};
     try { lib = JSON.parse(localStorage.getItem('liberty.v1')) || {}; } catch (e) { /* storage blocked */ }
     const libWon = Object.keys(lib.won || {}).length;
-    const strategy = gameRow('liberty', '🛡️', 'Title of Liberty', 'A strategy game from the Book of Mormon: gather the Nephites, build the walls, and outlast the Gadianton robbers. Read each chapter to open its mission.',
-      libWon ? libWon + ' of 2 missions won' : 'Starts with 3 Nephi 3 · no XP, just for fun', false);
+    const strategy = gameRow('liberty', '🛡️', 'Title of Liberty', 'A strategy game from the Book of Mormon: Captain Moroni at the river Sidon, and the Nephites against the Gadianton robbers. Read each chapter to open its mission.',
+      libWon ? libWon + (libWon > 1 ? ' missions' : ' mission') + ' won · no XP, just for fun' : 'Read a chapter to open its mission · no XP, just for fun', false);
     $('gamesBody').innerHTML = `<div class="games-head">Every day</div>${rows.join('')}<div class="games-head">Family night</div>${family.join('')}<div class="games-head">Book of Mormon</div>${strategy}`;
   }
 

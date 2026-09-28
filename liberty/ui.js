@@ -3,9 +3,9 @@
 // then play its mission. Nothing here decides who wins a fight.
 (function () {
   'use strict';
-  const D = window.LIB_DATA, S = window.LIB_SIM, MISSIONS = window.LIB_MISSIONS.MISSIONS;
+  const D = window.LIB_DATA, S = window.LIB_SIM, MISSIONS = window.LIB_MISSIONS.MISSIONS, CAMPAIGNS = window.LIB_MISSIONS.CAMPAIGNS;
   const TEXT = window.LIBERTY_SCRIPTURE || {};
-  const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, QUESTIONS, BORDER_Y, PASSES } = D;
+  const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, QUESTIONS } = D;
   const { tileOf, dist } = S;
   const WORLD_W = MAP_W * TILE, WORLD_H = MAP_H * TILE;
   const STEP = 1 / 20;                                // the simulation's tick, as in the tests
@@ -30,7 +30,11 @@
     catch (e) { return { read: {}, won: {} }; }
   })();
   const store = () => { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) { /* private mode: progress lasts this visit */ } };
-  const unlocked = m => !!save.read[m.chapter] && (!m.needs || !!save.won[m.needs]);
+  // A mission opens once every chapter it's from has been read (and the one before it won).
+  const chaptersOf = m => m.chapters || [m.chapter];
+  const allRead = m => chaptersOf(m).every(c => save.read[c]);
+  const unlocked = m => allRead(m) && (!m.needs || !!save.won[m.needs]);
+  const inCampaign = m => MISSIONS.filter(x => x.campaign === m.campaign);
 
   // ------------------------------------------------------------ scripture
 
@@ -183,7 +187,8 @@
     const inView = e => e.x > vx0 && e.x < vx1 && e.y > vy0 && e.y < vy1;
     const selSet = new Set(sel);
 
-    if (!W.borderOpen) drawBorder();
+    drawZones();
+    if (W.border != null && !W.borderOpen) drawBorder();
     const bs = [], us = [];
     for (const e of W.ents.values()) if (inView(e)) (e.kind === 'building' ? bs : us).push(e);
     bs.sort((a, b) => a.y - b.y); us.sort((a, b) => a.y - b.y);
@@ -192,7 +197,7 @@
     for (const u of us) drawUnit(u, now);
     for (const u of us) if (selSet.has(u.id) || (u.hitAt && W.t - u.hitAt < 3)) hpBar(u.x, u.y - radius(u) - 7, 20, u.hp / u.def.hp);
     drawEffects();
-    drawPasses(now);
+    drawMarkers(now);
     drawGhost();
     for (let i = pings.length - 1; i >= 0; i--) {
       const p = pings[i], age = (now - p.t) / 500;
@@ -211,7 +216,7 @@
   }
 
   function drawBorder() {
-    const y = BORDER_Y * TILE;
+    const y = W.border * TILE;
     ctx.save();
     ctx.strokeStyle = 'rgba(248,113,113,.85)'; ctx.lineWidth = 3; ctx.setLineDash([14, 10]);
     ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(WORLD_W, y); ctx.stroke();
@@ -223,17 +228,54 @@
     }
     ctx.restore();
   }
-  function drawPasses(now) {
-    if (!mission || mission.id !== 'm2' || !['night', 'retreat'].includes(mission.phase)) return;
+  // Gold rings where the story wants someone to go.
+  function drawMarkers(now) {
+    const list = mission.markers ? mission.markers(W) : [];
+    if (!list.length) return;
     const pulse = 0.6 + 0.4 * Math.sin(now / 250);
     ctx.font = '800 13px Outfit, system-ui, sans-serif'; ctx.textAlign = 'center';
-    for (const px of PASSES) {
-      const x = (px + 0.5) * TILE, y = 6 * TILE;
+    for (const m of list) {
+      const x = (m.x + 0.5) * TILE, y = (m.y + 0.5) * TILE, w = ctx.measureText(m.label).width + 16;
       ctx.strokeStyle = `rgba(253,230,138,${pulse})`; ctx.lineWidth = 3;
       ctx.beginPath(); ctx.arc(x, y, 40, 0, 7); ctx.stroke();
-      ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x - 70, y - 62, 140, 18);
-      ctx.fillStyle = '#fde68a'; ctx.fillText('Block the pass here', x, y - 49);
+      ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x - w / 2, y - 62, w, 18);
+      ctx.fillStyle = '#fde68a'; ctx.fillText(m.label, x, y - 49);
     }
+  }
+  // Places to hide an army, the way the enemy will come, and lands closed to you.
+  function drawZones() {
+    ctx.save();
+    ctx.font = '800 13px Outfit, system-ui, sans-serif'; ctx.textAlign = 'left';
+    for (const c of W.cover) {
+      const x = c.x0 * TILE, y = c.y0 * TILE, w = (c.x1 - c.x0 + 1) * TILE, h = (c.y1 - c.y0 + 1) * TILE;
+      ctx.fillStyle = 'rgba(74,222,128,.10)'; ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = 'rgba(134,239,172,.8)'; ctx.lineWidth = 2; ctx.setLineDash([10, 8]); ctx.strokeRect(x, y, w, h); ctx.setLineDash([]);
+      const t = c.name + ' · hide here', tw = ctx.measureText(t).width + 12;
+      ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x + 4, y + 4, tw, 18);
+      ctx.fillStyle = '#bbf7d0'; ctx.fillText(t, x + 10, y + 17);
+    }
+    if (W.route) {
+      ctx.strokeStyle = 'rgba(248,113,113,.75)'; ctx.lineWidth = 4; ctx.setLineDash([4, 10]); ctx.lineCap = 'round';
+      ctx.beginPath(); W.route.forEach(([x, y], i) => (i ? ctx.lineTo : ctx.moveTo).call(ctx, (x + 0.5) * TILE, (y + 0.5) * TILE)); ctx.stroke();
+      ctx.setLineDash([]);
+      const [ax, ay] = W.route[W.route.length - 1], [bx, by] = W.route[W.route.length - 2], a = Math.atan2(ay - by, ax - bx);
+      ctx.fillStyle = 'rgba(248,113,113,.9)'; ctx.beginPath();
+      ctx.moveTo((ax + 0.5) * TILE + Math.cos(a) * 14, (ay + 0.5) * TILE + Math.sin(a) * 14);
+      ctx.lineTo((ax + 0.5) * TILE + Math.cos(a + 2.5) * 14, (ay + 0.5) * TILE + Math.sin(a + 2.5) * 14);
+      ctx.lineTo((ax + 0.5) * TILE + Math.cos(a - 2.5) * 14, (ay + 0.5) * TILE + Math.sin(a - 2.5) * 14); ctx.fill();
+      const [lx, ly] = W.route[1], t = 'The way they will come (Alma 43:24)', tw = ctx.measureText(t).width + 12;
+      ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(lx * TILE - tw / 2, ly * TILE - 30, tw, 18);
+      ctx.fillStyle = '#fecaca'; ctx.textAlign = 'center'; ctx.fillText(t, lx * TILE, ly * TILE - 17); ctx.textAlign = 'left';
+    }
+    for (const z of W.noGo) {
+      const x = z.x0 * TILE, y = z.y0 * TILE, w = (z.x1 - z.x0 + 1) * TILE, h = (z.y1 - z.y0 + 1) * TILE;
+      ctx.fillStyle = 'rgba(127,29,29,.12)'; ctx.fillRect(x, y, w, h);
+      ctx.strokeStyle = 'rgba(248,113,113,.75)'; ctx.lineWidth = 3; ctx.setLineDash([14, 10]); ctx.strokeRect(x, y, w, h); ctx.setLineDash([]);
+      const t = 'Antionum: the Zoramites\' land (Alma 43:5)', tw = ctx.measureText(t).width + 12;
+      ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x + 6, y + 6, tw, 18);
+      ctx.fillStyle = '#fecaca'; ctx.fillText(t, x + 12, y + 19);
+    }
+    ctx.restore();
   }
 
   function hpBar(x, y, w, f) {
@@ -258,8 +300,11 @@
       return;
     }
     let body, rim;
+    const hid = W.hidden(u);
+    if (hid) ctx.globalAlpha = 0.5;
     if (u.team === 'x') { body = '#8b929c'; rim = '#e5e7eb'; }
-    else if (d.robber) { body = d.leader ? '#7f1d1d' : '#b91c1c'; rim = '#fecaca'; }
+    else if (d.prophet) { body = '#f5f5f4'; rim = '#fcd34d'; }
+    else if (d.foe) { body = d.color || (d.leader ? '#7f1d1d' : '#b91c1c'); rim = '#fecaca'; }
     else if (u.type === 'worker') { body = '#a8814f'; rim = '#fef3c7'; }
     else if (u.type === 'villager') { body = '#d8bd8e'; rim = '#fffbeb'; }
     else if (d.hero) { body = '#d97706'; rim = '#fde68a'; }
@@ -270,15 +315,16 @@
     // The weapon, pointing where they face.
     if (d.dmg && !kneel && u.team !== 'x') {
       const f = u.face || 0, cx = Math.cos(f), cy = Math.sin(f);
-      ctx.strokeStyle = d.robber ? '#27272a' : u.type === 'worker' ? '#78583a' : '#e5e7eb'; ctx.lineWidth = 2;
+      ctx.strokeStyle = d.foe ? '#27272a' : u.type === 'worker' ? '#78583a' : '#e5e7eb'; ctx.lineWidth = 2;
       if (d.ranged) { ctx.beginPath(); ctx.arc(x + cx * r * 0.7, y + cy * r * 0.7, r * 0.9, f - 1.1, f + 1.1); ctx.stroke(); }
       else { ctx.beginPath(); ctx.moveTo(x + cx * (r - 3), y + cy * (r - 3)); ctx.lineTo(x + cx * (r + (u.type === 'worker' ? 4 : 10)), y + cy * (r + (u.type === 'worker' ? 4 : 10))); ctx.stroke(); }
     }
     ctx.fillStyle = body; ctx.strokeStyle = rim; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.arc(x, y, kneel ? r * 0.8 : r, 0, 7); ctx.fill(); ctx.stroke();
-    if (d.robber) {
-      // “a lamb-skin about their loins … dyed in blood” and “head-plates” (3 Nephi 4:7)
-      ctx.strokeStyle = '#f5f5f4'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(x, y, r * 0.55, 0.35, Math.PI - 0.35); ctx.stroke();
+    if (d.foe) {
+      // Robbers: “a lamb-skin about their loins … dyed in blood” and “head-plates” (3 Nephi 4:7).
+      // Lamanites: “a skin which was girded about their loins” (Alma 43:20).
+      ctx.strokeStyle = d.band || '#f5f5f4'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(x, y, r * 0.55, 0.35, Math.PI - 0.35); ctx.stroke();
       if (d.leader) { ctx.fillStyle = '#a1a1aa'; ctx.fillRect(x - 6, y - r - 2, 12, 5); }
     }
     if (d.hero) star(x, y, 5, '#fff7d6');
@@ -286,11 +332,12 @@
     if (u.carry && u.carry.amt) { ctx.fillStyle = u.carry.type === 'timber' ? '#8b5a2b' : '#eab308'; ctx.fillRect(x + r - 3, y - r - 1, 6, 6); }
     if (u.team === 'x') { ctx.strokeStyle = '#3f3f46'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x - 5, y + 2); ctx.lineTo(x + 5, y + 2); ctx.stroke(); }
     if (kneel) { ctx.strokeStyle = 'rgba(253,230,138,.95)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(x, y - r - 3, 6, 2.5, 0, 0, 7); ctx.stroke(); }
-    if (d.leader || d.hero) {
+    if (d.leader || d.hero || d.prophet) {
       ctx.font = '700 10px Outfit, system-ui, sans-serif'; ctx.textAlign = 'center';
       ctx.fillStyle = 'rgba(0,0,0,.55)'; const w = ctx.measureText(d.name).width + 8; ctx.fillRect(x - w / 2, y + r + 3, w, 13);
-      ctx.fillStyle = d.robber ? '#fecaca' : '#fde68a'; ctx.fillText(d.name, x, y + r + 13);
+      ctx.fillStyle = d.foe ? '#fecaca' : '#fde68a'; ctx.fillText(d.name, x, y + r + 13);
     }
+    if (hid) { ctx.globalAlpha = 1; ctx.fillStyle = '#86efac'; ctx.beginPath(); ctx.ellipse(x + r, y - r, 3.5, 2, -0.6, 0, 7); ctx.fill(); }
   }
   function star(x, y, r, color) {
     ctx.fillStyle = color; ctx.beginPath();
@@ -313,7 +360,7 @@
         c.fillStyle = '#6b3a24'; c.fillRect(x + 57, y + 70, 14, 20);
         c.strokeStyle = '#3f2f1f'; c.lineWidth = 2; c.beginPath(); c.moveTo(x + 64, y + 26); c.lineTo(x + 64, y + 6); c.stroke();
         c.fillStyle = '#2563eb'; c.beginPath(); c.moveTo(x + 64, y + 6); c.lineTo(x + 82, y + 11); c.lineTo(x + 64, y + 16); c.fill();
-        label('Zarahemla', x + w / 2, y + h + 12, '#fde68a');
+        label(b.name || b.def.name, x + w / 2, y + h + 12, '#fde68a');
         break;
       }
       case 'storehouse':
@@ -432,7 +479,7 @@
     }
     mctx.drawImage(miniTerrain, 0, 0);
     const sx = mw / WORLD_W, sy = mh / WORLD_H;
-    if (!W.borderOpen) { mctx.fillStyle = 'rgba(248,113,113,.8)'; mctx.fillRect(0, BORDER_Y * TILE * sy - 1, mw, 2); }
+    if (W.border != null && !W.borderOpen) { mctx.fillStyle = 'rgba(248,113,113,.8)'; mctx.fillRect(0, W.border * TILE * sy - 1, mw, 2); }
     for (const e of W.ents.values()) {
       if (e.kind === 'building') {
         mctx.fillStyle = e.team === 'p' ? '#93c5fd' : e.team === 'r' ? '#f87171' : e.state === 'waiting' ? '#fcd34d' : '#d6d3d1';
@@ -515,7 +562,7 @@
   }
   // Everyone to their own tile around the spot, nearest first.
   function moveGroup(units, tx, ty) {
-    if (!W.borderOpen && ty < BORDER_Y) { W.moveTo(units[0], tx, ty); ty = BORDER_Y; }
+    if (W.border != null && !W.borderOpen && ty < W.border) { W.moveTo(units[0], tx, ty); ty = W.border; }
     const spots = [];
     for (let r = 0; spots.length < units.length && r < 9; r++) {
       for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
@@ -741,7 +788,8 @@
     if (b.team !== 'p') {
       if (b.type === 'village') return `<div class="note">${b.state === 'waiting' ? 'Send a soldier or worker here. When the proclamation reaches ' + esc(b.name) + ', its people march to Zarahemla.' : 'Its people have gone.'}</div>`;
       if (b.team === 'x') return `<div class="note">He gave himself up (3 Nephi 4:27).</div>`;
-      return `<div class="note">${b.def.leader ? 'A leader of the robbers.' : b.kind === 'building' ? esc(b.def.about || '') : 'A Gadianton robber.'} Choose soldiers, then tap him to fight.</div>`;
+      if (b.def.prophet) return `<div class="note">${esc(b.def.about)}</div>`;
+      return `<div class="note">${esc(b.def.about || (b.def.leader ? 'A leader of the robbers.' : 'A Gadianton robber.'))} Choose soldiers, then tap him to fight.</div>`;
     }
     const units = ents.filter(e => e.kind === 'unit');
     if (units.length) {
@@ -758,10 +806,11 @@
     if (!b.built) return `<div class="note">Choose workers, then tap this to build it.</div>`;
     let h = '';
     for (const t of b.def.trains || []) h += cmd('train:' + t, UNITS[t].name, costHtml(UNITS[t].cost), W.canAfford(UNITS[t].cost) ? '' : 'poor');
+    const rk = mission.research || 'armor';
     if (b.def.research && !W.armor) {
-      const r = RESEARCH.armor;
-      h += W.researching ? `<div class="note">Making weapons, armor and shields: ${Math.ceil(W.researching.left)}s</div>`
-        : cmd('research:armor', 'Armor & shields', costHtml(r.cost), 'wide ' + (W.canAfford(r.cost) ? '' : 'poor'));
+      const r = RESEARCH[rk];
+      h += W.researching ? `<div class="note">Making ${esc(r.name.toLowerCase())}: ${Math.ceil(W.researching.left)}s</div>`
+        : cmd('research:' + rk, esc(r.name), costHtml(r.cost), 'wide ' + (W.canAfford(r.cost) ? '' : 'poor'));
     }
     if (b.queue && b.queue.length) {
       const q = b.queue[0], p = 100 - q.left / UNITS[q.type].time * 100;
@@ -780,7 +829,7 @@
     else if (act === 'stop') for (const u of selUnits()) W.order(u, { type: 'idle' });
     else if (act === 'train' && one) { if (!W.train(one, arg)) toast(one.queue.length >= 5 ? 'The line is full.' : poorText(UNITS[arg].cost), 'warn'); }
     else if (act === 'research' && one) {
-      if (W.research(one, arg)) toast('Gidgiddoni has them make “weapons of war of every kind.”', 'me', '3 Nephi 3:26');
+      if (W.research(one, arg)) toast(RESEARCH[arg].about, 'me', RESEARCH[arg].ref);
       else toast(poorText(RESEARCH[arg].cost), 'warn');
     }
     refreshPanel(true);
@@ -815,7 +864,10 @@
     setHtml('clock', esc(label) + (left != null ? ' <b>' + mmss(left) + '</b>' : ''));
     $('food').hidden = W.prov == null;
     if (W.prov != null) $('foodBar').style.width = clamp(W.prov, 0, 100) + '%';
-    $('cry').hidden = !mission.cryReady;
+    const pw = mission.power ? mission.power(W) : null;
+    $('cry').hidden = !pw;
+    if (pw) setHtml('cry', esc(pw.label) + '<small>' + esc(pw.ref || '') + '</small>');
+    powerNow = pw;
     const ready = !council || W.t >= council.nextAt;
     $('bCouncil').disabled = !ready;
     setText('bCouncil', ready ? 'Council' : 'Council ' + Math.ceil(council.nextAt - W.t) + 's');
@@ -865,7 +917,7 @@
   // shows the verse that settles it.
   function openCouncil() {
     if (!W || (council && W.t < council.nextAt)) return;
-    const qs = QUESTIONS[mission.chapter] || [];
+    const qs = chaptersOf(mission).flatMap(c => QUESTIONS[c] || []);
     if (!council.queue.length) council.queue = shuffle(qs.map((_, i) => i));
     const q = qs[council.queue.shift()];
     const answers = shuffle([q.right, ...q.wrong]);
@@ -930,35 +982,38 @@
   function home() {
     W = null; mission = null; sel = []; placing = null;
     setGameUi(false);
-    const cards = MISSIONS.map((m, i) => {
-      const read = !!save.read[m.chapter], open = unlocked(m), stars = save.won[m.id] || 0;
-      const why = !read ? `Read ${m.chapter} to open this mission.` : !open ? `Win mission ${i} first.` : '';
+    const card = m => {
+      const read = allRead(m), open = unlocked(m), stars = save.won[m.id] || 0, need = m.needs && MISSIONS.find(x => x.id === m.needs);
+      const unread = chaptersOf(m).filter(c => !save.read[c]);
+      const why = unread.length ? `Read ${unread.join(' and ')} to open this mission.` : !open ? `Win ${need.title} first.` : '';
       return `<div class="card ${open ? '' : 'locked'}">
-        <div class="kicker">Mission ${i + 1} · ${esc(m.chapter)}</div>
+        <div class="kicker">Mission ${inCampaign(m).indexOf(m) + 1} · ${esc(m.chapter)}</div>
         <h2>${esc(m.title)}</h2>
         ${stars ? starsHtml(stars) : ''}
         <p>${esc(m.goals)}</p>
         ${why ? `<div class="lock">🔒 ${esc(why)}</div>` : ''}
         <div class="row">
-          <button class="btn ${read ? '' : 'go'}" data-read="${esc(m.chapter)}">${read ? 'Read it again' : 'Read ' + esc(m.chapter)}</button>
+          ${chaptersOf(m).map(c => `<button class="btn ${save.read[c] ? '' : 'go'}" data-read="${esc(c)}">${save.read[c] ? 'Read ' + esc(c) + ' again' : 'Read ' + esc(c)}</button>`).join('')}
           <button class="btn ${read && open ? 'go' : ''}" data-play="${m.id}" ${open ? '' : 'disabled'}>${stars ? 'Play again' : 'Play'}</button>
         </div></div>`;
-    }).join('');
+    };
+    const cards = CAMPAIGNS.map(c => `<h2 class="camp">${esc(c.title)}</h2><p class="camp-about">${esc(c.about)}</p><div class="cards">${MISSIONS.filter(m => m.campaign === c.id).map(card).join('')}</div>`).join('');
     const s = showScreen(`<div class="wrap">
       <div class="kicker">A Book of Mormon strategy game</div>
       <h1><span>Title of Liberty</span></h1>
-      <p class="lede">Lachoneus and Gidgiddoni against the Gadianton robbers. Read each chapter, then lead the Nephites through it: gather the people, build the walls, and wait for the robbers to come.</p>
-      <div class="cards">${cards}</div>
+      <p class="lede">Lead the Nephites through the wars of the Book of Mormon. Read each chapter first, then play it: the missions follow what happens in the verses.</p>
+      ${cards}
       <details class="how"><summary>How to play</summary><ul>
         <li><b>Choose</b> your people: tap or click one. Drag a box around several (on a touch screen, tap <b>Box select</b> first). <b>Soldiers</b> chooses your whole army.</li>
-        <li><b>Give orders</b>: with people chosen, tap the ground to march, a robber to fight, trees or a field to gather, or an unfinished building to build it. (On a computer, right-click works too.)</li>
+        <li><b>Give orders</b>: with people chosen, tap the ground to march, an enemy to fight, trees or a field to gather, or an unfinished building to build it. (On a computer, right-click works too.)</li>
         <li><b>Build</b>: choose workers, pick a building, then tap where it goes. For walls, drag a line.</li>
-        <li><b>Train</b>: choose Zarahemla for workers, or the barracks for guards.</li>
+        <li><b>Train</b>: choose your city for workers, or the barracks for soldiers and armor.</li>
+        <li><b>Story moments</b>: when the chapter's big moment comes (crying unto the Lord, Lehi's attack), a gold button appears at the top.</li>
         <li><b>The council</b>: answer a question from the chapter for grain and timber. Get it wrong and you'll see the verse.</li>
         <li><b>Look around</b>: drag the map (arrow keys on a computer), pinch or scroll to zoom, or tap the small map.</li>
         <li>Tap any gold verse reference to read the verse.</li>
       </ul></details>
-      <p class="aside">The title of liberty was Captain Moroni's banner (Alma 46:12–13). These first missions are from a later war, in 3 Nephi 3–4, when Lachoneus and Gidgiddoni led the people.</p>
+      <p class="aside">The title of liberty was Captain Moroni's banner (Alma 46:12–13); his story is the first campaign. The maps are pictures of each story: where these places were isn't known.</p>
       <p class="aside"><a href="../">← Back to Treasure Up</a></p>
     </div>`);
     s.onclick = e => {
@@ -991,7 +1046,7 @@
 
   function briefing(m) {
     showScreen(`<div class="wrap brief">
-      <div class="kicker">Mission ${MISSIONS.indexOf(m) + 1} · ${esc(m.chapter)} · ${esc(m.year)}</div>
+      <div class="kicker">${esc(CAMPAIGNS.find(c => c.id === m.campaign).title)} · Mission ${inCampaign(m).indexOf(m) + 1} · ${esc(m.chapter)} · ${esc(m.year)}</div>
       <h2 style="font-size:32px">${esc(m.title)}</h2>
       <ul>${m.briefing.map(([t, r]) => `<li>${esc(t)} ${refBtn(r)}</li>`).join('')}</ul>
       <div class="goalbox"><b>Your goals.</b> ${esc(m.goals)}</div>
@@ -1002,7 +1057,7 @@
 
   function begin(m) {
     mission = m;
-    W = new S.World();
+    W = new S.World(undefined, m.map);
     W.mission = m;
     m.setup(W);
     sel = []; placing = null; wallLine = null; painted = null; miniDirty = true; shownMsgs = 0; endShown = false;
@@ -1023,10 +1078,11 @@
     endShown = true;
     const o = W.over;
     if (o.won) { save.won[mission.id] = Math.max(save.won[mission.id] || 0, o.stars || 1); store(); }
-    const next = MISSIONS[MISSIONS.indexOf(mission) + 1];
-    const nextBtn = o.won && next ? (save.read[next.chapter]
-      ? `<button class="btn go" id="eNext">Mission ${MISSIONS.indexOf(next) + 1}: ${esc(next.title)}</button>`
-      : `<button class="btn go" data-read="${esc(next.chapter)}">Read ${esc(next.chapter)}</button>`) : '';
+    const next = inCampaign(mission)[inCampaign(mission).indexOf(mission) + 1];
+    const unread = next ? chaptersOf(next).filter(c => !save.read[c]) : [];
+    const nextBtn = o.won && next ? (!unread.length
+      ? `<button class="btn go" id="eNext">Next: ${esc(next.title)}</button>`
+      : `<button class="btn go" data-read="${esc(unread[0])}">Read ${esc(unread[0])}</button>`) : '';
     setTimeout(() => {
       const s = showScreen(`<div class="wrap end">
         <div class="kicker">${o.won ? 'Victory' : 'Defeat'} · ${esc(mission.title)}</div>
@@ -1035,8 +1091,7 @@
         <p class="quote">${esc(o.text)}</p>${o.ref ? refBtn(o.ref) : ''}
         ${o.detail ? `<p class="lede" style="margin-top:12px">${esc(o.detail)}</p>` : ''}
         ${o.next ? `<p class="lede">${esc(o.next)}</p>` : ''}
-        ${o.won && mission.id === 'm1' ? `<p class="lede">Stars: ★ ready in time, ★★ with weapons, armor and shields made, ★★★ with all five villages gathered.</p>` : ''}
-        ${o.won && mission.id === 'm2' ? `<p class="lede">Stars: ★ the robbers are gone, ★★ most of them stopped, ★★★ most stopped and Zemnarihah taken.</p>` : ''}
+        ${o.won && mission.starsText ? `<p class="lede">Stars: ${esc(mission.starsText)}</p>` : ''}
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">${nextBtn}<button class="btn ${nextBtn ? '' : 'go'}" id="eAgain">Play again</button><button class="btn" id="eHome">Missions</button></div></div>`);
       $('eAgain').onclick = () => begin(mission);
       $('eHome').onclick = home;
@@ -1048,7 +1103,8 @@
   function togglePause() { paused = !paused; $('bPause').textContent = paused ? '▶' : '❚❚'; if (paused) toast('Paused. Press Space or ▶ to go on.'); }
   $('bPause').onclick = togglePause;
   $('bSpeed').onclick = () => { speed = speed === 1 ? 2 : 1; $('bSpeed').textContent = speed + '×'; };
-  $('cry').onclick = () => { if (W && mission.cry) { mission.cry(W); $('cry').hidden = true; } };
+  let powerNow = null;
+  $('cry').onclick = () => { if (W && powerNow) { mission.usePower(W, powerNow.id); $('cry').hidden = true; powerNow = null; shown.cry = null; } };
   document.addEventListener('visibilitychange', () => { if (document.hidden && W && !W.over && !paused) togglePause(); });
 
   // ------------------------------------------------------------ the loop

@@ -13,9 +13,9 @@
   // ------------------------------------------------------------------ world
 
   class World {
-    constructor(seed) {
+    constructor(seed, map) {
       this.rand = D.rng(seed == null ? 7 : seed);  // the same game plays out the same way
-      const m = D.buildMap();
+      const m = (map || D.buildMap)();
       this.tiles = m.tiles;
       this.amt = m.amt;
       this.occ = new Int32Array(MAP_W * MAP_H);   // building id on each tile
@@ -24,12 +24,18 @@
       this.t = 0;
       this.res = { grain: 0, timber: 0 };
       this.prov = null;                            // the robbers' food, when it matters
+      this.border = D.BORDER_Y;                    // a row the player may not go north of; null for none
       this.borderOpen = false;
+      this.cover = [];                             // places an army can lie hidden: [{ x0, y0, x1, y1, name }]
+      this.truce = false;                          // while it holds, nobody is hurt
+      this.boost = { p: 1, r: 1 };                 // each side's strength, for a while
+      this.shield = { p: 1, r: 1 };                // and how much harm each side takes
       this.buffUntil = 0;                          // "in the strength of the Lord" (3 Nephi 4:10)
       this.armor = 0;                              // Weapons, armor and shields (3 Nephi 3:26)
       this.researching = null;
       this.msgs = [];
-      this.stats = { prisoners: 0, escaped: 0, fallen: 0, defeated: 0, gathered: 0 };
+      this.stats = { prisoners: 0, escaped: 0, fallen: 0, defeated: 0, gathered: 0, spared: 0 };
+      this.noGo = [];                              // lands the player's people may not enter: [{ x0, y0, x1, y1, text, ref }]
       this.over = null;                            // { won, text, stars }
       this.terrainDirty = true;
       this.effects = [];                           // arrows and the like, for drawing
@@ -53,7 +59,8 @@
         if (!(throughWalls && e.def.wall)) return false;
       }
       // Gidgiddoni: "we will not go against them, but we will wait till they shall come against us" (3 Nephi 3:21).
-      if (team === 'p' && y < D.BORDER_Y && !this.borderOpen) return false;
+      if (team === 'p' && this.border != null && y < this.border && !this.borderOpen) return false;
+      if (team === 'p' && this.noGo.length && this.noGo.some(z => x >= z.x0 && x <= z.x1 && y >= z.y0 && y <= z.y1)) return false;
       return true;
     }
 
@@ -115,7 +122,7 @@
     // --- paths: A* on tiles, eight ways, no cutting corners.
     // `goal` is a rectangle; `near` means ending next to it is enough.
     findPath(u, goal, near) {
-      const team = u.team, walls = !!u.def.robber;
+      const team = u.team, walls = !!u.def.foe;
       const sx = tileOf(u.x), sy = tileOf(u.y);
       const gx0 = goal.x0, gy0 = goal.y0, gx1 = goal.x1, gy1 = goal.y1;
       const reached = (x, y) => near
@@ -190,13 +197,15 @@
       if (o.type !== 'gather' && o.type !== 'build') u.phase = null;
     }
     moveTo(u, tx, ty, attackMove) {
-      if (u.team === 'p' && ty < D.BORDER_Y && !this.borderOpen) {
+      if (u.team === 'p' && this.border != null && ty < this.border && !this.borderOpen) {
         if (this.t - this.lastBorderMsg > 8) {
           this.lastBorderMsg = this.t;
           this.msg('Gidgiddoni: “we will not go against them, but we will wait till they shall come against us.”', '3 Nephi 3:21', 'rule');
         }
-        ty = D.BORDER_Y;
+        ty = this.border;
       }
+      const z = u.team === 'p' && this.noGo.find(z => tx >= z.x0 && tx <= z.x1 && ty >= z.y0 && ty <= z.y1);
+      if (z && this.t - this.lastBorderMsg > 8) { this.lastBorderMsg = this.t; this.msg(z.text, z.ref, 'rule'); }
       this.order(u, { type: 'move', tx, ty, attackMove: !!attackMove });
     }
 
@@ -211,7 +220,7 @@
         const t = this.tile(x, y);
         if (t !== T.GRASS && t !== T.FIELD && t !== T.RUIN) return false;
         if (this.occ[idx(x, y)]) return false;
-        if (y < D.BORDER_Y) return false;
+        if (this.border != null && y < this.border) return false;
       }
       return true;
     }
@@ -240,13 +249,15 @@
 
     // --- combat
     damage(target, amount, from) {
-      if (target.dead || target.untouchable) return;
-      let a = amount;
+      if (target.dead || target.untouchable || this.truce) return;
+      let a = amount * (from && this.boost[from.team] || 1);
       if (from && from.team === 'p' && this.aura(from)) a *= 1.25;
-      if (from && from.def.robber && from.weak) a *= 0.6;
+      if (from && from.def.foe && from.weak) a *= 0.6;
       const armor = (target.def.armor || 0) + (target.kind === 'unit' && target.team === 'p' && target.def.soldier ? this.armor : 0);
       a = Math.max(1, a - armor);
       if (target.team === 'p' && this.t < this.buffUntil) a *= 0.65;
+      a *= this.shield[target.team] || 1;
+      if (target.spare) a = Math.min(a, Math.max(0, target.hp - 1));   // his part in the story isn't over
       target.hp -= a;
       target.hitAt = this.t;
       if (target.kind === 'unit' && target.team !== 'p' && from && from.team === 'p') target.lastHitBy = from.id;
@@ -273,11 +284,12 @@
         if (e.team === 'p') {
           this.stats.fallen++;
           if (e.def.hero) {
-            this.heroBack = this.t + 40;
-            this.msg('Gidgiddoni is wounded and carried back to Zarahemla. He will lead again soon.', null, 'warn');
+            (this.heroesBack = this.heroesBack || []).push({ type: e.type, at: this.t + 40 });
+            const s = this.stronghold();
+            this.msg(`${e.def.name} is wounded and carried back to ${s ? s.name || s.def.name : 'the city'}. He will lead again soon.`, null, 'warn');
           }
           if (e.type === 'villager' && e.from) e.from.lost = (e.from.lost || 0) + 1;
-        } else if (e.def.robber) this.stats.defeated++;
+        } else if (e.def.foe) this.stats.defeated++;
         if (this.mission && this.mission.onKill) this.mission.onKill(this, e, from);
       } else {
         if (this.mission && this.mission.onDestroy) this.mission.onDestroy(this, e, from);
@@ -285,11 +297,20 @@
       this.remove(e);
     }
 
+    // Standing still in cover, and not fighting lately: the enemy walks past (Alma 43:27).
+    hidden(u) {
+      if (u.kind !== 'unit' || u.team !== 'p' || !this.cover.length || u.order.type !== 'idle' || this.t - (u.struckAt || -99) < 4) return false;
+      const x = tileOf(u.x), y = tileOf(u.y);
+      return this.cover.some(c => x >= c.x0 && x <= c.x1 && y >= c.y0 && y <= c.y1);
+    }
     // Everything within `r` of `p` that `team` would fight.
-    enemiesNear(p, team, r, unitsOnly) {
+    // (`auto`: looking for a fight on their own, which leaves alone anyone marked noAuto.)
+    enemiesNear(p, team, r, unitsOnly, auto) {
       let best = null, bd = r;
       for (const e of this.ents.values()) {
         if (e.dead || e.untouchable || e.team === team || e.team === 'n' || e.team === 'x') continue;
+        if (auto && e.noAuto) continue;
+        if (team === 'r' && this.hidden(e) && dist(p, e) > 40) continue;
         if (unitsOnly && e.kind !== 'unit') continue;
         if (team === 'p' && e.team !== 'r') continue;
         if (team === 'r' && e.team !== 'p') continue;
@@ -321,14 +342,15 @@
         const b = this.ents.get(this.researching.by);
         if (!b) { this.researching = null; }
         else if ((this.researching.left -= dt) <= 0) {
-          this.armor = 2; this.researching = null;
-          this.msg('Weapons, armor and shields are ready: your soldiers are stronger.', '3 Nephi 3:26', 'good');
+          const r = RESEARCH[this.researching.key];
+          this.armor = r.armor; this.researching = null;
+          this.msg(r.done, r.ref, 'good');
         }
       }
-      if (this.heroBack && this.t >= this.heroBack) {
-        this.heroBack = 0;
+      for (const h of (this.heroesBack || []).filter(h => this.t >= h.at)) {
+        this.heroesBack.splice(this.heroesBack.indexOf(h), 1);
         const s = this.stronghold();
-        if (s) { const [x, y] = this.freeTileNear(s.tx + 1, s.ty + s.h, 'p'); this.addUnit('gidgiddoni', 'p', center(x), center(y)); this.msg('Gidgiddoni leads the armies again.', null, 'good'); }
+        if (s) { const [x, y] = this.freeTileNear(s.tx + 1, s.ty + s.h, 'p'); this.addUnit(h.type, 'p', center(x), center(y)); this.msg(UNITS[h.type].name + ' leads the armies again.', null, 'good'); }
       }
       this.effects = this.effects.filter(f => this.t - f.t < 0.35);
       if (this.mission) this.mission.update(this, dt);
@@ -365,8 +387,9 @@
       u.think -= dt;
       if (u.think <= 0) {
         u.think = 0.4;
-        if (u.def.robber && this.mission && this.mission.robberBrain) this.mission.robberBrain(this, u);
-        else if (u.team === 'p' && u.order.type === 'idle' && u.def.dmg && !u.def.gathers) this.autoAcquire(u, u.def.sight);
+        if (u.def.foe && this.mission && this.mission.foeBrain) this.mission.foeBrain(this, u);
+        // (An army lying hidden holds still until it's ordered, or found.)
+        else if (u.team === 'p' && u.order.type === 'idle' && u.def.dmg && !u.def.gathers && (!this.hidden(u) || this.t - (u.hitAt || -99) < 2)) this.autoAcquire(u, u.def.sight);
         else if (u.team === 'p' && u.order.type === 'move' && u.order.attackMove) this.autoAcquire(u, u.def.sight, true);
         else if (u.team === 'p' && u.order.type === 'idle' && u.def.gathers && u.hitAt && this.t - u.hitAt < 1.5) this.autoAcquire(u, 60);
       }
@@ -378,7 +401,7 @@
             u.path = this.findPath(u, g, !!o.near);
           }
           if (this.follow(u, dt)) this.arrive(u);
-          else if (u.def.robber && this.blockedBy) { const w = this.blockedBy; this.blockedBy = null; this.order(u, { type: 'attack', target: w.id, then: o }); }
+          else if (u.def.foe && this.blockedBy) { const w = this.blockedBy; this.blockedBy = null; this.order(u, { type: 'attack', target: w.id, then: o }); }
           break;
         }
         case 'attack': {
@@ -389,7 +412,7 @@
             u.face = Math.atan2(t.y - u.y, t.x - u.x);
             if (u.cool <= 0) {
               if (u.def.ranged) this.shoot(u, t, u.def.dmg); else { this.damage(t, u.def.dmg, u); this.effects.push({ t: this.t, x0: u.x, y0: u.y, x1: t.x, y1: t.y, kind: 'hit', team: u.team }); }
-              u.cool = u.def.cd;
+              u.cool = u.def.cd; u.struckAt = this.t;
             }
           } else {
             u.repath = (u.repath || 0) - dt;
@@ -397,14 +420,14 @@
               u.path = this.findPath(u, this.rectOf(t), true);
               u.repath = 0.8;
             }
-            // Walking into a wall on the way: break it (robbers).
+            // Walking into a wall on the way: break it (foes).
             if (this.follow(u, dt) || !u.path) {
               // Beside it but not yet in reach (a corner, say): step in.
               const px = t.kind === 'building' ? Math.max(t.tx * TILE, Math.min(u.x, (t.tx + t.w) * TILE)) : t.x;
               const py = t.kind === 'building' ? Math.max(t.ty * TILE, Math.min(u.y, (t.ty + t.h) * TILE)) : t.y;
               this.approach(u, px, py, dt);
             }
-            if (u.def.robber && this.blockedBy) { const w = this.blockedBy; this.blockedBy = null; if (w.team === 'p' && w.id !== t.id) this.order(u, { type: 'attack', target: w.id, then: o }); }
+            if (u.def.foe && this.blockedBy) { const w = this.blockedBy; this.blockedBy = null; if (w.team === 'p' && w.id !== t.id) this.order(u, { type: 'attack', target: w.id, then: o }); }
             // A soldier who went after someone gives up a long chase.
             else if (o.leash && dist(u, o.leash) > 220) this.afterFight(u, true);
           }
@@ -426,7 +449,7 @@
     }
     // Fight the nearest enemy in sight. The leash is where they were posted: they won't be drawn far from it.
     autoAcquire(u, r, keepMove, leash) {
-      const e = this.enemiesNear(u, u.team, r);
+      const e = this.enemiesNear(u, u.team, r, false, true);
       if (!e || (leash && dist(e, leash) > 220)) return false;
       const back = keepMove ? u.order : (u.order.type === 'idle' ? null : u.order);
       this.order(u, { type: 'attack', target: e.id, then: back, leash: leash || { x: u.x, y: u.y } });
@@ -440,7 +463,7 @@
       const [tx, ty] = u.path[0];
       if (!this.passable(tx, ty, u.team === 'p' ? 'p' : u.team)) {
         const b = this.occ[idx(tx, ty)] && this.ents.get(this.occ[idx(tx, ty)]);
-        if (b && b.def.wall && u.def.robber) { this.blockedBy = b; return false; }
+        if (b && b.def.wall && u.def.foe) { this.blockedBy = b; return false; }
         u.path = null;                              // something new in the way: plan again
         return false;
       }
@@ -546,7 +569,7 @@
       const crowd = new Map();
       for (const w of this.ents.values()) if (w.kind === 'unit' && w !== who && w.order.type === 'gather') { const k = w.order.tx + ',' + w.order.ty; crowd.set(k, (crowd.get(k) || 0) + 1); }
       let best = null, bd = Infinity;
-      for (let y = Math.max(D.BORDER_Y, ty - 14); y <= Math.min(MAP_H - 1, ty + 14); y++) for (let x = Math.max(0, tx - 14); x <= Math.min(MAP_W - 1, tx + 14); x++) {
+      for (let y = Math.max(this.border || 0, ty - 14); y <= Math.min(MAP_H - 1, ty + 14); y++) for (let x = Math.max(0, tx - 14); x <= Math.min(MAP_W - 1, tx + 14); x++) {
         if (!this.isResource(x, y, kind) || (skip && skip === x + ',' + y)) continue;
         let open = this.passable(x, y, 'p');
         for (let dy = -1; dy <= 1 && !open; dy++) for (let dx = -1; dx <= 1 && !open; dx++) if ((dx || dy) && this.passable(x + dx, y + dy, 'p')) open = true;

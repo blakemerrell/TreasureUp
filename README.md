@@ -177,24 +177,26 @@ markup: `sh tools/build-css.sh`.
 ## Title of Liberty (a separate game)
 
 A real-time strategy game in the style of Command & Conquer: Red Alert, from
-the Book of Mormon: one player against the computer, the Nephites under
-Lachoneus and Gidgiddoni against the Gadianton robbers. It lives at
+the Book of Mormon: one player against the computer. Two campaigns so far,
+in the Book of Mormon's order: **Captain Moroni** (Alma 43–44) and
+**Lachoneus and Gidgiddoni** (3 Nephi 3–4). It lives at
 **https://blakemerrell.github.io/TreasureUp/liberty/** (🎮 → Book of Mormon in
 the app), apart from the app itself: it never changes XP, the streak or the
 family's data.
 
-**Reading opens each mission.** A mission stays locked until its chapter is
+**Reading opens each mission.** A mission stays locked until its chapters are
 read: in the game's own reader (the whole chapter, King James text; *I read
 it* opens at the end of the chapter) or in Gospel Library (the same rule as
-the app's reading). Mission 2 also needs mission 1 won.
+the app's reading). The second 3 Nephi mission also needs the first won.
 
 | Mission | What happens, and where it comes from |
 |---|---|
+| **Moroni 1 · At the River Sidon** (Alma 43–44) | Moroni meets Zerahemnah in the borders of Jershon; the Nephites can't march into Antionum (43:18). Make breastplates and shields and train soldiers, and the Lamanites, "exceedingly afraid" of the armor, leave into the wilderness (43:19–22). Send spies after them and messengers to Alma, and the Lord shows where they will come: their route and two hiding places appear on the map (43:23–24, 30). Leave part of the army in Jershon (if you don't, a band comes against it, 43:25), gather the people of Manti's quarter (43:26), and hide one army south of the hill Riplah with Lehi and the rest in the west valley with Moroni; a hidden army holds still until you give the order (43:27–33). As they cross the river Sidon, Lehi falls on their rear, they flee over the river, and Moroni meets them (43:35–41). They "fight like dragons" and your soldiers start to fall back until you remind them of their liberty (43:43–50). Encircle them on both banks and Moroni stops the killing (43:52–54); then Alma 44 plays out: the offer, Zerahemnah's refusal, his broken sword, many making a covenant of peace, the last of the fighting, and Zerahemnah's own covenant. Zerahemnah can't be killed before his part is done. Stars: peace, Jershon kept, and at least a quarter of the Lamanites spared. |
 | **1 · Gather to One Place** (3 Nephi 3) | Lachoneus's proclamation: send someone to each of five villages and their people march to Zarahemla with flocks and grain (3:13, 22); a village left too long is taken by raiders. Build walls round about, watchtowers and guards (3:14) before the robbers come down (a 14-minute clock: Giddianhi said he would come "on the morrow month", 3:8). Nobody can go north of the border into the wilderness: "we will wait till they shall come against us" (3:21). Optional: weapons, armor and shields (3:26). |
 | **2 · The Robbers Come Down** (3 Nephi 4) | Giddianhi's army attacks (4:7); **Cry unto the Lord** puts everyone on their knees for a moment, then they take less harm for a while (4:8–10). They fall back and can be pursued; Giddianhi is slowed, "weary because of his much fighting" (4:14). Then Zemnarihah's siege round about (4:16): a bar shows the robbers' food running out, since the Nephites have seven years' provisions and the wild game is gone (4:2–4, 18–20). When it runs out it's night, the border opens, and the armies can go to the three passes before the robbers march at dawn (4:24–26); a robber caught by two soldiers gives himself up (4:27). |
 
-**The council**: a button that asks a question from the mission's chapter (10
-for 3 Nephi 3, 11 for 3 Nephi 4, in `liberty/data.js`). A right answer brings
+**The council**: a button that asks a question from the mission's chapters (13
+for Alma 43, 11 for Alma 44, 10 for 3 Nephi 3, 11 for 3 Nephi 4, in `liberty/data.js`). A right answer brings
 40 grain and 60 timber; a wrong one shows the verse that answers it. Once a
 minute (30 seconds after a miss). Every gold verse reference in the game
 opens the verse itself.
@@ -204,7 +206,10 @@ select** first), then tap the ground, a robber, trees or a field, or an
 unfinished building. Right-click also gives orders. Workers build (walls are
 dragged as a line) and mend walls; Zarahemla trains workers and the barracks
 guards. Drag or arrow keys to look around, pinch or scroll to zoom, the small
-map to jump. Space pauses, H stops, Esc cancels.
+map to jump. Space pauses, H stops, Esc cancels. At a chapter's big moment
+(crying unto the Lord, Lehi's attack, remembering their liberty) a gold
+button appears at the top. The maps are pictures of each story: where these
+places were isn't known, and the game says so.
 
 Progress (chapters read, stars) is kept on the device (`localStorage`,
 `liberty.v1`). The code is plain JavaScript with no build step:

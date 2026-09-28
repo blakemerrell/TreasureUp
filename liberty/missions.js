@@ -73,7 +73,8 @@
   // ------------------------------------------------ Mission 1 · 3 Nephi 3
 
   const m1 = {
-    id: 'm1', chapter: '3 Nephi 3', title: 'Gather to One Place', year: 'The seventeenth year',
+    id: 'm1', campaign: 'gidgiddoni', chapter: '3 Nephi 3', title: 'Gather to One Place', year: 'The seventeenth year',
+    starsText: '★ ready in time, ★★ with weapons, armor and shields made, ★★★ with all five villages gathered.',
     deadline: 14 * 60,
     briefing: [
       ['Giddianhi, leader of the Gadianton robbers, has written to Lachoneus: give up your cities, or “on the morrow month” his armies will come down.', '3 Nephi 3:8'],
@@ -197,7 +198,7 @@
       for (const p of W.units('p')) { const d = dist(u, p); if (d < bd && d < 600) { bd = d; best = { goal: W.rectOf(p), unit: p.id }; } }
       return best;
     },
-    robberBrain,
+    foeBrain: robberBrain,
     finish(W, won, why) {
       if (W.over) return;
       const got = this.gathered();
@@ -233,7 +234,12 @@
   }
 
   const m2 = {
-    id: 'm2', chapter: '3 Nephi 4', title: 'The Robbers Come Down', year: 'The eighteenth to twenty-first years',
+    id: 'm2', campaign: 'gidgiddoni', chapter: '3 Nephi 4', title: 'The Robbers Come Down', year: 'The eighteenth to twenty-first years',
+    starsText: '★ the robbers are gone, ★★ most of them stopped, ★★★ most stopped and Zemnarihah taken.',
+    power() { return this.cryReady && !this.cryUsed ? { id: 'cry', label: 'Cry unto the Lord', ref: '3 Nephi 4:8–10' } : null; },
+    usePower(W) { this.cry(W); },
+    // At night, where to stand: in the way of their retreat.
+    markers() { return ['night', 'retreat'].includes(this.phase) ? PASSES.map(x => ({ x, y: 6, label: 'Block the pass here' })) : []; },
     needs: 'm1',
     briefing: [
       ['The robbers come out of the mountains and take the empty lands, but there is no food there.', '3 Nephi 4:1–3'],
@@ -445,7 +451,7 @@
       }
       if (near.length === 1 && dist(near[0], u) < 26) W.order(u, { type: 'attack', target: near[0].id, then: u.order });
     },
-    robberBrain,
+    foeBrain: robberBrain,
     finish(W, won) {
       if (W.over) return;
       if (!won) { W.over = { won: false, title: 'Zarahemla has fallen', text: 'Keep your walls mended and your soldiers inside them until the robbers run out of food.', ref: null }; return; }
@@ -458,8 +464,345 @@
     }
   };
 
-  const MISSIONS = [m1, m2];
-  const API = { MISSIONS, robberBrain, spawnRobbers };
+
+  // ------------------------------------------------ Mission 3 · Alma 43–44
+
+  const SD = D.SIDON;
+  const inRect = (u, c) => { const x = tileOf(u.x), y = tileOf(u.y); return x >= c.x0 && x <= c.x1 && y >= c.y0 && y <= c.y1; };
+  const nearTile = (u, p, r) => Math.hypot(u.x - center(p.x), u.y - center(p.y)) <= r * TILE;
+  const westOfRiver = u => tileOf(u.x) < SD.river(tileOf(u.y));
+  const around = (p, r) => ({ x0: p.x - r, y0: p.y - r, x1: p.x + r, y1: p.y + r });
+
+  // The Lamanites: march the way Alma foresaw, fight whoever they find, run, or stand.
+  function sidonBrain(W, u) {
+    const o = u.order, M = W.mission;
+    if (u.surrendered || W.truce) return;
+    if (o.type === 'attack') {
+      const t = W.ents.get(o.target);
+      if (alive(t) && !t.untouchable) {
+        if (t.kind === 'building') { const e = W.enemiesNear(u, 'r', 70, true); if (e) W.order(u, { type: 'attack', target: e.id, then: o.then || o }); }
+        return;
+      }
+    }
+    if (u.mode === 'flee') return;                     // running for the river, not fighting
+    // Zerahemnah, badly hurt, "withdrew from before them into the midst of his soldiers" (Alma 44:12).
+    if (u.spare && u.hp < u.def.hp * 0.3 && u.mode !== 'withdrawn') { u.mode = 'withdrawn'; u.noAuto = true; W.order(u, { type: 'move', goal: around(SD.GATHER, 1), near: true }); return; }
+    if (u.mode === 'withdrawn') return;
+    if (u.mode === 'waiting' || u.mode === 'cornered') {
+      // Cornered and "struck with terror" (Alma 43:53), they fight only when struck.
+      const e = W.enemiesNear(u, 'r', u.mode === 'cornered' ? 80 : 60, true);
+      if (e && o.type !== 'attack' && (u.mode === 'waiting' || W.t - (u.hitAt || -99) < 3)) W.order(u, { type: 'attack', target: e.id });
+      else if (u.mode === 'cornered' && o.type === 'idle' && !nearTile(u, SD.GATHER, 3)) W.order(u, { type: 'move', goal: around(SD.GATHER, 1), near: true });
+      return;
+    }
+    // On the march they keep to their course, thinking no one knows where they've gone (43:22).
+    const e = W.enemiesNear(u, 'r', u.mode === 'fight' ? 320 : 120, true);
+    if (e) { W.order(u, { type: 'attack', target: e.id, then: u.mode === 'march' ? M.marchOrder(u) : null }); return; }
+    if (u.mode === 'raid') { const j = M.jershon; if (alive(j) && (o.type !== 'attack' || o.target !== j.id)) W.order(u, { type: 'attack', target: j.id }); return; }
+    if (o.type === 'idle') W.order(u, M.marchOrder(u));
+  }
+
+  const m3 = {
+    id: 'm3', campaign: 'moroni', chapter: 'Alma 43–44', chapters: ['Alma 43', 'Alma 44'], title: 'At the River Sidon', year: 'The eighteenth year of the judges',
+    map: D.buildSidonMap, research: 'breastplates',
+    briefing: [
+      ['The Zoramites have joined the Lamanites. Zerahemnah gathers their armies in Antionum, to bring the Nephites into bondage.', 'Alma 43:4–8'],
+      ['Moroni, chief captain at twenty-five, meets them in the borders of Jershon.', 'Alma 43:16–18'],
+      ['The Nephites fight “for their homes and their liberties, their wives and their children.”', 'Alma 43:45']
+    ],
+    goals: 'Arm your people, find out where the Lamanites are going, hide your armies by the river Sidon, and end the war with a covenant of peace.',
+    starsText: '★ the war ends in peace, ★★ and Jershon kept safe, ★★★ and at least 1 in 4 of the Lamanites spared by a covenant.',
+    setup(W) {
+      W.border = null;
+      W.res = { grain: 320, timber: 300 };
+      W.noGo = [Object.assign({ text: 'That is Antionum, the Zoramites\' land. Moroni waits for them in the borders of Jershon.', ref: 'Alma 43:18' }, SD.ANTIONUM_LAND)];
+      const J = SD.JERSHON;
+      this.jershon = W.addBuilding('stronghold', 'p', J.x, J.y, true, { name: 'Jershon' });
+      this.manti = W.addBuilding('stronghold', 'p', SD.MANTI.x, SD.MANTI.y, true, { name: 'Manti' });
+      W.addBuilding('barracks', 'p', J.x - 6, J.y + 1, true);
+      const put = (type, tx, ty) => { const [x, y] = W.freeTileNear(tx, ty, 'p'); return W.addUnit(type, 'p', center(x), center(y)); };
+      for (let i = 0; i < 4; i++) { const u = put('worker', J.x - 1 + i, J.y + 6); const f = W.nearestResource(J.x, J.y + 6, i % 2 ? 'grain' : 'timber'); if (f) W.gatherAt(u, f[0], f[1]); }
+      put('moroni', J.x + 1, J.y + 8); put('lehi', J.x + 3, J.y + 8);
+      for (let i = 0; i < 8; i++) put('spearman', J.x - 3 + i, J.y + 9);
+      for (let i = 0; i < 4; i++) put('archer', J.x - 1 + i, J.y + 10);
+      this.alma = W.addUnit('alma', 'n', center(SD.ALMA.x), center(SD.ALMA.y), { untouchable: true });
+      // Zerahemnah's armies in Antionum, "more than double the number of the Nephites" (Alma 43:51).
+      this.camp = W.addBuilding('camp', 'r', SD.ANTIONUM.x, SD.ANTIONUM.y, true, { untouchable: true });
+      this.hostList = [['zerahemnah', 1], ['amalekite', 2], ['zoramite', 2], ['lamanite', 19], ['slinger', 8]];
+      this.hostTotal = this.hostList.reduce((a, [, n]) => a + n, 0);
+      this.host = [];
+      let k = 0;
+      for (const [type, n] of this.hostList) for (let i = 0; i < n; i++, k++) {
+        const [x, y] = W.freeTileNear(SD.ANTIONUM.x + 1 + (k % 7) - 3, SD.ANTIONUM.y + 4 + Math.floor(k / 7), 'r');
+        this.host.push(W.addUnit(type, 'r', center(x), center(y), { mode: 'waiting', spare: type === 'zerahemnah' }));
+      }
+      this.villages = SD.VILLAGES.map(v => W.addBuilding('village', 'n', v.x, v.y, true, { name: v.name, state: 'waiting' }));
+      this.phase = 'arm'; this.flags = {}; this.check = 0; this.story = [];
+      W.msg('The Lamanites gather in Antionum with Zerahemnah. Moroni meets them in the borders of Jershon.', 'Alma 43:15–18');
+      W.msg('Choose the barracks and make breastplates and shields, and train more soldiers.', null, 'tip');
+    },
+    get phaseLabel() {
+      return { arm: 'The eighteenth year: the Lamanites wait in Antionum', seek: 'Where have they gone?', ready: 'The Lamanites come in', march: 'The Lamanites come', rout: 'They flee to the river', west: 'By the river Sidon', dragons: 'They fight like dragons', flee: 'Encircle them', parley: 'Moroni speaks to Zerahemnah', fight2: 'The last of the fighting', peace: 'A covenant of peace' }[this.phase];
+    },
+    timeLeft(W) { return this.phase === 'ready' ? Math.max(0, this.comeAt - W.t) : null; },
+    // How many soldiers are where the story wants them.
+    count(W, test) { return W.soldiers().filter(test).length; },
+    guards(W) { return this.count(W, u => !u.def.hero && alive(this.jershon) && dist(u, this.jershon) < 9 * TILE); },
+    inCover(W, side) { const c = SD.COVER.find(c => c.side === side); return this.count(W, u => inRect(u, c)); },
+    hiddenReady(W) { return this.inCover(W, 'east') >= 6 && this.inCover(W, 'west') >= 6; },
+    banks(W) {
+      const near = u => nearTile(u, SD.GATHER, 9);
+      return { west: this.count(W, u => near(u) && westOfRiver(u)), east: this.count(W, u => near(u) && tileOf(u.x) > SD.river(tileOf(u.y)) + 1) };
+    },
+    objectives(W) {
+      const f = this.flags, p = this.phase;
+      if (p === 'arm') return [
+        { text: 'Arm your people with breastplates and shields', ref: 'Alma 43:19', have: W.armor ? 1 : 0, need: 1 },
+        { text: 'Train soldiers', ref: 'Alma 43:18', have: Math.min(16, this.count(W, u => !u.def.hero)), need: 16 }];
+      if (p === 'seek') return [
+        { text: 'Send spies to watch their camp', ref: 'Alma 43:23', have: f.spies ? 1 : 0, need: 1 },
+        { text: 'Send messengers to Alma, to ask the Lord', ref: 'Alma 43:23–24', have: f.alma ? 1 : 0, need: 1 }];
+      if (p === 'ready') return [
+        { text: 'Leave part of the army in Jershon', ref: 'Alma 43:25', have: Math.min(4, this.guards(W)), need: 4 },
+        { text: 'Gather the people of Manti\'s quarter to battle', ref: 'Alma 43:26', have: this.villages.filter(v => v.state !== 'waiting').length, need: 3 },
+        { text: 'Hide an army south of the hill Riplah (take Lehi)', ref: 'Alma 43:31', have: Math.min(6, this.inCover(W, 'east')), need: 6 },
+        { text: 'Hide the rest in the west valley (take Moroni)', ref: 'Alma 43:32', have: Math.min(6, this.inCover(W, 'west')), need: 6 }];
+      if (['march', 'rout', 'west', 'dragons'].includes(p)) return [
+        { text: 'Let them pass the hill, then strike as they cross the river', ref: 'Alma 43:34–35', have: f.lehi ? 1 : 0, need: 1 },
+        { text: 'Drive them into the river, and meet them on the other side', ref: 'Alma 43:40–41', have: ['west', 'dragons'].includes(p) ? 1 : 0, need: 1 },
+        { text: 'Keep Manti safe', ref: 'Alma 43:24', have: alive(this.manti) ? 1 : 0, need: 1 }];
+      if (p === 'flee') { const b = this.banks(W); return [
+        { text: 'Encircle them: 4 soldiers on the west bank', ref: 'Alma 43:52', have: Math.min(4, b.west), need: 4 },
+        { text: 'and 4 on the east bank, near where they gather', ref: 'Alma 43:52', have: Math.min(4, b.east), need: 4 }]; }
+      return [{ text: 'Lamanites spared by a covenant of peace (★★★ at ' + Math.ceil(this.hostTotal / 4) + ')', ref: 'Alma 44:15, 20', have: W.stats.spared, need: Math.ceil(this.hostTotal / 4) }];
+    },
+    marchOrder(u) {
+      u.way = Math.min(u.way || 1, SD.ROUTE.length - 1);
+      const [x, y] = SD.ROUTE[u.way];
+      return { type: 'move', goal: around({ x, y }, 1), near: true, way: u.way };
+    },
+    power(W) {
+      const f = this.flags;
+      if (this.phase === 'ready' && this.hiddenReady(W)) return { id: 'come', label: 'Hidden and ready: let them come', ref: 'Alma 43:33' };
+      if (this.phase === 'march' && f.crossing && !f.lehi) return { id: 'lehi', label: 'Now, Lehi: fall on their rear!', ref: 'Alma 43:35' };
+      const left = this.host.filter(u => alive(u) && !u.surrendered);
+      if (['march', 'rout', 'west', 'dragons'].includes(this.phase) && !f.moroni && left.filter(westOfRiver).length >= left.length / 3) return { id: 'moroni', label: 'Moroni: fall upon them!', ref: 'Alma 43:41' };
+      if (this.phase === 'dragons' && f.shrink && !f.liberty) return { id: 'liberty', label: 'Remember your liberty!', ref: 'Alma 43:48–49' };
+      return null;
+    },
+    usePower(W, id) {
+      const f = this.flags, foes = W.units('r').filter(u => !u.surrendered);
+      const charge = list => { for (const s of list) { const t = foes.slice().sort((a, b) => dist(a, s) - dist(b, s))[0]; if (t) W.order(s, { type: 'attack', target: t.id }); } };
+      if (id === 'come') { this.comeAt = W.t; return; }
+      if (id === 'lehi') {
+        f.lehi = true;
+        charge(W.soldiers().filter(s => inRect(s, SD.COVER[0]) || s.def === D.UNITS.lehi));
+        W.msg('Lehi leads his army forth and encircles them about on the east, in their rear.', 'Alma 43:35', 'good');
+        W.msg('The Lamanites turn about and begin to contend with the army of Lehi.', 'Alma 43:36', 'warn');
+        for (const u of foes) if (u.mode === 'march') u.mode = 'fight';
+      }
+      if (id === 'moroni') {
+        f.moroni = true;
+        charge(W.soldiers().filter(s => westOfRiver(s)));
+        W.msg('Moroni and his army meet the Lamanites in the valley, on the other side of the river Sidon.', 'Alma 43:41', 'good');
+      }
+      if (id === 'liberty') {
+        f.liberty = true;
+        W.boost.r = 1; W.shield.r = 1; W.boost.p = 1.3; this.boostEnds = W.t + 60;
+        for (const s of W.soldiers()) if (s.order.type === 'move') W.order(s, { type: 'idle' });   // no more falling back
+        W.msg('Moroni inspires their hearts with “the thoughts of their lands, their liberty, yea, their freedom from bondage.”', 'Alma 43:48', 'good');
+        W.msg('“They cried with one voice unto the Lord their God, for their liberty and their freedom from bondage.” The Lamanites flee to the waters of Sidon.', 'Alma 43:49–50', 'good');
+        this.phase = 'flee';
+        for (const u of foes) { u.mode = 'flee'; u.noAuto = true; W.order(u, { type: 'move', goal: around(SD.GATHER, 1), near: true, gather: true }); }
+        W.msg('Now surround them on both sides of the river, and they will be in your hands. Only soldiers you send will strike them.', 'Alma 43:51–52', 'tip');
+      }
+    },
+    markers(W) {
+      const f = this.flags;
+      if (this.phase === 'seek') return [f.alma ? null : { x: SD.ALMA.x, y: SD.ALMA.y, label: 'Alma' }, f.spies ? null : { x: SD.TRACKS.x, y: SD.TRACKS.y, label: 'Where they went' }].filter(Boolean);
+      if (this.phase === 'flee') return [{ x: SD.GATHER.x, y: SD.GATHER.y, label: 'Surround them here, on both banks' }];
+      return [];
+    },
+    update(W, dt) {
+      const f = this.flags;
+      if (!alive(this.manti)) return this.finish(W, false, 'Manti has fallen.');
+      if (!W.soldiers().length) return this.finish(W, false, 'Moroni\'s armies are gone.');
+      if (!alive(this.jershon) && !f.jershonLost) { f.jershonLost = true; W.msg('The Lamanites have taken Jershon.', null, 'warn'); }
+      if (this.boostEnds && W.t >= this.boostEnds) { W.boost.p = 1; this.boostEnds = 0; }
+      while (this.story.length && W.t >= this.story[0][0]) this.story.shift()[1](W);
+      if ((this.check -= dt) > 0) return;
+      this.check = 0.5;
+      if (this.phase === 'ready' && W.t >= this.comeAt) this.startMarch(W);
+      const foes = W.units('r').filter(u => !u.surrendered), host = this.host.filter(alive).filter(u => !u.surrendered);
+      if (this.phase === 'arm' && W.armor && this.count(W, u => !u.def.hero) >= 16) {
+        this.phase = 'seek';
+        W.msg('The Lamanites see the Nephites\' armor, and are “exceedingly afraid” though they are many more.', 'Alma 43:21', 'warn');
+        W.msg('They leave Antionum and go round about in the wilderness, thinking Moroni won\'t know where they have gone.', 'Alma 43:22', 'warn');
+        W.msg('Send spies to watch them, and messengers to Alma to ask the Lord where they will go. The gold rings show where.', 'Alma 43:23', 'tip');
+        W.noGo = [];
+        for (const u of this.host) { u.mode = 'flee'; W.order(u, { type: 'move', goal: around(SD.TRACKS, 1), near: true, leave: true }); }
+        this.camp.untouchable = false; W.remove(this.camp);
+      }
+      if (this.phase === 'seek') {
+        const ps = W.units('p').filter(u => u.type !== 'villager');
+        if (!f.spies && ps.some(u => nearTile(u, SD.TRACKS, 5))) { f.spies = true; W.msg('The spies find where they went: round about in the wilderness, away from Jershon.', 'Alma 43:23', 'good'); }
+        if (!f.alma && ps.some(u => nearTile(u, SD.ALMA, 3))) {
+          f.alma = true;
+          W.msg('“The word of the Lord came unto Alma”: the Lamanites are marching round about in the wilderness, to come over into the land of Manti.', 'Alma 43:24');
+        }
+        if (f.spies && f.alma) {
+          this.phase = 'ready'; this.comeAt = W.t + 240;
+          W.route = SD.ROUTE; W.cover = SD.COVER.map(c => Object.assign({}, c));
+          W.msg('Moroni finds by his spies which course they will take. Leave part of the army in Jershon, and take the rest to Manti.', 'Alma 43:25, 30', 'tip');
+          W.msg('Hide one army south of the hill Riplah with Lehi, and the rest in the west valley with Moroni. A hidden army holds still until you give the order.', 'Alma 43:31–32', 'tip');
+        }
+      }
+      // The people of that quarter gather to battle (43:26).
+      for (const v of this.villages) {
+        if (v.state !== 'waiting' || !W.units('p').some(u => dist(u, v) < 4.5 * TILE)) continue;
+        v.state = 'gone';
+        for (let i = 0; i < 2; i++) { const [x, y] = W.freeTileNear(v.tx + 1, v.ty + 3, 'p'); W.addUnit('spearman', 'p', center(x), center(y)); }
+        W.msg(`The people of ${v.name} gather themselves together to battle, to defend their lands.`, 'Alma 43:26', 'good');
+      }
+      if (this.phase === 'march') {
+        const cx = host.reduce((a, u) => a + u.x, 0) / Math.max(1, host.length) / TILE;
+        if (!f.crossing && host.some(u => u.mode === 'march' && tileOf(u.x) <= SD.river(tileOf(u.y)) + 1) && cx < SD.river(24) + 7) {
+          f.crossing = true;
+          W.msg('They have passed the hill Riplah and come into the valley, and begin to cross the river Sidon. Now!', 'Alma 43:35', 'warn');
+        }
+        if (this.hostTotal - host.length >= Math.ceil(this.hostTotal * 0.2)) {
+          this.phase = 'rout'; this.routAt = W.t;
+          W.msg('The Lamanites become frightened and flee toward the river Sidon, and cross its waters. Lehi keeps his armies on the bank.', 'Alma 43:39–40', 'good');
+          for (const u of host) { u.mode = 'flee'; W.order(u, { type: 'move', goal: around({ x: SD.GATHER.x - 3, y: SD.GATHER.y + 1 }, 1), near: true, rout: true }); }
+        }
+      }
+      if (this.phase === 'rout' && (W.t - this.routAt > 25 || host.every(u => westOfRiver(u) || u.order.type !== 'move'))) {
+        this.phase = 'west'; this.westAt = W.t;
+        for (const u of host) { u.mode = 'march'; u.way = SD.ROUTE.findIndex(([x, y]) => x < SD.river(y)); W.order(u, this.marchOrder(u)); }
+      }
+      if (this.phase === 'west' && W.t - this.westAt > 2) {
+        this.phase = 'dragons'; this.dragonsAt = W.t;
+        W.boost.r = 1.35; W.shield.r = 0.75;
+        W.msg('Now the Lamanites fight with great strength and courage: “they did fight like dragons.”', 'Alma 43:43–44', 'warn');
+      }
+      if (this.phase === 'dragons') {
+        if (!f.shrink && W.t - this.dragonsAt > 4) {
+          f.shrink = true;
+          W.msg('The men of Moroni are “about to shrink and flee from them.” Remind them what they fight for!', 'Alma 43:48', 'warn');
+        }
+        // Soldiers far from Moroni lose heart and fall back, a few at a time.
+        if (f.shrink && !f.liberty && (this.shrinkAt || 0) <= W.t) {
+          this.shrinkAt = W.t + 4;
+          const moroni = W.soldiers().find(s => s.def === D.UNITS.moroni);
+          W.soldiers().filter(s => !s.def.hero && s.order.type === 'attack' && (!moroni || dist(s, moroni) > D.UNITS.moroni.aura)).slice(0, 2).forEach(s => {
+            const t = W.ents.get(s.order.target), dx = t ? s.x - t.x : 1, dy = t ? s.y - t.y : 0, d = Math.hypot(dx, dy) || 1;
+            W.order(s, { type: 'move', tx: tileOf(s.x + dx / d * 5 * TILE), ty: tileOf(s.y + dy / d * 5 * TILE) });
+          });
+        }
+      }
+      if (this.phase === 'flee') {
+        for (const u of host) if (u.mode === 'flee' && u.order.type !== 'move') u.mode = 'cornered';
+        const b = this.banks(W);
+        if (b.west >= 4 && b.east >= 4) this.startParley(W, host);
+      }
+      if (this.phase === 'fight2' && (host.length <= this.remainAt / 2 || (alive(this.zera) && this.zera.hp < this.zera.def.hp * 0.45))) {
+        this.phase = 'peace';
+        W.truce = true;
+        W.msg('Zerahemnah cries mightily unto Moroni, “promising that he would covenant and also his people with them,” if they will spare the rest.', 'Alma 44:19', 'good');
+        W.msg('Moroni causes that the work of death should cease. They enter into a covenant of peace, and are suffered to depart into the wilderness.', 'Alma 44:20', 'good');
+        for (const u of W.units('r').filter(u => !u.surrendered)) this.covenant(W, u);    // the band at Jershon too
+      }
+      // Everyone gone from the field: in battle, or in peace.
+      if (['march', 'rout', 'west', 'dragons', 'flee', 'fight2', 'peace'].includes(this.phase) && !W.units('r').some(u => !u.surrendered) && !W.units('x').length) {
+        W.msg('The armies of Moroni return to their houses and their lands.', 'Alma 44:23', 'good');
+        this.finish(W, true);
+      }
+    },
+    startMarch(W) {
+      this.phase = 'march';
+      this.host = [];
+      let k = 0;
+      for (const [type, n] of this.hostList) for (let i = 0; i < n; i++, k++) {
+        const [x, y] = W.freeTileNear(SD.ROUTE[0][0] - Math.floor(k / 5), SD.ROUTE[0][1] - 2 + (k % 5), 'r');
+        const u = W.addUnit(type, 'r', center(x), center(y), { mode: 'march', way: 1, spare: type === 'zerahemnah' });
+        if (type === 'zerahemnah') this.zera = u;
+        this.host.push(u); W.order(u, this.marchOrder(u));
+      }
+      W.msg('The Lamanites come out of the wilderness, on the north of the hill Riplah.', 'Alma 43:34', 'warn');
+      // "Lest by any means a part of the Lamanites should come into that land" (43:25).
+      if (this.guards(W) < 4) {
+        this.flags.raided = true;
+        for (let i = 0; i < 7; i++) {
+          const [x, y] = W.freeTileNear(62 - (i % 3), 1 + Math.floor(i / 3), 'r');
+          W.addUnit(i < 5 ? 'lamanite' : 'slinger', 'r', center(x), center(y), { mode: 'raid' });
+        }
+        W.msg('Jershon was left with too few guards, and a band of Lamanites comes against it.', 'Alma 43:25', 'warn');
+      }
+    },
+    startParley(W, host) {
+      this.phase = 'parley';
+      W.truce = true; W.boost.r = 1;
+      for (const s of W.units('p')) if (s.def.soldier) W.order(s, { type: 'idle' });
+      for (const u of host) { u.mode = 'cornered'; W.order(u, { type: 'idle' }); }
+      const at = W.t, say = (dt, fn) => this.story.push([at + dt, fn]);
+      W.msg('They are encircled on both sides of the river, and are struck with terror. Moroni commands his men “that they should stop shedding their blood.”', 'Alma 43:53–54', 'good');
+      say(4, W => W.msg('Moroni: “Behold, Zerahemnah, that we do not desire to be men of blood.”', 'Alma 44:1'));
+      say(9, W => W.msg('“Deliver up your weapons of war unto us, and we will seek not your blood, … if ye will go your way and come not again to war against us.”', 'Alma 44:6'));
+      say(15, W => W.msg('Zerahemnah gives up his sword, but will not take an oath: “it is your breastplates and your shields that have preserved you.”', 'Alma 44:8–9', 'warn'));
+      say(21, W => W.msg('Moroni gives back the weapons: “ye shall not depart except ye depart with an oath that ye will not return again against us to war.”', 'Alma 44:10–11'));
+      say(27, W => W.msg('Zerahemnah rushes at Moroni, but “one of Moroni\'s soldiers smote it even to the earth, and it broke by the hilt.”', 'Alma 44:12', 'warn'));
+      say(32, W => {
+        const list = this.host.filter(alive).filter(u => !u.surrendered && !u.def.leader);
+        const go = list.slice(0, Math.ceil(list.length * 0.55));
+        for (const u of go) this.covenant(W, u);
+        W.msg('Many throw down their weapons of war at the feet of Moroni, and enter into a covenant of peace, and depart into the wilderness.', 'Alma 44:15', 'good');
+      });
+      say(37, W => {
+        this.phase = 'fight2';
+        W.truce = false;
+        const rest = this.host.filter(alive).filter(u => !u.surrendered);
+        this.remainAt = rest.length;
+        for (const u of rest) if (u.mode !== 'withdrawn') { u.mode = 'fight'; u.noAuto = false; }
+        W.msg('Zerahemnah stirs up the rest to anger, and Moroni commands his people to fall upon them.', 'Alma 44:16–17', 'warn');
+      });
+    },
+    covenant(W, u) {
+      u.surrendered = true; u.untouchable = true; u.team = 'x';
+      W.order(u, { type: 'move', goal: { x0: 62, y0: 8, x1: 63, y1: 12 }, near: false, depart: true });
+    },
+    onArrive(W, u) {
+      const o = u.order;
+      if (o.leave) { W.remove(u); return true; }
+      if (o.depart) { W.stats.spared++; W.remove(u); return true; }
+      if (o.gather || o.rout) { W.order(u, { type: 'idle' }); return true; }
+      if (o.way != null) {
+        if (++u.way < SD.ROUTE.length) W.order(u, this.marchOrder(u));
+        else { u.mode = 'fight'; W.order(u, { type: 'attack', target: this.manti.id }); }
+        return true;
+      }
+      return false;
+    },
+    foeBrain: sidonBrain,
+    finish(W, won, why) {
+      if (W.over) return;
+      const spared = W.stats.spared, safe = !this.flags.jershonLost;
+      W.over = won
+        ? { won: true, stars: 1 + (safe ? 1 : 0) + (spared >= this.hostTotal / 4 ? 1 : 0),
+            title: 'They depart in peace',
+            text: '“Behold, Zerahemnah, that we do not desire to be men of blood.”', ref: 'Alma 44:1',
+            detail: `${spared} of the Lamanites made a covenant of peace and went into the wilderness. Jershon ${safe ? 'was kept safe' : 'was taken'}.`,
+            next: 'Coming next: Moroni raises the title of liberty (Alma 46).' }
+        : { won: false, title: why || 'The Lamanites prevailed', text: 'Hide your armies where the Lord showed Alma they would come, and wait to strike until they cross the river.', ref: null };
+    }
+  };
+
+  // In the order of the Book of Mormon.
+  const CAMPAIGNS = [
+    { id: 'moroni', title: 'Captain Moroni', about: 'Alma 43 onward: Moroni defends the Nephites against Zerahemnah, Amalickiah and Ammoron.' },
+    { id: 'gidgiddoni', title: 'Lachoneus and Gidgiddoni', about: '3 Nephi 3–4: the Nephites gather into one place and outlast the Gadianton robbers.' }
+  ];
+  const MISSIONS = [m3, m1, m2];
+  const API = { MISSIONS, CAMPAIGNS, robberBrain, spawnRobbers };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
   else root.LIB_MISSIONS = API;
 })(this);
