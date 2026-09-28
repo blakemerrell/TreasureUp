@@ -1529,5 +1529,1636 @@ window.TU_WEEKS = [
         "seek": "God says you're engraved where He'll always see you"
       }
     ]
+  },
+  {
+    "dates": "October 5–11, 2026",
+    "title": "He Hath Borne Our Griefs, and Carried Our Sorrows",
+    "reference": "Isaiah 50–57",
+    "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/41?lang=eng",
+    "sections": [
+      "The future is bright for the Lord’s people",
+      "Jesus Christ took upon Himself my sins and sorrows",
+      "Jesus Christ wants me to return to Him",
+      "The Lord invites all to “take hold of my covenant.”"
+    ],
+    "puzzle": {
+      "groups": [
+        {
+          "section": 0,
+          "tiles": [
+            {
+              "text": "Look unto Abraham",
+              "ref": "Isaiah 51:2"
+            },
+            {
+              "text": "Beautiful feet",
+              "ref": "Isaiah 52:7"
+            },
+            {
+              "text": "Put on thy strength",
+              "ref": "Isaiah 52:1"
+            },
+            {
+              "text": "Strengthen thy stakes",
+              "ref": "Isaiah 54:2"
+            }
+          ]
+        },
+        {
+          "section": 1,
+          "tiles": [
+            {
+              "text": "Man of sorrows",
+              "ref": "Isaiah 53:3"
+            },
+            {
+              "text": "Borne our griefs",
+              "ref": "Isaiah 53:4"
+            },
+            {
+              "text": "With his stripes",
+              "ref": "Isaiah 53:5"
+            },
+            {
+              "text": "As a lamb",
+              "ref": "Isaiah 53:7"
+            }
+          ]
+        },
+        {
+          "section": 2,
+          "tiles": [
+            {
+              "text": "A small moment",
+              "ref": "Isaiah 54:7"
+            },
+            {
+              "text": "Everlasting kindness",
+              "ref": "Isaiah 54:8"
+            },
+            {
+              "text": "Mountains depart",
+              "ref": "Isaiah 54:10"
+            },
+            {
+              "text": "Contrite spirit",
+              "ref": "Isaiah 57:15"
+            }
+          ]
+        },
+        {
+          "section": 3,
+          "tiles": [
+            {
+              "text": "Come to the waters",
+              "ref": "Isaiah 55:1"
+            },
+            {
+              "text": "Seek ye the LORD",
+              "ref": "Isaiah 55:6"
+            },
+            {
+              "text": "Higher ways",
+              "ref": "Isaiah 55:9"
+            },
+            {
+              "text": "House of prayer",
+              "ref": "Isaiah 56:7"
+            }
+          ]
+        }
+      ],
+      "approved": "92a19442"
+    },
+    "sayings": [
+      {
+        "id": "say-waters",
+        "text": "Ho, every one that thirsteth, come ye to the waters",
+        "ref": "Isaiah 55:1",
+        "speaker": "The Lord, to everyone",
+        "wrong": [
+          "A seller, to the market",
+          "A king, to his guests"
+        ],
+        "why": "It's the Lord's invitation, even to those with “no money.” What He offers is free.",
+        "approved": "e72fb17a"
+      },
+      {
+        "id": "say-griefs",
+        "text": "Surely he hath borne our griefs, and carried our sorrows",
+        "ref": "Isaiah 53:4",
+        "speaker": "Isaiah, about the Savior",
+        "wrong": [
+          "Jesus, about Himself",
+          "Abraham, about Isaac"
+        ],
+        "why": "Isaiah wrote it centuries before Jesus was born. The griefs and sorrows are ours; He carried them.",
+        "approved": "5370231d"
+      },
+      {
+        "id": "say-sheep",
+        "text": "All we like sheep have gone astray",
+        "ref": "Isaiah 53:6",
+        "speaker": "Isaiah, about all of us",
+        "wrong": [
+          "A shepherd, about his flock",
+          "Jesus, about His apostles"
+        ],
+        "why": "Isaiah includes himself: “we have turned every one to his own way.” Everyone needs the Savior.",
+        "approved": "e283ebf3"
+      },
+      {
+        "id": "say-lamb-of-god",
+        "text": "Behold the Lamb of God, which taketh away the sin of the world",
+        "ref": "John 1:29",
+        "speaker": "John the Baptist, about Jesus",
+        "wrong": [
+          "Isaiah, about the Passover lamb",
+          "Peter, about the Savior"
+        ],
+        "why": "John saw Jesus coming and called Him the Lamb of God, the lamb Isaiah saw (Isaiah 53:7).",
+        "approved": "40c62b84"
+      },
+      {
+        "id": "say-small-moment",
+        "text": "For a small moment have I forsaken thee",
+        "ref": "Isaiah 54:7",
+        "speaker": "The Lord, to Israel",
+        "wrong": [
+          "Israel, to the Lord",
+          "Babylon, to Israel"
+        ],
+        "why": "The Lord says the forsaking lasts only a moment: “with great mercies will I gather thee.”",
+        "approved": "34997443"
+      },
+      {
+        "id": "say-holy-place",
+        "text": "I dwell in the high and holy place",
+        "ref": "Isaiah 57:15",
+        "speaker": "The Lord, the Holy One",
+        "wrong": [
+          "Lucifer, in his pride",
+          "Babylon's king, boasting"
+        ],
+        "why": "“The high and lofty One that inhabiteth eternity” says it, and He lives with the humble too.",
+        "approved": "8c165e0b"
+      },
+      {
+        "id": "say-thoughts",
+        "text": "For my thoughts are not your thoughts",
+        "ref": "Isaiah 55:8",
+        "speaker": "The Lord, to His people",
+        "wrong": [
+          "A child, to his parents",
+          "Isaiah, to King Ahaz"
+        ],
+        "why": "The verse ends “saith the LORD.” His thoughts and ways are higher than ours.",
+        "approved": "91693c6a"
+      },
+      {
+        "id": "say-founder-of-peace",
+        "text": "that is the founder of peace, yea, even the Lord, who has redeemed his people",
+        "ref": "Mosiah 15:18",
+        "speaker": "Abinadi, to Noah's priests",
+        "wrong": [
+          "Nephi, to Laman and Lemuel",
+          "Alma, to his son Helaman"
+        ],
+        "why": "The priests asked Abinadi what Isaiah 52:7 meant. He said the most beautiful messenger is the Lord Himself.",
+        "approved": "ffd64440"
+      }
+    ],
+    "words": [
+      {
+        "word": "STRIPES",
+        "clue": "and with his ____ we are healed",
+        "ref": "Isaiah 53:5",
+        "mean": "The Savior's wounds became our healing. Through Him we can be made whole."
+      },
+      {
+        "word": "LAMB",
+        "clue": "he is brought as a ____ to the slaughter",
+        "ref": "Isaiah 53:7",
+        "mean": "Jesus didn't fight back when He was led away to die. He gave His life willingly."
+      },
+      {
+        "word": "SHEEP",
+        "clue": "All we like ____ have gone astray",
+        "ref": "Isaiah 53:6",
+        "mean": "Everyone wanders off sometimes, and the Savior came to bring us back."
+      },
+      {
+        "word": "STAKES",
+        "clue": "lengthen thy cords, and strengthen thy ____",
+        "ref": "Isaiah 54:2",
+        "mean": "Stakes hold up a tent. The Church's stakes hold up Zion as it grows."
+      },
+      {
+        "word": "WATERS",
+        "clue": "every one that thirsteth, come ye to the ____",
+        "ref": "Isaiah 55:1",
+        "mean": "The Lord invites everyone who is thirsty to come to Him, and His gifts are free."
+      },
+      {
+        "word": "HIGHER",
+        "clue": "so are my ways ____ than your ways",
+        "ref": "Isaiah 55:9",
+        "mean": "God sees much further than we can, so we can trust His ways."
+      },
+      {
+        "word": "PRAYER",
+        "clue": "an house of ____ for all people",
+        "ref": "Isaiah 56:7",
+        "mean": "The Lord's house welcomes everyone who comes to Him."
+      }
+    ],
+    "deep": [
+      {
+        "id": "deep41-awake",
+        "section": 0,
+        "read": "Isaiah 52:1–3",
+        "intro": "Isaiah calls to God's people like someone waking a friend: time to get up, dress in your best, and leave captivity behind.",
+        "q": "In Isaiah 52:2, what does the Lord tell captive Zion to loose from her neck?",
+        "right": "The bands tied around her neck",
+        "wrong": [
+          "The gold chains she wore to feasts",
+          "The scarf she wore in the desert"
+        ],
+        "why": "Verse 2: “loose thyself from the bands of thy neck, O captive daughter of Zion.” He calls His people to break free.",
+        "source": "Isaiah 52:2",
+        "find": "loose thyself from the bands of thy neck",
+        "hunt": "In Isaiah 52, what does the Lord tell captive Zion to loose from her neck?",
+        "approved": "96a776a0"
+      },
+      {
+        "id": "deep41-grave",
+        "section": 1,
+        "read": "Isaiah 53:8–12",
+        "intro": "Isaiah's picture of the suffering Savior goes on to His death and burial. Watch for a detail about His grave that came true exactly.",
+        "q": "In Isaiah 53:9, His grave was with the wicked, and with whom in His death?",
+        "right": "The rich",
+        "wrong": [
+          "The priests",
+          "The soldiers"
+        ],
+        "why": "Verse 9: “with the rich in his death.” Jesus died between two thieves and was laid in a rich man's new tomb (Matthew 27:57–60).",
+        "source": "Isaiah 53:9",
+        "find": "with the rich in his death",
+        "hunt": "In Isaiah 53, His grave was with the wicked, and with whom in His death?",
+        "approved": "51b1ec53"
+      },
+      {
+        "id": "deep41-far-near",
+        "section": 2,
+        "read": "Isaiah 57:15–19",
+        "intro": "After promising to live with the humble, the Lord says what He will do for someone who has wandered off.",
+        "q": "In Isaiah 57:19, the Lord offers peace to whom?",
+        "right": "Those far off, and those who are near",
+        "wrong": [
+          "Only those who never wandered away",
+          "Only the people inside Jerusalem"
+        ],
+        "why": "Verse 19: “Peace, peace to him that is far off, and to him that is near.” No one has wandered too far.",
+        "source": "Isaiah 57:19",
+        "find": "Peace, peace to him that is far off, and to him that is near",
+        "hunt": "In Isaiah 57, the Lord offers peace to whom?",
+        "approved": "67ac444a"
+      },
+      {
+        "id": "deep41-rain",
+        "section": 3,
+        "read": "Isaiah 55:10–11",
+        "intro": "The Lord compares His word to rain and snow. Read what the rain does before it's done.",
+        "q": "In Isaiah 55:11, what does the Lord say His word will never do?",
+        "right": "Return to Him empty",
+        "wrong": [
+          "Fall on the wrong people",
+          "Stop after the first try"
+        ],
+        "why": "Verse 11: “it shall not return unto me void.” Void means empty. Like rain that makes seeds grow, His word always does its work.",
+        "source": "Isaiah 55:11",
+        "find": "it shall not return unto me void",
+        "hunt": "In Isaiah 55, what does the Lord say His word will never do?",
+        "approved": "9b757ca9"
+      },
+      {
+        "id": "deep41-kids",
+        "day": "friday",
+        "title": "From the children's part of the lesson",
+        "read": "lesson",
+        "intro": "The children's part of this week's lesson starts with “He hath borne our griefs, and carried our sorrows” (Isaiah 53:4), and an activity with something heavy.",
+        "q": "The lesson suggests trying to lift something heavy. What is that meant to show?",
+        "right": "How heavy sadness can feel to carry",
+        "wrong": [
+          "How strong your muscles are getting",
+          "How hard it is to carry the scriptures"
+        ],
+        "why": "It says to talk about how grief and sorrow can feel heavy and hard to carry, and why Jesus carried ours.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/41?lang=eng",
+        "find": "can feel heavy and hard to carry",
+        "approved": "1fbd9ca1"
+      },
+      {
+        "id": "deep41-ftsoy",
+        "day": "friday",
+        "title": "From For the Strength of Youth",
+        "read": "https://www.churchofjesuschrist.org/study/ftsoy/2026/10/isaiah-and-jeremiahs-messages-for-you?lang=eng",
+        "intro": "An article called Isaiah and Jeremiah’s Messages for You pulls out a few comforting nuggets of truth from Isaiah, including this week's verse about the Lord's higher ways.",
+        "q": "What nugget of truth does the article give about the Lord's higher ways?",
+        "right": "You don't have to do everything yourself",
+        "wrong": [
+          "You'll understand all His ways by next year",
+          "Higher ways are only meant for grown-ups"
+        ],
+        "why": "It says not to worry that you can't do everything on your own, because you aren't supposed to. Heavenly Father has it figured out.",
+        "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/10/isaiah-and-jeremiahs-messages-for-you?lang=eng",
+        "find": "Don’t worry that you can’t do everything yourself",
+        "approved": "fe3ab470"
+      }
+    ],
+    "reels": [
+      {
+        "id": "isa51-abraham",
+        "section": 0,
+        "hook": "Waiting for a promise? Look at Abraham and Sarah.",
+        "body": "Abraham and Sarah were promised more children and grandchildren than they could count. They waited until they were very old for their son, Isaac. Centuries later, the Lord points His scattered people back to them. He called Abraham alone, “and blessed him, and increased him.” He can do the same for them. The next verse says He “will comfort all her waste places” (verse 3). Waiting on a blessing? He hasn't forgotten.",
+        "verse": {
+          "text": "Look unto Abraham your father, and unto Sarah that bare you: for I called him alone, and blessed him, and increased him.",
+          "ref": "Isaiah 51:2"
+        },
+        "question": {
+          "q": "You're waiting for a blessing that hasn't come yet. What do Abraham and Sarah show?",
+          "right": "God keeps His promises, even when it takes years",
+          "wrong": [
+            "God gives you every blessing right away if you ask",
+            "Only very old people get the Lord's promises"
+          ],
+          "why": "They waited until they were old, and the Lord “blessed him, and increased him.” His promises come in His time."
+        },
+        "bonus": {
+          "q": "The Liahona article on Isaiah 51 says Abraham and Sarah are great examples of what?",
+          "right": "How to wait faithfully on promises",
+          "wrong": [
+            "How to build a big family business",
+            "How to move to a brand-new country"
+          ],
+          "why": "It says they show how to keep trusting the Lord while His promise is still on its way, like the family they were promised.",
+          "source": "https://www.churchofjesuschrist.org/study/liahona/2026/10/anxious-about-the-future-isaiah-has-the-answers?lang=eng",
+          "find": "prime examples of how to faithfully wait on promises"
+        },
+        "media": {
+          "image": {
+            "src": "media/abraham-journey-molnar.jpg",
+            "alt": "Painting of Abraham leading his family, with camels and sheep, across the desert toward a new land",
+            "credit": "Abraham's Journey from Ur to Canaan, by József Molnár, 1850, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Moln%C3%A1r_%C3%81brah%C3%A1m_kik%C3%B6lt%C3%B6z%C3%A9se_1850.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#451a03 0%,#b45309 50%,#fcd34d 115%)",
+        "blobA": "rgba(252,211,77,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "seek": "God tells them to remember the couple their whole family came from",
+        "approved": "489bbb75"
+      },
+      {
+        "id": "isa52-beautiful-feet",
+        "section": 0,
+        "hook": "Why would anyone call feet beautiful?",
+        "body": "Long ago, news traveled on foot. A runner came over the hills, and everyone watched to see what news he carried. Good news made even his dusty feet look beautiful. Isaiah pictures a messenger “that publisheth peace” and says to Zion, “Thy God reigneth!” The Lord uses the same picture for missionaries today, carrying the good news of Jesus Christ to every land.",
+        "verse": {
+          "text": "How beautiful upon the mountains are the feet of him that bringeth good tidings, that publisheth peace…",
+          "ref": "Isaiah 52:7"
+        },
+        "question": {
+          "q": "Why does Isaiah call the messenger's feet beautiful?",
+          "right": "Because of the good news they bring",
+          "wrong": [
+            "Because they are clean and never dusty",
+            "Because they climb the highest mountains"
+          ],
+          "why": "They are the feet “of him that bringeth good tidings.” The news is what makes them beautiful."
+        },
+        "bonus": {
+          "q": "In Romans 10:15, Paul quotes this verse. Whose feet does he say are beautiful?",
+          "right": "Those who preach the gospel of peace",
+          "wrong": [
+            "Those who carry letters for the king",
+            "Those who walk all the way to Jerusalem"
+          ],
+          "why": "“How beautiful are the feet of them that preach the gospel of peace” (Romans 10:15). That means missionaries, in every age.",
+          "source": "Romans 10:15",
+          "find": "them that preach the gospel of peace",
+          "hunt": "In Romans 10, Paul quotes Isaiah. Whose feet does he say are beautiful?"
+        },
+        "media": {
+          "image": {
+            "src": "media/sister-missionaries-philippines.jpg",
+            "alt": "Two smiling sister missionaries with name tags standing on a dirt street in a neighborhood in the Philippines",
+            "credit": "Sister Missionaries in the Philippines, from the Church Media Library",
+            "link": "https://www.churchofjesuschrist.org/media/image/philippines-sister-missionaries-walking-5876f34?lang=eng"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#052e16 0%,#15803d 50%,#86efac 115%)",
+        "blobA": "rgba(134,239,172,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "seek": "A runner comes over the hills with happy news",
+        "approved": "5d8a2676"
+      },
+      {
+        "id": "isa54-stakes",
+        "section": 0,
+        "hook": "Why is your stake called a stake?",
+        "body": "Isaiah pictures God's people as a tent. So many people will gather that the tent has to grow: longer ropes, and stronger stakes to hold it down. Today the Church is organized into stakes of Zion, a name taken from this picture. Each stake helps hold up the Church, the way tent stakes hold up a tent. Your stake is part of Isaiah's tent.",
+        "verse": {
+          "text": "Enlarge the place of thy tent… lengthen thy cords, and strengthen thy stakes",
+          "ref": "Isaiah 54:2"
+        },
+        "question": {
+          "q": "Why does Isaiah's tent need longer ropes and stronger stakes?",
+          "right": "Crowds are joining, so it needs more room",
+          "wrong": [
+            "A big storm is coming that could blow it away",
+            "The old stakes were stolen during the night"
+          ],
+          "why": "“Enlarge the place of thy tent”: it grows because so many are gathering to the Lord."
+        },
+        "media": {
+          "image": {
+            "src": "media/bedouin-tent-1920.jpg",
+            "alt": "Old black-and-white photo of a long, low black tent pitched on rocky ground beside an olive tree",
+            "credit": "A tent near Beit Jibrin, 1920. Photo: Matson Collection, Library of Congress, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Bedouin_tent_of_the_gypsy_type_near_Beit_Jibrin_LOC_matpc.15652.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#292524 0%,#78716c 50%,#e7e5e4 115%)",
+        "blobA": "rgba(231,229,228,.35)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "8744ca30"
+      },
+      {
+        "id": "isa53-despised",
+        "section": 1,
+        "hook": "Not the kind of hero people expected.",
+        "body": "People hoping for a Savior pictured a mighty king who would crush their enemies. Isaiah saw something else: a Savior who would be “despised and rejected of men,” who knew sadness from the inside. Where some expected a lion, God sent a lamb. Jesus was mocked, spit on, and turned away by His own people. He knows what it's like when people won't accept you.",
+        "verse": {
+          "text": "He is despised and rejected of men; a man of sorrows, and acquainted with grief…",
+          "ref": "Isaiah 53:3"
+        },
+        "question": {
+          "q": "What does “a man of sorrows, and acquainted with grief” tell you about Jesus?",
+          "right": "He understands sadness because He felt it too",
+          "wrong": [
+            "He was sad because He had no friends at all",
+            "He was never sad; only the people around Him were"
+          ],
+          "why": "Isaiah calls Him “a man of sorrows, and acquainted with grief.” He knows sadness from the inside, so He can help with yours."
+        },
+        "bonus": {
+          "q": "In Isaiah 53:2, what does Isaiah say about how the Savior would look?",
+          "right": "Nothing special that would make people notice",
+          "wrong": [
+            "Brighter than the sun, so no one could look",
+            "Taller and stronger than every other man"
+          ],
+          "why": "Verse 2: “there is no beauty that we should desire him.” Nothing in how He looked made Him stand out.",
+          "source": "Isaiah 53:2",
+          "find": "there is no beauty that we should desire him",
+          "hunt": "In Isaiah 53, what does Isaiah say about how the Savior would look?"
+        },
+        "media": {
+          "image": {
+            "src": "media/ecce-homo-ciseri.jpg",
+            "alt": "Painting of Pilate on a palace balcony showing Jesus, His hands bound and a red robe falling from His back, to the crowd below",
+            "credit": "Ecce Homo, by Antonio Ciseri, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Ecce_homo_by_Antonio_Ciseri_(1).jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#1f0a0a 0%,#7f1d1d 50%,#fca5a5 115%)",
+        "blobA": "rgba(252,165,165,.35)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "c7e6f3fe"
+      },
+      {
+        "id": "isa53-griefs",
+        "section": 1,
+        "hook": "He carried the heavy stuff for you.",
+        "body": "Think of the heaviest thing you've ever tried to lift. Sadness can feel that heavy inside. Isaiah says the Savior “hath borne our griefs, and carried our sorrows.” He didn't only carry our sins. He carried our sadness too: the times you feel left out, scared, or hurt. You don't have to carry it all alone. He already carried it.",
+        "verse": {
+          "text": "Surely he hath borne our griefs, and carried our sorrows…",
+          "ref": "Isaiah 53:4"
+        },
+        "question": {
+          "q": "A friend is really sad after his dog died. What does Isaiah 53:4 say about his sadness?",
+          "right": "Jesus carried it, and can help him carry it now",
+          "wrong": [
+            "Jesus only carries sins, not everyday sadness",
+            "Jesus takes it away as soon as he stops crying"
+          ],
+          "why": "“Surely he hath borne our griefs, and carried our sorrows.” Sadness counts, not only sins."
+        },
+        "bonus": {
+          "q": "Alma 7:11 says the Savior would take upon Him the pains of His people, and what else?",
+          "right": "The sicknesses of His people",
+          "wrong": [
+            "The riches of His people",
+            "The enemies of His people"
+          ],
+          "why": "Alma 7:11: “he will take upon him the pains and the sicknesses of his people.”",
+          "source": "Alma 7:11",
+          "find": "the pains and the sicknesses of his people",
+          "hunt": "In Alma 7, Alma says the Savior would take upon Him the pains of His people. What else?"
+        },
+        "media": {
+          "image": {
+            "src": "media/gethsemane-bloch.jpg",
+            "alt": "Painting of Jesus kneeling in the Garden of Gethsemane at night while an angel holds Him in comfort",
+            "credit": "Gethsemane, by Carl Bloch, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Gethsemane_Carl_Bloch.jpg"
+          }
+        },
+        "gradient": "linear-gradient(160deg,#0f172a 0%,#312e81 55%,#a5b4fc 115%)",
+        "blobA": "rgba(165,180,252,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "31118945"
+      },
+      {
+        "id": "isa53-lamb",
+        "section": 1,
+        "hook": "Silent as a lamb.",
+        "body": "When Jesus was put on trial, people lied about Him, and Pilate expected Him to defend Himself. Instead, He stayed quiet. Isaiah saw it centuries earlier: “he is brought as a lamb to the slaughter.” A lamb doesn't fight back. Jesus could have stopped it all, but He chose to give His life for us. His silence wasn't weakness. It was love.",
+        "verse": {
+          "text": "He was oppressed, and he was afflicted, yet he opened not his mouth: he is brought as a lamb to the slaughter…",
+          "ref": "Isaiah 53:7"
+        },
+        "question": {
+          "q": "Why did Jesus stay silent when people lied about Him?",
+          "right": "It was His choice, out of love for us",
+          "wrong": [
+            "He was too weak to fight back or defend Himself",
+            "He was too scared of Pilate to say anything"
+          ],
+          "why": "“He is brought as a lamb to the slaughter… he openeth not his mouth.” He could have stopped it, but He chose to give His life for us."
+        },
+        "bonus": {
+          "q": "In Matthew 27:14, when Pilate asked about the charges against Him, how did Jesus answer?",
+          "right": "Never a word",
+          "wrong": [
+            "With a long speech",
+            "With a loud prayer"
+          ],
+          "why": "“He answered him to never a word; insomuch that the governor marvelled greatly” (Matthew 27:14), just as Isaiah saw.",
+          "source": "Matthew 27:14",
+          "find": "he answered him to never a word",
+          "hunt": "In Matthew 27, when Pilate asked about the charges against Him, how did Jesus answer?"
+        },
+        "media": {
+          "image": {
+            "src": "media/agnus-dei-zurbaran.jpg",
+            "alt": "Painting of a white lamb lying calmly on a gray table, its feet tied together, against a dark background",
+            "credit": "Agnus Dei (Lamb of God), by Francisco de Zurbarán, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Agnus_Dei,_por_Francisco_de_Zurbar%C3%A1n.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#1c1917 0%,#44403c 50%,#f5f5f4 115%)",
+        "blobA": "rgba(245,245,244,.35)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "d9f39185"
+      },
+      {
+        "id": "isa54-kindness",
+        "section": 2,
+        "hook": "Mountains can move. His kindness won't.",
+        "body": "Mountains seem like the most lasting thing on earth. The Lord says even they could disappear before His kindness leaves you. The Hebrew word for kindness here, hesed, means the loyal love He has for people who make covenants with Him. Israel had felt forsaken, but only “for a small moment” (verse 7). His love is the part that lasts.",
+        "verse": {
+          "text": "For the mountains shall depart, and the hills be removed; but my kindness shall not depart from thee, neither shall the covenant of my peace be removed…",
+          "ref": "Isaiah 54:10"
+        },
+        "question": {
+          "q": "You made a mistake and feel like the Lord must be done with you. What does Isaiah 54:10 say?",
+          "right": "His kindness won't leave you, even then",
+          "wrong": [
+            "His kindness lasts only as long as the mountains",
+            "His kindness comes back once you're perfect again"
+          ],
+          "why": "The Lord says, “my kindness shall not depart from thee,” even if the mountains move. He still wants you."
+        },
+        "bonus": {
+          "q": "In Isaiah 54:13, who will teach all the children?",
+          "right": "The Lord Himself",
+          "wrong": [
+            "Their grandparents",
+            "The temple priests"
+          ],
+          "why": "“All thy children shall be taught of the LORD; and great shall be the peace of thy children” (Isaiah 54:13).",
+          "source": "Isaiah 54:13",
+          "find": "all thy children shall be taught of the LORD",
+          "hunt": "In Isaiah 54, who will teach all the children?"
+        },
+        "media": {
+          "image": {
+            "src": "media/teton-trail.jpg",
+            "alt": "A dirt trail through a green meadow and pine trees toward a snowy mountain peak",
+            "credit": "Teton Range, Grand Teton National Park. Photo: NPS, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Teton_Range_(29499422780).jpg"
+          }
+        },
+        "gradient": "linear-gradient(155deg,#082f49 0%,#0e7490 50%,#a5f3fc 115%)",
+        "blobA": "rgba(165,243,252,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "seek": "Even if the big hills vanish, God's love for you stays",
+        "approved": "7ad3ca64"
+      },
+      {
+        "id": "isa57-humble",
+        "section": 2,
+        "hook": "The highest place, and a humble heart.",
+        "body": "God lives in “the high and holy place.” You might think someone that great would stay far away. But Isaiah says He also lives with the person who is humble and sorry for what they did, to lift them back up. When you feel bad about a mistake and want to change, that's exactly when He comes close.",
+        "verse": {
+          "text": "…I dwell in the high and holy place, with him also that is of a contrite and humble spirit, to revive the spirit of the humble…",
+          "ref": "Isaiah 57:15"
+        },
+        "question": {
+          "q": "Besides the high and holy place, who does God say He lives with?",
+          "right": "Someone humble and truly sorry for their sins",
+          "wrong": [
+            "Someone great who has never made a single mistake",
+            "Someone who lives high up on a holy mountain"
+          ],
+          "why": "He dwells “with him also that is of a contrite and humble spirit.” Contrite means truly sorry."
+        },
+        "media": {
+          "image": {
+            "src": "media/boy-praying.jpg",
+            "alt": "A young boy with his arms folded and his eyes closed, praying",
+            "credit": "Prayer, from the Church Media Library",
+            "link": "https://www.churchofjesuschrist.org/media/image/boy-prayer-f7345ef?lang=eng"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#2e1065 0%,#6d28d9 50%,#ddd6fe 115%)",
+        "blobA": "rgba(221,214,254,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "seek": "God lives up in heaven, and also with people who are sorry and meek",
+        "approved": "f5c42712"
+      },
+      {
+        "id": "isa55-waters",
+        "section": 3,
+        "hook": "Free water, and no money needed.",
+        "body": "Picture a busy market where a voice calls out: everyone who's thirsty, come! Take water, wine and milk, even if you have no money. That's the Lord's invitation. What He offers can't be bought: forgiveness, peace, a fresh start. Everyone who is thirsty is invited, not just one family or nation. Jacob repeats this invitation in the Book of Mormon (2 Nephi 9:50).",
+        "verse": {
+          "text": "Ho, every one that thirsteth, come ye to the waters, and he that hath no money; come ye, buy, and eat…",
+          "ref": "Isaiah 55:1"
+        },
+        "question": {
+          "q": "What does the Lord mean by “come, buy wine and milk without money”?",
+          "right": "His gifts are free, and you could never pay for them",
+          "wrong": [
+            "A market was giving away free food that day",
+            "Only people with no money are invited to come"
+          ],
+          "why": "It's “without money and without price”: what He offers is a gift, and everyone who is thirsty is invited."
+        },
+        "bonus": {
+          "q": "In Isaiah 55:2, what does the Lord ask about spending money?",
+          "right": "Why spend it on what isn't bread?",
+          "wrong": [
+            "Why not save it all for later?",
+            "Why not give it all to the priests?"
+          ],
+          "why": "“Wherefore do ye spend money for that which is not bread?” (Isaiah 55:2). Don't spend your life on things that don't fill you.",
+          "source": "Isaiah 55:2",
+          "find": "Wherefore do ye spend money for that which is not bread",
+          "hunt": "In Isaiah 55, what does the Lord ask about spending money?"
+        },
+        "media": {
+          "image": {
+            "src": "media/nazareth-fountain-1930s.jpg",
+            "alt": "Old black-and-white photo of women carrying water jars on their heads beside the stone village fountain in Nazareth",
+            "credit": "The Virgin's Fountain, Nazareth, 1930s. Photo: Matson Collection, Library of Congress, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Virgin%27s_Fountain_in_Nazareth_LOC_matpc.00447.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#042f2e 0%,#0d9488 50%,#99f6e4 115%)",
+        "blobA": "rgba(153,246,228,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "127ab178"
+      },
+      {
+        "id": "isa55-higher",
+        "section": 3,
+        "hook": "His ways are higher than yours.",
+        "body": "Stand on a chair and the room looks different. Now imagine seeing from heaven. The Lord says His thoughts and ways are that far above ours. So when His answer isn't what you expected, it may be because He sees what you can't. Just before this, He promises He “will abundantly pardon” (verse 7). His higher ways include forgiving more than we would.",
+        "verse": {
+          "text": "For as the heavens are higher than the earth, so are my ways higher than your ways, and my thoughts than your thoughts.",
+          "ref": "Isaiah 55:9"
+        },
+        "question": {
+          "q": "You prayed for something, and the answer wasn't what you wanted. What does Isaiah 55:9 suggest?",
+          "right": "He may see something you can't see yet",
+          "wrong": [
+            "He was too far away in heaven to hear it",
+            "His ways are higher, so He doesn't care about yours"
+          ],
+          "why": "“As the heavens are higher than the earth, so are my ways higher than your ways.” He sees further than we do."
+        },
+        "bonus": {
+          "q": "In Isaiah 55:12, what will the trees of the field do?",
+          "right": "Clap their hands",
+          "wrong": [
+            "Bow their branches",
+            "Grow golden fruit"
+          ],
+          "why": "“All the trees of the field shall clap their hands” (Isaiah 55:12). Even the trees celebrate when His people come home.",
+          "source": "Isaiah 55:12",
+          "find": "all the trees of the field shall clap their hands",
+          "hunt": "In Isaiah 55, what will the trees of the field do?"
+        },
+        "media": {
+          "image": {
+            "src": "media/top-of-atmosphere-nasa.jpg",
+            "alt": "The thin blue edge of Earth's sky seen from space, with clouds far below and a crescent moon above",
+            "credit": "The top of Earth's atmosphere, seen from the International Space Station. Photo: NASA, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Top_of_Atmosphere.jpg"
+          }
+        },
+        "gradient": "linear-gradient(165deg,#020617 0%,#1e40af 55%,#bfdbfe 112%)",
+        "blobA": "rgba(191,219,254,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "seek": "God thinks bigger than we do, like the sky is above the ground",
+        "approved": "00d43a1e"
+      },
+      {
+        "id": "isa56-prayer",
+        "section": 3,
+        "hook": "A house of prayer for everyone.",
+        "body": "Some people felt left out of God's family: strangers from other nations, and people who thought they could never belong. The Lord says everyone who keeps His covenant is welcome in His house. Centuries later, Jesus quoted these words when He found His Father's house full of buyers and sellers. The Lord's house is for everyone who comes to Him.",
+        "verse": {
+          "text": "Even them will I bring to my holy mountain, and make them joyful in my house of prayer… for mine house shall be called an house of prayer for all people.",
+          "ref": "Isaiah 56:7"
+        },
+        "question": {
+          "q": "Who does the Lord say His house of prayer is for?",
+          "right": "Everyone who keeps His covenant, from any nation",
+          "wrong": [
+            "Only people born into Israel's covenant family",
+            "Only the priests who work inside it"
+          ],
+          "why": "“Mine house shall be called an house of prayer for all people.” Strangers who “taketh hold of my covenant” (verse 6) are welcome too."
+        },
+        "bonus": {
+          "q": "In Mark 11:17, Jesus quotes this verse. What did He say the people had made His house?",
+          "right": "A den of thieves",
+          "wrong": [
+            "A place for feasts",
+            "A palace for kings"
+          ],
+          "why": "“My house shall be called of all nations the house of prayer? but ye have made it a den of thieves” (Mark 11:17).",
+          "source": "Mark 11:17",
+          "find": "ye have made it a den of thieves",
+          "hunt": "In Mark 11, what did Jesus say the people had made His house?"
+        },
+        "media": {
+          "image": {
+            "src": "media/manila-temple-evening.jpg",
+            "alt": "The white Manila Philippines Temple with its tall spires at sunset, framed by palm trees",
+            "credit": "Manila Philippines Temple in the Evening, from the Church Media Library",
+            "link": "https://www.churchofjesuschrist.org/media/image/manila-philippines-temple-lds-75a25fc?lang=eng"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#431407 0%,#c2410c 50%,#fdba74 115%)",
+        "blobA": "rgba(253,186,116,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "seek": "God's temple will welcome people from every nation",
+        "approved": "830e9072"
+      }
+    ],
+    "approved": "c5002526",
+    "wordsApproved": "6eacd6fb"
+  },
+  {
+    "dates": "October 12–18, 2026",
+    "title": "The Redeemer Shall Come to Zion",
+    "reference": "Isaiah 58–66",
+    "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/42?lang=eng",
+    "sections": [
+      "Fasting builds spiritual power and blesses people in need",
+      "Honoring the Lord on the Sabbath brings joy",
+      "Jesus Christ is my Savior and Redeemer",
+      "“The Lord shall be unto thee an everlasting light.”",
+      "Christ will reign on earth during the Millennium"
+    ],
+    "puzzle": {
+      "groups": [
+        {
+          "section": 0,
+          "tiles": [
+            {
+              "text": "Undo heavy burdens",
+              "ref": "Isaiah 58:6"
+            },
+            {
+              "text": "Bread to the hungry",
+              "ref": "Isaiah 58:7"
+            },
+            {
+              "text": "Here I am",
+              "ref": "Isaiah 58:9"
+            },
+            {
+              "text": "Repairer of the breach",
+              "ref": "Isaiah 58:12"
+            }
+          ]
+        },
+        {
+          "section": 2,
+          "tiles": [
+            {
+              "text": "Liberty to the captives",
+              "ref": "Isaiah 61:1"
+            },
+            {
+              "text": "Beauty for ashes",
+              "ref": "Isaiah 61:3"
+            },
+            {
+              "text": "Oil of joy",
+              "ref": "Isaiah 61:3"
+            },
+            {
+              "text": "Trodden the winepress",
+              "ref": "Isaiah 63:3"
+            }
+          ]
+        },
+        {
+          "section": 3,
+          "tiles": [
+            {
+              "text": "Arise, shine",
+              "ref": "Isaiah 60:1"
+            },
+            {
+              "text": "Everlasting light",
+              "ref": "Isaiah 60:19"
+            },
+            {
+              "text": "Walls called Salvation",
+              "ref": "Isaiah 60:18"
+            },
+            {
+              "text": "A crown of glory",
+              "ref": "Isaiah 62:3"
+            }
+          ]
+        },
+        {
+          "section": 4,
+          "tiles": [
+            {
+              "text": "New heavens, new earth",
+              "ref": "Isaiah 65:17"
+            },
+            {
+              "text": "Wolf and lamb together",
+              "ref": "Isaiah 65:25"
+            },
+            {
+              "text": "Before they call",
+              "ref": "Isaiah 65:24"
+            },
+            {
+              "text": "Rend the heavens",
+              "ref": "Isaiah 64:1"
+            }
+          ]
+        }
+      ],
+      "approved": "55f7971b"
+    },
+    "sayings": [
+      {
+        "id": "say-this-day-fulfilled",
+        "text": "This day is this scripture fulfilled in your ears",
+        "ref": "Luke 4:21",
+        "speaker": "Jesus, in Nazareth",
+        "wrong": [
+          "Isaiah, in Jerusalem",
+          "Joseph, in Nazareth"
+        ],
+        "why": "Jesus read Isaiah 61 aloud in the synagogue where He grew up, then said this about Himself (Luke 4:16–21).",
+        "approved": "46a0dd64"
+      },
+      {
+        "id": "say-here-i-am",
+        "text": "Here I am",
+        "ref": "Isaiah 58:9",
+        "speaker": "The Lord, to those who call",
+        "wrong": [
+          "Isaiah, when the Lord called",
+          "Samuel, when the Lord called"
+        ],
+        "why": "The Lord promises, “he shall say, Here I am.” Young Samuel answered the Lord with “Here am I” (1 Samuel 3:4).",
+        "approved": "f0ec4b13"
+      },
+      {
+        "id": "say-winepress-alone",
+        "text": "I have trodden the winepress alone",
+        "ref": "Isaiah 63:3",
+        "speaker": "The Lord, in red robes",
+        "wrong": [
+          "A farmer, at harvest time",
+          "Isaiah, in a vision"
+        ],
+        "why": "In Isaiah 63 the Lord comes in red, like one who treads grapes, and says “of the people there was none with me.”",
+        "approved": "98243b13"
+      },
+      {
+        "id": "say-we-are-the-clay",
+        "text": "We are the clay, and thou our potter",
+        "ref": "Isaiah 64:8",
+        "speaker": "Isaiah, praying to the Lord",
+        "wrong": [
+          "The Lord, speaking to Israel",
+          "Jeremiah, at a potter's house"
+        ],
+        "why": "Isaiah prays for his people: “thou art our father; we are the clay.” Jeremiah watches a potter in Jeremiah 18.",
+        "approved": "36cbcdd6"
+      },
+      {
+        "id": "say-new-heavens",
+        "text": "I create new heavens and a new earth",
+        "ref": "Isaiah 65:17",
+        "speaker": "The Lord",
+        "wrong": [
+          "Isaiah",
+          "Moses"
+        ],
+        "why": "The Lord promises to make the earth new, so that “the former shall not be remembered, nor come into mind.”",
+        "approved": "74ba3d27"
+      },
+      {
+        "id": "say-holier-than-thou",
+        "text": "Stand by thyself, come not near to me; for I am holier than thou",
+        "ref": "Isaiah 65:5",
+        "speaker": "Proud people, to others",
+        "wrong": [
+          "The Lord, to the wicked",
+          "A priest, at the temple"
+        ],
+        "why": "Rebellious people said it, sure they were better than everyone else. That’s where the saying “holier than thou” comes from.",
+        "approved": "68515271"
+      },
+      {
+        "id": "say-earth-footstool",
+        "text": "The heaven is my throne, and the earth is my footstool",
+        "ref": "Isaiah 66:1",
+        "speaker": "The Lord",
+        "wrong": [
+          "King David",
+          "King Solomon"
+        ],
+        "why": "“Thus saith the LORD.” No house anyone builds can hold Him. Solomon said much the same when he dedicated the temple (1 Kings 8:27).",
+        "approved": "2f3a401a"
+      },
+      {
+        "id": "say-mother-comforteth",
+        "text": "As one whom his mother comforteth, so will I comfort you",
+        "ref": "Isaiah 66:13",
+        "speaker": "The Lord",
+        "wrong": [
+          "A mother",
+          "Isaiah"
+        ],
+        "why": "The Lord compares His comfort to a mother comforting her child.",
+        "approved": "7c91787c"
+      }
+    ],
+    "words": [
+      {
+        "word": "FAST",
+        "clue": "Is not this the ____ that I have chosen?",
+        "ref": "Isaiah 58:6",
+        "mean": "The Lord's kind of fast lifts other people's heavy loads, not just our own hunger."
+      },
+      {
+        "word": "DELIGHT",
+        "clue": "call the sabbath a ____",
+        "ref": "Isaiah 58:13",
+        "mean": "The Sabbath is meant to be a joy: a day to enjoy being close to the Lord."
+      },
+      {
+        "word": "ASHES",
+        "clue": "to give unto them beauty for ____",
+        "ref": "Isaiah 61:3",
+        "mean": "Jesus trades our sad and ruined things for something beautiful."
+      },
+      {
+        "word": "SHINE",
+        "clue": "Arise, ____; for thy light is come",
+        "ref": "Isaiah 60:1",
+        "mean": "The Lord's light has come to us, so we can let it shine."
+      },
+      {
+        "word": "ANSWER",
+        "clue": "before they call, I will ____",
+        "ref": "Isaiah 65:24",
+        "mean": "The Lord hears our prayers even before we finish praying them."
+      },
+      {
+        "word": "STRAW",
+        "clue": "the lion shall eat ____ like the bullock",
+        "ref": "Isaiah 65:25",
+        "mean": "When Jesus reigns, even lions will be gentle, eating straw instead of hunting."
+      },
+      {
+        "word": "POTTER",
+        "clue": "we are the clay, and thou our ____",
+        "ref": "Isaiah 64:8",
+        "mean": "The Lord shapes us like a potter shapes clay, if we let Him."
+      }
+    ],
+    "deep": [
+      {
+        "id": "deep42-fast-complaint",
+        "section": 0,
+        "read": "Isaiah 58:3–5",
+        "intro": "Before telling what a true fast is, the Lord repeats what the people said about their fasting. Read their complaint in verse 3.",
+        "q": "In Isaiah 58:3, what did the people complain about?",
+        "right": "God didn't seem to notice their fasting",
+        "wrong": [
+          "They were too hungry to do their work",
+          "The Lord made them fast every single day"
+        ],
+        "why": "They asked, “Wherefore have we fasted… and thou seest not?” But they were fasting for show while still fighting and making others work.",
+        "source": "Isaiah 58:3",
+        "find": "Wherefore have we fasted, say they, and thou seest not",
+        "hunt": "In Isaiah 58, what did the people complain about when they fasted?",
+        "approved": "06d5631a"
+      },
+      {
+        "id": "deep42-high-places",
+        "section": 1,
+        "read": "Isaiah 58:13–14",
+        "intro": "The Sabbath verse comes with a promise. Read verse 14 to see what the Lord will do for those who delight in Him.",
+        "q": "In Isaiah 58:14, where will the Lord cause those who delight in Him to ride?",
+        "right": "On the high places of the earth",
+        "wrong": [
+          "Through the open gates of Jerusalem",
+          "Across the sea on the ships of Tarshish"
+        ],
+        "why": "Verse 14: “I will cause thee to ride upon the high places of the earth.” The Scripture Helps say high places can mean sacred places where you feel God near.",
+        "source": "Isaiah 58:14",
+        "find": "I will cause thee to ride upon the high places of the earth",
+        "hunt": "In Isaiah 58, where will the Lord cause those who delight in Him to ride?",
+        "approved": "bd6c21f1"
+      },
+      {
+        "id": "deep42-helmet",
+        "section": 2,
+        "read": "Isaiah 59:16–20",
+        "intro": "Isaiah describes the Redeemer stepping in when no one else would help, and dressing for battle. Verse 20 gives this week its title.",
+        "q": "In Isaiah 59:17, what does the Redeemer wear as a helmet?",
+        "right": "Salvation",
+        "wrong": [
+          "Righteousness",
+          "Zeal"
+        ],
+        "why": "Verse 17: “an helmet of salvation upon his head.” Paul uses the same armor for us: “take the helmet of salvation” (Ephesians 6:17).",
+        "source": "Isaiah 59:17",
+        "find": "an helmet of salvation upon his head",
+        "hunt": "In Isaiah 59, what does the Redeemer wear as a helmet?",
+        "approved": "42f35b52"
+      },
+      {
+        "id": "deep42-gentiles",
+        "section": 3,
+        "read": "Isaiah 60:1–5",
+        "intro": "After “Arise, shine,” Isaiah tells who will be drawn to that light. Read verses 2 and 3.",
+        "q": "In Isaiah 60:3, who shall come to the light?",
+        "right": "The Gentiles, and kings",
+        "wrong": [
+          "The sun, and the moon",
+          "Only Zion's priests"
+        ],
+        "why": "Verse 3: “And the Gentiles shall come to thy light, and kings to the brightness of thy rising.” The light draws people from every nation.",
+        "source": "Isaiah 60:3",
+        "find": "the Gentiles shall come to thy light",
+        "hunt": "In Isaiah 60, who shall come to the light?",
+        "approved": "53b03d36"
+      },
+      {
+        "id": "deep42-houses",
+        "section": 4,
+        "read": "Isaiah 65:17–23",
+        "intro": "Isaiah describes a “new earth” where nothing anyone works for is lost. Read what people will do with the houses they build.",
+        "q": "In Isaiah 65:21, what will people do with the houses they build?",
+        "right": "Live in them themselves",
+        "wrong": [
+          "Give them away to strangers",
+          "Tear them down and start over"
+        ],
+        "why": "Verse 21: “they shall build houses, and inhabit them.” In the Millennium, no one’s work is wasted or taken away.",
+        "source": "Isaiah 65:21",
+        "find": "they shall build houses, and inhabit them",
+        "hunt": "In Isaiah 65, what will people do with the houses they build?",
+        "approved": "027ac19e"
+      },
+      {
+        "id": "deep42-kids",
+        "day": "friday",
+        "title": "From the children's part of the lesson",
+        "read": "lesson",
+        "intro": "The children’s part of this week’s lesson has ideas for making the Sabbath “a delight” (Isaiah 58:13). One is a place to keep your ideas.",
+        "q": "Where does the lesson suggest putting your drawings of Sabbath ideas?",
+        "right": "In a box of Sabbath delights",
+        "wrong": [
+          "On a calendar by the Sabbath day",
+          "In a jar of family blessings"
+        ],
+        "why": "It suggests drawing your ideas and putting them in a box of Sabbath delights, so you can pull one out when you need something to do.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/42?lang=eng",
+        "find": "box of Sabbath delights",
+        "approved": "a418b824"
+      },
+      {
+        "id": "deep42-ftsoy",
+        "day": "friday",
+        "title": "From For the Strength of Youth",
+        "read": "https://www.churchofjesuschrist.org/study/ftsoy/2026/10/what-do-we-know-about-the-millennium?lang=eng",
+        "intro": "A short article lists what the Lord has revealed about the Millennium, the time of peace Isaiah 65 describes.",
+        "q": "According to the article, how long does the Millennium last?",
+        "right": "A thousand years",
+        "wrong": [
+          "A hundred years",
+          "Forever"
+        ],
+        "why": "It says the Millennium is a 1,000-year period after Jesus Christ’s Second Coming, when He reigns on the earth in peace.",
+        "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/10/what-do-we-know-about-the-millennium?lang=eng",
+        "find": "It is a 1,000-year period",
+        "approved": "1359644e"
+      }
+    ],
+    "reels": [
+      {
+        "id": "isa58-true-fast",
+        "section": 0,
+        "hook": "The fast the Lord wants lifts someone else's load.",
+        "body": "Going without food isn't the whole point. Isaiah 58 says the fast the Lord chose is “to undo the heavy burdens” and to “deal thy bread to the hungry” (verse 7). On fast Sunday, members skip two meals and give what the food would have cost as a fast offering. The bishop uses those offerings to help people in need, maybe even someone in your own ward.",
+        "verse": {
+          "text": "Is not this the fast that I have chosen? to loose the bands of wickedness, to undo the heavy burdens, and to let the oppressed go free, and that ye break every yoke?",
+          "ref": "Isaiah 58:6"
+        },
+        "question": {
+          "q": "Your family is fasting today. What does Isaiah 58 say makes it the Lord's kind of fast?",
+          "right": "Using what you save to help people who need it",
+          "wrong": [
+            "Going as long as you can without any food",
+            "Letting everyone at church see you fasting"
+          ],
+          "why": "His fast is “to undo the heavy burdens” and to “deal thy bread to the hungry” (Isaiah 58:7). Fasting is about lifting someone."
+        },
+        "bonus": {
+          "q": "This week's Scripture Helps explain why the Lord didn't accept the Israelites' fasting. What had it become?",
+          "right": "Only an outward ritual, not true worship",
+          "wrong": [
+            "A real way to repent and draw near to God",
+            "A day to rest from all of their hard work"
+          ],
+          "why": "It says they fasted with selfish motives and even made others work, so their fast was only an outward ritual, not true worship.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/40-isaiah-58-66?lang=eng",
+          "find": "nothing more than an outward ritual"
+        },
+        "media": {
+          "image": {
+            "src": "media/feeding-the-hungry-alkmaar.jpg",
+            "alt": "Painting from 1504 of a young man handing out bread from a basket to hungry people in a town street, with Jesus Christ standing among them",
+            "credit": "The Seven Works of Mercy (detail: feeding the hungry), by the Master of Alkmaar, 1504. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Master_of_Alkmaar_-_The_Seven_Works_of_Mercy_(detail)_-_WGA14368.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#422006 0%,#92400e 50%,#fcd34d 115%)",
+        "blobA": "rgba(252,211,77,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "842982d9"
+      },
+      {
+        "id": "isa58-here-i-am",
+        "section": 0,
+        "hook": "Call on Him, and He says He's right there.",
+        "body": "Fasting isn't only about food. It's a way of asking for help. Isaiah 58 promises that when we fast the Lord's way, “Then shalt thou call, and the LORD shall answer.” President Jeffrey R. Holland said he had cried out while fasting more than once, and God answered, “Here I am.” Picture calling for help and hearing that back.",
+        "verse": {
+          "text": "Then shalt thou call, and the LORD shall answer; thou shalt cry, and he shall say, Here I am…",
+          "ref": "Isaiah 58:9"
+        },
+        "question": {
+          "q": "What does Isaiah 58:9 promise when you call on the Lord?",
+          "right": "He'll answer, and He'll be right there",
+          "wrong": [
+            "He'll answer, but only after a long wait",
+            "He'll answer only if you fast all day"
+          ],
+          "why": "“Then shalt thou call, and the LORD shall answer… he shall say, Here I am.” He is near when you call."
+        },
+        "bonus": {
+          "q": "In Isaiah 58:11, what will you be like when the Lord guides you?",
+          "right": "A garden that's always watered",
+          "wrong": [
+            "A desert that blooms again",
+            "A lamp that never goes out"
+          ],
+          "why": "“Thou shalt be like a watered garden, and like a spring of water, whose waters fail not” (Isaiah 58:11).",
+          "source": "Isaiah 58:11",
+          "find": "thou shalt be like a watered garden",
+          "hunt": "In Isaiah 58, what will you be like when the Lord guides you?"
+        },
+        "media": {
+          "image": {
+            "src": "media/praying-hands-durer.jpg",
+            "alt": "Drawing of two hands pressed together in prayer, in fine white lines on blue paper",
+            "credit": "Praying Hands, by Albrecht Dürer, 1508. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Albrecht_D%C3%BCrer_-_Praying_Hands,_1508_-_Google_Art_Project.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0e7490 50%,#67e8f9 115%)",
+        "blobA": "rgba(103,232,249,.35)",
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "28b355c3"
+      },
+      {
+        "id": "isa58-sabbath-delight",
+        "section": 1,
+        "hook": "Sunday can be the best day of your week.",
+        "body": "Isaiah says to “call the sabbath a delight.” President Russell M. Nelson once kept lists of what he could and couldn't do on Sunday. Later he asked himself a better question: what sign do I want to give to God? Church, family time, scriptures and helping someone make the day a delight. Then comes a promise: “Then shalt thou delight thyself in the LORD” (verse 14).",
+        "verse": {
+          "text": "If thou turn away thy foot from the sabbath, from doing thy pleasure on my holy day; and call the sabbath a delight, the holy of the LORD, honourable…",
+          "ref": "Isaiah 58:13"
+        },
+        "question": {
+          "q": "Which of these fits calling the Sabbath “a delight”?",
+          "right": "Visiting Grandma and reading scriptures together",
+          "wrong": [
+            "Spending the whole day on your favorite hobby",
+            "Keeping a long list of things you can't do"
+          ],
+          "why": "It's a delight when you turn from “doing thy pleasure” to things that honor Him. Then “thou delight thyself in the LORD” (Isaiah 58:14)."
+        },
+        "bonus": [
+          {
+            "q": "In this week's Scripture Helps, President Nelson says faith in the Sabbath leads to what?",
+            "right": "A love for God",
+            "wrong": [
+              "A love for the Sabbath",
+              "A love for His rules"
+            ],
+            "why": "He says faith in God grows a love for the Sabbath, and faith in the Sabbath grows a love for God. Each one feeds the other.",
+            "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/40-isaiah-58-66?lang=eng",
+            "find": "faith in the Sabbath engenders a love for God"
+          },
+          {
+            "q": "In D&C 59:10, the Sabbath is a day to rest from what?",
+            "right": "Your everyday labors",
+            "wrong": [
+              "All of your prayers",
+              "Your family and friends"
+            ],
+            "why": "“This is a day appointed unto you to rest from your labors, and to pay thy devotions unto the Most High” (D&C 59:10).",
+            "source": "D&C 59:10",
+            "find": "a day appointed unto you to rest from your labors",
+            "hunt": "In D&C 59, the Sabbath is a day to rest from what?"
+          }
+        ],
+        "media": {
+          "image": {
+            "src": "media/meetinghouse-utah.jpg",
+            "alt": "A meetinghouse of The Church of Jesus Christ of Latter-day Saints with a tall white steeple, below a grassy mountain",
+            "credit": "A meetinghouse near Salt Lake City, Utah. Photo: public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Latter-day_Saint_Chapel_in_Utah.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#14532d 0%,#15803d 50%,#86efac 115%)",
+        "blobA": "rgba(134,239,172,.35)",
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "dc36eb0d"
+      },
+      {
+        "id": "isa61-fulfilled",
+        "section": 2,
+        "hook": "Jesus read this out loud, then said it was about Him.",
+        "body": "Hundreds of years after Isaiah, Jesus stood up in the synagogue in Nazareth, where He grew up, and read these words aloud: He was sent “to bind up the brokenhearted, to proclaim liberty to the captives.” Then He sat down and said, “This day is this scripture fulfilled in your ears” (Luke 4:21). Isaiah had been writing about Him.",
+        "verse": {
+          "text": "The Spirit of the Lord GOD is upon me; because the LORD hath anointed me to preach good tidings unto the meek; he hath sent me to bind up the brokenhearted, to proclaim liberty to the captives, and the opening of the prison to them that are bound;",
+          "ref": "Isaiah 61:1"
+        },
+        "question": {
+          "q": "What was Jesus telling the people in Nazareth when He read Isaiah 61?",
+          "right": "That He was the one Isaiah wrote about",
+          "wrong": [
+            "That Isaiah had come back as a new prophet",
+            "That the captives in Nazareth would go free today"
+          ],
+          "why": "He read it, then said, “This day is this scripture fulfilled in your ears” (Luke 4:21)."
+        },
+        "bonus": {
+          "q": "This week's Scripture Helps connect the acceptable year of the Lord with a special year in the law of Moses. How often did it come?",
+          "right": "Every 50 years",
+          "wrong": [
+            "Every 7 years",
+            "Every 100 years"
+          ],
+          "why": "It says the acceptable year is often connected with the year of Jubilee, which came every 50 years. Captives were freed and land was given back.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/40-isaiah-58-66?lang=eng",
+          "find": "observed every 50 years"
+        },
+        "media": {
+          "image": {
+            "src": "media/jesus-synagogue-nazareth.jpg",
+            "alt": "Jesus Christ standing in a stone synagogue in Nazareth, light streaming down on Him, as the people around Him listen",
+            "credit": "Jesus Declares He Is the Messiah, from the Church Media Library",
+            "link": "https://www.churchofjesuschrist.org/media/image/bible-pictures-jesus-messiah-2aec8c4?lang=eng"
+          },
+          "video": {
+            "youtube": "h9M2mprzCF8",
+            "start": 0,
+            "end": 180,
+            "title": "Jesus reads Isaiah in Nazareth (Luke 4)",
+            "channel": "The Church of Jesus Christ of Latter-day Saints",
+            "previewed": false
+          }
+        },
+        "gradient": "linear-gradient(160deg,#1c1917 0%,#44403c 50%,#e7e5e4 115%)",
+        "blobA": "rgba(231,229,228,.35)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "51797f40"
+      },
+      {
+        "id": "isa61-beauty-for-ashes",
+        "section": 2,
+        "hook": "He trades what's burned up for something beautiful.",
+        "body": "In Isaiah’s day, people in deep sorrow poured ashes on their heads. Isaiah promises the Savior would give “beauty for ashes, the oil of joy for mourning.” He doesn’t just take away the sad thing. He trades it for something better, like flowers springing up where a fire burned. His people become “trees of righteousness, the planting of the LORD.”",
+        "verse": {
+          "text": "To appoint unto them that mourn in Zion, to give unto them beauty for ashes, the oil of joy for mourning, the garment of praise for the spirit of heaviness…",
+          "ref": "Isaiah 61:3"
+        },
+        "question": {
+          "q": "Someone in your family is really sad. What does Isaiah 61:3 say the Savior can give?",
+          "right": "Joy in place of the sadness they feel",
+          "wrong": [
+            "A way to forget that it ever happened",
+            "Ashes to show how sad they really are"
+          ],
+          "why": "He gives “the oil of joy for mourning”: joy in place of sadness, not just less of it."
+        },
+        "bonus": {
+          "q": "In Isaiah 61:10, what does the Lord cover His people with?",
+          "right": "A robe of righteousness",
+          "wrong": [
+            "A cloak made of zeal",
+            "A crown of pure gold"
+          ],
+          "why": "“He hath covered me with the robe of righteousness” (Isaiah 61:10).",
+          "source": "Isaiah 61:10",
+          "find": "he hath covered me with the robe of righteousness",
+          "hunt": "In Isaiah 61, what does the Lord cover His people with?"
+        },
+        "media": {
+          "image": {
+            "src": "media/fireweed-after-fire.jpg",
+            "alt": "Pink fireweed flowers and green plants growing up through black ash among burned trees after a forest fire",
+            "credit": "Fireweed grows in a burned area, Kenai National Wildlife Refuge, Alaska. Photo: U.S. Fish and Wildlife Service, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:R7-ak-knr-fireweed_grows_in_burned_area_-_DPLA_-_5411e39258a66aff3cf25f28101bb03e.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#1f2937 0%,#9d174d 55%,#f9a8d4 115%)",
+        "blobA": "rgba(249,168,212,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "db571afe"
+      },
+      {
+        "id": "isa63-afflicted",
+        "section": 2,
+        "hook": "When you hurt, He hurts with you.",
+        "body": "Isaiah remembers how the Lord treated His people: “In all their affliction he was afflicted.” He didn’t watch from far away. He felt their hurt with them, “and he bare them, and carried them all the days of old.” Jesus Christ knows your hard days from the inside, and He carries you through them, the way a shepherd carries a lamb.",
+        "verse": {
+          "text": "In all their affliction he was afflicted, and the angel of his presence saved them: in his love and in his pity he redeemed them; and he bare them, and carried them all the days of old.",
+          "ref": "Isaiah 63:9"
+        },
+        "question": {
+          "q": "What does “in all their affliction he was afflicted” tell you about the Savior?",
+          "right": "He feels your hurt right along with you",
+          "wrong": [
+            "He sends hard things to make you stronger",
+            "He watches your hard days from far away"
+          ],
+          "why": "He didn’t stay far off: “In all their affliction he was afflicted… and he bare them, and carried them.”"
+        },
+        "bonus": {
+          "q": "In Isaiah 63:7, what does Isaiah say he will mention?",
+          "right": "The lovingkindnesses of the Lord",
+          "wrong": [
+            "The many sins of all the people",
+            "The names of all the prophets"
+          ],
+          "why": "“I will mention the lovingkindnesses of the LORD, and the praises of the LORD” (Isaiah 63:7).",
+          "source": "Isaiah 63:7",
+          "find": "I will mention the lovingkindnesses of the LORD",
+          "hunt": "In Isaiah 63, what does Isaiah say he will mention?"
+        },
+        "media": {
+          "image": {
+            "src": "media/good-shepherd-plockhorst.jpg",
+            "alt": "Painting of Jesus Christ as a shepherd, carrying a lamb in His arms while His flock of sheep walks beside Him",
+            "credit": "The Good Shepherd, by Bernhard Plockhorst. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Bernhard_Plockhorst_-_Good_Shephard.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#450a0a 0%,#b91c1c 50%,#fde68a 115%)",
+        "blobA": "rgba(253,230,138,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "f0410c21"
+      },
+      {
+        "id": "isa60-arise-shine",
+        "section": 3,
+        "hook": "Get up! God's glory is shining on you.",
+        "body": "Isaiah 60 opens with a wake-up call to Zion: “Arise, shine; for thy light is come.” Darkness would cover the earth (verse 2), but the Lord would rise on His people like the sunrise. When you follow Jesus, His light shows on you. The Friend’s idea for this week: color a picture of Him and hold it up to a window so the light shines through.",
+        "verse": {
+          "text": "Arise, shine; for thy light is come, and the glory of the LORD is risen upon thee.",
+          "ref": "Isaiah 60:1"
+        },
+        "question": {
+          "q": "A friend at school seems to be in a dark time. What does Isaiah 60:1 invite you to do?",
+          "right": "Let the Lord's light shine through you",
+          "wrong": [
+            "Wait for the sunrise to shine through the dark",
+            "Make your own light, without His help"
+          ],
+          "why": "“Arise, shine; for thy light is come.” His light is on you, so it can reach others too."
+        },
+        "bonus": {
+          "q": "In Isaiah 60:22, what will a little one become?",
+          "right": "A thousand",
+          "wrong": [
+            "A great king",
+            "A tall tree"
+          ],
+          "why": "“A little one shall become a thousand, and a small one a strong nation” (Isaiah 60:22).",
+          "source": "Isaiah 60:22",
+          "find": "A little one shall become a thousand",
+          "hunt": "In Isaiah 60, what will a little one become?"
+        },
+        "media": {
+          "image": {
+            "src": "media/sunrise-harding-icefield.jpg",
+            "alt": "The sun rising over snowy mountains, lighting a wide white field of snow with orange and pink",
+            "credit": "Sunrise on the Harding Icefield, Kenai Fjords National Park. Photo: NPS, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Sunrise_on_the_Harding_Icefield,_Kenai_Fjords_National_Park.jpg"
+          }
+        },
+        "gradient": "linear-gradient(165deg,#312e81 0%,#c2410c 55%,#fdba74 115%)",
+        "blobA": "rgba(253,186,116,.45)",
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "0a091658"
+      },
+      {
+        "id": "isa60-everlasting-light",
+        "section": 3,
+        "hook": "One day you won't need the sun to see.",
+        "body": "Isaiah looks ahead to a day when the sun and moon won’t be needed, because “the LORD shall be unto thee an everlasting light.” The next verse adds, “the days of thy mourning shall be ended” (verse 20). John saw the same city: no night there, because God gives it light (Revelation 22:5). Even now, His light is the one that never sets.",
+        "verse": {
+          "text": "The sun shall be no more thy light by day; neither for brightness shall the moon give light unto thee: but the LORD shall be unto thee an everlasting light, and thy God thy glory.",
+          "ref": "Isaiah 60:19"
+        },
+        "question": {
+          "q": "In Isaiah 60:19, why won't the people need the sun or moon?",
+          "right": "The Lord Himself will shine on them forever",
+          "wrong": [
+            "The sun and moon will be taken away",
+            "Their city will have its own bright lamps"
+          ],
+          "why": "“The LORD shall be unto thee an everlasting light, and thy God thy glory.”"
+        },
+        "media": {
+          "image": {
+            "src": "media/transfiguration-bloch.jpg",
+            "alt": "Painting of Jesus Christ glowing with bright white light on a mountain, with two prophets beside Him and three disciples shielding their eyes",
+            "credit": "The Transfiguration, by Carl Bloch, 1872. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Transfiguration_bloch.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#1e3a8a 0%,#3b82f6 50%,#f8fafc 115%)",
+        "blobA": "rgba(248,250,252,.4)",
+        "blobB": "rgba(0,0,0,.35)",
+        "approved": "a76f6c80"
+      },
+      {
+        "id": "isa65-wolf-lamb",
+        "section": 4,
+        "hook": "A wolf and a lamb, eating lunch together.",
+        "body": "When Jesus Christ reigns on the earth, even animals will be at peace: “The wolf and the lamb shall feed together, and the lion shall eat straw like the bullock.” Nothing will hurt or destroy on the Lord’s holy mountain. That time of peace, when Jesus reigns on the earth, is called the Millennium. It begins when He comes again.",
+        "verse": {
+          "text": "The wolf and the lamb shall feed together, and the lion shall eat straw like the bullock: and dust shall be the serpent's meat. They shall not hurt nor destroy in all my holy mountain, saith the LORD.",
+          "ref": "Isaiah 65:25"
+        },
+        "question": {
+          "q": "What does the wolf and the lamb eating together show about the Millennium?",
+          "right": "Even old enemies will live in peace",
+          "wrong": [
+            "The lamb will grow strong enough to fight",
+            "Even the lion will stop eating completely"
+          ],
+          "why": "They “shall not hurt nor destroy in all my holy mountain”: when He reigns, there is peace everywhere."
+        },
+        "bonus": {
+          "q": "Isaiah 11:6 paints a similar picture. Who will lead the animals?",
+          "right": "A little child",
+          "wrong": [
+            "A strong shepherd",
+            "A mighty lion"
+          ],
+          "why": "“The wolf also shall dwell with the lamb… and a little child shall lead them” (Isaiah 11:6).",
+          "source": "Isaiah 11:6",
+          "find": "a little child shall lead them",
+          "hunt": "Isaiah 11 paints a similar picture. Who will lead the animals?"
+        },
+        "media": {
+          "image": {
+            "src": "media/ewe-and-lambs.jpg",
+            "alt": "A white mother sheep standing between her two newborn lambs in a farmyard",
+            "credit": "Ewe with her newborn twins. Photo: NPS, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Ewe_with_her_newborn_twins_(5c923ea1-bf7e-76f0-a417-54b699ccc285).jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#365314 0%,#65a30d 50%,#d9f99d 115%)",
+        "blobA": "rgba(217,249,157,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "seek": "Wild animals that used to hunt will share a meal in peace",
+        "approved": "e906815d"
+      },
+      {
+        "id": "isa65-before-they-call",
+        "section": 4,
+        "hook": "He hears your prayer before you even ask.",
+        "body": "In the world Isaiah describes, the Lord promises, “before they call, I will answer; and while they are yet speaking, I will hear.” Jesus taught that Heavenly Father already knows what you need before you ask (Matthew 6:8). He still wants you to pray. Prayer isn’t telling Him news; it’s talking with Someone who is already listening.",
+        "verse": {
+          "text": "And it shall come to pass, that before they call, I will answer; and while they are yet speaking, I will hear.",
+          "ref": "Isaiah 65:24"
+        },
+        "question": {
+          "q": "You're about to pray about a worry. What does Isaiah 65:24 tell you?",
+          "right": "He's listening, even before you start",
+          "wrong": [
+            "He answers only after you finish praying",
+            "He already knows, so you don't need to pray"
+          ],
+          "why": "“Before they call, I will answer; and while they are yet speaking, I will hear.” He is already listening."
+        },
+        "media": {
+          "image": {
+            "src": "media/angelus-millet.jpg",
+            "alt": "Painting of a farmer and his wife standing in a field at sunset, heads bowed in prayer, with a church steeple far away",
+            "credit": "The Angelus, by Jean-François Millet, 1857–1859, Musée d'Orsay. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Jean-Fran%C3%A7ois_Millet_-_The_Angelus_-_Google_Art_Project.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#1c1917 0%,#57534e 50%,#fde68a 115%)",
+        "blobA": "rgba(253,230,138,.35)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "dec396ee"
+      },
+      {
+        "id": "isa64-clay-potter",
+        "section": 4,
+        "hook": "Hands shaping soft clay: that's how He works with you.",
+        "body": "Isaiah prays for his people: “thou art our father; we are the clay, and thou our potter.” A potter presses, spins and reshapes clay until it becomes something useful and beautiful. Soft clay can be shaped; hard, dry clay cracks. In Jeremiah 18 the Lord sends Jeremiah to watch a potter, too. Staying soft means letting the Lord shape you.",
+        "verse": {
+          "text": "But now, O LORD, thou art our father; we are the clay, and thou our potter; and we all are the work of thy hand.",
+          "ref": "Isaiah 64:8"
+        },
+        "question": {
+          "q": "What does being “the clay” in Isaiah 64:8 mean for you?",
+          "right": "Letting the Lord shape who you become",
+          "wrong": [
+            "Staying exactly the way you are right now",
+            "Making your own shape without any help"
+          ],
+          "why": "“We are the clay, and thou our potter; and we all are the work of thy hand.” The Potter shapes; the clay lets Him."
+        },
+        "media": {
+          "image": {
+            "src": "media/potter-nazareth-1940.jpg",
+            "alt": "Old black-and-white photo of a potter in Nazareth shaping a clay jar on his wheel while children watch",
+            "credit": "A potter at work in Nazareth, 1940. Photo: Matson Collection, Library of Congress, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Galilee_trip._Nazareth._A_potter_at_work,_showing_table_%26_wheel_LOC_matpc.20728.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#431407 0%,#9a3412 50%,#fed7aa 115%)",
+        "blobA": "rgba(254,215,170,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "5e083a87"
+      }
+    ],
+    "approved": "103a63e4",
+    "wordsApproved": "1b2dec33"
   }
 ];
