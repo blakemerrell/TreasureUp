@@ -4210,19 +4210,30 @@ const TreasureUp = (function () {
     riskSay(g, `${landName(b.to)}'s guards rolled ${andList(b.d)} by themselves. Now ${seatOf(g, b.by).name} rolls.`, false);
     return true;
   }
+  // Duels won by the attacker's dice `got` against the guards' `d` (sorted,
+  // biggest first): biggest against biggest, a tie to the guards.
+  const riskWins = (got, d, pairs) => got.slice().sort((x, y) => y - x).slice(0, pairs).filter((x, i) => x > d[i]).length;
+  // Can the dice still to come change who wins? Once every duel has a die,
+  // more dice only push bigger ones in, so if even 6s wouldn't win another
+  // duel, the fight is settled.
+  function riskSettled(b) {
+    const pairs = Math.min(b.a.length, b.d.length), got = b.a.slice(0, b.shown);
+    if (got.length < pairs) return false;
+    return riskWins(got, b.d, pairs) === riskWins(got.concat(b.a.slice(b.shown).map(() => 6)), b.d, pairs);
+  }
   function riskResolve(g) {
     const b = g.battle;
     if (!b) return;
     if (!b.d) b.d = rollDice(b.dn);
     g.battle = null;
     const A = g.lands[b.from], D = g.lands[b.to], uid = b.by;
-    const ra = b.a.slice().sort((x, y) => y - x), rd = b.d;
+    const ra = b.a.slice().sort((x, y) => y - x), rd = b.d, left = b.left || 0, moveIn = ra.length + left;   // (dice never rolled still count for moving in)
     let la = 0, ld = 0;
     for (let k = 0; k < Math.min(ra.length, rd.length); k++) { if (ra[k] > rd[k]) ld++; else la++; }
     A.a -= la;
     D.a -= ld;
     const was = D.o;
-    g.dice = { a: ra, d: rd, roll: b.a, from: b.from, to: b.to, la, ld, walls: b.walls, won: false, by: uid, def: was || '', n: b.n, turn: g.turn ? riskWaitKey(g) : '' };
+    g.dice = { a: ra, d: rd, roll: b.a, from: b.from, to: b.to, la, ld, walls: b.walls, won: false, by: uid, def: was || '', n: b.n, turn: g.turn ? riskWaitKey(g) : '', left, moveIn };
     const att = kSide(g, uid, b.to), def = kSide(g, was, b.to), Kx = att.name;
     // The first sweep, or the first attack thrown back, in a turn: a verse
     // from Isaiah 40–49 (board.cheers), taking turns through the list.
@@ -4240,10 +4251,10 @@ const TreasureUp = (function () {
       (ld && !la ? riskLoses(def, ld) + '.' : la && !ld ? 'The guards hold: ' + riskLoses(att, la) + '.' : riskLoses(att, la) + ', ' + riskLoses(def, ld) + '.') + (takes ? '' : verse));
     if (D.a <= 0) {
       // A capture never costs the attacker anything, so there are always
-      // soldiers to move in: as many as the dice rolled.
+      // soldiers to move in: as many as the dice the attack was made with.
       D.o = uid;
-      D.a = ra.length;
-      A.a -= ra.length;
+      D.a = moveIn;
+      A.a -= moveIn;
       g.dice.won = true;
       // A story moment the first time Babylonia falls: Daniel's words if
       // the Medes or Persians take it, Isaiah's otherwise.
@@ -4334,9 +4345,13 @@ const TreasureUp = (function () {
       else if (!def) { const a = kSide(g, uid, m.b); riskSay(g, a.name + (a.many ? ' attack ' : ' attacks ') + landName(m.b) + ' from ' + landName(m.a) + '.', false); }   // the line of the moment, not an old one
       if (def) riskSay(g, seatOf(g, def).name + ', roll to defend ' + landName(m.b) + '!', false);
     } else if (m.kind === 'roll' && t.phase === 'attack' && g.battle && g.battle.by === uid && g.battle.d) {
-      // One die a tap (Story), or all of them at once (Pro: n = 3).
-      g.battle.shown = Math.min(g.battle.a.length, (g.battle.shown || 0) + Math.max(1, Math.min(3, Math.floor(Number(m.n)) || 1)));
-      if (g.battle.shown >= g.battle.a.length) riskResolve(g);
+      // One die a tap (Story), or all of them at once (Pro: n = 3). Story
+      // stops as soon as the dice still to come can't change who wins:
+      // they're never rolled.
+      const b = g.battle;
+      b.shown = Math.min(b.a.length, (b.shown || 0) + Math.max(1, Math.min(3, Math.floor(Number(m.n)) || 1)));
+      if (b.shown < b.a.length && riskSettled(b)) { b.left = b.a.length - b.shown; b.a = b.a.slice(0, b.shown); }
+      if (b.shown >= b.a.length) riskResolve(g);
     } else if (m.kind === 'done' && t.phase === 'attack' && !g.battle) {
       t.phase = 'move';
       t.acted = true;
@@ -4499,7 +4514,7 @@ const TreasureUp = (function () {
     const st = (kid ? riskKidStory : riskRollStory)({ a: roll, shown: roll.length, d: d.d }, who, their);
     const say = d.won ? (kid && you === 'att' ? '' : esc(landName(d.to)) + ' falls!') : x.score;   // (Story's own card cheers the capture itself)
     return `<div class="rk-battle rk-result${still ? ' still' : ''}" style="--settle:${fx.settle}ms;--t0:${t0}ms">${x.html}
-      <p class="rk-note rk-story">${esc(st.line)}</p>
+      <p class="rk-note rk-story">${esc(st.line)}</p>${d.left ? `<p class="rk-note rk-left">${esc(riskLeftLine(d, who))}</p>` : ''}
       ${say || x.tie ? `<div class="rk-fx-say">${say}${x.tie ? '<small>A tie goes to the guards</small>' : ''}</div>` : ''}</div>`;
   }
 
@@ -4557,14 +4572,33 @@ const TreasureUp = (function () {
     }
     let next = '';
     if (k < n) {
-      const got = now.map(x => x.v), wins = got.slice(0, pairs).filter((x, i) => x > d[i]).length;
-      let need = null;                                          // the lowest roll that wins one more duel
-      for (let x = 1; x <= 6 && need == null; x++) if (got.concat(x).sort((p, q) => q - p).slice(0, pairs).filter((y, i) => y > d[i]).length > wins) need = x;
-      next = need != null ? `Next: a ${need}${need < 6 ? ' or more' : ''} wins ${you ? '' : who + ' '}${wins ? 'another' : 'a'} duel.`
+      const { x: need, count, wins } = riskNextNeed(b, k);
+      next = need != null ? `Next: ${count === 2 ? 'two dice of' : 'a'} ${need}${need < 6 ? ' or more' : ''} ${count === 2 ? 'win' : 'wins'} ${you ? '' : who + ' '}${wins ? 'another' : 'a'} duel.`
         : wins >= pairs ? 'Every duel is already won: the last dice can’t change it.'
         : `No roll can win ${wins ? 'another' : 'a'} duel: nothing beats ${their} ${d[wins]}, and ties go to the guards.`;
     }
     return { line, next };
+  }
+  // What the dice still to come can do, after k: the smallest roll that wins
+  // another duel, and which duel. Two dice alike when one can't do it alone
+  // (a die that only ever lands in duel 1 against a 6 can still push the
+  // next one into duel 2). x is null when nothing still to come can.
+  function riskNextNeed(b, k) {
+    const n = b.a.length, d = b.d, pairs = Math.min(n, d.length), got = b.a.slice(0, k), wins = riskWins(got, d, pairs);
+    const now = got.slice().sort((p, q) => q - p);
+    for (const count of n - k >= 2 ? [1, 2] : [1])
+      for (let x = 1; x <= 6; x++) {
+        const tried = got.concat(count === 2 ? [x, x] : [x]).sort((p, q) => q - p);
+        if (riskWins(tried, d, pairs) > wins) return { x, count, wins, duel: d.findIndex((y, i) => i < pairs && tried[i] > y && !(now[i] > y)) + 1 };
+      }
+    return { x: null, count: 0, wins, duel: 0 };
+  }
+  // Why the last dice weren't rolled, when the fight ended early.
+  function riskLeftLine(d, who) {
+    const dice = d.left === 1 ? 'the last die' : `the last ${d.left} dice`, one = d.left === 1;
+    return d.ld >= Math.min(d.a.length, d.d.length)
+      ? `${who === 'you' ? 'You' : who} won every duel, so ${dice} ${one ? 'wasn’t' : 'weren’t'} needed.`
+      : `${riskCap(dice)} couldn’t change who wins, so ${one ? 'it wasn’t' : 'they weren’t'} rolled.`;
   }
   // The same roll in plain words, for Story mode and the TV: "Your 6 is
   // bigger than their 5. You win this duel!" `who` is 'you' or the
@@ -4594,14 +4628,9 @@ const TreasureUp = (function () {
     }
     let next = '';
     if (k < n) {
-      const got = now.map(x => x.v), wins = got.slice(0, pairs).filter((x, i) => x > d[i]).length;
-      let need = null, duel = 0;
-      for (let x = 1; x <= 6 && need == null; x++) {
-        const tried = got.concat(x).sort((p, q) => q - p);
-        if (tried.slice(0, pairs).filter((y, i) => y > d[i]).length > wins) { need = x; duel = tried.indexOf(x) + 1; }
-      }
+      const { x: need, count, wins, duel } = riskNextNeed(b, k);
       const last = k === n - 1 ? 'Last roll! ' : '';
-      next = need != null ? `${last}${you ? 'Get' : who + ' needs'} a ${need}${need < 6 ? ' or more' : ''} to win duel ${duel}.`
+      next = need != null ? `${last}${you ? 'Get' : who + ' needs'} ${count === 2 ? 'two dice of' : 'a'} ${need}${need < 6 ? ' or more' : ''} to win duel ${duel}.`
         : wins >= pairs ? `${you ? 'You' : who} already won every duel!`
         : `No roll can win ${wins ? 'another' : 'a'} duel: nothing beats ${their} ${d[wins]}.`;
     }
@@ -4844,12 +4873,12 @@ const TreasureUp = (function () {
     if (d.won) {
       sc.figs.def.forEach(f => { f.style.transition = 'opacity .4s'; f.style.opacity = 0; });
       sc.el.querySelector('.rk-sc-dline').style.stroke = sc.ac;
-      const movers = sc.figs.att.filter(f => !f.dataset.down).slice(0, d.a.length);
+      const marching = d.moveIn || d.a.length, movers = sc.figs.att.filter(f => !f.dataset.down).slice(0, marching);
       await Promise.all(movers.map((f, i) => {
         const from = sc.geo.att[sc.figs.att.indexOf(f)], to = sc.geo.def[i];
         return f.animate([{ transform: `translate(${from[0]}px, ${from[1]}px)` }, { transform: `translate(${to[0]}px, ${to[1]}px)` }], { duration: sceneMs('march', fast), easing: 'ease-in-out', fill: 'forwards', delay: i * 110 }).finished.catch(() => {});
       }));
-      sc.count = { a: sc.count.a - d.a.length, d: d.a.length };
+      sc.count = { a: sc.count.a - marching, d: marching };
       sc.owned = true; sc.dc = sc.ac;
       riskSceneBadges(sc);
     }
