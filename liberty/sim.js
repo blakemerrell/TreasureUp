@@ -9,6 +9,7 @@
   const center = t => t * TILE + TILE / 2;
   const tileOf = p => Math.floor(p / TILE);
   const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+  const maxHp = e => e.max || e.def.hp;                // walls grow stronger with pickets
 
   // ------------------------------------------------------------------ world
 
@@ -32,6 +33,11 @@
       this.shield = { p: 1, r: 1 };                // and how much harm each side takes
       this.buffUntil = 0;                          // "in the strength of the Lord" (3 Nephi 4:10)
       this.armor = 0;                              // Weapons, armor and shields (3 Nephi 3:26)
+      this.dmgUp = 0;                              // swords and cimeters: more harm up close
+      this.wallMul = 1;                            // ridges of earth and pickets: stronger walls
+      this.researched = {};
+      this.foeArmor = 0;                           // the Lamanites' own shields and breastplates (Alma 49:6)
+      this.tech = false;                           // free battle: food, storage and a tech tree
       this.researching = null;
       this.msgs = [];
       this.stats = { prisoners: 0, escaped: 0, fallen: 0, defeated: 0, gathered: 0, spared: 0 };
@@ -75,8 +81,9 @@
     }
     addBuilding(type, team, tx, ty, built, extra) {
       const def = BUILDINGS[type];
-      const b = Object.assign({ id: this.nextId++, kind: 'building', type, def, team, tx, ty, w: def.w, h: def.h,
-        x: (tx + def.w / 2) * TILE, y: (ty + def.h / 2) * TILE, hp: built ? def.hp : Math.max(1, def.hp * 0.1), built: built ? 1 : 0, queue: [], cool: 0 }, extra || {});
+      const max = def.wall && team === 'p' && this.wallMul > 1 ? def.hp * this.wallMul : undefined;
+      const b = Object.assign({ id: this.nextId++, kind: 'building', type, def, team, tx, ty, w: def.w, h: def.h, max,
+        x: (tx + def.w / 2) * TILE, y: (ty + def.h / 2) * TILE, hp: built ? (max || def.hp) : Math.max(1, (max || def.hp) * 0.1), built: built ? 1 : 0, queue: [], cool: 0 }, extra || {});
       for (let y = ty; y < ty + def.h; y++) for (let x = tx; x < tx + def.w; x++) {
         if (this.tile(x, y) === T.FOREST || this.tile(x, y) === T.FIELD) this.setTile(x, y, T.GRASS);
         this.occ[idx(x, y)] = b.id;
@@ -209,6 +216,53 @@
       this.order(u, { type: 'move', tx, ty, attackMove: !!attackMove });
     }
 
+    // --- the tech tree (free battle): what stands, what it opens, food and storage
+    visible(def) { return !def.tier || this.tech; }
+    has(type) { return this.buildings('p', type).some(b => b.built >= 1); }
+    missing(def) { return this.tech ? (def.needs || []).filter(t => !this.has(t)) : []; }
+    foodCap() { let n = 0; for (const b of this.buildings('p')) if (b.built >= 1) n += b.def.food || 0; return n; }
+    foodUsed() {
+      let n = 0;
+      for (const e of this.ents.values()) {
+        if (e.team !== 'p') continue;
+        if (e.kind === 'unit' && !e.def.hero && (e.def.soldier || e.def.gathers)) n++;
+        else if (e.kind === 'building') n += e.queue.length;
+      }
+      return n;
+    }
+    storeCap() { let n = 0; for (const b of this.buildings('p')) if (b.built >= 1) n += b.def.store || 0; return n; }
+    // Grain and timber coming in; in free battle, only as much as the storehouses hold.
+    gain(kind, amt) {
+      this.res[kind] += amt;
+      if (!this.tech) return;
+      const cap = this.storeCap();
+      if (this.res[kind] > cap) { this.res[kind] = cap; this.fullAt = this.t; }
+    }
+    // Why a building can't go up yet, or '' if it can.
+    whyNotBuild(type) {
+      const def = BUILDINGS[type], need = this.missing(def);
+      if (!this.visible(def)) return 'Not in this mission';
+      if (need.length) return 'Needs ' + need.map(t => BUILDINGS[t].name).join(' and ');
+      return '';
+    }
+    whyNotTrain(type) {
+      const def = UNITS[type], need = this.missing(def);
+      if (!this.visible(def)) return 'Not in this mission';
+      if (need.length) return 'Needs ' + need.map(t => BUILDINGS[t].name).join(' and ');
+      if (this.tech && this.foodUsed() >= this.foodCap()) return 'Not enough food: build a farm';
+      return '';
+    }
+    // The standard of liberty, planted: your city stands there (Alma 46:36).
+    deploy(u) {
+      if (!u.def.deploys) return null;
+      const x = tileOf(u.x) - 1, y = tileOf(u.y) - 1;
+      if (!this.canPlace('stronghold', x, y)) return null;
+      this.remove(u);
+      const b = this.addBuilding('stronghold', 'p', x, y, true, { name: 'Your city' });
+      this.msg('You plant the standard of liberty, and your city begins.', 'Alma 46:36', 'good');
+      return b;
+    }
+
     // --- building and training
     canAfford(cost) { return !cost || ((cost.grain || 0) <= this.res.grain && (cost.timber || 0) <= this.res.timber); }
     pay(cost) { if (!cost) return; this.res.grain -= cost.grain || 0; this.res.timber -= cost.timber || 0; }
@@ -226,7 +280,7 @@
     }
     place(type, tx, ty, builders) {
       const def = BUILDINGS[type];
-      if (!this.canPlace(type, tx, ty) || !this.canAfford(def.cost)) return null;
+      if (this.whyNotBuild(type) || !this.canPlace(type, tx, ty) || !this.canAfford(def.cost)) return null;
       this.pay(def.cost);
       const b = this.addBuilding(type, 'p', tx, ty, false);
       for (const u of builders || []) if (u.def.builds) this.order(u, { type: 'build', target: b.id });
@@ -234,14 +288,14 @@
     }
     train(b, type) {
       const def = UNITS[type];
-      if (!b.built || !b.def.trains || !b.def.trains.includes(type) || !this.canAfford(def.cost) || b.queue.length >= 5) return false;
+      if (b.built < 1 || !b.def.trains || !b.def.trains.includes(type) || this.whyNotTrain(type) || !this.canAfford(def.cost) || b.queue.length >= 5) return false;
       this.pay(def.cost);
       b.queue.push({ type, left: def.time });
       return true;
     }
     research(b, key) {
       const r = RESEARCH[key];
-      if (!b.built || this.armor || this.researching || !this.canAfford(r.cost)) return false;
+      if (b.built < 1 || this.researched[key] || this.researching || !this.canAfford(r.cost)) return false;
       this.pay(r.cost);
       this.researching = { key, left: r.time, by: b.id };
       return true;
@@ -251,9 +305,10 @@
     damage(target, amount, from) {
       if (target.dead || target.untouchable || this.truce) return;
       let a = amount * (from && this.boost[from.team] || 1);
+      if (from && from.team === 'p' && from.kind === 'unit' && from.def.soldier && !from.def.ranged) a += this.dmgUp;
       if (from && from.team === 'p' && this.aura(from)) a *= 1.25;
       if (from && from.def.foe && from.weak) a *= 0.6;
-      const armor = (target.def.armor || 0) + (target.kind === 'unit' && target.team === 'p' && target.def.soldier ? this.armor : 0);
+      const armor = (target.def.armor || 0) + (target.kind === 'unit' && target.team === 'p' && target.def.soldier ? this.armor : 0) + (target.kind === 'unit' && target.team === 'r' ? this.foeArmor : 0);
       a = Math.max(1, a - armor);
       if (target.team === 'p' && this.t < this.buffUntil) a *= 0.65;
       a *= this.shield[target.team] || 1;
@@ -342,8 +397,14 @@
         const b = this.ents.get(this.researching.by);
         if (!b) { this.researching = null; }
         else if ((this.researching.left -= dt) <= 0) {
-          const r = RESEARCH[this.researching.key];
-          this.armor = r.armor; this.researching = null;
+          const key = this.researching.key, r = RESEARCH[key];
+          this.researched[key] = true; this.researching = null;
+          this.armor += r.armor || 0;
+          this.dmgUp += r.dmg || 0;
+          if (r.walls) {
+            this.wallMul = r.walls;
+            for (const w of this.buildings('p')) if (w.def.wall) { const f = w.hp / maxHp(w); w.max = w.def.hp * r.walls; w.hp = f * w.max; }
+          }
           this.msg(r.done, r.ref, 'good');
         }
       }
@@ -357,7 +418,8 @@
     }
 
     stepBuilding(b, dt) {
-      if (!b.built) return;
+      if (b.built < 1) return;               // not finished: it does nothing yet
+      if (b.def.grows && b.team === 'p') this.gain('grain', b.def.grows * dt);   // "they did raise grain in abundance" (Helaman 6:12)
       if (b.queue.length) {
         const q = b.queue[0];
         if ((q.left -= dt) <= 0) {
@@ -544,13 +606,13 @@
           if (!u.carry || u.carry.type !== kind) u.carry = { type: kind, amt: 0 };
           u.carry.amt += 1; this.amt[i] -= 1;
           if (this.amt[i] <= 0) this.setTile(o.tx, o.ty, T.GRASS);
-          if (u.carry.amt >= 10) { u.phase = 'back'; u.path = null; }
+          if (u.carry.amt >= (u.def.load || 10)) { u.phase = 'back'; u.path = null; }
         }
       } else if (u.phase === 'back') {
         const drop = this.nearestDropoff(u);
         if (!drop) { this.order(u, { type: 'idle' }); return; }
         if (this.nextTo(u, this.rectOf(drop))) {
-          if (u.carry) { this.res[u.carry.type] += u.carry.amt; u.carry = null; }
+          if (u.carry) { this.gain(u.carry.type, u.carry.amt); u.carry = null; }
           u.phase = 'go'; u.path = null; u.tries = 0; return;
         }
         if (!u.path) u.path = this.findPath(u, this.rectOf(drop), true);
@@ -581,7 +643,7 @@
     }
     nearestDropoff(u) {
       let best = null, bd = Infinity;
-      for (const b of this.buildings('p')) if (b.def.dropoff && b.built) { const d = this.distToRect(u, b); if (d < bd) { bd = d; best = b; } }
+      for (const b of this.buildings('p')) if (b.def.dropoff && b.built >= 1) { const d = this.distToRect(u, b); if (d < bd) { bd = d; best = b; } }
       return best;
     }
     gatherAt(u, tx, ty) {
@@ -592,17 +654,17 @@
     }
 
     // --- building and mending: stand next to it and work
-    needsWork(b) { return b.team === 'p' && !b.dead && (!b.built || b.hp < b.def.hp) && !!b.def.work; }
+    needsWork(b) { return b.team === 'p' && !b.dead && (b.built < 1 || b.hp < maxHp(b)) && !!b.def.work; }
     stepBuild(u, dt) {
       const b = this.ents.get(u.order.target);
       if (!b || !this.needsWork(b)) { this.order(u, { type: 'idle' }); return; }
       if (this.nextTo(u, this.rectOf(b))) {
         u.path = null;
         const step = dt / b.def.work;
-        if (b.built) b.hp = Math.min(b.def.hp, b.hp + b.def.hp * step * 0.5);    // mending a broken wall
+        if (b.built >= 1) b.hp = Math.min(maxHp(b), b.hp + maxHp(b) * step * 0.5);    // mending a broken wall
         else {
           b.built = Math.min(1, b.built + step);
-          b.hp = Math.min(b.def.hp, b.hp + b.def.hp * step * 0.9);
+          b.hp = Math.min(maxHp(b), b.hp + maxHp(b) * step * 0.9);
           if (b.built >= 1) {
             b.built = 1;
             this.msg(b.def.name + ' is finished.', null, 'good');
@@ -621,7 +683,7 @@
     }
   }
 
-  const SIM = { World, TILE, center, tileOf, dist };
+  const SIM = { World, TILE, center, tileOf, dist, maxHp };
   if (typeof module !== 'undefined' && module.exports) module.exports = SIM;
   else root.LIB_SIM = SIM;
 })(this);
