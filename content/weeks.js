@@ -135,7 +135,7 @@ window.TU_WEEKS = [
           "Martin Harris",
           "Oliver Cowdery"
         ],
-        "why": "Martin Harris reported that Professor Anthon said it after hearing an angel was involved."
+        "why": "Martin Harris reported it: when he said part of the plates were sealed, Professor Anthon replied, “I cannot read a sealed book”."
       },
       {
         "id": "say-learned",
@@ -168,7 +168,7 @@ window.TU_WEEKS = [
           "The king of Babylon",
           "The rebellious people"
         ],
-        "why": "Isaiah promises you will hear a word behind thee saying it when you turn to the right or the left."
+        "why": "Isaiah promises you will hear “a word behind thee” saying it, when you turn to the right or the left."
       },
       {
         "id": "say-swallowed",
@@ -246,8 +246,8 @@ window.TU_WEEKS = [
         "q": "In Isaiah 14:16, what do people ask when they see the fallen one up close?",
         "right": "Is this really the one who made the earth shake?",
         "wrong": [
-          "Where did his great army go?",
-          "When will he come back to rule?"
+          "Is this really the one who built all of Babylon?",
+          "Is this really the one who set the prisoners free?"
         ],
         "why": "Verse 16: “Is this the man that made the earth to tremble.” Pride looks big for a while, then it looks small.",
         "source": "Isaiah 14:16",
@@ -262,8 +262,8 @@ window.TU_WEEKS = [
         "q": "In Isaiah 25:9, what do the people say they will do now that their Lord has come?",
         "right": "Be glad and rejoice in His salvation",
         "wrong": [
-          "Ask Him why He took so long",
-          "Build Him a palace in Babylon"
+          "Keep waiting, since He hasn't come yet",
+          "Hold a great feast for Him on the mountain"
         ],
         "why": "They say, “we will be glad and rejoice in his salvation.” The waiting was worth it.",
         "source": "Isaiah 25:9",
@@ -311,8 +311,8 @@ window.TU_WEEKS = [
         "q": "Which three things does the lesson suggest to stand for the Lord's marvelous works in the latter days?",
         "right": "The Book of Mormon, a temple, and the First Vision",
         "wrong": [
-          "A rainbow, a dove, and an ark",
-          "A crown, a sword, and a throne"
+          "A stone tablet, a burning bush, and Noah's ark",
+          "The Bible, a manger, and an empty garden tomb"
         ],
         "why": "It suggests a copy of the Book of Mormon, a picture of a temple, or a picture of the First Vision. Each is part of what the Lord restored.",
         "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/39?lang=eng",
@@ -325,10 +325,10 @@ window.TU_WEEKS = [
         "read": "https://www.churchofjesuschrist.org/study/ftsoy/2026/09/what-do-we-know-about-the-prophet-isaiah?lang=eng",
         "intro": "A short article lists what we know about the prophet Isaiah. One fact is a key for reading him: his prophecies point to more than one time.",
         "q": "According to the article, which times do Isaiah's prophecies refer to?",
-        "right": "His own day, Jesus's day, our day, and the Second Coming",
+        "right": "His day, Jesus's day, our day, and the Second Coming",
         "wrong": [
-          "Only his own day in Jerusalem",
-          "Only the end of the world"
+          "His own day in Jerusalem, and no other time at all",
+          "Only the very last days, right before the end"
         ],
         "why": "It says they refer to his own day, Jesus Christ's day, the latter days (our day) and the Restoration, and the Second Coming. One verse can be about more than one time.",
         "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/09/what-do-we-know-about-the-prophet-isaiah?lang=eng",
@@ -349,8 +349,8 @@ window.TU_WEEKS = [
           "q": "After Babylon fell, what did scripture start using its name for?",
           "right": "The proud, wicked world",
           "wrong": [
-            "Any very large city",
-            "The city where Isaiah lived"
+            "The biggest city in the land of Assyria",
+            "Any big city the Persians took over"
           ],
           "why": "Babylon became a name for pride and wickedness. The Lord calls it “spiritual Babylon” (D&C 133:14)."
         },
@@ -387,19 +387,19 @@ window.TU_WEEKS = [
           "ref": "Isaiah 14:13–14"
         },
         "question": {
-          "q": "What do all five “I will”s show about Lucifer?",
-          "right": "He wanted everything to be about himself",
+          "q": "Which is most like Lucifer’s five “I will”s today?",
+          "right": "Doing things just so everyone will look up to you",
           "wrong": [
-            "He was trying to help other people",
-            "He was following God's plan"
+            "Making plans for what you will do tomorrow",
+            "Climbing up high to look at the stars at night"
           ],
-          "why": "Every “I will” puts himself first. Jesus said “Father, thy will be done” (Moses 4:2)."
+          "why": "Every “I will” puts himself on top: “I will be like the most High”. Jesus said the opposite: “Father, thy will be done” (Moses 4:2)."
         },
         "bonus": {
           "q": "After Babylon falls, what does Isaiah 14:3 say the Lord will give His people?",
           "right": "Rest from their sorrow and fear",
           "wrong": [
-            "Babylon's gold and silver",
+            "All of Babylon's gold and silver",
             "A new king of their own"
           ],
           "why": "“The LORD shall give thee rest from thy sorrow, and from thy fear” (Isaiah 14:3).",
@@ -432,8 +432,8 @@ window.TU_WEEKS = [
           "q": "“He shall open, and none shall shut.” What does that tell you about Jesus?",
           "right": "No one can close a door He opens",
           "wrong": [
-            "He keeps every door locked",
-            "Only kings can use His key"
+            "He opens doors only for His faithful servants",
+            "Only kings from the house of David can use His key"
           ],
           "why": "Jesus “hath the key of David” (Revelation 3:7). What He opens, no one can shut."
         },
@@ -471,10 +471,10 @@ window.TU_WEEKS = [
         },
         "question": {
           "q": "What does Isaiah promise will happen to death?",
-          "right": "It will be swallowed up, and the dead will live again",
+          "right": "It will lose, and everyone who dies will live again",
           "wrong": [
-            "People will just get used to it",
-            "Only a few people will escape it"
+            "It will swallow up everyone, and no one will live again",
+            "It will wait longer, so everyone will live a long time"
           ],
           "why": "“He will swallow up death in victory,” and “Thy dead men shall live” (Isaiah 26:19)."
         },
@@ -519,13 +519,13 @@ window.TU_WEEKS = [
           "ref": "Isaiah 25:4"
         },
         "question": {
-          "q": "What does Isaiah 25:4 promise?",
-          "right": "A safe place during hard times",
+          "q": "Something at school feels like a storm. What does Isaiah 25:4 say the Lord is?",
+          "right": "A safe place to run to, even while it's storming",
           "wrong": [
-            "That hard times will never come",
-            "That storms are a punishment"
+            "A promise that hard things will never happen",
+            "A sign that the storm is really your own punishment"
           ],
-          "why": "He is “a refuge from the storm”: a shelter while the storm is still going."
+          "why": "He is “a refuge from the storm”: a shelter you run into while the storm is still going. He doesn’t promise no storms."
         },
         "bonus": [
           {
@@ -544,8 +544,8 @@ window.TU_WEEKS = [
             "q": "The Friend explains what it means that Jesus Christ is a refuge from storms. What does it say?",
             "right": "He can comfort and protect us when things are hard",
             "wrong": [
-              "He keeps every storm away",
-              "He helps only when we are perfect"
+              "He takes every storm away before it can ever reach us",
+              "He protects us once we stop feeling afraid"
             ],
             "why": "The Friend says He can comfort and protect us when things are hard. Its family idea: build a blanket fort and talk about how He protects you.",
             "source": "https://www.churchofjesuschrist.org/study/friend/2026/09/come-follow-me/22-weekly-scripture-fun?lang=eng",
@@ -574,13 +574,13 @@ window.TU_WEEKS = [
           "ref": "Isaiah 29:13"
         },
         "question": {
-          "q": "What is the warning in Isaiah 29:13?",
-          "right": "Honouring God with words while your heart is far away",
+          "q": "Which of these is what Isaiah 29:13 warns about?",
+          "right": "Praying while thinking about something else",
           "wrong": [
-            "Missing church too many times",
-            "Praying too quietly"
+            "Singing hymns with your lips, but too quietly",
+            "Saying prayers in your own words, not the same ones"
           ],
-          "why": "Their lips said the right things, but they “removed their heart far from me.”"
+          "why": "Their lips “do honour me,” but they have “removed their heart far from me.” God is after the heart."
         },
         "media": {
           "image": {
@@ -594,8 +594,8 @@ window.TU_WEEKS = [
           "q": "Isaiah 29:13 says where the people's fear of God came from. What was it?",
           "right": "It was taught by men, not by God",
           "wrong": [
-            "It came from an angel",
-            "It came from reading scripture"
+            "It was taught by an angel, not by men",
+            "It came from reading the scriptures"
           ],
           "why": "“Their fear toward me is taught by the precept of men” (Isaiah 29:13).",
           "source": "Isaiah 29:13",
@@ -617,19 +617,19 @@ window.TU_WEEKS = [
         },
         "question": {
           "q": "What did the people in Isaiah 30 want from their prophets?",
-          "right": "Only the easy, pleasant things",
+          "right": "Only pleasant words, even if they weren't true",
           "wrong": [
-            "More miracles",
-            "Shorter meetings"
+            "Only the right things, even if they were hard",
+            "Only to show them the way and walk in front"
           ],
-          "why": "They asked for “smooth things” instead of “right things.”"
+          "why": "They told the prophets, “Prophesy not unto us right things, speak unto us smooth things”: nice words, not true ones."
         },
         "bonus": {
           "q": "In Isaiah 30:8, why does the Lord tell Isaiah to write His words in a book?",
-          "right": "So they would last for all time to come",
+          "right": "So His words would last for all time to come",
           "wrong": [
-            "So the king could sign them",
-            "So the people could sell them"
+            "So it could sit out on a table in the temple",
+            "So the king could keep it safe in his palace"
           ],
           "why": "“Note it in a book, that it may be for the time to come for ever and ever” (Isaiah 30:8).",
           "source": "Isaiah 30:8",
@@ -646,23 +646,24 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#0f172a 0%,#334155 45%,#0e7490 100%)",
         "blobA": "rgba(34,211,238,.4)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "seek": "People begged God's messengers for easy, pleasant words"
       },
       {
         "id": "isa29-sealed-book",
         "section": 3,
         "hook": "The book a professor couldn't read.",
-        "body": "Isaiah 29 describes a sealed book that a learned man says he cannot read (verse 11). In 1828 Martin Harris took characters copied from the gold plates to Professor Charles Anthon. Harris said Anthon praised them until he heard an angel was involved. Then Anthon said, “I cannot read a sealed book” (Joseph Smith—History 1:65). The book came through a young farmer, Joseph Smith, instead.",
+        "body": "Isaiah 29 tells of a sealed book a learned man can't read (verse 11). In 1828 Martin Harris showed Professor Charles Anthon characters copied from the gold plates. Harris said Anthon praised them, then tore up his own note when he heard about the angel. When Harris said part of the plates were sealed, Anthon said, “I cannot read a sealed book” (Joseph Smith—History 1:65). The book came through a young farmer, Joseph Smith, instead.",
         "verse": {
           "text": "Therefore, behold, I will proceed to do a marvellous work among this people, even a marvellous work and a wonder: for the wisdom of their wise men shall perish…",
           "ref": "Isaiah 29:14"
         },
         "question": {
           "q": "Why does it matter that the Book of Mormon came through a young farmer instead of a professor?",
-          "right": "It shows the work is God's, not man's",
+          "right": "It shows the work is God's, not any man's",
           "wrong": [
-            "Farmers were better at languages",
-            "The professor was too busy"
+            "It shows farmers were wiser than professors",
+            "It shows the professor just didn't try hard"
           ],
           "why": "Isaiah says “the wisdom of their wise men shall perish.” The credit goes to God."
         },
@@ -692,7 +693,7 @@ window.TU_WEEKS = [
           "right": "When you turn to the right or the left",
           "wrong": [
             "Only after you've done everything right",
-            "Only when you're at church"
+            "Only once you stop and stand very still"
           ],
           "why": "The verse says “when ye turn to the right hand, and when ye turn to the left.” He speaks up when you start to drift."
         },
@@ -718,13 +719,13 @@ window.TU_WEEKS = [
           "ref": "Isaiah 35:1"
         },
         "question": {
-          "q": "What is Isaiah 35 mostly about?",
-          "right": "The Lord restoring what is broken",
+          "q": "Something in your life feels broken. What does Isaiah 35 show the Lord can do?",
+          "right": "Make it whole again, like a desert in bloom",
           "wrong": [
-            "How to grow flowers in a desert",
-            "Why deserts are dangerous"
+            "Move you far away from the dry, broken desert",
+            "Show you how to fix what is broken by yourself"
           ],
-          "why": "Deserts bloom, blind eyes open, and the ransomed come home. It all shows the Lord restoring what was lost."
+          "why": "In Isaiah 35 the desert blooms, blind eyes open, and “the lame man leap as an hart” (verse 6). Nothing is too broken for Him."
         },
         "bonus": [
           {
@@ -760,7 +761,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#78350f 0%,#be185d 55%,#fb7185 100%)",
         "blobA": "rgba(253,164,175,.45)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "seek": "Dry, empty land will burst into flowers and be happy"
       }
     ]
   },
@@ -1320,8 +1322,8 @@ window.TU_WEEKS = [
           "q": "The lesson says the servant in these chapters can mean three different people or groups. Which list is right?",
           "right": "Jesus Christ, the house of Israel, and Cyrus",
           "wrong": [
-            "Isaiah, Nephi, and Moses",
-            "Babylon, Persia, and Egypt"
+            "Isaiah, the prophet Nephi, and King Hezekiah",
+            "Babylon, the kingdom of Persia, and Egypt"
           ],
           "why": "The lesson says these words can refer to Jesus Christ, to the house of Israel, and to King Cyrus.",
           "source": "lesson",
@@ -1344,7 +1346,7 @@ window.TU_WEEKS = [
         "id": "isa40-drop-bucket",
         "section": 2,
         "hook": "Whole nations are a drop in a bucket.",
-        "body": "God's people in Babylon lived under the strongest empire around. Isaiah shows how it looks to God: a drop in a bucket, dust on a scale. He asks who “hath measured the waters in the hollow of his hand” (verse 12). Empires fade like flowers, “but the word of our God shall stand for ever” (verse 8).",
+        "body": "God's people in Babylon lived under the strongest empire around. Isaiah shows how it looks to God: a drop in a bucket, dust on a scale. He asks who “hath measured the waters in the hollow of his hand” (verse 12). Even the mightiest people wither like grass, “but the word of our God shall stand for ever” (verse 8).",
         "verse": {
           "text": "Behold, the nations are as a drop of a bucket, and are counted as the small dust of the balance…",
           "ref": "Isaiah 40:15"
