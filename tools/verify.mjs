@@ -826,6 +826,31 @@ for (const week of weeks) {
 }
 weekLabel = '';
 
+// Past weeks (content/past/, written by tools/archive-weeks.mjs): every
+// week its index lists has its file, with the same dates and title, so Past
+// weeks can open it. And weeks.js holds last week and later: older weeks
+// belong in content/past/, which keeps weeks.js small.
+{
+  const dir = path.join(ROOT, 'content', 'past'), index = [];
+  if (fs.existsSync(path.join(dir, 'index.js'))) {
+    const w = {};
+    try { new Function('window', fs.readFileSync(path.join(dir, 'index.js'), 'utf8'))(w); index.push(...(w.TU_PAST_INDEX || [])); }
+    catch (e) { failures.push('content/past/index.js: ' + e.message); }
+  }
+  for (const p of index) {
+    const f = path.join(dir, `week-${p.num}.js`), w = {};
+    if (!fs.existsSync(f)) { failures.push(`content/past/index.js lists week ${p.num} (${p.dates}), but content/past/week-${p.num}.js isn't there`); continue; }
+    try { new Function('window', fs.readFileSync(f, 'utf8'))(w); } catch (e) { failures.push(`content/past/week-${p.num}.js: ${e.message}`); continue; }
+    const week = (w.TU_PAST || {})[p.num];
+    if (!week || week.dates !== p.dates || week.title !== p.title) failures.push(`content/past/week-${p.num}.js doesn't hold ${p.title} (${p.dates}) under ${p.num}`);
+    if (weeks.some(x => x.dates === p.dates)) failures.push(`${p.dates} is in both content/weeks.js and content/past/: keep it in one`);
+  }
+  const d = new Date(), today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const started = weeks.map(w => weekStart(w.dates)).filter(s => s && s <= today).sort();
+  const old = started.length >= 2 ? started.slice(0, -2).length : 0;
+  if (old) note(`content/weeks.js holds ${old} ${old === 1 ? 'week' : 'weeks'} older than last week: node tools/archive-weeks.mjs moves ${old === 1 ? 'it' : 'them'} to content/past/, where Past weeks still opens ${old === 1 ? 'it' : 'them'}`);
+}
+
 for (const n of notes) console.log('  · ' + n);
 if (failures.length) {
   console.error(`✗ ${failures.length} problem${failures.length === 1 ? '' : 's'}:\n`);

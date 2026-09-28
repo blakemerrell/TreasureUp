@@ -69,6 +69,15 @@
   .lb-sec { margin-top: 16px; font-size: 13px; font-weight: 800; color: var(--gold); }
   .report-row.todo { color: rgba(255,255,255,.55); }
 
+  /* A past week on its own screen; a reel or chapter from it opens over it, in #view. */
+  #past { position: fixed; inset: 0; z-index: 85; overflow-y: auto; background: var(--ink); -webkit-overflow-scrolling: touch; }
+  #past[hidden] { display: none; }
+  #past .view-back { position: fixed; }
+  .past-row b { font-weight: 800; }
+  .past-row small { display: block; margin-top: 2px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.55); }
+  .past-note { margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: rgba(0,0,0,.3); border: 1px solid rgba(255,255,255,.12); }
+  .past-note p { margin-top: 4px; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,.9); white-space: pre-wrap; }
+
   /* One reel on its own screen, over the page and its top bar. */
   #view { position: fixed; inset: 0; z-index: 90; background: var(--ink); }
   #view[hidden] { display: none; }
@@ -1042,6 +1051,11 @@
 <main id="home"></main>
 
 <!-- One reel, looked back at. -->
+<section id="past" hidden aria-label="A past week">
+  <button id="pastBack" class="view-back" aria-label="Back">‹ Back</button>
+  <div id="pastBody"></div>
+</section>
+
 <section id="view" hidden aria-label="Look back">
   <button id="viewBack" class="view-back" aria-label="Back">‹ Back</button>
   <div id="viewBody"></div>
@@ -1529,17 +1543,8 @@ const TreasureUp = (function () {
   }
 
   function reelHtml(r, i) {
-    const link = readLink(r.verse.ref);
     const a = S.answers[r.id];
     const picked = a ? a.picked : null;
-    const media = r.media || {};
-    const photo = media.image;
-    const pic = photo ? `
-        <div class="reel-pic">
-          <img class="reel-photo-fill" src="${esc(photo.src)}" alt="" aria-hidden="true" decoding="async">
-          <img class="reel-photo" src="${esc(photo.src)}" alt="${esc(photo.alt)}" decoding="async">
-        </div>
-        <div class="credit">Picture: <a href="${esc(photo.link)}" target="_blank" rel="noopener noreferrer">${esc(photo.credit)}</a></div>` : '';
     // Bonuses show once he's answered the reel's own question, one at a
     // time: the next appears after he answers the one before.
     let bonus = '';
@@ -1551,11 +1556,31 @@ const TreasureUp = (function () {
       }
     }
     return `
-    <article class="reel${photo ? ' has-photo' : ''}" data-id="${esc(r.id)}" data-index="${i}">
+    <article class="reel${r.media && r.media.image ? ' has-photo' : ''}" data-id="${esc(r.id)}" data-index="${i}">
       ${backdrop(r)}
       <div class="relative z-20 px-5 pr-7 content-pad">
+        ${reelFaceHtml(r, WEEK.sections[r.section])}
+        ${quizHtml(r, 'reel', picked)}
+        ${bonus}
+        ${a ? noteHtml(r) : ''}
+      </div>
+    </article>`;
+  }
+  // A reel's picture, section, headline, text, clip and verse: everything
+  // but its questions. (A past week's reels show the same face.)
+  function reelFaceHtml(r, section) {
+    const link = readLink(r.verse.ref);
+    const media = r.media || {};
+    const photo = media.image;
+    const pic = photo ? `
+        <div class="reel-pic">
+          <img class="reel-photo-fill" src="${esc(photo.src)}" alt="" aria-hidden="true" decoding="async">
+          <img class="reel-photo" src="${esc(photo.src)}" alt="${esc(photo.alt)}" decoding="async">
+        </div>
+        <div class="credit">Picture: <a href="${esc(photo.link)}" target="_blank" rel="noopener noreferrer">${esc(photo.credit)}</a></div>` : '';
+    return `
         ${pic}
-        <div class="eyebrow">${esc(WEEK.sections[r.section])}</div>
+        <div class="eyebrow">${esc(section)}</div>
         <h2 class="reel-hook">${linkRefs(r.hook, r.verse.ref)}</h2>
         <p class="reel-body">${linkRefs(r.body, r.verse.ref)}</p>
         ${media.video && (media.video.previewed === true || window.TU_NO_EMBED) ? clipHtml(media.video) : ''}
@@ -1567,13 +1592,7 @@ const TreasureUp = (function () {
             ${link ? `<a href="${esc(link)}" target="_blank" rel="noopener noreferrer"
                          class="text-[11px] font-semibold text-white/60 underline decoration-white/30 shrink-0">read the chapter ↗</a>` : ''}
           </div>
-        </div>
-
-        ${quizHtml(r, 'reel', picked)}
-        ${bonus}
-        ${a ? noteHtml(r) : ''}
-      </div>
-    </article>`;
+        </div>`;
   }
 
   /* ---------------- home ---------------- */
@@ -1595,6 +1614,7 @@ const TreasureUp = (function () {
         <a href="${esc(WEEK.lesson)}" target="_blank" rel="noopener noreferrer"
            class="mt-4 inline-block text-[13px] font-semibold text-white/75 underline decoration-white/30">Open this week's lesson ↗</a>
         ${trailHtml()}
+        ${pastWeeksHtml()}
         ${rewardsHtml()}
       </div>`;
   }
@@ -1855,8 +1875,9 @@ const TreasureUp = (function () {
   // "Isaiah 13–14; 22" -> Isaiah 13, Isaiah 14, Isaiah 22, each with its verses
   // (a part with verses, like "Genesis 5:21–24", is just those). A block it
   // can't read gives no reading, and the days follow the sections as before.
-  function readingUnits() {
-    const text = window.TU_READING || {}, units = [];
+  // (A past week passes its own reading and text.)
+  function readingUnits(reference = WEEK.reference, text = window.TU_READING || {}) {
+    const units = [];
     let book = null;
     const unit = (book, c, from, to, part) => {
       const ch = book + ' ' + c, all = Array.isArray(text[ch]) ? text[ch] : null, whole = from == null;
@@ -1865,7 +1886,7 @@ const TreasureUp = (function () {
       units.push({ ref: whole ? ch : ch + ':' + from + (to !== from ? '–' + to : ''), ch, book, c, whole, from, to, verses,
                    words: verses ? verses.reduce((n, v) => n + countWords(v.t), 0) : 0 });
     };
-    for (const raw of String(WEEK.reference || '').split(';')) {
+    for (const raw of String(reference || '').split(';')) {
       const part = raw.trim();
       if (/^\d? ?[A-Za-z][^\d]*$/.test(part)) {      // a book on its own ("Hosea 1–6; Joel"): every chapter, from the text
         book = part;
@@ -3182,6 +3203,185 @@ const TreasureUp = (function () {
     }).join('');
     const read = (S.history || []).reduce((n, h) => n + (h.read || 0), 0) + Object.keys(S.read || {}).length;
     return `<div class="mt-5"><div class="eyebrow">Your year · week ${now} of ${YEAR_WEEKS}${read ? ' · ' + read + (read === 1 ? ' chapter' : ' chapters') + ' read' : ''}</div><div class="trail">${dots}</div></div>`;
+  }
+
+  /* ----- past weeks ----- */
+
+  // Every week before this one, to read again, newest first: the ones still
+  // in weeks.js, then the ones moved to content/past/ (tools/archive-weeks.mjs),
+  // whose file loads when it's opened. Each shows what he did in it, when
+  // that was saved (every week that ended from September 28, 2026 on).
+  const weekNumOf = w => Number((/\/(\d+)\?/.exec((w && w.lesson) || '') || [])[1]) || null;
+  const recordOf = num => (S.history || []).find(h => h.num === num) || null;
+  function pastWeeks() {
+    const start = weekStart(WEEK.dates);
+    const here = (window.TU_WEEKS || []).filter(w => weekStart(w.dates) < start)
+      .map(w => ({ num: weekNumOf(w), dates: w.dates, title: w.title, week: w }));
+    const moved = (window.TU_PAST_INDEX || []).filter(x => x && x.num && weekStart(x.dates) < start && !here.some(h => h.num === x.num))
+      .map(x => ({ num: x.num, dates: x.dates, title: x.title, week: null }));
+    return here.concat(moved).sort((a, b) => (weekStart(b.dates) || '').localeCompare(weekStart(a.dates) || ''));
+  }
+  function pastWeeksHtml() {
+    const list = pastWeeks();
+    if (!list.length) return '';
+    return `
+      <div class="home-sec">
+        <div class="eyebrow">Past weeks</div>
+        <p class="lb-help">Read any week again: its chapters, its reels, and your answers.</p>
+        ${list.map(p => {
+          const h = recordOf(p.num);
+          return `<button class="report-row past-row" data-past="${p.num}"><span class="st"></span>
+            <span><b>${esc(p.title)}</b><small>${esc(p.dates)}${h ? ` · ${h.right} of ${h.answered} right` : ''}</small></span><span class="go">›</span></button>`;
+        }).join('')}
+      </div>`;
+  }
+
+  // One past week on its own screen: its chapters (in the app when their
+  // text is here, or in Gospel Library), then each section's reels and
+  // Go-deeper readings, marked with his first try. A reel, reading or
+  // chapter opens over it, read-only: nothing here changes his progress.
+  let past = null;   // the week open: { p, week, text }
+  const pastRec = () => ((past && recordOf(past.p.num)) || {}).rec || {};
+  const pastSourceLink = src => src === 'lesson' ? past.week.lesson : sourceLink(src);
+  function loadScript(src) {
+    return new Promise((ok, no) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
+  }
+  async function pastWeekData(p) {
+    if (p.week) return { week: p.week, text: window.TU_READING || {} };
+    window.TU_PAST = window.TU_PAST || {};
+    window.TU_PAST_READING = window.TU_PAST_READING || {};
+    if (!window.TU_PAST[p.num]) await loadScript('content/past/week-' + p.num + '.js');
+    if (!window.TU_PAST[p.num]) throw new Error('no week ' + p.num);
+    // Its chapters' text is built at deploy; without it they open in Gospel Library.
+    if (!window.TU_PAST_READING[p.num]) await loadScript('content/past/reading-' + p.num + '.js').catch(() => {});
+    return { week: window.TU_PAST[p.num], text: window.TU_PAST_READING[p.num] || {} };
+  }
+  async function openPast(num) {
+    const p = pastWeeks().find(x => x.num === num);
+    if (!p) return;
+    past = null;
+    $('pastBody').innerHTML = `<div class="home-in"><p class="lb-help">Opening ${esc(p.title)}…</p></div>`;
+    $('past').hidden = false;
+    $('past').scrollTop = 0;
+    try {
+      const d = await pastWeekData(p);
+      if ($('past').hidden) return;                  // closed while it loaded
+      past = Object.assign({ p }, d);
+      $('pastBody').innerHTML = pastWeekHtml();
+    } catch (e) {
+      $('pastBody').innerHTML = `<div class="home-in"><p class="lb-help">That week didn't open. Try again when you're online.</p></div>`;
+    }
+  }
+  function closePast() {
+    if ($('past').hidden) return;
+    $('past').hidden = true;
+    $('pastBody').innerHTML = '';
+    past = null;
+  }
+  function pastWeekHtml() {
+    const { p, week, text } = past, h = recordOf(p.num), rec = pastRec();
+    const answers = rec.answers || {}, deepDone = rec.deep || {}, read = new Set(Array.isArray(rec.read) ? rec.read : Object.keys(rec.read || {}));
+    const row = (a, name, attr) => `
+      <button class="report-row${a ? (a.right ? ' is-right' : ' is-wrong') : ''}" ${attr}>
+        <span class="st">${a ? (a.right ? '✓' : '✕') : ''}</span><span>${esc(name)}</span><span class="go">›</span></button>`;
+    const deepRow = d => row(deepDone[d.id], '🧭 ' + (d.day === 'friday' ? d.title : 'Read ' + d.read), `data-past-deep="${esc(d.id)}"`);
+    const parts = week.sections.map((name, i) => `<div class="lb-sec">${esc(name)}</div>` +
+      week.reels.filter(r => r.section === i).map(r => row(answers[r.id], r.hook, `data-past-reel="${esc(r.id)}"`)).join('') +
+      (week.deep || []).filter(d => d.section === i && d.day !== 'friday').map(deepRow).join(''));
+    const friday = (week.deep || []).filter(d => d.day === 'friday');
+    if (friday.length) parts.push(`<div class="lb-sec">Friday deep dive</div>` + friday.map(deepRow).join(''));
+    const units = readingUnits(week.reference, text);
+    const chapters = units.map(u => `
+      <button class="report-row${read.has(u.ref) ? ' is-right' : ''}" data-past-read="${esc(u.ref)}">
+        <span class="st">${read.has(u.ref) ? '✓' : ''}</span><span>Read ${esc(u.ref)}</span><span class="go">›</span></button>`).join('');
+    const summary = !h ? '' : `You answered ${h.answered} ${h.answered === 1 ? 'reel' : 'reels'}, ${h.right} right the first time` +
+      (h.read ? `, and read ${h.read} of ${h.chapters || units.length} ${(h.chapters || units.length) === 1 ? 'chapter' : 'chapters'}.` : '.');
+    return `
+      <div class="home-in">
+        <div class="eyebrow">Come, Follow Me · ${esc(week.dates)}</div>
+        <h1 class="reel-hook" style="font-size:clamp(26px,4vh,34px)">${esc(week.title)}</h1>
+        <p class="text-[15px] font-bold text-amber-300">${linkRefs(week.reference)}</p>
+        ${summary ? `<p class="lb-help">${esc(summary)}</p>` : ''}
+        ${chapters ? `<div class="home-sec"><div class="eyebrow">The chapters</div>${chapters}</div>` : ''}
+        <div class="home-sec"><div class="eyebrow">The reels</div>${parts.join('')}</div>
+        <a href="${esc(week.lesson)}" target="_blank" rel="noopener noreferrer"
+           class="mt-5 inline-block text-[13px] font-semibold text-white/75 underline decoration-white/30">Open that week's lesson ↗</a>
+      </div>`;
+  }
+  function openPastView(kind, id) {
+    if (!past) return;
+    const { week, text } = past, rec = pastRec();
+    const r = kind === 'reel' && week.reels.find(x => x.id === id);
+    const d = kind === 'deep' && (week.deep || []).find(x => x.id === id);
+    const u = kind === 'read' && readingUnits(week.reference, text).find(x => x.ref === id);
+    const html = r ? pastReelHtml(r, rec) : d ? pastDeepHtml(d, rec) : u ? pastChapterHtml(u) : '';
+    if (!html) return;
+    $('viewBody').innerHTML = html;
+    $('view').hidden = false;
+  }
+  // A question as it was, read-only: the right answer, and his first try
+  // when it was saved.
+  function pastQuizHtml(q, seed, picked, home, label) {
+    const done = picked != null;
+    const buttons = choicesFor(q, seed).map(c => {
+      const right = c === q.right, missed = done && !right && c === picked;
+      return `<button class="choice${right ? ' is-right' : missed ? ' is-wrong' : ''}" disabled>
+                <span class="mark">${right ? '✓' : missed ? '✕' : ''}</span><span>${esc(c)}</span></button>`;
+    }).join('');
+    const lead = !done ? '' : picked === q.right ? '<b class="ok">Right.</b> ' : '<b class="no">Not quite.</b> ';
+    return `
+      <div class="quiz done${/^Bonus/.test(label) ? ' bonus' : ''}">
+        <div class="eyebrow" style="color:var(--gold)">${label}</div>
+        <p class="quiz-q">${linkRefs(q.q, home)}</p>
+        <div class="quiz-choices">${buttons}</div>
+        <p class="quiz-why">${lead}${linkRefs(q.why, home)}</p>
+      </div>`;
+  }
+  function pastReelHtml(r, rec) {
+    const a = (rec.answers || {})[r.id], bonus = rec.bonus || {}, note = S.notes && S.notes[r.id] && S.notes[r.id].text;
+    const bonuses = bonusesOf(r).map((q, n) => {
+      const b = bonus[bonusKey(r.id, n)];
+      return pastQuizHtml(q, r.id + '|bonus' + n, b ? b.picked : null, homeOf(r, q), 'Bonus · found in ' + refA(pastSourceLink(q.source), sourceLabel(q.source)));
+    }).join('');
+    return `
+    <article class="reel${r.media && r.media.image ? ' has-photo' : ''}" data-id="${esc(r.id)}" data-index="0">
+      ${backdrop(r)}
+      <div class="relative z-20 px-5 pr-7 content-pad">
+        ${reelFaceHtml(r, past.week.sections[r.section])}
+        ${pastQuizHtml(r.question, r.id, a ? a.picked : null, r.verse.ref, 'Quick check')}
+        ${bonuses}
+        ${note ? `<div class="past-note"><div class="eyebrow">Your note</div><p>${esc(note)}</p></div>` : ''}
+      </div>
+    </article>`;
+  }
+  function pastDeepHtml(d, rec) {
+    const a = (rec.deep || {})[d.id], friday = d.day === 'friday';
+    const web = /^https:|^lesson$/.test(d.read);
+    const url = d.read === 'lesson' ? past.week.lesson : web ? d.read : readLink(d.read);
+    return `
+    <article class="reel" data-id="deep-${esc(d.id)}" data-index="0">
+      ${backdrop({ gradient: 'linear-gradient(160deg,#0b1024 0%,#1e3a8a 62%,#3b1d6e 100%)', blobA: 'rgba(147,197,253,.3)', blobB: 'rgba(0,0,0,.45)' })}
+      <div class="relative z-20 px-5 pr-7 content-pad">
+        <div class="eyebrow">${friday ? 'Friday deep dive' : 'Go deeper · ' + esc(past.week.sections[d.section])}</div>
+        <h2 class="reel-hook">${friday ? esc(d.title) : 'Read ' + linkRefs(d.read)}</h2>
+        <p class="reel-body">${linkRefs(d.intro, deepPassage(d))}</p>
+        ${url ? `<a class="deep-open" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open ${esc(web ? sourceLabel(d.read) : d.read)} ↗</a>` : ''}
+        ${pastQuizHtml(d, 'deep|' + d.id, a ? a.picked : null, deepHome(d), 'Find it in the reading')}
+      </div>
+    </article>`;
+  }
+  function pastChapterHtml(u) {
+    const link = readLink(u.ref);
+    return `
+    <article class="reel" data-id="read-${esc(u.ref)}" data-index="0">
+      ${backdrop({ gradient: 'linear-gradient(160deg,#1c1917 0%,#292524 60%,#44403c 100%)', blobA: 'rgba(252,211,77,.12)', blobB: 'rgba(0,0,0,.45)' })}
+      <div class="relative z-20 px-5 pr-7 content-pad">
+        <div class="eyebrow">${esc(past.week.title)}</div>
+        <h2 class="reel-hook">${esc(u.ref)}</h2>
+        ${u.verses ? u.verses.map(v => `<p class="ls-v"><sup>${v.n}</sup>${esc(v.t)}</p>`).join('') + `<p class="ls-ch-end">End of ${esc(u.ref)}</p>`
+          : link ? `<a class="deep-open" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Read ${esc(u.ref)} in Gospel Library ↗</a>` : ''}
+      </div>
+    </article>`;
   }
 
   /* ---------------- live game (Kahoot-style) ---------------- */
@@ -8158,8 +8358,19 @@ const TreasureUp = (function () {
       if (ls) { openLesson(ls.dataset.lesson); return; }
       const v = e.target.closest('[data-view]');
       if (v) { openView(v.dataset.view); return; }
+      const pw = e.target.closest('[data-past]');
+      if (pw) { openPast(Number(pw.dataset.past)); return; }
       if (e.target.closest('[data-games]')) { openGames(); return; }
       if (e.target.closest('[data-parent]')) { openParent(); return; }
+    });
+
+    // A past week: its chapters, reels and readings open over it, read-only.
+    $('pastBack').addEventListener('click', closePast);
+    $('past').addEventListener('click', e => {
+      const t = e.target.closest('[data-past-reel], [data-past-deep], [data-past-read]');
+      if (!t) return;
+      const d = t.dataset;
+      openPastView(d.pastReel ? 'reel' : d.pastDeep ? 'deep' : 'read', d.pastReel || d.pastDeep || d.pastRead);
     });
 
     // One reel, looked back at: its bonus questions, a note, its clip.
@@ -8321,7 +8532,7 @@ const TreasureUp = (function () {
         if (e.key === 'Backspace') { e.preventDefault(); wordKey('back'); return; }
         if (/^[a-z]$/i.test(e.key)) { wordKey(e.key.toUpperCase()); return; }
       }
-      if (e.key === 'Escape') { closeParent(); closeBoard(); closeGames(); closeFam(); closeView(); if (!$('lesson').hidden) closeLesson(); if (!$('play').hidden) closePlay(); if (!$('live').hidden) liveExit(); }
+      if (e.key === 'Escape') { closeParent(); closeBoard(); closeGames(); closeFam(); if ($('view').hidden) closePast(); closeView(); if (!$('lesson').hidden) closeLesson(); if (!$('play').hidden) closePlay(); if (!$('live').hidden) liveExit(); }
     });
 
     // Coming back after midnight, or staying open past it, brings the new
@@ -8358,12 +8569,17 @@ const TreasureUp = (function () {
       if (F && !stored(syncKey(F.pid))) store(syncKey(F.pid), canon(S));
     }
 
-    // A new week: keep a one-line summary of the last one for the year trail.
-    const weekNum = Number((/\/(\d+)\?/.exec(WEEK.lesson) || [])[1]) || null;
+    // A new week: keep a one-line summary of the last one for the year trail,
+    // and what he did in it, so Past weeks can show it again: each first try
+    // (right, and what he picked) and the chapters he read. Kept small: the
+    // family's copy of his progress has to stay under 500,000 characters.
+    const weekNum = weekNumOf(WEEK);
     if (S.weekTitle && S.weekTitle !== WEEK.title) {
       const vals = Object.values(S.answers);
       const read = Object.keys(S.read || {}).length;
-      if (vals.length || read) S.history.push({ title: S.weekTitle, num: S.weekNum, right: vals.filter(a => a.right).length, answered: vals.length, read, chapters: S.weekChapters || 0 });
+      const tries = o => Object.fromEntries(Object.entries(o || {}).map(([k, a]) => [k, { right: !!a.right, picked: a.picked }]));
+      if (vals.length || read) S.history.push({ title: S.weekTitle, num: S.weekNum, right: vals.filter(a => a.right).length, answered: vals.length, read, chapters: S.weekChapters || 0,
+        rec: { answers: tries(S.answers), bonus: tries(S.bonus), deep: tries(S.deep), read: Object.keys(S.read || {}) } });
     }
     S.weekTitle = WEEK.title;
     S.weekNum = weekNum;
@@ -8437,6 +8653,9 @@ const TreasureUp = (function () {
      app opens on the week whose dates include today.
      ================================================================== -->
 <script src="content/weeks.js"></script>
+<!-- The weeks moved out of weeks.js (tools/archive-weeks.mjs), listed for Past
+     weeks; each one's file (content/past/week-N.js) loads when it's opened. -->
+<script src="content/past/index.js"></script>
 <!-- The chapters of each week's reading, built at deploy (tools/build-reading.mjs). -->
 <script src="content/reading.js"></script>
 <script src="content/boards.js"></script>
