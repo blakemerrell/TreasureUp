@@ -46,24 +46,56 @@
                     about: 'Leader of the Lamanite armies (Alma 43:5).' },
     alma:         { name: 'Alma', hp: 1, speed: 0, dmg: 0, range: 0, cd: 1, armor: 0, sight: 0, prophet: true,
                     about: 'Moroni sent to him, "desiring him that he should inquire of the Lord whither the armies of the Nephites should go" (Alma 43:23).' },
+    // Free battle: the Red Alert-style tech tree. Units marked `tier` appear only
+    // there (W.tech); `needs` names the buildings that must stand first.
+    standard:     { name: 'Standard of liberty', hp: 220, speed: 42, dmg: 0, range: 0, cd: 1, armor: 3, sight: 160, deploys: true, tier: true,
+                    about: 'Moroni "planted the standard of liberty among the Nephites" (Alma 46:36). Choose open ground and plant it: your city grows from there.' },
+    swordsman:    { name: 'Swordsman', hp: 115, speed: 58, dmg: 14, range: 20, cd: 1.0, armor: 2, sight: 170, cost: { grain: 55, timber: 35 }, time: 11, soldier: true, tier: true, needs: ['armory'],
+                    about: 'Armed "with swords, and with cimeters" (Alma 43:18). Strong up close.' },
+    nslinger:     { name: 'Slinger', hp: 55, speed: 60, dmg: 6, range: 140, cd: 1.3, armor: 0, sight: 180, cost: { grain: 30, timber: 10 }, time: 7, soldier: true, ranged: true, tier: true,
+                    about: 'The Nephites armed themselves "with stones, and with slings" (Alma 2:12). Cheap, and strikes from far off.' },
+    javelin:      { name: 'Javelin thrower', hp: 75, speed: 60, dmg: 17, range: 95, cd: 1.7, armor: 1, sight: 180, cost: { grain: 50, timber: 40 }, time: 12, soldier: true, ranged: true, tier: true, needs: ['hall'],
+                    about: '"The dart, and the javelin" (Jarom 1:8). From history, not the verse: ancient Americans threw darts with a spear-thrower called an atlatl.' },
+    stripling:    { name: 'Stripling warrior', hp: 190, speed: 64, dmg: 15, range: 20, cd: 0.9, armor: 4, sight: 180, cost: { grain: 90, timber: 60 }, time: 16, soldier: true, tier: true, needs: ['hall'],
+                    about: '"Exceedingly valiant for courage" (Alma 53:20), "taught by their mothers" (Alma 56:47). Very hard to bring down.' },
+    cart:         { name: 'Horse cart', hp: 90, speed: 78, dmg: 0, range: 0, cd: 1, armor: 1, sight: 140, cost: { grain: 60, timber: 40 }, time: 12, gathers: true, load: 30, tier: true, needs: ['stables'],
+                    about: 'Hauls three times what a worker can. The Nephites had "horses, and their chariots" (3 Nephi 3:22). The verses name horses; archaeologists haven\'t found them in the ancient Americas yet.' },
     prisoner:     { name: 'Prisoner', hp: 1, speed: 45, dmg: 0, range: 0, cd: 1, armor: 0, sight: 0, about: 'Yielded up as a prisoner (3 Nephi 4:27).' }
   };
 
   const BUILDINGS = {
-    stronghold: { name: 'Zarahemla', w: 4, h: 4, hp: 2400, armor: 4, dmg: 8, range: 185, cd: 1.4, dropoff: true, trains: ['worker'], about: 'The gathering place (3 Nephi 3:23). Its guards shoot at robbers. Lose it and the mission is lost.' },
-    storehouse: { name: 'Storehouse', w: 2, h: 2, hp: 450, armor: 2, cost: { timber: 60 }, work: 18, dropoff: true, about: 'Workers bring grain and timber here too.' },
-    barracks:   { name: 'Barracks', w: 3, h: 3, hp: 650, armor: 2, cost: { timber: 110 }, work: 30, trains: ['spearman', 'archer'], research: ['armor'], about: 'Trains the guards.' },
-    tower:      { name: 'Watchtower', w: 2, h: 2, hp: 520, armor: 3, cost: { grain: 20, timber: 60 }, work: 26, dmg: 9, range: 175, cd: 1.3, about: 'Guards "watch them … day and night" (3 Nephi 3:14). Shoots at robbers.' },
+    stronghold: { name: 'Zarahemla', w: 4, h: 4, hp: 2400, armor: 4, dmg: 8, range: 185, cd: 1.4, dropoff: true, trains: ['worker'], food: 10, store: 300, about: 'The gathering place (3 Nephi 3:23). Its guards shoot at robbers. Lose it and the mission is lost.' },
+    storehouse: { name: 'Storehouse', w: 2, h: 2, hp: 450, armor: 2, cost: { timber: 60 }, work: 18, dropoff: true, store: 300, about: 'Workers bring grain and timber here too.' },
+    barracks:   { name: 'Barracks', w: 3, h: 3, hp: 650, armor: 2, cost: { timber: 110 }, work: 30, trains: ['spearman', 'nslinger', 'archer', 'swordsman'], research: ['armor'], about: 'Trains the guards.' },
+    tower:      { name: 'Watchtower', w: 2, h: 2, hp: 520, armor: 3, cost: { grain: 20, timber: 60 }, work: 26, dmg: 9, range: 175, cd: 1.3, needs: ['barracks'], about: 'Guards "watch them … day and night" (3 Nephi 3:14). Shoots at robbers.' },
     wall:       { name: 'Earthwork', w: 1, h: 1, hp: 260, armor: 5, cost: { timber: 6 }, work: 5, wall: true, about: 'Fortifications "round about them" (3 Nephi 3:14). Robbers must break through.' },
     gate:       { name: 'Gate', w: 1, h: 1, hp: 320, armor: 4, cost: { timber: 20 }, work: 8, wall: true, gate: true, about: 'Your people pass through; robbers must break it.' },
     village:    { name: 'Village', w: 3, h: 3, hp: 99999, neutral: true },
-    camp:       { name: "Robbers' camp", w: 3, h: 3, hp: 380, armor: 2, about: 'Part of the siege round about the city (3 Nephi 4:16).' }
+    camp:       { name: "Robbers' camp", w: 3, h: 3, hp: 380, armor: 2, about: 'Part of the siege round about the city (3 Nephi 4:16).' },
+    // Free battle.
+    farm:       { name: 'Farm', w: 2, h: 2, hp: 300, armor: 1, cost: { timber: 50 }, work: 14, food: 8, grows: 0.25, tier: true,
+                  about: 'Feeds 8 more people, and grows a little grain. "They did raise grain in abundance" (Helaman 6:12).' },
+    granary:    { name: 'Granary', w: 2, h: 2, hp: 380, armor: 2, cost: { timber: 45 }, work: 14, store: 500, tier: true,
+                  about: 'Holds 500 more grain and timber. The Nephites "reserved for themselves provisions" (3 Nephi 4:4).' },
+    armory:     { name: 'Armory', w: 3, h: 2, hp: 500, armor: 2, cost: { grain: 40, timber: 120 }, work: 24, needs: ['barracks'], research: ['breastplates', 'cimeters', 'pickets'], tier: true,
+                  about: 'Makes "all manner of weapons of war, of every kind" (Alma 2:12). Opens swordsmen, and makes armor, better weapons and stronger walls.' },
+    stables:    { name: 'Stables', w: 3, h: 2, hp: 420, armor: 1, cost: { timber: 100 }, work: 20, needs: ['farm'], trains: ['cart'], tier: true,
+                  about: 'Horse carts that haul three times as much. They had "horses, and their chariots" (3 Nephi 3:22).' },
+    hall:       { name: 'Hall of the captains', w: 3, h: 3, hp: 800, armor: 3, cost: { grain: 150, timber: 200 }, work: 36, needs: ['armory'], trains: ['javelin', 'stripling'], tier: true,
+                  about: 'Where the chief captains plan the war. Trains javelin throwers and stripling warriors. From history, not the verses: its stepped platform is like those built in ancient Mesoamerica.' },
+    warcamp:    { name: 'Lamanite war camp', w: 4, h: 4, hp: 1800, armor: 3, tier: true, about: 'Where the Lamanite armies gather. Tear it down to win.' }
   };
 
   const RESEARCH = {
     armor: { name: 'Weapons, armor and shields', cost: { grain: 120, timber: 120 }, time: 30, ref: '3 Nephi 3:26', armor: 2,
              about: 'Gidgiddoni had them make "weapons of war of every kind … strong with armor, and with shields" (3 Nephi 3:26). Soldiers +2 armor.',
              done: 'Weapons, armor and shields are ready: your soldiers are stronger.' },
+    cimeters: { name: 'Swords and cimeters', cost: { grain: 80, timber: 120 }, time: 25, ref: 'Alma 43:18', dmg: 3,
+             about: 'Moroni\'s people "were armed with swords, and with cimeters, and all manner of weapons of war" (Alma 43:18). Soldiers who fight up close +3 damage.',
+             done: 'Swords and cimeters for everyone who fights up close.' },
+    pickets: { name: 'Ridges of earth and pickets', cost: { timber: 150 }, time: 25, ref: 'Alma 50:1–3', walls: 2,
+             about: '"Heaps of earth round about all the cities," with "works of timbers" and "a frame of pickets" on top (Alma 50:1–3). Walls twice as strong.',
+             done: 'Your walls have ridges of earth and pickets now: twice as strong.' },
     breastplates: { name: 'Breastplates and shields', cost: { grain: 100, timber: 100 }, time: 25, ref: 'Alma 43:19', armor: 4,
              about: 'Moroni "prepared his people with breastplates and with arm-shields, yea, and also shields to defend their heads" (Alma 43:19). Soldiers +4 armor.',
              done: 'Your soldiers have breastplates, arm-shields and head-plates, and thick clothing.' }
@@ -98,7 +130,7 @@
     }
     // Groves for timber.
     const grove = (cx, cy, rad) => {
-      for (let y = cy - rad; y <= cy + rad; y++) for (let x = cx - rad; x <= cx + rad; x++) {
+      for (let y = Math.floor(cy - rad); y <= cy + rad; y++) for (let x = Math.floor(cx - rad); x <= cx + rad; x++) {
         const d = Math.hypot(x - cx, y - cy);
         if (d <= rad - 0.3 + r() * 0.8 && get(x, y) === T.GRASS) set(x, y, T.FOREST, 120);
       }
@@ -158,10 +190,39 @@
     // Trees in the valleys where the armies hid, with room to stand among them.
     for (const c of SIDON.COVER) for (let y = c.y0; y <= c.y1; y++) for (let x = c.x0; x <= c.x1; x++) if (get(x, y) === T.GRASS && !keepClear(x, y) && r() < 0.22) set(x, y, T.FOREST, 90);
     // Groves for timber, and fields near the cities and villages.
-    const grove = (cx, cy, rad) => { for (let y = cy - rad; y <= cy + rad; y++) for (let x = cx - rad; x <= cx + rad; x++) if (Math.hypot(x - cx, y - cy) <= rad - 0.3 + r() * 0.8 && get(x, y) === T.GRASS && !keepClear(x, y)) set(x, y, T.FOREST, 120); };
+    const grove = (cx, cy, rad) => { for (let y = Math.floor(cy - rad); y <= cy + rad; y++) for (let x = Math.floor(cx - rad); x <= cx + rad; x++) if (Math.hypot(x - cx, y - cy) <= rad - 0.3 + r() * 0.8 && get(x, y) === T.GRASS && !keepClear(x, y)) set(x, y, T.FOREST, 120); };
     [[43, 6, 2.5], [60, 4, 2], [38, 3, 2], [4, 45, 2], [12, 24, 2]].forEach(g => grove(g[0], g[1], g[2]));
     const field = (x0, y0, w, h) => { for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) if (get(x, y) === T.GRASS) set(x, y, T.FIELD, 300); };
     [[46, 6, 3, 2], [57, 6, 3, 2], [5, 43, 3, 2], [12, 41, 3, 2], [2, 35, 3, 2]].forEach(f => field(f[0], f[1], f[2], f[3]));
+    return { tiles, amt };
+  }
+
+  // Free battle: your standard in the south-west, the Lamanite war camp in the
+  // north-east, the river Sidon between, with timber, fields and hills to fight over.
+  const FREE = {
+    START: { x: 11, y: 37 }, WARCAMP: { x: 50, y: 3 },
+    CAMPS: [{ x: 41, y: 5 }, { x: 57, y: 11 }, { x: 47, y: 12 }],
+    river: y => Math.round(31 + 2 * Math.sin(y / 9)),
+    FORDS: [8, 24, 40]
+  };
+  function buildFreeMap() {
+    const r = rng(46);
+    const tiles = new Uint8Array(MAP_W * MAP_H);
+    const amt = new Int16Array(MAP_W * MAP_H);
+    const inb = (x, y) => x >= 0 && y >= 0 && x < MAP_W && y < MAP_H;
+    const set = (x, y, t, a) => { if (inb(x, y)) { tiles[y * MAP_W + x] = t; amt[y * MAP_W + x] = a || 0; } };
+    const get = (x, y) => inb(x, y) ? tiles[y * MAP_W + x] : T.ROCK;
+    const clear = (x, y) => Math.hypot(x - FREE.START.x - 2, y - FREE.START.y - 2) < 6 || Math.hypot(x - FREE.WARCAMP.x - 2, y - FREE.WARCAMP.y - 2) < 6 ||
+      FREE.CAMPS.some(c => Math.hypot(x - c.x - 1, y - c.y - 1) < 3.5);
+    for (let y = 0; y < MAP_H; y++) {
+      const x0 = FREE.river(y);
+      for (let x = x0; x < x0 + 2; x++) set(x, y, FREE.FORDS.some(f => y >= f && y <= f + 1) ? T.FORD : T.WATER);
+    }
+    const blob = (cx, cy, rad, t, a) => { for (let y = Math.floor(cy - rad - 1); y <= cy + rad + 1; y++) for (let x = Math.floor(cx - rad - 1); x <= cx + rad + 1; x++) if (Math.hypot(x - cx, y - cy) <= rad - 0.3 + r() * 0.8 && get(x, y) === T.GRASS && !clear(x, y)) set(x, y, t, a); };
+    [[20, 26, 2.2], [44, 27, 2.6], [24, 6, 1.8], [40, 42, 1.8]].forEach(([x, y, rad]) => blob(x, y, rad, T.ROCK));
+    [[4, 30, 2.5], [20, 43, 2.5], [5, 45, 2], [24, 19, 3], [38, 33, 3], [15, 13, 2.5], [49, 40, 3], [59, 22, 2.5], [39, 1, 2], [57, 30, 2], [9, 22, 2]].forEach(([x, y, rad]) => blob(x, y, rad, T.FOREST, 120));
+    const field = (x0, y0, w, h) => { for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) if (get(x, y) === T.GRASS && !clear(x, y)) set(x, y, T.FIELD, 300); };
+    [[17, 34, 3, 2], [8, 43, 3, 2], [25, 33, 3, 2], [36, 14, 3, 2], [54, 16, 3, 2], [14, 28, 3, 2]].forEach(f => field(...f));
     return { tiles, amt };
   }
 
@@ -233,7 +294,7 @@
     ]
   };
 
-  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, CITY, VILLAGES, QUESTIONS, SIDON, buildMap, buildSidonMap, rng };
+  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, CITY, VILLAGES, QUESTIONS, SIDON, FREE, buildMap, buildSidonMap, buildFreeMap, rng };
   if (typeof module !== 'undefined' && module.exports) module.exports = DATA;
   else root.LIB_DATA = DATA;
 })(this);
