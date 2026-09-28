@@ -42,6 +42,11 @@ jobs:
         env:
           SCRIPTURE_CACHE: ${{ runner.temp }}/scripture   # keep the data out of the published site
 
+      # Title of Liberty (liberty/): both missions play through, and every
+      # quotation in the game matches the verse it cites.
+      - name: Check Title of Liberty
+        run: node tools/test-liberty.mjs
+
       # The chapters of each week's reading, so he can read them in the app
       # (tools/build-reading.mjs, from the data the check just downloaded).
       # If it can't, the app still works and sends him to Gospel Library.
