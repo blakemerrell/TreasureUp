@@ -111,8 +111,8 @@
     },
     gathered() { return this.villages.filter(v => v.arrived >= Math.ceil(v.people / 2)).length; },
     objectives(W) {
-      const walls = W.buildings('p').filter(b => b.def.wall && b.built).length;
-      const towers = W.buildings('p', 'tower').filter(b => b.built).length;
+      const walls = W.buildings('p').filter(b => b.def.wall && b.built >= 1).length;
+      const towers = W.buildings('p', 'tower').filter(b => b.built >= 1).length;
       const guards = W.soldiers().filter(u => !u.def.hero).length;
       return [
         { text: 'Gather the villages to Zarahemla', ref: '3 Nephi 3:13, 22', have: this.gathered(), need: 4, of: 5 },
@@ -796,13 +796,142 @@
     }
   };
 
+  // ------------------------------------------------ Free battle
+
+  // Build a city from nothing and tear down the Lamanite war camp: Red Alert's
+  // way of playing, with the Book of Mormon's buildings and troops.
+  const FR = D.FREE;
+  const LEVELS = {
+    easy:   { name: 'Easy',   first: 360, every: 150, size: 3, grow: 1,   stars: 1, guards: 8,  campGuards: 3, towers: 1, reinforce: 2, strength: 1.1,  armor: 1, fierce: 0.05 },
+    normal: { name: 'Normal', first: 250, every: 110, size: 5, grow: 2,   stars: 2, guards: 14, campGuards: 5, towers: 3, reinforce: 3, strength: 1.25, armor: 2, fierce: 0.08 },
+    hard:   { name: 'Hard',   first: 200, every: 90,  size: 6, grow: 2.5, stars: 3, guards: 18, campGuards: 6, towers: 3, reinforce: 4, strength: 1.4,  armor: 3, fierce: 0.1 }
+  };
+
+  // The Lamanites: guards keep near home; the rest go for your nearest building.
+  function freeBrain(W, u) {
+    const o = u.order;
+    if (o.type === 'attack') {
+      const t = W.ents.get(o.target);
+      if (alive(t)) {
+        if (t.kind === 'building') { const e = W.enemiesNear(u, 'r', 90, true); if (e) W.order(u, { type: 'attack', target: e.id, then: o }); }
+        else if (u.home && dist(t, u.home) > 11 * TILE) W.order(u, { type: 'move', goal: W.rectOf(u.home), near: true });   // guards don't chase far
+        return;
+      }
+    }
+    if (u.mode === 'guard') {
+      const e = W.enemiesNear(u, 'r', 200, true);
+      if (e && (!u.home || dist(e, u.home) < 10 * TILE)) W.order(u, { type: 'attack', target: e.id });
+      else if (u.home && alive(u.home) && o.type === 'idle' && dist(u, u.home) > 5 * TILE) W.order(u, { type: 'move', goal: W.rectOf(u.home), near: true });
+      else if (u.home && !alive(u.home)) u.mode = 'attack';
+      return;
+    }
+    const e = W.enemiesNear(u, 'r', u.def.sight, true);
+    if (e) { if (o.type !== 'attack' || o.target !== e.id) W.order(u, { type: 'attack', target: e.id }); return; }
+    const bs = W.buildings('p'), list = bs.filter(b => !b.def.wall).length ? bs.filter(b => !b.def.wall) : bs;
+    let best = null, bd = Infinity;
+    for (const b of list) { const d = dist(u, b); if (d < bd) { bd = d; best = b; } }
+    if (!best) { const p = W.units('p').sort((a, b) => dist(a, u) - dist(b, u))[0]; best = p || null; }
+    if (best && (o.type !== 'attack' || o.target !== best.id)) W.order(u, { type: 'attack', target: best.id });
+  }
+
+  const free = {
+    id: 'free', campaign: 'free', title: 'Free battle', chapter: 'Any chapter you have read', free: true, map: D.buildFreeMap,
+    year: 'In the days of Captain Moroni', level: 'normal', LEVELS,
+    goals: 'Plant the standard of liberty, build up your city, and tear down the Lamanite war camp and its three camps.',
+    starsText: '★ won on Easy, ★★ on Normal, ★★★ on Hard.',
+    briefing: [
+      ['Moroni "planted the standard of liberty among the Nephites," and fortified the land against the Lamanites.', 'Alma 46:36'],
+      ['Plant yours on open ground, and your city begins. Farms feed your people; granaries and storehouses hold what they gather.', null],
+      ['The barracks trains spearmen and slingers; the armory opens swordsmen, archers and armor; the stables, horse carts; the hall of the captains, javelin throwers and stripling warriors.', null],
+      ['These Lamanites have "prepared themselves with shields, and with breastplates" too.', 'Alma 49:6']
+    ],
+    setup(W) {
+      const L = LEVELS[this.level];
+      W.tech = true; W.border = null;
+      W.res = { grain: 200, timber: 250 };
+      // By Moroni's later wars the Lamanites "prepared themselves with shields, and with breastplates" (Alma 49:6).
+      W.boost.r = L.strength; W.foeArmor = L.armor;
+      const put = (type, x, y, team, extra) => { const [fx, fy] = W.freeTileNear(x, y, team || 'p'); return W.addUnit(type, team || 'p', center(fx), center(fy), extra); };
+      const S0 = FR.START;
+      this.standard = put('standard', S0.x + 2, S0.y + 2);
+      for (let i = 0; i < 4; i++) put('worker', S0.x + i, S0.y + 5);
+      put('spearman', S0.x + 5, S0.y); put('spearman', S0.x + 6, S0.y + 1); put('nslinger', S0.x + 5, S0.y + 2);
+      this.warcamp = W.addBuilding('warcamp', 'r', FR.WARCAMP.x, FR.WARCAMP.y, true);
+      this.camps = FR.CAMPS.map(c => W.addBuilding('camp', 'r', c.x, c.y, true, { name: 'Lamanite camp' }));
+      const guard = (home, list) => { let k = 0; for (const [type, n] of list) for (let i = 0; i < n; i++, k++) put(type, home.tx + (k % 4), home.ty + home.h + Math.floor(k / 4), 'r', { mode: 'guard', home }); };
+      this.guardList = [['lamanite', Math.ceil(L.guards * 0.6)], ['slinger', Math.floor(L.guards * 0.3)], ['amalekite', 1], ['zoramite', L.stars > 1 ? 1 : 0]];
+      guard(this.warcamp, this.guardList);
+      for (const c of this.camps) guard(c, [['lamanite', Math.ceil(L.campGuards * 0.6)], ['slinger', Math.floor(L.campGuards * 0.4)]]);
+      // Their own watchtowers, round the war camp.
+      const spots = [[-3, 2], [5, 2], [1, 6]];
+      for (let i = 0; i < L.towers; i++) {
+        const [dx, dy] = spots[i];
+        const [x, y] = W.freeTileNear(this.warcamp.tx + dx, this.warcamp.ty + dy, 'r');
+        if (W.canPlace('tower', x, y)) W.addBuilding('tower', 'r', x, y, true);
+      }
+      this.wave = 0; this.nextWave = L.first; this.planted = false; this.nextReinforce = 60; this.nextFierce = 300;
+      W.msg('Choose the standard of liberty and plant it on open ground to begin your city.', 'Alma 46:36', 'tip');
+      W.msg('Farms feed your people and granaries hold what they gather. The Lamanites will come: build a barracks.', null, 'tip');
+    },
+    timerLabel: 'The Lamanites attack in',
+    timeLeft(W) { return alive(this.warcamp) ? Math.max(0, this.nextWave - W.t) : null; },
+    objectives(W) {
+      return [
+        { text: 'Plant the standard of liberty', ref: 'Alma 46:36', have: this.planted ? 1 : 0, need: 1 },
+        { text: 'Tear down the Lamanite camps', ref: null, have: this.camps.filter(c => !alive(c)).length, need: this.camps.length },
+        { text: 'Tear down the Lamanite war camp (it sends more guards while it stands)', ref: null, have: alive(this.warcamp) ? 0 : 1, need: 1 }
+      ];
+    },
+    update(W) {
+      const L = LEVELS[this.level];
+      if (!this.planted && W.stronghold()) this.planted = true;
+      // The attacks: from the war camp while it stands, bigger each time, and more with each camp still up.
+      if (alive(this.warcamp) && W.t >= this.nextWave) {
+        this.wave++;
+        this.nextWave = W.t + L.every;
+        const n = Math.round(L.size + L.grow * (this.wave - 1)) + this.camps.filter(alive).length;
+        const list = [['lamanite', Math.ceil(n * 0.6)], ['slinger', Math.floor(n * 0.4)]];
+        if (this.wave % 3 === 0) list.push([this.wave % 2 ? 'amalekite' : 'zoramite', 1]);
+        let k = 0;
+        for (const [type, m] of list) for (let i = 0; i < m; i++, k++) {
+          const [x, y] = W.freeTileNear(this.warcamp.tx + (k % 5) - 1, this.warcamp.ty + this.warcamp.h + 1 + Math.floor(k / 5), 'r');
+          W.addUnit(type, 'r', center(x), center(y), { mode: 'attack' });
+        }
+        W.msg(`The Lamanites come to battle: ${k} of them.`, null, 'warn');
+      }
+      // While the war camp stands, it sends out more guards, and they grow fiercer with time.
+      if (alive(this.warcamp) && W.t >= this.nextReinforce) {
+        this.nextReinforce = W.t + 45;
+        const guards = W.units('r').filter(u => u.mode === 'guard' && u.home === this.warcamp).length;
+        for (let i = 0; i < L.reinforce && guards + i < L.guards + 8; i++) {
+          const [x, y] = W.freeTileNear(this.warcamp.tx + 1 + i, this.warcamp.ty + this.warcamp.h, 'r');
+          W.addUnit(i % 3 === 2 ? 'slinger' : 'lamanite', 'r', center(x), center(y), { mode: 'guard', home: this.warcamp });
+        }
+      }
+      if (W.t >= this.nextFierce) { this.nextFierce = W.t + 300; W.boost.r = Math.min(L.strength + 0.3, W.boost.r + L.fierce); }
+      if (!alive(this.warcamp) && !this.camps.some(alive)) return this.finish(W, true);
+      const standing = W.buildings('p').length || W.units('p').some(u => u.def.deploys);
+      if (!standing) this.finish(W, false);
+    },
+    foeBrain: freeBrain,
+    finish(W, won) {
+      if (W.over) return;
+      const L = LEVELS[this.level], m = Math.floor(W.t / 60);
+      W.over = won
+        ? { won: true, stars: L.stars, title: 'The war camp is torn down',
+            text: '“And thus Moroni planted the standard of liberty among the Nephites.”', ref: 'Alma 46:36',
+            detail: `Won on ${L.name} in ${m} minutes.` }
+        : { won: false, title: 'Your city has fallen', text: 'Build farms and a barracks early, and walls with watchtowers on the side the attacks come from.', ref: null };
+    }
+  };
+
   // In the order of the Book of Mormon.
   const CAMPAIGNS = [
     { id: 'moroni', title: 'Captain Moroni', about: 'Alma 43 onward: Moroni defends the Nephites against Zerahemnah, Amalickiah and Ammoron.' },
     { id: 'gidgiddoni', title: 'Lachoneus and Gidgiddoni', about: '3 Nephi 3–4: the Nephites gather into one place and outlast the Gadianton robbers.' }
   ];
   const MISSIONS = [m3, m1, m2];
-  const API = { MISSIONS, CAMPAIGNS, robberBrain, spawnRobbers };
+  const API = { MISSIONS, CAMPAIGNS, FREE_BATTLE: free, robberBrain, spawnRobbers };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
   else root.LIB_MISSIONS = API;
 })(this);

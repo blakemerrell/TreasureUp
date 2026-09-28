@@ -3,7 +3,7 @@
 // then play its mission. Nothing here decides who wins a fight.
 (function () {
   'use strict';
-  const D = window.LIB_DATA, S = window.LIB_SIM, MISSIONS = window.LIB_MISSIONS.MISSIONS, CAMPAIGNS = window.LIB_MISSIONS.CAMPAIGNS;
+  const D = window.LIB_DATA, S = window.LIB_SIM, MISSIONS = window.LIB_MISSIONS.MISSIONS, CAMPAIGNS = window.LIB_MISSIONS.CAMPAIGNS, FREE = window.LIB_MISSIONS.FREE_BATTLE;
   const TEXT = window.LIBERTY_SCRIPTURE || {};
   const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, QUESTIONS } = D;
   const { tileOf, dist } = S;
@@ -283,7 +283,7 @@
     ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x - w / 2 - 1, y - 1, w + 2, 5);
     ctx.fillStyle = f > 0.5 ? '#22c55e' : f > 0.25 ? '#eab308' : '#ef4444'; ctx.fillRect(x - w / 2, y, w * clamp(f, 0, 1), 3);
   }
-  const radius = u => u.def.leader ? 11 : u.def.hero ? 10 : u.type === 'flock' ? 10 : u.def.gathers || u.type === 'villager' ? 7 : 8;
+  const radius = u => u.def.leader ? 11 : u.def.hero ? 10 : u.type === 'flock' || u.type === 'cart' ? 10 : u.type === 'stripling' || u.def.deploys ? 9 : u.def.gathers || u.type === 'villager' ? 7 : 8;
   function drawRing(u) {
     ctx.strokeStyle = '#86efac'; ctx.lineWidth = 2;
     ctx.beginPath(); ctx.ellipse(u.x, u.y + 4, radius(u) + 4, (radius(u) + 4) * 0.55, 0, 0, 7); ctx.stroke();
@@ -293,6 +293,25 @@
     const kneel = u.kneelUntil && W.t < u.kneelUntil;
     const y = u.y - (kneel ? -2 : 1);
     ctx.fillStyle = 'rgba(0,0,0,.28)'; ctx.beginPath(); ctx.ellipse(x + 2, u.y + r * 0.7, r, r * 0.45, 0, 0, 7); ctx.fill();
+    if (u.type === 'cart') {
+      const f = u.face || 0;
+      ctx.save(); ctx.translate(x, y); ctx.rotate(f);
+      ctx.fillStyle = '#7c5a3a'; ctx.fillRect(-12, -6, 16, 12);
+      ctx.strokeStyle = '#3f2a14'; ctx.lineWidth = 1.5; ctx.strokeRect(-12, -6, 16, 12);
+      ctx.fillStyle = '#2b1d10'; ctx.fillRect(-9, -8, 5, 2); ctx.fillRect(-9, 6, 5, 2);
+      ctx.fillStyle = '#a16207'; ctx.beginPath(); ctx.ellipse(10, 0, 6, 3.5, 0, 0, 7); ctx.fill();
+      ctx.beginPath(); ctx.arc(15, 0, 2.5, 0, 7); ctx.fill();
+      if (u.carry && u.carry.amt) { ctx.fillStyle = u.carry.type === 'timber' ? '#8b5a2b' : '#eab308'; ctx.fillRect(-10, -4, 12, 8); }
+      ctx.restore();
+      ctx.strokeStyle = '#dbeafe'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x, y, 13, 0, 7); ctx.stroke();
+      return;
+    }
+    if (u.def.deploys) {
+      // Moroni's "title of liberty": a piece of his coat on a pole (Alma 46:12–13).
+      ctx.strokeStyle = '#3f2f1f'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x + 5, y + 6); ctx.lineTo(x + 5, y - 22); ctx.stroke();
+      ctx.fillStyle = '#f5ecd7'; ctx.beginPath(); ctx.moveTo(x + 5, y - 22); ctx.lineTo(x + 22, y - 18 + Math.sin(now / 200) * 2); ctx.lineTo(x + 5, y - 12); ctx.fill();
+      ctx.strokeStyle = 'rgba(120,80,30,.6)'; ctx.lineWidth = 1; for (let k = 0; k < 2; k++) { ctx.beginPath(); ctx.moveTo(x + 8, y - 19 + k * 3); ctx.lineTo(x + 16, y - 18 + k * 3); ctx.stroke(); }
+    }
     if (u.type === 'flock') {
       ctx.fillStyle = '#f1f5f9';
       for (const [dx, dy] of [[-4, 1], [4, 1], [0, -3]]) { ctx.beginPath(); ctx.arc(x + dx, y + dy, 5, 0, 7); ctx.fill(); }
@@ -308,6 +327,8 @@
     else if (u.type === 'worker') { body = '#a8814f'; rim = '#fef3c7'; }
     else if (u.type === 'villager') { body = '#d8bd8e'; rim = '#fffbeb'; }
     else if (d.hero) { body = '#d97706'; rim = '#fde68a'; }
+    else if (u.type === 'stripling') { body = TEAM.p; rim = '#fcd34d'; }
+    else if (u.type === 'nslinger' || u.type === 'javelin') { body = '#2563eb'; rim = '#bfdbfe'; }
     else { body = TEAM.p; rim = '#dbeafe'; }
     if (W.t < W.buffUntil && u.team === 'p' && d.soldier) {
       ctx.fillStyle = 'rgba(253,230,138,.28)'; ctx.beginPath(); ctx.arc(x, y, r + 6, 0, 7); ctx.fill();
@@ -316,7 +337,10 @@
     if (d.dmg && !kneel && u.team !== 'x') {
       const f = u.face || 0, cx = Math.cos(f), cy = Math.sin(f);
       ctx.strokeStyle = d.foe ? '#27272a' : u.type === 'worker' ? '#78583a' : '#e5e7eb'; ctx.lineWidth = 2;
-      if (d.ranged) { ctx.beginPath(); ctx.arc(x + cx * r * 0.7, y + cy * r * 0.7, r * 0.9, f - 1.1, f + 1.1); ctx.stroke(); }
+      if (u.type === 'nslinger' || u.type === 'slinger') { ctx.beginPath(); ctx.moveTo(x + cx * (r - 2), y + cy * (r - 2)); ctx.lineTo(x + cx * (r + 6), y + cy * (r + 6)); ctx.stroke(); ctx.fillStyle = '#a8a29e'; ctx.beginPath(); ctx.arc(x + cx * (r + 7), y + cy * (r + 7), 2.2, 0, 7); ctx.fill(); }
+      else if (u.type === 'javelin') { ctx.beginPath(); ctx.moveTo(x - cx * 4, y - cy * 4); ctx.lineTo(x + cx * (r + 14), y + cy * (r + 14)); ctx.stroke(); }
+      else if (d.ranged) { ctx.beginPath(); ctx.arc(x + cx * r * 0.7, y + cy * r * 0.7, r * 0.9, f - 1.1, f + 1.1); ctx.stroke(); }
+      else if (u.type === 'swordsman') { ctx.beginPath(); ctx.arc(x + cx * (r + 1), y + cy * (r + 1), 7, f - 0.9, f + 0.4); ctx.stroke(); }
       else { ctx.beginPath(); ctx.moveTo(x + cx * (r - 3), y + cy * (r - 3)); ctx.lineTo(x + cx * (r + (u.type === 'worker' ? 4 : 10)), y + cy * (r + (u.type === 'worker' ? 4 : 10))); ctx.stroke(); }
     }
     ctx.fillStyle = body; ctx.strokeStyle = rim; ctx.lineWidth = 2;
@@ -329,6 +353,9 @@
     }
     if (d.hero) star(x, y, 5, '#fff7d6');
     if (u.type === 'spearman') { ctx.fillStyle = '#bfdbfe'; ctx.fillRect(x - 3, y - 3, 6, 6); }
+    if (u.type === 'swordsman') { ctx.fillStyle = '#e2e8f0'; ctx.beginPath(); ctx.moveTo(x, y - 4); ctx.lineTo(x + 4, y); ctx.lineTo(x, y + 4); ctx.lineTo(x - 4, y); ctx.fill(); }
+    if (u.type === 'stripling') star(x, y, 4.5, '#fde68a');
+    if (u.team === 'p' && d.soldier && W.armor && !d.hero) { ctx.strokeStyle = 'rgba(226,232,240,.8)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x, y, r + 2.5, 0, 7); ctx.stroke(); }
     if (u.carry && u.carry.amt) { ctx.fillStyle = u.carry.type === 'timber' ? '#8b5a2b' : '#eab308'; ctx.fillRect(x + r - 3, y - r - 1, 6, 6); }
     if (u.team === 'x') { ctx.strokeStyle = '#3f3f46'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x - 5, y + 2); ctx.lineTo(x + 5, y + 2); ctx.stroke(); }
     if (kneel) { ctx.strokeStyle = 'rgba(253,230,138,.95)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(x, y - r - 3, 6, 2.5, 0, 0, 7); ctx.stroke(); }
@@ -349,7 +376,7 @@
   function drawBuilding(b, selected, now) {
     const x = b.tx * TILE, y = b.ty * TILE, w = b.w * TILE, h = b.h * TILE, c = ctx;
     c.save();
-    if (!b.built) c.globalAlpha = 0.55;
+    if (b.built < 1) c.globalAlpha = 0.55;
     const box = (x0, y0, w0, h0, fill, stroke) => { c.fillStyle = fill; c.fillRect(x0, y0, w0, h0); if (stroke) { c.strokeStyle = stroke; c.lineWidth = 2; c.strokeRect(x0, y0, w0, h0); } };
     switch (b.type) {
       case 'stronghold': {
@@ -359,7 +386,7 @@
         c.fillStyle = '#8e4b2e'; c.beginPath(); c.moveTo(x + 32, y + 50); c.lineTo(x + 64, y + 26); c.lineTo(x + 96, y + 50); c.fill();
         c.fillStyle = '#6b3a24'; c.fillRect(x + 57, y + 70, 14, 20);
         c.strokeStyle = '#3f2f1f'; c.lineWidth = 2; c.beginPath(); c.moveTo(x + 64, y + 26); c.lineTo(x + 64, y + 6); c.stroke();
-        c.fillStyle = '#2563eb'; c.beginPath(); c.moveTo(x + 64, y + 6); c.lineTo(x + 82, y + 11); c.lineTo(x + 64, y + 16); c.fill();
+        c.fillStyle = W.tech ? '#f5ecd7' : '#2563eb'; c.beginPath(); c.moveTo(x + 64, y + 6); c.lineTo(x + 82, y + 11); c.lineTo(x + 64, y + 16); c.fill();
         label(b.name || b.def.name, x + w / 2, y + h + 12, '#fde68a');
         break;
       }
@@ -379,7 +406,7 @@
         box(x + 8, y + 8, w - 16, h - 16, '#ad9c7c', '#4f412c');
         box(x + 16, y + 16, w - 32, h - 32, '#cdbd9b', null);
         c.fillStyle = '#4f412c'; for (let k = 0; k < 4; k++) { c.fillRect(x + 8 + k * 14, y + 4, 7, 6); }
-        if (b.built) { c.fillStyle = TEAM.p; c.beginPath(); c.arc(x + w / 2, y + h / 2, 5, 0, 7); c.fill(); }
+        if (b.built >= 1) { c.fillStyle = TEAM[b.team] || TEAM.p; c.beginPath(); c.arc(x + w / 2, y + h / 2, 5, 0, 7); c.fill(); }
         break;
       case 'wall': case 'gate': {
         const cx = x + TILE / 2, cy = y + TILE / 2;
@@ -408,6 +435,53 @@
         }
         break;
       }
+      case 'farm': {
+        for (let k = 0; k < 4; k++) { c.fillStyle = k % 2 ? '#8fbf4a' : '#caa748'; c.fillRect(x + 4, y + 6 + k * 13, w - 8, 11); }
+        c.fillStyle = 'rgba(90,60,20,.35)'; for (let k = 0; k < 4; k++) c.fillRect(x + 4, y + 16 + k * 13, w - 8, 1);
+        c.fillStyle = '#b08355'; c.fillRect(x + w - 24, y + 2, 20, 16); c.fillStyle = '#7a4e2a'; c.fillRect(x + w - 26, y, 24, 6);
+        break;
+      }
+      case 'granary':
+        c.fillStyle = 'rgba(0,0,0,.25)'; c.beginPath(); c.arc(x + w / 2 + 3, y + h / 2 + 4, 24, 0, 7); c.fill();
+        c.fillStyle = '#c9a26b'; c.beginPath(); c.arc(x + w / 2, y + h / 2, 24, 0, 7); c.fill();
+        c.strokeStyle = '#6b4a24'; c.lineWidth = 2; c.stroke();
+        c.fillStyle = '#9a6a3d'; c.beginPath(); c.arc(x + w / 2, y + h / 2, 15, 0, 7); c.fill();
+        c.fillStyle = '#6d4526'; c.beginPath(); c.arc(x + w / 2, y + h / 2, 6, 0, 7); c.fill();
+        break;
+      case 'armory':
+        box(x + 4, y + 8, w - 8, h - 12, '#a8a29e', '#44403c');
+        c.fillStyle = '#57534e'; c.fillRect(x + 2, y + 4, w - 4, 14);
+        c.strokeStyle = '#f1f5f9'; c.lineWidth = 2.5;
+        c.beginPath(); c.moveTo(x + 30, y + 26); c.lineTo(x + 52, y + 52); c.moveTo(x + 52, y + 26); c.lineTo(x + 30, y + 52); c.stroke();
+        c.fillStyle = '#292524'; c.fillRect(x + 64, y + 38, 18, 8); c.fillRect(x + 69, y + 46, 8, 8);
+        c.fillStyle = '#f97316'; c.beginPath(); c.arc(x + 70, y + 30, 3, 0, 7); c.fill();
+        break;
+      case 'stables':
+        c.strokeStyle = '#6d4526'; c.lineWidth = 2;
+        c.strokeRect(x + 4, y + 26, w - 8, h - 30);
+        for (let k = 0; k < 6; k++) { c.beginPath(); c.moveTo(x + 4 + k * 17, y + 26); c.lineTo(x + 4 + k * 17, y + h - 4); c.stroke(); }
+        box(x + 4, y + 4, w - 8, 24, '#9a6a3d', '#4d331c');
+        c.fillStyle = '#a16207'; c.beginPath(); c.ellipse(x + 40, y + 46, 10, 5, 0, 0, 7); c.fill(); c.beginPath(); c.arc(x + 51, y + 42, 3.5, 0, 7); c.fill();
+        break;
+      case 'hall': {
+        // From history, not the verses: a stepped platform like those of ancient Mesoamerica.
+        [['#b09c74', 2], ['#c4b28a', 14], ['#d6c7a1', 26]].forEach(([col, inset]) => box(x + inset, y + inset, w - inset * 2, h - inset * 2, col, '#6b5a3f'));
+        c.fillStyle = '#8e4b2e'; c.fillRect(x + 36, y + 34, 24, 16);
+        c.fillStyle = '#6b5a3f'; c.fillRect(x + 43, y + 50, 10, h - 52);
+        break;
+      }
+      case 'warcamp': {
+        c.strokeStyle = '#5b3a1e'; c.lineWidth = 3;
+        c.strokeRect(x + 4, y + 4, w - 8, h - 8);
+        c.fillStyle = '#7a4e2a'; for (let k = 0; k < 12; k++) { c.fillRect(x + 4 + k * 10, y + 1, 3, 7); c.fillRect(x + 4 + k * 10, y + h - 8, 3, 7); }
+        for (const [dx, dy] of [[30, 38], [80, 34], [40, 88], [92, 86]]) {
+          c.fillStyle = '#9a3412'; c.beginPath(); c.moveTo(x + dx - 18, y + dy + 14); c.lineTo(x + dx, y + dy - 16); c.lineTo(x + dx + 18, y + dy + 14); c.fill();
+          c.strokeStyle = '#fed7aa'; c.lineWidth = 1.5; c.stroke();
+        }
+        c.fillStyle = '#f97316'; c.beginPath(); c.arc(x + 64, y + 62, 6 + Math.sin(now / 120) * 1.5, 0, 7); c.fill();
+        label(b.def.name, x + w / 2, y + h + 12, '#fecaca');
+        break;
+      }
       case 'camp':
         for (const [dx, dy] of [[22, 30], [70, 28], [46, 70]]) {
           c.fillStyle = '#7f1d1d'; c.beginPath(); c.moveTo(x + dx - 16, y + dy + 12); c.lineTo(x + dx, y + dy - 14); c.lineTo(x + dx + 16, y + dy + 12); c.fill();
@@ -419,10 +493,10 @@
     }
     c.restore();
     if (selected) { ctx.strokeStyle = '#86efac'; ctx.lineWidth = 2; ctx.strokeRect(x + 1, y + 1, w - 2, h - 2); }
-    if (!b.built) {
+    if (b.built < 1) {
       ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x + 4, y + h / 2 - 3, w - 8, 6);
       ctx.fillStyle = '#fcd34d'; ctx.fillRect(x + 5, y + h / 2 - 2, (w - 10) * b.built, 4);
-    } else if (b.def.hp < 99999 && (selected || b.hp < b.def.hp)) hpBar(x + w / 2, y - 6, Math.min(w - 6, 60), b.hp / b.def.hp);
+    } else if (b.def.hp < 99999 && (selected || b.hp < S.maxHp(b))) hpBar(x + w / 2, y - 6, Math.min(w - 6, 60), b.hp / S.maxHp(b));
   }
   function label(text, x, y, color) {
     ctx.font = '700 11px Outfit, system-ui, sans-serif'; ctx.textAlign = 'center';
@@ -579,6 +653,7 @@
   // --- building
   function startPlacing(type) {
     const def = BUILDINGS[type];
+    if (W.whyNotBuild(type)) return toast(W.whyNotBuild(type) + '.', 'warn');
     if (!W.canAfford(def.cost)) return toast(poorText(def.cost), 'warn');
     placing = type; wallLine = null;
     toast(type === 'wall' ? 'Drag a line where the wall goes. Tap Done when you finish.' : `Tap where the ${def.name.toLowerCase()} goes.`, 'me');
@@ -754,7 +829,10 @@
     if (!ents.length && infoEnt && !infoEnt.dead && W.ents.has(infoEnt.id)) ents = [infoEnt];
     cv.classList.toggle('placing', !!placing);
     const one = ents.length === 1 ? ents[0] : null;
-    const key = [sel.join(','), ents.length && ents[0].id, placing, W.res.grain >= 20, W.res.timber >= 6,
+    const key = [sel.join(','), ents.length && ents[0].id, placing, W.res.grain >= 20, W.res.timber >= 6, W.tech && W.foodUsed() >= W.foodCap(), Object.keys(W.researched).join(), W.researching && W.researching.key,
+      W.tech && ['barracks', 'armory', 'stables', 'hall', 'farm'].map(t => W.has(t)).join(),
+      ...(W.tech ? ['farm', 'granary', 'armory', 'stables', 'hall'].map(t => W.canAfford(BUILDINGS[t].cost)) : []),
+      ...(W.tech ? ['nslinger', 'swordsman', 'cart', 'javelin', 'stripling'].map(t => W.canAfford(UNITS[t].cost)) : []),
       ...['storehouse', 'barracks', 'tower', 'gate'].map(t => W.canAfford(BUILDINGS[t].cost)),
       ...['worker', 'spearman', 'archer'].map(t => W.canAfford(UNITS[t].cost)),
       one && one.kind === 'building' ? [one.built > 0 ? Math.floor(one.built * 20) : 0, one.queue.map(q => q.type + Math.ceil(q.left)).join(), W.researching ? Math.ceil(W.researching.left) : '', W.armor, Math.ceil(one.hp / one.def.hp * 20)] : '',
@@ -768,9 +846,9 @@
     if (!ents.length) return `<h3>${esc(mission.title)}</h3><p>Tap one of your people to choose them. ${W.night ? 'It is night.' : ''}</p>`;
     if (ents.length === 1) {
       const e = ents[0], d = e.def;
-      const bar = d.hp < 99999 ? `<div class="hp"><em style="width:${Math.max(0, e.hp / d.hp * 100)}%"></em></div>` : '';
-      const doing = e.kind === 'unit' ? ({ gather: 'Gathering ' + (e.order.res || ''), build: 'Building', attack: 'Fighting', move: 'Marching', idle: 'Waiting for orders' }[e.order.type] || '') : !e.built ? 'Being built: ' + Math.floor(e.built * 100) + '%' : '';
-      return `<h3>${esc(d.name)}</h3>${bar}${doing ? `<div>${esc(doing)}</div>` : ''}<p>${esc(d.about || '')}</p>`;
+      const bar = d.hp < 99999 ? `<div class="hp"><em style="width:${Math.max(0, e.hp / S.maxHp(e) * 100)}%"></em></div>` : '';
+      const doing = e.kind === 'unit' ? ({ gather: 'Gathering ' + (e.order.res || ''), build: 'Building', attack: 'Fighting', move: 'Marching', idle: 'Waiting for orders' }[e.order.type] || '') : e.built < 1 ? 'Being built: ' + Math.floor(e.built * 100) + '%' : '';
+      return `<h3>${esc(e.name && e.kind === 'building' ? e.name : d.name)}</h3>${bar}${doing ? `<div>${esc(doing)}</div>` : ''}<p>${esc(d.about || '')}</p>`;
     }
     const count = {};
     for (const e of ents) count[e.def.name] = (count[e.def.name] || 0) + 1;
@@ -794,23 +872,29 @@
     const units = ents.filter(e => e.kind === 'unit');
     if (units.length) {
       let h = '';
+      if (units.length === 1 && units[0].def.deploys) h += cmd('deploy', 'Plant it here', 'Alma 46:36', 'wide on');
       if (units.some(u => u.def.builds)) {
-        for (const t of ['wall', 'gate', 'tower', 'barracks', 'storehouse']) {
-          const def = BUILDINGS[t];
-          h += cmd('build:' + t, t === 'wall' ? 'Walls' : def.name, costHtml(def.cost) + (t === 'wall' ? ' each' : ''), W.canAfford(def.cost) ? '' : 'poor');
+        const list = W.tech ? ['farm', 'granary', 'storehouse', 'barracks', 'wall', 'gate', 'tower', 'armory', 'stables', 'hall'] : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
+        for (const t of list) {
+          const def = BUILDINGS[t], why = W.whyNotBuild(t);
+          h += cmd('build:' + t, t === 'wall' ? 'Walls' : def.name, why ? esc(why) : costHtml(def.cost) + (t === 'wall' ? ' each' : ''), why || !W.canAfford(def.cost) ? 'poor' : '');
         }
       }
       h += cmd('stop', 'Stop', 'H');
       return h;
     }
-    if (!b.built) return `<div class="note">Choose workers, then tap this to build it.</div>`;
+    if (b.built < 1) return `<div class="note">Choose workers, then tap this to build it.</div>`;
     let h = '';
-    for (const t of b.def.trains || []) h += cmd('train:' + t, UNITS[t].name, costHtml(UNITS[t].cost), W.canAfford(UNITS[t].cost) ? '' : 'poor');
-    const rk = mission.research || 'armor';
-    if (b.def.research && !W.armor) {
-      const r = RESEARCH[rk];
-      h += W.researching ? `<div class="note">Making ${esc(r.name.toLowerCase())}: ${Math.ceil(W.researching.left)}s</div>`
-        : cmd('research:' + rk, esc(r.name), costHtml(r.cost), 'wide ' + (W.canAfford(r.cost) ? '' : 'poor'));
+    for (const t of (b.def.trains || []).filter(t => W.visible(UNITS[t]))) {
+      const why = W.whyNotTrain(t);
+      h += cmd('train:' + t, UNITS[t].name, why ? esc(why) : costHtml(UNITS[t].cost), why || !W.canAfford(UNITS[t].cost) ? 'poor' : '');
+    }
+    // What this building can make: in free battle, the armory's list; in a mission, the mission's own armor.
+    const keys = W.tech ? (b.def.research || []).filter(k => k !== 'armor') : b.def.research ? [mission.research || 'armor'] : [];
+    for (const k of keys.filter(k => !W.researched[k])) {
+      const r = RESEARCH[k];
+      if (W.researching && W.researching.key === k) h += `<div class="note">Making ${esc(r.name.toLowerCase())}: ${Math.ceil(W.researching.left)}s</div>`;
+      else h += cmd('research:' + k, esc(r.name), W.researching ? 'Wait: one at a time' : costHtml(r.cost), 'wide ' + (W.researching || !W.canAfford(r.cost) ? 'poor' : ''));
     }
     if (b.queue && b.queue.length) {
       const q = b.queue[0], p = 100 - q.left / UNITS[q.type].time * 100;
@@ -827,10 +911,14 @@
     if (act === 'build') startPlacing(arg);
     else if (act === 'done' || act === 'cancel') { placing = null; wallLine = null; refreshPanel(true); }
     else if (act === 'stop') for (const u of selUnits()) W.order(u, { type: 'idle' });
-    else if (act === 'train' && one) { if (!W.train(one, arg)) toast(one.queue.length >= 5 ? 'The line is full.' : poorText(UNITS[arg].cost), 'warn'); }
+    else if (act === 'train' && one) { if (!W.train(one, arg)) toast(one.queue.length >= 5 ? 'The line is full.' : W.whyNotTrain(arg) || poorText(UNITS[arg].cost), 'warn'); }
+    else if (act === 'deploy' && one) {
+      const city = W.deploy(one);
+      if (city) setSel([city]); else toast('The city needs open ground, 4 by 4. Move the standard to a clear spot.', 'warn');
+    }
     else if (act === 'research' && one) {
       if (W.research(one, arg)) toast(RESEARCH[arg].about, 'me', RESEARCH[arg].ref);
-      else toast(poorText(RESEARCH[arg].cost), 'warn');
+      else toast(W.researching ? 'One thing at a time: wait until this is made.' : poorText(RESEARCH[arg].cost), 'warn');
     }
     refreshPanel(true);
   });
@@ -839,7 +927,7 @@
   $('bArmy').onclick = () => { const s = W && W.soldiers(); if (s && s.length) { setSel(s); } };
   $('bIdle').onclick = () => {
     if (!W) return;
-    const idle = W.units('p').filter(u => u.type === 'worker' && u.order.type === 'idle');
+    const idle = W.units('p').filter(u => u.def.gathers && u.order.type === 'idle');
     if (!idle.length) return toast('Every worker is busy.');
     setSel(idle); lookAt(idle[0].x, idle[0].y);
   };
@@ -854,10 +942,12 @@
   const mmss = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
   let hudAt = 0;
   function hud(now) {
-    setText('rGrain', String(Math.floor(W.res.grain)));
-    setText('rTimber', String(Math.floor(W.res.timber)));
+    const cap = W.tech ? '/' + W.storeCap() : '';
+    setText('rGrain', Math.floor(W.res.grain) + cap);
+    setText('rTimber', Math.floor(W.res.timber) + cap);
     const ps = W.units('p');
-    setText('rPeople', ps.filter(u => u.type === 'worker').length + ' · ' + ps.filter(u => u.def.soldier).length);
+    setText('rPeople', W.tech ? W.foodUsed() + '/' + W.foodCap() : ps.filter(u => u.type === 'worker').length + ' · ' + ps.filter(u => u.def.soldier).length);
+    if (W.fullAt && W.fullAt > (shown.fullToast || -99) + 20) { shown.fullToast = W.fullAt; toast('Your storehouses are full: build a granary to hold more.', 'warn'); }
     if (now - hudAt < 250) return;
     hudAt = now;
     const left = mission.timeLeft(W), label = mission.phaseLabel || mission.timerLabel || '';
@@ -917,11 +1007,12 @@
   // shows the verse that settles it.
   function openCouncil() {
     if (!W || (council && W.t < council.nextAt)) return;
-    const qs = chaptersOf(mission).flatMap(c => QUESTIONS[c] || []);
+    const qs = (mission.free ? Object.keys(save.read) : chaptersOf(mission)).flatMap(c => QUESTIONS[c] || []);
+    if (!qs.length) return toast('Read a chapter from the missions first: the council asks about what you have read.', 'warn');
     if (!council.queue.length) council.queue = shuffle(qs.map((_, i) => i));
     const q = qs[council.queue.shift()];
     const answers = shuffle([q.right, ...q.wrong]);
-    openDialog(`<div class="dialog"><div class="kicker">The council · ${esc(mission.chapter)}</div><h2>${esc(q.q)}</h2>
+    openDialog(`<div class="dialog"><div class="kicker">The council · ${esc(q.ref.replace(/:.*/, ''))}</div><h2>${esc(q.q)}</h2>
       <div class="choices">${answers.map(a => `<button class="choice" data-a="${esc(a)}">${esc(a)}</button>`).join('')}</div><div id="cAfter"></div></div>`);
     const root = $('dialog');
     root.querySelectorAll('.choice').forEach(btn => btn.onclick = () => {
@@ -998,11 +1089,23 @@
         </div></div>`;
     };
     const cards = CAMPAIGNS.map(c => `<h2 class="camp">${esc(c.title)}</h2><p class="camp-about">${esc(c.about)}</p><div class="cards">${MISSIONS.filter(m => m.campaign === c.id).map(card).join('')}</div>`).join('');
+    // Free battle: open once any chapter with council questions has been read.
+    const anyRead = Object.keys(save.read).some(c => QUESTIONS[c]);
+    const freeCard = `<h2 class="camp">Free battle</h2><p class="camp-about">Red Alert's way of playing: plant the standard of liberty, build your city up through the tech tree, and tear down the Lamanite war camp.</p>
+      <div class="cards"><div class="card ${anyRead ? '' : 'locked'}">
+        <div class="kicker">The council asks about every chapter you've read</div>
+        <h2>Free battle</h2>
+        ${save.won.free ? starsHtml(save.won.free) : ''}
+        <p>${esc(FREE.goals)}</p>
+        ${anyRead ? '' : '<div class="lock">🔒 Read a mission\'s chapter to open free battle.</div>'}
+        <div class="row">${Object.keys(FREE.LEVELS).map(l => `<button class="btn ${anyRead && l === 'easy' ? 'go' : ''}" data-free="${l}" ${anyRead ? '' : 'disabled'}>${FREE.LEVELS[l].name}</button>`).join('')}</div>
+      </div></div>`;
     const s = showScreen(`<div class="wrap">
       <div class="kicker">A Book of Mormon strategy game</div>
       <h1><span>Title of Liberty</span></h1>
       <p class="lede">Lead the Nephites through the wars of the Book of Mormon. Read each chapter first, then play it: the missions follow what happens in the verses.</p>
       ${cards}
+      ${freeCard}
       <details class="how"><summary>How to play</summary><ul>
         <li><b>Choose</b> your people: tap or click one. Drag a box around several (on a touch screen, tap <b>Box select</b> first). <b>Soldiers</b> chooses your whole army.</li>
         <li><b>Give orders</b>: with people chosen, tap the ground to march, an enemy to fight, trees or a field to gather, or an unfinished building to build it. (On a computer, right-click works too.)</li>
@@ -1017,7 +1120,8 @@
       <p class="aside"><a href="../">← Back to Treasure Up</a></p>
     </div>`);
     s.onclick = e => {
-      const r = e.target.closest('[data-read]'), p = e.target.closest('[data-play]');
+      const r = e.target.closest('[data-read]'), p = e.target.closest('[data-play]'), f = e.target.closest('[data-free]');
+      if (f && !f.disabled) { FREE.level = f.dataset.free; return briefing(FREE); }
       if (r) openReader(r.dataset.read);
       else if (p && !p.disabled) briefing(MISSIONS.find(m => m.id === p.dataset.play));
     };
@@ -1046,9 +1150,10 @@
 
   function briefing(m) {
     showScreen(`<div class="wrap brief">
-      <div class="kicker">${esc(CAMPAIGNS.find(c => c.id === m.campaign).title)} · Mission ${inCampaign(m).indexOf(m) + 1} · ${esc(m.chapter)} · ${esc(m.year)}</div>
+      <div class="kicker">${m.free ? 'Free battle · ' + esc(m.LEVELS[m.level].name) : esc(CAMPAIGNS.find(c => c.id === m.campaign).title) + ' · Mission ' + (inCampaign(m).indexOf(m) + 1) + ' · ' + esc(m.chapter)} · ${esc(m.year)}</div>
       <h2 style="font-size:32px">${esc(m.title)}</h2>
       <ul>${m.briefing.map(([t, r]) => `<li>${esc(t)} ${refBtn(r)}</li>`).join('')}</ul>
+      ${m.free ? `<p class="lede">Your building line: city → farms and granaries → barracks → armory → stables and the hall of the captains. A farm feeds 8 people; nobody can be trained without food.</p>` : ''}
       <div class="goalbox"><b>Your goals.</b> ${esc(m.goals)}</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn go" id="bBegin">Begin</button><button class="btn" id="bBack">Back</button></div></div>`);
     $('bBegin').onclick = () => begin(m);
@@ -1069,8 +1174,9 @@
     $('goals').open = window.innerWidth >= 700 && window.innerHeight >= 600;
     resize();
     cam.z = vw < 700 ? 0.8 : 1;
-    const s = W.stronghold();
+    const s = W.stronghold() || W.units('p')[0];
     lookAt(s.x, s.y - (m.id === 'm1' ? 160 : 60));
+    if (m.free) setSel(W.units('p').filter(u => u.def.deploys));
     refreshPanel(true);
   }
 
@@ -1133,6 +1239,6 @@
   home();
   requestAnimationFrame(frame);
   // A window on the game for automated play-throughs in a browser.
-  window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, cam, begin: id => begin(MISSIONS.find(m => m.id === id)), toWorld, lookAt,
+  window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, cam, begin: (id, level) => { if (level) FREE.level = level; begin(id === 'free' ? FREE : MISSIONS.find(m => m.id === id)); }, toWorld, lookAt,
     screenOf: (x, y) => ({ x: (x - cam.x) * cam.z, y: (y - cam.y) * cam.z }) };
 })();

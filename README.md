@@ -195,6 +195,32 @@ the app's reading). The second 3 Nephi mission also needs the first won.
 | **1 · Gather to One Place** (3 Nephi 3) | Lachoneus's proclamation: send someone to each of five villages and their people march to Zarahemla with flocks and grain (3:13, 22); a village left too long is taken by raiders. Build walls round about, watchtowers and guards (3:14) before the robbers come down (a 14-minute clock: Giddianhi said he would come "on the morrow month", 3:8). Nobody can go north of the border into the wilderness: "we will wait till they shall come against us" (3:21). Optional: weapons, armor and shields (3:26). |
 | **2 · The Robbers Come Down** (3 Nephi 4) | Giddianhi's army attacks (4:7); **Cry unto the Lord** puts everyone on their knees for a moment, then they take less harm for a while (4:8–10). They fall back and can be pursued; Giddianhi is slowed, "weary because of his much fighting" (4:14). Then Zemnarihah's siege round about (4:16): a bar shows the robbers' food running out, since the Nephites have seven years' provisions and the wild game is gone (4:2–4, 18–20). When it runs out it's night, the border opens, and the armies can go to the three passes before the robbers march at dawn (4:24–26); a robber caught by two soldiers gives himself up (4:27). |
 
+**Free battle** (Red Alert's way of playing, once any mission's chapter is
+read): start with the standard of liberty, a few workers and three soldiers,
+and plant the standard on open ground to make your city (Alma 46:36). Then
+build up:
+
+| Building | Needs | What it does |
+|---|---|---|
+| City | the standard | Trains workers; feeds 10, stores 300 |
+| Farm | | Feeds 8 more and grows a little grain (Helaman 6:12) |
+| Granary, storehouse | | Store 500 / 300 more of each; past that, what's gathered is lost |
+| Barracks | | Spearmen, slingers (Alma 2:12); archers and swordsmen once there's an armory |
+| Watchtower | barracks | Shoots at enemies |
+| Armory | barracks | Breastplates and shields (+4 armor, Alma 43:19), swords and cimeters (+3 up close, Alma 43:18), ridges of earth and pickets (walls ×2, Alma 50:1–3), one at a time |
+| Stables | farm | Horse carts: haul 30 at a time and move fast (3 Nephi 3:22) |
+| Hall of the captains | armory | Javelin throwers (Jarom 1:8) and stripling warriors (Alma 53:20) |
+
+Nobody can be trained without food for them. The Lamanite war camp in the
+north-east has guards, watchtowers and three camps; it sends a bigger attack
+every couple of minutes, adds guards while it stands, and grows fiercer over
+time. These Lamanites have shields and breastplates of their own (Alma 49:6).
+Tear down the war camp and the camps to win: Easy ★, Normal ★★, Hard ★★★. A
+scripted player wins Normal in about 9 minutes and loses Hard. The council
+asks about every chapter read so far. Where a description borrows from history
+rather than the verses (the atlatl, the stepped platform of the hall), it
+says so.
+
 **The council**: a button that asks a question from the mission's chapters (13
 for Alma 43, 11 for Alma 44, 10 for 3 Nephi 3, 11 for 3 Nephi 4, in `liberty/data.js`). A right answer brings
 40 grain and 60 timber; a wrong one shows the verse that answers it. Once a

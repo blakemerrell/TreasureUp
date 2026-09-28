@@ -46,6 +46,8 @@ jobs:
       # quotation in the game matches the verse it cites.
       - name: Check Title of Liberty
         run: node tools/test-liberty.mjs
+        env:
+          SCRIPTURE_CACHE: ${{ runner.temp }}/scripture
 
       # The chapters of each week's reading, so he can read them in the app
       # (tools/build-reading.mjs, from the data the check just downloaded).

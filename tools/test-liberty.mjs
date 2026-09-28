@@ -84,7 +84,7 @@ console.log('Mission 1 · Gather to One Place (3 Nephi 3)');
       const f = W.nearestResource(30, 40, W.res.grain < 150 ? 'grain' : 'timber');
       if (f) W.gatherAt(w, f[0], f[1]);
     }
-    const barracks = W.buildings('p', 'barracks').find(b => b.built);
+    const barracks = W.buildings('p', 'barracks').find(b => b.built >= 1);
     if (barracks && barracks.queue.length < 2 && W.soldiers().filter(u => !u.def.hero).length + barracks.queue.length < 11) W.train(barracks, W.soldiers().length % 2 ? 'archer' : 'spearman');
     const s = W.stronghold();
     if (s && s.queue.length < 1 && all.length < 12) W.train(s, 'worker');
@@ -214,6 +214,86 @@ console.log('Mission 3 · At the River Sidon (Alma 43–44)');
   ok(ms < 40, 'a step stays fast enough');
 }
 
+// ------------------------------------------------------------ free battle
+console.log('Free battle · build a city, tear down the war camp');
+{
+  const FB = require('../liberty/missions.js').FREE_BATTLE;
+  FB.level = 'normal';
+  const W = new S.World(undefined, FB.map);
+  W.mission = FB; FB.setup(W);
+  const F = D.FREE;
+  const std = W.units('p').find(u => u.def.deploys);
+  ok(W.tech && std && !W.stronghold(), 'it starts with the standard of liberty, a few workers and guards, and no city');
+  ok(W.whyNotBuild('armory') === 'Needs Barracks' && W.whyNotTrain('stripling') === 'Needs Hall of the captains', 'the armory needs a barracks first, and stripling warriors the hall of the captains');
+  const city = W.deploy(std);
+  ok(city && W.stronghold() === city && !W.units('p').some(u => u.def.deploys), 'planting the standard of liberty makes the city (Alma 46:36)');
+  ok(W.foodCap() === 10 && W.storeCap() === 300, 'the city feeds 10 and stores 300 of each');
+  W.res.timber = 290; W.gain('timber', 50);
+  ok(W.res.timber === 300, 'more than the storehouses hold is lost');
+  W.res = { grain: 500, timber: 250 };
+  for (let i = 0; i < 3; i++) W.train(city, 'worker');
+  ok(W.foodUsed() === 10 && W.whyNotTrain('worker').startsWith('Not enough food') && !W.train(city, 'worker'), 'with no food for more, no one else can be trained until a farm is built');
+  W.res = { grain: 200, timber: 250 };
+
+  // A steady player: gather, build up the tree, keep an army home, then march on the camps.
+  const S0 = { x: city.tx, y: city.ty };
+  const plan = [['farm', 4, -3], ['barracks', 6, 1], ['farm', -3, -3], ['granary', -3, 1], ['armory', 6, 5], ['farm', 0, 6],
+    ['stables', -4, 5], ['hall', 9, -3], ['farm', 3, 9], ['tower', 7, -5], ['farm', -6, -1], ['granary', 10, 3], ['farm', -1, -6], ['farm', 13, 0], ['farm', -6, 8]];
+  const research = ['breastplates', 'cimeters', 'pickets'];
+  let attackAt = null, blocked = 0;
+  const workers = () => W.units('p').filter(u => u.type === 'worker');
+  const army = () => W.soldiers().filter(u => !u.def.hero);
+  const ms = run(W, 45 * 60, 1, W => {
+    // Build the next thing, with two workers.
+    const unbuilt = W.buildings('p').filter(b => b.built < 1);
+    if (plan.length && unbuilt.length < 2) {
+      const [type, dx, dy] = plan[0];
+      if (W.whyNotBuild(type)) blocked++;
+      else if (W.canAfford(D.BUILDINGS[type].cost)) {
+        // The nearest open ground to where it's wanted.
+        let spot = null;
+        for (let r = 0; r < 8 && !spot; r++) for (let oy = -r; oy <= r && !spot; oy++) for (let ox = -r; ox <= r && !spot; ox++) if (W.canPlace(type, S0.x + dx + ox, S0.y + dy + oy)) spot = [S0.x + dx + ox, S0.y + dy + oy];
+        const b = spot && W.place(type, spot[0], spot[1], []);
+        plan.shift();
+        if (b) unbuilt.push(b);
+      }
+    }
+    for (const b of unbuilt) {
+      const on = workers().filter(u => u.order.type === 'build' && u.order.target === b.id).length;
+      workers().filter(u => u.order.type !== 'build').sort((a, c) => S.dist(a, b) - S.dist(c, b)).slice(0, Math.max(0, 2 - on)).forEach(u => W.order(u, { type: 'build', target: b.id }));
+    }
+    for (const u of W.units('p').filter(u => u.def.gathers && u.order.type === 'idle')) {
+      const f = W.nearestResource(S0.x + 2, S0.y + 2, W.res.grain < W.res.timber ? 'grain' : 'timber');
+      if (f) W.gatherAt(u, f[0], f[1]);
+    }
+    // Research first, then train: workers, carts, then soldiers.
+    const arm = W.buildings('p', 'armory').find(b => b.built >= 1);
+    if (arm && !W.researching && research.length) { if (W.research(arm, research[0])) research.shift(); else return; }
+    const s = W.stronghold();
+    if (s && s.queue.length < 1 && workers().length < 9) W.train(s, 'worker');
+    const st = W.buildings('p', 'stables').find(b => b.built >= 1);
+    if (st && st.queue.length < 1 && W.units('p').filter(u => u.type === 'cart').length < 2) W.train(st, 'cart');
+    // Save up for the big buildings rather than spending it all on soldiers.
+    if (plan.length && ['armory', 'stables', 'hall'].includes(plan[0][0]) && !W.whyNotBuild(plan[0][0]) && !W.canAfford(D.BUILDINGS[plan[0][0]].cost) && army().length >= 6) return;
+    const br = W.buildings('p', 'barracks').find(b => b.built >= 1), hall = W.buildings('p', 'hall').find(b => b.built >= 1);
+    if (br && br.queue.length < 2) W.train(br, W.has('armory') ? (army().length % 2 ? 'archer' : 'swordsman') : (army().length % 2 ? 'nslinger' : 'spearman'));
+    if (hall && hall.queue.length < 1) W.train(hall, army().length % 3 ? 'stripling' : 'javelin');
+    // March out once the army is strong, and tear down the camps, then the war camp.
+    if (!attackAt && (army().length >= 30 || W.t > 16 * 60)) attackAt = W.t;
+    if (attackAt) {
+      const targets = FB.camps.filter(c => !c.dead).concat(FB.warcamp.dead ? [] : [FB.warcamp]);
+      const t = targets.sort((a, b) => S.dist(a, s || a) - S.dist(b, s || b))[0];
+      if (t) for (const u of army().filter(u => u.order.type === 'idle')) W.order(u, { type: 'attack', target: t.id });
+    }
+  });
+  console.log(`    at ${Math.round(W.t / 60)} min · wave ${FB.wave} · army ${army().length} · workers ${workers().length} · food ${W.foodUsed()}/${W.foodCap()} · store ${W.storeCap()} · slowest step ${ms}ms`);
+  ok(W.researched.breastplates && W.armor === 4 && W.dmgUp === 3 && W.buildings('p').filter(b => b.def.wall).every(b => b.max === b.def.hp * 2), 'the armory made breastplates, cimeters and pickets');
+  ok(W.units('p').some(u => u.type === 'stripling') && W.units('p').some(u => u.type === 'cart'), 'the hall trains stripling warriors, and the stables horse carts');
+  ok(FB.wave >= 2, 'the Lamanites attacked, again and again (' + FB.wave + ' waves)');
+  ok(W.over && W.over.won && W.over.stars === 2, 'the war camp falls: ' + (W.over ? W.over.title + ' ★' + W.over.stars : 'not over'));
+  ok(ms < 40, 'a step stays fast enough with a whole city');
+}
+
 // ------------------------------------------------------------ quotes
 // Every quotation in the game, in its text or its comments, is checked
 // against the verses cited on the same line: the words must be there.
@@ -222,7 +302,17 @@ console.log('Quotes');
   const fs = await import('node:fs');
   const window = {};
   new Function('window', fs.readFileSync(new URL('../liberty/scripture.js', import.meta.url), 'utf8'))(window);
-  const TEXT = window.LIBERTY_SCRIPTURE;
+  const TEXT = Object.assign({}, window.LIBERTY_SCRIPTURE);
+  // Quotes from other chapters (the units' descriptions) are checked against the
+  // pinned data tools/verify.mjs downloads, when it's there.
+  const cache = process.env.SCRIPTURE_CACHE || new URL('./.scripture-cache', import.meta.url).pathname;
+  if (fs.existsSync(cache)) for (const f of fs.readdirSync(cache).filter(f => f.endsWith('.json'))) {
+    const data = JSON.parse(fs.readFileSync(cache + '/' + f, 'utf8'));
+    for (const c of data.sections || data.books.flatMap(b => b.chapters)) for (const v of c.verses) {
+      const key = v.reference.replace(/:\d+$/, '');
+      if (!TEXT[key] || !window.LIBERTY_SCRIPTURE[key]) (TEXT[key] = TEXT[key] || [])[v.verse - 1] = v.text;
+    }
+  } else console.log('    (no scripture data: quotes outside the missions\' chapters are not checked; run node tools/verify.mjs once)');
   const norm = s => s.toLowerCase().replace(/\\/g, '').replace(/[’']/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
   let checked = 0;
   const bad = [];

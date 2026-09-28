@@ -196,7 +196,15 @@
   @media (max-height: 460px) {
     :root { --top: 40px; --bottom: 96px; }
     #mini { width: 96px; }
-    .cmd { height: 40px; }
+    /* A short screen (a phone on its side): commands in one row you swipe along. */
+    #cmds { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; align-items: center; }
+    .cmd { height: 44px; flex: none; }
+    #cmds .note { min-width: 220px; }
+    #selInfo { width: 130px; font-size: 12px; } #selInfo h3 { font-size: 14px; } #selInfo p { display: none; }
+    .quick { gap: 3px; } .quick button { height: 24px; font-size: 11px; padding: 0 6px; }
+    #feed { width: min(300px, 40vw); }
+    .msg { font-size: 12px; padding: 5px 8px; }
+    .msg:nth-last-child(n+3) { display: none; }
   }
 </style>
 </head>
