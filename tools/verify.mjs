@@ -27,6 +27,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -891,6 +892,34 @@ for (const week of weeks) {
 }
 weekLabel = '';
 
+// The BSB button in the reader (tools/build-reading.mjs builds its chapters
+// at deploy): tools/bsb.txt.gz must be the BSB's own text file, public-domain
+// header and all, with every Bible chapter of every week's reading, verse
+// for verse with the KJV. A Book of Mormon chapter has no BSB, and needs none.
+let bsbChapters = 0;
+{
+  const f = path.join(ROOT, 'tools', 'bsb.txt.gz');
+  if (!fs.existsSync(f)) failures.push('tools/bsb.txt.gz is missing: the reader’s BSB comes from it');
+  else {
+    const text = zlib.gunzipSync(fs.readFileSync(f)).toString('utf8'), head = text.slice(0, 400);
+    if (!/Berean Standard Bible/.test(head) || !/dedicated to the public domain/.test(head)) failures.push('tools/bsb.txt.gz must be the BSB’s own text file (bereanbible.com/bsb.txt), public-domain header and all');
+    const count = new Map(), books = new Set();
+    for (const m of text.matchAll(/^(.+) (\d+):\d+\t/gm)) { count.set(m[1] + ' ' + m[2], (count.get(m[1] + ' ' + m[2]) || 0) + 1); books.add(m[1]); }
+    const BSB_BOOK = { 'Psalms': 'Psalm', 'Psalm': 'Psalm', "Solomon's Song": 'Song of Solomon', 'Solomon’s Song': 'Song of Solomon' };
+    for (const w of weeks) {
+      for (const ch of blockChapters(w.reference, scripture.verses) || []) {
+        const [, book, c] = /^(.+) (\d+)$/.exec(ch);
+        if (!books.has(BSB_BOOK[book] || book)) continue;
+        let n = 0;
+        while (scripture.verses.has(`${BOOK_ALIAS[book] || book} ${c}:${n + 1}`)) n++;
+        const b = count.get((BSB_BOOK[book] || book) + ' ' + c) || 0;
+        if (b !== n) failures.push(`${w.title}: the BSB has ${b} verses of ${ch}, the KJV ${n}`);
+        else bsbChapters++;
+      }
+    }
+  }
+}
+
 // Past weeks (content/past/, written by tools/archive-weeks.mjs): every
 // week its index lists has its file, with the same dates and title, so Past
 // weeks can open it. And weeks.js holds last week and later: older weeks
@@ -936,6 +965,7 @@ for (const week of weeks) {
   console.log(`✓ ${week.title} (${week.dates}): ${week.reels.length} reels, ${quotes} quotes and ${bonuses} bonus answers checked` +
     (extras.length ? `, plus ${extras.join(' and ')}` : ''));
 }
+if (bsbChapters) console.log(`✓ BSB: the ${bsbChapters} Bible chapters of the reading, verse for verse with the KJV`);
 if (boards.length) console.log(`✓ ${boards.map(b => `${b.title}: ${b.lands.length} lands, ${b.links.length} borders, ${b.kingdoms.length} kingdoms`).join('; ')}`);
 if (online) {
   const loaded = [...pages.values()].filter(t => t != null).length;
