@@ -22,7 +22,8 @@ name and email, each signed in with Google; the Firebase rules enforce that.
   approval shows "Changed since approved" until it's approved again.
   Approving a reel with a clip marks the clip watched.
 - **Plain words** are a piece per chapter: every KJV verse with its plain
-  words under it, the notes, and first the verses to look at (`review`).
+  words and the BSB under it, the notes, and first the verses to look at
+  (`review`).
   A chapter's plain words show in the app only once they're approved (the
   test site shows drafts, marked), so they never hold up publishing a week.
 - **Publish to the live app** appears once every piece of a week is approved.
@@ -146,9 +147,11 @@ Each reel:
 ## Plain words (`plain`)
 
 A week's `plain` is a list of chapters from its reading, each
-`{ ch, verses, notes, review }`, shown under the KJV when he turns on
-**Plain words** in a chapter. The KJV stays the scripture; these help him
-understand it.
+`{ ch, verses, notes, review }`. In a chapter he picks what he reads with
+four buttons: **KJV**, **Plain words**, **BSB** and **Notes**, any mix.
+The KJV stays the scripture; the plain words and notes help him
+understand it. The BSB comes from `tools/bsb.txt.gz` at deploy, word for
+word, and needs no approval; leave that file as the BSB published it.
 
 - `ch`: a chapter of the week's reading ("Isaiah 40"). `verses`: one plain
   line for every verse of that chapter, in order.

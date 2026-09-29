@@ -4,3 +4,5 @@ node_modules
 tools/.scripture-cache/
 content/reading.js
 content/past/reading-*.js
+content/bsb.js
+content/past/bsb-*.js
