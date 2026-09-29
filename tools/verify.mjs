@@ -35,7 +35,7 @@ const DATA_COMMIT = '3bda76e40add4582165340ea6b1198dc6ad26ae1';
 const DATA_URL = `https://raw.githubusercontent.com/bcbooks/scriptures-json/${DATA_COMMIT}/`;
 const VOLUMES = ['old-testament', 'new-testament', 'book-of-mormon', 'doctrine-and-covenants', 'pearl-of-great-price'];
 
-const LIMITS = { bodyWords: 75, hookChars: 60, whyWords: 40, choiceChars: 60 };
+const LIMITS = { bodyWords: 75, hookChars: 60, whyWords: 40, choiceChars: 60, noteWords: 45 };
 const MEDIA = {
   // A picture on any reel it fits (Blake, 2026-09-24: "most reels should get
   // a pic"), one per reel. Clips stay few: a lesson, not a video feed.
@@ -98,7 +98,23 @@ async function loadScripture() {
       }
     }
   }
-  return { verses, books: [...books].sort((a, b) => b.length - a.length) };
+  return { verses, books: [...books].sort((a, b) => b.length - a.length), names: scriptureNames(verses) };
+}
+
+// Names in the scriptures: words capitalized everywhere they appear, and
+// somewhere in the middle of a sentence (so not just a verse's first word or
+// the start of a quotation). Plain words keep them, so he can match them up.
+function scriptureNames(verses) {
+  const lower = new Set(), inside = new Set();
+  for (const t of verses.values()) {
+    for (const m of t.matchAll(/[A-Za-z]+/g)) {
+      const w = m[0];
+      if (/^[a-z]/.test(w)) { lower.add(w.toLowerCase()); continue; }
+      const before = t.slice(0, m.index).trimEnd();
+      if (before && /[A-Za-z]$/.test(before)) inside.add(w.toLowerCase());
+    }
+  }
+  return new Set([...inside].filter(w => !lower.has(w) && !['i', 'o'].includes(w)));
 }
 
 // The books the app can link (BOOK_PATHS in index.html), so every
@@ -139,6 +155,7 @@ function reviewItems(week) {
   if (week.puzzle) items.push({ key: 'puzzle', approved: week.puzzle.approved, hash: approvalHash(withoutApproval(week.puzzle)) });
   for (const x of week.sayings || []) items.push({ key: 'say:' + x.id, approved: x.approved, hash: approvalHash(withoutApproval(x)) });
   if (week.words) items.push({ key: 'words', approved: week.wordsApproved, hash: approvalHash(week.words) });
+  for (const p of Array.isArray(week.plain) ? week.plain : []) items.push({ key: 'plain:' + p.ch, approved: p.approved, hash: approvalHash(withoutApproval(p)) });
   return items;
 }
 // Weeks from here on can't go live without every piece approved; the two
@@ -371,7 +388,7 @@ const CLUE_SKIP = new Set('that this with from they them their there then than w
 const clueWords = t => new Set((String(t).toLowerCase().match(/[a-z’']+/g) || []).map(w => w.replace(/[’']s$/, '')).filter(w => w.length >= 4 && !CLUE_SKIP.has(w)));
 
 async function main(scripture, week, pages, online) {
-  const { verses, books } = scripture;
+  const { verses, books, names } = scripture;
   // A block it can't read is a note: the app then plans a section a day, as before.
   const block = blockChapters(week.reference, verses);
   if (!block || !block.length) note(`week: reference "${week.reference}" can't be read as a list of chapters (like "Isaiah 13–14; 22; 24–30; 35"), so the days follow the sections, with no reading path`);
@@ -780,6 +797,52 @@ async function main(scripture, week, pages, online) {
     }
   }
 
+  // Plain words (week.plain): chapters of the reading in plain English, each
+  // verse shown under its KJV verse when he turns them on. One line per verse
+  // of the chapter, and notes on real verses whose quotes and references
+  // check out like everything else he reads. Wording is Blake's call when he
+  // approves; what can be counted is counted here: a much longer verse than
+  // the KJV's, a name left out, or KJV English left in is a note to look at.
+  if (week.plain !== undefined) {
+    const chapters = new Set(block || []), seen = new Set();
+    const words = t => (String(t || '').match(/\S+/g) || []).length;
+    if (!Array.isArray(week.plain)) fail('plain', 'must be a list of chapters');
+    for (const p of Array.isArray(week.plain) ? week.plain : []) {
+      const where = 'plain words ' + (p.ch || '?');
+      if (!chapters.has(p.ch)) { fail(where, `"${p.ch}" is not a chapter of this week's reading (${week.reference})`); continue; }
+      if (seen.has(p.ch)) fail(where, 'appears twice');
+      seen.add(p.ch);
+      let n = 0;
+      while (verses.has(`${p.ch}:${n + 1}`)) n++;
+      if (!Array.isArray(p.verses) || p.verses.length !== n) {
+        fail(where, `needs ${n} verses, one line each (has ${Array.isArray(p.verses) ? p.verses.length : 0})`);
+        continue;
+      }
+      p.verses.forEach((t, i) => {
+        const kjv = verses.get(`${p.ch}:${i + 1}`);
+        if (typeof t !== 'string' || !t.trim()) return fail(where, `verse ${i + 1} is empty`);
+        if (/"/.test(t)) fail(where, `verse ${i + 1} uses a straight " quote; use “curly quotes”`);
+        if ((t.match(/“/g) || []).length !== (t.match(/”/g) || []).length) fail(where, `verse ${i + 1} has unbalanced “quotes”`);
+        if (words(t) > words(kjv) * 1.5 + 8) note(`${where}: verse ${i + 1} is ${words(t)} words to the KJV's ${words(kjv)}; check it adds nothing`);
+        const left = [...new Set((kjv.match(/[A-Za-z]+/g) || []).filter(w => names.has(w.toLowerCase())))]
+          .filter(w => !new RegExp(`\\b${w}\\b`, 'i').test(t));
+        if (left.length) note(`${where}: verse ${i + 1} leaves out ${left.join(', ')}`);
+        if (/\b(thee|thou|thy|thine|ye|hath|saith|doth|shalt|unto)\b/i.test(t) || /\bLORD\b/.test(t)) note(`${where}: verse ${i + 1} still has KJV English`);
+      });
+      for (const x of p.notes || []) {
+        const at = `note on verse ${x.v}`, home = `${p.ch}:${x.v}`;
+        if (!Number.isInteger(x.v) || x.v < 1 || x.v > n) { fail(where, `a note is on verse ${x.v}, which ${p.ch} doesn't have`); continue; }
+        if (!x.text) { fail(where, `${at} is empty`); continue; }
+        if (words(x.text) > LIMITS.noteWords) fail(where, `${at} is ${words(x.text)} words (max ${LIMITS.noteWords})`);
+        checkText(where, at, x.text, home);
+        checkRefs(where, at, x.text, home);
+      }
+      for (const x of p.review || []) {
+        if (!Number.isInteger(x.v) || x.v < 1 || x.v > n || !x.about) fail(where, `each review item needs a verse ${p.ch} has, and what to look at`);
+      }
+    }
+  }
+
   const lessonText = pages.get(week.lesson);
   if (online && lessonText != null) {
     for (const [label, want] of [['title', week.title], ['reference', week.reference], ['dates', week.dates.replace(/, \d{4}$/, '')], ...week.sections.map(s => ['section', s])]) {
@@ -816,9 +879,11 @@ for (const week of weeks) {
   const num = (/\/(\d+)\?/.exec(week.lesson || '') || [])[1];
   weekLabel = weeks.length > 1 ? `Week ${num || '?'} · ` : '';
   await main(scripture, week, pages, online);
-  // The live app only takes weeks Blake approved in developer mode.
+  // The live app only takes weeks Blake approved in developer mode. Plain
+  // words are the exception: the app shows a chapter's plain words only once
+  // they're approved, so they never hold a week back.
   if (args.has('--require-approval') && weekStart(week.dates) >= REVIEW_FROM) {
-    for (const it of reviewItems(week)) {
+    for (const it of reviewItems(week).filter(x => !x.key.startsWith('plain:'))) {
       if (!it.approved) failures.push(`${weekLabel}${it.key}: not approved yet (approve it in developer mode, then publish)`);
       else if (it.approved !== it.hash) failures.push(`${weekLabel}${it.key}: changed since it was approved (approve it again in developer mode)`);
     }
@@ -866,7 +931,8 @@ if (failures.length) {
 for (const week of weeks) {
   const quotes = week.reels.reduce((n, r) => n + 1 + [r.hook, r.body, r.question.q, r.question.why, ...bonusesOf(r).map(b => b.why)].join(' ').split('“').length - 1, 0);
   const bonuses = week.reels.reduce((n, r) => n + bonusesOf(r).length, 0);
-  const extras = [(week.deep || []).length && `${week.deep.length} Go-deeper readings`, week.puzzle && 'the weekly puzzle', week.sayings && `${week.sayings.length} Who-said-it lines`, week.words && `${week.words.length} Verse Words`].filter(Boolean);
+  const extras = [(week.deep || []).length && `${week.deep.length} Go-deeper readings`, week.puzzle && 'the weekly puzzle', week.sayings && `${week.sayings.length} Who-said-it lines`, week.words && `${week.words.length} Verse Words`,
+    (week.plain || []).length && `plain words for ${week.plain.length} ${week.plain.length === 1 ? 'chapter' : 'chapters'}`].filter(Boolean);
   console.log(`✓ ${week.title} (${week.dates}): ${week.reels.length} reels, ${quotes} quotes and ${bonuses} bonus answers checked` +
     (extras.length ? `, plus ${extras.join(' and ')}` : ''));
 }
