@@ -73,13 +73,26 @@
   const keys = new Set();
   const pings = [];                                  // where an order was given, for a moment
 
-  // ------------------------------------------------------------ canvas
+  // ------------------------------------------------------------ 2:1 Isometric Projection
+  // Standard Westwood Red Alert 2 dimetric ratio (tile width : height = 2 : 1)
+  const toIso = (wx, wy) => ({ ix: (wx - wy), iy: (wx + wy) * 0.5 });
+  const fromIso = (ix, iy) => ({ x: (ix + 2 * iy) * 0.5, y: (2 * iy - ix) * 0.5 });
+  const WORLD_ISO_MIN_X = -MAP_H * TILE; // -1536
+  const WORLD_ISO_MAX_X = MAP_W * TILE;  // 2048
+  const WORLD_ISO_MIN_Y = 0;
+  const WORLD_ISO_MAX_Y = (MAP_W + MAP_H) * TILE * 0.5; // 1792
+  const WORLD_ISO_W = WORLD_ISO_MAX_X - WORLD_ISO_MIN_X; // 3584
+  const WORLD_ISO_H = WORLD_ISO_MAX_Y - WORLD_ISO_MIN_Y; // 1792
+  const ISO_OFFSET_X = -WORLD_ISO_MIN_X; // 1536
+
+  // ------------------------------------------------------------ canvas & camera
 
   const cv = $('view'), ctx = cv.getContext('2d');
   const mini = $('mini'), mctx = mini.getContext('2d');
   let dpr = 1, vw = 0, vh = 0;
   const topH = () => $('hud').offsetHeight || 0;
-  const bottomH = () => $('panel').offsetHeight || 0;
+  const bottomH = () => (window.innerWidth >= 860 || $('panel').hidden) ? 0 : ($('panel').offsetHeight || 0);
+  const rightW = () => (window.innerWidth >= 860 && !$('panel').hidden) ? ($('panel').offsetWidth || 236) : 0;
 
   function resize() {
     dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -87,35 +100,115 @@
     cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr);
     cv.style.width = vw + 'px'; cv.style.height = vh + 'px';
     const mw = mini.clientWidth || 144;
-    mini.width = Math.round(mw * dpr); mini.height = Math.round(mw * MAP_H / MAP_W * dpr);
-    mini.style.height = Math.round(mw * MAP_H / MAP_W) + 'px';
+    mini.width = Math.round(mw * dpr); mini.height = Math.round(mw * WORLD_ISO_H / WORLD_ISO_W * dpr);
+    mini.style.height = Math.round(mw * WORLD_ISO_H / WORLD_ISO_W) + 'px';
     miniDirty = true;
     $('rotate').hidden = !(W && vw < 560 && vh > vw);
     clampCam();
   }
-  // The camera may show a little past the map's edges, so nothing hides under the bars.
   function clampCam() {
-    const w = vw / cam.z, h = vh / cam.z, top = topH() / cam.z, bot = bottomH() / cam.z;
-    cam.x = w >= WORLD_W ? (WORLD_W - w) / 2 : clamp(cam.x, 0, WORLD_W - w);
-    cam.y = h - top - bot >= WORLD_H ? (WORLD_H - h) / 2 : clamp(cam.y, -top, WORLD_H - h + bot);
+    const w = (vw - rightW()) / cam.z, h = (vh - topH() - bottomH()) / cam.z;
+    cam.x = clamp(cam.x, WORLD_ISO_MIN_X - 160, WORLD_ISO_MAX_X - w + 160);
+    cam.y = clamp(cam.y, WORLD_ISO_MIN_Y - 80, WORLD_ISO_MAX_Y - h + 80);
   }
-  const toWorld = (sx, sy) => ({ x: cam.x + sx / cam.z, y: cam.y + sy / cam.z });
+  const toWorld = (sx, sy) => fromIso(cam.x + sx / cam.z, cam.y + sy / cam.z);
+  const toScreen = (wx, wy) => {
+    const { ix, iy } = toIso(wx, wy);
+    return { x: (ix - cam.x) * cam.z, y: (iy - cam.y) * cam.z };
+  };
   function lookAt(wx, wy) {
-    const usable = vh - topH() - bottomH();
-    cam.x = wx - vw / cam.z / 2; cam.y = wy - (topH() + usable / 2) / cam.z;
+    const { ix, iy } = toIso(wx, wy);
+    const usableW = vw - rightW();
+    const usableH = vh - topH() - bottomH();
+    cam.x = ix - usableW / cam.z / 2;
+    cam.y = iy - (topH() + usableH / 2) / cam.z;
     clampCam();
   }
   function zoomAt(sx, sy, z) {
     const p = toWorld(sx, sy);
     cam.z = clamp(z, 0.45, 2.2);
-    cam.x = p.x - sx / cam.z; cam.y = p.y - sy / cam.z;
+    const { ix, iy } = toIso(p.x, p.y);
+    cam.x = ix - sx / cam.z; cam.y = iy - sy / cam.z;
     clampCam();
   }
 
-  // ------------------------------------------------------------ terrain
+  // ------------------------------------------------------------ Shroud of War (Westwood Fog of War)
+  const shroudCv = document.createElement('canvas');
+  shroudCv.width = WORLD_ISO_W; shroudCv.height = WORLD_ISO_H;
+  const sctx = shroudCv.getContext('2d');
+  const explored = new Uint8Array(MAP_W * MAP_H);
+
+  function initShroud() {
+    explored.fill(0);
+    sctx.globalCompositeOperation = 'source-over';
+    sctx.fillStyle = '#06070c'; // Westwood Pitch Black Shroud
+    sctx.fillRect(0, 0, WORLD_ISO_W, WORLD_ISO_H);
+    miniDirty = true;
+    revealShroud();
+  }
+
+  function revealShroud() {
+    if (!W) return;
+    sctx.globalCompositeOperation = 'destination-out';
+    const punch = (wx, wy, rad) => {
+      const { ix, iy } = toIso(wx, wy);
+      const cx = ix + ISO_OFFSET_X, cy = iy;
+      const r = Math.max(54, rad * 1.15);
+      const grad = sctx.createRadialGradient(cx, cy, r * 0.65, cx, cy, r);
+      grad.addColorStop(0, 'rgba(0, 0, 0, 1)');
+      grad.addColorStop(0.8, 'rgba(0, 0, 0, 0.95)');
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      sctx.fillStyle = grad;
+      sctx.beginPath();
+      sctx.arc(cx, cy, r, 0, Math.PI * 2);
+      sctx.fill();
+
+      // Mark explored tiles in map grid
+      const tr = Math.ceil(rad / TILE) + 1;
+      const x0 = Math.max(0, Math.floor(wx / TILE - tr));
+      const x1 = Math.min(MAP_W - 1, Math.ceil(wx / TILE + tr));
+      const y0 = Math.max(0, Math.floor(wy / TILE - tr));
+      const y1 = Math.min(MAP_H - 1, Math.ceil(wy / TILE + tr));
+      const r2 = rad * rad;
+      for (let ty = y0; ty <= y1; ty++) {
+        for (let tx = x0; tx <= x1; tx++) {
+          const dx = (tx + 0.5) * TILE - wx, dy = (ty + 0.5) * TILE - wy;
+          if (dx * dx + dy * dy <= r2) explored[ty * MAP_W + tx] = 1;
+        }
+      }
+    };
+
+    for (const u of W.units('p')) punch(u.x, u.y, u.def.sight || 170);
+    for (const b of W.buildings('p')) {
+      const bx = (b.tx + b.w * 0.5) * TILE, by = (b.ty + b.h * 0.5) * TILE;
+      punch(bx, by, b.def.range ? b.def.range + 60 : 210);
+    }
+    miniDirty = true;
+  }
+
+  const inVision = (wx, wy) => {
+    for (const u of W.units('p')) {
+      if (Math.hypot(u.x - wx, u.y - wy) <= (u.def.sight || 170)) return true;
+    }
+    for (const b of W.buildings('p')) {
+      const bx = (b.tx + b.w * 0.5) * TILE, by = (b.ty + b.h * 0.5) * TILE;
+      if (Math.hypot(bx - wx, by - wy) <= (b.def.range ? b.def.range + 50 : 200)) return true;
+    }
+    return false;
+  };
+
+  const isVisible = e => {
+    if (e.team === 'p' || e.team === 'x') return true;
+    if (e.kind === 'unit') return inVision(e.x, e.y);
+    const tx = Math.min(MAP_W - 1, Math.max(0, Math.floor(e.tx + e.w * 0.5)));
+    const ty = Math.min(MAP_H - 1, Math.max(0, Math.floor(e.ty + e.h * 0.5)));
+    return explored[ty * MAP_W + tx] === 1;
+  };
+
+  // ------------------------------------------------------------ isometric terrain
 
   const terrain = document.createElement('canvas');
-  terrain.width = WORLD_W; terrain.height = WORLD_H;
+  terrain.width = WORLD_ISO_W; terrain.height = WORLD_ISO_H;
   const tctx = terrain.getContext('2d');
   let painted = null, miniDirty = true;
   function hash(x, y, k) {
@@ -123,7 +216,6 @@
     h = Math.imul(h ^ (h >>> 13), 1274126177);
     return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
   }
-  // What a tile looks like, so it's only painted again when that changes.
   function look(i) {
     const t = W.tiles[i], a = W.amt[i];
     if (t === T.FOREST) return t * 4 + (a > 80 ? 2 : a > 35 ? 1 : 0);
@@ -138,39 +230,176 @@
     }
     W.terrainDirty = false;
   }
+  function tileDiamond(c, x, y) {
+    const top = { x: (x - y) * TILE + ISO_OFFSET_X, y: (x + y) * TILE * 0.5 };
+    const right = { x: (x + 1 - y) * TILE + ISO_OFFSET_X, y: (x + 1 + y) * TILE * 0.5 };
+    const bottom = { x: (x - y) * TILE + ISO_OFFSET_X, y: (x + y + 2) * TILE * 0.5 };
+    const left = { x: (x - (y + 1)) * TILE + ISO_OFFSET_X, y: (x + y + 1) * TILE * 0.5 };
+    c.beginPath();
+    c.moveTo(top.x, top.y);
+    c.lineTo(right.x, right.y);
+    c.lineTo(bottom.x, bottom.y);
+    c.lineTo(left.x, left.y);
+    c.closePath();
+    return { top, right, bottom, left, cx: top.x, cy: (top.y + bottom.y) * 0.5 };
+  }
   function paintTile(x, y) {
-    const c = tctx, i = y * MAP_W + x, t = W.tiles[i], a = W.amt[i], px = x * TILE, py = y * TILE, h = k => hash(x, y, k);
-    c.fillStyle = '#5a8a3b'; c.fillRect(px, py, TILE, TILE);
-    for (let k = 0; k < 7; k++) { c.fillStyle = h(k) < 0.5 ? '#4f7d33' : '#699c4a'; c.fillRect(px + h(k + 10) * 30, py + h(k + 20) * 30, 2, 2); }
-    if (t === T.WATER || t === T.FORD) {
-      c.fillStyle = t === T.WATER ? '#2a679b' : '#5c9ab5'; c.fillRect(px, py, TILE, TILE);
-      c.strokeStyle = t === T.WATER ? 'rgba(170,215,245,.35)' : 'rgba(235,245,250,.4)'; c.lineWidth = 1.5;
-      for (let k = 0; k < 2; k++) { const wy = py + 9 + k * 13 + h(k) * 4, wx = px + 3 + h(k + 5) * 8; c.beginPath(); c.moveTo(wx, wy); c.quadraticCurveTo(wx + 7, wy - 4, wx + 14, wy); c.stroke(); }
-      if (t === T.FORD) { c.fillStyle = '#cfc5a6'; for (let k = 0; k < 5; k++) { c.beginPath(); c.arc(px + 4 + h(k + 30) * 24, py + 4 + h(k + 40) * 24, 2.4, 0, 7); c.fill(); } }
+    const c = tctx, i = y * MAP_W + x, t = W.tiles[i], a = W.amt[i], h = k => hash(x, y, k);
+    const d = tileDiamond(c, x, y);
+
+    const isLand = (tx, ty) => {
+      if (tx < 0 || ty < 0 || tx >= MAP_W || ty >= MAP_H) return false;
+      const nt = W.tiles[ty * MAP_W + tx];
+      return nt !== T.WATER && nt !== T.FORD;
+    };
+    const nearLand = isLand(x, y - 1) || isLand(x + 1, y) || isLand(x, y + 1) || isLand(x - 1, y);
+
+    if (t === T.GRASS) {
+      // Lush tropical green grass
+      c.fillStyle = '#3b7a24'; c.fill();
+      // Add some subtle texture details
+      for (let k = 0; k < 4; k++) {
+        c.fillStyle = h(k+10) < 0.5 ? '#2d6318' : '#65a148';
+        c.fillRect(d.cx - 6 + h(k+20)*12, d.cy - 3 + h(k+30)*6, 2, 2);
+      }
+    } else if (t === T.WATER || t === T.FORD) {
+      // River Sidon: Rich deep azure/cyan gradient
+      const wGrad = c.createLinearGradient(d.left.x, d.top.y, d.right.x, d.bottom.y);
+      if (t === T.WATER) {
+        wGrad.addColorStop(0, '#0284c7');
+        wGrad.addColorStop(0.5, '#0369a1');
+        wGrad.addColorStop(1, '#075985');
+      } else {
+        wGrad.addColorStop(0, '#38bdf8');
+        wGrad.addColorStop(0.5, '#0284c7');
+        wGrad.addColorStop(1, '#0ea5e9');
+      }
+      c.fillStyle = wGrad; c.fill();
+
+      // Shoreline sandy beach transition if bordering land
+      if (nearLand) {
+        c.strokeStyle = '#c5a86d'; c.lineWidth = 3.5;
+        if (isLand(x, y - 1)) { c.beginPath(); c.moveTo(d.top.x, d.top.y); c.lineTo(d.right.x, d.right.y); c.stroke(); }
+        if (isLand(x - 1, y)) { c.beginPath(); c.moveTo(d.left.x, d.left.y); c.lineTo(d.top.x, d.top.y); c.stroke(); }
+        if (isLand(x, y + 1)) { c.beginPath(); c.moveTo(d.left.x, d.left.y); c.lineTo(d.bottom.x, d.bottom.y); c.stroke(); }
+        if (isLand(x + 1, y)) { c.beginPath(); c.moveTo(d.bottom.x, d.bottom.y); c.lineTo(d.right.x, d.right.y); c.stroke(); }
+        // Water edge foam
+        c.strokeStyle = 'rgba(255,255,255,.45)'; c.lineWidth = 1.2;
+        if (isLand(x, y - 1)) { c.beginPath(); c.moveTo(d.top.x, d.top.y + 1); c.lineTo(d.right.x - 1, d.right.y); c.stroke(); }
+        if (isLand(x - 1, y)) { c.beginPath(); c.moveTo(d.left.x + 1, d.left.y); c.lineTo(d.top.x, d.top.y + 1); c.stroke(); }
+      }
+
+      // Translucent glistening water currents
+      c.strokeStyle = 'rgba(224,242,254,.38)'; c.lineWidth = 1.2;
+      for (let k = 0; k < 3; k++) {
+        const fx = d.cx - 10 + h(k + 30) * 20, fy = d.cy - 4 + h(k + 35) * 8;
+        c.beginPath(); c.moveTo(fx - 6, fy); c.lineTo(fx + 6, fy); c.stroke();
+      }
+
+      if (t === T.FORD) {
+        // Natural river stepping boulders with foaming rapids
+        c.fillStyle = '#78716c';
+        for (let k = 0; k < 4; k++) {
+          const bx = d.cx - 10 + h(k) * 20, by = d.cy - 4 + h(k + 10) * 8;
+          c.beginPath(); c.ellipse(bx, by, 3.5, 2.2, 0.2, 0, 7); c.fill();
+        }
+        c.fillStyle = '#a8a29e';
+        for (let k = 0; k < 4; k++) {
+          const bx = d.cx - 10 + h(k) * 20, by = d.cy - 5 + h(k + 10) * 8;
+          c.beginPath(); c.ellipse(bx - 0.5, by - 0.5, 2, 1.2, 0.2, 0, 7); c.fill();
+        }
+        // White foam rapids around rocks
+        c.fillStyle = 'rgba(255,255,255,.7)';
+        c.fillRect(d.cx - 8, d.cy - 1, 16, 2);
+        c.fillRect(d.cx - 4, d.cy + 3, 10, 1.5);
+      }
     } else if (t === T.ROCK) {
-      c.fillStyle = '#6a6157'; c.fillRect(px, py, TILE, TILE);
-      c.fillStyle = '#857a6d'; c.beginPath(); c.moveTo(px, py + TILE); c.lineTo(px + 6 + h(1) * 14, py + 3 + h(2) * 10); c.lineTo(px + TILE, py + TILE); c.fill();
-      c.fillStyle = '#9b907f'; c.beginPath(); c.moveTo(px + 6 + h(1) * 14, py + 3 + h(2) * 10); c.lineTo(px + 10 + h(1) * 14, py + 10 + h(2) * 10); c.lineTo(px + 2 + h(1) * 14, py + 12 + h(2) * 10); c.fill();
-      c.fillStyle = 'rgba(0,0,0,.18)'; c.fillRect(px, py + TILE - 4, TILE, 4);
+      // Stratified Mountain Cliffs with rich horizontal strata
+      c.fillStyle = '#292524'; c.fill();
+      c.fillStyle = '#44403c'; c.fillRect(d.left.x + 4, d.cy - 7, (d.right.x - d.left.x) - 8, 5);
+      c.fillStyle = '#57534e'; c.fillRect(d.left.x + 6, d.cy, (d.right.x - d.left.x) - 12, 4);
+      c.fillStyle = '#78716c'; c.fillRect(d.left.x + 8, d.cy + 4, (d.right.x - d.left.x) - 16, 3);
+      // Sunlit upper ridge
+      c.strokeStyle = '#d6d3d1'; c.lineWidth = 1.8;
+      c.beginPath(); c.moveTo(d.left.x, d.left.y); c.lineTo(d.top.x, d.top.y); c.lineTo(d.right.x, d.right.y); c.stroke();
     } else if (t === T.FOREST) {
+      // Lush tropical jungle forest with rich soil and dense canopy
+      c.fillStyle = '#1c3814'; c.fill();
       const n = a > 80 ? 3 : a > 35 ? 2 : 1;
-      c.fillStyle = '#3f6e2c'; c.fillRect(px, py, TILE, TILE);
       for (let k = 0; k < n; k++) {
-        const tx = px + 7 + h(k + 50) * 18, ty = py + 8 + h(k + 60) * 16, r = 7 + h(k + 70) * 4;
-        c.fillStyle = 'rgba(0,0,0,.25)'; c.beginPath(); c.arc(tx + 2, ty + 3, r, 0, 7); c.fill();
-        c.fillStyle = '#285222'; c.beginPath(); c.arc(tx, ty, r, 0, 7); c.fill();
-        c.fillStyle = '#3c7a30'; c.beginPath(); c.arc(tx - r * 0.3, ty - r * 0.3, r * 0.55, 0, 7); c.fill();
+        const tx = d.cx - 10 + h(k + 50) * 20, ty = d.cy - 6 + h(k + 60) * 12, r = 8 + h(k + 70) * 4;
+        // Ground shadow
+        c.fillStyle = 'rgba(0,0,0,.42)'; c.beginPath(); c.ellipse(tx + 5, ty + 7, r * 1.3, r * 0.65, 0.2, 0, 7); c.fill();
+        // Buttress trunk
+        c.fillStyle = '#3f1f08'; c.fillRect(tx - 2, ty - 2, 4, 8);
+        // Volumetric 4-tier tropical canopy
+        c.fillStyle = '#0f290d'; c.beginPath(); c.arc(tx + 1, ty - 4, r, 0, 7); c.fill();
+        c.fillStyle = '#1b4a16'; c.beginPath(); c.arc(tx, ty - 5, r * 0.9, 0, 7); c.fill();
+        c.fillStyle = '#2f7524'; c.beginPath(); c.arc(tx - r * 0.25, ty - 6 - r * 0.2, r * 0.65, 0, 7); c.fill();
+        c.fillStyle = '#4ade80'; c.beginPath(); c.arc(tx - r * 0.4, ty - 7 - r * 0.35, r * 0.35, 0, 7); c.fill();
       }
     } else if (t === T.FIELD) {
-      c.fillStyle = a > 150 ? '#caa748' : '#b7a266'; c.fillRect(px + 1, py + 1, TILE - 2, TILE - 2);
-      c.strokeStyle = 'rgba(125,92,30,.5)'; c.lineWidth = 1;
-      for (let k = 4; k < TILE; k += 6) { c.beginPath(); c.moveTo(px + 2, py + k); c.lineTo(px + TILE - 2, py + k); c.stroke(); }
-      if (a > 150) { c.fillStyle = '#e6c663'; for (let k = 0; k < 6; k++) c.fillRect(px + 3 + h(k + 80) * 25, py + 3 + h(k + 90) * 25, 2, 3); }
+      // Golden Tilled Grain & Corn Terrace
+      c.fillStyle = '#38230e'; c.fill();
+      c.fillStyle = a > 150 ? '#ca8a04' : '#92400e';
+      c.beginPath();
+      c.moveTo(d.top.x, d.top.y + 2); c.lineTo(d.right.x - 3, d.right.y); c.lineTo(d.bottom.x, d.bottom.y - 2); c.lineTo(d.left.x + 3, d.left.y);
+      c.fill();
+      // Furrow rows & Golden Stalks
+      c.strokeStyle = '#facc15'; c.lineWidth = 1.4;
+      for (let f = -10; f <= 10; f += 4) {
+        c.beginPath();
+        c.moveTo(d.cx - 12 + f, d.cy - 6 + f * 0.5);
+        c.lineTo(d.cx + 12 + f, d.cy + 6 + f * 0.5);
+        c.stroke();
+      }
+      if (a > 150) {
+        c.fillStyle = '#78350f'; c.fillRect(d.left.x + 2, d.left.y - 4, 3, 7);
+      }
     } else if (t === T.RUIN) {
-      c.fillStyle = '#6e7a55'; c.fillRect(px, py, TILE, TILE);
-      c.fillStyle = '#a39d8e'; for (let k = 0; k < 4; k++) c.fillRect(px + 3 + h(k + 100) * 22, py + 3 + h(k + 110) * 22, 5 + h(k) * 4, 4);
-      c.fillStyle = '#3b3a33'; c.fillRect(px + 8 + h(7) * 12, py + 10 + h(8) * 10, 7, 2);
+      // Ancient carved stone foundations
+      c.fillStyle = '#292524'; c.fill();
+      c.fillStyle = '#57534e'; c.fillRect(d.cx - 12, d.cy - 6, 24, 12);
+      c.fillStyle = '#78716c'; c.fillRect(d.cx - 12, d.cy - 6, 24, 2);
+      c.fillStyle = '#15803d'; c.fillRect(d.cx - 8, d.cy, 8, 3);
+    } else {
+      // Lush Mesoamerican Prairie Grass: multi-hued natural soil
+      const gHues = ['#2e581c', '#356321', '#3b6e26', '#447d2c', '#315c1e', '#3e7328'];
+      c.fillStyle = gHues[Math.floor(h(1) * gHues.length)];
+      c.fill();
+
+      // Sunlit top edge highlight
+      c.strokeStyle = 'rgba(134, 239, 172, .18)'; c.lineWidth = 1;
+      c.beginPath(); c.moveTo(d.left.x, d.left.y); c.lineTo(d.top.x, d.top.y); c.lineTo(d.right.x, d.right.y); c.stroke();
+
+      // Organic soil clods or wildflowers
+      if (h(2) < 0.18) {
+        // Rich earthen loam patch
+        c.fillStyle = 'rgba(78, 56, 32, .35)';
+        c.beginPath(); c.ellipse(d.cx - 4 + h(3) * 8, d.cy - 2 + h(4) * 4, 5, 2.5, 0.2, 0, 7); c.fill();
+      }
+      if (h(5) < 0.09) {
+        // Wildflower dot (marigold or tropical amaranth)
+        c.fillStyle = h(6) < 0.5 ? '#facc15' : '#ef4444';
+        c.fillRect(d.cx - 6 + h(7) * 12, d.cy - 3 + h(8) * 6, 2, 2);
+      }
     }
+  }
+
+  // ------------------------------------------------------------ particle engine
+
+  const particles = [];
+  function addSmoke(ix, iy, dark = true) {
+    if (particles.length > 80) return;
+    particles.push({ ix, iy, vx: (Math.random() - 0.5) * 0.4, vy: -0.7 - Math.random() * 0.6, size: 3 + Math.random() * 3, life: 0, maxLife: 40 + Math.random() * 20, dark });
+  }
+  function addFire(ix, iy) {
+    if (particles.length > 80) return;
+    particles.push({ ix: ix + (Math.random() - 0.5) * 6, iy, vx: (Math.random() - 0.5) * 0.5, vy: -1.0 - Math.random() * 0.8, size: 3 + Math.random() * 2, life: 0, maxLife: 20 });
+  }
+  function addSpark(ix, iy) {
+    if (particles.length > 80) return;
+    particles.push({ ix, iy, vx: (Math.random() - 0.5) * 2.5, vy: (Math.random() - 0.5) * 2.5 - 1, size: 1.5, life: 0, maxLife: 15, spark: true });
   }
 
   // ------------------------------------------------------------ drawing
@@ -179,32 +408,104 @@
   function draw(now) {
     if (W.terrainDirty || !painted) paintTerrain();
     ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = '#1b2a14'; ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.fillStyle = '#080911'; ctx.fillRect(0, 0, cv.width, cv.height);
     const z = cam.z * dpr;
     ctx.setTransform(z, 0, 0, z, -cam.x * z, -cam.y * z);
-    ctx.drawImage(terrain, 0, 0);
-    const vx0 = cam.x - 64, vy0 = cam.y - 64, vx1 = cam.x + vw / cam.z + 64, vy1 = cam.y + vh / cam.z + 64;
-    const inView = e => e.x > vx0 && e.x < vx1 && e.y > vy0 && e.y < vy1;
+    ctx.drawImage(terrain, -ISO_OFFSET_X, 0);
+
+    const inView = e => {
+      const { ix, iy } = toIso(e.x, e.y);
+      return ix > cam.x - 160 && ix < cam.x + vw / cam.z + 160 && iy > cam.y - 160 && iy < cam.y + vh / cam.z + 160;
+    };
     const selSet = new Set(sel);
 
     drawZones();
     if (W.border != null && !W.borderOpen) drawBorder();
-    const bs = [], us = [];
-    for (const e of W.ents.values()) if (inView(e)) (e.kind === 'building' ? bs : us).push(e);
-    bs.sort((a, b) => a.y - b.y); us.sort((a, b) => a.y - b.y);
-    for (const b of bs) drawBuilding(b, selSet.has(b.id), now);
-    for (const u of us) if (selSet.has(u.id)) drawRing(u);
-    for (const u of us) drawUnit(u, now);
-    for (const u of us) if (selSet.has(u.id) || (u.hitAt && W.t - u.hitAt < 3)) hpBar(u.x, u.y - radius(u) - 7, 20, u.hp / u.def.hp);
+
+    // Isometric depth sorting: entities with larger (x + y) are closer to camera and drawn on top
+    const isoDepth = e => e.kind === 'building' ? (e.tx + e.w * 0.5 + e.ty + e.h * 0.5) * TILE : (e.x + e.y);
+    const ents = [];
+    for (const e of W.ents.values()) if (inView(e) && isVisible(e)) ents.push(e);
+    ents.sort((a, b) => isoDepth(a) - isoDepth(b));
+
+    // Draw entities in depth order
+    for (const e of ents) {
+      if (e.kind === 'building') {
+        drawBuilding(e, selSet.has(e.id), now);
+      } else {
+        if (selSet.has(e.id)) drawRing(e);
+        drawUnit(e, now);
+        if (selSet.has(e.id) || (e.hitAt && W.t - e.hitAt < 3)) {
+          const { ix, iy } = toIso(e.x, e.y);
+          hpBar(ix, iy - radius(e) - 18, 22, e.hp / e.def.hp);
+        }
+      }
+    }
+
+    // Dynamic environmental smoke & fire particles
+    for (const e of ents) {
+      if (e.kind === 'building') {
+        const { ix, iy } = toIso(e.x, e.y);
+        if (e.type === 'armory' && Math.random() < 0.25) addSmoke(ix + 6, iy - 32, false);
+        if (e.type === 'warcamp' && Math.random() < 0.3) { addSmoke(ix, iy - 20, false); addFire(ix, iy - 8); }
+        if (e.hp < S.maxHp(e) * 0.6 && Math.random() < 0.3) addSmoke(ix, iy - 24, true);
+        if (e.hp < S.maxHp(e) * 0.3 && Math.random() < 0.4) { addSmoke(ix, iy - 28, true); addFire(ix, iy - 16); }
+      }
+    }
+
+    // Render active particles
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.life++;
+      p.ix += p.vx; p.iy += p.vy;
+      const alpha = 1 - p.life / p.maxLife;
+      if (alpha <= 0) { particles.splice(i, 1); continue; }
+      if (p.spark) {
+        ctx.fillStyle = `rgba(254,240,138,${alpha})`;
+        ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size, 0, 7); ctx.fill();
+      } else if (p.dark) {
+        ctx.fillStyle = `rgba(28,25,23,${alpha * 0.65})`;
+        ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size, 0, 7); ctx.fill();
+      } else {
+        ctx.fillStyle = `rgba(249,115,22,${alpha * 0.8})`;
+        ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size, 0, 7); ctx.fill();
+      }
+    }
+
     drawEffects();
     drawMarkers(now);
     drawGhost();
+
+    // Order feedback pings in isometric
     for (let i = pings.length - 1; i >= 0; i--) {
-      const p = pings[i], age = (now - p.t) / 500;
+      const p = pings[i], age = (now - p.t) / 450;
       if (age > 1) { pings.splice(i, 1); continue; }
+      const { ix, iy } = toIso(p.wx !== undefined ? p.wx : p.x, p.wy !== undefined ? p.wy : p.y);
+      ctx.save();
       ctx.strokeStyle = p.color; ctx.globalAlpha = 1 - age; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.arc(p.x, p.y, 6 + age * 14, 0, 7); ctx.stroke(); ctx.globalAlpha = 1;
+      if (p.type === 'attack') {
+        const rad = 8 + age * 12;
+        ctx.beginPath(); ctx.arc(ix, iy, rad, 0, 7); ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(ix - rad - 4, iy); ctx.lineTo(ix + rad + 4, iy);
+        ctx.moveTo(ix, iy - rad - 4); ctx.lineTo(ix, iy + rad + 4);
+        ctx.stroke();
+      } else {
+        const rad = 6 + age * 18;
+        ctx.beginPath();
+        ctx.moveTo(ix, iy - rad * 0.5);
+        ctx.lineTo(ix + rad, iy);
+        ctx.lineTo(ix, iy + rad * 0.5);
+        ctx.lineTo(ix - rad, iy);
+        ctx.closePath();
+        ctx.stroke();
+      }
+      ctx.restore();
     }
+
+    // ---------------- Westwood Shroud of War ----------------
+    ctx.drawImage(shroudCv, -ISO_OFFSET_X, 0);
+
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     if (W.night) { ctx.fillStyle = 'rgba(8,12,40,.5)'; ctx.fillRect(0, 0, cv.width, cv.height); }
     if (box) {
@@ -217,100 +518,155 @@
 
   function drawBorder() {
     const y = W.border * TILE;
+    const p0 = toIso(0, y), p1 = toIso(WORLD_W, y);
     ctx.save();
     ctx.strokeStyle = 'rgba(248,113,113,.85)'; ctx.lineWidth = 3; ctx.setLineDash([14, 10]);
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(WORLD_W, y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(p0.ix, p0.iy); ctx.lineTo(p1.ix, p1.iy); ctx.stroke();
     ctx.setLineDash([]);
     ctx.font = '700 12px Outfit, system-ui, sans-serif'; ctx.textAlign = 'center';
     for (let x = 8; x < MAP_W; x += 16) {
-      ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fillRect(x * TILE - 118, y - 24, 236, 18);
-      ctx.fillStyle = '#fecaca'; ctx.fillText('Wilderness: wait for them to come (3 Nephi 3:21)', x * TILE, y - 11);
+      const pt = toIso(x * TILE, y);
+      ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(pt.ix - 118, pt.iy - 24, 236, 18);
+      ctx.fillStyle = '#fecaca'; ctx.fillText('Wilderness: wait for them to come (3 Nephi 3:21)', pt.ix, pt.iy - 11);
     }
     ctx.restore();
   }
-  // Gold rings where the story wants someone to go.
   function drawMarkers(now) {
     const list = mission.markers ? mission.markers(W) : [];
     if (!list.length) return;
     const pulse = 0.6 + 0.4 * Math.sin(now / 250);
     ctx.font = '800 13px Outfit, system-ui, sans-serif'; ctx.textAlign = 'center';
     for (const m of list) {
-      const x = (m.x + 0.5) * TILE, y = (m.y + 0.5) * TILE, w = ctx.measureText(m.label).width + 16;
+      if (!explored[Math.floor(m.y) * MAP_W + Math.floor(m.x)]) continue;
+      const { ix, iy } = toIso((m.x + 0.5) * TILE, (m.y + 0.5) * TILE);
+      const w = ctx.measureText(m.label).width + 16;
       ctx.strokeStyle = `rgba(253,230,138,${pulse})`; ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.arc(x, y, 40, 0, 7); ctx.stroke();
-      ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x - w / 2, y - 62, w, 18);
-      ctx.fillStyle = '#fde68a'; ctx.fillText(m.label, x, y - 49);
+      ctx.beginPath(); ctx.ellipse(ix, iy, 42, 21, 0, 0, 7); ctx.stroke();
+      ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(ix - w / 2, iy - 48, w, 18);
+      ctx.fillStyle = '#fde68a'; ctx.fillText(m.label, ix, iy - 35);
     }
   }
-  // Places to hide an army, the way the enemy will come, and lands closed to you.
   function drawZones() {
     ctx.save();
     ctx.font = '800 13px Outfit, system-ui, sans-serif'; ctx.textAlign = 'left';
     for (const c of W.cover) {
-      const x = c.x0 * TILE, y = c.y0 * TILE, w = (c.x1 - c.x0 + 1) * TILE, h = (c.y1 - c.y0 + 1) * TILE;
-      ctx.fillStyle = 'rgba(74,222,128,.10)'; ctx.fillRect(x, y, w, h);
-      ctx.strokeStyle = 'rgba(134,239,172,.8)'; ctx.lineWidth = 2; ctx.setLineDash([10, 8]); ctx.strokeRect(x, y, w, h); ctx.setLineDash([]);
+      const p0 = toIso(c.x0 * TILE, c.y0 * TILE);
+      const p1 = toIso((c.x1 + 1) * TILE, c.y0 * TILE);
+      const p2 = toIso((c.x1 + 1) * TILE, (c.y1 + 1) * TILE);
+      const p3 = toIso(c.x0 * TILE, (c.y1 + 1) * TILE);
+      ctx.fillStyle = 'rgba(74,222,128,.12)';
+      ctx.beginPath(); ctx.moveTo(p0.ix, p0.iy); ctx.lineTo(p1.ix, p1.iy); ctx.lineTo(p2.ix, p2.iy); ctx.lineTo(p3.ix, p3.iy); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = 'rgba(134,239,172,.8)'; ctx.lineWidth = 2; ctx.setLineDash([10, 8]); ctx.stroke(); ctx.setLineDash([]);
       const t = c.name + ' · hide here', tw = ctx.measureText(t).width + 12;
-      ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x + 4, y + 4, tw, 18);
-      ctx.fillStyle = '#bbf7d0'; ctx.fillText(t, x + 10, y + 17);
+      ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(p0.ix + 4, p0.iy + 4, tw, 18);
+      ctx.fillStyle = '#bbf7d0'; ctx.fillText(t, p0.ix + 10, p0.iy + 17);
     }
     if (W.route) {
-      ctx.strokeStyle = 'rgba(248,113,113,.75)'; ctx.lineWidth = 4; ctx.setLineDash([4, 10]); ctx.lineCap = 'round';
-      ctx.beginPath(); W.route.forEach(([x, y], i) => (i ? ctx.lineTo : ctx.moveTo).call(ctx, (x + 0.5) * TILE, (y + 0.5) * TILE)); ctx.stroke();
-      ctx.setLineDash([]);
-      const [ax, ay] = W.route[W.route.length - 1], [bx, by] = W.route[W.route.length - 2], a = Math.atan2(ay - by, ax - bx);
-      ctx.fillStyle = 'rgba(248,113,113,.9)'; ctx.beginPath();
-      ctx.moveTo((ax + 0.5) * TILE + Math.cos(a) * 14, (ay + 0.5) * TILE + Math.sin(a) * 14);
-      ctx.lineTo((ax + 0.5) * TILE + Math.cos(a + 2.5) * 14, (ay + 0.5) * TILE + Math.sin(a + 2.5) * 14);
-      ctx.lineTo((ax + 0.5) * TILE + Math.cos(a - 2.5) * 14, (ay + 0.5) * TILE + Math.sin(a - 2.5) * 14); ctx.fill();
-      const [lx, ly] = W.route[1], t = 'The way they will come (Alma 43:24)', tw = ctx.measureText(t).width + 12;
-      ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(lx * TILE - tw / 2, ly * TILE - 30, tw, 18);
-      ctx.fillStyle = '#fecaca'; ctx.textAlign = 'center'; ctx.fillText(t, lx * TILE, ly * TILE - 17); ctx.textAlign = 'left';
+      const [rx, ry] = W.route[0];
+      if (explored[ry * MAP_W + rx]) {
+        ctx.strokeStyle = 'rgba(248,113,113,.75)'; ctx.lineWidth = 4; ctx.setLineDash([4, 10]); ctx.lineCap = 'round';
+        ctx.beginPath();
+        W.route.forEach(([x, y], i) => {
+          const { ix, iy } = toIso((x + 0.5) * TILE, (y + 0.5) * TILE);
+          (i ? ctx.lineTo : ctx.moveTo).call(ctx, ix, iy);
+        });
+        ctx.stroke(); ctx.setLineDash([]);
+        const [lx, ly] = W.route[1], lp = toIso(lx * TILE, ly * TILE), t = 'The way they will come (Alma 43:24)', tw = ctx.measureText(t).width + 12;
+        ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(lp.ix - tw / 2, lp.iy - 30, tw, 18);
+        ctx.fillStyle = '#fecaca'; ctx.textAlign = 'center'; ctx.fillText(t, lp.ix, lp.iy - 17); ctx.textAlign = 'left';
+      }
     }
     for (const z of W.noGo) {
-      const x = z.x0 * TILE, y = z.y0 * TILE, w = (z.x1 - z.x0 + 1) * TILE, h = (z.y1 - z.y0 + 1) * TILE;
-      ctx.fillStyle = 'rgba(127,29,29,.12)'; ctx.fillRect(x, y, w, h);
-      ctx.strokeStyle = 'rgba(248,113,113,.75)'; ctx.lineWidth = 3; ctx.setLineDash([14, 10]); ctx.strokeRect(x, y, w, h); ctx.setLineDash([]);
-      const t = 'Antionum: the Zoramites\' land (Alma 43:5)', tw = ctx.measureText(t).width + 12;
-      ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x + 6, y + 6, tw, 18);
-      ctx.fillStyle = '#fecaca'; ctx.fillText(t, x + 12, y + 19);
+      const midX = Math.floor((z.x0 + z.x1) * 0.5), midY = Math.floor((z.y0 + z.y1) * 0.5);
+      if (explored[midY * MAP_W + midX]) {
+        const p0 = toIso(z.x0 * TILE, z.y0 * TILE);
+        const p1 = toIso((z.x1 + 1) * TILE, z.y0 * TILE);
+        const p2 = toIso((z.x1 + 1) * TILE, (z.y1 + 1) * TILE);
+        const p3 = toIso(z.x0 * TILE, (z.y1 + 1) * TILE);
+        ctx.fillStyle = 'rgba(127,29,29,.15)';
+        ctx.beginPath(); ctx.moveTo(p0.ix, p0.iy); ctx.lineTo(p1.ix, p1.iy); ctx.lineTo(p2.ix, p2.iy); ctx.lineTo(p3.ix, p3.iy); ctx.closePath(); ctx.fill();
+        ctx.strokeStyle = 'rgba(248,113,113,.75)'; ctx.lineWidth = 3; ctx.setLineDash([14, 10]); ctx.stroke(); ctx.setLineDash([]);
+        const t = 'Antionum: the Zoramites\' land (Alma 43:5)', tw = ctx.measureText(t).width + 12;
+        ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(p0.ix + 6, p0.iy + 6, tw, 18);
+        ctx.fillStyle = '#fecaca'; ctx.fillText(t, p0.ix + 12, p0.iy + 19);
+      }
     }
     ctx.restore();
   }
 
   function hpBar(x, y, w, f) {
     if (f >= 1) return;
-    ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x - w / 2 - 1, y - 1, w + 2, 5);
+    ctx.fillStyle = 'rgba(0,0,0,.75)'; ctx.fillRect(x - w / 2 - 1, y - 1, w + 2, 5);
     ctx.fillStyle = f > 0.5 ? '#22c55e' : f > 0.25 ? '#eab308' : '#ef4444'; ctx.fillRect(x - w / 2, y, w * clamp(f, 0, 1), 3);
   }
   const radius = u => u.def.leader ? 11 : u.def.hero ? 10 : u.type === 'flock' || u.type === 'cart' ? 10 : u.type === 'stripling' || u.def.deploys ? 9 : u.def.gathers || u.type === 'villager' ? 7 : 8;
+
+  // RA2 Isometric Corner Brackets Selection Reticle
   function drawRing(u) {
-    ctx.strokeStyle = '#86efac'; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.ellipse(u.x, u.y + 4, radius(u) + 4, (radius(u) + 4) * 0.55, 0, 0, 7); ctx.stroke();
+    const { ix, iy } = toIso(u.x, u.y);
+    const r = radius(u);
+    const col = u.def.hero ? '#fcd34d' : u.team === 'p' ? '#4ade80' : '#ef4444';
+    drawIsoCorners(ix - r - 4, iy - r * 0.5 - 2, (r + 4) * 2, (r + 4) * 1.1, col);
   }
+  function drawIsoCorners(x, y, w, h, color) {
+    ctx.save();
+    ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.beginPath();
+    const b = Math.min(6, w * 0.25);
+    ctx.moveTo(x, y + b); ctx.lineTo(x, y); ctx.lineTo(x + b, y);
+    ctx.moveTo(x + w - b, y); ctx.lineTo(x + w, y); ctx.lineTo(x + w, y + b);
+    ctx.moveTo(x + w, y + h - b); ctx.lineTo(x + w, y + h); ctx.lineTo(x + w - b, y + h);
+    ctx.moveTo(x + b, y + h); ctx.lineTo(x, y + h); ctx.lineTo(x, y + h - b);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // Ancient American / Book of Mormon Character Sprites in 2:1 Isometric
   function drawUnit(u, now) {
-    const d = u.def, x = u.x, r = radius(u);
+    const d = u.def;
+    const { ix, iy } = toIso(u.x, u.y);
+    const r = radius(u);
     const kneel = u.kneelUntil && W.t < u.kneelUntil;
-    const y = u.y - (kneel ? -2 : 1);
-    ctx.fillStyle = 'rgba(0,0,0,.28)'; ctx.beginPath(); ctx.ellipse(x + 2, u.y + r * 0.7, r, r * 0.45, 0, 0, 7); ctx.fill();
+    const moving = (u.path && u.path.length > 0) || u.order.type === 'move' || u.order.type === 'gather' || u.order.type === 'return';
+    const walkCycle = moving ? Math.sin(now * 0.015 + u.id) : 0;
+    const bob = Math.abs(walkCycle) * 2.2;
+    const x = ix, y = iy - (kneel ? -2 : 1) - bob;
+
+    // Ground Drop Shadow
+    ctx.fillStyle = 'rgba(0,0,0,.32)'; ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 0.95, r * 0.48, 0, 0, 7); ctx.fill();
+
     if (u.type === 'cart') {
-      const f = u.face || 0;
-      ctx.save(); ctx.translate(x, y); ctx.rotate(f);
+      // 2-Wheeled Wooden Horse Cart Harvester
+      ctx.save(); ctx.translate(x, y);
       ctx.fillStyle = '#7c5a3a'; ctx.fillRect(-12, -6, 16, 12);
       ctx.strokeStyle = '#3f2a14'; ctx.lineWidth = 1.5; ctx.strokeRect(-12, -6, 16, 12);
-      ctx.fillStyle = '#2b1d10'; ctx.fillRect(-9, -8, 5, 2); ctx.fillRect(-9, 6, 5, 2);
-      ctx.fillStyle = '#a16207'; ctx.beginPath(); ctx.ellipse(10, 0, 6, 3.5, 0, 0, 7); ctx.fill();
-      ctx.beginPath(); ctx.arc(15, 0, 2.5, 0, 7); ctx.fill();
-      if (u.carry && u.carry.amt) { ctx.fillStyle = u.carry.type === 'timber' ? '#8b5a2b' : '#eab308'; ctx.fillRect(-10, -4, 12, 8); }
+      // Wheels
+      ctx.fillStyle = '#2b1d10'; ctx.fillRect(-10, -8, 5, 2); ctx.fillRect(-10, 6, 5, 2);
+      // Trotting Horse with mane
+      ctx.fillStyle = '#a16207'; ctx.beginPath(); ctx.ellipse(10, 0, 7, 4, 0, 0, 7); ctx.fill();
+      ctx.beginPath(); ctx.arc(16, -1, 2.8, 0, 7); ctx.fill();
+      if (u.carry && u.carry.amt) {
+        ctx.fillStyle = u.carry.type === 'timber' ? '#8b5a2b' : '#ca8a04';
+        ctx.fillRect(-10, -4, 12, 8); // loaded sacks/timber
+      }
       ctx.restore();
-      ctx.strokeStyle = '#dbeafe'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x, y, 13, 0, 7); ctx.stroke();
       return;
     }
     if (u.def.deploys) {
-      // Moroni's "title of liberty": a piece of his coat on a pole (Alma 46:12–13).
-      ctx.strokeStyle = '#3f2f1f'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x + 5, y + 6); ctx.lineTo(x + 5, y - 22); ctx.stroke();
-      ctx.fillStyle = '#f5ecd7'; ctx.beginPath(); ctx.moveTo(x + 5, y - 22); ctx.lineTo(x + 22, y - 18 + Math.sin(now / 200) * 2); ctx.lineTo(x + 5, y - 12); ctx.fill();
-      ctx.strokeStyle = 'rgba(120,80,30,.6)'; ctx.lineWidth = 1; for (let k = 0; k < 2; k++) { ctx.beginPath(); ctx.moveTo(x + 8, y - 19 + k * 3); ctx.lineTo(x + 16, y - 18 + k * 3); ctx.stroke(); }
+      // Moroni's Title of Liberty: piece of his coat on a tall pole (Alma 46:12–13)
+      ctx.strokeStyle = '#451a03'; ctx.lineWidth = 2.5;
+      ctx.beginPath(); ctx.moveTo(x, y + 4); ctx.lineTo(x, y - 26); ctx.stroke();
+      const wave = Math.sin(now / 180) * 2.5;
+      ctx.fillStyle = '#fef08a';
+      ctx.beginPath();
+      ctx.moveTo(x, y - 26);
+      ctx.quadraticCurveTo(x + 10, y - 28 + wave, x + 20, y - 24 + wave);
+      ctx.lineTo(x, y - 14);
+      ctx.fill();
+      // Scripture writing strokes
+      ctx.strokeStyle = 'rgba(120,80,30,.7)'; ctx.lineWidth = 1;
+      for (let k = 0; k < 2; k++) {
+        ctx.beginPath(); ctx.moveTo(x + 3, y - 23 + k * 4); ctx.lineTo(x + 13, y - 22 + k * 4); ctx.stroke();
+      }
     }
     if (u.type === 'flock') {
       ctx.fillStyle = '#f1f5f9';
@@ -318,205 +674,401 @@
       ctx.fillStyle = '#475569'; ctx.beginPath(); ctx.arc(x + 7, y - 4, 2.6, 0, 7); ctx.fill();
       return;
     }
-    let body, rim;
+
     const hid = W.hidden(u);
     if (hid) ctx.globalAlpha = 0.5;
-    if (u.team === 'x') { body = '#8b929c'; rim = '#e5e7eb'; }
-    else if (d.prophet) { body = '#f5f5f4'; rim = '#fcd34d'; }
-    else if (d.foe) { body = d.color || (d.leader ? '#7f1d1d' : '#b91c1c'); rim = '#fecaca'; }
-    else if (u.type === 'worker') { body = '#a8814f'; rim = '#fef3c7'; }
-    else if (u.type === 'villager') { body = '#d8bd8e'; rim = '#fffbeb'; }
-    else if (d.hero) { body = '#d97706'; rim = '#fde68a'; }
-    else if (u.type === 'stripling') { body = TEAM.p; rim = '#fcd34d'; }
-    else if (u.type === 'nslinger' || u.type === 'javelin') { body = '#2563eb'; rim = '#bfdbfe'; }
-    else { body = TEAM.p; rim = '#dbeafe'; }
-    if (W.t < W.buffUntil && u.team === 'p' && d.soldier) {
-      ctx.fillStyle = 'rgba(253,230,138,.28)'; ctx.beginPath(); ctx.arc(x, y, r + 6, 0, 7); ctx.fill();
+
+    // Marching Legs
+    ctx.fillStyle = '#451a03';
+    ctx.fillRect(x - 3 + walkCycle * 2, y + 2, 2.5, 6);
+    ctx.fillRect(x + 1 - walkCycle * 2, y + 2, 2.5, 6);
+
+    // Torso & Quilted Cotton Armor
+    let skinColor = d.foe ? '#b45309' : '#d8bd8e';
+    let tunicColor = TEAM.p;
+    if (d.foe) tunicColor = '#7f1d1d';
+    else if (u.type === 'worker') tunicColor = '#a8814f';
+    else if (d.hero) tunicColor = '#b45309';
+
+    ctx.fillStyle = tunicColor;
+    ctx.fillRect(x - 4, y - 6, 8, 8);
+
+    // Armor & Pectoral Plates
+    if (u.team === 'p' && d.soldier) {
+      ctx.fillStyle = d.hero || u.type === 'stripling' ? '#f59e0b' : '#c7ae86'; // bronze or quilted armor
+      ctx.fillRect(x - 3, y - 5, 6, 5);
     }
-    // The weapon, pointing where they face.
+    if (d.foe) {
+      // Blood-dyed lambskin loins & body paint (3 Nephi 4:7 / Alma 43:20)
+      ctx.fillStyle = '#991b1b'; ctx.fillRect(x - 4, y - 1, 8, 4);
+    }
+
+    // Head, Helmet & Headband
+    ctx.fillStyle = skinColor;
+    ctx.beginPath(); ctx.arc(x, y - 10, 4, 0, 7); ctx.fill();
+
+    // Ancient feathered headdress / headbands
+    if (d.hero) {
+      // Moroni / Gidgiddoni Quetzal feather plumes & cape
+      ctx.fillStyle = '#10b981'; ctx.fillRect(x - 2, y - 15, 2, 4);
+      ctx.fillStyle = '#ef4444'; ctx.fillRect(x, y - 16, 2, 5);
+      // Crimson commander cape
+      const capeWave = Math.sin(now * 0.01) * 3;
+      ctx.fillStyle = '#dc2626';
+      ctx.beginPath();
+      ctx.moveTo(x - 3, y - 5);
+      ctx.quadraticCurveTo(x - 8, y + capeWave, x - 11, y + 6 + capeWave);
+      ctx.lineTo(x - 3, y + 3);
+      ctx.fill();
+    } else if (u.type === 'stripling') {
+      // White and gold woven headband
+      ctx.fillStyle = '#fef08a'; ctx.fillRect(x - 4, y - 12, 8, 2);
+    } else if (d.foe && d.leader) {
+      // Horned bone headplate
+      ctx.fillStyle = '#e2e8f0'; ctx.fillRect(x - 5, y - 13, 10, 3);
+    }
+
+    // Weapon & Shield pointing with u.face
     if (d.dmg && !kneel && u.team !== 'x') {
       const f = u.face || 0, cx = Math.cos(f), cy = Math.sin(f);
-      ctx.strokeStyle = d.foe ? '#27272a' : u.type === 'worker' ? '#78583a' : '#e5e7eb'; ctx.lineWidth = 2;
-      if (u.type === 'nslinger' || u.type === 'slinger') { ctx.beginPath(); ctx.moveTo(x + cx * (r - 2), y + cy * (r - 2)); ctx.lineTo(x + cx * (r + 6), y + cy * (r + 6)); ctx.stroke(); ctx.fillStyle = '#a8a29e'; ctx.beginPath(); ctx.arc(x + cx * (r + 7), y + cy * (r + 7), 2.2, 0, 7); ctx.fill(); }
-      else if (u.type === 'javelin') { ctx.beginPath(); ctx.moveTo(x - cx * 4, y - cy * 4); ctx.lineTo(x + cx * (r + 14), y + cy * (r + 14)); ctx.stroke(); }
-      else if (d.ranged) { ctx.beginPath(); ctx.arc(x + cx * r * 0.7, y + cy * r * 0.7, r * 0.9, f - 1.1, f + 1.1); ctx.stroke(); }
-      else if (u.type === 'swordsman') { ctx.beginPath(); ctx.arc(x + cx * (r + 1), y + cy * (r + 1), 7, f - 0.9, f + 0.4); ctx.stroke(); }
-      else { ctx.beginPath(); ctx.moveTo(x + cx * (r - 3), y + cy * (r - 3)); ctx.lineTo(x + cx * (r + (u.type === 'worker' ? 4 : 10)), y + cy * (r + (u.type === 'worker' ? 4 : 10))); ctx.stroke(); }
+      // Shield on left arm
+      if (u.team === 'p' && d.soldier && !d.ranged) {
+        ctx.fillStyle = '#ca8a04';
+        ctx.beginPath(); ctx.arc(x - cx * 4 - 3, y - cy * 2, 4.5, 0, 7); ctx.fill();
+        ctx.strokeStyle = '#1d4ed8'; ctx.lineWidth = 1; ctx.stroke();
+      }
+      // Weapon on right hand
+      ctx.strokeStyle = d.foe ? '#18181b' : '#e2e8f0'; ctx.lineWidth = 1.8;
+      if (u.type === 'swordsman' || (d.foe && !d.ranged)) {
+        // Curved cimeter / obsidian macuahuitl
+        ctx.beginPath(); ctx.moveTo(x + cx * 2, y + cy * 2); ctx.lineTo(x + cx * 10, y + cy * 10 - 4); ctx.stroke();
+      } else if (u.type === 'javelin') {
+        // Atlatl dart
+        ctx.beginPath(); ctx.moveTo(x - cx * 2, y - cy * 2); ctx.lineTo(x + cx * 12, y + cy * 12 - 6); ctx.stroke();
+      } else {
+        // Spear
+        ctx.beginPath(); ctx.moveTo(x + cx * 2, y + cy * 2); ctx.lineTo(x + cx * 11, y + cy * 11 - 8); ctx.stroke();
+        ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(x + cx * 11, y + cy * 11 - 8, 1.5, 0, 7); ctx.fill();
+      }
     }
-    ctx.fillStyle = body; ctx.strokeStyle = rim; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.arc(x, y, kneel ? r * 0.8 : r, 0, 7); ctx.fill(); ctx.stroke();
-    if (d.foe) {
-      // Robbers: “a lamb-skin about their loins … dyed in blood” and “head-plates” (3 Nephi 4:7).
-      // Lamanites: “a skin which was girded about their loins” (Alma 43:20).
-      ctx.strokeStyle = d.band || '#f5f5f4'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(x, y, r * 0.55, 0.35, Math.PI - 0.35); ctx.stroke();
-      if (d.leader) { ctx.fillStyle = '#a1a1aa'; ctx.fillRect(x - 6, y - r - 2, 12, 5); }
+
+    if (u.carry && u.carry.amt) {
+      ctx.fillStyle = u.carry.type === 'timber' ? '#8b5a2b' : '#ca8a04';
+      ctx.fillRect(x - 3, y - 14, 6, 6); // backpack pack
     }
-    if (d.hero) star(x, y, 5, '#fff7d6');
-    if (u.type === 'spearman') { ctx.fillStyle = '#bfdbfe'; ctx.fillRect(x - 3, y - 3, 6, 6); }
-    if (u.type === 'swordsman') { ctx.fillStyle = '#e2e8f0'; ctx.beginPath(); ctx.moveTo(x, y - 4); ctx.lineTo(x + 4, y); ctx.lineTo(x, y + 4); ctx.lineTo(x - 4, y); ctx.fill(); }
-    if (u.type === 'stripling') star(x, y, 4.5, '#fde68a');
-    if (u.team === 'p' && d.soldier && W.armor && !d.hero) { ctx.strokeStyle = 'rgba(226,232,240,.8)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(x, y, r + 2.5, 0, 7); ctx.stroke(); }
-    if (u.carry && u.carry.amt) { ctx.fillStyle = u.carry.type === 'timber' ? '#8b5a2b' : '#eab308'; ctx.fillRect(x + r - 3, y - r - 1, 6, 6); }
-    if (u.team === 'x') { ctx.strokeStyle = '#3f3f46'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(x - 5, y + 2); ctx.lineTo(x + 5, y + 2); ctx.stroke(); }
-    if (kneel) { ctx.strokeStyle = 'rgba(253,230,138,.95)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(x, y - r - 3, 6, 2.5, 0, 0, 7); ctx.stroke(); }
     if (d.leader || d.hero || d.prophet) {
       ctx.font = '700 10px Outfit, system-ui, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillStyle = 'rgba(0,0,0,.55)'; const w = ctx.measureText(d.name).width + 8; ctx.fillRect(x - w / 2, y + r + 3, w, 13);
-      ctx.fillStyle = d.foe ? '#fecaca' : '#fde68a'; ctx.fillText(d.name, x, y + r + 13);
+      ctx.fillStyle = 'rgba(0,0,0,.65)'; const tw = ctx.measureText(d.name).width + 8; ctx.fillRect(x - tw / 2, y + 9, tw, 13);
+      ctx.fillStyle = d.foe ? '#fecaca' : '#fde68a'; ctx.fillText(d.name, x, y + 19);
     }
-    if (hid) { ctx.globalAlpha = 1; ctx.fillStyle = '#86efac'; ctx.beginPath(); ctx.ellipse(x + r, y - r, 3.5, 2, -0.6, 0, 7); ctx.fill(); }
+    if (hid) ctx.globalAlpha = 1;
   }
-  function star(x, y, r, color) {
-    ctx.fillStyle = color; ctx.beginPath();
-    for (let k = 0; k < 10; k++) { const a = -Math.PI / 2 + k * Math.PI / 5, rr = k % 2 ? r * 0.45 : r; ctx.lineTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr); }
-    ctx.fill();
-  }
-  const wallAt = (x, y) => { const id = W.inBounds(x, y) && W.occ[y * MAP_W + x]; const e = id && W.ents.get(id); return !!(e && e.def.wall); };
 
+  // 2.5D Isometric Buildings with South-East Cast Shadows & Architectural Detail
   function drawBuilding(b, selected, now) {
-    const x = b.tx * TILE, y = b.ty * TILE, w = b.w * TILE, h = b.h * TILE, c = ctx;
-    c.save();
-    if (b.built < 1) c.globalAlpha = 0.55;
-    const box = (x0, y0, w0, h0, fill, stroke) => { c.fillStyle = fill; c.fillRect(x0, y0, w0, h0); if (stroke) { c.strokeStyle = stroke; c.lineWidth = 2; c.strokeRect(x0, y0, w0, h0); } };
+    const { ix, iy } = toIso(b.x, b.y);
+    const w = b.w * TILE, h = b.h * TILE;
+    ctx.save();
+    if (b.built < 1) ctx.globalAlpha = 0.55;
+
+    // South-East Cast Ground Shadow
+    ctx.fillStyle = 'rgba(0,0,0,.38)';
+    ctx.beginPath();
+    ctx.ellipse(ix + b.w * 8, iy + b.h * 4, b.w * 18, b.h * 10, 0.2, 0, 7);
+    ctx.fill();
+
     switch (b.type) {
       case 'stronghold': {
-        box(x + 5, y + 5, w - 10, h - 10, '#b7a27b', '#5f4f36');
-        for (const [cx, cy] of [[x + 3, y + 3], [x + w - 27, y + 3], [x + 3, y + h - 27], [x + w - 27, y + h - 27]]) box(cx, cy, 24, 24, '#d3c29c', '#5f4f36');
-        box(x + 36, y + 34, 56, 56, '#e6d8b6', '#5f4f36');
-        c.fillStyle = '#8e4b2e'; c.beginPath(); c.moveTo(x + 32, y + 50); c.lineTo(x + 64, y + 26); c.lineTo(x + 96, y + 50); c.fill();
-        c.fillStyle = '#6b3a24'; c.fillRect(x + 57, y + 70, 14, 20);
-        c.strokeStyle = '#3f2f1f'; c.lineWidth = 2; c.beginPath(); c.moveTo(x + 64, y + 26); c.lineTo(x + 64, y + 6); c.stroke();
-        c.fillStyle = W.tech ? '#f5ecd7' : '#2563eb'; c.beginPath(); c.moveTo(x + 64, y + 6); c.lineTo(x + 82, y + 11); c.lineTo(x + 64, y + 16); c.fill();
-        label(b.name || b.def.name, x + w / 2, y + h + 12, '#fde68a');
+        // Monumental Zarahemla Stone Fortress / Citadel
+        const elev = 52;
+        // Foundation & Tier 1 (Sloping Limestone Walls)
+        ctx.fillStyle = '#786445';
+        ctx.beginPath(); ctx.moveTo(ix, iy + 16); ctx.lineTo(ix + 46, iy - 8); ctx.lineTo(ix + 46, iy - 8 - elev); ctx.lineTo(ix, iy + 16 - elev); ctx.fill();
+        ctx.fillStyle = '#a8926b';
+        ctx.beginPath(); ctx.moveTo(ix, iy + 16); ctx.lineTo(ix - 46, iy - 8); ctx.lineTo(ix - 46, iy - 8 - elev); ctx.lineTo(ix, iy + 16 - elev); ctx.fill();
+        // Red and Gold Carved Cornice Frieze
+        ctx.fillStyle = '#991b1b';
+        ctx.beginPath(); ctx.moveTo(ix, iy + 16 - elev); ctx.lineTo(ix + 46, iy - 8 - elev); ctx.lineTo(ix + 46, iy - 12 - elev); ctx.lineTo(ix, iy + 12 - elev); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(ix, iy + 16 - elev); ctx.lineTo(ix - 46, iy - 8 - elev); ctx.lineTo(ix - 46, iy - 12 - elev); ctx.lineTo(ix, iy + 12 - elev); ctx.fill();
+        ctx.fillStyle = '#d97706'; ctx.fillRect(ix - 40, iy - 10 - elev, 80, 2);
+        // Tier 2 Flat Parapet
+        ctx.fillStyle = '#cfbe95';
+        ctx.beginPath(); ctx.moveTo(ix, iy + 12 - elev); ctx.lineTo(ix + 46, iy - 12 - elev); ctx.lineTo(ix, iy - 32 - elev); ctx.lineTo(ix - 46, iy - 12 - elev); ctx.fill();
+        // Grand Central Stone Staircase
+        ctx.fillStyle = '#574833';
+        ctx.beginPath(); ctx.moveTo(ix - 12, iy + 16); ctx.lineTo(ix + 12, iy + 16); ctx.lineTo(ix + 10, iy + 16 - elev); ctx.lineTo(ix - 10, iy + 16 - elev); ctx.fill();
+        ctx.fillStyle = '#cfbe95';
+        for (let s = 0; s < 7; s++) ctx.fillRect(ix - 10 + s * 0.3, iy + 14 - s * (elev / 7), 20 - s * 0.6, 2);
+        // Central Keep Tower / Council Room
+        ctx.fillStyle = '#bfa97c'; ctx.fillRect(ix - 18, iy - 42 - elev, 36, 28);
+        ctx.fillStyle = '#e5d5ad'; ctx.fillRect(ix - 16, iy - 44 - elev, 32, 4); // cornice
+        // Twin Flaming Stone Fire Altars
+        [-24, 24].forEach(bx => {
+          ctx.fillStyle = '#574833'; ctx.fillRect(ix + bx - 4, iy - 14 - elev, 8, 8);
+          ctx.fillStyle = '#f97316'; ctx.beginPath(); ctx.arc(ix + bx, iy - 16 - elev, 4 + Math.sin(now / 110 + bx) * 1.5, 0, 7); ctx.fill();
+          ctx.fillStyle = '#fef08a'; ctx.beginPath(); ctx.arc(ix + bx, iy - 17 - elev, 2, 0, 7); ctx.fill();
+        });
+        // Title of Liberty Banner
+        ctx.strokeStyle = '#451a03'; ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.moveTo(ix, iy - 44 - elev); ctx.lineTo(ix, iy - 78 - elev); ctx.stroke();
+        const wave = Math.sin(now / 160) * 3;
+        ctx.fillStyle = '#fef08a';
+        ctx.beginPath();
+        ctx.moveTo(ix, iy - 78 - elev);
+        ctx.quadraticCurveTo(ix + 12, iy - 82 - elev + wave, ix + 26, iy - 76 - elev + wave);
+        ctx.lineTo(ix + 26, iy - 62 - elev + wave);
+        ctx.lineTo(ix, iy - 64 - elev);
+        ctx.fill();
+        // Coat writing strokes
+        ctx.strokeStyle = 'rgba(120,60,10,.8)'; ctx.lineWidth = 1;
+        for (let k = 0; k < 3; k++) {
+          ctx.beginPath(); ctx.moveTo(ix + 4, iy - 74 - elev + k * 4); ctx.lineTo(ix + 18, iy - 73 - elev + k * 4); ctx.stroke();
+        }
+        // Citadel Name Badge
+        label(b.name || b.def.name, ix, iy + 26, '#fde68a');
+        break;
+      }
+      case 'hall': {
+        // Red-and-Ochre Stepped Temple Pyramid (Hall of the Captains)
+        const steps = [
+          { col: '#991b1b', topCol: '#b91c1c', w: 54, h: 28, yOff: 0 },
+          { col: '#b45309', topCol: '#d97706', w: 42, h: 22, yOff: 12 },
+          { col: '#991b1b', topCol: '#b91c1c', w: 30, h: 16, yOff: 24 }
+        ];
+        steps.forEach(st => {
+          ctx.fillStyle = st.col;
+          ctx.fillRect(ix - st.w / 2, iy - st.h / 2 - st.yOff, st.w, st.h);
+          ctx.fillStyle = st.topCol;
+          ctx.fillRect(ix - st.w / 2 + 2, iy - st.h / 2 - st.yOff, st.w - 4, 3);
+        });
+        // Central Steep Temple Staircase
+        ctx.fillStyle = '#451a03';
+        ctx.beginPath(); ctx.moveTo(ix - 7, iy + 14); ctx.lineTo(ix + 7, iy + 14); ctx.lineTo(ix + 5, iy - 32); ctx.lineTo(ix - 5, iy - 32); ctx.fill();
+        ctx.fillStyle = '#fde68a';
+        for (let s = 0; s < 6; s++) ctx.fillRect(ix - 5, iy + 12 - s * 7, 10, 1.5);
+        // Top Temple Sanctuary with Turquoise Lintel
+        ctx.fillStyle = '#d97706'; ctx.fillRect(ix - 10, iy - 42, 20, 14);
+        ctx.fillStyle = '#06b6d4'; ctx.fillRect(ix - 12, iy - 44, 24, 3); // turquoise lintel
+        ctx.fillStyle = '#1c1917'; ctx.fillRect(ix - 4, iy - 36, 8, 8); // doorway
+        // Altar Brazier
+        ctx.fillStyle = '#f97316'; ctx.beginPath(); ctx.arc(ix, iy - 46, 3 + Math.sin(now / 100) * 1.5, 0, 7); ctx.fill();
+        label(b.def.name, ix, iy + 26, '#fde68a');
+        break;
+      }
+      case 'tower': {
+        // Authentic Captain Moroni Watchtower: Earthen mound, timber pickets, 4-post tower & thatched roof
+        const elev = 48;
+        // Earthen Rampart Mound
+        ctx.fillStyle = '#6f5134'; ctx.beginPath(); ctx.ellipse(ix, iy, 22, 12, 0, 0, 7); ctx.fill();
+        // Ring of Sharpened Wooden Pickets
+        ctx.fillStyle = '#a27a4d';
+        for (let a = 0; a < 8; a++) {
+          const px = ix + Math.cos(a * 0.8) * 18, py = iy + Math.sin(a * 0.8) * 9 - 3;
+          ctx.fillRect(px - 1.5, py - 6, 3, 8);
+        }
+        // 4 Timber Posts with Cross Braces
+        ctx.fillStyle = '#451a03';
+        ctx.fillRect(ix - 8, iy - 6 - elev, 3, elev);
+        ctx.fillRect(ix + 5, iy - 6 - elev, 3, elev);
+        ctx.fillRect(ix - 5, iy - 2 - elev, 2.5, elev);
+        ctx.fillRect(ix + 2, iy - 2 - elev, 2.5, elev);
+        // Timber Platform Deck
+        ctx.fillStyle = '#78350f'; ctx.fillRect(ix - 12, iy - 8 - elev, 24, 5);
+        // Rope Ladder
+        ctx.strokeStyle = '#b45309'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(ix - 2, iy - 5 - elev); ctx.lineTo(ix - 2, iy); ctx.stroke();
+        // Thatched Pyramid Canopy
+        ctx.fillStyle = '#ca8a04';
+        ctx.beginPath(); ctx.moveTo(ix - 14, iy - 10 - elev); ctx.lineTo(ix, iy - 26 - elev); ctx.lineTo(ix + 14, iy - 10 - elev); ctx.fill();
+        ctx.strokeStyle = '#854d0e'; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(ix - 14, iy - 10 - elev); ctx.lineTo(ix, iy - 26 - elev); ctx.lineTo(ix + 14, iy - 10 - elev); ctx.stroke();
+        // Warning Signal Torch / Brazier
+        ctx.fillStyle = '#f97316'; ctx.beginPath(); ctx.arc(ix, iy - 12 - elev, 3 + Math.sin(now / 100) * 1.5, 0, 7); ctx.fill();
+        break;
+      }
+      case 'armory': {
+        // Helaman 3 Cement House: Smooth lime cement walls, stone battlements, forge embers
+        const elev = 26;
+        // White Hydraulic Cement Body
+        ctx.fillStyle = '#d6d3d1'; ctx.fillRect(ix - 22, iy - elev, 44, elev);
+        ctx.fillStyle = '#e7e5e4'; ctx.fillRect(ix - 24, iy - elev - 2, 48, 4); // cornice
+        // Roof Battlements
+        ctx.fillStyle = '#a8a29e';
+        for (let b0 = -20; b0 <= 16; b0 += 9) ctx.fillRect(ix + b0, iy - elev - 6, 5, 5);
+        // Red Painted Geometric Lintel
+        ctx.fillStyle = '#991b1b'; ctx.fillRect(ix - 8, iy - 16, 16, 3);
+        // Open Arched Doorway with Glowing Forge Fire
+        ctx.fillStyle = '#1c1917'; ctx.fillRect(ix - 6, iy - 13, 12, 14);
+        ctx.fillStyle = '#ea580c'; ctx.beginPath(); ctx.arc(ix, iy - 5, 4 + Math.sin(now / 90) * 1.5, 0, 7); ctx.fill();
+        // Outside Stone Anvil & Weapon Chest
+        ctx.fillStyle = '#44403c'; ctx.fillRect(ix + 14, iy - 6, 7, 6);
+        label(b.def.name, ix, iy + 16, '#fde68a');
         break;
       }
       case 'storehouse':
-        box(x + 5, y + 8, w - 10, h - 13, '#9a6a3d', '#4d331c');
-        c.fillStyle = '#6d4526'; c.fillRect(x + 3, y + 5, w - 6, 12);
-        c.fillStyle = '#e9d7a5'; for (let k = 0; k < 3; k++) { c.beginPath(); c.arc(x + 18 + k * 14, y + h - 14, 5, 0, 7); c.fill(); }
-        break;
-      case 'barracks':
-        box(x + 6, y + 10, w - 12, h - 16, '#c7ae86', '#5f4f36');
-        c.fillStyle = '#7a3b2e'; c.fillRect(x + 3, y + 6, w - 6, 26);
-        c.fillStyle = '#5b2a20'; c.fillRect(x + w / 2 - 8, y + h - 26, 16, 20);
-        c.strokeStyle = '#e5e7eb'; c.lineWidth = 2.5;
-        c.beginPath(); c.moveTo(x + 22, y + 44); c.lineTo(x + 44, y + 66); c.moveTo(x + 44, y + 44); c.lineTo(x + 22, y + 66); c.stroke();
-        break;
-      case 'tower':
-        box(x + 8, y + 8, w - 16, h - 16, '#ad9c7c', '#4f412c');
-        box(x + 16, y + 16, w - 32, h - 32, '#cdbd9b', null);
-        c.fillStyle = '#4f412c'; for (let k = 0; k < 4; k++) { c.fillRect(x + 8 + k * 14, y + 4, 7, 6); }
-        if (b.built >= 1) { c.fillStyle = TEAM[b.team] || TEAM.p; c.beginPath(); c.arc(x + w / 2, y + h / 2, 5, 0, 7); c.fill(); }
-        break;
-      case 'wall': case 'gate': {
-        const cx = x + TILE / 2, cy = y + TILE / 2;
-        c.fillStyle = '#6f5134';
-        c.fillRect(x + 8, y + 8, TILE - 16, TILE - 16);
-        if (wallAt(b.tx - 1, b.ty)) c.fillRect(x, y + 8, TILE / 2, TILE - 16);
-        if (wallAt(b.tx + 1, b.ty)) c.fillRect(cx, y + 8, TILE / 2, TILE - 16);
-        if (wallAt(b.tx, b.ty - 1)) c.fillRect(x + 8, y, TILE - 16, TILE / 2);
-        if (wallAt(b.tx, b.ty + 1)) c.fillRect(x + 8, cy, TILE - 16, TILE / 2);
-        c.fillStyle = '#a27a4d';
-        for (let k = 0; k < 3; k++) c.fillRect(x + 9 + k * 5.5, y + 11, 3, 10);
-        if (b.type === 'gate') { c.fillStyle = '#c28a4a'; c.fillRect(x + 6, y + 6, TILE - 12, TILE - 12); c.strokeStyle = '#3f2a14'; c.lineWidth = 2; c.strokeRect(x + 6, y + 6, TILE - 12, TILE - 12); c.beginPath(); c.moveTo(cx, y + 6); c.lineTo(cx, y + TILE - 6); c.stroke(); }
+      case 'village': {
+        // Raised Platform Thatched Dwelling / Granary
+        const elev = 22;
+        // Limestone Raised Basal Platform
+        ctx.fillStyle = '#78716c'; ctx.fillRect(ix - 20, iy - 4, 40, 8);
+        ctx.fillStyle = '#a8a29e'; ctx.fillRect(ix - 18, iy - 6, 36, 3);
+        // White Stucco Walls
+        ctx.fillStyle = '#f5f5f4'; ctx.fillRect(ix - 16, iy - elev, 32, elev - 4);
+        // Corner Timber Posts
+        ctx.fillStyle = '#573010'; ctx.fillRect(ix - 17, iy - elev, 3, elev); ctx.fillRect(ix + 14, iy - elev, 3, elev);
+        // Steep Textured Thatch Roof (Palm fronds)
+        ctx.fillStyle = '#ca8a04';
+        ctx.beginPath(); ctx.moveTo(ix - 22, iy - elev + 2); ctx.lineTo(ix, iy - elev - 18); ctx.lineTo(ix + 22, iy - elev + 2); ctx.fill();
+        ctx.strokeStyle = '#854d0e'; ctx.lineWidth = 1;
+        for (let l = 0; l < 4; l++) {
+          ctx.beginPath(); ctx.moveTo(ix - 18 + l * 4, iy - elev + 2 - l * 4); ctx.lineTo(ix + 18 - l * 4, iy - elev + 2 - l * 4); ctx.stroke();
+        }
+        // Doorway
+        ctx.fillStyle = '#1c1917'; ctx.fillRect(ix - 4, iy - 10, 8, 8);
+        if (b.type === 'village') label(b.name, ix, iy + 16, '#bbf7d0');
         break;
       }
-      case 'village': {
-        for (const [dx, dy] of [[24, 30], [66, 26], [46, 64]]) {
-          c.fillStyle = 'rgba(0,0,0,.25)'; c.beginPath(); c.arc(x + dx + 2, y + dy + 3, 14, 0, 7); c.fill();
-          c.fillStyle = '#caa679'; c.beginPath(); c.arc(x + dx, y + dy, 14, 0, 7); c.fill();
-          c.fillStyle = '#8a5a32'; c.beginPath(); c.arc(x + dx, y + dy, 8, 0, 7); c.fill();
-        }
-        label(b.name, x + w / 2, y + h + 12, '#fff');
-        if (b.state === 'waiting') {
-          const bob = Math.sin(now / 300) * 3;
-          c.fillStyle = '#fcd34d'; c.beginPath(); c.arc(x + w / 2, y - 12 + bob, 11, 0, 7); c.fill();
-          c.fillStyle = '#1a1405'; c.font = '900 15px Outfit, system-ui, sans-serif'; c.textAlign = 'center'; c.fillText('!', x + w / 2, y - 7 + bob);
-        }
+      case 'barracks': {
+        // Fortified Timber Log Palisade & Warrior Training Ring
+        const elev = 24;
+        ctx.fillStyle = '#52341b'; ctx.fillRect(ix - 24, iy - elev, 48, elev);
+        // Log palisade posts
+        ctx.fillStyle = '#784620';
+        for (let p0 = -22; p0 <= 18; p0 += 6) ctx.fillRect(ix + p0, iy - elev - 4, 4, elev + 4);
+        // Thatched warrior pavilion
+        ctx.fillStyle = '#a16207';
+        ctx.beginPath(); ctx.moveTo(ix - 18, iy - elev); ctx.lineTo(ix, iy - elev - 14); ctx.lineTo(ix + 18, iy - elev); ctx.fill();
+        // Weapon racks & shield banner
+        ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(ix + 12, iy - 6); ctx.lineTo(ix + 12, iy - 16); ctx.stroke();
+        ctx.fillStyle = '#3b8226'; ctx.beginPath(); ctx.arc(ix + 12, iy - 11, 3.5, 0, 7); ctx.fill();
+        label(b.def.name, ix, iy + 16, '#fde68a');
         break;
       }
       case 'farm': {
-        for (let k = 0; k < 4; k++) { c.fillStyle = k % 2 ? '#8fbf4a' : '#caa748'; c.fillRect(x + 4, y + 6 + k * 13, w - 8, 11); }
-        c.fillStyle = 'rgba(90,60,20,.35)'; for (let k = 0; k < 4; k++) c.fillRect(x + 4, y + 16 + k * 13, w - 8, 1);
-        c.fillStyle = '#b08355'; c.fillRect(x + w - 24, y + 2, 20, 16); c.fillStyle = '#7a4e2a'; c.fillRect(x + w - 26, y, 24, 6);
+        // Irrigated Maize Terrace & Thatched Shed
+        ctx.fillStyle = '#3f2812'; ctx.fillRect(ix - 20, iy - 12, 40, 18);
+        // Stone irrigation canal
+        ctx.fillStyle = '#0284c7'; ctx.fillRect(ix - 18, iy - 4, 36, 3);
+        // Corn stalks
+        ctx.fillStyle = '#ca8a04';
+        for (let c0 = -16; c0 <= 16; c0 += 5) ctx.fillRect(ix + c0, iy - 14, 2, 8);
+        ctx.fillStyle = '#15803d';
+        for (let c0 = -16; c0 <= 16; c0 += 5) ctx.fillRect(ix + c0 - 1, iy - 12, 4, 2);
+        // Thatched work shed
+        ctx.fillStyle = '#854d0e'; ctx.fillRect(ix + 8, iy - 22, 14, 12);
+        ctx.fillStyle = '#ca8a04';
+        ctx.beginPath(); ctx.moveTo(ix + 6, iy - 22); ctx.lineTo(ix + 15, iy - 30); ctx.lineTo(ix + 24, iy - 22); ctx.fill();
         break;
       }
-      case 'granary':
-        c.fillStyle = 'rgba(0,0,0,.25)'; c.beginPath(); c.arc(x + w / 2 + 3, y + h / 2 + 4, 24, 0, 7); c.fill();
-        c.fillStyle = '#c9a26b'; c.beginPath(); c.arc(x + w / 2, y + h / 2, 24, 0, 7); c.fill();
-        c.strokeStyle = '#6b4a24'; c.lineWidth = 2; c.stroke();
-        c.fillStyle = '#9a6a3d'; c.beginPath(); c.arc(x + w / 2, y + h / 2, 15, 0, 7); c.fill();
-        c.fillStyle = '#6d4526'; c.beginPath(); c.arc(x + w / 2, y + h / 2, 6, 0, 7); c.fill();
-        break;
-      case 'armory':
-        box(x + 4, y + 8, w - 8, h - 12, '#a8a29e', '#44403c');
-        c.fillStyle = '#57534e'; c.fillRect(x + 2, y + 4, w - 4, 14);
-        c.strokeStyle = '#f1f5f9'; c.lineWidth = 2.5;
-        c.beginPath(); c.moveTo(x + 30, y + 26); c.lineTo(x + 52, y + 52); c.moveTo(x + 52, y + 26); c.lineTo(x + 30, y + 52); c.stroke();
-        c.fillStyle = '#292524'; c.fillRect(x + 64, y + 38, 18, 8); c.fillRect(x + 69, y + 46, 8, 8);
-        c.fillStyle = '#f97316'; c.beginPath(); c.arc(x + 70, y + 30, 3, 0, 7); c.fill();
-        break;
-      case 'stables':
-        c.strokeStyle = '#6d4526'; c.lineWidth = 2;
-        c.strokeRect(x + 4, y + 26, w - 8, h - 30);
-        for (let k = 0; k < 6; k++) { c.beginPath(); c.moveTo(x + 4 + k * 17, y + 26); c.lineTo(x + 4 + k * 17, y + h - 4); c.stroke(); }
-        box(x + 4, y + 4, w - 8, 24, '#9a6a3d', '#4d331c');
-        c.fillStyle = '#a16207'; c.beginPath(); c.ellipse(x + 40, y + 46, 10, 5, 0, 0, 7); c.fill(); c.beginPath(); c.arc(x + 51, y + 42, 3.5, 0, 7); c.fill();
-        break;
-      case 'hall': {
-        // From history, not the verses: a stepped platform like those of ancient Mesoamerica.
-        [['#b09c74', 2], ['#c4b28a', 14], ['#d6c7a1', 26]].forEach(([col, inset]) => box(x + inset, y + inset, w - inset * 2, h - inset * 2, col, '#6b5a3f'));
-        c.fillStyle = '#8e4b2e'; c.fillRect(x + 36, y + 34, 24, 16);
-        c.fillStyle = '#6b5a3f'; c.fillRect(x + 43, y + 50, 10, h - 52);
+      case 'granary': {
+        // Stucco cylindrical grain silo with conical thatch roof
+        ctx.fillStyle = '#e7e5e4'; ctx.beginPath(); ctx.arc(ix, iy - 8, 16, 0, 7); ctx.fill();
+        ctx.strokeStyle = '#a8a29e'; ctx.lineWidth = 2; ctx.stroke();
+        // Conical thatch cap
+        ctx.fillStyle = '#ca8a04'; ctx.beginPath(); ctx.moveTo(ix - 18, iy - 8); ctx.lineTo(ix, iy - 26); ctx.lineTo(ix + 18, iy - 8); ctx.fill();
+        ctx.strokeStyle = '#854d0e'; ctx.lineWidth = 1;
+        ctx.stroke();
         break;
       }
-      case 'warcamp': {
-        c.strokeStyle = '#5b3a1e'; c.lineWidth = 3;
-        c.strokeRect(x + 4, y + 4, w - 8, h - 8);
-        c.fillStyle = '#7a4e2a'; for (let k = 0; k < 12; k++) { c.fillRect(x + 4 + k * 10, y + 1, 3, 7); c.fillRect(x + 4 + k * 10, y + h - 8, 3, 7); }
-        for (const [dx, dy] of [[30, 38], [80, 34], [40, 88], [92, 86]]) {
-          c.fillStyle = '#9a3412'; c.beginPath(); c.moveTo(x + dx - 18, y + dy + 14); c.lineTo(x + dx, y + dy - 16); c.lineTo(x + dx + 18, y + dy + 14); c.fill();
-          c.strokeStyle = '#fed7aa'; c.lineWidth = 1.5; c.stroke();
+      case 'stables': {
+        // Enclosed corral with timber fences and horse shelter
+        ctx.strokeStyle = '#784620'; ctx.lineWidth = 2; ctx.strokeRect(ix - 22, iy - 14, 44, 24);
+        ctx.fillStyle = '#ca8a04'; ctx.fillRect(ix - 18, iy - 20, 20, 8); // roof
+        ctx.fillStyle = '#a16207'; ctx.beginPath(); ctx.ellipse(ix + 4, iy - 4, 9, 5, 0, 0, 7); ctx.fill(); // horse
+        break;
+      }
+      case 'warcamp':
+      case 'camp': {
+        // Heavy Spiked Log Palisade & Hide War Pavilions with Roaring Fire
+        ctx.strokeStyle = '#3f200c'; ctx.lineWidth = 3.5;
+        ctx.strokeRect(ix - 34, iy - 18, 68, 36);
+        // Spiked stake tops
+        ctx.fillStyle = '#78350f';
+        for (let s0 = -32; s0 <= 30; s0 += 7) ctx.fillRect(ix + s0, iy - 22, 3, 6);
+        // Red-and-black war lodge
+        ctx.fillStyle = '#7f1d1d';
+        ctx.beginPath(); ctx.moveTo(ix - 20, iy + 6); ctx.lineTo(ix, iy - 22); ctx.lineTo(ix + 20, iy + 6); ctx.fill();
+        // Bone totem / horns
+        ctx.strokeStyle = '#f1f5f9'; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(ix - 4, iy - 22); ctx.lineTo(ix, iy - 26); ctx.lineTo(ix + 4, iy - 22); ctx.stroke();
+        // Roaring Central Bonfire
+        ctx.fillStyle = '#ea580c'; ctx.beginPath(); ctx.arc(ix, iy + 2, 7 + Math.sin(now / 80) * 2, 0, 7); ctx.fill();
+        ctx.fillStyle = '#fef08a'; ctx.beginPath(); ctx.arc(ix, iy, 4 + Math.sin(now / 90) * 1.5, 0, 7); ctx.fill();
+        label(b.def.name, ix, iy + 26, '#fecaca');
+        break;
+      }
+      case 'wall':
+      case 'gate': {
+        // Alma 50:1–3 Earthen rampart topped with wooden timber pickets
+        ctx.fillStyle = '#5c4028'; ctx.fillRect(ix - 12, iy - 6, 24, 12);
+        ctx.fillStyle = '#8f5c2c';
+        for (let k = 0; k < 4; k++) ctx.fillRect(ix - 9 + k * 6, iy - 14, 3, 9); // Pointed pickets
+        if (b.type === 'gate') {
+          ctx.fillStyle = '#b45309'; ctx.fillRect(ix - 6, iy - 10, 12, 16); // Reinforced gate door
+          ctx.fillStyle = '#1c1917'; ctx.fillRect(ix - 2, iy - 2, 4, 4);
         }
-        c.fillStyle = '#f97316'; c.beginPath(); c.arc(x + 64, y + 62, 6 + Math.sin(now / 120) * 1.5, 0, 7); c.fill();
-        label(b.def.name, x + w / 2, y + h + 12, '#fecaca');
         break;
       }
-      case 'camp':
-        for (const [dx, dy] of [[22, 30], [70, 28], [46, 70]]) {
-          c.fillStyle = '#7f1d1d'; c.beginPath(); c.moveTo(x + dx - 16, y + dy + 12); c.lineTo(x + dx, y + dy - 14); c.lineTo(x + dx + 16, y + dy + 12); c.fill();
-          c.strokeStyle = '#fecaca'; c.lineWidth = 1.5; c.stroke();
-        }
-        c.fillStyle = '#f97316'; c.beginPath(); c.arc(x + 48, y + 46, 5 + Math.sin(now / 120) * 1.5, 0, 7); c.fill();
-        c.fillStyle = '#fde047'; c.beginPath(); c.arc(x + 48, y + 47, 2.5, 0, 7); c.fill();
+      default: {
+        ctx.fillStyle = '#78716c'; ctx.fillRect(ix - 16, iy - 16, 32, 24);
         break;
+      }
     }
-    c.restore();
-    if (selected) { ctx.strokeStyle = '#86efac'; ctx.lineWidth = 2; ctx.strokeRect(x + 1, y + 1, w - 2, h - 2); }
+    ctx.restore();
+
+    // Selection Corners
+    if (selected) {
+      drawIsoCorners(ix - w * 0.45, iy - h * 0.35, w * 0.9, h * 0.7, '#4ade80');
+    }
     if (b.built < 1) {
-      ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x + 4, y + h / 2 - 3, w - 8, 6);
-      ctx.fillStyle = '#fcd34d'; ctx.fillRect(x + 5, y + h / 2 - 2, (w - 10) * b.built, 4);
-    } else if (b.def.hp < 99999 && (selected || b.hp < S.maxHp(b))) hpBar(x + w / 2, y - 6, Math.min(w - 6, 60), b.hp / S.maxHp(b));
+      ctx.fillStyle = 'rgba(0,0,0,.7)'; ctx.fillRect(ix - 20, iy - 4, 40, 6);
+      ctx.fillStyle = '#fcd34d'; ctx.fillRect(ix - 19, iy - 3, 38 * b.built, 4);
+    } else if (b.def.hp < 99999 && (selected || b.hp < S.maxHp(b))) {
+      hpBar(ix, iy - 36, 44, b.hp / S.maxHp(b));
+    }
   }
+
   function label(text, x, y, color) {
     ctx.font = '700 11px Outfit, system-ui, sans-serif'; ctx.textAlign = 'center';
     const w = ctx.measureText(text).width + 10;
-    ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fillRect(x - w / 2, y - 10, w, 14);
+    ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(x - w / 2, y - 10, w, 14);
     ctx.fillStyle = color; ctx.fillText(text, x, y + 1);
   }
+
+  // Ballistic 3D Parabolic Projectiles with Grounded Shadows
   function drawEffects() {
     for (const f of W.effects) {
       const p = clamp((W.t - f.t) / 0.35, 0, 1);
+      const p0 = toIso(f.x0, f.y0), p1 = toIso(f.x1, f.y1);
+      const gx = p0.ix + (p1.ix - p0.ix) * p;
+      const gy = p0.iy + (p1.iy - p0.iy) * p;
+
       if (f.kind === 'arrow') {
-        const x = f.x0 + (f.x1 - f.x0) * p, y = f.y0 + (f.y1 - f.y0) * p, a = Math.atan2(f.y1 - f.y0, f.x1 - f.x0);
-        ctx.strokeStyle = f.team === 'r' ? '#fca5a5' : '#fef9c3'; ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.moveTo(x - Math.cos(a) * 7, y - Math.sin(a) * 7); ctx.lineTo(x, y); ctx.stroke();
+        const dist = Math.hypot(p1.ix - p0.ix, p1.iy - p0.iy);
+        const maxH = Math.min(42, dist * 0.28);
+        const h = Math.sin(p * Math.PI) * maxH;
+        // Ground Shadow
+        ctx.fillStyle = `rgba(0,0,0,${0.35 * (1 - h / 50)})`;
+        ctx.beginPath(); ctx.ellipse(gx, gy, 4, 2, 0, 0, 7); ctx.fill();
+        // Flying Arrow
+        const ax = gx, ay = gy - h;
+        const angle = Math.atan2((p1.iy - p0.iy) - Math.cos(p * Math.PI) * maxH * 0.05, p1.ix - p0.ix);
+        ctx.strokeStyle = f.team === 'r' ? '#fca5a5' : '#fef08a'; ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        ctx.moveTo(ax - Math.cos(angle) * 7, ay - Math.sin(angle) * 7);
+        ctx.lineTo(ax, ay);
+        ctx.stroke();
       } else {
-        ctx.fillStyle = `rgba(255,255,255,${0.7 * (1 - p)})`; ctx.beginPath(); ctx.arc(f.x1, f.y1, 4 + p * 5, 0, 7); ctx.fill();
+        // Hit Impact Spark & Dust
+        ctx.fillStyle = `rgba(255,255,255,${0.8 * (1 - p)})`;
+        ctx.beginPath(); ctx.arc(gx, gy, 4 + p * 5, 0, 7); ctx.fill();
+        if (Math.random() < 0.4) addSpark(gx, gy);
       }
     }
   }
-  // Where a building would go: green if it fits, red if not.
+
+  // Where a building would go: green if it fits, red if not (Isometric Diamond Ghost)
   function drawGhost() {
     if (!placing) return;
     const def = BUILDINGS[placing];
@@ -527,47 +1079,89 @@
     for (const [x, y] of spots) {
       money -= def.cost.timber || 0;
       const ok = W.canPlace(placing, x, y) && money >= 0 && W.res.grain >= (def.cost.grain || 0);
-      ctx.fillStyle = ok ? 'rgba(74,222,128,.35)' : 'rgba(248,113,113,.4)';
-      ctx.fillRect(x * TILE, y * TILE, def.w * TILE, def.h * TILE);
-      ctx.strokeStyle = ok ? '#4ade80' : '#f87171'; ctx.lineWidth = 1.5; ctx.strokeRect(x * TILE, y * TILE, def.w * TILE, def.h * TILE);
+      for (let dy = 0; dy < def.h; dy++) {
+        for (let dx = 0; dx < def.w; dx++) {
+          const tx = x + dx, ty = y + dy;
+          const top = toIso(tx * TILE, ty * TILE);
+          const right = toIso((tx + 1) * TILE, ty * TILE);
+          const bottom = toIso((tx + 1) * TILE, (ty + 1) * TILE);
+          const left = toIso(tx * TILE, (ty + 1) * TILE);
+          ctx.beginPath();
+          ctx.moveTo(top.ix, top.iy); ctx.lineTo(right.ix, right.iy); ctx.lineTo(bottom.ix, bottom.iy); ctx.lineTo(left.ix, left.iy); ctx.closePath();
+          ctx.fillStyle = ok ? 'rgba(74,222,128,.4)' : 'rgba(248,113,113,.45)'; ctx.fill();
+          ctx.strokeStyle = ok ? '#4ade80' : '#f87171'; ctx.lineWidth = 1.5; ctx.stroke();
+        }
+      }
     }
     if (def.range && spots.length) {
       const [x, y] = spots[0];
+      const { ix, iy } = toIso((x + def.w / 2) * TILE, (y + def.h / 2) * TILE);
       ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.setLineDash([6, 6]);
-      ctx.beginPath(); ctx.arc((x + def.w / 2) * TILE, (y + def.h / 2) * TILE, def.range, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+      ctx.beginPath(); ctx.ellipse(ix, iy, def.range, def.range * 0.5, 0, 0, 7); ctx.stroke(); ctx.setLineDash([]);
     }
   }
   const topLeft = (type, wx, wy) => { const d = BUILDINGS[type]; return [tileOf(wx) - Math.floor((d.w - 1) / 2), tileOf(wy) - Math.floor((d.h - 1) / 2)]; };
 
-  // ------------------------------------------------------------ minimap
+  // ------------------------------------------------------------ Westwood Radar Minimap
 
   const miniTerrain = document.createElement('canvas');
   let miniAt = 0;
   function drawMini() {
     const mw = mini.width, mh = mini.height;
-    if (!mw) return;
+    if (!mw || !mh) return;
     if (miniDirty && performance.now() - miniAt > 800) {
       miniTerrain.width = mw; miniTerrain.height = mh;
       miniTerrain.getContext('2d').drawImage(terrain, 0, 0, mw, mh);
       miniDirty = false; miniAt = performance.now();
     }
     mctx.drawImage(miniTerrain, 0, 0);
-    const sx = mw / WORLD_W, sy = mh / WORLD_H;
-    if (W.border != null && !W.borderOpen) { mctx.fillStyle = 'rgba(248,113,113,.8)'; mctx.fillRect(0, W.border * TILE * sy - 1, mw, 2); }
+
+    // Composite shroud on minimap: unexplored radar is pitch black!
+    mctx.drawImage(shroudCv, 0, 0, mw, mh);
+
+    // Green Phosphor Radar Sweep Beam
+    const now = performance.now();
+    const sweepAngle = (now * 0.0018) % (Math.PI * 2);
+    mctx.save();
+    mctx.translate(mw * 0.5, mh * 0.5);
+    mctx.rotate(sweepAngle);
+    const grad = mctx.createLinearGradient(0, 0, mw * 0.6, 0);
+    grad.addColorStop(0, 'rgba(16, 185, 129, 0.45)');
+    grad.addColorStop(1, 'rgba(16, 185, 129, 0)');
+    mctx.fillStyle = grad;
+    mctx.beginPath(); mctx.moveTo(0, 0); mctx.arc(0, 0, Math.max(mw, mh), -0.3, 0.3); mctx.fill();
+    mctx.restore();
+
+    // Unit & Building Blips (Filtered by Vision)
+    const toMini = (wx, wy) => {
+      const { ix, iy } = toIso(wx, wy);
+      return {
+        mx: (ix - WORLD_ISO_MIN_X) / WORLD_ISO_W * mw,
+        my: (iy - WORLD_ISO_MIN_Y) / WORLD_ISO_H * mh
+      };
+    };
+
     for (const e of W.ents.values()) {
+      if (!isVisible(e)) continue;
+      const pt = toMini(e.x, e.y);
       if (e.kind === 'building') {
-        mctx.fillStyle = e.team === 'p' ? '#93c5fd' : e.team === 'r' ? '#f87171' : e.state === 'waiting' ? '#fcd34d' : '#d6d3d1';
-        mctx.fillRect(e.tx * TILE * sx, e.ty * TILE * sy, Math.max(2, e.w * TILE * sx), Math.max(2, e.h * TILE * sy));
+        mctx.fillStyle = e.team === 'p' ? '#60a5fa' : e.team === 'r' ? '#f87171' : '#fcd34d';
+        mctx.fillRect(pt.mx - 2, pt.my - 2, 4, 4);
+      } else {
+        mctx.fillStyle = e.team === 'r' ? '#ef4444' : e.team === 'x' ? '#a1a1aa' : e.def.hero ? '#fcd34d' : '#fff';
+        mctx.fillRect(pt.mx - 1, pt.my - 1, 2, 2);
       }
     }
-    for (const e of W.ents.values()) {
-      if (e.kind !== 'unit') continue;
-      mctx.fillStyle = e.team === 'r' ? '#ef4444' : e.team === 'x' ? '#d4d4d8' : e.def.hero ? '#fcd34d' : '#fff';
-      const s = Math.max(2, 2 * dpr);
-      mctx.fillRect(e.x * sx - s / 2, e.y * sy - s / 2, s, s);
-    }
+
+    // Camera Viewport Parallelogram
+    const tl = toMini(toWorld(0, topH()).x, toWorld(0, topH()).y);
+    const tr = toMini(toWorld(vw - rightW(), topH()).x, toWorld(vw - rightW(), topH()).y);
+    const br = toMini(toWorld(vw - rightW(), vh - bottomH()).x, toWorld(vw - rightW(), vh - bottomH()).y);
+    const bl = toMini(toWorld(0, vh - bottomH()).x, toWorld(0, vh - bottomH()).y);
     mctx.strokeStyle = '#fde68a'; mctx.lineWidth = Math.max(1, dpr);
-    mctx.strokeRect(cam.x * sx, cam.y * sy, vw / cam.z * sx, vh / cam.z * sy);
+    mctx.beginPath();
+    mctx.moveTo(tl.mx, tl.my); mctx.lineTo(tr.mx, tr.my); mctx.lineTo(br.mx, br.my); mctx.lineTo(bl.mx, bl.my); mctx.closePath();
+    mctx.stroke();
   }
 
   // ------------------------------------------------------------ selecting and ordering
@@ -577,12 +1171,21 @@
   const selUnits = () => selEnts().filter(e => e.kind === 'unit' && selectable(e));
   function setSel(list) { sel = list.filter(selectable).map(e => e.id); infoEnt = null; placing = null; wallLine = null; refreshPanel(true); }
 
-  function entityAt(wx, wy) {
-    let best = null, bd = 16;
+  function entityAt(wx, wy, sx, sy) {
+    let best = null, bd = 24;
     for (const e of W.ents.values()) {
       if (e.kind !== 'unit') continue;
-      const d = Math.hypot(e.x - wx, e.y - wy) - (e.team === 'p' ? 2 : 0);
+      const d = Math.hypot(e.x - wx, e.y - wy) - (e.team === 'p' ? 3 : 0);
       if (d < bd) { bd = d; best = e; }
+    }
+    if (!best && sx != null && sy != null) {
+      let bsd = 22;
+      for (const e of W.ents.values()) {
+        if (e.kind !== 'unit') continue;
+        const s = toScreen(e.x, e.y);
+        const sd = Math.hypot(s.x - sx, (s.y - 12) - sy);
+        if (sd < bsd) { bsd = sd; best = e; }
+      }
     }
     if (best) return best;
     const tx = tileOf(wx), ty = tileOf(wy);
@@ -590,15 +1193,19 @@
     return (id && W.ents.get(id)) || null;
   }
 
-  function clickAt(wx, wy, add, double) {
+  function clickAt(wx, wy, add, double, sx, sy) {
     if (placing) return placeAt(wx, wy, add);
-    const e = entityAt(wx, wy);
+    const e = entityAt(wx, wy, sx, sy);
     const units = selUnits();
     // With people chosen, a click on anything but one of your own units is an order.
-    if (units.length && !(e && e.kind === 'unit' && selectable(e)) && !(e && e.kind === 'building' && e.team === 'p' && !canWorkOn(units, e))) return command(wx, wy);
+    if (units.length && !(e && e.kind === 'unit' && selectable(e)) && !(e && e.kind === 'building' && e.team === 'p' && !canWorkOn(units, e))) return command(wx, wy, sx, sy);
     if (selectable(e)) {
       if (double && e.kind === 'unit') {
-        const same = W.units('p').filter(u => u.type === e.type && u.x > cam.x && u.x < cam.x + vw / cam.z && u.y > cam.y && u.y < cam.y + vh / cam.z);
+        const same = W.units('p').filter(u => {
+          if (u.type !== e.type) return false;
+          const s = toScreen(u.x, u.y);
+          return s.x >= 0 && s.x <= vw && s.y >= topH() && s.y <= vh - bottomH();
+        });
         return setSel(same);
       }
       if (add && e.kind === 'unit') return setSel(sel.includes(e.id) ? selEnts().filter(x => x !== e) : selEnts().filter(x => x.kind === 'unit').concat(e));
@@ -611,10 +1218,10 @@
   }
   const canWorkOn = (units, b) => units.some(u => u.def.builds) && W.needsWork(b);
 
-  function command(wx, wy) {
+  function command(wx, wy, sx, sy) {
     const units = selUnits();
     if (!units.length) return;
-    const e = entityAt(wx, wy), tx = tileOf(wx), ty = tileOf(wy);
+    const e = entityAt(wx, wy, sx, sy), tx = tileOf(wx), ty = tileOf(wy);
     if (e && e.team === 'r' && !e.untouchable) {
       for (const u of units) if (u.def.dmg) W.order(u, { type: 'attack', target: e.id });
       return ping(e.x, e.y, '#f87171');
@@ -648,7 +1255,7 @@
     units.slice().sort((a, b) => Math.hypot(a.x - cx, a.y - cy) - Math.hypot(b.x - cx, b.y - cy))
       .forEach((u, i) => { const s = spots[i] || [tx, ty]; W.moveTo(u, s[0], s[1]); });
   }
-  function ping(x, y, color) { pings.push({ x, y, color, t: performance.now() }); }
+  function ping(wx, wy, color) { pings.push({ wx, wy, color, t: performance.now(), type: color === '#f87171' ? 'attack' : 'move' }); }
 
   // --- building
   function startPlacing(type) {
@@ -761,13 +1368,18 @@
     if (g.kind === 'press') {
       const now = performance.now(), dbl = now - lastTap.t < 350 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 20;
       lastTap = { t: now, x: e.clientX, y: e.clientY };
-      clickAt(p.x, p.y, e.shiftKey || e.ctrlKey || e.metaKey, dbl);
+      clickAt(p.x, p.y, e.shiftKey || e.ctrlKey || e.metaKey, dbl, e.clientX, e.clientY);
     } else if (g.kind === 'right') {
       if (placing) { placing = null; wallLine = null; refreshPanel(true); }
-      else command(p.x, p.y);
+      else command(p.x, p.y, e.clientX, e.clientY);
     } else if (g.kind === 'box') {
-      const a = toWorld(Math.min(box.x0, box.x1), Math.min(box.y0, box.y1)), b = toWorld(Math.max(box.x0, box.x1), Math.max(box.y0, box.y1));
-      const inside = W.units('p').filter(u => selectable(u) && u.x >= a.x && u.x <= b.x && u.y >= a.y && u.y <= b.y);
+      const bx0 = Math.min(box.x0, box.x1), bx1 = Math.max(box.x0, box.x1);
+      const by0 = Math.min(box.y0, box.y1), by1 = Math.max(box.y0, box.y1);
+      const inside = W.units('p').filter(u => {
+        if (!selectable(u)) return false;
+        const s = toScreen(u.x, u.y);
+        return s.x >= bx0 && s.x <= bx1 && s.y >= by0 && s.y <= by1;
+      });
       box = null;
       if (inside.length) { setSel(e.shiftKey ? selEnts().filter(x => x.kind === 'unit').concat(inside) : inside); if (boxMode) setBoxMode(false); }
     } else if (g.kind === 'wall') {
@@ -781,7 +1393,14 @@
 
   // The minimap: tap or drag to look; right-click to send the chosen ones there.
   let miniDrag = false;
-  const miniPoint = e => { const r = mini.getBoundingClientRect(); return { x: (e.clientX - r.left) / r.width * WORLD_W, y: (e.clientY - r.top) / r.height * WORLD_H }; };
+  const miniPoint = e => {
+    const r = mini.getBoundingClientRect();
+    const mx = (e.clientX - r.left) / r.width;
+    const my = (e.clientY - r.top) / r.height;
+    const ix = WORLD_ISO_MIN_X + mx * WORLD_ISO_W;
+    const iy = WORLD_ISO_MIN_Y + my * WORLD_ISO_H;
+    return fromIso(ix, iy);
+  };
   mini.addEventListener('contextmenu', e => e.preventDefault());
   mini.addEventListener('pointerdown', e => {
     if (!W) return;
@@ -1173,6 +1792,7 @@
     setGameUi(true);
     $('goals').open = window.innerWidth >= 700 && window.innerHeight >= 600;
     resize();
+    initShroud();
     cam.z = vw < 700 ? 0.8 : 1;
     const s = W.stronghold() || W.units('p')[0];
     lookAt(s.x, s.y - (m.id === 'm1' ? 160 : 60));
@@ -1226,6 +1846,7 @@
       let n = 0;
       while (acc >= STEP && n < 10) { W.step(STEP); acc -= STEP; n++; }
       if (n === 10) acc = 0;
+      revealShroud();
     }
     if (!modal) panKeys(dt);
     draw(now);
@@ -1240,5 +1861,5 @@
   requestAnimationFrame(frame);
   // A window on the game for automated play-throughs in a browser.
   window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, cam, begin: (id, level) => { if (level) FREE.level = level; begin(id === 'free' ? FREE : MISSIONS.find(m => m.id === id)); }, toWorld, lookAt,
-    screenOf: (x, y) => ({ x: (x - cam.x) * cam.z, y: (y - cam.y) * cam.z }) };
+    screenOf: (x, y) => toScreen(x, y) };
 })();

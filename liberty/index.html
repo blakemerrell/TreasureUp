@@ -79,7 +79,7 @@
   .msg .ref { margin-left: 4px; pointer-events: auto; }
   @keyframes in { from { transform: translateY(-6px); opacity: 0; } }
 
-  /* ------------------------------------------------------------ bottom panel */
+  /* ------------------------------------------------------------ bottom panel & Westwood sidebar */
   #panel { position: fixed; left: 0; right: 0; bottom: 0; height: var(--bottom); display: flex; gap: 10px; align-items: stretch;
     padding: 8px 10px; padding-bottom: max(8px, env(safe-area-inset-bottom));
     padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right));
@@ -103,7 +103,7 @@
   .queue span:first-of-type { background: linear-gradient(90deg, rgba(252, 211, 77, .45) var(--p, 0%), rgba(255, 255, 255, .08) var(--p, 0%)); }
   .note { font-size: 12px; color: var(--dim); width: 100%; }
   #side { display: flex; gap: 6px; flex: none; }
-  #mini { width: 144px; border-radius: 6px; border: 1px solid var(--line); background: #000; touch-action: none; cursor: pointer; }
+  #mini { width: 144px; border-radius: 8px; border: 2px solid #3f3f46; background: #000; touch-action: none; cursor: pointer; box-shadow: inset 0 0 10px rgba(16, 185, 129, .2); }
   .quick { display: grid; gap: 4px; align-content: start; }
   .quick button { height: 32px; padding: 0 8px; border-radius: 8px; background: rgba(255, 255, 255, .08); font-size: 12px; font-weight: 700; white-space: nowrap; }
   .quick button.on { background: var(--sky); color: #04202e; }
@@ -171,6 +171,27 @@
 
   #rotate { position: fixed; left: 50%; bottom: calc(var(--bottom) + 10px); transform: translateX(-50%); z-index: 11; font-size: 12px;
     background: var(--panel); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; pointer-events: none; }
+
+  /* ------------------------------------------------ Westwood RTS Sidebar on Desktop */
+  @media (min-width: 860px) {
+    :root { --top: 48px; --bottom: 0px; --sidebar-w: 236px; }
+    #panel {
+      left: auto; right: 0; top: var(--top); bottom: 0; width: var(--sidebar-w); height: auto;
+      flex-direction: column; gap: 8px; border-top: 0; border-left: 2px solid rgba(255, 255, 255, .15);
+      background: linear-gradient(180deg, #10121d 0%, #080911 100%);
+      padding: 10px; overflow-y: auto; overflow-x: hidden;
+      box-shadow: -8px 0 30px rgba(0,0,0,.7);
+    }
+    #side { order: -2; flex-direction: column; width: 100%; gap: 8px; }
+    #mini { width: 100%; height: auto; aspect-ratio: 16/10; border-radius: 8px; border: 2px solid #3f3f46; box-shadow: inset 0 0 12px rgba(16, 185, 129, .25), 0 4px 12px rgba(0,0,0,.5); }
+    .quick { grid-template-columns: repeat(3, 1fr); width: 100%; }
+    .quick button { height: 28px; font-size: 11px; padding: 0 4px; border-radius: 6px; }
+    #selInfo { width: 100%; order: -1; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+    #cmds { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .cmd { width: 100%; height: 52px; border-radius: 8px; }
+    .cmd.wide { grid-column: span 2; }
+    #cmds .note, #cmds .queue { grid-column: span 2; }
+  }
 
   /* ------------------------------------------------------------ small screens */
   @media (max-width: 760px) {
@@ -246,6 +267,34 @@
 <div id="screen"></div>
 <div id="dialog" hidden></div>
 
+
+<div id="tvLobby" hidden style="position:fixed;inset:0;background:#15172b;color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;">
+  <h1>Liberty Couch Skirmish</h1>
+  <div style="font-size:48px;margin:20px" id="tvCode"></div>
+  <div id="tvQr" style="background:white;padding:20px;border-radius:10px;"></div>
+  <p style="margin-top:20px;">Scan to join</p>
+  <button id="tvStart" class="btn go" style="margin-top:40px;font-size:24px;padding:15px 30px;" disabled>Start Game</button>
+  <div id="tvPlayers" style="margin-top:20px;font-size:18px;">Waiting for players...</div>
+</div>
+
+<div id="gamepad" hidden style="position:fixed;inset:0;background:#080911;color:white;display:flex;flex-direction:column;z-index:100;user-select:none;">
+  <div style="padding:10px;text-align:center;background:#10121d;border-bottom:1px solid #3f3f46;font-weight:bold;" id="gpHeader">Controller</div>
+  <div id="gpTrackpad" style="flex:1;background:rgba(255,255,255,0.05);margin:10px;border-radius:20px;border:2px dashed rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;touch-action:none;">
+    <span style="opacity:0.3">TRACKPAD (Drag to move cursor)</span>
+  </div>
+  <div style="display:flex;gap:10px;padding:10px;">
+    <button id="gpTap" class="btn" style="flex:1;height:80px;font-size:20px;">Tap (Select/Move)</button>
+    <button id="gpDrag" class="btn" style="flex:1;height:80px;font-size:20px;">Drag Box</button>
+  </div>
+  <div style="display:flex;gap:10px;padding:10px;padding-top:0;">
+    <button id="gpBuild" class="btn ghost" style="flex:1;height:60px;">Build</button>
+    <button id="gpAttack" class="btn ghost" style="flex:1;height:60px;border-color:#f87171;color:#f87171;">Attack</button>
+  </div>
+</div>
+
+<script src="../vendor/qrcode.js"></script>
+<script src="webrtc.js"></script>
+<script src="multi.js"></script>
 <script src="data.js"></script>
 <script src="sim.js"></script>
 <script src="missions.js"></script>
