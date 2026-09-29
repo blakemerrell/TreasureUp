@@ -1528,6 +1528,509 @@ window.TU_WEEKS = [
         "blobB": "rgba(0,0,0,.4)",
         "seek": "God says you're engraved where He'll always see you"
       }
+    ],
+    "plain": [
+      {
+        "ch": "Isaiah 40",
+        "verses": [
+          "“Comfort my people, comfort them,” says your God.",
+          "“Speak kindly to Jerusalem. Tell her that her hard time is over and she is forgiven. The Lord has made her pay double for all her sins.”",
+          "A voice calls out: “Clear a road for the Lord through the wilderness! Build a straight highway for our God across the desert.”",
+          "Every valley will be raised up, and every mountain and hill will be made low. The uneven ground will become level, and the rough places will become flat.",
+          "Then the glory of the Lord will be shown, and all people will see it together. The Lord Himself has said it.",
+          "A voice said, “Call out!” And he asked, “What should I call out?” All people are like grass, and all their beauty is like a wildflower.",
+          "The grass dries up and the flower wilts when the breath of the Lord blows on it. Yes, the people are like grass.",
+          "The grass dries up and the flower wilts, but the word of our God will last forever.",
+          "Zion, you who bring good news, climb up a high mountain! Jerusalem, you who bring good news, shout it out loud! Shout it and don’t be afraid. Tell the cities of Judah, “Here is your God!”",
+          "Look! The Lord God is coming with power, and He will rule with His strong arm. Look! He brings His reward with Him, and His prize goes before Him.",
+          "He takes care of His flock like a shepherd. He gathers the lambs in His arms and carries them close to His heart. He gently leads the mother sheep that are nursing their lambs.",
+          "Who has measured the waters in the hollow of his hand, or measured the sky with his fingers spread wide? Who has held all the dust of the earth in a basket, or weighed the mountains and the hills on a scale?",
+          "Who has ever told the Spirit of the Lord what to do? Who has been His adviser and taught Him?",
+          "Whom did He ever ask for advice? Who had to teach Him what is right, give Him knowledge, or show Him how to understand?",
+          "Look, the nations are like a drop in a bucket. They count as much as a speck of dust on a scale. He picks up the islands as if they were fine dust.",
+          "All of Lebanon would not be enough wood for the fire, and all its animals would not be enough for a burnt offering.",
+          "Before Him all the nations are like nothing. He counts them as less than nothing—empty and worthless.",
+          "So who can you compare God to? What image could you set up to look like Him?",
+          "A workman melts metal to make an idol, and a goldsmith covers it with gold and makes silver chains for it.",
+          "A person too poor to give such a gift picks out wood that won’t rot. He looks for a skilled workman to make an idol that won’t tip over.",
+          "Don’t you know? Haven’t you heard? Weren’t you told from the very beginning? Haven’t you understood since the earth was founded?",
+          "He is the one who sits above the circle of the earth, and the people who live on it are like grasshoppers. He stretches out the sky like a curtain and spreads it out like a tent to live in.",
+          "He brings rulers down to nothing and makes the judges of the earth worthless.",
+          "They are barely planted, barely sown, and have barely put down roots in the ground when He blows on them and they dry up. Then a whirlwind carries them away like straw.",
+          "“Who will you compare me to? Who is my equal?” says the Holy One.",
+          "Look up at the sky. Who made all these? He leads out the stars like an army, counting each one, and calls every one by name. His power is so great and His strength so mighty that not one of them is missing.",
+          "Jacob, why do you say—Israel, why do you complain—“The Lord doesn’t see what I’m going through. My God doesn’t care whether I’m treated fairly”?",
+          "Don’t you know? Haven’t you heard? The Lord is the everlasting God, the Creator of the earth from end to end. He never gets tired or worn out. No one can measure how much He understands.",
+          "He gives power to those who are tired, and He gives strength to those who have none.",
+          "Even young people get tired and worn out, and strong young men stumble and fall.",
+          "But those who wait for the Lord will get new strength. They will rise up on wings like eagles. They will run and not get tired. They will walk and not grow weak."
+        ],
+        "notes": [
+          {
+            "v": 3,
+            "text": "In the Hebrew, “in the wilderness” goes with the road. The Gospels quote it as “the voice of one crying in the wilderness” (Matthew 3:3) and say it is about John the Baptist."
+          },
+          {
+            "v": 24,
+            "text": "The KJV says “they shall not be planted.” Modern translations read the Hebrew as ‘no sooner are they planted.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 2,
+            "about": "The Hebrew says she received “double” for her sins; it can also mean in full. The plain words keep double, like the KJV."
+          },
+          {
+            "v": 24,
+            "about": "The KJV and modern translations read this verse differently. The plain words follow the modern reading, with a note."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 41",
+        "verses": [
+          "Be quiet before me, you islands! Let the nations gather new strength. Let them come near and speak. Let’s come together for the trial.",
+          "Who stirred up the righteous man from the east and called him to follow? Who hands nations over to him and makes him rule over kings? His sword turns them into dust, and his bow scatters them like straw in the wind.",
+          "He chases them and passes through safely, on roads he has never walked before.",
+          "Who has done all this? Who called each generation from the beginning? I, the Lord. I am the first, and I will be there with the last. I am He.",
+          "The islands saw it and were afraid. People at the ends of the earth trembled. They came closer and gathered together.",
+          "Each one helped his neighbor and said to his brother, “Be brave!”",
+          "The carpenter cheered on the goldsmith, and the one who smooths metal with a hammer cheered on the one who pounds the anvil. He said, “The soldering is good.” Then he nailed the idol down so it wouldn’t tip over.",
+          "But you, Israel, are my servant. You are Jacob, the one I have chosen, the family of Abraham my friend.",
+          "I took you from the ends of the earth and called you from its farthest corners. I said to you, “You are my servant. I have chosen you, and I have not thrown you away.”",
+          "Don’t be afraid, because I am with you. Don’t be discouraged, because I am your God. I will make you strong. Yes, I will help you. I will hold you up with my righteous right hand.",
+          "Look! Everyone who is angry at you will be put to shame and embarrassed. Those who fight against you will become nothing and will be destroyed.",
+          "You will look for the people who fought with you, but you won’t find them. Those who go to war against you will be nothing at all.",
+          "For I, the Lord your God, will hold your right hand. I say to you, “Don’t be afraid. I will help you.”",
+          "Don’t be afraid, Jacob, even though you are as weak as a worm. People of Israel, I will help you, says the Lord. Your Redeemer is the Holy One of Israel.",
+          "Look! I will make you like a new, sharp threshing sledge with many teeth—a tool that crushes grain. You will crush the mountains to pieces and make the hills like chaff.",
+          "You will toss them into the air, and the wind will carry them away. A storm will scatter them. But you will be glad in the Lord and praise the Holy One of Israel.",
+          "When the poor and needy look for water and there isn’t any, and their tongues are dry with thirst, I, the Lord, will answer them. I, the God of Israel, will not leave them.",
+          "I will open rivers on the bare hills and springs in the middle of the valleys. I will turn the wilderness into a pool of water and the dry ground into springs.",
+          "I will plant cedars in the wilderness, and acacia, myrtle, and olive trees. In the desert I will plant fir trees, pines, and box trees together.",
+          "Then people will see and know, think it over and understand, that the Lord’s hand has done this, and the Holy One of Israel has created it.",
+          "“Bring your case,” says the Lord. “Show your best arguments,” says the King of Jacob.",
+          "Let the idols come and tell us what is going to happen. Let them tell us what the things of the past meant, so we can think about them and know how they will end. Or let them tell us what is coming.",
+          "Tell us what will happen in the future, so we will know that you are gods. Yes, do something good or something bad, so we will be amazed and afraid when we see it together.",
+          "Look, you are less than nothing, and your work is worthless. Anyone who chooses you is disgusting.",
+          "I have stirred up someone from the north, and he has come. From where the sun rises, he calls on my name. He will walk over rulers as if they were mud, like a potter stomping on clay.",
+          "Who told us about this from the beginning, so we could know? Who told us ahead of time, so we could say, “He was right”? No one told it. No one announced it. No one heard a word from you.",
+          "I was the first to tell Zion, “Look, here they are!” I will give Jerusalem a messenger who brings good news.",
+          "I looked, but there was no one—no one among them who could give advice, no one who could answer a word when I asked.",
+          "Look, they are all worthless. What they do amounts to nothing. Their metal idols are just wind and emptiness."
+        ],
+        "notes": [
+          {
+            "v": 9,
+            "text": "The KJV says “the chief men thereof.” Most modern translations read the Hebrew word as ‘farthest corners.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 2,
+            "about": "The plain words keep the KJV’s “righteous man.” Many modern translations read the Hebrew as one whom victory follows, and see Cyrus here."
+          },
+          {
+            "v": 9,
+            "about": "KJV “chief men”, plain “farthest corners”: the Hebrew word can mean either. A note explains it."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 42",
+        "verses": [
+          "Look at my servant, whom I hold up. He is my chosen one, and I am delighted with him. I have put my Spirit on him. He will bring justice to the Gentiles, the other nations.",
+          "He will not shout or raise his voice, or make it heard in the streets.",
+          "He will not break a bent reed, and he will not put out a wick that is barely burning. He will faithfully bring justice.",
+          "He will not grow weak or give up until he has set up justice on the earth. The islands will wait and hope for his law.",
+          "This is what God the Lord says—the one who created the sky and stretched it out, who spread out the earth and everything that comes from it, who gives breath to the people on it and spirit to those who walk on it:",
+          "I, the Lord, have called you for a righteous purpose. I will hold your hand and keep you safe. I will make you a covenant for the people and a light for the Gentiles.",
+          "You will open eyes that are blind, bring prisoners out of prison, and lead those who sit in darkness out of the dungeon.",
+          "I am the Lord—that is my name. I will not give my glory to anyone else, or my praise to idols.",
+          "Look, the things I told you before have happened, and now I am telling you new things. Before they spring up, I tell you about them.",
+          "Sing a new song to the Lord! Sing His praise from the ends of the earth—you who sail on the sea, and all the creatures in it, you islands and everyone who lives there.",
+          "Let the desert and its towns shout, and the villages where the people of Kedar live. Let the people who live among the rocks sing for joy and shout from the mountaintops.",
+          "Let them give glory to the Lord and tell of His praise in the islands.",
+          "The Lord will go out like a mighty hero. Like a warrior, He will get stirred up and eager for battle. He will shout—yes, He will roar—and He will defeat His enemies.",
+          "I have kept quiet for a long time. I have been still and held myself back. But now, like a woman giving birth, I will cry out. I will gasp and pant.",
+          "I will turn the mountains and hills into wasteland and dry up all their plants. I will turn the rivers into dry islands and dry up the pools.",
+          "I will lead the blind on a road they have never known and guide them on paths they have never walked. I will turn the darkness in front of them into light and make the crooked paths straight. These are the things I will do for them, and I will not leave them.",
+          "But those who trust in idols and say to metal statues, “You are our gods,” will be turned back and badly shamed.",
+          "Listen, you who are deaf! Look, you who are blind, so that you can see!",
+          "Who is blind like my servant? Who is deaf like the messenger I send? Who is as blind as the one who is perfect, as blind as the Lord’s servant?",
+          "You see many things, but you don’t pay attention. Your ears are open, but you don’t listen.",
+          "Because He is righteous, the Lord was pleased to make His law great and glorious.",
+          "But these people have been robbed and looted. They are all trapped in holes and hidden away in prisons. They have been taken like loot, and no one rescues them. They have been stolen, and no one says, “Give them back!”",
+          "Which of you will listen to this? Who will pay attention and listen from now on?",
+          "Who handed Jacob over to be robbed and gave Israel to the thieves? Wasn’t it the Lord, the one we sinned against? They would not walk in His ways, and they would not obey His law.",
+          "So He poured out His burning anger on them, and the violence of war. It set them on fire all around, but they didn’t understand. It burned them, but they didn’t take it to heart."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "Matthew quotes verses 1–4 and says Jesus fulfilled them (Matthew 12:17–21)."
+          },
+          {
+            "v": 14,
+            "text": "The KJV says “destroy and devour.” Most modern translations read the Hebrew as ‘gasp and pant,’ like a woman giving birth."
+          },
+          {
+            "v": 19,
+            "text": "The Joseph Smith Translation changes verses 19–23. In it, the Lord sends His servant to open the eyes of the blind, and they can be made perfect if they listen to him."
+          },
+          {
+            "v": 21,
+            "text": "In the Joseph Smith Translation, the Lord is not pleased with such a people, but for His righteousness’ sake He will still make the law great and honorable."
+          }
+        ],
+        "review": [
+          {
+            "v": 19,
+            "about": "The Joseph Smith Translation changes verses 19–23. The plain words translate the Hebrew; notes under 19 and 21 give the JST. You may want the plain words to follow the JST instead."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 43",
+        "verses": [
+          "But now this is what the Lord says—the one who created you, Jacob, the one who formed you, Israel: Don’t be afraid, because I have redeemed you. I have called you by your name. You are mine.",
+          "When you go through the waters, I will be with you. When you go through rivers, they will not sweep you away. When you walk through fire, you will not be burned, and the flames will not set you on fire.",
+          "For I am the Lord your God, the Holy One of Israel, your Savior. I gave Egypt as the price to set you free, and Ethiopia and Seba in exchange for you.",
+          "Because you are precious to me, and honored, and I love you, I will give other people in exchange for you, and nations in exchange for your life.",
+          "Don’t be afraid, because I am with you. I will bring your children from the east and gather you from the west.",
+          "I will say to the north, “Let them go!” and to the south, “Don’t hold them back!” Bring my sons from far away and my daughters from the ends of the earth.",
+          "Bring everyone who is called by my name, whom I created for my glory. I formed them—yes, I made them.",
+          "Bring out the people who are blind even though they have eyes, and deaf even though they have ears.",
+          "Let all the nations gather together, and let the peoples come. Which of them can tell us about this, or tell us what happened before? Let them bring their witnesses to prove they are right, so others can hear and say, “It is true.”",
+          "You are my witnesses, says the Lord, and so is my servant whom I have chosen, so that you will know me and believe me and understand that I am He. No god was formed before me, and there will be none after me.",
+          "I, yes I, am the Lord, and there is no Savior except me.",
+          "I told you, I saved you, and I made it known—not some foreign god among you. So you are my witnesses, says the Lord, that I am God.",
+          "Yes, from before time began, I am He. No one can rescue anyone out of my hand. When I act, who can stop it?",
+          "This is what the Lord says—your Redeemer, the Holy One of Israel: For your sake I have sent to Babylon and brought down all their leaders, and the Chaldeans (the people of Babylon), who cry out in their ships.",
+          "I am the Lord, your Holy One, the Creator of Israel, your King.",
+          "This is what the Lord says—the one who makes a road through the sea and a path through the mighty waters.",
+          "He brings out the chariots and horses, the army and its mighty men. They lie down together and will not rise again. They are gone, snuffed out like a wick.",
+          "Don’t keep thinking about what happened before. Don’t dwell on the past.",
+          "Look, I am doing something new! It is starting to grow right now. Don’t you see it? I will make a road in the wilderness and rivers in the desert.",
+          "The wild animals will honor me, the jackals and the ostriches, because I give water in the wilderness and rivers in the desert for my chosen people to drink.",
+          "I formed these people for myself, and they will tell of my praise.",
+          "But you have not called on me, Jacob. You have gotten tired of me, Israel.",
+          "You have not brought me sheep for your burnt offerings or honored me with your sacrifices. I did not burden you with offerings or wear you out asking for incense.",
+          "You have not bought me sweet-smelling cane with your money or pleased me with the fat of your sacrifices. Instead, you have burdened me with your sins and worn me out with your wrongdoing.",
+          "I, yes I, am the one who wipes out your wrongs for my own sake, and I will not remember your sins.",
+          "Remind me of what happened. Let’s argue it out together. Tell your side, so you can show you are right.",
+          "Your first father sinned, and your teachers rebelled against me.",
+          "So I disgraced the leaders of the holy place, and I handed Jacob over to be destroyed and Israel to be insulted."
+        ],
+        "notes": [
+          {
+            "v": 20,
+            "text": "The Hebrew words the KJV calls “dragons” and “owls” are read today as jackals and ostriches."
+          }
+        ],
+        "review": [
+          {
+            "v": 14,
+            "about": "The Hebrew of the last line is hard to read. The plain words follow the KJV: the Chaldeans cry out in their ships."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 44",
+        "verses": [
+          "But now listen, Jacob my servant, and Israel, whom I have chosen.",
+          "This is what the Lord says—the one who made you, who formed you before you were born, and who will help you: Don’t be afraid, Jacob my servant, and Jesurun (a name for Israel that means the upright one), whom I have chosen.",
+          "For I will pour water on the thirsty land and streams on the dry ground. I will pour my Spirit on your children and my blessing on your descendants.",
+          "They will spring up like grass, like willow trees beside flowing streams.",
+          "One will say, “I belong to the Lord.” Another will call himself by the name of Jacob. Another will write on his hand, “The Lord’s,” and take the name of Israel.",
+          "This is what the Lord says—Israel’s King and Redeemer, the Lord of Hosts: I am the first and I am the last. There is no God besides me.",
+          "Who is like me? Let him speak up and tell it, and lay it all out for me, from the time I set up my people long ago. Let them tell what is coming and what will happen.",
+          "Don’t be afraid or scared. Didn’t I tell you and announce it long ago? You are my witnesses. Is there any God besides me? No, there is no other Rock. I don’t know of any.",
+          "All who make idols are nothing, and the things they love are worthless. Their own witnesses don’t see or know anything, so they will be put to shame.",
+          "Who would make a god or melt metal into an idol that can’t do anything for him?",
+          "Look, everyone who joins in will be put to shame. The workmen are only human. Let them all gather and stand up. They will be afraid and ashamed together.",
+          "The blacksmith works over the hot coals with his tools. He shapes the idol with hammers and works it with his strong arms. But he gets hungry, and his strength runs out. He doesn’t drink any water, and he gets tired.",
+          "The carpenter measures with a line and marks it out with a pencil. He shapes it with his tools and marks it with a compass. He carves it into the shape of a man, as handsome as a man can be, so it can sit in a house.",
+          "He cuts down cedars, or picks a cypress or an oak. He lets it grow strong among the trees of the forest. He plants an ash tree, and the rain makes it grow.",
+          "Then a person uses it for fuel. He takes some of it to warm himself. He lights a fire and bakes bread. Then he also makes a god out of it and worships it. He makes an idol and bows down to it.",
+          "He burns half of it in the fire. Over that half he roasts meat, eats it, and is full. He warms himself and says, “Ah, I’m warm! I can see the fire.”",
+          "With the rest of it he makes a god, his idol. He bows down to it and worships it. He prays to it and says, “Save me, because you are my god!”",
+          "They don’t know or understand anything. Their eyes are shut so they can’t see, and their minds are closed so they can’t understand.",
+          "No one stops to think. No one has the knowledge or sense to say, “I burned half of it in the fire. I even baked bread on its coals and roasted meat and ate it. Should I make the rest of it into something disgusting? Should I bow down to a block of wood?”",
+          "He is feeding on ashes. His fooled heart has led him away, so he can’t save himself or ask, “Isn’t this thing in my right hand a lie?”",
+          "Remember these things, Jacob and Israel, because you are my servant. I made you. You are my servant. Israel, I will not forget you.",
+          "I have wiped away your wrongs like a thick cloud and your sins like a mist. Come back to me, because I have redeemed you.",
+          "Sing, you heavens, because the Lord has done it! Shout, you deep places of the earth! Burst into song, you mountains, you forests and every tree in them! For the Lord has redeemed Jacob and shown His glory in Israel.",
+          "This is what the Lord says—your Redeemer, who formed you before you were born: I am the Lord, who made all things. I alone stretched out the sky. I spread out the earth by myself.",
+          "I make the signs of liars fail and make fortune-tellers look like fools. I turn wise men back and make their knowledge foolish.",
+          "I make the words of my servant come true and carry out what my messengers say. I say of Jerusalem, “People will live there again,” and of the cities of Judah, “They will be rebuilt, and I will restore their ruins.”",
+          "I say to the deep sea, “Dry up! I will dry up your rivers.”",
+          "I say of Cyrus, “He is my shepherd, and he will do everything I want.” I say of Jerusalem, “It will be rebuilt,” and of the temple, “Its foundation will be laid.”"
+        ],
+        "notes": [
+          {
+            "v": 8,
+            "text": "Where the KJV says “there is no God,” the Hebrew says there is no other ‘Rock,’ a name the scriptures give God (Deuteronomy 32:4; Helaman 5:12)."
+          },
+          {
+            "v": 28,
+            "text": "Cyrus was a king of Persia. Long after Isaiah’s time, he let the Jews go home to rebuild Jerusalem and the temple (Ezra 1:1–3)."
+          }
+        ],
+        "review": [
+          {
+            "v": 2,
+            "about": "Jesurun is explained in the verse: a name for Israel that means the upright one."
+          },
+          {
+            "v": 8,
+            "about": "The Hebrew says Rock where the KJV says God. Kept Rock, a name for God he may know from Helaman 5:12, with a note."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 45",
+        "verses": [
+          "This is what the Lord says to Cyrus, His anointed one: I have taken hold of your right hand to help you conquer nations and take away the power of kings, to open the double doors in front of you so the gates will not be shut.",
+          "I will go ahead of you and make the crooked places straight. I will break down the bronze gates and cut through the iron bars.",
+          "I will give you treasures hidden in the dark and riches stored in secret places, so you will know that I, the Lord, the God of Israel, am the one who calls you by name.",
+          "For the sake of Jacob my servant, and Israel my chosen one, I have called you by your name. I have given you a name of honor, even though you have not known me.",
+          "I am the Lord, and there is no other. There is no God besides me. I have made you ready for battle, even though you have not known me.",
+          "Then people everywhere, from where the sun rises to where it sets, will know that there is no one besides me. I am the Lord, and there is no other.",
+          "I make the light and create the darkness. I make peace and create disaster. I, the Lord, do all these things.",
+          "Let righteousness fall like rain from the sky above, and let the clouds pour it down. Let the earth open up so salvation can grow, and let righteousness spring up with it. I, the Lord, have created it.",
+          "How terrible for anyone who argues with his Maker! Let a broken piece of pottery argue with the other broken pieces on the ground. Does the clay say to the one shaping it, “What are you making?” Does your work say, “He has no hands”?",
+          "How terrible for anyone who says to his father, “What kind of child are you having?” or to his mother, “What have you given birth to?”",
+          "This is what the Lord says—the Holy One of Israel, the one who made him: Do you question me about what will happen to my children? Do you give me orders about the work of my hands?",
+          "I made the earth and created people on it. My own hands stretched out the heavens, and I command all the stars.",
+          "I have stirred up Cyrus for a righteous purpose, and I will make all his paths straight. He will rebuild my city and set my captive people free—not for a price or a reward, says the Lord of Hosts.",
+          "This is what the Lord says: The riches of Egypt, the goods of Ethiopia, and the tall Sabeans will come over to you, Zion, and be yours. They will follow you. They will come in chains and bow down to you. They will plead with you and say, “God is truly with you, and there is no other. There is no other God.”",
+          "Truly, you are a God who hides Himself, God of Israel, the Savior.",
+          "All the idol makers will be ashamed and embarrassed. They will all go away together in disgrace.",
+          "But the Lord will save Israel with a salvation that lasts forever. You will never be ashamed or embarrassed, forever and ever.",
+          "For this is what the Lord says—the one who created the heavens. He is God. He formed the earth and made it. He set it up firmly. He did not create it to be empty; He formed it for people to live on. He says: I am the Lord, and there is no other.",
+          "I have not spoken in secret, from some dark place on the earth. I did not tell Jacob’s children, “It’s useless to look for me.” I, the Lord, speak what is righteous. I say what is right.",
+          "Gather together and come! Come near, all you survivors of the nations. Those who carry around their wooden idols and pray to a god that cannot save them don’t know anything.",
+          "Speak up and bring your case. Let them talk it over together. Who told about this long ago? Who announced it from ancient times? Wasn’t it I, the Lord? There is no other God besides me—a righteous God and a Savior. There is no one besides me.",
+          "Look to me and be saved, all you people at the ends of the earth! For I am God, and there is no other.",
+          "I have sworn by myself. A righteous word has gone out of my mouth, and it will not come back: every knee will bow to me, and every tongue will swear loyalty to me.",
+          "People will say about me, “Only in the Lord are righteousness and strength.” People will come to Him, and all who were angry at Him will be ashamed.",
+          "In the Lord all of Israel’s children will be made righteous, and they will rejoice."
+        ],
+        "notes": [
+          {
+            "v": 7,
+            "text": "The Hebrew word the KJV translates “evil” here also means disaster or trouble. In this verse it is the opposite of “peace.”"
+          },
+          {
+            "v": 11,
+            "text": "The KJV reads this verse as an invitation: “Ask me of things to come.” Many modern translations read the Hebrew as a question instead: Do you question me about my children?"
+          },
+          {
+            "v": 23,
+            "text": "Paul quotes this promise and applies it to Jesus Christ (Romans 14:10–11; Philippians 2:10–11)."
+          }
+        ],
+        "review": [
+          {
+            "v": 7,
+            "about": "The KJV says God creates “evil.” The Hebrew word means disaster or trouble here, the opposite of peace, not sin. The plain words say disaster, with a note."
+          },
+          {
+            "v": 11,
+            "about": "The KJV reads this as an invitation to ask God about the future. Most modern translations read it as a rebuke, like verses 9–10. The plain words follow the rebuke, with a note giving the KJV reading. Your call."
+          },
+          {
+            "v": 14,
+            "about": "Who “you” is: in the Hebrew every you here is feminine, which in Isaiah means Zion, not Cyrus (verses 1–5). Added “Zion” so he doesn’t read it as Cyrus."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 46",
+        "verses": [
+          "Bel and Nebo, the gods of Babylon, bow down and crouch low. Their idols are loaded onto animals and cattle. The statues you carried around are now heavy loads for tired animals.",
+          "The gods crouch and bow down together. They cannot save their load; they themselves are taken away as captives.",
+          "Listen to me, house of Jacob, all who are left of the house of Israel. I have carried you since before you were born. I have held you since you came from the womb.",
+          "Even when you are old, I will be the same. Even when your hair turns gray, I will carry you. I made you, and I will carry you. I will hold you up, and I will save you.",
+          "Who will you compare me to, or say is equal to me? Who will you match me with, as if we were alike?",
+          "Some people pour gold out of their bags and weigh silver on scales. They pay a goldsmith to make it into a god, and then they bow down and worship it.",
+          "They lift it onto their shoulders and carry it. They set it in its place, and there it stands. It cannot move from that spot. People cry out to it, but it cannot answer. It cannot save anyone from trouble.",
+          "Remember this and be brave. Think about it again, you who have turned against me.",
+          "Remember the things that happened long ago. For I am God, and there is no other. I am God, and there is no one like me.",
+          "From the beginning I tell how things will end. From long ago I tell what hasn’t happened yet. I say, “My plan will stand, and I will do everything I want.”",
+          "I call a bird of prey from the east—a man from a faraway land to carry out my plan. I have said it, and I will make it happen. I have planned it, and I will do it.",
+          "Listen to me, you stubborn people who are far from righteousness.",
+          "I am bringing my righteousness near. It is not far away, and my salvation will not be late. I will bring salvation to Zion and give my glory to Israel."
+        ],
+        "notes": []
+      },
+      {
+        "ch": "Isaiah 47",
+        "verses": [
+          "Come down and sit in the dust, young daughter of Babylon (the city, pictured as a young woman)! Sit on the ground—there is no throne for you, daughter of the Chaldeans. No one will call you soft and delicate anymore.",
+          "Take millstones and grind flour. Take off your veil, pull up your skirt, bare your legs, and wade across the rivers.",
+          "Your nakedness will be uncovered, and your shame will be seen. I will take revenge, and I will spare no one.",
+          "Our Redeemer—the Lord of Hosts is His name—is the Holy One of Israel.",
+          "Sit in silence and go into the darkness, daughter of the Chaldeans. No one will call you “the queen of kingdoms” anymore.",
+          "I was angry with my people. I dishonored my own people, and I handed them over to you. But you showed them no mercy. You made even the old people carry a very heavy load.",
+          "You said, “I will be queen forever.” You didn’t think about these things or remember how they would end.",
+          "So now listen to this, you who love pleasure and live without a care, who say to yourself, “I am, and there is no one besides me. I will never be a widow or lose my children.”",
+          "But both of these things will happen to you in a moment, in a single day: you will lose your children and become a widow. They will come on you fully, in spite of all your magic and all your powerful spells.",
+          "You felt safe in your wickedness. You said, “No one sees me.” Your wisdom and knowledge led you astray, and you said to yourself, “I am, and there is no one besides me.”",
+          "So disaster will come on you, and you won’t know where it comes from. Trouble will fall on you, and you won’t be able to make it go away. Ruin will come on you suddenly, before you know it.",
+          "Go ahead—keep using your spells and all your magic, which you have worked so hard at since you were young. Maybe it will help you. Maybe you will win.",
+          "You are worn out from all the advice you get. Let your astrologers come and save you from what is coming—the stargazers who study the stars and make predictions every month.",
+          "Look, they are like straw. The fire will burn them up. They cannot save themselves from the flames. This is no fire of coals to warm yourself by or to sit in front of.",
+          "That is how it will be with the people you have worked with and traded with since you were young. They will all wander off their own way. No one will save you."
+        ],
+        "notes": [
+          {
+            "v": 3,
+            "text": "The KJV says “I will not meet thee as a man.” Many modern translations read the Hebrew as ‘I will spare no one.’"
+          },
+          {
+            "v": 9,
+            "text": "The KJV’s “for the multitude of thy sorceries” can mean because of them or in spite of them. Many modern translations have ‘in spite of.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 2,
+            "about": "Verses 2–3 picture Babylon as a slave woman stripped of her fine clothes. The plain words keep it, as the KJV does."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 48",
+        "verses": [
+          "Listen to this, house of Jacob, you who are called by the name of Israel and who came from the waters of Judah (Judah’s family line). You make promises in the Lord’s name and talk about the God of Israel, but you are not honest or righteous about it.",
+          "They call themselves people of the holy city, and they lean on the God of Israel. The Lord of Hosts is His name.",
+          "Long ago I told you what would happen. The words came out of my mouth, and I made them known. Then suddenly I acted, and it all happened.",
+          "I did this because I knew how stubborn you are. Your neck is as stiff as iron, and your forehead is as hard as bronze.",
+          "So I told you long ago. Before it happened, I announced it to you, so you could not say, “My idol did this. My carved statue and my metal god made it happen.”",
+          "You have heard all this; now look at it all. Won’t you tell others about it? From now on I will tell you new things, hidden things you did not know.",
+          "They are being created now, not long ago. You have never heard of them before today, so you cannot say, “I already knew that.”",
+          "You have never heard them or known them. For a long time your ears have not been open. I knew you would be very unfaithful. You have been called a rebel since you were born.",
+          "For the sake of my name I hold back my anger. For the sake of my praise I hold it in for you, so I won’t cut you off.",
+          "Look, I have refined you, but not like silver. I have chosen you in the furnace of suffering.",
+          "For my own sake, yes, for my own sake, I will do it. How could I let my name be dishonored? I will not give my glory to anyone else.",
+          "Listen to me, Jacob, and Israel, whom I have called. I am He. I am the first, and I am also the last.",
+          "My hand laid the foundation of the earth, and my right hand spread out the heavens. When I call them, they all stand up together.",
+          "All of you, gather together and listen! Which of them has told about these things? The Lord loves him. He will do what the Lord wants against Babylon, and his arm will be against the Chaldeans.",
+          "I, yes I, have spoken. I have called him. I have brought him, and he will succeed.",
+          "Come near to me and listen to this. From the beginning I have not spoken in secret. From the time it happened, I have been there. And now the Lord God and His Spirit have sent me.",
+          "This is what the Lord says—your Redeemer, the Holy One of Israel: I am the Lord your God. I teach you what is good for you, and I lead you in the way you should go.",
+          "If only you had listened to my commandments! Then your peace would have been like a river, and your righteousness like the waves of the sea.",
+          "Your children would have been as many as the grains of sand, and your descendants as many as the tiny pebbles. Their name would never have been cut off or wiped out from before me.",
+          "Leave Babylon! Run away from the Chaldeans! Shout it with joy and announce it. Send the news to the ends of the earth. Say, “The Lord has redeemed His servant Jacob!”",
+          "They were not thirsty when He led them through the deserts. He made water flow out of a rock for them. He split the rock, and water gushed out.",
+          "There is no peace for the wicked, says the Lord."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "Nephi included Isaiah 48 and 49 in the Book of Mormon (1 Nephi 20–21) and explained them to his brothers (1 Nephi 22). In the Book of Mormon, this verse adds “or out of the waters of baptism” (1 Nephi 20:1)."
+          },
+          {
+            "v": 2,
+            "text": "In the Book of Mormon, this verse says they “do not stay themselves upon the God of Israel” (1 Nephi 20:2). To stay on someone means to rely on them."
+          },
+          {
+            "v": 17,
+            "text": "In the Book of Mormon, the Lord says “I have sent him” (1 Nephi 20:17) where the KJV has “I am,” and the verse ends by saying the Lord your God “hath done it” (1 Nephi 20:17)."
+          },
+          {
+            "v": 22,
+            "text": "The Book of Mormon’s copy begins “And notwithstanding he hath done all this, and greater also” (1 Nephi 20:22)."
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "“Or out of the waters of baptism” was added by Joseph Smith in the 1840 edition of the Book of Mormon. The note only says the Book of Mormon has it."
+          },
+          {
+            "v": 3,
+            "about": "Smaller Book of Mormon differences have no note: verses 3, 7, 10 and 14–16. Say if you want notes for them too."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 49",
+        "verses": [
+          "Listen to me, you islands! Pay attention, you people far away! The Lord called me before I was born. While I was still in my mother’s womb, He spoke my name.",
+          "He made my mouth like a sharp sword. He hid me in the shadow of His hand. He made me like a polished arrow and hid me in His quiver.",
+          "He said to me, “You are my servant, Israel, and through you I will show my glory.”",
+          "But I said, “I have worked for nothing. I have used up my strength for nothing at all. Yet what I am owed is in the Lord’s hands, and my reward is with my God.”",
+          "And now the Lord speaks—He formed me in the womb to be His servant, to bring Jacob back to Him. Even if Israel is not gathered, I will still be honored in the Lord’s eyes, and my God will be my strength.",
+          "He says, “It is too small a thing for you to be my servant only to raise up the tribes of Jacob and bring back the ones of Israel I have kept safe. I will also make you a light to the Gentiles, so that you can be my salvation to the ends of the earth.”",
+          "This is what the Lord says—the Redeemer of Israel, its Holy One—to the one people hate and the nation despises, the servant of rulers: Kings will see you and stand up. Princes will bow down, because of the Lord, who is faithful, the Holy One of Israel, who has chosen you.",
+          "This is what the Lord says: At the right time I answered you, and on the day of salvation I helped you. I will protect you and make you a covenant for the people, to rebuild the land and give the empty lands back to their owners.",
+          "You will say to the prisoners, “Come out!” and to those in darkness, “Show yourselves!” They will eat along the roads and find pasture on every bare hill.",
+          "They will not be hungry or thirsty. The desert heat and the sun will not beat down on them. The one who has mercy on them will lead them and guide them to springs of water.",
+          "I will turn all my mountains into roads, and my highways will be raised up.",
+          "Look, people will come from far away—some from the north and the west, and some from the land of Sinim.",
+          "Sing, you heavens! Be joyful, earth! Burst into song, you mountains! For the Lord has comforted His people, and He will have mercy on His people who suffer.",
+          "But Zion said, “The Lord has left me. My Lord has forgotten me.”",
+          "Can a mother forget the baby she is nursing, or not care about the child she gave birth to? Even if mothers forget, I will never forget you.",
+          "Look, I have engraved you on the palms of my hands. Your walls are always in front of me.",
+          "Your children hurry back. Those who destroyed you and made you a ruin will leave you.",
+          "Look up and look all around you. They are all gathering together and coming to you. As surely as I live, says the Lord, you will wear them all like jewelry. You will put them on like a bride.",
+          "Your land was ruined and empty and destroyed, but now it will be too small for all the people who live there. Those who swallowed you up will be far away.",
+          "The children born to you after you lost the others will say to you, “This place is too crowded for me. Make room so I can live here.”",
+          "Then you will say to yourself, “Who gave me all these children? I lost my children and was left alone. I was a captive, wandering from place to place. Who raised these children? I was left all by myself—so where did they come from?”",
+          "This is what the Lord God says: Look, I will lift up my hand to the Gentiles and raise my banner for the peoples. They will bring your sons in their arms and carry your daughters on their shoulders.",
+          "Kings will care for your children like foster fathers, and their queens will nurse them like mothers. They will bow down to you with their faces to the ground and lick the dust at your feet. Then you will know that I am the Lord. Those who wait for me will never be put to shame.",
+          "Can someone take the loot away from a mighty warrior? Can a captive who was lawfully taken be set free?",
+          "But this is what the Lord says: Yes, even the captives of the mighty warrior will be taken away, and the loot of the cruel will be rescued. I will fight those who fight you, and I will save your children.",
+          "I will make those who hurt you eat their own flesh, and they will be drunk on their own blood as if it were wine. Then all people will know that I, the Lord, am your Savior and your Redeemer, the Mighty One of Jacob."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "The Book of Mormon’s copy begins with a call to scattered Israel: “all ye that are broken off and are driven out because of the wickedness of the pastors of my people” (1 Nephi 21:1)."
+          },
+          {
+            "v": 5,
+            "text": "The KJV and the Book of Mormon (1 Nephi 21:5) say “Though Israel be not gathered.” Many modern translations read the Hebrew as ‘that Israel might be gathered to Him.’"
+          },
+          {
+            "v": 6,
+            "text": "Simeon called the baby Jesus “a light to lighten the Gentiles” (Luke 2:32). Paul and Barnabas quoted this verse about their own mission to the Gentiles (Acts 13:46–47)."
+          },
+          {
+            "v": 8,
+            "text": "In the Book of Mormon, the Lord speaks here to the “isles of the sea” (1 Nephi 21:8) and says He will “give thee my servant for a covenant of the people” (1 Nephi 21:8)."
+          },
+          {
+            "v": 13,
+            "text": "The Book of Mormon’s copy adds “for the feet of those who are in the east shall be established” (1 Nephi 21:13) and “for they shall be smitten no more” (1 Nephi 21:13)."
+          },
+          {
+            "v": 14,
+            "text": "The Book of Mormon’s copy adds “but he will show that he hath not” (1 Nephi 21:14)."
+          },
+          {
+            "v": 22,
+            "text": "Nephi explains verses 22–23 to his brothers in 1 Nephi 22:6–8."
+          },
+          {
+            "v": 26,
+            "text": "Nephi explains that those who fight against God’s people “shall war among themselves, and the sword of their own hands shall fall upon their own heads, and they shall be drunken with their own blood” (1 Nephi 22:13–14)."
+          }
+        ],
+        "review": [
+          {
+            "v": 7,
+            "about": "Smaller Book of Mormon differences have no note: verses 7 and 17."
+          },
+          {
+            "v": 26,
+            "about": "A hard picture for a child. The note gives Nephi’s explanation: Israel’s enemies turn on each other."
+          }
+        ]
+      }
     ]
   },
   {
