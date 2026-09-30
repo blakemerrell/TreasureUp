@@ -21,6 +21,11 @@ name and email, each signed in with Google; the Firebase rules enforce that.
 - A piece's approval is a fingerprint of its content, so editing it after
   approval shows "Changed since approved" until it's approved again.
   Approving a reel with a clip marks the clip watched.
+- **Plain words** are a piece per chapter: every KJV verse with its plain
+  words and the BSB under it, the notes, and first the verses to look at
+  (`review`).
+  A chapter's plain words show in the app only once they're approved (the
+  test site shows drafts, marked), so they never hold up publishing a week.
 - **Publish to the live app** appears once every piece of a week is approved.
   It copies any pictures the live app lacks, then the week, to the live repo.
   The live deploy runs the check with `--require-approval` (weeks from
@@ -138,6 +143,39 @@ Each reel:
   a reading question's answer: the checker looks there too.
 - `approved` (and `wordsApproved` for the Verse Words): written by developer
   mode. Don't write these by hand.
+
+## Plain words (`plain`)
+
+A week's `plain` is a list of chapters from its reading, each
+`{ ch, verses, notes, review }`. In a chapter he picks what he reads with
+four buttons: **KJV**, **Plain words**, **BSB** and **Notes**, any mix.
+The KJV stays the scripture; the plain words and notes help him
+understand it. The BSB comes from `tools/bsb.txt.gz` at deploy, word for
+word, and needs no approval; leave that file as the BSB published it.
+
+- `ch`: a chapter of the week's reading ("Isaiah 40"). `verses`: one plain
+  line for every verse of that chapter, in order.
+- Translate each verse from the Hebrew (the Masoretic text, the one the KJV
+  translated), checked against a modern translation made from it by scholars
+  (the Berean Standard Bible is public domain). Nothing added, nothing left
+  out; a few words may say what a name or an ancient thing is. Plain English
+  a 15-year-old reads easily, "you" for "thee". Keep the names as the KJV
+  spells them, and the words he hears at church: Redeemer, Holy One of Israel,
+  Lord of Hosts, covenant, Zion, salvation, Gentiles. "the LORD" is "the
+  Lord"; He, His and Him are capitalized for God.
+- `notes`: `{ v, text }`, one fact under a verse, only where the translations
+  read the Hebrew differently in a way he'd notice next to the KJV, where the
+  Book of Mormon or the Joseph Smith Translation has the verse differently,
+  or where the New Testament or Nephi says who or what it is about. Scripture
+  quoted in a note goes in “curly quotes” with its reference, and is checked
+  like any quote; another translation's wording goes in ‘single quotes’.
+  45 words max.
+- `review`: `{ v, about }`, the verses Blake should look at first in
+  developer mode, and why. Not shown in the app.
+- Every chapter is read against the Hebrew by a second reviewer before it
+  goes in. The checker counts what can be counted: a verse per verse, notes
+  on real verses, quotes and references that check out; and it notes a plain
+  verse much longer than the KJV's, a name left out, or KJV English left in.
 
 ## The map game's board (content/boards.js)
 
