@@ -151,12 +151,34 @@ console.log('Recordings (amigo/audio/, made by tools/amigo-voice.mjs)');
   new Function('window', fs.readFileSync(path.join(dir, 'index.js'), 'utf8'))(w);
   const listed = Object.keys((w.AMIGO_AUDIO && w.AMIGO_AUDIO.tl) || {});
   const missing = listed.filter(k => !fs.existsSync(path.join(dir, 'tl', k + '.mp3')));
-  const TLc = COURSES.tl, all = new Set([...TLc.praise, ...TLc.units.flatMap(u => [u.done, ...u.phrases.map(p => p.t), ...u.words.map(x => x[0]), ...u.scenes.flatMap(s => [s.right, ...s.wrong])]),
-    ...TLc.tatay.words.map(x => x[0]), ...TLc.baybayin.words.map(x => x[0]),
-    ...TLc.units.flatMap(u => u.phrases).flatMap(p => E.tiles(p.t)).map(E.sayable)].map(t => t.normalize('NFC')));
-  const unrecorded = [...all].filter(t => !listed.includes(E.audioKey(t)));
-  ok(!missing.length, `every recording listed is there (${all.size - unrecorded.length} of ${all.size} Tagalog lines recorded, build-it tiles included)`, missing.map(k => 'no file for ' + k));
-  if (unrecorded.length) console.log(`    (not recorded yet, so the phone's voice says them: ${unrecorded.slice(0, 6).join(' · ')}${unrecorded.length > 6 ? ' …' : ''}. The test site's deploy records them.)`);
+  // What the lessons can say in Tagalog, the way the page says it (listen,
+  // the 🔊 on each scene choice, a matched pair, a tapped tile, a finished
+  // build), for a learner who gets everything right and one who misses
+  // everything (the reviews and retries), plus the words from Tatay.
+  const TLc = COURSES.tl, spoken = new Set(TLc.tatay.words.map(x => x[0]));
+  const said = st => st.type === 'listen' ? [st.phrase] : st.type === 'scene' ? st.choices : st.type === 'pairs' ? st.left
+    : st.type === 'build' ? [...st.bank.map(E.sayable), st.answer.join(' ')] : [];
+  for (const right of [true, false]) {
+    const cs = E.courseSave(E.freshSave(), 'tl');
+    let day = 40000;
+    for (const { unit, n, key } of E.path(TLc)) {
+      for (const st of E.buildLesson(TLc, unit, n, cs, day)) { said(st).forEach(t => spoken.add(t)); E.remember(cs, st.id, right, day); }
+      E.finish(cs, key, 0, day);
+      day += 1;
+    }
+  }
+  // Every line recorded, so no two may share a recording's name.
+  const everything = new Set([...spoken, ...TLc.praise, ...TLc.units.flatMap(u => [u.done, ...u.phrases.map(p => p.t), ...u.words.map(x => x[0]), ...u.scenes.flatMap(x => [x.right, ...x.wrong])]),
+    ...TLc.baybayin.words.map(x => x[0])].map(t => t.normalize('NFC')));
+  const keyOf = new Map(), clashes = [];
+  for (const t of everything) { const k = E.audioKey(t); if (keyOf.has(k)) clashes.push(`“${t}” and “${keyOf.get(k)}” share ${k}`); else keyOf.set(k, t); }
+  ok(!clashes.length, `no two of the ${everything.size} lines share a recording`, clashes);
+  const strict = process.argv.includes('--require-recordings');
+  const unrecorded = [...spoken].filter(t => !listed.includes(E.audioKey(t)));
+  ok(!missing.length && (!strict || !unrecorded.length),
+    `every recording listed is there, and ${spoken.size - unrecorded.length} of the ${spoken.size} things the lessons can say in Tagalog have one` + (strict ? ' (the live app needs all)' : ''),
+    [...missing.map(k => 'no file for ' + k), ...(strict ? unrecorded.map(t => `no recording of “${t}”`) : [])]);
+  if (!strict && unrecorded.length) console.log(`    (not recorded yet, so the phone's voice says them: ${unrecorded.slice(0, 6).join(' · ')}${unrecorded.length > 6 ? ' …' : ''}. The test site's deploy records them.)`);
 }
 
 console.log(failed ? `\n${failed} failed` : '\nall passed');
