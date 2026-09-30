@@ -274,6 +274,9 @@ function checkBoards(boards, { verses }) {
     }
     if ((b.kingdoms || []).length < 2) failures.push(`${where}: needs at least 2 kingdoms`);
     if (b.walls && !ids.has(b.walls)) failures.push(`${where}: walls land ${b.walls} isn't on the map`);
+    // The wall stands on the prize's borders with wallSides, bricks thick.
+    for (const s of b.wallSides || []) if (!linked.has([s, b.walls].sort().join('|'))) failures.push(`${where}: wallSides ${s} isn't next to ${b.walls}`);
+    if ((b.wallSides || []).length && !(Number.isInteger(b.bricks) && b.bricks > 0)) failures.push(`${where}: a wall needs bricks, a whole number above 0`);
     for (const m of (b.intro || '').matchAll(/\(([^)]+ \d+:\d+(?:[–-]\d+)?)\)/g)) if (textOf(m[1]) == null) failures.push(`${where}: intro reference "${m[1]}" does not exist`);
     // The narrator's hook (the game's opening line), story, story moments
     // (lines for the battles at Babylon) and cheers (verses after a sweep or a
