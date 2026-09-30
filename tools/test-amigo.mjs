@@ -82,8 +82,12 @@ for (const [id, C] of Object.entries(COURSES)) {
         const bank = st.bank.slice();
         for (const w of st.answer) { const i = bank.indexOf(w); if (i < 0) problems.push(`${key}: “${st.id}” has no “${w}” tile`); else bank.splice(i, 1); }
         if (bank.length !== 2) problems.push(`${key}: “${st.id}” needs 2 spare tiles`);
+        const bare = w => w.toLowerCase().replace(/[¿¡?!.,]/g, '');
+        if (bank.some(w => st.answer.map(bare).includes(bare(w)))) problems.push(`${key}: “${st.id}” has a spare tile that is a right one in another form (${bank.join(', ')})`);
       } else if (st.type === 'pairs') {
         if (st.pairs.length < 3 || st.left.length !== st.pairs.length || st.rightSide.length !== st.pairs.length) problems.push(`${key}: pairs need 3 to 5, both sides`);
+        const base = m => m.replace(/\s*\(.*\)$/, '');
+        for (const [w, m] of st.pairs) for (const [w2, m2] of st.pairs) if (w !== w2 && (m === m2 || m === base(m2))) problems.push(`${key}: in Match the pairs, “${m}” (${w}) could also be ${w2} (“${m2}”)`);
       } else problems.push(`${key}: a step of type ${st.type}`);
       const right = st.type === 'build' ? st.answer : st.right;
       if (!E.check(st, right)) problems.push(`${key}: the right answer to “${st.id}” doesn't check`);

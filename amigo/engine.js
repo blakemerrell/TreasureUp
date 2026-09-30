@@ -60,9 +60,11 @@
     const wrong = p.wrong || shuffled(course.units.flatMap(u => u.phrases).filter(x => x.en !== p.en).map(x => x.en), seed).slice(0, 2);
     return { type: 'listen', id: p.t, phrase: p.t, right: p.en, choices: shuffled([p.en, ...wrong], seed + 'c'), note: p.note };
   }
+  // A word without its capitals and marks: a spare tile mustn't be one of the answer's in another form (jugar? for jugar!).
+  const bare = w => w.toLowerCase().replace(/[¿¡?!.,]/g, '');
   function buildStep(course, p, seed) {
-    const answer = tiles(p.t);
-    const spare = shuffled([...new Set(course.units.flatMap(u => u.phrases).flatMap(x => tiles(x.t)))].filter(w => !answer.includes(w)), seed).slice(0, 2);
+    const answer = tiles(p.t), taken = new Set(answer.map(bare));
+    const spare = shuffled([...new Set(course.units.flatMap(u => u.phrases).flatMap(x => tiles(x.t)))].filter(w => !taken.has(bare(w))), seed).slice(0, 2);
     return { type: 'build', id: p.t, prompt: p.en, answer, bank: shuffled([...answer, ...spare], seed + 'b'), note: p.note };
   }
   function sceneStep(s, seed) {
