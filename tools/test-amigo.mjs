@@ -152,9 +152,11 @@ console.log('Recordings (amigo/audio/, made by tools/amigo-voice.mjs)');
   const listed = Object.keys((w.AMIGO_AUDIO && w.AMIGO_AUDIO.tl) || {});
   const missing = listed.filter(k => !fs.existsSync(path.join(dir, 'tl', k + '.mp3')));
   const TLc = COURSES.tl, all = new Set([...TLc.praise, ...TLc.units.flatMap(u => [u.done, ...u.phrases.map(p => p.t), ...u.words.map(x => x[0]), ...u.scenes.flatMap(s => [s.right, ...s.wrong])]),
-    ...TLc.tatay.words.map(x => x[0]), ...TLc.baybayin.words.map(x => x[0])].map(t => t.normalize('NFC')));
-  const have = [...all].filter(t => listed.includes(E.audioKey(t))).length;
-  ok(!missing.length, `every recording listed is there (${have} of ${all.size} Tagalog lines recorded; the rest use the phone’s voice)`, missing.map(k => 'no file for ' + k));
+    ...TLc.tatay.words.map(x => x[0]), ...TLc.baybayin.words.map(x => x[0]),
+    ...TLc.units.flatMap(u => u.phrases).flatMap(p => E.tiles(p.t)).map(E.sayable)].map(t => t.normalize('NFC')));
+  const unrecorded = [...all].filter(t => !listed.includes(E.audioKey(t)));
+  ok(!missing.length, `every recording listed is there (${all.size - unrecorded.length} of ${all.size} Tagalog lines recorded, build-it tiles included)`, missing.map(k => 'no file for ' + k));
+  if (unrecorded.length) console.log(`    (not recorded yet, so the phone's voice says them: ${unrecorded.slice(0, 6).join(' · ')}${unrecorded.length > 6 ? ' …' : ''}. The test site's deploy records them.)`);
 }
 
 console.log(failed ? `\n${failed} failed` : '\nall passed');

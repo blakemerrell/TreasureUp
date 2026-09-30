@@ -548,7 +548,7 @@
       else { r.misses++; r.missAt = d.right; }
       r.sel = null;
     }
-    if (d.build != null && !r.built.includes(Number(d.build))) { r.built.push(Number(d.build)); speak(st.bank[Number(d.build)], runCourse(r)); }
+    if (d.build != null && !r.built.includes(Number(d.build))) { r.built.push(Number(d.build)); speak(E.sayable(st.bank[Number(d.build)]), runCourse(r)); }
     if (d.unbuild != null) r.built.splice(Number(d.unbuild), 1);
     render();
   });

@@ -2,7 +2,8 @@
 // Records Amigo · Kaibigan's Tagalog in a Filipino voice, once, so it plays
 // on every phone (no iPhone has a Tagalog voice of its own): each line of
 // amigo/course-tl.js (phrases, the answers in scenes, words, the praise, the
-// words from Tatay, the Baybayin reading words) becomes
+// words from Tatay, the Baybayin reading words, and each build-it tile's word,
+// said when he taps it) becomes
 // amigo/audio/tl/<key>.mp3, and amigo/audio/index.js lists them for the game.
 // Only lines without a recording are made; a changed line gets a new key.
 //
@@ -37,6 +38,7 @@ function lines() {
     for (const s of u.scenes) all.push(s.right, ...s.wrong);
   }
   all.push(...TL.tatay.words.map(w => w[0]), ...TL.baybayin.words.map(w => w[0]));
+  all.push(...TL.units.flatMap(u => u.phrases).flatMap(p => E.tiles(p.t)).map(E.sayable));   // a tapped tile says its word
   return [...new Set(all.map(t => t.normalize('NFC')))];
 }
 // Signing in: a service account's key trades a signed note (a JWT) for an
