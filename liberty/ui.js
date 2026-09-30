@@ -621,7 +621,6 @@
   }
 
   // Ancient American / Book of Mormon Character Sprites in 2:1 Isometric
-  
   function drawUnit(u, now) {
     const d = u.def;
     const { ix, iy } = toIso(u.x, u.y);
@@ -632,12 +631,10 @@
     const bob = moving ? Math.abs(walkCycle) * 2.2 : 0;
     const x = ix, y = iy - (kneel ? -2 : 1) - bob;
     
-    // Calculate direction (1 for right, -1 for left)
     let flip = 1;
     if (moving && u.path && u.path.length > 0) {
-      const tx = Math.floor(u.x / TILE), ty = Math.floor(u.y / TILE);
+      const tx = Math.floor(u.x / 32), ty = Math.floor(u.y / 32);
       const nx = u.path[0][0], ny = u.path[0][1];
-      // Isometric left vs right: if dx < dy it's mostly left, if dx > dy mostly right
       const dx = nx - tx, dy = ny - ty;
       if (dx - dy < 0) flip = -1;
     } else if (u.order.type === 'attack' && u.order.target) {
@@ -648,7 +645,6 @@
       }
     }
 
-    // Ground Drop Shadow
     ctx.fillStyle = 'rgba(0,0,0,.32)'; ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 0.95, r * 0.48, 0, 0, 7); ctx.fill();
 
     if (u.type === 'cart') {
@@ -663,8 +659,21 @@
         ctx.fillRect(-10, -4, 12, 8);
       }
       ctx.restore();
+      
+      if (u.hp < u.max && (sel.includes(u.id) || u.team === 'r')) {
+        const pct = Math.max(0, u.hp / u.max);
+        ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(ix - 8, iy - 22, 16, 3);
+        ctx.fillStyle = u.team === 'p' ? '#4ade80' : '#f87171';
+        ctx.fillRect(ix - 8, iy - 22, 16 * pct, 3);
+      }
+      if (sel.includes(u.id)) {
+        ctx.strokeStyle = '#fde047'; ctx.lineWidth = 1; ctx.setLineDash([2, 2]);
+        ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 1.2, r * 0.6, 0, 0, 7); ctx.stroke();
+        ctx.setLineDash([]);
+      }
       return;
     }
+    
     if (u.def.deploys) {
       ctx.strokeStyle = '#451a03'; ctx.lineWidth = 2.5;
       ctx.beginPath(); ctx.moveTo(x, y + 4); ctx.lineTo(x, y - 26); ctx.stroke();
@@ -678,6 +687,11 @@
       ctx.strokeStyle = 'rgba(120,80,30,.7)'; ctx.lineWidth = 1;
       for (let k = 0; k < 2; k++) {
         ctx.beginPath(); ctx.moveTo(x + 3, y - 23 + k * 4); ctx.lineTo(x + 13, y - 22 + k * 4); ctx.stroke();
+      }
+      if (sel.includes(u.id)) {
+        ctx.strokeStyle = '#fde047'; ctx.lineWidth = 1; ctx.setLineDash([2, 2]);
+        ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 1.2, r * 0.6, 0, 0, 7); ctx.stroke();
+        ctx.setLineDash([]);
       }
       return;
     }
@@ -695,14 +709,12 @@
     ctx.translate(x, y);
     ctx.scale(flip, 1);
 
-    // Marching Legs
     ctx.fillStyle = '#451a03';
     ctx.fillRect(-3 + walkCycle * 3, 2, 2.5, 6);
     ctx.fillRect(1 - walkCycle * 3, 2, 2.5, 6);
 
-    // Torso & Quilted Cotton Armor
     let skinColor = d.foe ? '#b45309' : '#d8bd8e';
-    let tunicColor = TEAM.p;
+    let tunicColor = '#4ade80';
     if (d.foe) tunicColor = '#7f1d1d';
     else if (u.type === 'worker') tunicColor = '#a8814f';
     else if (d.hero) tunicColor = '#b45309';
@@ -710,7 +722,6 @@
     ctx.fillStyle = tunicColor;
     ctx.fillRect(-4, -6, 8, 8);
 
-    // Armor & Pectoral Plates
     if (u.team === 'p' && d.soldier) {
       ctx.fillStyle = d.hero || u.type === 'stripling' ? '#f59e0b' : '#c7ae86';
       ctx.fillRect(-3, -5, 6, 5);
@@ -719,49 +730,47 @@
       ctx.fillStyle = '#991b1b'; ctx.fillRect(-4, -1, 8, 4);
     }
 
-    // Head, Helmet & Headband
     ctx.fillStyle = skinColor;
     ctx.beginPath(); ctx.arc(0, -10, 4, 0, 7); ctx.fill();
 
     if (d.hero) {
-      ctx.fillStyle = '#16a34a'; ctx.fillRect(-4, -15, 8, 3);
-      ctx.fillStyle = '#dc2626'; ctx.beginPath(); ctx.moveTo(-2, -15); ctx.lineTo(2, -15); ctx.lineTo(0, -22); ctx.fill();
-    } else if (d.foe) {
-      ctx.fillStyle = '#ef4444'; ctx.fillRect(-4, -13, 8, 2);
+      ctx.fillStyle = '#10b981'; ctx.fillRect(-2, -15, 2, 4);
+      ctx.fillStyle = '#ef4444'; ctx.fillRect(0, -16, 2, 5);
+      const capeWave = Math.sin(now * 0.01) * 3;
+      ctx.fillStyle = '#dc2626';
+      ctx.beginPath(); ctx.moveTo(-3, -5); ctx.quadraticCurveTo(-8, capeWave, -11, 6 + capeWave); ctx.lineTo(-3, 3); ctx.fill();
     } else if (u.type === 'stripling') {
-      ctx.fillStyle = '#ea580c'; ctx.fillRect(-4, -13, 8, 2);
+      ctx.fillStyle = '#fef08a'; ctx.fillRect(-4, -12, 8, 2);
+    } else if (d.foe && d.leader) {
+      ctx.fillStyle = '#e2e8f0'; ctx.fillRect(-5, -13, 10, 3);
     }
 
-    // Attack Swing
     const attacking = u.order.type === 'attack' && W.t - (u.hitAt || -99) < 0.3;
     const swing = attacking ? Math.PI / 2 : 0;
 
-    // Weapon & Shield
     if (d.soldier) {
       ctx.save();
-      // Back Arm / Shield
-      if (u.team === 'p') {
-        ctx.fillStyle = '#b45309';
-        ctx.beginPath(); ctx.arc(-2, -2, 3.5, 0, 7); ctx.fill();
-        ctx.fillStyle = '#38bdf8';
-        ctx.beginPath(); ctx.arc(-2, -2, 1.5, 0, 7); ctx.fill();
+      if (u.team === 'p' && !d.ranged) {
+        ctx.fillStyle = '#ca8a04';
+        ctx.beginPath(); ctx.arc(-2, -2, 4.5, 0, 7); ctx.fill();
+        ctx.strokeStyle = '#1d4ed8'; ctx.lineWidth = 1; ctx.stroke();
       }
       
-      // Front Arm / Weapon
       ctx.translate(3, -4);
       if (attacking) ctx.rotate(swing);
-      ctx.strokeStyle = '#451a03'; ctx.lineWidth = 1.5;
+      ctx.strokeStyle = d.foe ? '#18181b' : '#e2e8f0'; ctx.lineWidth = 1.8;
       
       if (u.type === 'archer' || u.type === 'slinger') {
         ctx.beginPath(); ctx.moveTo(0, -5); ctx.lineTo(0, 5); ctx.stroke();
+      } else if (u.type === 'javelin') {
+        ctx.beginPath(); ctx.moveTo(-2, -2); ctx.lineTo(12, -6); ctx.stroke();
       } else {
         ctx.beginPath(); ctx.moveTo(-2, 4); ctx.lineTo(4, -8); ctx.stroke();
-        ctx.fillStyle = '#94a3b8';
-        ctx.beginPath(); ctx.arc(4, -8, 2, 0, 7); ctx.fill(); // sword tip/mace
+        ctx.fillStyle = '#fff';
+        ctx.beginPath(); ctx.arc(4, -8, 1.5, 0, 7); ctx.fill(); 
       }
       ctx.restore();
     } else if (u.type === 'worker') {
-      // Pickaxe / Axe for workers
       ctx.save();
       ctx.translate(3, -4);
       if (moving && u.order.type === 'gather' && W.t - (u.hitAt||-99) < 0.3) ctx.rotate(Math.PI/2);
@@ -772,791 +781,32 @@
       ctx.restore();
     }
 
+    if (u.carry && u.carry.amt) {
+      ctx.fillStyle = u.carry.type === 'timber' ? '#8b5a2b' : '#ca8a04';
+      ctx.fillRect(-3, -14, 6, 6);
+    }
     ctx.restore();
+    
+    if (d.leader || d.hero || d.prophet) {
+      ctx.font = '700 10px Outfit, system-ui, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(0,0,0,.65)'; const tw = ctx.measureText(d.name).width + 8; ctx.fillRect(ix - tw / 2, iy + 9, tw, 13);
+      ctx.fillStyle = d.foe ? '#fecaca' : '#fde68a'; ctx.fillText(d.name, ix, iy + 19);
+    }
+    
     if (hid) ctx.globalAlpha = 1;
     
-    // Health bar
     if (u.hp < u.max && (sel.includes(u.id) || u.team === 'r')) {
       const pct = Math.max(0, u.hp / u.max);
       ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(ix - 8, iy - 22, 16, 3);
       ctx.fillStyle = u.team === 'p' ? '#4ade80' : '#f87171';
       ctx.fillRect(ix - 8, iy - 22, 16 * pct, 3);
     }
-    
-    // Selection Ring
     if (sel.includes(u.id)) {
       ctx.strokeStyle = '#fde047'; ctx.lineWidth = 1; ctx.setLineDash([2, 2]);
       ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 1.2, r * 0.6, 0, 0, 7); ctx.stroke();
       ctx.setLineDash([]);
     }
   }
-
-  // Title of Liberty: the screen. Draws the world that liberty/sim.js runs,
-// turns clicks and taps into orders, and runs the menus: read the chapter,
-// then play its mission. Nothing here decides who wins a fight.
-(function () {
-  'use strict';
-  const D = window.LIB_DATA, S = window.LIB_SIM, MISSIONS = window.LIB_MISSIONS.MISSIONS, CAMPAIGNS = window.LIB_MISSIONS.CAMPAIGNS, FREE = window.LIB_MISSIONS.FREE_BATTLE;
-  const TEXT = window.LIBERTY_SCRIPTURE || {};
-  const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, QUESTIONS } = D;
-  const { tileOf, dist } = S;
-  const WORLD_W = MAP_W * TILE, WORLD_H = MAP_H * TILE;
-  const STEP = 1 / 20;                                // the simulation's tick, as in the tests
-  const $ = id => document.getElementById(id);
-  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-
-  // ------------------------------------------------------------ icons
-
-  const ICON = {
-    grain: '<svg class="i" viewBox="0 0 16 16"><path d="M8 15V5" stroke="#e8c15a" stroke-width="1.6" fill="none"/><g fill="#f5d06b"><ellipse cx="8" cy="3" rx="1.6" ry="2.4"/><ellipse cx="5.6" cy="6" rx="1.4" ry="2.2" transform="rotate(-30 5.6 6)"/><ellipse cx="10.4" cy="6" rx="1.4" ry="2.2" transform="rotate(30 10.4 6)"/><ellipse cx="5.6" cy="9.5" rx="1.4" ry="2.2" transform="rotate(-30 5.6 9.5)"/><ellipse cx="10.4" cy="9.5" rx="1.4" ry="2.2" transform="rotate(30 10.4 9.5)"/></g></svg>',
-    timber: '<svg class="i" viewBox="0 0 16 16"><rect x="1" y="5" width="12" height="6" rx="3" fill="#a0673a"/><ellipse cx="13" cy="8" rx="2.4" ry="3" fill="#e0b27e"/><ellipse cx="13" cy="8" rx="1.1" ry="1.4" fill="#a0673a"/></svg>',
-    people: '<svg class="i" viewBox="0 0 16 16" fill="#bfdbfe"><circle cx="5" cy="4.5" r="2.3"/><circle cx="11" cy="4.5" r="2.3"/><path d="M1 14c0-3.3 1.8-5 4-5s4 1.7 4 5zM7 14c0-3.3 1.8-5 4-5s4 1.7 4 5z"/></svg>'
-  };
-  const costHtml = c => !c ? '' : [c.grain ? ICON.grain + c.grain : '', c.timber ? ICON.timber + c.timber : ''].filter(Boolean).join(' ');
-
-  // ------------------------------------------------------------ saves
-
-  const KEY = 'liberty.v1';
-  const save = (() => {
-    try { return Object.assign({ read: {}, won: {} }, JSON.parse(localStorage.getItem(KEY)) || {}); }
-    catch (e) { return { read: {}, won: {} }; }
-  })();
-  const store = () => { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) { /* private mode: progress lasts this visit */ } };
-  // A mission opens once every chapter it's from has been read (and the one before it won).
-  const chaptersOf = m => m.chapters || [m.chapter];
-  const allRead = m => chaptersOf(m).every(c => save.read[c]);
-  const unlocked = m => allRead(m) && (!m.needs || !!save.won[m.needs]);
-  const inCampaign = m => MISSIONS.filter(x => x.campaign === m.campaign);
-
-  // ------------------------------------------------------------ scripture
-
-  const BOOKS = { '3 Nephi': 'bofm/3-ne', 'Alma': 'bofm/alma', 'Helaman': 'bofm/hel' };
-  function glUrl(ref) {
-    const m = /^(.+?) (\d+)(?::(\d+))?/.exec(ref || '');
-    if (!m || !BOOKS[m[1]]) return null;
-    return 'https://www.churchofjesuschrist.org/study/scriptures/' + BOOKS[m[1]] + '/' + m[2] + '?lang=eng' + (m[3] ? '&id=p' + m[3] + '#p' + m[3] : '');
-  }
-  // The verses a reference like "3 Nephi 4:8–10" or "3 Nephi 3:14, 21" points at.
-  function versesOf(ref) {
-    const m = /^(.+? \d+):(.+)$/.exec(ref || '');
-    if (!m || !TEXT[m[1]]) return [];
-    const out = [];
-    for (const part of m[2].split(',')) {
-      const r = part.trim().split(/[–-]/).map(Number);
-      for (let v = r[0]; v <= (r[1] || r[0]); v++) if (TEXT[m[1]][v - 1]) out.push([v, TEXT[m[1]][v - 1]]);
-    }
-    return out;
-  }
-  const refBtn = ref => ref ? `<button class="ref" data-ref="${esc(ref)}">${esc(ref)}</button>` : '';
-
-  // ------------------------------------------------------------ state
-
-  let W = null, mission = null;
-  let sel = [];                                      // selected entity ids
-  let placing = null;                                // a building type waiting for a spot
-  let wallLine = null;                               // [[x, y], ...] while dragging a wall
-  let hover = null;                                  // the mouse's world position
-  let infoEnt = null;                                // a robber or village being looked at
-  let boxMode = false, box = null;
-  let paused = false, speed = 1, modal = false;
-  let council = null;                                // { nextAt, queue, right }
-  let shownMsgs = 0, endShown = false;
-  const cam = { x: 0, y: 0, z: 1 };
-  const keys = new Set();
-  const pings = [];                                  // where an order was given, for a moment
-
-  // ------------------------------------------------------------ 2:1 Isometric Projection
-  // Standard Westwood Red Alert 2 dimetric ratio (tile width : height = 2 : 1)
-  const toIso = (wx, wy) => ({ ix: (wx - wy), iy: (wx + wy) * 0.5 });
-  const fromIso = (ix, iy) => ({ x: (ix + 2 * iy) * 0.5, y: (2 * iy - ix) * 0.5 });
-  const WORLD_ISO_MIN_X = -MAP_H * TILE; // -1536
-  const WORLD_ISO_MAX_X = MAP_W * TILE;  // 2048
-  const WORLD_ISO_MIN_Y = 0;
-  const WORLD_ISO_MAX_Y = (MAP_W + MAP_H) * TILE * 0.5; // 1792
-  const WORLD_ISO_W = WORLD_ISO_MAX_X - WORLD_ISO_MIN_X; // 3584
-  const WORLD_ISO_H = WORLD_ISO_MAX_Y - WORLD_ISO_MIN_Y; // 1792
-  const ISO_OFFSET_X = -WORLD_ISO_MIN_X; // 1536
-
-  // ------------------------------------------------------------ canvas & camera
-
-  const cv = $('view'), ctx = cv.getContext('2d');
-  const mini = $('mini'), mctx = mini.getContext('2d');
-  let dpr = 1, vw = 0, vh = 0;
-  const topH = () => $('hud').offsetHeight || 0;
-  const bottomH = () => (window.innerWidth >= 860 || $('panel').hidden) ? 0 : ($('panel').offsetHeight || 0);
-  const rightW = () => (window.innerWidth >= 860 && !$('panel').hidden) ? ($('panel').offsetWidth || 236) : 0;
-
-  function resize() {
-    dpr = Math.min(2, window.devicePixelRatio || 1);
-    vw = window.innerWidth; vh = window.innerHeight;
-    cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr);
-    cv.style.width = vw + 'px'; cv.style.height = vh + 'px';
-    const mw = mini.clientWidth || 144;
-    mini.width = Math.round(mw * dpr); mini.height = Math.round(mw * WORLD_ISO_H / WORLD_ISO_W * dpr);
-    mini.style.height = Math.round(mw * WORLD_ISO_H / WORLD_ISO_W) + 'px';
-    miniDirty = true;
-    $('rotate').hidden = !(W && vw < 560 && vh > vw);
-    clampCam();
-  }
-  function clampCam() {
-    const w = (vw - rightW()) / cam.z, h = (vh - topH() - bottomH()) / cam.z;
-    cam.x = clamp(cam.x, WORLD_ISO_MIN_X - 160, WORLD_ISO_MAX_X - w + 160);
-    cam.y = clamp(cam.y, WORLD_ISO_MIN_Y - 80, WORLD_ISO_MAX_Y - h + 80);
-  }
-  const toWorld = (sx, sy) => fromIso(cam.x + sx / cam.z, cam.y + sy / cam.z);
-  const toScreen = (wx, wy) => {
-    const { ix, iy } = toIso(wx, wy);
-    return { x: (ix - cam.x) * cam.z, y: (iy - cam.y) * cam.z };
-  };
-  function lookAt(wx, wy) {
-    const { ix, iy } = toIso(wx, wy);
-    const usableW = vw - rightW();
-    const usableH = vh - topH() - bottomH();
-    cam.x = ix - usableW / cam.z / 2;
-    cam.y = iy - (topH() + usableH / 2) / cam.z;
-    clampCam();
-  }
-  function zoomAt(sx, sy, z) {
-    const p = toWorld(sx, sy);
-    cam.z = clamp(z, 0.45, 2.2);
-    const { ix, iy } = toIso(p.x, p.y);
-    cam.x = ix - sx / cam.z; cam.y = iy - sy / cam.z;
-    clampCam();
-  }
-
-  // ------------------------------------------------------------ Shroud of War (Westwood Fog of War)
-  const shroudCv = document.createElement('canvas');
-  shroudCv.width = WORLD_ISO_W; shroudCv.height = WORLD_ISO_H;
-  const sctx = shroudCv.getContext('2d');
-  const explored = new Uint8Array(MAP_W * MAP_H);
-
-  function initShroud() {
-    explored.fill(0);
-    sctx.globalCompositeOperation = 'source-over';
-    sctx.fillStyle = '#06070c'; // Westwood Pitch Black Shroud
-    sctx.fillRect(0, 0, WORLD_ISO_W, WORLD_ISO_H);
-    miniDirty = true;
-    revealShroud();
-  }
-
-  function revealShroud() {
-    if (!W) return;
-    sctx.globalCompositeOperation = 'destination-out';
-    const punch = (wx, wy, rad) => {
-      const { ix, iy } = toIso(wx, wy);
-      const cx = ix + ISO_OFFSET_X, cy = iy;
-      const r = Math.max(54, rad * 1.15);
-      const grad = sctx.createRadialGradient(cx, cy, r * 0.65, cx, cy, r);
-      grad.addColorStop(0, 'rgba(0, 0, 0, 1)');
-      grad.addColorStop(0.8, 'rgba(0, 0, 0, 0.95)');
-      grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      sctx.fillStyle = grad;
-      sctx.beginPath();
-      sctx.arc(cx, cy, r, 0, Math.PI * 2);
-      sctx.fill();
-
-      // Mark explored tiles in map grid
-      const tr = Math.ceil(rad / TILE) + 1;
-      const x0 = Math.max(0, Math.floor(wx / TILE - tr));
-      const x1 = Math.min(MAP_W - 1, Math.ceil(wx / TILE + tr));
-      const y0 = Math.max(0, Math.floor(wy / TILE - tr));
-      const y1 = Math.min(MAP_H - 1, Math.ceil(wy / TILE + tr));
-      const r2 = rad * rad;
-      for (let ty = y0; ty <= y1; ty++) {
-        for (let tx = x0; tx <= x1; tx++) {
-          const dx = (tx + 0.5) * TILE - wx, dy = (ty + 0.5) * TILE - wy;
-          if (dx * dx + dy * dy <= r2) explored[ty * MAP_W + tx] = 1;
-        }
-      }
-    };
-
-    for (const u of W.units('p')) punch(u.x, u.y, u.def.sight || 170);
-    for (const b of W.buildings('p')) {
-      const bx = (b.tx + b.w * 0.5) * TILE, by = (b.ty + b.h * 0.5) * TILE;
-      punch(bx, by, b.def.range ? b.def.range + 60 : 210);
-    }
-    miniDirty = true;
-  }
-
-  const inVision = (wx, wy) => {
-    for (const u of W.units('p')) {
-      if (Math.hypot(u.x - wx, u.y - wy) <= (u.def.sight || 170)) return true;
-    }
-    for (const b of W.buildings('p')) {
-      const bx = (b.tx + b.w * 0.5) * TILE, by = (b.ty + b.h * 0.5) * TILE;
-      if (Math.hypot(bx - wx, by - wy) <= (b.def.range ? b.def.range + 50 : 200)) return true;
-    }
-    return false;
-  };
-
-  const isVisible = e => {
-    if (e.team === 'p' || e.team === 'x') return true;
-    if (e.kind === 'unit') return inVision(e.x, e.y);
-    const tx = Math.min(MAP_W - 1, Math.max(0, Math.floor(e.tx + e.w * 0.5)));
-    const ty = Math.min(MAP_H - 1, Math.max(0, Math.floor(e.ty + e.h * 0.5)));
-    return explored[ty * MAP_W + tx] === 1;
-  };
-
-  // ------------------------------------------------------------ isometric terrain
-
-  const terrain = document.createElement('canvas');
-  terrain.width = WORLD_ISO_W; terrain.height = WORLD_ISO_H;
-  const tctx = terrain.getContext('2d');
-  let painted = null, miniDirty = true;
-  function hash(x, y, k) {
-    let h = Math.imul(x, 374761393) ^ Math.imul(y, 668265263) ^ Math.imul(k | 0, 1442695041);
-    h = Math.imul(h ^ (h >>> 13), 1274126177);
-    return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
-  }
-  function look(i) {
-    const t = W.tiles[i], a = W.amt[i];
-    if (t === T.FOREST) return t * 4 + (a > 80 ? 2 : a > 35 ? 1 : 0);
-    if (t === T.FIELD) return t * 4 + (a > 150 ? 1 : 0);
-    return t * 4;
-  }
-  function paintTerrain() {
-    if (!painted) { painted = new Int16Array(MAP_W * MAP_H).fill(-1); }
-    for (let y = 0; y < MAP_H; y++) for (let x = 0; x < MAP_W; x++) {
-      const i = y * MAP_W + x, l = look(i);
-      if (painted[i] !== l) { painted[i] = l; paintTile(x, y); miniDirty = true; }
-    }
-    W.terrainDirty = false;
-  }
-  function tileDiamond(c, x, y) {
-    const top = { x: (x - y) * TILE + ISO_OFFSET_X, y: (x + y) * TILE * 0.5 };
-    const right = { x: (x + 1 - y) * TILE + ISO_OFFSET_X, y: (x + 1 + y) * TILE * 0.5 };
-    const bottom = { x: (x - y) * TILE + ISO_OFFSET_X, y: (x + y + 2) * TILE * 0.5 };
-    const left = { x: (x - (y + 1)) * TILE + ISO_OFFSET_X, y: (x + y + 1) * TILE * 0.5 };
-    c.beginPath();
-    c.moveTo(top.x, top.y);
-    c.lineTo(right.x, right.y);
-    c.lineTo(bottom.x, bottom.y);
-    c.lineTo(left.x, left.y);
-    c.closePath();
-    return { top, right, bottom, left, cx: top.x, cy: (top.y + bottom.y) * 0.5 };
-  }
-  function paintTile(x, y) {
-    const c = tctx, i = y * MAP_W + x, t = W.tiles[i], a = W.amt[i], h = k => hash(x, y, k);
-    const d = tileDiamond(c, x, y);
-
-    const isLand = (tx, ty) => {
-      if (tx < 0 || ty < 0 || tx >= MAP_W || ty >= MAP_H) return false;
-      const nt = W.tiles[ty * MAP_W + tx];
-      return nt !== T.WATER && nt !== T.FORD;
-    };
-    const nearLand = isLand(x, y - 1) || isLand(x + 1, y) || isLand(x, y + 1) || isLand(x - 1, y);
-
-    if (t === T.GRASS) {
-      // Lush tropical green grass
-      c.fillStyle = '#3b7a24'; c.fill();
-      // Add some subtle texture details
-      for (let k = 0; k < 4; k++) {
-        c.fillStyle = h(k+10) < 0.5 ? '#2d6318' : '#65a148';
-        c.fillRect(d.cx - 6 + h(k+20)*12, d.cy - 3 + h(k+30)*6, 2, 2);
-      }
-    } else if (t === T.WATER || t === T.FORD) {
-      // River Sidon: Rich deep azure/cyan gradient
-      const wGrad = c.createLinearGradient(d.left.x, d.top.y, d.right.x, d.bottom.y);
-      if (t === T.WATER) {
-        wGrad.addColorStop(0, '#0284c7');
-        wGrad.addColorStop(0.5, '#0369a1');
-        wGrad.addColorStop(1, '#075985');
-      } else {
-        wGrad.addColorStop(0, '#38bdf8');
-        wGrad.addColorStop(0.5, '#0284c7');
-        wGrad.addColorStop(1, '#0ea5e9');
-      }
-      c.fillStyle = wGrad; c.fill();
-
-      // Shoreline sandy beach transition if bordering land
-      if (nearLand) {
-        c.strokeStyle = '#c5a86d'; c.lineWidth = 3.5;
-        if (isLand(x, y - 1)) { c.beginPath(); c.moveTo(d.top.x, d.top.y); c.lineTo(d.right.x, d.right.y); c.stroke(); }
-        if (isLand(x - 1, y)) { c.beginPath(); c.moveTo(d.left.x, d.left.y); c.lineTo(d.top.x, d.top.y); c.stroke(); }
-        if (isLand(x, y + 1)) { c.beginPath(); c.moveTo(d.left.x, d.left.y); c.lineTo(d.bottom.x, d.bottom.y); c.stroke(); }
-        if (isLand(x + 1, y)) { c.beginPath(); c.moveTo(d.bottom.x, d.bottom.y); c.lineTo(d.right.x, d.right.y); c.stroke(); }
-        // Water edge foam
-        c.strokeStyle = 'rgba(255,255,255,.45)'; c.lineWidth = 1.2;
-        if (isLand(x, y - 1)) { c.beginPath(); c.moveTo(d.top.x, d.top.y + 1); c.lineTo(d.right.x - 1, d.right.y); c.stroke(); }
-        if (isLand(x - 1, y)) { c.beginPath(); c.moveTo(d.left.x + 1, d.left.y); c.lineTo(d.top.x, d.top.y + 1); c.stroke(); }
-      }
-
-      // Translucent glistening water currents
-      c.strokeStyle = 'rgba(224,242,254,.38)'; c.lineWidth = 1.2;
-      for (let k = 0; k < 3; k++) {
-        const fx = d.cx - 10 + h(k + 30) * 20, fy = d.cy - 4 + h(k + 35) * 8;
-        c.beginPath(); c.moveTo(fx - 6, fy); c.lineTo(fx + 6, fy); c.stroke();
-      }
-
-      if (t === T.FORD) {
-        // Natural river stepping boulders with foaming rapids
-        c.fillStyle = '#78716c';
-        for (let k = 0; k < 4; k++) {
-          const bx = d.cx - 10 + h(k) * 20, by = d.cy - 4 + h(k + 10) * 8;
-          c.beginPath(); c.ellipse(bx, by, 3.5, 2.2, 0.2, 0, 7); c.fill();
-        }
-        c.fillStyle = '#a8a29e';
-        for (let k = 0; k < 4; k++) {
-          const bx = d.cx - 10 + h(k) * 20, by = d.cy - 5 + h(k + 10) * 8;
-          c.beginPath(); c.ellipse(bx - 0.5, by - 0.5, 2, 1.2, 0.2, 0, 7); c.fill();
-        }
-        // White foam rapids around rocks
-        c.fillStyle = 'rgba(255,255,255,.7)';
-        c.fillRect(d.cx - 8, d.cy - 1, 16, 2);
-        c.fillRect(d.cx - 4, d.cy + 3, 10, 1.5);
-      }
-    } else if (t === T.ROCK) {
-      // Stratified Mountain Cliffs with rich horizontal strata
-      c.fillStyle = '#292524'; c.fill();
-      c.fillStyle = '#44403c'; c.fillRect(d.left.x + 4, d.cy - 7, (d.right.x - d.left.x) - 8, 5);
-      c.fillStyle = '#57534e'; c.fillRect(d.left.x + 6, d.cy, (d.right.x - d.left.x) - 12, 4);
-      c.fillStyle = '#78716c'; c.fillRect(d.left.x + 8, d.cy + 4, (d.right.x - d.left.x) - 16, 3);
-      // Sunlit upper ridge
-      c.strokeStyle = '#d6d3d1'; c.lineWidth = 1.8;
-      c.beginPath(); c.moveTo(d.left.x, d.left.y); c.lineTo(d.top.x, d.top.y); c.lineTo(d.right.x, d.right.y); c.stroke();
-    } else if (t === T.FOREST) {
-      // Lush tropical jungle forest with rich soil and dense canopy
-      c.fillStyle = '#1c3814'; c.fill();
-      const n = a > 80 ? 3 : a > 35 ? 2 : 1;
-      for (let k = 0; k < n; k++) {
-        const tx = d.cx - 10 + h(k + 50) * 20, ty = d.cy - 6 + h(k + 60) * 12, r = 8 + h(k + 70) * 4;
-        // Ground shadow
-        c.fillStyle = 'rgba(0,0,0,.42)'; c.beginPath(); c.ellipse(tx + 5, ty + 7, r * 1.3, r * 0.65, 0.2, 0, 7); c.fill();
-        // Buttress trunk
-        c.fillStyle = '#3f1f08'; c.fillRect(tx - 2, ty - 2, 4, 8);
-        // Volumetric 4-tier tropical canopy
-        c.fillStyle = '#0f290d'; c.beginPath(); c.arc(tx + 1, ty - 4, r, 0, 7); c.fill();
-        c.fillStyle = '#1b4a16'; c.beginPath(); c.arc(tx, ty - 5, r * 0.9, 0, 7); c.fill();
-        c.fillStyle = '#2f7524'; c.beginPath(); c.arc(tx - r * 0.25, ty - 6 - r * 0.2, r * 0.65, 0, 7); c.fill();
-        c.fillStyle = '#4ade80'; c.beginPath(); c.arc(tx - r * 0.4, ty - 7 - r * 0.35, r * 0.35, 0, 7); c.fill();
-      }
-    } else if (t === T.FIELD) {
-      // Golden Tilled Grain & Corn Terrace
-      c.fillStyle = '#38230e'; c.fill();
-      c.fillStyle = a > 150 ? '#ca8a04' : '#92400e';
-      c.beginPath();
-      c.moveTo(d.top.x, d.top.y + 2); c.lineTo(d.right.x - 3, d.right.y); c.lineTo(d.bottom.x, d.bottom.y - 2); c.lineTo(d.left.x + 3, d.left.y);
-      c.fill();
-      // Furrow rows & Golden Stalks
-      c.strokeStyle = '#facc15'; c.lineWidth = 1.4;
-      for (let f = -10; f <= 10; f += 4) {
-        c.beginPath();
-        c.moveTo(d.cx - 12 + f, d.cy - 6 + f * 0.5);
-        c.lineTo(d.cx + 12 + f, d.cy + 6 + f * 0.5);
-        c.stroke();
-      }
-      if (a > 150) {
-        c.fillStyle = '#78350f'; c.fillRect(d.left.x + 2, d.left.y - 4, 3, 7);
-      }
-    } else if (t === T.RUIN) {
-      // Ancient carved stone foundations
-      c.fillStyle = '#292524'; c.fill();
-      c.fillStyle = '#57534e'; c.fillRect(d.cx - 12, d.cy - 6, 24, 12);
-      c.fillStyle = '#78716c'; c.fillRect(d.cx - 12, d.cy - 6, 24, 2);
-      c.fillStyle = '#15803d'; c.fillRect(d.cx - 8, d.cy, 8, 3);
-    } else {
-      // Lush Mesoamerican Prairie Grass: multi-hued natural soil
-      const gHues = ['#2e581c', '#356321', '#3b6e26', '#447d2c', '#315c1e', '#3e7328'];
-      c.fillStyle = gHues[Math.floor(h(1) * gHues.length)];
-      c.fill();
-
-      // Sunlit top edge highlight
-      c.strokeStyle = 'rgba(134, 239, 172, .18)'; c.lineWidth = 1;
-      c.beginPath(); c.moveTo(d.left.x, d.left.y); c.lineTo(d.top.x, d.top.y); c.lineTo(d.right.x, d.right.y); c.stroke();
-
-      // Organic soil clods or wildflowers
-      if (h(2) < 0.18) {
-        // Rich earthen loam patch
-        c.fillStyle = 'rgba(78, 56, 32, .35)';
-        c.beginPath(); c.ellipse(d.cx - 4 + h(3) * 8, d.cy - 2 + h(4) * 4, 5, 2.5, 0.2, 0, 7); c.fill();
-      }
-      if (h(5) < 0.09) {
-        // Wildflower dot (marigold or tropical amaranth)
-        c.fillStyle = h(6) < 0.5 ? '#facc15' : '#ef4444';
-        c.fillRect(d.cx - 6 + h(7) * 12, d.cy - 3 + h(8) * 6, 2, 2);
-      }
-    }
-  }
-
-  // ------------------------------------------------------------ particle engine
-
-  const particles = [];
-  function addSmoke(ix, iy, dark = true) {
-    if (particles.length > 80) return;
-    particles.push({ ix, iy, vx: (Math.random() - 0.5) * 0.4, vy: -0.7 - Math.random() * 0.6, size: 3 + Math.random() * 3, life: 0, maxLife: 40 + Math.random() * 20, dark });
-  }
-  function addFire(ix, iy) {
-    if (particles.length > 80) return;
-    particles.push({ ix: ix + (Math.random() - 0.5) * 6, iy, vx: (Math.random() - 0.5) * 0.5, vy: -1.0 - Math.random() * 0.8, size: 3 + Math.random() * 2, life: 0, maxLife: 20 });
-  }
-  function addSpark(ix, iy) {
-    if (particles.length > 80) return;
-    particles.push({ ix, iy, vx: (Math.random() - 0.5) * 2.5, vy: (Math.random() - 0.5) * 2.5 - 1, size: 1.5, life: 0, maxLife: 15, spark: true });
-  }
-
-  // ------------------------------------------------------------ drawing
-
-  const TEAM = { p: '#1d4ed8', r: '#b91c1c' };
-  function draw(now) {
-    if (W.terrainDirty || !painted) paintTerrain();
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillStyle = '#080911'; ctx.fillRect(0, 0, cv.width, cv.height);
-    const z = cam.z * dpr;
-    ctx.setTransform(z, 0, 0, z, -cam.x * z, -cam.y * z);
-    ctx.drawImage(terrain, -ISO_OFFSET_X, 0);
-
-    const inView = e => {
-      const { ix, iy } = toIso(e.x, e.y);
-      return ix > cam.x - 160 && ix < cam.x + vw / cam.z + 160 && iy > cam.y - 160 && iy < cam.y + vh / cam.z + 160;
-    };
-    const selSet = new Set(sel);
-
-    drawZones();
-    if (W.border != null && !W.borderOpen) drawBorder();
-
-    // Isometric depth sorting: entities with larger (x + y) are closer to camera and drawn on top
-    const isoDepth = e => e.kind === 'building' ? (e.tx + e.w * 0.5 + e.ty + e.h * 0.5) * TILE : (e.x + e.y);
-    const ents = [];
-    for (const e of W.ents.values()) if (inView(e) && isVisible(e)) ents.push(e);
-    ents.sort((a, b) => isoDepth(a) - isoDepth(b));
-
-    // Draw entities in depth order
-    for (const e of ents) {
-      if (e.kind === 'building') {
-        drawBuilding(e, selSet.has(e.id), now);
-      } else {
-        if (selSet.has(e.id)) drawRing(e);
-        drawUnit(e, now);
-        if (selSet.has(e.id) || (e.hitAt && W.t - e.hitAt < 3)) {
-          const { ix, iy } = toIso(e.x, e.y);
-          hpBar(ix, iy - radius(e) - 18, 22, e.hp / e.def.hp);
-        }
-      }
-    }
-
-    // Dynamic environmental smoke & fire particles
-    for (const e of ents) {
-      if (e.kind === 'building') {
-        const { ix, iy } = toIso(e.x, e.y);
-        if (e.type === 'armory' && Math.random() < 0.25) addSmoke(ix + 6, iy - 32, false);
-        if (e.type === 'warcamp' && Math.random() < 0.3) { addSmoke(ix, iy - 20, false); addFire(ix, iy - 8); }
-        if (e.hp < S.maxHp(e) * 0.6 && Math.random() < 0.3) addSmoke(ix, iy - 24, true);
-        if (e.hp < S.maxHp(e) * 0.3 && Math.random() < 0.4) { addSmoke(ix, iy - 28, true); addFire(ix, iy - 16); }
-      }
-    }
-
-    // Render active particles
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.life++;
-      p.ix += p.vx; p.iy += p.vy;
-      const alpha = 1 - p.life / p.maxLife;
-      if (alpha <= 0) { particles.splice(i, 1); continue; }
-      if (p.spark) {
-        ctx.fillStyle = `rgba(254,240,138,${alpha})`;
-        ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size, 0, 7); ctx.fill();
-      } else if (p.dark) {
-        ctx.fillStyle = `rgba(28,25,23,${alpha * 0.65})`;
-        ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size, 0, 7); ctx.fill();
-      } else {
-        ctx.fillStyle = `rgba(249,115,22,${alpha * 0.8})`;
-        ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size, 0, 7); ctx.fill();
-      }
-    }
-
-    drawEffects();
-    drawMarkers(now);
-    drawGhost();
-
-    // Order feedback pings in isometric
-    for (let i = pings.length - 1; i >= 0; i--) {
-      const p = pings[i], age = (now - p.t) / 450;
-      if (age > 1) { pings.splice(i, 1); continue; }
-      const { ix, iy } = toIso(p.wx !== undefined ? p.wx : p.x, p.wy !== undefined ? p.wy : p.y);
-      ctx.save();
-      ctx.strokeStyle = p.color; ctx.globalAlpha = 1 - age; ctx.lineWidth = 2;
-      if (p.type === 'attack') {
-        const rad = 8 + age * 12;
-        ctx.beginPath(); ctx.arc(ix, iy, rad, 0, 7); ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(ix - rad - 4, iy); ctx.lineTo(ix + rad + 4, iy);
-        ctx.moveTo(ix, iy - rad - 4); ctx.lineTo(ix, iy + rad + 4);
-        ctx.stroke();
-      } else {
-        const rad = 6 + age * 18;
-        ctx.beginPath();
-        ctx.moveTo(ix, iy - rad * 0.5);
-        ctx.lineTo(ix + rad, iy);
-        ctx.lineTo(ix, iy + rad * 0.5);
-        ctx.lineTo(ix - rad, iy);
-        ctx.closePath();
-        ctx.stroke();
-      }
-      ctx.restore();
-    }
-
-    // ---------------- Westwood Shroud of War ----------------
-    ctx.drawImage(shroudCv, -ISO_OFFSET_X, 0);
-
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    if (W.night) { ctx.fillStyle = 'rgba(8,12,40,.5)'; ctx.fillRect(0, 0, cv.width, cv.height); }
-    if (box) {
-      ctx.strokeStyle = '#86efac'; ctx.lineWidth = 1.5 * dpr; ctx.fillStyle = 'rgba(134,239,172,.12)';
-      const x = Math.min(box.x0, box.x1) * dpr, y = Math.min(box.y0, box.y1) * dpr, w = Math.abs(box.x1 - box.x0) * dpr, h = Math.abs(box.y1 - box.y0) * dpr;
-      ctx.fillRect(x, y, w, h); ctx.strokeRect(x, y, w, h);
-    }
-    drawMini();
-  }
-
-  function drawBorder() {
-    const y = W.border * TILE;
-    const p0 = toIso(0, y), p1 = toIso(WORLD_W, y);
-    ctx.save();
-    ctx.strokeStyle = 'rgba(248,113,113,.85)'; ctx.lineWidth = 3; ctx.setLineDash([14, 10]);
-    ctx.beginPath(); ctx.moveTo(p0.ix, p0.iy); ctx.lineTo(p1.ix, p1.iy); ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.font = '700 12px Outfit, system-ui, sans-serif'; ctx.textAlign = 'center';
-    for (let x = 8; x < MAP_W; x += 16) {
-      const pt = toIso(x * TILE, y);
-      ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(pt.ix - 118, pt.iy - 24, 236, 18);
-      ctx.fillStyle = '#fecaca'; ctx.fillText('Wilderness: wait for them to come (3 Nephi 3:21)', pt.ix, pt.iy - 11);
-    }
-    ctx.restore();
-  }
-  function drawMarkers(now) {
-    const list = mission.markers ? mission.markers(W) : [];
-    if (!list.length) return;
-    const pulse = 0.6 + 0.4 * Math.sin(now / 250);
-    ctx.font = '800 13px Outfit, system-ui, sans-serif'; ctx.textAlign = 'center';
-    for (const m of list) {
-      if (!explored[Math.floor(m.y) * MAP_W + Math.floor(m.x)]) continue;
-      const { ix, iy } = toIso((m.x + 0.5) * TILE, (m.y + 0.5) * TILE);
-      const w = ctx.measureText(m.label).width + 16;
-      ctx.strokeStyle = `rgba(253,230,138,${pulse})`; ctx.lineWidth = 3;
-      ctx.beginPath(); ctx.ellipse(ix, iy, 42, 21, 0, 0, 7); ctx.stroke();
-      ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(ix - w / 2, iy - 48, w, 18);
-      ctx.fillStyle = '#fde68a'; ctx.fillText(m.label, ix, iy - 35);
-    }
-  }
-  function drawZones() {
-    ctx.save();
-    ctx.font = '800 13px Outfit, system-ui, sans-serif'; ctx.textAlign = 'left';
-    for (const c of W.cover) {
-      const p0 = toIso(c.x0 * TILE, c.y0 * TILE);
-      const p1 = toIso((c.x1 + 1) * TILE, c.y0 * TILE);
-      const p2 = toIso((c.x1 + 1) * TILE, (c.y1 + 1) * TILE);
-      const p3 = toIso(c.x0 * TILE, (c.y1 + 1) * TILE);
-      ctx.fillStyle = 'rgba(74,222,128,.12)';
-      ctx.beginPath(); ctx.moveTo(p0.ix, p0.iy); ctx.lineTo(p1.ix, p1.iy); ctx.lineTo(p2.ix, p2.iy); ctx.lineTo(p3.ix, p3.iy); ctx.closePath(); ctx.fill();
-      ctx.strokeStyle = 'rgba(134,239,172,.8)'; ctx.lineWidth = 2; ctx.setLineDash([10, 8]); ctx.stroke(); ctx.setLineDash([]);
-      const t = c.name + ' · hide here', tw = ctx.measureText(t).width + 12;
-      ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(p0.ix + 4, p0.iy + 4, tw, 18);
-      ctx.fillStyle = '#bbf7d0'; ctx.fillText(t, p0.ix + 10, p0.iy + 17);
-    }
-    if (W.route) {
-      const [rx, ry] = W.route[0];
-      if (explored[ry * MAP_W + rx]) {
-        ctx.strokeStyle = 'rgba(248,113,113,.75)'; ctx.lineWidth = 4; ctx.setLineDash([4, 10]); ctx.lineCap = 'round';
-        ctx.beginPath();
-        W.route.forEach(([x, y], i) => {
-          const { ix, iy } = toIso((x + 0.5) * TILE, (y + 0.5) * TILE);
-          (i ? ctx.lineTo : ctx.moveTo).call(ctx, ix, iy);
-        });
-        ctx.stroke(); ctx.setLineDash([]);
-        const [lx, ly] = W.route[1], lp = toIso(lx * TILE, ly * TILE), t = 'The way they will come (Alma 43:24)', tw = ctx.measureText(t).width + 12;
-        ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(lp.ix - tw / 2, lp.iy - 30, tw, 18);
-        ctx.fillStyle = '#fecaca'; ctx.textAlign = 'center'; ctx.fillText(t, lp.ix, lp.iy - 17); ctx.textAlign = 'left';
-      }
-    }
-    for (const z of W.noGo) {
-      const midX = Math.floor((z.x0 + z.x1) * 0.5), midY = Math.floor((z.y0 + z.y1) * 0.5);
-      if (explored[midY * MAP_W + midX]) {
-        const p0 = toIso(z.x0 * TILE, z.y0 * TILE);
-        const p1 = toIso((z.x1 + 1) * TILE, z.y0 * TILE);
-        const p2 = toIso((z.x1 + 1) * TILE, (z.y1 + 1) * TILE);
-        const p3 = toIso(z.x0 * TILE, (z.y1 + 1) * TILE);
-        ctx.fillStyle = 'rgba(127,29,29,.15)';
-        ctx.beginPath(); ctx.moveTo(p0.ix, p0.iy); ctx.lineTo(p1.ix, p1.iy); ctx.lineTo(p2.ix, p2.iy); ctx.lineTo(p3.ix, p3.iy); ctx.closePath(); ctx.fill();
-        ctx.strokeStyle = 'rgba(248,113,113,.75)'; ctx.lineWidth = 3; ctx.setLineDash([14, 10]); ctx.stroke(); ctx.setLineDash([]);
-        const t = 'Antionum: the Zoramites\' land (Alma 43:5)', tw = ctx.measureText(t).width + 12;
-        ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(p0.ix + 6, p0.iy + 6, tw, 18);
-        ctx.fillStyle = '#fecaca'; ctx.fillText(t, p0.ix + 12, p0.iy + 19);
-      }
-    }
-    ctx.restore();
-  }
-
-  function hpBar(x, y, w, f) {
-    if (f >= 1) return;
-    ctx.fillStyle = 'rgba(0,0,0,.75)'; ctx.fillRect(x - w / 2 - 1, y - 1, w + 2, 5);
-    ctx.fillStyle = f > 0.5 ? '#22c55e' : f > 0.25 ? '#eab308' : '#ef4444'; ctx.fillRect(x - w / 2, y, w * clamp(f, 0, 1), 3);
-  }
-  const radius = u => u.def.leader ? 11 : u.def.hero ? 10 : u.type === 'flock' || u.type === 'cart' ? 10 : u.type === 'stripling' || u.def.deploys ? 9 : u.def.gathers || u.type === 'villager' ? 7 : 8;
-
-  // RA2 Isometric Corner Brackets Selection Reticle
-  function drawRing(u) {
-    const { ix, iy } = toIso(u.x, u.y);
-    const r = radius(u);
-    const col = u.def.hero ? '#fcd34d' : u.team === 'p' ? '#4ade80' : '#ef4444';
-    drawIsoCorners(ix - r - 4, iy - r * 0.5 - 2, (r + 4) * 2, (r + 4) * 1.1, col);
-  }
-  function drawIsoCorners(x, y, w, h, color) {
-    ctx.save();
-    ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.beginPath();
-    const b = Math.min(6, w * 0.25);
-    ctx.moveTo(x, y + b); ctx.lineTo(x, y); ctx.lineTo(x + b, y);
-    ctx.moveTo(x + w - b, y); ctx.lineTo(x + w, y); ctx.lineTo(x + w, y + b);
-    ctx.moveTo(x + w, y + h - b); ctx.lineTo(x + w, y + h); ctx.lineTo(x + w - b, y + h);
-    ctx.moveTo(x + b, y + h); ctx.lineTo(x, y + h); ctx.lineTo(x, y + h - b);
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  // Ancient American / Book of Mormon Character Sprites in 2:1 Isometric
-  function drawUnit(u, now) {
-    const d = u.def;
-    const { ix, iy } = toIso(u.x, u.y);
-    const r = radius(u);
-    const kneel = u.kneelUntil && W.t < u.kneelUntil;
-    const moving = (u.path && u.path.length > 0) || u.order.type === 'move' || u.order.type === 'gather' || u.order.type === 'return';
-    const walkCycle = moving ? Math.sin(now * 0.015 + u.id) : 0;
-    const bob = Math.abs(walkCycle) * 2.2;
-    const x = ix, y = iy - (kneel ? -2 : 1) - bob;
-
-    // Ground Drop Shadow
-    ctx.fillStyle = 'rgba(0,0,0,.32)'; ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 0.95, r * 0.48, 0, 0, 7); ctx.fill();
-
-    if (u.type === 'cart') {
-      // 2-Wheeled Wooden Horse Cart Harvester
-      ctx.save(); ctx.translate(x, y);
-      ctx.fillStyle = '#7c5a3a'; ctx.fillRect(-12, -6, 16, 12);
-      ctx.strokeStyle = '#3f2a14'; ctx.lineWidth = 1.5; ctx.strokeRect(-12, -6, 16, 12);
-      // Wheels
-      ctx.fillStyle = '#2b1d10'; ctx.fillRect(-10, -8, 5, 2); ctx.fillRect(-10, 6, 5, 2);
-      // Trotting Horse with mane
-      ctx.fillStyle = '#a16207'; ctx.beginPath(); ctx.ellipse(10, 0, 7, 4, 0, 0, 7); ctx.fill();
-      ctx.beginPath(); ctx.arc(16, -1, 2.8, 0, 7); ctx.fill();
-      if (u.carry && u.carry.amt) {
-        ctx.fillStyle = u.carry.type === 'timber' ? '#8b5a2b' : '#ca8a04';
-        ctx.fillRect(-10, -4, 12, 8); // loaded sacks/timber
-      }
-      ctx.restore();
-      return;
-    }
-    if (u.def.deploys) {
-      // Moroni's Title of Liberty: piece of his coat on a tall pole (Alma 46:12–13)
-      ctx.strokeStyle = '#451a03'; ctx.lineWidth = 2.5;
-      ctx.beginPath(); ctx.moveTo(x, y + 4); ctx.lineTo(x, y - 26); ctx.stroke();
-      const wave = Math.sin(now / 180) * 2.5;
-      ctx.fillStyle = '#fef08a';
-      ctx.beginPath();
-      ctx.moveTo(x, y - 26);
-      ctx.quadraticCurveTo(x + 10, y - 28 + wave, x + 20, y - 24 + wave);
-      ctx.lineTo(x, y - 14);
-      ctx.fill();
-      // Scripture writing strokes
-      ctx.strokeStyle = 'rgba(120,80,30,.7)'; ctx.lineWidth = 1;
-      for (let k = 0; k < 2; k++) {
-        ctx.beginPath(); ctx.moveTo(x + 3, y - 23 + k * 4); ctx.lineTo(x + 13, y - 22 + k * 4); ctx.stroke();
-      }
-    }
-    if (u.type === 'flock') {
-      ctx.fillStyle = '#f1f5f9';
-      for (const [dx, dy] of [[-4, 1], [4, 1], [0, -3]]) { ctx.beginPath(); ctx.arc(x + dx, y + dy, 5, 0, 7); ctx.fill(); }
-      ctx.fillStyle = '#475569'; ctx.beginPath(); ctx.arc(x + 7, y - 4, 2.6, 0, 7); ctx.fill();
-      return;
-    }
-
-    const hid = W.hidden(u);
-    if (hid) ctx.globalAlpha = 0.5;
-
-    // Marching Legs
-    ctx.fillStyle = '#451a03';
-    ctx.fillRect(x - 3 + walkCycle * 2, y + 2, 2.5, 6);
-    ctx.fillRect(x + 1 - walkCycle * 2, y + 2, 2.5, 6);
-
-    // Torso & Quilted Cotton Armor
-    let skinColor = d.foe ? '#b45309' : '#d8bd8e';
-    let tunicColor = TEAM.p;
-    if (d.foe) tunicColor = '#7f1d1d';
-    else if (u.type === 'worker') tunicColor = '#a8814f';
-    else if (d.hero) tunicColor = '#b45309';
-
-    ctx.fillStyle = tunicColor;
-    ctx.fillRect(x - 4, y - 6, 8, 8);
-
-    // Armor & Pectoral Plates
-    if (u.team === 'p' && d.soldier) {
-      ctx.fillStyle = d.hero || u.type === 'stripling' ? '#f59e0b' : '#c7ae86'; // bronze or quilted armor
-      ctx.fillRect(x - 3, y - 5, 6, 5);
-    }
-    if (d.foe) {
-      // Blood-dyed lambskin loins & body paint (3 Nephi 4:7 / Alma 43:20)
-      ctx.fillStyle = '#991b1b'; ctx.fillRect(x - 4, y - 1, 8, 4);
-    }
-
-    // Head, Helmet & Headband
-    ctx.fillStyle = skinColor;
-    ctx.beginPath(); ctx.arc(x, y - 10, 4, 0, 7); ctx.fill();
-
-    // Ancient feathered headdress / headbands
-    if (d.hero) {
-      // Moroni / Gidgiddoni Quetzal feather plumes & cape
-      ctx.fillStyle = '#10b981'; ctx.fillRect(x - 2, y - 15, 2, 4);
-      ctx.fillStyle = '#ef4444'; ctx.fillRect(x, y - 16, 2, 5);
-      // Crimson commander cape
-      const capeWave = Math.sin(now * 0.01) * 3;
-      ctx.fillStyle = '#dc2626';
-      ctx.beginPath();
-      ctx.moveTo(x - 3, y - 5);
-      ctx.quadraticCurveTo(x - 8, y + capeWave, x - 11, y + 6 + capeWave);
-      ctx.lineTo(x - 3, y + 3);
-      ctx.fill();
-    } else if (u.type === 'stripling') {
-      // White and gold woven headband
-      ctx.fillStyle = '#fef08a'; ctx.fillRect(x - 4, y - 12, 8, 2);
-    } else if (d.foe && d.leader) {
-      // Horned bone headplate
-      ctx.fillStyle = '#e2e8f0'; ctx.fillRect(x - 5, y - 13, 10, 3);
-    }
-
-    // Weapon & Shield pointing with u.face
-    if (d.dmg && !kneel && u.team !== 'x') {
-      const f = u.face || 0, cx = Math.cos(f), cy = Math.sin(f);
-      // Shield on left arm
-      if (u.team === 'p' && d.soldier && !d.ranged) {
-        ctx.fillStyle = '#ca8a04';
-        ctx.beginPath(); ctx.arc(x - cx * 4 - 3, y - cy * 2, 4.5, 0, 7); ctx.fill();
-        ctx.strokeStyle = '#1d4ed8'; ctx.lineWidth = 1; ctx.stroke();
-      }
-      // Weapon on right hand
-      ctx.strokeStyle = d.foe ? '#18181b' : '#e2e8f0'; ctx.lineWidth = 1.8;
-      if (u.type === 'swordsman' || (d.foe && !d.ranged)) {
-        // Curved cimeter / obsidian macuahuitl
-        ctx.beginPath(); ctx.moveTo(x + cx * 2, y + cy * 2); ctx.lineTo(x + cx * 10, y + cy * 10 - 4); ctx.stroke();
-      } else if (u.type === 'javelin') {
-        // Atlatl dart
-        ctx.beginPath(); ctx.moveTo(x - cx * 2, y - cy * 2); ctx.lineTo(x + cx * 12, y + cy * 12 - 6); ctx.stroke();
-      } else {
-        // Spear
-        ctx.beginPath(); ctx.moveTo(x + cx * 2, y + cy * 2); ctx.lineTo(x + cx * 11, y + cy * 11 - 8); ctx.stroke();
-        ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(x + cx * 11, y + cy * 11 - 8, 1.5, 0, 7); ctx.fill();
-      }
-    }
-
-    if (u.carry && u.carry.amt) {
-      ctx.fillStyle = u.carry.type === 'timber' ? '#8b5a2b' : '#ca8a04';
-      ctx.fillRect(x - 3, y - 14, 6, 6); // backpack pack
-    }
-    if (d.leader || d.hero || d.prophet) {
-      ctx.font = '700 10px Outfit, system-ui, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillStyle = 'rgba(0,0,0,.65)'; const tw = ctx.measureText(d.name).width + 8; ctx.fillRect(x - tw / 2, y + 9, tw, 13);
-      ctx.fillStyle = d.foe ? '#fecaca' : '#fde68a'; ctx.fillText(d.name, x, y + 19);
-    }
-    if (hid) ctx.globalAlpha = 1;
-  }
-
   // 2.5D Isometric Buildings with South-East Cast Shadows & Architectural Detail
   function drawBuilding(b, selected, now) {
     const { ix, iy } = toIso(b.x, b.y);
