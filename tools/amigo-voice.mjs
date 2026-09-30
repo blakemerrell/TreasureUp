@@ -11,7 +11,7 @@
 // $GOOGLE_TTS_KEY). Neither ever goes in the app or the repo.
 //   node tools/amigo-voice.mjs --dry              what it would record, and how many characters
 //   node tools/amigo-voice.mjs --samples <dir>    one line in every Filipino voice, to pick one
-//   node tools/amigo-voice.mjs [--voice <name>]   record what's missing (fil-PH-Wavenet-A unless named)
+//   node tools/amigo-voice.mjs [--voice <name>]   record what's missing (fil-ph-Neural2-D unless named: Blake's pick)
 //   … --all                                       record every line again (after picking another voice)
 import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -102,7 +102,7 @@ if (flag('--dry')) {
   }
   console.log(`${voices.length} Filipino voices saying “${line}” in ${dir}`);
 } else {
-  const voice = opt('--voice') || 'fil-PH-Wavenet-A';
+  const voice = opt('--voice') || 'fil-ph-Neural2-D';                 // a man's voice, Blake's pick (2026-09-30)
   fs.mkdirSync(OUT, { recursive: true });
   let made = 0;
   for (const t of todo) {
