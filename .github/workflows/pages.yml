@@ -72,8 +72,9 @@ jobs:
 
       # Amigo · Kaibigan (amigo/): the courses follow their rules, every lesson
       # builds and can be answered, and Baybayin spells words right.
+      # The live app refuses Tagalog the game would say without a recording.
       - name: Check Amigo · Kaibigan
-        run: node tools/test-amigo.mjs
+        run: node tools/test-amigo.mjs $([ "$GITHUB_REPOSITORY" = "blakemerrell/TreasureUp" ] && echo --require-recordings)
 
       # The chapters of each week's reading, so he can read them in the app
       # (tools/build-reading.mjs, from the data the check just downloaded).
@@ -83,6 +84,12 @@ jobs:
         continue-on-error: true
         env:
           SCRIPTURE_CACHE: ${{ runner.temp }}/scripture
+
+      # Amigo's script links get this deploy's commit (?v=…), so a phone never
+      # runs a new page with old cached scripts or an old list of recordings
+      # (GitHub Pages lets a phone keep a file for 10 minutes).
+      - name: Stamp this deploy on Amigo's scripts
+        run: sed -i "s/?v=dev\"/?v=${GITHUB_SHA::8}\"/g" amigo/index.html
 
       - uses: actions/configure-pages@v5
 
