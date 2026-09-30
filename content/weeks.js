@@ -2846,7 +2846,391 @@ window.TU_WEEKS = [
       }
     ],
     "approved": "c5002526",
-    "wordsApproved": "6eacd6fb"
+    "wordsApproved": "6eacd6fb",
+    "plain": [
+      {
+        "ch": "Isaiah 50",
+        "verses": [
+          "This is what the Lord says: Where are the divorce papers I gave your mother (Zion) when I sent her away? Or which of the people I owe money to did I sell you to? Look, you were sold because of your sins, and your mother was sent away because of your wrongs.",
+          "Why was no one there when I came? Why did no one answer when I called? Is my hand too short to redeem you? Don’t I have the power to save you? Look, I rebuke the sea and it dries up. I turn rivers into a desert, and their fish rot because there is no water, and they die of thirst.",
+          "I dress the sky in black and cover it with sackcloth (the rough cloth people wore when they mourned).",
+          "The Lord God has taught me what to say, so I know how to speak the right word to someone who is tired. Every morning He wakes me up. He opens my ears to listen like a student.",
+          "The Lord God has opened my ears, and I did not rebel. I did not turn back.",
+          "I offered my back to the people who beat me, and my cheeks to those who pulled out my beard. I did not hide my face when they insulted me and spit on me.",
+          "Because the Lord God helps me, I will not be disgraced. So I have set my face like flint (a very hard stone), and I know I will not be put to shame.",
+          "The one who proves I am right is near. Who will argue with me? Let’s stand and face each other. Who wants to accuse me? Let him come near to me.",
+          "Look, the Lord God helps me. Who can find me guilty? They will all wear out like old clothes, and the moths will eat them.",
+          "Who among you fears the Lord and obeys the voice of His servant, but walks in darkness with no light? Let him trust in the name of the Lord and lean on his God.",
+          "But all of you who light your own fires and surround yourselves with sparks, go ahead and walk in the light of your fire and the sparks you have lit. This is what you will get from my hand: you will lie down in sorrow."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "Jacob read this chapter and the next to the Nephites (2 Nephi 7–8). His copy of this verse begins “Have I put thee away, or have I cast thee off forever?” (2 Nephi 7:1)."
+          },
+          {
+            "v": 2,
+            "text": "In D&C 133:66–70 the Lord repeats verses 2–3 and 11, saying “when I came unto mine own, no man among you received me” (D&C 133:66)."
+          },
+          {
+            "v": 8,
+            "text": "The Book of Mormon’s copy ends this verse with “and I will smite him with the strength of my mouth” (2 Nephi 7:8)."
+          },
+          {
+            "v": 10,
+            "text": "The Book of Mormon’s copy (2 Nephi 7:10) ends with the question. It doesn’t have “let him trust in the name of the LORD, and stay upon his God.”"
+          }
+        ],
+        "review": [
+          {
+            "v": 4,
+            "about": "Smaller Book of Mormon differences have no note: verses 2, 4 and 9 (2 Nephi 7). In verse 4 the Book of Mormon speaks the word “unto thee, O house of Israel.”"
+          }
+        ],
+        "approved": "afd5bf4e"
+      },
+      {
+        "ch": "Isaiah 51",
+        "verses": [
+          "Listen to me, you who follow after righteousness, you who look for the Lord. Look at the rock you were cut from and the quarry you were dug out of.",
+          "Look at Abraham, your father, and at Sarah, who gave birth to you. When I called him, he was only one man, but I blessed him and made him many.",
+          "The Lord will comfort Zion. He will comfort all her ruined places. He will make her wilderness like Eden and her desert like the garden of the Lord. Joy and gladness will be found there, thanksgiving and the sound of singing.",
+          "Listen to me, my people. Pay attention to me, my nation. A law will go out from me, and I will make my justice a light for the nations.",
+          "My righteousness is near. My salvation is on its way, and my arms will judge the nations. The islands will wait for me and trust in my arm.",
+          "Look up at the sky, and look down at the earth. The sky will vanish like smoke, the earth will wear out like old clothes, and the people who live on it will die the same way. But my salvation will last forever, and my righteousness will never end.",
+          "Listen to me, you who know righteousness, you people who have my law in your hearts. Don’t be afraid when people insult you, and don’t be scared when they mock you.",
+          "The moth will eat them up like clothes, and the worm will eat them like wool. But my righteousness will last forever, and my salvation for all generations.",
+          "Wake up, wake up! Put on strength, arm of the Lord! Wake up as in the old days, long ago. Weren’t you the one who cut Rahab (a name for Egypt, pictured as a sea monster) to pieces and wounded the dragon?",
+          "Weren’t you the one who dried up the sea, the waters of the great deep, and made a road through the bottom of the sea for the redeemed to cross?",
+          "So the people the Lord has redeemed will come back. They will come to Zion singing, with joy that lasts forever on their heads. They will be filled with gladness and joy, and sorrow and mourning will run away.",
+          "I, yes I, am the one who comforts you. Who are you to be afraid of people, who will die, of human beings, who are like grass?",
+          "You forget the Lord who made you, who stretched out the sky and laid the foundations of the earth. All day long you are afraid of the anger of the one who oppresses you, as if he were ready to destroy you. But where is the oppressor’s anger now?",
+          "The captive will soon be set free. He will not die in the pit, and he will not run out of bread.",
+          "For I am the Lord your God, who divided the sea when its waves roared. The Lord of Hosts is His name.",
+          "I have put my words in your mouth and covered you with the shadow of my hand, so I can plant the heavens, lay the foundations of the earth, and say to Zion, “You are my people.”",
+          "Wake up, wake up! Stand up, Jerusalem! You have drunk from the Lord’s hand the cup of His anger. You have drunk the cup that makes people stagger, down to the last drop.",
+          "Of all the sons she gave birth to, not one is there to guide her. Of all the sons she raised, not one takes her by the hand.",
+          "These two things have happened to you—who will feel sorry for you? Ruin and destruction, hunger and war. How can I comfort you?",
+          "Your sons have fainted. They lie at the end of every street like a wild bull caught in a net. They are full of the Lord’s anger, the rebuke of your God.",
+          "So listen to this, you who suffer, you who are drunk, but not with wine.",
+          "This is what your Lord says—the Lord your God, who defends His people: Look, I have taken the cup that makes you stagger out of your hand. You will never drink from that cup of my anger again.",
+          "I will put it into the hands of those who hurt you, who said to you, “Lie down so we can walk over you.” You made your back like the ground, like a street for them to walk on."
+        ],
+        "notes": [
+          {
+            "v": 7,
+            "text": "In the Book of Mormon, this verse says “the people in whose heart I have written my law” (2 Nephi 8:7)."
+          },
+          {
+            "v": 11,
+            "text": "The Book of Mormon’s copy says “everlasting joy and holiness shall be upon their heads” (2 Nephi 8:11)."
+          },
+          {
+            "v": 19,
+            "text": "In the Book of Mormon, verse 19 speaks of “These two sons” (2 Nephi 8:19), and verse 20 says the sons have fainted “save these two” (2 Nephi 8:20)."
+          }
+        ],
+        "review": [
+          {
+            "v": 9,
+            "about": "Rahab here isn’t the Rahab of Jericho: the plain words say it’s a name for Egypt, pictured as a sea monster (as in Isaiah 30:7)."
+          },
+          {
+            "v": 15,
+            "about": "Smaller Book of Mormon differences have no note: verses 1, 2, 5, 12 and 15 (2 Nephi 8). In verse 15 it has “my name” and leaves out “that divided the sea.”"
+          }
+        ],
+        "approved": "3c87524b"
+      },
+      {
+        "ch": "Isaiah 52",
+        "verses": [
+          "Wake up, wake up! Put on your strength, Zion! Put on your beautiful clothes, Jerusalem, the holy city! From now on the uncircumcised (people outside God’s covenant) and the unclean will never come into you again.",
+          "Shake off the dust! Get up and take your seat, Jerusalem. Free yourself from the chains on your neck, captive daughter of Zion.",
+          "For this is what the Lord says: You sold yourselves for nothing, and you will be redeemed without money.",
+          "For this is what the Lord God says: Long ago my people went down to Egypt to live there for a while, and later the Assyrian oppressed them for no reason.",
+          "So now, what do I have here? says the Lord. My people have been taken away for nothing. Their rulers make them wail, says the Lord, and my name is insulted all day long.",
+          "So my people will know my name. On that day they will know that I am the one who speaks. Yes, it is I!",
+          "How beautiful on the mountains are the feet of the one who brings good news, who announces peace, who brings good news of good things, who announces salvation, who says to Zion, “Your God reigns!”",
+          "Your watchmen will lift up their voices and sing together for joy, because they will see it with their own eyes when the Lord brings Zion back.",
+          "Burst into joy and sing together, you ruins of Jerusalem! For the Lord has comforted His people. He has redeemed Jerusalem.",
+          "The Lord has uncovered His holy arm for all the nations to see. All the ends of the earth will see the salvation of our God.",
+          "Go out, go out, get out of there! Don’t touch anything unclean. Come out from the middle of her (Babylon) and be clean, you who carry the Lord’s holy vessels.",
+          "But you won’t leave in a hurry or run away, because the Lord will go ahead of you, and the God of Israel will guard you from behind.",
+          "Look, my servant will act wisely. He will be raised up and lifted high and greatly honored.",
+          "Many people were shocked at you, my servant. His face was disfigured more than any man’s, and his body more than any human’s.",
+          "So he will sprinkle many nations. Kings will shut their mouths because of him. They will see what they were never told, and they will understand what they never heard."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "The Lord explains this verse in D&C 113:7–8: to put on Zion’s strength is “to put on the authority of the priesthood” (D&C 113:8)."
+          },
+          {
+            "v": 2,
+            "text": "D&C 113:9–10 explains this verse too: the bands on her neck are “the curses of God upon her” (D&C 113:10)."
+          },
+          {
+            "v": 6,
+            "text": "Jesus spoke this verse to the Nephites about Himself: “in that day they shall know that I am he that doth speak” (3 Nephi 20:39)."
+          },
+          {
+            "v": 7,
+            "text": "King Noah’s priests asked Abinadi what verses 7–10 mean (Mosiah 12:20–24). He says verse 7 is about the prophets and everyone who announces peace, and above all “the founder of peace, yea, even the Lord, who has redeemed his people” (Mosiah 15:18)."
+          },
+          {
+            "v": 8,
+            "text": "“They shall see eye to eye” is a Hebrew way of saying they will see it with their own eyes. The same Hebrew words are translated “face to face” (Numbers 14:14)."
+          },
+          {
+            "v": 11,
+            "text": "The Lord uses this verse in the Doctrine and Covenants: “Go ye out from Babylon. Be ye clean that bear the vessels of the Lord” (D&C 133:5)."
+          },
+          {
+            "v": 13,
+            "text": "Jesus quoted verses 11–15 to the Nephites (3 Nephi 20:41–45)."
+          },
+          {
+            "v": 15,
+            "text": "The Joseph Smith Translation says gather instead of sprinkle in this verse."
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "“The uncircumcised” gets a short gloss: people outside God’s covenant."
+          },
+          {
+            "v": 8,
+            "about": "“See eye to eye”: in the Hebrew, seeing it with their own eyes (Numbers 14:14 translates the same words “face to face”). D&C 84:98 uses the phrase too, often taught as being united; the note explains the Hebrew without ruling that out."
+          },
+          {
+            "v": 11,
+            "about": "Smaller Book of Mormon differences have no note: verses 1–2 (2 Nephi 8:24–25), 7–10 (Mosiah 12:21–24; 3 Nephi 16:18–20) and 11–15 (3 Nephi 20:41–45), mostly wording and punctuation. Verse 11 there begins “And then shall a cry go forth.”"
+          }
+        ],
+        "approved": "b64926cd"
+      },
+      {
+        "ch": "Isaiah 53",
+        "verses": [
+          "Who has believed what we told? And to whom has the arm of the Lord been shown?",
+          "He will grow up before the Lord like a young plant, like a root coming out of dry ground. He has no special form or beauty. When we see him, there is nothing about his looks that would make us want him.",
+          "He was despised and rejected by people, a man of sorrows who knew grief well. We turned our faces away from him. He was despised, and we did not value him.",
+          "Surely he has carried our griefs and borne our sorrows. Yet we thought he was being punished, struck down by God, and made to suffer.",
+          "But he was wounded for our sins. He was crushed for the wrong things we did. He took the punishment that brings us peace, and by his wounds we are healed.",
+          "All of us have wandered away like sheep. Each of us has turned to go our own way. And the Lord has laid on him the sins of us all.",
+          "He was treated cruelly and made to suffer, yet he did not open his mouth. He was led like a lamb to be killed. Like a sheep that stays silent while its wool is cut, he did not open his mouth.",
+          "He was arrested, judged, and taken away. Who will tell about his descendants? He was cut off from the land of the living. He was struck down for the sins of my people.",
+          "They gave him a grave with the wicked, and he was with a rich man in his death, even though he had done nothing violent and had never lied.",
+          "Yet it was the Lord’s will to crush him and make him suffer. When his life is made an offering for sin, he will see his children, he will live a long time, and what the Lord wants will succeed through him.",
+          "He will see what his soul’s suffering has done and be satisfied. By what he knows, my righteous servant will make many righteous, and he will carry their sins.",
+          "So I will give him a share with the great, and he will divide the spoils with the strong, because he poured out his life to death and was counted with the sinners. He carried the sins of many and pleaded for the sinners."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "Abinadi quoted this whole chapter to King Noah’s priests (Mosiah 14), then taught that “God himself shall come down among the children of men, and shall redeem his people” (Mosiah 15:1)."
+          },
+          {
+            "v": 4,
+            "text": "Matthew says Jesus fulfilled this when He healed the sick: “Himself took our infirmities, and bare our sicknesses” (Matthew 8:17)."
+          },
+          {
+            "v": 7,
+            "text": "An Ethiopian official was reading verses 7–8 when Philip met him, and Philip “began at the same scripture, and preached unto him Jesus” (Acts 8:35)."
+          },
+          {
+            "v": 9,
+            "text": "The Book of Mormon’s copy says “he had done no evil” (Mosiah 14:9), where the KJV has “no violence.”"
+          },
+          {
+            "v": 10,
+            "text": "Abinadi explains “he shall see his seed”: those who listen to the prophets and believe the Lord will redeem them, “these are his seed” (Mosiah 15:11)."
+          },
+          {
+            "v": 12,
+            "text": "Jesus said this verse had to be fulfilled in Him: “And he was reckoned among the transgressors” (Luke 22:37)."
+          }
+        ],
+        "review": [
+          {
+            "v": 2,
+            "about": "The KJV and the Book of Mormon put this verse in the future (“he shall grow up”); the BSB puts it in the past. The plain words follow the KJV."
+          },
+          {
+            "v": 3,
+            "about": "In this chapter “he” stays lowercase, as in the KJV (the servant); the notes say it is Jesus (Acts 8:35; Mosiah 15:1). Capitalize it if you’d rather."
+          },
+          {
+            "v": 9,
+            "about": "Smaller Book of Mormon differences have no note: verses 6, 8 and 12 have plurals in Mosiah 14 (“iniquities”, “transgressions”, “sins”)."
+          }
+        ],
+        "approved": "69205a6a"
+      },
+      {
+        "ch": "Isaiah 54",
+        "verses": [
+          "Sing, Zion, you woman who could not have children, you who never gave birth! Burst into song and shout for joy, you who were never in labor! For the woman left all alone will have more children than the woman who has a husband, says the Lord.",
+          "Make the place for your tent bigger. Stretch out the curtains of your home, and don’t hold back. Make your ropes longer and your stakes stronger.",
+          "You will spread out to the right and to the left. Your children will inherit the lands of the Gentiles and fill the empty cities with people.",
+          "Don’t be afraid, because you will not be ashamed. Don’t be embarrassed, because you will not be put to shame. You will forget the shame of your youth, and you will never again remember the disgrace of being a widow.",
+          "For your Maker is your husband—the Lord of Hosts is His name. Your Redeemer is the Holy One of Israel. He will be called the God of the whole earth.",
+          "The Lord has called you back, like a wife who was left alone and heartbroken, like a young wife who was rejected, says your God.",
+          "For a short moment I left you, but with great mercy I will gather you.",
+          "In a little anger I hid my face from you for a moment, but with kindness that lasts forever I will have mercy on you, says the Lord your Redeemer.",
+          "This is like the waters of Noah to me. Just as I promised that the waters of Noah would never again cover the earth, I have promised that I will not be angry with you or scold you.",
+          "The mountains may move away and the hills may be taken away, but my kindness will not leave you, and my covenant of peace will not be taken away, says the Lord, who has mercy on you.",
+          "You who suffer, tossed by storms and not comforted, look! I will set your stones in beautiful colors and lay your foundations with sapphires.",
+          "I will make your windows out of agates, your gates out of carbuncles (glowing red gems), and all your walls out of precious stones.",
+          "All your children will be taught by the Lord, and your children will have great peace.",
+          "You will be made strong in righteousness. You will be far from oppression, so you will not be afraid, and far from terror, because it will not come near you.",
+          "Look, people may gather together to attack you, but not because I sent them. Whoever gathers to fight against you will fall because of you.",
+          "Look, I created the blacksmith who blows on the coals in the fire and makes a weapon for his work. And I created the destroyer to destroy.",
+          "No weapon made to be used against you will succeed, and you will prove wrong every tongue that accuses you. This is what the servants of the Lord inherit, and their righteousness comes from me, says the Lord."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "When Jesus quoted this chapter to the Nephites, He began: “And then shall that which is written come to pass” (3 Nephi 22:1), meaning the time when He will gather Israel and “establish again among them my Zion” (3 Nephi 21:1)."
+          },
+          {
+            "v": 2,
+            "text": "The Lord names the Church’s stakes after this picture: “they shall be called stakes, for the curtains or the strength of Zion” (D&C 101:21)."
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "Added “Zion”: every you in this chapter is feminine, which in Isaiah means Zion (as in 45:14). Without it he might picture Sarah."
+          },
+          {
+            "v": 15,
+            "about": "Smaller Book of Mormon differences have no note: verses 4, 9, 15 and 17 (3 Nephi 22). In verse 17 it has “every tongue that shall revile against thee.”"
+          }
+        ],
+        "approved": "b05355ac"
+      },
+      {
+        "ch": "Isaiah 55",
+        "verses": [
+          "Come, everyone who is thirsty, come to the waters! You who have no money, come, buy and eat! Come, buy wine and milk without money and without paying anything.",
+          "Why spend your money on what isn’t bread, and your work on what doesn’t fill you up? Listen carefully to me. Eat what is good, and your soul will enjoy the richest food.",
+          "Listen and come to me. Hear me, and your soul will live. I will make an everlasting covenant with you, the sure mercies I promised David.",
+          "Look, I have made him a witness to the nations, a leader and commander of the peoples.",
+          "Look, you will call a nation you do not know, and nations that did not know you will run to you, because of the Lord your God, the Holy One of Israel, for He has made you glorious.",
+          "Seek the Lord while He can be found. Call on Him while He is near.",
+          "Let the wicked leave their ways and the unrighteous their thoughts. Let them come back to the Lord, and He will have mercy on them. Let them come to our God, because He will forgive them completely.",
+          "For my thoughts are not your thoughts, and your ways are not my ways, says the Lord.",
+          "As the heavens are higher than the earth, so my ways are higher than your ways, and my thoughts are higher than your thoughts.",
+          "The rain and the snow come down from the sky and don’t go back until they have watered the earth and made it sprout and grow, giving seed to the one who plants and bread to the one who eats.",
+          "That is how my word is, the word that goes out of my mouth. It will not come back to me empty. It will do what I want, and it will succeed in what I sent it to do.",
+          "You will go out with joy and be led out in peace. The mountains and the hills will burst into song in front of you, and all the trees of the field will clap their hands.",
+          "Instead of thorns, fir trees will grow. Instead of briers, myrtle trees will grow. This will make a name for the Lord, a sign that lasts forever and will never be destroyed."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "Jacob uses verses 1–2 to invite his people to “come unto the Holy One of Israel, and feast upon that which perisheth not” (2 Nephi 9:51)."
+          },
+          {
+            "v": 4,
+            "text": "The “him” is David (verse 3). Paul teaches that God kept His promises to David through Jesus, raising Him from the dead to give “the sure mercies of David” (Acts 13:34)."
+          }
+        ],
+        "approved": "eb3458d5"
+      },
+      {
+        "ch": "Isaiah 56",
+        "verses": [
+          "This is what the Lord says: Keep justice and do what is right, because my salvation will come soon, and my righteousness will soon be shown.",
+          "Blessed is the person who does this and holds on to it, who keeps the Sabbath and does not make it unholy, and who keeps his hand from doing anything evil.",
+          "Don’t let the foreigner who has joined himself to the Lord say, “The Lord will surely keep me apart from His people.” And don’t let the eunuch (a man who can’t have children) say, “Look, I am just a dry tree.”",
+          "For this is what the Lord says to the eunuchs who keep my Sabbaths, choose what pleases me, and hold on to my covenant:",
+          "I will give them, in my house and inside my walls, a place and a name better than sons and daughters. I will give them an everlasting name that will never be cut off.",
+          "And the foreigners who join themselves to the Lord to serve Him, to love the name of the Lord, and to be His servants—everyone who keeps the Sabbath and does not make it unholy, and holds on to my covenant—",
+          "I will bring them to my holy mountain and make them joyful in my house of prayer. Their burnt offerings and sacrifices will be accepted on my altar, because my house will be called a house of prayer for all people.",
+          "The Lord God, who gathers the scattered people of Israel, says: I will gather still others to them, besides those already gathered.",
+          "All you wild animals of the field, come and devour! All you animals of the forest, come!",
+          "Israel’s watchmen are blind. None of them understand. They are all like dogs that can’t bark. They lie around dreaming and love to sleep.",
+          "They are greedy dogs that never have enough. They are shepherds who don’t understand. They all go their own way, each one looking out for himself.",
+          "“Come,” they say, “I’ll get the wine, and we’ll fill ourselves with strong drink. Tomorrow will be just like today, only even better!”"
+        ],
+        "notes": [
+          {
+            "v": 7,
+            "text": "Jesus quoted this verse when He drove the money changers out of the temple: “My house shall be called the house of prayer” (Matthew 21:13)."
+          }
+        ],
+        "review": [
+          {
+            "v": 3,
+            "about": "“Eunuch” gets a short gloss: a man who can’t have children."
+          }
+        ],
+        "approved": "d090fee4"
+      },
+      {
+        "ch": "Isaiah 57",
+        "verses": [
+          "The righteous die, and no one cares. Faithful people are taken away, and no one understands that the righteous are taken away to be spared from the evil that is coming.",
+          "They enter into peace. Everyone who lives uprightly rests on their bed (in death).",
+          "But come here, you children of a sorceress, you children of an adulterer and a prostitute!",
+          "Who are you making fun of? At whom do you open your mouths wide and stick out your tongues? Aren’t you children of rebellion, children of lies?",
+          "You get worked up worshipping idols under every green tree, and you kill children as sacrifices in the valleys, under the overhanging rocks.",
+          "Your share is among the smooth stones of the stream. They, yes they, are what you have chosen. You have even poured out drink offerings and brought grain offerings to them. Should I be satisfied with this?",
+          "You made your bed on a high, lofty mountain, and you went up there to offer sacrifices.",
+          "Behind your doors and doorposts you put up your pagan signs. You left me and uncovered your bed for others. You climbed into it and made it wide. You made a deal with them, and you loved their bed when you saw it.",
+          "You went to the king with oil and used lots of perfume. You sent your messengers far away, and you lowered yourself all the way down to hell.",
+          "You got tired from all your traveling, but you never said, “It’s hopeless.” You found new strength, so you didn’t give up.",
+          "Who were you so afraid of that you lied and didn’t remember me or even think about me? Is it because I have been quiet for so long that you don’t fear me?",
+          "I will show what your “righteousness” and your works really are, and they will not help you.",
+          "When you cry for help, let your collection of idols save you! The wind will carry them all away; a breath will blow them off. But whoever trusts in me will own the land and inherit my holy mountain.",
+          "And it will be said, “Build it up, build it up! Clear the road! Take every stumbling block out of my people’s way.”",
+          "For this is what the High and Lofty One says, who lives forever, whose name is Holy: I live in the high and holy place, and also with the one who has a contrite (truly sorry) and humble spirit, to give new life to the spirit of the humble and the heart of the contrite.",
+          "I will not argue forever, and I will not always be angry, or the spirit of man would grow weak before me, the souls I have made.",
+          "I was angry because of his greedy sin, and I struck him. I hid my face and was angry, but he kept stubbornly following his own heart.",
+          "I have seen his ways, and I will heal him. I will lead him and give comfort again to him and to those who mourn with him.",
+          "I create the fruit of the lips (words of praise): Peace, peace, to those who are far away and to those who are near, says the Lord, and I will heal them.",
+          "But the wicked are like the stormy sea that can never be still, whose waves stir up mud and dirt.",
+          "There is no peace for the wicked, says my God."
+        ],
+        "notes": [
+          {
+            "v": 3,
+            "text": "The Lord is His people’s husband (Isaiah 54:5), so worshipping idols is pictured here as being unfaithful in marriage, as when Israel “committed adultery with stones and with stocks” (Jeremiah 3:9): idols of stone and wood."
+          },
+          {
+            "v": 6,
+            "text": "In the KJV, “meat” means food. A meat offering was an offering of grain."
+          },
+          {
+            "v": 9,
+            "text": "Many modern translations read “the king” here as ‘Molech,’ a false god people worshipped."
+          },
+          {
+            "v": 13,
+            "text": "The Hebrew word the KJV translates “companies” means a gathered group. Many modern translations read it as ‘your collection of idols.’"
+          },
+          {
+            "v": 19,
+            "text": "Paul says Jesus “came and preached peace to you which were afar off, and to them that were nigh” (Ephesians 2:17)."
+          }
+        ],
+        "review": [
+          {
+            "v": 3,
+            "about": "Verses 3–9 picture idol worship as unfaithfulness in marriage, in the KJV’s own words, no more plainly. The note under verse 3 explains the picture from scripture (Isaiah 54:5; Jeremiah 3:9)."
+          },
+          {
+            "v": 15,
+            "about": "“Contrite” stays (a church word, as in “a broken heart and a contrite spirit”), with a short gloss: truly sorry."
+          }
+        ],
+        "approved": "0ad59330"
+      }
+    ]
   },
   {
     "dates": "October 12–18, 2026",
@@ -3672,6 +4056,384 @@ window.TU_WEEKS = [
       }
     ],
     "approved": "103a63e4",
-    "wordsApproved": "1b2dec33"
+    "wordsApproved": "1b2dec33",
+    "plain": [
+      {
+        "ch": "Isaiah 58",
+        "verses": [
+          "Shout it out loud! Don’t hold back! Lift up your voice like a trumpet. Tell my people what they have done wrong, and tell the house of Jacob their sins.",
+          "Every day they come looking for me and are eager to learn my ways, as if they were a nation that lived in righteousness and had not left the laws of their God. They ask me for righteous judgments, and they are eager to come near to God.",
+          "“Why have we fasted,” they say, “and you don’t see it? Why have we humbled ourselves, and you don’t notice?” Look, on the day you fast, you do whatever you please, and you push all your workers hard.",
+          "Look, you fast, but you argue and fight and hit people with cruel fists. Fasting the way you do today will not make your voice heard in heaven.",
+          "Is that the kind of fast I have chosen—a day for a person to humble himself? To bow his head like a reed and lie on sackcloth and ashes (signs of sorrow)? Is that what you call a fast, a day the Lord will accept?",
+          "Isn’t this the fast I have chosen: to break the chains of wickedness, to take away heavy burdens, to set the oppressed free, and to break every yoke that holds people down?",
+          "Isn’t it to share your food with the hungry, to bring poor people who have no home into your house, to give clothes to someone you see without any, and not to hide from your own family?",
+          "Then your light will break out like the sunrise, and you will be healed quickly. Your righteousness will go in front of you, and the glory of the Lord will guard you from behind.",
+          "Then you will call, and the Lord will answer. You will cry for help, and He will say, “Here I am.” If you stop putting heavy loads on others, pointing your finger at them, and saying wicked things,",
+          "And if you give yourself to feeding the hungry and helping those who are suffering, then your light will rise in the darkness, and your darkest times will be as bright as noon.",
+          "The Lord will guide you always. He will satisfy you in dry places and make your bones strong. You will be like a garden with plenty of water, like a spring whose water never runs out.",
+          "Your people will rebuild the ruins from long ago. You will build again on foundations laid many generations back. You will be called the Repairer of the Breach (the one who fixes the gap in the wall) and the Restorer of Streets to Live In.",
+          "If you stop doing whatever you want on the Sabbath, my holy day; if you call the Sabbath a delight and the Lord’s holy day worthy of honor; if you honor Him by not going your own way, not chasing your own pleasures, and not speaking your own words,",
+          "Then you will find joy in the Lord. I will make you ride on the high places of the earth, and I will feed you with the inheritance of your father Jacob. The Lord Himself has said it."
+        ],
+        "notes": [],
+        "approved": "055ff9eb"
+      },
+      {
+        "ch": "Isaiah 59",
+        "verses": [
+          "Look, the Lord’s hand is not too short to save you, and His ear is not too dull to hear you.",
+          "But your wrongs have come between you and your God, and your sins have hidden His face from you, so that He will not hear.",
+          "For your hands are stained with blood and your fingers with sin. Your lips have told lies, and your tongue mutters wicked things.",
+          "No one asks for justice, and no one argues their case honestly. They trust in empty words and tell lies. They plan trouble and give birth to wickedness.",
+          "They hatch the eggs of poisonous snakes and weave spider webs. Whoever eats their eggs dies, and when one is crushed, a viper comes out.",
+          "Their webs can’t be made into clothes, and they can’t cover themselves with what they make. What they do is wicked, and their hands are full of violence.",
+          "Their feet run to do evil, and they rush to kill innocent people. Their thoughts are wicked thoughts. Ruin and destruction are everywhere they go.",
+          "They don’t know the way of peace, and there is no justice in the paths they take. They have made their roads crooked, and no one who walks on them will know peace.",
+          "That is why justice is far from us, and righteousness does not reach us. We hope for light, but everything is dark. We hope for brightness, but we walk in gloom.",
+          "We feel our way along the wall like blind people, groping as if we had no eyes. We trip at noon as if it were night. In lonely places we are like dead people.",
+          "We all growl like bears and moan sadly like doves. We look for justice, but there isn’t any. We look for salvation, but it is far away from us.",
+          "For we have done so many wrongs against you, and our sins speak against us. Our wrongs are always with us, and we know our sins well.",
+          "We have rebelled and lied to the Lord. We have turned away from following our God. We have talked about hurting others and turning against God, and we have made up lies in our hearts and spoken them.",
+          "So justice is pushed back, and righteousness stands far away. Truth has fallen down in the street, and honesty cannot come in.",
+          "Truth is missing, and anyone who turns away from evil gets attacked. The Lord saw it, and He was not pleased that there was no justice.",
+          "He saw that there was no one to help, and He was amazed that there was no one to plead for the people. So His own arm brought salvation, and His own righteousness held Him up.",
+          "He put on righteousness like a breastplate and salvation like a helmet on His head. He put on clothes of vengeance and wrapped Himself in zeal like a cloak.",
+          "He will pay them back for what they have done: anger for His enemies and punishment for those who fight Him. He will pay back the islands too.",
+          "Then people in the west will fear the name of the Lord, and people in the east will fear His glory. When the enemy comes in like a flood, the Spirit of the Lord will raise a banner against him.",
+          "The Redeemer will come to Zion, to those in Jacob who turn away from their sins, says the Lord.",
+          "As for me, this is my covenant with them, says the Lord: My Spirit that is on you, and my words that I have put in your mouth, will not leave your mouth, or the mouths of your children, or the mouths of their children, from now on and forever, says the Lord."
+        ],
+        "notes": [
+          {
+            "v": 19,
+            "text": "The KJV reads the Hebrew as an enemy who will “come in like a flood.” Many modern translations read it as the Lord Himself coming like a rushing river, driven by the breath of the Lord."
+          },
+          {
+            "v": 20,
+            "text": "Paul quotes this promise when he teaches that “all Israel shall be saved” (Romans 11:26)."
+          }
+        ],
+        "review": [
+          {
+            "v": 19,
+            "about": "The KJV and modern translations read the second half differently. The plain words keep the KJV’s enemy and banner, with a note giving the other reading."
+          }
+        ],
+        "approved": "2b6ff837"
+      },
+      {
+        "ch": "Isaiah 60",
+        "verses": [
+          "Arise, Zion, and shine! Your light has come, and the glory of the Lord has risen on you.",
+          "Look, darkness will cover the earth, and thick darkness will cover the peoples. But the Lord will rise on you, and His glory will be seen on you.",
+          "The Gentiles will come to your light, and kings to the brightness of your sunrise.",
+          "Look up and look all around you. They are all gathering together and coming to you. Your sons will come from far away, and your daughters will be carried at your side.",
+          "Then you will see it and shine with joy. Your heart will thrill and swell with happiness, because the riches of the sea will be turned toward you, and the wealth of the Gentiles will come to you.",
+          "Crowds of camels will cover your land, young camels from Midian and Ephah. Everyone from Sheba will come, bringing gold and incense and telling the praises of the Lord.",
+          "All the flocks of Kedar will be gathered to you, and the rams of Nebaioth will serve you. They will be accepted as offerings on my altar, and I will make my glorious house even more glorious.",
+          "Who are these flying like clouds, like doves flying home?",
+          "For the islands are waiting for me, with the ships of Tarshish first, to bring your children from far away, with their silver and gold, to honor the name of the Lord your God, the Holy One of Israel, because He has made you glorious.",
+          "Foreigners will rebuild your walls, and their kings will serve you. In my anger I struck you, but in my favor I have had mercy on you.",
+          "Your gates will always be open. They will not be shut day or night, so that people can bring you the wealth of the Gentiles, with their kings led along.",
+          "For the nation or kingdom that will not serve you will be destroyed. Yes, those nations will be completely ruined.",
+          "The glory of Lebanon will come to you—fir, pine, and box trees together—to make my holy place beautiful. I will make the place where my feet rest glorious.",
+          "The children of those who hurt you will come bowing to you. Everyone who looked down on you will bow at your feet. They will call you the City of the Lord, the Zion of the Holy One of Israel.",
+          "You were left alone and hated, so that no one even passed through you. But I will make you majestic forever, a joy for every generation.",
+          "You will drink the milk of the Gentiles and be nursed by kings. Then you will know that I, the Lord, am your Savior and your Redeemer, the Mighty One of Jacob.",
+          "Instead of bronze I will bring gold, instead of iron silver, instead of wood bronze, and instead of stones iron. I will appoint peace to be your officers and righteousness to be your rulers.",
+          "Violence will not be heard in your land anymore, or ruin and destruction inside your borders. You will call your walls Salvation and your gates Praise.",
+          "The sun will no longer be your light by day, and the moon will not shine on you for light. The Lord will be your everlasting light, and your God will be your glory.",
+          "Your sun will never go down again, and your moon will not fade, because the Lord will be your everlasting light, and your days of mourning will be over.",
+          "All your people will be righteous. They will own the land forever. They are the branch I planted, the work of my hands, to show my glory.",
+          "The smallest one will become a thousand, and the least one a strong nation. I, the Lord, will hurry it along when its time comes."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "The Lord gives the same call to His Church in the latter days: “Arise and shine forth, that thy light may be a standard for the nations” (D&C 115:5)."
+          },
+          {
+            "v": 5,
+            "text": "The KJV has “flow together.” Most modern translations read the Hebrew word as ‘be radiant’: shine with joy."
+          },
+          {
+            "v": 16,
+            "text": "Nephi explains the same picture from Isaiah 49:22–23: the Lord’s marvelous work among the Gentiles will bless Israel, and “it is likened unto their being nourished by the Gentiles” (1 Nephi 22:8)."
+          },
+          {
+            "v": 19,
+            "text": "In John’s vision the holy city needs no sun, because “the glory of God did lighten it, and the Lamb is the light thereof” (Revelation 21:23)."
+          },
+          {
+            "v": 22,
+            "text": "The Joseph Smith Translation changes “his time” to my time: the Lord will hasten it in His own time."
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "Added “Zion”: every you in this chapter is feminine (verse 14 names her). The note under verse 1 gives the Lord’s same call to His Church (D&C 115:5)."
+          }
+        ],
+        "approved": "f63cbf4a"
+      },
+      {
+        "ch": "Isaiah 61",
+        "verses": [
+          "The Spirit of the Lord God is on me, because the Lord has anointed me to bring good news to the meek. He has sent me to heal those whose hearts are broken, to announce freedom to the captives, and to open the prison doors for those who are locked up.",
+          "He sent me to announce the year of the Lord’s favor and the day of our God’s vengeance, and to comfort all who mourn.",
+          "He sent me to care for those who mourn in Zion—to give them beauty instead of ashes, the oil of joy instead of mourning, and clothes of praise instead of a heavy spirit. They will be called trees of righteousness, planted by the Lord, to show His glory.",
+          "They will rebuild the ancient ruins and restore places that were destroyed long ago. They will repair the ruined cities that have lain empty for generations.",
+          "Strangers will stand and take care of your flocks, and foreigners will plow your fields and tend your vineyards.",
+          "But you will be called the Priests of the Lord. People will call you the Ministers of our God. You will enjoy the riches of the Gentiles and take pride in their glory.",
+          "Instead of shame, you will get a double share. Instead of disgrace, your people will be glad about what they receive. So in their land they will receive a double portion, and they will have joy that lasts forever.",
+          "For I, the Lord, love justice. I hate stealing, even to give a burnt offering. I will reward their work faithfully, and I will make an everlasting covenant with them.",
+          "Their children will be known among the Gentiles, and their descendants among the peoples. Everyone who sees them will know that they are the people the Lord has blessed.",
+          "I will be very glad in the Lord. My soul will rejoice in my God, because He has dressed me in clothes of salvation and wrapped me in a robe of righteousness, like a bridegroom dressed in his finest and a bride wearing her jewels.",
+          "For just as the earth makes plants sprout and a garden makes seeds grow, the Lord God will make righteousness and praise spring up in front of all the nations."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "Jesus read verse 1 and the first part of verse 2 in the synagogue at Nazareth, stopping before the words about vengeance. Then He said, “This day is this scripture fulfilled in your ears” (Luke 4:16–21)."
+          },
+          {
+            "v": 8,
+            "text": "The KJV has “direct their work in truth.” The Hebrew word for work can also mean the pay for work, so most modern translations read it as the Lord faithfully giving them their reward."
+          }
+        ],
+        "approved": "59984ee3"
+      },
+      {
+        "ch": "Isaiah 62",
+        "verses": [
+          "For Zion’s sake I will not keep quiet, and for Jerusalem’s sake I will not rest, until her righteousness shines out like the dawn and her salvation blazes like a burning torch.",
+          "The Gentiles will see your righteousness, Zion, and all kings will see your glory. You will be called by a new name that the Lord Himself will give you.",
+          "You will be a crown of glory in the Lord’s hand, a royal crown in the hand of your God.",
+          "No one will call you Forsaken anymore, or call your land Desolate. Instead you will be called Hephzi-bah (My Delight Is in Her), and your land Beulah (Married), because the Lord delights in you, and your land will be married.",
+          "As a young man marries a young woman, so your sons will marry you. As a groom is happy with his bride, so your God will be happy with you.",
+          "Jerusalem, I have put watchmen on your walls who will never be silent, day or night. You who call on the Lord, do not be silent.",
+          "Give Him no rest until He makes Jerusalem strong and makes it something the whole earth praises.",
+          "The Lord has made a promise by His right hand and His strong arm: I will never again give your grain to your enemies for food, and foreigners will not drink the new wine you worked so hard for.",
+          "But those who harvest the grain will eat it and praise the Lord, and those who gather the grapes will drink the wine in the courtyards of my holy temple.",
+          "Go through, go through the gates! Clear the road for the people! Build up, build up the highway! Clear away the stones! Raise a banner for the peoples!",
+          "Look, the Lord has announced to the ends of the earth: Tell the daughter of Zion, “Look, your salvation is coming! His reward is with Him, and His prize goes before Him.”",
+          "They will be called the Holy People, the Redeemed of the Lord. And you will be called Sought Out, the City Not Forsaken."
+        ],
+        "notes": [],
+        "review": [
+          {
+            "v": 2,
+            "about": "Added “Zion”: every you here is feminine (verse 1 names her), so the new names belong to Zion."
+          }
+        ],
+        "approved": "c57ce9d6"
+      },
+      {
+        "ch": "Isaiah 63",
+        "verses": [
+          "Who is this coming from Edom, from Bozrah, with clothes dyed red? Who is this, dressed in glory, marching in His great strength? “It is I, who speak in righteousness, mighty to save.”",
+          "Why are your clothes red, like the clothes of someone who stomps grapes in a winepress?",
+          "I have stomped the grapes in the winepress alone, and no one from the nations was with me. I will stomp them in my anger and trample them in my fury. Their blood will splash on my clothes, and I will stain everything I wear.",
+          "For the day of vengeance is in my heart, and the year of my redeemed people has come.",
+          "I looked, and there was no one to help. I was amazed that no one would hold me up. So my own arm brought salvation, and my fury held me up.",
+          "I will trample the peoples in my anger, make them drunk with my fury, and bring their strength down to the ground.",
+          "I will tell about the Lord’s loving kindnesses and His praises, for everything the Lord has done for us—the great goodness He has shown the house of Israel because of His mercy and His many loving kindnesses.",
+          "For He said, “Surely they are my people, children who will not lie.” So He became their Savior.",
+          "In all their troubles He was troubled too, and the angel of His presence saved them. In His love and pity He redeemed them. He lifted them up and carried them all through the days of old.",
+          "But they rebelled and made His Holy Spirit sad. So He turned and became their enemy, and He fought against them.",
+          "Then His people remembered the days long ago, the days of Moses: Where is the one who brought them up out of the sea with the shepherd of His flock? Where is the one who put His Holy Spirit among them?",
+          "He led them by Moses’ right hand with His glorious arm. He split the water in front of them to make His name known forever.",
+          "He led them through the deep sea like a horse running in the open country, so they did not stumble.",
+          "Like cattle going down into a valley, the Spirit of the Lord gave them rest. That is how you led your people, to make a glorious name for yourself.",
+          "Look down from heaven and see us from your holy and glorious home. Where are your zeal and your strength? Where are your tender love and mercy for me? Are you holding them back?",
+          "You are our Father, even though Abraham does not know us and Israel does not recognize us. You, O Lord, are our Father, our Redeemer. That has been your name forever.",
+          "O Lord, why have you made us wander from your ways and hardened our hearts so that we don’t fear you? Come back for the sake of your servants, the tribes that belong to you.",
+          "Your holy people owned your holy place for only a little while. Now our enemies have trampled your temple.",
+          "We have become like people you never ruled, like people who were never called by your name."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "The Doctrine and Covenants uses these verses for the Lord’s Second Coming: “the Lord shall be red in his apparel” (D&C 133:46–51)."
+          },
+          {
+            "v": 11,
+            "text": "The KJV says “he remembered.” The Hebrew can mean the Lord or His people; many modern translations have His people remembering."
+          },
+          {
+            "v": 17,
+            "text": "The Joseph Smith Translation asks why the Lord has allowed (suffered) them to wander from His ways and to harden their hearts, instead of saying He made them."
+          },
+          {
+            "v": 19,
+            "text": "The KJV reads “We are thine.” Many modern translations read the Hebrew as ‘We have become like those you never ruled.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 3,
+            "about": "The KJV has the Lord speaking of the trampling as still to come (I will tread); many translations put it in the past, and so does the Doctrine and Covenants: “I have trampled them in my fury” (D&C 133:51). The plain words keep the KJV."
+          },
+          {
+            "v": 17,
+            "about": "The plain words follow the Hebrew (you made us wander, hardened our hearts); the Joseph Smith Translation says the Lord allowed it. A note gives the JST. You may want the plain words to follow the JST instead."
+          }
+        ],
+        "approved": "918c5891"
+      },
+      {
+        "ch": "Isaiah 64",
+        "verses": [
+          "Oh, if only you would tear open the heavens and come down, and the mountains would melt at your presence!",
+          "It would be like a blazing fire that makes water boil. Your enemies would know your name, and the nations would tremble at your presence!",
+          "When you did fearsome things that we never expected, you came down, and the mountains melted at your presence.",
+          "Since the world began, no one has heard or listened, and no eye has seen, O God, except yours, what you have prepared for the one who waits for you.",
+          "You welcome those who joyfully do righteous things and who remember you in your ways. But you were angry, because we sinned. Your ways last forever, and in them we will be saved.",
+          "All of us have become like something unclean, and all our righteous deeds are like filthy rags. We all dry up like a leaf, and our sins carry us away like the wind.",
+          "No one calls on your name or wakes up to take hold of you. For you have hidden your face from us and have made us melt away because of our sins.",
+          "But now, O Lord, you are our Father. We are the clay, and you are our potter. We are all the work of your hands.",
+          "Don’t be so very angry, O Lord, and don’t remember our sins forever. Please look at us—we are all your people.",
+          "Your holy cities have become a wilderness. Zion is a wilderness, and Jerusalem is empty and ruined.",
+          "Our holy and beautiful temple, where our fathers praised you, has been burned with fire, and all the things we loved are in ruins.",
+          "After all this, O Lord, will you hold yourself back? Will you stay silent and keep making us suffer so much?"
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "In the Doctrine and Covenants, the Lord’s servants pray these words for His coming: “O that thou wouldst rend the heavens” (D&C 133:40)."
+          },
+          {
+            "v": 4,
+            "text": "Paul quotes this verse about “the things which God hath prepared for them that love him” (1 Corinthians 2:9)."
+          },
+          {
+            "v": 5,
+            "text": "The KJV ends this verse with hope: “we shall be saved.” Many modern translations read the Hebrew as a question: ‘How can we be saved?’"
+          }
+        ],
+        "review": [
+          {
+            "v": 5,
+            "about": "The KJV reads the end of the verse as hope, modern translations as a worried question. The plain words keep the KJV’s hope, with a note."
+          }
+        ],
+        "approved": "faaa65a6"
+      },
+      {
+        "ch": "Isaiah 65",
+        "verses": [
+          "I let myself be found by people who did not ask for me. I was found by people who did not look for me. To a nation that was not called by my name, I said, “Here I am, here I am!”",
+          "All day long I have held out my hands to a rebellious people, who walk in a way that is not good and follow their own ideas.",
+          "They are a people who keep making me angry right to my face. They offer sacrifices in gardens and burn incense on brick altars.",
+          "They sit among the graves and spend the night in secret places. They eat pig meat, and their pots are full of disgusting broth.",
+          "They say, “Stay away! Don’t come near me, because I am holier than you!” People like that are like smoke in my nose, a fire that burns all day long.",
+          "Look, it is written down in front of me: I will not keep quiet. I will pay them back—yes, I will pay them back in full.",
+          "I will pay back your sins and your fathers’ sins together, says the Lord. They burned incense on the mountains and insulted me on the hills, so I will measure out to them the full payment for what they did before.",
+          "This is what the Lord says: When there is still juice in a bunch of grapes, people say, “Don’t destroy it, because there is a blessing in it.” That is what I will do for my servants’ sake: I will not destroy them all.",
+          "I will bring children out of Jacob, and out of Judah someone to inherit my mountains. My chosen people will inherit it, and my servants will live there.",
+          "The plain of Sharon will be a pasture for flocks, and the valley of Achor a place for herds to rest, for my people who have looked for me.",
+          "But you have left the Lord and forgotten my holy mountain. You set a table for the god of luck and fill cups of mixed wine for the god of fate.",
+          "So I will destine you for the sword, and you will all bow down to be killed, because when I called, you did not answer. When I spoke, you did not listen. You did evil right in front of me and chose what I do not like.",
+          "So this is what the Lord God says: Look, my servants will eat, but you will be hungry. My servants will drink, but you will be thirsty. My servants will be glad, but you will be ashamed.",
+          "My servants will sing because their hearts are happy, but you will cry because your hearts are hurting, and you will wail because your spirits are broken.",
+          "You will leave behind your name for my chosen people to use in curses. The Lord God will put you to death, but He will call His servants by another name.",
+          "Anyone in the land who asks for a blessing will ask it by the God of truth, and anyone who makes a promise will promise by the God of truth, because the old troubles will be forgotten and hidden from my eyes.",
+          "Look, I am creating new heavens and a new earth. The things of the past will not be remembered or even come to mind.",
+          "But be glad and rejoice forever in what I create. For look, I am creating Jerusalem to be a joy and her people to be a delight.",
+          "I will rejoice over Jerusalem and be happy with my people. The sound of weeping and crying will not be heard in her anymore.",
+          "No baby there will live only a few days, and no old man will die before he has lived a full life. Someone who dies at a hundred will be thought of as a child, and a sinner who lives a hundred years will still be cursed.",
+          "They will build houses and live in them. They will plant vineyards and eat their fruit.",
+          "They will not build houses for someone else to live in, or plant for someone else to eat. My people will live as long as trees live, and my chosen ones will enjoy the work of their hands for a long time.",
+          "They will not work for nothing or have children who are born into disaster, for they are the children of those the Lord has blessed, and their children will be with them.",
+          "Before they call, I will answer. While they are still speaking, I will hear.",
+          "The wolf and the lamb will eat together, and the lion will eat straw like an ox. Dust will be the snake’s food. They will not hurt or destroy anything on all my holy mountain, says the Lord."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "Paul uses this verse about the Gentiles finding God: “I was found of them that sought me not” (Romans 10:20)."
+          },
+          {
+            "v": 2,
+            "text": "Paul says these words were spoken to Israel: “But to Israel he saith, All day long I have stretched forth my hands” (Romans 10:21)."
+          },
+          {
+            "v": 4,
+            "text": "The KJV has “monuments.” The Hebrew word means guarded or hidden places, so modern translations say ‘secret places.’"
+          },
+          {
+            "v": 11,
+            "text": "The KJV reads the Hebrew words as “that troop” and “that number.” Most modern translations read them as the names of two false gods, Fortune and Destiny."
+          },
+          {
+            "v": 20,
+            "text": "The Doctrine and Covenants says of the Millennium: “an infant shall not die until he is old; and his life shall be as the age of a tree” (D&C 101:30)."
+          }
+        ],
+        "review": [
+          {
+            "v": 11,
+            "about": "The KJV’s “that troop” and “that number” are read today as two false gods, Fortune and Destiny. The plain words follow the modern reading, with a note."
+          }
+        ],
+        "approved": "e04e31f2"
+      },
+      {
+        "ch": "Isaiah 66",
+        "verses": [
+          "This is what the Lord says: Heaven is my throne, and the earth is my footstool. What house could you build for me? What place could be my resting place?",
+          "My hand made all these things, and that is how they came to be, says the Lord. But this is the person I will look to: the one who is poor and has a contrite spirit (a humble, sorry heart), and who trembles at my word.",
+          "Whoever kills an ox is like someone who kills a man. Whoever sacrifices a lamb is like someone who breaks a dog’s neck. Whoever gives an offering is like someone who offers pig’s blood. Whoever burns incense is like someone who praises an idol. They have chosen their own ways, and they love their disgusting practices.",
+          "So I too will choose their punishment and bring on them the very things they fear, because when I called, no one answered, and when I spoke, they did not listen. They did evil right in front of me and chose what I do not like.",
+          "Listen to the word of the Lord, you who tremble at His word: Your own brothers who hate you and throw you out because of my name have said, “Let the Lord be glorified, so we can see your joy!” But they will be put to shame.",
+          "Listen to the noise from the city, a voice from the temple! It is the voice of the Lord, paying back His enemies what they deserve.",
+          "Before she was in labor, she gave birth. Before the pain came, she had a baby boy.",
+          "Who has ever heard of such a thing? Who has seen anything like it? Can a land be born in one day, or a nation be born all at once? Yet as soon as Zion was in labor, she gave birth to her children.",
+          "Would I bring a baby to the moment of birth and not let it be born? says the Lord. Would I, the one who makes birth happen, close the womb? says your God.",
+          "Rejoice with Jerusalem and be glad for her, all you who love her. Rejoice with her, all you who have been mourning for her.",
+          "Then you will drink from her comfort like babies nursing at their mother’s breast and be satisfied, and you will enjoy her rich glory.",
+          "For this is what the Lord says: Look, I will send peace to her like a river, and the glory of the Gentiles like an overflowing stream. You will nurse and be carried on her hip and bounced on her knees.",
+          "As a mother comforts her child, so I will comfort you, and you will be comforted in Jerusalem.",
+          "When you see this, your heart will be glad, and your bones will grow strong like fresh grass. The Lord’s hand will be shown to His servants, and His anger to His enemies.",
+          "Look, the Lord will come with fire, and His chariots will be like a whirlwind. He will pour out His anger with fury and His rebuke with flames of fire.",
+          "For the Lord will judge all people with fire and with His sword, and many will be killed by the Lord.",
+          "Those who make themselves holy and clean to go into the gardens, following the one in the middle, and who eat pig’s meat, disgusting things, and mice, will all come to an end together, says the Lord.",
+          "For I know what they do and what they think. The time is coming when I will gather all nations and languages, and they will come and see my glory.",
+          "I will set a sign among them. I will send some who survive to the nations: to Tarshish, Pul, and Lud (who are skilled with the bow), to Tubal and Javan, and to the faraway islands that have not heard about me or seen my glory. They will tell about my glory among the Gentiles.",
+          "And they will bring all your brothers from all the nations as an offering to the Lord—on horses, in chariots and wagons, on mules and on fast animals—to my holy mountain Jerusalem, says the Lord, just as the children of Israel bring an offering in a clean dish to the house of the Lord.",
+          "I will also take some of them to be priests and Levites, says the Lord.",
+          "For just as the new heavens and the new earth that I will make will last before me, says the Lord, so your descendants and your name will last.",
+          "From one new moon to the next and from one Sabbath to the next (every month and every week), all people will come to worship me, says the Lord.",
+          "They will go out and look at the dead bodies of the people who rebelled against me. Their worm will not die, and their fire will not go out, and everyone will be disgusted by them."
+        ],
+        "notes": [
+          {
+            "v": 4,
+            "text": "The KJV reads “choose their delusions.” The Hebrew word is rare; many modern translations read it as ‘punishment’ or ‘harsh treatment.’"
+          },
+          {
+            "v": 5,
+            "text": "The KJV reads “he shall appear to your joy”: the Lord will come, and the faithful will rejoice. Modern translations read it as the mockers’ words: ‘so we can see your joy.’"
+          },
+          {
+            "v": 17,
+            "text": "The word “tree” is not in the Hebrew; the KJV added it. The Hebrew says only ‘one in the midst.’"
+          },
+          {
+            "v": 24,
+            "text": "Jesus used these words to describe hell: “where their worm dieth not, and the fire is not quenched” (Mark 9:44)."
+          }
+        ],
+        "review": [
+          {
+            "v": 5,
+            "about": "The KJV reads the last line as the Lord appearing to their joy; the plain words follow the Hebrew vowels (the enemies mocking), with a note. Your call."
+          }
+        ],
+        "approved": "c1399948"
+      }
+    ]
   }
 ];

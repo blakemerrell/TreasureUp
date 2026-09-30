@@ -146,7 +146,8 @@ Each reel:
 
 ## Plain words (`plain`)
 
-A week's `plain` is a list of chapters from its reading, each
+Every week gets plain words for its whole reading (Blake, 2026-09-29: "and
+onward"). A week's `plain` is a list of chapters from its reading, each
 `{ ch, verses, notes, review }`. In a chapter he picks what he reads with
 four buttons: **KJV**, **Plain words**, **BSB** and **Notes**, any mix.
 The KJV stays the scripture; the plain words and notes help him
