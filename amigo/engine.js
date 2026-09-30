@@ -34,6 +34,9 @@
     for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); }
     return (h >>> 0).toString(16).padStart(8, '0');
   }
+  // A build-it tile as it's said on its own: without its ¿ ¡ and end marks, so
+  // "po" and "po." share one recording (tools/amigo-voice.mjs records these too).
+  const sayable = w => String(w).replace(/^[¿¡]+/, '').replace(/[?!.,;:]+$/, '');
   // Today, as a whole number of days, on this phone's clock.
   const dayNum = (d = new Date()) => Math.floor((d.getTime() - d.getTimezoneOffset() * 60000) / 86400000);
 
@@ -134,7 +137,7 @@
     return { first, streak: s.count };
   }
 
-  const API = { LESSONS_PER_UNIT, INTERVALS, XP_RIGHT, audioKey, rng, shuffled, dayNum, freshSave, courseSave, path, unlocked, nextLesson, streakNow, buildLesson, check, remember, finish, tiles };
+  const API = { LESSONS_PER_UNIT, INTERVALS, XP_RIGHT, audioKey, sayable, rng, shuffled, dayNum, freshSave, courseSave, path, unlocked, nextLesson, streakNow, buildLesson, check, remember, finish, tiles };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
   else root.AMIGO_ENGINE = API;
 })(this);
