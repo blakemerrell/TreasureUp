@@ -244,61 +244,6 @@
     return { top, right, bottom, left, cx: top.x, cy: (top.y + bottom.y) * 0.5 };
   }
   function paintTile(x, y) {
-    const i = y * MAP_W + x;
-    const l = look(i);
-    let col = l === T.WATER ? '#3b82f6' : l === T.TREES || l === T.FOREST ? '#064e3b' : l === T.GRASS ? '#166534' : '#14532d';
-    if (l === T.FORD) col = '#60a5fa';
-    else if (l === T.ROAD) col = '#d6d3d1';
-    else if (l === T.FIELD) col = '#a16207';
-    if (explored[i] === 1) { bCtx.fillStyle = 'rgba(0,0,0,0.5)'; bCtx.fillRect(0,0,1,1); }
-
-    const { top, right, bottom, left, cx, cy } = tileDiamond(bCtx, x, y);
-
-    if (IMG.grass.complete && IMG.grass.naturalWidth && (l === T.GRASS || l === T.FIELD || l === T.TREES || l === T.FOREST)) {
-      bCtx.save();
-      bCtx.clip();
-      bCtx.drawImage(IMG.grass, top.x - 32, top.y, 64, 32);
-      if (l !== T.GRASS) {
-         bCtx.fillStyle = l === T.FIELD ? 'rgba(234,179,8,0.3)' : 'rgba(0,0,0,0.4)';
-         bCtx.fill();
-      }
-      bCtx.restore();
-    } else {
-      bCtx.fillStyle = col;
-      bCtx.fill();
-    }
-    
-    bCtx.strokeStyle = 'rgba(0,0,0,0.08)'; bCtx.lineWidth = 1; bCtx.stroke();
-  }
-
-  function look(i) {
-    const t = W.tiles[i], a = W.amt[i];
-    if (t === T.FOREST) return t * 4 + (a > 80 ? 2 : a > 35 ? 1 : 0);
-    if (t === T.FIELD) return t * 4 + (a > 150 ? 1 : 0);
-    return t * 4;
-  }
-  function paintTerrain() {
-    if (!painted) { painted = new Int16Array(MAP_W * MAP_H).fill(-1); }
-    for (let y = 0; y < MAP_H; y++) for (let x = 0; x < MAP_W; x++) {
-      const i = y * MAP_W + x, l = look(i);
-      if (painted[i] !== l) { painted[i] = l; paintTile(x, y); miniDirty = true; }
-    }
-    W.terrainDirty = false;
-  }
-  function tileDiamond(c, x, y) {
-    const top = { x: (x - y) * TILE + ISO_OFFSET_X, y: (x + y) * TILE * 0.5 };
-    const right = { x: (x + 1 - y) * TILE + ISO_OFFSET_X, y: (x + 1 + y) * TILE * 0.5 };
-    const bottom = { x: (x - y) * TILE + ISO_OFFSET_X, y: (x + y + 2) * TILE * 0.5 };
-    const left = { x: (x - (y + 1)) * TILE + ISO_OFFSET_X, y: (x + y + 1) * TILE * 0.5 };
-    c.beginPath();
-    c.moveTo(top.x, top.y);
-    c.lineTo(right.x, right.y);
-    c.lineTo(bottom.x, bottom.y);
-    c.lineTo(left.x, left.y);
-    c.closePath();
-    return { top, right, bottom, left, cx: top.x, cy: (top.y + bottom.y) * 0.5 };
-  }
-  function paintTile(x, y) {
     const c = tctx, i = y * MAP_W + x, t = W.tiles[i], a = W.amt[i], h = k => hash(x, y, k);
     const d = tileDiamond(c, x, y);
 
