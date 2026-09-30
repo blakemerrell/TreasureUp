@@ -49,6 +49,11 @@ jobs:
         env:
           SCRIPTURE_CACHE: ${{ runner.temp }}/scripture
 
+      # Amigo · Kaibigan (amigo/): the courses follow their rules, every lesson
+      # builds and can be answered, and Baybayin spells words right.
+      - name: Check Amigo · Kaibigan
+        run: node tools/test-amigo.mjs
+
       # The chapters of each week's reading, so he can read them in the app
       # (tools/build-reading.mjs, from the data the check just downloaded).
       # If it can't, the app still works and sends him to Gospel Library.

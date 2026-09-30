@@ -2900,7 +2900,13 @@ const TreasureUp = (function () {
     const libWon = Object.keys(lib.won || {}).length;
     const strategy = gameRow('liberty', '🛡️', 'Title of Liberty', 'A strategy game from the Book of Mormon: Captain Moroni at the river Sidon, the Nephites against the Gadianton robbers, and a free battle where you build a city. Read each chapter to open its mission.',
       libWon ? libWon + (libWon > 1 ? ' missions' : ' mission') + ' won · no XP, just for fun' : 'Read a chapter to open its mission · no XP, just for fun', false);
-    $('gamesBody').innerHTML = `<div class="games-head">Every day</div>${rows.join('')}<div class="games-head">Family night</div>${family.join('')}<div class="games-head">Book of Mormon</div>${strategy}`;
+    // Amigo · Kaibigan lives at amigo/, with its own progress (localStorage amigo.v1).
+    let amigo = {};
+    try { amigo = JSON.parse(localStorage.getItem('amigo.v1')) || {}; } catch (e) { /* storage blocked */ }
+    const lessonsDone = Object.values(amigo.courses || {}).reduce((n, c) => n + Object.keys(c.done || {}).length, 0);
+    const language = gameRow('amigo', '🌎', 'Amigo · Kaibigan', 'Spanish for friends at school and Tagalog from Tatay: five-minute lessons, a streak, and Baybayin, the old Filipino script.',
+      lessonsDone ? lessonsDone + (lessonsDone > 1 ? ' lessons' : ' lesson') + ' done · its own XP, apart from Treasure Up’s' : 'Five minutes a day · its own XP, apart from Treasure Up’s', false);
+    $('gamesBody').innerHTML = `<div class="games-head">Every day</div>${rows.join('')}<div class="games-head">Family night</div>${family.join('')}<div class="games-head">Book of Mormon</div>${strategy}<div class="games-head">Languages</div>${language}`;
   }
 
   function openGames() { renderGames(); $('games').hidden = false; }
@@ -2916,6 +2922,7 @@ const TreasureUp = (function () {
     else if (id === 'live') liveStart();
     else if (id === 'babylon') riskChooser();
     else if (id === 'liberty') location.href = 'liberty/';
+    else if (id === 'amigo') location.href = 'amigo/';
   }
 
   let playing = null;   // 'puzzle' | 'sayings'

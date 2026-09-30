@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a14">
+<title>Amigo · Kaibigan</title>
+<!-- Spanish for his friends at school and Tagalog from Tatay: five-minute
+     lessons, a streak, and Baybayin. The lessons are made in engine.js, the
+     words are in course-es.js and course-tl.js, the old script in
+     baybayin.js (all tested by tools/test-amigo.mjs); this page draws them.
+     Progress stays on the phone (localStorage amigo.v1). -->
+<link rel="icon" href="../icons/icon-192.png">
+<link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Noto+Sans+Tagalog&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --ink: #0a0a14; --panel: #14142a; --panel-2: #1c1c38; --line: rgba(255,255,255,.12);
+    --text: rgba(255,255,255,.94); --soft: rgba(255,255,255,.66); --gold: #fcd34d; --right: #34d399; --wrong: #fb7185;
+    --es: #fb923c; --es-2: #2dd4bf; --tl: #38bdf8; --tl-2: #fde047; --bay: #c4b5fd;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { background: radial-gradient(120% 60% at 20% 0%, #1f1b4d 0%, var(--ink) 60%) fixed, var(--ink); color: var(--text);
+    font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif; font-size: 15px; line-height: 1.5; -webkit-tap-highlight-color: transparent; }
+  button, input { font: inherit; color: inherit; }
+  button { cursor: pointer; touch-action: manipulation; }
+  button:disabled { cursor: default; }
+  a { color: var(--gold); }
+  [hidden] { display: none !important; }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  #app { max-width: 520px; margin: 0 auto; min-height: 100%; height: 100%; display: flex; flex-direction: column;
+    padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .bar { display: flex; align-items: center; gap: 10px; padding: 14px 16px 8px; }
+  .bar h1 { margin: 0; font-size: 20px; font-weight: 900; text-wrap: balance; }
+  .bar .dot { color: var(--gold); }
+  .back { flex: none; width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel);
+    color: var(--text); font-size: 18px; font-weight: 800; display: grid; place-items: center; text-decoration: none; }
+  .screen { flex: 1; overflow-y: auto; padding: 8px 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+  .screen > * { flex-shrink: 0; }   /* a card keeps its whole height; the screen scrolls instead */
+  .hello { color: var(--soft); margin: 0; }
+  .chip { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--panel-2); border: 1px solid var(--line);
+    color: var(--soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .chip.warn { color: #fbbf24; border-color: rgba(251,191,36,.5); }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  /* The course cards on the home screen */
+  .card { text-align: left; width: 100%; color: var(--text); border-radius: 20px; padding: 16px; border: 1px solid var(--line);
+    display: grid; gap: 4px; position: relative; overflow: hidden; }
+  .card .who { font-size: 11px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; opacity: .9; }
+  .card .name { font-size: 22px; font-weight: 900; }
+  .card .unit { opacity: .9; }
+  .card .meter { height: 6px; border-radius: 99px; background: rgba(0,0,0,.35); margin-top: 8px; overflow: hidden; }
+  .card .meter i { display: block; height: 100%; border-radius: 99px; background: currentColor; }
+  .card.es { background: linear-gradient(145deg, #3b1604 0%, #7c2d12 55%, #115e59 130%); }
+  .card.es .who { color: var(--es); } .card.es .meter { color: var(--es-2); }
+  .card.tl { background: linear-gradient(145deg, #0c1f3f 0%, #0c4a6e 60%, #713f12 140%); }
+  .card.tl .who { color: var(--tl-2); } .card.tl .meter { color: var(--tl); }
+  .card.bay { background: linear-gradient(145deg, #1e1b4b 0%, #312e81 70%, #4c1d95 130%); }
+  .card.bay .who { color: var(--bay); } .card.bay .meter { color: var(--bay); }
+  .card.soon { opacity: .6; }
+  .card .glyph { position: absolute; right: 14px; top: 10px; font-family: 'Noto Sans Tagalog', serif; font-size: 42px; opacity: .35; }
+  .card .chips { margin-top: 6px; }
+  h2.sub { font-size: 13px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin: 6px 0 0; }
+  .mini { display: flex; gap: 8px; flex-wrap: wrap; }
+  .word { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 8px 12px; display: grid; line-height: 1.25; text-align: left; }
+  .word small { color: var(--soft); font-size: 12px; }
+  .foot-note { color: var(--soft); font-size: 13px; margin: 0; }
+  /* A course: its units and their three lessons */
+  .unitbox { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 14px; display: grid; gap: 8px; }
+  .unitbox h3 { margin: 0; font-size: 19px; font-weight: 900; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+  .unitbox h3 small { font-size: 13px; font-weight: 600; color: var(--soft); }
+  .unitbox p { margin: 0; color: var(--soft); font-size: 14px; }
+  .lessons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .lessons button { border-radius: 14px; border: 1px solid var(--line); background: var(--panel-2); padding: 10px 6px; font-weight: 800; font-size: 14px; }
+  .lessons button.done { color: var(--right); }
+  .lessons button.next { background: var(--accent, var(--gold)); color: #111; border-color: transparent; }
+  .lessons button:disabled { opacity: .45; }
+  /* A lesson */
+  .progress { height: 10px; border-radius: 99px; background: var(--panel-2); overflow: hidden; flex: 1; }
+  .progress i { display: block; height: 100%; background: var(--accent, var(--gold)); border-radius: 99px; transition: width .35s ease; }
+  .kind { font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--accent, var(--gold)); margin: 0; }
+  .prompt { font-size: 22px; font-weight: 800; margin: 0; text-wrap: balance; }
+  .say { display: flex; align-items: center; gap: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px; }
+  .say .phrase { font-size: 21px; font-weight: 800; }
+  .speak { width: 44px; height: 44px; flex: none; border-radius: 14px; border: 0; background: var(--accent, var(--gold)); color: #111; font-size: 20px; }
+  .speak:disabled { opacity: .3; }
+  .novoice { font-size: 12px; color: var(--soft); margin: -6px 0 0; }
+  .opts { display: grid; gap: 10px; }
+  .optrow { display: flex; gap: 8px; align-items: center; }
+  .optrow .opt { flex: 1; }
+  .opt { border: 1px solid var(--line); background: var(--panel); color: var(--text); text-align: left; padding: 14px 16px; border-radius: 16px; font-size: 16px; font-weight: 600; }
+  .opt.picked { border-color: var(--accent, var(--gold)); box-shadow: 0 0 0 2px var(--accent, var(--gold)) inset; }
+  .opt.good { border-color: var(--right); background: rgba(52,211,153,.14); }
+  .opt.bad { border-color: var(--wrong); background: rgba(251,113,133,.14); }
+  .pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pairs .opt { text-align: center; padding: 12px 8px; }
+  .pairs .opt.done { opacity: .28; pointer-events: none; }
+  .pairs .opt.miss { animation: miss .35s; }
+  @keyframes miss { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+  .answer { min-height: 58px; border-bottom: 2px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px; padding: 6px 0 10px; align-content: flex-start; }
+  .bank { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tile { border: 1px solid var(--line); border-bottom-width: 3px; background: var(--panel-2); padding: 8px 12px; border-radius: 12px; font-size: 16px; font-weight: 700; }
+  .tile.used { visibility: hidden; }
+  .glyph-big { font-family: 'Noto Sans Tagalog', serif; font-size: 64px; line-height: 1.3; text-align: center; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 20px; padding: 16px 10px 6px; overflow-wrap: anywhere; }
+  .opts.glyphs { grid-template-columns: repeat(3, 1fr); }
+  .opts.glyphs .opt { font-family: 'Noto Sans Tagalog', serif; font-size: 34px; text-align: center; padding: 8px; }
+  .note { color: var(--soft); font-size: 14px; margin: 0; }
+  .foot { padding: 12px 16px 16px; border-top: 1px solid var(--line); display: grid; gap: 8px; background: rgba(10,10,20,.85); }
+  .feedback { margin: 0; font-weight: 700; font-size: 15px; }
+  .feedback.good { color: var(--right); } .feedback.bad { color: var(--wrong); }
+  .go { border: 0; border-radius: 16px; padding: 14px; font-size: 17px; font-weight: 900; background: var(--accent, var(--gold)); color: #111; }
+  .go:disabled { opacity: .35; }
+  .go.ghost { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); }
+  .done-big { text-align: center; display: grid; gap: 10px; margin-top: 24px; }
+  .done-big .xp { font-size: 54px; font-weight: 900; color: var(--accent, var(--gold)); font-variant-numeric: tabular-nums; }
+  /* Baybayin */
+  .tabs { display: flex; gap: 6px; }
+  .tabs button { flex: 1; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); padding: 8px; font-weight: 800; }
+  .tabs button.on { background: var(--bay); color: #111; border-color: transparent; }
+  .bay-out { font-family: 'Noto Sans Tagalog', serif; font-size: 54px; line-height: 1.3; text-align: center; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 20px; padding: 18px 10px 6px; min-height: 100px; overflow-wrap: anywhere; }
+  .bay-parts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .bay-parts span { font-size: 12px; color: var(--soft); background: var(--panel-2); border-radius: 8px; padding: 2px 8px; }
+  .field { width: 100%; font-size: 18px; font-weight: 700; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; }
+  .chart { display: grid; grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); gap: 6px; }
+  .chart div { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 6px 0 4px; text-align: center; }
+  .chart b { display: block; font-family: 'Noto Sans Tagalog', serif; font-size: 26px; font-weight: 400; line-height: 1.3; }
+  .chart small { color: var(--soft); font-size: 12px; }
+  .baylist { display: grid; gap: 8px; }
+  .baylist button { text-align: left; border-radius: 14px; border: 1px solid var(--line); background: var(--panel); padding: 12px 14px; font-weight: 700; display: flex; justify-content: space-between; gap: 8px; }
+  .baylist button.next { border-color: var(--bay); box-shadow: 0 0 0 1px var(--bay) inset; }
+  .baylist button:disabled { opacity: .45; }
+  /* The Tagalog list for Blake to check (test site) */
+  .check { display: grid; gap: 6px; }
+  .check .row { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; display: grid; gap: 2px; }
+  .check .row b { font-size: 16px; } .check .row span { color: var(--soft); font-size: 13px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script src="engine.js"></script>
+<script src="baybayin.js"></script>
+<script src="course-es.js"></script>
+<script src="course-tl.js"></script>
+<script>
+(function () {
+  'use strict';
+  const E = window.AMIGO_ENGINE, BAY = window.AMIGO_BAYBAYIN, COURSES = window.AMIGO_COURSES;
+  const app = document.getElementById('app');
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  // The test site shows the Tagalog Blake hasn't checked yet, marked; the live app waits for his check.
+  const TEST_SITE = /\/TreasureUp-test\//.test(location.pathname);
+  const ACCENT = { es: 'var(--es)', tl: 'var(--tl)', bay: 'var(--bay)' };
+
+  // ------------------------------------------------------------ saves
+  const KEY = 'amigo.v1';
+  const save = (() => {
+    try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.v === 1 && s.courses) return s; } catch (e) { /* storage blocked */ }
+    return E.freshSave();
+  })();
+  const store = () => { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) { /* private mode: progress lasts this visit */ } };
+  const cs = cid => E.courseSave(save, cid);
+  const baySave = () => save.bay || (save.bay = { done: {}, xp: 0 });
+
+  // What shows: all the Spanish; the Tagalog Blake has checked (all of it on the test site).
+  const shows = x => !!x && (TEST_SITE || !!x.checked);
+  const unitsOf = C => C.id === 'tl' ? C.units.filter(shows) : C.units;
+  const notChecked = x => TEST_SITE && !x.checked;
+  const TL = COURSES.tl;
+  const bayWords = () => shows(TL.baybayin) ? TL.baybayin.words : [];
+
+  // ------------------------------------------------------------ voices
+  // Spanish in the phone's Mexican voice; Tagalog only where the phone has one.
+  let voices = [];
+  const loadVoices = () => { try { voices = speechSynthesis.getVoices() || []; } catch (e) { voices = []; } };
+  loadVoices();
+  try { speechSynthesis.onvoiceschanged = () => { const had = voices.length; loadVoices(); if (voices.length !== had) render(); }; } catch (e) { /* no speech on this phone */ }
+  const lang = v => (v.lang || '').toLowerCase().replace('_', '-');
+  function voiceFor(C) {
+    for (const want of C.voices) {
+      const w = want.toLowerCase(), v = voices.find(x => lang(x) === w) || voices.find(x => lang(x).startsWith(w + '-') || lang(x) === w.split('-')[0]);
+      if (v) return v;
+    }
+    return null;
+  }
+  function speak(text, C) {
+    const v = C && voiceFor(C);
+    if (!v) return;
+    try {
+      speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(String(text).replace(/[¿¡]/g, ''));
+      u.voice = v; u.lang = v.lang; u.rate = 0.9;
+      speechSynthesis.speak(u);
+    } catch (e) { /* no speech */ }
+  }
+
+  // ------------------------------------------------------------ state
+  const state = { view: 'home', cid: null, run: null, bayTab: 'learn', bayText: 'Tatay' };
+  if (window.AMIGO_TEST) window.AMIGO_TEST.state = state;          // the browser test reads the lesson from here
+  function go(view, extra) {
+    Object.assign(state, { view }, extra || {});
+    if (view !== 'home') try { history.pushState({ amigo: view }, '', location.pathname + location.search + '#' + view); } catch (e) { /* file: pages */ }
+    render();
+    app.querySelector('.screen') && (app.querySelector('.screen').scrollTop = 0);
+  }
+  window.addEventListener('popstate', () => {
+    // Back from a lesson goes to its course; from anything else, home.
+    if (state.view === 'lesson' || state.view === 'done') state.view = state.run && state.run.cid === 'bay' ? 'bay' : 'course';
+    else state.view = 'home';
+    state.run = state.view === 'lesson' ? state.run : null;
+    render();
+  });
+
+  // ------------------------------------------------------------ home
+  function courseCard(cid) {
+    const C = COURSES[cid], units = unitsOf(C), s = cs(cid);
+    if (!units.length) {
+      return `<div class="card ${cid} soon"><span class="who">${esc(C.who)}</span><span class="name">${esc(C.name)}</span>
+        <span class="unit">Coming soon: Tatay is checking the Tagalog.</span></div>`;
+    }
+    const all = E.path(C, units), done = all.filter(x => s.done[x.key]).length, next = E.nextLesson(C, s, units);
+    const streak = E.streakNow(s);
+    return `<button class="card ${cid}" data-course="${cid}">
+      <span class="who">${esc(C.who)}</span><span class="name">${esc(C.name)}</span>
+      <span class="unit">${next ? `${esc(next.unit.title)} · lesson ${next.n + 1} of 3: ${esc(next.unit.blurb)}` : 'Every lesson done. Practice any of them.'}</span>
+      <span class="meter"><i style="width:${Math.round(100 * done / all.length)}%"></i></span>
+      <span class="chips">${streak ? `<span class="chip">🔥 ${streak} ${streak === 1 ? 'day' : 'days'}</span>` : ''}<span class="chip">${done} of ${all.length} lessons</span>${s.xp ? `<span class="chip">${s.xp} XP</span>` : ''}</span>
+    </button>`;
+  }
+  function home() {
+    const b = baySave(), bayDone = BAY.LESSONS.filter(l => b.done[l.id]).length;
+    const tatay = shows(TL.tatay) ? `<h2 class="sub">A little Tagalog from Tatay${notChecked(TL.tatay) ? ' <span class="chip warn">Not checked yet</span>' : ''}</h2>
+      <div class="mini">${TL.tatay.words.map(([w, en]) => `<button class="word" data-say="${esc(w)}"><b>${esc(w)}</b><small>${esc(en)}</small></button>`).join('')}</div>` : '';
+    return `
+      <div class="bar"><a class="back" href="../" aria-label="Back to Treasure Up">←</a><h1>Amigo <span class="dot">·</span> Kaibigan</h1></div>
+      <div class="screen">
+        <p class="hello">Both words mean friend. Spanish for friends at school, and Tagalog from Tatay. Five minutes a day.</p>
+        ${courseCard('es')}
+        ${courseCard('tl')}
+        <button class="card bay" data-bay-open>
+          <span class="glyph" aria-hidden="true">ᜀᜋᜒᜄᜓ</span>
+          <span class="who">Side quest · Baybayin</span><span class="name">Write it the old way</span>
+          <span class="unit">The script Filipinos wrote before the Spanish came, often called alibata.</span>
+          <span class="meter"><i style="width:${Math.round(100 * bayDone / BAY.LESSONS.length)}%"></i></span>
+        </button>
+        ${tatay}
+        ${TEST_SITE ? `<button class="go ghost" data-check>Check the Tagalog (test site only)</button>` : ''}
+        <p class="foot-note">Progress stays on this phone. It doesn’t add to Treasure Up’s XP.</p>
+      </div>`;
+  }
+
+  // ------------------------------------------------------------ a course
+  function coursePage() {
+    const C = COURSES[state.cid], units = unitsOf(C), s = cs(state.cid), next = E.nextLesson(C, s, units);
+    const streak = E.streakNow(s), hidden = C.units.length - units.length;
+    return `
+      <div class="bar"><button class="back" data-home aria-label="Back">←</button><h1>${esc(C.name)}</h1>
+        ${streak ? `<span class="chip">🔥 ${streak}</span>` : ''}<span class="chip">${s.xp} XP</span></div>
+      <div class="screen" style="--accent:${ACCENT[C.id]}">
+        ${units.map(u => `<section class="unitbox">
+          <h3>${esc(u.title)} <small>${esc(u.sub)}</small>${notChecked(u) ? '<span class="chip warn">Not checked yet</span>' : ''}</h3>
+          <p>${esc(u.blurb)}</p>
+          <div class="lessons">${[0, 1, 2].map(n => {
+            const key = u.id + ':' + (n + 1), done = !!s.done[key], open = E.unlocked(C, s, key, units), isNext = next && next.key === key;
+            return `<button class="${done ? 'done' : isNext ? 'next' : ''}" data-lesson="${key}" ${open ? '' : 'disabled'}
+              aria-label="Lesson ${n + 1}${done ? ', done: practice it' : open ? '' : ', locked'}">${done ? '✓ ' : isNext ? '▶ ' : open ? '' : '🔒 '}${n + 1}</button>`;
+          }).join('')}</div>
+        </section>`).join('')}
+        ${hidden ? `<p class="foot-note">${hidden} more ${hidden === 1 ? 'unit is' : 'units are'} coming once Tatay checks the Tagalog.</p>` : ''}
+      </div>`;
+  }
+
+  // ------------------------------------------------------------ a lesson
+  const freshStep = () => ({ picked: null, checked: false, correct: false, built: [], matched: [], sel: null, misses: 0, missAt: null });
+  function start(cid, key) {
+    let steps, practice;
+    if (cid === 'bay') {
+      const n = BAY.LESSONS.findIndex(l => l.id === key);
+      steps = BAY.lessonSteps(n, bayWords(), 'amigo');
+      practice = !!baySave().done[key];
+    } else {
+      const C = COURSES[cid], item = E.path(C, unitsOf(C)).find(x => x.key === key);
+      if (!item) return;
+      steps = E.buildLesson(C, item.unit, item.n, cs(cid));
+      practice = !!cs(cid).done[key];
+    }
+    go('lesson', { cid: cid === 'bay' ? state.cid : cid, run: Object.assign({ cid, key, steps, at: 0, xp: 0, right: 0, total: 0, practice }, freshStep()) });
+    sayStep();
+  }
+  const runCourse = r => COURSES[r.cid] || COURSES.tl;          // Baybayin is read in the Tagalog voice
+  function sayStep() {
+    const r = state.run, st = r && r.steps[r.at];
+    if (st && st.type === 'listen') speak(st.phrase, runCourse(r));
+  }
+
+  function lessonPage() {
+    const r = state.run, st = r.steps[r.at], C = runCourse(r), voice = !!voiceFor(C);
+    const accent = ACCENT[r.cid];
+    const pct = Math.round(100 * r.at / r.steps.length);
+    const speakBtn = text => `<button class="speak" data-speak="${esc(text)}" ${voice ? '' : 'disabled'} aria-label="Hear it">🔊</button>`;
+    const noVoice = voice || r.cid === 'bay' ? '' : `<p class="novoice">${C.id === 'tl' ? 'This phone has no Tagalog voice, so read it instead.' : 'This phone has no Spanish voice, so read it instead.'}</p>`;
+    const cls = o => !r.checked ? (r.picked === o ? 'picked' : '') : o === st.right ? 'good' : r.picked === o ? 'bad' : '';
+    const opt = o => `<button class="opt ${cls(o)}" data-pick="${esc(o)}">${esc(o)}</button>`;
+    let body = '', ready = false;
+    if (st.type === 'listen') {
+      body = `<p class="kind">${st.review ? 'Remember this?' : voice ? 'Listen and pick' : 'Read and pick'}</p>
+        <div class="say">${speakBtn(st.phrase)}<span class="phrase" lang="${C.id}">${esc(st.phrase)}</span></div>${noVoice}
+        <div class="opts">${st.choices.map(opt).join('')}</div>`;
+      ready = r.picked != null;
+    } else if (st.type === 'scene') {
+      body = `<p class="kind">${esc(st.kind)}</p><p class="prompt">${esc(st.prompt)}</p>
+        <div class="opts">${st.choices.map(o => `<div class="optrow">${speakBtn(o)}<button class="opt ${cls(o)}" data-pick="${esc(o)}" lang="${C.id}">${esc(o)}</button></div>`).join('')}</div>${noVoice}`;
+      ready = r.picked != null;
+    } else if (st.type === 'pairs') {
+      const left = st.left, right = st.rightSide, meaningOf = w => st.pairs.find(p => p[0] === w)[1];
+      const doneRight = en => r.matched.some(w => meaningOf(w) === en);
+      body = `<p class="kind">Match the pairs</p><p class="note">Tap a word, then what it means.</p>
+        <div class="pairs">${left.map((w, n) => `<button class="opt ${r.matched.includes(w) ? 'done' : ''} ${r.sel === w ? 'picked' : ''}" data-left="${esc(w)}" lang="${C.id}">${esc(w)}</button>
+          <button class="opt ${doneRight(right[n]) ? 'done' : ''} ${r.missAt === right[n] ? 'miss' : ''}" data-right="${esc(right[n])}">${esc(right[n])}</button>`).join('')}</div>`;
+      ready = r.matched.length === st.pairs.length;
+    } else if (st.type === 'build') {
+      body = `<p class="kind">${st.review ? 'Remember this? Build it' : 'Build it in ' + esc(C.name)}</p><p class="prompt">${esc(st.prompt)}</p>
+        <div class="answer" lang="${C.id}">${r.built.map((i, n) => `<button class="tile" data-unbuild="${n}">${esc(st.bank[i])}</button>`).join('')}</div>
+        <div class="bank" lang="${C.id}">${st.bank.map((w, i) => `<button class="tile ${r.built.includes(i) ? 'used' : ''}" data-build="${i}" ${r.checked ? 'disabled' : ''}>${esc(w)}</button>`).join('')}</div>`;
+      ready = r.built.length > 0;
+    } else if (st.type === 'bsound') {
+      body = `<p class="kind">What sound is this?</p><div class="glyph-big" lang="tl">${esc(st.glyph)}</div><div class="opts">${st.choices.map(opt).join('')}</div>`;
+      ready = r.picked != null;
+    } else if (st.type === 'bglyph') {
+      body = `<p class="kind">Which character is it?</p><p class="prompt">“${esc(st.sound)}”</p>
+        <div class="opts glyphs">${st.choices.map(o => `<button class="opt ${cls(o)}" data-pick="${esc(o)}" lang="tl">${esc(o)}</button>`).join('')}</div>`;
+      ready = r.picked != null;
+    } else if (st.type === 'bread') {
+      body = `<p class="kind">Read it</p><div class="glyph-big" lang="tl">${esc(st.glyph)}</div><div class="opts">${st.choices.map(opt).join('')}</div>`;
+      ready = r.picked != null;
+    }
+    const answerText = st.type === 'build' ? st.answer.join(' ') : st.right;
+    const note = st.type === 'bread' ? `“${st.right}” means ${st.en}.` : st.note;
+    const praise = C.praise[r.at % C.praise.length];
+    const fb = r.checked ? `<p class="feedback ${r.correct ? 'good' : 'bad'}" role="status">${r.correct ? '✓ ' + esc(r.cid === 'bay' ? 'Tama!' : praise) : '✗ The answer: ' + esc(answerText)}</p>
+      ${note ? `<p class="note">${esc(note)}</p>` : ''}${!r.correct && !st.retry ? '<p class="note">It comes back at the end.</p>' : ''}` : '';
+    return `
+      <div class="bar"><button class="back" data-quit aria-label="Stop the lesson">✕</button>
+        <div class="progress" aria-label="Progress"><i style="width:${pct}%"></i></div><span class="chip">${r.practice ? 'Practice' : r.xp + ' XP'}</span></div>
+      <div class="screen" style="--accent:${accent}">${body}</div>
+      <div class="foot" style="--accent:${accent}">${fb}<button class="go" data-next ${r.checked || ready ? '' : 'disabled'}>${r.checked ? 'Continue' : 'Check'}</button></div>`;
+  }
+
+  function check() {
+    const r = state.run, st = r.steps[r.at];
+    const answer = st.type === 'build' ? r.built.map(i => st.bank[i]) : r.picked;
+    const right = st.type === 'pairs' ? true : E.check(st, answer);
+    Object.assign(r, { checked: true, correct: right });
+    if (!st.retry) {
+      r.total++;
+      if (right) r.right++;
+      if (right && !r.practice) r.xp += st.type === 'pairs' && r.misses ? E.XP_RIGHT / 2 : E.XP_RIGHT;
+      if (!right) r.steps.push(Object.assign({}, st, { retry: true }));    // it comes back at the end
+    }
+    if (r.cid !== 'bay' && st.id) { E.remember(cs(r.cid), st.id, right); store(); }
+    if (right && st.type === 'build') speak(st.answer.join(' '), runCourse(r));
+  }
+  function next() {
+    const r = state.run;
+    r.at++;
+    Object.assign(r, freshStep());
+    if (r.at < r.steps.length) { render(); sayStep(); return; }
+    if (r.cid === 'bay') {
+      const b = baySave();
+      r.first = !b.done[r.key];
+      if (r.first) { b.done[r.key] = { day: E.dayNum(), xp: r.xp }; b.xp += r.xp; }
+    } else {
+      const res = E.finish(cs(r.cid), r.key, r.xp);
+      r.first = res.first; r.streak = res.streak;
+    }
+    store();
+    state.view = 'done';
+    render();
+  }
+
+  function donePage() {
+    const r = state.run, accent = ACCENT[r.cid];
+    let title = 'Lesson done', big = 'Tama!', note = '', nextBtn = '';
+    if (r.cid === 'bay') {
+      const n = BAY.LESSONS.findIndex(l => l.id === r.key), nx = BAY.LESSONS[n + 1];
+      big = n === BAY.LESSONS.length - 1 ? 'Mabuhay!' : 'Tama!';
+      note = nx ? 'Next: ' + nx.title + '.' : 'You can read Baybayin now. Try writing a secret message.';
+      if (nx) nextBtn = `<button class="go" data-lesson-bay="${nx.id}">Next lesson</button>`;
+    } else {
+      const C = COURSES[r.cid], units = unitsOf(C), item = E.path(C, units).find(x => x.key === r.key);
+      const last = item && item.n === E.LESSONS_PER_UNIT - 1;
+      big = last ? item.unit.done : C.praise[0];
+      note = last ? item.unit.doneNote : '';
+      const nx = E.nextLesson(C, cs(r.cid), units);
+      if (nx) nextBtn = `<button class="go" data-lesson="${nx.key}">Next: ${esc(nx.unit.title)} · lesson ${nx.n + 1}</button>`;
+    }
+    return `
+      <div class="bar"><button class="back" data-back-done aria-label="Back">←</button><h1>${title}</h1></div>
+      <div class="screen" style="--accent:${accent}"><div class="done-big">
+        <p class="kind">${r.practice ? 'Practice done' : 'Lesson done'}</p>
+        <div class="xp">${r.practice ? '✓' : '+' + r.xp + ' XP'}</div>
+        <p class="prompt">${esc(big)}</p>
+        <p class="note">${r.right} of ${r.total} right the first time.${r.streak ? ` 🔥 ${r.streak} ${r.streak === 1 ? 'day' : 'days'} in a row.` : ''}</p>
+        ${note ? `<p class="note">${esc(note)}</p>` : ''}
+      </div></div>
+      <div class="foot" style="--accent:${accent}">${nextBtn}<button class="go ghost" data-back-done>Back</button></div>`;
+  }
+
+  // ------------------------------------------------------------ Baybayin
+  function bayPage() {
+    const b = baySave(), tab = state.bayTab;
+    const nextN = BAY.LESSONS.findIndex(l => !b.done[l.id]);
+    let body = '';
+    if (tab === 'learn') {
+      body = `<p class="note">A few characters at a time. Each lesson opens once the one before it is done.</p>
+        <div class="baylist">${BAY.LESSONS.map((l, n) => {
+          const done = !!b.done[l.id], open = n === 0 || !!b.done[BAY.LESSONS[n - 1].id];
+          return `<button class="${n === nextN ? 'next' : ''}" data-lesson-bay="${l.id}" ${open ? '' : 'disabled'}><span>${n + 1}. ${esc(l.title)}</span><span>${done ? '✓' : open ? '▶' : '🔒'}</span></button>`;
+        }).join('')}</div>
+        ${bayWords().length ? '' : '<p class="foot-note">Reading words come once Tatay checks them.</p>'}
+        ${notChecked(TL.baybayin) ? '<p class="foot-note"><span class="chip warn">Not checked yet</span> The reading words.</p>' : ''}`;
+    } else if (tab === 'write') {
+      const r = BAY.spell(state.bayText), quick = shows(TL.tatay) ? TL.tatay.words.map(w => w[0]) : ['Tatay', 'Nanay'];
+      body = `<label class="note" for="bayIn">Type a name or a message the way it sounds (Blake → Bleyk).</label>
+        <input id="bayIn" class="field" value="${esc(state.bayText)}" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="60">
+        <div class="bay-out" lang="tl" id="bayOut">${esc(r.text) || '&nbsp;'}</div>
+        <div class="bay-parts" id="bayParts">${r.parts.map(p => `<span>${esc(p)}</span>`).join('')}</div>
+        <button class="go ghost" data-copy>Copy it for a secret message</button>
+        <div class="mini">${quick.map(w => `<button class="word" data-bay-word="${esc(w)}"><b>${esc(w)}</b></button>`).join('')}</div>`;
+    } else {
+      body = `<p class="note">Each character is a consonant with “a.” A mark above (ᜃᜒ ki) makes it e or i, a mark below (ᜃᜓ ku) makes it o or u, and the cross (ᜃ᜔) drops the vowel.</p>
+        <div class="chart">${BAY.ORDER.map(k => `<div><b lang="tl">${BAY.CHARS[k]}</b><small>${esc(BAY.SOUND[k])}</small></div>`).join('')}</div>`;
+    }
+    return `
+      <div class="bar"><button class="back" data-home aria-label="Back">←</button><h1>Baybayin</h1><span class="chip">${b.xp} XP</span></div>
+      <div class="screen" style="--accent:var(--bay)">
+        <div class="tabs">${[['learn', 'Learn'], ['write', 'Write'], ['chart', 'Chart']].map(([k, l]) => `<button class="${tab === k ? 'on' : ''}" data-tab="${k}">${l}</button>`).join('')}</div>
+        ${body}
+      </div>`;
+  }
+
+  // ------------------------------------------------------------ the Tagalog, for Blake to check (test site)
+  function checkPage() {
+    const row = (t, en, extra) => `<div class="row"><b lang="tl">${esc(t)}</b><span>${esc(en)}${extra ? ' · ' + esc(extra) : ''}</span></div>`;
+    const status = x => x.checked ? `<span class="chip">✓ Checked ${esc(x.checked)}</span>` : '<span class="chip warn">Not checked yet</span>';
+    return `
+      <div class="bar"><button class="back" data-home aria-label="Back">←</button><h1>Check the Tagalog</h1></div>
+      <div class="screen">
+        <p class="note">Every Tagalog line in the game. Tell Claude what to change; a unit goes live once you say it’s right.</p>
+        <h2 class="sub">Praise</h2><div class="check">${TL.praise.map(p => row(p, 'said after a right answer')).join('')}</div>
+        ${TL.units.map(u => `<h2 class="sub">${esc(u.title)} · ${esc(u.sub)} ${status(u)}</h2>
+          <div class="check">${row(u.done, 'said when the unit is done', u.doneNote)}
+          ${u.phrases.map(p => row(p.t, p.en, p.note)).join('')}
+          ${u.words.map(([w, en]) => row(w, en)).join('')}
+          ${u.scenes.map(s => row(s.right, s.prompt, 'not: ' + s.wrong.join(' · '))).join('')}</div>`).join('')}
+        <h2 class="sub">A little Tagalog from Tatay ${status(TL.tatay)}</h2><div class="check">${TL.tatay.words.map(([w, en]) => row(w, en)).join('')}</div>
+        <h2 class="sub">Baybayin reading words ${status(TL.baybayin)}</h2><div class="check">${TL.baybayin.words.map(([w, en]) => row(w, en, BAY.spell(w).text)).join('')}</div>
+      </div>`;
+  }
+
+  // ------------------------------------------------------------ drawing and taps
+  function render() {
+    const v = state.view;
+    if (v === 'lesson' && !state.run) state.view = 'home';
+    app.innerHTML = state.view === 'course' ? coursePage() : state.view === 'lesson' ? lessonPage() : state.view === 'done' ? donePage()
+      : state.view === 'bay' ? bayPage() : state.view === 'check' && TEST_SITE ? checkPage() : home();
+    const inp = document.getElementById('bayIn');
+    if (inp) inp.addEventListener('input', () => {
+      state.bayText = inp.value;
+      const r = BAY.spell(inp.value);
+      document.getElementById('bayOut').textContent = r.text || ' ';
+      document.getElementById('bayParts').innerHTML = r.parts.map(p => `<span>${esc(p)}</span>`).join('');
+    });
+  }
+
+  app.addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (!b || b.disabled) return;
+    const d = b.dataset, r = state.run;
+    if (d.course) return go('course', { cid: d.course });
+    if (d.home != null) return go('home');
+    if (d.bayOpen != null) return go('bay');
+    if (d.check != null) return go('check');
+    if (d.tab) { state.bayTab = d.tab; return render(); }
+    if (d.bayWord) { state.bayText = d.bayWord; return render(); }
+    if (d.say) return speak(d.say, TL);
+    if (d.copy != null) {
+      const text = BAY.spell(state.bayText).text;
+      const done = () => { b.textContent = 'Copied! Paste it in a message.'; };
+      try { navigator.clipboard.writeText(text).then(done, () => {}); } catch (err) { /* no clipboard */ }
+      return;
+    }
+    if (d.lesson) return start(state.run && state.view === 'done' && state.run.cid !== 'bay' ? state.run.cid : state.cid, d.lesson);
+    if (d.lessonBay) return start('bay', d.lessonBay);
+    if (d.quit != null || d.backDone != null) {
+      const bay = r && r.cid === 'bay';
+      state.run = null;
+      return go(bay ? 'bay' : 'course');
+    }
+    if (d.speak) return speak(d.speak, runCourse(r));
+    if (state.view !== 'lesson' || !r) return;
+    const st = r.steps[r.at];
+    if (d.next != null) { if (r.checked) next(); else { check(); render(); } return; }
+    if (r.checked) return;
+    if (d.pick != null) { r.picked = d.pick; if (st.type === 'scene') speak(d.pick, runCourse(r)); }
+    if (d.left != null) r.sel = d.left;
+    if (d.right != null && r.sel != null) {
+      const pair = st.pairs.find(p => p[0] === r.sel);
+      if (pair && pair[1] === d.right) { r.matched.push(r.sel); speak(r.sel, runCourse(r)); r.missAt = null; }
+      else { r.misses++; r.missAt = d.right; }
+      r.sel = null;
+    }
+    if (d.build != null && !r.built.includes(Number(d.build))) { r.built.push(Number(d.build)); speak(st.bank[Number(d.build)], runCourse(r)); }
+    if (d.unbuild != null) r.built.splice(Number(d.unbuild), 1);
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
