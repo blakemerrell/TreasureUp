@@ -535,7 +535,7 @@
       if (u.carry && u.carry.amt) sp *= 0.9;
       const s = sp * dt;
       // Close is close enough: units crowding one tile push each other off its exact middle.
-      const reach = u.path.length === 1 ? 12 : 9;
+      const reach = u.path.length === 1 ? 17 : 10;
       if (d <= Math.max(s, reach)) { u.path.shift(); if (!u.path.length) { u.path = null; return true; } }
       else { u.x += dx / d * s; u.y += dy / d * s; u.face = Math.atan2(dy, dx); }
       return false;
