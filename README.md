@@ -269,6 +269,13 @@ changes Treasure Up's XP or streak.
 - **Courses**: `amigo/course-es.js` (En el recreo, Fútbol) and
   `amigo/course-tl.js` (Kumustahan, Kain tayo), three lessons a unit. How to
   write one is in `amigo/README.md`.
+- **Tagalog · Past the basics** (`amigo/course-tl2.js`), Blake's own: each
+  unit a conversation between two people, recorded in two Filipino voices at
+  native speed (*Slower* plays it at 0.75), and the grammar it uses, in three
+  lessons: **Listen** (no words on screen, questions, the missing word, then
+  the words), **Grammar** (pick the right form, build sentences) and **Say
+  it** (say it aloud, look, mark yourself). Kumustahan ulit (finished
+  actions), Sa palengke, Sa jeep, Handaan, Sa telepono, Kuwentuhan.
 - **Voices**: a line's recording first, where it has one (Tagalog in a
   Filipino voice, made once by `tools/amigo-voice.mjs` with Blake's Google
   Cloud key, which stays off the app; plays on every phone). Then the phone's
