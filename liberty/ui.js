@@ -24,18 +24,18 @@ const IMG = {
   armory: new Image(),
   farm: new Image()
 };
-IMG.moroni.src = 'assets/moroni.png';
-IMG.spearman.src = 'assets/spearman.png';
-IMG.stripling.src = 'assets/stripling.png';
-IMG.lamanite.src = 'assets/lamanite.png';
-IMG.cart.src = 'assets/cart.png';
-IMG.unit.src = 'assets/spearman.png';
-IMG.stronghold.src = 'assets/stronghold.png';
-IMG.barracks.src = 'assets/barracks.png';
-IMG.tower.src = 'assets/tower.png';
-IMG.storehouse.src = 'assets/storehouse.png';
-IMG.armory.src = 'assets/armory.png';
-IMG.farm.src = 'assets/farm.png';
+IMG.moroni.src = 'assets/moroni.png?v=9';
+IMG.spearman.src = 'assets/spearman.png?v=9';
+IMG.stripling.src = 'assets/stripling.png?v=9';
+IMG.lamanite.src = 'assets/lamanite.png?v=9';
+IMG.cart.src = 'assets/cart.png?v=9';
+IMG.unit.src = 'assets/spearman.png?v=9';
+IMG.stronghold.src = 'assets/stronghold.png?v=9';
+IMG.barracks.src = 'assets/barracks.png?v=9';
+IMG.tower.src = 'assets/tower.png?v=9';
+IMG.storehouse.src = 'assets/storehouse.png?v=9';
+IMG.armory.src = 'assets/armory.png?v=9';
+IMG.farm.src = 'assets/farm.png?v=9';
                                 // the simulation's tick, as in the tests
   const $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -1228,15 +1228,15 @@ IMG.farm.src = 'assets/farm.png';
     return `<h3>${ents.length} chosen</h3><p>${Object.entries(count).map(([n, k]) => k + ' ' + esc(n) + (k > 1 ? 's' : '')).join(', ')}</p>`;
   }
   const CAMEO_MAP = {
-    'deploy': 'assets/cameo_moroni.png',
-    'train:spearman': 'assets/cameo_spearman.png',
-    'train:stripling': 'assets/cameo_stripling.png',
-    'train:moroni': 'assets/cameo_moroni.png',
-    'build:tower': 'assets/cameo_tower.png',
-    'build:armory': 'assets/cameo_armory.png',
-    'build:farm': 'assets/cameo_farm.png',
-    'build:storehouse': 'assets/cameo_farm.png',
-    'build:granary': 'assets/cameo_farm.png'
+    'deploy': 'assets/cameo_moroni.png?v=9',
+    'train:spearman': 'assets/cameo_spearman.png?v=9',
+    'train:stripling': 'assets/cameo_stripling.png?v=9',
+    'train:moroni': 'assets/cameo_moroni.png?v=9',
+    'build:tower': 'assets/cameo_tower.png?v=9',
+    'build:armory': 'assets/cameo_armory.png?v=9',
+    'build:farm': 'assets/cameo_farm.png?v=9',
+    'build:storehouse': 'assets/cameo_farm.png?v=9',
+    'build:granary': 'assets/cameo_farm.png?v=9'
   };
   const cmd = (act, name, cost, cls) => {
     const icon = CAMEO_MAP[act];
