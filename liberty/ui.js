@@ -22,20 +22,24 @@ const IMG = {
   tower: new Image(),
   storehouse: new Image(),
   armory: new Image(),
-  farm: new Image()
+  farm: new Image(),
+  grass: new Image(),
+  wheat: new Image()
 };
-IMG.moroni.src = 'assets/moroni.png?v=9';
-IMG.spearman.src = 'assets/spearman.png?v=9';
-IMG.stripling.src = 'assets/stripling.png?v=9';
-IMG.lamanite.src = 'assets/lamanite.png?v=9';
-IMG.cart.src = 'assets/cart.png?v=9';
-IMG.unit.src = 'assets/spearman.png?v=9';
-IMG.stronghold.src = 'assets/stronghold.png?v=9';
-IMG.barracks.src = 'assets/barracks.png?v=9';
-IMG.tower.src = 'assets/tower.png?v=9';
-IMG.storehouse.src = 'assets/storehouse.png?v=9';
-IMG.armory.src = 'assets/armory.png?v=9';
-IMG.farm.src = 'assets/farm.png?v=9';
+IMG.moroni.src = 'assets/moroni.png?v=12';
+IMG.spearman.src = 'assets/spearman.png?v=12';
+IMG.stripling.src = 'assets/stripling.png?v=12';
+IMG.lamanite.src = 'assets/lamanite.png?v=12';
+IMG.cart.src = 'assets/cart.png?v=12';
+IMG.unit.src = 'assets/spearman.png?v=12';
+IMG.stronghold.src = 'assets/stronghold.png?v=12';
+IMG.barracks.src = 'assets/barracks.png?v=12';
+IMG.tower.src = 'assets/tower.png?v=12';
+IMG.storehouse.src = 'assets/storehouse.png?v=12';
+IMG.armory.src = 'assets/armory.png?v=12';
+IMG.farm.src = 'assets/farm.png?v=12';
+IMG.grass.src = 'assets/grass_seamless.png?v=12';
+IMG.wheat.src = 'assets/wheat_seamless.png?v=12';
                                 // the simulation's tick, as in the tests
   const $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -182,9 +186,10 @@ IMG.farm.src = 'assets/farm.png?v=9';
       const { ix, iy } = toIso(wx, wy);
       const cx = ix + ISO_OFFSET_X, cy = iy;
       const r = Math.max(54, rad * 1.15);
-      const grad = sctx.createRadialGradient(cx, cy, r * 0.65, cx, cy, r);
+      const grad = sctx.createRadialGradient(cx, cy, r * 0.45, cx, cy, r);
       grad.addColorStop(0, 'rgba(0, 0, 0, 1)');
-      grad.addColorStop(0.8, 'rgba(0, 0, 0, 0.95)');
+      grad.addColorStop(0.5, 'rgba(0, 0, 0, 0.9)');
+      grad.addColorStop(0.8, 'rgba(0, 0, 0, 0.5)');
       grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
       sctx.fillStyle = grad;
       sctx.beginPath();
@@ -250,7 +255,20 @@ IMG.farm.src = 'assets/farm.png?v=9';
     if (t === T.FIELD) return t * 4 + (a > 150 ? 1 : 0);
     return t * 4;
   }
+  let grassPattern = null, wheatPattern = null;
+  function updatePatterns() {
+    if (!grassPattern && IMG.grass.complete && IMG.grass.naturalWidth > 0) {
+      try { grassPattern = tctx.createPattern(IMG.grass, 'repeat'); } catch (e) {}
+    }
+    if (!wheatPattern && IMG.wheat.complete && IMG.wheat.naturalWidth > 0) {
+      try { wheatPattern = tctx.createPattern(IMG.wheat, 'repeat'); } catch (e) {}
+    }
+  }
+  IMG.grass.onload = () => { updatePatterns(); painted = null; if (W) W.terrainDirty = true; };
+  IMG.wheat.onload = () => { updatePatterns(); painted = null; if (W) W.terrainDirty = true; };
+
   function paintTerrain() {
+    updatePatterns();
     if (!painted) { painted = new Int16Array(MAP_W * MAP_H).fill(-1); }
     for (let y = 0; y < MAP_H; y++) for (let x = 0; x < MAP_W; x++) {
       const i = y * MAP_W + x, l = look(i);
@@ -362,14 +380,17 @@ IMG.farm.src = 'assets/farm.png?v=9';
       c.strokeStyle = '#e7e5e4'; c.lineWidth = 1.8;
       c.beginPath(); c.moveTo(d.left.x, d.left.y); c.lineTo(d.top.x, d.top.y); c.lineTo(d.right.x, d.right.y); c.stroke();
     } else if (t === T.FOREST) {
-      // ---------------- DENSE MESOAMERICAN JUNGLE & PINE TREES ----------------
-      // Deep shaded forest soil base
-      c.fillStyle = '#224a18'; c.fill();
+      // ---------------- DENSE MESOAMERICAN JUNGLE, PINES & AUTUMN ASPENS ----------------
+      // Forest floor base: natural grass with shaded canopy
+      if (grassPattern) { c.fillStyle = grassPattern; c.fill(); }
+      else { c.fillStyle = '#558f27'; c.fill(); }
+      c.fillStyle = 'rgba(16, 40, 10, 0.32)'; c.fill();
+
       const n = a > 80 ? 3 : a > 35 ? 2 : 1;
       for (let k = 0; k < n; k++) {
         const tx = d.cx - 10 + h(k + 50) * 20;
         const ty = d.cy - 6 + h(k + 60) * 12;
-        const isPine = h(k + 80) < 0.45;
+        const treeType = h(k + 80);
         
         // Soft ground shadow cast south-east
         c.fillStyle = 'rgba(0,0,0,0.38)';
@@ -377,11 +398,9 @@ IMG.farm.src = 'assets/farm.png?v=9';
         c.ellipse(tx + 6, ty + 6, 12, 6, 0.2, 0, 7);
         c.fill();
 
-        if (isPine) {
+        if (treeType < 0.42) {
           // --- EVERGREEN CONIFER PINE ---
-          // Dark trunk
           c.fillStyle = '#2d1808'; c.fillRect(tx - 1.5, ty - 3, 3, 7);
-          // 4-tier sharp needle canopy with sunlit highlights
           const tiers = [
             { y: ty - 4, w: 18, h: 8, col1: '#143815', col2: '#276722' },
             { y: ty - 10, w: 14, h: 7, col1: '#1c4a1d', col2: '#35852b' },
@@ -396,7 +415,6 @@ IMG.farm.src = 'assets/farm.png?v=9';
             c.lineTo(tx - tr.w * 0.5, tr.y);
             c.closePath();
             c.fill();
-            // Sunlit left side needle highlight
             c.fillStyle = tr.col2;
             c.beginPath();
             c.moveTo(tx, tr.y - tr.h);
@@ -405,12 +423,10 @@ IMG.farm.src = 'assets/farm.png?v=9';
             c.closePath();
             c.fill();
           }
-        } else {
+        } else if (treeType < 0.78) {
           // --- LUSH BROADLEAF TROPICAL OAK ---
-          // Sturdy buttress trunk
           c.fillStyle = '#3a200a'; c.fillRect(tx - 2, ty - 4, 4, 8);
           const r = 9 + h(k + 70) * 4;
-          // Organic 3D shaded foliage canopy
           c.fillStyle = '#103310';
           c.beginPath(); c.arc(tx + 2, ty - 7, r * 1.05, 0, 7); c.fill();
           c.fillStyle = '#1a501a';
@@ -419,32 +435,57 @@ IMG.farm.src = 'assets/farm.png?v=9';
           c.beginPath(); c.arc(tx - r * 0.25, ty - 11, r * 0.7, 0, 7); c.fill();
           c.fillStyle = '#48a834';
           c.beginPath(); c.arc(tx - r * 0.35, ty - 13, r * 0.45, 0, 7); c.fill();
-          // Sunlit golden-green leaf flecks
           c.fillStyle = '#86efac';
           c.fillRect(tx - r * 0.4, ty - 14, 2, 2);
           c.fillRect(tx - r * 0.2, ty - 16, 2.5, 2);
+        } else {
+          // --- GOLDEN AUTUMN ASPEN ---
+          c.fillStyle = '#452b14'; c.fillRect(tx - 1.5, ty - 4, 3, 8);
+          c.fillStyle = '#78522c'; c.fillRect(tx - 1.5, ty - 4, 1.5, 8);
+          const r = 8 + h(k + 70) * 4;
+          c.fillStyle = '#78350f';
+          c.beginPath(); c.arc(tx + 2, ty - 7, r * 1.05, 0, 7); c.fill();
+          c.fillStyle = '#b45309';
+          c.beginPath(); c.arc(tx, ty - 9, r * 0.9, 0, 7); c.fill();
+          c.fillStyle = '#d97706';
+          c.beginPath(); c.arc(tx - r * 0.25, ty - 11, r * 0.7, 0, 7); c.fill();
+          c.fillStyle = '#f59e0b';
+          c.beginPath(); c.arc(tx - r * 0.35, ty - 13, r * 0.45, 0, 7); c.fill();
+          c.fillStyle = '#fde047';
+          c.fillRect(tx - r * 0.3, ty - 14, 2.5, 2);
+          c.fillRect(tx - r * 0.1, ty - 16, 2, 2);
         }
       }
     } else if (t === T.FIELD) {
       // ---------------- THICK WAVING GOLDEN WHEAT & CORN ----------------
-      // Dark rich loam soil
-      c.fillStyle = '#331d0b'; c.fill();
-      // Dense golden wheat stalks filling the tile
-      c.fillStyle = a > 150 ? '#ca8a04' : '#a16207';
-      c.beginPath();
-      c.moveTo(d.top.x, d.top.y + 1);
-      c.lineTo(d.right.x - 2, d.right.y);
-      c.lineTo(d.bottom.x, d.bottom.y - 1);
-      c.lineTo(d.left.x + 2, d.left.y);
-      c.closePath();
-      c.fill();
-      // Textured vertical golden wheat stalks
-      c.strokeStyle = '#fde047'; c.lineWidth = 1.3;
-      for (let s = -12; s <= 12; s += 3) {
+      c.fillStyle = '#261405'; c.fill();
+      if (wheatPattern) {
+        c.fillStyle = wheatPattern;
         c.beginPath();
-        c.moveTo(d.cx + s, d.cy - 7 + Math.abs(s) * 0.35);
-        c.lineTo(d.cx + s, d.cy + 5 - Math.abs(s) * 0.35);
-        c.stroke();
+        c.moveTo(d.top.x, d.top.y + 1);
+        c.lineTo(d.right.x - 2, d.right.y);
+        c.lineTo(d.bottom.x, d.bottom.y - 1);
+        c.lineTo(d.left.x + 2, d.left.y);
+        c.closePath();
+        c.fill();
+        c.fillStyle = 'rgba(254, 240, 138, 0.12)';
+        c.fill();
+      } else {
+        c.fillStyle = a > 150 ? '#ca8a04' : '#a16207';
+        c.beginPath();
+        c.moveTo(d.top.x, d.top.y + 1);
+        c.lineTo(d.right.x - 2, d.right.y);
+        c.lineTo(d.bottom.x, d.bottom.y - 1);
+        c.lineTo(d.left.x + 2, d.left.y);
+        c.closePath();
+        c.fill();
+        c.strokeStyle = '#fde047'; c.lineWidth = 1.3;
+        for (let s = -12; s <= 12; s += 3) {
+          c.beginPath();
+          c.moveTo(d.cx + s, d.cy - 7 + Math.abs(s) * 0.35);
+          c.lineTo(d.cx + s, d.cy + 5 - Math.abs(s) * 0.35);
+          c.stroke();
+        }
       }
       // Wooden fence posts bordering the field
       c.fillStyle = '#5c3317';
@@ -460,22 +501,43 @@ IMG.farm.src = 'assets/farm.png?v=9';
       c.stroke();
     } else {
       // ---------------- RICH SUNLIT PRAIRIE MEADOW ----------------
-      // Rich, uniform sunlit meadow grass (matches demo art)
-      c.fillStyle = '#558f27';
-      c.fill();
-
-      // Subtle sunlit blade texture
-      for (let k = 0; k < 3; k++) {
-        c.fillStyle = h(k + 10) < 0.5 ? '#3a691b' : '#71af35';
-        c.fillRect(d.cx - 8 + h(k + 20) * 16, d.cy - 4 + h(k + 30) * 8, 2.5, 2);
+      if (grassPattern) {
+        c.fillStyle = grassPattern;
+        c.fill();
+        // Subtle ambient natural elevation depth
+        c.fillStyle = h(1) < 0.3 ? 'rgba(0, 35, 0, 0.07)' : h(1) > 0.7 ? 'rgba(255, 245, 180, 0.08)' : 'rgba(0,0,0,0)';
+        c.fill();
+      } else {
+        c.fillStyle = '#558f27';
+        c.fill();
       }
 
-      // Earthen dirt trail patches near roads/settlements
-      if (h(2) < 0.15) {
-        c.fillStyle = 'rgba(120, 85, 45, 0.35)';
-        c.beginPath();
-        c.ellipse(d.cx - 3 + h(3) * 6, d.cy - 2 + h(4) * 4, 6, 3, 0.2, 0, 7);
+      // Earthen courtyard/plaza under and around buildings or bridge approaches
+      let nearBuilding = false;
+      for (let dy = -1; dy <= 1 && !nearBuilding; dy++) {
+        for (let dx = -1; dx <= 1 && !nearBuilding; dx++) {
+          const occId = W.occ[(y + dy) * MAP_W + (x + dx)];
+          if (occId) {
+            const b = W.ents.get(occId);
+            if (b && b.kind === 'building' && b.def.wall == null) nearBuilding = true;
+          }
+          if (W.tiles[(y + dy) * MAP_W + (x + dx)] === T.FORD) nearBuilding = true;
+        }
+      }
+      if (nearBuilding) {
+        c.fillStyle = 'rgba(194, 153, 88, 0.48)';
         c.fill();
+        // Earthen pebble texture
+        c.fillStyle = 'rgba(120, 85, 45, 0.4)';
+        for (let k = 0; k < 3; k++) {
+          c.fillRect(d.cx - 6 + h(k + 40) * 12, d.cy - 3 + h(k + 45) * 6, 2, 1.5);
+        }
+      }
+
+      // Subtle sunlit blade texture
+      for (let k = 0; k < 2; k++) {
+        c.fillStyle = h(k + 10) < 0.5 ? '#3a691b' : '#71af35';
+        c.fillRect(d.cx - 8 + h(k + 20) * 16, d.cy - 4 + h(k + 30) * 8, 2, 2);
       }
 
       // Golden and crimson wildflowers dotting the fields
@@ -723,9 +785,10 @@ IMG.farm.src = 'assets/farm.png?v=9';
     const { ix, iy } = toIso(u.x, u.y);
     const r = radius(u);
     const kneel = u.kneelUntil && W.t < u.kneelUntil;
-    const moving = (u.path && u.path.length > 0) || u.order.type === 'move' || u.order.type === 'gather' || u.order.type === 'return' || u.order.type === 'attack';
+    const moving = !!(u.path && u.path.length > 0);
+    const working = u.order.type === 'gather' && u.phase === 'work';
     const walkCycle = moving ? Math.sin(now * 0.015 + u.id) : 0;
-    const bob = moving ? Math.abs(walkCycle) * 2.2 : 0;
+    const bob = moving ? Math.abs(walkCycle) * 2.2 : (working ? Math.abs(Math.sin(now * 0.02 + u.id)) * 1.5 : 0);
     const x = ix, y = iy - (kneel ? -2 : 1) - bob;
     
     let flip = 1;
@@ -1020,8 +1083,10 @@ IMG.farm.src = 'assets/farm.png?v=9';
     if (placing) return placeAt(wx, wy, add);
     const e = entityAt(wx, wy, sx, sy);
     const units = selUnits();
-    // With people chosen, a click on anything but one of your own units is an order.
-    if (units.length && !(e && e.kind === 'unit' && selectable(e)) && !(e && e.kind === 'building' && e.team === 'p' && !canWorkOn(units, e))) return command(wx, wy, sx, sy);
+    // With people chosen, a click on anything but a different one of your own units is an order.
+    if (units.length && !(e && e.kind === 'unit' && selectable(e) && !sel.includes(e.id)) && !(e && e.kind === 'building' && e.team === 'p' && !canWorkOn(units, e))) {
+      return command(wx, wy, sx, sy);
+    }
     if (selectable(e)) {
       if (double && e.kind === 'unit') {
         const same = W.units('p').filter(u => {
@@ -1699,7 +1764,7 @@ IMG.farm.src = 'assets/farm.png?v=9';
   home();
   requestAnimationFrame(frame);
   // A window on the game for automated play-throughs in a browser.
-  window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, cam, begin: (id, level) => { if (level) FREE.level = level; begin(id === 'free' ? FREE : MISSIONS.find(m => m.id === id)); }, toWorld, lookAt,
+  window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, get sel() { return sel; }, get selEnts() { return selEnts(); }, cam, begin: (id, level) => { if (level) FREE.level = level; begin(id === 'free' ? FREE : MISSIONS.find(m => m.id === id)); }, toWorld, lookAt,
     screenOf: (x, y) => toScreen(x, y),
     remoteClick: (sx, sy, color) => {
       const w = toWorld(sx, sy);
