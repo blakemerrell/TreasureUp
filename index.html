@@ -904,7 +904,8 @@
   .ls-sum li { position: relative; padding-left: 16px; margin: 7px 0 0; font-size: 15px; line-height: 1.45; color: rgba(255,255,255,.9); }
   .ls-sum li::before { content: ''; position: absolute; left: 2px; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: #c084fc; }
   .ls-sum-also { margin: 10px 0 0; padding-top: 8px; border-top: 1px solid rgba(192,132,252,.2); font-size: 13px; line-height: 1.4; color: rgba(255,255,255,.68); }
-  .ls-jump { font: inherit; background: none; border: 0; padding: 0; cursor: pointer; white-space: nowrap; }
+  .ls-jump { font: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+  .ls-vs, .ls-sum-also .ref-link { white-space: nowrap; }   /* “(verses 10–11)” and “2 Nephi 7” stay on one line */
   .ls-vv.hit { animation: vvHit 1.8s ease; border-radius: 8px; }
   @keyframes vvHit { 0%, 35% { background: rgba(192,132,252,.2); box-shadow: 0 0 0 6px rgba(192,132,252,.2); } to { background: transparent; box-shadow: 0 0 0 6px transparent; } }
   /* The buttons at the top of a chapter, each with the colour its lines have. */
@@ -2046,7 +2047,7 @@ const TreasureUp = (function () {
       return m && { text: l.slice(0, m.index), label: m[1] + ' ' + m[2] + (m[3] ? '–' + m[3] : ''), from: Number(m[2]), to: Number(m[3] || m[2]) };
     }).filter(l => l && (u.whole || (l.to >= u.from && l.from <= u.to)));   // part of a chapter: the lines about that part
     return !lines.length ? '' : `<div class="ls-sum"><div class="ls-sum-h">The short version${x.draft ? '<span class="plain-draft">Draft: not approved yet</span>' : ''}</div><ul>` +
-      lines.map(l => `<li>${linkRefs(l.text, u.ch)} (<button type="button" class="ref-link ls-jump" data-jump="${Math.max(l.from, u.from)}">${esc(l.label)}</button>)</li>`).join('') + '</ul>' +
+      lines.map(l => `<li>${linkRefs(l.text, u.ch)} <span class="ls-vs">(<button type="button" class="ref-link ls-jump" data-jump="${Math.max(l.from, u.from)}">${esc(l.label)}</button>)</span></li>`).join('') + '</ul>' +
       (x.t.also ? `<p class="ls-sum-also">${linkRefs(x.t.also, u.ch)}</p>` : '') + '</div>';
   }
   // A line's verses: the first of them, just below the buttons, lit up for a moment.
