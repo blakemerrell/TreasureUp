@@ -4435,5 +4435,1266 @@ window.TU_WEEKS = [
         "approved": "c1399948"
       }
     ]
+  },
+  {
+    "dates": "October 19–25, 2026",
+    "title": "Before I Formed Thee in the Belly I Knew Thee",
+    "reference": "Jeremiah 1–3; 7; 16–18; 20",
+    "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/43?lang=eng",
+    "sections": [
+      "Prophets are called to speak God’s word",
+      "God knew me before I was born",
+      "“They have forsaken me the fountain of living waters.”",
+      "The Lord will gather His people"
+    ],
+    "puzzle": {
+      "groups": [
+        {
+          "section": 0,
+          "tiles": [
+            {
+              "text": "Words in thy mouth",
+              "ref": "Jeremiah 1:9"
+            },
+            {
+              "text": "Root out, pull down",
+              "ref": "Jeremiah 1:10"
+            },
+            {
+              "text": "Rod of an almond tree",
+              "ref": "Jeremiah 1:11"
+            },
+            {
+              "text": "Fire in my bones",
+              "ref": "Jeremiah 20:9"
+            }
+          ]
+        },
+        {
+          "section": 1,
+          "tiles": [
+            {
+              "text": "Before I formed thee",
+              "ref": "Jeremiah 1:5"
+            },
+            {
+              "text": "Ordained a prophet",
+              "ref": "Jeremiah 1:5"
+            },
+            {
+              "text": "The potter's house",
+              "ref": "Jeremiah 18:2"
+            },
+            {
+              "text": "Made it again",
+              "ref": "Jeremiah 18:4"
+            }
+          ]
+        },
+        {
+          "section": 2,
+          "tiles": [
+            {
+              "text": "Living waters",
+              "ref": "Jeremiah 2:13"
+            },
+            {
+              "text": "Broken cisterns",
+              "ref": "Jeremiah 2:13"
+            },
+            {
+              "text": "Den of robbers",
+              "ref": "Jeremiah 7:11"
+            },
+            {
+              "text": "Tree by the waters",
+              "ref": "Jeremiah 17:8"
+            }
+          ]
+        },
+        {
+          "section": 3,
+          "tiles": [
+            {
+              "text": "Fishers and hunters",
+              "ref": "Jeremiah 16:16"
+            },
+            {
+              "text": "One of a city",
+              "ref": "Jeremiah 3:14"
+            },
+            {
+              "text": "Bring you to Zion",
+              "ref": "Jeremiah 3:14"
+            },
+            {
+              "text": "Land of the north",
+              "ref": "Jeremiah 16:15"
+            }
+          ]
+        }
+      ]
+    },
+    "sayings": [
+      {
+        "id": "say-i-am-a-child",
+        "text": "Ah, Lord GOD! behold, I cannot speak: for I am a child.",
+        "ref": "Jeremiah 1:6",
+        "speaker": "Jeremiah, to the Lord",
+        "wrong": [
+          "Moses, to the Lord",
+          "Samuel, in the temple"
+        ],
+        "why": "When the Lord called him, Jeremiah said he was too young. Moses made a similar excuse: “I am slow of speech” (Exodus 4:10)."
+      },
+      {
+        "id": "say-root-out",
+        "text": "to root out, and to pull down, and to destroy, and to throw down, to build, and to plant",
+        "ref": "Jeremiah 1:10",
+        "speaker": "The Lord, to Jeremiah",
+        "wrong": [
+          "A farmer, to his sons",
+          "Nehemiah, to the builders"
+        ],
+        "why": "The Lord set young Jeremiah “over the nations and over the kingdoms,” to tear down what was wrong and to build and plant what was good."
+      },
+      {
+        "id": "say-temple-of-the-lord",
+        "text": "The temple of the LORD, The temple of the LORD, The temple of the LORD, are these.",
+        "ref": "Jeremiah 7:4",
+        "speaker": "People, trusting lying words",
+        "wrong": [
+          "King Solomon, at the temple",
+          "Priests, cleaning the temple"
+        ],
+        "why": "The Lord warned, “Trust ye not in lying words.” People repeated these words as if the temple alone would keep them safe."
+      },
+      {
+        "id": "say-as-this-potter",
+        "text": "O house of Israel, cannot I do with you as this potter?",
+        "ref": "Jeremiah 18:6",
+        "speaker": "The Lord, to Israel",
+        "wrong": [
+          "A potter, to his clay",
+          "Isaiah, to the Lord"
+        ],
+        "why": "Jeremiah had just watched a potter remake a marred jar. Then the Lord said, “as the clay is in the potter's hand, so are ye in mine hand.”"
+      },
+      {
+        "id": "say-smite-with-tongue",
+        "text": "Come, and let us smite him with the tongue, and let us not give heed to any of his words.",
+        "ref": "Jeremiah 18:18",
+        "speaker": "Jeremiah's enemies",
+        "wrong": [
+          "Laman and Lemuel",
+          "Joseph's brothers"
+        ],
+        "why": "People who hated his warnings said, “Come, and let us devise devices against Jeremiah.” They planned to attack him with words."
+      },
+      {
+        "id": "say-magor-missabib",
+        "text": "The LORD hath not called thy name Pashur, but Magor-missabib.",
+        "ref": "Jeremiah 20:3",
+        "speaker": "Jeremiah, to Pashur",
+        "wrong": [
+          "Pashur, to Jeremiah",
+          "Isaiah, to Shebna"
+        ],
+        "why": "The day after Pashur put him in the stocks, Jeremiah gave him a new name. It means “fear on every side” (Jeremiah 20:10)."
+      },
+      {
+        "id": "say-fire-in-my-bones",
+        "text": "his word was in mine heart as a burning fire shut up in my bones",
+        "ref": "Jeremiah 20:9",
+        "speaker": "Jeremiah, about God's word",
+        "wrong": [
+          "Elijah, on Mount Carmel",
+          "Moses, at the burning bush"
+        ],
+        "why": "After being put in the stocks and mocked, Jeremiah tried to stop speaking for the Lord. He couldn't hold the word inside."
+      },
+      {
+        "id": "say-many-fishers",
+        "text": "Behold, I will send for many fishers",
+        "ref": "Jeremiah 16:16",
+        "speaker": "The Lord, about Israel",
+        "wrong": [
+          "Peter, by the Sea of Galilee",
+          "Jonah, to the sailors"
+        ],
+        "why": "The Lord promised to gather scattered Israel. President Nelson compared these fishers, and the hunters after them, to missionaries."
+      }
+    ],
+    "words": [
+      {
+        "word": "PROPHET",
+        "clue": "I ordained thee a ____ unto the nations",
+        "ref": "Jeremiah 1:5",
+        "mean": "Before Jeremiah was born, the Lord chose him to speak for Him to the nations."
+      },
+      {
+        "word": "ALMOND",
+        "clue": "I see a rod of an ____ tree",
+        "ref": "Jeremiah 1:11",
+        "mean": "The almond is the first tree to bloom. It showed that the Lord watches over His word to make it happen."
+      },
+      {
+        "word": "LIVING",
+        "clue": "they have forsaken me the fountain of ____ waters",
+        "ref": "Jeremiah 2:13",
+        "mean": "The Lord is like a spring that never stops flowing. Idols are like pits that leak."
+      },
+      {
+        "word": "ROBBERS",
+        "clue": "become a den of ____ in your eyes?",
+        "ref": "Jeremiah 7:11",
+        "mean": "The Lord's house isn't a hiding place for people who keep doing wrong. It's for people who follow Him."
+      },
+      {
+        "word": "FISHERS",
+        "clue": "I will send for many ____, saith the LORD",
+        "ref": "Jeremiah 16:16",
+        "mean": "The Lord sends missionaries to find and gather His children all over the earth."
+      },
+      {
+        "word": "CLAY",
+        "clue": "as the ____ is in the potter's hand",
+        "ref": "Jeremiah 18:6",
+        "mean": "We are in the Lord's hands. Like a potter, He can shape us and make us new."
+      },
+      {
+        "word": "BONES",
+        "clue": "a burning fire shut up in my ____",
+        "ref": "Jeremiah 20:9",
+        "mean": "The Lord's word burned inside Jeremiah until he couldn't keep quiet."
+      }
+    ],
+    "deep": [
+      {
+        "id": "deep43-iron-pillar",
+        "section": 0,
+        "read": "Jeremiah 1:17–19",
+        "intro": "Right after calling Jeremiah, the Lord warns him that kings and priests will fight him. Read how the Lord will make him strong.",
+        "q": "In Jeremiah 1:18, what does the Lord make Jeremiah, so no one can beat him?",
+        "right": "A strong city, an iron pillar, brass walls",
+        "wrong": [
+          "A tall tower, a shield and a spear",
+          "A king's army with chariots of iron"
+        ],
+        "why": "Verse 18: “I have made thee this day a defenced city, and an iron pillar, and brasen walls.” They would fight him, but not win (verse 19).",
+        "source": "Jeremiah 1:18",
+        "find": "an iron pillar, and brasen walls",
+        "hunt": "In Jeremiah 1, what does the Lord make Jeremiah, so no one can beat him?"
+      },
+      {
+        "id": "deep43-first-lessons",
+        "section": 1,
+        "read": "D&C 138:53–56",
+        "intro": "In 1918 President Joseph F. Smith saw the spirit world in a vision. He saw Joseph Smith, Brigham Young and other leaders there, before they were born.",
+        "q": "In D&C 138:56, where did these leaders receive their first lessons?",
+        "right": "In the world of spirits",
+        "wrong": [
+          "In the School of the Prophets",
+          "In their homes, from parents"
+        ],
+        "why": "Verse 56: “Even before they were born, they, with many others, received their first lessons in the world of spirits.” They were prepared before coming to earth.",
+        "source": "D&C 138:56",
+        "find": "received their first lessons in the world of spirits",
+        "hunt": "In D&C 138, where did these leaders receive their first lessons?"
+      },
+      {
+        "id": "deep43-obey",
+        "section": 2,
+        "read": "Jeremiah 7:21–23",
+        "intro": "The lesson asks what message the Lord might have for you in these verses. The people kept bringing offerings while ignoring what He asked of them.",
+        "q": "In Jeremiah 7:23, what does the Lord say He commanded when He brought Israel out of Egypt?",
+        "right": "To obey His voice and walk in His ways",
+        "wrong": [
+          "To build Him a bigger and finer temple",
+          "To bring Him more and better offerings"
+        ],
+        "why": "Verse 23: “Obey my voice, and I will be your God, and ye shall be my people.” Offerings mean little without obeying Him.",
+        "source": "Jeremiah 7:23",
+        "find": "Obey my voice, and I will be your God",
+        "hunt": "In Jeremiah 7, what does the Lord say He commanded when He brought Israel out of Egypt?"
+      },
+      {
+        "id": "deep43-pastors",
+        "section": 3,
+        "read": "Jeremiah 3:14–18",
+        "intro": "Right after promising to gather His people “one of a city, and two of a family,” the Lord tells what He will give them once they're gathered.",
+        "q": "In Jeremiah 3:15, what will the pastors the Lord gives feed His people with?",
+        "right": "Knowledge and understanding",
+        "wrong": [
+          "Bread and fish from the sea",
+          "Milk and honey from the land"
+        ],
+        "why": "Verse 15: “I will give you pastors according to mine heart, which shall feed you with knowledge and understanding.” Pastors here means shepherds: leaders who teach.",
+        "source": "Jeremiah 3:15",
+        "find": "which shall feed you with knowledge and understanding",
+        "hunt": "In Jeremiah 3, what will the pastors the Lord gives feed His people with?"
+      },
+      {
+        "id": "deep43-kids",
+        "day": "friday",
+        "title": "From the children's part of the lesson",
+        "read": "lesson",
+        "intro": "The children's part of this week's lesson starts with Jeremiah 1:5. One idea is to look at pictures of yourself as a baby and talk about where you lived before.",
+        "q": "Which song does the lesson suggest singing about the life you lived before you were born?",
+        "right": "I Lived in Heaven",
+        "wrong": [
+          "I Am a Child of God",
+          "I Love to See the Temple"
+        ],
+        "why": "It suggests singing I Lived in Heaven, from the Children's Songbook. It's a song about the life we lived with Heavenly Father before we were born.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/43?lang=eng",
+        "find": "I Lived in Heaven"
+      },
+      {
+        "id": "deep43-ftsoy",
+        "day": "friday",
+        "title": "From For the Strength of Youth",
+        "read": "https://www.churchofjesuschrist.org/study/ftsoy/2026/10/02-god-knows-and-loves-you?lang=eng",
+        "intro": "Elder Ulisses Soares writes that what the Lord told Jeremiah is true of every person, including you: God knew you and loved you before you were born.",
+        "q": "According to Elder Soares, what did Heavenly Father present at the council in heaven?",
+        "right": "His great plan of happiness",
+        "wrong": [
+          "His list of future prophets",
+          "His plan for building Zion"
+        ],
+        "why": "He says you were part of a council in heaven where Heavenly Father presented His great plan of happiness, which lets each of us choose to become like Him.",
+        "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/10/02-god-knows-and-loves-you?lang=eng",
+        "find": "Heavenly Father presented His great plan of happiness"
+      }
+    ],
+    "reels": [
+      {
+        "id": "jer1-mouth",
+        "section": 0,
+        "hook": "Too young to speak for God? He didn't think so.",
+        "seek": "God touches Jeremiah's lips and gives him what to say",
+        "body": "When the Lord called Jeremiah to be a prophet, Jeremiah answered, “I cannot speak: for I am a child” (Jeremiah 1:6). The Lord told him not to say that, and promised, “I am with thee to deliver thee” (Jeremiah 1:8). Then He touched Jeremiah's mouth and put His own words there. Prophets don't make up their message. The Lord gives it to them.",
+        "verse": {
+          "text": "Then the LORD put forth his hand, and touched my mouth. And the LORD said unto me, Behold, I have put my words in thy mouth.",
+          "ref": "Jeremiah 1:9"
+        },
+        "question": {
+          "q": "Jeremiah said he was too young to speak. What did the Lord do?",
+          "right": "Gave him the words to say",
+          "wrong": [
+            "Told him to wait a few years",
+            "Sent an older man to help him"
+          ],
+          "why": "“Behold, I have put my words in thy mouth.” Jeremiah didn't have to be older or a great speaker. The Lord gave him the words."
+        },
+        "bonus": {
+          "q": "Jeremiah told the Lord he was only a child. What ages can that Hebrew word cover, say this week's Scripture Helps?",
+          "right": "Anything from a baby to a young adult",
+          "wrong": [
+            "Exactly twelve years old, no older",
+            "Under eight, too young for baptism"
+          ],
+          "why": "They say the Hebrew word translated child covers many ages, anything from an infant to a young adult. We don't know exactly how old Jeremiah was.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/41-jeremiah-1-3-7-16-18-20?lang=eng",
+          "find": "could mean anything from infant to young adult"
+        },
+        "media": {
+          "image": {
+            "src": "media/michelangelo-jeremiah.jpg",
+            "alt": "Painting of the prophet Jeremiah as an old man with a long white beard, sitting deep in thought with his hand over his mouth",
+            "credit": "The Prophet Jeremiah, by Michelangelo, about 1511, Sistine Chapel. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:%D0%9F%D1%80%D0%BE%D1%80%D0%BE%D0%BA_%D0%98%D0%B5%D1%80%D0%B5%D0%BC%D0%B8%D1%8F,_%D0%9C%D0%B8%D0%BA%D0%B5%D0%BB%D0%B0%D0%BD%D0%B6%D0%B5%D0%BB%D0%BE_%D0%91%D1%83%D0%BE%D0%BD%D0%B0%D1%80%D0%BE%D1%82%D1%82%D0%B8.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#431407 0%,#9a3412 50%,#fdba74 115%)",
+        "blobA": "rgba(253,186,116,.4)",
+        "blobB": "rgba(0,0,0,.45)"
+      },
+      {
+        "id": "jer1-almond",
+        "section": 0,
+        "hook": "The first tree to wake up after winter.",
+        "body": "The Lord asked Jeremiah what he saw. “I see a rod of an almond tree.” In Hebrew, almond is shaqed and watching is shoqed, and the almond is the first tree to bloom after winter. The Lord answered, “Thou hast well seen” (Jeremiah 1:12). He was watching over His word, and it would come true.",
+        "verse": {
+          "text": "Moreover the word of the LORD came unto me, saying, Jeremiah, what seest thou? And I said, I see a rod of an almond tree.",
+          "ref": "Jeremiah 1:11"
+        },
+        "question": {
+          "q": "What was the Lord teaching Jeremiah with the almond branch?",
+          "right": "He watches over His word to make it happen",
+          "wrong": [
+            "His word grows slowly, the way trees do",
+            "Jeremiah's words would bloom, then fade"
+          ],
+          "why": "“I will hasten my word to perform it” (Jeremiah 1:12). The almond, the watching tree, was His sign that He's watching over His word."
+        },
+        "bonus": {
+          "q": "In Jeremiah 1:13, what is the second thing the Lord shows Jeremiah?",
+          "hunt": "In Jeremiah 1, what is the second thing the Lord shows Jeremiah?",
+          "right": "A boiling pot facing north",
+          "wrong": [
+            "A burning lamp in the dark",
+            "A sword over the city gate"
+          ],
+          "why": "Verse 13: “I see a seething pot; and the face thereof is toward the north.” Seething means boiling. Trouble would boil over from the north (verse 14).",
+          "source": "Jeremiah 1:13",
+          "find": "I see a seething pot"
+        },
+        "media": {
+          "image": {
+            "src": "media/almond-blossom-van-gogh.jpg",
+            "alt": "Painting of white almond blossoms on twisting branches against a bright blue sky",
+            "credit": "Almond Blossom, by Vincent van Gogh, 1890. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_Almond_blossom_-_Google_Art_Project.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0e7490 50%,#a5f3fc 115%)",
+        "blobA": "rgba(165,243,252,.4)",
+        "blobB": "rgba(0,0,0,.4)"
+      },
+      {
+        "id": "jer20-fire",
+        "section": 0,
+        "hook": "He tried to quit. The words burned to get out.",
+        "body": "Jeremiah was beaten and locked in wooden stocks for speaking the Lord's word (Jeremiah 20:2), and people mocked him every day. So he decided to stop talking about the Lord. He couldn't do it. The word was “in mine heart as a burning fire shut up in my bones.” President Jeffrey R. Holland called this the turning point of Jeremiah's life.",
+        "verse": {
+          "text": "Then I said, I will not make mention of him, nor speak any more in his name. But his word was in mine heart as a burning fire shut up in my bones, and I was weary with forbearing, and I could not stay.",
+          "ref": "Jeremiah 20:9"
+        },
+        "question": {
+          "q": "Jeremiah decided to stop speaking for the Lord. Why couldn't he?",
+          "right": "God's message burned inside him like fire",
+          "wrong": [
+            "The people who mocked him began to listen",
+            "The king ordered him to keep preaching"
+          ],
+          "why": "God's word was “as a burning fire shut up in my bones,” and he “could not stay” quiet. Holding it in wore him out."
+        },
+        "bonus": {
+          "q": "In Jeremiah 20, Jeremiah says the Lord deceived him. What else can that Hebrew word mean, say this week's Scripture Helps?",
+          "right": "Enticed or persuaded",
+          "wrong": [
+            "Tricked or lied to",
+            "Forgotten or ignored"
+          ],
+          "why": "They say it can also mean enticed or persuaded. The Lord had drawn Jeremiah into a calling that turned out to be very hard.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/41-jeremiah-1-3-7-16-18-20?lang=eng",
+          "find": "can also mean “enticed” or “persuaded.”"
+        },
+        "media": {
+          "image": {
+            "src": "media/jeremiah-lamenting-rembrandt.jpg",
+            "alt": "Painting of the old prophet Jeremiah sitting alone in a dark cave, his head in his hand, while a city burns far behind him",
+            "credit": "Jeremiah Lamenting the Destruction of Jerusalem, by Rembrandt, 1630. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Rembrandt_-_Jeremiah_Lamenting_the_Destruction_of_Jerusalem_-_WGA19091.jpg"
+          }
+        },
+        "gradient": "linear-gradient(155deg,#1c0a00 0%,#7c2d12 50%,#f59e0b 115%)",
+        "blobA": "rgba(245,158,11,.4)",
+        "blobB": "rgba(0,0,0,.5)"
+      },
+      {
+        "id": "jer1-known",
+        "section": 1,
+        "hook": "Heavenly Father has known you for a very long time.",
+        "body": "Before Jeremiah was born, the Lord already knew him and had chosen him to be a prophet. Much of that is true of you too. President Russell M. Nelson taught that Heavenly Father has known you for a very long time. He chose you to come to earth right now, not for how you look, but for things like courage and a desire to serve others.",
+        "verse": {
+          "text": "Before I formed thee in the belly I knew thee; and before thou camest forth out of the womb I sanctified thee, and I ordained thee a prophet unto the nations.",
+          "ref": "Jeremiah 1:5"
+        },
+        "question": {
+          "q": "What does Jeremiah 1:5 tell you about the time before you were born?",
+          "right": "God knew you before you had a body",
+          "wrong": [
+            "You chose your own time to come to earth",
+            "Only prophets lived with God before"
+          ],
+          "why": "“Before I formed thee in the belly I knew thee.” What was true for Jeremiah is true for you: God knew you first."
+        },
+        "bonus": {
+          "q": "The Lord showed Abraham the spirits before the world was made. In Abraham 3:23, what did He tell Abraham?",
+          "hunt": "The Lord showed Abraham the spirits before the world was made. In Abraham 3, what did He tell Abraham?",
+          "right": "He was chosen before he was born",
+          "wrong": [
+            "He was the oldest of all the spirits",
+            "He would rule over all the stars"
+          ],
+          "why": "“Abraham, thou art one of them; thou wast chosen before thou wast born.” Like Jeremiah, Abraham was chosen before he came to earth.",
+          "source": "Abraham 3:23",
+          "find": "thou wast chosen before thou wast born"
+        },
+        "media": {
+          "image": {
+            "src": "media/sleepy-baby-cassatt.jpg",
+            "alt": "Pastel drawing of a mother in a pink robe holding her sleepy baby close against her cheek",
+            "credit": "Sleepy Baby, by Mary Cassatt, 1910. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Cassatt_Mary_Sleepy_Baby_1910.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#1e3a8a 0%,#6366f1 50%,#fbcfe8 115%)",
+        "blobA": "rgba(251,207,232,.4)",
+        "blobB": "rgba(0,0,0,.4)"
+      },
+      {
+        "id": "jer18-potter",
+        "section": 1,
+        "hook": "The pot went wrong. The potter didn't throw it out.",
+        "body": "The Lord sent Jeremiah to watch a potter at his wheel. The clay jar “was marred in the hand of the potter,” so he “made it again another vessel.” Israel was like that clay in the Lord's hand (Jeremiah 18:6). In Hebrew, potter means one who forms: the same word as in “Before I formed thee” (Jeremiah 1:5). The One who formed you can form you again.",
+        "verse": {
+          "text": "And the vessel that he made of clay was marred in the hand of the potter: so he made it again another vessel, as seemed good to the potter to make it.",
+          "ref": "Jeremiah 18:4"
+        },
+        "question": {
+          "q": "What did the potter do when the clay jar was marred?",
+          "right": "Reshaped it into a different pot",
+          "wrong": [
+            "Threw the clay away and got new clay",
+            "Sold the broken jar for less money"
+          ],
+          "why": "“So he made it again another vessel, as seemed good to the potter.” The Lord doesn't give up on marred clay. He reshapes it."
+        },
+        "bonus": {
+          "q": "In Jeremiah 18:8, what will the Lord do if a nation He warned turns from its evil?",
+          "hunt": "In Jeremiah 18, what will the Lord do if a nation He warned turns from its evil?",
+          "right": "Hold back the harm He warned of",
+          "wrong": [
+            "Punish it anyway, just later on",
+            "Send a new prophet to test it"
+          ],
+          "why": "Verse 8: “If that nation… turn from their evil, I will repent of the evil that I thought to do unto them.” Here repent means He would change His plan.",
+          "source": "Jeremiah 18:8",
+          "find": "I will repent of the evil that I thought to do unto them"
+        },
+        "media": {
+          "image": {
+            "src": "media/potter-wheel-haifa.jpg",
+            "alt": "Old black-and-white photo of a young potter in a knitted cap shaping a clay jar on his wheel in a brick workshop",
+            "credit": "Shaping a jar on a potter's wheel in Haifa, 1939. Photo: Matson Collection, Library of Congress, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Jewish_factories_in_Palestine_on_Plain_of_Sharon_%26_along_the_coast_to_Haifa._Haifa._The_%27Kadar%27_Ltd._Ceramics._Fashioning_of_a_jar_on_the_potters_wheel,_close_up_LOC_matpc.19548.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#292524 0%,#78350f 50%,#fcd9b6 115%)",
+        "blobA": "rgba(252,217,182,.35)",
+        "blobB": "rgba(0,0,0,.5)"
+      },
+      {
+        "id": "jer2-fountain",
+        "section": 2,
+        "hook": "Trading a flowing spring for a leaky water pit.",
+        "body": "Israel is a dry land, so people dug pits called cisterns to catch rainwater. If a cistern cracked, the water drained away. The Lord said His people had left Him, “the fountain of living waters,” for “broken cisterns, that can hold no water.” The idols they chose couldn't give them anything. Jesus Christ is the spring that never runs dry (John 4:14).",
+        "verse": {
+          "text": "For my people have committed two evils; they have forsaken me the fountain of living waters, and hewed them out cisterns, broken cisterns, that can hold no water.",
+          "ref": "Jeremiah 2:13"
+        },
+        "question": {
+          "q": "What did the Lord mean by “broken cisterns, that can hold no water”?",
+          "right": "Idols can't give what the Lord gives",
+          "wrong": [
+            "The people needed to fix their pits",
+            "Rainwater is safer than spring water"
+          ],
+          "why": "He is “the fountain of living waters.” Trading Him for idols was like trading a flowing spring for a leaky pit."
+        },
+        "bonus": {
+          "q": "This week's Scripture Helps explain cisterns. What were they often lined with, to keep the water in?",
+          "right": "Plaster",
+          "wrong": [
+            "Leather",
+            "Copper"
+          ],
+          "why": "They say cisterns were often lined with plaster to make them watertight. Once a cistern cracked, it couldn't hold water and became useless.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/41-jeremiah-1-3-7-16-18-20?lang=eng",
+          "find": "Cisterns were often lined with plaster to make them watertight"
+        },
+        "media": {
+          "image": {
+            "src": "media/cistern-beersheba.jpg",
+            "alt": "Old black-and-white photo of a Bedouin woman, two boys and a donkey carrying water jars beside a round stone cistern in the desert",
+            "credit": "A desert cistern near Beersheba. Photo: Matson Collection, Library of Congress, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Beersheba_Bedouins._A_desert_cistern._(Women_and_children_with_a_donkey_loaded_with_water_jars)_LOC_matpc.22004.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#082f49 0%,#0369a1 50%,#bae6fd 115%)",
+        "blobA": "rgba(186,230,253,.4)",
+        "blobB": "rgba(0,0,0,.45)"
+      },
+      {
+        "id": "jer7-den-of-robbers",
+        "section": 2,
+        "hook": "They thought the temple made them safe no matter what.",
+        "seek": "His holy place used as a hiding spot by thieves",
+        "body": "People in Jerusalem stole, lied and worshipped idols, then walked into the temple saying they were safe (Jeremiah 7:9–10). They kept repeating “The temple of the LORD” (Jeremiah 7:4) as if the building would protect them. The Lord asked if His house had become a hideout for robbers. Centuries later, Jesus quoted this verse when He drove the money changers out (Matthew 21:13).",
+        "verse": {
+          "text": "Is this house, which is called by my name, become a den of robbers in your eyes? Behold, even I have seen it, saith the LORD.",
+          "ref": "Jeremiah 7:11"
+        },
+        "question": {
+          "q": "What was wrong with the way these people treated the temple?",
+          "right": "Came to worship but kept on sinning",
+          "wrong": [
+            "Brought the wrong kind of offerings",
+            "Didn't come to the temple often enough"
+          ],
+          "why": "They came to “this house, which is called by my name” while still stealing and lying. Going to His house means following Him too."
+        },
+        "bonus": {
+          "q": "In Jeremiah 7:12, where does the Lord tell the people to go and look?",
+          "hunt": "In Jeremiah 7, where does the Lord tell the people to go and look?",
+          "right": "Shiloh, where His tabernacle was",
+          "wrong": [
+            "Egypt, where their fathers were slaves",
+            "Babylon, where they would be captives"
+          ],
+          "why": "Verse 12: “go ye now unto my place which was in Shiloh… and see what I did to it for the wickedness of my people.” A holy place couldn't save them.",
+          "source": "Jeremiah 7:12",
+          "find": "go ye now unto my place which was in Shiloh"
+        },
+        "media": {
+          "image": {
+            "src": "media/money-changers-bloch.jpg",
+            "alt": "Painting of Jesus Christ raising a whip of cords to drive the money changers out of the temple, as people scramble and a dove flies off",
+            "credit": "Jesus Casting Out the Money Changers, by Carl Bloch. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:CastingoutMoneyChangers.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#1e1b4b 0%,#7f1d1d 50%,#fca5a5 115%)",
+        "blobA": "rgba(252,165,165,.35)",
+        "blobB": "rgba(0,0,0,.5)"
+      },
+      {
+        "id": "jer17-tree",
+        "section": 2,
+        "hook": "Trust Him, and you stay green when everything's dry.",
+        "seek": "A plant beside a stream that stays alive when it's hot and dry",
+        "body": "Jeremiah compares two plants. Someone who trusts only in people is like a scrubby bush in a salty desert (Jeremiah 17:5–6). Someone who trusts the Lord is like a tree by a river. Its roots reach the water, so heat and drought can't dry it out. A few verses later, Jeremiah calls the Lord “the fountain of living waters” (verse 13) again.",
+        "verse": {
+          "text": "For he shall be as a tree planted by the waters, and that spreadeth out her roots by the river, and shall not see when heat cometh, but her leaf shall be green…",
+          "ref": "Jeremiah 17:8"
+        },
+        "question": {
+          "q": "Why does the tree in Jeremiah 17:8 stay green, even in a drought?",
+          "right": "Its roots drink from a stream nearby",
+          "wrong": [
+            "It only grows leaves in the spring",
+            "Its leaves are too tough to dry out"
+          ],
+          "why": "It “spreadeth out her roots by the river.” Trusting the Lord is like drinking from water that never runs out."
+        },
+        "bonus": {
+          "q": "In Jeremiah 17:14, right after calling the Lord the fountain of living waters, what does Jeremiah ask Him?",
+          "hunt": "In Jeremiah 17, right after calling the Lord the fountain of living waters, what does Jeremiah ask Him?",
+          "right": "Heal me, and I will be healed",
+          "wrong": [
+            "Hide me, and I will be safe",
+            "Lead me, and I will follow"
+          ],
+          "why": "Verse 14: “Heal me, O LORD, and I shall be healed; save me, and I shall be saved.” He knew where real help comes from.",
+          "source": "Jeremiah 17:14",
+          "find": "Heal me, O LORD, and I shall be healed"
+        },
+        "media": {
+          "image": {
+            "src": "media/poplars-epte-monet.jpg",
+            "alt": "Painting of tall, thin trees in a row along a riverbank, their reflections shimmering in the water",
+            "credit": "Poplars on the Bank of the Epte River, by Claude Monet, 1891. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Poplars_on_the_Bank_of_the_Epte_River_(Claude_Monet,_1891).jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#14532d 0%,#15803d 50%,#bbf7d0 115%)",
+        "blobA": "rgba(187,247,208,.4)",
+        "blobB": "rgba(0,0,0,.4)"
+      },
+      {
+        "id": "jer16-fishers",
+        "section": 3,
+        "hook": "The Lord's search party for His scattered children.",
+        "body": "Jeremiah saw a day when the Lord would bring scattered Israel home. He would send “many fishers” and then “many hunters” to find them everywhere, even in the holes of the rocks. President Russell M. Nelson said these fishers and hunters are missionaries. Jesus called His first disciples to be “fishers of men” (Matthew 4:19). Helping someone come to Christ is part of it too.",
+        "verse": {
+          "text": "Behold, I will send for many fishers, saith the LORD, and they shall fish them; and after will I send for many hunters, and they shall hunt them from every mountain, and from every hill, and out of the holes of the rocks.",
+          "ref": "Jeremiah 16:16"
+        },
+        "question": {
+          "q": "Who are the “fishers” and “hunters” today, according to President Nelson?",
+          "right": "Missionaries sent out to preach",
+          "wrong": [
+            "Farmers feeding the poor of the earth",
+            "Soldiers guarding the land of Israel"
+          ],
+          "why": "President Nelson compared them to missionaries. The Lord sends “many fishers” and “many hunters” to find His children everywhere."
+        },
+        "bonus": {
+          "q": "This week's Scripture Helps say someone taught Joseph Smith that the fishers and hunters verse was about the gathering of Israel. Who?",
+          "right": "The angel Moroni",
+          "wrong": [
+            "The Apostle Peter",
+            "John the Baptist"
+          ],
+          "why": "A note in the Scripture Helps says that, according to Oliver Cowdery, Moroni taught Joseph Smith that Jeremiah 16:16 was about the gathering of Israel.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/41-jeremiah-1-3-7-16-18-20?lang=eng",
+          "find": "Moroni taught Joseph Smith"
+        },
+        "media": {
+          "image": {
+            "src": "media/draught-of-fishes-raphael.jpg",
+            "alt": "Painting of Jesus Christ sitting in a fishing boat as Peter kneels before Him and other fishermen haul in nets full of fish",
+            "credit": "The Miraculous Draught of Fishes, by Raphael, 1515. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:%27The_Miraculous_Draught_of_Fishes%27_by_Raphael,_1515,_cartoon_for_tapestry.jpg"
+          }
+        },
+        "gradient": "linear-gradient(165deg,#0f172a 0%,#0e7490 55%,#99f6e4 115%)",
+        "blobA": "rgba(153,246,228,.4)",
+        "blobB": "rgba(0,0,0,.45)"
+      },
+      {
+        "id": "jer16-exodus",
+        "section": 3,
+        "hook": "Something even bigger than the Red Sea parting.",
+        "seek": "God gathers His children home from every place they were scattered",
+        "body": "For centuries Israel praised the Lord for bringing them “out of the land of Egypt” (Jeremiah 16:14). Jeremiah said a day would come when people would praise Him for something even greater: gathering His children “from all the lands whither he had driven them.” That gathering is happening now. President Nelson called it the most important thing taking place on earth today.",
+        "verse": {
+          "text": "But, The LORD liveth, that brought up the children of Israel from the land of the north, and from all the lands whither he had driven them: and I will bring them again into their land that I gave unto their fathers.",
+          "ref": "Jeremiah 16:15"
+        },
+        "question": {
+          "q": "Why would the gathering be remembered even more than leaving Egypt?",
+          "right": "It brings His children from everywhere",
+          "wrong": [
+            "It takes them back into the land of Egypt",
+            "It happens all at once, on a single day"
+          ],
+          "why": "Not just from Egypt, but “from the land of the north, and from all the lands whither he had driven them.”"
+        },
+        "bonus": {
+          "q": "In Jeremiah 16:19, who does Jeremiah say will come to the Lord from the ends of the earth?",
+          "hunt": "In Jeremiah 16, who does Jeremiah say will come to the Lord from the ends of the earth?",
+          "right": "The Gentiles",
+          "wrong": [
+            "The Egyptians",
+            "The Assyrians"
+          ],
+          "why": "Verse 19: “the Gentiles shall come unto thee from the ends of the earth.” The gathering is for everyone who will come to Him.",
+          "source": "Jeremiah 16:19",
+          "find": "the Gentiles shall come unto thee from the ends of the earth"
+        },
+        "media": {
+          "image": {
+            "src": "media/red-sea-poussin.jpg",
+            "alt": "Painting of the Israelites safe on the shore after crossing the Red Sea, gathering armor from the water as Moses raises his arm",
+            "credit": "The Crossing of the Red Sea, by Nicolas Poussin, 1634. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:The_Crossing_of_The_Red_Sea.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#1c1917 0%,#92400e 50%,#fde68a 115%)",
+        "blobA": "rgba(253,230,138,.4)",
+        "blobB": "rgba(0,0,0,.5)"
+      },
+      {
+        "id": "jer3-one-of-a-city",
+        "section": 3,
+        "hook": "He'll bring you home, one or two at a time.",
+        "body": "The Lord pleads with people who wandered away: “Turn, O backsliding children.” He calls Himself married to them, still bound by His covenant, and promises to gather them “one of a city, and two of a family” to Zion. The gathering doesn't happen all at once. It happens one person and one family at a time, like the early Saints who left their homes to gather.",
+        "verse": {
+          "text": "Turn, O backsliding children, saith the LORD; for I am married unto you: and I will take you one of a city, and two of a family, and I will bring you to Zion:",
+          "ref": "Jeremiah 3:14"
+        },
+        "question": {
+          "q": "How does Jeremiah 3:14 say the Lord will gather His people?",
+          "right": "One or two at a time, from everywhere",
+          "wrong": [
+            "All at once, marching as one great army",
+            "Only the biggest and strongest families"
+          ],
+          "why": "“I will take you one of a city, and two of a family, and I will bring you to Zion.” Every single person matters to Him."
+        },
+        "bonus": {
+          "q": "In this week's Scripture Helps, President Nelson explains what our covenant with God means. What will God never tire of?",
+          "right": "His efforts to help us",
+          "wrong": [
+            "Testing us with hard trials",
+            "Giving us new commandments"
+          ],
+          "why": "He says that because of our covenant, God will never tire in His efforts to help us, and we will never run out of His merciful patience.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/41-jeremiah-1-3-7-16-18-20?lang=eng",
+          "find": "He will never tire in His efforts to help us"
+        },
+        "media": {
+          "image": {
+            "src": "media/mississippi-ice-christensen.jpg",
+            "alt": "Painting of pioneer wagons, oxen and families crossing the frozen Mississippi River in winter, leaving the city of Nauvoo behind",
+            "credit": "Crossing the Mississippi on the Ice, by C. C. A. Christensen, about 1878. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Crossing_the_Mississippi_on_the_Ice_by_C.C.A._Christensen.png"
+          }
+        },
+        "gradient": "linear-gradient(160deg,#172554 0%,#1d4ed8 50%,#e0f2fe 115%)",
+        "blobA": "rgba(224,242,254,.4)",
+        "blobB": "rgba(0,0,0,.4)"
+      }
+    ],
+    "plain": [
+      {
+        "ch": "Jeremiah 1",
+        "verses": [
+          "These are the words of Jeremiah, the son of Hilkiah. He was one of the priests who lived in Anathoth, in the land of Benjamin.",
+          "The word of the Lord came to him when Josiah, the son of Amon, was king of Judah, in the thirteenth year that he ruled.",
+          "It kept coming when Jehoiakim, the son of Josiah, was king of Judah, and all the way to the end of the eleventh year of Zedekiah, the son of Josiah, king of Judah—until the people of Jerusalem were carried away as captives in the fifth month.",
+          "Then the word of the Lord came to me. It said:",
+          "Before I formed you in your mother’s womb, I knew you. Before you were born, I set you apart, and I ordained you to be a prophet to the nations.",
+          "Then I said, “Oh, Lord God! I don’t know how to speak. I’m only a youth.”",
+          "But the Lord said to me: Don’t say you are only a youth. You will go to everyone I send you to, and you will say whatever I command you.",
+          "Don’t be afraid of them, because I am with you to rescue you, says the Lord.",
+          "Then the Lord reached out His hand and touched my mouth, and the Lord said to me, “Look, I have put my words in your mouth.”",
+          "See, today I have put you over nations and kingdoms, to pull up and to tear down, to destroy and to throw down, to build and to plant.",
+          "The word of the Lord came to me again: “Jeremiah, what do you see?” I said, “I see a branch of an almond tree.”",
+          "Then the Lord said to me, “You have seen well, because I am watching over my word to make it happen.”",
+          "The word of the Lord came to me a second time: “What do you see?” I said, “I see a boiling pot, and it faces out from the north.”",
+          "Then the Lord said to me, “Disaster will break out from the north on everyone who lives in the land.”",
+          "For I am calling all the families of the kingdoms of the north, says the Lord. They will come, and each of their kings will set up his throne at the entrance of the gates of Jerusalem. They will come against all its walls around it and against all the cities of Judah.",
+          "I will announce my judgments against my people for all their wickedness, because they have left me. They have burned incense to other gods and worshipped things their own hands have made.",
+          "So get yourself ready! Stand up and tell them everything I command you. Don’t be terrified of them, or I will make you terrified in front of them.",
+          "Look, today I have made you like a strong walled city, an iron pillar, and bronze walls against the whole land—against the kings of Judah, its leaders, its priests, and the people of the land.",
+          "They will fight against you, but they will not win against you, because I am with you to rescue you, says the Lord."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "Jeremiah was a prophet in Jerusalem in Lehi’s day. The brass plates had “many prophecies which have been spoken by the mouth of Jeremiah” (1 Nephi 5:13), and Nephi says “Jeremiah have they cast into prison” (1 Nephi 7:14)."
+          },
+          {
+            "v": 5,
+            "text": "The Lord showed Abraham the spirits He chose before this life and told him, “thou art one of them; thou wast chosen before thou wast born” (Abraham 3:23)."
+          },
+          {
+            "v": 12,
+            "text": "In Hebrew, the word for almond tree sounds like the word for watching, so the almond branch means the Lord is watching over His word. The KJV says “hasten.”"
+          },
+          {
+            "v": 13,
+            "text": "The KJV says the pot’s face is “toward the north.” The Hebrew says it faces out from the north, tipped toward the land, just as disaster will break out from the north (verse 14)."
+          }
+        ],
+        "review": [
+          {
+            "v": 13,
+            "about": "The KJV says the pot’s face is “toward the north”; the Hebrew says it faces from the north, spilling toward the land (verse 14). The plain words follow the Hebrew, with a note."
+          }
+        ]
+      },
+      {
+        "ch": "Jeremiah 2",
+        "verses": [
+          "The word of the Lord came to me again. It said:",
+          "Go and call out so Jerusalem can hear. Say, This is what the Lord says: I remember how faithful you were when you were young, how you loved me like a bride, how you followed me through the wilderness, in a land where nothing was planted.",
+          "Israel was holy to the Lord, the first part of His harvest. Anyone who ate it up was guilty, and trouble came on them, says the Lord.",
+          "Hear the word of the Lord, house of Jacob, and all the families of the house of Israel.",
+          "This is what the Lord says: What wrong did your fathers find in me, that they went so far away from me? They followed worthless things and became worthless themselves.",
+          "They never asked, “Where is the Lord, who brought us up out of the land of Egypt, who led us through the wilderness, through a land of deserts and pits, a land of drought and the shadow of death, a land no one travels through and where no one lives?”",
+          "I brought you into a rich land to eat its fruit and its good things. But when you came in, you made my land unclean and turned my inheritance into something disgusting.",
+          "The priests didn’t ask, “Where is the Lord?” Those who handled the law didn’t know me. The shepherds who led the people rebelled against me. The prophets prophesied by Baal and followed things that are useless.",
+          "So I will still bring my case against you, says the Lord, and against your children’s children.",
+          "Go west across the sea to the islands of Chittim and look. Send east to Kedar and think carefully. See if anything like this has ever happened.",
+          "Has any nation ever traded its gods for other gods—even though they are not gods at all? But my people have traded me, their Glory, for something useless.",
+          "Be shocked at this, you heavens! Shudder and be horrified, says the Lord.",
+          "For my people have done two evil things: They have left me, the fountain of living waters, and they have dug out cisterns for themselves (pits cut in rock to hold rainwater)—broken cisterns that cannot hold water.",
+          "Is Israel a slave? Was he born a servant? Then why has he been robbed?",
+          "Young lions have roared at him. They have growled loudly. They have made his land a wasteland, and his cities are burned, with no one living in them.",
+          "Even the people of Noph and Tahapanes (cities in Egypt) have cracked the top of your head.",
+          "Haven’t you brought this on yourself by leaving the Lord your God when He was leading you on the way?",
+          "So why go down the road to Egypt to drink water from the Sihor (the Nile)? Why go down the road to Assyria to drink water from the river (the Euphrates)?",
+          "Your own wickedness will punish you, and your turning away will scold you. So know this and see it: it is evil and bitter to leave the Lord your God and not to fear me, says the Lord God of Hosts.",
+          "Long ago I broke your yoke and snapped your chains, and you said, “I will not disobey.” But on every high hill and under every green tree, you lay down like a prostitute.",
+          "I planted you like a choice vine, all from good, true seed. How then have you turned against me into a wild vine that has gone bad?",
+          "Even if you wash with strong soap and use a lot of cleaner, the stain of your sin is still in front of me, says the Lord God.",
+          "How can you say, “I am not unclean. I have not gone after the Baalim (the false gods called Baal)”? Look at what you did in the valley. Admit what you have done. You are like a fast young camel running this way and that.",
+          "You are like a wild donkey used to the desert, sniffing the wind when she wants a mate. Who can hold her back? Those who look for her don’t have to wear themselves out. When her season comes, they will find her.",
+          "Stop running before your feet are bare and your throat is dry. But you said, “It’s no use! No, I love strangers—foreign gods—and I will go after them.”",
+          "Like a thief is ashamed when he is caught, so the house of Israel is ashamed—they, their kings, their leaders, their priests, and their prophets.",
+          "They say to a piece of wood, “You are my father,” and to a stone, “You gave birth to me.” They have turned their backs to me, not their faces. But when trouble comes, they say, “Get up and save us!”",
+          "But where are the gods you made for yourself? Let them get up and save you when you are in trouble, if they can. For you have as many gods as you have cities, Judah.",
+          "Why do you argue with me? All of you have rebelled against me, says the Lord.",
+          "I punished your children, but it did no good. They would not learn. Your own sword has eaten up your prophets like a lion that destroys.",
+          "You people of this generation, look at the word of the Lord! Have I been a wilderness to Israel, or a land of deep darkness? Why do my people say, “We are our own masters. We won’t come to you anymore”?",
+          "Can a young woman forget her jewelry, or a bride her wedding clothes? Yet my people have forgotten me for more days than anyone can count.",
+          "How carefully you plan your way to go looking for love! You have even taught the wicked your ways.",
+          "The blood of poor, innocent people is found on the edges of your clothes. I didn’t have to search in secret to find it; it is right there on all of them.",
+          "Yet you say, “I am innocent. Surely His anger has turned away from me.” Look, I will bring my case against you, because you say, “I have not sinned.”",
+          "Why do you run around so much, changing direction? You will be ashamed of Egypt too, just as you were ashamed of Assyria.",
+          "You will walk away from Egypt too, with your hands on your head in shame, because the Lord has rejected the ones you trust, and they will not help you succeed."
+        ],
+        "notes": [
+          {
+            "v": 9,
+            "text": "In the KJV, “plead” means to argue a case, as in a court, not to beg: the Lord is bringing charges against His people. It means the same in verse 29 and verse 35."
+          },
+          {
+            "v": 13,
+            "text": "In his vision of Lehi’s dream, Nephi saw that the rod of iron led “to the fountain of living waters, or to the tree of life” (1 Nephi 11:25), which is the love of God. Jesus offered “living water” too (John 4:10)."
+          },
+          {
+            "v": 20,
+            "text": "The Lord is His people’s husband, so worshipping idols is pictured as being unfaithful to Him, as when Israel “committed adultery with stones and with stocks” (Jeremiah 3:9): idols of stone and wood."
+          },
+          {
+            "v": 24,
+            "text": "The Joseph Smith Translation says those who seek her shall not find her."
+          }
+        ],
+        "review": [
+          {
+            "v": 20,
+            "about": "The KJV has the Lord breaking their yoke (freeing them from Egypt) and the people promising “I will not transgress.” Modern translations read it as the people breaking the Lord’s yoke and saying ‘I will not serve.’ The plain words follow the KJV."
+          },
+          {
+            "v": 24,
+            "about": "Verses 23–25 picture Israel chasing idols like animals looking for a mate. The plain words are a little plainer than the KJV (‘when she wants a mate’ for “at her pleasure”) and milder than the BSB. The note under verse 20 explains the picture."
+          }
+        ]
+      },
+      {
+        "ch": "Jeremiah 3",
+        "verses": [
+          "People say, “If a man divorces his wife, and she leaves him and marries another man, should he go back to her? Wouldn’t that land be made completely unclean?” But you have been unfaithful with many lovers—yet come back to me, says the Lord.",
+          "Look up at the bare hills and see. Is there any place where you have not been unfaithful? You sat by the roads waiting for lovers, like an Arabian waiting in the desert. You have made the land unclean with your unfaithfulness and your wickedness.",
+          "So the showers have been held back, and there has been no latter rain (the spring rain). But you have the bold face of a prostitute. You refuse to be ashamed.",
+          "Won’t you now call out to me, “My Father, you have been my guide since I was young”?",
+          "“Will He stay angry forever? Will He keep it up to the end?” That is what you have said, but you have done all the evil you could.",
+          "In the days of King Josiah, the Lord said to me, “Have you seen what unfaithful Israel has done? She has gone up on every high mountain and under every green tree, and she has been unfaithful there.”",
+          "After she had done all these things, I said, “Come back to me.” But she did not come back. And her unfaithful sister Judah saw it.",
+          "I sent unfaithful Israel away and gave her divorce papers because she had committed adultery. Yet I saw that her unfaithful sister Judah was not afraid. She went and was unfaithful too.",
+          "Because Israel’s unfaithfulness meant so little to her, she made the land unclean and committed adultery with idols of stone and wood.",
+          "Even after all this, her unfaithful sister Judah did not come back to me with her whole heart. She only pretended, says the Lord.",
+          "Then the Lord said to me, “Unfaithful Israel has shown herself more righteous than treacherous Judah.”",
+          "Go and call out these words toward the north. Say, Come back, unfaithful Israel, says the Lord. I will not look at you in anger, because I am merciful, says the Lord. I will not stay angry forever.",
+          "Only admit your sin: that you have rebelled against the Lord your God, that you have gone after foreign gods under every green tree, and that you have not obeyed my voice, says the Lord.",
+          "Come back, you children who have turned away, says the Lord, for I am your husband. I will take you, one from a city and two from a family, and I will bring you to Zion.",
+          "And I will give you shepherds after my own heart—leaders who will feed you with knowledge and understanding.",
+          "In those days, when you have grown and become many in the land, says the Lord, people will no longer talk about the ark of the covenant of the Lord. They won’t think about it or remember it or visit it, and it won’t be made again.",
+          "At that time they will call Jerusalem the throne of the Lord. All the nations will gather there, to the name of the Lord in Jerusalem. They will no longer follow the stubbornness of their evil hearts.",
+          "In those days the house of Judah will walk together with the house of Israel. They will come together out of the land of the north to the land I gave your fathers as their inheritance.",
+          "I said, “How gladly I would treat you as my children and give you a pleasant land, the most beautiful inheritance among the nations!” I said, “You will call me ‘My Father’ and will never turn away from following me.”",
+          "But like a wife who is unfaithful to her husband, you have been unfaithful to me, house of Israel, says the Lord.",
+          "A voice is heard on the bare hills: the weeping and pleading of the children of Israel, because they have twisted their ways and forgotten the Lord their God.",
+          "Come back, you children who have turned away, and I will heal you of turning away. They answer, “Here we are! We come to you, because you are the Lord our God.”",
+          "Truly, it is useless to hope to be saved by the idols on the hills and all the mountains. Truly, the salvation of Israel is in the Lord our God.",
+          "Since we were young, the shameful thing we worshipped has eaten up everything our fathers worked for—their flocks and herds, their sons and daughters.",
+          "We lie down in our shame, and our disgrace covers us. For we have sinned against the Lord our God, we and our fathers, from when we were young until today. We have not obeyed the voice of the Lord our God."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "In this chapter the Lord is Israel’s husband, “for I am married unto you” (Jeremiah 3:14), and worshipping false gods is pictured as a wife being unfaithful."
+          },
+          {
+            "v": 1,
+            "text": "The law of Moses said a man could not take back a wife he had divorced once she had married another man: “thou shalt not cause the land to sin” (Deuteronomy 24:1–4)."
+          },
+          {
+            "v": 6,
+            "text": "Here Israel means the northern kingdom, which Assyria had already carried away (2 Kings 17:6). Judah, the southern kingdom with Jerusalem, was all that was left (2 Kings 17:18)."
+          },
+          {
+            "v": 17,
+            "text": "The Hebrew word the KJV translates “imagination” means stubbornness: doing whatever your own heart wants."
+          },
+          {
+            "v": 18,
+            "text": "Moses gave Joseph Smith and Oliver Cowdery “the keys of the gathering of Israel from the four parts of the earth, and the leading of the ten tribes from the land of the north” (D&C 110:11)."
+          },
+          {
+            "v": 19,
+            "text": "The KJV has a question, “How shall I put thee among the children?” The Hebrew can also be read as a wish, as modern translations do: ‘How I long to make you My sons.’"
+          },
+          {
+            "v": 24,
+            "text": "Here “shame” is a mocking name for the false god Baal, as in “altars to that shameful thing, even altars to burn incense unto Baal” (Jeremiah 11:13)."
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "The KJV reads the last line as an invitation: “yet return again to me.” Modern translations read it as a question: ‘and would you return to Me?’ The plain words keep the KJV, which fits the chapter’s repeated “Return” (verses 12, 14, 22)."
+          },
+          {
+            "v": 24,
+            "about": "KJV “shame”: the Hebrew word is also a mocking name for an idol, so the plain words say the shameful thing they worshipped."
+          }
+        ]
+      },
+      {
+        "ch": "Jeremiah 7",
+        "verses": [
+          "This is the word that came to Jeremiah from the Lord:",
+          "Stand in the gate of the Lord’s house and announce this message there. Say, Hear the word of the Lord, all you people of Judah who come in through these gates to worship the Lord.",
+          "This is what the Lord of Hosts, the God of Israel, says: Fix your ways and your actions, and I will let you live in this place.",
+          "Don’t trust in lies that say, “This is the temple of the Lord, the temple of the Lord, the temple of the Lord!”",
+          "If you really fix your ways and your actions, and if you really treat each other fairly,",
+          "If you do not mistreat foreigners, orphans, and widows, if you do not kill innocent people in this place, and if you do not follow other gods, which only hurts you,",
+          "Then I will let you live in this place, in the land I gave to your fathers forever and ever.",
+          "But look, you are trusting in lies that do no good.",
+          "Will you steal, murder, commit adultery, lie under oath, burn incense to Baal, and follow other gods you have never known,",
+          "And then come and stand in front of me in this house, which is called by my name, and say, “We are safe!”—only to go on doing all these disgusting things?",
+          "Has this house, which is called by my name, become a den of robbers in your eyes? Look, I have seen it myself, says the Lord.",
+          "But go now to my place that was in Shiloh, where I first made a home for my name, and see what I did to it because of the wickedness of my people Israel.",
+          "And now, because you have done all these things, says the Lord—because I spoke to you again and again, but you did not listen, and I called you, but you did not answer—",
+          "I will do to this house called by my name, the house you trust in, and to the place I gave to you and your fathers, what I did to Shiloh.",
+          "I will throw you out of my sight, just as I threw out all your brothers, all the children of Ephraim.",
+          "So you, Jeremiah, do not pray for these people. Don’t cry out or pray for them, and don’t beg me for them, because I will not listen to you.",
+          "Don’t you see what they are doing in the cities of Judah and in the streets of Jerusalem?",
+          "The children gather wood, the fathers light the fire, and the women knead dough to make cakes for the queen of heaven (a false goddess). They pour out drink offerings to other gods to make me angry.",
+          "But is it really me they are making angry? says the Lord. Aren’t they hurting themselves, to their own shame?",
+          "So this is what the Lord God says: Look, my anger and my fury will be poured out on this place—on people and animals, on the trees of the field and the crops of the ground. It will burn and will not be put out.",
+          "This is what the Lord of Hosts, the God of Israel, says: Go ahead and add your burnt offerings to your other sacrifices, and eat the meat yourselves.",
+          "For when I brought your fathers out of the land of Egypt, I did not speak to them or command them about burnt offerings and sacrifices.",
+          "But this is what I commanded them: Obey my voice, and I will be your God, and you will be my people. Walk in all the ways I command you, so that things will go well for you.",
+          "But they did not listen or pay attention. They followed their own plans and the stubbornness of their evil hearts. They went backward instead of forward.",
+          "From the day your fathers came out of the land of Egypt until today, I have sent you all my servants the prophets, again and again, day after day.",
+          "But they did not listen to me or pay attention. They were stubborn and did worse than their fathers.",
+          "You will tell them all these words, but they will not listen to you. You will call to them, but they will not answer you.",
+          "So say to them, This is the nation that did not obey the voice of the Lord their God or accept correction. Truth has died; it has been cut off from their mouths.",
+          "Cut off your hair, Jerusalem, and throw it away. Sing a song of mourning on the bare hills, for the Lord has rejected and left this generation that has made Him angry.",
+          "For the people of Judah have done evil in my sight, says the Lord. They have put their disgusting idols in the house called by my name, making it unclean.",
+          "They have built the high places of Tophet in the valley of the son of Hinnom, to burn their sons and daughters in the fire—something I never commanded, and it never even came into my mind.",
+          "So the days are coming, says the Lord, when it will no longer be called Tophet or the valley of the son of Hinnom, but the valley of slaughter. They will bury the dead in Tophet until there is no room left.",
+          "The dead bodies of these people will be food for the birds of the sky and the animals of the earth, and no one will scare them away.",
+          "I will make the sounds of joy and gladness, the voice of the bridegroom and the voice of the bride, stop in the cities of Judah and the streets of Jerusalem, because the land will become a ruin."
+        ],
+        "notes": [
+          {
+            "v": 11,
+            "text": "Jesus quoted this verse when He drove the money changers out of the temple: “ye have made it a den of thieves” (Matthew 21:13)."
+          },
+          {
+            "v": 12,
+            "text": "The tabernacle, the Lord’s house, stood at Shiloh (Joshua 18:1). When Israel turned to idols, the Lord “forsook the tabernacle of Shiloh” (Psalm 78:58–60), and the Philistines captured the ark (1 Samuel 4:10–11)."
+          },
+          {
+            "v": 15,
+            "text": "Here Ephraim means the northern kingdom of Israel, the ten tribes. When Assyria carried them away, the Lord “cast them out of his sight” (2 Kings 17:20–23)."
+          },
+          {
+            "v": 22,
+            "text": "The Lord did give laws about offerings (Leviticus 1:1–2). His point here is what He asked for first: “Obey my voice” (Jeremiah 7:23)."
+          },
+          {
+            "v": 24,
+            "text": "The KJV’s “imagination of their evil heart” translates a Hebrew word that means stubbornness: doing whatever your own heart wants."
+          }
+        ],
+        "review": [
+          {
+            "v": 31,
+            "about": "Verses 31–33 are hard: parents burning their children to false gods, and a valley of the dead. The plain words say it no more plainly than the KJV."
+          }
+        ]
+      },
+      {
+        "ch": "Jeremiah 16",
+        "verses": [
+          "The Lord’s word came to me again. He said:",
+          "“Don’t get married, and don’t have sons or daughters in this place.”",
+          "For this is what the Lord says about the sons and daughters born in this place, and about their mothers and fathers in this land:",
+          "They will die of terrible diseases. No one will mourn for them or bury them. They will lie on the ground like manure. War and hunger will destroy them, and their dead bodies will be food for the birds and the wild animals.",
+          "For this is what the Lord says: Don’t go into a house where people are mourning, and don’t go to cry for them or comfort them. For I have taken my peace away from these people, says the Lord—my loving-kindness and my mercy.",
+          "Both the great and the small will die in this land. No one will bury them or mourn for them, and no one will cut himself or shave his head in mourning for them.",
+          "No one will share food with the mourners to comfort them about the dead, or give them a cup of comfort to drink for a father or a mother.",
+          "And don’t go into a house where people are feasting, to sit with them and eat and drink.",
+          "For this is what the Lord of Hosts, the God of Israel, says: Look, in this place, while you watch and in your lifetime, I will stop the sounds of happiness and joy, the voices of the bridegroom and the bride.",
+          "When you tell these people all these things, they will ask you, “Why has the Lord said all this great disaster will come on us? What have we done wrong? What sin have we committed against the Lord our God?”",
+          "Then tell them: It is because your fathers left me, says the Lord. They followed other gods, served them, and worshipped them. They left me and did not keep my law.",
+          "And you have done even worse than your fathers. Look, each of you stubbornly follows his own evil heart instead of listening to me.",
+          "So I will throw you out of this land into a land that neither you nor your fathers have known. There you will serve other gods day and night, because I will show you no favor.",
+          "But look, the days are coming, says the Lord, when people will no longer say, “As surely as the Lord lives, who brought the children of Israel out of the land of Egypt.”",
+          "Instead they will say, “As surely as the Lord lives, who brought the children of Israel out of the land of the north and out of all the lands where He had driven them.” For I will bring them back into their own land, the land I gave to their fathers.",
+          "Look, I will send for many fishermen, says the Lord, and they will catch them. After that I will send for many hunters, and they will hunt them on every mountain and every hill, and in the cracks of the rocks.",
+          "For I see all their ways. They are not hidden from me, and their sins are not hidden from my eyes.",
+          "First I will pay them back double for their wrongs and their sins, because they have made my land unclean with the dead bodies of their disgusting idols and filled my inheritance with their detestable things.",
+          "O Lord, my strength and my fortress, my safe place in the day of trouble, the Gentiles will come to you from the ends of the earth and say, “Our fathers inherited nothing but lies, worthless things that did no good.”",
+          "Can people make gods for themselves? Those aren’t gods!",
+          "So look, this time I will make them know. I will make them know my power and my might, and they will know that my name is the Lord."
+        ],
+        "notes": [
+          {
+            "v": 7,
+            "text": "The KJV has “tear themselves.” The Hebrew word means to break, as in breaking bread, so modern translations read it as sharing food with mourners."
+          },
+          {
+            "v": 12,
+            "text": "The Hebrew word the KJV translates “imagination” means stubbornness: doing whatever your own heart wants."
+          },
+          {
+            "v": 16,
+            "text": "Moses gave Joseph Smith and Oliver Cowdery “the keys of the gathering of Israel from the four parts of the earth” (D&C 110:11) in the Kirtland Temple in 1836."
+          },
+          {
+            "v": 21,
+            "text": "Where the KJV prints LORD in capital letters, the Hebrew has God’s name, Jehovah. He told Abraham, “My name is Jehovah” (Abraham 2:8)."
+          }
+        ],
+        "review": [
+          {
+            "v": 16,
+            "about": "Fishers and hunters are often taught as missionaries gathering Israel. The note gives D&C 110:11, the keys of the gathering, without saying more."
+          }
+        ]
+      },
+      {
+        "ch": "Jeremiah 17",
+        "verses": [
+          "Judah’s sin is written with an iron pen, carved with a diamond point on the tablets of their hearts and on the horns (the corner points) of your altars.",
+          "Even their children remember their altars and their wooden idol poles beside the green trees on the high hills.",
+          "O my mountain in the field (Jerusalem), I will give your riches and all your treasures to be looted, and your high places too, because of the sin in all your land.",
+          "By your own doing you will lose the inheritance I gave you. I will make you serve your enemies in a land you don’t know, because you have lit a fire in my anger that will burn forever.",
+          "This is what the Lord says: Cursed is the one who trusts in people and leans on human strength, whose heart turns away from the Lord.",
+          "He will be like a dry bush in the desert. He won’t see it when good things come. He will live in the dry, burned places of the wilderness, in a salty land where no one lives.",
+          "But blessed is the one who trusts in the Lord, whose hope is the Lord.",
+          "He will be like a tree planted by the water, that sends its roots out to the stream. It isn’t afraid when the heat comes, and its leaves stay green. It doesn’t worry in a year of drought, and it never stops giving fruit.",
+          "The heart is more deceitful than anything else, and it is sick beyond cure. Who can understand it?",
+          "I, the Lord, search the heart and test a person’s deepest feelings, to give each one what his ways and the fruit of his actions deserve.",
+          "Like a partridge that sits on eggs but doesn’t hatch them is the person who gets rich in unfair ways. In the middle of his life his riches will leave him, and in the end he will be a fool.",
+          "A glorious throne, set high from the beginning, is the place of our holy temple.",
+          "O Lord, the hope of Israel, all who leave you will be put to shame. Those who turn away from me will be written in the dust, because they have left the Lord, the fountain of living waters.",
+          "Heal me, Lord, and I will be healed. Save me, and I will be saved, for you are the one I praise.",
+          "Look, they keep saying to me, “Where is the word of the Lord? Let it come true now!”",
+          "But I have not run away from being a shepherd who follows you, and I have not wanted the day of trouble to come. You know it. Everything I have said was spoken right in front of you.",
+          "Don’t be a terror to me. You are my shelter in the day of trouble.",
+          "Let the people who chase after me be put to shame, but don’t let me be put to shame. Let them be terrified, but don’t let me be terrified. Bring the day of trouble on them, and destroy them with double destruction.",
+          "This is what the Lord said to me: Go and stand at the People’s Gate, where the kings of Judah go in and out, and at all the gates of Jerusalem.",
+          "Say to them: Listen to the word of the Lord, you kings of Judah, all the people of Judah, and everyone who lives in Jerusalem who comes in through these gates.",
+          "This is what the Lord says: Be careful, for your own sake. Don’t carry a load on the Sabbath day or bring it in through the gates of Jerusalem.",
+          "Don’t carry a load out of your houses on the Sabbath day, and don’t do any work. Keep the Sabbath day holy, as I commanded your fathers.",
+          "But they did not obey or listen. They stiffened their necks and would not listen or accept correction.",
+          "But if you really listen to me, says the Lord, and bring no load through the gates of this city on the Sabbath day, but keep the Sabbath day holy and do no work on it,",
+          "Then kings and princes who sit on David’s throne will come in through the gates of this city, riding in chariots and on horses—they and their officials, the people of Judah and those who live in Jerusalem. And this city will last forever.",
+          "People will come from the cities of Judah, from the places around Jerusalem, from the land of Benjamin, from the lowlands, from the hill country, and from the south, bringing burnt offerings, sacrifices, grain offerings, and incense, and bringing thank offerings to the house of the Lord.",
+          "But if you won’t listen to me and keep the Sabbath day holy, and you carry loads in through the gates of Jerusalem on the Sabbath day, then I will start a fire in its gates that no one can put out, and it will burn up the palaces of Jerusalem."
+        ],
+        "notes": [
+          {
+            "v": 2,
+            "text": "The KJV’s “groves” were Asherah poles: wooden poles set up to worship a false goddess."
+          },
+          {
+            "v": 5,
+            "text": "Nephi prays with these words: “cursed is he that putteth his trust in man or maketh flesh his arm” (2 Nephi 4:34)."
+          },
+          {
+            "v": 8,
+            "text": "The KJV has “shall not see when heat cometh.” The Hebrew can also be read as fear: the tree isn’t afraid when the heat comes."
+          },
+          {
+            "v": 9,
+            "text": "The KJV has “desperately wicked.” The Hebrew word means sick beyond cure."
+          },
+          {
+            "v": 10,
+            "text": "In the KJV, “reins” means the kidneys, which the Hebrews spoke of as the place of a person’s deepest feelings."
+          },
+          {
+            "v": 26,
+            "text": "In the KJV, “meat” means food. A meat offering was an offering of grain."
+          }
+        ],
+        "review": [
+          {
+            "v": 9,
+            "about": "“Desperately wicked”: the Hebrew means sick beyond cure. The plain words say so, with a note."
+          },
+          {
+            "v": 11,
+            "about": "The plain words keep the KJV’s partridge that sits on eggs but doesn’t hatch them; the BSB has one hatching eggs it didn’t lay. Both picture riches that don’t last."
+          }
+        ]
+      },
+      {
+        "ch": "Jeremiah 18",
+        "verses": [
+          "This is the word that came to Jeremiah from the Lord:",
+          "“Get up and go down to the potter’s house, and there I will tell you my message.”",
+          "So I went down to the potter’s house, and there he was, working at his wheel.",
+          "But the pot he was shaping from the clay was ruined in his hands. So he made it again into another pot, the way he thought best.",
+          "Then the word of the Lord came to me:",
+          "House of Israel, can’t I do with you what this potter does? says the Lord. Look, like clay in the potter’s hand, so are you in my hand, house of Israel.",
+          "At any time I may announce that a nation or a kingdom will be pulled up, torn down, and destroyed.",
+          "But if that nation I warned turns from its evil, I will turn away the disaster I had planned to bring on it.",
+          "And at any time I may announce that I will build up and plant a nation or a kingdom.",
+          "But if it does evil in my sight and does not obey my voice, I will hold back the good I said I would do for it.",
+          "So now tell the people of Judah and those who live in Jerusalem: This is what the Lord says: Look, I am shaping a disaster for you and making a plan against you. Turn back now, each of you, from your evil way, and make your ways and your actions good.",
+          "But they said, “It’s no use! We will follow our own plans, and each of us will do what his own stubborn, evil heart wants.”",
+          "So this is what the Lord says: Ask among the nations: Who has ever heard of anything like this? Israel, pictured as a young woman, has done a very horrible thing.",
+          "Would anyone leave the snow water of Lebanon that comes down from its rocky fields? Would anyone turn away from cold water flowing from far off?",
+          "But my people have forgotten me. They burn incense to worthless idols, which make them stumble in their ways, off the ancient paths, so they walk on side trails, not on a built road.",
+          "They make their land a ruin, something people will whistle at in shock forever. Everyone who passes by will be shocked and shake his head.",
+          "Like an east wind, I will scatter them in front of their enemy. I will show them my back and not my face in the day of their trouble.",
+          "Then they said, “Come on, let’s make plans against Jeremiah. We will still have priests to teach the law, wise men to give advice, and prophets to give the word. Come on, let’s attack him with our words, and let’s not pay attention to anything he says.”",
+          "Pay attention to me, Lord, and listen to what my enemies are saying.",
+          "Should good be paid back with evil? Yet they have dug a pit to trap me. Remember how I stood before you to speak up for them, to turn your anger away from them.",
+          "So hand their children over to famine, and let them die by the sword. Let their wives lose their children and become widows. Let their men be put to death, and their young men be killed by the sword in battle.",
+          "Let a cry be heard from their houses when you suddenly bring raiders against them, because they have dug a pit to catch me and hidden traps for my feet.",
+          "But you, Lord, know all their plans to kill me. Don’t forgive their wrongs or wipe out their sin from your sight. Let them stumble and fall in front of you. Deal with them when you are angry."
+        ],
+        "notes": [
+          {
+            "v": 8,
+            "text": "The KJV says the Lord will “repent,” here and in verse 10. In similar verses (Jeremiah 26:13; 26:19), the Joseph Smith Translation says the people repent and the Lord turns away the evil."
+          }
+        ],
+        "review": [
+          {
+            "v": 8,
+            "about": "Where the KJV says the Lord will repent (verses 8 and 10), the plain words say He will turn away the disaster or hold back the good, and a note gives the Joseph Smith Translation."
+          },
+          {
+            "v": 14,
+            "about": "The KJV reads this verse as whether anyone would leave Lebanon’s snow water; the BSB as whether the snow leaves its slopes. The plain words follow the KJV."
+          },
+          {
+            "v": 21,
+            "about": "Verses 19–23 are Jeremiah’s hard prayer against the people plotting to kill him, kept as the KJV has it."
+          }
+        ]
+      },
+      {
+        "ch": "Jeremiah 20",
+        "verses": [
+          "Now Pashur the priest, the son of Immer, who was also the chief officer in the house of the Lord, heard Jeremiah prophesying these things.",
+          "Then Pashur struck Jeremiah the prophet and put him in the stocks (a wooden frame that locked a prisoner’s feet and hands) at the upper gate of Benjamin, by the house of the Lord.",
+          "The next day, when Pashur let Jeremiah out of the stocks, Jeremiah said to him, “The Lord doesn’t call you Pashur anymore, but Magor-missabib, which means Terror on Every Side.”",
+          "For this is what the Lord says: Look, I will make you a terror to yourself and to all your friends. They will fall by their enemies’ swords while you watch. I will hand all Judah over to the king of Babylon, and he will carry them away to Babylon and kill them with the sword.",
+          "I will also give all the wealth of this city—everything it has worked for, all its precious things, and all the treasures of the kings of Judah—to their enemies. They will loot them, take them, and carry them off to Babylon.",
+          "And you, Pashur, and everyone who lives in your house will go away as captives. You will go to Babylon, and there you will die and be buried—you and all your friends, to whom you have prophesied lies.",
+          "O Lord, you persuaded me, and I let myself be persuaded. You are stronger than I am, and you won. People laugh at me all day long; everyone makes fun of me.",
+          "Every time I speak, I cry out, “Violence and ruin!” So the word of the Lord has made people insult me and mock me all day long.",
+          "Then I said, “I won’t mention Him or speak in His name anymore.” But His word was in my heart like a burning fire shut up in my bones. I was worn out from holding it in, and I couldn’t do it.",
+          "I hear many people whispering, “Terror on every side! Report him! Let’s report him!” All my friends are watching for me to fall. They say, “Maybe he will be tricked, and then we can beat him and get our revenge on him.”",
+          "But the Lord is with me like a mighty, fearsome warrior. So the people who chase me will stumble and won’t win. They will be very ashamed, because they won’t succeed, and their shame will never be forgotten.",
+          "But, Lord of Hosts, you test the righteous and see a person’s deepest feelings and heart. Let me see your vengeance on them, for I have given my case to you.",
+          "Sing to the Lord! Praise the Lord! For He has rescued the poor from the hands of evil people.",
+          "Cursed be the day I was born! Don’t let the day my mother gave birth to me be blessed.",
+          "Cursed be the man who brought my father the news, “You have a baby boy!” and made him very happy.",
+          "Let that man be like the cities the Lord destroyed without pity. Let him hear crying in the morning and the shout of battle at noon.",
+          "Because he didn’t kill me in the womb, so that my mother would have been my grave, and her womb would have stayed pregnant with me forever.",
+          "Why did I ever come out of the womb, just to see trouble and sorrow and to finish my days in shame?"
+        ],
+        "notes": [
+          {
+            "v": 7,
+            "text": "The KJV has “thou hast deceived me.” The Hebrew word can also mean persuaded."
+          },
+          {
+            "v": 16,
+            "text": "These were Sodom and Gomorrah, the cities the Lord destroyed with fire from heaven (Genesis 19:24–25)."
+          }
+        ],
+        "review": [
+          {
+            "v": 7,
+            "about": "The KJV’s “thou hast deceived me”: the plain words say persuaded, another meaning of the Hebrew word, with a note. Your call."
+          },
+          {
+            "v": 14,
+            "about": "Verses 14–18 are Jeremiah at his lowest, wishing he had never been born, kept as the KJV has it."
+          }
+        ]
+      }
+    ]
   }
 ];
