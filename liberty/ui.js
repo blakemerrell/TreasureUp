@@ -10,11 +10,32 @@
   const WORLD_W = MAP_W * TILE, WORLD_H = MAP_H * TILE;
   const STEP = 1 / 20;
 
-const IMG = { unit: new Image(), stronghold: new Image(), grass: new Image() };
-IMG.unit.src = 'assets/unit.png';
+const IMG = {
+  moroni: new Image(),
+  spearman: new Image(),
+  stripling: new Image(),
+  lamanite: new Image(),
+  cart: new Image(),
+  unit: new Image(),
+  stronghold: new Image(),
+  barracks: new Image(),
+  tower: new Image(),
+  storehouse: new Image(),
+  armory: new Image(),
+  farm: new Image()
+};
+IMG.moroni.src = 'assets/moroni.png';
+IMG.spearman.src = 'assets/spearman.png';
+IMG.stripling.src = 'assets/stripling.png';
+IMG.lamanite.src = 'assets/lamanite.png';
+IMG.cart.src = 'assets/cart.png';
+IMG.unit.src = 'assets/spearman.png';
 IMG.stronghold.src = 'assets/stronghold.png';
-IMG.grass.src = 'assets/grass.png';
-IMG.grass.onload = () => { if (typeof W !== 'undefined' && W && W.tiles) { for (let i = 0; i < MAP_H * MAP_W; i++) paintTile(i % MAP_W, Math.floor(i / MAP_W)); } };
+IMG.barracks.src = 'assets/barracks.png';
+IMG.tower.src = 'assets/tower.png';
+IMG.storehouse.src = 'assets/storehouse.png';
+IMG.armory.src = 'assets/armory.png';
+IMG.farm.src = 'assets/farm.png';
                                 // the simulation's tick, as in the tests
   const $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -262,19 +283,12 @@ IMG.grass.onload = () => { if (typeof W !== 'undefined' && W && W.tiles) { for (
     const nearLand = isLand(x, y - 1) || isLand(x + 1, y) || isLand(x, y + 1) || isLand(x - 1, y);
 
     if (t === T.GRASS) {
-      if (IMG.grass.complete && IMG.grass.naturalWidth) {
-        c.save();
-        c.clip(); // clip to the tileDiamond path
-        c.drawImage(IMG.grass, d.left.x, d.top.y, 64, 32);
-        c.restore();
-      } else {
-        // Lush tropical green grass
-        c.fillStyle = '#3b7a24'; c.fill();
-        // Add some subtle texture details
-        for (let k = 0; k < 4; k++) {
-          c.fillStyle = h(k+10) < 0.5 ? '#2d6318' : '#65a148';
-          c.fillRect(d.cx - 6 + h(k+20)*12, d.cy - 3 + h(k+30)*6, 2, 2);
-        }
+      // Vibrant sunlit Mesoamerican prairie grass
+      c.fillStyle = '#4c8423'; c.fill();
+      // Subtle textured grass blades and highlights
+      for (let k = 0; k < 4; k++) {
+        c.fillStyle = h(k+10) < 0.5 ? '#3b6a1b' : '#68a12e';
+        c.fillRect(d.cx - 8 + h(k+20)*16, d.cy - 4 + h(k+30)*8, 2.5, 2);
       }
     } else if (t === T.WATER || t === T.FORD) {
       // River Sidon: Rich deep azure/cyan gradient
@@ -668,8 +682,27 @@ IMG.grass.onload = () => { if (typeof W !== 'undefined' && W && W.tiles) { for (
     ctx.translate(x, y);
     ctx.scale(flip, 1);
 
-    if (IMG.unit.complete && IMG.unit.naturalWidth) {
-      ctx.drawImage(IMG.unit, -24, -48, 48, 48);
+    let uImg = IMG.spearman;
+    let uw = 22, uh = 44, uox = 11, uoy = 42;
+    if (u.type === 'moroni' || d.hero) {
+      uImg = IMG.moroni;
+      uw = 25; uh = 48; uox = 12; uoy = 46;
+    } else if (u.type === 'stripling') {
+      uImg = IMG.stripling;
+      uw = 22; uh = 44; uox = 11; uoy = 42;
+    } else if (u.type === 'lamanite' || u.type === 'zerahemnah' || d.foe) {
+      uImg = IMG.lamanite;
+      uw = 25; uh = 44; uox = 12; uoy = 42;
+    } else if (u.type === 'cart') {
+      uImg = IMG.cart;
+      uw = 40; uh = 28; uox = 20; uoy = 24;
+    } else if (u.type === 'worker') {
+      uImg = IMG.spearman;
+      uw = 20; uh = 40; uox = 10; uoy = 38;
+    }
+
+    if (uImg && uImg.complete && uImg.naturalWidth) {
+      ctx.drawImage(uImg, -uox, -uoy, uw, uh);
     } else {
       ctx.fillStyle = '#451a03';
       ctx.fillRect(-3 + walkCycle * 3, 2, 2.5, 6);
@@ -709,8 +742,30 @@ IMG.grass.onload = () => { if (typeof W !== 'undefined' && W && W.tiles) { for (
     ctx.ellipse(ix + b.w * 8, iy + b.h * 4, b.w * 18, b.h * 10, 0.2, 0, 7);
     ctx.fill();
 
-    if (IMG.stronghold.complete && IMG.stronghold.naturalWidth) {
-       ctx.drawImage(IMG.stronghold, ix - w*0.8, iy - h*1.5, w*1.6, h*2.5);
+    let bImg = IMG.storehouse;
+    let bw = w * 1.5, bh = h * 1.5, ox = bw * 0.5, oy = bh * 0.75;
+    if (b.type === 'stronghold') {
+      bImg = IMG.stronghold;
+      bw = w * 1.8; bh = h * 2.1; ox = bw * 0.5; oy = bh * 0.8;
+    } else if (b.type === 'barracks' || b.type === 'camp') {
+      bImg = IMG.barracks;
+      bw = w * 1.6; bh = h * 1.9; ox = bw * 0.5; oy = bh * 0.75;
+    } else if (b.type === 'tower') {
+      bImg = IMG.tower;
+      bw = w * 1.5; bh = h * 2.3; ox = bw * 0.5; oy = bh * 0.85;
+    } else if (b.type === 'armory') {
+      bImg = IMG.armory;
+      bw = w * 1.6; bh = h * 1.8; ox = bw * 0.5; oy = bh * 0.75;
+    } else if (b.type === 'farm') {
+      bImg = IMG.farm;
+      bw = w * 1.7; bh = h * 1.6; ox = bw * 0.5; oy = bh * 0.7;
+    } else {
+      bImg = IMG.storehouse;
+      bw = w * 1.5; bh = h * 1.8; ox = bw * 0.5; oy = bh * 0.75;
+    }
+
+    if (bImg && bImg.complete && bImg.naturalWidth) {
+      ctx.drawImage(bImg, ix - ox, iy - oy, bw, bh);
     } else {
       ctx.fillStyle = '#bfa97c'; ctx.fillRect(ix - w*0.5, iy - h, w, h);
     }
@@ -1172,7 +1227,22 @@ IMG.grass.onload = () => { if (typeof W !== 'undefined' && W && W.tiles) { for (
     for (const e of ents) count[e.def.name] = (count[e.def.name] || 0) + 1;
     return `<h3>${ents.length} chosen</h3><p>${Object.entries(count).map(([n, k]) => k + ' ' + esc(n) + (k > 1 ? 's' : '')).join(', ')}</p>`;
   }
-  const cmd = (act, name, cost, cls) => `<button class="cmd ${cls || ''}" data-cmd="${act}"><span>${name}</span>${cost ? `<small>${cost}</small>` : ''}</button>`;
+  const CAMEO_MAP = {
+    'deploy': 'assets/cameo_moroni.png',
+    'train:spearman': 'assets/cameo_spearman.png',
+    'train:stripling': 'assets/cameo_stripling.png',
+    'train:moroni': 'assets/cameo_moroni.png',
+    'build:tower': 'assets/cameo_tower.png',
+    'build:armory': 'assets/cameo_armory.png',
+    'build:farm': 'assets/cameo_farm.png',
+    'build:storehouse': 'assets/cameo_farm.png',
+    'build:granary': 'assets/cameo_farm.png'
+  };
+  const cmd = (act, name, cost, cls) => {
+    const icon = CAMEO_MAP[act];
+    const imgHtml = icon ? `<img src="${icon}" style="width:36px;height:36px;border-radius:3px;border:1px solid #d97706;object-fit:cover;margin-bottom:2px;" alt="" />` : '';
+    return `<button class="cmd ${cls || ''}" data-cmd="${act}">${imgHtml}<span>${name}</span>${cost ? `<small>${cost}</small>` : ''}</button>`;
+  };
   function cmdsHtml(ents) {
     if (placing) {
       const def = BUILDINGS[placing];
