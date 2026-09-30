@@ -8,7 +8,14 @@
   const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, QUESTIONS } = D;
   const { tileOf, dist } = S;
   const WORLD_W = MAP_W * TILE, WORLD_H = MAP_H * TILE;
-  const STEP = 1 / 20;                                // the simulation's tick, as in the tests
+  const STEP = 1 / 20;
+
+const IMG = { unit: new Image(), stronghold: new Image(), grass: new Image() };
+IMG.unit.src = 'assets/unit.png';
+IMG.stronghold.src = 'assets/stronghold.png';
+IMG.grass.src = 'assets/grass.png';
+IMG.grass.onload = () => { if (typeof W !== 'undefined' && W && W.tiles) { for (let i = 0; i < MAP_H * MAP_W; i++) paintTile(i % MAP_W, Math.floor(i / MAP_W)); } };
+                                // the simulation's tick, as in the tests
   const $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -255,12 +262,19 @@
     const nearLand = isLand(x, y - 1) || isLand(x + 1, y) || isLand(x, y + 1) || isLand(x - 1, y);
 
     if (t === T.GRASS) {
-      // Lush tropical green grass
-      c.fillStyle = '#3b7a24'; c.fill();
-      // Add some subtle texture details
-      for (let k = 0; k < 4; k++) {
-        c.fillStyle = h(k+10) < 0.5 ? '#2d6318' : '#65a148';
-        c.fillRect(d.cx - 6 + h(k+20)*12, d.cy - 3 + h(k+30)*6, 2, 2);
+      if (IMG.grass.complete && IMG.grass.naturalWidth) {
+        c.save();
+        c.clip(); // clip to the tileDiamond path
+        c.drawImage(IMG.grass, d.left.x, d.top.y, 64, 32);
+        c.restore();
+      } else {
+        // Lush tropical green grass
+        c.fillStyle = '#3b7a24'; c.fill();
+        // Add some subtle texture details
+        for (let k = 0; k < 4; k++) {
+          c.fillStyle = h(k+10) < 0.5 ? '#2d6318' : '#65a148';
+          c.fillRect(d.cx - 6 + h(k+20)*12, d.cy - 3 + h(k+30)*6, 2, 2);
+        }
       }
     } else if (t === T.WATER || t === T.FORD) {
       // River Sidon: Rich deep azure/cyan gradient
