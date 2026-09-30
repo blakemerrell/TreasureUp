@@ -1584,7 +1584,8 @@ window.TU_WEEKS = [
             "v": 24,
             "about": "The KJV and modern translations read this verse differently. The plain words follow the modern reading, with a note."
           }
-        ]
+        ],
+        "approved": "f84afa42"
       },
       {
         "ch": "Isaiah 41",
@@ -1634,7 +1635,8 @@ window.TU_WEEKS = [
             "v": 9,
             "about": "KJV “chief men”, plain “farthest corners”: the Hebrew word can mean either. A note explains it."
           }
-        ]
+        ],
+        "approved": "4d24ac63"
       },
       {
         "ch": "Isaiah 42",
@@ -1688,7 +1690,8 @@ window.TU_WEEKS = [
             "v": 19,
             "about": "The Joseph Smith Translation changes verses 19–23. The plain words translate the Hebrew; notes under 19 and 21 give the JST. You may want the plain words to follow the JST instead."
           }
-        ]
+        ],
+        "approved": "19a6aa54"
       },
       {
         "ch": "Isaiah 43",
@@ -1733,7 +1736,8 @@ window.TU_WEEKS = [
             "v": 14,
             "about": "The Hebrew of the last line is hard to read. The plain words follow the KJV: the Chaldeans cry out in their ships."
           }
-        ]
+        ],
+        "approved": "4bda853b"
       },
       {
         "ch": "Isaiah 44",
@@ -1786,7 +1790,8 @@ window.TU_WEEKS = [
             "v": 8,
             "about": "The Hebrew says Rock where the KJV says God. Kept Rock, a name for God he may know from Helaman 5:12, with a note."
           }
-        ]
+        ],
+        "approved": "915eca39"
       },
       {
         "ch": "Isaiah 45",
@@ -1844,7 +1849,8 @@ window.TU_WEEKS = [
             "v": 14,
             "about": "Who “you” is: in the Hebrew every you here is feminine, which in Isaiah means Zion, not Cyrus (verses 1–5). Added “Zion” so he doesn’t read it as Cyrus."
           }
-        ]
+        ],
+        "approved": "e6d1a626"
       },
       {
         "ch": "Isaiah 46",
@@ -1863,7 +1869,8 @@ window.TU_WEEKS = [
           "Listen to me, you stubborn people who are far from righteousness.",
           "I am bringing my righteousness near. It is not far away, and my salvation will not be late. I will bring salvation to Zion and give my glory to Israel."
         ],
-        "notes": []
+        "notes": [],
+        "approved": "0056dd35"
       },
       {
         "ch": "Isaiah 47",
@@ -1899,7 +1906,8 @@ window.TU_WEEKS = [
             "v": 2,
             "about": "Verses 2–3 picture Babylon as a slave woman stripped of her fine clothes. The plain words keep it, as the KJV does."
           }
-        ]
+        ],
+        "approved": "116a88f2"
       },
       {
         "ch": "Isaiah 48",
@@ -1954,7 +1962,8 @@ window.TU_WEEKS = [
             "v": 3,
             "about": "Smaller Book of Mormon differences have no note: verses 3, 7, 10 and 14–16. Say if you want notes for them too."
           }
-        ]
+        ],
+        "approved": "4dc66625"
       },
       {
         "ch": "Isaiah 49",
@@ -2029,7 +2038,8 @@ window.TU_WEEKS = [
             "v": 26,
             "about": "A hard picture for a child. The note gives Nephi’s explanation: Israel’s enemies turn on each other."
           }
-        ]
+        ],
+        "approved": "6a903d66"
       }
     ]
   },
