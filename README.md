@@ -269,8 +269,12 @@ changes Treasure Up's XP or streak.
 - **Courses**: `amigo/course-es.js` (En el recreo, Fútbol) and
   `amigo/course-tl.js` (Kumustahan, Kain tayo), three lessons a unit. How to
   write one is in `amigo/README.md`.
-- **Voices**: the phone's own. Spanish in a Mexican voice; Tagalog where the
-  phone has a voice for it (iPhones don't), read on screen elsewhere.
+- **Voices**: a line's recording first, where it has one (Tagalog in a
+  Filipino voice, made once by `tools/amigo-voice.mjs` with Blake's Google
+  Cloud key, which stays off the app; plays on every phone). Then the phone's
+  own voice: Spanish in a Mexican voice, Tagalog where the phone has one. On a
+  phone with no Tagalog voice (every iPhone), the Spanish voice reads the
+  Tagalog, h said as j (Blake chose both, 2026-09-30).
 - **Blake checks the Tagalog.** A Tagalog unit, the home screen's words from
   Tatay and the Baybayin reading words show on the live app only once they
   have `checked` (the date he did). The test site shows them all, marked, and

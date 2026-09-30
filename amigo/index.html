@@ -147,6 +147,7 @@
 <script src="baybayin.js"></script>
 <script src="course-es.js"></script>
 <script src="course-tl.js"></script>
+<script src="audio/index.js"></script>
 <script>
 (function () {
   'use strict';
@@ -175,26 +176,52 @@
   const bayWords = () => shows(TL.baybayin) ? TL.baybayin.words : [];
 
   // ------------------------------------------------------------ voices
-  // Spanish in the phone's Mexican voice; Tagalog only where the phone has one.
+  // First a line's recording, if it has one (amigo/audio/: a Filipino voice,
+  // made once by tools/amigo-voice.mjs), which plays on every phone. Then the
+  // phone's own voice for the language: Spanish in its Mexican voice. A phone
+  // with no Tagalog voice (no iPhone has one) reads Tagalog with its Spanish
+  // voice instead, since Tagalog is said much like Spanish: h said as j
+  // (Spanish h is silent), and ng and mga the way they're said.
+  const AUDIO = window.AMIGO_AUDIO || {}, audioKey = E.audioKey;
+  const recorded = (text, C) => !!(C && AUDIO[C.id] && AUDIO[C.id][audioKey(text)]);
   let voices = [];
   const loadVoices = () => { try { voices = speechSynthesis.getVoices() || []; } catch (e) { voices = []; } };
   loadVoices();
   try { speechSynthesis.onvoiceschanged = () => { const had = voices.length; loadVoices(); if (voices.length !== had) render(); }; } catch (e) { /* no speech on this phone */ }
   const lang = v => (v.lang || '').toLowerCase().replace('_', '-');
-  function voiceFor(C) {
-    for (const want of C.voices) {
+  function findVoice(wants) {
+    for (const want of wants) {
       const w = want.toLowerCase(), v = voices.find(x => lang(x) === w) || voices.find(x => lang(x).startsWith(w + '-') || lang(x) === w.split('-')[0]);
       if (v) return v;
     }
     return null;
   }
+  const asSpanish = t => t.replace(/\bmga\b/g, 'manga').replace(/\bMga\b/g, 'Manga').replace(/\bng\b/g, 'nang').replace(/h/g, 'j').replace(/H/g, 'J');
+  // How a course's words are read on this phone: { voice, say, own }, or null.
+  function reader(C) {
+    if (!C) return null;
+    const own = findVoice(C.voices);
+    if (own) return { voice: own, say: t => t, own: true };
+    const es = C.id === 'tl' && findVoice(COURSES.es.voices);
+    return es ? { voice: es, say: asSpanish, own: false } : null;
+  }
+  const canSay = (text, C) => recorded(text, C) || !!reader(C);
+  let playing = null;
   function speak(text, C) {
-    const v = C && voiceFor(C);
-    if (!v) return;
+    if (!C) return;
+    if (!recorded(text, C)) return sayIt(text, C);
+    try { speechSynthesis.cancel(); } catch (e) { /* no speech */ }
+    if (playing) playing.pause();
+    playing = new Audio('audio/' + C.id + '/' + audioKey(text) + '.mp3');
+    playing.play().catch(() => sayIt(text, C));
+  }
+  function sayIt(text, C) {
+    const r = reader(C);
+    if (!r) return;
     try {
       speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(String(text).replace(/[¿¡]/g, ''));
-      u.voice = v; u.lang = v.lang; u.rate = 0.9;
+      const u = new SpeechSynthesisUtterance(r.say(String(text).replace(/[¿¡]/g, '')));
+      u.voice = r.voice; u.lang = r.voice.lang; u.rate = 0.9;
       speechSynthesis.speak(u);
     } catch (e) { /* no speech */ }
   }
@@ -299,11 +326,17 @@
   }
 
   function lessonPage() {
-    const r = state.run, st = r.steps[r.at], C = runCourse(r), voice = !!voiceFor(C);
+    const r = state.run, st = r.steps[r.at], C = runCourse(r), rd = reader(C);
     const accent = ACCENT[r.cid];
     const pct = Math.round(100 * r.at / r.steps.length);
-    const speakBtn = text => `<button class="speak" data-speak="${esc(text)}" ${voice ? '' : 'disabled'} aria-label="Hear it">🔊</button>`;
-    const noVoice = voice || r.cid === 'bay' ? '' : `<p class="novoice">${C.id === 'tl' ? 'This phone has no Tagalog voice, so read it instead.' : 'This phone has no Spanish voice, so read it instead.'}</p>`;
+    const speakBtn = text => `<button class="speak" data-speak="${esc(text)}" ${canSay(text, C) ? '' : 'disabled'} aria-label="Hear it">🔊</button>`;
+    // Said how: a recording needs no word; a Spanish voice reading Tagalog, or none, gets one.
+    const shown = st.type === 'listen' ? [st.phrase] : st.type === 'scene' ? st.choices : [];
+    const unrecorded = shown.some(t => !recorded(t, C));
+    const noVoice = r.cid === 'bay' || !unrecorded || (rd && rd.own) ? ''
+      : `<p class="novoice">${rd ? 'This phone has no Tagalog voice, so a Spanish voice reads it. A few sounds come out a little off.'
+        : C.id === 'tl' ? 'This phone has no Tagalog voice, so read it instead.' : 'This phone has no Spanish voice, so read it instead.'}</p>`;
+    const voice = st.type === 'listen' && canSay(st.phrase, C);
     const cls = o => !r.checked ? (r.picked === o ? 'picked' : '') : o === st.right ? 'good' : r.picked === o ? 'bad' : '';
     const opt = o => `<button class="opt ${cls(o)}" data-pick="${esc(o)}">${esc(o)}</button>`;
     let body = '', ready = false;

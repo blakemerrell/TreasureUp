@@ -49,6 +49,26 @@ shows only on the test site, marked "Not checked yet"; its full list is under
 goes for `tatay` (the words on the home screen) and `baybayin` (the reading
 words).
 
+## Voices
+
+A line is said, in this order, by:
+
+1. **Its recording**, if it has one: `amigo/audio/tl/<key>.mp3`, listed in
+   `amigo/audio/index.js`, made once in a Filipino voice by
+   `node tools/amigo-voice.mjs` (Google Cloud Text-to-Speech; the API key
+   stays in `~/keys/google-tts.key` and never goes in the app). It plays on
+   every phone. `--dry` lists what isn't recorded yet, `--samples <dir>`
+   says one line in every Filipino voice to pick from, `--voice <name>`
+   picks one, `--all` records everything again. Run it after adding or
+   changing Tagalog, and commit the new files.
+2. **The phone's own voice** for the language: Spanish in its Mexican voice;
+   Tagalog on phones that have one (many Androids: Google's Filipino voice
+   data).
+3. For Tagalog on a phone without a Tagalog voice (every iPhone): **the
+   Spanish voice**, since Tagalog is said much like Spanish, with *h* said as
+   *j* (Spanish *h* is silent) and *ng*, *mga* as they're said. A lesson says
+   so on a line that isn't recorded.
+
 ## Baybayin
 
 `baybayin.js` spells a word the way it sounds: each character a consonant
