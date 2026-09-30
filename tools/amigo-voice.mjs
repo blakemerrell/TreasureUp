@@ -6,13 +6,15 @@
 // amigo/audio/tl/<key>.mp3, and amigo/audio/index.js lists them for the game.
 // Only lines without a recording are made; a changed line gets a new key.
 //
-// Google Cloud Text-to-Speech. The API key is read from ~/keys/google-tts.key
-// (or $GOOGLE_TTS_KEY) and never goes in the app or the repo.
+// Google Cloud Text-to-Speech, signed in with a service account's JSON key
+// (~/keys/google-tts.json) or an API key (~/keys/google-tts.key, or
+// $GOOGLE_TTS_KEY). Neither ever goes in the app or the repo.
 //   node tools/amigo-voice.mjs --dry              what it would record, and how many characters
 //   node tools/amigo-voice.mjs --samples <dir>    one line in every Filipino voice, to pick one
 //   node tools/amigo-voice.mjs [--voice <name>]   record what's missing (fil-PH-Wavenet-A unless named)
 //   … --all                                       record every line again (after picking another voice)
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
 import { createRequire } from 'node:module';
@@ -24,7 +26,7 @@ const TL = require('../amigo/course-tl.js');
 
 const args = process.argv.slice(2), flag = n => args.includes(n), opt = n => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : null; };
 const DIR = path.join(ROOT, 'amigo', 'audio'), OUT = path.join(DIR, 'tl'), LIST = path.join(DIR, 'index.js');
-const API = 'https://texttospeech.googleapis.com/v1';
+const API = process.env.AMIGO_TTS_API || 'https://texttospeech.googleapis.com/v1';   // (the test points it elsewhere)
 
 // Every Tagalog line the game can say.
 function lines() {
@@ -36,14 +38,36 @@ function lines() {
   all.push(...TL.tatay.words.map(w => w[0]), ...TL.baybayin.words.map(w => w[0]));
   return [...new Set(all.map(t => t.normalize('NFC')))];
 }
-function key() {
-  if (process.env.GOOGLE_TTS_KEY) return process.env.GOOGLE_TTS_KEY.trim();
-  const f = path.join(os.homedir(), 'keys', 'google-tts.key');
-  if (!fs.existsSync(f)) { console.error(`No key. Save the Google Cloud API key to ${f} (it stays on this computer).`); process.exit(1); }
-  return fs.readFileSync(f, 'utf8').trim();
+// Signing in: a service account's key trades a signed note (a JWT) for an
+// hour-long token; an API key goes along with each call.
+const KEYS = path.join(os.homedir(), 'keys');
+let token = null;
+async function auth() {
+  if (process.env.GOOGLE_TTS_KEY) return { key: process.env.GOOGLE_TTS_KEY.trim() };
+  const account = path.join(KEYS, 'google-tts.json'), apiKey = path.join(KEYS, 'google-tts.key');
+  if (fs.existsSync(account)) {
+    const now = Math.floor(Date.now() / 1000);
+    if (token && token.until > now + 60) return { bearer: token.value };
+    const cred = JSON.parse(fs.readFileSync(account, 'utf8'));
+    const part = o => Buffer.from(JSON.stringify(o)).toString('base64url');
+    const unsigned = part({ alg: 'RS256', typ: 'JWT' }) + '.' + part({ iss: cred.client_email, scope: 'https://www.googleapis.com/auth/cloud-platform', aud: cred.token_uri, iat: now, exp: now + 3600 });
+    const jwt = unsigned + '.' + crypto.createSign('RSA-SHA256').update(unsigned).sign(cred.private_key).toString('base64url');
+    const res = await fetch(cred.token_uri, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer', assertion: jwt }) });
+    const j = await res.json().catch(() => ({}));
+    if (!res.ok || !j.access_token) throw new Error(`Google didn't accept the service account (${res.status}): ${j.error_description || j.error || res.statusText}`);
+    token = { value: j.access_token, until: now + (j.expires_in || 3600) };
+    return { bearer: token.value };
+  }
+  if (fs.existsSync(apiKey)) return { key: fs.readFileSync(apiKey, 'utf8').trim() };
+  console.error(`No sign-in for Google: save the service account's JSON key as ${account}, or an API key as ${apiKey}. It stays on this computer.`);
+  process.exit(1);
 }
 async function google(pathPart, body) {
-  const res = await fetch(`${API}/${pathPart}${pathPart.includes('?') ? '&' : '?'}key=${encodeURIComponent(key())}`, body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {});
+  const a = await auth();
+  const url = `${API}/${pathPart}` + (a.key ? `${pathPart.includes('?') ? '&' : '?'}key=${encodeURIComponent(a.key)}` : '');
+  const headers = Object.assign(body ? { 'Content-Type': 'application/json' } : {}, a.bearer ? { Authorization: 'Bearer ' + a.bearer } : {});
+  const res = await fetch(url, body ? { method: 'POST', headers, body: JSON.stringify(body) } : { headers });
   const json = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(`Google Text-to-Speech said ${res.status}: ${(json.error && json.error.message) || res.statusText}`);
   return json;
