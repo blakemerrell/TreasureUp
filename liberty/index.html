@@ -279,16 +279,18 @@
 
 <div id="gamepad" hidden style="position:fixed;inset:0;background:#080911;color:white;display:flex;flex-direction:column;z-index:100;user-select:none;">
   <div style="padding:10px;text-align:center;background:#10121d;border-bottom:1px solid #3f3f46;font-weight:bold;" id="gpHeader">Controller</div>
-  <div id="gpTrackpad" style="flex:1;background:rgba(255,255,255,0.05);margin:10px;border-radius:20px;border:2px dashed rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;touch-action:none;">
-    <span style="opacity:0.3">TRACKPAD (Drag to move cursor)</span>
+  <div id="gpTrackpad" style="height:35vh;background:rgba(255,255,255,0.05);margin:10px;border-radius:20px;border:2px dashed rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;touch-action:none;">
+    <span style="opacity:0.3">TRACKPAD (Drag to move, Tap to click)</span>
   </div>
-  <div style="display:flex;gap:10px;padding:10px;">
-    <button id="gpTap" class="btn" style="flex:1;height:80px;font-size:20px;">Tap (Select/Move)</button>
-    <button id="gpDrag" class="btn" style="flex:1;height:80px;font-size:20px;">Drag Box</button>
-  </div>
-  <div style="display:flex;gap:10px;padding:10px;padding-top:0;">
-    <button id="gpBuild" class="btn ghost" style="flex:1;height:60px;">Build</button>
-    <button id="gpAttack" class="btn ghost" style="flex:1;height:60px;border-color:#f87171;color:#f87171;">Attack</button>
+  <div style="flex:1;display:flex;flex-direction:column;border-top:1px solid #3f3f46;background:#15172b;">
+    <div style="display:flex;border-bottom:1px solid #3f3f46;">
+      <button id="gpTabBuildings" style="flex:1;padding:12px;background:rgba(255,255,255,0.1);border:none;color:white;font-weight:bold;border-right:1px solid #3f3f46;">Buildings</button>
+      <button id="gpTabUnits" style="flex:1;padding:12px;background:none;border:none;color:white;font-weight:bold;">Infantry</button>
+      <button id="gpActionStop" style="padding:12px 20px;background:#7f1d1d;border:none;color:white;font-weight:bold;">STOP</button>
+    </div>
+    <div id="gpBuildGrid" style="flex:1;overflow-y:auto;padding:12px;display:grid;grid-template-columns:repeat(4, 1fr);gap:10px;align-content:start;">
+      <!-- Populated dynamically by multi.js -->
+    </div>
   </div>
 </div>
 

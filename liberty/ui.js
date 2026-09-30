@@ -1861,5 +1861,19 @@
   requestAnimationFrame(frame);
   // A window on the game for automated play-throughs in a browser.
   window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, cam, begin: (id, level) => { if (level) FREE.level = level; begin(id === 'free' ? FREE : MISSIONS.find(m => m.id === id)); }, toWorld, lookAt,
-    screenOf: (x, y) => toScreen(x, y) };
+    screenOf: (x, y) => toScreen(x, y),
+    remoteClick: (sx, sy, color) => {
+      const w = toWorld(sx, sy);
+      if (w) clickAt(w.x, w.y, false, false, sx, sy);
+    },
+    remoteCommand: (act, arg) => {
+      if (!W) return;
+      const one = selEnts()[0];
+      if (act === 'build') startPlacing(arg);
+      else if (act === 'done' || act === 'cancel') { placing = null; wallLine = null; refreshPanel(true); }
+      else if (act === 'stop') for (const u of selUnits()) W.order(u, { type: 'idle' });
+      else if (act === 'train' && one) { W.train(one, arg); }
+      refreshPanel(true);
+    }
+  };
 })();

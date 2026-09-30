@@ -73,13 +73,9 @@
           } else if (root.LIB_UI) {
              root.LIB_UI.remoteClick(cursor.x, cursor.y, cursor.color);
           }
-        } else if (msg.type === 'action') {
-          // Press HUD buttons
-          if (msg.action === 'build') {
-             const bBox = document.getElementById('bBox'); // Placeholder, or a build button
-             if (bBox) bBox.click();
-          } else if (msg.action === 'attack') {
-             // Attack command (handled by tap contextually, but could force attack mode)
+        } else if (msg.type === 'cmd') {
+          if (root.LIB_UI && root.LIB_UI.remoteCommand) {
+            root.LIB_UI.remoteCommand(msg.act, msg.arg);
           }
         }
       };
@@ -129,29 +125,65 @@
       return;
     }
 
-    // Hook up gamepad events
+    // Hook up trackpad events
     const pad = document.getElementById('gpTrackpad');
-    let lastX = 0, lastY = 0;
+    let lastX = 0, lastY = 0, moved = false;
     
     pad.addEventListener('pointerdown', e => {
-      lastX = e.clientX;
-      lastY = e.clientY;
+      lastX = e.clientX; lastY = e.clientY; moved = false;
       pad.setPointerCapture(e.pointerId);
     });
-    
     pad.addEventListener('pointermove', e => {
       if (pad.hasPointerCapture(e.pointerId)) {
-        const dx = e.clientX - lastX;
-        const dy = e.clientY - lastY;
-        lastX = e.clientX;
-        lastY = e.clientY;
+        const dx = e.clientX - lastX, dy = e.clientY - lastY;
+        if (Math.abs(dx) > 2 || Math.abs(dy) > 2) moved = true;
+        lastX = e.clientX; lastY = e.clientY;
         RTC.broadcast({ type: 'move', dx, dy }); // send to host
       }
     });
+    pad.addEventListener('pointerup', e => {
+      if (!moved) RTC.broadcast({ type: 'tap' }); // if didn't drag, treat as a tap!
+      pad.releasePointerCapture(e.pointerId);
+    });
 
-    document.getElementById('gpTap').onclick = () => RTC.broadcast({ type: 'tap' });
-    document.getElementById('gpBuild').onclick = () => RTC.broadcast({ type: 'action', action: 'build' });
-    document.getElementById('gpAttack').onclick = () => RTC.broadcast({ type: 'action', action: 'attack' });
+    // Populate Sidebar
+    const BUILDINGS = root.LIB_DATA ? root.LIB_DATA.BUILDINGS : {};
+    const UNITS = root.LIB_DATA ? root.LIB_DATA.UNITS : {};
+
+    const renderGrid = (type) => {
+      const grid = document.getElementById('gpBuildGrid');
+      grid.innerHTML = '';
+      const items = type === 'b' ? Object.keys(BUILDINGS) : Object.keys(UNITS);
+      const dict = type === 'b' ? BUILDINGS : UNITS;
+      const act = type === 'b' ? 'build' : 'train';
+      
+      for (const id of items) {
+        if (id === 'village' || id === 'flock') continue;
+        const b = document.createElement('button');
+        b.style = 'display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(255,255,255,0.05);border:1px solid #3f3f46;border-radius:10px;padding:8px;color:white;font-weight:bold;font-size:12px;cursor:pointer;';
+        b.innerHTML = `<span style="text-transform:capitalize;margin-bottom:4px;text-align:center;">${dict[id].name}</span>`;
+        b.onclick = () => {
+          RTC.broadcast({ type: 'cmd', act: act, arg: id });
+        };
+        grid.appendChild(b);
+      }
+    };
+
+    renderGrid('b'); // default to buildings
+
+    const tabB = document.getElementById('gpTabBuildings');
+    const tabU = document.getElementById('gpTabUnits');
+    tabB.onclick = () => {
+      tabB.style.background = 'rgba(255,255,255,0.1)'; tabU.style.background = 'none';
+      renderGrid('b');
+    };
+    tabU.onclick = () => {
+      tabU.style.background = 'rgba(255,255,255,0.1)'; tabB.style.background = 'none';
+      renderGrid('u');
+    };
+    document.getElementById('gpActionStop').onclick = () => {
+      RTC.broadcast({ type: 'cmd', act: 'stop' });
+    };
   }
 
   // Boot router
