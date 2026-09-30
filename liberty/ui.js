@@ -244,6 +244,61 @@
     return { top, right, bottom, left, cx: top.x, cy: (top.y + bottom.y) * 0.5 };
   }
   function paintTile(x, y) {
+    const i = y * MAP_W + x;
+    const l = look(i);
+    let col = l === T.WATER ? '#3b82f6' : l === T.TREES || l === T.FOREST ? '#064e3b' : l === T.GRASS ? '#166534' : '#14532d';
+    if (l === T.FORD) col = '#60a5fa';
+    else if (l === T.ROAD) col = '#d6d3d1';
+    else if (l === T.FIELD) col = '#a16207';
+    if (explored[i] === 1) { bCtx.fillStyle = 'rgba(0,0,0,0.5)'; bCtx.fillRect(0,0,1,1); }
+
+    const { top, right, bottom, left, cx, cy } = tileDiamond(bCtx, x, y);
+
+    if (IMG.grass.complete && IMG.grass.naturalWidth && (l === T.GRASS || l === T.FIELD || l === T.TREES || l === T.FOREST)) {
+      bCtx.save();
+      bCtx.clip();
+      bCtx.drawImage(IMG.grass, top.x - 32, top.y, 64, 32);
+      if (l !== T.GRASS) {
+         bCtx.fillStyle = l === T.FIELD ? 'rgba(234,179,8,0.3)' : 'rgba(0,0,0,0.4)';
+         bCtx.fill();
+      }
+      bCtx.restore();
+    } else {
+      bCtx.fillStyle = col;
+      bCtx.fill();
+    }
+    
+    bCtx.strokeStyle = 'rgba(0,0,0,0.08)'; bCtx.lineWidth = 1; bCtx.stroke();
+  }
+
+  function look(i) {
+    const t = W.tiles[i], a = W.amt[i];
+    if (t === T.FOREST) return t * 4 + (a > 80 ? 2 : a > 35 ? 1 : 0);
+    if (t === T.FIELD) return t * 4 + (a > 150 ? 1 : 0);
+    return t * 4;
+  }
+  function paintTerrain() {
+    if (!painted) { painted = new Int16Array(MAP_W * MAP_H).fill(-1); }
+    for (let y = 0; y < MAP_H; y++) for (let x = 0; x < MAP_W; x++) {
+      const i = y * MAP_W + x, l = look(i);
+      if (painted[i] !== l) { painted[i] = l; paintTile(x, y); miniDirty = true; }
+    }
+    W.terrainDirty = false;
+  }
+  function tileDiamond(c, x, y) {
+    const top = { x: (x - y) * TILE + ISO_OFFSET_X, y: (x + y) * TILE * 0.5 };
+    const right = { x: (x + 1 - y) * TILE + ISO_OFFSET_X, y: (x + 1 + y) * TILE * 0.5 };
+    const bottom = { x: (x - y) * TILE + ISO_OFFSET_X, y: (x + y + 2) * TILE * 0.5 };
+    const left = { x: (x - (y + 1)) * TILE + ISO_OFFSET_X, y: (x + y + 1) * TILE * 0.5 };
+    c.beginPath();
+    c.moveTo(top.x, top.y);
+    c.lineTo(right.x, right.y);
+    c.lineTo(bottom.x, bottom.y);
+    c.lineTo(left.x, left.y);
+    c.closePath();
+    return { top, right, bottom, left, cx: top.x, cy: (top.y + bottom.y) * 0.5 };
+  }
+  function paintTile(x, y) {
     const c = tctx, i = y * MAP_W + x, t = W.tiles[i], a = W.amt[i], h = k => hash(x, y, k);
     const d = tileDiamond(c, x, y);
 
@@ -647,61 +702,6 @@
 
     ctx.fillStyle = 'rgba(0,0,0,.32)'; ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 0.95, r * 0.48, 0, 0, 7); ctx.fill();
 
-    if (u.type === 'cart') {
-      ctx.save(); ctx.translate(x, y); ctx.scale(flip, 1);
-      ctx.fillStyle = '#7c5a3a'; ctx.fillRect(-12, -6, 16, 12);
-      ctx.strokeStyle = '#3f2a14'; ctx.lineWidth = 1.5; ctx.strokeRect(-12, -6, 16, 12);
-      ctx.fillStyle = '#2b1d10'; ctx.fillRect(-10, -8, 5, 2); ctx.fillRect(-10, 6, 5, 2);
-      ctx.fillStyle = '#a16207'; ctx.beginPath(); ctx.ellipse(10, 0, 7, 4, 0, 0, 7); ctx.fill();
-      ctx.beginPath(); ctx.arc(16, -1, 2.8, 0, 7); ctx.fill();
-      if (u.carry && u.carry.amt) {
-        ctx.fillStyle = u.carry.type === 'timber' ? '#8b5a2b' : '#ca8a04';
-        ctx.fillRect(-10, -4, 12, 8);
-      }
-      ctx.restore();
-      
-      if (u.hp < u.max && (sel.includes(u.id) || u.team === 'r')) {
-        const pct = Math.max(0, u.hp / u.max);
-        ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(ix - 8, iy - 22, 16, 3);
-        ctx.fillStyle = u.team === 'p' ? '#4ade80' : '#f87171';
-        ctx.fillRect(ix - 8, iy - 22, 16 * pct, 3);
-      }
-      if (sel.includes(u.id)) {
-        ctx.strokeStyle = '#fde047'; ctx.lineWidth = 1; ctx.setLineDash([2, 2]);
-        ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 1.2, r * 0.6, 0, 0, 7); ctx.stroke();
-        ctx.setLineDash([]);
-      }
-      return;
-    }
-    
-    if (u.def.deploys) {
-      ctx.strokeStyle = '#451a03'; ctx.lineWidth = 2.5;
-      ctx.beginPath(); ctx.moveTo(x, y + 4); ctx.lineTo(x, y - 26); ctx.stroke();
-      const wave = Math.sin(now / 180) * 2.5;
-      ctx.fillStyle = '#fef08a';
-      ctx.beginPath();
-      ctx.moveTo(x, y - 26);
-      ctx.quadraticCurveTo(x + 10, y - 28 + wave, x + 20, y - 24 + wave);
-      ctx.lineTo(x, y - 14);
-      ctx.fill();
-      ctx.strokeStyle = 'rgba(120,80,30,.7)'; ctx.lineWidth = 1;
-      for (let k = 0; k < 2; k++) {
-        ctx.beginPath(); ctx.moveTo(x + 3, y - 23 + k * 4); ctx.lineTo(x + 13, y - 22 + k * 4); ctx.stroke();
-      }
-      if (sel.includes(u.id)) {
-        ctx.strokeStyle = '#fde047'; ctx.lineWidth = 1; ctx.setLineDash([2, 2]);
-        ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 1.2, r * 0.6, 0, 0, 7); ctx.stroke();
-        ctx.setLineDash([]);
-      }
-      return;
-    }
-    if (u.type === 'flock') {
-      ctx.fillStyle = '#f1f5f9';
-      for (const [dx, dy] of [[-4, 1], [4, 1], [0, -3]]) { ctx.beginPath(); ctx.arc(x + dx, y + dy, 5, 0, 7); ctx.fill(); }
-      ctx.fillStyle = '#475569'; ctx.beginPath(); ctx.arc(x + (flip===1?7:-7), y - 4, 2.6, 0, 7); ctx.fill();
-      return;
-    }
-
     const hid = W.hidden(u);
     if (hid) ctx.globalAlpha = 0.5;
 
@@ -709,90 +709,20 @@
     ctx.translate(x, y);
     ctx.scale(flip, 1);
 
-    ctx.fillStyle = '#451a03';
-    ctx.fillRect(-3 + walkCycle * 3, 2, 2.5, 6);
-    ctx.fillRect(1 - walkCycle * 3, 2, 2.5, 6);
-
-    let skinColor = d.foe ? '#b45309' : '#d8bd8e';
-    let tunicColor = '#4ade80';
-    if (d.foe) tunicColor = '#7f1d1d';
-    else if (u.type === 'worker') tunicColor = '#a8814f';
-    else if (d.hero) tunicColor = '#b45309';
-
-    ctx.fillStyle = tunicColor;
-    ctx.fillRect(-4, -6, 8, 8);
-
-    if (u.team === 'p' && d.soldier) {
-      ctx.fillStyle = d.hero || u.type === 'stripling' ? '#f59e0b' : '#c7ae86';
-      ctx.fillRect(-3, -5, 6, 5);
+    if (IMG.unit.complete && IMG.unit.naturalWidth) {
+      ctx.drawImage(IMG.unit, -24, -48, 48, 48);
+    } else {
+      ctx.fillStyle = '#451a03';
+      ctx.fillRect(-3 + walkCycle * 3, 2, 2.5, 6);
+      ctx.fillRect(1 - walkCycle * 3, 2, 2.5, 6);
+      let tunicColor = d.foe ? '#7f1d1d' : (u.type === 'worker' ? '#a8814f' : (d.hero ? '#b45309' : '#4ade80'));
+      ctx.fillStyle = tunicColor;
+      ctx.fillRect(-4, -6, 8, 8);
+      ctx.fillStyle = d.foe ? '#b45309' : '#d8bd8e';
+      ctx.beginPath(); ctx.arc(0, -10, 4, 0, 7); ctx.fill();
     }
-    if (d.foe) {
-      ctx.fillStyle = '#991b1b'; ctx.fillRect(-4, -1, 8, 4);
-    }
-
-    ctx.fillStyle = skinColor;
-    ctx.beginPath(); ctx.arc(0, -10, 4, 0, 7); ctx.fill();
-
-    if (d.hero) {
-      ctx.fillStyle = '#10b981'; ctx.fillRect(-2, -15, 2, 4);
-      ctx.fillStyle = '#ef4444'; ctx.fillRect(0, -16, 2, 5);
-      const capeWave = Math.sin(now * 0.01) * 3;
-      ctx.fillStyle = '#dc2626';
-      ctx.beginPath(); ctx.moveTo(-3, -5); ctx.quadraticCurveTo(-8, capeWave, -11, 6 + capeWave); ctx.lineTo(-3, 3); ctx.fill();
-    } else if (u.type === 'stripling') {
-      ctx.fillStyle = '#fef08a'; ctx.fillRect(-4, -12, 8, 2);
-    } else if (d.foe && d.leader) {
-      ctx.fillStyle = '#e2e8f0'; ctx.fillRect(-5, -13, 10, 3);
-    }
-
-    const attacking = u.order.type === 'attack' && W.t - (u.hitAt || -99) < 0.3;
-    const swing = attacking ? Math.PI / 2 : 0;
-
-    if (d.soldier) {
-      ctx.save();
-      if (u.team === 'p' && !d.ranged) {
-        ctx.fillStyle = '#ca8a04';
-        ctx.beginPath(); ctx.arc(-2, -2, 4.5, 0, 7); ctx.fill();
-        ctx.strokeStyle = '#1d4ed8'; ctx.lineWidth = 1; ctx.stroke();
-      }
-      
-      ctx.translate(3, -4);
-      if (attacking) ctx.rotate(swing);
-      ctx.strokeStyle = d.foe ? '#18181b' : '#e2e8f0'; ctx.lineWidth = 1.8;
-      
-      if (u.type === 'archer' || u.type === 'slinger') {
-        ctx.beginPath(); ctx.moveTo(0, -5); ctx.lineTo(0, 5); ctx.stroke();
-      } else if (u.type === 'javelin') {
-        ctx.beginPath(); ctx.moveTo(-2, -2); ctx.lineTo(12, -6); ctx.stroke();
-      } else {
-        ctx.beginPath(); ctx.moveTo(-2, 4); ctx.lineTo(4, -8); ctx.stroke();
-        ctx.fillStyle = '#fff';
-        ctx.beginPath(); ctx.arc(4, -8, 1.5, 0, 7); ctx.fill(); 
-      }
-      ctx.restore();
-    } else if (u.type === 'worker') {
-      ctx.save();
-      ctx.translate(3, -4);
-      if (moving && u.order.type === 'gather' && W.t - (u.hitAt||-99) < 0.3) ctx.rotate(Math.PI/2);
-      ctx.strokeStyle = '#451a03'; ctx.lineWidth = 1.5;
-      ctx.beginPath(); ctx.moveTo(-2, 4); ctx.lineTo(4, -6); ctx.stroke();
-      ctx.fillStyle = '#64748b';
-      ctx.fillRect(2, -7, 5, 3);
-      ctx.restore();
-    }
-
-    if (u.carry && u.carry.amt) {
-      ctx.fillStyle = u.carry.type === 'timber' ? '#8b5a2b' : '#ca8a04';
-      ctx.fillRect(-3, -14, 6, 6);
-    }
+    
     ctx.restore();
-    
-    if (d.leader || d.hero || d.prophet) {
-      ctx.font = '700 10px Outfit, system-ui, sans-serif'; ctx.textAlign = 'center';
-      ctx.fillStyle = 'rgba(0,0,0,.65)'; const tw = ctx.measureText(d.name).width + 8; ctx.fillRect(ix - tw / 2, iy + 9, tw, 13);
-      ctx.fillStyle = d.foe ? '#fecaca' : '#fde68a'; ctx.fillText(d.name, ix, iy + 19);
-    }
-    
     if (hid) ctx.globalAlpha = 1;
     
     if (u.hp < u.max && (sel.includes(u.id) || u.team === 'r')) {
@@ -807,6 +737,7 @@
       ctx.setLineDash([]);
     }
   }
+
   // 2.5D Isometric Buildings with South-East Cast Shadows & Architectural Detail
   function drawBuilding(b, selected, now) {
     const { ix, iy } = toIso(b.x, b.y);
@@ -814,253 +745,19 @@
     ctx.save();
     if (b.built < 1) ctx.globalAlpha = 0.55;
 
-    // South-East Cast Ground Shadow
     ctx.fillStyle = 'rgba(0,0,0,.38)';
     ctx.beginPath();
     ctx.ellipse(ix + b.w * 8, iy + b.h * 4, b.w * 18, b.h * 10, 0.2, 0, 7);
     ctx.fill();
 
-    switch (b.type) {
-      case 'stronghold': {
-        // Monumental Zarahemla Stone Fortress / Citadel
-        const elev = 52;
-        // Foundation & Tier 1 (Sloping Limestone Walls)
-        ctx.fillStyle = '#786445';
-        ctx.beginPath(); ctx.moveTo(ix, iy + 16); ctx.lineTo(ix + 46, iy - 8); ctx.lineTo(ix + 46, iy - 8 - elev); ctx.lineTo(ix, iy + 16 - elev); ctx.fill();
-        ctx.fillStyle = '#a8926b';
-        ctx.beginPath(); ctx.moveTo(ix, iy + 16); ctx.lineTo(ix - 46, iy - 8); ctx.lineTo(ix - 46, iy - 8 - elev); ctx.lineTo(ix, iy + 16 - elev); ctx.fill();
-        // Red and Gold Carved Cornice Frieze
-        ctx.fillStyle = '#991b1b';
-        ctx.beginPath(); ctx.moveTo(ix, iy + 16 - elev); ctx.lineTo(ix + 46, iy - 8 - elev); ctx.lineTo(ix + 46, iy - 12 - elev); ctx.lineTo(ix, iy + 12 - elev); ctx.fill();
-        ctx.beginPath(); ctx.moveTo(ix, iy + 16 - elev); ctx.lineTo(ix - 46, iy - 8 - elev); ctx.lineTo(ix - 46, iy - 12 - elev); ctx.lineTo(ix, iy + 12 - elev); ctx.fill();
-        ctx.fillStyle = '#d97706'; ctx.fillRect(ix - 40, iy - 10 - elev, 80, 2);
-        // Tier 2 Flat Parapet
-        ctx.fillStyle = '#cfbe95';
-        ctx.beginPath(); ctx.moveTo(ix, iy + 12 - elev); ctx.lineTo(ix + 46, iy - 12 - elev); ctx.lineTo(ix, iy - 32 - elev); ctx.lineTo(ix - 46, iy - 12 - elev); ctx.fill();
-        // Grand Central Stone Staircase
-        ctx.fillStyle = '#574833';
-        ctx.beginPath(); ctx.moveTo(ix - 12, iy + 16); ctx.lineTo(ix + 12, iy + 16); ctx.lineTo(ix + 10, iy + 16 - elev); ctx.lineTo(ix - 10, iy + 16 - elev); ctx.fill();
-        ctx.fillStyle = '#cfbe95';
-        for (let s = 0; s < 7; s++) ctx.fillRect(ix - 10 + s * 0.3, iy + 14 - s * (elev / 7), 20 - s * 0.6, 2);
-        // Central Keep Tower / Council Room
-        ctx.fillStyle = '#bfa97c'; ctx.fillRect(ix - 18, iy - 42 - elev, 36, 28);
-        ctx.fillStyle = '#e5d5ad'; ctx.fillRect(ix - 16, iy - 44 - elev, 32, 4); // cornice
-        // Twin Flaming Stone Fire Altars
-        [-24, 24].forEach(bx => {
-          ctx.fillStyle = '#574833'; ctx.fillRect(ix + bx - 4, iy - 14 - elev, 8, 8);
-          ctx.fillStyle = '#f97316'; ctx.beginPath(); ctx.arc(ix + bx, iy - 16 - elev, 4 + Math.sin(now / 110 + bx) * 1.5, 0, 7); ctx.fill();
-          ctx.fillStyle = '#fef08a'; ctx.beginPath(); ctx.arc(ix + bx, iy - 17 - elev, 2, 0, 7); ctx.fill();
-        });
-        // Title of Liberty Banner
-        ctx.strokeStyle = '#451a03'; ctx.lineWidth = 2.5;
-        ctx.beginPath(); ctx.moveTo(ix, iy - 44 - elev); ctx.lineTo(ix, iy - 78 - elev); ctx.stroke();
-        const wave = Math.sin(now / 160) * 3;
-        ctx.fillStyle = '#fef08a';
-        ctx.beginPath();
-        ctx.moveTo(ix, iy - 78 - elev);
-        ctx.quadraticCurveTo(ix + 12, iy - 82 - elev + wave, ix + 26, iy - 76 - elev + wave);
-        ctx.lineTo(ix + 26, iy - 62 - elev + wave);
-        ctx.lineTo(ix, iy - 64 - elev);
-        ctx.fill();
-        // Coat writing strokes
-        ctx.strokeStyle = 'rgba(120,60,10,.8)'; ctx.lineWidth = 1;
-        for (let k = 0; k < 3; k++) {
-          ctx.beginPath(); ctx.moveTo(ix + 4, iy - 74 - elev + k * 4); ctx.lineTo(ix + 18, iy - 73 - elev + k * 4); ctx.stroke();
-        }
-        // Citadel Name Badge
-        label(b.name || b.def.name, ix, iy + 26, '#fde68a');
-        break;
-      }
-      case 'hall': {
-        // Red-and-Ochre Stepped Temple Pyramid (Hall of the Captains)
-        const steps = [
-          { col: '#991b1b', topCol: '#b91c1c', w: 54, h: 28, yOff: 0 },
-          { col: '#b45309', topCol: '#d97706', w: 42, h: 22, yOff: 12 },
-          { col: '#991b1b', topCol: '#b91c1c', w: 30, h: 16, yOff: 24 }
-        ];
-        steps.forEach(st => {
-          ctx.fillStyle = st.col;
-          ctx.fillRect(ix - st.w / 2, iy - st.h / 2 - st.yOff, st.w, st.h);
-          ctx.fillStyle = st.topCol;
-          ctx.fillRect(ix - st.w / 2 + 2, iy - st.h / 2 - st.yOff, st.w - 4, 3);
-        });
-        // Central Steep Temple Staircase
-        ctx.fillStyle = '#451a03';
-        ctx.beginPath(); ctx.moveTo(ix - 7, iy + 14); ctx.lineTo(ix + 7, iy + 14); ctx.lineTo(ix + 5, iy - 32); ctx.lineTo(ix - 5, iy - 32); ctx.fill();
-        ctx.fillStyle = '#fde68a';
-        for (let s = 0; s < 6; s++) ctx.fillRect(ix - 5, iy + 12 - s * 7, 10, 1.5);
-        // Top Temple Sanctuary with Turquoise Lintel
-        ctx.fillStyle = '#d97706'; ctx.fillRect(ix - 10, iy - 42, 20, 14);
-        ctx.fillStyle = '#06b6d4'; ctx.fillRect(ix - 12, iy - 44, 24, 3); // turquoise lintel
-        ctx.fillStyle = '#1c1917'; ctx.fillRect(ix - 4, iy - 36, 8, 8); // doorway
-        // Altar Brazier
-        ctx.fillStyle = '#f97316'; ctx.beginPath(); ctx.arc(ix, iy - 46, 3 + Math.sin(now / 100) * 1.5, 0, 7); ctx.fill();
-        label(b.def.name, ix, iy + 26, '#fde68a');
-        break;
-      }
-      case 'tower': {
-        // Authentic Captain Moroni Watchtower: Earthen mound, timber pickets, 4-post tower & thatched roof
-        const elev = 48;
-        // Earthen Rampart Mound
-        ctx.fillStyle = '#6f5134'; ctx.beginPath(); ctx.ellipse(ix, iy, 22, 12, 0, 0, 7); ctx.fill();
-        // Ring of Sharpened Wooden Pickets
-        ctx.fillStyle = '#a27a4d';
-        for (let a = 0; a < 8; a++) {
-          const px = ix + Math.cos(a * 0.8) * 18, py = iy + Math.sin(a * 0.8) * 9 - 3;
-          ctx.fillRect(px - 1.5, py - 6, 3, 8);
-        }
-        // 4 Timber Posts with Cross Braces
-        ctx.fillStyle = '#451a03';
-        ctx.fillRect(ix - 8, iy - 6 - elev, 3, elev);
-        ctx.fillRect(ix + 5, iy - 6 - elev, 3, elev);
-        ctx.fillRect(ix - 5, iy - 2 - elev, 2.5, elev);
-        ctx.fillRect(ix + 2, iy - 2 - elev, 2.5, elev);
-        // Timber Platform Deck
-        ctx.fillStyle = '#78350f'; ctx.fillRect(ix - 12, iy - 8 - elev, 24, 5);
-        // Rope Ladder
-        ctx.strokeStyle = '#b45309'; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(ix - 2, iy - 5 - elev); ctx.lineTo(ix - 2, iy); ctx.stroke();
-        // Thatched Pyramid Canopy
-        ctx.fillStyle = '#ca8a04';
-        ctx.beginPath(); ctx.moveTo(ix - 14, iy - 10 - elev); ctx.lineTo(ix, iy - 26 - elev); ctx.lineTo(ix + 14, iy - 10 - elev); ctx.fill();
-        ctx.strokeStyle = '#854d0e'; ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(ix - 14, iy - 10 - elev); ctx.lineTo(ix, iy - 26 - elev); ctx.lineTo(ix + 14, iy - 10 - elev); ctx.stroke();
-        // Warning Signal Torch / Brazier
-        ctx.fillStyle = '#f97316'; ctx.beginPath(); ctx.arc(ix, iy - 12 - elev, 3 + Math.sin(now / 100) * 1.5, 0, 7); ctx.fill();
-        break;
-      }
-      case 'armory': {
-        // Helaman 3 Cement House: Smooth lime cement walls, stone battlements, forge embers
-        const elev = 26;
-        // White Hydraulic Cement Body
-        ctx.fillStyle = '#d6d3d1'; ctx.fillRect(ix - 22, iy - elev, 44, elev);
-        ctx.fillStyle = '#e7e5e4'; ctx.fillRect(ix - 24, iy - elev - 2, 48, 4); // cornice
-        // Roof Battlements
-        ctx.fillStyle = '#a8a29e';
-        for (let b0 = -20; b0 <= 16; b0 += 9) ctx.fillRect(ix + b0, iy - elev - 6, 5, 5);
-        // Red Painted Geometric Lintel
-        ctx.fillStyle = '#991b1b'; ctx.fillRect(ix - 8, iy - 16, 16, 3);
-        // Open Arched Doorway with Glowing Forge Fire
-        ctx.fillStyle = '#1c1917'; ctx.fillRect(ix - 6, iy - 13, 12, 14);
-        ctx.fillStyle = '#ea580c'; ctx.beginPath(); ctx.arc(ix, iy - 5, 4 + Math.sin(now / 90) * 1.5, 0, 7); ctx.fill();
-        // Outside Stone Anvil & Weapon Chest
-        ctx.fillStyle = '#44403c'; ctx.fillRect(ix + 14, iy - 6, 7, 6);
-        label(b.def.name, ix, iy + 16, '#fde68a');
-        break;
-      }
-      case 'storehouse':
-      case 'village': {
-        // Raised Platform Thatched Dwelling / Granary
-        const elev = 22;
-        // Limestone Raised Basal Platform
-        ctx.fillStyle = '#78716c'; ctx.fillRect(ix - 20, iy - 4, 40, 8);
-        ctx.fillStyle = '#a8a29e'; ctx.fillRect(ix - 18, iy - 6, 36, 3);
-        // White Stucco Walls
-        ctx.fillStyle = '#f5f5f4'; ctx.fillRect(ix - 16, iy - elev, 32, elev - 4);
-        // Corner Timber Posts
-        ctx.fillStyle = '#573010'; ctx.fillRect(ix - 17, iy - elev, 3, elev); ctx.fillRect(ix + 14, iy - elev, 3, elev);
-        // Steep Textured Thatch Roof (Palm fronds)
-        ctx.fillStyle = '#ca8a04';
-        ctx.beginPath(); ctx.moveTo(ix - 22, iy - elev + 2); ctx.lineTo(ix, iy - elev - 18); ctx.lineTo(ix + 22, iy - elev + 2); ctx.fill();
-        ctx.strokeStyle = '#854d0e'; ctx.lineWidth = 1;
-        for (let l = 0; l < 4; l++) {
-          ctx.beginPath(); ctx.moveTo(ix - 18 + l * 4, iy - elev + 2 - l * 4); ctx.lineTo(ix + 18 - l * 4, iy - elev + 2 - l * 4); ctx.stroke();
-        }
-        // Doorway
-        ctx.fillStyle = '#1c1917'; ctx.fillRect(ix - 4, iy - 10, 8, 8);
-        if (b.type === 'village') label(b.name, ix, iy + 16, '#bbf7d0');
-        break;
-      }
-      case 'barracks': {
-        // Fortified Timber Log Palisade & Warrior Training Ring
-        const elev = 24;
-        ctx.fillStyle = '#52341b'; ctx.fillRect(ix - 24, iy - elev, 48, elev);
-        // Log palisade posts
-        ctx.fillStyle = '#784620';
-        for (let p0 = -22; p0 <= 18; p0 += 6) ctx.fillRect(ix + p0, iy - elev - 4, 4, elev + 4);
-        // Thatched warrior pavilion
-        ctx.fillStyle = '#a16207';
-        ctx.beginPath(); ctx.moveTo(ix - 18, iy - elev); ctx.lineTo(ix, iy - elev - 14); ctx.lineTo(ix + 18, iy - elev); ctx.fill();
-        // Weapon racks & shield banner
-        ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.moveTo(ix + 12, iy - 6); ctx.lineTo(ix + 12, iy - 16); ctx.stroke();
-        ctx.fillStyle = '#3b8226'; ctx.beginPath(); ctx.arc(ix + 12, iy - 11, 3.5, 0, 7); ctx.fill();
-        label(b.def.name, ix, iy + 16, '#fde68a');
-        break;
-      }
-      case 'farm': {
-        // Irrigated Maize Terrace & Thatched Shed
-        ctx.fillStyle = '#3f2812'; ctx.fillRect(ix - 20, iy - 12, 40, 18);
-        // Stone irrigation canal
-        ctx.fillStyle = '#0284c7'; ctx.fillRect(ix - 18, iy - 4, 36, 3);
-        // Corn stalks
-        ctx.fillStyle = '#ca8a04';
-        for (let c0 = -16; c0 <= 16; c0 += 5) ctx.fillRect(ix + c0, iy - 14, 2, 8);
-        ctx.fillStyle = '#15803d';
-        for (let c0 = -16; c0 <= 16; c0 += 5) ctx.fillRect(ix + c0 - 1, iy - 12, 4, 2);
-        // Thatched work shed
-        ctx.fillStyle = '#854d0e'; ctx.fillRect(ix + 8, iy - 22, 14, 12);
-        ctx.fillStyle = '#ca8a04';
-        ctx.beginPath(); ctx.moveTo(ix + 6, iy - 22); ctx.lineTo(ix + 15, iy - 30); ctx.lineTo(ix + 24, iy - 22); ctx.fill();
-        break;
-      }
-      case 'granary': {
-        // Stucco cylindrical grain silo with conical thatch roof
-        ctx.fillStyle = '#e7e5e4'; ctx.beginPath(); ctx.arc(ix, iy - 8, 16, 0, 7); ctx.fill();
-        ctx.strokeStyle = '#a8a29e'; ctx.lineWidth = 2; ctx.stroke();
-        // Conical thatch cap
-        ctx.fillStyle = '#ca8a04'; ctx.beginPath(); ctx.moveTo(ix - 18, iy - 8); ctx.lineTo(ix, iy - 26); ctx.lineTo(ix + 18, iy - 8); ctx.fill();
-        ctx.strokeStyle = '#854d0e'; ctx.lineWidth = 1;
-        ctx.stroke();
-        break;
-      }
-      case 'stables': {
-        // Enclosed corral with timber fences and horse shelter
-        ctx.strokeStyle = '#784620'; ctx.lineWidth = 2; ctx.strokeRect(ix - 22, iy - 14, 44, 24);
-        ctx.fillStyle = '#ca8a04'; ctx.fillRect(ix - 18, iy - 20, 20, 8); // roof
-        ctx.fillStyle = '#a16207'; ctx.beginPath(); ctx.ellipse(ix + 4, iy - 4, 9, 5, 0, 0, 7); ctx.fill(); // horse
-        break;
-      }
-      case 'warcamp':
-      case 'camp': {
-        // Heavy Spiked Log Palisade & Hide War Pavilions with Roaring Fire
-        ctx.strokeStyle = '#3f200c'; ctx.lineWidth = 3.5;
-        ctx.strokeRect(ix - 34, iy - 18, 68, 36);
-        // Spiked stake tops
-        ctx.fillStyle = '#78350f';
-        for (let s0 = -32; s0 <= 30; s0 += 7) ctx.fillRect(ix + s0, iy - 22, 3, 6);
-        // Red-and-black war lodge
-        ctx.fillStyle = '#7f1d1d';
-        ctx.beginPath(); ctx.moveTo(ix - 20, iy + 6); ctx.lineTo(ix, iy - 22); ctx.lineTo(ix + 20, iy + 6); ctx.fill();
-        // Bone totem / horns
-        ctx.strokeStyle = '#f1f5f9'; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(ix - 4, iy - 22); ctx.lineTo(ix, iy - 26); ctx.lineTo(ix + 4, iy - 22); ctx.stroke();
-        // Roaring Central Bonfire
-        ctx.fillStyle = '#ea580c'; ctx.beginPath(); ctx.arc(ix, iy + 2, 7 + Math.sin(now / 80) * 2, 0, 7); ctx.fill();
-        ctx.fillStyle = '#fef08a'; ctx.beginPath(); ctx.arc(ix, iy, 4 + Math.sin(now / 90) * 1.5, 0, 7); ctx.fill();
-        label(b.def.name, ix, iy + 26, '#fecaca');
-        break;
-      }
-      case 'wall':
-      case 'gate': {
-        // Alma 50:1–3 Earthen rampart topped with wooden timber pickets
-        ctx.fillStyle = '#5c4028'; ctx.fillRect(ix - 12, iy - 6, 24, 12);
-        ctx.fillStyle = '#8f5c2c';
-        for (let k = 0; k < 4; k++) ctx.fillRect(ix - 9 + k * 6, iy - 14, 3, 9); // Pointed pickets
-        if (b.type === 'gate') {
-          ctx.fillStyle = '#b45309'; ctx.fillRect(ix - 6, iy - 10, 12, 16); // Reinforced gate door
-          ctx.fillStyle = '#1c1917'; ctx.fillRect(ix - 2, iy - 2, 4, 4);
-        }
-        break;
-      }
-      default: {
-        ctx.fillStyle = '#78716c'; ctx.fillRect(ix - 16, iy - 16, 32, 24);
-        break;
-      }
+    if (IMG.stronghold.complete && IMG.stronghold.naturalWidth) {
+       ctx.drawImage(IMG.stronghold, ix - w*0.8, iy - h*1.5, w*1.6, h*2.5);
+    } else {
+      ctx.fillStyle = '#bfa97c'; ctx.fillRect(ix - w*0.5, iy - h, w, h);
     }
+
     ctx.restore();
 
-    // Selection Corners
     if (selected) {
       drawIsoCorners(ix - w * 0.45, iy - h * 0.35, w * 0.9, h * 0.7, '#4ade80');
     }
