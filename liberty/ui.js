@@ -1895,6 +1895,7 @@
     draw(now);
     hud(now);
     if (W.over && !endShown) showEnd();
+    if (window.LIB_MULTI && window.LIB_MULTI.drawCursor) window.LIB_MULTI.drawCursor(ctx);
   }
 
   $('iGrain').innerHTML = ICON.grain; $('iTimber').innerHTML = ICON.timber; $('iPeople').innerHTML = ICON.people;
