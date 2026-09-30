@@ -143,11 +143,13 @@
 </head>
 <body>
 <div id="app"></div>
-<script src="engine.js"></script>
-<script src="baybayin.js"></script>
-<script src="course-es.js"></script>
-<script src="course-tl.js"></script>
-<script src="audio/index.js"></script>
+<!-- ?v=dev becomes this deploy's commit (pages.yml), so a phone never runs a
+     new page with old cached scripts or an old list of recordings. -->
+<script src="engine.js?v=dev"></script>
+<script src="baybayin.js?v=dev"></script>
+<script src="course-es.js?v=dev"></script>
+<script src="course-tl.js?v=dev"></script>
+<script src="audio/index.js?v=dev"></script>
 <script>
 (function () {
   'use strict';
@@ -212,12 +214,15 @@
     if (!recorded(text, C)) return sayIt(text, C);
     try { speechSynthesis.cancel(); } catch (e) { /* no speech */ }
     if (playing) playing.pause();
-    playing = new Audio('audio/' + C.id + '/' + audioKey(text) + '.mp3');
-    playing.play().catch(() => sayIt(text, C));
+    const a = playing = new Audio('audio/' + C.id + '/' + audioKey(text) + '.mp3');
+    // A recording cut off by the next tap just stops (AbortError). Only one that
+    // can't play at all (no connection, say) falls back to the phone's voice.
+    a.play().catch(e => { if (playing === a && !(e && e.name === 'AbortError')) sayIt(text, C); });
   }
   function sayIt(text, C) {
     const r = reader(C);
     if (!r) return;
+    if (playing) { playing.pause(); playing = null; }       // one voice at a time
     try {
       speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(r.say(String(text).replace(/[¿¡]/g, '')));
