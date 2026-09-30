@@ -1335,6 +1335,8 @@ const TreasureUp = (function () {
     history: [],     // finished weeks, for the year trail: { title, num, right, answered, read, chapters }
     weekTitle: null, weekNum: null,
     read: {},        // this week's chapters he has read: "Isaiah 40" -> the day
+    readLog: {},     // this week's reading clock: "Isaiah 40" -> { start, secs, said, xp, day }: when he first
+                     // opened it, the time until "I read it", whether he said yes to "Did you read all of it?"
     found: {},       // Find it in the chapter: reelId -> { right, day }  first try
     weekChapters: 0  // how many chapters this week's reading has, for the year's count
   });
@@ -1924,6 +1926,14 @@ const TreasureUp = (function () {
   // (tools/build-reading.mjs); without it, each chapter opens in Gospel Library.
   const READING_DAYS = 6;             // Monday to Saturday; Sunday is church
   const READ_WPM = 120;               // for "about 7 min": a steady pace for an 11-year-old in the KJV
+  // Reading a chapter pays the most XP of anything (Blake, 2026-09-30). A
+  // clock starts the first time he opens it, and runs while he reads it in
+  // Gospel Library; "I read it" sooner than twice that pace (about half the
+  // "about N min") asks him first: "That was quick. Did you read all of it?"
+  // A few verses get 20 seconds, a chapter without its text here 2 minutes.
+  const READ_XP = 50, QUICK_WPM = 240;
+  const readMinSecs = u => u.words ? Math.max(20, Math.round(u.words / QUICK_WPM * 60)) : 120;
+  const readSecs = ref => { const x = S.readLog && S.readLog[ref]; return x && x.start ? (Date.now() - x.start) / 1000 : 0; };
   const countWords = t => (String(t).match(/\S+/g) || []).length;
   let readingCache = null;
 
@@ -2183,10 +2193,14 @@ const TreasureUp = (function () {
   const minutesOf = units => { const w = units.reduce((n, u) => n + u.words, 0); return w ? Math.max(1, Math.round(w / READ_WPM)) : 0; };
   // Reading due by today (today's and earlier days' chapters not read yet).
   const readingDue = () => readingPlan().slice(0, todayIndex() + 1).flat().some(u => !S.read[u.ref]);
-  function recordRead(ref) {
+  // `said`: he said yes to "Did you read all of it?" (it was quicker than a real read).
+  function recordRead(ref, said) {
     if (S.read[ref]) return false;
     S.read[ref] = dayKey();
+    const log = S.readLog || (S.readLog = {}), start = log[ref] && log[ref].start;
+    log[ref] = { start: start || null, secs: start ? Math.round((Date.now() - start) / 1000) : null, said: !!said, xp: READ_XP, day: dayKey() };
     markStudied(true);
+    grantXp(READ_XP, 'Read ' + ref);
     save();
     return true;
   }
@@ -2416,8 +2430,8 @@ const TreasureUp = (function () {
   /* ---------------- family rewards ---------------- */
 
   // A parent sets rewards at XP marks ("Pick Friday's movie at 300 XP").
-  // XP only comes from right answers, so a reward is earned by
-  // understanding. Kept apart from his progress so it survives a new week.
+  // XP comes from reading the chapters and right answers, so a reward is
+  // earned. Kept apart from his progress so it survives a new week.
   // The PIN just keeps an 11-year-old from editing his own rewards; it is
   // not security.
   const PARENT_KEY = NS + 'parent';
@@ -2500,7 +2514,7 @@ const TreasureUp = (function () {
       return;
     }
     body.innerHTML = `
-      <p class="text-[14px] text-white/75 mt-2">He has <b class="text-amber-300">${S.xp} XP</b>. XP only comes from right answers, so every reward is earned by understanding.</p>
+      <p class="text-[14px] text-white/75 mt-2">He has <b class="text-amber-300">${S.xp} XP</b>, from reading the chapters and answering right.</p>
       <p class="text-[12px] text-white/50 mt-1">Tick Given once he's had it. Clear a reward's text to remove it.</p>
       ${note}
       <div class="grid gap-2 mt-4" id="rewardRows">${draft.map(rewardRow).join('')}</div>
@@ -2508,9 +2522,27 @@ const TreasureUp = (function () {
         <button class="btn ghost" data-act="add">Add a reward</button>
         <button class="btn" data-act="save">Save</button>
       </div>
+      ${readingLogHtml()}
       <div class="eyebrow" style="margin-top:22px">His notes</div>
       ${journalHtml()}
       ${/\/TreasureUp-test\//.test(location.pathname) ? '<a class="parent-link" href="#dev" data-act="dev">Developer mode: review and change content ›</a>' : ''}`;
+  }
+
+  // The week's chapters: how long each was open before "I read it" (reading
+  // it in Gospel Library counts), and when he said yes to "Did you read all of it?".
+  function readingLogHtml() {
+    const units = WEEK ? readingAll() : [];
+    if (!units.length) return '';
+    const dur = s => s < 60 ? s + ' sec' : s < 3600 ? Math.round(s / 60) + ' min' : 'over an hour';
+    const rows = units.map(u => {
+      const x = (S.readLog || {})[u.ref], min = minutesOf([u]);
+      const what = !S.read[u.ref] ? 'Not read yet'
+        : x && x.secs != null ? dur(x.secs) + (x.said ? ' · asked, and said he read it all' : '')
+        : 'Read (before the clock)';
+      return `<div class="journal-item"><div class="text-[12px] text-white/55">${esc(u.ref)}${min ? ' · about ' + min + ' min' : ''}</div><p class="text-[14px] mt-1">${esc(what)}</p></div>`;
+    }).join('');
+    return `<div class="eyebrow" style="margin-top:22px">Reading this week</div>
+      <p class="text-[12px] text-white/50 mt-1">Time from opening each chapter to “I read it”. Time in Gospel Library counts.</p>${rows}`;
   }
 
   function journalHtml() {
@@ -7090,6 +7122,8 @@ const TreasureUp = (function () {
     for (const k in L.bonus || {}) if (!has(B.bonus, k) && has(R.bonus, k) && L.bonus[k].right) gained -= XP.bonus;
     for (const k in L.deep || {}) if (!has(B.deep, k) && has(R.deep, k) && L.deep[k].right) gained -= XP.bonus;
     for (const k in L.found || {}) if (!has(B.found, k) && has(R.found, k) && L.found[k].right) gained -= FIND_XP;
+    const paid = (o, k) => has(o, k) && !!o[k].xp;
+    for (const k in L.readLog || {}) if (paid(L.readLog, k) && !paid(B.readLog, k) && paid(R.readLog, k)) gained -= READ_XP;
     for (const k in L.notes || {}) {
       if (L.notes[k].rewarded && !(has(B.notes, k) && B.notes[k].rewarded) && has(R.notes, k) && R.notes[k].rewarded) gained -= NOTE_XP;
     }
@@ -7104,6 +7138,9 @@ const TreasureUp = (function () {
     }
     M.xp = (R.xp || 0) + Math.max(0, gained);
     for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
+    // The reading clock: a chapter finished on either device keeps its record.
+    M.readLog = Object.assign({}, L.readLog || {}, R.readLog || {});
+    for (const k in L.readLog || {}) if (L.readLog[k].day && !M.readLog[k].day) M.readLog[k] = L.readLog[k];
     // Notes: the later edit wins.
     M.notes = Object.assign({}, L.notes || {}, R.notes || {});
     for (const k in L.notes || {}) if (!has(R.notes, k) || (L.notes[k].at || 0) > (R.notes[k].at || 0)) M.notes[k] = L.notes[k];
@@ -8002,7 +8039,7 @@ const TreasureUp = (function () {
     if (L.level) levelUp(L.level);
     if (L.at < L.steps.length) L.rewards.forEach(t => toast('🎁 Reward unlocked', t + ' · show a parent'));
   }
-  function lessonReset() { Object.assign(lesson, { picked: null, matched: {}, sel: null, missR: null, misses: 0, checked: false, ok: null, earned: 0, readOk: false }); }
+  function lessonReset() { Object.assign(lesson, { picked: null, matched: {}, sel: null, missR: null, misses: 0, checked: false, ok: null, earned: 0, readOk: false, askRead: false }); }
 
   // Checking a step records it, the first time only.
   function recordStep(step, picked, ok) {
@@ -8039,6 +8076,11 @@ const TreasureUp = (function () {
     if (step.kind === 'chapter') {
       // The chapter itself, or, without its text, the way to it in Gospel Library.
       const u = step.u, gl = u.whole ? readLink(u.ch, true) : readLink(u.ref);
+      // Its clock starts the first time he opens it, and keeps running while he's away (in Gospel Library).
+      // Back from Gospel Library, even after the phone closed the app, "I read it" is still open.
+      const log = S.readLog || (S.readLog = {});
+      if (!S.read[u.ref] && !(log[u.ref] && log[u.ref].start)) { log[u.ref] = { start: Date.now() }; saveLocal(); }
+      if (log[u.ref] && log[u.ref].gl) L.readOk = true;
       html += `<div class="ls-chapter">
         <div class="ls-prompt">${esc(u.ref)}</div>
         ${gl ? `<a class="ls-gl" data-ls="gl" href="${esc(gl)}" target="_blank" rel="noopener noreferrer">${u.verses ? 'Or read it in Gospel Library ↗' : 'Read it in Gospel Library ↗'}</a>` : ''}
@@ -8095,7 +8137,12 @@ const TreasureUp = (function () {
     if (step.kind === 'read') footHtml = `<button class="ls-go" data-ls="next">Continue</button>`;
     else if (step.kind === 'chapter') {
       // Opens once he's reached the end of the chapter here, or gone to read it in Gospel Library.
-      footHtml = `<div class="ls-say ls-read-hint"${L.readOk ? ' hidden' : ''}>${step.u.verses ? 'Read to the end, then tap it.' : 'Open it in Gospel Library first.'}</div>
+      // Quicker than a real read, it asks him first; then the XP.
+      if (L.checked) footHtml = `<div class="ls-say">✓ ${esc(step.u.ref)}${L.earned ? ` <span class="ls-earn">+${L.earned} XP</span>` : ''}</div><button class="ls-go" data-ls="next">Continue</button>`;
+      else if (L.askRead) footHtml = `<div class="ls-say">That was quick. Did you read all of ${esc(step.u.ref)}?</div>
+        <button class="ls-go" data-ls="readyes">Yes, I read every verse</button>
+        <button class="ls-alt" data-ls="readnot">Not yet</button>`;
+      else footHtml = `<div class="ls-say ls-read-hint"${L.readOk ? ' hidden' : ''}>${step.u.verses ? 'Read to the end, then tap it.' : 'Open it in Gospel Library first.'}</div>
         <button class="ls-go" data-ls="readdone"${L.readOk ? '' : ' disabled'}>I read ${esc(step.u.ref)}</button>`;
     }
     else if (step.kind === 'puzzle') {
@@ -8155,18 +8202,38 @@ const TreasureUp = (function () {
     if (hint) hint.hidden = true;
   }
 
+  // Redraw a chapter step without losing his place in it.
+  function keepPlace(draw) { const b = $('lessonBody'), y = b.scrollTop; draw(); b.scrollTop = y; }
+
   function lessonAction(el) {
     const L = lesson, step = L && L.steps[L.at], act = el.dataset.ls;
     if (!L) return;
     // Check and Continue take each other's place, so a quick double tap
     // would check and move on before he saw the answer.
-    if (act === 'check' || act === 'next' || act === 'readdone') {
+    if (act === 'check' || act === 'next' || act === 'readdone' || act === 'readyes' || act === 'readnot') {
       if (Date.now() - (L.tapAt || 0) < 400) return;
       L.tapAt = Date.now();
     }
-    // Gone to read it in Gospel Library (the link opens as usual): "I read it" opens.
-    if (act === 'gl') { if (step && step.kind === 'chapter') lessonReadOk(); return; }
-    if (act === 'readdone') { if (!L.readOk) return; recordRead(step.u.ref); L.at++; lessonReset(); return renderLesson(); }
+    // Gone to read it in Gospel Library (the link opens as usual): "I read it" opens, and stays open.
+    if (act === 'gl') {
+      if (step && step.kind === 'chapter') {
+        const x = S.readLog && S.readLog[step.u.ref];
+        if (x && !S.read[step.u.ref]) { x.gl = true; saveLocal(); }
+        lessonReadOk();
+      }
+      return;
+    }
+    if (act === 'readdone' || act === 'readyes') {
+      if (!L.readOk || L.checked) return;
+      const u = step.u;
+      if (S.read[u.ref]) { L.at++; lessonReset(); return renderLesson(); }             // practice: read before
+      if (act === 'readdone' && readSecs(u.ref) < readMinSecs(u)) { L.askRead = true; return keepPlace(renderLesson); }
+      const before = S.xp;
+      recordRead(u.ref, act === 'readyes');
+      Object.assign(L, { askRead: false, checked: true, ok: true, earned: S.xp - before });
+      return keepPlace(renderLesson);
+    }
+    if (act === 'readnot') { L.askRead = false; return keepPlace(renderLesson); }
     if (act === 'close') return closeLesson();
     if (act === 'nextlesson') { closeLesson(); return openLesson(''); }
     if (act === 'puzzle') { closeLesson(); return startGame('puzzle'); }
@@ -9003,6 +9070,7 @@ const TreasureUp = (function () {
     Object.keys(S.found || {}).forEach(id => { if (!live.has(id)) delete S.found[id]; });
     const units = new Set(readingAll().map(u => u.ref));
     Object.keys(S.read || {}).forEach(ref => { if (!units.has(ref)) delete S.read[ref]; });
+    Object.keys(S.readLog || {}).forEach(ref => { if (!units.has(ref)) delete S.readLog[ref]; });
     S.weekChapters = units.size;
 
     rollDay();
