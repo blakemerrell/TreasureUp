@@ -68,10 +68,10 @@ function conversationRules(C, id) {
     texts.push(G.title, ...(G.points || []), ...(G.table || []).flat());
     if (u.forms.length < 4) problems.push(`${at}: ${u.forms.length} forms to pick (at least 4)`);
     for (const f of u.forms) {
-      if (!f.prompt || f.prompt.split('___').length !== 2 || /____/.test(f.prompt) || !f.root || !f.right || !f.en) { problems.push(`${at}: “${f.prompt}” needs one ___, the root, right and en`); continue; }
+      if (!f.prompt || f.prompt.split('___').length !== 2 || /____/.test(f.prompt) || !f.right || !f.en) { problems.push(`${at}: “${f.prompt}” needs one ___, right and en`); continue; }
       three(f, f.right, at, `“${f.prompt}”`);
       once(E.filled(f), at);
-      texts.push(f.prompt, f.root, f.right, ...(f.wrong || []), f.en, f.note || '');
+      texts.push(f.prompt, f.root || '', f.right, ...(f.wrong || []), f.en, f.note || '');
     }
     if (u.builds.length < 3) problems.push(`${at}: ${u.builds.length} sentences to build (at least 3)`);
     for (const b of u.builds) {
