@@ -2886,7 +2886,8 @@ window.TU_WEEKS = [
             "v": 4,
             "about": "Smaller Book of Mormon differences have no note: verses 2, 4 and 9 (2 Nephi 7). In verse 4 the Book of Mormon speaks the word “unto thee, O house of Israel.”"
           }
-        ]
+        ],
+        "approved": "afd5bf4e"
       },
       {
         "ch": "Isaiah 51",
@@ -2938,7 +2939,8 @@ window.TU_WEEKS = [
             "v": 15,
             "about": "Smaller Book of Mormon differences have no note: verses 1, 2, 5, 12 and 15 (2 Nephi 8). In verse 15 it has “my name” and leaves out “that divided the sea.”"
           }
-        ]
+        ],
+        "approved": "3c87524b"
       },
       {
         "ch": "Isaiah 52",
@@ -3006,7 +3008,8 @@ window.TU_WEEKS = [
             "v": 11,
             "about": "Smaller Book of Mormon differences have no note: verses 1–2 (2 Nephi 8:24–25), 7–10 (Mosiah 12:21–24; 3 Nephi 16:18–20) and 11–15 (3 Nephi 20:41–45), mostly wording and punctuation. Verse 11 there begins “And then shall a cry go forth.”"
           }
-        ]
+        ],
+        "approved": "b64926cd"
       },
       {
         "ch": "Isaiah 53",
@@ -3063,7 +3066,8 @@ window.TU_WEEKS = [
             "v": 9,
             "about": "Smaller Book of Mormon differences have no note: verses 6, 8 and 12 have plurals in Mosiah 14 (“iniquities”, “transgressions”, “sins”)."
           }
-        ]
+        ],
+        "approved": "69205a6a"
       },
       {
         "ch": "Isaiah 54",
@@ -3105,7 +3109,8 @@ window.TU_WEEKS = [
             "v": 15,
             "about": "Smaller Book of Mormon differences have no note: verses 4, 9, 15 and 17 (3 Nephi 22). In verse 17 it has “every tongue that shall revile against thee.”"
           }
-        ]
+        ],
+        "approved": "b05355ac"
       },
       {
         "ch": "Isaiah 55",
@@ -3133,7 +3138,8 @@ window.TU_WEEKS = [
             "v": 4,
             "text": "The “him” is David (verse 3). Paul teaches that God kept His promises to David through Jesus, raising Him from the dead to give “the sure mercies of David” (Acts 13:34)."
           }
-        ]
+        ],
+        "approved": "eb3458d5"
       },
       {
         "ch": "Isaiah 56",
@@ -3162,7 +3168,8 @@ window.TU_WEEKS = [
             "v": 3,
             "about": "“Eunuch” gets a short gloss: a man who can’t have children."
           }
-        ]
+        ],
+        "approved": "d090fee4"
       },
       {
         "ch": "Isaiah 57",
@@ -3220,7 +3227,8 @@ window.TU_WEEKS = [
             "v": 15,
             "about": "“Contrite” stays (a church word, as in “a broken heart and a contrite spirit”), with a short gloss: truly sorry."
           }
-        ]
+        ],
+        "approved": "0ad59330"
       }
     ]
   },
@@ -4068,7 +4076,8 @@ window.TU_WEEKS = [
           "If you stop doing whatever you want on the Sabbath, my holy day; if you call the Sabbath a delight and the Lord’s holy day worthy of honor; if you honor Him by not going your own way, not chasing your own pleasures, and not speaking your own words,",
           "Then you will find joy in the Lord. I will make you ride on the high places of the earth, and I will feed you with the inheritance of your father Jacob. The Lord Himself has said it."
         ],
-        "notes": []
+        "notes": [],
+        "approved": "055ff9eb"
       },
       {
         "ch": "Isaiah 59",
@@ -4110,7 +4119,8 @@ window.TU_WEEKS = [
             "v": 19,
             "about": "The KJV and modern translations read the second half differently. The plain words keep the KJV’s enemy and banner, with a note giving the other reading."
           }
-        ]
+        ],
+        "approved": "2b6ff837"
       },
       {
         "ch": "Isaiah 60",
@@ -4165,7 +4175,8 @@ window.TU_WEEKS = [
             "v": 1,
             "about": "Added “Zion”: every you in this chapter is feminine (verse 14 names her). The note under verse 1 gives the Lord’s same call to His Church (D&C 115:5)."
           }
-        ]
+        ],
+        "approved": "f63cbf4a"
       },
       {
         "ch": "Isaiah 61",
@@ -4191,7 +4202,8 @@ window.TU_WEEKS = [
             "v": 8,
             "text": "The KJV has “direct their work in truth.” The Hebrew word for work can also mean the pay for work, so most modern translations read it as the Lord faithfully giving them their reward."
           }
-        ]
+        ],
+        "approved": "59984ee3"
       },
       {
         "ch": "Isaiah 62",
@@ -4215,7 +4227,8 @@ window.TU_WEEKS = [
             "v": 2,
             "about": "Added “Zion”: every you here is feminine (verse 1 names her), so the new names belong to Zion."
           }
-        ]
+        ],
+        "approved": "c57ce9d6"
       },
       {
         "ch": "Isaiah 63",
@@ -4267,7 +4280,8 @@ window.TU_WEEKS = [
             "v": 17,
             "about": "The plain words follow the Hebrew (you made us wander, hardened our hearts); the Joseph Smith Translation says the Lord allowed it. A note gives the JST. You may want the plain words to follow the JST instead."
           }
-        ]
+        ],
+        "approved": "918c5891"
       },
       {
         "ch": "Isaiah 64",
@@ -4304,7 +4318,8 @@ window.TU_WEEKS = [
             "v": 5,
             "about": "The KJV reads the end of the verse as hope, modern translations as a worried question. The plain words keep the KJV’s hope, with a note."
           }
-        ]
+        ],
+        "approved": "faaa65a6"
       },
       {
         "ch": "Isaiah 65",
@@ -4362,7 +4377,8 @@ window.TU_WEEKS = [
             "v": 11,
             "about": "The KJV’s “that troop” and “that number” are read today as two false gods, Fortune and Destiny. The plain words follow the modern reading, with a note."
           }
-        ]
+        ],
+        "approved": "e04e31f2"
       },
       {
         "ch": "Isaiah 66",
@@ -4415,7 +4431,8 @@ window.TU_WEEKS = [
             "v": 5,
             "about": "The KJV reads the last line as the Lord appearing to their joy; the plain words follow the Hebrew vowels (the enemies mocking), with a note. Your call."
           }
-        ]
+        ],
+        "approved": "c1399948"
       }
     ]
   }
