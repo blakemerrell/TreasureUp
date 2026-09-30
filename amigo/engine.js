@@ -73,9 +73,11 @@
   }
   // A word without its capitals and marks: a spare tile mustn't be one of the answer's in another form (jugar? for jugar!).
   const bare = w => w.toLowerCase().replace(/[¿¡?!.,]/g, '');
+  // Every sentence a course has, for spare tiles (a conversation course has no phrase list).
+  const sentences = course => course.units.flatMap(u => [...(u.phrases || []).map(p => p.t), ...(u.builds || []).map(b => b.t), ...(u.says || []).map(x => x.t)]);
   function buildStep(course, p, seed) {
     const answer = tiles(p.t), taken = new Set(answer.map(bare));
-    const spare = shuffled([...new Set(course.units.flatMap(u => u.phrases).flatMap(x => tiles(x.t)))].filter(w => !taken.has(bare(w))), seed).slice(0, 2);
+    const spare = shuffled([...new Set(sentences(course).flatMap(tiles))].filter(w => !taken.has(bare(w))), seed).slice(0, 2);
     return { type: 'build', id: p.t, prompt: p.en, answer, bank: shuffled([...answer, ...spare], seed + 'b'), note: p.note };
   }
   function sceneStep(s, seed) {
@@ -113,12 +115,81 @@
     return steps;
   }
 
+  // ------------------------------------------------------------ past the basics
+  // A conversation course (kind 'conversation', amigo/course-tl2.js): each unit
+  // is a conversation between two people and the grammar it uses, in three
+  // lessons. Listen: the whole conversation, questions on it, the missing word
+  // in a line, then the transcript. Grammar: the point, picking the right form,
+  // building sentences. Say it: say the Tagalog aloud and mark yourself, then
+  // what would you say?. Its sentences come back later as reviews.
+  const INFO = new Set(['dialog', 'transcript', 'grammar']);     // heard or read, not answered
+  const lineSay = line => line.who + '|' + line.t;              // a conversation line is recorded in its speaker's voice
+  const filled = f => f.prompt.replace('___', f.right);
+  // A line with one word taken out: that whole word, wherever it stands.
+  function blanked(t, word) {
+    const parts = t.split(/([^\p{L}’-]+)/u), i = parts.indexOf(word);
+    return i < 0 ? t : parts.map((p, k) => k === i ? '____' : p).join('');
+  }
+  const formStep = (f, seed) => ({ type: 'form', id: filled(f), prompt: f.prompt, root: f.root, right: f.right, choices: shuffled([f.right, ...f.wrong], seed), en: f.en, note: f.note, say: filled(f) });
+  const sayStep = x => ({ type: 'say', id: x.t, t: x.t, en: x.en, note: x.note, right: 'yes' });
+  const questionStep = (q, seed) => ({ type: 'question', q: q.q, right: q.right, choices: shuffled([q.right, ...q.wrong], seed), line: q.line, note: q.note });
+  function gapStep(unit, g, seed) {
+    const line = unit.dialog.lines[g.line - 1];
+    return { type: 'gap', line: g.line, who: line.who, name: unit.dialog.people[line.who], t: line.t, en: line.en, say: lineSay(line), shown: blanked(line.t, g.word),
+      right: g.word, choices: shuffled([g.word, ...g.wrong], seed) };
+  }
+  // Every sentence of a conversation course that can come back as a review, by its id.
+  function reviewable(course) {
+    const out = new Map();
+    for (const u of course.units) {
+      for (const f of u.forms || []) out.set(filled(f), seed => formStep(f, seed));
+      for (const b of u.builds || []) out.set(b.t, seed => buildStep(course, b, seed));
+      for (const x of u.says || []) out.set(x.t, () => sayStep(x));
+      for (const sc of u.scenes || []) out.set(sc.right, seed => sceneStep(sc, seed));
+    }
+    return out;
+  }
+  function buildConversation(course, unit, n, cs, today = dayNum()) {
+    const seed = course.id + ':' + unit.id + ':' + n, look = reviewable(course);
+    // This lesson's own sentences aren't reviews in it; a form missed in Grammar comes back in Say it.
+    const own = new Set(n === 1 ? [...unit.forms.map(filled), ...unit.builds.map(b => b.t)] : n === 2 ? [...unit.says.map(x => x.t), ...unit.scenes.map(x => x.right)] : []);
+    const due = Object.entries(cs.mem).filter(([id, m]) => look.has(id) && !own.has(id) && m.due <= today)
+      .sort((a, b) => a[1].box - b[1].box || a[1].due - b[1].due).slice(0, REVIEWS)
+      .map(([id], i) => Object.assign(look.get(id)(seed + 'r' + i), { review: true }));
+    const d = unit.dialog;
+    if (n === 0) {
+      return [...due.slice(0, 2), { type: 'dialog', setting: d.setting, people: d.people, lines: d.lines },
+        ...unit.questions.map((q, i) => questionStep(q, seed + 'q' + i)), ...unit.gaps.map((g, i) => gapStep(unit, g, seed + 'g' + i)),
+        { type: 'transcript', setting: d.setting, people: d.people, lines: d.lines }];
+    }
+    if (n === 1) {
+      return [Object.assign({ type: 'grammar' }, unit.grammar),
+        ...unit.forms.map((f, i) => formStep(f, seed + 'f' + i)), ...unit.builds.map((b, i) => buildStep(course, b, seed + 'b' + i)), ...due.slice(0, 2)];
+    }
+    return [...unit.says.map(sayStep), ...unit.scenes.map((sc, i) => sceneStep(sc, seed + 's' + i)), ...due];
+  }
+  // Any course's lesson n of a unit.
+  const lesson = (course, unit, n, cs, today) => course.kind === 'conversation' ? buildConversation(course, unit, n, cs, today) : buildLesson(course, unit, n, cs, today);
+  // Everything a conversation course says, and who says it, for its recordings
+  // (tools/amigo-voice.mjs): each conversation line under lineSay, in its
+  // speaker's voice; the sentences, a tapped tile's word and every answer in a
+  // scene in A's. [{ key, text, who }], the key being what audioKey is taken of.
+  function voiceLines(course) {
+    const out = new Map(), add = (key, text, who) => { if (!out.has(key)) out.set(key, { key, text, who }); };
+    for (const u of course.units) {
+      for (const l of u.dialog.lines) add(lineSay(l), l.t, l.who);
+      for (const t of [...u.forms.map(filled), ...u.builds.map(b => b.t), ...u.says.map(x => x.t), ...u.scenes.flatMap(s => [s.right, ...s.wrong])]) add(t, t, 'A');
+    }
+    for (const w of sentences(course).flatMap(tiles).map(sayable)) add(w, w, 'A');     // any of them can be a spare tile
+    return [...out.values()];
+  }
+
   // ------------------------------------------------------------ answers
 
   function check(step, answer) {
     if (step.type === 'build') return Array.isArray(answer) && answer.join(' ') === step.answer.join(' ');
-    if (step.type === 'pairs') return true;             // done once every pair is matched
-    return answer === step.right;
+    if (step.type === 'pairs' || INFO.has(step.type)) return true;    // done once every pair is matched; heard or read
+    return answer === step.right;                                      // a say step's answer is 'yes' (I said it) or 'no'
   }
   // A phrase answered right waits longer before it comes back; one missed comes back next time.
   function remember(cs, id, right, today = dayNum()) {
@@ -137,7 +208,8 @@
     return { first, streak: s.count };
   }
 
-  const API = { LESSONS_PER_UNIT, INTERVALS, XP_RIGHT, audioKey, sayable, rng, shuffled, dayNum, freshSave, courseSave, path, unlocked, nextLesson, streakNow, buildLesson, check, remember, finish, tiles };
+  const API = { LESSONS_PER_UNIT, INTERVALS, XP_RIGHT, INFO, audioKey, sayable, lineSay, filled, blanked, rng, shuffled, dayNum, freshSave, courseSave, path, unlocked, nextLesson, streakNow,
+    buildLesson, buildConversation, lesson, voiceLines, check, remember, finish, tiles };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
   else root.AMIGO_ENGINE = API;
 })(this);

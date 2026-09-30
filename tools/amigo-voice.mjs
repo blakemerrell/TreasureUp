@@ -1,11 +1,14 @@
 #!/usr/bin/env node
-// Records Amigo · Kaibigan's Tagalog in a Filipino voice, once, so it plays
-// on every phone (no iPhone has a Tagalog voice of its own): each line of
+// Records Amigo · Kaibigan's Tagalog in Filipino voices, once, so it plays
+// on every phone (no iPhone has a Tagalog voice of its own). Each line of
 // amigo/course-tl.js (phrases, the answers in scenes, words, the praise, the
 // words from Tatay, the Baybayin reading words, and each build-it tile's word,
-// said when he taps it) becomes
-// amigo/audio/tl/<key>.mp3, and amigo/audio/index.js lists them for the game.
-// Only lines without a recording are made; a changed line gets a new key.
+// said when he taps it) becomes amigo/audio/tl/<key>.mp3, in one man's voice,
+// a little slow. Tatay's own course, amigo/course-tl2.js, is two people
+// talking at native speed: each conversation line in its speaker's voice (a
+// man, a woman), everything else in the man's, as amigo/audio/tl2/<key>.mp3
+// (engine.js voiceLines says which). amigo/audio/index.js lists them for the
+// game. Only lines without a recording are made; a changed line gets a new key.
 //
 // Google Cloud Text-to-Speech, signed in with a service account's JSON key:
 // the test repo's secret GOOGLE_TTS_JSON when the deploy runs it (the key
@@ -13,8 +16,9 @@
 // (~/keys/google-tts.key, or $GOOGLE_TTS_KEY). Never in the app or the repo.
 //   node tools/amigo-voice.mjs --dry              what it would record, and how many characters
 //   node tools/amigo-voice.mjs --samples <dir>    one line in every Filipino voice, to pick one
-//   node tools/amigo-voice.mjs [--voice <name>]   record what's missing (fil-ph-Neural2-D unless named: Blake's pick)
+//   node tools/amigo-voice.mjs [--voice <name>]   record what's missing (the first course in fil-ph-Neural2-D unless named: Blake's pick)
 //   … --all                                       record every line again (after picking another voice)
+//   … --course tl2                                only that course
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import os from 'node:os';
@@ -25,12 +29,14 @@ const require = createRequire(import.meta.url);
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const E = require('../amigo/engine.js');
 const TL = require('../amigo/course-tl.js');
+const COURSES = { tl: TL, tl2: require('../amigo/course-tl2.js') };
 
 const args = process.argv.slice(2), flag = n => args.includes(n), opt = n => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : null; };
-const DIR = path.join(ROOT, 'amigo', 'audio'), OUT = path.join(DIR, 'tl'), LIST = path.join(DIR, 'index.js');
+const DIR = path.join(ROOT, 'amigo', 'audio'), LIST = path.join(DIR, 'index.js');
+const fileOf = (cid, key) => path.join(DIR, cid, E.audioKey(key) + '.mp3');
 const API = process.env.AMIGO_TTS_API || 'https://texttospeech.googleapis.com/v1';   // (the test points it elsewhere)
 
-// Every Tagalog line the game can say.
+// Every Tagalog line the first course can say.
 function lines() {
   const all = [...TL.praise];
   for (const u of TL.units) {
@@ -77,23 +83,37 @@ async function google(pathPart, body) {
 }
 // The line as spoken: no ¿ ¡, and one line only.
 const speakable = t => t.replace(/[¿¡]/g, '').trim();
-async function record(text, voice, file) {
-  const r = await google('text:synthesize', { input: { text: speakable(text) }, voice: { languageCode: 'fil-PH', name: voice }, audioConfig: { audioEncoding: 'MP3', speakingRate: 0.9 } });
+async function record(text, voice, file, rate = 0.9) {
+  const r = await google('text:synthesize', { input: { text: speakable(text) }, voice: { languageCode: 'fil-PH', name: voice }, audioConfig: { audioEncoding: 'MP3', speakingRate: rate } });
   fs.writeFileSync(file, Buffer.from(r.audioContent, 'base64'));
 }
-function writeList(voice) {
-  const have = {};
-  for (const t of lines()) if (fs.existsSync(path.join(OUT, E.audioKey(t) + '.mp3'))) have[E.audioKey(t)] = 1;
+// What each course says: [{ key (what audioKey is taken of), text, voice }].
+const tlVoice = opt('--voice') || 'fil-ph-Neural2-D';                 // a man's voice, Blake's pick (2026-09-30)
+function todo(cid) {
+  if (cid === 'tl') return lines().map(t => ({ key: t, text: t, voice: tlVoice }));
+  const C = COURSES[cid];
+  return E.voiceLines(C).map(x => ({ key: x.key.normalize('NFC'), text: x.text, voice: C.speakers[x.who] }));
+}
+const rateOf = cid => COURSES[cid].rate || 0.9;
+function writeList() {
+  const list = { voice: { tl: tlVoice, tl2: COURSES.tl2.speakers } };
+  for (const cid of Object.keys(COURSES)) {
+    list[cid] = {};
+    for (const x of todo(cid)) if (fs.existsSync(fileOf(cid, x.key))) list[cid][E.audioKey(x.key)] = 1;
+  }
   fs.writeFileSync(LIST, `// Made by tools/amigo-voice.mjs: which lines have a recording, as\n// amigo/audio/<course>/<key>.mp3 (the key is engine.js audioKey of the text).\n` +
-    `window.AMIGO_AUDIO = ${JSON.stringify({ tl: have, voice: { tl: voice } })};\n`);
-  return Object.keys(have).length;
+    `window.AMIGO_AUDIO = ${JSON.stringify(Object.assign({ tl: list.tl, tl2: list.tl2 }, { voice: list.voice }))};\n`);
+  return list;
 }
 
-const todo = lines();
+const which = opt('--course') ? [opt('--course')] : Object.keys(COURSES);
+if (which.some(cid => !COURSES[cid])) { console.error(`No course ${which.join(', ')}: ${Object.keys(COURSES).join(' or ')}`); process.exit(1); }
 if (flag('--dry')) {
-  const missing = todo.filter(t => !fs.existsSync(path.join(OUT, E.audioKey(t) + '.mp3')));
-  console.log(`${todo.length} Tagalog lines, ${missing.length} not recorded yet (${missing.reduce((n, t) => n + speakable(t).length, 0)} characters):`);
-  for (const t of missing) console.log('  ' + t);
+  for (const cid of which) {
+    const all = todo(cid), missing = all.filter(x => !fs.existsSync(fileOf(cid, x.key)));
+    console.log(`${cid}: ${all.length} Tagalog lines, ${missing.length} not recorded yet (${missing.reduce((n, x) => n + speakable(x.text).length, 0)} characters):`);
+    for (const x of missing) console.log(`  ${x.text}${x.voice !== tlVoice ? '  (' + x.voice + ')' : ''}`);
+  }
 } else if (flag('--samples')) {
   const dir = opt('--samples') || path.join(os.tmpdir(), 'amigo-voice-samples');
   fs.mkdirSync(dir, { recursive: true });
@@ -105,15 +125,19 @@ if (flag('--dry')) {
   }
   console.log(`${voices.length} Filipino voices saying “${line}” in ${dir}`);
 } else {
-  const voice = opt('--voice') || 'fil-ph-Neural2-D';                 // a man's voice, Blake's pick (2026-09-30)
-  fs.mkdirSync(OUT, { recursive: true });
-  let made = 0;
-  for (const t of todo) {
-    const file = path.join(OUT, E.audioKey(t) + '.mp3');
-    if (fs.existsSync(file) && !flag('--all')) continue;
-    await record(t, voice, file);
-    made++;
+  const made = {};
+  for (const cid of which) {
+    fs.mkdirSync(path.join(DIR, cid), { recursive: true });
+    made[cid] = 0;
+    for (const x of todo(cid)) {
+      const file = fileOf(cid, x.key);
+      if (fs.existsSync(file) && !flag('--all')) continue;
+      await record(x.text, x.voice, file, rateOf(cid));
+      made[cid]++;
+    }
   }
-  const n = writeList(voice);
-  console.log(`${made} recorded now in ${voice}; ${n} of ${todo.length} Tagalog lines have a recording (amigo/audio/tl/, listed in amigo/audio/index.js)`);
+  const list = writeList();
+  for (const cid of which) {
+    console.log(`${cid}: ${made[cid]} recorded now; ${Object.keys(list[cid]).length} of ${todo(cid).length} lines have a recording (amigo/audio/${cid}/, listed in amigo/audio/index.js)`);
+  }
 }
