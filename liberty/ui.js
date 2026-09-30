@@ -282,141 +282,210 @@ IMG.farm.src = 'assets/farm.png?v=9';
     };
     const nearLand = isLand(x, y - 1) || isLand(x + 1, y) || isLand(x, y + 1) || isLand(x - 1, y);
 
-    if (t === T.GRASS) {
-      // Vibrant sunlit Mesoamerican prairie grass
-      c.fillStyle = '#4c8423'; c.fill();
-      // Subtle textured grass blades and highlights
-      for (let k = 0; k < 4; k++) {
-        c.fillStyle = h(k+10) < 0.5 ? '#3b6a1b' : '#68a12e';
-        c.fillRect(d.cx - 8 + h(k+20)*16, d.cy - 4 + h(k+30)*8, 2.5, 2);
-      }
-    } else if (t === T.WATER || t === T.FORD) {
-      // River Sidon: Rich deep azure/cyan gradient
+    if (t === T.WATER || t === T.FORD) {
+      // ---------------- RUSHING AZURE RIVER SIDON ----------------
       const wGrad = c.createLinearGradient(d.left.x, d.top.y, d.right.x, d.bottom.y);
-      if (t === T.WATER) {
-        wGrad.addColorStop(0, '#0284c7');
-        wGrad.addColorStop(0.5, '#0369a1');
-        wGrad.addColorStop(1, '#075985');
-      } else {
-        wGrad.addColorStop(0, '#38bdf8');
-        wGrad.addColorStop(0.5, '#0284c7');
-        wGrad.addColorStop(1, '#0ea5e9');
-      }
+      wGrad.addColorStop(0, '#0284c7');
+      wGrad.addColorStop(0.5, '#0369a1');
+      wGrad.addColorStop(1, '#075985');
       c.fillStyle = wGrad; c.fill();
 
-      // Shoreline sandy beach transition if bordering land
+      // Sandy shoreline beach transition if bordering land
       if (nearLand) {
-        c.strokeStyle = '#c5a86d'; c.lineWidth = 3.5;
+        c.strokeStyle = '#d4b26f'; c.lineWidth = 4;
         if (isLand(x, y - 1)) { c.beginPath(); c.moveTo(d.top.x, d.top.y); c.lineTo(d.right.x, d.right.y); c.stroke(); }
         if (isLand(x - 1, y)) { c.beginPath(); c.moveTo(d.left.x, d.left.y); c.lineTo(d.top.x, d.top.y); c.stroke(); }
         if (isLand(x, y + 1)) { c.beginPath(); c.moveTo(d.left.x, d.left.y); c.lineTo(d.bottom.x, d.bottom.y); c.stroke(); }
         if (isLand(x + 1, y)) { c.beginPath(); c.moveTo(d.bottom.x, d.bottom.y); c.lineTo(d.right.x, d.right.y); c.stroke(); }
-        // Water edge foam
-        c.strokeStyle = 'rgba(255,255,255,.45)'; c.lineWidth = 1.2;
+        // Glistening water foam edge
+        c.strokeStyle = 'rgba(255,255,255,0.7)'; c.lineWidth = 1.4;
         if (isLand(x, y - 1)) { c.beginPath(); c.moveTo(d.top.x, d.top.y + 1); c.lineTo(d.right.x - 1, d.right.y); c.stroke(); }
         if (isLand(x - 1, y)) { c.beginPath(); c.moveTo(d.left.x + 1, d.left.y); c.lineTo(d.top.x, d.top.y + 1); c.stroke(); }
+        if (isLand(x, y + 1)) { c.beginPath(); c.moveTo(d.left.x + 1, d.left.y); c.lineTo(d.bottom.x, d.bottom.y - 1); c.stroke(); }
+        if (isLand(x + 1, y)) { c.beginPath(); c.moveTo(d.bottom.x, d.bottom.y - 1); c.lineTo(d.right.x - 1, d.right.y); c.stroke(); }
       }
 
       // Translucent glistening water currents
-      c.strokeStyle = 'rgba(224,242,254,.38)'; c.lineWidth = 1.2;
+      c.strokeStyle = 'rgba(224, 242, 254, 0.45)'; c.lineWidth = 1.3;
       for (let k = 0; k < 3; k++) {
         const fx = d.cx - 10 + h(k + 30) * 20, fy = d.cy - 4 + h(k + 35) * 8;
-        c.beginPath(); c.moveTo(fx - 6, fy); c.lineTo(fx + 6, fy); c.stroke();
+        c.beginPath(); c.moveTo(fx - 7, fy); c.lineTo(fx + 7, fy); c.stroke();
       }
 
       if (t === T.FORD) {
-        // Natural river stepping boulders with foaming rapids
-        c.fillStyle = '#78716c';
-        for (let k = 0; k < 4; k++) {
-          const bx = d.cx - 10 + h(k) * 20, by = d.cy - 4 + h(k + 10) * 8;
-          c.beginPath(); c.ellipse(bx, by, 3.5, 2.2, 0.2, 0, 7); c.fill();
-        }
-        c.fillStyle = '#a8a29e';
-        for (let k = 0; k < 4; k++) {
-          const bx = d.cx - 10 + h(k) * 20, by = d.cy - 5 + h(k + 10) * 8;
-          c.beginPath(); c.ellipse(bx - 0.5, by - 0.5, 2, 1.2, 0.2, 0, 7); c.fill();
-        }
-        // White foam rapids around rocks
-        c.fillStyle = 'rgba(255,255,255,.7)';
-        c.fillRect(d.cx - 8, d.cy - 1, 16, 2);
-        c.fillRect(d.cx - 4, d.cy + 3, 10, 1.5);
-      }
-    } else if (t === T.ROCK) {
-      // Stratified Mountain Cliffs with rich horizontal strata
-      c.fillStyle = '#292524'; c.fill();
-      c.fillStyle = '#44403c'; c.fillRect(d.left.x + 4, d.cy - 7, (d.right.x - d.left.x) - 8, 5);
-      c.fillStyle = '#57534e'; c.fillRect(d.left.x + 6, d.cy, (d.right.x - d.left.x) - 12, 4);
-      c.fillStyle = '#78716c'; c.fillRect(d.left.x + 8, d.cy + 4, (d.right.x - d.left.x) - 16, 3);
-      // Sunlit upper ridge
-      c.strokeStyle = '#d6d3d1'; c.lineWidth = 1.8;
-      c.beginPath(); c.moveTo(d.left.x, d.left.y); c.lineTo(d.top.x, d.top.y); c.lineTo(d.right.x, d.right.y); c.stroke();
-    } else if (t === T.FOREST) {
-      // Lush tropical jungle forest with rich soil and dense canopy
-      c.fillStyle = '#1c3814'; c.fill();
-      const n = a > 80 ? 3 : a > 35 ? 2 : 1;
-      for (let k = 0; k < n; k++) {
-        const tx = d.cx - 10 + h(k + 50) * 20, ty = d.cy - 6 + h(k + 60) * 12, r = 8 + h(k + 70) * 4;
-        // Ground shadow
-        c.fillStyle = 'rgba(0,0,0,.42)'; c.beginPath(); c.ellipse(tx + 5, ty + 7, r * 1.3, r * 0.65, 0.2, 0, 7); c.fill();
-        // Buttress trunk
-        c.fillStyle = '#3f1f08'; c.fillRect(tx - 2, ty - 2, 4, 8);
-        // Volumetric 4-tier tropical canopy
-        c.fillStyle = '#0f290d'; c.beginPath(); c.arc(tx + 1, ty - 4, r, 0, 7); c.fill();
-        c.fillStyle = '#1b4a16'; c.beginPath(); c.arc(tx, ty - 5, r * 0.9, 0, 7); c.fill();
-        c.fillStyle = '#2f7524'; c.beginPath(); c.arc(tx - r * 0.25, ty - 6 - r * 0.2, r * 0.65, 0, 7); c.fill();
-        c.fillStyle = '#4ade80'; c.beginPath(); c.arc(tx - r * 0.4, ty - 7 - r * 0.35, r * 0.35, 0, 7); c.fill();
-      }
-    } else if (t === T.FIELD) {
-      // Golden Tilled Grain & Corn Terrace
-      c.fillStyle = '#38230e'; c.fill();
-      c.fillStyle = a > 150 ? '#ca8a04' : '#92400e';
-      c.beginPath();
-      c.moveTo(d.top.x, d.top.y + 2); c.lineTo(d.right.x - 3, d.right.y); c.lineTo(d.bottom.x, d.bottom.y - 2); c.lineTo(d.left.x + 3, d.left.y);
-      c.fill();
-      // Furrow rows & Golden Stalks
-      c.strokeStyle = '#facc15'; c.lineWidth = 1.4;
-      for (let f = -10; f <= 10; f += 4) {
+        // ---------------- CLASSIC STONE ARCH BRIDGE ----------------
+        // Cobblestone roadway spanning the river
+        c.fillStyle = '#857c75';
         c.beginPath();
-        c.moveTo(d.cx - 12 + f, d.cy - 6 + f * 0.5);
-        c.lineTo(d.cx + 12 + f, d.cy + 6 + f * 0.5);
+        c.moveTo(d.top.x, d.top.y - 6);
+        c.lineTo(d.right.x, d.right.y - 6);
+        c.lineTo(d.bottom.x, d.bottom.y - 6);
+        c.lineTo(d.left.x, d.left.y - 6);
+        c.closePath();
+        c.fill();
+        // Cobblestone paving lines
+        c.strokeStyle = '#57534e'; c.lineWidth = 1;
+        c.stroke();
+        for (let p = -8; p <= 8; p += 4) {
+          c.beginPath();
+          c.moveTo(d.cx + p - 6, d.cy - 9 + p * 0.3);
+          c.lineTo(d.cx + p + 6, d.cy - 3 + p * 0.3);
+          c.stroke();
+        }
+        // South-facing bridge stone wall / arch with drop shadow into water
+        c.fillStyle = '#44403c';
+        c.beginPath();
+        c.moveTo(d.left.x, d.left.y - 6);
+        c.lineTo(d.bottom.x, d.bottom.y - 6);
+        c.lineTo(d.bottom.x, d.bottom.y + 4);
+        c.lineTo(d.left.x, d.left.y + 4);
+        c.closePath();
+        c.fill();
+        // Stone parapets
+        c.fillStyle = '#a8a29e';
+        c.fillRect(d.left.x, d.left.y - 9, 4, 4);
+        c.fillRect(d.cx - 2, d.cy - 4, 4, 4);
+        c.fillRect(d.bottom.x - 4, d.bottom.y - 9, 4, 4);
+        // Sunlit stone top highlight
+        c.strokeStyle = '#d6d3d1'; c.lineWidth = 1.2;
+        c.beginPath();
+        c.moveTo(d.left.x, d.left.y - 6); c.lineTo(d.top.x, d.top.y - 6); c.lineTo(d.right.x, d.right.y - 6);
         c.stroke();
       }
-      if (a > 150) {
-        c.fillStyle = '#78350f'; c.fillRect(d.left.x + 2, d.left.y - 4, 3, 7);
-      }
-    } else if (t === T.RUIN) {
-      // Ancient carved stone foundations
+    } else if (t === T.ROCK) {
+      // ---------------- STRATIFIED MOUNTAIN CLIFFS ----------------
       c.fillStyle = '#292524'; c.fill();
-      c.fillStyle = '#57534e'; c.fillRect(d.cx - 12, d.cy - 6, 24, 12);
-      c.fillStyle = '#78716c'; c.fillRect(d.cx - 12, d.cy - 6, 24, 2);
-      c.fillStyle = '#15803d'; c.fillRect(d.cx - 8, d.cy, 8, 3);
+      c.fillStyle = '#44403c'; c.fillRect(d.left.x + 3, d.cy - 8, (d.right.x - d.left.x) - 6, 6);
+      c.fillStyle = '#57534e'; c.fillRect(d.left.x + 6, d.cy - 1, (d.right.x - d.left.x) - 12, 5);
+      c.fillStyle = '#78716c'; c.fillRect(d.left.x + 8, d.cy + 4, (d.right.x - d.left.x) - 16, 4);
+      // Rocky crags & sunlit rim
+      c.strokeStyle = '#e7e5e4'; c.lineWidth = 1.8;
+      c.beginPath(); c.moveTo(d.left.x, d.left.y); c.lineTo(d.top.x, d.top.y); c.lineTo(d.right.x, d.right.y); c.stroke();
+    } else if (t === T.FOREST) {
+      // ---------------- DENSE MESOAMERICAN JUNGLE & PINE TREES ----------------
+      // Deep shaded forest soil base
+      c.fillStyle = '#224a18'; c.fill();
+      const n = a > 80 ? 3 : a > 35 ? 2 : 1;
+      for (let k = 0; k < n; k++) {
+        const tx = d.cx - 10 + h(k + 50) * 20;
+        const ty = d.cy - 6 + h(k + 60) * 12;
+        const isPine = h(k + 80) < 0.45;
+        
+        // Soft ground shadow cast south-east
+        c.fillStyle = 'rgba(0,0,0,0.38)';
+        c.beginPath();
+        c.ellipse(tx + 6, ty + 6, 12, 6, 0.2, 0, 7);
+        c.fill();
+
+        if (isPine) {
+          // --- EVERGREEN CONIFER PINE ---
+          // Dark trunk
+          c.fillStyle = '#2d1808'; c.fillRect(tx - 1.5, ty - 3, 3, 7);
+          // 4-tier sharp needle canopy with sunlit highlights
+          const tiers = [
+            { y: ty - 4, w: 18, h: 8, col1: '#143815', col2: '#276722' },
+            { y: ty - 10, w: 14, h: 7, col1: '#1c4a1d', col2: '#35852b' },
+            { y: ty - 16, w: 10, h: 6, col1: '#255e26', col2: '#45a337' },
+            { y: ty - 22, w: 5,  h: 5, col1: '#2f7331', col2: '#5bc049' }
+          ];
+          for (const tr of tiers) {
+            c.fillStyle = tr.col1;
+            c.beginPath();
+            c.moveTo(tx, tr.y - tr.h);
+            c.lineTo(tx + tr.w * 0.5, tr.y);
+            c.lineTo(tx - tr.w * 0.5, tr.y);
+            c.closePath();
+            c.fill();
+            // Sunlit left side needle highlight
+            c.fillStyle = tr.col2;
+            c.beginPath();
+            c.moveTo(tx, tr.y - tr.h);
+            c.lineTo(tx, tr.y);
+            c.lineTo(tx - tr.w * 0.5, tr.y);
+            c.closePath();
+            c.fill();
+          }
+        } else {
+          // --- LUSH BROADLEAF TROPICAL OAK ---
+          // Sturdy buttress trunk
+          c.fillStyle = '#3a200a'; c.fillRect(tx - 2, ty - 4, 4, 8);
+          const r = 9 + h(k + 70) * 4;
+          // Organic 3D shaded foliage canopy
+          c.fillStyle = '#103310';
+          c.beginPath(); c.arc(tx + 2, ty - 7, r * 1.05, 0, 7); c.fill();
+          c.fillStyle = '#1a501a';
+          c.beginPath(); c.arc(tx, ty - 9, r * 0.9, 0, 7); c.fill();
+          c.fillStyle = '#2d7826';
+          c.beginPath(); c.arc(tx - r * 0.25, ty - 11, r * 0.7, 0, 7); c.fill();
+          c.fillStyle = '#48a834';
+          c.beginPath(); c.arc(tx - r * 0.35, ty - 13, r * 0.45, 0, 7); c.fill();
+          // Sunlit golden-green leaf flecks
+          c.fillStyle = '#86efac';
+          c.fillRect(tx - r * 0.4, ty - 14, 2, 2);
+          c.fillRect(tx - r * 0.2, ty - 16, 2.5, 2);
+        }
+      }
+    } else if (t === T.FIELD) {
+      // ---------------- THICK WAVING GOLDEN WHEAT & CORN ----------------
+      // Dark rich loam soil
+      c.fillStyle = '#331d0b'; c.fill();
+      // Dense golden wheat stalks filling the tile
+      c.fillStyle = a > 150 ? '#ca8a04' : '#a16207';
+      c.beginPath();
+      c.moveTo(d.top.x, d.top.y + 1);
+      c.lineTo(d.right.x - 2, d.right.y);
+      c.lineTo(d.bottom.x, d.bottom.y - 1);
+      c.lineTo(d.left.x + 2, d.left.y);
+      c.closePath();
+      c.fill();
+      // Textured vertical golden wheat stalks
+      c.strokeStyle = '#fde047'; c.lineWidth = 1.3;
+      for (let s = -12; s <= 12; s += 3) {
+        c.beginPath();
+        c.moveTo(d.cx + s, d.cy - 7 + Math.abs(s) * 0.35);
+        c.lineTo(d.cx + s, d.cy + 5 - Math.abs(s) * 0.35);
+        c.stroke();
+      }
+      // Wooden fence posts bordering the field
+      c.fillStyle = '#5c3317';
+      c.fillRect(d.left.x + 1, d.left.y - 4, 2.5, 6);
+      c.fillRect(d.top.x - 1, d.top.y - 3, 2.5, 6);
+      c.fillRect(d.right.x - 3, d.right.y - 4, 2.5, 6);
+      c.fillRect(d.bottom.x - 1, d.bottom.y - 3, 2.5, 6);
+      // Fence rails
+      c.strokeStyle = '#78350f'; c.lineWidth = 1;
+      c.beginPath();
+      c.moveTo(d.left.x + 2, d.left.y - 2); c.lineTo(d.top.x, d.top.y - 1);
+      c.moveTo(d.top.x, d.top.y - 1); c.lineTo(d.right.x - 2, d.right.y - 2);
+      c.stroke();
     } else {
-      // Lush Mesoamerican Prairie Grass: multi-hued natural soil
-      const gHues = ['#2e581c', '#356321', '#3b6e26', '#447d2c', '#315c1e', '#3e7328'];
-      c.fillStyle = gHues[Math.floor(h(1) * gHues.length)];
+      // ---------------- RICH SUNLIT PRAIRIE MEADOW ----------------
+      // Rich, uniform sunlit meadow grass (matches demo art)
+      c.fillStyle = '#558f27';
       c.fill();
 
-      // Sunlit top edge highlight
-      c.strokeStyle = 'rgba(134, 239, 172, .18)'; c.lineWidth = 1;
-      c.beginPath(); c.moveTo(d.left.x, d.left.y); c.lineTo(d.top.x, d.top.y); c.lineTo(d.right.x, d.right.y); c.stroke();
-
-      // Organic soil clods or wildflowers
-      if (h(2) < 0.18) {
-        // Rich earthen loam patch
-        c.fillStyle = 'rgba(78, 56, 32, .35)';
-        c.beginPath(); c.ellipse(d.cx - 4 + h(3) * 8, d.cy - 2 + h(4) * 4, 5, 2.5, 0.2, 0, 7); c.fill();
+      // Subtle sunlit blade texture
+      for (let k = 0; k < 3; k++) {
+        c.fillStyle = h(k + 10) < 0.5 ? '#3a691b' : '#71af35';
+        c.fillRect(d.cx - 8 + h(k + 20) * 16, d.cy - 4 + h(k + 30) * 8, 2.5, 2);
       }
-      if (h(5) < 0.09) {
-        // Wildflower dot (marigold or tropical amaranth)
+
+      // Earthen dirt trail patches near roads/settlements
+      if (h(2) < 0.15) {
+        c.fillStyle = 'rgba(120, 85, 45, 0.35)';
+        c.beginPath();
+        c.ellipse(d.cx - 3 + h(3) * 6, d.cy - 2 + h(4) * 4, 6, 3, 0.2, 0, 7);
+        c.fill();
+      }
+
+      // Golden and crimson wildflowers dotting the fields
+      if (h(5) < 0.08) {
         c.fillStyle = h(6) < 0.5 ? '#facc15' : '#ef4444';
         c.fillRect(d.cx - 6 + h(7) * 12, d.cy - 3 + h(8) * 6, 2, 2);
       }
     }
   }
 
-  // ------------------------------------------------------------ particle engine
-
-  const particles = [];
   function addSmoke(ix, iy, dark = true) {
     if (particles.length > 80) return;
     particles.push({ ix, iy, vx: (Math.random() - 0.5) * 0.4, vy: -0.7 - Math.random() * 0.6, size: 3 + Math.random() * 3, life: 0, maxLife: 40 + Math.random() * 20, dark });
