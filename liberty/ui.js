@@ -486,7 +486,6 @@ IMG.farm.src = 'assets/farm.png?v=9';
     }
   }
 
-  const particles = [];
   function addSmoke(ix, iy, dark = true) {
     if (particles.length > 80) return;
     particles.push({ ix, iy, vx: (Math.random() - 0.5) * 0.4, vy: -0.7 - Math.random() * 0.6, size: 3 + Math.random() * 3, life: 0, maxLife: 40 + Math.random() * 20, dark });
@@ -996,14 +995,14 @@ IMG.farm.src = 'assets/farm.png?v=9';
   function setSel(list) { sel = list.filter(selectable).map(e => e.id); infoEnt = null; placing = null; wallLine = null; refreshPanel(true); }
 
   function entityAt(wx, wy, sx, sy) {
-    let best = null, bd = 15;
+    let best = null, bd = 24;
     for (const e of W.ents.values()) {
       if (e.kind !== 'unit') continue;
-      const d = Math.hypot(e.x - wx, e.y - wy) - (e.team === 'p' ? 2 : 0);
+      const d = Math.hypot(e.x - wx, e.y - wy) - (e.team === 'p' ? 3 : 0);
       if (d < bd) { bd = d; best = e; }
     }
     if (!best && sx != null && sy != null) {
-      let bsd = 14;
+      let bsd = 22;
       for (const e of W.ents.values()) {
         if (e.kind !== 'unit') continue;
         const s = toScreen(e.x, e.y);
@@ -1018,17 +1017,11 @@ IMG.farm.src = 'assets/farm.png?v=9';
   }
 
   function clickAt(wx, wy, add, double, sx, sy) {
-    
     if (placing) return placeAt(wx, wy, add);
     const e = entityAt(wx, wy, sx, sy);
     const units = selUnits();
     // With people chosen, a click on anything but one of your own units is an order.
-    
-    if (units.length && !(e && e.kind === 'unit' && selectable(e)) && !(e && e.kind === 'building' && e.team === 'p' && !canWorkOn(units, e))) {
-      
-      return command(wx, wy, sx, sy);
-    }
-
+    if (units.length && !(e && e.kind === 'unit' && selectable(e)) && !(e && e.kind === 'building' && e.team === 'p' && !canWorkOn(units, e))) return command(wx, wy, sx, sy);
     if (selectable(e)) {
       if (double && e.kind === 'unit') {
         const same = W.units('p').filter(u => {
@@ -1195,7 +1188,6 @@ IMG.farm.src = 'assets/farm.png?v=9';
     gesture = null;
     if (!g || cancelled || !W) { box = null; wallLine = null; return; }
     const p = toWorld(e.clientX, e.clientY);
-    
     if (g.kind === 'press') {
       const now = performance.now(), dbl = now - lastTap.t < 350 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 20;
       lastTap = { t: now, x: e.clientX, y: e.clientY };
