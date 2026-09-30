@@ -355,7 +355,8 @@ function quoteMatches(quote, source) {
 function expand(ref) {
   const m = /^(.+) (\d+):(\d+)(?:[–-](\d+))?$/.exec(ref.trim());
   if (!m) return null;
-  const [, book, ch, a, b] = m;
+  const [, name, ch, a, b] = m;
+  const book = BOOK_ALIAS[name] || name;                  // "Psalm 78:60" is in the data as Psalms
   const out = [];
   for (let v = Number(a); v <= Number(b || a); v++) out.push(`${book} ${ch}:${v}`);
   return out;
