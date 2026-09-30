@@ -4533,7 +4533,8 @@ window.TU_WEEKS = [
             }
           ]
         }
-      ]
+      ],
+      "approved": "d91ec92c"
     },
     "sayings": [
       {
@@ -4545,7 +4546,8 @@ window.TU_WEEKS = [
           "Moses, to the Lord",
           "Samuel, in the temple"
         ],
-        "why": "When the Lord called him, Jeremiah said he was too young. Moses made a similar excuse: “I am slow of speech” (Exodus 4:10)."
+        "why": "When the Lord called him, Jeremiah said he was too young. Moses made a similar excuse: “I am slow of speech” (Exodus 4:10).",
+        "approved": "d8c015eb"
       },
       {
         "id": "say-root-out",
@@ -4556,7 +4558,8 @@ window.TU_WEEKS = [
           "A farmer, to his sons",
           "Nehemiah, to the builders"
         ],
-        "why": "The Lord set young Jeremiah “over the nations and over the kingdoms,” to tear down what was wrong and to build and plant what was good."
+        "why": "The Lord set young Jeremiah “over the nations and over the kingdoms,” to tear down what was wrong and to build and plant what was good.",
+        "approved": "6176626d"
       },
       {
         "id": "say-temple-of-the-lord",
@@ -4567,7 +4570,8 @@ window.TU_WEEKS = [
           "King Solomon, at the temple",
           "Priests, cleaning the temple"
         ],
-        "why": "The Lord warned, “Trust ye not in lying words.” People repeated these words as if the temple alone would keep them safe."
+        "why": "The Lord warned, “Trust ye not in lying words.” People repeated these words as if the temple alone would keep them safe.",
+        "approved": "e98fe24c"
       },
       {
         "id": "say-as-this-potter",
@@ -4578,7 +4582,8 @@ window.TU_WEEKS = [
           "A potter, to his clay",
           "Isaiah, to the Lord"
         ],
-        "why": "Jeremiah had just watched a potter remake a marred jar. Then the Lord said, “as the clay is in the potter's hand, so are ye in mine hand.”"
+        "why": "Jeremiah had just watched a potter remake a marred jar. Then the Lord said, “as the clay is in the potter's hand, so are ye in mine hand.”",
+        "approved": "17be7103"
       },
       {
         "id": "say-smite-with-tongue",
@@ -4589,7 +4594,8 @@ window.TU_WEEKS = [
           "Laman and Lemuel",
           "Joseph's brothers"
         ],
-        "why": "People who hated his warnings said, “Come, and let us devise devices against Jeremiah.” They planned to attack him with words."
+        "why": "People who hated his warnings said, “Come, and let us devise devices against Jeremiah.” They planned to attack him with words.",
+        "approved": "1f93dc61"
       },
       {
         "id": "say-magor-missabib",
@@ -4600,7 +4606,8 @@ window.TU_WEEKS = [
           "Pashur, to Jeremiah",
           "Isaiah, to Shebna"
         ],
-        "why": "The day after Pashur put him in the stocks, Jeremiah gave him a new name. It means “fear on every side” (Jeremiah 20:10)."
+        "why": "The day after Pashur put him in the stocks, Jeremiah gave him a new name. It means “fear on every side” (Jeremiah 20:10).",
+        "approved": "f4c79670"
       },
       {
         "id": "say-fire-in-my-bones",
@@ -4611,7 +4618,8 @@ window.TU_WEEKS = [
           "Elijah, on Mount Carmel",
           "Moses, at the burning bush"
         ],
-        "why": "After being put in the stocks and mocked, Jeremiah tried to stop speaking for the Lord. He couldn't hold the word inside."
+        "why": "After being put in the stocks and mocked, Jeremiah tried to stop speaking for the Lord. He couldn't hold the word inside.",
+        "approved": "57d4ff17"
       },
       {
         "id": "say-many-fishers",
@@ -4622,7 +4630,8 @@ window.TU_WEEKS = [
           "Peter, by the Sea of Galilee",
           "Jonah, to the sailors"
         ],
-        "why": "The Lord promised to gather scattered Israel. President Nelson compared these fishers, and the hunters after them, to missionaries."
+        "why": "The Lord promised to gather scattered Israel. President Nelson compared these fishers, and the hunters after them, to missionaries.",
+        "approved": "39bf52d4"
       }
     ],
     "words": [
@@ -4684,7 +4693,8 @@ window.TU_WEEKS = [
         "why": "Verse 18: “I have made thee this day a defenced city, and an iron pillar, and brasen walls.” They would fight him, but not win (verse 19).",
         "source": "Jeremiah 1:18",
         "find": "an iron pillar, and brasen walls",
-        "hunt": "In Jeremiah 1, what does the Lord make Jeremiah, so no one can beat him?"
+        "hunt": "In Jeremiah 1, what does the Lord make Jeremiah, so no one can beat him?",
+        "approved": "0b4dbd1d"
       },
       {
         "id": "deep43-first-lessons",
@@ -4700,7 +4710,8 @@ window.TU_WEEKS = [
         "why": "Verse 56: “Even before they were born, they, with many others, received their first lessons in the world of spirits.” They were prepared before coming to earth.",
         "source": "D&C 138:56",
         "find": "received their first lessons in the world of spirits",
-        "hunt": "In D&C 138, where did these leaders receive their first lessons?"
+        "hunt": "In D&C 138, where did these leaders receive their first lessons?",
+        "approved": "afde1fb1"
       },
       {
         "id": "deep43-obey",
@@ -4716,7 +4727,8 @@ window.TU_WEEKS = [
         "why": "Verse 23: “Obey my voice, and I will be your God, and ye shall be my people.” Offerings mean little without obeying Him.",
         "source": "Jeremiah 7:23",
         "find": "Obey my voice, and I will be your God",
-        "hunt": "In Jeremiah 7, what does the Lord say He commanded when He brought Israel out of Egypt?"
+        "hunt": "In Jeremiah 7, what does the Lord say He commanded when He brought Israel out of Egypt?",
+        "approved": "aae5d930"
       },
       {
         "id": "deep43-pastors",
@@ -4732,7 +4744,8 @@ window.TU_WEEKS = [
         "why": "Verse 15: “I will give you pastors according to mine heart, which shall feed you with knowledge and understanding.” Pastors here means shepherds: leaders who teach.",
         "source": "Jeremiah 3:15",
         "find": "which shall feed you with knowledge and understanding",
-        "hunt": "In Jeremiah 3, what will the pastors the Lord gives feed His people with?"
+        "hunt": "In Jeremiah 3, what will the pastors the Lord gives feed His people with?",
+        "approved": "4a23dea0"
       },
       {
         "id": "deep43-kids",
@@ -4748,7 +4761,8 @@ window.TU_WEEKS = [
         ],
         "why": "It suggests singing I Lived in Heaven, from the Children's Songbook. It's a song about the life we lived with Heavenly Father before we were born.",
         "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/43?lang=eng",
-        "find": "I Lived in Heaven"
+        "find": "I Lived in Heaven",
+        "approved": "c29a359a"
       },
       {
         "id": "deep43-ftsoy",
@@ -4764,7 +4778,8 @@ window.TU_WEEKS = [
         ],
         "why": "He says you were part of a council in heaven where Heavenly Father presented His great plan of happiness, which lets each of us choose to become like Him.",
         "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/10/02-god-knows-and-loves-you?lang=eng",
-        "find": "Heavenly Father presented His great plan of happiness"
+        "find": "Heavenly Father presented His great plan of happiness",
+        "approved": "728964d4"
       }
     ],
     "reels": [
@@ -4808,7 +4823,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#431407 0%,#9a3412 50%,#fdba74 115%)",
         "blobA": "rgba(253,186,116,.4)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "f3d14d06"
       },
       {
         "id": "jer1-almond",
@@ -4850,7 +4866,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0e7490 50%,#a5f3fc 115%)",
         "blobA": "rgba(165,243,252,.4)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "aeccebc3"
       },
       {
         "id": "jer20-fire",
@@ -4891,7 +4908,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(155deg,#1c0a00 0%,#7c2d12 50%,#f59e0b 115%)",
         "blobA": "rgba(245,158,11,.4)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "05c9409e"
       },
       {
         "id": "jer1-known",
@@ -4933,7 +4951,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#1e3a8a 0%,#6366f1 50%,#fbcfe8 115%)",
         "blobA": "rgba(251,207,232,.4)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "54a7fb65"
       },
       {
         "id": "jer18-potter",
@@ -4975,7 +4994,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#292524 0%,#78350f 50%,#fcd9b6 115%)",
         "blobA": "rgba(252,217,182,.35)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "70ea53fe"
       },
       {
         "id": "jer2-fountain",
@@ -5016,7 +5036,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#082f49 0%,#0369a1 50%,#bae6fd 115%)",
         "blobA": "rgba(186,230,253,.4)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "2fd0b709"
       },
       {
         "id": "jer7-den-of-robbers",
@@ -5059,7 +5080,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#1e1b4b 0%,#7f1d1d 50%,#fca5a5 115%)",
         "blobA": "rgba(252,165,165,.35)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "1f644a29"
       },
       {
         "id": "jer17-tree",
@@ -5102,7 +5124,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#14532d 0%,#15803d 50%,#bbf7d0 115%)",
         "blobA": "rgba(187,247,208,.4)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "ea6f79aa"
       },
       {
         "id": "jer16-fishers",
@@ -5143,7 +5166,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(165deg,#0f172a 0%,#0e7490 55%,#99f6e4 115%)",
         "blobA": "rgba(153,246,228,.4)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "691cc1aa"
       },
       {
         "id": "jer16-exodus",
@@ -5186,7 +5210,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#1c1917 0%,#92400e 50%,#fde68a 115%)",
         "blobA": "rgba(253,230,138,.4)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "3fec5dc6"
       },
       {
         "id": "jer3-one-of-a-city",
@@ -5227,7 +5252,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(160deg,#172554 0%,#1d4ed8 50%,#e0f2fe 115%)",
         "blobA": "rgba(224,242,254,.4)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "98afcecb"
       }
     ],
     "plain": [
@@ -5277,7 +5303,8 @@ window.TU_WEEKS = [
             "v": 13,
             "about": "The KJV says the pot’s face is “toward the north”; the Hebrew says it faces from the north, spilling toward the land (verse 14). The plain words follow the Hebrew, with a note."
           }
-        ]
+        ],
+        "approved": "66f0264e"
       },
       {
         "ch": "Jeremiah 2",
@@ -5347,7 +5374,8 @@ window.TU_WEEKS = [
             "v": 24,
             "about": "Verses 23–25 picture Israel chasing idols like animals looking for a mate. The plain words are a little plainer than the KJV (‘when she wants a mate’ for “at her pleasure”) and milder than the BSB. The note under verse 20 explains the picture."
           }
-        ]
+        ],
+        "approved": "dfee9bb6"
       },
       {
         "ch": "Jeremiah 3",
@@ -5417,7 +5445,8 @@ window.TU_WEEKS = [
             "v": 24,
             "about": "KJV “shame”: the Hebrew word is also a mocking name for an idol, so the plain words say the shameful thing they worshipped."
           }
-        ]
+        ],
+        "approved": "caa985c4"
       },
       {
         "ch": "Jeremiah 7",
@@ -5484,7 +5513,8 @@ window.TU_WEEKS = [
             "v": 31,
             "about": "Verses 31–33 are hard: parents burning their children to false gods, and a valley of the dead. The plain words say it no more plainly than the KJV."
           }
-        ]
+        ],
+        "approved": "19541573"
       },
       {
         "ch": "Jeremiah 16",
@@ -5534,7 +5564,8 @@ window.TU_WEEKS = [
             "v": 16,
             "about": "Fishers and hunters are often taught as missionaries gathering Israel. The note gives D&C 110:11, the keys of the gathering, without saying more."
           }
-        ]
+        ],
+        "approved": "87013d52"
       },
       {
         "ch": "Jeremiah 17",
@@ -5602,7 +5633,8 @@ window.TU_WEEKS = [
             "v": 11,
             "about": "The plain words keep the KJV’s partridge that sits on eggs but doesn’t hatch them; the BSB has one hatching eggs it didn’t lay. Both picture riches that don’t last."
           }
-        ]
+        ],
+        "approved": "80f4e44d"
       },
       {
         "ch": "Jeremiah 18",
@@ -5650,7 +5682,8 @@ window.TU_WEEKS = [
             "v": 21,
             "about": "Verses 19–23 are Jeremiah’s hard prayer against the people plotting to kill him, kept as the KJV has it."
           }
-        ]
+        ],
+        "approved": "65cdbc75"
       },
       {
         "ch": "Jeremiah 20",
@@ -5693,8 +5726,11 @@ window.TU_WEEKS = [
             "v": 14,
             "about": "Verses 14–18 are Jeremiah at his lowest, wishing he had never been born, kept as the KJV has it."
           }
-        ]
+        ],
+        "approved": "62db3035"
       }
-    ]
+    ],
+    "approved": "9dc93bc1",
+    "wordsApproved": "40d8f5de"
   }
 ];
