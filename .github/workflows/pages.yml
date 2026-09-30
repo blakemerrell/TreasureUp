@@ -11,7 +11,7 @@ on:
   workflow_dispatch:        # lets you re-run it by hand from the Actions tab
 
 permissions:
-  contents: read
+  contents: write     # the test site's deploy saves new Tagalog recordings back to the repo
   pages: write
   id-token: write
 
@@ -35,6 +35,27 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      # Amigo · Kaibigan's Tagalog: record any line that has no recording yet,
+      # in the Filipino voice (tools/amigo-voice.mjs), and save the recordings
+      # to the repo; this deploy publishes them. The test site only: the
+      # Google key lives there as the secret GOOGLE_TTS_JSON, on no computer.
+      # Recordings reach the live app in the PR that brings their lines. If
+      # Google can't be reached, the deploy goes on, and the game uses the
+      # phone's voice for those lines.
+      - name: Record new Tagalog
+        if: github.repository == 'blakemerrell/TreasureUp-test'
+        continue-on-error: true
+        env:
+          GOOGLE_TTS_JSON: ${{ secrets.GOOGLE_TTS_JSON }}
+        run: |
+          node tools/amigo-voice.mjs
+          git add amigo/audio
+          if git diff --cached --quiet; then echo "Nothing new to record."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Amigo · Kaibigan: record the new Tagalog"
+          git push origin HEAD:main
       # The live app (this repo) also requires every piece of a new week to
       # be approved in developer mode; the test site shows drafts.
       - name: Check the week's content

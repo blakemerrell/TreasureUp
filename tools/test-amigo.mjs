@@ -142,5 +142,20 @@ console.log('Baybayin');
   ok(!problems.length, `${BAY.LESSONS.length} lessons build (${sizes.join(' / ')} steps), each word read only once its characters are taught`, problems);
 }
 
+// ------------------------------------------------------------ recordings
+console.log('Recordings (amigo/audio/, made by tools/amigo-voice.mjs)');
+{
+  const fs = require('node:fs'), path = require('node:path'), url = require('node:url');
+  const dir = path.join(path.dirname(url.fileURLToPath(import.meta.url)), '..', 'amigo', 'audio');
+  const w = {};
+  new Function('window', fs.readFileSync(path.join(dir, 'index.js'), 'utf8'))(w);
+  const listed = Object.keys((w.AMIGO_AUDIO && w.AMIGO_AUDIO.tl) || {});
+  const missing = listed.filter(k => !fs.existsSync(path.join(dir, 'tl', k + '.mp3')));
+  const TLc = COURSES.tl, all = new Set([...TLc.praise, ...TLc.units.flatMap(u => [u.done, ...u.phrases.map(p => p.t), ...u.words.map(x => x[0]), ...u.scenes.flatMap(s => [s.right, ...s.wrong])]),
+    ...TLc.tatay.words.map(x => x[0]), ...TLc.baybayin.words.map(x => x[0])].map(t => t.normalize('NFC')));
+  const have = [...all].filter(t => listed.includes(E.audioKey(t))).length;
+  ok(!missing.length, `every recording listed is there (${have} of ${all.size} Tagalog lines recorded; the rest use the phone’s voice)`, missing.map(k => 'no file for ' + k));
+}
+
 console.log(failed ? `\n${failed} failed` : '\nall passed');
 process.exit(failed ? 1 : 0);
