@@ -7,7 +7,8 @@
 <title>Amigo · Kaibigan</title>
 <!-- Spanish for his friends at school and Tagalog from Tatay: five-minute
      lessons, a streak, and Baybayin. The lessons are made in engine.js, the
-     words are in course-es.js and course-tl.js, the old script in
+     words are in course-es.js and course-tl.js (and Tatay's own Tagalog, past
+     the basics, in course-tl2.js), the old script in
      baybayin.js (all tested by tools/test-amigo.mjs); this page draws them.
      Progress stays on the phone (localStorage amigo.v1). -->
 <link rel="icon" href="../icons/icon-192.png">
@@ -20,7 +21,7 @@
     color-scheme: dark;
     --ink: #0a0a14; --panel: #14142a; --panel-2: #1c1c38; --line: rgba(255,255,255,.12);
     --text: rgba(255,255,255,.94); --soft: rgba(255,255,255,.66); --gold: #fcd34d; --right: #34d399; --wrong: #fb7185;
-    --es: #fb923c; --es-2: #2dd4bf; --tl: #38bdf8; --tl-2: #fde047; --bay: #c4b5fd;
+    --es: #fb923c; --es-2: #2dd4bf; --tl: #38bdf8; --tl-2: #fde047; --tl2: #fbbf24; --bay: #c4b5fd;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; }
@@ -58,6 +59,8 @@
   .card.es .who { color: var(--es); } .card.es .meter { color: var(--es-2); }
   .card.tl { background: linear-gradient(145deg, #0c1f3f 0%, #0c4a6e 60%, #713f12 140%); }
   .card.tl .who { color: var(--tl-2); } .card.tl .meter { color: var(--tl); }
+  .card.tl2 { background: linear-gradient(145deg, #172554 0%, #7f1d1d 70%, #78350f 135%); }
+  .card.tl2 .who { color: var(--tl2); } .card.tl2 .meter { color: var(--tl2); }
   .card.bay { background: linear-gradient(145deg, #1e1b4b 0%, #312e81 70%, #4c1d95 130%); }
   .card.bay .who { color: var(--bay); } .card.bay .meter { color: var(--bay); }
   .card.soon { opacity: .6; }
@@ -117,6 +120,36 @@
   .go.ghost { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); }
   .done-big { text-align: center; display: grid; gap: 10px; margin-top: 24px; }
   .done-big .xp { font-size: 54px; font-weight: 900; color: var(--accent, var(--gold)); font-variant-numeric: tabular-nums; }
+  /* Past the basics: a conversation, its lines, its grammar */
+  .talkers { display: flex; gap: 8px; }
+  .talker { flex: 1; text-align: center; padding: 10px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line); font-weight: 800;
+    transition: background .2s, color .2s; }
+  .talker.on { background: var(--accent, var(--gold)); color: #111; border-color: transparent; }
+  .player { display: flex; align-items: center; gap: 12px; }
+  .player .go { flex: 1; }
+  .now { color: var(--soft); font-size: 13px; min-width: 84px; text-align: right; font-variant-numeric: tabular-nums; }
+  .speed { display: flex; gap: 6px; }
+  .speed button { flex: 1; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); padding: 8px; font-weight: 800; font-size: 14px; color: var(--soft); }
+  .speed button.on { border-color: var(--accent, var(--gold)); color: var(--accent, var(--gold)); }
+  .lines { display: grid; gap: 8px; }
+  .line { display: flex; gap: 10px; align-items: flex-start; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 10px 12px; }
+  .line.on { border-color: var(--accent, var(--gold)); box-shadow: 0 0 0 1px var(--accent, var(--gold)) inset; }
+  .line .speak { width: 38px; height: 38px; font-size: 17px; border-radius: 12px; }
+  .line > div { display: grid; gap: 2px; min-width: 0; }
+  .line small { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--accent, var(--gold)); }
+  .line b { font-size: 17px; }
+  .line span { color: var(--soft); font-size: 14px; }
+  .line em { color: var(--soft); font-size: 13px; font-style: normal; border-left: 2px solid var(--line); padding-left: 8px; margin-top: 2px; }
+  .say .said { display: grid; gap: 2px; min-width: 0; }
+  .say .said small { font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--accent, var(--gold)); }
+  .points { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+  .forms { width: 100%; border-collapse: separate; border-spacing: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .forms td { padding: 8px 10px; border-top: 1px solid var(--line); }
+  .forms tr:first-child td { border-top: 0; }
+  .forms td:nth-child(2), .forms td:last-child { color: var(--soft); }
+  .forms td:last-child { font-size: 14px; }
+  .blank { color: var(--accent, var(--gold)); border-bottom: 2px solid currentColor; padding: 0 4px; }
+  .self { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   /* Baybayin */
   .tabs { display: flex; gap: 6px; }
   .tabs button { flex: 1; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); padding: 8px; font-weight: 800; }
@@ -149,6 +182,7 @@
 <script src="baybayin.js?v=dev"></script>
 <script src="course-es.js?v=dev"></script>
 <script src="course-tl.js?v=dev"></script>
+<script src="course-tl2.js?v=dev"></script>
 <script src="audio/index.js?v=dev"></script>
 <script>
 (function () {
@@ -158,7 +192,7 @@
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   // The test site shows the Tagalog Blake hasn't checked yet, marked; the live app waits for his check.
   const TEST_SITE = /\/TreasureUp-test\//.test(location.pathname);
-  const ACCENT = { es: 'var(--es)', tl: 'var(--tl)', bay: 'var(--bay)' };
+  const ACCENT = { es: 'var(--es)', tl: 'var(--tl)', tl2: 'var(--tl2)', bay: 'var(--bay)' };
 
   // ------------------------------------------------------------ saves
   const KEY = 'amigo.v1';
@@ -184,6 +218,8 @@
   // with no Tagalog voice (no iPhone has one) reads Tagalog with its Spanish
   // voice instead, since Tagalog is said much like Spanish: h said as j
   // (Spanish h is silent), and ng and mga the way they're said.
+  // A conversation line is recorded in its speaker's voice, under E.lineSay(line)
+  // rather than its bare text; everything else under its text.
   const AUDIO = window.AMIGO_AUDIO || {}, audioKey = E.audioKey;
   const recorded = (text, C) => !!(C && AUDIO[C.id] && AUDIO[C.id][audioKey(text)]);
   let voices = [];
@@ -191,6 +227,7 @@
   loadVoices();
   try { speechSynthesis.onvoiceschanged = () => { const had = voices.length; loadVoices(); if (voices.length !== had) render(); }; } catch (e) { /* no speech on this phone */ }
   const lang = v => (v.lang || '').toLowerCase().replace('_', '-');
+  const langOf = C => C.lang || C.id;                          // the language a course teaches (tl2 is Tagalog too)
   function findVoice(wants) {
     for (const want of wants) {
       const w = want.toLowerCase(), v = voices.find(x => lang(x) === w) || voices.find(x => lang(x).startsWith(w + '-') || lang(x) === w.split('-')[0]);
@@ -204,35 +241,78 @@
     if (!C) return null;
     const own = findVoice(C.voices);
     if (own) return { voice: own, say: t => t, own: true };
-    const es = C.id === 'tl' && findVoice(COURSES.es.voices);
+    const es = langOf(C) === 'tl' && findVoice(COURSES.es.voices);
     return es ? { voice: es, say: asSpanish, own: false } : null;
   }
   const canSay = (text, C) => recorded(text, C) || !!reader(C);
-  let playing = null;
-  function speak(text, C) {
+  // One player for every recording, so a conversation's later lines can play on
+  // their own once a tap has started the first (an iPhone lets an element play
+  // untapped only after a tap has played it).
+  const player = (() => { try { return new Audio(); } catch (e) { return null; } })();
+  let turn = 0, utterance = null;      // turn: the say that's current, so an older one's end or failure is ignored
+  // Say a line: its recording (found under keyText), else the phone's voice.
+  // done() runs once it has been said (a conversation plays its lines in turn).
+  // At "Slower" (state.rate) a recording plays at 0.75, its pitch kept.
+  function speakKey(keyText, text, C, done) {
     if (!C) return;
-    if (!recorded(text, C)) return sayIt(text, C);
+    const mine = ++turn;
+    if (!player || !recorded(keyText, C)) return sayIt(text, C, done, mine);
     try { speechSynthesis.cancel(); } catch (e) { /* no speech */ }
-    if (playing) playing.pause();
-    const a = playing = new Audio('audio/' + C.id + '/' + audioKey(text) + '.mp3');
+    player.pause();                                            // the one before stops
+    player.onended = () => { if (turn === mine && done) done(); };
+    player.src = 'audio/' + C.id + '/' + audioKey(keyText) + '.mp3';
+    player.defaultPlaybackRate = player.playbackRate = state.rate;
     // A recording cut off by the next tap just stops (AbortError). Only one that
     // can't play at all (no connection, say) falls back to the phone's voice.
-    a.play().catch(e => { if (playing === a && !(e && e.name === 'AbortError')) sayIt(text, C); });
+    player.play().catch(e => { if (turn === mine && !(e && e.name === 'AbortError')) sayIt(text, C, done, mine); });
   }
-  function sayIt(text, C) {
+  const speak = (text, C) => speakKey(text, text, C);
+  function sayIt(text, C, done, mine = ++turn) {
+    const finish = () => { if (turn === mine && done) done(); };
     const r = reader(C);
-    if (!r) return;
-    if (playing) { playing.pause(); playing = null; }       // one voice at a time
+    if (player) player.pause();                                // one voice at a time
+    if (!r) { if (done) setTimeout(finish, 1200); return; }   // no voice at all: a conversation still moves on
     try {
       speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(r.say(String(text).replace(/[¿¡]/g, '')));
-      u.voice = r.voice; u.lang = r.voice.lang; u.rate = 0.9;
+      const u = utterance = new SpeechSynthesisUtterance(r.say(String(text).replace(/[¿¡]/g, '')));   // kept, so it isn't dropped before it ends
+      u.voice = r.voice; u.lang = r.voice.lang; u.rate = 0.9 * state.rate;
+      u.onend = finish;
       speechSynthesis.speak(u);
-    } catch (e) { /* no speech */ }
+    } catch (e) { if (done) setTimeout(finish, 1200); }
   }
+  // Stop whatever is being said, and a conversation that's playing.
+  let talk = 0;
+  function hush() {
+    talk++; turn++; state.saying = -1;
+    if (player) player.pause();
+    try { speechSynthesis.cancel(); } catch (e) { /* no speech */ }
+  }
+  // A conversation, line after line, each in its speaker's voice, with a short
+  // pause between. The speaker and the line being said light up as it goes.
+  function playConversation(lines, C, onEnd) {
+    hush();
+    const mine = ++talk;
+    const step = i => {
+      if (mine !== talk) return;
+      state.saying = i < lines.length ? i : -1;
+      const now = app.querySelector('[data-now]');
+      if (now) now.textContent = nowText(lines);
+      app.querySelectorAll('[data-who]').forEach(el => el.classList.toggle('on', i < lines.length && el.dataset.who === lines[i].who));
+      app.querySelectorAll('[data-at]').forEach(el => {
+        const on = Number(el.dataset.at) === i;
+        el.classList.toggle('on', on);
+        if (on) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      });
+      if (i >= lines.length) { if (onEnd) onEnd(); if (state.view === 'lesson') render(); return; }
+      const line = lines[i];
+      speakKey(E.lineSay(line), line.t, C, () => setTimeout(() => step(i + 1), 350));
+    };
+    step(0);
+  }
+  const nowText = lines => state.saying >= 0 ? 'Line ' + (state.saying + 1) + ' of ' + lines.length : '';
 
   // ------------------------------------------------------------ state
-  const state = { view: 'home', cid: null, run: null, bayTab: 'learn', bayText: 'Tatay' };
+  const state = { view: 'home', cid: null, run: null, bayTab: 'learn', bayText: 'Tatay', rate: 1, saying: -1 };
   if (window.AMIGO_TEST) window.AMIGO_TEST.state = state;          // the browser test reads the lesson from here
   function go(view, extra) {
     Object.assign(state, { view }, extra || {});
@@ -241,6 +321,7 @@
     app.querySelector('.screen') && (app.querySelector('.screen').scrollTop = 0);
   }
   window.addEventListener('popstate', () => {
+    hush();
     // Back from a lesson goes to its course; from anything else, home.
     if (state.view === 'lesson' || state.view === 'done') state.view = state.run && state.run.cid === 'bay' ? 'bay' : 'course';
     else state.view = 'home';
@@ -259,7 +340,7 @@
     const streak = E.streakNow(s);
     return `<button class="card ${cid}" data-course="${cid}">
       <span class="who">${esc(C.who)}</span><span class="name">${esc(C.name)}</span>
-      <span class="unit">${next ? `${esc(next.unit.title)} · lesson ${next.n + 1} of 3: ${esc(next.unit.blurb)}` : 'Every lesson done. Practice any of them.'}</span>
+      <span class="unit">${next ? `${esc(next.unit.title)} · ${C.lessonNames ? esc(C.lessonNames[next.n]) : 'lesson ' + (next.n + 1) + ' of 3'}: ${esc(next.unit.blurb)}` : 'Every lesson done. Practice any of them.'}</span>
       <span class="meter"><i style="width:${Math.round(100 * done / all.length)}%"></i></span>
       <span class="chips">${streak ? `<span class="chip">🔥 ${streak} ${streak === 1 ? 'day' : 'days'}</span>` : ''}<span class="chip">${done} of ${all.length} lessons</span>${s.xp ? `<span class="chip">${s.xp} XP</span>` : ''}</span>
     </button>`;
@@ -274,6 +355,7 @@
         <p class="hello">Both words mean friend. Spanish for friends at school, and Tagalog from Tatay. Five minutes a day.</p>
         ${courseCard('es')}
         ${courseCard('tl')}
+        ${courseCard('tl2')}
         <button class="card bay" data-bay-open>
           <span class="glyph" aria-hidden="true">ᜀᜋᜒᜄᜓ</span>
           <span class="who">Side quest · Baybayin</span><span class="name">Write it the old way</span>
@@ -291,16 +373,17 @@
     const C = COURSES[state.cid], units = unitsOf(C), s = cs(state.cid), next = E.nextLesson(C, s, units);
     const streak = E.streakNow(s), hidden = C.units.length - units.length;
     return `
-      <div class="bar"><button class="back" data-home aria-label="Back">←</button><h1>${esc(C.name)}</h1>
+      <div class="bar"><button class="back" data-home aria-label="Back">←</button><h1>${esc(C.name)}${C.title ? ' · ' + esc(C.title) : ''}</h1>
         ${streak ? `<span class="chip">🔥 ${streak}</span>` : ''}<span class="chip">${s.xp} XP</span></div>
       <div class="screen" style="--accent:${ACCENT[C.id]}">
         ${units.map(u => `<section class="unitbox">
-          <h3>${esc(u.title)} <small>${esc(u.sub)}</small>${notChecked(u) ? '<span class="chip warn">Not checked yet</span>' : ''}</h3>
+          <h3>${esc(u.title)} <small>${esc(u.sub)}</small>${C.id === 'tl' && notChecked(u) ? '<span class="chip warn">Not checked yet</span>' : ''}</h3>
           <p>${esc(u.blurb)}</p>
           <div class="lessons">${[0, 1, 2].map(n => {
             const key = u.id + ':' + (n + 1), done = !!s.done[key], open = E.unlocked(C, s, key, units), isNext = next && next.key === key;
+            const name = C.lessonNames ? C.lessonNames[n] : String(n + 1);
             return `<button class="${done ? 'done' : isNext ? 'next' : ''}" data-lesson="${key}" ${open ? '' : 'disabled'}
-              aria-label="Lesson ${n + 1}${done ? ', done: practice it' : open ? '' : ', locked'}">${done ? '✓ ' : isNext ? '▶ ' : open ? '' : '🔒 '}${n + 1}</button>`;
+              aria-label="${esc(C.lessonNames ? name : 'Lesson ' + name)}${done ? ', done: practice it' : open ? '' : ', locked'}">${done ? '✓ ' : isNext ? '▶ ' : open ? '' : '🔒 '}${esc(name)}</button>`;
           }).join('')}</div>
         </section>`).join('')}
         ${hidden ? `<p class="foot-note">${hidden} more ${hidden === 1 ? 'unit is' : 'units are'} coming once Tatay checks the Tagalog.</p>` : ''}
@@ -308,7 +391,7 @@
   }
 
   // ------------------------------------------------------------ a lesson
-  const freshStep = () => ({ picked: null, checked: false, correct: false, built: [], matched: [], sel: null, misses: 0, missAt: null });
+  const freshStep = () => ({ picked: null, checked: false, correct: false, built: [], matched: [], sel: null, misses: 0, missAt: null, shown: false, heard: false });
   function start(cid, key) {
     let steps, practice;
     if (cid === 'bay') {
@@ -318,16 +401,21 @@
     } else {
       const C = COURSES[cid], item = E.path(C, unitsOf(C)).find(x => x.key === key);
       if (!item) return;
-      steps = E.buildLesson(C, item.unit, item.n, cs(cid));
+      steps = E.lesson(C, item.unit, item.n, cs(cid));
       practice = !!cs(cid).done[key];
     }
+    hush();
     go('lesson', { cid: cid === 'bay' ? state.cid : cid, run: Object.assign({ cid, key, steps, at: 0, xp: 0, right: 0, total: 0, practice }, freshStep()) });
     sayStep();
   }
   const runCourse = r => COURSES[r.cid] || COURSES.tl;          // Baybayin is read in the Tagalog voice
+  // A conversation lesson's lines: its own step's, or its unit's (a question about them).
+  const linesOf = r => { const st = r.steps[r.at], C = COURSES[r.cid], u = C && C.units.find(x => x.id === r.key.split(':')[0]); return st.lines || (u && u.dialog ? u.dialog.lines : []); };
+  // What a step says as it opens: a phrase to listen to, or the line with a word missing.
   function sayStep() {
     const r = state.run, st = r && r.steps[r.at];
     if (st && st.type === 'listen') speak(st.phrase, runCourse(r));
+    if (st && st.type === 'gap') speakKey(st.say, st.t, runCourse(r));
   }
 
   function lessonPage() {
@@ -340,31 +428,38 @@
     const unrecorded = shown.some(t => !recorded(t, C));
     const noVoice = r.cid === 'bay' || !unrecorded || (rd && rd.own) ? ''
       : `<p class="novoice">${rd ? 'This phone has no Tagalog voice, so a Spanish voice reads it. A few sounds come out a little off.'
-        : C.id === 'tl' ? 'This phone has no Tagalog voice, so read it instead.' : 'This phone has no Spanish voice, so read it instead.'}</p>`;
+        : langOf(C) === 'tl' ? 'This phone has no Tagalog voice, so read it instead.' : 'This phone has no Spanish voice, so read it instead.'}</p>`;
     const voice = st.type === 'listen' && canSay(st.phrase, C);
     const cls = o => !r.checked ? (r.picked === o ? 'picked' : '') : o === st.right ? 'good' : r.picked === o ? 'bad' : '';
     const opt = o => `<button class="opt ${cls(o)}" data-pick="${esc(o)}">${esc(o)}</button>`;
+    // A conversation's pieces: who's talking, play and speed, a line with its 🔊.
+    const talkers = (people, lines) => `<div class="talkers">${['A', 'B'].map(w => `<span class="talker ${state.saying >= 0 && lines[state.saying] && lines[state.saying].who === w ? 'on' : ''}" data-who="${w}">${esc(people[w])}</span>`).join('')}</div>`;
+    const controls = (lines, label) => `<div class="player"><button class="go ${state.saying >= 0 || label !== 'first' ? 'ghost' : ''}" ${state.saying >= 0 ? 'data-stop' : 'data-play'}>${state.saying >= 0 ? '■ Stop' : label === 'first' ? '▶ Play the conversation' : '▶ Play it again'}</button><span class="now" data-now>${nowText(lines)}</span></div>
+      <div class="speed">${[[1, 'Normal speed'], [0.75, 'Slower']].map(([v, l]) => `<button class="${state.rate === v ? 'on' : ''}" data-rate="${v}">${l}</button>`).join('')}</div>`;
+    const lineBtn = line => `<button class="speak" data-key="${esc(E.lineSay(line))}" data-text="${esc(line.t)}" ${canSay(E.lineSay(line), C) ? '' : 'disabled'} aria-label="Hear it">🔊</button>`;
+    const lineCard = (line, i, people) => `<div class="line ${state.saying === i ? 'on' : ''}" data-at="${i}">${lineBtn(line)}<div><small>${esc(people[line.who])}</small>
+      <b lang="tl">${esc(line.t)}</b><span>${esc(line.en)}</span>${line.note ? `<em>${esc(line.note)}</em>` : ''}</div></div>`;
     let body = '', ready = false;
     if (st.type === 'listen') {
       body = `<p class="kind">${st.review ? 'Remember this?' : voice ? 'Listen and pick' : 'Read and pick'}</p>
-        <div class="say">${speakBtn(st.phrase)}<span class="phrase" lang="${C.id}">${esc(st.phrase)}</span></div>${noVoice}
+        <div class="say">${speakBtn(st.phrase)}<span class="phrase" lang="${langOf(C)}">${esc(st.phrase)}</span></div>${noVoice}
         <div class="opts">${st.choices.map(opt).join('')}</div>`;
       ready = r.picked != null;
     } else if (st.type === 'scene') {
       body = `<p class="kind">${esc(st.kind)}</p><p class="prompt">${esc(st.prompt)}</p>
-        <div class="opts">${st.choices.map(o => `<div class="optrow">${speakBtn(o)}<button class="opt ${cls(o)}" data-pick="${esc(o)}" lang="${C.id}">${esc(o)}</button></div>`).join('')}</div>${noVoice}`;
+        <div class="opts">${st.choices.map(o => `<div class="optrow">${speakBtn(o)}<button class="opt ${cls(o)}" data-pick="${esc(o)}" lang="${langOf(C)}">${esc(o)}</button></div>`).join('')}</div>${noVoice}`;
       ready = r.picked != null;
     } else if (st.type === 'pairs') {
       const left = st.left, right = st.rightSide, meaningOf = w => st.pairs.find(p => p[0] === w)[1];
       const doneRight = en => r.matched.some(w => meaningOf(w) === en);
       body = `<p class="kind">Match the pairs</p><p class="note">Tap a word, then what it means.</p>
-        <div class="pairs">${left.map((w, n) => `<button class="opt ${r.matched.includes(w) ? 'done' : ''} ${r.sel === w ? 'picked' : ''}" data-left="${esc(w)}" lang="${C.id}">${esc(w)}</button>
+        <div class="pairs">${left.map((w, n) => `<button class="opt ${r.matched.includes(w) ? 'done' : ''} ${r.sel === w ? 'picked' : ''}" data-left="${esc(w)}" lang="${langOf(C)}">${esc(w)}</button>
           <button class="opt ${doneRight(right[n]) ? 'done' : ''} ${r.missAt === right[n] ? 'miss' : ''}" data-right="${esc(right[n])}">${esc(right[n])}</button>`).join('')}</div>`;
       ready = r.matched.length === st.pairs.length;
     } else if (st.type === 'build') {
       body = `<p class="kind">${st.review ? 'Remember this? Build it' : 'Build it in ' + esc(C.name)}</p><p class="prompt">${esc(st.prompt)}</p>
-        <div class="answer" lang="${C.id}">${r.built.map((i, n) => `<button class="tile" data-unbuild="${n}">${esc(st.bank[i])}</button>`).join('')}</div>
-        <div class="bank" lang="${C.id}">${st.bank.map((w, i) => `<button class="tile ${r.built.includes(i) ? 'used' : ''}" data-build="${i}" ${r.checked ? 'disabled' : ''}>${esc(w)}</button>`).join('')}</div>`;
+        <div class="answer" lang="${langOf(C)}">${r.built.map((i, n) => `<button class="tile" data-unbuild="${n}">${esc(st.bank[i])}</button>`).join('')}</div>
+        <div class="bank" lang="${langOf(C)}">${st.bank.map((w, i) => `<button class="tile ${r.built.includes(i) ? 'used' : ''}" data-build="${i}" ${r.checked ? 'disabled' : ''}>${esc(w)}</button>`).join('')}</div>`;
       ready = r.built.length > 0;
     } else if (st.type === 'bsound') {
       body = `<p class="kind">What sound is this?</p><div class="glyph-big" lang="tl">${esc(st.glyph)}</div><div class="opts">${st.choices.map(opt).join('')}</div>`;
@@ -376,21 +471,68 @@
     } else if (st.type === 'bread') {
       body = `<p class="kind">Read it</p><div class="glyph-big" lang="tl">${esc(st.glyph)}</div><div class="opts">${st.choices.map(opt).join('')}</div>`;
       ready = r.picked != null;
+    } else if (st.type === 'dialog') {
+      body = `<p class="kind">Listen</p><p class="prompt">${esc(st.setting)}</p>${talkers(st.people, st.lines)}
+        ${controls(st.lines, r.heard ? 'again' : 'first')}
+        <p class="note">Just listen. The words come at the end of the lesson.</p>`;
+      ready = r.heard || r.practice;
+    } else if (st.type === 'question') {
+      const lines = linesOf(r), people = unitPeople(r), line = lines[st.line - 1];
+      body = `<p class="kind">About the conversation</p><p class="prompt">${esc(st.q)}</p>
+        <div class="opts">${st.choices.map(opt).join('')}</div>
+        ${r.checked && line ? `<p class="note">Line ${st.line}:</p>${lineCard(line, st.line - 1, people)}` : controls(lines, 'again')}`;
+      ready = r.picked != null;
+    } else if (st.type === 'gap') {
+      body = `<p class="kind">Which word is missing?</p>
+        <div class="say">${lineBtn(st)}<div class="said"><small>${esc(st.name)}</small><span class="phrase" lang="tl">${esc(r.checked ? st.t : st.shown)}</span></div></div>
+        ${r.checked ? `<p class="note">${esc(st.en)}</p>` : ''}
+        <div class="opts">${st.choices.map(o => `<button class="opt ${cls(o)}" data-pick="${esc(o)}" lang="tl">${esc(o)}</button>`).join('')}</div>`;
+      ready = r.picked != null;
+    } else if (st.type === 'transcript') {
+      body = `<p class="kind">The whole conversation</p><p class="note">${esc(st.setting)}</p>
+        ${controls(st.lines, 'again')}
+        <div class="lines">${st.lines.map((l, i) => lineCard(l, i, st.people)).join('')}</div>`;
+      ready = true;
+    } else if (st.type === 'grammar') {
+      body = `<p class="kind">Grammar</p><p class="prompt">${esc(st.title)}</p>
+        <ul class="points">${st.points.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+        ${st.table ? `<table class="forms"><tbody>${st.table.map(([a, b, en]) => `<tr><td lang="tl">${esc(a)}</td><td>→</td><td lang="tl"><b>${esc(b)}</b></td><td>${esc(en)}</td></tr>`).join('')}</tbody></table>` : ''}`;
+      ready = true;
+    } else if (st.type === 'form') {
+      const [a, b] = st.prompt.split('___'), put = r.checked ? st.right : r.picked;
+      body = `<p class="kind">${st.review ? 'Remember this? ' : ''}Pick the right form</p>
+        <p class="prompt" lang="tl">${esc(a)}<span class="blank">${put ? esc(put) : '____'}</span>${esc(b)}</p>
+        <p class="note">${esc(st.en)}${st.root ? ` From <b lang="tl">${esc(st.root)}</b>.` : ''}</p>
+        <div class="opts">${st.choices.map(o => `<button class="opt ${cls(o)}" data-pick="${esc(o)}" lang="tl">${esc(o)}</button>`).join('')}</div>`;
+      ready = r.picked != null;
+    } else if (st.type === 'say') {
+      body = `<p class="kind">${st.review ? 'Remember this? ' : ''}Say it in Tagalog</p><p class="prompt">${esc(st.en)}</p>
+        ${r.shown ? `<div class="say">${speakBtn(st.t)}<span class="phrase" lang="tl">${esc(st.t)}</span></div>${st.note ? `<p class="note">${esc(st.note)}</p>` : ''}`
+          : '<p class="note">Say it out loud first, then look.</p>'}`;
     }
-    const answerText = st.type === 'build' ? st.answer.join(' ') : st.right;
+    const answerText = st.type === 'build' ? st.answer.join(' ') : st.type === 'say' ? st.t : st.right;
     const note = st.type === 'bread' ? `“${st.right}” means ${st.en}.` : st.note;
     const praise = C.praise[r.at % C.praise.length];
-    const fb = r.checked ? `<p class="feedback ${r.correct ? 'good' : 'bad'}" role="status">${r.correct ? '✓ ' + esc(r.cid === 'bay' ? 'Tama!' : praise) : '✗ The answer: ' + esc(answerText)}</p>
+    const fb = r.checked ? `<p class="feedback ${r.correct ? 'good' : 'bad'}" role="status">${r.correct ? '✓ ' + esc(r.cid === 'bay' ? 'Tama!' : praise) : st.type === 'say' ? '✗ Not yet' : '✗ The answer: ' + esc(answerText)}</p>
       ${note ? `<p class="note">${esc(note)}</p>` : ''}${!r.correct && !st.retry ? '<p class="note">It comes back at the end.</p>' : ''}` : '';
     return `
       <div class="bar"><button class="back" data-quit aria-label="Stop the lesson">✕</button>
         <div class="progress" aria-label="Progress"><i style="width:${pct}%"></i></div><span class="chip">${r.practice ? 'Practice' : r.xp + ' XP'}</span></div>
       <div class="screen" style="--accent:${accent}">${body}</div>
-      <div class="foot" style="--accent:${accent}">${fb}<button class="go" data-next ${r.checked || ready ? '' : 'disabled'}>${r.checked ? 'Continue' : 'Check'}</button></div>`;
+      <div class="foot" style="--accent:${accent}">${fb}${foot()}</div>`;
+    // Heard or read: Continue. Say it: look, then mark it yourself. The rest: Check, then Continue.
+    function foot() {
+      if (E.INFO.has(st.type)) return `<button class="go" data-next ${ready ? '' : 'disabled'}>Continue</button>`;
+      if (st.type === 'say' && !r.checked) return r.shown ? `<div class="self"><button class="go" data-self="yes">✓ I had it</button><button class="go ghost" data-self="no">✗ Not quite</button></div>`
+        : '<button class="go" data-show>Show me</button>';
+      return `<button class="go" data-next ${r.checked || ready ? '' : 'disabled'}>${r.checked ? 'Continue' : 'Check'}</button>`;
+    }
   }
+  const unitPeople = r => { const C = COURSES[r.cid], u = C && C.units.find(x => x.id === r.key.split(':')[0]); return u && u.dialog ? u.dialog.people : { A: '', B: '' }; };
 
   function check() {
     const r = state.run, st = r.steps[r.at];
+    if (state.saying >= 0) hush();
     const answer = st.type === 'build' ? r.built.map(i => st.bank[i]) : r.picked;
     const right = st.type === 'pairs' ? true : E.check(st, answer);
     Object.assign(r, { checked: true, correct: right });
@@ -402,9 +544,12 @@
     }
     if (r.cid !== 'bay' && st.id) { E.remember(cs(r.cid), st.id, right); store(); }
     if (right && st.type === 'build') speak(st.answer.join(' '), runCourse(r));
+    if (st.type === 'form') speak(st.say, runCourse(r));
+    if (st.type === 'gap') speakKey(st.say, st.t, runCourse(r));
   }
   function next() {
     const r = state.run;
+    hush();
     r.at++;
     Object.assign(r, freshStep());
     if (r.at < r.steps.length) { render(); sayStep(); return; }
@@ -435,7 +580,7 @@
       big = last ? item.unit.done : C.praise[0];
       note = last ? item.unit.doneNote : '';
       const nx = E.nextLesson(C, cs(r.cid), units);
-      if (nx) nextBtn = `<button class="go" data-lesson="${nx.key}">Next: ${esc(nx.unit.title)} · lesson ${nx.n + 1}</button>`;
+      if (nx) nextBtn = `<button class="go" data-lesson="${nx.key}">Next: ${esc(nx.unit.title)} · ${C.lessonNames ? esc(C.lessonNames[nx.n]) : 'lesson ' + (nx.n + 1)}</button>`;
     }
     return `
       <div class="bar"><button class="back" data-back-done aria-label="Back">←</button><h1>${title}</h1></div>
@@ -536,6 +681,7 @@
     if (d.lesson) return start(state.run && state.view === 'done' && state.run.cid !== 'bay' ? state.run.cid : state.cid, d.lesson);
     if (d.lessonBay) return start('bay', d.lessonBay);
     if (d.quit != null || d.backDone != null) {
+      hush();
       const bay = r && r.cid === 'bay';
       state.run = null;
       return go(bay ? 'bay' : 'course');
@@ -543,7 +689,14 @@
     if (d.speak) return speak(d.speak, runCourse(r));
     if (state.view !== 'lesson' || !r) return;
     const st = r.steps[r.at];
-    if (d.next != null) { if (r.checked) next(); else { check(); render(); } return; }
+    // A conversation: play it, stop it, one line, the speed.
+    if (d.play != null) { playConversation(linesOf(r), runCourse(r), st.type === 'dialog' ? () => { r.heard = true; } : null); return render(); }
+    if (d.stop != null) { hush(); return render(); }
+    if (d.key) { if (state.saying >= 0) { hush(); render(); } return speakKey(d.key, d.text, runCourse(r)); }
+    if (d.rate) { state.rate = Number(d.rate); if (player) player.playbackRate = state.rate; return render(); }
+    if (d.next != null) { if (r.checked || E.INFO.has(st.type)) next(); else { check(); render(); } return; }
+    if (d.show != null) { r.shown = true; speak(st.t, runCourse(r)); return render(); }
+    if (d.self && !r.checked) { r.picked = d.self; check(); return render(); }
     if (r.checked) return;
     if (d.pick != null) { r.picked = d.pick; if (st.type === 'scene') speak(d.pick, runCourse(r)); }
     if (d.left != null) r.sel = d.left;

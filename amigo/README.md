@@ -2,7 +2,8 @@
 
 Both words mean *friend*. Spanish for his friends at school, and Tagalog,
 Blake's mission language (the Philippines, 2002–2004), with Baybayin as a
-side quest. Each course is a file: `course-es.js` and `course-tl.js`.
+side quest. Each course is a file: `course-es.js` and `course-tl.js`, and
+Blake's own, `course-tl2.js` (Tagalog past the basics, below).
 `node tools/test-amigo.mjs` checks every rule below that can be counted, and
 runs at every deploy.
 
@@ -49,13 +50,50 @@ shows only on the test site, marked "Not checked yet"; its full list is under
 goes for `tatay` (the words on the home screen) and `baybayin` (the reading
 words).
 
+## Tagalog past the basics (`course-tl2.js`)
+
+Blake's own course: rusty mission Tagalog, and he asked for everyday
+conversation, listening at native speed, and the grammar that's slipped. It
+has `kind: 'conversation'`, and each unit is a real conversation between two
+people and the grammar it uses, in three lessons: **Listen** (the whole
+conversation with no words on screen, questions on it, the missing word in a
+line, then the words), **Grammar** (the point, picking the right form,
+building sentences) and **Say it** (say it aloud, look, mark yourself; then
+what would you say?). A sentence from Grammar or Say it comes back later as a
+review. A unit:
+
+```js
+{ id, title, sub, blurb, done, doneNote,
+  dialog: { setting, people: { A: 'Ramon', B: 'Liza' }, lines: [{ who: 'A', t, en, note }, …] },
+  questions: [{ q, right, wrong: [2], line }],   // line: the one (from 1) that answers it
+  gaps: [{ line, word, wrong: [2] }],            // word: a whole word, once in that line
+  grammar: { title, points: [ … ], table: [[root, form, meaning], …] },
+  forms: [{ prompt: 'Kahapon, ___ ako ng adobo.', root, right, wrong: [2], en }],
+  builds: [{ t, en }], says: [{ t, en }], scenes: [{ kind, prompt, right, wrong: [2], note }] }
+```
+
+- 8 to 16 lines of conversation, both people talking. **A is a man and B a
+  woman**: their lines are recorded in those voices (`speakers`), at native
+  speed; everything else in A's. The *Slower* button plays them at 0.75.
+- At least 4 questions, 2 missing words, 4 forms, 3 to build, 3 to say and 2
+  scenes. A form's two wrong answers are the same root in other forms; a
+  missing word's are too. A form's `root` shows before he answers (“From
+  luto.”), so a form about a little word (*na*, *pa*, *din*) has none.
+- A sentence to pick a form for, build or say, and a scene's answer, is in
+  one unit only (a scene may answer with one of its unit's sentences to say).
+- It isn't held back for Blake's check: he is the one learning it, and it
+  goes live once he has tried it on the test site.
+
 ## Voices
 
 A line is said, in this order, by:
 
 1. **Its recording**, if it has one: `amigo/audio/tl/<key>.mp3`, listed in
    `amigo/audio/index.js`, in Google's Filipino voice fil-ph-Neural2-D (a
-   man's; Blake's pick). It plays on every phone. **The test site's deploy
+   man's; Blake's pick). It plays on every phone. Past the basics is in
+   `amigo/audio/tl2/`: each conversation line in its speaker's voice
+   (fil-ph-Neural2-D, fil-ph-Neural2-A), listed by `engine.js`
+   `voiceLines`. **The test site's deploy
    records any new or changed Tagalog line by itself** (the "Record new
    Tagalog" step, `tools/amigo-voice.mjs`) and saves the files back to the
    repo, so pull before the next push. The Google key is the test repo's
