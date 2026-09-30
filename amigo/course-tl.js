@@ -15,6 +15,7 @@
     units: [
       {
         id: 'kumustahan', title: 'Kumustahan', sub: 'Greetings',
+        checked: '2026-09-30',
         blurb: 'Greetings with po and opo, and what the neighbors always ask.',
         done: 'Magaling!', doneNote: '“Magaling!” means “Well done!”',
         phrases: [
@@ -54,6 +55,7 @@
       },
       {
         id: 'kain-tayo', title: 'Kain tayo', sub: 'Let’s eat',
+        checked: '2026-09-30',
         blurb: 'Food words, and what every lola asks.',
         done: 'Busog na!', doneNote: '“Busog na!” means “I’m full!”',
         phrases: [
@@ -90,10 +92,12 @@
     ],
     // On the home screen: a few words from Tatay.
     tatay: {
+      checked: '2026-09-30',
       words: [['Tatay', 'Dad'], ['Nanay', 'Mom'], ['Anak', 'My child'], ['Mahal kita', 'I love you'], ['Salamat po', 'Thank you (to an elder)'], ['Kaibigan', 'Friend']],
     },
     // Baybayin's reading words, spelled as they're said.
     baybayin: {
+      checked: '2026-09-30',
       words: [['ama', 'father'], ['kama', 'bed'], ['bata', 'child'], ['tama', 'right, correct'], ['mata', 'eye'], ['baka', 'cow'],
         ['sala', 'living room'], ['gata', 'coconut milk'], ['tasa', 'cup'], ['lata', 'can'], ['masa', 'dough'], ['baga', 'lungs'],
         ['paa', 'foot'], ['daga', 'mouse'], ['wala', 'none'], ['saya', 'joy'], ['haba', 'length'], ['dalaga', 'young woman'], ['yaya', 'nanny'],
