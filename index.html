@@ -896,6 +896,17 @@
   .ls-plain.lead, .ls-bsb.lead { font-size: 17.5px; line-height: 1.55; color: rgba(255,255,255,.94); }
   .ls-note { margin-left: 15px; padding: 8px 12px; border-radius: 10px; background: rgba(253,230,138,.08); font-size: 13.5px; line-height: 1.45; color: rgba(255,255,255,.78); }
   .ls-note b { color: var(--gold); }
+  /* The short version: a few lines on the whole chapter, above its buttons. Each line's verses are a button to them. */
+  .ls-sum { margin: 2px 0 14px; padding: 12px 14px; border-radius: 14px; background: rgba(192,132,252,.09); border: 1px solid rgba(192,132,252,.28); }
+  .ls-sum-h { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 10px; font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #c084fc; }
+  .ls-sum-h .plain-draft { letter-spacing: 0; text-transform: none; }
+  .ls-sum ul { margin: 0; padding: 0; list-style: none; }
+  .ls-sum li { position: relative; padding-left: 16px; margin: 7px 0 0; font-size: 15px; line-height: 1.45; color: rgba(255,255,255,.9); }
+  .ls-sum li::before { content: ''; position: absolute; left: 2px; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: #c084fc; }
+  .ls-sum-also { margin: 10px 0 0; padding-top: 8px; border-top: 1px solid rgba(192,132,252,.2); font-size: 13px; line-height: 1.4; color: rgba(255,255,255,.68); }
+  .ls-jump { font: inherit; background: none; border: 0; padding: 0; cursor: pointer; white-space: nowrap; }
+  .ls-vv.hit { animation: vvHit 1.8s ease; border-radius: 8px; }
+  @keyframes vvHit { 0%, 35% { background: rgba(192,132,252,.2); box-shadow: 0 0 0 6px rgba(192,132,252,.2); } to { background: transparent; box-shadow: 0 0 0 6px transparent; } }
   /* The buttons at the top of a chapter, each with the colour its lines have. */
   .plain-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
   /* In the day's reading they stay at the top, so a hard verse can be switched on the spot. */
@@ -2013,6 +2024,42 @@ const TreasureUp = (function () {
     if (!p || !Array.isArray(p.verses)) return null;
     const approved = !!p.approved && p.approved === approvalHash(noApproval(p));
     return approved || TEST_SITE ? { p, draft: !approved } : null;
+  }
+  // The short version (week.tldr): two to four lines on the whole chapter,
+  // at its top, each ending with the verses it covers, "(verses 4–5)", which
+  // take him down to them. Written from the Church's chapter heading, the
+  // week's lesson and the verses; `also` is the Book of Mormon copy the
+  // heading names, under the lines. Shown like the plain words: once Blake
+  // has approved it, or on the test site as a marked draft.
+  function tldrOf(week, ch) {
+    const t = ((week && week.tldr) || []).find(x => x.ch === ch);
+    if (!t || !Array.isArray(t.lines) || !t.lines.length) return null;
+    const approved = !!t.approved && t.approved === approvalHash(noApproval(t));
+    return approved || TEST_SITE ? { t, draft: !approved } : null;
+  }
+  const TLDR_END = / \((verses?) (\d+)(?:–(\d+))?\)$/;
+  function tldrHtml(u, week) {
+    const x = u.verses && tldrOf(week, u.ch);
+    if (!x) return '';
+    const lines = x.t.lines.map(l => {
+      const m = TLDR_END.exec(l);
+      return m && { text: l.slice(0, m.index), label: m[1] + ' ' + m[2] + (m[3] ? '–' + m[3] : ''), from: Number(m[2]), to: Number(m[3] || m[2]) };
+    }).filter(l => l && (u.whole || (l.to >= u.from && l.from <= u.to)));   // part of a chapter: the lines about that part
+    return !lines.length ? '' : `<div class="ls-sum"><div class="ls-sum-h">The short version${x.draft ? '<span class="plain-draft">Draft: not approved yet</span>' : ''}</div><ul>` +
+      lines.map(l => `<li>${linkRefs(l.text, u.ch)} (<button type="button" class="ref-link ls-jump" data-jump="${Math.max(l.from, u.from)}">${esc(l.label)}</button>)</li>`).join('') + '</ul>' +
+      (x.t.also ? `<p class="ls-sum-also">${linkRefs(x.t.also, u.ch)}</p>` : '') + '</div>';
+  }
+  // A line's verses: the first of them, just below the buttons, lit up for a moment.
+  function jumpToVerse(btn) {
+    const box = btn.closest('.ls-chapter'), v = box && box.querySelector(`.ls-vv[data-v="${btn.dataset.jump}"]`);
+    if (!v) return;
+    let scroller = box;
+    while (scroller.parentElement && !/(auto|scroll)/.test(getComputedStyle(scroller).overflowY)) scroller = scroller.parentElement;
+    const bar = box.querySelector('.plain-bar'), top = scroller.getBoundingClientRect().top + (bar && getComputedStyle(bar).position === 'sticky' ? bar.offsetHeight : 0);
+    scroller.scrollBy({ top: v.getBoundingClientRect().top - top - 10, behavior: 'smooth' });
+    v.classList.remove('hit');
+    void v.offsetWidth;                                   // start the light again on a second tap
+    v.classList.add('hit');
   }
   // The BSB has the Bible's chapters: this week's and last week's in
   // content/bsb.js, a week moved to content/past/ in its own bsb-<num>.js.
@@ -3535,7 +3582,7 @@ const TreasureUp = (function () {
       <div class="relative z-20 px-5 pr-7 content-pad ls-chapter">
         <div class="eyebrow">${esc(past.week.title)}</div>
         <h2 class="reel-hook">${esc(u.ref)}</h2>
-        ${u.verses ? layersBarHtml(u, past.week) + `<div class="ls-verses">${versesHtml(u, past.week)}</div>`
+        ${u.verses ? tldrHtml(u, past.week) + layersBarHtml(u, past.week) + `<div class="ls-verses">${versesHtml(u, past.week)}</div>`
           : link ? `<a class="deep-open" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Read ${esc(u.ref)} in Gospel Library ↗</a>` : ''}
       </div>
     </article>`;
@@ -7987,7 +8034,7 @@ const TreasureUp = (function () {
       html += `<div class="ls-chapter">
         <div class="ls-prompt">${esc(u.ref)}</div>
         ${gl ? `<a class="ls-gl" data-ls="gl" href="${esc(gl)}" target="_blank" rel="noopener noreferrer">${u.verses ? 'Or read it in Gospel Library ↗' : 'Read it in Gospel Library ↗'}</a>` : ''}
-        ${u.verses ? layersBarHtml(u, WEEK) + `<div class="ls-verses">${versesHtml(u, WEEK)}</div>`
+        ${u.verses ? tldrHtml(u, WEEK) + layersBarHtml(u, WEEK) + `<div class="ls-verses">${versesHtml(u, WEEK)}</div>`
                    : `<p class="reel-body">Read ${esc(u.ref)} in Gospel Library, then come back and tap “I read it”.</p>`}
       </div>`;
     } else if (step.kind === 'find') {
@@ -8157,7 +8204,8 @@ const TreasureUp = (function () {
     verse: 'Verse', media: 'Picture and clip', image: 'Picture', video: 'Clip', deep: 'Go deeper', day: 'Day',
     gradient: 'Background', blobA: 'Glow 1', blobB: 'Glow 2',
     ch: 'Chapter', verses: 'Plain words (one line per verse)', notes: 'Notes under verses', v: 'Verse number',
-    review: 'For your review (not shown in the app)', about: 'What to look at'
+    review: 'For your review (not shown in the app)', about: 'What to look at',
+    lines: 'Lines (one per line, each ending with its verses, like (verses 4–5))', also: 'Under the card: the Book of Mormon copy the heading names'
   };
   let dev = null;
   const devTest = () => !FIREBASE_CONFIG && window.TU_DEV_TEST;   // the tests' stand-in for GitHub and sign-in
@@ -8184,14 +8232,15 @@ const TreasureUp = (function () {
     (w.sayings || []).forEach(x => add('say:' + x.id, 'Who said it?', x, x.approved, noApproval(x)));
     if (w.words) add('words', 'Verse Words', w.words, w.wordsApproved, w.words);
     (w.plain || []).forEach(p => add('plain:' + p.ch, 'Plain words · ' + p.ch, p, p.approved, noApproval(p)));
+    (w.tldr || []).forEach(t => add('tldr:' + t.ch, 'The short version · ' + t.ch, t, t.approved, noApproval(t)));
     return out.map(i => Object.assign(i, { state: !i.approved ? 'draft' : i.approved === i.hash ? 'ok' : 'changed' }));
   }
-  // Plain words never hold a week back: each chapter shows in the app only
-  // once it's approved, so a week publishes without them.
-  const devNeeded = items => items.filter(i => !i.key.startsWith('plain:'));
-  // A kind of piece's list in a week, and a piece's name in it (plain words go by chapter).
-  const devList = (w, kind) => kind === 'reel' ? w.reels : kind === 'deep' ? w.deep : kind === 'plain' ? (w.plain || []) : w.sayings;
-  const devIdOf = (kind, x) => kind === 'plain' ? x.ch : x.id;
+  // Plain words and short versions never hold a week back: each chapter's
+  // shows in the app only once it's approved, so a week publishes without them.
+  const devNeeded = items => items.filter(i => !i.key.startsWith('plain:') && !i.key.startsWith('tldr:'));
+  // A kind of piece's list in a week, and a piece's name in it (plain words and short versions go by chapter).
+  const devList = (w, kind) => kind === 'reel' ? w.reels : kind === 'deep' ? w.deep : kind === 'plain' ? (w.plain || []) : kind === 'tldr' ? (w.tldr || []) : w.sayings;
+  const devIdOf = (kind, x) => kind === 'plain' || kind === 'tldr' ? x.ch : x.id;
   function devGet(w, key) {
     if (key === 'week') return weekMeta(w);
     if (key === 'words') return w.words;
@@ -8423,12 +8472,12 @@ const TreasureUp = (function () {
     const items = devItems(w), ok = items.filter(i => i.state === 'ok').length;
     const groups = [['The week', i => i.key === 'week'], ['Reels', i => i.key.startsWith('reel:')], ['Go deeper', i => i.key.startsWith('deep:')],
                     ['Games', i => i.key === 'puzzle' || i.key === 'words' || i.key.startsWith('say:')],
-                    ['Plain words', i => i.key.startsWith('plain:')]];
+                    ['Plain words', i => i.key.startsWith('plain:')], ['The short version', i => i.key.startsWith('tldr:')]];
     return devTopHtml(true) + `
       <p class="board-help" style="margin-top:12px">${esc(w.dates)} · ${ok} of ${items.length} approved.
         <a href="./" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Open the test site ↗</a></p>` +
       groups.filter(([, f]) => items.some(f))
-        .map(([name, f]) => `<div class="dv-group"><div class="eyebrow">${name}</div>${name === 'Plain words' ? '<p class="dv-small">Each verse of the KJV with its plain words under it, and the BSB to compare. A chapter shows in the app once it’s approved.</p>' : ''}${items.filter(f).map(i => devItemHtml(w, i)).join('')}</div>`).join('');
+        .map(([name, f]) => `<div class="dv-group"><div class="eyebrow">${name}</div>${name === 'Plain words' ? '<p class="dv-small">Each verse of the KJV with its plain words under it, and the BSB to compare. A chapter shows in the app once it’s approved.</p>' : name === 'The short version' ? '<p class="dv-small">The lines at the top of each chapter, each with the KJV verses it sums up under it. A chapter’s card shows in the app once it’s approved.</p>' : ''}${items.filter(f).map(i => devItemHtml(w, i)).join('')}</div>`).join('');
   }
 
   function devItemHtml(w, it) {
@@ -8479,6 +8528,16 @@ const TreasureUp = (function () {
           <p class="dv-plain">${esc(t)}</p>
           ${bsb[i] ? `<p class="dv-bsb"><b>BSB</b> ${esc(bsb[i])}</p>` : ''}
           ${(o.notes || []).filter(n => n.v === i + 1).map(n => `<p class="dv-small">Note: ${esc(n.text)}</p>`).join('')}</div>`).join('');
+    }
+    if (it.key.startsWith('tldr:')) {
+      // Each line of the card, with the KJV verses it sums up under it.
+      const kjv = (window.TU_READING || {})[o.ch] || [], look = o.review || [];
+      return (look.length ? `<div class="dv-look"><b>Look at these first</b>${look.map(x => `<p class="dv-small">Verse ${x.v}: ${esc(x.about)}</p>`).join('')}</div>` : '') +
+        (o.lines || []).map(l => {
+          const m = TLDR_END.exec(l), from = m ? Number(m[2]) : 1, to = m ? Number(m[3] || m[2]) : 0;
+          return `<div class="dv-pv${look.some(x => x.v >= from && x.v <= to) ? ' flag' : ''}"><p class="dv-plain">${esc(l)}</p>` +
+            kjv.slice(from - 1, to).map((t, k) => `<p class="dv-kjv"><sup>${from + k}</sup>${esc(t)}</p>`).join('') + '</div>';
+        }).join('') + (o.also ? `<p class="dv-small" style="margin-top:6px">Under the card: ${esc(o.also)}</p>` : '');
     }
     return '';
   }
@@ -8537,7 +8596,8 @@ const TreasureUp = (function () {
     if (dev.view === 'week' && !n && savedWeek()) {
       const w = savedWeek(), items = devNeeded(devItems(w)), ok = items.filter(i => i.state === 'ok').length;
       const lw = dev.live && dev.live.weeks.find(x => x.dates === w.dates);
-      const wait = (w.plain || []).length ? '; the plain words can wait' : '';
+      const later = [(w.plain || []).length && 'the plain words', (w.tldr || []).length && 'the short versions'].filter(Boolean);
+      const wait = later.length ? '; ' + later.join(' and ') + ' can wait' : '';
       publish = ok < items.length ? `<p class="dv-small">Approve every piece to publish this week (${ok} of ${items.length} approved${wait}).</p>`
         : lw && canon(lw) === canon(w) ? '<p class="dv-small">✓ This week is on the live app, exactly as it is here.</p>'
         : `<button class="btn" data-dev="publish"${dev.busy ? ' disabled' : ''}>Publish this week to the live app</button>`;
@@ -8662,7 +8722,7 @@ const TreasureUp = (function () {
         if (dev.raw) { try { obj = JSON.parse($('devJson').value); } catch (e) { return say("That isn't valid JSON: " + e.message); } }
         else obj = devReadForm(el.closest('.dv-editor'), key === 'words' ? before : noApproval(before));
         if (key.startsWith('reel:') || key.startsWith('deep:') || key.startsWith('say:')) obj.id = before.id;   // ids stay put: answers are saved by id
-        if (key.startsWith('plain:')) obj.ch = before.ch;                                                    // plain words stay with their chapter
+        if (key.startsWith('plain:') || key.startsWith('tldr:')) obj.ch = before.ch;                        // plain words and short versions stay with their chapter
         if (key === 'week') obj.dates = before.dates;                                                        // and the dates are the week itself
         dev.editing = null;
         if (canon(obj) !== canon(key === 'words' ? before : noApproval(before))) devChange(key, obj, approvedOf(w, key), 'edit');
@@ -8708,6 +8768,8 @@ const TreasureUp = (function () {
     $('view').addEventListener('click', e => {
       const layer = e.target.closest('[data-layer]');
       if (layer) { toggleLayer(layer); return; }
+      const jump = e.target.closest('[data-jump]');
+      if (jump) { jumpToVerse(jump); return; }
       const ns = e.target.closest('[data-note-save]');
       if (ns) { saveNote(ns.dataset.noteSave); return; }
       const ne = e.target.closest('[data-note-edit]');
@@ -8769,6 +8831,8 @@ const TreasureUp = (function () {
       if (clip) { playClip(clip); return; }
       const layer = e.target.closest('[data-layer]');
       if (layer) { toggleLayer(layer); return; }
+      const jump = e.target.closest('[data-jump]');
+      if (jump) { jumpToVerse(jump); return; }
       const el = e.target.closest('[data-ls]');
       if (el && !el.disabled) lessonAction(el);
     });

@@ -36,7 +36,7 @@ const DATA_COMMIT = '3bda76e40add4582165340ea6b1198dc6ad26ae1';
 const DATA_URL = `https://raw.githubusercontent.com/bcbooks/scriptures-json/${DATA_COMMIT}/`;
 const VOLUMES = ['old-testament', 'new-testament', 'book-of-mormon', 'doctrine-and-covenants', 'pearl-of-great-price'];
 
-const LIMITS = { bodyWords: 75, hookChars: 60, whyWords: 40, choiceChars: 60, noteWords: 45 };
+const LIMITS = { bodyWords: 75, hookChars: 60, whyWords: 40, choiceChars: 60, noteWords: 45, tldrWords: 30 };
 const MEDIA = {
   // A picture on any reel it fits (Blake, 2026-09-24: "most reels should get
   // a pic"), one per reel. Clips stay few: a lesson, not a video feed.
@@ -157,6 +157,7 @@ function reviewItems(week) {
   for (const x of week.sayings || []) items.push({ key: 'say:' + x.id, approved: x.approved, hash: approvalHash(withoutApproval(x)) });
   if (week.words) items.push({ key: 'words', approved: week.wordsApproved, hash: approvalHash(week.words) });
   for (const p of Array.isArray(week.plain) ? week.plain : []) items.push({ key: 'plain:' + p.ch, approved: p.approved, hash: approvalHash(withoutApproval(p)) });
+  for (const t of Array.isArray(week.tldr) ? week.tldr : []) items.push({ key: 'tldr:' + t.ch, approved: t.approved, hash: approvalHash(withoutApproval(t)) });
   return items;
 }
 // Weeks from here on can't go live without every piece approved; the two
@@ -848,6 +849,60 @@ async function main(scripture, week, pages, online) {
     }
   }
 
+  // The short version (week.tldr): two to four lines at the top of a
+  // chapter, each ending with the verses it covers, "(verses 4–5)", which the
+  // app makes a jump to them. Written from the Church's chapter heading, the
+  // week's lesson and the verses; the wording is Blake's call when he
+  // approves. Counted here: the lines, their length, their verses in order,
+  // their references, and any quote, which must be the KJV's words in the
+  // verses the line names.
+  if (week.tldr !== undefined) {
+    const chapters = new Set(block || []), seen = new Set();
+    const words = t => (String(t || '').match(/\S+/g) || []).length;
+    if (!Array.isArray(week.tldr)) fail('short version', 'must be a list of chapters');
+    for (const t of Array.isArray(week.tldr) ? week.tldr : []) {
+      const where = 'short version ' + (t.ch || '?');
+      if (!chapters.has(t.ch)) { fail(where, `"${t.ch}" is not a chapter of this week's reading (${week.reference})`); continue; }
+      if (seen.has(t.ch)) fail(where, 'appears twice');
+      seen.add(t.ch);
+      let n = 0;
+      while (verses.has(`${t.ch}:${n + 1}`)) n++;
+      const lines = Array.isArray(t.lines) ? t.lines : [];
+      if (lines.length < 2 || lines.length > 4) fail(where, `needs 2 to 4 lines (has ${lines.length})`);
+      let last = 0;
+      lines.forEach((l, i) => {
+        const at = `line ${i + 1}`, m = / \((verses?) (\d+)(?:–(\d+))?\)$/.exec(typeof l === 'string' ? l : '');
+        if (!m) return fail(where, `${at} must end with its verses, like "(verse 10)" or "(verses 4–5)"`);
+        const from = Number(m[2]), to = Number(m[3] || m[2]), body = l.slice(0, m.index);
+        if ((m[1] === 'verses') !== !!m[3] || to <= from && !!m[3]) fail(where, `${at}: one verse is "(verse N)", more are "(verses N–M)"`);
+        if (from < 1 || to > n) fail(where, `${at}: ${t.ch} has verses 1–${n}`);
+        if (from <= last) fail(where, `${at}: its verses overlap or come before the line above's`);
+        last = Math.max(last, to);
+        if (words(body) > LIMITS.tldrWords) fail(where, `${at} is ${words(body)} words before its verses (max ${LIMITS.tldrWords})`);
+        if (/"/.test(body)) fail(where, `${at} uses a straight " quote; use “curly quotes”`);
+        if ((body.match(/“/g) || []).length !== (body.match(/”/g) || []).length) fail(where, `${at} has unbalanced “quotes”`);
+        if (/\b(thee|thou|thy|thine|ye|hath|saith|doth|shalt|unto)\b/i.test(body.replace(/“[^”]*”/g, ' ')) || /\bLORD\b/.test(body)) fail(where, `${at} has KJV English outside a quote`);
+        for (const q of body.match(/“[^”]*”/g) || []) {
+          const text = Array.from({ length: Math.max(0, to - from + 1) }, (_, k) => verses.get(`${t.ch}:${from + k}`) || '').join(' ');
+          if (!quoteMatches(q.slice(1, -1), text)) fail(where, `${at}: ${q} isn't the KJV's words in verses ${from}–${to}`);
+        }
+        checkRefs(where, at, body, t.ch + ':' + from);
+      });
+      // Under the lines: the Book of Mormon copy the chapter heading names ("Compare 2 Nephi 23").
+      if (t.also !== undefined) {
+        if (typeof t.also !== 'string' || !/\((?:1|2|3|4) Nephi \d+|\(Mosiah \d+|\(Alma \d+|\(Helaman \d+|\(Mormon \d+|\(Ether \d+|\(Moroni \d+/.test(t.also)) fail(where, 'also: one sentence naming the Book of Mormon chapter, like "(2 Nephi 23)"');
+        else {
+          if (words(t.also) > 16) fail(where, `also is ${words(t.also)} words (max 16)`);
+          if (/"/.test(t.also)) fail(where, 'also uses a straight " quote');
+          checkRefs(where, 'also', t.also, t.ch + ':1');
+        }
+      }
+      for (const x of t.review || []) {
+        if (!Number.isInteger(x.v) || x.v < 1 || x.v > n || !x.about) fail(where, `each review item needs a verse ${t.ch} has, and what to look at`);
+      }
+    }
+  }
+
   const lessonText = pages.get(week.lesson);
   if (online && lessonText != null) {
     for (const [label, want] of [['title', week.title], ['reference', week.reference], ['dates', week.dates.replace(/, \d{4}$/, '')], ...week.sections.map(s => ['section', s])]) {
@@ -885,10 +940,10 @@ for (const week of weeks) {
   weekLabel = weeks.length > 1 ? `Week ${num || '?'} · ` : '';
   await main(scripture, week, pages, online);
   // The live app only takes weeks Blake approved in developer mode. Plain
-  // words are the exception: the app shows a chapter's plain words only once
-  // they're approved, so they never hold a week back.
+  // words and short versions are the exception: the app shows a chapter's
+  // only once they're approved, so they never hold a week back.
   if (args.has('--require-approval') && weekStart(week.dates) >= REVIEW_FROM) {
-    for (const it of reviewItems(week).filter(x => !x.key.startsWith('plain:'))) {
+    for (const it of reviewItems(week).filter(x => !x.key.startsWith('plain:') && !x.key.startsWith('tldr:'))) {
       if (!it.approved) failures.push(`${weekLabel}${it.key}: not approved yet (approve it in developer mode, then publish)`);
       else if (it.approved !== it.hash) failures.push(`${weekLabel}${it.key}: changed since it was approved (approve it again in developer mode)`);
     }
@@ -965,7 +1020,8 @@ for (const week of weeks) {
   const quotes = week.reels.reduce((n, r) => n + 1 + [r.hook, r.body, r.question.q, r.question.why, ...bonusesOf(r).map(b => b.why)].join(' ').split('“').length - 1, 0);
   const bonuses = week.reels.reduce((n, r) => n + bonusesOf(r).length, 0);
   const extras = [(week.deep || []).length && `${week.deep.length} Go-deeper readings`, week.puzzle && 'the weekly puzzle', week.sayings && `${week.sayings.length} Who-said-it lines`, week.words && `${week.words.length} Verse Words`,
-    (week.plain || []).length && `plain words for ${week.plain.length} ${week.plain.length === 1 ? 'chapter' : 'chapters'}`].filter(Boolean);
+    (week.plain || []).length && `plain words for ${week.plain.length} ${week.plain.length === 1 ? 'chapter' : 'chapters'}`,
+    (week.tldr || []).length && `short versions for ${week.tldr.length} ${week.tldr.length === 1 ? 'chapter' : 'chapters'}`].filter(Boolean);
   console.log(`✓ ${week.title} (${week.dates}): ${week.reels.length} reels, ${quotes} quotes and ${bonuses} bonus answers checked` +
     (extras.length ? `, plus ${extras.join(' and ')}` : ''));
 }

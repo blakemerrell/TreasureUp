@@ -764,6 +764,162 @@ window.TU_WEEKS = [
         "blobB": "rgba(0,0,0,.4)",
         "seek": "Dry, empty land will burst into flowers and be happy"
       }
+    ],
+    "tldr": [
+      {
+        "ch": "Isaiah 13",
+        "lines": [
+          "Isaiah sees the Lord gather an army to destroy Babylon. Its fall is a type, or pattern, of how the wicked will be destroyed at the Second Coming. (verses 1–5)",
+          "The day of the Lord comes with wrath. The sun goes dark, and God punishes the world for its evil and pride. (verses 6–13)",
+          "People run for home, and anyone caught is killed. God stirs up the Medes against Babylon, and they show no pity. (verses 14–18)",
+          "Babylon stands for the wicked world. God will overthrow it like Sodom and Gomorrah, and it will fall forever. (verses 19–22)"
+        ],
+        "also": "Nephi quotes this chapter in the Book of Mormon (2 Nephi 23)."
+      },
+      {
+        "ch": "Isaiah 14",
+        "lines": [
+          "The Lord will have mercy on Israel and gather them home. In the Millennium, He will give them rest from sorrow and fear. (verses 1–3)",
+          "Israel will triumph over Babylon, which stands for the world. They will mock its fallen king as the whole earth rests. (verses 4–11)",
+          "Isaiah calls the king Lucifer. Lucifer, or Satan, rebelled because he wanted to be as high as God, so he was thrown out of heaven. (verses 12–15)",
+          "The king dies in shame, and the Lord wipes out Babylon. He also breaks Assyria, and Zion is a safe place for His people. (verses 16–32)"
+        ],
+        "also": "Nephi quotes this chapter in the Book of Mormon (2 Nephi 24).",
+        "review": [
+          {
+            "v": 3,
+            "about": "“In the Millennium” comes from the heading’s “millennial rest”; the verse itself only promises rest from sorrow, fear and bondage."
+          },
+          {
+            "v": 12,
+            "about": "In the verse Isaiah is speaking to the king of Babylon (the BSB has “day star”); the card follows the heading and the Scripture Helps in naming Lucifer as Satan."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 22",
+        "lines": [
+          "Isaiah weeps as he sees Jerusalem attacked and punished. Its leaders run away, and its people are taken captive. (verses 1–7)",
+          "The people fix their walls but don’t look to God. When He calls them to weep, they feast instead. (verses 8–14)",
+          "The Lord will toss proud Shebna away like a ball. He will give Shebna’s job to Eliakim, who will be a father to Jerusalem. (verses 15–21)",
+          "Eliakim points to the Messiah, who will inherit glory. God will give Him the key of David’s house and fasten Him like a nail in a sure place. (verses 22–24)"
+        ],
+        "review": [
+          {
+            "v": 25,
+            "about": "The card stops at verse 24: verse 25 says the nail in the sure place will be removed and fall, which is hard to fit with the Messiah reading."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 24",
+        "lines": [
+          "The Lord will empty the earth and scatter its people, rich and poor alike. The whole earth will mourn. (verses 1–4)",
+          "People break God’s laws, change His ordinance, and break the everlasting covenant. They will be burned at the Second Coming, and few will be left. (verses 5–6)",
+          "Joy ends, and the city lies in ruins. A few sing praise to the Lord, but the earth staggers like a drunkard. (verses 7–20)",
+          "The Lord will punish the kings of the earth. Then He will reign in Zion and Jerusalem, and even the sun will be ashamed. (verses 21–23)"
+        ]
+      },
+      {
+        "ch": "Isaiah 25",
+        "lines": [
+          "Isaiah praises God for His wonderful works. For the poor, He is a refuge from the storm and a shade from the heat. (verses 1–5)",
+          "The Lord will make a gospel feast of the richest food for all people on Mount Zion. He will remove the veil over all nations. (verses 6–7)",
+          "He will swallow up death in victory and wipe away all tears. His people will rejoice and say, “Lo, this is our God.” (verses 8–9)",
+          "The Lord’s hand will rest on Mount Zion, but He will bring the proud nation of Moab down to the dust. (verses 10–12)"
+        ]
+      },
+      {
+        "ch": "Isaiah 26",
+        "lines": [
+          "Judah will sing of a strong city. God keeps those who trust Him in perfect peace, so the song says to trust Him forever. (verses 1–4)",
+          "God brings the proud city down to the dust. His people long for Him and pray to Him in their trouble. (verses 5–18)",
+          "Jehovah, the Savior, will die and be resurrected. With Him, all the dead will rise in the Resurrection and sing. (verse 19)",
+          "The Lord tells His people to hide until His anger passes. He is coming to punish the people of the earth for their sins. (verses 20–21)"
+        ],
+        "review": [
+          {
+            "v": 19,
+            "about": "The card follows the heading and the KJV’s “my dead body” (Jehovah’s body); the BSB reads “their bodies will rise”."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 27",
+        "lines": [
+          "With His great sword, the Lord will slay leviathan, a sea serpent that stands for Satan. (verse 1)",
+          "The Lord waters and guards Israel like a vineyard, night and day. Israel will take root, blossom, and fill the world with fruit. (verses 2–6)",
+          "The Lord punishes Israel less than its enemies, to take away its sin. Its idols will fall, and a strong city will lie empty. (verses 7–11)",
+          "The Lord will gather Israel one by one. A great trumpet will sound, and the lost will come home to worship Him in Jerusalem. (verses 12–13)"
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "Reading leviathan as Satan and all evil comes from the Scripture Helps, which say that in Isaiah’s day it seems to stand for the nations that fought God’s people."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 28",
+        "lines": [
+          "Isaiah warns the proud drunkards of Ephraim that their glory will fade like a flower. Even priests and prophets stumble from wine. (verses 1–8)",
+          "God gives revelation a little at a time: line upon line, precept upon precept. But the people won’t listen. (verses 9–13)",
+          "Jerusalem’s rulers trust lies to keep them safe. But God promises to lay a sure foundation in Zion: Christ, the precious corner stone. (verses 14–16)",
+          "God will sweep away the lies they hide behind. He teaches a farmer how to plant and harvest each crop, and His counsel is wonderful. (verses 17–29)"
+        ],
+        "review": [
+          {
+            "v": 10,
+            "about": "The Scripture Helps say verses 9–13 are hard to translate and may be the drunken priests mocking Isaiah with nonsense sounds; the card follows the heading’s “revelation comes line upon line”."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 29",
+        "lines": [
+          "God will bring Ariel, or Jerusalem, low. After the Nephites are destroyed, their words will whisper out of the dust, and Ariel’s enemies will fade like a dream. (verses 1–8)",
+          "God closes the eyes of the prophets and seers. A learned man can’t read the sealed Book of Mormon, and it is given to one who is not learned. (verses 9–12)",
+          "In the Apostasy, people honor God with their lips, not their hearts. So He will do “a marvellous work and a wonder”: the Restoration. (verses 13–14)",
+          "Isaiah warns those who hide from God. Soon the deaf will hear the words of the book, and the lost will learn doctrine. (verses 15–24)"
+        ],
+        "also": "Nephi tells this prophecy in the Book of Mormon, with more details (2 Nephi 27).",
+        "review": [
+          {
+            "v": 4,
+            "about": "The verse is about Ariel (Jerusalem) speaking from the dust; the Nephites come from the heading and Nephi’s use of it in 2 Nephi 26–27."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 30",
+        "lines": [
+          "The Lord’s rebellious children trust Egypt, not Him. They tell the seers not to see and the prophets to say only pleasant things. (verses 1–11)",
+          "Their sin is like a cracked wall that will suddenly fall. Because they reject the seers and prophets, they will be scattered. (verses 12–17)",
+          "The Lord waits to show them mercy. He will gather His people to Zion, feed them, teach them the way, and heal their wounds. (verses 18–26)",
+          "In a time of apostasy, the Lord will come with fire. He will judge the wicked and destroy them, and His people will sing for joy. (verses 27–33)"
+        ],
+        "review": [
+          {
+            "v": 27,
+            "about": "“In a day of apostasy” and “the wicked” come from the heading; the verses name the nations and Assyria."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 35",
+        "lines": [
+          "When the Lord restores His people, the desert will blossom like a rose, and they will see His glory. (verses 1–2)",
+          "Isaiah says to strengthen the weak and tell the fearful not to fear. God will come with vengeance and save them. (verses 3–4)",
+          "Then the blind will see, the deaf will hear, and the lame will leap. The parched ground will become a pool. (verses 5–7)",
+          "The redeemed will walk the way of holiness, the covenant path. Israel will be gathered with joy as Zion is built up. (verses 8–10)"
+        ],
+        "review": [
+          {
+            "v": 8,
+            "about": "Calling the way of holiness “the covenant path” comes from the Scripture Helps, not the verse."
+          }
+        ]
+      }
     ]
   },
   {
@@ -2041,6 +2197,132 @@ window.TU_WEEKS = [
         ],
         "approved": "6a903d66"
       }
+    ],
+    "tldr": [
+      {
+        "ch": "Isaiah 40",
+        "lines": [
+          "God says, “Comfort ye my people.” Jerusalem’s hard time is over, and she is forgiven. (verses 1–2)",
+          "A voice calls out to prepare the way for the Lord. Matthew 3:3 says that voice is John the Baptist. (verses 3–5)",
+          "People fade like grass, but God’s word lasts forever. Zion shouts good news: the Messiah is coming to carry His lambs like a shepherd. (verses 6–11)",
+          "Compared to God, the nations are a drop in a bucket. Those who wait for Him will get new strength and soar like eagles. (verses 12–31)"
+        ],
+        "review": [
+          {
+            "v": 10,
+            "about": "The line names the Lord God who comes with power and carries His lambs (verses 10–11) as the Messiah, following the heading rather than the verse’s own words."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 41",
+        "lines": [
+          "God calls the nations to court: He raised up a warrior from the east. Scared, they build an idol and nail it down. (verses 1–7)",
+          "The Lord tells Israel, His chosen servant, not to fear. He is with them, and He will help them and hold them up. (verses 8–13)",
+          "Their Redeemer, the Holy One of Israel, will help them. When the poor are thirsty, He will make rivers flow in the desert. (verses 14–20)",
+          "Idols can’t tell the future, and they are nothing. The Lord can, and He will give Jerusalem a messenger with good news. (verses 21–29)"
+        ]
+      },
+      {
+        "ch": "Isaiah 42",
+        "lines": [
+          "Isaiah tells about the Messiah, God’s chosen servant. He is gentle and won’t give up until His justice and law reach the whole earth. (verses 1–4)",
+          "God, who made the heavens, calls Him to be a light for the Gentiles. He will open blind eyes and set prisoners free. (verses 5–9)",
+          "Isaiah calls the earth to sing the Lord a new song. He will fight like a warrior and dry up rivers, yet lead the blind into light. (verses 10–17)",
+          "The people of Israel act blind and deaf and won’t listen. They didn’t obey the Lord’s law, so He handed them over to robbers. (verses 18–25)"
+        ],
+        "review": [
+          {
+            "v": 19,
+            "about": "The line says the people act blind and deaf, which fits both the KJV (where the Lord’s servant is called blind and the Scripture Helps read that servant as Israel) and the JST in the note (where the servant is sent to open blind eyes)."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 43",
+        "lines": [
+          "The Lord tells Israel not to fear. He is their God, and He will be with them through rivers and fire. (verses 1–4)",
+          "He will gather their children from every direction. His people are His witnesses that He is God, and there is no Savior but Him. (verses 5–13)",
+          "For Israel’s sake, the Lord brings down Babylon. He is doing a new thing: a road in the wilderness and rivers in the desert. (verses 14–21)",
+          "The Lord says Israel’s sins have worn Him out, and He handed them over to ruin. Still, He will wipe their sins away. (verses 22–28)"
+        ]
+      },
+      {
+        "ch": "Isaiah 44",
+        "lines": [
+          "The Lord will pour His Spirit and blessings on Israel’s children like water on dry ground. They will grow like willows by a stream. (verses 1–5)",
+          "No one is like the Lord. A man cooks over half a log, then carves the rest into an idol and prays to it. (verses 6–20)",
+          "The Lord won’t forget Israel. He has wiped away their sins like a cloud, and He calls them back because He redeemed them. (verses 21–23)",
+          "The Lord will rebuild Jerusalem and the temple. He names a future king, Cyrus, as His shepherd to send His people home. (verses 24–28)"
+        ]
+      },
+      {
+        "ch": "Isaiah 45",
+        "lines": [
+          "The Lord chooses King Cyrus and calls him by name, though Cyrus doesn’t know Him. He will help Cyrus win for Israel’s sake. (verses 1–7)",
+          "The Lord calls for righteousness to rain down and salvation to grow. Cyrus will rebuild Jerusalem and set Israel’s captive people free from Babylon. (verses 8–13)",
+          "Idols can’t save anyone. Jehovah, who is Christ, calls all the earth to come to Him and be saved. (verses 14–22)",
+          "One day every knee will bow to Him and every tongue will promise to be loyal. Israel’s children will be made righteous in Him. (verses 23–25)"
+        ],
+        "review": [
+          {
+            "v": 13,
+            "about": "The verse says Cyrus will free the Lord’s captives; that they are freed from Babylon comes from the heading."
+          },
+          {
+            "v": 22,
+            "about": "Calling the Lord who invites the earth to be saved “Jehovah, who is Christ” comes from the heading (and the note on verse 23 has Paul apply it to Jesus), not from the verse itself."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 46",
+        "lines": [
+          "The idols of Bel and Nebo, Babylon’s gods, are loaded onto tired animals. They can’t save themselves and are carried off as captives. (verses 1–2)",
+          "The Lord has carried Israel since before they were born. He will carry them even when they are old and gray, and save them. (verses 3–4)",
+          "No idol compares to the Lord. Idols can’t answer prayers, but only He is God, and He tells the end from the beginning. (verses 5–11)",
+          "The Lord tells stubborn people that His salvation is near. It won’t be late, and He will bring it to Zion for Israel. (verses 12–13)"
+        ]
+      },
+      {
+        "ch": "Isaiah 47",
+        "lines": [
+          "Babylon, city of the Chaldeans, is like a queen who must step down and sit in the dust. The Lord will punish her. (verses 1–4)",
+          "The Lord handed His people over to Babylon, but she showed them no mercy. She thought she would be queen forever. (verses 5–7)",
+          "Babylon feels safe and thinks no one sees her sins. Because of her wickedness, ruin will come on her suddenly, in one day. (verses 8–11)",
+          "Her magic spells and stargazers can’t help her. They will burn like straw, and no one will save her. (verses 12–15)"
+        ]
+      },
+      {
+        "ch": "Isaiah 48",
+        "lines": [
+          "Israel makes promises in the Lord’s name, but not honestly. He tells stubborn Israel what will happen, so they can’t say idols did it. (verses 1–8)",
+          "The Lord holds back His anger. He has refined Israel, or made them pure, and chosen them in the furnace of affliction, or suffering. (verses 9–11)",
+          "The Lord, the first and the last, wishes Israel had kept His commandments. Their peace would have been like a river, and their righteousness like ocean waves. (verses 12–19)",
+          "The Lord tells His people to leave Babylon and shout that He has redeemed them. But there is no peace for the wicked. (verses 20–22)"
+        ],
+        "also": "Nephi reads this chapter to his brothers in the Book of Mormon (1 Nephi 20)."
+      },
+      {
+        "ch": "Isaiah 49",
+        "lines": [
+          "The Lord called the Messiah before He was born. His work seems wasted, but the Lord will make Him a light to the Gentiles. (verses 1–6)",
+          "He will set the prisoners free, and they will come home from far away. The Lord has comforted His people. (verses 7–13)",
+          "Zion feels forgotten, but the Lord won’t forget her, even if a mother could forget her baby. He has engraved her on His palms. (verses 14–16)",
+          "In the last days, the Lord will gather Israel with power. Gentile kings and queens will care for them like nursing fathers and mothers. (verses 17–26)"
+        ],
+        "also": "Nephi reads this chapter to his brothers in the Book of Mormon (1 Nephi 21).",
+        "review": [
+          {
+            "v": 3,
+            "about": "The verse names the servant Israel; the line follows the heading in calling him the Messiah (the note on verse 6 cites Simeon in Luke 2:32)."
+          },
+          {
+            "v": 22,
+            "about": "In the last days comes from the heading and from Nephi’s reading in 1 Nephi 22 (Scripture Helps), not from verses 17–26 themselves."
+          }
+        ]
+      }
     ]
   },
   {
@@ -3229,6 +3511,118 @@ window.TU_WEEKS = [
           }
         ],
         "approved": "0ad59330"
+      }
+    ],
+    "tldr": [
+      {
+        "ch": "Isaiah 50",
+        "lines": [
+          "The Lord sent His people away for their sins, but He didn’t divorce them and can still redeem them. (verses 1–3)",
+          "Isaiah speaks in the Messiah’s voice. Every morning God teaches Him what to say to help tired people, and He obeys. (verses 4–5)",
+          "He lets men beat His back, pull His beard, and spit on Him. But God helps Him, so He won’t be put to shame. (verses 6–9)",
+          "Those who fear the Lord but walk in darkness are told to trust Him. Those who light their own fires instead get sorrow from His hand. (verses 10–11)"
+        ],
+        "also": "Jacob quotes this chapter in the Book of Mormon (2 Nephi 7).",
+        "review": [
+          {
+            "v": 1,
+            "about": "“Didn’t divorce” reads the Lord’s question the way the Scripture Helps do (no divorce papers; Israel’s sins caused the split), though the verse says the mother was “put away.”"
+          },
+          {
+            "v": 10,
+            "about": "Line 4 rests on “trust in the name of the Lord,” which the Book of Mormon’s copy (2 Nephi 7:10) leaves out; the KJV, the plain words and the lesson (50:10) have it."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 51",
+        "lines": [
+          "The Lord asks His people to listen: He will comfort Zion, and His salvation will last forever. (verses 1–8)",
+          "The Lord’s arm, which split the sea, is told to awake. In the last days He will gather Israel, and the redeemed will return to Zion singing for joy. (verses 9–11)",
+          "The Lord is the one who comforts them, so they don’t need to fear men, who die like grass. He calls Zion His people. (verses 12–16)",
+          "Jerusalem, who drank the cup of the Lord’s anger, is told to wake up and stand up. He gives that cup to her enemies. (verses 17–23)"
+        ],
+        "also": "Jacob quotes this chapter in the Book of Mormon (2 Nephi 8)."
+      },
+      {
+        "ch": "Isaiah 52",
+        "lines": [
+          "Isaiah tells Zion to wake up and put on her strength, which D&C 113 says is priesthood authority. Israel will be redeemed without money. (verses 1–6)",
+          "In the last days, messengers bring good news, and Jerusalem’s ruins sing for joy. The Lord brings Zion back for all nations to see. (verses 7–10)",
+          "Those who carry the Lord’s vessels, the temple’s cups and bowls, must leave Babylon and be clean. The Lord goes before and behind them. (verses 11–12)",
+          "The Messiah will act wisely and be lifted up and honored. His face will be marred, or badly hurt, more than anyone’s, and kings will be speechless. (verses 13–15)"
+        ],
+        "review": [
+          {
+            "v": 13,
+            "about": "Line 4 names the servant the Messiah, as the heading does; the Scripture Helps add that Jesus also tied verse 13 to a latter-day servant (3 Nephi 21:9), likely Joseph Smith."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 53",
+        "lines": [
+          "Isaiah tells about the Savior: people will look down on Him and reject Him, but He will carry our griefs and sorrows. (verses 1–4)",
+          "He is wounded for our sins, and His wounds heal us. We all wandered like sheep, and the Lord put our sins on Him. (verses 5–6)",
+          "Like a quiet lamb, He doesn’t speak up for Himself when He is judged and killed. His grave is with the wicked and the rich. (verses 7–9)",
+          "He gives His life as an offering for sin, makes many righteous, and pleads for sinners. (verses 10–12)"
+        ],
+        "also": "Abinadi quotes this chapter in the Book of Mormon (Mosiah 14).",
+        "review": [
+          {
+            "v": 4,
+            "about": "Changed from the sample you saw: line 1 now ends with verse 4 (He carries our griefs and sorrows, the week’s title and the lesson’s focus) instead of verse 3’s “He will know sorrow and grief,” so line 2 starts at verse 5."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 54",
+        "lines": [
+          "In the last days Zion’s tent must grow, with stronger stakes, to hold all her children. (verses 1–3)",
+          "The Lord is Israel’s Redeemer. He left her for a moment, but He will gather her with great mercy and kindness that lasts forever. (verses 4–8)",
+          "His promise to her is as sure as His promise to Noah. Mountains may move, but His kindness and covenant of peace will stay. (verses 9–10)",
+          "He will build her with jewels, teach her children, and give them great peace. No weapon made against her will succeed. (verses 11–17)"
+        ],
+        "also": "Jesus quotes this chapter in the Book of Mormon (3 Nephi 22)."
+      },
+      {
+        "ch": "Isaiah 55",
+        "lines": [
+          "The Lord invites all who are thirsty to come and drink. His salvation costs nothing, and He promises Israel an everlasting covenant. (verses 1–5)",
+          "Isaiah tells people to seek the Lord and call on Him while He is near. He will fully forgive the wicked who turn back. (verses 6–7)",
+          "The Lord’s thoughts and ways are higher than ours, as the heavens are higher than the earth. (verses 8–9)",
+          "Like rain, His word does what He sends it to do. His people will go out with joy, and trees will clap their hands. (verses 10–13)"
+        ]
+      },
+      {
+        "ch": "Isaiah 56",
+        "lines": [
+          "The Lord’s salvation is near. He blesses all who keep His commandments, like keeping the Sabbath holy and staying away from evil. (verses 1–2)",
+          "Men who can’t have children may feel left out. If they keep His covenant, He will exalt them with a name that lasts forever. (verses 3–5)",
+          "The Lord will bring foreigners who join Him to His temple, a house of prayer for all people, and make them joyful. He will gather others to Israel. (verses 6–8)",
+          "But wild animals are called to come and devour. Israel’s watchmen are blind, like dogs that can’t bark, and its leaders are lazy, greedy, and always want more wine. (verses 9–12)"
+        ],
+        "review": [
+          {
+            "v": 5,
+            "about": "Line 2 uses the heading’s “exalted” for verse 5’s promise to the eunuchs (a place in His house and a name that lasts forever), and “men who can’t have children” is the plain words’ gloss for eunuchs."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 57",
+        "lines": [
+          "When righteous people die, no one understands that they are spared from the evil to come. They enter into peace and rest. (verses 1–2)",
+          "The Lord rebukes people who forget Him and worship idols, even killing children as sacrifices. Their idols can’t save them, but whoever trusts Him will inherit His holy mountain. (verses 3–14)",
+          "God lives on high, but also with the humble and contrite, or truly sorry. He will heal them and give peace to those far and near. (verses 15–19)",
+          "But the wicked are like a stormy sea that never rests and stirs up mud. God says they have no peace. (verses 20–21)"
+        ],
+        "review": [
+          {
+            "v": 13,
+            "about": "“Their idols can’t save them” follows the plain words and the note; the KJV says “companies.”"
+          }
+        ]
       }
     ]
   },
@@ -4433,6 +4827,145 @@ window.TU_WEEKS = [
           }
         ],
         "approved": "c1399948"
+      }
+    ],
+    "tldr": [
+      {
+        "ch": "Isaiah 58",
+        "lines": [
+          "The people ask why God doesn’t notice when they fast. But they fight and push their workers hard, so heaven won’t hear them. (verses 1–5)",
+          "The fast the Lord wants means freeing people from heavy burdens and sharing food, homes, and clothes with those in need. (verses 6–7)",
+          "Then their light will shine like the sunrise. The Lord will answer when they call and make them like a watered garden. (verses 8–12)",
+          "The Lord commands them to keep the Sabbath holy. If they call it a delight, they will find joy in the Lord. (verses 13–14)"
+        ],
+        "review": [
+          {
+            "v": 13,
+            "about": "“Commands” comes from the heading (“The commandment to keep the Sabbath is given”); the verse itself is an “if you…” promise."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 59",
+        "lines": [
+          "The Lord can save and hear, but Israel’s sins have come between them and their God. They lie, hurt others, and kill. (verses 1–8)",
+          "The people admit they walk in darkness, feeling along the wall like the blind. Their own sins speak against them. (verses 9–15)",
+          "No one pleads for the people, so the Messiah steps in Himself. He puts on righteousness like armor and pays back His enemies. (verses 16–19)",
+          "“The Redeemer shall come to Zion” for those who repent. His covenant is that His Spirit and words will stay with them forever. (verses 20–21)"
+        ],
+        "review": [
+          {
+            "v": 16,
+            "about": "The line names the Messiah as the one who steps in, from the heading; the verse itself says the Lord saw no one to plead for the people and brought salvation with His own arm."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 60",
+        "lines": [
+          "Israel will arise and shine with the Lord’s light in the last days, while darkness covers the earth. (verses 1–2)",
+          "The Gentiles will come to her light. She will look up and see her children coming home from far away with riches. (verses 3–9)",
+          "Foreigners will rebuild her walls and serve her. She will be called Zion and will know the Lord is her Savior and Redeemer. (verses 10–18)",
+          "The Lord, not the sun, will be her everlasting light. Her people will all be righteous and will grow into a strong nation. (verses 19–22)"
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "The plain words and the helps name Zion here; the line says Israel, from the heading."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 61",
+        "lines": [
+          "The Spirit is on the Messiah to preach the gospel, heal broken hearts, and free captives. In Luke 4:16–21, Jesus reads this about Himself. (verses 1–2)",
+          "He gives those who mourn in Zion beauty instead of ashes, joy instead of sadness, and praise instead of a heavy heart. (verse 3)",
+          "In the last days, they will rebuild old ruins and be called the Lord’s priests and ministers. Their joy will last forever. (verses 4–7)",
+          "The Lord will make an everlasting covenant with them. He will make righteousness and praise spring up like a garden before all nations. (verses 8–11)"
+        ]
+      },
+      {
+        "ch": "Isaiah 62",
+        "lines": [
+          "In the last days, Zion’s righteousness will shine like the dawn for the Gentiles to see. The Lord will give her a new name. (verses 1–2)",
+          "She won’t be called Forsaken, or left alone, anymore. The Lord delights in her like a groom rejoicing over his bride. (verses 3–5)",
+          "Watchmen on Jerusalem’s walls will speak of the Lord day and night, and pray until He makes Jerusalem strong and praised. (verses 6–9)",
+          "The gospel banner will be raised, and Israel will be gathered. They will be called the holy people, the redeemed of the Lord. (verses 10–12)"
+        ],
+        "review": [
+          {
+            "v": 6,
+            "about": "The heading says the watchmen teach about the Lord and the KJV has “make mention of the LORD,” but the plain words read “You who call on the Lord,” so the line has them both speak of the Lord and pray."
+          },
+          {
+            "v": 10,
+            "about": "“Gospel banner” and “Israel will be gathered” are two separate parts of the heading (the gospel standard lifted up; Israel gathered); verse 10 lifts the banner “for the peoples.”"
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 63",
+        "lines": [
+          "D&C 133 says this is the Second Coming. The Lord comes mighty to save, in red clothes like someone who stomps grapes. (verses 1–2)",
+          "He treads the winepress alone, and His enemies’ blood stains His clothes. It’s a day of vengeance and the year He redeems His people. (verses 3–6)",
+          "The Saints praise the Lord for His loving kindness. He became Israel’s Savior, felt their troubles, and redeemed them in His love. (verses 7–9)",
+          "Israel rebelled, and He fought against them. They remember how He split the sea in Moses’ day, and call Him their Father and Redeemer. (verses 10–19)"
+        ],
+        "review": [
+          {
+            "v": 7,
+            "about": "The verse says “I will tell about the Lord’s loving kindnesses”; naming the speakers as the Saints comes from the heading."
+          },
+          {
+            "v": 11,
+            "about": "The KJV says “he remembered”; the Hebrew can mean the Lord or His people, and the line follows the plain words, where His people remember."
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 64",
+        "lines": [
+          "God’s people pray for Him to tear open the heavens and come down. D&C 133 uses this prayer for the Second Coming. (verses 1–3)",
+          "Only God has seen what He has prepared for those who wait for Him. In His ways they will be saved. (verses 4–5)",
+          "They admit even their good deeds are like dirty rags. But the Lord is their Father, the potter, and they are His clay. (verses 6–8)",
+          "They beg Him not to stay angry, because they are His people. Zion is in ruins, and the temple has burned. (verses 9–12)"
+        ],
+        "review": [
+          {
+            "v": 5,
+            "about": "The line follows the KJV and plain words (“in them we will be saved”); the note says many modern translations read the Hebrew as a question, “How can we be saved?”"
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 65",
+        "lines": [
+          "Israel rejected the Lord, though He reached out to them all day long. So He will pay them back for their sins. (verses 1–7)",
+          "But He will spare His servants and bring the sword on those who left Him for false gods. His servants will sing for joy. (verses 8–16)",
+          "In the Millennium, the Lord will make new heavens and a new earth. Old troubles will be forgotten, and His people will rejoice forever. (verses 17–19)",
+          "People will live long and enjoy what they build. The Lord will answer before they call, and the wolf and lamb will eat together. (verses 20–25)"
+        ],
+        "review": [
+          {
+            "v": 11,
+            "about": "“False gods” follows the plain words and note (the god of luck and the god of fate); the KJV reads the same Hebrew words as “that troop” and “that number.”"
+          }
+        ]
+      },
+      {
+        "ch": "Isaiah 66",
+        "lines": [
+          "The Lord looks to the humble who tremble at His word, but He will punish those who choose their own ways. (verses 1–6)",
+          "At the Second Coming, Zion will give birth to the nation of Israel in one day, before her labor even starts. (verses 7–9)",
+          "All who love Jerusalem will rejoice. The Lord will give her peace like a river and comfort His people as a mother does. (verses 10–14)",
+          "The Lord will come with fire to destroy the wicked. The gospel will reach the Gentiles, and all people will worship Him. (verses 15–24)"
+        ],
+        "review": [
+          {
+            "v": 8,
+            "about": "The verse says Zion gives birth to her children, a nation, all at once; naming that nation Israel and placing it at the Second Coming comes from the heading."
+          }
+        ]
       }
     ]
   },
@@ -5731,6 +6264,116 @@ window.TU_WEEKS = [
       }
     ],
     "approved": "9dc93bc1",
-    "wordsApproved": "40d8f5de"
+    "wordsApproved": "40d8f5de",
+    "tldr": [
+      {
+        "ch": "Jeremiah 1",
+        "lines": [
+          "God knew Jeremiah before he was born and foreordained him, or chose him ahead of time, to be a prophet to the nations. (verses 4–5)",
+          "Jeremiah feels too young, but God puts His words in his mouth and sends him to tear down and to build up. (verses 6–10)",
+          "An almond branch and a boiling pot: God is watching over His word, and trouble is coming from the north because the people turned to idols. (verses 11–16)",
+          "God will make him strong like a fortress. People will fight him, but they won’t win, because God is with him. (verses 17–19)"
+        ],
+        "review": [
+          {
+            "v": 5,
+            "about": "Added “to the nations” to the sample you saw, because the heading says “a prophet unto the nations” (so does verse 5); nothing else changed."
+          },
+          {
+            "v": 12,
+            "about": "The line follows the Hebrew “watching” (the almond pun in the note); the KJV says “hasten.”"
+          }
+        ]
+      },
+      {
+        "ch": "Jeremiah 2",
+        "lines": [
+          "The Lord remembers how His people once loved Him. He led them out of Egypt into a rich land, but they made it unclean. (verses 1–8)",
+          "The Lord is the fountain of living waters, but His people have left Him for broken cisterns, or water pits, that can’t hold water. (verses 9–13)",
+          "Leaving the Lord has ruined their land. They call a piece of wood their father, but their idols can’t save them. (verses 14–28)",
+          "The people of Judah killed their prophets and forgot the Lord. They say they haven’t sinned, but He will bring charges against them. (verses 29–37)"
+        ]
+      },
+      {
+        "ch": "Jeremiah 3",
+        "lines": [
+          "The Lord is like a husband to His people. They have been unfaithful to Him and made the land unclean with their wickedness. (verses 1–5)",
+          "Israel worshipped idols, so the Lord sent her away. Her sister Judah saw it but did the same, and only pretended to come back. (verses 6–11)",
+          "The merciful Lord calls them back. In the last days He will gather them to Zion, one from a city, two from a family. (verses 12–18)",
+          "He wants them to call Him Father and promises to heal them. They come back to Him and admit their sins. (verses 19–25)"
+        ],
+        "review": [
+          {
+            "v": 14,
+            "about": "“In the last days” comes from the chapter heading; the verses themselves say “in those days” (verses 16 and 18)."
+          }
+        ]
+      },
+      {
+        "ch": "Jeremiah 7",
+        "lines": [
+          "God sends Jeremiah to the temple gate. If Judah’s people repent and treat others fairly, He will let them stay in the land. (verses 1–7)",
+          "They steal and murder, then feel safe in the temple, like robbers in their den. God will ruin it as He ruined Shiloh and cast them out. (verses 8–15)",
+          "God tells Jeremiah not to pray for them. He wants them to obey His voice, but they won’t listen to Him or His prophets. (verses 16–28)",
+          "The Lord rejects this generation for their idols and for sacrificing their children in fire, which He never commanded. The land will be ruined. (verses 29–34)"
+        ]
+      },
+      {
+        "ch": "Jeremiah 16",
+        "lines": [
+          "God tells Jeremiah not to marry or have children, because Judah will be completely ruined. He has taken His peace from them. (verses 1–9)",
+          "Their fathers left the Lord for false gods, and they are even worse. So God will cast them out of their land. (verses 10–13)",
+          "God will gather Israel from every land, a greater miracle than bringing them out of Egypt. He will send fishers and hunters, like missionaries, to find them. (verses 14–18)",
+          "The gospel will be restored, and Gentiles from the ends of the earth will leave their fathers’ lies and come to know the Lord. (verses 19–21)"
+        ],
+        "review": [
+          {
+            "v": 16,
+            "about": "“Like missionaries” comes from the lesson’s children’s section (President Nelson) and the Scripture Helps; the verse only names fishers and hunters."
+          },
+          {
+            "v": 19,
+            "about": "The heading’s “the gospel is to be restored” is placed on verses 19–21; the verses say Gentiles from the ends of the earth will turn from their fathers’ lies and know the Lord’s name."
+          }
+        ]
+      },
+      {
+        "ch": "Jeremiah 17",
+        "lines": [
+          "Judah’s sin is written on their hearts with an iron pen. God will make them serve their enemies in a land they don’t know. (verses 1–4)",
+          "Those who trust in people are like a dry desert bush. Those who trust the Lord are like a green tree by a river. (verses 5–8)",
+          "The heart can fool anyone, but the Lord searches it. All who leave Him, the fountain of living waters, will be ashamed, and Jeremiah prays to be healed. (verses 9–18)",
+          "If the people keep the Sabbath day holy, Jerusalem will last forever. If they don’t, God will set the city on fire. (verses 19–27)"
+        ]
+      },
+      {
+        "ch": "Jeremiah 18",
+        "lines": [
+          "God sends Jeremiah to watch a potter remake a ruined clay pot. Israel is like clay in God’s hands. (verses 1–6)",
+          "If a nation repents, God will hold back the disaster He warned about. But when He calls Judah to turn back, they refuse. (verses 7–12)",
+          "God’s people have forgotten Him and burn incense to idols. So He will scatter them before their enemies, like a hot east wind. (verses 13–17)",
+          "The people plot to kill Jeremiah. He tells the Lord he spoke up for them, and asks Him to punish them. (verses 18–23)"
+        ],
+        "review": [
+          {
+            "v": 8,
+            "about": "The KJV says the Lord will “repent”; the line follows the plain words and the note (the nation repents, and the Lord holds back the disaster)."
+          },
+          {
+            "v": 21,
+            "about": "Jeremiah’s prayer against his enemies (famine, sword, don’t forgive them) is summed up as “asks Him to punish them.”"
+          }
+        ]
+      },
+      {
+        "ch": "Jeremiah 20",
+        "lines": [
+          "A priest named Pashur strikes Jeremiah and locks him in the stocks, a wooden frame that holds his feet and hands. (verses 1–2)",
+          "When he is let out, Jeremiah prophesies that the Lord will give all Judah to Babylon as captives. Pashur will die there. (verses 3–6)",
+          "People mock Jeremiah, so he decides to stay quiet. But God’s word burns in his heart like fire, and he can’t hold it in. (verses 7–10)",
+          "The Lord is with him like a mighty warrior, and Jeremiah praises Him. Still, in his sorrow, he wishes he had never been born. (verses 11–18)"
+        ]
+      }
+    ]
   }
 ];

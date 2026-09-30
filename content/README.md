@@ -26,6 +26,9 @@ name and email, each signed in with Google; the Firebase rules enforce that.
   (`review`).
   A chapter's plain words show in the app only once they're approved (the
   test site shows drafts, marked), so they never hold up publishing a week.
+- **The short version** is a piece per chapter too: each line of the card
+  with the KJV verses it sums up under it, and first anything to look at
+  (`review`). Like plain words, a card shows only once it's approved.
 - **Publish to the live app** appears once every piece of a week is approved.
   It copies any pictures the live app lacks, then the week, to the live repo.
   The live deploy runs the check with `--require-approval` (weeks from
@@ -177,6 +180,40 @@ word, and needs no approval; leave that file as the BSB published it.
   goes in. The checker counts what can be counted: a verse per verse, notes
   on real verses, quotes and references that check out; and it notes a plain
   verse much longer than the KJV's, a name left out, or KJV English left in.
+
+## The short version (`tldr`)
+
+A card at the top of every chapter he reads (the day's reading and Past
+weeks), above the KJV / Plain words / BSB / Notes buttons: "The short
+version", two to four lines on what the chapter says, each ending with the
+verses it covers. Tapping those verses takes him down to them. Every week
+gets them for its whole reading, with its plain words (Blake, 2026-09-29:
+"Yeah. Go ahead."). A week's `tldr` is a list of chapters from its reading,
+each `{ ch, lines, review }`.
+
+- `lines`: 2 to 4, in order, each ending with its verses: "(verse 10)" or
+  "(verses 4–5)". 30 words max before the verses; aim for 15–22.
+- Written from, in this order: the Church's chapter heading in Gospel
+  Library (every part of it shows up in some line, and it says who a
+  passage is about); the week's Come Follow Me lesson, whose "Ideas for
+  Teaching Children" decide what leads; the lesson's Scripture Helps; and
+  the verses themselves (KJV, plain words, BSB), which every line must be
+  true to. Other scripture only where those use it (Mosiah 14 for Isaiah
+  53). In our own words, not the Church's sentences.
+- For an 11-year-old: short sentences, everyday words, and the words he
+  hears at church (foreordained, Restoration, Second Coming…), with a few
+  plain words where one may be new. He, His, Him for God and the Savior.
+  Say what the chapter says: no lessons or applications, which the reels
+  do. No quotes, unless the KJV's own words from the verses the line names.
+- `also`: where the chapter heading names a Book of Mormon copy ("Compare
+  2 Nephi 23"), one sentence under the lines saying who quotes it there:
+  "Nephi quotes this chapter in the Book of Mormon (2 Nephi 23)." The lines
+  themselves stay on the chapter.
+- `review`: `{ v, about }`, what Blake should look at first in developer
+  mode. Not shown in the app.
+- Each week's cards are read against the verses, the heading and the lesson
+  by a second reviewer before they go in. The checker counts the lines,
+  their length and verses, their references, and checks any quote.
 
 ## The map game's board (content/boards.js)
 
