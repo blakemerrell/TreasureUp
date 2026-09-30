@@ -54,13 +54,15 @@ words).
 A line is said, in this order, by:
 
 1. **Its recording**, if it has one: `amigo/audio/tl/<key>.mp3`, listed in
-   `amigo/audio/index.js`, made once in a Filipino voice by
-   `node tools/amigo-voice.mjs` (Google Cloud Text-to-Speech; the API key
-   stays in `~/keys/google-tts.key` and never goes in the app). It plays on
-   every phone. `--dry` lists what isn't recorded yet, `--samples <dir>`
-   says one line in every Filipino voice to pick from, `--voice <name>`
-   picks one, `--all` records everything again. Run it after adding or
-   changing Tagalog, and commit the new files.
+   `amigo/audio/index.js`, in Google's Filipino voice fil-ph-Neural2-D (a
+   man's; Blake's pick). It plays on every phone. **The test site's deploy
+   records any new or changed Tagalog line by itself** (the "Record new
+   Tagalog" step, `tools/amigo-voice.mjs`) and saves the files back to the
+   repo, so pull before the next push. The Google key is the test repo's
+   secret `GOOGLE_TTS_JSON` and is on no computer. By hand, with a key in
+   `~/keys`: `--dry` lists what isn't recorded, `--samples <dir>` says one
+   line in every Filipino voice, `--voice <name>` picks one, `--all`
+   records everything again.
 2. **The phone's own voice** for the language: Spanish in its Mexican voice;
    Tagalog on phones that have one (many Androids: Google's Filipino voice
    data).

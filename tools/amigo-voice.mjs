@@ -6,9 +6,10 @@
 // amigo/audio/tl/<key>.mp3, and amigo/audio/index.js lists them for the game.
 // Only lines without a recording are made; a changed line gets a new key.
 //
-// Google Cloud Text-to-Speech, signed in with a service account's JSON key
-// (~/keys/google-tts.json) or an API key (~/keys/google-tts.key, or
-// $GOOGLE_TTS_KEY). Neither ever goes in the app or the repo.
+// Google Cloud Text-to-Speech, signed in with a service account's JSON key:
+// the test repo's secret GOOGLE_TTS_JSON when the deploy runs it (the key
+// lives only there), or ~/keys/google-tts.json; or with an API key
+// (~/keys/google-tts.key, or $GOOGLE_TTS_KEY). Never in the app or the repo.
 //   node tools/amigo-voice.mjs --dry              what it would record, and how many characters
 //   node tools/amigo-voice.mjs --samples <dir>    one line in every Filipino voice, to pick one
 //   node tools/amigo-voice.mjs [--voice <name>]   record what's missing (fil-ph-Neural2-D unless named: Blake's pick)
@@ -45,10 +46,10 @@ let token = null;
 async function auth() {
   if (process.env.GOOGLE_TTS_KEY) return { key: process.env.GOOGLE_TTS_KEY.trim() };
   const account = path.join(KEYS, 'google-tts.json'), apiKey = path.join(KEYS, 'google-tts.key');
-  if (fs.existsSync(account)) {
+  if (process.env.GOOGLE_TTS_JSON || fs.existsSync(account)) {
     const now = Math.floor(Date.now() / 1000);
     if (token && token.until > now + 60) return { bearer: token.value };
-    const cred = JSON.parse(fs.readFileSync(account, 'utf8'));
+    const cred = JSON.parse(process.env.GOOGLE_TTS_JSON || fs.readFileSync(account, 'utf8'));
     const part = o => Buffer.from(JSON.stringify(o)).toString('base64url');
     const unsigned = part({ alg: 'RS256', typ: 'JWT' }) + '.' + part({ iss: cred.client_email, scope: 'https://www.googleapis.com/auth/cloud-platform', aud: cred.token_uri, iat: now, exp: now + 3600 });
     const jwt = unsigned + '.' + crypto.createSign('RSA-SHA256').update(unsigned).sign(cred.private_key).toString('base64url');
