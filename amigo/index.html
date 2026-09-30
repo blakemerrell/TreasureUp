@@ -502,7 +502,7 @@
       const [a, b] = st.prompt.split('___'), put = r.checked ? st.right : r.picked;
       body = `<p class="kind">${st.review ? 'Remember this? ' : ''}Pick the right form</p>
         <p class="prompt" lang="tl">${esc(a)}<span class="blank">${put ? esc(put) : '____'}</span>${esc(b)}</p>
-        <p class="note">${esc(st.en)} From <b lang="tl">${esc(st.root)}</b>.</p>
+        <p class="note">${esc(st.en)}${st.root ? ` From <b lang="tl">${esc(st.root)}</b>.` : ''}</p>
         <div class="opts">${st.choices.map(o => `<button class="opt ${cls(o)}" data-pick="${esc(o)}" lang="tl">${esc(o)}</button>`).join('')}</div>`;
       ready = r.picked != null;
     } else if (st.type === 'say') {

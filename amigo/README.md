@@ -77,7 +77,8 @@ review. A unit:
   speed; everything else in A's. The *Slower* button plays them at 0.75.
 - At least 4 questions, 2 missing words, 4 forms, 3 to build, 3 to say and 2
   scenes. A form's two wrong answers are the same root in other forms; a
-  missing word's are too.
+  missing word's are too. A form's `root` shows before he answers (“From
+  luto.”), so a form about a little word (*na*, *pa*, *din*) has none.
 - A sentence to pick a form for, build or say, and a scene's answer, is in
   one unit only (a scene may answer with one of its unit's sentences to say).
 - It isn't held back for Blake's check: he is the one learning it, and it
