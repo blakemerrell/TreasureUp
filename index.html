@@ -77,6 +77,12 @@
   .past-row small { display: block; margin-top: 2px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.55); }
   .past-note { margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: rgba(0,0,0,.3); border: 1px solid rgba(255,255,255,.12); }
   .past-note p { margin-top: 4px; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,.9); white-space: pre-wrap; }
+  /* Caught up on since the week ended: an outlined mark. Answered that week,
+     but which answer wasn't saved: a grey one. */
+  .report-row.is-right.late .st { background: none; color: var(--right); }
+  .report-row.is-wrong.late .st { background: none; color: var(--wrong); }
+  .report-row.is-done .st { background: rgba(255,255,255,.7); border-color: rgba(255,255,255,.7); color: #0b1024; }
+  .past-legend b { font-weight: 800; color: rgba(255,255,255,.85); }
 
   /* One reel on its own screen, over the page and its top bar. */
   #view { position: fixed; inset: 0; z-index: 90; background: var(--ink); }
@@ -1332,7 +1338,8 @@ const TreasureUp = (function () {
     climbDay: null,  // last day a Scripture Climb paid XP
     sayRecall: {},   // sayingId -> last day it came back in a warm-up
     sayPos: null,    // Who said it?: where the current round was left { week, idx, right, seed }
-    history: [],     // finished weeks, for the year trail: { title, num, right, answered, read, chapters }
+    history: [],     // finished weeks, for the year trail: { title, num, right, answered, read, chapters, rec }
+    late: {},        // past weeks' questions answered since they ended: weekNum -> { answers, bonus, deep: id -> { right, picked, day, xp } }
     weekTitle: null, weekNum: null,
     read: {},        // this week's chapters he has read: "Isaiah 40" -> the day
     readLog: {},     // this week's reading clock: "Isaiah 40" -> { start, secs, said, xp, day }: when he first
@@ -1799,6 +1806,7 @@ const TreasureUp = (function () {
     $('view').hidden = true;
     $('viewBody').innerHTML = '';
     refreshHome();
+    refreshPast();     // a past week under it: what he answered there shows
   }
 
   /* ---------------- HUD ---------------- */
@@ -3468,7 +3476,7 @@ const TreasureUp = (function () {
     return `
       <div class="home-sec">
         <div class="eyebrow">Past weeks</div>
-        <p class="lb-help">Read any week again: its chapters, its reels, and your answers.</p>
+        <p class="lb-help">Read any week again, see your answers, and answer what you missed.</p>
         ${list.map(p => {
           const h = recordOf(p.num);
           return `<button class="report-row past-row" data-past="${p.num}"><span class="st"></span>
@@ -3480,11 +3488,72 @@ const TreasureUp = (function () {
   // One past week on its own screen: its chapters (in the app when their
   // text is here, or in Gospel Library), then each section's reels and
   // Go-deeper readings, marked with his first try. A reel, reading or
-  // chapter opens over it, read-only: nothing here changes his progress.
+  // chapter opens over it. A question he didn't answer that week he can
+  // answer now: the first try only, with the XP it pays this week, kept
+  // apart from the week's own record (S.late) and marked as caught up.
   let past = null;   // the week open: { p, week, text }
   let pastUnit = null;   // the chapter open over it, if one is
-  const pastRec = () => ((past && recordOf(past.p.num)) || {}).rec || {};
   const pastSourceLink = src => src === 'lesson' ? past.week.lesson : sourceLink(src);
+  const shortDay = k => new Date(k + 'T12:00:00').toLocaleDateString([], { month: 'short', day: 'numeric' });
+
+  // His try at one question of the open week (`kind` is answers, bonus or
+  // deep, keyed as in S): what was saved when the week ended, else what he
+  // answered since. A week that ended before each answer was saved (the
+  // first weeks, up to the morning of September 28, 2026) kept only its
+  // totals: all its reels answered means each one was, and all right (or
+  // none) says how each went; `right` is null when they don't say.
+  // Null when nothing says he answered it.
+  function pastTry(kind, id) {
+    const { p, week } = past, h = recordOf(p.num), rec = h && h.rec;
+    const a = rec && (rec[kind] || {})[id];
+    if (a) return { right: a.right, picked: a.picked };
+    const l = (((S.late || {})[p.num] || {})[kind] || {})[id];
+    if (l) return { right: l.right, picked: l.picked, late: l.day };
+    if (h && !rec && kind === 'answers' && week.reels.length && h.answered >= week.reels.length) {
+      const r = week.reels.find(x => x.id === id), right = h.right >= h.answered ? true : h.right ? null : false;
+      return r ? { right, picked: right ? r.question.right : null, unsaved: true } : null;
+    }
+    return null;
+  }
+  // A chapter of the open week he read: saved with the week, or, for a week
+  // with only its totals, when he read all of them.
+  function pastReadDone(ref, units) {
+    const h = recordOf(past.p.num), rec = h && h.rec;
+    if (rec) return (Array.isArray(rec.read) ? rec.read : Object.keys(rec.read || {})).includes(ref);
+    return !!(h && units.length && h.read >= units.length);
+  }
+  // Answering a past week's question he hadn't: XP as this week pays it,
+  // when it's right.
+  function recordPast(kind, id, q, picked) {
+    if (!past || pastTry(kind, id)) return false;            // first try only
+    const right = picked === q.right, xp = right ? (kind === 'answers' ? XP.firstTry : XP.bonus) : 0;
+    const w = (S.late = S.late || {})[past.p.num] = S.late[past.p.num] || {};
+    (w[kind] = w[kind] || {})[id] = { right, picked, day: dayKey(), xp };
+    markStudied();
+    if (xp) grantXp(xp, 'Caught up on a past week');
+    save();
+    return true;
+  }
+  function answerPast(quiz, picked) {
+    if (!past) return;
+    const kind = quiz.dataset.pq, id = quiz.dataset.pid, week = past.week;
+    const d = kind === 'deep' && (week.deep || []).find(x => x.id === id);
+    const r = !d && week.reels.find(x => x.id === id.split('#')[0]);
+    const q = d || (r && (kind === 'bonus' ? bonusesOf(r)[Number(id.split('#')[1])] : r.question));
+    if (!q || !recordPast(kind, id, q, picked)) return;
+    const pad = $('viewBody').querySelector('.content-pad'), top = pad ? pad.scrollTop : 0;
+    $('viewBody').innerHTML = r ? pastReelHtml(r) : pastDeepHtml(d);
+    const pad2 = $('viewBody').querySelector('.content-pad');
+    if (pad2) pad2.scrollTop = top;
+    renderHud();
+  }
+  // The week again, keeping its place, after something in it changed.
+  function refreshPast() {
+    if (!past) return;
+    const top = $('past').scrollTop;
+    $('pastBody').innerHTML = pastWeekHtml();
+    $('past').scrollTop = top;
+  }
   function loadScript(src) {
     return new Promise((ok, no) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
   }
@@ -3521,85 +3590,108 @@ const TreasureUp = (function () {
     past = null;
   }
   function pastWeekHtml() {
-    const { p, week, text } = past, h = recordOf(p.num), rec = pastRec();
-    const answers = rec.answers || {}, deepDone = rec.deep || {}, read = new Set(Array.isArray(rec.read) ? rec.read : Object.keys(rec.read || {}));
-    const row = (a, name, attr) => `
-      <button class="report-row${a ? (a.right ? ' is-right' : ' is-wrong') : ''}" ${attr}>
-        <span class="st">${a ? (a.right ? '✓' : '✕') : ''}</span><span>${esc(name)}</span><span class="go">›</span></button>`;
-    const deepRow = d => row(deepDone[d.id], '🧭 ' + (d.day === 'friday' ? d.title : 'Read ' + d.read), `data-past-deep="${esc(d.id)}"`);
+    const { p, week, text } = past, h = recordOf(p.num);
+    const tries = [];
+    const row = (t, name, attr) => {
+      tries.push(t);
+      const cls = !t ? '' : t.right == null ? ' is-done' : (t.right ? ' is-right' : ' is-wrong') + (t.late ? ' late' : '');
+      return `
+      <button class="report-row${cls}" ${attr}>
+        <span class="st">${!t ? '' : t.right === false ? '✕' : '✓'}</span><span>${esc(name)}</span><span class="go">›</span></button>`;
+    };
+    const deepRow = d => row(pastTry('deep', d.id), '🧭 ' + (d.day === 'friday' ? d.title : 'Read ' + d.read), `data-past-deep="${esc(d.id)}"`);
     const parts = week.sections.map((name, i) => `<div class="lb-sec">${esc(name)}</div>` +
-      week.reels.filter(r => r.section === i).map(r => row(answers[r.id], r.hook, `data-past-reel="${esc(r.id)}"`)).join('') +
+      week.reels.filter(r => r.section === i).map(r => row(pastTry('answers', r.id), r.hook, `data-past-reel="${esc(r.id)}"`)).join('') +
       (week.deep || []).filter(d => d.section === i && d.day !== 'friday').map(deepRow).join(''));
     const friday = (week.deep || []).filter(d => d.day === 'friday');
     if (friday.length) parts.push(`<div class="lb-sec">Friday deep dive</div>` + friday.map(deepRow).join(''));
     const units = readingUnits(week.reference, text);
-    const chapters = units.map(u => `
-      <button class="report-row${read.has(u.ref) ? ' is-right' : ''}" data-past-read="${esc(u.ref)}">
-        <span class="st">${read.has(u.ref) ? '✓' : ''}</span><span>Read ${esc(u.ref)}</span><span class="go">›</span></button>`).join('');
-    const summary = !h ? '' : `You answered ${h.answered} ${h.answered === 1 ? 'reel' : 'reels'}, ${h.right} right the first time` +
-      (h.read ? `, and read ${h.read} of ${h.chapters || units.length} ${(h.chapters || units.length) === 1 ? 'chapter' : 'chapters'}.` : '.');
+    const chapters = units.map(u => {
+      const did = pastReadDone(u.ref, units);
+      return `
+      <button class="report-row${did ? ' is-right' : ''}" data-past-read="${esc(u.ref)}">
+        <span class="st">${did ? '✓' : ''}</span><span>Read ${esc(u.ref)}</span><span class="go">›</span></button>`;
+    }).join('');
+    const late = Object.values((S.late || {})[p.num] || {}).reduce((n, o) => n + Object.keys(o || {}).length, 0);
+    const summary = (!h ? '' : `You answered ${h.answered} ${h.answered === 1 ? 'reel' : 'reels'}, ${h.right} right the first time` +
+      (h.read ? `, and read ${h.read} of ${h.chapters || units.length} ${(h.chapters || units.length) === 1 ? 'chapter' : 'chapters'}.` : '.')) +
+      (late ? `${h ? ' Since then you' : 'You'} caught up on ${late} ${late === 1 ? 'question' : 'questions'}.` : '');
+    const unsaved = h && !h.rec ? 'This week ended before the app saved each answer, so only these totals were kept.' : '';
+    const legend = [
+      tries.some(t => !t) ? 'Tap an empty one to answer it now.' : '',
+      tries.some(t => t && t.late) ? '<b>Outlined</b>: answered since the week ended.' : '',
+      tries.some(t => t && t.right == null) ? "<b>Grey</b>: answered that week; whether it was right wasn't saved." : ''
+    ].filter(Boolean).join(' ');
     return `
       <div class="home-in">
         <div class="eyebrow">Come, Follow Me · ${esc(week.dates)}</div>
         <h1 class="reel-hook" style="font-size:clamp(26px,4vh,34px)">${esc(week.title)}</h1>
         <p class="text-[15px] font-bold text-amber-300">${linkRefs(week.reference)}</p>
         ${summary ? `<p class="lb-help">${esc(summary)}</p>` : ''}
+        ${unsaved ? `<p class="lb-help">${esc(unsaved)}</p>` : ''}
         ${chapters ? `<div class="home-sec"><div class="eyebrow">The chapters</div>${chapters}</div>` : ''}
-        <div class="home-sec"><div class="eyebrow">The reels</div>${parts.join('')}</div>
+        <div class="home-sec"><div class="eyebrow">The reels</div>${legend ? `<p class="lb-help past-legend">${legend}</p>` : ''}${parts.join('')}</div>
         <a href="${esc(week.lesson)}" target="_blank" rel="noopener noreferrer"
            class="mt-5 inline-block text-[13px] font-semibold text-white/75 underline decoration-white/30">Open that week's lesson ↗</a>
       </div>`;
   }
   function openPastView(kind, id) {
     if (!past) return;
-    const { week, text } = past, rec = pastRec();
+    const { week, text } = past;
     const r = kind === 'reel' && week.reels.find(x => x.id === id);
     const d = kind === 'deep' && (week.deep || []).find(x => x.id === id);
     const u = kind === 'read' && readingUnits(week.reference, text).find(x => x.ref === id);
-    const html = r ? pastReelHtml(r, rec) : d ? pastDeepHtml(d, rec) : u ? pastChapterHtml(u) : '';
+    const html = r ? pastReelHtml(r) : d ? pastDeepHtml(d) : u ? pastChapterHtml(u) : '';
     if (!html) return;
     pastUnit = u || null;
     $('viewBody').innerHTML = html;
     $('view').hidden = false;
     if (u) needBsb($('viewBody').querySelector('.ls-chapter'));
   }
-  // A question as it was, read-only: the right answer, and his first try
-  // when it was saved.
-  function pastQuizHtml(q, seed, picked, home, label) {
-    const done = picked != null;
+  // One question of a past week, with his try `t` (pastTry). Answered: the
+  // right answer and his pick, read-only, and when that was. Not yet: he
+  // answers it now, and `ask` ([kind, id]) is where it's saved.
+  function pastQuizHtml(q, seed, t, home, label, ask) {
     const buttons = choicesFor(q, seed).map(c => {
-      const right = c === q.right, missed = done && !right && c === picked;
-      return `<button class="choice${right ? ' is-right' : missed ? ' is-wrong' : ''}" disabled>
-                <span class="mark">${right ? '✓' : missed ? '✕' : ''}</span><span>${esc(c)}</span></button>`;
+      const right = c === q.right, missed = t && !right && c === t.picked;
+      return `<button class="choice${!t ? '' : right ? ' is-right' : missed ? ' is-wrong' : ''}" data-choice="${esc(c)}"${t ? ' disabled' : ''}>
+                <span class="mark">${!t ? '' : right ? '✓' : missed ? '✕' : ''}</span><span>${esc(c)}</span></button>`;
     }).join('');
-    const lead = !done ? '' : picked === q.right ? '<b class="ok">Right.</b> ' : '<b class="no">Not quite.</b> ';
+    const lead = !t ? '' : t.right === true ? '<b class="ok">Right.</b> ' : t.right === false ? '<b class="no">Not quite.</b> ' : '<b>Answered that week.</b> ';
+    const when = !t ? '' : t.late ? 'Caught up on ' + shortDay(t.late) + '.'
+      : !t.unsaved ? '' : t.right ? "From that week's totals: every reel right." : "Which answer you picked that week wasn't saved.";
     return `
-      <div class="quiz done${/^Bonus/.test(label) ? ' bonus' : ''}">
+      <div class="quiz${t ? ' done' : ''}${/^Bonus/.test(label) ? ' bonus' : ''}"${t ? '' : ` data-pq="${ask[0]}" data-pid="${esc(ask[1])}"`}>
         <div class="eyebrow" style="color:var(--gold)">${label}</div>
         <p class="quiz-q">${linkRefs(q.q, home)}</p>
         <div class="quiz-choices">${buttons}</div>
-        <p class="quiz-why">${lead}${linkRefs(q.why, home)}</p>
+        ${t ? `<p class="quiz-why">${lead}${linkRefs(q.why, home)}${when ? `<br><span class="text-white/55 text-[12px]">${when}</span>` : ''}</p>` : ''}
       </div>`;
   }
-  function pastReelHtml(r, rec) {
-    const a = (rec.answers || {})[r.id], bonus = rec.bonus || {}, note = S.notes && S.notes[r.id] && S.notes[r.id].text;
-    const bonuses = bonusesOf(r).map((q, n) => {
-      const b = bonus[bonusKey(r.id, n)];
-      return pastQuizHtml(q, r.id + '|bonus' + n, b ? b.picked : null, homeOf(r, q), 'Bonus · found in ' + refA(pastSourceLink(q.source), sourceLabel(q.source)));
-    }).join('');
+  function pastReelHtml(r) {
+    const t = pastTry('answers', r.id), note = S.notes && S.notes[r.id] && S.notes[r.id].text;
+    // Its bonuses as in its week: once its own question is answered, one at a time.
+    let bonuses = '';
+    if (t) for (let n = 0; n < bonusesOf(r).length; n++) {
+      const q = bonusesOf(r)[n], key = bonusKey(r.id, n), b = pastTry('bonus', key);
+      const where = refA(pastSourceLink(q.source), sourceLabel(q.source));
+      bonuses += pastQuizHtml(q, r.id + '|bonus' + n, b, homeOf(r, q),
+        b ? 'Bonus · found in ' + where : 'Bonus · find it in ' + where + ' · +' + XP.bonus + ' XP', ['bonus', key]);
+      if (!b) break;
+    }
     return `
     <article class="reel${r.media && r.media.image ? ' has-photo' : ''}" data-id="${esc(r.id)}" data-index="0">
       ${backdrop(r)}
       <div class="relative z-20 px-5 pr-7 content-pad">
         ${reelFaceHtml(r, past.week.sections[r.section])}
-        ${pastQuizHtml(r.question, r.id, a ? a.picked : null, r.verse.ref, 'Quick check')}
+        ${pastQuizHtml(r.question, r.id, t, r.verse.ref, t ? 'Quick check' : 'Quick check · +' + XP.firstTry + ' XP if right', ['answers', r.id])}
         ${bonuses}
         ${note ? `<div class="past-note"><div class="eyebrow">Your note</div><p>${esc(note)}</p></div>` : ''}
       </div>
     </article>`;
   }
-  function pastDeepHtml(d, rec) {
-    const a = (rec.deep || {})[d.id], friday = d.day === 'friday';
+  function pastDeepHtml(d) {
+    const t = pastTry('deep', d.id), friday = d.day === 'friday';
     const web = /^https:|^lesson$/.test(d.read);
     const url = d.read === 'lesson' ? past.week.lesson : web ? d.read : readLink(d.read);
     return `
@@ -3610,7 +3702,7 @@ const TreasureUp = (function () {
         <h2 class="reel-hook">${friday ? esc(d.title) : 'Read ' + linkRefs(d.read)}</h2>
         <p class="reel-body">${linkRefs(d.intro, deepPassage(d))}</p>
         ${url ? `<a class="deep-open" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open ${esc(web ? sourceLabel(d.read) : d.read)} ↗</a>` : ''}
-        ${pastQuizHtml(d, 'deep|' + d.id, a ? a.picked : null, deepHome(d), 'Find it in the reading')}
+        ${pastQuizHtml(d, 'deep|' + d.id, t, deepHome(d), t ? 'Find it in the reading' : 'Find it in the reading · +' + XP.bonus + ' XP', ['deep', d.id])}
       </div>
     </article>`;
   }
@@ -7136,6 +7228,19 @@ const TreasureUp = (function () {
       const a = L.words[d], r = (R.words || {})[d], b0 = (B.words || {})[d];
       if (a && a.paid && r && r.paid && !(b0 && b0.paid)) gained -= typeof a.paid === 'number' ? a.paid : 10;
     }
+    // Past weeks caught up on: each question's first try from either device,
+    // its XP paid once.
+    if (L.late || R.late) {
+      M.late = {};
+      for (const w of new Set(Object.keys(L.late || {}).concat(Object.keys(R.late || {})))) {
+        const l = (L.late || {})[w] || {}, r = (R.late || {})[w] || {}, b = (B.late || {})[w] || {};
+        M.late[w] = {};
+        for (const kind of new Set(Object.keys(l).concat(Object.keys(r)))) {
+          M.late[w][kind] = Object.assign({}, l[kind] || {}, r[kind] || {});
+          for (const k in l[kind] || {}) if (!has(b[kind], k) && has(r[kind], k) && l[kind][k].xp) gained -= l[kind][k].xp;
+        }
+      }
+    }
     M.xp = (R.xp || 0) + Math.max(0, gained);
     for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
     // The reading clock: a chapter finished on either device keeps its record.
@@ -7168,7 +7273,16 @@ const TreasureUp = (function () {
     };
     if (pzAhead(L.puzzle, R.puzzle)) M.puzzle = L.puzzle;
     M.climbDay = [L.climbDay, R.climbDay].filter(Boolean).sort().pop() || null;
-    if ((L.history || []).length > (R.history || []).length) M.history = L.history;
+    // Finished weeks: every week either device has. For one both have, the
+    // copy that kept what he did in it (a device that changed weeks on an
+    // older app kept only the totals).
+    const weekOf = h => h.num || h.title;
+    M.history = (R.history || []).slice();
+    for (const h of L.history || []) {
+      const i = M.history.findIndex(x => weekOf(x) === weekOf(h));
+      if (i < 0) M.history.push(h);
+      else if (h.rec && !M.history[i].rec) M.history[i] = h;
+    }
     return M;
   }
 
@@ -8844,7 +8958,7 @@ const TreasureUp = (function () {
       if (e.target.closest('[data-parent]')) { openParent(); return; }
     });
 
-    // A past week: its chapters, reels and readings open over it, read-only.
+    // A past week: its chapters, reels and readings open over it.
     $('pastBack').addEventListener('click', closePast);
     $('past').addEventListener('click', e => {
       const t = e.target.closest('[data-past-reel], [data-past-deep], [data-past-read]');
@@ -8872,6 +8986,7 @@ const TreasureUp = (function () {
       if (!btn || btn.disabled) return;
       const quiz = btn.closest('.quiz');
       if (!quiz || quiz.classList.contains('done')) return;
+      if (quiz.dataset.pq) { answerPast(quiz, btn.dataset.choice); return; }   // a past week's
       answer(quiz, btn.dataset.choice);
     });
 
