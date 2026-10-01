@@ -65,6 +65,8 @@
   .home-in { max-width: 600px; margin: 0 auto; padding: calc(var(--sat) + 72px) 20px calc(var(--sab) + 48px); }
   .home-sec { margin-top: 26px; }
   .home-win { margin-top: 6px; font-size: 15px; font-weight: 800; color: var(--right); }
+  .dev-link { display: inline-block; margin-bottom: 10px; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 800;
+              color: var(--gold); background: rgba(252,211,77,.1); border: 1px solid rgba(252,211,77,.35); }
   .lb-help { margin-top: 4px; font-size: 12.5px; color: rgba(255,255,255,.6); }
   .lb-sec { margin-top: 16px; font-size: 13px; font-weight: 800; color: var(--gold); }
   .report-row.todo { color: rgba(255,255,255,.55); }
@@ -1667,6 +1669,7 @@ const TreasureUp = (function () {
   function homeHtml() {
     return `
       <div class="home-in">
+        ${devLinkHtml()}
         <div class="eyebrow">Come, Follow Me · ${esc(WEEK.dates)}</div>
         <h1 class="reel-hook" style="font-size:clamp(28px,4.4vh,38px)">${esc(WEEK.title)}</h1>
         <p class="text-[15px] font-bold text-amber-300">${linkRefs(WEEK.reference)}</p>
@@ -1681,6 +1684,18 @@ const TreasureUp = (function () {
         ${pastWeeksHtml()}
         ${rewardsHtml()}
       </div>`;
+  }
+
+  // Blake, signed in here with his Google account: developer mode one tap
+  // from the top of the page (on the live app, the test site's, where it is).
+  // Only a way in; developer mode itself checks who may use it.
+  const devOwner = () => { const u = authUser(); return !!u && !u.isAnonymous && (u.email || '').toLowerCase() === DEV.owner; };
+  let devLinkShown = false;
+  function devLinkHtml() {
+    devLinkShown = devOwner();
+    if (!devLinkShown) return '';
+    const here = /\/TreasureUp-test\//.test(location.pathname);
+    return `<a class="dev-link" href="${here ? '#dev' : 'https://blakemerrell.github.io/TreasureUp-test/#dev'}"${here ? ' data-dev-open' : ''}>🛠 Developer mode ›</a>`;
   }
 
   // How the week is going, in big numbers.
@@ -6993,6 +7008,7 @@ const TreasureUp = (function () {
     }
     const u = authUser();
     famUid = u && u.uid;
+    if (devOwner() !== devLinkShown) refreshHome();   // the developer mode link, once who's signed in is known
     // A device's place in the family belongs to the account that joined.
     // Someone else signing in on purpose is fine; otherwise the device lost
     // its sign-in (browser data cleared, or the account deleted), and the
@@ -8954,6 +8970,7 @@ const TreasureUp = (function () {
       if (v) { openView(v.dataset.view); return; }
       const pw = e.target.closest('[data-past]');
       if (pw) { openPast(Number(pw.dataset.past)); return; }
+      if (e.target.closest('[data-dev-open]')) { e.preventDefault(); openDev(); return; }
       if (e.target.closest('[data-games]')) { openGames(); return; }
       if (e.target.closest('[data-parent]')) { openParent(); return; }
     });
