@@ -5062,6 +5062,7 @@ const TreasureUp = (function () {
     const B = BOARD(), t = g.turn, Bab = g.lands[B.walls];
     if (!t || !['place', 'attack', 'move'].includes(t.phase) || g.battle) return 'Cards are played on your turn, once you have your soldiers.';
     if (id === 'river' && t.phase === 'move') return 'Your attacking is done for this turn.';
+    if (id === 'lions' && !landsOf(g, uid).some(l => l !== B.walls)) return 'The Lions’ Den can’t shut Babylon, and you hold no other land.';
     if (id === 'river' && t.dry) return 'The river is already dry this turn.';
     if (id === 'gates' && !riskWallUp(g) && (!Bab || Bab.o === uid || Bab.a <= 1)) return Bab && Bab.o === uid ? 'You hold Babylon yourself.' : 'Babylon has only 1 guard left.';
     if (id === 'balance') {
@@ -5077,6 +5078,7 @@ const TreasureUp = (function () {
     const B = BOARD(), uid = seat.uid, c = riskCard(id), hand = (g.hands || {})[uid] || [], K = kingdomOf(seat.k).name;
     if (!c || !hand.includes(id) || riskCardWhyNot(g, uid, id)) return;
     if (RISK_LAND_CARDS.includes(id) && (!g.lands[land] || g.lands[land].o !== uid)) return;
+    if (id === 'lions' && land === B.walls) return;                    // Babylon can't be shut: holding it would be a sure win
     let did = '';
     if (id === 'lions') { g.lands[land].sh = uid; did = `Nobody can attack ${landName(land)} until ${seat.name}’s next turn.`; }
     else if (id === 'river') { g.turn.dry = true; did = `The lands ${K} attacks this turn roll 1 die fewer.`; }
@@ -6436,7 +6438,7 @@ const TreasureUp = (function () {
     if (g.battle || rk.blitz) return [];
     if (!t || g.story || !g.seats[t.i] || g.seats[t.i].uid !== me) return [];
     if (t.phase === 'return') return riskReturnLands(g);                  // back from exile: a land nobody holds
-    if (rk.cardPick) return landsOf(g, me);                              // a card that goes on one of your lands
+    if (rk.cardPick) return landsOf(g, me).filter(id => rk.cardPick !== 'lions' || id !== BOARD().walls);   // a card that goes on one of your lands (🦁 not Babylon)
     if (t.phase === 'place') return landsOf(g, me);
     if (t.phase !== 'attack' && t.phase !== 'move') return [];
     const ownNext = sel.from ? nearOf(sel.from).filter(id => g.lands[id].o === me) : [];
