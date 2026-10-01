@@ -1019,7 +1019,8 @@ window.TU_WEEKS = [
             }
           ]
         }
-      ]
+      ],
+      "approved": "b0dcdbeb"
     },
     "sayings": [
       {
@@ -1031,7 +1032,8 @@ window.TU_WEEKS = [
           "The king of Babylon",
           "Cyrus"
         ],
-        "why": "The verse ends “saith your God”: the Lord's first words in chapter 40."
+        "why": "The verse ends “saith your God”: the Lord's first words in chapter 40.",
+        "approved": "c415e997"
       },
       {
         "id": "say-forget-child",
@@ -1042,7 +1044,8 @@ window.TU_WEEKS = [
           "Zion",
           "Isaiah's mother"
         ],
-        "why": "The Lord asks it, then answers, “yet will I not forget thee.”"
+        "why": "The Lord asks it, then answers, “yet will I not forget thee.”",
+        "approved": "d9b91fbc"
       },
       {
         "id": "say-none-else",
@@ -1053,7 +1056,8 @@ window.TU_WEEKS = [
           "The Lord",
           "The king of Assyria"
         ],
-        "why": "Babylon said it in its heart. Only the Lord can truly say “I am God, and there is none else” (Isaiah 46:9)."
+        "why": "Babylon said it in its heart. Only the Lord can truly say “I am God, and there is none else” (Isaiah 46:9).",
+        "approved": "3e39b567"
       },
       {
         "id": "say-deliver-me",
@@ -1064,7 +1068,8 @@ window.TU_WEEKS = [
           "Israel, praying in Babylon",
           "Nephi, praying for help"
         ],
-        "why": "He carved the idol himself, then prayed to it."
+        "why": "He carved the idol himself, then prayed to it.",
+        "approved": "1f997f8f"
       },
       {
         "id": "say-forsaken",
@@ -1075,7 +1080,8 @@ window.TU_WEEKS = [
           "Babylon, after it fell",
           "Cyrus, the Lord’s shepherd"
         ],
-        "why": "Zion felt forgotten. The Lord answered, “yet will I not forget thee” (Isaiah 49:15)."
+        "why": "Zion felt forgotten. The Lord answered, “yet will I not forget thee” (Isaiah 49:15).",
+        "approved": "4ebbe104"
       },
       {
         "id": "say-witnesses",
@@ -1086,7 +1092,8 @@ window.TU_WEEKS = [
           "Cyrus",
           "The king of Babylon"
         ],
-        "why": "“Ye are my witnesses, saith the LORD.” He calls His people to tell what they know of Him."
+        "why": "“Ye are my witnesses, saith the LORD.” He calls His people to tell what they know of Him.",
+        "approved": "59391187"
       },
       {
         "id": "say-shepherd",
@@ -1097,7 +1104,8 @@ window.TU_WEEKS = [
           "David, about the Lord",
           "Cyrus, about the Lord"
         ],
-        "why": "The Lord said it of Cyrus, king of Persia. David's psalm is the one that says “The LORD is my shepherd” (Psalms 23:1)."
+        "why": "The Lord said it of Cyrus, king of Persia. David's psalm is the one that says “The LORD is my shepherd” (Psalms 23:1).",
+        "approved": "b3262a26"
       },
       {
         "id": "say-refined",
@@ -1108,7 +1116,8 @@ window.TU_WEEKS = [
           "Laman",
           "King Cyrus"
         ],
-        "why": "Nephi read Isaiah 48 to his brothers. In his copy it's 1 Nephi 20:10."
+        "why": "Nephi read Isaiah 48 to his brothers. In his copy it's 1 Nephi 20:10.",
+        "approved": "80da2718"
       }
     ],
     "words": [
@@ -1170,7 +1179,8 @@ window.TU_WEEKS = [
         "why": "Verse 2: “when thou walkest through the fire, thou shalt not be burned.” He doesn't promise no fire. He promises to be with you in it.",
         "source": "Isaiah 43:2",
         "find": "thou shalt not be burned",
-        "hunt": "In Isaiah 43, what does the Lord promise when you walk through fire?"
+        "hunt": "In Isaiah 43, what does the Lord promise when you walk through fire?",
+        "approved": "8fb84df2"
       },
       {
         "id": "deep40-in-vain",
@@ -1186,7 +1196,8 @@ window.TU_WEEKS = [
         "why": "Verse 4: “yet surely my judgment is with the LORD, and my work with my God.” God sees work that nobody else notices.",
         "source": "Isaiah 49:4",
         "find": "my work with my God",
-        "hunt": "In Isaiah 49, the servant feels his work was in vain. What does he still believe?"
+        "hunt": "In Isaiah 49, the servant feels his work was in vain. What does he still believe?",
+        "approved": "e53afbe7"
       },
       {
         "id": "deep40-grasshoppers",
@@ -1202,7 +1213,8 @@ window.TU_WEEKS = [
         "why": "Verse 22: “the inhabitants thereof are as grasshoppers.” Even the strongest rulers are small next to Him.",
         "source": "Isaiah 40:22",
         "find": "the inhabitants thereof are as grasshoppers",
-        "hunt": "In Isaiah 40, what do the people of the earth look like from God's throne?"
+        "hunt": "In Isaiah 40, what do the people of the earth look like from God's throne?",
+        "approved": "c871a134"
       },
       {
         "id": "deep40-springs",
@@ -1218,7 +1230,8 @@ window.TU_WEEKS = [
         "why": "Verse 10: “even by the springs of water shall he guide them.” After the furnace comes cool water.",
         "source": "Isaiah 49:10",
         "find": "by the springs of water shall he guide them",
-        "hunt": "In Isaiah 49, where does the Lord guide the people He has mercy on?"
+        "hunt": "In Isaiah 49, where does the Lord guide the people He has mercy on?",
+        "approved": "73d22040"
       },
       {
         "id": "deep40-kids",
@@ -1234,7 +1247,8 @@ window.TU_WEEKS = [
         ],
         "why": "It suggests pictures of John the Baptist and Joseph Smith. John prepared the way for Jesus in His day; Joseph Smith helped prepare the way in ours.",
         "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/40?lang=eng",
-        "find": "pictures of John the Baptist and Joseph Smith"
+        "find": "pictures of John the Baptist and Joseph Smith",
+        "approved": "9ab62176"
       },
       {
         "id": "deep40-ftsoy",
@@ -1250,7 +1264,8 @@ window.TU_WEEKS = [
         ],
         "why": "It says Heavenly Father and Jesus Christ are your strength, and that there is no other source of spiritual strength.",
         "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/10/strength-training-with-isaiah?lang=eng",
-        "find": "There is no other source of spiritual strength"
+        "find": "There is no other source of spiritual strength",
+        "approved": "b7330dea"
       }
     ],
     "reels": [
@@ -1308,7 +1323,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0369a1 50%,#7dd3fc 115%)",
         "blobA": "rgba(125,211,252,.45)",
         "blobB": "rgba(0,0,0,.45)",
-        "seek": "God asks twice for His sad children to be cheered up"
+        "seek": "God asks twice for His sad children to be cheered up",
+        "approved": "bab9b9a5"
       },
       {
         "id": "isa40-eagles",
@@ -1350,7 +1366,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#1e293b 0%,#475569 50%,#cbd5e1 115%)",
         "blobA": "rgba(226,232,240,.35)",
         "blobB": "rgba(0,0,0,.5)",
-        "seek": "Tired? God's people will soar like great birds"
+        "seek": "Tired? God's people will soar like great birds",
+        "approved": "d53eb9b5"
       },
       {
         "id": "isa48-river",
@@ -1392,7 +1409,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#134e4a 0%,#0f766e 45%,#5eead4 115%)",
         "blobA": "rgba(94,234,212,.4)",
         "blobB": "rgba(0,0,0,.45)",
-        "seek": "If they had obeyed, they'd have had calm that never stops"
+        "seek": "If they had obeyed, they'd have had calm that never stops",
+        "approved": "d602f7be"
       },
       {
         "id": "isa42-bruised-reed",
@@ -1423,7 +1441,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#1c1917 0%,#57534e 45%,#d6d3d1 115%)",
         "blobA": "rgba(214,211,209,.35)",
         "blobB": "rgba(0,0,0,.5)",
-        "seek": "He won't throw away something that's cracked or nearly out"
+        "seek": "He won't throw away something that's cracked or nearly out",
+        "approved": "655b6ddd"
       },
       {
         "id": "isa43-witness",
@@ -1454,7 +1473,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(155deg,#312e81 0%,#4f46e5 50%,#a5b4fc 115%)",
         "blobA": "rgba(165,180,252,.45)",
         "blobB": "rgba(0,0,0,.45)",
-        "seek": "God says He picked them so they would learn who He is"
+        "seek": "God says He picked them so they would learn who He is",
+        "approved": "648f9dcf"
       },
       {
         "id": "isa44-cyrus",
@@ -1496,7 +1516,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#422006 0%,#a16207 50%,#fde68a 115%)",
         "blobA": "rgba(253,230,138,.4)",
         "blobB": "rgba(0,0,0,.5)",
-        "seek": "God names a foreign king who will let His house be rebuilt"
+        "seek": "God names a foreign king who will let His house be rebuilt",
+        "approved": "781ebb4c"
       },
       {
         "id": "isa40-drop-bucket",
@@ -1539,7 +1560,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(165deg,#020617 0%,#1e3a8a 55%,#60a5fa 110%)",
         "blobA": "rgba(96,165,250,.4)",
         "blobB": "rgba(0,0,0,.55)",
-        "seek": "Countries are like a tiny speck of dirt on God's scale"
+        "seek": "Countries are like a tiny speck of dirt on God's scale",
+        "approved": "07f97716"
       },
       {
         "id": "isa44-idol",
@@ -1569,7 +1591,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#431407 0%,#9a3412 50%,#fdba74 115%)",
         "blobA": "rgba(253,186,116,.4)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "0797cb54"
       },
       {
         "id": "isa47-babylon",
@@ -1600,7 +1623,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#450a0a 0%,#7f1d1d 45%,#f87171 115%)",
         "blobA": "rgba(248,113,113,.4)",
         "blobB": "rgba(0,0,0,.5)",
-        "seek": "A city that lives for fun says it will never lose its kids"
+        "seek": "A city that lives for fun says it will never lose its kids",
+        "approved": "e447d5a5"
       },
       {
         "id": "isa48-furnace",
@@ -1631,7 +1655,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#1c1917 0%,#b45309 55%,#fbbf24 115%)",
         "blobA": "rgba(251,191,36,.45)",
         "blobB": "rgba(0,0,0,.5)",
-        "seek": "Hard times can make you purer, like metal in the fire"
+        "seek": "Hard times can make you purer, like metal in the fire",
+        "approved": "a6bde808"
       },
       {
         "id": "isa49-palms",
@@ -1676,13 +1701,14 @@ window.TU_WEEKS = [
             "end": 2844,
             "title": "Engraved on the palms of His hands",
             "channel": "Don't Miss This",
-            "previewed": false
+            "previewed": true
           }
         },
         "gradient": "linear-gradient(150deg,#4c1d95 0%,#a21caf 50%,#f9a8d4 112%)",
         "blobA": "rgba(249,168,212,.45)",
         "blobB": "rgba(0,0,0,.4)",
-        "seek": "God says you're engraved where He'll always see you"
+        "seek": "God says you're engraved where He'll always see you",
+        "approved": "79ce0808"
       }
     ],
     "plain": [
@@ -2323,7 +2349,9 @@ window.TU_WEEKS = [
           }
         ]
       }
-    ]
+    ],
+    "approved": "e524731b",
+    "wordsApproved": "71af6e5d"
   },
   {
     "dates": "October 5–11, 2026",
