@@ -4871,7 +4871,8 @@ window.TU_WEEKS = [
             "v": 13,
             "about": "“Commands” comes from the heading (“The commandment to keep the Sabbath is given”); the verse itself is an “if you…” promise."
           }
-        ]
+        ],
+        "approved": "e3bbdba7"
       },
       {
         "ch": "Isaiah 59",
@@ -4886,7 +4887,8 @@ window.TU_WEEKS = [
             "v": 16,
             "about": "The line names the Messiah as the one who steps in, from the heading; the verse itself says the Lord saw no one to plead for the people and brought salvation with His own arm."
           }
-        ]
+        ],
+        "approved": "d29555b8"
       },
       {
         "ch": "Isaiah 60",
@@ -4901,7 +4903,8 @@ window.TU_WEEKS = [
             "v": 1,
             "about": "The plain words and the helps name Zion here; the line says Israel, from the heading."
           }
-        ]
+        ],
+        "approved": "2791c8b4"
       },
       {
         "ch": "Isaiah 61",
@@ -4910,7 +4913,8 @@ window.TU_WEEKS = [
           "He gives those who mourn in Zion beauty instead of ashes, joy instead of sadness, and praise instead of a heavy heart. (verse 3)",
           "In the last days, they will rebuild old ruins and be called the Lord’s priests and ministers. Their joy will last forever. (verses 4–7)",
           "The Lord will make an everlasting covenant with them. He will make righteousness and praise spring up like a garden before all nations. (verses 8–11)"
-        ]
+        ],
+        "approved": "69d9008f"
       },
       {
         "ch": "Isaiah 62",
@@ -4929,7 +4933,8 @@ window.TU_WEEKS = [
             "v": 10,
             "about": "“Gospel banner” and “Israel will be gathered” are two separate parts of the heading (the gospel standard lifted up; Israel gathered); verse 10 lifts the banner “for the peoples.”"
           }
-        ]
+        ],
+        "approved": "d4acd073"
       },
       {
         "ch": "Isaiah 63",
@@ -4948,7 +4953,8 @@ window.TU_WEEKS = [
             "v": 11,
             "about": "The KJV says “he remembered”; the Hebrew can mean the Lord or His people, and the line follows the plain words, where His people remember."
           }
-        ]
+        ],
+        "approved": "48d10169"
       },
       {
         "ch": "Isaiah 64",
@@ -4963,7 +4969,8 @@ window.TU_WEEKS = [
             "v": 5,
             "about": "The line follows the KJV and plain words (“in them we will be saved”); the note says many modern translations read the Hebrew as a question, “How can we be saved?”"
           }
-        ]
+        ],
+        "approved": "18c3d918"
       },
       {
         "ch": "Isaiah 65",
@@ -4978,7 +4985,8 @@ window.TU_WEEKS = [
             "v": 11,
             "about": "“False gods” follows the plain words and note (the god of luck and the god of fate); the KJV reads the same Hebrew words as “that troop” and “that number.”"
           }
-        ]
+        ],
+        "approved": "3ad52b85"
       },
       {
         "ch": "Isaiah 66",
@@ -4993,7 +5001,8 @@ window.TU_WEEKS = [
             "v": 8,
             "about": "The verse says Zion gives birth to her children, a nation, all at once; naming that nation Israel and placing it at the Second Coming comes from the heading."
           }
-        ]
+        ],
+        "approved": "ce2311d3"
       }
     ]
   },
