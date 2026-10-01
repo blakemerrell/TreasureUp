@@ -291,6 +291,12 @@ function checkBoards(boards, { verses }) {
       }
       if ((r.lands || []).length < 2) failures.push(`${where}: region ${r.name} needs 2 or more lands`);
     }
+    // Mountains: real lands (not a home or the prize), whose guards start at a whole number of 1 or more.
+    if (b.mountains) {
+      const M = b.mountains, homes = new Set((b.kingdoms || []).map(k => k.home));
+      if (!M.name || !Number.isInteger(M.guards) || M.guards < 1 || !(M.lands || []).length) failures.push(`${where}: mountains need a name, lands and guards of 1 or more`);
+      for (const l of M.lands || []) if (!ids.has(l) || homes.has(l) || l === b.walls) failures.push(`${where}: mountains name ${l}, which isn't a neutral land on the map`);
+    }
     const knownCards = ['lions', 'river', 'gates', 'hand', 'balance'];   // the effects the app knows how to play
     for (const c of b.cards || []) {
       if (!knownCards.includes(c.id)) failures.push(`${where}: card ${c.id} isn't one the app can play (${knownCards.join(', ')})`);

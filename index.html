@@ -4412,6 +4412,9 @@ const TreasureUp = (function () {
   // Could this turn ask the palace question? (Belshazzar's Guard next to one
   // of your lands with soldiers to attack, past any wall, and not tried yet.)
   const riskPalaceNear = (g, uid) => !!riskGuard(g) && riskGateOpen(g, BOARD().walls) && landsOf(g, uid).some(f => g.lands[f].a >= 2 && adjacent(f, BOARD().walls) && !riskHitsWall(g, f, BOARD().walls));
+  // Mountains (board.mountains): their lands start with more guards (⛰️ on
+  // the map), so a kingdom tucked away behind them can't spread for free.
+  const riskMountain = id => { const M = BOARD().mountains; return !!(M && (M.lands || []).includes(id)); };
   // Regions (board.regions): a whole region held earns its bonus every turn.
   // (Its name inside a sentence: "all of the Levant".)
   const regionIn = r => r.name.replace(/^The /, 'the ');
@@ -4568,7 +4571,7 @@ const TreasureUp = (function () {
   function riskBegin(g) {
     const B = BOARD();
     g.lands = {};
-    B.lands.forEach(l => { g.lands[l.id] = { o: null, a: l.id === B.walls ? RISK.wallsNeutral : RISK.neutral }; });
+    B.lands.forEach(l => { g.lands[l.id] = { o: null, a: l.id === B.walls ? RISK.wallsNeutral : riskMountain(l.id) ? B.mountains.guards : RISK.neutral }; });
     g.seats.forEach(s => { g.lands[kingdomOf(s.k).home] = { o: s.uid, a: RISK.start }; });
     g.bricks = (B.wallSides || []).length ? B.bricks || RISK.bricks : 0;
     g.deck = riskDeck();
@@ -5271,7 +5274,7 @@ const TreasureUp = (function () {
       const ow = u.odds && String(u.odds[l.id] || '').startsWith('🧱') ? 70 : 48;          // (🧱 in front: the odds of knocking the wall down)
       const odds = u.odds && u.odds[l.id] ? `<rect class="odds" x="${-ow / 2}" y="25" width="${ow}" height="22" rx="11"/><text class="oddsn" y="41">${u.odds[l.id]}</text>` : '';
       return `<g class="rk-lab${mark(l.id)}${pulse}${u.hint === l.id ? ' hint' : ''}" data-land="${l.id}" transform="translate(${x} ${y})${u.small ? ' scale(1.5)' : ''}">
-        <text class="nm" y="-30">${esc(l.name)}${home.has(l.id) ? ' ★' : ''}</text>
+        <text class="nm" y="-30">${esc(l.name)}${home.has(l.id) ? ' ★' : ''}${riskMountain(l.id) ? ' ⛰️' : ''}</text>${riskMountain(l.id) ? `<title>${esc(riskCap(B.mountains.name))}: ${esc(l.name)} starts with ${B.mountains.guards} guards</title>` : ''}
         ${u.hint === l.id ? '<circle r="29" class="ring"/>' : ''}${L ? `<circle r="21" class="badge${ownColor(l.id) ? ' own' : ''}"${ownColor(l.id) ? ` style="--k:${ownColor(l.id)}"` : ''}/><text class="ar" y="8">${L.a}</text>` : ''}${odds}
         ${L && L.sh ? '<text class="rk-shield" x="-34" y="8">🦁</text><title>The Lions’ Den: nobody can attack it</title>' : ''}
         ${wallUp && l.id === B.walls ? `<g class="rk-bricks"><rect x="23" y="-12" width="46" height="24" rx="12"/><text x="46" y="6">🧱${g.bricks}</text><title>Babylon’s wall: ${g.bricks} ${g.bricks === 1 ? 'brick' : 'bricks'} left</title></g>` : ''}</g>`;
