@@ -29,6 +29,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
+import { loadOriginal, langOf } from './original.mjs';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CACHE = process.env.SCRIPTURE_CACHE || path.join(ROOT, 'tools', '.scripture-cache');
@@ -1006,6 +1007,26 @@ let bsbChapters = 0;
   }
 }
 
+// The Hebrew and Greek button in the reader (tools/original.mjs, built by
+// tools/build-reading.mjs at deploy): every Bible chapter of every week's
+// reading has every one of its KJV verses, word by word.
+let origChapters = 0;
+{
+  const want = [...new Set(weeks.flatMap(w => blockChapters(w.reference, scripture.verses) || []))].filter(langOf);
+  let orig = null;
+  try { orig = await loadOriginal(CACHE, want); } catch (e) { failures.push('The Hebrew and Greek words: ' + e.message); }
+  if (orig) for (const ch of want) {
+    const [, book, c] = /^(.+) (\d+)$/.exec(ch);
+    let n = 0;
+    while (scripture.verses.has(`${BOOK_ALIAS[book] || book} ${c}:${n + 1}`)) n++;
+    const o = orig.get(ch), lang = langOf(ch) === 'he' ? 'Hebrew' : 'Greek';
+    const missing = o ? Array.from({ length: n }, (_, i) => i + 1).filter(v => !(o.v[v - 1] && o.v[v - 1].length)) : [];
+    if (!o) failures.push(`The ${lang} of ${ch} isn't in the STEPBible data`);
+    else if (o.v.length !== n || missing.length) failures.push(`The ${lang} of ${ch}: ${o.v.length} verses for the KJV's ${n}${missing.length ? ', none for verse ' + missing.join(', ') : ''}`);
+    else origChapters++;
+  }
+}
+
 // Past weeks (content/past/, written by tools/archive-weeks.mjs): every
 // week its index lists has its file, with the same dates and title, so Past
 // weeks can open it. And weeks.js holds last week and later: older weeks
@@ -1053,6 +1074,7 @@ for (const week of weeks) {
     (extras.length ? `, plus ${extras.join(' and ')}` : ''));
 }
 if (bsbChapters) console.log(`✓ BSB: the ${bsbChapters} Bible chapters of the reading, verse for verse with the KJV`);
+if (origChapters) console.log(`✓ Hebrew and Greek: the ${origChapters} Bible chapters of the reading, every KJV verse word by word (STEPBible.org, Tyndale House)`);
 if (boards.length) console.log(`✓ ${boards.map(b => `${b.title}: ${b.lands.length} lands, ${b.links.length} borders, ${b.kingdoms.length} kingdoms`).join('; ')}`);
 if (online) {
   const loaded = [...pages.values()].filter(t => t != null).length;

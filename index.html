@@ -921,6 +921,16 @@
   .ls-bsb { border-left-color: #60a5fa; }
   .ls-plain.lead, .ls-bsb.lead { font-size: 17.5px; line-height: 1.55; color: rgba(255,255,255,.94); }
   .ls-note { margin-left: 15px; padding: 8px 12px; border-radius: 10px; background: rgba(253,230,138,.08); font-size: 13.5px; line-height: 1.45; color: rgba(255,255,255,.78); }
+  /* The Hebrew or Greek under a verse, word by word: the word, how it sounds, what it means */
+  .ls-orig { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px 12px; margin: 4px 0 2px; padding: 8px 10px 8px 12px; border-left: 3px solid #c084fc; }
+  .ls-orig .ow { display: inline-flex; flex-direction: column; align-items: center; text-align: center; direction: ltr; min-width: 2.2em; max-width: 9.5em; }
+  .ls-orig .ow-w { font-family: 'Noto Serif Hebrew', 'Noto Sans Hebrew', 'Arial Hebrew', 'Times New Roman', serif; font-size: 23px; line-height: 1.45; color: #fff; direction: rtl; }
+  .ls-orig[lang="el"] .ow-w { font-family: 'Noto Serif', Georgia, 'Times New Roman', serif; font-size: 19px; direction: ltr; }
+  .ls-orig .ow-s { font-size: 12.5px; font-style: italic; color: rgba(255,255,255,.62); }
+  .ls-orig .ow-s b { font-weight: 800; color: rgba(255,255,255,.85); }
+  .ls-orig .ow-m { font-size: 12.5px; line-height: 1.3; color: #e9d5ff; }
+  .ls-orig .ow-tag { align-self: center; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #c084fc; }
+  .ls-orig-credit { margin: -2px 0 8px; text-align: center; font-size: 11.5px; line-height: 1.4; color: rgba(255,255,255,.45); }
   .ls-note b { color: var(--gold); }
   /* The short version: a few lines on the whole chapter, above its buttons. Each line's verses are a button to them. */
   .ls-sum { margin: 2px 0 14px; padding: 12px 14px; border-radius: 14px; background: rgba(192,132,252,.09); border: 1px solid rgba(192,132,252,.28); }
@@ -946,7 +956,7 @@
   .lay::before { content: ''; flex: none; width: 10px; height: 10px; border-radius: 50%; border: 2px solid currentColor; box-sizing: border-box; }
   .lay.on { color: #fff; background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.4); }
   .lay.on::before { background: var(--dot); border-color: var(--dot); }
-  .lay-kjv { --dot: #fff; } .lay-plain { --dot: #58cc02; } .lay-bsb { --dot: #60a5fa; } .lay-notes { --dot: #fbbf24; }
+  .lay-kjv { --dot: #fff; } .lay-plain { --dot: #58cc02; } .lay-bsb { --dot: #60a5fa; } .lay-notes { --dot: #fbbf24; } .lay-orig { --dot: #c084fc; }
   .plain-draft { font-size: 12px; font-weight: 800; color: #fbbf24; }
   .ls-foot .ls-read-hint { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.6); margin-bottom: 8px; }
   /* Find it in the chapter: each verse is a choice. */
@@ -2047,14 +2057,14 @@ const TreasureUp = (function () {
   // word for word (content/bsb.js, built at deploy), loaded when first on.
   const LAYERS_KEY = NS + 'layers';
   const TEST_SITE = /\/TreasureUp-test\//.test(location.pathname);
-  const LAYERS = [['kjv', 'KJV'], ['plain', 'Plain words'], ['bsb', 'BSB'], ['notes', 'Notes']];
+  const LAYERS = [['kjv', 'KJV'], ['plain', 'Plain words'], ['bsb', 'BSB'], ['notes', 'Notes'], ['orig', 'Hebrew']];
   const layers = (() => {
     try {
       const saved = JSON.parse(localStorage.getItem(LAYERS_KEY));
-      if (saved && typeof saved === 'object') return { kjv: !!saved.kjv, plain: !!saved.plain, bsb: !!saved.bsb, notes: !!saved.notes };
+      if (saved && typeof saved === 'object') return { kjv: !!saved.kjv, plain: !!saved.plain, bsb: !!saved.bsb, notes: !!saved.notes, orig: !!saved.orig };
       const plain = localStorage.getItem(NS + 'plain') === '1';          // the one switch these replaced
-      return { kjv: true, plain, bsb: false, notes: plain };
-    } catch (e) { return { kjv: true, plain: false, bsb: false, notes: false }; }
+      return { kjv: true, plain, bsb: false, notes: plain, orig: false };
+    } catch (e) { return { kjv: true, plain: false, bsb: false, notes: false, orig: false }; }
   })();
   function plainOf(week, ch) {
     const p = ((week && week.plain) || []).find(x => x.ch === ch);
@@ -2109,13 +2119,31 @@ const TreasureUp = (function () {
   }
   const bsbLoads = {};
   const loadBsb = src => bsbLoads[src] || (bsbLoads[src] = loadScript(src).catch(e => { delete bsbLoads[src]; throw e; }));
+  // The Hebrew (Old Testament) or Greek (New) behind a chapter, word by word:
+  // each word, how it sounds and what it means there, from STEPBible.org's
+  // data (Tyndale House Cambridge, CC BY 4.0), numbered by the KJV's verses.
+  // One file a chapter, content/original/<chapter>.js (built at deploy by
+  // tools/build-reading.mjs from tools/original.mjs), loaded when first on.
+  const origLang = ch => { const p = BOOK_PATHS[(/^(.+) \d+$/.exec(ch) || [])[1]] || ''; return /^ot\//.test(p) ? 'he' : /^nt\//.test(p) ? 'el' : null; };
+  const origOf = ch => (window.TU_ORIG || {})[ch];
+  const origSrc = ch => 'content/original/' + ch.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.js';
+  // How a Hebrew word sounds, its syllables apart and the stressed one bold ("he.'Ir" -> he·'ir).
+  const soundHtml = (s, lang) => lang === 'he'
+    ? esc(s).split('.').map(x => /[A-Z]/.test(x) ? `<b>${x.toLowerCase()}</b>` : x.toLowerCase()).join('·') : esc(s.toLowerCase());
+  function origHtml(ch, n) {
+    const o = origOf(ch), words = o && o.v[n - 1];
+    if (!words || !words.length) return '';
+    return `<div class="ls-orig" lang="${o.lang}" dir="${o.lang === 'he' ? 'rtl' : 'ltr'}">` +
+      ((o.ar || []).includes(n) ? '<span class="ow-tag">Aramaic</span>' : '') +
+      words.map(([w, s, m]) => `<span class="ow"><span class="ow-w">${esc(w)}</span><span class="ow-s">${soundHtml(s, o.lang)}</span><span class="ow-m">${esc(m)}</span></span>`).join('') + '</div>';
+  }
   // What a chapter offers, and what shows: the buttons that are on, and the
   // KJV when none of the texts on is there for this chapter.
   function haveOf(u, week) {
     const x = plainOf(week, u.ch);
-    return { kjv: true, plain: !!x, bsb: isBible(u.ch), notes: !!(x && (x.p.notes || []).length) };
+    return { kjv: true, plain: !!x, bsb: isBible(u.ch), notes: !!(x && (x.p.notes || []).length), orig: !!origLang(u.ch) };
   }
-  const layersFor = have => ({ kjv: layers.kjv, plain: layers.plain && have.plain, bsb: layers.bsb && have.bsb, notes: layers.notes && have.notes });
+  const layersFor = have => ({ kjv: layers.kjv, plain: layers.plain && have.plain, bsb: layers.bsb && have.bsb, notes: layers.notes && have.notes, orig: layers.orig && have.orig });
   function shownLayers(have) {
     const on = layersFor(have);
     if (!on.kjv && !on.plain && !on.bsb) on.kjv = true;
@@ -2125,7 +2153,7 @@ const TreasureUp = (function () {
     const x = plainOf(week, u.ch), have = haveOf(u, week), on = shownLayers(have);
     const btns = LAYERS.filter(([k]) => have[k]);
     return btns.length < 2 ? '' : '<div class="plain-bar">' +
-      btns.map(([k, label]) => `<button class="lay lay-${k}${on[k] ? ' on' : ''}" data-layer="${k}" aria-pressed="${on[k]}">${label}</button>`).join('') +
+      btns.map(([k, label]) => `<button class="lay lay-${k}${on[k] ? ' on' : ''}" data-layer="${k}" aria-pressed="${on[k]}">${k === 'orig' && origLang(u.ch) === 'el' ? 'Greek' : label}</button>`).join('') +
       (x && x.draft ? '<span class="plain-draft">Draft: not approved yet</span>' : '') + '</div>';
   }
   function versesHtml(u, week) {
@@ -2138,8 +2166,10 @@ const TreasureUp = (function () {
       const notes = on.notes ? (x.p.notes || []).filter(n => n.v === v.n) : [];
       return `<div class="ls-vv" data-v="${v.n}">` +
         lines.map(([c, t], i) => `<p class="${c}${i ? '' : ' lead'}">${i ? '' : `<sup>${v.n}</sup>`}${esc(t)}</p>`).join('') +
+        (on.orig ? origHtml(u.ch, v.n) : '') +
         notes.map(n => `<p class="ls-note"><b>Note:</b> ${linkRefs(n.text, u.ch + ':' + v.n)}</p>`).join('') + '</div>';
-    }).join('') + `<p class="ls-ch-end">End of ${esc(u.ref)}</p>`;
+    }).join('') + `<p class="ls-ch-end">End of ${esc(u.ref)}</p>` +
+      (on.orig && origOf(u.ch) ? `<p class="ls-orig-credit">${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew'} words: STEPBible.org, from work at Tyndale House, Cambridge (CC BY 4.0)</p>` : '');
   }
   // The chapter open in the day's lesson or in Past weeks.
   function chapterCtx(box) {
@@ -2169,6 +2199,15 @@ const TreasureUp = (function () {
     if (!ctx || !layers.bsb || !isBible(ctx.u.ch) || bsbOf(ctx.week, ctx.u.ch)) return;
     loadBsb(bsbSrcOf(ctx.week)).then(() => { if (box.isConnected) redrawChapter(box); }).catch(() => {});
   }
+  // With the Hebrew or Greek on, a chapter's words load the first time they're needed.
+  const origLoads = {};
+  function needOrig(box) {
+    const ctx = box && chapterCtx(box);
+    if (!ctx || !layers.orig || !origLang(ctx.u.ch) || origOf(ctx.u.ch)) return;
+    const src = origSrc(ctx.u.ch);
+    (origLoads[src] || (origLoads[src] = loadScript(src).catch(e => { delete origLoads[src]; throw e; })))
+      .then(() => { if (box.isConnected) redrawChapter(box); }).catch(() => {});
+  }
   // A button: that text or the notes on or off, everywhere. The last text on stays on.
   function toggleLayer(btn) {
     const box = btn.closest('.ls-chapter'), ctx = box && chapterCtx(box);
@@ -2180,6 +2219,7 @@ const TreasureUp = (function () {
     try { localStorage.setItem(LAYERS_KEY, JSON.stringify(layers)); } catch (e) {}
     redrawChapter(box);
     needBsb(box);
+    needOrig(box);
   }
   // Without a reading plan, a section a day as before.
   const sectionDay = i => { const n = WEEK.sections.length; return n <= 5 ? i : Math.floor(i * 5 / n); };
@@ -3587,7 +3627,7 @@ const TreasureUp = (function () {
     pastUnit = u || null;
     $('viewBody').innerHTML = html;
     $('view').hidden = false;
-    if (u) needBsb($('viewBody').querySelector('.ls-chapter'));
+    if (u) { needBsb($('viewBody').querySelector('.ls-chapter')); needOrig($('viewBody').querySelector('.ls-chapter')); }
   }
   // A question as it was, read-only: the right answer, and his first try
   // when it was saved.
@@ -8658,7 +8698,7 @@ const TreasureUp = (function () {
     }
     body.innerHTML = html;
     body.scrollTop = 0;
-    if (step.kind === 'chapter') needBsb(body.querySelector('.ls-chapter'));
+    if (step.kind === 'chapter') { needBsb(body.querySelector('.ls-chapter')); needOrig(body.querySelector('.ls-chapter')); }
 
     // The bottom: Continue, Check, or how it went.
     let footHtml;

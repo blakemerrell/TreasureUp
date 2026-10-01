@@ -152,10 +152,14 @@ Each reel:
 Every week gets plain words for its whole reading (Blake, 2026-09-29: "and
 onward"). A week's `plain` is a list of chapters from its reading, each
 `{ ch, verses, notes, review }`. In a chapter he picks what he reads with
-four buttons: **KJV**, **Plain words**, **BSB** and **Notes**, any mix.
-The KJV stays the scripture; the plain words and notes help him
-understand it. The BSB comes from `tools/bsb.txt.gz` at deploy, word for
-word, and needs no approval; leave that file as the BSB published it.
+buttons: **KJV**, **Plain words**, **BSB**, **Notes**, and **Hebrew** (Old
+Testament) or **Greek** (New), any mix. The KJV stays the scripture; the
+plain words and notes help him understand it. The BSB comes from
+`tools/bsb.txt.gz` at deploy, word for word, and needs no approval; leave
+that file as the BSB published it. The Hebrew and Greek, every word with how
+it sounds and what it means, come from STEPBible.org (Tyndale House
+Cambridge, CC BY 4.0) through `tools/original.mjs`, pinned to one commit;
+nothing in them is written by hand, so they need no approval either.
 
 - `ch`: a chapter of the week's reading ("Isaiah 40"). `verses`: one plain
   line for every verse of that chapter, in order.
