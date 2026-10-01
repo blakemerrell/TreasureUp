@@ -230,10 +230,9 @@ console.log('Free battle · build a city, tear down the war camp');
   ok(W.foodCap() === 10 && W.storeCap() === 300, 'the city feeds 10 and stores 300 of each');
   W.res.timber = 290; W.gain('timber', 50);
   ok(W.res.timber === 300, 'more than the storehouses hold is lost');
-  W.res = { grain: 500, timber: 250 };
+  W.res = { grain: 200, timber: 250 };                 // what free battle starts with: no head start
   for (let i = 0; i < 3; i++) W.train(city, 'worker');
   ok(W.foodUsed() === 10 && W.whyNotTrain('worker').startsWith('Not enough food') && !W.train(city, 'worker'), 'with no food for more, no one else can be trained until a farm is built');
-  W.res = { grain: 200, timber: 250 };
 
   // A steady player: gather, build up the tree, keep an army home, then march on the camps.
   const S0 = { x: city.tx, y: city.ty };
@@ -266,6 +265,10 @@ console.log('Free battle · build a city, tear down the war camp');
       const f = W.nearestResource(S0.x + 2, S0.y + 2, W.res.grain < W.res.timber ? 'grain' : 'timber');
       if (f) W.gatherAt(u, f[0], f[1]);
     }
+    // Workers go back to what they were gathering after they build: keep grain and timber about even.
+    const much = W.res.grain > W.res.timber + 250 ? 'grain' : W.res.timber > W.res.grain + 250 ? 'timber' : null;
+    const mover = much && workers().find(u => u.order.type === 'gather' && u.order.res === much);
+    if (mover) { const f = W.nearestResource(S0.x + 2, S0.y + 2, much === 'grain' ? 'timber' : 'grain'); if (f) W.gatherAt(mover, f[0], f[1]); }
     // Research first, then train: workers, carts, then soldiers.
     const arm = W.buildings('p', 'armory').find(b => b.built >= 1);
     if (arm && !W.researching && research.length) { if (W.research(arm, research[0])) research.shift(); else return; }
@@ -288,10 +291,91 @@ console.log('Free battle · build a city, tear down the war camp');
   });
   console.log(`    at ${Math.round(W.t / 60)} min · wave ${FB.wave} · army ${army().length} · workers ${workers().length} · food ${W.foodUsed()}/${W.foodCap()} · store ${W.storeCap()} · slowest step ${ms}ms`);
   ok(W.researched.breastplates && W.armor === 4 && W.dmgUp === 3 && W.buildings('p').filter(b => b.def.wall).every(b => b.max === b.def.hp * 2), 'the armory made breastplates, cimeters and pickets');
-  ok(W.units('p').some(u => u.type === 'stripling') && W.units('p').some(u => u.type === 'cart'), 'the hall trains stripling warriors, and the stables horse carts');
+  ok(W.trained.stripling > 0 && W.trained.cart > 0, `the hall trains stripling warriors (${W.trained.stripling || 0}), and the stables horse carts (${W.trained.cart || 0})`);
   ok(FB.wave >= 2, 'the Lamanites attacked, again and again (' + FB.wave + ' waves)');
   ok(W.over && W.over.won && W.over.stars === 2, 'the war camp falls: ' + (W.over ? W.over.title + ' ★' + W.over.stars : 'not over'));
   ok(ms < 40, 'a step stays fast enough with a whole city');
+}
+
+// ------------------------------------------------------------ out of the wilderness
+console.log('Out of the Wilderness · build a city, hold off the raids');
+{
+  const WM = require('../liberty/missions.js').WILD;
+  const game = (level, length) => { WM.level = level; WM.length = length; const W = new S.World(undefined, WM.map); W.mission = WM; WM.setup(W); return W; };
+  let W = game('normal', 'short');
+  const std = W.units('p').find(u => u.def.deploys);
+  ok(W.tech && std && !W.stronghold() && WM.raids === 5, 'it starts with the standard of liberty, a few workers and guards, and 5 raids to come');
+  // Every way in reaches the valley, so every raid can come all the way down (and be beaten).
+  const open = (x, y) => W.inBounds(x, y) && ![D.T.WATER, D.T.ROCK, D.T.FOREST].includes(W.tile(x, y));
+  const seen = new Set([D.WILD.START.x + ',' + D.WILD.START.y]), queue = [[D.WILD.START.x, D.WILD.START.y]];
+  while (queue.length) { const [x, y] = queue.pop(); for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) if (open(x + dx, y + dy) && !seen.has((x + dx) + ',' + (y + dy))) { seen.add((x + dx) + ',' + (y + dy)); queue.push([x + dx, y + dy]); } }
+  ok(D.WILD.WAYS.every(w => seen.has(w.x + ',' + w.y)), 'all four ways in lead down into the valley: ' + D.WILD.WAYS.map(w => w.name).join(', '));
+  const city = W.deploy(std);
+  ok(city && W.stronghold() === city, 'planting the standard of liberty makes the city (Alma 46:36)');
+  // Nobody builds anything: the first raid is told of before it comes, and comes.
+  run(W, WM.LEVELS.normal.first + 2, 1);
+  const warned = W.msgs.find(m => /gathering at/.test(m.text)), came = W.msgs.find(m => /comes down from/.test(m.text));
+  ok(warned && came && came.t - warned.t >= WM.LEVELS.normal.warn - 1, `the first raid is seen gathering ${came && warned ? Math.round(came.t - warned.t) : '?'}s before it comes down (3 Nephi 4:1)`);
+  ok(WM.bands.length === 1 && WM.bands[0].units.length >= 3, 'and it comes down: ' + (WM.bands[0] ? WM.bands[0].units.length : 0) + ' raiders');
+  run(W, 30 * 60, 1);
+  ok(W.over && !W.over.won, 'a city with no one to guard it falls: ' + (W.over ? W.over.title + ', ' + W.over.detail : 'not over'));
+
+  // A watchtower near a way in sees what gathers there half a minute sooner.
+  W = game('normal', 'short');
+  const c2 = W.deploy(W.units('p').find(u => u.def.deploys));
+  for (const w of D.WILD.WAYS) { const [x, y] = W.freeTileNear(w.x, Math.max(w.y, 4) + (w.y < 5 ? 3 : 0), 'p'); for (let r = 0; r < 6; r++) if (W.canPlace('tower', x + r, y)) { W.addBuilding('tower', 'p', x + r, y, true); break; } }
+  run(W, WM.LEVELS.normal.first - WM.LEVELS.normal.warn - 25, 1);
+  ok(W.msgs.some(m => /Your watchtower sees/.test(m.text)), 'a watchtower near a way in sees the raid gathering sooner (3 Nephi 3:14)');
+  ok(WM.objectives(W).find(o => o.optional).have >= 3, 'the goals count the ways in that have a watchtower near them');
+
+  // A steady defender: the free battle builder, with watchtowers, a mixed army kept home, and walls mended.
+  for (const level of ['normal']) {
+    W = game(level, 'short');
+    const home = W.deploy(W.units('p').find(u => u.def.deploys));
+    const S0 = { x: home.tx, y: home.ty };
+    const plan = [['farm', 4, -3], ['barracks', 6, 1], ['farm', -3, -3], ['granary', -3, 1], ['tower', 2, -6], ['armory', 6, 5], ['farm', 0, 6], ['tower', -7, 2],
+      ['tower', 10, -2], ['hall', 9, -3], ['farm', 3, 9], ['tower', 2, 10], ['farm', -6, -1], ['granary', 10, 3], ['farm', -1, -6], ['farm', 13, 0]];
+    const research = ['breastplates', 'cimeters', 'pickets'];
+    const workers = () => W.units('p').filter(u => u.type === 'worker');
+    const army = () => W.soldiers().filter(u => !u.def.hero);
+    const ms = run(W, 40 * 60, 1, W => {
+      const unbuilt = W.buildings('p').filter(b => b.built < 1);
+      if (plan.length && unbuilt.length < 2) {
+        const [type, dx, dy] = plan[0];
+        if (!W.whyNotBuild(type) && W.canAfford(D.BUILDINGS[type].cost)) {
+          let spot = null;
+          for (let r = 0; r < 8 && !spot; r++) for (let oy = -r; oy <= r && !spot; oy++) for (let ox = -r; ox <= r && !spot; ox++) if (W.canPlace(type, S0.x + dx + ox, S0.y + dy + oy)) spot = [S0.x + dx + ox, S0.y + dy + oy];
+          const b = spot && W.place(type, spot[0], spot[1], []); plan.shift(); if (b) unbuilt.push(b);
+        } else if (W.whyNotBuild(type)) plan.push(plan.shift());
+      }
+      for (const b of unbuilt) {
+        const on = workers().filter(u => u.order.type === 'build' && u.order.target === b.id).length;
+        workers().filter(u => u.order.type !== 'build').sort((a, c) => S.dist(a, b) - S.dist(c, b)).slice(0, Math.max(0, 2 - on)).forEach(u => W.order(u, { type: 'build', target: b.id }));
+      }
+      const broken = W.buildings('p').find(b => b.built >= 1 && W.needsWork(b) && b.hp < S.maxHp(b) * 0.7);
+      if (broken && !workers().some(u => u.order.type === 'build' && u.order.target === broken.id)) { const w = workers().find(u => u.order.type !== 'build'); if (w) W.order(w, { type: 'build', target: broken.id }); }
+      for (const u of W.units('p').filter(u => u.def.gathers && u.order.type === 'idle')) {
+        const f = W.nearestResource(S0.x + 2, S0.y + 2, W.res.grain < W.res.timber ? 'grain' : 'timber'); if (f) W.gatherAt(u, f[0], f[1]);
+      }
+      // Workers go back to what they were gathering after they build: keep grain and timber about even.
+      const much = W.res.grain > W.res.timber + 250 ? 'grain' : W.res.timber > W.res.grain + 250 ? 'timber' : null;
+      const mover = much && workers().find(u => u.order.type === 'gather' && u.order.res === much);
+      if (mover) { const f = W.nearestResource(S0.x + 2, S0.y + 2, much === 'grain' ? 'timber' : 'grain'); if (f) W.gatherAt(mover, f[0], f[1]); }
+      const arm = W.buildings('p', 'armory').find(b => b.built >= 1);
+      if (arm && !W.researching && research.length) { if (W.research(arm, research[0])) research.shift(); else return; }
+      const s = W.stronghold();
+      if (s && s.queue.length < 1 && workers().length < 9) W.train(s, 'worker');
+      if (plan.length && ['armory', 'hall'].includes(plan[0][0]) && !W.whyNotBuild(plan[0][0]) && !W.canAfford(D.BUILDINGS[plan[0][0]].cost) && army().length >= 6) return;
+      const br = W.buildings('p', 'barracks').find(b => b.built >= 1), hall = W.buildings('p', 'hall').find(b => b.built >= 1), n = army().length;
+      if (br && br.queue.length < 2) W.train(br, W.has('armory') ? ['archer', 'swordsman', 'spearman'][n % 3] : (n % 2 ? 'nslinger' : 'spearman'));
+      if (hall && hall.queue.length < 1) W.train(hall, n % 3 ? 'stripling' : 'javelin');
+      army().filter(u => u.order.type === 'idle' && S.dist(u, s || u) > 7 * 32).forEach((u, i) => W.moveTo(u, S0.x + 1 + (i % 6) - 3, S0.y + 2 + Math.floor(i / 6) - 2));
+    });
+    console.log(`    ${level}: at ${Math.round(W.t / 60)} min · raids beaten ${WM.beaten}/${WM.raids} · buildings lost ${WM.lost} · army ${army().length} · Nephites fallen ${W.stats.fallen} · raiders fallen ${W.stats.defeated} · slowest step ${ms}ms`);
+    ok(W.over && W.over.won && W.over.stars === 2, 'a steady defender holds off all 5 raids on Normal: ' + (W.over ? W.over.title + ' ★' + W.over.stars : 'not over'));
+    ok(WM.bands.length === 5 && WM.bands.some(b => b.units.some(u => u.def.leader || u.type === 'amalekite')), 'the last raid brings a Lamanite army with an armored captain');
+    ok(ms < 40, 'a step stays fast enough');
+  }
 }
 
 // ------------------------------------------------------------ quotes

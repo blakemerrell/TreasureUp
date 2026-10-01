@@ -17,16 +17,16 @@
   const UNITS = {
     worker:       { name: 'Worker', hp: 40, speed: 56, dmg: 3, range: 18, cd: 1.2, armor: 0, sight: 110, cost: { grain: 40 }, time: 7, gathers: true, builds: true,
                     about: 'Gathers grain and timber, and builds.' },
-    spearman:     { name: 'Spearman', hp: 95, speed: 58, dmg: 11, range: 20, cd: 1.0, armor: 2, sight: 170, cost: { grain: 45, timber: 25 }, time: 9, soldier: true,
-                    about: 'A guard who fights up close.' },
-    archer:       { name: 'Archer', hp: 60, speed: 58, dmg: 8, range: 150, cd: 1.4, armor: 0, sight: 190, cost: { grain: 35, timber: 45 }, time: 10, soldier: true, ranged: true,
-                    about: 'Shoots from behind the walls.' },
+    spearman:     { name: 'Spearman', hp: 95, speed: 58, dmg: 11, range: 20, cd: 1.0, armor: 2, sight: 170, cost: { grain: 45, timber: 25 }, time: 9, soldier: true, beats: 'armored',
+                    about: 'A guard who fights up close. Strong against armored captains.' },
+    archer:       { name: 'Archer', hp: 65, speed: 58, dmg: 11, range: 165, cd: 1.3, armor: 0, sight: 200, cost: { grain: 35, timber: 35 }, time: 10, soldier: true, ranged: true, beats: 'light',
+                    about: 'Shoots from behind the walls. Strong against those without armor.' },
     gidgiddoni:   { name: 'Gidgiddoni', hp: 300, speed: 64, dmg: 18, range: 22, cd: 0.9, armor: 4, sight: 200, soldier: true, hero: true, aura: 130,
                     about: 'Chief captain, "a great prophet among them" (3 Nephi 3:19). Soldiers near him fight harder.' },
     villager:     { name: 'Villager', hp: 35, speed: 50, dmg: 0, range: 0, cd: 1, armor: 0, sight: 60, about: 'Marching to Zarahemla with the family\'s grain.' },
     flock:        { name: 'Flock', hp: 40, speed: 40, dmg: 0, range: 0, cd: 1, armor: 0, sight: 40, carries: 60, about: 'Flocks and herds, going to the gathering place.' },
     robber:       { name: 'Robber', hp: 70, speed: 60, dmg: 9, range: 20, cd: 1.0, armor: 1, sight: 190, foe: true },
-    robberArcher: { name: 'Robber archer', hp: 48, speed: 58, dmg: 7, range: 135, cd: 1.5, armor: 0, sight: 200, foe: true, ranged: true },
+    robberArcher: { name: 'Robber archer', hp: 48, speed: 58, dmg: 7, range: 135, cd: 1.5, armor: 0, sight: 200, foe: true, ranged: true, beats: 'light' },
     giddianhi:    { name: 'Giddianhi', hp: 420, speed: 56, dmg: 18, range: 22, cd: 1.0, armor: 3, sight: 200, foe: true, leader: true },
     zemnarihah:   { name: 'Zemnarihah', hp: 380, speed: 56, dmg: 16, range: 22, cd: 1.0, armor: 3, sight: 200, foe: true, leader: true },
     // Alma 43–44: Moroni's war with Zerahemnah.
@@ -36,7 +36,7 @@
                     about: 'Leads the army hidden on the south of the hill Riplah (Alma 43:35).' },
     lamanite:     { name: 'Lamanite', hp: 72, speed: 60, dmg: 8, range: 20, cd: 1.0, armor: 0, sight: 180, foe: true, color: '#b45309', band: '#e7c9a0',
                     about: 'No breastplates or shields: "naked, save it were a skin which was girded about their loins" (Alma 43:20).' },
-    slinger:      { name: 'Lamanite slinger', hp: 46, speed: 58, dmg: 6, range: 130, cd: 1.5, armor: 0, sight: 190, foe: true, ranged: true, color: '#b45309', band: '#e7c9a0',
+    slinger:      { name: 'Lamanite slinger', hp: 46, speed: 58, dmg: 6, range: 130, cd: 1.5, armor: 0, sight: 190, foe: true, ranged: true, beats: 'light', color: '#b45309', band: '#e7c9a0',
                     about: 'Bows and arrows, stones and slings (Alma 43:20).' },
     amalekite:    { name: 'Amalekite captain', hp: 140, speed: 58, dmg: 12, range: 20, cd: 1.0, armor: 2, sight: 190, foe: true, color: '#7c2d12', band: '#a8a29e',
                     about: 'Zerahemnah made Amalekites and Zoramites his chief captains (Alma 43:6). They were not naked like the others (43:20).' },
@@ -50,12 +50,12 @@
     // there (W.tech); `needs` names the buildings that must stand first.
     standard:     { name: 'Standard of liberty', hp: 220, speed: 42, dmg: 0, range: 0, cd: 1, armor: 3, sight: 160, deploys: true, tier: true,
                     about: 'Moroni "planted the standard of liberty among the Nephites" (Alma 46:36). Choose open ground and plant it: your city grows from there.' },
-    swordsman:    { name: 'Swordsman', hp: 115, speed: 58, dmg: 14, range: 20, cd: 1.0, armor: 2, sight: 170, cost: { grain: 55, timber: 35 }, time: 11, soldier: true, tier: true, needs: ['armory'],
-                    about: 'Armed "with swords, and with cimeters" (Alma 43:18). Strong up close.' },
-    nslinger:     { name: 'Slinger', hp: 55, speed: 60, dmg: 6, range: 140, cd: 1.3, armor: 0, sight: 180, cost: { grain: 30, timber: 10 }, time: 7, soldier: true, ranged: true, tier: true,
-                    about: 'The Nephites armed themselves "with stones, and with slings" (Alma 2:12). Cheap, and strikes from far off.' },
-    javelin:      { name: 'Javelin thrower', hp: 75, speed: 60, dmg: 17, range: 95, cd: 1.7, armor: 1, sight: 180, cost: { grain: 50, timber: 40 }, time: 12, soldier: true, ranged: true, tier: true, needs: ['hall'],
-                    about: '"The dart, and the javelin" (Jarom 1:8). From history, not the verse: ancient Americans threw darts with a spear-thrower called an atlatl.' },
+    swordsman:    { name: 'Swordsman', hp: 115, speed: 58, dmg: 14, range: 20, cd: 1.0, armor: 2, sight: 170, cost: { grain: 55, timber: 35 }, time: 11, soldier: true, tier: true, needs: ['armory'], beats: 'ranged',
+                    about: 'Armed "with swords, and with cimeters" (Alma 43:18). Strong up close, and against slingers and archers.' },
+    nslinger:     { name: 'Slinger', hp: 55, speed: 60, dmg: 6, range: 140, cd: 1.3, armor: 0, sight: 180, cost: { grain: 35, timber: 15 }, time: 7, soldier: true, ranged: true, tier: true, beats: 'light',
+                    about: 'The Nephites armed themselves "with stones, and with slings" (Alma 2:12). Cheap, strikes from far off, and strong against those without armor.' },
+    javelin:      { name: 'Javelin thrower', hp: 75, speed: 60, dmg: 20, range: 95, cd: 1.7, armor: 1, sight: 180, cost: { grain: 50, timber: 40 }, time: 12, soldier: true, ranged: true, tier: true, needs: ['hall'], beats: 'armored',
+                    about: '"The dart, and the javelin" (Jarom 1:8). Strong against armored captains. From history, not the verse: ancient Americans threw darts with a spear-thrower called an atlatl.' },
     stripling:    { name: 'Stripling warrior', hp: 190, speed: 64, dmg: 15, range: 20, cd: 0.9, armor: 4, sight: 180, cost: { grain: 90, timber: 60 }, time: 16, soldier: true, tier: true, needs: ['hall'],
                     about: '"Exceedingly valiant for courage" (Alma 53:20), "taught by their mothers" (Alma 56:47). Very hard to bring down.' },
     cart:         { name: 'Horse cart', hp: 90, speed: 78, dmg: 0, range: 0, cd: 1, armor: 1, sight: 140, cost: { grain: 60, timber: 40 }, time: 12, gathers: true, load: 30, tier: true, needs: ['stables'],
@@ -64,10 +64,10 @@
   };
 
   const BUILDINGS = {
-    stronghold: { name: 'Zarahemla', w: 4, h: 4, hp: 2400, armor: 4, dmg: 8, range: 185, cd: 1.4, dropoff: true, trains: ['worker'], food: 10, store: 300, about: 'The gathering place (3 Nephi 3:23). Its guards shoot at robbers. Lose it and the mission is lost.' },
+    stronghold: { name: 'Zarahemla', w: 4, h: 4, hp: 2400, armor: 4, dmg: 8, range: 130, cd: 1.4, dropoff: true, trains: ['worker'], food: 10, store: 300, about: 'The gathering place (3 Nephi 3:23). Its guards shoot at robbers. Lose it and the mission is lost.' },
     storehouse: { name: 'Storehouse', w: 2, h: 2, hp: 450, armor: 2, cost: { timber: 60 }, work: 18, dropoff: true, store: 300, about: 'Workers bring grain and timber here too.' },
     barracks:   { name: 'Barracks', w: 3, h: 3, hp: 650, armor: 2, cost: { timber: 110 }, work: 30, trains: ['spearman', 'nslinger', 'archer', 'swordsman'], research: ['armor'], about: 'Trains the guards.' },
-    tower:      { name: 'Watchtower', w: 2, h: 2, hp: 520, armor: 3, cost: { grain: 20, timber: 60 }, work: 26, dmg: 9, range: 175, cd: 1.3, needs: ['barracks'], about: 'Guards "watch them … day and night" (3 Nephi 3:14). Shoots at robbers.' },
+    tower:      { name: 'Watchtower', w: 2, h: 2, hp: 520, armor: 3, cost: { grain: 20, timber: 60 }, work: 26, dmg: 9, range: 150, cd: 1.3, needs: ['barracks'], about: 'Guards "watch them … day and night" (3 Nephi 3:14). Shoots at robbers.' },
     wall:       { name: 'Earthwork', w: 1, h: 1, hp: 260, armor: 5, cost: { timber: 6 }, work: 5, wall: true, about: 'Fortifications "round about them" (3 Nephi 3:14). Robbers must break through.' },
     gate:       { name: 'Gate', w: 1, h: 1, hp: 320, armor: 4, cost: { timber: 20 }, work: 8, wall: true, gate: true, about: 'Your people pass through; robbers must break it.' },
     village:    { name: 'Village', w: 3, h: 3, hp: 99999, neutral: true },
@@ -226,6 +226,62 @@
     return { tiles, amt };
   }
 
+  // Out of the Wilderness: an open valley with your standard in the middle,
+  // and four ways in for raiders: two passes through the mountains on the
+  // north, the forest on the west, and the fords of the river on the east.
+  const WILD = {
+    START: { x: 26, y: 29 },
+    WAYS: [
+      { name: 'the western pass', x: 14, y: 1 },
+      { name: 'the eastern pass', x: 42, y: 1 },
+      { name: 'the western wilderness', x: 1, y: 30 },
+      { name: 'the river fords', x: 62, y: 24 }
+    ],
+    river: y => Math.round(51 + 1.5 * Math.sin(y / 7)),
+    FORDS: [13, 35]
+  };
+  function buildWildMap() {
+    const r = rng(48);
+    const tiles = new Uint8Array(MAP_W * MAP_H);
+    const amt = new Int16Array(MAP_W * MAP_H);
+    const inb = (x, y) => x >= 0 && y >= 0 && x < MAP_W && y < MAP_H;
+    const set = (x, y, t, a) => { if (inb(x, y)) { tiles[y * MAP_W + x] = t; amt[y * MAP_W + x] = a || 0; } };
+    const get = (x, y) => inb(x, y) ? tiles[y * MAP_W + x] : T.ROCK;
+    const S = WILD.START, P = WILD.WAYS;
+    // The ways in, and the trails from them into the valley, stay open.
+    const trail = (x, y) => Math.abs(x - (P[0].x + Math.round(2 * Math.sin(y / 3)))) <= 1 && y < 12 ||
+      Math.abs(x - (P[1].x + Math.round(2 * Math.sin(y / 4)))) <= 1 && y < 12 ||
+      Math.abs(y - P[2].y) <= 1 && x < 9 || Math.abs(y - P[3].y) <= 1 && x > WILD.river(y) + 1 ||
+      // and along the far bank of the river, from that trail to both fords
+      x >= WILD.river(y) + 2 && x <= WILD.river(y) + 3 && y >= WILD.FORDS[0] - 1 && y <= WILD.FORDS[1] + 2;
+    const clear = (x, y) => trail(x, y) || Math.hypot(x - S.x - 2, y - S.y - 2) < 7;
+    // Mountains along the top, with the two passes through them.
+    for (let x = 0; x < MAP_W; x++) {
+      const depth = 2 + Math.round(1.5 + 1.5 * Math.sin(x / 5) + r());
+      for (let y = 0; y < depth; y++) if (!trail(x, y)) set(x, y, T.ROCK);
+    }
+    // The wilderness: thick forest below the mountains and along the west.
+    for (let y = 0; y < MAP_H; y++) for (let x = 0; x < MAP_W; x++) {
+      if (get(x, y) !== T.GRASS || clear(x, y)) continue;
+      const north = y < 9 + Math.round(2 * Math.sin(x / 6)), west = x < 5 + Math.round(1.5 * Math.sin(y / 5));
+      if ((north || west) && r() < 0.6) set(x, y, T.FOREST, 120);
+    }
+    // The river on the east, with its two fords, and the wild country beyond it.
+    for (let y = 0; y < MAP_H; y++) {
+      const x0 = WILD.river(y);
+      for (let x = x0; x < x0 + 2; x++) if (get(x, y) !== T.ROCK) set(x, y, WILD.FORDS.some(f => y >= f && y <= f + 1) ? T.FORD : T.WATER);
+      for (let x = x0 + 2; x < MAP_W; x++) if (get(x, y) === T.GRASS && !clear(x, y) && r() < 0.45) set(x, y, T.FOREST, 120);
+    }
+    // Hills along the south, and outcrops in the valley.
+    for (let x = 0; x < MAP_W; x++) { const d = 1 + Math.round(1 + Math.sin(x / 4 + 2) + r()); for (let y = MAP_H - d; y < MAP_H; y++) if (get(x, y) === T.GRASS) set(x, y, T.ROCK); }
+    const blob = (cx, cy, rad, t, a) => { for (let y = Math.floor(cy - rad - 1); y <= cy + rad + 1; y++) for (let x = Math.floor(cx - rad - 1); x <= cx + rad + 1; x++) if (Math.hypot(x - cx, y - cy) <= rad - 0.3 + r() * 0.8 && get(x, y) === T.GRASS && !clear(x, y)) set(x, y, t, a); };
+    [[12, 20, 2], [38, 38, 2.4], [44, 16, 1.8], [20, 41, 1.6]].forEach(([x, y, rad]) => blob(x, y, rad, T.ROCK));
+    [[17, 33, 2.5], [35, 25, 2.5], [31, 39, 2.2], [11, 38, 2.2], [40, 30, 2], [22, 18, 2.2], [46, 41, 2]].forEach(([x, y, rad]) => blob(x, y, rad, T.FOREST, 120));
+    const field = (x0, y0, w, h) => { for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) if (get(x, y) === T.GRASS && !clear(x, y)) set(x, y, T.FIELD, 300); };
+    [[19, 26, 3, 2], [33, 31, 3, 2], [27, 37, 3, 2], [30, 20, 3, 2], [14, 28, 2, 3]].forEach(f => field(...f));
+    return { tiles, amt };
+  }
+
   // Where things stand at the start.
   const CITY = { x: 30, y: 37 };                       // Zarahemla, 4×4
   const VILLAGES = [                                   // cities and lands named in the Book of Mormon
@@ -294,7 +350,7 @@
     ]
   };
 
-  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, CITY, VILLAGES, QUESTIONS, SIDON, FREE, buildMap, buildSidonMap, buildFreeMap, rng };
+  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
   if (typeof module !== 'undefined' && module.exports) module.exports = DATA;
   else root.LIB_DATA = DATA;
 })(this);

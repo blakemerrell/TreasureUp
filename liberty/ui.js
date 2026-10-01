@@ -3,7 +3,7 @@
 // then play its mission. Nothing here decides who wins a fight.
 (function () {
   'use strict';
-  const D = window.LIB_DATA, S = window.LIB_SIM, MISSIONS = window.LIB_MISSIONS.MISSIONS, CAMPAIGNS = window.LIB_MISSIONS.CAMPAIGNS, FREE = window.LIB_MISSIONS.FREE_BATTLE;
+  const D = window.LIB_DATA, S = window.LIB_SIM, MISSIONS = window.LIB_MISSIONS.MISSIONS, CAMPAIGNS = window.LIB_MISSIONS.CAMPAIGNS, FREE = window.LIB_MISSIONS.FREE_BATTLE, WILD = window.LIB_MISSIONS.WILD;
   const TEXT = window.LIBERTY_SCRIPTURE || {};
   const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, QUESTIONS } = D;
   const { tileOf, dist } = S;
@@ -797,6 +797,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
     drawMarkers(now);
     drawGhost();
 
+    // Something of yours under attack: a red ring on the ground there for a few seconds.
+    for (const a of W.alarms) {
+      const age = W.t - a.t;
+      if (age > 4) continue;
+      const { ix, iy } = toIso(a.x, a.y), r = 30 + (age * 40) % 40;
+      ctx.strokeStyle = `rgba(248,113,113,${0.9 * (1 - age / 4)})`; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.ellipse(ix, iy, r, r / 2, 0, 0, 7); ctx.stroke();
+    }
+
     // Order feedback pings in isometric
     for (let i = pings.length - 1; i >= 0; i--) {
       const p = pings[i], age = (now - p.t) / 450;
@@ -826,6 +835,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
     // ---------------- Westwood Shroud of War ----------------
     ctx.drawImage(shroudCv, -ISO_OFFSET_X, -PAD);
+    drawMarkers(now, true);
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     if (W.night) { ctx.fillStyle = 'rgba(8,12,40,.5)'; ctx.fillRect(0, 0, cv.width, cv.height); }
@@ -853,19 +863,20 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     ctx.restore();
   }
-  function drawMarkers(now) {
-    const list = mission.markers ? mission.markers(W) : [];
+  // Story places, once explored; or, after the shroud (overFog), warnings that show through it.
+  function drawMarkers(now, overFog) {
+    const list = (mission.markers ? mission.markers(W) : []).filter(m => !!m.always === !!overFog);
     if (!list.length) return;
     const pulse = 0.6 + 0.4 * Math.sin(now / 250);
     ctx.font = '800 13px Outfit, system-ui, sans-serif'; ctx.textAlign = 'center';
     for (const m of list) {
-      if (!explored[Math.floor(m.y) * MAP_W + Math.floor(m.x)]) continue;
+      if (!m.always && !explored[Math.floor(m.y) * MAP_W + Math.floor(m.x)]) continue;
       const { ix, iy } = toIso((m.x + 0.5) * TILE, (m.y + 0.5) * TILE);
       const w = ctx.measureText(m.label).width + 16;
-      ctx.strokeStyle = `rgba(253,230,138,${pulse})`; ctx.lineWidth = 3;
+      ctx.strokeStyle = m.always ? `rgba(248,113,113,${pulse})` : `rgba(253,230,138,${pulse})`; ctx.lineWidth = 3;
       ctx.beginPath(); ctx.ellipse(ix, iy, 42, 21, 0, 0, 7); ctx.stroke();
       ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(ix - w / 2, iy - 48, w, 18);
-      ctx.fillStyle = '#fde68a'; ctx.fillText(m.label, ix, iy - 35);
+      ctx.fillStyle = m.always ? '#fecaca' : '#fde68a'; ctx.fillText(m.label, ix, iy - 35);
     }
   }
   function drawZones() {
@@ -1348,6 +1359,22 @@ IMG.farm.src = 'assets/farm.png?v=13';
       }
     }
 
+    // Where raiders are gathering: a pulsing red mark at the way in.
+    for (const m of mission.markers ? mission.markers(W) : []) {
+      if (!m.always) continue;
+      const pt = toMini((m.x + 0.5) * TILE, (m.y + 0.5) * TILE), r = (3 + 2 * Math.sin(now / 200)) * dpr;
+      mctx.fillStyle = 'rgba(248,113,113,.9)'; mctx.beginPath(); mctx.arc(pt.mx, pt.my, Math.max(2, r), 0, 7); mctx.fill();
+    }
+
+    // Where something of yours was just attacked: a red ring, flashing for a few seconds.
+    for (const a of W.alarms) {
+      const age = W.t - a.t;
+      if (age > 6) continue;
+      const pt = toMini(a.x, a.y);
+      mctx.strokeStyle = `rgba(248,113,113,${1 - age / 6})`; mctx.lineWidth = 2 * dpr;
+      mctx.beginPath(); mctx.arc(pt.mx, pt.my, (3 + (age * 8) % 8) * dpr, 0, 7); mctx.stroke();
+    }
+
     // Camera Viewport Parallelogram
     const tl = toMini(toWorld(0, topH()).x, toWorld(0, topH()).y);
     const tr = toMini(toWorld(vw - rightW(), topH()).x, toWorld(vw - rightW(), topH()).y);
@@ -1393,7 +1420,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const e = entityAt(wx, wy, sx, sy);
     const units = selUnits();
     // With people chosen, a click on anything but a different one of your own units is an order.
-    if (units.length && !(e && e.kind === 'unit' && selectable(e) && !sel.includes(e.id)) && !(e && e.kind === 'building' && e.team === 'p' && !canWorkOn(units, e))) {
+    if (units.length && !(e && e.kind === 'unit' && selectable(e) && (!sel.includes(e.id) || double)) && !(e && e.kind === 'building' && e.team === 'p' && !canWorkOn(units, e))) {
       return command(wx, wy, sx, sy);
     }
     if (selectable(e)) {
@@ -1459,7 +1486,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const def = BUILDINGS[type];
     if (W.whyNotBuild(type)) return toast(W.whyNotBuild(type) + '.', 'warn');
     if (!W.canAfford(def.cost)) return toast(poorText(def.cost), 'warn');
-    placing = type; wallLine = null;
+    placing = type; wallLine = null; touchSpot = null;
     toast(type === 'wall' ? 'Drag a line where the wall goes. Tap Done when you finish.' : `Tap where the ${def.name.toLowerCase()} goes.`, 'me');
     refreshPanel(true);
   }
@@ -1513,11 +1540,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   const ptrs = new Map();
   let gesture = null, lastTap = { t: 0, x: 0, y: 0 };
+  let touchSpot = null, touchy = false;                // where a building would go, after a first tap; and whether this is a touch screen
   cv.addEventListener('contextmenu', e => e.preventDefault());
   cv.addEventListener('pointerdown', e => {
     if (!W || modal) return;
     cv.setPointerCapture(e.pointerId);
     ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    touchy = e.pointerType !== 'mouse';
     if (ptrs.size === 2) {
       const [a, b] = [...ptrs.values()];
       box = null; wallLine = null;
@@ -1562,6 +1591,16 @@ IMG.farm.src = 'assets/farm.png?v=13';
     gesture = null;
     if (!g || cancelled || !W) { box = null; wallLine = null; return; }
     const p = toWorld(e.clientX, e.clientY);
+    if (g.kind === 'press' && g.touch && placing && placing !== 'wall') {
+      // On a touch screen there's no pointer to show where it would go: the first tap shows it, a second tap there builds it.
+      const spot = topLeft(placing, p.x, p.y);
+      if (!touchSpot || touchSpot[0] !== spot[0] || touchSpot[1] !== spot[1]) {
+        touchSpot = spot; hover = p;
+        toast(W.canPlace(placing, spot[0], spot[1]) ? 'Tap it again to build it there.' : 'It can\'t go there: tap open ground.', 'me');
+        return;
+      }
+      touchSpot = null;
+    }
     if (g.kind === 'press') {
       const now = performance.now(), dbl = now - lastTap.t < 350 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 20;
       lastTap = { t: now, x: e.clientX, y: e.clientY };
@@ -1674,10 +1713,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'train:stripling': 'assets/cameo_stripling.png?v=9',
     'train:moroni': 'assets/cameo_moroni.png?v=9',
     'build:tower': 'assets/cameo_tower.png?v=9',
-    'build:armory': 'assets/cameo_armory.png?v=9',
-    'build:farm': 'assets/cameo_farm.png?v=9',
-    'build:storehouse': 'assets/cameo_farm.png?v=9',
-    'build:granary': 'assets/cameo_farm.png?v=9'
+    'build:armory': 'assets/cameo_armory.png?v=9'
   };
   const cmd = (act, name, cost, cls) => {
     const icon = CAMEO_MAP[act];
@@ -1709,7 +1745,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
           h += cmd('build:' + t, t === 'wall' ? 'Walls' : def.name, why ? esc(why) : costHtml(def.cost) + (t === 'wall' ? ' each' : ''), why || !W.canAfford(def.cost) ? 'poor' : '');
         }
       }
-      h += cmd('stop', 'Stop', 'H');
+      h += cmd('stop', 'Stop', touchy ? '' : 'H');
+      h += cmd('letgo', 'Let go', touchy ? '' : 'Esc');
       return h;
     }
     if (b.built < 1) return `<div class="note">Choose workers, then tap this to build it.</div>`;
@@ -1719,7 +1756,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       h += cmd('train:' + t, UNITS[t].name, why ? esc(why) : costHtml(UNITS[t].cost), why || !W.canAfford(UNITS[t].cost) ? 'poor' : '');
     }
     // What this building can make: in free battle, the armory's list; in a mission, the mission's own armor.
-    const keys = W.tech ? (b.def.research || []).filter(k => k !== 'armor') : b.def.research ? [mission.research || 'armor'] : [];
+    const keys = W.researchAt(b);
     for (const k of keys.filter(k => !W.researched[k])) {
       const r = RESEARCH[k];
       if (W.researching && W.researching.key === k) h += `<div class="note">Making ${esc(r.name.toLowerCase())}: ${Math.ceil(W.researching.left)}s</div>`;
@@ -1740,6 +1777,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (act === 'build') startPlacing(arg);
     else if (act === 'done' || act === 'cancel') { placing = null; wallLine = null; refreshPanel(true); }
     else if (act === 'stop') for (const u of selUnits()) W.order(u, { type: 'idle' });
+    else if (act === 'letgo') setSel([]);
     else if (act === 'train' && one) { if (!W.train(one, arg)) toast(one.queue.length >= 5 ? 'The line is full.' : W.whyNotTrain(arg) || poorText(UNITS[arg].cost), 'warn'); }
     else if (act === 'deploy' && one) {
       const city = W.deploy(one);
@@ -1839,7 +1877,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const qs = (mission.free ? Object.keys(save.read) : chaptersOf(mission)).flatMap(c => QUESTIONS[c] || []);
     if (!qs.length) return toast('Read a chapter from the missions first: the council asks about what you have read.', 'warn');
     if (!council.queue.length) council.queue = shuffle(qs.map((_, i) => i));
-    const q = qs[council.queue.shift()];
+    // Opening a question starts the wait, and it comes back later unless it's answered right,
+    // so closing one you don't know isn't a way to skip to an easier one.
+    const qi = council.queue.shift(), q = qs[qi];
+    council.queue.push(qi); council.nextAt = W.t + 30;
     const answers = shuffle([q.right, ...q.wrong]);
     openDialog(`<div class="dialog"><div class="kicker">The council · ${esc(q.ref.replace(/:.*/, ''))}</div><h2>${esc(q.q)}</h2>
       <div class="choices">${answers.map(a => `<button class="choice" data-a="${esc(a)}">${esc(a)}</button>`).join('')}</div><div id="cAfter"></div></div>`);
@@ -1850,11 +1891,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
       root.querySelectorAll('.choice').forEach(b => { if (b.dataset.a === q.right) b.classList.add('right'); else if (b === btn) b.classList.add('wrong'); });
       const vs = versesOf(q.ref);
       if (ok) {
-        W.res.grain += 40; W.res.timber += 60; council.right++;
+        W.gain('grain', 40); W.gain('timber', 60); council.right++;
+        council.queue = council.queue.filter(i => i !== qi);
         council.nextAt = W.t + 60;
-      } else {
-        council.queue.push(qs.indexOf(q));
-        council.nextAt = W.t + 30;
       }
       $('cAfter').innerHTML = `<div class="say ${ok ? 'good' : 'bad'}">${ok ? 'Right! The people bring 40 grain and 60 timber.' : 'Not quite. Here is what the chapter says:'}</div>
         <div class="verse">${vs.map(([n, t]) => `<p><b>${esc(q.ref.replace(/:.*/, ''))}:${n}</b> ${esc(t)}</p>`).join('')}</div>
@@ -1920,13 +1959,21 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const cards = CAMPAIGNS.map(c => `<h2 class="camp">${esc(c.title)}</h2><p class="camp-about">${esc(c.about)}</p><div class="cards">${MISSIONS.filter(m => m.campaign === c.id).map(card).join('')}</div>`).join('');
     // Free battle: open once any chapter with council questions has been read.
     const anyRead = Object.keys(save.read).some(c => QUESTIONS[c]);
-    const freeCard = `<h2 class="camp">Free battle</h2><p class="camp-about">Red Alert's way of playing: plant the standard of liberty, build your city up through the tech tree, and tear down the Lamanite war camp.</p>
+    const lock = anyRead ? '' : '<div class="lock">🔒 Read a mission\'s chapter to open the skirmishes.</div>';
+    const freeCard = `<h2 class="camp">Skirmish</h2><p class="camp-about">Red Alert's way of playing: plant the standard of liberty and build your city up through the tech tree. Then hold off the raids, or tear down the Lamanite war camp.</p>
       <div class="cards"><div class="card ${anyRead ? '' : 'locked'}">
+        <div class="kicker">The council asks about every chapter you've read</div>
+        <h2>${esc(WILD.title)}</h2>
+        ${save.won.wild ? starsHtml(save.won.wild) : ''}
+        <p>${esc(WILD.goals)}</p>
+        ${lock}
+        ${Object.keys(WILD.LENGTHS).map(len => `<div class="row" style="align-items:center"><span style="min-width:9em;font-size:13px"><b>${esc(WILD.LENGTHS[len].name)}</b> · ${esc(WILD.LENGTHS[len].about)}</span>${Object.keys(WILD.LEVELS).map(l => `<button class="btn ${anyRead && l === 'easy' && len === 'short' ? 'go' : ''}" data-wild="${l}:${len}" ${anyRead ? '' : 'disabled'}>${WILD.LEVELS[l].name}</button>`).join('')}</div>`).join('')}
+      </div><div class="card ${anyRead ? '' : 'locked'}">
         <div class="kicker">The council asks about every chapter you've read</div>
         <h2>Free battle</h2>
         ${save.won.free ? starsHtml(save.won.free) : ''}
         <p>${esc(FREE.goals)}</p>
-        ${anyRead ? '' : '<div class="lock">🔒 Read a mission\'s chapter to open free battle.</div>'}
+        ${lock}
         <div class="row">${Object.keys(FREE.LEVELS).map(l => `<button class="btn ${anyRead && l === 'easy' ? 'go' : ''}" data-free="${l}" ${anyRead ? '' : 'disabled'}>${FREE.LEVELS[l].name}</button>`).join('')}</div>
       </div></div>`;
     const s = showScreen(`<div class="wrap">
@@ -1949,8 +1996,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
       <p class="aside"><a href="../">← Back to Treasure Up</a></p>
     </div>`);
     s.onclick = e => {
-      const r = e.target.closest('[data-read]'), p = e.target.closest('[data-play]'), f = e.target.closest('[data-free]');
+      const r = e.target.closest('[data-read]'), p = e.target.closest('[data-play]'), f = e.target.closest('[data-free]'), w = e.target.closest('[data-wild]');
       if (f && !f.disabled) { FREE.level = f.dataset.free; return briefing(FREE); }
+      if (w && !w.disabled) { [WILD.level, WILD.length] = w.dataset.wild.split(':'); return briefing(WILD); }
       if (r) openReader(r.dataset.read);
       else if (p && !p.disabled) briefing(MISSIONS.find(m => m.id === p.dataset.play));
     };
@@ -1979,7 +2027,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   function briefing(m) {
     showScreen(`<div class="wrap brief">
-      <div class="kicker">${m.free ? 'Free battle · ' + esc(m.LEVELS[m.level].name) : esc(CAMPAIGNS.find(c => c.id === m.campaign).title) + ' · Mission ' + (inCampaign(m).indexOf(m) + 1) + ' · ' + esc(m.chapter)} · ${esc(m.year)}</div>
+      <div class="kicker">${m.kicker ? esc(m.kicker()) : m.free ? 'Free battle · ' + esc(m.LEVELS[m.level].name) : esc(CAMPAIGNS.find(c => c.id === m.campaign).title) + ' · Mission ' + (inCampaign(m).indexOf(m) + 1) + ' · ' + esc(m.chapter)} · ${esc(m.year)}</div>
       <h2 style="font-size:32px">${esc(m.title)}</h2>
       <ul>${m.briefing.map(([t, r]) => `<li>${esc(t)} ${refBtn(r)}</li>`).join('')}</ul>
       ${m.free ? `<p class="lede">Your building line: city → farms and granaries → barracks → armory → stables and the hall of the captains. A farm feeds 8 people; nobody can be trained without food.</p>` : ''}
@@ -2072,7 +2120,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   home();
   requestAnimationFrame(frame);
   // A window on the game for automated play-throughs in a browser.
-  window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, get sel() { return sel; }, get selEnts() { return selEnts(); }, cam, begin: (id, level) => { if (level) FREE.level = level; begin(id === 'free' ? FREE : MISSIONS.find(m => m.id === id)); }, toWorld, lookAt,
+  window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, get sel() { return sel; }, get selEnts() { return selEnts(); }, cam, begin: (id, level, length) => { const m = id === 'free' ? FREE : id === 'wild' ? WILD : MISSIONS.find(m => m.id === id); if (level) m.level = level; if (length) m.length = length; begin(m); }, toWorld, lookAt,
     screenOf: (x, y) => toScreen(x, y),
     remoteClick: (sx, sy, color) => {
       const w = toWorld(sx, sy);
