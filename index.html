@@ -700,6 +700,8 @@
   .rk-region.held text { fill: #fff; font-style: normal; font-weight: 900; stroke: rgba(0,0,0,.35); }
   .rk-region { pointer-events: none; }
   .rk-shield { font-size: 20px; pointer-events: none; }
+  .rk-mtn { pointer-events: none; }   /* ⛰️ mountains: drawn, since not every TV's browser has that emoji */
+  .rk-mtn rect { fill: #1c1917; stroke: #d6d3d1; stroke-width: 2; } .rk-mtn path { fill: #f5f5f4; stroke: none; }
   .rk-atk-region { font-size: 14px; font-weight: 800; color: var(--gold); }
   .rk-cards { margin-top: 12px; padding: 10px 12px; border-radius: 16px; background: rgba(168,85,247,.10); border: 1px solid rgba(168,85,247,.35); }
   .rk-cardrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
@@ -749,6 +751,8 @@
   .rk-chapter-n { font-size: clamp(13px, 1.5vw, 26px); font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
   .rk-chapter-t { font-size: clamp(26px, 5vw, 84px); font-weight: 900; line-height: 1.05; }
   .rk-chapter-x { font-size: clamp(16px, 2.3vw, 38px); font-weight: 700; line-height: 1.35; margin: 0; }
+  .rk-fair { margin: 10px 0; padding: 10px 12px; border-radius: 14px; background: rgba(147,197,253,.10); border: 1px solid rgba(147,197,253,.4); font-size: 14px; font-weight: 700; display: grid; gap: 8px; }
+  .rk-fair p { margin: 0; } .rk-fair .btn { justify-self: start; } p.rk-fair.ok { background: rgba(52,211,153,.10); border-color: rgba(52,211,153,.45); }
   .rk-order { display: flex; flex-wrap: wrap; gap: 8px 14px; justify-self: start; font-size: clamp(13px, 1.5vw, 24px); font-weight: 800; }
   .rk-order-p { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 6px; border-radius: 999px; border: 2px solid var(--k); background: rgba(0,0,0,.25); }
   .rk-order-p > b { min-width: 1.4em; text-align: center; color: var(--gold); }
@@ -5274,7 +5278,7 @@ const TreasureUp = (function () {
       const ow = u.odds && String(u.odds[l.id] || '').startsWith('🧱') ? 70 : 48;          // (🧱 in front: the odds of knocking the wall down)
       const odds = u.odds && u.odds[l.id] ? `<rect class="odds" x="${-ow / 2}" y="25" width="${ow}" height="22" rx="11"/><text class="oddsn" y="41">${u.odds[l.id]}</text>` : '';
       return `<g class="rk-lab${mark(l.id)}${pulse}${u.hint === l.id ? ' hint' : ''}" data-land="${l.id}" transform="translate(${x} ${y})${u.small ? ' scale(1.5)' : ''}">
-        <text class="nm" y="-30">${esc(l.name)}${home.has(l.id) ? ' ★' : ''}${riskMountain(l.id) ? ' ⛰️' : ''}</text>${riskMountain(l.id) ? `<title>${esc(riskCap(B.mountains.name))}: ${esc(l.name)} starts with ${B.mountains.guards} guards</title>` : ''}
+        <text class="nm" y="-30">${esc(l.name)}${home.has(l.id) ? ' ★' : ''}</text>${riskMountain(l.id) ? `<g class="rk-mtn"><rect x="23" y="-12" width="36" height="24" rx="12"/><path d="M28 7 L36 -6 L41 1 L45 -3 L53 7 Z"/></g><title>${esc(riskCap(B.mountains.name))}: ${esc(l.name)} starts with ${B.mountains.guards} guards</title>` : ''}
         ${u.hint === l.id ? '<circle r="29" class="ring"/>' : ''}${L ? `<circle r="21" class="badge${ownColor(l.id) ? ' own' : ''}"${ownColor(l.id) ? ` style="--k:${ownColor(l.id)}"` : ''}/><text class="ar" y="8">${L.a}</text>` : ''}${odds}
         ${L && L.sh ? '<text class="rk-shield" x="-34" y="8">🦁</text><title>The Lions’ Den: nobody can attack it</title>' : ''}
         ${wallUp && l.id === B.walls ? `<g class="rk-bricks"><rect x="23" y="-12" width="46" height="24" rx="12"/><text x="46" y="6">🧱${g.bricks}</text><title>Babylon’s wall: ${g.bricks} ${g.bricks === 1 ? 'brick' : 'bricks'} left</title></g>` : ''}</g>`;
@@ -6425,6 +6429,11 @@ const TreasureUp = (function () {
     else if (act === 'insight' && g.state === 'lobby') g.insightOn = el.dataset.v !== 'off';
     else if (act === 'begin' && g.state === 'play' && g.story) riskStoryDone(g);
     else if (act === 'start' && g.state === 'lobby' && g.seats.length >= 2) riskBegin(g);
+    else if (act === 'fairdeal' && g.state === 'lobby' && g.seats.length === 2) {   // 🎲 the two players' kingdoms, from a fair pair
+      const pair = riskFairDealt();
+      g.seats = g.seats.map((x, i) => Object.assign({}, x, { k: pair[i] }));
+      riskLog(g, '🎲 ' + g.seats.map(x => x.name + ': ' + kingdomOf(x.k).name).join(', '));
+    }
     else if (act === 'skip' && g.state === 'play' && !g.story) { riskLog(g, g.seats[g.turn.i].name + "'s turn was skipped."); riskNextTurn(g); }
     else if (act === 'finish' && g.state === 'play') riskOver(g);
     else if (act === 'again' && g.state === 'over') {
@@ -6458,6 +6467,7 @@ const TreasureUp = (function () {
             <div class="rk-kingdoms">${B.kingdoms.map(k => `<div class="rk-king${taken[k.id] ? ' chosen' : ' open'}"${taken[k.id] ? ` style="border-color:${k.color}"` : ''}><span class="rk-dot" style="background:${k.color}"></span>${esc(k.name)}<small>${taken[k.id] ? esc(taken[k.id].name) : 'open'}</small></div>`).join('')}</div>
             ${waiting.length ? `<p class="board-help">Joined, still choosing: ${waiting.map(p => esc(p.name)).join(', ')}</p>` : ''}
             <div class="board-actions"><button class="btn" data-rkh="start"${g.seats.length >= 2 ? '' : ' disabled style="opacity:.4"'}>Start · ${g.seats.length} ${g.seats.length === 1 ? 'kingdom' : 'kingdoms'}</button></div>
+            ${g.seats.length === 2 ? riskFairHtml(g.seats.map(s => s.k), 'data-rkh="fairdeal"') : ''}
             <div class="eyebrow" style="margin-top:14px">How long</div>
             <div class="rk-len">${RISK.rounds.map((n, i) => `<button class="btn ${g.rounds === n ? '' : 'ghost'}" data-rkh="rounds" data-n="${n}">${['Short', 'Standard', 'Long'][i]} · ${n} rounds</button>`).join('')}</div>
             <div class="eyebrow" style="margin-top:14px">Timer (⚡ Pro only)</div>
@@ -6720,6 +6730,7 @@ const TreasureUp = (function () {
     else if (act === 'solo') riskSoloSetup();
     else if (act === 'solostart') riskSoloStart();
     else if (act === 'solocontinue') riskSoloContinue();
+    else if (act === 'solofair') riskSoloFair();
     else if (/^solo/.test(act) && rk && rk.role === 'solo') riskSoloAction(act);
     else if (rk && (rk.role === 'player' || rk.role === 'solo')) riskPlayerAction(act, el);
   }
@@ -6841,7 +6852,7 @@ const TreasureUp = (function () {
           return `<button class="rk-king${mine ? ' mine' : ''}${who && !mine ? ' taken' : ''}" data-rk="pick" data-k="${x.id}"${who && !mine ? ' disabled' : ''}>
             <span class="rk-dot" style="background:${x.color}"></span>${esc(x.name)}<small>${mine ? 'yours' : who ? esc(who.name) : 'home: ' + esc(landName(x.home))}</small></button>`;
         }).join('')}</div>
-        <p class="board-help">${seat ? 'You can still switch until the game starts.' : ''}</p></div>
+        <p class="board-help">${seat ? 'You can still switch until the game starts.' : ''}</p>${g.seats.length <= 2 ? riskFairHtml(g.seats.map(s => s.k), '') : ''}</div>
         ${seat ? riskModePicker() : ''}`);
       return;
     }
@@ -6882,6 +6893,31 @@ const TreasureUp = (function () {
     try { const g = JSON.parse(localStorage.getItem(SOLO_KEY)); return g && g.state === 'play' && g.board === BOARD().id && (g.seats || []).every(s => kingdomOf(s.k)) ? g : null; } catch (e) { return null; }
   }
 
+  // ⚖️ Two players: some match-ups are fairer than others (board.fairPairs,
+  // from simulation; Lydia vs Egypt leans about 60–40). A tip names the
+  // fair ones, and 🎲 deals one at random.
+  const riskFairPairs = () => BOARD().fairPairs || [];
+  const riskPairIsFair = (a, b) => riskFairPairs().some(p => p.includes(a) && p.includes(b));
+  const riskFairText = () => andList(riskFairPairs().map(p => p.map(k => kingdomOf(k).name).join(' vs ')));
+  function riskFairDealt() {
+    const ps = riskFairPairs(), p = ps[Math.floor(Math.random() * ps.length)];
+    return Math.random() < 0.5 ? p.slice() : p.slice().reverse();
+  }
+  // The tip for a 2-player table: fair already, or which match-ups are (and the 🎲).
+  function riskFairHtml(ks, deal) {
+    if (!riskFairPairs().length) return '';
+    if (ks.length === 2 && riskPairIsFair(ks[0], ks[1])) return `<p class="rk-fair ok">⚖️ ${esc(ks.map(k => kingdomOf(k).name).join(' vs '))}: a fair match-up for 2 players.</p>`;
+    return `<div class="rk-fair"><p>⚖️ Playing with 2? The fairest match-ups are ${esc(riskFairText())}. The others lean up to 60–40.</p>${deal ? `<button class="btn ghost" ${deal}>🎲 Deal a fair match-up</button>` : ''}</div>`;
+  }
+  // One screen: the two names typed go to a fair pair, at random.
+  function riskSoloFair() {
+    const ins = [...document.querySelectorAll('[data-solo-k]')], names = ins.map(i => i.value.trim()).filter(Boolean), msg = $('riskFairMsg');
+    if (names.length !== 2) { if (msg) msg.textContent = 'Type 2 names first, then deal.'; return; }
+    const pair = riskFairDealt();
+    if (Math.random() < 0.5) names.reverse();
+    ins.forEach(i => { const at = pair.indexOf(i.dataset.soloK); i.value = at < 0 ? '' : names[at]; });
+    if (msg) msg.textContent = `🎲 ${names[0]} plays ${kingdomOf(pair[0]).name}, ${names[1]} plays ${kingdomOf(pair[1]).name}.`;
+  }
   function riskSoloSetup(err, names) {
     stopRisk();
     openRisk();
@@ -6893,6 +6929,7 @@ const TreasureUp = (function () {
         ${saved ? `<div class="board-actions"><button class="btn" data-rk="solocontinue">Continue your game · round ${saved.round} of ${saved.rounds}</button></div>` : ''}
         <div class="rk-soloset">${B.kingdoms.map(k => `<label class="rk-soloking"><span class="rk-dot" style="background:${k.color}"></span><b>${esc(k.name)}</b>
           <input class="field" data-solo-k="${k.id}" maxlength="16" placeholder="Name" autocomplete="off" value="${esc(n[k.id] || '')}"></label>`).join('')}</div>
+        ${riskFairHtml([], 'data-rk="solofair"')}<p class="board-help" id="riskFairMsg" aria-live="polite"></p>
         <label class="block mt-3 text-[12px] text-white/60" for="riskSoloRounds">How long</label>
         <select id="riskSoloRounds" class="field">${RISK.rounds.map((r, i) => `<option value="${r}"${i === 0 ? ' selected' : ''}>${['Short', 'Standard', 'Long'][i]} · ${r} rounds</option>`).join('')}</select>
         <label class="block mt-3 text-[12px] text-white/60" for="riskSoloMode">How to play</label>

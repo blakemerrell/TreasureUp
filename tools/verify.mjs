@@ -291,6 +291,9 @@ function checkBoards(boards, { verses }) {
       }
       if ((r.lands || []).length < 2) failures.push(`${where}: region ${r.name} needs 2 or more lands`);
     }
+    // Fair 2-player match-ups: pairs of two different kingdoms on this board.
+    const kIds = new Set((b.kingdoms || []).map(k => k.id));
+    for (const p of b.fairPairs || []) if (!Array.isArray(p) || p.length !== 2 || p[0] === p[1] || !p.every(k => kIds.has(k))) failures.push(`${where}: fairPairs ${JSON.stringify(p)} needs two different kingdoms`);
     // Mountains: real lands (not a home or the prize), whose guards start at a whole number of 1 or more.
     if (b.mountains) {
       const M = b.mountains, homes = new Set((b.kingdoms || []).map(k => k.home));
