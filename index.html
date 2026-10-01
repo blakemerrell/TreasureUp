@@ -8310,6 +8310,8 @@ const TreasureUp = (function () {
     (w.tldr || []).forEach(t => add('tldr:' + t.ch, 'The short version · ' + t.ch, t, t.approved, noApproval(t)));
     return out.map(i => Object.assign(i, { state: !i.approved ? 'draft' : i.approved === i.hash ? 'ok' : 'changed' }));
   }
+  const devUnwatched = i => i.key.startsWith('reel:') && !!(i.obj.media && i.obj.media.video && !i.obj.media.video.previewed);
+  const devLeft = w => devItems(w).filter(i => i.state !== 'ok' && !devUnwatched(i));
   // Plain words and short versions never hold a week back: each chapter's
   // shows in the app only once it's approved, so a week publishes without them.
   const devNeeded = items => items.filter(i => !i.key.startsWith('plain:') && !i.key.startsWith('tldr:'));
@@ -8545,12 +8547,17 @@ const TreasureUp = (function () {
     const w = devWeek();
     if (!w) { dev.view = 'weeks'; return weeksHtml(); }
     const items = devItems(w), ok = items.filter(i => i.state === 'ok').length;
+    // Approve all: everything not approved yet, but a reel whose clip he hasn't
+    // watched (approving a reel marks its clip watched, and a clip never shows unwatched).
+    const left = devLeft(w), clips = items.filter(i => i.state !== 'ok' && devUnwatched(i)).length;
+    const all = left.length ? `<div class="board-actions" style="margin-top:6px"><button class="btn" data-dev="approveall">${dev.confirmAll ? 'Tap again to approve all ' + left.length : 'Approve all ' + left.length + ' left'}</button></div>` : '';
+    const clipNote = clips ? `<p class="dv-small">${clips} ${clips === 1 ? 'reel has a clip' : 'reels have a clip'} you haven’t watched: watch it, then approve the reel on its own.</p>` : '';
     const groups = [['The week', i => i.key === 'week'], ['Reels', i => i.key.startsWith('reel:')], ['Go deeper', i => i.key.startsWith('deep:')],
                     ['Games', i => i.key === 'puzzle' || i.key === 'words' || i.key.startsWith('say:')],
                     ['Plain words', i => i.key.startsWith('plain:')], ['The short version', i => i.key.startsWith('tldr:')]];
     return devTopHtml(true) + `
       <p class="board-help" style="margin-top:12px">${esc(w.dates)} · ${ok} of ${items.length} approved.
-        <a href="./" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Open the test site ↗</a></p>` +
+        <a href="./" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Open the test site ↗</a></p>${all}${clipNote}` +
       groups.filter(([, f]) => items.some(f))
         .map(([name, f]) => `<div class="dv-group"><div class="eyebrow">${name}</div>${name === 'Plain words' ? '<p class="dv-small">Each verse of the KJV with its plain words under it, and the BSB to compare. A chapter shows in the app once it’s approved.</p>' : name === 'The short version' ? '<p class="dv-small">The lines at the top of each chapter, each with the KJV verses it sums up under it. A chapter’s card shows in the app once it’s approved.</p>' : ''}${items.filter(f).map(i => devItemHtml(w, i)).join('')}</div>`).join('');
   }
@@ -8757,6 +8764,7 @@ const TreasureUp = (function () {
 
   async function devAction(el) {
     const act = el.dataset.dev, say = m => { const n = $('devNote'); if (n) n.textContent = m; };
+    if (act !== 'approveall') dev.confirmAll = false;
     try {
       if (act === 'retry') { dev.view = 'loading'; renderDev(); return devStart(); }
       if (act === 'google') { await googleSignIn(); return devStart(); }
@@ -8787,6 +8795,13 @@ const TreasureUp = (function () {
       if (act === 'weeks') { dev.view = 'weeks'; dev.editing = null; return renderDev(); }
       if (act === 'open') { dev.week = el.dataset.week; dev.view = 'week'; dev.status = null; return renderDev(); }
       if (act === 'approve') { devApprove(el.dataset.key); return renderDev(); }
+      // Two taps, so one can't approve a whole week by accident.
+      if (act === 'approveall') {
+        if (!dev.confirmAll) { dev.confirmAll = true; return renderDev(); }
+        dev.confirmAll = false;
+        devLeft(devWeek()).forEach(i => devApprove(i.key));
+        return renderDev();
+      }
       if (act === 'unapprove') { const w = devWeek(); devChange(el.dataset.key, devGet(w, el.dataset.key), null, 'unapprove'); return renderDev(); }
       if (act === 'edit') { dev.editing = el.dataset.key; dev.raw = false; return renderDev(); }
       if (act === 'cancel') { dev.editing = null; return renderDev(); }
