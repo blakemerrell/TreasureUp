@@ -707,6 +707,8 @@
   .rk-pcard.on { border-color: var(--gold); background: rgba(253,230,138,.15); }
   .rk-pcard span { font-size: 20px; }
   .rk-cardinfo { margin-top: 8px; }
+  .rk-speed { margin: 10px 0; padding: 10px 12px; border-radius: 16px; background: rgba(253,230,138,.10); border: 2px solid rgba(253,230,138,.55); }
+  .rk-speed.done { border-width: 1px; font-size: 15px; }
   .rk-card.arming { animation: rkArm 600ms ease-out both; }
   @keyframes rkArm { from { opacity: .45; } to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) { .rk-card.arming { animation: none; } }
@@ -4220,7 +4222,7 @@ const TreasureUp = (function () {
   // Babylon and still hold it when your next turn starts, and you win; if
   // nobody does, after the last round the most points win (a land 1,
   // Babylonia 3). Nothing here changes anyone's XP.
-  const RISK = { easy: 3, hard: 5, miss: 1, perLands: 3, start: 4, neutral: 2, wallsNeutral: 3, bricks: 3, hand: 3, returnArmies: 4, insightMax: 3, fort: { easy: 1, hard: 2 }, rounds: [5, 8, 12], time: { easy: 30, hard: 90 }, defend: 10, blitzStop: 3 };
+  const RISK = { easy: 3, hard: 5, miss: 1, perLands: 3, start: 4, neutral: 2, wallsNeutral: 3, bricks: 3, hand: 3, returnArmies: 4, waitEvery: { story: 60, pro: 45 }, waitCap: { story: 2, pro: 3 }, speedAt: 30, speedTime: 20, speedPrize: 1, nudge: { story: 180, pro: 120 }, insightMax: 3, fort: { easy: 1, hard: 2 }, rounds: [5, 8, 12], time: { easy: 30, hard: 90 }, defend: 10, blitzStop: 3 };
   const BOARD = () => (window.TU_BOARDS || [])[0] || null;
 
   function RiskLocal() {
@@ -4592,8 +4594,10 @@ const TreasureUp = (function () {
     const got = right ? RISK[t.level] : RISK.miss, bonus = Math.floor(landsOf(g, seat.uid).length / RISK.perLands);
     const had = (g.insight || {})[seat.uid] || 0, insight = g.insightOn !== false && right && t.level === 'hard' && had < RISK.insightMax;
     if (insight) g.insight = Object.assign({}, g.insight, { [seat.uid]: had + 1 });
-    const w = (g.wait || {})[seat.uid], saved = (w && w.ready) || 0;   // an army earned while waiting and not yet put down
-    if (saved) w.ready = 0;
+    const w = (g.wait || {})[seat.uid], saved = (w && (w.ready || 0) + (w.bank || 0)) || 0;   // soldiers earned while waiting, saved or not yet put down
+    if (saved) { w.ready = 0; w.bank = 0; }
+    t.openAt = Date.now();                                             // the others' chances to fortify count from here (riskWaitTick)
+    t.chances = 1;
     // Whole regions held, and 1 more for the smallest kingdom.
     const regions = riskRegionsOf(g, seat.uid).map(r => ({ name: r.name, bonus: r.bonus || 0 })), rb = regions.reduce((n, r) => n + r.bonus, 0);
     const faint = riskSmallest(g) === seat.uid ? 1 : 0;
@@ -4639,6 +4643,7 @@ const TreasureUp = (function () {
       return riskRender();
     }
     if (rk.role === 'host' && riskDefendLate(rk.g)) { riskSave(); return riskRender(); }
+    if (rk.role === 'host' && riskWaitTick(rk.g)) { riskSave(); return riskRender(); }
     const t = rk.g.turn, el = document.getElementById('rkClock');
     if (el && t && t.limit && t.phase === 'answer') { const left = riskLeft(t); el.textContent = fmtClock(left); el.classList.toggle('low', left <= 10); }
     const dc = document.getElementById('rkDefClock'), b = rk.g.battle;
@@ -4689,15 +4694,89 @@ const TreasureUp = (function () {
   const riskWaitKey = g => g.round + '|' + g.turn.i;
   const riskWaitOpen = g => g.state === 'play' && !g.story && !!g.turn && ['place', 'attack', 'move'].includes(g.turn.phase);
   const riskWaiting = (g, uid) => { const s = seatOf(g, uid); return !!(g.state === 'play' && !g.story && g.turn && s && !s.out && g.seats[g.turn.i].uid !== uid); };
-  // A new chance: this turn's, not taken yet, with nothing still open.
+  // Chances to fortify this turn: one as the turn gets going, then another
+  // every RISK.waitEvery seconds, up to RISK.waitCap (fewer in a Story
+  // player's turn, so a young reader's slower turn doesn't make everyone
+  // else much stronger). The host counts them on its own clock (turn.chances).
+  const riskUsed = (g, w) => !w ? 0 : w.cnt && w.cnt.key === riskWaitKey(g) ? w.cnt.n : w.took === riskWaitKey(g) ? 1 : 0;
+  const riskStoryTurn = g => !!(g.turn && g.seats[g.turn.i] && g.seats[g.turn.i].mode !== 'pro');
+  // Seconds for these clocks (the tests shrink them with window.TU_WAIT_SCALE when there's no Firebase).
+  const riskSecs = n => n * 1000 * (!FIREBASE_CONFIG && typeof window.TU_WAIT_SCALE === 'number' ? window.TU_WAIT_SCALE : 1);
+  // A new chance: one of this turn's, not taken yet, with nothing still open.
   function riskCanChoose(g, uid) {
     const w = (g.wait || {})[uid];
-    return riskWaitOpen(g) && riskWaiting(g, uid) && !!w && !w.q && !w.ready && w.took !== riskWaitKey(g);
+    return riskWaitOpen(g) && riskWaiting(g, uid) && !!w && !w.q && !w.ready && riskUsed(g, w) < ((g.turn && g.turn.chances) || 1);
+  }
+  // Seconds until the next chance opens (null: no more this turn). On a
+  // phone's own clock, so roughly.
+  function riskNextChance(g) {
+    const t = g.turn, story = riskStoryTurn(g), n = (t && t.chances) || 1;
+    if (!t || !t.openAt || n >= RISK.waitCap[story ? 'story' : 'pro']) return null;
+    return Math.max(0, Math.ceil((t.openAt + n * riskSecs(RISK.waitEvery[story ? 'story' : 'pro']) - Date.now()) / 1000));
+  }
+  // The host's clock, every half second of a turn: more chances to
+  // fortify, the speed round, and a nudge for a slow turn. True if the
+  // game changed.
+  function riskWaitTick(g) {
+    const t = g.state === 'play' && !g.story && g.turn;
+    if (!t || !t.openAt || !riskWaitOpen(g)) return false;
+    const seat = g.seats[t.i], story = riskStoryTurn(g), el = Date.now() - t.openAt, key = riskWaitKey(g);
+    let changed = false;
+    const n = Math.min(RISK.waitCap[story ? 'story' : 'pro'], 1 + Math.floor(el / riskSecs(RISK.waitEvery[story ? 'story' : 'pro'])));
+    if (n > (t.chances || 1)) { t.chances = n; changed = true; }
+    // ⚡ The speed round: once a turn, when 2 or more phones are waiting.
+    const sp = g.speed;
+    if (!t.speedDone && el >= riskSecs(RISK.speedAt) && !g.battle && riskSpeedPlayers(g).length >= 2) {
+      t.speedDone = true;
+      g.speed = { n: ((sp && sp.n) || 0) + 1, key, q: riskNextQuestion(g, 'easy'), tok: Math.random().toString(36).slice(2, 10), at: Date.now(), out: [], win: '', over: false };
+      riskLog(g, '⚡ Speed round!');
+      changed = true;
+    } else if (sp && !sp.over && (sp.key !== key || Date.now() - sp.at > riskSecs(RISK.speedTime))) {
+      sp.over = true;
+      if (sp.key === key) riskLog(g, '⚡ Nobody got the speed round. The answer: ' + gameQuestion(sp.q).q.right + '.');
+      changed = true;
+    }
+    // ⏳ A slow turn gets a nudge, never a cutoff.
+    if (!t.nudged && el >= riskSecs(RISK.nudge[story ? 'story' : 'pro'])) {
+      t.nudged = Date.now();
+      riskSay(g, `⏳ ${seat.name}, time to finish up! Everyone else is getting stronger.`);
+      changed = true;
+    }
+    return changed;
+  }
+  const riskSpeedPlayers = g => (g.seats || []).filter(s => riskWaiting(g, s.uid)).map(s => s.uid);
+  // A speed-round answer: the first right one wins; a wrong one is out.
+  function riskSpeedAnswer(g, m) {
+    const sp = g.speed, w = (g.wait || {})[m.uid], s = seatOf(g, m.uid);
+    if (!sp || sp.over || sp.key !== riskWaitKey(g) || sp.tok !== m.b || !w || !riskWaiting(g, m.uid) || sp.out.includes(m.uid)) return;
+    if (m.a === gameQuestion(sp.q).q.right) {
+      sp.win = m.uid;
+      sp.over = true;
+      w.ready = (w.ready || 0) + RISK.speedPrize;
+      riskBoost(g, m.uid, 'speed', RISK.speedPrize);
+      riskLog(g, `⚡ ${s.name} wins the speed round: +${RISK.speedPrize}.`);
+    } else {
+      sp.out = sp.out.concat(m.uid);
+      if (riskSpeedPlayers(g).every(u => sp.out.includes(u))) { sp.over = true; riskLog(g, '⚡ Nobody got the speed round. The answer: ' + gameQuestion(sp.q).q.right + '.'); }
+    }
+  }
+  // For the TV's banner: someone waiting just earned soldiers, or saved them.
+  function riskBoost(g, uid, kind, got) { g.boost = { n: ((g.boost && g.boost.n) || 0) + 1, uid, kind, got }; }
+  // Soldiers earned while waiting, saved for your own turn instead of put
+  // down now (the TV says how many, not where they'll go).
+  function riskFortSave(g, m) {
+    const w = (g.wait || {})[m.uid], s = seatOf(g, m.uid);
+    if (!riskCanFort(g, m.uid)) return;
+    const n = w.ready;
+    w.bank = (w.bank || 0) + n;
+    w.ready = 0;
+    riskBoost(g, m.uid, 'save', n);
+    riskLog(g, `${s.name} saves ${n === 1 ? 'a soldier' : n + ' soldiers'} for later.`);
   }
   const riskCanFort = (g, uid) => { const w = (g.wait || {})[uid]; return riskWaiting(g, uid) && !!w && w.ready > 0; };
   function riskWaitSetup(g) {
     g.wait = g.wait || {};
-    (g.seats || []).forEach(s => { g.wait[s.uid] = g.wait[s.uid] || { q: null, level: null, tok: '', used: {}, took: '', last: null, n: 0, ready: 0 }; });
+    (g.seats || []).forEach(s => { g.wait[s.uid] = g.wait[s.uid] || { q: null, level: null, tok: '', used: {}, took: '', last: null, n: 0, ready: 0, bank: 0 }; });
   }
   function riskFortAsk(g, m) {
     riskWaitSetup(g);
@@ -4708,6 +4787,7 @@ const TreasureUp = (function () {
     w.q = riskPick(pools[kind], w.used[kind], rk.code + '|wait|' + m.uid + '|' + kind);
     w.level = m.a;
     w.tok = Math.random().toString(36).slice(2, 10);
+    w.cnt = { key: riskWaitKey(g), n: riskUsed(g, w) + 1 };
     w.took = riskWaitKey(g);
   }
   function riskWaitAnswer(g, m) {
@@ -4716,7 +4796,7 @@ const TreasureUp = (function () {
     const right = m.a === gameQuestion(w.q).q.right;
     w.last = { q: w.q, right, picked: m.a || '', level: w.level };
     w.n = (w.n || 0) + 1;
-    if (right) w.ready = RISK.fort[w.level] || 1;
+    if (right) { w.ready = (w.ready || 0) + (RISK.fort[w.level] || 1); riskBoost(g, m.uid, 'right', RISK.fort[w.level] || 1); }
     w.q = null;
     w.tok = '';
   }
@@ -4863,6 +4943,8 @@ const TreasureUp = (function () {
     }
     if (g.state !== 'play' || !g.turn || g.story) return;
     if (m.kind === 'wait') return riskWaitAnswer(g, m);
+    if (m.kind === 'speed') return riskSpeedAnswer(g, m);
+    if (m.kind === 'fortsave') return riskFortSave(g, m);
     if (m.kind === 'fort') return riskFortify(g, m);
     if (m.kind === 'fortask') return riskFortAsk(g, m);
     if (m.kind === 'defend') return riskDefend(g, m.uid);
@@ -5651,6 +5733,14 @@ const TreasureUp = (function () {
     } else if (play && g.played && !(rk.moments && rk.moments.keys.includes('card' + g.played.n)) && seatOf(g, g.played.uid) && riskCard(g.played.id)) {
       const s = seatOf(g, g.played.uid), c = riskCard(g.played.id);
       key = 'card' + g.played.n; text = `${c.icon} ${s.name} plays ${c.name}!`; color = kingdomOf(s.k).color;
+    } else if (play && g.speed && !g.speed.over && g.speed.key === riskWaitKey(g) && !(rk.moments && rk.moments.keys.includes('speed' + g.speed.n))) {
+      key = 'speed' + g.speed.n; text = '⚡ Speed round! First right answer wins'; color = '#fde68a';
+    } else if (play && g.boost && seatOf(g, g.boost.uid) && !(rk.moments && rk.moments.keys.includes('boost' + g.boost.n))) {
+      const s = seatOf(g, g.boost.uid), x = g.boost;
+      key = 'boost' + x.n; color = kingdomOf(s.k).color;
+      text = x.kind === 'save' ? `🤫 ${s.name} saved ${x.got} for later` : x.kind === 'speed' ? `⚡ ${s.name} wins the speed round! +${x.got}` : `✅ ${s.name} knew it! +${x.got}`;
+    } else if (play && g.turn && g.turn.nudged && !(rk.moments && rk.moments.keys.includes('nudge' + riskTurnKey(g)))) {
+      const s = g.seats[g.turn.i]; key = 'nudge' + riskTurnKey(g); text = `⏳ ${s.name}, time to finish up!`; color = kingdomOf(s.k).color;
     } else if (d && d.wall && d.ld && !d.bricks && rk.fx && rk.fx.n === d.n) {
       key = 'walldown'; text = '🧱 Babylon’s wall is down!'; color = '#e0a458'; wait = rk.fx.banner != null ? rk.fx.banner : rk.fx.settle;
     } else if (play && g.round === 2 && !g.lands[B.walls].o) { key = 'gates'; text = '🚪 Babylon’s gates are open!'; }
@@ -5783,7 +5873,7 @@ const TreasureUp = (function () {
     rk.gid = g.gid;
     if (first) return;
     if (rk.scene) riskSceneClose(rk.scene, true);
-    Object.assign(rk, { spoken: 0, rolled: 0, fx: null, sure: null, fortSel: null, goSent: null, forted: 0, waitSent: null, fortSent: null, askSent: null, rollSent: null, defSent: null, bt: null, waitSeen: null, pulse: null, moments: null, sel: {}, view: null, watch: null, battleLands: null, battleBricks: null, lastFight: null, cardSee: null, cardPick: null });
+    Object.assign(rk, { spoken: 0, rolled: 0, fx: null, sure: null, fortSel: null, goSent: null, forted: 0, waitSent: null, fortSent: null, askSent: null, rollSent: null, defSent: null, bt: null, waitSeen: null, pulse: null, moments: null, sel: {}, view: null, watch: null, battleLands: null, battleBricks: null, lastFight: null, cardSee: null, cardPick: null, speedSent: null, nudged: null });
   }
   function riskNarrate(g) {
     if (!rk || !g) return;
@@ -6016,6 +6106,14 @@ const TreasureUp = (function () {
     } else battle = riskDiceHtml(g, me);                                 // a battle just settled: its duels, and what it cost
     // Your own land under attack: the battle first, the chance to fortify after it.
     let html = `<div class="rk-who"><span class="rk-dot" style="background:${k.color}"></span>${esc(s.name)} <small>${esc(b ? (b.d ? 'is rolling' : 'is attacking') : phaseText(t))}</small></div>${defend}${mine ? battle + (first || '') : (first || '') + battle}`;
+    // The TV reads the speed round along with the phones.
+    const sp = g.speed;
+    if (rk.role === 'host' && sp && sp.key === riskWaitKey(g) && (!sp.over || sp.win)) {
+      const Q = gameQuestion(sp.q), w = sp.win && seatOf(g, sp.win);
+      html += `<div class="rk-speed"><div class="eyebrow">⚡ Speed round: answer on your phone</div><p class="rk-q">${esc(Q.text)}</p>
+        ${sp.over ? `<p class="rk-result ok">${esc(w ? w.name : '')} got it first: ${esc(Q.q.right)}. +${RISK.speedPrize}</p>`
+          : `<div class="rk-choices">${riskChoices(sp.q).map((c, n) => `<div class="rk-choice"><b>${'ABC'[n]}</b> ${esc(c)}</div>`).join('')}</div>`}</div>`;
+    }
     if (t.q && (t.phase === 'answer' || t.phase === 'place')) {
       const Q = gameQuestion(t.q), answered = !!t.result;
       html += `${riskQHead(g)}<p class="rk-q">${answered ? linkRefs(Q.text, Q.home) : esc(Q.text)}</p>
@@ -6159,7 +6257,7 @@ const TreasureUp = (function () {
     if (!g) return;
     if (g.state === 'play') riskWaitSetup(g);
     const fields = {};
-    ['state', 'gid', 'rounds', 'timer', 'insightOn', 'round', 'seats', 'lands', 'bricks', 'deck', 'hands', 'discard', 'played', 'insight', 'wait', 'fort', 'used', 'turn', 'dice', 'battle', 'told', 'log', 'final', 'say', 'says', 'story'].forEach(k => { if (g[k] !== undefined) fields[k] = g[k]; });
+    ['state', 'gid', 'rounds', 'timer', 'insightOn', 'round', 'seats', 'lands', 'bricks', 'deck', 'hands', 'discard', 'played', 'speed', 'boost', 'insight', 'wait', 'fort', 'used', 'turn', 'dice', 'battle', 'told', 'log', 'final', 'say', 'says', 'story'].forEach(k => { if (g[k] !== undefined) fields[k] = g[k]; });
     try { await riskConn().save(rk.code, JSON.parse(JSON.stringify(fields))); }
     catch (e) { toast("Couldn't reach the game", 'Check the internet'); }
   }
@@ -6287,6 +6385,7 @@ const TreasureUp = (function () {
       if (begins || (before && g && (before.state !== g.state || before.story !== g.story))) rk.view = null;
       renderRiskPlayer();
       if (begins) riskTurnAlert(g, C.uid());                               // his turn: a chime and a flash
+      else if (myTurn(g) && g.turn.nudged && rk.nudged !== riskTurnKey(g)) { rk.nudged = riskTurnKey(g); riskTurnAlert(g, C.uid()); }   // ⏳ finish up
     }));
   }
 
@@ -6300,7 +6399,7 @@ const TreasureUp = (function () {
   // one, so a run of quick taps counts as one (dice go a tap each, though,
   // and Pro's +1s on the map). Undo, Cancel, 🔊 and the like are never held.
   const RISK_BUSY = 2500, RISK_ARM = 600, RISK_QUICK = 400;
-  const RISK_HOLD = new Set(['level', 'ans', 'go', 'roll', 'proroll', 'blitz', 'done', 'end', 'offer', 'promove', 'fortask', 'wait', 'fortput', 'defend', 'allhere', 'soloready', 'cardplay', 'map']);
+  const RISK_HOLD = new Set(['level', 'ans', 'go', 'roll', 'proroll', 'blitz', 'done', 'end', 'offer', 'promove', 'fortask', 'wait', 'fortput', 'fortsave', 'speed', 'defend', 'allhere', 'soloready', 'cardplay', 'map']);
   const RISK_EACH = new Set(['roll', 'proroll', 'defend', 'map']);
   const riskBusy = () => !!rk && rk.role === 'player' && Date.now() - (rk.busy || 0) < RISK_BUSY;
   function riskHeld(act) {
@@ -6416,21 +6515,36 @@ const TreasureUp = (function () {
   function riskWaitHtml(g, me) {
     const w = (g.wait || {})[me];
     if (!w || !riskWaiting(g, me)) return '';
-    const box = html => `<div class="rk-wait"><div class="eyebrow">🛡️ While you wait: fortify</div>${html}</div>`;
+    return riskSpeedHtml(g, me) + riskFortHtml(g, me, w);
+  }
+  // ⚡ The speed round on a waiting phone: the same question on every
+  // waiting phone; the first right answer wins.
+  function riskSpeedHtml(g, me) {
+    const sp = g.speed;
+    if (!sp || sp.key !== riskWaitKey(g)) return '';
+    const Q = gameQuestion(sp.q), out = sp.out.includes(me), busy = riskLocked(rk.speedSent, sp.tok);
+    if (sp.over) return sp.win ? `<div class="rk-speed done"><b>⚡ ${sp.win === me ? 'You won the speed round! +' + RISK.speedPrize : esc((seatOf(g, sp.win) || {}).name || '') + ' won the speed round.'}</b></div>` : '';
+    return `<div class="rk-speed"><div class="eyebrow">⚡ Speed round: first right answer wins ${soldiers(RISK.speedPrize)}</div>
+      <p class="rk-q">${esc(Q.text)}</p>
+      ${out ? '<p class="rk-note">Not that one. Wait for the others…</p>' : `<div class="rk-btns">${riskChoices(sp.q).map(c => `<button class="ls-opt" data-rk="speed" data-v="${esc(c)}"${busy ? ' disabled' : ''}>${esc(c)}</button>`).join('')}</div>`}</div>`;
+  }
+  function riskFortHtml(g, me, w) {
+    const saved = w.bank ? `<p class="rk-note">🤫 Saved for your turn: ${soldiers(w.bank)}.</p>` : '';
+    const box = html => `<div class="rk-wait"><div class="eyebrow">🛡️ While you wait: fortify</div>${html}${saved}</div>`;
+    const next = riskNextChance(g), nextLine = next == null ? 'Your next chance comes on the next turn.' : next > 0 ? `Another chance in about ${next} seconds.` : 'Another chance is coming…';
     const last = w.last && gameQuestion(w.last.q);
     if (w.ready > 0 && last) {
       const busy = riskLocked(rk.fortSent, w.n + '|' + w.ready), pick = rk.fortSel && g.lands[rk.fortSel] && g.lands[rk.fortSel].o === me ? rk.fortSel : null;
       return box(`<p class="rk-note">${linkRefs(last.text, last.home)}</p>
-        <p class="rk-result ok">Right! ${busy ? 'Putting your soldier down…' : pick ? `Put ${w.ready === 1 ? 'your soldier' : 'a soldier'} on ${esc(landName(pick))}?` : `Tap one of your lands on the map to put ${w.ready === 1 ? 'a soldier' : w.ready + ' soldiers'} there.`}</p>
-        ${pick && !busy ? `<div class="rk-btns"><button class="btn" data-rk="fortput">🛡️ Put 1 on ${esc(landName(pick))}</button></div>` : ''}
-        <p class="rk-note">If your turn starts first, ${w.ready === 1 ? 'this soldier joins it' : 'these soldiers join it'}.</p>
+        <p class="rk-result ok">Right! ${busy ? 'Putting your soldier down…' : pick ? `Put ${w.ready === 1 ? 'your soldier' : 'a soldier'} on ${esc(landName(pick))}?` : `Defend now: tap one of your lands on the map to put ${w.ready === 1 ? 'a soldier' : w.ready + ' soldiers'} there. Or save ${w.ready === 1 ? 'it' : 'them'} to attack on your turn.`}</p>
+        ${!busy ? `<div class="rk-btns${pick ? ' two' : ''}">${pick ? `<button class="btn" data-rk="fortput">🛡️ Put 1 on ${esc(landName(pick))}</button>` : ''}<button class="btn ghost" data-rk="fortsave">🤫 Save ${w.ready === 1 ? 'it' : 'all ' + w.ready} for my turn</button></div>` : ''}
         <p class="quiz-why">${linkRefs(last.q.why, last.home)}</p>`);
     }
     if (last && !w.last.right && rk.waitSeen !== w.n) {
       return box(`<p class="rk-note">${linkRefs(last.text, last.home)}</p>
         <p class="rk-result no">Not this time. The answer: ${esc(last.q.right)}.</p>
         <p class="quiz-why">${linkRefs(last.q.why, last.home)}</p>
-        <p class="rk-note">Your next chance comes on the next turn.</p>
+        <p class="rk-note">${nextLine}</p>
         <div class="rk-btns"><button class="btn ghost" data-rk="waitnext">OK</button></div>`);
     }
     if (w.q) {
@@ -6441,10 +6555,12 @@ const TreasureUp = (function () {
         <div class="rk-btns">${riskChoices(w.q).map(c => `<button class="ls-opt" data-rk="wait" data-v="${esc(c)}"${busy ? ' disabled' : ''}>${esc(c)}</button>`).join('')}</div>`);
     }
     if (riskCanChoose(g, me)) {
-      const busy = riskLocked(rk.askSent, riskWaitKey(g)) ? ' disabled' : '', deep = riskPools().hard.length;
-      return box(`<p class="rk-note">One chance this turn: answer right to put soldiers on your lands now.</p>
+      const busy = riskLocked(rk.askSent, riskWaitKey(g) + '|' + riskUsed(g, w)) ? ' disabled' : '', deep = riskPools().hard.length;
+      return box(`<p class="rk-note">A chance to fortify: answer right for soldiers, to put on your lands now or save for your turn.</p>
         <div class="rk-btns${deep ? ' two' : ''}"><button class="btn" data-rk="fortask" data-v="easy"${busy}>Quick · ${RISK.fort.easy} soldier</button>${deep ? `<button class="btn" data-rk="fortask" data-v="hard"${busy}>Deep · ${RISK.fort.hard} soldiers</button>` : ''}</div>`);
     }
+    // Nothing open: when the next chance comes (and what's saved).
+    if (riskWaitOpen(g) && (next != null || w.bank)) return box(`<p class="rk-note">${nextLine}</p>`);
     return '';
   }
 
@@ -6488,7 +6604,9 @@ const TreasureUp = (function () {
     const t = g.turn, dn = (g.dice && g.dice.n) || 0;
     const w = (g.wait || {})[riskConn().uid()];
     if (act === 'wait' && w && w.q && !riskLocked(rk.waitSent, w.tok)) { riskLock('waitSent', w.tok); riskSend({ kind: 'wait', a: el.dataset.v, b: w.tok }); }
-    else if (act === 'fortask' && w && !riskLocked(rk.askSent, riskWaitKey(g))) { riskLock('askSent', riskWaitKey(g)); riskSend({ kind: 'fortask', a: el.dataset.v }); }
+    else if (act === 'fortask' && w && !riskLocked(rk.askSent, riskWaitKey(g) + '|' + riskUsed(g, w))) { riskLock('askSent', riskWaitKey(g) + '|' + riskUsed(g, w)); riskSend({ kind: 'fortask', a: el.dataset.v }); }
+    else if (act === 'speed' && g.speed && !riskLocked(rk.speedSent, g.speed.tok)) { riskLock('speedSent', g.speed.tok); riskSend({ kind: 'speed', a: el.dataset.v, b: g.speed.tok }); }
+    else if (act === 'fortsave' && w && w.ready > 0) { rk.fortSel = null; riskSend({ kind: 'fortsave' }); }
     else if (act === 'waitnext' && w) rk.waitSeen = w.n;
     else if (act === 'pick') { riskSend({ kind: 'pick', a: el.dataset.k }); if (riskModeChosen()) riskSend({ kind: 'mode', a: riskModeOf() }); }
     else if (act === 'level') riskSend({ kind: 'level', a: el.dataset.v });
