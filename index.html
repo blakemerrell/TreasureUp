@@ -749,6 +749,11 @@
   .rk-chapter-n { font-size: clamp(13px, 1.5vw, 26px); font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
   .rk-chapter-t { font-size: clamp(26px, 5vw, 84px); font-weight: 900; line-height: 1.05; }
   .rk-chapter-x { font-size: clamp(16px, 2.3vw, 38px); font-weight: 700; line-height: 1.35; margin: 0; }
+  .rk-order { display: flex; flex-wrap: wrap; gap: 8px 14px; justify-self: start; font-size: clamp(13px, 1.5vw, 24px); font-weight: 800; }
+  .rk-order-p { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 6px; border-radius: 999px; border: 2px solid var(--k); background: rgba(0,0,0,.25); }
+  .rk-order-p > b { min-width: 1.4em; text-align: center; color: var(--gold); }
+  .rk-order-p .rk-die { width: 1.6em; height: 1.6em; }
+  .rk-order-p small { font-size: .7em; opacity: .75; }
   .rk-chapter-who { display: inline-flex; align-items: center; gap: 10px; justify-self: start; padding: 6px 16px; border-radius: 999px; border: 3px solid var(--k); font-size: clamp(14px, 1.8vw, 30px); font-weight: 900; }
   .rk-chapters { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0; padding: 0; list-style: none; }
   .rk-chapters li { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(10,10,20,.85); border: 1px solid rgba(255,255,255,.16); font-size: clamp(11px, 1.1vw, 18px); font-weight: 800; color: rgba(255,255,255,.65); }
@@ -4221,10 +4226,11 @@ const TreasureUp = (function () {
   // sides that face its near neighbours (board.wallSides): an attack from
   // one of them knocks down the wall's bricks before it can reach the
   // guards. Everything is done by tapping the
-  // map, and one narrator card says what happened and what's next. Take
-  // Babylon and still hold it when your next turn starts, and you win; if
-  // nobody does, after the last round the most points win (a land 1,
-  // Babylonia 3). Nothing here changes anyone's XP.
+  // map, and one narrator card says what happened and what's next. Each
+  // round opens with a roll of the dice for the turn order. Take Babylon
+  // and hold it until every other kingdom has had a turn to take it back,
+  // and you win; if nobody does, after the last round the most points win
+  // (a land 1, Babylonia 3). Nothing here changes anyone's XP.
   const RISK = { easy: 3, hard: 5, miss: 1, perLands: 3, start: 4, neutral: 2, wallsNeutral: 3, bricks: 3, hand: 3, returnArmies: 4, waitEvery: { story: 60, pro: 45 }, waitCap: { story: 2, pro: 3 }, waitRound: 2, speedAt: 30, speedTime: 20, speedPrize: 1, nudge: { story: 180, pro: 120 }, insightMax: 3, fort: { easy: 1, hard: 2 }, rounds: [5, 8, 12], time: { easy: 30, hard: 90 }, defend: 10, blitzStop: 3 };
   const BOARD = () => (window.TU_BOARDS || [])[0] || null;
 
@@ -4518,6 +4524,47 @@ const TreasureUp = (function () {
   // like; each soldier once: `arrived` counts those that moved in).
   const newTurn = i => ({ i, phase: 'choose', level: null, q: null, armies: 0, result: null, insight: false, moves: [], arrived: {} });
 
+  // 🎲 The turn order: each round, every kingdom still playing rolls a die,
+  // highest first; a tie rolls again between those tied. (Going last in a
+  // round, with nobody left to answer, is worth a lot when a game ends on
+  // points; the dice share it out.) g.order = { round, seats: seat indexes
+  // in order, rolls: { uid: [die, any re-rolls] } }. The tests set the dice
+  // (window.TU_ORDER_DICE) when there's no Firebase.
+  function riskOrderDie() {
+    if (!FIREBASE_CONFIG && Array.isArray(window.TU_ORDER_DICE) && window.TU_ORDER_DICE.length) return window.TU_ORDER_DICE.shift();
+    return 1 + Math.floor(Math.random() * 6);
+  }
+  function riskRollOrder(g) {
+    const live = g.seats.map((s, i) => ({ s, i, r: [riskOrderDie()] })).filter(x => !x.s.out);
+    for (let k = 0; k < 6; k++) {
+      const tied = live.filter(x => live.some(y => y !== x && y.r.join() === x.r.join()));
+      if (!tied.length) break;
+      tied.forEach(x => x.r.push(riskOrderDie()));
+    }
+    const cmp = (a, b) => { for (let k = 0; k < Math.max(a.r.length, b.r.length); k++) if ((a.r[k] || 0) !== (b.r[k] || 0)) return (b.r[k] || 0) - (a.r[k] || 0); return a.i - b.i; };
+    live.sort(cmp);
+    g.order = { round: g.round, seats: live.map(x => x.i), rolls: Object.fromEntries(live.map(x => [x.s.uid, x.r])) };
+  }
+  // This round's order (a game from before the dice: the seats as they sit).
+  const riskOrder = g => g.order && g.order.round === g.round ? g.order.seats : g.seats.map((s, i) => i);
+  const riskFirstInRound = g => { const o = riskOrder(g), at = o.indexOf(g.turn.i); return at <= 0 || o.slice(0, at).every(i => g.seats[i].out); };
+  // The order in words: "Sam (6), Mom (4) and Dad (2)", ties noted.
+  function riskOrderLine(g) {
+    const o = g.order && g.order.round === g.round ? g.order : null;
+    if (!o) return '';
+    const named = o.seats.map(i => g.seats[i]).filter(s => !s.out), roll = s => o.rolls[s.uid] || [];
+    const tie = named.some(s => roll(s).length > 1);
+    return `🎲 The dice set the order: ${andList(named.map(s => `${s.name} (${roll(s)[0]})`))}${tie ? ', ties rolled again' : ''}. `;
+  }
+  // Babylon's holder wins once every other kingdom still playing has had a
+  // turn since it was taken (g.babHeld = { uid, seen: [uids] }). Who still
+  // gets a turn to take it back.
+  function riskHoldLeft(g) {
+    const B = BOARD(), h = g.lands && g.lands[B.walls] && g.lands[B.walls].o, H = g.babHeld;
+    if (!h) return null;
+    return g.seats.filter(s => !s.out && s.uid !== h && !(H && H.uid === h && H.seen.includes(s.uid)));
+  }
+
   function riskBegin(g) {
     const B = BOARD();
     g.lands = {};
@@ -4540,7 +4587,9 @@ const TreasureUp = (function () {
     g.battle = null;
     g.told = {};
     g.log = [];
-    g.turn = newTurn(0);
+    g.babHeld = null;
+    riskRollOrder(g);
+    g.turn = newTurn(g.order.seats[0]);
     g.story = true;                            // the narrator opens with the hook
     g.say = null;
     g.says = [];
@@ -4548,7 +4597,8 @@ const TreasureUp = (function () {
   // After the opening: round 1 begins.
   function riskStoryDone(g) {
     g.story = false;
-    riskSay(g, riskChapterLine(g, 1) + kingdomOf(g.seats[0].k).name + ' moves first: ' + g.seats[0].name + ', raise your soldiers!');
+    const s = g.seats[g.turn.i];
+    riskSay(g, riskChapterLine(g, 1) + riskOrderLine(g) + kingdomOf(s.k).name + ' moves first: ' + s.name + ', raise your soldiers!');
   }
   // Each round opens a chapter of the story: the board's plan says which
   // for each game length (so chapter 2 always opens Babylon's gates, and
@@ -4579,24 +4629,33 @@ const TreasureUp = (function () {
   function riskNextTurn(g) {
     if (g.battle) riskResolve(g);
     if (g.state !== 'play') return;
-    const n = g.seats.length, was = g.round;
-    let i = g.turn.i;
-    for (let k = 0; k < n; k++) {
-      i = (i + 1) % n;
-      if (i === 0) g.round++;
-      const s = g.seats[i];
-      if (s.out) continue;
+    const B = BOARD(), was = g.round, prev = g.seats[g.turn.i], H = g.babHeld, h = g.lands[B.walls] && g.lands[B.walls].o;
+    // Babylon held while every other kingdom has had a turn to take it back
+    // (a land only changes hands on its taker's own turn): its holder wins.
+    // (A game from before this rule: when the holder's turn comes round.)
+    if (H && h === H.uid && prev && prev.uid !== h && !H.seen.includes(prev.uid)) H.seen = H.seen.concat(prev.uid);
+    if (H && h === H.uid && !riskHoldLeft(g).length) return riskOver(g, { held: true });
+    let order = riskOrder(g), at = order.indexOf(g.turn.i), i = -1;
+    for (let k = 0; k < 3 * g.seats.length + 3; k++) {
+      at++;
+      if (at >= order.length) {
+        g.round++;                                                       // a new round: roll for its order
+        if (g.round > g.rounds) break;
+        riskRollOrder(g);
+        order = g.order.seats;
+        at = 0;
+      }
+      const s = g.seats[order[at]];
+      if (!s || s.out) continue;
       // In exile with nowhere left to come back to: that kingdom is gone.
       if (s.exile && !riskReturnLands(g).length) { s.out = true; s.exile = false; riskSay(g, kingdomOf(s.k).name + ' has nowhere to come back to, and its kingdom is gone.'); continue; }
+      i = order[at];
       break;
     }
     if (g.seats.filter(x => !x.out).length < 2) return riskOver(g, { last: true });
-    if (g.round > g.rounds) return riskOver(g);
-    // Babylon still theirs when their turn comes round again: everyone else
-    // had a turn to take it back (a land only changes hands on its taker's
-    // own turn), so they win.
-    const B = BOARD(), seat = g.seats[i];
-    if (g.lands[B.walls] && g.lands[B.walls].o === seat.uid) return riskOver(g, { held: true });
+    if (g.round > g.rounds || i < 0) return riskOver(g);
+    const seat = g.seats[i];
+    if (!H && h === seat.uid) return riskOver(g, { held: true });
     // Belshazzar's Guard grows each new round while nobody holds Babylon.
     const G = riskGuard(g);
     let grew = '';
@@ -4607,8 +4666,8 @@ const TreasureUp = (function () {
     if (seat.exile) g.turn.phase = 'return';                          // first, back from exile
     const w = (g.wait || {})[seat.uid];
     if (w) { w.q = null; w.tok = ''; }
-    const first = i === 0 || g.seats.slice(0, i).every(s => s.out);
-    riskSay(g, (first ? riskChapterLine(g, g.round) : '') + grew + kingdomOf(seat.k).name + "'s turn: " + seat.name + (seat.exile ? ', come back from exile!' : ', raise your soldiers!'));
+    const first = riskFirstInRound(g);
+    riskSay(g, (first ? riskChapterLine(g, g.round) + riskOrderLine(g) : '') + grew + kingdomOf(seat.k).name + "'s turn: " + seat.name + (seat.exile ? ', come back from exile!' : ', raise your soldiers!'));
   }
 
   // A turn's answer (or its time running out): armies, and for a hunt found
@@ -4929,6 +4988,7 @@ const TreasureUp = (function () {
       D.a = moveIn;
       A.a -= moveIn;
       g.dice.won = true;
+      if (b.to === BOARD().walls) g.babHeld = { uid, seen: [] };       // held until every other kingdom has had a turn
       // A story moment the first time Babylonia falls: Daniel's words if
       // the Medes or Persians take it, Isaiah's otherwise.
       const say = BOARD().moments || {}, s = seatOf(g, uid);
@@ -5967,7 +6027,7 @@ const TreasureUp = (function () {
     if (rk.view === 'story') return `<div class="rk-view"><div class="eyebrow">The story</div>${B.story.map(x => `<p>${linkRefs(x)}</p>`).join('')}${back}</div>`;
     if (rk.view === 'rules') {
       return `<div class="rk-view"><div class="eyebrow">How to win</div><p>${esc(B.goal)}</p>
-        <div class="eyebrow">Each turn</div><ol>${B.turn.map(x => `<li>${esc(x)}</li>`).join('')}</ol>
+        <div class="eyebrow">Each round, and each turn</div><ol>${B.turn.map(x => `<li>${esc(x)}</li>`).join('')}</ol>
         <div class="eyebrow">The dice</div><p>${esc(B.dice)}</p>
         ${(B.regions || []).length ? `<div class="eyebrow">Regions</div><ul>${B.regions.map(r => `<li><b>${esc(r.name)}</b> (+${r.bonus} a turn): ${esc(andList(r.lands.map(landName)))}</li>`).join('')}</ul>` : ''}
         ${(B.cards || []).length ? `<div class="eyebrow">Prophecy cards</div><ul>${B.cards.map(c => `<li>${c.icon} <b>${esc(c.name)}</b>: ${esc(c.does)}</li>`).join('')}</ul>
@@ -6065,7 +6125,7 @@ const TreasureUp = (function () {
       <div class="clue" style="max-width:640px">
         <p class="clue-q">${esc(B.title)}</p>
         <p class="board-help">${linkRefs(B.intro)}</p>
-        <p class="board-help">A map game for 2 to 4, like Risk. The map goes on a computer or TV; everyone plays on their own phone or tablet. Answer this week's questions to raise soldiers, then take land. Take Babylon and hold it until your next turn to win.</p>
+        <p class="board-help">A map game for 2 to 4, like Risk. The map goes on a computer or TV; everyone plays on their own phone or tablet. Answer this week's questions to raise soldiers, then take land. Take Babylon and hold it until everyone else has had a turn to win. Dice set the turn order each round.</p>
         <div class="board-actions">
           <button class="btn" data-rk="host">Put the map on this screen</button>
           <button class="btn ghost" data-rk="join">Join with a code</button>
@@ -6080,22 +6140,25 @@ const TreasureUp = (function () {
   // Who's playing, how many lands each holds, and whose turn it is (and 👑
   // for whoever holds Babylon).
   function riskStripHtml(g, me) {
-    return `<div class="rk-strip">${g.state === 'play' && !g.story ? `<span class="rk-round">Round ${g.round} of ${g.rounds}</span>` : ''}${g.seats.map((s, i) => {
-      const ls = landsOf(g, s.uid), pts = ls.length + (ls.includes(BOARD().walls) ? 2 : 0), k = kingdomOf(s.k), ins = g.insightOn !== false ? (g.insight || {})[s.uid] || 0 : 0;
-      const now = g.state === 'play' && !g.story && g.turn && g.turn.i === i;
+    // In this round's turn order (the fallen last), each with the die it rolled for it.
+    const play = g.state === 'play' && !g.story, o = play && g.order && g.order.round === g.round ? g.order : null;
+    const seq = o ? o.seats.concat(g.seats.map((x, i) => i).filter(i => !o.seats.includes(i))) : g.seats.map((x, i) => i);
+    return `<div class="rk-strip">${play ? `<span class="rk-round">Round ${g.round} of ${g.rounds}</span>` : ''}${seq.map(i => {
+      const s = g.seats[i], ls = landsOf(g, s.uid), pts = ls.length + (ls.includes(BOARD().walls) ? 2 : 0), k = kingdomOf(s.k), ins = g.insightOn !== false ? (g.insight || {})[s.uid] || 0 : 0;
+      const now = play && g.turn && g.turn.i === i, die = o && !s.out && (o.rolls[s.uid] || [])[0];
       return `<span class="rk-pl${now ? ' now' : ''}${s.out ? ' out' : ''}${s.uid === me ? ' me' : ''}" style="--c:${k.color}" title="${esc(k.name)}">
-        <span class="rk-dot" style="background:${k.color}"></span>${esc(s.name)}${s.uid === me ? ' (you)' : ''}${ls.includes(BOARD().walls) ? ' 👑' : ''}<small>${s.out ? 'fallen' : s.exile ? 'in exile' : pts + (pts === 1 ? ' point' : ' points')}${ins ? ' · 💡' + ins : ''}${((g.hands || {})[s.uid] || []).length ? ' · 📜' + g.hands[s.uid].length : ''}</small></span>`;
+        <span class="rk-dot" style="background:${k.color}"></span>${esc(s.name)}${s.uid === me ? ' (you)' : ''}${ls.includes(BOARD().walls) ? ' 👑' : ''}<small>${die ? '🎲' + die + ' · ' : ''}${s.out ? 'fallen' : s.exile ? 'in exile' : pts + (pts === 1 ? ' point' : ' points')}${ins ? ' · 💡' + ins : ''}${((g.hands || {})[s.uid] || []).length ? ' · 📜' + g.hands[s.uid].length : ''}</small></span>`;
     }).join('')}</div>`;
   }
   // Babylon's holder, and what that means to whoever is looking: keep it
-  // until your next turn to win, or take it back before theirs.
+  // until everyone else has had a turn to win, or take it back first.
   function riskCrownHtml(g, me) {
     const B = BOARD(), h = g.state === 'play' && !g.story && g.lands && g.lands[B.walls] && g.lands[B.walls].o, s = h && seatOf(g, h);
     if (!s || riskWatchingNow(g)) return '';
-    const K = kingdomOf(s.k), now = g.turn && g.seats[g.turn.i] ? g.seats[g.turn.i].uid : null;
-    const text = me && h === me ? (now === me ? 'You took Babylon! Hold it until your next turn to win: move soldiers in to keep it.' : 'You hold Babylon. Keep it until your next turn and you win!')
-      : me && now === me ? `${s.name} holds Babylon. Take it back this turn, or ${K.name} wins!`
-      : `${s.name} holds Babylon. Take it back before ${s.name}'s next turn, or ${K.name} wins!`;
+    const K = kingdomOf(s.k), now = g.turn && g.seats[g.turn.i] ? g.seats[g.turn.i].uid : null, left = riskHoldLeft(g) || [], names = andList(left.map(x => x.uid === me ? 'you' : x.name));
+    const text = me && h === me ? (now === me ? 'You took Babylon! Hold it until everyone else has had a turn to win: move soldiers in to keep it.' : `You hold Babylon. ${riskCap(names)} still ${left.length === 1 && left[0].uid !== me ? 'gets' : 'get'} a turn to take it back. Keep it and you win!`)
+      : me && now === me ? `${s.name} holds Babylon. Take it back this turn${left.length > 1 ? '' : `, or ${K.name} wins`}!`
+      : `${s.name} holds Babylon. ${riskCap(names)} still ${left.length === 1 && left[0].uid !== me ? 'gets' : 'get'} a turn to take it back, or ${K.name} wins!`;
     return `<div class="rk-crown" style="--k:${K.color}">👑 ${esc(text)}</div>`;
   }
   // A game screen: the strip, the map (with an arrow for the battle being
@@ -6207,16 +6270,23 @@ const TreasureUp = (function () {
   // or the one screen passed around), until the round's first player picks
   // a question (or a tap closes it): its name and words, and every chapter
   // of this game with the ones done ticked.
+  // 🎲 This round's order as dice: each kingdom's roll, first to last.
+  function riskOrderHtml(g) {
+    const o = g.order && g.order.round === g.round ? g.order : null;
+    if (!o) return '';
+    return `<div class="rk-order" aria-label="Turn order">${o.seats.map(i => g.seats[i]).filter(s => !s.out).map((s, n) => { const k = kingdomOf(s.k), r = o.rolls[s.uid] || [];
+      return `<span class="rk-order-p" style="--k:${k.color}"><b>${n + 1}</b>${dieHtml(r[0], 'att')}${esc(s.name)}${r.length > 1 ? `<small>tie: ${r.slice(1).join(', ')}</small>` : ''}</span>`; }).join('')}</div>`;
+  }
   function riskChapterHtml(g) {
     if (!rk || g.state !== 'play' || g.story || !g.turn || g.turn.phase !== 'choose' || rk.view) return '';
-    if (!(g.turn.i === 0 || g.seats.slice(0, g.turn.i).every(s => s.out)) || rk.chapterShut === g.gid + '|' + g.round) return '';
+    if (!riskFirstInRound(g) || rk.chapterShut === g.gid + '|' + g.round) return '';
     const c = riskChapter(g, g.round), s = g.seats[g.turn.i], K = kingdomOf(s.k);
     if (!c) return '';
     const all = Array.from({ length: g.rounds }, (_, i) => riskChapter(g, i + 1));
     return `<div class="rk-chapter" role="dialog" aria-label="Chapter ${c.n}: ${esc(c.title)}"><div class="rk-chapter-card">
       <div class="rk-chapter-n"><span aria-hidden="true">📖</span> <span class="rk-read-tv">Chapter ${c.n} of ${c.of}</span></div><div class="rk-chapter-t rk-read-tv">${esc(c.title)}</div>
       <p class="rk-chapter-x rk-read-tv">${linkRefs(c.text)}</p>
-      <div class="rk-chapter-who" style="--k:${K.color}"><span class="rk-dot" style="background:${K.color}"></span>${esc(s.name)}’s turn · ${esc(K.name)}</div>
+      <div class="rk-chapter-who" style="--k:${K.color}"><span class="rk-dot" style="background:${K.color}"></span>${esc(s.name)}’s turn · ${esc(K.name)}</div>${riskOrderHtml(g)}
       ${rk.role === 'solo' ? '<button class="btn ghost" data-rk="chapterclose">Close</button>' : ''}</div>
       <ol class="rk-chapters${g.rounds > 5 ? ' short' : ''}">${all.map((x, i) => x ? `<li class="${i + 1 === c.n ? 'now' : i + 1 < c.n ? 'done' : ''}"><b>${i + 1 < c.n ? '✓' : i + 1}</b>${g.rounds > 5 && i + 1 !== c.n ? '' : `<span>${esc(x.title)}</span>`}</li>` : '').join('')}</ol></div>`;
   }
@@ -6442,9 +6512,10 @@ const TreasureUp = (function () {
     riskWake();
     const myTurn = x => !!(x && x.state === 'play' && !x.story && x.turn && x.seats[x.turn.i] && x.seats[x.turn.i].uid === C.uid());
     const at = x => x && x.turn ? x.turn.i + '|' + x.turn.phase : '';
+    const turnOf = x => x && x.turn ? x.round + '|' + x.turn.i : '';    // (the dice can give him the next round's first turn right after his last)
     rk.unsub.push(C.watchGame(code, g => {
       if (!rk) return;
-      const before = rk.g, begins = myTurn(g) && !myTurn(before);
+      const before = rk.g, begins = myTurn(g) && (!myTurn(before) || turnOf(before) !== turnOf(g));
       rk.g = g;
       const sig = JSON.stringify(g);
       if (sig !== rk.gSig) { rk.gSig = sig; rk.busy = 0; }               // the map screen has answered (the game changed): taps go again
@@ -6972,7 +7043,7 @@ const TreasureUp = (function () {
     return best;
   }
   // Who plays after this turn, for "Next: Mom".
-  const riskNextSeat = g => { const n = g.seats.length; for (let k = 1; k <= n; k++) { const s = g.seats[(g.turn.i + k) % n]; if (!s.out) return s; } return null; };
+  const riskNextSeat = g => { const o = riskOrder(g); for (let k = o.indexOf(g.turn.i) + 1; k < o.length; k++) { const s = g.seats[o[k]]; if (!s.out) return s; } return null; };
   // End turn is one tap; for 3 seconds it can be taken back. (The tests
   // shorten it with window.TU_END_MS when there's no Firebase.)
   const riskEndMs = () => !FIREBASE_CONFIG && typeof window.TU_END_MS === 'number' ? window.TU_END_MS : 3000;
@@ -6999,7 +7070,8 @@ const TreasureUp = (function () {
   function riskEndHtml(g, label) {
     if (rk.ending && rk.ending.key === riskTurnKey(g)) return `<div class="rk-ending"><span>Your turn ends in <b id="rkEndClock">${riskEndLeft()}</b>…</span><button class="btn" data-rk="endundo">↩️ Undo</button></div>`;
     const next = riskNextSeat(g);
-    return `<button class="rk-end-btn" data-rk="end"><b>${label}</b>${next ? `<small>Next: ${esc(next.name)}</small>` : ''}</button>`;
+    const after = next ? 'Next: ' + esc(next.name) : g.round < g.rounds ? 'Next: 🎲 a new round' : 'The last turn!';
+    return `<button class="rk-end-btn" data-rk="end"><b>${label}</b><small>${after}</small></button>`;
   }
   // The last roll on this turn, in dice: "6 5 ✓  2 3 ✗ · Arabia held".
   function riskLastRoll(g, me) {
