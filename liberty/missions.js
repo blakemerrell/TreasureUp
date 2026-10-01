@@ -803,8 +803,8 @@
   const FR = D.FREE;
   const LEVELS = {
     easy:   { name: 'Easy',   first: 360, every: 150, size: 3, grow: 1,   stars: 1, guards: 8,  campGuards: 3, towers: 1, reinforce: 2, strength: 1.1,  armor: 1, fierce: 0.05 },
-    normal: { name: 'Normal', first: 250, every: 110, size: 5, grow: 2,   stars: 2, guards: 14, campGuards: 5, towers: 3, reinforce: 3, strength: 1.25, armor: 2, fierce: 0.08 },
-    hard:   { name: 'Hard',   first: 200, every: 90,  size: 6, grow: 2.5, stars: 3, guards: 18, campGuards: 6, towers: 3, reinforce: 4, strength: 1.4,  armor: 3, fierce: 0.1 }
+    normal: { name: 'Normal', first: 300, every: 130, size: 4, grow: 1.6, stars: 2, guards: 14, campGuards: 5, towers: 3, reinforce: 3, strength: 1.25, armor: 2, fierce: 0.08 },
+    hard:   { name: 'Hard',   first: 270, every: 115, size: 5, grow: 1.8, stars: 3, guards: 18, campGuards: 6, towers: 3, reinforce: 4, strength: 1.35, armor: 2, fierce: 0.1 }
   };
 
   // The Lamanites: guards keep near home; the rest go for your nearest building.
@@ -925,13 +925,197 @@
     }
   };
 
+  // ------------------------------------------------ Out of the Wilderness
+
+  // Build a city in an open valley and hold off the raids that come down out
+  // of the wilderness by four ways in, bigger each time. Free battle's
+  // buildings and troops; no camp to tear down, only the raids to outlast.
+  const WD = D.WILD;
+  const WILD_LEVELS = {
+    easy:   { name: 'Easy',   first: 300, every: 170, warn: 90, mult: 0.7, stars: 1, strength: 1,    armor: 0 },
+    normal: { name: 'Normal', first: 240, every: 150, warn: 70, mult: 1,   stars: 2, strength: 1.15, armor: 1 },
+    hard:   { name: 'Hard',   first: 200, every: 130, warn: 55, mult: 1.3, stars: 3, strength: 1.3,  armor: 2 }
+  };
+  const WILD_LENGTHS = {
+    short: { name: 'Short', raids: 5, about: '5 raids, about 15 minutes' },
+    long:  { name: 'Long', raids: 10, about: '10 raids, about 30 minutes' }
+  };
+  // Raid k of n. Robbers mostly; every third raid, and the last, brings a
+  // Lamanite army with them. From the fourth they come two ways at once,
+  // from the eighth three, and the armies bring armored captains.
+  function raidPlan(k, n, L, rand) {
+    const army = k % 3 === 0 || k === n;
+    const size = Math.max(2, Math.round((2.5 + 1.5 * k) * L.mult));
+    const ways = Math.min(3, 1 + (k >= 4 ? 1 : 0) + (k >= 8 ? 1 : 0));
+    const order = WD.WAYS.map((_, i) => i);
+    for (let i = order.length - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [order[i], order[j]] = [order[j], order[i]]; }
+    const groups = [];
+    for (let g = 0; g < ways; g++) {
+      const share = Math.max(2, Math.round(size / ways));
+      const list = army && g === 0
+        ? [['lamanite', Math.ceil(share * 0.6)], ['slinger', Math.floor(share * 0.4)], ['amalekite', k >= 5 ? 1 : 0], ['zoramite', k >= 8 ? 1 : 0]]
+        : [['robber', Math.ceil(share * 0.7)], ['robberArcher', Math.floor(share * 0.3)]];
+      groups.push({ way: order[g], list: list.filter(([, m]) => m > 0) });
+    }
+    return { k, army, groups, count: groups.reduce((a, g) => a + g.list.reduce((b, [, m]) => b + m, 0), 0) };
+  }
+  // A watchtower of yours stands near this way in, and sees what gathers there.
+  const watched = (W, way) => W.buildings('p', 'tower').some(t => t.built >= 1 && Math.hypot(t.x - center(way.x), t.y - center(way.y)) < 16 * TILE);
+  const waysOf = plan => plan.groups.map(g => WD.WAYS[g.way].name).join(' and ');
+
+  // Raiders: whoever of yours is near, then, for robbers, the farms and stores
+  // first, as raiders took "the corn of their fields" (Mosiah 9:14); else the nearest building.
+  function wildBrain(W, u) {
+    const o = u.order;
+    if (o.type === 'attack') {
+      const t = W.ents.get(o.target);
+      if (alive(t) && !t.untouchable) {
+        if (t.kind === 'building') { const e = W.enemiesNear(u, 'r', 90, true); if (e) W.order(u, { type: 'attack', target: e.id, then: o }); }
+        return;
+      }
+    }
+    const e = W.enemiesNear(u, 'r', u.def.sight, true);
+    if (e) { if (o.type !== 'attack' || o.target !== e.id) W.order(u, { type: 'attack', target: e.id }); return; }
+    const bs = W.buildings('p').filter(b => !b.def.wall);
+    const stores = u.type.startsWith('robber') ? bs.filter(b => b.type === 'farm' || b.type === 'granary' || b.type === 'storehouse') : [];
+    const list = stores.length ? stores : bs.length ? bs : W.buildings('p').length ? W.buildings('p') : W.units('p');
+    let best = null, bd = Infinity;
+    for (const b of list) { const d = dist(u, b); if (d < bd) { bd = d; best = b; } }
+    if (best && (o.type !== 'attack' || o.target !== best.id)) W.order(u, { type: 'attack', target: best.id });
+  }
+
+  const wild = {
+    id: 'wild', campaign: 'wild', title: 'Out of the Wilderness', chapter: 'Any chapter you have read', free: true, map: D.buildWildMap,
+    year: 'In the days of the robbers of Gadianton', level: 'normal', length: 'short', LEVELS: WILD_LEVELS, LENGTHS: WILD_LENGTHS,
+    kicker() { return 'Out of the Wilderness · ' + WILD_LEVELS[this.level].name + ' · ' + WILD_LENGTHS[this.length].name; },
+    goals: 'Plant the standard of liberty, build up your city, and hold off the raids that come down out of the wilderness.',
+    starsText: '★ held on Easy, ★★ on Normal, ★★★ on Hard.',
+    briefing: [
+      ['The robbers "began to come down and to sally forth from the hills, and out of the mountains, and the wilderness".', '3 Nephi 4:1'],
+      ['Plant the standard of liberty and build your city. Farms feed your people; walls and watchtowers keep them.', null],
+      ['Lachoneus set guards "round about to watch them, and to guard them from the robbers day and night".', '3 Nephi 3:14'],
+      ['Moroni put "the greater number of men" where the fortifications were weakest.', 'Alma 48:9'],
+      ['Raiders come by four ways: the two passes through the mountains, the western wilderness, and the river fords. You hear which way before they come, and sooner if one of your watchtowers stands near it.', null]
+    ],
+    setup(W) {
+      const L = WILD_LEVELS[this.level];
+      W.tech = true; W.border = null;
+      W.res = { grain: 200, timber: 250 };
+      W.boost.r = L.strength; W.foeArmor = L.armor;
+      const put = (type, x, y) => { const [fx, fy] = W.freeTileNear(x, y, 'p'); return W.addUnit(type, 'p', center(fx), center(fy)); };
+      const S0 = WD.START;
+      this.standard = put('standard', S0.x + 2, S0.y + 2);
+      for (let i = 0; i < 4; i++) put('worker', S0.x + i, S0.y + 5);
+      put('spearman', S0.x + 5, S0.y); put('spearman', S0.x + 6, S0.y + 1); put('nslinger', S0.x + 5, S0.y + 2);
+      this.raids = WILD_LENGTHS[this.length].raids;
+      this.raid = 0;                     // raids that have come down
+      this.nextAt = L.first;             // when the next one comes
+      this.coming = null;                // the next raid, once it's gathering: { plan, warned }
+      this.bands = [];                   // each raid's raiders: [{ k, units, done }]
+      this.beaten = 0; this.lost = 0; this.planted = false;
+      // Where each way's raiders appear: ground near it that leads down into the valley, nearest first.
+      const open = (x, y) => W.passable(x, y, 'r'), key = (x, y) => y * D.MAP_W + x;
+      const valley = new Set([key(S0.x, S0.y)]), q = [[S0.x, S0.y]];
+      while (q.length) { const [x, y] = q.pop(); for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) if (open(x + dx, y + dy) && !valley.has(key(x + dx, y + dy))) { valley.add(key(x + dx, y + dy)); q.push([x + dx, y + dy]); } }
+      this.spawns = WD.WAYS.map(w => {
+        const out = [], seen = new Set([key(w.x, w.y)]), wq = [[w.x, w.y]];
+        while (wq.length && out.length < 30) {
+          const [x, y] = wq.shift();
+          if (valley.has(key(x, y))) out.push([x, y]);
+          for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const nx = x + dx, ny = y + dy; if (open(nx, ny) && !seen.has(key(nx, ny)) && Math.max(Math.abs(nx - w.x), Math.abs(ny - w.y)) <= 6) { seen.add(key(nx, ny)); wq.push([nx, ny]); } }
+        }
+        return out.length ? out : [[w.x, w.y]];
+      });
+      W.msg('Choose the standard of liberty and plant it on open ground to begin your city.', 'Alma 46:36', 'tip');
+      W.msg(`Robbers will come down out of the wilderness: ${this.raids} raids, bigger each time. Build a barracks, then walls and watchtowers on the ways in.`, null, 'tip');
+    },
+    get phaseLabel() {
+      if (!this.raids) return '';
+      return this.raid < this.raids ? `Raid ${this.raid + 1} of ${this.raids} comes in` : 'The last raid: hold on';
+    },
+    timeLeft(W) { return this.raid < this.raids ? Math.max(0, this.nextAt - W.t) : null; },
+    // Where the next raid is gathering, once it's been seen.
+    markers(W) {
+      if (!this.coming || !this.coming.warned) return [];
+      return this.coming.plan.groups.map(g => { const w = WD.WAYS[g.way]; return { x: w.x, y: w.y, label: 'Raiders gathering', always: true }; });
+    },
+    objectives(W) {
+      return [
+        { text: 'Plant the standard of liberty', ref: 'Alma 46:36', have: this.planted ? 1 : 0, need: 1 },
+        { text: 'Hold off the raids', ref: '3 Nephi 4:1', have: this.beaten, need: this.raids },
+        { text: 'Watchtowers by the ways in: they see raids coming sooner', ref: '3 Nephi 3:14', have: WD.WAYS.filter(w => watched(W, w)).length, need: WD.WAYS.length, optional: true }
+      ];
+    },
+    update(W) {
+      const L = WILD_LEVELS[this.level];
+      if (!this.planted && W.stronghold()) this.planted = true;
+      // The next raid gathers in the wilderness: a watchtower near its way in sees it half a minute sooner.
+      if (this.raid < this.raids && !this.coming && W.t >= this.nextAt - L.warn - 30) this.coming = { plan: raidPlan(this.raid + 1, this.raids, L, W.rand), warned: false };
+      if (this.coming && !this.coming.warned) {
+        const seen = this.coming.plan.groups.some(g => watched(W, WD.WAYS[g.way]));
+        if (W.t >= this.nextAt - L.warn - (seen ? 30 : 0)) {
+          this.coming.warned = true;
+          const p = this.coming.plan, who = p.army ? 'Robbers and a Lamanite army are' : 'Robbers are';
+          W.msg(seen ? `Your watchtower sees ${p.count} raiders gathering at ${waysOf(p)}.` : `${who} gathering at ${waysOf(p)}!`, '3 Nephi 4:1', 'warn');
+        }
+      }
+      if (this.coming && W.t >= this.nextAt) {
+        const p = this.coming.plan, units = [];
+        for (const g of p.groups) {
+          const w = WD.WAYS[g.way];
+          const spots = this.spawns[g.way];
+          let k = 0;
+          for (const [type, m] of g.list) for (let i = 0; i < m; i++, k++) {
+            const [x, y] = spots[k % spots.length];
+            units.push(W.addUnit(type, 'r', center(x), center(y), { mode: 'raid', raid: p.k }));
+          }
+        }
+        this.bands.push({ k: p.k, units, done: false });
+        this.raid++; this.coming = null; this.nextAt = W.t + L.every;
+        W.msg(p.k === this.raids ? `The last and greatest raid comes down from ${waysOf(p)}: ${p.count} of them!` : `Raid ${p.k} comes down from ${waysOf(p)}: ${p.count} of them!`, null, 'warn');
+      }
+      // Raiders who get nowhere and strike no one for a minute go back, as robbers would
+      // "retreat back into the mountains, and into the wilderness" (Helaman 11:25).
+      if (W.t >= (this.nextStuck || 0)) {
+        this.nextStuck = W.t + 5;
+        for (const b of this.bands) if (!b.done) for (const u of b.units) {
+          if (!alive(u)) continue;
+          const moved = !u.lastSpot || Math.hypot(u.x - u.lastSpot.x, u.y - u.lastSpot.y) > 24, struck = W.t - (u.struckAt || -99) < 6;
+          u.lastSpot = { x: u.x, y: u.y };
+          u.stuck = moved || struck ? 0 : (u.stuck || 0) + 5;
+          if (u.stuck === 30) W.order(u, { type: 'idle' });                   // look for something else to go after
+          if (u.stuck >= 60) { W.remove(u); b.fled = (b.fled || 0) + 1; }
+        }
+      }
+      // A raid is beaten when its raiders are all gone.
+      for (const b of this.bands) if (!b.done && !b.units.some(alive)) {
+        b.done = true; this.beaten++;
+        W.msg((b.fled ? `The last of raid ${b.k} go back into the wilderness. ` : `Raid ${b.k} is beaten back. `) + (this.beaten < this.raids ? 'Mend the walls: more will come.' : ''), b.fled ? 'Helaman 11:25' : null, 'good');
+      }
+      if (this.raid >= this.raids && this.bands.every(b => b.done)) return this.finish(W, true);
+      if (this.planted ? !W.stronghold() : !alive(this.standard)) this.finish(W, false);
+    },
+    onDestroy(W, b) { if (b.team === 'p' && !b.def.wall) this.lost++; },
+    foeBrain: wildBrain,
+    finish(W, won) {
+      if (W.over) return;
+      const L = WILD_LEVELS[this.level], m = Math.floor(W.t / 60);
+      W.over = won
+        ? { won: true, stars: L.stars, title: 'The raids are beaten back',
+            text: '“Thus he did fortify and strengthen the land.”', ref: 'Alma 48:9',
+            detail: `Held off ${this.raids} raids on ${L.name} in ${m} minutes. ${this.lost ? this.lost + ' of your buildings fell.' : 'Not one of your buildings fell.'}` }
+        : { won: false, title: 'Your city has fallen', text: 'Put walls and watchtowers on the ways in, and the most soldiers where the walls are weakest.', ref: 'Alma 48:9',
+            detail: `You held off ${this.beaten} of ${this.raids} raids.` };
+    }
+  };
+
   // In the order of the Book of Mormon.
   const CAMPAIGNS = [
     { id: 'moroni', title: 'Captain Moroni', about: 'Alma 43 onward: Moroni defends the Nephites against Zerahemnah, Amalickiah and Ammoron.' },
     { id: 'gidgiddoni', title: 'Lachoneus and Gidgiddoni', about: '3 Nephi 3–4: the Nephites gather into one place and outlast the Gadianton robbers.' }
   ];
   const MISSIONS = [m3, m1, m2];
-  const API = { MISSIONS, CAMPAIGNS, FREE_BATTLE: free, robberBrain, spawnRobbers };
+  const API = { MISSIONS, CAMPAIGNS, FREE_BATTLE: free, WILD: wild, robberBrain, spawnRobbers };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
   else root.LIB_MISSIONS = API;
 })(this);

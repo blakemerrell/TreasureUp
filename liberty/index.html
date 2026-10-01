@@ -175,7 +175,10 @@
   
   /* ------------------------------------------------ Westwood RTS Sidebar on Desktop */
   @media (min-width: 860px) {
-    :root { --top: 0px; --bottom: 0px; --sidebar-w: 236px; }
+    :root { --top: 48px; --bottom: 0px; --sidebar-w: 236px; }
+    /* the top bar and the messages stop at the sidebar, so neither hides under it */
+    #hud { right: var(--sidebar-w); }
+    #feed { right: calc(var(--sidebar-w) + 8px); }
     #panel {
       left: auto; right: 0; top: 0; bottom: 0; width: var(--sidebar-w); height: auto;
       flex-direction: column; gap: 8px; border-top: 0; border-left: 4px solid #1a1a2e;
@@ -302,10 +305,10 @@
 <script src="../vendor/qrcode.js"></script>
 <script src="webrtc.js?v=15"></script>
 <script src="multi.js?v=15"></script>
-<script src="data.js?v=15"></script>
-<script src="sim.js?v=15"></script>
-<script src="missions.js?v=15"></script>
+<script src="data.js?v=16"></script>
+<script src="sim.js?v=16"></script>
+<script src="missions.js?v=16"></script>
 <script src="scripture.js?v=15"></script>
-<script src="ui.js?v=15"></script>
+<script src="ui.js?v=17"></script>
 </body>
 </html>

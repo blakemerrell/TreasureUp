@@ -182,7 +182,7 @@ markup: `sh tools/build-css.sh`.
 A real-time strategy game in the style of Command & Conquer: Red Alert, from
 the Book of Mormon: one player against the computer. Two campaigns so far,
 in the Book of Mormon's order: **Captain Moroni** (Alma 43–44) and
-**Lachoneus and Gidgiddoni** (3 Nephi 3–4). It lives at
+**Lachoneus and Gidgiddoni** (3 Nephi 3–4), and two skirmishes. It lives at
 **https://blakemerrell.github.io/TreasureUp/liberty/** (🎮 → Book of Mormon in
 the app), apart from the app itself: it never changes XP, the streak or the
 family's data.
@@ -198,10 +198,23 @@ the app's reading). The second 3 Nephi mission also needs the first won.
 | **1 · Gather to One Place** (3 Nephi 3) | Lachoneus's proclamation: send someone to each of five villages and their people march to Zarahemla with flocks and grain (3:13, 22); a village left too long is taken by raiders. Build walls round about, watchtowers and guards (3:14) before the robbers come down (a 14-minute clock: Giddianhi said he would come "on the morrow month", 3:8). Nobody can go north of the border into the wilderness: "we will wait till they shall come against us" (3:21). Optional: weapons, armor and shields (3:26). |
 | **2 · The Robbers Come Down** (3 Nephi 4) | Giddianhi's army attacks (4:7); **Cry unto the Lord** puts everyone on their knees for a moment, then they take less harm for a while (4:8–10). They fall back and can be pursued; Giddianhi is slowed, "weary because of his much fighting" (4:14). Then Zemnarihah's siege round about (4:16): a bar shows the robbers' food running out, since the Nephites have seven years' provisions and the wild game is gone (4:2–4, 18–20). When it runs out it's night, the border opens, and the armies can go to the three passes before the robbers march at dawn (4:24–26); a robber caught by two soldiers gives himself up (4:27). |
 
-**Free battle** (Red Alert's way of playing, once any mission's chapter is
+**Skirmishes** (Red Alert's way of playing, once any mission's chapter is
 read): start with the standard of liberty, a few workers and three soldiers,
 and plant the standard on open ground to make your city (Alma 46:36). Then
-build up:
+build up and either hold off the raids or tear down the war camp.
+
+- **Out of the Wilderness**: a valley with mountains to the north, wilderness
+  to the west and a river to the east. Robbers and Lamanites come down by
+  four ways (two mountain passes, the western wilderness, the river fords),
+  bigger each time, with an army every third raid and armored captains late
+  on. You hear which way about a minute before they come (a red mark on the
+  map and the small map), half a minute sooner if a watchtower stands near
+  that way. Robbers go for the farms and stores first. Short is 5 raids (about
+  15 minutes), Long is 10 (about 30). A band that can't reach you goes home
+  after a minute. Hold out to win; lose the city and it's over.
+- **Free battle**: the Lamanite war camp in the north-east (below).
+
+The buildings:
 
 | Building | Needs | What it does |
 |---|---|---|
@@ -214,28 +227,50 @@ build up:
 | Stables | farm | Horse carts: haul 30 at a time and move fast (3 Nephi 3:22) |
 | Hall of the captains | armory | Javelin throwers (Jarom 1:8) and stripling warriors (Alma 53:20) |
 
-Nobody can be trained without food for them. The Lamanite war camp in the
-north-east has guards, watchtowers and three camps; it sends a bigger attack
-every couple of minutes, adds guards while it stands, and grows fiercer over
-time. These Lamanites have shields and breastplates of their own (Alma 49:6).
-Tear down the war camp and the camps to win: Easy ★, Normal ★★, Hard ★★★. A
-scripted player wins Normal in about 9 minutes and loses Hard. The council
-asks about every chapter read so far. Where a description borrows from history
-rather than the verses (the atlatl, the stepped platform of the hall), it
-says so.
+Nobody can be trained without food for them. Each soldier is strong against
+one kind of enemy (×1.5 damage), so a mixed army wins:
+
+| Soldier | Strong against |
+|---|---|
+| Spearman, javelin thrower | armored men (captains, swordsmen) |
+| Swordsman | archers, slingers and javelin throwers |
+| Slinger, archer | men without armor |
+| Stripling warrior | nobody in particular: costly, but the strongest |
+
+Armor takes off a share of each blow rather than a fixed amount, so it
+always helps and never makes anyone untouchable. Mending a wall or building
+costs timber. Workers who stop to build go back to the trees or the field
+they came from.
+
+The Lamanite war camp in free battle's north-east has guards, watchtowers and
+three camps; it sends a bigger attack every couple of minutes, adds guards
+while it stands, and grows fiercer over time. These Lamanites have shields
+and breastplates of their own (Alma 49:6). Tear down the war camp and the
+camps to win. Both skirmishes give Easy ★, Normal ★★, Hard ★★★. A scripted
+player wins free battle's Normal in about 9–10 minutes (every seed tried) and
+Hard about 2 times in 6; it holds off the raids at every level and length,
+and a city left alone falls (Easy by about 15 minutes, Normal by 8). The
+council asks about every chapter read so far. Where a description borrows
+from history rather than the verses (the atlatl, the stepped platform of the
+hall), it says so.
 
 **The council**: a button that asks a question from the mission's chapters (13
 for Alma 43, 11 for Alma 44, 10 for 3 Nephi 3, 11 for 3 Nephi 4, in `liberty/data.js`). A right answer brings
-40 grain and 60 timber; a wrong one shows the verse that answers it. Once a
-minute (30 seconds after a miss). Every gold verse reference in the game
-opens the verse itself.
+40 grain and 60 timber; a wrong one shows the verse that answers it, and that
+question comes back later. A new question a minute after a right answer, 30
+seconds after a question opens otherwise. Every gold verse reference in the
+game opens the verse itself.
 
 **Controls**: tap or click to choose, drag a box (on a touch screen, **Box
 select** first), then tap the ground, a robber, trees or a field, or an
 unfinished building. Right-click also gives orders. Workers build (walls are
 dragged as a line) and mend walls; Zarahemla trains workers and the barracks
-guards. Drag or arrow keys to look around, pinch or scroll to zoom, the small
-map to jump. Space pauses, H stops, Esc cancels. At a chapter's big moment
+guards. On a touch screen a new building shows where it will go on the first
+tap and is built on the second, and **Let go** clears the selection. When
+something of yours is attacked a message says so and a red ring shows where,
+on the map and the small map. Drag or arrow keys to look around, pinch or
+scroll to zoom, the small map to jump. Space pauses, H stops, Esc cancels.
+At a chapter's big moment
 (crying unto the Lord, Lehi's attack, remembering their liberty) a gold
 button appears at the top. The maps are pictures of each story: where these
 places were isn't known, and the game says so.
@@ -246,7 +281,8 @@ Progress (chapters read, stars) is kept on the device (`localStorage`,
 `liberty/missions.js` (the story), `liberty/ui.js` (drawing and controls) and
 `liberty/scripture.js`, the chapters' text, made by `node
 tools/build-liberty-text.mjs` from the same pinned data the checker uses.
-`node tools/test-liberty.mjs` plays both missions with a scripted player and
+`node tools/test-liberty.mjs` plays the missions and both skirmishes with a
+scripted player and
 checks every quotation in the game against the verse it cites; the deploy
 runs it and won't publish if it fails.
 
