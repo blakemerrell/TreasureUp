@@ -695,6 +695,18 @@
   .rk-offer { padding: 12px 14px; border-radius: 16px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); }
   .rk-offer + .rk-plain { margin-top: 10px; }
   .rk-offer .rk-step b { min-width: 2ch; text-align: center; font-size: 22px; }
+  .rk-region text { fill: rgba(255,255,255,.72); font: italic 700 14px system-ui, sans-serif; text-anchor: middle; paint-order: stroke; stroke: rgba(0,0,0,.55); stroke-width: 3px; pointer-events: none; }
+  .rk-region.held rect { fill: var(--k); fill-opacity: .9; stroke: #fff; stroke-width: 1.5; }
+  .rk-region.held text { fill: #fff; font-style: normal; font-weight: 900; stroke: rgba(0,0,0,.35); }
+  .rk-region { pointer-events: none; }
+  .rk-shield { font-size: 20px; pointer-events: none; }
+  .rk-atk-region { font-size: 14px; font-weight: 800; color: var(--gold); }
+  .rk-cards { margin-top: 12px; padding: 10px 12px; border-radius: 16px; background: rgba(168,85,247,.10); border: 1px solid rgba(168,85,247,.35); }
+  .rk-cardrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .rk-pcard { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; border-radius: 12px; border: 2px solid rgba(255,255,255,.25); background: rgba(255,255,255,.08); color: #fff; font: inherit; font-weight: 800; font-size: 15px; cursor: pointer; }
+  .rk-pcard.on { border-color: var(--gold); background: rgba(253,230,138,.15); }
+  .rk-pcard span { font-size: 20px; }
+  .rk-cardinfo { margin-top: 8px; }
   .rk-card.arming { animation: rkArm 600ms ease-out both; }
   @keyframes rkArm { from { opacity: .45; } to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) { .rk-card.arming { animation: none; } }
@@ -4208,7 +4220,7 @@ const TreasureUp = (function () {
   // Babylon and still hold it when your next turn starts, and you win; if
   // nobody does, after the last round the most points win (a land 1,
   // Babylonia 3). Nothing here changes anyone's XP.
-  const RISK = { easy: 3, hard: 5, miss: 1, perLands: 3, start: 4, neutral: 2, wallsNeutral: 3, bricks: 3, insightMax: 3, fort: { easy: 1, hard: 2 }, rounds: [5, 8, 12], time: { easy: 30, hard: 90 }, defend: 10, blitzStop: 3 };
+  const RISK = { easy: 3, hard: 5, miss: 1, perLands: 3, start: 4, neutral: 2, wallsNeutral: 3, bricks: 3, hand: 3, returnArmies: 4, insightMax: 3, fort: { easy: 1, hard: 2 }, rounds: [5, 8, 12], time: { easy: 30, hard: 90 }, defend: 10, blitzStop: 3 };
   const BOARD = () => (window.TU_BOARDS || [])[0] || null;
 
   function RiskLocal() {
@@ -4358,7 +4370,7 @@ const TreasureUp = (function () {
   // attack from one of those lands hits the wall, not the guards. The sides
   // toward the far kingdoms have no wall. (A game from before the wall has
   // no bricks.)
-  const riskGateOpen = (g, id) => id !== BOARD().walls || g.round > 1;
+  const riskGateOpen = (g, id) => (id !== BOARD().walls || g.round > 1) && !(g.lands && g.lands[id] && g.lands[id].sh);   // (🦁 the Lions' Den shuts a land too)
   const riskWallUp = g => (g.bricks || 0) > 0;
   const riskHitsWall = (g, from, to) => to === BOARD().walls && riskWallUp(g) && (BOARD().wallSides || []).includes(from);
   // What an attack from `from` on `to` has to beat: the wall's bricks, or the guards.
@@ -4371,6 +4383,51 @@ const TreasureUp = (function () {
   // own next door).
   const riskAttackers = (g, uid) => landsOf(g, uid).filter(id => g.lands[id].a >= 2 && nearOf(id).some(n => g.lands[n].o !== uid && riskGateOpen(g, n)));
   const riskMovers = (g, uid) => landsOf(g, uid).filter(id => riskMovable(g, id) >= 1 && nearOf(id).some(n => g.lands[n].o === uid));
+  // The most dice a land attacked this turn can roll: 2, or 1 once 🌊 Dry
+  // Up the River has been played.
+  const riskMaxDef = g => g.turn && g.turn.dry ? 1 : 2;
+  // Regions (board.regions): a whole region held earns its bonus every turn.
+  const riskRegionsOf = (g, uid) => (BOARD().regions || []).filter(r => r.lands.every(id => g.lands[id] && g.lands[id].o === uid));
+  // The region taking `land` would complete for uid (the rest already theirs).
+  const riskRegionIf = (g, uid, land) => (BOARD().regions || []).find(r => r.lands.includes(land) && r.lands.every(id => id === land || (g.lands[id] && g.lands[id].o === uid)));
+  const riskPoints = (g, uid) => { const ls = landsOf(g, uid); return ls.length + (ls.includes(BOARD().walls) ? 2 : 0); };
+  // The smallest kingdom (fewest points, alone at the bottom) gets 1 more
+  // soldier a turn; the leader (most points, alone at the top) is who ⚖️
+  // Weighed in the Balances weighs.
+  function riskRanked2(g) {
+    const live = (g.seats || []).filter(s => !s.out);
+    return live.length < 2 ? null : live.map(s => ({ uid: s.uid, p: riskPoints(g, s.uid) })).sort((a, b) => a.p - b.p);
+  }
+  const riskSmallest = g => { const r = riskRanked2(g); return r && r[0].p < r[1].p ? r[0].uid : null; };
+  const riskLeader = g => { const r = riskRanked2(g); return r && r[r.length - 1].p > r[r.length - 2].p ? r[r.length - 1].uid : null; };
+  // Where a kingdom in exile can come back: any land nobody holds but Babylon.
+  const riskReturnLands = g => Object.keys(g.lands || {}).filter(id => !g.lands[id].o && id !== BOARD().walls);
+  // Prophecy cards (board.cards): a shuffled deck, each player's hand, and
+  // the discards, shuffled back in when the deck runs out.
+  const riskCard = id => (BOARD().cards || []).find(c => c.id === id);
+  function riskDeck() {
+    const ids = [];
+    (BOARD().cards || []).forEach(c => { for (let k = 0; k < (c.copies || 1); k++) ids.push(c.id); });
+    for (let i = ids.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [ids[i], ids[j]] = [ids[j], ids[i]]; }
+    return ids;
+  }
+  // A given card into a hand, if there's room.
+  function riskDrawThis(g, uid, id) {
+    g.hands = g.hands || {};
+    const hand = g.hands[uid] || [];
+    if (hand.length >= RISK.hand) return false;
+    g.hands[uid] = hand.concat(id);
+    return true;
+  }
+  function riskDraw(g, uid) {
+    g.hands = g.hands || {};
+    const hand = g.hands[uid] || [];
+    if (hand.length >= RISK.hand || !(BOARD().cards || []).length) return null;
+    if (!(g.deck || []).length) { g.deck = (g.discard || []).length ? (g.discard.slice().sort(() => Math.random() - .5)) : riskDeck(); g.discard = []; }
+    const id = g.deck.pop();
+    g.hands[uid] = hand.concat(id);
+    return id;
+  }
   function riskDie() {
     // The tests set the dice (window.TU_DICE) when there's no Firebase.
     if (!FIREBASE_CONFIG && Array.isArray(window.TU_DICE) && window.TU_DICE.length) return window.TU_DICE.shift();
@@ -4416,7 +4473,7 @@ const TreasureUp = (function () {
     }
     return (rollTable[key] = Object.entries(out).map(([k, p]) => { const [la, ld] = k.split(',').map(Number); return { la, ld, p }; }));
   }
-  function takeOdds(a, d) {
+  function takeOdds(a, d, md = 2) {
     const memo = {};
     const go = (a, d) => {
       if (d <= 0) return { win: 1, lost: 0 };
@@ -4424,7 +4481,7 @@ const TreasureUp = (function () {
       const key = a + ',' + d;
       if (memo[key]) return memo[key];
       let win = 0, lost = 0;
-      for (const o of rollOdds(Math.min(3, a - 1), Math.min(2, d))) {
+      for (const o of rollOdds(Math.min(3, a - 1), Math.min(md, d))) {
         const r = go(a - o.la, d - o.ld);
         win += o.p * r.win;
         lost += o.p * (o.la + r.lost);
@@ -4445,6 +4502,10 @@ const TreasureUp = (function () {
     B.lands.forEach(l => { g.lands[l.id] = { o: null, a: l.id === B.walls ? RISK.wallsNeutral : RISK.neutral }; });
     g.seats.forEach(s => { g.lands[kingdomOf(s.k).home] = { o: s.uid, a: RISK.start }; });
     g.bricks = (B.wallSides || []).length ? B.bricks || RISK.bricks : 0;
+    g.deck = riskDeck();
+    g.hands = {};
+    g.discard = [];
+    g.played = null;
     g.state = 'play';
     g.gid = Math.random().toString(36).slice(2, 10);
     g.round = 1;
@@ -4501,19 +4562,27 @@ const TreasureUp = (function () {
     for (let k = 0; k < n; k++) {
       i = (i + 1) % n;
       if (i === 0) g.round++;
-      if (!g.seats[i].out) break;
+      const s = g.seats[i];
+      if (s.out) continue;
+      // In exile with nowhere left to come back to: that kingdom is gone.
+      if (s.exile && !riskReturnLands(g).length) { s.out = true; s.exile = false; riskSay(g, kingdomOf(s.k).name + ' has nowhere to come back to, and its kingdom is gone.'); continue; }
+      break;
     }
+    if (g.seats.filter(x => !x.out).length < 2) return riskOver(g, { last: true });
     if (g.round > g.rounds) return riskOver(g);
     // Babylon still theirs when their turn comes round again: everyone else
     // had a turn to take it back (a land only changes hands on its taker's
     // own turn), so they win.
-    const B = BOARD();
-    if (g.lands[B.walls] && g.lands[B.walls].o === g.seats[i].uid) return riskOver(g, { held: true });
+    const B = BOARD(), seat = g.seats[i];
+    if (g.lands[B.walls] && g.lands[B.walls].o === seat.uid) return riskOver(g, { held: true });
+    // 🦁 The Lions' Den lasts until its player's next turn.
+    Object.values(g.lands).forEach(L => { if (L.sh === seat.uid) delete L.sh; });
     g.turn = newTurn(i);
-    const w = (g.wait || {})[g.seats[i].uid];
+    if (seat.exile) g.turn.phase = 'return';                          // first, back from exile
+    const w = (g.wait || {})[seat.uid];
     if (w) { w.q = null; w.tok = ''; }
     const first = i === 0 || g.seats.slice(0, i).every(s => s.out);
-    riskSay(g, (first ? riskChapterLine(g, g.round) : '') + kingdomOf(g.seats[i].k).name + "'s turn: " + g.seats[i].name + ', raise your soldiers!');
+    riskSay(g, (first ? riskChapterLine(g, g.round) : '') + kingdomOf(seat.k).name + "'s turn: " + seat.name + (seat.exile ? ', come back from exile!' : ', raise your soldiers!'));
   }
 
   // A turn's answer (or its time running out): armies, and for a hunt found
@@ -4525,11 +4594,15 @@ const TreasureUp = (function () {
     if (insight) g.insight = Object.assign({}, g.insight, { [seat.uid]: had + 1 });
     const w = (g.wait || {})[seat.uid], saved = (w && w.ready) || 0;   // an army earned while waiting and not yet put down
     if (saved) w.ready = 0;
-    t.armies = got + bonus + saved;
-    t.result = { right, picked, got, bonus, insight, timeout, saved };
+    // Whole regions held, and 1 more for the smallest kingdom.
+    const regions = riskRegionsOf(g, seat.uid).map(r => ({ name: r.name, bonus: r.bonus || 0 })), rb = regions.reduce((n, r) => n + r.bonus, 0);
+    const faint = riskSmallest(g) === seat.uid ? 1 : 0;
+    t.armies = got + bonus + rb + faint + saved;
+    t.result = { right, picked, got, bonus, insight, timeout, saved, regions, faint };
     t.phase = 'place';
     riskSay(g, (timeout ? "Time's up! " : right ? seat.name + (t.level === 'hard' ? ' found it! ' : ' knew it! ') : 'Not this time. ') +
-      K + ' raises ' + t.armies + (t.armies === 1 ? ' soldier' : ' soldiers') + (insight ? ' and earns an insight' : '') + '.');
+      K + ' raises ' + t.armies + (t.armies === 1 ? ' soldier' : ' soldiers') + (insight ? ' and earns an insight' : '') + '.' +
+      (rb ? ' That counts ' + andList(regions.map(r => '+' + r.bonus + ' for ' + r.name)) + '.' : '') + (faint ? ' And +1 for the smallest kingdom.' : ''));
   }
   // The answer's time is up: counts as a miss. Checked on the host's (or the
   // one screen's) own clock, so every phone gets the same time.
@@ -4731,6 +4804,9 @@ const TreasureUp = (function () {
     riskSay(g, Kx + (att.many ? ' attack ' : ' attacks ') + landName(b.to) + '! ' +
       (ld && !la ? riskLoses(def, ld) + '.' : la && !ld ? 'The guards hold: ' + riskLoses(att, la) + '.' : riskLoses(att, la) + ', ' + riskLoses(def, ld) + '.') + (takes ? '' : verse));
     if (D.a <= 0) {
+      // Whose region this land completed, before it changes hands.
+      const broke = was && (BOARD().regions || []).find(r => r.lands.includes(b.to) && r.lands.every(id => g.lands[id].o === was));
+      if (g.turn) g.turn.took = true;                                  // a land taken this turn: a prophecy card at its end
       // A capture never costs the attacker anything, so there are always
       // soldiers to move in: as many as the dice the attack was made with.
       D.o = uid;
@@ -4745,13 +4821,25 @@ const TreasureUp = (function () {
         g.told = Object.assign({}, g.told, { fell: true });
         moment = (s && (s.k === 'persia' || s.k === 'media') ? say.fallsMedesPersians : say.falls) || '';
       }
-      riskSay(g, landName(b.to) + ' falls to ' + Kx + '!' + (moment ? ' ' + moment : verse));
+      const won = riskRegionsOf(g, uid).find(r => r.lands.includes(b.to));
+      riskSay(g, landName(b.to) + ' falls to ' + Kx + '!' + (moment ? ' ' + moment : verse) +
+        (broke ? ' That breaks ' + seatOf(g, was).name + '’s hold on ' + broke.name + '.' : '') +
+        (won ? ' ' + riskCap(Kx) + (att.many ? ' hold' : ' holds') + ' all of ' + won.name + ': +' + won.bonus + (won.bonus === 1 ? ' soldier' : ' soldiers') + ' every turn!' : ''));
       const loser = was && seatOf(g, was);
       if (loser && !landsOf(g, was).length) {
-        loser.out = true;
         if (g.insight) delete g.insight[was];
-        if (g.wait) delete g.wait[was];
-        riskSay(g, landName(b.to) + ' falls, and with it the kingdom of ' + kingdomOf(loser.k).name + '!');
+        // Their prophecy cards go to whoever took their last land.
+        const theirs = (g.hands || {})[was] || [];
+        if (theirs.length) { g.hands[was] = []; theirs.forEach(c => { if (!riskDrawThis(g, uid, c)) g.discard = (g.discard || []).concat(c); }); }
+        // Once a game, a fallen kingdom comes back from exile on its next turn.
+        if (!loser.returned && riskReturnLands(g).length) {
+          loser.exile = true;
+          riskSay(g, landName(b.to) + ' falls, and ' + kingdomOf(loser.k).name + ' is carried away into exile! On ' + loser.name + '’s next turn it comes back. ' + ((BOARD().moments || {}).exile || ''));
+        } else {
+          loser.out = true;
+          if (g.wait) delete g.wait[was];
+          riskSay(g, landName(b.to) + ' falls, and with it the kingdom of ' + kingdomOf(loser.k).name + '!');
+        }
       }
       if (g.seats.filter(x => !x.out).length === 1) riskOver(g, { last: true });
     }
@@ -4781,7 +4869,19 @@ const TreasureUp = (function () {
     const t = g.turn, seat = g.seats[t.i];
     if (!seat || seat.uid !== m.uid) return;                             // not your turn
     const uid = m.uid, K = kingdomOf(seat.k).name;
-    if (m.kind === 'level' && t.phase === 'choose' && (m.a === 'easy' || m.a === 'hard')) {
+    if (m.kind === 'return' && t.phase === 'return') {
+      // Back from exile: onto a land nobody holds, with RISK.returnArmies soldiers.
+      const L = g.lands[m.a];
+      if (!L || L.o || m.a === B.walls) return;
+      L.o = uid;
+      L.a = RISK.returnArmies;
+      seat.exile = false;
+      seat.returned = true;
+      t.phase = 'choose';
+      riskSay(g, K + ' comes back from exile to ' + landName(m.a) + '! ' + ((B.moments || {}).returns || '') + ' ' + seat.name + ', raise your soldiers!');
+    } else if (m.kind === 'card') {
+      riskPlayCard(g, seat, m.a, m.b);
+    } else if (m.kind === 'level' && t.phase === 'choose' && (m.a === 'easy' || m.a === 'hard')) {
       t.level = m.a;
       t.q = riskNextQuestion(g, m.a);
       t.phase = 'answer';
@@ -4812,7 +4912,7 @@ const TreasureUp = (function () {
       const A = g.lands[m.a], D = g.lands[m.b];
       if (!A || !D || A.o !== uid || D.o === uid || A.a < 2 || !adjacent(m.a, m.b) || !riskGateOpen(g, m.b)) return;
       const wall = riskHitsWall(g, m.a, m.b);
-      const ad = Math.min(3, A.a - 1), dd = Math.min(2, riskFoes(g, m.a, m.b));
+      const ad = Math.min(3, A.a - 1), dd = Math.min(riskMaxDef(g), riskFoes(g, m.a, m.b));
       // The attacker's dice are rolled now, in the order they'll show, one a
       // tap. The defenders' roll first: on a TV game a player's land waits
       // for its player to roll them (or RISK.defend seconds); a neutral land,
@@ -4867,9 +4967,53 @@ const TreasureUp = (function () {
         const s = Object.keys(to).map(id => kSide(g, uid, id)).find(x => x.many) || kSide(g, uid, ms[0].to);
         riskLog(g, s.name + (s.many ? ' move ' : ' moves ') + andList(Object.entries(to).map(([id, n]) => soldiers(n) + ' to ' + landName(id))) + '.');
       }
+      // A land taken this turn earns a prophecy card (up to RISK.hand).
+      if (t.took && riskDraw(g, uid)) riskSay(g, K + ' earns a prophecy card 📜.');
       riskNextTurn(g);
     }
   }
+  // ----- prophecy cards -----
+
+  // Why a card can't be played right now ('' when it can).
+  const RISK_LAND_CARDS = ['lions', 'hand'];
+  function riskCardWhyNot(g, uid, id) {
+    const B = BOARD(), t = g.turn, Bab = g.lands[B.walls];
+    if (!t || !['place', 'attack', 'move'].includes(t.phase) || g.battle) return 'Cards are played on your turn, once you have your soldiers.';
+    if (id === 'river' && t.phase === 'move') return 'Your attacking is done for this turn.';
+    if (id === 'river' && t.dry) return 'The river is already dry this turn.';
+    if (id === 'gates' && !riskWallUp(g) && (!Bab || Bab.o === uid || Bab.a <= 1)) return Bab && Bab.o === uid ? 'You hold Babylon yourself.' : 'Babylon has only 1 guard left.';
+    if (id === 'balance') {
+      const L = riskLeader(g);
+      if (!L) return 'Nobody is ahead right now.';
+      if (L === uid) return 'You are the leader!';
+      if (!landsOf(g, L).some(l => g.lands[l].a > 1)) return 'The leader has no soldiers to spare.';
+    }
+    return '';
+  }
+  // Play a card from the hand of the player whose turn it is.
+  function riskPlayCard(g, seat, id, land) {
+    const B = BOARD(), uid = seat.uid, c = riskCard(id), hand = (g.hands || {})[uid] || [], K = kingdomOf(seat.k).name;
+    if (!c || !hand.includes(id) || riskCardWhyNot(g, uid, id)) return;
+    if (RISK_LAND_CARDS.includes(id) && (!g.lands[land] || g.lands[land].o !== uid)) return;
+    let did = '';
+    if (id === 'lions') { g.lands[land].sh = uid; did = `Nobody can attack ${landName(land)} until ${seat.name}’s next turn.`; }
+    else if (id === 'river') { g.turn.dry = true; did = `The lands ${K} attacks this turn roll 1 die fewer.`; }
+    else if (id === 'gates') {
+      if (riskWallUp(g)) { const n = Math.min(2, g.bricks); g.bricks -= n; did = g.bricks ? `Babylon’s wall loses ${n} bricks: ${g.bricks} left.` : 'Babylon’s wall is down! Now anyone can attack its guards.'; }
+      else { g.lands[B.walls].a -= 1; did = `Babylon loses a guard: ${guards(g.lands[B.walls].a)} left.`; }
+    }
+    else if (id === 'hand') { g.lands[land].a += 3; did = `3 soldiers join ${landName(land)}.`; }
+    else if (id === 'balance') {
+      const L = riskLeader(g), big = landsOf(g, L).sort((a, b) => g.lands[b].a - g.lands[a].a)[0], n = Math.min(2, g.lands[big].a - 1);
+      g.lands[big].a -= n;
+      did = `${seatOf(g, L).name}, the leader, loses ${soldiers(n)} from ${landName(big)}.`;
+    }
+    g.hands[uid] = hand.slice(0, hand.indexOf(id)).concat(hand.slice(hand.indexOf(id) + 1));
+    g.discard = (g.discard || []).concat(id);
+    g.played = { n: ((g.played && g.played.n) || 0) + 1, uid, id, land: land || '' };
+    riskSay(g, `${seat.name} plays ${c.icon} ${c.name}! ${did} ${c.quote}`);
+  }
+
   // Story or Pro: how a player's own phone shows the game. The map screen
   // keeps it with their seat, since a Story player's questions have no clock.
   function riskSetMode(g, m) {
@@ -4932,7 +5076,15 @@ const TreasureUp = (function () {
       return `<g class="rk-lab${mark(l.id)}${pulse}${u.hint === l.id ? ' hint' : ''}" data-land="${l.id}" transform="translate(${x} ${y})${u.small ? ' scale(1.5)' : ''}">
         <text class="nm" y="-30">${esc(l.name)}${home.has(l.id) ? ' ★' : ''}</text>
         ${u.hint === l.id ? '<circle r="29" class="ring"/>' : ''}${L ? `<circle r="21" class="badge${ownColor(l.id) ? ' own' : ''}"${ownColor(l.id) ? ` style="--k:${ownColor(l.id)}"` : ''}/><text class="ar" y="8">${L.a}</text>` : ''}${odds}
+        ${L && L.sh ? '<text class="rk-shield" x="-34" y="8">🦁</text><title>The Lions’ Den: nobody can attack it</title>' : ''}
         ${wallUp && l.id === B.walls ? `<g class="rk-bricks"><rect x="23" y="-12" width="46" height="24" rx="12"/><text x="46" y="6">🧱${g.bricks}</text><title>Babylon’s wall: ${g.bricks} ${g.bricks === 1 ? 'brick' : 'bricks'} left</title></g>` : ''}</g>`;
+    }).join('');
+    // Regions: each name faint on the map, a chip in its holder's colour once
+    // one kingdom holds all of it.
+    const regions = (B.regions || []).filter(r => r.label).map(r => {
+      const o = g.lands && g.lands[r.lands[0]] && g.lands[r.lands[0]].o, held = o && r.lands.every(id => g.lands[id] && g.lands[id].o === o) ? ownColor(r.lands[0]) : '';
+      const text = `${r.name} +${r.bonus}`, w = Math.round(text.length * 8.2 + 22 + (held ? 20 : 0));
+      return `<g class="rk-region${held ? ' held' : ''}" transform="translate(${r.label[0]} ${r.label[1]})"${held ? ` style="--k:${held}"` : ''}>${held ? `<rect x="${-w / 2}" y="-14" width="${w}" height="24" rx="12"/>` : ''}<text y="3">${held ? '👑 ' : ''}${esc(text)}</text></g>`;
     }).join('');
     const seas = B.seas.map(s => {
       const cx = s.label ? s.label[0] : s.ring.reduce((n, p) => n + p[0], 0) / s.ring.length, cy = s.label ? s.label[1] : s.ring.reduce((n, p) => n + p[1], 0) / s.ring.length;
@@ -4951,7 +5103,7 @@ const TreasureUp = (function () {
     }
     return `<svg class="rk-map" viewBox="0 0 ${B.size[0]} ${B.size[1]}" role="img" aria-label="Map of the ancient Near East">
       <rect width="${B.size[0]}" height="${B.size[1]}" class="rk-sea"/>${B.art ? `<image class="rk-art" href="${esc(B.art)}" x="0" y="0" width="${B.size[0]}" height="${B.size[1]}" preserveAspectRatio="none"/>` : ''}<defs>${clips}</defs>${lands}${edges}${seas}
-      ${walls}${arrow}${labels}</svg>`;
+      ${walls}${regions}${arrow}${labels}</svg>`;
   }
 
   // A die face: 3×3 spots, the right ones shown.
@@ -5174,7 +5326,8 @@ const TreasureUp = (function () {
         : `${ds ? ds.name : 'The defender'} rolls first, for ${landName(b.to)}'s guards. Then you roll, and your dice meet theirs in duels: your highest against their highest, and so on.`,
       `A tie goes to ${riskDef(b)}, so when one die meets one die, ${riskDef(b)} ${b.wall ? 'wins' : 'win'} a little more often.`,
       `You roll ${n} ${n === 1 ? 'die' : 'dice'}: one for each soldier that can attack, up to 3, since one soldier always stays in ${landName(b.from)}. More soldiers don't roll more dice; they let you attack again. `
-        + (b.wall ? (dn === 1 ? 'The wall rolls 1 die, because it has 1 brick left.' : 'The wall rolls 2 dice, one for each brick, up to 2. Each duel you win knocks down a brick.')
+        + (dn === 1 && g.turn && g.turn.dry ? `${b.wall ? 'The wall rolls' : 'They roll'} 1 die, because you dried up the river 🌊.`
+          : b.wall ? (dn === 1 ? 'The wall rolls 1 die, because it has 1 brick left.' : 'The wall rolls 2 dice, one for each brick, up to 2. Each duel you win knocks down a brick.')
           : dn === 1 ? 'They roll 1 die, because only 1 guard is defending.' : 'They roll 2 dice, the most guards get.')
     ];
     if (n > dn) lines.push(`Only ${dn} of your dice ${dn === 1 ? 'duels' : 'duel'}, so your lowest ${n - dn === 1 ? 'die sits' : 'dice sit'} on the bench. More dice just give you more chances at high ones.`);
@@ -5495,6 +5648,9 @@ const TreasureUp = (function () {
     else if (d && d.won && rk.fx && rk.fx.n === d.n && seatOf(g, d.by)) {
       const K = kingdomOf(seatOf(g, d.by).k), who = kSide(g, d.by, d.to).name;   // "Media falls to Mom's soldiers!", not "…to Media!"
       key = 'won' + d.n; text = d.to === B.walls ? `👑 Babylon falls to ${who}!` : `⚔️ ${landName(d.to)} falls to ${who}!`; color = K.color; wait = rk.fx.banner != null ? rk.fx.banner : rk.fx.settle;
+    } else if (play && g.played && !(rk.moments && rk.moments.keys.includes('card' + g.played.n)) && seatOf(g, g.played.uid) && riskCard(g.played.id)) {
+      const s = seatOf(g, g.played.uid), c = riskCard(g.played.id);
+      key = 'card' + g.played.n; text = `${c.icon} ${s.name} plays ${c.name}!`; color = kingdomOf(s.k).color;
     } else if (d && d.wall && d.ld && !d.bricks && rk.fx && rk.fx.n === d.n) {
       key = 'walldown'; text = '🧱 Babylon’s wall is down!'; color = '#e0a458'; wait = rk.fx.banner != null ? rk.fx.banner : rk.fx.settle;
     } else if (play && g.round === 2 && !g.lands[B.walls].o) { key = 'gates'; text = '🚪 Babylon’s gates are open!'; }
@@ -5627,7 +5783,7 @@ const TreasureUp = (function () {
     rk.gid = g.gid;
     if (first) return;
     if (rk.scene) riskSceneClose(rk.scene, true);
-    Object.assign(rk, { spoken: 0, rolled: 0, fx: null, sure: null, fortSel: null, goSent: null, forted: 0, waitSent: null, fortSent: null, askSent: null, rollSent: null, defSent: null, bt: null, waitSeen: null, pulse: null, moments: null, sel: {}, view: null, watch: null, battleLands: null, battleBricks: null, lastFight: null });
+    Object.assign(rk, { spoken: 0, rolled: 0, fx: null, sure: null, fortSel: null, goSent: null, forted: 0, waitSent: null, fortSent: null, askSent: null, rollSent: null, defSent: null, bt: null, waitSeen: null, pulse: null, moments: null, sel: {}, view: null, watch: null, battleLands: null, battleBricks: null, lastFight: null, cardSee: null, cardPick: null });
   }
   function riskNarrate(g) {
     if (!rk || !g) return;
@@ -5661,7 +5817,10 @@ const TreasureUp = (function () {
     if (rk.view === 'rules') {
       return `<div class="rk-view"><div class="eyebrow">How to win</div><p>${esc(B.goal)}</p>
         <div class="eyebrow">Each turn</div><ol>${B.turn.map(x => `<li>${esc(x)}</li>`).join('')}</ol>
-        <div class="eyebrow">The dice</div><p>${esc(B.dice)}</p>${back}</div>`;
+        <div class="eyebrow">The dice</div><p>${esc(B.dice)}</p>
+        ${(B.regions || []).length ? `<div class="eyebrow">Regions</div><ul>${B.regions.map(r => `<li><b>${esc(r.name)}</b> (+${r.bonus} a turn): ${esc(andList(r.lands.map(landName)))}</li>`).join('')}</ul>` : ''}
+        ${(B.cards || []).length ? `<div class="eyebrow">Prophecy cards</div><ul>${B.cards.map(c => `<li>${c.icon} <b>${esc(c.name)}</b>: ${esc(c.does)}</li>`).join('')}</ul>
+          <p>If your last land falls, your kingdom goes into exile and comes back on your next turn, onto a land nobody holds, with ${RISK.returnArmies} soldiers. That happens once a game; the next time, your kingdom is gone. Whoever takes your last land takes your cards.</p>` : ''}${back}</div>`;
     }
     if (rk.view === 'log') {
       return `<div class="rk-view"><div class="eyebrow">What's happened</div>
@@ -5693,7 +5852,7 @@ const TreasureUp = (function () {
   function riskCoach(g, me) {
     const B = BOARD(), t = g.turn, sel = rk.sel || {}, mine = landsOf(g, me);
     const pct = x => Math.round(x * 100) + '%', armies = n => n + (n === 1 ? ' soldier' : ' soldiers');
-    const odds = (f, to) => takeOdds(g.lands[f].a, riskFoes(g, f, to));
+    const odds = (f, to) => takeOdds(g.lands[f].a, riskFoes(g, f, to), riskMaxDef(g));
     const aim = (f, to) => riskHitsWall(g, f, to) ? 'Babylon’s wall' : landName(to);
     const front = id => nearOf(id).some(n => g.lands[n].o !== me);
     if (t.phase === 'place') {
@@ -5774,7 +5933,7 @@ const TreasureUp = (function () {
       const ls = landsOf(g, s.uid), pts = ls.length + (ls.includes(BOARD().walls) ? 2 : 0), k = kingdomOf(s.k), ins = g.insightOn !== false ? (g.insight || {})[s.uid] || 0 : 0;
       const now = g.state === 'play' && !g.story && g.turn && g.turn.i === i;
       return `<span class="rk-pl${now ? ' now' : ''}${s.out ? ' out' : ''}${s.uid === me ? ' me' : ''}" style="--c:${k.color}" title="${esc(k.name)}">
-        <span class="rk-dot" style="background:${k.color}"></span>${esc(s.name)}${s.uid === me ? ' (you)' : ''}${ls.includes(BOARD().walls) ? ' 👑' : ''}<small>${s.out ? 'fallen' : pts + (pts === 1 ? ' point' : ' points')}${ins ? ' · 💡' + ins : ''}</small></span>`;
+        <span class="rk-dot" style="background:${k.color}"></span>${esc(s.name)}${s.uid === me ? ' (you)' : ''}${ls.includes(BOARD().walls) ? ' 👑' : ''}<small>${s.out ? 'fallen' : s.exile ? 'in exile' : pts + (pts === 1 ? ' point' : ' points')}${ins ? ' · 💡' + ins : ''}${((g.hands || {})[s.uid] || []).length ? ' · 📜' + g.hands[s.uid].length : ''}</small></span>`;
     }).join('')}</div>`;
   }
   // Babylon's holder, and what that means to whoever is looking: keep it
@@ -5822,7 +5981,7 @@ const TreasureUp = (function () {
       <button class="today-alt" data-rkv="story">📜 Read the whole story</button>`;
   }
 
-  const phaseText = t => ({ choose: 'is choosing a question', answer: 'is answering', place: 'is placing soldiers', attack: 'is attacking', move: 'is moving soldiers' })[t.phase] || '';
+  const phaseText = t => ({ return: 'is coming back from exile', choose: 'is choosing a question', answer: 'is answering', place: 'is placing soldiers', attack: 'is attacking', move: 'is moving soldiers' })[t.phase] || '';
   // Where a question is from, and its clock while it's being answered.
   function riskQHead(g) {
     const t = g.turn, Q = gameQuestion(t.q), read = t.level === 'hard' && riskReading(Q);
@@ -6000,7 +6159,7 @@ const TreasureUp = (function () {
     if (!g) return;
     if (g.state === 'play') riskWaitSetup(g);
     const fields = {};
-    ['state', 'gid', 'rounds', 'timer', 'insightOn', 'round', 'seats', 'lands', 'bricks', 'insight', 'wait', 'fort', 'used', 'turn', 'dice', 'battle', 'told', 'log', 'final', 'say', 'says', 'story'].forEach(k => { if (g[k] !== undefined) fields[k] = g[k]; });
+    ['state', 'gid', 'rounds', 'timer', 'insightOn', 'round', 'seats', 'lands', 'bricks', 'deck', 'hands', 'discard', 'played', 'insight', 'wait', 'fort', 'used', 'turn', 'dice', 'battle', 'told', 'log', 'final', 'say', 'says', 'story'].forEach(k => { if (g[k] !== undefined) fields[k] = g[k]; });
     try { await riskConn().save(rk.code, JSON.parse(JSON.stringify(fields))); }
     catch (e) { toast("Couldn't reach the game", 'Check the internet'); }
   }
@@ -6124,7 +6283,7 @@ const TreasureUp = (function () {
       if (sig !== rk.gSig) { rk.gSig = sig; rk.busy = 0; }               // the map screen has answered (the game changed): taps go again
       // A new turn or phase clears what was picked on the map; his own turn
       // (or the game starting or ending) closes the ⋯ menu so he sees it.
-      if (at(before) !== at(g)) rk.sel = {};
+      if (at(before) !== at(g)) { rk.sel = {}; rk.cardSee = rk.cardPick = null; }
       if (begins || (before && g && (before.state !== g.state || before.story !== g.story))) rk.view = null;
       renderRiskPlayer();
       if (begins) riskTurnAlert(g, C.uid());                               // his turn: a chime and a flash
@@ -6141,7 +6300,7 @@ const TreasureUp = (function () {
   // one, so a run of quick taps counts as one (dice go a tap each, though,
   // and Pro's +1s on the map). Undo, Cancel, 🔊 and the like are never held.
   const RISK_BUSY = 2500, RISK_ARM = 600, RISK_QUICK = 400;
-  const RISK_HOLD = new Set(['level', 'ans', 'go', 'roll', 'proroll', 'blitz', 'done', 'end', 'offer', 'promove', 'fortask', 'wait', 'fortput', 'defend', 'allhere', 'soloready', 'map']);
+  const RISK_HOLD = new Set(['level', 'ans', 'go', 'roll', 'proroll', 'blitz', 'done', 'end', 'offer', 'promove', 'fortask', 'wait', 'fortput', 'defend', 'allhere', 'soloready', 'cardplay', 'map']);
   const RISK_EACH = new Set(['roll', 'proroll', 'defend', 'map']);
   const riskBusy = () => !!rk && rk.role === 'player' && Date.now() - (rk.busy || 0) < RISK_BUSY;
   function riskHeld(act) {
@@ -6163,7 +6322,7 @@ const TreasureUp = (function () {
     }
     const g = rk.g, at = () => g.turn ? g.turn.i + '|' + g.turn.phase : '', before = at(), was = g.turn ? g.turn.i : -1;
     riskApply(g, Object.assign({}, m, { uid: riskMe() }));
-    if (at() !== before) rk.sel = {};
+    if (at() !== before) { rk.sel = {}; rk.cardSee = rk.cardPick = null; }
     if (g.turn && g.turn.i !== was) { rk.pass = true; rk.view = null; }  // hand the screen on
     if (g.state !== 'play') rk.view = null;
     riskSoloSave();
@@ -6177,6 +6336,8 @@ const TreasureUp = (function () {
     const t = g.turn, sel = rk.sel;
     if (g.battle || rk.blitz) return [];
     if (!t || g.story || !g.seats[t.i] || g.seats[t.i].uid !== me) return [];
+    if (t.phase === 'return') return riskReturnLands(g);                  // back from exile: a land nobody holds
+    if (rk.cardPick) return landsOf(g, me);                              // a card that goes on one of your lands
     if (t.phase === 'place') return landsOf(g, me);
     if (t.phase !== 'attack' && t.phase !== 'move') return [];
     const ownNext = sel.from ? nearOf(sel.from).filter(id => g.lands[id].o === me) : [];
@@ -6197,7 +6358,7 @@ const TreasureUp = (function () {
     if (t.phase === 'place' && !riskPro()) { const spot = riskGoodSpot(g, me); if (spot) ui.hint = spot.land; }   // Story's good spot
     if (riskPro() && sel.from && t.phase === 'attack') {                     // Pro: the odds of every attack from here
       ui.odds = {};
-      nearOf(sel.from).forEach(id => { if (g.lands[id].o !== me && riskGateOpen(g, id) && g.lands[sel.from].a >= 2) ui.odds[id] = (riskHitsWall(g, sel.from, id) ? '🧱' : '') + Math.round(takeOdds(g.lands[sel.from].a, riskFoes(g, sel.from, id)).win * 100) + '%'; });
+      nearOf(sel.from).forEach(id => { if (g.lands[id].o !== me && riskGateOpen(g, id) && g.lands[sel.from].a >= 2) ui.odds[id] = (riskHitsWall(g, sel.from, id) ? '🧱' : '') + Math.round(takeOdds(g.lands[sel.from].a, riskFoes(g, sel.from, id), riskMaxDef(g)).win * 100) + '%'; });
     }
     ui.from = sel.from || null;
     ui.to = sel.to || null;
@@ -6218,6 +6379,8 @@ const TreasureUp = (function () {
     }
     if (!riskCan(g, me).includes(id)) return;
     const t = g.turn, sel = rk.sel, own = g.lands[id].o === me;
+    if (t.phase === 'return') { riskSend({ kind: 'return', a: id }); return riskRender(); }
+    if (rk.cardPick) { const c = rk.cardPick; rk.cardPick = rk.cardSee = null; riskSend({ kind: 'card', a: c, b: id }); return riskRender(); }
     if (t.phase === 'place') {
       const key = g.gid + '|' + riskWaitKey(g) + '|' + id + '|' + t.armies;   // this turn's, so next turn's same tap isn't taken for it
       if (!own || riskLocked(rk.placeSent, key)) return;
@@ -6347,6 +6510,12 @@ const TreasureUp = (function () {
     else if (act === 'moveall' && sel.from) sel.n = riskMovable(g, sel.from);
     else if (act === 'movecancel') rk.sel = {};
     else if (act === 'unshift' || act === 'reattack') { rk.sel = {}; riskSend({ kind: act }); }
+    else if (act === 'cardsee') { rk.cardSee = rk.cardSee === el.dataset.v ? null : el.dataset.v || null; rk.cardPick = null; }
+    else if (act === 'cardplay' && el.dataset.v) {
+      if (RISK_LAND_CARDS.includes(el.dataset.v)) { rk.cardPick = el.dataset.v; rk.sel = {}; }   // then a tap on one of your lands
+      else { rk.cardSee = null; riskSend({ kind: 'card', a: el.dataset.v }); }
+    }
+    else if (act === 'cardcancel') rk.cardPick = rk.cardSee = null;
     else if (act === 'promove' && sel.from && sel.to && t) {
       riskSend({ kind: 'shift', a: sel.from, b: sel.to, n: Number(el.dataset.n) || 1 });   // (it ends the attacking too)
       rk.sel = {};
@@ -6576,7 +6745,7 @@ const TreasureUp = (function () {
       const wall = riskHitsWall(g, f, to), key = to + (wall ? '|wall' : '');
       if (!out[key] || g.lands[f].a > g.lands[out[key].from].a) out[key] = { from: f, to, wall };
     }));
-    return Object.values(out).map(x => Object.assign(x, { win: takeOdds(g.lands[x.from].a, riskFoes(g, x.from, x.to)).win }))
+    return Object.values(out).map(x => Object.assign(x, { win: takeOdds(g.lands[x.from].a, riskFoes(g, x.from, x.to), riskMaxDef(g)).win, region: riskRegionIf(g, me, x.to) }))
       .sort((a, b) => b.win - a.win || landName(a.to).localeCompare(landName(b.to)));
   }
   const riskChance = p => p >= 0.7 ? ['Good chance', 3] : p >= 0.4 ? ['Maybe', 2] : ['Hard', 1];
@@ -6587,10 +6756,12 @@ const TreasureUp = (function () {
     let best = null;
     landsOf(g, me).forEach(f => nearOf(f).forEach(to => {
       if (g.lands[to].o === me || !riskGateOpen(g, to)) return;
-      const d = riskFoes(g, f, to);                                      // (Babylon from a walled side: its bricks)
-      if (!best || d < best.d || (d === best.d && g.lands[f].a > g.lands[best.f].a)) best = { f, d };
+      const d = riskFoes(g, f, to), reg = d <= 3 ? riskRegionIf(g, me, to) : null;   // (Babylon from a walled side: its bricks)
+      const better = !best || (!!reg !== !!best.reg ? !!reg : d < best.d || (d === best.d && g.lands[f].a > g.lands[best.f].a));
+      if (better) best = { f, d, to, reg };
     }));
     if (!best) return null;
+    if (best.reg) return { land: best.f, text: `Good spot: ${landName(best.f)}. Take ${landName(best.to)} from there and you hold all of ${best.reg.name}: +${best.reg.bonus} every turn!` };
     return { land: best.f, text: `Good spot: ${landName(best.f)} is next to ${andList(nearOf(best.f).filter(n => g.lands[n].o !== me && riskGateOpen(g, n)).map(landName).sort())}.` };
   }
   // After attacking, a move worth making: soldiers from one of your lands
@@ -6652,7 +6823,31 @@ const TreasureUp = (function () {
   }
   const riskQLabel = (g, read) => { const Q = gameQuestion(g.turn.q); return Q.week && Q.week !== WEEK ? `A review from ${esc(Q.week.title)}` : read ? `Hard question: find it in ${esc(read.label)}` : 'Easy question'; };
 
-  function riskMyCard(g, me) { return riskModeOf() === 'pro' ? riskProCard(g, me) : riskStoryCard(g, me); }
+  function riskMyCard(g, me) {
+    const t = g.turn, pro = riskModeOf() === 'pro';
+    if (t.phase === 'return') return riskReturnHtml(g, pro);
+    const c = rk.cardPick && riskCard(rk.cardPick);
+    if (c) return `${pro ? '' : riskStoryTop(g)}<div class="rk-cardinfo"><p class="rk-big rk-read">${c.icon} Tap one of your lands for ${esc(c.name)}.</p><p class="rk-note">${esc(c.does)}</p>
+      <div class="rk-btns"><button class="btn ghost" data-rk="cardcancel">Cancel</button></div></div>`;
+    return (pro ? riskProCard(g, me) : riskStoryCard(g, me)) + riskCardsHtml(g, me);
+  }
+  // Back from exile: a land nobody holds, tapped on the map.
+  function riskReturnHtml(g, pro) {
+    const say = (BOARD().moments || {}).returns;
+    return `${pro ? '' : riskStoryTop(g)}${riskSayHtml(g)}<p class="rk-big rk-read">🕊️ Your kingdom comes back from exile!</p>
+      <p class="rk-plain rk-read">Tap a glowing land nobody holds. You come back there with ${soldiers(RISK.returnArmies)}.</p>${say ? `<p class="rk-note">${linkRefs(say)}</p>` : ''}`;
+  }
+  // 📜 The prophecy cards in this player's hand: tap one to read it, then
+  // Play it (or why it can't be played now).
+  function riskCardsHtml(g, me) {
+    const t = g.turn, hand = (g.hands || {})[me] || [];
+    if (!hand.length || !['place', 'attack', 'move'].includes(t.phase) || g.battle || riskWatchingNow(g)) return '';
+    const see = rk.cardSee && hand.includes(rk.cardSee) ? riskCard(rk.cardSee) : null, why = see && riskCardWhyNot(g, me, see.id);
+    return `<div class="rk-cards"><div class="eyebrow">📜 Your prophecy cards</div>
+      <div class="rk-cardrow">${hand.map(id => { const c = riskCard(id); return c ? `<button class="rk-pcard${see && see.id === id ? ' on' : ''}" data-rk="cardsee" data-v="${id}"><span aria-hidden="true">${c.icon}</span>${esc(c.name)}</button>` : ''; }).join('')}</div>
+      ${see ? `<div class="rk-cardinfo"><p class="rk-plain rk-read">${see.icon} <b>${esc(see.name)}</b>: ${esc(see.does)}</p><p class="rk-note">${linkRefs(see.quote)}</p>
+        ${why ? `<p class="rk-note"><b>Not now:</b> ${esc(why)}</p>` : `<div class="rk-btns two"><button class="btn" data-rk="cardplay" data-v="${see.id}">Play it</button><button class="btn ghost" data-rk="cardsee" data-v="">Not now</button></div>`}</div>` : ''}</div>`;
+  }
 
   // Story: one step at a time, in plain words, with a good move shown. The
   // map takes one tap to put soldiers down; everything else is a big button.
@@ -6677,7 +6872,7 @@ const TreasureUp = (function () {
     }
     if (t.phase === 'place') {
       const Q = gameQuestion(t.q), r = t.result, n = t.armies, spot = riskGoodSpot(g, me);
-      const extra = [r.bonus ? `+${r.bonus} for your lands` : '', r.saved ? `+${r.saved} you fortified` : '', r.insight ? '💡 You earned an insight' : ''].filter(Boolean).join(' · ');
+      const extra = [r.bonus ? `+${r.bonus} for your lands` : '', ...(r.regions || []).map(x => `+${x.bonus} for ${esc(x.name)}`), r.faint ? '+1 for the smallest kingdom' : '', r.saved ? `+${r.saved} you fortified` : '', r.insight ? '💡 You earned an insight' : ''].filter(Boolean).join(' · ');
       return `${top}<div class="rk-okbox${r.right ? '' : ' no'}"><b>${r.right ? `Right! You get ${soldiers(r.got)}.` : `${r.timeout ? 'Time’s up' : 'Not this time'}. The answer: ${esc(Q.q.right)}. You still get ${soldiers(r.got)}.`}</b>${extra ? `<small>${extra}</small>` : ''}<span class="quiz-why">${linkRefs(Q.q.why, Q.home)}</span></div>
         <p class="rk-big rk-read">Tap one of your lands. ${n === 1 ? 'Your soldier goes' : `All ${n} soldiers go`} there.</p>
         ${spot ? `<p class="rk-hint rk-read">⭐ ${esc(spot.text)}</p>` : ''}
@@ -6701,12 +6896,12 @@ const TreasureUp = (function () {
     if (t.phase === 'attack') {
       const d = g.dice, settled = riskDiceHtml(g, me), targets = riskTargets(g, me), B = BOARD();
       const won = settled && d && d.won && d.by === me ? `<p class="rk-big rk-won">🎉 ${esc(landName(d.to))} is yours!</p>` : '';
-      const shut = !riskGateOpen(g, B.walls) && landsOf(g, me).some(f => adjacent(f, B.walls)) ? `<p class="rk-note">${esc(landName(B.walls))}'s gates are shut until round 2.</p>` : '';
+      const shut = g.round <= 1 && landsOf(g, me).some(f => adjacent(f, B.walls)) ? `<p class="rk-note">${esc(landName(B.walls))}'s gates are shut until round 2.</p>` : '';
       const busy = riskLocked(rk.goSent, 'go|' + ((d && d.n) || 0)) ? ' disabled' : '';
       const cards = targets.map(x => { const L = g.lands[x.to], A = g.lands[x.from], go = `class="rk-atk${x.wall ? ' wall' : ''}" data-rk="go" data-from="${x.from}" data-to="${x.to}"${busy}`;
         return x.wall
           ? `<button ${go}><span class="rk-atk-top"><b>🧱 Break Babylon’s wall</b>${riskChanceHtml(x.win)}</span><span>The wall has ${g.bricks} ${g.bricks === 1 ? 'brick' : 'bricks'} left. Knock ${g.bricks === 1 ? 'it' : 'them'} down, then fight its ${guards(L.a)}. You have ${soldiers(A.a)} in ${esc(landName(x.from))}.</span></button>`
-          : `<button ${go}><span class="rk-atk-top"><b>⚔️ Attack ${esc(landName(x.to))}</b>${riskChanceHtml(x.win)}</span><span>${esc(landName(x.to))} has ${guards(L.a)}${x.to === B.walls && riskWallUp(g) ? ', and no wall on this side' : ''}. You have ${soldiers(A.a)} in ${esc(landName(x.from))}.</span></button>`; }).join('');
+          : `<button ${go}><span class="rk-atk-top"><b>⚔️ Attack ${esc(landName(x.to))}</b>${riskChanceHtml(x.win)}</span><span>${esc(landName(x.to))} has ${guards(L.a)}${x.to === B.walls && riskWallUp(g) ? ', and no wall on this side' : ''}. You have ${soldiers(A.a)} in ${esc(landName(x.from))}.</span>${x.region ? `<span class="rk-atk-region">⭐ Take it and you hold all of ${esc(x.region.name)}: +${x.region.bonus} every turn!</span>` : ''}</button>`; }).join('');
       return `${top}${settled}${won}${riskSayHtml(g)}
         <p class="rk-plain rk-read">${targets.length ? 'You can attack a land next to yours. Or you can wait.' : 'None of your lands can attack right now. That takes 2 or more soldiers next to another land.'}</p>
         ${riskFortAlert(g, me, id => targets.some(x => x.to === id))}${shut}<div class="rk-atks">${cards}</div>
@@ -6777,7 +6972,7 @@ const TreasureUp = (function () {
     let act;
     if (rk.blitz) act = `<div class="rk-prorow"><b>⚡ Blitz: ${esc(landName(rk.blitz.from))} → ${esc(landName(rk.blitz.to))}</b><button class="btn ghost" data-rk="blitzstop">Stop</button></div>`;
     else if (A && D && D.o !== me && t.phase === 'attack') {
-      const wall = riskHitsWall(g, from, to), foes = riskFoes(g, from, to), o = takeOdds(A.a, foes), ad = Math.min(3, A.a - 1), dd = Math.min(2, foes), busy = riskLocked(rk.goSent, from + '|' + to + '|' + ((g.dice && g.dice.n) || 0)) ? ' disabled' : '';
+      const wall = riskHitsWall(g, from, to), foes = riskFoes(g, from, to), o = takeOdds(A.a, foes, riskMaxDef(g)), ad = Math.min(3, A.a - 1), dd = Math.min(riskMaxDef(g), foes), busy = riskLocked(rk.goSent, from + '|' + to + '|' + ((g.dice && g.dice.n) || 0)) ? ' disabled' : '';
       act = `<div class="rk-prorow"><b>${esc(landName(from))} ${A.a} → ${wall ? `🧱 Babylon’s wall ${foes}` : `${esc(landName(to))} ${D.a}`}</b><b class="rk-odds">${Math.round(o.win * 100)}%</b></div>
         ${riskTrayHtml('proroll', ad, 'att', '🎲 Roll', busy)}${A.a > RISK.blitzStop ? `<div class="rk-btns"><button class="btn rk-gold" data-rk="blitz"${busy}>⚡ Blitz</button></div>` : ''}
         <p class="rk-note">${ad} ${ad === 1 ? 'die' : 'dice'} against ${dd}.${A.a > RISK.blitzStop ? ` Blitz keeps rolling until ${wall ? 'the wall is down' : esc(landName(to)) + ' falls'} or ${esc(landName(from))} is down to ${RISK.blitzStop}.` : ''}</p>`;
