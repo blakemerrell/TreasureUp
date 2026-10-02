@@ -960,19 +960,26 @@
   .ls-vv.hit { animation: vvHit 1.8s ease; border-radius: 8px; }
   @keyframes vvHit { 0%, 35% { background: rgba(192,132,252,.2); box-shadow: 0 0 0 6px rgba(192,132,252,.2); } to { background: transparent; box-shadow: 0 0 0 6px transparent; } }
   /* The buttons at the top of a chapter, each with the colour its lines have. */
-  .plain-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
-  /* In the day's reading they stay at the top, so a hard verse can be switched on the spot. */
-  #lessonBody .plain-bar { position: sticky; top: -8px; z-index: 2; margin: 0 0 8px; padding: 8px 0; background: rgba(15,16,32,.94); backdrop-filter: blur(6px); }
+  /* What he reads a chapter in: one row of buttons that always fits, each
+     lit in its own colour when on (Blake, 2026-10-01: "a sticky header…
+     All in one row. Shorten the name if you need"). A draft's mark (the test
+     site) takes the line under them. */
+  .plain-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 0 0 14px; }
   .lay {
-    display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px; border-radius: 999px; cursor: pointer;
-    font: inherit; font-size: 13.5px; font-weight: 800; color: rgba(255,255,255,.55);
-    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.16);
+    flex: 1 1 0; min-width: 0; padding: 8px 2px; border-radius: 12px; cursor: pointer; text-align: center; white-space: nowrap;
+    font: inherit; font-size: clamp(11.5px, 3.4vw, 13.5px); font-weight: 800; color: rgba(255,255,255,.5);
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.14);
   }
-  .lay::before { content: ''; flex: none; width: 10px; height: 10px; border-radius: 50%; border: 2px solid currentColor; box-sizing: border-box; }
-  .lay.on { color: #fff; background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.4); }
-  .lay.on::before { background: var(--dot); border-color: var(--dot); }
+  .lay.on { color: #fff; background: rgba(255,255,255,.1); border-color: var(--dot); box-shadow: inset 0 -3px 0 var(--dot); }
   .lay-kjv { --dot: #fff; } .lay-plain { --dot: #58cc02; } .lay-bsb { --dot: #60a5fa; } .lay-notes { --dot: #fbbf24; } .lay-orig { --dot: #c084fc; }
-  .plain-draft { font-size: 12px; font-weight: 800; color: #fbbf24; }
+  .plain-draft { flex-basis: 100%; font-size: 12px; font-weight: 800; color: #fbbf24; }
+  /* They stay at the top while he reads, so a hard verse can be switched on the
+     spot: in the day's reading, and in a chapter opened over the page, under a
+     strip that keeps the verses from scrolling behind its Back button. */
+  #lessonBody .plain-bar { position: sticky; top: -8px; z-index: 2; margin: 0 0 8px; padding: 8px 0; background: rgba(15,16,32,.94); backdrop-filter: blur(6px); }
+  #view.reading::before { content: ''; position: absolute; z-index: 25; top: 0; left: 0; right: 0; height: calc(var(--sat) + 58px); background: #1c1917; }
+  /* (sticky counts from inside the text column's top padding, var(--sat) + 68px, so -10px sits it under the strip) */
+  #view.reading .plain-bar { position: sticky; top: -10px; z-index: 3; margin: 0 0 8px; padding: 6px 0 8px; background: #1c1917; }
   .ls-foot .ls-read-hint { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.6); margin-bottom: 8px; }
   /* Find it in the chapter: each verse is a choice. */
   .ls-find { display: grid; gap: 8px; }
@@ -1866,6 +1873,7 @@ const TreasureUp = (function () {
     const r = !d && reelById(id);
     if (!d && !r) return;
     readUnit = null;
+    $('view').classList.remove('reading');
     $('viewBody').innerHTML = d ? deepHtml(d, 0) : reelHtml(r, 0);
     $('view').hidden = false;
   }
@@ -1873,6 +1881,7 @@ const TreasureUp = (function () {
     if ($('view').hidden) return;
     stopClips();
     readUnit = null;
+    $('view').classList.remove('reading');
     $('view').hidden = true;
     $('viewBody').innerHTML = '';
     refreshHome();
@@ -1911,6 +1920,7 @@ const TreasureUp = (function () {
     }
     const key = !S.read[u.ref] && chapterLesson(u.ref);
     readUnit = u;
+    $('view').classList.add('reading');
     $('viewBody').innerHTML = readerHtml(u, WEEK, key ? `<div class="ch-mark"><p>Not marked read yet.</p>
       <button class="btn" data-mark-lesson="${esc(key)}">Mark it read in its lesson ›</button></div>` : '');
     $('view').hidden = false;
@@ -2150,7 +2160,8 @@ const TreasureUp = (function () {
   }
   const testNoteHtml = () => `<div class="test-note">🧪 <b>Test site.</b> Its progress and family are kept apart from the live app's.
     <a href="${esc(location.origin + '/TreasureUp/')}">Open the live app ›</a></div>`;
-  const LAYERS = [['kjv', 'KJV'], ['plain', 'Plain words'], ['bsb', 'BSB'], ['notes', 'Notes'], ['orig', 'Hebrew']];
+  const LAYERS = [['kjv', 'KJV'], ['plain', 'Plain'], ['bsb', 'BSB'], ['notes', 'Notes'], ['orig', 'Hebrew']];
+  const LAYER_NAMES = { kjv: 'King James Version', plain: 'Plain words', bsb: 'Berean Standard Bible', notes: 'Notes' };
   const layers = (() => {
     try {
       const saved = JSON.parse(localStorage.getItem(LAYERS_KEY));
@@ -2195,7 +2206,9 @@ const TreasureUp = (function () {
     if (!v) return;
     let scroller = box;
     while (scroller.parentElement && !/(auto|scroll)/.test(getComputedStyle(scroller).overflowY)) scroller = scroller.parentElement;
-    const bar = box.querySelector('.plain-bar'), top = scroller.getBoundingClientRect().top + (bar && getComputedStyle(bar).position === 'sticky' ? bar.offsetHeight : 0);
+    // Just under the buttons where they stick: sticky counts from inside the scroller's top padding.
+    const bar = box.querySelector('.plain-bar'), sticky = bar && getComputedStyle(bar).position === 'sticky';
+    const top = scroller.getBoundingClientRect().top + (sticky ? parseFloat(getComputedStyle(scroller).paddingTop) + parseFloat(getComputedStyle(bar).top) + bar.offsetHeight : 0);
     scroller.scrollBy({ top: v.getBoundingClientRect().top - top - 10, behavior: 'smooth' });
     v.classList.remove('hit');
     void v.offsetWidth;                                   // start the light again on a second tap
@@ -2246,7 +2259,8 @@ const TreasureUp = (function () {
     const x = plainOf(week, u.ch), have = haveOf(u, week), on = shownLayers(have);
     const btns = LAYERS.filter(([k]) => have[k]);
     return btns.length < 2 ? '' : '<div class="plain-bar">' +
-      btns.map(([k, label]) => `<button class="lay lay-${k}${on[k] ? ' on' : ''}" data-layer="${k}" aria-pressed="${on[k]}">${k === 'orig' && origLang(u.ch) === 'el' ? 'Greek' : label}</button>`).join('') +
+      btns.map(([k, label]) => { const name = k === 'orig' ? (origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew') : label;
+        return `<button class="lay lay-${k}${on[k] ? ' on' : ''}" data-layer="${k}" aria-pressed="${on[k]}" aria-label="${LAYER_NAMES[k] || name}">${name}</button>`; }).join('') +
       (x && x.draft ? '<span class="plain-draft">Draft: not approved yet</span>' : '') + '</div>';
   }
   function versesHtml(u, week) {
@@ -3797,6 +3811,7 @@ const TreasureUp = (function () {
     if (!html) return;
     pastUnit = u || null;
     readUnit = null;
+    $('view').classList.toggle('reading', !!u);
     $('viewBody').innerHTML = html;
     $('view').hidden = false;
     if (u) { needBsb($('viewBody').querySelector('.ls-chapter')); needOrig($('viewBody').querySelector('.ls-chapter')); }
