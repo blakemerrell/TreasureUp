@@ -931,7 +931,37 @@
   .ls-note { margin-left: 15px; padding: 8px 12px; border-radius: 10px; background: rgba(253,230,138,.08); font-size: 13.5px; line-height: 1.45; color: rgba(255,255,255,.78); }
   /* The Hebrew or Greek under a verse, word by word: the word, how it sounds, what it means */
   .ls-orig { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px 12px; margin: 4px 0 2px; padding: 8px 10px 8px 12px; border-left: 3px solid #c084fc; }
-  .ls-orig .ow { display: inline-flex; flex-direction: column; align-items: center; text-align: center; direction: ltr; min-width: 2.2em; max-width: 9.5em; }
+  .ls-orig .ow { display: inline-flex; flex-direction: column; align-items: center; text-align: center; direction: ltr; min-width: 2.2em; max-width: 9.5em;
+    font: inherit; color: inherit; padding: 2px 4px; border: 0; border-radius: 10px; background: none; cursor: pointer; }
+  .ls-orig .ow:active, .ls-orig .ow:focus-visible { background: rgba(192,132,252,.18); outline: none; }
+  .ls-orig .ow:disabled { cursor: default; }
+  .word-sheet { position: fixed; inset: 0; z-index: 128; display: flex; flex-direction: column; justify-content: flex-end; background: rgba(0,0,0,.6); }
+  .word-sheet[hidden] { display: none; }
+  .ws-card { position: relative; max-height: 86vh; overflow-y: auto; padding: 22px 18px calc(env(safe-area-inset-bottom, 0px) + 24px); border-radius: 22px 22px 0 0;
+    background: #15152a; border-top: 1px solid rgba(255,255,255,.14); }
+  @media (min-width: 700px) { .ws-card { width: 600px; margin: 0 auto; } }
+  .ws-close { position: absolute; top: 14px; right: 14px; width: 38px; height: 38px; border-radius: 999px; border: 0; color: #fff; font: inherit; font-size: 15px; background: rgba(255,255,255,.08); cursor: pointer; }
+  .ws-word { font-family: 'Noto Serif Hebrew', 'Noto Sans Hebrew', 'Arial Hebrew', 'Times New Roman', serif; font-size: 44px; line-height: 1.3; text-align: center; }
+  .ws-word[lang="el"] { font-family: 'Noto Serif', Georgia, 'Times New Roman', serif; font-size: 38px; }
+  .ws-here { text-align: center; font-size: 19px; font-weight: 800; color: #e9d5ff; }
+  .ws-here span { display: block; margin-top: 2px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.6); }
+  .ws-sec { margin-top: 18px; font-size: 11px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; color: #c084fc; }
+  .ws-root { margin-top: 4px; font-size: 15px; color: rgba(255,255,255,.75); }
+  .ws-lemma { font-family: 'Noto Serif Hebrew', 'Noto Sans Hebrew', 'Arial Hebrew', 'Noto Serif', serif; font-size: 26px; color: #fff; }
+  .ws-root b { margin-left: 6px; font-size: 13px; color: #fcd34d; }
+  .ws-main { margin-top: 4px; font-size: 16px; font-weight: 700; line-height: 1.35; }
+  .ws-small { margin-top: 4px; font-size: 12px; line-height: 1.4; color: rgba(255,255,255,.5); }
+  .ws-more { margin-top: 8px; font-size: 14px; color: rgba(255,255,255,.75); }
+  .ws-more summary { cursor: pointer; font-weight: 800; color: #fcd34d; }
+  .ws-more p { margin-top: 4px; line-height: 1.4; }
+  .ws-use { margin-top: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .ws-use-top { font-size: 14px; font-weight: 800; }
+  .ws-use-top span { margin-left: 6px; font-weight: 700; color: #e9d5ff; }
+  .ws-use p { margin-top: 3px; font-family: Georgia, 'Times New Roman', serif; font-size: 15px; line-height: 1.45; color: rgba(255,255,255,.85); }
+  .ws-all { line-height: 1.8; font-size: 13px; }
+  .ws-all span { color: rgba(255,255,255,.55); }
+  .ws-wait { margin-top: 16px; text-align: center; font-size: 14px; color: rgba(255,255,255,.6); }
+  .ws-credit { margin-top: 12px; text-align: center; font-size: 11.5px; color: rgba(255,255,255,.45); }
   .ls-orig .ow-w { font-family: 'Noto Serif Hebrew', 'Noto Sans Hebrew', 'Arial Hebrew', 'Times New Roman', serif; font-size: 23px; line-height: 1.45; color: #fff; direction: rtl; }
   .ls-orig[lang="el"] .ow-w { font-family: 'Noto Serif', Georgia, 'Times New Roman', serif; font-size: 19px; direction: ltr; }
   .ls-orig .ow-s { margin-top: 1px; font-size: 11px; font-style: italic; color: rgba(255,255,255,.45); }
@@ -1235,6 +1265,13 @@
 
 <!-- ==================== OVERLAYS ==================== -->
 <div id="toasts"></div>
+<!-- A Hebrew or Greek word's study, over the lesson or the reader. -->
+<section id="wordSheet" class="word-sheet" hidden aria-label="Word study">
+  <div class="ws-card">
+    <button id="wordClose" class="ws-close" aria-label="Close">✕</button>
+    <div id="wordBody"></div>
+  </div>
+</section>
 <!-- Listening to a chapter: pause or keep going from anywhere in it. -->
 <button id="listenFab" class="listen-fab" hidden></button>
 
@@ -2467,6 +2504,49 @@ const TreasureUp = (function () {
   // How a Hebrew word sounds, its syllables apart and the stressed one bold ("he.'Ir" -> he·'ir).
   const soundHtml = (s, lang) => lang === 'he'
     ? esc(s).split('.').map(x => /[A-Z]/.test(x) ? `<b>${x.toLowerCase()}</b>` : x.toLowerCase()).join('·') : esc(s.toLowerCase());
+  // A word's study (Blake, 2026-10-02: "connect to strongs and when i click a
+  // word ... i get a deeper word study"): tapping a Hebrew or Greek word opens
+  // its root word and Strong's number, what it means, its grammar in plain
+  // words, and other verses that use it, from content/words/<number>.js
+  // (built at deploy by tools/words.mjs from STEPBible.org's dictionaries),
+  // with the whole entry a tap away on Blue Letter Bible.
+  const wordFileOf = strong => 'content/words/' + strong.toLowerCase().replace(/[^a-z0-9]/g, '') + '.js';
+  async function openStudy(key) {
+    const [ch, n, i] = key.split('|'), o = origOf(ch), w = o && o.v[Number(n) - 1] && o.v[Number(n) - 1][Number(i)];
+    if (!w) return;
+    const [word, sound, mean, strong, gram] = w, box = $('wordBody');
+    $('wordSheet').hidden = false;
+    $('wordSheet').scrollTop = 0;
+    box.innerHTML = wordTopHtml(o.lang, word, sound, mean, ch + ':' + n) + '<p class="ws-wait">Opening its word study…</p>';
+    let e = (window.TU_WORDS || {})[strong];
+    if (!e) { try { await loadScript(wordFileOf(strong)); e = (window.TU_WORDS || {})[strong]; } catch (x) {} }
+    if ($('wordSheet').hidden) return;
+    const g = (o.g || {})[gram];
+    box.innerHTML = wordTopHtml(o.lang, word, sound, mean, ch + ':' + n) + (e ? wordStudyHtml(e, o.lang, g) : '<p class="ws-wait">Its word study didn’t open. It needs the internet; try again.</p>');
+  }
+  function wordTopHtml(lang, word, sound, mean, ref) {
+    return `<div class="ws-word" lang="${lang}" dir="${lang === 'he' ? 'rtl' : 'ltr'}">${esc(word)}</div>
+      <div class="ws-here">“${esc(mean)}” <span>${soundHtml(sound, lang)} · ${linkRefs(ref)}</span></div>`;
+  }
+  function wordStudyHtml(e, lang, g) {
+    const num = e.s.replace(/[A-Z]$/, ''), lines = (e.def || []).map(l => l.replace(/^\d+[a-z]?\d*\)\s*/, '')).filter(Boolean);
+    const main = lines[0] || e.gloss, rest = lines.slice(1).filter(l => !/^\(\w+\)$/.test(l));
+    const book = lang === 'he' ? 'Old' : 'New';
+    const blb = `https://www.blueletterbible.org/lexicon/${num.toLowerCase()}/kjv/${lang === 'he' ? 'wlc' : 'tr'}/0-1/`;
+    return `<div class="ws-sec">Root word</div>
+      <div class="ws-root"><span class="ws-lemma" lang="${lang}">${esc(e.lemma)}</span> <span>${soundHtml(e.sound, lang)}</span> <b>Strong's ${esc(num)}</b></div>
+      <div class="ws-sec">What it means</div>
+      <p class="ws-main">${esc(main)}</p>
+      ${rest.length ? `<details class="ws-more"><summary>More meanings</summary>${rest.map(l => `<p>${esc(l)}</p>`).join('')}</details>` : ''}
+      ${g ? `<div class="ws-sec">In this verse</div><p class="ws-main">${esc(g[0])}</p><p class="ws-small">${esc(g[1].replace(/\s*;\s*/g, ' · ').replace(/=/g, ': '))}</p>` : ''}
+      <div class="ws-sec">Where else it's used · ${e.n === 1 ? 'just here' : e.n + ' times'} in the ${book} Testament</div>
+      ${(e.some || []).map(([ref, m, kjv]) => `<div class="ws-use"><div class="ws-use-top">${linkRefs(ref)} <span>“${esc(m)}”</span></div>${kjv ? `<p>${esc(kjv)}</p>` : ''}</div>`).join('')}
+      ${e.n > (e.some || []).length ? `<details class="ws-more"><summary>Every verse (${e.n})</summary><p class="ws-all">${(e.uses || []).map(([ref, m]) => `${linkRefs(ref)} <span>${esc(m)}</span>`).join(' · ')}${e.n > (e.uses || []).length ? ` · and ${e.n - e.uses.length} more` : ''}</p></details>` : ''}
+      <a class="ins-src" href="${esc(blb)}" target="_blank" rel="noopener noreferrer"><span>The whole entry</span> <b>${esc(num)} on Blue Letter Bible ↗</b></a>
+      <p class="ws-credit">Dictionary and grammar: STEPBible.org, from work at Tyndale House, Cambridge (CC BY 4.0)</p>`;
+  }
+  function closeStudy() { $('wordSheet').hidden = true; $('wordBody').innerHTML = ''; }
+
   function origHtml(ch, n) {
     const o = origOf(ch), words = o && o.v[n - 1];
     if (!words || !words.length) return '';
@@ -2476,7 +2556,7 @@ const TreasureUp = (function () {
     // means under it, and how it sounds, small, under that.
     return `<div class="ls-orig" lang="${o.lang}" dir="ltr">` +
       ((o.ar || []).includes(n) ? '<span class="ow-tag">Aramaic</span>' : '') +
-      words.map(([w, s, m]) => `<span class="ow"><span class="ow-w">${esc(w)}</span><span class="ow-m">${esc(m)}</span><span class="ow-s">${soundHtml(s, o.lang)}</span></span>`).join('') + '</div>';
+      words.map(([w, s, m, strong], i) => `<button type="button" class="ow"${strong ? ` data-word="${esc(ch)}|${n}|${i}"` : ' disabled'} aria-label="${esc(w)}: ${esc(m)}${strong ? ', word study' : ''}"><span class="ow-w">${esc(w)}</span><span class="ow-m">${esc(m)}</span><span class="ow-s">${soundHtml(s, o.lang)}</span></button>`).join('') + '</div>';
   }
   // What a chapter offers, and what shows: the buttons that are on, and the
   // KJV when none of the texts on is there for this chapter.
@@ -10434,6 +10514,12 @@ const TreasureUp = (function () {
       const u = readUnit || pastUnit;
       if (u) notePlace($('viewBody').querySelector('.ls-chapter'), u.ref);
     }, { passive: true, capture: true });
+    // A Hebrew or Greek word, tapped: its word study.
+    document.addEventListener('click', e => {
+      const w = e.target.closest('[data-word]');
+      if (w) { openStudy(w.dataset.word); return; }
+      if (e.target.closest('#wordClose') || e.target.id === 'wordSheet') closeStudy();
+    });
     // Listening, from the lesson or the reader.
     document.addEventListener('click', e => {
       const go = e.target.closest('[data-listen]');
