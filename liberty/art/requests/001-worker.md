@@ -11,7 +11,7 @@ worker is about 40 pixels tall; it must read as "not a soldier" at that size.
 
 ## The request (sent from Blake's Gemini CLI)
 
-Use `edit_image` on `liberty/assets/spearman.png` as the style reference.
+Start from `liberty/assets/spearman.png` as the style reference.
 Keep the same size, pose, viewing angle, light from the upper left and painted
 look. Change him into a worker: no helmet, armor, shield or spear; a plain
 undyed linen tunic with a blue sash, bare head with dark hair, sandals, and a
