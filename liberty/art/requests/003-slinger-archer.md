@@ -1,6 +1,9 @@
 # 003 · The Nephite slinger and archer
 
-**Status: open.** 2 pictures.
+**Status: done.** Both (pull request #54) are in the game:
+`liberty/assets/nslinger.png` (named for the game's Nephite slinger, apart
+from the Lamanite slinger) and `archer.png`, with their Train buttons
+`cameo_nslinger.png` and `cameo_archer.png`.
 
 ## What it's for
 
@@ -45,3 +48,13 @@ figure each, nothing cropped, feet fully in the frame (see GEMINI.md).
 At 44 pixels tall, standing in a row with a spearman, a worker and a
 Lamanite, you can tell which one carries the sling and which the bow, and
 neither looks like a spearman or a worker.
+
+## What came back
+
+Two clean pictures. The archer is in round 2's soft painted style; the slinger
+came back closer to round 1's heavier outlines, which doesn't show at 44
+pixels. The archer was turned to face the viewer's right, so Claude mirrored
+him to face left like every other unit (the game flips them as they walk).
+The slinger's sling hangs from his hand rather than swinging out; it still
+reads as a sling loop at game size. Each is cut out, cropped to the figure,
+scaled to 150 pixels tall and set by its feet.
