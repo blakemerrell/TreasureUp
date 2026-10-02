@@ -47,6 +47,7 @@ const MEDIA = {
   maxClipsPerWeek: 2,
   maxImageKB: 150,
   maxClipSeconds: 180,
+  maxVideoSeconds: 600,      // a video card in Go further: one a week, 10 minutes at most
   imageHosts: ['www.churchofjesuschrist.org', 'commons.wikimedia.org'],
   // YouTube channels a clip may come from, exactly as YouTube names them.
   // Add one only after deciding it's a source you trust for him.
@@ -557,7 +558,7 @@ async function main(scripture, week, pages, online) {
     (week.sayings || []).map(s => [s.text, s.speaker, ...(s.wrong || []), s.why].join(' ')).join(' ') + ' ' +
     (week.words || []).map(x => String(x.clue || '').replace(/_+/g, x.word || '')).join(' ') + ' ' +
     // …and the insight cards in Go further.
-    (Array.isArray(week.insights) ? week.insights : []).map(x => [x && x.title, x && x.text].join(' ')).join(' '));
+    (Array.isArray(week.insights) ? week.insights : []).map(x => [x && x.title, x && x.text, x && x.quote].join(' ')).join(' '));
 
   // A question only the reading answers (a bonus, or a Go-deeper item):
   // its answer words are in the verse or Gospel Library page it cites, and
@@ -989,6 +990,52 @@ async function main(scripture, week, pages, online) {
       else if (from && !(verses.has(`${ch}:${from}`) && verses.has(`${ch}:${to}`))) fail(where, `${x.ref} does not exist`);
       else home = `${ch}:${from || 1}`;
       const refText = !home ? '' : from ? Array.from({ length: to - from + 1 }, (_, k) => verses.get(`${ch}:${from + k}`)).join(' ') : chText(ch);
+      if (x.kind !== undefined && !['quote', 'video'].includes(x.kind)) { fail(where, `kind "${x.kind}": a card is an insight (no kind), a quote, or a video`); continue; }
+      // A video card: a clip of 10 minutes or less on the week's reading, from
+      // an approved channel (asked of YouTube itself), shown once watched.
+      if (x.kind === 'video') {
+        const v = x.video && typeof x.video === 'object' ? x.video : {};
+        if (typeof x.title !== 'string' || !x.title.trim() || x.title.length > 50) fail(where, 'needs a title of 50 characters or fewer');
+        if (count(x.text) < 15 || count(x.text) > 60) fail(where, `text is ${count(x.text)} words (15 to 60): what it covers, one thing to watch for`);
+        if (/"/.test(x.text || '') || /"/.test(x.title || '')) fail(where, 'uses a straight " quote; use “curly quotes”');
+        if (!/^[A-Za-z0-9_-]{11}$/.test(v.youtube || '')) fail(where, 'video.youtube must be an 11-character YouTube id');
+        if (!(Number.isInteger(v.start) && Number.isInteger(v.end) && v.end > v.start)) fail(where, 'video needs whole-second start < end');
+        else if (v.end - v.start > MEDIA.maxVideoSeconds) fail(where, `video is ${v.end - v.start}s (max ${MEDIA.maxVideoSeconds})`);
+        if (!v.title) fail(where, 'video needs its title');
+        if (!MEDIA.channels.includes(v.channel)) fail(where, `channel "${v.channel}" isn't on the approved list in tools/verify.mjs`);
+        if (v.previewed !== true) note(`${where}: video ${v.youtube} ${v.start}–${v.end}s is hidden until a parent watches it (approving the card marks it watched)`);
+        if (/^[A-Za-z0-9_-]{11}$/.test(v.youtube || '')) {
+          const res = await fetch('https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + v.youtube));
+          if (!res.ok) fail(where, `YouTube doesn't know video ${v.youtube} (HTTP ${res.status})`);
+          else { const meta = await res.json(); if (meta.author_name !== v.channel) fail(where, `video ${v.youtube} belongs to "${meta.author_name}", not "${v.channel}"`); }
+        }
+        if (home) checkRefs(where, 'text', x.text, home);
+        continue;
+      }
+      // A quote card: a prophet's or apostle's own words on the verses, found
+      // word for word on the Church's page or a BYU devotional (--online).
+      if (x.kind === 'quote') {
+        const s = x.source && typeof x.source === 'object' ? x.source : {};
+        let url = null;
+        try { url = new URL(s.url); } catch (e) {}
+        const host = url && url.protocol === 'https:' ? url.hostname : '';
+        if (!(host === 'www.churchofjesuschrist.org' && /^\/study\//.test(url.pathname)) && host !== 'speeches.byu.edu') fail(where, 'a quote comes from a Gospel Library page (churchofjesuschrist.org/study/…) or BYU Speeches');
+        else if (host === 'speeches.byu.edu' && s.by !== 'BYU Speeches') fail(where, 'source.by for speeches.byu.edu is "BYU Speeches"');
+        if (!s.by || !s.title || !s.who) fail(where, 'source needs by, who (the speaker) and title');
+        if (count(x.quote) < 8 || count(x.quote) > 40) fail(where, `the quote is ${count(x.quote)} words (8 to 40)`);
+        const qt = String(x.quote || '').trim();
+        if (/"/.test(qt) || /^“/.test(qt) || (qt.match(/“/g) || []).length !== (qt.match(/”/g) || []).length) fail(where, 'the quote goes without its own quote marks (the app adds them), and with balanced “curly” ones inside it');
+        if (x.text && count(x.text) > 40) fail(where, `text is ${count(x.text)} words (40 at most)`);
+        if (/"/.test(x.text || '')) fail(where, 'text uses a straight " quote; use “curly quotes”');
+        if (/\b(thee|thou|thy|thine|ye|hath|saith|doth|shalt|unto)\b/i.test(String(x.text || '').replace(/“[^”]*”/g, ' '))) fail(where, 'text has KJV English outside a quote');
+        if (url && host) {
+          const page = pages.get(s.url);
+          if (!online) note(`${where}: ${s.url} not checked (run with --online)`);
+          else if (page != null && !quoteMatches(x.quote.replace(/[‘’]/g, "'"), page.replace(/[‘’]/g, "'"))) fail(where, `the quote isn't on ${s.url} word for word`);
+        }
+        if (home) { checkRefs(where, 'quote', x.quote, home); if (x.text) checkRefs(where, 'text', x.text, home); }
+        continue;
+      }
       if (typeof x.title !== 'string' || !x.title.trim() || x.title.length > 50) fail(where, 'needs a title of 50 characters or fewer');
       const words = count(x.text);
       if (words < 25 || words > 90) fail(where, `text is ${words} words (25 to 90)`);

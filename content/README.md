@@ -224,8 +224,9 @@ each `{ ch, lines, review }`.
 
 ## Insight cards (`insights`)
 
-Go further, under each day of the week map, starts with the day's insight
-cards (Blake, 2026-10-01: "where can I get faithful commentary for this
+A day's best insight cards (three at most: one of each kind first) show
+under More from this day on its card and start its Go further; all of them
+are in the Study tab (Blake, 2026-10-01: "where can I get faithful commentary for this
 app? Follow him, scripture Central, gospel living? Byu? Make that into
 additional insight cards"; "As many as are good"). A week's `insights` is a
 list of cards, each `{ id, ref, title, text, source: { by, who, title, url }, find }`.
@@ -252,6 +253,26 @@ list of cards, each `{ id, ref, title, text, source: { by, who, title, url }, fi
 - Writers draft each week's cards from pages they've read; a second
   reviewer opens every page and checks each card against it before they go
   in; Blake approves each in developer mode.
+
+Two more kinds go in the same list (Blake, 2026-10-02, from the Scripture
+Central app):
+
+- **A quote card**, `{ id, kind: 'quote', ref, quote, text, source: { by, who, title, url } }`:
+  a prophet's or apostle's own words on the day's verses, 8 to 40 words,
+  copied exactly (no quote marks around it; the app adds them). From a
+  Gospel Library page (general conference, the magazines, a manual quoting
+  them) or BYU Speeches (`by: "BYU Speeches"`); `who` is the speaker. With
+  `--online` the checker finds the quote on the page word for word (…
+  marks left-out words). `text`, optional, 40 words at most: which verse
+  it's about and what to notice. One from a Gospel Library page shows
+  without approval (Blake, 2026-10-02: "Quotes only"), its `text` hidden
+  until Blake approves the card; one from BYU Speeches waits for approval
+  like the rest.
+- **A video card**, `{ id, kind: 'video', ref, title, text, video: { youtube, start, end, title, channel, previewed } }`:
+  one a week, 10 minutes at most (`start`/`end` in seconds), from a channel
+  on the approved list (asked of YouTube itself, like a reel's clip); `text`
+  15 to 60 words, what it covers and one thing to watch for. It shows only
+  once `previewed` is true: approving it in developer mode marks it watched.
 
 ## The map game's board (content/boards.js)
 

@@ -137,6 +137,9 @@ service cloud.firestore {
         && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 40
         && request.resource.data.created == request.time
         && getAfter(memberPath(request.auth.uid)).data.role == 'parent';
+      // A parent turns the family goal on or off (everyone reads all of the
+      // week's chapters; Blake, 2026-10-02). Nothing else about a family changes.
+      allow update: if isParent() && changes(['goal']) && request.resource.data.goal is bool;
 
       match /members/{uid} {
         function founding() {
@@ -253,7 +256,8 @@ service cloud.firestore {
       match /progress/{pid} {
         allow read: if isMember();
         allow create, update: if isMember() && me().pid == pid
-          && only(['name', 'role', 'xp', 'streak', 'lastStudy', 'week', 'right', 'answered', 'updated'])
+          && only(['name', 'role', 'xp', 'streak', 'lastStudy', 'week', 'right', 'answered', 'read', 'updated'])
+          && (!('read' in request.resource.data) || (request.resource.data.read is int && request.resource.data.read >= 0 && request.resource.data.read <= 500))
           && request.resource.data.name == me().name
           && request.resource.data.role == (me().role == 'kid' ? 'kid' : 'grownup')
           && request.resource.data.xp is int && request.resource.data.xp >= 0 && request.resource.data.xp <= 10000000

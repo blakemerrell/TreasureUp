@@ -40,8 +40,11 @@ export const langOf = ch => { const s = split(ch); return !s ? null : OT.include
 
 // A word as shown: the Hebrew with its vowels but not its chanting marks, and
 // the parts the data splits a word into (from/ east) put back together.
-const hebrew = s => s.replace(/[\/\\]/g, '').replace(/[֑-ֽ֯׀׃׆]/g, '').trim();
-const meaning = s => s.replace(/<[^>]*>/g, '').replace(/[[\]{}]/g, '').replace(/\//g, ' ').replace(/\s+/g, ' ').trim();
+// The scribes' paragraph marks (פ, ס) after a verse's last word aren't words; and God's
+// name as the KJV and the Church's materials give it: "the LORD", not "Yahweh".
+const hebrew = s => s.replace(/[\/\\]/g, '').replace(/[֑-ֽ֯׀׃׆]/g, '').replace(/\s+[פס]$/, '').trim();
+const meaning = s => s.replace(/<[^>]*>/g, '').replace(/[[\]{}]/g, '').replace(/\//g, ' ').replace(/\s+/g, ' ').trim()
+  .replace(/\bO Yahweh\b/g, 'O LORD').replace(/\bYahweh\b/g, 'the LORD');
 // A noun's "my", "your", "his"… comes after it in Hebrew (people/ my, the
 // data's grammar marking the noun N and the ending Sp); in English, before it:
 // my people. So does Aramaic's "the" (king/ the, an ending Ta): the king.
@@ -54,27 +57,41 @@ function inOrder(gloss, grammar) {
   return parts.join('/');
 }
 
-// One file's chapters: "Isaiah 41" -> { lang, v: [[[word, sound, meaning], …] (verse 1), …], ar: [verses in Aramaic] }.
+// A book's code is three letters, or a number and two ("1Sa", "1Co").
+// One file's chapters: "Isaiah 41" -> { lang, v: [[[word, sound, meaning, strong, grammar], …] (verse 1), …], ar: [verses in Aramaic] }.
+// `strong` is the word's own Strong's number as the data extends it (H6960A),
+// not a prefix's ("and" in וְקוֹיֵ is H9002; the word is {H6960A}); `grammar`
+// its code (HVqrmpc), for the word study.
 function parse(lang, text, books) {
   const out = new Map(), codes = [], arCount = new Map();
   const re = lang === 'he'
-    ? /^([0-9A-Z][a-z0-9]{1,2})\.(\d+)\.(\d+)(?:\([^)]*\))?#\d+=\S+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t[^\t]*\t([^\t]*)/
-    : /^([0-9A-Z][a-z0-9]{1,2})\.(\d+)\.(\d+)(?:\([^)]*\))?#\d+=(\S+)\t([^\t]*?) \(([^)\t]*)\)\t([^\t]*)/;
+    ? /^(\d?[A-Z][a-z]{1,2})\.(\d+)\.(\d+)(?:\([^)]*\))?#\d+=\S+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)/
+    : /^(\d?[A-Z][a-z]{1,2})\.(\d+)\.(\d+)(?:\([^)]*\))?#\d+=(\S+)\t([^\t]*?) \(([^)\t]*)\)\t([^\t]*)\t([^\t]*)/;
   for (const line of text.split('\n')) {
     const m = re.exec(line);
     if (!m) continue;
-    let [, code, c, v] = m, word, sound, mean;
+    let [, code, c, v] = m, word, sound, mean, strong = '', gram = '';
     if (!codes.includes(code)) codes.push(code);
     const book = books[codes.indexOf(code)];
     if (!book) throw new Error(`${code}: more books in the file than expected (${books.join(', ')})`);
-    if (lang === 'he') { word = hebrew(m[4]); sound = m[5].replace(/\//g, ''); mean = meaning(inOrder(m[6], m[7])); }
-    else { if (!/k/i.test(m[4])) continue; word = m[5].trim().normalize('NFC'); sound = m[6].trim(); mean = meaning(m[7]); }   // ά, not its look-alike
+    if (lang === 'he') {
+      word = hebrew(m[4]); sound = m[5].replace(/\//g, ''); mean = meaning(inOrder(m[6], m[8]));
+      // The word itself among its parts (and/ the/ …): the one in braces.
+      const parts = m[7].split('/'), at = Math.max(0, parts.findIndex(x => x.includes('{'))), g = m[8].split('/');
+      strong = (parts[at] || '').replace(/[{}]/g, '').split('\\')[0].replace(/^([HG])0+(\d)/, '$1$2');
+      gram = at === 0 ? g[0] || '' : (g[0] || 'H')[0] + (g[at] || '');
+    } else {
+      if (!/k/i.test(m[4])) continue;
+      word = m[5].trim().normalize('NFC'); sound = m[6].trim(); mean = meaning(m[7]);   // ά, not its look-alike
+      [strong, gram] = m[8].split('=').map(x => (x || '').trim());
+      strong = strong.replace(/^([HG])0+(\d)/, '$1$2');
+    }
     if (Number(v) < 1 || !word) continue;      // a psalm's title (verse 0 here) isn't a KJV verse
     const ch = book + ' ' + c;
     if (!out.has(ch)) out.set(ch, { lang, v: [], ar: [] });
     const d = out.get(ch), i = Number(v) - 1;
-    (d.v[i] || (d.v[i] = [])).push([word, sound, mean]);
-    if (lang === 'he' && /^A/.test(m[7])) arCount.set(ch + ':' + v, (arCount.get(ch + ':' + v) || 0) + 1);
+    (d.v[i] || (d.v[i] = [])).push([word, sound, mean, strong, gram]);
+    if (lang === 'he' && /^A/.test(m[8])) arCount.set(ch + ':' + v, (arCount.get(ch + ':' + v) || 0) + 1);
   }
   if (codes.length !== books.length) throw new Error(`found ${codes.length} books, expected ${books.length} (${books.join(', ')})`);
   // A verse mostly in Aramaic (parts of Daniel and Ezra, Jeremiah 10:11) says so.
@@ -85,6 +102,28 @@ function parse(lang, text, books) {
   return out;
 }
 
+// Every chapter of a language's files ('he': the Old Testament, 'el': the
+// New), for the word study's "where else it's used".
+export async function loadTestament(cache, lang) {
+  const out = new Map();
+  for (const [l, name, books] of FILES) {
+    if (l !== lang) continue;
+    const file = await fileOf(cache, name);
+    for (const [ch, d] of parse(l, fs.readFileSync(file, 'utf8'), books)) out.set(ch, d);
+  }
+  return out;
+}
+async function fileOf(cache, name) {
+  fs.mkdirSync(cache, { recursive: true });
+  const file = path.join(cache, `stepbible-${ORIG_COMMIT.slice(0, 7)}-${name.slice(0, 13).replace(/\W+/g, '-')}.txt`);
+  if (!fs.existsSync(file)) {
+    const res = await fetch(BASE + encodeURIComponent(name));
+    if (!res.ok) throw new Error(`Could not download ${name}: HTTP ${res.status}`);
+    fs.writeFileSync(file, await res.text());
+  }
+  return file;
+}
+
 // The chapters asked for (any not in the Bible are left out), downloading
 // the files they need into the cache the first time.
 export async function loadOriginal(cache, chapters) {
@@ -92,13 +131,7 @@ export async function loadOriginal(cache, chapters) {
   for (const [lang, name, books] of FILES) {
     const here = want.filter(ch => books.includes(split(ch).book));
     if (!here.length) continue;
-    fs.mkdirSync(cache, { recursive: true });
-    const file = path.join(cache, `stepbible-${ORIG_COMMIT.slice(0, 7)}-${name.slice(0, 13).replace(/\W+/g, '-')}.txt`);
-    if (!fs.existsSync(file)) {
-      const res = await fetch(BASE + encodeURIComponent(name));
-      if (!res.ok) throw new Error(`Could not download ${name}: HTTP ${res.status}`);
-      fs.writeFileSync(file, await res.text());
-    }
+    const file = await fileOf(cache, name);
     let all;
     try { all = parse(lang, fs.readFileSync(file, 'utf8'), books); } catch (e) { throw new Error(`${name}: ${e.message}`); }
     for (const ch of here) { const s = split(ch), d = all.get(s.book + ' ' + s.c); if (d) out.set(ch, d); }
