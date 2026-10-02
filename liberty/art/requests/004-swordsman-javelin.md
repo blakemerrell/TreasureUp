@@ -1,6 +1,9 @@
 # 004 · The Nephite swordsman and javelin thrower
 
-**Status: open.** 2 pictures.
+**Status: done.** Both (pull request #55) are in the game:
+`liberty/assets/swordsman.png` and `javelin.png`, with their Train buttons
+`cameo_swordsman.png` (barracks) and `cameo_javelin.png` (hall of the
+captains). Every Nephite soldier now has his own picture.
 
 ## What it's for
 
@@ -54,3 +57,13 @@ GEMINI.md).
 At 44 pixels tall, in a row with the spearman, slinger, archer and worker, you
 can pick out the swordsman by his raised sword and the javelin thrower by the
 javelin over his shoulder, and both face left.
+
+## What came back
+
+Two clean pictures in round 2's soft painted style. The swordsman faces left
+with his sword raised. The javelin thrower came back throwing toward the
+viewer's right, so Claude mirrored him to face left like every other unit; his
+darts are fletched, like the darts ancient Americans threw with an atlatl. At
+normal zoom his javelin shaft is too thin to see, so what tells him apart is
+the pale quilted vest and the wide throwing stance. Each is cut out, cropped
+to the figure, scaled to 150 pixels tall and set by its feet.
