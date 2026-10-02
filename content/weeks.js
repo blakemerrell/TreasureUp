@@ -8314,7 +8314,8 @@ window.TU_WEEKS = [
           "title": "Lamentations of Jeremiah: Beware of Bondage",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2013/10/lamentations-of-jeremiah-beware-of-bondage?lang=eng"
         },
-        "find": "Lehi had a different calling, mission, and assignment from the Lord"
+        "find": "Lehi had a different calling, mission, and assignment from the Lord",
+        "approved": "eedf4f23"
       },
       {
         "id": "jer1-knew",
@@ -8326,7 +8327,8 @@ window.TU_WEEKS = [
           "title": "As Ye Sow, So Shall Ye Reap",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-23?lang=eng"
         },
-        "find": "The Hebrew word yada, which is translated knew, connotes a very personal, intimate relationship"
+        "find": "The Hebrew word yada, which is translated knew, connotes a very personal, intimate relationship",
+        "approved": "b189649c"
       },
       {
         "id": "jer1-choose",
@@ -8339,7 +8341,8 @@ window.TU_WEEKS = [
           "title": "Jeremiah, Prophecies of",
           "url": "https://scripturecentral.org/archive/articles/encyclopedia-entry/jeremiah-prophecies"
         },
-        "find": "Though foreordained to be a prophet, Jeremiah was not compelled to serve"
+        "find": "Though foreordained to be a prophet, Jeremiah was not compelled to serve",
+        "approved": "dcfc3919"
       },
       {
         "id": "jer1-gird",
@@ -8351,7 +8354,8 @@ window.TU_WEEKS = [
           "title": "Clothing",
           "url": "https://www.churchofjesuschrist.org/study/scriptures/bd/clothing?lang=eng"
         },
-        "find": "would interfere with active movement, it was drawn up under the girdle"
+        "find": "would interfere with active movement, it was drawn up under the girdle",
+        "approved": "0d2a3ea0"
       },
       {
         "id": "jer2-chittim",
@@ -8364,7 +8368,8 @@ window.TU_WEEKS = [
           "title": "Jeremiah 1–3; 7; 16–18; 20",
           "url": "https://scripturecentral.org/archive/books/book-chapter/jeremiah-13-7-1618-20"
         },
-        "find": "from west to east people were faithful to their nonexistent gods"
+        "find": "from west to east people were faithful to their nonexistent gods",
+        "approved": "53a7b540"
       },
       {
         "id": "jer2-fear",
@@ -8376,7 +8381,8 @@ window.TU_WEEKS = [
           "title": "As Ye Sow, So Shall Ye Reap",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-23?lang=eng"
         },
-        "find": "Fear in the Hebrew denotes a sense of reverent awe and profound respect"
+        "find": "Fear in the Hebrew denotes a sense of reverent awe and profound respect",
+        "approved": "af5ccd8d"
       },
       {
         "id": "jer2-wilderness",
@@ -8388,7 +8394,8 @@ window.TU_WEEKS = [
           "title": "Why Did Lehi and Jeremiah Find Themselves in a Dark and Dreary Wilderness?",
           "url": "https://scripturecentral.org/knowhy/why-did-lehi-and-jeremiah-find-themselves-in-a-dark-and-dreary-wilderness"
         },
-        "find": "reminds us of how the Lord guided the children of Israel through the wilderness"
+        "find": "reminds us of how the Lord guided the children of Israel through the wilderness",
+        "approved": "a238e899"
       },
       {
         "id": "jer3-sisters",
@@ -8400,7 +8407,8 @@ window.TU_WEEKS = [
           "title": "Unit 27: Day 2, Jeremiah 1–6",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-study-guide-for-home-study-seminary-students-2015/introduction-to-jeremiah/unit-27-day-2-jeremiah-1-6?lang=eng"
         },
-        "find": "The word feignedly means deceitfully or insincerely"
+        "find": "The word feignedly means deceitfully or insincerely",
+        "approved": "855b8704"
       },
       {
         "id": "jer3-ark",
@@ -8413,7 +8421,8 @@ window.TU_WEEKS = [
           "title": "Jeremiah and the New Paradigm of the Gathering",
           "url": "https://rsc.byu.edu/vol-9-no-1-2008/jeremiah-new-paradigm-gathering"
         },
-        "find": "Modern Israel, however, will not need the physical presence of the ark to remind them of God"
+        "find": "Modern Israel, however, will not need the physical presence of the ark to remind them of God",
+        "approved": "dbc818dc"
       },
       {
         "id": "jer3-backsliding",
@@ -8426,7 +8435,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 42 – Jeremiah 1-29 – Part 1",
           "url": "https://followhim.co/show-note/2-211/"
         },
-        "find": "Jeremiah uses this word more than all other scriptural authors combined"
+        "find": "Jeremiah uses this word more than all other scriptural authors combined",
+        "approved": "b9be3ccf"
       },
       {
         "id": "jer7-trial",
@@ -8439,7 +8449,8 @@ window.TU_WEEKS = [
           "title": "Justice and Righteousness: Jeremiah against King and People",
           "url": "https://rsc.byu.edu/covenant-compassion/justice-righteousness"
         },
-        "find": "perhaps the best documented trial in the Old Testament"
+        "find": "perhaps the best documented trial in the Old Testament",
+        "approved": "eeb2a551"
       },
       {
         "id": "jer7-justice",
@@ -8452,7 +8463,8 @@ window.TU_WEEKS = [
           "title": "Justice and Righteousness: Jeremiah against King and People",
           "url": "https://rsc.byu.edu/covenant-compassion/justice-righteousness"
         },
-        "find": "the Hebrew is emphatic with a doubling of the verb"
+        "find": "the Hebrew is emphatic with a doubling of the verb",
+        "approved": "1947ff77"
       },
       {
         "id": "jer7-hearken",
@@ -8465,7 +8477,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 42 – Jeremiah 1-29 – Part 1",
           "url": "https://followhim.co/show-note/2-211/"
         },
-        "find": "this has got to be one of the most all time discouraging passages of scripture"
+        "find": "this has got to be one of the most all time discouraging passages of scripture",
+        "approved": "71b91db1"
       },
       {
         "id": "jer16-lehi",
@@ -8477,7 +8490,8 @@ window.TU_WEEKS = [
           "title": "Jeremiah 16: “I Will Bring Them Again”",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/42-jeremiah-1-20/423-jeremiah-16?lang=eng"
         },
-        "find": "the Lord also scattered righteous individuals, such as Lehi and his family"
+        "find": "the Lord also scattered righteous individuals, such as Lehi and his family",
+        "approved": "8b6030c6"
       },
       {
         "id": "jer16-lord",
@@ -8490,7 +8504,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 42 – Jeremiah 1-29 – Part 2",
           "url": "https://followhim.co/show-note/2-210/"
         },
-        "find": "these are interactions between Jeremiah and Jesus Christ"
+        "find": "these are interactions between Jeremiah and Jesus Christ",
+        "approved": "7f504ca7"
       },
       {
         "id": "jer17-king",
@@ -8503,7 +8518,8 @@ window.TU_WEEKS = [
           "title": "Jeremiah 1–3; 7; 16–18; 20",
           "url": "https://scripturecentral.org/archive/books/book-chapter/jeremiah-13-7-1618-20"
         },
-        "find": "The promise given for keeping the Sabbath holy was that Judah would have a Davidic king on the throne"
+        "find": "The promise given for keeping the Sabbath holy was that Judah would have a Davidic king on the throne",
+        "approved": "d92a9fee"
       },
       {
         "id": "jer18-respect",
@@ -8516,7 +8532,8 @@ window.TU_WEEKS = [
           "title": "Lessons from the Potter and the Clay",
           "url": "https://speeches.byu.edu/talks/camille-fronk/lessons-potter-clay/"
         },
-        "find": "will never force it into a shape"
+        "find": "will never force it into a shape",
+        "approved": "dcc7dfba"
       },
       {
         "id": "jer20-nephi",
@@ -8528,7 +8545,8 @@ window.TU_WEEKS = [
           "title": "How Could Nephi Have Known about Jeremiah’s Imprisonment?",
           "url": "https://scripturecentral.org/knowhy/how-could-nephi-have-known-about-jeremiahs-imprisonment"
         },
-        "find": "when he was put into stocks for a day and a night"
+        "find": "when he was put into stocks for a day and a night",
+        "approved": "a2879062"
       },
       {
         "id": "jer20-reins",
@@ -8541,7 +8559,8 @@ window.TU_WEEKS = [
           "title": "Jeremiah 1–3; 7; 16–18; 20",
           "url": "https://scripturecentral.org/archive/books/book-chapter/jeremiah-13-7-1618-20"
         },
-        "find": "the kidney was the seat of emotions"
+        "find": "the kidney was the seat of emotions",
+        "approved": "d6e914a7"
       },
       {
         "id": "jer1-q-holland",
@@ -8554,7 +8573,8 @@ window.TU_WEEKS = [
           "who": "Elder Jeffrey R. Holland",
           "title": "A Teacher Come from God",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1998/04/a-teacher-come-from-god?lang=eng"
-        }
+        },
+        "approved": "8a3dac2e"
       },
       {
         "id": "jer1-q-scott",
@@ -8567,7 +8587,8 @@ window.TU_WEEKS = [
           "who": "Elder Richard G. Scott",
           "title": "How to Live Well amid Increasing Evil",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2004/04/how-to-live-well-amid-increasing-evil?lang=eng"
-        }
+        },
+        "approved": "1ff87b40"
       },
       {
         "id": "jer2-q-nelson",
@@ -8580,7 +8601,8 @@ window.TU_WEEKS = [
           "who": "President Russell M. Nelson",
           "title": "Overcome the World and Find Rest",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2022/10/47nelson?lang=eng"
-        }
+        },
+        "approved": "78272f30"
       },
       {
         "id": "jer2-q-wirthlin",
@@ -8593,7 +8615,8 @@ window.TU_WEEKS = [
           "who": "Elder Joseph B. Wirthlin",
           "title": "Living Water to Quench Spiritual Thirst",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1995/04/living-water-to-quench-spiritual-thirst?lang=eng"
-        }
+        },
+        "approved": "a222c4f2"
       },
       {
         "id": "jer3-q-hinckley",
@@ -8606,7 +8629,8 @@ window.TU_WEEKS = [
           "who": "Elder Richard G. Hinckley",
           "title": "Repentance, a Blessing of Membership",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2006/04/repentance-a-blessing-of-membership?lang=eng"
-        }
+        },
+        "approved": "65e8b5c2"
       },
       {
         "id": "jer3-q-uchtdorf",
@@ -8619,7 +8643,8 @@ window.TU_WEEKS = [
           "who": "Elder Dieter F. Uchtdorf",
           "title": "The Prodigal and the Road That Leads Home",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2023/10/45uchtdorf?lang=eng"
-        }
+        },
+        "approved": "83deb8f4"
       },
       {
         "id": "jer7-q-hallstrom",
@@ -8632,7 +8657,8 @@ window.TU_WEEKS = [
           "who": "Elder Donald L. Hallstrom",
           "title": "Converted to His Gospel through His Church",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2012/04/converted-to-his-gospel-through-his-church?lang=eng"
-        }
+        },
+        "approved": "30033db3"
       },
       {
         "id": "jer17-q-uchtdorf",
@@ -8645,7 +8671,8 @@ window.TU_WEEKS = [
           "who": "President Dieter F. Uchtdorf",
           "title": "The Infinite Power of Hope",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2008/10/the-infinite-power-of-hope?lang=eng"
-        }
+        },
+        "approved": "e09ce9d2"
       },
       {
         "id": "jer18-q-maynes",
@@ -8658,7 +8685,8 @@ window.TU_WEEKS = [
           "who": "Elder Richard J. Maynes",
           "title": "The Joy of Living a Christ-Centered Life",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2015/10/the-joy-of-living-a-christ-centered-life?lang=eng"
-        }
+        },
+        "approved": "edd925ae"
       },
       {
         "id": "jer20-q-holland",
@@ -8671,7 +8699,8 @@ window.TU_WEEKS = [
           "who": "Elder Jeffrey R. Holland",
           "title": "A Teacher Come from God",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1998/04/a-teacher-come-from-god?lang=eng"
-        }
+        },
+        "approved": "be38103e"
       },
       {
         "id": "jer1-v-latterdaykids",
