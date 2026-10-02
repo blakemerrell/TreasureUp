@@ -938,6 +938,13 @@
   .ls-orig .ow-s b { font-weight: 800; color: rgba(255,255,255,.85); }
   .ls-orig .ow-m { font-size: 12.5px; line-height: 1.3; color: #e9d5ff; }
   .ls-orig .ow-tag { align-self: center; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #c084fc; }
+  /* The test site says so on every screen (its progress and family are its own) */
+  .test-frame { position: fixed; inset: 0; border: 3px solid #f97316; pointer-events: none; z-index: 2147483647; }
+  .test-frame span { position: absolute; top: 0; left: 50%; transform: translateX(-50%); padding: 1px 10px 3px; border-radius: 0 0 8px 8px;
+    background: #f97316; color: #111; font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+  .test-note { margin: 0 0 14px; padding: 10px 12px; border-radius: 12px; background: rgba(249,115,22,.14); border: 1px solid rgba(249,115,22,.55);
+    font-size: 13.5px; line-height: 1.45; color: rgba(255,255,255,.9); }
+  .test-note a { color: #fdba74; font-weight: 800; }
   .ls-orig-credit { margin: -2px 0 8px; text-align: center; font-size: 11.5px; line-height: 1.4; color: rgba(255,255,255,.45); }
   .ls-note b { color: var(--gold); }
   /* The short version: a few lines on the whole chapter, above its buttons. Each line's verses are a button to them. */
@@ -1705,6 +1712,7 @@ const TreasureUp = (function () {
   function homeHtml() {
     return `
       <div class="home-in">
+        ${TEST_SITE ? testNoteHtml() : ''}
         ${devLinkHtml()}
         <div class="eyebrow">Come, Follow Me · ${esc(WEEK.dates)}</div>
         <h1 class="reel-hook" style="font-size:clamp(28px,4.4vh,38px)">${esc(WEEK.title)}</h1>
@@ -1713,7 +1721,7 @@ const TreasureUp = (function () {
         ${weekMapHtml()}
         ${weekStatsHtml()}
         ${lookBackHtml()}
-        <p class="reel-body mt-6" style="font-size:13px;color:rgba(255,255,255,.7)">XP only comes from right answers. Questions you miss come back in the daily warm-ups.</p>
+        <p class="reel-body mt-6" style="font-size:13px;color:rgba(255,255,255,.7)">XP comes from reading the chapters and answering right. Questions you miss come back in the daily warm-ups.</p>
         <a href="${esc(WEEK.lesson)}" target="_blank" rel="noopener noreferrer"
            class="mt-4 inline-block text-[13px] font-semibold text-white/75 underline decoration-white/30">Open this week's lesson ↗</a>
         ${trailHtml()}
@@ -2080,6 +2088,18 @@ const TreasureUp = (function () {
   // word for word (content/bsb.js, built at deploy), loaded when first on.
   const LAYERS_KEY = NS + 'layers';
   const TEST_SITE = /\/TreasureUp-test\//.test(location.pathname);
+  // On the test site, every screen says so: an orange frame with a tab, and
+  // the page's title (all a browser opened from a link shows). Blake once
+  // took it for the live app and thought his progress was gone (2026-10-01).
+  if (TEST_SITE) {
+    document.title = 'Treasure Up · TEST SITE';
+    const frame = document.createElement('div');
+    frame.className = 'test-frame';
+    frame.innerHTML = '<span>Test site</span>';
+    document.body.appendChild(frame);
+  }
+  const testNoteHtml = () => `<div class="test-note">🧪 <b>Test site.</b> Its progress and family are kept apart from the live app's.
+    <a href="${esc(location.origin + '/TreasureUp/')}">Open the live app ›</a></div>`;
   const LAYERS = [['kjv', 'KJV'], ['plain', 'Plain words'], ['bsb', 'BSB'], ['notes', 'Notes'], ['orig', 'Hebrew']];
   const layers = (() => {
     try {
