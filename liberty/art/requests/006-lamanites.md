@@ -1,6 +1,10 @@
 # 006 · The Lamanites: slinger, captain and Zerahemnah, and Helaman
 
-**Status: open.** 4 pictures: three Lamanites, and Helaman from 005.
+**Status: done.** All four (pull request #57) were made with Gemini through
+Blake's n8n backup, since Gemini in Antigravity hadn't answered after an
+hour. In the game: `liberty/assets/lamanite_slinger.png` (the Lamanite
+slinger), `lamanite_captain.png` (the Amalekite and Zoramite captains) and
+`zerahemnah.png`. `helaman.png` is ready for the war chapters.
 
 ## What it's for
 
@@ -69,3 +73,12 @@ before you reply.
 At 44 pixels tall, next to a Lamanite warrior and a robber, you can pick out
 the slinger (sling), the captain (dark red clothes) and Zerahemnah (feather
 crest, long red cloak, gold), and all face left.
+
+## What came back
+
+Four clean pictures, all facing left. The two from `lamanite.png` (slinger,
+captain) came back in its pixel-painted look; Zerahemnah and Helaman in a
+softer painted style. Gemini through n8n sends JPEGs, and Zerahemnah's
+background was a lighter magenta (250, 48, 251), so the cut-out now measures
+each picture's own background before removing it. Each is cropped to the
+figure, scaled to 150 pixels tall and set by its feet.
