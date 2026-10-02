@@ -101,7 +101,8 @@ window.TU_WEEKS = [
             }
           ]
         }
-      ]
+      ],
+      "approved": "52068198"
     },
     "sayings": [
       {
@@ -113,7 +114,8 @@ window.TU_WEEKS = [
           "Isaiah",
           "Jesus Christ"
         ],
-        "why": "Isaiah aims these words at the proud king of Babylon; latter-day scripture uses the same name, Lucifer, for Satan (D&C 76:26)."
+        "why": "Isaiah aims these words at the proud king of Babylon; latter-day scripture uses the same name, Lucifer, for Satan (D&C 76:26).",
+        "approved": "c1ae68b0"
       },
       {
         "id": "say-thy-will",
@@ -124,7 +126,8 @@ window.TU_WEEKS = [
           "Lucifer",
           "The king of Babylon"
         ],
-        "why": "The Lord's Beloved Son said it in the premortal council, the opposite of Lucifer's “I will” (Isaiah 14:13)."
+        "why": "The Lord's Beloved Son said it in the premortal council, the opposite of Lucifer's “I will” (Isaiah 14:13).",
+        "approved": "34d4b87c"
       },
       {
         "id": "say-sealed-book",
@@ -135,7 +138,8 @@ window.TU_WEEKS = [
           "Martin Harris",
           "Oliver Cowdery"
         ],
-        "why": "Martin Harris reported it: when he said part of the plates were sealed, Professor Anthon replied, “I cannot read a sealed book”."
+        "why": "Martin Harris reported it: when he said part of the plates were sealed, Professor Anthon replied, “I cannot read a sealed book”.",
+        "approved": "cc785044"
       },
       {
         "id": "say-learned",
@@ -146,7 +150,8 @@ window.TU_WEEKS = [
           "The unlearned man in Isaiah 29",
           "Isaiah"
         ],
-        "why": "In Isaiah 29 the learned man can't read the sealed book; the one who is not learned gets it next (verse 12)."
+        "why": "In Isaiah 29 the learned man can't read the sealed book; the one who is not learned gets it next (verse 12).",
+        "approved": "7e6260a6"
       },
       {
         "id": "say-smooth",
@@ -157,7 +162,8 @@ window.TU_WEEKS = [
           "The seers and the prophets",
           "The Lord"
         ],
-        "why": "The rebellious people said it to their seers and prophets: they only wanted to hear what felt good."
+        "why": "The rebellious people said it to their seers and prophets: they only wanted to hear what felt good.",
+        "approved": "934ed037"
       },
       {
         "id": "say-the-way",
@@ -168,7 +174,8 @@ window.TU_WEEKS = [
           "The king of Babylon",
           "The rebellious people"
         ],
-        "why": "Isaiah promises you will hear “a word behind thee” saying it, when you turn to the right or the left."
+        "why": "Isaiah promises you will hear “a word behind thee” saying it, when you turn to the right or the left.",
+        "approved": "e1e53aa2"
       },
       {
         "id": "say-swallowed",
@@ -179,7 +186,8 @@ window.TU_WEEKS = [
           "Nephi",
           "Moses"
         ],
-        "why": "Paul quotes Isaiah 25:8 when he teaches about the Resurrection."
+        "why": "Paul quotes Isaiah 25:8 when he teaches about the Resurrection.",
+        "approved": "35dc3e0f"
       },
       {
         "id": "say-great-words",
@@ -190,7 +198,8 @@ window.TU_WEEKS = [
           "Nephi",
           "Samuel the Lamanite"
         ],
-        "why": "The resurrected Savior told the Nephites to search Isaiah diligently."
+        "why": "The resurrected Savior told the Nephites to search Isaiah diligently.",
+        "approved": "a1e4c117"
       }
     ],
     "words": [
@@ -252,7 +261,8 @@ window.TU_WEEKS = [
         "why": "Verse 16: “Is this the man that made the earth to tremble.” Pride looks big for a while, then it looks small.",
         "source": "Isaiah 14:16",
         "find": "Is this the man that made the earth to tremble",
-        "hunt": "In Isaiah 14, what do people ask when they see the fallen one up close?"
+        "hunt": "In Isaiah 14, what do people ask when they see the fallen one up close?",
+        "approved": "74baeccd"
       },
       {
         "id": "deep39-feast",
@@ -268,7 +278,8 @@ window.TU_WEEKS = [
         "why": "They say, “we will be glad and rejoice in his salvation.” The waiting was worth it.",
         "source": "Isaiah 25:9",
         "find": "we will be glad and rejoice in his salvation",
-        "hunt": "In Isaiah 25, what do the people say they will do now that their Lord has come?"
+        "hunt": "In Isaiah 25, what do the people say they will do now that their Lord has come?",
+        "approved": "6be5e8ff"
       },
       {
         "id": "deep39-wall",
@@ -284,7 +295,8 @@ window.TU_WEEKS = [
         "why": "Verse 13: its “breaking cometh suddenly at an instant.” Ignoring warnings can look safe right up until it isn't.",
         "source": "Isaiah 30:13",
         "find": "whose breaking cometh suddenly at an instant",
-        "hunt": "In Isaiah 30, how does the cracked wall fall?"
+        "hunt": "In Isaiah 30, how does the cracked wall fall?",
+        "approved": "3ee8400f"
       },
       {
         "id": "deep39-book",
@@ -300,7 +312,8 @@ window.TU_WEEKS = [
         "why": "Verse 18: “In that day shall the deaf hear the words of the book.” People who couldn't hear God's word before would understand it.",
         "source": "Isaiah 29:18",
         "find": "shall the deaf hear the words of the book",
-        "hunt": "In Isaiah 29, who will hear the words of the book?"
+        "hunt": "In Isaiah 29, who will hear the words of the book?",
+        "approved": "f61102c3"
       },
       {
         "id": "deep39-kids",
@@ -316,7 +329,8 @@ window.TU_WEEKS = [
         ],
         "why": "It suggests a copy of the Book of Mormon, a picture of a temple, or a picture of the First Vision. Each is part of what the Lord restored.",
         "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/39?lang=eng",
-        "find": "a copy of the Book of Mormon, a picture of a temple, or a picture of the First Vision"
+        "find": "a copy of the Book of Mormon, a picture of a temple, or a picture of the First Vision",
+        "approved": "6ca7251b"
       },
       {
         "id": "deep39-ftsoy",
@@ -332,7 +346,8 @@ window.TU_WEEKS = [
         ],
         "why": "It says they refer to his own day, Jesus Christ's day, the latter days (our day) and the Restoration, and the Second Coming. One verse can be about more than one time.",
         "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/09/what-do-we-know-about-the-prophet-isaiah?lang=eng",
-        "find": "the latter days and the Restoration, and the Second Coming and Millennium"
+        "find": "the latter days and the Restoration, and the Second Coming and Millennium",
+        "approved": "920fe2a1"
       }
     ],
     "reels": [
@@ -375,7 +390,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#431407 0%,#9a3412 50%,#b91c1c 100%)",
         "blobA": "rgba(251,146,60,.45)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "7b83cb09"
       },
       {
         "id": "isa14-i-will",
@@ -417,7 +433,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(165deg,#020617 0%,#1e1b4b 55%,#4338ca 100%)",
         "blobA": "rgba(129,140,248,.45)",
-        "blobB": "rgba(0,0,0,.55)"
+        "blobB": "rgba(0,0,0,.55)",
+        "approved": "89f82a8e"
       },
       {
         "id": "isa22-key-and-stone",
@@ -458,7 +475,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#1c1917 0%,#44403c 40%,#d97706 108%)",
         "blobA": "rgba(251,191,36,.4)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "bff2ca6b"
       },
       {
         "id": "isa25-death-swallowed",
@@ -507,7 +525,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#134e4a 0%,#0f766e 45%,#fbbf24 115%)",
         "blobA": "rgba(253,224,71,.45)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "824e3049"
       },
       {
         "id": "isa25-refuge",
@@ -562,7 +581,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#082f49 0%,#0369a1 50%,#38bdf8 100%)",
         "blobA": "rgba(125,211,252,.45)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "8aa587a1"
       },
       {
         "id": "isa29-lips-heart",
@@ -604,7 +624,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(155deg,#450a0a 0%,#7f1d1d 45%,#b45309 100%)",
         "blobA": "rgba(252,165,165,.4)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "e3d41517"
       },
       {
         "id": "isa30-smooth-things",
@@ -647,7 +668,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#0f172a 0%,#334155 45%,#0e7490 100%)",
         "blobA": "rgba(34,211,238,.4)",
         "blobB": "rgba(0,0,0,.5)",
-        "seek": "People begged God's messengers for easy, pleasant words"
+        "seek": "People begged God's messengers for easy, pleasant words",
+        "approved": "2f31e0d5"
       },
       {
         "id": "isa29-sealed-book",
@@ -677,7 +699,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#4c1d95 0%,#a21caf 50%,#fbbf24 112%)",
         "blobA": "rgba(240,171,252,.5)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "5e86140b"
       },
       {
         "id": "isa30-this-is-the-way",
@@ -707,7 +730,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#0f172a 0%,#1e40af 50%,#60a5fa 100%)",
         "blobA": "rgba(147,197,253,.45)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "75cce463"
       },
       {
         "id": "isa35-desert-blooms",
@@ -762,7 +786,844 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#78350f 0%,#be185d 55%,#fb7185 100%)",
         "blobA": "rgba(253,164,175,.45)",
         "blobB": "rgba(0,0,0,.4)",
-        "seek": "Dry, empty land will burst into flowers and be happy"
+        "seek": "Dry, empty land will burst into flowers and be happy",
+        "approved": "bae2d6eb"
+      }
+    ],
+    "plain": [
+      {
+        "ch": "Isaiah 13",
+        "verses": [
+          "This is the burden (a heavy message from God) about Babylon that Isaiah the son of Amoz saw.",
+          "Raise a flag on a bare mountaintop. Shout to them and wave your hand, so they will go in through the gates of the nobles.",
+          "I have given orders to the ones I set apart for this. I have called my mighty warriors to carry out my anger, those who rejoice in my greatness.",
+          "Listen! A noise on the mountains, like a huge crowd of people! Listen! The roar of kingdoms, of nations gathering together! The Lord of Hosts is gathering an army for battle.",
+          "They are coming from a faraway land, from the far edges of the sky—the Lord and the weapons of His anger—to destroy the whole land.",
+          "Wail, because the day of the Lord is near! It will come like destruction from the Almighty.",
+          "So all hands will go limp, and every person’s heart will melt.",
+          "They will be terrified. Pains and sharp pangs will grip them, and they will twist in pain like a woman giving birth. They will stare at each other in shock, their faces burning red like flames.",
+          "Look, the day of the Lord is coming—cruel, with fury and burning anger—to make the land a wasteland and to wipe out its sinners.",
+          "The stars of the sky and their constellations will not give their light. The sun will be dark when it rises, and the moon will not shine.",
+          "I will punish the world for its evil and the wicked for their sins. I will put an end to the arrogance of the proud and bring down the pride of the ruthless.",
+          "I will make people more precious than fine gold—rarer than the gold of Ophir (a land famous for its gold).",
+          "So I will make the heavens shake, and the earth will be shaken out of its place by the fury of the Lord of Hosts on the day of His burning anger.",
+          "Like a hunted gazelle, or like sheep with no one to gather them, everyone will turn back to his own people and run away to his own land.",
+          "Anyone who is found will be stabbed, and anyone who joins them will be killed by the sword.",
+          "Their little children will be dashed to pieces before their eyes. Their houses will be robbed, and their wives will be violated.",
+          "Look, I will stir up the Medes (a nation northeast of Babylon) against them. They care nothing for silver, and they take no pleasure in gold.",
+          "Their bows will strike down the young men. They will have no mercy on babies, and they will not look with pity on children.",
+          "Babylon, the most glorious of kingdoms, the beauty and pride of the Chaldees (the people of Babylon), will be like Sodom and Gomorrah when God destroyed them.",
+          "No one will ever live there or settle there again, generation after generation. No Arabian will set up his tent there, and no shepherds will rest their flocks there.",
+          "Instead, desert animals will lie down there, and its houses will be full of howling creatures. Ostriches will live there, and wild goats will leap about there.",
+          "Hyenas will howl in its forts, and jackals in its fine palaces. Babylon’s time is almost here, and its days will not last much longer."
+        ],
+        "notes": [
+          {
+            "v": 3,
+            "text": "In the Book of Mormon, the end of this verse says “for mine anger is not upon them that rejoice in my highness” (2 Nephi 23:3)."
+          },
+          {
+            "v": 10,
+            "text": "Jesus used words like these for the signs before His Second Coming: “shall the sun be darkened, and the moon shall not give her light” (Matthew 24:29)."
+          },
+          {
+            "v": 12,
+            "text": "The Hebrew word for “precious” also means rare. Modern translations say ‘scarcer than pure gold’: so few people will be left that they will be as hard to find as gold."
+          },
+          {
+            "v": 15,
+            "text": "The Book of Mormon’s copy says “Every one that is proud shall be thrust through; yea, and every one that is joined to the wicked shall fall by the sword” (2 Nephi 23:15)."
+          },
+          {
+            "v": 21,
+            "text": "Where the KJV has “owls” and “satyrs,” modern translations have ‘ostriches’ and ‘wild goats.’ The Hebrew word for satyrs means ‘hairy ones’ and is also used for goats."
+          },
+          {
+            "v": 22,
+            "text": "The Book of Mormon’s copy adds “For I will destroy her speedily; yea, for I will be merciful unto my people, but the wicked shall perish” (2 Nephi 23:22)."
+          }
+        ],
+        "review": [
+          {
+            "v": 3,
+            "about": "The end of the verse is hard Hebrew (literally ‘my proudly rejoicing ones’). The plain words follow the KJV; the Book of Mormon’s copy says the opposite about them, and the note quotes it."
+          },
+          {
+            "v": 8,
+            "about": "Smaller Book of Mormon differences have no note: 2 Nephi 23:8 leaves out the woman in labor, and verses 11 and 17 differ only in wording. Say if you want notes for them."
+          },
+          {
+            "v": 12,
+            "about": "The Hebrew word means both precious and rare. The plain words keep the KJV’s “more precious” and add “rarer,” with a note, so it doesn’t read as God valuing people more."
+          },
+          {
+            "v": 15,
+            "about": "Modern translations read the KJV’s “joined” as ‘captured.’ The plain words keep “joins,” as the KJV and 2 Nephi 23:15 have it."
+          },
+          {
+            "v": 16,
+            "about": "A hard verse for a child: little children killed and wives “ravished.” The plain words say “violated” instead of spelling it out. Change it if you want it plainer or gentler."
+          },
+          {
+            "v": 21,
+            "about": "The animals in verses 21–22 follow modern translations (ostriches, wild goats, hyenas, jackals), not the KJV’s owls, satyrs, wild beasts of the islands and dragons. The note on verse 21 explains two of them."
+          }
+        ],
+        "approved": "873f47ce"
+      },
+      {
+        "ch": "Isaiah 14",
+        "verses": [
+          "For the Lord will have mercy on Jacob. He will choose Israel again and settle them in their own land. Foreigners will join them and cling to the house of Jacob.",
+          "Nations will take Israel and bring them home to their own place. In the Lord’s land, the house of Israel will have those nations as men and women servants. They will take captive the ones who took them captive, and they will rule over those who were cruel to them.",
+          "On the day the Lord gives you rest from your sorrow and fear, and from the hard labor you were forced to do,",
+          "You will take up this mocking song against the king of Babylon and say: “How the cruel ruler has come to an end! The golden city has come to an end!”",
+          "The Lord has broken the rod of the wicked, the scepter of the rulers.",
+          "The one who struck the peoples in fury with blow after blow, and ruled the nations in anger, is now being hunted down, and no one stops it.",
+          "The whole earth is at rest and quiet. People break out in song.",
+          "Even the fir trees and the cedars of Lebanon rejoice over you. They say, “Since you were laid low, no woodcutter has come up to cut us down.”",
+          "The place of the dead below is stirred up to meet you when you arrive. It wakes the spirits of the dead to greet you—all who were leaders on the earth. It makes all the kings of the nations get up from their thrones.",
+          "They will all answer you and say, “Have you become weak like us too? Have you become just like us?”",
+          "Your pride and glory have been brought down to the place of the dead, along with the music of your harps. Maggots are your bed, and worms are your blanket.",
+          "How you have fallen from heaven, Lucifer, son of the morning! How you have been cut down to the ground, you who made the nations weak!",
+          "You said in your heart, “I will climb up to heaven. I will set my throne above the stars of God. I will sit on the mountain where the assembly meets, far away in the north.”",
+          "“I will go up above the tops of the clouds. I will make myself like the Most High.”",
+          "But you will be brought down to hell, the place of the dead, to the deepest part of the pit.",
+          "Those who see you will stare at you and think about you. They will say, “Is this the man who made the earth tremble and shook kingdoms?”",
+          "“Is this the one who turned the world into a wilderness and tore down its cities, who would not let his prisoners go home?”",
+          "All the kings of the nations, every one of them, lie in honor, each in his own tomb.",
+          "But you are thrown out of your grave like a rejected branch, like the clothing of men killed with the sword, who go down to the stones of the pit. You are like a dead body trampled underfoot.",
+          "You will not be buried with them, because you ruined your land and killed your own people. The descendants of evildoers will never be remembered.",
+          "Prepare a place to kill his sons because of their fathers’ sins, so they will not rise up and take over the land, or fill the whole world with their cities.",
+          "“I will rise up against them,” says the Lord of Hosts. “I will cut off from Babylon its name and its survivors, its children and its descendants,” says the Lord.",
+          "“I will make it a home for owls and turn it into swamps. I will sweep it away with the broom of destruction,” says the Lord of Hosts.",
+          "The Lord of Hosts has sworn an oath: “Just as I have planned it, so it will happen. Just as I have decided it, so it will stand.”",
+          "“I will break the Assyrian in my land and trample him on my mountains. Then his yoke will come off them, and his heavy load will be lifted off their shoulders.”",
+          "This is the plan made for the whole earth, and this is the hand stretched out over all the nations.",
+          "For the Lord of Hosts has made His plan, and who can stop it? His hand is stretched out, and who can turn it back?",
+          "This burden (a heavy message from God) came in the year King Ahaz died.",
+          "Don’t rejoice, all of Palestina (the land of the Philistines), that the rod that struck you is broken. From the root of the snake a viper will come, and its offspring will be a fiery flying serpent.",
+          "The poorest of the poor will have food, and the needy will lie down in safety. But I will kill your root with famine, and it will kill whoever is left of you.",
+          "Wail, you gate! Cry out, you city! All of Palestina, melt away! For smoke is coming from the north, and no one falls out of its ranks.",
+          "What answer will be given to the messengers of that nation? “The Lord has laid the foundation of Zion, and the poor among His people will find safety there.”"
+        ],
+        "notes": [
+          {
+            "v": 2,
+            "text": "The Book of Mormon’s copy adds that they come “from far unto the ends of the earth; and they shall return to their lands of promise” (2 Nephi 24:2)."
+          },
+          {
+            "v": 4,
+            "text": "The KJV and the Book of Mormon (2 Nephi 24:4) say “the golden city ceased!” The Hebrew word appears only here. Many modern translations read it as ‘his fury has ended.’"
+          },
+          {
+            "v": 6,
+            "text": "The KJV and the Book of Mormon (2 Nephi 24:6) say he “is persecuted, and none hindereth.” Many modern translations read the Hebrew as ‘relentless persecution’: he chased the nations down, and no one stopped him."
+          },
+          {
+            "v": 9,
+            "text": "The KJV’s “Hell” is the Hebrew word Sheol, the place of the dead. Verse 15 uses the same word, and so does “the grave” (verse 11)."
+          },
+          {
+            "v": 12,
+            "text": "The Hebrew means ‘shining one,’ the morning star; “Lucifer” is Latin for ‘light-bringer.’ The song is against Babylon’s king, and these verses also tell of Satan’s fall: “he was Lucifer, a son of the morning” (D&C 76:26). See also Moses 4:1–4 and Luke 10:18."
+          },
+          {
+            "v": 25,
+            "text": "The Book of Mormon’s copy says “I will bring the Assyrian in my land” (2 Nephi 24:25), where the KJV has “break.”"
+          }
+        ],
+        "review": [
+          {
+            "v": 4,
+            "about": "The Hebrew word the KJV reads as “golden city” appears only here, and its meaning is unsure. As in Isaiah 49:5, the plain words follow the KJV and the Book of Mormon, and the note gives the modern reading."
+          },
+          {
+            "v": 6,
+            "about": "Same choice as verse 4: the plain words follow the KJV and 2 Nephi 24:6 (the tyrant is now hunted down), and the note gives the modern reading (he hunted the nations down)."
+          },
+          {
+            "v": 9,
+            "about": "The plain words say “the place of the dead” for the KJV’s “Hell” and “the grave” (Hebrew Sheol) here and in verse 11, with a note. Verse 15, the end of the Lucifer passage, says “hell, the place of the dead,” so the Satan reading still works. Check you’re happy with that wording."
+          },
+          {
+            "v": 12,
+            "about": "Lucifer: the plain words keep the name. The note says the song is against Babylon’s king and that these verses also tell of Satan’s fall (D&C 76:26), as the short version reads verses 12–15."
+          },
+          {
+            "v": 19,
+            "about": "Hard Hebrew: the KJV’s “raiment of those that are slain” (BSB ‘covered by those slain’). 2 Nephi 24:19 has “remnant” for “raiment”; no note. Smaller Book of Mormon differences without notes: verses 3–5, 11 and 32."
+          },
+          {
+            "v": 21,
+            "about": "A hard picture for a child: the king’s sons killed for their fathers’ sins. The plain words keep it, as the KJV does."
+          },
+          {
+            "v": 31,
+            "about": "The KJV’s “none shall be alone in his appointed times” means no one straggles behind in the army’s ranks; the plain words say that, as modern translations do."
+          }
+        ],
+        "approved": "113f7d0e"
+      },
+      {
+        "ch": "Isaiah 22",
+        "verses": [
+          "A heavy message about the Valley of Vision, which is Jerusalem. What is wrong with you now, that all of you have gone up onto the rooftops?",
+          "You are full of noise, a city in an uproar, a wild, partying town. Your dead were not killed by the sword, and they did not die in battle.",
+          "All your leaders ran away together and were captured without an arrow being shot. All your people who were found were captured together, even though they had run far away.",
+          "So I said, “Look away from me. Let me cry bitter tears. Don’t try to comfort me over the ruin of my dear people.”",
+          "For the Lord God of Hosts has a day of panic, of trampling, and of confusion in the Valley of Vision, a day of walls being broken down and of crying out to the mountains.",
+          "Elam picks up its quiver of arrows, with soldiers in chariots and on horses, and Kir takes the cover off its shield.",
+          "Your best valleys are filled with chariots, and horsemen take their places facing the city gate.",
+          "He stripped away the covering that protected Judah. On that day you looked to the weapons in the House of the Forest, the great hall Solomon built.",
+          "You saw that the walls of the City of David had many breaks in them, and you collected the water of the lower pool.",
+          "You counted the houses of Jerusalem, and you tore houses down to make the wall stronger.",
+          "You built a reservoir between the two walls for the water of the old pool. But you did not look to the One who made it, or think about Him who planned it long ago.",
+          "On that day the Lord God of Hosts called for weeping and mourning, for shaving heads and putting on sackcloth, the rough cloth worn in sorrow.",
+          "But look, there is joy and partying instead, killing cattle and sheep, eating meat and drinking wine: “Let’s eat and drink, for tomorrow we die!”",
+          "The Lord of Hosts revealed this to my ears: “This sin of yours will not be atoned for until you die,” says the Lord God of Hosts.",
+          "This is what the Lord God of Hosts says: Go to this steward, Shebna, who is in charge of the king’s palace, and say to him:",
+          "What are you doing here, and who gave you the right to cut out a tomb for yourself here, carving your tomb up high and cutting a resting place for yourself in the rock?",
+          "Look, you mighty man! The Lord is about to hurl you away with great force. He will grab you and hold you tight.",
+          "He will wind you up tight like a ball and throw you into a wide, open country. There you will die, and there your fine chariots will be a disgrace to your master’s house.",
+          "I will push you out of your office, and you will be pulled down from your position.",
+          "On that day I will call my servant Eliakim, the son of Hilkiah.",
+          "I will dress him in your robe and tie your sash firmly around him. I will put your authority in his hands, and he will be a father to the people of Jerusalem and to the house of Judah.",
+          "I will put the key of the house of David on his shoulder. What he opens, no one will shut; and what he shuts, no one will open.",
+          "I will fasten him like a peg driven into a firm place, and he will be a throne of honor for his father’s family.",
+          "They will hang on him all the honor of his father’s family: its children and all its branches, every small dish, from the bowls to all the jars.",
+          "On that day, says the Lord of Hosts, the peg driven into the firm place will give way. It will be cut down and fall, and the load that hung on it will be cut off, for the Lord has spoken."
+        ],
+        "notes": [
+          {
+            "v": 3,
+            "text": "The KJV says they “are bound by the archers.” Many modern translations read the Hebrew as ‘captured without a bow’: taken without a fight."
+          },
+          {
+            "v": 13,
+            "text": "Paul quotes these words to show how people would live if the dead did not rise (1 Corinthians 15:32). Nephi warns that in the last days many will say, “Eat, drink, and be merry, for tomorrow we die” (2 Nephi 28:7)."
+          },
+          {
+            "v": 17,
+            "text": "The KJV says the Lord will “carry thee away with a mighty captivity” and “cover thee.” Modern translations read the Hebrew as ‘O mighty man,’ with the Lord throwing or shaking him violently and taking hold of him."
+          },
+          {
+            "v": 22,
+            "text": "In Revelation, Jesus Christ calls Himself the one “that hath the key of David, he that openeth, and no man shutteth; and shutteth, and no man openeth” (Revelation 3:7)."
+          },
+          {
+            "v": 23,
+            "text": "The KJV’s “nail” is the Hebrew word for a peg, like a tent peg or a peg in a wall that things are hung on (verse 24)."
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "Added “which is Jerusalem” to say what the Valley of Vision is (verses 9–10 show it). “Burden” (a prophecy of judgment) is “a heavy message.”"
+          },
+          {
+            "v": 3,
+            "about": "The Hebrew “from a bow” can mean by archers (KJV) or without a bow (modern translations, and it fits verse 2: not killed in battle). The plain words follow the modern reading, with a note."
+          },
+          {
+            "v": 14,
+            "about": "The plain words say “atoned for” where the KJV says “purged”: the Hebrew is the atonement word (kaphar), as in the BSB."
+          },
+          {
+            "v": 16,
+            "about": "The Hebrew says literally “who is yours here,” maybe meaning Shebna has no family buried here. The plain words follow the BSB: who gave you the right."
+          },
+          {
+            "v": 17,
+            "about": "The KJV reads “a mighty captivity” and “cover thee”; the Hebrew reads best as hurling Shebna away, “O mighty man,” and grabbing him. The plain words follow the modern reading, with a note."
+          },
+          {
+            "v": 25,
+            "about": "The peg in the firm place gives way. Some read it as Eliakim falling later, some as Shebna; the plain words only say what the Hebrew says. The short version stops at verse 24."
+          }
+        ],
+        "approved": "0eaf5ac3"
+      },
+      {
+        "ch": "Isaiah 24",
+        "verses": [
+          "Look, the Lord is about to empty the earth and lay it waste. He will turn it upside down and scatter the people who live on it.",
+          "It will be the same for the people as for the priest, for the servant as for his master, for the maid as for her mistress, for the buyer as for the seller, for the lender as for the borrower, and for the one who is owed money as for the one who owes it.",
+          "The earth will be completely emptied and completely stripped bare, for the Lord has spoken this word.",
+          "The earth mourns and withers away. The world grows weak and withers away. The proud and powerful people of the earth grow weak.",
+          "The earth has been made unclean by the people who live on it, for they have disobeyed the laws, changed the ordinance, and broken the everlasting covenant.",
+          "So a curse eats up the earth, and the people who live on it suffer for their guilt. So the people of the earth are burned, and only a few are left.",
+          "The new wine dries up, and the grapevine withers. Everyone who was happy now groans.",
+          "The happy beat of the tambourines has stopped, the noise of people celebrating has ended, and the joyful harp is silent.",
+          "No one sings while drinking wine anymore, and strong drink tastes bitter to those who drink it.",
+          "The city of chaos is broken down. Every house is shut up so that no one can come in.",
+          "In the streets people cry out for wine. All joy has turned dark, and gladness has gone away from the land.",
+          "Ruin is all that is left in the city, and its gate is smashed to pieces.",
+          "This is how it will be on the earth, among the nations: like an olive tree beaten to knock off its olives, like the few grapes left when the grape harvest is over.",
+          "They lift up their voices and shout for joy at the majesty of the Lord. They call out loudly from the sea, in the west.",
+          "So give glory to the Lord in the east. Give glory to the name of the Lord, the God of Israel, in the islands of the sea.",
+          "From the ends of the earth we hear songs: “Glory to the Righteous One!” But I said, “I am wasting away, I am wasting away! How terrible it is for me! Traitors betray; yes, traitors betray with great treachery.”",
+          "Terror, a pit, and a trap are waiting for you who live on the earth.",
+          "Whoever runs from the sound of terror will fall into the pit, and whoever climbs out of the pit will be caught in the trap. For the windows of heaven are open, and the foundations of the earth shake.",
+          "The earth is completely broken. The earth is split wide open. The earth is shaken violently.",
+          "The earth will stagger like a drunk man and sway like a hut in a field. Its sin will lie heavy on it, and it will fall and never rise again.",
+          "On that day the Lord will punish the host of heaven up above and the kings of the earth down on the earth.",
+          "They will be gathered together like prisoners in a pit. They will be shut up in a prison, and after many days they will be visited.",
+          "The moon will be embarrassed and the sun ashamed, for the Lord of Hosts will reign on Mount Zion and in Jerusalem, in glory before His elders."
+        ],
+        "notes": [
+          {
+            "v": 5,
+            "text": "In 1831 the Lord said the same of the world in our day: “they have strayed from mine ordinances, and have broken mine everlasting covenant” (D&C 1:15)."
+          },
+          {
+            "v": 6,
+            "text": "The KJV says those who live there “are desolate.” Most modern translations read the Hebrew word as guilt: its people ‘bear their guilt.’"
+          },
+          {
+            "v": 15,
+            "text": "The KJV says “in the fires.” The Hebrew word means lights or fires, and many modern translations read it as ‘in the east,’ where the sun’s light rises."
+          },
+          {
+            "v": 22,
+            "text": "The KJV says “shall they be visited.” The Hebrew word can mean visited or cared for, or it can mean punished, as the BSB reads it."
+          },
+          {
+            "v": 23,
+            "text": "The Lord says that at His coming, “so great shall be the glory of his presence that the sun shall hide his face in shame” (D&C 133:49)."
+          }
+        ],
+        "review": [
+          {
+            "v": 6,
+            "about": "KJV “are desolate,” plain “suffer for their guilt” (the Hebrew is the guilt word), with a note. “Burned” is kept as in the KJV and BSB, though the word-by-word gloss gives ‘dwindled.’"
+          },
+          {
+            "v": 14,
+            "about": "“From the sea” is read by the BSB as from the west; the plain words keep both: “from the sea, in the west.” Verse 15’s “in the fires” becomes “in the east,” with a note."
+          },
+          {
+            "v": 16,
+            "about": "The KJV has “glory to the righteous”; the plain words follow modern translations: “the Righteous One,” meaning God. “My leanness” is “I am wasting away.”"
+          },
+          {
+            "v": 21,
+            "about": "“The host of heaven up above” is kept close to the Hebrew. It may mean the stars or the powers of heaven; the plain words don’t say which."
+          },
+          {
+            "v": 22,
+            "about": "Kept the KJV’s “visited,” with a note that it can mean punished. Latter-day Saints often connect this with the spirit prison (D&C 76:73; 88:99), but no scripture names this verse, so no note says so. Your call."
+          }
+        ],
+        "approved": "623f0da7"
+      },
+      {
+        "ch": "Isaiah 25",
+        "verses": [
+          "Lord, you are my God. I will lift you up and praise your name, for you have done wonderful things. The plans you made long ago are faithful and true.",
+          "You have turned a city into a pile of rubble, and a walled city into a ruin. The fortress of foreigners is a city no more; it will never be built again.",
+          "So a strong people will give you glory, and the city of cruel nations will fear you.",
+          "For you have been a stronghold for the poor, a stronghold for the needy in their trouble, a shelter from the storm, and a shade from the heat. For the blast of cruel people is like a storm beating against a wall.",
+          "Like heat in a dry land, you quiet the roar of foreigners. As heat is cooled by the shade of a cloud, so the song of cruel people is silenced.",
+          "On this mountain the Lord of Hosts will make a feast for all peoples, a feast of the richest food and of fine aged wine, of rich food full of marrow and of the best aged wine, strained clear.",
+          "On this mountain He will swallow up the covering that is over all peoples, the veil that is spread over all nations.",
+          "He will swallow up death in victory. The Lord God will wipe away the tears from every face, and He will take away the shame of His people from all the earth, for the Lord has spoken.",
+          "On that day people will say, “Look, this is our God! We have waited for Him, and He will save us. This is the Lord! We have waited for Him. Let us be glad and rejoice in His salvation.”",
+          "For the hand of the Lord will rest on this mountain. But Moab will be trampled down in its place, the way straw is trampled into a manure pile.",
+          "Moab will spread out its hands in it, the way a swimmer spreads out his hands to swim. But the Lord will bring down its pride, along with the tricks of its hands.",
+          "He will bring down the high, strong fortress of your walls. He will lay it low and throw it to the ground, down into the dust."
+        ],
+        "notes": [
+          {
+            "v": 5,
+            "text": "The KJV says “the branch of the terrible ones.” Modern translations read the Hebrew word as ‘song’: the song of cruel people will be silenced."
+          },
+          {
+            "v": 6,
+            "text": "In 1831 the Lord spoke of Zion and of “a feast of fat things, of wine on the lees well refined … a supper of the house of the Lord, well prepared, unto which all nations shall be invited” (D&C 58:8–9)."
+          },
+          {
+            "v": 7,
+            "text": "Where the KJV says “destroy,” the Hebrew says ‘swallow up.’ It is the same word as in the next verse: “He will swallow up death in victory” (verse 8)."
+          },
+          {
+            "v": 8,
+            "text": "Paul says it comes true at the Resurrection: “Death is swallowed up in victory” (1 Corinthians 15:54). John heard a voice from heaven say, “God shall wipe away all tears from their eyes; and there shall be no more death” (Revelation 21:4)."
+          },
+          {
+            "v": 11,
+            "text": "The KJV reads this as the Lord spreading His hands “in the midst of them.” Many modern translations read it as Moab trying to swim in the manure pile of verse 10, while the Lord brings its pride down."
+          }
+        ],
+        "review": [
+          {
+            "v": 5,
+            "about": "The verse break falls in the middle of a picture that starts in verse 4. The plain words follow the Hebrew order; KJV “branch,” modern “song,” with a note."
+          },
+          {
+            "v": 8,
+            "about": "The Hebrew word the KJV reads as “in victory” usually means forever (the BSB has ‘swallow up death forever’). The plain words keep “in victory,” as Paul quotes it in 1 Corinthians 15:54."
+          },
+          {
+            "v": 10,
+            "about": "KJV “under him” (the Lord); the BSB reads the Hebrew as ‘in his place’ (Moab’s). The plain words follow the BSB."
+          },
+          {
+            "v": 11,
+            "about": "A hard verse. The plain words follow modern translations and add “Moab” and “the Lord” to say who does what, with a note giving the KJV reading. KJV “spoils of their hands,” plain “tricks of its hands.”"
+          }
+        ],
+        "approved": "f52e36ee"
+      },
+      {
+        "ch": "Isaiah 26",
+        "verses": [
+          "In that day this song will be sung in the land of Judah: We have a strong city. God makes salvation its walls and its defenses.",
+          "Open the gates so the righteous nation that stays faithful can come in.",
+          "You will keep in perfect peace the person whose mind is fixed on you, because he trusts in you.",
+          "Trust in the Lord forever, because the Lord Jehovah is an everlasting Rock.",
+          "For He brings down those who live up high. He brings the high city low—He brings it low, down to the ground, and lays it in the dust.",
+          "Feet will trample it—the feet of the poor and the steps of the needy.",
+          "The way of the righteous is straight and level. You, the Upright One, make the path of the righteous smooth.",
+          "Yes, Lord, we have waited for you on the path of your judgments. Our souls long for your name and to remember you.",
+          "My soul longs for you in the night. Yes, my spirit inside me looks for you early in the morning. For when your judgments come to the earth, the people of the world learn righteousness.",
+          "Even when kindness is shown to a wicked person, he does not learn righteousness. Even in a land where people do right, he does wrong and does not see the majesty of the Lord.",
+          "Lord, your hand is lifted up, but they don’t see it. They will see your zeal for your people and be ashamed. Yes, the fire meant for your enemies will burn them up.",
+          "Lord, you will give us peace, because everything we have done, you have done for us.",
+          "Lord our God, other lords besides you have ruled over us, but only you, only your name, do we honor.",
+          "They are dead; they will not live again. They are gone; they will not rise. So you punished them and destroyed them, and you wiped out every memory of them.",
+          "You have made the nation bigger, Lord. You have made the nation bigger, and you are glorified. You have pushed out all the borders of the land.",
+          "Lord, in their trouble they came to you. When you corrected them, they poured out a whispered prayer.",
+          "Like a pregnant woman about to give birth, who twists and cries out in her pain, that is how we were before you, Lord.",
+          "We were pregnant and in pain, but it was as if we gave birth to wind. We have not brought salvation to the earth, and no people have been born into the world.",
+          "Your dead will live. Together with my dead body they will rise. Wake up and sing for joy, you who live in the dust! For your dew is like the dew on the plants, and the earth will give birth to its dead.",
+          "Come, my people, go into your rooms and shut your doors behind you. Hide for a little while, until the anger has passed.",
+          "For look, the Lord is coming out of His place to punish the people of the earth for their sins. The earth will show the blood spilled on it and will no longer hide those who were killed."
+        ],
+        "notes": [
+          {
+            "v": 4,
+            "text": "Where the KJV says “everlasting strength,” the Hebrew says ‘rock of ages’: the Lord is a Rock that lasts forever."
+          },
+          {
+            "v": 11,
+            "text": "The KJV says they will be ashamed “for their envy at the people.” Modern translations read the Hebrew as God’s zeal: ‘They will see Your zeal for Your people and be put to shame.’"
+          },
+          {
+            "v": 15,
+            "text": "The KJV says God “removed it far unto all the ends of the earth.” Modern translations read the Hebrew as ‘You have extended all the borders of the land.’"
+          },
+          {
+            "v": 18,
+            "text": "The KJV says the people of the world have not “fallen.” In Hebrew, ‘fall’ can also mean ‘be born,’ which fits the picture of giving birth, so many modern translations read it that way."
+          },
+          {
+            "v": 19,
+            "text": "The Hebrew says ‘my dead body, they will rise.’ The KJV adds “together with”; the BSB reads ‘their bodies will rise.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 4,
+            "about": "KJV “the LORD JEHOVAH … everlasting strength.” The Hebrew is Yah (a short form of God’s name) plus the Lord’s name, then ‘rock of ages.’ The plain words keep Jehovah and use Rock, with a note."
+          },
+          {
+            "v": 7,
+            "about": "The KJV says God weighs the path of the just; the Hebrew word can mean weigh or make level. The plain words follow the modern ‘make level’ reading (as smooth), with no note."
+          },
+          {
+            "v": 14,
+            "about": "“Deceased” is the Hebrew rephaim, the spirits of the dead (BSB ‘departed spirits’). The plain words say “gone” to keep it simple; the same word is “the dead” at the end of verse 19."
+          },
+          {
+            "v": 19,
+            "about": "Follows the KJV and the chapter heading (“together with my dead body,” the Savior’s); the BSB reads their bodies. “Dew of herbs” kept as plants (the Hebrew can also mean lights, so the BSB has morning). “Cast out the dead” is give birth, the same Hebrew word as “fallen” in verse 18. Matthew 27:52 in the note is a link Matthew doesn’t spell out; drop it if you want only direct quotations."
+          }
+        ],
+        "approved": "f0ed9200"
+      },
+      {
+        "ch": "Isaiah 27",
+        "verses": [
+          "In that day the Lord, with His fierce, great, and strong sword, will punish leviathan (a huge sea monster), the gliding snake—leviathan, the twisting snake. He will kill the dragon that lives in the sea.",
+          "In that day, sing about her, the lovely vineyard:",
+          "I, the Lord, take care of it. I water it every moment. I guard it night and day so no one can harm it.",
+          "I am not angry. If only briers and thorns would fight against me! I would march right through them and burn them all up.",
+          "Or else let them hold on to me for protection and make peace with me. Yes, let them make peace with me.",
+          "In days to come, Jacob will take root. Israel will bud and blossom and fill the whole world with fruit.",
+          "Has the Lord struck His people as hard as He struck those who struck them? Have they been killed the way their killers were killed?",
+          "You dealt with her in measured amounts, by sending her away. He drove her out with His fierce wind, as on the day the east wind blows.",
+          "So this is how Jacob’s wrongdoing will be atoned for, and this is the full fruit of taking his sin away: when he crushes all the altar stones like chalk, no poles for the false goddess Asherah or incense altars will be left standing.",
+          "For the strong walled city stands alone and empty, a home deserted and left like the wilderness. Calves will graze there and lie down there, and they will strip its branches bare.",
+          "When its branches dry up, they are broken off, and women come and use them to start fires. For these are a people without understanding, so their Maker will not have mercy on them, and their Creator will show them no kindness.",
+          "In that day the Lord will thresh (beat out grain) from the Euphrates River to the brook of Egypt, and you, children of Israel, will be gathered up one by one.",
+          "And in that day a great trumpet will be blown. Those who were lost in the land of Assyria and those driven out to the land of Egypt will come and worship the Lord on the holy mountain in Jerusalem."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "Revelation uses the same picture for Satan: “the great dragon … that old serpent, called the Devil, and Satan” (Revelation 12:9)."
+          },
+          {
+            "v": 2,
+            "text": "The KJV says “a vineyard of red wine.” The standard Hebrew text reads ‘a vineyard of delight’; some Hebrew copies read ‘wine.’ The two Hebrew words differ by one letter that looks almost the same."
+          },
+          {
+            "v": 8,
+            "text": "The KJV says He “stayeth his rough wind,” holding it back. Modern translations read the Hebrew differently: He ‘removed her with a fierce wind,’ sending Israel away into exile."
+          },
+          {
+            "v": 9,
+            "text": "Paul puts words from this verse together with Isaiah 59:20–21 to promise that Israel will be saved: “For this is my covenant unto them, when I shall take away their sins” (Romans 11:27)."
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "The KJV’s “piercing serpent” is ‘fleeing’ or ‘gliding’ in modern translations; the plain words say gliding. The note’s Revelation 12:9 link fits the short version’s Satan reading, but Revelation does not quote this verse."
+          },
+          {
+            "v": 2,
+            "about": "The plain words follow today’s Hebrew text (delight), not the KJV’s “red wine”; a note explains. You may prefer to keep wine."
+          },
+          {
+            "v": 4,
+            "about": "The Hebrew “who would set …” is an idiom for “if only”; the KJV keeps it as a question. The plain words use if only, as the BSB does."
+          },
+          {
+            "v": 6,
+            "about": "KJV “He shall cause them that come of Jacob to take root”; the plain words follow the modern reading, “in days to come, Jacob will take root.”"
+          },
+          {
+            "v": 8,
+            "about": "Hard Hebrew. The first word may mean by measure (KJV) or by warfare (BSB); the plain words keep measure. Verse 7 names the Lord and His people to make the pronouns clear."
+          }
+        ],
+        "approved": "7acaaea3"
+      },
+      {
+        "ch": "Isaiah 28",
+        "verses": [
+          "How terrible for the proud crown of Ephraim’s drunkards, and for the fading flower of its glorious beauty, which sits on top of the rich valley of those knocked out by wine!",
+          "Look, the Lord has someone mighty and strong. Like a hailstorm and a destroying storm, like a flood of mighty, overflowing waters, he will throw it down to the ground with his hand.",
+          "The proud crown of Ephraim’s drunkards will be trampled underfoot.",
+          "And the fading flower of its glorious beauty, on top of the rich valley, will be like the first ripe fig before summer: as soon as someone sees it, he picks it and swallows it right out of his hand.",
+          "In that day the Lord of Hosts will be a crown of glory and a beautiful wreath for those of His people who are left.",
+          "He will be a spirit of justice for the one who sits as judge, and strength for those who drive the enemy back at the gate.",
+          "But these also stagger from wine and stumble from strong drink. The priest and the prophet stagger from strong drink and are confused by wine. They stumble from strong drink; they make mistakes in their visions and trip up when they judge.",
+          "For every table is covered with vomit and filth, so there is no clean place left.",
+          "Who will He teach knowledge to? Who will He help understand His message? Those just weaned from milk, just taken from the breast.",
+          "For it is precept upon precept, precept upon precept, line upon line, line upon line, here a little and there a little.",
+          "For He will speak to this people with stammering lips and in another language.",
+          "He had said to them, “This is the place of rest. Let the tired rest. This is where you can be refreshed.” But they would not listen.",
+          "So the word of the Lord to them will be precept upon precept, precept upon precept, line upon line, line upon line, here a little and there a little, so that they will go and fall backward, and be broken, trapped, and captured.",
+          "So hear the word of the Lord, you men who mock, who rule this people in Jerusalem.",
+          "For you have said, “We have made a covenant with death, and we have made a deal with the grave. When the flood of punishment sweeps through, it won’t reach us, because we have made lies our refuge and hidden ourselves behind what is false.”",
+          "So this is what the Lord God says: “Look, I am laying a stone in Zion as a foundation—a tested stone, a precious cornerstone, a sure foundation. Whoever believes will not panic.”",
+          "I will make justice the measuring line and righteousness the level. Hail will sweep away the refuge of lies, and water will flood the hiding place.",
+          "Your covenant with death will be canceled, and your deal with the grave will not stand. When the flood of punishment sweeps through, you will be trampled by it.",
+          "Every time it sweeps through, it will carry you away. Morning after morning it will sweep through, by day and by night. Just understanding this message will bring terror.",
+          "The bed is too short to stretch out on, and the blanket is too narrow to wrap yourself in.",
+          "For the Lord will rise up as He did at Mount Perazim and be angry as He was in the valley of Gibeon (places where He once fought Israel’s enemies), to do His work, His strange work, and to bring about His act, His strange act.",
+          "So now, stop mocking, or your chains will get tighter. For I have heard from the Lord God of Hosts that destruction has been decided against the whole earth.",
+          "Listen and hear my voice. Pay attention and hear my words.",
+          "Does a farmer plow all day long just to plant? Does he keep loosening his soil and breaking up its clods?",
+          "When he has leveled the ground, doesn’t he scatter black cumin and sow cumin (both spices), and plant wheat in rows, barley in its place, and spelt (a kind of grain) along the edges?",
+          "For his God teaches him the right way and shows him what to do.",
+          "Black cumin isn’t threshed with a heavy threshing sledge, and a cart wheel isn’t rolled over cumin. Black cumin is beaten out with a stick, and cumin with a rod.",
+          "Grain for bread has to be crushed, but no one keeps threshing it forever. He drives his cart wheels and horses over it, but he doesn’t crush it to powder.",
+          "This also comes from the Lord of Hosts, whose counsel is wonderful and whose wisdom is great."
+        ],
+        "notes": [
+          {
+            "v": 10,
+            "text": "In Hebrew this sounds like baby talk: ‘tsav la-tsav, tsav la-tsav, kav la-kav, kav la-kav.’ The Lord uses these words for how He teaches a little at a time: “line upon line, precept upon precept” (2 Nephi 28:30). See also D&C 98:12."
+          },
+          {
+            "v": 11,
+            "text": "Paul quotes this verse when he teaches about the gift of tongues: “With men of other tongues and other lips will I speak unto this people” (1 Corinthians 14:21)."
+          },
+          {
+            "v": 15,
+            "text": "Where the KJV says “hell,” the Hebrew says Sheol, the world of the dead. The BSB keeps the Hebrew word: ‘an agreement with Sheol.’"
+          },
+          {
+            "v": 16,
+            "text": "Peter quotes this verse about Jesus Christ: “Behold, I lay in Sion a chief corner stone, elect, precious: and he that believeth on him shall not be confounded” (1 Peter 2:6). Paul quotes it too (Romans 9:33; 10:11)."
+          },
+          {
+            "v": 21,
+            "text": "The Lord uses these words again in the Doctrine and Covenants: “bring to pass my act, my strange act, and perform my work, my strange work” (D&C 101:95)."
+          }
+        ],
+        "review": [
+          {
+            "v": 9,
+            "about": "Two readings of verses 9–10: the KJV and the chapter heading have God teaching step by step; many modern translations hear the drunken leaders mocking Isaiah. The plain words follow the KJV and keep “precept upon precept” and “line upon line”; the note gives the baby-talk Hebrew."
+          },
+          {
+            "v": 13,
+            "about": "The KJV says the word “was” to them; the Hebrew is future (BSB ‘will become’). The plain words say will be."
+          },
+          {
+            "v": 16,
+            "about": "“Shall not make haste” is “will not panic” in the plain words; the BSB has ‘will never be shaken,’ and the New Testament, from the Greek, “shall not be confounded.”"
+          },
+          {
+            "v": 21,
+            "about": "The plain words add a few words saying what Perazim and Gibeon were (2 Samuel 5:20; Joshua 10:10–11). Check you want them."
+          },
+          {
+            "v": 28,
+            "about": "The KJV says he won’t break it with his cart wheel; the Hebrew says he drives the wheel and horses over it but doesn’t crush it. The plain words follow the Hebrew (and the BSB)."
+          }
+        ],
+        "approved": "115a9c8c"
+      },
+      {
+        "ch": "Isaiah 29",
+        "verses": [
+          "How terrible it will be for Ariel, for Ariel, the city of Jerusalem where David camped! Let year follow year, and let your feasts keep coming around.",
+          "Then I will bring trouble on Ariel. There will be mourning and crying, and she will be to me like an Ariel, an altar where the fire burns.",
+          "I will set up camp all around you. I will close you in with siege towers and build forts against you.",
+          "You will be brought low. You will speak from the ground, and your words will come softly out of the dust. Your voice will be like a spirit’s voice from the ground, and your words will whisper out of the dust.",
+          "But the crowds of your foreign enemies will be like fine dust, and the crowds of cruel men like chaff blowing away. It will happen suddenly, in an instant.",
+          "The Lord of Hosts will come to you with thunder, earthquake, and a great noise, with windstorm and tempest, and with the flame of a fire that burns everything up.",
+          "All the crowds of nations that fight against Ariel—all who attack her and her fortress and press her hard—will be like a dream, like a vision in the night.",
+          "It will be like when a hungry man dreams he is eating, but he wakes up and is still empty; or when a thirsty man dreams he is drinking, but he wakes up faint and still thirsty. That is how it will be for the crowds of all the nations that fight against Mount Zion.",
+          "Stop and be amazed! Blind yourselves and be blind! They are drunk, but not from wine. They stagger, but not from strong drink.",
+          "For the Lord has poured out on you a spirit of deep sleep. He has closed your eyes—the prophets—and covered your heads—the seers.",
+          "This whole vision has become to you like the words of a sealed book. People give it to someone who is educated and say, “Please read this.” He answers, “I can’t, because it is sealed.”",
+          "Then the book is given to someone who is not educated, with the words, “Please read this.” He answers, “I am not educated.”",
+          "So the Lord said, “These people come near me with their mouths and honor me with their lips, but their hearts are far from me. Their worship of me is only rules taught by men.”",
+          "“So I will once again do a marvelous work among these people, a marvelous work and a wonder. The wisdom of their wise men will be lost, and the understanding of their clever men will disappear.”",
+          "How terrible for those who dig deep to hide their plans from the Lord! They do their deeds in the dark and say, “Who sees us? Who knows about us?”",
+          "You turn everything upside down! Should the potter be thought of as the clay? Can a thing that was made say about the one who made it, “He didn’t make me”? Can a pot say about the potter, “He doesn’t understand”?",
+          "In just a very little while, won’t Lebanon be turned into a fruitful field, and won’t the fruitful field seem like a forest?",
+          "On that day the deaf will hear the words of the book, and the eyes of the blind will see out of the gloom and the darkness.",
+          "The humble will have more and more joy in the Lord, and the poorest people will be glad in the Holy One of Israel.",
+          "For the cruel will come to an end, the mockers will be gone, and all who watch for a chance to do evil will be cut off—",
+          "those who make a man guilty with a word, set a trap for the one who speaks up for justice at the city gate, where court was held, and push aside an innocent person with empty claims.",
+          "So this is what the Lord, who redeemed Abraham, says about the house of Jacob: “Jacob will not be ashamed anymore, and his face will not turn pale anymore.”",
+          "“When he sees his children, the work of my hands, around him, they will keep my name holy. They will honor the Holy One of Jacob as holy and stand in awe of the God of Israel.”",
+          "“Those whose spirits went astray will come to understanding, and those who grumbled will learn doctrine.”"
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "The KJV says “let them kill sacrifices.” Modern translations read the Hebrew as the yearly feasts coming around: ‘let your festivals recur.’"
+          },
+          {
+            "v": 4,
+            "text": "Nephi says this is about his people, whose record would come forth later: “those who shall be destroyed shall speak unto them out of the ground” (2 Nephi 26:16). Moroni says the same of his words (Moroni 10:27)."
+          },
+          {
+            "v": 9,
+            "text": "The KJV says “cry ye out, and cry,” and the Book of Mormon reads the same way (2 Nephi 27:4). The BSB reads the Hebrew as ‘blind yourselves and be sightless,’ which fits the closed eyes in verse 10."
+          },
+          {
+            "v": 10,
+            "text": "In the Book of Mormon, the people close their own eyes: “ye have closed your eyes, and ye have rejected the prophets” (2 Nephi 27:5)."
+          },
+          {
+            "v": 11,
+            "text": "Nephi tells much more about this book (2 Nephi 27:6–20). It came true when Martin Harris took characters copied from the plates to Professor Charles Anthon, who said, “I cannot read a sealed book” (Joseph Smith—History 1:63–65)."
+          },
+          {
+            "v": 12,
+            "text": "In Nephi’s version the Lord tells the man who is not learned, “The learned shall not read them, for they have rejected them, and I am able to do mine own work” (2 Nephi 27:20)."
+          },
+          {
+            "v": 13,
+            "text": "Jesus quoted this to the Pharisees and scribes (Matthew 15:7–9). In the First Vision He said it again: “they draw near to me with their lips, but their hearts are far from me” (Joseph Smith—History 1:19)."
+          },
+          {
+            "v": 14,
+            "text": "Nephi’s version adds the learned: “the wisdom of their wise and learned shall perish” (2 Nephi 27:26). In 1829 the Lord said, “a marvelous work is about to come forth among the children of men” (D&C 4:1)."
+          },
+          {
+            "v": 16,
+            "text": "The KJV reads “your turning of things upside down shall be esteemed as the potter’s clay”; the BSB, ‘as if the potter were regarded as clay.’ In Nephi’s version the wicked say this, and the Lord answers, “I know all their works” (2 Nephi 27:27)."
+          },
+          {
+            "v": 18,
+            "text": "Nephi repeats this verse in his prophecy of the book (2 Nephi 27:29). He says that when its words reach his people’s descendants, “their scales of darkness shall begin to fall from their eyes” (2 Nephi 30:6)."
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "The KJV says “let them kill sacrifices.” The Hebrew reads as yearly feasts coming around (BSB ‘let your festivals recur’). The plain words follow the Hebrew; there is no note, so decide if one is wanted. “Ariel” is explained as Jerusalem in a few words."
+          },
+          {
+            "v": 2,
+            "about": "Wordplay: Ariel is also the Hebrew word for an altar hearth (the altar top in Ezekiel 43:15–16). The KJV keeps “as Ariel”; the plain words say “like an Ariel, an altar where the fire burns.”"
+          },
+          {
+            "v": 9,
+            "about": "A choice between readings: the KJV and 2 Nephi 27:4 have “cry ye out, and cry”; the Hebrew and BSB say ‘blind yourselves and be blind.’ The plain words follow the Hebrew, with a note."
+          },
+          {
+            "v": 10,
+            "about": "The Hebrew makes the prophets the people’s “eyes” and the seers their “heads”; the KJV turns “heads” into “rulers.” The plain words keep eyes and heads."
+          },
+          {
+            "v": 11,
+            "about": "The Hebrew says one who “knows writing” and one who does not (verse 12). The KJV says learned and not learned; the BSB says can and cannot read. The plain words use educated and not educated, to keep the tie to “the learned” in 2 Nephi 27."
+          },
+          {
+            "v": 14,
+            "about": "“I will proceed” is literally ‘I will add’ in the Hebrew, so the plain words say “once again.” The phrase “a marvelous work and a wonder” is kept because of D&C 4:1 and 2 Nephi 27:26."
+          },
+          {
+            "v": 16,
+            "about": "The KJV and modern translations read the first line differently. The plain words follow the modern reading, with a note."
+          },
+          {
+            "v": 21,
+            "about": "Hard Hebrew. The gate was where court was held, so the plain words add four words to say so. “For a thing of nought” is literally ‘with emptiness,’ given as “with empty claims.”"
+          }
+        ],
+        "approved": "98da4f58"
+      },
+      {
+        "ch": "Isaiah 30",
+        "verses": [
+          "How terrible it will be for the rebellious children, says the Lord. They make plans that don’t come from me, and make alliances that don’t come from my Spirit, piling sin on top of sin.",
+          "They set out to go down to Egypt without asking me. They want to be made strong by Pharaoh’s strength and to hide in Egypt’s shadow!",
+          "But Pharaoh’s strength will bring you shame, and hiding in Egypt’s shadow will bring you disgrace.",
+          "For his officials are at Zoan, and his messengers have reached Hanes, cities in Egypt.",
+          "They will all be put to shame by a people who can’t do them any good. That people brings no help and no gain, only shame and disgrace.",
+          "A message about the animals of the southern desert: Through a land of trouble and hardship, where lionesses and lions, vipers and flying serpents come from, they carry their riches on the backs of young donkeys and their treasures on the humps of camels, to a people who can’t help them.",
+          "The help of the Egyptians is worthless and empty. That is why I call Egypt “Rahab Who Sits Still.”",
+          "Now go, write it on a tablet in front of them, and record it in a book, so it will be there for the days to come, forever and ever.",
+          "For they are a rebellious people, lying children, children who refuse to listen to the law of the Lord.",
+          "They say to the seers, “Don’t see visions,” and to the prophets, “Don’t prophesy to us what is right. Tell us smooth, pleasant things. Prophesy illusions.”",
+          "“Get out of the way! Leave the path! Take the Holy One of Israel away from us!”",
+          "So this is what the Holy One of Israel says: Because you reject this word, and trust in cruelty and crooked ways, and lean on them,",
+          "therefore this sin will be like a broken spot in a high wall, bulging out and about to fall. It will crash down suddenly, in an instant.",
+          "It will be smashed like a potter’s jar, broken to bits without mercy, so that not one piece will be found big enough to carry coals from the fireplace or to scoop water from a cistern.",
+          "For the Lord God, the Holy One of Israel, says: “By turning back and resting you will be saved. Your strength will come from being calm and trusting.” But you were not willing.",
+          "You said, “No! We will run away on horses.” So you will run away! “We will ride fast horses.” So those who chase you will be fast.",
+          "A thousand will run away at the threat of one. At the threat of five you will all run away, until you are left like a flagpole on top of a mountain, like a banner on a hill.",
+          "So the Lord waits, ready to be gracious to you, and He rises up to show you mercy. For the Lord is a God of justice. Blessed are all who wait for Him.",
+          "People will live in Zion, in Jerusalem. You will not weep anymore. He will surely be kind to you when you cry out. As soon as He hears it, He will answer you.",
+          "The Lord may give you the bread of hard times and the water of suffering, but your teachers will not be hidden away anymore. Your own eyes will see your teachers.",
+          "Your ears will hear a word behind you saying, “This is the way. Walk in it,” whenever you turn to the right or to the left.",
+          "You will treat as unclean the silver covering of your carved idols and the gold coating of your metal statues. You will throw them away like a filthy rag and say to them, “Get out of here!”",
+          "Then He will send rain for the seed you plant in the ground, and the food that comes from the land will be rich and plentiful. On that day your cattle will graze in wide pastures.",
+          "The oxen and young donkeys that plow the ground will eat seasoned feed that has been cleaned with a shovel and a fork.",
+          "On every high mountain and every tall hill there will be streams and brooks of water on the day of the great slaughter, when the towers fall.",
+          "The moon will shine as bright as the sun, and the sun will shine seven times brighter, like the light of seven days, on the day the Lord bandages His people’s injuries and heals the wounds where they were struck.",
+          "Look! The name of the Lord is coming from far away, burning with His anger, and the load it brings is heavy. His lips are full of fury, and His tongue is like a fire that burns everything up.",
+          "His breath is like a flooding river that rises up to the neck. He will shake the nations in a sieve of destruction and put a bridle in the mouths of the peoples that leads them the wrong way.",
+          "You will sing like on the night of a holy feast, and your heart will be glad like someone walking to the music of a flute, going to the mountain of the Lord, to the Rock of Israel.",
+          "The Lord will make His glorious voice heard and show His arm coming down in furious anger, with the flame of a fire that burns everything up, with cloudburst, storm, and hailstones.",
+          "The voice of the Lord will shatter the Assyrian, who struck with a rod.",
+          "Every stroke of the appointed rod that the Lord lays on him will come with the sound of tambourines and harps, and He will fight against them with swinging blows in battle.",
+          "For Tophet, a place of burning, was made ready long ago. Yes, it is prepared for the king. It has been made deep and wide, piled with fire and plenty of wood. The breath of the Lord, like a stream of burning sulfur, sets it on fire."
+        ],
+        "notes": [
+          {
+            "v": 7,
+            "text": "Here Rahab, a name for a proud sea monster, is Isaiah’s nickname for Egypt, not the Rahab of Jericho. The KJV reads the Hebrew another way: “Their strength is to sit still.”"
+          },
+          {
+            "v": 20,
+            "text": "The Hebrew can mean one Teacher or many. The KJV says “thy teachers”; the BSB reads it as God Himself: ‘your Teacher will no longer hide Himself—with your own eyes you will see Him.’"
+          },
+          {
+            "v": 29,
+            "text": "The Hebrew title here is ‘the Rock of Israel,’ as in the BSB. The KJV says “the mighty One of Israel.”"
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "“Cover with a covering” is literally ‘pour out a drink offering,’ likely the offering that sealed a treaty. The plain words say “make alliances,” like the BSB."
+          },
+          {
+            "v": 4,
+            "about": "Whose officials? The Hebrew says “his,” likely Judah’s king (some read Pharaoh’s). The plain words keep “his” and add “cities in Egypt” for Zoan and Hanes."
+          },
+          {
+            "v": 7,
+            "about": "A choice between readings: the KJV reads Rahab as “strength”; the BSB and the plain words read it as a name for Egypt, with a note."
+          },
+          {
+            "v": 20,
+            "about": "“Teachers” is plural in form but has a singular verb. The plain words keep the KJV’s teachers; the note gives the BSB’s Teacher."
+          },
+          {
+            "v": 22,
+            "about": "The KJV’s “menstruous cloth” is given as “a filthy rag” for a family reader. Check that this is all right."
+          },
+          {
+            "v": 27,
+            "about": "“The burden thereof is heavy” may mean thick rising smoke (the BSB says ‘dense smoke’). The plain words keep the KJV’s sense of a heavy load."
+          },
+          {
+            "v": 31,
+            "about": "The Hebrew can mean the Assyrian who strikes with a rod (KJV, compare Isaiah 10:24) or the Lord striking him (BSB). The plain words keep the KJV’s reading, with no note."
+          },
+          {
+            "v": 32,
+            "about": "Hard Hebrew: “grounded staff” is the appointed rod, and “battles of shaking” are battles of swinging or brandishing. Read it against the Hebrew."
+          }
+        ],
+        "approved": "5001c208"
+      },
+      {
+        "ch": "Isaiah 35",
+        "verses": [
+          "The wilderness and the dry land will be glad for them, and the desert will rejoice and bloom like a rose.",
+          "It will bloom with flowers everywhere and rejoice with joy and singing. It will be given the glory of Lebanon and the beauty of Carmel and Sharon. They will see the glory of the Lord, the beauty of our God.",
+          "Make weak hands strong, and make shaky knees steady.",
+          "Say to those whose hearts are afraid, “Be strong, don’t be afraid! Look, your God will come with vengeance; God will pay back what is deserved. He will come and save you.”",
+          "Then the eyes of the blind will be opened, and the ears of the deaf will be unplugged.",
+          "Then the lame will leap like a deer, and the tongue of the mute will sing for joy. For water will burst out in the wilderness, and streams in the desert.",
+          "The dry, burning ground will become a pool, and the thirsty land will become springs of water. Where jackals used to lie down, grass will grow with reeds and rushes.",
+          "A highway will be there, a road, and it will be called the Way of Holiness. The unclean will not travel on it. It will be for those who walk on the way, and fools will not go astray on it.",
+          "No lion will be there, and no fierce animal will go up on it. None will be found there. But the redeemed will walk there.",
+          "The people the Lord has ransomed will come back. They will come to Zion singing, with joy that lasts forever on their heads. They will gain joy and gladness, and sorrow and sighing will run away."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "The Hebrew flower is probably a crocus or a lily; the KJV and BSB both say rose. The Lord used the same picture in our day: “the Lamanites shall blossom as the rose” (D&C 49:24)."
+          },
+          {
+            "v": 3,
+            "text": "Hebrews 12:12 repeats it to encourage the Saints, and the Lord told a Church leader to “succor the weak, lift up the hands which hang down, and strengthen the feeble knees” (D&C 81:5)."
+          },
+          {
+            "v": 5,
+            "text": "When John the Baptist asked if Jesus was the One who should come, Jesus pointed to these very things: “The blind receive their sight, and the lame walk … and the deaf hear” (Matthew 11:5)."
+          },
+          {
+            "v": 7,
+            "text": "The KJV says “dragons,” but the Hebrew word means jackals, wild dogs of the desert, as in the BSB."
+          },
+          {
+            "v": 10,
+            "text": "Modern scripture says the righteous “shall be gathered out from among all nations, and shall come to Zion, singing with songs of everlasting joy” (D&C 45:71). Isaiah 51:11 says nearly the same."
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "The Hebrew verb ends in “them,” so the KJV says “glad for them.” The BSB leaves it out (many scholars think the letter was copied twice by mistake). The plain words keep it, like the KJV."
+          },
+          {
+            "v": 4,
+            "about": "“Vengeance … a recompence” is God setting things right and paying back what is due. The plain words keep “vengeance” and say “God’s repayment.”"
+          },
+          {
+            "v": 8,
+            "about": "The last line is unclear in Hebrew: the KJV says travelers, even fools, won’t get lost; the BSB says fools won’t stray onto the road. The plain words say “fools will not go astray on it,” which allows both."
+          }
+        ],
+        "approved": "c85bdb81"
       }
     ],
     "tldr": [
@@ -774,7 +1635,8 @@ window.TU_WEEKS = [
           "People run for home, and anyone caught is killed. God stirs up the Medes against Babylon, and they show no pity. (verses 14–18)",
           "Babylon stands for the wicked world. God will overthrow it like Sodom and Gomorrah, and it will fall forever. (verses 19–22)"
         ],
-        "also": "Nephi quotes this chapter in the Book of Mormon (2 Nephi 23)."
+        "also": "Nephi quotes this chapter in the Book of Mormon (2 Nephi 23).",
+        "approved": "78e7d006"
       },
       {
         "ch": "Isaiah 14",
@@ -794,7 +1656,8 @@ window.TU_WEEKS = [
             "v": 12,
             "about": "In the verse Isaiah is speaking to the king of Babylon (the BSB has “day star”); the card follows the heading and the Scripture Helps in naming Lucifer as Satan."
           }
-        ]
+        ],
+        "approved": "f98d0475"
       },
       {
         "ch": "Isaiah 22",
@@ -809,7 +1672,8 @@ window.TU_WEEKS = [
             "v": 25,
             "about": "The card stops at verse 24: verse 25 says the nail in the sure place will be removed and fall, which is hard to fit with the Messiah reading."
           }
-        ]
+        ],
+        "approved": "207c098f"
       },
       {
         "ch": "Isaiah 24",
@@ -818,7 +1682,8 @@ window.TU_WEEKS = [
           "People break God’s laws, change His ordinance, and break the everlasting covenant. They will be burned at the Second Coming, and few will be left. (verses 5–6)",
           "Joy ends, and the city lies in ruins. A few sing praise to the Lord, but the earth staggers like a drunkard. (verses 7–20)",
           "The Lord will punish the kings of the earth. Then He will reign in Zion and Jerusalem, and even the sun will be ashamed. (verses 21–23)"
-        ]
+        ],
+        "approved": "1e264880"
       },
       {
         "ch": "Isaiah 25",
@@ -827,7 +1692,8 @@ window.TU_WEEKS = [
           "The Lord will make a gospel feast of the richest food for all people on Mount Zion. He will remove the veil over all nations. (verses 6–7)",
           "He will swallow up death in victory and wipe away all tears. His people will rejoice and say, “Lo, this is our God.” (verses 8–9)",
           "The Lord’s hand will rest on Mount Zion, but He will bring the proud nation of Moab down to the dust. (verses 10–12)"
-        ]
+        ],
+        "approved": "24d28f55"
       },
       {
         "ch": "Isaiah 26",
@@ -842,7 +1708,8 @@ window.TU_WEEKS = [
             "v": 19,
             "about": "The card follows the heading and the KJV’s “my dead body” (Jehovah’s body); the BSB reads “their bodies will rise”."
           }
-        ]
+        ],
+        "approved": "7094ca9e"
       },
       {
         "ch": "Isaiah 27",
@@ -857,7 +1724,8 @@ window.TU_WEEKS = [
             "v": 1,
             "about": "Reading leviathan as Satan and all evil comes from the Scripture Helps, which say that in Isaiah’s day it seems to stand for the nations that fought God’s people."
           }
-        ]
+        ],
+        "approved": "e5f4ec19"
       },
       {
         "ch": "Isaiah 28",
@@ -872,7 +1740,8 @@ window.TU_WEEKS = [
             "v": 10,
             "about": "The Scripture Helps say verses 9–13 are hard to translate and may be the drunken priests mocking Isaiah with nonsense sounds; the card follows the heading’s “revelation comes line upon line”."
           }
-        ]
+        ],
+        "approved": "680edeeb"
       },
       {
         "ch": "Isaiah 29",
@@ -888,7 +1757,8 @@ window.TU_WEEKS = [
             "v": 4,
             "about": "The verse is about Ariel (Jerusalem) speaking from the dust; the Nephites come from the heading and Nephi’s use of it in 2 Nephi 26–27."
           }
-        ]
+        ],
+        "approved": "cf329e90"
       },
       {
         "ch": "Isaiah 30",
@@ -903,7 +1773,8 @@ window.TU_WEEKS = [
             "v": 27,
             "about": "“In a day of apostasy” and “the wicked” come from the heading; the verses name the nations and Assyria."
           }
-        ]
+        ],
+        "approved": "373b4ccd"
       },
       {
         "ch": "Isaiah 35",
@@ -918,9 +1789,12 @@ window.TU_WEEKS = [
             "v": 8,
             "about": "Calling the way of holiness “the covenant path” comes from the Scripture Helps, not the verse."
           }
-        ]
+        ],
+        "approved": "de89db5b"
       }
-    ]
+    ],
+    "approved": "14e9a1ec",
+    "wordsApproved": "d8e1fdf7"
   },
   {
     "dates": "September 28–October 4, 2026",
@@ -3570,7 +4444,8 @@ window.TU_WEEKS = [
             "v": 10,
             "about": "Line 4 rests on “trust in the name of the Lord,” which the Book of Mormon’s copy (2 Nephi 7:10) leaves out; the KJV, the plain words and the lesson (50:10) have it."
           }
-        ]
+        ],
+        "approved": "4d6e6800"
       },
       {
         "ch": "Isaiah 51",
@@ -3580,7 +4455,8 @@ window.TU_WEEKS = [
           "The Lord is the one who comforts them, so they don’t need to fear men, who die like grass. He calls Zion His people. (verses 12–16)",
           "Jerusalem, who drank the cup of the Lord’s anger, is told to wake up and stand up. He gives that cup to her enemies. (verses 17–23)"
         ],
-        "also": "Jacob quotes this chapter in the Book of Mormon (2 Nephi 8)."
+        "also": "Jacob quotes this chapter in the Book of Mormon (2 Nephi 8).",
+        "approved": "81a313c7"
       },
       {
         "ch": "Isaiah 52",
@@ -3595,7 +4471,8 @@ window.TU_WEEKS = [
             "v": 13,
             "about": "Line 4 names the servant the Messiah, as the heading does; the Scripture Helps add that Jesus also tied verse 13 to a latter-day servant (3 Nephi 21:9), likely Joseph Smith."
           }
-        ]
+        ],
+        "approved": "a0e85fed"
       },
       {
         "ch": "Isaiah 53",
@@ -3611,7 +4488,8 @@ window.TU_WEEKS = [
             "v": 4,
             "about": "Changed from the sample you saw: line 1 now ends with verse 4 (He carries our griefs and sorrows, the week’s title and the lesson’s focus) instead of verse 3’s “He will know sorrow and grief,” so line 2 starts at verse 5."
           }
-        ]
+        ],
+        "approved": "e83c9f1e"
       },
       {
         "ch": "Isaiah 54",
@@ -3621,7 +4499,8 @@ window.TU_WEEKS = [
           "His promise to her is as sure as His promise to Noah. Mountains may move, but His kindness and covenant of peace will stay. (verses 9–10)",
           "He will build her with jewels, teach her children, and give them great peace. No weapon made against her will succeed. (verses 11–17)"
         ],
-        "also": "Jesus quotes this chapter in the Book of Mormon (3 Nephi 22)."
+        "also": "Jesus quotes this chapter in the Book of Mormon (3 Nephi 22).",
+        "approved": "8c3cc135"
       },
       {
         "ch": "Isaiah 55",
@@ -3630,7 +4509,8 @@ window.TU_WEEKS = [
           "Isaiah tells people to seek the Lord and call on Him while He is near. He will fully forgive the wicked who turn back. (verses 6–7)",
           "The Lord’s thoughts and ways are higher than ours, as the heavens are higher than the earth. (verses 8–9)",
           "Like rain, His word does what He sends it to do. His people will go out with joy, and trees will clap their hands. (verses 10–13)"
-        ]
+        ],
+        "approved": "aef972ba"
       },
       {
         "ch": "Isaiah 56",
@@ -3645,7 +4525,8 @@ window.TU_WEEKS = [
             "v": 5,
             "about": "Line 2 uses the heading’s “exalted” for verse 5’s promise to the eunuchs (a place in His house and a name that lasts forever), and “men who can’t have children” is the plain words’ gloss for eunuchs."
           }
-        ]
+        ],
+        "approved": "2477e8d7"
       },
       {
         "ch": "Isaiah 57",
@@ -3660,7 +4541,8 @@ window.TU_WEEKS = [
             "v": 13,
             "about": "“Their idols can’t save them” follows the plain words and the note; the KJV says “companies.”"
           }
-        ]
+        ],
+        "approved": "533af703"
       }
     ]
   },
@@ -6330,7 +7212,8 @@ window.TU_WEEKS = [
             "v": 12,
             "about": "The line follows the Hebrew “watching” (the almond pun in the note); the KJV says “hasten.”"
           }
-        ]
+        ],
+        "approved": "715c8767"
       },
       {
         "ch": "Jeremiah 2",
@@ -6339,7 +7222,8 @@ window.TU_WEEKS = [
           "The Lord is the fountain of living waters, but His people have left Him for broken cisterns, or water pits, that can’t hold water. (verses 9–13)",
           "Leaving the Lord has ruined their land. They call a piece of wood their father, but their idols can’t save them. (verses 14–28)",
           "The people of Judah killed their prophets and forgot the Lord. They say they haven’t sinned, but He will bring charges against them. (verses 29–37)"
-        ]
+        ],
+        "approved": "f362f195"
       },
       {
         "ch": "Jeremiah 3",
@@ -6354,7 +7238,8 @@ window.TU_WEEKS = [
             "v": 14,
             "about": "“In the last days” comes from the chapter heading; the verses themselves say “in those days” (verses 16 and 18)."
           }
-        ]
+        ],
+        "approved": "b8e3b855"
       },
       {
         "ch": "Jeremiah 7",
@@ -6363,7 +7248,8 @@ window.TU_WEEKS = [
           "They steal and murder, then feel safe in the temple, like robbers in their den. God will ruin it as He ruined Shiloh and cast them out. (verses 8–15)",
           "God tells Jeremiah not to pray for them. He wants them to obey His voice, but they won’t listen to Him or His prophets. (verses 16–28)",
           "The Lord rejects this generation for their idols and for sacrificing their children in fire, which He never commanded. The land will be ruined. (verses 29–34)"
-        ]
+        ],
+        "approved": "f66820f7"
       },
       {
         "ch": "Jeremiah 16",
@@ -6382,7 +7268,8 @@ window.TU_WEEKS = [
             "v": 19,
             "about": "The heading’s “the gospel is to be restored” is placed on verses 19–21; the verses say Gentiles from the ends of the earth will turn from their fathers’ lies and know the Lord’s name."
           }
-        ]
+        ],
+        "approved": "e672dce8"
       },
       {
         "ch": "Jeremiah 17",
@@ -6391,7 +7278,8 @@ window.TU_WEEKS = [
           "Those who trust in people are like a dry desert bush. Those who trust the Lord are like a green tree by a river. (verses 5–8)",
           "The heart can fool anyone, but the Lord searches it. All who leave Him, the fountain of living waters, will be ashamed, and Jeremiah prays to be healed. (verses 9–18)",
           "If the people keep the Sabbath day holy, Jerusalem will last forever. If they don’t, God will set the city on fire. (verses 19–27)"
-        ]
+        ],
+        "approved": "99c674df"
       },
       {
         "ch": "Jeremiah 18",
@@ -6410,7 +7298,8 @@ window.TU_WEEKS = [
             "v": 21,
             "about": "Jeremiah’s prayer against his enemies (famine, sword, don’t forgive them) is summed up as “asks Him to punish them.”"
           }
-        ]
+        ],
+        "approved": "0198488e"
       },
       {
         "ch": "Jeremiah 20",
@@ -6419,7 +7308,8 @@ window.TU_WEEKS = [
           "When he is let out, Jeremiah prophesies that the Lord will give all Judah to Babylon as captives. Pashur will die there. (verses 3–6)",
           "People mock Jeremiah, so he decides to stay quiet. But God’s word burns in his heart like fire, and he can’t hold it in. (verses 7–10)",
           "The Lord is with him like a mighty warrior, and Jeremiah praises Him. Still, in his sorrow, he wishes he had never been born. (verses 11–18)"
-        ]
+        ],
+        "approved": "736e236f"
       }
     ]
   }
