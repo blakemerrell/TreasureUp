@@ -17,6 +17,8 @@ const IMG = {
   robber: new Image(),
   robberArcher: new Image(),
   robberChief: new Image(),
+  nslinger: new Image(),
+  archer: new Image(),
   stripling: new Image(),
   lamanite: new Image(),
   cart: new Image(),
@@ -34,6 +36,8 @@ IMG.worker.src = 'assets/worker.png?v=1';        // drawn by Gemini: liberty/art
 IMG.robber.src = 'assets/robber.png?v=1';        // and these: 002-robbers.md
 IMG.robberArcher.src = 'assets/robber_archer.png?v=1';
 IMG.robberChief.src = 'assets/robber_chief.png?v=1';
+IMG.nslinger.src = 'assets/nslinger.png?v=1';    // and these: 003-slinger-archer.md
+IMG.archer.src = 'assets/archer.png?v=1';
 IMG.stripling.src = 'assets/stripling.png?v=13';
 IMG.lamanite.src = 'assets/lamanite.png?v=13';
 IMG.cart.src = 'assets/cart.png?v=13';
@@ -1009,6 +1013,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
     } else if (u.type === 'stripling') {
       uImg = IMG.stripling;
       uw = 22; uh = 44; uox = 11; uoy = 42;
+    } else if (u.type === 'nslinger') {
+      uImg = IMG.nslinger;
+      uw = 26; uh = 44; uox = 15; uoy = 43;
+    } else if (u.type === 'archer') {
+      uImg = IMG.archer;
+      uw = 23; uh = 44; uox = 9; uoy = 43;
     } else if (u.type === 'robber') {           // Gemini's are cropped to the figure: uox is
       uImg = IMG.robber;                         // where the feet are, so they stand on the spot
       uw = 28; uh = 44; uox = 17; uoy = 43;
@@ -1728,6 +1738,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'deploy': 'assets/cameo_moroni.png?v=9',
     'train:worker': 'assets/cameo_worker.png?v=1',
     'train:spearman': 'assets/cameo_spearman.png?v=9',
+    'train:nslinger': 'assets/cameo_nslinger.png?v=1',
+    'train:archer': 'assets/cameo_archer.png?v=1',
     'train:stripling': 'assets/cameo_stripling.png?v=9',
     'train:moroni': 'assets/cameo_moroni.png?v=9',
     'build:tower': 'assets/cameo_tower.png?v=9',
