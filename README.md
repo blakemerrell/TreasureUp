@@ -287,6 +287,18 @@ scripted player and
 checks every quotation in the game against the verse it cites; the deploy
 runs it and won't publish if it fails.
 
+**New art comes from Gemini.** Claude writes an art request in
+`liberty/art/requests/` and comments on its pull request with `@gemini-cli`
+and the request's name. `.github/workflows/gemini-art.yml` runs Gemini CLI
+with the Nano Banana image extension, commits its pictures to
+`liberty/art/incoming/pr<number>/` on that pull request and posts Gemini's
+reply, which wakes Claude to check them and put the good ones in the game.
+`GEMINI.md` is Gemini's brief: who does what, the house style and the rules.
+Only comments from the repository's owner start a run, Gemini can only make
+pictures (no GitHub token, no file or shell tools), and its own replies never
+start another run. It needs the repository secret `GEMINI_API_KEY`, a key
+from Google AI Studio, which bills each picture.
+
 ---
 
 ## Amigo · Kaibigan (a separate game)
