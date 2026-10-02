@@ -101,7 +101,8 @@ window.TU_WEEKS = [
             }
           ]
         }
-      ]
+      ],
+      "approved": "52068198"
     },
     "sayings": [
       {
@@ -113,7 +114,8 @@ window.TU_WEEKS = [
           "Isaiah",
           "Jesus Christ"
         ],
-        "why": "Isaiah aims these words at the proud king of Babylon; latter-day scripture uses the same name, Lucifer, for Satan (D&C 76:26)."
+        "why": "Isaiah aims these words at the proud king of Babylon; latter-day scripture uses the same name, Lucifer, for Satan (D&C 76:26).",
+        "approved": "c1ae68b0"
       },
       {
         "id": "say-thy-will",
@@ -124,7 +126,8 @@ window.TU_WEEKS = [
           "Lucifer",
           "The king of Babylon"
         ],
-        "why": "The Lord's Beloved Son said it in the premortal council, the opposite of Lucifer's “I will” (Isaiah 14:13)."
+        "why": "The Lord's Beloved Son said it in the premortal council, the opposite of Lucifer's “I will” (Isaiah 14:13).",
+        "approved": "34d4b87c"
       },
       {
         "id": "say-sealed-book",
@@ -135,7 +138,8 @@ window.TU_WEEKS = [
           "Martin Harris",
           "Oliver Cowdery"
         ],
-        "why": "Martin Harris reported it: when he said part of the plates were sealed, Professor Anthon replied, “I cannot read a sealed book”."
+        "why": "Martin Harris reported it: when he said part of the plates were sealed, Professor Anthon replied, “I cannot read a sealed book”.",
+        "approved": "cc785044"
       },
       {
         "id": "say-learned",
@@ -146,7 +150,8 @@ window.TU_WEEKS = [
           "The unlearned man in Isaiah 29",
           "Isaiah"
         ],
-        "why": "In Isaiah 29 the learned man can't read the sealed book; the one who is not learned gets it next (verse 12)."
+        "why": "In Isaiah 29 the learned man can't read the sealed book; the one who is not learned gets it next (verse 12).",
+        "approved": "7e6260a6"
       },
       {
         "id": "say-smooth",
@@ -157,7 +162,8 @@ window.TU_WEEKS = [
           "The seers and the prophets",
           "The Lord"
         ],
-        "why": "The rebellious people said it to their seers and prophets: they only wanted to hear what felt good."
+        "why": "The rebellious people said it to their seers and prophets: they only wanted to hear what felt good.",
+        "approved": "934ed037"
       },
       {
         "id": "say-the-way",
@@ -168,7 +174,8 @@ window.TU_WEEKS = [
           "The king of Babylon",
           "The rebellious people"
         ],
-        "why": "Isaiah promises you will hear “a word behind thee” saying it, when you turn to the right or the left."
+        "why": "Isaiah promises you will hear “a word behind thee” saying it, when you turn to the right or the left.",
+        "approved": "e1e53aa2"
       },
       {
         "id": "say-swallowed",
@@ -179,7 +186,8 @@ window.TU_WEEKS = [
           "Nephi",
           "Moses"
         ],
-        "why": "Paul quotes Isaiah 25:8 when he teaches about the Resurrection."
+        "why": "Paul quotes Isaiah 25:8 when he teaches about the Resurrection.",
+        "approved": "35dc3e0f"
       },
       {
         "id": "say-great-words",
@@ -190,7 +198,8 @@ window.TU_WEEKS = [
           "Nephi",
           "Samuel the Lamanite"
         ],
-        "why": "The resurrected Savior told the Nephites to search Isaiah diligently."
+        "why": "The resurrected Savior told the Nephites to search Isaiah diligently.",
+        "approved": "a1e4c117"
       }
     ],
     "words": [
@@ -252,7 +261,8 @@ window.TU_WEEKS = [
         "why": "Verse 16: “Is this the man that made the earth to tremble.” Pride looks big for a while, then it looks small.",
         "source": "Isaiah 14:16",
         "find": "Is this the man that made the earth to tremble",
-        "hunt": "In Isaiah 14, what do people ask when they see the fallen one up close?"
+        "hunt": "In Isaiah 14, what do people ask when they see the fallen one up close?",
+        "approved": "74baeccd"
       },
       {
         "id": "deep39-feast",
@@ -268,7 +278,8 @@ window.TU_WEEKS = [
         "why": "They say, “we will be glad and rejoice in his salvation.” The waiting was worth it.",
         "source": "Isaiah 25:9",
         "find": "we will be glad and rejoice in his salvation",
-        "hunt": "In Isaiah 25, what do the people say they will do now that their Lord has come?"
+        "hunt": "In Isaiah 25, what do the people say they will do now that their Lord has come?",
+        "approved": "6be5e8ff"
       },
       {
         "id": "deep39-wall",
@@ -284,7 +295,8 @@ window.TU_WEEKS = [
         "why": "Verse 13: its “breaking cometh suddenly at an instant.” Ignoring warnings can look safe right up until it isn't.",
         "source": "Isaiah 30:13",
         "find": "whose breaking cometh suddenly at an instant",
-        "hunt": "In Isaiah 30, how does the cracked wall fall?"
+        "hunt": "In Isaiah 30, how does the cracked wall fall?",
+        "approved": "3ee8400f"
       },
       {
         "id": "deep39-book",
@@ -300,7 +312,8 @@ window.TU_WEEKS = [
         "why": "Verse 18: “In that day shall the deaf hear the words of the book.” People who couldn't hear God's word before would understand it.",
         "source": "Isaiah 29:18",
         "find": "shall the deaf hear the words of the book",
-        "hunt": "In Isaiah 29, who will hear the words of the book?"
+        "hunt": "In Isaiah 29, who will hear the words of the book?",
+        "approved": "f61102c3"
       },
       {
         "id": "deep39-kids",
@@ -316,7 +329,8 @@ window.TU_WEEKS = [
         ],
         "why": "It suggests a copy of the Book of Mormon, a picture of a temple, or a picture of the First Vision. Each is part of what the Lord restored.",
         "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/39?lang=eng",
-        "find": "a copy of the Book of Mormon, a picture of a temple, or a picture of the First Vision"
+        "find": "a copy of the Book of Mormon, a picture of a temple, or a picture of the First Vision",
+        "approved": "6ca7251b"
       },
       {
         "id": "deep39-ftsoy",
@@ -332,7 +346,8 @@ window.TU_WEEKS = [
         ],
         "why": "It says they refer to his own day, Jesus Christ's day, the latter days (our day) and the Restoration, and the Second Coming. One verse can be about more than one time.",
         "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/09/what-do-we-know-about-the-prophet-isaiah?lang=eng",
-        "find": "the latter days and the Restoration, and the Second Coming and Millennium"
+        "find": "the latter days and the Restoration, and the Second Coming and Millennium",
+        "approved": "920fe2a1"
       }
     ],
     "reels": [
@@ -375,7 +390,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#431407 0%,#9a3412 50%,#b91c1c 100%)",
         "blobA": "rgba(251,146,60,.45)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "7b83cb09"
       },
       {
         "id": "isa14-i-will",
@@ -417,7 +433,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(165deg,#020617 0%,#1e1b4b 55%,#4338ca 100%)",
         "blobA": "rgba(129,140,248,.45)",
-        "blobB": "rgba(0,0,0,.55)"
+        "blobB": "rgba(0,0,0,.55)",
+        "approved": "89f82a8e"
       },
       {
         "id": "isa22-key-and-stone",
@@ -458,7 +475,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#1c1917 0%,#44403c 40%,#d97706 108%)",
         "blobA": "rgba(251,191,36,.4)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "bff2ca6b"
       },
       {
         "id": "isa25-death-swallowed",
@@ -507,7 +525,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#134e4a 0%,#0f766e 45%,#fbbf24 115%)",
         "blobA": "rgba(253,224,71,.45)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "824e3049"
       },
       {
         "id": "isa25-refuge",
@@ -562,7 +581,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#082f49 0%,#0369a1 50%,#38bdf8 100%)",
         "blobA": "rgba(125,211,252,.45)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "8aa587a1"
       },
       {
         "id": "isa29-lips-heart",
@@ -604,7 +624,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(155deg,#450a0a 0%,#7f1d1d 45%,#b45309 100%)",
         "blobA": "rgba(252,165,165,.4)",
-        "blobB": "rgba(0,0,0,.5)"
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "e3d41517"
       },
       {
         "id": "isa30-smooth-things",
@@ -647,7 +668,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#0f172a 0%,#334155 45%,#0e7490 100%)",
         "blobA": "rgba(34,211,238,.4)",
         "blobB": "rgba(0,0,0,.5)",
-        "seek": "People begged God's messengers for easy, pleasant words"
+        "seek": "People begged God's messengers for easy, pleasant words",
+        "approved": "2f31e0d5"
       },
       {
         "id": "isa29-sealed-book",
@@ -677,7 +699,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#4c1d95 0%,#a21caf 50%,#fbbf24 112%)",
         "blobA": "rgba(240,171,252,.5)",
-        "blobB": "rgba(0,0,0,.4)"
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "5e86140b"
       },
       {
         "id": "isa30-this-is-the-way",
@@ -707,7 +730,8 @@ window.TU_WEEKS = [
         },
         "gradient": "linear-gradient(150deg,#0f172a 0%,#1e40af 50%,#60a5fa 100%)",
         "blobA": "rgba(147,197,253,.45)",
-        "blobB": "rgba(0,0,0,.45)"
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "75cce463"
       },
       {
         "id": "isa35-desert-blooms",
@@ -762,7 +786,8 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#78350f 0%,#be185d 55%,#fb7185 100%)",
         "blobA": "rgba(253,164,175,.45)",
         "blobB": "rgba(0,0,0,.4)",
-        "seek": "Dry, empty land will burst into flowers and be happy"
+        "seek": "Dry, empty land will burst into flowers and be happy",
+        "approved": "bae2d6eb"
       }
     ],
     "plain": [
@@ -843,7 +868,8 @@ window.TU_WEEKS = [
             "v": 21,
             "about": "The animals in verses 21–22 follow modern translations (ostriches, wild goats, hyenas, jackals), not the KJV’s owls, satyrs, wild beasts of the islands and dragons. The note on verse 21 explains two of them."
           }
-        ]
+        ],
+        "approved": "873f47ce"
       },
       {
         "ch": "Isaiah 14",
@@ -936,7 +962,8 @@ window.TU_WEEKS = [
             "v": 31,
             "about": "The KJV’s “none shall be alone in his appointed times” means no one straggles behind in the army’s ranks; the plain words say that, as modern translations do."
           }
-        ]
+        ],
+        "approved": "113f7d0e"
       },
       {
         "ch": "Isaiah 22",
@@ -1014,7 +1041,8 @@ window.TU_WEEKS = [
             "v": 25,
             "about": "The peg in the firm place gives way. Some read it as Eliakim falling later, some as Shebna; the plain words only say what the Hebrew says. The short version stops at verse 24."
           }
-        ]
+        ],
+        "approved": "0eaf5ac3"
       },
       {
         "ch": "Isaiah 24",
@@ -1086,7 +1114,8 @@ window.TU_WEEKS = [
             "v": 22,
             "about": "Kept the KJV’s “visited,” with a note that it can mean punished. Latter-day Saints often connect this with the spirit prison (D&C 76:73; 88:99), but no scripture names this verse, so no note says so. Your call."
           }
-        ]
+        ],
+        "approved": "623f0da7"
       },
       {
         "ch": "Isaiah 25",
@@ -1143,7 +1172,8 @@ window.TU_WEEKS = [
             "v": 11,
             "about": "A hard verse. The plain words follow modern translations and add “Moab” and “the Lord” to say who does what, with a note giving the KJV reading. KJV “spoils of their hands,” plain “tricks of its hands.”"
           }
-        ]
+        ],
+        "approved": "f52e36ee"
       },
       {
         "ch": "Isaiah 26",
@@ -1209,7 +1239,8 @@ window.TU_WEEKS = [
             "v": 19,
             "about": "Follows the KJV and the chapter heading (“together with my dead body,” the Savior’s); the BSB reads their bodies. “Dew of herbs” kept as plants (the Hebrew can also mean lights, so the BSB has morning). “Cast out the dead” is give birth, the same Hebrew word as “fallen” in verse 18. Matthew 27:52 in the note is a link Matthew doesn’t spell out; drop it if you want only direct quotations."
           }
-        ]
+        ],
+        "approved": "f0ed9200"
       },
       {
         "ch": "Isaiah 27",
@@ -1267,7 +1298,8 @@ window.TU_WEEKS = [
             "v": 8,
             "about": "Hard Hebrew. The first word may mean by measure (KJV) or by warfare (BSB); the plain words keep measure. Verse 7 names the Lord and His people to make the pronouns clear."
           }
-        ]
+        ],
+        "approved": "7acaaea3"
       },
       {
         "ch": "Isaiah 28",
@@ -1345,7 +1377,8 @@ window.TU_WEEKS = [
             "v": 28,
             "about": "The KJV says he won’t break it with his cart wheel; the Hebrew says he drives the wheel and horses over it but doesn’t crush it. The plain words follow the Hebrew (and the BSB)."
           }
-        ]
+        ],
+        "approved": "115a9c8c"
       },
       {
         "ch": "Isaiah 29",
@@ -1450,7 +1483,8 @@ window.TU_WEEKS = [
             "v": 21,
             "about": "Hard Hebrew. The gate was where court was held, so the plain words add four words to say so. “For a thing of nought” is literally ‘with emptiness,’ given as “with empty claims.”"
           }
-        ]
+        ],
+        "approved": "98da4f58"
       },
       {
         "ch": "Isaiah 30",
@@ -1536,7 +1570,8 @@ window.TU_WEEKS = [
             "v": 32,
             "about": "Hard Hebrew: “grounded staff” is the appointed rod, and “battles of shaking” are battles of swinging or brandishing. Read it against the Hebrew."
           }
-        ]
+        ],
+        "approved": "5001c208"
       },
       {
         "ch": "Isaiah 35",
@@ -1587,7 +1622,8 @@ window.TU_WEEKS = [
             "v": 8,
             "about": "The last line is unclear in Hebrew: the KJV says travelers, even fools, won’t get lost; the BSB says fools won’t stray onto the road. The plain words say “fools will not go astray on it,” which allows both."
           }
-        ]
+        ],
+        "approved": "c85bdb81"
       }
     ],
     "tldr": [
@@ -1599,7 +1635,8 @@ window.TU_WEEKS = [
           "People run for home, and anyone caught is killed. God stirs up the Medes against Babylon, and they show no pity. (verses 14–18)",
           "Babylon stands for the wicked world. God will overthrow it like Sodom and Gomorrah, and it will fall forever. (verses 19–22)"
         ],
-        "also": "Nephi quotes this chapter in the Book of Mormon (2 Nephi 23)."
+        "also": "Nephi quotes this chapter in the Book of Mormon (2 Nephi 23).",
+        "approved": "78e7d006"
       },
       {
         "ch": "Isaiah 14",
@@ -1619,7 +1656,8 @@ window.TU_WEEKS = [
             "v": 12,
             "about": "In the verse Isaiah is speaking to the king of Babylon (the BSB has “day star”); the card follows the heading and the Scripture Helps in naming Lucifer as Satan."
           }
-        ]
+        ],
+        "approved": "f98d0475"
       },
       {
         "ch": "Isaiah 22",
@@ -1634,7 +1672,8 @@ window.TU_WEEKS = [
             "v": 25,
             "about": "The card stops at verse 24: verse 25 says the nail in the sure place will be removed and fall, which is hard to fit with the Messiah reading."
           }
-        ]
+        ],
+        "approved": "207c098f"
       },
       {
         "ch": "Isaiah 24",
@@ -1643,7 +1682,8 @@ window.TU_WEEKS = [
           "People break God’s laws, change His ordinance, and break the everlasting covenant. They will be burned at the Second Coming, and few will be left. (verses 5–6)",
           "Joy ends, and the city lies in ruins. A few sing praise to the Lord, but the earth staggers like a drunkard. (verses 7–20)",
           "The Lord will punish the kings of the earth. Then He will reign in Zion and Jerusalem, and even the sun will be ashamed. (verses 21–23)"
-        ]
+        ],
+        "approved": "1e264880"
       },
       {
         "ch": "Isaiah 25",
@@ -1652,7 +1692,8 @@ window.TU_WEEKS = [
           "The Lord will make a gospel feast of the richest food for all people on Mount Zion. He will remove the veil over all nations. (verses 6–7)",
           "He will swallow up death in victory and wipe away all tears. His people will rejoice and say, “Lo, this is our God.” (verses 8–9)",
           "The Lord’s hand will rest on Mount Zion, but He will bring the proud nation of Moab down to the dust. (verses 10–12)"
-        ]
+        ],
+        "approved": "24d28f55"
       },
       {
         "ch": "Isaiah 26",
@@ -1667,7 +1708,8 @@ window.TU_WEEKS = [
             "v": 19,
             "about": "The card follows the heading and the KJV’s “my dead body” (Jehovah’s body); the BSB reads “their bodies will rise”."
           }
-        ]
+        ],
+        "approved": "7094ca9e"
       },
       {
         "ch": "Isaiah 27",
@@ -1682,7 +1724,8 @@ window.TU_WEEKS = [
             "v": 1,
             "about": "Reading leviathan as Satan and all evil comes from the Scripture Helps, which say that in Isaiah’s day it seems to stand for the nations that fought God’s people."
           }
-        ]
+        ],
+        "approved": "e5f4ec19"
       },
       {
         "ch": "Isaiah 28",
@@ -1697,7 +1740,8 @@ window.TU_WEEKS = [
             "v": 10,
             "about": "The Scripture Helps say verses 9–13 are hard to translate and may be the drunken priests mocking Isaiah with nonsense sounds; the card follows the heading’s “revelation comes line upon line”."
           }
-        ]
+        ],
+        "approved": "680edeeb"
       },
       {
         "ch": "Isaiah 29",
@@ -1713,7 +1757,8 @@ window.TU_WEEKS = [
             "v": 4,
             "about": "The verse is about Ariel (Jerusalem) speaking from the dust; the Nephites come from the heading and Nephi’s use of it in 2 Nephi 26–27."
           }
-        ]
+        ],
+        "approved": "cf329e90"
       },
       {
         "ch": "Isaiah 30",
@@ -1728,7 +1773,8 @@ window.TU_WEEKS = [
             "v": 27,
             "about": "“In a day of apostasy” and “the wicked” come from the heading; the verses name the nations and Assyria."
           }
-        ]
+        ],
+        "approved": "373b4ccd"
       },
       {
         "ch": "Isaiah 35",
@@ -1743,9 +1789,12 @@ window.TU_WEEKS = [
             "v": 8,
             "about": "Calling the way of holiness “the covenant path” comes from the Scripture Helps, not the verse."
           }
-        ]
+        ],
+        "approved": "de89db5b"
       }
-    ]
+    ],
+    "approved": "14e9a1ec",
+    "wordsApproved": "d8e1fdf7"
   },
   {
     "dates": "September 28–October 4, 2026",
