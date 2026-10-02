@@ -1182,6 +1182,21 @@
   .st-day { margin-top: 16px; }
   .wk-line + .year { margin-top: 10px; }
   /* The Kindle and other wide screens: the timeline beside the day */
+  /* The family on the home page: the leaderboard and goal, and a parent's card on each child */
+  .fam-card, .kid-card { margin-top: 14px; padding: 14px 16px; border-radius: 18px; background: rgba(0,0,0,.28); border: 1px solid rgba(255,255,255,.12); }
+  .kid-card { margin: 0 0 14px; border-color: rgba(125,211,252,.35); background: rgba(14,165,233,.08); }
+  .fc-row { display: grid; grid-template-columns: 1fr auto 46px; gap: 8px; align-items: baseline; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.07); font-size: 15px; }
+  .fc-row.me .fc-name { color: var(--gold); }
+  .fc-name { font-weight: 800; } .fc-name small { font-size: 11px; color: rgba(255,255,255,.5); }
+  .fc-n { font-weight: 800; color: rgba(255,255,255,.8); } .fc-st { text-align: right; font-size: 13px; font-weight: 800; color: #fdba74; }
+  .fc-goal { display: flex; justify-content: space-between; gap: 8px; margin: 12px 0 6px; font-size: 13px; font-weight: 700; color: rgba(255,255,255,.75); }
+  .fc-goal b { color: #fff; } .fc-goal.won { display: block; color: #86efac; font-weight: 900; }
+  .kc-top { display: flex; justify-content: space-between; align-items: baseline; }
+  .kc-st { font-size: 13px; font-weight: 800; color: #fdba74; }
+  .kc-reads { margin: 6px 0 0; padding: 0; list-style: none; font-size: 14px; } .kc-reads li { padding: 3px 0; }
+  .kc-none, .kc-week { margin: 6px 0 0; font-size: 13.5px; color: rgba(255,255,255,.7); }
+  .kc-note { margin: 8px 0 0; font-size: 14px; line-height: 1.4; } .kc-note small { display: block; font-size: 11.5px; color: rgba(255,255,255,.5); }
+  .kc-ask { margin: 10px 0 0; font-size: 14px; } .kc-ask b { color: #7dd3fc; }
   /* Scriptures: the volumes' books, a book's chapters, a chapter's neighbours */
   .lib-h { font-size: 26px; margin: 2px 0 6px; }
   .lib-week { display: flex; justify-content: space-between; align-items: center; width: 100%; margin: 10px 0 4px; padding: 12px 14px; border-radius: 14px; cursor: pointer; text-align: left;
@@ -2017,8 +2032,10 @@ const TreasureUp = (function () {
           ${stripHtml()}
         </div>
         <div class="tt-main">
+          <div id="parentCards">${parentCardsHtml()}</div>
           ${dayCardHtml(selDay || dayKey())}
           ${verseOfDayHtml()}
+          <div id="familyCard">${familyCardHtml()}</div>
           <details class="fold"><summary>Your week<small>Chapters, reels, right first time, notes</small></summary>${weekStatsHtml()}</details>
           ${rewardsHtml()}
           <p class="foot-note">XP comes from reading the chapters and answering right. Questions you miss come back in the daily warm-ups.
@@ -3158,6 +3175,7 @@ const TreasureUp = (function () {
       <div class="sh-row"><span>Listen voice</span><span>${pill(voice === 'male', 'data-set-voice="male"', 'Man')}${pill(voice === 'female', 'data-set-voice="female"', 'Woman')}</span></div>
       <div class="sh-row"><span>Verse size</span><span>${[['m', 'Normal'], ['l', 'Large'], ['xl', 'Larger']].map(([k, l]) => pill(textSize() === k, `data-set-text="${k}"`, l)).join('')}</span></div>
       <button class="sh-row sh-go" data-set-go="fam"><span>Family and sign-in<small>People, devices, chat</small></span><span>›</span></button>
+      ${F && F.role === 'parent' ? `<div class="sh-row"><span>Family goal<small>Everyone reads all of the week's chapters</small></span><span>${pill(!!(famHome && famHome.goal), 'data-set-goal="1"', 'On')}${pill(!(famHome && famHome.goal), 'data-set-goal="0"', 'Off')}</span></div>` : ''}
       <button class="sh-row sh-go" data-set-go="parent"><span>Parent rewards<small>Rewards at XP marks, behind a PIN</small></span><span>›</span></button>
       ${devOwner() ? `<a class="sh-row sh-go" href="${here ? '#dev' : 'https://blakemerrell.github.io/TreasureUp-test/#dev'}"${here ? ' data-dev-open' : ''}><span>Developer mode<small>Approve the coming weeks</small></span><span>›</span></a>` : ''}
       ${TEST_SITE ? `<a class="sh-row sh-go" href="${esc(location.origin + '/TreasureUp/')}"><span>This is the test site<small>Open the live app</small></span><span>›</span></a>` : ''}`;
@@ -8552,6 +8570,7 @@ const TreasureUp = (function () {
   function leaveLocally() {
     stopFamWatch();
     if (famLatestOff) { famLatestOff(); famLatestOff = null; }
+    stopHome();
     if (backupOff) { backupOff(); backupOff = null; }
     clearTimeout(syncTimer); syncTimer = null;
     pendingAdopt = null;
@@ -8630,6 +8649,12 @@ const TreasureUp = (function () {
     return syncChain;
   }
   async function syncProgress() {
+    try { return await syncOnce(); } catch (e) {
+      if (!leanSummary && e && e.code === 'permission-denied') { leanSummary = true; return syncOnce(); }
+      throw e;
+    }
+  }
+  async function syncOnce() {
     const u = authUser();
     if (!F || F.pending || !u || u.uid !== F.uid || S.owner !== F.pid) return;
     const ref = famCol(F.fid, 'backup').doc(F.pid), sumRef = famCol(F.fid, 'progress').doc(F.pid);
@@ -8791,12 +8816,17 @@ const TreasureUp = (function () {
   }
 
   // What the whole family sees about one person.
+  // `read`, this week's chapters read, is for the family's leaderboard; until
+  // a family's rules allow it (firestore.rules, 2026-10-02), the summary goes without it.
+  let leanSummary = false;
   function summaryOf(s) {
     const vals = Object.values(s.answers || {});
-    return {
+    const out = {
       name: F.name, role: F.role === 'kid' ? 'kid' : 'grownup', xp: s.xp || 0, streak: s.streak || 0,
       lastStudy: s.lastStudy || '', week: WEEK.title, right: vals.filter(a => a.right).length, answered: vals.length, updated: TS()
     };
+    if (!leanSummary) out.read = readingAll().filter(u => (s.read || {})[u.ref]).length;
+    return out;
   }
 
   /* ----- the new-message dot ----- */
@@ -8809,6 +8839,7 @@ const TreasureUp = (function () {
       famLatest = { at: m ? tsMs(m.at) : 0, mine: !m || m.uid === F.uid };
       updateFamDot();
     }, recheckMembership);
+    watchHome();
   }
   function updateFamDot() {
     const reading = fam && fam.tab === 'chat' && F && !fam.invite;
@@ -8817,6 +8848,97 @@ const TreasureUp = (function () {
     $('chatDot').hidden = !unread;
     const tabDot = $('famChatDot');
     if (tabDot) tabDot.hidden = !unread;
+  }
+
+  /* ----- the family on the home page ----- */
+
+  // Blake, 2026-10-02: a leaderboard of this week's chapters, the family
+  // goal (everyone reads all of them, once a parent turns it on), and for a
+  // parent, a card on each child: what was read today and how, new notes,
+  // and something to ask about. From the family's summaries (progress) and,
+  // for a parent, each child's saved progress (backup), watched while this
+  // device is in a family. Redrawn in place, so an open More stays open.
+  let famHome = null, famHomeOff = [];
+  function watchHome() {
+    stopHome();
+    if (!F || !FIREBASE_CONFIG) return;
+    const h = famHome = { progress: [], goal: false, kids: {}, watching: {} };
+    famHomeOff.push(famDoc(F.fid).onSnapshot(d => { h.goal = !!(d.exists && d.data().goal); famRedraw(); }, () => {}));
+    famHomeOff.push(famCol(F.fid, 'progress').onSnapshot(q => {
+      h.progress = q.docs.map(d => Object.assign({ pid: d.id }, d.data()));
+      if (F && F.role === 'parent') for (const x of h.progress) {
+        if (x.role !== 'kid' || x.pid === F.pid || h.watching[x.pid]) continue;
+        h.watching[x.pid] = true;
+        famHomeOff.push(famCol(F.fid, 'backup').doc(x.pid).onSnapshot(b => {
+          try { h.kids[x.pid] = b.exists ? JSON.parse(b.data().state) : null; } catch (e) { h.kids[x.pid] = null; }
+          famRedraw();
+        }, () => {}));
+      }
+      famRedraw();
+    }, () => {}));
+  }
+  function stopHome() { famHomeOff.forEach(f => { try { f(); } catch (e) {} }); famHomeOff = []; famHome = null; famRedraw(); }
+  function famRedraw() {
+    const a = document.getElementById('parentCards'), b = document.getElementById('familyCard');
+    if (a) a.innerHTML = parentCardsHtml();
+    if (b) b.innerHTML = familyCardHtml();
+  }
+  // Everyone's chapters this week, most first; this device's own from here (its summary can lag).
+  function familyRows(h) {
+    const total = readingAll().length;
+    return h.progress.map(x => {
+      const mine = F && x.pid === F.pid;
+      const n = mine ? readingAll().filter(u => S.read[u.ref]).length : x.week === WEEK.title ? Number(x.read) || 0 : 0;
+      return { name: x.name, n: Math.min(n, total), streak: mine ? streakNow() : x.week === WEEK.title || x.lastStudy >= dayAdd(dayKey(), -1) ? x.streak || 0 : 0, mine };
+    }).sort((a, b) => b.n - a.n || a.name.localeCompare(b.name));
+  }
+  function familyCardHtml() {
+    const h = famHome, total = readingAll().length;
+    if (!h || !total) return '';
+    const rows = familyRows(h);
+    if (rows.length < 2 && !h.goal) return '';
+    const top = rows[0] && rows[0].n > 0 && !(rows[1] && rows[1].n === rows[0].n) ? rows[0] : null;
+    const done = rows.filter(r => r.n >= total).length;
+    const goal = !h.goal ? '' : done === rows.length
+      ? `<p class="fc-goal won">🎉 Everyone read all ${total} chapters this week!</p>`
+      : `<div class="fc-goal"><span>Family goal: everyone reads all ${total} chapters</span><b>${done} of ${rows.length} done</b></div><div class="today-bar"><div style="width:${Math.round(done / rows.length * 100)}%"></div></div>`;
+    return `<div class="fam-card"><div class="eyebrow">👪 Family · this week's chapters</div>
+      ${rows.map(r => `<div class="fc-row${r.mine ? ' me' : ''}"><span class="fc-name">${r === top ? '👑 ' : ''}${esc(r.name)}${r.mine ? ' <small>you</small>' : ''}</span>
+        <span class="fc-n">${h.goal && r.n >= total ? '✓ ' : ''}${r.n} of ${total}</span><span class="fc-st">${r.streak ? '🔥' + r.streak : ''}</span></div>`).join('')}
+      ${goal}</div>`;
+  }
+  // A child, for a parent: today's chapters (how long, and a yes to "Did you
+  // read all of it?"), this week's count, new notes this week, and one thing
+  // to ask about (the last reel answered or card read today).
+  function kidCardHtml(name, st) {
+    if (!st) return '';
+    const today = dayKey(), dur = sec => sec < 60 ? sec + ' sec' : Math.round(sec / 60) + ' min';
+    const fresh = st.weekTitle === WEEK.title;
+    const reads = Object.entries(st.read || {}).filter(([, day]) => day === today).map(([ref]) => {
+      const x = (st.readLog || {})[ref] || {};
+      return `<li><b>${esc(ref)}</b>${x.secs != null ? ' · ' + dur(x.secs) : ''}${x.said ? ' · said “Yes, I read every verse”' : ''}</li>`;
+    });
+    const week = fresh ? readingAll().filter(u => (st.read || {})[u.ref]).length : 0, total = readingAll().length;
+    const start = weekStart(WEEK.dates) || today;
+    const notes = Object.values(st.notes || {}).filter(n => n && n.day >= start).sort((a, b) => (b.at || 0) - (a.at || 0)).slice(0, 2);
+    const answered = Object.entries(fresh ? st.answers || {} : {}).filter(([, a]) => a && a.day === today).map(([id]) => reelById(id)).filter(Boolean);
+    const card = Object.entries(st.insights || {}).filter(([, d]) => d === today).map(([id]) => insightsOf(WEEK).find(i => i.x.id === id)).filter(Boolean)[0];
+    const ask = answered.length ? answered[answered.length - 1].hook : card ? card.x.title || (card.x.source && card.x.source.who) : '';
+    return `<div class="kid-card"><div class="kc-top"><span class="eyebrow">${esc(name)} · today</span><span class="kc-st">${st.streak ? '🔥 ' + st.streak : ''}</span></div>
+      ${!fresh ? '<p class="kc-none">Hasn’t opened this week yet.</p>' : reads.length ? `<ul class="kc-reads">${reads.join('')}</ul>` : `<p class="kc-none">Nothing read yet today${st.lastStudy ? ' · last studied ' + esc(shortDay(st.lastStudy)) : ''}.</p>`}
+      ${fresh ? `<p class="kc-week">This week: ${week} of ${total} chapters</p>` : ''}
+      ${notes.map(n => `<p class="kc-note">✏️ “${esc(n.text)}”<small>${esc(n.hook || '')}</small></p>`).join('')}
+      ${ask ? `<p class="kc-ask"><b>Ask about:</b> ${esc(ask)}</p>` : ''}</div>`;
+  }
+  function parentCardsHtml() {
+    const h = famHome;
+    if (!h || !F || F.role !== 'parent') return '';
+    return h.progress.filter(x => x.role === 'kid' && x.pid !== F.pid).map(x => kidCardHtml(x.name, h.kids[x.pid])).join('');
+  }
+  // Settings: a parent turns the family goal on or off.
+  function setFamilyGoal(on) {
+    if (!F || F.role !== 'parent') return;
+    famDoc(F.fid).update({ goal: on }).catch(() => toast('👪 Family goal', "Couldn't change it. The family's rules may need updating."));
   }
 
   /* ----- the family screen ----- */
@@ -10765,6 +10887,8 @@ const TreasureUp = (function () {
       if (v) { switchVoice(v.dataset.setVoice); return openSheet(settingsSheetHtml()); }
       const t = e.target.closest('[data-set-text]');
       if (t) { try { localStorage.setItem(TEXT_KEY, t.dataset.setText); } catch (x) {} applyTextSize(); return openSheet(settingsSheetHtml()); }
+      const sg = e.target.closest('[data-set-goal]');
+      if (sg) { const on = sg.dataset.setGoal === '1'; if (famHome) famHome.goal = on; setFamilyGoal(on); return openSheet(settingsSheetHtml()); }
       const g = e.target.closest('[data-set-go]');
       if (g) { closeSheet(); return g.dataset.setGo === 'fam' ? openFam('people') : openParent(); }
       if (e.target.closest('[data-dev-open]')) { e.preventDefault(); closeSheet(); openDev(); }
