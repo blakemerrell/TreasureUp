@@ -1068,6 +1068,14 @@
   .board-link.ls-start small { color: rgba(11,26,0,.78); }
   .today-alt { display: block; margin: 12px auto 0; font: inherit; font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,.62); background: none; border: 0; cursor: pointer; text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); }
   .week-map { margin-top: 16px; }
+  /* This week's chapters, each a tap from the reader */
+  .ch-book { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; }
+  .ch-name { margin-right: 4px; font-size: 13.5px; font-weight: 800; color: rgba(255,255,255,.82); }
+  .ch-chip { font: inherit; font-size: 14px; font-weight: 800; padding: 6px 12px; border-radius: 999px; cursor: pointer;
+    color: #fff; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.18); }
+  .ch-chip.done { color: #bbf7d0; background: rgba(88,204,2,.12); border-color: rgba(88,204,2,.5); }
+  .ch-mark { margin: 4px 0 26px; text-align: center; }
+  .ch-mark p { margin: 0 0 10px; font-size: 13.5px; color: rgba(255,255,255,.7); }
   button.wm-row { width: 100%; text-align: left; font-family: inherit; background: none; border: 0; border-bottom: 1px solid rgba(255,255,255,.08); cursor: pointer; }
   .wm-row { display: grid; grid-template-columns: 34px 1fr auto; gap: 8px; align-items: baseline; padding: 6px 0; font-size: 13.5px; line-height: 1.3; color: rgba(255,255,255,.82); border-bottom: 1px solid rgba(255,255,255,.08); }
   .wm-day { font-size: 12px; font-weight: 800; color: rgba(255,255,255,.5); }
@@ -1719,6 +1727,7 @@ const TreasureUp = (function () {
         <p class="text-[15px] font-bold text-amber-300">${linkRefs(WEEK.reference)}</p>
         ${todayHtml()}
         ${weekMapHtml()}
+        ${chaptersHtml()}
         ${weekStatsHtml()}
         ${lookBackHtml()}
         <p class="reel-body mt-6" style="font-size:13px;color:rgba(255,255,255,.7)">XP comes from reading the chapters and answering right. Questions you miss come back in the daily warm-ups.</p>
@@ -1856,16 +1865,57 @@ const TreasureUp = (function () {
     const d = /^deep-/.test(id) && deepItems().find(x => 'deep-' + x.id === id);
     const r = !d && reelById(id);
     if (!d && !r) return;
+    readUnit = null;
     $('viewBody').innerHTML = d ? deepHtml(d, 0) : reelHtml(r, 0);
     $('view').hidden = false;
   }
   function closeView() {
     if ($('view').hidden) return;
     stopClips();
+    readUnit = null;
     $('view').hidden = true;
     $('viewBody').innerHTML = '';
     refreshHome();
     refreshPast();     // a past week under it: what he answered there shows
+  }
+
+  // This week's chapters, each a tap from the reader with its buttons (KJV,
+  // plain words, BSB, notes, Hebrew), to read again or ahead (Blake,
+  // 2026-10-01: "How do I get back to reading the scriptures that you
+  // translated? … It just wasn't intuitive"). One not read yet starts its
+  // reading clock when it opens, and is marked read in its lesson.
+  let readUnit = null;
+  function chaptersHtml() {
+    const books = [];
+    for (const u of readingAll()) {
+      const b = books[books.length - 1];
+      if (b && b.book === u.book) b.units.push(u); else books.push({ book: u.book, units: [u] });
+    }
+    if (!books.length) return '';
+    return `<div class="home-sec"><div class="eyebrow">This week's chapters</div>` + books.map(b => `<div class="ch-book"><span class="ch-name">${esc(b.book)}</span>` +
+      b.units.map(u => `<button class="ch-chip${S.read[u.ref] ? ' done' : ''}" data-chapter="${esc(u.ref)}" aria-label="${esc(u.ref)}${S.read[u.ref] ? ', read' : ''}">` +
+        `${S.read[u.ref] ? '✓ ' : ''}${esc(u.whole ? String(u.c) : u.ref.slice(u.book.length + 1))}</button>`).join('') + '</div>').join('') + '</div>';
+  }
+  // The week map's part (its key) where a chapter is read.
+  function chapterLesson(ref) {
+    const d = readingPlan().findIndex(day => day.some(u => u.ref === ref));
+    const k = d < 0 ? -1 : weekPlan()[d].findIndex(e => e.kind === 'day');
+    return k < 0 ? null : d + '.' + k;
+  }
+  function openChapter(ref) {
+    const u = readingAll().find(x => x.ref === ref);
+    if (!u) return;
+    if (!S.read[u.ref]) {
+      const log = S.readLog || (S.readLog = {});
+      if (!(log[u.ref] && log[u.ref].start)) { log[u.ref] = { start: Date.now() }; saveLocal(); }
+    }
+    const key = !S.read[u.ref] && chapterLesson(u.ref);
+    readUnit = u;
+    $('viewBody').innerHTML = readerHtml(u, WEEK, key ? `<div class="ch-mark"><p>Not marked read yet.</p>
+      <button class="btn" data-mark-lesson="${esc(key)}">Mark it read in its lesson ›</button></div>` : '');
+    $('view').hidden = false;
+    const box = $('viewBody').querySelector('.ls-chapter');
+    needBsb(box); needOrig(box);
   }
 
   /* ---------------- HUD ---------------- */
@@ -2217,7 +2267,8 @@ const TreasureUp = (function () {
   // The chapter open in the day's lesson or in Past weeks.
   function chapterCtx(box) {
     if (box.closest('#lesson')) { const step = lesson && lesson.steps[lesson.at]; return step && step.kind === 'chapter' ? { u: step.u, week: WEEK } : null; }
-    return past && pastUnit && box.closest('#view') ? { u: pastUnit, week: past.week } : null;
+    if (!box.closest('#view')) return null;
+    return readUnit ? { u: readUnit, week: WEEK } : past && pastUnit ? { u: pastUnit, week: past.week } : null;
   }
   // Draw a chapter's verses again, keeping his place: the first verse he can
   // see all of (below the buttons, when they're stuck at the top) stays put.
@@ -3745,6 +3796,7 @@ const TreasureUp = (function () {
     const html = r ? pastReelHtml(r) : d ? pastDeepHtml(d) : u ? pastChapterHtml(u) : '';
     if (!html) return;
     pastUnit = u || null;
+    readUnit = null;
     $('viewBody').innerHTML = html;
     $('view').hidden = false;
     if (u) { needBsb($('viewBody').querySelector('.ls-chapter')); needOrig($('viewBody').querySelector('.ls-chapter')); }
@@ -3807,16 +3859,19 @@ const TreasureUp = (function () {
       </div>
     </article>`;
   }
-  function pastChapterHtml(u) {
+  const pastChapterHtml = u => readerHtml(u, past.week);
+  // A chapter in the reader over the page: this week's or a past week's.
+  function readerHtml(u, week, end) {
     const link = readLink(u.ref);
     return `
     <article class="reel" data-id="read-${esc(u.ref)}" data-index="0">
       ${backdrop({ gradient: 'linear-gradient(160deg,#1c1917 0%,#292524 60%,#44403c 100%)', blobA: 'rgba(252,211,77,.12)', blobB: 'rgba(0,0,0,.45)' })}
       <div class="relative z-20 px-5 pr-7 content-pad ls-chapter">
-        <div class="eyebrow">${esc(past.week.title)}</div>
+        <div class="eyebrow">${esc(week.title)}</div>
         <h2 class="reel-hook">${esc(u.ref)}</h2>
-        ${u.verses ? tldrHtml(u, past.week) + layersBarHtml(u, past.week) + `<div class="ls-verses">${versesHtml(u, past.week)}</div>`
+        ${u.verses ? tldrHtml(u, week) + layersBarHtml(u, week) + `<div class="ls-verses">${versesHtml(u, week)}</div>`
           : link ? `<a class="deep-open" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Read ${esc(u.ref)} in Gospel Library ↗</a>` : ''}
+        ${end || ''}
       </div>
     </article>`;
   }
@@ -9559,6 +9614,8 @@ const TreasureUp = (function () {
       const pw = e.target.closest('[data-past]');
       if (pw) { openPast(Number(pw.dataset.past)); return; }
       if (e.target.closest('[data-dev-open]')) { e.preventDefault(); openDev(); return; }
+      const ch = e.target.closest('[data-chapter]');
+      if (ch) { openChapter(ch.dataset.chapter); return; }
       if (e.target.closest('[data-games]')) { openGames(); return; }
       if (e.target.closest('[data-parent]')) { openParent(); return; }
     });
@@ -9577,6 +9634,8 @@ const TreasureUp = (function () {
     $('view').addEventListener('click', e => {
       const layer = e.target.closest('[data-layer]');
       if (layer) { toggleLayer(layer); return; }
+      const ml = e.target.closest('[data-mark-lesson]');
+      if (ml) { const key = ml.dataset.markLesson; closeView(); openLesson(key); return; }
       const jump = e.target.closest('[data-jump]');
       if (jump) { jumpToVerse(jump); return; }
       const ns = e.target.closest('[data-note-save]');
