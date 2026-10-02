@@ -23,6 +23,9 @@ const IMG = {
   javelin: new Image(),
   lehi: new Image(),
   gidgiddoni: new Image(),
+  lamanSlinger: new Image(),
+  lamanCaptain: new Image(),
+  zerahemnah: new Image(),
   stripling: new Image(),
   lamanite: new Image(),
   cart: new Image(),
@@ -46,6 +49,9 @@ IMG.swordsman.src = 'assets/swordsman.png?v=1';  // and these: 004-swordsman-jav
 IMG.javelin.src = 'assets/javelin.png?v=1';
 IMG.lehi.src = 'assets/lehi.png?v=1';            // and these: 005-heroes.md
 IMG.gidgiddoni.src = 'assets/gidgiddoni.png?v=1';
+IMG.lamanSlinger.src = 'assets/lamanite_slinger.png?v=1';   // and these: 006-lamanites.md
+IMG.lamanCaptain.src = 'assets/lamanite_captain.png?v=1';
+IMG.zerahemnah.src = 'assets/zerahemnah.png?v=2';
 IMG.stripling.src = 'assets/stripling.png?v=13';
 IMG.lamanite.src = 'assets/lamanite.png?v=13';
 IMG.cart.src = 'assets/cart.png?v=13';
@@ -1048,7 +1054,16 @@ IMG.farm.src = 'assets/farm.png?v=13';
     } else if (u.type === 'giddianhi' || u.type === 'zemnarihah') {
       uImg = IMG.robberChief;
       uw = 30; uh = 48; uox = 18; uoy = 47;
-    } else if (u.type === 'lamanite' || u.type === 'zerahemnah' || d.foe) {
+    } else if (u.type === 'slinger') {          // the Lamanite slinger
+      uImg = IMG.lamanSlinger;
+      uw = 33; uh = 44; uox = 24; uoy = 43;
+    } else if (u.type === 'amalekite' || u.type === 'zoramite') {
+      uImg = IMG.lamanCaptain;                   // clothed, not armored (Alma 43:20-21)
+      uw = 26; uh = 44; uox = 17; uoy = 43;
+    } else if (u.type === 'zerahemnah') {
+      uImg = IMG.zerahemnah;
+      uw = 36; uh = 48; uox = 17; uoy = 47;
+    } else if (u.type === 'lamanite' || d.foe) {
       uImg = IMG.lamanite;
       uw = 41; uh = 44; uox = 19; uoy = 43;
     } else if (u.type === 'cart') {
