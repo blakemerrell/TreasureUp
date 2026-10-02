@@ -7212,7 +7212,8 @@ window.TU_WEEKS = [
             "v": 12,
             "about": "The line follows the Hebrew “watching” (the almond pun in the note); the KJV says “hasten.”"
           }
-        ]
+        ],
+        "approved": "715c8767"
       },
       {
         "ch": "Jeremiah 2",
@@ -7221,7 +7222,8 @@ window.TU_WEEKS = [
           "The Lord is the fountain of living waters, but His people have left Him for broken cisterns, or water pits, that can’t hold water. (verses 9–13)",
           "Leaving the Lord has ruined their land. They call a piece of wood their father, but their idols can’t save them. (verses 14–28)",
           "The people of Judah killed their prophets and forgot the Lord. They say they haven’t sinned, but He will bring charges against them. (verses 29–37)"
-        ]
+        ],
+        "approved": "f362f195"
       },
       {
         "ch": "Jeremiah 3",
@@ -7236,7 +7238,8 @@ window.TU_WEEKS = [
             "v": 14,
             "about": "“In the last days” comes from the chapter heading; the verses themselves say “in those days” (verses 16 and 18)."
           }
-        ]
+        ],
+        "approved": "b8e3b855"
       },
       {
         "ch": "Jeremiah 7",
@@ -7245,7 +7248,8 @@ window.TU_WEEKS = [
           "They steal and murder, then feel safe in the temple, like robbers in their den. God will ruin it as He ruined Shiloh and cast them out. (verses 8–15)",
           "God tells Jeremiah not to pray for them. He wants them to obey His voice, but they won’t listen to Him or His prophets. (verses 16–28)",
           "The Lord rejects this generation for their idols and for sacrificing their children in fire, which He never commanded. The land will be ruined. (verses 29–34)"
-        ]
+        ],
+        "approved": "f66820f7"
       },
       {
         "ch": "Jeremiah 16",
@@ -7264,7 +7268,8 @@ window.TU_WEEKS = [
             "v": 19,
             "about": "The heading’s “the gospel is to be restored” is placed on verses 19–21; the verses say Gentiles from the ends of the earth will turn from their fathers’ lies and know the Lord’s name."
           }
-        ]
+        ],
+        "approved": "e672dce8"
       },
       {
         "ch": "Jeremiah 17",
@@ -7273,7 +7278,8 @@ window.TU_WEEKS = [
           "Those who trust in people are like a dry desert bush. Those who trust the Lord are like a green tree by a river. (verses 5–8)",
           "The heart can fool anyone, but the Lord searches it. All who leave Him, the fountain of living waters, will be ashamed, and Jeremiah prays to be healed. (verses 9–18)",
           "If the people keep the Sabbath day holy, Jerusalem will last forever. If they don’t, God will set the city on fire. (verses 19–27)"
-        ]
+        ],
+        "approved": "99c674df"
       },
       {
         "ch": "Jeremiah 18",
@@ -7292,7 +7298,8 @@ window.TU_WEEKS = [
             "v": 21,
             "about": "Jeremiah’s prayer against his enemies (famine, sword, don’t forgive them) is summed up as “asks Him to punish them.”"
           }
-        ]
+        ],
+        "approved": "0198488e"
       },
       {
         "ch": "Jeremiah 20",
@@ -7301,7 +7308,8 @@ window.TU_WEEKS = [
           "When he is let out, Jeremiah prophesies that the Lord will give all Judah to Babylon as captives. Pashur will die there. (verses 3–6)",
           "People mock Jeremiah, so he decides to stay quiet. But God’s word burns in his heart like fire, and he can’t hold it in. (verses 7–10)",
           "The Lord is with him like a mighty warrior, and Jeremiah praises Him. Still, in his sorrow, he wishes he had never been born. (verses 11–18)"
-        ]
+        ],
+        "approved": "736e236f"
       }
     ]
   }
