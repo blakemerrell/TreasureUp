@@ -21,6 +21,8 @@ const IMG = {
   archer: new Image(),
   swordsman: new Image(),
   javelin: new Image(),
+  lehi: new Image(),
+  gidgiddoni: new Image(),
   stripling: new Image(),
   lamanite: new Image(),
   cart: new Image(),
@@ -42,6 +44,8 @@ IMG.nslinger.src = 'assets/nslinger.png?v=1';    // and these: 003-slinger-arche
 IMG.archer.src = 'assets/archer.png?v=1';
 IMG.swordsman.src = 'assets/swordsman.png?v=1';  // and these: 004-swordsman-javelin.md
 IMG.javelin.src = 'assets/javelin.png?v=1';
+IMG.lehi.src = 'assets/lehi.png?v=1';            // and these: 005-heroes.md
+IMG.gidgiddoni.src = 'assets/gidgiddoni.png?v=1';
 IMG.stripling.src = 'assets/stripling.png?v=13';
 IMG.lamanite.src = 'assets/lamanite.png?v=13';
 IMG.cart.src = 'assets/cart.png?v=13';
@@ -1010,13 +1014,19 @@ IMG.farm.src = 'assets/farm.png?v=13';
       return;
     }
     let uImg = IMG.spearman;
-    let uw = 22, uh = 44, uox = 11, uoy = 42;
-    if (u.type === 'moroni' || d.hero) {
-      uImg = IMG.moroni;
-      uw = 25; uh = 48; uox = 12; uoy = 46;
+    let uw = 28, uh = 44, uox = 11, uoy = 43;
+    if (u.type === 'lehi') {
+      uImg = IMG.lehi;
+      uw = 40; uh = 48; uox = 24; uoy = 47;
+    } else if (u.type === 'gidgiddoni') {
+      uImg = IMG.gidgiddoni;
+      uw = 28; uh = 48; uox = 18; uoy = 47;
+    } else if (u.type === 'moroni' || d.hero) {
+      uImg = IMG.moroni;                         // the older pictures, drawn at their own shape
+      uw = 37; uh = 48; uox = 17; uoy = 47;      // (they were squeezed to 60-85% of their width)
     } else if (u.type === 'stripling') {
       uImg = IMG.stripling;
-      uw = 22; uh = 44; uox = 11; uoy = 42;
+      uw = 37; uh = 44; uox = 15; uoy = 43;
     } else if (u.type === 'nslinger') {
       uImg = IMG.nslinger;
       uw = 26; uh = 44; uox = 15; uoy = 43;
@@ -1040,10 +1050,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
       uw = 30; uh = 48; uox = 18; uoy = 47;
     } else if (u.type === 'lamanite' || u.type === 'zerahemnah' || d.foe) {
       uImg = IMG.lamanite;
-      uw = 25; uh = 44; uox = 12; uoy = 42;
+      uw = 41; uh = 44; uox = 19; uoy = 43;
     } else if (u.type === 'cart') {
       uImg = IMG.cart;
-      uw = 40; uh = 28; uox = 20; uoy = 24;
+      uw = 47; uh = 28; uox = 23; uoy = 22;
     } else if (u.type === 'worker') {
       uImg = IMG.worker;                         // 76 × 150, cropped to the figure: feet on the ground
       uw = 20; uh = 40; uox = 14; uoy = 39;
