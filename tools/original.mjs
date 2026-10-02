@@ -40,8 +40,11 @@ export const langOf = ch => { const s = split(ch); return !s ? null : OT.include
 
 // A word as shown: the Hebrew with its vowels but not its chanting marks, and
 // the parts the data splits a word into (from/ east) put back together.
-const hebrew = s => s.replace(/[\/\\]/g, '').replace(/[֑-ֽ֯׀׃׆]/g, '').trim();
-const meaning = s => s.replace(/<[^>]*>/g, '').replace(/[[\]{}]/g, '').replace(/\//g, ' ').replace(/\s+/g, ' ').trim();
+// The scribes' paragraph marks (פ, ס) after a verse's last word aren't words; and God's
+// name as the KJV and the Church's materials give it: "the LORD", not "Yahweh".
+const hebrew = s => s.replace(/[\/\\]/g, '').replace(/[֑-ֽ֯׀׃׆]/g, '').replace(/\s+[פס]$/, '').trim();
+const meaning = s => s.replace(/<[^>]*>/g, '').replace(/[[\]{}]/g, '').replace(/\//g, ' ').replace(/\s+/g, ' ').trim()
+  .replace(/\bO Yahweh\b/g, 'O LORD').replace(/\bYahweh\b/g, 'the LORD');
 // A noun's "my", "your", "his"… comes after it in Hebrew (people/ my, the
 // data's grammar marking the noun N and the ending Sp); in English, before it:
 // my people. So does Aramaic's "the" (king/ the, an ending Ta): the king.
