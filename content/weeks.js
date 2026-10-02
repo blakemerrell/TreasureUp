@@ -6536,7 +6536,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 58",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-58"
         },
-        "find": "The Lord commands Isaiah to raise his voice, in loudness and clarity"
+        "find": "The Lord commands Isaiah to raise his voice, in loudness and clarity",
+        "approved": "b6364596"
       },
       {
         "id": "isa58-rearguard",
@@ -6548,7 +6549,8 @@ window.TU_WEEKS = [
           "title": "The Last Days and the Millennium (Isaiah 55–66)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-18?lang=eng"
         },
-        "find": "it is applied to the gathering up of the scattered rear of an army"
+        "find": "it is applied to the gathering up of the scattered rear of an army",
+        "approved": "8fb4e086"
       },
       {
         "id": "isa58-repairer",
@@ -6561,7 +6563,8 @@ window.TU_WEEKS = [
           "title": "Christ’s Peace in Perilous Times",
           "url": "https://speeches.byu.edu/talks/clark-g-gilbert/christs-peace-in-perilous-times/"
         },
-        "find": "In these troubled times, Christ is the repairer of the breaches in our lives"
+        "find": "In these troubled times, Christ is the repairer of the breaches in our lives",
+        "approved": "f4f50603"
       },
       {
         "id": "isa59-reach",
@@ -6573,7 +6576,8 @@ window.TU_WEEKS = [
           "title": "Lesson 131: Isaiah 59–66",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-teacher-manual/introduction-to-the-book-of-isaiah/lesson-131-isaiah-59-66?lang=eng"
         },
-        "find": "power to save has not decreased"
+        "find": "power to save has not decreased",
+        "approved": "ae1bc624"
       },
       {
         "id": "isa59-webs",
@@ -6586,7 +6590,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 59",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-59"
         },
-        "find": "the webs end up binding and restricting the sinners"
+        "find": "the webs end up binding and restricting the sinners",
+        "approved": "de5b87df"
       },
       {
         "id": "isa59-redeemer",
@@ -6599,7 +6604,8 @@ window.TU_WEEKS = [
           "title": "Redemption",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2011/10/redemption?lang=eng"
         },
-        "find": "the law of Moses provided different ways that servants and property could be freed"
+        "find": "the law of Moses provided different ways that servants and property could be freed",
+        "approved": "32c5d81c"
       },
       {
         "id": "isa60-temples",
@@ -6612,7 +6618,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 60",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-60"
         },
-        "find": "is used to build His temples, which exist throughout the world"
+        "find": "is used to build His temples, which exist throughout the world",
+        "approved": "4ac9a6db"
       },
       {
         "id": "isa60-doves",
@@ -6625,7 +6632,8 @@ window.TU_WEEKS = [
           "title": "As Doves to Our Windows",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2000/04/as-doves-to-our-windows?lang=eng"
         },
-        "find": "people coming as doves to the windows, that all nations should flock unto"
+        "find": "people coming as doves to the windows, that all nations should flock unto",
+        "approved": "c733aada"
       },
       {
         "id": "isa60-isles",
@@ -6638,7 +6646,8 @@ window.TU_WEEKS = [
           "title": "Isaiah and the Restoration of Israel",
           "url": "https://rsc.byu.edu/witness-restoration/isaiah-restoration-israel"
         },
-        "find": "Isaiah often refers to these scattered covenant people metaphorically as"
+        "find": "Isaiah often refers to these scattered covenant people metaphorically as",
+        "approved": "800bcee7"
       },
       {
         "id": "isa61-anointed",
@@ -6650,7 +6659,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 61: The Mission of Jesus the Messiah",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/41-isaiah-58-66/413-isaiah-61?lang=eng"
         },
-        "find": "anointed in verse 1 means that Jesus Christ was set apart or sent with a specific purpose"
+        "find": "anointed in verse 1 means that Jesus Christ was set apart or sent with a specific purpose",
+        "approved": "9f0def03"
       },
       {
         "id": "isa61-stopped",
@@ -6662,7 +6672,8 @@ window.TU_WEEKS = [
           "title": "Why Does Jesus Announce that Isaiah 61:1–2 Is Fulfilled?",
           "url": "https://scripturecentral.org/knowhy/why-does-jesus-announce-that-isaiah-611-2-is-fulfilled"
         },
-        "find": "By ending His citation where He did, Jesus effectively separated the two aspects of Isaiah"
+        "find": "By ending His citation where He did, Jesus effectively separated the two aspects of Isaiah",
+        "approved": "4dda427c"
       },
       {
         "id": "isa62-reward",
@@ -6675,7 +6686,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 62",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-62"
         },
-        "find": "Jesus Christ will reward the righteous and compensate them for losses, sufferings, and injustices"
+        "find": "Jesus Christ will reward the righteous and compensate them for losses, sufferings, and injustices",
+        "approved": "0a62bb08"
       },
       {
         "id": "isa63-alone",
@@ -6688,7 +6700,8 @@ window.TU_WEEKS = [
           "title": "None Were with Him",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2009/04/none-were-with-him?lang=eng"
         },
-        "find": "because Jesus walked such a long, lonely path utterly alone, we do not have to do so"
+        "find": "because Jesus walked such a long, lonely path utterly alone, we do not have to do so",
+        "approved": "75244a1c"
       },
       {
         "id": "isa65-seek",
@@ -6701,7 +6714,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 41 – Isaiah 58-66 – Part 2",
           "url": "https://followhim.co/show-note/3-9/"
         },
-        "find": "I am found of them who seek after me. I give unto all them that ask of me"
+        "find": "I am found of them who seek after me. I give unto all them that ask of me",
+        "approved": "1b9939ef"
       },
       {
         "id": "isa65-cluster",
@@ -6714,7 +6728,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 65",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-65"
         },
-        "find": "do not destroy the righteous, because they are a blessing to Israel and to the world"
+        "find": "do not destroy the righteous, because they are a blessing to Israel and to the world",
+        "approved": "8d705a5a"
       },
       {
         "id": "isa65-newearth",
@@ -6727,7 +6742,8 @@ window.TU_WEEKS = [
           "title": "The Future of the Church: Preparing the World for the Savior’s Second Coming",
           "url": "https://www.churchofjesuschrist.org/study/liahona/2020/04/the-future-of-the-church-preparing-the-world-for-the-saviors-second-coming?lang=eng"
         },
-        "find": "The earth will be returned to its paradisiacal state and be made new"
+        "find": "The earth will be returned to its paradisiacal state and be made new",
+        "approved": "3e75a355"
       },
       {
         "id": "isa66-priests",
@@ -6739,7 +6755,8 @@ window.TU_WEEKS = [
           "title": "The Last Days and the Millennium (Isaiah 55–66)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-18?lang=eng"
         },
-        "find": "Evidently many will then join the Church, for the Lord said He will take of the Gentiles"
+        "find": "Evidently many will then join the Church, for the Lord said He will take of the Gentiles",
+        "approved": "6845aa9e"
       },
       {
         "id": "isa66-offering",
@@ -6752,7 +6769,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 41 – Isaiah 58-66 – Part 2",
           "url": "https://followhim.co/show-note/3-9/"
         },
-        "find": "We bring our family. We bring ourselves, and we bring everyone else on both sides of the veil"
+        "find": "We bring our family. We bring ourselves, and we bring everyone else on both sides of the veil",
+        "approved": "b246829a"
       },
       {
         "id": "isa66-name",
@@ -6765,7 +6783,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 66",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-66"
         },
-        "find": "posterity, eternal families, and eternal increase"
+        "find": "posterity, eternal families, and eternal increase",
+        "approved": "d4dc27a3"
       },
       {
         "id": "isa58-q-oaks",
@@ -6778,7 +6797,8 @@ window.TU_WEEKS = [
           "who": "President Dallin H. Oaks",
           "title": "The Light and Life of the World",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1987/10/the-light-and-life-of-the-world?lang=eng"
-        }
+        },
+        "approved": "c2c6b131"
       },
       {
         "id": "isa58-q-nelson",
@@ -6791,7 +6811,8 @@ window.TU_WEEKS = [
           "who": "President Russell M. Nelson",
           "title": "The Sabbath Is a Delight",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2015/04/the-sabbath-is-a-delight?lang=eng"
-        }
+        },
+        "approved": "7bd1e16a"
       },
       {
         "id": "isa60-q-aburto",
@@ -6804,7 +6825,8 @@ window.TU_WEEKS = [
           "who": "Sister Reyna I. Aburto",
           "title": "Thru Cloud and Sunshine, Lord, Abide with Me!",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2019/10/31aburto?lang=eng"
-        }
+        },
+        "approved": "ad275461"
       },
       {
         "id": "isa61-q-schmutz",
@@ -6817,7 +6839,8 @@ window.TU_WEEKS = [
           "who": "Elder Evan A. Schmutz",
           "title": "God Shall Wipe Away All Tears",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2016/10/god-shall-wipe-away-all-tears?lang=eng"
-        }
+        },
+        "approved": "fa464687"
       },
       {
         "id": "isa62-q-coleman",
@@ -6830,7 +6853,8 @@ window.TU_WEEKS = [
           "who": "Elder Gary J. Coleman",
           "title": "Lessons from the Old Testament: Watchmen of the Lord",
           "url": "https://www.churchofjesuschrist.org/study/ensign/2006/09/lessons-from-the-old-testament-watchmen-of-the-lord?lang=eng"
-        }
+        },
+        "approved": "2ed2bb80"
       },
       {
         "id": "isa63-q-maxwell",
@@ -6843,7 +6867,8 @@ window.TU_WEEKS = [
           "who": "Elder Neal A. Maxwell",
           "title": "Overcome … Even As I Also Overcame",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1987/04/overcome-even-as-i-also-overcame?lang=eng"
-        }
+        },
+        "approved": "f8f04f72"
       },
       {
         "id": "isa64-q-ballard",
@@ -6856,7 +6881,8 @@ window.TU_WEEKS = [
           "who": "President M. Russell Ballard",
           "title": "Hope in Christ",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2021/04/28ballard?lang=eng"
-        }
+        },
+        "approved": "5b35475d"
       },
       {
         "id": "isa66-q-benson",
@@ -6869,7 +6895,8 @@ window.TU_WEEKS = [
           "who": "President Ezra Taft Benson",
           "title": "Beware of Pride",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1989/04/beware-of-pride?lang=eng"
-        }
+        },
+        "approved": "7494b9eb"
       },
       {
         "id": "isa58-v-central",
