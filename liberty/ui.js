@@ -21,6 +21,8 @@ const IMG = {
   archer: new Image(),
   swordsman: new Image(),
   javelin: new Image(),
+  lehi: new Image(),
+  gidgiddoni: new Image(),
   stripling: new Image(),
   lamanite: new Image(),
   cart: new Image(),
@@ -42,6 +44,8 @@ IMG.nslinger.src = 'assets/nslinger.png?v=1';    // and these: 003-slinger-arche
 IMG.archer.src = 'assets/archer.png?v=1';
 IMG.swordsman.src = 'assets/swordsman.png?v=1';  // and these: 004-swordsman-javelin.md
 IMG.javelin.src = 'assets/javelin.png?v=1';
+IMG.lehi.src = 'assets/lehi.png?v=1';            // and these: 005-heroes.md
+IMG.gidgiddoni.src = 'assets/gidgiddoni.png?v=1';
 IMG.stripling.src = 'assets/stripling.png?v=13';
 IMG.lamanite.src = 'assets/lamanite.png?v=13';
 IMG.cart.src = 'assets/cart.png?v=13';
@@ -1011,7 +1015,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     let uImg = IMG.spearman;
     let uw = 22, uh = 44, uox = 11, uoy = 42;
-    if (u.type === 'moroni' || d.hero) {
+    if (u.type === 'lehi') {
+      uImg = IMG.lehi;
+      uw = 40; uh = 48; uox = 24; uoy = 47;
+    } else if (u.type === 'gidgiddoni') {
+      uImg = IMG.gidgiddoni;
+      uw = 28; uh = 48; uox = 18; uoy = 47;
+    } else if (u.type === 'moroni' || d.hero) {
       uImg = IMG.moroni;
       uw = 25; uh = 48; uox = 12; uoy = 46;
     } else if (u.type === 'stripling') {
