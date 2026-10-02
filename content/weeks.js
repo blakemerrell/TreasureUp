@@ -2238,7 +2238,8 @@ window.TU_WEEKS = [
             "v": 10,
             "about": "The line names the Lord God who comes with power and carries His lambs (verses 10–11) as the Messiah, following the heading rather than the verse’s own words."
           }
-        ]
+        ],
+        "approved": "e087bfa4"
       },
       {
         "ch": "Isaiah 41",
@@ -2247,7 +2248,8 @@ window.TU_WEEKS = [
           "The Lord tells Israel, His chosen servant, not to fear. He is with them, and He will help them and hold them up. (verses 8–13)",
           "Their Redeemer, the Holy One of Israel, will help them. When the poor are thirsty, He will make rivers flow in the desert. (verses 14–20)",
           "Idols can’t tell the future, and they are nothing. The Lord can, and He will give Jerusalem a messenger with good news. (verses 21–29)"
-        ]
+        ],
+        "approved": "82411c0b"
       },
       {
         "ch": "Isaiah 42",
@@ -2262,7 +2264,8 @@ window.TU_WEEKS = [
             "v": 19,
             "about": "The line says the people act blind and deaf, which fits both the KJV (where the Lord’s servant is called blind and the Scripture Helps read that servant as Israel) and the JST in the note (where the servant is sent to open blind eyes)."
           }
-        ]
+        ],
+        "approved": "50580b37"
       },
       {
         "ch": "Isaiah 43",
@@ -2271,7 +2274,8 @@ window.TU_WEEKS = [
           "He will gather their children from every direction. His people are His witnesses that He is God, and there is no Savior but Him. (verses 5–13)",
           "For Israel’s sake, the Lord brings down Babylon. He is doing a new thing: a road in the wilderness and rivers in the desert. (verses 14–21)",
           "The Lord says Israel’s sins have worn Him out, and He handed them over to ruin. Still, He will wipe their sins away. (verses 22–28)"
-        ]
+        ],
+        "approved": "9a4eaeeb"
       },
       {
         "ch": "Isaiah 44",
@@ -2280,7 +2284,8 @@ window.TU_WEEKS = [
           "No one is like the Lord. A man cooks over half a log, then carves the rest into an idol and prays to it. (verses 6–20)",
           "The Lord won’t forget Israel. He has wiped away their sins like a cloud, and He calls them back because He redeemed them. (verses 21–23)",
           "The Lord will rebuild Jerusalem and the temple. He names a future king, Cyrus, as His shepherd to send His people home. (verses 24–28)"
-        ]
+        ],
+        "approved": "9b3467ed"
       },
       {
         "ch": "Isaiah 45",
@@ -2299,7 +2304,8 @@ window.TU_WEEKS = [
             "v": 22,
             "about": "Calling the Lord who invites the earth to be saved “Jehovah, who is Christ” comes from the heading (and the note on verse 23 has Paul apply it to Jesus), not from the verse itself."
           }
-        ]
+        ],
+        "approved": "8df24d6d"
       },
       {
         "ch": "Isaiah 46",
@@ -2308,7 +2314,8 @@ window.TU_WEEKS = [
           "The Lord has carried Israel since before they were born. He will carry them even when they are old and gray, and save them. (verses 3–4)",
           "No idol compares to the Lord. Idols can’t answer prayers, but only He is God, and He tells the end from the beginning. (verses 5–11)",
           "The Lord tells stubborn people that His salvation is near. It won’t be late, and He will bring it to Zion for Israel. (verses 12–13)"
-        ]
+        ],
+        "approved": "c3164bf0"
       },
       {
         "ch": "Isaiah 47",
@@ -2317,7 +2324,8 @@ window.TU_WEEKS = [
           "The Lord handed His people over to Babylon, but she showed them no mercy. She thought she would be queen forever. (verses 5–7)",
           "Babylon feels safe and thinks no one sees her sins. Because of her wickedness, ruin will come on her suddenly, in one day. (verses 8–11)",
           "Her magic spells and stargazers can’t help her. They will burn like straw, and no one will save her. (verses 12–15)"
-        ]
+        ],
+        "approved": "240b362c"
       },
       {
         "ch": "Isaiah 48",
@@ -2327,7 +2335,8 @@ window.TU_WEEKS = [
           "The Lord, the first and the last, wishes Israel had kept His commandments. Their peace would have been like a river, and their righteousness like ocean waves. (verses 12–19)",
           "The Lord tells His people to leave Babylon and shout that He has redeemed them. But there is no peace for the wicked. (verses 20–22)"
         ],
-        "also": "Nephi reads this chapter to his brothers in the Book of Mormon (1 Nephi 20)."
+        "also": "Nephi reads this chapter to his brothers in the Book of Mormon (1 Nephi 20).",
+        "approved": "38f7cd82"
       },
       {
         "ch": "Isaiah 49",
@@ -2347,7 +2356,8 @@ window.TU_WEEKS = [
             "v": 22,
             "about": "In the last days comes from the heading and from Nephi’s reading in 1 Nephi 22 (Scripture Helps), not from verses 17–26 themselves."
           }
-        ]
+        ],
+        "approved": "067904b7"
       }
     ],
     "approved": "e524731b",
