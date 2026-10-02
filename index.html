@@ -1073,6 +1073,21 @@
   .today .board-link { margin-top: 12px; }
   .board-link.ls-start { font-size: 17px; font-weight: 900; color: #0b1a00; background: #58cc02; border-color: #58cc02; box-shadow: 0 4px 0 #46a302; cursor: pointer; }
   .board-link.ls-start small { color: rgba(11,26,0,.78); }
+  .day-strip { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin: -2px 0 6px; }
+  .ds-day { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 5px 0 4px; border-radius: 10px; cursor: pointer;
+    font: inherit; color: rgba(255,255,255,.75); background: rgba(255,255,255,.05); border: 1.5px solid transparent; }
+  .ds-day span { font-size: 10px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: rgba(255,255,255,.5); }
+  .ds-day b { font-size: 16px; font-weight: 900; line-height: 1.1; }
+  .ds-day i { height: 14px; font-style: normal; font-size: 11px; font-weight: 900; }
+  .ds-day.kept { background: rgba(88,204,2,.14); } .ds-day.kept i { color: #86efac; }
+  .ds-day.missed { background: rgba(255,75,75,.12); } .ds-day.missed i { color: #fca5a5; }
+  .ds-day.frozen { background: rgba(125,211,252,.12); }
+  .ds-day.later { color: rgba(255,255,255,.4); }
+  .ds-day.now { border-color: var(--gold); }
+  .ds-say { margin-bottom: 8px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.6); }
+  .vod { margin-top: 12px; padding: 12px 16px; border-radius: 16px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); }
+  .vod-text { margin-top: 6px; font-family: Georgia, 'Times New Roman', serif; font-size: 17px; line-height: 1.45; }
+  .vod .vod-go { margin: 8px 0 0; }
   .streak-card { margin-top: 12px; padding: 12px 16px; border-radius: 16px; background: rgba(0,0,0,.3); border: 1.5px solid rgba(251,146,60,.5); }
   .sk-head { font-weight: 900; font-size: 16px; color: #fdba74; }
   .sk-say { margin-top: 10px; font-size: 13.5px; font-weight: 700; line-height: 1.35; color: rgba(255,255,255,.85); }
@@ -1090,6 +1105,17 @@
     color: #fff; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.18); }
   .ch-chip.done { color: #bbf7d0; background: rgba(88,204,2,.12); border-color: rgba(88,204,2,.5); }
   .ch-mark { margin: 4px 0 26px; text-align: center; }
+  /* Listen along: the Church's recording of the chapter */
+  .listen { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 2px 0 14px; }
+  .listen-go { font: inherit; font-size: 14px; font-weight: 900; padding: 8px 14px; border-radius: 999px; cursor: pointer;
+    color: #1c1406; background: var(--gold); border: 0; }
+  .listen-bar { flex: 1 1 80px; height: 5px; border-radius: 999px; background: rgba(255,255,255,.15); overflow: hidden; }
+  .listen-bar span { display: block; height: 100%; background: var(--gold); }
+  .listen-time { font-size: 12px; font-weight: 800; color: rgba(255,255,255,.65); font-variant-numeric: tabular-nums; }
+  .listen-voice { font: inherit; font-size: 12px; font-weight: 800; padding: 6px 10px; border-radius: 999px; cursor: pointer;
+    color: rgba(255,255,255,.75); background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.18); }
+  .listen-fab { position: fixed; z-index: 120; right: 14px; bottom: calc(env(safe-area-inset-bottom, 0px) + 118px); padding: 10px 14px; border-radius: 999px;
+    font: inherit; font-size: 13px; font-weight: 900; color: #1c1406; background: var(--gold); border: 0; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.45); }
   .ch-mark p { margin: 0 0 10px; font-size: 13.5px; color: rgba(255,255,255,.7); }
   button.wm-row { width: 100%; text-align: left; font-family: inherit; background: none; border: 0; border-bottom: 1px solid rgba(255,255,255,.08); cursor: pointer; }
   .wm-row { display: grid; grid-template-columns: 34px 1fr auto; gap: 8px; align-items: baseline; padding: 6px 0; font-size: 13.5px; line-height: 1.3; color: rgba(255,255,255,.82); border-bottom: 1px solid rgba(255,255,255,.08); }
@@ -1103,6 +1129,9 @@
   .wm-row.further .wm-name { font-weight: 800; color: #c4b5fd; }
   .wm-row.further .wm-name small { display: block; font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,.5); }
   .wm-row.further.done .wm-name { color: rgba(196,181,253,.55); }
+  .ins-quote { margin: 8px 0 6px; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(20px, 5.4vw, 24px); line-height: 1.4; }
+  .ins-who { margin: 0 0 14px; font-size: 14px; font-weight: 800; color: #c4b5fd; }
+  .ins-who::before { content: '— '; }
   .ls-ins-ref { margin: -10px 0 10px; font-size: 13px; font-weight: 800; color: var(--gold); }
   .ins-src { display: block; margin-top: 16px; padding: 12px 14px; border-radius: 14px; text-decoration: none; color: #fff;
     background: rgba(196,181,253,.1); border: 1px solid rgba(196,181,253,.35); }
@@ -1206,6 +1235,8 @@
 
 <!-- ==================== OVERLAYS ==================== -->
 <div id="toasts"></div>
+<!-- Listening to a chapter: pause or keep going from anywhere in it. -->
+<button id="listenFab" class="listen-fab" hidden></button>
 
 <div id="levelup">
   <div class="lv-card text-center px-8">
@@ -1432,6 +1463,7 @@ const TreasureUp = (function () {
                      // opened it, the time until "I read it", whether he said yes to "Did you read all of it?"
     found: {},       // Find it in the chapter: reelId -> { right, day }  first try
     insights: {},    // insight cards he has read (Go further): id -> the day; kept across weeks
+    readPos: {},     // where he was in a chapter not read yet: ref -> { v: first verse showing, at }
     weekChapters: 0  // how many chapters this week's reading has, for the year's count
   });
 
@@ -1821,6 +1853,7 @@ const TreasureUp = (function () {
         <p class="text-[15px] font-bold text-amber-300">${linkRefs(WEEK.reference)}</p>
         ${todayHtml()}
         ${streakHtml()}
+        ${verseOfDayHtml()}
         ${weekMapHtml()}
         ${chaptersHtml()}
         ${weekStatsHtml()}
@@ -2016,6 +2049,7 @@ const TreasureUp = (function () {
     $('view').hidden = false;
     const box = $('viewBody').querySelector('.ls-chapter');
     needBsb(box); needOrig(box);
+    resumeAt(box, u.ref);
   }
 
   /* ---------------- HUD ---------------- */
@@ -2343,10 +2377,16 @@ const TreasureUp = (function () {
   // comes from. Each is in its day's Go further, the day its verses are
   // read. Shown like the plain words: once Blake has approved it, or on the
   // test site as a marked draft.
+  // Two more kinds (Blake, 2026-10-02, from the Scripture Central app): a
+  // quote card (`kind: 'quote'`), a prophet's or apostle's own words on the
+  // verses, and a video card (`kind: 'video'`), a short clip on the week's
+  // reading that, like a reel's, shows only once a parent has watched it.
+  const cardOk = x => x && x.id && (x.kind === 'video' ? x.video && x.video.youtube : x.kind === 'quote' ? x.quote && x.source : x.text && x.source);
   function insightsOf(week) {
-    return ((week && week.insights) || []).filter(x => x && x.id && x.text && x.source).map(x => {
+    return ((week && week.insights) || []).filter(cardOk).map(x => {
       const approved = !!x.approved && x.approved === approvalHash(noApproval(x));
-      return approved || TEST_SITE ? { x, draft: !approved } : null;
+      const watched = x.kind !== 'video' || x.video.previewed === true;
+      return (approved && watched) || TEST_SITE ? { x, draft: !approved } : null;
     }).filter(Boolean);
   }
   const TLDR_END = / \((verses?) (\d+)(?:–(\d+))?\)$/;
@@ -2362,18 +2402,48 @@ const TreasureUp = (function () {
       (x.t.also ? `<p class="ls-sum-also">${linkRefs(x.t.also, u.ch)}</p>` : '') + '</div>';
   }
   // A line's verses: the first of them, just below the buttons, lit up for a moment.
-  function jumpToVerse(btn) {
-    const box = btn.closest('.ls-chapter'), v = box && box.querySelector(`.ls-vv[data-v="${btn.dataset.jump}"]`);
-    if (!v) return;
+  function jumpToVerse(btn) { scrollToVerse(btn.closest('.ls-chapter'), btn.dataset.jump, true); }
+  // A chapter's scroller, and where its verses start showing: just under the
+  // buttons where they stick (sticky counts from inside the scroller's top padding).
+  function verseView(box) {
     let scroller = box;
     while (scroller.parentElement && !/(auto|scroll)/.test(getComputedStyle(scroller).overflowY)) scroller = scroller.parentElement;
-    // Just under the buttons where they stick: sticky counts from inside the scroller's top padding.
     const bar = box.querySelector('.plain-bar'), sticky = bar && getComputedStyle(bar).position === 'sticky';
-    const top = scroller.getBoundingClientRect().top + (sticky ? parseFloat(getComputedStyle(scroller).paddingTop) + parseFloat(getComputedStyle(bar).top) + bar.offsetHeight : 0);
-    scroller.scrollBy({ top: v.getBoundingClientRect().top - top - 10, behavior: 'smooth' });
+    return { scroller, top: scroller.getBoundingClientRect().top + (sticky ? parseFloat(getComputedStyle(scroller).paddingTop) + parseFloat(getComputedStyle(bar).top) + bar.offsetHeight : 0) };
+  }
+  function scrollToVerse(box, n, light) {
+    const v = box && box.querySelector(`.ls-vv[data-v="${n}"]`);
+    if (!v) return;
+    const { scroller, top } = verseView(box);
+    scroller.scrollBy({ top: v.getBoundingClientRect().top - top - 10, behavior: light ? 'smooth' : 'auto' });
+    if (!light) return;
     v.classList.remove('hit');
     void v.offsetWidth;                                   // start the light again on a second tap
     v.classList.add('hit');
+  }
+
+  // Pick up where you left off (Blake, 2026-10-02, from the Scripture
+  // Central app): the first verse showing in a chapter he hasn't marked read,
+  // kept as he scrolls (S.readPos: ref -> { v, at }), and the chapter opens
+  // there next time. Marking it read forgets it.
+  let placeTimer = null;
+  function notePlace(box, ref) {
+    if (!box || !ref || placeTimer) return;
+    placeTimer = setTimeout(() => {
+      placeTimer = null;
+      if (!box.isConnected || S.read[ref] || isPastRead(ref)) return;
+      const { top } = verseView(box);
+      const v = [...box.querySelectorAll('.ls-vv')].find(x => x.getBoundingClientRect().bottom > top + 12);
+      const n = v ? Number(v.dataset.v) : 0, pos = S.readPos || (S.readPos = {});
+      if (n > 1 && (!pos[ref] || pos[ref].v !== n)) { pos[ref] = { v: n, at: Date.now() }; saveLocal(); }
+      else if (n <= 1 && pos[ref]) { delete pos[ref]; saveLocal(); }
+    }, 700);
+  }
+  // A past week's chapter read since (which then has no place to keep).
+  const isPastRead = ref => !!(past && (((S.late || {})[past.p.num] || {}).read || {})[ref]);
+  function resumeAt(box, ref) {
+    const at = (S.readPos || {})[ref];
+    if (at && at.v > 1 && !S.read[ref]) scrollToVerse(box, at.v, false);
   }
   // The BSB has the Bible's chapters: this week's and last week's in
   // content/bsb.js, a week moved to content/past/ in its own bsb-<num>.js.
@@ -2535,6 +2605,7 @@ const TreasureUp = (function () {
   function recordRead(ref, said) {
     if (S.read[ref]) return false;
     S.read[ref] = dayKey();
+    if (S.readPos) delete S.readPos[ref];
     const log = S.readLog || (S.readLog = {}), start = log[ref] && log[ref].start;
     log[ref] = { start: start || null, secs: start ? Math.round((Date.now() - start) / 1000) : null, said: !!said, xp: READ_XP, day: dayKey() };
     markStudied(true);
@@ -2593,9 +2664,10 @@ const TreasureUp = (function () {
       .concat(reels.length ? [{ card: 'note-' + d, done: reels.some(r => S.notes[r.id]) }] : []);
   }
   function furtherParts(d) {
-    const ins = dayInsights(d).length, bon = dayReels(d).reduce((n, r) => n + bonusesOf(r).length, 0);
-    return [ins && (ins === 1 ? '1 insight' : ins + ' insights'), bon && (bon === 1 ? '1 bonus question' : bon + ' bonus questions'),
-      dayReels(d).length && 'a note'].filter(Boolean).join(' · ');
+    const cards = dayInsights(d), vids = cards.filter(i => i.x.kind === 'video').length, ins = cards.length - vids;
+    const bon = dayReels(d).reduce((n, r) => n + bonusesOf(r).length, 0);
+    return [ins && (ins === 1 ? '1 insight' : ins + ' insights'), vids && (vids === 1 ? 'a video' : vids + ' videos'),
+      bon && (bon === 1 ? '1 bonus question' : bon + ' bonus questions'), dayReels(d).length && 'a note'].filter(Boolean).join(' · ');
   }
   // The week map's key for a day's Go further, while it has something left.
   function furtherKey(d) {
@@ -2642,12 +2714,77 @@ const TreasureUp = (function () {
     const started = done > 0 || warm < S.daily.ids.length + (S.daily.say ? 1 : 0);
     return `
       <div class="today">
+        ${dayStripHtml()}
         <div class="eyebrow" style="color:var(--gold)">Today · ${DAY_NAMES[t]}</div>
         <div class="today-head">${esc(head)}</div>
         <div class="today-sub">${esc(sub)}</div>
         ${items.length ? `<div class="today-bar"><div style="width:${Math.round(done / items.length * 100)}%"></div></div>` : ''}
         ${now || warm ? `<button class="board-link ls-start" data-lesson="">▶ ${started ? 'Keep going' : "Start today's lesson"}<small>${esc(lessonParts(now))}</small></button>` : ''}
+        ${pickUpHtml()}
       </div>`;
+  }
+
+  // The week's days across the top of Today (Blake, 2026-10-02, from the
+  // Scripture Central app): kept ✓ (read, or its chapters read since), missed
+  // ✕ (a tap opens it, to read and mend the streak), ❄️ covered by a freeze,
+  // today ringed, the rest to come; a tap opens that day's lesson. Then how
+  // many days are missed, and how much of the reading he has read, from his
+  // first week to today.
+  function dayStripHtml() {
+    const start = weekStart(WEEK.dates);
+    if (!start) return '';
+    const today = dayKey(), plan = weekPlan();
+    const days = DAY_NAMES.map((name, d) => {
+      const k = dayAdd(start, d), state = keptDay(k) ? 'kept' : frozenDay(k) ? 'frozen' : k < today ? 'missed' : k === today ? 'today' : 'later';
+      const at = plan[d].findIndex(e => e.kind === 'day'), open = at >= 0 ? `data-lesson="${d}.${at}"` : d === 6 ? 'data-games' : '';
+      const mark = { kept: '✓', frozen: '❄️', missed: '✕' }[state] || '';
+      return `<button class="ds-day ${state}${k === today ? ' now' : ''}" ${open} aria-label="${name} ${shortDay(k)}${mark ? ': ' + { kept: 'kept', frozen: 'covered by a freeze', missed: 'missed' }[state] : ''}">
+        <span>${name.slice(0, 3)}</span><b>${Number(k.slice(8))}</b><i>${mark}</i></button>`;
+    }).join('');
+    const { missed, read, due } = readingSoFar();
+    const said = [missed ? `${missed} missed ${missed === 1 ? 'day' : 'days'}` : '', due ? `${Math.round(read / due * 100)}% of the reading so far` : ''].filter(Boolean).join(' · ');
+    return `<div class="day-strip">${days}</div>${said ? `<div class="ds-say">${esc(said)}</div>` : ''}`;
+  }
+  // From his first week (the oldest one he has a record of) to today: days
+  // missed (not kept, not covered by a freeze), and chapters read of those due.
+  function readingSoFar() {
+    const today = dayKey(), nums = (S.history || []).map(h => h.num).filter(Boolean), first = Math.min(weekNumOf(WEEK) || 99, ...nums);
+    let missed = 0, read = 0, due = 0;
+    for (const w of window.TU_WEEKS || []) {
+      const start = weekStart(w.dates), num = weekNumOf(w);
+      if (!start || start > today || (num && num < first)) continue;
+      planOf(w, window.TU_READING).forEach((units, d) => {
+        const k = dayAdd(start, d);
+        if (k > today) return;
+        due += units.length;
+        read += units.filter(u => weekRead(w, u.ref)).length;
+        if (k < today && !keptDay(k) && !frozenDay(k)) missed++;      // Sunday too: the plan has all seven days
+      });
+    }
+    return { missed, read, due };
+  }
+  // The chapter of this week he was last partway through, a tap from where he stopped.
+  function pickUpHtml() {
+    const pos = S.readPos || {}, units = readingAll().filter(u => !S.read[u.ref] && pos[u.ref] && pos[u.ref].v > 1);
+    const u = units.sort((a, b) => pos[b.ref].at - pos[a.ref].at)[0];
+    return u ? `<button class="today-alt" data-resume="${esc(u.ref)}">📖 Pick up where you left off: ${esc(u.ref)}, verse ${pos[u.ref].v} ›</button>` : '';
+  }
+
+  // A verse from today's reading on the page (Blake, 2026-10-02, from the
+  // Scripture Central app): today's first reel's verse, the one the day's
+  // reels are built on, or on a day with none, one of the week's. A tap opens
+  // its chapter there.
+  function verseOfDayHtml() {
+    const t = todayIndex(), today = dayReels(t).filter(r => readingAll().some(u => u.ch === r.verse.ref.replace(/:.*/, '')));
+    const r = today[0] || WEEK.reels[hash(dayKey() + '|vod') % WEEK.reels.length];
+    if (!r) return '';
+    const ch = r.verse.ref.replace(/:.*/, ''), v = Number((/:(\d+)/.exec(r.verse.ref) || [])[1]) || 1;
+    const here = readingAll().some(u => u.ref === ch);
+    return `<div class="vod">
+      <div class="eyebrow">Verse of the day · ${linkRefs(r.verse.ref)}</div>
+      <p class="vod-text">“${esc(r.verse.text)}”</p>
+      ${here ? `<button class="today-alt vod-go" data-vod="${esc(ch)}" data-v="${v}">Read it in ${esc(ch)} ›</button>` : ''}
+    </div>`;
   }
 
   // The streak, under Today: how long, its supercharge, and, when it's broken,
@@ -2825,8 +2962,102 @@ const TreasureUp = (function () {
     }, 400);
   }
 
-  // Closing a screen (or moving on in a lesson) stops its clip.
-  function stopClips() { [...players].forEach(p => p._stop()); }
+  // Closing a screen (or moving on in a lesson) stops its clip, and the chapter he was listening to.
+  function stopClips() { [...players].forEach(p => p._stop()); stopListen(); }
+
+  /* ---------------- listening ---------------- */
+
+  // Listen along (Blake, 2026-10-02, from the Scripture Central app): the
+  // Church's own recording of a chapter, a man's voice or a woman's
+  // (content/audio.js, built at deploy), played from the Church's site while
+  // he follows the verses. One player for the whole app; the voice he picks
+  // is remembered. Listening to the end counts as reaching the end of the
+  // chapter, so "I read it" opens; the time is on the reading clock as ever.
+  const VOICE_KEY = NS + 'voice';
+  const listen = { audio: null, ch: null, url: null };
+  const audioOf = u => (u && u.whole && (window.TU_AUDIO || {})[u.ch]) || null;
+  function voiceOf(a) {
+    let v = 'male';
+    try { v = localStorage.getItem(VOICE_KEY) || 'male'; } catch (e) {}
+    return a[v] ? v : Object.keys(a)[0];
+  }
+  const clock = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
+  function listenHtml(u) {
+    const a = audioOf(u);
+    if (!a) return '';
+    return `<div class="listen" data-listen-ch="${esc(u.ch)}">${listenInner(u.ch)}</div>`;
+  }
+  function listenInner(ch) {
+    const a = (window.TU_AUDIO || {})[ch], v = voiceOf(a), mine = listen.ch === ch && listen.audio;
+    const t = mine ? listen.audio.currentTime : 0, d = mine && isFinite(listen.audio.duration) ? listen.audio.duration : 0;
+    const label = !mine ? '▶ Listen' : !listen.audio.paused ? '⏸ Pause' : listen.audio.ended ? '↻ Again' : '▶ Keep going';
+    return `<button class="listen-go" data-listen="${esc(ch)}">${label}</button>
+      <span class="listen-bar"><span style="width:${d ? Math.round(t / d * 100) : 0}%"></span></span>
+      <span class="listen-time">${d ? clock(t) + ' / ' + clock(d) : mine ? clock(t) : ''}</span>
+      ${Object.keys(a).length > 1 ? `<button class="listen-voice" data-voice="${v === 'male' ? 'female' : 'male'}" aria-label="Switch to a ${v === 'male' ? "woman's" : "man's"} voice">${v === 'male' ? "Man's voice" : "Woman's voice"} ⇄</button>` : ''}`;
+  }
+  // Every Listen row, and the small Pause button that stays on screen. As it
+  // plays, only the bar and the time change, so a tap on Pause isn't lost to a redraw.
+  function drawListen(e) {
+    if (e && e.type === 'timeupdate' && listen.audio) {
+      const el = listen.audio, d = isFinite(el.duration) ? el.duration : 0;
+      document.querySelectorAll('.listen').forEach(row => {
+        if (row.dataset.listenCh !== listen.ch) return;
+        const bar = row.querySelector('.listen-bar span'), time = row.querySelector('.listen-time');
+        if (bar) bar.style.width = (d ? Math.round(el.currentTime / d * 100) : 0) + '%';
+        if (time) time.textContent = d ? clock(el.currentTime) + ' / ' + clock(d) : clock(el.currentTime);
+      });
+    } else document.querySelectorAll('.listen').forEach(row => { row.innerHTML = listenInner(row.dataset.listenCh); });
+    const fab = $('listenFab'), on = listen.audio && !listen.audio.ended;
+    fab.hidden = !on;
+    if (on) fab.textContent = (listen.audio.paused ? '▶ ' : '⏸ ') + listen.ch + ' · ' + clock(listen.audio.currentTime);
+  }
+  function toggleListen(ch) {
+    if (listen.ch === ch && listen.audio) {
+      if (listen.audio.paused) listen.audio.play().catch(() => {}); else listen.audio.pause();
+      return drawListen();
+    }
+    const a = (window.TU_AUDIO || {})[ch];
+    if (!a) return;
+    playListen(ch, a[voiceOf(a)], 0);
+  }
+  function playListen(ch, url, from) {
+    stopListen();
+    const el = new Audio(url);
+    Object.assign(listen, { audio: el, ch, url });
+    el.preload = 'auto';
+    ['timeupdate', 'play', 'pause', 'loadedmetadata'].forEach(e => el.addEventListener(e, drawListen));
+    el.addEventListener('ended', () => { listened(ch); drawListen(); });
+    el.addEventListener('error', () => { if (listen.audio !== el) return; stopListen(); toast("Couldn't play it", 'It needs the internet. Read it instead, or try again'); });
+    if (from) el.addEventListener('loadedmetadata', () => { el.currentTime = from * el.duration; }, { once: true });
+    el.play().catch(() => {});
+    try { if ('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title: ch, artist: 'The Church of Jesus Christ of Latter-day Saints', album: 'Treasure Up' }); } catch (e) {}
+    drawListen();
+  }
+  // A new voice picks up where the other was, as near as the two readings line up.
+  function switchVoice(v) {
+    try { localStorage.setItem(VOICE_KEY, v); } catch (e) {}
+    const el = listen.audio, a = listen.ch && (window.TU_AUDIO || {})[listen.ch];
+    if (el && a && a[v] && !el.ended) {
+      const at = isFinite(el.duration) && el.duration ? el.currentTime / el.duration : 0, was = !el.paused;
+      playListen(listen.ch, a[v], at);
+      if (!was) listen.audio.pause();
+    }
+    drawListen();
+  }
+  function stopListen() {
+    const el = listen.audio;
+    if (!el) return;
+    Object.assign(listen, { audio: null, ch: null, url: null });
+    try { el.pause(); el.removeAttribute('src'); el.load(); } catch (e) {}
+    drawListen();
+  }
+  // Heard to the end: the chapter's "I read it" opens, and the parent screen can see he listened.
+  function listened(ch) {
+    const log = S.readLog && S.readLog[ch];
+    if (log && !S.read[ch]) { log.listened = true; saveLocal(); }
+    if (lesson && lesson.steps[lesson.at] && lesson.steps[lesson.at].kind === 'chapter' && lesson.steps[lesson.at].u.ch === ch) lessonReadOk();
+  }
 
   /* ---------------- family rewards ---------------- */
 
@@ -3956,6 +4187,7 @@ const TreasureUp = (function () {
     const w = S.late[past.p.num] = S.late[past.p.num] || {}, start = (w.clock || {})[u.ref] || null;
     const rec = (w.read = w.read || {})[u.ref] = { day: dayKey(), secs: start ? Math.round((Date.now() - start) / 1000) : null, said: !!said, xp: 0 };
     if (w.clock) delete w.clock[u.ref];
+    if (S.readPos) delete S.readPos[u.ref];
     markStudied(true);
     const before = S.xp;
     grantXp(READ_XP, 'Caught up: read ' + u.ref);
@@ -4102,7 +4334,7 @@ const TreasureUp = (function () {
     $('view').classList.toggle('reading', !!u);
     $('viewBody').innerHTML = html;
     $('view').hidden = false;
-    if (u) { needBsb($('viewBody').querySelector('.ls-chapter')); needOrig($('viewBody').querySelector('.ls-chapter')); }
+    if (u) { const box = $('viewBody').querySelector('.ls-chapter'); needBsb(box); needOrig(box); if (!lateRead(u.ref)) resumeAt(box, u.ref); }
   }
   // One question of a past week, with his try `t` (pastTry). Answered: the
   // right answer and his pick, read-only, and when that was. Not yet: he
@@ -4172,6 +4404,7 @@ const TreasureUp = (function () {
       <div class="relative z-20 px-5 pr-7 content-pad ls-chapter">
         <div class="eyebrow">${esc(week.title)}</div>
         <h2 class="reel-hook">${esc(u.ref)}</h2>
+        ${listenHtml(u)}
         ${u.verses ? tldrHtml(u, week) + layersBarHtml(u, week) + `<div class="ls-verses">${versesHtml(u, week)}</div>`
           : link ? `<a class="deep-open" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Read ${esc(u.ref)} in Gospel Library ↗</a>` : ''}
         ${end || ''}
@@ -8212,6 +8445,9 @@ const TreasureUp = (function () {
     // The reading clock: a chapter finished on either device keeps its record.
     M.readLog = Object.assign({}, L.readLog || {}, R.readLog || {});
     for (const k in L.readLog || {}) if (L.readLog[k].day && !M.readLog[k].day) M.readLog[k] = L.readLog[k];
+    // Where he was in a chapter: the later place.
+    M.readPos = Object.assign({}, R.readPos || {}, L.readPos || {});
+    for (const k in R.readPos || {}) if (L.readPos && L.readPos[k] && R.readPos[k].at > L.readPos[k].at) M.readPos[k] = R.readPos[k];
     // Notes: the later edit wins.
     M.notes = Object.assign({}, L.notes || {}, R.notes || {});
     for (const k in L.notes || {}) if (!has(R.notes, k) || (L.notes[k].at || 0) > (R.notes[k].at || 0)) M.notes[k] = L.notes[k];
@@ -9235,7 +9471,8 @@ const TreasureUp = (function () {
     const opts = () => `<div class="ls-opts">${step.choices.map(c => opt(c, optCls(c))).join('')}</div>`;
     const min = step.kind === 'chapter' ? minutesOf([step.u]) : 0;
     let html = `<div class="ls-kind">${step.retry ? '↻ Try it again' : step.kind === 'read' ? 'Read' : step.kind === 'chapter' ? 'Read the chapter' + (min ? ' · about ' + min + ' min' : '') : step.kind === 'puzzle' ? 'Saturday'
-      : step.kind === 'bonus' ? esc('Bonus · find it in ' + sourceLabel(step.q.source) + ' · +' + XP.bonus + ' XP') : LESSON_KIND[step.kind]}</div>`;
+      : step.kind === 'bonus' ? esc('Bonus · find it in ' + sourceLabel(step.q.source) + ' · +' + XP.bonus + ' XP')
+      : step.kind === 'insight' ? { quote: '💬 Quote', video: '🎬 Video' }[step.x.kind] || LESSON_KIND.insight : LESSON_KIND[step.kind]}</div>`;
     if (step.kind === 'chapter') {
       // The chapter itself, or, without its text, the way to it in Gospel Library.
       const u = step.u, gl = u.whole ? readLink(u.ch, true) : readLink(u.ref);
@@ -9247,6 +9484,7 @@ const TreasureUp = (function () {
       html += `<div class="ls-chapter">
         <div class="ls-prompt">${esc(u.ref)}</div>
         ${gl ? `<a class="ls-gl" data-ls="gl" href="${esc(gl)}" target="_blank" rel="noopener noreferrer">${u.verses ? 'Or read it in Gospel Library ↗' : 'Read it in Gospel Library ↗'}</a>` : ''}
+        ${listenHtml(u)}
         ${u.verses ? tldrHtml(u, WEEK) + layersBarHtml(u, WEEK) + `<div class="ls-verses">${versesHtml(u, WEEK)}</div>`
                    : `<p class="reel-body">Read ${esc(u.ref)} in Gospel Library, then come back and tap “I read it”.</p>`}
       </div>`;
@@ -9285,6 +9523,23 @@ const TreasureUp = (function () {
         <p class="reel-body">${linkRefs(d.intro, deepPassage(d))}</p>
         ${url ? `<a class="deep-open" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open ${esc(web ? sourceLabel(d.read) : d.read)} ↗</a>` : ''}`;
       html += `<div class="ls-q">${linkRefs(step.q, step.home)}</div>${opts()}`;
+    } else if (step.kind === 'insight' && step.x.kind === 'quote') {
+      // A prophet's or apostle's own words on the verses, and the talk they're from.
+      const x = step.x, s = x.source || {};
+      html += `<blockquote class="ins-quote">“${esc(x.quote)}”</blockquote>
+        <p class="ins-who">${esc(s.who || s.by)}</p>
+        <div class="ls-ins-ref">${linkRefs(x.ref)}</div>
+        ${step.draft ? '<p class="plain-draft">Draft: not approved yet</p>' : ''}
+        ${x.text ? `<p class="reel-body">${linkRefs(x.text, x.ref)}</p>` : ''}
+        <a class="ins-src" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer"><span>From ${esc(s.by)}${s.who ? ' · ' + esc(s.who) : ''}</span> <b>${esc(s.title)} ↗</b></a>`;
+    } else if (step.kind === 'insight' && step.x.kind === 'video') {
+      // A short clip on the reading, from a channel Blake chose, once he's watched it.
+      const x = step.x;
+      html += `<div class="ls-prompt">${esc(x.title)}</div>
+        <div class="ls-ins-ref">${linkRefs(x.ref)}</div>
+        ${step.draft ? '<p class="plain-draft">Draft: not approved yet</p>' : ''}
+        <p class="reel-body">${linkRefs(x.text, x.ref)}</p>
+        ${clipHtml(x.video)}`;
     } else if (step.kind === 'insight') {
       // A point from the page it credits, in our words, and the page to read more.
       const x = step.x, s = x.source || {};
@@ -9313,7 +9568,10 @@ const TreasureUp = (function () {
     }
     body.innerHTML = html;
     body.scrollTop = 0;
-    if (step.kind === 'chapter') { needBsb(body.querySelector('.ls-chapter')); needOrig(body.querySelector('.ls-chapter')); }
+    if (step.kind === 'chapter') {
+      needBsb(body.querySelector('.ls-chapter')); needOrig(body.querySelector('.ls-chapter'));
+      if (!step.resumed) { step.resumed = true; resumeAt(body.querySelector('.ls-chapter'), step.u.ref); }
+    }
 
     // The bottom: Continue, Check, or how it went.
     let footHtml;
@@ -9518,10 +9776,11 @@ const TreasureUp = (function () {
     if (w.words) add('words', 'Verse Words', w.words, w.wordsApproved, w.words);
     (w.plain || []).forEach(p => add('plain:' + p.ch, 'Plain words · ' + p.ch, p, p.approved, noApproval(p)));
     (w.tldr || []).forEach(t => add('tldr:' + t.ch, 'The short version · ' + t.ch, t, t.approved, noApproval(t)));
-    (w.insights || []).forEach(x => add('insight:' + x.id, 'Insight · ' + x.ref, x, x.approved, noApproval(x)));
+    (w.insights || []).forEach(x => add('insight:' + x.id, (x.kind === 'quote' ? 'Quote · ' : x.kind === 'video' ? 'Video · ' : 'Insight · ') + x.ref, x, x.approved, noApproval(x)));
     return out.map(i => Object.assign(i, { state: !i.approved ? 'draft' : i.approved === i.hash ? 'ok' : 'changed' }));
   }
-  const devUnwatched = i => i.key.startsWith('reel:') && !!(i.obj.media && i.obj.media.video && !i.obj.media.video.previewed);
+  const devUnwatched = i => (i.key.startsWith('reel:') && !!(i.obj.media && i.obj.media.video && !i.obj.media.video.previewed)) ||
+    (i.key.startsWith('insight:') && i.obj.kind === 'video' && !(i.obj.video && i.obj.video.previewed));
   const devLeft = w => devItems(w).filter(i => i.state !== 'ok' && !devUnwatched(i));
   // Plain words, short versions and insight cards never hold a week back:
   // each shows in the app only once it's approved, so a week publishes without them.
@@ -9826,6 +10085,16 @@ const TreasureUp = (function () {
           ${bsb[i] ? `<p class="dv-bsb"><b>BSB</b> ${esc(bsb[i])}</p>` : ''}
           ${(o.notes || []).filter(n => n.v === i + 1).map(n => `<p class="dv-small">Note: ${esc(n.text)}</p>`).join('')}</div>`).join('');
     }
+    if (it.key.startsWith('insight:') && o.kind === 'video') {
+      const v = o.video || {};
+      return `<div class="dv-hook">🎬 ${esc(o.title)}</div><p class="dv-small">${esc(o.ref)}</p><p>${esc(o.text)}</p>
+        <p class="dv-small">Clip: <a href="https://www.youtube.com/watch?v=${esc(v.youtube)}&t=${Number(v.start) || 0}s" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">${esc(v.title)} ↗</a> · ${esc(v.channel)} · ${fmtTime(v.start)}–${fmtTime(v.end)}${v.previewed ? ' · watched' : ' · not watched yet (approving this card marks it watched)'}</p>`;
+    }
+    if (it.key.startsWith('insight:') && o.kind === 'quote') {
+      const s = o.source || {};
+      return `<div class="dv-hook">“${esc(o.quote)}”</div><p class="dv-small">${esc(s.who || '')} · ${esc(o.ref)}</p>${o.text ? `<p>${esc(o.text)}</p>` : ''}
+        <p class="dv-small">From ${esc(s.by)}: <a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">${esc(s.title)} ↗</a> (the quote is found there word for word)</p>`;
+    }
     if (it.key.startsWith('insight:')) {
       // The card, the page it comes from, where on the page, and the verses it's about.
       const s = o.source || {}, m = /^(.+? \d+)(?::(\d+)(?:–(\d+))?)?$/.exec(o.ref || ''), kjv = m ? (window.TU_READING || {})[m[1]] || [] : [];
@@ -9926,6 +10195,7 @@ const TreasureUp = (function () {
     const obj = clone(devGet(w, key));
     // Approving a reel with a clip means the clip was watched.
     if (key.startsWith('reel:') && obj.media && obj.media.video) obj.media.video.previewed = true;
+    if (key.startsWith('insight:') && obj.kind === 'video' && obj.video) obj.video.previewed = true;
     devSet(w, key, obj, null);
     const it = devItems(w).find(i => i.key === key);
     devChange(key, obj, it.hash, 'approve');
@@ -10067,6 +10337,10 @@ const TreasureUp = (function () {
       if (e.target.closest('[data-dev-open]')) { e.preventDefault(); openDev(); return; }
       const ch = e.target.closest('[data-chapter]');
       if (ch) { openChapter(ch.dataset.chapter); return; }
+      const rs = e.target.closest('[data-resume]');
+      if (rs) { openChapter(rs.dataset.resume); return; }
+      const vd = e.target.closest('[data-vod]');
+      if (vd) { openChapter(vd.dataset.vod); scrollToVerse($('viewBody').querySelector('.ls-chapter'), vd.dataset.v, true); return; }
       if (e.target.closest('[data-games]')) { openGames(); return; }
       if (e.target.closest('[data-parent]')) { openParent(); return; }
     });
@@ -10149,7 +10423,21 @@ const TreasureUp = (function () {
     $('lessonBody').addEventListener('scroll', () => {
       const b = $('lessonBody'), step = lesson && lesson.steps[lesson.at];
       if (step && step.kind === 'chapter' && b.scrollTop + b.clientHeight >= b.scrollHeight - 60) lessonReadOk();
+      if (step && step.kind === 'chapter') notePlace(b.querySelector('.ls-chapter'), step.u.ref);
     }, { passive: true });
+    $('view').addEventListener('scroll', () => {
+      const u = readUnit || pastUnit;
+      if (u) notePlace($('viewBody').querySelector('.ls-chapter'), u.ref);
+    }, { passive: true, capture: true });
+    // Listening, from the lesson or the reader.
+    document.addEventListener('click', e => {
+      const go = e.target.closest('[data-listen]');
+      if (go) { toggleListen(go.dataset.listen); return; }
+      const v = e.target.closest('[data-voice]');
+      if (v) { switchVoice(v.dataset.voice); return; }
+      if (e.target.closest('#listenFab') && listen.ch) toggleListen(listen.ch);
+    });
+
     $('lesson').addEventListener('click', e => {
       const clip = e.target.closest('button.clip');
       if (clip) { playClip(clip); return; }
@@ -10388,6 +10676,8 @@ const TreasureUp = (function () {
 <script src="content/past/index.js"></script>
 <!-- The chapters of each week's reading, built at deploy (tools/build-reading.mjs). -->
 <script src="content/reading.js"></script>
+<!-- Links to the Church's recordings of those chapters, built at deploy too, for Listen. -->
+<script src="content/audio.js"></script>
 <script src="content/boards.js"></script>
 <script>
 const WEEKS = window.TU_WEEKS || [];

@@ -253,6 +253,23 @@ list of cards, each `{ id, ref, title, text, source: { by, who, title, url }, fi
   reviewer opens every page and checks each card against it before they go
   in; Blake approves each in developer mode.
 
+Two more kinds go in the same list (Blake, 2026-10-02, from the Scripture
+Central app):
+
+- **A quote card**, `{ id, kind: 'quote', ref, quote, text, source: { by, who, title, url } }`:
+  a prophet's or apostle's own words on the day's verses, 8 to 40 words,
+  copied exactly (no quote marks around it; the app adds them). From a
+  Gospel Library page (general conference, the magazines, a manual quoting
+  them) or BYU Speeches (`by: "BYU Speeches"`); `who` is the speaker. With
+  `--online` the checker finds the quote on the page word for word (…
+  marks left-out words). `text`, optional, 40 words at most: which verse
+  it's about and what to notice.
+- **A video card**, `{ id, kind: 'video', ref, title, text, video: { youtube, start, end, title, channel, previewed } }`:
+  one a week, 10 minutes at most (`start`/`end` in seconds), from a channel
+  on the approved list (asked of YouTube itself, like a reel's clip); `text`
+  15 to 60 words, what it covers and one thing to watch for. It shows only
+  once `previewed` is true: approving it in developer mode marks it watched.
+
 ## The map game's board (content/boards.js)
 
 Babylon Falls plays on the first board in `window.TU_BOARDS`. It isn't tied
