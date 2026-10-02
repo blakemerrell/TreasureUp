@@ -20,6 +20,9 @@
 //   - every clip comes from an approved channel (asked of YouTube itself), is under
 //     3 minutes, and has been watched by a parent (previewed: true)
 //   - every lesson section has a reel, every question is well formed, reels stay short
+//   - every insight card is about verses of the week's reading, comes from a page on one of
+//     the sites Blake chose (INSIGHT_SITES), and (with --online) that page has the words it
+//     says the point comes from, and any words it quotes from the page
 //
 // Scripture text comes from the public-domain bcbooks/scriptures-json data,
 // pinned to one commit so a check today gives the same answer as tomorrow.
@@ -63,6 +66,18 @@ const MEDIA = {
     'Line Upon Line — for Come Follow Me (Overviews for All Ages)',
     'Thumb Follow Me'          // kids' Bible stories; name confirmed with YouTube 2026-09-24
   ]
+};
+
+// Where insight cards come from (Blake, 2026-10-01: "Church manuals,
+// Scripture Central, Follow Him, BYU"), and the name each is credited by.
+// The Church's pages are credited by their publication (Old Testament
+// Student Manual, General Conference, the Liahona…).
+const INSIGHT_SITES = {
+  'www.churchofjesuschrist.org': { by: null },
+  'scripturecentral.org': { by: 'Scripture Central' },
+  'rsc.byu.edu': { by: 'BYU Religious Studies Center' },
+  'speeches.byu.edu': { by: 'BYU Speeches' },
+  'followhim.co': { by: 'followHIM' }
 };
 
 const args = new Set(process.argv.slice(2));
@@ -159,6 +174,7 @@ function reviewItems(week) {
   if (week.words) items.push({ key: 'words', approved: week.wordsApproved, hash: approvalHash(week.words) });
   for (const p of Array.isArray(week.plain) ? week.plain : []) items.push({ key: 'plain:' + p.ch, approved: p.approved, hash: approvalHash(withoutApproval(p)) });
   for (const t of Array.isArray(week.tldr) ? week.tldr : []) items.push({ key: 'tldr:' + t.ch, approved: t.approved, hash: approvalHash(withoutApproval(t)) });
+  for (const x of Array.isArray(week.insights) ? week.insights : []) items.push({ key: 'insight:' + (x && x.id), approved: x && x.approved, hash: approvalHash(withoutApproval(x || {})) });
   return items;
 }
 // Weeks from here on can't go live without every piece approved; the two
@@ -344,16 +360,16 @@ function weekStart(dates) {
 async function fetchPageText(url) {
   try {
     const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-    if (!res.ok) { notes.push(`couldn't load ${url} (HTTP ${res.status}); its bonus answers weren't checked`); return null; }
+    if (!res.ok) { notes.push(`couldn't load ${url} (HTTP ${res.status}); what cites it wasn't checked`); return null; }
     return (await res.text())
       .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, ' ')
       .replace(/<[^>]+>/g, ' ')
       .replace(/&#x([0-9a-f]+);/gi, (m, h) => String.fromCodePoint(parseInt(h, 16)))
       .replace(/&#(\d+);/g, (m, d) => String.fromCodePoint(Number(d)))
-      .replace(/&nbsp;/g, ' ').replace(/&quot;/g, '"').replace(/&amp;/g, '&')
+      .replace(/&(nbsp|quot|amp|rsquo|lsquo|rdquo|ldquo|mdash|ndash|hellip|apos);/g, (m, n) => ({ nbsp: ' ', quot: '"', amp: '&', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', mdash: '—', ndash: '–', hellip: '…', apos: "'" })[n])
       .replace(/\s+/g, ' ');
   } catch (e) {
-    notes.push(`couldn't reach ${url} (${e.message}); its bonus answers weren't checked`);
+    notes.push(`couldn't reach ${url} (${e.message}); what cites it wasn't checked`);
     return null;
   }
 }
@@ -539,7 +555,9 @@ async function main(scripture, week, pages, online) {
     // with their word filled in (which he sees once the game ends).
     ((week.puzzle && week.puzzle.groups) || []).flatMap(g => (g.tiles || []).map(x => x.text)).join(' ') + ' ' +
     (week.sayings || []).map(s => [s.text, s.speaker, ...(s.wrong || []), s.why].join(' ')).join(' ') + ' ' +
-    (week.words || []).map(x => String(x.clue || '').replace(/_+/g, x.word || '')).join(' '));
+    (week.words || []).map(x => String(x.clue || '').replace(/_+/g, x.word || '')).join(' ') + ' ' +
+    // …and the insight cards in Go further.
+    (Array.isArray(week.insights) ? week.insights : []).map(x => [x && x.title, x && x.text].join(' ')).join(' '));
 
   // A question only the reading answers (a bonus, or a Go-deeper item):
   // its answer words are in the verse or Gospel Library page it cites, and
@@ -931,6 +949,70 @@ async function main(scripture, week, pages, online) {
     }
   }
 
+  // Insight cards (week.insights): one point about verses of the reading,
+  // from a page on one of INSIGHT_SITES, in our own words. `find` is words
+  // on that page where the point is, checked with --online (a page that
+  // won't load is a note, not a failure). A quote is either the KJV's words
+  // in the card's verses, or the page's own: one, short, checked online.
+  // Whether the card is faithful to the page is Blake's call when he approves.
+  if (week.insights !== undefined) {
+    const chapters = new Set(block || []), seen = new Set();
+    const count = t => (String(t || '').match(/\S+/g) || []).length;
+    const chText = ch => { const out = []; for (let v = 1; verses.has(`${ch}:${v}`); v++) out.push(verses.get(`${ch}:${v}`)); return out.join(' '); };
+    if (!Array.isArray(week.insights)) fail('insights', 'must be a list of cards');
+    for (const [n, x] of (Array.isArray(week.insights) ? week.insights : []).entries()) {
+      const where = 'insight ' + ((x && x.id) || n + 1);
+      if (!x || typeof x !== 'object') { fail(where, 'must be a card'); continue; }
+      if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(x.id || '')) fail(where, 'needs an id of lowercase words and dashes, like "isa40-eagles"');
+      if (seen.has(x.id)) fail(where, 'its id is used twice in the week');
+      seen.add(x.id);
+      // Its verses: a chapter of the reading, or verses in one.
+      const m = /^(.+? \d+)(?::(\d+)(?:–(\d+))?)?$/.exec(x.ref || '');
+      const ch = m && m[1], from = m && m[2] ? Number(m[2]) : 0, to = m && m[3] ? Number(m[3]) : from;
+      let home = null;
+      if (!m) fail(where, `ref "${x.ref}" must be a chapter or verses, like "Isaiah 53" or "Isaiah 40:28–31"`);
+      else if (!chapters.has(ch)) fail(where, `${x.ref} is not in this week's reading (${week.reference})`);
+      else if (m[3] && to <= from) fail(where, `${x.ref}: a range goes from the lower verse to the higher`);
+      else if (from && !(verses.has(`${ch}:${from}`) && verses.has(`${ch}:${to}`))) fail(where, `${x.ref} does not exist`);
+      else home = `${ch}:${from || 1}`;
+      const refText = !home ? '' : from ? Array.from({ length: to - from + 1 }, (_, k) => verses.get(`${ch}:${from + k}`)).join(' ') : chText(ch);
+      if (typeof x.title !== 'string' || !x.title.trim() || x.title.length > 50) fail(where, 'needs a title of 50 characters or fewer');
+      const words = count(x.text);
+      if (words < 25 || words > 90) fail(where, `text is ${words} words (25 to 90)`);
+      for (const [label, t] of [['title', x.title], ['text', x.text]]) {
+        const v = String(t || '');
+        if (/"/.test(v)) fail(where, `${label} uses a straight " quote; use “curly quotes”`);
+        if ((v.match(/“/g) || []).length !== (v.match(/”/g) || []).length) fail(where, `${label} has unbalanced “quotes”`);
+        if (/\b(thee|thou|thy|thine|ye|hath|saith|doth|shalt|unto)\b/i.test(v.replace(/“[^”]*”/g, ' '))) fail(where, `${label} has KJV English outside a quote`);
+      }
+      // Quotes: the verses' words, or else the page's (one at most, short).
+      const own = (String(x.text || '').match(/“[^”]*”/g) || []).map(q => q.slice(1, -1)).filter(q => !(refText && quoteMatches(q, refText)));
+      if (own.length > 1) fail(where, `quotes the page ${own.length} times; once at most (a scripture quote must be the KJV's words in ${x.ref})`);
+      for (const q of own) if (count(q) > 15) fail(where, `“${q}” is ${count(q)} words; a quote from the page is 15 at most (a scripture quote must be the KJV's words in ${x.ref})`);
+      // Its page: on one of the sites Blake chose, credited by its name.
+      const s = x.source && typeof x.source === 'object' ? x.source : {};
+      let url = null;
+      try { url = new URL(s.url); } catch (e) {}
+      const site = url && url.protocol === 'https:' ? INSIGHT_SITES[url.hostname] : null;
+      if (!site) fail(where, `source.url must be an https page on ${Object.keys(INSIGHT_SITES).join(', ')}`);
+      else if (url.hostname === 'www.churchofjesuschrist.org' && !/^\/study\//.test(url.pathname)) fail(where, 'a Church source must be a Gospel Library page (churchofjesuschrist.org/study/…)');
+      else if (site.by && s.by !== site.by) fail(where, `source.by for ${url.hostname} is "${site.by}"`);
+      if (!s.by || !s.title || String(s.by).length > 40) fail(where, 'source needs by (40 characters or fewer) and title');
+      if (s.who != null && typeof s.who !== 'string') fail(where, 'source.who is a name, or empty');
+      if (count(x.find) < 4 || count(x.find) > 30) fail(where, 'find: 4 to 30 words copied exactly from the page');
+      else if (site) {
+        const page = pages.get(s.url);
+        if (!online) note(`${where}: ${s.url} not checked (run with --online)`);
+        else if (page != null) {
+          const text = norm(page);
+          if (!text.includes(trimPunct(norm(x.find)))) fail(where, `"${x.find}" is not on ${s.url} (check the link and the exact wording: a wrong link can still load a page)`);
+          for (const q of own) if (!text.includes(trimPunct(norm(q)))) fail(where, `“${q}” is not on ${s.url}`);
+        }
+      }
+      if (home) { checkRefs(where, 'title', x.title, home); checkRefs(where, 'text', x.text, home); }
+    }
+  }
+
   const lessonText = pages.get(week.lesson);
   if (online && lessonText != null) {
     for (const [label, want] of [['title', week.title], ['reference', week.reference], ['dates', week.dates.replace(/, \d{4}$/, '')], ...week.sections.map(s => ['section', s])]) {
@@ -952,8 +1034,11 @@ const online = args.has('--online') || args.has('--lesson');
 const pages = new Map();
 if (online) {
   const urls = new Set(weeks.flatMap(week => [week.lesson, ...week.reels.flatMap(r => bonusesOf(r).map(b => webSource(b, week)).filter(Boolean)),
-    ...(week.deep || []).map(d => webSource(d, week)).filter(Boolean)]));
-  await Promise.all([...urls].map(async u => pages.set(u, await fetchPageText(u))));
+    ...(week.deep || []).map(d => webSource(d, week)).filter(Boolean),
+    ...(Array.isArray(week.insights) ? week.insights : []).map(x => x && x.source && x.source.url).filter(u => typeof u === 'string' && /^https:\/\//.test(u))]));
+  // A few at a time: some of the insight sites turn away a burst.
+  const queue = [...urls];
+  await Promise.all(Array.from({ length: 6 }, async () => { while (queue.length) { const u = queue.shift(); pages.set(u, await fetchPageText(u)); } }));
 }
 
 // Weeks: parseable dates, in order, one week each, no reel id reused.
@@ -962,16 +1047,22 @@ starts.forEach((d, i) => { if (!d) failures.push(`${weeks[i].title || 'a week'}:
 for (let i = 1; i < starts.length; i++) if (starts[i] && starts[i - 1] && starts[i] <= starts[i - 1]) failures.push(`weeks must be in date order: "${weeks[i].title}" comes before "${weeks[i - 1].title}"`);
 const seenIds = new Map();
 weeks.forEach(w => w.reels.forEach(r => { if (seenIds.has(r.id)) failures.push(`reel id "${r.id}" is used in both "${seenIds.get(r.id)}" and "${w.title}"`); seenIds.set(r.id, w.title); }));
+const seenInsights = new Map();
+weeks.forEach(w => (Array.isArray(w.insights) ? w.insights : []).forEach(x => {
+  if (!x || !x.id) return;
+  if (seenInsights.has(x.id) && seenInsights.get(x.id) !== w.title) failures.push(`insight id "${x.id}" is used in both "${seenInsights.get(x.id)}" and "${w.title}"`);
+  seenInsights.set(x.id, w.title);
+}));
 
 for (const week of weeks) {
   const num = (/\/(\d+)\?/.exec(week.lesson || '') || [])[1];
   weekLabel = weeks.length > 1 ? `Week ${num || '?'} · ` : '';
   await main(scripture, week, pages, online);
   // The live app only takes weeks Blake approved in developer mode. Plain
-  // words and short versions are the exception: the app shows a chapter's
-  // only once they're approved, so they never hold a week back.
+  // words, short versions and insight cards are the exception: the app shows
+  // each only once it's approved, so they never hold a week back.
   if (args.has('--require-approval') && weekStart(week.dates) >= REVIEW_FROM) {
-    for (const it of reviewItems(week).filter(x => !x.key.startsWith('plain:') && !x.key.startsWith('tldr:'))) {
+    for (const it of reviewItems(week).filter(x => !/^(plain|tldr|insight):/.test(x.key))) {
       if (!it.approved) failures.push(`${weekLabel}${it.key}: not approved yet (approve it in developer mode, then publish)`);
       else if (it.approved !== it.hash) failures.push(`${weekLabel}${it.key}: changed since it was approved (approve it again in developer mode)`);
     }
@@ -1069,7 +1160,8 @@ for (const week of weeks) {
   const bonuses = week.reels.reduce((n, r) => n + bonusesOf(r).length, 0);
   const extras = [(week.deep || []).length && `${week.deep.length} Go-deeper readings`, week.puzzle && 'the weekly puzzle', week.sayings && `${week.sayings.length} Who-said-it lines`, week.words && `${week.words.length} Verse Words`,
     (week.plain || []).length && `plain words for ${week.plain.length} ${week.plain.length === 1 ? 'chapter' : 'chapters'}`,
-    (week.tldr || []).length && `short versions for ${week.tldr.length} ${week.tldr.length === 1 ? 'chapter' : 'chapters'}`].filter(Boolean);
+    (week.tldr || []).length && `short versions for ${week.tldr.length} ${week.tldr.length === 1 ? 'chapter' : 'chapters'}`,
+    (week.insights || []).length && `${week.insights.length} insight ${week.insights.length === 1 ? 'card' : 'cards'}`].filter(Boolean);
   console.log(`✓ ${week.title} (${week.dates}): ${week.reels.length} reels, ${quotes} quotes and ${bonuses} bonus answers checked` +
     (extras.length ? `, plus ${extras.join(' and ')}` : ''));
 }
@@ -1078,5 +1170,5 @@ if (origChapters) console.log(`✓ Hebrew and Greek: the ${origChapters} Bible c
 if (boards.length) console.log(`✓ ${boards.map(b => `${b.title}: ${b.lands.length} lands, ${b.links.length} borders, ${b.kingdoms.length} kingdoms`).join('; ')}`);
 if (online) {
   const loaded = [...pages.values()].filter(t => t != null).length;
-  console.log(`✓ ${loaded} of ${pages.size} Gospel Library pages checked live`);
+  console.log(`✓ ${loaded} of ${pages.size} pages checked live (Gospel Library, and the insight cards' sources)`);
 }
