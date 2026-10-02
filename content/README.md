@@ -224,8 +224,9 @@ each `{ ch, lines, review }`.
 
 ## Insight cards (`insights`)
 
-Go further, under each day of the week map, starts with the day's insight
-cards (Blake, 2026-10-01: "where can I get faithful commentary for this
+A day's best insight cards (three at most: one of each kind first) show
+under More from this day on its card and start its Go further; all of them
+are in the Study tab (Blake, 2026-10-01: "where can I get faithful commentary for this
 app? Follow him, scripture Central, gospel living? Byu? Make that into
 additional insight cards"; "As many as are good"). A week's `insights` is a
 list of cards, each `{ id, ref, title, text, source: { by, who, title, url }, find }`.
