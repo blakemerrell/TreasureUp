@@ -3235,7 +3235,286 @@ window.TU_WEEKS = [
       }
     ],
     "approved": "e524731b",
-    "wordsApproved": "71af6e5d"
+    "wordsApproved": "71af6e5d",
+    "insights": [
+      {
+        "id": "isa40-grass",
+        "ref": "Isaiah 40:6–8",
+        "title": "Green today, brown tomorrow",
+        "text": "In Israel, spring rains cover the land with grass like a green carpet. Then the rains stop, and the hot summer turns it brown almost overnight. Isaiah used that picture: “The grass withereth, the flower fadeth.” The Old Testament Student Manual says wicked ways can look attractive for a while, but they don’t last. What does last? “The word of our God shall stand for ever.”",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "The God of Israel and the Nations (Isaiah 36–47)",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-16?lang=eng"
+        },
+        "find": "the fierce summer heat turns the grass brown almost overnight"
+      },
+      {
+        "id": "isa40-bosom",
+        "ref": "Isaiah 40:11",
+        "title": "Carried close",
+        "text": "Isaiah says the Lord will “gather the lambs with his arm, and carry them in his bosom.” What’s a bosom? Donald W. Parry explains that it’s the fold of the shepherd’s robe. Parry says this Shepherd is Jesus Christ, who protects and feeds His flock. Carrying the lambs in His robe is a picture of His loving care.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 40",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-40"
+        },
+        "find": "The Lord gathers the lambs and carries them"
+      },
+      {
+        "id": "isa40-span",
+        "ref": "Isaiah 40:12",
+        "title": "Heaven in one hand",
+        "text": "Spread your hand as wide as it will go. The distance from your thumb to the tip of your little finger is a span, an old way to measure. Isaiah says God “meted out heaven with the span,” which means He measured it. Michael Wilcox pictures God measuring all of heaven with one hand and holding the ocean in the hollow of His palm. That’s how mighty He is.",
+        "source": {
+          "by": "followHIM",
+          "who": "S. Michael Wilcox",
+          "title": "Old Testament: EPISODE 40 (2026) – Isaiah 40-49",
+          "url": "https://followhim.co/show-note/old-testament-episode-40-2026-isaiah-40-49/"
+        },
+        "find": "The span was the distance between the tip of the little finger and the thumb"
+      },
+      {
+        "id": "isa41-hymn",
+        "ref": "Isaiah 41:9–10",
+        "title": "A verse you already sing",
+        "text": "Do you know the hymn “How Firm a Foundation”? Donald W. Parry notes that it is based on Isaiah 41:9–10. In just these two verses, Parry counts seven things the Lord says straight to His people, like “I will strengthen thee; yea, I will help thee.” So when you sing that hymn, you’re singing His promise: “Fear thou not; for I am with thee.”",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 41",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-41"
+        },
+        "find": "Note that the popular hymn, “How Firm a Foundation” is based on verses 9–10"
+      },
+      {
+        "id": "isa41-worm",
+        "ref": "Isaiah 41:14",
+        "title": "Called a worm?",
+        "text": "“Fear not, thou worm Jacob.” Did God just call His people a worm? Michael Wilcox says it sounds almost like an insult. But the footnote in our Bible explains that worm here means meek and humble. And look at what comes next: “I will help thee, saith the Lord, and thy redeemer, the Holy One of Israel.” He’s promising help, not insulting them.",
+        "source": {
+          "by": "followHIM",
+          "who": "S. Michael Wilcox",
+          "title": "Old Testament: EPISODE 40 (2026) – Isaiah 40-49",
+          "url": "https://followhim.co/show-note/old-testament-episode-40-2026-isaiah-40-49/"
+        },
+        "find": "Now that sounds almost derisive, but if you look at the footnote, it means meek and humble"
+      },
+      {
+        "id": "isa42-quiet",
+        "ref": "Isaiah 42:1–2",
+        "title": "Not looking for fame",
+        "text": "Isaiah said the Lord’s chosen servant “shall not cry, nor lift up, nor cause his voice to be heard in the street.” Matthew saw this come true in Jesus. After He healed many people, He told the crowds not to spread the news (Matthew 12:15–21). He stayed away from the praise of men and served with meekness and gentleness.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "The God of Israel and the Nations (Isaiah 36–47)",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-16?lang=eng"
+        },
+        "find": "the Savior charged the multitudes not to make His healings known"
+      },
+      {
+        "id": "isa42-prison",
+        "ref": "Isaiah 42:7",
+        "title": "Prisoners set free",
+        "text": "Isaiah said the Lord’s servant would “bring out the prisoners from the prison.” The seminary manual says this can mean setting people free from sin, in this life and in the spirit world. After Jesus died, He taught the gospel in the spirit world. He organized righteous spirits to teach those in spirit prison (Doctrine and Covenants 138). Because of His Atonement, anyone can accept the gospel and be set free, even people who have already died.",
+        "source": {
+          "by": "Seminary manual",
+          "title": "Lesson 127: Isaiah 42–47",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-student-material-2018/isaiah/lesson-127?lang=eng"
+        },
+        "find": "Jesus Christ organized the preaching of the gospel by the righteous to those in spirit prison"
+      },
+      {
+        "id": "isa43-let",
+        "ref": "Isaiah 43:13",
+        "title": "Who can stop Him?",
+        "text": "Isaiah 43:13 ends, “I will work, and who shall let it?” That sounds like God is asking who will allow Him to work. Joseph Smith’s translation clears it up. It reads, “I will work, and who shall hinder it?” So here, let means hinder, or stop. When the Lord sets out to do His work, no one can stop Him.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "The God of Israel and the Nations (Isaiah 36–47)",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-16?lang=eng"
+        },
+        "find": "According to the Prophet Joseph Smith, the whole phrase should read"
+      },
+      {
+        "id": "isa43-remember",
+        "ref": "Isaiah 43:25",
+        "title": "He won’t bring it up",
+        "text": "The Lord promises that He “will not remember thy sins.” Does that mean His memory gets erased? The seminary manual says no. It means that when we repent and He forgives us, He won’t bring those sins up again or hold us accountable for them. He made the same promise in our day, in Doctrine and Covenants 58:42–43.",
+        "source": {
+          "by": "Seminary manual",
+          "title": "Isaiah 49: “I Have Graven Thee upon the Palms of My Hands”",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/39-isaiah-40-49/393-isaiah-49?lang=eng"
+        },
+        "find": "The Lord promises He will not bring to our attention or hold us accountable for sins He has forgiven"
+      },
+      {
+        "id": "isa43-advocate",
+        "ref": "Isaiah 43:26",
+        "title": "Pleading together",
+        "text": "“Put me in remembrance: let us plead together.” To plead is to argue a case, like in a court. On followHIM, this verse made John Bytheway think of Doctrine and Covenants 45:3–5, and Michael Wilcox said those verses have “the exact spirit” of Isaiah 43. In them Jesus Christ is our Advocate with the Father. He doesn’t claim we’re perfect. He points to His own suffering and asks the Father to spare those who believe on His name.",
+        "source": {
+          "by": "followHIM",
+          "who": "S. Michael Wilcox and John Bytheway",
+          "title": "Old Testament: EPISODE 40 (2026) – Isaiah 40-49",
+          "url": "https://followhim.co/show-note/old-testament-episode-40-2026-isaiah-40-49/"
+        },
+        "find": "Let us plead together. Joseph in that section is giving voice to what the words of the pleading are"
+      },
+      {
+        "id": "isa44-pour",
+        "ref": "Isaiah 44:3–4",
+        "title": "Not just a sip",
+        "text": "“I will pour my spirit upon thy seed.” Notice the word pour. Donald W. Parry points out that God “does not give us sips.” He pours out water and His Spirit. Verse 4 says Israel will spring up like willows by the water. Willows shoot up fast when they get plenty of water. Parry says latter-day Israel will grow fast in the same way once it has the Holy Ghost.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 44",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-44"
+        },
+        "find": "He does not give us sips, He pours water and His Spirit upon us"
+      },
+      {
+        "id": "isa44-redeem",
+        "ref": "Isaiah 44:22",
+        "title": "Bought back",
+        "text": "“Return unto me; for I have redeemed thee.” Elder LeGrand R. Curtis Jr. explains that to redeem means to buy, or to buy back. Under the law of Moses, a servant could be set free by paying money. Isaiah’s words point to a greater redemption: the Atonement of Jesus Christ. He paid for our sins, and not with silver or gold.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder LeGrand R. Curtis Jr.",
+          "title": "Redemption",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2011/10/redemption?lang=eng"
+        },
+        "find": "the law of Moses provided different ways that servants and property could be freed"
+      },
+      {
+        "id": "isa45-earth",
+        "ref": "Isaiah 45:8",
+        "title": "Truth out of the ground",
+        "text": "“Let the earth open, and let them bring forth salvation.” What could come up out of the ground? The Old Testament Student Manual sees the Book of Mormon here. It came forth from the Nephites’ record, which had been buried in the earth, and it carries a message of salvation. The manual says Psalm 85:11 points to the same event when it says truth will spring out of the earth.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "The God of Israel and the Nations (Isaiah 36–47)",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-16?lang=eng"
+        },
+        "find": "a reference to the coming forth of the Book of Mormon from the buried Nephite record"
+      },
+      {
+        "id": "isa45-now",
+        "ref": "Isaiah 45:23",
+        "title": "Why not now?",
+        "text": "Isaiah 45:23 promises that one day “every knee shall bow, every tongue shall swear.” Everyone will confess that Jesus Christ is the Lord. Elder Neal A. Maxwell asked a sharp question about that day: “Why not do so now?” When that day comes, no one will be able to stay standing, so kneeling then won’t mean as much. Kneeling to Jesus now, while you still have a choice, means far more.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Neal A. Maxwell",
+          "title": "Why Not Now?",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/1974/10/why-not-now?lang=eng"
+        },
+        "find": "if you sense that one day every knee shall bow and every tongue shall confess"
+      },
+      {
+        "id": "isa46-carry",
+        "ref": "Isaiah 46:1–4",
+        "title": "The God who carries you",
+        "text": "The idols Bel and Nebo had to be carried on the backs of animals. The Lord is the opposite. He carries His people their whole lives, from birth to old age: “I will bear; even I will carry, and will deliver you.” Donald W. Parry notices that Isaiah uses the same verbs in Isaiah 53:4, where the Messiah bears our griefs and carries our sorrows.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 46",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-46"
+        },
+        "find": "These verbs are the same as those in 53:4, which states that the Messiah has"
+      },
+      {
+        "id": "isa47-millstones",
+        "ref": "Isaiah 47:1–2",
+        "title": "From the throne to the millstones",
+        "text": "Babylon thought she would rule forever. But Isaiah tells her to come down from her throne, sit in the dust, and “take the millstones, and grind meal.” Donald W. Parry explains that grinding flour with millstones was the work of slaves. The proud empire that showed God’s people no mercy would become a slave herself.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 47",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-47"
+        },
+        "find": "She sits in the dust, grinding flour with millstones, the work of slaves"
+      },
+      {
+        "id": "isa48-baptism",
+        "ref": "Isaiah 48:1",
+        "title": "Which waters?",
+        "text": "Isaiah 48 speaks to people who “are come forth out of the waters of Judah.” What waters? The seminary manual explains that they mean baptism, and it points to 1 Nephi 20:1, where the Book of Mormon says so plainly. The Lord was speaking to His covenant people, who had made promises with Him but were breaking them.",
+        "source": {
+          "by": "Seminary manual",
+          "title": "Lesson 129: Isaiah 48–50",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-student-material-2018/isaiah/lesson-129?lang=eng"
+        },
+        "find": "mentioned in verse 1 refer to baptism"
+      },
+      {
+        "id": "isa48-firstlast",
+        "ref": "Isaiah 48:12",
+        "title": "The First and the Last",
+        "text": "“I am he; I am the first, I also am the last.” Donald W. Parry says these words show that God is eternal. The same words come back in modern revelation. The Savior told Joseph Smith and Oliver Cowdery that He is the first and the last, the one who lives, the one who was slain, and their advocate with the Father (Doctrine and Covenants 110:4).",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 48",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-48"
+        },
+        "find": "God revealed to Joseph Smith and Oliver Cowdery"
+      },
+      {
+        "id": "isa48-desert",
+        "ref": "Isaiah 48:21",
+        "title": "Isaiah spoke about us",
+        "text": "“They thirsted not when he led them through the deserts: he caused the waters to flow out of the rock for them.” Nephi read this chapter to his family after their long journey through the desert of Arabia. S. Kent Brown thinks Nephi saw their whole trip in Isaiah 48–49, from leaving Jerusalem to reaching the promised land. In Brown’s words, Nephi was saying, “Isaiah spoke about us.”",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "S. Kent Brown",
+          "title": "What Is Isaiah Doing in First Nephi? Or, How Did Lehi’s Family Fare So Far from Home?",
+          "url": "https://rsc.byu.edu/jerusalem-zarahemla/what-isaiah-doing-first-nephi-how-did-lehis-family-fare-so-far-home"
+        },
+        "find": "apparently anticipated the entire trip, from beginning to end, starting with the flight from Jerusalem"
+      },
+      {
+        "id": "isa49-isles",
+        "ref": "Isaiah 49:1",
+        "title": "An echo in the Doctrine and Covenants",
+        "text": "Isaiah 49 opens, “Listen, O isles, unto me; and hearken, ye people, from far.” Now open the Doctrine and Covenants to section 1. It starts out almost the same way, calling to people far away and on the islands of the sea. Andrew Skinner doesn’t think that’s a coincidence. Section 1 is where the Lord presents Joseph Smith to the world, and He begins with words that echo Isaiah.",
+        "source": {
+          "by": "Scripture Central",
+          "title": "Who is the Servant of Isaiah 49/1 Nephi 21?",
+          "url": "https://scripturecentral.org/knowhy/who-is-the-servant-of-isaiah-491-nephi-21"
+        },
+        "find": "begins with the same language as Isaiah 49:1"
+      },
+      {
+        "id": "isa49-arrow",
+        "ref": "Isaiah 49:2",
+        "title": "A polished arrow",
+        "text": "“And made me a polished shaft; in his quiver hath he hid me.” An arrow is polished so it flies truer and faster, and archers save that arrow for their most important shot. The Old Testament Student Manual says this may point to Joseph Smith, saved for the latter days. Joseph said hard knocks were making him “a smooth and polished shaft in the quiver of the Almighty.”",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "The Gathering of Israel and the Coming of the Messiah (Isaiah 48–54)",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-17?lang=eng"
+        },
+        "find": "The arrow shaft is polished that it might fly truer and faster"
+      },
+      {
+        "id": "isa49-hope",
+        "ref": "Isaiah 49:23",
+        "title": "Waiting means hoping",
+        "text": "Isaiah 49:23 ends with a promise: “they shall not be ashamed that wait for me.” Matthew L. Bowen explains that the Hebrew word for wait here, qāwâ, also means to hope. So people who hope in the Lord will not be let down. They will receive the blessings He promised. Nephi said he read these chapters to his brothers so they could have hope.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Matthew L. Bowen",
+          "title": "“That Ye May Have Hope”: Nephi’s Use of Isaiah 49:22–23 in Teaching the Concept of Hope",
+          "url": "https://rsc.byu.edu/vol-23-no-2-2022/ye-may-have-hope"
+        },
+        "find": "they would receive the covenant blessing that they expected or looked for"
+      }
+    ]
   },
   {
     "dates": "October 5–11, 2026",
