@@ -1,10 +1,14 @@
 # 006 · The Lamanites: slinger, captain and Zerahemnah, and Helaman
 
-**Status: done.** All four (pull request #57) were made with Gemini through
-Blake's n8n backup, since Gemini in Antigravity hadn't answered after an
-hour. In the game: `liberty/assets/lamanite_slinger.png` (the Lamanite
-slinger), `lamanite_captain.png` (the Amalekite and Zoramite captains) and
-`zerahemnah.png`. `helaman.png` is ready for the war chapters.
+**Status: done.** Pull request #57 has two sets of all four. The first came
+from Gemini through Blake's n8n backup, while Gemini in Antigravity was out of
+image allowance. The second came from Gemini in Antigravity after its allowance
+refreshed. The game keeps the better picture for each figure:
+
+- `liberty/assets/lamanite_slinger.png` (the slinger) and `lamanite_captain.png`
+  (the Amalekite and Zoramite captains) come from the n8n set.
+- `zerahemnah.png` comes from the Antigravity set.
+- `helaman.png` comes from the Antigravity set. It's ready for the war chapters.
 
 ## What it's for
 
@@ -76,9 +80,27 @@ crest, long red cloak, gold), and all face left.
 
 ## What came back
 
-Four clean pictures, all facing left. The two from `lamanite.png` (slinger,
-captain) came back in its pixel-painted look; Zerahemnah and Helaman in a
-softer painted style. Gemini through n8n sends JPEGs, and Zerahemnah's
-background was a lighter magenta (250, 48, 251), so the cut-out now measures
-each picture's own background before removing it. Each is cropped to the
-figure, scaled to 150 pixels tall and set by its feet.
+Both sets came back with clean magenta backgrounds. All four judged at game
+size (44 and 48 pixels, next to a Lamanite warrior and a robber):
+
+- **Slinger: n8n.** It has the warrior's dark outlines, paint and feathers, and
+  its sling reads clearly. Antigravity's slinger is paler and thinly outlined,
+  so at 44 pixels he looks more like a Gadianton robber than a Lamanite.
+- **Captain: n8n,** narrowly. Both read as dark red and clothed. The n8n one
+  matches the warrior's look, while Antigravity's gave him two cimeters with a
+  long blade sweeping out.
+- **Zerahemnah: Antigravity.** Its many-coloured feather crest, gold collar and
+  armbands, and red cloak with gold trim make the leader stand out at once.
+  It's drawn in the same crisp outlined look as the warrior. The n8n
+  Zerahemnah's dark crest and brownish cloak looked muddy at 48 pixels, too
+  close to the robber chief. It still has no breastplate or shield.
+- **Helaman: Antigravity.** He's a bearded grown man, plainly older than his
+  stripling warriors, in gold armor with a bright green cloak. The n8n Helaman
+  was slim and beardless, too much like a stripling. Antigravity drew him
+  turned toward the viewer's right, so Claude mirrored him to face left.
+
+Gemini through n8n sends JPEGs, and its Zerahemnah background was a lighter
+magenta (250, 48, 251), so the cut-out now measures each picture's own
+background before removing it. Each picture is cropped to the figure, scaled to
+150 pixels tall and set by its feet. Zerahemnah's long cloak trails behind him,
+so his feet are measured between his two sandals, not across the cloak.
