@@ -29,6 +29,9 @@ name and email, each signed in with Google; the Firebase rules enforce that.
 - **The short version** is a piece per chapter too: each line of the card
   with the KJV verses it sums up under it, and first anything to look at
   (`review`). Like plain words, a card shows only once it's approved.
+- **Insights** are a piece per card: the card, the page it comes from (a
+  link to check it says so), the words to find there, and its verses. Like
+  plain words, a card shows only once it's approved.
 - **Publish to the live app** appears once every piece of a week is approved.
   It copies any pictures the live app lacks, then the week, to the live repo.
   The live deploy runs the check with `--require-approval` (weeks from
@@ -218,6 +221,37 @@ each `{ ch, lines, review }`.
 - Each week's cards are read against the verses, the heading and the lesson
   by a second reviewer before they go in. The checker counts the lines,
   their length and verses, their references, and checks any quote.
+
+## Insight cards (`insights`)
+
+Go further, under each day of the week map, starts with the day's insight
+cards (Blake, 2026-10-01: "where can I get faithful commentary for this
+app? Follow him, scripture Central, gospel living? Byu? Make that into
+additional insight cards"; "As many as are good"). A week's `insights` is a
+list of cards, each `{ id, ref, title, text, source: { by, who, title, url }, find }`.
+
+- `ref`: the verses it's about, or a whole chapter, in the week's reading
+  ("Isaiah 40:28–31", "Isaiah 53"). The card comes on the day they're read.
+- `text`: one point from the page, in our own words, for an 11-year-old,
+  25 to 90 words (aim for 35–80). It says only what the page says. A quote
+  is either the KJV's own words in `ref`, or the page's own: once at most,
+  15 words or fewer, saying who said it.
+- `source`: a page on one of the sites Blake chose (`INSIGHT_SITES` in
+  tools/verify.mjs): the Church's Gospel Library pages (manuals, general
+  conference, the magazines), Scripture Central, BYU's Religious Studies
+  Center and Speeches, followHIM. `by` is the site's name, or for a Church
+  page its publication ("Old Testament Student Manual", "General
+  Conference"); `who` the speaker or author, if it has one.
+- `find`: words copied exactly from the page, where the card's point is.
+  With `--online` the checker loads the page and finds them there (and any
+  quote from the page); a page that won't load is a note, not a failure.
+- Nothing contested or speculative: no multiple-Isaiah or late-dating
+  theories, nothing that undercuts the Book of Mormon's use of Isaiah. No
+  bonus or Go-deeper answer words (the checker fails a bonus whose answer
+  is anywhere in the app, cards included).
+- Writers draft each week's cards from pages they've read; a second
+  reviewer opens every page and checks each card against it before they go
+  in; Blake approves each in developer mode.
 
 ## The map game's board (content/boards.js)
 
