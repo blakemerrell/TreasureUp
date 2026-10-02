@@ -1,6 +1,8 @@
 # 002 · The Gadianton robbers
 
-**Status: open.** 3 pictures.
+**Status: done.** All three (pull request #53) are in the game:
+`liberty/assets/robber.png`, `robber_archer.png` and `robber_chief.png`
+(Giddianhi and Zemnarihah).
 
 ## What it's for
 
@@ -21,9 +23,10 @@ For a child's game: the dye is a dark red-brown body paint, **not blood**.
 
 ## The pictures
 
-Use `edit_image` on `liberty/assets/lamanite.png` for all three, so they keep
-its size, pose, viewing angle (three quarters, turned toward the viewer's
-left), light from the upper left and painted look. Then change him:
+Start from `liberty/assets/lamanite.png` for all three (edit it, don't draw
+from scratch), so they keep its size, pose, viewing angle (three quarters,
+turned toward the viewer's left), light from the upper left and painted look.
+Then change him:
 
 1. **`robber.png`, the robber.** Head shorn (shaved), with a metal
    head-plate strapped over the crown. A white woolly lamb-skin wrapped about
@@ -50,3 +53,12 @@ GEMINI.md).
 At 44 pixels tall, next to a Lamanite, you can tell which is the robber
 (bare shaved head with a plate, white lamb-skin, no feathers), which robber
 carries a bow, and which is the chief.
+
+## What came back
+
+Three pictures in a softer painted style than round one, closer to the
+game's. The white lamb-skin and the head-plates make a robber easy to tell
+from a Lamanite on the map; at normal zoom it's the head and the white that
+tell them apart. Claude cut each out of its magenta, cropped it to the figure,
+scaled it to 150 pixels tall and set it by its feet, since the sword and the
+bow make the pictures lopsided.
