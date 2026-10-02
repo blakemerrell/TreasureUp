@@ -1182,6 +1182,26 @@
   .st-day { margin-top: 16px; }
   .wk-line + .year { margin-top: 10px; }
   /* The Kindle and other wide screens: the timeline beside the day */
+  /* Scriptures: the volumes' books, a book's chapters, a chapter's neighbours */
+  .lib-h { font-size: 26px; margin: 2px 0 6px; }
+  .lib-week { display: flex; justify-content: space-between; align-items: center; width: 100%; margin: 10px 0 4px; padding: 12px 14px; border-radius: 14px; cursor: pointer; text-align: left;
+    font: inherit; font-size: 13px; font-weight: 800; color: var(--gold); background: rgba(252,211,77,.1); border: 1px solid rgba(252,211,77,.45); }
+  .lib-week b { display: block; font-size: 16px; color: #fff; }
+  .lib-vol { margin-top: 18px; }
+  .lib-books { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; margin-top: 8px; }
+  .lib-book { padding: 10px 12px; border-radius: 12px; cursor: pointer; text-align: left; font: inherit; font-size: 14.5px; font-weight: 800; color: #fff;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); }
+  .lib-book small { display: block; margin-top: 2px; font-size: 11.5px; font-weight: 700; color: #86efac; }
+  .lib-book.now { border-color: rgba(252,211,77,.6); }
+  .lib-back { margin: 0 0 10px; padding: 6px 0; border: 0; background: none; cursor: pointer; font: inherit; font-size: 14px; font-weight: 800; color: rgba(255,255,255,.7); }
+  .lib-chs { display: grid; grid-template-columns: repeat(auto-fill, minmax(48px, 1fr)); gap: 6px; margin-top: 12px; }
+  .lib-ch { aspect-ratio: 1; border-radius: 12px; cursor: pointer; font: inherit; font-size: 16px; font-weight: 900; color: #fff;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); }
+  .lib-ch.done { background: rgba(88,204,2,.16); border-color: rgba(134,239,172,.45); color: #bbf7d0; }
+  .lib-ch.now { border: 2px solid var(--gold); }
+  .lib-nav { display: flex; justify-content: space-between; gap: 8px; margin: 18px 0 8px; }
+  .lib-nav button { padding: 10px 14px; border-radius: 999px; cursor: pointer; font: inherit; font-size: 13.5px; font-weight: 800; color: #fff;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); }
   @media (min-width: 760px) {
     .home-in { max-width: 1100px; }
     .tt-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 28px; align-items: start; }
@@ -1331,7 +1351,7 @@
 <nav id="tabs" class="tabs" aria-label="Sections">
   <button data-tab="today" class="on"><span>📅</span>Today</button>
   <button data-tab="study"><span>💡</span>Study</button>
-  <button data-tab="scriptures" hidden><span>📖</span>Scriptures</button>
+  <button data-tab="scriptures"><span>📖</span>Scriptures</button>
 </nav>
 
 <!-- One reel, looked back at. -->
@@ -2186,7 +2206,69 @@ const TreasureUp = (function () {
     openSheet(`<div class="ls-kind">${{ quote: '💬 Quote', video: '🎬 Video' }[x.kind] || '💡 Insight'} · ${linkRefs(x.ref)}</div>${draft}${body}`);
     if (!(S.insights || {})[x.id]) { (S.insights = S.insights || {})[x.id] = dayKey(); save(); }
   }
-  function scripturesHtml() { return ''; }
+  // Scriptures (Blake, 2026-10-02: "add another tab where we can see our
+  // version of the scriptures. orgainzed by book, chapter, and verse"): the
+  // five volumes and their books, a book's chapters (this week's lit, ✓ the
+  // ones he has read), and a chapter in the reader with its buttons. From
+  // content/library.js and content/lib/<chapter>.js, built at deploy.
+  let libBook = null, libUnit = null;
+  const libSlug = ch => ch.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  const libLoads = {};
+  const loadOnce = src => libLoads[src] || (libLoads[src] = loadScript(src).catch(e => { delete libLoads[src]; throw e; }));
+  // Whether he has read a chapter, any week: this one's, a past one's, or caught up since.
+  function everRead(ch) {
+    if (S.read[ch] || Object.values(S.late || {}).some(w => w && w.read && w.read[ch])) return true;
+    return (S.history || []).some(h => { const r = h.rec && h.rec.read; return !!r && (Array.isArray(r) ? r.includes(ch) : !!r[ch]); });
+  }
+  function scripturesHtml() {
+    const lib = window.TU_LIBRARY;
+    if (!lib) {
+      loadOnce('content/library.js').then(refreshHome).catch(() => { libLoads.failed = true; refreshHome(); });
+      return `<div class="eyebrow">Scriptures</div><p class="lb-help">${libLoads.failed ? "The library didn't load. Check the connection and try again." : 'Opening the library…'}</p>`;
+    }
+    const now = new Set(readingAll().map(u => u.ch));
+    const book = libBook && lib.flatMap(v => v.books.map(b => ({ vol: v.name, name: b[0], n: b[1] }))).find(b => b.name === libBook);
+    if (book) {
+      const chs = Array.from({ length: book.n }, (_, i) => book.name + ' ' + (i + 1)), read = chs.filter(everRead).length;
+      return `<button class="lib-back" data-lib-book="">‹ All books</button>
+        <div class="eyebrow">${esc(book.vol)}</div><h1 class="reel-hook lib-h">${esc(book.name)}</h1>
+        <p class="lb-help">${book.n === 1 ? '1 chapter' : book.n + (book.name === 'Doctrine and Covenants' ? ' sections' : ' chapters')}${read ? ` · ${read} read` : ''}</p>
+        <div class="lib-chs">${chs.map((ch, i) => `<button class="lib-ch${now.has(ch) ? ' now' : ''}${everRead(ch) ? ' done' : ''}" data-lib-ch="${esc(ch)}" aria-label="${esc(ch)}${everRead(ch) ? ', read' : ''}">${i + 1}</button>`).join('')}</div>`;
+    }
+    const week = WEEK.reference ? `<button class="lib-week" data-lib-book="${esc((readingAll()[0] || {}).book || '')}"><span>This week<b>${esc(WEEK.reference)}</b></span><span>›</span></button>` : '';
+    return `<div class="eyebrow">Scriptures</div><h1 class="reel-hook lib-h">Every book, chapter and verse</h1>${week}
+      ${lib.map(v => `<div class="lib-vol"><div class="eyebrow">${esc(v.name)}</div><div class="lib-books">${v.books.map(([name, n]) => {
+        const read = Array.from({ length: n }, (_, i) => name + ' ' + (i + 1)).filter(everRead).length;
+        return `<button class="lib-book${[...now].some(c => c.startsWith(name + ' ')) ? ' now' : ''}" data-lib-book="${esc(name)}">${esc(name)}${read ? `<small>${read === n ? '✓ all read' : read + ' of ' + n + ' read'}</small>` : ''}</button>`; }).join('')}</div></div>`).join('')}`;
+  }
+  // A chapter from the library: this week's opens as from its day (its reading
+  // clock, Mark it read); any other in the reader, with the buttons it has
+  // (the plain words and the short version where a week has them) and the
+  // chapters either side.
+  async function openLibChapter(ch) {
+    if (readingAll().some(u => u.ref === ch)) return openChapter(ch);
+    let d = (window.TU_LIB || {})[ch];
+    if (!d) { try { await loadOnce('content/lib/' + libSlug(ch) + '.js'); } catch (e) { return; } d = (window.TU_LIB || {})[ch]; }
+    if (!d) return;
+    const m = /^(.+) (\d+)$/.exec(ch), lib = window.TU_LIBRARY || [];
+    const vol = lib.find(v => v.books.some(b => b[0] === m[1]));
+    const u = { ref: ch, ch, book: m[1], c: Number(m[2]), whole: true, from: 1, to: d.v.length, verses: d.v.map((t, i) => ({ n: i + 1, t })), words: 0 };
+    const week = (window.TU_WEEKS || []).find(w => readingUnits(w.reference).some(x => x.ch === ch)) || { title: vol ? vol.name : 'Scriptures' };
+    stopClips();
+    readUnit = null; libUnit = { u, week };
+    $('view').classList.add('reading');
+    $('viewBody').innerHTML = readerHtml(u, week, libNavHtml(ch));
+    $('view').hidden = false;
+    $('view').scrollTop = 0;
+    const box = $('viewBody').querySelector('.ls-chapter');
+    if (box) { needBsb(box); needOrig(box); resumeAt(box, ch); }
+  }
+  // The chapters before and after, across books.
+  function libNavHtml(ch) {
+    const all = (window.TU_LIBRARY || []).flatMap(v => v.books.flatMap(([b, n]) => Array.from({ length: n }, (_, i) => b + ' ' + (i + 1))));
+    const i = all.indexOf(ch), prev = all[i - 1], next = all[i + 1];
+    return `<div class="lib-nav">${prev ? `<button data-lib-ch="${esc(prev)}">‹ ${esc(prev)}</button>` : '<span></span>'}${next ? `<button data-lib-ch="${esc(next)}">${esc(next)} ›</button>` : ''}</div>`;
+  }
 
   // Blake, signed in here with his Google account: developer mode in
   // Settings (on the live app, the test site's, where it is). Only a way in;
@@ -2288,7 +2370,7 @@ const TreasureUp = (function () {
     const d = /^deep-/.test(id) && deepItems().find(x => 'deep-' + x.id === id);
     const r = !d && reelById(id);
     if (!d && !r) return;
-    readUnit = null;
+    readUnit = null; libUnit = null;
     $('view').classList.remove('reading');
     $('viewBody').innerHTML = d ? deepHtml(d, 0) : reelHtml(r, 0);
     $('view').hidden = false;
@@ -2296,7 +2378,7 @@ const TreasureUp = (function () {
   function closeView() {
     if ($('view').hidden) return;
     stopClips();
-    readUnit = null;
+    readUnit = null; libUnit = null;
     $('view').classList.remove('reading');
     $('view').hidden = true;
     $('viewBody').innerHTML = '';
@@ -2324,7 +2406,7 @@ const TreasureUp = (function () {
       if (!(log[u.ref] && log[u.ref].start)) { log[u.ref] = { start: Date.now() }; saveLocal(); }
     }
     const key = !S.read[u.ref] && chapterLesson(u.ref);
-    readUnit = u;
+    readUnit = u; libUnit = null;
     $('view').classList.add('reading');
     $('viewBody').innerHTML = readerHtml(u, WEEK, key ? `<div class="ch-mark"><p>Not marked read yet.</p>
       <button class="btn" data-mark-lesson="${esc(key)}">Mark it read in its lesson ›</button></div>` : '');
@@ -2721,7 +2803,7 @@ const TreasureUp = (function () {
   const bsbSrcOf = week => pastNumOf(week) != null ? 'content/past/bsb-' + pastNumOf(week) + '.js' : 'content/bsb.js';
   function bsbOf(week, ch) {
     const num = pastNumOf(week), map = num != null ? (window.TU_PAST_BSB || {})[num] : window.TU_BSB;
-    return map && map[ch];
+    return (map && map[ch]) || ((window.TU_LIB || {})[ch] || {}).b;
   }
   const bsbLoads = {};
   const loadBsb = src => bsbLoads[src] || (bsbLoads[src] = loadScript(src).catch(e => { delete bsbLoads[src]; throw e; }));
@@ -2829,7 +2911,7 @@ const TreasureUp = (function () {
   function chapterCtx(box) {
     if (box.closest('#lesson')) { const step = lesson && lesson.steps[lesson.at]; return step && step.kind === 'chapter' ? { u: step.u, week: WEEK } : null; }
     if (!box.closest('#view')) return null;
-    return readUnit ? { u: readUnit, week: WEEK } : past && pastUnit ? { u: pastUnit, week: past.week } : null;
+    return readUnit ? { u: readUnit, week: WEEK } : libUnit ? libUnit : past && pastUnit ? { u: pastUnit, week: past.week } : null;
   }
   // Draw a chapter's verses again, keeping his place: the first verse he can
   // see all of (below the buttons, when they're stuck at the top) stays put.
@@ -10544,6 +10626,10 @@ const TreasureUp = (function () {
       if (day) { selDay = day.dataset.day === dayKey() ? null : day.dataset.day; const h = $('home'), y = h.scrollTop; renderHome(); h.scrollTop = y; return; }
       const card = e.target.closest('[data-card]');
       if (card) { openCard(card.dataset.card); return; }
+      const lb = e.target.closest('[data-lib-book]');
+      if (lb) { libBook = lb.dataset.libBook || null; renderHome(); $('home').scrollTop = 0; return; }
+      const lc = e.target.closest('[data-lib-ch]');
+      if (lc) { openLibChapter(lc.dataset.libCh); return; }
       const sk = e.target.closest('[data-study-kind]');
       if (sk) { studyKind = sk.dataset.studyKind; refreshHome(); return; }
       const pc = e.target.closest('[data-past-chapter]');
@@ -10592,6 +10678,8 @@ const TreasureUp = (function () {
       if (layer) { toggleLayer(layer); return; }
       const ml = e.target.closest('[data-mark-lesson]');
       if (ml) { const key = ml.dataset.markLesson; closeView(); openLesson(key); return; }
+      const lc = e.target.closest('[data-lib-ch]');
+      if (lc) { const ch = lc.dataset.libCh; closeView(); openLibChapter(ch); return; }
       // A past week's chapter, caught up on.
       const pm = e.target.closest('[data-past-mark], [data-past-readyes]');
       if (pm) { pastMark(pm.dataset.pastMark || pm.dataset.pastReadyes, !!pm.dataset.pastReadyes); return; }
