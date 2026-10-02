@@ -13,6 +13,10 @@
 const IMG = {
   moroni: new Image(),
   spearman: new Image(),
+  worker: new Image(),
+  robber: new Image(),
+  robberArcher: new Image(),
+  robberChief: new Image(),
   stripling: new Image(),
   lamanite: new Image(),
   cart: new Image(),
@@ -26,6 +30,10 @@ const IMG = {
 };
 IMG.moroni.src = 'assets/moroni.png?v=13';
 IMG.spearman.src = 'assets/spearman.png?v=13';
+IMG.worker.src = 'assets/worker.png?v=1';        // drawn by Gemini: liberty/art/requests/001-worker.md
+IMG.robber.src = 'assets/robber.png?v=1';        // and these: 002-robbers.md
+IMG.robberArcher.src = 'assets/robber_archer.png?v=1';
+IMG.robberChief.src = 'assets/robber_chief.png?v=1';
 IMG.stripling.src = 'assets/stripling.png?v=13';
 IMG.lamanite.src = 'assets/lamanite.png?v=13';
 IMG.cart.src = 'assets/cart.png?v=13';
@@ -1001,6 +1009,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
     } else if (u.type === 'stripling') {
       uImg = IMG.stripling;
       uw = 22; uh = 44; uox = 11; uoy = 42;
+    } else if (u.type === 'robber') {           // Gemini's are cropped to the figure: uox is
+      uImg = IMG.robber;                         // where the feet are, so they stand on the spot
+      uw = 28; uh = 44; uox = 17; uoy = 43;
+    } else if (u.type === 'robberArcher') {
+      uImg = IMG.robberArcher;
+      uw = 33; uh = 44; uox = 13; uoy = 43;
+    } else if (u.type === 'giddianhi' || u.type === 'zemnarihah') {
+      uImg = IMG.robberChief;
+      uw = 30; uh = 48; uox = 18; uoy = 47;
     } else if (u.type === 'lamanite' || u.type === 'zerahemnah' || d.foe) {
       uImg = IMG.lamanite;
       uw = 25; uh = 44; uox = 12; uoy = 42;
@@ -1008,8 +1025,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
       uImg = IMG.cart;
       uw = 40; uh = 28; uox = 20; uoy = 24;
     } else if (u.type === 'worker') {
-      uImg = IMG.spearman;
-      uw = 20; uh = 40; uox = 10; uoy = 38;
+      uImg = IMG.worker;                         // 76 × 150, cropped to the figure: feet on the ground
+      uw = 20; uh = 40; uox = 14; uoy = 39;
     }
 
     if (uImg && uImg.complete && uImg.naturalWidth) {
@@ -1709,6 +1726,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
   const CAMEO_MAP = {
     'deploy': 'assets/cameo_moroni.png?v=9',
+    'train:worker': 'assets/cameo_worker.png?v=1',
     'train:spearman': 'assets/cameo_spearman.png?v=9',
     'train:stripling': 'assets/cameo_stripling.png?v=9',
     'train:moroni': 'assets/cameo_moroni.png?v=9',
