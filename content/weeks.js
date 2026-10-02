@@ -4823,6 +4823,287 @@ window.TU_WEEKS = [
         ],
         "approved": "533af703"
       }
+    ],
+    "insights": [
+      {
+        "id": "isa50-hand",
+        "ref": "Isaiah 50:2",
+        "title": "Is His hand too short?",
+        "text": "The Lord asks, “Is my hand shortened at all, that it cannot redeem?” Donald W. Parry explains that in Hebrew, the word for hand also means power. So the Lord is really asking, Am I too weak to save you? Of course not! He reminds them that He dried up the sea in Moses’ day. Centuries later, Jesus rebuked the wind and the sea, and everything became calm.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 50",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-50"
+        },
+        "find": "In essence, the Lord is asking, do I lack power to redeem?"
+      },
+      {
+        "id": "isa50-advocate",
+        "ref": "Isaiah 50:8",
+        "title": "Adversary or Advocate?",
+        "text": "Verse 8 asks, “who is mine adversary?” John Bytheway points out that Adversary is one of Satan’s titles, and the book of Revelation calls Satan an accuser. Jesus is the opposite. He is our Advocate, the one who stands up for us. The same verse begins, “He is near that justifieth me.” When the Savior stands beside you, the accuser has nothing left to say.",
+        "source": {
+          "by": "followHIM",
+          "who": "John Bytheway",
+          "title": "Old Testament: EPISODE 41 (2026) – Isaiah 50-57",
+          "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
+        },
+        "find": "So I love putting those two side by side, adversary versus advocate"
+      },
+      {
+        "id": "isa51-hearken",
+        "ref": "Isaiah 51:1–7",
+        "title": "Listen with a plan to obey",
+        "text": "Three times in these verses the Lord says, “Hearken” (verses 1, 4 and 7). President Russell M. Nelson taught that to hearken means “to listen with the intent to obey.” It is more than hearing words. It means hearing what the Savior says and then doing it. In verse 7 He speaks to “the people in whose heart is my law.”",
+        "source": {
+          "by": "Seminary manual",
+          "title": "Lesson 123: Isaiah 51–52—“Hearken unto Me”",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-student-manual-2026/40-isaiah-50-57/401-isaiah-51-52?lang=eng"
+        },
+        "find": "to hear what the Savior says and then to heed His counsel"
+      },
+      {
+        "id": "isa51-cup",
+        "ref": "Isaiah 51:17",
+        "title": "The bitter cup",
+        "text": "Isaiah pictures Jerusalem as a woman who has drunk “the cup of his fury” from the Lord’s hand. Donald W. Parry compares this cup with the bitter cup in Doctrine and Covenants 19:18. Jesus drank that bitter cup for us. If we accept what He offers, we will not have to drink it ourselves.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 51",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-51"
+        },
+        "find": "Jesus drinks the bitter cup so that we would not need to do so"
+      },
+      {
+        "id": "isa52-redeemer",
+        "ref": "Isaiah 52:3",
+        "title": "A family rescuer",
+        "text": "The Lord promises, “ye shall be redeemed without money.” In Hebrew, a go’el was a kinsman-redeemer, a relative whose duty was to rescue family members. Jennifer C. Lane explains that if a relative was sold as a slave, even through his own choices, the go’el paid the price to bring him home. The Lord is our Kinsman-Redeemer, so we can ask Him for help even when our own mistakes got us stuck.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Jennifer C. Lane",
+          "title": "Redemption (gāʾal)",
+          "url": "https://rsc.byu.edu/finding-christ-covenant-path/redemption-gaal"
+        },
+        "find": "Knowing that the Lord is our Kinsman-Redeemer gives us confidence to ask for help"
+      },
+      {
+        "id": "isa52-nauvoo",
+        "ref": "Isaiah 52:7",
+        "title": "Where Nauvoo got its name",
+        "text": "Joseph Smith gave the town of Commerce, Illinois, a new name: Nauvoo. Nauvoo is a Hebrew word that means beautiful, and it is rare. This verse is one of the few places in the Old Testament where the whole Hebrew word shows up: “How beautiful upon the mountains.” Nauvoo started out as a swamp full of mosquitoes, but it grew into a beautiful city that lived up to its name.",
+        "source": {
+          "by": "Scripture Central",
+          "title": "Where Does the Name Nauvoo Come From?",
+          "url": "https://scripturecentral.org/knowhy/where-does-the-name-nauvoo-come-from-0"
+        },
+        "find": "one of the only places the complete Hebrew word nauvoo appears in the entire Old Testament"
+      },
+      {
+        "id": "isa52-arm",
+        "ref": "Isaiah 52:10",
+        "title": "Rolling up His sleeves",
+        "text": "Isaiah says, “The LORD hath made bare his holy arm in the eyes of all the nations.” Long ago, men getting ready for battle pulled their robes off their shoulders so their arms were free. Donald W. Parry explains that Isaiah uses this picture to show the Lord stepping in to beat evil and save His people. The Doctrine and Covenants says Jesus will do this at His Second Coming.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 52",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-52"
+        },
+        "find": "Anciently, men prepared for battle by removing their robes from their shoulders"
+      },
+      {
+        "id": "isa52-vessels",
+        "ref": "Isaiah 52:11",
+        "title": "Clean hands for holy things",
+        "text": "Isaiah says, “be ye clean, that bear the vessels of the LORD.” When the Jews returned from Babylon, they carried home the temple’s bowls, basins and cups that King Nebuchadnezzar had taken. Elder Jeffrey R. Holland explained that the people carrying them needed to be just as clean as the holy things in their hands. He told deacons, teachers and priests that this applies to them as they prepare, bless and pass the sacrament.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Jeffrey R. Holland",
+          "title": "“Sanctify Yourselves”",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2000/10/sanctify-yourselves?lang=eng"
+        },
+        "find": "they themselves were to be as clean as the ceremonial instruments they bore"
+      },
+      {
+        "id": "isa53-alma",
+        "ref": "Isaiah 53:1",
+        "title": "Only one believed",
+        "text": "Isaiah 53 opens with a question: “Who hath believed our report?” Abinadi quoted this chapter to King Noah and his priests. Aaron P. Schade and Matthew L. Bowen point out that of everyone in that court, only one man believed Abinadi’s testimony: Alma. Alma became a prophet himself and went out to teach Isaiah’s message to others, hoping to touch their hearts too.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Aaron P. Schade and Matthew L. Bowen",
+          "title": "“To Whom Is the Arm of the Lord Revealed?” Part 1",
+          "url": "https://rsc.byu.edu/vol-16-no-2-2015/whom-arm-lord-revealed-part-1"
+        },
+        "find": "Of all the priests and other observers in King Noah"
+      },
+      {
+        "id": "isa53-past-tense",
+        "ref": "Isaiah 53:4–5",
+        "title": "Written like it already happened",
+        "text": "Isaiah wrote this chapter more than 700 years before it happened, yet look at his verbs. The Savior “hath borne our griefs.” He “was wounded” and “was bruised.” Isaiah wrote the future as if it were already done. Donald W. Parry and others call this the prophetic perfect, used for things so certain they could be spoken of as finished. Abinadi spoke the same way.",
+        "source": {
+          "by": "Scripture Central",
+          "title": "Why Did Book of Mormon Prophets Speak of Future Events as if They Had Already Happened?",
+          "url": "https://scripturecentral.org/knowhy/why-did-book-of-mormon-prophets-speak-of-future-events-as-if-they-had-already-happened"
+        },
+        "find": "Isaiah uses the past and perfect tenses to describe a series of events"
+      },
+      {
+        "id": "isa53-ethiopian",
+        "ref": "Isaiah 53:7–8",
+        "title": "Reading Isaiah in a chariot",
+        "text": "In the New Testament, the Spirit sent Philip to an Ethiopian man who was reading the scriptures in his chariot. He was reading these very verses. He asked Philip whether the prophet was talking about himself or about some other man. Philip began right there, with this same scripture, and taught him about Jesus Christ. The man believed and was baptized.",
+        "source": {
+          "by": "Seminary manual",
+          "title": "Acts 8",
+          "url": "https://www.churchofjesuschrist.org/study/manual/new-testament-seminary-student-manual-2023/acts-8?lang=eng"
+        },
+        "find": "The scripture passage the Ethiopian read is found in Isaiah 53"
+      },
+      {
+        "id": "isa53-seed",
+        "ref": "Isaiah 53:10",
+        "title": "His children",
+        "text": "Verse 10 says the Savior “shall see his seed,” meaning His children. Who are they? Abinadi answered that question for King Noah’s priests: everyone who listens to the prophets and believes the Lord will redeem them, and the prophets too. Monte S. Nyman explains that people who are born again through Christ become His adopted sons and daughters. You can be one of them.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Monte S. Nyman",
+          "title": "Abinadi’s Commentary on Isaiah",
+          "url": "https://rsc.byu.edu/book-mormon-mosiah-salvation-only-through-christ/abinadis-commentary-isaiah"
+        },
+        "find": "Those who are spiritually begotten of Christ through being born again are adopted as his sons and daughters"
+      },
+      {
+        "id": "isa53-spoil",
+        "ref": "Isaiah 53:12",
+        "title": "The winner shares the prize",
+        "text": "For eleven verses, Isaiah describes the Savior losing everything. Then verse 12 begins with “Therefore,” and suddenly He is the winner who will “divide the spoil.” Dr. Ezra Gwilliam explains that whoever wins a contest gets to choose what happens to the prize. Jesus won the victory over sin and death, and He does not keep that victory to Himself. He shares it with each of us.",
+        "source": {
+          "by": "followHIM",
+          "who": "Dr. Ezra Gwilliam",
+          "title": "Old Testament: EPISODE 41 (2026) – Isaiah 50-57",
+          "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
+        },
+        "find": "If you win the war, you get to decide what to do with the spoils"
+      },
+      {
+        "id": "isa54-nephites",
+        "ref": "Isaiah 54",
+        "title": "The blessings at the end",
+        "text": "When the risen Jesus taught the Nephites, He ended a long sermon about His covenant by reciting this whole chapter (3 Nephi 22). In the ancient world, a covenant often ended with a list of promised blessings, and Jesus seems to have used Isaiah 54 that way. He also helped the Nephites see how Isaiah’s old words fit their own lives. They can fit yours too.",
+        "source": {
+          "by": "Scripture Central",
+          "title": "Why Did Jesus Quote All of Isaiah 54?",
+          "url": "https://scripturecentral.org/knowhy/why-did-jesus-quote-all-of-isaiah-54"
+        },
+        "find": "It was custom in the ancient Near East to conclude a covenant with promised blessings"
+      },
+      {
+        "id": "isa54-jewels",
+        "ref": "Isaiah 54:11–12",
+        "title": "A castle of jewels",
+        "text": "The Lord calls His people “O thou afflicted, tossed with tempest,” as if they had been caught in a fierce storm. Then He promises, “I will lay thy stones with fair colours, and lay thy foundations with sapphires.” Donald W. Parry notes that in Hebrew, the name Zion means a fortress or castle. Picture the Lord Himself building a castle for His people, with walls and gates of precious stones.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 54",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-54"
+        },
+        "find": "This fortress, however, will not be any average fortress but will feature precious stones"
+      },
+      {
+        "id": "isa54-weapon",
+        "ref": "Isaiah 54:17",
+        "title": "No weapon will win",
+        "text": "The Lord promises, “No weapon that is formed against thee shall prosper.” The same promise appears in the Doctrine and Covenants. Elder Neal A. Maxwell taught that this promise protects the Lord’s work. People may fight against His work for a while, but in the end nothing they use against it will succeed. Isaiah calls this promise “the heritage of the servants of the LORD.”",
+        "source": {
+          "by": "Seminary manual",
+          "title": "Lesson 129: Isaiah 54–57",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-teacher-manual/introduction-to-the-book-of-isaiah/lesson-129-isaiah-54-57?lang=eng"
+        },
+        "find": "Furthermore, the divine promise is that no weapon formed against the"
+      },
+      {
+        "id": "isa55-david",
+        "ref": "Isaiah 55:3",
+        "title": "The sure mercies of David",
+        "text": "The Lord promises, “I will make an everlasting covenant with you, even the sure mercies of David.” The Apostle Paul taught that these sure mercies point to the Resurrection. Donald W. Parry explains why David is named: David had sinned badly, yet the Lord still promised that he would rise again. That means every one of us can have the same hope.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 55",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-55"
+        },
+        "find": "Even though David had committed great sins, the Lord promised him the Resurrection"
+      },
+      {
+        "id": "isa55-thorn",
+        "ref": "Isaiah 55:13",
+        "title": "Trees instead of thorns",
+        "text": "The Lord promises, “Instead of the thorn shall come up the fir tree, and instead of the brier shall come up the myrtle tree.” Dr. Ezra Gwilliam connects the thorns and briers to the Fall of Adam and Eve. Here the Lord promises to put big, beautiful trees where the thorns used to grow. Through Jesus Christ, He can replace what is bad in our lives with something beautiful.",
+        "source": {
+          "by": "followHIM",
+          "who": "Dr. Ezra Gwilliam",
+          "title": "Old Testament: EPISODE 41 (2026) – Isaiah 50-57",
+          "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
+        },
+        "find": "I think the fall of Adam and Eve goes with this, with thorns and briars"
+      },
+      {
+        "id": "isa56-sabbath",
+        "ref": "Isaiah 56:2–6",
+        "title": "A sign of the covenant",
+        "text": "Isaiah 56 talks about keeping the Sabbath three times (verses 2, 4 and 6). Why does it matter so much? The Old Testament Student Manual explains that the Lord revealed to Moses that the Sabbath was a sign of His covenant with Israel. For Israel, “my sabbaths” also included holy days like Passover. Keeping them showed they belonged to the Lord.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "The Last Days and the Millennium (Isaiah 55–66)",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-18?lang=eng"
+        },
+        "find": "the Lord told Moses that keeping the Sabbath was a sign of the covenant between Israel and God"
+      },
+      {
+        "id": "isa57-mountain",
+        "ref": "Isaiah 57:13",
+        "title": "The holy mountain",
+        "text": "The Lord promises, “he that putteth his trust in me shall possess the land, and shall inherit my holy mountain.” Donald W. Parry explains that a holy mountain can mean the temple. So this is a temple promise. People who trust the Lord will have the right to enter His house and to receive all of the blessings it gives.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 57",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-57"
+        },
+        "find": "and to possess all of the blessings that it provides to them"
+      },
+      {
+        "id": "isa57-stumbling",
+        "ref": "Isaiah 57:14",
+        "title": "Clear the road",
+        "text": "The Lord says, “take up the stumblingblock out of the way of my people.” A stumbling block is anything that trips someone up, in body or in spirit. Donald W. Parry explains that the righteous are asked to help move those obstacles, so people returning to God can get through. When a friend is trying to come back, you can help clear the road.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 57",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-57"
+        },
+        "find": "The righteous are to help lift the stumbling blocks out of the way of those who return to God"
+      },
+      {
+        "id": "isa57-sea",
+        "ref": "Isaiah 57:20–21",
+        "title": "A sea that cannot rest",
+        "text": "Isaiah says, “the wicked are like the troubled sea, when it cannot rest, whose waters cast up mire and dirt.” Picture waves that never stop crashing and keep stirring up mud. Elder Neal A. Maxwell set that restless sea against the quiet inner peace that believers can feel. That peace, he said, takes patience. It is the opposite of a sea that never settles.",
+        "source": {
+          "by": "BYU Speeches",
+          "who": "Elder Neal A. Maxwell",
+          "title": "Patience",
+          "url": "https://speeches.byu.edu/talks/neal-a-maxwell/patience/"
+        },
+        "find": "the wicked are like the pounding and troubled sea which cannot rest"
+      }
     ]
   },
   {
@@ -6174,6 +6455,250 @@ window.TU_WEEKS = [
           }
         ],
         "approved": "ce2311d3"
+      }
+    ],
+    "insights": [
+      {
+        "id": "isa58-ramshorn",
+        "ref": "Isaiah 58:1",
+        "title": "A voice like a ram’s horn",
+        "text": "The Lord told Isaiah, “lift up thy voice like a trumpet, and shew my people their transgression.” Donald W. Parry translates that trumpet as a ram’s horn. Picture a voice as loud and clear as a horn blast, so the message can’t be missed. Parry adds that God gave this same command again in our day (Doctrine and Covenants 34:10).",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 58",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-58"
+        },
+        "find": "The Lord commands Isaiah to raise his voice, in loudness and clarity"
+      },
+      {
+        "id": "isa58-rearguard",
+        "ref": "Isaiah 58:8",
+        "title": "God has your back",
+        "text": "Isaiah 58:8 promises, “the glory of the LORD shall be thy rearward.” The Old Testament Student Manual, which spells it rereward, explains that it’s an old word for “rear guard”: the soldiers who protect the back of an army on the march. Your righteousness leads in front, and God’s glory closes in behind, gathering stragglers so that no one is left behind.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "The Last Days and the Millennium (Isaiah 55–66)",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-18?lang=eng"
+        },
+        "find": "it is applied to the gathering up of the scattered rear of an army"
+      },
+      {
+        "id": "isa58-repairer",
+        "ref": "Isaiah 58:12",
+        "title": "Fixing the breach",
+        "text": "In Isaiah 58:12, people who keep the Lord’s fast are called “The repairer of the breach.” One Christmas night, a shower nozzle in Elder Clark G. Gilbert’s home broke and sprayed water everywhere, and no plumber could come. A friend shut off the main water line and fixed the breach. Elder Gilbert used that night to teach about Jesus: “Christ is the repairer of the breaches in our lives.”",
+        "source": {
+          "by": "BYU Speeches",
+          "who": "Elder Clark G. Gilbert",
+          "title": "Christ’s Peace in Perilous Times",
+          "url": "https://speeches.byu.edu/talks/clark-g-gilbert/christs-peace-in-perilous-times/"
+        },
+        "find": "In these troubled times, Christ is the repairer of the breaches in our lives"
+      },
+      {
+        "id": "isa59-reach",
+        "ref": "Isaiah 59:1–2",
+        "title": "His reach is long enough",
+        "text": "Isaiah 59:1 says the Lord’s “hand is not shortened, that it cannot save; neither his ear heavy, that it cannot hear.” A seminary lesson explains that His power to save hasn’t shrunk at all. Verse 2 shows where the distance comes from: when we sin, we pull ourselves away from God. But when we repent, He steps in to help us and redeem us.",
+        "source": {
+          "by": "Seminary manual",
+          "title": "Lesson 131: Isaiah 59–66",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-teacher-manual/introduction-to-the-book-of-isaiah/lesson-131-isaiah-59-66?lang=eng"
+        },
+        "find": "power to save has not decreased"
+      },
+      {
+        "id": "isa59-webs",
+        "ref": "Isaiah 59:5–6",
+        "title": "Clothes made of cobwebs",
+        "text": "Isaiah says the wicked weave spider webs, but “Their webs shall not become garments, neither shall they cover themselves with their works.” Donald W. Parry explains the picture. Instead of letting God clothe them, sinners try to hide their sins under spider webs. It never works. Webs can’t really cover anything, and they end up tangling and trapping the very people who spun them.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 59",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-59"
+        },
+        "find": "the webs end up binding and restricting the sinners"
+      },
+      {
+        "id": "isa59-redeemer",
+        "ref": "Isaiah 59:20",
+        "title": "Bought back",
+        "text": "“And the Redeemer shall come to Zion” (Isaiah 59:20). What does a redeemer do? Elder LeGrand R. Curtis Jr. explained that to redeem something means to buy it back. Under the law of Moses, a servant could be set free, or property bought back, by paying money. Jesus didn’t redeem us with silver or gold. He paid the price for our sins Himself, so we can be forgiven when we repent.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder LeGrand R. Curtis Jr.",
+          "title": "Redemption",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2011/10/redemption?lang=eng"
+        },
+        "find": "the law of Moses provided different ways that servants and property could be freed"
+      },
+      {
+        "id": "isa60-temples",
+        "ref": "Isaiah 60:6–7",
+        "title": "Treasures for the temple",
+        "text": "Isaiah 60 pictures camels, gold, incense, flocks, and rams streaming into Zion, and the Lord says, “I will glorify the house of my glory” (verse 7). Donald W. Parry explains that gold, frankincense, flocks, and rams were part of Solomon’s temple long ago. He reads them here as a picture of God’s temples being built and run today, in places all over the world.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 60",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-60"
+        },
+        "find": "is used to build His temples, which exist throughout the world"
+      },
+      {
+        "id": "isa60-doves",
+        "ref": "Isaiah 60:8",
+        "title": "Doves to the windows",
+        "text": "Isaiah 60:8 asks, “Who are these that fly as a cloud, and as the doves to their windows?” In 1830, all the members of the Church met for conference in one room 20 feet square. Even then, they talked about people from all nations coming “as doves to the windows.” Elder Jeffrey R. Holland shared their words in 2000, speaking to a Church of nearly 11 million members.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Jeffrey R. Holland",
+          "title": "As Doves to Our Windows",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2000/04/as-doves-to-our-windows?lang=eng"
+        },
+        "find": "people coming as doves to the windows, that all nations should flock unto"
+      },
+      {
+        "id": "isa60-isles",
+        "ref": "Isaiah 60:9",
+        "title": "The isles are people",
+        "text": "“Surely the isles shall wait for me, and the ships of Tarshish first, to bring thy sons from far” (Isaiah 60:9). Terry B. Ball notes that Isaiah often uses “isles” as a name for the Lord’s scattered covenant people. So Isaiah sees ships bringing Zion’s children home from far away. Ball writes that Isaiah knew this gathering would start when the gospel was restored through Joseph Smith.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Terry B. Ball",
+          "title": "Isaiah and the Restoration of Israel",
+          "url": "https://rsc.byu.edu/witness-restoration/isaiah-restoration-israel"
+        },
+        "find": "Isaiah often refers to these scattered covenant people metaphorically as"
+      },
+      {
+        "id": "isa61-anointed",
+        "ref": "Isaiah 61:1",
+        "title": "What “Christ” means",
+        "text": "Isaiah 61:1 says, “the LORD hath anointed me.” The seminary manual explains that anointed means set apart or sent for a special purpose. And here’s the key: Christ is a Greek word and Messiah is a Hebrew word, and both mean “the anointed.” So when Jesus read this verse in Nazareth and said it was about Him, He was declaring that He is the Christ.",
+        "source": {
+          "by": "Seminary manual",
+          "title": "Isaiah 61: The Mission of Jesus the Messiah",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/41-isaiah-58-66/413-isaiah-61?lang=eng"
+        },
+        "find": "anointed in verse 1 means that Jesus Christ was set apart or sent with a specific purpose"
+      },
+      {
+        "id": "isa61-stopped",
+        "ref": "Isaiah 61:2",
+        "title": "He stopped mid-verse",
+        "text": "When Jesus read Isaiah 61 in Nazareth, He stopped partway through verse 2. He read “To proclaim the acceptable year of the LORD,” and went no further. He left out the next words, “and the day of vengeance of our God.” Scripture Central notes that stopping there split Isaiah’s prophecy in two: the part about who the Messiah is, and the part about the last days, when He comes to judge.",
+        "source": {
+          "by": "Scripture Central",
+          "title": "Why Does Jesus Announce that Isaiah 61:1–2 Is Fulfilled?",
+          "url": "https://scripturecentral.org/knowhy/why-does-jesus-announce-that-isaiah-611-2-is-fulfilled"
+        },
+        "find": "By ending His citation where He did, Jesus effectively separated the two aspects of Isaiah"
+      },
+      {
+        "id": "isa62-reward",
+        "ref": "Isaiah 62:11",
+        "title": "Coming with a reward",
+        "text": "Look closely at Isaiah 62:11: “Behold, thy salvation cometh; behold, his reward is with him.” Donald W. Parry reads “salvation” here as a person: Jesus Christ, coming with His reward. Parry says Jesus will reward the righteous and make up to them for their losses, hurts, and the unfair things done to them.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 62",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-62"
+        },
+        "find": "Jesus Christ will reward the righteous and compensate them for losses, sufferings, and injustices"
+      },
+      {
+        "id": "isa63-alone",
+        "ref": "Isaiah 63:3",
+        "title": "Alone, so you won’t be",
+        "text": "“I have trodden the winepress alone; and of the people there was none with me” (Isaiah 63:3). Elder Jeffrey R. Holland applied these words to Jesus on His way to the cross: the circle around Him grew smaller and smaller, until no one could help Him. He went through it alone so that we never have to. We “will never be left alone nor unaided,” Elder Holland promised.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Jeffrey R. Holland",
+          "title": "None Were with Him",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2009/04/none-were-with-him?lang=eng"
+        },
+        "find": "because Jesus walked such a long, lonely path utterly alone, we do not have to do so"
+      },
+      {
+        "id": "isa65-seek",
+        "ref": "Isaiah 65:1",
+        "title": "Seek and you’ll find",
+        "text": "In the King James Version, Isaiah 65:1 says, “I am found of them that sought me not.” That can sound puzzling. On followHIM, Dr. Ross Baron shares how Joseph Smith’s inspired translation reads instead: “I am found of them who seek after me.” It adds that the Lord gives to all who ask. Keep seeking Him, and you will find Him.",
+        "source": {
+          "by": "followHIM",
+          "who": "Dr. Ross Baron",
+          "title": "Old Testament: EPISODE 41 – Isaiah 58-66 – Part 2",
+          "url": "https://followhim.co/show-note/3-9/"
+        },
+        "find": "I am found of them who seek after me. I give unto all them that ask of me"
+      },
+      {
+        "id": "isa65-cluster",
+        "ref": "Isaiah 65:8",
+        "title": "A blessing in the bunch",
+        "text": "Isaiah 65:8 compares the Lord’s people to a cluster of grapes with new wine in it. Someone says, “Destroy it not; for a blessing is in it.” Donald W. Parry explains that the cluster stands for righteous people. They are kept safe because they bless others, in Israel and all over the world. So the Lord promises not to destroy them all.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 65",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-65"
+        },
+        "find": "do not destroy the righteous, because they are a blessing to Israel and to the world"
+      },
+      {
+        "id": "isa65-newearth",
+        "ref": "Isaiah 65:17",
+        "title": "The earth made new",
+        "text": "“For, behold, I create new heavens and a new earth” (Isaiah 65:17). President Russell M. Nelson taught that when the Savior comes again, the earth itself will be renewed and brought back to a paradise-like state. He also said that helping get the world ready for that day is both our duty and our privilege.",
+        "source": {
+          "by": "Liahona",
+          "who": "President Russell M. Nelson",
+          "title": "The Future of the Church: Preparing the World for the Savior’s Second Coming",
+          "url": "https://www.churchofjesuschrist.org/study/liahona/2020/04/the-future-of-the-church-preparing-the-world-for-the-saviors-second-coming?lang=eng"
+        },
+        "find": "The earth will be returned to its paradisiacal state and be made new"
+      },
+      {
+        "id": "isa66-priests",
+        "ref": "Isaiah 66:19–21",
+        "title": "Priests from far away",
+        "text": "Isaiah 66:19 names faraway places like Tarshish, Pul, and “the isles afar off” that had never heard of the Lord’s glory. Then the Lord says He will take some of those people “for priests and for Levites” (verse 21). The Old Testament Student Manual reads this to mean that many from the nations will join the Church and receive the priesthood.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "The Last Days and the Millennium (Isaiah 55–66)",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-18?lang=eng"
+        },
+        "find": "Evidently many will then join the Church, for the Lord said He will take of the Gentiles"
+      },
+      {
+        "id": "isa66-offering",
+        "ref": "Isaiah 66:20",
+        "title": "The offering is people",
+        "text": "In Isaiah 66:20, people come on horses, in chariots, and on mules, and “they shall bring all your brethren for an offering unto the LORD out of all nations.” On followHIM, Dr. Ross Baron points out what the offering is: people! In the last days, he says, we bring our families, ourselves, and others on both sides of the veil to the Lord.",
+        "source": {
+          "by": "followHIM",
+          "who": "Dr. Ross Baron",
+          "title": "Old Testament: EPISODE 41 – Isaiah 58-66 – Part 2",
+          "url": "https://followhim.co/show-note/3-9/"
+        },
+        "find": "We bring our family. We bring ourselves, and we bring everyone else on both sides of the veil"
+      },
+      {
+        "id": "isa66-name",
+        "ref": "Isaiah 66:22",
+        "title": "Your family will last",
+        "text": "Isaiah 66:22 gives a promise: as long as the new heavens and new earth remain, “so shall your seed and your name remain.” Your seed means your descendants. Donald W. Parry calls this a promise of eternal families. He adds that your “name” may even mean the name of Christ, which is important in sacred ordinances (Mosiah 5:10–11).",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 66",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-66"
+        },
+        "find": "posterity, eternal families, and eternal increase"
       }
     ]
   },
@@ -7589,6 +8114,248 @@ window.TU_WEEKS = [
           "The Lord is with him like a mighty warrior, and Jeremiah praises Him. Still, in his sorrow, he wishes he had never been born. (verses 11–18)"
         ],
         "approved": "736e236f"
+      }
+    ],
+    "insights": [
+      {
+        "id": "jer1-lehi",
+        "ref": "Jeremiah 1:1–3",
+        "title": "Same city, different missions",
+        "text": "Jeremiah and Lehi, whose story opens the Book of Mormon, were prophets at the same time and gave Jerusalem the same warning. But Elder Quentin L. Cook noted that the Lord gave Lehi a different calling and mission. After Lehi warned the people, the Lord told him to take his family into the wilderness. By obeying, Lehi blessed his family and all people.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Quentin L. Cook",
+          "title": "Lamentations of Jeremiah: Beware of Bondage",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2013/10/lamentations-of-jeremiah-beware-of-bondage?lang=eng"
+        },
+        "find": "Lehi had a different calling, mission, and assignment from the Lord"
+      },
+      {
+        "id": "jer1-knew",
+        "ref": "Jeremiah 1:5",
+        "title": "Known, not just known about",
+        "text": "“Before I formed thee in the belly I knew thee.” The Old Testament Student Manual explains that knew means much more than knowing someone’s name. The Hebrew word here, yada, describes a close, personal relationship. So the Lord wasn’t saying He had heard of Jeremiah. He was saying He knew him well, as a person, before Jeremiah was ever born.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "As Ye Sow, So Shall Ye Reap",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-23?lang=eng"
+        },
+        "find": "The Hebrew word yada, which is translated knew, connotes a very personal, intimate relationship"
+      },
+      {
+        "id": "jer1-choose",
+        "ref": "Jeremiah 1:6–7",
+        "title": "Chosen, but still free",
+        "text": "The Lord ordained Jeremiah to be a prophet before he was born. But Jeremiah wasn’t forced to serve. His first answer was to object: “I cannot speak.” The Encyclopedia of Mormonism explains that Jeremiah then used his agency and chose to accept the calling. Being foreordained didn’t take away his choice. He still had to say yes.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "William J. Adams Jr.",
+          "title": "Jeremiah, Prophecies of",
+          "url": "https://scripturecentral.org/archive/articles/encyclopedia-entry/jeremiah-prophecies"
+        },
+        "find": "Though foreordained to be a prophet, Jeremiah was not compelled to serve"
+      },
+      {
+        "id": "jer1-gird",
+        "ref": "Jeremiah 1:17",
+        "title": "Tuck in your robe",
+        "text": "The Lord told Jeremiah to “gird up thy loins, and arise.” In Bible times, people wore a long tunic that hung below the knees, with a leather belt called a girdle. A long tunic got in the way of running or hard work, so people pulled it up and tucked it under the belt. Elijah did this before he ran ahead of King Ahab. The Lord meant: get ready for action!",
+        "source": {
+          "by": "Bible Dictionary",
+          "title": "Clothing",
+          "url": "https://www.churchofjesuschrist.org/study/scriptures/bd/clothing?lang=eng"
+        },
+        "find": "would interfere with active movement, it was drawn up under the girdle"
+      },
+      {
+        "id": "jer2-chittim",
+        "ref": "Jeremiah 2:10–11",
+        "title": "Nobody else swaps gods",
+        "text": "The Lord told His people to look west to Chittim, the island of Cyprus, and east to Kedar, likely a people who lived in Arabia. Had any nation ever traded its gods for new ones? No. Those nations stayed loyal to gods that weren’t even real. Yet Israel “changed their glory for that which doth not profit.” They traded away the true God.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Noe Correa",
+          "title": "Jeremiah 1–3; 7; 16–18; 20",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/jeremiah-13-7-1618-20"
+        },
+        "find": "from west to east people were faithful to their nonexistent gods"
+      },
+      {
+        "id": "jer2-fear",
+        "ref": "Jeremiah 2:19",
+        "title": "A good kind of fear",
+        "text": "The Lord told His people, “my fear is not in thee.” This fear isn’t about being scared. The Old Testament Student Manual explains that fear in Hebrew means reverent awe and deep respect. With that awe, they could have skipped learning the hard way, from the painful results of their sins.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "As Ye Sow, So Shall Ye Reap",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-23?lang=eng"
+        },
+        "find": "Fear in the Hebrew denotes a sense of reverent awe and profound respect"
+      },
+      {
+        "id": "jer2-wilderness",
+        "ref": "Jeremiah 2:31",
+        "title": "Not the desert, the Guide",
+        "text": "The Lord asked, “Have I been a wilderness unto Israel? a land of darkness?” He had led Israel safely through the desert. Now His people acted as if He were the desert, a place to avoid. Lehi had Jeremiah’s prophecies on the brass plates. In Lehi’s dream, a man in a white robe came to guide him through a dark wilderness, the way the Lord had guided Israel.",
+        "source": {
+          "by": "Scripture Central",
+          "title": "Why Did Lehi and Jeremiah Find Themselves in a Dark and Dreary Wilderness?",
+          "url": "https://scripturecentral.org/knowhy/why-did-lehi-and-jeremiah-find-themselves-in-a-dark-and-dreary-wilderness"
+        },
+        "find": "reminds us of how the Lord guided the children of Israel through the wilderness"
+      },
+      {
+        "id": "jer3-sisters",
+        "ref": "Jeremiah 3:6–10",
+        "title": "Two sisters",
+        "text": "The Lord compared His people to two sisters. Israel, the northern kingdom, would not listen to the prophets, and in the century before Jeremiah was born, Assyria conquered her. Her sister Judah watched it all. Did Judah learn? She came back to the Lord only “feignedly.” A seminary manual explains that this means insincerely. Judah came back on the outside, but not with her whole heart.",
+        "source": {
+          "by": "Seminary manual",
+          "title": "Unit 27: Day 2, Jeremiah 1–6",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-study-guide-for-home-study-seminary-students-2015/introduction-to-jeremiah/unit-27-day-2-jeremiah-1-6?lang=eng"
+        },
+        "find": "The word feignedly means deceitfully or insincerely"
+      },
+      {
+        "id": "jer3-ark",
+        "ref": "Jeremiah 3:16",
+        "title": "No one will miss the ark",
+        "text": "Ancient Israel had things they could see to remind them of God, like manna, the pillar of fire, and the ark of the covenant. But Jeremiah said a day would come when people “shall say no more, The ark of the covenant of the LORD.” BYU professor Ray L. Huntington explains that God’s people today don’t need the ark. Instead, ordinances, covenants, and His Spirit help them remember Him.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Ray L. Huntington",
+          "title": "Jeremiah and the New Paradigm of the Gathering",
+          "url": "https://rsc.byu.edu/vol-9-no-1-2008/jeremiah-new-paradigm-gathering"
+        },
+        "find": "Modern Israel, however, will not need the physical presence of the ark to remind them of God"
+      },
+      {
+        "id": "jer3-backsliding",
+        "ref": "Jeremiah 3:22",
+        "title": "Sliding back, coming home",
+        "text": "Backsliding means falling back into old sins. Dr. John Hilton III pointed out that Jeremiah says it more than every other scripture writer put together. He also noted that all of us slip sometimes. But the Lord keeps inviting His people home. He promised, “Return, ye backsliding children, and I will heal your backslidings.” Sliding back doesn’t end His offer to heal.",
+        "source": {
+          "by": "followHIM",
+          "who": "John Hilton III",
+          "title": "Old Testament: EPISODE 42 – Jeremiah 1-29 – Part 1",
+          "url": "https://followhim.co/show-note/2-211/"
+        },
+        "find": "Jeremiah uses this word more than all other scriptural authors combined"
+      },
+      {
+        "id": "jer7-trial",
+        "ref": "Jeremiah 7:2",
+        "title": "The sermon that got him arrested",
+        "text": "The Lord sent Jeremiah to preach right at the temple gate. Jeremiah 26 tells what happened next. Priests and false prophets had him arrested and put on trial. Jeremiah admitted he had said those words. In the end, the princes ruled he was not at fault, because he had spoken in the Lord’s name. David A. LeFevre calls it “perhaps the best documented trial in the Old Testament.”",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "David A. LeFevre",
+          "title": "Justice and Righteousness: Jeremiah against King and People",
+          "url": "https://rsc.byu.edu/covenant-compassion/justice-righteousness"
+        },
+        "find": "perhaps the best documented trial in the Old Testament"
+      },
+      {
+        "id": "jer7-justice",
+        "ref": "Jeremiah 7:5–6",
+        "title": "Make, make justice",
+        "text": "In Hebrew, verse 5 doubles its verbs. Scholar David A. LeFevre explains that it literally says “to make make justice.” Doubling a verb was a Hebrew way to say: really, truly do it! And what did doing justice look like? Not mistreating “the stranger, the fatherless, and the widow.” Caring for people like these was a key part of Israel’s covenant with God.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "David A. LeFevre",
+          "title": "Justice and Righteousness: Jeremiah against King and People",
+          "url": "https://rsc.byu.edu/covenant-compassion/justice-righteousness"
+        },
+        "find": "the Hebrew is emphatic with a doubling of the verb"
+      },
+      {
+        "id": "jer7-hearken",
+        "ref": "Jeremiah 7:27",
+        "title": "A hard mission call",
+        "text": "The Lord warned Jeremiah ahead of time: “they will not hearken to thee.” Dr. John Hilton III called this one of the most discouraging verses for the person who received it. Imagine a mission call that says no one will listen! Jeremiah had already preached for years, and he kept going for decades more. He did what the Lord asked, even when people said no.",
+        "source": {
+          "by": "followHIM",
+          "who": "John Hilton III",
+          "title": "Old Testament: EPISODE 42 – Jeremiah 1-29 – Part 1",
+          "url": "https://followhim.co/show-note/2-211/"
+        },
+        "find": "this has got to be one of the most all time discouraging passages of scripture"
+      },
+      {
+        "id": "jer16-lehi",
+        "ref": "Jeremiah 16:13",
+        "title": "Scattered to be saved",
+        "text": "The Lord warned that He would “cast you out of this land into a land that ye know not.” That came true when many people were carried off to Babylon. But a seminary manual points out that the Lord also scattered some righteous people at that time, like Lehi and his family. He led them to the American continent to keep them safe from wicked people (2 Nephi 10:20–21).",
+        "source": {
+          "by": "Seminary manual",
+          "title": "Jeremiah 16: “I Will Bring Them Again”",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/42-jeremiah-1-20/423-jeremiah-16?lang=eng"
+        },
+        "find": "the Lord also scattered righteous individuals, such as Lehi and his family"
+      },
+      {
+        "id": "jer16-lord",
+        "ref": "Jeremiah 16:21",
+        "title": "The name in capital letters",
+        "text": "Jeremiah 16 ends with a promise: “they shall know that my name is The LORD.” Notice the capital letters. Dr. John Hilton III pointed out that all through Jeremiah, the LORD in capitals is Jehovah. And Jehovah is Jesus Christ, the God of Abraham, Isaac, and Jacob. So every time Jeremiah talked with the LORD, he was talking with the Savior.",
+        "source": {
+          "by": "followHIM",
+          "who": "John Hilton III",
+          "title": "Old Testament: EPISODE 42 – Jeremiah 1-29 – Part 2",
+          "url": "https://followhim.co/show-note/2-210/"
+        },
+        "find": "these are interactions between Jeremiah and Jesus Christ"
+      },
+      {
+        "id": "jer17-king",
+        "ref": "Jeremiah 17:19–25",
+        "title": "A Sabbath promise",
+        "text": "Jeremiah stood at the gates of Jerusalem, where people bought and sold, and told them to keep the Sabbath holy. If they did, “kings and princes sitting upon the throne of David” would keep coming through those gates. Noe Correa, writing for Scripture Central, explains that this promise of a king from David’s family is fulfilled most of all in Jesus Christ.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Noe Correa",
+          "title": "Jeremiah 1–3; 7; 16–18; 20",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/jeremiah-13-7-1618-20"
+        },
+        "find": "The promise given for keeping the Sabbath holy was that Judah would have a Davidic king on the throne"
+      },
+      {
+        "id": "jer18-respect",
+        "ref": "Jeremiah 18:6",
+        "title": "The potter never forces",
+        "text": "The Lord said that like clay in the potter’s hand, “so are ye in mine hand.” Does that mean clay gets no choice? Camille Fronk, who learned about pottery from a BYU ceramics professor, said agency is always there. A good potter never forces clay into a shape or moves it faster than it can handle. He follows each lump’s own qualities, so every vessel turns out different.",
+        "source": {
+          "by": "BYU Speeches",
+          "who": "Camille Fronk",
+          "title": "Lessons from the Potter and the Clay",
+          "url": "https://speeches.byu.edu/talks/camille-fronk/lessons-potter-clay/"
+        },
+        "find": "will never force it into a shape"
+      },
+      {
+        "id": "jer20-nephi",
+        "ref": "Jeremiah 20:2–3",
+        "title": "Nephi knew about it",
+        "text": "Pashur had Jeremiah locked in the stocks until the next day. That wasn’t his only arrest. Scripture Central lists several times Jeremiah was arrested, and this is one of them. Out in the wilderness, Nephi told his brothers that the people of Jerusalem had put Jeremiah in prison (1 Nephi 7:14). To Nephi, it showed how badly they were rejecting the prophets.",
+        "source": {
+          "by": "Scripture Central",
+          "title": "How Could Nephi Have Known about Jeremiah’s Imprisonment?",
+          "url": "https://scripturecentral.org/knowhy/how-could-nephi-have-known-about-jeremiahs-imprisonment"
+        },
+        "find": "when he was put into stocks for a day and a night"
+      },
+      {
+        "id": "jer20-reins",
+        "ref": "Jeremiah 20:12",
+        "title": "Kidneys and heart",
+        "text": "Jeremiah called the Lord the One who “seest the reins and the heart.” What are reins? Noe Correa, writing for Scripture Central, explains that the Hebrew words behind reins and heart mean the kidneys and the heart. People thought of the heart as the mind and the kidneys as the place of feelings. So Jeremiah trusted that the Lord saw his thoughts and feelings, even when everyone mocked him.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Noe Correa",
+          "title": "Jeremiah 1–3; 7; 16–18; 20",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/jeremiah-13-7-1618-20"
+        },
+        "find": "the kidney was the seat of emotions"
       }
     ]
   }
