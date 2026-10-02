@@ -279,6 +279,33 @@ function checkBoards(boards, { verses }) {
     // The wall stands on the prize's borders with wallSides, bricks thick.
     for (const s of b.wallSides || []) if (!linked.has([s, b.walls].sort().join('|'))) failures.push(`${where}: wallSides ${s} isn't next to ${b.walls}`);
     if ((b.wallSides || []).length && !(Number.isInteger(b.bricks) && b.bricks > 0)) failures.push(`${where}: a wall needs bricks, a whole number above 0`);
+    // Regions: real lands, each in one region at most, with a whole-number
+    // bonus. Prophecy cards: an id, icon, name, what it does, copies, and a
+    // quote (checked with the story lines below).
+    const inRegion = new Set();
+    for (const r of b.regions || []) {
+      if (!r.id || !r.name || !Number.isInteger(r.bonus) || r.bonus < 1) failures.push(`${where}: region ${r.id || '?'} needs an id, a name and a bonus of 1 or more`);
+      for (const l of r.lands || []) {
+        if (!ids.has(l)) failures.push(`${where}: region ${r.name} names ${l}, which isn't on the map`);
+        if (inRegion.has(l)) failures.push(`${where}: ${l} is in two regions`);
+        inRegion.add(l);
+      }
+      if ((r.lands || []).length < 2) failures.push(`${where}: region ${r.name} needs 2 or more lands`);
+    }
+    // Fair 2-player match-ups: pairs of two different kingdoms on this board.
+    const kIds = new Set((b.kingdoms || []).map(k => k.id));
+    for (const p of b.fairPairs || []) if (!Array.isArray(p) || p.length !== 2 || p[0] === p[1] || !p.every(k => kIds.has(k))) failures.push(`${where}: fairPairs ${JSON.stringify(p)} needs two different kingdoms`);
+    // Mountains: real lands (not a home or the prize), whose guards start at a whole number of 1 or more.
+    if (b.mountains) {
+      const M = b.mountains, homes = new Set((b.kingdoms || []).map(k => k.home));
+      if (!M.name || !Number.isInteger(M.guards) || M.guards < 1 || !(M.lands || []).length) failures.push(`${where}: mountains need a name, lands and guards of 1 or more`);
+      for (const l of M.lands || []) if (!ids.has(l) || homes.has(l) || l === b.walls) failures.push(`${where}: mountains name ${l}, which isn't a neutral land on the map`);
+    }
+    const knownCards = ['lions', 'river', 'gates', 'hand', 'balance'];   // the effects the app knows how to play
+    for (const c of b.cards || []) {
+      if (!knownCards.includes(c.id)) failures.push(`${where}: card ${c.id} isn't one the app can play (${knownCards.join(', ')})`);
+      if (!c.icon || !c.name || !c.does || !c.quote || !Number.isInteger(c.copies) || c.copies < 1) failures.push(`${where}: card ${c.id} needs an icon, name, what it does, a quote and copies`);
+    }
     for (const m of (b.intro || '').matchAll(/\(([^)]+ \d+:\d+(?:[–-]\d+)?)\)/g)) if (textOf(m[1]) == null) failures.push(`${where}: intro reference "${m[1]}" does not exist`);
     // The narrator's hook (the game's opening line), story, story moments
     // (lines for the battles at Babylon) and cheers (verses after a sweep or a
@@ -293,7 +320,7 @@ function checkBoards(boards, { verses }) {
       else if (plan.some(n => !chapters[n - 1]) || plan[0] !== 1 || plan[1] !== 2 || plan[plan.length - 1] !== chapters.length) failures.push(`${where}: chapterPlan ${rounds} must name real chapters, start 1, 2 and end on chapter ${chapters.length}`);
     }
     for (const c of chapters) if (!c.title || !c.text) failures.push(`${where}: every chapter needs a title and a text`);
-    for (const line of [b.hook || ''].concat(b.story || [], Object.values(b.moments || {}), ...Object.values(b.cheers || {}), chapters.map(c => c.text || ''))) {
+    for (const line of [b.hook || ''].concat(b.story || [], Object.values(b.moments || {}), ...Object.values(b.cheers || {}), chapters.map(c => c.text || ''), (b.cards || []).map(c => c.quote || ''))) {
       for (const m of line.matchAll(/“([^”]+)”[^(“]*\(([^)]+)\)/g)) {
         const src = textOf(m[2]);
         if (src == null) failures.push(`${where}: story reference "${m[2]}" does not exist`);

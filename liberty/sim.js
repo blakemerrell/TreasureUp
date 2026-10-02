@@ -10,6 +10,10 @@
   const tileOf = p => Math.floor(p / TILE);
   const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
   const maxHp = e => e.max || e.def.hp;                // walls grow stronger with pickets
+  // What kind of fighter a unit is, for who beats whom: shooters, the armored, and the lightly armed.
+  const kindOf = def => def.ranged ? 'ranged' : (def.armor || 0) >= 2 ? 'armored' : 'light';
+  // Armor takes a share of each blow, never all of it.
+  const ARMOR = 6;
 
   // ------------------------------------------------------------------ world
 
@@ -41,6 +45,8 @@
       this.researching = null;
       this.msgs = [];
       this.stats = { prisoners: 0, escaped: 0, fallen: 0, defeated: 0, gathered: 0, spared: 0 };
+      this.trained = {};                           // how many of each kind were trained
+      this.alarms = [];                            // where something of yours was attacked: [{ t, x, y }]
       this.noGo = [];                              // lands the player's people may not enter: [{ x0, y0, x1, y1, text, ref }]
       this.over = null;                            // { won, text, stars }
       this.terrainDirty = true;
@@ -200,6 +206,8 @@
 
     // --- orders (what a player's click, or the robbers' plans, ask for)
     order(u, o) {
+      // A worker taken off gathering to build goes back to it when the building is done.
+      if (o.type === 'build' && !o.resume) o.resume = u.order.type === 'gather' ? { type: 'gather', tx: u.order.tx, ty: u.order.ty, res: u.order.res } : u.order.resume || null;
       u.order = o; u.path = null; u.repath = 0;
       if (o.type !== 'gather' && o.type !== 'build') u.phase = null;
     }
@@ -280,6 +288,7 @@
     }
     place(type, tx, ty, builders) {
       const def = BUILDINGS[type];
+      if (!def || !def.cost) return null;            // only what can be built: not a city, a village or a camp
       if (this.whyNotBuild(type) || !this.canPlace(type, tx, ty) || !this.canAfford(def.cost)) return null;
       this.pay(def.cost);
       const b = this.addBuilding(type, 'p', tx, ty, false);
@@ -293,8 +302,14 @@
       b.queue.push({ type, left: def.time });
       return true;
     }
+    // What a building can make: in free battle, the armory's list; in a mission, the mission's own armor at the barracks.
+    researchAt(b) {
+      if (this.tech) return (b.def.research || []).filter(k => k !== 'armor');
+      return b.def.research ? [(this.mission && this.mission.research) || 'armor'] : [];
+    }
     research(b, key) {
       const r = RESEARCH[key];
+      if (!r || !this.researchAt(b).includes(key)) return false;   // only where it's made
       if (b.built < 1 || this.researched[key] || this.researching || !this.canAfford(r.cost)) return false;
       this.pay(r.cost);
       this.researching = { key, left: r.time, by: b.id };
@@ -308,15 +323,17 @@
       if (from && from.team === 'p' && from.kind === 'unit' && from.def.soldier && !from.def.ranged) a += this.dmgUp;
       if (from && from.team === 'p' && this.aura(from)) a *= 1.25;
       if (from && from.def.foe && from.weak) a *= 0.6;
+      // Each kind of fighter is strong against another (data.js: `beats`).
+      if (from && from.kind === 'unit' && target.kind === 'unit' && from.def.beats && from.def.beats === kindOf(target.def)) a *= 1.5;
       const armor = (target.def.armor || 0) + (target.kind === 'unit' && target.team === 'p' && target.def.soldier ? this.armor : 0) + (target.kind === 'unit' && target.team === 'r' ? this.foeArmor : 0);
-      a = Math.max(1, a - armor);
+      a = Math.max(1, a * ARMOR / (ARMOR + armor));
       if (target.team === 'p' && this.t < this.buffUntil) a *= 0.65;
       a *= this.shield[target.team] || 1;
       if (target.spare) a = Math.min(a, Math.max(0, target.hp - 1));   // his part in the story isn't over
       target.hp -= a;
       target.hitAt = this.t;
       if (target.kind === 'unit' && target.team !== 'p' && from && from.team === 'p') target.lastHitBy = from.id;
-      if (target.team === 'p' && from && from.team === 'r') this.callHelp(target, from);
+      if (target.team === 'p' && from && from.team === 'r') { this.callHelp(target, from); this.alarm(target); }
       if (target.hp <= 0) this.kill(target, from);
     }
     // Something of yours is attacked: idle soldiers nearby come to defend it.
@@ -328,6 +345,16 @@
         if (u.order.type !== 'idle' || dist(u, target) > 360) continue;
         this.order(u, { type: 'attack', target: from.id, leash: { x: u.x, y: u.y } });
       }
+    }
+    // A building or a worker of yours is attacked: say so (now and then, not every blow) and mark the place.
+    alarm(target) {
+      if (target.kind === 'unit' && !target.def.gathers) return;          // soldiers fighting are no news
+      const last = this.alarms[this.alarms.length - 1];
+      if (last && this.t - last.t < 15 && Math.hypot(last.x - target.x, last.y - target.y) < 500) return;
+      this.alarms.push({ t: this.t, x: target.x, y: target.y });
+      if (this.alarms.length > 20) this.alarms.shift();
+      const what = target.kind === 'building' ? (target.name === 'Your city' ? 'Your city' : 'Your ' + target.def.name.toLowerCase()) : 'Your workers';
+      this.msg(`${what} ${target.kind === 'building' ? 'is' : 'are'} under attack!`, null, 'warn');
     }
     aura(u) {
       if (!u.def.soldier || u.def.hero) return false;
@@ -369,7 +396,8 @@
         if (unitsOnly && e.kind !== 'unit') continue;
         if (team === 'p' && e.team !== 'r') continue;
         if (team === 'r' && e.team !== 'p') continue;
-        const d = e.kind === 'building' ? this.distToRect(p, e) : dist(p, e);
+        // (Towers and cities shoot from their walls, as they're shot at: measured from the edge, not the middle.)
+        const d = e.kind === 'building' ? this.distToRect(p, e) : p.kind === 'building' ? this.distToRect(e, p) : dist(p, e);
         // Units first: a building has to be much closer to be chosen over a person.
         const dd = e.kind === 'building' ? d + 60 : d;
         if (dd < bd) { bd = dd; best = e; }
@@ -426,6 +454,7 @@
           b.queue.shift();
           const [x, y] = this.freeTileNear(b.tx + Math.floor(b.w / 2), b.ty + b.h, 'p');
           const u = this.addUnit(q.type, 'p', center(x), center(y));
+          this.trained[q.type] = (this.trained[q.type] || 0) + 1;
           if (b.rally) this.moveTo(u, b.rally[0], b.rally[1]);
         }
       }
@@ -655,14 +684,23 @@
 
     // --- building and mending: stand next to it and work
     needsWork(b) { return b.team === 'p' && !b.dead && (b.built < 1 || b.hp < maxHp(b)) && !!b.def.work; }
+    // Mending costs timber: making it whole again costs half what it took to build (10 at least).
+    mendCost(b) { return Math.max(10, ((b.def.cost && b.def.cost.timber) || 0) * 0.5) / maxHp(b); }
     stepBuild(u, dt) {
       const b = this.ents.get(u.order.target);
-      if (!b || !this.needsWork(b)) { this.order(u, { type: 'idle' }); return; }
+      if (!b || !this.needsWork(b)) { this.order(u, u.order.resume || { type: 'idle' }); return; }
       if (this.nextTo(u, this.rectOf(b))) {
         u.path = null;
         const step = dt / b.def.work;
-        if (b.built >= 1) b.hp = Math.min(maxHp(b), b.hp + maxHp(b) * step * 0.5);    // mending a broken wall
-        else {
+        if (b.built >= 1) {                           // mending what's broken: slower than building, and it uses timber
+          const per = this.mendCost(b), hp = Math.min(maxHp(b) - b.hp, maxHp(b) * step * 0.25, this.res.timber / per);
+          if (hp <= 0) {
+            if (this.t - (this.noTimberAt || -99) > 20) { this.noTimberAt = this.t; this.msg('No timber left to mend with: send workers to the trees.', null, 'warn'); }
+            this.order(u, u.order.resume || { type: 'idle' });
+            return;
+          }
+          b.hp += hp; this.res.timber -= hp * per;
+        } else {
           b.built = Math.min(1, b.built + step);
           b.hp = Math.min(maxHp(b), b.hp + maxHp(b) * step * 0.9);
           if (b.built >= 1) {
@@ -674,16 +712,16 @@
         if (!this.needsWork(b)) {
           // A wall-builder moves on to the next unfinished or broken wall nearby.
           const next = this.buildings('p').filter(x => x !== b && this.needsWork(x) && dist(x, u) < 200).sort((a, c) => dist(a, u) - dist(c, u))[0];
-          this.order(u, next ? { type: 'build', target: next.id } : { type: 'idle' });
+          this.order(u, next ? { type: 'build', target: next.id, resume: u.order.resume } : u.order.resume || { type: 'idle' });
         }
         return;
       }
       if (!u.path) u.path = this.findPath(u, this.rectOf(b), true);
-      if (this.follow(u, dt) && !this.nextTo(u, this.rectOf(b))) this.order(u, { type: 'idle' });
+      if (this.follow(u, dt) && !this.nextTo(u, this.rectOf(b))) this.order(u, u.order.resume || { type: 'idle' });
     }
   }
 
-  const SIM = { World, TILE, center, tileOf, dist, maxHp };
+  const SIM = { World, TILE, center, tileOf, dist, maxHp, kindOf };
   if (typeof module !== 'undefined' && module.exports) module.exports = SIM;
   else root.LIB_SIM = SIM;
 })(this);
