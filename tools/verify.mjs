@@ -1023,7 +1023,8 @@ async function main(scripture, week, pages, online) {
         else if (host === 'speeches.byu.edu' && s.by !== 'BYU Speeches') fail(where, 'source.by for speeches.byu.edu is "BYU Speeches"');
         if (!s.by || !s.title || !s.who) fail(where, 'source needs by, who (the speaker) and title');
         if (count(x.quote) < 8 || count(x.quote) > 40) fail(where, `the quote is ${count(x.quote)} words (8 to 40)`);
-        if (/"/.test(x.quote || '') || /^[“"]|[”"]$/.test(String(x.quote || '').trim())) fail(where, 'the quote goes without its own quote marks (the app adds them), and with “curly” ones inside it');
+        const qt = String(x.quote || '').trim();
+        if (/"/.test(qt) || /^“/.test(qt) || (qt.match(/“/g) || []).length !== (qt.match(/”/g) || []).length) fail(where, 'the quote goes without its own quote marks (the app adds them), and with balanced “curly” ones inside it');
         if (x.text && count(x.text) > 40) fail(where, `text is ${count(x.text)} words (40 at most)`);
         if (/"/.test(x.text || '')) fail(where, 'text uses a straight " quote; use “curly quotes”');
         if (/\b(thee|thou|thy|thine|ye|hath|saith|doth|shalt|unto)\b/i.test(String(x.text || '').replace(/“[^”]*”/g, ' '))) fail(where, 'text has KJV English outside a quote');

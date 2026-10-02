@@ -5103,6 +5103,73 @@ window.TU_WEEKS = [
           "url": "https://speeches.byu.edu/talks/neal-a-maxwell/patience/"
         },
         "find": "the wicked are like the pounding and troubled sea which cannot rest"
+      },
+      {
+        "id": "isa51-q-andersen",
+        "kind": "quote",
+        "ref": "Isaiah 51:12",
+        "quote": "We have each felt to some extent these spiritual arms around us. We have felt His forgiveness, His love and comfort. The Lord has said, “I am he [who] comforteth you.”",
+        "text": "In verse 12 the Lord says He is the one who comforts you. Elder Andersen pictures that comfort as the Lord’s arms wrapped around you.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Neil L. Andersen",
+          "title": "Repent … That I May Heal You",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2009/10/repent-that-i-may-heal-you?lang=eng"
+        }
+      },
+      {
+        "id": "isa53-q-porter",
+        "kind": "quote",
+        "ref": "Isaiah 53:12",
+        "quote": "At Golgotha, He “poured out his soul unto death” … and His great heart literally broke with an all-encompassing love for the children of God.",
+        "text": "Verse 12 says He “poured out his soul unto death.” Elder Porter says the Savior’s heart broke on the cross with love for all of God’s children.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Bruce D. Porter",
+          "title": "A Broken Heart and a Contrite Spirit",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2007/10/a-broken-heart-and-a-contrite-spirit?lang=eng"
+        }
+      },
+      {
+        "id": "isa54-q-nelson",
+        "kind": "quote",
+        "ref": "Isaiah 54:7",
+        "quote": "The Lord is gathering those who are willing to let God prevail in their lives. The Lord is gathering those who will choose to let God be the most important influence in their lives.",
+        "text": "Verse 7 promises that the Lord will gather Israel “with great mercies.” President Nelson quoted it and then said who is being gathered. Israel means “let God prevail.”",
+        "source": {
+          "by": "General Conference",
+          "who": "President Russell M. Nelson",
+          "title": "Let God Prevail",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2020/10/46nelson?lang=eng"
+        }
+      },
+      {
+        "id": "isa57-q-uchtdorf",
+        "kind": "quote",
+        "ref": "Isaiah 57:15–19",
+        "quote": "It matters not how completely ruined our lives may seem. … Even those who are without hope, who live in despair, … or turned away from God can be rebuilt.",
+        "text": "Verse 18: “I have seen his ways, and will heal him.” The lesson pairs these verses with President Uchtdorf’s promise that anyone can be rebuilt.",
+        "source": {
+          "by": "Come, Follow Me",
+          "who": "President Dieter F. Uchtdorf",
+          "title": "October 5–11. “He Hath Borne Our Griefs, and Carried Our Sorrows”: Isaiah 50–57",
+          "url": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/41?lang=eng"
+        }
+      },
+      {
+        "id": "isa53-v-church",
+        "kind": "video",
+        "ref": "Isaiah 53",
+        "title": "Isaiah 53 comes true",
+        "text": "The Church’s Bible video of Jesus before Pilate, the cross and the empty tomb. This week’s Come, Follow Me lesson suggests it for Isaiah 53. Watch for what Isaiah described hundreds of years before it happened: He was “wounded for our transgressions,” and then He lives again.",
+        "video": {
+          "youtube": "CQL1iqOBZxo",
+          "start": 0,
+          "end": 324,
+          "title": "Jesus Christ | My Kingdom Is Not of This World | The Bible",
+          "channel": "The Church of Jesus Christ of Latter-day Saints",
+          "previewed": false
+        }
       }
     ]
   },
@@ -6699,6 +6766,125 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-66"
         },
         "find": "posterity, eternal families, and eternal increase"
+      },
+      {
+        "id": "isa58-q-oaks",
+        "kind": "quote",
+        "ref": "Isaiah 58:11",
+        "quote": "As we keep the Lord’s commandments, we see his light ever brighter on our path and we realize the fulfillment of Isaiah’s promise, “And the Lord shall guide thee continually”",
+        "text": "Isaiah 58:11 promises that the Lord will guide you continually. President Oaks says that light grows brighter on your path each time you keep a commandment.",
+        "source": {
+          "by": "General Conference",
+          "who": "President Dallin H. Oaks",
+          "title": "The Light and Life of the World",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/1987/10/the-light-and-life-of-the-world?lang=eng"
+        }
+      },
+      {
+        "id": "isa58-q-nelson",
+        "kind": "quote",
+        "ref": "Isaiah 58:13",
+        "quote": "I simply asked myself, “What sign do I want to give to God?” That question made my choices about the Sabbath day crystal clear.",
+        "text": "Isaiah 58:13 calls the Sabbath a delight. President Nelson learned the Sabbath is a sign between him and God, so he stopped needing lists of dos and don’ts.",
+        "source": {
+          "by": "General Conference",
+          "who": "President Russell M. Nelson",
+          "title": "The Sabbath Is a Delight",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2015/04/the-sabbath-is-a-delight?lang=eng"
+        }
+      },
+      {
+        "id": "isa60-q-aburto",
+        "kind": "quote",
+        "ref": "Isaiah 60:20",
+        "quote": "For all who will “come unto Christ, and be perfected in him,” … for the Lord shall be [our] everlasting light, and the days of [our] mourning shall be ended.",
+        "text": "Isaiah 60:20 promises the Lord will be your everlasting light and your mourning will end. Sister Aburto says that promise is for everyone who comes to Christ.",
+        "source": {
+          "by": "General Conference",
+          "who": "Sister Reyna I. Aburto",
+          "title": "Thru Cloud and Sunshine, Lord, Abide with Me!",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2019/10/31aburto?lang=eng"
+        }
+      },
+      {
+        "id": "isa61-q-schmutz",
+        "kind": "quote",
+        "ref": "Isaiah 61:1",
+        "quote": "Truly, Jesus Christ can and will “bind up the brokenhearted.”",
+        "text": "Isaiah 61:1 says the Lord was sent to bind up the brokenhearted, like bandaging a wound. Elder Schmutz says this to anyone whose heart is hurting.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Evan A. Schmutz",
+          "title": "God Shall Wipe Away All Tears",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2016/10/god-shall-wipe-away-all-tears?lang=eng"
+        }
+      },
+      {
+        "id": "isa62-q-coleman",
+        "kind": "quote",
+        "ref": "Isaiah 62:6",
+        "quote": "Just as a “watchman upon the tower” was able to protect his people because of the perspective his position afforded, so do the prophets and apostles protect us.",
+        "text": "Isaiah 62:6 says the Lord set watchmen on Jerusalem’s walls. Elder Coleman once spent a summer in a forest fire lookout tower. Prophets, he says, watch over us like that.",
+        "source": {
+          "by": "Ensign",
+          "who": "Elder Gary J. Coleman",
+          "title": "Lessons from the Old Testament: Watchmen of the Lord",
+          "url": "https://www.churchofjesuschrist.org/study/ensign/2006/09/lessons-from-the-old-testament-watchmen-of-the-lord?lang=eng"
+        }
+      },
+      {
+        "id": "isa63-q-maxwell",
+        "kind": "quote",
+        "ref": "Isaiah 63:1–2",
+        "quote": "No wonder, when Christ comes in power and glory, that He will come in reminding red attire … to bring to our remembrance how He suffered for each of us in Gethsemane and on Calvary!",
+        "text": "Isaiah 63:1–2 pictures the Lord in red clothing, like someone who has been treading grapes. Elder Maxwell says the red will remind us what He suffered for us.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Neal A. Maxwell",
+          "title": "Overcome … Even As I Also Overcame",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/1987/04/overcome-even-as-i-also-overcame?lang=eng"
+        }
+      },
+      {
+        "id": "isa64-q-ballard",
+        "kind": "quote",
+        "ref": "Isaiah 64:4",
+        "quote": "Waiting upon the Lord does not imply biding one’s time. You should never feel like you are in a waiting room. Waiting upon the Lord implies action.",
+        "text": "Isaiah 64:4 says God has prepared things for “him that waiteth for him.” President Ballard says waiting on the Lord means keeping busy doing good, not sitting around.",
+        "source": {
+          "by": "General Conference",
+          "who": "President M. Russell Ballard",
+          "title": "Hope in Christ",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2021/04/28ballard?lang=eng"
+        }
+      },
+      {
+        "id": "isa66-q-benson",
+        "kind": "quote",
+        "ref": "Isaiah 66:2",
+        "quote": "The antidote for pride is humility—meekness, submissiveness. … It is the broken heart and contrite spirit.",
+        "text": "Isaiah 66:2 says the Lord looks to the person with a contrite spirit: humble and sorry for sin. An antidote is a cure. Pride’s cure is humility.",
+        "source": {
+          "by": "General Conference",
+          "who": "President Ezra Taft Benson",
+          "title": "Beware of Pride",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/1989/04/beware-of-pride?lang=eng"
+        }
+      },
+      {
+        "id": "isa58-v-central",
+        "kind": "video",
+        "ref": "Isaiah 58",
+        "title": "Four missions the Savior gives us",
+        "text": "Casey Griffiths of Scripture Central walks through Isaiah 58–66 and pulls out four simple missions the Savior gives us in these chapters. Watch for all four, and notice which chapter each one comes from. About five minutes.",
+        "video": {
+          "youtube": "aChMaEVHn6I",
+          "start": 0,
+          "end": 295,
+          "title": "4 Simple Missions the Savior Gives Us (Come, Follow Me: Isaiah 58-66)",
+          "channel": "Scripture Central",
+          "previewed": false
+        }
       }
     ]
   },
@@ -8356,6 +8542,151 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/jeremiah-13-7-1618-20"
         },
         "find": "the kidney was the seat of emotions"
+      },
+      {
+        "id": "jer1-q-holland",
+        "kind": "quote",
+        "ref": "Jeremiah 1:6–8",
+        "quote": "This great man felt the way most teachers or speakers or Church officers feel when called—inexperienced, inadequate, frightened.",
+        "text": "Elder Holland is describing Jeremiah in verse 6. Even a prophet felt scared when God called him. Notice the Lord’s answer in verse 8: “I am with thee.”",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Jeffrey R. Holland",
+          "title": "A Teacher Come from God",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/1998/04/a-teacher-come-from-god?lang=eng"
+        }
+      },
+      {
+        "id": "jer1-q-scott",
+        "kind": "quote",
+        "ref": "Jeremiah 1:5",
+        "quote": "God has a specific plan for your life. He will reveal parts of that plan to you as you look for it with faith and consistent obedience.",
+        "text": "Verse 5: the Lord had a plan for Jeremiah before he was born. Elder Scott says He has one for you too, and how to find it.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Richard G. Scott",
+          "title": "How to Live Well amid Increasing Evil",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2004/04/how-to-live-well-amid-increasing-evil?lang=eng"
+        }
+      },
+      {
+        "id": "jer2-q-nelson",
+        "kind": "quote",
+        "ref": "Jeremiah 2:11",
+        "quote": "The truth is that it is much more exhausting to seek happiness where you can never find it!",
+        "text": "Verse 11 says Israel traded God for “that which doth not profit.” President Nelson names what that trade costs today: it leaves you worn out.",
+        "source": {
+          "by": "General Conference",
+          "who": "President Russell M. Nelson",
+          "title": "Overcome the World and Find Rest",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2022/10/47nelson?lang=eng"
+        }
+      },
+      {
+        "id": "jer2-q-wirthlin",
+        "kind": "quote",
+        "ref": "Jeremiah 2:13",
+        "quote": "By living the gospel of Jesus Christ, we develop within ourselves a living spring that will quench eternally our thirst for happiness, peace, and everlasting life.",
+        "text": "Verse 13 calls the Lord “the fountain of living waters.” Elder Wirthlin tells what grows inside you when you keep drinking from Him.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Joseph B. Wirthlin",
+          "title": "Living Water to Quench Spiritual Thirst",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/1995/04/living-water-to-quench-spiritual-thirst?lang=eng"
+        }
+      },
+      {
+        "id": "jer3-q-hinckley",
+        "kind": "quote",
+        "ref": "Jeremiah 3:12–13",
+        "quote": "Repentance … is not a harsh principle. … It is kind and merciful.",
+        "text": "Verses 12–13: the Lord invites Israel to return, promising “I am merciful.” As a boy, Elder Hinckley thought repentance was harsh. Here is what he found instead.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Richard G. Hinckley",
+          "title": "Repentance, a Blessing of Membership",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2006/04/repentance-a-blessing-of-membership?lang=eng"
+        }
+      },
+      {
+        "id": "jer3-q-uchtdorf",
+        "kind": "quote",
+        "ref": "Jeremiah 3:22",
+        "quote": "Our Heavenly Father will run to us, His heart overflowing with love and compassion.",
+        "text": "Verse 22: “Return, ye backsliding children.” Elder Uchtdorf, retelling the prodigal son, describes what the Father does the moment a wandering child turns around.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Dieter F. Uchtdorf",
+          "title": "The Prodigal and the Road That Leads Home",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2023/10/45uchtdorf?lang=eng"
+        }
+      },
+      {
+        "id": "jer7-q-hallstrom",
+        "kind": "quote",
+        "ref": "Jeremiah 7:9–10",
+        "quote": "It is possible to be active in the Church and less active in the gospel.",
+        "text": "Verses 9–10: the people kept showing up at the Lord’s house while breaking His commandments. Elder Hallstrom explains the difference between showing up and really living the gospel.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Donald L. Hallstrom",
+          "title": "Converted to His Gospel through His Church",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2012/04/converted-to-his-gospel-through-his-church?lang=eng"
+        }
+      },
+      {
+        "id": "jer17-q-uchtdorf",
+        "kind": "quote",
+        "ref": "Jeremiah 17:7",
+        "quote": "Hope is not knowledge, but rather the abiding trust that the Lord will fulfill His promise to us.",
+        "text": "Verse 7 blesses the person “whose hope the LORD is.” President Uchtdorf explains what that kind of hope is made of.",
+        "source": {
+          "by": "General Conference",
+          "who": "President Dieter F. Uchtdorf",
+          "title": "The Infinite Power of Hope",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2008/10/the-infinite-power-of-hope?lang=eng"
+        }
+      },
+      {
+        "id": "jer18-q-maynes",
+        "kind": "quote",
+        "ref": "Jeremiah 18:6",
+        "quote": "Like the clay on the potter’s wheel, we must be centered as well. Our core, the center of our lives, must be Jesus Christ and His gospel.",
+        "text": "Verse 6: “as the clay is in the potter’s hand, so are ye in mine hand.” Elder Maynes tells of youth whose clay flew everywhere because it wasn’t centered.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Richard J. Maynes",
+          "title": "The Joy of Living a Christ-Centered Life",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2015/10/the-joy-of-living-a-christ-centered-life?lang=eng"
+        }
+      },
+      {
+        "id": "jer20-q-holland",
+        "kind": "quote",
+        "ref": "Jeremiah 20:9",
+        "quote": "Something had been happening with every testimony he had borne, every scripture he had read, every truth he had taught.",
+        "text": "Verse 9. Elder Holland explains where the fire in Jeremiah’s bones came from, one testimony and one scripture at a time.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Jeffrey R. Holland",
+          "title": "A Teacher Come from God",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/1998/04/a-teacher-come-from-god?lang=eng"
+        }
+      },
+      {
+        "id": "jer1-v-latterdaykids",
+        "kind": "video",
+        "ref": "Jeremiah 1",
+        "title": "Jeremiah the Prophet (Latter Day Kids)",
+        "text": "A four-minute animated retelling of Jeremiah’s call for kids. Jeremiah doubts he can do it, and the Lord answers that He knew him before he was born. Watch for what gives Jeremiah his courage, then compare it with verses 5 to 8.",
+        "video": {
+          "youtube": "1lhs8jiS--Y",
+          "start": 0,
+          "end": 244,
+          "title": "Jeremiah the Prophet | Animated Scripture Lesson for Kids",
+          "channel": "Latter Day Kids",
+          "previewed": false
+        }
       }
     ]
   }

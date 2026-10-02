@@ -9526,7 +9526,8 @@ const TreasureUp = (function () {
     } else if (step.kind === 'insight' && step.x.kind === 'quote') {
       // A prophet's or apostle's own words on the verses, and the talk they're from.
       const x = step.x, s = x.source || {};
-      html += `<blockquote class="ins-quote">“${esc(x.quote)}”</blockquote>
+      // A quote inside the quote takes single marks, as in print.
+      html += `<blockquote class="ins-quote">“${esc(x.quote.replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote>
         <p class="ins-who">${esc(s.who || s.by)}</p>
         <div class="ls-ins-ref">${linkRefs(x.ref)}</div>
         ${step.draft ? '<p class="plain-draft">Draft: not approved yet</p>' : ''}
