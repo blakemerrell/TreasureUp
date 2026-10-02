@@ -264,7 +264,10 @@ Central app):
   them) or BYU Speeches (`by: "BYU Speeches"`); `who` is the speaker. With
   `--online` the checker finds the quote on the page word for word (…
   marks left-out words). `text`, optional, 40 words at most: which verse
-  it's about and what to notice.
+  it's about and what to notice. One from a Gospel Library page shows
+  without approval (Blake, 2026-10-02: "Quotes only"), its `text` hidden
+  until Blake approves the card; one from BYU Speeches waits for approval
+  like the rest.
 - **A video card**, `{ id, kind: 'video', ref, title, text, video: { youtube, start, end, title, channel, previewed } }`:
   one a week, 10 minutes at most (`start`/`end` in seconds), from a channel
   on the approved list (asked of YouTube itself, like a reel's clip); `text`

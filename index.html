@@ -2733,10 +2733,16 @@ const TreasureUp = (function () {
   // verses, and a video card (`kind: 'video'`), a short clip on the week's
   // reading that, like a reel's, shows only once a parent has watched it.
   const cardOk = x => x && x.id && (x.kind === 'video' ? x.video && x.video.youtube : x.kind === 'quote' ? x.quote && x.source : x.text && x.source);
+  // A quote from a Gospel Library page (General Conference, a Church talk)
+  // shows without approval (Blake, 2026-10-02: "Quotes only"): the speaker's
+  // own words, which the deploy finds word for word on that page
+  // (tools/verify.mjs --online). Our own line under it waits for approval.
+  const churchQuote = x => x.kind === 'quote' && /^https:\/\/www\.churchofjesuschrist\.org\/study\//.test((x.source && x.source.url) || '');
   function insightsOf(week) {
     return ((week && week.insights) || []).filter(cardOk).map(x => {
       const approved = !!x.approved && x.approved === approvalHash(noApproval(x));
       const watched = x.kind !== 'video' || x.video.previewed === true;
+      if (!approved && churchQuote(x)) return { x: Object.assign({}, x, { text: '' }), draft: false };
       return (approved && watched) || TEST_SITE ? { x, draft: !approved } : null;
     }).filter(Boolean);
   }
