@@ -8352,9 +8352,61 @@ const TreasureUp = (function () {
       <div class="fam-total">Together this week
         <b>${total} right answer${total === 1 ? '' : 's'}</b>
         <small>${esc(WEEK.title)}</small></div>
+      ${dupesHtml(ps)}
       ${ps.map(personHtml).join('')}
       ${takenOutHtml()}
       <p class="fam-note">${esc(savedLine())}</p>`;
+  }
+
+  // Two children with the same name are usually one child whose new phone or
+  // tablet joined as someone new (Add someone, not Link another device), so
+  // their progress doesn't add up (Blake, 2026-10-01: "Make this easier").
+  // Combine: the one with less progress leaves; its saved progress is deleted
+  // only when the other already has all of it (else it waits under Taken out);
+  // and a link for the other is ready for that device, if it's still used.
+  const sameName = (a, b) => String(a || '').trim().toLowerCase() === String(b || '').trim().toLowerCase();
+  function dupesHtml(ps) {
+    if (F.role !== 'parent') return '';
+    const kids = ps.filter(p => p.role === 'kid'), xp = p => (p.prog && p.prog.xp) || 0;
+    const last = p => Math.max(0, ...p.devices.map(d => d.joined || 0));
+    return kids.filter((p, i) => kids.findIndex(q => sameName(q.name, p.name)) === i).map(p => {
+      const twins = kids.filter(q => sameName(q.name, p.name));
+      if (twins.length < 2) return '';
+      const keep = twins.slice().sort((a, b) => xp(b) - xp(a) || last(b) - last(a))[0];
+      const go = twins.filter(q => q !== keep).sort((a, b) => xp(a) - xp(b))[0];
+      const key = 'combine:' + go.pid + ':' + keep.pid;
+      return `<div class="fam-box"><b>${twins.length} people named ${esc(p.name)}</b>
+        <div class="fam-note">One child on ${twins.length} devices doesn't add up. Combine them into the ${esc(p.name)} with ${xp(keep)} XP.</div>
+        <div class="board-actions"><button class="btn${fam.confirm === key ? ' warn' : ''}" data-fam="confirm" data-key="${esc(key)}">${fam.confirm === key ? 'Tap again to combine' : 'Combine them'}</button></div></div>`;
+    }).join('');
+  }
+  // What a person's saved progress (a) has that another's (b) doesn't.
+  function notIn(a, b) {
+    if (!a) return [];
+    if (!b) return a.xp > 0 ? ['all of it'] : [];
+    const out = [];
+    for (const k of ['answers', 'bonus', 'deep', 'found', 'sayings', 'notes', 'read']) for (const id in a[k] || {}) if (!(b[k] || {})[id]) out.push(k + ':' + id);
+    const weeks = new Set((b.history || []).map(h => h.title));
+    for (const h of a.history || []) if (!weeks.has(h.title)) out.push('week:' + h.title);
+    if (a.puzzle && a.puzzle.status === 'won' && !(b.puzzle && b.puzzle.week === a.puzzle.week && b.puzzle.status === 'won')) out.push('puzzle');
+    for (const d in a.words || {}) if (a.words[d].paid && !((b.words || {})[d] || {}).paid) out.push('words:' + d);
+    return out;
+  }
+  async function combine(fromPid, intoPid) {
+    const from = people().find(p => p.pid === fromPid), into = people().find(p => p.pid === intoPid);
+    if (!from || !into) return;
+    const saved = async pid => { const d = await famCol(F.fid, 'backup').doc(pid).get(); try { return d.exists ? JSON.parse(d.data().state) : null; } catch (e) { return null; } };
+    const [a, b] = await Promise.all([saved(fromPid), saved(intoPid)]);
+    const keepIt = notIn(a, b).length > 0;
+    const batch = fs().batch();
+    from.devices.forEach(d => batch.delete(famCol(F.fid, 'members').doc(d.uid)));
+    if (!keepIt) { batch.delete(famCol(F.fid, 'progress').doc(fromPid)); batch.delete(famCol(F.fid, 'backup').doc(fromPid)); }
+    await batch.commit();
+    await makeInvite('kid', into.name, '', intoPid);
+    const joined = Math.max(0, ...from.devices.map(d => d.joined || 0));
+    famSay(`Combined. If ${into.name} still uses the device that joined ${joined ? when(joined) : 'before'}, open this link on it: it joins ${into.name} here, and what's on it is added.` +
+      (keepIt ? ` Until then, its saved progress waits under Taken out.` : ''));
+    $('famLink').scrollIntoView({ block: 'center', behavior: reduceMotion() ? 'auto' : 'smooth' });
   }
 
   // Whether this device's progress has reached the family.
@@ -8463,6 +8515,16 @@ const TreasureUp = (function () {
     if (!name) return famSay('Type their first name.');
     if (role !== 'kid' && !/^[^@ ]+@[^@ ]+\.[^@ ]+$/.test(email)) return famSay('Type their email address: they sign in with it.');
     famSay('');
+    // A child already here, on a new phone or tablet, is linked to themselves, not added again.
+    const same = role === 'kid' && people().find(p => p.role === 'kid' && sameName(p.name, name));
+    if (same) {
+      fam.link = null;
+      $('famLink').innerHTML = `<div class="fam-box"><b>${esc(same.name)} is already in the family.</b>
+        <div class="fam-note">A new phone or tablet for ${esc(same.name)}? Link it, and it's the same ${esc(same.name)}, with the same progress.</div>
+        <div class="board-actions"><button class="btn" data-fam="device" data-pid="${esc(same.pid)}">Link it to ${esc(same.name)}</button>
+          <button class="btn ghost" data-fam="newkid" data-name="${esc(name)}">No, a different child</button></div></div>`;
+      return;
+    }
     await makeInvite(role, name, email);
     $('famNewName').value = ''; $('famNewEmail').value = '';
   }
@@ -8515,6 +8577,7 @@ const TreasureUp = (function () {
     if (fam.confirm !== key) { fam.confirm = key; renderPeople(); return; }
     fam.confirm = null;
     const [what, id] = [key.slice(0, key.indexOf(':')), key.slice(key.indexOf(':') + 1)];
+    if (what === 'combine') return combine(...id.split(':'));
     const b = fs().batch();
     if (what === 'dev') b.delete(famCol(F.fid, 'members').doc(id));
     if (what === 'person') { const p = people().find(x => x.pid === id); if (p) p.devices.forEach(d => b.delete(famCol(F.fid, 'members').doc(d.uid))); }
@@ -8606,6 +8669,7 @@ const TreasureUp = (function () {
       if (act === 'claim-yes' || act === 'claim-no') return claimAnswer(act === 'claim-yes');
       if (act === 'tab') { fam.tab = el.dataset.tab; return renderFam(); }
       if (act === 'invite') return await inviteFromForm();
+      if (act === 'newkid') { await makeInvite('kid', el.dataset.name, ''); $('famNewName').value = ''; return; }
       if (act === 'device') {        // another device for a child, or a child taken out coming back
         const p = people().find(x => x.pid === el.dataset.pid) || fam.progress.find(g => g.pid === el.dataset.pid);
         if (!p) return;
