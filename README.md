@@ -297,7 +297,9 @@ reply, which wakes Claude to check them and put the good ones in the game.
 Only comments from the repository's owner start a run, Gemini can only make
 pictures (no GitHub token, no file or shell tools), and its own replies never
 start another run. It needs the repository secret `GEMINI_API_KEY`, a key
-from Google AI Studio, which bills each picture.
+from Google AI Studio, which bills each picture. Blake can also run a request
+from his own Gemini CLI with the same extension. The first picture made this
+way is the worker (`liberty/art/requests/001-worker.md`).
 
 ---
 
