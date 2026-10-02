@@ -1132,7 +1132,7 @@
   .yd.did, .yd.past { background: rgba(252,211,77,.5); }
   .yd.past:not(.did) { background: rgba(255,255,255,.22); }
   .yd.now { background: var(--gold); outline: 2px solid #fff; }
-  .strip { display: flex; gap: 6px; overflow-x: auto; margin: 10px -16px 0; padding: 4px 16px 8px; scrollbar-width: none; scroll-behavior: smooth; }
+  .strip { display: flex; gap: 6px; overflow-x: auto; margin: 10px -16px 0; padding: 4px 16px 8px; scrollbar-width: none; }
   .strip::-webkit-scrollbar { display: none; }
   .ds-month { flex-shrink: 0; align-self: center; writing-mode: vertical-rl; transform: rotate(180deg); font-size: 11px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
   .strip .ds-day { flex-shrink: 0; width: 44px; }
@@ -1197,6 +1197,10 @@
   .kc-none, .kc-week { margin: 6px 0 0; font-size: 13.5px; color: rgba(255,255,255,.7); }
   .kc-note { margin: 8px 0 0; font-size: 14px; line-height: 1.4; } .kc-note small { display: block; font-size: 11.5px; color: rgba(255,255,255,.5); }
   .kc-ask { margin: 10px 0 0; font-size: 14px; } .kc-ask b { color: #7dd3fc; }
+  .fam-goal-set { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 12px; padding: 12px 14px; border-radius: 14px; background: rgba(255,255,255,.05); font-size: 14px; font-weight: 800; }
+  .fam-goal-set small { display: block; font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,.55); }
+  .fam-go { margin-top: 20px; }
+  #familyTab .kid-card { margin: 10px 0 0; }
   /* Scriptures: the volumes' books, a book's chapters, a chapter's neighbours */
   .lib-h { font-size: 26px; margin: 2px 0 6px; }
   .lib-week { display: flex; justify-content: space-between; align-items: center; width: 100%; margin: 10px 0 4px; padding: 12px 14px; border-radius: 14px; cursor: pointer; text-align: left;
@@ -1367,6 +1371,7 @@
   <button data-tab="today" class="on"><span>📅</span>Today</button>
   <button data-tab="study"><span>💡</span>Study</button>
   <button data-tab="scriptures"><span>📖</span>Scriptures</button>
+  <button data-tab="family" hidden><span>👪</span>Family</button>
 </nav>
 
 <!-- One reel, looked back at. -->
@@ -2020,7 +2025,7 @@ const TreasureUp = (function () {
     return `
       <div class="home-in">
         ${TEST_SITE ? testNoteHtml() : ''}
-        ${homeTab === 'study' ? studyHtml() : homeTab === 'scriptures' ? scripturesHtml() : todayTabHtml()}
+        ${homeTab === 'study' ? studyHtml() : homeTab === 'scriptures' ? scripturesHtml() : homeTab === 'family' ? `<div id="familyTab">${familyTabHtml()}</div>` : todayTabHtml()}
       </div>`;
   }
   function todayTabHtml() {
@@ -2032,10 +2037,9 @@ const TreasureUp = (function () {
           ${stripHtml()}
         </div>
         <div class="tt-main">
-          <div id="parentCards">${parentCardsHtml()}</div>
           ${dayCardHtml(selDay || dayKey())}
           ${verseOfDayHtml()}
-          <div id="familyCard">${familyCardHtml()}</div>
+
           <details class="fold"><summary>Your week<small>Chapters, reels, right first time, notes</small></summary>${weekStatsHtml()}</details>
           ${rewardsHtml()}
           <p class="foot-note">XP comes from reading the chapters and answering right. Questions you miss come back in the daily warm-ups.
@@ -2346,11 +2350,19 @@ const TreasureUp = (function () {
 
 
   function renderHome() {
+    if (homeTab === 'family' && !F) homeTab = 'today';
+    const was = $('home').querySelector('.strip'), left = was ? was.scrollLeft : null;
     $('home').innerHTML = homeHtml();
     document.querySelectorAll('#tabs [data-tab]').forEach(b => b.classList.toggle('on', b.dataset.tab === homeTab));
-    // The day picked, in the middle of the strip.
+    $('tabs').querySelector('[data-tab="family"]').hidden = !F;
+    // The strip stays where he left it (Blake, 2026-10-02: tapping a day "does
+    // a weird auto scroll"); the day picked comes to the middle only when it's
+    // off screen (the first time, or a week's dot).
     const strip = $('home').querySelector('.strip'), sel = strip && strip.querySelector('.sel');
-    if (sel) strip.scrollLeft = sel.offsetLeft - strip.clientWidth / 2 + sel.offsetWidth / 2;
+    if (!strip) return;
+    if (left != null) strip.scrollLeft = left;
+    if (sel && (left == null || sel.offsetLeft < strip.scrollLeft || sel.offsetLeft + sel.offsetWidth > strip.scrollLeft + strip.clientWidth))
+      strip.scrollLeft = sel.offsetLeft - strip.clientWidth / 2 + sel.offsetWidth / 2;
   }
   // Redraw the page after something changed, keeping its place.
   function refreshHome() {
@@ -3175,7 +3187,6 @@ const TreasureUp = (function () {
       <div class="sh-row"><span>Listen voice</span><span>${pill(voice === 'male', 'data-set-voice="male"', 'Man')}${pill(voice === 'female', 'data-set-voice="female"', 'Woman')}</span></div>
       <div class="sh-row"><span>Verse size</span><span>${[['m', 'Normal'], ['l', 'Large'], ['xl', 'Larger']].map(([k, l]) => pill(textSize() === k, `data-set-text="${k}"`, l)).join('')}</span></div>
       <button class="sh-row sh-go" data-set-go="fam"><span>Family and sign-in<small>People, devices, chat</small></span><span>›</span></button>
-      ${F && F.role === 'parent' ? `<div class="sh-row"><span>Family goal<small>Everyone reads all of the week's chapters</small></span><span>${pill(!!(famHome && famHome.goal), 'data-set-goal="1"', 'On')}${pill(!(famHome && famHome.goal), 'data-set-goal="0"', 'Off')}</span></div>` : ''}
       <button class="sh-row sh-go" data-set-go="parent"><span>Parent rewards<small>Rewards at XP marks, behind a PIN</small></span><span>›</span></button>
       ${devOwner() ? `<a class="sh-row sh-go" href="${here ? '#dev' : 'https://blakemerrell.github.io/TreasureUp-test/#dev'}"${here ? ' data-dev-open' : ''}><span>Developer mode<small>Approve the coming weeks</small></span><span>›</span></a>` : ''}
       ${TEST_SITE ? `<a class="sh-row sh-go" href="${esc(location.origin + '/TreasureUp/')}"><span>This is the test site<small>Open the live app</small></span><span>›</span></a>` : ''}`;
@@ -8879,9 +8890,25 @@ const TreasureUp = (function () {
   }
   function stopHome() { famHomeOff.forEach(f => { try { f(); } catch (e) {} }); famHomeOff = []; famHome = null; famRedraw(); }
   function famRedraw() {
-    const a = document.getElementById('parentCards'), b = document.getElementById('familyCard');
-    if (a) a.innerHTML = parentCardsHtml();
-    if (b) b.innerHTML = familyCardHtml();
+    const tab = document.querySelector('#tabs [data-tab="family"]');
+    if (tab) tab.hidden = !F;
+    const el = document.getElementById('familyTab');
+    if (el) el.innerHTML = familyTabHtml();
+  }
+  // The Family tab (Blake, 2026-10-02: the cards about a child "need to be in
+  // a family dashboard"): this week's chapters, the goal and its switch, a
+  // parent's card on each child, and the way to chat and people.
+  function familyTabHtml() {
+    if (!F) return '';
+    const parent = F.role === 'parent', h = famHome, goal = !!(h && h.goal);
+    const board = familyCardHtml() || `<div class="fam-card"><div class="eyebrow">👪 Family · this week's chapters</div><p class="kc-none">${h ? 'Just you so far. Add someone in People.' : 'Connecting…'}</p></div>`;
+    const kids = parentCardsHtml();
+    return `<div class="eyebrow">Family</div><h1 class="reel-hook lib-h">${esc(F.family || 'Your family')}</h1>
+      ${board}
+      ${parent ? `<div class="fam-goal-set"><span>Family goal<small>Everyone reads all of the week's chapters</small></span><span><button class="sh-pill${goal ? ' on' : ''}" data-fam-goal="1">On</button><button class="sh-pill${goal ? '' : ' on'}" data-fam-goal="0">Off</button></span></div>` : ''}
+      ${parent ? `<div class="eyebrow" style="margin-top:20px">Today, for parents</div>${kids || '<p class="kc-none">A child\u2019s card shows here once their device has joined the family.</p>'}` : ''}
+      <div class="fam-go"><button class="sh-row sh-go" data-fam-open="chat"><span>💬 Family chat</span><span>›</span></button>
+        <button class="sh-row sh-go" data-fam-open="people"><span>👪 People and devices<small>Add someone, link a device, sign out</small></span><span>›</span></button></div>`;
   }
   // Everyone's chapters this week, most first; this device's own from here (its summary can lag).
   function familyRows(h) {
@@ -8935,7 +8962,7 @@ const TreasureUp = (function () {
     if (!h || !F || F.role !== 'parent') return '';
     return h.progress.filter(x => x.role === 'kid' && x.pid !== F.pid).map(x => kidCardHtml(x.name, h.kids[x.pid])).join('');
   }
-  // Settings: a parent turns the family goal on or off.
+  // The Family tab: a parent turns the family goal on or off.
   function setFamilyGoal(on) {
     if (!F || F.role !== 'parent') return;
     famDoc(F.fid).update({ goal: on }).catch(() => toast('👪 Family goal', "Couldn't change it. The family's rules may need updating."));
@@ -10754,6 +10781,10 @@ const TreasureUp = (function () {
       if (day) { selDay = day.dataset.day === dayKey() ? null : day.dataset.day; const h = $('home'), y = h.scrollTop; renderHome(); h.scrollTop = y; return; }
       const card = e.target.closest('[data-card]');
       if (card) { openCard(card.dataset.card); return; }
+      const fg = e.target.closest('[data-fam-goal]');
+      if (fg) { const on = fg.dataset.famGoal === '1'; if (famHome) famHome.goal = on; setFamilyGoal(on); famRedraw(); return; }
+      const fo = e.target.closest('[data-fam-open]');
+      if (fo) { openFam(fo.dataset.famOpen); return; }
       const lb = e.target.closest('[data-lib-book]');
       if (lb) { libBook = lb.dataset.libBook || null; renderHome(); $('home').scrollTop = 0; return; }
       const lc = e.target.closest('[data-lib-ch]');
@@ -10887,8 +10918,6 @@ const TreasureUp = (function () {
       if (v) { switchVoice(v.dataset.setVoice); return openSheet(settingsSheetHtml()); }
       const t = e.target.closest('[data-set-text]');
       if (t) { try { localStorage.setItem(TEXT_KEY, t.dataset.setText); } catch (x) {} applyTextSize(); return openSheet(settingsSheetHtml()); }
-      const sg = e.target.closest('[data-set-goal]');
-      if (sg) { const on = sg.dataset.setGoal === '1'; if (famHome) famHome.goal = on; setFamilyGoal(on); return openSheet(settingsSheetHtml()); }
       const g = e.target.closest('[data-set-go]');
       if (g) { closeSheet(); return g.dataset.setGo === 'fam' ? openFam('people') : openParent(); }
       if (e.target.closest('[data-dev-open]')) { e.preventDefault(); closeSheet(); openDev(); }
