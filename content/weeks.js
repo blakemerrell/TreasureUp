@@ -4444,7 +4444,8 @@ window.TU_WEEKS = [
             "v": 10,
             "about": "Line 4 rests on “trust in the name of the Lord,” which the Book of Mormon’s copy (2 Nephi 7:10) leaves out; the KJV, the plain words and the lesson (50:10) have it."
           }
-        ]
+        ],
+        "approved": "4d6e6800"
       },
       {
         "ch": "Isaiah 51",
@@ -4454,7 +4455,8 @@ window.TU_WEEKS = [
           "The Lord is the one who comforts them, so they don’t need to fear men, who die like grass. He calls Zion His people. (verses 12–16)",
           "Jerusalem, who drank the cup of the Lord’s anger, is told to wake up and stand up. He gives that cup to her enemies. (verses 17–23)"
         ],
-        "also": "Jacob quotes this chapter in the Book of Mormon (2 Nephi 8)."
+        "also": "Jacob quotes this chapter in the Book of Mormon (2 Nephi 8).",
+        "approved": "81a313c7"
       },
       {
         "ch": "Isaiah 52",
@@ -4469,7 +4471,8 @@ window.TU_WEEKS = [
             "v": 13,
             "about": "Line 4 names the servant the Messiah, as the heading does; the Scripture Helps add that Jesus also tied verse 13 to a latter-day servant (3 Nephi 21:9), likely Joseph Smith."
           }
-        ]
+        ],
+        "approved": "a0e85fed"
       },
       {
         "ch": "Isaiah 53",
@@ -4485,7 +4488,8 @@ window.TU_WEEKS = [
             "v": 4,
             "about": "Changed from the sample you saw: line 1 now ends with verse 4 (He carries our griefs and sorrows, the week’s title and the lesson’s focus) instead of verse 3’s “He will know sorrow and grief,” so line 2 starts at verse 5."
           }
-        ]
+        ],
+        "approved": "e83c9f1e"
       },
       {
         "ch": "Isaiah 54",
@@ -4495,7 +4499,8 @@ window.TU_WEEKS = [
           "His promise to her is as sure as His promise to Noah. Mountains may move, but His kindness and covenant of peace will stay. (verses 9–10)",
           "He will build her with jewels, teach her children, and give them great peace. No weapon made against her will succeed. (verses 11–17)"
         ],
-        "also": "Jesus quotes this chapter in the Book of Mormon (3 Nephi 22)."
+        "also": "Jesus quotes this chapter in the Book of Mormon (3 Nephi 22).",
+        "approved": "8c3cc135"
       },
       {
         "ch": "Isaiah 55",
@@ -4504,7 +4509,8 @@ window.TU_WEEKS = [
           "Isaiah tells people to seek the Lord and call on Him while He is near. He will fully forgive the wicked who turn back. (verses 6–7)",
           "The Lord’s thoughts and ways are higher than ours, as the heavens are higher than the earth. (verses 8–9)",
           "Like rain, His word does what He sends it to do. His people will go out with joy, and trees will clap their hands. (verses 10–13)"
-        ]
+        ],
+        "approved": "aef972ba"
       },
       {
         "ch": "Isaiah 56",
@@ -4519,7 +4525,8 @@ window.TU_WEEKS = [
             "v": 5,
             "about": "Line 2 uses the heading’s “exalted” for verse 5’s promise to the eunuchs (a place in His house and a name that lasts forever), and “men who can’t have children” is the plain words’ gloss for eunuchs."
           }
-        ]
+        ],
+        "approved": "2477e8d7"
       },
       {
         "ch": "Isaiah 57",
@@ -4534,7 +4541,8 @@ window.TU_WEEKS = [
             "v": 13,
             "about": "“Their idols can’t save them” follows the plain words and the note; the KJV says “companies.”"
           }
-        ]
+        ],
+        "approved": "533af703"
       }
     ]
   },
