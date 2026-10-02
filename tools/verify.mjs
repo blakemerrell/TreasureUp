@@ -949,6 +949,19 @@ async function main(scripture, week, pages, online) {
     }
   }
 
+  // A short version that says a bonus or Go-deeper answer: he can answer it
+  // from the card at the top of the chapter without reading. A note, not a
+  // failure (Blake approved the cards that do; 2026-10-01): a new card
+  // should say that part another way.
+  if (Array.isArray(week.tldr)) {
+    const said = norm(week.tldr.map(t => (Array.isArray(t.lines) ? t.lines.join(' ') : '') + ' ' + (t.also || '')).join(' '));
+    const asks = [...week.reels.flatMap(r => bonusesOf(r).map(b => [r.id, b])), ...(week.deep || []).map(d => [d.id, d])];
+    for (const [id, b] of asks) {
+      const give = [b.find, String(b.right || '').length >= 5 ? b.right : ''].filter(Boolean).find(x => said.includes(trimPunct(norm(x))));
+      if (give) note(`${id}: a short version says “${give}”, its answer, so it can be answered without reading the chapter`);
+    }
+  }
+
   // Insight cards (week.insights): one point about verses of the reading,
   // from a page on one of INSIGHT_SITES, in our own words. `find` is words
   // on that page where the point is, checked with --online (a page that
