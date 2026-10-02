@@ -1073,6 +1073,14 @@
   .today .board-link { margin-top: 12px; }
   .board-link.ls-start { font-size: 17px; font-weight: 900; color: #0b1a00; background: #58cc02; border-color: #58cc02; box-shadow: 0 4px 0 #46a302; cursor: pointer; }
   .board-link.ls-start small { color: rgba(11,26,0,.78); }
+  .streak-card { margin-top: 12px; padding: 12px 16px; border-radius: 16px; background: rgba(0,0,0,.3); border: 1.5px solid rgba(251,146,60,.5); }
+  .sk-head { font-weight: 900; font-size: 16px; color: #fdba74; }
+  .sk-say { margin-top: 10px; font-size: 13.5px; font-weight: 700; line-height: 1.35; color: rgba(255,255,255,.85); }
+  .sk-row { display: grid; grid-template-columns: 92px 1fr auto; gap: 8px; align-items: baseline; width: 100%; padding: 7px 0; text-align: left;
+    font: inherit; font-size: 13.5px; color: #fff; background: none; border: 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+  button.sk-row { cursor: pointer; }
+  .sk-row span:first-child { font-size: 12px; font-weight: 800; color: rgba(255,255,255,.55); }
+  .sk-row .go { color: rgba(255,255,255,.4); }
   .today-alt { display: block; margin: 12px auto 0; font: inherit; font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,.62); background: none; border: 0; cursor: pointer; text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); }
   .week-map { margin-top: 16px; }
   /* This week's chapters, each a tap from the reader */
@@ -1090,6 +1098,19 @@
   .wm-row.done .wm-name { color: rgba(255,255,255,.5); }
   .wm-mark { font-size: 12px; font-weight: 900; color: rgba(255,255,255,.6); }
   .wm-row.done .wm-mark { color: var(--right); }
+  /* Go further, under its day: insight cards, bonus questions and a note */
+  .wm-row.further { padding-top: 2px; }
+  .wm-row.further .wm-name { font-weight: 800; color: #c4b5fd; }
+  .wm-row.further .wm-name small { display: block; font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,.5); }
+  .wm-row.further.done .wm-name { color: rgba(196,181,253,.55); }
+  .ls-ins-ref { margin: -10px 0 10px; font-size: 13px; font-weight: 800; color: var(--gold); }
+  .ins-src { display: block; margin-top: 16px; padding: 12px 14px; border-radius: 14px; text-decoration: none; color: #fff;
+    background: rgba(196,181,253,.1); border: 1px solid rgba(196,181,253,.35); }
+  .ins-src span { display: block; font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #c4b5fd; }
+  .ins-src b { display: block; margin-top: 3px; font-size: 14.5px; line-height: 1.3; }
+  .ls-further { display: block; width: 100%; margin: 18px 0 0; padding: 14px 16px; border-radius: 16px; cursor: pointer; text-align: left;
+    font: inherit; font-size: 17px; font-weight: 900; color: #fff; background: rgba(124,58,237,.35); border: 1.5px solid #a78bfa; }
+  .ls-further small { display: block; margin-top: 3px; font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,.72); }
   .deep-open { display: inline-block; margin-top: 14px; padding: 10px 16px; border-radius: 999px; font-size: 14px; font-weight: 800; color: #1c1406; background: var(--gold); text-decoration: none; }
   .deep-open:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 
@@ -1159,10 +1180,11 @@
     <!-- (Chat opens from the family screen; this button stays hidden.) -->
     <button id="chatBtn" class="relative pointer-events-auto grid place-items-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-md ring-1 ring-white/15 shrink-0 text-lg leading-none" aria-label="Family chat" hidden>💬</button>
 
-    <!-- Study streak: days in a row he answered at least one question -->
-    <div class="flex items-center gap-1 rounded-full bg-black/45 backdrop-blur-md px-2.5 py-1.5 ring-1 ring-white/15 shrink-0" title="Days in a row with a question answered">
+    <!-- Study streak: days in a row kept (read, or caught up later), and its supercharge -->
+    <div class="flex items-center gap-1 rounded-full bg-black/45 backdrop-blur-md px-2.5 py-1.5 ring-1 ring-white/15 shrink-0" title="Streak: days in a row kept. The longer it is, the more XP">
       <span class="text-base leading-none">🔥</span>
       <span id="streakNum" class="text-sm font-black leading-none">0</span>
+      <span id="chargeNum" class="text-[11px] font-black leading-none text-amber-300 ml-1" hidden></span>
       <span id="freezeNum" class="text-[11px] font-black leading-none text-sky-300 ml-1" hidden></span>
     </div>
   </div>
@@ -1384,7 +1406,11 @@ const TreasureUp = (function () {
 
   const freshState = () => ({
     xp: 0,
-    streak: 0, lastStudy: null,  // streak = consecutive days with an answer
+    streak: 0, lastStudy: null,  // the streak's length and its last day (from days, filled and frozen), for the family's screens
+    days: {},     // days he studied (reading, when reading was due; else an answer): day -> 1
+    filled: {},   // days whose planned chapters are all read, that day or later: day -> 1
+    frozen: {},   // days a streak freeze covered: day -> 1 (the freeze comes back if the day is filled later)
+    daysFrom: null,  // the day days, filled and frozen started (the streak before it was moved into them)
     answers: {},  // reelId -> { right, day }   first try at the reel's question
     bonus: {},    // reelId -> { right, day }   first try at its bonus question
     recall: {},   // reelId -> { last, misses } last day it came back, times missed
@@ -1405,6 +1431,7 @@ const TreasureUp = (function () {
     readLog: {},     // this week's reading clock: "Isaiah 40" -> { start, secs, said, xp, day }: when he first
                      // opened it, the time until "I read it", whether he said yes to "Did you read all of it?"
     found: {},       // Find it in the chapter: reelId -> { right, day }  first try
+    insights: {},    // insight cards he has read (Go further): id -> the day; kept across weeks
     weekChapters: 0  // how many chapters this week's reading has, for the year's count
   });
 
@@ -1433,28 +1460,88 @@ const TreasureUp = (function () {
   const dayDiff = (a, b) =>
     Math.round((new Date(b + 'T00:00:00') - new Date(a + 'T00:00:00')) / 86400000);
 
-  // The streak shown is 0 once a whole day has been missed.
-  // Days missed since the last study day (0 if he studied today or yesterday).
-  const missedDays = () => S.lastStudy ? Math.max(0, dayDiff(S.lastStudy, dayKey()) - 1) : 0;
+  /* ---------------- the streak ---------------- */
 
-  // A streak survives missed days he has freezes for.
-  const liveStreak = () =>
-    !S.lastStudy ? 0 : missedDays() <= (S.freezes || 0) ? S.streak : 0;
+  // The streak (Blake, 2026-10-01: "if it is broken, it can be fixed and
+  // restored by simply filling the readings etc for the missed days"): days
+  // in a row kept. A day is kept when he studied that day (S.days: reading,
+  // when reading was due; else an answer), or once the chapters planned for
+  // it are all read, that day or later (S.filled): a missed day comes back
+  // the moment its chapters are read, and the streak with it. A day with no
+  // chapters planned (Sunday) is kept by doing something that day (Blake:
+  // "Need something done"); a missed one only a streak freeze covers.
+  // Freezes cover missed days when he next studies (S.frozen), and come back
+  // if a day they covered is filled later. Today counts once it's kept;
+  // until then the streak runs to yesterday.
+  const dayAdd = (k, n) => { const d = new Date(k + 'T12:00:00'); d.setDate(d.getDate() + n); return dayKey(d); };
+  const keptDay = k => !!((S.days || {})[k] || (S.filled || {})[k]);
+  const frozenDay = k => !!(S.frozen || {})[k];
+  // The missed days that end the streak, newest first: back from today
+  // (which still has time) through the days kept or frozen, the next ones
+  // missed, as far as a kept day before them. None when no kept day comes
+  // within 60 days before them: nothing for them to join up with.
+  function streakGap() {
+    let k = dayKey();
+    if (!keptDay(k)) k = dayAdd(k, -1);
+    for (let i = 0; i < 1500 && (keptDay(k) || frozenDay(k)); i++) k = dayAdd(k, -1);
+    const gap = [];
+    for (let i = 0; i < 60; i++, k = dayAdd(k, -1)) {
+      if (keptDay(k) || frozenDay(k)) return gap;
+      gap.push(k);
+    }
+    return [];
+  }
+  // Kept days in a row back from `from`, through frozen days (which add
+  // none), and through `also` (days counted as kept or covered).
+  function streakFrom(from, also) {
+    let n = 0;
+    for (let k = from, i = 0; i < 1500; i++, k = dayAdd(k, -1)) {
+      const a = also && also.get(k);
+      if (keptDay(k) || a === 'kept') n++;
+      else if (!frozenDay(k) && a !== 'covered') break;
+    }
+    return n;
+  }
+  // The streak now: a gap the freezes he has would cover (spent when he
+  // next studies) doesn't break it.
+  function streakNow() {
+    const today = dayKey(), gap = streakGap();
+    const also = gap.length && gap.length <= (S.freezes || 0) ? new Map(gap.map(k => [k, 'covered'])) : null;
+    return streakFrom(keptDay(today) ? today : dayAdd(today, -1), also);
+  }
+  // The supercharge (Blake, 2026-10-01: "the longer the streaks, the more
+  // powerful the power up is! Like in video games when you supercharge"):
+  // every XP he earns, times this, the steady climb he chose.
+  const CHARGE = [[30, 3], [14, 2.5], [7, 2], [3, 1.5]];
+  const chargeOf = n => (CHARGE.find(([d]) => n >= d) || [0, 1])[1];
+  const nextCharge = n => CHARGE.slice().reverse().find(([d]) => n < d) || null;
+
+  // After anything that might keep a day: the days whose chapters are now
+  // all read (fillDays), freezes given back for days filled since, and, when
+  // today is kept, freezes spent on the gap they cover. Then the streak's
+  // length and last day, which the family's screens read.
+  function updateStreak() {
+    fillDays();
+    const fr = S.frozen = S.frozen || {};
+    let back = 0;
+    for (const k of Object.keys(fr)) if (keptDay(k)) { delete fr[k]; back++; }
+    if (back) { S.freezes = (S.freezes || 0) + back; toast('❄️ Streak freeze back', 'You caught up on the ' + (back === 1 ? 'day it covered' : 'days they covered')); }
+    const gap = streakGap();
+    if (keptDay(dayKey()) && gap.length && gap.length <= (S.freezes || 0)) {
+      gap.forEach(k => { fr[k] = 1; });
+      S.freezes -= gap.length;
+      toast('❄️ Streak saved', gap.length === 1 ? 'Used a streak freeze' : 'Used ' + gap.length + ' streak freezes');
+    }
+    S.streak = streakNow();
+    for (let k = dayKey(), i = 0; i < 60; i++, k = dayAdd(k, -1)) if (keptDay(k) || frozenDay(k)) { S.lastStudy = k; break; }
+  }
 
   // Reading first: a day counts once he reads. With no reading left to do
   // (Sunday, or all caught up), an answer counts, as before.
   function markStudied(read) {
-    const today = dayKey();
-    if (S.lastStudy === today) return;
-    if (!read && readingDue()) return;
-    const missed = missedDays();
-    if (S.lastStudy && missed === 0) S.streak += 1;
-    else if (S.lastStudy && missed <= (S.freezes || 0)) {
-      S.freezes -= missed;                       // spend a freeze per missed day
-      S.streak += 1;
-      toast('❄️ Streak saved', missed === 1 ? 'Used a streak freeze' : 'Used ' + missed + ' streak freezes');
-    } else S.streak = 1;
-    S.lastStudy = today;
+    const today = dayKey(), days = S.days = S.days || {};
+    if (!days[today] && (read || !readingDue())) days[today] = 1;
+    updateStreak();
   }
 
   // Pick today's warm-up: questions answered on an earlier day, missed ones
@@ -1733,6 +1820,7 @@ const TreasureUp = (function () {
         <h1 class="reel-hook" style="font-size:clamp(28px,4.4vh,38px)">${esc(WEEK.title)}</h1>
         <p class="text-[15px] font-bold text-amber-300">${linkRefs(WEEK.reference)}</p>
         ${todayHtml()}
+        ${streakHtml()}
         ${weekMapHtml()}
         ${chaptersHtml()}
         ${weekStatsHtml()}
@@ -1767,6 +1855,7 @@ const TreasureUp = (function () {
     const found = allBonus.filter(k => S.bonus[k] && S.bonus[k].right).length;
     const deep = deepItems(), deepRight = deep.filter(d => S.deep[d.id] && S.deep[d.id].right).length;
     const notes = WEEK.reels.filter(r => S.notes[r.id]).length;
+    const ins = insightsOf(WEEK), insRead = ins.filter(i => (S.insights || {})[i.x.id]).length;
     const pz = S.puzzle && S.puzzle.week === WEEK.title ? S.puzzle : null;
     const left = total - answered.length;
     const done = !left;
@@ -1796,6 +1885,7 @@ const TreasureUp = (function () {
       tile('✅', 'Right first time', right, total),
       allBonus.length ? tile('🔎', 'Bonus finds', found, allBonus.length) : '',
       deep.length ? tile('🧭', 'Went deeper', deepRight, deep.length) : '',
+      ins.length ? tile('💡', 'Insights read', insRead, ins.length) : '',
       word('✏️', 'Notes', String(notes), notes ? `${notes * NOTE_XP} XP from notes` : 'Write one on a reel below'),
       puzzle
     ].join('');
@@ -1831,7 +1921,7 @@ const TreasureUp = (function () {
     return `
       <div class="home-sec">
         <div class="eyebrow">Look back</div>
-        <p class="lb-help">Tap one you've done to read it again, try its bonus, or write a note.</p>
+        <p class="lb-help">Tap one you've done to read it again. Each day's bonus questions, insights and a note are in its 🔭 Go further, on the week map.</p>
         ${parts.join('')}
       </div>`;
   }
@@ -1944,14 +2034,20 @@ const TreasureUp = (function () {
     $('nextLevel').textContent = capped
       ? 'Top level reached'
       : (ceil - S.xp) + ' XP to ' + LEVEL_TITLES[L];
-    $('streakNum').textContent = liveStreak();
+    const streak = streakNow(), charge = chargeOf(streak);
+    $('streakNum').textContent = streak;
+    $('chargeNum').hidden = charge <= 1;
+    $('chargeNum').textContent = '⚡×' + charge;
     $('freezeNum').hidden = !(S.freezes > 0);
     $('freezeNum').textContent = '❄️' + (S.freezes || 0);
   }
 
   /* ---------------- XP ---------------- */
 
+  // Every XP he earns, supercharged by the streak (chargeOf).
   function grantXp(amount, reason) {
+    const charge = chargeOf(streakNow());
+    amount = Math.round(amount * charge);
     const beforeXp = S.xp;
     const before = levelFor(S.xp);
     S.xp += amount;
@@ -1961,13 +2057,17 @@ const TreasureUp = (function () {
     // its last screen, since the lesson covers the toasts.
     if (lesson) unlocked.forEach(r => lesson.rewards.push(r.text));
     else {
-      toast('＋' + amount + ' XP', reason);
+      toast('＋' + amount + ' XP' + (charge > 1 ? ' ⚡×' + charge : ''), reason);
       unlocked.forEach(r => toast('🎁 Reward unlocked', r.text + ' · show a parent'));
     }
     renderHud();
     if (P.rewards.length) refreshHome();
     if (after > before) { if (lesson) lesson.level = after; else levelUp(after); }
   }
+
+  // XP for a record (an answer, a note…), which keeps what it paid: with the
+  // supercharge that varies, and the family's merge needs it (mergeProgress).
+  function payXp(rec, amount, reason) { const before = S.xp; grantXp(amount, reason); rec.xp = S.xp - before; }
 
   let lvTimer = null;
   function levelUp(L) {
@@ -2003,7 +2103,18 @@ const TreasureUp = (function () {
     const right = picked === r.question.right;
     S.answers[id] = { right, picked, day: dayKey() };
     markStudied();
-    if (right) grantXp(XP.firstTry, 'Got it the first time');
+    if (right) payXp(S.answers[id], XP.firstTry, 'Got it the first time');
+    save();
+    return true;
+  }
+  // A reel's bonus `n`: the first try only, once the reel's own is answered.
+  function recordBonus(id, n, picked) {
+    const r = reelById(id), q = r && bonusesOf(r)[n], key = bonusKey(id, n);
+    if (!q || !S.answers[id] || S.bonus[key]) return false;
+    const right = picked === q.right;
+    S.bonus[key] = { right, picked, day: dayKey() };
+    markStudied();
+    if (right) payXp(S.bonus[key], XP.bonus, 'Found it in the reading');
     save();
     return true;
   }
@@ -2027,13 +2138,7 @@ const TreasureUp = (function () {
     const r = reelById(id);
     if (!r) return;
     if (kind === 'bonus') {
-      const n = Number(quiz.dataset.n);
-      const right = picked === bonusesOf(r)[n].right;
-      const key = bonusKey(id, n);
-      if (S.bonus[key]) return;                  // first try only
-      S.bonus[key] = { right, picked, day: dayKey() };
-      markStudied();
-      if (right) grantXp(XP.bonus, 'Found it in the reading');
+      if (!recordBonus(id, Number(quiz.dataset.n), picked)) return;
       redrawCard(id, reelHtml(r, 0));
     } else if (kind === 'reel') {
       if (!recordReel(id, picked)) return;
@@ -2100,13 +2205,19 @@ const TreasureUp = (function () {
   // readings that come with it (about 150 words' worth of time each). By
   // chapters, without the text.
   const READ_ITEM_WORDS = 150;
-  function readingPlan() {
-    if (readingCache && readingCache.week === WEEK && readingCache.text === window.TU_READING) return readingCache.days;
-    const units = readingUnits(), days = DAY_NAMES.map(() => []);
+  const readingPlan = () => planOf(WEEK, window.TU_READING);
+  // Any week's plan, with its chapters' text (a past week's, for the streak).
+  function planOf(week, text) {
+    const key = text || null;
+    if (readingCache && readingCache.week === week && readingCache.key === key) return readingCache.days;
+    const cached = (planOf.weeks = planOf.weeks || new Map()).get(week);
+    if (cached && cached.key === key) return cached.days;
+    text = text || {};
+    const units = readingUnits(week.reference, text), days = DAY_NAMES.map(() => []);
     const n = units.length, k = Math.min(READING_DAYS, n);
     if (n) {
-      const extra = u => READ_ITEM_WORDS * (WEEK.reels.filter(r => r.verse.ref.replace(/:.*/, '') === u.ch).length +
-        deepItems().filter(x => deepPassage(x) && deepPassage(x).replace(/:.*/, '') === u.ch).length);
+      const extra = u => READ_ITEM_WORDS * (week.reels.filter(r => r.verse.ref.replace(/:.*/, '') === u.ch).length +
+        (week.deep || []).filter(x => deepPassage(x) && deepPassage(x).replace(/:.*/, '') === u.ch).length);
       const w = units.map(u => units.every(x => x.words) ? u.words + extra(u) : 1), pre = [0];
       w.forEach(x => pre.push(pre[pre.length - 1] + x));
       // best[j][i]: the longest day when the first i units go in j days; cut[j][i]: where day j starts.
@@ -2120,10 +2231,47 @@ const TreasureUp = (function () {
       }
       for (let j = k, i = n; j > 0; j--) { const p = cut[j][i]; days[j - 1] = units.slice(p, i); i = p; }
     }
-    readingCache = { week: WEEK, text: window.TU_READING, days };
+    if (week === WEEK) readingCache = { week, key, days };
+    else planOf.weeks.set(week, { key, days });
     return days;
   }
   const readingAll = () => readingPlan().flat();
+  // Whether he has read a chapter of a week: this week's in S.read; an
+  // earlier one's, saved when it ended or read since (S.late).
+  function weekRead(week, ref) {
+    if (week === WEEK) return !!S.read[ref];
+    const num = weekNumOf(week), h = recordOf(num), rec = h && h.rec;
+    if ((((S.late || {})[num] || {}).read || {})[ref]) return true;
+    return !!(rec && (Array.isArray(rec.read) ? rec.read : Object.keys(rec.read || {})).includes(ref));
+  }
+  // Each day whose planned chapters are all read now counts (S.filled), for
+  // every week in weeks.js up to this one, and a past week that's open.
+  function fillDays() {
+    const f = S.filled = S.filled || {}, today = dayKey();
+    const weeks = (window.TU_WEEKS || []).map(w => [w, window.TU_READING]);
+    if (past && past.week && !(window.TU_WEEKS || []).includes(past.week)) weeks.push([past.week, past.text]);
+    for (const [w, text] of weeks) {
+      const start = weekStart(w.dates);
+      if (!start || start > today) continue;
+      planOf(w, text).forEach((units, d) => {
+        const k = dayAdd(start, d);
+        if (units.length && !f[k] && units.every(u => weekRead(w, u.ref))) f[k] = 1;
+      });
+    }
+  }
+  // A day's week (any in weeks.js, or a past week that's open) and the
+  // chapters planned for it, with which are still to read.
+  function dayPlan(k) {
+    const weeks = (window.TU_WEEKS || []).map(w => [w, window.TU_READING]);
+    if (past && past.week) weeks.push([past.week, past.text]);
+    for (const [w, text] of weeks) {
+      const start = weekStart(w.dates);
+      if (!start || k < start || dayDiff(start, k) > 6) continue;
+      const units = planOf(w, text)[dayDiff(start, k)] || [];
+      return { week: w, units, left: units.filter(u => !weekRead(w, u.ref)) };
+    }
+    return null;
+  }
   // The day a verse's chapter is read, or -1.
   function readingDayOf(ref) {
     const m = /^(.+? \d+)(?::(\d+))?/.exec(ref || ''), plan = readingPlan();
@@ -2187,6 +2335,19 @@ const TreasureUp = (function () {
     if (!t || !Array.isArray(t.lines) || !t.lines.length) return null;
     const approved = !!t.approved && t.approved === approvalHash(noApproval(t));
     return approved || TEST_SITE ? { t, draft: !approved } : null;
+  }
+  // Insight cards (week.insights; Blake, 2026-10-01: "where can I get
+  // faithful commentary … Make that into additional insight cards"): one
+  // point about verses of the reading from the Church's manuals and talks,
+  // Scripture Central, BYU or followHIM, in our own words, with the page it
+  // comes from. Each is in its day's Go further, the day its verses are
+  // read. Shown like the plain words: once Blake has approved it, or on the
+  // test site as a marked draft.
+  function insightsOf(week) {
+    return ((week && week.insights) || []).filter(x => x && x.id && x.text && x.source).map(x => {
+      const approved = !!x.approved && x.approved === approvalHash(noApproval(x));
+      return approved || TEST_SITE ? { x, draft: !approved } : null;
+    }).filter(Boolean);
   }
   const TLDR_END = / \((verses?) (\d+)(?:–(\d+))?\)$/;
   function tldrHtml(u, week) {
@@ -2349,6 +2510,9 @@ const TreasureUp = (function () {
   }
   const dayReels = d => WEEK.reels.filter(r => reelDay(r) === d);
   const dayDeep = d => deepItems().filter(x => x.day !== 'friday' && deepDay(x) === d);
+  // An insight card comes on the day its verses are read.
+  const insightDay = i => { const d = readingDayOf(i.x.ref); return d >= 0 ? d : lastReadingDay(); };
+  const dayInsights = d => insightsOf(WEEK).filter(i => insightDay(i) === d);
   // "Isaiah 40", "Isaiah 40–41", "Isaiah 22; 24", "Genesis 5:21–24; Moses 7".
   function unitsLabel(units) {
     const out = [];
@@ -2374,7 +2538,9 @@ const TreasureUp = (function () {
     const log = S.readLog || (S.readLog = {}), start = log[ref] && log[ref].start;
     log[ref] = { start: start || null, secs: start ? Math.round((Date.now() - start) / 1000) : null, said: !!said, xp: READ_XP, day: dayKey() };
     markStudied(true);
+    const before = S.xp;
     grantXp(READ_XP, 'Read ' + ref);
+    log[ref].xp = S.xp - before;         // with the streak's supercharge
     save();
     return true;
   }
@@ -2389,9 +2555,12 @@ const TreasureUp = (function () {
   const DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   const deepItems = () => WEEK.deep || [];
   const fridayItems = () => deepItems().filter(d => d.day === 'friday');
+  // Under each day, its Go further (furtherItems): more to do once the
+  // day's lesson is done, never part of Today's.
   function weekPlan() {
     const days = DAY_NAMES.map(() => []), plan = readingPlan();
     for (let d = 0; d < 6; d++) if (plan[d].length || dayReels(d).length || dayDeep(d).length) days[d].push({ kind: 'day', d });
+    for (let d = 0; d < 6; d++) if (furtherItems(d).length) days[d].push({ kind: 'further', d });
     if (fridayItems().length) days[4].push({ kind: 'friday' });
     if (WEEK.puzzle) days[5].push({ kind: 'puzzle' });
     days[6].push({ kind: 'family' });
@@ -2408,11 +2577,33 @@ const TreasureUp = (function () {
         .concat(dayReels(e.d).map(r => ({ card: r.id, done: !!S.answers[r.id] })))
         .concat(dayDeep(e.d).map(d => ({ card: 'deep-' + d.id, done: !!S.deep[d.id] })));
     }
+    if (e.kind === 'further') return furtherItems(e.d);
     if (e.kind === 'friday') return fridayItems().map(d => ({ card: 'deep-' + d.id, done: !!S.deep[d.id] }));
     if (e.kind === 'puzzle') return [{ card: 'puzzle', done: !!S.puzzle && S.puzzle.week === WEEK.title && S.puzzle.status === 'won' }];
     return [];
   }
+  // A day's Go further (Blake, 2026-10-01: the extra content shouldn't be
+  // "hidden in the same row of a green check mark"): its insight cards, its
+  // reels' bonus questions (a reel's open once it's answered), and a note
+  // on one of its reels.
+  function furtherItems(d) {
+    const reels = dayReels(d);
+    return dayInsights(d).map(i => ({ card: 'insight-' + i.x.id, done: !!(S.insights || {})[i.x.id] }))
+      .concat(reels.flatMap(r => bonusesOf(r).map((_, n) => ({ card: 'bonus-' + bonusKey(r.id, n), done: !!S.bonus[bonusKey(r.id, n)] }))))
+      .concat(reels.length ? [{ card: 'note-' + d, done: reels.some(r => S.notes[r.id]) }] : []);
+  }
+  function furtherParts(d) {
+    const ins = dayInsights(d).length, bon = dayReels(d).reduce((n, r) => n + bonusesOf(r).length, 0);
+    return [ins && (ins === 1 ? '1 insight' : ins + ' insights'), bon && (bon === 1 ? '1 bonus question' : bon + ' bonus questions'),
+      dayReels(d).length && 'a note'].filter(Boolean).join(' · ');
+  }
+  // The week map's key for a day's Go further, while it has something left.
+  function furtherKey(d) {
+    const k = weekPlan()[d].findIndex(e => e.kind === 'further');
+    return k >= 0 && furtherItems(d).some(x => !x.done) ? d + '.' + k : null;
+  }
   const entryName = e => e.kind === 'day' ? dayName(e.d)
+    : e.kind === 'further' ? 'Go further · ' + dayName(e.d)
     : e.kind === 'friday' ? "Deep dive: the children's lesson and a magazine piece"
     : e.kind === 'puzzle' ? 'The weekly puzzle' : 'Church, then a family game';
   // A day of the plan by its reading ("Read Isaiah 40–41"), or, with no
@@ -2424,8 +2615,8 @@ const TreasureUp = (function () {
   // Today's part: anything unfinished from earlier days, then today's.
   function todayEntries() {
     const plan = weekPlan(), t = todayIndex();
-    const behind = plan.slice(0, t).flat().filter(e => entryItems(e).some(x => !x.done));
-    return behind.concat(plan[t].filter(e => e.kind !== 'family'));
+    const behind = plan.slice(0, t).flat().filter(e => e.kind !== 'further' && entryItems(e).some(x => !x.done));
+    return behind.concat(plan[t].filter(e => e.kind !== 'family' && e.kind !== 'further'));
   }
 
   function todayHtml() {
@@ -2438,7 +2629,7 @@ const TreasureUp = (function () {
       head = t === 6 ? 'Church day' : 'Catch up, or read ahead';
       sub = t === 6 ? 'Go to church, then play Scripture Showdown or a live game with the family.' : 'Nothing new is planned for today.';
     } else if (!now) {
-      const next = t < 6 ? weekPlan()[t + 1][0] : null;
+      const next = t < 6 ? weekPlan()[t + 1].find(e => e.kind !== 'further') : null;
       head = '✓ Done for today';
       sub = t === 6 ? 'A new week starts tomorrow.' : 'Tomorrow: ' + (next ? entryName(next) : 'catch up, or read ahead');
     } else {
@@ -2459,17 +2650,53 @@ const TreasureUp = (function () {
       </div>`;
   }
 
+  // The streak, under Today: how long, its supercharge, and, when it's broken,
+  // the days that would mend it: each one's chapters to read (this week's in
+  // its lesson, an earlier week's in Past weeks), or, with none planned that
+  // day, a streak freeze.
+  function streakHtml() {
+    const today = dayKey(), n = streakNow(), charge = chargeOf(n), up = nextCharge(n);
+    const gap = streakGap(), freezes = S.freezes || 0, covered = gap.length && gap.length <= freezes;
+    const dayName = k => DAY_NAMES[(new Date(k + 'T12:00:00').getDay() + 6) % 7];
+    let fix = '';
+    // A gap from the last two weeks (an older one still mends as he reads, but isn't listed).
+    if (gap.length && !covered && dayDiff(gap[0], today) <= 14) {
+      // Each missed day: its chapters to read (this week's in its lesson, an
+      // earlier week's in Past weeks), or, with none planned, a freeze.
+      const days = gap.slice().reverse().map(k => ({ k, plan: dayPlan(k), week: pastWeeks().find(p => weekStart(p.dates) <= k && dayDiff(weekStart(p.dates), k) <= 6) }));
+      const need = days.filter(x => x.plan && !x.plan.units.length).length, lost = days.some(x => !x.plan && !x.week);
+      const before = streakFrom(dayAdd(gap[gap.length - 1], -1));
+      const also = new Map(days.map(x => [x.k, x.plan && !x.plan.units.length ? 'covered' : 'kept']));
+      const back = !lost && need <= freezes ? streakFrom(keptDay(today) ? today : dayAdd(today, -1), also) : 0;
+      const rows = days.slice(0, 7).map(x => {
+        const name = dayName(x.k).slice(0, 3) + ' ' + shortDay(x.k);
+        if (!x.plan) return x.week ? `<button class="sk-row" data-past="${x.week.num}"><span>${esc(name)}</span> <span>Catch up on ${esc(x.week.title)}</span> <span class="go">›</span></button>` : '';
+        if (!x.plan.units.length) return `<div class="sk-row"><span>${esc(name)}</span> <span>No reading that day: a ❄️ streak freeze covers it${freezes ? '' : ' (win one in the weekly puzzle)'}</span></div>`;
+        const here = x.plan.week === WEEK;
+        return `<button class="sk-row" ${here ? `data-lesson="${esc(chapterLesson(x.plan.left[0].ref) || '')}"` : `data-past="${weekNumOf(x.plan.week)}"`}><span>${esc(name)}</span> <span>Read ${esc(unitsLabel(x.plan.left))}</span> <span class="go">›</span></button>`;
+      }).join('') + (days.length > 7 ? `<p class="sk-say" style="margin-top:6px">…and ${days.length - 7} more ${days.length - 7 === 1 ? 'day' : 'days'} after them.</p>` : '');
+      fix = `<p class="sk-say">Mend ${gap.length === 1 ? 'the day' : 'the ' + gap.length + ' days'} you missed, and your streak joins up with the ${before === 1 ? 'day' : before + ' days'} before:</p>${rows}` +
+        (back > n ? `<p class="sk-say">Then it’s ${back} days${chargeOf(back) > charge ? `, ⚡ XP ×${chargeOf(back)}` : ''}.</p>` : '');
+    }
+    const head = n ? `🔥 ${n}-day streak${charge > 1 ? ` · ⚡ XP ×${charge}` : ''}` : fix ? '🔥 Streak broken' : '🔥 No streak yet';
+    const sub = covered ? `❄️ ${gap.length === 1 ? 'A streak freeze covers the day' : gap.length + ' streak freezes cover the days'} you missed (${gap.slice().reverse().map(shortDay).join(', ')}). ${gap.length === 1 ? 'It’s' : 'They’re'} used once you study today.`
+      : !n && fix ? ''
+      : !n ? 'Read today’s chapters to start one. 3 days in a row and every XP is ×1.5.'
+      : up ? `${up[0] - n === 1 ? '1 more day' : up[0] - n + ' more days'} to ⚡ XP ×${up[1]}.` : 'Every XP you earn is ×3.';
+    return `<div class="streak-card"><div class="sk-head">${head}</div>${sub ? `<div class="today-sub">${esc(sub)}</div>` : ''}${fix}</div>`;
+  }
+
   function weekMapHtml() {
     const t = todayIndex();
     const rows = weekPlan().map((entries, d) => (entries.length ? entries : [null]).map((e, k) => {
       const items = e ? entryItems(e) : [], done = items.filter(x => x.done).length;
       const all = items.length && done === items.length;
-      const family = e && e.kind === 'family';
+      const family = e && e.kind === 'family', further = e && e.kind === 'further';
       const tag = items.length || family ? 'button' : 'div';
       const mark = all ? '✓' : done ? done + '/' + items.length : tag === 'button' ? '›' : '';
-      return `<${tag} class="wm-row${d === t ? ' now' : ''}${all ? ' done' : ''}"${items.length ? ` data-lesson="${d}.${k}"` : family ? ' data-games' : ''}>
-        <span class="wm-day">${DAY_NAMES[d].slice(0, 3)}</span>
-        <span class="wm-name">${esc(e ? entryName(e) : 'Catch up, or read ahead')}</span>
+      return `<${tag} class="wm-row${further ? ' further' : d === t ? ' now' : ''}${all ? ' done' : ''}"${items.length ? ` data-lesson="${d}.${k}"` : family ? ' data-games' : ''}>
+        <span class="wm-day">${further ? '' : DAY_NAMES[d].slice(0, 3)}</span>
+        <span class="wm-name">${further ? `🔭 Go further<small>${esc(furtherParts(d))}</small>` : esc(e ? entryName(e) : 'Catch up, or read ahead')}</span>
         <span class="wm-mark">${mark}</span></${tag}>`;
     }).join('')).join('');
     return `<div class="week-map"><div class="eyebrow">This week</div>${rows}</div>`;
@@ -2524,7 +2751,7 @@ const TreasureUp = (function () {
     const right = picked === d.right;
     S.deep[id] = { right, picked, day: dayKey() };
     markStudied();
-    if (right) grantXp(XP.bonus, 'Went deeper');
+    if (right) payXp(S.deep[id], XP.bonus, 'Went deeper');
     save();
     return true;
   }
@@ -3000,19 +3227,29 @@ const TreasureUp = (function () {
       </div>`;
   }
 
-  function saveNote(id) {
-    const r = reelById(id);
-    const text = $('note-' + id).value.trim();
+  // Why a note can't be saved yet, or '' when it can.
+  function noteProblem(text) {
     const words = wordsIn(text);
-    const msg = document.querySelector('[data-note-msg="' + id + '"]');
-    if (words.length < NOTE_MIN_WORDS) { msg.textContent = 'Write at least ' + NOTE_MIN_WORDS + ' words (' + words.length + ' so far).'; return; }
-    if (new Set(words.map(w => w.toLowerCase())).size < 6) { msg.textContent = 'Use your own words: say what it means to you.'; return; }
-    const old = S.notes[id] || {};
+    if (words.length < NOTE_MIN_WORDS) return 'Write at least ' + NOTE_MIN_WORDS + ' words (' + words.length + ' so far).';
+    if (new Set(words.map(w => w.toLowerCase())).size < 6) return 'Use your own words: say what it means to you.';
+    return '';
+  }
+  // Keep a note on reel `r` (from its card, or Go further), with its XP the first time.
+  function storeNote(r, text) {
+    const id = r.id, old = S.notes[id] || {};
     S.notes[id] = { text, day: old.day || dayKey(), at: Date.now(), hook: r.hook, ref: r.verse.ref, rewarded: !!old.rewarded };
     noteEditing.delete(id);
     markStudied();
-    if (!S.notes[id].rewarded) { S.notes[id].rewarded = true; grantXp(NOTE_XP, 'Wrote a note'); }
+    if (!S.notes[id].rewarded) { S.notes[id].rewarded = true; payXp(S.notes[id], NOTE_XP, 'Wrote a note'); }
     save();
+  }
+  function saveNote(id) {
+    const r = reelById(id);
+    const text = $('note-' + id).value.trim();
+    const msg = document.querySelector('[data-note-msg="' + id + '"]');
+    const problem = noteProblem(text);
+    if (problem) { msg.textContent = problem; return; }
+    storeNote(r, text);
     redrawCard(id, reelHtml(r, 0));
   }
 
@@ -3616,7 +3853,8 @@ const TreasureUp = (function () {
       const n = k + 1;
       return `<i class="${n === now ? 'now' : did.has(n) ? 'did' : n < now ? 'past' : ''}" title="Week ${n}"></i>`;
     }).join('');
-    const read = (S.history || []).reduce((n, h) => n + (h.read || 0), 0) + Object.keys(S.read || {}).length;
+    const read = (S.history || []).reduce((n, h) => n + (h.read || 0), 0) + Object.keys(S.read || {}).length +
+      Object.values(S.late || {}).reduce((n, w) => n + Object.keys((w && w.read) || {}).length, 0);
     return `<div class="mt-5"><div class="eyebrow">Your year · week ${now} of ${YEAR_WEEKS}${read ? ' · ' + read + (read === 1 ? ' chapter' : ' chapters') + ' read' : ''}</div><div class="trail">${dots}</div></div>`;
   }
 
@@ -3682,23 +3920,69 @@ const TreasureUp = (function () {
     return null;
   }
   // A chapter of the open week he read: saved with the week, or, for a week
-  // with only its totals, when he read all of them.
+  // with only its totals, when he read all of them; or read since (lateRead).
   function pastReadDone(ref, units) {
+    if (lateRead(ref)) return true;
     const h = recordOf(past.p.num), rec = h && h.rec;
     if (rec) return (Array.isArray(rec.read) ? rec.read : Object.keys(rec.read || {})).includes(ref);
     return !!(h && units.length && h.read >= units.length);
   }
+  // A chapter of the open week read since it ended (Blake, 2026-10-01: "I want
+  // to catch up with all the reading of even the past weeks"): { day, secs, said, xp }.
+  const lateRead = ref => (((S.late || {})[past.p.num] || {}).read || {})[ref] || null;
   // Answering a past week's question he hadn't: XP as this week pays it,
   // when it's right.
   function recordPast(kind, id, q, picked) {
     if (!past || pastTry(kind, id)) return false;            // first try only
     const right = picked === q.right, xp = right ? (kind === 'answers' ? XP.firstTry : XP.bonus) : 0;
     const w = (S.late = S.late || {})[past.p.num] = S.late[past.p.num] || {};
-    (w[kind] = w[kind] || {})[id] = { right, picked, day: dayKey(), xp };
+    const rec = (w[kind] = w[kind] || {})[id] = { right, picked, day: dayKey(), xp };
     markStudied();
-    if (xp) grantXp(xp, 'Caught up on a past week');
+    if (xp) { const before = S.xp; grantXp(xp, 'Caught up on a past week'); rec.xp = S.xp - before; }
     save();
     return true;
+  }
+  // Reading a past week's chapter: the reading clock and the honest question
+  // as in a lesson, and the reading XP (Blake, 2026-09-30: reading pays the most).
+  // It fills the day it was planned for, if that was its last chapter left,
+  // which can mend a broken streak.
+  function pastClock(ref) {
+    const w = (S.late = S.late || {})[past.p.num] = S.late[past.p.num] || {}, c = w.clock = w.clock || {};
+    if (!c[ref]) { c[ref] = Date.now(); saveLocal(); }
+    return c[ref];
+  }
+  function recordPastRead(u, said) {
+    if (!past || pastReadDone(u.ref, readingUnits(past.week.reference, past.text))) return false;
+    const w = S.late[past.p.num] = S.late[past.p.num] || {}, start = (w.clock || {})[u.ref] || null;
+    const rec = (w.read = w.read || {})[u.ref] = { day: dayKey(), secs: start ? Math.round((Date.now() - start) / 1000) : null, said: !!said, xp: 0 };
+    if (w.clock) delete w.clock[u.ref];
+    markStudied(true);
+    const before = S.xp;
+    grantXp(READ_XP, 'Caught up: read ' + u.ref);
+    rec.xp = S.xp - before;
+    save();
+    return true;
+  }
+  let pastAsk = null;    // the chapter he tapped "I read it" on too quickly, asked about
+  function pastReadEndHtml(u) {
+    const done = pastReadDone(u.ref, readingUnits(past.week.reference, past.text)), late = lateRead(u.ref);
+    if (done) return `<div class="ch-mark"><p>✓ Read${late ? ' on ' + esc(shortDay(late.day)) : ' that week'}.</p></div>`;
+    pastClock(u.ref);
+    return `<div class="ch-mark">${pastAsk === u.ref ? `<p>That was quick. Did you read all of ${esc(u.ref)}?</p>
+      <button class="btn" data-past-readyes="${esc(u.ref)}">Yes, I read every verse</button>
+      <button class="today-alt" data-past-readnot>Not yet</button>`
+      : `<p>Caught up on it? Mark it read for ${READ_XP} XP.</p><button class="btn" data-past-mark="${esc(u.ref)}">I read ${esc(u.ref)}</button>`}</div>`;
+  }
+  // "I read it": quicker than a real read asks him first, as in a lesson.
+  function pastMark(ref, said) {
+    const u = past && readingUnits(past.week.reference, past.text).find(x => x.ref === ref);
+    if (!u) return;
+    const secs = (Date.now() - pastClock(ref)) / 1000;
+    if (!said && secs < readMinSecs(u)) pastAsk = ref;
+    else { pastAsk = null; recordPastRead(u, said); }
+    const end = $('viewBody').querySelector('.ch-mark');
+    if (end) end.outerHTML = pastReadEndHtml(u);
+    renderHud();
   }
   function answerPast(quiz, picked) {
     if (!past) return;
@@ -3774,18 +4058,20 @@ const TreasureUp = (function () {
     const units = readingUnits(week.reference, text);
     const chapters = units.map(u => {
       const did = pastReadDone(u.ref, units);
+      if (did && lateRead(u.ref)) tries.push({ late: true });
       return `
-      <button class="report-row${did ? ' is-right' : ''}" data-past-read="${esc(u.ref)}">
+      <button class="report-row${did ? ' is-right' + (lateRead(u.ref) ? ' late' : '') : ''}" data-past-read="${esc(u.ref)}">
         <span class="st">${did ? '✓' : ''}</span><span>Read ${esc(u.ref)}</span><span class="go">›</span></button>`;
     }).join('');
-    const late = Object.values((S.late || {})[p.num] || {}).reduce((n, o) => n + Object.keys(o || {}).length, 0);
+    const L = (S.late || {})[p.num] || {}, late = ['answers', 'bonus', 'deep'].reduce((n, k) => n + Object.keys(L[k] || {}).length, 0), lateCh = Object.keys(L.read || {}).length;
+    const caught = [late && `${late} ${late === 1 ? 'question' : 'questions'}`, lateCh && `${lateCh} ${lateCh === 1 ? 'chapter' : 'chapters'}`].filter(Boolean).join(' and ');
     const summary = (!h ? '' : `You answered ${h.answered} ${h.answered === 1 ? 'reel' : 'reels'}, ${h.right} right the first time` +
       (h.read ? `, and read ${h.read} of ${h.chapters || units.length} ${(h.chapters || units.length) === 1 ? 'chapter' : 'chapters'}.` : '.')) +
-      (late ? `${h ? ' Since then you' : 'You'} caught up on ${late} ${late === 1 ? 'question' : 'questions'}.` : '');
+      (caught ? `${h ? ' Since then you' : 'You'} caught up on ${caught}.` : '');
     const unsaved = h && !h.rec ? 'This week ended before the app saved each answer, so only these totals were kept.' : '';
     const legend = [
       tries.some(t => !t) ? 'Tap an empty one to answer it now.' : '',
-      tries.some(t => t && t.late) ? '<b>Outlined</b>: answered since the week ended.' : '',
+      tries.some(t => t && t.late) ? '<b>Outlined</b>: done since the week ended.' : '',
       tries.some(t => t && t.right == null) ? "<b>Grey</b>: answered that week; whether it was right wasn't saved." : ''
     ].filter(Boolean).join(' ');
     return `
@@ -3795,7 +4081,8 @@ const TreasureUp = (function () {
         <p class="text-[15px] font-bold text-amber-300">${linkRefs(week.reference)}</p>
         ${summary ? `<p class="lb-help">${esc(summary)}</p>` : ''}
         ${unsaved ? `<p class="lb-help">${esc(unsaved)}</p>` : ''}
-        ${chapters ? `<div class="home-sec"><div class="eyebrow">The chapters</div>${chapters}</div>` : ''}
+        ${chapters ? `<div class="home-sec"><div class="eyebrow">The chapters</div>${units.some(u => !pastReadDone(u.ref, units))
+          ? `<p class="lb-help">Read one you missed, then mark it read at its end: ${READ_XP} XP, and it mends the day it was planned for.</p>` : ''}${chapters}</div>` : ''}
         <div class="home-sec"><div class="eyebrow">The reels</div>${legend ? `<p class="lb-help past-legend">${legend}</p>` : ''}${parts.join('')}</div>
         <a href="${esc(week.lesson)}" target="_blank" rel="noopener noreferrer"
            class="mt-5 inline-block text-[13px] font-semibold text-white/75 underline decoration-white/30">Open that week's lesson ↗</a>
@@ -3810,6 +4097,7 @@ const TreasureUp = (function () {
     const html = r ? pastReelHtml(r) : d ? pastDeepHtml(d) : u ? pastChapterHtml(u) : '';
     if (!html) return;
     pastUnit = u || null;
+    pastAsk = null;
     readUnit = null;
     $('view').classList.toggle('reading', !!u);
     $('viewBody').innerHTML = html;
@@ -3874,7 +4162,7 @@ const TreasureUp = (function () {
       </div>
     </article>`;
   }
-  const pastChapterHtml = u => readerHtml(u, past.week);
+  const pastChapterHtml = u => readerHtml(u, past.week, pastReadEndHtml(u));
   // A chapter in the reader over the page: this week's or a past week's.
   function readerHtml(u, week, end) {
     const link = readLink(u.ref);
@@ -4411,6 +4699,8 @@ const TreasureUp = (function () {
     const g = lv && lv.game;
     if (!g || g.state !== 'question' || lv.picked[g.qi] != null) return;
     lv.picked[g.qi] = choice;
+    markStudied();               // playing the family game counts for the day (Blake, 2026-10-01), like any answer
+    save();
     renderPlayer();
     await liveConn().answer(lv.code, g.qi, choice);
   }
@@ -7884,14 +8174,16 @@ const TreasureUp = (function () {
     const has = (o, k) => !!o && Object.prototype.hasOwnProperty.call(o, k);
     const M = JSON.parse(JSON.stringify(R));
     let gained = Math.max(0, (L.xp || 0) - (B.xp || 0));
-    for (const k in L.answers || {}) if (!has(B.answers, k) && has(R.answers, k) && L.answers[k].right) gained -= XP.firstTry;
-    for (const k in L.bonus || {}) if (!has(B.bonus, k) && has(R.bonus, k) && L.bonus[k].right) gained -= XP.bonus;
-    for (const k in L.deep || {}) if (!has(B.deep, k) && has(R.deep, k) && L.deep[k].right) gained -= XP.bonus;
-    for (const k in L.found || {}) if (!has(B.found, k) && has(R.found, k) && L.found[k].right) gained -= FIND_XP;
+    // What a record paid (it keeps that since the supercharge), or the base amount.
+    const xpOf = (rec, base) => typeof rec.xp === 'number' ? rec.xp : base;
+    for (const k in L.answers || {}) if (!has(B.answers, k) && has(R.answers, k) && L.answers[k].right) gained -= xpOf(L.answers[k], XP.firstTry);
+    for (const k in L.bonus || {}) if (!has(B.bonus, k) && has(R.bonus, k) && L.bonus[k].right) gained -= xpOf(L.bonus[k], XP.bonus);
+    for (const k in L.deep || {}) if (!has(B.deep, k) && has(R.deep, k) && L.deep[k].right) gained -= xpOf(L.deep[k], XP.bonus);
+    for (const k in L.found || {}) if (!has(B.found, k) && has(R.found, k) && L.found[k].right) gained -= xpOf(L.found[k], FIND_XP);
     const paid = (o, k) => has(o, k) && !!o[k].xp;
-    for (const k in L.readLog || {}) if (paid(L.readLog, k) && !paid(B.readLog, k) && paid(R.readLog, k)) gained -= READ_XP;
+    for (const k in L.readLog || {}) if (paid(L.readLog, k) && !paid(B.readLog, k) && paid(R.readLog, k)) gained -= xpOf(L.readLog[k], READ_XP);
     for (const k in L.notes || {}) {
-      if (L.notes[k].rewarded && !(has(B.notes, k) && B.notes[k].rewarded) && has(R.notes, k) && R.notes[k].rewarded) gained -= NOTE_XP;
+      if (L.notes[k].rewarded && !(has(B.notes, k) && B.notes[k].rewarded) && has(R.notes, k) && R.notes[k].rewarded) gained -= xpOf(L.notes[k], NOTE_XP);
     }
     // The games, the same way: a Who said it? line, the week's puzzle, or a
     // day's Verse Word that both devices were paid for since they last met.
@@ -7916,7 +8208,7 @@ const TreasureUp = (function () {
       }
     }
     M.xp = (R.xp || 0) + Math.max(0, gained);
-    for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
+    for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found', 'insights']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
     // The reading clock: a chapter finished on either device keeps its record.
     M.readLog = Object.assign({}, L.readLog || {}, R.readLog || {});
     for (const k in L.readLog || {}) if (L.readLog[k].day && !M.readLog[k].day) M.readLog[k] = L.readLog[k];
@@ -7929,7 +8221,11 @@ const TreasureUp = (function () {
       const a = L.words[d], b = (R.words || {})[d];
       if (b && (a.guesses || []).length > (b.guesses || []).length) M.words[d] = a;
     }
-    // Streak: whichever studied more recently.
+    // Streak: every day either kept or a freeze covered (the length is
+    // worked out again from these when the app opens), and the freezes left
+    // from whichever studied more recently.
+    for (const key of ['days', 'filled', 'frozen']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
+    M.daysFrom = [L.daysFrom, R.daysFrom].filter(Boolean).sort()[0] || null;
     if ((L.lastStudy || '') > (R.lastStudy || '')) Object.assign(M, { lastStudy: L.lastStudy, streak: L.streak, freezes: L.freezes });
     else if (L.lastStudy === R.lastStudy) M.streak = Math.max(L.streak || 0, R.streak || 0);
     // Today's warm-up: both sets of answers.
@@ -8813,7 +9109,7 @@ const TreasureUp = (function () {
     if (S.found[id]) return false;
     S.found[id] = { right, day: dayKey() };
     markStudied();
-    if (right) grantXp(FIND_XP, 'Found it in the chapter');
+    if (right) payXp(S.found[id], FIND_XP, 'Found it in the chapter');
     save();
     return true;
   }
@@ -8835,10 +9131,11 @@ const TreasureUp = (function () {
 
   // A finished part plays again as practice: everything in it, nothing to earn.
   function buildLesson(entry) {
-    const steps = [];
-    S.daily.ids.filter(id => !S.daily.done[id]).map(reelById).filter(Boolean).forEach(r => steps.push({
+    const steps = [], further = !!entry && entry.kind === 'further';
+    // The day's warm-up comes first, but not in Go further (extra, after the lesson).
+    if (!further) S.daily.ids.filter(id => !S.daily.done[id]).map(reelById).filter(Boolean).forEach(r => steps.push({
       kind: 'recall', id: r.id, r, home: r.verse.ref, q: r.question.q, right: r.question.right, why: r.question.why, choices: choicesFor(r.question, r.id + '|' + S.daily.day) }));
-    const x = S.daily.say && !S.daily.sayDone && (WEEK.sayings || []).find(y => y.id === S.daily.say);
+    const x = !further && S.daily.say && !S.daily.sayDone && (WEEK.sayings || []).find(y => y.id === S.daily.say);
     if (x) steps.push({ kind: 'saywarm', text: x.text, ref: x.ref, home: x.ref, right: x.speaker, why: x.why, choices: shuffled([x.speaker].concat(x.wrong), x.id + '|' + S.daily.day) });
     const practice = !!entry && entryItems(entry).every(i => i.done);
     if (entry && entry.kind === 'day') {
@@ -8856,6 +9153,16 @@ const TreasureUp = (function () {
       });
       [matchStep(d), x ? null : sayStep(d)].forEach(y => { if (y) steps.push(y); });
       dayDeep(d).filter(g => practice || !S.deep[g.id]).forEach(g => steps.push(deepStep(g)));
+    } else if (further) {
+      // Go further: the day's insight cards, then the bonus questions of its
+      // answered reels, then a note on one of them that has none.
+      const d = entry.d, open = dayReels(d).filter(r => S.answers[r.id]);
+      dayInsights(d).filter(i => practice || !(S.insights || {})[i.x.id]).forEach(i => steps.push({ kind: 'insight', x: i.x, draft: i.draft }));
+      open.forEach(r => bonusesOf(r).forEach((q, n) => {
+        if (practice || !S.bonus[bonusKey(r.id, n)]) steps.push({ kind: 'bonus', id: r.id, n, q, home: homeOf(r, q), right: q.right, why: q.why, choices: choicesFor(q, r.id + '|bonus' + n) });
+      }));
+      const r = open.find(y => !S.notes[y.id]);
+      if (r) steps.push({ kind: 'note', r });
     } else if (entry && entry.kind === 'friday') {
       fridayItems().filter(d => practice || !S.deep[d.id]).forEach(d => steps.push(deepStep(d)));
     } else if (entry && entry.kind === 'puzzle') steps.push({ kind: 'puzzle' });
@@ -8871,6 +9178,7 @@ const TreasureUp = (function () {
     const entry = m ? (plan[m[1]] || [])[m[2]]
       : lessonNow() || (warmupsLeft().length ? null : plan[todayIndex()].find(e => e.kind !== 'family')) || null;
     const L = buildLesson(entry || null);
+    if (!L.steps.length && entry && entry.kind === 'further') { toast('Do the day’s lesson first', 'Its bonus questions open after its reels'); return; }
     if (!L.steps.length) { toast('Nothing planned today', 'Catch up, or read ahead on the week map'); return; }
     lesson = L;
     lessonReset();
@@ -8901,14 +9209,16 @@ const TreasureUp = (function () {
     else if (step.kind === 'recall') recordRecall(step.id, picked);
     else if (step.kind === 'saywarm') recordSayWarm(picked);
     else if (step.kind === 'deep') recordDeep(step.id, picked);
+    else if (step.kind === 'bonus') recordBonus(step.id, step.n, picked);
     else if (step.kind === 'find' && !step.practice) recordFind(step.id, ok);
     return S.xp - before;
   }
 
   // "Right first time" on the last screen counts the questions, not the practice.
-  const SCORED = { recall: 1, saywarm: 1, reel: 1, deep: 1, find: 1 };
+  const SCORED = { recall: 1, saywarm: 1, reel: 1, deep: 1, find: 1, bonus: 1 };
   const LESSON_KIND = { recall: 'Warm-up · remember this?', saywarm: 'Warm-up · who said it?', reel: 'Choose the right answer',
-    blank: 'Fill in the missing word', find: 'Find it in the chapter', match: 'Match each idea to its verse', say: 'Who said it?', deep: 'Go deeper' };
+    blank: 'Fill in the missing word', find: 'Find it in the chapter', match: 'Match each idea to its verse', say: 'Who said it?', deep: 'Go deeper',
+    insight: '💡 Insight', bonus: 'Bonus · find it in the reading · +' + XP.bonus + ' XP', note: 'Write a note · +' + NOTE_XP + ' XP' };
 
   function renderLesson() {
     if (!lesson) return;
@@ -8924,7 +9234,8 @@ const TreasureUp = (function () {
     const optCls = v => !L.checked ? (L.picked === v ? ' on' : '') : v === step.right ? ' good' : v === L.picked ? ' bad' : '';
     const opts = () => `<div class="ls-opts">${step.choices.map(c => opt(c, optCls(c))).join('')}</div>`;
     const min = step.kind === 'chapter' ? minutesOf([step.u]) : 0;
-    let html = `<div class="ls-kind">${step.retry ? '↻ Try it again' : step.kind === 'read' ? 'Read' : step.kind === 'chapter' ? 'Read the chapter' + (min ? ' · about ' + min + ' min' : '') : step.kind === 'puzzle' ? 'Saturday' : LESSON_KIND[step.kind]}</div>`;
+    let html = `<div class="ls-kind">${step.retry ? '↻ Try it again' : step.kind === 'read' ? 'Read' : step.kind === 'chapter' ? 'Read the chapter' + (min ? ' · about ' + min + ' min' : '') : step.kind === 'puzzle' ? 'Saturday'
+      : step.kind === 'bonus' ? esc('Bonus · find it in ' + sourceLabel(step.q.source) + ' · +' + XP.bonus + ' XP') : LESSON_KIND[step.kind]}</div>`;
     if (step.kind === 'chapter') {
       // The chapter itself, or, without its text, the way to it in Gospel Library.
       const u = step.u, gl = u.whole ? readLink(u.ch, true) : readLink(u.ref);
@@ -8974,6 +9285,26 @@ const TreasureUp = (function () {
         <p class="reel-body">${linkRefs(d.intro, deepPassage(d))}</p>
         ${url ? `<a class="deep-open" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open ${esc(web ? sourceLabel(d.read) : d.read)} ↗</a>` : ''}`;
       html += `<div class="ls-q">${linkRefs(step.q, step.home)}</div>${opts()}`;
+    } else if (step.kind === 'insight') {
+      // A point from the page it credits, in our words, and the page to read more.
+      const x = step.x, s = x.source || {};
+      html += `<div class="ls-prompt">${esc(x.title)}</div>
+        <div class="ls-ins-ref">${linkRefs(x.ref)}</div>
+        ${step.draft ? '<p class="plain-draft">Draft: not approved yet</p>' : ''}
+        <p class="reel-body">${linkRefs(x.text, x.ref)}</p>
+        <a class="ins-src" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer"><span>From ${esc(s.by)}${s.who ? ' · ' + esc(s.who) : ''}</span> <b>${esc(s.title)} ↗</b></a>`;
+    } else if (step.kind === 'bonus') {
+      const where = sourceLabel(step.q.source);
+      html += step.retry ? '' : `<a class="deep-open" style="margin:0 0 4px" href="${esc(sourceLink(step.q.source))}" target="_blank" rel="noopener noreferrer">Open ${esc(where)} ↗</a>`;
+      html += `<div class="ls-q">${linkRefs(step.q.q, step.home)}</div>${opts()}`;
+    } else if (step.kind === 'note') {
+      const r = step.r, n = S.notes[r.id];
+      html += `<div class="ls-prompt">${linkRefs(r.hook, r.verse.ref)}</div>
+        <div class="ls-verse" style="margin-top:0">“${esc(r.verse.text)}”<span class="ref">${linkRefs(r.verse.ref)}</span></div>
+        <label class="note-q" for="lsNote" style="margin-top:16px">${linkRefs(r.note || 'What does this mean for you? Write it in your own words.', r.verse.ref)}</label>
+        ${L.checked && n ? `<p class="note-text">${esc(n.text)}</p>`
+          : `<textarea id="lsNote" class="field note-input" rows="4" maxlength="600" placeholder="At least ${NOTE_MIN_WORDS} words"></textarea><p class="note-msg" id="lsNoteMsg"></p>`}
+        <p class="note-help">Your parents can read your notes.</p>`;
     } else if (step.kind === 'puzzle') {
       const left = reelsLeft();
       html += `<div class="ls-prompt">The weekly puzzle</div>
@@ -8986,7 +9317,11 @@ const TreasureUp = (function () {
 
     // The bottom: Continue, Check, or how it went.
     let footHtml;
-    if (step.kind === 'read') footHtml = `<button class="ls-go" data-ls="next">Continue</button>`;
+    if (step.kind === 'read' || step.kind === 'insight') footHtml = `<button class="ls-go" data-ls="next">Continue</button>`;
+    else if (step.kind === 'note') {
+      footHtml = L.checked ? `<div class="ls-say">Saved in your notes${L.earned ? ` <span class="ls-earn">+${L.earned} XP</span>` : ''}</div><button class="ls-go" data-ls="next">Continue</button>`
+        : `<button class="ls-go" data-ls="savenote">Save note</button><button class="ls-alt" data-ls="next">Skip</button>`;
+    }
     else if (step.kind === 'chapter') {
       // Opens once he's reached the end of the chapter here, or gone to read it in Gospel Library.
       // Quicker than a real read, it asks him first; then the XP.
@@ -9025,9 +9360,13 @@ const TreasureUp = (function () {
   }
 
   function renderLessonEnd(body, foot) {
-    const L = lesson, e = L.entry, secs = Math.round((Date.now() - L.start) / 1000), xp = S.xp - L.xp0, streak = liveStreak();
+    const L = lesson, e = L.entry, secs = Math.round((Date.now() - L.start) / 1000), xp = S.xp - L.xp0, streak = streakNow(), charge = chargeOf(streak), up = nextCharge(streak);
     const next = L.practice ? null : lessonNow();
     const name = e ? entryName(e) : "Today's warm-up";
+    // After a day's lesson, its Go further while it has something left; after
+    // Go further, the bonus questions still waiting on that day's reels.
+    const fk = e && e.kind === 'day' ? furtherKey(e.d) : null;
+    const locked = e && e.kind === 'further' ? dayReels(e.d).filter(r => !S.answers[r.id]).reduce((n, r) => n + bonusesOf(r).length, 0) : 0;
     body.innerHTML = `<div class="ls-done"><div class="big">🎉</div>
       <div class="ls-prompt">${L.practice ? 'Practice done!' : 'Lesson complete!'}</div>
       <p class="reel-body">${esc(name)}</p>
@@ -9035,9 +9374,12 @@ const TreasureUp = (function () {
         <div class="ls-stat"><b>+${xp}</b><span>XP</span></div>
         <div class="ls-stat"><b>${L.scored ? Math.round(L.right / L.scored * 100) : 100}%</b><span>Right first time</span></div>
         <div class="ls-stat"><b>${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}</b><span>Time</span></div></div>
-      ${streak ? `<p class="ls-streak">🔥 ${streak}-day streak</p>` : ''}
+      ${streak ? `<p class="ls-streak">🔥 ${streak}-day streak${charge > 1 ? ` · ⚡ XP ×${charge}` : ''}</p>` : ''}
+      ${streak && up ? `<p class="fam-note" style="margin-top:4px">${up[0] - streak === 1 ? '1 more day' : up[0] - streak + ' more days'} to ⚡ XP ×${up[1]}</p>` : ''}
       ${L.level ? `<p class="ls-news">⭐ Level ${L.level}: ${esc(LEVEL_TITLES[L.level - 1])}</p>` : ''}
       ${L.rewards.map(t => `<p class="ls-news">🎁 Reward unlocked: ${esc(t)} · show a parent</p>`).join('')}
+      ${fk ? `<button class="ls-further" data-ls="further" data-key="${fk}">🔭 Go further<small>${esc(furtherParts(e.d))}</small></button>` : ''}
+      ${locked ? `<p class="fam-note">${locked === 1 ? '1 more bonus question opens' : locked + ' more bonus questions open'} once you answer that day's reels.</p>` : ''}
       ${L.practice ? `<p class="fam-note">Practice: this part was already answered, so nothing new was earned.</p>` : ''}
       ${!next && !L.practice ? `<p class="fam-note">That's today's reading done. Come back tomorrow for the next part.</p>` : ''}</div>`;
     foot.className = 'ls-foot';
@@ -9062,7 +9404,7 @@ const TreasureUp = (function () {
     if (!L) return;
     // Check and Continue take each other's place, so a quick double tap
     // would check and move on before he saw the answer.
-    if (act === 'check' || act === 'next' || act === 'readdone' || act === 'readyes' || act === 'readnot') {
+    if (act === 'check' || act === 'next' || act === 'readdone' || act === 'readyes' || act === 'readnot' || act === 'savenote') {
       if (Date.now() - (L.tapAt || 0) < 400) return;
       L.tapAt = Date.now();
     }
@@ -9088,8 +9430,23 @@ const TreasureUp = (function () {
     if (act === 'readnot') { L.askRead = false; return keepPlace(renderLesson); }
     if (act === 'close') return closeLesson();
     if (act === 'nextlesson') { closeLesson(); return openLesson(''); }
+    if (act === 'further') { closeLesson(); return openLesson(el.dataset.key); }
     if (act === 'puzzle') { closeLesson(); return startGame('puzzle'); }
-    if (act === 'next') { stopClips(); L.at++; lessonReset(); return renderLesson(); }
+    // A note in his own words, as on a reel: kept, and its XP the first time.
+    if (act === 'savenote') {
+      if (L.checked || !step || step.kind !== 'note') return;
+      const text = ($('lsNote') || {}).value || '', problem = noteProblem(text.trim());
+      if (problem) { $('lsNoteMsg').textContent = problem; return; }
+      const before = S.xp;
+      storeNote(step.r, text.trim());
+      Object.assign(L, { checked: true, ok: true, earned: S.xp - before });
+      return renderLesson();
+    }
+    if (act === 'next') {
+      // An insight card he has seen counts in its day's Go further.
+      if (step && step.kind === 'insight' && !(S.insights || {})[step.x.id]) { (S.insights = S.insights || {})[step.x.id] = dayKey(); save(); }
+      stopClips(); L.at++; lessonReset(); return renderLesson();
+    }
     if (act === 'pick' && !L.checked) L.picked = el.dataset.v;
     else if (act === 'check' && !L.checked) {
       L.ok = Array.isArray(step.right) ? step.right.includes(L.picked) : L.picked === step.right;
@@ -9132,7 +9489,8 @@ const TreasureUp = (function () {
     gradient: 'Background', blobA: 'Glow 1', blobB: 'Glow 2',
     ch: 'Chapter', verses: 'Plain words (one line per verse)', notes: 'Notes under verses', v: 'Verse number',
     review: 'For your review (not shown in the app)', about: 'What to look at',
-    lines: 'Lines (one per line, each ending with its verses, like (verses 4–5))', also: 'Under the card: the Book of Mormon copy the heading names'
+    lines: 'Lines (one per line, each ending with its verses, like (verses 4–5))', also: 'Under the card: the Book of Mormon copy the heading names',
+    by: 'From (Scripture Central, BYU Speeches, General Conference…)', who: 'Speaker or author', url: 'Page link'
   };
   let dev = null;
   const devTest = () => !FIREBASE_CONFIG && window.TU_DEV_TEST;   // the tests' stand-in for GitHub and sign-in
@@ -9160,15 +9518,18 @@ const TreasureUp = (function () {
     if (w.words) add('words', 'Verse Words', w.words, w.wordsApproved, w.words);
     (w.plain || []).forEach(p => add('plain:' + p.ch, 'Plain words · ' + p.ch, p, p.approved, noApproval(p)));
     (w.tldr || []).forEach(t => add('tldr:' + t.ch, 'The short version · ' + t.ch, t, t.approved, noApproval(t)));
+    (w.insights || []).forEach(x => add('insight:' + x.id, 'Insight · ' + x.ref, x, x.approved, noApproval(x)));
     return out.map(i => Object.assign(i, { state: !i.approved ? 'draft' : i.approved === i.hash ? 'ok' : 'changed' }));
   }
   const devUnwatched = i => i.key.startsWith('reel:') && !!(i.obj.media && i.obj.media.video && !i.obj.media.video.previewed);
   const devLeft = w => devItems(w).filter(i => i.state !== 'ok' && !devUnwatched(i));
-  // Plain words and short versions never hold a week back: each chapter's
-  // shows in the app only once it's approved, so a week publishes without them.
-  const devNeeded = items => items.filter(i => !i.key.startsWith('plain:') && !i.key.startsWith('tldr:'));
+  // Plain words, short versions and insight cards never hold a week back:
+  // each shows in the app only once it's approved, so a week publishes without them.
+  const OPTIONAL = /^(plain|tldr|insight):/;
+  const devNeeded = items => items.filter(i => !OPTIONAL.test(i.key));
   // A kind of piece's list in a week, and a piece's name in it (plain words and short versions go by chapter).
-  const devList = (w, kind) => kind === 'reel' ? w.reels : kind === 'deep' ? w.deep : kind === 'plain' ? (w.plain || []) : kind === 'tldr' ? (w.tldr || []) : w.sayings;
+  const devList = (w, kind) => kind === 'reel' ? w.reels : kind === 'deep' ? w.deep : kind === 'plain' ? (w.plain || []) : kind === 'tldr' ? (w.tldr || [])
+    : kind === 'insight' ? (w.insights || []) : w.sayings;
   const devIdOf = (kind, x) => kind === 'plain' || kind === 'tldr' ? x.ch : x.id;
   function devGet(w, key) {
     if (key === 'week') return weekMeta(w);
@@ -9406,12 +9767,14 @@ const TreasureUp = (function () {
     const clipNote = clips ? `<p class="dv-small">${clips} ${clips === 1 ? 'reel has a clip' : 'reels have a clip'} you haven’t watched: watch it, then approve the reel on its own.</p>` : '';
     const groups = [['The week', i => i.key === 'week'], ['Reels', i => i.key.startsWith('reel:')], ['Go deeper', i => i.key.startsWith('deep:')],
                     ['Games', i => i.key === 'puzzle' || i.key === 'words' || i.key.startsWith('say:')],
-                    ['Plain words', i => i.key.startsWith('plain:')], ['The short version', i => i.key.startsWith('tldr:')]];
+                    ['Plain words', i => i.key.startsWith('plain:')], ['The short version', i => i.key.startsWith('tldr:')],
+                    ['Insights', i => i.key.startsWith('insight:')]];
     return devTopHtml(true) + `
       <p class="board-help" style="margin-top:12px">${esc(w.dates)} · ${ok} of ${items.length} approved.
         <a href="./" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Open the test site ↗</a></p>${all}${clipNote}` +
       groups.filter(([, f]) => items.some(f))
-        .map(([name, f]) => `<div class="dv-group"><div class="eyebrow">${name}</div>${name === 'Plain words' ? '<p class="dv-small">Each verse of the KJV with its plain words under it, and the BSB to compare. A chapter shows in the app once it’s approved.</p>' : name === 'The short version' ? '<p class="dv-small">The lines at the top of each chapter, each with the KJV verses it sums up under it. A chapter’s card shows in the app once it’s approved.</p>' : ''}${items.filter(f).map(i => devItemHtml(w, i)).join('')}</div>`).join('');
+        .map(([name, f]) => `<div class="dv-group"><div class="eyebrow">${name}</div>${name === 'Plain words' ? '<p class="dv-small">Each verse of the KJV with its plain words under it, and the BSB to compare. A chapter shows in the app once it’s approved.</p>' : name === 'The short version' ? '<p class="dv-small">The lines at the top of each chapter, each with the KJV verses it sums up under it. A chapter’s card shows in the app once it’s approved.</p>'
+          : name === 'Insights' ? '<p class="dv-small">Each card in its day’s Go further: a point from the page it credits, in our words. Open the page to check it says so. Each card shows in the app once it’s approved.</p>' : ''}${items.filter(f).map(i => devItemHtml(w, i)).join('')}</div>`).join('');
   }
 
   function devItemHtml(w, it) {
@@ -9462,6 +9825,15 @@ const TreasureUp = (function () {
           <p class="dv-plain">${esc(t)}</p>
           ${bsb[i] ? `<p class="dv-bsb"><b>BSB</b> ${esc(bsb[i])}</p>` : ''}
           ${(o.notes || []).filter(n => n.v === i + 1).map(n => `<p class="dv-small">Note: ${esc(n.text)}</p>`).join('')}</div>`).join('');
+    }
+    if (it.key.startsWith('insight:')) {
+      // The card, the page it comes from, where on the page, and the verses it's about.
+      const s = o.source || {}, m = /^(.+? \d+)(?::(\d+)(?:–(\d+))?)?$/.exec(o.ref || ''), kjv = m ? (window.TU_READING || {})[m[1]] || [] : [];
+      const from = m && m[2] ? Number(m[2]) : 0, to = m && m[2] ? Number(m[3] || m[2]) : 0;
+      return `<div class="dv-hook">${esc(o.title)}</div><p class="dv-small">${esc(o.ref)}</p><p>${esc(o.text)}</p>
+        <p class="dv-small">From ${esc(s.by)}${s.who ? ' · ' + esc(s.who) : ''}: <a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">${esc(s.title)} ↗</a></p>
+        <p class="dv-small">On the page: “${esc(o.find)}”</p>` +
+        (from ? kjv.slice(from - 1, to).map((t, k) => `<p class="dv-kjv"><sup>${from + k}</sup>${esc(t)}</p>`).join('') : '');
     }
     if (it.key.startsWith('tldr:')) {
       // Each line of the card, with the KJV verses it sums up under it.
@@ -9663,7 +10035,7 @@ const TreasureUp = (function () {
         let obj;
         if (dev.raw) { try { obj = JSON.parse($('devJson').value); } catch (e) { return say("That isn't valid JSON: " + e.message); } }
         else obj = devReadForm(el.closest('.dv-editor'), key === 'words' ? before : noApproval(before));
-        if (key.startsWith('reel:') || key.startsWith('deep:') || key.startsWith('say:')) obj.id = before.id;   // ids stay put: answers are saved by id
+        if (/^(reel|deep|say|insight):/.test(key)) obj.id = before.id;                                         // ids stay put: answers are saved by id
         if (key.startsWith('plain:') || key.startsWith('tldr:')) obj.ch = before.ch;                        // plain words and short versions stay with their chapter
         if (key === 'week') obj.dates = before.dates;                                                        // and the dates are the week itself
         dev.editing = null;
@@ -9715,6 +10087,10 @@ const TreasureUp = (function () {
       if (layer) { toggleLayer(layer); return; }
       const ml = e.target.closest('[data-mark-lesson]');
       if (ml) { const key = ml.dataset.markLesson; closeView(); openLesson(key); return; }
+      // A past week's chapter, caught up on.
+      const pm = e.target.closest('[data-past-mark], [data-past-readyes]');
+      if (pm) { pastMark(pm.dataset.pastMark || pm.dataset.pastReadyes, !!pm.dataset.pastReadyes); return; }
+      if (e.target.closest('[data-past-readnot]')) { pastAsk = null; const u = pastUnit; const end = u && $('viewBody').querySelector('.ch-mark'); if (end) end.outerHTML = pastReadEndHtml(u); return; }
       const jump = e.target.closest('[data-jump]');
       if (jump) { jumpToVerse(jump); return; }
       const ns = e.target.closest('[data-note-save]');
@@ -9945,6 +10321,13 @@ const TreasureUp = (function () {
     Object.keys(S.read || {}).forEach(ref => { if (!units.has(ref)) delete S.read[ref]; });
     Object.keys(S.readLog || {}).forEach(ref => { if (!units.has(ref)) delete S.readLog[ref]; });
     S.weekChapters = units.size;
+
+    // The streak became days kept (2026-10-01): the run it had becomes its days.
+    if (!S.daysFrom) {
+      S.daysFrom = dayKey();
+      if (S.lastStudy && S.streak > 0) for (let i = 0; i < S.streak; i++) (S.days = S.days || {})[dayAdd(S.lastStudy, -i)] = 1;
+    }
+    updateStreak();
 
     rollDay();
     renderHome();
