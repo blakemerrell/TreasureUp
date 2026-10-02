@@ -292,6 +292,15 @@ scripted player and
 checks every quotation in the game against the verse it cites; the deploy
 runs it and won't publish if it fails.
 
+**New art comes from Gemini**, which Blake runs in Antigravity on his Gemini
+plan, watching the open art pull request. Claude writes a request in
+`liberty/art/requests/` and comments on that pull request ("Claude → Gemini");
+Gemini makes the pictures, pushes them to `liberty/art/incoming/pr<number>/`
+and replies, which wakes Claude to check them at game size and put the good
+ones in the game. `GEMINI.md` is Gemini's brief: who does what, the house
+style and the rules. The first picture made this way is the worker
+(`liberty/art/requests/001-worker.md`).
+
 ---
 
 ## Amigo · Kaibigan (a separate game)
