@@ -35,6 +35,9 @@ const IMG = {
   tower: new Image(),
   storehouse: new Image(),
   armory: new Image(),
+  granary: new Image(),
+  stables: new Image(),
+  hall: new Image(),
   farm: new Image()
 };
 IMG.moroni.src = 'assets/moroni.png?v=13';
@@ -61,6 +64,9 @@ IMG.barracks.src = 'assets/barracks.png?v=13';
 IMG.tower.src = 'assets/tower.png?v=13';
 IMG.storehouse.src = 'assets/storehouse.png?v=13';
 IMG.armory.src = 'assets/armory.png?v=13';
+IMG.granary.src = 'assets/granary.png?v=1';      // and these: 007-buildings.md
+IMG.stables.src = 'assets/stables.png?v=1';
+IMG.hall.src = 'assets/hall.png?v=1';
 IMG.farm.src = 'assets/farm.png?v=13';
                                 // the simulation's tick, as in the tests
   const $ = id => document.getElementById(id);
@@ -1116,8 +1122,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
     storehouse: { cx: 187, by: 283, span: 358 },
     tower: { cx: 214, by: 493, span: 428 },
     armory: { cx: 74, by: 147, span: 150 },
+    granary: { cx: 200, by: 333, span: 397 },
+    stables: { cx: 200, by: 318, span: 375 },
+    hall: { cx: 200, by: 310, span: 400 },
   };
-  const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'barracks', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'storehouse', stables: 'storehouse' };
+  const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables' };
   const ready = img => img && img.complete && img.naturalWidth;
   // A building stands on flat ground just above the highest corner of its plot.
   function floorOf(b) {
@@ -1176,7 +1185,6 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (ready(img)) ctx.drawImage(img, ix - sp.cx * sc, front.iy - sp.by * sc, img.naturalWidth * sc, img.naturalHeight * sc);
       else { ctx.fillStyle = '#bfa97c'; ctx.fillRect(ix - w * 0.5, iy - h, w, h); }
       if (b.type === 'hall') banner(ix + 6, iy - h * 1.2, '#d4a017', now, b.id);
-      if (b.type === 'stables') fence(b, top);
     }
     ctx.restore();
 
@@ -1199,15 +1207,6 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.quadraticCurveTo(x + 8, y - 6 + wave, x + 15, y - 3 + wave); ctx.lineTo(x + 15, y + 6 + wave);
     ctx.quadraticCurveTo(x + 8, y + 4 + wave, x + 1, y + 6); ctx.closePath(); ctx.fill();
     ctx.strokeStyle = 'rgba(0,0,0,.35)'; ctx.lineWidth = 0.8; ctx.stroke();
-  }
-  // Rails along the front of the stables' yard.
-  function fence(b, top) {
-    const x0 = b.tx, y1 = b.ty + b.h, x1 = b.tx + b.w;
-    ctx.strokeStyle = '#6b4a2a'; ctx.lineWidth = 1.5;
-    const A = isoPt(x0 + 0.1, y1 - 0.1, top), B = isoPt(x1 - 0.1, y1 - 0.1, top), C = isoPt(x1 - 0.1, b.ty + 0.1, top);
-    for (const dy of [-3, -6]) { ctx.beginPath(); ctx.moveTo(A[0], A[1] + dy); ctx.lineTo(B[0], B[1] + dy); ctx.lineTo(C[0], C[1] + dy); ctx.stroke(); }
-    ctx.fillStyle = '#4e3420';
-    for (let k = 0; k <= 6; k++) { const t = k / 6, P = k <= 3 ? [A[0] + (B[0] - A[0]) * t * 2, A[1] + (B[1] - A[1]) * t * 2] : [B[0] + (C[0] - B[0]) * (t - 0.5) * 2, B[1] + (C[1] - B[1]) * (t - 0.5) * 2]; ctx.fillRect(P[0] - 1, P[1] - 8, 2, 8); }
   }
 
   // Earthworks (Alma 50:1–3): a ridge of earth joined to the ones beside it, with pickets on top once they're made. A gate is a timber door in the ridge.
@@ -1780,7 +1779,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'train:stripling': 'assets/cameo_stripling.png?v=9',
     'train:moroni': 'assets/cameo_moroni.png?v=9',
     'build:tower': 'assets/cameo_tower.png?v=9',
-    'build:armory': 'assets/cameo_armory.png?v=9'
+    'build:armory': 'assets/cameo_armory.png?v=9',
+    'build:granary': 'assets/cameo_granary.png?v=1',
+    'build:stables': 'assets/cameo_stables.png?v=1',
+    'build:hall': 'assets/cameo_hall.png?v=1'
   };
   const cmd = (act, name, cost, cls) => {
     const icon = CAMEO_MAP[act];
