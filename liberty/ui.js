@@ -238,21 +238,24 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // A big canvas the device will really make. iPhones have a budget for canvas memory, and past it a new canvas
   // quietly draws nothing at all: no error, just an empty picture. So each big canvas is made at the largest of
   // these sizes where a test dot actually sticks, and scaled so the code painting it needn't know.
-  function bigCanvas(w, h, sizes) {
+  // ?debug=1 on the address: a box on the screen saying what the device really drew (see debugBox below).
+  const DBG = { on: /[?&]debug=1/.test(location.search), made: {}, paint: 'not yet' };
+  function bigCanvas(w, h, sizes, name) {
     for (const k of sizes) {
       const c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k);
       const x = c.getContext('2d');
       if (x) {
         x.fillStyle = '#fff'; x.fillRect(0, 0, 1, 1);
         let ok = false; try { ok = x.getImageData(0, 0, 1, 1).data[3] === 255; } catch (e) { ok = false; }
-        if (ok) { x.clearRect(0, 0, 1, 1); x.scale(k, k); return [c, x]; }
+        if (ok) { x.clearRect(0, 0, 1, 1); x.scale(k, k); c.k = k; DBG.made[name] = c.width + '×' + c.height + ' at ' + k; return [c, x]; }
       }
       c.width = c.height = 0;                       // hand its memory back before trying smaller
     }
-    const c = document.createElement('canvas'); return [c, c.getContext('2d')];
+    DBG.made[name] = 'every size refused';
+    const c = document.createElement('canvas'); c.k = 1; return [c, c.getContext('2d')];
   }
   // The fog is soft at its edges, so half size looks the same and leaves the ground the room to be sharp.
-  const [shroudCv, sctx] = bigCanvas(TERR_W, TERR_H, [0.5, 0.35, 0.25]);
+  const [shroudCv, sctx] = bigCanvas(TERR_W, TERR_H, [0.5, 0.35, 0.25], 'fog');
   const explored = new Uint8Array(MAP_W * MAP_H);
 
   function initShroud() {
@@ -334,7 +337,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // buildings and people. It's painted once onto a canvas, and a tile again
   // only when it changes (a wood cut down, a field reaped).
 
-  const [terrain, tctx] = bigCanvas(TERR_W, TERR_H, [1, 0.7, 0.5, 0.35]);
+  const [terrain, tctx] = bigCanvas(TERR_W, TERR_H, [1, 0.7, 0.5, 0.35], 'ground');
   let painted = null, miniDirty = true;
   function hash(x, y, k) {
     let h = Math.imul(x, 374761393) ^ Math.imul(y, 668265263) ^ Math.imul(k | 0, 1442695041);
@@ -495,6 +498,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
     return t * 4;
   }
   function paintTerrain() {
+    if (!DBG.on) return paintTerrainNow();
+    const t0 = performance.now(); DBG.paint = 'started';
+    try { paintTerrainNow(); DBG.paint = 'done in ' + Math.round(performance.now() - t0) + ' ms'; }
+    catch (e) { DBG.paint = 'FAILED: ' + e.message; throw e; }
+  }
+  function paintTerrainNow() {
     if (!TEX) TEX = { grass: texture('grass'), rock: texture('rock'), water: texture('water') };
     const whole = !painted;
     if (whole) { painted = new Int16Array(MAP_W * MAP_H).fill(-1); tctx.clearRect(0, 0, TERR_W, TERR_H); }
@@ -2248,6 +2257,32 @@ IMG.farm.src = 'assets/farm.png?v=13';
   $('cry').onclick = () => { if (W && powerNow) { mission.usePower(W, powerNow.id); $('cry').hidden = true; powerNow = null; shown.cry = null; } };
   document.addEventListener('visibilitychange', () => { if (document.hidden && W && !W.over && !paused) togglePause(); });
 
+  // ------------------------------------------------------------ ?debug=1: what this device really drew
+  // Colours read back from each layer at your city: if a layer shows 0,0,0,0 the device drew nothing on it.
+  let debugAt = 0, debugEl = null;
+  const px = (c, x, y) => { try { return [...c.getContext('2d').getImageData(Math.round(x), Math.round(y), 1, 1).data].join(','); } catch (e) { return 'unreadable: ' + e.message; } };
+  function debugBox(now) {
+    if (!DBG.on || !W || now - debugAt < 1000) return;
+    debugAt = now;
+    if (!debugEl) { debugEl = document.createElement('pre'); debugEl.style.cssText = 'position:fixed;left:6px;top:60px;z-index:50;margin:0;padding:6px 8px;max-width:92vw;white-space:pre-wrap;font:11px/1.3 monospace;color:#fff;background:rgba(0,0,0,.82);border:1px solid #c9962e;border-radius:6px;pointer-events:none'; document.body.appendChild(debugEl); }
+    const home = W.stronghold() || W.units('p')[0], g = toIso(home.x - 110, home.y + 110);
+    const gx = (g.ix + ISO_OFFSET_X), gy = (g.iy + PAD), s = toScreen(home.x - 110, home.y + 110);
+    const a = document.createElement('canvas'); a.width = a.height = 8; a.getContext('2d').fillStyle = '#f00'; a.getContext('2d').fillRect(0, 0, 8, 8);
+    const b = document.createElement('canvas'); b.width = b.height = 8; b.getContext('2d').drawImage(a, 0, 0);
+    debugEl.textContent = [
+      navigator.userAgent.replace(/^Mozilla\/5.0 /, '').slice(0, 120),
+      `screen ${vw}×${vh}  device ratio ${window.devicePixelRatio}  drawn at ${dpr}  zoom ${cam.z.toFixed(2)}  dark mode ${matchMedia('(prefers-color-scheme: dark)').matches}`,
+      `ground canvas ${DBG.made.ground}   fog canvas ${DBG.made.fog}`,
+      `ground painting: ${DBG.paint}   trees ${trees.length}   tree pictures ${TREES ? TREES.length : 'none yet'}`,
+      `ground at city: ${px(terrain, gx * terrain.k, gy * terrain.k)}`,
+      `fog at city: ${px(shroudCv, gx * shroudCv.k, gy * shroudCv.k)}`,
+      `screen at city: ${px(cv, s.x * dpr, (s.y) * dpr)}`,
+      `tree picture: ${TREES ? px(TREES[0].cv, TREES[0].cv.width / 2, TREES[0].cv.height * 0.4) : '-'}`,
+      `canvas onto canvas (should be 255,0,0,255): ${px(b, 4, 4)}`,
+      `errors: ${[...reported].join(' | ') || 'none'}`,
+    ].join('\n');
+  }
+
   // ------------------------------------------------------------ the loop
 
   let last = 0, acc = 0;
@@ -2266,6 +2301,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (!modal) panKeys(dt);
     draw(now);
     hud(now);
+    debugBox(now);
     if (W.over && !endShown) showEnd();
     if (window.LIB_MULTI && window.LIB_MULTI.drawCursor) window.LIB_MULTI.drawCursor(ctx);
   }
