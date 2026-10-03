@@ -689,6 +689,8 @@
         if (!drop) { this.order(u, { type: 'idle' }); return; }
         if (this.nextTo(u, this.rectOf(drop))) {
           if (u.carry) { this.gain(u.carry.type, u.carry.amt); u.carry = null; }
+          // A cart hauling on its own chooses afresh each trip, so it never keeps filling a full store while the other runs short.
+          if (!u.pref && u.def.load) { this.order(u, { type: 'idle' }); return; }
           u.phase = 'go'; u.path = null; u.tries = 0; return;
         }
         if (!u.path) u.path = this.findPath(u, this.rectOf(drop), true);

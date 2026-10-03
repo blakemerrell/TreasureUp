@@ -59,7 +59,7 @@
     stripling:    { name: 'Stripling warrior', hp: 190, speed: 64, dmg: 15, range: 20, cd: 0.9, armor: 4, sight: 180, cost: { grain: 90, timber: 60 }, time: 16, soldier: true, tier: true, needs: ['hall'],
                     about: '"Exceedingly valiant for courage" (Alma 53:20), "taught by their mothers" (Alma 56:47). Very hard to bring down.' },
     cart:         { name: 'Horse cart', hp: 90, speed: 78, dmg: 0, range: 0, cd: 1, armor: 1, sight: 140, cost: { grain: 60, timber: 40 }, time: 12, gathers: true, load: 30, quick: 1.5,
-                    about: 'Brings in grain and timber on its own: it finds the nearest field or forest and hauls the load home. Tap it on a field, a forest or a rock face to choose which; stone only comes when you ask. The Nephites had "horses, and their chariots" (3 Nephi 3:22).' },
+                    about: 'Brings in grain and timber on its own, whichever is shorter: it finds the nearest field or forest and hauls the load home. Tap it on a field, a forest or a rock face to choose which; stone only comes when you ask. The Nephites had "horses, and their chariots" (3 Nephi 3:22).' },
     prisoner:     { name: 'Prisoner', hp: 1, speed: 45, dmg: 0, range: 0, cd: 1, armor: 0, sight: 0, about: 'Yielded up as a prisoner (3 Nephi 4:27).' }
   };
 
