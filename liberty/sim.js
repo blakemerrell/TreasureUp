@@ -4,7 +4,7 @@
 (function (root) {
   'use strict';
   const D = root.LIB_DATA || require('./data.js');
-  const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, MIRACLES } = D;
+  const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, MIRACLES, ARTIFACTS } = D;
   const REACH = 8;
   const KINDS = ['grain', 'timber', 'stone'];      // what the carts bring in
   const QUARRY = 100, OPEN = new Set([T.GRASS, T.FIELD, T.RUIN, T.FORD]);   // stone in a rock face beside open ground                                      // how many squares from your buildings a new one may stand
@@ -52,6 +52,7 @@
       this.zones = [];                             // where a miracle is at work: { kind, x, y, r, until }
       this.quakeAt = -99;
       this.bows = false; this.clothing = false; this.ladders = false;   // the armory's upgrades
+      this.artifacts = {};                         // what has been found or brought out (data.js: ARTIFACTS)
       this.armor = 0;                              // Weapons, armor and shields (3 Nephi 3:26)
       this.dmgUp = 0;                              // swords and cimeters: more harm up close
       this.wallMul = 1;                            // ridges of earth and pickets: stronger walls
@@ -354,6 +355,7 @@
       if (from && from.team === 'p' && this.aura(from)) a *= 1.25;
       if (from && from.team === 'p' && from.type === 'archer' && this.bows) a += 4;       // bows of fine steel
       if (from && from.rank) a *= 1 + 0.15 * from.rank;                                   // a veteran strikes harder
+      if (from && from.sword) a *= 1.5;                                                   // the sword of Laban (1 Nephi 4:9)
       if (from && from.def.foe && from.weak) a *= 0.6;
       // Each kind of fighter is strong against another (data.js: `beats`).
       if (from && from.kind === 'unit' && target.kind === 'unit' && from.def.beats && from.def.beats === kindOf(target.def)) a *= 1.5;
@@ -390,8 +392,27 @@
     }
     aura(u) {
       if (!u.def.soldier || u.def.hero) return false;
-      for (const h of this.ents.values()) if (h.kind === 'unit' && h.def.hero && h.team === 'p' && dist(h, u) < h.def.aura) return true;
+      for (const h of this.ents.values()) if (h.kind === 'unit' && (h.def.hero || h.sword) && h.team === 'p' && !h.dead && dist(h, u) < (h.def.aura || 110)) return true;
       return false;
+    }
+    // --- artifacts: found among the Jaredite ruins, or brought out by the people (data.js: ARTIFACTS)
+    grant(key, how) {
+      const a = ARTIFACTS[key];
+      if (!a || this.artifacts[key]) return false;
+      this.artifacts[key] = true;
+      if (key === 'breastplate') this.armor += 2;
+      if (key === 'sword') this.swordTo();
+      this.msg(a.found, a.ref, 'good');
+      if (this.mission && this.mission.onArtifact) this.mission.onArtifact(this, key, how);
+      return true;
+    }
+    // The sword of Laban goes to the best soldier standing; when he falls, to the next.
+    swordTo(except) {
+      if (!this.artifacts.sword) return null;
+      let best = null, bk = -1;
+      for (const u of this.units('p')) if (u !== except && u.def.soldier && !u.def.hero && !u.dead && (u.kills || 0) > bk) { bk = u.kills || 0; best = u; }
+      if (best) best.sword = true;
+      return best;
     }
     // --- the temple's miracles
     inZone(e, kind) { return this.zones.some(z => z.kind === kind && Math.hypot(e.x - z.x, e.y - z.y) < z.r); }
@@ -458,6 +479,7 @@
             this.msg(`${e.def.name} is wounded and carried back to ${s ? s.name || s.def.name : 'the city'}. He will lead again soon.`, null, 'warn');
           }
           if (e.type === 'villager' && e.from) e.from.lost = (e.from.lost || 0) + 1;
+          if (e.sword) { e.sword = false; this.msg(this.swordTo(e) ? 'The bearer of the sword of Laban has fallen: it passes to another.' : 'The bearer of the sword of Laban has fallen. It waits for the next soldier.', null, 'warn'); }
         } else if (e.def.foe) {
           this.stats.defeated++;
           // A veteran: three foes make a soldier "exceedingly valiant for courage" (Alma 53:20); eight, a veteran twice over.
@@ -526,7 +548,7 @@
       if (this.researching) {
         const b = this.ents.get(this.researching.by);
         if (!b) { this.researching = null; }
-        else if ((this.researching.left -= dt) <= 0) {
+        else if ((this.researching.left -= dt * (this.artifacts.plates ? 2 : 1)) <= 0) {   // twice as fast with the brass plates
           const key = this.researching.key, r = RESEARCH[key];
           this.researched[key] = true; this.researching = null;
           this.armor += r.armor || 0;
@@ -548,6 +570,9 @@
       }
       this.effects = this.effects.filter(f => this.t - f.t < 0.35);
       this.zones = this.zones.filter(z => this.t < z.until);
+      // A Jaredite ruin: someone of yours beside it finds what it holds (Mosiah 8:9-11).
+      for (const b of this.buildings('n')) if (b.def.relic && !b.dead && b.artifact && this.units('p').some(u => this.nextTo(u, this.rectOf(b)))) { const key = b.artifact; this.remove(b); this.grant(key, 'ruin'); }
+      if (this.artifacts.sword && this.t - (this.swordCheckAt || -99) > 2) { this.swordCheckAt = this.t; if (!this.units('p').some(u => u.sword)) this.swordTo(); }
       // The temple: your people near it are made whole, a little at a time.
       for (const b of this.buildings('p', 'temple')) if (b.built >= 1 && !b.dead) for (const u of this.units('p')) if (u.hp < maxHp(u) && dist(u, b) < b.def.heals) u.hp = Math.min(maxHp(u), u.hp + maxHp(u) * 0.012 * dt);
       if (this.mission) this.mission.update(this, dt);

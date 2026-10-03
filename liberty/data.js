@@ -87,6 +87,8 @@
                   about: 'Where the chief captains plan the war. Trains javelin throwers and stripling warriors. From history, not the verses: its stepped platform is like those built in ancient Mesoamerica.' },
     temple:     { name: 'Temple', w: 3, h: 3, hp: 1200, armor: 4, cost: { grain: 100, timber: 120, stone: 200 }, work: 50, needs: ['hall'], heals: 190, miracles: true, tier: true,
                   about: 'Built "after the manner of the temple of Solomon" (2 Nephi 5:16). Your people near it are made whole; the council comes back sooner and gives double, as at King Benjamin\'s tower by the temple (Mosiah 2:7); and miracles are worked from it.' },
+    relic:      { name: 'Jaredite ruin', w: 2, h: 2, hp: 99999, armor: 9, neutral: true, untouchable: true, relic: true, tier: true,
+                  about: 'The ruins of a people who were before. Limhi\'s men found such a land, "covered with ruins of buildings of every kind" (Mosiah 8:8), and in it plates, breastplates and swords. Send someone to see what this one holds.' },
     warcamp:    { name: 'Lamanite war camp', w: 4, h: 4, hp: 1800, armor: 3, tier: true, about: 'Where the Lamanite armies gather. Tear it down to win.' }
   };
 
@@ -113,6 +115,25 @@
     shock: { name: 'Shock', ref: '1 Nephi 17:54', wait: 45, aim: 'foe',
              about: 'One enemy is shaken and thrown back, as Nephi shook his brothers.',
              done: 'He is shaken and thrown back.' }
+  };
+
+  // Artifacts: found among the Jaredite ruins (Mosiah 8:8-11), or brought out by the people when the council is answered well.
+  const ARTIFACTS = {
+    sword:   { name: 'The sword of Laban', ref: '1 Nephi 4:9', from: 'ruin',
+               about: '"The hilt thereof was of pure gold" (1 Nephi 4:9). Your best soldier bears it: he strikes half again as hard, and those near him fight harder. When he falls it passes on.',
+               found: 'Among the ruins your men find a sword: "the hilt thereof was of pure gold, and the workmanship thereof was exceedingly fine" (1 Nephi 4:9). Your best soldier bears it.' },
+    liahona: { name: 'The Liahona', ref: '1 Nephi 16:10', from: 'ruin',
+               about: '"A round ball of curious workmanship" (1 Nephi 16:10). Your people see half again as far, and a brass pointer at the edge of the view shows the way to the war camp.',
+               found: 'Among the ruins your men find "a round ball of curious workmanship; and it was of fine brass" (1 Nephi 16:10). Your people see farther, and it points the way to the war camp.' },
+    breastplate: { name: 'Jaredite breastplates', ref: 'Mosiah 8:10', from: 'ruin',
+               about: '"Breastplates, which are large, and they are of brass and of copper" (Mosiah 8:10). All your soldiers take less harm.',
+               found: 'Among the ruins your men find "breastplates, which are large, and they are of brass and of copper" (Mosiah 8:10). Your soldiers put them on: 2 more armor.' },
+    plates:  { name: 'The brass plates', ref: '1 Nephi 5:10', from: 'council', streak: 3,
+               about: 'The record Lehi\'s sons brought out of Jerusalem (1 Nephi 5:10). With it the armory makes everything twice as fast.',
+               found: 'Three right in a row! The people bring out the brass plates (1 Nephi 5:10): the armory makes everything twice as fast.' },
+    interpreters: { name: 'The interpreters', ref: 'Mosiah 8:13', from: 'council', streak: 6,
+               about: '"A seer can know of things which are past, and also of things which are to come" (Mosiah 8:17). A minute before each attack, you are told what it brings.',
+               found: 'Six right in a row! The people bring out the interpreters (Mosiah 8:13): "a seer can know of things which are past, and also of things which are to come" (Mosiah 8:17). A minute before each attack, you will know what it brings.' }
   };
 
   const RESEARCH = {
@@ -395,7 +416,7 @@
     ]
   };
 
-  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
+  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, ARTIFACTS, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
   if (typeof module !== 'undefined' && module.exports) module.exports = DATA;
   else root.LIB_DATA = DATA;
 })(this);

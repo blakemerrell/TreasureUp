@@ -97,6 +97,8 @@
 
   /* the radar and the three quick choices */
   #side { grid-area: side; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .arts { display: flex; flex-wrap: wrap; gap: 4px; }
+  .arts img { width: 34px; height: 34px; border-radius: 7px; border: 1px solid var(--brass); background: #1d1206; }
   #mini { display: block; width: 100%; border-radius: 8px; border: 2px solid var(--brass); background: #140d07; touch-action: none; cursor: pointer;
     box-shadow: inset 0 0 12px rgba(0, 0, 0, .8); }
   .quick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
@@ -240,6 +242,7 @@
     body.side .quick { flex: 1; grid-template-columns: minmax(0, 1fr); }
     body.side .quick button { flex-direction: row; justify-content: flex-start; gap: 4px; min-height: 0; padding: 2px 5px; text-align: left; }
     body.side .quick button svg { width: 14px; height: 14px; flex: none; }
+    body.side #side { flex-wrap: wrap; } body.side .arts { flex-basis: 100%; }   /* what you hold, on its own line under the map */
   }
   @media (max-width: 760px), (max-height: 520px) {
     :root { --top: 42px; }
@@ -307,6 +310,7 @@
       <button id="bTemple" hidden title="Your temple: miracles are worked from it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M5 20v-4h14v4M7 16v-4h10v4M9 12V8h6v4M12 8V5"/></svg>Temple</button>
       <button id="bBox" title="Drag a box on the map to choose people in it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 3"><rect x="4" y="5" width="16" height="14" rx="1"/></svg>Box select</button>
     </div>
+    <div id="arts" class="arts" hidden title="What you hold: tap one to read about it"></div>
   </div>
   <div id="selInfo"></div>
   <div id="cmds"></div>
@@ -345,10 +349,10 @@
 <script src="../vendor/qrcode.js"></script>
 <script src="webrtc.js?v=15"></script>
 <script src="multi.js?v=15"></script>
-<script src="data.js?v=21"></script>
-<script src="sim.js?v=20"></script>
-<script src="missions.js?v=20"></script>
+<script src="data.js?v=22"></script>
+<script src="sim.js?v=21"></script>
+<script src="missions.js?v=21"></script>
 <script src="scripture.js?v=15"></script>
-<script src="ui.js?v=35"></script>
+<script src="ui.js?v=36"></script>
 </body>
 </html>

@@ -238,6 +238,19 @@ Normal the Lamanites bring ladders of their own, so your walls slow them
 but no longer stop them (Alma 49:22): towers and archers behind the walls
 do.
 
+**Treasures.** Three Jaredite ruins stand on the free-battle map, like the
+land Limhi's men found, "covered with ruins of buildings of every kind"
+(Mosiah 8:8). Send anyone beside one and it gives up what it holds: the
+sword of Laban, which your best soldier bears, striking half again as hard
+and heartening those near him (1 Nephi 4:9); the Liahona, which lets your
+people see half again as far and points the way to the war camp
+(1 Nephi 16:10); and Jaredite breastplates, two more armor for everyone
+(Mosiah 8:10). Right answers at the council, in a row, bring out the rest:
+three for the brass plates, which make the armory twice as fast
+(1 Nephi 5:10), six for the interpreters, which tell you a minute ahead
+what each attack brings (Mosiah 8:17). What you hold shows in the panel;
+tap one to read about it.
+
 - **Out of the Wilderness**: a valley with mountains to the north, wilderness
   to the west and a river to the east. Robbers and Lamanites come down by
   four ways (two mountain passes, the western wilderness, the river fords),

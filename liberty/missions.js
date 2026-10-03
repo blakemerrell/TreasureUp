@@ -876,6 +876,15 @@
       guard(this.warcamp, this.guardList);
       for (const c of this.camps) guard(c, [['lamanite', Math.ceil(L.campGuards * 0.6)], ['slinger', Math.floor(L.campGuards * 0.4)]]);
       // Their own watchtowers, round the war camp.
+      // Jaredite ruins, each holding something (Mosiah 8:8-11): the sword of Laban far to the south-east, the Liahona across the ford, breastplates in the north-west.
+      for (const [x, y, key] of [[54, 45, 'sword'], [37, 24, 'liahona'], [7, 7, 'breastplate']]) {
+        let spot = null;
+        for (let r = 0; r < 6 && !spot; r++) for (let dy = -r; dy <= r && !spot; dy++) for (let dx = -r; dx <= r && !spot; dx++) if (W.whyNotPlace('relic', x + dx, y + dy) !== 'ground') spot = [x + dx, y + dy];
+        if (!spot) continue;
+        for (let yy = spot[1] - 1; yy <= spot[1] + 2; yy++) for (let xx = spot[0] - 1; xx <= spot[0] + 2; xx++) if (W.tile(xx, yy) === T.GRASS) W.setTile(xx, yy, T.RUIN);
+        W.addBuilding('relic', 'n', spot[0], spot[1], true, { artifact: key });
+      }
+      this.foretold = 0;
       const spots = [[-4, 2], [7, 2], [1, 8]];
       for (let i = 0; i < L.towers; i++) {
         const [dx, dy] = spots[i];
@@ -888,6 +897,13 @@
     },
     timerLabel: 'The Lamanites attack in',
     timeLeft(W) { return alive(this.warcamp) ? Math.max(0, this.nextWave - W.t) : null; },
+    // What the next attack brings, for one who holds the interpreters (Mosiah 8:17).
+    nextAttack(W) {
+      const L = LEVELS[this.level], w = this.wave + 1, n = Math.round(L.size + L.grow * (w - 1)) + this.camps.filter(alive).length;
+      const parts = [`${Math.ceil(n * 0.6)} Lamanites`, `${Math.floor(n * 0.4)} slingers`];
+      if (w % 3 === 0) parts.push('a captain');
+      return parts.join(', ') + (w >= L.ladders ? ', with ladders' : '');
+    },
     objectives(W) {
       return [
         { text: 'Plant the standard of liberty', ref: 'Alma 46:36', have: this.planted ? 1 : 0, need: 1 },
@@ -898,6 +914,8 @@
     update(W) {
       const L = LEVELS[this.level];
       if (!this.planted && W.stronghold()) this.planted = true;
+      // With the interpreters, a minute's warning of what comes (Mosiah 8:17).
+      if (W.artifacts.interpreters && alive(this.warcamp) && this.nextWave - W.t <= 60 && this.foretold < this.wave + 1) { this.foretold = this.wave + 1; W.msg(`The interpreters show what comes in a minute: ${this.nextAttack(W)}.`, 'Mosiah 8:17', 'warn'); }
       // The attacks: from the war camp while it stands, bigger each time, and more with each camp still up.
       if (alive(this.warcamp) && W.t >= this.nextWave) {
         this.wave++;
