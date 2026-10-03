@@ -1,6 +1,10 @@
 # 007 · The buildings: the hall of the captains, the granary and the stables
 
-**Status: open.** 3 pictures.
+**Status: done.** All three (pull request #60) are in the game, as
+`liberty/assets/granary.png`, `stables.png` and `hall.png`. Their Build buttons
+are `cameo_granary.png`, `cameo_stables.png` and `cameo_hall.png`. Gemini in
+Antigravity hadn't answered after an hour, so at Blake's request Claude made
+them with Gemini through Blake's n8n backup.
 
 ## What it's for
 
@@ -78,3 +82,32 @@ Zarahemla, you can tell at a glance:
 - the hall by its stepped platform and pillars.
 
 Each sits on its ground at the game's angle.
+
+## What came back
+
+All three came back right on the first try, at the game's angle, with no
+shadow. That's three pictures billed to the Merit3D Gemini account.
+
+- **Granary:** two orange clay jar granaries with thatched caps, a ladder and
+  baskets of maize, on a stone platform with steps. It fits its 2 × 2 plot
+  almost exactly.
+- **Stables:** a long thatched timber stable with three horses looking out,
+  and a cart. It came back with its long side facing the viewer's lower
+  **right**, not left. Mirroring it would have put its light on the wrong
+  side, so the game's stables plot was turned to match instead: 2 squares
+  along the lower left and 3 along the lower right (`w: 2, h: 3` in
+  `data.js`). It's the same size and does the same thing. The fence the game
+  used to draw along the stables' front is gone, since the picture has its
+  own stalls and cart.
+- **Hall of the captains:** a pale cream stepped platform with a wide stair,
+  a row of square pillars and gold trim. It looks nothing like Zarahemla's
+  red pyramid. The game still adds its waving gold banner.
+
+Gemini through n8n sends JPEGs. Thin straw strands came out blended with the
+magenta background, so the cut-out now also removes leftover magenta: a pink
+pixel is treated as straw or wood mixed with magenta, and the mix is undone.
+Each building is cut out, scaled to 400 pixels wide and set on its ground by
+its left, front and right corners.
+
+The granary's note in the game now says, as history: clay granaries like
+these have held maize in Mexico since long before the Spanish came.
