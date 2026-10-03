@@ -527,7 +527,8 @@
       for (let i = 0; i < 4; i++) put('archer', J.x - 1 + i, J.y + 10);
       this.alma = W.addUnit('alma', 'n', center(SD.ALMA.x), center(SD.ALMA.y), { untouchable: true });
       // Zerahemnah's armies in Antionum, "more than double the number of the Nephites" (Alma 43:51).
-      this.camp = W.addBuilding('camp', 'r', SD.ANTIONUM.x, SD.ANTIONUM.y, true, { untouchable: true });
+      this.camp = W.addBuilding('camp', 'r', SD.ANTIONUM.x, SD.ANTIONUM.y, true, { untouchable: true, name: 'Lamanite camp in Antionum',
+        about: 'The Lamanites "came into the land of Antionum, which is the land of the Zoramites; and a man by the name of Zerahemnah was their leader" (Alma 43:5).' });
       this.hostList = [['zerahemnah', 1], ['amalekite', 2], ['zoramite', 2], ['lamanite', 19], ['slinger', 8]];
       this.hostTotal = this.hostList.reduce((a, [, n]) => a + n, 0);
       this.host = [];
@@ -857,7 +858,7 @@
       for (let i = 0; i < 4; i++) put('worker', S0.x + i, S0.y + 5);
       put('spearman', S0.x + 5, S0.y); put('spearman', S0.x + 6, S0.y + 1); put('nslinger', S0.x + 5, S0.y + 2);
       this.warcamp = W.addBuilding('warcamp', 'r', FR.WARCAMP.x, FR.WARCAMP.y, true);
-      this.camps = FR.CAMPS.map(c => W.addBuilding('camp', 'r', c.x, c.y, true, { name: 'Lamanite camp' }));
+      this.camps = FR.CAMPS.map(c => W.addBuilding('camp', 'r', c.x, c.y, true, { name: 'Lamanite camp', about: 'Lamanite warriors gather here to march on your city.' }));
       const guard = (home, list) => { let k = 0; for (const [type, n] of list) for (let i = 0; i < n; i++, k++) put(type, home.tx + (k % 4), home.ty + home.h + Math.floor(k / 4), 'r', { mode: 'guard', home }); };
       this.guardList = [['lamanite', Math.ceil(L.guards * 0.6)], ['slinger', Math.floor(L.guards * 0.3)], ['amalekite', 1], ['zoramite', L.stars > 1 ? 1 : 0]];
       guard(this.warcamp, this.guardList);

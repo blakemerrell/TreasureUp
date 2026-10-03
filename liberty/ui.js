@@ -23,6 +23,9 @@ const IMG = {
   javelin: new Image(),
   lehi: new Image(),
   gidgiddoni: new Image(),
+  lamanSlinger: new Image(),
+  lamanCaptain: new Image(),
+  zerahemnah: new Image(),
   stripling: new Image(),
   lamanite: new Image(),
   cart: new Image(),
@@ -32,6 +35,14 @@ const IMG = {
   tower: new Image(),
   storehouse: new Image(),
   armory: new Image(),
+  granary: new Image(),
+  stables: new Image(),
+  hall: new Image(),
+  lamaniteCamp: new Image(),
+  robbersCamp: new Image(),
+  warcamp: new Image(),
+  lamaniteTower: new Image(),
+  gate: new Image(),
   farm: new Image()
 };
 IMG.moroni.src = 'assets/moroni.png?v=13';
@@ -46,6 +57,9 @@ IMG.swordsman.src = 'assets/swordsman.png?v=1';  // and these: 004-swordsman-jav
 IMG.javelin.src = 'assets/javelin.png?v=1';
 IMG.lehi.src = 'assets/lehi.png?v=1';            // and these: 005-heroes.md
 IMG.gidgiddoni.src = 'assets/gidgiddoni.png?v=1';
+IMG.lamanSlinger.src = 'assets/lamanite_slinger.png?v=1';   // and these: 006-lamanites.md
+IMG.lamanCaptain.src = 'assets/lamanite_captain.png?v=1';
+IMG.zerahemnah.src = 'assets/zerahemnah.png?v=2';
 IMG.stripling.src = 'assets/stripling.png?v=13';
 IMG.lamanite.src = 'assets/lamanite.png?v=13';
 IMG.cart.src = 'assets/cart.png?v=13';
@@ -55,6 +69,14 @@ IMG.barracks.src = 'assets/barracks.png?v=13';
 IMG.tower.src = 'assets/tower.png?v=13';
 IMG.storehouse.src = 'assets/storehouse.png?v=13';
 IMG.armory.src = 'assets/armory.png?v=13';
+IMG.granary.src = 'assets/granary.png?v=2';      // and these: 007-buildings.md (with shadows since)
+IMG.stables.src = 'assets/stables.png?v=2';
+IMG.hall.src = 'assets/hall.png?v=2';
+IMG.lamaniteCamp.src = 'assets/lamanite_camp.png?v=1';   // and these: 009-battlefield.md
+IMG.robbersCamp.src = 'assets/robbers_camp.png?v=1';
+IMG.warcamp.src = 'assets/warcamp.png?v=1';
+IMG.lamaniteTower.src = 'assets/lamanite_tower.png?v=1';
+IMG.gate.src = 'assets/gate.png?v=1';
 IMG.farm.src = 'assets/farm.png?v=13';
                                 // the simulation's tick, as in the tests
   const $ = id => document.getElementById(id);
@@ -68,7 +90,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     timber: '<svg class="i" viewBox="0 0 16 16"><rect x="1" y="5" width="12" height="6" rx="3" fill="#a0673a"/><ellipse cx="13" cy="8" rx="2.4" ry="3" fill="#e0b27e"/><ellipse cx="13" cy="8" rx="1.1" ry="1.4" fill="#a0673a"/></svg>',
     people: '<svg class="i" viewBox="0 0 16 16" fill="#bfdbfe"><circle cx="5" cy="4.5" r="2.3"/><circle cx="11" cy="4.5" r="2.3"/><path d="M1 14c0-3.3 1.8-5 4-5s4 1.7 4 5zM7 14c0-3.3 1.8-5 4-5s4 1.7 4 5z"/></svg>'
   };
-  const costHtml = c => !c ? '' : [c.grain ? ICON.grain + c.grain : '', c.timber ? ICON.timber + c.timber : ''].filter(Boolean).join(' ');
+  const costHtml = c => !c ? '' : [c.grain ? ICON.grain + c.grain : '', c.timber ? ICON.timber + c.timber : ''].filter(Boolean).map(x => '<span class="c">' + x + '</span>').join(' ');
 
   // ------------------------------------------------------------ saves
 
@@ -167,14 +189,17 @@ IMG.farm.src = 'assets/farm.png?v=13';
   let dpr = 1, vw = 0, vh = 0;
   let sky = null;                                    // the night sky round the map, made for the screen's size
   const topH = () => $('hud').offsetHeight || 0;
-  const bottomH = () => (window.innerWidth >= 860 || $('panel').hidden) ? 0 : ($('panel').offsetHeight || 0);
-  const rightW = () => (window.innerWidth >= 860 && !$('panel').hidden) ? ($('panel').offsetWidth || 236) : 0;
+  const sided = () => document.body.classList.contains('side');
+  const bottomH = () => (sided() || $('panel').hidden) ? 0 : ($('panel').offsetHeight || 0);
+  const rightW = () => (sided() && !$('panel').hidden) ? ($('panel').offsetWidth || 236) : 0;
 
   function resize() {
     dpr = Math.min(2, window.devicePixelRatio || 1);
     vw = window.innerWidth; vh = window.innerHeight;
     cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr);
     cv.style.width = vw + 'px'; cv.style.height = vh + 'px';
+    // The command panel goes down the right on a screen wider than tall (a phone on its side, a tablet, a laptop); held upright, along the bottom.
+    document.body.classList.toggle('side', vw > vh);
     const mw = mini.clientWidth || 144;
     mini.width = Math.round(mw * dpr); mini.height = Math.round(mw * TERR_H / TERR_W * dpr);
     mini.style.height = Math.round(mw * TERR_H / TERR_W) + 'px';
@@ -210,13 +235,45 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
 
   // ------------------------------------------------------------ Shroud of War (Westwood Fog of War)
-  const shroudCv = document.createElement('canvas');
-  shroudCv.width = TERR_W; shroudCv.height = TERR_H;
-  const sctx = shroudCv.getContext('2d');
+  // A big canvas the device will really make. iPhones have a budget for canvas memory, and past it a new canvas
+  // quietly draws nothing at all: no error, just an empty picture. So each big canvas is made at the largest of
+  // these sizes where a test dot actually sticks, and scaled so the code painting it needn't know.
+  // ?debug=1 on the address: a box on the screen saying what the device really drew (see debugBox below).
+  const DBG = { on: /[?&]debug=1/.test(location.search), made: {}, paint: 'not yet', lost: 0, restored: 0 };
+  // Chrome on a phone can drop what a canvas holds when the device runs short of graphics memory: the canvas
+  // fires 'contextlost', then 'contextrestored' when it can be painted again, blank. Everything painted once
+  // (the ground, the fog, the tree pictures) has to be painted again then; the screen repaints every frame anyway.
+  let repaintAll = false;
+  function watchLoss(c) {
+    c.addEventListener('contextlost', () => { DBG.lost++; });
+    c.addEventListener('contextrestored', () => { DBG.restored++; repaintAll = true; });
+    return c;
+  }
+  const lostNow = x => !!(x && x.isContextLost && x.isContextLost());
+  function bigCanvas(w, h, sizes, name) {
+    for (const k of sizes) {
+      const c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k);
+      const x = c.getContext('2d');
+      if (x) {
+        x.fillStyle = '#fff'; x.fillRect(0, 0, 1, 1);
+        let ok = false; try { ok = x.getImageData(0, 0, 1, 1).data[3] === 255; } catch (e) { ok = false; }
+        if (ok) { x.clearRect(0, 0, 1, 1); x.scale(k, k); c.k = k; DBG.made[name] = c.width + '×' + c.height + ' at ' + k; return [watchLoss(c), x]; }
+      }
+      c.width = c.height = 0;                       // hand its memory back before trying smaller
+    }
+    DBG.made[name] = 'every size refused';
+    const c = document.createElement('canvas'); c.k = 1; return [watchLoss(c), c.getContext('2d')];
+  }
+  // The fog is soft at its edges, so half size looks the same and leaves the ground the room to be sharp.
+  const [shroudCv, sctx] = bigCanvas(TERR_W, TERR_H, [0.5, 0.35, 0.25], 'fog');
   const explored = new Uint8Array(MAP_W * MAP_H);
 
   function initShroud() {
     explored.fill(0);
+    paintShroud();
+  }
+  // The shroud over the whole slab, with every explored tile opened again.
+  function paintShroud() {
     sctx.globalCompositeOperation = 'source-over';
     sctx.clearRect(0, 0, TERR_W, TERR_H);
     sctx.fillStyle = '#06070c'; // Westwood Pitch Black Shroud, over the slab and its hills
@@ -224,6 +281,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const up = PAD / LEVEL, down = -SKIRT / LEVEL;
     const edge = [at(0, 0, up), at(MAP_W, 0, up), at(MAP_W, 0, down), at(MAP_W, MAP_H, down), at(0, MAP_H, down), at(0, MAP_H, up)];
     sctx.beginPath(); edge.forEach(([x, y], k) => k ? sctx.lineTo(x, y) : sctx.moveTo(x, y)); sctx.closePath(); sctx.fill();
+    sctx.globalCompositeOperation = 'destination-out'; sctx.fillStyle = 'rgba(0, 0, 0, 1)';
+    for (let y = 0; y < MAP_H; y++) for (let x = 0; x < MAP_W; x++) {
+      if (!explored[y * MAP_W + x]) continue;
+      const { ix, iy } = toIso((x + 0.5) * TILE, (y + 0.5) * TILE);
+      sctx.beginPath(); sctx.arc(ix + ISO_OFFSET_X, iy + PAD, TILE * 0.9, 0, Math.PI * 2); sctx.fill();
+    }
     miniDirty = true;
     revealShroud();
   }
@@ -294,9 +357,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // buildings and people. It's painted once onto a canvas, and a tile again
   // only when it changes (a wood cut down, a field reaped).
 
-  const terrain = document.createElement('canvas');
-  terrain.width = TERR_W; terrain.height = TERR_H;
-  const tctx = terrain.getContext('2d');
+  const [terrain, tctx] = bigCanvas(TERR_W, TERR_H, [1, 0.7, 0.5, 0.35], 'ground');
   let painted = null, miniDirty = true;
   function hash(x, y, k) {
     let h = Math.imul(x, 374761393) ^ Math.imul(y, 668265263) ^ Math.imul(k | 0, 1442695041);
@@ -457,6 +518,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
     return t * 4;
   }
   function paintTerrain() {
+    if (!DBG.on) return paintTerrainNow();
+    const t0 = performance.now(); DBG.paint = 'started';
+    try { paintTerrainNow(); DBG.paint = 'done in ' + Math.round(performance.now() - t0) + ' ms'; }
+    catch (e) { DBG.paint = 'FAILED: ' + e.message; throw e; }
+  }
+  function paintTerrainNow() {
     if (!TEX) TEX = { grass: texture('grass'), rock: texture('rock'), water: texture('water') };
     const whole = !painted;
     if (whole) { painted = new Int16Array(MAP_W * MAP_H).fill(-1); tctx.clearRect(0, 0, TERR_W, TERR_H); }
@@ -621,7 +688,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     for (let k = 0; k < 12; k++) {
       const conifer = k >= 8, g = greens[k % greens.length], r = j => hash(k, j, 777), S = 2;
       const w = conifer ? 32 : 44, ht = conifer ? 64 : 58, ax = w / 2, ay = ht - 4, trunk = conifer ? 14 : 22;
-      const cv = document.createElement('canvas'); cv.width = w * S; cv.height = ht * S;
+      const cv = watchLoss(document.createElement('canvas')); cv.width = w * S; cv.height = ht * S;
       const c = cv.getContext('2d'); c.scale(S, S);
       const light = mix(g, [240, 238, 170], 0.45), shadow = mix(g, [12, 28, 26], 0.55), rim = mix(g, [8, 14, 10], 0.78);
       c.fillStyle = '#4e3624';
@@ -747,7 +814,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.fillStyle = sky; ctx.fillRect(0, 0, cv.width, cv.height);
     const z = cam.z * dpr;
     ctx.setTransform(z, 0, 0, z, -cam.x * z, -cam.y * z);
-    ctx.drawImage(terrain, -ISO_OFFSET_X, -PAD);
+    ctx.drawImage(terrain, -ISO_OFFSET_X, -PAD, TERR_W, TERR_H);
     drawGlints(now);
 
     const inView = e => {
@@ -854,7 +921,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
 
     // ---------------- Westwood Shroud of War ----------------
-    ctx.drawImage(shroudCv, -ISO_OFFSET_X, -PAD);
+    ctx.drawImage(shroudCv, -ISO_OFFSET_X, -PAD, TERR_W, TERR_H);
     drawMarkers(now, true);
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -1048,7 +1115,16 @@ IMG.farm.src = 'assets/farm.png?v=13';
     } else if (u.type === 'giddianhi' || u.type === 'zemnarihah') {
       uImg = IMG.robberChief;
       uw = 30; uh = 48; uox = 18; uoy = 47;
-    } else if (u.type === 'lamanite' || u.type === 'zerahemnah' || d.foe) {
+    } else if (u.type === 'slinger') {          // the Lamanite slinger
+      uImg = IMG.lamanSlinger;
+      uw = 33; uh = 44; uox = 24; uoy = 43;
+    } else if (u.type === 'amalekite' || u.type === 'zoramite') {
+      uImg = IMG.lamanCaptain;                   // clothed, not armored (Alma 43:20-21)
+      uw = 26; uh = 44; uox = 17; uoy = 43;
+    } else if (u.type === 'zerahemnah') {
+      uImg = IMG.zerahemnah;
+      uw = 36; uh = 48; uox = 17; uoy = 47;
+    } else if (u.type === 'lamanite' || d.foe) {
       uImg = IMG.lamanite;
       uw = 41; uh = 44; uox = 19; uoy = 43;
     } else if (u.type === 'cart') {
@@ -1101,8 +1177,18 @@ IMG.farm.src = 'assets/farm.png?v=13';
     storehouse: { cx: 187, by: 283, span: 358 },
     tower: { cx: 214, by: 493, span: 428 },
     armory: { cx: 74, by: 147, span: 150 },
+    granary: { cx: 200, by: 333, span: 397 },
+    stables: { cx: 200, by: 318, span: 375 },
+    hall: { cx: 200, by: 310, span: 400 },
+    lamaniteCamp: { cx: 210, by: 240, span: 419 },
+    robbersCamp: { cx: 210, by: 242, span: 418 },
+    warcamp: { cx: 210, by: 267, span: 419 },
+    lamaniteTower: { cx: 199, by: 461, span: 398 },
   };
-  const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'barracks', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'storehouse', stables: 'storehouse' };
+  // Which picture a building is drawn with: the Lamanites' watchtowers are their own; a camp is the robbers' in 3 Nephi, the Lamanites' elsewhere.
+  const pictureOf = b => b.type === 'tower' && b.team === 'r' ? 'lamaniteTower' : b.type === 'warcamp' ? 'warcamp'
+    : b.type === 'camp' ? (mission && mission.campaign === 'gidgiddoni' ? 'robbersCamp' : 'lamaniteCamp') : PICTURE[b.type];
+  const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables' };
   const ready = img => img && img.complete && img.naturalWidth;
   // A building stands on flat ground just above the highest corner of its plot.
   function floorOf(b) {
@@ -1149,20 +1235,24 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const w = b.w * TILE, h = b.h * TILE;
     ctx.save();
     if (b.built < 1) ctx.globalAlpha = 0.55;
+    const key = pictureOf(b) || 'storehouse', sp = SPRITE[key], img = IMG[key];
+    const place = () => {                             // the picture, as wide as the plot, set on it by its front corner
+      const front = isoAt((b.tx + b.w) * TILE, (b.ty + b.h) * TILE, top), sc = (b.w + b.h) * TILE / sp.span;
+      ctx.drawImage(img, ix - sp.cx * sc, front.iy - sp.by * sc, img.naturalWidth * sc, img.naturalHeight * sc);
+    };
     if (b.def.wall != null) drawEarthwork(b);
-    else if (b.type === 'camp' || b.type === 'warcamp') drawCamp(b, now);
+    else if (b.type === 'camp' || b.type === 'warcamp') {
+      if (ready(img)) { place(); if (b.type === 'warcamp') banner(ix + 4, iy - h * 0.9, '#9f1239', now, b.id); }
+      else drawCamp(b, now);
+    }
     else if (b.type === 'village') drawVillage(b);
     else if (b.type === 'farm') {
       // the granary hut from the farm's picture, on its tilled plot
       if (ready(IMG.farm)) ctx.drawImage(IMG.farm, 50, 14, 58, 66, ix - 26, iy - 52, 52, 59);
-    } else {
-      const sp = SPRITE[PICTURE[b.type]] || SPRITE.storehouse, img = IMG[PICTURE[b.type]] || IMG.storehouse;
-      const front = isoAt((b.tx + b.w) * TILE, (b.ty + b.h) * TILE, top), sc = (b.w + b.h) * TILE / sp.span;
-      if (ready(img)) ctx.drawImage(img, ix - sp.cx * sc, front.iy - sp.by * sc, img.naturalWidth * sc, img.naturalHeight * sc);
-      else { ctx.fillStyle = '#bfa97c'; ctx.fillRect(ix - w * 0.5, iy - h, w, h); }
+    } else if (sp && ready(img)) {
+      place();
       if (b.type === 'hall') banner(ix + 6, iy - h * 1.2, '#d4a017', now, b.id);
-      if (b.type === 'stables') fence(b, top);
-    }
+    } else { ctx.fillStyle = '#bfa97c'; ctx.fillRect(ix - w * 0.5, iy - h, w, h); }
     ctx.restore();
 
     if (selected) {
@@ -1185,50 +1275,57 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.quadraticCurveTo(x + 8, y + 4 + wave, x + 1, y + 6); ctx.closePath(); ctx.fill();
     ctx.strokeStyle = 'rgba(0,0,0,.35)'; ctx.lineWidth = 0.8; ctx.stroke();
   }
-  // Rails along the front of the stables' yard.
-  function fence(b, top) {
-    const x0 = b.tx, y1 = b.ty + b.h, x1 = b.tx + b.w;
-    ctx.strokeStyle = '#6b4a2a'; ctx.lineWidth = 1.5;
-    const A = isoPt(x0 + 0.1, y1 - 0.1, top), B = isoPt(x1 - 0.1, y1 - 0.1, top), C = isoPt(x1 - 0.1, b.ty + 0.1, top);
-    for (const dy of [-3, -6]) { ctx.beginPath(); ctx.moveTo(A[0], A[1] + dy); ctx.lineTo(B[0], B[1] + dy); ctx.lineTo(C[0], C[1] + dy); ctx.stroke(); }
-    ctx.fillStyle = '#4e3420';
-    for (let k = 0; k <= 6; k++) { const t = k / 6, P = k <= 3 ? [A[0] + (B[0] - A[0]) * t * 2, A[1] + (B[1] - A[1]) * t * 2] : [B[0] + (C[0] - B[0]) * (t - 0.5) * 2, B[1] + (C[1] - B[1]) * (t - 0.5) * 2]; ctx.fillRect(P[0] - 1, P[1] - 8, 2, 8); }
-  }
 
-  // Earthworks (Alma 50:1–3): a ridge of earth joined to the ones beside it, with pickets on top once they're made. A gate is a timber door in the ridge.
+  // Earthworks (Alma 50:1–3): a bank of earth with grass on top, joined to the banks beside it, and a frame of pickets
+  // along its top once they're made. A gate is a timber gate standing across the bank, along its line.
   function drawEarthwork(b) {
-    const cxw = (b.tx + 0.5) * TILE, cyw = (b.ty + 0.5) * TILE;
+    const cx = (b.tx + 0.5) * TILE, cy = (b.ty + 0.5) * TILE;
     const links = [[1, 0], [-1, 0], [0, 1], [0, -1]].filter(([dx, dy]) => {
       const x = b.tx + dx, y = b.ty + dy;
       if (!W.inBounds(x, y)) return false;
       const n = W.ents.get(W.occ[y * MAP_W + x]);
       return n && n.kind === 'building' && n.def.wall != null && !n.dead;
     });
-    const up = (wx, wy, k) => isoAt(wx, wy, heightAt(wx, wy) + k);
-    const ends = links.map(([dx, dy]) => [cxw + dx * TILE * 0.5, cyw + dy * TILE * 0.5]);
-    const ridge = (k, width, color, ox = 0, oy = 0) => {
-      const c0 = up(cxw, cyw, k);
-      ctx.strokeStyle = color; ctx.lineWidth = width;
-      ctx.beginPath();
-      if (!ends.length) { ctx.moveTo(c0.ix - 6 + ox, c0.iy + oy); ctx.lineTo(c0.ix + 6 + ox, c0.iy + oy); }
-      for (const [ex, ey] of ends) { const e = up(ex, ey, k); ctx.moveTo(c0.ix + ox, c0.iy + oy); ctx.lineTo(e.ix + ox, e.iy + oy); }
-      ctx.stroke();
+    const H = 2.3, FOOT = 0.42 * TILE, TOP = 0.09 * TILE;          // how high (in levels), and how wide at the foot and at the top (half-widths)
+    const P = (wx, wy, k) => isoPt(wx / TILE, wy / TILE, heightAt(wx, wy) + k);
+    // One stretch of bank from the middle of this square to its edge. Light comes from the upper left:
+    // a bank running along x shows its lit side; one running along y, its shaded side.
+    const stretch = (dx, dy) => {
+      const ex = cx + dx * TILE * 0.5, ey = cy + dy * TILE * 0.5, along = dy === 0;
+      const side = w => along ? [0, w] : [w, 0];
+      const [fx, fy] = side(FOOT), [tx, ty] = side(TOP);
+      fillPoly([P(cx - fx, cy - fy, 0), P(ex - fx, ey - fy, 0), P(ex - tx, ey - ty, H), P(cx - tx, cy - ty, H)], '#4a3421');
+      fillPoly([P(cx + fx, cy + fy, 0), P(ex + fx, ey + fy, 0), P(ex + tx, ey + ty, H), P(cx + tx, cy + ty, H)], along ? '#9a7447' : '#6b4d2e');
+      fillPoly([P(cx - tx, cy - ty, H), P(ex - tx, ey - ty, H), P(ex + tx, ey + ty, H), P(cx + tx, cy + ty, H)], '#86a04c');
+      // the foot of the near side, where the bank meets the ground, a little darker
+      const a = P(cx + fx, cy + fy, 0), z = P(ex + fx, ey + fy, 0);
+      ctx.strokeStyle = 'rgba(40, 26, 12, .45)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(z[0], z[1]); ctx.stroke();
     };
-    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    ridge(0, 15, 'rgba(20, 14, 6, .3)', 5, 2);
-    ridge(0.35, 14, '#6e5132');
-    ridge(0.8, 10, '#957046');
-    ridge(1.1, 4, '#c19a62', -1.5, -1);
+    // The middle of the square: a heap where the stretches meet (or the whole of a bank on its own).
+    const heap = () => {
+      fillPoly([P(cx + FOOT, cy - FOOT, 0), P(cx + FOOT, cy + FOOT, 0), P(cx + TOP, cy + TOP, H), P(cx + TOP, cy - TOP, H)], '#6b4d2e');
+      fillPoly([P(cx - FOOT, cy + FOOT, 0), P(cx + FOOT, cy + FOOT, 0), P(cx + TOP, cy + TOP, H), P(cx - TOP, cy + TOP, H)], '#9a7447');
+      fillPoly([P(cx - TOP, cy - TOP, H), P(cx + TOP, cy - TOP, H), P(cx + TOP, cy + TOP, H), P(cx - TOP, cy + TOP, H)], '#86a04c');
+    };
+    for (const [dx, dy] of links.filter(([dx, dy]) => dx + dy < 0)) stretch(dx, dy);       // the stretches going away from us first
+    heap();
+    for (const [dx, dy] of links.filter(([dx, dy]) => dx + dy > 0)) stretch(dx, dy);
     if (b.type === 'gate') {
-      const c0 = up(cxw, cyw, 0.4);
-      ctx.fillStyle = '#5a3c22'; ctx.fillRect(c0.ix - 7, c0.iy - 10, 14, 11);
-      ctx.fillStyle = '#8a5f37'; ctx.fillRect(c0.ix - 6, c0.iy - 9, 5.5, 9); ctx.fillRect(c0.ix + 0.5, c0.iy - 9, 5.5, 9);
+      // the gate's picture runs along y (lower left to upper right on the screen); a bank along x gets it mirrored
+      if (!ready(IMG.gate)) return;
+      const alongX = links.some(([dx, dy]) => dy === 0) && !links.some(([dx, dy]) => dx === 0);
+      const g = P(cx, cy, 0), wd = TILE * 1.75, ht = wd * IMG.gate.naturalHeight / IMG.gate.naturalWidth;
+      ctx.save(); ctx.translate(g[0], g[1] + TILE * 0.36);
+      if (alongX) ctx.scale(-1, 1);
+      ctx.drawImage(IMG.gate, -wd / 2, -ht, wd, ht);
+      ctx.restore();
     } else if (W.researched.pickets) {
-      const stakes = ends.length ? ends.flatMap(([ex, ey]) => [0.2, 0.55, 0.9].map(t => [cxw + (ex - cxw) * t, cyw + (ey - cyw) * t])) : [[cxw, cyw]];
-      for (const [sx, sy] of stakes) {
-        const p = up(sx, sy, 1.1);
-        ctx.strokeStyle = '#5c3e22'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(p.ix, p.iy); ctx.lineTo(p.ix, p.iy - 8); ctx.stroke();
-        ctx.fillStyle = '#d2b07c'; ctx.fillRect(p.ix - 1, p.iy - 9, 2, 1.5);
+      // a frame of pickets along the top of the bank, sharpened
+      const line = links.length ? links.flatMap(([dx, dy]) => [0.12, 0.42, 0.72, 0.98].map(t => [cx + dx * TILE * 0.5 * t, cy + dy * TILE * 0.5 * t])) : [[cx, cy]];
+      for (const [sx, sy] of line.sort((a, b) => a[0] + a[1] - b[0] - b[1])) {
+        const p = P(sx, sy, H);
+        ctx.strokeStyle = '#5c3e22'; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(p[0], p[1] + 1); ctx.lineTo(p[0], p[1] - 9); ctx.stroke();
+        ctx.fillStyle = '#d2b07c'; ctx.beginPath(); ctx.moveTo(p[0] - 1.2, p[1] - 9); ctx.lineTo(p[0], p[1] - 12); ctx.lineTo(p[0] + 1.2, p[1] - 9); ctx.fill();
       }
     }
   }
@@ -1372,18 +1469,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     // Composite shroud on minimap: unexplored radar is pitch black!
     mctx.drawImage(shroudCv, 0, 0, mw, mh);
 
-    // Green Phosphor Radar Sweep Beam
     const now = performance.now();
-    const sweepAngle = (now * 0.0018) % (Math.PI * 2);
-    mctx.save();
-    mctx.translate(mw * 0.5, mh * 0.5);
-    mctx.rotate(sweepAngle);
-    const grad = mctx.createLinearGradient(0, 0, mw * 0.6, 0);
-    grad.addColorStop(0, 'rgba(16, 185, 129, 0.45)');
-    grad.addColorStop(1, 'rgba(16, 185, 129, 0)');
-    mctx.fillStyle = grad;
-    mctx.beginPath(); mctx.moveTo(0, 0); mctx.arc(0, 0, Math.max(mw, mh), -0.3, 0.3); mctx.fill();
-    mctx.restore();
 
     // Unit & Building Blips (Filtered by Vision)
     const toMini = (wx, wy) => {
@@ -1399,10 +1485,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const pt = toMini(e.x, e.y);
       if (e.kind === 'building') {
         mctx.fillStyle = e.team === 'p' ? '#60a5fa' : e.team === 'r' ? '#f87171' : '#fcd34d';
-        mctx.fillRect(pt.mx - 2, pt.my - 2, 4, 4);
+        mctx.fillRect(pt.mx - 2 * dpr, pt.my - 2 * dpr, 4 * dpr, 4 * dpr);
       } else {
         mctx.fillStyle = e.team === 'r' ? '#ef4444' : e.team === 'x' ? '#a1a1aa' : e.def.hero ? '#fcd34d' : '#fff';
-        mctx.fillRect(pt.mx - 1, pt.my - 1, 2, 2);
+        mctx.fillRect(pt.mx - dpr, pt.my - dpr, 2 * dpr, 2 * dpr);
       }
     }
 
@@ -1742,35 +1828,75 @@ IMG.farm.src = 'assets/farm.png?v=13';
     $('selInfo').innerHTML = infoHtml(ents);
     $('cmds').innerHTML = cmdsHtml(ents);
   }
+  // The picture on the card: its button picture if it has one, or else the picture it's drawn with.
+  const DRAWN_AS = { lehi: 'lehi', gidgiddoni: 'gidgiddoni', robber: 'robber', robberArcher: 'robber_archer', giddianhi: 'robber_chief', zemnarihah: 'robber_chief',
+    slinger: 'lamanite_slinger', amalekite: 'lamanite_captain', zoramite: 'lamanite_captain', zerahemnah: 'zerahemnah' };
+  function picOf(e) {
+    const own = e.kind === 'building' && e.team !== 'p' && IMG[pictureOf(e)];
+    const c = own ? own.src : CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && 'assets/cameo_stronghold.png?v=1');
+    if (c) return `<img class="pic" src="${c}" alt="">`;
+    if (DRAWN_AS[e.type]) return `<img class="pic" src="assets/${DRAWN_AS[e.type]}.png?v=1" alt="">`;
+    if (e.kind === 'unit' && (e.type === 'lamanite' || e.def.foe)) return `<img class="pic" src="assets/cameo_lamanite.png?v=10" alt="">`;
+    return '';
+  }
   function infoHtml(ents) {
-    if (!ents.length) return `<h3>${esc(mission.title)}</h3><p>Tap one of your people to choose them. ${W.night ? 'It is night.' : ''}</p>`;
+    if (!ents.length) return `<div><h3>${esc(mission.title)}</h3></div><p class="about only">Tap one of your people to choose them. ${W.night ? 'It is night.' : ''}</p>`;
     if (ents.length === 1) {
       const e = ents[0], d = e.def;
       const bar = d.hp < 99999 ? `<div class="hp"><em style="width:${Math.max(0, e.hp / S.maxHp(e) * 100)}%"></em></div>` : '';
       const doing = e.kind === 'unit' ? ({ gather: 'Gathering ' + (e.order.res || ''), build: 'Building', attack: 'Fighting', move: 'Marching', idle: 'Waiting for orders' }[e.order.type] || '') : e.built < 1 ? 'Being built: ' + Math.floor(e.built * 100) + '%' : '';
-      return `<h3>${esc(e.name && e.kind === 'building' ? e.name : d.name)}</h3>${bar}${doing ? `<div>${esc(doing)}</div>` : ''}<p>${esc(d.about || '')}</p>`;
+      const pic = picOf(e);
+      return `${pic}<div${pic ? '' : ' style="grid-column: 1 / -1"'}><h3>${esc(e.name && e.kind === 'building' ? e.name : d.name)}</h3>${bar}${doing ? `<div class="doing">${esc(doing)}</div>` : ''}</div>` +
+        (e.about || d.about ? `<p class="about">${esc(e.about || d.about)}</p>` : '');
     }
     const count = {};
     for (const e of ents) count[e.def.name] = (count[e.def.name] || 0) + 1;
-    return `<h3>${ents.length} chosen</h3><p>${Object.entries(count).map(([n, k]) => k + ' ' + esc(n) + (k > 1 ? 's' : '')).join(', ')}</p>`;
+    const most = Object.entries(count).sort((a, b) => b[1] - a[1])[0][0];
+    const many = n => n.endsWith('man') ? n.slice(0, -3) + 'men' : n + 's';      // spearmen, javelin throwers
+    return `${picOf(ents.find(e => e.def.name === most))}<div><h3>${ents.length} chosen</h3><div class="doing">${Object.entries(count).map(([n, k]) => k + ' ' + esc(k > 1 ? many(n.toLowerCase()) : n.toLowerCase())).join(', ')}</div></div>`;
   }
   const CAMEO_MAP = {
-    'deploy': 'assets/cameo_moroni.png?v=9',
+    'deploy': 'assets/cameo_moroni.png?v=10',
     'train:worker': 'assets/cameo_worker.png?v=1',
-    'train:spearman': 'assets/cameo_spearman.png?v=9',
+    'train:spearman': 'assets/cameo_spearman.png?v=10',
     'train:nslinger': 'assets/cameo_nslinger.png?v=1',
     'train:archer': 'assets/cameo_archer.png?v=1',
     'train:swordsman': 'assets/cameo_swordsman.png?v=1',
     'train:javelin': 'assets/cameo_javelin.png?v=1',
-    'train:stripling': 'assets/cameo_stripling.png?v=9',
-    'train:moroni': 'assets/cameo_moroni.png?v=9',
-    'build:tower': 'assets/cameo_tower.png?v=9',
-    'build:armory': 'assets/cameo_armory.png?v=9'
+    'train:stripling': 'assets/cameo_stripling.png?v=10',
+    'train:moroni': 'assets/cameo_moroni.png?v=10',
+    'train:cart': 'assets/cameo_cart.png?v=1',
+    'build:farm': 'assets/cameo_farm.png?v=1',
+    'build:granary': 'assets/cameo_granary.png?v=1',
+    'build:storehouse': 'assets/cameo_storehouse.png?v=1',
+    'build:barracks': 'assets/cameo_barracks.png?v=1',
+    'build:wall': 'assets/cameo_wall.png?v=1',
+    'build:gate': 'assets/cameo_gate.png?v=1',
+    'build:tower': 'assets/cameo_tower.png?v=10',
+    'build:armory': 'assets/cameo_armory.png?v=10',
+    'build:stables': 'assets/cameo_stables.png?v=1',
+    'build:hall': 'assets/cameo_hall.png?v=1',
+    'research:armor': 'assets/cameo_armor.png?v=1',
+    'research:breastplates': 'assets/cameo_breastplates.png?v=1',
+    'research:cimeters': 'assets/cameo_cimeters.png?v=1',
+    'research:pickets': 'assets/cameo_pickets.png?v=1'
+  };
+  const BREAKS = Object.fromEntries(['Store-house', 'Watch-tower', 'Swords-man', 'Spear-man', 'Breast-plates', 'Strip-ling', 'cime-ters', 'Bar-racks',
+    'cap-tains', 'Jave-lin', 'Gran-ary', 'Sta-bles', 'Sol-diers', 'war-rior', 'throw-er'].map(w => [w.replace('-', ''), w.replace('-', '\u00ad')]));
+  // Buttons with no picture: a drawn sign instead.
+  const SIGN = {
+    stop: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
+    letgo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+    cancel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+    done: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>'
   };
   const cmd = (act, name, cost, cls) => {
-    const icon = CAMEO_MAP[act];
-    const imgHtml = icon ? `<img src="${icon}" style="width:36px;height:36px;border-radius:3px;border:1px solid #d97706;object-fit:cover;margin-bottom:2px;" alt="" />` : '';
-    return `<button class="cmd ${cls || ''}" data-cmd="${act}">${imgHtml}<span>${name}</span>${cost ? `<small>${cost}</small>` : ''}</button>`;
+    const pic = CAMEO_MAP[act], sign = SIGN[act];
+    const face = pic ? `<img src="${pic}" alt="">` : sign ? `<i class="ic">${sign}</i>` : '';
+    // Long words may break where they'd break in print (Watch-tower), never anywhere else; the longest piece sets how big the name can be.
+    const shown = String(name).replace(/[A-Za-z]{7,}/g, w => BREAKS[w] || w);
+    const n = Math.max(6, ...shown.split(/[\s\u00ad]+/).map(w => w.length));
+    return `<button class="cmd ${cls || ''}" data-cmd="${act}" data-label="${name}" style="--n:${n}"><span class="face">${face}<b>${shown}</b></span>${cost ? `<small>${cost}</small>` : ''}</button>`;
   };
   function cmdsHtml(ents) {
     if (placing) {
@@ -1784,6 +1910,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (b.type === 'village') return `<div class="note">${b.state === 'waiting' ? 'Send a soldier or worker here. When the proclamation reaches ' + esc(b.name) + ', its people march to Zarahemla.' : 'Its people have gone.'}</div>`;
       if (b.team === 'x') return `<div class="note">He gave himself up (3 Nephi 4:27).</div>`;
       if (b.def.prophet) return `<div class="note">${esc(b.def.about)}</div>`;
+      if (b.kind === 'building') return `<div class="note">${b.untouchable ? 'Too strong to tear down.' : 'Choose soldiers, then tap it to tear it down.'}</div>`;
       return `<div class="note">${esc(b.def.about || (b.def.leader ? 'A leader of the robbers.' : 'A Gadianton robber.'))} Choose soldiers, then tap him to fight.</div>`;
     }
     const units = ents.filter(e => e.kind === 'unit');
@@ -1812,14 +1939,14 @@ IMG.farm.src = 'assets/farm.png?v=13';
     for (const k of keys.filter(k => !W.researched[k])) {
       const r = RESEARCH[k];
       if (W.researching && W.researching.key === k) h += `<div class="note">Making ${esc(r.name.toLowerCase())}: ${Math.ceil(W.researching.left)}s</div>`;
-      else h += cmd('research:' + k, esc(r.name), W.researching ? 'Wait: one at a time' : costHtml(r.cost), 'wide ' + (W.researching || !W.canAfford(r.cost) ? 'poor' : ''));
+      else h += cmd('research:' + k, esc(r.name), W.researching ? 'Wait: one at a time' : costHtml(r.cost), W.researching || !W.canAfford(r.cost) ? 'poor' : '');
     }
     if (b.queue && b.queue.length) {
       const q = b.queue[0], p = 100 - q.left / UNITS[q.type].time * 100;
       h += `<div class="queue">Training: ${b.queue.map((x, i) => `<span${i ? '' : ` style="--p:${p.toFixed(0)}%"`}>${esc(UNITS[x.type].name)}</span>`).join('')}</div>`;
     }
     if (b.def.trains) h += `<div class="note">${b.rally ? 'New ones go to the rally point.' : 'Tap the ground to set where new ones go.'}</div>`;
-    return h || `<div class="note">${esc(b.def.about || '')}</div>`;
+    return h || `<div class="note">${esc(b.about || b.def.about || '')}</div>`;
   }
   $('cmds').addEventListener('click', e => {
     const btn = e.target.closest('[data-cmd]');
@@ -1861,16 +1988,16 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const mmss = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
   let hudAt = 0;
   function hud(now) {
-    const cap = W.tech ? '/' + W.storeCap() : '';
-    setText('rGrain', Math.floor(W.res.grain) + cap);
-    setText('rTimber', Math.floor(W.res.timber) + cap);
+    const cap = W.tech && W.storeCap() > 0 ? '<small>/' + W.storeCap() + '</small>' : '';
+    setHtml('rGrain', Math.floor(W.res.grain) + cap);
+    setHtml('rTimber', Math.floor(W.res.timber) + cap);
     const ps = W.units('p');
     setText('rPeople', W.tech ? W.foodUsed() + '/' + W.foodCap() : ps.filter(u => u.type === 'worker').length + ' · ' + ps.filter(u => u.def.soldier).length);
     if (W.fullAt && W.fullAt > (shown.fullToast || -99) + 20) { shown.fullToast = W.fullAt; toast('Your storehouses are full: build a granary to hold more.', 'warn'); }
     if (now - hudAt < 250) return;
     hudAt = now;
     const left = mission.timeLeft(W), label = mission.phaseLabel || mission.timerLabel || '';
-    setHtml('clock', esc(label) + (left != null ? ' <b>' + mmss(left) + '</b>' : ''));
+    setHtml('clock', (label ? '<span class="lbl">' + esc(label) + '</span>' : '') + (left != null ? ' <b>' + mmss(left) + '</b>' : ''));
     $('food').hidden = W.prov == null;
     if (W.prov != null) $('foodBar').style.width = clamp(W.prov, 0, 100) + '%';
     const pw = mission.power ? mission.power(W) : null;
@@ -1879,7 +2006,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     powerNow = pw;
     const ready = !council || W.t >= council.nextAt;
     $('bCouncil').disabled = !ready;
-    setText('bCouncil', ready ? 'Council' : 'Council ' + Math.ceil(council.nextAt - W.t) + 's');
+    setHtml('bCouncil', ready ? 'Council' : '<span class="lbl">Council </span>' + Math.ceil(council.nextAt - W.t) + 's');
     const goals = mission.objectives(W).map(o => {
       const done = o.have >= o.need;
       return `<li class="${done ? 'done' : ''} ${o.optional ? 'opt' : ''}"><span>${done ? '✓' : '○'}</span><span>${esc(o.text)} ${refBtn(o.ref)}</span><span class="n">${o.need > 1 ? Math.min(o.have, o.need) + '/' + o.need : ''}</span></li>`;
@@ -1907,6 +2034,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
     $('feed').appendChild(el);
   }
   const toast = (text, kind, ref) => addMsg(text, kind || 'me', ref);
+  // Anything that goes wrong in a battle is said on the screen, once, so a screenshot from a phone or tablet
+  // shows what broke where it can't be watched from a computer.
+  const reported = new Set();
+  const report = msg => { if (!W || reported.has(msg) || reported.size > 4) return; reported.add(msg); addMsg('Something went wrong: ' + msg, 'warn'); };
+  window.addEventListener('error', e => report(String(e.message || e.error || 'unknown').slice(0, 140)));
+  window.addEventListener('unhandledrejection', e => report(String((e.reason && e.reason.message) || e.reason || 'unknown').slice(0, 140)));
 
   // Any verse reference on the screen opens the verses themselves.
   document.addEventListener('click', e => {
@@ -2144,14 +2277,53 @@ IMG.farm.src = 'assets/farm.png?v=13';
   $('cry').onclick = () => { if (W && powerNow) { mission.usePower(W, powerNow.id); $('cry').hidden = true; powerNow = null; shown.cry = null; } };
   document.addEventListener('visibilitychange', () => { if (document.hidden && W && !W.over && !paused) togglePause(); });
 
+  // ------------------------------------------------------------ ?debug=1: what this device really drew
+  // Colours read back from each layer at your city: if a layer shows 0,0,0,0 the device drew nothing on it.
+  let debugAt = 0, debugEl = null;
+  const px = (c, x, y) => { try { return [...c.getContext('2d').getImageData(Math.round(x), Math.round(y), 1, 1).data].join(','); } catch (e) { return 'unreadable: ' + e.message; } };
+  function debugBox(now) {
+    if (!DBG.on || !W || now - debugAt < 1000) return;
+    debugAt = now;
+    if (!debugEl) { debugEl = document.createElement('pre'); debugEl.style.cssText = 'position:fixed;left:6px;top:60px;z-index:50;margin:0;padding:6px 8px;max-width:92vw;white-space:pre-wrap;font:11px/1.3 monospace;color:#fff;background:rgba(0,0,0,.82);border:1px solid #c9962e;border-radius:6px;pointer-events:none'; document.body.appendChild(debugEl); }
+    const home = W.stronghold() || W.units('p')[0], g = toIso(home.x - 110, home.y + 110);
+    const gx = (g.ix + ISO_OFFSET_X), gy = (g.iy + PAD), s = toScreen(home.x - 110, home.y + 110);
+    const a = document.createElement('canvas'); a.width = a.height = 8; a.getContext('2d').fillStyle = '#f00'; a.getContext('2d').fillRect(0, 0, 8, 8);
+    const b = document.createElement('canvas'); b.width = b.height = 8; b.getContext('2d').drawImage(a, 0, 0);
+    debugEl.textContent = [
+      navigator.userAgent.replace(/^Mozilla\/5.0 /, '').slice(0, 120),
+      `screen ${vw}×${vh}  device ratio ${window.devicePixelRatio}  drawn at ${dpr}  zoom ${cam.z.toFixed(2)}  dark mode ${matchMedia('(prefers-color-scheme: dark)').matches}`,
+      `ground canvas ${DBG.made.ground}   fog canvas ${DBG.made.fog}`,
+      `ground painting: ${DBG.paint}   trees ${trees.length}   tree pictures ${TREES ? TREES.length : 'none yet'}`,
+      `painted again ${DBG.repaints || 0} time(s) (${DBG.blank || 0} after finding it blank); context lost ${DBG.lost} time(s), restored ${DBG.restored}; lost now: ground ${tctx.isContextLost ? lostNow(tctx) : 'can\'t tell'}, fog ${sctx.isContextLost ? lostNow(sctx) : 'can\'t tell'}, tree ${TREES && TREES[0].cv.getContext('2d').isContextLost ? lostNow(TREES[0].cv.getContext('2d')) : 'can\'t tell'}`,
+      `graphics memory: ${navigator.deviceMemory || '?'} GB device, ${performance.memory ? Math.round(performance.memory.usedJSHeapSize / 1048576) + ' MB script' : ''}`,
+      `ground at city: ${px(terrain, gx * terrain.k, gy * terrain.k)}`,
+      `fog at city: ${px(shroudCv, gx * shroudCv.k, gy * shroudCv.k)}`,
+      `screen at city: ${px(cv, s.x * dpr, (s.y) * dpr)}`,
+      `tree picture: ${TREES ? px(TREES[0].cv, TREES[0].cv.width / 2, TREES[0].cv.height * 0.4) : '-'}`,
+      `canvas onto canvas (should be 255,0,0,255): ${px(b, 4, 4)}`,
+      `errors: ${[...reported].join(' | ') || 'none'}`,
+    ].join('\n');
+  }
+
   // ------------------------------------------------------------ the loop
 
   let last = 0, acc = 0;
+  let probeAt = 0, probe = null;                       // where a painted land tile is, on the ground canvas
   function frame(now) {
     requestAnimationFrame(frame);
     const dt = Math.min(0.25, (now - (last || now)) / 1000);
     last = now;
     if (!W) return;
+    if (repaintAll && !lostNow(tctx) && !lostNow(sctx)) {
+      repaintAll = false; painted = null; TREES = null; paintShroud(); DBG.repaints = (DBG.repaints || 0) + 1;
+    }
+    // Once a second, make sure the ground is still there: a phone can drop it without saying so.
+    if (now - probeAt > 1000 && painted && !lostNow(tctx)) {
+      probeAt = now;
+      if (!probe) { const s = W.stronghold() || W.units('p')[0]; const { ix, iy } = toIso(s.x - 2 * TILE, s.y + 2 * TILE); probe = [(ix + ISO_OFFSET_X) * terrain.k, (iy + PAD) * terrain.k]; }
+      let a = 255; try { a = tctx.getImageData(Math.round(probe[0]), Math.round(probe[1]), 1, 1).data[3]; } catch (e) { a = 255; }
+      if (a === 0) { DBG.blank = (DBG.blank || 0) + 1; DBG.repaints = (DBG.repaints || 0) + 1; painted = null; TREES = null; paintShroud(); }
+    }
     if (!W.over && !paused && !modal) {
       acc += dt * speed;
       let n = 0;
@@ -2162,6 +2334,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (!modal) panKeys(dt);
     draw(now);
     hud(now);
+    debugBox(now);
     if (W.over && !endShown) showEnd();
     if (window.LIB_MULTI && window.LIB_MULTI.drawCursor) window.LIB_MULTI.drawCursor(ctx);
   }
@@ -2174,6 +2347,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // A window on the game for automated play-throughs in a browser.
   window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, get sel() { return sel; }, get selEnts() { return selEnts(); }, cam, begin: (id, level, length) => { const m = id === 'free' ? FREE : id === 'wild' ? WILD : MISSIONS.find(m => m.id === id); if (level) m.level = level; if (length) m.length = length; begin(m); }, toWorld, lookAt,
     screenOf: (x, y) => toScreen(x, y),
+    hidden: () => ({ terrain, shroudCv, trees: TREES }),         // the canvases painted once, for tests that wipe them
     remoteClick: (sx, sy, color) => {
       const w = toWorld(sx, sy);
       if (w) clickAt(w.x, w.y, false, false, sx, sy);
