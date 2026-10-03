@@ -2321,7 +2321,10 @@ const TreasureUp = (function () {
     const m = /^(.+) (\d+)$/.exec(ch), lib = window.TU_LIBRARY || [];
     const vol = lib.find(v => v.books.some(b => b[0] === m[1]));
     const u = { ref: ch, ch, book: m[1], c: Number(m[2]), whole: true, from: 1, to: d.v.length, verses: d.v.map((t, i) => ({ n: i + 1, t })), words: 0 };
-    const week = (window.TU_WEEKS || []).find(w => readingUnits(w.reference).some(x => x.ch === ch)) || { title: vol ? vol.name : 'Scriptures' };
+    // Its plain words and notes: a week's, or content/plain.js for a chapter no week reads (all of Isaiah, Blake, 2026-10-02).
+    if (!window.TU_PLAIN) await loadOnce('content/plain.js').catch(() => {});
+    const week = (window.TU_WEEKS || []).find(w => readingUnits(w.reference).some(x => x.ch === ch))
+      || { title: vol ? vol.name : 'Scriptures', plain: (window.TU_PLAIN && window.TU_PLAIN.plain) || [] };
     stopClips();
     use('library');
     readUnit = null; libUnit = { u, week };
@@ -10322,6 +10325,31 @@ const TreasureUp = (function () {
   // refuses anything not approved; what the checker finds comes back here.
   const DEV = { test: 'blakemerrell/TreasureUp-test', live: 'blakemerrell/TreasureUp', file: 'content/weeks.js', owner: 'blakemerrell@gmail.com' };
   const WEEKS_MARK = 'window.TU_WEEKS = ';
+  // Plain words for chapters no week reads (content/plain.js; Blake,
+  // 2026-10-02: "all of Isaiah"): one more entry in the list of weeks, with
+  // only plain words in it, saved to its own file.
+  const PLAIN_FILE = 'content/plain.js', PLAIN_MARK = 'window.TU_PLAIN = ', LIB = 'library';
+  const libWeek = lib => ({ dates: LIB, title: lib.title || 'Plain words, beyond the weeks', library: true, reels: [], sections: [], plain: lib.plain || [] });
+  const libOf = w => ({ title: w.title, plain: w.plain });
+  async function readPlainFile(repo) {
+    const f = await gh(`/repos/${repo}/contents/${PLAIN_FILE}`);
+    if (!f || !f.content) return null;
+    const text = b64decode(f.content), at = text.indexOf(PLAIN_MARK);
+    return { sha: f.sha, head: text.slice(0, at), text, lib: JSON.parse(text.slice(at + PLAIN_MARK.length, text.lastIndexOf(';'))) };
+  }
+  async function writePlainFile(repo, file, lib, message) {
+    const head = file ? file.head : '// Plain words and notes for chapters no week reads, shown in the Scriptures tab once approved.\n// Developer mode edits this file; tools/verify.mjs checks it.\n';
+    const r = await gh(`/repos/${repo}/contents/${PLAIN_FILE}`, { method: 'PUT', body: JSON.stringify(Object.assign({ message, content: b64encode(head + PLAIN_MARK + JSON.stringify(lib, null, 2) + ';\n') }, file ? { sha: file.sha } : {})) });
+    return r.commit.sha;
+  }
+  // The weeks, and the plain-words entry after them when there is one.
+  function devSetWeeks(weeks, plainFile) {
+    dev.plainFile = plainFile;
+    dev.weeks = weeks.concat(plainFile ? [libWeek(plainFile.lib)] : []);
+    dev.draft = clone(dev.weeks);
+    // Its chapters' KJV and BSB, for the preview.
+    if (plainFile) Promise.all(plainFile.lib.plain.map(p => loadOnce('content/lib/' + libSlug(p.ch) + '.js').catch(() => {}))).then(() => { if (dev && dev.week === LIB) renderDev(); });
+  }
   const DEV_LABELS = {
     hook: 'Headline', body: 'Text', text: 'Text', ref: 'Reference', q: 'Question', right: 'Right answer',
     wrong: 'Wrong answers (one per line)', why: 'Why (shown after answering)', source: 'Where the answer is',
@@ -10356,7 +10384,7 @@ const TreasureUp = (function () {
   // The pieces a week is reviewed in, as tools/verify.mjs counts them.
   function devItems(w) {
     const out = [], add = (key, label, obj, approved, of) => out.push({ key, label, obj, approved, hash: approvalHash(of) });
-    add('week', 'The week', weekMeta(w), w.approved, weekMeta(w));
+    if (!w.library) add('week', 'The week', weekMeta(w), w.approved, weekMeta(w));
     w.reels.forEach((r, n) => add('reel:' + r.id, 'Reel ' + (n + 1) + ' · ' + (w.sections[r.section] || ''), r, r.approved, noApproval(r)));
     (w.deep || []).forEach(d => add('deep:' + d.id, d.day === 'friday' ? 'Friday deep dive' : 'Go deeper · ' + (w.sections[d.section] || ''), d, d.approved, noApproval(d)));
     if (w.puzzle) add('puzzle', 'Weekly puzzle', w.puzzle, w.puzzle.approved, noApproval(w.puzzle));
@@ -10519,9 +10547,10 @@ const TreasureUp = (function () {
   }
   async function devLoad() {
     dev.view = 'loading'; renderDev();
-    const [t, l] = await Promise.all([readWeeksFile(DEV.test), readWeeksFile(DEV.live)]);
+    const [t, l, tp, lp] = await Promise.all([readWeeksFile(DEV.test), readWeeksFile(DEV.live), readPlainFile(DEV.test), readPlainFile(DEV.live)]);
     if (!t) throw new Error("Couldn't find content/weeks.js on the test site.");
-    Object.assign(dev, { file: t, weeks: t.weeks, draft: clone(t.weeks), live: l, view: dev.week ? 'week' : 'weeks' });
+    Object.assign(dev, { file: t, live: l, livePlain: lp, view: dev.week ? 'week' : 'weeks' });
+    devSetWeeks(t.weeks, tp);
     renderDev();
   }
 
@@ -10580,10 +10609,10 @@ const TreasureUp = (function () {
     return devTopHtml(false) + `<p class="board-help" style="margin-top:12px">Every week the test site has. Open one to review it.</p>` +
       dev.draft.map(w => {
         const items = devItems(w), ok = items.filter(i => i.state === 'ok').length;
-        const lw = dev.live && dev.live.weeks.find(x => x.dates === w.dates);
-        const live = !lw ? 'Not on the live app yet' : canon(lw) === canon(dev.weeks.find(x => x.dates === w.dates)) ? 'On the live app' : 'On the live app (an older version)';
+        const lw = w.library ? dev.livePlain && libWeek(dev.livePlain.lib) : dev.live && dev.live.weeks.find(x => x.dates === w.dates);
+        const live = !lw ? 'Not on the live app yet' : canon(w.library ? libOf(lw) : lw) === canon(w.library ? libOf(dev.weeks.find(x => x.dates === w.dates)) : dev.weeks.find(x => x.dates === w.dates)) ? 'On the live app' : 'On the live app (an older version)';
         return `<button class="dv-week" data-dev="open" data-week="${esc(w.dates)}">
-          <b>${esc(w.title)}</b><small>${esc(w.dates)} · ${ok} of ${items.length} approved · ${live}</small></button>`;
+          <b>${esc(w.title)}</b><small>${w.library ? 'Chapters no week reads' : esc(w.dates)} · ${ok} of ${items.length} approved · ${live}</small></button>`;
       }).join('');
   }
 
@@ -10617,7 +10646,7 @@ const TreasureUp = (function () {
                     ['Plain words', i => i.key.startsWith('plain:')], ['The short version', i => i.key.startsWith('tldr:')],
                     ['Insights', i => i.key.startsWith('insight:')]];
     return devTopHtml(true) + `
-      <p class="board-help" style="margin-top:12px">${esc(w.dates)} · ${ok} of ${items.length} approved.
+      <p class="board-help" style="margin-top:12px">${w.library ? 'Chapters no week reads, in the Scriptures tab' : esc(w.dates)} · ${ok} of ${items.length} approved.
         <a href="./" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Open the test site ↗</a></p>${all}${clipNote}` +
       groups.filter(([, f]) => items.some(f))
         .map(([name, f]) => `<div class="dv-group"><div class="eyebrow">${name}</div>${name === 'Plain words' ? '<p class="dv-small">Each verse of the KJV with its plain words under it, and the BSB to compare. A chapter shows in the app once it’s approved.</p>' : name === 'The short version' ? '<p class="dv-small">The lines at the top of each chapter, each with the KJV verses it sums up under it. A chapter’s card shows in the app once it’s approved.</p>'
@@ -10665,7 +10694,8 @@ const TreasureUp = (function () {
     if (it.key === 'words') return o.map(x => `<p class="dv-small"><b>${esc(x.word)}</b> · ${esc(x.clue)} (${esc(x.ref)})</p>`).join('');
     if (it.key.startsWith('plain:')) {
       // The verses to look at first, then every KJV verse with its plain words and notes.
-      const kjv = (window.TU_READING || {})[o.ch] || [], bsb = (window.TU_BSB || {})[o.ch] || [], look = o.review || [];
+      const lib = (window.TU_LIB || {})[o.ch] || {};
+      const kjv = (window.TU_READING || {})[o.ch] || lib.v || [], bsb = (window.TU_BSB || {})[o.ch] || lib.b || [], look = o.review || [];
       return (look.length ? `<div class="dv-look"><b>Look at these first</b>${look.map(x => `<p class="dv-small">Verse ${x.v}: ${esc(x.about)}</p>`).join('')}</div>` : '') +
         o.verses.map((t, i) => `<div class="dv-pv${look.some(x => x.v === i + 1) ? ' flag' : ''}">
           <p class="dv-kjv"><sup>${i + 1}</sup>${esc(kjv[i] || '')}</p>
@@ -10758,10 +10788,15 @@ const TreasureUp = (function () {
     let publish = '';
     if (dev.view === 'week' && !n && savedWeek()) {
       const w = savedWeek(), items = devNeeded(devItems(w)), ok = items.filter(i => i.state === 'ok').length;
-      const lw = dev.live && dev.live.weeks.find(x => x.dates === w.dates);
+      const lw = w.library ? null : dev.live && dev.live.weeks.find(x => x.dates === w.dates);
+      if (w.library) {
+        const same = dev.livePlain && canon(dev.livePlain.lib) === canon(libOf(w));
+        publish = same ? '<p class="dv-small">✓ These are on the live app, exactly as they are here.</p>'
+          : `<button class="btn" data-dev="publish"${dev.busy ? ' disabled' : ''}>Publish to the live app</button><p class="dv-small">Only the approved chapters show in the app.</p>`;
+      }
       const later = [(w.plain || []).length && 'the plain words', (w.tldr || []).length && 'the short versions'].filter(Boolean);
       const wait = later.length ? '; ' + later.join(' and ') + ' can wait' : '';
-      publish = ok < items.length ? `<p class="dv-small">Approve every piece to publish this week (${ok} of ${items.length} approved${wait}).</p>`
+      if (!w.library) publish = ok < items.length ? `<p class="dv-small">Approve every piece to publish this week (${ok} of ${items.length} approved${wait}).</p>`
         : lw && canon(lw) === canon(w) ? '<p class="dv-small">✓ This week is on the live app, exactly as it is here.</p>'
         : `<button class="btn" data-dev="publish"${dev.busy ? ' disabled' : ''}>Publish this week to the live app</button>`;
     }
@@ -10796,15 +10831,26 @@ const TreasureUp = (function () {
     const week = devWeek();
     const message = `Developer mode: ${[edits && edits + ' change' + (edits > 1 ? 's' : ''), approvals && approvals + ' approval' + (approvals > 1 ? 's' : '')].filter(Boolean).join(', ')} in ${week ? week.title : 'content'} (${(dev.access || {}).email})`;
     let sha = null;
-    for (let attempt = 0; attempt < 3 && !sha; attempt++) {
+    const weekChanges = changes.filter(c => c.dates !== LIB), libChanges = changes.filter(c => c.dates === LIB);
+    let weeksNow = dev.weeks.filter(w => !w.library), plainNow = dev.plainFile;
+    for (let attempt = 0; attempt < 3 && weekChanges.length && !sha; attempt++) {
       // Always onto the latest file, so nobody's changes are lost.
       const fresh = await readWeeksFile(DEV.test);
-      changes.forEach(c => { const w = fresh.weeks.find(x => x.dates === c.dates); if (w) devSet(w, c.key, c.obj, c.approved); });
+      weekChanges.forEach(c => { const w = fresh.weeks.find(x => x.dates === c.dates); if (w) devSet(w, c.key, c.obj, c.approved); });
       try {
         sha = await writeWeeksFile(DEV.test, fresh, fresh.weeks, message);
-        Object.assign(dev, { file: Object.assign(fresh, { sha: null }), weeks: fresh.weeks, draft: clone(fresh.weeks) });
+        Object.assign(dev, { file: Object.assign(fresh, { sha: null }) }); weeksNow = fresh.weeks;
       } catch (e) { if (!(e.status === 409 || e.status === 422) || attempt === 2) throw e; }
     }
+    let libSha = null;
+    for (let attempt = 0; attempt < 3 && libChanges.length && !libSha; attempt++) {
+      const fresh = await readPlainFile(DEV.test), w = libWeek(fresh ? fresh.lib : { plain: [] });
+      libChanges.forEach(c => devSet(w, c.key, c.obj, c.approved));
+      try { libSha = await writePlainFile(DEV.test, fresh, libOf(w), message.replace(/ in .* \(/, ' in plain words beyond the weeks (')); plainNow = { head: fresh ? fresh.head : '', lib: libOf(w) }; }
+      catch (e) { if (!(e.status === 409 || e.status === 422) || attempt === 2) throw e; }
+    }
+    sha = libSha || sha;
+    devSetWeeks(weeksNow, plainNow);
     const moved = changes.find(c => c.key === 'week');
     if (moved) dev.week = moved.obj.dates;
     dev.changes.clear();
@@ -10815,6 +10861,7 @@ const TreasureUp = (function () {
   }
 
   async function devPublish() {
+    if (savedWeek() && savedWeek().library) return devPublishPlain();
     const w = clone(savedWeek());
     dev.busy = true; dev.status = { kind: 'wait', text: 'Publishing…' }; renderDevBar();
     // Pictures the live app doesn't have yet go first.
@@ -10838,6 +10885,20 @@ const TreasureUp = (function () {
     }
     dev.busy = false;
     if (dev) { dev.live = await readWeeksFile(DEV.live).catch(() => dev.live); renderDevBar(); renderDev(); }
+  }
+
+  // The plain words beyond the weeks, as they are on the test site, to the live app.
+  async function devPublishPlain() {
+    dev.busy = true; dev.status = { kind: 'wait', text: 'Publishing…' }; renderDevBar();
+    const test = await readPlainFile(DEV.test), live = await readPlainFile(DEV.live);
+    const sha = await writePlainFile(DEV.live, live, test.lib, `Publish plain words beyond the weeks from developer mode (${(dev.access || {}).email})`);
+    const ok = await devWatch(DEV.live, sha, 'the live app');
+    if (ok === false && dev && live) {
+      const now = await gh(`/repos/${DEV.live}/contents/${PLAIN_FILE}`);
+      await gh(`/repos/${DEV.live}/contents/${PLAIN_FILE}`, { method: 'PUT', body: JSON.stringify({ message: 'Undo publishing plain words: the content check refused it', content: b64encode(live.text), sha: now.sha }) });
+    }
+    dev.busy = false;
+    if (dev) { dev.livePlain = await readPlainFile(DEV.live).catch(() => dev.livePlain); renderDevBar(); renderDev(); }
   }
 
   async function devPeople() {
