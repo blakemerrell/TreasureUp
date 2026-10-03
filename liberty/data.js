@@ -15,8 +15,8 @@
   const FORDS = [9, 31, 51];
 
   const UNITS = {
-    worker:       { name: 'Worker', hp: 40, speed: 56, dmg: 3, range: 18, cd: 1.2, armor: 0, sight: 110, cost: { grain: 40 }, time: 7, gathers: true, builds: true,
-                    about: 'Gathers grain and timber, and builds.' },
+    worker:       { name: 'Worker', hp: 40, speed: 56, dmg: 3, range: 18, cd: 1.2, armor: 0, sight: 110, cost: { grain: 40 }, time: 7, builds: true,
+                    about: 'Mends what is broken, and hurries along what is being built. Tap a damaged or unfinished building to send him.' },
     spearman:     { name: 'Spearman', hp: 95, speed: 58, dmg: 11, range: 20, cd: 1.0, armor: 2, sight: 170, cost: { grain: 45, timber: 25 }, time: 9, soldier: true, beats: 'armored',
                     about: 'A guard who fights up close. Strong against armored captains.' },
     archer:       { name: 'Archer', hp: 65, speed: 58, dmg: 11, range: 165, cd: 1.3, armor: 0, sight: 200, cost: { grain: 35, timber: 35 }, time: 10, soldier: true, ranged: true, beats: 'light',
@@ -58,14 +58,14 @@
                     about: '"The dart, and the javelin" (Jarom 1:8). Strong against armored captains. From history, not the verse: ancient Americans threw darts with a spear-thrower called an atlatl.' },
     stripling:    { name: 'Stripling warrior', hp: 190, speed: 64, dmg: 15, range: 20, cd: 0.9, armor: 4, sight: 180, cost: { grain: 90, timber: 60 }, time: 16, soldier: true, tier: true, needs: ['hall'],
                     about: '"Exceedingly valiant for courage" (Alma 53:20), "taught by their mothers" (Alma 56:47). Very hard to bring down.' },
-    cart:         { name: 'Horse cart', hp: 90, speed: 78, dmg: 0, range: 0, cd: 1, armor: 1, sight: 140, cost: { grain: 60, timber: 40 }, time: 12, gathers: true, load: 30, tier: true, needs: ['stables'],
-                    about: 'Hauls three times what a worker can. The Nephites had "horses, and their chariots" (3 Nephi 3:22).' },
+    cart:         { name: 'Horse cart', hp: 90, speed: 78, dmg: 0, range: 0, cd: 1, armor: 1, sight: 140, cost: { grain: 60, timber: 40 }, time: 12, gathers: true, load: 30, quick: 1.5,
+                    about: 'Brings in grain and timber on its own: it finds the nearest field or forest and hauls the load home. Tap it on a field or a forest to choose which. The Nephites had "horses, and their chariots" (3 Nephi 3:22).' },
     prisoner:     { name: 'Prisoner', hp: 1, speed: 45, dmg: 0, range: 0, cd: 1, armor: 0, sight: 0, about: 'Yielded up as a prisoner (3 Nephi 4:27).' }
   };
 
   const BUILDINGS = {
-    stronghold: { name: 'Zarahemla', w: 4, h: 4, hp: 2400, armor: 4, dmg: 8, range: 130, cd: 1.4, dropoff: true, trains: ['worker'], food: 10, store: 300, about: 'The gathering place (3 Nephi 3:23). Its guards shoot at robbers. Lose it and the mission is lost.' },
-    storehouse: { name: 'Storehouse', w: 2, h: 2, hp: 450, armor: 2, cost: { timber: 60 }, work: 18, dropoff: true, store: 300, about: 'Workers bring grain and timber here too.' },
+    stronghold: { name: 'Zarahemla', w: 4, h: 4, hp: 2400, armor: 4, dmg: 8, range: 130, cd: 1.4, dropoff: true, builder: true, trains: ['cart', 'worker'], food: 10, store: 300, about: 'The gathering place (3 Nephi 3:23). Its guards shoot at robbers. Lose it and the mission is lost.' },
+    storehouse: { name: 'Storehouse', w: 2, h: 2, hp: 450, armor: 2, cost: { timber: 60 }, work: 18, dropoff: true, store: 300, about: 'Carts bring grain and timber here too.' },
     barracks:   { name: 'Barracks', w: 3, h: 3, hp: 650, armor: 2, cost: { timber: 110 }, work: 30, trains: ['spearman', 'nslinger', 'archer', 'swordsman'], research: ['armor'], about: 'Trains the guards.' },
     tower:      { name: 'Watchtower', w: 2, h: 2, hp: 520, armor: 3, cost: { grain: 20, timber: 60 }, work: 26, dmg: 9, range: 150, cd: 1.3, needs: ['barracks'], about: 'Guards "watch them … day and night" (3 Nephi 3:14). Shoots at robbers.' },
     wall:       { name: 'Earthwork', w: 1, h: 1, hp: 260, armor: 5, cost: { timber: 6 }, work: 5, wall: true, about: 'Fortifications "round about them" (3 Nephi 3:14). Robbers must break through.' },
@@ -79,8 +79,8 @@
                   about: 'Holds 500 more grain and timber. The Nephites "reserved for themselves provisions" (3 Nephi 4:4). From history, not the verses: clay granaries like these have held maize in Mexico since long before the Spanish came.' },
     armory:     { name: 'Armory', w: 3, h: 2, hp: 500, armor: 2, cost: { grain: 40, timber: 120 }, work: 24, needs: ['barracks'], research: ['breastplates', 'cimeters', 'pickets'], tier: true,
                   about: 'Makes "all manner of weapons of war, of every kind" (Alma 2:12). Opens swordsmen, and makes armor, better weapons and stronger walls.' },
-    stables:    { name: 'Stables', w: 2, h: 3, hp: 420, armor: 1, cost: { timber: 100 }, work: 20, needs: ['farm'], trains: ['cart'], tier: true,
-                  about: 'Horse carts that haul three times as much. They had "horses, and their chariots" (3 Nephi 3:22).' },
+    stables:    { name: 'Stables', w: 2, h: 3, hp: 420, armor: 1, cost: { timber: 100 }, work: 20, needs: ['farm'], trains: ['cart'], fast: 2, tier: true,
+                  about: 'Horse carts, twice as fast as the city makes them. They had "horses, and their chariots" (3 Nephi 3:22).' },
     hall:       { name: 'Hall of the captains', w: 3, h: 3, hp: 800, armor: 3, cost: { grain: 150, timber: 200 }, work: 36, needs: ['armory'], trains: ['javelin', 'stripling'], tier: true,
                   about: 'Where the chief captains plan the war. Trains javelin throwers and stripling warriors. From history, not the verses: its stepped platform is like those built in ancient Mesoamerica.' },
     warcamp:    { name: 'Lamanite war camp', w: 4, h: 4, hp: 1800, armor: 3, tier: true, about: 'Where the Lamanite armies gather. Tear it down to win.' }

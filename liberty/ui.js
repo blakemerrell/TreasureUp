@@ -324,6 +324,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     };
 
     for (const u of W.units('p')) punch(u.x, u.y, u.def.sight || 170);
+    for (const b of W.buildings('p')) if (b.def.wall == null) punch(b.x, b.y, 110 + Math.max(b.w, b.h) * TILE * 0.5);
     for (const b of W.buildings('p')) {
       const bx = (b.tx + b.w * 0.5) * TILE, by = (b.ty + b.h * 0.5) * TILE;
       punch(bx, by, b.def.range ? b.def.range + 60 : 210);
@@ -1569,7 +1570,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       return setSel([e]);
     }
     const b = selEnts()[0];
-    if (b && b.kind === 'building' && b.def.trains && !e) { b.rally = [tileOf(wx), tileOf(wy)]; ping(wx, wy, '#fde68a'); toast('Rally point set: new ' + (b.type === 'barracks' ? 'guards' : 'workers') + ' will go there.'); return; }
+    if (b && b.kind === 'building' && b.def.trains && !e) { b.rally = [tileOf(wx), tileOf(wy)]; ping(wx, wy, '#fde68a'); toast('Rally point set: new ones from here will go there.'); return; }
     if (e) showInfo(e);
     else setSel([]);
   }
@@ -1590,9 +1591,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
       return ping(e.x, e.y, '#fde68a');
     }
     const kind = W.isResource(tx, ty, 'timber') ? 'timber' : W.isResource(tx, ty, 'grain') ? 'grain' : null;
-    if (kind && workers.length) {
-      workers.forEach((u, i) => { const f = i ? W.nearestResource(tx, ty, kind, u) || [tx, ty] : [tx, ty]; W.gatherAt(u, f[0], f[1]); });
-      if (rest.length) moveGroup(rest, tx, ty);
+    const carts = units.filter(u => u.def.gathers), others = units.filter(u => !u.def.gathers);
+    if (kind && carts.length) {
+      carts.forEach((u, i) => { u.pref = kind; const f = i ? W.nearestResource(tx, ty, kind, u) || [tx, ty] : [tx, ty]; W.gatherAt(u, f[0], f[1]); });
+      if (others.length) moveGroup(others, tx, ty);
       return ping(wx, wy, kind === 'timber' ? '#a3e635' : '#fde047');
     }
     moveGroup(units, tx, ty);
@@ -1626,7 +1628,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function placeAt(wx, wy, keep) {
     const [x, y] = topLeft(placing, wx, wy);
     const b = W.place(placing, x, y, []);
-    if (!b) return toast(W.canPlace(placing, x, y) ? poorText(BUILDINGS[placing].cost) : 'It can\'t go there. Build on open ground, south of the wilderness.', 'warn');
+    if (!b) { const why = W.whyNotPlace(placing, x, y); return toast(!why ? poorText(BUILDINGS[placing].cost) : why === 'far' ? 'Too far from your city. Build within reach of what you have.' : 'It can\'t go there. Build on open ground, south of the wilderness.', 'warn'); }
     assignBuilders([b]);
     if (placing !== 'wall' && !keep) { placing = null; refreshPanel(true); }
   }
@@ -1666,7 +1668,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const need = [];
     if ((c.grain || 0) > W.res.grain) need.push('grain');
     if ((c.timber || 0) > W.res.timber) need.push('timber');
-    return 'Not enough ' + need.join(' or ') + ' yet. Workers gather it; the council gives some too.';
+    return 'Not enough ' + need.join(' or ') + ' yet. The carts bring it in; the council gives some too.';
   }
 
   // ------------------------------------------------------------ pointer and keys
@@ -1729,7 +1731,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const spot = topLeft(placing, p.x, p.y);
       if (!touchSpot || touchSpot[0] !== spot[0] || touchSpot[1] !== spot[1]) {
         touchSpot = spot; hover = p;
-        toast(W.canPlace(placing, spot[0], spot[1]) ? 'Tap it again to build it there.' : 'It can\'t go there: tap open ground.', 'me');
+        toast(W.canPlace(placing, spot[0], spot[1]) ? 'Tap it again to build it there.' : W.whyNotPlace(placing, spot[0], spot[1]) === 'far' ? 'Too far from your city: build within reach of what you have.' : 'It can\'t go there: tap open ground.', 'me');
         return;
       }
       touchSpot = null;
@@ -1917,19 +1919,19 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (units.length) {
       let h = '';
       if (units.length === 1 && units[0].def.deploys) h += cmd('deploy', 'Plant it here', 'Alma 46:36', 'wide on');
-      if (units.some(u => u.def.builds)) {
-        const list = W.tech ? ['farm', 'granary', 'storehouse', 'barracks', 'wall', 'gate', 'tower', 'armory', 'stables', 'hall'] : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
-        for (const t of list) {
-          const def = BUILDINGS[t], why = W.whyNotBuild(t);
-          h += cmd('build:' + t, t === 'wall' ? 'Walls' : def.name, why ? esc(why) : costHtml(def.cost) + (t === 'wall' ? ' each' : ''), why || !W.canAfford(def.cost) ? 'poor' : '');
-        }
-      }
       h += cmd('stop', 'Stop', touchy ? '' : 'H');
       h += cmd('letgo', 'Let go', touchy ? '' : 'Esc');
       return h;
     }
-    if (b.built < 1) return `<div class="note">Choose workers, then tap this to build it.</div>`;
+    if (b.built < 1) return `<div class="note">It builds itself. Workers sent to it hurry it along.</div>`;
     let h = '';
+    if (b.def.builder) {                            // the city: like Red Alert's construction yard, everything is built from here
+      const list = W.tech ? ['farm', 'granary', 'storehouse', 'barracks', 'wall', 'gate', 'tower', 'armory', 'stables', 'hall'] : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
+      for (const t of list) {
+        const def = BUILDINGS[t], why = W.whyNotBuild(t);
+        h += cmd('build:' + t, t === 'wall' ? 'Walls' : def.name, why ? esc(why) : costHtml(def.cost) + (t === 'wall' ? ' each' : ''), why || !W.canAfford(def.cost) ? 'poor' : '');
+      }
+    }
     for (const t of (b.def.trains || []).filter(t => W.visible(UNITS[t]))) {
       const why = W.whyNotTrain(t);
       h += cmd('train:' + t, UNITS[t].name, why ? esc(why) : costHtml(UNITS[t].cost), why || !W.canAfford(UNITS[t].cost) ? 'poor' : '');
@@ -1971,11 +1973,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function showInfo(e) { sel = []; infoEnt = e; placing = null; refreshPanel(true); }
 
   $('bArmy').onclick = () => { const s = W && W.soldiers(); if (s && s.length) { setSel(s); } };
-  $('bIdle').onclick = () => {
+  // Your city, where everything is built from; before it's planted, the standard of liberty.
+  $('bCity').onclick = () => {
     if (!W) return;
-    const idle = W.units('p').filter(u => u.def.gathers && u.order.type === 'idle');
-    if (!idle.length) return toast('Every worker is busy.');
-    setSel(idle); lookAt(idle[0].x, idle[0].y);
+    const c = W.stronghold() || W.units('p').find(u => u.def.deploys);
+    if (!c) return;
+    setSel([c]); lookAt(c.x, c.y);
   };
   function setBoxMode(on) { boxMode = on; $('bBox').classList.toggle('on', on); if (on) toast('Now drag on the map to draw a box around people.', 'me'); }
   $('bBox').onclick = () => setBoxMode(!boxMode);
@@ -1992,7 +1995,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     setHtml('rGrain', Math.floor(W.res.grain) + cap);
     setHtml('rTimber', Math.floor(W.res.timber) + cap);
     const ps = W.units('p');
-    setText('rPeople', W.tech ? W.foodUsed() + '/' + W.foodCap() : ps.filter(u => u.type === 'worker').length + ' · ' + ps.filter(u => u.def.soldier).length);
+    setText('rPeople', W.tech ? W.foodUsed() + '/' + W.foodCap() : ps.filter(u => u.def.gathers || u.def.builds).length + ' · ' + ps.filter(u => u.def.soldier).length);
     if (W.fullAt && W.fullAt > (shown.fullToast || -99) + 20) { shown.fullToast = W.fullAt; toast('Your storehouses are full: build a granary to hold more.', 'warn'); }
     if (now - hudAt < 250) return;
     hudAt = now;
@@ -2170,8 +2173,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
       <details class="how"><summary>How to play</summary><ul>
         <li><b>Choose</b> your people: tap or click one. Drag a box around several (on a touch screen, tap <b>Box select</b> first). <b>Soldiers</b> chooses your whole army.</li>
         <li><b>Give orders</b>: with people chosen, tap the ground to march, an enemy to fight, trees or a field to gather, or an unfinished building to build it. (On a computer, right-click works too.)</li>
-        <li><b>Build</b>: choose workers, pick a building, then tap where it goes. For walls, drag a line.</li>
-        <li><b>Train</b>: choose your city for workers, or the barracks for soldiers and armor.</li>
+        <li><b>Build</b>: tap your city (or the <b>City</b> button), pick a building, then tap where it goes, within reach of what you have. It rises on its own. For walls, drag a line.</li>
+        <li><b>Gather</b>: carts bring in grain and timber by themselves. Tap a cart, then a field or a forest, to choose which.</li>
+        <li><b>Train</b>: your city makes carts and workers; the barracks, soldiers. Workers mend what's damaged and hurry what's being built.</li>
         <li><b>Story moments</b>: when the chapter's big moment comes (crying unto the Lord, Lehi's attack), a gold button appears at the top.</li>
         <li><b>The council</b>: answer a question from the chapter for grain and timber. Get it wrong and you'll see the verse.</li>
         <li><b>Look around</b>: drag the map (arrow keys on a computer), pinch or scroll to zoom, or tap the small map.</li>
@@ -2215,7 +2219,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       <div class="kicker">${m.kicker ? esc(m.kicker()) : m.free ? 'Free battle · ' + esc(m.LEVELS[m.level].name) : esc(CAMPAIGNS.find(c => c.id === m.campaign).title) + ' · Mission ' + (inCampaign(m).indexOf(m) + 1) + ' · ' + esc(m.chapter)} · ${esc(m.year)}</div>
       <h2 style="font-size:32px">${esc(m.title)}</h2>
       <ul>${m.briefing.map(([t, r]) => `<li>${esc(t)} ${refBtn(r)}</li>`).join('')}</ul>
-      ${m.free ? `<p class="lede">Your building line: city → farms and granaries → barracks → armory → stables and the hall of the captains. A farm feeds 8 people; nobody can be trained without food.</p>` : ''}
+      ${m.free ? `<p class="lede">Tap your city to build. Your building line: farms and granaries → barracks → armory → stables and the hall of the captains. A farm feeds 8 people; nobody can be trained without food.</p>` : ''}
       <div class="goalbox"><b>Your goals.</b> ${esc(m.goals)}</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn go" id="bBegin">Begin</button><button class="btn" id="bBack">Back</button></div></div>`);
     $('bBegin').onclick = () => begin(m);

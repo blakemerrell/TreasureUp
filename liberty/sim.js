@@ -5,6 +5,7 @@
   'use strict';
   const D = root.LIB_DATA || require('./data.js');
   const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH } = D;
+  const REACH = 8;                                      // how many squares from your buildings a new one may stand
   const idx = (x, y) => y * MAP_W + x;
   const center = t => t * TILE + TILE / 2;
   const tileOf = p => Math.floor(p / TILE);
@@ -233,7 +234,7 @@
       let n = 0;
       for (const e of this.ents.values()) {
         if (e.team !== 'p') continue;
-        if (e.kind === 'unit' && !e.def.hero && (e.def.soldier || e.def.gathers)) n++;
+        if (e.kind === 'unit' && !e.def.hero && (e.def.soldier || e.def.gathers || e.def.builds)) n++;
         else if (e.kind === 'building') n += e.queue.length;
       }
       return n;
@@ -275,16 +276,28 @@
     canAfford(cost) { return !cost || ((cost.grain || 0) <= this.res.grain && (cost.timber || 0) <= this.res.timber); }
     pay(cost) { if (!cost) return; this.res.grain -= cost.grain || 0; this.res.timber -= cost.timber || 0; }
     refund(cost) { if (!cost) return; this.res.grain += cost.grain || 0; this.res.timber += cost.timber || 0; }
-    canPlace(type, tx, ty) {
+    canPlace(type, tx, ty) { return !this.whyNotPlace(type, tx, ty); }
+    // Why a building can't go on that spot: 'ground' (not open, or over the border), 'far' (out of reach of your
+    // buildings: like Red Alert, you build next to what you have), or '' when it can.
+    whyNotPlace(type, tx, ty) {
       const def = BUILDINGS[type];
       for (let y = ty; y < ty + def.h; y++) for (let x = tx; x < tx + def.w; x++) {
-        if (!this.inBounds(x, y)) return false;
+        if (!this.inBounds(x, y)) return 'ground';
         const t = this.tile(x, y);
-        if (t !== T.GRASS && t !== T.FIELD && t !== T.RUIN) return false;
-        if (this.occ[idx(x, y)]) return false;
-        if (this.border != null && y < this.border) return false;
+        if (t !== T.GRASS && t !== T.FIELD && t !== T.RUIN) return 'ground';
+        if (this.occ[idx(x, y)]) return 'ground';
+        if (this.border != null && y < this.border) return 'ground';
       }
-      return true;
+      if (def.cost && !this.inReach(tx, ty, def.w, def.h)) return 'far';
+      return '';
+    }
+    inReach(tx, ty, w, h) {
+      for (const b of this.buildings('p')) {
+        if (b.def.wall != null) continue;
+        const gap = Math.max(b.tx - (tx + w), tx - (b.tx + b.w), b.ty - (ty + h), ty - (b.ty + b.h));
+        if (gap < REACH) return true;
+      }
+      return false;
     }
     place(type, tx, ty, builders) {
       const def = BUILDINGS[type];
@@ -348,7 +361,7 @@
     }
     // A building or a worker of yours is attacked: say so (now and then, not every blow) and mark the place.
     alarm(target) {
-      if (target.kind === 'unit' && !target.def.gathers) return;          // soldiers fighting are no news
+      if (target.kind === 'unit' && !target.def.gathers && !target.def.builds) return;   // soldiers fighting are no news
       const last = this.alarms[this.alarms.length - 1];
       if (last && this.t - last.t < 15 && Math.hypot(last.x - target.x, last.y - target.y) < 500) return;
       this.alarms.push({ t: this.t, x: target.x, y: target.y });
@@ -445,12 +458,29 @@
       if (this.mission) this.mission.update(this, dt);
     }
 
+    // Building goes on by itself once a thing is placed, like Red Alert; a worker beside it adds as much again.
+    progress(b, step) {
+      b.built = Math.min(1, b.built + step);
+      b.hp = Math.min(maxHp(b), b.hp + maxHp(b) * step * 0.9);
+      if (b.built >= 1) {
+        this.msg(b.def.name + ' is finished.', null, 'good');
+        if (this.mission && this.mission.onBuilt) this.mission.onBuilt(this, b);
+      }
+    }
+    // Several of the same building make things faster, up to two and a half times; the stables are quick on their own.
+    trainSpeed(b) {
+      const same = this.buildings(b.team, b.type).filter(x => x.built >= 1).length;
+      return Math.min(2.5, 1 + 0.5 * (same - 1)) * (b.def.fast || 1);
+    }
     stepBuilding(b, dt) {
-      if (b.built < 1) return;               // not finished: it does nothing yet
+      if (b.built < 1) {                     // rising: it does nothing else yet
+        if (b.team === 'p' && b.def.work) this.progress(b, dt / b.def.work);
+        return;
+      }
       if (b.def.grows && b.team === 'p') this.gain('grain', b.def.grows * dt);   // "they did raise grain in abundance" (Helaman 6:12)
       if (b.queue.length) {
         const q = b.queue[0];
-        if ((q.left -= dt) <= 0) {
+        if ((q.left -= dt * this.trainSpeed(b)) <= 0) {
           b.queue.shift();
           const [x, y] = this.freeTileNear(b.tx + Math.floor(b.w / 2), b.ty + b.h, 'p');
           const u = this.addUnit(q.type, 'p', center(x), center(y));
@@ -480,9 +510,11 @@
         u.think = 0.4;
         if (u.def.foe && this.mission && this.mission.foeBrain) this.mission.foeBrain(this, u);
         // (An army lying hidden holds still until it's ordered, or found.)
-        else if (u.team === 'p' && u.order.type === 'idle' && u.def.dmg && !u.def.gathers && (!this.hidden(u) || this.t - (u.hitAt || -99) < 2)) this.autoAcquire(u, u.def.sight);
+        else if (u.team === 'p' && u.order.type === 'idle' && u.def.dmg && !u.def.gathers && !u.def.builds && (!this.hidden(u) || this.t - (u.hitAt || -99) < 2)) this.autoAcquire(u, u.def.sight);
         else if (u.team === 'p' && u.order.type === 'move' && u.order.attackMove) this.autoAcquire(u, u.def.sight, true);
-        else if (u.team === 'p' && u.order.type === 'idle' && u.def.gathers && u.hitAt && this.t - u.hitAt < 1.5) this.autoAcquire(u, 60);
+        else if (u.team === 'p' && u.order.type === 'idle' && (u.def.gathers || u.def.builds) && u.hitAt && this.t - u.hitAt < 1.5) this.autoAcquire(u, 60);
+        // A cart with nothing to do goes and hauls, like a harvester in Red Alert.
+        else if (u.team === 'p' && u.order.type === 'idle' && u.def.gathers && u.def.load) this.autoHaul(u);
       }
       const o = u.order;
       switch (o.type) {
@@ -629,7 +661,7 @@
         const i = idx(o.tx, o.ty);
         if (this.amt[i] <= 0) { u.phase = u.carry && u.carry.amt ? 'back' : 'go'; return; }
         u.work += dt;
-        const kind = this.tiles[i] === T.FOREST ? 'timber' : 'grain', each = kind === 'grain' ? 0.6 : 0.45;
+        const kind = this.tiles[i] === T.FOREST ? 'timber' : 'grain', each = (kind === 'grain' ? 0.6 : 0.45) / (u.def.quick || 1);
         if (u.work >= each) {
           u.work -= each;
           if (!u.carry || u.carry.type !== kind) u.carry = { type: kind, amt: 0 };
@@ -681,6 +713,14 @@
       this.order(u, { type: 'gather', tx, ty, res: t === T.FOREST ? 'timber' : 'grain' });
       return true;
     }
+    // An idle cart picks what it hauls: what it was last sent for, or else whichever is shorter; and the nearest of it.
+    autoHaul(u) {
+      if (!this.nearestDropoff(u)) return false;
+      const want = u.pref || (this.res.grain <= this.res.timber ? 'grain' : 'timber'), other = want === 'grain' ? 'timber' : 'grain';
+      const tx = tileOf(u.x), ty = tileOf(u.y);
+      const f = this.nearestResource(tx, ty, want, u) || this.nearestResource(tx, ty, other, u);
+      return f ? this.gatherAt(u, f[0], f[1]) : false;
+    }
 
     // --- building and mending: stand next to it and work
     needsWork(b) { return b.team === 'p' && !b.dead && (b.built < 1 || b.hp < maxHp(b)) && !!b.def.work; }
@@ -700,15 +740,7 @@
             return;
           }
           b.hp += hp; this.res.timber -= hp * per;
-        } else {
-          b.built = Math.min(1, b.built + step);
-          b.hp = Math.min(maxHp(b), b.hp + maxHp(b) * step * 0.9);
-          if (b.built >= 1) {
-            b.built = 1;
-            this.msg(b.def.name + ' is finished.', null, 'good');
-            if (this.mission && this.mission.onBuilt) this.mission.onBuilt(this, b);
-          }
-        }
+        } else this.progress(b, step);
         if (!this.needsWork(b)) {
           // A wall-builder moves on to the next unfinished or broken wall nearby.
           const next = this.buildings('p').filter(x => x !== b && this.needsWork(x) && dist(x, u) < 200).sort((a, c) => dist(a, u) - dist(c, u))[0];
@@ -721,7 +753,7 @@
     }
   }
 
-  const SIM = { World, TILE, center, tileOf, dist, maxHp, kindOf };
+  const SIM = { World, TILE, center, tileOf, dist, maxHp, kindOf, REACH };
   if (typeof module !== 'undefined' && module.exports) module.exports = SIM;
   else root.LIB_SIM = SIM;
 })(this);
