@@ -38,6 +38,11 @@ const IMG = {
   granary: new Image(),
   stables: new Image(),
   hall: new Image(),
+  lamaniteCamp: new Image(),
+  robbersCamp: new Image(),
+  warcamp: new Image(),
+  lamaniteTower: new Image(),
+  gate: new Image(),
   farm: new Image()
 };
 IMG.moroni.src = 'assets/moroni.png?v=13';
@@ -64,9 +69,14 @@ IMG.barracks.src = 'assets/barracks.png?v=13';
 IMG.tower.src = 'assets/tower.png?v=13';
 IMG.storehouse.src = 'assets/storehouse.png?v=13';
 IMG.armory.src = 'assets/armory.png?v=13';
-IMG.granary.src = 'assets/granary.png?v=1';      // and these: 007-buildings.md
-IMG.stables.src = 'assets/stables.png?v=1';
-IMG.hall.src = 'assets/hall.png?v=1';
+IMG.granary.src = 'assets/granary.png?v=2';      // and these: 007-buildings.md (with shadows since)
+IMG.stables.src = 'assets/stables.png?v=2';
+IMG.hall.src = 'assets/hall.png?v=2';
+IMG.lamaniteCamp.src = 'assets/lamanite_camp.png?v=1';   // and these: 009-battlefield.md
+IMG.robbersCamp.src = 'assets/robbers_camp.png?v=1';
+IMG.warcamp.src = 'assets/warcamp.png?v=1';
+IMG.lamaniteTower.src = 'assets/lamanite_tower.png?v=1';
+IMG.gate.src = 'assets/gate.png?v=1';
 IMG.farm.src = 'assets/farm.png?v=13';
                                 // the simulation's tick, as in the tests
   const $ = id => document.getElementById(id);
@@ -1128,7 +1138,14 @@ IMG.farm.src = 'assets/farm.png?v=13';
     granary: { cx: 200, by: 333, span: 397 },
     stables: { cx: 200, by: 318, span: 375 },
     hall: { cx: 200, by: 310, span: 400 },
+    lamaniteCamp: { cx: 210, by: 240, span: 419 },
+    robbersCamp: { cx: 210, by: 242, span: 418 },
+    warcamp: { cx: 210, by: 267, span: 419 },
+    lamaniteTower: { cx: 199, by: 461, span: 398 },
   };
+  // Which picture a building is drawn with: the Lamanites' watchtowers are their own; a camp is the robbers' in 3 Nephi, the Lamanites' elsewhere.
+  const pictureOf = b => b.type === 'tower' && b.team === 'r' ? 'lamaniteTower' : b.type === 'warcamp' ? 'warcamp'
+    : b.type === 'camp' ? (mission && mission.campaign === 'gidgiddoni' ? 'robbersCamp' : 'lamaniteCamp') : PICTURE[b.type];
   const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables' };
   const ready = img => img && img.complete && img.naturalWidth;
   // A building stands on flat ground just above the highest corner of its plot.
@@ -1176,19 +1193,24 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const w = b.w * TILE, h = b.h * TILE;
     ctx.save();
     if (b.built < 1) ctx.globalAlpha = 0.55;
+    const key = pictureOf(b) || 'storehouse', sp = SPRITE[key], img = IMG[key];
+    const place = () => {                             // the picture, as wide as the plot, set on it by its front corner
+      const front = isoAt((b.tx + b.w) * TILE, (b.ty + b.h) * TILE, top), sc = (b.w + b.h) * TILE / sp.span;
+      ctx.drawImage(img, ix - sp.cx * sc, front.iy - sp.by * sc, img.naturalWidth * sc, img.naturalHeight * sc);
+    };
     if (b.def.wall != null) drawEarthwork(b);
-    else if (b.type === 'camp' || b.type === 'warcamp') drawCamp(b, now);
+    else if (b.type === 'camp' || b.type === 'warcamp') {
+      if (ready(img)) { place(); if (b.type === 'warcamp') banner(ix + 4, iy - h * 0.9, '#9f1239', now, b.id); }
+      else drawCamp(b, now);
+    }
     else if (b.type === 'village') drawVillage(b);
     else if (b.type === 'farm') {
       // the granary hut from the farm's picture, on its tilled plot
       if (ready(IMG.farm)) ctx.drawImage(IMG.farm, 50, 14, 58, 66, ix - 26, iy - 52, 52, 59);
-    } else {
-      const sp = SPRITE[PICTURE[b.type]] || SPRITE.storehouse, img = IMG[PICTURE[b.type]] || IMG.storehouse;
-      const front = isoAt((b.tx + b.w) * TILE, (b.ty + b.h) * TILE, top), sc = (b.w + b.h) * TILE / sp.span;
-      if (ready(img)) ctx.drawImage(img, ix - sp.cx * sc, front.iy - sp.by * sc, img.naturalWidth * sc, img.naturalHeight * sc);
-      else { ctx.fillStyle = '#bfa97c'; ctx.fillRect(ix - w * 0.5, iy - h, w, h); }
+    } else if (sp && ready(img)) {
+      place();
       if (b.type === 'hall') banner(ix + 6, iy - h * 1.2, '#d4a017', now, b.id);
-    }
+    } else { ctx.fillStyle = '#bfa97c'; ctx.fillRect(ix - w * 0.5, iy - h, w, h); }
     ctx.restore();
 
     if (selected) {
@@ -1212,40 +1234,56 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.strokeStyle = 'rgba(0,0,0,.35)'; ctx.lineWidth = 0.8; ctx.stroke();
   }
 
-  // Earthworks (Alma 50:1–3): a ridge of earth joined to the ones beside it, with pickets on top once they're made. A gate is a timber door in the ridge.
+  // Earthworks (Alma 50:1–3): a bank of earth with grass on top, joined to the banks beside it, and a frame of pickets
+  // along its top once they're made. A gate is a timber gate standing across the bank, along its line.
   function drawEarthwork(b) {
-    const cxw = (b.tx + 0.5) * TILE, cyw = (b.ty + 0.5) * TILE;
+    const cx = (b.tx + 0.5) * TILE, cy = (b.ty + 0.5) * TILE;
     const links = [[1, 0], [-1, 0], [0, 1], [0, -1]].filter(([dx, dy]) => {
       const x = b.tx + dx, y = b.ty + dy;
       if (!W.inBounds(x, y)) return false;
       const n = W.ents.get(W.occ[y * MAP_W + x]);
       return n && n.kind === 'building' && n.def.wall != null && !n.dead;
     });
-    const up = (wx, wy, k) => isoAt(wx, wy, heightAt(wx, wy) + k);
-    const ends = links.map(([dx, dy]) => [cxw + dx * TILE * 0.5, cyw + dy * TILE * 0.5]);
-    const ridge = (k, width, color, ox = 0, oy = 0) => {
-      const c0 = up(cxw, cyw, k);
-      ctx.strokeStyle = color; ctx.lineWidth = width;
-      ctx.beginPath();
-      if (!ends.length) { ctx.moveTo(c0.ix - 6 + ox, c0.iy + oy); ctx.lineTo(c0.ix + 6 + ox, c0.iy + oy); }
-      for (const [ex, ey] of ends) { const e = up(ex, ey, k); ctx.moveTo(c0.ix + ox, c0.iy + oy); ctx.lineTo(e.ix + ox, e.iy + oy); }
-      ctx.stroke();
+    const H = 2.3, FOOT = 0.42 * TILE, TOP = 0.09 * TILE;          // how high (in levels), and how wide at the foot and at the top (half-widths)
+    const P = (wx, wy, k) => isoPt(wx / TILE, wy / TILE, heightAt(wx, wy) + k);
+    // One stretch of bank from the middle of this square to its edge. Light comes from the upper left:
+    // a bank running along x shows its lit side; one running along y, its shaded side.
+    const stretch = (dx, dy) => {
+      const ex = cx + dx * TILE * 0.5, ey = cy + dy * TILE * 0.5, along = dy === 0;
+      const side = w => along ? [0, w] : [w, 0];
+      const [fx, fy] = side(FOOT), [tx, ty] = side(TOP);
+      fillPoly([P(cx - fx, cy - fy, 0), P(ex - fx, ey - fy, 0), P(ex - tx, ey - ty, H), P(cx - tx, cy - ty, H)], '#4a3421');
+      fillPoly([P(cx + fx, cy + fy, 0), P(ex + fx, ey + fy, 0), P(ex + tx, ey + ty, H), P(cx + tx, cy + ty, H)], along ? '#9a7447' : '#6b4d2e');
+      fillPoly([P(cx - tx, cy - ty, H), P(ex - tx, ey - ty, H), P(ex + tx, ey + ty, H), P(cx + tx, cy + ty, H)], '#86a04c');
+      // the foot of the near side, where the bank meets the ground, a little darker
+      const a = P(cx + fx, cy + fy, 0), z = P(ex + fx, ey + fy, 0);
+      ctx.strokeStyle = 'rgba(40, 26, 12, .45)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(z[0], z[1]); ctx.stroke();
     };
-    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    ridge(0, 15, 'rgba(20, 14, 6, .3)', 5, 2);
-    ridge(0.35, 14, '#6e5132');
-    ridge(0.8, 10, '#957046');
-    ridge(1.1, 4, '#c19a62', -1.5, -1);
+    // The middle of the square: a heap where the stretches meet (or the whole of a bank on its own).
+    const heap = () => {
+      fillPoly([P(cx + FOOT, cy - FOOT, 0), P(cx + FOOT, cy + FOOT, 0), P(cx + TOP, cy + TOP, H), P(cx + TOP, cy - TOP, H)], '#6b4d2e');
+      fillPoly([P(cx - FOOT, cy + FOOT, 0), P(cx + FOOT, cy + FOOT, 0), P(cx + TOP, cy + TOP, H), P(cx - TOP, cy + TOP, H)], '#9a7447');
+      fillPoly([P(cx - TOP, cy - TOP, H), P(cx + TOP, cy - TOP, H), P(cx + TOP, cy + TOP, H), P(cx - TOP, cy + TOP, H)], '#86a04c');
+    };
+    for (const [dx, dy] of links.filter(([dx, dy]) => dx + dy < 0)) stretch(dx, dy);       // the stretches going away from us first
+    heap();
+    for (const [dx, dy] of links.filter(([dx, dy]) => dx + dy > 0)) stretch(dx, dy);
     if (b.type === 'gate') {
-      const c0 = up(cxw, cyw, 0.4);
-      ctx.fillStyle = '#5a3c22'; ctx.fillRect(c0.ix - 7, c0.iy - 10, 14, 11);
-      ctx.fillStyle = '#8a5f37'; ctx.fillRect(c0.ix - 6, c0.iy - 9, 5.5, 9); ctx.fillRect(c0.ix + 0.5, c0.iy - 9, 5.5, 9);
+      // the gate's picture runs along y (lower left to upper right on the screen); a bank along x gets it mirrored
+      if (!ready(IMG.gate)) return;
+      const alongX = links.some(([dx, dy]) => dy === 0) && !links.some(([dx, dy]) => dx === 0);
+      const g = P(cx, cy, 0), wd = TILE * 1.75, ht = wd * IMG.gate.naturalHeight / IMG.gate.naturalWidth;
+      ctx.save(); ctx.translate(g[0], g[1] + TILE * 0.36);
+      if (alongX) ctx.scale(-1, 1);
+      ctx.drawImage(IMG.gate, -wd / 2, -ht, wd, ht);
+      ctx.restore();
     } else if (W.researched.pickets) {
-      const stakes = ends.length ? ends.flatMap(([ex, ey]) => [0.2, 0.55, 0.9].map(t => [cxw + (ex - cxw) * t, cyw + (ey - cyw) * t])) : [[cxw, cyw]];
-      for (const [sx, sy] of stakes) {
-        const p = up(sx, sy, 1.1);
-        ctx.strokeStyle = '#5c3e22'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(p.ix, p.iy); ctx.lineTo(p.ix, p.iy - 8); ctx.stroke();
-        ctx.fillStyle = '#d2b07c'; ctx.fillRect(p.ix - 1, p.iy - 9, 2, 1.5);
+      // a frame of pickets along the top of the bank, sharpened
+      const line = links.length ? links.flatMap(([dx, dy]) => [0.12, 0.42, 0.72, 0.98].map(t => [cx + dx * TILE * 0.5 * t, cy + dy * TILE * 0.5 * t])) : [[cx, cy]];
+      for (const [sx, sy] of line.sort((a, b) => a[0] + a[1] - b[0] - b[1])) {
+        const p = P(sx, sy, H);
+        ctx.strokeStyle = '#5c3e22'; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(p[0], p[1] + 1); ctx.lineTo(p[0], p[1] - 9); ctx.stroke();
+        ctx.fillStyle = '#d2b07c'; ctx.beginPath(); ctx.moveTo(p[0] - 1.2, p[1] - 9); ctx.lineTo(p[0], p[1] - 12); ctx.lineTo(p[0] + 1.2, p[1] - 9); ctx.fill();
       }
     }
   }
@@ -1752,7 +1790,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const DRAWN_AS = { lehi: 'lehi', gidgiddoni: 'gidgiddoni', robber: 'robber', robberArcher: 'robber_archer', giddianhi: 'robber_chief', zemnarihah: 'robber_chief',
     slinger: 'lamanite_slinger', amalekite: 'lamanite_captain', zoramite: 'lamanite_captain', zerahemnah: 'zerahemnah' };
   function picOf(e) {
-    const c = CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && 'assets/cameo_stronghold.png?v=1');
+    const own = e.kind === 'building' && e.team !== 'p' && IMG[pictureOf(e)];
+    const c = own ? own.src : CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && 'assets/cameo_stronghold.png?v=1');
     if (c) return `<img class="pic" src="${c}" alt="">`;
     if (DRAWN_AS[e.type]) return `<img class="pic" src="assets/${DRAWN_AS[e.type]}.png?v=1" alt="">`;
     if (e.kind === 'unit' && (e.type === 'lamanite' || e.def.foe)) return `<img class="pic" src="assets/cameo_lamanite.png?v=10" alt="">`;
@@ -1766,7 +1805,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const doing = e.kind === 'unit' ? ({ gather: 'Gathering ' + (e.order.res || ''), build: 'Building', attack: 'Fighting', move: 'Marching', idle: 'Waiting for orders' }[e.order.type] || '') : e.built < 1 ? 'Being built: ' + Math.floor(e.built * 100) + '%' : '';
       const pic = picOf(e);
       return `${pic}<div${pic ? '' : ' style="grid-column: 1 / -1"'}><h3>${esc(e.name && e.kind === 'building' ? e.name : d.name)}</h3>${bar}${doing ? `<div class="doing">${esc(doing)}</div>` : ''}</div>` +
-        (d.about ? `<p class="about">${esc(d.about)}</p>` : '');
+        (e.about || d.about ? `<p class="about">${esc(e.about || d.about)}</p>` : '');
     }
     const count = {};
     for (const e of ents) count[e.def.name] = (count[e.def.name] || 0) + 1;
@@ -1829,6 +1868,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (b.type === 'village') return `<div class="note">${b.state === 'waiting' ? 'Send a soldier or worker here. When the proclamation reaches ' + esc(b.name) + ', its people march to Zarahemla.' : 'Its people have gone.'}</div>`;
       if (b.team === 'x') return `<div class="note">He gave himself up (3 Nephi 4:27).</div>`;
       if (b.def.prophet) return `<div class="note">${esc(b.def.about)}</div>`;
+      if (b.kind === 'building') return `<div class="note">${b.untouchable ? 'Too strong to tear down.' : 'Choose soldiers, then tap it to tear it down.'}</div>`;
       return `<div class="note">${esc(b.def.about || (b.def.leader ? 'A leader of the robbers.' : 'A Gadianton robber.'))} Choose soldiers, then tap him to fight.</div>`;
     }
     const units = ents.filter(e => e.kind === 'unit');
@@ -1864,7 +1904,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       h += `<div class="queue">Training: ${b.queue.map((x, i) => `<span${i ? '' : ` style="--p:${p.toFixed(0)}%"`}>${esc(UNITS[x.type].name)}</span>`).join('')}</div>`;
     }
     if (b.def.trains) h += `<div class="note">${b.rally ? 'New ones go to the rally point.' : 'Tap the ground to set where new ones go.'}</div>`;
-    return h || `<div class="note">${esc(b.def.about || '')}</div>`;
+    return h || `<div class="note">${esc(b.about || b.def.about || '')}</div>`;
   }
   $('cmds').addEventListener('click', e => {
     const btn = e.target.closest('[data-cmd]');
