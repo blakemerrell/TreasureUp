@@ -188,6 +188,19 @@ nothing in them is written by hand, so they need no approval either.
   on real verses, quotes and references that check out; and it notes a plain
   verse much longer than the KJV's, a name left out, or KJV English left in.
 
+## Plain words beyond the weeks (`content/plain.js`)
+
+Chapters no week reads can have plain words and notes too (Blake,
+2026-10-02: "the notes and plain translation for all of Isaiah"), for the
+Scriptures tab. `content/plain.js` sets `window.TU_PLAIN = { title, plain }`,
+where `plain` is a list of chapters exactly like a week's (`{ ch, verses,
+notes, review, approved }`), written and reviewed by the same rules above.
+A chapter here must be one no week (or past week) reads; a week's own plain
+words win where both could. In developer mode it is one more entry after the
+weeks ("Isaiah, the rest of the book"), with Approve, Approve all, Save and
+Publish to the live app; the app shows a chapter once it's approved (the test
+site shows drafts, marked). `tools/verify.mjs` checks it like a week's.
+
 ## The short version (`tldr`)
 
 A card at the top of every chapter he reads (the day's reading and Past

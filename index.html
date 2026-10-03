@@ -1201,6 +1201,14 @@
   .fam-goal-set small { display: block; font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,.55); }
   .fam-go { margin-top: 20px; }
   #familyTab .kid-card { margin: 10px 0 0; }
+  .tr-use { display: grid; grid-template-columns: 110px 1fr; gap: 8px; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.07); font-size: 13.5px; }
+  .tr-use span { color: rgba(255,255,255,.75); }
+  .tr-item { padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,.07); font-size: 14px; }
+  .tr-item p { margin: 4px 0 2px; } .tr-item small { font-size: 11.5px; color: rgba(255,255,255,.5); }
+  .tr-item.err p { font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; color: #fca5a5; }
+  .tr-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .tr-x { padding: 4px 10px; border-radius: 999px; cursor: pointer; font: inherit; font-size: 12px; font-weight: 800; color: #fff; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); }
+  .fb-kinds { display: flex; gap: 6px; margin: 10px 0; } .fb-text { width: 100%; min-height: 110px; }
   /* Scriptures: the volumes' books, a book's chapters, a chapter's neighbours */
   .lib-h { font-size: 26px; margin: 2px 0 6px; }
   .lib-week { display: flex; justify-content: space-between; align-items: center; width: 100%; margin: 10px 0 4px; padding: 12px 14px; border-radius: 14px; cursor: pointer; text-align: left;
@@ -1550,6 +1558,30 @@ const TreasureUp = (function () {
   const NS = /\/TreasureUp-test\//.test(location.pathname) ? 'treasureup-test.' : 'treasureup.';
   const STORE_KEY = NS + 'v1';
 
+  // Errors on this device (Blake, 2026-10-02, trying the app out with the
+  // family for a month or two: so breakage reaches him instead of being
+  // silent). Kept on the device, at most 10 a day and each kind once, and
+  // sent to the family (families/{fid}/errors, which only parents read) once
+  // the device is in one. Nothing goes anywhere else.
+  const ERR_KEY = NS + 'errors';
+  let sendErrors = () => {};
+  function noteError(msg, where, stack) {
+    msg = String(msg || '').slice(0, 300);
+    if (!msg || msg === 'Script error.') return;
+    try {
+      const q = JSON.parse(localStorage.getItem(ERR_KEY) || '{"day":"","n":0,"seen":[],"queue":[]}');
+      const day = new Date().toISOString().slice(0, 10), sig = msg + '|' + where;
+      if (q.day !== day) { q.day = day; q.n = 0; q.seen = []; }
+      if (q.n >= 10 || q.seen.includes(sig)) return;
+      q.n++; q.seen.push(sig);
+      q.queue = q.queue.concat([{ msg, where: String(where || '').slice(0, 200), stack: String(stack || '').slice(0, 1500), at: Date.now() }]).slice(-20);
+      localStorage.setItem(ERR_KEY, JSON.stringify(q));
+    } catch (e) { return; }
+    try { sendErrors(); } catch (e) {}
+  }
+  window.addEventListener('error', e => noteError(e.message, (e.filename || '').replace(/^.*\//, '') + ':' + e.lineno + ':' + e.colno, e.error && e.error.stack));
+  window.addEventListener('unhandledrejection', e => { const r = e.reason || {}; noteError(r.message || String(r), 'a promise', r.stack); });
+
   const XP = { firstTry: 20, recall: 15, bonus: 25 };
   const RECALL_PER_DAY = 3;
 
@@ -1672,6 +1704,20 @@ const TreasureUp = (function () {
   // if a day they covered is filled later. Today counts once it's kept;
   // until then the streak runs to yesterday.
   const dayAdd = (k, n) => { const d = new Date(k + 'T12:00:00'); d.setDate(d.getDate() + n); return dayKey(d); };
+  // What gets used (Blake, 2026-10-02: a month or two with the family, then
+  // decide what's worth keeping): a count a day of each thing opened, in his
+  // own saved progress (so it reaches the family with it, where parents can
+  // read it), the last 60 days kept. Nothing else is recorded.
+  const USE_NAMES = { 'tab:study': 'Study tab', 'tab:scriptures': 'Scriptures tab', 'tab:family': 'Family tab', lesson: 'Lessons',
+    chapter: 'Chapters opened', library: 'Scripture chapters', card: 'Cards', word: 'Word studies', listen: 'Listen' };
+  function use(key) {
+    if (!S) return;
+    const u = S.usage || (S.usage = {}), d = dayKey(), day = u[d] || (u[d] = {});
+    day[key] = (day[key] || 0) + 1;
+    const keep = dayAdd(d, -60);
+    for (const k of Object.keys(u)) if (k < keep) delete u[k];
+    saveLocal();
+  }
   const keptDay = k => !!((S.days || {})[k] || (S.filled || {})[k]);
   const frozenDay = k => !!(S.frozen || {})[k];
   // The missed days that end the streak, newest first: back from today
@@ -2217,6 +2263,7 @@ const TreasureUp = (function () {
   function openCard(id) {
     const i = insightsOf(WEEK).find(y => y.x.id === id);
     if (!i) return;
+    use('card');
     const x = i.x, s = x.source || {};
     const draft = i.draft ? '<p class="plain-draft">Draft: not approved yet</p>' : '';
     const src = s.url ? `<a class="ins-src" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer"><span>From ${esc(s.by)}${s.who ? ' · ' + esc(s.who) : ''}</span> <b>${esc(s.title)} ↗</b></a>` : '';
@@ -2274,8 +2321,12 @@ const TreasureUp = (function () {
     const m = /^(.+) (\d+)$/.exec(ch), lib = window.TU_LIBRARY || [];
     const vol = lib.find(v => v.books.some(b => b[0] === m[1]));
     const u = { ref: ch, ch, book: m[1], c: Number(m[2]), whole: true, from: 1, to: d.v.length, verses: d.v.map((t, i) => ({ n: i + 1, t })), words: 0 };
-    const week = (window.TU_WEEKS || []).find(w => readingUnits(w.reference).some(x => x.ch === ch)) || { title: vol ? vol.name : 'Scriptures' };
+    // Its plain words and notes: a week's, or content/plain.js for a chapter no week reads (all of Isaiah, Blake, 2026-10-02).
+    if (!window.TU_PLAIN) await loadOnce('content/plain.js').catch(() => {});
+    const week = (window.TU_WEEKS || []).find(w => readingUnits(w.reference).some(x => x.ch === ch))
+      || { title: vol ? vol.name : 'Scriptures', plain: (window.TU_PLAIN && window.TU_PLAIN.plain) || [] };
     stopClips();
+    use('library');
     readUnit = null; libUnit = { u, week };
     $('view').classList.add('reading');
     $('viewBody').innerHTML = readerHtml(u, week, libNavHtml(ch));
@@ -2435,6 +2486,7 @@ const TreasureUp = (function () {
       if (!(log[u.ref] && log[u.ref].start)) { log[u.ref] = { start: Date.now() }; saveLocal(); }
     }
     const key = !S.read[u.ref] && chapterLesson(u.ref);
+    use('chapter');
     readUnit = u; libUnit = null;
     $('view').classList.add('reading');
     $('viewBody').innerHTML = readerHtml(u, WEEK, key ? `<div class="ch-mark"><p>Not marked read yet.</p>
@@ -2864,6 +2916,7 @@ const TreasureUp = (function () {
     const [ch, n, i] = key.split('|'), o = origOf(ch), w = o && o.v[Number(n) - 1] && o.v[Number(n) - 1][Number(i)];
     if (!w) return;
     const [word, sound, mean, strong, gram] = w, box = $('wordBody');
+    use('word');
     $('wordSheet').hidden = false;
     $('wordSheet').scrollTop = 0;
     box.innerHTML = wordTopHtml(o.lang, word, sound, mean, ch + ':' + n) + '<p class="ws-wait">Opening its word study…</p>';
@@ -3186,6 +3239,7 @@ const TreasureUp = (function () {
     return `<div class="sh-title">Settings</div>
       <div class="sh-row"><span>Listen voice</span><span>${pill(voice === 'male', 'data-set-voice="male"', 'Man')}${pill(voice === 'female', 'data-set-voice="female"', 'Woman')}</span></div>
       <div class="sh-row"><span>Verse size</span><span>${[['m', 'Normal'], ['l', 'Large'], ['xl', 'Larger']].map(([k, l]) => pill(textSize() === k, `data-set-text="${k}"`, l)).join('')}</span></div>
+      <button class="sh-row sh-go" data-set-go="feedback"><span>Something wrong, or an idea?<small>Tell the parents, from right here</small></span><span>›</span></button>
       <button class="sh-row sh-go" data-set-go="fam"><span>Family and sign-in<small>People, devices, chat</small></span><span>›</span></button>
       <button class="sh-row sh-go" data-set-go="parent"><span>Parent rewards<small>Rewards at XP marks, behind a PIN</small></span><span>›</span></button>
       ${devOwner() ? `<a class="sh-row sh-go" href="${here ? '#dev' : 'https://blakemerrell.github.io/TreasureUp-test/#dev'}"${here ? ' data-dev-open' : ''}><span>Developer mode<small>Approve the coming weeks</small></span><span>›</span></a>` : ''}
@@ -3367,6 +3421,7 @@ const TreasureUp = (function () {
     if (on) fab.textContent = (listen.audio.paused ? '▶ ' : '⏸ ') + listen.ch + ' · ' + clock(listen.audio.currentTime);
   }
   function toggleListen(ch) {
+    if (listen.ch !== ch) use('listen');
     if (listen.ch === ch && listen.audio) {
       if (listen.audio.paused) listen.audio.play().catch(() => {}); else listen.audio.pause();
       return drawListen();
@@ -3940,7 +3995,9 @@ const TreasureUp = (function () {
   function openGames() { renderGames(); $('games').hidden = false; }
   function closeGames() { $('games').hidden = true; }
 
+  const GAME_NAMES = { board: 'Showdown', puzzle: 'Puzzle', sayings: 'Who said it?', word: 'Verse Word', climb: 'Climb', live: 'Live game', babylon: 'Babylon Falls', liberty: 'Title of Liberty', amigo: 'Amigo · Kaibigan' };
   function startGame(id) {
+    use('game:' + id);
     closeGames();
     if (id === 'board') openBoard();
     else if (id === 'puzzle') openPuzzle();
@@ -8783,6 +8840,13 @@ const TreasureUp = (function () {
     M.readPos = Object.assign({}, R.readPos || {}, L.readPos || {});
     for (const k in R.readPos || {}) if (L.readPos && L.readPos[k] && R.readPos[k].at > L.readPos[k].at) M.readPos[k] = R.readPos[k];
     // Notes: the later edit wins.
+    if (L.usage || R.usage) {
+      M.usage = JSON.parse(JSON.stringify(R.usage || {}));
+      for (const d in L.usage || {}) for (const k in L.usage[d]) {
+        const add = Math.max(0, L.usage[d][k] - (((B.usage || {})[d] || {})[k] || 0));
+        if (add) (M.usage[d] || (M.usage[d] = {}))[k] = (M.usage[d][k] || 0) + add;
+      }
+    }
     M.notes = Object.assign({}, L.notes || {}, R.notes || {});
     for (const k in L.notes || {}) if (!has(R.notes, k) || (L.notes[k].at || 0) > (R.notes[k].at || 0)) M.notes[k] = L.notes[k];
     // Verse Word: the day's game that got further.
@@ -8873,12 +8937,14 @@ const TreasureUp = (function () {
   function watchHome() {
     stopHome();
     if (!F || !FIREBASE_CONFIG) return;
-    const h = famHome = { progress: [], goal: false, kids: {}, watching: {} };
+    const h = famHome = { progress: [], goal: false, kids: {}, watching: {}, errors: [], feedback: [] };
+    sendErrors = flushErrors; flushErrors();
     famHomeOff.push(famDoc(F.fid).onSnapshot(d => { h.goal = !!(d.exists && d.data().goal); famRedraw(); }, () => {}));
     famHomeOff.push(famCol(F.fid, 'progress').onSnapshot(q => {
       h.progress = q.docs.map(d => Object.assign({ pid: d.id }, d.data()));
+      // A parent reads each person's saved progress: a child's for its card, and everyone's for what gets used.
       if (F && F.role === 'parent') for (const x of h.progress) {
-        if (x.role !== 'kid' || x.pid === F.pid || h.watching[x.pid]) continue;
+        if (x.pid === F.pid || h.watching[x.pid]) continue;
         h.watching[x.pid] = true;
         famHomeOff.push(famCol(F.fid, 'backup').doc(x.pid).onSnapshot(b => {
           try { h.kids[x.pid] = b.exists ? JSON.parse(b.data().state) : null; } catch (e) { h.kids[x.pid] = null; }
@@ -8887,8 +8953,52 @@ const TreasureUp = (function () {
       }
       famRedraw();
     }, () => {}));
+    if (F.role === 'parent') for (const kind of ['errors', 'feedback'])
+      famHomeOff.push(famCol(F.fid, kind).orderBy('at', 'desc').limit(20).onSnapshot(q => {
+        h[kind] = q.docs.map(d => Object.assign({ id: d.id }, d.data({ serverTimestamps: 'estimate' })));
+        famRedraw();
+      }, () => {}));
   }
-  function stopHome() { famHomeOff.forEach(f => { try { f(); } catch (e) {} }); famHomeOff = []; famHome = null; famRedraw(); }
+  // This device's errors, to the family (only parents read them).
+  function flushErrors() {
+    const u = authUser();
+    if (!F || F.pending || !u || u.uid !== F.uid) return;
+    let q;
+    try { q = JSON.parse(localStorage.getItem(ERR_KEY) || 'null'); } catch (e) { return; }
+    if (!q || !q.queue || !q.queue.length) return;
+    const send = q.queue;
+    q.queue = []; try { localStorage.setItem(ERR_KEY, JSON.stringify(q)); } catch (e) {}
+    // One that doesn't go (offline, or rules not published yet) waits on the device for next time.
+    for (const x of send) famCol(F.fid, 'errors').add({ uid: F.uid, name: F.name, msg: x.msg, where: x.where, stack: x.stack,
+      screen: screenName(), ua: navigator.userAgent.slice(0, 200), at: TS() }).catch(() => {
+        try { const k = JSON.parse(localStorage.getItem(ERR_KEY) || 'null') || { day: '', n: 0, seen: [], queue: [] }; k.queue = (k.queue || []).concat([x]).slice(-20); localStorage.setItem(ERR_KEY, JSON.stringify(k)); } catch (e) {}
+      });
+  }
+  // What's open, for an error or a note: "Today", "a lesson", "Babylon Falls"…
+  function screenName() {
+    const open = id => { const el = document.getElementById(id); return el && !el.hidden; };
+    return open('lesson') ? 'a lesson' : open('view') ? 'the reader' : open('wordSheet') ? 'a word study' : open('fam') ? 'Family screen'
+      : open('games') ? 'Games' : open('parent') ? 'Parent rewards' : ({ today: 'Today', study: 'Study', scriptures: 'Scriptures', family: 'Family tab' })[homeTab] || 'the app';
+  }
+  // Something wrong, or an idea (Settings): to the family, for a parent.
+  function feedbackSheetHtml(sent) {
+    return `<div class="sh-title">Something wrong, or an idea?</div>
+      ${sent ? `<p class="sh-line">${esc(sent)}</p>` : `
+      <p class="sh-small">${F ? 'It goes to the parents in ' + esc(F.family || 'your family') + ', with what was open.' : 'This device isn\u2019t in a family yet, so there\u2019s nowhere to send it. Join the family in 👪 first.'}</p>
+      ${F ? `<div class="fb-kinds"><button class="sh-pill on" data-fb-kind="bug">Something's wrong</button><button class="sh-pill" data-fb-kind="idea">An idea</button></div>
+      <textarea id="fbText" class="field fb-text" maxlength="1000" rows="5" placeholder="What happened, or what would make it better?"></textarea>
+      <div class="board-actions"><button class="btn" data-fb-send>Send</button></div><p id="fbNote" class="parent-msg"></p>` : ''}`}`;
+  }
+  function sendFeedback() {
+    const text = ($('fbText').value || '').trim(), on = document.querySelector('#appSheet [data-fb-kind].on');
+    if (!text) { $('fbNote').textContent = 'Type something first.'; return; }
+    if (!F) return;
+    famCol(F.fid, 'feedback').add({ uid: F.uid, name: F.name, kind: on ? on.dataset.fbKind : 'bug', text: text.slice(0, 1000), screen: feedbackFrom, at: TS() })
+      .then(() => openSheet(feedbackSheetHtml('Sent. Thank you!')))
+      .catch(() => { $('fbNote').textContent = "Couldn't send it. Check the connection and try again."; });
+  }
+  let feedbackFrom = '';
+  function stopHome() { famHomeOff.forEach(f => { try { f(); } catch (e) {} }); famHomeOff = []; famHome = null; sendErrors = () => {}; famRedraw(); }
   function famRedraw() {
     const tab = document.querySelector('#tabs [data-tab="family"]');
     if (tab) tab.hidden = !F;
@@ -8907,6 +9017,7 @@ const TreasureUp = (function () {
       ${board}
       ${parent ? `<div class="fam-goal-set"><span>Family goal<small>Everyone reads all of the week's chapters</small></span><span><button class="sh-pill${goal ? ' on' : ''}" data-fam-goal="1">On</button><button class="sh-pill${goal ? '' : ' on'}" data-fam-goal="0">Off</button></span></div>` : ''}
       ${parent ? `<div class="eyebrow" style="margin-top:20px">Today, for parents</div>${kids || '<p class="kc-none">A child\u2019s card shows here once their device has joined the family.</p>'}` : ''}
+      ${parent ? trialHtml() : ''}
       <div class="fam-go"><button class="sh-row sh-go" data-fam-open="chat"><span>💬 Family chat</span><span>›</span></button>
         <button class="sh-row sh-go" data-fam-open="people"><span>👪 People and devices<small>Add someone, link a device, sign out</small></span><span>›</span></button></div>`;
   }
@@ -8961,6 +9072,37 @@ const TreasureUp = (function () {
     const h = famHome;
     if (!h || !F || F.role !== 'parent') return '';
     return h.progress.filter(x => x.role === 'kid' && x.pid !== F.pid).map(x => kidCardHtml(x.name, h.kids[x.pid])).join('');
+  }
+  // For parents, while the family tries the app out: what gets used (the
+  // last 30 days, each person), notes sent from Settings, and errors on the
+  // family's devices.
+  function usageOf(st) {
+    const from = dayAdd(dayKey(), -29), sum = {};
+    for (const [d, day] of Object.entries((st && st.usage) || {})) if (d >= from) for (const [k, n] of Object.entries(day)) sum[k] = (sum[k] || 0) + n;
+    return sum;
+  }
+  function usageLine(sum) {
+    const parts = Object.entries(sum).sort((a, b) => b[1] - a[1]).map(([k, n]) => `${k.startsWith('game:') ? GAME_NAMES[k.slice(5)] || k.slice(5) : USE_NAMES[k] || k} ${n}`);
+    return parts.length ? parts.join(' · ') : 'Nothing yet';
+  }
+  function trialHtml() {
+    const h = famHome;
+    if (!h) return '';
+    const people = [{ name: F.name + ' (you)', st: S }].concat(h.progress.filter(x => x.pid !== F.pid).map(x => ({ name: x.name, st: h.kids[x.pid] })));
+    const when = t => { const ms = tsMs(t); return ms ? new Date(ms).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) : ''; };
+    const fb = h.feedback.map(f => `<div class="tr-item"><div class="tr-top"><b>${f.kind === 'idea' ? '💡 Idea' : '🐞 Something wrong'} · ${esc(f.name)}</b><button class="tr-x" data-trial-done="feedback:${esc(f.id)}" aria-label="Done">✓ Done</button></div><p>${esc(f.text)}</p><small>${esc(when(f.at))}${f.screen ? ' · on ' + esc(f.screen) : ''}</small></div>`).join('');
+    const er = h.errors.map(x => `<div class="tr-item err"><div class="tr-top"><b>${esc(x.name)} · ${esc(x.screen || '')}</b><button class="tr-x" data-trial-done="errors:${esc(x.id)}" aria-label="Clear">Clear</button></div><p>${esc(x.msg)}</p><small>${esc(when(x.at))} · ${esc(x.where || '')}</small></div>`).join('');
+    return `<div class="eyebrow" style="margin-top:22px">Trying it out · for parents</div>
+      <div class="fam-card"><div class="eyebrow">What gets used · last 30 days</div>
+        ${people.map(p => `<div class="tr-use"><b>${esc(p.name)}</b><span>${p.st ? esc(usageLine(usageOf(p.st))) : 'Not synced yet'}</span></div>`).join('')}</div>
+      <div class="fam-card"><div class="eyebrow">Notes from the family · ${h.feedback.length}</div>${fb || '<p class="kc-none">None yet. Anyone can send one from ⚙️ Settings.</p>'}</div>
+      <div class="fam-card"><div class="eyebrow">Problems on the family's devices · ${h.errors.length}</div>${er || '<p class="kc-none">None. 🎉</p>'}</div>`;
+  }
+  function trialDone(key) {
+    const [kind, id] = key.split(':');
+    if (!F || F.role !== 'parent' || !famHome) return;
+    famHome[kind] = famHome[kind].filter(x => x.id !== id); famRedraw();
+    famCol(F.fid, kind).doc(id).delete().catch(() => {});
   }
   // The Family tab: a parent turns the family goal on or off.
   function setFamilyGoal(on) {
@@ -9854,6 +9996,7 @@ const TreasureUp = (function () {
 
   // `key` is a part of the week map ("day.part"), or '' for today's.
   function openLesson(key) {
+    use('lesson');
     const m = /^(\d)\.(\d+)$/.exec(key || '');
     const plan = weekPlan();
     // Today's: the next unfinished part; the warm-up alone if that's all
@@ -10182,6 +10325,31 @@ const TreasureUp = (function () {
   // refuses anything not approved; what the checker finds comes back here.
   const DEV = { test: 'blakemerrell/TreasureUp-test', live: 'blakemerrell/TreasureUp', file: 'content/weeks.js', owner: 'blakemerrell@gmail.com' };
   const WEEKS_MARK = 'window.TU_WEEKS = ';
+  // Plain words for chapters no week reads (content/plain.js; Blake,
+  // 2026-10-02: "all of Isaiah"): one more entry in the list of weeks, with
+  // only plain words in it, saved to its own file.
+  const PLAIN_FILE = 'content/plain.js', PLAIN_MARK = 'window.TU_PLAIN = ', LIB = 'library';
+  const libWeek = lib => ({ dates: LIB, title: lib.title || 'Plain words, beyond the weeks', library: true, reels: [], sections: [], plain: lib.plain || [] });
+  const libOf = w => ({ title: w.title, plain: w.plain });
+  async function readPlainFile(repo) {
+    const f = await gh(`/repos/${repo}/contents/${PLAIN_FILE}`);
+    if (!f || !f.content) return null;
+    const text = b64decode(f.content), at = text.indexOf(PLAIN_MARK);
+    return { sha: f.sha, head: text.slice(0, at), text, lib: JSON.parse(text.slice(at + PLAIN_MARK.length, text.lastIndexOf(';'))) };
+  }
+  async function writePlainFile(repo, file, lib, message) {
+    const head = file ? file.head : '// Plain words and notes for chapters no week reads, shown in the Scriptures tab once approved.\n// Developer mode edits this file; tools/verify.mjs checks it.\n';
+    const r = await gh(`/repos/${repo}/contents/${PLAIN_FILE}`, { method: 'PUT', body: JSON.stringify(Object.assign({ message, content: b64encode(head + PLAIN_MARK + JSON.stringify(lib, null, 2) + ';\n') }, file ? { sha: file.sha } : {})) });
+    return r.commit.sha;
+  }
+  // The weeks, and the plain-words entry after them when there is one.
+  function devSetWeeks(weeks, plainFile) {
+    dev.plainFile = plainFile;
+    dev.weeks = weeks.concat(plainFile ? [libWeek(plainFile.lib)] : []);
+    dev.draft = clone(dev.weeks);
+    // Its chapters' KJV and BSB, for the preview.
+    if (plainFile) Promise.all(plainFile.lib.plain.map(p => loadOnce('content/lib/' + libSlug(p.ch) + '.js').catch(() => {}))).then(() => { if (dev && dev.week === LIB) renderDev(); });
+  }
   const DEV_LABELS = {
     hook: 'Headline', body: 'Text', text: 'Text', ref: 'Reference', q: 'Question', right: 'Right answer',
     wrong: 'Wrong answers (one per line)', why: 'Why (shown after answering)', source: 'Where the answer is',
@@ -10216,7 +10384,7 @@ const TreasureUp = (function () {
   // The pieces a week is reviewed in, as tools/verify.mjs counts them.
   function devItems(w) {
     const out = [], add = (key, label, obj, approved, of) => out.push({ key, label, obj, approved, hash: approvalHash(of) });
-    add('week', 'The week', weekMeta(w), w.approved, weekMeta(w));
+    if (!w.library) add('week', 'The week', weekMeta(w), w.approved, weekMeta(w));
     w.reels.forEach((r, n) => add('reel:' + r.id, 'Reel ' + (n + 1) + ' · ' + (w.sections[r.section] || ''), r, r.approved, noApproval(r)));
     (w.deep || []).forEach(d => add('deep:' + d.id, d.day === 'friday' ? 'Friday deep dive' : 'Go deeper · ' + (w.sections[d.section] || ''), d, d.approved, noApproval(d)));
     if (w.puzzle) add('puzzle', 'Weekly puzzle', w.puzzle, w.puzzle.approved, noApproval(w.puzzle));
@@ -10379,9 +10547,10 @@ const TreasureUp = (function () {
   }
   async function devLoad() {
     dev.view = 'loading'; renderDev();
-    const [t, l] = await Promise.all([readWeeksFile(DEV.test), readWeeksFile(DEV.live)]);
+    const [t, l, tp, lp] = await Promise.all([readWeeksFile(DEV.test), readWeeksFile(DEV.live), readPlainFile(DEV.test), readPlainFile(DEV.live)]);
     if (!t) throw new Error("Couldn't find content/weeks.js on the test site.");
-    Object.assign(dev, { file: t, weeks: t.weeks, draft: clone(t.weeks), live: l, view: dev.week ? 'week' : 'weeks' });
+    Object.assign(dev, { file: t, live: l, livePlain: lp, view: dev.week ? 'week' : 'weeks' });
+    devSetWeeks(t.weeks, tp);
     renderDev();
   }
 
@@ -10440,10 +10609,10 @@ const TreasureUp = (function () {
     return devTopHtml(false) + `<p class="board-help" style="margin-top:12px">Every week the test site has. Open one to review it.</p>` +
       dev.draft.map(w => {
         const items = devItems(w), ok = items.filter(i => i.state === 'ok').length;
-        const lw = dev.live && dev.live.weeks.find(x => x.dates === w.dates);
-        const live = !lw ? 'Not on the live app yet' : canon(lw) === canon(dev.weeks.find(x => x.dates === w.dates)) ? 'On the live app' : 'On the live app (an older version)';
+        const lw = w.library ? dev.livePlain && libWeek(dev.livePlain.lib) : dev.live && dev.live.weeks.find(x => x.dates === w.dates);
+        const live = !lw ? 'Not on the live app yet' : canon(w.library ? libOf(lw) : lw) === canon(w.library ? libOf(dev.weeks.find(x => x.dates === w.dates)) : dev.weeks.find(x => x.dates === w.dates)) ? 'On the live app' : 'On the live app (an older version)';
         return `<button class="dv-week" data-dev="open" data-week="${esc(w.dates)}">
-          <b>${esc(w.title)}</b><small>${esc(w.dates)} · ${ok} of ${items.length} approved · ${live}</small></button>`;
+          <b>${esc(w.title)}</b><small>${w.library ? 'Chapters no week reads' : esc(w.dates)} · ${ok} of ${items.length} approved · ${live}</small></button>`;
       }).join('');
   }
 
@@ -10477,7 +10646,7 @@ const TreasureUp = (function () {
                     ['Plain words', i => i.key.startsWith('plain:')], ['The short version', i => i.key.startsWith('tldr:')],
                     ['Insights', i => i.key.startsWith('insight:')]];
     return devTopHtml(true) + `
-      <p class="board-help" style="margin-top:12px">${esc(w.dates)} · ${ok} of ${items.length} approved.
+      <p class="board-help" style="margin-top:12px">${w.library ? 'Chapters no week reads, in the Scriptures tab' : esc(w.dates)} · ${ok} of ${items.length} approved.
         <a href="./" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Open the test site ↗</a></p>${all}${clipNote}` +
       groups.filter(([, f]) => items.some(f))
         .map(([name, f]) => `<div class="dv-group"><div class="eyebrow">${name}</div>${name === 'Plain words' ? '<p class="dv-small">Each verse of the KJV with its plain words under it, and the BSB to compare. A chapter shows in the app once it’s approved.</p>' : name === 'The short version' ? '<p class="dv-small">The lines at the top of each chapter, each with the KJV verses it sums up under it. A chapter’s card shows in the app once it’s approved.</p>'
@@ -10525,7 +10694,8 @@ const TreasureUp = (function () {
     if (it.key === 'words') return o.map(x => `<p class="dv-small"><b>${esc(x.word)}</b> · ${esc(x.clue)} (${esc(x.ref)})</p>`).join('');
     if (it.key.startsWith('plain:')) {
       // The verses to look at first, then every KJV verse with its plain words and notes.
-      const kjv = (window.TU_READING || {})[o.ch] || [], bsb = (window.TU_BSB || {})[o.ch] || [], look = o.review || [];
+      const lib = (window.TU_LIB || {})[o.ch] || {};
+      const kjv = (window.TU_READING || {})[o.ch] || lib.v || [], bsb = (window.TU_BSB || {})[o.ch] || lib.b || [], look = o.review || [];
       return (look.length ? `<div class="dv-look"><b>Look at these first</b>${look.map(x => `<p class="dv-small">Verse ${x.v}: ${esc(x.about)}</p>`).join('')}</div>` : '') +
         o.verses.map((t, i) => `<div class="dv-pv${look.some(x => x.v === i + 1) ? ' flag' : ''}">
           <p class="dv-kjv"><sup>${i + 1}</sup>${esc(kjv[i] || '')}</p>
@@ -10618,10 +10788,15 @@ const TreasureUp = (function () {
     let publish = '';
     if (dev.view === 'week' && !n && savedWeek()) {
       const w = savedWeek(), items = devNeeded(devItems(w)), ok = items.filter(i => i.state === 'ok').length;
-      const lw = dev.live && dev.live.weeks.find(x => x.dates === w.dates);
+      const lw = w.library ? null : dev.live && dev.live.weeks.find(x => x.dates === w.dates);
+      if (w.library) {
+        const same = dev.livePlain && canon(dev.livePlain.lib) === canon(libOf(w));
+        publish = same ? '<p class="dv-small">✓ These are on the live app, exactly as they are here.</p>'
+          : `<button class="btn" data-dev="publish"${dev.busy ? ' disabled' : ''}>Publish to the live app</button><p class="dv-small">Only the approved chapters show in the app.</p>`;
+      }
       const later = [(w.plain || []).length && 'the plain words', (w.tldr || []).length && 'the short versions'].filter(Boolean);
       const wait = later.length ? '; ' + later.join(' and ') + ' can wait' : '';
-      publish = ok < items.length ? `<p class="dv-small">Approve every piece to publish this week (${ok} of ${items.length} approved${wait}).</p>`
+      if (!w.library) publish = ok < items.length ? `<p class="dv-small">Approve every piece to publish this week (${ok} of ${items.length} approved${wait}).</p>`
         : lw && canon(lw) === canon(w) ? '<p class="dv-small">✓ This week is on the live app, exactly as it is here.</p>'
         : `<button class="btn" data-dev="publish"${dev.busy ? ' disabled' : ''}>Publish this week to the live app</button>`;
     }
@@ -10656,15 +10831,26 @@ const TreasureUp = (function () {
     const week = devWeek();
     const message = `Developer mode: ${[edits && edits + ' change' + (edits > 1 ? 's' : ''), approvals && approvals + ' approval' + (approvals > 1 ? 's' : '')].filter(Boolean).join(', ')} in ${week ? week.title : 'content'} (${(dev.access || {}).email})`;
     let sha = null;
-    for (let attempt = 0; attempt < 3 && !sha; attempt++) {
+    const weekChanges = changes.filter(c => c.dates !== LIB), libChanges = changes.filter(c => c.dates === LIB);
+    let weeksNow = dev.weeks.filter(w => !w.library), plainNow = dev.plainFile;
+    for (let attempt = 0; attempt < 3 && weekChanges.length && !sha; attempt++) {
       // Always onto the latest file, so nobody's changes are lost.
       const fresh = await readWeeksFile(DEV.test);
-      changes.forEach(c => { const w = fresh.weeks.find(x => x.dates === c.dates); if (w) devSet(w, c.key, c.obj, c.approved); });
+      weekChanges.forEach(c => { const w = fresh.weeks.find(x => x.dates === c.dates); if (w) devSet(w, c.key, c.obj, c.approved); });
       try {
         sha = await writeWeeksFile(DEV.test, fresh, fresh.weeks, message);
-        Object.assign(dev, { file: Object.assign(fresh, { sha: null }), weeks: fresh.weeks, draft: clone(fresh.weeks) });
+        Object.assign(dev, { file: Object.assign(fresh, { sha: null }) }); weeksNow = fresh.weeks;
       } catch (e) { if (!(e.status === 409 || e.status === 422) || attempt === 2) throw e; }
     }
+    let libSha = null;
+    for (let attempt = 0; attempt < 3 && libChanges.length && !libSha; attempt++) {
+      const fresh = await readPlainFile(DEV.test), w = libWeek(fresh ? fresh.lib : { plain: [] });
+      libChanges.forEach(c => devSet(w, c.key, c.obj, c.approved));
+      try { libSha = await writePlainFile(DEV.test, fresh, libOf(w), message.replace(/ in .* \(/, ' in plain words beyond the weeks (')); plainNow = { head: fresh ? fresh.head : '', lib: libOf(w) }; }
+      catch (e) { if (!(e.status === 409 || e.status === 422) || attempt === 2) throw e; }
+    }
+    sha = libSha || sha;
+    devSetWeeks(weeksNow, plainNow);
     const moved = changes.find(c => c.key === 'week');
     if (moved) dev.week = moved.obj.dates;
     dev.changes.clear();
@@ -10675,6 +10861,7 @@ const TreasureUp = (function () {
   }
 
   async function devPublish() {
+    if (savedWeek() && savedWeek().library) return devPublishPlain();
     const w = clone(savedWeek());
     dev.busy = true; dev.status = { kind: 'wait', text: 'Publishing…' }; renderDevBar();
     // Pictures the live app doesn't have yet go first.
@@ -10698,6 +10885,20 @@ const TreasureUp = (function () {
     }
     dev.busy = false;
     if (dev) { dev.live = await readWeeksFile(DEV.live).catch(() => dev.live); renderDevBar(); renderDev(); }
+  }
+
+  // The plain words beyond the weeks, as they are on the test site, to the live app.
+  async function devPublishPlain() {
+    dev.busy = true; dev.status = { kind: 'wait', text: 'Publishing…' }; renderDevBar();
+    const test = await readPlainFile(DEV.test), live = await readPlainFile(DEV.live);
+    const sha = await writePlainFile(DEV.live, live, test.lib, `Publish plain words beyond the weeks from developer mode (${(dev.access || {}).email})`);
+    const ok = await devWatch(DEV.live, sha, 'the live app');
+    if (ok === false && dev && live) {
+      const now = await gh(`/repos/${DEV.live}/contents/${PLAIN_FILE}`);
+      await gh(`/repos/${DEV.live}/contents/${PLAIN_FILE}`, { method: 'PUT', body: JSON.stringify({ message: 'Undo publishing plain words: the content check refused it', content: b64encode(live.text), sha: now.sha }) });
+    }
+    dev.busy = false;
+    if (dev) { dev.livePlain = await readPlainFile(DEV.live).catch(() => dev.livePlain); renderDevBar(); renderDev(); }
   }
 
   async function devPeople() {
@@ -10783,6 +10984,8 @@ const TreasureUp = (function () {
       if (card) { openCard(card.dataset.card); return; }
       const fg = e.target.closest('[data-fam-goal]');
       if (fg) { const on = fg.dataset.famGoal === '1'; if (famHome) famHome.goal = on; setFamilyGoal(on); famRedraw(); return; }
+      const td = e.target.closest('[data-trial-done]');
+      if (td) { trialDone(td.dataset.trialDone); return; }
       const fo = e.target.closest('[data-fam-open]');
       if (fo) { openFam(fo.dataset.famOpen); return; }
       const lb = e.target.closest('[data-lib-book]');
@@ -10816,6 +11019,7 @@ const TreasureUp = (function () {
     $('tabs').addEventListener('click', e => {
       const tb = e.target.closest('[data-tab]');
       if (!tb) return;
+      if (tb.dataset.tab !== homeTab && tb.dataset.tab !== 'today') use('tab:' + tb.dataset.tab);
       homeTab = tb.dataset.tab;
       renderHome();
       $('home').scrollTop = 0;
@@ -10918,7 +11122,11 @@ const TreasureUp = (function () {
       if (v) { switchVoice(v.dataset.setVoice); return openSheet(settingsSheetHtml()); }
       const t = e.target.closest('[data-set-text]');
       if (t) { try { localStorage.setItem(TEXT_KEY, t.dataset.setText); } catch (x) {} applyTextSize(); return openSheet(settingsSheetHtml()); }
+      const fk = e.target.closest('[data-fb-kind]');
+      if (fk) { document.querySelectorAll('#appSheet [data-fb-kind]').forEach(b => b.classList.toggle('on', b === fk)); return; }
+      if (e.target.closest('[data-fb-send]')) { sendFeedback(); return; }
       const g = e.target.closest('[data-set-go]');
+      if (g && g.dataset.setGo === 'feedback') { feedbackFrom = screenName(); return openSheet(feedbackSheetHtml()); }
       if (g) { closeSheet(); return g.dataset.setGo === 'fam' ? openFam('people') : openParent(); }
       if (e.target.closest('[data-dev-open]')) { e.preventDefault(); closeSheet(); openDev(); }
     });
