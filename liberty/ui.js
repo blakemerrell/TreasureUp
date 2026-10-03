@@ -29,6 +29,10 @@ const IMG = {
   stripling: new Image(),
   lamanite: new Image(),
   cart: new Image(),
+  cartGrain: new Image(),                          // the cart, laden: a picture per load, and one loading
+  cartTimber: new Image(),
+  cartStone: new Image(),
+  cartWork: new Image(),
   unit: new Image(),
   stronghold: new Image(),
   barracks: new Image(),
@@ -62,7 +66,11 @@ IMG.lamanCaptain.src = 'assets/lamanite_captain.png?v=1';
 IMG.zerahemnah.src = 'assets/zerahemnah.png?v=2';
 IMG.stripling.src = 'assets/stripling.png?v=13';
 IMG.lamanite.src = 'assets/lamanite.png?v=13';
-IMG.cart.src = 'assets/cart.png?v=13';
+IMG.cart.src = 'assets/cart.png?v=14';
+IMG.cartGrain.src = 'assets/cart_grain.png?v=1';
+IMG.cartTimber.src = 'assets/cart_timber.png?v=1';
+IMG.cartStone.src = 'assets/cart_stone.png?v=1';
+IMG.cartWork.src = 'assets/cart_loading.png?v=1';
 IMG.unit.src = 'assets/spearman.png?v=13';
 IMG.stronghold.src = 'assets/stronghold.png?v=13';
 IMG.barracks.src = 'assets/barracks.png?v=13';
@@ -1129,8 +1137,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
       uImg = IMG.lamanite;
       uw = 41; uh = 44; uox = 19; uoy = 43;
     } else if (u.type === 'cart') {
-      uImg = IMG.cart;
-      uw = 47; uh = 28; uox = 23; uoy = 22;
+      // The cart and its driver: loading at a field, forest or rock face; laden on the way home; else empty.
+      // The pictures are kept at three times their size on screen, all scaled alike, so the cart stays one size.
+      const load = u.carry && u.carry.amt > 0 ? u.carry.type : null;
+      uImg = working ? IMG.cartWork : load === 'grain' ? IMG.cartGrain : load === 'timber' ? IMG.cartTimber : load === 'stone' ? IMG.cartStone : IMG.cart;
+      if (!(uImg.complete && uImg.naturalWidth)) uImg = IMG.cart;
+      uw = uImg.naturalWidth / 3; uh = uImg.naturalHeight / 3; uox = uw / 2; uoy = uh - 1;
     } else if (u.type === 'worker') {
       uImg = IMG.worker;                         // 76 × 150, cropped to the figure: feet on the ground
       uw = 20; uh = 40; uox = 14; uoy = 39;
@@ -1867,7 +1879,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'train:javelin': 'assets/cameo_javelin.png?v=1',
     'train:stripling': 'assets/cameo_stripling.png?v=10',
     'train:moroni': 'assets/cameo_moroni.png?v=10',
-    'train:cart': 'assets/cameo_cart.png?v=1',
+    'train:cart': 'assets/cameo_cart.png?v=2',
     'build:farm': 'assets/cameo_farm.png?v=1',
     'build:granary': 'assets/cameo_granary.png?v=1',
     'build:storehouse': 'assets/cameo_storehouse.png?v=1',
