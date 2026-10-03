@@ -13,9 +13,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #0a0a14; --panel: rgba(14, 16, 30, .92); --line: rgba(255, 255, 255, .12);
+    --ink: #0a0a14; --panel: rgba(30, 20, 12, .93); --line: rgba(255, 255, 255, .12);
+    --brass: #c9962e; --brass-hi: #ecc764; --trim: rgba(236, 199, 100, .3); --parch: #f4e8cc; --parch-dim: rgba(244, 232, 204, .7);
     --gold: #fcd34d; --gold-deep: #d97706; --sky: #7dd3fc; --good: #6ee7b7; --warn: #fca5a5; --dim: rgba(255, 255, 255, .6);
-    --top: 48px; --bottom: 124px;
+    --top: 48px; --drawer: clamp(210px, 40vh, 340px);
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; background: var(--ink); color: #fff; overflow: hidden; overscroll-behavior: none;
@@ -34,16 +35,17 @@
   /* ---------------------------------------------------------------- top bar */
   #hud { position: fixed; left: 0; right: 0; top: 0; height: var(--top); display: flex; align-items: center; gap: 10px;
     padding: 0 10px; padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right));
-    background: var(--panel); border-bottom: 1px solid var(--line); backdrop-filter: blur(6px); z-index: 10; }
+    background: linear-gradient(180deg, #2f2013, #22170d); border-bottom: 2px solid var(--brass); z-index: 10; color: var(--parch); }
   .hb { flex: none; height: 34px; min-width: 34px; padding: 0 10px; border-radius: 10px; background: rgba(255, 255, 255, .08);
     font-weight: 700; font-size: 14px; white-space: nowrap; }
   .hb:hover { background: rgba(255, 255, 255, .14); }
-  .hb.gold { background: var(--gold); color: #1a1405; }
-  .hb.gold:disabled { background: rgba(252, 211, 77, .25); color: #fff; opacity: 1; }
+  .hb.gold { background: linear-gradient(#f2cf6b, #c9962e); color: #1d1206; }
+  .hb.gold:disabled { background: rgba(236, 199, 100, .22); color: var(--parch); opacity: 1; }
   .res { display: flex; align-items: center; gap: 5px; font-weight: 800; font-size: 15px; font-variant-numeric: tabular-nums; white-space: nowrap; flex: none; }
   .res b { min-width: 2.2em; }
   #clock { font-size: 13px; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
   #clock b { color: #fff; font-size: 15px; font-variant-numeric: tabular-nums; }
+  .res small { font-size: .78em; font-weight: 700; color: var(--parch-dim); }
   #food { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--warn); font-weight: 700; white-space: nowrap; }
   #food i { display: block; width: 90px; height: 8px; border-radius: 4px; background: rgba(255, 255, 255, .12); overflow: hidden; }
   #food em { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #ef4444, #f59e0b); }
@@ -79,34 +81,72 @@
   .msg .ref { margin-left: 4px; pointer-events: auto; }
   @keyframes in { from { transform: translateY(-6px); opacity: 0; } }
 
-  /* ------------------------------------------------------------ bottom panel & Westwood sidebar */
-  #panel { position: fixed; left: 0; right: 0; bottom: 0; height: var(--bottom); display: flex; gap: 10px; align-items: stretch;
-    padding: 8px 10px; padding-bottom: max(8px, env(safe-area-inset-bottom));
-    padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right));
-    background: var(--panel); border-top: 1px solid var(--line); backdrop-filter: blur(6px); z-index: 10; }
-  #selInfo { width: 220px; flex: none; font-size: 13px; line-height: 1.3; overflow: hidden; }
-  #selInfo h3 { margin: 0 0 3px; font-size: 16px; font-weight: 800; }
-  #selInfo p { margin: 3px 0 0; color: var(--dim); }
-  .hp { height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .12); overflow: hidden; margin: 4px 0; }
+  /* ------------------------------------------------------------ the command panel
+     Wider than tall (body.side): a panel down the right, like Red Alert's sidebar.
+     Held upright: a drawer along the bottom. ui.js decides which, in resize(). */
+  #panel { position: fixed; z-index: 10; display: grid; gap: 8px; padding: 8px; color: var(--parch);
+    background: linear-gradient(180deg, #2f2013, #1c130b); }
+  body:not(.side) #panel { left: 0; right: 0; bottom: 0; height: var(--drawer);
+    grid-template-columns: minmax(0, 1fr) 136px; grid-template-rows: auto minmax(0, 1fr); grid-template-areas: "info side" "cmds cmds";
+    padding-bottom: max(8px, env(safe-area-inset-bottom)); padding-left: max(8px, env(safe-area-inset-left)); padding-right: max(8px, env(safe-area-inset-right));
+    border-top: 2px solid var(--brass); box-shadow: 0 -6px 20px rgba(0, 0, 0, .5); }
+  body.side #panel { top: 0; right: 0; bottom: 0; width: var(--sidebar-w);
+    grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr); grid-template-areas: "side" "info" "cmds";
+    padding-top: max(8px, env(safe-area-inset-top)); padding-right: max(8px, env(safe-area-inset-right)); padding-bottom: max(8px, env(safe-area-inset-bottom));
+    border-left: 3px solid var(--brass); box-shadow: -8px 0 24px rgba(0, 0, 0, .6); }
+
+  /* the radar and the three quick choices */
+  #side { grid-area: side; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  #mini { display: block; width: 100%; border-radius: 8px; border: 2px solid var(--brass); background: #140d07; touch-action: none; cursor: pointer;
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, .8); }
+  .quick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; }
+  .quick button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; min-height: 36px; padding: 3px 2px;
+    border-radius: 8px; background: linear-gradient(#3b2918, #25190f); border: 1px solid var(--trim); font-size: 10px; font-weight: 800; line-height: 1.05; }
+  .quick button svg { width: 16px; height: 16px; color: var(--brass-hi); }
+  .quick button.on { background: linear-gradient(#f2cf6b, #c9962e); color: #1d1206; } .quick button.on svg { color: #1d1206; }
+
+  /* what's chosen: its picture, name, health and what it's doing */
+  #selInfo { grid-area: info; min-width: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 8px; align-items: center; align-content: start; }
+  #selInfo .pic { width: 48px; height: 48px; border-radius: 8px; border: 1px solid var(--brass); object-fit: cover; object-position: 50% 0; background: #2a1c10; }
+  #selInfo .pic.cameo { transform: none; }
+  #selInfo h3 { margin: 0; font-size: 15px; font-weight: 800; line-height: 1.15; }
+  #selInfo .doing { font-size: 12px; color: var(--parch-dim); }
+  #selInfo .about { grid-column: 1 / -1; margin: 0; font-size: 12px; line-height: 1.35; color: var(--parch-dim);
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  #selInfo .about.only { -webkit-line-clamp: 5; }
+  .hp { height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .12); overflow: hidden; margin: 3px 0; }
   .hp em { display: block; height: 100%; background: #22c55e; }
-  #cmds { flex: 1; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 6px; overflow-y: auto; min-width: 0; }
-  .cmd { width: 84px; height: 50px; border-radius: 10px; background: rgba(255, 255, 255, .08); border: 1px solid var(--line);
-    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; font-size: 12px; font-weight: 800; line-height: 1.1; padding: 2px; }
-  .cmd:hover { background: rgba(255, 255, 255, .15); }
-  .cmd small { font-weight: 600; font-size: 11px; color: var(--dim); display: flex; gap: 3px; align-items: center; }
-  .cmd small svg.i { width: 12px; height: 12px; vertical-align: 0; }
-  .cmd.poor { opacity: .5; }
-  .cmd.on { background: var(--gold); color: #1a1405; } .cmd.on small { color: #1a1405; }
-  .cmd.wide { width: 172px; }
-  .queue { display: flex; gap: 4px; align-items: center; font-size: 12px; color: var(--dim); width: 100%; }
+
+  /* the buttons: a picture with its name on it, and its cost underneath */
+  #cmds { grid-area: cmds; display: grid; grid-template-columns: repeat(auto-fill, minmax(66px, 1fr)); gap: 6px; align-content: start;
+    overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y; min-height: 0; padding: 1px; }
+  body.side #cmds { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cmd { display: flex; flex-direction: column; align-items: stretch; gap: 3px; padding: 3px; min-width: 0; border-radius: 10px; color: var(--parch); container-type: inline-size;
+    background: linear-gradient(#3b2918, #25190f); border: 1px solid var(--trim); text-align: center; transition: transform .05s; }
+  .cmd:active { transform: scale(.95); }
+  .cmd .face { position: relative; display: block; aspect-ratio: 1; border-radius: 7px; overflow: hidden; background: #2a1c10; }
+  .cmd .face img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); }   /* past the picture's own frame */
+  .cmd .face b { position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 2px 3px; font-size: clamp(8.5px, min(15cqi, calc((100cqi - 8px) / (var(--n, 8) * .66))), 12.5px); font-weight: 800; line-height: 1.08; overflow-wrap: break-word;
+    background: linear-gradient(rgba(15, 9, 4, 0), rgba(15, 9, 4, .92) 45%); text-shadow: 0 1px 1px #000; -webkit-hyphens: auto; hyphens: auto;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .cmd .face .ic { position: absolute; inset: 0 0 26% 0; display: flex; align-items: center; justify-content: center; color: var(--brass-hi); }
+  .cmd .face .ic svg { width: 44%; height: 44%; }
+  .cmd small { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 0 4px; min-height: 13px; font-size: 10px; font-weight: 700; line-height: 1.15; color: var(--parch-dim); }
+  .cmd small .c { white-space: nowrap; }
+  .cmd small svg.i { width: 11px; height: 11px; vertical-align: -1px; }
+  .cmd.poor .face img { filter: grayscale(.8) brightness(.6); }
+  .cmd.poor small { color: #eab38f; }
+  .cmd.on { border-color: var(--brass-hi); box-shadow: 0 0 0 1px var(--brass-hi), 0 0 12px rgba(236, 199, 100, .45); }
+  .cmd.wide { grid-column: 1 / -1; display: grid; grid-template-columns: 46px minmax(0, 1fr); grid-template-areas: "face name" "face cost"; align-items: center; gap: 0 8px;
+    padding: 4px 8px 4px 4px; background: linear-gradient(#f2cf6b, #c9962e); color: #1d1206; text-align: left; }
+  .cmd.wide .face { grid-area: face; }
+  .cmd.wide .face b { display: none; }
+  .cmd.wide::after { grid-area: name; content: attr(data-label); font-weight: 900; font-size: 16px; line-height: 1.1; align-self: end; }
+  .cmd.wide small { grid-area: cost; justify-content: flex-start; align-self: start; color: #3b2a10; font-size: 11px; }
+  .note { grid-column: 1 / -1; font-size: 12px; line-height: 1.35; color: var(--parch-dim); padding: 6px 8px; border-radius: 8px; background: rgba(0, 0, 0, .22); }
+  .queue { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 12px; color: var(--parch-dim); }
   .queue span { padding: 2px 6px; border-radius: 6px; background: rgba(255, 255, 255, .08); }
-  .queue span:first-of-type { background: linear-gradient(90deg, rgba(252, 211, 77, .45) var(--p, 0%), rgba(255, 255, 255, .08) var(--p, 0%)); }
-  .note { font-size: 12px; color: var(--dim); width: 100%; }
-  #side { display: flex; gap: 6px; flex: none; }
-  #mini { width: 144px; border-radius: 8px; border: 2px solid #3f3f46; background: #000; touch-action: none; cursor: pointer; box-shadow: inset 0 0 10px rgba(16, 185, 129, .2); }
-  .quick { display: grid; gap: 4px; align-content: start; }
-  .quick button { height: 32px; padding: 0 8px; border-radius: 8px; background: rgba(255, 255, 255, .08); font-size: 12px; font-weight: 700; white-space: nowrap; }
-  .quick button.on { background: var(--sky); color: #04202e; }
+  .queue span:first-of-type { background: linear-gradient(90deg, rgba(236, 199, 100, .5) var(--p, 0%), rgba(255, 255, 255, .08) var(--p, 0%)); }
 
   /* ------------------------------------------------ full screens and dialogs */
   #screen { position: fixed; inset: 0; z-index: 20; overflow-y: auto; touch-action: pan-y; background: radial-gradient(ellipse at top, #1d1b3a 0%, var(--ink) 60%); }
@@ -169,71 +209,60 @@
   .end h1 { font-size: 40px; }
   .quote { font-family: Georgia, serif; font-size: 19px; line-height: 1.5; margin: 14px 0 4px; color: rgba(255, 255, 255, .92); }
 
-  #rotate { position: fixed; left: 50%; bottom: calc(var(--bottom) + 10px); transform: translateX(-50%); z-index: 11; font-size: 12px;
+  #rotate { position: fixed; left: 50%; bottom: calc(var(--drawer) + 10px); transform: translateX(-50%); z-index: 11; font-size: 12px;
     background: var(--panel); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; pointer-events: none; }
 
   
-  /* ------------------------------------------------ Westwood RTS Sidebar on Desktop */
-  @media (min-width: 860px) {
-    :root { --top: 48px; --bottom: 0px; --sidebar-w: 236px; }
-    /* the top bar and the messages stop at the sidebar, so neither hides under it */
-    #hud { right: var(--sidebar-w); }
-    #feed { right: calc(var(--sidebar-w) + 8px); }
-    #panel {
-      left: auto; right: 0; top: 0; bottom: 0; width: var(--sidebar-w); height: auto;
-      flex-direction: column; gap: 8px; border-top: 0; border-left: 4px solid #1a1a2e;
-      background: url('data:image/svg+xml;utf8,<svg width="236" height="800" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="%238a929f"/><stop offset="10%" stop-color="%23b8c2cc"/><stop offset="50%" stop-color="%238a929f"/><stop offset="90%" stop-color="%235c6370"/><stop offset="100%" stop-color="%232c323b"/></linearGradient></defs><rect width="236" height="800" fill="url(%23g)"/></svg>') repeat-y;
-      padding: 6px; overflow-y: auto; overflow-x: hidden;
-      box-shadow: inset 4px 0 10px rgba(255,255,255,0.4), -8px 0 30px rgba(0,0,0,1);
-    }
-    #side { order: -2; flex-direction: column; width: 100%; gap: 6px; margin-bottom: 12px; }
-    #mini { width: 100%; height: auto; aspect-ratio: 1; border-radius: 50%; border: 6px solid #1c2431; box-shadow: inset 0 0 30px rgba(16, 185, 129, .6), 0 4px 12px rgba(0,0,0,.8); background: radial-gradient(circle, #022c22 0%, #064e3b 100%); margin-top: 10px; position:relative; overflow:hidden;}
-    /* Radar sweep effect */
-    #mini::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, transparent 70%, rgba(52, 211, 153, 0.4) 100%); animation: sweep 4s linear infinite; pointer-events:none; }
-    @keyframes sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    .quick { grid-template-columns: repeat(3, 1fr); width: 100%; display: flex; gap: 4px; justify-content: center; background: #1c2431; padding: 4px; border-radius: 4px; border-top: 1px solid #4a5568;}
-    .quick button { height: 26px; font-size: 11px; padding: 0 4px; border-radius: 4px; background: #374151; color: #9ca3af; border: 1px solid #1f2937; cursor:pointer;}
-    .quick button:hover { background: #4b5563; color: white;}
-    #selInfo { width: 100%; order: -1; padding: 10px; border-top: 2px solid #b8c2cc; border-bottom: 2px solid #5c6370; background: #1c2431; color: #34d399; text-align: center; font-family: 'Courier New', monospace; text-transform: uppercase; font-weight: bold; text-shadow: 0 0 5px rgba(52, 211, 153, 0.5); margin-bottom: 6px;}
-    #cmds { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: #111827; padding: 4px; border: 2px inset #4b5563; }
-    .cmd { width: 100%; height: 60px; border-radius: 2px; border: 2px outset #6b7280; background: #374151; color: #e5e7eb; font-weight: bold; text-transform: uppercase; font-size: 10px; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; text-shadow: 1px 1px 0 #000; transition: transform 0.05s, border 0.05s;}
-    .cmd:active { border-style: inset; transform: scale(0.96); }
-    .cmd.wide { grid-column: span 2; height: 30px; flex-direction: row; gap: 10px;}
-    #cmds .note, #cmds .queue { grid-column: span 2; padding: 8px; font-size: 11px; background: #1f2937; color: #9ca3af; border: 1px solid #374151; }
+  /* ------------------------------------------------------------ the panel's side, and small screens */
+  body.side { --sidebar-w: clamp(220px, 27vw, 300px); }
+  @media (min-width: 700px) {
+    body:not(.side) { --drawer: clamp(210px, 36vh, 440px); }
+    body:not(.side) #panel { grid-template-columns: minmax(0, 1fr) 220px; }
+    body:not(.side) #cmds { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); }
   }
-/* ------------------------------------------------------------ small screens */
-  @media (max-width: 760px) {
-    :root { --top: 44px; --bottom: 112px; }
-    #hud { gap: 7px; padding: 0 6px; }
-    .hb { padding: 0 8px; font-size: 13px; }
-    .res { font-size: 14px; } .res b { min-width: 1.8em; }
+  @media (min-height: 700px) and (min-width: 760px) {
+    #selInfo .pic { width: 56px; height: 56px; }
+    #selInfo h3 { font-size: 17px; } #selInfo .doing, #selInfo .about { font-size: 13px; }
+    .cmd small { font-size: 12px; } .cmd small svg.i { width: 13px; height: 13px; }
+    .quick button { font-size: 11.5px; min-height: 40px; } .quick button svg { width: 18px; height: 18px; }
+    .note, .queue { font-size: 13px; }
+  }
+  body.side #hud { right: var(--sidebar-w); }
+  body.side #feed { right: calc(var(--sidebar-w) + 8px); }
+  /* a short screen (a phone on its side): the chosen one's card without its story, to leave room for the buttons */
+  @media (max-height: 520px) {
+    body.side #panel { gap: 6px; padding-top: max(6px, env(safe-area-inset-top)); padding-bottom: max(6px, env(safe-area-inset-bottom)); }
+    body.side #selInfo .about:not(.only) { display: none; }
+    #selInfo .pic { width: 40px; height: 40px; }
+    /* the three quick choices stacked beside the radar, not under it */
+    body.side #side { flex-direction: row; align-items: stretch; }
+    body.side #mini { width: 60%; flex: none; }
+    body.side .quick { flex: 1; grid-template-columns: minmax(0, 1fr); }
+    body.side .quick button { flex-direction: row; justify-content: flex-start; gap: 4px; min-height: 0; padding: 2px 5px; text-align: left; }
+    body.side .quick button svg { width: 14px; height: 14px; flex: none; }
+  }
+  @media (max-width: 760px), (max-height: 520px) {
+    :root { --top: 42px; }
+    #hud { gap: 6px; padding: 0 6px; }
+    .hb { height: 32px; padding: 0 8px; font-size: 13px; }
+    .res { font-size: 14px; gap: 3px; } .res b { min-width: 1.6em; }
     #food span { display: none; } #food i { width: 60px; }
-    #selInfo { width: 120px; font-size: 12px; } #selInfo h3 { font-size: 14px; } #selInfo p { display: none; }
-    #mini { width: 110px; }
-    .quick button { height: 28px; font-size: 11px; padding: 0 6px; }
-    .cmd { width: 72px; height: 46px; font-size: 11px; }
     #goals { width: 210px; font-size: 12px; }
-    #feed { width: min(260px, 48vw); }
+    #feed { width: min(280px, 46vw); }
     .msg { font-size: 12px; padding: 5px 8px; }
     .msg:nth-last-child(n+3) { display: none; }
   }
-  @media (max-width: 520px) {
-    #clock { display: none; }
-    #goals { width: 170px; }
-    #selInfo { display: none; }
-  }
-  @media (max-height: 460px) {
-    :root { --top: 40px; --bottom: 96px; }
-    #mini { width: 96px; }
-    /* A short screen (a phone on its side): commands in one row you swipe along. */
-    #cmds { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; align-items: center; }
-    .cmd { height: 44px; flex: none; }
-    #cmds .note { min-width: 220px; }
-    #selInfo { width: 130px; font-size: 12px; } #selInfo h3 { font-size: 14px; } #selInfo p { display: none; }
-    .quick { gap: 3px; } .quick button { height: 24px; font-size: 11px; padding: 0 6px; }
-    #feed { width: min(300px, 40vw); }
-    .msg { font-size: 12px; padding: 5px 8px; }
-    .msg:nth-last-child(n+3) { display: none; }
+  @media (max-width: 560px) {
+    #hud { gap: 3px; padding: 0 4px; }
+    .hb { padding: 0 6px; min-width: 30px; }
+    .res { gap: 2px; } .res b { min-width: 0; }
+    #clock { flex: none; }
+    #bCouncil .lbl { display: none; }
+    #clock .lbl { display: none; }
+    #clock b::before { content: '⏳'; font-size: .8em; margin-right: 1px; }
+    .res small { display: none; }
+    #goals { width: 168px; }
+    #feed { width: 56vw; }
   }
 </style>
 </head>
@@ -260,16 +289,16 @@
 <div id="rotate" hidden>Turn your phone sideways for more room</div>
 
 <footer id="panel" hidden>
-  <div id="selInfo"></div>
-  <div id="cmds"></div>
   <div id="side">
     <canvas id="mini" aria-label="Map: tap to look there"></canvas>
     <div class="quick">
-      <button id="bArmy" title="Select all your soldiers">Soldiers</button>
-      <button id="bIdle" title="Select workers with nothing to do">Idle workers</button>
-      <button id="bBox" title="Drag a box to select (for touch screens)">Box select</button>
+      <button id="bArmy" title="Choose all your soldiers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/></svg>Soldiers</button>
+      <button id="bIdle" title="Choose workers with nothing to do"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l6 6M17 7l-11 11M4 20l2-2"/><path d="M14 4c3-1 5 0 6 2-2 0-3 1-3 1"/></svg>Idle workers</button>
+      <button id="bBox" title="Drag a box on the map to choose people in it"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 3"><rect x="4" y="5" width="16" height="14" rx="1"/></svg>Box select</button>
     </div>
   </div>
+  <div id="selInfo"></div>
+  <div id="cmds"></div>
 </footer>
 
 <div id="screen"></div>
@@ -309,6 +338,6 @@
 <script src="sim.js?v=16"></script>
 <script src="missions.js?v=16"></script>
 <script src="scripture.js?v=15"></script>
-<script src="ui.js?v=25"></script>
+<script src="ui.js?v=26"></script>
 </body>
 </html>
