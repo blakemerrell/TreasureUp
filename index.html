@@ -1090,6 +1090,7 @@
   .dv-bsb { margin-top: 3px; padding-left: 8px; border-left: 2px solid #60a5fa; font-size: 13px; color: rgba(255,255,255,.65); }
   .dv-bsb b { color: #93c5fd; font-size: 11px; letter-spacing: .04em; margin-right: 4px; }
   .dv-small { margin-top: 4px; font-size: 12.5px; color: rgba(255,255,255,.6); }
+  .dv-deep { margin-top: 8px; padding-left: 10px; border-left: 2px solid #38bdf8; }
   .dv-acts { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-top: 10px; }
   .dv-acts .btn { padding: 8px 16px; font-size: 14px; }
   .dv-f { display: block; margin-top: 8px; }
@@ -1289,6 +1290,15 @@
     background: rgba(196,181,253,.1); border: 1px solid rgba(196,181,253,.35); }
   .ins-src span { display: block; font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #c4b5fd; }
   .ins-src b { display: block; margin-top: 3px; font-size: 14.5px; line-height: 1.3; }
+  /* A card's deep dive, folded under it: for a grown-up who wants the point at length */
+  .ins-deep { margin-top: 14px; border-radius: 14px; background: rgba(56,189,248,.07); border: 1px solid rgba(56,189,248,.28); }
+  .ins-deep summary { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 12px 14px; cursor: pointer; list-style: none; font-weight: 900; color: #7dd3fc; }
+  .ins-deep summary::-webkit-details-marker { display: none; }
+  .ins-deep summary::after { content: '▾'; margin-left: auto; color: #7dd3fc; }
+  .ins-deep[open] summary::after { content: '▴'; }
+  .ins-deep summary small { font-size: 12px; font-weight: 700; color: rgba(255,255,255,.55); }
+  .ins-deep > p { margin: 0 14px 12px; font-size: 15.5px; line-height: 1.6; color: rgba(255,255,255,.88); }
+  .ins-deep > .clip { margin: 4px 14px 14px; width: calc(100% - 28px); }
   .ls-further { display: block; width: 100%; margin: 18px 0 0; padding: 14px 16px; border-radius: 16px; cursor: pointer; text-align: left;
     font: inherit; font-size: 17px; font-weight: 900; color: #fff; background: rgba(124,58,237,.35); border: 1.5px solid #a78bfa; }
   .ls-further small { display: block; margin-top: 3px; font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,.72); }
@@ -2203,7 +2213,7 @@ const TreasureUp = (function () {
   function cardRowHtml(i) {
     const x = i.x, seen = !!(S.insights || {})[x.id];
     const what = x.kind === 'quote' ? (x.source && x.source.who) + ': “' + x.quote.slice(0, 60) + (x.quote.length > 60 ? '…”' : '”') : x.title;
-    return `<button class="card-row${seen ? ' seen' : ''}" data-card="${esc(x.id)}"><span class="cr-kind">${KIND_NAME[x.kind] || 'Insight'}</span><span class="cr-what">${esc(what)}</span><span class="cr-mark">${seen ? '✓' : ''}</span></button>`;
+    return `<button class="card-row${seen ? ' seen' : ''}" data-card="${esc(x.id)}"><span class="cr-kind">${KIND_NAME[x.kind] || (hasDeep(x) ? 'Deep dive' : 'Insight')}</span><span class="cr-what">${esc(what)}</span><span class="cr-mark">${seen ? '✓' : ''}</span></button>`;
   }
 
   // An earlier week's day: its chapters (read in the reader, marked read at
@@ -2249,9 +2259,10 @@ const TreasureUp = (function () {
   // and opening it marks it read (✓).
   let studyKind = 'all';
   function studyHtml() {
-    const kinds = [['all', 'All'], ['insight', 'Insights'], ['quote', 'Quotes'], ['video', 'Videos']];
+    const kinds = [['all', 'All'], ['deep', 'Deep dives'], ['insight', 'Insights'], ['quote', 'Quotes'], ['video', 'Videos']]
+      .filter(([k]) => k !== 'deep' || insightsOf(WEEK).some(i => hasDeep(i.x)));       // Deep dives once the week has one
     const days = DAY_NAMES.slice(0, 6).map((name, d) => {
-      const cards = dayInsights(d).filter(i => studyKind === 'all' || (i.x.kind || 'insight') === studyKind);
+      const cards = dayInsights(d).filter(i => studyKind === 'all' || (studyKind === 'deep' ? hasDeep(i.x) : (i.x.kind || 'insight') === studyKind));
       return cards.length ? `<div class="st-day"><div class="eyebrow">${name} · ${esc(unitsLabel(readingPlan()[d]) || '')}</div>${cards.map(i => cardRowHtml(i)).join('')}</div>` : '';
     }).join('');
     const n = insightsOf(WEEK).length, read = insightsOf(WEEK).filter(i => (S.insights || {})[i.x.id]).length;
@@ -2260,6 +2271,21 @@ const TreasureUp = (function () {
       <p class="lb-help">${n ? `${read} of ${n} cards read. The best of each day are in Today too.` : 'This week has no cards yet.'}</p>
       <div class="st-kinds">${kinds.map(([k, l]) => `<button class="sh-pill${studyKind === k ? ' on' : ''}" data-study-kind="${k}">${l}</button>`).join('')}</div>
       ${days || (n ? '<p class="lb-help">None of that kind this week.</p>' : '')}`;
+  }
+  // A card's deep dive (Blake, 2026-10-03: "Longer adult level deep dive
+  // would be great! … the quick learn, or the deep dive … With the
+  // expand"): the card is the quick learn, for him, and under it, folded, the
+  // same point at length for a grown-up (x.deep): in our own words from the
+  // page it credits, a few short quotes at most, and the stretch of the
+  // episode it's from, a clip that shows once a parent has watched it (or on
+  // the test site, marked). No setting by age: whoever wants more opens it.
+  const hasDeep = x => !!(x && x.deep && Array.isArray(x.deep.paras) && x.deep.paras.length);
+  function diveHtml(x) {
+    if (!hasDeep(x)) return '';
+    const d = x.deep, l = d.listen, words = d.paras.join(' ').split(/\s+/).filter(Boolean).length;
+    const clip = l && l.youtube && (l.previewed === true || TEST_SITE) ? clipHtml(l) : '';
+    return `<details class="ins-deep"><summary><span>🤿 Deep dive</span><small>${Math.max(1, Math.round(words / 200))} min read${clip ? ' · and a clip' : ''}</small></summary>` +
+      d.paras.map(t => `<p>${linkRefs(t, x.ref)}</p>`).join('') + clip + '</details>';
   }
   // One card on its own, from the bottom: as in Go further, and read once opened.
   function openCard(id) {
@@ -2272,7 +2298,7 @@ const TreasureUp = (function () {
     const body = x.kind === 'quote'
       ? `<blockquote class="ins-quote">“${esc(x.quote.replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote><p class="ins-who">${esc(s.who || s.by)}</p>${x.text ? `<p class="reel-body">${linkRefs(x.text, x.ref)}</p>` : ''}${src}`
       : x.kind === 'video' ? `<div class="sh-title">${esc(x.title)}</div><p class="reel-body">${linkRefs(x.text, x.ref)}</p>${clipHtml(x.video)}`
-      : `<div class="sh-title">${esc(x.title)}</div><p class="reel-body" style="margin-top:8px">${linkRefs(x.text, x.ref)}</p>${src}`;
+      : `<div class="sh-title">${esc(x.title)}</div><p class="reel-body" style="margin-top:8px">${linkRefs(x.text, x.ref)}</p>${diveHtml(x)}${src}`;
     openSheet(`<div class="ls-kind">${{ quote: '💬 Quote', video: '🎬 Video' }[x.kind] || '💡 Insight'} · ${linkRefs(x.ref)}</div>${draft}${body}`);
     if (!(S.insights || {})[x.id]) { (S.insights = S.insights || {})[x.id] = dayKey(); save(); }
   }
@@ -10161,6 +10187,7 @@ const TreasureUp = (function () {
         <div class="ls-ins-ref">${linkRefs(x.ref)}</div>
         ${step.draft ? '<p class="plain-draft">Draft: not approved yet</p>' : ''}
         <p class="reel-body">${linkRefs(x.text, x.ref)}</p>
+        ${diveHtml(x)}
         <a class="ins-src" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer"><span>From ${esc(s.by)}${s.who ? ' · ' + esc(s.who) : ''}</span> <b>${esc(s.title)} ↗</b></a>`;
     } else if (step.kind === 'bonus') {
       const where = sourceLabel(step.q.source);
@@ -10743,6 +10770,9 @@ const TreasureUp = (function () {
       return `<div class="dv-hook">${esc(o.title)}</div><p class="dv-small">${esc(o.ref)}</p><p>${esc(o.text)}</p>
         <p class="dv-small">From ${esc(s.by)}${s.who ? ' · ' + esc(s.who) : ''}: <a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">${esc(s.title)} ↗</a></p>
         <p class="dv-small">On the page: “${esc(o.find)}”</p>` +
+        (hasDeep(o) ? `<div class="dv-deep"><p class="dv-small">🤿 Deep dive (for grown-ups, folded under the card):</p>${o.deep.paras.map(t => `<p>${esc(t)}</p>`).join('')}` +
+          `<p class="dv-small">On the page: ${[].concat(o.deep.find || []).map(f => `“${esc(f)}”`).join(' · ')}</p>` +
+          (o.deep.listen ? `<p class="dv-small">Clip: <a href="https://www.youtube.com/watch?v=${esc(o.deep.listen.youtube)}&t=${Number(o.deep.listen.start) || 0}s" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">${esc(o.deep.listen.title)} ↗</a> · ${esc(o.deep.listen.channel)} · ${fmtTime(o.deep.listen.start)}–${fmtTime(o.deep.listen.end)}${o.deep.listen.previewed ? ' · watched' : ' · not watched yet (approving this card marks it watched)'}</p>` : '') + '</div>' : '') +
         (from ? kjv.slice(from - 1, to).map((t, k) => `<p class="dv-kjv"><sup>${from + k}</sup>${esc(t)}</p>`).join('') : '');
     }
     if (it.key.startsWith('tldr:')) {
@@ -10842,6 +10872,7 @@ const TreasureUp = (function () {
     // Approving a reel with a clip means the clip was watched.
     if (key.startsWith('reel:') && obj.media && obj.media.video) obj.media.video.previewed = true;
     if (key.startsWith('insight:') && obj.kind === 'video' && obj.video) obj.video.previewed = true;
+    if (key.startsWith('insight:') && obj.deep && obj.deep.listen) obj.deep.listen.previewed = true;   // a deep dive's clip too
     devSet(w, key, obj, null);
     const it = devItems(w).find(i => i.key === key);
     devChange(key, obj, it.hash, 'approve');
