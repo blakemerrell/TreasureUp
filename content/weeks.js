@@ -3247,7 +3247,8 @@ window.TU_WEEKS = [
           "title": "The God of Israel and the Nations (Isaiah 36–47)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-16?lang=eng"
         },
-        "find": "the fierce summer heat turns the grass brown almost overnight"
+        "find": "the fierce summer heat turns the grass brown almost overnight",
+        "approved": "3e4bcad4"
       },
       {
         "id": "isa40-bosom",
@@ -3260,7 +3261,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 40",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-40"
         },
-        "find": "The Lord gathers the lambs and carries them"
+        "find": "The Lord gathers the lambs and carries them",
+        "approved": "ecead1ee"
       },
       {
         "id": "isa40-span",
@@ -3273,7 +3275,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 40 (2026) – Isaiah 40-49",
           "url": "https://followhim.co/show-note/old-testament-episode-40-2026-isaiah-40-49/"
         },
-        "find": "The span was the distance between the tip of the little finger and the thumb"
+        "find": "The span was the distance between the tip of the little finger and the thumb",
+        "approved": "a50cb79d"
       },
       {
         "id": "isa41-hymn",
@@ -3286,7 +3289,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 41",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-41"
         },
-        "find": "Note that the popular hymn, “How Firm a Foundation” is based on verses 9–10"
+        "find": "Note that the popular hymn, “How Firm a Foundation” is based on verses 9–10",
+        "approved": "0fe741fe"
       },
       {
         "id": "isa41-worm",
@@ -3299,7 +3303,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 40 (2026) – Isaiah 40-49",
           "url": "https://followhim.co/show-note/old-testament-episode-40-2026-isaiah-40-49/"
         },
-        "find": "Now that sounds almost derisive, but if you look at the footnote, it means meek and humble"
+        "find": "Now that sounds almost derisive, but if you look at the footnote, it means meek and humble",
+        "approved": "9ba527e1"
       },
       {
         "id": "isa42-quiet",
@@ -3311,7 +3316,8 @@ window.TU_WEEKS = [
           "title": "The God of Israel and the Nations (Isaiah 36–47)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-16?lang=eng"
         },
-        "find": "the Savior charged the multitudes not to make His healings known"
+        "find": "the Savior charged the multitudes not to make His healings known",
+        "approved": "1784a7df"
       },
       {
         "id": "isa42-prison",
@@ -3323,7 +3329,8 @@ window.TU_WEEKS = [
           "title": "Lesson 127: Isaiah 42–47",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-student-material-2018/isaiah/lesson-127?lang=eng"
         },
-        "find": "Jesus Christ organized the preaching of the gospel by the righteous to those in spirit prison"
+        "find": "Jesus Christ organized the preaching of the gospel by the righteous to those in spirit prison",
+        "approved": "c50e5125"
       },
       {
         "id": "isa43-let",
@@ -3335,7 +3342,8 @@ window.TU_WEEKS = [
           "title": "The God of Israel and the Nations (Isaiah 36–47)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-16?lang=eng"
         },
-        "find": "According to the Prophet Joseph Smith, the whole phrase should read"
+        "find": "According to the Prophet Joseph Smith, the whole phrase should read",
+        "approved": "6f5ab9f8"
       },
       {
         "id": "isa43-remember",
@@ -3347,7 +3355,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 49: “I Have Graven Thee upon the Palms of My Hands”",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/39-isaiah-40-49/393-isaiah-49?lang=eng"
         },
-        "find": "The Lord promises He will not bring to our attention or hold us accountable for sins He has forgiven"
+        "find": "The Lord promises He will not bring to our attention or hold us accountable for sins He has forgiven",
+        "approved": "60433a1b"
       },
       {
         "id": "isa43-advocate",
@@ -3360,7 +3369,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 40 (2026) – Isaiah 40-49",
           "url": "https://followhim.co/show-note/old-testament-episode-40-2026-isaiah-40-49/"
         },
-        "find": "Let us plead together. Joseph in that section is giving voice to what the words of the pleading are"
+        "find": "Let us plead together. Joseph in that section is giving voice to what the words of the pleading are",
+        "approved": "5ad6f8a8"
       },
       {
         "id": "isa44-pour",
@@ -3373,7 +3383,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 44",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-44"
         },
-        "find": "He does not give us sips, He pours water and His Spirit upon us"
+        "find": "He does not give us sips, He pours water and His Spirit upon us",
+        "approved": "88308da0"
       },
       {
         "id": "isa44-redeem",
@@ -3386,7 +3397,8 @@ window.TU_WEEKS = [
           "title": "Redemption",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2011/10/redemption?lang=eng"
         },
-        "find": "the law of Moses provided different ways that servants and property could be freed"
+        "find": "the law of Moses provided different ways that servants and property could be freed",
+        "approved": "f62f0c29"
       },
       {
         "id": "isa45-earth",
@@ -3398,7 +3410,8 @@ window.TU_WEEKS = [
           "title": "The God of Israel and the Nations (Isaiah 36–47)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-16?lang=eng"
         },
-        "find": "a reference to the coming forth of the Book of Mormon from the buried Nephite record"
+        "find": "a reference to the coming forth of the Book of Mormon from the buried Nephite record",
+        "approved": "032c8dab"
       },
       {
         "id": "isa45-now",
@@ -3411,7 +3424,8 @@ window.TU_WEEKS = [
           "title": "Why Not Now?",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1974/10/why-not-now?lang=eng"
         },
-        "find": "if you sense that one day every knee shall bow and every tongue shall confess"
+        "find": "if you sense that one day every knee shall bow and every tongue shall confess",
+        "approved": "1ab6324d"
       },
       {
         "id": "isa46-carry",
@@ -3424,7 +3438,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 46",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-46"
         },
-        "find": "These verbs are the same as those in 53:4, which states that the Messiah has"
+        "find": "These verbs are the same as those in 53:4, which states that the Messiah has",
+        "approved": "71949c5d"
       },
       {
         "id": "isa47-millstones",
@@ -3437,7 +3452,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 47",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-47"
         },
-        "find": "She sits in the dust, grinding flour with millstones, the work of slaves"
+        "find": "She sits in the dust, grinding flour with millstones, the work of slaves",
+        "approved": "2f9b5d12"
       },
       {
         "id": "isa48-baptism",
@@ -3449,7 +3465,8 @@ window.TU_WEEKS = [
           "title": "Lesson 129: Isaiah 48–50",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-student-material-2018/isaiah/lesson-129?lang=eng"
         },
-        "find": "mentioned in verse 1 refer to baptism"
+        "find": "mentioned in verse 1 refer to baptism",
+        "approved": "8003f081"
       },
       {
         "id": "isa48-firstlast",
@@ -3462,7 +3479,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 48",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-48"
         },
-        "find": "God revealed to Joseph Smith and Oliver Cowdery"
+        "find": "God revealed to Joseph Smith and Oliver Cowdery",
+        "approved": "143765e1"
       },
       {
         "id": "isa48-desert",
@@ -3475,7 +3493,8 @@ window.TU_WEEKS = [
           "title": "What Is Isaiah Doing in First Nephi? Or, How Did Lehi’s Family Fare So Far from Home?",
           "url": "https://rsc.byu.edu/jerusalem-zarahemla/what-isaiah-doing-first-nephi-how-did-lehis-family-fare-so-far-home"
         },
-        "find": "apparently anticipated the entire trip, from beginning to end, starting with the flight from Jerusalem"
+        "find": "apparently anticipated the entire trip, from beginning to end, starting with the flight from Jerusalem",
+        "approved": "72d60150"
       },
       {
         "id": "isa49-isles",
@@ -3487,7 +3506,8 @@ window.TU_WEEKS = [
           "title": "Who is the Servant of Isaiah 49/1 Nephi 21?",
           "url": "https://scripturecentral.org/knowhy/who-is-the-servant-of-isaiah-491-nephi-21"
         },
-        "find": "begins with the same language as Isaiah 49:1"
+        "find": "begins with the same language as Isaiah 49:1",
+        "approved": "336ff302"
       },
       {
         "id": "isa49-arrow",
@@ -3499,7 +3519,8 @@ window.TU_WEEKS = [
           "title": "The Gathering of Israel and the Coming of the Messiah (Isaiah 48–54)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-17?lang=eng"
         },
-        "find": "The arrow shaft is polished that it might fly truer and faster"
+        "find": "The arrow shaft is polished that it might fly truer and faster",
+        "approved": "b22b851d"
       },
       {
         "id": "isa49-hope",
@@ -3512,7 +3533,8 @@ window.TU_WEEKS = [
           "title": "“That Ye May Have Hope”: Nephi’s Use of Isaiah 49:22–23 in Teaching the Concept of Hope",
           "url": "https://rsc.byu.edu/vol-23-no-2-2022/ye-may-have-hope"
         },
-        "find": "they would receive the covenant blessing that they expected or looked for"
+        "find": "they would receive the covenant blessing that they expected or looked for",
+        "approved": "56693224"
       }
     ]
   },
