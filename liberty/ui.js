@@ -80,7 +80,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     timber: '<svg class="i" viewBox="0 0 16 16"><rect x="1" y="5" width="12" height="6" rx="3" fill="#a0673a"/><ellipse cx="13" cy="8" rx="2.4" ry="3" fill="#e0b27e"/><ellipse cx="13" cy="8" rx="1.1" ry="1.4" fill="#a0673a"/></svg>',
     people: '<svg class="i" viewBox="0 0 16 16" fill="#bfdbfe"><circle cx="5" cy="4.5" r="2.3"/><circle cx="11" cy="4.5" r="2.3"/><path d="M1 14c0-3.3 1.8-5 4-5s4 1.7 4 5zM7 14c0-3.3 1.8-5 4-5s4 1.7 4 5z"/></svg>'
   };
-  const costHtml = c => !c ? '' : [c.grain ? ICON.grain + c.grain : '', c.timber ? ICON.timber + c.timber : ''].filter(Boolean).join(' ');
+  const costHtml = c => !c ? '' : [c.grain ? ICON.grain + c.grain : '', c.timber ? ICON.timber + c.timber : ''].filter(Boolean).map(x => '<span class="c">' + x + '</span>').join(' ');
 
   // ------------------------------------------------------------ saves
 
@@ -179,14 +179,17 @@ IMG.farm.src = 'assets/farm.png?v=13';
   let dpr = 1, vw = 0, vh = 0;
   let sky = null;                                    // the night sky round the map, made for the screen's size
   const topH = () => $('hud').offsetHeight || 0;
-  const bottomH = () => (window.innerWidth >= 860 || $('panel').hidden) ? 0 : ($('panel').offsetHeight || 0);
-  const rightW = () => (window.innerWidth >= 860 && !$('panel').hidden) ? ($('panel').offsetWidth || 236) : 0;
+  const sided = () => document.body.classList.contains('side');
+  const bottomH = () => (sided() || $('panel').hidden) ? 0 : ($('panel').offsetHeight || 0);
+  const rightW = () => (sided() && !$('panel').hidden) ? ($('panel').offsetWidth || 236) : 0;
 
   function resize() {
     dpr = Math.min(2, window.devicePixelRatio || 1);
     vw = window.innerWidth; vh = window.innerHeight;
     cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr);
     cv.style.width = vw + 'px'; cv.style.height = vh + 'px';
+    // The command panel goes down the right on a screen wider than tall (a phone on its side, a tablet, a laptop); held upright, along the bottom.
+    document.body.classList.toggle('side', vw > vh);
     const mw = mini.clientWidth || 144;
     mini.width = Math.round(mw * dpr); mini.height = Math.round(mw * TERR_H / TERR_W * dpr);
     mini.style.height = Math.round(mw * TERR_H / TERR_W) + 'px';
@@ -1386,18 +1389,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     // Composite shroud on minimap: unexplored radar is pitch black!
     mctx.drawImage(shroudCv, 0, 0, mw, mh);
 
-    // Green Phosphor Radar Sweep Beam
     const now = performance.now();
-    const sweepAngle = (now * 0.0018) % (Math.PI * 2);
-    mctx.save();
-    mctx.translate(mw * 0.5, mh * 0.5);
-    mctx.rotate(sweepAngle);
-    const grad = mctx.createLinearGradient(0, 0, mw * 0.6, 0);
-    grad.addColorStop(0, 'rgba(16, 185, 129, 0.45)');
-    grad.addColorStop(1, 'rgba(16, 185, 129, 0)');
-    mctx.fillStyle = grad;
-    mctx.beginPath(); mctx.moveTo(0, 0); mctx.arc(0, 0, Math.max(mw, mh), -0.3, 0.3); mctx.fill();
-    mctx.restore();
 
     // Unit & Building Blips (Filtered by Vision)
     const toMini = (wx, wy) => {
@@ -1413,10 +1405,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const pt = toMini(e.x, e.y);
       if (e.kind === 'building') {
         mctx.fillStyle = e.team === 'p' ? '#60a5fa' : e.team === 'r' ? '#f87171' : '#fcd34d';
-        mctx.fillRect(pt.mx - 2, pt.my - 2, 4, 4);
+        mctx.fillRect(pt.mx - 2 * dpr, pt.my - 2 * dpr, 4 * dpr, 4 * dpr);
       } else {
         mctx.fillStyle = e.team === 'r' ? '#ef4444' : e.team === 'x' ? '#a1a1aa' : e.def.hero ? '#fcd34d' : '#fff';
-        mctx.fillRect(pt.mx - 1, pt.my - 1, 2, 2);
+        mctx.fillRect(pt.mx - dpr, pt.my - dpr, 2 * dpr, 2 * dpr);
       }
     }
 
@@ -1756,38 +1748,74 @@ IMG.farm.src = 'assets/farm.png?v=13';
     $('selInfo').innerHTML = infoHtml(ents);
     $('cmds').innerHTML = cmdsHtml(ents);
   }
+  // The picture on the card: its button picture if it has one, or else the picture it's drawn with.
+  const DRAWN_AS = { lehi: 'lehi', gidgiddoni: 'gidgiddoni', robber: 'robber', robberArcher: 'robber_archer', giddianhi: 'robber_chief', zemnarihah: 'robber_chief',
+    slinger: 'lamanite_slinger', amalekite: 'lamanite_captain', zoramite: 'lamanite_captain', zerahemnah: 'zerahemnah' };
+  function picOf(e) {
+    const c = CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && 'assets/cameo_stronghold.png?v=1');
+    if (c) return `<img class="pic" src="${c}" alt="">`;
+    if (DRAWN_AS[e.type]) return `<img class="pic" src="assets/${DRAWN_AS[e.type]}.png?v=1" alt="">`;
+    if (e.kind === 'unit' && (e.type === 'lamanite' || e.def.foe)) return `<img class="pic" src="assets/cameo_lamanite.png?v=10" alt="">`;
+    return '';
+  }
   function infoHtml(ents) {
-    if (!ents.length) return `<h3>${esc(mission.title)}</h3><p>Tap one of your people to choose them. ${W.night ? 'It is night.' : ''}</p>`;
+    if (!ents.length) return `<div><h3>${esc(mission.title)}</h3></div><p class="about only">Tap one of your people to choose them. ${W.night ? 'It is night.' : ''}</p>`;
     if (ents.length === 1) {
       const e = ents[0], d = e.def;
       const bar = d.hp < 99999 ? `<div class="hp"><em style="width:${Math.max(0, e.hp / S.maxHp(e) * 100)}%"></em></div>` : '';
       const doing = e.kind === 'unit' ? ({ gather: 'Gathering ' + (e.order.res || ''), build: 'Building', attack: 'Fighting', move: 'Marching', idle: 'Waiting for orders' }[e.order.type] || '') : e.built < 1 ? 'Being built: ' + Math.floor(e.built * 100) + '%' : '';
-      return `<h3>${esc(e.name && e.kind === 'building' ? e.name : d.name)}</h3>${bar}${doing ? `<div>${esc(doing)}</div>` : ''}<p>${esc(d.about || '')}</p>`;
+      const pic = picOf(e);
+      return `${pic}<div${pic ? '' : ' style="grid-column: 1 / -1"'}><h3>${esc(e.name && e.kind === 'building' ? e.name : d.name)}</h3>${bar}${doing ? `<div class="doing">${esc(doing)}</div>` : ''}</div>` +
+        (d.about ? `<p class="about">${esc(d.about)}</p>` : '');
     }
     const count = {};
     for (const e of ents) count[e.def.name] = (count[e.def.name] || 0) + 1;
-    return `<h3>${ents.length} chosen</h3><p>${Object.entries(count).map(([n, k]) => k + ' ' + esc(n) + (k > 1 ? 's' : '')).join(', ')}</p>`;
+    const most = Object.entries(count).sort((a, b) => b[1] - a[1])[0][0];
+    const many = n => n.endsWith('man') ? n.slice(0, -3) + 'men' : n + 's';      // spearmen, javelin throwers
+    return `${picOf(ents.find(e => e.def.name === most))}<div><h3>${ents.length} chosen</h3><div class="doing">${Object.entries(count).map(([n, k]) => k + ' ' + esc(k > 1 ? many(n.toLowerCase()) : n.toLowerCase())).join(', ')}</div></div>`;
   }
   const CAMEO_MAP = {
-    'deploy': 'assets/cameo_moroni.png?v=9',
+    'deploy': 'assets/cameo_moroni.png?v=10',
     'train:worker': 'assets/cameo_worker.png?v=1',
-    'train:spearman': 'assets/cameo_spearman.png?v=9',
+    'train:spearman': 'assets/cameo_spearman.png?v=10',
     'train:nslinger': 'assets/cameo_nslinger.png?v=1',
     'train:archer': 'assets/cameo_archer.png?v=1',
     'train:swordsman': 'assets/cameo_swordsman.png?v=1',
     'train:javelin': 'assets/cameo_javelin.png?v=1',
-    'train:stripling': 'assets/cameo_stripling.png?v=9',
-    'train:moroni': 'assets/cameo_moroni.png?v=9',
-    'build:tower': 'assets/cameo_tower.png?v=9',
-    'build:armory': 'assets/cameo_armory.png?v=9',
+    'train:stripling': 'assets/cameo_stripling.png?v=10',
+    'train:moroni': 'assets/cameo_moroni.png?v=10',
+    'train:cart': 'assets/cameo_cart.png?v=1',
+    'build:farm': 'assets/cameo_farm.png?v=1',
     'build:granary': 'assets/cameo_granary.png?v=1',
+    'build:storehouse': 'assets/cameo_storehouse.png?v=1',
+    'build:barracks': 'assets/cameo_barracks.png?v=1',
+    'build:wall': 'assets/cameo_wall.png?v=1',
+    'build:gate': 'assets/cameo_gate.png?v=1',
+    'build:tower': 'assets/cameo_tower.png?v=10',
+    'build:armory': 'assets/cameo_armory.png?v=10',
     'build:stables': 'assets/cameo_stables.png?v=1',
-    'build:hall': 'assets/cameo_hall.png?v=1'
+    'build:hall': 'assets/cameo_hall.png?v=1',
+    'research:armor': 'assets/cameo_armor.png?v=1',
+    'research:breastplates': 'assets/cameo_breastplates.png?v=1',
+    'research:cimeters': 'assets/cameo_cimeters.png?v=1',
+    'research:pickets': 'assets/cameo_pickets.png?v=1'
+  };
+  const BREAKS = Object.fromEntries(['Store-house', 'Watch-tower', 'Swords-man', 'Spear-man', 'Breast-plates', 'Strip-ling', 'cime-ters', 'Bar-racks',
+    'cap-tains', 'Jave-lin', 'Gran-ary', 'Sta-bles', 'Sol-diers', 'war-rior', 'throw-er'].map(w => [w.replace('-', ''), w.replace('-', '\u00ad')]));
+  // Buttons with no picture: a drawn sign instead.
+  const SIGN = {
+    stop: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
+    letgo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+    cancel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+    done: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>'
   };
   const cmd = (act, name, cost, cls) => {
-    const icon = CAMEO_MAP[act];
-    const imgHtml = icon ? `<img src="${icon}" style="width:36px;height:36px;border-radius:3px;border:1px solid #d97706;object-fit:cover;margin-bottom:2px;" alt="" />` : '';
-    return `<button class="cmd ${cls || ''}" data-cmd="${act}">${imgHtml}<span>${name}</span>${cost ? `<small>${cost}</small>` : ''}</button>`;
+    const pic = CAMEO_MAP[act], sign = SIGN[act];
+    const face = pic ? `<img src="${pic}" alt="">` : sign ? `<i class="ic">${sign}</i>` : '';
+    // Long words may break where they'd break in print (Watch-tower), never anywhere else; the longest piece sets how big the name can be.
+    const shown = String(name).replace(/[A-Za-z]{7,}/g, w => BREAKS[w] || w);
+    const n = Math.max(6, ...shown.split(/[\s\u00ad]+/).map(w => w.length));
+    return `<button class="cmd ${cls || ''}" data-cmd="${act}" data-label="${name}" style="--n:${n}"><span class="face">${face}<b>${shown}</b></span>${cost ? `<small>${cost}</small>` : ''}</button>`;
   };
   function cmdsHtml(ents) {
     if (placing) {
@@ -1829,7 +1857,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     for (const k of keys.filter(k => !W.researched[k])) {
       const r = RESEARCH[k];
       if (W.researching && W.researching.key === k) h += `<div class="note">Making ${esc(r.name.toLowerCase())}: ${Math.ceil(W.researching.left)}s</div>`;
-      else h += cmd('research:' + k, esc(r.name), W.researching ? 'Wait: one at a time' : costHtml(r.cost), 'wide ' + (W.researching || !W.canAfford(r.cost) ? 'poor' : ''));
+      else h += cmd('research:' + k, esc(r.name), W.researching ? 'Wait: one at a time' : costHtml(r.cost), W.researching || !W.canAfford(r.cost) ? 'poor' : '');
     }
     if (b.queue && b.queue.length) {
       const q = b.queue[0], p = 100 - q.left / UNITS[q.type].time * 100;
@@ -1878,16 +1906,16 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const mmss = s => Math.floor(s / 60) + ':' + String(Math.floor(s % 60)).padStart(2, '0');
   let hudAt = 0;
   function hud(now) {
-    const cap = W.tech ? '/' + W.storeCap() : '';
-    setText('rGrain', Math.floor(W.res.grain) + cap);
-    setText('rTimber', Math.floor(W.res.timber) + cap);
+    const cap = W.tech && W.storeCap() > 0 ? '<small>/' + W.storeCap() + '</small>' : '';
+    setHtml('rGrain', Math.floor(W.res.grain) + cap);
+    setHtml('rTimber', Math.floor(W.res.timber) + cap);
     const ps = W.units('p');
     setText('rPeople', W.tech ? W.foodUsed() + '/' + W.foodCap() : ps.filter(u => u.type === 'worker').length + ' · ' + ps.filter(u => u.def.soldier).length);
     if (W.fullAt && W.fullAt > (shown.fullToast || -99) + 20) { shown.fullToast = W.fullAt; toast('Your storehouses are full: build a granary to hold more.', 'warn'); }
     if (now - hudAt < 250) return;
     hudAt = now;
     const left = mission.timeLeft(W), label = mission.phaseLabel || mission.timerLabel || '';
-    setHtml('clock', esc(label) + (left != null ? ' <b>' + mmss(left) + '</b>' : ''));
+    setHtml('clock', (label ? '<span class="lbl">' + esc(label) + '</span>' : '') + (left != null ? ' <b>' + mmss(left) + '</b>' : ''));
     $('food').hidden = W.prov == null;
     if (W.prov != null) $('foodBar').style.width = clamp(W.prov, 0, 100) + '%';
     const pw = mission.power ? mission.power(W) : null;
@@ -1896,7 +1924,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     powerNow = pw;
     const ready = !council || W.t >= council.nextAt;
     $('bCouncil').disabled = !ready;
-    setText('bCouncil', ready ? 'Council' : 'Council ' + Math.ceil(council.nextAt - W.t) + 's');
+    setHtml('bCouncil', ready ? 'Council' : '<span class="lbl">Council </span>' + Math.ceil(council.nextAt - W.t) + 's');
     const goals = mission.objectives(W).map(o => {
       const done = o.have >= o.need;
       return `<li class="${done ? 'done' : ''} ${o.optional ? 'opt' : ''}"><span>${done ? '✓' : '○'}</span><span>${esc(o.text)} ${refBtn(o.ref)}</span><span class="n">${o.need > 1 ? Math.min(o.have, o.need) + '/' + o.need : ''}</span></li>`;
