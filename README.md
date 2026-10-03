@@ -205,9 +205,15 @@ the app's reading). The second 3 Nephi mission also needs the first won.
 | **2 · The Robbers Come Down** (3 Nephi 4) | Giddianhi's army attacks (4:7); **Cry unto the Lord** puts everyone on their knees for a moment, then they take less harm for a while (4:8–10). They fall back and can be pursued; Giddianhi is slowed, "weary because of his much fighting" (4:14). Then Zemnarihah's siege round about (4:16): a bar shows the robbers' food running out, since the Nephites have seven years' provisions and the wild game is gone (4:2–4, 18–20). When it runs out it's night, the border opens, and the armies can go to the three passes before the robbers march at dawn (4:24–26); a robber caught by two soldiers gives himself up (4:27). |
 
 **Skirmishes** (Red Alert's way of playing, once any mission's chapter is
-read): start with the standard of liberty, a few workers and three soldiers,
-and plant the standard on open ground to make your city (Alma 46:36). Then
-build up and either hold off the raids or tear down the war camp.
+read): start with the standard of liberty, two carts, two workers and three
+soldiers, and plant the standard on open ground to make your city
+(Alma 46:36). Then build up and either hold off the raids or tear down the
+war camp. The rules are Red Alert's: everything is built from the city and
+rises on its own once placed, within reach of what you already have; carts
+bring in grain and timber by themselves (tap one on a field or a forest to
+choose which); workers are the engineers, mending what's damaged and
+hurrying what's being built; and several of the same building make things
+faster, up to two and a half times.
 
 - **Out of the Wilderness**: a valley with mountains to the north, wilderness
   to the west and a river to the east. Robbers and Lamanites come down by
@@ -224,13 +230,13 @@ The buildings:
 
 | Building | Needs | What it does |
 |---|---|---|
-| City | the standard | Trains workers; feeds 10, stores 300 |
+| City | the standard | Builds everything; makes carts and workers; feeds 10, stores 300 |
 | Farm | | Feeds 8 more and grows a little grain (Helaman 6:12) |
-| Granary, storehouse | | Store 500 / 300 more of each; past that, what's gathered is lost |
+| Granary, storehouse | | Store 500 / 300 more of each; past that, what the carts bring is lost |
 | Barracks | | Spearmen, slingers (Alma 2:12); archers and swordsmen once there's an armory |
 | Watchtower | barracks | Shoots at enemies |
 | Armory | barracks | Breastplates and shields (+4 armor, Alma 43:19), swords and cimeters (+3 up close, Alma 43:18), ridges of earth and pickets (walls ×2, Alma 50:1–3), one at a time |
-| Stables | farm | Horse carts: haul 30 at a time and move fast (3 Nephi 3:22) |
+| Stables | farm | Horse carts twice as fast as the city makes them (3 Nephi 3:22) |
 | Hall of the captains | armory | Javelin throwers (Jarom 1:8) and stripling warriors (Alma 53:20) |
 
 Nobody can be trained without food for them. Each soldier is strong against
@@ -245,8 +251,7 @@ one kind of enemy (×1.5 damage), so a mixed army wins:
 
 Armor takes off a share of each blow rather than a fixed amount, so it
 always helps and never makes anyone untouchable. Mending a wall or building
-costs timber. Workers who stop to build go back to the trees or the field
-they came from.
+costs timber, and a worker beside it.
 
 The Lamanite war camp in free battle's north-east has guards, watchtowers and
 three camps; it sends a bigger attack every couple of minutes, adds guards
@@ -269,9 +274,9 @@ game opens the verse itself.
 
 **Controls**: tap or click to choose, drag a box (on a touch screen, **Box
 select** first), then tap the ground, a robber, trees or a field, or an
-unfinished building. Right-click also gives orders. Workers build (walls are
-dragged as a line) and mend walls; Zarahemla trains workers and the barracks
-guards. On a touch screen a new building shows where it will go on the first
+unfinished building. Right-click also gives orders. Everything is built
+from Zarahemla (walls are dragged as a line) and rises on its own; workers
+mend and hurry it; carts haul on their own; the barracks trains guards. On a touch screen a new building shows where it will go on the first
 tap and is built on the second, and **Let go** clears the selection. When
 something of yours is attacked a message says so and a red ring shows where,
 on the map and the small map. Drag or arrow keys to look around, pinch or

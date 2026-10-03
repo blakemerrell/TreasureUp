@@ -86,7 +86,8 @@
       W.res = { grain: 220, timber: 260 };
       W.addBuilding('stronghold', 'p', CITY.x, CITY.y, true);
       const at = (dx, dy) => [center(CITY.x + dx), center(CITY.y + dy)];
-      [[-1, 4], [0, 5], [3, 5], [4, 4]].forEach(([dx, dy]) => W.addUnit('worker', 'p', ...at(dx, dy)));
+      [[-1, 4], [4, 4]].forEach(([dx, dy]) => W.addUnit('cart', 'p', ...at(dx, dy)));
+      [[0, 5], [3, 5]].forEach(([dx, dy]) => W.addUnit('worker', 'p', ...at(dx, dy)));
       W.addUnit('gidgiddoni', 'p', ...at(1, -2));
       W.addUnit('spearman', 'p', ...at(0, -2));
       W.addUnit('spearman', 'p', ...at(2, -2));
@@ -101,10 +102,10 @@
       this.check = 0;
       // Hints for a first game, each only if it hasn't been done by then.
       this.tips = [
-        [40, W => !W.buildings('p', 'barracks').length, 'Choose a worker, tap Barracks, then tap where it goes. The barracks trains guards.'],
-        [100, W => W.buildings('p').filter(b => b.def.wall).length < 4, 'Choose workers, tap Walls, and drag a line on the map. Build them round about Zarahemla.'],
+        [40, W => !W.buildings('p', 'barracks').length, 'Tap Zarahemla, tap Barracks, then tap where it goes. It builds itself; the barracks trains guards.'],
+        [100, W => W.buildings('p').filter(b => b.def.wall).length < 4, 'Tap Zarahemla, tap Walls, and drag a line on the map. Build them round about the city.'],
         [160, W => !W.buildings('p', 'tower').length, 'Watchtowers shoot at robbers who come near. Build one on each side of the city.'],
-        [240, W => W.res.grain + W.res.timber < 150, 'Short of timber? Choose workers and tap a forest. The council gives some too.']
+        [240, W => W.res.grain + W.res.timber < 150, 'Short of timber? Tap a cart, then a forest. Zarahemla can make more carts, and the council gives some too.']
       ];
       W.msg('Lachoneus sends a proclamation: gather your families, flocks, herds and all your substance “unto one place.”', '3 Nephi 3:13');
       W.msg('Send a soldier to each village. When the proclamation reaches it, its people march to Zarahemla.', null, 'tip');
@@ -253,7 +254,8 @@
       fortify(W);
       for (const v of VILLAGES) for (let y = v.y; y < v.y + 3; y++) for (let x = v.x; x < v.x + 3; x++) W.setTile(x, y, T.RUIN);
       const put = (type, tx, ty) => { const [x, y] = W.freeTileNear(tx, ty, 'p'); return W.addUnit(type, 'p', center(x), center(y)); };
-      for (let i = 0; i < 6; i++) { const u = put('worker', 26 + i * 2, 43); const f = W.nearestResource(26 + i * 2, 43, 'grain'); if (f) W.gatherAt(u, f[0], f[1]); }
+      for (let i = 0; i < 3; i++) { const u = put('cart', 26 + i * 3, 43); const f = W.nearestResource(26 + i * 3, 43, 'grain'); if (f) W.gatherAt(u, f[0], f[1]); }
+      for (let i = 0; i < 2; i++) put('worker', 36 + i, 43);
       for (let i = 0; i < 6; i++) put('spearman', 27 + i, 34);
       for (let i = 0; i < 4; i++) put('archer', 28 + i, 35);
       put('gidgiddoni', 31, 35);
@@ -521,7 +523,8 @@
       this.manti = W.addBuilding('stronghold', 'p', SD.MANTI.x, SD.MANTI.y, true, { name: 'Manti' });
       W.addBuilding('barracks', 'p', J.x - 6, J.y + 1, true);
       const put = (type, tx, ty) => { const [x, y] = W.freeTileNear(tx, ty, 'p'); return W.addUnit(type, 'p', center(x), center(y)); };
-      for (let i = 0; i < 4; i++) { const u = put('worker', J.x - 1 + i, J.y + 6); const f = W.nearestResource(J.x, J.y + 6, i % 2 ? 'grain' : 'timber'); if (f) W.gatherAt(u, f[0], f[1]); }
+      for (let i = 0; i < 2; i++) { const u = put('cart', J.x - 1 + i * 2, J.y + 6); const f = W.nearestResource(J.x, J.y + 6, i ? 'grain' : 'timber'); if (f) W.gatherAt(u, f[0], f[1]); }
+      for (let i = 0; i < 2; i++) put('worker', J.x + 3 + i, J.y + 6);
       put('moroni', J.x + 1, J.y + 8); put('lehi', J.x + 3, J.y + 8);
       for (let i = 0; i < 8; i++) put('spearman', J.x - 3 + i, J.y + 9);
       for (let i = 0; i < 4; i++) put('archer', J.x - 1 + i, J.y + 10);
@@ -842,7 +845,7 @@
     starsText: '★ won on Easy, ★★ on Normal, ★★★ on Hard.',
     briefing: [
       ['Moroni "planted the standard of liberty among the Nephites," and fortified the land against the Lamanites.', 'Alma 46:36'],
-      ['Plant yours on open ground, and your city begins. Farms feed your people; granaries and storehouses hold what they gather.', null],
+      ['Plant yours on open ground, and your city begins. Tap the city to build, and buildings rise on their own. Carts bring in grain and timber; farms feed your people; granaries and storehouses hold what comes in.', null],
       ['The barracks trains spearmen and slingers; the armory opens swordsmen, archers and armor; the stables, horse carts; the hall of the captains, javelin throwers and stripling warriors.', null],
       ['These Lamanites have "prepared themselves with shields, and with breastplates" too.', 'Alma 49:6']
     ],
@@ -855,7 +858,7 @@
       const put = (type, x, y, team, extra) => { const [fx, fy] = W.freeTileNear(x, y, team || 'p'); return W.addUnit(type, team || 'p', center(fx), center(fy), extra); };
       const S0 = FR.START;
       this.standard = put('standard', S0.x + 2, S0.y + 2);
-      for (let i = 0; i < 4; i++) put('worker', S0.x + i, S0.y + 5);
+      put('cart', S0.x, S0.y + 5); put('cart', S0.x + 3, S0.y + 5); put('worker', S0.x + 1, S0.y + 6); put('worker', S0.x + 2, S0.y + 6);
       put('spearman', S0.x + 5, S0.y); put('spearman', S0.x + 6, S0.y + 1); put('nslinger', S0.x + 5, S0.y + 2);
       this.warcamp = W.addBuilding('warcamp', 'r', FR.WARCAMP.x, FR.WARCAMP.y, true);
       this.camps = FR.CAMPS.map(c => W.addBuilding('camp', 'r', c.x, c.y, true, { name: 'Lamanite camp', about: 'Lamanite warriors gather here to march on your city.' }));
@@ -868,11 +871,11 @@
       for (let i = 0; i < L.towers; i++) {
         const [dx, dy] = spots[i];
         const [x, y] = W.freeTileNear(this.warcamp.tx + dx, this.warcamp.ty + dy, 'r');
-        if (W.canPlace('tower', x, y)) W.addBuilding('tower', 'r', x, y, true);
+        if (W.whyNotPlace('tower', x, y) !== 'ground') W.addBuilding('tower', 'r', x, y, true);   // theirs: reach is the Nephites' rule
       }
       this.wave = 0; this.nextWave = L.first; this.planted = false; this.nextReinforce = 60; this.nextFierce = 300;
       W.msg('Choose the standard of liberty and plant it on open ground to begin your city.', 'Alma 46:36', 'tip');
-      W.msg('Farms feed your people and granaries hold what they gather. The Lamanites will come: build a barracks.', null, 'tip');
+      W.msg('Tap your city to build. Carts bring in grain and timber, and farms feed your people. The Lamanites will come: build a barracks.', null, 'tip');
     },
     timerLabel: 'The Lamanites attack in',
     timeLeft(W) { return alive(this.warcamp) ? Math.max(0, this.nextWave - W.t) : null; },
@@ -1006,7 +1009,7 @@
       const put = (type, x, y) => { const [fx, fy] = W.freeTileNear(x, y, 'p'); return W.addUnit(type, 'p', center(fx), center(fy)); };
       const S0 = WD.START;
       this.standard = put('standard', S0.x + 2, S0.y + 2);
-      for (let i = 0; i < 4; i++) put('worker', S0.x + i, S0.y + 5);
+      put('cart', S0.x, S0.y + 5); put('cart', S0.x + 3, S0.y + 5); put('worker', S0.x + 1, S0.y + 6); put('worker', S0.x + 2, S0.y + 6);
       put('spearman', S0.x + 5, S0.y); put('spearman', S0.x + 6, S0.y + 1); put('nslinger', S0.x + 5, S0.y + 2);
       this.raids = WILD_LENGTHS[this.length].raids;
       this.raid = 0;                     // raids that have come down
