@@ -83,7 +83,34 @@
                   about: 'Horse carts, twice as fast as the city makes them. They had "horses, and their chariots" (3 Nephi 3:22).' },
     hall:       { name: 'Hall of the captains', w: 3, h: 3, hp: 800, armor: 3, cost: { grain: 100, timber: 150, stone: 80 }, work: 36, needs: ['armory'], trains: ['javelin', 'stripling'], tier: true,
                   about: 'Where the chief captains plan the war. Trains javelin throwers and stripling warriors. From history, not the verses: its stepped platform is like those built in ancient Mesoamerica.' },
+    temple:     { name: 'Temple', w: 3, h: 3, hp: 1200, armor: 4, cost: { grain: 100, timber: 120, stone: 200 }, work: 50, needs: ['hall'], heals: 190, miracles: true, tier: true,
+                  about: 'Built "after the manner of the temple of Solomon" (2 Nephi 5:16). Your people near it are made whole; the council comes back sooner and gives double, as at King Benjamin\'s tower by the temple (Mosiah 2:7); and miracles are worked from it.' },
     warcamp:    { name: 'Lamanite war camp', w: 4, h: 4, hp: 1800, armor: 3, tier: true, about: 'Where the Lamanite armies gather. Tear it down to win.' }
+  };
+
+  // The temple's miracles: each works at a spot you tap (or on one foe, or on everyone), then waits its time.
+  const MIRACLES = {
+    fire:  { name: 'Pillar of fire', ref: 'Helaman 5:23–24', wait: 120, aim: 'ground', r: 110, last: 12,
+             about: 'A ring of fire round the spot: your people inside take no harm, and the enemies there flee. Nephi and Lehi "were encircled about as if by fire" (Helaman 5:23).',
+             done: 'A pillar of fire! Your people within it take no harm, and the enemies flee.' },
+    cloud: { name: 'Cloud of darkness', ref: 'Helaman 5:28', wait: 90, aim: 'ground', r: 120, last: 10,
+             about: 'A cloud of darkness over the spot: the enemies in it can\'t see to strike, while your archers can.',
+             done: 'A cloud of darkness falls: the enemies in it cannot see to strike.' },
+    quake: { name: 'Earthquake', ref: 'Alma 14:27', wait: 150, aim: 'ground', r: 130,
+             about: 'The earth shakes at the spot: enemy walls there fall, camps take great harm, and everyone there is thrown down for a moment. "The walls of the prison were rent in twain" (Alma 14:27).',
+             done: 'The earth shakes! Walls fall and the camps are rent.' },
+    sleep: { name: 'Deep sleep', ref: 'Alma 55:16', wait: 90, aim: 'ground', r: 120, last: 10,
+             about: 'The enemies at the spot fall into a deep sleep, like the guards of the city of Gid.',
+             done: 'A deep sleep falls on the enemies there.' },
+    turn:  { name: 'Confusion', ref: 'Judges 7:22', wait: 120, aim: 'ground', r: 120, last: 8,
+             about: 'The enemies at the spot turn their weapons on each other, as the Midianites did before Gideon.',
+             done: 'Confusion! The enemies there set their swords against each other.' },
+    mercy: { name: 'Mercy', ref: 'Alma 2:30', wait: 180, aim: 'none',
+             about: '"O Lord, have mercy and spare my life" (Alma 2:30): every one of your people is made whole.',
+             done: 'Mercy: every one of your people is made whole.' },
+    shock: { name: 'Shock', ref: '1 Nephi 17:54', wait: 45, aim: 'foe',
+             about: 'One enemy is shaken and thrown back, as Nephi shook his brothers.',
+             done: 'He is shaken and thrown back.' }
   };
 
   const RESEARCH = {
@@ -357,7 +384,7 @@
     ]
   };
 
-  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
+  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
   if (typeof module !== 'undefined' && module.exports) module.exports = DATA;
   else root.LIB_DATA = DATA;
 })(this);
