@@ -34,13 +34,16 @@
                     about: 'Chief captain "only twenty and five years old" (Alma 43:17). Soldiers near him fight harder.' },
     lehi:         { name: 'Lehi', hp: 240, speed: 62, dmg: 15, range: 22, cd: 0.9, armor: 4, sight: 190, soldier: true, hero: true, aura: 110,
                     about: 'Leads the army hidden on the south of the hill Riplah (Alma 43:35).' },
-    lamanite:     { name: 'Lamanite', hp: 72, speed: 60, dmg: 8, range: 20, cd: 1.0, armor: 0, sight: 180, foe: true, color: '#b45309', band: '#e7c9a0',
+    // The King-men's camp (design/evolution.md): a bearer hauls and builds; the warriors cost what the camp can pay.
+    bearer:       { name: 'Bearer', hp: 45, speed: 60, dmg: 2, range: 18, cd: 1.2, armor: 0, sight: 120, cost: { grain: 30 }, time: 6, gathers: true, builds: true, load: 12, side: 'kingmen', tier: true,
+                    about: 'Carries the camp\'s provisions on his back and raises its tents: "new supplies of provisions" (Alma 55:34).' },
+    lamanite:     { name: 'Lamanite', hp: 72, speed: 60, dmg: 8, range: 20, cd: 1.0, armor: 0, sight: 180, cost: { grain: 30 }, time: 7, foe: true, color: '#b45309', band: '#e7c9a0',
                     about: 'No breastplates or shields: "naked, save it were a skin which was girded about their loins" (Alma 43:20).' },
-    slinger:      { name: 'Lamanite slinger', hp: 46, speed: 58, dmg: 6, range: 130, cd: 1.5, armor: 0, sight: 190, foe: true, ranged: true, beats: 'light', color: '#b45309', band: '#e7c9a0',
+    slinger:      { name: 'Lamanite slinger', hp: 46, speed: 58, dmg: 6, range: 130, cd: 1.5, armor: 0, sight: 190, cost: { grain: 25, timber: 10 }, time: 7, foe: true, ranged: true, beats: 'light', color: '#b45309', band: '#e7c9a0',
                     about: 'Bows and arrows, stones and slings (Alma 43:20).' },
-    amalekite:    { name: 'Amalekite captain', hp: 140, speed: 58, dmg: 12, range: 20, cd: 1.0, armor: 2, sight: 190, foe: true, color: '#7c2d12', band: '#a8a29e',
+    amalekite:    { name: 'Amalekite captain', hp: 140, speed: 58, dmg: 12, range: 20, cd: 1.0, armor: 2, sight: 190, cost: { grain: 60, timber: 40 }, time: 12, needs: ['pavilion'], foe: true, color: '#7c2d12', band: '#a8a29e',
                     about: 'Zerahemnah made Amalekites and Zoramites his chief captains (Alma 43:6). They were not naked like the others (43:20).' },
-    zoramite:     { name: 'Zoramite captain', hp: 140, speed: 58, dmg: 12, range: 20, cd: 1.0, armor: 2, sight: 190, foe: true, color: '#7c2d12', band: '#a8a29e',
+    zoramite:     { name: 'Zoramite captain', hp: 140, speed: 58, dmg: 12, range: 20, cd: 1.0, armor: 2, sight: 190, cost: { grain: 60, timber: 40 }, time: 12, needs: ['pavilion'], foe: true, color: '#7c2d12', band: '#a8a29e',
                     about: 'Zerahemnah made Amalekites and Zoramites his chief captains (Alma 43:6). They were not naked like the others (43:20).' },
     zerahemnah:   { name: 'Zerahemnah', hp: 520, speed: 56, dmg: 18, range: 22, cd: 1.0, armor: 3, sight: 200, foe: true, leader: true, color: '#7c2d12', band: '#a8a29e',
                     about: 'Leader of the Lamanite armies (Alma 43:5).' },
@@ -73,7 +76,7 @@
     wall:       { name: 'Earthwork', w: 1, h: 1, hp: 260, armor: 5, cost: { timber: 6 }, work: 5, wall: true, about: 'Fortifications "round about them" (3 Nephi 3:14). Robbers must break through.' },
     gate:       { name: 'Gate', w: 1, h: 1, hp: 320, armor: 4, cost: { timber: 10, stone: 15 }, work: 8, wall: true, gate: true, about: 'Your people pass through; robbers must break it.' },
     village:    { name: 'Village', w: 3, h: 3, hp: 99999, neutral: true },
-    camp:       { name: "Robbers' camp", w: 3, h: 3, hp: 380, armor: 2, about: 'Part of the siege round about the city (3 Nephi 4:16).' },
+    camp:       { name: "Robbers' camp", w: 3, h: 3, hp: 380, armor: 2, food: 8, about: 'Part of the siege round about the city (3 Nephi 4:16).' },
     // Free battle.
     farm:       { name: 'Farm', w: 2, h: 2, hp: 300, armor: 1, cost: { timber: 50 }, work: 14, food: 8, grows: 0.25, tier: true,
                   about: 'Feeds 8 more people, and grows a little grain. "They did raise grain in abundance" (Helaman 6:12).' },
@@ -89,7 +92,21 @@
                   about: 'Built "after the manner of the temple of Solomon" (2 Nephi 5:16). Your people near it are made whole; the council comes back sooner and gives double, as at King Benjamin\'s tower by the temple (Mosiah 2:7); and miracles are worked from it.' },
     relic:      { name: 'Jaredite ruin', w: 2, h: 2, hp: 99999, armor: 9, neutral: true, untouchable: true, relic: true, tier: true,
                   about: 'The ruins of a people who were before. Limhi\'s men found such a land, "covered with ruins of buildings of every kind" (Mosiah 8:8), and in it plates, breastplates and swords. Send someone to see what this one holds.' },
-    warcamp:    { name: 'Lamanite war camp', w: 4, h: 4, hp: 1800, armor: 3, tier: true, about: 'Where the Lamanite armies gather. Tear it down to win.' }
+    // The King-men's camp (design/evolution.md, section 4): tents round the war camp, raised by its bearers.
+    tents:      { name: 'Tents', w: 2, h: 2, hp: 260, armor: 1, cost: { timber: 40 }, work: 12, food: 8, side: 'kingmen', tier: true,
+                  about: 'Hide tents for the warriors and their families: "they pitched their tents round about" (Mosiah 2:6). Each feeds eight.' },
+    storetent:  { name: 'Store tent', w: 2, h: 2, hp: 300, armor: 1, cost: { timber: 50 }, work: 14, dropoff: true, store: 400, side: 'kingmen', tier: true,
+                  about: 'Where the bearers bring the camp\'s "new supplies of provisions" (Alma 55:34). Holds 400 of each.' },
+    muster:     { name: 'Muster ground', w: 3, h: 3, hp: 520, armor: 2, cost: { timber: 90 }, work: 24, trains: ['lamanite', 'slinger'], side: 'kingmen', tier: true,
+                  about: 'Where the warriors gather, armed with "their stones and their slings" (Alma 43:20).' },
+    shieldtent: { name: 'Shield-makers\' tent', w: 2, h: 2, hp: 420, armor: 2, cost: { grain: 40, timber: 100 }, work: 22, needs: ['muster'], research: ['lshields', 'skins'], side: 'kingmen', tier: true,
+                  about: 'Here they "prepared themselves with shields, and with breastplates" (Alma 49:6). Opens the chief captain\'s pavilion.' },
+    ladderworks: { name: 'Ladder-works', w: 2, h: 2, hp: 400, armor: 1, cost: { timber: 110 }, work: 22, needs: ['muster'], research: ['lladders'], side: 'kingmen', tier: true,
+                  about: 'Ladders for the banks of earth they could not "dig down" (Alma 49:22).' },
+    pavilion:   { name: 'Chief captain\'s pavilion', w: 3, h: 3, hp: 700, armor: 3, cost: { grain: 80, timber: 140 }, work: 32, needs: ['shieldtent'], trains: ['amalekite', 'zoramite'], side: 'kingmen', tier: true,
+                  about: 'Zerahemnah "appointed chief captains over the Lamanites, and they were all Amalekites and Zoramites" (Alma 43:6).' },
+    warcamp:    { name: 'Lamanite war camp', w: 4, h: 4, hp: 1800, armor: 3, tier: true, dropoff: true, builder: true, trains: ['bearer'], food: 40, store: 300, side: 'kingmen',
+                  about: 'Where the Lamanite armies gather, and where the bearers bring the camp\'s provisions. Tear it down to win.' }
   };
 
   // The temple's miracles: each works at a spot you tap (or on one foe, or on everyone), then waits its time.
@@ -155,6 +172,16 @@
     ladders: { name: 'Ladders and cords', cost: { timber: 120 }, time: 25, ref: 'Alma 62:21', ladders: true,
              about: 'Moroni\'s men took Nephihah by night with "strong cords and ladders" (Alma 62:21). Your soldiers climb over enemy walls.',
              done: 'Ladders and cords: your soldiers climb over enemy walls.' },
+    // The King-men's (made at their tents; design/evolution.md, section 5).
+    lshields: { name: 'Shields and breastplates', cost: { grain: 80, timber: 100 }, time: 25, ref: 'Alma 49:6', armor: 2, side: 'kingmen',
+                about: 'The Lamanites "prepared themselves with shields, and with breastplates" (Alma 49:6). Warriors +2 armor.',
+                done: 'The warriors have shields and breastplates.' },
+    skins:    { name: 'Garments of skins', cost: { grain: 60, timber: 60 }, time: 20, ref: 'Alma 49:6', clothing: true, side: 'kingmen',
+                about: '"Garments of skins, yea, very thick garments to cover their nakedness" (Alma 49:6). Slingers +2 armor.',
+                done: 'The slingers wear thick garments of skins.' },
+    lladders: { name: 'Ladders', cost: { timber: 100 }, time: 25, ref: 'Alma 49:22', ladders: true, side: 'kingmen',
+                about: 'What they tried at the banks of earth, done right: warriors climb over enemy walls instead of breaking through (Alma 49:22).',
+                done: 'The warriors carry ladders: they go over walls now.' },
     breastplates: { name: 'Breastplates and shields', cost: { grain: 100, timber: 100 }, time: 25, ref: 'Alma 43:19', armor: 4,
              about: 'Moroni "prepared his people with breastplates and with arm-shields, yea, and also shields to defend their heads" (Alma 43:19). Soldiers +4 armor.',
              done: 'Your soldiers have breastplates, arm-shields and head-plates, and thick clothing.' }
@@ -416,7 +443,16 @@
     ]
   };
 
-  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, ARTIFACTS, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
+  // The sides of a skirmish (design/evolution.md, section 2). The human is team 'p' and the opponent team 'r';
+  // each team carries a side, which chooses its tree, its pictures and its words.
+  const SIDES = {
+    freemen: { name: 'Freemen', people: 'The Nephites', ref: 'Alma 51:6', capital: 'stronghold',
+               about: 'Those who "took upon them the name of freemen" (Alma 51:6): the people of liberty, under Moroni\'s title.' },
+    kingmen: { name: 'King-men', people: 'The Lamanites', ref: 'Alma 51:5', capital: 'warcamp',
+               about: 'Those who "were called king-men" (Alma 51:5): all who fought for Amalickiah\'s crown, the Lamanite armies and the dissenters with them.' }
+  };
+
+  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, ARTIFACTS, SIDES, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
   if (typeof module !== 'undefined' && module.exports) module.exports = DATA;
   else root.LIB_DATA = DATA;
 })(this);

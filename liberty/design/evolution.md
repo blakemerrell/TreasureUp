@@ -167,9 +167,15 @@ Timed waves are gone. What comes is what the camp could pay for.
 |---|---|---|---|
 | Bot bearers | 3 | 5 | 7 |
 | Bot start | 150 grain, 150 timber | 250, 250 | 350, 350, 50 stone |
-| Marches when the army is | 8 | 10, then +2 each march | 12, then +3 |
+| Marches when the army is | 6, then +1 each march | 8, then +2 | 10, then +3 |
 | Rebuilds a lost tent after | 240 s | 180 s | 120 s |
 | Bot strength (as now) | 1.1 | 1.25 | 1.35 |
+| Armor before the shield-makers work | 0 | 0 | 1 |
+
+Built in 5a as written, with two rules found in play: the camp trains no
+more than the next march needs (grain then goes to tents and research),
+captains lead from the second march on, and ladders are made only after two
+marches have come back from your walls.
 
 ## 10. What you see when something evolves (settled)
 

@@ -267,7 +267,7 @@
       let n = 0;
       for (const e of this.ents.values()) {
         if (e.team !== team) continue;
-        if (e.kind === 'unit' && !e.def.hero && (e.def.soldier || e.def.gathers || e.def.builds || e.def.scout)) n++;
+        if (e.kind === 'unit' && !e.def.hero && (e.def.soldier || e.def.foe || e.def.gathers || e.def.builds || e.def.scout)) n++;
         else if (e.kind === 'building') n += e.queue.length;
       }
       return n;
@@ -389,6 +389,7 @@
       if (target.spare) a = Math.min(a, Math.max(0, target.hp - 1));   // his part in the story isn't over
       target.hp -= a;
       target.hitAt = this.t;
+      if (target.kind === 'building') target.lastHitBy = from ? from.id : null;
       if (target.kind === 'unit' && from && from.team === this.me && target.team !== this.me) target.lastHitBy = from.id;
       if (target.team === this.me && from && from.team !== this.me) { this.callHelp(target, from); this.alarm(target); }
       if (target.hp <= 0) this.kill(target, from);
@@ -601,7 +602,7 @@
       this.effects = this.effects.filter(f => this.t - f.t < 0.35);
       this.zones = this.zones.filter(z => this.t < z.until);
       // A Jaredite ruin: someone of yours beside it finds what it holds (Mosiah 8:9-11).
-      for (const b of this.buildings('n')) if (b.def.relic && !b.dead && b.artifact) for (const team in this.sides) if (this.units(team).some(u => this.nextTo(u, this.rectOf(b)))) { const key = b.artifact; this.remove(b); this.grant(key, 'ruin', team); break; }
+      for (const b of this.buildings('n')) if (b.def.relic && !b.dead && b.artifact) for (const team in this.sides) if (this.units(team).some(u => !u.def.foe && this.nextTo(u, this.rectOf(b)))) { const key = b.artifact; this.remove(b); this.grant(key, 'ruin', team); break; }   // (an army marching past takes nothing; that's for 5c)
       if (this.t - (this.swordCheckAt || -99) > 2) { this.swordCheckAt = this.t; for (const team in this.sides) if (this.sides[team].artifacts.sword && !this.units(team).some(u => u.sword)) this.swordTo(null, team); }
       // A temple: that side's people near it are made whole, a little at a time.
       for (const b of this.buildings(null, 'temple')) if (b.built >= 1 && !b.dead) for (const u of this.units(b.team)) if (u.hp < maxHp(u) && dist(u, b) < b.def.heals) u.hp = Math.min(maxHp(u), u.hp + maxHp(u) * 0.012 * dt);
@@ -633,7 +634,7 @@
         if ((q.left -= dt * this.trainSpeed(b)) <= 0) {
           b.queue.shift();
           const [x, y] = this.freeTileNear(b.tx + Math.floor(b.w / 2), b.ty + b.h, b.team);
-          const u = this.addUnit(q.type, b.team, center(x), center(y));
+          const u = this.addUnit(q.type, b.team, center(x), center(y), b.spawn || undefined);   // (b.spawn: what its trainees start with, e.g. a camp's mode and home)
           if (b.team === this.me) this.trained[q.type] = (this.trained[q.type] || 0) + 1;
           if (b.rally) this.moveTo(u, b.rally[0], b.rally[1]);
         }
@@ -832,7 +833,7 @@
         const drop = this.nearestDropoff(u);
         if (!drop) { this.order(u, { type: 'idle' }); return; }
         if (this.nextTo(u, this.rectOf(drop))) {
-          if (u.carry) { this.gain(u.carry.type, u.carry.amt); u.carry = null; }
+          if (u.carry) { this.gain(u.carry.type, u.carry.amt, u.team); u.carry = null; }
           // A cart hauling on its own chooses afresh each trip, so it never keeps filling a full store while the other runs short.
           if (!u.pref && u.def.load) { this.order(u, { type: 'idle' }); return; }
           u.phase = 'go'; u.path = null; u.tries = 0; return;

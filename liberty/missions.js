@@ -6,6 +6,7 @@
   'use strict';
   const D = root.LIB_DATA || require('./data.js');
   const S = root.LIB_SIM || require('./sim.js');
+  const CAMP = root.LIB_CAMP || require('./camp.js');
   const { TILE, T, PASSES, CITY, VILLAGES } = D;
   const { center, tileOf, dist } = S;
 
@@ -806,10 +807,14 @@
   // Build a city from nothing and tear down the Lamanite war camp: Red Alert's
   // way of playing, with the Book of Mormon's buildings and troops.
   const FR = D.FREE;
+  // The camp's difficulty (camp.js): how many bearers it keeps hauling, what it starts with, when it may first march,
+  // how long at most between marches, how big an army it gathers before marching (and how much bigger each time),
+  // and how long a tent it loses waits before going up again.
   const LEVELS = {
-    easy:   { name: 'Easy',   first: 360, every: 150, size: 3, grow: 1,   stars: 1, guards: 8,  campGuards: 3, towers: 1, reinforce: 2, strength: 1.1,  armor: 1, fierce: 0.05, ladders: 5 },
-    normal: { name: 'Normal', first: 300, every: 130, size: 4, grow: 1.6, stars: 2, guards: 14, campGuards: 5, towers: 3, reinforce: 3, strength: 1.25, armor: 2, fierce: 0.08, ladders: 4 },
-    hard:   { name: 'Hard',   first: 270, every: 115, size: 5, grow: 1.8, stars: 3, guards: 18, campGuards: 6, towers: 3, reinforce: 4, strength: 1.35, armor: 2, fierce: 0.1, ladders: 3 }
+    // (Their shields and breastplates now come from the shield-makers' tent, so the armor here is only what they start with.)
+    easy:   { name: 'Easy',   first: 360, every: 150, bearers: 3, start: { grain: 150, timber: 150 }, march: 6,  marchGrow: 1, rebuild: 240, stars: 1, guards: 8,  campGuards: 3, towers: 1, strength: 1.1,  armor: 0, fierce: 0.05 },
+    normal: { name: 'Normal', first: 300, every: 130, bearers: 5, start: { grain: 250, timber: 250 }, march: 8,  marchGrow: 2, rebuild: 180, stars: 2, guards: 14, campGuards: 5, towers: 3, strength: 1.25, armor: 0, fierce: 0.08 },
+    hard:   { name: 'Hard',   first: 270, every: 115, bearers: 7, start: { grain: 350, timber: 350, stone: 50 }, march: 10, marchGrow: 3, rebuild: 120, stars: 3, guards: 18, campGuards: 6, towers: 3, strength: 1.35, armor: 1, fierce: 0.1 }
   };
 
   // The Lamanites: guards keep near home; the rest go for your nearest building.
@@ -823,7 +828,7 @@
         return;
       }
     }
-    if (u.mode === 'guard') {
+    if (u.mode === 'guard' || u.mode === 'muster') {
       const e = W.enemiesNear(u, 'r', 200, true);
       if (e && (!u.home || dist(e, u.home) < 10 * TILE)) W.order(u, { type: 'attack', target: e.id });
       else if (u.home && alive(u.home) && o.type === 'idle' && dist(u, u.home) > 5 * TILE) W.order(u, { type: 'move', goal: W.rectOf(u.home), near: true });
@@ -891,19 +896,17 @@
         const [x, y] = W.freeTileNear(this.warcamp.tx + dx, this.warcamp.ty + dy, 'r');
         if (W.whyNotPlace('tower', x, y) !== 'ground') W.addBuilding('tower', 'r', x, y, true);   // theirs: reach is the Nephites' rule
       }
-      this.wave = 0; this.nextWave = L.first; this.planted = false; this.nextReinforce = 60; this.nextFierce = 300;
+      this.planted = false; this.nextFierce = 300;
+      // The camp's mind (camp.js): bearers haul, tents go up, an army gathers and marches, and what falls goes up again.
+      W.side('r').res = { grain: L.start.grain, timber: L.start.timber, stone: L.start.stone || 0 };
+      put('bearer', this.warcamp.tx + 1, this.warcamp.ty + this.warcamp.h, 'r'); put('bearer', this.warcamp.tx + 2, this.warcamp.ty + this.warcamp.h, 'r');
+      this.camp = new CAMP.Camp(W, 'r', this.warcamp, L);
       W.msg('Choose the standard of liberty and plant it on open ground to begin your city.', 'Alma 46:36', 'tip');
       W.msg('Tap your city to build. Carts bring in grain and timber, and stone from a rock face when you ask; farms feed your people. The Lamanites will come: build a barracks.', null, 'tip');
     },
-    timerLabel: 'The Lamanites attack in',
-    timeLeft(W) { return alive(this.warcamp) ? Math.max(0, this.nextWave - W.t) : null; },
-    // What the next attack brings, for one who holds the interpreters (Mosiah 8:17).
-    nextAttack(W) {
-      const L = LEVELS[this.level], w = this.wave + 1, n = Math.round(L.size + L.grow * (w - 1)) + this.camps.filter(alive).length;
-      const parts = [`${Math.ceil(n * 0.6)} Lamanites`, `${Math.floor(n * 0.4)} slingers`];
-      if (w % 3 === 0) parts.push('a captain');
-      return parts.join(', ') + (w >= L.ladders ? ', with ladders' : '');
-    },
+    timeLeft(W) { return null; },
+    // What has gathered at the war camp, for one who holds the interpreters (Mosiah 8:17).
+    nextAttack(W) { return this.camp ? this.camp.forecast() : ''; },
     objectives(W) {
       return [
         { text: 'Plant the standard of liberty', ref: 'Alma 46:36', have: this.planted ? 1 : 0, need: 1 },
@@ -914,37 +917,19 @@
     update(W) {
       const L = LEVELS[this.level];
       if (!this.planted && W.stronghold()) this.planted = true;
-      // With the interpreters, a minute's warning of what comes (Mosiah 8:17).
-      if (W.artifacts.interpreters && alive(this.warcamp) && this.nextWave - W.t <= 60 && this.foretold < this.wave + 1) { this.foretold = this.wave + 1; W.msg(`The interpreters show what comes in a minute: ${this.nextAttack(W)}.`, 'Mosiah 8:17', 'warn'); }
-      // The attacks: from the war camp while it stands, bigger each time, and more with each camp still up.
-      if (alive(this.warcamp) && W.t >= this.nextWave) {
-        this.wave++;
-        this.nextWave = W.t + L.every;
-        const n = Math.round(L.size + L.grow * (this.wave - 1)) + this.camps.filter(alive).length;
-        const list = [['lamanite', Math.ceil(n * 0.6)], ['slinger', Math.floor(n * 0.4)]];
-        if (this.wave % 3 === 0) list.push([this.wave % 2 ? 'amalekite' : 'zoramite', 1]);
-        let k = 0;
-        for (const [type, m] of list) for (let i = 0; i < m; i++, k++) {
-          const [x, y] = W.freeTileNear(this.warcamp.tx + (k % 5) - 1, this.warcamp.ty + this.warcamp.h + 1 + Math.floor(k / 5), 'r');
-          W.addUnit(type, 'r', center(x), center(y), { mode: 'attack', ladders: this.wave >= L.ladders });
-        }
-        W.msg(`The Lamanites come to battle: ${k} of them${this.wave >= L.ladders ? ', with ladders' : ''}.`, null, 'warn');
-        if (this.wave === L.ladders) W.msg('They bring ladders: your walls slow them now, but no longer stop them. Towers and archers behind the walls will.', 'Alma 49:22', 'warn');
-      }
-      // While the war camp stands, it sends out more guards, and they grow fiercer with time.
-      if (alive(this.warcamp) && W.t >= this.nextReinforce) {
-        this.nextReinforce = W.t + 45;
-        const guards = W.units('r').filter(u => u.mode === 'guard' && u.home === this.warcamp).length;
-        for (let i = 0; i < L.reinforce && guards + i < L.guards + 8; i++) {
-          const [x, y] = W.freeTileNear(this.warcamp.tx + 1 + i, this.warcamp.ty + this.warcamp.h, 'r');
-          W.addUnit(i % 3 === 2 ? 'slinger' : 'lamanite', 'r', center(x), center(y), { mode: 'guard', home: this.warcamp });
-        }
-      }
+      // The camp's mind: bearers, tents, the army. With the interpreters, warning as it gathers (Mosiah 8:17).
+      if (alive(this.warcamp)) {
+        this.camp.update();
+        const r = this.camp.readiness();
+        if (W.artifacts.interpreters && r >= 0.7 && this.foretold < this.camp.marches + 1) { this.foretold = this.camp.marches + 1; W.msg(`The interpreters show what gathers at the war camp: ${this.camp.forecast()}.`, 'Mosiah 8:17', 'warn'); }
+        this.phaseLabel = r >= 0.7 ? 'Lamanites ready' : 'Lamanites gather';
+      } else this.phaseLabel = '';
       if (W.t >= this.nextFierce) { this.nextFierce = W.t + 300; W.boost.r = Math.min(L.strength + 0.3, W.boost.r + L.fierce); }
       if (!alive(this.warcamp) && !this.camps.some(alive)) return this.finish(W, true);
       const standing = W.buildings('p').length || W.units('p').some(u => u.def.deploys);
       if (!standing) this.finish(W, false);
     },
+    onDestroy(W, b) { if (this.camp) this.camp.noteLost(b); },
     foeBrain: freeBrain,
     finish(W, won) {
       if (W.over) return;
