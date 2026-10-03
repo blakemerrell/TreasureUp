@@ -290,6 +290,23 @@ console.log('Free battle · build a city, tear down the war camp');
     for (let i = 0; i < 3; i++) W.kill(W.addUnit('lamanite', 'r', v.x + 300, v.y), v);
     ok(v.rank === 1 && v.max > v.def.hp, 'three foes make a soldier a veteran: more health and harder blows (Alma 53:20)');
     for (const w of wall) W.kill(w); W.kill(foe); W.kill(a); v.rank = 0; v.kills = 0; v.max = v.def.hp; }
+  // Artifacts: the Jaredite ruins hold the sword of Laban, the Liahona and breastplates; right answers in a row bring the plates and the interpreters.
+  { const relics = W.buildings('n').filter(b => b.def.relic);
+    ok(relics.length === 3, `three Jaredite ruins stand on the map (${relics.length})`);
+    const r = relics.find(b => b.artifact === 'breastplate'), s = W.addUnit('spearman', 'p', (r.tx - 1) * 32 + 16, r.ty * 32 + 16), armor0 = W.armor;
+    run(W, 1, 0.1, () => {});
+    ok(W.artifacts.breastplate && W.armor === armor0 + 2 && r.dead, 'a soldier beside a ruin finds the Jaredite breastplates: 2 more armor (Mosiah 8:10)');
+    s.kills = 5;
+    ok(W.grant('sword', 'test') && s.sword, 'the sword of Laban goes to your best soldier (1 Nephi 4:9)');
+    const foe = W.addUnit('lamanite', 'r', s.x + 30, s.y), h0 = foe.hp; W.damage(foe, 10, s); const hit = h0 - foe.hp; W.kill(foe);
+    const other = W.addUnit('spearman', 'p', s.x + 300, s.y), foe2 = W.addUnit('lamanite', 'r', other.x + 30, other.y), h1 = foe2.hp; W.damage(foe2, 10, other);
+    ok(hit > h1 - foe2.hp, `the bearer strikes half again as hard (${hit.toFixed(1)} against ${(h1 - foe2.hp).toFixed(1)})`); W.kill(foe2);
+    W.kill(s); ok(!s.sword && W.units('p').some(u => u.sword), 'when the bearer falls the sword passes on');
+    W.kill(other);
+    ok(W.grant('plates', 'test') && W.artifacts.plates, 'the brass plates: the armory works twice as fast (1 Nephi 5:10)');
+    ok(W.grant('interpreters', 'test') && /Lamanites/.test(FB.nextAttack(W)), `the interpreters tell what comes next: "${FB.nextAttack(W)}" (Mosiah 8:17)`);
+    ok(!W.grant('plates', 'test'), 'nothing is brought out twice');
+    W.armor = armor0; }
 
   // A steady player: the carts haul on their own; build up the tree, keep an army home, then march on the camps.
   const S0 = { x: city.tx, y: city.ty };
@@ -338,6 +355,10 @@ console.log('Free battle · build a city, tear down the war camp');
     // Save up for the big buildings rather than spending it all on soldiers.
     if (plan.length && ['armory', 'stables', 'hall', 'temple'].includes(plan[0][0]) && !W.whyNotBuild(plan[0][0]) && !W.canAfford(D.BUILDINGS[plan[0][0]].cost) && army().length >= 6) return;
     const br = W.buildings('p', 'barracks').find(b => b.built >= 1), hall = W.buildings('p', 'hall').find(b => b.built >= 1);
+    // A spy goes to see what the nearest ruin holds.
+    const spy = W.units('p').find(u => u.type === 'spy'), relic = W.buildings('n').filter(b => b.def.relic && !b.dead).sort((a, b) => S.dist(a, s || a) - S.dist(b, s || b))[0];
+    if (br && !spy && (W.trained.spy || 0) < 2 && relic && !br.queue.length) W.train(br, 'spy');
+    if (spy && relic && spy.order.type === 'idle') W.order(spy, { type: 'move', goal: W.rectOf(relic), near: true });
     if (br && br.queue.length < 2) W.train(br, W.has('armory') ? (army().length % 2 ? 'archer' : 'swordsman') : (army().length % 2 ? 'nslinger' : 'spearman'));
     if (hall && hall.queue.length < 1) W.train(hall, army().length % 3 ? 'stripling' : 'javelin');
     // March out once the army is strong, and tear down the camps, then the war camp.

@@ -5,7 +5,7 @@
   'use strict';
   const D = window.LIB_DATA, S = window.LIB_SIM, MISSIONS = window.LIB_MISSIONS.MISSIONS, CAMPAIGNS = window.LIB_MISSIONS.CAMPAIGNS, FREE = window.LIB_MISSIONS.FREE_BATTLE, WILD = window.LIB_MISSIONS.WILD;
   const TEXT = window.LIBERTY_SCRIPTURE || {};
-  const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, QUESTIONS, MIRACLES } = D;
+  const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, QUESTIONS, MIRACLES, ARTIFACTS } = D;
   const { tileOf, dist } = S;
   const WORLD_W = MAP_W * TILE, WORLD_H = MAP_H * TILE;
   const STEP = 1 / 20;
@@ -44,6 +44,7 @@ const IMG = {
   stables: new Image(),
   hall: new Image(),
   temple: new Image(),
+  ruin: new Image(),
   lamaniteCamp: new Image(),
   robbersCamp: new Image(),
   warcamp: new Image(),
@@ -84,6 +85,7 @@ IMG.granary.src = 'assets/granary.png?v=2';      // and these: 007-buildings.md 
 IMG.stables.src = 'assets/stables.png?v=2';
 IMG.hall.src = 'assets/hall.png?v=2';
 IMG.temple.src = 'assets/temple.png?v=1';
+IMG.ruin.src = 'assets/ruin.png?v=1';
 IMG.lamaniteCamp.src = 'assets/lamanite_camp.png?v=1';   // and these: 009-battlefield.md
 IMG.robbersCamp.src = 'assets/robbers_camp.png?v=1';
 IMG.warcamp.src = 'assets/warcamp.png?v=1';
@@ -338,7 +340,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       }
     };
 
-    for (const u of W.units('p')) punch(u.x, u.y, u.def.sight || 170);
+    for (const u of W.units('p')) punch(u.x, u.y, (u.def.sight || 170) * (W.artifacts.liahona ? 1.5 : 1));   // farther with the Liahona
     for (const b of W.buildings('p')) if (b.def.wall == null) punch(b.x, b.y, 110 + Math.max(b.w, b.h) * TILE * 0.5);
     for (const b of W.buildings('p')) {
       const bx = (b.tx + b.w * 0.5) * TILE, by = (b.ty + b.h * 0.5) * TILE;
@@ -907,6 +909,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
     drawEffects();
     drawZones(now);
+    drawLiahona();
     drawMarkers(now);
     drawGhost();
 
@@ -1184,6 +1187,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.restore();
     if (hid) ctx.globalAlpha = 1;
     
+    if (u.sword) {                                  // the sword of Laban, held high
+      ctx.strokeStyle = '#fde68a'; ctx.lineWidth = 2; ctx.lineCap = 'round';
+      const sy = iy - uh - 8 - (u.rank || 0) * 4; ctx.beginPath(); ctx.moveTo(ix + 7, sy - 8); ctx.lineTo(ix + 7, sy + 2); ctx.moveTo(ix + 4, sy); ctx.lineTo(ix + 10, sy); ctx.stroke();
+    }
     if (u.rank) {                                   // a veteran's chevrons (Alma 53:20)
       ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
       for (let k = 0; k < u.rank; k++) { const cy = iy - uh - 6 - k * 4; ctx.beginPath(); ctx.moveTo(ix - 4, cy); ctx.lineTo(ix, cy + 3); ctx.lineTo(ix + 4, cy); ctx.stroke(); }
@@ -1218,6 +1225,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     stables: { cx: 200, by: 318, span: 375 },
     hall: { cx: 200, by: 310, span: 400 },
     temple: { cx: 168, by: 283, span: 295 },      // its stair pokes out past the platform's diamond
+    ruin: { cx: 99, by: 154, span: 209 },
     lamaniteCamp: { cx: 210, by: 240, span: 419 },
     robbersCamp: { cx: 210, by: 242, span: 418 },
     warcamp: { cx: 210, by: 267, span: 419 },
@@ -1226,7 +1234,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Which picture a building is drawn with: the Lamanites' watchtowers are their own; a camp is the robbers' in 3 Nephi, the Lamanites' elsewhere.
   const pictureOf = b => b.type === 'tower' && b.team === 'r' ? 'lamaniteTower' : b.type === 'warcamp' ? 'warcamp'
     : b.type === 'camp' ? (mission && mission.campaign === 'gidgiddoni' ? 'robbersCamp' : 'lamaniteCamp') : PICTURE[b.type];
-  const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables', temple: 'temple' };
+  const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables', temple: 'temple', relic: 'ruin' };
   const ready = img => img && img.complete && img.naturalWidth;
   // A building stands on flat ground just above the highest corner of its plot.
   function floorOf(b) {
@@ -1422,6 +1430,20 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const w = ctx.measureText(text).width + 10;
     ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(x - w / 2, y - 10, w, 14);
     ctx.fillStyle = color; ctx.fillText(text, x, y + 1);
+  }
+
+  // The Liahona: a brass pointer at the edge of the view, toward the war camp when it's out of sight (1 Nephi 16:10).
+  function drawLiahona() {
+    if (!W.artifacts.liahona || !mission.warcamp || mission.warcamp.dead) return;
+    const t = toIso(mission.warcamp.x, mission.warcamp.y);
+    const x0 = cam.x, y0 = cam.y, x1 = cam.x + (vw - rightW()) / cam.z, y1 = cam.y + (vh - bottomH()) / cam.z, top = y0 + topH() / cam.z;
+    if (t.ix > x0 && t.ix < x1 && t.iy > top && t.iy < y1) return;
+    const mx = (x0 + x1) / 2, my = (top + y1) / 2, a = Math.atan2(t.iy - my, t.ix - mx);
+    const px = Math.max(x0 + 26, Math.min(x1 - 26, mx + Math.cos(a) * 9999)), py = Math.max(top + 26, Math.min(y1 - 26, my + Math.sin(a) * 9999));
+    ctx.save(); ctx.translate(px, py);
+    ctx.fillStyle = '#b8860b'; ctx.strokeStyle = '#fde68a'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(0, 0, 11, 0, 7); ctx.fill(); ctx.stroke();
+    ctx.rotate(a); ctx.fillStyle = '#fef3c7'; ctx.beginPath(); ctx.moveTo(9, 0); ctx.lineTo(-4, -4); ctx.lineTo(-2, 0); ctx.lineTo(-4, 4); ctx.fill();
+    ctx.restore();
   }
 
   // Where a miracle is at work.
@@ -2103,6 +2125,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     setSel([c]); lookAt(c.x, c.y);
   };
   $('bTemple').onclick = () => { const t = W && W.temple(); if (t) { setSel([t]); lookAt(t.x, t.y); } };
+  $('arts').onclick = e => { const k = e.target.dataset && e.target.dataset.art; if (k && ARTIFACTS[k]) toast(ARTIFACTS[k].name + ': ' + ARTIFACTS[k].about, 'me', ARTIFACTS[k].ref); };
   function setBoxMode(on) { boxMode = on; $('bBox').classList.toggle('on', on); if (on) toast('Now drag on the map to draw a box around people.', 'me'); }
   $('bBox').onclick = () => setBoxMode(!boxMode);
 
@@ -2123,13 +2146,16 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (W.fullAt && W.fullAt > (shown.fullToast || -99) + 20) { shown.fullToast = W.fullAt; toast('Your storehouses are full: build a granary to hold more.', 'warn'); }
     if (now - hudAt < 250) return;
     hudAt = now;
-    const left = mission.timeLeft(W), label = mission.phaseLabel || mission.timerLabel || '';
+    const left = mission.timeLeft(W), label = W.artifacts.interpreters && mission.nextAttack ? 'Next: ' + mission.nextAttack(W) : (mission.phaseLabel || mission.timerLabel || '');
     setHtml('clock', (label ? '<span class="lbl">' + esc(label) + '</span>' : '') + (left != null ? ' <b>' + mmss(left) + '</b>' : ''));
     $('food').hidden = W.prov == null;
     if (W.prov != null) $('foodBar').style.width = clamp(W.prov, 0, 100) + '%';
     const pw = mission.power ? mission.power(W) : null;
     $('cry').hidden = !pw;
     $('bTemple').hidden = !(W.tech && W.temple());
+    const held = Object.keys(W.artifacts || {}).filter(k => W.artifacts[k] && ARTIFACTS[k]);
+    $('arts').hidden = !held.length;
+    setHtml('arts', held.map(k => `<img src="assets/cameo_${k}.png?v=1" data-art="${k}" title="${esc(ARTIFACTS[k].name)}" alt="">`).join(''));
     if (pw) setHtml('cry', esc(pw.label) + '<small>' + esc(pw.ref || '') + '</small>');
     powerNow = pw;
     const ready = !council || W.t >= council.nextAt;
@@ -2201,6 +2227,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     root.querySelectorAll('.choice').forEach(btn => btn.onclick = () => {
       if (root.querySelector('.choice.right, .choice.wrong')) return;
       const ok = btn.dataset.a === q.right;
+      council.streak = ok ? (council.streak || 0) + 1 : 0;
       root.querySelectorAll('.choice').forEach(b => { if (b.dataset.a === q.right) b.classList.add('right'); else if (b === btn) b.classList.add('wrong'); });
       const vs = versesOf(q.ref);
       if (ok) {
@@ -2208,7 +2235,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
         council.queue = council.queue.filter(i => i !== qi);
         council.nextAt = W.t + (temple ? 30 : 60);
       }
-      $('cAfter').innerHTML = `<div class="say ${ok ? 'good' : 'bad'}">${ok ? (temple ? 'Right! The people gather at the temple and bring 80 grain and 120 timber.' : 'Right! The people bring 40 grain and 60 timber.') : 'Not quite. Here is what the chapter says:'}</div>
+      // Right answers in a row bring out the people's treasures (data.js: ARTIFACTS).
+      const found = ok && W.tech ? Object.keys(ARTIFACTS).find(k => ARTIFACTS[k].from === 'council' && ARTIFACTS[k].streak === council.streak && !W.artifacts[k]) : null;
+      if (found) W.grant(found, 'council');
+      $('cAfter').innerHTML = `<div class="say ${ok ? 'good' : 'bad'}">${ok ? (temple ? 'Right! The people gather at the temple and bring 80 grain and 120 timber.' : 'Right! The people bring 40 grain and 60 timber.') + (council.streak > 1 ? ' That is ' + council.streak + ' in a row.' : '') : 'Not quite. Here is what the chapter says:'}</div>${found ? `<div class="say good">${esc(ARTIFACTS[found].found)}</div>` : ''}
         <div class="verse">${vs.map(([n, t]) => `<p><b>${esc(q.ref.replace(/:.*/, ''))}:${n}</b> ${esc(t)}</p>`).join('')}</div>
         <div style="margin-top:14px"><button class="btn go" data-close>Back to the battle</button></div>`;
     });
@@ -2302,6 +2332,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
         <li><b>Gather</b>: carts bring in grain and timber by themselves, and stone from a rock face when you ask. Tap a cart, then a field, a forest or a rock face, to choose which.</li>
         <li><b>Train</b>: your city makes carts and workers; the barracks, soldiers and spies. Workers mend what's damaged and hurry what's being built. A soldier who fells three foes becomes a veteran.</li>
         <li><b>Miracles</b>: build a temple and tap it. Each miracle falls where you tap next, then needs time before it can be worked again.</li>
+        <li><b>Treasures</b>: send someone to a Jaredite ruin to see what it holds. Right answers at the council, several in a row, bring out more. Tap one in the panel to read about it.</li>
         <li><b>Story moments</b>: when the chapter's big moment comes (crying unto the Lord, Lehi's attack), a gold button appears at the top.</li>
         <li><b>The council</b>: answer a question from the chapter for grain and timber. Get it wrong and you'll see the verse.</li>
         <li><b>Look around</b>: drag the map (arrow keys on a computer), pinch or scroll to zoom, or tap the small map.</li>
@@ -2360,7 +2391,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     buildHeights();
     sel = []; placing = null; wallLine = null; painted = null; miniDirty = true; shownMsgs = 0; endShown = false; particles.length = 0;
     paused = false; speed = 1; $('bSpeed').textContent = '1×'; $('bPause').textContent = '❚❚';
-    council = { nextAt: 20, queue: [], right: 0 };
+    council = { nextAt: 20, queue: [], right: 0, streak: 0 };
     closeDialog(); hideScreen();
     $('feed').innerHTML = '';
     setGameUi(true);
