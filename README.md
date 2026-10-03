@@ -228,6 +228,16 @@ and rends their camps (Alma 14:27), a deep sleep (Alma 55:16), confusion that
 turns them on each other (Judges 7:22), mercy that makes everyone whole
 (Alma 2:30), and a shock that throws one of them back (1 Nephi 17:54).
 
+**Veterans, ladders and the palisade.** A soldier who fells three foes
+becomes a veteran, "exceedingly valiant for courage" (Alma 53:20), with
+more health and harder blows, and a second rank at eight; gold chevrons
+show it. In free battle the war camp stands behind a palisade: your
+soldiers break through it, climb it once ladders and cords are made
+(Alma 62:21), or bring it down with the earthquake. From the fourth wave on
+Normal the Lamanites bring ladders of their own, so your walls slow them
+but no longer stop them (Alma 49:22): towers and archers behind the walls
+do.
+
 - **Out of the Wilderness**: a valley with mountains to the north, wilderness
   to the west and a river to the east. Robbers and Lamanites come down by
   four ways (two mountain passes, the western wilderness, the river fords),
@@ -246,9 +256,9 @@ The buildings:
 | City | the standard | Builds everything; makes carts and workers; feeds 10, stores 300 |
 | Farm | | Feeds 8 more and grows a little grain (Helaman 6:12) |
 | Granary, storehouse | | Store 500 / 300 more of each; past that, what the carts bring is lost |
-| Barracks | | Spearmen, slingers (Alma 2:12); archers and swordsmen once there's an armory |
+| Barracks | | Spearmen, slingers (Alma 2:12), spies (Alma 43:23); archers and swordsmen once there's an armory |
 | Watchtower | barracks | Shoots at enemies. Takes stone, quarried from rock faces |
-| Armory | barracks | Breastplates and shields (+4 armor, Alma 43:19), swords and cimeters (+3 up close, Alma 43:18), ridges of earth and pickets (walls ×2, Alma 50:1–3), one at a time |
+| Armory | barracks | Breastplates and shields (+4 armor, Alma 43:19), swords and cimeters (+3 up close, Alma 43:18), ridges of earth and pickets (walls ×2, Alma 50:1–3), bows of fine steel (1 Nephi 16:18), thick clothing (Alma 43:19), ladders and cords (Alma 62:21); one at a time |
 | Stables | farm | Horse carts twice as fast as the city makes them (3 Nephi 3:22) |
 | Hall of the captains | armory | Javelin throwers (Jarom 1:8) and stripling warriors (Alma 53:20). Takes stone |
 | Temple | hall | Your people near it are made whole; the council comes back sooner and gives double (Mosiah 2:7); miracles are worked from it (2 Nephi 5:16). Mostly stone |

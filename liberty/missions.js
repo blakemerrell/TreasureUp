@@ -807,9 +807,9 @@
   // way of playing, with the Book of Mormon's buildings and troops.
   const FR = D.FREE;
   const LEVELS = {
-    easy:   { name: 'Easy',   first: 360, every: 150, size: 3, grow: 1,   stars: 1, guards: 8,  campGuards: 3, towers: 1, reinforce: 2, strength: 1.1,  armor: 1, fierce: 0.05 },
-    normal: { name: 'Normal', first: 300, every: 130, size: 4, grow: 1.6, stars: 2, guards: 14, campGuards: 5, towers: 3, reinforce: 3, strength: 1.25, armor: 2, fierce: 0.08 },
-    hard:   { name: 'Hard',   first: 270, every: 115, size: 5, grow: 1.8, stars: 3, guards: 18, campGuards: 6, towers: 3, reinforce: 4, strength: 1.35, armor: 2, fierce: 0.1 }
+    easy:   { name: 'Easy',   first: 360, every: 150, size: 3, grow: 1,   stars: 1, guards: 8,  campGuards: 3, towers: 1, reinforce: 2, strength: 1.1,  armor: 1, fierce: 0.05, ladders: 5 },
+    normal: { name: 'Normal', first: 300, every: 130, size: 4, grow: 1.6, stars: 2, guards: 14, campGuards: 5, towers: 3, reinforce: 3, strength: 1.25, armor: 2, fierce: 0.08, ladders: 4 },
+    hard:   { name: 'Hard',   first: 270, every: 115, size: 5, grow: 1.8, stars: 3, guards: 18, campGuards: 6, towers: 3, reinforce: 4, strength: 1.35, armor: 2, fierce: 0.1, ladders: 3 }
   };
 
   // The Lamanites: guards keep near home; the rest go for your nearest building.
@@ -862,13 +862,21 @@
       put('cart', S0.x, S0.y + 5); put('cart', S0.x + 3, S0.y + 5); put('worker', S0.x + 1, S0.y + 6); put('worker', S0.x + 2, S0.y + 6);
       put('spearman', S0.x + 5, S0.y); put('spearman', S0.x + 6, S0.y + 1); put('nslinger', S0.x + 5, S0.y + 2);
       this.warcamp = W.addBuilding('warcamp', 'r', FR.WARCAMP.x, FR.WARCAMP.y, true);
+      // A palisade round the war camp, with a gap on the south side where the armies come out. Ladders and cords, or the earthquake, get you over it.
+      { const x0 = this.warcamp.tx - 2, y0 = this.warcamp.ty - 2, x1 = this.warcamp.tx + this.warcamp.w + 1, y1 = this.warcamp.ty + this.warcamp.h + 1;
+        for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
+          if (x !== x0 && x !== x1 && y !== y0 && y !== y1) continue;
+          if (y === y1 && (x === this.warcamp.tx + 1 || x === this.warcamp.tx + 2)) continue;
+          if (W.whyNotPlace('wall', x, y) === 'ground') continue;
+          W.addBuilding('wall', 'r', x, y, true);
+        } }
       this.camps = FR.CAMPS.map(c => W.addBuilding('camp', 'r', c.x, c.y, true, { name: 'Lamanite camp', about: 'Lamanite warriors gather here to march on your city.' }));
       const guard = (home, list) => { let k = 0; for (const [type, n] of list) for (let i = 0; i < n; i++, k++) put(type, home.tx + (k % 4), home.ty + home.h + Math.floor(k / 4), 'r', { mode: 'guard', home }); };
       this.guardList = [['lamanite', Math.ceil(L.guards * 0.6)], ['slinger', Math.floor(L.guards * 0.3)], ['amalekite', 1], ['zoramite', L.stars > 1 ? 1 : 0]];
       guard(this.warcamp, this.guardList);
       for (const c of this.camps) guard(c, [['lamanite', Math.ceil(L.campGuards * 0.6)], ['slinger', Math.floor(L.campGuards * 0.4)]]);
       // Their own watchtowers, round the war camp.
-      const spots = [[-3, 2], [5, 2], [1, 6]];
+      const spots = [[-4, 2], [7, 2], [1, 8]];
       for (let i = 0; i < L.towers; i++) {
         const [dx, dy] = spots[i];
         const [x, y] = W.freeTileNear(this.warcamp.tx + dx, this.warcamp.ty + dy, 'r');
@@ -900,9 +908,10 @@
         let k = 0;
         for (const [type, m] of list) for (let i = 0; i < m; i++, k++) {
           const [x, y] = W.freeTileNear(this.warcamp.tx + (k % 5) - 1, this.warcamp.ty + this.warcamp.h + 1 + Math.floor(k / 5), 'r');
-          W.addUnit(type, 'r', center(x), center(y), { mode: 'attack' });
+          W.addUnit(type, 'r', center(x), center(y), { mode: 'attack', ladders: this.wave >= L.ladders });
         }
-        W.msg(`The Lamanites come to battle: ${k} of them.`, null, 'warn');
+        W.msg(`The Lamanites come to battle: ${k} of them${this.wave >= L.ladders ? ', with ladders' : ''}.`, null, 'warn');
+        if (this.wave === L.ladders) W.msg('They bring ladders: your walls slow them now, but no longer stop them. Towers and archers behind the walls will.', 'Alma 49:22', 'warn');
       }
       // While the war camp stands, it sends out more guards, and they grow fiercer with time.
       if (alive(this.warcamp) && W.t >= this.nextReinforce) {
