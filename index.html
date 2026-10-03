@@ -914,13 +914,14 @@
   .ls-v { font-family: Georgia, 'Times New Roman', serif; font-size: 18px; line-height: 1.6; color: rgba(255,255,255,.94); }
   .ls-vv sup, .ls-find sup { margin-right: 5px; font-family: inherit; font-size: 11px; font-weight: 900; color: var(--gold); }
   .ls-ch-end { margin: 18px 0 8px; text-align: center; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.45); }
-  /* A verse: the texts he has on (KJV, plain words, BSB), the first one full size, then its notes. */
+  /* A verse: the texts he has on (KJV, plain words, BSB, Spanish or Tagalog), the first one full size, then its notes. */
   .ls-vv { margin: 0 0 14px; }
   .ls-vv > p { margin: 0 0 6px; }
   .ls-vv > p:last-child { margin-bottom: 0; }
-  .ls-plain, .ls-bsb { padding-left: 12px; border-left: 3px solid #58cc02; font-size: 16px; line-height: 1.5; color: rgba(255,255,255,.8); }
+  .ls-plain, .ls-bsb, .ls-lang { padding-left: 12px; border-left: 3px solid #58cc02; font-size: 16px; line-height: 1.5; color: rgba(255,255,255,.8); }
   .ls-bsb { border-left-color: #60a5fa; }
-  .ls-plain.lead, .ls-bsb.lead { font-size: 17.5px; line-height: 1.55; color: rgba(255,255,255,.94); }
+  .ls-lang { border-left-color: #fb923c; }
+  .ls-plain.lead, .ls-bsb.lead, .ls-lang.lead { font-size: 17.5px; line-height: 1.55; color: rgba(255,255,255,.94); }
   .ls-note { margin-left: 15px; padding: 8px 12px; border-radius: 10px; background: rgba(253,230,138,.08); font-size: 13.5px; line-height: 1.45; color: rgba(255,255,255,.78); }
   /* The Hebrew or Greek under a verse, word by word: the word, how it sounds, what it means */
   .ls-orig { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px 12px; margin: 4px 0 2px; padding: 8px 10px 8px 12px; border-left: 3px solid #c084fc; }
@@ -944,8 +945,8 @@
   .sh-row > span:last-child { display: flex; gap: 6px; }
   .sh-pill { font: inherit; font-size: 13px; font-weight: 800; padding: 6px 12px; border-radius: 999px; cursor: pointer; color: #fff; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.18); }
   .sh-pill.on { color: #1c1406; background: var(--gold); border-color: var(--gold); }
-  html[data-text="l"] .ls-v { font-size: 21px; } html[data-text="l"] .ls-plain, html[data-text="l"] .ls-bsb { font-size: 18.5px; }
-  html[data-text="xl"] .ls-v { font-size: 24px; } html[data-text="xl"] .ls-plain, html[data-text="xl"] .ls-bsb { font-size: 21px; }
+  html[data-text="l"] .ls-v { font-size: 21px; } html[data-text="l"] .ls-plain, html[data-text="l"] .ls-bsb, html[data-text="l"] .ls-lang { font-size: 18.5px; }
+  html[data-text="xl"] .ls-v { font-size: 24px; } html[data-text="xl"] .ls-plain, html[data-text="xl"] .ls-bsb, html[data-text="xl"] .ls-lang { font-size: 21px; }
   .word-sheet { position: fixed; inset: 0; z-index: 128; display: flex; flex-direction: column; justify-content: flex-end; background: rgba(0,0,0,.6); }
   .word-sheet[hidden] { display: none; }
   .ws-card { position: relative; max-height: 86vh; overflow-y: auto; padding: 22px 18px calc(env(safe-area-inset-bottom, 0px) + 24px); border-radius: 22px 22px 0 0;
@@ -1011,8 +1012,9 @@
     font: inherit; font-size: clamp(11.5px, 3.4vw, 13.5px); font-weight: 800; color: rgba(255,255,255,.5);
     background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.14);
   }
+  .plain-bar.many .lay { font-size: clamp(10px, 3.05vw, 13.5px); padding-left: 1px; padding-right: 1px; }   /* six buttons (ES·TL as well): "Hebrew" still fits a 320px phone */
   .lay.on { color: #fff; background: rgba(255,255,255,.1); border-color: var(--dot); box-shadow: inset 0 -3px 0 var(--dot); }
-  .lay-kjv { --dot: #fff; } .lay-plain { --dot: #58cc02; } .lay-bsb { --dot: #60a5fa; } .lay-notes { --dot: #fbbf24; } .lay-orig { --dot: #c084fc; }
+  .lay-kjv { --dot: #fff; } .lay-plain { --dot: #58cc02; } .lay-bsb { --dot: #60a5fa; } .lay-lang { --dot: #fb923c; } .lay-notes { --dot: #fbbf24; } .lay-orig { --dot: #c084fc; }
   .plain-draft { flex-basis: 100%; font-size: 12px; font-weight: 800; color: #fbbf24; }
   /* They stay at the top while he reads, so a hard verse can be switched on the
      spot: in the day's reading, and in a chapter opened over the page, under a
@@ -2282,7 +2284,7 @@ const TreasureUp = (function () {
     $('view').hidden = false;
     $('view').scrollTop = 0;
     const box = $('viewBody').querySelector('.ls-chapter');
-    if (box) { needBsb(box); needOrig(box); resumeAt(box, ch); }
+    if (box) { needTrans(box); needOrig(box); resumeAt(box, ch); }
   }
   // The chapters before and after, across books.
   function libNavHtml(ch) {
@@ -2441,7 +2443,7 @@ const TreasureUp = (function () {
       <button class="btn" data-mark-lesson="${esc(key)}">Mark it read in its lesson ›</button></div>` : '');
     $('view').hidden = false;
     const box = $('viewBody').querySelector('.ls-chapter');
-    needBsb(box); needOrig(box);
+    needTrans(box); needOrig(box);
     resumeAt(box, u.ref);
   }
 
@@ -2708,6 +2710,11 @@ const TreasureUp = (function () {
   // approved them in developer mode, and the test site shows drafts too,
   // marked, so he can read them there. The BSB is the published translation
   // word for word (content/bsb.js, built at deploy), loaded when first on.
+  // ES·TL (Blake, 2026-10-03: "Using the Spanish and Tagalog bible sounds
+  // great where we can!") is the Spanish Reina-Valera 1909 or the Tagalog
+  // 1905 Ang Biblia, both public domain, each verse under the KJV verse it
+  // translates (tools/import-bibles.mjs): a tap turns on the Spanish, the
+  // next the Tagalog, the next neither. Built and loaded like the BSB.
   const LAYERS_KEY = NS + 'layers';
   const TEST_SITE = /\/TreasureUp-test\//.test(location.pathname);
   // On the test site, every screen says so: an orange frame with a tab, and
@@ -2722,15 +2729,16 @@ const TreasureUp = (function () {
   }
   const testNoteHtml = () => `<div class="test-note">🧪 <b>Test site.</b> Its progress and family are kept apart from the live app's.
     <a href="${esc(location.origin + '/TreasureUp/')}">Open the live app ›</a></div>`;
-  const LAYERS = [['kjv', 'KJV'], ['plain', 'Plain'], ['bsb', 'BSB'], ['notes', 'Notes'], ['orig', 'Hebrew']];
+  const LAYERS = [['kjv', 'KJV'], ['plain', 'Plain'], ['bsb', 'BSB'], ['lang', 'ES·TL'], ['notes', 'Notes'], ['orig', 'Hebrew']];
   const LAYER_NAMES = { kjv: 'King James Version', plain: 'Plain words', bsb: 'Berean Standard Bible', notes: 'Notes' };
+  const LANGS = { es: { label: 'ES', name: 'Spanish', full: 'Reina-Valera 1909', next: 'tl' }, tl: { label: 'TL', name: 'Tagalog', full: 'Ang Biblia 1905', next: '' } };
   const layers = (() => {
     try {
       const saved = JSON.parse(localStorage.getItem(LAYERS_KEY));
-      if (saved && typeof saved === 'object') return { kjv: !!saved.kjv, plain: !!saved.plain, bsb: !!saved.bsb, notes: !!saved.notes, orig: !!saved.orig };
+      if (saved && typeof saved === 'object') return { kjv: !!saved.kjv, plain: !!saved.plain, bsb: !!saved.bsb, lang: LANGS[saved.lang] ? saved.lang : '', notes: !!saved.notes, orig: !!saved.orig };
       const plain = localStorage.getItem(NS + 'plain') === '1';          // the one switch these replaced
-      return { kjv: true, plain, bsb: false, notes: plain, orig: false };
-    } catch (e) { return { kjv: true, plain: false, bsb: false, notes: false, orig: false }; }
+      return { kjv: true, plain, bsb: false, lang: '', notes: plain, orig: false };
+    } catch (e) { return { kjv: true, plain: false, bsb: false, lang: '', notes: false, orig: false }; }
   })();
   function plainOf(week, ch) {
     const p = ((week && week.plain) || []).find(x => x.ch === ch);
@@ -2831,15 +2839,19 @@ const TreasureUp = (function () {
     const at = (S.readPos || {})[ref];
     if (at && at.v > 1 && !S.read[ref]) scrollToVerse(box, at.v, false);
   }
-  // The BSB has the Bible's chapters: this week's and last week's in
-  // content/bsb.js, a week moved to content/past/ in its own bsb-<num>.js.
+  // The BSB, the Spanish and the Tagalog have the Bible's chapters: this
+  // week's and last week's in content/bsb.js (es.js, tl.js), a week moved to
+  // content/past/ in its own bsb-<num>.js (es-, tl-), a chapter of the
+  // Scriptures tab in its own file with the KJV (b, es, tl).
   const isBible = ch => /^(ot|nt)\//.test(BOOK_PATHS[(/^(.+) \d+$/.exec(ch) || [])[1]] || '');
   const pastNumOf = week => past && past.week === week && !past.p.week ? past.p.num : null;
-  const bsbSrcOf = week => pastNumOf(week) != null ? 'content/past/bsb-' + pastNumOf(week) + '.js' : 'content/bsb.js';
-  function bsbOf(week, ch) {
-    const num = pastNumOf(week), map = num != null ? (window.TU_PAST_BSB || {})[num] : window.TU_BSB;
-    return (map && map[ch]) || ((window.TU_LIB || {})[ch] || {}).b;
+  const TRANS = { bsb: ['TU_BSB', 'TU_PAST_BSB', 'b'], es: ['TU_ES', 'TU_PAST_ES', 'es'], tl: ['TU_TL', 'TU_PAST_TL', 'tl'] };
+  const transSrcOf = (key, week) => pastNumOf(week) != null ? `content/past/${key}-${pastNumOf(week)}.js` : `content/${key}.js`;
+  function transOf(key, week, ch) {
+    const [g, pg, lib] = TRANS[key], num = pastNumOf(week), map = num != null ? (window[pg] || {})[num] : window[g];
+    return (map && map[ch]) || ((window.TU_LIB || {})[ch] || {})[lib];
   }
+  const bsbOf = (week, ch) => transOf('bsb', week, ch);
   const bsbLoads = {};
   const loadBsb = src => bsbLoads[src] || (bsbLoads[src] = loadScript(src).catch(e => { delete bsbLoads[src]; throw e; }));
   // The Hebrew (Old Testament) or Greek (New) behind a chapter, word by word:
@@ -2911,35 +2923,43 @@ const TreasureUp = (function () {
   // KJV when none of the texts on is there for this chapter.
   function haveOf(u, week) {
     const x = plainOf(week, u.ch);
-    return { kjv: true, plain: !!x, bsb: isBible(u.ch), notes: !!(x && (x.p.notes || []).length), orig: !!origLang(u.ch) };
+    return { kjv: true, plain: !!x, bsb: isBible(u.ch), lang: isBible(u.ch), notes: !!(x && (x.p.notes || []).length), orig: !!origLang(u.ch) };
   }
-  const layersFor = have => ({ kjv: layers.kjv, plain: layers.plain && have.plain, bsb: layers.bsb && have.bsb, notes: layers.notes && have.notes, orig: layers.orig && have.orig });
+  const layersFor = have => ({ kjv: layers.kjv, plain: layers.plain && have.plain, bsb: layers.bsb && have.bsb, lang: have.lang ? layers.lang : '', notes: layers.notes && have.notes, orig: layers.orig && have.orig });
+  const textsOn = on => on.kjv || on.plain || on.bsb || !!on.lang;
   function shownLayers(have) {
     const on = layersFor(have);
-    if (!on.kjv && !on.plain && !on.bsb) on.kjv = true;
+    if (!textsOn(on)) on.kjv = true;
     return on;
   }
   function layersBarHtml(u, week) {
     const x = plainOf(week, u.ch), have = haveOf(u, week), on = shownLayers(have);
     const btns = LAYERS.filter(([k]) => have[k]);
-    return btns.length < 2 ? '' : '<div class="plain-bar">' +
-      btns.map(([k, label]) => { const name = k === 'orig' ? (origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew') : label;
+    return btns.length < 2 ? '' : `<div class="plain-bar${btns.length > 5 ? ' many' : ''}">` +
+      btns.map(([k, label]) => {
+        if (k === 'lang') {     // ES·TL: which language is on, and what a tap does next
+          const l = LANGS[on.lang], next = l ? LANGS[l.next] : LANGS.es;
+          return `<button class="lay lay-lang${l ? ' on' : ''}" data-layer="lang" aria-pressed="${!!l}" aria-label="${l ? `${l.name} (${l.full}) on` : 'Spanish or Tagalog'}. Tap for ${next ? next.name : 'neither'}">${l ? l.label : label}</button>`;
+        }
+        const name = k === 'orig' ? (origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew') : label;
         return `<button class="lay lay-${k}${on[k] ? ' on' : ''}" data-layer="${k}" aria-pressed="${on[k]}" aria-label="${LAYER_NAMES[k] || name}">${name}</button>`; }).join('') +
       (x && x.draft ? '<span class="plain-draft">Draft: not approved yet</span>' : '') + '</div>';
   }
   function versesHtml(u, week) {
-    const x = plainOf(week, u.ch), on = shownLayers(haveOf(u, week)), bsb = on.bsb && bsbOf(week, u.ch);
+    const x = plainOf(week, u.ch), on = shownLayers(haveOf(u, week)), bsb = on.bsb && bsbOf(week, u.ch), lang = on.lang && transOf(on.lang, week, u.ch);
     return u.verses.map(v => {
       const lines = [];
-      if (on.kjv || (!on.plain && !bsb)) lines.push(['ls-v', v.t]);          // the BSB not in yet: the KJV meanwhile
       if (on.plain && x.p.verses[v.n - 1]) lines.push(['ls-plain', x.p.verses[v.n - 1]]);
       if (bsb && bsb[v.n - 1]) lines.push(['ls-bsb', bsb[v.n - 1]]);
+      if (lang && lang[v.n - 1]) lines.push(['ls-lang', lang[v.n - 1], on.lang]);
+      if (on.kjv || !lines.length) lines.unshift(['ls-v', v.t]);          // a text not in yet, or without this verse: the KJV
       const notes = on.notes ? (x.p.notes || []).filter(n => n.v === v.n) : [];
       return `<div class="ls-vv" data-v="${v.n}">` +
-        lines.map(([c, t], i) => `<p class="${c}${i ? '' : ' lead'}">${i ? '' : `<sup>${v.n}</sup>`}${esc(t)}</p>`).join('') +
+        lines.map(([c, t, l], i) => `<p class="${c}${i ? '' : ' lead'}"${l ? ` lang="${l}"` : ''}>${i ? '' : `<sup>${v.n}</sup>`}${esc(t)}</p>`).join('') +
         (on.orig ? origHtml(u.ch, v.n) : '') +
         notes.map(n => `<p class="ls-note"><b>Note:</b> ${linkRefs(n.text, u.ch + ':' + v.n)}</p>`).join('') + '</div>';
     }).join('') + `<p class="ls-ch-end">End of ${esc(u.ref)}</p>` +
+      (lang ? `<p class="ls-orig-credit">${LANGS[on.lang].name}: ${LANGS[on.lang].full} (public domain)</p>` : '') +
       (on.orig && origOf(u.ch) ? `<p class="ls-orig-credit">${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew'} words: STEPBible.org, from work at Tyndale House, Cambridge (CC BY 4.0)</p>` : '');
   }
   // The chapter open in the day's lesson or in Past weeks.
@@ -2965,11 +2985,13 @@ const TreasureUp = (function () {
     const now = at && list.querySelector(`.ls-vv[data-v="${at.dataset.v}"]`);
     if (now) scroller.scrollTop += now.getBoundingClientRect().top - was;
   }
-  // With the BSB on, its chapters load the first time they're needed.
-  function needBsb(box) {
+  // With the BSB, the Spanish or the Tagalog on, its chapters load the first time they're needed.
+  function needTrans(box) {
     const ctx = box && chapterCtx(box);
-    if (!ctx || !layers.bsb || !isBible(ctx.u.ch) || bsbOf(ctx.week, ctx.u.ch)) return;
-    loadBsb(bsbSrcOf(ctx.week)).then(() => { if (box.isConnected) redrawChapter(box); }).catch(() => {});
+    if (!ctx || !isBible(ctx.u.ch)) return;
+    for (const key of [layers.bsb && 'bsb', layers.lang].filter(Boolean)) {
+      if (!transOf(key, ctx.week, ctx.u.ch)) loadBsb(transSrcOf(key, ctx.week)).then(() => { if (box.isConnected) redrawChapter(box); }).catch(() => {});
+    }
   }
   // With the Hebrew or Greek on, a chapter's words load the first time they're needed.
   const origLoads = {};
@@ -2985,12 +3007,13 @@ const TreasureUp = (function () {
     const box = btn.closest('.ls-chapter'), ctx = box && chapterCtx(box);
     if (!ctx) return;
     const k = btn.dataset.layer, have = haveOf(ctx.u, ctx.week);
-    layers[k] = !shownLayers(have)[k];
-    const now = layersFor(have);
-    if (!now.kjv && !now.plain && !now.bsb) layers[k] = true;
+    if (k === 'lang') layers.lang = (LANGS[shownLayers(have).lang] || { next: 'es' }).next;
+    else layers[k] = !shownLayers(have)[k];
+    // The last text on stays on; turning the Spanish or Tagalog off then brings back the KJV.
+    if (!textsOn(layersFor(have))) { if (k === 'lang') layers.kjv = true; else layers[k] = true; }
     try { localStorage.setItem(LAYERS_KEY, JSON.stringify(layers)); } catch (e) {}
     redrawChapter(box);
-    needBsb(box);
+    needTrans(box);
     needOrig(box);
   }
   // Without a reading plan, a section a day as before.
@@ -4662,7 +4685,7 @@ const TreasureUp = (function () {
     $('view').classList.toggle('reading', !!u);
     $('viewBody').innerHTML = html;
     $('view').hidden = false;
-    if (u) { const box = $('viewBody').querySelector('.ls-chapter'); needBsb(box); needOrig(box); if (!lateRead(u.ref)) resumeAt(box, u.ref); }
+    if (u) { const box = $('viewBody').querySelector('.ls-chapter'); needTrans(box); needOrig(box); if (!lateRead(u.ref)) resumeAt(box, u.ref); }
   }
   // One question of a past week, with his try `t` (pastTry). Answered: the
   // right answer and his pick, read-only, and when that was. Not yet: he
@@ -10017,7 +10040,7 @@ const TreasureUp = (function () {
     body.innerHTML = html;
     body.scrollTop = 0;
     if (step.kind === 'chapter') {
-      needBsb(body.querySelector('.ls-chapter')); needOrig(body.querySelector('.ls-chapter'));
+      needTrans(body.querySelector('.ls-chapter')); needOrig(body.querySelector('.ls-chapter'));
       if (!step.resumed) { step.resumed = true; resumeAt(body.querySelector('.ls-chapter'), step.u.ref); }
     }
 

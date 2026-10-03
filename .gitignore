@@ -6,6 +6,10 @@ content/reading.js
 content/past/reading-*.js
 content/bsb.js
 content/past/bsb-*.js
+content/es.js
+content/past/es-*.js
+content/tl.js
+content/past/tl-*.js
 content/original/
 content/audio.js
 content/words/

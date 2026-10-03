@@ -1158,6 +1158,39 @@ let bsbChapters = 0;
   }
 }
 
+// The ES·TL button in the reader (the Spanish Reina-Valera 1909 and the
+// Tagalog 1905 Ang Biblia, built by tools/build-reading.mjs at deploy from
+// the files tools/import-bibles.mjs made): each says it's public domain,
+// every verse is a verse of the KJV, and every Bible chapter of every week's
+// reading is there. The Tagalog has every verse; the Spanish leaves out the
+// few the import couldn't be sure of (the reader shows the KJV there), which
+// is a note for that week, not a failure.
+const langChapters = { es: 0, tl: 0 }, langNotes = [];
+for (const [key, file, name, pd, whole] of [['es', 'rv1909.txt.gz', 'Reina-Valera 1909', /Reina-Valera 1909\. Public domain\./, false],
+  ['tl', 'tagalog1905.txt.gz', 'Ang Biblia 1905', /1905\. Public domain/, true]]) {
+  const f = path.join(ROOT, 'tools', file);
+  if (!fs.existsSync(f)) { failures.push(`tools/${file} is missing: the reader’s ${name} comes from it (node tools/import-bibles.mjs)`); continue; }
+  const text = zlib.gunzipSync(fs.readFileSync(f)).toString('utf8');
+  if (!pd.test(text.slice(0, 400))) failures.push(`tools/${file} must start with its public-domain header (node tools/import-bibles.mjs)`);
+  const have = new Set();
+  for (const m of text.matchAll(/^(.+) (\d+):(\d+)\t/gm)) {
+    if (!scripture.verses.has(`${m[1]} ${m[2]}:${m[3]}`)) failures.push(`tools/${file}: ${m[1]} ${m[2]}:${m[3]} isn’t a verse of the KJV`);
+    have.add(`${m[1]} ${m[2]}:${m[3]}`);
+  }
+  for (const w of weeks) {
+    for (const ch of blockChapters(w.reference, scripture.verses) || []) {
+      if (!langOf(ch)) continue;                      // the Book of Mormon and the rest: the KJV only
+      const [, book, c] = /^(.+) (\d+)$/.exec(ch), b = BOOK_ALIAS[book] || book;
+      const missing = [];
+      for (let v = 1; scripture.verses.has(`${b} ${c}:${v}`); v++) if (!have.has(`${b} ${c}:${v}`)) missing.push(v);
+      if (!missing.length) langChapters[key]++;
+      else if (whole || missing.length > 3) failures.push(`${w.title}: the ${name} has no ${ch}:${missing.join(', ')}`);
+      else { langChapters[key]++; langNotes.push(`${w.title}: the ${name} has no ${ch}:${missing.join(', ')} (the reader shows the KJV there)`); }
+    }
+  }
+}
+for (const n of langNotes) console.log('ℹ', n);
+
 // The Hebrew and Greek button in the reader (tools/original.mjs, built by
 // tools/build-reading.mjs at deploy): every Bible chapter of every week's
 // reading has every one of its KJV verses, word by word.
@@ -1226,6 +1259,7 @@ for (const week of weeks) {
     (extras.length ? `, plus ${extras.join(' and ')}` : ''));
 }
 if (bsbChapters) console.log(`✓ BSB: the ${bsbChapters} Bible chapters of the reading, verse for verse with the KJV`);
+if (langChapters.es || langChapters.tl) console.log(`✓ ES·TL: the ${langChapters.es} Bible chapters of the reading in Spanish (Reina-Valera 1909), the ${langChapters.tl} in Tagalog (Ang Biblia 1905), each verse under its KJV verse`);
 if (origChapters) console.log(`✓ Hebrew and Greek: the ${origChapters} Bible chapters of the reading, every KJV verse word by word (STEPBible.org, Tyndale House)`);
 if (boards.length) console.log(`✓ ${boards.map(b => `${b.title}: ${b.lands.length} lands, ${b.links.length} borders, ${b.kingdoms.length} kingdoms`).join('; ')}`);
 if (online) {
