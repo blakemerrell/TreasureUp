@@ -1290,6 +1290,20 @@
     background: rgba(196,181,253,.1); border: 1px solid rgba(196,181,253,.35); }
   .ins-src span { display: block; font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #c4b5fd; }
   .ins-src b { display: block; margin-top: 3px; font-size: 14.5px; line-height: 1.3; }
+  /* Sunday classes on Sunday's card, and a talk a day */
+  .sun-box { margin-top: 12px; padding: 12px; border-radius: 16px; background: rgba(250,204,21,.06); border: 1px solid rgba(250,204,21,.22); }
+  .sun-h { font-size: 11.5px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .sun-box .ls-start { margin-top: 6px; }
+  .sun-link { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 6px; padding: 10px 12px; border-radius: 12px; color: #fff; text-decoration: none; background: rgba(255,255,255,.05); font-weight: 800; }
+  .sun-link small, .sun-talk small, .talk-day small { display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.6); }
+  .sun-talk { margin-top: 6px; }
+  .sun-talk .dc-row { margin: 0; }
+  .sun-talk em { font-style: normal; font-weight: 700; font-size: 12px; color: rgba(255,255,255,.55); }
+  .sun-pick { display: block; margin: 4px 0 0 auto; font-size: 13px; }
+  .talk-h { margin-top: 16px; font-size: 11.5px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #c4b5fd; }
+  .talk-list { margin: 6px 0 0; padding-left: 20px; list-style: disc; font-size: 15.5px; line-height: 1.5; color: rgba(255,255,255,.88); }
+  .talk-list li { margin-top: 4px; }
+  .talk-refs { margin-top: 6px; font-size: 15px; line-height: 1.6; }
   /* A card's deep dive, folded under it: for a grown-up who wants the point at length */
   .ins-deep { margin-top: 14px; border-radius: 14px; background: rgba(56,189,248,.07); border: 1px solid rgba(56,189,248,.28); }
   .ins-deep summary { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 12px 14px; cursor: pointer; list-style: none; font-weight: 900; color: #7dd3fc; }
@@ -1673,6 +1687,9 @@ const TreasureUp = (function () {
                      // opened it, the time until "I read it", whether he said yes to "Did you read all of it?"
     found: {},       // Find it in the chapter: reelId -> { right, day }  first try
     insights: {},    // insight cards he has read (Go further): id -> the day; kept across weeks
+    sunday: {},      // the youth's Sunday lessons: cardId -> { right, picked, day, xp }  first try; kept across weeks
+    talks: {},       // conference talks studied: talkId -> { day, xp }; kept across weeks
+    picks: {},       // each Sunday's talks for elders quorum and Relief Society: "2026-10-11" -> { eq, rs } (the family's, mirrored)
     readPos: {},     // where he was in a chapter not read yet: ref -> { v: first verse showing, at }
     weekChapters: 0  // how many chapters this week's reading has, for the year's count
   });
@@ -1721,7 +1738,8 @@ const TreasureUp = (function () {
   // own saved progress (so it reaches the family with it, where parents can
   // read it), the last 60 days kept. Nothing else is recorded.
   const USE_NAMES = { 'tab:study': 'Study tab', 'tab:scriptures': 'Scriptures tab', 'tab:family': 'Family tab', lesson: 'Lessons',
-    chapter: 'Chapters opened', library: 'Scripture chapters', card: 'Cards', word: 'Word studies', listen: 'Listen' };
+    chapter: 'Chapters opened', library: 'Scripture chapters', card: 'Cards', word: 'Word studies', listen: 'Listen',
+    sunday: 'Sunday lessons', talk: 'Conference talks' };
   function use(key) {
     if (!S) return;
     const u = S.usage || (S.usage = {}), d = dayKey(), day = u[d] || (u[d] = {});
@@ -2163,8 +2181,9 @@ const TreasureUp = (function () {
     let html = `<div class="day-card${isToday ? ' now' : ''}">${dcTitle(k, tag)}<div class="dc-week">${esc(WEEK.title)}</div>`;
     if (d === 6) {
       return html + `<div class="dc-head">Church, then a family game</div>
-        <p class="dc-note">Keep the day: answer a question, or play a family game.</p>
-        <button class="board-link ls-start" data-games>🎮 Family games</button>${isToday ? todayStartHtml() : ''}</div>`;
+        <p class="dc-note">Keep the day: answer a question, ${((youthMonth(k) || {}).lessons || []).some(l => l.sunday === k && sunShow(l)) ? 'do the Sunday class’s lesson, ' : ''}or play a family game.</p>
+        ${sundayHtml(k)}
+        <button class="board-link ls-start" data-games>🎮 Family games</button>${isToday ? todayStartHtml() : ''}${talkDayHtml(k)}</div>`;
     }
     if (units.length) html += `<div class="dc-chips">${units.map(u => chipHtml(u.ref, !!S.read[u.ref], `data-chapter="${esc(u.ref)}"`)).join('')}</div>`;
     if (isToday) html += todayStartHtml();
@@ -2184,7 +2203,7 @@ const TreasureUp = (function () {
       .concat(dayDeep(d).map(x => { const a = S.deep[x.id];
         return `<button class="dc-row${a ? (a.right ? ' is-right' : ' is-wrong') : ''}" ${a ? `data-view="deep-${esc(x.id)}"` : at >= 0 ? `data-lesson="${d}.${at}"` : ''}><span class="st">${a ? (a.right ? '✓' : '✕') : ''}</span><span>🧭 Read ${esc(x.read)}</span><span class="go">›</span></button>`; }));
     if (rows.length) html += `<div class="dc-rows">${rows.join('')}</div>`;
-    return html + moreHtml(d) + '</div>';
+    return html + talkDayHtml(k) + moreHtml(d) + '</div>';
   }
   // Today's button: the next part of today's lesson (catching up first), as before.
   function todayStartHtml() {
@@ -2259,9 +2278,10 @@ const TreasureUp = (function () {
   // and opening it marks it read (✓).
   let studyKind = 'all';
   function studyHtml() {
-    const kinds = [['all', 'All'], ['deep', 'Deep dives'], ['insight', 'Insights'], ['quote', 'Quotes'], ['video', 'Videos']]
-      .filter(([k]) => k !== 'deep' || insightsOf(WEEK).some(i => hasDeep(i.x)));       // Deep dives once the week has one
-    const days = DAY_NAMES.slice(0, 6).map((name, d) => {
+    const sun = sundayStudyHtml();
+    const kinds = [['all', 'All'], ['deep', 'Deep dives'], ['insight', 'Insights'], ['quote', 'Quotes'], ['video', 'Videos'], ['sunday', 'Sunday']]
+      .filter(([k]) => (k !== 'deep' || insightsOf(WEEK).some(i => hasDeep(i.x))) && (k !== 'sunday' || sun));   // Deep dives once the week has one; Sunday once there's Sunday study
+    const days = studyKind === 'sunday' ? '' : DAY_NAMES.slice(0, 6).map((name, d) => {
       const cards = dayInsights(d).filter(i => studyKind === 'all' || (studyKind === 'deep' ? hasDeep(i.x) : (i.x.kind || 'insight') === studyKind));
       return cards.length ? `<div class="st-day"><div class="eyebrow">${name} · ${esc(unitsLabel(readingPlan()[d]) || '')}</div>${cards.map(i => cardRowHtml(i)).join('')}</div>` : '';
     }).join('');
@@ -2270,7 +2290,7 @@ const TreasureUp = (function () {
       <h1 class="reel-hook" style="font-size:26px">${esc(WEEK.title)}</h1>
       <p class="lb-help">${n ? `${read} of ${n} cards read. The best of each day are in Today too.` : 'This week has no cards yet.'}</p>
       <div class="st-kinds">${kinds.map(([k, l]) => `<button class="sh-pill${studyKind === k ? ' on' : ''}" data-study-kind="${k}">${l}</button>`).join('')}</div>
-      ${days || (n ? '<p class="lb-help">None of that kind this week.</p>' : '')}`;
+      ${studyKind === 'sunday' ? sun : (days || (n ? '<p class="lb-help">None of that kind this week.</p>' : '')) + (studyKind === 'all' ? sun : '')}`;
   }
   // A card's deep dive (Blake, 2026-10-03: "Longer adult level deep dive
   // would be great! … the quick learn, or the deep dive … With the
@@ -2301,6 +2321,134 @@ const TreasureUp = (function () {
       : `<div class="sh-title">${esc(x.title)}</div><p class="reel-body" style="margin-top:8px">${linkRefs(x.text, x.ref)}</p>${diveHtml(x)}${src}`;
     openSheet(`<div class="ls-kind">${{ quote: '💬 Quote', video: '🎬 Video' }[x.kind] || '💡 Insight'} · ${linkRefs(x.ref)}</div>${draft}${body}`);
     if (!(S.insights || {})[x.id]) { (S.insights = S.insights || {})[x.id] = dayKey(); save(); }
+  }
+  // Sunday classes (content/sunday.js; Blake, 2026-10-03: "We need to
+  // incorporate sunday lesson study as well.... Javan needs to study YM
+  // lessons, and Chantel and I the conference talks"). Since September 6,
+  // 2026 every class meets each Sunday: the youth learn from For the Strength
+  // of Youth, a chapter a month, and elders quorum and Relief Society from the
+  // most recent general conference. Everyone sees all of it (Blake's choice):
+  // on Sunday's card, the youth's mini-lesson for that Sunday and the two
+  // classes' talks; on every day's card, a talk a day through the conference;
+  // in Study, all of it. Our own words show once Blake approves them, like the
+  // cards (the test site shows drafts); a talk's title, speaker, its own words
+  // (`quotes`, found on its page word for word) and its scriptures show
+  // without approval, as a Gospel Library quote card does.
+  const TALK_XP = 20;
+  const SUN = () => window.TU_SUNDAY || {};
+  const sunApproved = x => !!x && !!x.approved && x.approved === approvalHash(noApproval(x));
+  const sunShow = x => sunApproved(x) || TEST_SITE;
+  const curConf = () => (SUN().conference || []).filter(c => c && Array.isArray(c.talks) && c.talks.length).sort((a, b) => a.id.localeCompare(b.id)).pop() || null;
+  const talkById = id => { const c = curConf(); return (id && c && c.talks.find(t => t.id === id)) || null; };
+  const youthMonth = k => (SUN().youth || []).find(m => m && k.startsWith(m.month)) || null;
+  function sunLessonById(id) {
+    for (const m of SUN().youth || []) for (const l of m.lessons || []) if (l.id === id && sunShow(l)) return { m, l };
+    return null;
+  }
+  const sunCards = l => (l && Array.isArray(l.cards) ? l.cards : []);
+  const sunDone = l => sunCards(l).filter(c => (S.sunday || {})[c.id]).length;
+  // The Sunday on or before a day, and the one after.
+  const sundayOf = k => dayAdd(k, -new Date(k + 'T12:00:00').getDay());
+  const sundaysAround = () => { const s0 = sundayOf(dayKey()); return [s0, dayAdd(s0, 7)]; };
+  // A Sunday's two talks: the family's pick (or this phone's), else a suggestion,
+  // the first talk in the conference no Sunday has had yet.
+  const pickOf = k => Object.assign({ eq: '', rs: '' }, (S.picks || {})[k]);
+  function suggestTalk(k, slot) {
+    const c = curConf(), used = new Set(Object.entries(S.picks || {}).filter(([d]) => d !== k).flatMap(([, p]) => [p.eq, p.rs]));
+    const other = pickOf(k)[slot === 'eq' ? 'rs' : 'eq'];
+    const left = c.talks.filter(t => !used.has(t.id) && t.id !== other);
+    return (slot === 'rs' && !other ? left[1] : left[0]) || left[0] || c.talks[0];
+  }
+  function sundayHtml(k) {
+    const m = youthMonth(k), c = curConf();
+    if (!m && !c) return '';
+    let html = '<div class="sun-box"><div class="sun-h">Sunday classes</div>';
+    if (m) {
+      const l = (m.lessons || []).find(x => x.sunday === k && sunShow(x)), n = sunCards(l).length, done = sunDone(l);
+      html += l ? `<button class="board-link ls-start" data-sunlesson="${esc(l.id)}">▶ ${done === n ? 'Practice it again' : 'Youth: ' + esc(l.title)}<small>Aaronic Priesthood and Young Women · Chapter ${m.chapter}: ${esc(m.title)} · ${done === n ? '✓ done' : n + ' cards'}</small></button>`
+        : `<a class="sun-link" href="${esc(m.guide)}" target="_blank" rel="noopener noreferrer"><span>Youth · Chapter ${m.chapter}: ${esc(m.title)}<small>For the Strength of Youth, this month’s chapter</small></span><span>↗</span></a>`;
+    }
+    if (c) {
+      const p = pickOf(k);
+      for (const [slot, name] of [['eq', 'Elders quorum'], ['rs', 'Relief Society']]) {
+        const t = talkById(p[slot]), show = t || suggestTalk(k, slot);
+        if (!show) continue;
+        html += `<div class="sun-talk"><button class="dc-row" data-talk="${esc(show.id)}"><span class="st">${(S.talks || {})[show.id] ? '✓' : ''}</span>
+          <span><b>${name}</b>${t ? '' : ' <em>· suggested</em>'}<small>${esc(show.title)} · ${esc(show.speaker)}</small></span><span class="go">›</span></button>
+          <button class="fam-link sun-pick" data-talkpick="${slot}|${k}">${t ? 'Change' : 'Pick the talk'}</button></div>`;
+      }
+    }
+    return html + '</div>';
+  }
+  // The talk a day (Blake: "Both"): the conference's talks in order, one a
+  // day from the conference's `from`.
+  function talkDayHtml(k) {
+    const c = curConf(), i = c && c.from ? dayDiff(c.from, k) : -1, t = c && i >= 0 && c.talks[i];
+    if (!t) return '';
+    return `<button class="dc-row talk-day" data-talk="${esc(t.id)}"><span class="st">${(S.talks || {})[t.id] ? '✓' : ''}</span>
+      <span>🎤 Talk a day · ${i + 1} of ${c.talks.length}<small>${esc(t.title)} · ${esc(t.speaker)}</small></span><span class="go">›</span></button>`;
+  }
+  // A talk on its own: what it teaches, the speaker's own words, its
+  // scriptures (each a tap from the reader), questions to talk over, a deep
+  // dive, and the talk in Gospel Library to read, watch or listen to.
+  function openTalk(id) {
+    const c = curConf(), t = talkById(id);
+    if (!t) return;
+    use('talk');
+    const own = sunShow(t), draft = own && !sunApproved(t), seen = (S.talks || {})[t.id];
+    const list = (h, xs) => xs && xs.length ? `<div class="talk-h">${h}</div><ul class="talk-list">${xs.map(x => `<li>${linkRefs(x)}</li>`).join('')}</ul>` : '';
+    openSheet(`<div class="ls-kind">🎤 ${esc(c.title)} · ${esc(t.session)}</div>${draft ? '<p class="plain-draft">Draft: not approved yet</p>' : ''}
+      <div class="sh-title">${esc(t.title)}</div><p class="ins-who" style="margin-top:2px">${esc(t.speaker)}</p>
+      ${own && t.quick ? `<p class="reel-body" style="margin-top:10px">${linkRefs(t.quick)}</p>` : ''}
+      ${(t.quotes || []).map(q => `<blockquote class="ins-quote">“${esc(String(q).replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote>`).join('')}
+      ${own ? list('What it teaches', t.points) : ''}
+      ${(t.scriptures || []).length ? `<div class="talk-h">Scriptures it uses</div><p class="talk-refs">${t.scriptures.map(r => linkRefs(r)).join(' · ')}</p>` : ''}
+      ${own ? list('To talk over', t.discuss) : ''}
+      ${own && t.deep ? diveHtml({ deep: t.deep }) : ''}
+      <a class="ins-src" href="${esc(t.url)}" target="_blank" rel="noopener noreferrer"><span>Read, watch or listen</span> <b>${esc(t.title)} in Gospel Library ↗</b></a>
+      ${seen ? '<p class="fam-note" style="margin-top:14px">✓ Studied</p>' : `<div class="board-actions"><button class="btn" data-talkdone="${esc(t.id)}">✓ I studied this talk · +${TALK_XP} XP</button></div>`}`);
+  }
+  function markTalk(id) {
+    const t = talkById(id), T = S.talks || (S.talks = {});
+    if (!t || T[id]) return;
+    T[id] = { day: dayKey() };
+    payXp(T[id], TALK_XP, 'Studied a conference talk');
+    save();
+  }
+  // Picking a Sunday's talk for a class: kept with the family (any grown-up
+  // in it picks, everyone sees it; families/{fid}/talks/{sunday}), or on this
+  // phone outside a family.
+  function openTalkPick(slot, k) {
+    const c = curConf();
+    if (!c) return;
+    const cur = pickOf(k)[slot], sessions = [...new Set(c.talks.map(t => t.session))];
+    openSheet(`<div class="sh-title">${slot === 'eq' ? 'Elders quorum' : 'Relief Society'} · ${esc(shortDay(k))}</div>
+      <p class="sh-small">Pick the talk your class is doing. ${F && F.role !== 'kid' ? 'Everyone in the family sees it.' : 'It’s kept on this phone.'}</p>` +
+      sessions.map(sn => `<div class="eyebrow" style="margin-top:14px">${esc(sn)}</div>` + c.talks.filter(t => t.session === sn).map(t =>
+        `<button class="sh-row sh-go" data-setpick="${slot}|${k}|${esc(t.id)}"><span>${esc(t.title)}<small>${esc(t.speaker)}</small></span><span>${t.id === cur ? '✓' : '›'}</span></button>`).join('')).join('') +
+      (cur ? `<div class="board-actions"><button class="fam-link" data-setpick="${slot}|${k}|">Clear the pick</button></div>` : ''));
+  }
+  async function setPick(slot, k, id) {
+    const P = S.picks || (S.picks = {}), cur = pickOf(k);
+    cur[slot] = id;
+    P[k] = cur;
+    save();
+    refreshHome();
+    if (!F || !FIREBASE_CONFIG || F.pending || F.role === 'kid') return;
+    try { await famCol(F.fid, 'talks').doc(k).set({ eq: cur.eq, rs: cur.rs, by: F.uid, at: TS() }); }
+    catch (e) { toast('Kept on this phone', 'The family can’t see it yet: its database rules need the talks update (README, Family setup)'); }
+  }
+  // Study: the Sunday classes, all of it.
+  function sundayStudyHtml() {
+    const c = curConf(), m = youthMonth(dayKey()), lessons = m ? (m.lessons || []).filter(sunShow) : [];
+    if (!lessons.length && !c) return '';
+    const studied = c ? c.talks.filter(t => (S.talks || {})[t.id]).length : 0;
+    return `<div class="st-day"><div class="eyebrow">Sunday classes</div>` +
+      (m ? `<p class="lb-help" style="margin-top:6px">Youth · Chapter ${m.chapter}: ${esc(m.title)}</p>` : '') +
+      lessons.map(l => `<button class="card-row${sunDone(l) === sunCards(l).length ? ' seen' : ''}" data-sunlesson="${esc(l.id)}"><span class="cr-kind">${esc(shortDay(l.sunday))}</span><span class="cr-what">${esc(l.title)}</span><span class="cr-mark">${sunDone(l) === sunCards(l).length ? '✓' : ''}</span></button>`).join('') +
+      (c ? `<p class="lb-help" style="margin-top:12px">${esc(c.title)} · ${studied} of ${c.talks.length} talks studied</p>` +
+        c.talks.map(t => `<button class="card-row${(S.talks || {})[t.id] ? ' seen' : ''}" data-talk="${esc(t.id)}"><span class="cr-kind">Talk</span><span class="cr-what">${esc(t.title)}<small style="display:block;font-weight:600;opacity:.7">${esc(t.speaker)}</small></span><span class="cr-mark">${(S.talks || {})[t.id] ? '✓' : ''}</span></button>`).join('') : '') +
+      '</div>';
   }
   // Scriptures (Blake, 2026-10-02: "add another tab where we can see our
   // version of the scriptures. orgainzed by book, chapter, and verse"): the
@@ -2611,6 +2759,20 @@ const TreasureUp = (function () {
     S.answers[id] = { right, picked, day: dayKey() };
     markStudied();
     if (right) payXp(S.answers[id], XP.firstTry, 'Got it the first time');
+    save();
+    return true;
+  }
+  // A Sunday lesson's card: the first try only. Done on its Sunday, the
+  // whole lesson keeps the day, as the reading does on other days.
+  function recordSun(id, picked) {
+    let f = null;
+    for (const m of SUN().youth || []) for (const l of m.lessons || []) { const c = (l.cards || []).find(x => x.id === id); if (c) f = { l, c }; }
+    const A = S.sunday || (S.sunday = {});
+    if (!f || A[id]) return false;
+    const right = picked === f.c.right;
+    A[id] = { right, picked, day: dayKey() };
+    if (right) payXp(A[id], XP.firstTry, 'Got it the first time');
+    if (f.l.sunday === dayKey() && f.l.cards.every(c => A[c.id])) markStudied(true);
     save();
     return true;
   }
@@ -3196,6 +3358,7 @@ const TreasureUp = (function () {
     if (e.kind === 'further') return furtherItems(e.d);
     if (e.kind === 'friday') return fridayItems().map(d => ({ card: 'deep-' + d.id, done: !!S.deep[d.id] }));
     if (e.kind === 'puzzle') return [{ card: 'puzzle', done: !!S.puzzle && S.puzzle.week === WEEK.title && S.puzzle.status === 'won' }];
+    if (e.kind === 'sunday') return sunCards(e.l).map(c => ({ card: 'sun-' + c.id, done: !!(S.sunday || {})[c.id] }));
     return [];
   }
   // A day's Go further (Blake, 2026-10-01: the extra content shouldn't be
@@ -3222,7 +3385,7 @@ const TreasureUp = (function () {
   const entryName = e => e.kind === 'day' ? dayName(e.d)
     : e.kind === 'further' ? 'Go further · ' + dayName(e.d)
     : e.kind === 'friday' ? "Deep dive: the children's lesson and a magazine piece"
-    : e.kind === 'puzzle' ? 'The weekly puzzle' : 'Church, then a family game';
+    : e.kind === 'puzzle' ? 'The weekly puzzle' : e.kind === 'sunday' ? 'Sunday: ' + e.l.title : 'Church, then a family game';
   // A day of the plan by its reading ("Read Isaiah 40–41"), or, with no
   // reading that day, by its reels' section.
   function dayName(d) {
@@ -8853,6 +9016,8 @@ const TreasureUp = (function () {
     for (const k in L.bonus || {}) if (!has(B.bonus, k) && has(R.bonus, k) && L.bonus[k].right) gained -= xpOf(L.bonus[k], XP.bonus);
     for (const k in L.deep || {}) if (!has(B.deep, k) && has(R.deep, k) && L.deep[k].right) gained -= xpOf(L.deep[k], XP.bonus);
     for (const k in L.found || {}) if (!has(B.found, k) && has(R.found, k) && L.found[k].right) gained -= xpOf(L.found[k], FIND_XP);
+    for (const k in L.sunday || {}) if (!has(B.sunday, k) && has(R.sunday, k) && L.sunday[k].right) gained -= xpOf(L.sunday[k], XP.firstTry);
+    for (const k in L.talks || {}) if (!has(B.talks, k) && has(R.talks, k)) gained -= xpOf(L.talks[k], TALK_XP);
     const paid = (o, k) => has(o, k) && !!o[k].xp;
     for (const k in L.readLog || {}) if (paid(L.readLog, k) && !paid(B.readLog, k) && paid(R.readLog, k)) gained -= xpOf(L.readLog[k], READ_XP);
     for (const k in L.notes || {}) {
@@ -8881,7 +9046,7 @@ const TreasureUp = (function () {
       }
     }
     M.xp = (R.xp || 0) + Math.max(0, gained);
-    for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found', 'insights']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
+    for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found', 'insights', 'sunday', 'talks', 'picks']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
     // The reading clock: a chapter finished on either device keeps its record.
     M.readLog = Object.assign({}, L.readLog || {}, R.readLog || {});
     for (const k in L.readLog || {}) if (L.readLog[k].day && !M.readLog[k].day) M.readLog[k] = L.readLog[k];
@@ -8989,6 +9154,13 @@ const TreasureUp = (function () {
     const h = famHome = { progress: [], goal: false, kids: {}, watching: {}, errors: [], feedback: [] };
     sendErrors = flushErrors; flushErrors();
     famHomeOff.push(famDoc(F.fid).onSnapshot(d => { h.goal = !!(d.exists && d.data().goal); famRedraw(); }, () => {}));
+    // This Sunday's and next Sunday's conference talks, as the family picked them.
+    for (const k of sundaysAround()) famHomeOff.push(famCol(F.fid, 'talks').doc(k).onSnapshot(d => {
+      if (!d.exists || !S) return;
+      const v = d.data(), now = { eq: v.eq || '', rs: v.rs || '' }, P = S.picks || (S.picks = {});
+      if (P[k] && P[k].eq === now.eq && P[k].rs === now.rs) return;
+      P[k] = now; saveLocal(); refreshHome();
+    }, () => {}));
     famHomeOff.push(famCol(F.fid, 'progress').onSnapshot(q => {
       h.progress = q.docs.map(d => Object.assign({ pid: d.id }, d.data()));
       // A parent reads each person's saved progress: a child's for its card, and everyone's for what gets used.
@@ -10005,11 +10177,11 @@ const TreasureUp = (function () {
 
   // A finished part plays again as practice: everything in it, nothing to earn.
   function buildLesson(entry) {
-    const steps = [], further = !!entry && entry.kind === 'further';
-    // The day's warm-up comes first, but not in Go further (extra, after the lesson).
-    if (!further) S.daily.ids.filter(id => !S.daily.done[id]).map(reelById).filter(Boolean).forEach(r => steps.push({
+    const steps = [], further = !!entry && entry.kind === 'further', sunday = !!entry && entry.kind === 'sunday';
+    // The day's warm-up comes first, but not in Go further (extra, after the lesson) or a Sunday class's lesson.
+    if (!further && !sunday) S.daily.ids.filter(id => !S.daily.done[id]).map(reelById).filter(Boolean).forEach(r => steps.push({
       kind: 'recall', id: r.id, r, home: r.verse.ref, q: r.question.q, right: r.question.right, why: r.question.why, choices: choicesFor(r.question, r.id + '|' + S.daily.day) }));
-    const x = !further && S.daily.say && !S.daily.sayDone && (WEEK.sayings || []).find(y => y.id === S.daily.say);
+    const x = !further && !sunday && S.daily.say && !S.daily.sayDone && (WEEK.sayings || []).find(y => y.id === S.daily.say);
     if (x) steps.push({ kind: 'saywarm', text: x.text, ref: x.ref, home: x.ref, right: x.speaker, why: x.why, choices: shuffled([x.speaker].concat(x.wrong), x.id + '|' + S.daily.day) });
     const practice = !!entry && entryItems(entry).every(i => i.done);
     if (entry && entry.kind === 'day') {
@@ -10037,20 +10209,31 @@ const TreasureUp = (function () {
       }));
       const r = open.find(y => !S.notes[y.id]);
       if (r) steps.push({ kind: 'note', r });
+    } else if (sunday) {
+      // The youth's Sunday class: what it's about and where to read it, then
+      // each card and its question.
+      steps.push({ kind: 'sunintro', l: entry.l, m: entry.m });
+      sunCards(entry.l).filter(c => practice || !(S.sunday || {})[c.id]).forEach(c => {
+        steps.push({ kind: 'sunread', c });
+        steps.push({ kind: 'sunq', id: c.id, q: c.q, right: c.right, why: c.why, choices: choicesFor(c, 'sun|' + c.id) });
+      });
     } else if (entry && entry.kind === 'friday') {
       fridayItems().filter(d => practice || !S.deep[d.id]).forEach(d => steps.push(deepStep(d)));
     } else if (entry && entry.kind === 'puzzle') steps.push({ kind: 'puzzle' });
     return { entry, practice, steps, at: 0, right: 0, scored: 0, start: Date.now(), xp0: S.xp, rewards: [], level: 0 };
   }
 
-  // `key` is a part of the week map ("day.part"), or '' for today's.
+  // `key` is a part of the week map ("day.part"), a Sunday class's lesson
+  // ("sun:<id>"), or '' for today's.
   function openLesson(key) {
     use('lesson');
-    const m = /^(\d)\.(\d+)$/.exec(key || '');
-    const plan = weekPlan();
+    const m = /^(\d)\.(\d+)$/.exec(key || ''), sun = /^sun:(.+)$/.exec(key || '');
+    const plan = weekPlan(), found = sun && sunLessonById(sun[1]);
+    if (sun && !found) return;
+    if (sun) use('sunday');
     // Today's: the next unfinished part; the warm-up alone if that's all
     // that's left; with nothing left, today's part again as practice.
-    const entry = m ? (plan[m[1]] || [])[m[2]]
+    const entry = found ? { kind: 'sunday', l: found.l, m: found.m } : m ? (plan[m[1]] || [])[m[2]]
       : lessonNow() || (warmupsLeft().length ? null : plan[todayIndex()].find(e => e.kind !== 'family')) || null;
     const L = buildLesson(entry || null);
     if (!L.steps.length && entry && entry.kind === 'further') { toast('Do the day’s lesson first', 'Its bonus questions open after its reels'); return; }
@@ -10086,14 +10269,16 @@ const TreasureUp = (function () {
     else if (step.kind === 'deep') recordDeep(step.id, picked);
     else if (step.kind === 'bonus') recordBonus(step.id, step.n, picked);
     else if (step.kind === 'find' && !step.practice) recordFind(step.id, ok);
+    else if (step.kind === 'sunq') recordSun(step.id, picked);
     return S.xp - before;
   }
 
   // "Right first time" on the last screen counts the questions, not the practice.
-  const SCORED = { recall: 1, saywarm: 1, reel: 1, deep: 1, find: 1, bonus: 1 };
+  const SCORED = { recall: 1, saywarm: 1, reel: 1, deep: 1, find: 1, bonus: 1, sunq: 1 };
   const LESSON_KIND = { recall: 'Warm-up · remember this?', saywarm: 'Warm-up · who said it?', reel: 'Choose the right answer',
     blank: 'Fill in the missing word', find: 'Find it in the chapter', match: 'Match each idea to its verse', say: 'Who said it?', deep: 'Go deeper',
-    insight: '💡 Insight', bonus: 'Bonus · find it in the reading · +' + XP.bonus + ' XP', note: 'Write a note · +' + NOTE_XP + ' XP' };
+    insight: '💡 Insight', bonus: 'Bonus · find it in the reading · +' + XP.bonus + ' XP', note: 'Write a note · +' + NOTE_XP + ' XP',
+    sunintro: 'Sunday class · For the Strength of Youth', sunread: 'Read', sunq: 'Choose the right answer' };
 
   function renderLesson() {
     if (!lesson) return;
@@ -10139,7 +10324,14 @@ const TreasureUp = (function () {
         <div class="ls-prompt">${linkRefs(r.hook, r.verse.ref)}</div><p class="reel-body">${linkRefs(r.body, r.verse.ref)}</p>
         ${r.media && r.media.video && (r.media.video.previewed === true || window.TU_NO_EMBED) ? clipHtml(r.media.video) : ''}
         <div class="ls-verse">“${esc(r.verse.text)}”<span class="ls-ref-row"><span class="ref">${linkRefs(r.verse.ref)}</span>${readLink(r.verse.ref) ? `<a href="${esc(readLink(r.verse.ref))}" target="_blank" rel="noopener noreferrer">read the chapter ↗</a>` : ''}</span></div></div>`;
-    } else if (step.kind === 'reel' || step.kind === 'recall') {
+    } else if (step.kind === 'sunintro') {
+      const l = step.l, m = step.m;
+      html += `<div class="ls-prompt">${esc(l.title)}</div><p class="ls-hint">Chapter ${m.chapter}: ${esc(m.title)} · ${esc(shortDay(l.sunday))}</p>
+        <p class="reel-body">${linkRefs(l.intro)}</p>
+        <a class="deep-open" href="${esc(l.read)}" target="_blank" rel="noopener noreferrer">Open the lesson in Gospel Library ↗</a>`;
+    } else if (step.kind === 'sunread') {
+      html += `<div class="ls-read"><div class="ls-prompt">${linkRefs(step.c.hook)}</div><p class="reel-body">${linkRefs(step.c.body)}</p></div>`;
+    } else if (step.kind === 'reel' || step.kind === 'recall' || step.kind === 'sunq') {
       html += `<div class="ls-prompt">${step.kind === 'recall' && !L.checked ? esc(step.q) : linkRefs(step.q, step.home)}</div>${step.kind === 'recall' && !step.retry ? '<p class="ls-hint">From earlier this week. No peeking.</p>' : ''}${opts()}`;
     } else if (step.kind === 'blank') {
       const fill = L.checked ? step.right : L.picked || '';
@@ -10216,7 +10408,7 @@ const TreasureUp = (function () {
 
     // The bottom: Continue, Check, or how it went.
     let footHtml;
-    if (step.kind === 'read' || step.kind === 'insight') footHtml = `<button class="ls-go" data-ls="next">Continue</button>`;
+    if (step.kind === 'read' || step.kind === 'insight' || step.kind === 'sunintro' || step.kind === 'sunread') footHtml = `<button class="ls-go" data-ls="next">Continue</button>`;
     else if (step.kind === 'note') {
       footHtml = L.checked ? `<div class="ls-say">Saved in your notes${L.earned ? ` <span class="ls-earn">+${L.earned} XP</span>` : ''}</div><button class="ls-go" data-ls="next">Continue</button>`
         : `<button class="ls-go" data-ls="savenote">Save note</button><button class="ls-alt" data-ls="next">Skip</button>`;
@@ -10260,7 +10452,7 @@ const TreasureUp = (function () {
 
   function renderLessonEnd(body, foot) {
     const L = lesson, e = L.entry, secs = Math.round((Date.now() - L.start) / 1000), xp = S.xp - L.xp0, streak = streakNow(), charge = chargeOf(streak), up = nextCharge(streak);
-    const next = L.practice ? null : lessonNow();
+    const next = L.practice || (e && e.kind === 'sunday') ? null : lessonNow();
     const name = e ? entryName(e) : "Today's warm-up";
     // After a day's lesson, its Go further while it has something left; after
     // Go further, the bonus questions still waiting on that day's reels.
@@ -10280,7 +10472,7 @@ const TreasureUp = (function () {
       ${fk ? `<button class="ls-further" data-ls="further" data-key="${fk}">🔭 Go further<small>${esc(furtherParts(e.d))}</small></button>` : ''}
       ${locked ? `<p class="fam-note">${locked === 1 ? '1 more bonus question opens' : locked + ' more bonus questions open'} once you answer that day's reels.</p>` : ''}
       ${L.practice ? `<p class="fam-note">Practice: this part was already answered, so nothing new was earned.</p>` : ''}
-      ${!next && !L.practice ? `<p class="fam-note">That's today's reading done. Come back tomorrow for the next part.</p>` : ''}</div>`;
+      ${!next && !L.practice ? `<p class="fam-note">${e && e.kind === 'sunday' ? 'Ready for class.' : "That's today's reading done. Come back tomorrow for the next part."}</p>` : ''}</div>`;
     foot.className = 'ls-foot';
     foot.innerHTML = `<div class="ls-foot-in">${next ? `<button class="ls-go" data-ls="nextlesson">Next: ${esc(entryName(next))}</button>
       <button class="ls-alt" data-ls="close">Done for now</button>` : `<button class="ls-go" data-ls="close">Done</button>`}</div>`;
@@ -10392,10 +10584,28 @@ const TreasureUp = (function () {
     const r = await gh(`/repos/${repo}/contents/${PLAIN_FILE}`, { method: 'PUT', body: JSON.stringify(Object.assign({ message, content: b64encode(head + PLAIN_MARK + JSON.stringify(lib, null, 2) + ';\n') }, file ? { sha: file.sha } : {})) });
     return r.commit.sha;
   }
-  // The weeks, and the plain-words entry after them when there is one.
-  function devSetWeeks(weeks, plainFile) {
+  // The Sunday classes (content/sunday.js; Blake, 2026-10-03): one more entry
+  // in the list, its youth lessons and conference talks, saved to its own file.
+  const SUNDAY_FILE = 'content/sunday.js', SUNDAY_MARK = 'window.TU_SUNDAY = ', SUNW = 'sunday';
+  const sunWeek = sun => ({ dates: SUNW, title: 'Sunday classes', sunday: true, reels: [], sections: [], sun: clone(sun || { youth: [], conference: [] }) });
+  const sunLessonsOf = w => (w.sun.youth || []).flatMap(m => m.lessons || []);
+  const sunTalksOf = w => (w.sun.conference || []).flatMap(c => c.talks || []);
+  async function readSundayFile(repo) {
+    const f = await gh(`/repos/${repo}/contents/${SUNDAY_FILE}`);
+    if (!f || !f.content) return null;
+    const text = b64decode(f.content), at = text.indexOf(SUNDAY_MARK);
+    return { sha: f.sha, head: text.slice(0, at), text, sun: JSON.parse(text.slice(at + SUNDAY_MARK.length, text.lastIndexOf(';'))) };
+  }
+  async function writeSundayFile(repo, file, sun, message) {
+    const head = file ? file.head : '// The Sunday classes\' study: the youth\'s lessons and the conference talks.\n// Developer mode edits this file; tools/verify.mjs checks it.\n';
+    const r = await gh(`/repos/${repo}/contents/${SUNDAY_FILE}`, { method: 'PUT', body: JSON.stringify(Object.assign({ message, content: b64encode(head + SUNDAY_MARK + JSON.stringify(sun, null, 2) + ';\n') }, file ? { sha: file.sha } : {})) });
+    return r.commit.sha;
+  }
+  // The weeks, and the plain-words and Sunday entries after them when there are.
+  function devSetWeeks(weeks, plainFile, sundayFile) {
     dev.plainFile = plainFile;
-    dev.weeks = weeks.concat(plainFile ? [libWeek(plainFile.lib)] : []);
+    dev.sundayFile = sundayFile;
+    dev.weeks = weeks.concat(plainFile ? [libWeek(plainFile.lib)] : [], sundayFile ? [sunWeek(sundayFile.sun)] : []);
     dev.draft = clone(dev.weeks);
     // Its chapters' KJV and BSB, for the preview.
     if (plainFile) Promise.all(plainFile.lib.plain.map(p => loadOnce('content/lib/' + libSlug(p.ch) + '.js').catch(() => {}))).then(() => { if (dev && dev.week === LIB) renderDev(); });
@@ -10434,7 +10644,11 @@ const TreasureUp = (function () {
   // The pieces a week is reviewed in, as tools/verify.mjs counts them.
   function devItems(w) {
     const out = [], add = (key, label, obj, approved, of) => out.push({ key, label, obj, approved, hash: approvalHash(of) });
-    if (!w.library) add('week', 'The week', weekMeta(w), w.approved, weekMeta(w));
+    if (!w.library && !w.sunday) add('week', 'The week', weekMeta(w), w.approved, weekMeta(w));
+    if (w.sunday) {
+      sunLessonsOf(w).forEach(l => add('sunl:' + l.id, 'Youth · ' + l.sunday + ' · ' + l.title, l, l.approved, noApproval(l)));
+      sunTalksOf(w).forEach(t => add('talk:' + t.id, 'Talk · ' + t.speaker, t, t.approved, noApproval(t)));
+    }
     w.reels.forEach((r, n) => add('reel:' + r.id, 'Reel ' + (n + 1) + ' · ' + (w.sections[r.section] || ''), r, r.approved, noApproval(r)));
     (w.deep || []).forEach(d => add('deep:' + d.id, d.day === 'friday' ? 'Friday deep dive' : 'Go deeper · ' + (w.sections[d.section] || ''), d, d.approved, noApproval(d)));
     if (w.puzzle) add('puzzle', 'Weekly puzzle', w.puzzle, w.puzzle.approved, noApproval(w.puzzle));
@@ -10450,11 +10664,11 @@ const TreasureUp = (function () {
   const devLeft = w => devItems(w).filter(i => i.state !== 'ok' && !devUnwatched(i));
   // Plain words, short versions and insight cards never hold a week back:
   // each shows in the app only once it's approved, so a week publishes without them.
-  const OPTIONAL = /^(plain|tldr|insight):/;
+  const OPTIONAL = /^(plain|tldr|insight|sunl|talk):/;
   const devNeeded = items => items.filter(i => !OPTIONAL.test(i.key));
   // A kind of piece's list in a week, and a piece's name in it (plain words and short versions go by chapter).
   const devList = (w, kind) => kind === 'reel' ? w.reels : kind === 'deep' ? w.deep : kind === 'plain' ? (w.plain || []) : kind === 'tldr' ? (w.tldr || [])
-    : kind === 'insight' ? (w.insights || []) : w.sayings;
+    : kind === 'insight' ? (w.insights || []) : kind === 'sunl' ? sunLessonsOf(w) : kind === 'talk' ? sunTalksOf(w) : w.sayings;
   const devIdOf = (kind, x) => kind === 'plain' || kind === 'tldr' ? x.ch : x.id;
   function devGet(w, key) {
     if (key === 'week') return weekMeta(w);
@@ -10471,9 +10685,9 @@ const TreasureUp = (function () {
     else if (key === 'puzzle') w.puzzle = obj;
     else {
       const kind = key.slice(0, key.indexOf(':')), id = key.slice(key.indexOf(':') + 1);
-      const list = devList(w, kind);
-      const i = list.findIndex(x => devIdOf(kind, x) === id);
-      if (i >= 0) list[i] = obj;
+      // A Sunday lesson or talk sits in its month's or conference's list.
+      const lists = kind === 'sunl' ? (w.sun.youth || []).map(m => m.lessons || []) : kind === 'talk' ? (w.sun.conference || []).map(c => c.talks || []) : [devList(w, kind)];
+      for (const list of lists) { const i = list.findIndex(x => devIdOf(kind, x) === id); if (i >= 0) list[i] = obj; }
     }
     const target = key === 'week' ? w : key === 'words' ? null : devGet(w, key);
     if (key === 'words') { if (approved) w.wordsApproved = approved; else delete w.wordsApproved; }
@@ -10597,10 +10811,10 @@ const TreasureUp = (function () {
   }
   async function devLoad() {
     dev.view = 'loading'; renderDev();
-    const [t, l, tp, lp] = await Promise.all([readWeeksFile(DEV.test), readWeeksFile(DEV.live), readPlainFile(DEV.test), readPlainFile(DEV.live)]);
+    const [t, l, tp, lp, ts, ls] = await Promise.all([readWeeksFile(DEV.test), readWeeksFile(DEV.live), readPlainFile(DEV.test), readPlainFile(DEV.live), readSundayFile(DEV.test), readSundayFile(DEV.live)]);
     if (!t) throw new Error("Couldn't find content/weeks.js on the test site.");
-    Object.assign(dev, { file: t, live: l, livePlain: lp, view: dev.week ? 'week' : 'weeks' });
-    devSetWeeks(t.weeks, tp);
+    Object.assign(dev, { file: t, live: l, livePlain: lp, liveSunday: ls, view: dev.week ? 'week' : 'weeks' });
+    devSetWeeks(t.weeks, tp, ts);
     renderDev();
   }
 
@@ -10659,10 +10873,11 @@ const TreasureUp = (function () {
     return devTopHtml(false) + `<p class="board-help" style="margin-top:12px">Every week the test site has. Open one to review it.</p>` +
       dev.draft.map(w => {
         const items = devItems(w), ok = items.filter(i => i.state === 'ok').length;
-        const lw = w.library ? dev.livePlain && libWeek(dev.livePlain.lib) : dev.live && dev.live.weeks.find(x => x.dates === w.dates);
-        const live = !lw ? 'Not on the live app yet' : canon(w.library ? libOf(lw) : lw) === canon(w.library ? libOf(dev.weeks.find(x => x.dates === w.dates)) : dev.weeks.find(x => x.dates === w.dates)) ? 'On the live app' : 'On the live app (an older version)';
+        const lw = w.library ? dev.livePlain && libWeek(dev.livePlain.lib) : w.sunday ? dev.liveSunday && sunWeek(dev.liveSunday.sun) : dev.live && dev.live.weeks.find(x => x.dates === w.dates);
+        const part = x => w.library ? libOf(x) : w.sunday ? x.sun : x;
+        const live = !lw ? 'Not on the live app yet' : canon(part(lw)) === canon(part(dev.weeks.find(x => x.dates === w.dates))) ? 'On the live app' : 'On the live app (an older version)';
         return `<button class="dv-week" data-dev="open" data-week="${esc(w.dates)}">
-          <b>${esc(w.title)}</b><small>${w.library ? 'Chapters no week reads' : esc(w.dates)} · ${ok} of ${items.length} approved · ${live}</small></button>`;
+          <b>${esc(w.title)}</b><small>${w.library ? 'Chapters no week reads' : w.sunday ? 'Youth lessons and conference talks' : esc(w.dates)} · ${ok} of ${items.length} approved · ${live}</small></button>`;
       }).join('');
   }
 
@@ -10694,13 +10909,16 @@ const TreasureUp = (function () {
     const groups = [['The week', i => i.key === 'week'], ['Reels', i => i.key.startsWith('reel:')], ['Go deeper', i => i.key.startsWith('deep:')],
                     ['Games', i => i.key === 'puzzle' || i.key === 'words' || i.key.startsWith('say:')],
                     ['Plain words', i => i.key.startsWith('plain:')], ['The short version', i => i.key.startsWith('tldr:')],
-                    ['Insights', i => i.key.startsWith('insight:')]];
+                    ['Insights', i => i.key.startsWith('insight:')],
+                    ['Youth Sunday lessons', i => i.key.startsWith('sunl:')], ['Conference talks', i => i.key.startsWith('talk:')]];
     return devTopHtml(true) + `
-      <p class="board-help" style="margin-top:12px">${w.library ? 'Chapters no week reads, in the Scriptures tab' : esc(w.dates)} · ${ok} of ${items.length} approved.
+      <p class="board-help" style="margin-top:12px">${w.library ? 'Chapters no week reads, in the Scriptures tab' : w.sunday ? 'The Sunday classes: the youth’s lessons and the conference talks' : esc(w.dates)} · ${ok} of ${items.length} approved.
         <a href="./" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Open the test site ↗</a></p>${all}${clipNote}` +
       groups.filter(([, f]) => items.some(f))
         .map(([name, f]) => `<div class="dv-group"><div class="eyebrow">${name}</div>${name === 'Plain words' ? '<p class="dv-small">Each verse of the KJV with its plain words under it, and the BSB to compare. A chapter shows in the app once it’s approved.</p>' : name === 'The short version' ? '<p class="dv-small">The lines at the top of each chapter, each with the KJV verses it sums up under it. A chapter’s card shows in the app once it’s approved.</p>'
-          : name === 'Insights' ? '<p class="dv-small">Each card in its day’s Go further: a point from the page it credits, in our words. Open the page to check it says so. Each card shows in the app once it’s approved.</p>' : ''}${items.filter(f).map(i => devItemHtml(w, i)).join('')}</div>`).join('');
+          : name === 'Insights' ? '<p class="dv-small">Each card in its day’s Go further: a point from the page it credits, in our words. Open the page to check it says so. Each card shows in the app once it’s approved.</p>'
+          : name === 'Youth Sunday lessons' ? '<p class="dv-small">Each Sunday’s mini-lesson on its card, from For the Strength of Youth, in our words. Open its page to check it says so. Each shows in the app once it’s approved.</p>'
+          : name === 'Conference talks' ? '<p class="dv-small">Each talk shows already with its speaker’s own words and its scriptures; what it teaches, the questions and the deep dive, in our words, show once it’s approved.</p>' : ''}${items.filter(f).map(i => devItemHtml(w, i)).join('')}</div>`).join('');
   }
 
   function devItemHtml(w, it) {
@@ -10775,6 +10993,21 @@ const TreasureUp = (function () {
           (o.deep.listen ? `<p class="dv-small">Clip: <a href="https://www.youtube.com/watch?v=${esc(o.deep.listen.youtube)}&t=${Number(o.deep.listen.start) || 0}s" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">${esc(o.deep.listen.title)} ↗</a> · ${esc(o.deep.listen.channel)} · ${fmtTime(o.deep.listen.start)}–${fmtTime(o.deep.listen.end)}${o.deep.listen.previewed ? ' · watched' : ' · not watched yet (approving this card marks it watched)'}</p>` : '') + '</div>' : '') +
         (from ? kjv.slice(from - 1, to).map((t, k) => `<p class="dv-kjv"><sup>${from + k}</sup>${esc(t)}</p>`).join('') : '');
     }
+    if (it.key.startsWith('sunl:')) {
+      // The youth's Sunday lesson: what it's about, then each card and its question.
+      return `<div class="dv-hook">${esc(o.title)}</div><p class="dv-small">${esc(o.sunday)} · <a href="${esc(o.read)}" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">its page ↗</a></p><p>${esc(o.intro)}</p>` +
+        (o.cards || []).map(c => `<div class="dv-pv"><div class="dv-hook" style="font-size:15px">${esc(c.hook)}</div><p>${esc(c.body)}</p>${devQHtml(c)}<p class="dv-small">On the page: “${esc(c.find)}”</p></div>`).join('');
+    }
+    if (it.key.startsWith('talk:')) {
+      // A talk: the speaker's own words and its scriptures (shown already), and ours (once approved).
+      const list = (h, xs) => xs && xs.length ? `<p class="dv-small" style="margin-top:6px;font-weight:800">${h}</p><ul class="dv-small" style="padding-left:18px">${xs.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '';
+      return `<div class="dv-hook">${esc(o.title)}</div><p class="dv-small">${esc(o.speaker)} · ${esc(o.session)} · <a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">the talk ↗</a></p>` +
+        (o.quotes || []).map(q => `<div class="dv-verse">“${esc(q)}”<span>found word for word on the talk’s page</span></div>`).join('') +
+        ((o.scriptures || []).length ? `<p class="dv-small">Scriptures: ${o.scriptures.map(esc).join(' · ')}</p>` : '') +
+        `<p class="dv-small" style="margin-top:8px">In our words (shown once approved):</p>${o.quick ? `<p>${esc(o.quick)}</p>` : ''}` +
+        list('What it teaches', o.points) + list('To talk over', o.discuss) +
+        (o.deep ? `<div class="dv-deep"><p class="dv-small">🤿 Deep dive:</p>${(o.deep.paras || []).map(t => `<p>${esc(t)}</p>`).join('')}<p class="dv-small">On the page: ${[].concat(o.deep.find || []).map(f => `“${esc(f)}”`).join(' · ')}</p></div>` : '');
+    }
     if (it.key.startsWith('tldr:')) {
       // Each line of the card, with the KJV verses it sums up under it.
       const kjv = (window.TU_READING || {})[o.ch] || [], look = o.review || [];
@@ -10841,7 +11074,12 @@ const TreasureUp = (function () {
     let publish = '';
     if (dev.view === 'week' && !n && savedWeek()) {
       const w = savedWeek(), items = devNeeded(devItems(w)), ok = items.filter(i => i.state === 'ok').length;
-      const lw = w.library ? null : dev.live && dev.live.weeks.find(x => x.dates === w.dates);
+      const lw = w.library || w.sunday ? null : dev.live && dev.live.weeks.find(x => x.dates === w.dates);
+      if (w.sunday) {
+        const same = dev.liveSunday && canon(dev.liveSunday.sun) === canon(w.sun);
+        publish = same ? '<p class="dv-small">✓ The Sunday classes are on the live app, exactly as they are here.</p>'
+          : `<button class="btn" data-dev="publish"${dev.busy ? ' disabled' : ''}>Publish to the live app</button><p class="dv-small">Only the approved lessons, and the talks’ approved words, show in the app.</p>`;
+      }
       if (w.library) {
         const same = dev.livePlain && canon(dev.livePlain.lib) === canon(libOf(w));
         publish = same ? '<p class="dv-small">✓ These are on the live app, exactly as they are here.</p>'
@@ -10849,7 +11087,7 @@ const TreasureUp = (function () {
       }
       const later = [(w.plain || []).length && 'the plain words', (w.tldr || []).length && 'the short versions'].filter(Boolean);
       const wait = later.length ? '; ' + later.join(' and ') + ' can wait' : '';
-      if (!w.library) publish = ok < items.length ? `<p class="dv-small">Approve every piece to publish this week (${ok} of ${items.length} approved${wait}).</p>`
+      if (!w.library && !w.sunday) publish = ok < items.length ? `<p class="dv-small">Approve every piece to publish this week (${ok} of ${items.length} approved${wait}).</p>`
         : lw && canon(lw) === canon(w) ? '<p class="dv-small">✓ This week is on the live app, exactly as it is here.</p>'
         : `<button class="btn" data-dev="publish"${dev.busy ? ' disabled' : ''}>Publish this week to the live app</button>`;
     }
@@ -10885,8 +11123,8 @@ const TreasureUp = (function () {
     const week = devWeek();
     const message = `Developer mode: ${[edits && edits + ' change' + (edits > 1 ? 's' : ''), approvals && approvals + ' approval' + (approvals > 1 ? 's' : '')].filter(Boolean).join(', ')} in ${week ? week.title : 'content'} (${(dev.access || {}).email})`;
     let sha = null;
-    const weekChanges = changes.filter(c => c.dates !== LIB), libChanges = changes.filter(c => c.dates === LIB);
-    let weeksNow = dev.weeks.filter(w => !w.library), plainNow = dev.plainFile;
+    const weekChanges = changes.filter(c => c.dates !== LIB && c.dates !== SUNW), libChanges = changes.filter(c => c.dates === LIB), sunChanges = changes.filter(c => c.dates === SUNW);
+    let weeksNow = dev.weeks.filter(w => !w.library && !w.sunday), plainNow = dev.plainFile, sundayNow = dev.sundayFile;
     for (let attempt = 0; attempt < 3 && weekChanges.length && !sha; attempt++) {
       // Always onto the latest file, so nobody's changes are lost.
       const fresh = await readWeeksFile(DEV.test);
@@ -10903,8 +11141,15 @@ const TreasureUp = (function () {
       try { libSha = await writePlainFile(DEV.test, fresh, libOf(w), message.replace(/ in .* \(/, ' in plain words beyond the weeks (')); plainNow = { head: fresh ? fresh.head : '', lib: libOf(w) }; }
       catch (e) { if (!(e.status === 409 || e.status === 422) || attempt === 2) throw e; }
     }
-    sha = libSha || sha;
-    devSetWeeks(weeksNow, plainNow);
+    let sunSha = null;
+    for (let attempt = 0; attempt < 3 && sunChanges.length && !sunSha; attempt++) {
+      const fresh = await readSundayFile(DEV.test), w = sunWeek(fresh ? fresh.sun : null);
+      sunChanges.forEach(c => devSet(w, c.key, c.obj, c.approved));
+      try { sunSha = await writeSundayFile(DEV.test, fresh, w.sun, message.replace(/ in .* \(/, ' in the Sunday classes (')); sundayNow = { head: fresh ? fresh.head : '', sun: w.sun }; }
+      catch (e) { if (!(e.status === 409 || e.status === 422) || attempt === 2) throw e; }
+    }
+    sha = sunSha || libSha || sha;
+    devSetWeeks(weeksNow, plainNow, sundayNow);
     const moved = changes.find(c => c.key === 'week');
     if (moved) dev.week = moved.obj.dates;
     dev.changes.clear();
@@ -10916,6 +11161,7 @@ const TreasureUp = (function () {
 
   async function devPublish() {
     if (savedWeek() && savedWeek().library) return devPublishPlain();
+    if (savedWeek() && savedWeek().sunday) return devPublishSunday();
     const w = clone(savedWeek());
     dev.busy = true; dev.status = { kind: 'wait', text: 'Publishing…' }; renderDevBar();
     // Pictures the live app doesn't have yet go first.
@@ -10953,6 +11199,20 @@ const TreasureUp = (function () {
     }
     dev.busy = false;
     if (dev) { dev.livePlain = await readPlainFile(DEV.live).catch(() => dev.livePlain); renderDevBar(); renderDev(); }
+  }
+
+  // The Sunday classes, as they are on the test site, to the live app.
+  async function devPublishSunday() {
+    dev.busy = true; dev.status = { kind: 'wait', text: 'Publishing…' }; renderDevBar();
+    const test = await readSundayFile(DEV.test), live = await readSundayFile(DEV.live);
+    const sha = await writeSundayFile(DEV.live, live, test.sun, `Publish the Sunday classes from developer mode (${(dev.access || {}).email})`);
+    const ok = await devWatch(DEV.live, sha, 'the live app');
+    if (ok === false && dev && live) {
+      const now = await gh(`/repos/${DEV.live}/contents/${SUNDAY_FILE}`);
+      await gh(`/repos/${DEV.live}/contents/${SUNDAY_FILE}`, { method: 'PUT', body: JSON.stringify({ message: 'Undo publishing the Sunday classes: the content check refused it', content: b64encode(live.text), sha: now.sha }) });
+    }
+    dev.busy = false;
+    if (dev) { dev.liveSunday = await readSundayFile(DEV.live).catch(() => dev.liveSunday); renderDevBar(); renderDev(); }
   }
 
   async function devPeople() {
@@ -11036,6 +11296,12 @@ const TreasureUp = (function () {
       if (day) { selDay = day.dataset.day === dayKey() ? null : day.dataset.day; const h = $('home'), y = h.scrollTop; renderHome(); h.scrollTop = y; return; }
       const card = e.target.closest('[data-card]');
       if (card) { openCard(card.dataset.card); return; }
+      const sl = e.target.closest('[data-sunlesson]');
+      if (sl) { openLesson('sun:' + sl.dataset.sunlesson); return; }
+      const tk = e.target.closest('[data-talk]');
+      if (tk) { openTalk(tk.dataset.talk); return; }
+      const tp = e.target.closest('[data-talkpick]');
+      if (tp) { const [slot, k] = tp.dataset.talkpick.split('|'); openTalkPick(slot, k); return; }
       const fg = e.target.closest('[data-fam-goal]');
       if (fg) { const on = fg.dataset.famGoal === '1'; if (famHome) famHome.goal = on; setFamilyGoal(on); famRedraw(); return; }
       const td = e.target.closest('[data-trial-done]');
@@ -11174,6 +11440,10 @@ const TreasureUp = (function () {
       if (clip) { playClip(clip); return; }
       const v = e.target.closest('[data-set-voice]');
       if (v) { switchVoice(v.dataset.setVoice); return openSheet(settingsSheetHtml()); }
+      const td = e.target.closest('[data-talkdone]');
+      if (td) { markTalk(td.dataset.talkdone); return openTalk(td.dataset.talkdone); }
+      const sp = e.target.closest('[data-setpick]');
+      if (sp) { const [slot, k, id] = sp.dataset.setpick.split('|'); closeSheet(); setPick(slot, k, id); return; }
       const t = e.target.closest('[data-set-text]');
       if (t) { try { localStorage.setItem(TEXT_KEY, t.dataset.setText); } catch (x) {} applyTextSize(); return openSheet(settingsSheetHtml()); }
       const fk = e.target.closest('[data-fb-kind]');
@@ -11441,6 +11711,8 @@ const TreasureUp = (function () {
 <!-- Links to the Church's recordings of those chapters, built at deploy too, for Listen. -->
 <script src="content/audio.js"></script>
 <script src="content/boards.js"></script>
+<!-- The Sunday classes' study: the youth's lessons and the conference talks (content/README.md). -->
+<script src="content/sunday.js"></script>
 <script>
 const WEEKS = window.TU_WEEKS || [];
 const WEEK_CONTENT = TreasureUp.pickWeek(WEEKS);

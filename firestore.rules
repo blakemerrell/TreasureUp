@@ -183,6 +183,21 @@ service cloud.firestore {
         allow delete: if (isParent() || (signedIn() && request.auth.uid == uid)) && uid != founder();
       }
 
+      // Each Sunday's conference talks (Blake, 2026-10-03: "You pick it"):
+      // one doc a Sunday, "2026-10-11", with the elders quorum's and the
+      // Relief Society's talk. Any grown-up in the family picks; everyone
+      // reads them.
+      match /talks/{sunday} {
+        allow read: if isMember();
+        allow create, update: if isMember() && me().role != 'kid'
+          && sunday.matches('[0-9]{4}-[0-9]{2}-[0-9]{2}')
+          && only(['eq', 'rs', 'by', 'at'])
+          && request.resource.data.eq is string && request.resource.data.eq.size() <= 60
+          && request.resource.data.rs is string && request.resource.data.rs.size() <= 60
+          && request.resource.data.by == request.auth.uid
+          && request.resource.data.at == request.time;
+      }
+
       match /invites/{token} {
         // Opening a link reads just that invite; the token is the secret.
         allow get: if signedIn();
