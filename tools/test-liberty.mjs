@@ -280,9 +280,9 @@ console.log('Free battle · build a city, tear down the war camp');
     W.truce = true;
     const wx = city.tx + 8, wy = city.ty, wall = [];
     for (let y = wy - 3; y <= wy + 3; y++) if (W.canPlace('wall', wx, y)) wall.push(W.addBuilding('wall', 'p', wx, y, true));
-    foe.x = (wx + 3) * 32 + 16; foe.y = wy * 32 + 16; foe.ladders = true; foe.hp = foe.def.hp;
+    foe.x = (wx + 3) * 32 + 16; foe.y = wy * 32 + 16; foe.ladders = true; foe.hp = foe.def.hp; foe.mode = 'attack';   // (his own man, not the camp's)
     W.order(foe, { type: 'move', tx: wx - 3, ty: wy });
-    run(W, 15, 0.1, () => {});
+    for (let i = 0; i < 150 && tileOf(foe.x) >= wx; i++) W.step(0.1);   // (once over, the camp calls him home again)
     ok(wall.length >= 5 && tileOf(foe.x) < wx && wall.every(w => !w.dead), `a Lamanite with ladders climbs over your wall without breaking it (Alma 49:22; now at ${tileOf(foe.x)},${tileOf(foe.y)})`);
     W.truce = false;
     // veteran ranks: three foes make a soldier valiant
@@ -311,7 +311,7 @@ console.log('Free battle · build a city, tear down the war camp');
   // A steady player: the carts haul on their own; build up the tree, keep an army home, then march on the camps.
   const S0 = { x: city.tx, y: city.ty };
   const plan = [['farm', 4, -3], ['barracks', 6, 1], ['farm', -3, -3], ['granary', -3, 1], ['armory', 6, 5], ['farm', 0, 6],
-    ['stables', -4, 5], ['hall', 9, -3], ['farm', 3, 9], ['tower', 7, -5], ['farm', -6, -1], ['granary', 10, 3], ['farm', -1, -6], ['farm', 13, 0], ['farm', -6, 8], ['temple', 12, 6]];
+    ['stables', -4, 5], ['hall', -8, 2], ['farm', 3, 9], ['tower', 7, -5], ['farm', -6, -1], ['granary', 10, 3], ['farm', -1, -6], ['farm', 13, 0], ['farm', -6, 8], ['temple', 12, 6]];
   const research = ['breastplates', 'cimeters', 'pickets', 'bows', 'clothing', 'ladders'];
   let attackAt = null, blocked = 0;
   const workers = () => W.units('p').filter(u => u.type === 'worker'), carts = () => W.units('p').filter(u => u.type === 'cart');
@@ -359,8 +359,8 @@ console.log('Free battle · build a city, tear down the war camp');
     const spy = W.units('p').find(u => u.type === 'spy'), relic = W.buildings('n').filter(b => b.def.relic && !b.dead).sort((a, b) => S.dist(a, s || a) - S.dist(b, s || b))[0];
     if (br && !spy && (W.trained.spy || 0) < 2 && relic && !br.queue.length) W.train(br, 'spy');
     if (spy && relic && spy.order.type === 'idle') W.order(spy, { type: 'move', goal: W.rectOf(relic), near: true });
+    if (hall && hall.queue.length < 1) W.train(hall, !(W.trained.stripling || 0) || army().length % 3 ? 'stripling' : 'javelin');   // the hall first: its men cost more
     if (br && br.queue.length < 2) W.train(br, W.has('armory') ? (army().length % 2 ? 'archer' : 'swordsman') : (army().length % 2 ? 'nslinger' : 'spearman'));
-    if (hall && hall.queue.length < 1) W.train(hall, army().length % 3 ? 'stripling' : 'javelin');
     // March out once the army is strong, and tear down the camps, then the war camp.
     if (!attackAt && (army().length >= 30 || W.t > 16 * 60)) attackAt = W.t;
     if (attackAt) {
@@ -369,12 +369,12 @@ console.log('Free battle · build a city, tear down the war camp');
       if (t) for (const u of army().filter(u => u.order.type === 'idle')) W.order(u, { type: 'attack', target: t.id });
     }
   });
-  console.log(`    at ${Math.round(W.t / 60)} min · wave ${FB.wave} · army ${army().length} · carts ${carts().length} · food ${W.foodUsed()}/${W.foodCap()} · store ${W.storeCap()} · slowest step ${ms}ms`);
+  console.log(`    at ${Math.round(W.t / 60)} min · marches ${FB.camp.marches} · army ${army().length} · carts ${carts().length} · food ${W.foodUsed()}/${W.foodCap()} · store ${W.storeCap()} · slowest step ${ms}ms`);
   ok(selfBuilt, 'buildings rise on their own once placed, with no worker beside them');
   ok(carts().every(u => u.order.type !== 'idle') && carts().length >= 4, 'idle carts go and haul on their own (' + carts().length + ' carts, none idle)');
   ok(W.researched.breastplates && W.armor === 4 && W.dmgUp === 3 && W.buildings('p').filter(b => b.def.wall).every(b => b.max === b.def.hp * 2), 'the armory made breastplates, cimeters and pickets');
   ok(W.trained.stripling > 0 && W.trained.cart > 0, `the hall trains stripling warriors (${W.trained.stripling || 0}), and the stables horse carts (${W.trained.cart || 0})`);
-  ok(FB.wave >= 2, 'the Lamanites attacked, again and again (' + FB.wave + ' waves)');
+  ok(FB.camp.marches >= 2, 'the Lamanites marched on the city, again and again (' + FB.camp.marches + ' marches)');
   ok(W.over && W.over.won && W.over.stars === 2, 'the war camp falls: ' + (W.over ? W.over.title + ' ★' + W.over.stars : 'not over'));
   ok(ms < 40, 'a step stays fast enough with a whole city');
 }

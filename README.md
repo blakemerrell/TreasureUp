@@ -233,10 +233,10 @@ becomes a veteran, "exceedingly valiant for courage" (Alma 53:20), with
 more health and harder blows, and a second rank at eight; gold chevrons
 show it. In free battle the war camp stands behind a palisade: your
 soldiers break through it, climb it once ladders and cords are made
-(Alma 62:21), or bring it down with the earthquake. From the fourth wave on
-Normal the Lamanites bring ladders of their own, so your walls slow them
-but no longer stop them (Alma 49:22): towers and archers behind the walls
-do.
+(Alma 62:21), or bring it down with the earthquake. Once the Lamanites'
+ladder-works stands and your walls have stopped them twice, they bring
+ladders of their own, so your walls slow them but no longer stop them
+(Alma 49:22): towers and archers behind the walls do.
 
 **Treasures.** Three Jaredite ruins stand on the free-battle map, like the
 land Limhi's men found, "covered with ruins of buildings of every kind"
@@ -291,11 +291,18 @@ always helps and never makes anyone untouchable. Mending a wall or building
 costs timber, and a worker beside it.
 
 The Lamanite war camp in free battle's north-east has guards, watchtowers and
-three camps; it sends a bigger attack every couple of minutes, adds guards
-while it stands, and grows fiercer over time. These Lamanites have shields
-and breastplates of their own (Alma 49:6). Tear down the war camp and the
-camps to win. Both skirmishes give Easy ★, Normal ★★, Hard ★★★. A scripted
-player wins free battle's Normal in about 9–10 minutes (every seed tried) and
+three camps, and it lives by your rules (`liberty/camp.js`, after
+`liberty/design/evolution.md`): its bearers haul grain and timber from the
+same fields and forests you use; they raise tents round the camp in order,
+a muster ground, a store tent, the shield-makers' tent, the chief captain's
+pavilion and a ladder-works, each a real building you can burn; it trains
+warriors, slingers and captains from them as food and grain allow, gathers
+an army by the camp and marches when it is big enough, bigger each time;
+it makes shields and breastplates, garments of skins and, after your walls
+have stopped it twice, ladders (Alma 49:6, 49:22); and a tent you burn goes
+up again a few minutes later. Kill its bearers and the camp starves. Tear
+down the war camp and the camps to win. Both skirmishes give Easy ★, Normal ★★, Hard ★★★. A scripted
+player wins free battle's Normal in about 12 minutes against the living camp and
 Hard about 2 times in 6; it holds off the raids at every level and length,
 and a city left alone falls (Easy by about 15 minutes, Normal by 8). The
 council asks about every chapter read so far. Where a description borrows

@@ -90,6 +90,8 @@ IMG.lamaniteCamp.src = 'assets/lamanite_camp.png?v=1';   // and these: 009-battl
 IMG.robbersCamp.src = 'assets/robbers_camp.png?v=1';
 IMG.warcamp.src = 'assets/warcamp.png?v=1';
 IMG.lamaniteTower.src = 'assets/lamanite_tower.png?v=1';
+// The King-men's camp (camp.js; pictures: 014-kingmen-camp.md). Until a picture is in, a tent is drawn by code.
+for (const k of ['bearer', 'tents', 'storetent', 'muster', 'shieldtent', 'ladderworks', 'pavilion']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
 IMG.gate.src = 'assets/gate.png?v=1';
 IMG.farm.src = 'assets/farm.png?v=13';
                                 // the simulation's tick, as in the tests
@@ -1153,6 +1155,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     } else if (u.type === 'zerahemnah') {
       uImg = IMG.zerahemnah;
       uw = 36; uh = 48; uox = 17; uoy = 47;
+    } else if (u.type === 'bearer') {              // the King-men's bearer, laden or not; the warrior's picture until his own is in
+      uImg = ready(IMG.bearer) ? IMG.bearer : IMG.lamanite;
+      uw = 41; uh = 44; uox = 19; uoy = 43;
     } else if (u.type === 'lamanite' || d.foe) {
       uImg = IMG.lamanite;
       uw = 41; uh = 44; uox = 19; uoy = 43;
@@ -1234,7 +1239,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Which picture a building is drawn with: the Lamanites' watchtowers are their own; a camp is the robbers' in 3 Nephi, the Lamanites' elsewhere.
   const pictureOf = b => b.type === 'tower' && b.team === 'r' ? 'lamaniteTower' : b.type === 'warcamp' ? 'warcamp'
     : b.type === 'camp' ? (mission && mission.campaign === 'gidgiddoni' ? 'robbersCamp' : 'lamaniteCamp') : PICTURE[b.type];
-  const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables', temple: 'temple', relic: 'ruin' };
+  const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables', temple: 'temple', relic: 'ruin',
+    tents: 'tents', storetent: 'storetent', muster: 'muster', shieldtent: 'shieldtent', ladderworks: 'ladderworks', pavilion: 'pavilion' };
   const ready = img => img && img.complete && img.naturalWidth;
   // A building stands on flat ground just above the highest corner of its plot.
   function floorOf(b) {
@@ -1250,7 +1256,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function drawFloor(b) {
     if (b.def.wall != null) return;
     const x0 = b.tx, y0 = b.ty, x1 = b.tx + b.w, y1 = b.ty + b.h;
-    if (b.type === 'camp' || b.type === 'warcamp' || b.type === 'village') {
+    if (b.type === 'camp' || b.type === 'warcamp' || b.type === 'village' || b.def.side === 'kingmen') {
       const P = [];
       for (let x = x0; x <= x1; x++) P.push(isoPt(x, y0, hv(x, y0)));
       for (let y = y0 + 1; y <= y1; y++) P.push(isoPt(x1, y, hv(x1, y)));
@@ -1287,8 +1293,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
       ctx.drawImage(img, ix - sp.cx * sc, front.iy - sp.by * sc, img.naturalWidth * sc, img.naturalHeight * sc);
     };
     if (b.def.wall != null) drawEarthwork(b);
-    else if (b.type === 'camp' || b.type === 'warcamp') {
-      if (ready(img)) { place(); if (b.type === 'warcamp') banner(ix + 4, iy - h * 0.9, '#9f1239', now, b.id); }
+    else if (b.type === 'camp' || b.type === 'warcamp' || (b.def.side === 'kingmen' && !(sp && ready(img)))) {
+      if (sp && ready(img)) { place(); if (b.type === 'warcamp') banner(ix + 4, iy - h * 0.9, '#9f1239', now, b.id); }
       else drawCamp(b, now);
     }
     else if (b.type === 'village') drawVillage(b);
@@ -1954,7 +1960,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const DRAWN_AS = { lehi: 'lehi', gidgiddoni: 'gidgiddoni', robber: 'robber', robberArcher: 'robber_archer', giddianhi: 'robber_chief', zemnarihah: 'robber_chief',
     slinger: 'lamanite_slinger', amalekite: 'lamanite_captain', zoramite: 'lamanite_captain', zerahemnah: 'zerahemnah' };
   function picOf(e) {
-    const own = e.kind === 'building' && e.team !== 'p' && IMG[pictureOf(e)];
+    const pic = e.kind === 'building' && e.team !== 'p' && IMG[pictureOf(e)];
+    const own = pic && (ready(pic) ? pic : e.def.side === 'kingmen' ? IMG.lamaniteCamp : pic);   // (a tent without its picture yet shows the camp's)
     const c = own ? own.src : CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && 'assets/cameo_stronghold.png?v=1');
     if (c) return `<img class="pic" src="${c}" alt="">`;
     if (DRAWN_AS[e.type]) return `<img class="pic" src="assets/${DRAWN_AS[e.type]}.png?v=1" alt="">`;
@@ -2049,7 +2056,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (b.type === 'village') return `<div class="note">${b.state === 'waiting' ? 'Send a soldier or worker here. When the proclamation reaches ' + esc(b.name) + ', its people march to Zarahemla.' : 'Its people have gone.'}</div>`;
       if (b.team === 'x') return `<div class="note">He gave himself up (3 Nephi 4:27).</div>`;
       if (b.def.prophet) return `<div class="note">${esc(b.def.about)}</div>`;
-      if (b.kind === 'building') return `<div class="note">${b.untouchable ? 'Too strong to tear down.' : 'Choose soldiers, then tap it to tear it down.'}</div>`;
+      if (b.kind === 'building') return `<div class="note"><b>${esc(b.name || b.def.name)}</b>${b.def.about ? ' ' + esc(b.def.about) : ''} ${b.untouchable ? 'Too strong to tear down.' : 'Choose soldiers, then tap it to tear it down.'}</div>`;
       return `<div class="note">${esc(b.def.about || (b.def.leader ? 'A leader of the robbers.' : 'A Gadianton robber.'))} Choose soldiers, then tap him to fight.</div>`;
     }
     const units = ents.filter(e => e.kind === 'unit');
