@@ -1,10 +1,9 @@
 # 014 · The King-men's camp: a bearer and six tents
 
-**Status: waiting.** The code draws the tents by hand (the same flat hide
-tents the camps had before 009) and the bearer with the warrior's picture
-until these are made. Seven pictures through Blake's n8n backup, each billed
-to the Merit3D Gemini account; the session that wrote this could not read the
-request key, so Blake says when to run them.
+**Status: done.** Seven pictures made with Gemini through Blake's n8n
+backup, 7 billed to the Merit3D Gemini account, all usable on the first try.
+They are cut out of the magenta, de-spilled and scaled to about 75 px per
+square of plot (width plus depth); the bearer to the warrior's height.
 
 ## What it's for
 

@@ -1,12 +1,10 @@
 # 015 · The Freemen's smithy and training ground
 
-**Status: waiting.** Until these are made, the smithy borrows the armory's
-picture (on its smaller plot, with a forge glow drawn by code) and the
-training ground is drawn by code: posts at its corners, a straw dummy, a
-banner. Their tiles in the city's menu wear drawn signs instead of cameos.
-Four pictures through Blake's n8n backup (two buildings, two cameos made
-from them with `mkcameo.py whole`), billed to the Merit3D Gemini account;
-Blake says when to run them.
+**Status: done.** Two pictures made with Gemini through Blake's n8n backup,
+2 billed to the Merit3D Gemini account, both usable on the first try; the
+two cameos are made from them with `mkcameo.py whole`. The drawn stand-ins
+(the armory's picture with a forge glow, the posts and the straw dummy)
+stay in the code as fallbacks and are no longer seen.
 
 ## What it's for
 

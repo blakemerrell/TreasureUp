@@ -90,9 +90,9 @@ IMG.lamaniteCamp.src = 'assets/lamanite_camp.png?v=1';   // and these: 009-battl
 IMG.robbersCamp.src = 'assets/robbers_camp.png?v=1';
 IMG.warcamp.src = 'assets/warcamp.png?v=1';
 IMG.lamaniteTower.src = 'assets/lamanite_tower.png?v=1';
-// The King-men's camp (camp.js; pictures: 014-kingmen-camp.md). Until a picture is in, a tent is drawn by code.
+// The King-men's camp (camp.js; pictures: 014-kingmen-camp.md).
 for (const k of ['bearer', 'tents', 'storetent', 'muster', 'shieldtent', 'ladderworks', 'pavilion']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
-// The Freemen's smithy and training ground (pictures: 015-smithy-training.md). Until then the smithy borrows the armory's picture with a forge glow, and the ground is drawn by code.
+// The Freemen's smithy and training ground (pictures: 015-smithy-training.md).
 for (const k of ['smithy', 'training']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
 IMG.gate.src = 'assets/gate.png?v=1';
 IMG.farm.src = 'assets/farm.png?v=13';
@@ -1157,9 +1157,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     } else if (u.type === 'zerahemnah') {
       uImg = IMG.zerahemnah;
       uw = 36; uh = 48; uox = 17; uoy = 47;
-    } else if (u.type === 'bearer') {              // the King-men's bearer, laden or not; the warrior's picture until his own is in
+    } else if (u.type === 'bearer') {              // the King-men's bearer (014), bent under his bundle
       uImg = ready(IMG.bearer) ? IMG.bearer : IMG.lamanite;
-      uw = 41; uh = 44; uox = 19; uoy = 43;
+      if (uImg === IMG.bearer) { uw = 27; uh = 44; uox = 13; uoy = 43; } else { uw = 41; uh = 44; uox = 19; uoy = 43; }
     } else if (u.type === 'lamanite' || d.foe) {
       uImg = IMG.lamanite;
       uw = 41; uh = 44; uox = 19; uoy = 43;
@@ -1229,6 +1229,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
     tower: { cx: 214, by: 493, span: 428 },
     armory: { cx: 74, by: 147, span: 150 },
     granary: { cx: 200, by: 333, span: 397 },
+    // The King-men's camp (014) and the Freemen's smithy and training ground (015): each as wide as its plot, set by its front corner.
+    tents: { cx: 150, by: 183, span: 300 },
+    storetent: { cx: 150, by: 193, span: 300 },
+    muster: { cx: 225, by: 276, span: 450 },
+    shieldtent: { cx: 150, by: 186, span: 300 },
+    ladderworks: { cx: 150, by: 197, span: 300 },
+    pavilion: { cx: 225, by: 380, span: 450 },
+    smithy: { cx: 150, by: 295, span: 300 },
+    training: { cx: 187, by: 322, span: 375 },
     stables: { cx: 200, by: 318, span: 375 },
     hall: { cx: 200, by: 310, span: 400 },
     temple: { cx: 168, by: 283, span: 295 },      // its stair pokes out past the platform's diamond
@@ -1258,7 +1267,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function drawFloor(b) {
     if (b.def.wall != null) return;
     const x0 = b.tx, y0 = b.ty, x1 = b.tx + b.w, y1 = b.ty + b.h;
-    if (b.type === 'camp' || b.type === 'warcamp' || b.type === 'village' || b.def.side === 'kingmen' || b.type === 'training') {
+    if (b.type === 'camp' || b.type === 'warcamp' || b.type === 'village' || b.def.side === 'kingmen' || (b.type === 'training' && !ready(IMG.training))) {
       const P = [];
       for (let x = x0; x <= x1; x++) P.push(isoPt(x, y0, hv(x, y0)));
       for (let y = y0 + 1; y <= y1; y++) P.push(isoPt(x1, y, hv(x1, y)));
@@ -2027,7 +2036,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'build:stables': 'assets/cameo_stables.png?v=1',
     'build:hall': 'assets/cameo_hall.png?v=1',
     'build:temple': 'assets/cameo_temple.png?v=1',
-    // ('build:smithy' and 'build:training' get their cameos with 015-smithy-training.md; until then, signs)
+    'build:smithy': 'assets/cameo_smithy.png?v=1',
+    'build:training': 'assets/cameo_training.png?v=1',
+    'train:bearer': 'assets/cameo_bearer.png?v=1',
+    'build:tents': 'assets/cameo_tents.png?v=1',
+    'build:storetent': 'assets/cameo_storetent.png?v=1',
+    'build:muster': 'assets/cameo_muster.png?v=1',
+    'build:shieldtent': 'assets/cameo_shieldtent.png?v=1',
+    'build:ladderworks': 'assets/cameo_ladderworks.png?v=1',
+    'build:pavilion': 'assets/cameo_pavilion.png?v=1',
     'research:armor': 'assets/cameo_armor.png?v=1',
     'research:breastplates': 'assets/cameo_breastplates.png?v=1',
     'research:cimeters': 'assets/cameo_cimeters.png?v=1',
@@ -2040,8 +2057,6 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'cap-tains', 'Jave-lin', 'Gran-ary', 'Sta-bles', 'Sol-diers', 'war-rior', 'throw-er'].map(w => [w.replace('-', ''), w.replace('-', '\u00ad')]));
   // Buttons with no picture: a drawn sign instead.
   const SIGN = {
-    'build:smithy': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9h9l2-3h5v3h-2l-1 3h-6l-2 2v4H6v-4l-2-2z"/><rect x="5" y="18" width="12" height="2" rx="1"/></svg>',
-    'build:training': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="9" r="5"/><circle cx="12" cy="9" r="1.5" fill="currentColor"/><path d="M12 14v7M8 21h8"/></svg>',
     stop: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
     letgo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
     cancel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
