@@ -4858,7 +4858,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 50",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-50"
         },
-        "find": "In essence, the Lord is asking, do I lack power to redeem?"
+        "find": "In essence, the Lord is asking, do I lack power to redeem?",
+        "approved": "17c9ee3b"
       },
       {
         "id": "isa50-advocate",
@@ -4871,7 +4872,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 41 (2026) – Isaiah 50-57",
           "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
         },
-        "find": "So I love putting those two side by side, adversary versus advocate"
+        "find": "So I love putting those two side by side, adversary versus advocate",
+        "approved": "26cd9a47"
       },
       {
         "id": "isa51-hearken",
@@ -4883,7 +4885,8 @@ window.TU_WEEKS = [
           "title": "Lesson 123: Isaiah 51–52—“Hearken unto Me”",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-student-manual-2026/40-isaiah-50-57/401-isaiah-51-52?lang=eng"
         },
-        "find": "to hear what the Savior says and then to heed His counsel"
+        "find": "to hear what the Savior says and then to heed His counsel",
+        "approved": "606ea79b"
       },
       {
         "id": "isa51-cup",
@@ -4896,7 +4899,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 51",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-51"
         },
-        "find": "Jesus drinks the bitter cup so that we would not need to do so"
+        "find": "Jesus drinks the bitter cup so that we would not need to do so",
+        "approved": "8644f67a"
       },
       {
         "id": "isa52-redeemer",
@@ -4909,7 +4913,8 @@ window.TU_WEEKS = [
           "title": "Redemption (gāʾal)",
           "url": "https://rsc.byu.edu/finding-christ-covenant-path/redemption-gaal"
         },
-        "find": "Knowing that the Lord is our Kinsman-Redeemer gives us confidence to ask for help"
+        "find": "Knowing that the Lord is our Kinsman-Redeemer gives us confidence to ask for help",
+        "approved": "cc016177"
       },
       {
         "id": "isa52-nauvoo",
@@ -4921,7 +4926,8 @@ window.TU_WEEKS = [
           "title": "Where Does the Name Nauvoo Come From?",
           "url": "https://scripturecentral.org/knowhy/where-does-the-name-nauvoo-come-from-0"
         },
-        "find": "one of the only places the complete Hebrew word nauvoo appears in the entire Old Testament"
+        "find": "one of the only places the complete Hebrew word nauvoo appears in the entire Old Testament",
+        "approved": "01108894"
       },
       {
         "id": "isa52-arm",
@@ -4934,7 +4940,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 52",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-52"
         },
-        "find": "Anciently, men prepared for battle by removing their robes from their shoulders"
+        "find": "Anciently, men prepared for battle by removing their robes from their shoulders",
+        "approved": "a9fdc665"
       },
       {
         "id": "isa52-vessels",
@@ -4947,7 +4954,8 @@ window.TU_WEEKS = [
           "title": "“Sanctify Yourselves”",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2000/10/sanctify-yourselves?lang=eng"
         },
-        "find": "they themselves were to be as clean as the ceremonial instruments they bore"
+        "find": "they themselves were to be as clean as the ceremonial instruments they bore",
+        "approved": "9d77951f"
       },
       {
         "id": "isa53-alma",
@@ -4960,7 +4968,8 @@ window.TU_WEEKS = [
           "title": "“To Whom Is the Arm of the Lord Revealed?” Part 1",
           "url": "https://rsc.byu.edu/vol-16-no-2-2015/whom-arm-lord-revealed-part-1"
         },
-        "find": "Of all the priests and other observers in King Noah"
+        "find": "Of all the priests and other observers in King Noah",
+        "approved": "aa96b919"
       },
       {
         "id": "isa53-past-tense",
@@ -4972,7 +4981,8 @@ window.TU_WEEKS = [
           "title": "Why Did Book of Mormon Prophets Speak of Future Events as if They Had Already Happened?",
           "url": "https://scripturecentral.org/knowhy/why-did-book-of-mormon-prophets-speak-of-future-events-as-if-they-had-already-happened"
         },
-        "find": "Isaiah uses the past and perfect tenses to describe a series of events"
+        "find": "Isaiah uses the past and perfect tenses to describe a series of events",
+        "approved": "53dffe8c"
       },
       {
         "id": "isa53-ethiopian",
@@ -4984,7 +4994,8 @@ window.TU_WEEKS = [
           "title": "Acts 8",
           "url": "https://www.churchofjesuschrist.org/study/manual/new-testament-seminary-student-manual-2023/acts-8?lang=eng"
         },
-        "find": "The scripture passage the Ethiopian read is found in Isaiah 53"
+        "find": "The scripture passage the Ethiopian read is found in Isaiah 53",
+        "approved": "62a11895"
       },
       {
         "id": "isa53-seed",
@@ -4997,7 +5008,8 @@ window.TU_WEEKS = [
           "title": "Abinadi’s Commentary on Isaiah",
           "url": "https://rsc.byu.edu/book-mormon-mosiah-salvation-only-through-christ/abinadis-commentary-isaiah"
         },
-        "find": "Those who are spiritually begotten of Christ through being born again are adopted as his sons and daughters"
+        "find": "Those who are spiritually begotten of Christ through being born again are adopted as his sons and daughters",
+        "approved": "b9a43f3c"
       },
       {
         "id": "isa53-spoil",
@@ -5010,7 +5022,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 41 (2026) – Isaiah 50-57",
           "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
         },
-        "find": "If you win the war, you get to decide what to do with the spoils"
+        "find": "If you win the war, you get to decide what to do with the spoils",
+        "approved": "aa379a13"
       },
       {
         "id": "isa54-nephites",
@@ -5022,7 +5035,8 @@ window.TU_WEEKS = [
           "title": "Why Did Jesus Quote All of Isaiah 54?",
           "url": "https://scripturecentral.org/knowhy/why-did-jesus-quote-all-of-isaiah-54"
         },
-        "find": "It was custom in the ancient Near East to conclude a covenant with promised blessings"
+        "find": "It was custom in the ancient Near East to conclude a covenant with promised blessings",
+        "approved": "d95a232b"
       },
       {
         "id": "isa54-jewels",
@@ -5035,7 +5049,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 54",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-54"
         },
-        "find": "This fortress, however, will not be any average fortress but will feature precious stones"
+        "find": "This fortress, however, will not be any average fortress but will feature precious stones",
+        "approved": "567a0220"
       },
       {
         "id": "isa54-weapon",
@@ -5047,7 +5062,8 @@ window.TU_WEEKS = [
           "title": "Lesson 129: Isaiah 54–57",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-teacher-manual/introduction-to-the-book-of-isaiah/lesson-129-isaiah-54-57?lang=eng"
         },
-        "find": "Furthermore, the divine promise is that no weapon formed against the"
+        "find": "Furthermore, the divine promise is that no weapon formed against the",
+        "approved": "418fe560"
       },
       {
         "id": "isa55-david",
@@ -5060,7 +5076,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 55",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-55"
         },
-        "find": "Even though David had committed great sins, the Lord promised him the Resurrection"
+        "find": "Even though David had committed great sins, the Lord promised him the Resurrection",
+        "approved": "b9077564"
       },
       {
         "id": "isa55-thorn",
@@ -5073,7 +5090,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 41 (2026) – Isaiah 50-57",
           "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
         },
-        "find": "I think the fall of Adam and Eve goes with this, with thorns and briars"
+        "find": "I think the fall of Adam and Eve goes with this, with thorns and briars",
+        "approved": "b1e86bbd"
       },
       {
         "id": "isa56-sabbath",
@@ -5085,7 +5103,8 @@ window.TU_WEEKS = [
           "title": "The Last Days and the Millennium (Isaiah 55–66)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-18?lang=eng"
         },
-        "find": "the Lord told Moses that keeping the Sabbath was a sign of the covenant between Israel and God"
+        "find": "the Lord told Moses that keeping the Sabbath was a sign of the covenant between Israel and God",
+        "approved": "bb21414d"
       },
       {
         "id": "isa57-mountain",
@@ -5098,7 +5117,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 57",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-57"
         },
-        "find": "and to possess all of the blessings that it provides to them"
+        "find": "and to possess all of the blessings that it provides to them",
+        "approved": "c0bdfa25"
       },
       {
         "id": "isa57-stumbling",
@@ -5111,7 +5131,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 57",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-57"
         },
-        "find": "The righteous are to help lift the stumbling blocks out of the way of those who return to God"
+        "find": "The righteous are to help lift the stumbling blocks out of the way of those who return to God",
+        "approved": "4cf99adb"
       },
       {
         "id": "isa57-sea",
@@ -5124,7 +5145,8 @@ window.TU_WEEKS = [
           "title": "Patience",
           "url": "https://speeches.byu.edu/talks/neal-a-maxwell/patience/"
         },
-        "find": "the wicked are like the pounding and troubled sea which cannot rest"
+        "find": "the wicked are like the pounding and troubled sea which cannot rest",
+        "approved": "521e7506"
       },
       {
         "id": "isa51-q-andersen",
@@ -5137,7 +5159,8 @@ window.TU_WEEKS = [
           "who": "Elder Neil L. Andersen",
           "title": "Repent … That I May Heal You",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2009/10/repent-that-i-may-heal-you?lang=eng"
-        }
+        },
+        "approved": "c34f2175"
       },
       {
         "id": "isa53-q-porter",
@@ -5150,7 +5173,8 @@ window.TU_WEEKS = [
           "who": "Elder Bruce D. Porter",
           "title": "A Broken Heart and a Contrite Spirit",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2007/10/a-broken-heart-and-a-contrite-spirit?lang=eng"
-        }
+        },
+        "approved": "594f9d9f"
       },
       {
         "id": "isa54-q-nelson",
@@ -5163,7 +5187,8 @@ window.TU_WEEKS = [
           "who": "President Russell M. Nelson",
           "title": "Let God Prevail",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2020/10/46nelson?lang=eng"
-        }
+        },
+        "approved": "3b4beff7"
       },
       {
         "id": "isa57-q-uchtdorf",
@@ -5176,7 +5201,8 @@ window.TU_WEEKS = [
           "who": "President Dieter F. Uchtdorf",
           "title": "October 5–11. “He Hath Borne Our Griefs, and Carried Our Sorrows”: Isaiah 50–57",
           "url": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/41?lang=eng"
-        }
+        },
+        "approved": "0789c866"
       },
       {
         "id": "isa53-v-church",
