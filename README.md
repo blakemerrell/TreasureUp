@@ -231,7 +231,9 @@ turns them on each other (Judges 7:22), mercy that makes everyone whole
 **Veterans, ladders and the palisade.** A soldier who fells three foes
 becomes a veteran, "exceedingly valiant for courage" (Alma 53:20), with
 more health and harder blows, and a second rank at eight; gold chevrons
-show it. In free battle the war camp stands behind a palisade: your
+show it. While a training ground stands, every soldier trained comes out a
+veteran already (Alma 53:21). A tile in the panel wears "New" for a while
+the first time it can be used, so you see the tree open as you build. In free battle the war camp stands behind a palisade: your
 soldiers break through it, climb it once ladders and cords are made
 (Alma 62:21), or bring it down with the earthquake. Once the Lamanites'
 ladder-works stands and your walls have stopped them twice, they bring
@@ -269,11 +271,13 @@ The buildings:
 | City | the standard | Builds everything; makes carts and workers; feeds 10, stores 300 |
 | Farm | | Feeds 8 more and grows a little grain (Helaman 6:12) |
 | Granary, storehouse | | Store 500 / 300 more of each; past that, what the carts bring is lost |
-| Barracks | | Spearmen, slingers (Alma 2:12), spies (Alma 43:23); archers and swordsmen once there's an armory |
+| Barracks | | Spearmen, slingers (Alma 2:12) and archers; weapons, armor and shields (3 Nephi 3:26) |
 | Watchtower | barracks | Shoots at enemies. Takes stone, quarried from rock faces |
-| Armory | barracks | Breastplates and shields (+4 armor, Alma 43:19), swords and cimeters (+3 up close, Alma 43:18), ridges of earth and pickets (walls ×2, Alma 50:1–3), bows of fine steel (1 Nephi 16:18), thick clothing (Alma 43:19), ladders and cords (Alma 62:21); one at a time |
+| Armory | barracks | Breastplates and shields (+4 armor, Alma 43:19), thick clothing (+2 armor for shooters, Alma 43:19), ridges of earth and pickets (walls ×2, Alma 50:1–3) |
+| Smithy | barracks | Swordsmen; swords and cimeters (+3 up close, Alma 43:18), bows of fine steel (archers farther and harder, 1 Nephi 16:18). Nephi "did make tools of the ore" (1 Nephi 17:16). Takes stone |
+| Training ground | barracks, farm | Spies (Alma 43:23); while it stands every soldier trained comes out a veteran, "taught" like the striplings (Alma 53:21) |
 | Stables | farm | Horse carts twice as fast as the city makes them (3 Nephi 3:22) |
-| Hall of the captains | armory | Javelin throwers (Jarom 1:8) and stripling warriors (Alma 53:20). Takes stone |
+| Hall of the captains | armory, smithy | Javelin throwers (Jarom 1:8) and stripling warriors (Alma 53:20; they also need the training ground); ladders and cords (Alma 62:21). Takes stone |
 | Temple | hall | Your people near it are made whole; the council comes back sooner and gives double (Mosiah 2:7); miracles are worked from it (2 Nephi 5:16). Mostly stone |
 
 Nobody can be trained without food for them. Each soldier is strong against
@@ -302,7 +306,7 @@ it makes shields and breastplates, garments of skins and, after your walls
 have stopped it twice, ladders (Alma 49:6, 49:22); and a tent you burn goes
 up again a few minutes later. Kill its bearers and the camp starves. Tear
 down the war camp and the camps to win. Both skirmishes give Easy ★, Normal ★★, Hard ★★★. A scripted
-player wins free battle's Normal in about 12 minutes against the living camp and
+player wins free battle's Normal in about 12 to 14 minutes against the living camp and
 Hard about 2 times in 6; it holds off the raids at every level and length,
 and a city left alone falls (Easy by about 15 minutes, Normal by 8). The
 council asks about every chapter read so far. Where a description borrows
