@@ -281,6 +281,23 @@ The buildings:
 | Hall of the captains | armory, smithy | Javelin throwers (Jarom 1:8) and stripling warriors (Alma 53:20; they also need the training ground); ladders and cords (Alma 62:21). Takes stone |
 | Temple | hall | Your people near it are made whole; the council comes back sooner and gives double (Mosiah 2:7); miracles are worked from it (2 Nephi 5:16). Mostly stone |
 
+**Pick a side, then a captain.** Free battle is played as the **Freemen**,
+"the people of liberty" (Alma 51:7), or as the **King-men**, all who fought
+for Amalickiah's crown (Alma 51:5, 47:35); the opponent plays the other
+side with the same rules (`liberty/camp.js`). Each side picks a captain,
+who comes as a hero and brings one gift: Moroni (earthworks and gates cost
+half), Helaman (the training ground gives two ranks), Teancum (javelin
+throwers reach farther and strike harder); Amalickiah (cunning waits half
+as long), Ammoron (warriors cost less), Zerahemnah (captains cost less).
+The King-men's tree mirrors the Freemen's: tents feed the warriors, the
+muster ground trains warriors and slingers, the shield-makers' tent makes
+their armor, the ladder-works their ladders, the chief captain's pavilion
+their captains, the war-dance ground sends warriors out fierce for a while
+(Alma 48:3), and the king's court works their cunning: flattery that turns
+one enemy on his own (Alma 46:5), dissension that stops an enemy building's
+work (Alma 53:8), stratagem that hides your warriors until they strike
+(Alma 58:6), and the king's call, four warriors at once (Alma 48:3).
+
 Nobody can be trained without food for them. Each soldier is strong against
 one kind of enemy (×1.5 damage), so a mixed army wins:
 
@@ -307,8 +324,9 @@ it makes shields and breastplates, garments of skins and, after your walls
 have stopped it twice, ladders (Alma 49:6, 49:22); and a tent you burn goes
 up again a few minutes later. Kill its bearers and the camp starves. Tear
 down the war camp and the camps to win. Both skirmishes give Easy ★, Normal ★★, Hard ★★★. A scripted
-player wins free battle's Normal in about 12 to 14 minutes against the living camp and
-Hard about 2 times in 6; it holds off the raids at every level and length,
+player wins free battle's Normal in about 12 to 14 minutes against the living camp as
+the Freemen, and in about 13 as the King-men against a Freemen camp (which, holding
+the stronger men, fields half the heads and fewer haulers); Hard about 2 times in 6; it holds off the raids at every level and length,
 and a city left alone falls (Easy by about 15 minutes, Normal by 8). The
 council asks about every chapter read so far. Where a description borrows
 from history rather than the verses (the atlatl, the stepped platform of the

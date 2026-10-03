@@ -45,12 +45,21 @@
                     about: 'Zerahemnah made Amalekites and Zoramites his chief captains (Alma 43:6). They were not naked like the others (43:20).' },
     zoramite:     { name: 'Zoramite captain', hp: 140, speed: 58, dmg: 12, range: 20, cd: 1.0, armor: 2, sight: 190, cost: { grain: 60, timber: 40 }, time: 12, needs: ['pavilion'], foe: true, color: '#7c2d12', band: '#a8a29e',
                     about: 'Zerahemnah made Amalekites and Zoramites his chief captains (Alma 43:6). They were not naked like the others (43:20).' },
-    zerahemnah:   { name: 'Zerahemnah', hp: 520, speed: 56, dmg: 18, range: 22, cd: 1.0, armor: 3, sight: 200, foe: true, leader: true, color: '#7c2d12', band: '#a8a29e',
+    zerahemnah:   { name: 'Zerahemnah', hp: 520, speed: 56, dmg: 18, range: 22, cd: 1.0, armor: 3, sight: 200, foe: true, leader: true, aura: 100, color: '#7c2d12', band: '#a8a29e',
                     about: 'Leader of the Lamanite armies (Alma 43:5).' },
     alma:         { name: 'Alma', hp: 1, speed: 0, dmg: 0, range: 0, cd: 1, armor: 0, sight: 0, prophet: true,
                     about: 'Moroni sent to him, "desiring him that he should inquire of the Lord whither the armies of the Nephites should go" (Alma 43:23).' },
     // Free battle: the Red Alert-style tech tree. Units marked `tier` appear only
     // there (W.tech); `needs` names the buildings that must stand first.
+    // The captains of free battle (design/evolution.md, section 7): each side's heroes. Helaman's picture is from 006; Teancum's, Amalickiah's and Ammoron's from 016.
+    helaman:      { name: 'Helaman', hp: 300, speed: 64, dmg: 16, range: 22, cd: 0.9, armor: 4, sight: 200, soldier: true, hero: true, aura: 130, tier: true,
+                    about: 'Led the two thousand stripling warriors, who "had been taught by their mothers" (Alma 56:47). Soldiers near him fight harder.' },
+    teancum:      { name: 'Teancum', hp: 280, speed: 66, dmg: 22, range: 95, cd: 1.5, armor: 3, sight: 210, soldier: true, ranged: true, hero: true, aura: 120, tier: true,
+                    about: '"Teancum stole privily into the tent of the king, and put a javelin to his heart" (Alma 51:34). Throws javelins; soldiers near him fight harder.' },
+    amalickiah:   { name: 'Amalickiah', hp: 320, speed: 60, dmg: 18, range: 22, cd: 1.0, armor: 4, sight: 200, foe: true, leader: true, aura: 100, tier: true, color: '#7c2d12', band: '#fcd34d',
+                    about: '"A very subtle man to do evil" (Alma 47:4), who by fraud "obtained the kingdom" (Alma 47:35). Warriors near him fight harder.' },
+    ammoron:      { name: 'Ammoron', hp: 300, speed: 60, dmg: 17, range: 22, cd: 1.0, armor: 4, sight: 200, foe: true, leader: true, aura: 100, tier: true, color: '#7c2d12', band: '#fcd34d',
+                    about: '"The brother of Amalickiah was appointed king over the people; and his name was Ammoron" (Alma 52:3). Warriors near him fight harder.' },
     standard:     { name: 'Standard of liberty', hp: 220, speed: 42, dmg: 0, range: 0, cd: 1, armor: 3, sight: 160, deploys: true, tier: true,
                     about: 'Moroni "planted the standard of liberty among the Nephites" (Alma 46:36). Choose open ground and plant it: your city grows from there.' },
     swordsman:    { name: 'Swordsman', hp: 115, speed: 58, dmg: 14, range: 20, cd: 1.0, armor: 2, sight: 170, cost: { grain: 55, timber: 35 }, time: 11, soldier: true, tier: true, needs: ['smithy'], beats: 'ranged',
@@ -93,7 +102,7 @@
                   about: 'Horse carts, twice as fast as the city makes them. They had "horses, and their chariots" (3 Nephi 3:22).' },
     hall:       { name: 'Hall of the captains', w: 3, h: 3, hp: 800, armor: 3, cost: { grain: 100, timber: 150, stone: 80 }, work: 36, needs: ['armory', 'smithy'], trains: ['javelin', 'stripling'], research: ['ladders'], tier: true,
                   about: 'Where the chief captains plan the war. Trains javelin throwers and stripling warriors. From history, not the verses: its stepped platform is like those built in ancient Mesoamerica.' },
-    temple:     { name: 'Temple', w: 3, h: 3, hp: 1200, armor: 4, cost: { grain: 100, timber: 120, stone: 200 }, work: 50, needs: ['hall'], heals: 190, miracles: true, tier: true,
+    temple:     { name: 'Temple', w: 3, h: 3, hp: 1200, armor: 4, cost: { grain: 100, timber: 120, stone: 200 }, work: 50, needs: ['hall'], heals: 190, miracles: true, powers: 'miracles', tier: true,
                   about: 'Built "after the manner of the temple of Solomon" (2 Nephi 5:16). Your people near it are made whole; the council comes back sooner and gives double, as at King Benjamin\'s tower by the temple (Mosiah 2:7); and miracles are worked from it.' },
     relic:      { name: 'Jaredite ruin', w: 2, h: 2, hp: 99999, armor: 9, neutral: true, untouchable: true, relic: true, tier: true,
                   about: 'The ruins of a people who were before. Limhi\'s men found such a land, "covered with ruins of buildings of every kind" (Mosiah 8:8), and in it plates, breastplates and swords. Send someone to see what this one holds.' },
@@ -108,6 +117,12 @@
                   about: 'Here they "prepared themselves with shields, and with breastplates" (Alma 49:6). Opens the chief captain\'s pavilion.' },
     ladderworks: { name: 'Ladder-works', w: 2, h: 2, hp: 400, armor: 1, cost: { timber: 110 }, work: 22, needs: ['muster'], research: ['lladders'], side: 'kingmen', tier: true,
                   about: 'Ladders for the banks of earth they could not "dig down" (Alma 49:22).' },
+    lookout:    { name: 'Lookout', w: 2, h: 2, hp: 520, armor: 3, cost: { timber: 60 }, work: 26, dmg: 9, range: 150, cd: 1.3, needs: ['muster'], side: 'kingmen', tier: true,
+                  about: 'A tower of lashed logs on an earth mound: the Lamanites\' watch over their camp. Shoots at enemies.' },
+    wardance:   { name: 'War-dance ground', w: 3, h: 2, hp: 380, armor: 1, cost: { grain: 40, timber: 80 }, work: 20, needs: ['muster', 'tents'], fierce: true, side: 'kingmen', tier: true,
+                  about: 'Round the fire the king "stirred them up to anger" (Alma 48:3): while it stands, every warrior trained comes out fierce for a while, faster and harder-hitting.' },
+    kingscourt: { name: 'King\'s court', w: 3, h: 3, hp: 1100, armor: 4, cost: { grain: 100, timber: 160 }, work: 48, needs: ['pavilion'], powers: 'cunning', side: 'kingmen', tier: true,
+                  about: 'Amalickiah "obtained the kingdom" by fraud and cunning servants (Alma 47:35). Cunning is worked from it, and while it stands warriors cost less.' },
     pavilion:   { name: 'Chief captain\'s pavilion', w: 3, h: 3, hp: 700, armor: 3, cost: { grain: 80, timber: 140 }, work: 32, needs: ['shieldtent'], trains: ['amalekite', 'zoramite'], side: 'kingmen', tier: true,
                   about: 'Zerahemnah "appointed chief captains over the Lamanites, and they were all Amalekites and Zoramites" (Alma 43:6).' },
     warcamp:    { name: 'Lamanite war camp', w: 4, h: 4, hp: 1800, armor: 3, tier: true, dropoff: true, builder: true, trains: ['bearer'], food: 40, store: 300, side: 'kingmen',
@@ -448,16 +463,57 @@
     ]
   };
 
+  // The King-men's cunning, worked from the king's court as the Freemen's miracles are from the temple (design/evolution.md, section 6).
+  const CUNNING = {
+    flattery:   { name: 'Flattery', ref: 'Alma 46:5', wait: 90, aim: 'foe', last: 20,
+                  about: 'One enemy is "led by the flatteries of Amalickiah" (Alma 46:5) and turns on his own for a while.',
+                  done: 'Flattered, he turns on his own.' },
+    dissension: { name: 'Dissension', ref: 'Alma 53:8', wait: 120, aim: 'building', last: 40,
+                  about: 'An enemy building stops its work for a while, like the "intrigue amongst the Nephites, which caused dissensions" (Alma 53:8).',
+                  done: 'Dissension: their work stops for a while.' },
+    stratagem:  { name: 'Stratagem', ref: 'Alma 58:6', wait: 150, aim: 'none', last: 25,
+                  about: 'Your warriors go unseen until they strike, "resolving by stratagem" (Alma 58:6).',
+                  done: 'By stratagem your warriors go unseen until they strike.' },
+    host:       { name: 'The king\'s call', ref: 'Alma 48:3', wait: 180, aim: 'none',
+                  about: 'Four warriors gather at once at the muster ground: "a numerous host" stirred up by the king (Alma 48:3).',
+                  done: 'A host answers the king\'s call.' }
+  };
+  const POWERS = { miracles: MIRACLES, cunning: CUNNING };
+
   // The sides of a skirmish (design/evolution.md, section 2). The human is team 'p' and the opponent team 'r';
   // each team carries a side, which chooses its tree, its pictures and its words.
   const SIDES = {
-    freemen: { name: 'Freemen', people: 'The Nephites', ref: 'Alma 51:6', capital: 'stronghold',
-               about: 'Those who "took upon them the name of freemen" (Alma 51:6): the people of liberty, under Moroni\'s title.' },
-    kingmen: { name: 'King-men', people: 'The Lamanites', ref: 'Alma 51:5', capital: 'warcamp',
-               about: 'Those who "were called king-men" (Alma 51:5): all who fought for Amalickiah\'s crown, the Lamanite armies and the dissenters with them.' }
+    // (`bot`: how the camp's mind scales the difficulty table when it holds this side. A Nephite soldier costs about twice a
+    // Lamanite warrior and wears armor, so a Freemen camp marches with half the heads and without the Lamanites' fierceness;
+    // a horse cart hauls two and a half bearers' worth, and farms grow grain besides, so it keeps far fewer haulers.)
+    freemen: { name: 'Freemen', people: 'The Nephites', ref: 'Alma 51:6', capital: 'stronghold', hauler: 'cart', builder: 'worker', foodHint: 'build a farm', powers: 'miracles', house: 'Temple', bot: { march: 0.5, strength: 0.8, haulers: 0.4 },
+               build: ['farm', 'granary', 'storehouse', 'barracks', 'wall', 'gate', 'tower', 'armory', 'smithy', 'training', 'stables', 'hall', 'temple'],
+               about: 'Those who "took upon them the name of freemen" (Alma 51:6): the people of liberty, under Moroni\'s title. Fortify, upgrade, and work miracles from the temple.' },
+    kingmen: { name: 'King-men', people: 'The Lamanites', ref: 'Alma 51:5', capital: 'warcamp', hauler: 'bearer', builder: 'bearer', foodHint: 'pitch tents', powers: 'cunning', house: 'Court', bot: { march: 1, strength: 1, haulers: 1 },
+               build: ['tents', 'storetent', 'muster', 'wall', 'gate', 'lookout', 'shieldtent', 'ladderworks', 'wardance', 'pavilion', 'kingscourt'],
+               about: 'Those who "were called king-men" (Alma 51:5): all who fought for Amalickiah\'s crown, the Lamanite armies and the dissenters with them. Numbers, fierce captains, and cunning from the king\'s court.' }
+  };
+  // Pick a side, then a captain (design/evolution.md, section 7): each brings a hero and one gift.
+  const CAPTAINS = {
+    freemen: {
+      moroni:  { name: 'Moroni', hero: 'moroni', ref: 'Alma 48:11', bonus: { wallCost: 0.5 }, gift: 'Earthworks and gates cost half',
+                 about: '"A man whose soul did joy in the liberty and the freedom of his country" (Alma 48:11).' },
+      helaman: { name: 'Helaman', hero: 'helaman', ref: 'Alma 53:21', bonus: { ranks: 2 }, gift: 'The training ground gives two ranks',
+                 about: 'His two thousand were "taught to keep the commandments of God" (Alma 53:21).' },
+      teancum: { name: 'Teancum', hero: 'teancum', ref: 'Alma 51:34', bonus: { javelin: 30 }, gift: 'Javelin throwers reach farther and strike harder',
+                 about: '"Teancum stole privily into the tent of the king" (Alma 51:34).' }
+    },
+    kingmen: {
+      amalickiah: { name: 'Amalickiah', hero: 'amalickiah', ref: 'Alma 47:35', bonus: { powerWait: 0.5 }, gift: 'Cunning waits half as long',
+                    about: '"By his fraud, and by the assistance of his cunning servants, he obtained the kingdom" (Alma 47:35).' },
+      ammoron:    { name: 'Ammoron', hero: 'ammoron', ref: 'Alma 52:3', bonus: { warriorCost: 0.8 }, gift: 'Warriors cost less',
+                    about: '"The brother of Amalickiah was appointed king over the people" (Alma 52:3).' },
+      zerahemnah: { name: 'Zerahemnah', hero: 'zerahemnah', ref: 'Alma 43:6', bonus: { captainCost: 0.7 }, gift: 'Captains cost less',
+                    about: 'He "appointed chief captains over the Lamanites, and they were all Amalekites and Zoramites" (Alma 43:6).' }
+    }
   };
 
-  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, ARTIFACTS, SIDES, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
+  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, CUNNING, POWERS, ARTIFACTS, SIDES, CAPTAINS, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
   if (typeof module !== 'undefined' && module.exports) module.exports = DATA;
   else root.LIB_DATA = DATA;
 })(this);

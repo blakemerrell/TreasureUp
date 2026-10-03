@@ -15,6 +15,8 @@
   const maxHp = e => e.max || e.def.hp;                // walls grow stronger with pickets
   // What kind of fighter a unit is, for who beats whom: shooters, the armored, and the lightly armed.
   const kindOf = def => def.ranged ? 'ranged' : (def.armor || 0) >= 2 ? 'armored' : 'light';
+  // A fighter: a soldier of the Nephites, or a warrior of the Lamanites.
+  const fighter = def => !!(def.soldier || def.foe);
   // Armor takes a share of each blow, never all of it.
   const ARMOR = 6;
 
@@ -68,7 +70,7 @@
     // World.res, World.researched and so on, so the panel, the missions and the tests needn't know about sides.
     static side(name) {
       return { side: name || null, res: { grain: 0, timber: 0, stone: 0 }, researched: {}, researching: null,
-        armor: 0, dmgUp: 0, wallMul: 1, bows: false, clothing: false, ladders: false, artifacts: {}, ready: {} };
+        armor: 0, dmgUp: 0, wallMul: 1, bows: false, clothing: false, ladders: false, artifacts: {}, ready: {}, captain: null };
     }
     side(team) { return this.sides[team] || (this.sides[team] = World.side()); }
     // What to call a side's people in a message: "The Lamanites have made ..." (data.js: SIDES).
@@ -141,8 +143,14 @@
     }
     units(team) { const out = []; for (const e of this.ents.values()) if (e.kind === 'unit' && (!team || e.team === team)) out.push(e); return out; }
     buildings(team, type) { const out = []; for (const e of this.ents.values()) if (e.kind === 'building' && (!team || e.team === team) && (!type || e.type === type)) out.push(e); return out; }
-    stronghold(team) { return this.buildings(team || this.me, 'stronghold')[0] || null; }
-    soldiers(team) { return this.units(team || this.me).filter(u => u.def.soldier); }
+    // A side's capital: Zarahemla for the Freemen, the war camp for the King-men (data.js: SIDES).
+    sideOf(team) { const k = this.side(team || this.me).side; return (k && D.SIDES && D.SIDES[k]) || null; }
+    capitalType(team) { const S = this.sideOf(team); return (S && S.capital) || 'stronghold'; }
+    foodHint(team) { const S = this.sideOf(team); return (S && S.foodHint) || 'build a farm'; }
+    stronghold(team) { return this.buildings(team || this.me, this.capitalType(team))[0] || null; }
+    soldiers(team) { return this.units(team || this.me).filter(u => fighter(u.def)); }
+    // A hero of the Nephites; or, in a skirmish, a leader of the Lamanites.
+    heroic(u) { return !!(u.def.hero || (u.def.leader && this.tech)); }
 
     // Nearest free tile to (tx, ty) this team can stand on.
     freeTileNear(tx, ty, team) {
@@ -167,7 +175,7 @@
     // --- paths: A* on tiles, eight ways, no cutting corners.
     // `goal` is a rectangle; `near` means ending next to it is enough.
     findPath(u, goal, near) {
-      const team = u.team, walls = !!u.def.foe || this.canClimb(u);
+      const team = u.team, walls = (u.team !== this.me && fighter(u.def)) || this.canClimb(u);
       const sx = tileOf(u.x), sy = tileOf(u.y);
       const gx0 = goal.x0, gy0 = goal.y0, gx1 = goal.x1, gy1 = goal.y1;
       const reached = (x, y) => near
@@ -267,7 +275,7 @@
       let n = 0;
       for (const e of this.ents.values()) {
         if (e.team !== team) continue;
-        if (e.kind === 'unit' && !e.def.hero && (e.def.soldier || e.def.foe || e.def.gathers || e.def.builds || e.def.scout)) n++;
+        if (e.kind === 'unit' && !this.heroic(e) && (fighter(e.def) || e.def.gathers || e.def.builds || e.def.scout)) n++;
         else if (e.kind === 'building') n += e.queue.length;
       }
       return n;
@@ -293,17 +301,18 @@
       const def = UNITS[type], need = this.missing(def, team);
       if (!this.visible(def)) return 'Not in this mission';
       if (need.length) return 'Needs ' + need.map(t => BUILDINGS[t].name).join(' and ');
-      if (this.tech && this.foodUsed(team) >= this.foodCap(team)) return 'Not enough food: build a farm';
+      if (this.tech && this.foodUsed(team) >= this.foodCap(team)) return 'Not enough food: ' + this.foodHint(team);
       return '';
     }
     // The standard of liberty, planted: your city stands there (Alma 46:36).
     deploy(u) {
       if (!u.def.deploys) return null;
       const x = tileOf(u.x) - 1, y = tileOf(u.y) - 1;
-      if (!this.canPlace('stronghold', x, y, u.team)) return null;
+      const type = this.capitalType(u.team);
+      if (!this.canPlace(type, x, y, u.team)) return null;
       this.remove(u);
-      const b = this.addBuilding('stronghold', u.team, x, y, true, { name: 'Your city' });
-      this.msg('You plant the standard of liberty, and your city begins.', 'Alma 46:36', 'good');
+      const b = this.addBuilding(type, u.team, x, y, true, { name: type === 'stronghold' ? 'Your city' : 'Your camp' });
+      if (u.team === this.me) this.msg('You plant the standard of liberty, and your city begins.', 'Alma 46:36', 'good');
       return b;
     }
 
@@ -339,18 +348,35 @@
       const def = BUILDINGS[type];
       team = team || this.me;
       if (!def || !def.cost) return null;            // only what can be built: not a city, a village or a camp
-      if (this.whyNotBuild(type, team) || !this.canPlace(type, tx, ty, team) || !this.canAfford(def.cost, team)) return null;
-      this.pay(def.cost, team);
+      const cost = this.costOf(def, team, 'build');
+      if (this.whyNotBuild(type, team) || !this.canPlace(type, tx, ty, team) || !this.canAfford(cost, team)) return null;
+      this.pay(cost, team);
       const b = this.addBuilding(type, team, tx, ty, false);
       for (const u of builders || []) if (u.def.builds) this.order(u, { type: 'build', target: b.id });
       return b;
     }
     train(b, type) {
       const def = UNITS[type];
-      if (b.built < 1 || !b.def.trains || !b.def.trains.includes(type) || this.whyNotTrain(type, b.team) || !this.canAfford(def.cost, b.team) || b.queue.length >= 5) return false;
-      this.pay(def.cost, b.team);
+      const cost = this.costOf(def, b.team, 'train');
+      if (b.built < 1 || !b.def.trains || !b.def.trains.includes(type) || this.whyNotTrain(type, b.team) || !this.canAfford(cost, b.team) || b.queue.length >= 5) return false;
+      this.pay(cost, b.team);
       b.queue.push({ type, left: def.time });
       return true;
+    }
+    // What a thing costs this side: a captain's gift, or the king's court, may make it cheaper (data.js: CAPTAINS).
+    costOf(def, team, what) {
+      team = team || this.me;
+      const c = this.side(team).captain, g = (c && c.bonus) || {};
+      let k = 1;
+      if (what === 'build' && def.wall != null && g.wallCost) k = g.wallCost;
+      if (what === 'train' && def.foe && !def.leader) {
+        if (def.needs && g.captainCost) k = g.captainCost;                                   // the captains
+        else if (!def.needs && g.warriorCost) k = g.warriorCost;                             // warriors and slingers
+        if (!def.needs && this.buildings(team).some(x => x.def.powers === 'cunning' && x.built >= 1 && !x.dead)) k *= 0.8;   // the king's court: numbers (Alma 49:6)
+      }
+      if (k === 1 || !def.cost) return def.cost;
+      const out = {}; for (const r of KINDS) if (def.cost[r]) out[r] = Math.round(def.cost[r] * k);
+      return out;
     }
     // What a building can make: in free battle, the armory's list; in a mission, the mission's own armor at the barracks.
     researchAt(b) {
@@ -373,9 +399,11 @@
       if (this.inZone(target, 'fire', target.team)) return;                  // within their pillar of fire nothing harms them (Helaman 5:23)
       const F = from && this.side(from.team);
       let a = amount * (from && this.boost[from.team] || 1);
-      if (from && from.kind === 'unit' && from.def.soldier && !from.def.ranged) a += F.dmgUp;
+      if (from && from.kind === 'unit' && fighter(from.def) && !from.def.ranged) a += F.dmgUp;
       if (from && from.kind === 'unit' && this.aura(from)) a *= 1.25;
       if (from && from.type === 'archer' && F.bows) a += 4;                                // bows of fine steel
+      if (from && from.type === 'javelin' && F.captain && F.captain.bonus.javelin) a += 4;  // Teancum's javelins
+      if (from && from.fierceUntil > this.t) a *= 1.25;                                     // fierce from the war-dance
       if (from && from.rank) a *= 1 + 0.15 * from.rank;                                   // a veteran strikes harder
       if (from && from.sword) a *= 1.5;                                                   // the sword of Laban (1 Nephi 4:9)
       if (from && from.def.foe && from.weak) a *= 0.6;
@@ -399,7 +427,7 @@
       if (target.helpAt && this.t - target.helpAt < 1) return;
       target.helpAt = this.t;
       for (const u of this.ents.values()) {
-        if (u.kind !== 'unit' || u.team !== target.team || !u.def.soldier || u.dead) continue;
+        if (u.kind !== 'unit' || u.team !== target.team || !fighter(u.def) || u.dead) continue;
         if (u.order.type !== 'idle' || dist(u, target) > 360) continue;
         this.order(u, { type: 'attack', target: from.id, leash: { x: u.x, y: u.y } });
       }
@@ -415,8 +443,8 @@
       this.msg(`${what} ${target.kind === 'building' ? 'is' : 'are'} under attack!`, null, 'warn');
     }
     aura(u) {
-      if (!u.def.soldier || u.def.hero) return false;
-      for (const h of this.ents.values()) if (h.kind === 'unit' && (h.def.hero || h.sword) && h.team === u.team && !h.dead && dist(h, u) < (h.def.aura || 110)) return true;
+      if (!fighter(u.def) || this.heroic(u)) return false;
+      for (const h of this.ents.values()) if (h.kind === 'unit' && (this.heroic(h) || h.sword) && h.team === u.team && !h.dead && dist(h, u) < (h.def.aura || 110)) return true;
       return false;
     }
     // --- artifacts: found among the Jaredite ruins, or brought out by the people (data.js: ARTIFACTS)
@@ -444,14 +472,17 @@
     // --- the temple's miracles
     // Is `e` within a zone of that kind? With `team`, one worked by that side; with `foe`, one worked by any other side.
     inZone(e, kind, team, foe) { return this.zones.some(z => z.kind === kind && (team == null || z.team === team) && (foe == null || z.team !== foe) && Math.hypot(e.x - z.x, e.y - z.y) < z.r); }
-    temple(team) { return this.buildings(team || this.me, 'temple').find(b => b.built >= 1 && !b.dead) || null; }
+    // Where a side's powers are worked: the Freemen's temple, the King-men's court (data.js: POWERS). temple() is the old name.
+    powerHouse(team) { return this.buildings(team || this.me).find(b => b.def.powers && b.built >= 1 && !b.dead) || null; }
+    temple(team) { return this.powerHouse(team); }
+    power(key) { for (const k in D.POWERS) if (D.POWERS[k][key]) return D.POWERS[k][key]; return null; }
     // Why a miracle can't be worked now: 'temple' (none stands), 'wait' (not yet), or ''.
-    whyNotMiracle(key, team) { if (!MIRACLES[key]) return 'none'; if (!this.temple(team)) return 'temple'; return this.t < (this.side(team || this.me).ready[key] || 0) ? 'wait' : ''; }
+    whyNotMiracle(key, team) { const m = this.power(key), h = this.powerHouse(team); if (!m) return 'none'; if (!h || !D.POWERS[h.def.powers][key]) return 'temple'; return this.t < (this.side(team || this.me).ready[key] || 0) ? 'wait' : ''; }
     miracleWait(key, team) { return Math.max(0, (this.side(team || this.me).ready[key] || 0) - this.t); }
     // Work a miracle at a spot (or on one foe, or on everyone). False if it can't be.
     miracle(key, x, y, targetId, team) {
       team = team || this.me;
-      const m = MIRACLES[key];
+      const m = this.power(key);
       if (!m || this.whyNotMiracle(key, team)) return false;
       const foesIn = r => [...this.ents.values()].filter(e => e.kind === 'unit' && e.team !== team && e.team !== 'n' && !e.dead && !e.untouchable && Math.hypot(e.x - x, e.y - y) < r);
       if (key === 'fire') {
@@ -486,8 +517,26 @@
           if (this.passable(tileOf(nx), tileOf(ny), u.team)) { u.x = nx; u.y = ny; u.path = null; }
         }
         this.zones.push({ kind: 'shock', team, x: u.x, y: u.y, r: 24, until: this.t + 1 });
+      } else if (key === 'flattery') {              // one of theirs turns on his own for a while (Alma 46:5)
+        const u = this.ents.get(targetId);
+        if (!u || u.kind !== 'unit' || u.team === team || u.team === 'n' || u.dead || u.untouchable) return false;
+        u.turnUntil = this.t + m.last; this.turnOn(u);
+        this.zones.push({ kind: 'turn', team, x: u.x, y: u.y, r: 30, until: this.t + 2 });
+      } else if (key === 'dissension') {            // one of their buildings stops its work (Alma 53:8)
+        const b = this.ents.get(targetId);
+        if (!b || b.kind !== 'building' || b.team === team || b.team === 'n' || b.dead || b.untouchable) return false;
+        b.stalledUntil = this.t + m.last;
+        this.zones.push({ kind: 'turn', team, x: b.x, y: b.y, r: 40, until: this.t + 2 });
+      } else if (key === 'stratagem') {             // your fighters go unseen until they strike (Alma 58:6)
+        for (const u of this.units(team)) if (fighter(u.def)) u.stealthUntil = this.t + m.last;
+        this.zones.push({ kind: 'mercy', team, x: 0, y: 0, r: 0, until: this.t + 2 });
+      } else if (key === 'host') {                  // four warriors at once (Alma 48:3)
+        const at = this.buildings(team).find(b => b.def.trains && b.def.trains.includes('lamanite') && b.built >= 1 && !b.dead) || this.powerHouse(team);
+        for (let i = 0; i < 4; i++) { const [tx, ty] = this.freeTileNear(at.tx + i % 3, at.ty + at.h, team); this.addUnit('lamanite', team, center(tx), center(ty), at.spawn || undefined); }
+        this.zones.push({ kind: 'mercy', team, x: 0, y: 0, r: 0, until: this.t + 2 });
       }
-      this.side(team).ready[key] = this.t + m.wait;
+      const cap = this.side(team).captain;
+      this.side(team).ready[key] = this.t + m.wait * ((cap && cap.bonus.powerWait) || 1);
       if (team === this.me) this.msg(m.done, m.ref, 'good');
       return true;
     }
@@ -502,7 +551,7 @@
       if (e.kind === 'unit') {
         if (e.team === this.me) {
           this.stats.fallen++;
-          if (e.def.hero) {
+          if (this.heroic(e)) {
             (this.heroesBack = this.heroesBack || []).push({ type: e.type, at: this.t + 40 });
             const s = this.stronghold();
             this.msg(`${e.def.name} is wounded and carried back to ${s ? s.name || s.def.name : 'the city'}. He will lead again soon.`, null, 'warn');
@@ -514,7 +563,7 @@
           if (e.sword) { e.sword = false; this.swordTo(e, e.team); }
         }
         // A veteran: three foes make a soldier "exceedingly valiant for courage" (Alma 53:20); eight, a veteran twice over.
-        if (from && from.kind === 'unit' && from.team !== e.team && e.team !== 'n' && from.def.soldier && !from.def.hero && !from.dead) {
+        if (from && from.kind === 'unit' && from.team !== e.team && e.team !== 'n' && fighter(from.def) && !this.heroic(from) && !from.dead) {
           from.kills = (from.kills || 0) + 1;
           const rank = from.kills >= 8 ? 2 : from.kills >= 3 ? 1 : 0;
           if (rank > (from.rank || 0)) {
@@ -531,7 +580,9 @@
 
     // Standing still in cover, and not fighting lately: the enemy walks past (Alma 43:27).
     hidden(u) {
-      if (u.kind !== 'unit' || u.team !== this.me || !this.cover.length || u.order.type !== 'idle' || this.t - (u.struckAt || -99) < 4) return false;
+      if (u.kind !== 'unit') return false;
+      if (u.stealthUntil > this.t && this.t - (u.struckAt || -99) >= 2) return true;      // by stratagem, unseen until they strike (Alma 58:6)
+      if (u.team !== this.me || !this.cover.length || u.order.type !== 'idle' || this.t - (u.struckAt || -99) < 4) return false;
       const x = tileOf(u.x), y = tileOf(u.y);
       return this.cover.some(c => x >= c.x0 && x <= c.x1 && y >= c.y0 && y <= c.y1);
     }
@@ -542,7 +593,7 @@
       for (const e of this.ents.values()) {
         if (e.dead || e.untouchable || e.team === team || e.team === 'n' || e.team === 'x') continue;
         if (auto && e.noAuto) continue;
-        if (team !== this.me && this.hidden(e) && dist(p, e) > 40) continue;
+        if (e.team !== team && this.hidden(e) && dist(p, e) > 40) continue;
         if (unitsOnly && e.kind !== 'unit') continue;
         // (Towers and cities shoot from their walls, as they're shot at: measured from the edge, not the middle.)
         const d = e.kind === 'building' ? this.distToRect(p, e) : p.kind === 'building' ? this.distToRect(e, p) : dist(p, e);
@@ -559,7 +610,7 @@
     }
     reachOf(u, target) { return (target.kind === 'building' ? this.distToRect(u, target) : dist(u, target) - 10) <= this.rangeOf(u) + 6; }
     // How far a unit strikes: archers farther with bows of fine steel (1 Nephi 16:18).
-    rangeOf(u) { return u.def.range + (u.type === 'archer' && this.side(u.team).bows ? 40 : 0); }
+    rangeOf(u) { const S = this.side(u.team); return u.def.range + (u.type === 'archer' && S.bows ? 40 : 0) + (u.type === 'javelin' && S.captain && S.captain.bonus.javelin ? S.captain.bonus.javelin : 0); }
     // Who can go over an enemy wall: those who brought ladders, or a side's fighters once it has made ladders (Alma 62:21).
     canClimb(u) { return !!u.ladders || ((u.def.soldier || u.def.foe) && !!this.side(u.team).ladders); }
 
@@ -578,6 +629,7 @@
         if (!S.researching) continue;
         const b = this.ents.get(S.researching.by);
         if (!b || b.dead) { S.researching = null; continue; }
+        if (b.stalledUntil > this.t) continue;                                     // dissension: no work for a while
         if ((S.researching.left -= dt * (S.artifacts.plates ? 2 : 1)) <= 0) {   // twice as fast with the brass plates
           const key = S.researching.key, r = RESEARCH[key];
           S.researched[key] = true; S.researching = null;
@@ -602,7 +654,7 @@
       this.effects = this.effects.filter(f => this.t - f.t < 0.35);
       this.zones = this.zones.filter(z => this.t < z.until);
       // A Jaredite ruin: someone of yours beside it finds what it holds (Mosiah 8:9-11).
-      for (const b of this.buildings('n')) if (b.def.relic && !b.dead && b.artifact) for (const team in this.sides) if (this.units(team).some(u => !u.def.foe && this.nextTo(u, this.rectOf(b)))) { const key = b.artifact; this.remove(b); this.grant(key, 'ruin', team); break; }   // (an army marching past takes nothing; that's for 5c)
+      for (const b of this.buildings('n')) if (b.def.relic && !b.dead && b.artifact) for (const team in this.sides) if (this.units(team).some(u => (team === this.me || !u.def.foe) && this.nextTo(u, this.rectOf(b)))) { const key = b.artifact; this.remove(b); this.grant(key, 'ruin', team); break; }   // (an army marching past takes nothing; that's for 5c)
       if (this.t - (this.swordCheckAt || -99) > 2) { this.swordCheckAt = this.t; for (const team in this.sides) if (this.sides[team].artifacts.sword && !this.units(team).some(u => u.sword)) this.swordTo(null, team); }
       // A temple: that side's people near it are made whole, a little at a time.
       for (const b of this.buildings(null, 'temple')) if (b.built >= 1 && !b.dead) for (const u of this.units(b.team)) if (u.hp < maxHp(u) && dist(u, b) < b.def.heals) u.hp = Math.min(maxHp(u), u.hp + maxHp(u) * 0.012 * dt);
@@ -629,14 +681,18 @@
         return;
       }
       if (b.def.grows) this.gain('grain', b.def.grows * dt, b.team);   // "they did raise grain in abundance" (Helaman 6:12)
-      if (b.queue.length) {
+      if (b.queue.length && !(b.stalledUntil > this.t)) {
         const q = b.queue[0];
         if ((q.left -= dt * this.trainSpeed(b)) <= 0) {
           b.queue.shift();
           const [x, y] = this.freeTileNear(b.tx + Math.floor(b.w / 2), b.ty + b.h, b.team);
           const u = this.addUnit(q.type, b.team, center(x), center(y), b.spawn || undefined);   // (b.spawn: what its trainees start with, e.g. a camp's mode and home)
           // A training ground standing: a soldier comes out a veteran, "taught" like the striplings (Alma 53:21).
-          if (u.def.soldier && !u.def.hero && this.buildings(b.team).some(t => t.def.veterans && t.built >= 1 && !t.dead)) { u.rank = 1; u.kills = 3; u.max = Math.round(u.def.hp * 1.15); u.hp = u.max; }
+          if (fighter(u.def) && !this.heroic(u)) {
+            const own = this.buildings(b.team).filter(t => t.built >= 1 && !t.dead), cap = this.side(b.team).captain;
+            if (own.some(t => t.def.veterans)) { const r = (cap && cap.bonus.ranks) || 1; u.rank = r; u.kills = r >= 2 ? 8 : 3; u.max = Math.round(u.def.hp * (1 + 0.15 * r)); u.hp = u.max; }
+            if (own.some(t => t.def.fierce)) u.fierceUntil = this.t + 45;      // from the war-dance: faster and harder for a while
+          }
           if (b.team === this.me) this.trained[q.type] = (this.trained[q.type] || 0) + 1;
           if (b.rally) this.moveTo(u, b.rally[0], b.rally[1]);
         }
@@ -662,16 +718,17 @@
       u.think -= dt;
       if (u.think <= 0) {
         u.think = 0.4;
-        if (u.def.foe && this.mission && this.mission.foeBrain) {
+        const mine = u.team === this.me || !fighter(u.def);           // the human's, or a hauler or builder of any side
+        if (!mine && this.mission && this.mission.foeBrain) {
           if (u.turnUntil > this.t) { if (u.order.type === 'idle') this.turnOn(u); }          // turned on his own (Judges 7:22)
           else if (!(u.fearUntil > this.t)) this.mission.foeBrain(this, u);                    // (fleeing the fire, he keeps running)
         }
         // (An army lying hidden holds still until it's ordered, or found.)
-        else if (!u.def.foe && u.order.type === 'idle' && u.def.dmg && !u.def.gathers && !u.def.builds && (!this.hidden(u) || this.t - (u.hitAt || -99) < 2)) this.autoAcquire(u, u.def.sight);
-        else if (!u.def.foe && u.order.type === 'move' && u.order.attackMove) this.autoAcquire(u, u.def.sight, true);
-        else if (!u.def.foe && u.order.type === 'idle' && (u.def.gathers || u.def.builds) && u.hitAt && this.t - u.hitAt < 1.5) this.autoAcquire(u, 60);
+        else if (mine && u.order.type === 'idle' && u.def.dmg && !u.def.gathers && !u.def.builds && (!this.hidden(u) || this.t - (u.hitAt || -99) < 2)) this.autoAcquire(u, u.def.sight);
+        else if (mine && u.order.type === 'move' && u.order.attackMove) this.autoAcquire(u, u.def.sight, true);
+        else if (mine && u.order.type === 'idle' && (u.def.gathers || u.def.builds) && u.hitAt && this.t - u.hitAt < 1.5) this.autoAcquire(u, 60);
         // A cart with nothing to do goes and hauls, like a harvester in Red Alert.
-        else if (!u.def.foe && u.order.type === 'idle' && u.def.gathers && u.def.load) this.autoHaul(u);
+        else if (mine && u.order.type === 'idle' && u.def.gathers && u.def.load) this.autoHaul(u);
       }
       const o = u.order;
       switch (o.type) {
@@ -722,7 +779,7 @@
       const then = u.order.then, leash = u.order.leash;
       if (then) { this.order(u, then); return; }
       this.order(u, { type: 'idle' });
-      if (u.def.foe) return;
+      if (u.team !== this.me && fighter(u.def)) return;
       if (!gaveUp && this.autoAcquire(u, u.def.sight, false, leash)) return;
       // Back to where they were standing guard.
       if (leash && dist(u, leash) > TILE * 1.5) this.order(u, { type: 'move', tx: tileOf(leash.x), ty: tileOf(leash.y) });
@@ -752,6 +809,7 @@
       const dx = cx - u.x, dy = cy - u.y, d = Math.hypot(dx, dy);
       let sp = u.def.speed * (u.slow || 1) * (this.tile(tileOf(u.x), tileOf(u.y)) === T.FORD ? 0.7 : 1);
       if (u.climbing) sp *= 0.4;
+      if (u.fierceUntil > this.t) sp *= 1.15;
       if (u.carry && u.carry.amt) sp *= 0.9;
       const s = sp * dt;
       // Close is close enough: units crowding one tile push each other off its exact middle.

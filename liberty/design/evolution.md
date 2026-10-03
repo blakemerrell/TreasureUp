@@ -218,6 +218,30 @@ paths, fields and rock faces stay true. Pipeline to be designed after 5c.
 - Later: the hall's council of war, the Robbers, the stories migrated onto the
   engine with drawn maps.
 
+## 13a. What 5c built
+
+Pick a side, then a captain, on the free battle card; the opponent plays
+the other side with the same mind (camp.js), and picks a captain of its own,
+who marches with its armies from the second march on. The King-men's tree
+as in section 4, with the lookout for their tower; the war-dance ground
+(warriors come out fierce for 45 s: a quarter harder and a little faster)
+and the king's court (cunning as in section 6; warriors a fifth cheaper
+while it stands). Gifts as in section 7, with Teancum's night strike left
+for the council of war. The council (the scripture quiz) is the same for
+both sides.
+
+Found in play, with a scripted King-men player against the Freemen camp:
+the difficulty table (section 9) counts Lamanite heads, and a Nephite
+soldier costs about twice a Lamanite warrior and wears armor, so a camp
+holding the Freemen scales it (data.js: `SIDES.bot`): half the heads in
+its marches and its guard, no Lamanite fierceness (strength ×0.8), and far
+fewer haulers (a horse cart hauls two and a half bearers' worth, and farms
+grow grain besides). A rich camp still marches in waves, never sooner than
+half the usual gap after the last. And the camp keeps a one-tile apron open
+round every store, or its own haulers can't get in. With these, a steady
+King-men player on Normal takes Zarahemla in about 13 minutes, as a steady
+Freemen player takes the war camp in about 14.
+
 ## 14. Open questions
 
 - Does the King-men side get a temple-like healer, or is "cheaper warriors" its

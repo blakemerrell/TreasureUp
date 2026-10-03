@@ -820,34 +820,35 @@
   // The Lamanites: guards keep near home; the rest go for your nearest building.
   function freeBrain(W, u) {
     const o = u.order;
+    if (u.scripted) return;                       // (a unit under a test's orders is left alone)
     if (o.type === 'attack') {
       const t = W.ents.get(o.target);
       if (alive(t)) {
-        if (t.kind === 'building') { const e = W.enemiesNear(u, 'r', 90, true); if (e) W.order(u, { type: 'attack', target: e.id, then: o }); }
+        if (t.kind === 'building') { const e = W.enemiesNear(u, u.team, 90, true); if (e) W.order(u, { type: 'attack', target: e.id, then: o }); }
         else if (u.home && dist(t, u.home) > 11 * TILE) W.order(u, { type: 'move', goal: W.rectOf(u.home), near: true });   // guards don't chase far
         return;
       }
     }
     if (u.mode === 'guard' || u.mode === 'muster') {
-      const e = W.enemiesNear(u, 'r', 200, true);
+      const e = W.enemiesNear(u, u.team, 200, true);
       if (e && (!u.home || dist(e, u.home) < 10 * TILE)) W.order(u, { type: 'attack', target: e.id });
       else if (u.home && alive(u.home) && o.type === 'idle' && dist(u, u.home) > 5 * TILE) W.order(u, { type: 'move', goal: W.rectOf(u.home), near: true });
       else if (u.home && !alive(u.home)) u.mode = 'attack';
       return;
     }
-    const e = W.enemiesNear(u, 'r', u.def.sight, true);
+    const e = W.enemiesNear(u, u.team, u.def.sight, true);
     if (e) { if (o.type !== 'attack' || o.target !== e.id) W.order(u, { type: 'attack', target: e.id }); return; }
-    const bs = W.buildings('p'), list = bs.filter(b => !b.def.wall).length ? bs.filter(b => !b.def.wall) : bs;
+    const bs = W.buildings(W.me), list = bs.filter(b => !b.def.wall).length ? bs.filter(b => !b.def.wall) : bs;
     let best = null, bd = Infinity;
     for (const b of list) { const d = dist(u, b); if (d < bd) { bd = d; best = b; } }
-    if (!best) { const p = W.units('p').sort((a, b) => dist(a, u) - dist(b, u))[0]; best = p || null; }
+    if (!best) { const p = W.units(W.me).sort((a, b) => dist(a, u) - dist(b, u))[0]; best = p || null; }
     if (best && (o.type !== 'attack' || o.target !== best.id)) W.order(u, { type: 'attack', target: best.id });
   }
 
   const free = {
     id: 'free', campaign: 'free', title: 'Free battle', chapter: 'Any chapter you have read', free: true, map: D.buildFreeMap,
     year: 'In the days of Captain Moroni', level: 'normal', LEVELS,
-    goals: 'Plant the standard of liberty, build up your city, and tear down the Lamanite war camp and its three camps.',
+    goals: 'Pick a side and a captain, build up your camp, and tear down the enemy\'s. The Freemen plant the standard of liberty; the King-men raise Amalickiah\'s banner.',
     starsText: '★ won on Easy, ★★ on Normal, ★★★ on Hard.',
     briefing: [
       ['Moroni "planted the standard of liberty among the Nephites," and fortified the land against the Lamanites.', 'Alma 46:36'],
@@ -858,29 +859,66 @@
     setup(W) {
       const L = LEVELS[this.level];
       W.tech = true; W.border = null;
+      // Pick a side, then a captain (design/evolution.md, section 7). The human is team 'p', the opponent team 'r'.
+      this.side = this.side === 'kingmen' ? 'kingmen' : 'freemen';
+      const other = this.side === 'freemen' ? 'kingmen' : 'freemen';
+      W.sides.p = S.World.side(this.side); W.sides.r = S.World.side(other);
+      const caps = D.CAPTAINS[this.side], theirs = D.CAPTAINS[other];
+      if (!caps[this.captain]) this.captain = Object.keys(caps)[0];
+      const theirKeys = Object.keys(theirs); this.theirCaptain = theirKeys[Math.floor(W.rand() * theirKeys.length)];
+      W.side('p').captain = caps[this.captain]; W.side('r').captain = theirs[this.theirCaptain];
       W.res = { grain: 200, timber: 250, stone: 50 };
-      // By Moroni's later wars the Lamanites "prepared themselves with shields, and with breastplates" (Alma 49:6).
-      W.boost.r = L.strength; W.foeArmor = L.armor;
+      W.side('r').res = { grain: L.start.grain, timber: L.start.timber, stone: L.start.stone || 0 };
+      this.strength = L.strength * ((D.SIDES[other].bot || {}).strength || 1);   // (the Lamanites' fierceness; a Freemen camp's armored men need none)
+      W.boost.r = this.strength; W.foeArmor = L.armor;
       const put = (type, x, y, team, extra) => { const [fx, fy] = W.freeTileNear(x, y, team || 'p'); return W.addUnit(type, team || 'p', center(fx), center(fy), extra); };
-      const S0 = FR.START;
-      this.standard = put('standard', S0.x + 2, S0.y + 2);
-      put('cart', S0.x, S0.y + 5); put('cart', S0.x + 3, S0.y + 5); put('worker', S0.x + 1, S0.y + 6); put('worker', S0.x + 2, S0.y + 6);
-      put('spearman', S0.x + 5, S0.y); put('spearman', S0.x + 6, S0.y + 1); put('nslinger', S0.x + 5, S0.y + 2);
-      this.warcamp = W.addBuilding('warcamp', 'r', FR.WARCAMP.x, FR.WARCAMP.y, true);
-      // A palisade round the war camp, with a gap on the south side where the armies come out. Ladders and cords, or the earthquake, get you over it.
+      const guard = (home, list, team) => { let k = 0; for (const [type, n] of list) for (let i = 0; i < n; i++, k++) put(type, home.tx + (k % 4), home.ty + home.h + Math.floor(k / 4), team, { mode: 'guard', home }); };
+      // The Freemen's ground is the south-west, the King-men's the north-east, whoever holds them.
+      const F = this.side === 'freemen' ? 'p' : 'r', K = F === 'p' ? 'r' : 'p';
+      const S0 = FR.START, WC = FR.WARCAMP;
+      // The Freemen: the human plants the standard of liberty; the opponent's city stands from the start, with its guards.
+      if (F === 'p') {
+        this.standard = put('standard', S0.x + 2, S0.y + 2);
+        put('cart', S0.x, S0.y + 5); put('cart', S0.x + 3, S0.y + 5); put('worker', S0.x + 1, S0.y + 6); put('worker', S0.x + 2, S0.y + 6);
+        put('spearman', S0.x + 5, S0.y); put('spearman', S0.x + 6, S0.y + 1); put('nslinger', S0.x + 5, S0.y + 2);
+        put(caps[this.captain].hero, S0.x + 4, S0.y + 4);
+      } else {
+        this.city = W.addBuilding('stronghold', 'r', S0.x + 1, S0.y + 1, true, { name: 'Zarahemla' });
+        put('cart', S0.x, S0.y + 5, 'r'); put('cart', S0.x + 3, S0.y + 5, 'r'); put('worker', S0.x + 1, S0.y + 6, 'r'); put('worker', S0.x + 2, S0.y + 6, 'r');
+        const g = Math.round(L.guards * ((D.SIDES.freemen.bot || {}).march || 1));   // (the table counts Lamanite heads; see data.js: SIDES.bot)
+        guard(this.city, [['spearman', Math.ceil(g * 0.5)], ['archer', Math.floor(g * 0.3)], ['nslinger', Math.max(1, Math.floor(g * 0.2))]], 'r');
+        put(theirs[this.theirCaptain].hero, S0.x + 4, S0.y + 4, 'r', { mode: 'guard', home: this.city });
+      }
+      // The King-men: the war camp behind its palisade (a gap on the south side, where the armies come out), its three camps, and the towers.
+      this.warcamp = W.addBuilding('warcamp', K, WC.x, WC.y, true, K === 'p' ? { name: 'Your camp' } : undefined);
       { const x0 = this.warcamp.tx - 2, y0 = this.warcamp.ty - 2, x1 = this.warcamp.tx + this.warcamp.w + 1, y1 = this.warcamp.ty + this.warcamp.h + 1;
         for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
           if (x !== x0 && x !== x1 && y !== y0 && y !== y1) continue;
           if (y === y1 && (x === this.warcamp.tx + 1 || x === this.warcamp.tx + 2)) continue;
           if (W.whyNotPlace('wall', x, y) === 'ground') continue;
-          W.addBuilding('wall', 'r', x, y, true);
+          W.addBuilding('wall', K, x, y, true);
         } }
-      this.camps = FR.CAMPS.map(c => W.addBuilding('camp', 'r', c.x, c.y, true, { name: 'Lamanite camp', about: 'Lamanite warriors gather here to march on your city.' }));
-      const guard = (home, list) => { let k = 0; for (const [type, n] of list) for (let i = 0; i < n; i++, k++) put(type, home.tx + (k % 4), home.ty + home.h + Math.floor(k / 4), 'r', { mode: 'guard', home }); };
-      this.guardList = [['lamanite', Math.ceil(L.guards * 0.6)], ['slinger', Math.floor(L.guards * 0.3)], ['amalekite', 1], ['zoramite', L.stars > 1 ? 1 : 0]];
-      guard(this.warcamp, this.guardList);
-      for (const c of this.camps) guard(c, [['lamanite', Math.ceil(L.campGuards * 0.6)], ['slinger', Math.floor(L.campGuards * 0.4)]]);
-      // Their own watchtowers, round the war camp.
+      this.camps = FR.CAMPS.map(c => W.addBuilding('camp', K, c.x, c.y, true, { name: 'Lamanite camp', about: K === 'p' ? 'A camp of yours: it feeds eight, and your warriors gather here.' : 'Lamanite warriors gather here to march on your city.' }));
+      put('bearer', this.warcamp.tx + 1, this.warcamp.ty + this.warcamp.h, K); put('bearer', this.warcamp.tx + 2, this.warcamp.ty + this.warcamp.h, K);
+      if (K === 'r') {
+        this.guardList = [['lamanite', Math.ceil(L.guards * 0.6)], ['slinger', Math.floor(L.guards * 0.3)], ['amalekite', 1], ['zoramite', L.stars > 1 ? 1 : 0]];
+        guard(this.warcamp, this.guardList, 'r');
+        for (const c of this.camps) guard(c, [['lamanite', Math.ceil(L.campGuards * 0.6)], ['slinger', Math.floor(L.campGuards * 0.4)]], 'r');
+        const spots = [[-4, 2], [7, 2], [1, 8]];
+        for (let i = 0; i < L.towers; i++) {
+          const [dx, dy] = spots[i];
+          const [x, y] = W.freeTileNear(this.warcamp.tx + dx, this.warcamp.ty + dy, 'r');
+          if (W.whyNotPlace('tower', x, y) !== 'ground') W.addBuilding('lookout', 'r', x, y, true);
+        }
+        put(theirs[this.theirCaptain].hero, this.warcamp.tx + 2, this.warcamp.ty + this.warcamp.h, 'r', { mode: 'guard', home: this.warcamp });
+      } else {
+        // The human's camp starts small: a few warriors, two bearers, and the captain.
+        const wc = this.warcamp, by = wc.ty + wc.h;
+        put('lamanite', wc.tx + 1, by, 'p'); put('lamanite', wc.tx + 2, by, 'p'); put('lamanite', wc.tx + 3, by, 'p'); put('slinger', wc.tx, by, 'p');
+        put(caps[this.captain].hero, wc.tx + 2, by + 1, 'p');
+      }
+      // The camp's mind (camp.js), on whichever side the opponent holds.
+      this.camp = new CAMP.Camp(W, 'r', K === 'r' ? this.warcamp : this.city, L);
       // Jaredite ruins, each holding something (Mosiah 8:8-11): the sword of Laban far to the south-east, the Liahona across the ford, breastplates in the north-west.
       for (const [x, y, key] of [[54, 45, 'sword'], [37, 24, 'liahona'], [7, 7, 'breastplate']]) {
         let spot = null;
@@ -889,43 +927,43 @@
         for (let yy = spot[1] - 1; yy <= spot[1] + 2; yy++) for (let xx = spot[0] - 1; xx <= spot[0] + 2; xx++) if (W.tile(xx, yy) === T.GRASS) W.setTile(xx, yy, T.RUIN);
         W.addBuilding('relic', 'n', spot[0], spot[1], true, { artifact: key });
       }
-      this.foretold = 0;
-      const spots = [[-4, 2], [7, 2], [1, 8]];
-      for (let i = 0; i < L.towers; i++) {
-        const [dx, dy] = spots[i];
-        const [x, y] = W.freeTileNear(this.warcamp.tx + dx, this.warcamp.ty + dy, 'r');
-        if (W.whyNotPlace('tower', x, y) !== 'ground') W.addBuilding('tower', 'r', x, y, true);   // theirs: reach is the Nephites' rule
+      this.foretold = 0; this.planted = K === 'p'; this.nextFierce = 300;
+      const c = caps[this.captain];
+      W.msg(`${c.name} leads you: ${c.gift.toLowerCase()}.`, c.ref, 'good');
+      if (F === 'p') {
+        W.msg('Choose the standard of liberty and plant it on open ground to begin your city.', 'Alma 46:36', 'tip');
+        W.msg('Tap your city to build. Carts bring in grain and timber, and stone from a rock face when you ask; farms feed your people. The Lamanites will come: build a barracks.', null, 'tip');
+      } else {
+        W.msg('Tap your camp to build. Bearers bring in grain and timber; tents feed your warriors. The Nephites will come: raise a muster ground.', null, 'tip');
       }
-      this.planted = false; this.nextFierce = 300;
-      // The camp's mind (camp.js): bearers haul, tents go up, an army gathers and marches, and what falls goes up again.
-      W.side('r').res = { grain: L.start.grain, timber: L.start.timber, stone: L.start.stone || 0 };
-      put('bearer', this.warcamp.tx + 1, this.warcamp.ty + this.warcamp.h, 'r'); put('bearer', this.warcamp.tx + 2, this.warcamp.ty + this.warcamp.h, 'r');
-      this.camp = new CAMP.Camp(W, 'r', this.warcamp, L);
-      W.msg('Choose the standard of liberty and plant it on open ground to begin your city.', 'Alma 46:36', 'tip');
-      W.msg('Tap your city to build. Carts bring in grain and timber, and stone from a rock face when you ask; farms feed your people. The Lamanites will come: build a barracks.', null, 'tip');
     },
     timeLeft(W) { return null; },
     // What has gathered at the war camp, for one who holds the interpreters (Mosiah 8:17).
     nextAttack(W) { return this.camp ? this.camp.forecast() : ''; },
+    // What the human must tear down: the opponent's capital, and its camps if it has them.
+    targets() { return (this.side === 'freemen' ? [this.warcamp].concat(this.camps) : [this.city]).filter(Boolean); },
     objectives(W) {
-      return [
-        { text: 'Plant the standard of liberty', ref: 'Alma 46:36', have: this.planted ? 1 : 0, need: 1 },
-        { text: 'Tear down the Lamanite camps', ref: null, have: this.camps.filter(c => !alive(c)).length, need: this.camps.length },
-        { text: 'Tear down the Lamanite war camp (it sends more guards while it stands)', ref: null, have: alive(this.warcamp) ? 0 : 1, need: 1 }
-      ];
+      const list = [];
+      if (this.side === 'freemen') list.push({ text: 'Plant the standard of liberty', ref: 'Alma 46:36', have: this.planted ? 1 : 0, need: 1 });
+      if (this.side === 'freemen') list.push({ text: 'Tear down the Lamanite camps', ref: null, have: this.camps.filter(c => !alive(c)).length, need: this.camps.length });
+      list.push(this.side === 'freemen'
+        ? { text: 'Tear down the Lamanite war camp (it raises an army while it stands)', ref: null, have: alive(this.warcamp) ? 0 : 1, need: 1 }
+        : { text: 'Tear down Zarahemla (it raises an army while it stands)', ref: null, have: alive(this.city) ? 0 : 1, need: 1 });
+      return list;
     },
     update(W) {
       const L = LEVELS[this.level];
       if (!this.planted && W.stronghold()) this.planted = true;
-      // The camp's mind: bearers, tents, the army. With the interpreters, warning as it gathers (Mosiah 8:17).
-      if (alive(this.warcamp)) {
+      // The camp's mind: haulers, buildings, the army. With the interpreters, warning as it gathers (Mosiah 8:17).
+      const who = W.peopleOf('r').replace(/^The /, '');
+      if (alive(this.camp.home)) {
         this.camp.update();
         const r = this.camp.readiness();
-        if (W.artifacts.interpreters && r >= 0.7 && this.foretold < this.camp.marches + 1) { this.foretold = this.camp.marches + 1; W.msg(`The interpreters show what gathers at the war camp: ${this.camp.forecast()}.`, 'Mosiah 8:17', 'warn'); }
-        this.phaseLabel = r >= 0.7 ? 'Lamanites ready' : 'Lamanites gather';
+        if (W.artifacts.interpreters && r >= 0.7 && this.foretold < this.camp.marches + 1) { this.foretold = this.camp.marches + 1; W.msg(`The interpreters show what gathers against you: ${this.camp.forecast()}.`, 'Mosiah 8:17', 'warn'); }
+        this.phaseLabel = r >= 0.7 ? `${who} ready` : `${who} gather`;
       } else this.phaseLabel = '';
-      if (W.t >= this.nextFierce) { this.nextFierce = W.t + 300; W.boost.r = Math.min(L.strength + 0.3, W.boost.r + L.fierce); }
-      if (!alive(this.warcamp) && !this.camps.some(alive)) return this.finish(W, true);
+      if (W.t >= this.nextFierce) { this.nextFierce = W.t + 300; W.boost.r = Math.min(this.strength + 0.3, W.boost.r + L.fierce); }
+      if (!this.targets().some(alive)) return this.finish(W, true);
       const standing = W.buildings('p').length || W.units('p').some(u => u.def.deploys);
       if (!standing) this.finish(W, false);
     },
@@ -933,12 +971,12 @@
     foeBrain: freeBrain,
     finish(W, won) {
       if (W.over) return;
-      const L = LEVELS[this.level], m = Math.floor(W.t / 60);
+      const L = LEVELS[this.level], m = Math.floor(W.t / 60), freemen = this.side === 'freemen';
       W.over = won
-        ? { won: true, stars: L.stars, title: 'The war camp is torn down',
-            text: '“And thus Moroni planted the standard of liberty among the Nephites.”', ref: 'Alma 46:36',
-            detail: `Won on ${L.name} in ${m} minutes.` }
-        : { won: false, title: 'Your city has fallen', text: 'Build farms and a barracks early, and walls with watchtowers on the side the attacks come from.', ref: null };
+        ? { won: true, stars: L.stars, title: freemen ? 'The war camp is torn down' : 'Zarahemla has fallen',
+            text: freemen ? '“And thus Moroni planted the standard of liberty among the Nephites.”' : '“By his fraud, and by the assistance of his cunning servants, he obtained the kingdom.”', ref: freemen ? 'Alma 46:36' : 'Alma 47:35',
+            detail: `Won on ${L.name} in ${m} minutes, as the ${D.SIDES[this.side].name} under ${D.CAPTAINS[this.side][this.captain].name}.` }
+        : { won: false, title: freemen ? 'Your city has fallen' : 'Your camp is torn down', text: freemen ? 'Build farms and a barracks early, and walls with watchtowers on the side the attacks come from.' : 'Pitch tents and raise a muster ground early, and keep your bearers hauling.', ref: null };
     }
   };
 
@@ -987,7 +1025,7 @@
     if (o.type === 'attack') {
       const t = W.ents.get(o.target);
       if (alive(t) && !t.untouchable) {
-        if (t.kind === 'building') { const e = W.enemiesNear(u, 'r', 90, true); if (e) W.order(u, { type: 'attack', target: e.id, then: o }); }
+        if (t.kind === 'building') { const e = W.enemiesNear(u, u.team, 90, true); if (e) W.order(u, { type: 'attack', target: e.id, then: o }); }
         return;
       }
     }
