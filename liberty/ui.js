@@ -235,9 +235,24 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
 
   // ------------------------------------------------------------ Shroud of War (Westwood Fog of War)
-  const shroudCv = document.createElement('canvas');
-  shroudCv.width = TERR_W; shroudCv.height = TERR_H;
-  const sctx = shroudCv.getContext('2d');
+  // A big canvas the device will really make. iPhones have a budget for canvas memory, and past it a new canvas
+  // quietly draws nothing at all: no error, just an empty picture. So each big canvas is made at the largest of
+  // these sizes where a test dot actually sticks, and scaled so the code painting it needn't know.
+  function bigCanvas(w, h, sizes) {
+    for (const k of sizes) {
+      const c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k);
+      const x = c.getContext('2d');
+      if (x) {
+        x.fillStyle = '#fff'; x.fillRect(0, 0, 1, 1);
+        let ok = false; try { ok = x.getImageData(0, 0, 1, 1).data[3] === 255; } catch (e) { ok = false; }
+        if (ok) { x.clearRect(0, 0, 1, 1); x.scale(k, k); return [c, x]; }
+      }
+      c.width = c.height = 0;                       // hand its memory back before trying smaller
+    }
+    const c = document.createElement('canvas'); return [c, c.getContext('2d')];
+  }
+  // The fog is soft at its edges, so half size looks the same and leaves the ground the room to be sharp.
+  const [shroudCv, sctx] = bigCanvas(TERR_W, TERR_H, [0.5, 0.35, 0.25]);
   const explored = new Uint8Array(MAP_W * MAP_H);
 
   function initShroud() {
@@ -319,9 +334,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // buildings and people. It's painted once onto a canvas, and a tile again
   // only when it changes (a wood cut down, a field reaped).
 
-  const terrain = document.createElement('canvas');
-  terrain.width = TERR_W; terrain.height = TERR_H;
-  const tctx = terrain.getContext('2d');
+  const [terrain, tctx] = bigCanvas(TERR_W, TERR_H, [1, 0.7, 0.5, 0.35]);
   let painted = null, miniDirty = true;
   function hash(x, y, k) {
     let h = Math.imul(x, 374761393) ^ Math.imul(y, 668265263) ^ Math.imul(k | 0, 1442695041);
@@ -772,7 +785,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.fillStyle = sky; ctx.fillRect(0, 0, cv.width, cv.height);
     const z = cam.z * dpr;
     ctx.setTransform(z, 0, 0, z, -cam.x * z, -cam.y * z);
-    ctx.drawImage(terrain, -ISO_OFFSET_X, -PAD);
+    ctx.drawImage(terrain, -ISO_OFFSET_X, -PAD, TERR_W, TERR_H);
     drawGlints(now);
 
     const inView = e => {
@@ -879,7 +892,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
 
     // ---------------- Westwood Shroud of War ----------------
-    ctx.drawImage(shroudCv, -ISO_OFFSET_X, -PAD);
+    ctx.drawImage(shroudCv, -ISO_OFFSET_X, -PAD, TERR_W, TERR_H);
     drawMarkers(now, true);
 
     ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -1992,6 +2005,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
     $('feed').appendChild(el);
   }
   const toast = (text, kind, ref) => addMsg(text, kind || 'me', ref);
+  // Anything that goes wrong in a battle is said on the screen, once, so a screenshot from a phone or tablet
+  // shows what broke where it can't be watched from a computer.
+  const reported = new Set();
+  const report = msg => { if (!W || reported.has(msg) || reported.size > 4) return; reported.add(msg); addMsg('Something went wrong: ' + msg, 'warn'); };
+  window.addEventListener('error', e => report(String(e.message || e.error || 'unknown').slice(0, 140)));
+  window.addEventListener('unhandledrejection', e => report(String((e.reason && e.reason.message) || e.reason || 'unknown').slice(0, 140)));
 
   // Any verse reference on the screen opens the verses themselves.
   document.addEventListener('click', e => {
