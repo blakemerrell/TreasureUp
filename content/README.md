@@ -267,6 +267,30 @@ list of cards, each `{ id, ref, title, text, source: { by, who, title, url }, fi
   reviewer opens every page and checks each card against it before they go
   in; Blake approves each in developer mode.
 
+An insight card can also carry a **deep dive** (Blake, 2026-10-03: "Longer
+adult level deep dive would be great! … the quick learn, or the deep dive …
+With the expand"), `deep: { paras, find, listen }`: the card stays the quick
+learn, for him, and under it, folded (🤿 Deep dive ▾, in its sheet, in Go
+further and in the Study tab, whose **Deep dives** filter lists the cards that
+have one), the same point at length for a grown-up. No setting by age:
+whoever wants more opens it.
+
+- `paras`: 2 to 6 paragraphs, 80 to 450 words in all (130 at most each),
+  in our own words from the card's page (followHIM's episode transcripts are
+  the first ones). Quotes: the KJV's words in `ref`, or the page's own, 3 at
+  most and 25 words or fewer each, saying who said it; the checker finds them
+  on the page with `--online`. A transcript is the hosts' and guests' own
+  words: paraphrase, quote a little, link the page, never paste it in.
+- `find`: 1 to 6 passages of 4 to 30 words copied exactly from the page,
+  where the deep dive's points are, checked with `--online`.
+- `listen`, optional: the stretch of the episode it comes from,
+  `{ youtube, start, end, title, channel, previewed }` like a video card's
+  clip: 10 minutes at most, from an approved channel (asked of YouTube), and
+  shown only once a parent has watched it (approving the card marks it
+  watched).
+- It's part of the card: Blake approves the two together in developer mode,
+  which shows the deep dive under the card.
+
 Two more kinds go in the same list (Blake, 2026-10-02, from the Scripture
 Central app):
 

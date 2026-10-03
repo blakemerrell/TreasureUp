@@ -995,6 +995,7 @@ async function main(scripture, week, pages, online) {
       else home = `${ch}:${from || 1}`;
       const refText = !home ? '' : from ? Array.from({ length: to - from + 1 }, (_, k) => verses.get(`${ch}:${from + k}`)).join(' ') : chText(ch);
       if (x.kind !== undefined && !['quote', 'video'].includes(x.kind)) { fail(where, `kind "${x.kind}": a card is an insight (no kind), a quote, or a video`); continue; }
+      if (x.kind !== undefined && x.deep !== undefined) fail(where, 'a deep dive goes under an insight card, not a quote or a video');
       // A video card: a clip of 10 minutes or less on the week's reading, from
       // an approved channel (asked of YouTube itself), shown once watched.
       if (x.kind === 'video') {
@@ -1074,6 +1075,54 @@ async function main(scripture, week, pages, online) {
         }
       }
       if (home) { checkRefs(where, 'title', x.title, home); checkRefs(where, 'text', x.text, home); }
+      // Its deep dive (Blake, 2026-10-03: "Longer adult level deep dive would
+      // be great!"), folded under the card: the same point at length for a
+      // grown-up, from the same page, in our own words. 2 to 6 paragraphs,
+      // 80 to 450 words in all. Quotes: the verses' words, or the page's, 3
+      // at most and 25 words or fewer each, found on the page with --online,
+      // as are its `find` words (where on the page its points are). `listen`,
+      // if it has one, is the stretch of the episode it's from: 10 minutes at
+      // most, from an approved channel (asked of YouTube), hidden until a
+      // parent has watched it, like any clip.
+      if (x.deep !== undefined) {
+        const d = x.deep && typeof x.deep === 'object' ? x.deep : {}, w2 = where + ' deep dive';
+        const paras = Array.isArray(d.paras) ? d.paras : [];
+        if (paras.length < 2 || paras.length > 6 || !paras.every(t => typeof t === 'string' && t.trim())) fail(w2, 'paras: 2 to 6 paragraphs');
+        const all = paras.join(' '), n = count(all);
+        if (n < 80 || n > 450) fail(w2, `${n} words (80 to 450)`);
+        paras.forEach((t, k) => { if (count(t) > 130) fail(w2, `paragraph ${k + 1} is ${count(t)} words (130 at most)`); });
+        if (/"/.test(all)) fail(w2, 'uses a straight " quote; use “curly quotes”');
+        if ((all.match(/“/g) || []).length !== (all.match(/”/g) || []).length) fail(w2, 'has unbalanced “quotes”');
+        if (/\b(thee|thou|thy|thine|ye|hath|saith|doth|shalt|unto)\b/i.test(all.replace(/“[^”]*”/g, ' '))) fail(w2, 'has KJV English outside a quote');
+        const quotes = (all.match(/“[^”]*”/g) || []).map(q => q.slice(1, -1)).filter(q => !(refText && quoteMatches(q, refText)));
+        if (quotes.length > 3) fail(w2, `quotes the page ${quotes.length} times; 3 at most (a scripture quote of ${x.ref} doesn't count)`);
+        for (const q of quotes) if (count(q) > 25) fail(w2, `“${q}” is ${count(q)} words; a quote from the page is 25 at most`);
+        const finds = [].concat(d.find || []);
+        if (!finds.length || finds.length > 6 || finds.some(f => count(f) < 4 || count(f) > 30)) fail(w2, 'find: 1 to 6 passages of 4 to 30 words, each copied exactly from the page');
+        else if (site && online) {
+          const page = pages.get(s.url);
+          if (page != null) {
+            const text = norm(page);
+            for (const f of finds) if (!text.includes(trimPunct(norm(f)))) fail(w2, `"${f}" is not on ${s.url}`);
+            for (const q of quotes) if (!text.includes(trimPunct(norm(q)))) fail(w2, `“${q}” is not on ${s.url}`);
+          }
+        }
+        if (d.listen !== undefined) {
+          const v = d.listen && typeof d.listen === 'object' ? d.listen : {};
+          if (!/^[A-Za-z0-9_-]{11}$/.test(v.youtube || '')) fail(w2, 'listen.youtube must be an 11-character YouTube id');
+          if (!(Number.isInteger(v.start) && Number.isInteger(v.end) && v.end > v.start)) fail(w2, 'listen needs whole-second start < end');
+          else if (v.end - v.start > MEDIA.maxVideoSeconds) fail(w2, `listen is ${v.end - v.start}s (max ${MEDIA.maxVideoSeconds})`);
+          if (!v.title) fail(w2, 'listen needs its title');
+          if (!MEDIA.channels.includes(v.channel)) fail(w2, `channel "${v.channel}" isn't on the approved list in tools/verify.mjs`);
+          if (v.previewed !== true) note(`${w2}: its clip ${v.youtube} ${v.start}–${v.end}s is hidden until a parent watches it (approving the card marks it watched)`);
+          if (/^[A-Za-z0-9_-]{11}$/.test(v.youtube || '')) {
+            const res = await fetch('https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + v.youtube));
+            if (!res.ok) fail(w2, `YouTube doesn't know video ${v.youtube} (HTTP ${res.status})`);
+            else { const meta = await res.json(); if (meta.author_name !== v.channel) fail(w2, `video ${v.youtube} belongs to "${meta.author_name}", not "${v.channel}"`); }
+          }
+        }
+        if (home) paras.forEach((t, k) => checkRefs(w2, 'paragraph ' + (k + 1), t, home));
+      }
     }
   }
 
@@ -1185,6 +1234,39 @@ let bsbChapters = 0;
   }
 }
 
+// The ES·TL button in the reader (the Spanish Reina-Valera 1909 and the
+// Tagalog 1905 Ang Biblia, built by tools/build-reading.mjs at deploy from
+// the files tools/import-bibles.mjs made): each says it's public domain,
+// every verse is a verse of the KJV, and every Bible chapter of every week's
+// reading is there. The Tagalog has every verse; the Spanish leaves out the
+// few the import couldn't be sure of (the reader shows the KJV there), which
+// is a note for that week, not a failure.
+const langChapters = { es: 0, tl: 0 }, langNotes = [];
+for (const [key, file, name, pd, whole] of [['es', 'rv1909.txt.gz', 'Reina-Valera 1909', /Reina-Valera 1909\. Public domain\./, false],
+  ['tl', 'tagalog1905.txt.gz', 'Ang Biblia 1905', /1905\. Public domain/, true]]) {
+  const f = path.join(ROOT, 'tools', file);
+  if (!fs.existsSync(f)) { failures.push(`tools/${file} is missing: the reader’s ${name} comes from it (node tools/import-bibles.mjs)`); continue; }
+  const text = zlib.gunzipSync(fs.readFileSync(f)).toString('utf8');
+  if (!pd.test(text.slice(0, 400))) failures.push(`tools/${file} must start with its public-domain header (node tools/import-bibles.mjs)`);
+  const have = new Set();
+  for (const m of text.matchAll(/^(.+) (\d+):(\d+)\t/gm)) {
+    if (!scripture.verses.has(`${m[1]} ${m[2]}:${m[3]}`)) failures.push(`tools/${file}: ${m[1]} ${m[2]}:${m[3]} isn’t a verse of the KJV`);
+    have.add(`${m[1]} ${m[2]}:${m[3]}`);
+  }
+  for (const w of weeks) {
+    for (const ch of blockChapters(w.reference, scripture.verses) || []) {
+      if (!langOf(ch)) continue;                      // the Book of Mormon and the rest: the KJV only
+      const [, book, c] = /^(.+) (\d+)$/.exec(ch), b = BOOK_ALIAS[book] || book;
+      const missing = [];
+      for (let v = 1; scripture.verses.has(`${b} ${c}:${v}`); v++) if (!have.has(`${b} ${c}:${v}`)) missing.push(v);
+      if (!missing.length) langChapters[key]++;
+      else if (whole || missing.length > 3) failures.push(`${w.title}: the ${name} has no ${ch}:${missing.join(', ')}`);
+      else { langChapters[key]++; langNotes.push(`${w.title}: the ${name} has no ${ch}:${missing.join(', ')} (the reader shows the KJV there)`); }
+    }
+  }
+}
+for (const n of langNotes) console.log('ℹ', n);
+
 // The Hebrew and Greek button in the reader (tools/original.mjs, built by
 // tools/build-reading.mjs at deploy): every Bible chapter of every week's
 // reading has every one of its KJV verses, word by word.
@@ -1254,6 +1336,7 @@ for (const week of weeks) {
 }
 if (libraryPlain) console.log(`✓ content/plain.js: plain words for ${libraryPlain} ${libraryPlain === 1 ? 'chapter' : 'chapters'} no week reads`);
 if (bsbChapters) console.log(`✓ BSB: the ${bsbChapters} Bible chapters of the reading, verse for verse with the KJV`);
+if (langChapters.es || langChapters.tl) console.log(`✓ ES·TL: the ${langChapters.es} Bible chapters of the reading in Spanish (Reina-Valera 1909), the ${langChapters.tl} in Tagalog (Ang Biblia 1905), each verse under its KJV verse`);
 if (origChapters) console.log(`✓ Hebrew and Greek: the ${origChapters} Bible chapters of the reading, every KJV verse word by word (STEPBible.org, Tyndale House)`);
 if (boards.length) console.log(`✓ ${boards.map(b => `${b.title}: ${b.lands.length} lands, ${b.links.length} borders, ${b.kingdoms.length} kingdoms`).join('; ')}`);
 if (online) {

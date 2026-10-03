@@ -43,7 +43,8 @@ export const langOf = ch => { const s = split(ch); return !s ? null : OT.include
 // The scribes' paragraph marks (פ, ס) after a verse's last word aren't words; and God's
 // name as the KJV and the Church's materials give it: "the LORD", not "Yahweh".
 const hebrew = s => s.replace(/[\/\\]/g, '').replace(/[֑-ֽ֯׀׃׆]/g, '').replace(/\s+[פס]$/, '').trim();
-const meaning = s => s.replace(/<[^>]*>/g, '').replace(/[[\]{}]/g, '').replace(/\//g, ' ').replace(/\s+/g, ' ').trim()
+// A verse number the data puts in a meaning ("[11] Cretans") isn't part of it.
+const meaning = s => s.replace(/<[^>]*>/g, '').replace(/\[\d+(?:\.\d+)?\]\s*/g, '').replace(/[[\]{}]/g, '').replace(/\//g, ' ').replace(/\s+/g, ' ').trim()
   .replace(/\bO Yahweh\b/g, 'O LORD').replace(/\bYahweh\b/g, 'the LORD');
 // A noun's "my", "your", "his"… comes after it in Hebrew (people/ my, the
 // data's grammar marking the noun N and the ending Sp); in English, before it:
@@ -68,7 +69,10 @@ function parse(lang, text, books) {
     ? /^(\d?[A-Z][a-z]{1,2})\.(\d+)\.(\d+)(?:\([^)]*\))?#\d+=\S+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)/
     : /^(\d?[A-Z][a-z]{1,2})\.(\d+)\.(\d+)(?:\([^)]*\))?#\d+=(\S+)\t([^\t]*?) \(([^)\t]*)\)\t([^\t]*)\t([^\t]*)/;
   for (const line of text.split('\n')) {
-    const m = re.exec(line);
+    // A Greek word the data numbers one way and the KJV another gives the
+    // KJV's in brackets (2Co.13.13[13.14], "The grace of the Lord Jesus
+    // Christ…"): it goes in that verse.
+    const m = re.exec(line.replace(/^(\d?[A-Z][a-z]{1,2}\.)\d+\.\d+\[(\d+)\.(\d+)\]/, '$1$2.$3'));
     if (!m) continue;
     let [, code, c, v] = m, word, sound, mean, strong = '', gram = '';
     if (!codes.includes(code)) codes.push(code);
