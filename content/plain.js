@@ -70,7 +70,8 @@ window.TU_PLAIN = {
           "v": 31,
           "about": "The KJV says “the maker of it”; the Hebrew is usually read as ‘his work’ (BSB). The plain words follow the Hebrew. “Tow” (flax fiber) is given as “dry tinder.”"
         }
-      ]
+      ],
+      "approved": "07f1ce4b"
     },
     {
       "ch": "Isaiah 2",
@@ -133,7 +134,8 @@ window.TU_PLAIN = {
           "v": 16,
           "about": "The Hebrew behind “pleasant pictures” is unsure; the BSB reads ‘stately vessel.’ The plain words follow the KJV and 2 Nephi 12:16 (“beautiful works of art”). The note’s Greek fact is right but was reworded: the Septuagint has ‘every ship of the sea’ in place of “ships of Tarshish,” not as an extra line. Smaller Book of Mormon differences without notes: verses 10 (“O ye wicked ones”), 13, 14 (adds the nations and every people), 19 and 21."
         }
-      ]
+      ],
+      "approved": "d5ba92be"
     },
     {
       "ch": "Isaiah 3",
@@ -204,7 +206,8 @@ window.TU_PLAIN = {
           "v": 18,
           "about": "Verses 18–23 list ancient finery. Where the KJV words are old (cauls, round tires, mufflers, tablets, wimples, crisping pins), the plain words use the Hebrew and BSB meanings, such as “purses” for “crisping pins.”"
         }
-      ]
+      ],
+      "approved": "fd26b021"
     },
     {
       "ch": "Isaiah 4",
@@ -239,7 +242,8 @@ window.TU_PLAIN = {
           "v": 5,
           "about": "“Defence” is given as “a canopy to protect it,” keeping both the Hebrew picture and the KJV meaning. 2 Nephi 14:5 adds “of Zion” after “all the glory”; no note."
         }
-      ]
+      ],
+      "approved": "c2d507ca"
     },
     {
       "ch": "Isaiah 5",
@@ -306,7 +310,8 @@ window.TU_PLAIN = {
           "v": 26,
           "about": "2 Nephi 15 divides verses 26–29 differently (“none shall be weary nor stumble among them” ends verse 26; “their roaring like a lion” ends verse 28); no note. Smaller Book of Mormon differences without notes: verses 1, 8 (no “lay field to field”), 24 and 29."
         }
-      ]
+      ],
+      "approved": "fc1bdab2"
     },
     {
       "ch": "Isaiah 6",
@@ -356,7 +361,8 @@ window.TU_PLAIN = {
           "v": 7,
           "about": "The KJV’s “thy sin purged” is the Hebrew word for atonement; the plain words say “your sin is atoned for,” as the BSB does. Smaller Book of Mormon differences without notes: verses 2, 5, 10–13."
         }
-      ]
+      ],
+      "approved": "824c5a58"
     },
     {
       "ch": "Isaiah 7",
@@ -418,7 +424,8 @@ window.TU_PLAIN = {
           "v": 3,
           "about": "A few words are added for the name Shear-jashub (‘a remnant will return,’ see Isaiah 10:21) and for Ephraim in verse 2. Book of Mormon differences are all small here (verses 18, 23 and 25 drop or change a word); no notes."
         }
-      ]
+      ],
+      "approved": "f3264d72"
     },
     {
       "ch": "Isaiah 8",
@@ -477,7 +484,8 @@ window.TU_PLAIN = {
           "v": 19,
           "about": "The KJV’s “familiar spirits” and “wizards that peep” are given as mediums who talk with the dead and fortune-tellers who chirp. The last line follows the KJV, “for the living to the dead?”, as a question."
         }
-      ]
+      ],
+      "approved": "653a754e"
     },
     {
       "ch": "Isaiah 9",
@@ -539,7 +547,8 @@ window.TU_PLAIN = {
           "v": 15,
           "about": "The Book of Mormon’s copy leaves out “and honourable”; no note. Other small Book of Mormon differences without notes: verses 7 (“there is no end”), 8 (“his word”), 9, 14 and 17."
         }
-      ]
+      ],
+      "approved": "1c72bb69"
     },
     {
       "ch": "Isaiah 10",
@@ -614,7 +623,8 @@ window.TU_PLAIN = {
           "v": 13,
           "about": "Small Book of Mormon differences without notes: verse 13 (“I have done these things,” “moved the borders”), verse 10 (“founded”), verse 23 (no “the midst of”), verses 2, 21, 29 and 30."
         }
-      ]
+      ],
+      "approved": "62ebe8b8"
     },
     {
       "ch": "Isaiah 11",
@@ -671,7 +681,8 @@ window.TU_PLAIN = {
           "v": 15,
           "about": "The KJV’s “utterly destroy” is kept, though some read the Hebrew as ‘dry up.’ “Dryshod” is literally ‘in sandals.’ Book of Mormon differences in this chapter are all small; no notes."
         }
-      ]
+      ],
+      "approved": "1156ace0"
     },
     {
       "ch": "Isaiah 12",
@@ -698,7 +709,8 @@ window.TU_PLAIN = {
           "v": 5,
           "about": "The Hebrew can be read “this is known” (KJV) or ‘let this be known’ (BSB). The plain words follow the KJV. The Book of Mormon’s copy (2 Nephi 22) differs only in small ways; no notes."
         }
-      ]
+      ],
+      "approved": "2a922f35"
     },
     {
       "ch": "Isaiah 15",
@@ -736,7 +748,8 @@ window.TU_PLAIN = {
           "v": 9,
           "about": "Dimon is probably Dibon (verse 2), spelled to sound like the Hebrew word for blood (dam). The plain words keep the KJV spelling with no note."
         }
-      ]
+      ],
+      "approved": "8c3efe84"
     },
     {
       "ch": "Isaiah 16",
@@ -783,7 +796,8 @@ window.TU_PLAIN = {
           "v": 7,
           "about": "The KJV’s “foundations” is ‘raisin cakes’ in the Hebrew (the same word the KJV calls “flagons” elsewhere). The plain words follow the Hebrew, with a note."
         }
-      ]
+      ],
+      "approved": "0535efc1"
     },
     {
       "ch": "Isaiah 17",
@@ -826,7 +840,8 @@ window.TU_PLAIN = {
           "v": 11,
           "about": "The KJV’s “heap” is the Hebrew; the BSB reads a near-identical word as ‘will vanish.’ The plain words keep the heap."
         }
-      ]
+      ],
+      "approved": "034393ab"
     },
     {
       "ch": "Isaiah 18",
@@ -862,7 +877,8 @@ window.TU_PLAIN = {
           "v": 4,
           "about": "The Lord waits and watches before He acts (verse 5). The plain words follow the BSB’s ‘quietly look on’ for the KJV’s “take my rest, and I will consider.”"
         }
-      ]
+      ],
+      "approved": "f429a3db"
     },
     {
       "ch": "Isaiah 19",
@@ -928,7 +944,8 @@ window.TU_PLAIN = {
           "v": 20,
           "about": "The KJV’s “saviour” is lowercase, and the Hebrew does not say who he is: a deliverer sent to Egypt. No scripture names him, so the plain words keep “a savior” and lowercase “he,” with no note. Decide if you want otherwise."
         }
-      ]
+      ],
+      "approved": "4f7bb891"
     },
     {
       "ch": "Isaiah 20",
@@ -963,7 +980,8 @@ window.TU_PLAIN = {
           "v": 6,
           "about": "“This isle” (Hebrew: coastland) is the coast where the Philistines and Judah lived, which looked to Egypt for help. The plain words say “this coast.”"
         }
-      ]
+      ],
+      "approved": "d1ed5426"
     },
     {
       "ch": "Isaiah 21",
@@ -1017,7 +1035,8 @@ window.TU_PLAIN = {
           "v": 14,
           "about": "The KJV puts this in the past (“brought water”); the BSB makes it a command (‘Bring water’). The Hebrew can be read either way, so the plain words use the present tense."
         }
-      ]
+      ],
+      "approved": "c6ec6d3a"
     },
     {
       "ch": "Isaiah 23",
@@ -1072,7 +1091,8 @@ window.TU_PLAIN = {
           "v": 15,
           "about": "Verses 15–17 picture Tyre’s trade as a prostitute selling herself. The plain words say “prostitute” (BSB’s word) for the KJV’s “harlot,” as the plainest accurate word, and do not explain it further. Check you’re happy with this for a child; “harlot” is the alternative."
         }
-      ]
+      ],
+      "approved": "9ec4fc41"
     },
     {
       "ch": "Isaiah 31",
@@ -1106,7 +1126,8 @@ window.TU_PLAIN = {
           "v": 8,
           "about": "The plain words follow the Hebrew (“put to forced labor”) over the KJV’s “discomfited,” with a note. Same in verse 9 (“his rock … will pass away”), with a note."
         }
-      ]
+      ],
+      "approved": "c597111b"
     },
     {
       "ch": "Isaiah 32",
@@ -1159,7 +1180,8 @@ window.TU_PLAIN = {
           "v": 19,
           "about": "Hard Hebrew, and it is unclear how it joins verses 18 and 20. The plain words keep it short and close to the KJV: hail on the forest, the city laid low."
         }
-      ]
+      ],
+      "approved": "adaccb2a"
     },
     {
       "ch": "Isaiah 33",
@@ -1224,7 +1246,8 @@ window.TU_PLAIN = {
           "v": 17,
           "about": "The BSB capitalizes ‘the King in His beauty’ as God; the KJV does not. The plain words keep the KJV’s lowercase “king.” Same in verse 22 (“our judge … our king”)."
         }
-      ]
+      ],
+      "approved": "b63510c7"
     },
     {
       "ch": "Isaiah 34",
@@ -1286,7 +1309,8 @@ window.TU_PLAIN = {
           "v": 16,
           "about": "The Hebrew and the KJV say “my mouth” and then “his spirit”; the BSB makes both ‘His.’ The plain words keep the KJV, which may read oddly."
         }
-      ]
+      ],
+      "approved": "80f41b95"
     },
     {
       "ch": "Isaiah 36",
@@ -1345,7 +1369,8 @@ window.TU_PLAIN = {
           "v": 16,
           "about": "The KJV’s “make an agreement with me by a present” is literally ‘make a blessing with me’; the plain words say “make peace with me,” as the BSB does."
         }
-      ]
+      ],
+      "approved": "27dfc8b9"
     },
     {
       "ch": "Isaiah 37",
@@ -1420,7 +1445,8 @@ window.TU_PLAIN = {
           "v": 36,
           "about": "A hard verse for a child: 185,000 struck down in one night. The plain words keep the number and “struck down,” as the KJV and the Hebrew have it, and don’t add “men” or “soldiers.” The end now says “there lay all the dead bodies,” so it can’t be read as the people who got up being dead."
         }
-      ]
+      ],
+      "approved": "d362a057"
     },
     {
       "ch": "Isaiah 38",
@@ -1479,7 +1505,8 @@ window.TU_PLAIN = {
           "v": 21,
           "about": "Verses 21–22 tell what happened earlier; 2 Kings 20:7–8 puts them before the sign. The plain words keep the KJV’s “had said,” with no note."
         }
-      ]
+      ],
+      "approved": "c64e7906"
     },
     {
       "ch": "Isaiah 39",
@@ -1508,7 +1535,8 @@ window.TU_PLAIN = {
           "v": 8,
           "about": "The Hebrew says “and he said”; the BSB reads it as what he thought. The plain words keep “he added,” as the KJV does, with a note giving the BSB’s reading."
         }
-      ]
+      ],
+      "approved": "5dca94fb"
     }
   ]
 };
