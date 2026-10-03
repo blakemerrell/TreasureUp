@@ -852,7 +852,7 @@
     briefing: [
       ['Moroni "planted the standard of liberty among the Nephites," and fortified the land against the Lamanites.', 'Alma 46:36'],
       ['Plant yours on open ground, and your city begins. Tap the city to build, and buildings rise on their own. Carts bring in grain and timber; farms feed your people; granaries and storehouses hold what comes in.', null],
-      ['The barracks trains spearmen and slingers; the armory opens swordsmen, archers and armor; the stables, horse carts; the hall of the captains, javelin throwers and stripling warriors.', null],
+      ['The barracks trains spearmen, slingers and archers; the armory makes armor; the smithy arms swordsmen and makes steel; the training ground sends out veterans; the stables, horse carts; the hall of the captains, javelin throwers and stripling warriors.', null],
       ['These Lamanites have "prepared themselves with shields, and with breastplates" too.', 'Alma 49:6']
     ],
     setup(W) {

@@ -635,6 +635,8 @@
           b.queue.shift();
           const [x, y] = this.freeTileNear(b.tx + Math.floor(b.w / 2), b.ty + b.h, b.team);
           const u = this.addUnit(q.type, b.team, center(x), center(y), b.spawn || undefined);   // (b.spawn: what its trainees start with, e.g. a camp's mode and home)
+          // A training ground standing: a soldier comes out a veteran, "taught" like the striplings (Alma 53:21).
+          if (u.def.soldier && !u.def.hero && this.buildings(b.team).some(t => t.def.veterans && t.built >= 1 && !t.dead)) { u.rank = 1; u.kills = 3; u.max = Math.round(u.def.hp * 1.15); u.hp = u.max; }
           if (b.team === this.me) this.trained[q.type] = (this.trained[q.type] || 0) + 1;
           if (b.rally) this.moveTo(u, b.rally[0], b.rally[1]);
         }

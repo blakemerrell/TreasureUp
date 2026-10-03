@@ -72,14 +72,16 @@ something on its own as well as opening the next: nothing is a bare gate.
 | 1 | **Barracks**: spearman, slinger, archer. Research: weapons, armor and shields. Opens the watchtower. | **Muster ground**: Lamanite warrior, slinger ("their stones and their slings", Alma 43:20). Opens the lookout. |
 | 1 | **Stables** (needs farm): faster carts. | |
 | 2 | **Armory** (needs barracks): breastplates and shields, thick clothing, ridges of earth and pickets. | **Shield-makers' tent** (needs muster ground): shields and breastplates, garments of skins (Alma 49:6); Amalekite captain. |
-| 2 | **Smithy** (needs barracks): swordsman; swords and cimeters, bows of fine steel. *(5b)* | **Ladder-works** (needs muster ground): ladders, for what they tried at the banks of earth (Alma 49:22). |
-| 2 | **Training ground** (needs barracks and farm): spy; every soldier trained anywhere comes out a veteran while it stands ("taught to keep the commandments of God", Alma 53:21). Opens the stripling warrior. *(5b)* | **War-dance ground** (needs muster ground): warriors come out fierce for a while. *(5c)* |
+| 2 | **Smithy** (needs barracks): swordsman; swords and cimeters, bows of fine steel. *(built in 5b)* | **Ladder-works** (needs muster ground): ladders, for what they tried at the banks of earth (Alma 49:22). |
+| 2 | **Training ground** (needs barracks and farm): spy; every soldier trained anywhere comes out a veteran while it stands ("taught to keep the commandments of God", Alma 53:21). Opens the stripling warrior. *(built in 5b)* | **War-dance ground** (needs muster ground): warriors come out fierce for a while. *(5c)* |
 | 3 | **Hall of the captains** (needs armory and smithy): javelin thrower, stripling warrior; ladders and cords (Alma 62:21). | **Chief captain's pavilion** (needs shield-makers' tent): Zoramite captain, the chosen because they were "the most acquainted with the strength of the Nephites" (Alma 48:5); the side's hero. |
 | 4 | **Temple** (needs hall): healing near it, double council, miracles. | **King's court** (needs pavilion): Amalickiah's cunning; cheaper warriors ("the greatness of their numbers", Alma 49:6). *(5c)* |
 
 Where a soldier with a ladder comes from, as Blake asked: barracks, then armory
 and smithy, then the hall, then the research. Three buildings deep on both
-sides.
+sides. In 5b the swordsman moved from the barracks to the smithy and the spy
+to the training ground; a tile wears "New" for a while the first time it can
+be used.
 
 Proposed numbers for the King-men's troops, to be tuned in play: a Lamanite
 warrior costs 30 grain and trains in 7 s against the spearman's 45 grain and
