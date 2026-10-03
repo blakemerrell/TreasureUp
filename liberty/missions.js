@@ -83,7 +83,7 @@
     ],
     goals: 'Bring 4 of the 5 villages to Zarahemla, build 40 walls, 4 watchtowers and train 10 guards, before the robbers come down.',
     setup(W) {
-      W.res = { grain: 220, timber: 260 };
+      W.res = { grain: 220, timber: 260, stone: 80 };
       W.addBuilding('stronghold', 'p', CITY.x, CITY.y, true);
       const at = (dx, dy) => [center(CITY.x + dx), center(CITY.y + dy)];
       [[-1, 4], [4, 4]].forEach(([dx, dy]) => W.addUnit('cart', 'p', ...at(dx, dy)));
@@ -105,7 +105,8 @@
         [40, W => !W.buildings('p', 'barracks').length, 'Tap Zarahemla, tap Barracks, then tap where it goes. It builds itself; the barracks trains guards.'],
         [100, W => W.buildings('p').filter(b => b.def.wall).length < 4, 'Tap Zarahemla, tap Walls, and drag a line on the map. Build them round about the city.'],
         [160, W => !W.buildings('p', 'tower').length, 'Watchtowers shoot at robbers who come near. Build one on each side of the city.'],
-        [240, W => W.res.grain + W.res.timber < 150, 'Short of timber? Tap a cart, then a forest. Zarahemla can make more carts, and the council gives some too.']
+        [240, W => W.res.grain + W.res.timber < 150, 'Short of timber? Tap a cart, then a forest. Zarahemla can make more carts, and the council gives some too.'],
+        [300, W => W.res.stone < 40 && W.buildings('p', 'tower').length < 4, 'Watchtowers take stone. Tap a cart, then a rock face, and it quarries and hauls on its own.']
       ];
       W.msg('Lachoneus sends a proclamation: gather your families, flocks, herds and all your substance “unto one place.”', '3 Nephi 3:13');
       W.msg('Send a soldier to each village. When the proclamation reaches it, its people march to Zarahemla.', null, 'tip');
@@ -249,7 +250,7 @@
     ],
     goals: 'Stand against Giddianhi\'s attack, outlast Zemnarihah\'s siege, then cut off the robbers\' retreat.',
     setup(W) {
-      W.res = { grain: 900, timber: 320 };
+      W.res = { grain: 900, timber: 320, stone: 120 };
       W.addBuilding('stronghold', 'p', CITY.x, CITY.y, true);
       fortify(W);
       for (const v of VILLAGES) for (let y = v.y; y < v.y + 3; y++) for (let x = v.x; x < v.x + 3; x++) W.setTile(x, y, T.RUIN);
@@ -516,7 +517,7 @@
     starsText: '★ the war ends in peace, ★★ and Jershon kept safe, ★★★ and at least 1 in 4 of the Lamanites spared by a covenant.',
     setup(W) {
       W.border = null;
-      W.res = { grain: 320, timber: 300 };
+      W.res = { grain: 320, timber: 300, stone: 60 };
       W.noGo = [Object.assign({ text: 'That is Antionum, the Zoramites\' land. Moroni waits for them in the borders of Jershon.', ref: 'Alma 43:18' }, SD.ANTIONUM_LAND)];
       const J = SD.JERSHON;
       this.jershon = W.addBuilding('stronghold', 'p', J.x, J.y, true, { name: 'Jershon' });
@@ -852,7 +853,7 @@
     setup(W) {
       const L = LEVELS[this.level];
       W.tech = true; W.border = null;
-      W.res = { grain: 200, timber: 250 };
+      W.res = { grain: 200, timber: 250, stone: 50 };
       // By Moroni's later wars the Lamanites "prepared themselves with shields, and with breastplates" (Alma 49:6).
       W.boost.r = L.strength; W.foeArmor = L.armor;
       const put = (type, x, y, team, extra) => { const [fx, fy] = W.freeTileNear(x, y, team || 'p'); return W.addUnit(type, team || 'p', center(fx), center(fy), extra); };
@@ -875,7 +876,7 @@
       }
       this.wave = 0; this.nextWave = L.first; this.planted = false; this.nextReinforce = 60; this.nextFierce = 300;
       W.msg('Choose the standard of liberty and plant it on open ground to begin your city.', 'Alma 46:36', 'tip');
-      W.msg('Tap your city to build. Carts bring in grain and timber, and farms feed your people. The Lamanites will come: build a barracks.', null, 'tip');
+      W.msg('Tap your city to build. Carts bring in grain and timber, and stone from a rock face when you ask; farms feed your people. The Lamanites will come: build a barracks.', null, 'tip');
     },
     timerLabel: 'The Lamanites attack in',
     timeLeft(W) { return alive(this.warcamp) ? Math.max(0, this.nextWave - W.t) : null; },
@@ -1004,7 +1005,7 @@
     setup(W) {
       const L = WILD_LEVELS[this.level];
       W.tech = true; W.border = null;
-      W.res = { grain: 200, timber: 250 };
+      W.res = { grain: 200, timber: 250, stone: 50 };
       W.boost.r = L.strength; W.foeArmor = L.armor;
       const put = (type, x, y) => { const [fx, fy] = W.freeTileNear(x, y, 'p'); return W.addUnit(type, 'p', center(fx), center(fy)); };
       const S0 = WD.START;

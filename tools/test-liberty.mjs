@@ -13,6 +13,12 @@ const { MISSIONS } = require('../liberty/missions.js');
 let failed = 0;
 const ok = (cond, what) => { console.log((cond ? '  ✓ ' : '  ✗ ') + what); if (!cond) failed++; };
 const tileOf = S.tileOf;
+// A simple player's stone: while it's short, one cart is sent to a rock face; with plenty, it goes back to grain and timber.
+const quarry = (W, cs) => {
+  const q = cs.find(u => u.order.type === 'gather' && u.order.res === 'stone');
+  if (W.res.stone < 100 && !q && cs.length) { const c = cs[0]; c.pref = 'stone'; const f = W.nearestResource(tileOf(c.x), tileOf(c.y), 'stone', c); if (f) W.gatherAt(c, f[0], f[1]); }
+  else if (W.res.stone >= 200 && q) { q.pref = null; W.order(q, { type: 'idle' }); }
+};
 
 function start(id) {
   const W = new S.World(undefined, MISSIONS.find(m => m.id === id).map);
@@ -39,6 +45,7 @@ console.log('Mission 1 · Gather to One Place (3 Nephi 3)');
   const M = W.mission;
   ok(W.stronghold() && W.units('p').length === 8, 'starts with Zarahemla, 2 carts, 2 workers, 3 guards and Gidgiddoni');
   ok(M.villages.length === 5, 'five villages wait for the proclamation');
+  ok(W.nearestResource(W.stronghold().tx, W.stronghold().ty, 'stone'), 'a rock face to quarry lies within reach of Zarahemla');
   // The border: a soldier ordered into the mountains stops at the edge of the wilderness.
   const g = W.units('p').find(u => u.def.hero);
   W.moveTo(g, 32, 3);
@@ -61,6 +68,8 @@ console.log('Mission 1 · Gather to One Place (3 Nephi 3)');
       const s = W.soldiers().find(s => s.order.type === 'idle');
       if (s) W.moveTo(s, tileOf(v.x), tileOf(v.y) + 3);
     }
+    // Stone for the towers: one cart quarries while it's short.
+    quarry(W, W.units('p').filter(u => u.type === 'cart'));
     const all = W.units('p').filter(u => u.type === 'worker');
     const unbuilt = W.buildings('p').filter(b => !b.built);
     // Place the next thing when it can be paid for, with two builders on it.
@@ -228,6 +237,14 @@ console.log('Free battle · build a city, tear down the war camp');
   ok(W.foodUsed() === 10 && W.whyNotTrain('cart').startsWith('Not enough food') && !W.train(city, 'cart'), 'with no food for more, no one else can be trained until a farm is built');
   ok(W.whyNotPlace('farm', city.tx + 20, city.ty) === 'far' && W.whyNotPlace('farm', city.tx + 5, city.ty) === '', 'a building must stand within reach of what you have (Red Alert\'s rule)');
   { const far = W.place('farm', city.tx + 20, city.ty, []); ok(!far, 'so nothing can be built far off, near the enemy'); }
+  // Stone: a rock face beside open ground holds it, a cart told to quarry brings it home, and towers take it.
+  { const c = W.units('p').find(u => u.type === 'cart'), f = W.nearestResource(city.tx, city.ty, 'stone', c);
+    ok(f && W.isResource(f[0], f[1], 'stone') && W.tile(f[0], f[1]) === D.T.ROCK, 'a rock face with stone lies within reach of the city');
+    W.res.stone = 0; ok(!W.canAfford(D.BUILDINGS.tower.cost) && W.canAfford({ timber: 40 }), 'a watchtower can\'t go up without stone');
+    ok(W.gatherAt(c, f[0], f[1]) && c.order.res === 'stone', 'tap a cart on a rock face and it quarries');
+    run(W, 120, 1, () => {}); ok(W.res.stone > 0, `it brought stone home (${Math.round(W.res.stone)})`);
+    ok(W.tile(f[0], f[1]) === D.T.ROCK, 'the rock face stays rock as it is worked');
+    W.order(c, { type: 'idle' }); c.pref = null; }
 
   // A steady player: the carts haul on their own; build up the tree, keep an army home, then march on the camps.
   const S0 = { x: city.tx, y: city.ty };
@@ -259,6 +276,7 @@ console.log('Free battle · build a city, tear down the war camp');
     }
     // A building with no worker beside it still rises.
     if (!selfBuilt) { const lone = unbuilt.find(b => b.built > 0.2 && !workers().some(u => u.order.type === 'build' && u.order.target === b.id)); if (lone) selfBuilt = true; }
+    quarry(W, carts());
     // Keep grain and timber about even: point a cart at whichever is short.
     const much = W.res.grain > W.res.timber + 250 ? 'grain' : W.res.timber > W.res.grain + 250 ? 'timber' : null;
     const mover = much && carts().find(u => u.order.type === 'gather' && u.order.res === much);
@@ -350,7 +368,8 @@ console.log('Out of the Wilderness · build a city, hold off the raids');
       }
       const broken = W.buildings('p').find(b => b.built >= 1 && W.needsWork(b) && b.hp < S.maxHp(b) * 0.7);
       if (broken && !workers().some(u => u.order.type === 'build' && u.order.target === broken.id)) { const w = workers().find(u => u.order.type !== 'build'); if (w) W.order(w, { type: 'build', target: broken.id }); }
-      // Keep grain and timber about even: point a cart at whichever is short.
+      quarry(W, W.units('p').filter(u => u.type === 'cart'));
+    // Keep grain and timber about even: point a cart at whichever is short.
       const carts = W.units('p').filter(u => u.type === 'cart');
       const much = W.res.grain > W.res.timber + 250 ? 'grain' : W.res.timber > W.res.grain + 250 ? 'timber' : null;
       const mover = much && carts.find(u => u.order.type === 'gather' && u.order.res === much);

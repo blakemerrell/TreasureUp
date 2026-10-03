@@ -96,9 +96,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const ICON = {
     grain: '<svg class="i" viewBox="0 0 16 16"><path d="M8 15V5" stroke="#e8c15a" stroke-width="1.6" fill="none"/><g fill="#f5d06b"><ellipse cx="8" cy="3" rx="1.6" ry="2.4"/><ellipse cx="5.6" cy="6" rx="1.4" ry="2.2" transform="rotate(-30 5.6 6)"/><ellipse cx="10.4" cy="6" rx="1.4" ry="2.2" transform="rotate(30 10.4 6)"/><ellipse cx="5.6" cy="9.5" rx="1.4" ry="2.2" transform="rotate(-30 5.6 9.5)"/><ellipse cx="10.4" cy="9.5" rx="1.4" ry="2.2" transform="rotate(30 10.4 9.5)"/></g></svg>',
     timber: '<svg class="i" viewBox="0 0 16 16"><rect x="1" y="5" width="12" height="6" rx="3" fill="#a0673a"/><ellipse cx="13" cy="8" rx="2.4" ry="3" fill="#e0b27e"/><ellipse cx="13" cy="8" rx="1.1" ry="1.4" fill="#a0673a"/></svg>',
+    stone: '<svg class="i" viewBox="0 0 16 16"><path d="M1.5 13.5l2-5.5h9l2 5.5z" fill="#a8a29e"/><path d="M4.5 8l1.5-4.5h4L11.5 8z" fill="#d6d3d1"/><path d="M3 10.2h10" stroke="#78716c" stroke-width=".8"/><path d="M1.5 13.5h13l-1 1.5h-11z" fill="#78716c"/></svg>',
     people: '<svg class="i" viewBox="0 0 16 16" fill="#bfdbfe"><circle cx="5" cy="4.5" r="2.3"/><circle cx="11" cy="4.5" r="2.3"/><path d="M1 14c0-3.3 1.8-5 4-5s4 1.7 4 5zM7 14c0-3.3 1.8-5 4-5s4 1.7 4 5z"/></svg>'
   };
-  const costHtml = c => !c ? '' : [c.grain ? ICON.grain + c.grain : '', c.timber ? ICON.timber + c.timber : ''].filter(Boolean).map(x => '<span class="c">' + x + '</span>').join(' ');
+  const KINDS = ['grain', 'timber', 'stone'];
+  const costHtml = c => !c ? '' : KINDS.map(k => c[k] ? ICON[k] + c[k] : '').filter(Boolean).map(x => '<span class="c">' + x + '</span>').join(' ');
 
   // ------------------------------------------------------------ saves
 
@@ -549,6 +551,14 @@ IMG.farm.src = 'assets/farm.png?v=13';
     W.terrainDirty = false;
   }
 
+  // A rock face with stone to quarry: a few cut blocks show where a cart can work.
+  function paintQuarry(c, P, h) {
+    for (let k = 0; k < 3; k++) {
+      const [qx, qy] = inTile(P, 0.22 + 0.56 * h(30 + k), 0.3 + 0.45 * h(34 + k));
+      c.fillStyle = 'rgba(228, 224, 216, .85)'; c.fillRect(qx - 3, qy - 2, 6, 3.5);
+      c.fillStyle = 'rgba(66, 60, 56, .55)'; c.fillRect(qx - 3, qy + 1.5, 6, 1);
+    }
+  }
   function paintTile(x, y) {
     const c = tctx, i = y * MAP_W + x, t = W.tiles[i], a = W.amt[i], h = k => hash(x, y, k + seed);
     if (isWet(t)) return paintWater(x, y, t);
@@ -570,7 +580,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (t === T.FIELD) paintField(c, P, a, shade, h);
     else if (t === T.FOREST) paintTreeShadows(c, P, x, y, a);
     else if (t === T.RUIN) paintRuin(c, P, h);
-    else if (t === T.ROCK) paintBoulders(c, P, h, shade);
+    else if (t === T.ROCK) { paintBoulders(c, P, h, shade); if (a > 0 && (W.border == null || W.borderOpen || y >= W.border)) paintQuarry(c, P, h); }
     else if (h(5) < 0.1) {                            // a few wild flowers
       c.fillStyle = h(6) < 0.5 ? '#f3d250' : '#e8eef0';
       for (let k = 0; k < 3; k++) { const [fx, fy] = inTile(P, 0.2 + 0.6 * h(7 + k), 0.2 + 0.6 * h(10 + k)); c.fillRect(fx, fy, 1.6, 1.6); }
@@ -1438,10 +1448,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     let spots = [];
     if (wallLine) spots = wallLine.map(([x, y]) => [x, y]);
     else if (hover) spots = [topLeft(placing, hover.x, hover.y)];
-    let money = W.res.timber;
+    const left = Object.assign({}, W.res);
     for (const [x, y] of spots) {
-      money -= def.cost.timber || 0;
-      const ok = W.canPlace(placing, x, y) && money >= 0 && W.res.grain >= (def.cost.grain || 0);
+      for (const k of KINDS) left[k] = (left[k] || 0) - (def.cost[k] || 0);
+      const ok = W.canPlace(placing, x, y) && KINDS.every(k => left[k] >= 0);
       for (let dy = 0; dy < def.h; dy++) {
         for (let dx = 0; dx < def.w; dx++) {
           const tx = x + dx, ty = y + dy;
@@ -1602,12 +1612,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (rest.length) moveGroup(rest, tx, ty);
       return ping(e.x, e.y, '#fde68a');
     }
-    const kind = W.isResource(tx, ty, 'timber') ? 'timber' : W.isResource(tx, ty, 'grain') ? 'grain' : null;
+    const kind = W.isResource(tx, ty, 'timber') ? 'timber' : W.isResource(tx, ty, 'grain') ? 'grain' : W.isResource(tx, ty, 'stone') ? 'stone' : null;
     const carts = units.filter(u => u.def.gathers), others = units.filter(u => !u.def.gathers);
     if (kind && carts.length) {
       carts.forEach((u, i) => { u.pref = kind; const f = i ? W.nearestResource(tx, ty, kind, u) || [tx, ty] : [tx, ty]; W.gatherAt(u, f[0], f[1]); });
       if (others.length) moveGroup(others, tx, ty);
-      return ping(wx, wy, kind === 'timber' ? '#a3e635' : '#fde047');
+      return ping(wx, wy, kind === 'timber' ? '#a3e635' : kind === 'stone' ? '#d6d3d1' : '#fde047');
     }
     moveGroup(units, tx, ty);
     ping(wx, wy, '#86efac');
@@ -1677,10 +1687,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
     return out;
   }
   function poorText(c) {
-    const need = [];
-    if ((c.grain || 0) > W.res.grain) need.push('grain');
-    if ((c.timber || 0) > W.res.timber) need.push('timber');
-    return 'Not enough ' + need.join(' or ') + ' yet. The carts bring it in; the council gives some too.';
+    const need = KINDS.filter(k => (c[k] || 0) > (W.res[k] || 0));
+    return 'Not enough ' + need.join(' or ') + ' yet. ' + (need.includes('stone') ? 'Tap a cart, then a rock face: it quarries and hauls on its own.' : 'The carts bring it in; the council gives some too.');
   }
 
   // ------------------------------------------------------------ pointer and keys
@@ -2006,6 +2014,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const cap = W.tech && W.storeCap() > 0 ? '<small>/' + W.storeCap() + '</small>' : '';
     setHtml('rGrain', Math.floor(W.res.grain) + cap);
     setHtml('rTimber', Math.floor(W.res.timber) + cap);
+    setHtml('rStone', Math.floor(W.res.stone || 0) + cap);
     const ps = W.units('p');
     setText('rPeople', W.tech ? W.foodUsed() + '/' + W.foodCap() : ps.filter(u => u.def.gathers || u.def.builds).length + ' · ' + ps.filter(u => u.def.soldier).length);
     if (W.fullAt && W.fullAt > (shown.fullToast || -99) + 20) { shown.fullToast = W.fullAt; toast('Your storehouses are full: build a granary to hold more.', 'warn'); }
@@ -2186,7 +2195,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
         <li><b>Choose</b> your people: tap or click one. Drag a box around several (on a touch screen, tap <b>Box select</b> first). <b>Soldiers</b> chooses your whole army.</li>
         <li><b>Give orders</b>: with people chosen, tap the ground to march, an enemy to fight, trees or a field to gather, or an unfinished building to build it. (On a computer, right-click works too.)</li>
         <li><b>Build</b>: tap your city (or the <b>City</b> button), pick a building, then tap where it goes, within reach of what you have. It rises on its own. For walls, drag a line.</li>
-        <li><b>Gather</b>: carts bring in grain and timber by themselves. Tap a cart, then a field or a forest, to choose which.</li>
+        <li><b>Gather</b>: carts bring in grain and timber by themselves, and stone from a rock face when you ask. Tap a cart, then a field, a forest or a rock face, to choose which.</li>
         <li><b>Train</b>: your city makes carts and workers; the barracks, soldiers. Workers mend what's damaged and hurry what's being built.</li>
         <li><b>Story moments</b>: when the chapter's big moment comes (crying unto the Lord, Lehi's attack), a gold button appears at the top.</li>
         <li><b>The council</b>: answer a question from the chapter for grain and timber. Get it wrong and you'll see the verse.</li>
@@ -2355,7 +2364,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (window.LIB_MULTI && window.LIB_MULTI.drawCursor) window.LIB_MULTI.drawCursor(ctx);
   }
 
-  $('iGrain').innerHTML = ICON.grain; $('iTimber').innerHTML = ICON.timber; $('iPeople').innerHTML = ICON.people;
+  $('iGrain').innerHTML = ICON.grain; $('iTimber').innerHTML = ICON.timber; $('iStone').innerHTML = ICON.stone; $('iPeople').innerHTML = ICON.people;
   window.addEventListener('resize', resize);
   resize();
   home();

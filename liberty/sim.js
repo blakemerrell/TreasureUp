@@ -5,7 +5,9 @@
   'use strict';
   const D = root.LIB_DATA || require('./data.js');
   const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH } = D;
-  const REACH = 8;                                      // how many squares from your buildings a new one may stand
+  const REACH = 8;
+  const KINDS = ['grain', 'timber', 'stone'];      // what the carts bring in
+  const QUARRY = 100, OPEN = new Set([T.GRASS, T.FIELD, T.RUIN, T.FORD]);   // stone in a rock face beside open ground                                      // how many squares from your buildings a new one may stand
   const idx = (x, y) => y * MAP_W + x;
   const center = t => t * TILE + TILE / 2;
   const tileOf = p => Math.floor(p / TILE);
@@ -24,11 +26,20 @@
       const m = (map || D.buildMap)();
       this.tiles = m.tiles;
       this.amt = m.amt;
+      // Rock with open ground beside it is a rock face: carts can quarry stone there. It stays rock when worked out.
+      for (let y = 0; y < MAP_H; y++) for (let x = 0; x < MAP_W; x++) {
+        const i = idx(x, y);
+        if (this.tiles[i] !== T.ROCK || this.amt[i]) continue;
+        for (let dy = -1; dy <= 1 && !this.amt[i]; dy++) for (let dx = -1; dx <= 1; dx++) {
+          const nx = x + dx, ny = y + dy;
+          if ((dx || dy) && nx >= 0 && ny >= 0 && nx < MAP_W && ny < MAP_H && OPEN.has(this.tiles[idx(nx, ny)])) { this.amt[i] = QUARRY; break; }
+        }
+      }
       this.occ = new Int32Array(MAP_W * MAP_H);   // building id on each tile
       this.ents = new Map();
       this.nextId = 1;
       this.t = 0;
-      this.res = { grain: 0, timber: 0 };
+      this.res = { grain: 0, timber: 0, stone: 0 };
       this.prov = null;                            // the robbers' food, when it matters
       this.border = D.BORDER_Y;                    // a row the player may not go north of; null for none
       this.borderOpen = false;
@@ -210,7 +221,8 @@
       // A worker taken off gathering to build goes back to it when the building is done.
       if (o.type === 'build' && !o.resume) o.resume = u.order.type === 'gather' ? { type: 'gather', tx: u.order.tx, ty: u.order.ty, res: u.order.res } : u.order.resume || null;
       u.order = o; u.path = null; u.repath = 0;
-      if (o.type !== 'gather' && o.type !== 'build') u.phase = null;
+      if (o.type === 'gather') u.phase = 'go';                 // always walk to it first, even if it was working elsewhere
+      else if (o.type !== 'build') u.phase = null;
     }
     moveTo(u, tx, ty, attackMove) {
       if (u.team === 'p' && this.border != null && ty < this.border && !this.borderOpen) {
@@ -242,7 +254,7 @@
     storeCap() { let n = 0; for (const b of this.buildings('p')) if (b.built >= 1) n += b.def.store || 0; return n; }
     // Grain and timber coming in; in free battle, only as much as the storehouses hold.
     gain(kind, amt) {
-      this.res[kind] += amt;
+      this.res[kind] = (this.res[kind] || 0) + amt;
       if (!this.tech) return;
       const cap = this.storeCap();
       if (this.res[kind] > cap) { this.res[kind] = cap; this.fullAt = this.t; }
@@ -273,9 +285,9 @@
     }
 
     // --- building and training
-    canAfford(cost) { return !cost || ((cost.grain || 0) <= this.res.grain && (cost.timber || 0) <= this.res.timber); }
-    pay(cost) { if (!cost) return; this.res.grain -= cost.grain || 0; this.res.timber -= cost.timber || 0; }
-    refund(cost) { if (!cost) return; this.res.grain += cost.grain || 0; this.res.timber += cost.timber || 0; }
+    canAfford(cost) { return !cost || KINDS.every(k => (cost[k] || 0) <= (this.res[k] || 0)); }
+    pay(cost) { if (!cost) return; for (const k of KINDS) if (cost[k]) this.res[k] = (this.res[k] || 0) - cost[k]; }
+    refund(cost) { if (!cost) return; for (const k of KINDS) if (cost[k]) this.res[k] = (this.res[k] || 0) + cost[k]; }
     canPlace(type, tx, ty) { return !this.whyNotPlace(type, tx, ty); }
     // Why a building can't go on that spot: 'ground' (not open, or over the border), 'far' (out of reach of your
     // buildings: like Red Alert, you build next to what you have), or '' when it can.
@@ -640,14 +652,14 @@
     stepGather(u, dt) {
       const o = u.order;
       if (!u.phase) u.phase = 'go';
+      // Next to it, diagonals included, is close enough to work.
+      const near = () => this.nextTo(u, { x0: o.tx, y0: o.ty, x1: o.tx, y1: o.ty });
       if (u.phase === 'go') {
         if (!this.isResource(o.tx, o.ty, o.res)) {
           const next = this.nearestResource(o.tx, o.ty, o.res, u);
           if (!next) { this.order(u, { type: 'idle' }); return; }
           o.tx = next[0]; o.ty = next[1]; u.path = null;
         }
-        // Next to it, diagonals included, is close enough to work.
-        const near = () => this.nextTo(u, { x0: o.tx, y0: o.ty, x1: o.tx, y1: o.ty });
         if (near()) { u.phase = 'work'; u.path = null; u.work = 0; u.tries = 0; return; }
         if (!u.path) u.path = this.findPath(u, { x0: o.tx, y0: o.ty, x1: o.tx, y1: o.ty }, true);
         if (this.follow(u, dt) && !near()) {
@@ -659,14 +671,17 @@
         }
       } else if (u.phase === 'work') {
         const i = idx(o.tx, o.ty);
+        if (!near()) { u.phase = 'go'; u.path = null; return; }                       // pushed away: walk back first
         if (this.amt[i] <= 0) { u.phase = u.carry && u.carry.amt ? 'back' : 'go'; return; }
+        const t = this.tiles[i], kind = t === T.FOREST ? 'timber' : t === T.ROCK ? 'stone' : 'grain';
+        if (u.carry && u.carry.amt && u.carry.type !== kind) { u.phase = 'back'; u.path = null; return; }   // bring home what it holds first
         u.work += dt;
-        const kind = this.tiles[i] === T.FOREST ? 'timber' : 'grain', each = (kind === 'grain' ? 0.6 : 0.45) / (u.def.quick || 1);
+        const each = (kind === 'grain' ? 0.6 : kind === 'timber' ? 0.45 : 0.75) / (u.def.quick || 1);   // seconds a unit takes
         if (u.work >= each) {
           u.work -= each;
           if (!u.carry || u.carry.type !== kind) u.carry = { type: kind, amt: 0 };
           u.carry.amt += 1; this.amt[i] -= 1;
-          if (this.amt[i] <= 0) this.setTile(o.tx, o.ty, T.GRASS);
+          if (this.amt[i] <= 0) { if (t === T.ROCK) this.terrainDirty = true; else this.setTile(o.tx, o.ty, T.GRASS); }   // a worked-out face stays rock
           if (u.carry.amt >= (u.def.load || 10)) { u.phase = 'back'; u.path = null; }
         }
       } else if (u.phase === 'back') {
@@ -674,6 +689,8 @@
         if (!drop) { this.order(u, { type: 'idle' }); return; }
         if (this.nextTo(u, this.rectOf(drop))) {
           if (u.carry) { this.gain(u.carry.type, u.carry.amt); u.carry = null; }
+          // A cart hauling on its own chooses afresh each trip, so it never keeps filling a full store while the other runs short.
+          if (!u.pref && u.def.load) { this.order(u, { type: 'idle' }); return; }
           u.phase = 'go'; u.path = null; u.tries = 0; return;
         }
         if (!u.path) u.path = this.findPath(u, this.rectOf(drop), true);
@@ -685,7 +702,7 @@
     }
     isResource(x, y, kind) {
       const t = this.tile(x, y);
-      return (kind === 'timber' ? t === T.FOREST : t === T.FIELD) && this.amt[idx(x, y)] > 0;
+      return (kind === 'timber' ? t === T.FOREST : kind === 'stone' ? t === T.ROCK : t === T.FIELD) && this.amt[idx(x, y)] > 0;
     }
     // The nearest tree or field someone can stand next to, preferring ones fewer workers are on.
     nearestResource(tx, ty, kind, who, skip) {
@@ -709,17 +726,19 @@
     }
     gatherAt(u, tx, ty) {
       const t = this.tile(tx, ty);
-      if (!u.def.gathers || (t !== T.FOREST && t !== T.FIELD)) return false;
-      this.order(u, { type: 'gather', tx, ty, res: t === T.FOREST ? 'timber' : 'grain' });
+      if (!u.def.gathers || (t !== T.FOREST && t !== T.FIELD && t !== T.ROCK)) return false;
+      this.order(u, { type: 'gather', tx, ty, res: t === T.FOREST ? 'timber' : t === T.ROCK ? 'stone' : 'grain' });
       return true;
     }
-    // An idle cart picks what it hauls: what it was last sent for, or else whichever is shorter; and the nearest of it.
+    // An idle cart picks what it hauls: what it was last sent for, or else whichever of grain and timber is shorter;
+    // and the nearest of it. Stone only comes when a cart was sent for it.
     autoHaul(u) {
       if (!this.nearestDropoff(u)) return false;
-      const want = u.pref || (this.res.grain <= this.res.timber ? 'grain' : 'timber'), other = want === 'grain' ? 'timber' : 'grain';
+      const low = this.res.grain <= this.res.timber ? 'grain' : 'timber', other = low === 'grain' ? 'timber' : 'grain';
+      const kinds = u.pref ? [u.pref, ...[low, other].filter(k => k !== u.pref)] : [low, other];
       const tx = tileOf(u.x), ty = tileOf(u.y);
-      const f = this.nearestResource(tx, ty, want, u) || this.nearestResource(tx, ty, other, u);
-      return f ? this.gatherAt(u, f[0], f[1]) : false;
+      for (const k of kinds) { const f = this.nearestResource(tx, ty, k, u); if (f) return this.gatherAt(u, f[0], f[1]); }
+      return false;
     }
 
     // --- building and mending: stand next to it and work
@@ -753,7 +772,7 @@
     }
   }
 
-  const SIM = { World, TILE, center, tileOf, dist, maxHp, kindOf, REACH };
+  const SIM = { World, TILE, center, tileOf, dist, maxHp, kindOf, REACH, KINDS };
   if (typeof module !== 'undefined' && module.exports) module.exports = SIM;
   else root.LIB_SIM = SIM;
 })(this);
