@@ -4,7 +4,7 @@
 (function (root) {
   'use strict';
   const D = root.LIB_DATA || require('./data.js');
-  const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH } = D;
+  const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, MIRACLES } = D;
   const REACH = 8;
   const KINDS = ['grain', 'timber', 'stone'];      // what the carts bring in
   const QUARRY = 100, OPEN = new Set([T.GRASS, T.FIELD, T.RUIN, T.FORD]);   // stone in a rock face beside open ground                                      // how many squares from your buildings a new one may stand
@@ -48,6 +48,9 @@
       this.boost = { p: 1, r: 1 };                 // each side's strength, for a while
       this.shield = { p: 1, r: 1 };                // and how much harm each side takes
       this.buffUntil = 0;                          // "in the strength of the Lord" (3 Nephi 4:10)
+      this.ready = {};                             // the temple's miracles: when each may be worked again
+      this.zones = [];                             // where a miracle is at work: { kind, x, y, r, until }
+      this.quakeAt = -99;
       this.armor = 0;                              // Weapons, armor and shields (3 Nephi 3:26)
       this.dmgUp = 0;                              // swords and cimeters: more harm up close
       this.wallMul = 1;                            // ridges of earth and pickets: stronger walls
@@ -344,6 +347,7 @@
     // --- combat
     damage(target, amount, from) {
       if (target.dead || target.untouchable || this.truce) return;
+      if (target.team === 'p' && this.inZone(target, 'fire')) return;       // within the pillar of fire nothing harms them (Helaman 5:23)
       let a = amount * (from && this.boost[from.team] || 1);
       if (from && from.team === 'p' && from.kind === 'unit' && from.def.soldier && !from.def.ranged) a += this.dmgUp;
       if (from && from.team === 'p' && this.aura(from)) a *= 1.25;
@@ -385,6 +389,61 @@
       if (!u.def.soldier || u.def.hero) return false;
       for (const h of this.ents.values()) if (h.kind === 'unit' && h.def.hero && h.team === 'p' && dist(h, u) < h.def.aura) return true;
       return false;
+    }
+    // --- the temple's miracles
+    inZone(e, kind) { return this.zones.some(z => z.kind === kind && Math.hypot(e.x - z.x, e.y - z.y) < z.r); }
+    temple() { return this.buildings('p', 'temple').find(b => b.built >= 1 && !b.dead) || null; }
+    // Why a miracle can't be worked now: 'temple' (none stands), 'wait' (not yet), or ''.
+    whyNotMiracle(key) { if (!MIRACLES[key]) return 'none'; if (!this.temple()) return 'temple'; return this.t < (this.ready[key] || 0) ? 'wait' : ''; }
+    miracleWait(key) { return Math.max(0, (this.ready[key] || 0) - this.t); }
+    // Work a miracle at a spot (or on one foe, or on everyone). False if it can't be.
+    miracle(key, x, y, targetId) {
+      const m = MIRACLES[key];
+      if (!m || this.whyNotMiracle(key)) return false;
+      const foesIn = r => [...this.ents.values()].filter(e => e.kind === 'unit' && e.team !== 'p' && !e.dead && !e.untouchable && Math.hypot(e.x - x, e.y - y) < r);
+      if (key === 'fire') {
+        this.zones.push({ kind: 'fire', x, y, r: m.r, until: this.t + m.last });
+        for (const u of foesIn(m.r)) {
+          u.fearUntil = this.t + m.last;
+          const a = Math.atan2(u.y - y, u.x - x), [tx, ty] = this.freeTileNear(tileOf(x + Math.cos(a) * (m.r + 80)), tileOf(y + Math.sin(a) * (m.r + 80)), u.team);
+          this.order(u, { type: 'move', tx, ty });
+        }
+      } else if (key === 'cloud') {
+        this.zones.push({ kind: 'cloud', x, y, r: m.r, until: this.t + m.last });
+      } else if (key === 'quake') {
+        this.zones.push({ kind: 'quake', x, y, r: m.r, until: this.t + 1.5 }); this.quakeAt = this.t;
+        for (const b of [...this.ents.values()]) if (b.kind === 'building' && b.team !== 'p' && !b.dead && !b.untouchable && !b.def.neutral && this.distToRect({ x, y }, b) < m.r) this.damage(b, maxHp(b) * (b.def.wall != null ? 1 : 0.4) / (this.shield[b.team] || 1), null);
+        for (const u of [...this.ents.values()]) if (u.kind === 'unit' && !u.dead && Math.hypot(u.x - x, u.y - y) < m.r) u.kneelUntil = this.t + 3;
+      } else if (key === 'sleep') {
+        this.zones.push({ kind: 'sleep', x, y, r: m.r, until: this.t + m.last });
+        for (const u of foesIn(m.r)) { u.sleepUntil = this.t + m.last; this.order(u, { type: 'idle' }); }
+      } else if (key === 'turn') {
+        this.zones.push({ kind: 'turn', x, y, r: m.r, until: this.t + m.last });
+        for (const u of foesIn(m.r)) { u.turnUntil = this.t + m.last; this.turnOn(u); }
+      } else if (key === 'mercy') {
+        for (const u of this.units('p')) u.hp = maxHp(u);
+        this.zones.push({ kind: 'mercy', x: 0, y: 0, r: 0, until: this.t + 2 });
+      } else if (key === 'shock') {
+        const u = this.ents.get(targetId);
+        if (!u || u.kind !== 'unit' || u.team === 'p' || u.dead || u.untouchable) return false;
+        this.damage(u, 30 / (this.shield[u.team] || 1), null);
+        if (!u.dead) {
+          u.kneelUntil = this.t + 4;
+          const t = this.temple(), a = Math.atan2(u.y - (t ? t.y : y), u.x - (t ? t.x : x)), nx = u.x + Math.cos(a) * 64, ny = u.y + Math.sin(a) * 64;
+          if (this.passable(tileOf(nx), tileOf(ny), u.team)) { u.x = nx; u.y = ny; u.path = null; }
+        }
+        this.zones.push({ kind: 'shock', x: u.x, y: u.y, r: 24, until: this.t + 1 });
+      }
+      this.ready[key] = this.t + m.wait;
+      this.msg(m.done, m.ref, 'good');
+      return true;
+    }
+    // A foe turned against his own fights the nearest of them.
+    turnOn(u) {
+      let best = null, bd = 170;
+      for (const e of this.ents.values()) if (e !== u && e.kind === 'unit' && e.team === u.team && !e.dead && !e.untouchable) { const d = dist(u, e); if (d < bd) { bd = d; best = e; } }
+      if (best) this.order(u, { type: 'attack', target: best.id });
+      return !!best;
     }
     kill(e, from) {
       if (e.kind === 'unit') {
@@ -467,6 +526,9 @@
         if (s) { const [x, y] = this.freeTileNear(s.tx + 1, s.ty + s.h, 'p'); this.addUnit(h.type, 'p', center(x), center(y)); this.msg(UNITS[h.type].name + ' leads the armies again.', null, 'good'); }
       }
       this.effects = this.effects.filter(f => this.t - f.t < 0.35);
+      this.zones = this.zones.filter(z => this.t < z.until);
+      // The temple: your people near it are made whole, a little at a time.
+      for (const b of this.buildings('p', 'temple')) if (b.built >= 1 && !b.dead) for (const u of this.units('p')) if (u.hp < maxHp(u) && dist(u, b) < b.def.heals) u.hp = Math.min(maxHp(u), u.hp + maxHp(u) * 0.012 * dt);
       if (this.mission) this.mission.update(this, dt);
     }
 
@@ -517,10 +579,14 @@
     stepUnit(u, dt) {
       u.cool -= dt;
       if (u.kneelUntil && this.t < u.kneelUntil) return;   // "fallen to the earth" in prayer (3 Nephi 4:8)
+      if (u.sleepUntil && this.t < u.sleepUntil) return;   // in a deep sleep (Alma 55:16)
       u.think -= dt;
       if (u.think <= 0) {
         u.think = 0.4;
-        if (u.def.foe && this.mission && this.mission.foeBrain) this.mission.foeBrain(this, u);
+        if (u.def.foe && this.mission && this.mission.foeBrain) {
+          if (u.turnUntil > this.t) { if (u.order.type === 'idle') this.turnOn(u); }          // turned on his own (Judges 7:22)
+          else if (!(u.fearUntil > this.t)) this.mission.foeBrain(this, u);                    // (fleeing the fire, he keeps running)
+        }
         // (An army lying hidden holds still until it's ordered, or found.)
         else if (u.team === 'p' && u.order.type === 'idle' && u.def.dmg && !u.def.gathers && !u.def.builds && (!this.hidden(u) || this.t - (u.hitAt || -99) < 2)) this.autoAcquire(u, u.def.sight);
         else if (u.team === 'p' && u.order.type === 'move' && u.order.attackMove) this.autoAcquire(u, u.def.sight, true);
@@ -545,7 +611,7 @@
           if (this.reachOf(u, t)) {
             u.path = null;
             u.face = Math.atan2(t.y - u.y, t.x - u.x);
-            if (u.cool <= 0) {
+            if (u.cool <= 0 && !(u.def.foe && this.inZone(u, 'cloud'))) {        // in the cloud of darkness they can't see to strike
               if (u.def.ranged) this.shoot(u, t, u.def.dmg); else { this.damage(t, u.def.dmg, u); this.effects.push({ t: this.t, x0: u.x, y0: u.y, x1: t.x, y1: t.y, kind: 'hit', team: u.team }); }
               u.cool = u.def.cd; u.struckAt = this.t;
             }

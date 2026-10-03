@@ -14,10 +14,15 @@ let failed = 0;
 const ok = (cond, what) => { console.log((cond ? '  ✓ ' : '  ✗ ') + what); if (!cond) failed++; };
 const tileOf = S.tileOf;
 // A simple player's stone: while it's short, one cart is sent to a rock face; with plenty, it goes back to grain and timber.
+// It quarries at the face nearest the city, never one with enemies about, and comes home if struck: a far quarry is as
+// dangerous as an ore field in Red Alert.
 const quarry = (W, cs) => {
-  const q = cs.find(u => u.order.type === 'gather' && u.order.res === 'stone');
-  if (W.res.stone < 100 && !q && cs.length) { const c = cs[0]; c.pref = 'stone'; const f = W.nearestResource(tileOf(c.x), tileOf(c.y), 'stone', c); if (f) W.gatherAt(c, f[0], f[1]); }
-  else if (W.res.stone >= 200 && q) { q.pref = null; W.order(q, { type: 'idle' }); }
+  const q = cs.find(u => u.order.type === 'gather' && u.order.res === 'stone'), home = W.stronghold();
+  if (q && (W.res.stone >= 300 || (q.hitAt && W.t - q.hitAt < 2))) { q.pref = null; W.order(q, { type: 'idle' }); return; }
+  if (W.res.stone < 150 && !q && cs.length && home) {
+    const c = cs[0], f = W.nearestResource(home.tx, home.ty, 'stone', c);
+    if (f && !W.enemiesNear({ x: f[0] * 32 + 16, y: f[1] * 32 + 16 }, 'p', 260, true)) { c.pref = 'stone'; W.gatherAt(c, f[0], f[1]); }
+  }
 };
 
 function start(id) {
@@ -245,11 +250,28 @@ console.log('Free battle · build a city, tear down the war camp');
     run(W, 120, 1, () => {}); ok(W.res.stone > 0, `it brought stone home (${Math.round(W.res.stone)})`);
     ok(W.tile(f[0], f[1]) === D.T.ROCK, 'the rock face stays rock as it is worked');
     W.order(c, { type: 'idle' }); c.pref = null; }
+  // The temple: your people near it are made whole; miracles are worked from it, each then waiting its time.
+  { const t = W.addBuilding('temple', 'p', city.tx + 5, city.ty + 5, true), g = W.units('p').find(u => u.def.soldier);
+    g.x = t.x + 40; g.y = t.y + 40; g.hp = 10;
+    run(W, 20, 1, () => {}); ok(g.hp > 10, `a soldier beside the temple mends (${Math.round(g.hp)} hp after 20 s)`);
+    const foes = ['lamanite', 'lamanite', 'slinger'].map(k => W.addUnit(k, 'r', t.x + 300, t.y));
+    ok(W.whyNotMiracle('fire') === '' && W.miracle('fire', g.x, g.y), 'the pillar of fire can be worked');
+    const hp = g.hp; W.damage(g, 50, foes[0]); ok(g.hp === hp, 'inside the ring of fire nothing harms your people (Helaman 5:23)');
+    ok(W.whyNotMiracle('fire') === 'wait', 'and it must wait before it is worked again');
+    ok(W.miracle('sleep', foes[0].x, foes[0].y) && foes.every(f => f.sleepUntil > W.t), 'a deep sleep falls on the enemies at the spot (Alma 55:16)');
+    foes.forEach(f => { f.sleepUntil = 0; });
+    ok(W.miracle('turn', foes[0].x, foes[0].y) && foes.some(f => f.order.type === 'attack' && foes.some(o => o.id === f.order.target)), 'confusion turns the enemies on each other (Judges 7:22)');
+    const camp = FB.camps.find(c => !c.dead), chp = camp.hp;
+    ok(W.miracle('quake', camp.x, camp.y) && camp.hp < chp, `the earthquake shakes a Lamanite camp (${Math.round(chp)} to ${Math.round(camp.hp)})`);
+    g.hp = 5; W.miracle('mercy'); ok(g.hp === (g.max || g.def.hp), 'mercy makes everyone whole (Alma 2:30)');
+    const sh = foes[2], shp = sh.hp; ok(W.miracle('shock', sh.x, sh.y, sh.id) && (sh.dead || (sh.hp < shp && sh.kneelUntil > W.t)), 'the shock throws one enemy down (1 Nephi 17:54)');
+    for (const f of foes) if (!f.dead) W.kill(f);
+    W.kill(t); }
 
   // A steady player: the carts haul on their own; build up the tree, keep an army home, then march on the camps.
   const S0 = { x: city.tx, y: city.ty };
   const plan = [['farm', 4, -3], ['barracks', 6, 1], ['farm', -3, -3], ['granary', -3, 1], ['armory', 6, 5], ['farm', 0, 6],
-    ['stables', -4, 5], ['hall', 9, -3], ['farm', 3, 9], ['tower', 7, -5], ['farm', -6, -1], ['granary', 10, 3], ['farm', -1, -6], ['farm', 13, 0], ['farm', -6, 8]];
+    ['stables', -4, 5], ['hall', 9, -3], ['farm', 3, 9], ['tower', 7, -5], ['farm', -6, -1], ['granary', 10, 3], ['farm', -1, -6], ['farm', 13, 0], ['farm', -6, 8], ['temple', 12, 6]];
   const research = ['breastplates', 'cimeters', 'pickets'];
   let attackAt = null, blocked = 0;
   const workers = () => W.units('p').filter(u => u.type === 'worker'), carts = () => W.units('p').filter(u => u.type === 'cart');
@@ -281,6 +303,8 @@ console.log('Free battle · build a city, tear down the war camp');
     const much = W.res.grain > W.res.timber + 250 ? 'grain' : W.res.timber > W.res.grain + 250 ? 'timber' : null;
     const mover = much && carts().find(u => u.order.type === 'gather' && u.order.res === much);
     if (mover) { mover.pref = much === 'grain' ? 'timber' : 'grain'; const f = W.nearestResource(S0.x + 2, S0.y + 2, mover.pref); if (f) W.gatherAt(mover, f[0], f[1]); }
+    if (W.temple() && !W.whyNotMiracle('mercy') && W.units('p').some(u => u.hp < (u.max || u.def.hp) * 0.5)) W.miracle('mercy');
+    if (process.env.DIAG && Math.floor(W.t) % 30 === 0 && Math.floor(W.t) !== (W._diag || 0)) { W._diag = Math.floor(W.t); console.log(`      diag t=${Math.floor(W.t)} army=${army().length} carts=${carts().length} workers=${workers().length} bld=${W.buildings('p').map(b => b.type[0] + (b.built < 1 ? '~' : '')).join('')} g/t/s=${Math.round(W.res.grain)}/${Math.round(W.res.timber)}/${Math.round(W.res.stone)} plan=${plan[0] ? plan[0][0] : '-'} foes=${[...W.ents.values()].filter(e => e.kind === 'unit' && e.team === 'r' && !e.dead).length} timberNear=${JSON.stringify(W.nearestResource(S0.x, S0.y, 'timber'))} cartsAt=${carts().map(u => tileOf(u.x) + ',' + tileOf(u.y) + ':' + u.order.type + ':' + (u.order.res || '') + ':' + (u.phase || '') + ':' + (u.carry ? u.carry.type + u.carry.amt : 0) + ':' + (u.pref || '')).join(' ')} msg=${(W.msgs.slice(-1)[0] || {}).text}`); }
     // Research first, then train: carts, then soldiers.
     const arm = W.buildings('p', 'armory').find(b => b.built >= 1);
     if (arm && !W.researching && research.length) { if (W.research(arm, research[0])) research.shift(); else return; }
@@ -289,7 +313,7 @@ console.log('Free battle · build a city, tear down the war camp');
     const st = W.buildings('p', 'stables').find(b => b.built >= 1);
     if (st && st.queue.length < 1 && carts().length < 5) W.train(st, 'cart');
     // Save up for the big buildings rather than spending it all on soldiers.
-    if (plan.length && ['armory', 'stables', 'hall'].includes(plan[0][0]) && !W.whyNotBuild(plan[0][0]) && !W.canAfford(D.BUILDINGS[plan[0][0]].cost) && army().length >= 6) return;
+    if (plan.length && ['armory', 'stables', 'hall', 'temple'].includes(plan[0][0]) && !W.whyNotBuild(plan[0][0]) && !W.canAfford(D.BUILDINGS[plan[0][0]].cost) && army().length >= 6) return;
     const br = W.buildings('p', 'barracks').find(b => b.built >= 1), hall = W.buildings('p', 'hall').find(b => b.built >= 1);
     if (br && br.queue.length < 2) W.train(br, W.has('armory') ? (army().length % 2 ? 'archer' : 'swordsman') : (army().length % 2 ? 'nslinger' : 'spearman'));
     if (hall && hall.queue.length < 1) W.train(hall, army().length % 3 ? 'stripling' : 'javelin');

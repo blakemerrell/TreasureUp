@@ -5,7 +5,7 @@
   'use strict';
   const D = window.LIB_DATA, S = window.LIB_SIM, MISSIONS = window.LIB_MISSIONS.MISSIONS, CAMPAIGNS = window.LIB_MISSIONS.CAMPAIGNS, FREE = window.LIB_MISSIONS.FREE_BATTLE, WILD = window.LIB_MISSIONS.WILD;
   const TEXT = window.LIBERTY_SCRIPTURE || {};
-  const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, QUESTIONS } = D;
+  const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, QUESTIONS, MIRACLES } = D;
   const { tileOf, dist } = S;
   const WORLD_W = MAP_W * TILE, WORLD_H = MAP_H * TILE;
   const STEP = 1 / 20;
@@ -42,6 +42,7 @@ const IMG = {
   granary: new Image(),
   stables: new Image(),
   hall: new Image(),
+  temple: new Image(),
   lamaniteCamp: new Image(),
   robbersCamp: new Image(),
   warcamp: new Image(),
@@ -80,6 +81,7 @@ IMG.armory.src = 'assets/armory.png?v=13';
 IMG.granary.src = 'assets/granary.png?v=2';      // and these: 007-buildings.md (with shadows since)
 IMG.stables.src = 'assets/stables.png?v=2';
 IMG.hall.src = 'assets/hall.png?v=2';
+IMG.temple.src = 'assets/temple.png?v=1';
 IMG.lamaniteCamp.src = 'assets/lamanite_camp.png?v=1';   // and these: 009-battlefield.md
 IMG.robbersCamp.src = 'assets/robbers_camp.png?v=1';
 IMG.warcamp.src = 'assets/warcamp.png?v=1';
@@ -142,6 +144,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   let W = null, mission = null;
   let sel = [];                                      // selected entity ids
   let placing = null;                                // a building type waiting for a spot
+  let aiming = null;                                 // a miracle waiting for its spot
   let wallLine = null;                               // [[x, y], ...] while dragging a wall
   let hover = null;                                  // the mouse's world position
   let infoEnt = null;                                // a robber or village being looked at
@@ -833,6 +836,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.fillStyle = sky; ctx.fillRect(0, 0, cv.width, cv.height);
     const z = cam.z * dpr;
     ctx.setTransform(z, 0, 0, z, -cam.x * z, -cam.y * z);
+    if (W.t - W.quakeAt < 1.2) { const s = (1.2 - (W.t - W.quakeAt)) * 5; ctx.translate((Math.random() - 0.5) * s, (Math.random() - 0.5) * s); }   // the earthquake
     ctx.drawImage(terrain, -ISO_OFFSET_X, -PAD, TERR_W, TERR_H);
     drawGlints(now);
 
@@ -900,6 +904,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
 
     drawEffects();
+    drawZones(now);
     drawMarkers(now);
     drawGhost();
 
@@ -1203,6 +1208,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     granary: { cx: 200, by: 333, span: 397 },
     stables: { cx: 200, by: 318, span: 375 },
     hall: { cx: 200, by: 310, span: 400 },
+    temple: { cx: 168, by: 283, span: 295 },      // its stair pokes out past the platform's diamond
     lamaniteCamp: { cx: 210, by: 240, span: 419 },
     robbersCamp: { cx: 210, by: 242, span: 418 },
     warcamp: { cx: 210, by: 267, span: 419 },
@@ -1211,7 +1217,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Which picture a building is drawn with: the Lamanites' watchtowers are their own; a camp is the robbers' in 3 Nephi, the Lamanites' elsewhere.
   const pictureOf = b => b.type === 'tower' && b.team === 'r' ? 'lamaniteTower' : b.type === 'warcamp' ? 'warcamp'
     : b.type === 'camp' ? (mission && mission.campaign === 'gidgiddoni' ? 'robbersCamp' : 'lamaniteCamp') : PICTURE[b.type];
-  const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables' };
+  const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables', temple: 'temple' };
   const ready = img => img && img.complete && img.naturalWidth;
   // A building stands on flat ground just above the highest corner of its plot.
   function floorOf(b) {
@@ -1409,6 +1415,43 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.fillStyle = color; ctx.fillText(text, x, y + 1);
   }
 
+  // Where a miracle is at work.
+  function drawZones(now) {
+    for (const z of W.zones) {
+      const { ix, iy } = toIso(z.x, z.y), left = z.until - W.t;
+      if (z.kind === 'fire') {
+        const f = 0.85 + 0.15 * Math.sin(now * 0.02);
+        ctx.strokeStyle = `rgba(251,146,60,${0.9 * f})`; ctx.lineWidth = 6; ctx.beginPath(); ctx.ellipse(ix, iy, z.r, z.r / 2, 0, 0, 7); ctx.stroke();
+        ctx.strokeStyle = `rgba(254,240,138,${0.8 * f})`; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.ellipse(ix, iy, z.r - 3, z.r / 2 - 2, 0, 0, 7); ctx.stroke();
+        for (let k = 0; k < 28; k++) {
+          const a = k / 28 * Math.PI * 2, h = 10 + 8 * Math.abs(Math.sin(now * 0.012 + k * 1.7)), fx = ix + Math.cos(a) * z.r, fy = iy + Math.sin(a) * z.r / 2;
+          ctx.fillStyle = k % 2 ? 'rgba(249,115,22,.85)' : 'rgba(254,215,102,.9)'; ctx.beginPath(); ctx.moveTo(fx - 3, fy); ctx.lineTo(fx, fy - h); ctx.lineTo(fx + 3, fy); ctx.fill();
+        }
+      } else if (z.kind === 'cloud') {
+        const g = ctx.createRadialGradient(ix, iy - 10, 0, ix, iy - 10, z.r); g.addColorStop(0, 'rgba(20,16,30,.78)'); g.addColorStop(0.75, 'rgba(30,26,40,.6)'); g.addColorStop(1, 'rgba(30,26,40,0)');
+        ctx.save(); ctx.translate(ix, iy - 10); ctx.scale(1, 0.6); ctx.translate(-ix, -(iy - 10)); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(ix, iy - 10, z.r, 0, 7); ctx.fill(); ctx.restore();
+      } else if (z.kind === 'sleep') {
+        ctx.fillStyle = 'rgba(147,197,253,.15)'; ctx.beginPath(); ctx.ellipse(ix, iy, z.r, z.r / 2, 0, 0, 7); ctx.fill();
+        ctx.fillStyle = 'rgba(219,234,254,.9)'; ctx.font = 'bold 14px sans-serif';
+        for (let k = 0; k < 3; k++) { const p = (now * 0.0008 + k / 3) % 1; ctx.globalAlpha = 1 - p; ctx.fillText('z', ix - 20 + k * 20, iy - 20 - p * 40); }
+        ctx.globalAlpha = 1;
+      } else if (z.kind === 'turn') {
+        ctx.strokeStyle = 'rgba(248,113,113,.8)'; ctx.lineWidth = 3; ctx.setLineDash([8, 6]); ctx.lineDashOffset = -now * 0.03; ctx.beginPath(); ctx.ellipse(ix, iy, z.r, z.r / 2, 0, 0, 7); ctx.stroke(); ctx.setLineDash([]); ctx.lineDashOffset = 0;
+      } else if (z.kind === 'quake') {
+        ctx.strokeStyle = `rgba(40,30,20,${0.9 * Math.min(1, left)})`; ctx.lineWidth = 2;
+        for (let k = 0; k < 7; k++) {
+          const a = k * 0.9 + 0.3; ctx.beginPath(); ctx.moveTo(ix, iy);
+          for (let s = 1; s <= 4; s++) { const b = a + Math.sin(s * 2.3 + k) * 0.35; ctx.lineTo(ix + Math.cos(b) * z.r * s / 4, iy + Math.sin(b) * z.r * s / 8); }
+          ctx.stroke();
+        }
+      } else if (z.kind === 'mercy') {
+        for (const u of W.units('p')) { const p = toIso(u.x, u.y); ctx.fillStyle = `rgba(254,243,199,${0.5 * left / 2})`; ctx.beginPath(); ctx.ellipse(p.ix, p.iy - 20, 18, 30, 0, 0, 7); ctx.fill(); }
+      } else if (z.kind === 'shock') {
+        ctx.strokeStyle = `rgba(253,224,71,${Math.max(0, left)})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(ix - 8, iy - 50); ctx.lineTo(ix + 2, iy - 30); ctx.lineTo(ix - 4, iy - 30); ctx.lineTo(ix + 6, iy - 10); ctx.stroke();
+      }
+    }
+  }
+
   // Ballistic 3D Parabolic Projectiles with Grounded Shadows
   function drawEffects() {
     for (const f of W.effects) {
@@ -1443,6 +1486,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   // Where a building would go: green if it fits, red if not (Isometric Diamond Ghost)
   function drawGhost() {
+    if (aiming && hover) {                           // where the miracle would fall
+      const m = MIRACLES[aiming], { ix, iy } = toIso(hover.x, hover.y);
+      if (m.aim !== 'foe') { ctx.strokeStyle = 'rgba(253,230,138,.9)'; ctx.lineWidth = 2; ctx.setLineDash([6, 5]); ctx.beginPath(); ctx.ellipse(ix, iy, m.r, m.r / 2, 0, 0, 7); ctx.stroke(); ctx.setLineDash([]); }
+    }
     if (!placing) return;
     const def = BUILDINGS[placing];
     let spots = [];
@@ -1547,7 +1594,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const selectable = e => e && !e.dead && e.team === 'p' && e.type !== 'villager' && e.type !== 'flock';
   const selEnts = () => sel.map(id => W.ents.get(id)).filter(e => e && !e.dead);
   const selUnits = () => selEnts().filter(e => e.kind === 'unit' && selectable(e));
-  function setSel(list) { sel = list.filter(selectable).map(e => e.id); infoEnt = null; placing = null; wallLine = null; refreshPanel(true); }
+  function setSel(list) { sel = list.filter(selectable).map(e => e.id); infoEnt = null; placing = null; aiming = null; wallLine = null; refreshPanel(true); }
 
   function entityAt(wx, wy, sx, sy) {
     let best = null, bd = 24;
@@ -1572,6 +1619,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
 
   function clickAt(wx, wy, add, double, sx, sy) {
+    if (aiming) return aimAt(wx, wy, sx, sy);
     if (placing) return placeAt(wx, wy, add);
     const e = entityAt(wx, wy, sx, sy);
     const units = selUnits();
@@ -1646,6 +1694,27 @@ IMG.farm.src = 'assets/farm.png?v=13';
     placing = type; wallLine = null; touchSpot = null;
     toast(type === 'wall' ? 'Drag a line where the wall goes. Tap Done when you finish.' : `Tap where the ${def.name.toLowerCase()} goes.`, 'me');
     refreshPanel(true);
+  }
+  // A miracle: tap its button, then the spot (or the foe) it falls on.
+  function startAiming(key) {
+    const why = W.whyNotMiracle(key), m = MIRACLES[key];
+    if (!m) return;
+    if (why === 'temple') return toast('A temple must stand first.', 'warn');
+    if (why === 'wait') return toast(`${m.name} can be worked again in ${Math.ceil(W.miracleWait(key))}s.`, 'warn');
+    if (m.aim === 'none') { if (W.miracle(key)) { placing = null; aiming = null; refreshPanel(true); } return; }
+    aiming = key; placing = null; wallLine = null; touchSpot = null;
+    toast(m.aim === 'foe' ? `Tap the enemy the ${m.name.toLowerCase()} falls on.` : `Tap the spot where the ${m.name.toLowerCase()} falls.`, 'me');
+    refreshPanel(true);
+  }
+  function aimAt(wx, wy, sx, sy) {
+    const key = aiming, m = MIRACLES[key];
+    if (m.aim === 'foe') {
+      const e = entityAt(wx, wy, sx, sy);
+      if (!e || e.kind !== 'unit' || e.team === 'p') return toast('Tap an enemy.', 'warn');
+      if (W.miracle(key, e.x, e.y, e.id)) { aiming = null; refreshPanel(true); }
+      return;
+    }
+    if (W.miracle(key, wx, wy)) { aiming = null; refreshPanel(true); ping(wx, wy, '#fde68a'); }
   }
   function placeAt(wx, wy, keep) {
     const [x, y] = topLeft(placing, wx, wy);
@@ -1761,7 +1830,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       lastTap = { t: now, x: e.clientX, y: e.clientY };
       clickAt(p.x, p.y, e.shiftKey || e.ctrlKey || e.metaKey, dbl, e.clientX, e.clientY);
     } else if (g.kind === 'right') {
-      if (placing) { placing = null; wallLine = null; refreshPanel(true); }
+      if (placing || aiming) { placing = null; aiming = null; wallLine = null; refreshPanel(true); }
       else command(p.x, p.y, e.clientX, e.clientY);
     } else if (g.kind === 'box') {
       const bx0 = Math.min(box.x0, box.x1), bx1 = Math.max(box.x0, box.x1);
@@ -1804,7 +1873,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (!W || e.target.closest && e.target.closest('input, textarea')) return;
     if (e.key === 'Escape') {
       if (modal) return;
-      if (placing) { placing = null; wallLine = null; refreshPanel(true); }
+      if (placing || aiming) { placing = null; aiming = null; wallLine = null; refreshPanel(true); }
       else if (sel.length) setSel([]);
       else openMenu();
       return;
@@ -1898,19 +1967,28 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'build:armory': 'assets/cameo_armory.png?v=10',
     'build:stables': 'assets/cameo_stables.png?v=1',
     'build:hall': 'assets/cameo_hall.png?v=1',
+    'build:temple': 'assets/cameo_temple.png?v=1',
     'research:armor': 'assets/cameo_armor.png?v=1',
     'research:breastplates': 'assets/cameo_breastplates.png?v=1',
     'research:cimeters': 'assets/cameo_cimeters.png?v=1',
     'research:pickets': 'assets/cameo_pickets.png?v=1'
   };
-  const BREAKS = Object.fromEntries(['Store-house', 'Watch-tower', 'Swords-man', 'Spear-man', 'Breast-plates', 'Strip-ling', 'cime-ters', 'Bar-racks',
+  const BREAKS = Object.fromEntries(['Store-house', 'Watch-tower', 'Swords-man', 'Spear-man', 'Breast-plates', 'Strip-ling', 'cime-ters', 'Bar-racks', 'Earth-quake', 'Con-fusion',
     'cap-tains', 'Jave-lin', 'Gran-ary', 'Sta-bles', 'Sol-diers', 'war-rior', 'throw-er'].map(w => [w.replace('-', ''), w.replace('-', '\u00ad')]));
   // Buttons with no picture: a drawn sign instead.
   const SIGN = {
     stop: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
     letgo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
     cancel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
-    done: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>'
+    done: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>',
+    // the temple's miracles
+    'miracle:fire': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1 4 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3.2 2-4.2 0 2 1 3 2 3 0-3-1-6 1-8.8z"/></svg>',
+    'miracle:cloud': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 18a4 4 0 0 1-.5-8A5.5 5.5 0 0 1 17 9a3.5 3.5 0 0 1 .5 7z"/><path d="M5 21h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    'miracle:quake': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-5 3 10 3-8 2 3h4"/></svg>',
+    'miracle:sleep': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h6l-6 6h6M13 4h6l-6 6h6"/></svg>',
+    'miracle:turn': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l14 14M19 5L5 19M5 5h4M5 5v4M19 19h-4M19 19v-4"/></svg>',
+    'miracle:mercy': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg>',
+    'miracle:shock': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>'
   };
   const cmd = (act, name, cost, cls) => {
     const pic = CAMEO_MAP[act], sign = SIGN[act];
@@ -1921,6 +1999,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     return `<button class="cmd ${cls || ''}" data-cmd="${act}" data-label="${name}" style="--n:${n}"><span class="face">${face}<b>${shown}</b></span>${cost ? `<small>${cost}</small>` : ''}</button>`;
   };
   function cmdsHtml(ents) {
+    if (aiming) {
+      const m = MIRACLES[aiming];
+      return `<div class="note">${m.aim === 'foe' ? 'Tap the enemy it falls on.' : 'Tap the spot where it falls.'} <i>${esc(m.ref)}</i></div>` + cmd('cancel', 'Cancel');
+    }
     if (placing) {
       const def = BUILDINGS[placing];
       return `<div class="note">${placing === 'wall' ? 'Drag a line on the map for a wall: each piece costs ' + costHtml(def.cost) + '.' : 'Tap the map where the ' + esc(def.name.toLowerCase()) + ' goes. ' + costHtml(def.cost)}</div>` +
@@ -1946,7 +2028,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (b.built < 1) return `<div class="note">It builds itself. Workers sent to it hurry it along.</div>`;
     let h = '';
     if (b.def.builder) {                            // the city: like Red Alert's construction yard, everything is built from here
-      const list = W.tech ? ['farm', 'granary', 'storehouse', 'barracks', 'wall', 'gate', 'tower', 'armory', 'stables', 'hall'] : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
+      const list = W.tech ? ['farm', 'granary', 'storehouse', 'barracks', 'wall', 'gate', 'tower', 'armory', 'stables', 'hall', 'temple'] : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
       for (const t of list) {
         const def = BUILDINGS[t], why = W.whyNotBuild(t);
         h += cmd('build:' + t, t === 'wall' ? 'Walls' : def.name, why ? esc(why) : costHtml(def.cost) + (t === 'wall' ? ' each' : ''), why || !W.canAfford(def.cost) ? 'poor' : '');
@@ -1963,6 +2045,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (W.researching && W.researching.key === k) h += `<div class="note">Making ${esc(r.name.toLowerCase())}: ${Math.ceil(W.researching.left)}s</div>`;
       else h += cmd('research:' + k, esc(r.name), W.researching ? 'Wait: one at a time' : costHtml(r.cost), W.researching || !W.canAfford(r.cost) ? 'poor' : '');
     }
+    if (b.def.miracles && b.built >= 1) {           // the temple: each miracle, and how long until it can be worked again
+      for (const k of Object.keys(MIRACLES)) {
+        const m = MIRACLES[k], wait = W.miracleWait(k);
+        h += cmd('miracle:' + k, m.name, wait > 0 ? 'in ' + Math.ceil(wait) + 's' : m.aim === 'none' ? 'Now' : m.aim === 'foe' ? 'Tap a foe' : 'Tap a spot', wait > 0 ? 'poor' : '');
+      }
+    }
     if (b.queue && b.queue.length) {
       const q = b.queue[0], p = 100 - q.left / UNITS[q.type].time * 100;
       h += `<div class="queue">Training: ${b.queue.map((x, i) => `<span${i ? '' : ` style="--p:${p.toFixed(0)}%"`}>${esc(UNITS[x.type].name)}</span>`).join('')}</div>`;
@@ -1976,7 +2064,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const [act, arg] = btn.dataset.cmd.split(':');
     const one = selEnts()[0];
     if (act === 'build') startPlacing(arg);
-    else if (act === 'done' || act === 'cancel') { placing = null; wallLine = null; refreshPanel(true); }
+    else if (act === 'done' || act === 'cancel') { placing = null; aiming = null; wallLine = null; refreshPanel(true); }
+    else if (act === 'miracle') startAiming(arg);
     else if (act === 'stop') for (const u of selUnits()) W.order(u, { type: 'idle' });
     else if (act === 'letgo') setSel([]);
     else if (act === 'train' && one) { if (!W.train(one, arg)) toast(one.queue.length >= 5 ? 'The line is full.' : W.whyNotTrain(arg) || poorText(UNITS[arg].cost), 'warn'); }
@@ -1990,7 +2079,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     refreshPanel(true);
   });
-  function showInfo(e) { sel = []; infoEnt = e; placing = null; refreshPanel(true); }
+  function showInfo(e) { sel = []; infoEnt = e; placing = null; aiming = null; refreshPanel(true); }
 
   $('bArmy').onclick = () => { const s = W && W.soldiers(); if (s && s.length) { setSel(s); } };
   // Your city, where everything is built from; before it's planted, the standard of liberty.
@@ -2000,6 +2089,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (!c) return;
     setSel([c]); lookAt(c.x, c.y);
   };
+  $('bTemple').onclick = () => { const t = W && W.temple(); if (t) { setSel([t]); lookAt(t.x, t.y); } };
   function setBoxMode(on) { boxMode = on; $('bBox').classList.toggle('on', on); if (on) toast('Now drag on the map to draw a box around people.', 'me'); }
   $('bBox').onclick = () => setBoxMode(!boxMode);
 
@@ -2026,6 +2116,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (W.prov != null) $('foodBar').style.width = clamp(W.prov, 0, 100) + '%';
     const pw = mission.power ? mission.power(W) : null;
     $('cry').hidden = !pw;
+    $('bTemple').hidden = !(W.tech && W.temple());
     if (pw) setHtml('cry', esc(pw.label) + '<small>' + esc(pw.ref || '') + '</small>');
     powerNow = pw;
     const ready = !council || W.t >= council.nextAt;
@@ -2088,8 +2179,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (!council.queue.length) council.queue = shuffle(qs.map((_, i) => i));
     // Opening a question starts the wait, and it comes back later unless it's answered right,
     // so closing one you don't know isn't a way to skip to an easier one.
-    const qi = council.queue.shift(), q = qs[qi];
-    council.queue.push(qi); council.nextAt = W.t + 30;
+    const qi = council.queue.shift(), q = qs[qi], temple = !!W.temple();   // with a temple, the council comes back sooner and gives double (Mosiah 2:7)
+    council.queue.push(qi); council.nextAt = W.t + (temple ? 15 : 30);
     const answers = shuffle([q.right, ...q.wrong]);
     openDialog(`<div class="dialog"><div class="kicker">The council · ${esc(q.ref.replace(/:.*/, ''))}</div><h2>${esc(q.q)}</h2>
       <div class="choices">${answers.map(a => `<button class="choice" data-a="${esc(a)}">${esc(a)}</button>`).join('')}</div><div id="cAfter"></div></div>`);
@@ -2100,11 +2191,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
       root.querySelectorAll('.choice').forEach(b => { if (b.dataset.a === q.right) b.classList.add('right'); else if (b === btn) b.classList.add('wrong'); });
       const vs = versesOf(q.ref);
       if (ok) {
-        W.gain('grain', 40); W.gain('timber', 60); council.right++;
+        W.gain('grain', temple ? 80 : 40); W.gain('timber', temple ? 120 : 60); council.right++;
         council.queue = council.queue.filter(i => i !== qi);
-        council.nextAt = W.t + 60;
+        council.nextAt = W.t + (temple ? 30 : 60);
       }
-      $('cAfter').innerHTML = `<div class="say ${ok ? 'good' : 'bad'}">${ok ? 'Right! The people bring 40 grain and 60 timber.' : 'Not quite. Here is what the chapter says:'}</div>
+      $('cAfter').innerHTML = `<div class="say ${ok ? 'good' : 'bad'}">${ok ? (temple ? 'Right! The people gather at the temple and bring 80 grain and 120 timber.' : 'Right! The people bring 40 grain and 60 timber.') : 'Not quite. Here is what the chapter says:'}</div>
         <div class="verse">${vs.map(([n, t]) => `<p><b>${esc(q.ref.replace(/:.*/, ''))}:${n}</b> ${esc(t)}</p>`).join('')}</div>
         <div style="margin-top:14px"><button class="btn go" data-close>Back to the battle</button></div>`;
     });
@@ -2148,7 +2239,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   $('bMenu').onclick = openMenu;
 
   function home() {
-    W = null; mission = null; sel = []; placing = null;
+    W = null; mission = null; sel = []; placing = null; aiming = null;
     setGameUi(false);
     const card = m => {
       const read = allRead(m), open = unlocked(m), stars = save.won[m.id] || 0, need = m.needs && MISSIONS.find(x => x.id === m.needs);
@@ -2197,6 +2288,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
         <li><b>Build</b>: tap your city (or the <b>City</b> button), pick a building, then tap where it goes, within reach of what you have. It rises on its own. For walls, drag a line.</li>
         <li><b>Gather</b>: carts bring in grain and timber by themselves, and stone from a rock face when you ask. Tap a cart, then a field, a forest or a rock face, to choose which.</li>
         <li><b>Train</b>: your city makes carts and workers; the barracks, soldiers. Workers mend what's damaged and hurry what's being built.</li>
+        <li><b>Miracles</b>: build a temple and tap it. Each miracle falls where you tap next, then needs time before it can be worked again.</li>
         <li><b>Story moments</b>: when the chapter's big moment comes (crying unto the Lord, Lehi's attack), a gold button appears at the top.</li>
         <li><b>The council</b>: answer a question from the chapter for grain and timber. Get it wrong and you'll see the verse.</li>
         <li><b>Look around</b>: drag the map (arrow keys on a computer), pinch or scroll to zoom, or tap the small map.</li>
@@ -2381,7 +2473,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (!W) return;
       const one = selEnts()[0];
       if (act === 'build') startPlacing(arg);
-      else if (act === 'done' || act === 'cancel') { placing = null; wallLine = null; refreshPanel(true); }
+      else if (act === 'done' || act === 'cancel') { placing = null; aiming = null; wallLine = null; refreshPanel(true); }
+      else if (act === 'miracle') startAiming(arg);
       else if (act === 'stop') for (const u of selUnits()) W.order(u, { type: 'idle' });
       else if (act === 'train' && one) { W.train(one, arg); }
       refreshPanel(true);

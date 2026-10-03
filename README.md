@@ -216,6 +216,18 @@ asked (tap one on a field, a forest or a rock face to choose which); workers are
 hurrying what's being built; and several of the same building make things
 faster, up to two and a half times.
 
+**The temple and its miracles** (free battle, once the hall of the captains
+stands): built "after the manner of the temple of Solomon" (2 Nephi 5:16),
+mostly of stone. Your people near it are made whole; the council comes back
+sooner and gives double, as at King Benjamin's tower by the temple
+(Mosiah 2:7); and seven miracles are worked from it, each falling where you
+tap next and then waiting its time: a pillar of fire that shields your people
+in a ring and sends the enemies fleeing (Helaman 5:23–24), a cloud of darkness
+in which they can't see to strike (5:28), an earthquake that fells their walls
+and rends their camps (Alma 14:27), a deep sleep (Alma 55:16), confusion that
+turns them on each other (Judges 7:22), mercy that makes everyone whole
+(Alma 2:30), and a shock that throws one of them back (1 Nephi 17:54).
+
 - **Out of the Wilderness**: a valley with mountains to the north, wilderness
   to the west and a river to the east. Robbers and Lamanites come down by
   four ways (two mountain passes, the western wilderness, the river fords),
@@ -239,6 +251,7 @@ The buildings:
 | Armory | barracks | Breastplates and shields (+4 armor, Alma 43:19), swords and cimeters (+3 up close, Alma 43:18), ridges of earth and pickets (walls ×2, Alma 50:1–3), one at a time |
 | Stables | farm | Horse carts twice as fast as the city makes them (3 Nephi 3:22) |
 | Hall of the captains | armory | Javelin throwers (Jarom 1:8) and stripling warriors (Alma 53:20). Takes stone |
+| Temple | hall | Your people near it are made whole; the council comes back sooner and gives double (Mosiah 2:7); miracles are worked from it (2 Nephi 5:16). Mostly stone |
 
 Nobody can be trained without food for them. Each soldier is strong against
 one kind of enemy (×1.5 damage), so a mixed army wins:
