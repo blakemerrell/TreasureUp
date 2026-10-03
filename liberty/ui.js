@@ -14,6 +14,7 @@ const IMG = {
   moroni: new Image(),
   spearman: new Image(),
   worker: new Image(),
+  spy: new Image(),
   robber: new Image(),
   robberArcher: new Image(),
   robberChief: new Image(),
@@ -53,6 +54,7 @@ const IMG = {
 IMG.moroni.src = 'assets/moroni.png?v=13';
 IMG.spearman.src = 'assets/spearman.png?v=13';
 IMG.worker.src = 'assets/worker.png?v=1';        // drawn by Gemini: liberty/art/requests/001-worker.md
+IMG.spy.src = 'assets/spy.png?v=1';
 IMG.robber.src = 'assets/robber.png?v=1';        // and these: 002-robbers.md
 IMG.robberArcher.src = 'assets/robber_archer.png?v=1';
 IMG.robberChief.src = 'assets/robber_chief.png?v=1';
@@ -1158,6 +1160,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
       uImg = working ? IMG.cartWork : load === 'grain' ? IMG.cartGrain : load === 'timber' ? IMG.cartTimber : load === 'stone' ? IMG.cartStone : IMG.cart;
       if (!(uImg.complete && uImg.naturalWidth)) uImg = IMG.cart;
       uw = uImg.naturalWidth / 3; uh = uImg.naturalHeight / 3; uox = uw / 2; uoy = uh - 1;
+    } else if (u.type === 'spy') {
+      uImg = IMG.spy;                            // 76 × 150 like the worker
+      uw = 20; uh = 40; uox = 10; uoy = 39;
     } else if (u.type === 'worker') {
       uImg = IMG.worker;                         // 76 × 150, cropped to the figure: feet on the ground
       uw = 20; uh = 40; uox = 14; uoy = 39;
@@ -1179,6 +1184,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.restore();
     if (hid) ctx.globalAlpha = 1;
     
+    if (u.rank) {                                   // a veteran's chevrons (Alma 53:20)
+      ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
+      for (let k = 0; k < u.rank; k++) { const cy = iy - uh - 6 - k * 4; ctx.beginPath(); ctx.moveTo(ix - 4, cy); ctx.lineTo(ix, cy + 3); ctx.lineTo(ix + 4, cy); ctx.stroke(); }
+    }
     if (u.hp < u.max && (sel.includes(u.id) || u.team === 'r')) {
       const pct = Math.max(0, u.hp / u.max);
       ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(ix - 8, iy - 22, 16, 3);
@@ -1348,7 +1357,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (alongX) ctx.scale(-1, 1);
       ctx.drawImage(IMG.gate, -wd / 2, -ht, wd, ht);
       ctx.restore();
-    } else if (W.researched.pickets) {
+    } else if (W.researched.pickets || b.team === 'r') {   // a Lamanite palisade always has its stakes
       // a frame of pickets along the top of the bank, sharpened
       const line = links.length ? links.flatMap(([dx, dy]) => [0.12, 0.42, 0.72, 0.98].map(t => [cx + dx * TILE * 0.5 * t, cy + dy * TILE * 0.5 * t])) : [[cx, cy]];
       for (const [sx, sy] of line.sort((a, b) => a[0] + a[1] - b[0] - b[1])) {
@@ -1957,6 +1966,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'train:stripling': 'assets/cameo_stripling.png?v=10',
     'train:moroni': 'assets/cameo_moroni.png?v=10',
     'train:cart': 'assets/cameo_cart.png?v=2',
+    'train:spy': 'assets/cameo_spy.png?v=1',
     'build:farm': 'assets/cameo_farm.png?v=1',
     'build:granary': 'assets/cameo_granary.png?v=1',
     'build:storehouse': 'assets/cameo_storehouse.png?v=1',
@@ -1971,7 +1981,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'research:armor': 'assets/cameo_armor.png?v=1',
     'research:breastplates': 'assets/cameo_breastplates.png?v=1',
     'research:cimeters': 'assets/cameo_cimeters.png?v=1',
-    'research:pickets': 'assets/cameo_pickets.png?v=1'
+    'research:pickets': 'assets/cameo_pickets.png?v=1',
+    'research:bows': 'assets/cameo_bows.png?v=1',
+    'research:clothing': 'assets/cameo_clothing.png?v=1',
+    'research:ladders': 'assets/cameo_ladders.png?v=1'
   };
   const BREAKS = Object.fromEntries(['Store-house', 'Watch-tower', 'Swords-man', 'Spear-man', 'Breast-plates', 'Strip-ling', 'cime-ters', 'Bar-racks', 'Earth-quake', 'Con-fusion',
     'cap-tains', 'Jave-lin', 'Gran-ary', 'Sta-bles', 'Sol-diers', 'war-rior', 'throw-er'].map(w => [w.replace('-', ''), w.replace('-', '\u00ad')]));
@@ -2287,7 +2300,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
         <li><b>Give orders</b>: with people chosen, tap the ground to march, an enemy to fight, trees or a field to gather, or an unfinished building to build it. (On a computer, right-click works too.)</li>
         <li><b>Build</b>: tap your city (or the <b>City</b> button), pick a building, then tap where it goes, within reach of what you have. It rises on its own. For walls, drag a line.</li>
         <li><b>Gather</b>: carts bring in grain and timber by themselves, and stone from a rock face when you ask. Tap a cart, then a field, a forest or a rock face, to choose which.</li>
-        <li><b>Train</b>: your city makes carts and workers; the barracks, soldiers. Workers mend what's damaged and hurry what's being built.</li>
+        <li><b>Train</b>: your city makes carts and workers; the barracks, soldiers and spies. Workers mend what's damaged and hurry what's being built. A soldier who fells three foes becomes a veteran.</li>
         <li><b>Miracles</b>: build a temple and tap it. Each miracle falls where you tap next, then needs time before it can be worked again.</li>
         <li><b>Story moments</b>: when the chapter's big moment comes (crying unto the Lord, Lehi's attack), a gold button appears at the top.</li>
         <li><b>The council</b>: answer a question from the chapter for grain and timber. Get it wrong and you'll see the verse.</li>

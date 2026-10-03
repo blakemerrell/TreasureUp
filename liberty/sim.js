@@ -51,6 +51,7 @@
       this.ready = {};                             // the temple's miracles: when each may be worked again
       this.zones = [];                             // where a miracle is at work: { kind, x, y, r, until }
       this.quakeAt = -99;
+      this.bows = false; this.clothing = false; this.ladders = false;   // the armory's upgrades
       this.armor = 0;                              // Weapons, armor and shields (3 Nephi 3:26)
       this.dmgUp = 0;                              // swords and cimeters: more harm up close
       this.wallMul = 1;                            // ridges of earth and pickets: stronger walls
@@ -82,8 +83,8 @@
       if (b) {
         const e = this.ents.get(b);
         if (!e) return true;
-        if (e.def.gate && team === 'p') return true;
-        if (!(throughWalls && e.def.wall)) return false;
+        if (e.def.gate && e.team === team) return true;
+        if (!(throughWalls && e.def.wall && e.team !== team)) return false;   // over an enemy's wall, never one's own
       }
       // Gidgiddoni: "we will not go against them, but we will wait till they shall come against us" (3 Nephi 3:21).
       if (team === 'p' && this.border != null && y < this.border && !this.borderOpen) return false;
@@ -150,7 +151,7 @@
     // --- paths: A* on tiles, eight ways, no cutting corners.
     // `goal` is a rectangle; `near` means ending next to it is enough.
     findPath(u, goal, near) {
-      const team = u.team, walls = !!u.def.foe;
+      const team = u.team, walls = !!u.def.foe || this.canClimb(u);
       const sx = tileOf(u.x), sy = tileOf(u.y);
       const gx0 = goal.x0, gy0 = goal.y0, gx1 = goal.x1, gy1 = goal.y1;
       const reached = (x, y) => near
@@ -249,7 +250,7 @@
       let n = 0;
       for (const e of this.ents.values()) {
         if (e.team !== 'p') continue;
-        if (e.kind === 'unit' && !e.def.hero && (e.def.soldier || e.def.gathers || e.def.builds)) n++;
+        if (e.kind === 'unit' && !e.def.hero && (e.def.soldier || e.def.gathers || e.def.builds || e.def.scout)) n++;
         else if (e.kind === 'building') n += e.queue.length;
       }
       return n;
@@ -351,10 +352,12 @@
       let a = amount * (from && this.boost[from.team] || 1);
       if (from && from.team === 'p' && from.kind === 'unit' && from.def.soldier && !from.def.ranged) a += this.dmgUp;
       if (from && from.team === 'p' && this.aura(from)) a *= 1.25;
+      if (from && from.team === 'p' && from.type === 'archer' && this.bows) a += 4;       // bows of fine steel
+      if (from && from.rank) a *= 1 + 0.15 * from.rank;                                   // a veteran strikes harder
       if (from && from.def.foe && from.weak) a *= 0.6;
       // Each kind of fighter is strong against another (data.js: `beats`).
       if (from && from.kind === 'unit' && target.kind === 'unit' && from.def.beats && from.def.beats === kindOf(target.def)) a *= 1.5;
-      const armor = (target.def.armor || 0) + (target.kind === 'unit' && target.team === 'p' && target.def.soldier ? this.armor : 0) + (target.kind === 'unit' && target.team === 'r' ? this.foeArmor : 0);
+      const armor = (target.def.armor || 0) + (target.kind === 'unit' && target.team === 'p' && target.def.ranged && this.clothing ? 2 : 0) + (target.kind === 'unit' && target.team === 'p' && target.def.soldier ? this.armor : 0) + (target.kind === 'unit' && target.team === 'r' ? this.foeArmor : 0);
       a = Math.max(1, a * ARMOR / (ARMOR + armor));
       if (target.team === 'p' && this.t < this.buffUntil) a *= 0.65;
       a *= this.shield[target.team] || 1;
@@ -377,12 +380,12 @@
     }
     // A building or a worker of yours is attacked: say so (now and then, not every blow) and mark the place.
     alarm(target) {
-      if (target.kind === 'unit' && !target.def.gathers && !target.def.builds) return;   // soldiers fighting are no news
+      if (target.kind === 'unit' && !target.def.gathers && !target.def.builds && !target.def.scout) return;   // soldiers fighting are no news
       const last = this.alarms[this.alarms.length - 1];
       if (last && this.t - last.t < 15 && Math.hypot(last.x - target.x, last.y - target.y) < 500) return;
       this.alarms.push({ t: this.t, x: target.x, y: target.y });
       if (this.alarms.length > 20) this.alarms.shift();
-      const what = target.kind === 'building' ? (target.name === 'Your city' ? 'Your city' : 'Your ' + target.def.name.toLowerCase()) : 'Your workers';
+      const what = target.kind === 'building' ? (target.name === 'Your city' ? 'Your city' : 'Your ' + target.def.name.toLowerCase()) : target.def.scout ? 'Your spy' : 'Your workers';
       this.msg(`${what} ${target.kind === 'building' ? 'is' : 'are'} under attack!`, null, 'warn');
     }
     aura(u) {
@@ -455,7 +458,18 @@
             this.msg(`${e.def.name} is wounded and carried back to ${s ? s.name || s.def.name : 'the city'}. He will lead again soon.`, null, 'warn');
           }
           if (e.type === 'villager' && e.from) e.from.lost = (e.from.lost || 0) + 1;
-        } else if (e.def.foe) this.stats.defeated++;
+        } else if (e.def.foe) {
+          this.stats.defeated++;
+          // A veteran: three foes make a soldier "exceedingly valiant for courage" (Alma 53:20); eight, a veteran twice over.
+          if (from && from.kind === 'unit' && from.team === 'p' && from.def.soldier && !from.def.hero && !from.dead) {
+            from.kills = (from.kills || 0) + 1;
+            const rank = from.kills >= 8 ? 2 : from.kills >= 3 ? 1 : 0;
+            if (rank > (from.rank || 0)) {
+              from.rank = rank; from.max = Math.round(from.def.hp * (1 + 0.15 * rank)); from.hp = Math.min(from.max, from.hp + from.def.hp * 0.15);
+              if (this.t - (this.rankMsgAt || -99) > 20) { this.rankMsgAt = this.t; this.msg(`A ${from.def.name.toLowerCase()} is ${rank === 1 ? 'a veteran now, "exceedingly valiant for courage"' : 'a veteran twice over'}: he fights harder and lasts longer.`, 'Alma 53:20', 'good'); }
+            }
+          }
+        }
         if (this.mission && this.mission.onKill) this.mission.onKill(this, e, from);
       } else {
         if (this.mission && this.mission.onDestroy) this.mission.onDestroy(this, e, from);
@@ -493,7 +507,11 @@
       const dx = Math.max(x0 - p.x, 0, p.x - x1), dy = Math.max(y0 - p.y, 0, p.y - y1);
       return Math.hypot(dx, dy);
     }
-    reachOf(u, target) { return (target.kind === 'building' ? this.distToRect(u, target) : dist(u, target) - 10) <= u.def.range + 6; }
+    reachOf(u, target) { return (target.kind === 'building' ? this.distToRect(u, target) : dist(u, target) - 10) <= this.rangeOf(u) + 6; }
+    // How far a unit strikes: archers farther with bows of fine steel (1 Nephi 16:18).
+    rangeOf(u) { return u.def.range + (u.team === 'p' && this.bows && u.type === 'archer' ? 40 : 0); }
+    // Who can go over an enemy wall: Lamanites who brought ladders, or your soldiers once ladders and cords are made (Alma 62:21).
+    canClimb(u) { return u.team === 'p' ? !!(this.ladders && u.def.soldier) : !!u.ladders; }
 
     // ------------------------------------------------------------ the tick
 
@@ -513,6 +531,9 @@
           this.researched[key] = true; this.researching = null;
           this.armor += r.armor || 0;
           this.dmgUp += r.dmg || 0;
+          if (r.bows) this.bows = true;
+          if (r.clothing) this.clothing = true;
+          if (r.ladders) this.ladders = true;
           if (r.walls) {
             this.wallMul = r.walls;
             for (const w of this.buildings('p')) if (w.def.wall) { const f = w.hp / maxHp(w); w.max = w.def.hp * r.walls; w.hp = f * w.max; }
@@ -602,7 +623,7 @@
             u.path = this.findPath(u, g, !!o.near);
           }
           if (this.follow(u, dt)) this.arrive(u);
-          else if (u.def.foe && this.blockedBy) { const w = this.blockedBy; this.blockedBy = null; this.order(u, { type: 'attack', target: w.id, then: o }); }
+          else if (this.blockedBy && (u.def.foe || u.def.soldier)) { const w = this.blockedBy; this.blockedBy = null; this.order(u, { type: 'attack', target: w.id, then: o }); }
           break;
         }
         case 'attack': {
@@ -628,7 +649,7 @@
               const py = t.kind === 'building' ? Math.max(t.ty * TILE, Math.min(u.y, (t.ty + t.h) * TILE)) : t.y;
               this.approach(u, px, py, dt);
             }
-            if (u.def.foe && this.blockedBy) { const w = this.blockedBy; this.blockedBy = null; if (w.team === 'p' && w.id !== t.id) this.order(u, { type: 'attack', target: w.id, then: o }); }
+            if (this.blockedBy && (u.def.foe || u.def.soldier)) { const w = this.blockedBy; this.blockedBy = null; if (w.team !== u.team && w.id !== t.id) this.order(u, { type: 'attack', target: w.id, then: o }); }
             // A soldier who went after someone gives up a long chase.
             else if (o.leash && dist(u, o.leash) > 220) this.afterFight(u, true);
           }
@@ -662,15 +683,17 @@
       if (!u.path) return false;
       if (!u.path.length) { u.path = null; return true; }
       const [tx, ty] = u.path[0];
+      u.climbing = false;
       if (!this.passable(tx, ty, u.team === 'p' ? 'p' : u.team)) {
         const b = this.occ[idx(tx, ty)] && this.ents.get(this.occ[idx(tx, ty)]);
-        if (b && b.def.wall && u.def.foe) { this.blockedBy = b; return false; }
-        u.path = null;                              // something new in the way: plan again
-        return false;
+        if (b && b.def.wall && b.team !== u.team && this.canClimb(u)) u.climbing = true;                  // over it, slowly
+        else if (b && b.def.wall && b.team !== u.team && (u.def.foe || u.def.soldier)) { this.blockedBy = b; return false; }   // break it first
+        else { u.path = null; return false; }     // something new in the way: plan again
       }
       const cx = center(tx), cy = center(ty);
       const dx = cx - u.x, dy = cy - u.y, d = Math.hypot(dx, dy);
       let sp = u.def.speed * (u.slow || 1) * (this.tile(tileOf(u.x), tileOf(u.y)) === T.FORD ? 0.7 : 1);
+      if (u.climbing) sp *= 0.4;
       if (u.carry && u.carry.amt) sp *= 0.9;
       const s = sp * dt;
       // Close is close enough: units crowding one tile push each other off its exact middle.
