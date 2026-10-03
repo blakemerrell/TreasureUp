@@ -3247,7 +3247,8 @@ window.TU_WEEKS = [
           "title": "The God of Israel and the Nations (Isaiah 36–47)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-16?lang=eng"
         },
-        "find": "the fierce summer heat turns the grass brown almost overnight"
+        "find": "the fierce summer heat turns the grass brown almost overnight",
+        "approved": "3e4bcad4"
       },
       {
         "id": "isa40-bosom",
@@ -3260,7 +3261,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 40",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-40"
         },
-        "find": "The Lord gathers the lambs and carries them"
+        "find": "The Lord gathers the lambs and carries them",
+        "approved": "ecead1ee"
       },
       {
         "id": "isa40-span",
@@ -3273,7 +3275,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 40 (2026) – Isaiah 40-49",
           "url": "https://followhim.co/show-note/old-testament-episode-40-2026-isaiah-40-49/"
         },
-        "find": "The span was the distance between the tip of the little finger and the thumb"
+        "find": "The span was the distance between the tip of the little finger and the thumb",
+        "approved": "a50cb79d"
       },
       {
         "id": "isa41-hymn",
@@ -3286,7 +3289,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 41",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-41"
         },
-        "find": "Note that the popular hymn, “How Firm a Foundation” is based on verses 9–10"
+        "find": "Note that the popular hymn, “How Firm a Foundation” is based on verses 9–10",
+        "approved": "0fe741fe"
       },
       {
         "id": "isa41-worm",
@@ -3299,7 +3303,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 40 (2026) – Isaiah 40-49",
           "url": "https://followhim.co/show-note/old-testament-episode-40-2026-isaiah-40-49/"
         },
-        "find": "Now that sounds almost derisive, but if you look at the footnote, it means meek and humble"
+        "find": "Now that sounds almost derisive, but if you look at the footnote, it means meek and humble",
+        "approved": "9ba527e1"
       },
       {
         "id": "isa42-quiet",
@@ -3311,7 +3316,8 @@ window.TU_WEEKS = [
           "title": "The God of Israel and the Nations (Isaiah 36–47)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-16?lang=eng"
         },
-        "find": "the Savior charged the multitudes not to make His healings known"
+        "find": "the Savior charged the multitudes not to make His healings known",
+        "approved": "1784a7df"
       },
       {
         "id": "isa42-prison",
@@ -3323,7 +3329,8 @@ window.TU_WEEKS = [
           "title": "Lesson 127: Isaiah 42–47",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-student-material-2018/isaiah/lesson-127?lang=eng"
         },
-        "find": "Jesus Christ organized the preaching of the gospel by the righteous to those in spirit prison"
+        "find": "Jesus Christ organized the preaching of the gospel by the righteous to those in spirit prison",
+        "approved": "c50e5125"
       },
       {
         "id": "isa43-let",
@@ -3335,7 +3342,8 @@ window.TU_WEEKS = [
           "title": "The God of Israel and the Nations (Isaiah 36–47)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-16?lang=eng"
         },
-        "find": "According to the Prophet Joseph Smith, the whole phrase should read"
+        "find": "According to the Prophet Joseph Smith, the whole phrase should read",
+        "approved": "6f5ab9f8"
       },
       {
         "id": "isa43-remember",
@@ -3347,7 +3355,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 49: “I Have Graven Thee upon the Palms of My Hands”",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/39-isaiah-40-49/393-isaiah-49?lang=eng"
         },
-        "find": "The Lord promises He will not bring to our attention or hold us accountable for sins He has forgiven"
+        "find": "The Lord promises He will not bring to our attention or hold us accountable for sins He has forgiven",
+        "approved": "60433a1b"
       },
       {
         "id": "isa43-advocate",
@@ -3360,7 +3369,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 40 (2026) – Isaiah 40-49",
           "url": "https://followhim.co/show-note/old-testament-episode-40-2026-isaiah-40-49/"
         },
-        "find": "Let us plead together. Joseph in that section is giving voice to what the words of the pleading are"
+        "find": "Let us plead together. Joseph in that section is giving voice to what the words of the pleading are",
+        "approved": "5ad6f8a8"
       },
       {
         "id": "isa44-pour",
@@ -3373,7 +3383,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 44",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-44"
         },
-        "find": "He does not give us sips, He pours water and His Spirit upon us"
+        "find": "He does not give us sips, He pours water and His Spirit upon us",
+        "approved": "88308da0"
       },
       {
         "id": "isa44-redeem",
@@ -3386,7 +3397,8 @@ window.TU_WEEKS = [
           "title": "Redemption",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2011/10/redemption?lang=eng"
         },
-        "find": "the law of Moses provided different ways that servants and property could be freed"
+        "find": "the law of Moses provided different ways that servants and property could be freed",
+        "approved": "f62f0c29"
       },
       {
         "id": "isa45-earth",
@@ -3398,7 +3410,8 @@ window.TU_WEEKS = [
           "title": "The God of Israel and the Nations (Isaiah 36–47)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-16?lang=eng"
         },
-        "find": "a reference to the coming forth of the Book of Mormon from the buried Nephite record"
+        "find": "a reference to the coming forth of the Book of Mormon from the buried Nephite record",
+        "approved": "032c8dab"
       },
       {
         "id": "isa45-now",
@@ -3411,7 +3424,8 @@ window.TU_WEEKS = [
           "title": "Why Not Now?",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1974/10/why-not-now?lang=eng"
         },
-        "find": "if you sense that one day every knee shall bow and every tongue shall confess"
+        "find": "if you sense that one day every knee shall bow and every tongue shall confess",
+        "approved": "1ab6324d"
       },
       {
         "id": "isa46-carry",
@@ -3424,7 +3438,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 46",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-46"
         },
-        "find": "These verbs are the same as those in 53:4, which states that the Messiah has"
+        "find": "These verbs are the same as those in 53:4, which states that the Messiah has",
+        "approved": "71949c5d"
       },
       {
         "id": "isa47-millstones",
@@ -3437,7 +3452,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 47",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-47"
         },
-        "find": "She sits in the dust, grinding flour with millstones, the work of slaves"
+        "find": "She sits in the dust, grinding flour with millstones, the work of slaves",
+        "approved": "2f9b5d12"
       },
       {
         "id": "isa48-baptism",
@@ -3449,7 +3465,8 @@ window.TU_WEEKS = [
           "title": "Lesson 129: Isaiah 48–50",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-student-material-2018/isaiah/lesson-129?lang=eng"
         },
-        "find": "mentioned in verse 1 refer to baptism"
+        "find": "mentioned in verse 1 refer to baptism",
+        "approved": "8003f081"
       },
       {
         "id": "isa48-firstlast",
@@ -3462,7 +3479,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 48",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-48"
         },
-        "find": "God revealed to Joseph Smith and Oliver Cowdery"
+        "find": "God revealed to Joseph Smith and Oliver Cowdery",
+        "approved": "143765e1"
       },
       {
         "id": "isa48-desert",
@@ -3475,7 +3493,8 @@ window.TU_WEEKS = [
           "title": "What Is Isaiah Doing in First Nephi? Or, How Did Lehi’s Family Fare So Far from Home?",
           "url": "https://rsc.byu.edu/jerusalem-zarahemla/what-isaiah-doing-first-nephi-how-did-lehis-family-fare-so-far-home"
         },
-        "find": "apparently anticipated the entire trip, from beginning to end, starting with the flight from Jerusalem"
+        "find": "apparently anticipated the entire trip, from beginning to end, starting with the flight from Jerusalem",
+        "approved": "72d60150"
       },
       {
         "id": "isa49-isles",
@@ -3487,7 +3506,8 @@ window.TU_WEEKS = [
           "title": "Who is the Servant of Isaiah 49/1 Nephi 21?",
           "url": "https://scripturecentral.org/knowhy/who-is-the-servant-of-isaiah-491-nephi-21"
         },
-        "find": "begins with the same language as Isaiah 49:1"
+        "find": "begins with the same language as Isaiah 49:1",
+        "approved": "336ff302"
       },
       {
         "id": "isa49-arrow",
@@ -3499,7 +3519,8 @@ window.TU_WEEKS = [
           "title": "The Gathering of Israel and the Coming of the Messiah (Isaiah 48–54)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-17?lang=eng"
         },
-        "find": "The arrow shaft is polished that it might fly truer and faster"
+        "find": "The arrow shaft is polished that it might fly truer and faster",
+        "approved": "b22b851d"
       },
       {
         "id": "isa49-hope",
@@ -3512,7 +3533,8 @@ window.TU_WEEKS = [
           "title": "“That Ye May Have Hope”: Nephi’s Use of Isaiah 49:22–23 in Teaching the Concept of Hope",
           "url": "https://rsc.byu.edu/vol-23-no-2-2022/ye-may-have-hope"
         },
-        "find": "they would receive the covenant blessing that they expected or looked for"
+        "find": "they would receive the covenant blessing that they expected or looked for",
+        "approved": "56693224"
       }
     ]
   },
@@ -4836,7 +4858,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 50",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-50"
         },
-        "find": "In essence, the Lord is asking, do I lack power to redeem?"
+        "find": "In essence, the Lord is asking, do I lack power to redeem?",
+        "approved": "17c9ee3b"
       },
       {
         "id": "isa50-advocate",
@@ -4849,7 +4872,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 41 (2026) – Isaiah 50-57",
           "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
         },
-        "find": "So I love putting those two side by side, adversary versus advocate"
+        "find": "So I love putting those two side by side, adversary versus advocate",
+        "approved": "26cd9a47"
       },
       {
         "id": "isa51-hearken",
@@ -4861,7 +4885,8 @@ window.TU_WEEKS = [
           "title": "Lesson 123: Isaiah 51–52—“Hearken unto Me”",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-student-manual-2026/40-isaiah-50-57/401-isaiah-51-52?lang=eng"
         },
-        "find": "to hear what the Savior says and then to heed His counsel"
+        "find": "to hear what the Savior says and then to heed His counsel",
+        "approved": "606ea79b"
       },
       {
         "id": "isa51-cup",
@@ -4874,7 +4899,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 51",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-51"
         },
-        "find": "Jesus drinks the bitter cup so that we would not need to do so"
+        "find": "Jesus drinks the bitter cup so that we would not need to do so",
+        "approved": "8644f67a"
       },
       {
         "id": "isa52-redeemer",
@@ -4887,7 +4913,8 @@ window.TU_WEEKS = [
           "title": "Redemption (gāʾal)",
           "url": "https://rsc.byu.edu/finding-christ-covenant-path/redemption-gaal"
         },
-        "find": "Knowing that the Lord is our Kinsman-Redeemer gives us confidence to ask for help"
+        "find": "Knowing that the Lord is our Kinsman-Redeemer gives us confidence to ask for help",
+        "approved": "cc016177"
       },
       {
         "id": "isa52-nauvoo",
@@ -4899,7 +4926,8 @@ window.TU_WEEKS = [
           "title": "Where Does the Name Nauvoo Come From?",
           "url": "https://scripturecentral.org/knowhy/where-does-the-name-nauvoo-come-from-0"
         },
-        "find": "one of the only places the complete Hebrew word nauvoo appears in the entire Old Testament"
+        "find": "one of the only places the complete Hebrew word nauvoo appears in the entire Old Testament",
+        "approved": "01108894"
       },
       {
         "id": "isa52-arm",
@@ -4912,7 +4940,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 52",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-52"
         },
-        "find": "Anciently, men prepared for battle by removing their robes from their shoulders"
+        "find": "Anciently, men prepared for battle by removing their robes from their shoulders",
+        "approved": "a9fdc665"
       },
       {
         "id": "isa52-vessels",
@@ -4925,7 +4954,8 @@ window.TU_WEEKS = [
           "title": "“Sanctify Yourselves”",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2000/10/sanctify-yourselves?lang=eng"
         },
-        "find": "they themselves were to be as clean as the ceremonial instruments they bore"
+        "find": "they themselves were to be as clean as the ceremonial instruments they bore",
+        "approved": "9d77951f"
       },
       {
         "id": "isa53-alma",
@@ -4938,7 +4968,8 @@ window.TU_WEEKS = [
           "title": "“To Whom Is the Arm of the Lord Revealed?” Part 1",
           "url": "https://rsc.byu.edu/vol-16-no-2-2015/whom-arm-lord-revealed-part-1"
         },
-        "find": "Of all the priests and other observers in King Noah"
+        "find": "Of all the priests and other observers in King Noah",
+        "approved": "aa96b919"
       },
       {
         "id": "isa53-past-tense",
@@ -4950,7 +4981,8 @@ window.TU_WEEKS = [
           "title": "Why Did Book of Mormon Prophets Speak of Future Events as if They Had Already Happened?",
           "url": "https://scripturecentral.org/knowhy/why-did-book-of-mormon-prophets-speak-of-future-events-as-if-they-had-already-happened"
         },
-        "find": "Isaiah uses the past and perfect tenses to describe a series of events"
+        "find": "Isaiah uses the past and perfect tenses to describe a series of events",
+        "approved": "53dffe8c"
       },
       {
         "id": "isa53-ethiopian",
@@ -4962,7 +4994,8 @@ window.TU_WEEKS = [
           "title": "Acts 8",
           "url": "https://www.churchofjesuschrist.org/study/manual/new-testament-seminary-student-manual-2023/acts-8?lang=eng"
         },
-        "find": "The scripture passage the Ethiopian read is found in Isaiah 53"
+        "find": "The scripture passage the Ethiopian read is found in Isaiah 53",
+        "approved": "62a11895"
       },
       {
         "id": "isa53-seed",
@@ -4975,7 +5008,8 @@ window.TU_WEEKS = [
           "title": "Abinadi’s Commentary on Isaiah",
           "url": "https://rsc.byu.edu/book-mormon-mosiah-salvation-only-through-christ/abinadis-commentary-isaiah"
         },
-        "find": "Those who are spiritually begotten of Christ through being born again are adopted as his sons and daughters"
+        "find": "Those who are spiritually begotten of Christ through being born again are adopted as his sons and daughters",
+        "approved": "b9a43f3c"
       },
       {
         "id": "isa53-spoil",
@@ -4988,7 +5022,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 41 (2026) – Isaiah 50-57",
           "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
         },
-        "find": "If you win the war, you get to decide what to do with the spoils"
+        "find": "If you win the war, you get to decide what to do with the spoils",
+        "approved": "aa379a13"
       },
       {
         "id": "isa54-nephites",
@@ -5000,7 +5035,8 @@ window.TU_WEEKS = [
           "title": "Why Did Jesus Quote All of Isaiah 54?",
           "url": "https://scripturecentral.org/knowhy/why-did-jesus-quote-all-of-isaiah-54"
         },
-        "find": "It was custom in the ancient Near East to conclude a covenant with promised blessings"
+        "find": "It was custom in the ancient Near East to conclude a covenant with promised blessings",
+        "approved": "d95a232b"
       },
       {
         "id": "isa54-jewels",
@@ -5013,7 +5049,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 54",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-54"
         },
-        "find": "This fortress, however, will not be any average fortress but will feature precious stones"
+        "find": "This fortress, however, will not be any average fortress but will feature precious stones",
+        "approved": "567a0220"
       },
       {
         "id": "isa54-weapon",
@@ -5025,7 +5062,8 @@ window.TU_WEEKS = [
           "title": "Lesson 129: Isaiah 54–57",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-teacher-manual/introduction-to-the-book-of-isaiah/lesson-129-isaiah-54-57?lang=eng"
         },
-        "find": "Furthermore, the divine promise is that no weapon formed against the"
+        "find": "Furthermore, the divine promise is that no weapon formed against the",
+        "approved": "418fe560"
       },
       {
         "id": "isa55-david",
@@ -5038,7 +5076,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 55",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-55"
         },
-        "find": "Even though David had committed great sins, the Lord promised him the Resurrection"
+        "find": "Even though David had committed great sins, the Lord promised him the Resurrection",
+        "approved": "b9077564"
       },
       {
         "id": "isa55-thorn",
@@ -5051,7 +5090,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 41 (2026) – Isaiah 50-57",
           "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
         },
-        "find": "I think the fall of Adam and Eve goes with this, with thorns and briars"
+        "find": "I think the fall of Adam and Eve goes with this, with thorns and briars",
+        "approved": "b1e86bbd"
       },
       {
         "id": "isa56-sabbath",
@@ -5063,7 +5103,8 @@ window.TU_WEEKS = [
           "title": "The Last Days and the Millennium (Isaiah 55–66)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-18?lang=eng"
         },
-        "find": "the Lord told Moses that keeping the Sabbath was a sign of the covenant between Israel and God"
+        "find": "the Lord told Moses that keeping the Sabbath was a sign of the covenant between Israel and God",
+        "approved": "bb21414d"
       },
       {
         "id": "isa57-mountain",
@@ -5076,7 +5117,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 57",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-57"
         },
-        "find": "and to possess all of the blessings that it provides to them"
+        "find": "and to possess all of the blessings that it provides to them",
+        "approved": "c0bdfa25"
       },
       {
         "id": "isa57-stumbling",
@@ -5089,7 +5131,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 57",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-57"
         },
-        "find": "The righteous are to help lift the stumbling blocks out of the way of those who return to God"
+        "find": "The righteous are to help lift the stumbling blocks out of the way of those who return to God",
+        "approved": "4cf99adb"
       },
       {
         "id": "isa57-sea",
@@ -5102,7 +5145,8 @@ window.TU_WEEKS = [
           "title": "Patience",
           "url": "https://speeches.byu.edu/talks/neal-a-maxwell/patience/"
         },
-        "find": "the wicked are like the pounding and troubled sea which cannot rest"
+        "find": "the wicked are like the pounding and troubled sea which cannot rest",
+        "approved": "521e7506"
       },
       {
         "id": "isa51-q-andersen",
@@ -5115,7 +5159,8 @@ window.TU_WEEKS = [
           "who": "Elder Neil L. Andersen",
           "title": "Repent … That I May Heal You",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2009/10/repent-that-i-may-heal-you?lang=eng"
-        }
+        },
+        "approved": "c34f2175"
       },
       {
         "id": "isa53-q-porter",
@@ -5128,7 +5173,8 @@ window.TU_WEEKS = [
           "who": "Elder Bruce D. Porter",
           "title": "A Broken Heart and a Contrite Spirit",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2007/10/a-broken-heart-and-a-contrite-spirit?lang=eng"
-        }
+        },
+        "approved": "594f9d9f"
       },
       {
         "id": "isa54-q-nelson",
@@ -5141,7 +5187,8 @@ window.TU_WEEKS = [
           "who": "President Russell M. Nelson",
           "title": "Let God Prevail",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2020/10/46nelson?lang=eng"
-        }
+        },
+        "approved": "3b4beff7"
       },
       {
         "id": "isa57-q-uchtdorf",
@@ -5154,7 +5201,8 @@ window.TU_WEEKS = [
           "who": "President Dieter F. Uchtdorf",
           "title": "October 5–11. “He Hath Borne Our Griefs, and Carried Our Sorrows”: Isaiah 50–57",
           "url": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/41?lang=eng"
-        }
+        },
+        "approved": "0789c866"
       },
       {
         "id": "isa53-v-church",
@@ -6536,7 +6584,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 58",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-58"
         },
-        "find": "The Lord commands Isaiah to raise his voice, in loudness and clarity"
+        "find": "The Lord commands Isaiah to raise his voice, in loudness and clarity",
+        "approved": "b6364596"
       },
       {
         "id": "isa58-rearguard",
@@ -6548,7 +6597,8 @@ window.TU_WEEKS = [
           "title": "The Last Days and the Millennium (Isaiah 55–66)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-18?lang=eng"
         },
-        "find": "it is applied to the gathering up of the scattered rear of an army"
+        "find": "it is applied to the gathering up of the scattered rear of an army",
+        "approved": "8fb4e086"
       },
       {
         "id": "isa58-repairer",
@@ -6561,7 +6611,8 @@ window.TU_WEEKS = [
           "title": "Christ’s Peace in Perilous Times",
           "url": "https://speeches.byu.edu/talks/clark-g-gilbert/christs-peace-in-perilous-times/"
         },
-        "find": "In these troubled times, Christ is the repairer of the breaches in our lives"
+        "find": "In these troubled times, Christ is the repairer of the breaches in our lives",
+        "approved": "f4f50603"
       },
       {
         "id": "isa59-reach",
@@ -6573,7 +6624,8 @@ window.TU_WEEKS = [
           "title": "Lesson 131: Isaiah 59–66",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-teacher-manual/introduction-to-the-book-of-isaiah/lesson-131-isaiah-59-66?lang=eng"
         },
-        "find": "power to save has not decreased"
+        "find": "power to save has not decreased",
+        "approved": "ae1bc624"
       },
       {
         "id": "isa59-webs",
@@ -6586,7 +6638,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 59",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-59"
         },
-        "find": "the webs end up binding and restricting the sinners"
+        "find": "the webs end up binding and restricting the sinners",
+        "approved": "de5b87df"
       },
       {
         "id": "isa59-redeemer",
@@ -6599,7 +6652,8 @@ window.TU_WEEKS = [
           "title": "Redemption",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2011/10/redemption?lang=eng"
         },
-        "find": "the law of Moses provided different ways that servants and property could be freed"
+        "find": "the law of Moses provided different ways that servants and property could be freed",
+        "approved": "32c5d81c"
       },
       {
         "id": "isa60-temples",
@@ -6612,7 +6666,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 60",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-60"
         },
-        "find": "is used to build His temples, which exist throughout the world"
+        "find": "is used to build His temples, which exist throughout the world",
+        "approved": "4ac9a6db"
       },
       {
         "id": "isa60-doves",
@@ -6625,7 +6680,8 @@ window.TU_WEEKS = [
           "title": "As Doves to Our Windows",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2000/04/as-doves-to-our-windows?lang=eng"
         },
-        "find": "people coming as doves to the windows, that all nations should flock unto"
+        "find": "people coming as doves to the windows, that all nations should flock unto",
+        "approved": "c733aada"
       },
       {
         "id": "isa60-isles",
@@ -6638,7 +6694,8 @@ window.TU_WEEKS = [
           "title": "Isaiah and the Restoration of Israel",
           "url": "https://rsc.byu.edu/witness-restoration/isaiah-restoration-israel"
         },
-        "find": "Isaiah often refers to these scattered covenant people metaphorically as"
+        "find": "Isaiah often refers to these scattered covenant people metaphorically as",
+        "approved": "800bcee7"
       },
       {
         "id": "isa61-anointed",
@@ -6650,7 +6707,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 61: The Mission of Jesus the Messiah",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/41-isaiah-58-66/413-isaiah-61?lang=eng"
         },
-        "find": "anointed in verse 1 means that Jesus Christ was set apart or sent with a specific purpose"
+        "find": "anointed in verse 1 means that Jesus Christ was set apart or sent with a specific purpose",
+        "approved": "9f0def03"
       },
       {
         "id": "isa61-stopped",
@@ -6662,7 +6720,8 @@ window.TU_WEEKS = [
           "title": "Why Does Jesus Announce that Isaiah 61:1–2 Is Fulfilled?",
           "url": "https://scripturecentral.org/knowhy/why-does-jesus-announce-that-isaiah-611-2-is-fulfilled"
         },
-        "find": "By ending His citation where He did, Jesus effectively separated the two aspects of Isaiah"
+        "find": "By ending His citation where He did, Jesus effectively separated the two aspects of Isaiah",
+        "approved": "4dda427c"
       },
       {
         "id": "isa62-reward",
@@ -6675,7 +6734,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 62",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-62"
         },
-        "find": "Jesus Christ will reward the righteous and compensate them for losses, sufferings, and injustices"
+        "find": "Jesus Christ will reward the righteous and compensate them for losses, sufferings, and injustices",
+        "approved": "0a62bb08"
       },
       {
         "id": "isa63-alone",
@@ -6688,7 +6748,8 @@ window.TU_WEEKS = [
           "title": "None Were with Him",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2009/04/none-were-with-him?lang=eng"
         },
-        "find": "because Jesus walked such a long, lonely path utterly alone, we do not have to do so"
+        "find": "because Jesus walked such a long, lonely path utterly alone, we do not have to do so",
+        "approved": "75244a1c"
       },
       {
         "id": "isa65-seek",
@@ -6701,7 +6762,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 41 – Isaiah 58-66 – Part 2",
           "url": "https://followhim.co/show-note/3-9/"
         },
-        "find": "I am found of them who seek after me. I give unto all them that ask of me"
+        "find": "I am found of them who seek after me. I give unto all them that ask of me",
+        "approved": "1b9939ef"
       },
       {
         "id": "isa65-cluster",
@@ -6714,7 +6776,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 65",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-65"
         },
-        "find": "do not destroy the righteous, because they are a blessing to Israel and to the world"
+        "find": "do not destroy the righteous, because they are a blessing to Israel and to the world",
+        "approved": "8d705a5a"
       },
       {
         "id": "isa65-newearth",
@@ -6727,7 +6790,8 @@ window.TU_WEEKS = [
           "title": "The Future of the Church: Preparing the World for the Savior’s Second Coming",
           "url": "https://www.churchofjesuschrist.org/study/liahona/2020/04/the-future-of-the-church-preparing-the-world-for-the-saviors-second-coming?lang=eng"
         },
-        "find": "The earth will be returned to its paradisiacal state and be made new"
+        "find": "The earth will be returned to its paradisiacal state and be made new",
+        "approved": "3e75a355"
       },
       {
         "id": "isa66-priests",
@@ -6739,7 +6803,8 @@ window.TU_WEEKS = [
           "title": "The Last Days and the Millennium (Isaiah 55–66)",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-18?lang=eng"
         },
-        "find": "Evidently many will then join the Church, for the Lord said He will take of the Gentiles"
+        "find": "Evidently many will then join the Church, for the Lord said He will take of the Gentiles",
+        "approved": "6845aa9e"
       },
       {
         "id": "isa66-offering",
@@ -6752,7 +6817,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 41 – Isaiah 58-66 – Part 2",
           "url": "https://followhim.co/show-note/3-9/"
         },
-        "find": "We bring our family. We bring ourselves, and we bring everyone else on both sides of the veil"
+        "find": "We bring our family. We bring ourselves, and we bring everyone else on both sides of the veil",
+        "approved": "b246829a"
       },
       {
         "id": "isa66-name",
@@ -6765,7 +6831,8 @@ window.TU_WEEKS = [
           "title": "Isaiah 66",
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-66"
         },
-        "find": "posterity, eternal families, and eternal increase"
+        "find": "posterity, eternal families, and eternal increase",
+        "approved": "d4dc27a3"
       },
       {
         "id": "isa58-q-oaks",
@@ -6778,7 +6845,8 @@ window.TU_WEEKS = [
           "who": "President Dallin H. Oaks",
           "title": "The Light and Life of the World",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1987/10/the-light-and-life-of-the-world?lang=eng"
-        }
+        },
+        "approved": "c2c6b131"
       },
       {
         "id": "isa58-q-nelson",
@@ -6791,7 +6859,8 @@ window.TU_WEEKS = [
           "who": "President Russell M. Nelson",
           "title": "The Sabbath Is a Delight",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2015/04/the-sabbath-is-a-delight?lang=eng"
-        }
+        },
+        "approved": "7bd1e16a"
       },
       {
         "id": "isa60-q-aburto",
@@ -6804,7 +6873,8 @@ window.TU_WEEKS = [
           "who": "Sister Reyna I. Aburto",
           "title": "Thru Cloud and Sunshine, Lord, Abide with Me!",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2019/10/31aburto?lang=eng"
-        }
+        },
+        "approved": "ad275461"
       },
       {
         "id": "isa61-q-schmutz",
@@ -6817,7 +6887,8 @@ window.TU_WEEKS = [
           "who": "Elder Evan A. Schmutz",
           "title": "God Shall Wipe Away All Tears",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2016/10/god-shall-wipe-away-all-tears?lang=eng"
-        }
+        },
+        "approved": "fa464687"
       },
       {
         "id": "isa62-q-coleman",
@@ -6830,7 +6901,8 @@ window.TU_WEEKS = [
           "who": "Elder Gary J. Coleman",
           "title": "Lessons from the Old Testament: Watchmen of the Lord",
           "url": "https://www.churchofjesuschrist.org/study/ensign/2006/09/lessons-from-the-old-testament-watchmen-of-the-lord?lang=eng"
-        }
+        },
+        "approved": "2ed2bb80"
       },
       {
         "id": "isa63-q-maxwell",
@@ -6843,7 +6915,8 @@ window.TU_WEEKS = [
           "who": "Elder Neal A. Maxwell",
           "title": "Overcome … Even As I Also Overcame",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1987/04/overcome-even-as-i-also-overcame?lang=eng"
-        }
+        },
+        "approved": "f8f04f72"
       },
       {
         "id": "isa64-q-ballard",
@@ -6856,7 +6929,8 @@ window.TU_WEEKS = [
           "who": "President M. Russell Ballard",
           "title": "Hope in Christ",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2021/04/28ballard?lang=eng"
-        }
+        },
+        "approved": "5b35475d"
       },
       {
         "id": "isa66-q-benson",
@@ -6869,7 +6943,8 @@ window.TU_WEEKS = [
           "who": "President Ezra Taft Benson",
           "title": "Beware of Pride",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1989/04/beware-of-pride?lang=eng"
-        }
+        },
+        "approved": "7494b9eb"
       },
       {
         "id": "isa58-v-central",
@@ -8314,7 +8389,8 @@ window.TU_WEEKS = [
           "title": "Lamentations of Jeremiah: Beware of Bondage",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2013/10/lamentations-of-jeremiah-beware-of-bondage?lang=eng"
         },
-        "find": "Lehi had a different calling, mission, and assignment from the Lord"
+        "find": "Lehi had a different calling, mission, and assignment from the Lord",
+        "approved": "eedf4f23"
       },
       {
         "id": "jer1-knew",
@@ -8326,7 +8402,8 @@ window.TU_WEEKS = [
           "title": "As Ye Sow, So Shall Ye Reap",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-23?lang=eng"
         },
-        "find": "The Hebrew word yada, which is translated knew, connotes a very personal, intimate relationship"
+        "find": "The Hebrew word yada, which is translated knew, connotes a very personal, intimate relationship",
+        "approved": "b189649c"
       },
       {
         "id": "jer1-choose",
@@ -8339,7 +8416,8 @@ window.TU_WEEKS = [
           "title": "Jeremiah, Prophecies of",
           "url": "https://scripturecentral.org/archive/articles/encyclopedia-entry/jeremiah-prophecies"
         },
-        "find": "Though foreordained to be a prophet, Jeremiah was not compelled to serve"
+        "find": "Though foreordained to be a prophet, Jeremiah was not compelled to serve",
+        "approved": "dcfc3919"
       },
       {
         "id": "jer1-gird",
@@ -8351,7 +8429,8 @@ window.TU_WEEKS = [
           "title": "Clothing",
           "url": "https://www.churchofjesuschrist.org/study/scriptures/bd/clothing?lang=eng"
         },
-        "find": "would interfere with active movement, it was drawn up under the girdle"
+        "find": "would interfere with active movement, it was drawn up under the girdle",
+        "approved": "0d2a3ea0"
       },
       {
         "id": "jer2-chittim",
@@ -8364,7 +8443,8 @@ window.TU_WEEKS = [
           "title": "Jeremiah 1–3; 7; 16–18; 20",
           "url": "https://scripturecentral.org/archive/books/book-chapter/jeremiah-13-7-1618-20"
         },
-        "find": "from west to east people were faithful to their nonexistent gods"
+        "find": "from west to east people were faithful to their nonexistent gods",
+        "approved": "53a7b540"
       },
       {
         "id": "jer2-fear",
@@ -8376,7 +8456,8 @@ window.TU_WEEKS = [
           "title": "As Ye Sow, So Shall Ye Reap",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-23?lang=eng"
         },
-        "find": "Fear in the Hebrew denotes a sense of reverent awe and profound respect"
+        "find": "Fear in the Hebrew denotes a sense of reverent awe and profound respect",
+        "approved": "af5ccd8d"
       },
       {
         "id": "jer2-wilderness",
@@ -8388,7 +8469,8 @@ window.TU_WEEKS = [
           "title": "Why Did Lehi and Jeremiah Find Themselves in a Dark and Dreary Wilderness?",
           "url": "https://scripturecentral.org/knowhy/why-did-lehi-and-jeremiah-find-themselves-in-a-dark-and-dreary-wilderness"
         },
-        "find": "reminds us of how the Lord guided the children of Israel through the wilderness"
+        "find": "reminds us of how the Lord guided the children of Israel through the wilderness",
+        "approved": "a238e899"
       },
       {
         "id": "jer3-sisters",
@@ -8400,7 +8482,8 @@ window.TU_WEEKS = [
           "title": "Unit 27: Day 2, Jeremiah 1–6",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-study-guide-for-home-study-seminary-students-2015/introduction-to-jeremiah/unit-27-day-2-jeremiah-1-6?lang=eng"
         },
-        "find": "The word feignedly means deceitfully or insincerely"
+        "find": "The word feignedly means deceitfully or insincerely",
+        "approved": "855b8704"
       },
       {
         "id": "jer3-ark",
@@ -8413,7 +8496,8 @@ window.TU_WEEKS = [
           "title": "Jeremiah and the New Paradigm of the Gathering",
           "url": "https://rsc.byu.edu/vol-9-no-1-2008/jeremiah-new-paradigm-gathering"
         },
-        "find": "Modern Israel, however, will not need the physical presence of the ark to remind them of God"
+        "find": "Modern Israel, however, will not need the physical presence of the ark to remind them of God",
+        "approved": "dbc818dc"
       },
       {
         "id": "jer3-backsliding",
@@ -8426,7 +8510,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 42 – Jeremiah 1-29 – Part 1",
           "url": "https://followhim.co/show-note/2-211/"
         },
-        "find": "Jeremiah uses this word more than all other scriptural authors combined"
+        "find": "Jeremiah uses this word more than all other scriptural authors combined",
+        "approved": "b9be3ccf"
       },
       {
         "id": "jer7-trial",
@@ -8439,7 +8524,8 @@ window.TU_WEEKS = [
           "title": "Justice and Righteousness: Jeremiah against King and People",
           "url": "https://rsc.byu.edu/covenant-compassion/justice-righteousness"
         },
-        "find": "perhaps the best documented trial in the Old Testament"
+        "find": "perhaps the best documented trial in the Old Testament",
+        "approved": "eeb2a551"
       },
       {
         "id": "jer7-justice",
@@ -8452,7 +8538,8 @@ window.TU_WEEKS = [
           "title": "Justice and Righteousness: Jeremiah against King and People",
           "url": "https://rsc.byu.edu/covenant-compassion/justice-righteousness"
         },
-        "find": "the Hebrew is emphatic with a doubling of the verb"
+        "find": "the Hebrew is emphatic with a doubling of the verb",
+        "approved": "1947ff77"
       },
       {
         "id": "jer7-hearken",
@@ -8465,7 +8552,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 42 – Jeremiah 1-29 – Part 1",
           "url": "https://followhim.co/show-note/2-211/"
         },
-        "find": "this has got to be one of the most all time discouraging passages of scripture"
+        "find": "this has got to be one of the most all time discouraging passages of scripture",
+        "approved": "71b91db1"
       },
       {
         "id": "jer16-lehi",
@@ -8477,7 +8565,8 @@ window.TU_WEEKS = [
           "title": "Jeremiah 16: “I Will Bring Them Again”",
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/42-jeremiah-1-20/423-jeremiah-16?lang=eng"
         },
-        "find": "the Lord also scattered righteous individuals, such as Lehi and his family"
+        "find": "the Lord also scattered righteous individuals, such as Lehi and his family",
+        "approved": "8b6030c6"
       },
       {
         "id": "jer16-lord",
@@ -8490,7 +8579,8 @@ window.TU_WEEKS = [
           "title": "Old Testament: EPISODE 42 – Jeremiah 1-29 – Part 2",
           "url": "https://followhim.co/show-note/2-210/"
         },
-        "find": "these are interactions between Jeremiah and Jesus Christ"
+        "find": "these are interactions between Jeremiah and Jesus Christ",
+        "approved": "7f504ca7"
       },
       {
         "id": "jer17-king",
@@ -8503,7 +8593,8 @@ window.TU_WEEKS = [
           "title": "Jeremiah 1–3; 7; 16–18; 20",
           "url": "https://scripturecentral.org/archive/books/book-chapter/jeremiah-13-7-1618-20"
         },
-        "find": "The promise given for keeping the Sabbath holy was that Judah would have a Davidic king on the throne"
+        "find": "The promise given for keeping the Sabbath holy was that Judah would have a Davidic king on the throne",
+        "approved": "d92a9fee"
       },
       {
         "id": "jer18-respect",
@@ -8516,7 +8607,8 @@ window.TU_WEEKS = [
           "title": "Lessons from the Potter and the Clay",
           "url": "https://speeches.byu.edu/talks/camille-fronk/lessons-potter-clay/"
         },
-        "find": "will never force it into a shape"
+        "find": "will never force it into a shape",
+        "approved": "dcc7dfba"
       },
       {
         "id": "jer20-nephi",
@@ -8528,7 +8620,8 @@ window.TU_WEEKS = [
           "title": "How Could Nephi Have Known about Jeremiah’s Imprisonment?",
           "url": "https://scripturecentral.org/knowhy/how-could-nephi-have-known-about-jeremiahs-imprisonment"
         },
-        "find": "when he was put into stocks for a day and a night"
+        "find": "when he was put into stocks for a day and a night",
+        "approved": "a2879062"
       },
       {
         "id": "jer20-reins",
@@ -8541,7 +8634,8 @@ window.TU_WEEKS = [
           "title": "Jeremiah 1–3; 7; 16–18; 20",
           "url": "https://scripturecentral.org/archive/books/book-chapter/jeremiah-13-7-1618-20"
         },
-        "find": "the kidney was the seat of emotions"
+        "find": "the kidney was the seat of emotions",
+        "approved": "d6e914a7"
       },
       {
         "id": "jer1-q-holland",
@@ -8554,7 +8648,8 @@ window.TU_WEEKS = [
           "who": "Elder Jeffrey R. Holland",
           "title": "A Teacher Come from God",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1998/04/a-teacher-come-from-god?lang=eng"
-        }
+        },
+        "approved": "8a3dac2e"
       },
       {
         "id": "jer1-q-scott",
@@ -8567,7 +8662,8 @@ window.TU_WEEKS = [
           "who": "Elder Richard G. Scott",
           "title": "How to Live Well amid Increasing Evil",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2004/04/how-to-live-well-amid-increasing-evil?lang=eng"
-        }
+        },
+        "approved": "1ff87b40"
       },
       {
         "id": "jer2-q-nelson",
@@ -8580,7 +8676,8 @@ window.TU_WEEKS = [
           "who": "President Russell M. Nelson",
           "title": "Overcome the World and Find Rest",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2022/10/47nelson?lang=eng"
-        }
+        },
+        "approved": "78272f30"
       },
       {
         "id": "jer2-q-wirthlin",
@@ -8593,7 +8690,8 @@ window.TU_WEEKS = [
           "who": "Elder Joseph B. Wirthlin",
           "title": "Living Water to Quench Spiritual Thirst",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1995/04/living-water-to-quench-spiritual-thirst?lang=eng"
-        }
+        },
+        "approved": "a222c4f2"
       },
       {
         "id": "jer3-q-hinckley",
@@ -8606,7 +8704,8 @@ window.TU_WEEKS = [
           "who": "Elder Richard G. Hinckley",
           "title": "Repentance, a Blessing of Membership",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2006/04/repentance-a-blessing-of-membership?lang=eng"
-        }
+        },
+        "approved": "65e8b5c2"
       },
       {
         "id": "jer3-q-uchtdorf",
@@ -8619,7 +8718,8 @@ window.TU_WEEKS = [
           "who": "Elder Dieter F. Uchtdorf",
           "title": "The Prodigal and the Road That Leads Home",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2023/10/45uchtdorf?lang=eng"
-        }
+        },
+        "approved": "83deb8f4"
       },
       {
         "id": "jer7-q-hallstrom",
@@ -8632,7 +8732,8 @@ window.TU_WEEKS = [
           "who": "Elder Donald L. Hallstrom",
           "title": "Converted to His Gospel through His Church",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2012/04/converted-to-his-gospel-through-his-church?lang=eng"
-        }
+        },
+        "approved": "30033db3"
       },
       {
         "id": "jer17-q-uchtdorf",
@@ -8645,7 +8746,8 @@ window.TU_WEEKS = [
           "who": "President Dieter F. Uchtdorf",
           "title": "The Infinite Power of Hope",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2008/10/the-infinite-power-of-hope?lang=eng"
-        }
+        },
+        "approved": "e09ce9d2"
       },
       {
         "id": "jer18-q-maynes",
@@ -8658,7 +8760,8 @@ window.TU_WEEKS = [
           "who": "Elder Richard J. Maynes",
           "title": "The Joy of Living a Christ-Centered Life",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2015/10/the-joy-of-living-a-christ-centered-life?lang=eng"
-        }
+        },
+        "approved": "edd925ae"
       },
       {
         "id": "jer20-q-holland",
@@ -8671,7 +8774,8 @@ window.TU_WEEKS = [
           "who": "Elder Jeffrey R. Holland",
           "title": "A Teacher Come from God",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1998/04/a-teacher-come-from-god?lang=eng"
-        }
+        },
+        "approved": "be38103e"
       },
       {
         "id": "jer1-v-latterdaykids",

@@ -272,6 +272,34 @@ service cloud.firestore {
         allow delete: if isParent();
       }
 
+      // While the family tries the app out (Blake, 2026-10-02): errors on a
+      // member's device and notes sent from Settings, under their own name,
+      // stamped with the server's clock. Only parents read or clear them.
+      match /errors/{id} {
+        allow read, delete: if isParent();
+        allow create: if isMember()
+          && only(['uid', 'name', 'msg', 'where', 'stack', 'screen', 'ua', 'at'])
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.name == me().name
+          && request.resource.data.msg is string && request.resource.data.msg.size() > 0 && request.resource.data.msg.size() <= 300
+          && request.resource.data.where is string && request.resource.data.where.size() <= 200
+          && request.resource.data.stack is string && request.resource.data.stack.size() <= 1500
+          && request.resource.data.screen is string && request.resource.data.screen.size() <= 40
+          && request.resource.data.ua is string && request.resource.data.ua.size() <= 200
+          && request.resource.data.at == request.time;
+      }
+      match /feedback/{id} {
+        allow read, delete: if isParent();
+        allow create: if isMember()
+          && only(['uid', 'name', 'kind', 'text', 'screen', 'at'])
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.name == me().name
+          && request.resource.data.kind in ['bug', 'idea']
+          && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 1000
+          && request.resource.data.screen is string && request.resource.data.screen.size() <= 40
+          && request.resource.data.at == request.time;
+      }
+
       match /backup/{pid} {
         allow read: if isMember() && (me().pid == pid || me().role == 'parent');
         allow create, update: if isMember() && me().pid == pid

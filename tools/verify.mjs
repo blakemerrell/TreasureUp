@@ -442,7 +442,7 @@ async function main(scripture, week, pages, online) {
   const { verses, books, names } = scripture;
   // A block it can't read is a note: the app then plans a section a day, as before.
   const block = blockChapters(week.reference, verses);
-  if (!block || !block.length) note(`week: reference "${week.reference}" can't be read as a list of chapters (like "Isaiah 13–14; 22; 24–30; 35"), so the days follow the sections, with no reading path`);
+  if (!week.library && (!block || !block.length)) note(`week: reference "${week.reference}" can't be read as a list of chapters (like "Isaiah 13–14; 22; 24–30; 35"), so the days follow the sections, with no reading path`);
 
   const textOf = ref => {
     const refs = expand(ref);
@@ -533,6 +533,9 @@ async function main(scripture, week, pages, online) {
     const whyWords = (q.why || '').split(/\s+/).filter(Boolean).length;
     if (whyWords > LIMITS.whyWords) fail(where, `${label}: why is ${whyWords} words (max ${LIMITS.whyWords})`);
   }
+
+  // content/plain.js (the chapters no week reads): only its plain words.
+  if (week.library) { checkPlain(week.plain, new Set(week.chapters || [])); return; }
 
   // ----- week-level -----
   for (const k of ['dates', 'title', 'reference', 'lesson']) {
@@ -856,13 +859,14 @@ async function main(scripture, week, pages, online) {
   // check out like everything else he reads. Wording is Blake's call when he
   // approves; what can be counted is counted here: a much longer verse than
   // the KJV's, a name left out, or KJV English left in is a note to look at.
-  if (week.plain !== undefined) {
-    const chapters = new Set(block || []), seen = new Set();
+  if (week.plain !== undefined) checkPlain(week.plain, new Set(block || []));
+  function checkPlain(list, chapters) {
+    const seen = new Set();
     const words = t => (String(t || '').match(/\S+/g) || []).length;
-    if (!Array.isArray(week.plain)) fail('plain', 'must be a list of chapters');
-    for (const p of Array.isArray(week.plain) ? week.plain : []) {
+    if (!Array.isArray(list)) fail('plain', 'must be a list of chapters');
+    for (const p of Array.isArray(list) ? list : []) {
       const where = 'plain words ' + (p.ch || '?');
-      if (!chapters.has(p.ch)) { fail(where, `"${p.ch}" is not a chapter of this week's reading (${week.reference})`); continue; }
+      if (!chapters.has(p.ch)) { fail(where, week.library ? `"${p.ch}" isn't a chapter content/plain.js may hold (a chapter of the scriptures that no week reads)` : `"${p.ch}" is not a chapter of this week's reading (${week.reference})`); continue; }
       if (seen.has(p.ch)) fail(where, 'appears twice');
       seen.add(p.ch);
       let n = 0;
@@ -1130,6 +1134,29 @@ for (const week of weeks) {
 }
 weekLabel = '';
 
+// content/plain.js: plain words for chapters no week reads (Blake,
+// 2026-10-02: "the notes and plain translation for all of Isaiah"), shown in
+// the Scriptures tab once approved, checked like a week's.
+let libraryPlain = 0;
+{
+  const f = path.join(ROOT, 'content', 'plain.js');
+  if (fs.existsSync(f)) {
+    const box = {};
+    try { new Function('window', fs.readFileSync(f, 'utf8'))(box); } catch (e) { failures.push('content/plain.js: ' + e.message); }
+    const lib = box.TU_PLAIN;
+    if (lib && Array.isArray(lib.plain)) {
+      const read = new Set(weeks.flatMap(w => blockChapters(w.reference, scripture.verses) || []));
+      const pastIdx = path.join(ROOT, 'content', 'past', 'index.js');
+      if (fs.existsSync(pastIdx)) { const b2 = {}; new Function('window', fs.readFileSync(pastIdx, 'utf8'))(b2); (b2.TU_PAST_INDEX || []).forEach(x => (blockChapters(x.reference, scripture.verses) || []).forEach(c => read.add(c))); }
+      const all = [...new Set([...scripture.verses.keys()].map(k => k.replace(/:\d+$/, '')))];
+      weekLabel = 'content/plain.js · ';
+      await main(scripture, { library: true, title: lib.title, plain: lib.plain, chapters: all.filter(c => !read.has(c)) }, pages, online);
+      weekLabel = '';
+      libraryPlain = lib.plain.length;
+    } else failures.push('content/plain.js must set window.TU_PLAIN = { title, plain: [...] }');
+  }
+}
+
 // The BSB button in the reader (tools/build-reading.mjs builds its chapters
 // at deploy): tools/bsb.txt.gz must be the BSB's own text file, public-domain
 // header and all, with every Bible chapter of every week's reading, verse
@@ -1258,6 +1285,7 @@ for (const week of weeks) {
   console.log(`✓ ${week.title} (${week.dates}): ${week.reels.length} reels, ${quotes} quotes and ${bonuses} bonus answers checked` +
     (extras.length ? `, plus ${extras.join(' and ')}` : ''));
 }
+if (libraryPlain) console.log(`✓ content/plain.js: plain words for ${libraryPlain} ${libraryPlain === 1 ? 'chapter' : 'chapters'} no week reads`);
 if (bsbChapters) console.log(`✓ BSB: the ${bsbChapters} Bible chapters of the reading, verse for verse with the KJV`);
 if (langChapters.es || langChapters.tl) console.log(`✓ ES·TL: the ${langChapters.es} Bible chapters of the reading in Spanish (Reina-Valera 1909), the ${langChapters.tl} in Tagalog (Ang Biblia 1905), each verse under its KJV verse`);
 if (origChapters) console.log(`✓ Hebrew and Greek: the ${origChapters} Bible chapters of the reading, every KJV verse word by word (STEPBible.org, Tyndale House)`);
