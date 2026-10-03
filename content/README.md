@@ -380,3 +380,56 @@ on the map (or face each other across a narrow sea, like Egypt and Arabia
 across the Red Sea), and two lands that share a border are in `links`. A
 new map drawn over a picture has to trace the picture's own borders, so
 neighbouring outlines meet, with no gaps or overlaps.
+
+## Sunday classes (`content/sunday.js`)
+
+Blake, 2026-10-03: "We need to incorporate sunday lesson study as well....
+Javan needs to study YM lessons, and Chantel and I the conference talks."
+Since September 6, 2026 every class meets each Sunday (25 minutes): Sunday
+School keeps Come, Follow Me (the rest of the app); Aaronic Priesthood
+quorums and Young Women classes learn from *For the Strength of Youth: A
+Guide for Making Choices*, a chapter a month, with lesson pages in that
+month's magazine; elders quorums and Relief Societies from the most recent
+general conference, the talks their presidencies choose. Everyone sees all
+of it (Blake's choice): no setting for who's in which class.
+
+`window.TU_SUNDAY = { youth: [...], conference: [...] }`.
+
+**`youth`**, a month each: `{ month: "2026-10", chapter: 10, title, guide,
+lessons }`, `guide` the chapter's Gospel Library page. Each lesson is the
+mini-lesson for one Sunday, played like a day's lesson (a card, its
+question, the next):
+
+- `id`, `sunday` (`"2026-10-04"`, a Sunday of the month), `title` (60
+  characters at most), `read` (the Gospel Library page it's from: the
+  guide's section, or the magazine's lesson page), `intro` (10 to 60 words:
+  what this Sunday's class is about and what to read).
+- `cards`, 2 to 5, each `{ id, hook, body, find, q, right, wrong, why }`:
+  `body` 15 to 75 words in our own words, for a youth; one quote from the
+  page at most, 15 words or fewer; `find` 4 to 30 words copied exactly from
+  `read`, where the card's point is (checked with `--online`, as the quote
+  is); `q` a question its body answers, with `right` and 2 or 3 `wrong`;
+  `why` 40 words at most.
+
+**`conference`**, a conference each: `{ id: "2026-10", title, from, talks }`.
+`talks` in the order they were given, which is the talk-a-day plan's order,
+a talk a day from `from`. Each talk:
+
+- `id`, `speaker`, `title`, `session`, `url` (its Gospel Library page,
+  churchofjesuschrist.org/study/general-conference/2026/10/…).
+- `quotes`: up to 4 of the speaker's own words, 8 to 40 words each, no quote
+  marks around them, found on the talk's page word for word (`--online`).
+  These and the talk itself show without approval, like a Gospel Library
+  quote card: they're the speaker's.
+- `scriptures`: the verses or chapters the talk uses (`"Moroni 10:32"`),
+  each a tap from the reader.
+- In our own words, shown once Blake approves the talk in developer mode
+  (drafts on the test site): `quick` (25 to 90 words, what it teaches),
+  `points` (up to 5, 4 to 40 words each), `discuss` (up to 3 questions to
+  talk over, 30 words at most each) and `deep`, a deep dive as an insight
+  card's (`paras`, `find`), its quotes found on the talk's page.
+
+Which talk each Sunday's class does is picked in the app by anyone in the
+family (Blake, 2026-10-03: "You pick it"), one for elders quorum and one for
+Relief Society, kept with the family; until it's picked the app suggests the
+next talk in the plan. tools/verify.mjs checks all of the above.

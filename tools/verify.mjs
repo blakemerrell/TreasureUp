@@ -1142,13 +1142,27 @@ const APP_BOOKS = appBooks();
 }
 const weeks = loadWeeks();
 const boards = loadBoards();
+// content/sunday.js: the Sunday classes' study (Blake, 2026-10-03: "We need
+// to incorporate sunday lesson study as well.... Javan needs to study YM
+// lessons, and Chantel and I the conference talks").
+const sunday = (() => {
+  const f = path.join(ROOT, 'content', 'sunday.js');
+  if (!fs.existsSync(f)) return null;
+  const box = {};
+  try { new Function('window', fs.readFileSync(f, 'utf8'))(box); } catch (e) { failures.push('content/sunday.js: ' + e.message); return null; }
+  if (!box.TU_SUNDAY || typeof box.TU_SUNDAY !== 'object') { failures.push('content/sunday.js must set window.TU_SUNDAY = { youth: [...], conference: [...] }'); return null; }
+  return box.TU_SUNDAY;
+})();
+const sundayUrls = !sunday ? [] : [
+  ...(sunday.youth || []).flatMap(m => (m.lessons || []).map(l => l && l.read)),
+  ...(sunday.conference || []).flatMap(c => (c.talks || []).map(t => t && t.url))].filter(u => typeof u === 'string' && GOSPEL_LIBRARY.test(u));
 checkBoards(boards, scripture);
 const online = args.has('--online') || args.has('--lesson');
 const pages = new Map();
 if (online) {
   const urls = new Set(weeks.flatMap(week => [week.lesson, ...week.reels.flatMap(r => bonusesOf(r).map(b => webSource(b, week)).filter(Boolean)),
     ...(week.deep || []).map(d => webSource(d, week)).filter(Boolean),
-    ...(Array.isArray(week.insights) ? week.insights : []).map(x => x && x.source && x.source.url).filter(u => typeof u === 'string' && /^https:\/\//.test(u))]));
+    ...(Array.isArray(week.insights) ? week.insights : []).map(x => x && x.source && x.source.url).filter(u => typeof u === 'string' && /^https:\/\//.test(u))]).concat(sundayUrls));
   // A few at a time: some of the insight sites turn away a burst.
   const queue = [...urls];
   await Promise.all(Array.from({ length: 6 }, async () => { while (queue.length) { const u = queue.shift(); pages.set(u, await fetchPageText(u)); } }));
@@ -1204,6 +1218,147 @@ let libraryPlain = 0;
       libraryPlain = lib.plain.length;
     } else failures.push('content/plain.js must set window.TU_PLAIN = { title, plain: [...] }');
   }
+}
+
+// content/sunday.js (Blake, 2026-10-03: "Javan needs to study YM lessons,
+// and Chantel and I the conference talks"; everyone sees all of it). Since
+// September 6, 2026 every class meets each Sunday: Aaronic Priesthood
+// quorums and Young Women classes learn from For the Strength of Youth: A
+// Guide for Making Choices, a chapter a month; elders quorums and Relief
+// Societies from the most recent general conference.
+//   youth: [{ month, chapter, title, guide, lessons: [{ id, sunday, title,
+//     read, intro, cards: [{ id, hook, body, find, q, right, wrong, why }] }] }]
+//     A mini-lesson for each Sunday, in our own words from its page (`read`,
+//     Gospel Library), each card's point found there (`find`, --online).
+//   conference: [{ id, title, from, talks: [{ id, speaker, title, url,
+//     session, quick, points, quotes, scriptures, discuss, deep }] }]
+//     Every talk, in the order it was given (the talk-a-day plan from `from`):
+//     its speaker's own words (`quotes`, found word for word on its page),
+//     the scriptures it uses, and in our own words what it teaches and
+//     questions to talk over, with a deep dive under it as an insight card's.
+// Our own words show once Blake approves them in developer mode (drafts on
+// the test site), so none of it ever holds a deploy back.
+let sundayCounts = null;
+if (sunday) {
+  const words = t => (String(t || '').match(/\S+/g) || []).length;
+  const isDate = d => /^\d{4}-\d{2}-\d{2}$/.test(d || '') && !isNaN(Date.parse(d + 'T12:00:00Z'));
+  const isSunday = d => isDate(d) && new Date(d + 'T12:00:00Z').getUTCDay() === 0;
+  const linkable = APP_BOOKS.slice().sort((a, b) => b.length - a.length).map(b => b.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+  const refRe = new RegExp(`(${linkable}) (\\d+)(?::(\\d+)(?:[–-](\\d+))?)?`, 'g');
+  const refExists = (book, ch, v) => scripture.verses.has(`${BOOK_ALIAS[book] || book} ${ch}:${v || 1}`);
+  // Our own words: curly quotes, no KJV English outside a quote, every reference a real one.
+  // (KJV English is for a youth's cards only: grown-ups' talk study says "come unto Christ".)
+  const ownWords = (where, label, t, grownUp) => {
+    const v = String(t || '');
+    if (/"/.test(v)) fail(where, `${label} uses a straight " quote; use “curly quotes”`);
+    if ((v.match(/“/g) || []).length !== (v.match(/”/g) || []).length) fail(where, `${label} has unbalanced “quotes”`);
+    if (!grownUp && /\b(thee|thou|thy|thine|ye|hath|saith|doth|shalt|unto)\b/i.test(v.replace(/“[^”]*”/g, ' '))) fail(where, `${label} has KJV English outside a quote`);
+    let m;
+    refRe.lastIndex = 0;
+    while ((m = refRe.exec(v))) if (!refExists(m[1], m[2], m[3]) || (m[4] && !refExists(m[1], m[2], m[4]))) fail(where, `${label}: ${m[0]} doesn't exist`);
+  };
+  const onPage = (url, text) => { const page = pages.get(url); return page == null ? null : norm(page).includes(trimPunct(norm(text))); };
+  const ids = new Set();
+  const uniqueId = (where, id) => {
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(id || '')) fail(where, 'needs an id of lowercase words and dashes');
+    else if (ids.has(id)) fail(where, `id "${id}" is used twice in content/sunday.js`);
+    ids.add(id);
+  };
+  sundayCounts = { lessons: 0, talks: 0 };
+  weekLabel = 'content/sunday.js · ';
+  if (sunday.youth !== undefined && !Array.isArray(sunday.youth)) fail('youth', 'must be a list of months');
+  for (const m of Array.isArray(sunday.youth) ? sunday.youth : []) {
+    const where = 'youth ' + ((m && m.month) || '?');
+    if (!m || !/^\d{4}-(0[1-9]|1[0-2])$/.test(m.month || '')) { fail(where, 'month must read like "2026-10"'); continue; }
+    if (!(Number.isInteger(m.chapter) && m.chapter >= 1 && m.chapter <= 12)) fail(where, 'chapter: 1 to 12, the guide’s chapter for the month');
+    if (!m.title || String(m.title).length > 60) fail(where, 'needs the chapter’s title (60 characters or fewer)');
+    if (!GOSPEL_LIBRARY.test(m.guide || '')) fail(where, 'guide: the chapter’s Gospel Library page (churchofjesuschrist.org/study/…)');
+    for (const l of Array.isArray(m.lessons) ? m.lessons : []) {
+      const lw = where + ' · ' + ((l && l.id) || 'lesson');
+      if (!l || typeof l !== 'object') { fail(lw, 'must be a lesson'); continue; }
+      uniqueId(lw, l.id);
+      if (!isSunday(l.sunday) || !String(l.sunday).startsWith(m.month)) fail(lw, `sunday "${l.sunday}" must be a Sunday of ${m.month}, like "2026-10-04"`);
+      if (!l.title || String(l.title).length > 60) fail(lw, 'needs a title (60 characters or fewer)');
+      if (!GOSPEL_LIBRARY.test(l.read || '')) fail(lw, 'read: the Gospel Library page the lesson is from (the guide’s section, or the magazine’s lesson page)');
+      if (words(l.intro) < 10 || words(l.intro) > 60) fail(lw, `intro is ${words(l.intro)} words (10 to 60)`);
+      ownWords(lw, 'intro', l.intro);
+      const cards = Array.isArray(l.cards) ? l.cards : [];
+      if (cards.length < 2 || cards.length > 5) fail(lw, `has ${cards.length} cards (2 to 5)`);
+      for (const c of cards) {
+        const cw = lw + ' · ' + ((c && c.id) || 'card');
+        if (!c || typeof c !== 'object') { fail(cw, 'must be a card'); continue; }
+        uniqueId(cw, c.id);
+        if (!c.hook || String(c.hook).length > 60) fail(cw, 'needs a hook (60 characters or fewer)');
+        if (words(c.body) < 15 || words(c.body) > 75) fail(cw, `body is ${words(c.body)} words (15 to 75), for a youth`);
+        const quotes = (String(c.body || '').match(/“[^”]*”/g) || []).map(q => q.slice(1, -1));
+        if (quotes.length > 1) fail(cw, 'quotes the page more than once');
+        for (const q of quotes) if (words(q) > 15) fail(cw, `“${q}” is ${words(q)} words; a quote is 15 at most`);
+        if (words(c.find) < 4 || words(c.find) > 30) fail(cw, 'find: 4 to 30 words copied exactly from the lesson’s page');
+        if (typeof c.q !== 'string' || !/\?$/.test(c.q.trim())) fail(cw, 'q: a question, ending with “?”');
+        if (!c.right || !Array.isArray(c.wrong) || c.wrong.length < 2 || c.wrong.length > 3 || c.wrong.includes(c.right)) fail(cw, 'needs right and 2 or 3 different wrong answers');
+        if (words(c.why) > 40) fail(cw, `why is ${words(c.why)} words (40 at most)`);
+        for (const f of ['hook', 'body', 'q', 'right', 'why']) ownWords(cw, f, c[f]);
+        if (online && GOSPEL_LIBRARY.test(l.read || '')) {
+          if (onPage(l.read, c.find || '') === false) fail(cw, `"${c.find}" is not on ${l.read}`);
+          for (const q of quotes) if (onPage(l.read, q) === false) fail(cw, `“${q}” is not on ${l.read}`);
+        } else if (!online) note(`${cw}: ${l.read} not checked (run with --online)`);
+      }
+      sundayCounts.lessons++;
+    }
+  }
+  if (sunday.conference !== undefined && !Array.isArray(sunday.conference)) fail('conference', 'must be a list of conferences');
+  for (const conf of Array.isArray(sunday.conference) ? sunday.conference : []) {
+    const where = 'conference ' + ((conf && conf.id) || '?');
+    if (!conf || !/^\d{4}-(04|10)$/.test(conf.id || '')) { fail(where, 'id must read like "2026-10" (April or October)'); continue; }
+    if (!conf.title) fail(where, 'needs a title, like "October 2026 General Conference"');
+    if (!isDate(conf.from)) fail(where, 'from: the day the talk-a-day plan starts, like "2026-10-12"');
+    const talks = Array.isArray(conf.talks) ? conf.talks : [];
+    if (!talks.length) fail(where, 'needs its talks');
+    const [y, mo] = conf.id.split('-');
+    for (const t of talks) {
+      const tw = where + ' · ' + ((t && t.id) || 'talk');
+      if (!t || typeof t !== 'object') { fail(tw, 'must be a talk'); continue; }
+      uniqueId(tw, t.id);
+      if (!t.speaker || !t.title || !t.session) fail(tw, 'needs speaker, title and session');
+      if (!new RegExp(`^https://www\\.churchofjesuschrist\\.org/study/general-conference/${y}/${mo}/`).test(t.url || '')) fail(tw, `url: the talk's Gospel Library page (churchofjesuschrist.org/study/general-conference/${y}/${mo}/…)`);
+      // The speaker's own words: found on the talk's page word for word.
+      const quotes = Array.isArray(t.quotes) ? t.quotes : [];
+      if (quotes.length > 4) fail(tw, `has ${quotes.length} quotes (4 at most)`);
+      for (const q of quotes) {
+        if (words(q) < 8 || words(q) > 40) fail(tw, `the quote “${String(q).slice(0, 40)}…” is ${words(q)} words (8 to 40)`);
+        if (/"/.test(q) || /^“/.test(String(q).trim())) fail(tw, 'a quote goes without its own quote marks (the app adds them)');
+        if (online && pages.get(t.url) != null && !quoteMatches(String(q).replace(/[‘’]/g, "'"), pages.get(t.url).replace(/[‘’]/g, "'"))) fail(tw, `the quote “${String(q).slice(0, 50)}…” isn't on ${t.url} word for word`);
+      }
+      if (!online) note(`${tw}: ${t.url} not checked (run with --online)`);
+      for (const r of Array.isArray(t.scriptures) ? t.scriptures : []) {
+        const m = new RegExp(`^(${linkable}) (\\d+)(?::(\\d+)(?:[–-](\\d+))?)?$`).exec(r || '');
+        if (!m || !refExists(m[1], m[2], m[3]) || (m[4] && !refExists(m[1], m[2], m[4]))) fail(tw, `scripture "${r}" isn't a verse or chapter of the standard works`);
+      }
+      // Our own words, which wait for approval: what it teaches, and questions to talk over.
+      if (t.quick !== undefined) { if (words(t.quick) < 25 || words(t.quick) > 90) fail(tw, `quick is ${words(t.quick)} words (25 to 90)`); ownWords(tw, 'quick', t.quick, true); }
+      const points = t.points === undefined ? [] : t.points;
+      if (!Array.isArray(points) || points.length > 5 || points.some(x => words(x) < 4 || words(x) > 40)) fail(tw, 'points: up to 5, each 4 to 40 words');
+      else points.forEach((x, k) => ownWords(tw, `point ${k + 1}`, x, true));
+      const discuss = t.discuss === undefined ? [] : t.discuss;
+      if (!Array.isArray(discuss) || discuss.length > 3 || discuss.some(x => !/\?$/.test(String(x).trim()) || words(x) > 30)) fail(tw, 'discuss: up to 3 questions, each 30 words or fewer, ending with “?”');
+      else discuss.forEach((x, k) => ownWords(tw, `question ${k + 1}`, x, true));
+      if (t.deep !== undefined) {
+        const d = t.deep && typeof t.deep === 'object' ? t.deep : {}, paras = Array.isArray(d.paras) ? d.paras : [];
+        const all = paras.join(' '), n = words(all);
+        if (paras.length < 2 || paras.length > 6) fail(tw + ' deep dive', 'paras: 2 to 6 paragraphs');
+        if (n < 80 || n > 450) fail(tw + ' deep dive', `${n} words (80 to 450)`);
+        ownWords(tw + ' deep dive', 'its text', all, true);
+        const own = (all.match(/“[^”]*”/g) || []).map(q => q.slice(1, -1));
+        if (own.length > 3) fail(tw + ' deep dive', `quotes ${own.length} times; 3 at most`);
+        for (const q of own) {
+          if (words(q) > 25) fail(tw + ' deep dive', `“${q}” is ${words(q)} words; 25 at most`);
+          if (online && onPage(t.url, q) === false) fail(tw + ' deep dive', `“${q}” is not on ${t.url}`);
+        }
+      }
+      sundayCounts.talks++;
+    }
+  }
+  weekLabel = '';
 }
 
 // The BSB button in the reader (tools/build-reading.mjs builds its chapters
@@ -1334,6 +1489,7 @@ for (const week of weeks) {
   console.log(`✓ ${week.title} (${week.dates}): ${week.reels.length} reels, ${quotes} quotes and ${bonuses} bonus answers checked` +
     (extras.length ? `, plus ${extras.join(' and ')}` : ''));
 }
+if (sundayCounts) console.log(`✓ content/sunday.js: ${sundayCounts.lessons} Sunday ${sundayCounts.lessons === 1 ? 'lesson' : 'lessons'} for the youth, ${sundayCounts.talks} conference ${sundayCounts.talks === 1 ? 'talk' : 'talks'}`);
 if (libraryPlain) console.log(`✓ content/plain.js: plain words for ${libraryPlain} ${libraryPlain === 1 ? 'chapter' : 'chapters'} no week reads`);
 if (bsbChapters) console.log(`✓ BSB: the ${bsbChapters} Bible chapters of the reading, verse for verse with the KJV`);
 if (langChapters.es || langChapters.tl) console.log(`✓ ES·TL: the ${langChapters.es} Bible chapters of the reading in Spanish (Reina-Valera 1909), the ${langChapters.tl} in Tagalog (Ang Biblia 1905), each verse under its KJV verse`);
