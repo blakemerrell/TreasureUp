@@ -239,7 +239,17 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // quietly draws nothing at all: no error, just an empty picture. So each big canvas is made at the largest of
   // these sizes where a test dot actually sticks, and scaled so the code painting it needn't know.
   // ?debug=1 on the address: a box on the screen saying what the device really drew (see debugBox below).
-  const DBG = { on: /[?&]debug=1/.test(location.search), made: {}, paint: 'not yet' };
+  const DBG = { on: /[?&]debug=1/.test(location.search), made: {}, paint: 'not yet', lost: 0, restored: 0 };
+  // Chrome on a phone can drop what a canvas holds when the device runs short of graphics memory: the canvas
+  // fires 'contextlost', then 'contextrestored' when it can be painted again, blank. Everything painted once
+  // (the ground, the fog, the tree pictures) has to be painted again then; the screen repaints every frame anyway.
+  let repaintAll = false;
+  function watchLoss(c) {
+    c.addEventListener('contextlost', () => { DBG.lost++; });
+    c.addEventListener('contextrestored', () => { DBG.restored++; repaintAll = true; });
+    return c;
+  }
+  const lostNow = x => !!(x && x.isContextLost && x.isContextLost());
   function bigCanvas(w, h, sizes, name) {
     for (const k of sizes) {
       const c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k);
@@ -247,12 +257,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (x) {
         x.fillStyle = '#fff'; x.fillRect(0, 0, 1, 1);
         let ok = false; try { ok = x.getImageData(0, 0, 1, 1).data[3] === 255; } catch (e) { ok = false; }
-        if (ok) { x.clearRect(0, 0, 1, 1); x.scale(k, k); c.k = k; DBG.made[name] = c.width + '×' + c.height + ' at ' + k; return [c, x]; }
+        if (ok) { x.clearRect(0, 0, 1, 1); x.scale(k, k); c.k = k; DBG.made[name] = c.width + '×' + c.height + ' at ' + k; return [watchLoss(c), x]; }
       }
       c.width = c.height = 0;                       // hand its memory back before trying smaller
     }
     DBG.made[name] = 'every size refused';
-    const c = document.createElement('canvas'); c.k = 1; return [c, c.getContext('2d')];
+    const c = document.createElement('canvas'); c.k = 1; return [watchLoss(c), c.getContext('2d')];
   }
   // The fog is soft at its edges, so half size looks the same and leaves the ground the room to be sharp.
   const [shroudCv, sctx] = bigCanvas(TERR_W, TERR_H, [0.5, 0.35, 0.25], 'fog');
@@ -260,6 +270,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   function initShroud() {
     explored.fill(0);
+    paintShroud();
+  }
+  // The shroud over the whole slab, with every explored tile opened again.
+  function paintShroud() {
     sctx.globalCompositeOperation = 'source-over';
     sctx.clearRect(0, 0, TERR_W, TERR_H);
     sctx.fillStyle = '#06070c'; // Westwood Pitch Black Shroud, over the slab and its hills
@@ -267,6 +281,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const up = PAD / LEVEL, down = -SKIRT / LEVEL;
     const edge = [at(0, 0, up), at(MAP_W, 0, up), at(MAP_W, 0, down), at(MAP_W, MAP_H, down), at(0, MAP_H, down), at(0, MAP_H, up)];
     sctx.beginPath(); edge.forEach(([x, y], k) => k ? sctx.lineTo(x, y) : sctx.moveTo(x, y)); sctx.closePath(); sctx.fill();
+    sctx.globalCompositeOperation = 'destination-out'; sctx.fillStyle = 'rgba(0, 0, 0, 1)';
+    for (let y = 0; y < MAP_H; y++) for (let x = 0; x < MAP_W; x++) {
+      if (!explored[y * MAP_W + x]) continue;
+      const { ix, iy } = toIso((x + 0.5) * TILE, (y + 0.5) * TILE);
+      sctx.beginPath(); sctx.arc(ix + ISO_OFFSET_X, iy + PAD, TILE * 0.9, 0, Math.PI * 2); sctx.fill();
+    }
     miniDirty = true;
     revealShroud();
   }
@@ -668,7 +688,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     for (let k = 0; k < 12; k++) {
       const conifer = k >= 8, g = greens[k % greens.length], r = j => hash(k, j, 777), S = 2;
       const w = conifer ? 32 : 44, ht = conifer ? 64 : 58, ax = w / 2, ay = ht - 4, trunk = conifer ? 14 : 22;
-      const cv = document.createElement('canvas'); cv.width = w * S; cv.height = ht * S;
+      const cv = watchLoss(document.createElement('canvas')); cv.width = w * S; cv.height = ht * S;
       const c = cv.getContext('2d'); c.scale(S, S);
       const light = mix(g, [240, 238, 170], 0.45), shadow = mix(g, [12, 28, 26], 0.55), rim = mix(g, [8, 14, 10], 0.78);
       c.fillStyle = '#4e3624';
@@ -2274,6 +2294,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
       `screen ${vw}×${vh}  device ratio ${window.devicePixelRatio}  drawn at ${dpr}  zoom ${cam.z.toFixed(2)}  dark mode ${matchMedia('(prefers-color-scheme: dark)').matches}`,
       `ground canvas ${DBG.made.ground}   fog canvas ${DBG.made.fog}`,
       `ground painting: ${DBG.paint}   trees ${trees.length}   tree pictures ${TREES ? TREES.length : 'none yet'}`,
+      `painted again ${DBG.repaints || 0} time(s) (${DBG.blank || 0} after finding it blank); context lost ${DBG.lost} time(s), restored ${DBG.restored}; lost now: ground ${tctx.isContextLost ? lostNow(tctx) : 'can\'t tell'}, fog ${sctx.isContextLost ? lostNow(sctx) : 'can\'t tell'}, tree ${TREES && TREES[0].cv.getContext('2d').isContextLost ? lostNow(TREES[0].cv.getContext('2d')) : 'can\'t tell'}`,
+      `graphics memory: ${navigator.deviceMemory || '?'} GB device, ${performance.memory ? Math.round(performance.memory.usedJSHeapSize / 1048576) + ' MB script' : ''}`,
       `ground at city: ${px(terrain, gx * terrain.k, gy * terrain.k)}`,
       `fog at city: ${px(shroudCv, gx * shroudCv.k, gy * shroudCv.k)}`,
       `screen at city: ${px(cv, s.x * dpr, (s.y) * dpr)}`,
@@ -2286,11 +2308,22 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // ------------------------------------------------------------ the loop
 
   let last = 0, acc = 0;
+  let probeAt = 0, probe = null;                       // where a painted land tile is, on the ground canvas
   function frame(now) {
     requestAnimationFrame(frame);
     const dt = Math.min(0.25, (now - (last || now)) / 1000);
     last = now;
     if (!W) return;
+    if (repaintAll && !lostNow(tctx) && !lostNow(sctx)) {
+      repaintAll = false; painted = null; TREES = null; paintShroud(); DBG.repaints = (DBG.repaints || 0) + 1;
+    }
+    // Once a second, make sure the ground is still there: a phone can drop it without saying so.
+    if (now - probeAt > 1000 && painted && !lostNow(tctx)) {
+      probeAt = now;
+      if (!probe) { const s = W.stronghold() || W.units('p')[0]; const { ix, iy } = toIso(s.x - 2 * TILE, s.y + 2 * TILE); probe = [(ix + ISO_OFFSET_X) * terrain.k, (iy + PAD) * terrain.k]; }
+      let a = 255; try { a = tctx.getImageData(Math.round(probe[0]), Math.round(probe[1]), 1, 1).data[3]; } catch (e) { a = 255; }
+      if (a === 0) { DBG.blank = (DBG.blank || 0) + 1; DBG.repaints = (DBG.repaints || 0) + 1; painted = null; TREES = null; paintShroud(); }
+    }
     if (!W.over && !paused && !modal) {
       acc += dt * speed;
       let n = 0;
@@ -2314,6 +2347,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // A window on the game for automated play-throughs in a browser.
   window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, get sel() { return sel; }, get selEnts() { return selEnts(); }, cam, begin: (id, level, length) => { const m = id === 'free' ? FREE : id === 'wild' ? WILD : MISSIONS.find(m => m.id === id); if (level) m.level = level; if (length) m.length = length; begin(m); }, toWorld, lookAt,
     screenOf: (x, y) => toScreen(x, y),
+    hidden: () => ({ terrain, shroudCv, trees: TREES }),         // the canvases painted once, for tests that wipe them
     remoteClick: (sx, sy, color) => {
       const w = toWorld(sx, sy);
       if (w) clickAt(w.x, w.y, false, false, sx, sy);
