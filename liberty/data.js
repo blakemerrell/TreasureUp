@@ -59,29 +59,29 @@
     stripling:    { name: 'Stripling warrior', hp: 190, speed: 64, dmg: 15, range: 20, cd: 0.9, armor: 4, sight: 180, cost: { grain: 90, timber: 60 }, time: 16, soldier: true, tier: true, needs: ['hall'],
                     about: '"Exceedingly valiant for courage" (Alma 53:20), "taught by their mothers" (Alma 56:47). Very hard to bring down.' },
     cart:         { name: 'Horse cart', hp: 90, speed: 78, dmg: 0, range: 0, cd: 1, armor: 1, sight: 140, cost: { grain: 60, timber: 40 }, time: 12, gathers: true, load: 30, quick: 1.5,
-                    about: 'Brings in grain and timber on its own: it finds the nearest field or forest and hauls the load home. Tap it on a field or a forest to choose which. The Nephites had "horses, and their chariots" (3 Nephi 3:22).' },
+                    about: 'Brings in grain and timber on its own: it finds the nearest field or forest and hauls the load home. Tap it on a field, a forest or a rock face to choose which; stone only comes when you ask. The Nephites had "horses, and their chariots" (3 Nephi 3:22).' },
     prisoner:     { name: 'Prisoner', hp: 1, speed: 45, dmg: 0, range: 0, cd: 1, armor: 0, sight: 0, about: 'Yielded up as a prisoner (3 Nephi 4:27).' }
   };
 
   const BUILDINGS = {
     stronghold: { name: 'Zarahemla', w: 4, h: 4, hp: 2400, armor: 4, dmg: 8, range: 130, cd: 1.4, dropoff: true, builder: true, trains: ['cart', 'worker'], food: 10, store: 300, about: 'The gathering place (3 Nephi 3:23). Its guards shoot at robbers. Lose it and the mission is lost.' },
-    storehouse: { name: 'Storehouse', w: 2, h: 2, hp: 450, armor: 2, cost: { timber: 60 }, work: 18, dropoff: true, store: 300, about: 'Carts bring grain and timber here too.' },
+    storehouse: { name: 'Storehouse', w: 2, h: 2, hp: 450, armor: 2, cost: { timber: 60 }, work: 18, dropoff: true, store: 300, about: 'Carts bring grain, timber and stone here too.' },
     barracks:   { name: 'Barracks', w: 3, h: 3, hp: 650, armor: 2, cost: { timber: 110 }, work: 30, trains: ['spearman', 'nslinger', 'archer', 'swordsman'], research: ['armor'], about: 'Trains the guards.' },
-    tower:      { name: 'Watchtower', w: 2, h: 2, hp: 520, armor: 3, cost: { grain: 20, timber: 60 }, work: 26, dmg: 9, range: 150, cd: 1.3, needs: ['barracks'], about: 'Guards "watch them … day and night" (3 Nephi 3:14). Shoots at robbers.' },
+    tower:      { name: 'Watchtower', w: 2, h: 2, hp: 520, armor: 3, cost: { timber: 40, stone: 40 }, work: 26, dmg: 9, range: 150, cd: 1.3, needs: ['barracks'], about: 'Guards "watch them … day and night" (3 Nephi 3:14). Shoots at robbers.' },
     wall:       { name: 'Earthwork', w: 1, h: 1, hp: 260, armor: 5, cost: { timber: 6 }, work: 5, wall: true, about: 'Fortifications "round about them" (3 Nephi 3:14). Robbers must break through.' },
-    gate:       { name: 'Gate', w: 1, h: 1, hp: 320, armor: 4, cost: { timber: 20 }, work: 8, wall: true, gate: true, about: 'Your people pass through; robbers must break it.' },
+    gate:       { name: 'Gate', w: 1, h: 1, hp: 320, armor: 4, cost: { timber: 10, stone: 15 }, work: 8, wall: true, gate: true, about: 'Your people pass through; robbers must break it.' },
     village:    { name: 'Village', w: 3, h: 3, hp: 99999, neutral: true },
     camp:       { name: "Robbers' camp", w: 3, h: 3, hp: 380, armor: 2, about: 'Part of the siege round about the city (3 Nephi 4:16).' },
     // Free battle.
     farm:       { name: 'Farm', w: 2, h: 2, hp: 300, armor: 1, cost: { timber: 50 }, work: 14, food: 8, grows: 0.25, tier: true,
                   about: 'Feeds 8 more people, and grows a little grain. "They did raise grain in abundance" (Helaman 6:12).' },
     granary:    { name: 'Granary', w: 2, h: 2, hp: 380, armor: 2, cost: { timber: 45 }, work: 14, store: 500, tier: true,
-                  about: 'Holds 500 more grain and timber. The Nephites "reserved for themselves provisions" (3 Nephi 4:4). From history, not the verses: clay granaries like these have held maize in Mexico since long before the Spanish came.' },
+                  about: 'Holds 500 more of each: grain, timber and stone. The Nephites "reserved for themselves provisions" (3 Nephi 4:4). From history, not the verses: clay granaries like these have held maize in Mexico since long before the Spanish came.' },
     armory:     { name: 'Armory', w: 3, h: 2, hp: 500, armor: 2, cost: { grain: 40, timber: 120 }, work: 24, needs: ['barracks'], research: ['breastplates', 'cimeters', 'pickets'], tier: true,
                   about: 'Makes "all manner of weapons of war, of every kind" (Alma 2:12). Opens swordsmen, and makes armor, better weapons and stronger walls.' },
     stables:    { name: 'Stables', w: 2, h: 3, hp: 420, armor: 1, cost: { timber: 100 }, work: 20, needs: ['farm'], trains: ['cart'], fast: 2, tier: true,
                   about: 'Horse carts, twice as fast as the city makes them. They had "horses, and their chariots" (3 Nephi 3:22).' },
-    hall:       { name: 'Hall of the captains', w: 3, h: 3, hp: 800, armor: 3, cost: { grain: 150, timber: 200 }, work: 36, needs: ['armory'], trains: ['javelin', 'stripling'], tier: true,
+    hall:       { name: 'Hall of the captains', w: 3, h: 3, hp: 800, armor: 3, cost: { grain: 100, timber: 150, stone: 80 }, work: 36, needs: ['armory'], trains: ['javelin', 'stripling'], tier: true,
                   about: 'Where the chief captains plan the war. Trains javelin throwers and stripling warriors. From history, not the verses: its stepped platform is like those built in ancient Mesoamerica.' },
     warcamp:    { name: 'Lamanite war camp', w: 4, h: 4, hp: 1800, armor: 3, tier: true, about: 'Where the Lamanite armies gather. Tear it down to win.' }
   };
@@ -139,6 +139,13 @@
     // Fields around the city, and a few near the villages.
     const field = (x0, y0, w, h) => { for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) if (get(x, y) === T.GRASS) set(x, y, T.FIELD, 300); };
     [[24, 42, 4, 2], [36, 42, 4, 2], [23, 34, 3, 2], [38, 34, 3, 2], [28, 44, 3, 2], [33, 44, 3, 2]].forEach(f => field(f[0], f[1], f[2], f[3]));
+    // Rocky outcrops in the land south of the border, for stone: the mountains to the north are out of reach.
+    const outcrop = (cx, cy, rad) => {
+      for (let y = Math.floor(cy - rad); y <= cy + rad; y++) for (let x = Math.floor(cx - rad); x <= cx + rad; x++) {
+        if (Math.hypot(x - cx, y - cy) <= rad - 0.3 + r() * 0.8 && get(x, y) === T.GRASS) set(x, y, T.ROCK);
+      }
+    };
+    [[19, 45, 1.8], [44, 45, 1.6], [10, 20, 1.6]].forEach(o => outcrop(o[0], o[1], o[2]));
     return { tiles, amt };
   }
 

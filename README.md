@@ -211,8 +211,8 @@ soldiers, and plant the standard on open ground to make your city
 (Alma 46:36). Then build up and either hold off the raids or tear down the
 war camp. The rules are Red Alert's: everything is built from the city and
 rises on its own once placed, within reach of what you already have; carts
-bring in grain and timber by themselves (tap one on a field or a forest to
-choose which); workers are the engineers, mending what's damaged and
+bring in grain and timber by themselves, and stone from a rock face when
+asked (tap one on a field, a forest or a rock face to choose which); workers are the engineers, mending what's damaged and
 hurrying what's being built; and several of the same building make things
 faster, up to two and a half times.
 
@@ -235,10 +235,10 @@ The buildings:
 | Farm | | Feeds 8 more and grows a little grain (Helaman 6:12) |
 | Granary, storehouse | | Store 500 / 300 more of each; past that, what the carts bring is lost |
 | Barracks | | Spearmen, slingers (Alma 2:12); archers and swordsmen once there's an armory |
-| Watchtower | barracks | Shoots at enemies |
+| Watchtower | barracks | Shoots at enemies. Takes stone, quarried from rock faces |
 | Armory | barracks | Breastplates and shields (+4 armor, Alma 43:19), swords and cimeters (+3 up close, Alma 43:18), ridges of earth and pickets (walls ×2, Alma 50:1–3), one at a time |
 | Stables | farm | Horse carts twice as fast as the city makes them (3 Nephi 3:22) |
-| Hall of the captains | armory | Javelin throwers (Jarom 1:8) and stripling warriors (Alma 53:20) |
+| Hall of the captains | armory | Javelin throwers (Jarom 1:8) and stripling warriors (Alma 53:20). Takes stone |
 
 Nobody can be trained without food for them. Each soldier is strong against
 one kind of enemy (×1.5 damage), so a mixed army wins:

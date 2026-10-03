@@ -264,6 +264,15 @@
     #goals { width: 168px; }
     #feed { width: 56vw; }
   }
+  @media (max-width: 430px) {                           /* four counters on an upright phone */
+    #hud { gap: 2px; }
+    .hb { padding: 0 4px; min-width: 28px; font-size: 12px; }
+    .res { font-size: 13px; gap: 1px; } #hud svg.i { width: 14px; height: 14px; }
+  }
+  @media (max-width: 380px) {
+    .hb { padding: 0 3px; min-width: 26px; font-size: 11px; }
+    .res { font-size: 12px; } #hud svg.i { width: 13px; height: 13px; }
+  }
 </style>
 </head>
 <body>
@@ -273,6 +282,7 @@
   <button id="bMenu" class="hb" title="Menu (Esc)" aria-label="Menu">☰</button>
   <div class="res" title="Grain: food for your people"><span id="iGrain"></span><b id="rGrain">0</b></div>
   <div class="res" title="Timber: for walls and buildings"><span id="iTimber"></span><b id="rTimber">0</b></div>
+  <div class="res" title="Stone: quarried from rock faces, for towers, gates and the hall"><span id="iStone"></span><b id="rStone">0</b></div>
   <div class="res" title="Workers and guards"><span id="iPeople"></span><b id="rPeople">0</b></div>
   <div id="clock"></div>
   <div id="food" hidden title="The robbers' food (3 Nephi 4:18–20). When it runs out, they must go."><span>Robbers' food</span><i><em id="foodBar"></em></i></div>
@@ -334,10 +344,10 @@
 <script src="../vendor/qrcode.js"></script>
 <script src="webrtc.js?v=15"></script>
 <script src="multi.js?v=15"></script>
-<script src="data.js?v=18"></script>
-<script src="sim.js?v=17"></script>
-<script src="missions.js?v=18"></script>
+<script src="data.js?v=19"></script>
+<script src="sim.js?v=18"></script>
+<script src="missions.js?v=19"></script>
 <script src="scripture.js?v=15"></script>
-<script src="ui.js?v=32"></script>
+<script src="ui.js?v=33"></script>
 </body>
 </html>
