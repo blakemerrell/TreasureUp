@@ -309,7 +309,7 @@
     padding: calc(var(--sat) + 16px) 16px calc(var(--sab) + 16px);
     background: rgba(3,3,10,.82); backdrop-filter: blur(4px);
   }
-  .overlay[hidden], #board[hidden], #play[hidden], #live[hidden], #fam[hidden], #dev[hidden], #risk[hidden] { display: none; }
+  .overlay[hidden], #board[hidden], #play[hidden], #live[hidden], #fam[hidden], #dev[hidden], #risk[hidden], #snake[hidden], #look[hidden] { display: none; }
   .overlay-card {
     width: 100%; max-width: 520px; max-height: 88dvh; overflow-y: auto;
     padding: 18px; border-radius: 22px; background: #12121f; border: 1px solid rgba(255,255,255,.12);
@@ -331,7 +331,7 @@
   .btn.ghost { background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.22); }
   .btn:focus-visible, .tile:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
-  #board, #play, #live, #fam, #dev, #risk {
+  #board, #play, #live, #fam, #dev, #risk, #snake, #look {
     position: fixed; inset: 0; z-index: 110; overflow-y: auto;
     display: flex; flex-direction: column;
     padding: calc(var(--sat) + 14px) 16px calc(var(--sab) + 16px);
@@ -1496,6 +1496,11 @@
   </div>
   <div id="riskBody"></div>
 </section>
+
+<!-- The arcade: Wilderness Snake (snake.js) and Look and Live (looklive.js),
+     each loaded the first time it opens; they draw everything inside these. -->
+<section id="snake" hidden aria-label="Wilderness Snake"></section>
+<section id="look" hidden aria-label="Look and Live"></section>
 
 <!-- Family: sign-in, everyone's progress, join links, and the family chat. -->
 <section id="fam" hidden aria-label="Family">
@@ -4038,13 +4043,15 @@ const TreasureUp = (function () {
     const lessonsDone = Object.values(amigo.courses || {}).reduce((n, c) => n + Object.keys(c.done || {}).length, 0);
     const language = gameRow('amigo', '🌎', 'Amigo · Kaibigan', 'Spanish for friends at school and Tagalog from Tatay: five-minute lessons, a streak, and Baybayin, the old Filipino script.',
       lessonsDone ? lessonsDone + (lessonsDone > 1 ? ' lessons' : ' lesson') + ' done · its own XP, apart from Treasure Up’s' : 'Five minutes a day · its own XP, apart from Treasure Up’s', false);
-    $('gamesBody').innerHTML = `<div class="games-head">Every day</div>${rows.join('')}<div class="games-head">Family night</div>${family.join('')}<div class="games-head">Book of Mormon</div>${strategy}<div class="games-head">Languages</div>${language}`;
+    const arcade = gameRow('snake', '🐍', 'Wilderness Snake', 'Arcade Snake in the camp of Israel: gather manna, and eat the jar with the right answer to this week’s questions. 1 player, or 2 on one screen.', arcadeStatus('snake'), false)
+      + gameRow('look', '👀', 'Look and Live', 'Dodge the fiery serpents, and stop to look at the brass serpent on Moses’s pole to heal (Numbers 21). Each level brings more serpents.', arcadeStatus('look'), false);
+    $('gamesBody').innerHTML = `<div class="games-head">Every day</div>${rows.join('')}<div class="games-head">Arcade</div>${arcade}<div class="games-head">Family night</div>${family.join('')}<div class="games-head">Book of Mormon</div>${strategy}<div class="games-head">Languages</div>${language}`;
   }
 
   function openGames() { renderGames(); $('games').hidden = false; }
   function closeGames() { $('games').hidden = true; }
 
-  const GAME_NAMES = { board: 'Showdown', puzzle: 'Puzzle', sayings: 'Who said it?', word: 'Verse Word', climb: 'Climb', live: 'Live game', babylon: 'Babylon Falls', liberty: 'Title of Liberty', amigo: 'Amigo · Kaibigan' };
+  const GAME_NAMES = { board: 'Showdown', puzzle: 'Puzzle', sayings: 'Who said it?', word: 'Verse Word', climb: 'Climb', live: 'Live game', babylon: 'Babylon Falls', liberty: 'Title of Liberty', amigo: 'Amigo · Kaibigan', snake: 'Wilderness Snake', look: 'Look and Live' };
   function startGame(id) {
     use('game:' + id);
     closeGames();
@@ -4057,7 +4064,78 @@ const TreasureUp = (function () {
     else if (id === 'babylon') riskChooser();
     else if (id === 'liberty') location.href = 'liberty/';
     else if (id === 'amigo') location.href = 'amigo/';
+    else if (id === 'snake' || id === 'look') openArcade(id);
   }
+
+  /* ----- the arcade: Wilderness Snake and Look and Live ----- */
+
+  // Each game is its own file (snake.js, looklive.js), loaded the first time
+  // it opens with its words (content/arcade.js). This side hands it a host:
+  // the week's questions, who's playing, scripture links, and the family's
+  // best scores. No XP: just for fun.
+  const ARCADE = { snake: { file: 'snake.js', api: 'TUSnake' }, look: { file: 'looklive.js', api: 'TULook' } };
+  function arcadeSaved(id) { try { return JSON.parse(localStorage.getItem(NS + id + '.v1')) || {}; } catch (e) { return {}; } }
+  function arcadeStatus(id) {
+    const s = arcadeSaved(id), top = (s.fam || []).slice().sort((a, b) => b.best - a.best)[0], n = x => Number(x || 0).toLocaleString('en-US');
+    const bits = [s.best ? 'Your best ' + n(s.best) : '', top && top.best && !top.me ? 'family best: ' + top.name + ' ' + n(top.best) : ''].filter(Boolean);
+    return (bits.length ? bits.join(' · ') + ' · ' : '') + 'no XP, just for fun';
+  }
+  async function openArcade(id) {
+    const g = ARCADE[id];
+    try {
+      await loadOnce('content/arcade.js');
+      await loadOnce(g.file);
+    } catch (e) { toast("The game didn't load", 'Check the connection and try again'); return; }
+    window[g.api].open(arcadeHost);
+  }
+  // A question for Wilderness Snake: about half this week's reels and half
+  // earlier weeks' (a review), none twice in a game.
+  function arcadeAsk(used) {
+    const pools = riskPools(), fresh = ids => ids.filter(id => !used.has(id) && gameQuestion(id));
+    let pool = pools.review.length && Math.random() < 0.5 ? fresh(pools.review) : fresh(pools.easy);
+    if (!pool.length) pool = fresh(pools.easy.concat(pools.review));
+    if (!pool.length) return null;
+    const id = pool[Math.floor(Math.random() * pool.length)], Q = gameQuestion(id);
+    used.add(id);
+    return { id, q: Q.text, right: Q.q.right, choices: shuffled([Q.q.right].concat(Q.q.wrong), id + '|' + Date.now()), why: Q.q.why || '', ref: Q.home || '', review: Q.week && Q.week !== WEEK ? Q.week.title : '' };
+  }
+  // The family's best scores: one record a person (families/{fid}/scores),
+  // with their best in each arcade game. Until firestore.rules with
+  // /scores is published, reading and saving them just fail, quietly: this
+  // device keeps its own best either way, and nothing else is touched.
+  async function arcadeFamily(field) {
+    if (!F || F.pending) return null;
+    try {
+      await fbInit();
+      const u = authUser();
+      if (!u || u.uid !== F.uid) return null;
+      const snap = await famCol(F.fid, 'scores').get();
+      return snap.docs.map(d => ({ name: d.data().name, best: d.data()[field] || 0, me: d.id === F.pid })).filter(x => x.best > 0);
+    } catch (e) { return null; }
+  }
+  async function arcadeSaveBest(field, score) {
+    if (!F || F.pending || !(score > 0)) return;
+    try {
+      await fbInit();
+      const u = authUser();
+      if (!u || u.uid !== F.uid) return;
+      const ref = famCol(F.fid, 'scores').doc(F.pid);
+      await fs().runTransaction(async t => {
+        const snap = await t.get(ref), d = snap.exists ? snap.data() : {};
+        if ((d[field] || 0) >= score) return;
+        t.set(ref, { name: F.name, snake: d.snake || 0, look: d.look || 0, [field]: score, updated: TS() });
+      });
+    } catch (e) { /* not published yet, or offline */ }
+  }
+  const arcadeHost = {
+    ns: NS,
+    ask: arcadeAsk,
+    player: () => ({ name: (F && F.name) || (S && S.ownerName) || '' }),
+    html: (text, home) => linkRefs(text, home),
+    familyBests: arcadeFamily,
+    saveBest: arcadeSaveBest,
+    closed: () => { refreshHome(); renderHud(); }
+  };
 
   let playing = null;   // 'puzzle' | 'sayings'
   function openPlay(kind, eyebrow) {
@@ -8827,7 +8905,7 @@ const TreasureUp = (function () {
     if (!a || !F) return;
     if (canon(S) !== a.from) { pendingAdopt = null; queueSync(0); return; }
     const typing = [...document.querySelectorAll('textarea, input.field')].some(t => t.value.trim() && !t.readOnly);
-    const busy = ['play', 'live', 'board', 'parent', 'lesson', 'view', 'risk'].some(id => !$(id).hidden) || typing;
+    const busy = ['play', 'live', 'board', 'parent', 'lesson', 'view', 'risk', 'snake', 'look'].some(id => !$(id).hidden) || typing;
     if (busy) { adoptTimer = setTimeout(tryAdopt, 10000); return; }
     try {
       localStorage.setItem(STORE_KEY, a.json);
