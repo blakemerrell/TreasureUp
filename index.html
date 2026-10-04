@@ -389,6 +389,24 @@
   .game-row .gd { font-size: 12.5px; color: rgba(255,255,255,.65); margin-top: 2px; line-height: 1.35; }
   .game-row .gs { font-size: 12px; font-weight: 800; margin-top: 4px; color: var(--gold); }
   .game-row.locked { opacity: .6; }
+  .shop-card { width: 100%; display: flex; align-items: center; gap: 12px; margin: 10px 0 4px; padding: 12px 14px; border-radius: 16px; border: 1px solid rgba(252,211,77,.35); background: linear-gradient(135deg, rgba(252,211,77,.14), rgba(244,114,182,.10)); color: #fff; font: inherit; text-align: left; cursor: pointer; }
+  .shop-card > span:first-child { font-size: 26px; } .shop-card > span:nth-child(2) { flex: 1; font-weight: 800; font-size: 16px; } .shop-card small { display: block; font-weight: 600; font-size: 13px; color: var(--gold); margin-top: 2px; } .shop-card > span:last-child { color: rgba(255,255,255,.5); font-size: 20px; }
+  .shop-have { display: flex; align-items: baseline; gap: 8px; margin: 6px 0 2px; } .shop-have b { font-size: 34px; font-weight: 900; color: var(--gold); line-height: 1; } .shop-have span { font-weight: 800; color: rgba(255,255,255,.75); }
+  .shop-msg { margin: 10px 0 0; padding: 10px 12px; border-radius: 12px; background: rgba(134,239,172,.12); color: #d1fae5; font-size: 14px; }
+  .shop-list { display: grid; gap: 8px; margin-top: 12px; }
+  .shop-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); flex-wrap: wrap; }
+  .shop-row.dim { opacity: .6; }
+  .shop-ico { font-size: 26px; flex: 0 0 auto; } .shop-name { flex: 1 1 140px; font-weight: 800; font-size: 15px; } .shop-name small { display: block; font-weight: 600; font-size: 12.5px; color: var(--gold); margin-top: 2px; }
+  .shop-why { font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,.6); } .shop-buy { padding: 8px 14px; font-size: 14px; }
+  .shop-ask { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 13px; font-weight: 700; }
+  .shop-mine { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 2px; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 14px; flex-wrap: wrap; } .shop-mine small { display: block; font-size: 12px; color: rgba(255,255,255,.55); }
+  .shop-mine.approved > span:last-child { color: #86efac; font-weight: 800; } .shop-mine.given > span:last-child { color: var(--gold); font-weight: 800; } .shop-mine.declined, .shop-mine.cancelled { opacity: .6; }
+  .req-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.08); flex-wrap: wrap; font-size: 14px; } .req-row:last-child { border-bottom: 0; } .req-row small { display: block; font-size: 12px; color: rgba(255,255,255,.55); } .req-btns { display: flex; gap: 4px; }
+  .prize-row { display: grid; grid-template-columns: 3.2em minmax(0, 1fr) 7.4em 7.2em; gap: 6px; align-items: center; }
+  .prize-row [data-f="emoji"] { text-align: center; padding-left: 4px; padding-right: 4px; }
+  .pz-num { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.6); white-space: nowrap; } .pz-num .field { min-width: 0; padding-left: 8px; padding-right: 6px; }
+  /* A phone: the prize's name gets the whole first line, the numbers the second */
+  @media (max-width: 600px) { .prize-row { grid-template-columns: 3.2em minmax(0, 1fr) minmax(0, 1fr); padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,.08); } .prize-row [data-f="name"] { grid-column: 2 / 4; } .pz-cost { grid-column: 2; } .pz-limit { grid-column: 3; } }
   .fam-intro { font-size: 15px; line-height: 1.5; color: rgba(255,255,255,.78); margin: 6px 0 14px; }
   .games-tab { margin-top: 4px; }
   .games-head { margin: 18px 2px 0; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.55); }
@@ -1362,8 +1380,8 @@
 <header class="fixed top-0 left-0 right-0 z-50 px-4 hud-pad pb-3 pointer-events-none">
   <div id="hudRow" class="flex items-center gap-3">
 
-    <!-- Level badge -->
-    <div class="flex items-center gap-2.5 rounded-full bg-black/45 backdrop-blur-md px-2.5 py-1.5 ring-1 ring-white/15">
+    <!-- Level badge: a tap opens the rewards shop -->
+    <button id="levelBtn" class="pointer-events-auto flex items-center gap-2.5 rounded-full bg-black/45 backdrop-blur-md px-2.5 py-1.5 ring-1 ring-white/15 text-left" aria-label="Your level, and the rewards shop">
       <div class="grid place-items-center w-8 h-8 rounded-full bg-gradient-to-br from-amber-300 via-orange-400 to-rose-500 text-[13px] font-black text-black shrink-0">
         <span id="levelNum">1</span>
       </div>
@@ -1371,7 +1389,7 @@
         <div id="levelTitle" class="text-[11px] font-bold leading-none tracking-wide">Seeker</div>
         <div id="xpText" class="text-[9px] text-white/60 leading-none mt-1">0 XP</div>
       </div>
-    </div>
+    </button>
 
     <!-- XP progress toward next level -->
     <div class="flex-1 min-w-0">
@@ -1608,14 +1626,21 @@ const TreasureUp = (function () {
   const XP = { firstTry: 20, recall: 15, bonus: 25 };
   const RECALL_PER_DAY = 3;
 
-  // Level titles double as the level cap (8 levels).
+  // Level titles double as the level cap: 20 levels (Blake, 2026-10-04: more
+  // levels, since a week or two of steady play reached the old top, 8).
   const LEVEL_TITLES = [
     'Seeker', 'Reader', 'Truth Tracker', 'Rod Holder',
-    'Searcher', 'Watchman', "Prophet's Apprentice", 'Disciple'
+    'Searcher', 'Watchman', "Prophet's Apprentice", 'Disciple',
+    'Scribe', 'Lamp Bearer', 'Pathfinder', 'Stripling Warrior',
+    'Treasure Keeper', 'Shepherd', 'Standard Bearer', 'Witness',
+    'Herald', 'Mighty in the Word', 'Valiant', 'Faithful Disciple'
   ];
 
-  // Cumulative XP needed to *reach* level L. L1=0, L2=80, L3=240, L4=480.
-  const xpAt = L => 40 * (L - 1) * L;
+  // Cumulative XP needed to *reach* level L. Levels 1–8 as they always were
+  // (40·(L−1)·L: 0, 80, 240, 480 … 2,240), so nobody's level drops; from 9 on,
+  // each takes 200 more than the one before, starting at 1,000 (level 9 at
+  // 3,240, 10 at 4,440 … 20 at 27,440).
+  const xpAt = L => L <= 8 ? 40 * (L - 1) * L : 2240 + (L - 8) * 1000 + 100 * (L - 8) * (L - 9);
   const levelFor = xp => {
     let L = 1;
     while (L < LEVEL_TITLES.length && xpAt(L + 1) <= xp) L++;
@@ -2458,7 +2483,7 @@ const TreasureUp = (function () {
   const loadOnce = src => libLoads[src] || (libLoads[src] = loadScript(src).catch(e => { delete libLoads[src]; throw e; }));
   // Whether he has read a chapter, any week: this one's, a past one's, or caught up since.
   function everRead(ch) {
-    if (S.read[ch] || Object.values(S.late || {}).some(w => w && w.read && w.read[ch])) return true;
+    if (S.read[ch] || (S.libRead && S.libRead[ch]) || Object.values(S.late || {}).some(w => w && w.read && w.read[ch])) return true;
     return (S.history || []).some(h => { const r = h.rec && h.rec.read; return !!r && (Array.isArray(r) ? r.includes(ch) : !!r[ch]); });
   }
   function scripturesHtml() {
@@ -2493,7 +2518,9 @@ const TreasureUp = (function () {
     if (!d) return;
     const m = /^(.+) (\d+)$/.exec(ch), lib = window.TU_LIBRARY || [];
     const vol = lib.find(v => v.books.some(b => b[0] === m[1]));
-    const u = { ref: ch, ch, book: m[1], c: Number(m[2]), whole: true, from: 1, to: d.v.length, verses: d.v.map((t, i) => ({ n: i + 1, t })), words: 0 };
+    const u = { ref: ch, ch, book: m[1], c: Number(m[2]), whole: true, from: 1, to: d.v.length, verses: d.v.map((t, i) => ({ n: i + 1, t })), words: d.v.reduce((n, t) => n + countWords(t), 0) };
+    // A chapter he hasn't read: its reading clock starts now (it pays XP once, below).
+    if (!everRead(ch)) { const c = S.libClock || (S.libClock = {}); if (!c[ch]) { c[ch] = Date.now(); saveLocal(); } }
     // Its plain words and notes: a week's, or content/plain.js for a chapter no week reads (all of Isaiah, Blake, 2026-10-02).
     if (!window.TU_PLAIN) await loadOnce('content/plain.js').catch(() => {});
     const week = (window.TU_WEEKS || []).find(w => readingUnits(w.reference).some(x => x.ch === ch))
@@ -2502,11 +2529,44 @@ const TreasureUp = (function () {
     use('library');
     readUnit = null; libUnit = { u, week };
     $('view').classList.add('reading');
-    $('viewBody').innerHTML = readerHtml(u, week, libNavHtml(ch));
+    $('viewBody').innerHTML = readerHtml(u, week, libReadEndHtml(u) + libNavHtml(ch));
     $('view').hidden = false;
     $('view').scrollTop = 0;
     const box = $('viewBody').querySelector('.ls-chapter');
     if (box) { needTrans(box); needOrig(box); resumeAt(box, ch); }
+  }
+  // Any chapter beyond the week's reading pays XP too, once (Blake, 2026-10-04:
+  // reading more scripture should earn), with the reading clock and the honest
+  // question as in a lesson: "I read it" sooner than half the usual time asks first.
+  let libAsk = null;
+  function libReadEndHtml(u) {
+    const x = (S.libRead || {})[u.ref];
+    if (x) return `<div class="ch-mark"><p>✓ Read on ${esc(shortDay(x.day))}.</p></div>`;
+    if (everRead(u.ref)) return '';
+    return `<div class="ch-mark">${libAsk === u.ref ? `<p>That was quick. Did you read all of ${esc(u.ref)}?</p>
+      <button class="btn" data-lib-readyes="${esc(u.ref)}">Yes, I read every verse</button>
+      <button class="today-alt" data-lib-readnot>Not yet</button>`
+      : `<p>Read it all? Mark it read for ${READ_XP} XP.</p><button class="btn" data-lib-mark="${esc(u.ref)}">I read ${esc(u.ref)}</button>`}</div>`;
+  }
+  function libMark(ref, said) {
+    const u = libUnit && libUnit.u;
+    if (!u || u.ref !== ref || everRead(ref)) return;
+    const start = (S.libClock || {})[ref], secs = start ? (Date.now() - start) / 1000 : 0;
+    if (!said && secs < readMinSecs(u)) libAsk = ref;
+    else {
+      libAsk = null;
+      const L = S.libRead || (S.libRead = {});
+      L[ref] = { day: dayKey(), secs: start ? Math.round(secs) : null, said: !!said, xp: 0 };
+      if (S.libClock) delete S.libClock[ref];
+      if (S.readPos) delete S.readPos[ref];
+      markStudied();
+      const before = S.xp;
+      grantXp(READ_XP, 'Read ' + ref);
+      L[ref].xp = S.xp - before;
+      save();
+    }
+    const end = $('viewBody').querySelector('.ch-mark');
+    if (end) end.outerHTML = libReadEndHtml(u);
   }
   // The chapters before and after, across books.
   function libNavHtml(ch) {
@@ -2679,7 +2739,7 @@ const TreasureUp = (function () {
 
     $('levelNum').textContent = L;
     $('levelTitle').textContent = LEVEL_TITLES[L - 1];
-    $('xpText').textContent = S.xp + ' XP';
+    $('xpText').textContent = fmtN(S.xp) + ' XP · 🎁 ' + fmtN(xpToSpend());
     $('xpFill').style.width = pct + '%';
     $('nextLevel').textContent = capped
       ? 'Top level reached'
@@ -2827,7 +2887,7 @@ const TreasureUp = (function () {
   // Gospel Library; "I read it" sooner than twice that pace (about half the
   // "about N min") asks him first: "That was quick. Did you read all of it?"
   // A few verses get 20 seconds, a chapter without its text here 2 minutes.
-  const READ_XP = 50, QUICK_WPM = 240;
+  const READ_XP = 50, QUICK_WPM = 240, WEEK_READ_XP = 100;
   const readMinSecs = u => u.words ? Math.max(20, Math.round(u.words / QUICK_WPM * 60)) : 120;
   const readSecs = ref => { const x = S.readLog && S.readLog[ref]; return x && x.start ? (Date.now() - x.start) / 1000 : 0; };
   const countWords = t => (String(t).match(/\S+/g) || []).length;
@@ -3332,8 +3392,18 @@ const TreasureUp = (function () {
     const before = S.xp;
     grantXp(READ_XP, 'Read ' + ref);
     log[ref].xp = S.xp - before;         // with the streak's supercharge
+    weekBonusCheck();
     save();
     return true;
+  }
+  // All of the week's chapters read: a bonus, once a week (Blake, 2026-10-04,
+  // so reading is plainly the best way to earn).
+  function weekBonusCheck() {
+    const all = readingAll();
+    if (!all.length || !all.every(u => S.read[u.ref]) || (S.weekBonus && S.weekBonus.week === WEEK.title)) return;
+    const before = S.xp;
+    grantXp(WEEK_READ_XP, 'Read all of this week’s chapters!');
+    S.weekBonus = { week: WEEK.title, xp: S.xp - before, day: dayKey() };
   }
 
   /* ---------------- the week's plan and Go deeper ---------------- */
@@ -3466,7 +3536,7 @@ const TreasureUp = (function () {
       <div class="sh-row"><span>Listen voice</span><span>${pill(voice === 'male', 'data-set-voice="male"', 'Man')}${pill(voice === 'female', 'data-set-voice="female"', 'Woman')}</span></div>
       <div class="sh-row"><span>Verse size</span><span>${[['m', 'Normal'], ['l', 'Large'], ['xl', 'Larger']].map(([k, l]) => pill(textSize() === k, `data-set-text="${k}"`, l)).join('')}</span></div>
       <button class="sh-row sh-go" data-set-go="feedback"><span>Something wrong, or an idea?<small>Tell the parents, from right here</small></span><span>›</span></button>
-      <button class="sh-row sh-go" data-set-go="parent"><span>Parent rewards<small>Rewards at XP marks, behind a PIN</small></span><span>›</span></button>
+      <button class="sh-row sh-go" data-set-go="parent"><span>Parent rewards<small>Prize requests, the prize shop and milestones, behind a PIN</small></span><span>›</span></button>
       ${devOwner() ? `<a class="sh-row sh-go" href="${here ? '#dev' : 'https://blakemerrell.github.io/TreasureUp-test/#dev'}"${here ? ' data-dev-open' : ''}><span>Developer mode<small>Approve the coming weeks</small></span><span>›</span></a>` : ''}
       ${TEST_SITE ? `<a class="sh-row sh-go" href="${esc(location.origin + '/TreasureUp/')}"><span>This is the test site<small>Open the live app</small></span><span>›</span></a>` : ''}`;
   }
@@ -3716,6 +3786,119 @@ const TreasureUp = (function () {
     try { localStorage.setItem(PARENT_KEY, JSON.stringify(P)); } catch (e) {}
   }
 
+  /* ---------------- the rewards shop ---------------- */
+
+  // Blake, 2026-10-04: "a place where he can buy and parents redeem the XP for
+  // prizes". Every XP he earns still counts toward his level; prizes come out
+  // of "XP to spend" (all he has earned, less the prizes he asked for that
+  // weren't declined or taken back), so spending never lowers a level. A prize
+  // asked for waits for a parent: on a parent's phone (the Family tab), or with
+  // the parent PIN on his own device. Parents change the prizes behind the PIN;
+  // in a family, a parent's list is everyone's (the family's `prizes`).
+  const STARTER_PRIZES = [
+    { id: 'sc15', emoji: '📱', name: '15 minutes of extra screen time', cost: 300, limit: 3 },
+    { id: 'sc30', emoji: '🎮', name: '30 minutes of extra screen time', cost: 500, limit: 2 },
+    { id: 'movie', emoji: '🎬', name: 'Pick the family movie', cost: 800, limit: 1 },
+    { id: 'ice', emoji: '🍦', name: 'Ice cream', cost: 1000, limit: 1 },
+    { id: 'late', emoji: '🌙', name: 'Stay up 30 minutes later', cost: 1200, limit: 1 },
+    { id: 'dinner', emoji: '🍕', name: "Pick what's for dinner", cost: 1500, limit: 1 },
+    { id: 'mcd', emoji: '🍟', name: "A McDonald's trip", cost: 2500, limit: 1 },
+    { id: 'five', emoji: '💵', name: '$5 to spend', cost: 3000, limit: 0 },
+    { id: 'big', emoji: '🎉', name: 'A friend sleepover or a big outing', cost: 8000, limit: 0 }
+  ];
+  const fmtN = n => Number(n || 0).toLocaleString('en-US');
+  const ORDER_LIVE = o => !!o && (o.status === 'pending' || o.status === 'approved' || o.status === 'given');
+  const myOrders = () => Object.entries((S.shop && S.shop.orders) || {}).map(([id, o]) => Object.assign({ id }, o));
+  const xpSpent = () => myOrders().filter(ORDER_LIVE).reduce((n, o) => n + (o.cost || 0), 0);
+  const xpToSpend = () => Math.max(0, (S.xp || 0) - xpSpent());
+  const prizes = () => famHome && Array.isArray(famHome.prizes) && famHome.prizes.length ? famHome.prizes
+    : P.prizes && P.prizes.length ? P.prizes : STARTER_PRIZES;
+  const mondayOf = k => dayAdd(k, -((new Date(k + 'T12:00:00').getDay() + 6) % 7));
+  const boughtThisWeek = id => { const from = mondayOf(dayKey()); return myOrders().filter(o => ORDER_LIVE(o) && o.pz === id && (o.day || '') >= from).length; };
+  const ORDER_WORDS = { pending: '⏳ Waiting for a parent', approved: '✅ A parent said yes!', given: '🎉 You got it', declined: '↩️ Not this time · XP back', cancelled: '↩️ Taken back · XP back' };
+  // A write to the family, when this device is in one (quietly, if it can't).
+  function famWrite(fn) {
+    if (!F || F.pending || !FIREBASE_CONFIG) return;
+    try { const r = fn(); if (r && r.catch) r.catch(() => {}); } catch (e) { /* not connected yet */ }
+  }
+  let shopAsk = null;     // the prize he tapped, waiting for "Yes, ask"
+  function shopHtml(msg) {
+    const L = levelFor(S.xp), have = xpToSpend();
+    const row = p => {
+      const full = p.limit > 0 && boughtThisWeek(p.id) >= p.limit, short = p.cost - have;
+      const right = shopAsk === p.id
+        ? `<span class="shop-ask"><span>Ask for it for ${fmtN(p.cost)} XP?</span><button class="sh-pill on" data-buy-yes="${esc(p.id)}">Yes, ask</button><button class="sh-pill" data-buy-no>No</button></span>`
+        : full ? `<span class="shop-why">Done for this week</span>`
+        : short > 0 ? `<span class="shop-why">${fmtN(short)} more XP</span>`
+        : `<button class="btn shop-buy" data-buy="${esc(p.id)}">Get it</button>`;
+      return `<div class="shop-row${(short > 0 || full) && shopAsk !== p.id ? ' dim' : ''}"><span class="shop-ico">${esc(p.emoji || '🎁')}</span>
+        <span class="shop-name">${esc(p.name)}<small>${fmtN(p.cost)} XP${p.limit > 0 ? ` · up to ${p.limit === 1 ? 'once' : p.limit + ' times'} a week` : ''}</small></span>${right}</div>`;
+    };
+    const mine = myOrders().sort((a, b) => (b.at || 0) - (a.at || 0)).slice(0, 12).map(o => `<div class="shop-mine ${esc(o.status)}">
+      <span>${esc(o.emoji || '🎁')} ${esc(o.prize)}<small>${fmtN(o.cost)} XP · ${esc(shortDay(o.day || dayKey()))}</small></span>
+      <span>${ORDER_WORDS[o.status] || ''}${o.status === 'pending' ? ` <button class="today-alt" data-order-cancel="${esc(o.id)}">Take back</button>` : ''}</span></div>`).join('');
+    return `<div class="sh-title">🎁 Rewards</div>
+      <div class="shop-have"><b>${fmtN(have)}</b><span>XP to spend</span></div>
+      <p class="sh-small">Level ${L} · ${esc(LEVEL_TITLES[L - 1])} · ${fmtN(S.xp)} XP earned in all. Spending never lowers your level.</p>
+      ${msg ? `<p class="shop-msg">${msg}</p>` : ''}
+      <div class="shop-list">${prizes().map(row).join('')}</div>
+      ${mine ? `<div class="eyebrow" style="margin-top:16px">Your prizes</div>${mine}` : ''}
+      <button class="parent-link" data-shop-parent>Parents: say yes, or change the prizes</button>`;
+  }
+  function openShop(msg) { shopAsk = null; use('shop'); openSheet(shopHtml(msg)); }
+  const shopOpen = () => !$('appSheet').hidden && !!$('appBody').querySelector('.shop-have');
+  function buyPrize(id) {
+    const p = prizes().find(x => x.id === id);
+    shopAsk = null;
+    if (!p || xpToSpend() < p.cost || (p.limit > 0 && boughtThisWeek(p.id) >= p.limit)) return openSheet(shopHtml());
+    const oid = 'o' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    const o = { prize: p.name, emoji: p.emoji || '🎁', cost: p.cost, pz: p.id, day: dayKey(), at: Date.now(), status: 'pending', upd: Date.now() };
+    S.shop = S.shop || {}; (S.shop.orders = S.shop.orders || {})[oid] = o;
+    save(); renderHud(); refreshHome();
+    famWrite(() => famCol(F.fid, 'orders').doc(oid).set({ pid: F.pid, name: F.name, prize: o.prize, emoji: o.emoji, cost: o.cost, status: 'pending', at: TS(), upd: TS() }));
+    openSheet(shopHtml(`Asked for <b>${esc(p.name)}</b>! ${F ? 'A parent will see it on their phone, or can say yes here with the PIN.' : 'Show a parent: they say yes with the parent PIN.'}`));
+  }
+  // A parent's answer (yes, given, or no: its XP goes back), or his taking one back.
+  // `pin`: answered with the parent PIN on this device.
+  function setOrder(oid, status, pin) {
+    const o = S.shop && S.shop.orders && S.shop.orders[oid];
+    if (o) { o.status = status; o.upd = Date.now(); if (pin) o.pin = true; save(); }
+    const f = famHome && (famHome.orders || []).find(x => x.id === oid);
+    if (f) f.status = status;
+    famWrite(() => famCol(F.fid, 'orders').doc(oid).update(Object.assign({ status, upd: TS() }, pin ? { pin: true } : {})));
+    renderHud(); refreshHome(); famRedraw();
+    if (shopOpen()) openSheet(shopHtml());
+  }
+  // The family's word on his requests (a parent's yes, given or no), into this
+  // device's own list; one asked for on his other device joins it.
+  function syncOrders(list) {
+    if (!F || !S) return;
+    let changed = false;
+    const mine = (S.shop = S.shop || {}).orders = S.shop.orders || {};
+    for (const d of list) {
+      if (d.pid !== F.pid) continue;
+      const upd = d.upd && d.upd.toMillis ? d.upd.toMillis() : 0, at = d.at && d.at.toMillis ? d.at.toMillis() : upd;
+      const o = mine[d.id];
+      if (!o) { mine[d.id] = { prize: d.prize, emoji: d.emoji, cost: d.cost, day: dayKey(new Date(at || Date.now())), at, status: d.status, upd, pin: !!d.pin }; changed = true; continue; }
+      if (o.status !== d.status && upd >= (o.upd || 0) - 2000) {
+        o.status = d.status; o.upd = upd; changed = true;
+        if (d.status === 'approved') toast('✅ A parent said yes!', o.prize);
+        if (d.status === 'declined') toast('↩️ Not this time', o.prize + ' · your XP is back');
+      }
+    }
+    if (changed) { saveLocal(); renderHud(); refreshHome(); if (shopOpen()) openSheet(shopHtml()); }
+  }
+  // For a parent: prize requests to answer (everyone's, in a family; else this device's).
+  function requestsHtml(forParentScreen) {
+    const fam = F && F.role === 'parent' && famHome && famHome.orders;
+    const list = (fam ? famHome.orders : myOrders().map(o => Object.assign({ name: (F && F.name) || S.ownerName || '' }, o)))
+      .filter(o => o.status === 'pending' || o.status === 'approved').sort((a, b) => (a.status === 'pending' ? 0 : 1) - (b.status === 'pending' ? 0 : 1));
+    if (!list.length) return forParentScreen ? '<p class="text-[13px] text-white/60 mt-1">No prize requests right now.</p>' : '';
+    const attr = forParentScreen ? 'data-act="order"' : 'data-order';
+    return list.map(o => `<div class="req-row"><span>${esc(o.emoji || '🎁')} ${o.name ? '<b>' + esc(o.name) + '</b> · ' : ''}${esc(o.prize)}<small>${fmtN(o.cost)} XP · ${o.status === 'pending' ? 'asked' : 'you said yes'}</small></span>
+      <span class="req-btns">${o.status === 'pending' ? `<button class="sh-pill on" ${attr} data-oid="${esc(o.id)}" data-st="approved">Yes</button>` : ''}<button class="sh-pill${o.status === 'approved' ? ' on' : ''}" ${attr} data-oid="${esc(o.id)}" data-st="given">Given</button><button class="sh-pill" ${attr} data-oid="${esc(o.id)}" data-st="declined">No</button></span></div>`).join('');
+  }
+
   function rewardsHtml() {
     const open = P.rewards.filter(r => !r.claimed).sort((a, b) => a.xp - b.xp);
     const rows = open.map(r => {
@@ -3732,9 +3915,10 @@ const TreasureUp = (function () {
     }).join('');
     return `
       <div class="mt-5">
-        <div class="eyebrow">Family rewards</div>
-        ${rows || '<p class="text-[13px] text-white/60 mt-1">No rewards set up yet.</p>'}
-        <button class="parent-link" data-parent>Parents: set up rewards</button>
+        <div class="eyebrow">Rewards</div>
+        <button class="shop-card" data-shop><span>🎁</span><span>Rewards shop<small>${fmtN(xpToSpend())} XP to spend on prizes</small></span><span>›</span></button>
+        ${rows}
+        <button class="parent-link" data-parent>Parents: prizes and rewards</button>
       </div>`;
   }
 
@@ -3780,9 +3964,20 @@ const TreasureUp = (function () {
       return;
     }
     body.innerHTML = `
-      <p class="text-[14px] text-white/75 mt-2">He has <b class="text-amber-300">${S.xp} XP</b>, from reading the chapters and answering right.</p>
-      <p class="text-[12px] text-white/50 mt-1">Tick Given once he's had it. Clear a reward's text to remove it.</p>
+      <p class="text-[14px] text-white/75 mt-2">He has earned <b class="text-amber-300">${fmtN(S.xp)} XP</b>, and has <b class="text-amber-300">${fmtN(xpToSpend())}</b> to spend in the rewards shop.</p>
       ${note}
+      <div class="eyebrow" style="margin-top:18px">🎁 Prize requests</div>
+      ${requestsHtml(true)}
+      <div class="eyebrow" style="margin-top:22px">🎁 The prize shop</div>
+      <p class="text-[12px] text-white/50 mt-1">What he can spend XP on. “0 a week” means no limit. Clear a prize's name to remove it.${F && F.role === 'parent' ? ' Saved here, it is the whole family’s list.' : F ? ' In a family, a list a parent saves on their own phone takes the place of this one.' : ''}</p>
+      <div class="grid gap-2 mt-3" id="prizeRows">${prizeDraft.map(prizeRow).join('')}</div>
+      <div class="board-actions">
+        <button class="btn ghost" data-act="addprize">Add a prize</button>
+        <button class="btn ghost" data-act="starter">Start over with the starter list</button>
+        <button class="btn" data-act="saveprizes">Save prizes</button>
+      </div>
+      <div class="eyebrow" style="margin-top:22px">Milestones</div>
+      <p class="text-[12px] text-white/50 mt-1">Rewards at XP marks, with no XP spent. Tick Given once he's had it. Clear a reward's text to remove it.</p>
       <div class="grid gap-2 mt-4" id="rewardRows">${draft.map(rewardRow).join('')}</div>
       <div class="board-actions">
         <button class="btn ghost" data-act="add">Add a reward</button>
@@ -3821,20 +4016,50 @@ const TreasureUp = (function () {
       </div>`).join('');
   }
 
+  let prizeDraft = [];
+  function prizeRow(p, n) {
+    return `
+      <div class="prize-row" data-row="${n}" data-id="${esc(p.id || '')}">
+        <input class="field" type="text" maxlength="4" value="${esc(p.emoji || '')}" placeholder="🎁" aria-label="Picture" data-f="emoji">
+        <input class="field" type="text" maxlength="60" value="${esc(p.name || '')}" placeholder="Ice cream" aria-label="Prize" data-f="name">
+        <label class="pz-num pz-cost"><input class="field" type="number" inputmode="numeric" min="1" step="50" value="${p.cost || ''}" placeholder="0" aria-label="XP it costs" data-f="cost"><span>XP</span></label>
+        <label class="pz-num pz-limit"><input class="field" type="number" inputmode="numeric" min="0" step="1" value="${p.limit || 0}" aria-label="Times a week (0: no limit)" title="Times a week (0: no limit)" data-f="limit"><span>a week</span></label>
+      </div>`;
+  }
+  const readPrizeRows = () => [...document.querySelectorAll('#prizeRows .prize-row')].map(row => ({
+    id: row.dataset.id || 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5),
+    emoji: row.querySelector('[data-f="emoji"]').value.trim() || '🎁',
+    name: row.querySelector('[data-f="name"]').value.trim(),
+    cost: Math.round(Number(row.querySelector('[data-f="cost"]').value)),
+    limit: Math.max(0, Math.round(Number(row.querySelector('[data-f="limit"]').value) || 0))
+  }));
   const readRows = () => [...document.querySelectorAll('#rewardRows .reward-row')].map(row => ({
     xp: Math.round(Number(row.querySelector('[data-f="xp"]').value)),
     text: row.querySelector('[data-f="text"]').value.trim(),
     claimed: row.querySelector('[data-f="claimed"]').checked
   }));
 
-  function parentAction(act) {
+  function parentAction(act, el) {
+    if (act === 'order') { setOrder(el.dataset.oid, el.dataset.st, !(F && F.role === 'parent')); return renderParent(el.dataset.st === 'declined' ? 'Said no: his XP is back.' : el.dataset.st === 'given' ? 'Marked given. 🎉' : 'Said yes. Mark it given once he has it.'); }
+    if (act === 'addprize') { prizeDraft = readPrizeRows().concat({ emoji: '', name: '', cost: 0, limit: 0 }); return renderParent(); }
+    if (act === 'starter') { prizeDraft = STARTER_PRIZES.map(p => Object.assign({}, p)); return renderParent('The starter list, not saved yet.'); }
+    if (act === 'saveprizes') {
+      const rows = readPrizeRows().filter(p => p.name);
+      const bad = rows.find(p => !(p.cost > 0));
+      if (bad) { prizeDraft = readPrizeRows(); return renderParent('"' + bad.name + '" needs an XP number above 0.'); }
+      P.prizes = rows; saveParent();
+      if (F && F.role === 'parent') { if (famHome) famHome.prizes = rows; famWrite(() => famDoc(F.fid).update({ prizes: rows })); }
+      prizeDraft = rows.map(p => Object.assign({}, p));
+      refreshHome();
+      return renderParent('Prizes saved: ' + rows.length + '.');
+    }
     if (act === 'setpin') {
       const a = $('pinNew').value, b = $('pinAgain').value;
       if (!/^\d{4}$/.test(a)) return renderParent('The PIN needs exactly 4 digits.');
       if (a !== b) return renderParent("The two PINs don't match. Try again.");
       P.pin = a; saveParent();
-      parentUnlocked = true; draft = [{ xp: 0, text: '', claimed: false }];
-      renderParent('PIN saved. Now add a reward.');
+      parentUnlocked = true; draft = [{ xp: 0, text: '', claimed: false }]; prizeDraft = prizes().map(p => Object.assign({}, p));
+      renderParent('PIN saved. Prize requests, the prize shop and milestones are below.');
     } else if (act === 'dev') {
       closeParent();
       openDev();
@@ -3842,6 +4067,7 @@ const TreasureUp = (function () {
       if ($('pinEnter').value !== P.pin) return renderParent("That PIN isn't right.");
       parentUnlocked = true;
       draft = P.rewards.length ? P.rewards.map(r => Object.assign({}, r)) : [{ xp: 0, text: '', claimed: false }];
+      prizeDraft = prizes().map(p => Object.assign({}, p));
       renderParent();
     } else if (act === 'add') {
       draft = readRows().concat({ xp: 0, text: '', claimed: false });
@@ -4220,7 +4446,9 @@ const TreasureUp = (function () {
   }
   // The Games tab: every game, in its groups.
   function gamesTabHtml() {
-    return `<div class="eyebrow">Games</div><h1 class="reel-hook lib-h">Play</h1><div class="games-tab">${gamesHtml()}</div>`;
+    return `<div class="eyebrow">Games</div><h1 class="reel-hook lib-h">Play</h1>
+      <button class="shop-card" data-shop><span>🎁</span><span>Rewards shop<small>${fmtN(xpToSpend())} XP to spend on prizes</small></span><span>›</span></button>
+      <div class="games-tab">${gamesHtml()}</div>`;
   }
   // A link to the games (Today's "Family games") opens the Games tab.
   function openGames() { homeTab = 'games'; renderHome(); $('home').scrollTop = 0; }
@@ -4838,7 +5066,7 @@ const TreasureUp = (function () {
   // A chapter of the open week he read: saved with the week, or, for a week
   // with only its totals, when he read all of them; or read since (lateRead).
   function pastReadDone(ref, units) {
-    if (lateRead(ref)) return true;
+    if (lateRead(ref) || (S.libRead && S.libRead[ref])) return true;
     const h = recordOf(past.p.num), rec = h && h.rec;
     if (rec) return (Array.isArray(rec.read) ? rec.read : Object.keys(rec.read || {})).includes(ref);
     return !!(h && units.length && h.read >= units.length);
@@ -9132,7 +9360,17 @@ const TreasureUp = (function () {
         }
       }
     }
+    // Chapters read from the library, and the week's reading bonus: paid once.
+    for (const k in L.libRead || {}) if (!has(B.libRead, k) && has(R.libRead, k)) gained -= xpOf(L.libRead[k], READ_XP);
+    const wb = o => o && o.weekBonus && o.weekBonus.week;
+    if (wb(L) && wb(L) === wb(R) && wb(B) !== wb(L)) gained -= xpOf(L.weekBonus, WEEK_READ_XP);
     M.xp = (R.xp || 0) + Math.max(0, gained);
+    M.libRead = Object.assign({}, L.libRead || {}, R.libRead || {});
+    const lo = (L.shop && L.shop.orders) || {}, ro = (R.shop && R.shop.orders) || {};
+    M.shop = { orders: Object.assign({}, lo, ro) };
+    for (const k in lo) if (!ro[k] || (lo[k].upd || 0) > (ro[k].upd || 0)) M.shop.orders[k] = lo[k];
+    M.libClock = Object.assign({}, L.libClock || {}, R.libClock || {});
+    M.weekBonus = [L.weekBonus, R.weekBonus].find(b => b && b.week === WEEK.title) || R.weekBonus || L.weekBonus || null;
     for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found', 'insights', 'sunday', 'talks', 'picks']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
     // The reading clock: a chapter finished on either device keeps its record.
     M.readLog = Object.assign({}, L.readLog || {}, R.readLog || {});
@@ -9238,9 +9476,20 @@ const TreasureUp = (function () {
   function watchHome() {
     stopHome();
     if (!F || !FIREBASE_CONFIG) return;
-    const h = famHome = { progress: [], goal: false, kids: {}, watching: {}, errors: [], feedback: [] };
+    const h = famHome = { progress: [], goal: false, kids: {}, watching: {}, errors: [], feedback: [], prizes: null, orders: [] };
     sendErrors = flushErrors; flushErrors();
-    famHomeOff.push(famDoc(F.fid).onSnapshot(d => { h.goal = !!(d.exists && d.data().goal); famRedraw(); }, () => {}));
+    famHomeOff.push(famDoc(F.fid).onSnapshot(d => {
+      h.goal = !!(d.exists && d.data().goal);
+      const pz = d.exists && d.data().prizes;
+      h.prizes = Array.isArray(pz) ? pz : null;
+      famRedraw(); if (shopOpen()) openSheet(shopHtml());
+    }, () => {}));
+    // Prize requests: a parent sees everyone's; anyone sees their own, which keeps this device's list in step.
+    const oq = F.role === 'parent' ? famCol(F.fid, 'orders').orderBy('at', 'desc').limit(60) : famCol(F.fid, 'orders').where('pid', '==', F.pid);
+    famHomeOff.push(oq.onSnapshot(q => {
+      h.orders = q.docs.map(d => Object.assign({ id: d.id }, d.data({ serverTimestamps: 'estimate' })));
+      syncOrders(h.orders); famRedraw();
+    }, () => {}));
     // This Sunday's and next Sunday's conference talks, as the family picked them.
     for (const k of sundaysAround()) famHomeOff.push(famCol(F.fid, 'talks').doc(k).onSnapshot(d => {
       if (!d.exists || !S) return;
@@ -9324,6 +9573,7 @@ const TreasureUp = (function () {
     return `<div class="eyebrow">Family</div><h1 class="reel-hook lib-h">${esc(F.family || 'Your family')}</h1>
       ${board}
       ${parent ? `<div class="fam-goal-set"><span>Family goal<small>Everyone reads all of the week's chapters</small></span><span><button class="sh-pill${goal ? ' on' : ''}" data-fam-goal="1">On</button><button class="sh-pill${goal ? '' : ' on'}" data-fam-goal="0">Off</button></span></div>` : ''}
+      ${parent && requestsHtml(false) ? `<div class="eyebrow" style="margin-top:20px">🎁 Prize requests</div><div class="fam-card">${requestsHtml(false)}</div>` : ''}
       ${parent ? `<div class="eyebrow" style="margin-top:20px">Today, for parents</div>${kids || '<p class="kc-none">A child\u2019s card shows here once their device has joined the family.</p>'}` : ''}
       ${parent ? trialHtml() : ''}
       <div class="fam-go"><button class="sh-row sh-go" data-fam-open="chat"><span>💬 Family chat</span><span>›</span></button>
@@ -11429,6 +11679,9 @@ const TreasureUp = (function () {
       const gm = e.target.closest('[data-game]');
       if (gm) { startGame(gm.dataset.game); return; }
       if (e.target.closest('[data-parent]')) { openParent(); return; }
+      if (e.target.closest('[data-shop]')) { openShop(); return; }
+      const od = e.target.closest('[data-order]');
+      if (od) { setOrder(od.dataset.oid, od.dataset.st); return; }
       const tb = e.target.closest('[data-tab]');
       if (tb) { homeTab = tb.dataset.tab; renderHome(); $('home').scrollTop = 0; return; }
     });
@@ -11459,6 +11712,10 @@ const TreasureUp = (function () {
       if (ml) { const key = ml.dataset.markLesson; closeView(); openLesson(key); return; }
       const lc = e.target.closest('[data-lib-ch]');
       if (lc) { const ch = lc.dataset.libCh; closeView(); openLibChapter(ch); return; }
+      // A chapter from the library, read.
+      const lm = e.target.closest('[data-lib-mark], [data-lib-readyes]');
+      if (lm) { libMark(lm.dataset.libMark || lm.dataset.libReadyes, !!lm.dataset.libReadyes); return; }
+      if (e.target.closest('[data-lib-readnot]')) { libAsk = null; const u = libUnit && libUnit.u; const end = u && $('viewBody').querySelector('.ch-mark'); if (end) end.outerHTML = libReadEndHtml(u); return; }
       // A past week's chapter, caught up on.
       const pm = e.target.closest('[data-past-mark], [data-past-readyes]');
       if (pm) { pastMark(pm.dataset.pastMark || pm.dataset.pastReadyes, !!pm.dataset.pastReadyes); return; }
@@ -11482,6 +11739,7 @@ const TreasureUp = (function () {
     });
 
     $('levelup').addEventListener('click', closeLevelUp);
+    $('levelBtn').addEventListener('click', () => openShop());
 
     // The solo game screen (the games themselves start from the Games tab).
     $('playExit').addEventListener('click', closePlay);
@@ -11538,6 +11796,14 @@ const TreasureUp = (function () {
       const fk = e.target.closest('[data-fb-kind]');
       if (fk) { document.querySelectorAll('#appSheet [data-fb-kind]').forEach(b => b.classList.toggle('on', b === fk)); return; }
       if (e.target.closest('[data-fb-send]')) { sendFeedback(); return; }
+      const by = e.target.closest('[data-buy]');
+      if (by) { shopAsk = by.dataset.buy; return openSheet(shopHtml()); }
+      const yes = e.target.closest('[data-buy-yes]');
+      if (yes) return buyPrize(yes.dataset.buyYes);
+      if (e.target.closest('[data-buy-no]')) { shopAsk = null; return openSheet(shopHtml()); }
+      const oc = e.target.closest('[data-order-cancel]');
+      if (oc) return setOrder(oc.dataset.orderCancel, 'cancelled');
+      if (e.target.closest('[data-shop-parent]')) { closeSheet(); return openParent(); }
       const g = e.target.closest('[data-set-go]');
       if (g && g.dataset.setGo === 'feedback') { feedbackFrom = screenName(); return openSheet(feedbackSheetHtml()); }
       if (g) { closeSheet(); return openParent(); }
@@ -11650,7 +11916,7 @@ const TreasureUp = (function () {
     $('parent').addEventListener('click', e => {
       if (e.target === $('parent')) { closeParent(); return; }   // tap outside the card
       const b = e.target.closest('[data-act]');
-      if (b) parentAction(b.dataset.act);
+      if (b) parentAction(b.dataset.act, b);
     });
 
     // Escape closes whatever is open over the page.

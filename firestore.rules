@@ -138,8 +138,11 @@ service cloud.firestore {
         && request.resource.data.created == request.time
         && getAfter(memberPath(request.auth.uid)).data.role == 'parent';
       // A parent turns the family goal on or off (everyone reads all of the
-      // week's chapters; Blake, 2026-10-02). Nothing else about a family changes.
-      allow update: if isParent() && changes(['goal']) && request.resource.data.goal is bool;
+      // week's chapters; Blake, 2026-10-02), or saves the rewards shop's prizes
+      // (Blake, 2026-10-04). Nothing else about a family changes.
+      allow update: if isParent() && (
+        (changes(['goal']) && request.resource.data.goal is bool)
+        || (changes(['prizes']) && request.resource.data.prizes is list && request.resource.data.prizes.size() <= 40));
 
       match /members/{uid} {
         function founding() {
@@ -303,6 +306,35 @@ service cloud.firestore {
           && request.resource.data.ua is string && request.resource.data.ua.size() <= 200
           && request.resource.data.at == request.time;
       }
+      // The rewards shop's prize requests (Blake, 2026-10-04): someone asks for a
+      // prize for themselves; a parent says yes, marks it given, or says no
+      // (its XP goes back). The one who asked can take back a request nobody
+      // has answered, and a request answered with the parent PIN on the
+      // child's own device is marked so (the PIN is a family's, not security).
+      match /orders/{id} {
+        allow read: if isMember();
+        allow create: if isMember()
+          && only(['pid', 'name', 'prize', 'emoji', 'cost', 'status', 'at', 'upd'])
+          && request.resource.data.pid == me().pid
+          && request.resource.data.name == me().name
+          && request.resource.data.status == 'pending'
+          && request.resource.data.prize is string && request.resource.data.prize.size() > 0 && request.resource.data.prize.size() <= 60
+          && request.resource.data.emoji is string && request.resource.data.emoji.size() <= 8
+          && request.resource.data.cost is int && request.resource.data.cost > 0 && request.resource.data.cost <= 1000000
+          && request.resource.data.at == request.time
+          && request.resource.data.upd == request.time;
+        allow update: if isParent()
+          && changes(['status', 'upd', 'pin'])
+          && request.resource.data.status in ['approved', 'given', 'declined']
+          && request.resource.data.upd == request.time;
+        allow update: if isMember() && resource.data.pid == me().pid
+          && changes(['status', 'upd', 'pin'])
+          && request.resource.data.upd == request.time
+          && ((resource.data.status == 'pending' && request.resource.data.status == 'cancelled')
+              || (request.resource.data.pin == true && request.resource.data.status in ['approved', 'given', 'declined']));
+        allow delete: if isParent();
+      }
+
       match /feedback/{id} {
         allow read, delete: if isParent();
         allow create: if isMember()
