@@ -63,7 +63,7 @@
     overscroll-behavior-y: contain;
     background: linear-gradient(165deg, #1e1b4b 0%, #3b1a6e 38%, #0a0a14 88%);
   }
-  .home-in { max-width: 600px; margin: 0 auto; padding: calc(var(--sat) + 72px) 20px calc(var(--sab) + 48px); }
+  .home-in { max-width: 600px; margin: 0 auto; padding: calc(var(--sat) + 92px) 20px calc(var(--sab) + 48px); }
   .home-sec { margin-top: 26px; }
   .home-win { margin-top: 6px; font-size: 15px; font-weight: 800; color: var(--right); }
   .dev-link { display: inline-block; margin-bottom: 10px; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 800;
@@ -1268,6 +1268,42 @@
   .fold { margin-top: 12px; padding: 12px 16px; border-radius: 16px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); }
   .fold summary { cursor: pointer; font-size: 15px; font-weight: 800; list-style: none; }
   .fold summary small { display: block; font-size: 12px; font-weight: 500; color: rgba(255,255,255,.55); }
+  /* Today, flat (2026-10-04): the date, the verse, one green button, one list */
+  .flow { margin-top: 18px; }
+  .fl-date { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .fl-date b { font-size: 12px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
+  .fl-date small { font-size: 12px; font-weight: 700; color: rgba(255,255,255,.55); font-variant-numeric: tabular-nums; }
+  .fl-verse { margin-top: 14px; }
+  .fl-verse p { font-family: Georgia, 'Times New Roman', serif; font-size: 22px; line-height: 1.45; color: #fff; text-wrap: pretty; }
+  .fl-vref { display: inline-block; margin-top: 8px; padding: 0; font: inherit; font-size: 12.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); background: none; border: 0; cursor: pointer; }
+  .fl-vref a { color: inherit; }
+  .fl-next { display: block; width: 100%; margin: 18px 0 6px; padding: 16px 18px; border-radius: 18px; text-align: left; font: inherit; color: #0b1a00; background: #58cc02; border: 0; box-shadow: 0 5px 0 #46a302; cursor: pointer; }
+  .fl-next:active { transform: translateY(3px); box-shadow: 0 2px 0 #46a302; }
+  .fl-next b { display: block; font-size: 20px; font-weight: 900; line-height: 1.2; } .fl-next small { display: block; margin-top: 2px; font-size: 13.5px; font-weight: 700; opacity: .8; }
+  .fl-next.ahead { color: #fff; background: rgba(255,255,255,.07); border: 1.5px solid rgba(255,255,255,.2); box-shadow: none; }
+  .fl-done { margin: 18px 0 6px; padding: 14px 18px; border-radius: 18px; background: rgba(134,239,172,.1); border: 1.5px solid rgba(134,239,172,.4); }
+  .fl-done b { display: block; font-size: 19px; font-weight: 900; color: var(--right); } .fl-done small { display: block; margin-top: 2px; font-size: 13.5px; font-weight: 600; color: rgba(255,255,255,.6); }
+  .fl-list { margin-top: 6px; }
+  .fl-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 2px; text-align: left; font: inherit; color: #fff; background: none; border: 0; border-bottom: 1px solid rgba(255,255,255,.08); cursor: pointer; text-decoration: none; }
+  .fl-c { flex: 0 0 24px; height: 24px; border-radius: 999px; border: 2px solid rgba(255,255,255,.3); display: grid; place-items: center; font-size: 12px; font-weight: 900; }
+  .fl-box { flex: 0 0 24px; height: 24px; border-radius: 8px; border: 2px solid rgba(134,239,172,.6); display: grid; place-items: center; font-size: 13px; font-weight: 900; }
+  .fl-row.done .fl-c, .fl-row.done .fl-box { background: var(--right); border-color: var(--right); color: #052e16; }
+  .fl-row.done.wrong .fl-c { background: rgba(251,113,133,.85); border-color: transparent; color: #fff; }
+  .fl-t { flex: 1; min-width: 0; font-size: 15.5px; font-weight: 700; line-height: 1.3; } .fl-t small { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.55); } .fl-t em { font-style: normal; font-weight: 600; color: rgba(255,255,255,.5); }
+  .fl-row.done .fl-t { color: rgba(255,255,255,.62); }
+  .fl-go { color: rgba(255,255,255,.4); font-size: 18px; }
+  .fl-row.muted .fl-t { font-weight: 600; color: rgba(255,255,255,.7); } .fl-row.muted .fl-c { border-style: dashed; }
+  .fl-pair { display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,.08); } .fl-pair .fl-row { flex: 1; min-width: 0; border-bottom: 0; }
+  .fl-pick { flex: 0 0 auto; padding: 6px 4px; font: inherit; font-size: 12px; font-weight: 800; color: var(--gold); background: none; border: 0; cursor: pointer; }
+  .fl-list .more { margin-top: 0; border-bottom: 1px solid rgba(255,255,255,.08); } .fl-list .more summary { padding: 12px 2px; }
+  .fl-list .more summary > span:first-child { font-size: 15.5px; font-weight: 700; color: rgba(255,255,255,.75); }
+  .fl-week { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 22px; padding: 14px 16px; border-radius: 16px; text-align: left; font: inherit; color: #fff; background: rgba(255,255,255,.05); border: 0; cursor: pointer; }
+  .fl-week b { font-size: 15px; font-weight: 800; } .fl-week small { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.55); }
+  /* the header: the XP bar on its own line under the badges */
+  #hudRow { flex-wrap: wrap; row-gap: 8px; } #streakBtn { margin-left: auto; }
+  header.hud-pad { background: linear-gradient(180deg, #1c1946 0%, #1d1a4a 88%, rgba(29,26,74,0) 100%); }
+  .hud-xp { order: 10; flex: 1 0 100%; display: flex; align-items: center; gap: 10px; }
+  .hud-xp > div:first-child { flex: 1; } .hud-xp #nextLevel { margin: 0; font-size: 11px; font-weight: 700; white-space: nowrap; overflow: visible; color: rgba(255,255,255,.6); }
   .foot-note { margin-top: 18px; font-size: 13px; line-height: 1.45; color: rgba(255,255,255,.62); }
   .foot-note a { color: rgba(255,255,255,.75); text-decoration: underline; }
   .st-kinds { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
@@ -1455,8 +1491,8 @@
       </div>
     </button>
 
-    <!-- XP progress toward next level -->
-    <div class="flex-1 min-w-0">
+    <!-- XP progress toward next level: a line of its own under the badges -->
+    <div class="hud-xp">
       <div class="h-2 rounded-full bg-white/15 overflow-hidden ring-1 ring-white/10">
         <div id="xpFill" class="h-full w-0 rounded-full bg-gradient-to-r from-violet-400 via-fuchsia-400 to-amber-300"></div>
       </div>
@@ -2201,13 +2237,7 @@ const TreasureUp = (function () {
         </div>
         <div class="tt-main">
           ${dayCardHtml(selDay || dayKey())}
-          ${seasonCardHtml()}
-          ${verseOfDayHtml()}
-
-          <details class="fold"><summary>Your week<small>Chapters, reels, right first time, notes</small></summary>${weekStatsHtml()}</details>
-          ${rewardsHtml()}
-          <p class="foot-note">XP comes from reading the chapters and answering right. Questions you miss come back in the daily warm-ups.
-            <a href="${esc(WEEK.lesson)}" target="_blank" rel="noopener noreferrer">Open this week's lesson ↗</a></p>
+          ${weekRowHtml()}
         </div>
       </div>`;
   }
@@ -2252,9 +2282,169 @@ const TreasureUp = (function () {
 
   // One day's card: this week's from the plan; an earlier week's from its
   // file (loaded the first time); a later week's says when it opens.
+  // A day of this week, flat (Blake, 2026-10-04: Today felt "complicated ..
+  // nesting inside of nesting"; from three mockups he picked the verse
+  // first): the date, today's verse, one green button for what comes next,
+  // and the rest of the day as one list to tick, with no cards inside cards.
+  // The button's own step isn't listed twice; done steps stay in the list ✓.
+  const flowDay = e => e.d != null ? e.d : e.kind === 'friday' ? 4 : e.kind === 'puzzle' ? 5 : 6;
+  const flowAt = e => `${flowDay(e)}.${weekPlan()[flowDay(e)].findIndex(x => x.kind === e.kind)}`;
+  function flowRow(attrs, done, title, sub, opt) {
+    opt = opt || {};
+    const mark = opt.box ? `<span class="fl-box">${done ? '✓' : ''}</span>` : `<span class="fl-c">${done ? (opt.wrong ? '✕' : '✓') : ''}</span>`;
+    return `<button class="fl-row${done ? ' done' : ''}${opt.muted ? ' muted' : ''}${opt.wrong ? ' wrong' : ''}" ${attrs}${opt.box ? ` aria-pressed="${!!done}"` : ''}>${mark}<span class="fl-t">${title}${sub ? `<small>${sub}</small>` : ''}</span>${opt.box ? '' : '<span class="fl-go">›</span>'}</button>`;
+  }
+  // One part of the plan as rows: { card, done (null: not counted), html }.
+  function entryRows(e, from) {
+    const d = flowDay(e), at = flowAt(e), rows = [], add = (card, done, html) => rows.push({ card, done, html });
+    const was = from ? 'From ' + DAY_NAMES[d] + ' · ' : '';
+    if (e.kind === 'day') {
+      for (const u of readingPlan()[d]) {
+        const done = !!S.read[u.ref], min = minutesOf([u]);
+        add('read-' + u.ref, done, flowRow(`data-chapter="${esc(u.ref)}"`, done, 'Read ' + esc(u.ref), was + (done ? 'Read' : min ? min + ' min · ' + READ_XP + ' XP' : READ_XP + ' XP')));
+      }
+      for (const r of dayReels(d)) {
+        const a = S.answers[r.id];
+        add(r.id, !!a, flowRow(a ? `data-view="${esc(r.id)}"` : `data-lesson="${at}"`, !!a, esc(r.hook), was + (a ? (a.right ? 'Right the first time' : 'Answered') : 'A question'), { wrong: a && !a.right }));
+      }
+      for (const x of dayDeep(d)) {
+        const a = S.deep[x.id];
+        add('deep-' + x.id, !!a, flowRow(a ? `data-view="deep-${esc(x.id)}"` : `data-lesson="${at}"`, !!a, '🧭 Go deeper: ' + esc(x.read), was + (a ? 'Done' : 'Read, then a question'), { wrong: a && !a.right }));
+      }
+    } else if (e.kind === 'friday') {
+      const items = entryItems(e), done = items.length && items.every(x => x.done);
+      add('friday', done, flowRow(`data-lesson="${at}"`, done, '🔭 ' + esc(entryName(e)), was + (items.length === 1 ? '1 reading' : items.length + ' readings')));
+    } else if (e.kind === 'puzzle') {
+      const done = entryItems(e).every(x => x.done);
+      add('puzzle', done, flowRow(`data-lesson="${at}"`, done, '🧩 The weekly puzzle', was + (done ? 'Solved' : reelsLeft() ? 'Opens when every reel is answered' : PUZZLE_XP + ' XP and a streak freeze')));
+    }
+    return rows;
+  }
+  // Sunday's own rows: the youth class, the talks the family picked, a family game.
+  function sundayRows(k) {
+    const rows = [], m = youthMonth(k), c = curConf();
+    if (m) {
+      const l = (m.lessons || []).find(x => x.sunday === k && sunShow(x));
+      if (l) {
+        const n = sunCards(l).length, done = sunDone(l) === n;
+        rows.push({ card: 'sun-' + l.id, done, go: { attr: `data-sunlesson="${esc(l.id)}"`, title: 'Sunday class: ' + l.title, sub: n + ' cards' },
+          html: flowRow(`data-sunlesson="${esc(l.id)}"`, done, '⛪ Sunday class: ' + esc(l.title), 'Aaronic Priesthood and Young Women · Chapter ' + m.chapter + (done ? ' · done' : ' · ' + n + ' cards')) });
+      } else rows.push({ card: 'sun-guide', done: null, html: `<a class="fl-row" href="${esc(m.guide)}" target="_blank" rel="noopener noreferrer"><span class="fl-c"></span><span class="fl-t">⛪ Youth · Chapter ${m.chapter}: ${esc(m.title)}<small>For the Strength of Youth, this month’s chapter</small></span><span class="fl-go">↗</span></a>` });
+    }
+    if (c) {
+      const p = pickOf(k);
+      for (const [slot, name] of [['eq', 'Elders quorum'], ['rs', 'Relief Society']]) {
+        const t = talkById(p[slot]), show = t || suggestTalk(k, slot);
+        if (!show) continue;
+        const done = !!(S.talks || {})[show.id];
+        rows.push({ card: 'talk-' + slot, done: null, html: `<div class="fl-pair">${flowRow(`data-talk="${esc(show.id)}"`, done, '🎤 ' + name + (t ? '' : ' <em>· suggested</em>'), esc(show.title) + ' · ' + esc(show.speaker))}<button class="fl-pick" data-talkpick="${slot}|${k}">${t ? 'Change' : 'Pick'}</button></div>` });
+      }
+    }
+    rows.push({ card: 'family', done: null, html: flowRow('data-games', false, '🎮 A family game', 'Showdown, Babylon Falls, the arcade…') });
+    return rows;
+  }
+  // My Season on Today: each step to tick, the weekend check-in, the look back, and the Season itself.
+  function seasonRows() {
+    const s = seasonNow(), rec = seasonRec(s.id), goals = liveGoals(rec), today = dayKey(), started = s.start <= today;
+    const rows = [], refl = seasonToReflect(), chk = checkWeek();
+    if (!goals.length) rows.push({ card: 'season', done: null, html: flowRow('data-season="discover"', false, '🌱 Plan my Season', started ? esc(s.name) + ' · ' + esc(seasonDates(s)) : esc(s.name) + ' starts ' + DAY_NAMES[0] + ', ' + esc(mdShort(s.start))) });
+    else if (!started) rows.push({ card: 'season', done: null, html: flowRow('data-season="home"', false, '🌱 My Season', 'Starts ' + DAY_NAMES[0] + ', ' + esc(mdShort(s.start)) + ' · ' + goals.length + (goals.length === 1 ? ' goal' : ' goals') + ' planned') });
+    else {
+      const mon = mondayOf(today);
+      for (const g of goals) for (const st of g.steps || []) {
+        const on = ticked(rec, st.id, today), n = ticksIn(rec, st.id, mon, dayAdd(mon, 6));
+        rows.push({ card: 'tick-' + st.id, done: on, html: flowRow(`data-tick="${esc(s.id)}|${esc(st.id)}"`, on, '🌱 ' + esc(st.text), 'My Season · ' + (st.n === 7 ? n + ' of 7 days' : n + ' of ' + st.n + ' this week'), { box: true }) });
+      }
+      if (chk && !(seasonRec(chk.s.id).checks || {})[chk.w]) rows.push({ card: 'check', done: false, go: { attr: 'data-season="check"', title: 'Weekend check-in', sub: 'My Season · ' + SEASON_CHECK_XP + ' XP' },
+        html: flowRow('data-season="check"', false, '🗓️ Weekend check-in', 'My Season · how’s it going? · ' + SEASON_CHECK_XP + ' XP') });
+    }
+    if (refl) rows.push({ card: 'reflect', done: false, go: { attr: 'data-season="reflect"', title: 'Look back on ' + refl.name, sub: 'My Season · ' + SEASON_REFLECT_XP + ' XP' },
+      html: flowRow('data-season="reflect"', false, '🌟 Look back on ' + esc(refl.name), SEASON_REFLECT_XP + ' XP') });
+    if (goals.length && started) rows.push({ card: 'season', done: null, html: flowRow('data-season="home"', false, 'My Season', esc(s.name) + ' · week ' + weekOfSeason(s, today) + ' of ' + s.weeks + ' · goals, the grid, impressions', { muted: true }) });
+    return rows;
+  }
+  // The green button: today's lesson (catching up first), then the weekend
+  // check-in, then Sunday's class; else done for today.
+  function upNext(entries, rows, d, k) {
+    const now = entries.find(e => entryItems(e).some(x => !x.done)), warm = warmupsLeft().length;
+    if (now || warm) {
+      const target = now && entryItems(now).find(x => !x.done), t = todayIndex(), from = now && flowDay(now) < t;
+      let title = 'Warm-up', hide = [];
+      if (target && /^read-/.test(target.card)) {
+        const left = readingPlan()[flowDay(now)].filter(u => !S.read[u.ref]);
+        title = 'Read ' + unitsLabel(left); hide = left.map(u => 'read-' + u.ref);
+      } else if (target && now.kind === 'day') {
+        const r = dayReels(flowDay(now)).find(x => x.id === target.card), x = dayDeep(flowDay(now)).find(y => 'deep-' + y.id === target.card);
+        title = r ? r.hook : x ? 'Go deeper: ' + x.read : dayName(flowDay(now)); hide = [target.card];
+      } else if (now && now.kind === 'puzzle') { title = 'The weekly puzzle'; hide = ['puzzle']; }
+      else if (now && now.kind === 'friday') { title = entryName(now); hide = ['friday']; }
+      // The lesson's parts, less what the title already says ("Read Isaiah 50–51 (9 min)" → "9 min").
+      const parts = lessonParts(now).split(' · ').map(x => x.startsWith(title) ? x.slice(title.length).trim().replace(/^\((.*)\)$/, '$1') : x).filter(x => x && !title.startsWith(x)).join(' · ');
+      return { hide, html: `<button class="fl-next" data-lesson=""><b>▶ ${esc(title)}</b><small>${from ? 'Left from ' + DAY_NAMES[flowDay(now)] : 'Up next'}${parts ? ' · ' + esc(parts) : ''}</small></button>` };
+    }
+    const open = rows.find(r => r.go && r.done === false);
+    if (open) return { hide: [open.card], html: `<button class="fl-next" ${open.go.attr}><b>▶ ${esc(open.go.title)}</b><small>Up next · ${esc(open.go.sub)}</small></button>` };
+    const counted = rows.filter(r => r.done !== null);
+    return { hide: [], html: `<div class="fl-done"><b>✓ Done for today</b><small>${counted.length ? counted.filter(r => r.done).length + ' of ' + counted.length + ' · ' : ''}${d === 6 ? 'church, then a family game' : 'more from this day below, if you want it'}</small></div>` };
+  }
+  function dayFlowHtml(d, k) {
+    const today = dayKey(), isToday = k === today, plan = weekPlan()[d] || [];
+    const entries = isToday ? todayEntries() : plan.filter(e => e.kind !== 'family' && e.kind !== 'further');
+    // An earlier day still behind brings only what's left of it; today's own steps stay, done or not.
+    let rows = entries.flatMap(e => { const from = isToday && flowDay(e) < d, r = entryRows(e, from); return from ? r.filter(x => !x.done) : r; });
+    if (d === 6) rows = rows.concat(sundayRows(k));
+    if (isToday) rows = rows.concat(seasonRows());
+    let button;
+    if (isToday) button = upNext(entries, rows, d, k);
+    else {
+      const at = plan.findIndex(e => e.kind === 'day');
+      if (at >= 0) {
+        const items = entryItems(plan[at]), all = items.length && items.every(x => x.done), left = readingPlan()[d].filter(u => !S.read[u.ref]);
+        button = { hide: [], html: `<button class="fl-next${k > today ? ' ahead' : ''}" data-lesson="${d}.${at}"><b>▶ ${all ? 'Practice it again' : k > today ? 'Read ahead' : left.length ? 'Read ' + esc(unitsLabel(left)) : 'Finish this day'}</b><small>${esc(all ? 'Already done: nothing new to earn' : lessonParts(plan[at]).replace(/^Warm-up · /, '').replace(/^Read [^·]*\((\d+ min)\)/, '$1'))}</small></button>` };
+      } else button = { hide: [], html: '' };
+    }
+    const counted = rows.filter(r => r.done !== null), n = counted.filter(r => r.done).length;
+    const tag = isToday ? '' : keptDay(k) ? '✓ Kept' : k > today ? 'Coming up' : '';
+    return `<div class="flow">
+      <div class="fl-date"><b>${DAY_NAMES[(new Date(k + 'T12:00:00').getDay() + 6) % 7]} · ${esc(shortDay(k))}</b><small>${counted.length ? n + ' of ' + counted.length + ' done' : ''}${tag ? (counted.length ? ' · ' : '') + tag : ''}</small></div>
+      ${isToday ? verseHeroHtml() : ''}
+      ${button.html}${isToday ? pickUpHtml() : ''}
+      <div class="fl-list">${rows.filter(r => !(button.hide.includes(r.card) && !r.done)).map(r => r.html).join('')}${d < 6 ? moreHtml(d) : ''}${talkDayHtml(k)}</div>
+    </div>`;
+  }
+  // Today's verse, first and large (Blake picked "Verse first"): a tap on its reference opens it in its chapter.
+  function verseHeroHtml() {
+    const t = todayIndex(), today = dayReels(t).filter(r => readingAll().some(u => u.ch === r.verse.ref.replace(/:.*/, '')));
+    const r = today[0] || WEEK.reels[hash(dayKey() + '|vod') % WEEK.reels.length];
+    if (!r) return '';
+    const ch = r.verse.ref.replace(/:.*/, ''), v = Number((/:(\d+)/.exec(r.verse.ref) || [])[1]) || 1;
+    const here = readingAll().some(u => u.ref === ch);
+    return `<div class="fl-verse"><p>“${esc(r.verse.text)}”</p>
+      ${here ? `<button class="fl-vref" data-vod="${esc(ch)}" data-v="${v}">${esc(r.verse.ref)} ›</button>` : `<span class="fl-vref">${linkRefs(r.verse.ref)}</span>`}</div>`;
+  }
+  // This week, from the row at the foot of Today: the numbers that were on the page, and the lesson.
+  function weekSheetHtml() {
+    return `<div class="sh-title">This week</div><p class="sh-small"><b>${esc(WEEK.title)}</b> · ${linkRefs(WEEK.reference)}</p>
+      ${weekStatsHtml().replace('<div class="eyebrow">Your week</div>', '')}
+      <a class="parent-link" href="${esc(WEEK.lesson)}" target="_blank" rel="noopener noreferrer">Open this week's lesson in Gospel Library ↗</a>`;
+  }
+  function weekRowHtml() {
+    const units = readingAll(), readN = units.filter(u => S.read[u.ref]).length, total = WEEK.reels.length, answered = WEEK.reels.filter(r => S.answers[r.id]).length;
+    return `<button class="fl-week" data-weeksheet><span><b>This week</b><small>${units.length ? readN + ' of ' + units.length + ' chapters · ' : ''}${answered} of ${total} reels · more numbers</small></span><span class="fl-go">›</span></button>`;
+  }
+
   function dayCardHtml(k) {
     const start = weekStart(WEEK.dates), d = start ? dayDiff(start, k) : -1;
-    if (d >= 0 && d <= 6) return thisWeekDayHtml(d, k);
+    if (d >= 0 && d <= 6) return dayFlowHtml(d, k);
+    // Today outside the weeks the app has (the next one not added yet): My Season still shows.
+    if (k === dayKey()) {
+      const rows = seasonRows(), btn = upNext([], rows, -1, k);
+      return `<div class="flow"><div class="fl-date"><b>${DAY_NAMES[(new Date(k + 'T12:00:00').getDay() + 6) % 7]} · ${esc(shortDay(k))}</b><small></small></div>
+        ${btn.html}<div class="fl-list">${rows.filter(r => !(btn.hide.includes(r.card) && !r.done)).map(r => r.html).join('')}</div></div>` + dayCardOther(k, start);
+    }
+    return dayCardOther(k, start);
+  }
+  function dayCardOther(k, start) {
     const w = weekOfDay(k);
     if (!w) return `<div class="day-card"><p class="dc-note">The app's weeks start with ${esc(allWeeks()[0] ? allWeeks()[0].dates : 'this one')}.</p></div>`;
     if (w.start > start) return laterDayHtml(w, k);
@@ -2262,47 +2452,6 @@ const TreasureUp = (function () {
   }
   const dcTitle = (k, tag) => `<div class="dc-top"><span class="dc-day">${DAY_NAMES[(new Date(k + 'T12:00:00').getDay() + 6) % 7]} · ${esc(shortDay(k))}</span>${tag}</div>`;
   const chipHtml = (ref, done, attr) => `<button class="ch-chip${done ? ' done' : ''}" ${attr} aria-label="${esc(ref)}${done ? ', read' : ''}">${done ? '✓ ' : ''}${esc(ref)}</button>`;
-  function thisWeekDayHtml(d, k) {
-    const today = dayKey(), isToday = k === today, plan = weekPlan()[d] || [], units = readingPlan()[d] || [], reels = dayReels(d);
-    const at = plan.findIndex(e => e.kind === 'day'), kept = keptDay(k);
-    const tag = isToday ? '<span class="dc-tag now">Today</span>' : kept ? '<span class="dc-tag kept">Read ✓</span>' : '';
-    let html = `<div class="day-card${isToday ? ' now' : ''}">${dcTitle(k, tag)}<div class="dc-week">${esc(WEEK.title)}</div>`;
-    if (d === 6) {
-      return html + `<div class="dc-head">Church, then a family game</div>
-        <p class="dc-note">Keep the day: answer a question, ${((youthMonth(k) || {}).lessons || []).some(l => l.sunday === k && sunShow(l)) ? 'do the Sunday class’s lesson, ' : ''}or play a family game.</p>
-        ${sundayHtml(k)}
-        <button class="board-link ls-start" data-games>🎮 Family games</button>${isToday ? todayStartHtml() : ''}${talkDayHtml(k)}</div>`;
-    }
-    if (units.length) html += `<div class="dc-chips">${units.map(u => chipHtml(u.ref, !!S.read[u.ref], `data-chapter="${esc(u.ref)}"`)).join('')}</div>`;
-    if (isToday) html += todayStartHtml();
-    else if (at >= 0) {
-      const items = entryItems(plan[at]), all = items.length && items.every(x => x.done), left = units.filter(u => !S.read[u.ref]);
-      html += `<button class="board-link ls-start" data-lesson="${d}.${at}">▶ ${all ? 'Practice it again' : k > today ? 'Read ahead' : left.length ? 'Read ' + esc(unitsLabel(left)) : 'Finish this day'}<small>${esc(all ? 'Already done: nothing new to earn' : lessonParts(plan[at]).replace(/^Warm-up · /, '').replace(/^Read [^·]*\((\d+ min)\)/, '$1'))}</small></button>`;
-    }
-    // Friday's deep dive and Saturday's puzzle, as on the plan.
-    plan.forEach((e, i) => {
-      if (e.kind !== 'friday' && e.kind !== 'puzzle') return;
-      const items = entryItems(e), done = items.length && items.every(x => x.done);
-      html += `<button class="dc-row" data-lesson="${d}.${i}"><span class="st">${done ? '✓' : ''}</span><span>${esc(entryName(e))}</span><span class="go">›</span></button>`;
-    });
-    // The day's reels: one answered opens as it was (its bonus and note there too); one not yet, the day's lesson.
-    const rows = reels.map(r => { const a = S.answers[r.id];
-      return `<button class="dc-row${a ? (a.right ? ' is-right' : ' is-wrong') : ''}" ${a ? `data-view="${esc(r.id)}"` : at >= 0 ? `data-lesson="${d}.${at}"` : ''}><span class="st">${a ? (a.right ? '✓' : '✕') : ''}</span><span>${esc(r.hook)}</span><span class="go">›</span></button>`; })
-      .concat(dayDeep(d).map(x => { const a = S.deep[x.id];
-        return `<button class="dc-row${a ? (a.right ? ' is-right' : ' is-wrong') : ''}" ${a ? `data-view="deep-${esc(x.id)}"` : at >= 0 ? `data-lesson="${d}.${at}"` : ''}><span class="st">${a ? (a.right ? '✓' : '✕') : ''}</span><span>🧭 Read ${esc(x.read)}</span><span class="go">›</span></button>`; }));
-    if (rows.length) html += `<div class="dc-rows">${rows.join('')}</div>`;
-    return html + talkDayHtml(k) + moreHtml(d) + '</div>';
-  }
-  // Today's button: the next part of today's lesson (catching up first), as before.
-  function todayStartHtml() {
-    const entries = todayEntries(), items = entries.flatMap(entryItems), done = items.filter(x => x.done).length;
-    const now = entries.find(e => entryItems(e).some(x => !x.done)), t = todayIndex();
-    const behind = now && !weekPlan()[t].some(e => e.kind === now.kind && e.d === now.d);
-    const warm = warmupsLeft().length, started = done > 0 || warm < S.daily.ids.length + (S.daily.say ? 1 : 0);
-    return (items.length ? `<div class="today-sub">${behind ? 'Catching up first · ' : ''}${done} of ${items.length} done today</div><div class="today-bar"><div style="width:${Math.round(done / items.length * 100)}%"></div></div>` : '') +
-      (now || warm ? `<button class="board-link ls-start" data-lesson="">▶ ${started ? 'Keep going' : "Start today's lesson"}<small>${esc(lessonParts(now))}</small></button>`
-        : items.length ? '<div class="today-head">✓ Done for today</div>' : '') + pickUpHtml();
-  }
   // "More from this day": its best cards (about three, Blake: "Fewer, better
   // cards"), then its Go further lesson (the cards, its bonus questions and a
   // note) and everything else in Study.
@@ -2809,7 +2958,7 @@ const TreasureUp = (function () {
     $('xpFill').style.width = pct + '%';
     $('nextLevel').textContent = capped
       ? 'Top level reached'
-      : (ceil - S.xp) + ' XP to ' + LEVEL_TITLES[L];
+      : fmtN(ceil - S.xp) + ' XP to level ' + (L + 1) + ' · ' + LEVEL_TITLES[L];
     const streak = streakNow(), charge = chargeOf(streak);
     $('streakNum').textContent = streak;
     $('chargeNum').hidden = charge <= 1;
@@ -3556,23 +3705,6 @@ const TreasureUp = (function () {
     return u ? `<button class="today-alt" data-resume="${esc(u.ref)}">📖 Pick up where you left off: ${esc(u.ref)}, verse ${pos[u.ref].v} ›</button>` : '';
   }
 
-  // A verse from today's reading on the page (Blake, 2026-10-02, from the
-  // Scripture Central app): today's first reel's verse, the one the day's
-  // reels are built on, or on a day with none, one of the week's. A tap opens
-  // its chapter there.
-  function verseOfDayHtml() {
-    const t = todayIndex(), today = dayReels(t).filter(r => readingAll().some(u => u.ch === r.verse.ref.replace(/:.*/, '')));
-    const r = today[0] || WEEK.reels[hash(dayKey() + '|vod') % WEEK.reels.length];
-    if (!r) return '';
-    const ch = r.verse.ref.replace(/:.*/, ''), v = Number((/:(\d+)/.exec(r.verse.ref) || [])[1]) || 1;
-    const here = readingAll().some(u => u.ref === ch);
-    return `<div class="vod">
-      <div class="eyebrow">Verse of the day · ${linkRefs(r.verse.ref)}</div>
-      <p class="vod-text">“${esc(r.verse.text)}”</p>
-      ${here ? `<button class="today-alt vod-go" data-vod="${esc(ch)}" data-v="${v}">Read it in ${esc(ch)} ›</button>` : ''}
-    </div>`;
-  }
-
   // The header's panels (Blake, 2026-10-02: the streak "into the top header",
   // and "dev mode goes into settings"): one sheet from the bottom.
   function openSheet(html) { $('appBody').innerHTML = html; $('appSheet').hidden = false; $('appSheet').scrollTop = 0; }
@@ -3909,7 +4041,19 @@ const TreasureUp = (function () {
       ${msg ? `<p class="shop-msg">${msg}</p>` : ''}
       <div class="shop-list">${prizes().map(row).join('')}</div>
       ${mine ? `<div class="eyebrow" style="margin-top:16px">Your prizes</div>${mine}` : ''}
+      ${milestonesHtml()}
       <button class="parent-link" data-shop-parent>Parents: say yes, or change the prizes</button>`;
+  }
+  // Rewards a parent set at XP marks (Milestones on the parent screen): free, unlocked by earning, given by a parent.
+  function milestonesHtml() {
+    const open = P.rewards.filter(r => !r.claimed).sort((a, b) => a.xp - b.xp);
+    if (!open.length) return '';
+    return `<div class="eyebrow" style="margin-top:16px">Milestones</div>` + open.map(r => {
+      const got = S.xp >= r.xp, pct = Math.min(100, Math.round((S.xp / r.xp) * 100));
+      return `<div class="reward${got ? ' unlocked' : ''}"><div class="flex justify-between items-baseline gap-3"><span class="font-bold">${esc(r.text)}</span>
+        <span class="text-[12px] shrink-0 ${got ? 'text-emerald-300 font-bold' : 'text-white/60'}">${got ? 'Unlocked! Show a parent' : fmtN(Math.min(S.xp, r.xp)) + ' / ' + fmtN(r.xp) + ' XP'}</span></div>
+        <div class="reward-bar"><div style="width:${pct}%"></div></div></div>`;
+    }).join('');
   }
   function openShop(msg) { shopAsk = null; use('shop'); openSheet(shopHtml(msg)); }
   const shopOpen = () => !$('appSheet').hidden && !!$('appBody').querySelector('.shop-have');
@@ -4102,27 +4246,6 @@ const TreasureUp = (function () {
     t[day] = t[day] > 0 ? -Date.now() : Date.now();
     use('seasonTick');
     save();
-  }
-
-  // ----- Today's card -----
-  function seasonCardHtml() {
-    const s = seasonNow(), rec = seasonRec(s.id), goals = liveGoals(rec), today = dayKey(), started = s.start <= today;
-    const refl = seasonToReflect(), chk = checkWeek();
-    const head = `<div class="sea-top"><span class="eyebrow">🌱 My Season</span><button class="sea-link" data-season="home">${esc(s.name)}${started ? ' · week ' + weekOfSeason(s, today) + ' of ' + s.weeks : ''} ›</button></div>`;
-    if (!goals.length) return `<div class="sea-card">${head}
-      <p class="sea-intro">${started ? esc(s.name) + ' runs ' : esc(s.name) + ' starts ' + esc(DAY_NAMES[0]) + ', '}${esc(started ? seasonDates(s) : mdShort(s.start))}. Pick ${WHO[seasonWho()].goals === 1 ? 'a goal' : 'a goal or two'} to grow the way Jesus did: spiritual, social, physical and intellectual (Luke 2:52).</p>
-      <button class="btn sea-go" data-season="discover">Plan my Season</button>
-      ${refl ? `<button class="sea-check" data-season="reflect">🌟 Look back on ${esc(refl.name)}<small>+${SEASON_REFLECT_XP} XP</small></button>` : ''}</div>`;
-    const mon = mondayOf(today);
-    const rows = !started ? goals.map(g => `<div class="sea-goal"><span>${areaOf(g.area).icon}</span><span>${esc(g.text)}${g.private ? ' 🔒' : ''}<small>Starts ${esc(mdShort(s.start))}</small></span></div>`).join('')
-      : goals.flatMap(g => (g.steps || []).map(st => {
-        const on = ticked(rec, st.id, today), n = ticksIn(rec, st.id, mon, dayAdd(mon, 6));
-        return `<button class="sea-tick${on ? ' on' : ''}" data-tick="${esc(s.id)}|${esc(st.id)}" aria-pressed="${on}"><i>${on ? '✓' : ''}</i><span>${esc(st.text)}<small>${areaOf(g.area).icon} ${esc(g.text)}${g.private ? ' 🔒' : ''} · ${st.n === 7 ? n + ' of 7 days' : n + ' of ' + st.n + ' this week'}</small></span></button>`;
-      })).join('');
-    const ck = chk && !(seasonRec(chk.s.id).checks || {})[chk.w];
-    return `<div class="sea-card">${head}${rows}
-      ${ck ? `<button class="sea-check" data-season="check">🗓️ Weekend check-in: how's it going?<small>+${SEASON_CHECK_XP} XP</small></button>` : ''}
-      ${refl ? `<button class="sea-check" data-season="reflect">🌟 Look back on ${esc(refl.name)}<small>+${SEASON_REFLECT_XP} XP</small></button>` : ''}</div>`;
   }
 
   // ----- the Season sheet: home, who, discover, plan, check, reflect -----
@@ -4524,28 +4647,7 @@ const TreasureUp = (function () {
       ${priv ? `<p class="text-[12px] text-white/50 mt-2">${priv} private ${priv === 1 ? 'impression' : 'impressions'}, just his.</p>` : ''}`;
   }
 
-  function rewardsHtml() {
-    const open = P.rewards.filter(r => !r.claimed).sort((a, b) => a.xp - b.xp);
-    const rows = open.map(r => {
-      const got = S.xp >= r.xp;
-      const pct = Math.min(100, Math.round((S.xp / r.xp) * 100));
-      return `
-        <div class="reward${got ? ' unlocked' : ''}">
-          <div class="flex justify-between items-baseline gap-3">
-            <span class="font-bold">${esc(r.text)}</span>
-            <span class="text-[12px] shrink-0 ${got ? 'text-emerald-300 font-bold' : 'text-white/60'}">${got ? 'Unlocked! Show a parent' : Math.min(S.xp, r.xp) + ' / ' + r.xp + ' XP'}</span>
-          </div>
-          <div class="reward-bar"><div style="width:${pct}%"></div></div>
-        </div>`;
-    }).join('');
-    return `
-      <div class="mt-5">
-        <div class="eyebrow">Rewards</div>
-        <button class="shop-card" data-shop><span>🎁</span><span>Rewards shop<small>${fmtN(xpToSpend())} XP to spend on prizes</small></span><span>›</span></button>
-        ${rows}
-        <button class="parent-link" data-parent>Parents: prizes and rewards</button>
-      </div>`;
-  }
+
 
   function openParent() {
     parentUnlocked = false;
@@ -12426,6 +12528,7 @@ const TreasureUp = (function () {
     // The page: today's lesson, a day on the map, a reel to look back at.
     $('home').addEventListener('click', e => {
       if (seasonClick(e)) return;
+      if (e.target.closest('[data-weeksheet]')) { use('week'); return openSheet(weekSheetHtml()); }
       // The timeline: a day, or a week of the year (its Monday).
       const day = e.target.closest('[data-day]');
       if (day) { selDay = day.dataset.day === dayKey() ? null : day.dataset.day; const h = $('home'), y = h.scrollTop; renderHome(); h.scrollTop = y; return; }
