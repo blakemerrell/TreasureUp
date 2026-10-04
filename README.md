@@ -207,15 +207,23 @@ the app's reading). The second 3 Nephi mission also needs the first won.
 | **2 · The Robbers Come Down** (3 Nephi 4) | Giddianhi's army attacks (4:7); **Cry unto the Lord** puts everyone on their knees for a moment, then they take less harm for a while (4:8–10). They fall back and can be pursued; Giddianhi is slowed, "weary because of his much fighting" (4:14). Then Zemnarihah's siege round about (4:16): a bar shows the robbers' food running out, since the Nephites have seven years' provisions and the wild game is gone (4:2–4, 18–20). When it runs out it's night, the border opens, and the armies can go to the three passes before the robbers march at dawn (4:24–26); a robber caught by two soldiers gives himself up (4:27). |
 
 **Skirmishes** (Red Alert's way of playing, once any mission's chapter is
-read): start with the standard of liberty, two carts, two workers and three
+read): start with the standard of liberty, one cart, two workers and three
 soldiers, and plant the standard on open ground to make your city
 (Alma 46:36). Then build up and either hold off the raids or tear down the
 war camp. The rules are Red Alert's: everything is built from the city and
-rises on its own once placed, within reach of what you already have; carts
+rises on its own once placed, within reach of what you already have; the
+storehouse is the refinery, so carts bring the harvest only to a storehouse
+(the city takes none), each storehouse comes with a cart, no cart can be
+made until one stands, and with none left the carts stop and wait; carts
 bring in grain and timber by themselves, and stone from a rock face when
 asked (tap one on a field, a forest or a rock face to choose which); workers are the engineers, mending what's damaged and
-hurrying what's being built; and several of the same building make things
-faster, up to two and a half times.
+hurrying what's being built: a helper at work swings at it with dust where
+the blows land, and the building's bar shows a hammer for each helper and
+how much faster it goes; anything you built can be taken down (Remove, then
+a second tap) for half its cost, or all of it while it is still rising, and
+a wall piece can be made a gate; and several of the same building make things
+faster, up to two and a half times. The King-men's store tent works the same
+way for their bearers, who can still build without one.
 
 **The temple and its miracles** (free battle, once the hall of the captains
 stands): built "after the manner of the temple of Solomon" (2 Nephi 5:16),
@@ -269,9 +277,10 @@ The buildings:
 
 | Building | Needs | What it does |
 |---|---|---|
-| City | the standard | Builds everything; makes carts and workers; feeds 10, stores 300 |
+| City | the standard | Builds everything; makes carts (once a storehouse stands) and workers; feeds 10, stores 300 |
 | Farm | | Feeds 8 more and grows a little grain (Helaman 6:12) |
-| Granary, storehouse | | Store 500 / 300 more of each; past that, what the carts bring is lost |
+| Storehouse | | Where the carts unload; comes with a cart; stores 300 more of each |
+| Granary | | Stores 500 more of each; past that, what the carts bring is lost |
 | Barracks | | Spearmen, slingers (Alma 2:12) and archers; weapons, armor and shields (3 Nephi 3:26) |
 | Watchtower | barracks | Shoots at enemies. Takes stone, quarried from rock faces |
 | Armory | barracks | Breastplates and shields (+4 armor, Alma 43:19), thick clothing (+2 armor for shooters, Alma 43:19), ridges of earth and pickets (walls ×2, Alma 50:1–3) |
@@ -324,8 +333,8 @@ it makes shields and breastplates, garments of skins and, after your walls
 have stopped it twice, ladders (Alma 49:6, 49:22); and a tent you burn goes
 up again a few minutes later. Kill its bearers and the camp starves. Tear
 down the war camp and the camps to win. Both skirmishes give Easy ★, Normal ★★, Hard ★★★. A scripted
-player wins free battle's Normal in about 12 to 14 minutes against the living camp as
-the Freemen, and in about 13 as the King-men against a Freemen camp (which, holding
+player wins free battle's Normal in about 12 minutes against the living camp as
+the Freemen, and in about 10 as the King-men against a Freemen camp (which, holding
 the stronger men, fields half the heads and fewer haulers); Hard about 2 times in 6; it holds off the raids at every level and length,
 and a city left alone falls (Easy by about 15 minutes, Normal by 8). The
 council asks about every chapter read so far. Where a description borrows
@@ -342,7 +351,7 @@ game opens the verse itself.
 **Controls**: tap or click to choose, drag a box (on a touch screen, **Box
 select** first), then tap the ground, a robber, trees or a field, or an
 unfinished building. Right-click also gives orders. Everything is built
-from Zarahemla (walls are dragged as a line) and rises on its own; workers
+from Zarahemla (walls go in from where you tap first to where you tap next; with a mouse, drag a line; tap one of your people to stop) and rises on its own; workers
 mend and hurry it; carts haul on their own; the barracks trains guards. On a touch screen a new building shows where it will go on the first
 tap and is built on the second, and **Let go** clears the selection. When
 something of yours is attacked a message says so and a red ring shows where,

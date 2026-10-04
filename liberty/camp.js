@@ -13,9 +13,9 @@
 
   // What each side's camp wants standing, in order: it raises the first thing on the list it lacks and can pay for.
   const PLANS = {
-    kingmen: [['tents', 1], ['muster', 1], ['storetent', 1], ['tents', 2], ['shieldtent', 1], ['tents', 3], ['pavilion', 1],
+    kingmen: [['storetent', 1], ['tents', 1], ['muster', 1], ['tents', 2], ['shieldtent', 1], ['tents', 3], ['pavilion', 1],
               ['tents', 4], ['ladderworks', 1], ['tents', 5], ['wardance', 1], ['kingscourt', 1]],
-    freemen: [['farm', 1], ['barracks', 1], ['farm', 2], ['granary', 1], ['armory', 1], ['farm', 3], ['smithy', 1], ['training', 1],
+    freemen: [['storehouse', 1], ['farm', 1], ['barracks', 1], ['farm', 2], ['granary', 1], ['armory', 1], ['farm', 3], ['smithy', 1], ['training', 1],
               ['farm', 4], ['hall', 1], ['farm', 5], ['tower', 1], ['temple', 1]]
   };
   // Who each side trains, as shares of the army; what a tent can't make yet is left for later.
@@ -111,6 +111,19 @@
     spotFor(type) {
       const W = this.W, def = BUILDINGS[type], h = this.home;
       const cx = h.tx + Math.floor(h.w / 2), cy = h.ty + Math.floor(h.h / 2);
+      // A store goes where the haulers' walk is shortest: by the nearest fields and trees, not just anywhere round the camp.
+      if (def.dropoff === true) {
+        let best = null, bs = Infinity;
+        for (let r = 3; r <= 10; r++) for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
+          if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
+          const x = cx + dx - Math.floor(def.w / 2), y = cy + dy - Math.floor(def.h / 2);
+          if (W.whyNotPlace(type, x, y, this.team) || this.cramped(x, y, def)) continue;
+          let score = 0;
+          for (const k of ['grain', 'timber']) { const f = W.nearestResource(x + 1, y + 1, k); score += f ? Math.hypot(f[0] - x - 1, f[1] - y - 1) : 30; }
+          if (score < bs) { bs = score; best = [x, y]; }
+        }
+        if (best) return best;
+      }
       for (let r = 3; r <= 14; r++) {
         const ring = [];
         for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) if (Math.max(Math.abs(dx), Math.abs(dy)) === r) ring.push([cx + dx - Math.floor(def.w / 2), cy + dy - Math.floor(def.h / 2), W.rand()]);

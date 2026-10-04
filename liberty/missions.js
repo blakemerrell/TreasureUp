@@ -879,12 +879,12 @@
       // The Freemen: the human plants the standard of liberty; the opponent's city stands from the start, with its guards.
       if (F === 'p') {
         this.standard = put('standard', S0.x + 2, S0.y + 2);
-        put('cart', S0.x, S0.y + 5); put('cart', S0.x + 3, S0.y + 5); put('worker', S0.x + 1, S0.y + 6); put('worker', S0.x + 2, S0.y + 6);
+        put('cart', S0.x, S0.y + 5); put('worker', S0.x + 1, S0.y + 6); put('worker', S0.x + 2, S0.y + 6);   // (one cart: each storehouse brings another)
         put('spearman', S0.x + 5, S0.y); put('spearman', S0.x + 6, S0.y + 1); put('nslinger', S0.x + 5, S0.y + 2);
         put(caps[this.captain].hero, S0.x + 4, S0.y + 4);
       } else {
         this.city = W.addBuilding('stronghold', 'r', S0.x + 1, S0.y + 1, true, { name: 'Zarahemla' });
-        put('cart', S0.x, S0.y + 5, 'r'); put('cart', S0.x + 3, S0.y + 5, 'r'); put('worker', S0.x + 1, S0.y + 6, 'r'); put('worker', S0.x + 2, S0.y + 6, 'r');
+        put('cart', S0.x, S0.y + 5, 'r'); put('worker', S0.x + 1, S0.y + 6, 'r'); put('worker', S0.x + 2, S0.y + 6, 'r');
         const g = Math.round(L.guards * ((D.SIDES.freemen.bot || {}).march || 1));   // (the table counts Lamanite heads; see data.js: SIDES.bot)
         guard(this.city, [['spearman', Math.ceil(g * 0.5)], ['archer', Math.floor(g * 0.3)], ['nslinger', Math.max(1, Math.floor(g * 0.2))]], 'r');
         put(theirs[this.theirCaptain].hero, S0.x + 4, S0.y + 4, 'r', { mode: 'guard', home: this.city });
@@ -932,9 +932,9 @@
       W.msg(`${c.name} leads you: ${c.gift.toLowerCase()}.`, c.ref, 'good');
       if (F === 'p') {
         W.msg('Choose the standard of liberty and plant it on open ground to begin your city.', 'Alma 46:36', 'tip');
-        W.msg('Tap your city to build. Carts bring in grain and timber, and stone from a rock face when you ask; farms feed your people. The Lamanites will come: build a barracks.', null, 'tip');
+        W.msg('Tap your city to build. Build a storehouse first: carts bring the harvest there, and each storehouse brings a cart. Farms feed your people. The Lamanites will come: build a barracks.', null, 'tip');
       } else {
-        W.msg('Tap your camp to build. Bearers bring in grain and timber; tents feed your warriors. The Nephites will come: raise a muster ground.', null, 'tip');
+        W.msg('Tap your camp to build. Pitch a store tent first: bearers bring the provisions there, and each store tent brings a bearer. Tents feed your warriors. The Nephites will come: raise a muster ground.', null, 'tip');
       }
     },
     timeLeft(W) { return null; },
@@ -1060,7 +1060,7 @@
       const put = (type, x, y) => { const [fx, fy] = W.freeTileNear(x, y, 'p'); return W.addUnit(type, 'p', center(fx), center(fy)); };
       const S0 = WD.START;
       this.standard = put('standard', S0.x + 2, S0.y + 2);
-      put('cart', S0.x, S0.y + 5); put('cart', S0.x + 3, S0.y + 5); put('worker', S0.x + 1, S0.y + 6); put('worker', S0.x + 2, S0.y + 6);
+      put('cart', S0.x, S0.y + 5); put('worker', S0.x + 1, S0.y + 6); put('worker', S0.x + 2, S0.y + 6);   // (one cart: each storehouse brings another)
       put('spearman', S0.x + 5, S0.y); put('spearman', S0.x + 6, S0.y + 1); put('nslinger', S0.x + 5, S0.y + 2);
       this.raids = WILD_LENGTHS[this.length].raids;
       this.raid = 0;                     // raids that have come down
@@ -1082,6 +1082,7 @@
         return out.length ? out : [[w.x, w.y]];
       });
       W.msg('Choose the standard of liberty and plant it on open ground to begin your city.', 'Alma 46:36', 'tip');
+      W.msg('Then build a storehouse: carts bring the harvest there, and each storehouse brings a cart.', null, 'tip');
       W.msg(`Robbers will come down out of the wilderness: ${this.raids} raids, bigger each time. Build a barracks, then walls and watchtowers on the ways in.`, null, 'tip');
     },
     get phaseLabel() {

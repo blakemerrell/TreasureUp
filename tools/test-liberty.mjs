@@ -238,6 +238,17 @@ console.log('Free battle · build a city, tear down the war camp');
   ok(W.foodCap() === 10 && W.storeCap() === 300, 'the city feeds 10 and stores 300 of each');
   W.res.timber = 290; W.gain('timber', 50);
   ok(W.res.timber === 300, 'more than the storehouses hold is lost');
+  // Carts need a storehouse (play-test 2): in a skirmish the city takes no harvest; each storehouse brings a cart, like a refinery in Red Alert.
+  { const cart = W.units('p').find(u => u.type === 'cart');
+    ok(W.units('p').filter(u => u.type === 'cart').length === 1 && W.whyNotTrain('cart') === 'Needs Storehouse' && !W.nearestDropoff(cart), 'it starts with one cart; with no storehouse there is nowhere to bring the harvest, and no cart can be trained');
+    W.order(cart, { type: 'idle' }); for (let i = 0; i < 20; i++) W.step(0.1);
+    ok(cart.order.type === 'idle' && W.msgs.some(m => /horse carts have nowhere to bring the harvest: build a storehouse/.test(m.text)), 'so the cart waits, and you are told to build a storehouse');
+    let spot = null; for (let r = 2; r < 9 && !spot; r++) for (let dy = -r; dy <= r && !spot; dy++) if (W.canPlace('storehouse', city.tx - 2 - r, city.ty + dy)) spot = [city.tx - 2 - r, city.ty + dy];
+    W.res.timber += 60; const st = W.place('storehouse', spot[0], spot[1], []); W.res.timber -= 60;
+    W.progress(st, 1);
+    ok(W.units('p').filter(u => u.type === 'cart').length === 2 && W.msgs.some(m => m.text === 'A horse cart comes with the storehouse.') && W.nearestDropoff(cart) === st, 'a storehouse comes with a horse cart, and now the carts have somewhere to bring the harvest');
+    W.order(cart, { type: 'idle' }); for (let i = 0; i < 5; i++) W.step(0.1);
+    ok(cart.order.type === 'gather', 'and the waiting cart goes to work on its own'); }
   W.res = { grain: 200, timber: 250 };                 // what free battle starts with: no head start
   for (let i = 0; i < 3; i++) W.train(city, 'cart');
   ok(W.foodUsed() === 10 && W.whyNotTrain('cart').startsWith('Not enough food') && !W.train(city, 'cart'), 'with no food for more, no one else can be trained until a farm is built');
@@ -447,12 +458,13 @@ console.log('Free battle · build a city, tear down the war camp');
   { FB.level = 'normal'; FB.side = 'kingmen'; FB.captain = 'ammoron';
     const W = new S.World(undefined, FB.map); W.mission = FB; FB.setup(W);
     const camp = W.stronghold(), S0 = { x: camp.tx, y: camp.ty };
-    const plan = [['tents', 0, 8], ['muster', 4, 8], ['tents', -4, 8], ['storetent', 8, 2], ['tents', 8, -2], ['shieldtent', -4, 12], ['tents', 0, 12], ['pavilion', 4, 12], ['tents', 8, 6], ['wardance', -8, 4], ['tents', -8, 0],
+    const plan = [['storetent', -6, 9], ['tents', 0, 8], ['muster', 4, 8], ['tents', -4, 8], ['tents', 8, -2], ['shieldtent', -4, 12], ['tents', 0, 12], ['pavilion', 4, 12], ['tents', 8, 6], ['wardance', -8, 4], ['tents', -8, 0],
       ['kingscourt', 9, 10], ['tents', 12, 2], ['muster', -8, 8], ['tents', 12, 6], ['tents', -8, -4], ['ladderworks', 2, 15], ['tents', 12, 10], ['tents', -12, 4], ['tents', 16, 2], ['tents', -12, 0], ['tents', 16, 6]];
     const research = { shieldtent: ['lshields', 'skins'], ladderworks: ['lladders'] };
     const bearers = () => W.units('p').filter(u => u.type === 'bearer'), army = () => W.soldiers('p').filter(u => !u.def.hero);
-    let attackAt = null;
+    let attackAt = null, raised = false;
     const ms = run(W, 30 * 60, 1, W => {
+      if (W.buildings('r', 'barracks').some(b => b.built >= 1) && W.buildings('r', 'farm').filter(b => b.built >= 1).length >= 2) raised = true;   // (seen while it stands: it may be torn down by the end)
       if (camp.queue.length < 1 && bearers().length < 8) W.train(camp, 'bearer');
       const unbuilt = W.buildings('p').filter(b => b.built < 1);
       if (plan.length && unbuilt.length < 2) {
@@ -484,12 +496,14 @@ console.log('Free battle · build a city, tear down the war camp');
         for (const u of army().filter(u => u.order.type === 'idle' || (u.order.type === 'attack' && !W.ents.get(u.order.target)))) { const t = raiders.sort((a, b) => S.dist(a, u) - S.dist(b, u))[0]; W.order(u, { type: 'attack', target: t.id }); }
         if (W.temple() && !W.whyNotMiracle('flattery')) W.miracle('flattery', raiders[0].x, raiders[0].y, raiders[0].id);
       }
-      if (!attackAt && (army().length >= 40 || W.t > 16 * 60)) attackAt = W.t;
-      if (attackAt) { const t = W.buildings('r').filter(b => !b.dead && !b.def.wall).sort((a, b) => S.dist(a, camp) - S.dist(b, camp))[0]; if (t) for (const u of army().filter(u => u.order.type === 'idle')) W.order(u, { type: 'attack', target: t.id }); }
+      // (and comes back when the raiders run home: no chasing them into Zarahemla's guns before the army is ready)
+      if (!attackAt) for (const u of army()) { const t = u.order.type === 'attack' && W.ents.get(u.order.target); if (t && t.kind === 'unit' && !W.buildings('p').some(b => S.dist(b, t) < 360)) W.order(u, { type: 'move', tx: S0.x + 2, ty: S0.y + 9 }); }
+      if (!attackAt && ((army().length >= 55 && W.buildings('p', 'kingscourt').some(b => b.built >= 1)) || W.t > 16 * 60)) attackAt = W.t;   // a great host, with the court's cunning behind it
+      if (attackAt) { const t = W.buildings('r').filter(b => !b.dead && !b.def.wall).sort((a, b) => S.dist(a, camp) - S.dist(b, camp))[0]; if (t) for (const u of army().filter(u => u.order.type === 'idle').slice(8)) W.order(u, { type: 'attack', target: t.id }); }   // (eight stay home)
       if (process.env.DIAG && Math.floor(W.t) % 60 === 0 && Math.floor(W.t) !== (W._diag || 0)) { W._diag = Math.floor(W.t); console.log(`      diag t=${Math.floor(W.t)} mine=${army().length} theirs=${W.soldiers('r').length} myBld=${W.buildings('p').filter(b => b.def.cost && !b.def.wall).map(b => b.type[0]).join('')} theirBld=${W.buildings('r').filter(b => b.def.cost && !b.def.wall).map(b => b.type[0]).join('')} g/t=${Math.round(W.res.grain)}/${Math.round(W.res.timber)} marches ${FB.camp.marches} city=${city ? Math.round(city.hp) : 'down'}`); }
     });
     console.log(`    at ${Math.round(W.t / 60)} min · their marches ${FB.camp.marches} · my army ${army().length} · their army ${W.soldiers('r').length} · fallen ${W.stats.fallen} · defeated ${W.stats.defeated} · slowest step ${ms}ms`);
-    ok(W.buildings('r', 'barracks').length >= 1 && W.buildings('r', 'farm').length >= 2 && FB.camp.marches >= 2, `the Freemen opponent raised farms and a barracks and marched on the camp, again and again (${FB.camp.marches} marches)`);
+    ok(raised && FB.camp.marches >= 2, `the Freemen opponent raised farms and a barracks and marched on the camp, again and again (${FB.camp.marches} marches)`);
     ok((W.trained.lamanite || 0) >= 8 && W.buildings('p', 'muster').length >= 1 && W.buildings('p', 'kingscourt').length === 1, `the King-men player raised a muster ground and the king's court and trained warriors (${W.trained.lamanite || 0})`);
     ok(W.over && W.over.won && W.t < 20 * 60, 'Zarahemla falls within 20 minutes: ' + (W.over ? W.over.title + ' ★' + W.over.stars : 'not over'));
     ok(ms < 40, 'a step stays fast enough with two camps');
@@ -532,7 +546,7 @@ console.log('Out of the Wilderness · build a city, hold off the raids');
     W = game(level, 'short');
     const home = W.deploy(W.units('p').find(u => u.def.deploys));
     const S0 = { x: home.tx, y: home.ty };
-    const plan = [['farm', 4, -3], ['barracks', 6, 1], ['farm', -3, -3], ['granary', -3, 1], ['tower', 2, -6], ['armory', 6, 5], ['farm', 0, 6], ['tower', -7, 2],
+    const plan = [['storehouse', -4, 4], ['farm', 4, -3], ['barracks', 6, 1], ['farm', -3, -3], ['granary', -3, 1], ['tower', 2, -6], ['armory', 6, 5], ['farm', 0, 6], ['tower', -7, 2],
       ['smithy', 9, 5], ['training', -7, -3], ['tower', 10, -2], ['hall', 9, -3], ['farm', 3, 9], ['tower', 2, 10], ['farm', -6, -1], ['granary', 10, 3], ['farm', -1, -6], ['farm', 13, 0]];
     const research = { armory: ['breastplates', 'clothing', 'pickets'], smithy: ['cimeters', 'bows'], hall: ['ladders'] };
     const workers = () => W.units('p').filter(u => u.type === 'worker');

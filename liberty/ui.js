@@ -831,6 +831,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (particles.length > 80) return;
     particles.push({ ix: ix + (Math.random() - 0.5) * 6, iy, vx: (Math.random() - 0.5) * 0.5, vy: -1.0 - Math.random() * 0.8, size: 3 + Math.random() * 2, life: 0, maxLife: 20 });
   }
+  function addDust(ix, iy) {                       // a helper's blow on a building: a little puff of dust
+    if (particles.length > 80) return;
+    particles.push({ ix: ix + (Math.random() - 0.5) * 6, iy: iy - Math.random() * 4, vx: (Math.random() - 0.5) * 0.7, vy: -0.35 - Math.random() * 0.4, size: 2 + Math.random() * 2.5, life: 0, maxLife: 26, dust: true });
+  }
   function addSpark(ix, iy) {
     if (particles.length > 80) return;
     particles.push({ ix, iy, vx: (Math.random() - 0.5) * 2.5, vy: (Math.random() - 0.5) * 2.5 - 1, size: 1.5, life: 0, maxLife: 15, spark: true });
@@ -907,6 +911,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (p.spark) {
         ctx.fillStyle = `rgba(254,240,138,${alpha})`;
         ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size, 0, 7); ctx.fill();
+      } else if (p.dust) {
+        ctx.fillStyle = `rgba(214,190,140,${alpha * 0.85})`;
+        ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size + p.life * 0.08, 0, 7); ctx.fill();
       } else if (p.dark) {
         ctx.fillStyle = `rgba(28,25,23,${alpha * 0.65})`;
         ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size, 0, 7); ctx.fill();
@@ -1081,13 +1088,17 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Ancient American / Book of Mormon Character Sprites in 2:1 Isometric
   function drawUnit(u, now) {
     const d = u.def;
-    const { ix, iy } = toIso(u.x, u.y);
+    let { ix, iy } = toIso(u.x, u.y);
     const r = radius(u);
     const kneel = u.kneelUntil && W.t < u.kneelUntil;
     const moving = !!(u.path && u.path.length > 0);
-    const working = u.order.type === 'gather' && u.phase === 'work';
+    const bt = u.order.type === 'build' && W.ents.get(u.order.target);
+    const hammering = !!(bt && !bt.dead && !moving && W.nextTo(u, W.rectOf(bt)));   // a helper at work on a building
+    const working = (u.order.type === 'gather' && u.phase === 'work') || hammering;
     const walkCycle = moving ? Math.sin(now * 0.015 + u.id) : 0;
     const bob = moving ? Math.abs(walkCycle) * 2.2 : (working ? Math.abs(Math.sin(now * 0.02 + u.id)) * 1.5 : 0);
+    const blow = hammering ? Math.max(0, Math.sin(now * 0.011 + u.id * 1.7)) : 0;      // 0 at rest, 1 at the strike
+    if (hammering) { const p = toIso(bt.x, bt.y), dx = p.ix - ix, dy = p.iy - iy, dd = Math.hypot(dx, dy) || 1; ix += dx / dd * 18; iy += dy / dd * 9; }   // drawn up against the work
     const x = ix, y = iy - (kneel ? -2 : 1) - bob;
     
     let flip = 1;
@@ -1102,6 +1113,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
         const dx = target.x - u.x, dy = target.y - u.y;
         if (dx - dy < 0) flip = -1;
       }
+    } else if (hammering) {
+      if (bt.x - u.x - (bt.y - u.y) < 0) flip = -1;
+      if (blow > 0.97 && (!u._dustAt || now - u._dustAt > 300)) {     // the blow lands: dust where it struck
+        u._dustAt = now;
+        const a = Math.atan2(bt.y - u.y, bt.x - u.x), p = toIso(u.x + Math.cos(a) * 18, u.y + Math.sin(a) * 18);
+        addDust(p.ix, p.iy - 6); addDust(p.ix, p.iy - 10);
+      }
     }
 
     ctx.fillStyle = 'rgba(0,0,0,.32)'; ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 0.95, r * 0.48, 0, 0, 7); ctx.fill();
@@ -1112,6 +1130,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.save();
     ctx.translate(x, y);
     ctx.scale(flip, 1);
+    if (hammering) ctx.rotate(blow * 0.24 - 0.07);    // leans into each blow
 
     if (u.type === 'standard') {
       ctx.restore(); if (hid) ctx.globalAlpha = 1;
@@ -1340,12 +1359,28 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (selected) {
       drawIsoCorners(ix - w * 0.45, iy - h * 0.35, w * 0.9, h * 0.7, '#4ade80');
     }
+    const helpers = b.team === 'p' && W.needsWork(b) ? W.units('p').filter(u => u.order.type === 'build' && u.order.target === b.id && W.nextTo(u, W.rectOf(b)) && !(u.path && u.path.length)).length : 0;
     if (b.built < 1) {
-      ctx.fillStyle = 'rgba(0,0,0,.7)'; ctx.fillRect(ix - 20, iy - 4, 40, 6);
-      ctx.fillStyle = '#fcd34d'; ctx.fillRect(ix - 19, iy - 3, 38 * b.built, 4);
+      ctx.fillStyle = 'rgba(0,0,0,.7)'; ctx.fillRect(ix - 25, iy - 4, 50, 8);
+      ctx.fillStyle = helpers ? (Math.floor(now / 250) % 2 ? '#fde68a' : '#fcd34d') : '#d6a93a'; ctx.fillRect(ix - 24, iy - 3, 48 * b.built, 6);
+      if (helpers) drawHelpers(ix, iy - 7, helpers, true);
     } else if (b.def.hp < 99999 && (selected || b.hp < S.maxHp(b))) {
       hpBar(ix, iy - 36, 44, b.hp / S.maxHp(b));
+      if (helpers) drawHelpers(ix, iy - 41, helpers, false);
     }
+  }
+  // A small hammer over a building's bar for each helper at work on it, and how much faster it goes (Blake's play-test).
+  function drawHelpers(cx, y, n, rising) {         // (rising: it builds itself too, so each helper adds as much again)
+    const shown = Math.min(n, 4), w = shown * 11 + (rising ? 22 : 0), x0 = cx - w / 2;
+    ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x0 - 2, y - 11, w + 4, 12);
+    for (let i = 0; i < shown; i++) {
+      const hx = x0 + 2 + i * 11;
+      ctx.fillStyle = '#c8a46a'; ctx.fillRect(hx + 4, y - 8, 2, 8);        // the handle
+      ctx.fillStyle = '#e5e7eb'; ctx.fillRect(hx + 1, y - 10, 8, 4);       // the head
+    }
+    if (!rising) return;
+    ctx.font = 'bold 9px system-ui, sans-serif'; ctx.fillStyle = '#fde68a'; ctx.textBaseline = 'alphabetic';
+    ctx.fillText('×' + (n + 1), x0 + shown * 11 + 3, y - 2);
   }
 
   // The training ground: posts at the plot's corners, a straw dummy in the middle, a banner.
@@ -2514,7 +2549,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       <div class="kicker">${m.kicker ? esc(m.kicker()) : m.free ? 'Free battle · ' + esc(m.LEVELS[m.level].name) : esc(CAMPAIGNS.find(c => c.id === m.campaign).title) + ' · Mission ' + (inCampaign(m).indexOf(m) + 1) + ' · ' + esc(m.chapter)} · ${esc(m.year)}</div>
       <h2 style="font-size:32px">${esc(m.title)}</h2>
       <ul>${m.briefing.map(([t, r]) => `<li>${esc(t)} ${refBtn(r)}</li>`).join('')}</ul>
-      ${m.free ? (m.side === 'kingmen' ? `<p class="lede">You are the King-men, under ${esc(CAPTAINS.kingmen[m.captain].name)}. Tap your camp to build. Your line: tents and a store tent → muster ground → shield-makers' tent → pavilion → king's court. A tent feeds 8 warriors; nobody can be trained without food.</p>` : `<p class="lede">You are the Freemen, under ${esc(CAPTAINS.freemen[m.captain].name)}. Tap your city to build. Your building line: farms and granaries → barracks → armory and smithy → stables and the hall of the captains. A farm feeds 8 people; nobody can be trained without food.</p>`) : ''}
+      ${m.free ? (m.side === 'kingmen' ? `<p class="lede">You are the King-men, under ${esc(CAPTAINS.kingmen[m.captain].name)}. Tap your camp to build. Your line: a store tent first (bearers bring the provisions there) → tents → muster ground → shield-makers' tent → pavilion → king's court. A tent feeds 8 warriors; nobody can be trained without food.</p>` : `<p class="lede">You are the Freemen, under ${esc(CAPTAINS.freemen[m.captain].name)}. Tap your city to build. Your building line: a storehouse first (carts bring the harvest there, and each brings a cart) → farms and granaries → barracks → armory and smithy → stables and the hall of the captains. A farm feeds 8 people; nobody can be trained without food.</p>`) : ''}
       <div class="goalbox"><b>Your goals.</b> ${esc(m.goals)}</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn go" id="bBegin">Begin</button><button class="btn" id="bBack">Back</button></div></div>`);
     $('bBegin').onclick = () => begin(m);

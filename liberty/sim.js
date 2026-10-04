@@ -686,6 +686,11 @@
       b.hp = Math.min(maxHp(b), b.hp + maxHp(b) * step * 0.9);
       if (b.built >= 1) {
         if (b.team === this.me) this.msg(b.def.name + ' is finished.', null, 'good');
+        if (b.def.brings && this.tech) {             // a store comes with a hauler, as a refinery comes with a harvester
+          const [x, y] = this.freeTileNear(b.tx + Math.floor(b.w / 2), b.ty + b.h, b.team);
+          this.addUnit(b.def.brings, b.team, center(x), center(y));
+          if (b.team === this.me) this.msg(`A ${UNITS[b.def.brings].name.toLowerCase()} comes with the ${b.def.name.toLowerCase()}.`, null, 'good');
+        }
         if (this.mission && this.mission.onBuilt) this.mission.onBuilt(this, b);
       }
     }
@@ -944,9 +949,11 @@
       }
       return best;
     }
+    // Where haulers unload. In a story mission the city takes it too; in a skirmish only a store does (Red Alert's refinery).
+    takesHarvest(b) { const d = b.def.dropoff; return d === true || (d === 'story' && !this.tech); }
     nearestDropoff(u) {
       let best = null, bd = Infinity;
-      for (const b of this.buildings(u.team)) if (b.def.dropoff && b.built >= 1) { const d = this.distToRect(u, b); if (d < bd) { bd = d; best = b; } }
+      for (const b of this.buildings(u.team)) if (this.takesHarvest(b) && b.built >= 1) { const d = this.distToRect(u, b); if (d < bd) { bd = d; best = b; } }
       return best;
     }
     gatherAt(u, tx, ty) {
@@ -958,7 +965,11 @@
     // An idle cart picks what it hauls: what it was last sent for, or else whichever of grain and timber is shorter;
     // and the nearest of it. Stone only comes when a cart was sent for it.
     autoHaul(u) {
-      if (!this.nearestDropoff(u)) return false;
+      if (!this.nearestDropoff(u)) {                 // nowhere to bring it: wait, and say so now and then
+        const S = D.SIDES && D.SIDES[this.side(u.team).side];
+        if (u.team === this.me && S && this.t - (this.noStoreAt || -99) > 40) { this.noStoreAt = this.t; this.msg(`Your ${UNITS[u.type].name.toLowerCase()}s have nowhere to bring the harvest: build a ${BUILDINGS[S.store].name.toLowerCase()}.`, null, 'warn'); }
+        return false;
+      }
       const R = this.side(u.team).res, low = R.grain <= R.timber ? 'grain' : 'timber', other = low === 'grain' ? 'timber' : 'grain';
       const kinds = u.pref ? [u.pref, ...[low, other].filter(k => k !== u.pref)] : [low, other];
       const tx = tileOf(u.x), ty = tileOf(u.y);
