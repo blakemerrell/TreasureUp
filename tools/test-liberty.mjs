@@ -242,6 +242,19 @@ console.log('Free battle · build a city, tear down the war camp');
   for (let i = 0; i < 3; i++) W.train(city, 'cart');
   ok(W.foodUsed() === 10 && W.whyNotTrain('cart').startsWith('Not enough food') && !W.train(city, 'cart'), 'with no food for more, no one else can be trained until a farm is built');
   ok(W.whyNotPlace('farm', city.tx + 20, city.ty) === 'far' && W.whyNotPlace('farm', city.tx + 5, city.ty) === '', 'a building must stand within reach of what you have (Red Alert\'s rule)');
+  // Taking down what you built, and a gate where a wall piece stands (play-test 1).
+  { const r0 = { ...W.res }; W.res.timber += 200; W.res.stone = (W.res.stone || 0) + 40;
+    let spot = null; for (let r = 3; r < 9 && !spot; r++) for (let dx = -r; dx <= r && !spot; dx++) if (W.canPlace('wall', city.tx + dx, city.ty + city.h + r)) spot = [city.tx + dx, city.ty + city.h + r];
+    const w = W.place('wall', spot[0], spot[1], []), t0 = W.res.timber;
+    ok(W.sell(w) && w.dead && W.res.timber === t0 + W.costOf(D.BUILDINGS.wall, 'p', 'build').timber, 'a building still rising comes down with all it cost back');
+    const w2 = W.place('wall', spot[0], spot[1], []); W.progress(w2, 1);
+    ok(W.canPlace('gate', spot[0], spot[1]) && !W.canPlace('tower', spot[0], spot[1]), 'a gate may go where your own wall piece stands, nothing else may');
+    const g = W.place('gate', spot[0], spot[1], []);
+    ok(g && w2.dead && W.wallAt(spot[0], spot[1]) === null && W.occ[spot[1] * D.MAP_W + spot[0]] !== w2.id, 'the gate takes the wall piece\'s place');
+    W.progress(g, 1); const s0 = W.res.stone;
+    ok(W.sell(g) && W.res.stone === s0 + Math.floor(W.costOf(D.BUILDINGS.gate, 'p', 'build').stone / 2), 'a standing building comes down with half back (Red Alert\'s sell)');
+    ok(!W.sell(city), 'the city itself cannot be taken down');
+    W.res = r0; }
   { const far = W.place('farm', city.tx + 20, city.ty, []); ok(!far, 'so nothing can be built far off, near the enemy'); }
   // Stone: a rock face beside open ground holds it, a cart told to quarry brings it home, and towers take it.
   { const c = W.units('p').find(u => u.type === 'cart'), f = W.nearestResource(city.tx, city.ty, 'stone', c);

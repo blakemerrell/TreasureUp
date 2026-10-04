@@ -113,6 +113,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   };
   const KINDS = ['grain', 'timber', 'stone'];
   const costHtml = c => !c ? '' : KINDS.map(k => c[k] ? ICON[k] + c[k] : '').filter(Boolean).map(x => '<span class="c">' + x + '</span>').join(' ');
+  const costText = c => KINDS.filter(k => c && c[k]).map(k => c[k] + ' ' + k).join(', ') || 'nothing';
 
   // ------------------------------------------------------------ saves
 
@@ -156,6 +157,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
   let placing = null;                                // a building type waiting for a spot
   let aiming = null;                                 // a miracle waiting for its spot
   let wallLine = null;                               // [[x, y], ...] while dragging a wall
+  let wallStart = null;                              // on a touch screen, where the wall starts (the next tap is where it ends)
+  let armedRemove = null;                            // a building whose Remove was tapped once: a second tap takes it down
   let hover = null;                                  // the mouse's world position
   let infoEnt = null;                                // a robber or village being looked at
   let boxMode = false, box = null;
@@ -1567,13 +1570,14 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (m.aim !== 'foe' && m.aim !== 'building' && m.r) { ctx.strokeStyle = 'rgba(253,230,138,.9)'; ctx.lineWidth = 2; ctx.setLineDash([6, 5]); ctx.beginPath(); ctx.ellipse(ix, iy, m.r, m.r / 2, 0, 0, 7); ctx.stroke(); ctx.setLineDash([]); }
     }
     if (!placing) return;
-    const def = BUILDINGS[placing];
+    const def = BUILDINGS[placing], cost = W.costOf(def, 'p', 'build');
     let spots = [];
-    if (wallLine) spots = wallLine.map(([x, y]) => [x, y]);
+    if (wallStart && hover && touchy) spots = lineTiles(wallStart, [tileOf(hover.x), tileOf(hover.y)]);
+    else if (wallLine) spots = wallLine.map(([x, y]) => [x, y]);
     else if (hover) spots = [topLeft(placing, hover.x, hover.y)];
     const left = Object.assign({}, W.res);
     for (const [x, y] of spots) {
-      for (const k of KINDS) left[k] = (left[k] || 0) - (def.cost[k] || 0);
+      for (const k of KINDS) left[k] = (left[k] || 0) - (cost[k] || 0);
       const ok = W.canPlace(placing, x, y) && KINDS.every(k => left[k] >= 0);
       for (let dy = 0; dy < def.h; dy++) {
         for (let dx = 0; dx < def.w; dx++) {
@@ -1670,7 +1674,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const selectable = e => e && !e.dead && e.team === 'p' && e.type !== 'villager' && e.type !== 'flock';
   const selEnts = () => sel.map(id => W.ents.get(id)).filter(e => e && !e.dead);
   const selUnits = () => selEnts().filter(e => e.kind === 'unit' && selectable(e));
-  function setSel(list) { sel = list.filter(selectable).map(e => e.id); infoEnt = null; placing = null; aiming = null; wallLine = null; refreshPanel(true); }
+  function setSel(list) { sel = list.filter(selectable).map(e => e.id); infoEnt = null; placing = null; aiming = null; wallLine = null; wallStart = null; armedRemove = null; refreshPanel(true); }
 
   function entityAt(wx, wy, sx, sy) {
     let best = null, bd = 24;
@@ -1767,8 +1771,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const def = BUILDINGS[type];
     if (W.whyNotBuild(type)) return toast(W.whyNotBuild(type) + '.', 'warn');
     if (!W.canAfford(def.cost)) return toast(poorText(def.cost), 'warn');
-    placing = type; wallLine = null; touchSpot = null;
-    toast(type === 'wall' ? 'Drag a line where the wall goes. Tap Done when you finish.' : `Tap where the ${def.name.toLowerCase()} goes.`, 'me');
+    placing = type; wallLine = null; wallStart = null; touchSpot = null;
+    toast(type === 'wall' ? (touchy ? 'Tap where the wall starts, then where it ends. Tap Done when you finish.' : 'Drag a line where the wall goes. Tap Done when you finish.') : `Tap where the ${def.name.toLowerCase()} goes.`, 'me');
     refreshPanel(true);
   }
   // A miracle: tap its button, then the spot (or the foe) it falls on.
@@ -1857,7 +1861,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const p = toWorld(e.clientX, e.clientY);
     if (e.button === 2) { gesture = { kind: 'right' }; return; }
     if (e.button === 1) { gesture = { kind: 'pan', lx: e.clientX, ly: e.clientY }; return; }
-    if (placing === 'wall') { const t = [tileOf(p.x), tileOf(p.y)]; wallLine = [t]; gesture = { kind: 'wall', a: t }; return; }
+    if (placing === 'wall' && e.pointerType === 'mouse') { const t = [tileOf(p.x), tileOf(p.y)]; wallLine = [t]; gesture = { kind: 'wall', a: t }; return; }
     gesture = { kind: 'press', sx: e.clientX, sy: e.clientY, touch: e.pointerType !== 'mouse' };
   });
   cv.addEventListener('pointermove', e => {
@@ -1889,8 +1893,21 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const g = gesture;
     if (ptrs.size) { if (g && g.kind === 'pinch') gesture = { kind: 'done' }; return; }
     gesture = null;
-    if (!g || cancelled || !W) { box = null; wallLine = null; return; }
+    if (!g || cancelled || !W) { box = null; if (!wallStart) wallLine = null; return; }
     const p = toWorld(e.clientX, e.clientY);
+    // Building something, and you tap one of your own people or buildings: you mean to choose it, not to build there.
+    // (Walls aside: you may be drawing next to one. And a gate goes on a wall piece of yours.)
+    if ((g.kind === 'press' || (g.kind === 'wall' && (!wallLine || wallLine.length < 2))) && placing) {
+      const own = entityAt(p.x, p.y, e.clientX, e.clientY);
+      if (selectable(own) && (own.kind === 'unit' || own.def.wall == null)) { setSel([own]); return; }
+    }
+    // Walls on a touch screen: tap where it starts, then where it ends.
+    if (g.kind === 'press' && g.touch && placing === 'wall') {
+      const t = [tileOf(p.x), tileOf(p.y)];
+      if (!wallStart) { wallStart = t; wallLine = [t]; toast('Now tap where the wall ends (the same spot again for one piece).', 'me'); return; }
+      placeLine(lineTiles(wallStart, t)); wallStart = null; wallLine = null;
+      return;
+    }
     if (g.kind === 'press' && g.touch && placing && placing !== 'wall') {
       // On a touch screen there's no pointer to show where it would go: the first tap shows it, a second tap there builds it.
       const spot = topLeft(placing, p.x, p.y);
@@ -2041,6 +2058,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'build:barracks': 'assets/cameo_barracks.png?v=1',
     'build:wall': 'assets/cameo_wall.png?v=1',
     'build:gate': 'assets/cameo_gate.png?v=1',
+    gatehere: 'assets/cameo_gate.png?v=1',
     'build:tower': 'assets/cameo_tower.png?v=10',
     'build:armory': 'assets/cameo_armory.png?v=10',
     'build:stables': 'assets/cameo_stables.png?v=1',
@@ -2078,6 +2096,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     letgo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
     cancel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
     done: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>',
+    remove: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg>',
     // the temple's miracles
     'miracle:flattery': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12c3-4 6-4 8 0s5 4 8 0"/><path d="M12 4v3M12 17v3"/></svg>',
     'miracle:dissension': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l8-5 8 5v11"/><path d="M12 9v7M9 12l3 4 3-4"/></svg>',
@@ -2103,6 +2122,18 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const n = Math.max(6, ...shown.split(/[\s\u00ad]+/).map(w => w.length));
     return `<button class="cmd ${cls || ''}" data-cmd="${act}" data-label="${name}" style="--n:${n}"><span class="face">${face}<b>${shown}</b></span>${cost ? `<small>${cost}</small>` : ''}</button>`;
   };
+  // What you can do to anything you built: a wall piece can become a gate, and anything can be taken down (half back, all back while it rises).
+  function ownExtras(b) {
+    if (b.team !== 'p' || !b.def.cost || b.untouchable) return '';
+    let h = '';
+    if (b.type === 'wall' && b.built >= 1) {
+      const c = W.costOf(BUILDINGS.gate, 'p', 'build'), why = W.whyNotBuild('gate');
+      h += cmd('gatehere', 'Make a gate here', why ? esc(why) : costHtml(c), why || !W.canAfford(c) ? 'poor' : '');
+    }
+    const armed = armedRemove === b.id;
+    h += cmd('remove', armed ? 'Tap again' : b.built < 1 ? 'Stop building' : 'Remove', costHtml(W.sellValue(b)) + ' back', armed ? 'armed' : '');
+    return h;
+  }
   function cmdsHtml(ents) {
     if (aiming) {
       const m = W.power(aiming);
@@ -2110,7 +2141,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     if (placing) {
       const def = BUILDINGS[placing];
-      return `<div class="note">${placing === 'wall' ? 'Drag a line on the map for a wall: each piece costs ' + costHtml(def.cost) + '.' : 'Tap the map where the ' + esc(def.name.toLowerCase()) + ' goes. ' + costHtml(def.cost)}</div>` +
+      const each = costHtml(W.costOf(def, 'p', 'build'));
+      return `<div class="note">${placing === 'wall' ? (touchy ? (wallStart ? 'Now tap where the wall ends.' : 'Tap where the wall starts, then where it ends.') : 'Drag a line on the map for a wall.') + ' Each piece costs ' + each + '. Tap one of your people to stop building.' : 'Tap the map where the ' + esc(def.name.toLowerCase()) + ' goes. ' + each}</div>` +
         (placing === 'wall' ? cmd('done', 'Done', '', 'on') : '') + cmd('cancel', 'Cancel');
     }
     if (!ents.length) return `<div class="note">Choose people with a tap, or a whole group with <b>Soldiers</b> or <b>Box select</b>. Then tap where they should go, or what they should gather, build or fight.</div>`;
@@ -2130,7 +2162,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       h += cmd('letgo', 'Let go', touchy ? '' : 'Esc');
       return h;
     }
-    if (b.built < 1) return `<div class="note">It builds itself. Workers sent to it hurry it along.</div>`;
+    if (b.built < 1) return `<div class="note">It builds itself. Workers sent to it hurry it along.</div>` + ownExtras(b);
     let h = '';
     if (b.def.builder) {                            // the city: like Red Alert's construction yard, everything is built from here
       const list = W.tech ? (SIDES[W.side('p').side] || SIDES.freemen).build : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
@@ -2166,7 +2198,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       h += `<div class="queue">Training: ${b.queue.map((x, i) => `<span${i ? '' : ` style="--p:${p.toFixed(0)}%"`}>${esc(UNITS[x.type].name)}</span>`).join('')}</div>`;
     }
     if (b.def.trains) h += `<div class="note">${b.rally ? 'New ones go to the rally point.' : 'Tap the ground to set where new ones go.'}</div>`;
-    return h || `<div class="note">${esc(b.about || b.def.about || '')}</div>`;
+    return (h || `<div class="note">${esc(b.about || b.def.about || '')}</div>`) + ownExtras(b);
   }
   $('cmds').addEventListener('click', e => {
     const btn = e.target.closest('[data-cmd]');
@@ -2174,11 +2206,26 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const [act, arg] = btn.dataset.cmd.split(':');
     const one = selEnts()[0];
     if (act === 'build') startPlacing(arg);
-    else if (act === 'done' || act === 'cancel') { placing = null; aiming = null; wallLine = null; refreshPanel(true); }
+    else if (act === 'done' || act === 'cancel') { placing = null; aiming = null; wallLine = null; wallStart = null; refreshPanel(true); }
     else if (act === 'miracle') startAiming(arg);
     else if (act === 'stop') for (const u of selUnits()) W.order(u, { type: 'idle' });
     else if (act === 'letgo') setSel([]);
     else if (act === 'train' && one) { if (!W.train(one, arg)) toast(one.queue.length >= 5 ? 'The line is full.' : W.whyNotTrain(arg) || poorText(UNITS[arg].cost), 'warn'); }
+    else if (act === 'remove' && one) {
+      if (armedRemove !== one.id) {                // a second tap, so a slip of the finger takes nothing down
+        armedRemove = one.id; refreshPanel(true);
+        const id = one.id; setTimeout(() => { if (armedRemove === id) { armedRemove = null; refreshPanel(true); } }, 3000);
+      } else {
+        const back = W.sellValue(one), name = one.name || one.def.name;
+        armedRemove = null;
+        if (W.sell(one)) { toast(`${name} taken down: ${costText(back)} back.`, 'me'); setSel([]); }
+      }
+    }
+    else if (act === 'gatehere' && one) {
+      const g = W.place('gate', one.tx, one.ty, []);
+      if (g) { setSel([g]); toast('A gate goes in where the wall was: your people pass, robbers must break it.', 'me'); }
+      else toast(W.whyNotBuild('gate') ? W.whyNotBuild('gate') + '.' : poorText(W.costOf(BUILDINGS.gate, 'p', 'build')), 'warn');
+    }
     else if (act === 'deploy' && one) {
       const city = W.deploy(one);
       if (city) setSel([city]); else toast('The city needs open ground, 4 by 4. Move the standard to a clear spot.', 'warn');
@@ -2611,7 +2658,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (!W) return;
       const one = selEnts()[0];
       if (act === 'build') startPlacing(arg);
-      else if (act === 'done' || act === 'cancel') { placing = null; aiming = null; wallLine = null; refreshPanel(true); }
+      else if (act === 'done' || act === 'cancel') { placing = null; aiming = null; wallLine = null; wallStart = null; refreshPanel(true); }
       else if (act === 'miracle') startAiming(arg);
       else if (act === 'stop') for (const u of selUnits()) W.order(u, { type: 'idle' });
       else if (act === 'train' && one) { W.train(one, arg); }

@@ -319,6 +319,24 @@
     // --- building and training
     canAfford(cost, team) { const res = this.side(team || this.me).res; return !cost || KINDS.every(k => (cost[k] || 0) <= (res[k] || 0)); }
     pay(cost, team) { if (!cost) return; const res = this.side(team || this.me).res; for (const k of KINDS) if (cost[k]) res[k] = (res[k] || 0) - cost[k]; }
+    // Your own wall piece on a square, if there is one.
+    wallAt(tx, ty, team) { const id = this.occ[idx(tx, ty)], e = id && this.ents.get(id); return e && e.kind === 'building' && e.type === 'wall' && e.team === (team || this.me) && !e.dead ? e : null; }
+    // What taking a building down gives back: all of it while it is still rising, half once it stands (Red Alert's sell).
+    sellValue(b) {
+      const cost = this.costOf(b.def, b.team, 'build'), k = b.built < 1 ? 1 : 0.5, out = {};
+      for (const r of KINDS) if (cost[r]) out[r] = Math.floor(cost[r] * k);
+      return out;
+    }
+    // Take down something you built. What it was training, or making, comes back too. (Not the city or the camp: they were never built.)
+    sell(b) {
+      if (!b || b.dead || b.kind !== 'building' || !b.def.cost || b.untouchable) return false;
+      this.refund(this.sellValue(b), b.team);
+      for (const q of b.queue || []) this.refund(this.costOf(UNITS[q.type], b.team, 'train'), b.team);
+      const S = this.side(b.team);
+      if (S.researching && S.researching.by === b.id) { this.refund(RESEARCH[S.researching.key].cost, b.team); S.researching = null; }
+      this.remove(b);
+      return true;
+    }
     refund(cost, team) { if (!cost) return; const res = this.side(team || this.me).res; for (const k of KINDS) if (cost[k]) res[k] = (res[k] || 0) + cost[k]; }
     canPlace(type, tx, ty, team) { return !this.whyNotPlace(type, tx, ty, team); }
     // Why a building can't go on that spot: 'ground' (not open, or over the border), 'far' (out of reach of your
@@ -330,7 +348,7 @@
         if (!this.inBounds(x, y)) return 'ground';
         const t = this.tile(x, y);
         if (t !== T.GRASS && t !== T.FIELD && t !== T.RUIN) return 'ground';
-        if (this.occ[idx(x, y)]) return 'ground';
+        if (this.occ[idx(x, y)] && !(def.gate && this.wallAt(x, y, team))) return 'ground';   // (a gate may take the place of your own wall piece)
         if (team === this.me && this.border != null && y < this.border) return 'ground';
       }
       if (def.cost && !this.inReach(tx, ty, def.w, def.h, team)) return 'far';
@@ -351,6 +369,7 @@
       const cost = this.costOf(def, team, 'build');
       if (this.whyNotBuild(type, team) || !this.canPlace(type, tx, ty, team) || !this.canAfford(cost, team)) return null;
       this.pay(cost, team);
+      if (def.gate) { const w = this.wallAt(tx, ty, team); if (w) this.sell(w); }   // the gate goes in where the wall piece was
       const b = this.addBuilding(type, team, tx, ty, false);
       for (const u of builders || []) if (u.def.builds) this.order(u, { type: 'build', target: b.id });
       return b;
