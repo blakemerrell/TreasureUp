@@ -490,6 +490,15 @@
   .pz-targets li::before { content: '• '; color: var(--gold); }
   .pz-targets li.done { color: rgba(255,255,255,.45); }
   .pz-targets li.done::before { content: ''; }
+  .pz-modes { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .pz-hints { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 12px; } .pz-hints .btn { padding: 8px 12px; font-size: 13.5px; }
+  .pz-now { margin: 0 0 8px; text-align: center; } .pz-verses { margin: 0 0 10px; padding: 10px 14px; border-radius: 14px; background: rgba(252,211,77,.08); border: 1px solid rgba(252,211,77,.3); font-size: 14px; line-height: 1.45; } .pz-verses p + p { margin-top: 8px; }
+  .pz-boxes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 6px; }
+  .pz-box { padding: 8px 10px; border-radius: 14px; font: inherit; text-align: left; color: #111; cursor: pointer; border: 2px solid transparent; opacity: .92; }
+  .pz-box b { display: block; font-size: 12px; font-weight: 900; line-height: 1.25; } .pz-box small { display: block; font-size: 11.5px; font-weight: 700; opacity: .7; margin-top: 2px; }
+  .pz-box span { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; } .pz-box i { font-style: normal; font-size: 11px; font-weight: 700; padding: 1px 6px; border-radius: 99px; background: rgba(255,255,255,.55); }
+  .pz-box.ready { border-color: #fff; opacity: 1; box-shadow: 0 0 0 3px rgba(255,255,255,.18); } .pz-box.no { opacity: .45; } .pz-box:disabled { cursor: default; }
+  .pz-b0 { background: #fcd34d; } .pz-b1 { background: #6ee7b7; } .pz-b2 { background: #fda4af; } .pz-b3 { background: #93c5fd; } .pz-b4 { background: #c4b5fd; }
   .pz-msg { text-align: center; min-height: 22px; margin-top: 10px; font-weight: 800; color: var(--gold); }
 
   .say-quote { font-weight: 900; font-size: clamp(22px, 5.4vw, 40px); line-height: 1.2; margin: 10px 0 18px; text-wrap: balance; }
@@ -2667,7 +2676,7 @@ const TreasureUp = (function () {
       </div>`;
     const puzzle = !WEEK.puzzle ? '' : left ? word('🧩', 'Puzzle', '🔒', `Opens when all ${total} reels are done`)
       : pz && pz.status === 'won' ? word('🧩', 'Puzzle', 'Solved!', 'Nice work', true)
-      : pz && pz.status === 'lost' && pz.day === dayKey() ? word('🧩', 'Puzzle', 'Tomorrow', 'Out of tries for today')
+      : pz && pz.status === 'lost' && pz.day === dayKey() && pzMode() === 'hard' ? word('🧩', 'Puzzle', 'Try Easy', 'Out of Hard tries today')
       : word('🧩', 'Puzzle', 'Ready', 'It unlocked. Give it a try!');
     const units = readingAll(), readN = units.filter(u => S.read[u.ref]).length;
     const tiles = [
@@ -5019,7 +5028,7 @@ const TreasureUp = (function () {
     if (reelsLeft()) return 'Answer all ' + WEEK.reels.length + ' reels to unlock · ' + reelsLeft() + ' left';
     const pz = puzzleState();
     if (pz.status === 'won') return 'Solved ✓';
-    if (pz.status === 'lost') return 'Out of tries today · new try tomorrow';
+    if (pz.status === 'lost' && pzMode() === 'hard') return 'Out of Hard tries today · try Easy';
     return pz.rewarded ? 'Ready' : 'Ready · ' + PUZZLE_XP + ' XP and a streak freeze';
   }
 
@@ -5171,12 +5180,43 @@ const TreasureUp = (function () {
 
   /* ----- weekly puzzle: four groups of four, one per lesson section ----- */
 
-  let pzSel = [], pzOrder = null, pzMsg = '';
+  // Two ways to play (Blake, 2026-10-04: "The daily puzzle is to hard. I
+  // can't figure it out"). Easy, the first: tap an idea, then the section it
+  // goes in, right or wrong at once, as many tries as it takes. Hard, the
+  // Connections-style game as it was: four groups of four, 4 mistakes a day.
+  // Both have 💡 hints (the verse each idea comes from), and Easy can place
+  // up to 3 ideas for you. Either pays the same: 40 XP and a streak freeze.
+  // A group solved one way counts the other way too.
+  const PZ_GIVES = 3;
+  let pzSel = [], pzOrder = null, pzMsg = '', pzVerses = false;
+  const pzMode = () => S.pzMode === 'hard' ? 'hard' : 'easy';
+  const pzGroupOf = t => WEEK.puzzle.groups.findIndex(g => g.tiles.some(x => x.text === t));
+  const pzTile = t => WEEK.puzzle.groups.flatMap(g => g.tiles).find(x => x.text === t);
+  // Where an idea has been put (Easy), or its group, once found (Hard); null if not yet.
+  const pzPlaced = (pz, t) => (pz.placed || {})[t] != null ? pz.placed[t] : pz.solved.includes(pzGroupOf(t)) ? pzGroupOf(t) : null;
+  const pzSolvedGroups = pz => WEEK.puzzle.groups.map((g, gi) => gi).filter(gi => pz.solved.includes(gi) || WEEK.puzzle.groups[gi].tiles.every(x => pzPlaced(pz, x.text) === gi));
+  // A verse's words from this week's chapters ("Isaiah 40:31", "Isaiah 14:13–14"); '' without the text.
+  function verseWords(ref) {
+    const m = /^(.+) (\d+):(\d+)(?:[–-](\d+))?$/.exec(String(ref || ''));
+    const all = m && (window.TU_READING || {})[m[1] + ' ' + m[2]];
+    return Array.isArray(all) ? all.slice(Number(m[3]) - 1, Number(m[4] || m[3])).join(' ') : '';
+  }
 
   function openPuzzle() {
-    pzSel = []; pzOrder = null; pzMsg = '';
+    pzSel = []; pzOrder = null; pzMsg = ''; pzVerses = false;
     openPlay('puzzle', 'Weekly puzzle');
     renderPuzzle();
+  }
+
+  function pzWin(pz) {
+    pz.status = 'won';
+    markStudied();
+    if (!pz.rewarded) {
+      pz.rewarded = true;
+      S.freezes = (S.freezes || 0) + 1;
+      grantXp(PUZZLE_XP, 'Solved the weekly puzzle');
+      toast('❄️ Streak freeze earned', 'Saves your streak if you miss a day');
+    }
   }
 
   function renderPuzzle() {
@@ -5190,86 +5230,144 @@ const TreasureUp = (function () {
         </div>`;
       return;
     }
-    const pz = puzzleState();
-    const groups = WEEK.puzzle.groups;
-    const done = pz.status !== 'playing';
-    // A loss shows only the groups he solved: the rest come back tomorrow,
-    // so showing where every tile goes would hand him the answers.
-    const shownGroups = pz.status === 'won' ? groups.map((_, gi) => gi) : pz.solved;
-    const solvedHtml = shownGroups.map(gi => {
+    const pz = puzzleState(), groups = WEEK.puzzle.groups, mode = pzMode();
+    const solved = pzSolvedGroups(pz);
+    const solvedBox = (gi, refs) => {
       const g = groups[gi];
       return `<div class="pz-solved pz-c${gi}"><b>${esc(WEEK.sections[g.section])}</b>
         <span>${g.tiles.map(t => esc(t.text)).join(' · ')}</span>
-        ${done ? `<small>${g.tiles.map(t => linkRefs(t.ref)).join(' · ')}</small>` : ''}</div>`;
-    }).join('');
-
-    if (done) {
+        ${refs ? `<small>${g.tiles.map(t => linkRefs(t.ref)).join(' · ')}</small>` : ''}</div>`;
+    };
+    if (pz.status === 'won') {
       body.innerHTML = `
         <div class="pz-wrap">
-          <p class="clue-q">${pz.status === 'won' ? 'Solved!' : 'Out of tries for today'}</p>
-          <p class="board-help">${pz.status === 'won'
-            ? 'Every idea is in its section. You earned ' + PUZZLE_XP + ' XP and a streak freeze ❄️.'
-            : 'Tomorrow you get a new try at the same puzzle. The four sections to sort into:'}</p>
-          ${pz.status === 'won' ? '' : `<ul class="pz-targets">${groups.map((g, gi) => `<li class="${pz.solved.includes(gi) ? 'done' : ''}">${pz.solved.includes(gi) ? '✓ ' : ''}${esc(WEEK.sections[g.section])}</li>`).join('')}</ul>`}
-          <div style="margin-top:14px">${solvedHtml}</div>
+          <p class="clue-q">Solved!</p>
+          <p class="board-help">Every idea is in its section. You earned ${PUZZLE_XP} XP and a streak freeze ❄️.</p>
+          <div style="margin-top:14px">${groups.map((_, gi) => solvedBox(gi, true)).join('')}</div>
           <div class="board-actions"><button class="btn" data-pz="exit">Back</button></div>
         </div>`;
       return;
     }
+    const modes = `<div class="pz-modes"><button class="sh-pill${mode === 'easy' ? ' on' : ''}" data-pz="easy">Easy · one at a time</button><button class="sh-pill${mode === 'hard' ? ' on' : ''}" data-pz="hard">Hard · find the groups</button></div>`;
+    const verseBox = ts => ts.length ? `<div class="pz-verses">${ts.map(t => { const x = pzTile(t), v = verseWords(x.ref);
+      return `<p><b>${esc(t)}</b> · ${esc(x.ref)}${v ? `<br>“${esc(v)}”` : ''}</p>`; }).join('')}</div>` : '';
 
-    const left = groups.flatMap((g, gi) => pz.solved.includes(gi) ? [] : g.tiles.map(t => t.text));
+    if (mode === 'easy') {
+      const left = groups.flatMap(g => g.tiles.map(t => t.text)).filter(t => pzPlaced(pz, t) == null);
+      if (!pzOrder || pzOrder.length !== left.length || !left.every(t => pzOrder.includes(t))) pzOrder = shuffled(left, WEEK.title + '|easy|' + left.length);
+      const sel = pzSel[0], tried = sel ? ((pz.tried || {})[sel] || []) : [], gives = PZ_GIVES - (pz.gave || 0);
+      const boxes = groups.map((g, gi) => {
+        const ins = g.tiles.filter(t => pzPlaced(pz, t.text) === gi);
+        const no = sel && tried.includes(gi);
+        return `<button class="pz-box pz-b${gi}${sel && !no ? ' ready' : ''}${no ? ' no' : ''}" data-pz-sec="${gi}"${ins.length === 4 ? ' disabled' : ''}>
+          <b>${esc(WEEK.sections[g.section])}</b><small>${ins.length} of 4${no ? ' · not this one' : ''}</small>
+          ${ins.length ? `<span>${ins.map(t => `<i>${esc(t.text)}</i>`).join('')}</span>` : ''}</button>`;
+      }).join('');
+      body.innerHTML = `
+        <div class="pz-wrap">
+          ${modes}
+          <div class="pz-boxes">${boxes}</div>
+          <p class="pz-msg">${pzMsg}</p>
+          <p class="board-help pz-now">${sel ? `Now tap the section <b>“${esc(sel)}”</b> belongs in, above.` : 'Tap an idea, then the section it belongs in.'}</p>
+          ${pzVerses && sel ? verseBox([sel]) : ''}
+          <div class="pz-grid">${pzOrder.map(t => `<button class="ptile${t === sel ? ' sel' : ''}" data-pt="${esc(t)}">${esc(t)}</button>`).join('')}</div>
+          <div class="pz-hints">
+            <button class="btn ghost" data-pz="verse"${sel ? '' : ' disabled style="opacity:.4"'}>💡 Show its verse</button>
+            <button class="btn ghost" data-pz="give"${gives > 0 ? '' : ' disabled style="opacity:.4"'}>🪄 Place one for me (${gives} left)</button>
+          </div>
+        </div>`;
+      return;
+    }
+
+    // Hard
+    if (pz.status === 'lost') {
+      body.innerHTML = `
+        <div class="pz-wrap">
+          ${modes}
+          <p class="clue-q">Out of tries for today</p>
+          <p class="board-help">Hard comes back tomorrow with 4 more tries, or try it the easy way now. The four sections to sort into:</p>
+          <ul class="pz-targets">${groups.map((g, gi) => `<li class="${solved.includes(gi) ? 'done' : ''}">${solved.includes(gi) ? '✓ ' : ''}${esc(WEEK.sections[g.section])}</li>`).join('')}</ul>
+          <div style="margin-top:14px">${solved.map(gi => solvedBox(gi, false)).join('')}</div>
+          <div class="board-actions"><button class="btn" data-pz="easy">Try it the easy way</button><button class="btn ghost" data-pz="exit">Back</button></div>
+        </div>`;
+      return;
+    }
+    const left = groups.flatMap((g, gi) => solved.includes(gi) ? [] : g.tiles.map(t => t.text));
     if (!pzOrder || pzOrder.length !== left.length || !left.every(t => pzOrder.includes(t))) {
-      pzOrder = shuffled(left, WEEK.title + '|' + pz.day + '|' + pz.solved.length);
+      pzOrder = shuffled(left, WEEK.title + '|' + pz.day + '|' + solved.length);
     }
     body.innerHTML = `
       <div class="pz-wrap">
+        ${modes}
         <p class="board-help">Find four groups of four. Each group is one of this week's lesson sections:</p>
-        <ul class="pz-targets">${groups.map((g, gi) => `<li class="${pz.solved.includes(gi) ? 'done' : ''}">${pz.solved.includes(gi) ? '✓ ' : ''}${esc(WEEK.sections[g.section])}</li>`).join('')}</ul>
-        <div style="margin-top:12px">${solvedHtml}</div>
+        <ul class="pz-targets">${groups.map((g, gi) => `<li class="${solved.includes(gi) ? 'done' : ''}">${solved.includes(gi) ? '✓ ' : ''}${esc(WEEK.sections[g.section])}</li>`).join('')}</ul>
+        <div style="margin-top:12px">${solved.map(gi => solvedBox(gi, false)).join('')}</div>
         <div class="pz-grid">${pzOrder.map(t =>
           `<button class="ptile${pzSel.includes(t) ? ' sel' : ''}" data-pt="${esc(t)}">${esc(t)}</button>`).join('')}</div>
-        <p class="pz-msg">${esc(pzMsg)}</p>
+        <p class="pz-msg">${pzMsg}</p>
         <div class="pz-lives">Mistakes left: ${[0, 1, 2, 3].map(i => `<i class="${i < PUZZLE_MISTAKES - pz.mistakes ? '' : 'gone'}"></i>`).join('')}</div>
         <div class="board-actions" style="justify-content:center">
+          <button class="btn ghost" data-pz="verse"${pzSel.length ? '' : ' disabled style="opacity:.4"'}>💡 Verses</button>
           <button class="btn ghost" data-pz="shuffle">Shuffle</button>
           <button class="btn ghost" data-pz="clear">Deselect</button>
           <button class="btn" data-pz="submit"${pzSel.length === 4 ? '' : ' disabled style="opacity:.4"'}>Submit</button>
         </div>
+        ${pzVerses ? verseBox(pzSel) : ''}
       </div>`;
   }
 
   function puzzleAction(el) {
     const pz = puzzleState();
-    const act = el.dataset.pz;
-    if (el.dataset.pt != null) {
+    const act = el.dataset.pz, mode = pzMode(), groups = WEEK.puzzle.groups;
+    if (act === 'exit') { closePlay(); return; }
+    if (act === 'easy' || act === 'hard') {
+      S.pzMode = act; pzSel = []; pzOrder = null; pzMsg = ''; pzVerses = false;
+      save();
+    } else if (act === 'verse') {
+      pzVerses = !pzVerses;
+    } else if (el.dataset.pt != null) {
       const t = el.dataset.pt;
-      if (pzSel.includes(t)) pzSel = pzSel.filter(x => x !== t);
+      if (mode === 'easy') pzSel = pzSel[0] === t ? [] : [t];
+      else if (pzSel.includes(t)) pzSel = pzSel.filter(x => x !== t);
       else if (pzSel.length < 4) pzSel.push(t);
       pzMsg = '';
+    } else if (el.dataset.pzSec != null && mode === 'easy') {
+      const t = pzSel[0], gi = Number(el.dataset.pzSec);
+      if (!t) pzMsg = 'Tap an idea first.';
+      else if (pzGroupOf(t) === gi) {
+        (pz.placed = pz.placed || {})[t] = gi;
+        pzSel = []; pzVerses = false;
+        pzMsg = '✓ Yes! ' + esc(pzTile(t).ref);
+        if (groups.every(g => g.tiles.every(x => pzPlaced(pz, x.text) != null))) pzWin(pz);
+        save();
+      } else {
+        const tr = (pz.tried = pz.tried || {})[t] = ((pz.tried || {})[t] || []).concat(gi);
+        pz.misses = (pz.misses || 0) + 1;
+        pzMsg = tr.length >= 2 ? 'Not that one either. 💡 Its verse might help.' : 'Not that one. Try another section.';
+        save();
+      }
+    } else if (act === 'give' && mode === 'easy' && (pz.gave || 0) < PZ_GIVES) {
+      const left = groups.flatMap(g => g.tiles.map(x => x.text)).filter(t => pzPlaced(pz, t) == null);
+      const t = pzSel[0] || left[hash(WEEK.title + left.length) % left.length];
+      if (t) {
+        (pz.placed = pz.placed || {})[t] = pzGroupOf(t);
+        pz.gave = (pz.gave || 0) + 1;
+        pzSel = []; pzVerses = false;
+        pzMsg = '🪄 “' + esc(t) + '” goes in “' + esc(WEEK.sections[groups[pzGroupOf(t)].section]) + '.”';
+        if (groups.every(g => g.tiles.every(x => pzPlaced(pz, x.text) != null))) pzWin(pz);
+        save();
+      }
     } else if (act === 'shuffle') {
       pzOrder = shuffled(pzOrder, String(Date.now()));
     } else if (act === 'clear') {
-      pzSel = []; pzMsg = '';
-    } else if (act === 'exit') {
-      closePlay();
-      return;
-    } else if (act === 'submit' && pzSel.length === 4) {
-      const groups = WEEK.puzzle.groups;
+      pzSel = []; pzMsg = ''; pzVerses = false;
+    } else if (act === 'submit' && mode === 'hard' && pz.status === 'playing' && pzSel.length === 4) {
       const inGroup = (g, t) => g.tiles.some(x => x.text === t);
       const gi = groups.findIndex(g => pzSel.every(t => inGroup(g, t)));
       if (gi >= 0) {
         pz.solved.push(gi);
-        pzSel = []; pzMsg = '';
-        if (pz.solved.length === groups.length) {
-          pz.status = 'won';
-          markStudied();
-          if (!pz.rewarded) {
-            pz.rewarded = true;
-            S.freezes = (S.freezes || 0) + 1;
-            grantXp(PUZZLE_XP, 'Solved the weekly puzzle');
-            toast('❄️ Streak freeze earned', 'Saves your streak if you miss a day');
-          }
-        }
+        pzSel = []; pzMsg = ''; pzVerses = false;
+        if (pzSolvedGroups(pz).length === groups.length) pzWin(pz);
       } else if ((pz.guesses || []).includes(pzSel.slice().sort().join('|'))) {
         pzMsg = 'You already tried that one.';     // a repeat guess costs nothing
       } else {
@@ -5277,7 +5375,7 @@ const TreasureUp = (function () {
         pz.mistakes += 1;
         const best = Math.max(...groups.map(g => pzSel.filter(t => inGroup(g, t)).length));
         pzMsg = best === 3 ? 'One away…' : 'Not a group.';
-        if (pz.mistakes >= PUZZLE_MISTAKES) { pz.status = 'lost'; pzSel = []; }
+        if (pz.mistakes >= PUZZLE_MISTAKES) { pz.status = 'lost'; pzSel = []; pzVerses = false; }
       }
       save();
     }
@@ -5368,8 +5466,12 @@ const TreasureUp = (function () {
   // sooner pays more (15 / 10 / 5 XP). A guess must be a word from the
   // Bible or the Book of Mormon (scripture-words.js); if that list didn't
   // load, any letters count rather than blocking the game.
-  const WORD_TRIES = 6;
+  // Easy (the first; Blake, 2026-10-04: too hard): the verse with its blank
+  // from the start, any letters count as a guess, and 💡 shows up to 2
+  // letters. Hard: as above. The XP is the same either way.
+  const WORD_TRIES = 6, WORD_SHOWS = 2;
   const wordXp = guesses => guesses <= 2 ? 15 : guesses <= 4 ? 10 : 5;
+  const vwMode = () => S.vwMode === 'hard' ? 'hard' : 'easy';
   let vwTyped = '', vwMsg = '', wordSet = null;
   const isScriptureWord = w => {
     if (!wordSet && window.SCRIPTURE_WORDS) wordSet = new Set(window.SCRIPTURE_WORDS.split(' '));
@@ -5431,17 +5533,22 @@ const TreasureUp = (function () {
       ${n === 2 ? '<button class="vw-key wide" data-vk="enter">Enter</button>' : ''}
       ${[...row].map(c => `<button class="vw-key ${best[c] || ''}" data-vk="${c}">${c}</button>`).join('')}
       ${n === 2 ? '<button class="vw-key wide" data-vk="back" aria-label="Delete">⌫</button>' : ''}</div>`).join('');
-    const n = st.guesses.length, done = st.status !== 'playing';
-    const blank = done ? esc(w.word) : Array(L).fill('_').join(' ');
+    const n = st.guesses.length, done = st.status !== 'playing', easy = vwMode() === 'easy';
+    const shown = st.shown || [];
+    const blank = done ? esc(w.word) : Array.from({ length: L }, (_, i) => shown.includes(i) ? w.word[i] : '_').join(' ');
     const verse = `<p class="vw-clue">“${esc(w.clue).replace('____', '<b>' + blank + '</b>')}” <span class="text-white/55 text-[13px]">${done ? linkRefs(w.ref) : esc(w.ref)}</span></p>`;
+    const left = WORD_SHOWS - shown.length;
     const hints = done ? verse + (w.mean ? `<p class="board-help" style="text-align:center;margin:0 auto 12px">${linkRefs(w.mean, w.ref)}</p>` : '')
+      : easy ? verse + `<div class="board-actions" style="justify-content:center;margin:-4px 0 12px"><button class="btn ghost" data-vk="show"${left > 0 ? '' : ' disabled style="opacity:.4"'}>💡 Show a letter (${left} left)</button></div>`
       : (n >= 2 ? `<p class="vw-clue">Hint: it's in <b>${esc(w.ref.replace(/:.*/, ''))}</b></p>` : '')
-        + (n >= 4 ? verse : `<p class="board-help" style="text-align:center;margin:0 auto 12px">${n < 2 ? 'A hint after 2 guesses' : 'Another hint after 4 guesses'}</p>`);
+        + (n >= 4 || shown.length ? verse : `<p class="board-help" style="text-align:center;margin:0 auto 12px">${n < 2 ? 'A hint after 2 guesses' : 'Another hint after 4 guesses'}</p>`);
+    const modes = done ? '' : `<div class="pz-modes" style="margin:0 0 8px"><button class="sh-pill${easy ? ' on' : ''}" data-vk="mode-easy">Easy · verse + hints</button><button class="sh-pill${easy ? '' : ' on'}" data-vk="mode-hard">Hard · Wordle</button></div>`;
     const paid = typeof st.paid === 'number' ? st.paid : st.paid ? 10 : 0;   // days solved before the XP tiers paid 10
     const msg = st.status === 'won' ? 'Solved in ' + n + '!' + (paid ? ' +' + paid + ' XP' : '')
       : st.status === 'lost' ? 'The word was ' + w.word + '. A new word tomorrow.' : vwMsg;
     $('playBody').innerHTML = `
       <div class="pz-wrap">
+        ${modes}
         <p class="board-help" style="text-align:center;margin:0 auto">Today's word is from this week's reading. Six tries.</p>
         ${done ? '' : '<p class="board-help" style="text-align:center;margin:2px auto 0;font-size:12.5px">🟩 right letter, right spot · 🟨 in the word, wrong spot · ⬛ not in the word</p>'}
         ${hints}
@@ -5458,10 +5565,19 @@ const TreasureUp = (function () {
     const w = todaysWord(), st = wordState(), L = w.word.length;
     if (st.status !== 'playing') return;
     vwMsg = '';
+    if (k === 'mode-easy' || k === 'mode-hard') { S.vwMode = k.slice(5); save(); renderWord(); return; }
+    if (k === 'show') {
+      // The next letter not already found in its spot, left to right.
+      const sh = st.shown = st.shown || [];
+      const green = new Set(st.guesses.flatMap(g => scoreGuess(g, w.word).map((m, i) => m === 'g' ? i : -1)));
+      const i = [...w.word].findIndex((_, i) => !sh.includes(i) && !green.has(i));
+      if (sh.length < WORD_SHOWS && i >= 0) { sh.push(i); save(); }
+      renderWord(); return;
+    }
     if (k === 'back') vwTyped = vwTyped.slice(0, -1);
     else if (k === 'enter') {
       if (vwTyped.length < L) vwMsg = 'The word has ' + L + ' letters.';
-      else if (vwTyped !== w.word && !isScriptureWord(vwTyped)) vwMsg = 'Not a word in the scriptures. Try another.';
+      else if (vwMode() === 'hard' && vwTyped !== w.word && !isScriptureWord(vwTyped)) vwMsg = 'Not a word in the scriptures. Try another.';
       else {
         st.guesses.push(vwTyped);
         const won = vwTyped === w.word;
@@ -10040,7 +10156,8 @@ const TreasureUp = (function () {
       if (!b) return true;
       if (a.week !== b.week) return a.week === WEEK.title;
       if ((a.status === 'won') !== (b.status === 'won')) return a.status === 'won';
-      return (a.solved || []).length > (b.solved || []).length;
+      const n = x => (x.solved || []).length * 4 + Object.keys(x.placed || {}).length;
+      return n(a) > n(b);
     };
     if (pzAhead(L.puzzle, R.puzzle)) M.puzzle = L.puzzle;
     M.climbDay = [L.climbDay, R.climbDay].filter(Boolean).sort().pop() || null;
@@ -12418,7 +12535,7 @@ const TreasureUp = (function () {
     // The solo game screen (the games themselves start from the Games tab).
     $('playExit').addEventListener('click', closePlay);
     $('play').addEventListener('click', e => {
-      const el = e.target.closest('[data-pt],[data-pz],[data-say],[data-say-pick],[data-vk],[data-climb],[data-climb-pick],[data-life]');
+      const el = e.target.closest('[data-pt],[data-pz],[data-pz-sec],[data-say],[data-say-pick],[data-vk],[data-climb],[data-climb-pick],[data-life]');
       if (!el || el.disabled) return;
       if (playing === 'puzzle') puzzleAction(el);
       else if (playing === 'sayings') sayingsAction(el);
