@@ -426,7 +426,7 @@
     root.innerHTML = `<div class="lk-top">
         <div class="lk-name"><div class="eyebrow">Arcade · no XP, just for fun</div><div class="board-title">Look and Live</div></div>
         <div id="lkHud" class="lk-hud"></div>
-        <div class="lk-btns">${G && G.state === 'play' && root.dataset.view === 'game' ? '<button class="btn ghost" data-lk="pause" aria-label="Pause"><svg class="lk-ico" viewBox="0 0 12 14" aria-hidden="true"><rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/></svg></button>' : ''}<button class="btn ghost" data-lk="sound" aria-label="Sound on or off">${saved().muted ? '🔈' : '🔊'}</button><button class="btn ghost" data-lk="exit">Exit</button></div>
+        <div class="lk-btns">${G && G.state === 'play' && root.dataset.view === 'game' ? '<button class="btn ghost" data-lk="pause" aria-label="Pause"><svg class="lk-ico" viewBox="0 0 12 14" aria-hidden="true"><rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/></svg></button>' : ''}<button class="btn ghost" data-lk="sound" aria-label="Sound on or off">${saved().muted ? '🔈' : '🔊'}</button>${window.TUFull ? TUFull.html('btn ghost') : ''}<button class="btn ghost" data-lk="exit">Exit</button></div>
       </div>${body}`;
   }
   function scoresHtml() {

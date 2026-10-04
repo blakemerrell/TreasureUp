@@ -16,6 +16,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <!-- Verse Word's dictionary: every 4–7 letter word in the Bible and Book of Mormon. -->
+<script src="fullscreen.js"></script>
 <script src="scripture-words.js" defer></script>
 
 <!-- Inline SVG favicon so the whole app stays one file. -->
@@ -1387,6 +1388,9 @@
       <span id="chargeNum" class="text-[11px] font-black leading-none text-amber-300 ml-1" hidden></span>
       <span id="freezeNum" class="text-[11px] font-black leading-none text-sky-300 ml-1" hidden></span>
     </button>
+
+    <!-- Full screen for the whole app (fullscreen.js), where the browser offers it: Silk on the Fire tablets -->
+    <button id="fsBtn" data-fs class="pointer-events-auto grid place-items-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-md ring-1 ring-white/15 shrink-0 leading-none" aria-label="Full screen" hidden></button>
 
     <!-- Settings: Listen voice, text size, a note to the parents, rewards, developer mode -->
     <button id="setBtn" class="pointer-events-auto grid place-items-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-md ring-1 ring-white/15 shrink-0 text-lg leading-none" aria-label="Settings">⚙️</button>
