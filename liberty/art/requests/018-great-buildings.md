@@ -25,7 +25,7 @@ one question at a time (`liberty/design/evolution.md`, section 13c).
 All at the game's isometric angle, seen from above at the front corner, the
 plot a diamond twice as wide as tall, light from the upper left.
 
-- **`stronghold.png`**, the chief judge's hall at Zarahemla (Alma 50:39),
+- **`stronghold.png`** (replaced in request 020 by a white stone palace that matches the other buildings), the chief judge's hall at Zarahemla (Alma 50:39),
   4 × 4: a long, low hall of tan stone and dark timber under red tiles, a
   porch of square pillars, a roofed seat of judgment on a dais before it,
   trees, all in a yard behind a bank of earth and pickets. Reference:
