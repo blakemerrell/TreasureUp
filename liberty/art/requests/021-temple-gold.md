@@ -2,7 +2,7 @@
 
 **Status: in progress.** To be made with Gemini through Blake's n8n backup,
 repainted from the temple of request 018 set on a tall magenta canvas
-(`liberty/art/incoming/pr<N>/`, removed once done) so the porch tower has
+(`liberty/art/incoming/pr93/`, removed once done) so the porch tower has
 room.
 
 ## What it's for
