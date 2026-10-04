@@ -4873,7 +4873,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
         },
         "find": "So I love putting those two side by side, adversary versus advocate",
-        "approved": "26cd9a47"
+        "approved": "26cd9a47",
+        "deep": {
+          "paras": [
+            "Dr. Ezra Gwilliam calls verses 7 to 9 some of the most beautiful verses on the Atonement in Isaiah. He hears in them a believer who has resolved to follow the Lord but still fears being shamed by past failures. To make it personal, he imagines walking through heaven and meeting people who know his worst moments, offered as an illustration, not a teaching about heaven. How could someone like him belong there? His answer is verse 8: “He is near that justifieth me.” In his picture, the Savior steps around the corner and stands beside him, and no one says a word.",
+            "He sets the rest of the verse beside the woman brought to Jesus in John 8. When the Savior asked where her accusers were, no one was left to condemn her, because the One who could justify her was standing there. John Bytheway adds that Adversary is one of Satan’s titles, and Revelation 12:10 calls him the accuser of the brethren. Jesus is the opposite, our Advocate. “Adversary versus advocate,” Bytheway says. “Who are you going to believe?” When Hank Smith asks whose side we take when we find fault with others, Bytheway’s answer is that we’re doing the accuser’s work.",
+            "Hank also reads from Sister Kristin M. Yee’s general conference talk on forgiveness, where she writes that the same Redeemer who atoned for her sins will save those who deeply hurt her. Dr. Gwilliam then explains the word justify: to be pardoned, declared guiltless, as the Savior promises in 3 Nephi 27:16. None of us can claim to be innocent, he says, so the real contrast is “guilty versus guiltless.” With the Savior near, we don’t need to be ashamed."
+          ],
+          "find": [
+            "And then Jesus steps behind the corner or steps around the corner and he stands beside me.",
+            "You can’t accuse me when he’s there, and he is there in heaven.",
+            "He’s an adversary and he accuses. Jesus is an advocate.",
+            "It’s not guilty versus innocent or guilty versus not guilty. It’s guilty versus guiltless."
+          ],
+          "listen": {
+            "youtube": "MyKkxR4JHz4",
+            "start": 1074,
+            "end": 1516,
+            "title": "followHIM: Isaiah 50–57 with Dr. Ezra Gwilliam",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "isa51-hearken",
@@ -5023,7 +5044,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
         },
         "find": "If you win the war, you get to decide what to do with the spoils",
-        "approved": "aa379a13"
+        "approved": "aa379a13",
+        "deep": {
+          "paras": [
+            "Dr. Ezra Gwilliam points out how Isaiah 53 is built. For eleven verses the servant loses everything: his dignity, his reputation, his freedom, and finally his life. Then verse 12 turns on one word, “Therefore.” Suddenly the servant is dividing “the spoil with the strong.” Spoils belong to whoever wins, and the winner decides what happens to them. As Dr. Gwilliam puts it, “If you win the war, you get to decide what to do with the spoils.”",
+            "So the verse tells us who won, and it names what the victory cost: He “poured out his soul unto death,” was “numbered with the transgressors,” “bare the sin of many,” and “made intercession for the transgressors.” Dr. Gwilliam connects this to Gethsemane, where Luke says Jesus was in agony (Luke 22:44). He hears in that word a struggle against the powers of evil, a contest the Savior won.",
+            "What does the winner do with the spoils? “He shares them,” Dr. Gwilliam says. The Savior doesn’t keep His victory over sin and death for Himself; He shares it with each of us. Hank Smith then reads the verse in a modern translation: the Lord rewards Him for sacrificing His life, and though others thought Him a sinner, He suffered for our sins and asked God to forgive us."
+          ],
+          "find": [
+            "he’s spending 11 verses showing that the servant is losing everything. He loses his dignity, his reputation, his freedom, and ultimately his life.",
+            "In verse 12, he’s clearly the winner because he has the spoils.",
+            "Now the question is, because he won, what does he do with the spoils? He shares them.",
+            "That victory over sin and death, he shares it with you and me."
+          ],
+          "listen": {
+            "youtube": "MyKkxR4JHz4",
+            "start": 3568,
+            "end": 3766,
+            "title": "followHIM: Isaiah 50–57 with Dr. Ezra Gwilliam",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "isa54-nephites",
@@ -5091,7 +5133,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
         },
         "find": "I think the fall of Adam and Eve goes with this, with thorns and briars",
-        "approved": "b1e86bbd"
+        "approved": "b1e86bbd",
+        "deep": {
+          "paras": [
+            "Dr. Ezra Gwilliam reads Isaiah 55 as an invitation to change how we think, about ourselves and about the Savior. Just before verse 13 he turns to Isaiah 42:3, where the Lord will not break a bruised reed or put out smoking flax. He pictures a cracked reed pen and a candle burned down to smoke, things anyone would throw away. The Lord doesn’t: “If you’re bruised, if you’re broken, he’s not going to throw you away.”",
+            "He stresses how sure verse 7 is: the Lord will have mercy and will abundantly pardon. “Not might, not perhaps.” Then verse 13 sums the chapter up in a picture: “Instead of the thorn shall come up the fir tree, and instead of the brier shall come up the myrtle tree.” You don’t have to decode Isaiah’s symbols, he says, to know a fir tree is better than a thorn. And the change stands as “an everlasting sign that shall not be cut off.”",
+            "He ties the image to Isaiah 53, where the Savior grows up like a tender plant out of dry ground. What He offers isn’t a patch but a full restoration: a tall, beautiful tree where a thorn used to be. Dr. Gwilliam also suggests a link to the Fall, when the ground began to bring forth thorns (Genesis 3:18). What the Fall brought, Christ can replace with something beautiful, “for every single one of us.”"
+          ],
+          "find": [
+            "If you’re bruised, if you’re broken, he’s not going to throw you away.",
+            "He will have mercy. Not might, not perhaps.",
+            "a full restoration, a fir tree, a big beautiful tree in the place of what used to be a thorn.",
+            "Christ can do that for every single one of us."
+          ],
+          "listen": {
+            "youtube": "MyKkxR4JHz4",
+            "start": 5624,
+            "end": 5786,
+            "title": "followHIM: Isaiah 50–57 with Dr. Ezra Gwilliam",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "isa56-sabbath",
@@ -6763,7 +6826,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/3-9/"
         },
         "find": "I am found of them who seek after me. I give unto all them that ask of me",
-        "approved": "1b9939ef"
+        "approved": "1b9939ef",
+        "deep": {
+          "paras": [
+            "In the King James Version, Isaiah 65:1 says, “I am found of them that sought me not.” On followHIM, Dr. Ross Baron admits, “I’ve struggled with that verse.” Read on its own, it can sound as if seeking the Lord makes no difference.",
+            "Joseph Smith’s inspired translation of the Bible turns it around. Dr. Baron reads it: “I am found of them who seek after me. I give unto all them that ask of me.” It goes on to say the Lord is not found by those who don’t seek or inquire after Him. “That clears that up perfectly,” Hank Smith says.",
+            "Dr. Baron explains what the Joseph Smith Translation is from Doctrine and Covenants 35:20, where the Lord tells Sidney Rigdon to write for Joseph as the scriptures are given, just as the Lord holds them, for the salvation of His people in the last days. He urges listeners to look this verse up for themselves. Its promise is plain: the Lord is found by those who seek Him."
+          ],
+          "find": [
+            "I think that’s one of the best definitions of what the Joseph Smith Translation is.",
+            "I am found of them who seek after me. I give unto all them that ask of me.",
+            "I am not found of them that sought me not, or that inquireth not after me.",
+            "The Joseph Smith translation does have that verse changed. I think it’s super critical"
+          ],
+          "listen": {
+            "youtube": "aXKv2fDjZGM",
+            "start": 2705,
+            "end": 2856,
+            "title": "followHIM: Isaiah 58–66, part 2, with Dr. Ross Baron",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "isa65-cluster",
@@ -6818,7 +6902,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/3-9/"
         },
         "find": "We bring our family. We bring ourselves, and we bring everyone else on both sides of the veil",
-        "approved": "b246829a"
+        "approved": "b246829a",
+        "deep": {
+          "paras": [
+            "Dr. Ross Baron reads the end of Isaiah 66 as a pattern for the last days. In verse 19 the Lord sets a sign among the nations, which he identifies with the Book of Mormon, the sign the Lord promises in 3 Nephi 21. Those who accept it are sent to far lands and islands, to people who have never heard of the Lord’s glory.",
+            "Then comes verse 20. “What is the offering you and I make in the Latter-days really?” he asks. Isaiah’s answer is people: “they shall bring all your brethren for an offering unto the LORD out of all nations.” Dr. Baron adds that the gathering reaches both sides of the veil: “People from both sides of the veil. From where? From everywhere.”",
+            "The verse ends with the offering brought “in a clean vessel into the house of the LORD.” Dr. Baron sees the holy mountain of Jerusalem standing for our temples and our stakes of Zion today. So the offering of the last days is our children, our families, ourselves, and everyone we can help on both sides of the veil, gathered from every nation to the Lord’s house."
+          ],
+          "find": [
+            "I will set a sign among them: the Latter-day token, the Latter-day sign, the Book of Mormon.",
+            "What’s the offering? People from both sides of the veil. From where? From everywhere.",
+            "I think Jerusalem becomes a proxy holy city for all of our holy temples, a proxy holy city for all of our stakes of Zion",
+            "We bring our family. We bring ourselves, and we bring everyone else on both sides of the veil as a holy offering."
+          ],
+          "listen": {
+            "youtube": "aXKv2fDjZGM",
+            "start": 3068,
+            "end": 3214,
+            "title": "followHIM: Isaiah 58–66, part 2, with Dr. Ross Baron",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "isa66-name",
@@ -8511,7 +8616,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/2-211/"
         },
         "find": "Jeremiah uses this word more than all other scriptural authors combined",
-        "approved": "b9be3ccf"
+        "approved": "b9be3ccf",
+        "deep": {
+          "paras": [
+            "Dr. John Hilton III calls backsliding one of Jeremiah’s favorite words. It means falling back into sin, and he notes that Jeremiah uses it more than all the other scripture writers put together: “So when you hear the word backsliding, think Jeremiah.”",
+            "He reads three invitations from chapter 3 alone. In verse 12 the Lord calls backsliding Israel to return and says He is merciful. In verse 14 He calls the backsliding children to turn. And in verse 22 He promises, “Return, ye backsliding children, and I will heal your backslidings.” It isn’t a scolding so much as a standing offer.",
+            "Dr. Hilton is honest about us: “All of us are going to backslide.” Hank Smith admits he has been a backsliding Israelite himself, giving something up only to have it come back. John Bytheway compares it to the Book of Mormon’s pride cycle, sliding back into a way of life you had once conquered. Through it all, as Dr. Hilton sums up the Lord’s message: “I’m merciful. Come, return to me.”"
+          ],
+          "find": [
+            "It means to fall back into sin basically, but Jeremiah uses this word more than all other scriptural authors combined.",
+            "So when you hear the word backsliding, think Jeremiah.",
+            "All of us are going to backslide, we’re all going to fall back into temptation at time.",
+            "You’re returning or you’re going back to an old way of living that you had conquered before."
+          ],
+          "listen": {
+            "youtube": "7SAFsdEf-tw",
+            "start": 1307,
+            "end": 1446,
+            "title": "followHIM: Jeremiah, part 1, with Dr. John Hilton III",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "jer7-trial",
@@ -8553,7 +8679,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/2-211/"
         },
         "find": "this has got to be one of the most all time discouraging passages of scripture",
-        "approved": "71b91db1"
+        "approved": "71b91db1",
+        "deep": {
+          "paras": [
+            "Before Jeremiah spoke these words, the Lord told him how it would go: “they will not hearken to thee,” and when he called, “they will not answer thee.” Dr. John Hilton III calls it “one of the most all time discouraging passages of scripture” for the one who received it. Picture a mission call that says no one will listen.",
+            "By then Jeremiah had already preached for years, and he kept going for decades. The people of his hometown plotted to kill him (Jeremiah 11:21), and even his family turned against him (Jeremiah 12:6). When he asked why the wicked prosper, the Lord answered that harder races lay ahead: if running with footmen wearied him, how would he contend with horses (Jeremiah 12:5)? He pressed on anyway.",
+            "Dr. Hilton’s lesson: “just because we’re working hard and doing what God wants us to do, it doesn’t mean everything’s going to turn out perfectly.” He and Hank Smith point to Mormon, Abinadi, and Nephi the son of Helaman, prophets whose words were refused too. Their success was their faithfulness. As John Bytheway puts it, Jeremiah “was doing what he was asked.”"
+          ],
+          "find": [
+            "this has got to be one of the most all time discouraging passages of scripture to the person receiving it.",
+            "And Jeremiah, he’s already been preaching for years and he’s going to go on and preach for decades longer.",
+            "He’s working hard and he’s abandoned by the people of his hometown, he’s abandoned by his family, but he still keeps pressing forward.",
+            "And that’s what Jeremiah was doing. He was doing what he was asked."
+          ],
+          "listen": {
+            "youtube": "7SAFsdEf-tw",
+            "start": 1649,
+            "end": 2092,
+            "title": "followHIM: Jeremiah, part 1, with Dr. John Hilton III",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "jer16-lehi",
@@ -8580,7 +8727,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/2-210/"
         },
         "find": "these are interactions between Jeremiah and Jesus Christ",
-        "approved": "7f504ca7"
+        "approved": "7f504ca7",
+        "deep": {
+          "paras": [
+            "Jeremiah 16 ends with the Lord’s promise, “they shall know that my name is The LORD.” As Dr. John Hilton III closed his episodes on Jeremiah, he made a point about the whole book that fits this verse well: all through it, the LORD in capital letters is Jehovah.",
+            "And Jehovah is Jesus Christ. “Jesus Christ, He is the God of Abraham, Isaac, and Jacob,” Dr. Hilton says. So when we read Jeremiah talking with the LORD, “these are interactions between Jeremiah and Jesus Christ,” and they help us know the Savior better.",
+            "He hopes we come away with a little of Jeremiah’s “fire in the bones” (Jeremiah 20:9), a closer connection with the Savior, and a wish to become more like Him. Jeremiah sometimes felt his preaching wasn’t working, yet believers have drawn strength from his words ever since. Faithful work done for the Lord can matter for generations."
+          ],
+          "find": [
+            "But throughout, we’ve been reading about the LORD, all caps, Jehovah interacting with Jeremiah.",
+            "And so I would just want us to remember that Jesus Christ, He is the God of Abraham, Isaac, and Jacob.",
+            "these are interactions between Jeremiah and Jesus Christ, and it’s helping us, I think, get to know Jesus Christ better.",
+            "I hope that we have a little more of that fire in the bones ourselves, that God’s Word is burning in us."
+          ],
+          "listen": {
+            "youtube": "L206lZBoxOo",
+            "start": 2121,
+            "end": 2253,
+            "title": "followHIM: Jeremiah, part 2, with Dr. John Hilton III",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "jer17-king",
