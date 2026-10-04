@@ -225,7 +225,7 @@ function checkArcade(arcade, { verses }) {
   if (!arcade) return;
   const textOf = ref => { const refs = expand(ref); return refs && refs.every(r => verses.has(r)) ? refs.map(r => verses.get(r)).join(' ') : null; };
   const strings = (v, at) => typeof v === 'string' ? [[at, v]] : v && typeof v === 'object' ? Object.entries(v).flatMap(([k, x]) => strings(x, at + '.' + k)) : [];
-  for (const game of ['snake', 'look']) if (!arcade[game] || !arcade[game].title || !arcade[game].hook) failures.push(`content/arcade.js: ${game} needs a title and a hook`);
+  for (const game of ['snake', 'look', 'ammon']) if (!arcade[game] || !arcade[game].title || !arcade[game].hook) failures.push(`content/arcade.js: ${game} needs a title and a hook`);
   for (const [at, line] of strings(arcade, 'arcade')) {
     if (/"/.test(line)) failures.push(`content/arcade.js ${at}: uses a straight " quote; use “curly quotes”`);
     for (const m of line.matchAll(/“([^”]+)”[^(“]*\(([^)]+)\)/g)) {
