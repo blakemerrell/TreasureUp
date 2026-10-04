@@ -73,11 +73,27 @@
 
   // ===================== the game =====================
 
-  function newGame(mode) {
-    const portrait = window.innerHeight > window.innerWidth * 1.05;
-    const cols = portrait ? 15 : 28, rows = portrait ? 19 : 16;
+  // The grid takes the shape of the space it has (Blake, 2026-10-04: "Snake
+  // needs to fill the screen"), with about as many squares as before: 448
+  // across a wide screen (28 × 16), 300 down a tall one (15 × 20).
+  function gridFor(w, h) {
+    if (!(w > 50 && h > 50)) { const portrait = window.innerHeight > window.innerWidth * 1.05; return portrait ? { cols: 15, rows: 19 } : { cols: 28, rows: 16 }; }
+    // Try whole-pixel squares near the size that gives that many, and keep the one that leaves the least
+    // sand unused without straying far from that many (fewer, bigger squares would be an easier game).
+    const n = w >= h ? 448 : 300, side = Math.sqrt(w * h / n);
+    let best = null;
+    for (let c = Math.max(8, Math.floor(side * 0.8)); c <= Math.ceil(side * 1.25); c++) {
+      const cols = Math.max(10, Math.min(40, Math.floor(w / c))), rows = Math.max(10, Math.min(40, Math.floor(h / c)));
+      const cell = Math.floor(Math.min(w / cols, h / rows)), waste = (w * h - cols * rows * cell * cell) / (w * h);
+      const score = waste + 0.25 * Math.abs(Math.log(cols * rows / n));
+      if (!best || score < best.score) best = { cols, rows, score };
+    }
+    return { cols: best.cols, rows: best.rows };
+  }
+  function newGame(mode, dims) {
+    const { cols, rows } = dims || gridFor(0, 0);
     const seed = typeof window.TU_SNAKE_SEED === 'number' ? window.TU_SNAKE_SEED : Date.now();
-    G = { mode, cols, rows, rand: rng(seed), time: 0, tickN: 0, acc: 0, state: 'play', paused: false, level: 1, eaten: 0, mannaSinceQ: 0, ready: manual() ? 0 : 3000,
+    G = { mode, cols, rows, rand: rng(seed), time: 0, tickN: 0, acc: 0, state: 'play', paused: false, reading: null, level: 1, eaten: 0, mannaSinceQ: 0, ready: manual() ? 0 : 3000,
       snakes: [], manna: [], quail: null, jars: [], q: null, fb: null, used: new Set(), asked: 0, rocks: new Set(), fiery: [], brass: null, floats: [], banner: null };
     const names = mode === '2p' ? [ui.names[0] || 'Player 1', ui.names[1] || 'Player 2'] : [ui.names[0] || (host.player().name || 'You')];
     names.forEach((name, i) => {
@@ -118,6 +134,7 @@
   // never straight back into the neck.
   function turn(i, name) {
     if (!G || G.state !== 'play') return;
+    if (G.reading) return ready(i, name);
     const s = G.snakes[i], d = DIRS[name];
     if (!s || !d) return;
     const lastDir = s.queue.length ? s.queue[s.queue.length - 1] : s.dir;
@@ -194,7 +211,10 @@
     G.mannaSinceQ = 0;
     if (!q || !q.choices || q.choices.length < 2) return;
     G.asked++;
-    G.q = Object.assign({}, q, { opened: G.time, until: G.time + T.qSeconds * 1000 });
+    // Everything stops while the question is read (Javan: hard "to read the
+    // question and play the game at the same time"); its clock starts on Go.
+    G.q = Object.assign({}, q, { opened: G.time, until: Infinity });
+    G.reading = { ready: G.snakes.map(x => !x.alive) };
     G.fb = null;
     const spots = [];
     q.choices.slice(0, 3).forEach((choice, n) => { const c = freeCell(5, spots); if (c) { spots.push(c); G.jars.push(Object.assign(c, { n, choice })); } });
@@ -220,10 +240,30 @@
   }
   function closeQuestion(result) {
     const q = G.q;
-    G.q = null; G.jars = [];
+    G.q = null; G.jars = []; G.reading = null;
     if (!q) return;
     if (result.timeout) for (const s of G.snakes) s.streak = 0;
     G.fb = Object.assign({ q, until: G.time + T.feedbackMs }, result);
+  }
+  // Read it, then go: an arrow, a swipe, the pad, Space, Enter or ▶ Go. With
+  // two players, each says they're ready with their own keys (or ▶ Go for both).
+  function ready(i, name) {
+    const r = G && G.reading;
+    if (!r) return;
+    if (i == null) r.ready = r.ready.map(() => true); else r.ready[i] = true;
+    if (!r.ready.every(Boolean)) return;
+    G.reading = null;
+    if (G.q && G.q.until === Infinity) G.q.until = G.time + T.qSeconds * 1000;
+    if (G.paused) pause(false);
+    last = performance.now(); G.acc = 0;
+    if (i != null && name) turn(i, name);
+    readCard();
+  }
+  // Read the question again: tap the panel while its jars are out (the clock waits too).
+  function reread() {
+    if (!G || !G.q || G.reading || G.state !== 'play') return;
+    G.reading = { ready: G.snakes.map(x => !x.alive) };
+    readCard();
   }
   function placeBrass() { const c = freeCell(4); if (c) G.brass = Object.assign(c, { until: G.time + T.brassMs }); }
 
@@ -547,11 +587,26 @@
     if (G.state === 'over') return renderOver();
     hud(); panel();
   }
+  // Full screen, where the browser allows it (not on an iPhone): the browser's bars go too.
+  const fsCan = () => !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+  const fsOn = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
+  function fsToggle() {
+    try {
+      if (fsOn()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      else { const r = (root.requestFullscreen || root.webkitRequestFullscreen).call(root); if (r && r.catch) r.catch(() => {}); }
+    } catch (e) { /* not allowed here */ }
+  }
+  function onFs() {
+    const b = root && root.querySelector('[data-sn="fs"]');
+    if (b) { b.textContent = fsOn() ? '🗗' : '⛶'; b.setAttribute('aria-label', fsOn() ? 'Leave full screen' : 'Full screen'); }
+    setTimeout(onResize, 120);
+  }
   function shell(body) {
+    root.dataset.view = ui.view; root.dataset.mode = G ? G.mode : ui.mode;
     root.innerHTML = `<div class="sn-top">
         <div class="sn-name"><div class="eyebrow">Arcade · no XP, just for fun</div><div class="board-title">Wilderness Snake</div></div>
         <div id="snHud" class="sn-hud"></div>
-        <div class="sn-btns">${G && G.state === 'play' && ui.view === 'game' ? '<button class="btn ghost" data-sn="pause" aria-label="Pause"><svg class="sn-ico2" viewBox="0 0 12 14" aria-hidden="true"><rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/></svg></button>' : ''}<button class="btn ghost" data-sn="sound" aria-label="Sound on or off">${saved().muted ? '🔈' : '🔊'}</button><button class="btn ghost" data-sn="exit">Exit</button></div>
+        <div class="sn-btns">${G && G.state === 'play' && ui.view === 'game' ? '<button class="btn ghost" data-sn="pause" aria-label="Pause"><svg class="sn-ico2" viewBox="0 0 12 14" aria-hidden="true"><rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/></svg></button>' : ''}${fsCan() ? `<button class="btn ghost" data-sn="fs" aria-label="${fsOn() ? 'Leave full screen' : 'Full screen'}">${fsOn() ? '🗗' : '⛶'}</button>` : ''}<button class="btn ghost" data-sn="sound" aria-label="Sound on or off">${saved().muted ? '🔈' : '🔊'}</button><button class="btn ghost" data-sn="exit">Exit</button></div>
       </div>${body}`;
   }
 
@@ -599,16 +654,42 @@
   function renderGame() {
     ui.view = 'game';
     shell(`<div id="snPanel" class="sn-panel" aria-live="polite"></div>
-      <div id="snStage" class="sn-stage"><div class="sn-frame"><canvas id="snCanvas" role="img" aria-label="The desert: your snake, manna, and any jars"></canvas><div id="snPause" class="sn-pausebox" hidden></div></div></div>
-      ${coarse() ? padsHtml() : ''}`);
+      <div id="snStage" class="sn-stage"><div class="sn-frame${coarse() ? ' pads' : ''}"><canvas id="snCanvas" role="img" aria-label="The desert: your snake, manna, and any jars"></canvas>${coarse() ? padsHtml() : ''}<div id="snRead" class="sn-read" hidden></div><div id="snPause" class="sn-pausebox" hidden></div></div></div>`);
     bg = null;
-    hud(); panel();
+    hud(); panel(); readCard();
+  }
+  // Size the grid to the stage now that it's on the screen; before the snake has moved, again when the screen changes (say, ⛶).
+  function fit() {
+    const st = $('snStage');
+    if (!st || !G) return;
+    const r = st.getBoundingClientRect(), d = gridFor(r.width - 16, r.height - 16);
+    if (d.cols === G.cols && d.rows === G.rows) return;
+    newGame(G.mode, d);
+    bg = null; hud(); panel(); readCard();
+  }
+  function onResize() { if (G && ui.view === 'game' && G.state === 'play' && G.tickN === 0 && !G.q) fit(); }
+  // The question, big over the board, while everything waits.
+  function readCard() {
+    const el = $('snRead');
+    if (!el) return;
+    const r = G && G.reading, q = G && G.q;
+    if (!r || !q) { if (!el.hidden) { el.hidden = true; el.innerHTML = ''; el._html = ''; } return; }
+    const two = G.mode === '2p';
+    const who = two ? `<div class="sn-rd-who">${G.snakes.map(x => `<span class="${r.ready[x.i] ? 'on' : ''}">${skinDot(x)}${esc(x.name)} ${r.ready[x.i] ? '✓ ready' : x.i === 0 ? '· any arrow' : '· W A S D'}</span>`).join('')}</div>` : '';
+    const html = `<div class="sn-rd-card">
+      <div class="eyebrow">📜 ${q.review ? 'A review' : 'This week'} · read it, then go</div>
+      <p class="sn-rd-q">${esc(q.q)}</p>
+      <div class="sn-rd-ans">${q.choices.map((c, n) => `<div><b style="background:${JAR[n].c}">${JAR[n].l}</b><span>${esc(c)}</span></div>`).join('')}</div>
+      ${who}
+      <div class="sn-rd-go"><button class="btn" data-sn="go">▶ ${two ? 'Both ready' : 'Go'}</button><small>${two ? 'or each press a direction' : coarse() ? 'or swipe, or press the pad' : 'or press an arrow key'}</small></div></div>`;
+    if (el._html !== html) { el._html = html; el.innerHTML = html; }
+    el.hidden = false;
   }
   function padsHtml() {
     const pad = (p, label) => `<div class="sn-pad" data-p="${p}" aria-label="${label}">
       <button data-sn="dir" data-p="${p}" data-d="up" aria-label="Up">▲</button><button data-sn="dir" data-p="${p}" data-d="left" aria-label="Left">◀</button>
       <button data-sn="dir" data-p="${p}" data-d="right" aria-label="Right">▶</button><button data-sn="dir" data-p="${p}" data-d="down" aria-label="Down">▼</button></div>`;
-    return `<div class="sn-pads${G.mode === '2p' ? ' two' : ''}">${G.mode === '2p' ? pad(1, 'Player 2') : ''}${pad(0, G.mode === '2p' ? 'Player 1' : 'Steer')}</div>`;
+    return `${G.mode === '2p' ? pad(1, 'Player 2') : ''}${pad(0, G.mode === '2p' ? 'Player 1' : 'Steer')}`;
   }
   const coarse = () => !!(window.matchMedia && window.matchMedia('(any-pointer: coarse)').matches) || !!window.TU_SNAKE_PADS;
 
@@ -618,16 +699,18 @@
     if (!G || ui.view !== 'game') { const best = saved().best || 0; el.innerHTML = best ? `<span class="score-chip">Best ${fmt(best)}</span>` : ''; return; }
     const chips = G.snakes.map(s => `<span class="score-chip sn-chip" style="--k:${s.skin.body}">${G.mode === '2p' ? skinDot(s) + esc(s.name) + ' ' : ''}<b>${fmt(s.score)}</b>${s.streak > 1 ? ` <span class="sn-streak">×${1 + Math.min(s.streak, T.streakMax)}</span>` : ''}${s.brass ? brassIcon : ''}${!s.alive ? ' 💥' : ''}</span>`).join('');
     const left = G.mode === '2p' ? Math.max(0, Math.ceil(T.round2p - G.time / 1000)) : null;
-    el.innerHTML = `${chips}<span class="score-chip">Level ${G.level}</span>${left != null ? `<span class="score-chip${left <= 10 ? ' sn-hot' : ''}">⏱ ${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}</span>` : `<span class="score-chip">Best ${fmt(Math.max(saved().best || 0, G.snakes[0].score))}</span>`}`;
+    el.innerHTML = `${chips}<span class="score-chip">Level ${G.level}</span>${left != null ? `<span class="score-chip${left <= 10 ? ' sn-hot' : ''}">⏱ ${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}</span>` : `<span class="score-chip sn-best">Best ${fmt(Math.max(saved().best || 0, G.snakes[0].score))}</span>`}`;
   }
   // Above the desert: the question and its jars, then whether it was right and why; otherwise a line from the story.
   function panel() {
     const el = $('snPanel');
     if (!el || !G) return;
     let html;
-    if (G.q) {
+    if (G.q && G.reading) {
+      html = `<p class="sn-idle">📜 A question! Read it, then go.</p><p class="sn-why">The snake waits while you read.</p>`;
+    } else if (G.q) {
       const left = Math.max(0, Math.ceil((G.q.until - G.time) / 1000)), pct = Math.max(0, (G.q.until - G.time) / (T.qSeconds * 1000)) * 100;
-      html = `<div class="sn-qhead"><span class="eyebrow">📜 ${G.q.review ? `A review<span class="sn-wk">: ${esc(G.q.review)}</span>` : 'This week'} · eat the right jar</span><b class="${left <= 5 ? 'sn-hot' : ''}">${left}s</b></div>
+      html = `<div class="sn-qhead"><span class="eyebrow">📜 Eat the right jar · tap here to read it again</span><b class="${left <= 5 ? 'sn-hot' : ''}">${left}s</b></div>
         <div class="sn-bar"><i style="width:${pct}%"></i></div>
         <p class="sn-q">${esc(G.q.q)}</p>
         <div class="sn-answers">${G.q.choices.map((c, n) => `<div class="sn-ans"><b style="background:${JAR[n].c}">${JAR[n].l}</b><span>${esc(c)}</span></div>`).join('')}</div>`;
@@ -687,6 +770,7 @@
     const p1 = { ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right' }[k];
     const p2 = { w: 'up', s: 'down', a: 'left', d: 'right', W: 'up', S: 'down', A: 'left', D: 'right' }[k];
     if (ui.view === 'game' && G && G.state === 'play') {
+      if (G.reading && !G.paused && (k === ' ' || k === 'Enter')) { e.preventDefault(); ready(null); return; }
       if (p1) { e.preventDefault(); turn(0, p1); return; }
       if (p2) { e.preventDefault(); turn(two ? 1 : 0, p2); return; }
       if (k === ' ' || k === 'p' || k === 'P' || k === 'Escape') { e.preventDefault(); pause(!G.paused); return; }
@@ -694,6 +778,7 @@
   }
   function onClick(e) {
     const b = e.target.closest('[data-sn]');
+    if (!b && e.target.closest('#snPanel') && !e.target.closest('a')) { reread(); return; }
     if (!b || b.disabled) return;
     const act = b.dataset.sn;
     wakeAudio();
@@ -705,6 +790,8 @@
     else if (act === 'pause') pause(!G.paused);
     else if (act === 'resume') pause(false);
     else if (act === 'quit') { pause(false); gameOver(); }
+    else if (act === 'go') ready(null);
+    else if (act === 'fs') fsToggle();
   }
   // The pads steer on touch, right away (not on the click after it).
   function onPadDown(e) {
@@ -731,6 +818,7 @@
     readNames();
     newGame(ui.mode);
     renderGame();
+    fit();
     last = performance.now();
   }
 
@@ -739,13 +827,13 @@
     const dt = Math.min(250, now - last);
     last = now;
     if (G && G.state === 'play' && ui.view === 'game' && !G.paused && !manual() && G.ready > 0) G.ready = Math.max(0, G.ready - dt);   // 3, 2, 1…
-    else if (G && G.state === 'play' && ui.view === 'game' && !G.paused && !manual()) {
+    else if (G && G.state === 'play' && ui.view === 'game' && !G.paused && !manual() && !G.reading) {
       G.acc += dt;
       let n = 0;
       while (G.acc >= tickMs() && G.state === 'play' && n++ < 5) { G.acc -= tickMs(); step(); }
       if (G.state !== 'play') { raf = requestAnimationFrame(frame); return; }
     }
-    if (G && ui.view === 'game') { draw(now); hud(); panel(); }
+    if (G && ui.view === 'game') { draw(now); hud(); panel(); readCard(); }
     raf = requestAnimationFrame(frame);
   }
 
@@ -778,9 +866,15 @@
       #snake .sn-scores li span::before { content: counter(r) ". "; color: rgba(255,255,255,.55); }
       #snake .sn-scores li.me { outline: 2px solid var(--gold); }
       #snake .sn-note { color: rgba(255,255,255,.7); font-size: 14px; margin: 0; }
-      #snake .sn-panel { margin-top: 10px; height: 12.6em; overflow-y: auto; padding: 8px 12px; border-radius: 14px; background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.12); font-size: 14px; }
-      @media (min-width: 760px) { #snake .sn-panel { height: 8.6em; font-size: 16px; } #snake .sn-answers { grid-template-columns: repeat(3, 1fr); gap: 10px; } }
-      #snake .sn-qhead { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+      #snake[data-view="game"] { padding-top: calc(var(--sat) + 8px); padding-bottom: calc(var(--sab) + 8px); }
+      #snake .sn-panel { margin-top: 8px; height: 7.8em; overflow: hidden; padding: 6px 12px; border-radius: 14px; background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.12); font-size: 13px; cursor: default; flex: none; }
+      #snake .sn-panel .sn-why { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+      #snake .sn-panel .sn-q { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      #snake .sn-panel .sn-ans span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+      #snake .sn-panel .sn-q { margin-bottom: 3px; } #snake .sn-panel .sn-bar { margin: 3px 0 4px; } #snake .sn-panel .sn-answers { gap: 2px; } #snake .sn-panel .sn-ans b { width: 1.35em; height: 1.35em; }
+      @media (min-width: 760px) { #snake .sn-panel { height: 6.6em; font-size: 15px; } #snake .sn-answers { grid-template-columns: repeat(3, 1fr); gap: 10px; } #snake .sn-panel .sn-why { -webkit-line-clamp: 2; } }
+      @media (max-height: 560px) { #snake .sn-panel { height: 4.4em; } #snake .sn-panel .sn-q { display: none; } }
+      #snake .sn-qhead { display: flex; justify-content: space-between; align-items: center; gap: 8px; } #snake .sn-qhead .eyebrow { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
       #snake .sn-bar { height: 4px; border-radius: 4px; background: rgba(255,255,255,.12); margin: 4px 0 6px; overflow: hidden; } #snake .sn-bar i { display: block; height: 100%; background: var(--gold); }
       #snake .sn-q { margin: 0 0 6px; font-weight: 800; font-size: clamp(15px, 1.5vw, 21px); line-height: 1.25; }
       #snake .sn-answers { display: grid; gap: 4px; }
@@ -789,16 +883,28 @@
       #snake .sn-fb { margin: 0 0 4px; font-weight: 800; font-size: clamp(15px, 1.6vw, 21px); } #snake .sn-fb.ok { color: #86efac; } #snake .sn-fb.no { color: #fca5a5; }
       #snake .sn-why, #snake .sn-idle { margin: 0; font-size: clamp(13px, 1.4vw, 18px); line-height: 1.4; color: rgba(255,255,255,.85); }
       #snake .sn-idle { font-weight: 800; color: #fff; margin-bottom: 4px; }
-      #snake .sn-stage { flex: 1; min-height: 200px; display: grid; place-items: center; margin-top: 10px; }
+      #snake .sn-stage { flex: 1; min-height: 200px; display: grid; place-items: center; margin-top: 8px; }
+      #snake .sn-read[hidden] { display: none; }
+      #snake .sn-read { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; padding: 10px; background: rgba(12,8,24,.62); line-height: 1.3; overflow-y: auto; }
+      #snake .sn-frame.pads .sn-read { bottom: 148px; }   /* the pads stay free below it, to say you're ready */
+      #snake .sn-pausebox { z-index: 3; }
+      #snake .sn-chip, #snake .score-chip { white-space: nowrap; }
+      #snake .sn-rd-card { width: min(100%, 760px); display: grid; gap: 12px; padding: clamp(14px, 2.4vw, 26px); border-radius: 18px; background: rgba(20,16,40,.95); border: 1px solid rgba(255,255,255,.16); box-shadow: 0 12px 40px rgba(0,0,0,.5); }
+      #snake .sn-rd-q { margin: 0; font-size: clamp(18px, 2.6vw, 30px); font-weight: 800; line-height: 1.3; }
+      #snake .sn-rd-ans { display: grid; gap: 8px; }
+      #snake .sn-rd-ans div { display: flex; gap: 10px; align-items: center; font-size: clamp(16px, 2.1vw, 24px); font-weight: 600; line-height: 1.25; }
+      #snake .sn-rd-ans b { flex: 0 0 auto; width: 1.7em; height: 1.7em; display: grid; place-items: center; border-radius: 50%; color: #fff; font-weight: 900; }
+      #snake .sn-rd-who { display: flex; gap: 8px; flex-wrap: wrap; } #snake .sn-rd-who span { padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,.08); font-weight: 700; font-size: 14px; } #snake .sn-rd-who span.on { background: rgba(134,239,172,.2); color: #bbf7d0; }
+      #snake .sn-rd-go { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; } #snake .sn-rd-go small { color: rgba(255,255,255,.65); font-size: 14px; }
       #snake .sn-frame { position: relative; border: 6px solid #6b3f1d; border-radius: 10px; box-shadow: 0 0 0 2px #3b220e, 0 10px 30px rgba(0,0,0,.5); line-height: 0; }
       #snake canvas { display: block; touch-action: none; border-radius: 4px; }
       #snake .sn-pausebox[hidden] { display: none; }
       #snake .sn-pausebox { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(15,10,5,.55); line-height: 1.3; }
       #snake .sn-pausecard { display: grid; gap: 10px; padding: 16px 20px; border-radius: 16px; background: rgba(20,16,40,.92); text-align: center; } #snake .sn-pausecard b { font-size: 24px; }
-      #snake .sn-pads { display: flex; justify-content: center; gap: 24px; margin-top: 10px; } #snake .sn-pads.two { justify-content: space-between; }
-      #snake .sn-pad { display: grid; grid-template-columns: repeat(3, 54px); grid-template-rows: repeat(3, 46px); gap: 4px; touch-action: none; }
-      #snake .sn-pad button { border: none; border-radius: 12px; background: rgba(255,255,255,.14); color: #fff; font-size: 20px; touch-action: none; user-select: none; -webkit-user-select: none; }
-      #snake .sn-pad button:active { background: rgba(253,230,138,.4); }
+      #snake .sn-pad { position: absolute; bottom: 8px; right: 8px; display: grid; grid-template-columns: repeat(3, 50px); grid-template-rows: repeat(3, 44px); gap: 4px; touch-action: none; opacity: .82; z-index: 1; }
+      #snake .sn-pad[data-p="1"] { right: auto; left: 8px; }
+      #snake .sn-pad button { border: 1px solid rgba(255,255,255,.35); border-radius: 12px; background: rgba(20,12,4,.38); color: #fff; font-size: 19px; touch-action: none; user-select: none; -webkit-user-select: none; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
+      #snake .sn-pad button:active { background: rgba(253,230,138,.55); }
       #snake .sn-pad [data-d="up"] { grid-column: 2; grid-row: 1; } #snake .sn-pad [data-d="left"] { grid-column: 1; grid-row: 2; }
       #snake .sn-pad [data-d="right"] { grid-column: 3; grid-row: 2; } #snake .sn-pad [data-d="down"] { grid-column: 2; grid-row: 3; }
       #snake .sn-big { font-size: clamp(36px, 6vw, 64px); font-weight: 900; line-height: 1.1; }
@@ -810,7 +916,11 @@
         #snake .sn-modes { grid-template-columns: 1fr; } #snake .board-title { font-size: 18px; } #snake .sn-name .eyebrow, #snake .sn-wk { display: none; }
         #snake .sn-top { display: grid; grid-template-columns: 1fr auto; } #snake .sn-hud { grid-column: 1 / -1; grid-row: 2; margin-left: 0; }
         #snake .sn-btns .btn { padding: 8px 12px; } #snake .score-chip { padding: 4px 10px; font-size: 13px; }
-        #snake .sn-pad { grid-template-columns: repeat(3, 50px); grid-template-rows: repeat(3, 42px); }
+        #snake .sn-pad { grid-template-columns: repeat(3, 46px); grid-template-rows: repeat(3, 40px); }
+        #snake[data-view="game"] .sn-name, #snake[data-view="game"] .sn-best { display: none; } #snake[data-view="game"] .sn-top { display: flex; flex-wrap: nowrap; } #snake[data-view="game"] .sn-hud { margin-left: 0; flex-wrap: nowrap; }
+        #snake[data-view="game"][data-mode="2p"] .sn-top, #snake[data-view="game"][data-mode="2p"] .sn-hud { flex-wrap: wrap; }
+        #snake[data-view="game"] .sn-btns { margin-left: auto; } #snake[data-view="game"] .sn-btns .btn { padding: 7px 10px; }
+        #snake .sn-panel .sn-q { display: none; } #snake .sn-panel .sn-why { -webkit-line-clamp: 2; }
       }`;
     document.head.appendChild(css);
   }
@@ -835,7 +945,11 @@
     window.addEventListener('pointermove', mv);
     window.addEventListener('pointerup', up);
     document.addEventListener('visibilitychange', vis);
+    const rs = () => onResize(), fs = () => onFs();
+    window.addEventListener('resize', rs);
+    document.addEventListener('fullscreenchange', fs); document.addEventListener('webkitfullscreenchange', fs);
     keyOff = () => {
+      window.removeEventListener('resize', rs); document.removeEventListener('fullscreenchange', fs); document.removeEventListener('webkitfullscreenchange', fs);
       window.removeEventListener('keydown', kd); root.removeEventListener('click', ck); root.removeEventListener('pointerdown', pd); root.removeEventListener('pointerdown', dn);
       window.removeEventListener('pointermove', mv); window.removeEventListener('pointerup', up); document.removeEventListener('visibilitychange', vis);
     };
@@ -848,6 +962,7 @@
     cancelAnimationFrame(raf);
     if (keyOff) keyOff();
     keyOff = null;
+    if (fsOn()) try { (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch (e) {}
     G = null;
     if (root) { root.hidden = true; root.innerHTML = ''; }
     document.body.style.overflow = '';
@@ -867,7 +982,7 @@
         else if (kind === 'rock') G.rocks.add(key(x, y));
       },
       clear() { G.manna = []; G.quail = null; G.brass = null; },
-      ask: () => { openQuestion(); render(); }, draw: () => draw(performance.now())
+      ask: () => { openQuestion(); render(); readCard(); }, go: (i, d) => { ready(i == null ? null : i, d); render(); }, fit, gridFor, draw: () => draw(performance.now())
     }
   };
 })();
