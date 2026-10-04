@@ -4873,7 +4873,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
         },
         "find": "So I love putting those two side by side, adversary versus advocate",
-        "approved": "26cd9a47"
+        "approved": "26cd9a47",
+        "deep": {
+          "paras": [
+            "Dr. Ezra Gwilliam calls verses 7 to 9 some of the most beautiful verses on the Atonement in Isaiah. He hears in them a believer who has resolved to follow the Lord but still fears being shamed by past failures. To make it personal, he imagines walking through heaven and meeting people who know his worst moments, offered as an illustration, not a teaching about heaven. How could someone like him belong there? His answer is verse 8: “He is near that justifieth me.” In his picture, the Savior steps around the corner and stands beside him, and no one says a word.",
+            "He sets the rest of the verse beside the woman brought to Jesus in John 8. When the Savior asked where her accusers were, no one was left to condemn her, because the One who could justify her was standing there. John Bytheway adds that Adversary is one of Satan’s titles, and Revelation 12:10 calls him the accuser of the brethren. Jesus is the opposite, our Advocate. “Adversary versus advocate,” Bytheway says. “Who are you going to believe?” When Hank Smith asks whose side we take when we find fault with others, Bytheway’s answer is that we’re doing the accuser’s work.",
+            "Hank also reads from Sister Kristin M. Yee’s general conference talk on forgiveness, where she writes that the same Redeemer who atoned for her sins will save those who deeply hurt her. Dr. Gwilliam then explains the word justify: to be pardoned, declared guiltless, as the Savior promises in 3 Nephi 27:16. None of us can claim to be innocent, he says, so the real contrast is “guilty versus guiltless.” With the Savior near, we don’t need to be ashamed."
+          ],
+          "find": [
+            "And then Jesus steps behind the corner or steps around the corner and he stands beside me.",
+            "You can’t accuse me when he’s there, and he is there in heaven.",
+            "He’s an adversary and he accuses. Jesus is an advocate.",
+            "It’s not guilty versus innocent or guilty versus not guilty. It’s guilty versus guiltless."
+          ],
+          "listen": {
+            "youtube": "MyKkxR4JHz4",
+            "start": 1074,
+            "end": 1516,
+            "title": "followHIM: Isaiah 50–57 with Dr. Ezra Gwilliam",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "isa51-hearken",
@@ -5023,7 +5044,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
         },
         "find": "If you win the war, you get to decide what to do with the spoils",
-        "approved": "aa379a13"
+        "approved": "aa379a13",
+        "deep": {
+          "paras": [
+            "Dr. Ezra Gwilliam points out how Isaiah 53 is built. For eleven verses the servant loses everything: his dignity, his reputation, his freedom, and finally his life. Then verse 12 turns on one word, “Therefore.” Suddenly the servant is dividing “the spoil with the strong.” Spoils belong to whoever wins, and the winner decides what happens to them. As Dr. Gwilliam puts it, “If you win the war, you get to decide what to do with the spoils.”",
+            "So the verse tells us who won, and it names what the victory cost: He “poured out his soul unto death,” was “numbered with the transgressors,” “bare the sin of many,” and “made intercession for the transgressors.” Dr. Gwilliam connects this to Gethsemane, where Luke says Jesus was in agony (Luke 22:44). He hears in that word a struggle against the powers of evil, a contest the Savior won.",
+            "What does the winner do with the spoils? “He shares them,” Dr. Gwilliam says. The Savior doesn’t keep His victory over sin and death for Himself; He shares it with each of us. Hank Smith then reads the verse in a modern translation: the Lord rewards Him for sacrificing His life, and though others thought Him a sinner, He suffered for our sins and asked God to forgive us."
+          ],
+          "find": [
+            "he’s spending 11 verses showing that the servant is losing everything. He loses his dignity, his reputation, his freedom, and ultimately his life.",
+            "In verse 12, he’s clearly the winner because he has the spoils.",
+            "Now the question is, because he won, what does he do with the spoils? He shares them.",
+            "That victory over sin and death, he shares it with you and me."
+          ],
+          "listen": {
+            "youtube": "MyKkxR4JHz4",
+            "start": 3568,
+            "end": 3766,
+            "title": "followHIM: Isaiah 50–57 with Dr. Ezra Gwilliam",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "isa54-nephites",
@@ -5091,7 +5133,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/old-testament-episode-41-2026-isaiah-50-57/"
         },
         "find": "I think the fall of Adam and Eve goes with this, with thorns and briars",
-        "approved": "b1e86bbd"
+        "approved": "b1e86bbd",
+        "deep": {
+          "paras": [
+            "Dr. Ezra Gwilliam reads Isaiah 55 as an invitation to change how we think, about ourselves and about the Savior. Just before verse 13 he turns to Isaiah 42:3, where the Lord will not break a bruised reed or put out smoking flax. He pictures a cracked reed pen and a candle burned down to smoke, things anyone would throw away. The Lord doesn’t: “If you’re bruised, if you’re broken, he’s not going to throw you away.”",
+            "He stresses how sure verse 7 is: the Lord will have mercy and will abundantly pardon. “Not might, not perhaps.” Then verse 13 sums the chapter up in a picture: “Instead of the thorn shall come up the fir tree, and instead of the brier shall come up the myrtle tree.” You don’t have to decode Isaiah’s symbols, he says, to know a fir tree is better than a thorn. And the change stands as “an everlasting sign that shall not be cut off.”",
+            "He ties the image to Isaiah 53, where the Savior grows up like a tender plant out of dry ground. What He offers isn’t a patch but a full restoration: a tall, beautiful tree where a thorn used to be. Dr. Gwilliam also suggests a link to the Fall, when the ground began to bring forth thorns (Genesis 3:18). What the Fall brought, Christ can replace with something beautiful, “for every single one of us.”"
+          ],
+          "find": [
+            "If you’re bruised, if you’re broken, he’s not going to throw you away.",
+            "He will have mercy. Not might, not perhaps.",
+            "a full restoration, a fir tree, a big beautiful tree in the place of what used to be a thorn.",
+            "Christ can do that for every single one of us."
+          ],
+          "listen": {
+            "youtube": "MyKkxR4JHz4",
+            "start": 5624,
+            "end": 5786,
+            "title": "followHIM: Isaiah 50–57 with Dr. Ezra Gwilliam",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "isa56-sabbath",
@@ -5218,6 +5281,104 @@ window.TU_WEEKS = [
           "channel": "The Church of Jesus Christ of Latter-day Saints",
           "previewed": false
         }
+      },
+      {
+        "id": "isa50-jsp-cast-off",
+        "ref": "Isaiah 50:1",
+        "title": "Joseph’s Bible: never cast off",
+        "text": "In the early 1830s Joseph Smith made an inspired revision of the Bible. In his manuscript, Isaiah 50:1 begins with a new question from the Lord: “Have I put thee away, or have I cast thee off forever?” The answer is no. The Lord never walks away from His people. Nephi’s copy of Isaiah reads the same way (2 Nephi 7:1).",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 108",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/115"
+        },
+        "find": "Have I put thee away, or have I cast thee off forever?",
+        "note": "Joseph Smith’s Bible revision adds the Lord’s question, “Have I put thee away, or have I cast thee off forever?”, as Nephi’s copy of Isaiah has it (2 Nephi 7:1)."
+      },
+      {
+        "id": "isa52-jsp-then-say",
+        "ref": "Isaiah 52:7",
+        "title": "Joseph’s Bible: then they will say it",
+        "text": "In Joseph Smith’s inspired revision of the Bible, Isaiah 52:7 starts with new words: “And then shall they say.” That makes the verse what the Lord’s people will say on the day they know Him (verse 6), and it adds that the good news is brought to them. When Jesus taught this verse in America, He said it the same way (3 Nephi 20:40).",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 110",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
+        },
+        "find": "And then shall they say, How beautiful upon the mountains",
+        "note": "Joseph Smith’s Bible revision begins this verse “And then shall they say,” and adds that the good tidings are brought to them, as the Savior said it in 3 Nephi 20:40."
+      },
+      {
+        "id": "isa52-jsp-gather",
+        "ref": "Isaiah 52:15",
+        "title": "Joseph’s Bible: gather, not sprinkle",
+        "text": "The King James Version says the Lord’s servant will “sprinkle many nations.” In Joseph Smith’s Bible manuscript, his scribe wrote just one word for this verse: “gather.” So the servant will gather many nations. The footnotes in our Bible give this change too, and here you can see the page where it was first written down, in the early 1830s.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 110",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
+        },
+        "find": "that saith unto Zion, Thy God reigneth. 15 gather",
+        "note": "The page where this change was first written down: for verse 15, Joseph Smith’s Old Testament manuscript has one word, “gather.”"
+      },
+      {
+        "id": "isa52-jsp-strength",
+        "ref": "Isaiah 52:1",
+        "title": "Joseph explains: Zion’s strength",
+        "text": "In March 1838 Elias Higbee asked what Isaiah meant by “put on thy strength, O Zion.” The answer, written in Joseph Smith’s journal, is now Doctrine and Covenants 113. Zion’s strength is “the authority of the priesthood,” and the people Isaiah meant are those God calls in the last days to hold the priesthood and bring again Zion.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Questions and Answers, March 1838 [D&C 113:7–10]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/questions-and-answers-between-circa-16-and-circa-29-march-1838-b-dc-1137-10/1"
+        },
+        "find": "He had reference to those whome God should call in the last day’s who should hold the power of Priesthood",
+        "note": "The first record of this answer: Joseph Smith’s reply to Elias Higbee in March 1838, written in his journal, explains Zion’s strength as priesthood authority (D&C 113:7–10)."
+      },
+      {
+        "id": "isa52-jsp-gladness",
+        "ref": "Isaiah 52:7",
+        "title": "Joseph: a voice of gladness",
+        "text": "In 1842 Joseph Smith wrote a joyful letter to the Church about baptism for the dead, now Doctrine and Covenants 128. Near its end he asks what we hear in the restored gospel, and answers, “a voice of gladness!” Then he quotes this verse: how beautiful are the feet of those who bring good news, to the living and to the dead.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Letter to the Church, 7 September 1842 [D&C 128]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-the-church-7-september-1842-dc-128/6"
+        },
+        "find": "Now what do we hear in the gospel which we have received? a voice of gladness!",
+        "note": "Joseph Smith quoted this verse in his 1842 letter on baptism for the dead (D&C 128:19): glad tidings for the living and the dead, “a voice of gladness!”"
+      },
+      {
+        "id": "isa53-jsp-lamb",
+        "ref": "Isaiah 53:7",
+        "title": "Joseph in jail: like the Savior",
+        "text": "In December 1838 Joseph Smith wrote to the Saints from Liberty Jail. He and other leaders had been betrayed and led into the militia’s camp without a fight, as the Savior was led. He told it in the words of this verse: like “a sheep dumb before his shearer so we opened not our mouth.”",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Letter to the Church in Caldwell County, Missouri, 16 December 1838",
+          "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-the-church-in-caldwell-county-missouri-16-december-1838/2"
+        },
+        "find": "aided him in leading us, as the savior was led, into the camp",
+        "note": "From Liberty Jail in December 1838, Joseph Smith used this verse for his own betrayal: led “as the savior was led,” and silent, like a sheep before the shearer."
+      },
+      {
+        "id": "isa54-jsp-small-moment",
+        "ref": "Isaiah 54:7",
+        "title": "Liberty Jail: but a small moment",
+        "text": "In March 1839, after months in Liberty Jail, Joseph Smith wrote a long letter to the Saints. In it he records the Lord’s answer to his prayer, now Doctrine and Covenants 121: “thine advirsity and thy afflictions shall be but a small moment.” It echoes this verse: “For a small moment have I forsaken thee; but with great mercies will I gather thee.”",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Letter to the Church and Edward Partridge, 20 March 1839 [D&C 121]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-the-church-and-edward-partridge-20-march-1839/8"
+        },
+        "find": "my son pease be unto thy soul thine advirsity and thy afflictions shall be but a small moment",
+        "note": "From Liberty Jail in 1839, the Lord told Joseph Smith his troubles “shall be but a small moment” (D&C 121:7–8), echoing this verse."
       }
     ]
   },
@@ -6763,7 +6924,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/3-9/"
         },
         "find": "I am found of them who seek after me. I give unto all them that ask of me",
-        "approved": "1b9939ef"
+        "approved": "1b9939ef",
+        "deep": {
+          "paras": [
+            "In the King James Version, Isaiah 65:1 says, “I am found of them that sought me not.” On followHIM, Dr. Ross Baron admits, “I’ve struggled with that verse.” Read on its own, it can sound as if seeking the Lord makes no difference.",
+            "Joseph Smith’s inspired translation of the Bible turns it around. Dr. Baron reads it: “I am found of them who seek after me. I give unto all them that ask of me.” It goes on to say the Lord is not found by those who don’t seek or inquire after Him. “That clears that up perfectly,” Hank Smith says.",
+            "Dr. Baron explains what the Joseph Smith Translation is from Doctrine and Covenants 35:20, where the Lord tells Sidney Rigdon to write for Joseph as the scriptures are given, just as the Lord holds them, for the salvation of His people in the last days. He urges listeners to look this verse up for themselves. Its promise is plain: the Lord is found by those who seek Him."
+          ],
+          "find": [
+            "I think that’s one of the best definitions of what the Joseph Smith Translation is.",
+            "I am found of them who seek after me. I give unto all them that ask of me.",
+            "I am not found of them that sought me not, or that inquireth not after me.",
+            "The Joseph Smith translation does have that verse changed. I think it’s super critical"
+          ],
+          "listen": {
+            "youtube": "aXKv2fDjZGM",
+            "start": 2705,
+            "end": 2856,
+            "title": "followHIM: Isaiah 58–66, part 2, with Dr. Ross Baron",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "isa65-cluster",
@@ -6818,7 +7000,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/3-9/"
         },
         "find": "We bring our family. We bring ourselves, and we bring everyone else on both sides of the veil",
-        "approved": "b246829a"
+        "approved": "b246829a",
+        "deep": {
+          "paras": [
+            "Dr. Ross Baron reads the end of Isaiah 66 as a pattern for the last days. In verse 19 the Lord sets a sign among the nations, which he identifies with the Book of Mormon, the sign the Lord promises in 3 Nephi 21. Those who accept it are sent to far lands and islands, to people who have never heard of the Lord’s glory.",
+            "Then comes verse 20. “What is the offering you and I make in the Latter-days really?” he asks. Isaiah’s answer is people: “they shall bring all your brethren for an offering unto the LORD out of all nations.” Dr. Baron adds that the gathering reaches both sides of the veil: “People from both sides of the veil. From where? From everywhere.”",
+            "The verse ends with the offering brought “in a clean vessel into the house of the LORD.” Dr. Baron sees the holy mountain of Jerusalem standing for our temples and our stakes of Zion today. So the offering of the last days is our children, our families, ourselves, and everyone we can help on both sides of the veil, gathered from every nation to the Lord’s house."
+          ],
+          "find": [
+            "I will set a sign among them: the Latter-day token, the Latter-day sign, the Book of Mormon.",
+            "What’s the offering? People from both sides of the veil. From where? From everywhere.",
+            "I think Jerusalem becomes a proxy holy city for all of our holy temples, a proxy holy city for all of our stakes of Zion",
+            "We bring our family. We bring ourselves, and we bring everyone else on both sides of the veil as a holy offering."
+          ],
+          "listen": {
+            "youtube": "aXKv2fDjZGM",
+            "start": 3068,
+            "end": 3214,
+            "title": "followHIM: Isaiah 58–66, part 2, with Dr. Ross Baron",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "isa66-name",
@@ -6960,6 +7163,132 @@ window.TU_WEEKS = [
           "channel": "Scripture Central",
           "previewed": false
         }
+      },
+      {
+        "id": "isa62-jsp-names",
+        "ref": "Isaiah 62:4",
+        "title": "Joseph’s Bible: names in English",
+        "text": "Isaiah promises Zion new names, “Hephzi-bah,” and for her land, “Beulah.” They are Hebrew words, and the verse tells what they mean: “the LORD delighteth in thee, and thy land shall be married.” In Joseph Smith’s Bible manuscript the names are written in English instead: Delightful, and Union. The Lord delights in His people and is joined to them by covenant.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 110",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
+        },
+        "find": "Isaiah, Chapter 62 LXII verse 4 Delightful",
+        "note": "Joseph Smith’s Bible revision puts these names in English: Hephzi-bah becomes Delightful, and Beulah, the land, becomes Union."
+      },
+      {
+        "id": "isa63-jsp-suffered",
+        "ref": "Isaiah 63:17",
+        "title": "Joseph’s Bible: God doesn’t make us sin",
+        "text": "The people ask the Lord why He has “made us to err from thy ways.” Does God make people do wrong? Joseph Smith’s Bible manuscript has one word for this verse: “suffered,” which means allowed. God lets us choose, even when we choose wrong, but He never makes us sin. The verse now says He allowed their hearts to harden.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 110",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
+        },
+        "find": "Isaiah, Chapter 63 LXIII verse 17— suffered",
+        "note": "In Joseph Smith’s Old Testament manuscript, the change for this verse is the word “suffered”: the Lord allowed them to err and to harden their hearts. He didn’t make them."
+      },
+      {
+        "id": "isa64-jsp-continuance",
+        "ref": "Isaiah 64:5",
+        "title": "Joseph’s Bible: such shall be saved",
+        "text": "Isaiah 64:5 is hard to follow in the King James Version: “thou art wroth; for we have sinned: in those is continuance.” Joseph Smith’s Bible manuscript makes it clear. The Lord meets those who do right and brings joy to those who remember Him, and in righteousness there is continuance: they shall be saved. Then the people admit their sins and plead for mercy.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 110",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
+        },
+        "find": "Thou meetest him that worketh righteousness, and rejoiceth him that",
+        "note": "Joseph Smith’s Bible revision drops “behold, thou art wroth” and reads that in righteousness there is continuance, and such shall be saved (his manuscript, pages 110–111)."
+      },
+      {
+        "id": "isa65-jsp-seek",
+        "ref": "Isaiah 65:1",
+        "title": "Joseph’s Bible: found by those who seek",
+        "text": "In the King James Version the Lord says, “I am found of them that sought me not.” On page 111 of Joseph Smith’s Old Testament manuscript, written in the early 1830s, the verse is turned around: “I am found of them who seek after me.” The Lord is found by those who look for Him, and He gives to all who ask.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 111",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/118"
+        },
+        "find": "I am found of them who seek after me; I give unto all them that ask of me",
+        "note": "Joseph Smith’s Bible revision turns this verse around: “I am found of them who seek after me,” and the Lord gives to all who ask of Him."
+      },
+      {
+        "id": "isa65-jsp-hundred",
+        "ref": "Isaiah 65:20",
+        "title": "Joseph’s Bible: no child will die",
+        "text": "Isaiah describes new heavens and a new earth. The King James Version says “the child shall die an hundred years old,” which is confusing. Joseph Smith’s Bible manuscript reads, “the child shall not die, but shall live to be a hundred years old.” In those days, children won’t die young.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 111",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/118"
+        },
+        "find": "for the child shall not die, but shall live to be a hundred years old",
+        "note": "Joseph Smith’s Bible revision: “the child shall not die, but shall live to be a hundred years old,” in those days of the new heavens and new earth."
+      },
+      {
+        "id": "isa60-jsp-arise",
+        "ref": "Isaiah 60:1",
+        "title": "Arise and shine, in a revelation",
+        "text": "In April 1838 the Lord gave Joseph Smith the revelation that named the Church, now Doctrine and Covenants 115. In it He gives Isaiah’s call to the Latter-day Saints: arise and shine, “that thy light may be a standard for the nations.” Gathering to Zion and her stakes would be a defense and a refuge.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Revelation, 26 April 1838 [D&C 115]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/revelation-26-april-1838-dc-115/2"
+        },
+        "find": "Verrily I say unto you all; arise and shine",
+        "note": "In the 1838 revelation that named the Church (D&C 115:5), the Lord gave this verse to the Saints: arise and shine, “that thy light may be a standard for the nations.”"
+      },
+      {
+        "id": "isa60-jsp-emma",
+        "ref": "Isaiah 60:2",
+        "title": "Joseph’s letter to Emma",
+        "text": "In October 1832, on a trip to New York City, Joseph Smith wrote to his wife Emma in his own handwriting. Troubled by the wickedness he saw, he prayed in the words of this verse: “how long Oh Lord Shall this order of things exist and darkness cover the Earth.” Then he went back to his room to calm his mind.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Letter to Emma Smith, 13 October 1832",
+          "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-emma-smith-13-october-1832/1"
+        },
+        "find": "Oh how long Oh Lord Shall this order of things exist and darkness cover the Earth and gross darkness cover the people",
+        "note": "In a letter to Emma in his own hand (New York City, 1832), Joseph Smith prayed in this verse’s words: how long shall “darkness cover the Earth”?"
+      },
+      {
+        "id": "isa63-jsp-winepress",
+        "ref": "Isaiah 63:3",
+        "title": "The Lord in red, in a revelation",
+        "text": "In November 1831 Joseph Smith received a revelation about the Second Coming, now Doctrine and Covenants 133. It takes up Isaiah 63: the Lord comes in red clothing, and He says, “I have trodden the wine press alone.” Then His people remember His loving kindness, and that in all their afflictions He was afflicted.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Revelation, 3 November 1831 [D&C 133]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/revelation-3-november-1831-dc-133/4"
+        },
+        "find": "I have trodden the wine press alone & have brought Judgement upon all people & none was with me",
+        "note": "Joseph Smith’s November 1831 revelation on the Second Coming (D&C 133:46–53) takes up this chapter: “I have trodden the wine press alone.”"
+      },
+      {
+        "id": "isa65-jsp-tree",
+        "ref": "Isaiah 65:22",
+        "title": "Joseph: as the age of a tree",
+        "text": "In March 1841 Joseph Smith taught in Nauvoo that not everyone will be destroyed when Christ comes again; some will live on into the Millennium. A listener wrote down his evidence: “Isaiah says the Days of an infant shall be as the age of a tree.” It joins verse 20, about long lives, with verse 22: “as the days of a tree are the days of my people.”",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Discourse, circa 16 March 1841",
+          "url": "https://www.josephsmithpapers.org/paper-summary/discourse-circa-16march-1841/1"
+        },
+        "find": "Isaiah says the Days of an infant shall be as the age of a tree",
+        "note": "In an 1841 sermon, as a listener recorded it, Joseph Smith cited this: “Isaiah says the Days of an infant shall be as the age of a tree.”"
       }
     ]
   },
@@ -8511,7 +8840,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/2-211/"
         },
         "find": "Jeremiah uses this word more than all other scriptural authors combined",
-        "approved": "b9be3ccf"
+        "approved": "b9be3ccf",
+        "deep": {
+          "paras": [
+            "Dr. John Hilton III calls backsliding one of Jeremiah’s favorite words. It means falling back into sin, and he notes that Jeremiah uses it more than all the other scripture writers put together: “So when you hear the word backsliding, think Jeremiah.”",
+            "He reads three invitations from chapter 3 alone. In verse 12 the Lord calls backsliding Israel to return and says He is merciful. In verse 14 He calls the backsliding children to turn. And in verse 22 He promises, “Return, ye backsliding children, and I will heal your backslidings.” It isn’t a scolding so much as a standing offer.",
+            "Dr. Hilton is honest about us: “All of us are going to backslide.” Hank Smith admits he has been a backsliding Israelite himself, giving something up only to have it come back. John Bytheway compares it to the Book of Mormon’s pride cycle, sliding back into a way of life you had once conquered. Through it all, as Dr. Hilton sums up the Lord’s message: “I’m merciful. Come, return to me.”"
+          ],
+          "find": [
+            "It means to fall back into sin basically, but Jeremiah uses this word more than all other scriptural authors combined.",
+            "So when you hear the word backsliding, think Jeremiah.",
+            "All of us are going to backslide, we’re all going to fall back into temptation at time.",
+            "You’re returning or you’re going back to an old way of living that you had conquered before."
+          ],
+          "listen": {
+            "youtube": "7SAFsdEf-tw",
+            "start": 1307,
+            "end": 1446,
+            "title": "followHIM: Jeremiah, part 1, with Dr. John Hilton III",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "jer7-trial",
@@ -8553,7 +8903,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/2-211/"
         },
         "find": "this has got to be one of the most all time discouraging passages of scripture",
-        "approved": "71b91db1"
+        "approved": "71b91db1",
+        "deep": {
+          "paras": [
+            "Before Jeremiah spoke these words, the Lord told him how it would go: “they will not hearken to thee,” and when he called, “they will not answer thee.” Dr. John Hilton III calls it “one of the most all time discouraging passages of scripture” for the one who received it. Picture a mission call that says no one will listen.",
+            "By then Jeremiah had already preached for years, and he kept going for decades. The people of his hometown plotted to kill him (Jeremiah 11:21), and even his family turned against him (Jeremiah 12:6). When he asked why the wicked prosper, the Lord answered that harder races lay ahead: if running with footmen wearied him, how would he contend with horses (Jeremiah 12:5)? He pressed on anyway.",
+            "Dr. Hilton’s lesson: “just because we’re working hard and doing what God wants us to do, it doesn’t mean everything’s going to turn out perfectly.” He and Hank Smith point to Mormon, Abinadi, and Nephi the son of Helaman, prophets whose words were refused too. Their success was their faithfulness. As John Bytheway puts it, Jeremiah “was doing what he was asked.”"
+          ],
+          "find": [
+            "this has got to be one of the most all time discouraging passages of scripture to the person receiving it.",
+            "And Jeremiah, he’s already been preaching for years and he’s going to go on and preach for decades longer.",
+            "He’s working hard and he’s abandoned by the people of his hometown, he’s abandoned by his family, but he still keeps pressing forward.",
+            "And that’s what Jeremiah was doing. He was doing what he was asked."
+          ],
+          "listen": {
+            "youtube": "7SAFsdEf-tw",
+            "start": 1649,
+            "end": 2092,
+            "title": "followHIM: Jeremiah, part 1, with Dr. John Hilton III",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "jer16-lehi",
@@ -8580,7 +8951,28 @@ window.TU_WEEKS = [
           "url": "https://followhim.co/show-note/2-210/"
         },
         "find": "these are interactions between Jeremiah and Jesus Christ",
-        "approved": "7f504ca7"
+        "approved": "7f504ca7",
+        "deep": {
+          "paras": [
+            "Jeremiah 16 ends with the Lord’s promise, “they shall know that my name is The LORD.” As Dr. John Hilton III closed his episodes on Jeremiah, he made a point about the whole book that fits this verse well: all through it, the LORD in capital letters is Jehovah.",
+            "And Jehovah is Jesus Christ. “Jesus Christ, He is the God of Abraham, Isaac, and Jacob,” Dr. Hilton says. So when we read Jeremiah talking with the LORD, “these are interactions between Jeremiah and Jesus Christ,” and they help us know the Savior better.",
+            "He hopes we come away with a little of Jeremiah’s “fire in the bones” (Jeremiah 20:9), a closer connection with the Savior, and a wish to become more like Him. Jeremiah sometimes felt his preaching wasn’t working, yet believers have drawn strength from his words ever since. Faithful work done for the Lord can matter for generations."
+          ],
+          "find": [
+            "But throughout, we’ve been reading about the LORD, all caps, Jehovah interacting with Jeremiah.",
+            "And so I would just want us to remember that Jesus Christ, He is the God of Abraham, Isaac, and Jacob.",
+            "these are interactions between Jeremiah and Jesus Christ, and it’s helping us, I think, get to know Jesus Christ better.",
+            "I hope that we have a little more of that fire in the bones ourselves, that God’s Word is burning in us."
+          ],
+          "listen": {
+            "youtube": "L206lZBoxOo",
+            "start": 2121,
+            "end": 2253,
+            "title": "followHIM: Jeremiah, part 2, with Dr. John Hilton III",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          }
+        }
       },
       {
         "id": "jer17-king",
@@ -8791,6 +9183,48 @@ window.TU_WEEKS = [
           "channel": "Latter Day Kids",
           "previewed": false
         }
+      },
+      {
+        "id": "jer18-jsp-withhold",
+        "ref": "Jeremiah 18:8",
+        "title": "Joseph’s Bible: the Lord withholds",
+        "text": "In the King James Version the Lord says that when a nation turns from its evil, He will “repent of the evil” He planned. Repent can sound as if the Lord did something wrong. In Joseph Smith’s Bible manuscript, the word for this verse, and again for verse 10, is “withhold.” When a people turn from evil, the Lord holds back the punishment He warned them of.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 111",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/118"
+        },
+        "find": "turn from — withhold",
+        "note": "Joseph Smith’s Old Testament manuscript gives one word for this verse and for verse 10: “withhold.” The Lord withholds the evil, or the good, rather than repenting; the page doesn’t mark the spot, but it can only replace “repent of.”"
+      },
+      {
+        "id": "jer16-jsp-lies",
+        "ref": "Jeremiah 16:19",
+        "title": "Liberty Jail: inherited lies",
+        "text": "From Liberty Jail in March 1839, Joseph Smith asked the Saints to write down what they had suffered in Missouri. He traced the hatred against them to false traditions passed down to children, the creeds of the fathers “who have inherited lies.” The words come from this verse, and they’re now in Doctrine and Covenants 123:7.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Letter to Edward Partridge and the Church, circa 22 March 1839 [D&C 123]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-edward-partridge-and-the-church-circa-22-march-1839/6"
+        },
+        "find": "upheld by the influance of that spirit which hath so strongly rivited the creeds of the fathers",
+        "note": "From Liberty Jail in 1839, Joseph Smith used this verse’s words for the false traditions behind the Saints’ persecution: creeds of the fathers “who have inherited lies” (D&C 123:7)."
+      },
+      {
+        "id": "jer17-jsp-tree",
+        "ref": "Jeremiah 17:8",
+        "title": "A tree by a pure stream",
+        "text": "Jeremiah compares a person who trusts the Lord to “a tree planted by the waters.” In August 1833 the Lord gave Joseph Smith a revelation with the same picture, now Doctrine and Covenants 97: Saints who are honest and humble will be like “a very fruitful tree” by a pure stream. The Joseph Smith Papers’ own notes point to Jeremiah 17.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Revelation, 2 August 1833–A [D&C 97]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/revelation-2-august-1833-a-dc-97/2"
+        },
+        "find": "a very fruitful tree which is planted in a goodly land by a pure stream that yealdeth much precious fruit",
+        "note": "An 1833 revelation to Joseph Smith (D&C 97:9) uses this picture: the honest and contrite will be like “a very fruitful tree” by a pure stream."
       }
     ]
   }

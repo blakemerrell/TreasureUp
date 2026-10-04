@@ -300,6 +300,34 @@ console.log('Recordings (amigo/audio/, made by tools/amigo-voice.mjs)');
     `Past the basics: every recording listed is there, and ${spoken2.size - unrecorded2.length} of the ${spoken2.size} have one` + (strict ? ' (the live app needs all)' : ''),
     [...missing2.map(k => 'no file for tl2/' + k), ...(strict ? unrecorded2.map(t => `no recording of “${t}”`) : [])]);
   if (!strict && unrecorded2.length) console.log(`    (not recorded yet: ${unrecorded2.slice(0, 4).join(' · ')}${unrecorded2.length > 4 ? ' …' : ''}. The test site's deploy records them.)`);
+
+  // Spanish, recorded like the first Tagalog course (Blake, 2026-10-04: Javan's
+  // Kindle has no Spanish voice). What its lessons can say, for the same two
+  // learners, is all in what tools/amigo-voice.mjs records. Not yet required on
+  // the live app: its recordings come from the test site's deploy, and until a
+  // line has one the phone's own voice says it, as before.
+  const ESc = COURSES.es, spokenEs = new Set();
+  for (const right of [true, false]) {
+    const cs = E.courseSave(E.freshSave(), 'es');
+    let day = 40000;
+    for (const { unit, n, key } of E.path(ESc)) {
+      for (const st of E.buildLesson(ESc, unit, n, cs, day)) { said(st).forEach(t => spokenEs.add(t.normalize('NFC'))); E.remember(cs, st.id, right, day); }
+      E.finish(cs, key, 0, day);
+      day += 1;
+    }
+  }
+  const madeEs = new Set([...ESc.praise, ...ESc.units.flatMap(u => [u.done, ...u.phrases.map(p => p.t), ...u.words.map(x => x[0]), ...u.scenes.flatMap(x => [x.right, ...x.wrong]),
+    ...u.phrases.flatMap(p => E.tiles(p.t)).map(E.sayable)])].map(t => t.normalize('NFC')));
+  const uncoveredEs = [...spokenEs].filter(t => !madeEs.has(t));
+  ok(!uncoveredEs.length, `Spanish: what's recorded covers all ${spokenEs.size} things its lessons can say`, uncoveredEs.map(t => `not recorded by amigo-voice.mjs: “${t}”`));
+  const keyOfEs = new Map(), clashesEs = [];
+  for (const t of madeEs) { const k = E.audioKey(t); if (keyOfEs.has(k)) clashesEs.push(`“${t}” and “${keyOfEs.get(k)}” share ${k}`); else keyOfEs.set(k, t); }
+  ok(!clashesEs.length, `Spanish: no two of its ${madeEs.size} lines share a recording`, clashesEs);
+  const listedEs = Object.keys((w.AMIGO_AUDIO && w.AMIGO_AUDIO.es) || {});
+  const missingEs = listedEs.filter(k => !fs.existsSync(path.join(dir, 'es', k + '.mp3')));
+  const unrecordedEs = [...spokenEs].filter(t => !listedEs.includes(E.audioKey(t)));
+  ok(!missingEs.length, `Spanish: every recording listed is there, and ${spokenEs.size - unrecordedEs.length} of the ${spokenEs.size} have one`, missingEs.map(k => 'no file for es/' + k));
+  if (unrecordedEs.length) console.log(`    (not recorded yet, so the phone's voice says them: ${unrecordedEs.slice(0, 4).join(' · ')}${unrecordedEs.length > 4 ? ' …' : ''}. The test site's deploy records them.)`);
 }
 
 console.log(failed ? `\n${failed} failed` : '\nall passed');

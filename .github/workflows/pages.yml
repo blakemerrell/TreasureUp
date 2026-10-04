@@ -36,14 +36,15 @@ jobs:
         with:
           node-version: 22
 
-      # Amigo · Kaibigan's Tagalog: record any line that has no recording yet,
-      # in the Filipino voice (tools/amigo-voice.mjs), and save the recordings
+      # Amigo · Kaibigan's Tagalog and Spanish: record any line that has no
+      # recording yet, in the Filipino voice or the Spanish one
+      # (tools/amigo-voice.mjs), and save the recordings
       # to the repo; this deploy publishes them. The test site only: the
       # Google key lives there as the secret GOOGLE_TTS_JSON, on no computer.
       # Recordings reach the live app in the PR that brings their lines. If
       # Google can't be reached, the deploy goes on, and the game uses the
       # phone's voice for those lines.
-      - name: Record new Tagalog
+      - name: Record new Tagalog and Spanish
         if: github.repository == 'blakemerrell/TreasureUp-test'
         continue-on-error: true
         env:
@@ -54,7 +55,7 @@ jobs:
           if git diff --cached --quiet; then echo "Nothing new to record."; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Amigo · Kaibigan: record the new Tagalog"
+          git commit -m "Amigo · Kaibigan: record the new Tagalog and Spanish"
           git push origin HEAD:main
       # The live app (this repo) also requires every piece of a new week to
       # be approved in developer mode; the test site shows drafts.
