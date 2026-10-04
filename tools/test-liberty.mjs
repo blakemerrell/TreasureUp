@@ -473,6 +473,14 @@ console.log('Free battle · build a city, tear down the war camp');
     ok(W.side('p').side === 'kingmen' && W.side('r').side === 'freemen' && W.side('p').captain.name === 'Ammoron' && D.CAPTAINS.freemen[FB.theirCaptain], 'the human holds the King-men under Ammoron; the opponent holds the Freemen under a captain of its own');
     { const zara = W.buildings('r', 'stronghold')[0], towers = W.buildings('r', 'tower').filter(t => S.dist(t, zara) < 9 * 32);
       ok(towers.length === FB.LEVELS.normal.cityTowers, `Zarahemla stands behind watchtowers of its own (${towers.length} on Normal), as the war camp has its lookouts`); }
+    // Saving for its temple, the Freemen opponent makes no upgrades meanwhile (they would spend what it's saving).
+    { const C = FB.camp, R = W.side('r'), was = { ...R.res }, keep = C.nextWanted;
+      const zara = W.buildings('r', 'stronghold')[0], arm = W.addBuilding('armory', 'r', zara.tx - 6, zara.ty + 6, true);
+      C.nextWanted = () => 'temple';
+      R.res = { grain: 100, timber: 150, stone: 0 };                         // enough for an upgrade, not for the temple
+      C.research();
+      ok(!R.researching && C.roomFor('temple'), 'saving for its temple, the Freemen opponent makes no upgrade meanwhile');
+      C.nextWanted = keep; delete C.nextWanted; R.res = was; W.remove(arm); }
     const camp = W.stronghold();
     ok(camp && camp.type === 'warcamp' && camp.name === 'Your camp' && W.units('p').some(u => u.type === 'ammoron') && W.units('p').filter(u => u.type === 'bearer').length === 2, 'the King-men start with their war camp, two bearers, a few warriors and their captain');
     ok(W.buildings('r', 'stronghold').length === 1 && W.units('r').some(u => u.def.hero) && FB.targets()[0].type === 'stronghold', 'the Freemen opponent starts with Zarahemla, its guards and its captain; Zarahemla is what you must tear down');
@@ -627,6 +635,19 @@ console.log('Fighting on the way · Blake\'s gameplay review');
     W.kill(foe); for (let i = 0; i < 5; i++) W.step(0.1);
     ok(s.order.type === 'attack' && s.order.target === camp.id, 'then goes on to the camp');
     W.remove(s); }
+  // Struck by one he can't reach (on an island), he gives it up after 8 s and goes back to the camp, and doesn't turn again at once.
+  { const camp = FB.camps.find(c => !c.dead), s = man('spearman', 'p', camp.x - 300, camp.y + 40);
+    const ix = tileOf(s.x) - 4, iy = tileOf(s.y), saved = [];
+    for (let y = iy - 2; y <= iy + 2; y++) for (let x = ix - 2; x <= ix + 2; x++) { saved.push([x, y, W.tile(x, y), W.amt[y * D.MAP_W + x]]); if (x !== ix || y !== iy) W.setTile(x, y, D.T.WATER); }
+    const foe = man('slinger', 'r', ix * 32 + 16, iy * 32 + 16); W.order(foe, { type: 'idle' });
+    W.order(s, { type: 'attack', target: camp.id }); W.step(0.1);
+    W.damage(s, 1, foe); const chased = s.order.type === 'attack' && s.order.target === foe.id;
+    for (let i = 0; i < 90; i++) { foe.x = ix * 32 + 16; foe.y = iy * 32 + 16; foe.cool = 99; W.step(0.1); }
+    ok(chased && s.order.type === 'attack' && s.order.target === camp.id, 'struck by a slinger he can\'t reach, he gives up the chase after 8 s and goes back to the camp');
+    W.damage(s, 1, foe);
+    ok(s.order.target === camp.id, 'and he doesn\'t turn on him again straight away');
+    for (const [x, y, t, a] of saved) W.setTile(x, y, t, a);
+    W.remove(s); W.remove(foe); }
   // The levels climb: each harder level comes sooner, stronger and better guarded; Normal's war camp and city stand behind towers.
   { const L = FB.LEVELS, up = (k) => L.easy[k] <= L.normal[k] && L.normal[k] <= L.hard[k];
     ok(L.easy.first >= L.normal.first && L.normal.first >= L.hard.first && up('strength') && up('guards') && up('campGuards') && up('march') && up('towers') && up('stars'),
@@ -730,6 +751,14 @@ console.log('Saving a game · Blake\'s "we\'ll lose our progress"');
     ok(same && !played.lost.length && played.bytes < 200000, `${sc}: saved at 3 minutes and loaded in a fresh page, it plays on exactly as before (${Math.round(played.bytes / 1024)} KB)`);
     fs.rmSync(dir, { recursive: true, force: true });
   }
+  // Loading clears what an earlier game left on the mission, and a save that can't go on is caught before it is offered.
+  { const SAVE = require('../liberty/save.js'), W = start('m1'), snap = JSON.parse(JSON.stringify(SAVE.dump(W, {})));
+    W.mission.leftOver = 900;
+    const { mission } = SAVE.load(JSON.parse(JSON.stringify(snap)));
+    ok(!('leftOver' in mission), 'loading a save clears what an earlier game left on the mission');
+    ok(SAVE.playsOn(JSON.parse(JSON.stringify(snap)), 20), 'a good save plays on');
+    const broken = JSON.parse(JSON.stringify(snap).replace(/"hp":(\d+)/, '"hp":"gone"'));
+    ok(!SAVE.playsOn(broken, 20), 'a save that would go wrong (a unit\'s health not a number) is caught before it is offered'); }
   // Anything that can't be written down (a function) is noted, so the screen keeps the last good save instead.
   { const SAVE = require('../liberty/save.js'), W = start('m1'); W.mission.flags = { oops: () => 1 };
     ok(SAVE.dump(W, {}).lost.includes('oops'), 'a save that would lose something says so'); W.mission.flags = {}; }

@@ -135,6 +135,17 @@
       }
       return null;
     }
+    // Is there room for it at all? (spotFor's search, in a fixed order and without the dice, so asking changes nothing.)
+    roomFor(type) {
+      const W = this.W, def = BUILDINGS[type], h = this.home;
+      const cx = h.tx + Math.floor(h.w / 2), cy = h.ty + Math.floor(h.h / 2);
+      for (let r = 3; r <= 14; r++) for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
+        if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
+        const x = cx + dx - Math.floor(def.w / 2), y = cy + dy - Math.floor(def.h / 2);
+        if (!W.whyNotPlace(type, x, y, this.team) && !this.cramped(x, y, def)) return true;
+      }
+      return false;
+    }
     // Not on a field (that's food), not against the palisade, and not against a store, so the way out and the way in stay open.
     cramped(tx, ty, def) {
       const W = this.W;
@@ -154,13 +165,18 @@
     research() {
       const W = this.W, side = W.side(this.team);
       if (side.researching) return;
+      // Saving for the great house (temple or Rameumptom) that can go up: nothing else is made meanwhile, or the upgrades would
+      // spend what build() is saving. If there's no room for it, it's skipped and the upgrades go on.
+      const want = this.nextWanted(), great = BUILDINGS[want] && BUILDINGS[want].powers ? BUILDINGS[want] : null;
+      const waitGreat = great && this.roomFor(want);
+      if (waitGreat && !W.canAfford(great.cost, this.team)) return;
       for (const b of this.buildings()) {
         if (b.built < 1 || !b.def.research) continue;
         for (const key of W.researchAt(b)) {
           if (side.researched[key]) continue;
           const r = RESEARCH[key];
           if (r.ladders && this.marches < 2) continue;                      // ladders come after the walls have stopped them twice (Alma 49:22)
-          if (r.level && BUILDINGS[this.nextWanted()] && BUILDINGS[this.nextWanted()].powers) continue;   // the great house before the next level of walls
+          if (r.level && waitGreat) continue;                                 // the great house before the next level of walls
           this.stoneFor = r.cost.stone || 0;                                // (the haulers quarry what it needs)
           if (!W.canAfford(r.cost, this.team) || side.res.grain - (r.cost.grain || 0) < this.reserve()) { if (r.level) this.saving = r.cost; return; }
           this.stoneFor = 0; this.saving = null;

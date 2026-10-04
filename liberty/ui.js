@@ -174,6 +174,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const cam = { x: 0, y: 0, z: 1 };
   const keys = new Set();
   const pings = [];                                  // where an order was given, for a moment
+  const dustAt = new WeakMap();                      // when a helper's blow last raised dust (this page's clock: kept off the unit, which is saved)
 
   // ------------------------------------------------------------ 2:1 Isometric Projection
   // Standard Westwood Red Alert 2 dimetric ratio (tile width : height = 2 : 1)
@@ -1131,8 +1132,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
       }
     } else if (hammering) {
       if (bt.x - u.x - (bt.y - u.y) < 0) flip = -1;
-      if (blow > 0.97 && (!u._dustAt || now - u._dustAt > 300)) {     // the blow lands: dust where it struck
-        u._dustAt = now;
+      if (blow > 0.97 && now - (dustAt.get(u) || -1e9) > 300) {     // the blow lands: dust where it struck
+        dustAt.set(u, now);
         const a = Math.atan2(bt.y - u.y, bt.x - u.x), p = toIso(u.x + Math.cos(a) * 18, u.y + Math.sin(a) * 18);
         addDust(p.ix, p.iy - 6); addDust(p.ix, p.iy - 10);
       }
@@ -1930,7 +1931,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     units.slice().sort((a, b) => Math.hypot(a.x - cx, a.y - cy) - Math.hypot(b.x - cx, b.y - cy))
       .forEach((u, i) => { const s = spots[i] || [tx, ty]; W.moveTo(u, s[0], s[1], fight && fighterOf(u)); });
   }
-  const fighterOf = u => !!((u.def.soldier || u.def.foe) && u.def.dmg && !u.def.gathers && !u.def.builds && !u.def.scout);
+  const fighterOf = u => S.canFight(u.def);
   function ping(wx, wy, color) { pings.push({ wx, wy, color, t: performance.now(), type: color === '#f87171' ? 'attack' : 'move' }); }
 
   // --- building
@@ -2866,15 +2867,18 @@ IMG.farm.src = 'assets/farm.png?v=13';
     s.onclick = null;
   }
 
+  // What game this is, in a line: the briefing's kicker, and the saved game's on the opening page.
+  const kickerOf = m => m.kicker ? m.kicker() : m === FREE ? `Free battle · ${FREE.LEVELS[FREE.level].name} · ${SIDES[FREE.side === 'kingmen' ? 'kingmen' : 'freemen'].name}`
+    : `${CAMPAIGNS.find(c => c.id === m.campaign).title} · Mission ${inCampaign(m).indexOf(m) + 1} · ${m.chapter}`;
   function briefing(m) {
     showScreen(`<div class="wrap brief">
-      <div class="kicker">${m.kicker ? esc(m.kicker()) : m.free ? 'Free battle · ' + esc(m.LEVELS[m.level].name) : esc(CAMPAIGNS.find(c => c.id === m.campaign).title) + ' · Mission ' + (inCampaign(m).indexOf(m) + 1) + ' · ' + esc(m.chapter)} · ${esc(m.year)}</div>
+      <div class="kicker">${esc(kickerOf(m))} · ${esc(m.year)}</div>
       <h2 style="font-size:32px">${esc(m.title)}</h2>
       <ul>${m.briefing.map(([t, r]) => `<li>${esc(t)} ${refBtn(r)}</li>`).join('')}</ul>
       ${m === FREE ? `<p class="lede">You are the ${m.side === 'kingmen' ? 'King-men' : 'Freemen'}, under ${esc(CAPTAINS[m.side === 'kingmen' ? 'kingmen' : 'freemen'][m.captain].name)}.</p>` : ''}
       <div class="goalbox"><b>Your goals.</b> ${esc(m.goals)}</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn go" id="bBegin">Begin</button><button class="btn" id="bTips">Tips</button><button class="btn" id="bBack">Back</button></div></div>`);
-    $('bBegin').onclick = () => begin(m);
+    $('bBegin').onclick = () => askThenBegin(m);
     $('bBack').onclick = () => menuFor(m)();
     $('bTips').onclick = () => showTips(tipsKey(m));
     if (!(save.tips || {})[tipsKey(m)]) showTips(tipsKey(m));
@@ -2920,8 +2924,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     $('dialog').querySelectorAll('[data-tips]').forEach(b => b.onclick = () => showTips(b.dataset.tips, done, true));
   }
 
-  function begin(m) {
-    if (!beginOk(m)) return;
+  // `opts.noSave`: a co-op match the TV starts (multi.js) isn't saved, and doesn't write over the saved game.
+  let noSave = false;
+  function begin(m, opts) {
+    noSave = !!(opts && opts.noSave);
     const world = new S.World(undefined, m.map);
     world.mission = m;
     m.setup(world);
@@ -2976,7 +2982,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
         ${o.detail ? `<p class="lede" style="margin-top:12px">${esc(o.detail)}</p>` : ''}
         ${o.next ? `<p class="lede">${esc(o.next)}</p>` : ''}
         ${o.won && mission.starsText ? `<p class="lede">Stars: ${esc(mission.starsText)}</p>` : ''}
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">${nextBtn}<button class="btn ${nextBtn ? '' : 'go'}" id="eAgain">Play again</button><button class="btn" id="eHome">${mission === WILD ? 'Choices' : mission.free ? 'Choices' : 'Missions'}</button></div></div>`);
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">${nextBtn}<button class="btn ${nextBtn ? '' : 'go'}" id="eAgain">Play again</button><button class="btn" id="eHome">${mission.free ? 'Choices' : 'Missions'}</button></div></div>`);
       $('eAgain').onclick = () => begin(mission);
       $('eHome').onclick = () => menuFor(mission)();
       if ($('eNext')) $('eNext').onclick = () => briefing(next);
@@ -2998,11 +3004,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // leaving; a refresh or a closing tab asks first, where the browser lets a page ask (iPhones don't: the save covers them).
   const SAVE = window.LIB_SAVE;
   function autosave() {
-    if (!SAVE || !W || !mission || W.over) return;
+    if (!SAVE || !W || !mission || W.over || noSave) return;
     try {
       const snap = SAVE.dump(W, { council, cam: { x: cam.x, y: cam.y, z: cam.z }, explored });
       if (snap.lost.length) return;                        // something couldn't be written down: keep the last good save
-      snap.kicker = mission.kicker ? mission.kicker() : mission.free ? `Free battle · ${FREE.LEVELS[FREE.level].name} · ${SIDES[FREE.side].name}` : mission.chapter;
+      snap.kicker = kickerOf(mission); snap.build = buildTag();
       localStorage.setItem(SAVE.KEY, JSON.stringify(snap));
     } catch (e) { /* storage full, or a private window: play on */ }
   }
@@ -3023,25 +3029,34 @@ IMG.farm.src = 'assets/farm.png?v=13';
   });
   function continueGame() {
     const snap = savedGame();
+    // Saved before the game was updated: played on a minute in a copy first, and let go if it can't go on.
+    const fresh = snap && snap.build === buildTag();
     let got = null;
-    try { got = snap && SAVE.load(snap); } catch (e) { got = null; }
-    if (!got) { clearSave(); toast('That saved game could not be opened, sorry.', 'warn'); return home(); }
+    try { got = snap && (fresh || SAVE.playsOn(snap, 30)) && SAVE.load(snap); } catch (e) { got = null; }
+    if (!got) {
+      clearSave(); home();
+      return openDialog(`<div class="dialog"><div class="kicker">Your saved game</div><h2>${snap && !fresh ? 'The game was updated, and that saved game can\'t go on' : 'That saved game could not be opened'}</h2>
+        <p class="lede">Sorry. Start a new one from the tiles below.</p><div class="choices"><button class="choice" data-close>OK</button></div></div>`);
+    }
+    noSave = false;
     W = got.W;
     enterGame(got.mission, got.ui || {});
   }
-  // Starting another game would write over the saved one: ask first.
-  function beginOk(m) {
-    const snap = savedGame();
-    if (!snap || W || beginOk.asked) { beginOk.asked = false; return true; }
-    const d = SAVE.describe(snap);
-    if (!d) return true;
+  // Starting another game would write over the saved one: ask first (from the Begin button only).
+  function askThenBegin(m) {
+    const snap = savedGame(), d = snap && SAVE.describe(snap);
+    if (!d) return begin(m);
     openDialog(`<div class="dialog"><div class="kicker">A game is saved</div><h2>${esc(d.title)}, ${d.minutes} minute${d.minutes > 1 ? 's' : ''} in</h2>
       <p class="lede">Starting ${esc(m.title)} will replace it.</p>
       <div class="choices"><button class="choice" id="sgGo">Continue the saved game</button><button class="choice" id="sgNew">Start ${esc(m.title)}</button><button class="choice" data-close>Back</button></div></div>`);
     $('sgGo').onclick = () => { closeDialog(); continueGame(); };
-    $('sgNew').onclick = () => { closeDialog(); clearSave(); beginOk.asked = true; begin(m); };
-    return false;
+    $('sgNew').onclick = () => { closeDialog(); clearSave(); begin(m); };
   }
+  // Which version of the game's rules a save was made with: the ?v= of the scripts that hold the game itself.
+  function buildTag() {
+    return [...document.querySelectorAll('script[src]')].map(e => e.getAttribute('src')).filter(x => /^(data|sim|camp|missions|save)\.js/.test(x)).join(' ');
+  }
+
 
   // ------------------------------------------------------------ ?debug=1: what this device really drew
   // Colours read back from each layer at your city: if a layer shows 0,0,0,0 the device drew nothing on it.
@@ -3075,6 +3090,18 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   let last = 0, acc = 0;
   let probeAt = 0, probe = null;                       // where a painted land tile is, on the ground canvas
+  // A tile nobody has seen with nothing seen for 4 tiles round it: the fog there must be dark (the soft edge of the seen land
+  // reaches past the tiles marked seen, so a tile at the edge can be clear without the fog being wiped).
+  let darkAt = -1;
+  function deepDark() {
+    const deep = i => { const x = i % MAP_W, y = (i / MAP_W) | 0;
+      for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) { const xx = x + dx, yy = y + dy; if (xx >= 0 && yy >= 0 && xx < MAP_W && yy < MAP_H && explored[yy * MAP_W + xx]) return false; }
+      return true; };
+    if (darkAt >= 0 && deep(darkAt)) return darkAt;
+    darkAt = -1;
+    for (let i = 0; i < explored.length; i++) if (!explored[i] && deep(i)) { darkAt = i; break; }
+    return darkAt;
+  }
   function frame(now) {
     requestAnimationFrame(frame);
     const dt = Math.min(0.25, (now - (last || now)) / 1000);
@@ -3090,7 +3117,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       let a = 255; try { a = tctx.getImageData(Math.round(probe[0]), Math.round(probe[1]), 1, 1).data[3]; } catch (e) { a = 255; }
       if (a === 0) { DBG.blank = (DBG.blank || 0) + 1; DBG.repaints = (DBG.repaints || 0) + 1; painted = null; TREES = null; paintShroud(); }
       // And the fog: a tile nobody has seen yet must still be dark. If it isn't, the phone wiped the fog: paint it again.
-      const hid = explored.indexOf(0);
+      const hid = deepDark();
       if (hid >= 0 && !lostNow(sctx)) {
         const { ix, iy } = toIso((hid % MAP_W + 0.5) * TILE, (Math.floor(hid / MAP_W) + 0.5) * TILE), k = shroudCv.k || 1;
         let f = 255; try { f = sctx.getImageData(Math.round((ix + ISO_OFFSET_X) * k), Math.round((iy + PAD) * k), 1, 1).data[3]; } catch (e) { f = 255; }
@@ -3118,7 +3145,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   home();
   requestAnimationFrame(frame);
   // A window on the game for automated play-throughs in a browser.
-  window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, get sel() { return sel; }, get selEnts() { return selEnts(); }, cam, begin: (id, level, length) => { const m = id === 'free' ? FREE : id === 'wild' ? WILD : MISSIONS.find(m => m.id === id); if (level) m.level = level; if (length) m.length = length; begin(m); }, toWorld, lookAt,
+  window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, get sel() { return sel; }, get selEnts() { return selEnts(); }, cam, begin: (id, level, length) => { const m = id === 'free' ? FREE : id === 'wild' ? WILD : MISSIONS.find(m => m.id === id); if (level) m.level = level; if (length) m.length = length; begin(m, { noSave: true }); }, toWorld, lookAt,
     screenOf: (x, y) => toScreen(x, y),
     hidden: () => ({ terrain, shroudCv, trees: TREES }),         // the canvases painted once, for tests that wipe them
     remoteClick: (sx, sy, color) => {
