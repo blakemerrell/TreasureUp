@@ -76,7 +76,7 @@ IMG.cartTimber.src = 'assets/cart_timber.png?v=1';
 IMG.cartStone.src = 'assets/cart_stone.png?v=1';
 IMG.cartWork.src = 'assets/cart_loading.png?v=1';
 IMG.unit.src = 'assets/spearman.png?v=13';
-IMG.stronghold.src = 'assets/stronghold.png?v=14';   // the chief judge's hall (018-great-buildings.md)
+IMG.stronghold.src = 'assets/stronghold.png?v=15';   // the chief judge's palace, in the white stone of the other buildings (020-city-palace.md)
 IMG.barracks.src = 'assets/barracks.png?v=13';
 IMG.tower.src = 'assets/tower.png?v=13';
 IMG.storehouse.src = 'assets/storehouse.png?v=13';
@@ -282,8 +282,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     return c;
   }
   const lostNow = x => !!(x && x.isContextLost && x.isContextLost());
+  // ?canvas=0.5 on the address makes every big canvas that size, as a phone short of memory would (to test on a computer).
+  const FORCE_K = +((location.search.match(/[?&]canvas=([\d.]+)/) || [])[1] || 0);
   function bigCanvas(w, h, sizes, name) {
-    for (const k of sizes) {
+    for (const k of FORCE_K ? [FORCE_K] : sizes) {
       const c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k);
       const x = c.getContext('2d');
       if (x) {
@@ -296,6 +298,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     DBG.made[name] = 'every size refused';
     const c = document.createElement('canvas'); c.k = 1; return [watchLoss(c), c.getContext('2d')];
   }
+  // A big canvas is drawn on at its own scale (bigCanvas). A phone that wipes a canvas to save memory (an iPhone does it without
+  // a word; Chrome says 'contextlost') resets that scale with it, and the next painting came out magnified and shifted: Blake's
+  // screenshot, the ground slid off to one side, the fog gone, "too far from your city". So every painting sets the scale first.
+  const fit = (cv, c) => c.setTransform(cv.k || 1, 0, 0, cv.k || 1, 0, 0);
   // The fog is soft at its edges, so half size looks the same and leaves the ground the room to be sharp.
   const [shroudCv, sctx] = bigCanvas(TERR_W, TERR_H, [0.5, 0.35, 0.25], 'fog');
   const explored = new Uint8Array(MAP_W * MAP_H);
@@ -306,6 +312,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
   // The shroud over the whole slab, with every explored tile opened again.
   function paintShroud() {
+    fit(shroudCv, sctx);
     sctx.globalCompositeOperation = 'source-over';
     sctx.clearRect(0, 0, TERR_W, TERR_H);
     sctx.fillStyle = '#06070c'; // Westwood Pitch Black Shroud, over the slab and its hills
@@ -324,6 +331,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
 
   function revealShroud() {
+    fit(shroudCv, sctx);
     if (!W) return;
     sctx.globalCompositeOperation = 'destination-out';
     const punch = (wx, wy, rad) => {
@@ -557,6 +565,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     catch (e) { DBG.paint = 'FAILED: ' + e.message; throw e; }
   }
   function paintTerrainNow() {
+    fit(terrain, tctx);
     if (!TEX) TEX = { grass: texture('grass'), rock: texture('rock'), water: texture('water') };
     const whole = !painted;
     if (whole) { painted = new Int16Array(MAP_W * MAP_H).fill(-1); tctx.clearRect(0, 0, TERR_W, TERR_H); }
@@ -2172,7 +2181,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function picOf(e) {
     const pic = e.kind === 'building' && e.team !== 'p' && IMG[pictureOf(e)];
     const own = pic && (ready(pic) ? pic : e.def.side === 'kingmen' ? IMG.lamaniteCamp : pic);   // (a tent without its picture yet shows the camp's)
-    const c = own ? own.src : CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && 'assets/cameo_stronghold.png?v=2');
+    const c = own ? own.src : CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && 'assets/cameo_stronghold.png?v=3');
     if (c) return `<img class="pic" src="${c}" alt="">`;
     if (DRAWN_AS[e.type]) return `<img class="pic" src="assets/${DRAWN_AS[e.type]}.png?v=1" alt="">`;
     if (e.kind === 'unit' && (e.type === 'lamanite' || e.def.foe)) return `<img class="pic" src="assets/cameo_lamanite.png?v=10" alt="">`;
@@ -2903,7 +2912,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const T = TIPS[key] || TIPS.mission;
     const tabs = browse ? `<div class="row tipTabs">${Object.keys(TIPS).map(k => `<button class="btn ${k === key ? 'go' : ''}" data-tips="${k}">${esc(TIPS[k].title.replace(/^Free battle · /, ''))}</button>`).join('')}</div>` : '';
     openDialog(`<div class="dialog tipsCard"><div class="kicker">How to play</div><h2>${esc(T.title)}</h2>${tabs}
-      <ul class="tips">${T.tips.map(([pic, b, t]) => `<li><img src="assets/${pic}.png?v=2" alt=""><div><b>${esc(b)}</b><span>${esc(t)}</span></div></li>`).join('')}</ul>
+      <ul class="tips">${T.tips.map(([pic, b, t]) => `<li><img src="assets/${pic}.png?v=3" alt=""><div><b>${esc(b)}</b><span>${esc(t)}</span></div></li>`).join('')}</ul>
       <div class="row" style="margin-top:14px"><button class="btn go" id="tGot">Got it</button>${browse ? '' : '<button class="btn" id="tNever">Don\'t show again</button>'}</div></div>`);
     $('tGot').onclick = () => { closeDialog(); if (done) done(); };
     if ($('tNever')) $('tNever').onclick = () => { save.tips = save.tips || {}; save.tips[key] = 1; store(); closeDialog(); if (done) done(); };
@@ -3079,6 +3088,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (!probe) { const s = W.stronghold() || W.units('p')[0]; const { ix, iy } = toIso(s.x - 2 * TILE, s.y + 2 * TILE); probe = [(ix + ISO_OFFSET_X) * terrain.k, (iy + PAD) * terrain.k]; }
       let a = 255; try { a = tctx.getImageData(Math.round(probe[0]), Math.round(probe[1]), 1, 1).data[3]; } catch (e) { a = 255; }
       if (a === 0) { DBG.blank = (DBG.blank || 0) + 1; DBG.repaints = (DBG.repaints || 0) + 1; painted = null; TREES = null; paintShroud(); }
+      // And the fog: a tile nobody has seen yet must still be dark. If it isn't, the phone wiped the fog: paint it again.
+      const hid = explored.indexOf(0);
+      if (hid >= 0 && !lostNow(sctx)) {
+        const { ix, iy } = toIso((hid % MAP_W + 0.5) * TILE, (Math.floor(hid / MAP_W) + 0.5) * TILE), k = shroudCv.k || 1;
+        let f = 255; try { f = sctx.getImageData(Math.round((ix + ISO_OFFSET_X) * k), Math.round((iy + PAD) * k), 1, 1).data[3]; } catch (e) { f = 255; }
+        if (f === 0) { DBG.fogBlank = (DBG.fogBlank || 0) + 1; paintShroud(); }
+      }
     }
     if (!W.over && !paused && !modal) {
       acc += dt * speed;
