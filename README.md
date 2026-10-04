@@ -207,6 +207,15 @@ the people bring 100 grain and 100 timber when it starts, and the council
 asks about them (its right answers bring more grain and timber, and
 treasures). A mission card says so under its **Play** button.
 
+**The opening page** (Blake, 2026-10-04: "can you add some art!? And better
+layout the game options cleaner"): a painting of Moroni raising the title of
+liberty (Alma 46:12–13), then three big painted tiles, **Story missions**,
+**Free battle** and **Out of the Wilderness**, each opening a screen with only
+its own choices: the missions and their chapters; a side, a captain and a
+level; how long and how hard. Each has one **Play** button, and the last
+choices are remembered. Back from a briefing returns to the screen it came
+from. The paintings are Gemini's (`liberty/art/requests/019-title-screen.md`).
+
 **The tips card.** Before each kind of game (the story missions, free battle
 as either side, Out of the Wilderness), a short card of four or five tips,
 a picture each, shows over the briefing until **Don't show again**. **How to
