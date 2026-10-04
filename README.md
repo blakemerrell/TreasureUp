@@ -304,10 +304,18 @@ The King-men's tree mirrors the Freemen's: tents feed the warriors, the
 muster ground trains warriors and slingers, the shield-makers' tent makes
 their armor, the ladder-works their ladders, the chief captain's pavilion
 their captains, the war-dance ground sends warriors out fierce for a while
-(Alma 48:3), and the king's court works their cunning: flattery that turns
-one enemy on his own (Alma 46:5), dissension that stops an enemy building's
-work (Alma 53:8), stratagem that hides your warriors until they strike
-(Alma 58:6), and the king's call, four warriors at once (Alma 48:3).
+(Alma 48:3), and the Rameumptom, the Zoramites' "holy stand" (Alma 31:21),
+answers the temple. From it wicked men are stirred up: poison "by degrees"
+on one enemy, even a captain (Alma 47:18); bloodthirst, warriors who "fight
+like dragons" (Alma 43:44) and whom fire, sleep and confusion don't turn
+back; flattery that turns one enemy on his own (Alma 46:5); dissension that
+stops an enemy building's work (Alma 53:8); stratagem that hides your
+warriors until they strike (Alma 58:6); and the king's call, six warriors at
+once (Alma 48:3). Huge idols, "dumb idols" with no power of their own
+(Alma 31:1), stir the people's zeal: each brings the works back sooner. The
+Freemen's temple is now built after the manner of Solomon's (2 Nephi 5:16),
+the tallest thing on the field, and Zarahemla is the chief judge's hall.
+The opponents work their own miracles and works too, except at Easy.
 
 **Walls that level up.** Every wall piece changes at once when its side
 makes the next level, and you see it: the Freemen's bank of earth

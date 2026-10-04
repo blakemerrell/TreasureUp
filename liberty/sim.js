@@ -382,7 +382,7 @@
       b.queue.push({ type, left: def.time });
       return true;
     }
-    // What a thing costs this side: a captain's gift, or the king's court, may make it cheaper (data.js: CAPTAINS).
+    // What a thing costs this side: a captain's gift, or the Rameumptom, may make it cheaper (data.js: CAPTAINS).
     costOf(def, team, what) {
       team = team || this.me;
       const c = this.side(team).captain, g = (c && c.bonus) || {};
@@ -391,7 +391,7 @@
       if (what === 'train' && def.foe && !def.leader) {
         if (def.needs && g.captainCost) k = g.captainCost;                                   // the captains
         else if (!def.needs && g.warriorCost) k = g.warriorCost;                             // warriors and slingers
-        if (!def.needs && this.buildings(team).some(x => x.def.powers === 'cunning' && x.built >= 1 && !x.dead)) k *= 0.8;   // the king's court: numbers (Alma 49:6)
+        if (!def.needs && this.buildings(team).some(x => x.def.powers === 'cunning' && x.built >= 1 && !x.dead)) k *= 0.8;   // the Rameumptom: numbers (Alma 49:6)
       }
       if (k === 1 || !def.cost) return def.cost;
       const out = {}; for (const r of KINDS) if (def.cost[r]) out[r] = Math.round(def.cost[r] * k);
@@ -423,6 +423,7 @@
       if (from && from.type === 'archer' && F.bows) a += 4;                                // bows of fine steel
       if (from && from.type === 'javelin' && F.captain && F.captain.bonus.javelin) a += 4;  // Teancum's javelins
       if (from && from.fierceUntil > this.t) a *= 1.25;                                     // fierce from the war-dance
+      if (from && from.thirstUntil > this.t) a *= 1.5;                                      // bloodthirst: they "fight like dragons" (Alma 43:44)
       if (from && from.rank) a *= 1 + 0.15 * from.rank;                                   // a veteran strikes harder
       if (from && from.sword) a *= 1.5;                                                   // the sword of Laban (1 Nephi 4:9)
       if (from && from.def.foe && from.weak) a *= 0.6;
@@ -496,7 +497,7 @@
     // --- the temple's miracles
     // Is `e` within a zone of that kind? With `team`, one worked by that side; with `foe`, one worked by any other side.
     inZone(e, kind, team, foe) { return this.zones.some(z => z.kind === kind && (team == null || z.team === team) && (foe == null || z.team !== foe) && Math.hypot(e.x - z.x, e.y - z.y) < z.r); }
-    // Where a side's powers are worked: the Freemen's temple, the King-men's court (data.js: POWERS). temple() is the old name.
+    // Where a side's powers are worked: the Freemen's temple, the King-men's Rameumptom (data.js: POWERS). temple() is the old name.
     powerHouse(team) { return this.buildings(team || this.me).find(b => b.def.powers && b.built >= 1 && !b.dead) || null; }
     temple(team) { return this.powerHouse(team); }
     power(key) { for (const k in D.POWERS) if (D.POWERS[k][key]) return D.POWERS[k][key]; return null; }
@@ -509,9 +510,11 @@
       const m = this.power(key);
       if (!m || this.whyNotMiracle(key, team)) return false;
       const foesIn = r => [...this.ents.values()].filter(e => e.kind === 'unit' && e.team !== team && e.team !== 'n' && !e.dead && !e.untouchable && Math.hypot(e.x - x, e.y - y) < r);
+      const thirsty = u => u.thirstUntil > this.t;   // bloodthirst: fire, sleep and confusion don't turn them back (Moroni 9:5)
       if (key === 'fire') {
         this.zones.push({ kind: 'fire', team, x, y, r: m.r, until: this.t + m.last });
         for (const u of foesIn(m.r)) {
+          if (thirsty(u)) continue;
           u.fearUntil = this.t + m.last;
           const a = Math.atan2(u.y - y, u.x - x), [tx, ty] = this.freeTileNear(tileOf(x + Math.cos(a) * (m.r + 80)), tileOf(y + Math.sin(a) * (m.r + 80)), u.team);
           this.order(u, { type: 'move', tx, ty });
@@ -524,12 +527,12 @@
         for (const u of [...this.ents.values()]) if (u.kind === 'unit' && !u.dead && Math.hypot(u.x - x, u.y - y) < m.r) u.kneelUntil = this.t + 3;
       } else if (key === 'sleep') {
         this.zones.push({ kind: 'sleep', team, x, y, r: m.r, until: this.t + m.last });
-        for (const u of foesIn(m.r)) { u.sleepUntil = this.t + m.last; this.order(u, { type: 'idle' }); }
+        for (const u of foesIn(m.r)) { if (thirsty(u)) continue; u.sleepUntil = this.t + m.last; this.order(u, { type: 'idle' }); }
       } else if (key === 'turn') {
         this.zones.push({ kind: 'turn', team, x, y, r: m.r, until: this.t + m.last });
-        for (const u of foesIn(m.r)) { u.turnUntil = this.t + m.last; this.turnOn(u); }
+        for (const u of foesIn(m.r)) { if (thirsty(u)) continue; u.turnUntil = this.t + m.last; this.turnOn(u); }
       } else if (key === 'mercy') {
-        for (const u of this.units(team)) u.hp = maxHp(u);
+        for (const u of this.units(team)) { u.hp = maxHp(u); u.poisonUntil = 0; }          // (and any poison is purged)
         this.zones.push({ kind: 'mercy', team, x: 0, y: 0, r: 0, until: this.t + 2 });
       } else if (key === 'shock') {
         const u = this.ents.get(targetId);
@@ -554,14 +557,29 @@
       } else if (key === 'stratagem') {             // your fighters go unseen until they strike (Alma 58:6)
         for (const u of this.units(team)) if (fighter(u.def)) u.stealthUntil = this.t + m.last;
         this.zones.push({ kind: 'mercy', team, x: 0, y: 0, r: 0, until: this.t + 2 });
-      } else if (key === 'host') {                  // four warriors at once (Alma 48:3)
+      } else if (key === 'poison') {                // "poison by degrees" (Alma 47:18): three quarters of his strength, little by little
+        const u = this.ents.get(targetId);
+        if (!u || u.kind !== 'unit' || u.team === team || u.team === 'n' || u.dead || u.untouchable) return false;
+        u.poisonUntil = this.t + m.last; u.poisonDps = maxHp(u) * 0.75 / m.last;
+        this.zones.push({ kind: 'poison', team, x: u.x, y: u.y, r: 24, until: this.t + 2 });
+      } else if (key === 'bloodthirst') {           // "they thirst after blood" (Moroni 9:5): harder blows, and nothing turns them back
+        this.zones.push({ kind: 'thirst', team, x, y, r: m.r, until: this.t + m.last });
+        for (const u of this.units(team)) {
+          if (!fighter(u.def) || u.dead || Math.hypot(u.x - x, u.y - y) >= m.r) continue;
+          u.thirstUntil = this.t + m.last; u.fearUntil = 0; u.sleepUntil = 0;
+          if (u.turnUntil > this.t) { u.turnUntil = 0; this.order(u, { type: 'idle' }); }
+        }
+      } else if (key === 'host') {                  // six warriors at once (Alma 48:3)
         const at = this.buildings(team).find(b => b.def.trains && b.def.trains.includes('lamanite') && b.built >= 1 && !b.dead) || this.powerHouse(team);
-        for (let i = 0; i < 4; i++) { const [tx, ty] = this.freeTileNear(at.tx + i % 3, at.ty + at.h, team); this.addUnit('lamanite', team, center(tx), center(ty), at.spawn || undefined); }
+        for (let i = 0; i < 6; i++) { const [tx, ty] = this.freeTileNear(at.tx + i % 3, at.ty + at.h, team); this.addUnit('lamanite', team, center(tx), center(ty), at.spawn || undefined); }
         this.zones.push({ kind: 'mercy', team, x: 0, y: 0, r: 0, until: this.t + 2 });
       }
       const cap = this.side(team).captain;
-      this.side(team).ready[key] = this.t + m.wait * ((cap && cap.bonus.powerWait) || 1);
+      // Each idol standing, up to three, brings the Rameumptom's works back a sixth sooner (data.js: idol).
+      const idols = Math.min(3, this.buildings(team).filter(b => b.def.idol && b.built >= 1 && !b.dead).length);
+      this.side(team).ready[key] = this.t + m.wait * ((cap && cap.bonus.powerWait) || 1) * (1 - idols / 6);
       if (team === this.me) this.msg(m.done, m.ref, 'good');
+      else { const h = (D.SIDES[this.side(team).side] || {}).house || 'Temple'; this.msg(`Their ${h === 'Temple' ? 'temple' : h}: ${m.name}!`, m.ref, 'warn'); }
       return true;
     }
     // A foe turned against his own fights the nearest of them.
@@ -767,6 +785,11 @@
 
     stepUnit(u, dt) {
       u.cool -= dt;
+      if (u.poisonUntil > this.t && !this.truce) {         // poison by degrees (Alma 47:18): no armor stops it
+        const a = u.spare ? Math.min(u.poisonDps * dt, Math.max(0, u.hp - 1)) : u.poisonDps * dt;
+        u.hp -= a; u.hitAt = this.t;
+        if (u.hp <= 0) { this.kill(u, null); return; }
+      }
       if (u.kneelUntil && this.t < u.kneelUntil) return;   // "fallen to the earth" in prayer (3 Nephi 4:8)
       if (u.sleepUntil && this.t < u.sleepUntil) return;   // in a deep sleep (Alma 55:16)
       u.think -= dt;

@@ -269,6 +269,49 @@ them. A fourth Jaredite ruin, between the camps, holds one tame. The
 opponents train a few, save for their walls' levels once half their army is
 gathered, and quarry the stone the Freemen's third level needs.
 
+## 13c. The great buildings: the temple, the Rameumptom and the idols (decided with Blake)
+
+Blake's play-test: the start building, Zarahemla's huge red pyramid, stood
+taller than the temple. Decided with him, one question at a time:
+
+- **Zarahemla becomes the chief judge's hall**, the judgment-seat (Alma
+  50:39): a long, low hall of stone and timber with a seat of judgment
+  before its porch, in a yard behind a bank of earth and pickets. A seat
+  of government, not a place of worship, and lower than the temple.
+- **The temple grows to 4 × 4** and is built "after the manner of the
+  temple of Solomon" (2 Nephi 5:16): two pillars of brass before a porch
+  that rises far above the house (1 Kings 7:15; 2 Chronicles 3:4), an
+  altar, and the basin on twelve oxen. It is the tallest thing on the field.
+- **The King-men's Rameumptom replaces the king's court** as their great
+  house, 4 × 4: the Zoramites' "holy stand", "high above the head" (Alma
+  31:13, 21). Honest note: it was the Zoramites', but the Zoramites fight
+  on the King-men's side. Blake: "It's the anti to the temple."
+- **Its works are wicked men stirred up, not magic.** The scriptures call
+  the idols "dumb" (Alma 31:1), so no idol has power of its own. New:
+  **Poison** "by degrees" (Alma 47:18): one enemy, even a captain, loses
+  three quarters of his strength over 15 s; armor doesn't stop it and Mercy
+  cures it. **Bloodthirst** (Moroni 9:5; "fight like dragons", Alma 43:44):
+  warriors at the spot strike ×1.5 for 15 s, and the pillar of fire, deep
+  sleep and confusion don't turn them back (inside the pillar the Nephites
+  still take no harm: Helaman 5:23 stands). The court's cunning comes along,
+  stronger: flattery and stratagem last longer, dissension a full minute,
+  the king's call brings six.
+- **Idols you build**: huge stone idols, 3 × 3, after the Rameumptom (two
+  designs, a seated jaguar and a standing war god). Each one standing, up to
+  three, brings the works back a sixth sooner. Pull them down and the zeal
+  goes with them.
+- **The opponents now work their powers** where the fighting is thickest
+  (camp.js: works): the King-men poison a captain, send bloodthirst into a
+  melee, flatter, call the host when the camp is struck, and go out under
+  stratagem; the Freemen work mercy, fire, sleep, darkness, confusion and
+  the shock. Not at Easy. At Normal the King-men keep dissension back for
+  Hard: with all of it the scripted Freemen player lost; without it the
+  player wins in about 12 minutes while the bot poisons and thirsts.
+
+All five pictures are Gemini's (art/requests/018). The Rameumptom's braziers
+burn with six painted flame frames, flipped like a flipbook and added as
+light; incense smoke rises before the idols.
+
 ## 14. Open questions
 
 - Does the King-men side get a temple-like healer, or is "cheaper warriors" its

@@ -83,7 +83,7 @@
   };
 
   const BUILDINGS = {
-    stronghold: { name: 'Zarahemla', w: 4, h: 4, hp: 2400, armor: 4, dmg: 8, range: 130, cd: 1.4, dropoff: 'story', builder: true, trains: ['cart', 'worker'], food: 10, store: 300, about: 'The gathering place (3 Nephi 3:23). Its guards shoot at robbers. Lose it and the mission is lost.' },
+    stronghold: { name: 'Zarahemla', w: 4, h: 4, hp: 2400, armor: 4, dmg: 8, range: 130, cd: 1.4, dropoff: 'story', builder: true, trains: ['cart', 'worker'], food: 10, store: 300, about: 'The chief judge\'s hall, where Pahoran was "appointed to fill the judgment-seat" (Alma 50:39): the seat of a free people, and their gathering place (3 Nephi 3:23). Its guards shoot at robbers. Lose it and the mission is lost.' },
     storehouse: { name: 'Storehouse', w: 2, h: 2, hp: 450, armor: 2, cost: { timber: 60 }, work: 18, dropoff: true, brings: 'cart', store: 300, about: 'Where the carts bring grain, timber and stone: with none standing they have nowhere to go. Each one built brings a horse cart, like a refinery in Red Alert.' },
     barracks:   { name: 'Barracks', w: 3, h: 3, hp: 650, armor: 2, cost: { timber: 110 }, work: 30, trains: ['spearman', 'nslinger', 'archer'], research: ['armor'], about: 'Trains the guards.' },
     tower:      { name: 'Watchtower', w: 2, h: 2, hp: 520, armor: 3, cost: { timber: 40, stone: 40 }, work: 26, dmg: 9, range: 150, cd: 1.3, needs: ['barracks'], about: 'Guards "watch them … day and night" (3 Nephi 3:14). Shoots at robbers.' },
@@ -107,8 +107,8 @@
                   about: 'Horse carts, twice as fast as the city makes them. They had "horses, and their chariots" (3 Nephi 3:22).' },
     hall:       { name: 'Hall of the captains', w: 3, h: 3, hp: 800, armor: 3, cost: { grain: 100, timber: 150, stone: 80 }, work: 36, needs: ['armory', 'smithy'], trains: ['javelin', 'stripling'], research: ['ladders'], tier: true,
                   about: 'Where the chief captains plan the war. Trains javelin throwers and stripling warriors. From history, not the verses: its stepped platform is like those built in ancient Mesoamerica.' },
-    temple:     { name: 'Temple', w: 3, h: 3, hp: 1200, armor: 4, cost: { grain: 100, timber: 120, stone: 200 }, work: 50, needs: ['hall'], heals: 190, miracles: true, powers: 'miracles', tier: true,
-                  about: 'Built "after the manner of the temple of Solomon" (2 Nephi 5:16). Your people near it are made whole; the council comes back sooner and gives double, as at King Benjamin\'s tower by the temple (Mosiah 2:7); and miracles are worked from it.' },
+    temple:     { name: 'Temple', w: 4, h: 4, hp: 1500, armor: 4, cost: { grain: 120, timber: 160, stone: 240 }, work: 60, needs: ['hall'], heals: 190, miracles: true, powers: 'miracles', tier: true,
+                  about: 'Built "after the manner of the temple of Solomon" (2 Nephi 5:16): a porch rising high before the house, and two pillars of brass before it (2 Chronicles 3:4; 1 Kings 7:15). Your people near it are made whole; the council comes back sooner and gives double, as at King Benjamin\'s tower by the temple (Mosiah 2:7); and miracles are worked from it.' },
     relic:      { name: 'Jaredite ruin', w: 2, h: 2, hp: 99999, armor: 9, neutral: true, untouchable: true, relic: true, tier: true,
                   about: 'The ruins of a people who were before. Limhi\'s men found such a land, "covered with ruins of buildings of every kind" (Mosiah 8:8), and in it plates, breastplates and swords. Send someone to see what this one holds.' },
     // The King-men's camp (design/evolution.md, section 4): tents round the war camp, raised by its bearers.
@@ -126,8 +126,10 @@
                   about: 'A tower of lashed logs on an earth mound: the Lamanites\' watch over their camp. Shoots at enemies.' },
     wardance:   { name: 'War-dance ground', w: 3, h: 2, hp: 380, armor: 1, cost: { grain: 40, timber: 80 }, work: 20, needs: ['muster', 'tents'], fierce: true, side: 'kingmen', tier: true,
                   about: 'Round the fire the king "stirred them up to anger" (Alma 48:3): while it stands, every warrior trained comes out fierce for a while, faster and harder-hitting.' },
-    kingscourt: { name: 'King\'s court', w: 3, h: 3, hp: 1100, armor: 4, cost: { grain: 100, timber: 160 }, work: 48, needs: ['pavilion'], powers: 'cunning', side: 'kingmen', tier: true,
-                  about: 'Amalickiah "obtained the kingdom" by fraud and cunning servants (Alma 47:35). Cunning is worked from it, and while it stands warriors cost less.' },
+    rameumptom: { name: 'Rameumptom', w: 4, h: 4, hp: 1400, armor: 4, cost: { grain: 140, timber: 200 }, work: 56, needs: ['pavilion'], powers: 'cunning', side: 'kingmen', tier: true,
+                  about: 'The Zoramites\' "holy stand", "high above the head" (Alma 31:13, 21): the answer to the temple. From it wicked men are stirred up to poison, bloodthirst and cunning, and while it stands warriors cost less.' },
+    idol:       { name: 'Idol', w: 3, h: 3, hp: 900, armor: 6, cost: { timber: 60, stone: 160 }, work: 34, needs: ['rameumptom'], idol: true, side: 'kingmen', tier: true,
+                  about: 'The Zoramites bowed "down to dumb idols" (Alma 31:1). An idol has no power of its own, but the people\'s zeal for it stirs up the Rameumptom: each one standing, up to three, brings its works back a sixth sooner. Pull them down and the zeal goes with them.' },
     pavilion:   { name: 'Chief captain\'s pavilion', w: 3, h: 3, hp: 700, armor: 3, cost: { grain: 80, timber: 140 }, work: 32, needs: ['shieldtent'], trains: ['amalekite', 'zoramite', 'cumom'], research: ['campditch'], side: 'kingmen', tier: true,
                   about: 'Zerahemnah "appointed chief captains over the Lamanites, and they were all Amalekites and Zoramites" (Alma 43:6).' },
     warcamp:    { name: 'Lamanite war camp', w: 4, h: 4, hp: 1800, armor: 3, tier: true, dropoff: 'story', builder: true, trains: ['bearer'], food: 40, store: 300, side: 'kingmen',
@@ -481,19 +483,26 @@
     ]
   };
 
-  // The King-men's cunning, worked from the king's court as the Freemen's miracles are from the temple (design/evolution.md, section 6).
+  // The King-men's works, stirred up from the Rameumptom as the Freemen's miracles are worked from the temple (design/evolution.md,
+  // sections 6 and 13c). No magic: the idols are "dumb" (Alma 31:1); the power is in wicked men.
   const CUNNING = {
-    flattery:   { name: 'Flattery', ref: 'Alma 46:5', wait: 90, aim: 'foe', last: 20,
+    poison:     { name: 'Poison', ref: 'Alma 47:18', wait: 100, aim: 'foe', last: 15,
+                  about: 'Amalickiah had "poison by degrees" given to Lehonti (Alma 47:18): one enemy, even a captain, loses three quarters of his strength little by little. Mercy cures it.',
+                  done: 'Poison is given by degrees.' },
+    bloodthirst: { name: 'Bloodthirst', ref: 'Moroni 9:5', wait: 120, aim: 'ground', r: 120, last: 15,
+                  about: 'Your warriors at the spot "thirst after blood" (Moroni 9:5) and "fight like dragons" (Alma 43:44): they strike half again as hard, and fire, sleep and confusion don\'t turn them back. (Within the pillar of fire the Nephites still take no harm.)',
+                  done: 'Bloodthirst! They fight like dragons.' },
+    flattery:   { name: 'Flattery', ref: 'Alma 46:5', wait: 90, aim: 'foe', last: 30,
                   about: 'One enemy is "led by the flatteries of Amalickiah" (Alma 46:5) and turns on his own for a while.',
                   done: 'Flattered, he turns on his own.' },
-    dissension: { name: 'Dissension', ref: 'Alma 53:8', wait: 120, aim: 'building', last: 40,
+    dissension: { name: 'Dissension', ref: 'Alma 53:8', wait: 120, aim: 'building', last: 60,
                   about: 'An enemy building stops its work for a while, like the "intrigue amongst the Nephites, which caused dissensions" (Alma 53:8).',
                   done: 'Dissension: their work stops for a while.' },
-    stratagem:  { name: 'Stratagem', ref: 'Alma 58:6', wait: 150, aim: 'none', last: 25,
+    stratagem:  { name: 'Stratagem', ref: 'Alma 58:6', wait: 150, aim: 'none', last: 35,
                   about: 'Your warriors go unseen until they strike, "resolving by stratagem" (Alma 58:6).',
                   done: 'By stratagem your warriors go unseen until they strike.' },
     host:       { name: 'The king\'s call', ref: 'Alma 48:3', wait: 180, aim: 'none',
-                  about: 'Four warriors gather at once at the muster ground: "a numerous host" stirred up by the king (Alma 48:3).',
+                  about: 'Six warriors gather at once at the muster ground: "a numerous host" stirred up by the king (Alma 48:3).',
                   done: 'A host answers the king\'s call.' }
   };
   const POWERS = { miracles: MIRACLES, cunning: CUNNING };
@@ -507,9 +516,9 @@
     freemen: { name: 'Freemen', people: 'The Nephites', ref: 'Alma 51:6', capital: 'stronghold', hauler: 'cart', builder: 'worker', foodHint: 'build a farm', store: 'storehouse', powers: 'miracles', house: 'Temple', bot: { march: 0.5, strength: 0.8, haulers: 0.4 },
                build: ['farm', 'granary', 'storehouse', 'barracks', 'wall', 'gate', 'tower', 'armory', 'smithy', 'training', 'stables', 'hall', 'temple'],
                about: 'Those who "took upon them the name of freemen" (Alma 51:6): the people of liberty, under Moroni\'s title. Fortify, upgrade, and work miracles from the temple.' },
-    kingmen: { name: 'King-men', people: 'The Lamanites', ref: 'Alma 51:5', capital: 'warcamp', hauler: 'bearer', builder: 'bearer', foodHint: 'pitch tents', store: 'storetent', powers: 'cunning', house: 'Court', bot: { march: 1, strength: 1, haulers: 1 },
-               build: ['tents', 'storetent', 'muster', 'wall', 'gate', 'lookout', 'shieldtent', 'ladderworks', 'wardance', 'pavilion', 'kingscourt'],
-               about: 'Those who "were called king-men" (Alma 51:5): all who fought for Amalickiah\'s crown, the Lamanite armies and the dissenters with them. Numbers, fierce captains, and cunning from the king\'s court.' }
+    kingmen: { name: 'King-men', people: 'The Lamanites', ref: 'Alma 51:5', capital: 'warcamp', hauler: 'bearer', builder: 'bearer', foodHint: 'pitch tents', store: 'storetent', powers: 'cunning', house: 'Rameumptom', bot: { march: 1, strength: 1, haulers: 1 },
+               build: ['tents', 'storetent', 'muster', 'wall', 'gate', 'lookout', 'shieldtent', 'ladderworks', 'wardance', 'pavilion', 'rameumptom', 'idol'],
+               about: 'Those who "were called king-men" (Alma 51:5): all who fought for Amalickiah\'s crown, the Lamanite armies and the dissenters with them. Numbers, fierce captains, and wicked works stirred up from the Rameumptom.' }
   };
   // Pick a side, then a captain (design/evolution.md, section 7): each brings a hero and one gift.
   const CAPTAINS = {

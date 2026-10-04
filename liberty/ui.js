@@ -76,7 +76,7 @@ IMG.cartTimber.src = 'assets/cart_timber.png?v=1';
 IMG.cartStone.src = 'assets/cart_stone.png?v=1';
 IMG.cartWork.src = 'assets/cart_loading.png?v=1';
 IMG.unit.src = 'assets/spearman.png?v=13';
-IMG.stronghold.src = 'assets/stronghold.png?v=13';
+IMG.stronghold.src = 'assets/stronghold.png?v=14';   // the chief judge's hall (018-great-buildings.md)
 IMG.barracks.src = 'assets/barracks.png?v=13';
 IMG.tower.src = 'assets/tower.png?v=13';
 IMG.storehouse.src = 'assets/storehouse.png?v=13';
@@ -84,7 +84,7 @@ IMG.armory.src = 'assets/armory.png?v=13';
 IMG.granary.src = 'assets/granary.png?v=2';      // and these: 007-buildings.md (with shadows since)
 IMG.stables.src = 'assets/stables.png?v=2';
 IMG.hall.src = 'assets/hall.png?v=2';
-IMG.temple.src = 'assets/temple.png?v=1';
+IMG.temple.src = 'assets/temple.png?v=2';           // after the manner of Solomon's (018)
 IMG.ruin.src = 'assets/ruin.png?v=1';
 IMG.lamaniteCamp.src = 'assets/lamanite_camp.png?v=1';   // and these: 009-battlefield.md
 IMG.robbersCamp.src = 'assets/robbers_camp.png?v=1';
@@ -98,8 +98,10 @@ for (const k of ['bank', 'pickets', 'stone', 'stakes']) { IMG['wallpost_' + k] =
 for (const k of ['gate_stone', 'gate_stakes', 'wallguard', 'curelom', 'cumom']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
 // The Freemen's smithy and training ground (pictures: 015-smithy-training.md).
 for (const k of ['smithy', 'training']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
-// The captains' heroes (Helaman from 006, the rest from 016) and the King-men's war-dance ground and king's court (016).
-for (const k of ['helaman', 'teancum', 'amalickiah', 'ammoron', 'wardance', 'kingscourt']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
+// The captains' heroes (Helaman from 006, the rest from 016) and the King-men's war-dance ground (016).
+for (const k of ['helaman', 'teancum', 'amalickiah', 'ammoron', 'wardance']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
+// The Rameumptom and the idols (018), and the painted flames that burn in its braziers (the 'Fire and Frames' demo).
+for (const k of ['rameumptom', 'idol_jaguar', 'idol_warrior', 'flames']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
 IMG.gate.src = 'assets/gate.png?v=1';
 IMG.farm.src = 'assets/farm.png?v=13';
                                 // the simulation's tick, as in the tests
@@ -867,7 +869,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     };
     const selSet = new Set(sel);
 
-    drawZones();
+    drawCover();
     if (W.border != null && !W.borderOpen) drawBorder();
 
     // Isometric depth sorting: entities with larger (x + y) are closer to camera and drawn on top
@@ -1015,7 +1017,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
       ctx.fillStyle = m.always ? '#fecaca' : '#fde68a'; ctx.fillText(m.label, ix, iy - 35);
     }
   }
-  function drawZones() {
+  // Where an army can lie hidden (the Sidon mission). (It was once also named drawZones, and the miracles' drawZones hid it.)
+  function drawCover() {
     ctx.save();
     ctx.font = '800 13px Outfit, system-ui, sans-serif'; ctx.textAlign = 'left';
     for (const c of W.cover) {
@@ -1127,6 +1130,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
 
     ctx.fillStyle = 'rgba(0,0,0,.32)'; ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 0.95, r * 0.48, 0, 0, 7); ctx.fill();
+    if (u.thirstUntil > W.t) {                       // bloodthirst (Moroni 9:5): a red glow at his feet
+      ctx.fillStyle = `rgba(220,38,38,${0.32 + 0.18 * Math.sin(now * 0.015 + u.id)})`; ctx.beginPath(); ctx.ellipse(ix, iy, r * 1.6, r * 0.8, 0, 0, 7); ctx.fill();
+    }
+    if (u.poisonUntil > W.t) {                       // poison by degrees (Alma 47:18): green bubbles rising over his head
+      for (let k = 0; k < 3; k++) { const p = (now * 0.0011 + k / 3) % 1; ctx.fillStyle = `rgba(132,204,22,${0.9 * (1 - p)})`; ctx.beginPath(); ctx.arc(ix - 5 + k * 5, iy - 50 - p * 14, 2 + k * 0.4, 0, 7); ctx.fill(); }
+    }
 
     const hid = W.hidden(u);
     if (hid) ctx.globalAlpha = 0.5;
@@ -1260,7 +1269,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // In each picture's own pixels: the middle of its base across, the front
   // corner where it meets the ground, and how wide the base is.
   const SPRITE = {
-    stronghold: { cx: 250, by: 419, span: 483 },
+    stronghold: { cx: 300, by: 430, span: 600 },
     barracks: { cx: 191, by: 291, span: 331 },
     storehouse: { cx: 187, by: 283, span: 358 },
     tower: { cx: 214, by: 493, span: 428 },
@@ -1276,7 +1285,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     smithy: { cx: 150, by: 295, span: 300 },
     training: { cx: 187, by: 322, span: 375 },
     wardance: { cx: 187, by: 234, span: 375 },
-    kingscourt: { cx: 225, by: 364, span: 450 },
+    rameumptom: { cx: 301, by: 480, span: 600 },
+    idol_jaguar: { cx: 225, by: 412, span: 450 },
+    idol_warrior: { cx: 226, by: 556, span: 450 },
     stables: { cx: 200, by: 318, span: 375 },
     hall: { cx: 200, by: 310, span: 400 },
     temple: { cx: 168, by: 283, span: 295 },      // its stair pokes out past the platform's diamond
@@ -1287,10 +1298,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     lamaniteTower: { cx: 199, by: 461, span: 398 },
   };
   // Which picture a building is drawn with: the Lamanites' watchtowers are their own; a camp is the robbers' in 3 Nephi, the Lamanites' elsewhere.
-  const pictureOf = b => (b.type === 'tower' && b.team === 'r') || b.type === 'lookout' ? 'lamaniteTower' : b.type === 'warcamp' ? 'warcamp'
+  const pictureOf = b => (b.type === 'tower' && b.team === 'r') || b.type === 'lookout' ? 'lamaniteTower' : b.type === 'warcamp' ? 'warcamp' : b.type === 'idol' ? (b.id % 2 ? 'idol_jaguar' : 'idol_warrior')
     : b.type === 'camp' ? (mission && mission.campaign === 'gidgiddoni' ? 'robbersCamp' : 'lamaniteCamp') : PICTURE[b.type];
   const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables', temple: 'temple', relic: 'ruin',
-    tents: 'tents', storetent: 'storetent', muster: 'muster', shieldtent: 'shieldtent', ladderworks: 'ladderworks', pavilion: 'pavilion', smithy: 'smithy', training: 'training', wardance: 'wardance', kingscourt: 'kingscourt' };
+    tents: 'tents', storetent: 'storetent', muster: 'muster', shieldtent: 'shieldtent', ladderworks: 'ladderworks', pavilion: 'pavilion', smithy: 'smithy', training: 'training', wardance: 'wardance', rameumptom: 'rameumptom' };
   const ready = img => img && img.complete && img.naturalWidth;
   // A building stands on flat ground just above the highest corner of its plot.
   function floorOf(b) {
@@ -1331,6 +1342,28 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
   }
 
+  // Fire and smoke on the great buildings (018): the Rameumptom's braziers burn with Gemini's painted flames, flipped
+  // like a flipbook and added as light; incense rises before the idols. Points are in each picture's own pixels.
+  const FX = {
+    rameumptom: { fire: [[175, 247], [435, 247], [304, 330]] },
+    idol_jaguar: { smoke: [[90, 248], [230, 312]] },
+    idol_warrior: { smoke: [[95, 362], [228, 428]] }
+  };
+  function drawFx(b, key, ix, frontY, sc, now) {
+    const fx = FX[key], sp = SPRITE[key];
+    if (!fx || b.built < 1) return;
+    const at = ([px, py]) => [ix + (px - sp.cx) * sc, frontY + (py - sp.by) * sc];
+    if (fx.fire && ready(IMG.flames)) {
+      ctx.save(); ctx.globalCompositeOperation = 'lighter';
+      fx.fire.forEach((p, k) => {
+        const [x, y] = at(p), i = Math.floor(now / 1000 * 11 + k * 2.3 + b.id) % 6, h = 16, w = h * 75 / 140;
+        ctx.drawImage(IMG.flames, i * 75, 0, 75, 140, x - w / 2, y - h + 2, w, h);
+      });
+      ctx.restore();
+    }
+    if (fx.smoke && Math.random() < 0.06) for (const p of fx.smoke) { const [x, y] = at(p); addSmoke(x, y - 2, false); }
+  }
+
   function drawBuilding(b, selected, now) {
     const top = b.def.wall != null ? heightAt(b.x, b.y) : floorOf(b);
     const { ix, iy } = isoAt(b.x, b.y, top);
@@ -1341,6 +1374,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const place = () => {                             // the picture, as wide as the plot, set on it by its front corner
       const front = isoAt((b.tx + b.w) * TILE, (b.ty + b.h) * TILE, top), sc = (b.w + b.h) * TILE / sp.span;
       ctx.drawImage(img, ix - sp.cx * sc, front.iy - sp.by * sc, img.naturalWidth * sc, img.naturalHeight * sc);
+      drawFx(b, key, ix, front.iy, sc, now);
     };
     if (b.def.wall != null) { if (!drawWallArt(b)) drawEarthwork(b); }
     else if (b.type === 'camp' || b.type === 'warcamp' || (b.def.side === 'kingmen' && !(sp && ready(img)))) {
@@ -1630,7 +1664,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
           ctx.stroke();
         }
       } else if (z.kind === 'mercy') {
-        for (const u of W.units('p')) { const p = toIso(u.x, u.y); ctx.fillStyle = `rgba(254,243,199,${0.5 * left / 2})`; ctx.beginPath(); ctx.ellipse(p.ix, p.iy - 20, 18, 30, 0, 0, 7); ctx.fill(); }
+        for (const u of W.units(z.team)) { const p = toIso(u.x, u.y); ctx.fillStyle = `rgba(254,243,199,${0.5 * left / 2})`; ctx.beginPath(); ctx.ellipse(p.ix, p.iy - 20, 18, 30, 0, 0, 7); ctx.fill(); }
+      } else if (z.kind === 'thirst') {                  // bloodthirst: a red pulse over the ground, and over each warrior in it (drawUnit)
+        const f = 0.6 + 0.4 * Math.sin(now * 0.012), a = Math.min(1, left / 2);
+        ctx.fillStyle = `rgba(185,28,28,${0.13 * f * a})`; ctx.beginPath(); ctx.ellipse(ix, iy, z.r, z.r / 2, 0, 0, 7); ctx.fill();
+        ctx.strokeStyle = `rgba(239,68,68,${0.7 * f * a})`; ctx.lineWidth = 2.5; ctx.setLineDash([3, 7]); ctx.lineDashOffset = now * 0.02;
+        ctx.beginPath(); ctx.ellipse(ix, iy, z.r, z.r / 2, 0, 0, 7); ctx.stroke(); ctx.setLineDash([]); ctx.lineDashOffset = 0;
+      } else if (z.kind === 'poison') {                  // the cup is given: a green swirl where it falls
+        ctx.strokeStyle = `rgba(132,204,22,${Math.max(0, left / 2)})`; ctx.lineWidth = 2.5;
+        for (let k = 0; k < 3; k++) { ctx.beginPath(); ctx.arc(ix, iy - 18, 6 + k * 6 + (2 - left) * 8, k * 2 + now * 0.004, k * 2 + now * 0.004 + 3.5); ctx.stroke(); }
       } else if (z.kind === 'shock') {
         ctx.strokeStyle = `rgba(253,224,71,${Math.max(0, left)})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(ix - 8, iy - 50); ctx.lineTo(ix + 2, iy - 30); ctx.lineTo(ix - 4, iy - 30); ctx.lineTo(ix + 6, iy - 10); ctx.stroke();
       }
@@ -1891,7 +1933,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function startAiming(key) {
     const why = W.whyNotMiracle(key), m = W.power(key);
     if (!m) return;
-    if (why === 'temple') return toast(`${(SIDES[W.side('p').side] || SIDES.freemen).house === 'Court' ? "A king's court" : 'A temple'} must stand first.`, 'warn');
+    if (why === 'temple') return toast(`${(SIDES[W.side('p').side] || SIDES.freemen).house === 'Temple' ? 'A temple' : 'The Rameumptom'} must stand first.`, 'warn');
     if (why === 'wait') return toast(`${m.name} can be worked again in ${Math.ceil(W.miracleWait(key))}s.`, 'warn');
     if (m.aim === 'none') { if (W.miracle(key)) { placing = null; aiming = null; refreshPanel(true); } return; }
     aiming = key; placing = null; wallLine = null; touchSpot = null;
@@ -2127,7 +2169,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function picOf(e) {
     const pic = e.kind === 'building' && e.team !== 'p' && IMG[pictureOf(e)];
     const own = pic && (ready(pic) ? pic : e.def.side === 'kingmen' ? IMG.lamaniteCamp : pic);   // (a tent without its picture yet shows the camp's)
-    const c = own ? own.src : CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && 'assets/cameo_stronghold.png?v=1');
+    const c = own ? own.src : CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && 'assets/cameo_stronghold.png?v=2');
     if (c) return `<img class="pic" src="${c}" alt="">`;
     if (DRAWN_AS[e.type]) return `<img class="pic" src="assets/${DRAWN_AS[e.type]}.png?v=1" alt="">`;
     if (e.kind === 'unit' && (e.type === 'lamanite' || e.def.foe)) return `<img class="pic" src="assets/cameo_lamanite.png?v=10" alt="">`;
@@ -2177,7 +2219,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'build:armory': 'assets/cameo_armory.png?v=10',
     'build:stables': 'assets/cameo_stables.png?v=1',
     'build:hall': 'assets/cameo_hall.png?v=1',
-    'build:temple': 'assets/cameo_temple.png?v=1',
+    'build:temple': 'assets/cameo_temple.png?v=2',
     'build:smithy': 'assets/cameo_smithy.png?v=1',
     'build:training': 'assets/cameo_training.png?v=1',
     'train:bearer': 'assets/cameo_bearer.png?v=1',
@@ -2189,7 +2231,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'build:pavilion': 'assets/cameo_pavilion.png?v=1',
     'build:lookout': 'assets/cameo_lookout.png?v=1',
     'build:wardance': 'assets/cameo_wardance.png?v=1',
-    'build:kingscourt': 'assets/cameo_kingscourt.png?v=1',
+    'build:rameumptom': 'assets/cameo_rameumptom.png?v=1',
+    'build:idol': 'assets/cameo_idol.png?v=1',
     'train:lamanite': 'assets/cameo_lamanite.png?v=1',
     'train:slinger': 'assets/cameo_lslinger.png?v=1',
     'train:amalekite': 'assets/cameo_lcaptain.png?v=1',
@@ -2204,7 +2247,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   };
   const BREAKS = Object.fromEntries(['Store-house', 'Watch-tower', 'Swords-man', 'Spear-man', 'Breast-plates', 'Strip-ling', 'cime-ters', 'Bar-racks', 'Earth-quake', 'Con-fusion',
     'cap-tains', 'Jave-lin', 'Gran-ary', 'Sta-bles', 'Sol-diers', 'war-rior', 'throw-er', 'Train-ing', 'Lad-der', 'Pavil-ion', 'Lama-nite', 'Ama-lekite', 'Zora-mite',
-    'Dis-sension', 'Strata-gem', 'Flat-tery', 'Mus-ter', 'Sling-er', 'Pick-ets', 'Cloth-ing', 'Cure-lom'].map(w => [w.replace('-', ''), w.replace('-', '\u00ad')]));
+    'Dis-sension', 'Strata-gem', 'Flat-tery', 'Mus-ter', 'Sling-er', 'Pick-ets', 'Cloth-ing', 'Cure-lom', 'Rameump-tom', 'Blood-thirst'].map(w => [w.replace('-', ''), w.replace('-', '\u00ad')]));
   // Buttons with no picture: a drawn sign instead.
   const SIGN = {
     stop: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
@@ -2216,6 +2259,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
     deploy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V3M6 4h11l-3 4 3 4H6"/></svg>',
     research: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l6 6-9 9H5v-6z"/><path d="M12 6l6 6"/></svg>',
     // the temple's miracles
+    'miracle:poison': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10M8 3v3a6 6 0 0 0 1 3.5L7 13a6 6 0 1 0 10 0l-2-3.5A6 6 0 0 0 16 6V3"/><circle cx="10.5" cy="16" r="1" fill="currentColor"/><circle cx="13.5" cy="18" r="1" fill="currentColor"/></svg>',
+    'miracle:bloodthirst': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s6 7.2 6 12a6 6 0 0 1-12 0c0-4.8 6-12 6-12z"/></svg>',
     'miracle:flattery': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12c3-4 6-4 8 0s5 4 8 0"/><path d="M12 4v3M12 17v3"/></svg>',
     'miracle:dissension': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l8-5 8 5v11"/><path d="M12 9v7M9 12l3 4 3-4"/></svg>',
     'miracle:stratagem': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><path d="M4 4l16 16"/></svg>',
@@ -2266,7 +2311,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
   const tileName = id => { const [act, arg] = id.split(':'); return act === 'build' ? (arg === 'wall' ? 'Walls' : BUILDINGS[arg].name) : act === 'train' ? UNITS[arg].name : act === 'research' ? RESEARCH[arg].name : W.power(arg).name; };
   // Shorter names where the whole one won't fit on a tile (the whole name shows when you hold the mouse over it).
-  const SHORT = { 'build:training': 'Training', 'research:stonewalls': 'Walls of stone', 'research:campditch': 'Ditch and bank', 'build:pavilion': 'Pavilion', 'build:wardance': 'War-dance', 'build:shieldtent': 'Shield tent', 'build:hall': "Captains' hall", 'build:kingscourt': "King's court",
+  const SHORT = { 'build:training': 'Training', 'research:stonewalls': 'Walls of stone', 'research:campditch': 'Ditch and bank', 'build:pavilion': 'Pavilion', 'build:wardance': 'War-dance', 'build:shieldtent': 'Shield tent', 'build:hall': "Captains' hall", 'build:rameumptom': 'Rameumptom',
     'miracle:host': "King's call", 'train:amalekite': 'Amalekite', 'train:zoramite': 'Zoramite', 'train:javelin': 'Javelin', 'train:nslinger': 'Slinger', 'train:slinger': 'Slinger',
     'miracle:fire': 'Pillar of fire', 'miracle:cloud': 'Darkness', 'research:lladders': 'Ladders', 'research:ladders': 'Ladders' };
   function tileHtml(id) {
@@ -2490,7 +2535,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const pw = mission.power ? mission.power(W) : null;
     $('cry').hidden = !pw;
     $('bTemple').hidden = !(W.tech && W.temple());
-    if (W.tech) { const S = SIDES[W.side('p').side] || SIDES.freemen; $('bTemple').lastChild.textContent = S.house; $('bTemple').title = S.house === 'Court' ? "Your king's court: cunning is worked from it" : 'Your temple: miracles are worked from it';
+    if (W.tech) { const S = SIDES[W.side('p').side] || SIDES.freemen; $('bTemple').lastChild.textContent = S.house; $('bTemple').title = S.house === 'Temple' ? 'Your temple: miracles are worked from it' : 'Your Rameumptom: wicked works are stirred up from it';
       $('bCity').lastChild.textContent = S.capital === 'warcamp' ? 'Camp' : 'City'; $('bCity').title = S.capital === 'warcamp' ? 'Your war camp: everything is built from here' : 'Your city: everything is built from here'; }
     const held = Object.keys(W.artifacts || {}).filter(k => W.artifacts[k] && ARTIFACTS[k]);
     $('arts').hidden = !held.length;
@@ -2729,7 +2774,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       <div class="kicker">${m.kicker ? esc(m.kicker()) : m.free ? 'Free battle · ' + esc(m.LEVELS[m.level].name) : esc(CAMPAIGNS.find(c => c.id === m.campaign).title) + ' · Mission ' + (inCampaign(m).indexOf(m) + 1) + ' · ' + esc(m.chapter)} · ${esc(m.year)}</div>
       <h2 style="font-size:32px">${esc(m.title)}</h2>
       <ul>${m.briefing.map(([t, r]) => `<li>${esc(t)} ${refBtn(r)}</li>`).join('')}</ul>
-      ${m.free ? (m.side === 'kingmen' ? `<p class="lede">You are the King-men, under ${esc(CAPTAINS.kingmen[m.captain].name)}. Tap your camp to build. Your line: a store tent first (bearers bring the provisions there) → tents → muster ground → shield-makers' tent → pavilion → king's court. A tent feeds 8 warriors; nobody can be trained without food.</p>` : `<p class="lede">You are the Freemen, under ${esc(CAPTAINS.freemen[m.captain].name)}. Tap your city to build. Your building line: a storehouse first (carts bring the harvest there, and each brings a cart) → farms and granaries → barracks → armory and smithy → stables and the hall of the captains. A farm feeds 8 people; nobody can be trained without food.</p>`) : ''}
+      ${m.free ? (m.side === 'kingmen' ? `<p class="lede">You are the King-men, under ${esc(CAPTAINS.kingmen[m.captain].name)}. Tap your camp to build. Your line: a store tent first (bearers bring the provisions there) → tents → muster ground → shield-makers' tent → pavilion → the Rameumptom, then idols. A tent feeds 8 warriors; nobody can be trained without food.</p>` : `<p class="lede">You are the Freemen, under ${esc(CAPTAINS.freemen[m.captain].name)}. Tap your city to build. Your building line: a storehouse first (carts bring the harvest there, and each brings a cart) → farms and granaries → barracks → armory and smithy → stables and the hall of the captains → the temple. A farm feeds 8 people; nobody can be trained without food.</p>`) : ''}
       <div class="goalbox"><b>Your goals.</b> ${esc(m.goals)}</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn go" id="bBegin">Begin</button><button class="btn" id="bBack">Back</button></div></div>`);
     $('bBegin').onclick = () => begin(m);
