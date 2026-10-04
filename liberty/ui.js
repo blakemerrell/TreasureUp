@@ -282,8 +282,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     return c;
   }
   const lostNow = x => !!(x && x.isContextLost && x.isContextLost());
+  // ?canvas=0.5 on the address makes every big canvas that size, as a phone short of memory would (to test on a computer).
+  const FORCE_K = +((location.search.match(/[?&]canvas=([\d.]+)/) || [])[1] || 0);
   function bigCanvas(w, h, sizes, name) {
-    for (const k of sizes) {
+    for (const k of FORCE_K ? [FORCE_K] : sizes) {
       const c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k);
       const x = c.getContext('2d');
       if (x) {
@@ -296,6 +298,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     DBG.made[name] = 'every size refused';
     const c = document.createElement('canvas'); c.k = 1; return [watchLoss(c), c.getContext('2d')];
   }
+  // A big canvas is drawn on at its own scale (bigCanvas). A phone that wipes a canvas to save memory (an iPhone does it without
+  // a word; Chrome says 'contextlost') resets that scale with it, and the next painting came out magnified and shifted: Blake's
+  // screenshot, the ground slid off to one side, the fog gone, "too far from your city". So every painting sets the scale first.
+  const fit = (cv, c) => c.setTransform(cv.k || 1, 0, 0, cv.k || 1, 0, 0);
   // The fog is soft at its edges, so half size looks the same and leaves the ground the room to be sharp.
   const [shroudCv, sctx] = bigCanvas(TERR_W, TERR_H, [0.5, 0.35, 0.25], 'fog');
   const explored = new Uint8Array(MAP_W * MAP_H);
@@ -306,6 +312,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
   // The shroud over the whole slab, with every explored tile opened again.
   function paintShroud() {
+    fit(shroudCv, sctx);
     sctx.globalCompositeOperation = 'source-over';
     sctx.clearRect(0, 0, TERR_W, TERR_H);
     sctx.fillStyle = '#06070c'; // Westwood Pitch Black Shroud, over the slab and its hills
@@ -324,6 +331,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
 
   function revealShroud() {
+    fit(shroudCv, sctx);
     if (!W) return;
     sctx.globalCompositeOperation = 'destination-out';
     const punch = (wx, wy, rad) => {
@@ -557,6 +565,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     catch (e) { DBG.paint = 'FAILED: ' + e.message; throw e; }
   }
   function paintTerrainNow() {
+    fit(terrain, tctx);
     if (!TEX) TEX = { grass: texture('grass'), rock: texture('rock'), water: texture('water') };
     const whole = !painted;
     if (whole) { painted = new Int16Array(MAP_W * MAP_H).fill(-1); tctx.clearRect(0, 0, TERR_W, TERR_H); }
@@ -3079,6 +3088,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (!probe) { const s = W.stronghold() || W.units('p')[0]; const { ix, iy } = toIso(s.x - 2 * TILE, s.y + 2 * TILE); probe = [(ix + ISO_OFFSET_X) * terrain.k, (iy + PAD) * terrain.k]; }
       let a = 255; try { a = tctx.getImageData(Math.round(probe[0]), Math.round(probe[1]), 1, 1).data[3]; } catch (e) { a = 255; }
       if (a === 0) { DBG.blank = (DBG.blank || 0) + 1; DBG.repaints = (DBG.repaints || 0) + 1; painted = null; TREES = null; paintShroud(); }
+      // And the fog: a tile nobody has seen yet must still be dark. If it isn't, the phone wiped the fog: paint it again.
+      const hid = explored.indexOf(0);
+      if (hid >= 0 && !lostNow(sctx)) {
+        const { ix, iy } = toIso((hid % MAP_W + 0.5) * TILE, (Math.floor(hid / MAP_W) + 0.5) * TILE), k = shroudCv.k || 1;
+        let f = 255; try { f = sctx.getImageData(Math.round((ix + ISO_OFFSET_X) * k), Math.round((iy + PAD) * k), 1, 1).data[3]; } catch (e) { f = 255; }
+        if (f === 0) { DBG.fogBlank = (DBG.fogBlank || 0) + 1; paintShroud(); }
+      }
     }
     if (!W.over && !paused && !modal) {
       acc += dt * speed;
