@@ -1337,6 +1337,15 @@
   .tr-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
   .tr-x { padding: 4px 10px; border-radius: 999px; cursor: pointer; font: inherit; font-size: 12px; font-weight: 800; color: #fff; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); }
   .fb-kinds { display: flex; gap: 6px; margin: 10px 0; } .fb-text { width: 100%; min-height: 110px; }
+  /* A game's start screen: its painting, a line of scripture, Start, how to play (like Wilderness Snake's) */
+  .gs-start { max-width: 640px; width: 100%; margin: 6px auto 0; display: grid; gap: 12px; }
+  .gs-hero { display: block; width: 100%; height: auto; max-height: 34vh; aspect-ratio: 2 / 1; object-fit: cover; border-radius: 14px; box-shadow: 0 8px 28px rgba(0,0,0,.4); }
+  .gs-hook { font-size: 16px; line-height: 1.45; color: rgba(255,255,255,.88); margin: 0; }
+  .gs-how { margin: 0; padding-left: 20px; list-style: disc; display: grid; gap: 6px; font-size: 15px; line-height: 1.4; color: rgba(255,255,255,.85); }
+  .gs-status { margin: -4px 0 0; font-size: 13.5px; font-weight: 700; color: var(--gold); }
+  .gs-lock { display: grid; gap: 4px; padding: 12px 14px; border-radius: 14px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); font-size: 14.5px; }
+  .gs-lock span { color: rgba(255,255,255,.75); }
+  .gs-start .board-actions { margin-top: 0; }
   /* Scriptures: the volumes' books, a book's chapters, a chapter's neighbours */
   .lib-h { font-size: 26px; margin: 2px 0 6px; }
   .lib-week { display: flex; justify-content: space-between; align-items: center; width: 100%; margin: 10px 0 4px; padding: 12px 14px; border-radius: 14px; cursor: pointer; text-align: left;
@@ -4880,9 +4889,9 @@ const TreasureUp = (function () {
     if (!g) {
       const names = G.names.length ? G.names : [];
       body.innerHTML = `
-        <div class="clue">
+        <div class="clue gs-start">${gameHeroHtml('board')}<p class="gs-hook">${linkRefs(GAME_START.board.hook)}</p>${gameHowHtml('board')}
           <p class="clue-q">Who's playing?</p>
-          <p class="board-help">Best on a laptop hooked up to the TV. A parent hosts: read each question out loud, let players answer out loud, then tap Show answer and pick who got it. Leave extra boxes empty.</p>
+          <p class="board-help">Leave extra boxes empty.</p>
           <div class="board-names">${[0, 1, 2, 3, 4, 5].map(n =>
             `<input class="field" id="pl${n}" type="text" maxlength="16" placeholder="Player ${n + 1}" value="${esc(names[n] || '')}" aria-label="Player ${n + 1}">`).join('')}</div>
           <p id="boardMsg" class="parent-msg" hidden></p>
@@ -5267,6 +5276,42 @@ const TreasureUp = (function () {
   };
 
   let playing = null;   // 'puzzle' | 'sayings'
+  // Each game's start screen (Blake, 2026-10-04: "better start screens with
+  // art. Like we have with snake"): its painting (media/games/<id>.jpg,
+  // painted by Gemini like Snake's, see media/games/README.md), a line of
+  // scripture, and how to play, above the game's own choices.
+  const GAME_START = {
+    puzzle: { alt: 'A grandfather, a boy and his little sister sort clay tablets and scroll pieces into four baskets tied with yellow, green, blue and purple ribbons.',
+      hook: 'Isaiah taught the Lord’s word “line upon line, line upon line; here a little, and there a little” (Isaiah 28:10). Sort this week’s ideas into the lesson’s sections.',
+      how: ['<b>16 ideas</b> from this week, and <b>4 sections</b> of the lesson. Put each idea where it belongs.', '<b>Easy</b>: one idea at a time, with its verse and a few “place one for me” helps. <b>Hard</b>: find a whole group of four at once, with 4 mistakes a day.', 'Solve it for XP and a <b>❄️ streak freeze</b>.'] },
+    sayings: { alt: 'Isaiah speaks on the steps of a gate of Jerusalem to a king, a shepherd, a mother and child, a merchant and a boy who listens closely.',
+      hook: '“Hear, O heavens, and give ear, O earth: for the LORD hath spoken” (Isaiah 1:2). Who said each line in this week’s reading: the Lord, a prophet, or a king?',
+      how: ['Read a <b>line</b> from this week, and pick <b>who said it</b>.', 'Each right answer is <b>XP</b>, the first time.', 'One line comes back in each day’s warm-up.'] },
+    word: { alt: 'An old scribe writes on a long scroll by lamplight while a boy leans in to watch.',
+      hook: '“Now go, write it before them in a table, and note it in a book” (Isaiah 30:8). Today’s word is hiding in a verse of this week’s reading.',
+      how: ['Guess the word in <b>six tries</b>. 🟩 right letter, right spot · 🟨 in the word, wrong spot.', '<b>Easy</b> shows the verse with a blank and can show you a letter. <b>Hard</b> is real Wordle: the chapter, then the verse, open up after a few guesses.', 'A <b>new word</b> every day.'] },
+    climb: { alt: 'Families of many nations climb a winding path up a green mountain toward a shining temple at the top; a father helps his son up a step.',
+      hook: '“Come ye, and let us go up to the mountain of the LORD … and he will teach us of his ways” (Isaiah 2:3). Ten questions, each one higher up the mountain.',
+      how: ['<b>Ten questions</b> from this week, each worth more than the last.', '<b>Three lifelines</b>: 50:50 takes away a wrong answer, Read it opens the passage, and Ask a parent.', 'A wrong answer ends the climb. XP once a day; climb for fun any time.'] },
+    live: { alt: 'A family sits in a lantern-lit courtyard at night, every one raising a hand to answer at once.',
+      hook: '“And all thy children shall be taught of the LORD; and great shall be the peace of thy children” (Isaiah 54:13). A quiz for the whole family, live.',
+      how: ['The <b>TV or laptop</b> hosts and shows each question.', 'Everyone answers on their <b>own phone or tablet</b> with the code.', 'A right answer scores 700, and a <b>quick</b> one up to 300 more.'] },
+    board: { alt: 'A family game night under lanterns: the mother points to a tile on a big painted board while the family cheers.',
+      hook: '“Cry out and shout, thou inhabitant of Zion: for great is the Holy One of Israel in the midst of thee” (Isaiah 12:6). A quiz-show board for family night.',
+      how: ['<b>One screen</b>, best on the TV. A parent hosts and reads each question out loud.', 'Players answer out loud; the host taps <b>Show answer</b> and picks who got it.', 'The <b>bonus questions</b> are the high-value tiles, and one is a <b>Daily Double</b>.'] },
+    babylon: { alt: 'By night, the soldiers of Cyrus walk through the open bronze gates of Babylon beside the lowered river, while the palace glows with a feast.' }
+  };
+  const gameHeroHtml = id => `<img class="gs-hero" src="media/games/${id}.jpg" width="960" height="480" alt="${esc(GAME_START[id].alt)}">`;
+  const gameHowHtml = id => (GAME_START[id].how || []).length ? `<ul class="gs-how">${GAME_START[id].how.map(h => `<li>${h}</li>`).join('')}</ul>` : '';
+  // The start screen of a game on the play screen: Start (or Keep going), or why it's locked.
+  function renderGameStart(kind, status, locked, going) {
+    const g = GAME_START[kind];
+    $('playBody').innerHTML = `<div class="gs-start">${gameHeroHtml(kind)}<p class="gs-hook">${linkRefs(g.hook)}</p>
+      ${locked ? `<div class="gs-lock"><b>🔒 Locked for now</b><span>${esc(locked)}</span></div><div class="board-actions"><button class="btn" data-gs="back">Back</button></div>`
+        : `<div class="board-actions"><button class="btn" data-gs="start">▶ ${going ? 'Keep going' : 'Start'}</button></div>`}
+      ${status ? `<p class="gs-status">${esc(status)}</p>` : ''}${gameHowHtml(kind)}</div>`;
+  }
+
   function openPlay(kind, eyebrow) {
     playing = kind;
     $('playEyebrow').textContent = eyebrow;
@@ -5307,7 +5352,8 @@ const TreasureUp = (function () {
   function openPuzzle() {
     pzSel = []; pzOrder = null; pzMsg = ''; pzVerses = false;
     openPlay('puzzle', 'Weekly puzzle');
-    renderPuzzle();
+    const pz = !reelsLeft() && puzzleState();
+    renderGameStart('puzzle', reelsLeft() ? '' : puzzleStatus(), reelsLeft() ? `Answer all ${WEEK.reels.length} reels this week to unlock the puzzle. ${reelsLeft()} left.` : '', pz && pz.status === 'playing' && (pz.solved.length || pz.mistakes));
   }
 
   function pzWin(pz) {
@@ -5496,7 +5542,8 @@ const TreasureUp = (function () {
     const p = S.sayPos && S.sayPos.week === WEEK.title && S.sayPos.idx < WEEK.sayings.length ? S.sayPos : null;
     sayIdx = p ? p.idx : 0; sayRight = p ? p.right || 0 : 0; saySeed = p && p.seed ? p.seed : Math.random().toString(36).slice(2, 8); sayPicked = null;
     openPlay('sayings', 'Who said it?');
-    renderSayings();
+    const got = WEEK.sayings.filter(x => S.sayings[x.id] && S.sayings[x.id].right).length;
+    renderGameStart('sayings', got + ' of ' + WEEK.sayings.length + ' right · ' + SAY_XP + ' XP each', '', sayIdx > 0 && sayIdx < WEEK.sayings.length);
   }
 
   function renderSayings() {
@@ -5615,7 +5662,7 @@ const TreasureUp = (function () {
     return st.status === 'won' ? 'Solved today ✓' : st.status === 'lost' ? 'New word tomorrow' : 'Up to 15 XP · a new word every day';
   }
 
-  function openWord() { vwTyped = ''; vwMsg = ''; openPlay('word', 'Verse Word'); renderWord(); }
+  function openWord() { vwTyped = ''; vwMsg = ''; openPlay('word', 'Verse Word'); renderGameStart('word', wordStatus(), '', wordState().guesses.length > 0 && wordState().status === 'playing'); }
 
   function renderWord() {
     const w = todaysWord(), st = wordState(), L = w.word.length;
@@ -5727,7 +5774,7 @@ const TreasureUp = (function () {
     climb = { qs: climbQuestions(), at: 0, picked: null, hidden: null, used: {}, over: false, xp: 0,
               paid: S.climbDay !== dayKey(), seed: Math.random().toString(36).slice(2, 8) };
     openPlay('climb', 'Scripture Climb');
-    renderClimb();
+    renderGameStart('climb', reelsLeft() ? '' : climbStatus(), reelsLeft() ? `Answer all ${WEEK.reels.length} reels this week to unlock Scripture Climb. ${reelsLeft()} left.` : '');
   }
 
   function renderClimb() {
@@ -6433,14 +6480,12 @@ const TreasureUp = (function () {
     stopLive();
     openLive();
     liveBody(`
-      <div class="clue">
-        <p class="clue-q">Play live</p>
-        <p class="board-help">The TV or laptop shows the questions. Everyone answers on their own phone or tablet. A right answer scores 700, and a quick one up to 300 more.</p>
+      <div class="gs-start">${gameHeroHtml('live')}<p class="gs-hook">${linkRefs(GAME_START.live.hook)}</p>
         <div class="board-actions">
-          <button class="btn" data-live="host">Host on this screen</button>
+          <button class="btn" data-live="host">▶ Host on this screen</button>
           <button class="btn ghost" data-live="join">Join with a code</button>
         </div>
-        ${modeNote()}
+        ${modeNote()}${gameHowHtml('live')}
       </div>`);
   }
 
@@ -8638,9 +8683,9 @@ const TreasureUp = (function () {
     openRisk();
     const B = BOARD();
     riskBody(`
-      <div class="clue" style="max-width:640px">
-        <p class="clue-q">${esc(B.title)}</p>
-        <p class="board-help">${linkRefs(B.intro)}</p>
+      <div class="clue gs-start" style="max-width:640px">
+        ${gameHeroHtml('babylon')}
+        <p class="gs-hook">${linkRefs(B.intro)}</p>
         <p class="board-help">A map game for 2 to 4, like Risk. The map goes on a computer or TV; everyone plays on their own phone or tablet. Answer this week's questions to raise soldiers, then take land. Take Babylon and hold it until everyone else has had a turn to win. Dice set the turn order each round.</p>
         <div class="board-actions">
           <button class="btn" data-rk="host">Put the map on this screen</button>
@@ -12638,6 +12683,11 @@ const TreasureUp = (function () {
     // The solo game screen (the games themselves start from the Games tab).
     $('playExit').addEventListener('click', closePlay);
     $('play').addEventListener('click', e => {
+      const gs = e.target.closest('[data-gs]');
+      if (gs) {
+        if (gs.dataset.gs === 'back') return closePlay();
+        return playing === 'puzzle' ? renderPuzzle() : playing === 'sayings' ? renderSayings() : playing === 'word' ? renderWord() : renderClimb();
+      }
       const el = e.target.closest('[data-pt],[data-pz],[data-pz-sec],[data-say],[data-say-pick],[data-vk],[data-climb],[data-climb-pick],[data-life]');
       if (!el || el.disabled) return;
       if (playing === 'puzzle') puzzleAction(el);
