@@ -89,8 +89,25 @@
     const W = dec(snap.state[0]), own = dec(snap.state[1]), ui = dec(snap.state[2]);
     const m = byId.get(snap.mission);
     if (!(W instanceof S.World) || !m || W.mission !== m) throw new Error('the save is broken');
+    // The mission is one object for the whole visit: what an earlier game left on it and this save doesn't have goes first.
+    for (const k of Object.keys(m)) {
+      const d = Object.getOwnPropertyDescriptor(m, k);
+      if (!d.get && !d.set && typeof d.value !== 'function' && !(k in own)) delete m[k];
+    }
     Object.assign(m, own);
     return { W, mission: m, ui };
+  }
+
+  // A save made before the game's rules changed (a new version of the page) may load and then go wrong. Before it is offered back,
+  // a copy is played on for a minute: if that throws, or anyone's place or health stops being a number, the save is not kept.
+  function playsOn(snap, seconds) {
+    try {
+      const { W } = load(snap);
+      for (let i = 0; i < (seconds || 60) * 10 && !W.over; i++) W.step(0.1);
+      if (!Number.isFinite(W.t)) return false;
+      for (const e of W.ents.values()) if (!Number.isFinite(e.x) || !Number.isFinite(e.y) || !Number.isFinite(e.hp)) return false;
+      return true;
+    } catch (e) { return false; }
   }
 
   // What the opening page says about a saved game: which one, and how far in.
@@ -100,7 +117,7 @@
     return { title: m.title, minutes: Math.max(1, Math.round((snap.t || 0) / 60)), at: snap.at, kicker: snap.kicker || '' };
   }
 
-  const SAVE = { dump, load, describe, KEY, VERSION };
+  const SAVE = { dump, load, describe, playsOn, KEY, VERSION };
   if (typeof module !== 'undefined' && module.exports) module.exports = SAVE;
   else root.LIB_SAVE = SAVE;
 })(this);

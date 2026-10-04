@@ -17,6 +17,8 @@
   const kindOf = def => def.beast ? 'beast' : def.ranged ? 'ranged' : (def.armor || 0) >= 2 ? 'armored' : 'light';
   // A fighter: a soldier of the Nephites, or a warrior of the Lamanites.
   const fighter = def => !!(def.soldier || def.foe);
+  // One who can be sent to fight: a fighter with a blow, and not a hauler, builder or scout (ui.js sends these on attack-move).
+  const canFight = def => fighter(def) && !!def.dmg && !def.gathers && !def.builds && !def.scout;
   // Armor takes a share of each blow, never all of it.
   const ARMOR = 6;
 
@@ -442,10 +444,12 @@
       if (target.kind === 'unit' && from && from.team === this.me && target.team !== this.me) target.lastHitBy = from.id;
       if (target.team === this.me && from && from.team !== this.me) { this.callHelp(target, from); this.alarm(target); }
       // Your soldiers sent against a building strike back at whoever strikes them on the way, then go on (Blake's review:
-      // they used to walk on into the defenders). A plain march (Fall back) keeps walking.
-      if (target.hp > 0 && unit && target.team === this.me && fighter(target.def) && target.def.dmg && from && from.kind === 'unit' && !from.dead && from.team !== target.team) {
+      // they used to walk on into the defenders). A plain march (Fall back) keeps walking. A chase that lands no blow for 8 s is
+      // given up (a slinger across a river can't be reached), and then he doesn't turn again for 10 s, so he can't be led to and fro.
+      if (target.hp > 0 && unit && target.team === this.me && canFight(target.def) && from && from.kind === 'unit' && !from.dead && from.team !== target.team
+          && !(target.strikeCool > this.t)) {
         const o = target.order, at = o.type === 'attack' && this.ents.get(o.target);
-        if (at && at.kind === 'building' && at.id !== from.id) this.order(target, { type: 'attack', target: from.id, then: o, leash: { x: target.x, y: target.y } });
+        if (at && at.kind === 'building') this.order(target, { type: 'attack', target: from.id, then: o, leash: { x: target.x, y: target.y }, until: this.t + 8 });
       }
       if (target.hp <= 0) this.kill(target, from);
     }
@@ -827,12 +831,14 @@
         case 'attack': {
           const t = this.ents.get(o.target);
           if (!t || t.dead || t.untouchable) { this.afterFight(u); break; }
+          if (o.until && this.t > o.until) { u.strikeCool = this.t + 10; this.afterFight(u, true); break; }   // (a strike-back given up: back to his errand)
           if (this.reachOf(u, t)) {
             u.path = null;
             u.face = Math.atan2(t.y - u.y, t.x - u.x);
             if (u.cool <= 0 && !this.inZone(u, 'cloud', null, u.team)) {        // in the cloud of darkness they can't see to strike
               if (u.def.ranged) this.shoot(u, t, u.def.dmg); else { this.damage(t, u.def.dmg, u); this.effects.push({ t: this.t, x0: u.x, y0: u.y, x1: t.x, y1: t.y, kind: 'hit', team: u.team }); }
               u.cool = u.def.cd; u.struckAt = this.t;
+              if (o.until) o.until = this.t + 8;                              // (landing blows: the strike-back goes on)
             }
           } else {
             u.repath = (u.repath || 0) - dt;
@@ -1069,7 +1075,7 @@
     }
   }
 
-  const SIM = { World, TILE, center, tileOf, dist, maxHp, kindOf, REACH, KINDS };
+  const SIM = { World, TILE, center, tileOf, dist, maxHp, kindOf, REACH, KINDS, canFight };
   if (typeof module !== 'undefined' && module.exports) module.exports = SIM;
   else root.LIB_SIM = SIM;
 })(this);
