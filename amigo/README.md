@@ -101,6 +101,16 @@ A line is said, in this order, by:
    `~/keys`: `--dry` lists what isn't recorded, `--samples <dir>` says one
    line in every Filipino voice, `--voice <name>` picks one, `--all`
    records everything again.
+   **Spanish** is recorded the same way (Blake, 2026-10-04: "javan can't hear
+   the spanish on this kindle, but he can hear the tagalog"): each line of
+   `course-es.js` the game can say, as `amigo/audio/es/<key>.mp3`, in a man's
+   Latin American Spanish voice, a little slow (Mexican if Google has one,
+   else US Spanish; Neural2 if it can). The voice it picks the first time is
+   kept in `amigo/audio/index.js`, so every later line is in the same one;
+   `--voice-es <name>` picks another, `--samples <dir> --course es` says one
+   line in each. The live app doesn't require the Spanish recordings yet (a
+   line without one is said by the phone's voice, as before), so the first
+   Spanish recordings must come from the test site's deploy.
 2. **The phone's own voice** for the language: Spanish in its Mexican voice;
    Tagalog on phones that have one (many Androids: Google's Filipino voice
    data).

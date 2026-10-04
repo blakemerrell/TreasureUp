@@ -212,8 +212,9 @@
   const bayWords = () => shows(TL.baybayin) ? TL.baybayin.words : [];
 
   // ------------------------------------------------------------ voices
-  // First a line's recording, if it has one (amigo/audio/: a Filipino voice,
-  // made once by tools/amigo-voice.mjs), which plays on every phone. Then the
+  // First a line's recording, if it has one (amigo/audio/: a Filipino voice, or
+  // for Spanish a Latin American one, made once by tools/amigo-voice.mjs),
+  // which plays on every phone, a Kindle with no Spanish voice too. Then the
   // phone's own voice for the language: Spanish in its Mexican voice. A phone
   // with no Tagalog voice (no iPhone has one) reads Tagalog with its Spanish
   // voice instead, since Tagalog is said much like Spanish: h said as j
