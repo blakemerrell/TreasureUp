@@ -989,6 +989,8 @@
   .test-note a { color: #fdba74; font-weight: 800; }
   .ls-orig-credit { margin: -2px 0 8px; text-align: center; font-size: 11.5px; line-height: 1.4; color: rgba(255,255,255,.45); }
   .ls-note b { color: var(--gold); }
+  .ls-jsp { background: rgba(147,197,253,.09); }
+  .ls-jsp a { color: #bfdbfe; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
   /* The short version: a few lines on the whole chapter, above its buttons. Each line's verses are a button to them. */
   .ls-sum { margin: 2px 0 14px; padding: 12px 14px; border-radius: 14px; background: rgba(192,132,252,.09); border: 1px solid rgba(192,132,252,.28); }
   .ls-sum-h { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 10px; font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #c084fc; }
@@ -2237,7 +2239,7 @@ const TreasureUp = (function () {
   function cardRowHtml(i) {
     const x = i.x, seen = !!(S.insights || {})[x.id];
     const what = x.kind === 'quote' ? (x.source && x.source.who) + ': “' + x.quote.slice(0, 60) + (x.quote.length > 60 ? '…”' : '”') : x.title;
-    return `<button class="card-row${seen ? ' seen' : ''}" data-card="${esc(x.id)}"><span class="cr-kind">${KIND_NAME[x.kind] || (hasDeep(x) ? 'Deep dive' : 'Insight')}</span><span class="cr-what">${esc(what)}</span><span class="cr-mark">${seen ? '✓' : ''}</span></button>`;
+    return `<button class="card-row${seen ? ' seen' : ''}" data-card="${esc(x.id)}"><span class="cr-kind">${KIND_NAME[x.kind] || (isJsp(x) ? 'Joseph Smith' : hasDeep(x) ? 'Deep dive' : 'Insight')}</span><span class="cr-what">${esc(what)}</span><span class="cr-mark">${seen ? '✓' : ''}</span></button>`;
   }
 
   // An earlier week's day: its chapters (read in the reader, marked read at
@@ -2284,10 +2286,10 @@ const TreasureUp = (function () {
   let studyKind = 'all';
   function studyHtml() {
     const sun = sundayStudyHtml();
-    const kinds = [['all', 'All'], ['deep', 'Deep dives'], ['insight', 'Insights'], ['quote', 'Quotes'], ['video', 'Videos'], ['sunday', 'Sunday']]
-      .filter(([k]) => (k !== 'deep' || insightsOf(WEEK).some(i => hasDeep(i.x))) && (k !== 'sunday' || sun));   // Deep dives once the week has one; Sunday once there's Sunday study
+    const kinds = [['all', 'All'], ['deep', 'Deep dives'], ['jsp', 'Joseph Smith'], ['insight', 'Insights'], ['quote', 'Quotes'], ['video', 'Videos'], ['sunday', 'Sunday']]
+      .filter(([k]) => (k !== 'deep' || insightsOf(WEEK).some(i => hasDeep(i.x))) && (k !== 'jsp' || insightsOf(WEEK).some(i => isJsp(i.x))) && (k !== 'sunday' || sun));   // each once the week has one; Sunday once there's Sunday study
     const days = studyKind === 'sunday' ? '' : DAY_NAMES.slice(0, 6).map((name, d) => {
-      const cards = dayInsights(d).filter(i => studyKind === 'all' || (studyKind === 'deep' ? hasDeep(i.x) : (i.x.kind || 'insight') === studyKind));
+      const cards = dayInsights(d).filter(i => studyKind === 'all' || (studyKind === 'deep' ? hasDeep(i.x) : studyKind === 'jsp' ? isJsp(i.x) : (i.x.kind || 'insight') === studyKind));
       return cards.length ? `<div class="st-day"><div class="eyebrow">${name} · ${esc(unitsLabel(readingPlan()[d]) || '')}</div>${cards.map(i => cardRowHtml(i)).join('')}</div>` : '';
     }).join('');
     const n = insightsOf(WEEK).length, read = insightsOf(WEEK).filter(i => (S.insights || {})[i.x.id]).length;
@@ -2309,7 +2311,7 @@ const TreasureUp = (function () {
     if (!hasDeep(x)) return '';
     const d = x.deep, l = d.listen, words = d.paras.join(' ').split(/\s+/).filter(Boolean).length;
     const clip = l && l.youtube && (l.previewed === true || TEST_SITE) ? clipHtml(l) : '';
-    return `<details class="ins-deep"><summary><span>🤿 Deep dive</span><small>${Math.max(1, Math.round(words / 200))} min read${clip ? ' · and a clip' : ''}</small></summary>` +
+    return `<details class="ins-deep"><summary><span>🤿 Deep dive</span><small>${Math.max(1, Math.round(words / 200))} min read${clip ? ' · and a clip' : ''}${d.draft ? ' · draft' : ''}</small></summary>` +
       d.paras.map(t => `<p>${linkRefs(t, x.ref)}</p>`).join('') + clip + '</details>';
   }
   // One card on its own, from the bottom: as in Go further, and read once opened.
@@ -2324,7 +2326,7 @@ const TreasureUp = (function () {
       ? `<blockquote class="ins-quote">“${esc(x.quote.replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote><p class="ins-who">${esc(s.who || s.by)}</p>${x.text ? `<p class="reel-body">${linkRefs(x.text, x.ref)}</p>` : ''}${src}`
       : x.kind === 'video' ? `<div class="sh-title">${esc(x.title)}</div><p class="reel-body">${linkRefs(x.text, x.ref)}</p>${clipHtml(x.video)}`
       : `<div class="sh-title">${esc(x.title)}</div><p class="reel-body" style="margin-top:8px">${linkRefs(x.text, x.ref)}</p>${diveHtml(x)}${src}`;
-    openSheet(`<div class="ls-kind">${{ quote: '💬 Quote', video: '🎬 Video' }[x.kind] || '💡 Insight'} · ${linkRefs(x.ref)}</div>${draft}${body}`);
+    openSheet(`<div class="ls-kind">${{ quote: '💬 Quote', video: '🎬 Video' }[x.kind] || (isJsp(x) ? '📜 Joseph Smith Papers' : '💡 Insight')} · ${linkRefs(x.ref)}</div>${draft}${body}`);
     if (!(S.insights || {})[x.id]) { (S.insights = S.insights || {})[x.id] = dayKey(); save(); }
   }
   // Sunday classes (content/sunday.js; Blake, 2026-10-03: "We need to
@@ -3015,15 +3017,20 @@ const TreasureUp = (function () {
   // verses, and a video card (`kind: 'video'`), a short clip on the week's
   // reading that, like a reel's, shows only once a parent has watched it.
   const cardOk = x => x && x.id && (x.kind === 'video' ? x.video && x.video.youtube : x.kind === 'quote' ? x.quote && x.source : x.text && x.source);
+  const isJsp = x => !x.kind && /^https:\/\/www\.josephsmithpapers\.org\//.test((x.source && x.source.url) || '');
   // A quote from a Gospel Library page (General Conference, a Church talk)
   // shows without approval (Blake, 2026-10-02: "Quotes only"): the speaker's
   // own words, which the deploy finds word for word on that page
   // (tools/verify.mjs --online). Our own line under it waits for approval.
   const churchQuote = x => x.kind === 'quote' && /^https:\/\/www\.churchofjesuschrist\.org\/study\//.test((x.source && x.source.url) || '');
+  // A card's deep dive has its own approval (x.deep.approved), so one added to
+  // an approved card waits for Blake while the card stays in the app; off the
+  // test site an unapproved deep dive is left off the card.
   function insightsOf(week) {
     return ((week && week.insights) || []).filter(cardOk).map(x => {
-      const approved = !!x.approved && x.approved === approvalHash(noApproval(x));
+      const approved = !!x.approved && x.approved === approvalHash(cardOf(x));
       const watched = x.kind !== 'video' || x.video.previewed === true;
+      if (hasDeep(x) && !diveOk(x.deep)) x = Object.assign({}, x, { deep: TEST_SITE ? Object.assign({}, x.deep, { draft: true }) : undefined });
       if (!approved && churchQuote(x)) return { x: Object.assign({}, x, { text: '' }), draft: false };
       return (approved && watched) || TEST_SITE ? { x, draft: !approved } : null;
     }).filter(Boolean);
@@ -3169,7 +3176,19 @@ const TreasureUp = (function () {
   // KJV when none of the texts on is there for this chapter.
   function haveOf(u, week) {
     const x = plainOf(week, u.ch);
-    return { kjv: true, plain: !!x, bsb: isBible(u.ch), lang: isBible(u.ch), notes: !!(x && (x.p.notes || []).length), orig: !!origLang(u.ch) };
+    return { kjv: true, plain: !!x, bsb: isBible(u.ch), lang: isBible(u.ch), notes: !!(x && (x.p.notes || []).length) || jspNotesOf(week, u.ch).length > 0, orig: !!origLang(u.ch) };
+  }
+  // Notes from the Joseph Smith Papers (Blake, 2026-10-04: "can you add notes
+  // to the scripture reading from Joseph Smith papers??? having a directly
+  // source to that would be amazing"): an insight card from
+  // josephsmithpapers.org (his Bible revision, or his own words on the verse)
+  // carries a short `note`, shown under the first of its verses with the page
+  // it's from, once the card shows (approved, or on the test site, marked).
+  function jspNotesOf(week, ch) {
+    return insightsOf(week).filter(i => isJsp(i.x) && i.x.note).map(i => {
+      const m = /^(.+? \d+)(?::(\d+))?/.exec(i.x.ref || '');
+      return m && m[1] === ch ? { v: Number(m[2] || 1), text: i.x.note, url: i.x.source.url, title: i.x.source.title, draft: i.draft } : null;
+    }).filter(Boolean);
   }
   const layersFor = have => ({ kjv: layers.kjv, plain: layers.plain && have.plain, bsb: layers.bsb && have.bsb, lang: have.lang ? layers.lang : '', notes: layers.notes && have.notes, orig: layers.orig && have.orig });
   const textsOn = on => on.kjv || on.plain || on.bsb || !!on.lang;
@@ -3199,11 +3218,12 @@ const TreasureUp = (function () {
       if (bsb && bsb[v.n - 1]) lines.push(['ls-bsb', bsb[v.n - 1]]);
       if (lang && lang[v.n - 1]) lines.push(['ls-lang', lang[v.n - 1], on.lang]);
       if (on.kjv || !lines.length) lines.unshift(['ls-v', v.t]);          // a text not in yet, or without this verse: the KJV
-      const notes = on.notes ? (x.p.notes || []).filter(n => n.v === v.n) : [];
+      const notes = on.notes && x ? (x.p.notes || []).filter(n => n.v === v.n) : [], jsp = on.notes ? jspNotesOf(week, u.ch).filter(n => n.v === v.n) : [];
       return `<div class="ls-vv" data-v="${v.n}">` +
         lines.map(([c, t, l], i) => `<p class="${c}${i ? '' : ' lead'}"${l ? ` lang="${l}"` : ''}>${i ? '' : `<sup>${v.n}</sup>`}${esc(t)}</p>`).join('') +
         (on.orig ? origHtml(u.ch, v.n) : '') +
-        notes.map(n => `<p class="ls-note"><b>Note:</b> ${linkRefs(n.text, u.ch + ':' + v.n)}</p>`).join('') + '</div>';
+        notes.map(n => `<p class="ls-note"><b>Note:</b> ${linkRefs(n.text, u.ch + ':' + v.n)}</p>`).join('') +
+        jsp.map(n => `<p class="ls-note ls-jsp"><b>📜 Joseph Smith Papers:</b> ${linkRefs(n.text, u.ch + ':' + v.n)} <a href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">${esc(n.title)} ↗</a>${n.draft ? ' <span class="plain-draft">Draft</span>' : ''}</p>`).join('') + '</div>';
     }).join('') + `<p class="ls-ch-end">End of ${esc(u.ref)}</p>` +
       (lang ? `<p class="ls-orig-credit">${LANGS[on.lang].name}: ${LANGS[on.lang].full} (public domain)</p>` : '') +
       (on.orig && origOf(u.ch) ? `<p class="ls-orig-credit">${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew'} words: STEPBible.org, from work at Tyndale House, Cambridge (CC BY 4.0)</p>` : '');
@@ -10717,6 +10737,9 @@ const TreasureUp = (function () {
     return (h >>> 0).toString(16).padStart(8, '0');
   }
   const noApproval = o => { const c = Object.assign({}, o); delete c.approved; return c; };
+  // An insight card's fingerprint leaves out its deep dive, which has its own.
+  const cardOf = x => { const c = noApproval(x); delete c.deep; return c; };
+  const diveOk = d => !!(d && d.approved) && d.approved === approvalHash(noApproval(d));
   const weekMeta = w => ({ dates: w.dates, title: w.title, reference: w.reference, lesson: w.lesson, sections: w.sections });
   const clone = v => JSON.parse(JSON.stringify(v));
   // The pieces a week is reviewed in, as tools/verify.mjs counts them.
@@ -10734,8 +10757,11 @@ const TreasureUp = (function () {
     if (w.words) add('words', 'Verse Words', w.words, w.wordsApproved, w.words);
     (w.plain || []).forEach(p => add('plain:' + p.ch, 'Plain words · ' + p.ch, p, p.approved, noApproval(p)));
     (w.tldr || []).forEach(t => add('tldr:' + t.ch, 'The short version · ' + t.ch, t, t.approved, noApproval(t)));
-    (w.insights || []).forEach(x => add('insight:' + x.id, (x.kind === 'quote' ? 'Quote · ' : x.kind === 'video' ? 'Video · ' : 'Insight · ') + x.ref, x, x.approved, noApproval(x)));
-    return out.map(i => Object.assign(i, { state: !i.approved ? 'draft' : i.approved === i.hash ? 'ok' : 'changed' }));
+    (w.insights || []).forEach(x => add('insight:' + x.id, (x.kind === 'quote' ? 'Quote · ' : x.kind === 'video' ? 'Video · ' : isJsp(x) ? 'Joseph Smith Papers · ' : 'Insight · ') + x.ref +
+      (hasDeep(x) && !diveOk(x.deep) && x.approved ? ' · its new deep dive' : ''), x, x.approved, cardOf(x)));
+    // A card approved but with a deep dive not yet approved still needs a look.
+    return out.map(i => Object.assign(i, { state: !i.approved ? 'draft' : i.approved !== i.hash ? 'changed'
+      : i.key.startsWith('insight:') && hasDeep(i.obj) && !diveOk(i.obj.deep) ? 'changed' : 'ok' }));
   }
   const devUnwatched = i => (i.key.startsWith('reel:') && !!(i.obj.media && i.obj.media.video && !i.obj.media.video.previewed)) ||
     (i.key.startsWith('insight:') && i.obj.kind === 'video' && !(i.obj.video && i.obj.video.previewed));
@@ -11189,6 +11215,7 @@ const TreasureUp = (function () {
     if (key.startsWith('reel:') && obj.media && obj.media.video) obj.media.video.previewed = true;
     if (key.startsWith('insight:') && obj.kind === 'video' && obj.video) obj.video.previewed = true;
     if (key.startsWith('insight:') && obj.deep && obj.deep.listen) obj.deep.listen.previewed = true;   // a deep dive's clip too
+    if (key.startsWith('insight:') && hasDeep(obj)) obj.deep.approved = approvalHash(noApproval(obj.deep));   // and the deep dive, with its own mark
     devSet(w, key, obj, null);
     const it = devItems(w).find(i => i.key === key);
     devChange(key, obj, it.hash, 'approve');

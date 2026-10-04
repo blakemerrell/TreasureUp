@@ -78,7 +78,10 @@ const INSIGHT_SITES = {
   'scripturecentral.org': { by: 'Scripture Central' },
   'rsc.byu.edu': { by: 'BYU Religious Studies Center' },
   'speeches.byu.edu': { by: 'BYU Speeches' },
-  'followhim.co': { by: 'followHIM' }
+  'followhim.co': { by: 'followHIM' },
+  // Blake, 2026-10-04: "can you add notes to the scripture reading from Joseph
+  // Smith papers??? having a directly source to that would be amazing".
+  'www.josephsmithpapers.org': { by: 'Joseph Smith Papers' }
 };
 
 const args = new Set(process.argv.slice(2));
@@ -175,7 +178,8 @@ function reviewItems(week) {
   if (week.words) items.push({ key: 'words', approved: week.wordsApproved, hash: approvalHash(week.words) });
   for (const p of Array.isArray(week.plain) ? week.plain : []) items.push({ key: 'plain:' + p.ch, approved: p.approved, hash: approvalHash(withoutApproval(p)) });
   for (const t of Array.isArray(week.tldr) ? week.tldr : []) items.push({ key: 'tldr:' + t.ch, approved: t.approved, hash: approvalHash(withoutApproval(t)) });
-  for (const x of Array.isArray(week.insights) ? week.insights : []) items.push({ key: 'insight:' + (x && x.id), approved: x && x.approved, hash: approvalHash(withoutApproval(x || {})) });
+  // An insight card's fingerprint leaves out its deep dive, which has its own (deep.approved).
+  for (const x of Array.isArray(week.insights) ? week.insights : []) { const c = withoutApproval(x || {}); delete c.deep; items.push({ key: 'insight:' + (x && x.id), approved: x && x.approved, hash: approvalHash(c) }); }
   return items;
 }
 // Weeks from here on can't go live without every piece approved; the two
@@ -1102,6 +1106,26 @@ async function main(scripture, week, pages, online) {
         }
       }
       if (home) { checkRefs(where, 'title', x.title, home); checkRefs(where, 'text', x.text, home); }
+      // A Joseph Smith Papers card's `note`: the same point in a line, shown
+      // under the first of its verses in the reader's Notes, with the page.
+      // 8 to 45 words; a quote is the KJV's words in its verses, or Joseph's
+      // own from the page (one, 15 words or fewer, found there with --online).
+      if (x.note !== undefined) {
+        const v = String(x.note || ''), w3 = where + ' note';
+        if (!url || url.hostname !== 'www.josephsmithpapers.org') fail(w3, 'a note under the verse is for a Joseph Smith Papers card');
+        if (count(v) < 8 || count(v) > 45) fail(w3, `${count(v)} words (8 to 45)`);
+        if (/"/.test(v)) fail(w3, 'uses a straight " quote; use “curly quotes”');
+        if ((v.match(/“/g) || []).length !== (v.match(/”/g) || []).length) fail(w3, 'has unbalanced “quotes”');
+        if (/\b(thee|thou|thy|thine|ye|hath|saith|doth|shalt|unto)\b/i.test(v.replace(/“[^”]*”/g, ' '))) fail(w3, 'has KJV English outside a quote');
+        const nq = (v.match(/“[^”]*”/g) || []).map(q => q.slice(1, -1)).filter(q => !(refText && quoteMatches(q, refText)));
+        if (nq.length > 1) fail(w3, `quotes the page ${nq.length} times; once at most`);
+        for (const q of nq) {
+          if (count(q) > 15) fail(w3, `“${q}” is ${count(q)} words; 15 at most`);
+          const page = online && site ? pages.get(s.url) : null;
+          if (page != null && !norm(page).includes(trimPunct(norm(q)))) fail(w3, `“${q}” is not on ${s.url}`);
+        }
+        if (home) checkRefs(w3, 'note', v, home);
+      }
       // Its deep dive (Blake, 2026-10-03: "Longer adult level deep dive would
       // be great!"), folded under the card: the same point at length for a
       // grown-up, from the same page, in our own words. 2 to 6 paragraphs,
@@ -1134,6 +1158,7 @@ async function main(scripture, week, pages, online) {
             for (const q of quotes) if (!text.includes(trimPunct(norm(q)))) fail(w2, `“${q}” is not on ${s.url}`);
           }
         }
+        if (!d.approved || d.approved !== approvalHash(withoutApproval(d))) note(`${w2}: ${d.approved ? 'changed since it was approved' : 'not approved yet'}; the card shows without it until it is`);
         if (d.listen !== undefined) {
           const v = d.listen && typeof d.listen === 'object' ? d.listen : {};
           if (!/^[A-Za-z0-9_-]{11}$/.test(v.youtube || '')) fail(w2, 'listen.youtube must be an 11-character YouTube id');

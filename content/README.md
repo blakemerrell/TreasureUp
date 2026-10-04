@@ -253,7 +253,7 @@ list of cards, each `{ id, ref, title, text, source: { by, who, title, url }, fi
 - `source`: a page on one of the sites Blake chose (`INSIGHT_SITES` in
   tools/verify.mjs): the Church's Gospel Library pages (manuals, general
   conference, the magazines), Scripture Central, BYU's Religious Studies
-  Center and Speeches, followHIM. `by` is the site's name, or for a Church
+  Center and Speeches, followHIM, the Joseph Smith Papers (below). `by` is the site's name, or for a Church
   page its publication ("Old Testament Student Manual", "General
   Conference"); `who` the speaker or author, if it has one.
 - `find`: words copied exactly from the page, where the card's point is.
@@ -289,7 +289,29 @@ whoever wants more opens it.
   shown only once a parent has watched it (approving the card marks it
   watched).
 - It's part of the card: Blake approves the two together in developer mode,
-  which shows the deep dive under the card.
+  which shows the deep dive under the card. It carries its own approval mark
+  (`deep.approved`), and the card's fingerprint leaves the deep dive out, so a
+  deep dive added to a card already approved waits for Blake while the card
+  stays in the app (developer mode lists the card again, "its new deep
+  dive"); off the test site an unapproved deep dive is left off the card.
+
+**Joseph Smith Papers cards** (Blake, 2026-10-04: "can you add notes to the
+scripture reading from Joseph Smith papers??? having a directly source to
+that would be amazing"; both kinds, under the verse and as a card, the
+coming weeks first) are insight cards whose `source` is a page on
+josephsmithpapers.org (`by: 'Joseph Smith Papers'`), of two kinds: how
+Joseph's Bible revision (the Joseph Smith Translation) changes the verse, from
+its manuscript (Old Testament Revision 2, …), or where Joseph quoted or
+explained it (a revelation's earliest manuscript, a discourse as reported, a
+letter, his history). Its `find` and any quote of Joseph's words are copied
+from the page's transcript, spelling and all. Such a card can carry a `note`:
+the same point in a line (8 to 45 words; a quote is the KJV's words in `ref`,
+or Joseph's own from the page, once, 15 words or fewer), shown in the reader's
+**Notes** under the first of its verses as "📜 Joseph Smith Papers", with a
+link to the page, once the card shows. Study has a **Joseph Smith** filter. A
+note adds the original source; it doesn't repeat what the chapter's own notes
+already say. Where Joseph's wording differs from the KJV the KJV stays the
+scripture, and the note says plainly that the change is Joseph's.
 
 Two more kinds go in the same list (Blake, 2026-10-02, from the Scripture
 Central app):
