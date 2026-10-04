@@ -148,7 +148,7 @@ console.log('Mission 2 · The Robbers Come Down (3 Nephi 4)');
 // ------------------------------------------------------------ mission 3
 console.log('Mission 3 · At the River Sidon (Alma 43–44)');
 {
-  const W = start('m3');
+  let W = start('m3');
   const M = W.mission, SD = D.SIDON;
   const put = (u, x, y) => { const [fx, fy] = W.freeTileNear(x, y, 'p'); W.moveTo(u, fx, fy); };
   ok(W.stronghold().name === 'Jershon' && M.host.length === M.hostTotal && W.border == null, 'Moroni meets them in Jershon; Zerahemnah\'s armies wait in Antionum');
@@ -212,6 +212,10 @@ console.log('Mission 3 · At the River Sidon (Alma 43–44)');
   ms = Math.max(ms, run(W, 120, 1, null, () => M.phase === 'parley'));
   console.log(`    at ${Math.round(W.t)}s · Lamanites fallen ${W.stats.defeated} · Nephites fallen ${W.stats.fallen} · banks ${JSON.stringify(M.banks(W))}`);
   ok(M.phase === 'parley' && W.truce, 'encircled on both banks, Moroni stops the shedding of blood (43:52–54)');
+  // Saved in the middle of the parley and loaded back (save.js), the story goes on from where it was: the rest of this test plays the loaded game.
+  { const SAVE = require('../liberty/save.js'), snap = SAVE.dump(W, {}), steps = M.story.length;
+    W = SAVE.load(JSON.parse(JSON.stringify(snap))).W;
+    ok(!snap.lost.length && steps > 0 && M.story.length === steps && W.truce && W.mission === M, `a game saved in the middle of the parley, and loaded, keeps every step still to come (${steps})`); }
   const beforeCovenant = W.units('r').length;
   ms = Math.max(ms, run(W, 300, 1, null, () => W.over));
   console.log(`    Lamanites ${M.hostTotal}: ${W.stats.spared} spared by covenant · ${W.stats.defeated} fell · Nephites fallen ${W.stats.fallen} · at ${Math.round(W.t)}s · slowest step ${ms}ms`);
@@ -709,6 +713,26 @@ console.log('Out of the Wilderness · build a city, hold off the raids');
     ok(WM.bands.length === 5 && WM.bands.some(b => b.units.some(u => u.def.leader || u.type === 'amalekite')), 'the last raid brings a Lamanite army with an armored captain');
     ok(ms < 40, 'a step stays fast enough');
   }
+}
+
+// ------------------------------------------------------------ saving a game (Blake: "prevent us accidentally exiting the game ... we'll lose our progress")
+console.log('Saving a game · Blake\'s "we\'ll lose our progress"');
+{
+  // One process plays a game, saving at 3 minutes and again at 5; a fresh one (a page opened again) loads the first save and plays on
+  // to 5 minutes. The two must match to the last arrow: the save holds everything the game needs.
+  const { execFileSync } = await import('node:child_process'), fs = await import('node:fs'), os = await import('node:os'), path = await import('node:path');
+  const child = new URL('./liberty-save-child.mjs', import.meta.url).pathname;
+  for (const sc of ['m2', 'm3', 'free:normal:freemen', 'free:hard:kingmen', 'wild:normal']) {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'liberty-save-'));
+    const played = JSON.parse(execFileSync('node', [child, 'play', sc, '180', '120', dir]).toString().trim().split('\n').pop());
+    execFileSync('node', [child, 'load', '120', dir + '/a.json', dir + '/b2.json']);
+    const same = fs.readFileSync(dir + '/b.json', 'utf8') === fs.readFileSync(dir + '/b2.json', 'utf8');
+    ok(same && !played.lost.length && played.bytes < 200000, `${sc}: saved at 3 minutes and loaded in a fresh page, it plays on exactly as before (${Math.round(played.bytes / 1024)} KB)`);
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+  // Anything that can't be written down (a function) is noted, so the screen keeps the last good save instead.
+  { const SAVE = require('../liberty/save.js'), W = start('m1'); W.mission.flags = { oops: () => 1 };
+    ok(SAVE.dump(W, {}).lost.includes('oops'), 'a save that would lose something says so'); W.mission.flags = {}; }
 }
 
 // ------------------------------------------------------------ quotes

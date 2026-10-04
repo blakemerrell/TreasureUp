@@ -2679,7 +2679,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function openMenu() {
     if (!W || W.over) return home();
     openDialog(`<div class="dialog"><div class="kicker">Paused</div><h2>${esc(mission.title)}</h2>
-      <div class="choices"><button class="choice" data-close>Keep playing</button><button class="choice" id="mRestart">Start this mission again</button><button class="choice" id="mQuit">Leave this game</button></div></div>`);
+      <div class="choices"><button class="choice" data-close>Keep playing</button><button class="choice" id="mRestart">Start this mission again</button><button class="choice" id="mQuit">Leave this game (it stays saved)</button></div></div>`);
     $('mRestart').onclick = () => { closeDialog(); begin(mission); };
     $('mQuit').onclick = () => { closeDialog(); menuFor(mission)(); };
   }
@@ -2695,10 +2695,21 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const modeHead = (art, kicker, title) => `<div class="modeHead"><img src="${art}" alt=""><button class="back" id="mBack" aria-label="Back">←</button>
       <div class="over"><div class="kicker">${esc(kicker)}</div><h2>${esc(title)}</h2></div></div>`;
 
-  function home() {
+  // Off the battlefield: the game in progress is saved first (it can be continued from the opening page).
+  function leaveGame() {
+    if (W && !W.over) autosave();
     W = null; mission = null; sel = []; placing = null; aiming = null;
     setGameUi(false);
+    dropGuard();
+  }
+
+  function home() {
+    leaveGame();
     const won = MISSIONS.filter(m => save.won[m.id]).length;
+    const snap = savedGame(), d = snap && SAVE.describe(snap), sub = d ? (snap.kicker || '').replace(d.title + ' · ', '') : '';
+    const resume = d ? `<div class="resume"><div class="rtext"><div class="kicker">Your saved game</div><b>${esc(d.title)}</b>
+        <small>${esc(sub)}${sub ? ' · ' : ''}${d.minutes} minute${d.minutes > 1 ? 's' : ''} in</small></div>
+        <button class="btn go" id="bContinue">Continue</button></div>` : '';
     const tile = (mode, title, about, stars) => `<button class="tile" data-mode="${mode}"><img src="${ART[mode]}" alt="">
         ${stars ? `<span class="tstars">${starsHtml(stars)}</span>` : ''}<span class="cap"><b>${esc(title)}</b><small>${esc(about)}</small></span></button>`;
     const s = showScreen(`<div class="hero"><img src="${ART.title}" alt="Captain Moroni lifts the title of liberty before his army (Alma 46:12–13)"></div>
@@ -2707,6 +2718,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
         <h1><span>Title of Liberty</span></h1>
         <p class="lede">Lead the Nephites through the wars of the Book of Mormon. ${refBtn('Alma 46:12')}</p>
         <button class="btn" id="bHow">How to play</button></div>
+      ${resume}
       <div class="tiles">
         ${tile('story', 'Story missions', `Play the chapters · ${won} of ${MISSIONS.length} won`, 0)}
         ${tile('free', 'Free battle', 'Pick a side and a captain, and tear down the enemy', save.won.free || 0)}
@@ -2729,6 +2741,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       <p class="aside"><a href="../">← Back to Treasure Up</a></p>
     </div>`);
     $('bHow').onclick = () => showTips('mission', null, true);
+    if ($('bContinue')) $('bContinue').onclick = continueGame;
     s.onclick = e => {
       const t = e.target.closest('[data-mode]');
       if (t) ({ story: storyScreen, free: freeScreen, wild: wildScreen })[t.dataset.mode]();
@@ -2737,6 +2750,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   // Story missions: the campaigns, each mission a card. Every one is open; reading its chapters first brings a gift.
   function storyScreen() {
+    leaveGame();
     const card = m => {
       const stars = save.won[m.id] || 0;
       const unread = chaptersOf(m).filter(c => !save.read[c]);
@@ -2766,6 +2780,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   // Free battle: a side, a captain, a level, then Play. Only these choices on the screen.
   function freeScreen() {
+    leaveGame();
     const opts = () => {
       const S = SIDES[pick.side], caps = CAPTAINS[pick.side], c = caps[pick.captain], L = FREE.LEVELS;
       return `<h3 class="sec">Your side</h3>
@@ -2798,6 +2813,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   // Out of the Wilderness: how long, how hard, then Play.
   function wildScreen() {
+    leaveGame();
     const opts = () => `<h3 class="sec">How long</h3>
         ${segHtml(Object.keys(WILD.LENGTHS), pick.length, 'data-length', k => esc(WILD.LENGTHS[k].name))}
         <p class="small">${esc(WILD.LENGTHS[pick.length].about)}</p>
@@ -2895,34 +2911,47 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
 
   function begin(m) {
-    mission = m;
-    W = new S.World(undefined, m.map);
-    W.mission = m;
-    m.setup(W);
+    if (!beginOk(m)) return;
+    const world = new S.World(undefined, m.map);
+    world.mission = m;
+    m.setup(world);
+    W = world;
     // Read the chapter first, and the people bring a gift (Blake: reading earns bonuses instead of opening the mission).
     if (!m.free && m !== WILD && allRead(m)) { W.gain('grain', 100); W.gain('timber', 100); W.msg(`You read ${chaptersOf(m).join(' and ')}: the people bring 100 grain and 100 timber.`, null, 'good'); }
+    enterGame(m, null);
+    autosave();
+  }
+  // The screen around a world, new or loaded (`ui`: what save.js kept of the screen: the council, the camera, what was explored).
+  function enterGame(m, ui) {
+    mission = m;
     buildHeights();
-    sel = []; placing = null; wallLine = null; painted = null; miniDirty = true; shownMsgs = 0; endShown = false; particles.length = 0;
+    sel = []; placing = null; wallLine = null; painted = null; miniDirty = true; endShown = false; particles.length = 0;
+    shownMsgs = ui ? W.msgs.length : 0;                     // (a loaded game doesn't replay its old messages)
     seenTiles.clear(); for (const k in newUntil) delete newUntil[k];
     for (const t in BUILDINGS) noteUnlock('build:' + t, !W.whyNotBuild(t));                 // what can be made at the start is not new
     for (const t in UNITS) { const why = W.whyNotTrain(t); noteUnlock('train:' + t, !why || why.startsWith('Not enough food')); }
-    paused = false; speed = 1; $('bSpeed').textContent = '1×'; $('bPause').textContent = '❚❚';
-    council = { nextAt: 20, queue: [], right: 0, streak: 0 };
+    paused = !!ui; speed = 1; $('bSpeed').textContent = '1×'; $('bPause').textContent = paused ? '▶' : '❚❚';
+    council = ui && ui.council ? ui.council : { nextAt: 20, queue: [], right: 0, streak: 0 };
     closeDialog(); hideScreen();
     $('feed').innerHTML = '';
     setGameUi(true);
     $('goals').open = window.innerWidth >= 700 && window.innerHeight >= 600;
     resize();
     initShroud();
-    cam.z = vw < 700 ? 0.8 : 1;
+    if (ui && ui.explored && ui.explored.length === explored.length) { explored.set(ui.explored); paintShroud(); }
+    cam.z = ui && ui.cam ? ui.cam.z : vw < 700 ? 0.8 : 1;
     const s = W.stronghold() || W.units('p')[0];
-    lookAt(s.x, s.y - (m.id === 'm1' ? 160 : 60));
-    if (m.free) setSel(W.units('p').filter(u => u.def.deploys));
+    if (ui && ui.cam) { cam.x = ui.cam.x; cam.y = ui.cam.y; clampCam(); }
+    else if (s) lookAt(s.x, s.y - (m.id === 'm1' ? 160 : 60));
+    if (m.free && !ui) setSel(W.units('p').filter(u => u.def.deploys));
     refreshPanel(true);
+    guardHistory();
+    if (ui) toast('Your game is back where you left it. Tap ▶ to go on.', 'me');
   }
 
   function showEnd() {
     endShown = true;
+    clearSave();
     const o = W.over;
     if (o.won) { save.won[mission.id] = Math.max(save.won[mission.id] || 0, o.stars || 1); store(); }
     const next = inCampaign(mission)[inCampaign(mission).indexOf(mission) + 1];
@@ -2951,6 +2980,58 @@ IMG.farm.src = 'assets/farm.png?v=13';
   let powerNow = null;
   $('cry').onclick = () => { if (W && powerNow) { mission.usePower(W, powerNow.id); $('cry').hidden = true; powerNow = null; shown.cry = null; } };
   document.addEventListener('visibilitychange', () => { if (document.hidden && W && !W.over && !paused) togglePause(); });
+
+  // ------------------------------------------------------------ keeping a game safe
+  // Blake: "find a way to prevent us accidentally exiting the game. If I hit the wrong gesture or something, it will exit the game
+  // and we'll lose our progress." A game in progress saves itself (save.js) every 15 seconds, when it starts, and whenever the page
+  // is hidden or left; the opening page offers to continue it. A back swipe or the back button opens the pause menu instead of
+  // leaving; a refresh or a closing tab asks first, where the browser lets a page ask (iPhones don't: the save covers them).
+  const SAVE = window.LIB_SAVE;
+  function autosave() {
+    if (!SAVE || !W || !mission || W.over) return;
+    try {
+      const snap = SAVE.dump(W, { council, cam: { x: cam.x, y: cam.y, z: cam.z }, explored });
+      if (snap.lost.length) return;                        // something couldn't be written down: keep the last good save
+      snap.kicker = mission.kicker ? mission.kicker() : mission.free ? `Free battle · ${FREE.LEVELS[FREE.level].name} · ${SIDES[FREE.side].name}` : mission.chapter;
+      localStorage.setItem(SAVE.KEY, JSON.stringify(snap));
+    } catch (e) { /* storage full, or a private window: play on */ }
+  }
+  function savedGame() {
+    try { const s = SAVE && JSON.parse(localStorage.getItem(SAVE.KEY) || 'null'); return s && s.v === SAVE.VERSION ? s : null; } catch (e) { return null; }
+  }
+  function clearSave() { try { if (SAVE) localStorage.removeItem(SAVE.KEY); } catch (e) { /* no store */ } }
+  setInterval(() => { if (!paused) autosave(); }, 15000);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) autosave(); });
+  window.addEventListener('pagehide', autosave);
+  window.addEventListener('beforeunload', e => { if (W && !W.over) { autosave(); e.preventDefault(); e.returnValue = ''; } });
+  // The back swipe: while a game is on, one step of history stands in front of it. Going back opens the pause menu and puts it back.
+  function guardHistory() { try { if (!(history.state && history.state.libertyGame)) history.pushState({ libertyGame: 1 }, ''); } catch (e) { /* no history */ } }
+  function dropGuard() { try { if (history.state && history.state.libertyGame) history.back(); } catch (e) { /* no history */ } }
+  window.addEventListener('popstate', () => {
+    if (!W || W.over || endShown) return;                   // (on the menus, back works as usual)
+    guardHistory(); autosave(); openMenu();
+  });
+  function continueGame() {
+    const snap = savedGame();
+    let got = null;
+    try { got = snap && SAVE.load(snap); } catch (e) { got = null; }
+    if (!got) { clearSave(); toast('That saved game could not be opened, sorry.', 'warn'); return home(); }
+    W = got.W;
+    enterGame(got.mission, got.ui || {});
+  }
+  // Starting another game would write over the saved one: ask first.
+  function beginOk(m) {
+    const snap = savedGame();
+    if (!snap || W || beginOk.asked) { beginOk.asked = false; return true; }
+    const d = SAVE.describe(snap);
+    if (!d) return true;
+    openDialog(`<div class="dialog"><div class="kicker">A game is saved</div><h2>${esc(d.title)}, ${d.minutes} minute${d.minutes > 1 ? 's' : ''} in</h2>
+      <p class="lede">Starting ${esc(m.title)} will replace it.</p>
+      <div class="choices"><button class="choice" id="sgGo">Continue the saved game</button><button class="choice" id="sgNew">Start ${esc(m.title)}</button><button class="choice" data-close>Back</button></div></div>`);
+    $('sgGo').onclick = () => { closeDialog(); continueGame(); };
+    $('sgNew').onclick = () => { closeDialog(); clearSave(); beginOk.asked = true; begin(m); };
+    return false;
+  }
 
   // ------------------------------------------------------------ ?debug=1: what this device really drew
   // Colours read back from each layer at your city: if a layer shows 0,0,0,0 the device drew nothing on it.
