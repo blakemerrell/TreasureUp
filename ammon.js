@@ -10,6 +10,9 @@
 // are lost, the game is over. His sword knocks the clubs out of the robbers'
 // hands and they run (the scripture says more; this is for an 11-year-old).
 // Each level ends with the robbers' leader, then a question from this week.
+// Moves (startStrike, mighty): a 3-hit sword combo, an overhead blow in the
+// air, a counter just after a block, and a meter that, full, sends a stone
+// "with mighty power" (Alma 17:36) at every robber on the field.
 //
 // index.html loads this file the first time the game opens, with its words in
 // content/arcade.js (window.TU_ARCADE.ammon), and passes the same host as the
@@ -27,7 +30,13 @@
     sheep: 8, lose: 4,                        // the flock, and how many lost ends the game
     flock: [2.6, 7.2],                        // where the flock grazes (units from the left)
     robberSpeed: 2.3, robberStep: 0.25, robberMax: 4.6,
-    windup: 0.45, chiefWindup: 0.7, between: 2.4, shield: 8, ready: 3
+    windup: 0.45, chiefWindup: 0.7, between: 2.4, shield: 8, ready: 3,
+    // The moves (Blake, 2026-10-04: "What like of combos can we do?"): sword three times in a row (the
+    // third a finishing blow), sword in the air (an overhead blow), sword just after a block (a counter),
+    // and, with the meter full, sword and sling together (Alma 17:36's "mighty power").
+    chainWin: 0.35, chainPush: 1.2, finishPush: 3.5, combo: 50, counterWin: 0.6, daze: 0.7, lunge: 22,
+    power: 100, together: 0.2, flash: 0.6,
+    fill: { robber: 7, chief: 20, gather: 5, counter: 6, combo: 5, right: 25 }
   };
   let STORE = 'treasureup.ammon.v1';
   let host = null, root = null, G = null, raf = 0, last = 0, off = null, audio = null;
@@ -44,7 +53,8 @@
   function sound(kind) {
     if (saved().muted || !audio) return;
     const notes = { hit: [[150, 0.07]], block: [[880, 0.05]], sling: [[600, 0.04], [900, 0.04]], stun: [[120, 0.2]], flee: [[523, 0.06], [784, 0.08]],
-      scatter: [[300, 0.08], [220, 0.12]], gather: [[659, 0.06], [880, 0.08]], clear: [[523, 0.09], [659, 0.09], [784, 0.09], [1047, 0.2]], over: [[392, 0.2], [330, 0.2], [262, 0.4]], right: [[784, 0.08], [1047, 0.14]], wrong: [[220, 0.2]] }[kind] || [];
+      scatter: [[300, 0.08], [220, 0.12]], combo: [[392, 0.05], [523, 0.05], [784, 0.1]], ready: [[659, 0.07], [988, 0.12]],
+      mighty: [[262, 0.06], [392, 0.06], [523, 0.06], [784, 0.08], [1047, 0.22]], gather: [[659, 0.06], [880, 0.08]], clear: [[523, 0.09], [659, 0.09], [784, 0.09], [1047, 0.2]], over: [[392, 0.2], [330, 0.2], [262, 0.4]], right: [[784, 0.08], [1047, 0.14]], wrong: [[220, 0.2]] }[kind] || [];
     let t = audio.currentTime + 0.01;
     notes.forEach(([f, d]) => {
       const o = audio.createOscillator(), v = audio.createGain();
@@ -62,8 +72,8 @@
     const portrait = window.innerHeight > window.innerWidth * 1.05;
     const seed = typeof window.TU_AMMON_SEED === 'number' ? window.TU_AMMON_SEED : Date.now();
     G = { w: portrait ? 16 : 24, rand: rng(seed), time: 0, level: 0, score: 0, state: 'play', ready: manual() ? 0 : T.ready, paused: false,
-      stones: T.stones, lost: 0, robbersOff: 0, chiefsOff: 0, gathered: 0, shieldUntil: 0, used: new Set(),
-      me: { x: 0, y: 0, vy: 0, face: 1, act: 'ready', t: 0, stun: 0, step: 0 },
+      stones: T.stones, lost: 0, robbersOff: 0, chiefsOff: 0, gathered: 0, shieldUntil: 0, used: new Set(), power: 0, flashAt: -9, combos: 0, mighties: 0,
+      me: { x: 0, y: 0, vy: 0, face: 1, act: 'ready', t: 0, stun: 0, step: 0, chain: 0, chainUntil: 0, counterUntil: 0, lx: 0, hits: 0 },
       sheep: [], robbers: [], shots: [], drops: [], floats: [], between: 0, banner: null, q: null };
     const home = T.flock, span = (portrait ? home[1] - 1.2 : home[1]) - home[0];
     for (let k = 0; k < T.sheep; k++) {
@@ -111,18 +121,34 @@
     // ----- Ammon -----
     if (me.stun > 0) { me.stun -= dt; me.act = 'stun'; }
     else if (me.act === 'stun') me.act = 'ready';
+    if (me.lx) { const k = Math.sign(me.lx) * Math.min(Math.abs(me.lx), T.lunge * dt); me.x += k; me.lx -= k; }   // a chained blow or a counter steps in
     if (me.act === 'strike' || me.act === 'sling') {
       me.t += dt;
       if (me.act === 'strike' && !me.landed && me.t >= T.strikeHit[0]) {
         me.landed = true;
-        for (const r of G.robbers) if (r.act !== 'flee' && Math.sign(r.x - me.x) === me.face && Math.abs(r.x - me.x) < T.reach + (r.kind === 'chief' ? 0.3 : 0)) hurt(r, 1, me.face);
+        const k = me.kind, reach = T.reach + (k === 'air' ? 0.5 : 0);
+        const hit = G.robbers.filter(r => r.act !== 'flee' && Math.sign(r.x - me.x) === me.face && Math.abs(r.x - me.x) < reach + (r.kind === 'chief' ? 0.3 : 0));
+        if (hit.length) me.hits++;
+        const finish = k === 'finish' && me.hits >= 3;
+        let label = null;
+        if (k === 'air') label = 'Overhead!';
+        else if (k === 'counter') { label = 'Counter!'; addPower(T.fill.counter); }
+        else if (finish) { label = `3-hit combo! +${T.combo}`; G.score += T.combo; G.combos++; addPower(T.fill.combo); }
+        else if (hit.length && me.chain === 2 && me.hits >= 2) label = '2 hits!';
+        hit.forEach((r, i) => hurt(r, k === 'strike' ? 1 : 2, me.face, {
+          push: k === 'strike' ? T.chainPush : k === 'finish' ? T.finishPush : T.push, daze: k === 'air' || k === 'counter' ? T.daze : 0, label: i ? null : label }));
+        if (hit.length && label) sound(finish || k === 'counter' ? 'combo' : 'hit');
       }
       if (me.act === 'sling' && !me.thrown && me.t >= T.slingAt) {
         me.thrown = true;
         G.shots.push({ x: me.x + me.face * 0.6, y: 2.4, vx: me.face * T.stoneSpeed, vy: 3 });
         sound('sling');
       }
-      if (me.t >= (me.act === 'strike' ? T.strike : T.sling)) { me.act = 'ready'; me.t = 0; }
+      if (me.t >= (me.act === 'strike' ? T.strike : T.sling)) {
+        const was = me.act;
+        me.act = 'ready'; me.t = 0;
+        if (was === 'strike') { if (me.queued) startStrike(true); else me.chainUntil = G.time + T.chainWin; }
+      }
     }
     const blocking = me.act !== 'stun' && keys.has('block') && me.y <= 0;
     if (me.act === 'ready' || me.act === 'walk' || me.act === 'block') me.act = blocking ? 'block' : 'ready';
@@ -135,12 +161,17 @@
     me.x = Math.max(0.6, Math.min(G.w - 0.6, me.x));
     // Gathering: walk to a scattered sheep and it runs home.
     for (const s of G.sheep) if ((s.state === 'stray' || s.state === 'run') && Math.abs(s.x - me.x) < 1 && me.y < 1) {
-      s.state = 'return'; G.gathered++; G.score += 25; float('Gathered! +25', s.x, 2.2, '#bbf7d0'); sound('gather');
+      s.state = 'return'; G.gathered++; G.score += 25; float('Gathered! +25', s.x, 2.2, '#bbf7d0'); sound('gather'); addPower(T.fill.gather);
     }
     // ----- stones -----
     for (const st of G.shots) {
-      st.x += st.vx * dt; st.vy -= 9 * dt; st.y += st.vy * dt;
-      for (const r of G.robbers) if (!st.done && r.act !== 'flee' && Math.abs(r.x - st.x) < 0.6 && st.y < 3.2 && st.y > 0.3) { st.done = true; hurt(r, 1, Math.sign(st.vx)); }
+      st.x += st.vx * dt; if (!st.target) { st.vy -= 9 * dt; st.y += st.vy * dt; }
+      for (const r of G.robbers) if (!st.done && r.act !== 'flee' && (!st.target || st.target === r) && Math.abs(r.x - st.x) < 0.6 && st.y < 3.2 && st.y > 0.3) {
+        st.done = true;
+        if (st.target) hurt(r, r.kind === 'chief' ? 3 : r.hp, Math.sign(st.vx), { push: T.finishPush, daze: T.daze, mighty: true });
+        else hurt(r, 1, Math.sign(st.vx));
+      }
+      if (st.target && st.target.act === 'flee' && !st.done) st.done = true;
       if (st.y < 0 || st.x < -1 || st.x > G.w + 1) st.done = true;
     }
     G.shots = G.shots.filter(s => !s.done);
@@ -179,7 +210,7 @@
     r.t += dt; r.step += dt * 5;
     if (r.kx) { const k = Math.sign(r.kx) * Math.min(Math.abs(r.kx), 9 * dt); r.x += k; r.kx -= k; }
     if (r.act === 'flee') { r.x += r.face * 6.5 * dt; return; }
-    if (r.act === 'hit') { if (r.t > 0.35) { r.act = 'walk'; r.t = 0; } return; }
+    if (r.act === 'hit') { if (r.t > (r.daze || 0.35)) { r.act = 'walk'; r.t = 0; r.daze = 0; } return; }
     if (r.act === 'recover') { if (r.t > 0.5) { r.act = 'walk'; r.t = 0; } return; }
     const dx = me.x - r.x, near = Math.abs(dx) < (chief ? 2.3 : 1.7) && me.act !== 'stun' && me.y < 1.2;
     if (r.act === 'windup') {
@@ -190,6 +221,7 @@
           const front = Math.sign(r.x - me.x) === me.face;
           if (G.time < G.shieldUntil || (blocking && front)) {
             float(G.time < G.shieldUntil ? 'Protected!' : 'Blocked!', me.x, 3.6, '#fde68a'); sound('block');
+            if (blocking && front) me.counterUntil = G.time + T.counterWin;
             r.kx = -r.face * (chief ? 1 : 1.6); r.act = 'hit'; r.t = 0;
             if (chief) me.x = Math.max(0.6, Math.min(G.w - 0.6, me.x + r.face * 0.6));   // the leader's blow still pushes him back
           } else {
@@ -207,7 +239,7 @@
         r.x += r.face * 8.5 * dt;
         if (Math.abs(me.x - r.x) < 1.2 && me.y < 1.2 && me.act !== 'stun') {
           const front = Math.sign(r.x - me.x) === me.face;
-          if (G.time < G.shieldUntil || (blocking && front)) { float('Blocked!', me.x, 3.6, '#fde68a'); sound('block'); r.act = 'hit'; r.t = 0; r.kx = -r.face * 2; }
+          if (G.time < G.shieldUntil || (blocking && front)) { float('Blocked!', me.x, 3.6, '#fde68a'); sound('block'); r.act = 'hit'; r.t = 0; r.kx = -r.face * 2; if (blocking && front) me.counterUntil = G.time + T.counterWin; }
           else { me.stun = T.chiefStun; me.act = 'stun'; me.x = Math.max(0.6, Math.min(G.w - 0.6, me.x + r.face * 3)); float('Stunned!', me.x, 3.6, '#fca5a5'); sound('stun'); r.act = 'recover'; r.t = 0; }
           r.charge = 4;
         }
@@ -238,16 +270,62 @@
     }
   }
   // A blow from the sword or a stone: knocked back, and with the last one, the club is gone and he runs.
-  function hurt(r, n, dir) {
-    r.hp -= n; r.kx = dir * (r.kind === 'chief' ? 1.2 : T.push); r.act = 'hit'; r.t = 0;
+  // o: how far it knocks him back, how long he's dazed, and a word for the move that did it.
+  function hurt(r, n, dir, o) {
+    o = o || {};
+    const push = o.push == null ? T.push : o.push;
+    r.hp -= n; r.kx = dir * (r.kind === 'chief' ? Math.min(1.2, push * 0.45) : push); r.act = 'hit'; r.t = 0; r.daze = o.daze || 0;
     sound('hit');
+    if (o.label) float(o.label, r.x, 4.3, '#fbbf24');
     if (r.hp > 0) { float(r.kind === 'chief' ? `${r.hp} to go` : 'Hit!', r.x, 3.4, '#fde68a'); return; }
     r.act = 'flee'; r.face = r.x < G.w / 2 ? -1 : 1;
     const pts = r.kind === 'chief' ? 500 * G.level : 100;
     G.score += pts;
     if (r.kind === 'chief') G.chiefsOff++; else G.robbersOff++;
+    if (!o.mighty) addPower(r.kind === 'chief' ? T.fill.chief : T.fill.robber);   // the meter's own stones don't refill it
     float(`${r.kind === 'chief' ? 'The leader runs!' : 'He runs!'} +${pts}`, r.x, 3.8, '#bbf7d0'); sound('flee');
     if (r.kind === 'robber' && G.rand() < 0.35) G.drops.push({ x: Math.max(0.8, Math.min(G.w - 0.8, r.x)), at: G.time });
+  }
+
+  // The meter: driving robbers off, gathering sheep, counters, combos and right answers fill it.
+  function addPower(n) {
+    if (!G || G.power >= T.power) return;
+    G.power = Math.min(T.power, G.power + n);
+    if (G.power >= T.power) { float('⚡ Mighty power is ready!', G.me.x, 4.6, '#fbbf24'); sound('ready'); }
+  }
+  // A sword blow: in the air, an overhead blow; just after a block, a counter; else the next in a chain of three.
+  function startStrike(chained) {
+    const me = G.me;
+    let kind = 'strike';
+    if (me.y > 0.25) { kind = 'air'; me.chain = 0; me.hits = 0; }
+    else if (G.time < me.counterUntil) { kind = 'counter'; me.chain = 1; me.hits = 0; }
+    else {
+      me.chain = (chained || G.time < me.chainUntil) && me.chain > 0 && me.chain < 3 ? me.chain + 1 : 1;
+      if (me.chain === 1) me.hits = 0;
+      if (me.chain === 3) kind = 'finish';
+    }
+    me.act = 'strike'; me.kind = kind; me.t = 0; me.landed = false; me.queued = false; me.chainUntil = 0; me.counterUntil = 0;
+    // A counter or a chained blow steps in to the robber in front, so it reaches him.
+    if (kind === 'counter' || me.chain > 1) {
+      const range = kind === 'counter' ? 4.2 : 3.2;
+      const front = G.robbers.filter(r => r.act !== 'flee' && Math.sign(r.x - me.x) === me.face && Math.abs(r.x - me.x) < range)
+        .sort((a, b) => Math.abs(a.x - me.x) - Math.abs(b.x - me.x))[0];
+      if (front && Math.abs(front.x - me.x) > 1.35) me.lx = (Math.abs(front.x - me.x) - 1.35) * me.face;
+    }
+  }
+  // Sword and sling together, with the meter full: a stone "with mighty power" at every robber on the field.
+  function mighty() {
+    const me = G.me;
+    if (G.power < T.power) { float('Not ready yet', me.x, 3.6, '#e5e7eb'); return; }
+    me.press = null;
+    const targets = G.robbers.filter(r => r.act !== 'flee');
+    if (!targets.length) { float('No robbers here yet', me.x, 3.6, '#e5e7eb'); return; }
+    if (me.act === 'sling' && !me.thrown) G.stones++;   // the sling press that began it isn't spent
+    if (me.act === 'strike' || me.act === 'sling') { me.act = 'ready'; me.t = 0; }
+    me.queued = false;
+    G.power = 0; G.flashAt = G.time; G.mighties++;
+    targets.forEach(r => { const dir = Math.sign(r.x - me.x) || me.face; G.shots.push({ x: me.x + dir * 0.4, y: 2, vx: dir * 24, vy: 0, target: r }); });
+    float('Mighty power!', me.x, 4.4, '#fbbf24'); sound('mighty');
   }
 
   function clearLevel() {
@@ -272,7 +350,7 @@
     if (!q || q.picked != null) return;
     q.picked = i;
     const right = q.choices[i] === q.right;
-    if (right) { G.score += 200; G.stones = Math.min(T.stonesMax, G.stones + 4); G.shieldNext = true; sound('right'); }
+    if (right) { G.score += 200; G.stones = Math.min(T.stonesMax, G.stones + 4); G.shieldNext = true; addPower(T.fill.right); sound('right'); }
     else sound('wrong');
     renderQuestion();
   }
@@ -389,7 +467,22 @@
       ctx.fillStyle = '#2563eb'; ctx.fillRect(X(me.x) - u * 0.4, gy - u * 3.1 - X(me.y), u * 0.8, u * 3.1);
     }
     if (me.act === 'stun') { ctx.fillStyle = '#fde68a'; ctx.font = `${Math.round(u * 0.6)}px system-ui`; ctx.textAlign = 'center'; ctx.fillText('💫', X(me.x), gy - u * 3.5 - X(me.y)); }
-    for (const st of G.shots) sprite(ctx, 'stone', X(st.x), gy - X(st.y), u, 1) || (ctx.fillStyle = '#9ca3af', ctx.beginPath(), ctx.arc(X(st.x), gy - X(st.y), u * 0.2, 0, 7), ctx.fill());
+    // The sword's sweep: gold for a finishing blow, a counter or an overhead blow
+    if (me.act === 'strike' && me.t > 0.03 && me.t < 0.24) {
+      const big = me.kind !== 'strike', a = 1 - (me.t - 0.03) / 0.21, cx = X(me.x) + me.face * u * 0.5, cy = gy - u * 1.9 - X(me.y), rad = u * (big ? 1.9 : 1.5);
+      const from = me.kind === 'air' ? -1.5 : -1.1, to = me.kind === 'air' ? 1.3 : 0.9;
+      ctx.save(); ctx.globalAlpha = Math.max(0, a); ctx.lineCap = 'round';
+      ctx.strokeStyle = big ? '#fbbf24' : 'rgba(255,255,255,.85)'; ctx.lineWidth = u * (big ? 0.32 : 0.2);
+      ctx.beginPath();
+      if (me.face > 0) ctx.arc(cx, cy, rad, from, to); else ctx.arc(cx, cy, rad, Math.PI - to, Math.PI - from);
+      ctx.stroke(); ctx.restore();
+    }
+    for (const st of G.shots) {
+      if (st.target) { ctx.fillStyle = 'rgba(251,191,36,.45)'; ctx.beginPath(); ctx.ellipse(X(st.x - Math.sign(st.vx) * 0.5), gy - X(st.y), u * 0.7, u * 0.18, 0, 0, 7); ctx.fill(); }
+      sprite(ctx, 'stone', X(st.x), gy - X(st.y), u, 1) || (ctx.fillStyle = '#9ca3af', ctx.beginPath(), ctx.arc(X(st.x), gy - X(st.y), u * 0.2, 0, 7), ctx.fill());
+    }
+    // Mighty power: a flash of gold over the field
+    if (G.time - G.flashAt < T.flash) { ctx.fillStyle = `rgba(253,230,138,${0.45 * (1 - (G.time - G.flashAt) / T.flash)})`; ctx.fillRect(0, 0, cw, ch); }
     // Words that float up and fade
     ctx.textAlign = 'center'; ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(0,0,0,.6)';
     ctx.font = `900 ${Math.round(Math.max(12, u * 0.5))}px system-ui, sans-serif`;
@@ -435,13 +528,19 @@
         <li><b>Block</b> a club facing it. Ammon can’t be beaten, but a club stuns him for a moment.</li>
         <li>Each level ends with the <b>robbers’ leader</b>, then a question from this week: right, and you get stones and the Lord’s protection.</li>
       </ul>
+      <div class="am-moves"><div class="eyebrow">Moves</div><ul>
+        <li><b>3-hit combo:</b> ${coarse() ? 'SWORD' : 'sword'} three times in a row. The third blow knocks him far, +${T.combo}.</li>
+        <li><b>Overhead:</b> jump, then ${coarse() ? 'SWORD' : 'sword'} in the air. A double blow, and he’s dazed.</li>
+        <li><b>Counter:</b> block his club, then ${coarse() ? 'SWORD' : 'sword'} right away. A double blow.</li>
+        <li><b>⚡ Mighty power:</b> drive robbers off, gather sheep and answer right to fill the meter. When it’s full, ${coarse() ? 'tap <b>⚡ POWER</b>' : 'press <b>J</b> and <b>K</b> together (or <b>E</b>)'}: a stone at every robber on the field.</li>
+      </ul></div>
       <div class="am-scores">${scoresHtml()}</div></div>`);
     hud();
   }
   function renderGame() {
     root.dataset.view = 'game';
     const pads = coarse() ? `<div class="am-pads"><div class="am-pad am-left"><button data-hold="left" aria-label="Left">◀</button><button data-hold="up" aria-label="Jump">▲</button><button data-hold="right" aria-label="Right">▶</button></div>
-      <div class="am-pad am-right"><button data-tap="strike" class="am-act">SWORD</button><button data-tap="sling" class="am-act">SLING</button><button data-hold="block" class="am-act">BLOCK</button></div></div>` : '';
+      <div class="am-pad am-right"><button data-tap="strike" class="am-act">SWORD</button><button data-tap="sling" class="am-act">SLING</button><button data-hold="block" class="am-act">BLOCK</button><button data-tap="power" class="am-act am-power" hidden>⚡ POWER</button></div></div>` : '';
     shell(`<div id="amPanel" class="am-panel" aria-live="polite"></div>
       <div id="amStage" class="am-stage"><div class="am-frame"><canvas id="amCanvas" role="img" aria-label="The waters of Sebus: Ammon, the king's flock and the robbers"></canvas><div id="amBox" class="am-box" hidden></div></div></div>${pads}`);
     hud(); panel();
@@ -464,7 +563,10 @@
     if (!G || root.dataset.view !== 'game') { const best = saved().best || 0; el.innerHTML = best ? `<span class="score-chip">Best ${fmt(best)}</span>` : ''; return; }
     const safe = inFlock(), left = alive().length;
     el.innerHTML = `<span class="score-chip"><b>${fmt(G.score)}</b></span><span class="score-chip">Level ${G.level}</span>
-      <span class="score-chip" title="Sheep with the flock">🐑 ${safe}/${left}${G.lost ? ` <small class="am-lost">· ${G.lost} lost</small>` : ''}</span><span class="score-chip" title="Sling stones">🪨 ${G.stones}</span>`;
+      <span class="score-chip" title="Sheep with the flock">🐑 ${safe}/${left}${G.lost ? ` <small class="am-lost">· ${G.lost} lost</small>` : ''}</span><span class="score-chip" title="Sling stones">🪨 ${G.stones}</span>
+      <span class="score-chip am-meter${G.power >= T.power ? ' full' : ''}" title="Mighty power"><i style="width:${Math.round(100 * G.power / T.power)}%"></i><span>⚡ ${G.power >= T.power ? 'Ready!' : Math.round(100 * G.power / T.power) + '%'}</span></span>`;
+    const pw = root.querySelector('[data-tap="power"]');
+    if (pw) pw.hidden = G.power < T.power;
   }
   function panel() {
     const el = $('amPanel');
@@ -472,9 +574,11 @@
     const strays = G.sheep.filter(s => s.state === 'stray' || s.state === 'run').length;
     let head, line = '';
     if (G.banner && (G.between > 0 || G.time < (G.banner.until || 0))) { head = `<b class="ok">${esc(G.banner.title)}</b> <small>${esc(G.banner.small || '')}</small>`; line = G.banner.line || ''; }
+    else if (G.time - G.flashAt < 4) { head = '<b class="ok">Mighty power!</b> A stone at every robber on the field.'; line = W().mighty || ''; }
     else if (G.me.act === 'stun') head = '<b class="no">Stunned!</b> Face the robber and <b>block</b> his club next time.';
     else if (strays) head = `<b class="no">${strays} ${strays === 1 ? 'sheep is' : 'sheep are'} scattered!</b> Walk to ${strays === 1 ? 'it' : 'them'} to gather the flock.`;
     else if (G.time < G.shieldUntil) head = '<b class="ok">The Lord’s protection</b> is with you for a few seconds.';
+    else if (G.power >= T.power) head = `<b class="ok">⚡ Mighty power is ready!</b> ${coarse() ? 'Tap <b>⚡ POWER</b>' : 'Press <b>J</b> and <b>K</b> together (or <b>E</b>)'} when the robbers come.`;
     else head = 'Keep the robbers away from the flock.';
     if (!line && G.level === 1 && G.robbersOff === 0) line = W().hook || '';
     const html = `<p class="am-status">${head}</p>${line ? `<p class="am-line">${host.html(line)}</p>` : ''}`;
@@ -499,11 +603,18 @@
 
   // ----- input -----
   const KEY = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', a: 'left', d: 'right', w: 'up', A: 'left', D: 'right', W: 'up', l: 'block', L: 'block', c: 'block', C: 'block' };
-  const TAP = { j: 'strike', J: 'strike', z: 'strike', Z: 'strike', k: 'sling', K: 'sling', x: 'sling', X: 'sling' };
+  const TAP = { j: 'strike', J: 'strike', z: 'strike', Z: 'strike', k: 'sling', K: 'sling', x: 'sling', X: 'sling', e: 'power', E: 'power' };
   function act(what) {
     const me = G && G.me;
-    if (!me || G.state !== 'play' || G.paused || G.q || G.ready > 0 || G.between > 0 || me.act === 'stun' || me.act === 'strike' || me.act === 'sling') return;
-    if (what === 'strike') { me.act = 'strike'; me.t = 0; me.landed = false; }
+    if (!me || G.state !== 'play' || G.paused || G.q || G.ready > 0 || G.between > 0 || me.act === 'stun') return;
+    if (what === 'power') return mighty();
+    // Sword and sling pressed together (within a moment), with the meter full
+    const other = { strike: 'sling', sling: 'strike' }[what];
+    if (G.power >= T.power && me.press && me.press.what === other && G.time - me.press.at <= T.together) return mighty();
+    me.press = { what, at: G.time };
+    if (me.act === 'strike') { if (what === 'strike' && me.t >= T.strikeHit[0] && me.kind !== 'air' && me.chain < 3) me.queued = true; return; }   // the next blow of the chain, as this one ends
+    if (me.act === 'sling') return;
+    if (what === 'strike') startStrike(false);
     else if (what === 'sling') {
       if (G.stones <= 0) { float('Out of stones!', me.x, 3.6, '#fca5a5'); return; }
       G.stones--; me.act = 'sling'; me.t = 0; me.thrown = false;
@@ -584,6 +695,15 @@
       #ammon .am-hud { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
       #ammon .am-btns { display: flex; gap: 6px; }
       #ammon .am-lost { color: #fca5a5; font-weight: 800; }
+      #ammon .am-meter { position: relative; overflow: hidden; min-width: 84px; text-align: center; }
+      #ammon .am-meter i { position: absolute; left: 0; top: 0; bottom: 0; background: rgba(251,191,36,.35); }
+      #ammon .am-meter span { position: relative; }
+      #ammon .am-meter.full { box-shadow: 0 0 0 2px #fbbf24, 0 0 14px rgba(251,191,36,.7); }
+      #ammon .am-moves { padding: 10px 14px; border-radius: 14px; background: rgba(251,191,36,.08); border: 1px solid rgba(251,191,36,.3); }
+      #ammon .am-moves ul { margin: 6px 0 0; padding-left: 20px; list-style: disc; display: grid; gap: 5px; font-size: 15px; line-height: 1.4; color: rgba(255,255,255,.88); }
+      #ammon .am-right { position: relative; }
+      #ammon .am-pad .am-act.am-power { position: absolute; right: 0; bottom: calc(100% + 10px); width: auto; height: 52px; padding: 0 16px; border-radius: 26px; background: rgba(217,119,6,.9); color: #fff; font-size: 14px; box-shadow: 0 0 18px rgba(251,191,36,.8); }
+      #ammon .am-pad .am-act.am-power[hidden] { display: none; }
       #ammon .am-menu { max-width: 640px; width: 100%; margin: 14px auto 0; display: grid; gap: 12px; }
       #ammon .am-hero { display: block; width: 100%; height: auto; max-height: 34vh; aspect-ratio: 2 / 1; object-fit: cover; border-radius: 14px; box-shadow: 0 8px 28px rgba(0,0,0,.4); }
       #ammon .am-hook { font-size: 16px; line-height: 1.45; color: rgba(255,255,255,.88); margin: 0; }
@@ -618,6 +738,7 @@
         #ammon .am-top { display: grid; grid-template-columns: 1fr auto; } #ammon .am-hud { grid-column: 1 / -1; grid-row: 2; margin-left: 0; }
         #ammon .am-btns .btn { padding: 8px 12px; } #ammon .score-chip { padding: 4px 10px; font-size: 13px; }
         #ammon .am-pad { gap: 6px; } #ammon .am-pad button { width: 48px; height: 48px; font-size: 17px; } #ammon .am-pad .am-act { width: 56px; height: 56px; font-size: 10px; }
+        #ammon .am-pad .am-act.am-power { width: auto; height: 46px; font-size: 13px; }
       }`;
     document.head.appendChild(css);
   }
