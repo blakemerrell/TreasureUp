@@ -4892,8 +4892,9 @@ window.TU_WEEKS = [
             "end": 1516,
             "title": "followHIM: Isaiah 50–57 with Dr. Ezra Gwilliam",
             "channel": "followHIM Podcast",
-            "previewed": false
-          }
+            "previewed": true
+          },
+          "approved": "62232159"
         }
       },
       {
@@ -5063,8 +5064,9 @@ window.TU_WEEKS = [
             "end": 3766,
             "title": "followHIM: Isaiah 50–57 with Dr. Ezra Gwilliam",
             "channel": "followHIM Podcast",
-            "previewed": false
-          }
+            "previewed": true
+          },
+          "approved": "f8fe3e53"
         }
       },
       {
@@ -5152,8 +5154,9 @@ window.TU_WEEKS = [
             "end": 5786,
             "title": "followHIM: Isaiah 50–57 with Dr. Ezra Gwilliam",
             "channel": "followHIM Podcast",
-            "previewed": false
-          }
+            "previewed": true
+          },
+          "approved": "b02c08dd"
         }
       },
       {
@@ -5294,7 +5297,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/115"
         },
         "find": "Have I put thee away, or have I cast thee off forever?",
-        "note": "Joseph Smith’s Bible revision adds the Lord’s question, “Have I put thee away, or have I cast thee off forever?”, as Nephi’s copy of Isaiah has it (2 Nephi 7:1)."
+        "note": "Joseph Smith’s Bible revision adds the Lord’s question, “Have I put thee away, or have I cast thee off forever?”, as Nephi’s copy of Isaiah has it (2 Nephi 7:1).",
+        "approved": "1a1626d4"
       },
       {
         "id": "isa52-jsp-then-say",
@@ -5308,7 +5312,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
         },
         "find": "And then shall they say, How beautiful upon the mountains",
-        "note": "Joseph Smith’s Bible revision begins this verse “And then shall they say,” and adds that the good tidings are brought to them, as the Savior said it in 3 Nephi 20:40."
+        "note": "Joseph Smith’s Bible revision begins this verse “And then shall they say,” and adds that the good tidings are brought to them, as the Savior said it in 3 Nephi 20:40.",
+        "approved": "15a51316"
       },
       {
         "id": "isa52-jsp-gather",
@@ -5322,7 +5327,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
         },
         "find": "that saith unto Zion, Thy God reigneth. 15 gather",
-        "note": "The page where this change was first written down: for verse 15, Joseph Smith’s Old Testament manuscript has one word, “gather.”"
+        "note": "The page where this change was first written down: for verse 15, Joseph Smith’s Old Testament manuscript has one word, “gather.”",
+        "approved": "1737a8e9"
       },
       {
         "id": "isa52-jsp-strength",
@@ -5336,7 +5342,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/questions-and-answers-between-circa-16-and-circa-29-march-1838-b-dc-1137-10/1"
         },
         "find": "He had reference to those whome God should call in the last day’s who should hold the power of Priesthood",
-        "note": "The first record of this answer: Joseph Smith’s reply to Elias Higbee in March 1838, written in his journal, explains Zion’s strength as priesthood authority (D&C 113:7–10)."
+        "note": "The first record of this answer: Joseph Smith’s reply to Elias Higbee in March 1838, written in his journal, explains Zion’s strength as priesthood authority (D&C 113:7–10).",
+        "approved": "63c79dda"
       },
       {
         "id": "isa52-jsp-gladness",
@@ -5350,7 +5357,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-the-church-7-september-1842-dc-128/6"
         },
         "find": "Now what do we hear in the gospel which we have received? a voice of gladness!",
-        "note": "Joseph Smith quoted this verse in his 1842 letter on baptism for the dead (D&C 128:19): glad tidings for the living and the dead, “a voice of gladness!”"
+        "note": "Joseph Smith quoted this verse in his 1842 letter on baptism for the dead (D&C 128:19): glad tidings for the living and the dead, “a voice of gladness!”",
+        "approved": "efead935"
       },
       {
         "id": "isa53-jsp-lamb",
@@ -5364,7 +5372,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-the-church-in-caldwell-county-missouri-16-december-1838/2"
         },
         "find": "aided him in leading us, as the savior was led, into the camp",
-        "note": "From Liberty Jail in December 1838, Joseph Smith used this verse for his own betrayal: led “as the savior was led,” and silent, like a sheep before the shearer."
+        "note": "From Liberty Jail in December 1838, Joseph Smith used this verse for his own betrayal: led “as the savior was led,” and silent, like a sheep before the shearer.",
+        "approved": "60aa9897"
       },
       {
         "id": "isa54-jsp-small-moment",
@@ -5378,7 +5387,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-the-church-and-edward-partridge-20-march-1839/8"
         },
         "find": "my son pease be unto thy soul thine advirsity and thy afflictions shall be but a small moment",
-        "note": "From Liberty Jail in 1839, the Lord told Joseph Smith his troubles “shall be but a small moment” (D&C 121:7–8), echoing this verse."
+        "note": "From Liberty Jail in 1839, the Lord told Joseph Smith his troubles “shall be but a small moment” (D&C 121:7–8), echoing this verse.",
+        "approved": "9067b8b6"
       }
     ]
   },
@@ -6943,8 +6953,9 @@ window.TU_WEEKS = [
             "end": 2856,
             "title": "followHIM: Isaiah 58–66, part 2, with Dr. Ross Baron",
             "channel": "followHIM Podcast",
-            "previewed": false
-          }
+            "previewed": true
+          },
+          "approved": "eebdd105"
         }
       },
       {
@@ -7019,8 +7030,9 @@ window.TU_WEEKS = [
             "end": 3214,
             "title": "followHIM: Isaiah 58–66, part 2, with Dr. Ross Baron",
             "channel": "followHIM Podcast",
-            "previewed": false
-          }
+            "previewed": true
+          },
+          "approved": "fd41556b"
         }
       },
       {
@@ -7177,7 +7189,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
         },
         "find": "Isaiah, Chapter 62 LXII verse 4 Delightful",
-        "note": "Joseph Smith’s Bible revision puts these names in English: Hephzi-bah becomes Delightful, and Beulah, the land, becomes Union."
+        "note": "Joseph Smith’s Bible revision puts these names in English: Hephzi-bah becomes Delightful, and Beulah, the land, becomes Union.",
+        "approved": "1dda1c8b"
       },
       {
         "id": "isa63-jsp-suffered",
@@ -7191,7 +7204,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
         },
         "find": "Isaiah, Chapter 63 LXIII verse 17— suffered",
-        "note": "In Joseph Smith’s Old Testament manuscript, the change for this verse is the word “suffered”: the Lord allowed them to err and to harden their hearts. He didn’t make them."
+        "note": "In Joseph Smith’s Old Testament manuscript, the change for this verse is the word “suffered”: the Lord allowed them to err and to harden their hearts. He didn’t make them.",
+        "approved": "9daf60b7"
       },
       {
         "id": "isa64-jsp-continuance",
@@ -7205,7 +7219,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
         },
         "find": "Thou meetest him that worketh righteousness, and rejoiceth him that",
-        "note": "Joseph Smith’s Bible revision drops “behold, thou art wroth” and reads that in righteousness there is continuance, and such shall be saved (his manuscript, pages 110–111)."
+        "note": "Joseph Smith’s Bible revision drops “behold, thou art wroth” and reads that in righteousness there is continuance, and such shall be saved (his manuscript, pages 110–111).",
+        "approved": "0a33a359"
       },
       {
         "id": "isa65-jsp-seek",
@@ -7219,7 +7234,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/118"
         },
         "find": "I am found of them who seek after me; I give unto all them that ask of me",
-        "note": "Joseph Smith’s Bible revision turns this verse around: “I am found of them who seek after me,” and the Lord gives to all who ask of Him."
+        "note": "Joseph Smith’s Bible revision turns this verse around: “I am found of them who seek after me,” and the Lord gives to all who ask of Him.",
+        "approved": "a6d28de6"
       },
       {
         "id": "isa65-jsp-hundred",
@@ -7233,7 +7249,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/118"
         },
         "find": "for the child shall not die, but shall live to be a hundred years old",
-        "note": "Joseph Smith’s Bible revision: “the child shall not die, but shall live to be a hundred years old,” in those days of the new heavens and new earth."
+        "note": "Joseph Smith’s Bible revision: “the child shall not die, but shall live to be a hundred years old,” in those days of the new heavens and new earth.",
+        "approved": "55b321ab"
       },
       {
         "id": "isa60-jsp-arise",
@@ -7247,7 +7264,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/revelation-26-april-1838-dc-115/2"
         },
         "find": "Verrily I say unto you all; arise and shine",
-        "note": "In the 1838 revelation that named the Church (D&C 115:5), the Lord gave this verse to the Saints: arise and shine, “that thy light may be a standard for the nations.”"
+        "note": "In the 1838 revelation that named the Church (D&C 115:5), the Lord gave this verse to the Saints: arise and shine, “that thy light may be a standard for the nations.”",
+        "approved": "11ad43f3"
       },
       {
         "id": "isa60-jsp-emma",
@@ -7261,7 +7279,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-emma-smith-13-october-1832/1"
         },
         "find": "Oh how long Oh Lord Shall this order of things exist and darkness cover the Earth and gross darkness cover the people",
-        "note": "In a letter to Emma in his own hand (New York City, 1832), Joseph Smith prayed in this verse’s words: how long shall “darkness cover the Earth”?"
+        "note": "In a letter to Emma in his own hand (New York City, 1832), Joseph Smith prayed in this verse’s words: how long shall “darkness cover the Earth”?",
+        "approved": "4d1926a3"
       },
       {
         "id": "isa63-jsp-winepress",
@@ -7275,7 +7294,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/revelation-3-november-1831-dc-133/4"
         },
         "find": "I have trodden the wine press alone & have brought Judgement upon all people & none was with me",
-        "note": "Joseph Smith’s November 1831 revelation on the Second Coming (D&C 133:46–53) takes up this chapter: “I have trodden the wine press alone.”"
+        "note": "Joseph Smith’s November 1831 revelation on the Second Coming (D&C 133:46–53) takes up this chapter: “I have trodden the wine press alone.”",
+        "approved": "4f992f78"
       },
       {
         "id": "isa65-jsp-tree",
@@ -7289,7 +7309,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/discourse-circa-16march-1841/1"
         },
         "find": "Isaiah says the Days of an infant shall be as the age of a tree",
-        "note": "In an 1841 sermon, as a listener recorded it, Joseph Smith cited this: “Isaiah says the Days of an infant shall be as the age of a tree.”"
+        "note": "In an 1841 sermon, as a listener recorded it, Joseph Smith cited this: “Isaiah says the Days of an infant shall be as the age of a tree.”",
+        "approved": "82f20af7"
       }
     ]
   },
@@ -8523,7 +8544,7 @@ window.TU_WEEKS = [
         "notes": [
           {
             "v": 8,
-            "text": "The KJV says the Lord will “repent,” here and in verse 10. In similar verses (Jeremiah 26:13; 26:19), the Joseph Smith Translation says the people repent and the Lord turns away the evil."
+            "text": "The KJV says the Lord will “repent,” here and in verse 10. Joseph Smith’s Bible revision gives ‘withhold’ for both verses: the Lord withholds the evil, or the good. It makes similar changes in Jeremiah 26:13 and 26:19."
           }
         ],
         "review": [
@@ -8540,7 +8561,7 @@ window.TU_WEEKS = [
             "about": "Verses 19–23 are Jeremiah’s hard prayer against the people plotting to kill him, kept as the KJV has it."
           }
         ],
-        "approved": "65cdbc75"
+        "approved": "119371ba"
       },
       {
         "ch": "Jeremiah 20",
@@ -8860,8 +8881,9 @@ window.TU_WEEKS = [
             "end": 1446,
             "title": "followHIM: Jeremiah, part 1, with Dr. John Hilton III",
             "channel": "followHIM Podcast",
-            "previewed": false
-          }
+            "previewed": true
+          },
+          "approved": "363f9fcd"
         }
       },
       {
@@ -8923,8 +8945,9 @@ window.TU_WEEKS = [
             "end": 2092,
             "title": "followHIM: Jeremiah, part 1, with Dr. John Hilton III",
             "channel": "followHIM Podcast",
-            "previewed": false
-          }
+            "previewed": true
+          },
+          "approved": "83ced03c"
         }
       },
       {
@@ -8971,8 +8994,9 @@ window.TU_WEEKS = [
             "end": 2253,
             "title": "followHIM: Jeremiah, part 2, with Dr. John Hilton III",
             "channel": "followHIM Podcast",
-            "previewed": false
-          }
+            "previewed": true
+          },
+          "approved": "2eb9ac27"
         }
       },
       {
@@ -9182,8 +9206,9 @@ window.TU_WEEKS = [
           "end": 244,
           "title": "Jeremiah the Prophet | Animated Scripture Lesson for Kids",
           "channel": "Latter Day Kids",
-          "previewed": false
-        }
+          "previewed": true
+        },
+        "approved": "13c39c58"
       },
       {
         "id": "jer18-jsp-withhold",
@@ -9197,7 +9222,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/118"
         },
         "find": "turn from — withhold",
-        "note": "Joseph Smith’s Old Testament manuscript gives one word for this verse and for verse 10: “withhold.” The Lord withholds the evil, or the good, rather than repenting; the page doesn’t mark the spot, but it can only replace “repent of.”"
+        "note": "Joseph Smith’s Old Testament manuscript gives one word for this verse and for verse 10: “withhold.” The Lord withholds the evil, or the good, rather than repenting; the page doesn’t mark the spot, but it can only replace “repent of.”",
+        "approved": "1458ca38"
       },
       {
         "id": "jer16-jsp-lies",
@@ -9211,7 +9237,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-edward-partridge-and-the-church-circa-22-march-1839/6"
         },
         "find": "upheld by the influance of that spirit which hath so strongly rivited the creeds of the fathers",
-        "note": "From Liberty Jail in 1839, Joseph Smith used this verse’s words for the false traditions behind the Saints’ persecution: creeds of the fathers “who have inherited lies” (D&C 123:7)."
+        "note": "From Liberty Jail in 1839, Joseph Smith used this verse’s words for the false traditions behind the Saints’ persecution: creeds of the fathers “who have inherited lies” (D&C 123:7).",
+        "approved": "7c59c62e"
       },
       {
         "id": "jer17-jsp-tree",
@@ -9225,7 +9252,8 @@ window.TU_WEEKS = [
           "url": "https://www.josephsmithpapers.org/paper-summary/revelation-2-august-1833-a-dc-97/2"
         },
         "find": "a very fruitful tree which is planted in a goodly land by a pure stream that yealdeth much precious fruit",
-        "note": "An 1833 revelation to Joseph Smith (D&C 97:9) uses this picture: the honest and contrite will be like “a very fruitful tree” by a pure stream."
+        "note": "An 1833 revelation to Joseph Smith (D&C 97:9) uses this picture: the honest and contrite will be like “a very fruitful tree” by a pure stream.",
+        "approved": "ed6e9ac6"
       }
     ]
   }
