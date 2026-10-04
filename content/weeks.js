@@ -5281,6 +5281,48 @@ window.TU_WEEKS = [
           "channel": "The Church of Jesus Christ of Latter-day Saints",
           "previewed": false
         }
+      },
+      {
+        "id": "isa50-jsp-cast-off",
+        "ref": "Isaiah 50:1",
+        "title": "Joseph’s Bible: never cast off",
+        "text": "In the early 1830s Joseph Smith made an inspired revision of the Bible. In his manuscript, Isaiah 50:1 begins with a new question from the Lord: “Have I put thee away, or have I cast thee off forever?” The answer is no. The Lord never walks away from His people. Nephi’s copy of Isaiah reads the same way (2 Nephi 7:1).",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 108",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/115"
+        },
+        "find": "Have I put thee away, or have I cast thee off forever?",
+        "note": "Joseph Smith’s Bible revision adds the Lord’s question, “Have I put thee away, or have I cast thee off forever?”, as Nephi’s copy of Isaiah has it (2 Nephi 7:1)."
+      },
+      {
+        "id": "isa52-jsp-then-say",
+        "ref": "Isaiah 52:7",
+        "title": "Joseph’s Bible: then they will say it",
+        "text": "In Joseph Smith’s inspired revision of the Bible, Isaiah 52:7 starts with new words: “And then shall they say.” That makes the verse what the Lord’s people will say on the day they know Him (verse 6), and it adds that the good news is brought to them. When Jesus taught this verse in America, He said it the same way (3 Nephi 20:40).",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 110",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
+        },
+        "find": "And then shall they say, How beautiful upon the mountains",
+        "note": "Joseph Smith’s Bible revision begins this verse “And then shall they say,” and adds that the good tidings are brought to them, as the Savior said it in 3 Nephi 20:40."
+      },
+      {
+        "id": "isa52-jsp-gather",
+        "ref": "Isaiah 52:15",
+        "title": "Joseph’s Bible: gather, not sprinkle",
+        "text": "The King James Version says the Lord’s servant will “sprinkle many nations.” In Joseph Smith’s Bible manuscript, his scribe wrote just one word for this verse: “gather.” So the servant will gather many nations. The footnotes in our Bible give this change too, and here you can see the page where it was first written down, in the early 1830s.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 110",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
+        },
+        "find": "that saith unto Zion, Thy God reigneth. 15 gather",
+        "note": "The page where this change was first written down: for verse 15, Joseph Smith’s Old Testament manuscript has one word, “gather.”"
       }
     ]
   },
@@ -7065,6 +7107,76 @@ window.TU_WEEKS = [
           "channel": "Scripture Central",
           "previewed": false
         }
+      },
+      {
+        "id": "isa62-jsp-names",
+        "ref": "Isaiah 62:4",
+        "title": "Joseph’s Bible: names in English",
+        "text": "Isaiah promises Zion new names, “Hephzi-bah,” and for her land, “Beulah.” They are Hebrew words, and the verse tells what they mean: “the LORD delighteth in thee, and thy land shall be married.” In Joseph Smith’s Bible manuscript the names are written in English instead: Delightful, and Union. The Lord delights in His people and is joined to them by covenant.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 110",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
+        },
+        "find": "Isaiah, Chapter 62 LXII verse 4 Delightful",
+        "note": "Joseph Smith’s Bible revision puts these names in English: Hephzi-bah becomes Delightful, and Beulah, the land, becomes Union."
+      },
+      {
+        "id": "isa63-jsp-suffered",
+        "ref": "Isaiah 63:17",
+        "title": "Joseph’s Bible: God doesn’t make us sin",
+        "text": "The people ask the Lord why He has “made us to err from thy ways.” Does God make people do wrong? Joseph Smith’s Bible manuscript has one word for this verse: “suffered,” which means allowed. God lets us choose, even when we choose wrong, but He never makes us sin. The verse now says He allowed their hearts to harden.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 110",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
+        },
+        "find": "Isaiah, Chapter 63 LXIII verse 17— suffered",
+        "note": "In Joseph Smith’s Old Testament manuscript, the change for this verse is the word “suffered”: the Lord allowed them to err and to harden their hearts. He didn’t make them."
+      },
+      {
+        "id": "isa64-jsp-continuance",
+        "ref": "Isaiah 64:5",
+        "title": "Joseph’s Bible: such shall be saved",
+        "text": "Isaiah 64:5 is hard to follow in the King James Version: “thou art wroth; for we have sinned: in those is continuance.” Joseph Smith’s Bible manuscript makes it clear. The Lord meets those who do right and brings joy to those who remember Him, and in righteousness there is continuance: they shall be saved. Then the people admit their sins and plead for mercy.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 110",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/117"
+        },
+        "find": "Thou meetest him that worketh righteousness, and rejoiceth him that",
+        "note": "Joseph Smith’s Bible revision drops “behold, thou art wroth” and reads that in righteousness there is continuance, and such shall be saved (his manuscript, pages 110–111)."
+      },
+      {
+        "id": "isa65-jsp-seek",
+        "ref": "Isaiah 65:1",
+        "title": "Joseph’s Bible: found by those who seek",
+        "text": "In the King James Version the Lord says, “I am found of them that sought me not.” On page 111 of Joseph Smith’s Old Testament manuscript, written in the early 1830s, the verse is turned around: “I am found of them who seek after me.” The Lord is found by those who look for Him, and He gives to all who ask.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 111",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/118"
+        },
+        "find": "I am found of them who seek after me; I give unto all them that ask of me",
+        "note": "Joseph Smith’s Bible revision turns this verse around: “I am found of them who seek after me,” and the Lord gives to all who ask of Him."
+      },
+      {
+        "id": "isa65-jsp-hundred",
+        "ref": "Isaiah 65:20",
+        "title": "Joseph’s Bible: no child will die",
+        "text": "Isaiah describes new heavens and a new earth. The King James Version says “the child shall die an hundred years old,” which is confusing. Joseph Smith’s Bible manuscript reads, “the child shall not die, but shall live to be a hundred years old.” In those days, children won’t die young.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 111",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/118"
+        },
+        "find": "for the child shall not die, but shall live to be a hundred years old",
+        "note": "Joseph Smith’s Bible revision: “the child shall not die, but shall live to be a hundred years old,” in those days of the new heavens and new earth."
       }
     ]
   },
@@ -8959,6 +9071,20 @@ window.TU_WEEKS = [
           "channel": "Latter Day Kids",
           "previewed": false
         }
+      },
+      {
+        "id": "jer18-jsp-withhold",
+        "ref": "Jeremiah 18:8",
+        "title": "Joseph’s Bible: the Lord withholds",
+        "text": "In the King James Version the Lord says that when a nation turns from its evil, He will “repent of the evil” He planned. Repent can sound as if the Lord did something wrong. In Joseph Smith’s Bible manuscript, the word for this verse, and again for verse 10, is “withhold.” When a people turn from evil, the Lord holds back the punishment He warned them of.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 111",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/118"
+        },
+        "find": "turn from — withhold",
+        "note": "Joseph Smith’s Old Testament manuscript gives one word for this verse and for verse 10: “withhold.” The Lord withholds the evil, or the good, rather than repenting; the page doesn’t mark the spot, but it can only replace “repent of.”"
       }
     ]
   }
