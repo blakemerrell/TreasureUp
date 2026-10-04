@@ -138,11 +138,16 @@ service cloud.firestore {
         && request.resource.data.created == request.time
         && getAfter(memberPath(request.auth.uid)).data.role == 'parent';
       // A parent turns the family goal on or off (everyone reads all of the
-      // week's chapters; Blake, 2026-10-02), or saves the rewards shop's prizes
-      // (Blake, 2026-10-04). Nothing else about a family changes.
+      // week's chapters; Blake, 2026-10-02), saves the rewards shop's prizes
+      // (Blake, 2026-10-04), or sets the family's goal for a Season (My
+      // Season, 2026-10-04). Nothing else about a family changes.
       allow update: if isParent() && (
         (changes(['goal']) && request.resource.data.goal is bool)
-        || (changes(['prizes']) && request.resource.data.prizes is list && request.resource.data.prizes.size() <= 40));
+        || (changes(['prizes']) && request.resource.data.prizes is list && request.resource.data.prizes.size() <= 40)
+        || (changes(['seasonGoal']) && request.resource.data.seasonGoal is map
+            && request.resource.data.seasonGoal.keys().hasOnly(['sid', 'text'])
+            && request.resource.data.seasonGoal.sid is string && request.resource.data.seasonGoal.sid.size() <= 10
+            && request.resource.data.seasonGoal.text is string && request.resource.data.seasonGoal.text.size() <= 140));
 
       match /members/{uid} {
         function founding() {
@@ -333,6 +338,31 @@ service cloud.firestore {
           && ((resource.data.status == 'pending' && request.resource.data.status == 'cancelled')
               || (request.resource.data.pin == true && request.resource.data.status in ['approved', 'given', 'declined']));
         allow delete: if isParent();
+      }
+
+      // My Season (2026-10-04): what each person's Season shows the family
+      // (a private goal goes without its words), written only by that person.
+      match /seasons/{pid} {
+        allow read: if isMember();
+        allow create, update: if isMember() && me().pid == pid
+          && only(['name', 'sid', 'goals', 'wk', 'updated'])
+          && request.resource.data.name == me().name
+          && request.resource.data.sid is string && request.resource.data.sid.size() <= 10
+          && request.resource.data.goals is list && request.resource.data.goals.size() <= 6
+          && request.resource.data.wk is string && request.resource.data.wk.size() <= 10
+          && request.resource.data.updated == request.time;
+        allow delete: if isParent() || (isMember() && me().pid == pid);
+      }
+      // A 👏 from one person to another, cleared by whoever it was for once seen.
+      match /cheers/{id} {
+        allow read: if isMember() && (resource.data.to == me().pid || resource.data.from == me().pid || isParent());
+        allow create: if isMember()
+          && only(['from', 'name', 'to', 'at'])
+          && request.resource.data.from == me().pid
+          && request.resource.data.name == me().name
+          && request.resource.data.to is string && request.resource.data.to.size() <= 64
+          && request.resource.data.at == request.time;
+        allow delete: if isMember() && (resource.data.to == me().pid || isParent());
       }
 
       match /feedback/{id} {
