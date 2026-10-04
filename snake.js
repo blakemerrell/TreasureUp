@@ -25,6 +25,7 @@
     qEvery: 4, qSeconds: 25,               // a question after every 4 manna, up for 25 seconds
     quailChance: 0.2, quailMs: 7000, brassMs: 12000,
     levelEvery: 8,                         // things eaten (manna, quail, right answers) a level
+    resumeMs: 3000,                        // 3, 2, 1 after reading a question, before the snake goes again
     ghostMs: 2200, respawnMs: 1200,        // after looking to the brass serpent, or (2 players) a crash
     round2p: 120, crash2p: 50,             // a 2-player round's seconds, and what a crash costs
     feedbackMs: 6000
@@ -55,7 +56,7 @@
   // ----- sound: short blips from the browser (⏸ and 🔊 in the bar) -----
   function sound(kind) {
     if (saved().muted || !audio) return;
-    const notes = { manna: [[880, 0.05]], quail: [[660, 0.06], [990, 0.06]], right: [[523, 0.08], [659, 0.08], [784, 0.12]], wrong: [[196, 0.18]],
+    const notes = { tick: [[660, 0.06]], go: [[880, 0.06], [1175, 0.12]], manna: [[880, 0.05]], quail: [[660, 0.06], [990, 0.06]], right: [[523, 0.08], [659, 0.08], [784, 0.12]], wrong: [[196, 0.18]],
       crash: [[150, 0.25]], brass: [[784, 0.08], [988, 0.08], [1175, 0.16]], level: [[440, 0.07], [554, 0.07], [659, 0.07], [880, 0.14]], ask: [[587, 0.06], [784, 0.08]] }[kind] || [];
     let t = audio.currentTime + 0.01;
     notes.forEach(([f, d]) => {
@@ -253,7 +254,10 @@
     if (i == null) r.ready = r.ready.map(() => true); else r.ready[i] = true;
     if (!r.ready.every(Boolean)) return;
     G.reading = null;
-    if (G.q && G.q.until === Infinity) G.q.until = G.time + T.qSeconds * 1000;
+    // Then 3, 2, 1 before the snake goes again (Javan: "a little countdown timer
+    // to know … when I'm going to start again"). The question's clock starts after it.
+    if (manual()) { if (G.q && G.q.until === Infinity) G.q.until = G.time + T.qSeconds * 1000; }
+    else { G.ready = T.resumeMs; G.readyTip = 'Get ready… then eat the right jar!'; sound('tick'); }
     if (G.paused) pause(false);
     last = performance.now(); G.acc = 0;
     if (i != null && name) turn(i, name);
@@ -528,7 +532,7 @@
       ctx.fillStyle = '#fff'; ctx.strokeStyle = 'rgba(0,0,0,.55)'; ctx.lineWidth = 6; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.font = `900 ${Math.round(Math.min(w, h) * 0.3)}px system-ui, sans-serif`; ctx.strokeText(n, w / 2, h / 2); ctx.fillText(n, w / 2, h / 2);
       ctx.font = `800 ${Math.round(cell * 0.8)}px system-ui, sans-serif`;
-      const tip = G.mode === '2p' ? 'Player 1: arrows · Player 2: W A S D' : coarse() ? 'Swipe or use the pad to steer' : 'Arrow keys or W A S D to steer';
+      const tip = G.readyTip || (G.mode === '2p' ? 'Player 1: arrows · Player 2: W A S D' : coarse() ? 'Swipe or use the pad to steer' : 'Arrow keys or W A S D to steer');
       ctx.strokeText(tip, w / 2, h / 2 + Math.min(w, h) * 0.22); ctx.fillText(tip, w / 2, h / 2 + Math.min(w, h) * 0.22);
     }
     // Points and words rising from where they happened
@@ -587,26 +591,15 @@
     if (G.state === 'over') return renderOver();
     hud(); panel();
   }
-  // Full screen, where the browser allows it (not on an iPhone): the browser's bars go too.
-  const fsCan = () => !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
-  const fsOn = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
-  function fsToggle() {
-    try {
-      if (fsOn()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
-      else { const r = (root.requestFullscreen || root.webkitRequestFullscreen).call(root); if (r && r.catch) r.catch(() => {}); }
-    } catch (e) { /* not allowed here */ }
-  }
-  function onFs() {
-    const b = root && root.querySelector('[data-sn="fs"]');
-    if (b) { b.textContent = fsOn() ? '🗗' : '⛶'; b.setAttribute('aria-label', fsOn() ? 'Leave full screen' : 'Full screen'); }
-    setTimeout(onResize, 120);
-  }
+  // Full screen is the whole app's (fullscreen.js: its button here, in the top bar and elsewhere); when it changes, refit the board if the snake hasn't moved yet.
+  const fsBtn = () => window.TUFull ? TUFull.html('btn ghost') : '';
+  function onFs() { setTimeout(onResize, 120); }
   function shell(body) {
     root.dataset.view = ui.view; root.dataset.mode = G ? G.mode : ui.mode;
     root.innerHTML = `<div class="sn-top">
         <div class="sn-name"><div class="eyebrow">Arcade · no XP, just for fun</div><div class="board-title">Wilderness Snake</div></div>
         <div id="snHud" class="sn-hud"></div>
-        <div class="sn-btns">${G && G.state === 'play' && ui.view === 'game' ? '<button class="btn ghost" data-sn="pause" aria-label="Pause"><svg class="sn-ico2" viewBox="0 0 12 14" aria-hidden="true"><rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/></svg></button>' : ''}${fsCan() ? `<button class="btn ghost" data-sn="fs" aria-label="${fsOn() ? 'Leave full screen' : 'Full screen'}">${fsOn() ? '🗗' : '⛶'}</button>` : ''}<button class="btn ghost" data-sn="sound" aria-label="Sound on or off">${saved().muted ? '🔈' : '🔊'}</button><button class="btn ghost" data-sn="exit">Exit</button></div>
+        <div class="sn-btns">${G && G.state === 'play' && ui.view === 'game' ? '<button class="btn ghost" data-sn="pause" aria-label="Pause"><svg class="sn-ico2" viewBox="0 0 12 14" aria-hidden="true"><rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/></svg></button>' : ''}${fsBtn()}<button class="btn ghost" data-sn="sound" aria-label="Sound on or off">${saved().muted ? '🔈' : '🔊'}</button><button class="btn ghost" data-sn="exit">Exit</button></div>
       </div>${body}`;
   }
 
@@ -709,7 +702,8 @@
     if (G.q && G.reading) {
       html = `<p class="sn-idle">📜 A question! Read it, then go.</p><p class="sn-why">The snake waits while you read.</p>`;
     } else if (G.q) {
-      const left = Math.max(0, Math.ceil((G.q.until - G.time) / 1000)), pct = Math.max(0, (G.q.until - G.time) / (T.qSeconds * 1000)) * 100;
+      const wait = G.q.until === Infinity;   // the 3, 2, 1 after reading: the clock hasn't started
+      const left = wait ? T.qSeconds : Math.max(0, Math.ceil((G.q.until - G.time) / 1000)), pct = wait ? 100 : Math.max(0, (G.q.until - G.time) / (T.qSeconds * 1000)) * 100;
       html = `<div class="sn-qhead"><span class="eyebrow">📜 Eat the right jar · tap here to read it again</span><b class="${left <= 5 ? 'sn-hot' : ''}">${left}s</b></div>
         <div class="sn-bar"><i style="width:${pct}%"></i></div>
         <p class="sn-q">${esc(G.q.q)}</p>
@@ -791,7 +785,6 @@
     else if (act === 'resume') pause(false);
     else if (act === 'quit') { pause(false); gameOver(); }
     else if (act === 'go') ready(null);
-    else if (act === 'fs') fsToggle();
   }
   // The pads steer on touch, right away (not on the click after it).
   function onPadDown(e) {
@@ -826,7 +819,13 @@
     if (!root || root.hidden) return;
     const dt = Math.min(250, now - last);
     last = now;
-    if (G && G.state === 'play' && ui.view === 'game' && !G.paused && !manual() && G.ready > 0) G.ready = Math.max(0, G.ready - dt);   // 3, 2, 1…
+    if (G && G.state === 'play' && ui.view === 'game' && !G.paused && !manual() && G.ready > 0) {   // 3, 2, 1…
+      const was = Math.ceil(G.ready / 1000);
+      G.ready = Math.max(0, G.ready - dt);
+      const now1 = Math.ceil(G.ready / 1000);
+      if (now1 !== was) sound(now1 ? 'tick' : 'go');
+      if (!G.ready) { G.readyTip = null; if (G.q && G.q.until === Infinity) G.q.until = G.time + T.qSeconds * 1000; }
+    }
     else if (G && G.state === 'play' && ui.view === 'game' && !G.paused && !manual() && !G.reading) {
       G.acc += dt;
       let n = 0;
@@ -962,7 +961,6 @@
     cancelAnimationFrame(raf);
     if (keyOff) keyOff();
     keyOff = null;
-    if (fsOn()) try { (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch (e) {}
     G = null;
     if (root) { root.hidden = true; root.innerHTML = ''; }
     document.body.style.overflow = '';

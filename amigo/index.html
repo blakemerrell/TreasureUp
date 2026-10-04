@@ -36,6 +36,7 @@
   #app { max-width: 520px; margin: 0 auto; min-height: 100%; height: 100%; display: flex; flex-direction: column;
     padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
   .bar { display: flex; align-items: center; gap: 10px; padding: 14px 16px 8px; }
+  .bar .fs { margin-left: auto; }
   .bar h1 { margin: 0; font-size: 20px; font-weight: 900; text-wrap: balance; }
   .bar .dot { color: var(--gold); }
   .back { flex: none; width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel);
@@ -178,6 +179,7 @@
 <div id="app"></div>
 <!-- ?v=dev becomes this deploy's commit (pages.yml), so a phone never runs a
      new page with old cached scripts or an old list of recordings. -->
+<script src="../fullscreen.js"></script>
 <script src="engine.js?v=dev"></script>
 <script src="baybayin.js?v=dev"></script>
 <script src="course-es.js?v=dev"></script>
@@ -351,7 +353,7 @@
     const tatay = shows(TL.tatay) ? `<h2 class="sub">A little Tagalog from Tatay${notChecked(TL.tatay) ? ' <span class="chip warn">Not checked yet</span>' : ''}</h2>
       <div class="mini">${TL.tatay.words.map(([w, en]) => `<button class="word" data-say="${esc(w)}"><b>${esc(w)}</b><small>${esc(en)}</small></button>`).join('')}</div>` : '';
     return `
-      <div class="bar"><a class="back" href="../" aria-label="Back to Treasure Up">←</a><h1>Amigo <span class="dot">·</span> Kaibigan</h1></div>
+      <div class="bar"><a class="back" href="../" aria-label="Back to Treasure Up">←</a><h1>Amigo <span class="dot">·</span> Kaibigan</h1>${window.TUFull ? TUFull.html('back fs') : ''}</div>
       <div class="screen">
         <p class="hello">Both words mean friend. Spanish for friends at school, and Tagalog from Tatay. Five minutes a day.</p>
         ${courseCard('es')}
