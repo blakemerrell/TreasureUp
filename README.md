@@ -261,7 +261,12 @@ way for their bearers, who can still build without one.
 
 **The temple and its miracles** (free battle, once the hall of the captains
 stands): built "after the manner of the temple of Solomon" (2 Nephi 5:16),
-mostly of stone. Your people near it are made whole; the council comes back
+mostly of stone: a long house carved with cherubims, palm trees and open
+flowers picked out in gold, its gold doors open on a glow, a porch tower
+rising far above it (2 Chronicles 3:4), two pillars of brass, the altar of
+brass and the sea on twelve oxen in its court, and a great golden lampstand
+whose seven lamps burn on the map (game license: Solomon's candlesticks
+stood inside, 1 Kings 7:49). Your people near it are made whole; the council comes back
 sooner and gives double, as at King Benjamin's tower by the temple
 (Mosiah 2:7); and seven miracles are worked from it, each falling where you
 tap next and then waiting its time: a pillar of fire that shields your people
@@ -348,7 +353,8 @@ warriors until they strike (Alma 58:6); and the king's call, six warriors at
 once (Alma 48:3). Huge idols, "dumb idols" with no power of their own
 (Alma 31:1), stir the people's zeal: each brings the works back sooner. The
 Freemen's temple is now built after the manner of Solomon's (2 Nephi 5:16),
-the tallest thing on the field, and Zarahemla is the chief judge's hall.
+the tallest thing on the field, and Zarahemla is the chief judge's palace,
+in the same white stone as the other Nephite buildings.
 The opponents work their own miracles and works too, except at Easy.
 
 **Walls that level up.** Every wall piece changes at once when its side

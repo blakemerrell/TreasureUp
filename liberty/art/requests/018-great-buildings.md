@@ -30,7 +30,7 @@ plot a diamond twice as wide as tall, light from the upper left.
   porch of square pillars, a roofed seat of judgment on a dais before it,
   trees, all in a yard behind a bank of earth and pickets. Reference:
   `hall.png`.
-- **`temple.png`**, the temple "after the manner of the temple of Solomon"
+- **`temple.png`** (replaced in request 021: stone and gold, its lampstand in the court), the temple "after the manner of the temple of Solomon"
   (2 Nephi 5:16), 4 × 4: white limestone and gold on a pale platform; a porch
   tower that rises far above the house (2 Chronicles 3:4), gold doors, two
   pillars of brass with lily capitals (1 Kings 7:15), a wide stair, an altar,

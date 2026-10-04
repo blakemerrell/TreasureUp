@@ -1,9 +1,20 @@
 # 021 · The temple, after the manner of Solomon's: stone and gold, lit, with its lampstand
 
-**Status: in progress.** To be made with Gemini through Blake's n8n backup,
-repainted from the temple of request 018 set on a tall magenta canvas
-(`liberty/art/incoming/pr93/`, removed once done) so the porch tower has
-room.
+**Status: done.** Made with Gemini through Blake's n8n backup (executions
+13477–13479, three billed to the Merit3D Gemini account). Two layouts were
+painted from the temple of request 018 set on a tall magenta canvas: one
+with the porch tower at the end of the long house, one with the house across
+the back and an open court in front. Shown in the game at their true size,
+Blake chose the first, touched up: the porch tower raised about three times
+higher and the lampstand made twice as big (edited from the first painting
+padded with magenta above, so the tower had room). Cut out, de-spilled at
+the outline only, scaled to 150 px a square of plot (4 × 4), with the soft
+cast shadow; button picture made with `mkcameo.py`. The drafts
+(`liberty/art/incoming/pr93/`) were removed once done.
+
+The temple of request 018 was drawn far larger than its plot and off to one
+side of it (its sprite numbers were never updated for the new picture), so
+its plot looked empty; the new one stands on its own 4 × 4.
 
 ## What it's for
 
