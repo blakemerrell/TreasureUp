@@ -80,7 +80,7 @@
     G.tents = [];
     G.player = Object.assign(G.player, G.level === 1 ? { x: G.w * 0.2, y: G.h * 0.7 } : {});
     G.moses = { x: 0, y: -99 };
-    G.moses = spot(G.w * 0.35, 0, 2.8);
+    G.moses = spot(G.w * 0.35, 0, 3.2);
     const tents = Math.min(8, 4 + Math.floor(G.level / 2));
     for (let k = 0; k < tents; k++) {
       const p = spot(3, 3.2, 1.8);
@@ -213,6 +213,29 @@
 
   // ===================== drawing =====================
 
+  // Pictures (arcade/, painted by Gemini; arcade/README.md). Until one has loaded, its shape is drawn instead.
+  const PICS = {};
+  function pic(name) {
+    let im = PICS[name];
+    if (!im) { im = PICS[name] = new Image(); im.onload = () => { if (name === 'sand.jpg') bg = null; }; im.src = 'arcade/' + name; }
+    return im.complete && im.naturalWidth ? im : null;
+  }
+  // A picture standing on its spot: h tall, its foot at (x, y); flip for a mirror image.
+  function stand(ctx, im, x, y, h, flip) {
+    const w = h * im.naturalWidth / im.naturalHeight;
+    if (!flip) { ctx.drawImage(im, x - w / 2, y - h, w, h); return; }
+    ctx.save(); ctx.translate(x, 0); ctx.scale(-1, 1); ctx.drawImage(im, -w / 2, y - h, w, h); ctx.restore();
+  }
+  // Moses's picture: how tall (in camp units), where his feet are, and the brass serpent in it (fractions of the picture)
+  const MOSES = { h: 3.5, foot: 0.4, sx: 0.2, sy: 0.18 };
+  // Where you look: the brass serpent, in the picture or on the drawn pole.
+  function serpentAt(M) {
+    const im = pic('moses.png');
+    if (!im) return { x: M.x + 0.5, y: M.y - 1.4 };
+    const w = MOSES.h * im.naturalWidth / im.naturalHeight;
+    return { x: M.x - w / 2 + MOSES.sx * w, y: M.y + MOSES.foot - MOSES.h + MOSES.sy * MOSES.h };
+  }
+
   let bg = null;
   function board() {
     const c = $('lkCanvas');
@@ -231,8 +254,17 @@
   function desert(u, dpr) {
     const w = G.w * u, h = G.h * u, o = document.createElement('canvas'), r = rng(11);
     o.width = w * dpr; o.height = h * dpr;
-    const x = o.getContext('2d');
+    const x = o.getContext('2d'), sand = pic('sand.jpg');
     x.scale(dpr, dpr);
+    if (sand) {   // the painted sand, a tile every 6 steps, darker toward the edges
+      const pat = x.createPattern(sand, 'repeat');
+      pat.setTransform(new DOMMatrix().scale(u * 10 / sand.naturalWidth));
+      x.fillStyle = pat; x.fillRect(0, 0, w, h);
+      const v = x.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.3, w / 2, h / 2, Math.max(w, h) * 0.75);
+      v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(120,70,20,.14)');
+      x.fillStyle = v; x.fillRect(0, 0, w, h);
+      return o;
+    }
     const g = x.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, Math.max(w, h) * 0.7);
     g.addColorStop(0, '#ecd09a'); g.addColorStop(1, '#cfa262');
     x.fillStyle = g; x.fillRect(0, 0, w, h);
@@ -260,27 +292,50 @@
     const glow = ctx.createRadialGradient(X(M.x), X(M.y), 0, X(M.x), X(M.y), u * 2.4);
     glow.addColorStop(0, 'rgba(253,224,71,.45)'); glow.addColorStop(1, 'rgba(253,224,71,0)');
     ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(X(M.x), X(M.y), u * 2.4, 0, 7); ctx.fill();
-    // Tents: striped goat-hair tents, seen from above
-    for (const tn of G.tents) {
-      const x = X(tn.x), y = X(tn.y), r = tn.r * u;
-      ctx.save(); ctx.translate(x, y); ctx.rotate(tn.turn);
-      ctx.fillStyle = 'rgba(60,35,10,.25)'; ctx.beginPath(); ctx.ellipse(r * 0.15, r * 0.2, r * 1.05, r * 0.85, 0, 0, 7); ctx.fill();
-      ctx.fillStyle = '#4a3423'; ctx.strokeStyle = '#2a1b10'; ctx.lineWidth = Math.max(1, u * 0.06);
-      ctx.beginPath(); ctx.moveTo(-r, -r * 0.7); ctx.lineTo(r, -r * 0.7); ctx.lineTo(r * 0.9, r * 0.75); ctx.lineTo(-r * 0.9, r * 0.75); ctx.closePath(); ctx.fill(); ctx.stroke();
-      ctx.strokeStyle = '#7a5a3e'; ctx.lineWidth = u * 0.12;
-      for (const k of [-0.45, 0, 0.45]) { ctx.beginPath(); ctx.moveTo(-r * 0.95, k * r); ctx.lineTo(r * 0.95, k * r); ctx.stroke(); }
-      ctx.strokeStyle = '#c9a57a'; ctx.lineWidth = u * 0.05; ctx.beginPath(); ctx.moveTo(0, -r * 0.7); ctx.lineTo(0, r * 0.75); ctx.stroke();
-      ctx.restore();
-    }
-    // Your look: a gold line to the pole when it's clear; red up to what's in the way
+    // Tents and Moses, back to front: pictures stand up from their feet, so a nearer one covers a farther one
+    const things = G.tents.map(tn => ({ y: tn.y + tn.r * 0.75, tn })).concat([{ y: M.y + MOSES.foot, moses: true }]).sort((p, q) => p.y - q.y);
+    for (const th of things) th.moses ? drawMoses(ctx, M, u, t) : drawTent(ctx, th.tn, u);
+    // Your look: a gold line to the brass serpent when it's clear; red up to what's in the way
     if (G.looking) {
-      const tx = G.block ? G.block.x : M.x + 0.5, ty = G.block ? G.block.y : M.y - 1.4;
+      const S = serpentAt(M), tx = G.block ? G.block.x : S.x, ty = G.block ? G.block.y : S.y, eye = pic('israelite.png') ? 1.15 : 0;
       ctx.strokeStyle = G.block ? 'rgba(239,68,68,.85)' : `rgba(253,224,71,${0.65 + 0.3 * Math.sin(t / 90)})`;
       ctx.lineWidth = u * (G.block ? 0.1 : 0.16); ctx.setLineDash(G.block ? [u * 0.3, u * 0.2] : []);
-      ctx.beginPath(); ctx.moveTo(X(P.x), X(P.y)); ctx.lineTo(X(tx), X(ty)); ctx.stroke(); ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(X(P.x), X(P.y - eye)); ctx.lineTo(X(tx), X(ty)); ctx.stroke(); ctx.setLineDash([]);
       if (G.block) { ctx.strokeStyle = '#ef4444'; ctx.lineWidth = u * 0.12; const s = u * 0.25; ctx.beginPath(); ctx.moveTo(X(tx) - s, X(ty) - s); ctx.lineTo(X(tx) + s, X(ty) + s); ctx.moveTo(X(tx) + s, X(ty) - s); ctx.lineTo(X(tx) - s, X(ty) + s); ctx.stroke(); }
     }
-    // Moses, and the serpent of brass on its pole
+    drawSerpents(ctx, u, t);
+    drawYou(ctx, P, u, t);
+    drawOverlay(ctx, u);
+  }
+  // A tent: the picture standing on its spot (mirrored for some), or a striped goat-hair tent seen from above
+  function drawTent(ctx, tn, u) {
+    const x = tn.x * u, y = tn.y * u, r = tn.r * u, im = pic('tent.png');
+    if (im) {
+      ctx.fillStyle = 'rgba(60,35,10,.22)'; ctx.beginPath(); ctx.ellipse(x, y + r * 0.45, r * 1.2, r * 0.5, 0, 0, 7); ctx.fill();
+      stand(ctx, im, x, y + r * 0.75, r * 2.9 * im.naturalHeight / im.naturalWidth, tn.turn < 0);
+      return;
+    }
+    ctx.save(); ctx.translate(x, y); ctx.rotate(tn.turn);
+    ctx.fillStyle = 'rgba(60,35,10,.25)'; ctx.beginPath(); ctx.ellipse(r * 0.15, r * 0.2, r * 1.05, r * 0.85, 0, 0, 7); ctx.fill();
+    ctx.fillStyle = '#4a3423'; ctx.strokeStyle = '#2a1b10'; ctx.lineWidth = Math.max(1, u * 0.06);
+    ctx.beginPath(); ctx.moveTo(-r, -r * 0.7); ctx.lineTo(r, -r * 0.7); ctx.lineTo(r * 0.9, r * 0.75); ctx.lineTo(-r * 0.9, r * 0.75); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = '#7a5a3e'; ctx.lineWidth = u * 0.12;
+    for (const k of [-0.45, 0, 0.45]) { ctx.beginPath(); ctx.moveTo(-r * 0.95, k * r); ctx.lineTo(r * 0.95, k * r); ctx.stroke(); }
+    ctx.strokeStyle = '#c9a57a'; ctx.lineWidth = u * 0.05; ctx.beginPath(); ctx.moveTo(0, -r * 0.7); ctx.lineTo(0, r * 0.75); ctx.stroke();
+    ctx.restore();
+  }
+  // Moses, and the serpent of brass on its pole: the picture, with a glow behind the serpent, or drawn
+  function drawMoses(ctx, M, u, t) {
+    const X = v => v * u, im = pic('moses.png');
+    if (im) {
+      const S = serpentAt(M), gr = u * (1.3 + 0.15 * Math.sin(t / 200));
+      const g = ctx.createRadialGradient(X(S.x), X(S.y), 0, X(S.x), X(S.y), gr);
+      g.addColorStop(0, 'rgba(253,224,71,.55)'); g.addColorStop(1, 'rgba(253,224,71,0)');
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(X(S.x), X(S.y), gr, 0, 7); ctx.fill();
+      ctx.fillStyle = 'rgba(40,25,8,.3)'; ctx.beginPath(); ctx.ellipse(X(M.x), X(M.y + MOSES.foot - 0.05), u * 0.75, u * 0.25, 0, 0, 7); ctx.fill();
+      stand(ctx, im, X(M.x), X(M.y + MOSES.foot), u * MOSES.h);
+      return;
+    }
     drawPerson(ctx, X(M.x), X(M.y), u, '#7c2d12', '#e9b384', true, { x: 0, y: 1 });
     const px = X(M.x) + u * 0.5, top = X(M.y) - u * 2.4;
     ctx.strokeStyle = '#5b3a1f'; ctx.lineWidth = u * 0.16; ctx.lineCap = 'round';
@@ -296,7 +351,10 @@
     ctx.fillStyle = '#c98a2e'; ctx.beginPath(); ctx.ellipse(hx + u * 0.12, hy - u * 0.18, u * 0.26, u * 0.19, -0.5, 0, 7); ctx.fill();
     ctx.fillStyle = '#422006'; ctx.beginPath(); ctx.arc(hx + u * 0.2, hy - u * 0.24, u * 0.05, 0, 7); ctx.fill();
     ctx.restore();
-    // The fiery serpents
+  }
+  // The fiery serpents, on top of everything but you, so none hides behind a tent
+  function drawSerpents(ctx, u, t) {
+    const X = v => v * u;
     for (const s of G.serpents) {
       ctx.lineCap = 'round'; ctx.lineJoin = 'round';
       const path = () => { ctx.beginPath(); s.pts.forEach((p, n) => n ? ctx.lineTo(X(p.x), X(p.y)) : ctx.moveTo(X(p.x), X(p.y))); };
@@ -312,13 +370,22 @@
       ctx.fillStyle = '#fde047';
       for (const side of [-1, 1]) { ctx.beginPath(); ctx.arc(X(h.x) + Math.cos(a + side * 0.7) * u * 0.17, X(h.y) + Math.sin(a + side * 0.7) * u * 0.17, u * 0.06, 0, 7); ctx.fill(); }
     }
-    // You
-    const shielded = G.time < G.shieldUntil;
+  }
+  // You: the Israelite picture standing where you are (facing the way you last moved), or drawn from above; a green ring for poison
+  function drawYou(ctx, P, u, t) {
+    const X = v => v * u, im = pic('israelite.png'), shielded = G.time < G.shieldUntil;
+    if (G.poison > 0) { ctx.strokeStyle = `rgba(132,204,22,${0.4 + 0.5 * G.poison})`; ctx.lineWidth = u * 0.1; ctx.beginPath(); ctx.ellipse(X(P.x), X(P.y), u * 0.75, u * (im ? 0.42 : 0.75), 0, 0, 7); ctx.stroke(); }
     ctx.globalAlpha = shielded ? 0.5 + 0.5 * Math.abs(Math.sin(t / 70)) : 1;
-    drawPerson(ctx, X(P.x), X(P.y), u, '#1d4ed8', '#f1c27d', false, { x: P.fx, y: P.fy });
+    if (im) {
+      ctx.fillStyle = 'rgba(40,25,8,.3)'; ctx.beginPath(); ctx.ellipse(X(P.x), X(P.y + 0.32), u * 0.42, u * 0.16, 0, 0, 7); ctx.fill();
+      if (Math.abs(P.fx) > 0.25) P.side = P.fx > 0 ? 1 : -1;   // keep the last way you faced, left or right
+      stand(ctx, im, X(P.x), X(P.y + 0.38), u * 1.85, P.side > 0);
+    } else drawPerson(ctx, X(P.x), X(P.y), u, '#1d4ed8', '#f1c27d', false, { x: P.fx, y: P.fy });
     ctx.globalAlpha = 1;
-    if (G.poison > 0) { ctx.strokeStyle = `rgba(132,204,22,${0.4 + 0.5 * G.poison})`; ctx.lineWidth = u * 0.1; ctx.beginPath(); ctx.arc(X(P.x), X(P.y), u * 0.7, 0, 7); ctx.stroke(); }
-    // Words rising
+  }
+  // Over the camp: words rising, a red flash for a bite, a gold one for a level, and 3, 2, 1 to begin
+  function drawOverlay(ctx, u) {
+    const X = v => v * u;
     G.floats = G.floats.filter(f => G.time - f.at < 1.3);
     for (const f of G.floats) {
       const age = (G.time - f.at) / 1.3;
@@ -326,7 +393,6 @@
       ctx.font = `900 ${Math.round(u * 0.7)}px system-ui, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.strokeText(f.text, X(f.x), X(f.y) - age * u); ctx.fillText(f.text, X(f.x), X(f.y) - age * u); ctx.globalAlpha = 1;
     }
-    // A bite flashes red; a level cleared, gold; and 3, 2, 1 to begin
     const w = G.w * u, hh = G.h * u;
     if (G.hurt > 0) { ctx.fillStyle = `rgba(220,38,38,${G.hurt * 0.5})`; ctx.fillRect(0, 0, w, hh); }
     if (G.between > 0 || G.ready > 0) {
@@ -380,6 +446,7 @@
   function renderMenu() {
     root.dataset.view = 'menu';
     shell(`<div class="lk-menu">
+      <img class="lk-hero" src="arcade/look.jpg" width="960" height="480" alt="Moses holds up the serpent of brass on a pole in the camp of Israel, and the people look to it.">
       <p class="lk-hook">${host.html(W().hook || '')}</p>
       <div class="board-actions"><button class="btn" data-lk="start">▶ Start</button></div>
       <ul class="lk-how">
@@ -516,6 +583,7 @@
       #look .lk-meter i { position: absolute; left: 0; top: 0; bottom: 0; } #look .lk-meter span { position: relative; }
       #look .lk-poison { background: rgba(132,204,22,.55); } #look .lk-faith { background: rgba(253,224,71,.55); }
       #look .lk-menu { max-width: 640px; width: 100%; margin: 14px auto 0; display: grid; gap: 12px; }
+      #look .lk-hero { display: block; width: 100%; height: auto; max-height: 34vh; aspect-ratio: 2 / 1; object-fit: cover; border-radius: 14px; box-shadow: 0 8px 28px rgba(0,0,0,.4); }
       #look .lk-hook { font-size: 16px; line-height: 1.45; color: rgba(255,255,255,.88); margin: 0; }
       #look .lk-how { margin: 0; padding-left: 20px; list-style: disc; display: grid; gap: 6px; font-size: 15px; line-height: 1.4; color: rgba(255,255,255,.85); }
       #look .lk-scores ol { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; counter-reset: r; }
@@ -531,6 +599,7 @@
       #look canvas { display: block; touch-action: none; border-radius: 4px; }
       #look .lk-look { position: absolute; right: 12px; bottom: 12px; width: 92px; height: 92px; border-radius: 50%; border: 3px solid #fde68a; background: rgba(120,53,15,.78); color: #fde68a; font: 900 18px system-ui, sans-serif; letter-spacing: .05em; touch-action: none; user-select: none; -webkit-user-select: none; line-height: 1; }
       #look .lk-look:active { background: rgba(253,224,71,.5); color: #422006; }
+      #look .lk-pausebox[hidden] { display: none; }
       #look .lk-pausebox { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(15,10,5,.55); line-height: 1.3; }
       #look .lk-pausecard { display: grid; gap: 10px; padding: 16px 20px; border-radius: 16px; background: rgba(20,16,40,.92); text-align: center; } #look .lk-pausecard b { font-size: 24px; }
       #look .lk-big { font-size: clamp(36px, 6vw, 64px); font-weight: 900; line-height: 1.1; }

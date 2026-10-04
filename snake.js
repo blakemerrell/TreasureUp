@@ -325,6 +325,20 @@
 
   // ===================== drawing =====================
 
+  // Pictures (arcade/, painted by Gemini; arcade/README.md). Until one has loaded, its shape is drawn instead.
+  const PICS = {};
+  function pic(name) {
+    let im = PICS[name];
+    if (!im) { im = PICS[name] = new Image(); im.onload = () => { if (name === 'sand.jpg') bg = null; }; im.src = 'arcade/' + name; }
+    return im.complete && im.naturalWidth ? im : null;
+  }
+  // A picture standing on its spot: h cells tall, its foot at (x, y); flip for a mirror image.
+  function stand(ctx, im, x, y, h, flip) {
+    const w = h * im.naturalWidth / im.naturalHeight;
+    if (!flip) { ctx.drawImage(im, x - w / 2, y - h, w, h); return; }
+    ctx.save(); ctx.translate(x, 0); ctx.scale(-1, 1); ctx.drawImage(im, -w / 2, y - h, w, h); ctx.restore();
+  }
+
   let bg = null;
   function board() {
     const c = $('snCanvas');
@@ -344,8 +358,18 @@
   function desert(cell, dpr) {
     const w = G.cols * cell, h = G.rows * cell, o = document.createElement('canvas');
     o.width = w * dpr; o.height = h * dpr;
-    const x = o.getContext('2d'), r = rng(7);
+    const x = o.getContext('2d'), r = rng(7), sand = pic('sand.jpg');
     x.scale(dpr, dpr);
+    if (sand) {   // the painted sand, a tile every 6 cells, and the cells faintly checked so a turn is easy to judge
+      const pat = x.createPattern(sand, 'repeat'), k = cell * 9 / sand.naturalWidth;
+      pat.setTransform(new DOMMatrix().scale(k));
+      x.fillStyle = pat; x.fillRect(0, 0, w, h);
+      for (let yy = 0; yy < G.rows; yy++) for (let xx = 0; xx < G.cols; xx++) if ((xx + yy) % 2) { x.fillStyle = 'rgba(120,80,30,.05)'; x.fillRect(xx * cell, yy * cell, cell, cell); }
+      const v = x.createRadialGradient(w / 2, h / 2, Math.min(w, h) * 0.3, w / 2, h / 2, Math.max(w, h) * 0.75);
+      v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(120,70,20,.14)');
+      x.fillStyle = v; x.fillRect(0, 0, w, h);
+      return o;
+    }
     const g = x.createLinearGradient(0, 0, w, h);
     g.addColorStop(0, '#efd29a'); g.addColorStop(0.5, '#e5c182'); g.addColorStop(1, '#d9ae6c');
     x.fillStyle = g; x.fillRect(0, 0, w, h);
@@ -372,8 +396,10 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const cx = x => (x + 0.5) * cell, cy = y => (y + 0.5) * cell, t = now || 0;
     // Rocks
+    const rock = pic('rock.png');
     for (const k of G.rocks) {
       const [x, y] = k.split(',').map(Number), r = rng(x * 131 + y * 7), pts = 7;
+      if (rock) { stand(ctx, rock, cx(x), cy(y) + cell * 0.5, cell * 1.02, r() < 0.5); continue; }
       ctx.fillStyle = '#8b7d6b'; ctx.strokeStyle = '#4a3f33'; ctx.lineWidth = Math.max(1, cell * 0.06);
       ctx.beginPath();
       for (let n = 0; n < pts; n++) { const a = n / pts * Math.PI * 2, rr = cell * (0.36 + r() * 0.1); const px = cx(x) + Math.cos(a) * rr, py = cy(y) + Math.sin(a) * rr * 0.85; n ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }
@@ -381,7 +407,14 @@
       ctx.fillStyle = 'rgba(255,255,255,.25)'; ctx.beginPath(); ctx.ellipse(cx(x) - cell * 0.1, cy(y) - cell * 0.12, cell * 0.14, cell * 0.08, -0.4, 0, 7); ctx.fill();
     }
     // Manna: small white wafers, “like coriander seed” (Exodus 16:31)
+    const manna = pic('manna.png');
     for (const m of G.manna) {
+      if (manna) {   // a bright patch under it, so it shows on the sand
+        const g = ctx.createRadialGradient(cx(m.x), cy(m.y) + cell * 0.1, 0, cx(m.x), cy(m.y) + cell * 0.1, cell * 0.75);
+        g.addColorStop(0, 'rgba(255,255,255,.85)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx(m.x), cy(m.y) + cell * 0.1, cell * 0.75, 0, 7); ctx.fill();
+        stand(ctx, manna, cx(m.x), cy(m.y) + cell * 0.42, cell * 0.8); continue;
+      }
       ctx.save(); ctx.shadowColor = 'rgba(255,255,255,.95)'; ctx.shadowBlur = cell * 0.5;
       ctx.fillStyle = '#fffdf6'; ctx.strokeStyle = '#b89a5e'; ctx.lineWidth = Math.max(1, cell * 0.05);
       ctx.beginPath(); ctx.ellipse(cx(m.x), cy(m.y), cell * 0.32, cell * 0.25, 0.3, 0, 7); ctx.fill(); ctx.restore(); ctx.stroke();
@@ -392,17 +425,31 @@
     if (G.quail) {
       const q = G.quail, bob = Math.sin(t / 150) * cell * 0.05, x = cx(q.x), y = cy(q.y) + bob, left = q.until - G.time;
       ctx.globalAlpha = left < 2000 ? 0.5 + 0.5 * Math.abs(Math.sin(t / 90)) : 1;
-      ctx.fillStyle = '#8b5e34'; ctx.beginPath(); ctx.ellipse(x, y + cell * 0.05, cell * 0.3, cell * 0.22, 0, 0, 7); ctx.fill();
-      ctx.fillStyle = '#6b4423'; ctx.beginPath(); ctx.ellipse(x - cell * 0.05, y + cell * 0.04, cell * 0.17, cell * 0.11, 0.3, 0, 7); ctx.fill();
-      ctx.fillStyle = '#9c6b3e'; ctx.beginPath(); ctx.arc(x + cell * 0.22, y - cell * 0.12, cell * 0.12, 0, 7); ctx.fill();
-      ctx.fillStyle = '#f59e0b'; ctx.beginPath(); ctx.moveTo(x + cell * 0.33, y - cell * 0.13); ctx.lineTo(x + cell * 0.44, y - cell * 0.09); ctx.lineTo(x + cell * 0.32, y - cell * 0.06); ctx.fill();
-      ctx.fillStyle = '#111'; ctx.beginPath(); ctx.arc(x + cell * 0.25, y - cell * 0.15, cell * 0.025, 0, 7); ctx.fill();
+      const quail = pic('quail.png');
+      if (quail) stand(ctx, quail, x, y + cell * 0.5, cell * 1.05);
+      else {
+        ctx.fillStyle = '#8b5e34'; ctx.beginPath(); ctx.ellipse(x, y + cell * 0.05, cell * 0.3, cell * 0.22, 0, 0, 7); ctx.fill();
+        ctx.fillStyle = '#6b4423'; ctx.beginPath(); ctx.ellipse(x - cell * 0.05, y + cell * 0.04, cell * 0.17, cell * 0.11, 0.3, 0, 7); ctx.fill();
+        ctx.fillStyle = '#9c6b3e'; ctx.beginPath(); ctx.arc(x + cell * 0.22, y - cell * 0.12, cell * 0.12, 0, 7); ctx.fill();
+        ctx.fillStyle = '#f59e0b'; ctx.beginPath(); ctx.moveTo(x + cell * 0.33, y - cell * 0.13); ctx.lineTo(x + cell * 0.44, y - cell * 0.09); ctx.lineTo(x + cell * 0.32, y - cell * 0.06); ctx.fill();
+        ctx.fillStyle = '#111'; ctx.beginPath(); ctx.arc(x + cell * 0.25, y - cell * 0.15, cell * 0.025, 0, 7); ctx.fill();
+      }
       ctx.globalAlpha = 1;
     }
     // Jars: A, B and C
     for (const j of G.jars) {
       const x = cx(j.x), y = cy(j.y), pulse = 1 + Math.sin(t / 180 + j.n) * 0.06, s = cell * 1.18 * pulse, col = JAR[j.n].c;
       ctx.fillStyle = 'rgba(0,0,0,.18)'; ctx.beginPath(); ctx.ellipse(x, y + s * 0.4, s * 0.34, s * 0.09, 0, 0, 7); ctx.fill();
+      const jar = pic('jar.png');
+      if (jar) {
+        ctx.save(); ctx.shadowColor = col; ctx.shadowBlur = cell * 0.6; stand(ctx, jar, x, y + s * 0.44, s * 1.3); ctx.restore();
+        const by = y - s * 0.13, br = s * 0.25;
+        ctx.fillStyle = col; ctx.strokeStyle = '#fff'; ctx.lineWidth = Math.max(1.5, cell * 0.06);
+        ctx.beginPath(); ctx.arc(x, by, br, 0, 7); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#fff'; ctx.font = `900 ${Math.round(s * 0.34)}px system-ui, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(JAR[j.n].l, x, by + s * 0.01);
+        continue;
+      }
       ctx.fillStyle = col; ctx.strokeStyle = '#3b2412'; ctx.lineWidth = Math.max(1, cell * 0.05);
       ctx.beginPath(); ctx.ellipse(x, y + s * 0.08, s * 0.36, s * 0.33, 0, 0, 7); ctx.fill(); ctx.stroke();
       ctx.fillRect(x - s * 0.15, y - s * 0.36, s * 0.3, s * 0.18); ctx.strokeRect(x - s * 0.15, y - s * 0.36, s * 0.3, s * 0.18);
@@ -411,13 +458,16 @@
     }
     // The brass serpent on its pole
     if (G.brass) {
-      const x = cx(G.brass.x), y = cy(G.brass.y), left = G.brass.until - G.time;
+      const x = cx(G.brass.x), y = cy(G.brass.y), left = G.brass.until - G.time, brass = pic('brass.png');
       ctx.globalAlpha = left < 3000 ? 0.45 + 0.55 * Math.abs(Math.sin(t / 110)) : 1;
       ctx.save(); ctx.shadowColor = '#fde047'; ctx.shadowBlur = cell * 0.6;
-      ctx.strokeStyle = '#6b4423'; ctx.lineWidth = cell * 0.1; ctx.beginPath(); ctx.moveTo(x, y + cell * 0.45); ctx.lineTo(x, y - cell * 0.42); ctx.stroke();
-      ctx.strokeStyle = '#d4943a'; ctx.lineWidth = cell * 0.13; ctx.lineCap = 'round';
-      ctx.beginPath(); ctx.moveTo(x - cell * 0.05, y + cell * 0.3); ctx.bezierCurveTo(x + cell * 0.4, y + cell * 0.15, x - cell * 0.4, y - cell * 0.05, x + cell * 0.05, y - cell * 0.25); ctx.stroke();
-      ctx.fillStyle = '#f0b55a'; ctx.beginPath(); ctx.arc(x + cell * 0.1, y - cell * 0.3, cell * 0.1, 0, 7); ctx.fill();
+      if (brass) stand(ctx, brass, x, y + cell * 0.55, cell * 1.3);
+      else {
+        ctx.strokeStyle = '#6b4423'; ctx.lineWidth = cell * 0.1; ctx.beginPath(); ctx.moveTo(x, y + cell * 0.45); ctx.lineTo(x, y - cell * 0.42); ctx.stroke();
+        ctx.strokeStyle = '#d4943a'; ctx.lineWidth = cell * 0.13; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(x - cell * 0.05, y + cell * 0.3); ctx.bezierCurveTo(x + cell * 0.4, y + cell * 0.15, x - cell * 0.4, y - cell * 0.05, x + cell * 0.05, y - cell * 0.25); ctx.stroke();
+        ctx.fillStyle = '#f0b55a'; ctx.beginPath(); ctx.arc(x + cell * 0.1, y - cell * 0.3, cell * 0.1, 0, 7); ctx.fill();
+      }
       ctx.restore(); ctx.globalAlpha = 1;
     }
     // Fiery serpents
@@ -509,6 +559,7 @@
     ui.view = 'menu';
     const two = ui.mode === '2p', me = host.player().name || '';
     shell(`<div class="sn-menu">
+      <img class="sn-hero" src="arcade/snake.jpg" width="960" height="480" alt="The camp of Israel at sunrise: families gather manna into baskets, quail fly over, and a snake winds toward the manna.">
       <p class="sn-hook">${host.html(C().hook || '')}</p>
       <div class="sn-modes" role="radiogroup" aria-label="Players">
         <button class="sn-mode${two ? '' : ' on'}" data-sn="mode" data-v="1p" role="radio" aria-checked="${!two}"><b>1 player</b><small>Arrows or WASD · swipe on a phone</small></button>
@@ -712,6 +763,7 @@
       #snake .sn-ico { display: inline-block; width: 14px; height: 17px; vertical-align: -3px; margin: 0 4px 0 2px; }
       #snake .sn-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; border: 2px solid rgba(255,255,255,.6); }
       #snake .sn-menu { max-width: 640px; width: 100%; margin: 14px auto 0; display: grid; gap: 12px; }
+      #snake .sn-hero { display: block; width: 100%; height: auto; max-height: 34vh; aspect-ratio: 2 / 1; object-fit: cover; border-radius: 14px; box-shadow: 0 8px 28px rgba(0,0,0,.4); }
       #snake .sn-hook { font-size: 16px; line-height: 1.45; color: rgba(255,255,255,.88); margin: 0; }
       #snake .sn-modes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
       #snake .sn-mode { display: grid; gap: 4px; padding: 14px; border-radius: 16px; border: 2px solid rgba(255,255,255,.18); background: rgba(255,255,255,.06); color: #fff; font: inherit; text-align: left; cursor: pointer; }
@@ -740,6 +792,7 @@
       #snake .sn-stage { flex: 1; min-height: 200px; display: grid; place-items: center; margin-top: 10px; }
       #snake .sn-frame { position: relative; border: 6px solid #6b3f1d; border-radius: 10px; box-shadow: 0 0 0 2px #3b220e, 0 10px 30px rgba(0,0,0,.5); line-height: 0; }
       #snake canvas { display: block; touch-action: none; border-radius: 4px; }
+      #snake .sn-pausebox[hidden] { display: none; }
       #snake .sn-pausebox { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(15,10,5,.55); line-height: 1.3; }
       #snake .sn-pausecard { display: grid; gap: 10px; padding: 16px 20px; border-radius: 16px; background: rgba(20,16,40,.92); text-align: center; } #snake .sn-pausecard b { font-size: 24px; }
       #snake .sn-pads { display: flex; justify-content: center; gap: 24px; margin-top: 10px; } #snake .sn-pads.two { justify-content: space-between; }
