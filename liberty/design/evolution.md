@@ -242,6 +242,33 @@ round every store, or its own haulers can't get in. With these, a steady
 King-men player on Normal takes Zarahemla in about 13 minutes, as a steady
 Freemen player takes the war camp in about 14.
 
+## 13b. Walls that level up, and the great beasts (decided with Blake)
+
+Walls have three levels per side, and every piece changes at once when the
+side makes the next (research, like Red Alert's upgrades you can see):
+
+| Level | Freemen (armory) | King-men |
+|---|---|---|
+| 1 | Bank of earth (Alma 48:8) | Stake palisade |
+| 2 | Timbers and pickets on the ridge (Alma 50:2–3), walls ×2 | Hung with hides and shields (Alma 49:6), shield-makers' tent, walls ×2 |
+| 3 | Ditch and walls of stone (Alma 48:8, 49:18), walls ×3 | Ditch, bank and slingers (Alma 55:33), pavilion, walls ×3 |
+
+At level 3 the ditch slows attackers beside the wall (×0.6, and ladders over
+it ×0.25 instead of ×0.4), and a guard on every fourth piece casts a stone
+on an enemy close below (22 harm, a little to those beside, every 3 s; Alma
+49:22). The guards don't shoot far: towers do that, so a long wall can't
+become forty towers. All the wall pictures are Gemini's (art/requests/017):
+one straight section per level, sheared to the map's slant and joined in
+code, with a post where a line turns or ends.
+
+Each side gets one great beast from Ether 9:19, its use in war imagined:
+the Freemen's curelom (stables, once the hall stands), a heavy fighter; the
+King-men's cumom (pavilion), a wall-breaker that strikes buildings ×5. Both
+are slow, cost a lot and eat for three; spearmen and Lamanite warriors beat
+them. A fourth Jaredite ruin, between the camps, holds one tame. The
+opponents train a few, save for their walls' levels once half their army is
+gathered, and quarry the stone the Freemen's third level needs.
+
 ## 14. Open questions
 
 - Does the King-men side get a temple-like healer, or is "cheaper warriors" its

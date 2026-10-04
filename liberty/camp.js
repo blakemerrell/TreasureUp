@@ -16,12 +16,12 @@
     kingmen: [['storetent', 1], ['tents', 1], ['muster', 1], ['tents', 2], ['shieldtent', 1], ['tents', 3], ['pavilion', 1],
               ['tents', 4], ['ladderworks', 1], ['tents', 5], ['wardance', 1], ['kingscourt', 1]],
     freemen: [['storehouse', 1], ['farm', 1], ['barracks', 1], ['farm', 2], ['granary', 1], ['armory', 1], ['farm', 3], ['smithy', 1], ['training', 1],
-              ['farm', 4], ['hall', 1], ['farm', 5], ['tower', 1], ['temple', 1]]
+              ['farm', 4], ['hall', 1], ['stables', 1], ['farm', 5], ['tower', 1], ['temple', 1]]
   };
   // Who each side trains, as shares of the army; what a tent can't make yet is left for later.
   const MIXES = {
-    kingmen: [['lamanite', 0.55], ['slinger', 0.3], ['amalekite', 0.075], ['zoramite', 0.075]],
-    freemen: [['spearman', 0.35], ['nslinger', 0.2], ['archer', 0.2], ['swordsman', 0.15], ['javelin', 0.05], ['stripling', 0.05]]
+    kingmen: [['lamanite', 0.55], ['slinger', 0.3], ['amalekite', 0.075], ['zoramite', 0.075], ['cumom', 0.09]],
+    freemen: [['spearman', 0.35], ['nslinger', 0.2], ['archer', 0.2], ['swordsman', 0.15], ['javelin', 0.05], ['stripling', 0.05], ['curelom', 0.07]]
   };
   const fighter = def => !!(def.soldier || def.foe);
 
@@ -77,7 +77,8 @@
       const want = Math.max(1, Math.round(this.L.bearers * ((D.SIDES[this.side].bot || {}).haulers || 1)));
       if (haulers.length + queued < want && queued < 2) W.train(this.home, this.hauler);
       else if (this.builder !== this.hauler && this.units().filter(u => u.def.builds).length + queued < 2 && queued < 2) W.train(this.home, this.builder);
-      const next = this.nextWanted(), need = next && (BUILDINGS[next].cost.stone || 0) - W.side(this.team).res.stone;
+      // Stone for the next building, or for a level of walls it is saving for (research(), below).
+      const next = this.nextWanted(), need = Math.max(next ? BUILDINGS[next].cost.stone || 0 : 0, this.stoneFor || 0) - W.side(this.team).res.stone;
       const quarrier = haulers.find(u => u.pref === 'stone');
       if (need > 0 && !quarrier && haulers.length > 1) {
         const u = haulers.find(h => h.order.type !== 'build'), f = u && W.nearestResource(this.home.tx, this.home.ty, 'stone', u);
@@ -157,7 +158,9 @@
           if (side.researched[key]) continue;
           const r = RESEARCH[key];
           if (r.ladders && this.marches < 2) continue;                      // ladders come after the walls have stopped them twice (Alma 49:22)
-          if (!W.canAfford(r.cost, this.team) || side.res.grain - (r.cost.grain || 0) < this.reserve()) return;
+          this.stoneFor = r.cost.stone || 0;                                // (the haulers quarry what it needs)
+          if (!W.canAfford(r.cost, this.team) || side.res.grain - (r.cost.grain || 0) < this.reserve()) { if (r.level) this.saving = r.cost; return; }
+          this.stoneFor = 0; this.saving = null;
           if (W.research(b, key)) return;
         }
       }
@@ -171,6 +174,8 @@
       for (const b of this.buildings()) for (const q of b.queue) if (UNITS[q.type].foe) queued.push(q);
       const total = army.length + queued.length || 1;
       if (army.length + queued.length >= this.wantArmy) return;         // the army is gathered: grain goes to tents and research now
+      // Saving for a level of walls: once half the army is gathered, no more until it is paid for.
+      if (this.saving && this.marches >= 1 && army.length + queued.length >= this.wantArmy * 0.5 && !W.canAfford(this.saving, this.team)) return;
       for (const b of this.buildings()) {
         if (b.built < 1 || !b.def.trains || b.queue.length >= 2) continue;
         let pick = null, worst = -Infinity;

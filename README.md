@@ -250,14 +250,15 @@ ladder-works stands and your walls have stopped them twice, they bring
 ladders of their own, so your walls slow them but no longer stop them
 (Alma 49:22): towers and archers behind the walls do.
 
-**Treasures.** Three Jaredite ruins stand on the free-battle map, like the
+**Treasures.** Four Jaredite ruins stand on the free-battle map, like the
 land Limhi's men found, "covered with ruins of buildings of every kind"
 (Mosiah 8:8). Send anyone beside one and it gives up what it holds: the
 sword of Laban, which your best soldier bears, striking half again as hard
 and heartening those near him (1 Nephi 4:9); the Liahona, which lets your
 people see half again as far and points the way to the war camp
-(1 Nephi 16:10); and Jaredite breastplates, two more armor for everyone
-(Mosiah 8:10). Right answers at the council, in a row, bring out the rest:
+(1 Nephi 16:10); Jaredite breastplates, two more armor for everyone
+(Mosiah 8:10); and between the two camps a great beast, found tame, a
+curelom for the Freemen or a cumom for the King-men (Ether 9:19). Right answers at the council, in a row, bring out the rest:
 three for the brass plates, which make the armory twice as fast
 (1 Nephi 5:10), six for the interpreters, which tell you a minute ahead
 what each attack brings (Mosiah 8:17). What you hold shows in the panel;
@@ -284,10 +285,10 @@ The buildings:
 | Granary | | Stores 500 more of each; past that, what the carts bring is lost |
 | Barracks | | Spearmen, slingers (Alma 2:12) and archers; weapons, armor and shields (3 Nephi 3:26) |
 | Watchtower | barracks | Shoots at enemies. Takes stone, quarried from rock faces |
-| Armory | barracks | Breastplates and shields (+4 armor, Alma 43:19), thick clothing (+2 armor for shooters, Alma 43:19), ridges of earth and pickets (walls ×2, Alma 50:1–3) |
+| Armory | barracks | Breastplates and shields (+4 armor, Alma 43:19), thick clothing (+2 armor for shooters, Alma 43:19), ridges of earth and pickets (walls ×2, Alma 50:1–3), then a ditch and walls of stone (walls ×3, a ditch that slows attackers, and a guard on every fourth piece who casts stones down on enemies close below; Alma 48:8, 49:18, 49:22) |
 | Smithy | barracks | Swordsmen; swords and cimeters (+3 up close, Alma 43:18), bows of fine steel (archers farther and harder, 1 Nephi 16:18). Nephi "did make tools of the ore" (1 Nephi 17:16). Takes stone |
 | Training ground | barracks, farm | Spies (Alma 43:23); while it stands every soldier trained comes out a veteran, "taught" like the striplings (Alma 53:21) |
-| Stables | farm | Horse carts twice as fast as the city makes them (3 Nephi 3:22) |
+| Stables | farm | Horse carts twice as fast as the city makes them (3 Nephi 3:22); once the hall stands, the curelom |
 | Hall of the captains | armory, smithy | Javelin throwers (Jarom 1:8) and stripling warriors (Alma 53:20; they also need the training ground); ladders and cords (Alma 62:21). Takes stone |
 | Temple | hall | Your people near it are made whole; the council comes back sooner and gives double (Mosiah 2:7); miracles are worked from it (2 Nephi 5:16). Mostly stone |
 
@@ -307,6 +308,24 @@ their captains, the war-dance ground sends warriors out fierce for a while
 one enemy on his own (Alma 46:5), dissension that stops an enemy building's
 work (Alma 53:8), stratagem that hides your warriors until they strike
 (Alma 58:6), and the king's call, four warriors at once (Alma 48:3).
+
+**Walls that level up.** Every wall piece changes at once when its side
+makes the next level, and you see it: the Freemen's bank of earth
+(Alma 48:8), then timbers and pickets on the ridge (Alma 50:2–3), then a
+ditch, a bank faced with stone, pickets, and a guard on every fourth piece
+casting stones down (Alma 48:8, 49:18, 49:22); the King-men's stake
+palisade, then hung with hides and shields (Alma 49:6, at the shield-makers'
+tent), then on a bank with a ditch and slingers (Alma 55:33, at the
+pavilion). The ditch slows anyone who comes at the wall, and climbs over it
+with ladders slower still. Gates match their wall.
+
+**The great beasts.** "Elephants and cureloms and cumoms; all of which were
+useful unto man" (Ether 9:19). Nobody knows what a curelom or a cumom looked
+like, and their use in war here is imagined. The Freemen's curelom carries
+soldiers on its back: a heavy fighter, slow and very strong. The King-men's
+cumom butts down walls and buildings five times as hard, and is clumsy
+against soldiers. Each eats for three; spearmen and Lamanite warriors strike
+them half again as hard.
 
 Nobody can be trained without food for them. Each soldier is strong against
 one kind of enemy (×1.5 damage), so a mixed army wins:

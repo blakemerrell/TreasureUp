@@ -92,6 +92,10 @@ IMG.warcamp.src = 'assets/warcamp.png?v=1';
 IMG.lamaniteTower.src = 'assets/lamanite_tower.png?v=1';
 // The King-men's camp (camp.js; pictures: 014-kingmen-camp.md).
 for (const k of ['bearer', 'tents', 'storetent', 'muster', 'shieldtent', 'ladderworks', 'pavilion']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
+// Walls of every level and both sides, a guard, and the great beasts, drawn by Gemini (art/requests/017).
+for (const k of ['bank', 'pickets', 'stone', 'stakes', 'hides', 'campditch']) { IMG['wall_' + k] = new Image(); IMG['wall_' + k].src = `assets/wall_${k}.png?v=1`; }
+for (const k of ['bank', 'pickets', 'stone', 'stakes']) { IMG['wallpost_' + k] = new Image(); IMG['wallpost_' + k].src = `assets/wall_${k}_post.png?v=1`; }
+for (const k of ['gate_stone', 'gate_stakes', 'wallguard', 'curelom', 'cumom']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
 // The Freemen's smithy and training ground (pictures: 015-smithy-training.md).
 for (const k of ['smithy', 'training']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
 // The captains' heroes (Helaman from 006, the rest from 016) and the King-men's war-dance ground and king's court (016).
@@ -1154,6 +1158,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     } else if (u.type === 'moroni' || d.hero) {
       uImg = IMG.moroni;                         // the older pictures, drawn at their own shape
       uw = 37; uh = 48; uox = 17; uoy = 47;      // (they were squeezed to 60-85% of their width)
+    } else if (u.type === 'curelom' || u.type === 'cumom') {
+      uImg = IMG[u.type];                        // drawn by Gemini at three times their size on screen (art/requests/017)
+      uw = uImg.naturalWidth / 3; uh = uImg.naturalHeight / 3; uox = uw / 2; uoy = uh - 2;
     } else if (u.type === 'stripling') {
       uImg = IMG.stripling;
       uw = 37; uh = 44; uox = 15; uoy = 43;
@@ -1335,7 +1342,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const front = isoAt((b.tx + b.w) * TILE, (b.ty + b.h) * TILE, top), sc = (b.w + b.h) * TILE / sp.span;
       ctx.drawImage(img, ix - sp.cx * sc, front.iy - sp.by * sc, img.naturalWidth * sc, img.naturalHeight * sc);
     };
-    if (b.def.wall != null) drawEarthwork(b);
+    if (b.def.wall != null) { if (!drawWallArt(b)) drawEarthwork(b); }
     else if (b.type === 'camp' || b.type === 'warcamp' || (b.def.side === 'kingmen' && !(sp && ready(img)))) {
       if (sp && ready(img)) { place(); if (b.type === 'warcamp') banner(ix + 4, iy - h * 0.9, '#9f1239', now, b.id); }
       else drawCamp(b, now);
@@ -1407,6 +1414,70 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   // Earthworks (Alma 50:1–3): a bank of earth with grass on top, joined to the banks beside it, and a frame of pickets
   // along its top once they're made. A gate is a timber gate standing across the bank, along its line.
+  // A wall of pictures (Gemini's, at twice game size): each square shows the stretch of its style's straight section toward
+  // each neighbouring piece, sheared to the map's exact slant and mirrored for walls running the other way, with a post
+  // where the line turns, ends or meets another. Which style: the side's own, at the level its walls have reached.
+  const WALLART = {
+    bank: { w: 145, h: 100, top: [65.2, -0.555], bot: [114.9, -0.586] },
+    pickets: { w: 119, h: 122, top: [55.2, -0.569], bot: [136.4, -0.485] },
+    stone: { w: 148, h: 151, top: [81.5, -0.646], bot: [170.8, -0.579] },
+    stakes: { w: 136, h: 140, top: [65.8, -0.534], bot: [145.1, -0.537] },
+    hides: { w: 139, h: 153, top: [71.9, -0.547], bot: [153.9, -0.53] },
+    campditch: { w: 139, h: 142, top: [62.2, -0.547], bot: [162.2, -0.619] }
+  };
+  const WALLPOST = { bank: 'bank', pickets: 'pickets', stone: 'stone', stakes: 'stakes', hides: 'stakes', campditch: 'stakes' };
+  const WALLGATE = { stone: 'gate_stone', stakes: 'gate_stakes', hides: 'gate_stakes', campditch: 'gate_stakes' };
+  function wallStyle(b) {
+    const S = W.side(b.team), king = S.side === 'kingmen' || (!S.side && b.team === 'r'), lv = S.wallLevel || 1;
+    return king ? ['stakes', 'hides', 'campditch'][lv - 1] : ['bank', 'pickets', 'stone'][lv - 1];
+  }
+  function drawWallArt(b) {
+    const key = wallStyle(b), A = WALLART[key], img = IMG['wall_' + key], post = IMG['wallpost_' + WALLPOST[key]];
+    if (!A || !ready(img) || !ready(post)) return false;
+    const links = [[1, 0], [-1, 0], [0, 1], [0, -1]].filter(([dx, dy]) => {
+      const x = b.tx + dx, y = b.ty + dy;
+      if (!W.inBounds(x, y)) return false;
+      const n = W.ents.get(W.occ[y * MAP_W + x]);
+      return n && n.kind === 'building' && n.def.wall != null && !n.dead;
+    });
+    const g = isoPt(b.tx + 0.5, b.ty + 0.5, heightAt((b.tx + 0.5) * TILE, (b.ty + 0.5) * TILE));
+    const mid = A.w / 2, slope = (A.top[1] + A.bot[1]) / 2, k = -0.5 - slope;          // straighten it to the map's slant
+    const groundY = A.bot[0] + A.bot[1] * mid - 13;                                     // the middle of its foot, at the middle column
+    const half = (dx, dy) => {
+      const alongY = dy !== 0, left = alongY ? dy > 0 : dx < 0;                         // which half of the square, on the screen
+      ctx.save();
+      ctx.beginPath(); ctx.rect(left ? g[0] - TILE * 0.5 - 0.5 : g[0] - 0.5, g[1] - 140, TILE * 0.5 + 1, 200); ctx.clip();
+      ctx.translate(g[0], g[1]);
+      if (!alongY) ctx.scale(-1, 1);
+      ctx.scale(0.5, 0.5); ctx.transform(1, k, 0, 1, 0, 0);
+      ctx.drawImage(img, -mid, -groundY);
+      ctx.restore();
+    };
+    const order = links.slice().sort(([ax, ay], [bx, by]) => (ax + ay) - (bx + by));    // the far half first
+    for (const [dx, dy] of order) half(dx, dy);
+    const straight = links.length === 2 && links[0][0] === -links[1][0] && links[0][1] === -links[1][1];
+    if (b.type === 'gate') {
+      const gi = IMG[WALLGATE[key] || 'gate'];
+      if (!ready(gi)) return true;
+      const alongX = links.some(([dx, dy]) => dy === 0) && !links.some(([dx, dy]) => dx === 0);
+      const wd = TILE * 1.75, ht = wd * gi.naturalHeight / gi.naturalWidth;
+      ctx.save(); ctx.translate(g[0], g[1] + TILE * 0.36);
+      if (alongX) ctx.scale(-1, 1);
+      ctx.drawImage(gi, -wd / 2, -ht, wd, ht);
+      ctx.restore();
+    } else if (!straight) {                                                             // where the line turns, ends or meets another
+      const pw = post.naturalWidth / 2, ph = post.naturalHeight / 2;
+      ctx.drawImage(post, g[0] - pw / 2, g[1] + 7 - ph, pw, ph);
+    }
+    // the guard on every fourth piece of the strongest walls, ready to cast stones down (Alma 49:22)
+    if (W.guarded(b)) {
+      const king = key === 'campditch', gi = king ? IMG.lamanSlinger : IMG.wallguard;
+      const feet = straight || b.type === 'gate' ? g[1] + (A.top[0] + A.top[1] * mid - groundY) / 2 + 9 : g[1] + 7 - post.naturalHeight / 2 + 9;
+      const throwing = W.effects.some(f => f.kind === 'stone' && f.x0 === b.x && f.y0 === b.y && W.t - f.t < 0.5);
+      if (gi && ready(gi)) { const gh = 30, gw = gh * gi.naturalWidth / gi.naturalHeight; ctx.drawImage(gi, g[0] - gw / 2, feet - gh - (throwing ? 3 : 0), gw, gh); }
+    }
+    return true;
+  }
   function drawEarthwork(b) {
     const cx = (b.tx + 0.5) * TILE, cy = (b.ty + 0.5) * TILE;
     const links = [[1, 0], [-1, 0], [0, 1], [0, -1]].filter(([dx, dy]) => {
@@ -1574,6 +1645,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const gx = p0.ix + (p1.ix - p0.ix) * p;
       const gy = p0.iy + (p1.iy - p0.iy) * p;
 
+      if (f.kind === 'stone') {
+        const q = clamp((W.t - f.t) / 0.5, 0, 1), sx = p0.ix + (p1.ix - p0.ix) * q, sy = p0.iy - 26 * (1 - q * q) + (p1.iy - p0.iy) * q;
+        if (q < 1) { ctx.fillStyle = '#9ca3af'; ctx.strokeStyle = '#4b5563'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(sx, sy - 4, 3.5, 0, 7); ctx.fill(); ctx.stroke(); }
+        else if (!f.dusted) { f.dusted = true; addDust(p1.ix, p1.iy); addDust(p1.ix + 4, p1.iy); addDust(p1.ix - 4, p1.iy); }
+        continue;
+      }
       if (f.kind === 'arrow') {
         const dist = Math.hypot(p1.ix - p0.ix, p1.iy - p0.iy);
         const maxH = Math.min(42, dist * 0.28);
@@ -2083,6 +2160,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'train:stripling': 'assets/cameo_stripling.png?v=10',
     'train:moroni': 'assets/cameo_moroni.png?v=10',
     'train:cart': 'assets/cameo_cart.png?v=2',
+    'train:curelom': 'assets/cameo_curelom.png?v=1',
+    'train:cumom': 'assets/cameo_cumom.png?v=1',
+    'research:stonewalls': 'assets/cameo_wall_stone.png?v=1',
+    'research:hides': 'assets/cameo_wall_hides.png?v=1',
+    'research:campditch': 'assets/cameo_wall_campditch.png?v=1',
     'train:spy': 'assets/cameo_spy.png?v=1',
     'build:farm': 'assets/cameo_farm.png?v=1',
     'build:granary': 'assets/cameo_granary.png?v=1',
@@ -2122,7 +2204,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   };
   const BREAKS = Object.fromEntries(['Store-house', 'Watch-tower', 'Swords-man', 'Spear-man', 'Breast-plates', 'Strip-ling', 'cime-ters', 'Bar-racks', 'Earth-quake', 'Con-fusion',
     'cap-tains', 'Jave-lin', 'Gran-ary', 'Sta-bles', 'Sol-diers', 'war-rior', 'throw-er', 'Train-ing', 'Lad-der', 'Pavil-ion', 'Lama-nite', 'Ama-lekite', 'Zora-mite',
-    'Dis-sension', 'Strata-gem', 'Flat-tery', 'Mus-ter', 'Sling-er', 'Pick-ets', 'Cloth-ing'].map(w => [w.replace('-', ''), w.replace('-', '\u00ad')]));
+    'Dis-sension', 'Strata-gem', 'Flat-tery', 'Mus-ter', 'Sling-er', 'Pick-ets', 'Cloth-ing', 'Cure-lom'].map(w => [w.replace('-', ''), w.replace('-', '\u00ad')]));
   // Buttons with no picture: a drawn sign instead.
   const SIGN = {
     stop: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
@@ -2184,7 +2266,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
   const tileName = id => { const [act, arg] = id.split(':'); return act === 'build' ? (arg === 'wall' ? 'Walls' : BUILDINGS[arg].name) : act === 'train' ? UNITS[arg].name : act === 'research' ? RESEARCH[arg].name : W.power(arg).name; };
   // Shorter names where the whole one won't fit on a tile (the whole name shows when you hold the mouse over it).
-  const SHORT = { 'build:pavilion': 'Pavilion', 'build:wardance': 'War-dance', 'build:shieldtent': 'Shield tent', 'build:hall': "Captains' hall", 'build:kingscourt': "King's court",
+  const SHORT = { 'build:training': 'Training', 'research:stonewalls': 'Walls of stone', 'research:campditch': 'Ditch and bank', 'build:pavilion': 'Pavilion', 'build:wardance': 'War-dance', 'build:shieldtent': 'Shield tent', 'build:hall': "Captains' hall", 'build:kingscourt': "King's court",
     'miracle:host': "King's call", 'train:amalekite': 'Amalekite', 'train:zoramite': 'Zoramite', 'train:javelin': 'Javelin', 'train:nslinger': 'Slinger', 'train:slinger': 'Slinger',
     'miracle:fire': 'Pillar of fire', 'miracle:cloud': 'Darkness', 'research:lladders': 'Ladders', 'research:ladders': 'Ladders' };
   function tileHtml(id) {
@@ -2412,7 +2494,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       $('bCity').lastChild.textContent = S.capital === 'warcamp' ? 'Camp' : 'City'; $('bCity').title = S.capital === 'warcamp' ? 'Your war camp: everything is built from here' : 'Your city: everything is built from here'; }
     const held = Object.keys(W.artifacts || {}).filter(k => W.artifacts[k] && ARTIFACTS[k]);
     $('arts').hidden = !held.length;
-    setHtml('arts', held.map(k => `<img src="assets/cameo_${k}.png?v=1" data-art="${k}" title="${esc(ARTIFACTS[k].name)}" alt="">`).join(''));
+    setHtml('arts', held.map(k => `<img src="assets/cameo_${k === 'beast' ? (W.side('p').side === 'kingmen' ? 'cumom' : 'curelom') : k}.png?v=1" data-art="${k}" title="${esc(ARTIFACTS[k].name)}" alt="">`).join(''));
     if (pw) setHtml('cry', esc(pw.label) + '<small>' + esc(pw.ref || '') + '</small>');
     powerNow = pw;
     const ready = !council || W.t >= council.nextAt;

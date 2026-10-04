@@ -920,7 +920,8 @@
       // The camp's mind (camp.js), on whichever side the opponent holds.
       this.camp = new CAMP.Camp(W, 'r', K === 'r' ? this.warcamp : this.city, L);
       // Jaredite ruins, each holding something (Mosiah 8:8-11): the sword of Laban far to the south-east, the Liahona across the ford, breastplates in the north-west.
-      for (const [x, y, key] of [[54, 45, 'sword'], [37, 24, 'liahona'], [7, 7, 'breastplate']]) {
+      // (and a fourth, between the two camps, where a great beast waits tame: Ether 9:19)
+      for (const [x, y, key] of [[54, 45, 'sword'], [37, 24, 'liahona'], [7, 7, 'breastplate'], [27, 18, 'beast']]) {
         let spot = null;
         for (let r = 0; r < 6 && !spot; r++) for (let dy = -r; dy <= r && !spot; dy++) for (let dx = -r; dx <= r && !spot; dx++) if (W.whyNotPlace('relic', x + dx, y + dy) !== 'ground') spot = [x + dx, y + dy];
         if (!spot) continue;

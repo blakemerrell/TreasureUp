@@ -329,7 +329,7 @@ console.log('Free battle · build a city, tear down the war camp');
     for (const w of wall) W.kill(w); W.kill(foe); W.kill(a); v.rank = 0; v.kills = 0; v.max = v.def.hp; }
   // Artifacts: the Jaredite ruins hold the sword of Laban, the Liahona and breastplates; right answers in a row bring the plates and the interpreters.
   { const relics = W.buildings('n').filter(b => b.def.relic);
-    ok(relics.length === 3, `three Jaredite ruins stand on the map (${relics.length})`);
+    ok(relics.length === 4, `four Jaredite ruins stand on the map (${relics.length})`);
     const r = relics.find(b => b.artifact === 'breastplate'), s = W.addUnit('spearman', 'p', (r.tx - 1) * 32 + 16, r.ty * 32 + 16), armor0 = W.armor;
     run(W, 1, 0.1, () => {});
     ok(W.artifacts.breastplate && W.armor === armor0 + 2 && r.dead, 'a soldier beside a ruin finds the Jaredite breastplates: 2 more armor (Mosiah 8:10)');
@@ -344,6 +344,46 @@ console.log('Free battle · build a city, tear down the war camp');
     ok(W.grant('interpreters', 'test') && /Lamanites/.test(FB.nextAttack(W)), `the interpreters tell what comes next: "${FB.nextAttack(W)}" (Mosiah 8:17)`);
     ok(!W.grant('plates', 'test'), 'nothing is brought out twice');
     W.armor = armor0; }
+  // Walls that level up, the ditch and its guards, and the great beasts of Ether 9:19 (art request 017).
+  { const S = W.side('p'), R = W.side('r'), relics = W.buildings('n').filter(b => b.def.relic && !b.dead);
+    const ruin = relics.find(b => b.artifact === 'beast'), w0 = W.units('p').filter(u => u.type === 'curelom').length;
+    const scout = W.addUnit('worker', 'p', (ruin.tx - 1) * 32 + 16, ruin.ty * 32 + 16);
+    run(W, 1, 0.1, () => {});
+    ok(W.units('p').filter(u => u.type === 'curelom').length === w0 + 1 && ruin.dead, 'a ruin holds a great beast, tame: the Freemen find a curelom (Ether 9:19)');
+    W.kill(scout); for (const u of W.units('p').filter(u => u.type === 'curelom')) W.remove(u);
+    const armory = W.buildings('p', 'armory').find(b => b.built >= 1) || W.addBuilding('armory', 'p', city.tx + 7, city.ty + 6, true);
+    const had = { ...S.researched }; delete S.researched.pickets;
+    ok(!W.researchAt(armory).includes('stonewalls'), 'walls of stone come only after ridges of earth and pickets');
+    S.researched.pickets = true;
+    ok(W.researchAt(armory).includes('stonewalls'), 'and then the armory can make them');
+    // a straight wall, raised to the third level by the research itself
+    const wy = city.ty - 6; let wx = null;
+    for (let x = city.tx - 8; x < city.tx + 8 && wx == null; x++) { let fits = true; for (let i = 0; i < 6; i++) if (!W.canPlace('wall', x + i, wy)) fits = false; if (fits && (x + wy) % 4 === 0) wx = x; }
+    const line = []; for (let i = 0; i < 6; i++) line.push(W.addBuilding('wall', 'p', wx + i, wy, true));
+    S.researching = { key: 'stonewalls', left: 0.01, by: armory.id }; W.step(0.05);
+    ok(S.wallLevel === 3 && line.every(w => w.max === w.def.hp * 3), `the third level: walls three times as strong (${line[0].max})`);
+    // the guard on every fourth piece casts a stone down on an enemy close below, and not on one farther off
+    const guard = line.find(w => W.guarded(w)), near = W.addUnit('lamanite', 'r', guard.x, guard.y - 40), far = W.addUnit('lamanite', 'r', guard.x + 300, guard.y - 200);
+    near.order = { type: 'idle' }; near.scripted = true; far.scripted = true; const h0 = near.hp, f0 = far.hp;
+    for (let i = 0; i < 12; i++) { near.x = guard.x; near.y = guard.y - 40; W.step(0.1); }
+    ok(line.filter(w => W.guarded(w)).length >= 1 && near.hp < h0 && far.hp === f0, `a guard casts stones down on enemies close below (Alma 49:22; ${h0} to ${Math.round(near.hp)})`);
+    W.remove(near); W.remove(far);
+    // the ditch: the same walk is slower beside the wall
+    const walk = (y) => { const u = W.addUnit('lamanite', 'r', (wx - 3) * 32 + 16, y); u.scripted = true; W.order(u, { type: 'move', tx: wx + 9, ty: Math.floor(y / 32) }); for (let i = 0; i < 20; i++) W.step(0.1); const d = u.x - ((wx - 3) * 32 + 16); W.remove(u); return d; };
+    const by = walk((wy - 1) * 32 + 16), open = walk((wy - 6) * 32 + 16);
+    ok(by < open * 0.85, `the ditch slows those who come at the wall (${Math.round(by)} against ${Math.round(open)} in 2s; Alma 49:18)`);
+    for (const w of line) W.remove(w); S.wallLevel = 1; S.wallMul = 1; S.researched = had;
+    // the beasts: three mouths each, strong, and brought down by spearmen and Lamanite warriors
+    const food0 = W.foodUsed(), cu = W.addUnit('curelom', 'p', city.x + 400, city.y + 300);
+    ok(W.foodUsed() === food0 + 3, 'a curelom eats for three');
+    const sp = W.addUnit('spearman', 'p', cu.x + 60, cu.y), sw = W.addUnit('swordsman', 'p', cu.x + 60, cu.y + 30), cm = W.addUnit('cumom', 'r', cu.x + 30, cu.y);
+    const hitBy = (from, to) => { const h = to.hp; W.damage(to, 10, from); const d = h - to.hp; to.hp = h; return d; };
+    ok(hitBy(sp, cm) > hitBy(sw, cm) * 1.3, 'spearmen strike a great beast half again as hard');
+    const lm = W.addUnit('lamanite', 'r', cu.x - 30, cu.y), sl = W.addUnit('slinger', 'r', cu.x - 30, cu.y + 30);
+    ok(hitBy(lm, cu) > hitBy(sl, cu) * 1.3, 'and so do Lamanite warriors');
+    const tower = W.addBuilding('tower', 'p', city.tx + 9, city.ty - 3, true), hb = (f) => { const h = tower.hp; W.damage(tower, f.def.dmg, f); const d = h - tower.hp; tower.hp = h; return d; };
+    ok(hb(cm) > hb(lm) * 4, `the cumom butts down buildings (${hb(cm).toFixed(0)} a blow against a warrior's ${hb(lm).toFixed(0)})`);
+    for (const u of [cu, sp, sw, cm, lm, sl]) W.remove(u); W.remove(tower); }
 
   // A steady player: the carts haul on their own; build up the tree, keep an army home, then march on the camps.
   const S0 = { x: city.tx, y: city.ty };
