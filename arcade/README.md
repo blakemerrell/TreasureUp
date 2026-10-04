@@ -54,3 +54,25 @@ Each prompt begins "Turn this game sprite / picture into …" and asks for the s
 - **Sand:** desert sand from the wilderness of Sinai, straight top-down, with soft low wind ripples and a few tiny pebbles. No large features, so it repeats without seams.
 - **Look and Live menu:** the camp of Israel at golden late afternoon. Moses holds up the pole with the serpent of brass, and the people, men, women and children, turn and look. One who was bitten is helped up. A few fiery serpents are at the edges. "Hopeful, not frightening, suitable for children."
 - **Wilderness Snake menu:** the camp at sunrise, with manna lying like frost. Families gather it into baskets, a boy holds up a handful, quail flutter low, and a friendly green-and-gold snake winds toward a heap of manna. "Joyful and bright."
+
+## Ammon at Sebus (`ammon.js`, `arcade/ammon/`)
+
+Blake asked for it on 2026-10-04 ("Street fighter style game. Ammon against the
+robbers. Protect the sheep."). Drawn the same way, through the same workflow, as
+side-view sprite sheets on magenta, then cut out by a script that keys out the
+magenta, un-blends the fringe and finds each figure as its own piece. Each
+character's poses are scaled together (so a raised sword stands taller than the
+body), and `SPR` in `ammon.js` holds each picture's size, the middle of its torso
+and the line of its feet, so poses swap without the figure jumping.
+
+| File | What it is | Drawn from |
+|---|---|---|
+| `ammon-ready`, `-walk1`, `-walk2`, `-strike`, `-sling`, `-block` | Ammon in a blue tunic with a short bronze sword and a sling (Alma 17:36–37), side view; a second sheet: the first had a shepherd's staff, but the scripture says sword | `nslinger.png` |
+| `robber-walk`, `-attack`, `-hit`, `-flee` | a robber with a club: walking, swinging, knocked back, running off without it | `robber.png` |
+| `chief-ready`, `-charge`, `-smash`, `-flee` | the robbers' leader, in bronze breastplate and crested helmet, with a big club | `robber_chief.png` |
+| `sheep-graze`, `sheep-run`, `stone`, `pouch` | a grazing sheep (faces left), a running sheep (faces right), a sling stone, a pouch of stones | `farm.png` |
+| `sebus.jpg` | the waters of Sebus: a pool with reeds, a flat field across the bottom, hills and palms, late afternoon, empty | `farm.png` |
+| `../ammon.jpg` | the menu picture: Ammon with his sling before the flock, the robbers running, the king's servants watching | `robbers_camp.png` |
+
+Seven pictures were drawn for it (Ammon twice). The menu picture shows a staff as well as the sling;
+the game itself follows the scripture's sword.
