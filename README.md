@@ -198,10 +198,20 @@ in the Book of Mormon's order: **Captain Moroni** (Alma 43–44) and
 the app), apart from the app itself: it never changes XP, the streak or the
 family's data.
 
-**Reading opens each mission.** A mission stays locked until its chapters are
-read: in the game's own reader (the whole chapter, King James text; *I read
-it* opens at the end of the chapter) or in Gospel Library (the same rule as
-the app's reading). The second 3 Nephi mission also needs the first won.
+**Every mission is open; reading earns a gift.** Blake, 2026-10-04: "The read
+first then play isn't really working." Each mission and skirmish can be
+played straight away. Read a mission's chapters first, in the game's own
+reader (the whole chapter, King James text; *I read it* opens at the end of
+the chapter) or in Gospel Library (the same rule as the app's reading), and
+the people bring 100 grain and 100 timber when it starts, and the council
+asks about them (its right answers bring more grain and timber, and
+treasures). A mission card says so under its **Play** button.
+
+**The tips card.** Before each kind of game (the story missions, free battle
+as either side, Out of the Wilderness), a short card of four or five tips,
+a picture each, shows over the briefing until **Don't show again**. **How to
+play** at the top of the menu opens them all, and **Tips** on a briefing
+opens that game's. The briefings are short now: a verse or two and the goal.
 
 | Mission | What happens, and where it comes from |
 |---|---|
@@ -209,8 +219,8 @@ the app's reading). The second 3 Nephi mission also needs the first won.
 | **1 · Gather to One Place** (3 Nephi 3) | Lachoneus's proclamation: send someone to each of five villages and their people march to Zarahemla with flocks and grain (3:13, 22); a village left too long is taken by raiders. Build walls round about, watchtowers and guards (3:14) before the robbers come down (a 14-minute clock: Giddianhi said he would come "on the morrow month", 3:8). Nobody can go north of the border into the wilderness: "we will wait till they shall come against us" (3:21). Optional: weapons, armor and shields (3:26). |
 | **2 · The Robbers Come Down** (3 Nephi 4) | Giddianhi's army attacks (4:7); **Cry unto the Lord** puts everyone on their knees for a moment, then they take less harm for a while (4:8–10). They fall back and can be pursued; Giddianhi is slowed, "weary because of his much fighting" (4:14). Then Zemnarihah's siege round about (4:16): a bar shows the robbers' food running out, since the Nephites have seven years' provisions and the wild game is gone (4:2–4, 18–20). When it runs out it's night, the border opens, and the armies can go to the three passes before the robbers march at dawn (4:24–26); a robber caught by two soldiers gives himself up (4:27). |
 
-**Skirmishes** (Red Alert's way of playing, once any mission's chapter is
-read): start with the standard of liberty, one cart, two workers and three
+**Skirmishes** (Red Alert's way of playing, with no clock: they last until
+one side falls): start with the standard of liberty, one cart, two workers and three
 soldiers, and plant the standard on open ground to make your city
 (Alma 46:36). Then build up and either hold off the raids or tear down the
 war camp. The rules are Red Alert's: everything is built from the city and
@@ -304,7 +314,8 @@ throwers reach farther and strike harder); Amalickiah (cunning waits half
 as long), Ammoron (warriors cost less), Zerahemnah (captains cost less).
 The King-men's tree mirrors the Freemen's: tents feed the warriors, the
 muster ground trains warriors and slingers, the shield-makers' tent makes
-their armor, the ladder-works their ladders, the chief captain's pavilion
+their armor, the ladder-works their ladders and their swords and cimeters
+(+2 up close, Alma 43:20), the chief captain's pavilion
 their captains, the war-dance ground sends warriors out fierce for a while
 (Alma 48:3), and the Rameumptom, the Zoramites' "holy stand" (Alma 31:21),
 answers the temple. From it wicked men are stirred up: poison "by degrees"
@@ -365,7 +376,9 @@ up again a few minutes later. Kill its bearers and the camp starves. Tear
 down the war camp and the camps to win. Both skirmishes give Easy ★, Normal ★★, Hard ★★★. A scripted
 player wins free battle's Normal in about 12 minutes against the living camp as
 the Freemen, and in about 10 as the King-men against a Freemen camp (which, holding
-the stronger men, fields half the heads and fewer haulers); Hard about 2 times in 6; it holds off the raids at every level and length,
+the stronger men, fields half the heads and fewer haulers). After Blake's gameplay review (54 simulated games, three a cell), a casual
+player wins Easy most times on either side, a strong one wins Normal every time and Hard about one time in three, and one who builds up
+and upgrades wins Normal about half the time; Zarahemla now has two watchtowers of its own on Normal and Hard. The scripted player holds off the raids at every level and length,
 and a city left alone falls (Easy by about 15 minutes, Normal by 8). The
 council asks about every chapter read so far. Where a description borrows
 from history rather than the verses (the atlatl, the stepped platform of the
@@ -380,14 +393,18 @@ game opens the verse itself.
 
 **Controls**: tap or click to choose, drag a box (on a touch screen, **Box
 select** first), then tap the ground, a robber, trees or a field, or an
-unfinished building. Right-click also gives orders. Everything is built
+unfinished building. Right-click also gives orders. Soldiers sent across the
+ground fight anyone they meet on the way and then go on (Red Alert's
+attack-move); sent against a building, they turn on whoever strikes them
+first. **Fall back** (under a chosen army's card) brings them home without
+stopping to fight. Everything is built
 from Zarahemla (walls go in from where you tap first to where you tap next; with a mouse, drag a line; tap one of your people to stop) and rises on its own; workers
 mend and hurry it; carts haul on their own; the barracks trains guards. The side panel is Red Alert's build bar: two columns that are always
 there, buildings and upgrades on the left, people and powers on the right, only what you can make now (a tile wears New when it first
 opens). Each tile shows its own progress swept over its picture like Red Alert's clock, with a thin bar under it: a building rising,
 someone training, an upgrade being made, a power coming back. Tap a people tile again to queue more (the number on it is how many are
 waiting; they come from whichever building has the shortest line), and hold a tile (or right-click it) to take one back with what it
-cost, or to stop the newest building of that kind. What can be done with the one you chose (Stop, Let go, Plant it here, Remove, Make a
+cost, or to stop the newest building of that kind. What can be done with the one you chose (Stop, Fall back, Let go, Plant it here, Remove, Make a
 gate here, Done, Cancel) sits under its card. On a touch screen a new building shows where it will go on the first
 tap and is built on the second, and **Let go** clears the selection. When
 something of yours is attacked a message says so and a red ring shows where,

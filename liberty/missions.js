@@ -243,7 +243,6 @@
     usePower(W) { this.cry(W); },
     // At night, where to stand: in the way of their retreat.
     markers() { return ['night', 'retreat'].includes(this.phase) ? PASSES.map(x => ({ x, y: 6, label: 'Block the pass here' })) : []; },
-    needs: 'm1',
     briefing: [
       ['The robbers come out of the mountains and take the empty lands, but there is no food there.', '3 Nephi 4:1–3'],
       ['Zarahemla has laid up provisions “for the space of seven years.”', '3 Nephi 4:4'],
@@ -810,11 +809,14 @@
   // The camp's difficulty (camp.js): how many bearers it keeps hauling, what it starts with, when it may first march,
   // how long at most between marches, how big an army it gathers before marching (and how much bigger each time),
   // and how long a tent it loses waits before going up again.
+  // (Retuned after Blake's gameplay review, 54 simulated games, three a cell: Easy is won by a casual player most times on either side,
+  // Normal by a strong player every time and one who upgrades about half the time, Hard by a strong one about one time in three.
+  // Before, Hard was never won. No clock: a skirmish lasts until one side falls, as in Red Alert.)
   const LEVELS = {
     // (Their shields and breastplates now come from the shield-makers' tent, so the armor here is only what they start with.)
-    easy:   { name: 'Easy',   first: 360, every: 150, bearers: 3, start: { grain: 150, timber: 150 }, march: 6,  marchGrow: 1, rebuild: 240, stars: 1, guards: 8,  campGuards: 3, towers: 1, strength: 1.1,  armor: 0, fierce: 0.05, works: false },
-    normal: { name: 'Normal', first: 300, every: 130, bearers: 5, start: { grain: 250, timber: 250 }, march: 8,  marchGrow: 2, rebuild: 180, stars: 2, guards: 14, campGuards: 5, towers: 3, strength: 1.25, armor: 0, fierce: 0.08, works: true, holdWorks: ['dissension'] },
-    hard:   { name: 'Hard',   first: 270, every: 115, bearers: 7, start: { grain: 350, timber: 350, stone: 50 }, march: 10, marchGrow: 3, rebuild: 120, stars: 3, guards: 18, campGuards: 6, towers: 3, strength: 1.35, armor: 1, fierce: 0.1, works: true }
+    easy:   { name: 'Easy',   first: 360, every: 150, bearers: 3, start: { grain: 150, timber: 150 }, march: 6,  marchGrow: 1, rebuild: 240, stars: 1, guards: 8,  campGuards: 3, towers: 1, cityTowers: 1, strength: 1.1,  armor: 0, fierce: 0.05, works: false },
+    normal: { name: 'Normal', first: 330, every: 140, bearers: 5, start: { grain: 220, timber: 220 }, march: 7,  marchGrow: 2, rebuild: 180, stars: 2, guards: 12, campGuards: 5, towers: 2, cityTowers: 2, strength: 1.18, armor: 0, fierce: 0.08, works: true, holdWorks: ['dissension'] },
+    hard:   { name: 'Hard',   first: 300, every: 125, bearers: 6, start: { grain: 250, timber: 250, stone: 50 }, march: 7,  marchGrow: 2, rebuild: 120, stars: 3, guards: 15, campGuards: 6, towers: 3, cityTowers: 2, strength: 1.25, armor: 1, fierce: 0.1, works: true }
   };
 
   // The Lamanites: guards keep near home; the rest go for your nearest building.
@@ -850,12 +852,16 @@
     year: 'In the days of Captain Moroni', level: 'normal', LEVELS,
     goals: 'Pick a side and a captain, build up your camp, and tear down the enemy\'s. The Freemen plant the standard of liberty; the King-men raise Amalickiah\'s banner.',
     starsText: '★ won on Easy, ★★ on Normal, ★★★ on Hard.',
-    briefing: [
-      ['Moroni "planted the standard of liberty among the Nephites," and fortified the land against the Lamanites.', 'Alma 46:36'],
-      ['Plant yours on open ground, and your city begins. Tap the city to build, and buildings rise on their own. Carts bring in grain and timber; farms feed your people; granaries and storehouses hold what comes in.', null],
-      ['The barracks trains spearmen, slingers and archers; the armory makes armor; the smithy arms swordsmen and makes steel; the training ground sends out veterans; the stables, horse carts; the hall of the captains, javelin throwers and stripling warriors.', null],
-      ['These Lamanites have "prepared themselves with shields, and with breastplates" too.', 'Alma 49:6']
-    ],
+    // Short: the tips card (ui.js: TIPS) teaches how to play; this is the story you play it in, for the side you chose.
+    get briefing() {
+      return this.side === 'kingmen' ? [
+        ['Those who wanted "a king over the land" "were called king-men".', 'Alma 51:5'],
+        ['Raise your camp, gather a host, and tear down Zarahemla.', null]
+      ] : [
+        ['Moroni "planted the standard of liberty among the Nephites," and fortified the land against the Lamanites.', 'Alma 46:36'],
+        ['Plant yours, build your city up, and tear down the Lamanite war camp.', null]
+      ];
+    },
     setup(W) {
       const L = LEVELS[this.level];
       W.tech = true; W.border = null;
@@ -888,6 +894,13 @@
         const g = Math.round(L.guards * ((D.SIDES.freemen.bot || {}).march || 1));   // (the table counts Lamanite heads; see data.js: SIDES.bot)
         guard(this.city, [['spearman', Math.ceil(g * 0.5)], ['archer', Math.floor(g * 0.3)], ['nslinger', Math.max(1, Math.floor(g * 0.2))]], 'r');
         put(theirs[this.theirCaptain].hero, S0.x + 4, S0.y + 4, 'r', { mode: 'guard', home: this.city });
+        // Watchtowers round Zarahemla, as the war camp has its lookouts (Blake's review: a rush took the city in five minutes).
+        const spots = [[6, -1], [-3, 2], [2, 6]];
+        for (let i = 0; i < (L.cityTowers != null ? L.cityTowers : L.towers); i++) {
+          const [dx, dy] = spots[i];
+          const [x, y] = W.freeTileNear(this.city.tx + dx, this.city.ty + dy, 'r');
+          if (W.whyNotPlace('tower', x, y) !== 'ground') W.addBuilding('tower', 'r', x, y, true);
+        }
       }
       // The King-men: the war camp behind its palisade (a gap on the south side, where the armies come out), its three camps, and the towers.
       this.warcamp = W.addBuilding('warcamp', K, WC.x, WC.y, true, K === 'p' ? { name: 'Your camp' } : undefined);
@@ -1049,8 +1062,6 @@
     briefing: [
       ['The robbers "began to come down and to sally forth from the hills, and out of the mountains, and the wilderness".', '3 Nephi 4:1'],
       ['Plant the standard of liberty and build your city. Farms feed your people; walls and watchtowers keep them.', null],
-      ['Lachoneus set guards "round about to watch them, and to guard them from the robbers day and night".', '3 Nephi 3:14'],
-      ['Moroni put "the greater number of men" where the fortifications were weakest.', 'Alma 48:9'],
       ['Raiders come by four ways: the two passes through the mountains, the western wilderness, and the river fords. You hear which way before they come, and sooner if one of your watchtowers stands near it.', null]
     ],
     setup(W) {

@@ -427,10 +427,10 @@
       if (from && from.rank) a *= 1 + 0.15 * from.rank;                                   // a veteran strikes harder
       if (from && from.sword) a *= 1.5;                                                   // the sword of Laban (1 Nephi 4:9)
       if (from && from.def.foe && from.weak) a *= 0.6;
-      // Each kind of fighter is strong against another (data.js: `beats`).
-      if (from && from.kind === 'unit' && target.kind === 'unit' && from.def.beats && [].concat(from.def.beats).includes(kindOf(target.def))) a *= 1.5;
-      if (from && from.def.siege && target.kind === 'building') a *= from.def.siege;     // the cumom butts down walls and buildings
       const TS = this.side(target.team), unit = target.kind === 'unit';
+      // Each kind of fighter is strong against another (data.js: `beats`).
+      if (from && from.kind === 'unit' && unit && from.def.beats && [].concat(from.def.beats).includes(kindOf(target.def))) a *= 1.5;
+      if (from && from.def.siege && target.kind === 'building') a *= from.def.siege;     // the cumom butts down walls and buildings
       const armor = (target.def.armor || 0) + (unit && target.def.ranged && TS.clothing ? 2 : 0) + (unit && (target.def.soldier || target.def.foe) ? TS.armor : 0);
       a = Math.max(1, a * ARMOR / (ARMOR + armor));
       if (target.team === this.me && this.t < this.buffUntil) a *= 0.65;
@@ -441,6 +441,12 @@
       if (target.kind === 'building') target.lastHitBy = from ? from.id : null;
       if (target.kind === 'unit' && from && from.team === this.me && target.team !== this.me) target.lastHitBy = from.id;
       if (target.team === this.me && from && from.team !== this.me) { this.callHelp(target, from); this.alarm(target); }
+      // Your soldiers sent against a building strike back at whoever strikes them on the way, then go on (Blake's review:
+      // they used to walk on into the defenders). A plain march (Fall back) keeps walking.
+      if (target.hp > 0 && unit && target.team === this.me && fighter(target.def) && target.def.dmg && from && from.kind === 'unit' && !from.dead && from.team !== target.team) {
+        const o = target.order, at = o.type === 'attack' && this.ents.get(o.target);
+        if (at && at.kind === 'building' && at.id !== from.id) this.order(target, { type: 'attack', target: from.id, then: o, leash: { x: target.x, y: target.y } });
+      }
       if (target.hp <= 0) this.kill(target, from);
     }
     // Something of yours is attacked: idle soldiers nearby come to defend it.
@@ -1021,7 +1027,8 @@
     autoHaul(u) {
       if (!this.nearestDropoff(u)) {                 // nowhere to bring it: wait, and say so now and then
         const S = D.SIDES && D.SIDES[this.side(u.team).side];
-        if (u.team === this.me && S && this.t - (this.noStoreAt || -99) > 40) { this.noStoreAt = this.t; this.msg(`Your ${UNITS[u.type].name.toLowerCase()}s have nowhere to bring the harvest: build a ${BUILDINGS[S.store].name.toLowerCase()}.`, null, 'warn'); }
+        if (u.team === this.me && S && this.t - (this.noStoreAt || -99) > 90) {   // (now and then, not every forty seconds: Blake's review)
+          this.noStoreAt = this.t; this.msg(`Your ${UNITS[u.type].name.toLowerCase()}s have nowhere to bring the harvest: build a ${BUILDINGS[S.store].name.toLowerCase()}.`, null, 'warn'); }
         return false;
       }
       const R = this.side(u.team).res, low = R.grain <= R.timber ? 'grain' : 'timber', other = low === 'grain' ? 'timber' : 'grain';
