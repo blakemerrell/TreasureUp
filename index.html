@@ -402,6 +402,61 @@
   .shop-mine { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 2px; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 14px; flex-wrap: wrap; } .shop-mine small { display: block; font-size: 12px; color: rgba(255,255,255,.55); }
   .shop-mine.approved > span:last-child { color: #86efac; font-weight: 800; } .shop-mine.given > span:last-child { color: var(--gold); font-weight: 800; } .shop-mine.declined, .shop-mine.cancelled { opacity: .6; }
   .req-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.08); flex-wrap: wrap; font-size: 14px; } .req-row:last-child { border-bottom: 0; } .req-row small { display: block; font-size: 12px; color: rgba(255,255,255,.55); } .req-btns { display: flex; gap: 4px; }
+  /* My Season */
+  .sea-card { margin-top: 14px; padding: 14px 16px; border-radius: 18px; background: linear-gradient(135deg, rgba(134,239,172,.10), rgba(14,165,233,.06)); border: 1px solid rgba(134,239,172,.32); }
+  .sea-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .sea-link { font: inherit; font-size: 12.5px; font-weight: 800; color: #86efac; background: none; border: 0; cursor: pointer; padding: 2px 0; }
+  .sea-intro { margin: 8px 0 4px; font-size: 14.5px; line-height: 1.45; color: rgba(255,255,255,.8); }
+  .sea-go { margin-top: 8px; }
+  .sea-tick, .sea-check { width: 100%; display: flex; align-items: center; gap: 12px; margin-top: 8px; padding: 10px 12px; border-radius: 14px; font: inherit; text-align: left; color: #fff; cursor: pointer; background: rgba(0,0,0,.22); border: 1px solid rgba(255,255,255,.12); }
+  .sea-tick i { flex: 0 0 auto; width: 26px; height: 26px; border-radius: 8px; border: 2px solid rgba(134,239,172,.6); display: grid; place-items: center; font-style: normal; font-weight: 900; color: #052e16; }
+  .sea-tick.on i { background: #86efac; border-color: #86efac; }
+  .sea-tick > span, .sea-check { font-weight: 800; font-size: 15px; } .sea-tick small, .sea-check small { display: block; font-weight: 600; font-size: 12.5px; color: rgba(255,255,255,.58); margin-top: 2px; }
+  .sea-tick.on > span { color: rgba(255,255,255,.75); }
+  .sea-check { justify-content: space-between; border-color: rgba(252,211,77,.4); background: rgba(252,211,77,.08); } .sea-check small { color: var(--gold); margin: 0; }
+  .sea-goal { display: flex; gap: 10px; align-items: center; margin-top: 8px; font-weight: 800; } .sea-goal small { display: block; font-weight: 600; font-size: 12.5px; color: rgba(255,255,255,.55); }
+  .sea-g { margin-top: 14px; padding: 12px 14px; border-radius: 16px; background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.1); }
+  .sea-g-top { display: flex; align-items: center; gap: 8px; } .sea-g-top .today-alt { margin: 0 0 0 auto; }
+  .sea-area { font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #86efac; } .sea-lock { font-size: 12px; font-weight: 700; color: rgba(255,255,255,.6); }
+  .sea-g-text { margin-top: 4px; font-size: 17px; font-weight: 900; }
+  .sea-why { margin-top: 4px; font-size: 13px; color: rgba(255,255,255,.62); }
+  .sea-step { margin-top: 10px; font-size: 14px; font-weight: 700; } .sea-step small { display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.55); }
+  .sea-meta { margin-top: 8px; font-size: 12.5px; color: rgba(255,255,255,.6); } .sea-meta:empty { display: none; }
+  .sea-grid { display: flex; gap: 3px; margin-top: 6px; overflow-x: auto; padding-bottom: 2px; }
+  .sg-col { display: grid; grid-template-rows: repeat(7, 1fr); gap: 3px; padding: 2px; border-radius: 5px; } .sg-col.full { background: rgba(134,239,172,.14); }
+  .sg-d { width: 14px; height: 14px; padding: 0; border-radius: 3px; border: 0; background: rgba(255,255,255,.12); cursor: pointer; display: block; }
+  .sg-d.on { background: #86efac; } .sg-d.now { outline: 2px solid var(--gold); outline-offset: 0; } .sg-d.later { background: rgba(255,255,255,.04); cursor: default; }
+  .sg-cap { display: flex; justify-content: space-between; max-width: calc(13 * 23px); font-size: 11px; color: rgba(255,255,255,.45); margin-top: 2px; }
+  .sea-fam { margin: 10px 0 2px; padding: 8px 12px; border-radius: 12px; font-size: 14px; background: rgba(252,211,77,.08); border: 1px solid rgba(252,211,77,.25); }
+  .sea-imp { margin-top: 8px; }
+  .sea-imp-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-top: 8px; } .sea-imp-bar .btn { margin-left: auto; }
+  .sea-ref { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.7); } .sea-ref .today-alt { display: inline; margin: 0 0 0 4px; }
+  .sea-imp-row { margin-top: 10px; padding: 10px 0 0; border-top: 1px solid rgba(255,255,255,.08); } .sea-imp-row p { font-size: 14.5px; white-space: pre-wrap; } .sea-imp-row small { font-size: 12px; color: rgba(255,255,255,.55); } .sea-imp-row .today-alt { display: inline; margin: 0; font-size: 12px; }
+  .sea-who { display: grid; gap: 8px; margin-top: 12px; } .sea-who .sh-row.on { border-color: #86efac; }
+  .sea-qs { margin: 10px 0 0 18px; list-style: disc; font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,.85); }
+  .sea-areas { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 8px; } .sea-areas.sm { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .sea-areab { padding: 10px 12px; border-radius: 14px; font: inherit; text-align: left; color: #fff; cursor: pointer; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); }
+  .sea-areab b { display: block; font-size: 14.5px; } .sea-areab small { display: block; font-size: 12px; color: rgba(255,255,255,.55); margin-top: 2px; }
+  .sea-areas.sm .sea-areab { padding: 8px 6px; text-align: center; } .sea-areas.sm .sea-areab b { font-size: 12px; }
+  .sea-areab.on { border-color: #86efac; background: rgba(134,239,172,.14); }
+  .sea-ideas { display: grid; gap: 6px; margin-top: 8px; }
+  .sea-idea { padding: 10px 12px; border-radius: 12px; font: inherit; text-align: left; color: #fff; cursor: pointer; background: rgba(0,0,0,.22); border: 1px solid rgba(255,255,255,.1); }
+  .sea-idea b { display: block; font-size: 14.5px; } .sea-idea small { display: block; font-size: 12.5px; color: rgba(255,255,255,.58); margin-top: 2px; }
+  .sea-lbl { display: block; margin: 14px 0 6px; font-size: 12.5px; font-weight: 800; color: rgba(255,255,255,.7); }
+  .sea-steprow { display: grid; grid-template-columns: minmax(0, 1fr) 9.5em auto; gap: 6px; align-items: center; margin-top: 6px; } .sea-steprow .today-alt { margin: 0; }
+  @media (max-width: 480px) { .sea-steprow { grid-template-columns: minmax(0, 1fr) auto; } .sea-steprow .field:first-child { grid-column: 1 / -1; } }
+  .sea-helpers { display: flex; flex-wrap: wrap; gap: 6px; }
+  .sea-private { width: 100%; display: flex; align-items: center; gap: 12px; margin-top: 14px; padding: 10px 12px; border-radius: 14px; font: inherit; text-align: left; color: #fff; cursor: pointer; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); }
+  .sea-private > span:first-child { font-size: 22px; } .sea-private > span:last-child { font-weight: 800; font-size: 14.5px; } .sea-private small { display: block; font-weight: 600; font-size: 12.5px; color: rgba(255,255,255,.58); }
+  .sea-private.on { border-color: rgba(196,181,253,.6); background: rgba(139,92,246,.14); }
+  .sea-stat { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .sea-impress { margin-top: 18px; }
+  .sf-help { margin: 8px 0; padding: 8px 12px; border-radius: 12px; font-size: 14px; background: rgba(14,165,233,.12); border: 1px solid rgba(125,211,252,.35); }
+  .sf-person { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.08); } .sf-person:last-of-type { border-bottom: 0; }
+  .sf-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; } .sf-top small { font-size: 11px; color: rgba(255,255,255,.5); font-weight: 700; }
+  .sf-goal { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 6px; font-size: 14px; } .sf-goal small { color: #7dd3fc; font-size: 12px; font-weight: 700; }
+  .sf-dots { flex: 0 0 auto; letter-spacing: 1px; font-size: 11px; color: #86efac; }
+  .sf-set { display: flex; gap: 6px; margin-top: 12px; } .sf-set .btn { flex: 0 0 auto; }
   .prize-row { display: grid; grid-template-columns: 3.2em minmax(0, 1fr) 7.4em 7.2em; gap: 6px; align-items: center; }
   .prize-row [data-f="emoji"] { text-align: center; padding-left: 4px; padding-right: 4px; }
   .pz-num { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.6); white-space: nowrap; } .pz-num .field { min-width: 0; padding-left: 8px; padding-right: 6px; }
@@ -1728,6 +1783,7 @@ const TreasureUp = (function () {
   function save() {
     saveLocal();
     queueSync();   // and to the family, if this device is in one
+    queueSeasonSum();
   }
   function saveLocal() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); } catch (e) {}
@@ -1761,7 +1817,7 @@ const TreasureUp = (function () {
   // read it), the last 60 days kept. Nothing else is recorded.
   const USE_NAMES = { 'tab:study': 'Study tab', 'tab:scriptures': 'Scriptures tab', 'tab:family': 'Family tab', lesson: 'Lessons',
     chapter: 'Chapters opened', library: 'Scripture chapters', card: 'Cards', word: 'Word studies', listen: 'Listen',
-    sunday: 'Sunday lessons', talk: 'Conference talks' };
+    sunday: 'Sunday lessons', talk: 'Conference talks', shop: 'Rewards shop', season: 'My Season', seasonTick: 'Season ticks', impression: 'Impressions' };
   function use(key) {
     if (!S) return;
     const u = S.usage || (S.usage = {}), d = dayKey(), day = u[d] || (u[d] = {});
@@ -2136,6 +2192,7 @@ const TreasureUp = (function () {
         </div>
         <div class="tt-main">
           ${dayCardHtml(selDay || dayKey())}
+          ${seasonCardHtml()}
           ${verseOfDayHtml()}
 
           <details class="fold"><summary>Your week<small>Chapters, reels, right first time, notes</small></summary>${weekStatsHtml()}</details>
@@ -3899,6 +3956,565 @@ const TreasureUp = (function () {
       <span class="req-btns">${o.status === 'pending' ? `<button class="sh-pill on" ${attr} data-oid="${esc(o.id)}" data-st="approved">Yes</button>` : ''}<button class="sh-pill${o.status === 'approved' ? ' on' : ''}" ${attr} data-oid="${esc(o.id)}" data-st="given">Given</button><button class="sh-pill" ${attr} data-oid="${esc(o.id)}" data-st="declined">No</button></span></div>`).join('');
   }
 
+  /* ---------------- My Season ---------------- */
+
+  // Blake, 2026-10-04: the Children and Youth program's pattern for growing
+  // (Discover, Plan, Act, Reflect, in the four areas of Luke 2:52) kept the
+  // way his Best Self journal keeps goals: 13-week Seasons and a habit
+  // tracker, for the whole family. A Season is a calendar quarter, from the
+  // first Monday of January, April, July and October (13 weeks; 12 or 14 a
+  // few times a decade), so the family's run together and January's starts
+  // with the Children and Youth year. Each goal's small steps are habits ticked on Today; a
+  // weekend check-in (Progressing, I need help, Try something different, the
+  // guidebook's Act step) pays 20 XP and the Season's reflection 150. Blake
+  // chose XP for check-ins only: a tick pays nothing, so nobody is paid to
+  // pray. Some goals are private ("allowing the child or youth to keep some
+  // goals between himself or herself and the Lord", the program's FAQ): the
+  // family sees a 🔒 and its progress, not its words. Impressions are his
+  // unless he shares one with his parents. Both live in his saved progress,
+  // which the family's copy keeps (Blake chose that over this device only),
+  // so a parent with the family's Firebase console could still read them.
+  const AREAS = [
+    { id: 'spiritual', icon: '🙏', name: 'Spiritual', luke: 'in favour with God' },
+    { id: 'social', icon: '🤝', name: 'Social', luke: 'in favour with man' },
+    { id: 'physical', icon: '💪', name: 'Physical', luke: 'in stature' },
+    { id: 'intellectual', icon: '🧠', name: 'Intellectual', luke: 'in wisdom' }
+  ];
+  const areaOf = id => AREAS.find(a => a.id === id) || AREAS[0];
+  const SEASON_CHECK_XP = 20, SEASON_REFLECT_XP = 150;
+  // How many goals a Season: children one a year in each area, youth at least two (the program), so 1 and 2 a Season.
+  const WHO = {
+    child: { name: 'A child in Primary', goals: 1, max: 2 },
+    youth: { name: 'A youth (Young Men or Young Women)', goals: 2, max: 3 },
+    adult: { name: 'A parent or grown-up', goals: 2, max: 4 }
+  };
+  const STATUS = { on: '👍 Progressing', help: '🙋 I need help', change: '🔄 Try something different' };
+  // Ideas, after the guidebooks' "Ideas for growing in all areas of life",
+  // some with a verse from the year's reading: t, the goal; s, a first small
+  // step; n, times a week.
+  const SEASON_IDEAS = {
+    spiritual: [
+      { t: 'Talk with Heavenly Father every day', s: 'Pray morning and night', n: 7 },
+      { t: 'Know the scriptures better', s: 'Read the scriptures 10 minutes', n: 6 },
+      { t: 'Remember what the Spirit teaches me', s: 'Write an impression', n: 2 },
+      { t: 'Not be afraid', s: 'Say my verse from memory', n: 3, ref: 'Isaiah 41:10' },
+      { t: 'Make the Sabbath a delight', s: 'Do one Sabbath thing I love', n: 1, ref: 'Isaiah 58:13' },
+      { t: 'Get ready for the temple', s: 'Find a family name, or learn one thing about the temple', n: 1 },
+      { t: 'Learn a hymn by heart', s: 'Practice the hymn', n: 3 }
+    ],
+    social: [
+      { t: 'Be kind without being asked', s: 'One kind thing nobody asked for', n: 7 },
+      { t: 'Lift someone who is weary', s: 'Say an encouraging word to someone', n: 3, ref: 'Isaiah 50:4' },
+      { t: 'Be a friend to someone who is alone', s: 'Sit with or talk to someone who is alone', n: 2 },
+      { t: 'Grow closer to my family', s: 'One-on-one time with someone in my family', n: 1 },
+      { t: 'Say thank you more', s: 'Write or say a real thank-you', n: 3 },
+      { t: 'Serve someone outside our home', s: 'One act of service', n: 1, ref: 'Isaiah 58:7' },
+      { t: 'Forgive and say sorry quickly', s: 'Make it right the same day', n: 7 }
+    ],
+    physical: [
+      { t: 'Run and not be weary', s: 'Run, walk or bike 20 minutes', n: 3, ref: 'Isaiah 40:31' },
+      { t: 'Get stronger', s: 'Push-ups, sit-ups and stretches', n: 5 },
+      { t: 'Sleep well', s: 'In bed on time', n: 7 },
+      { t: 'Eat and drink what helps my body', s: 'Water, not soda, and a fruit or vegetable at each meal', n: 7, ref: 'Doctrine and Covenants 89:10' },
+      { t: 'Learn a new sport or skill', s: 'Practice 20 minutes', n: 4 },
+      { t: 'Less screen, more life', s: 'A screen-free hour', n: 5 },
+      { t: 'Learn first aid', s: 'Learn one first-aid skill', n: 1 }
+    ],
+    intellectual: [
+      { t: 'Read more books', s: 'Read 20 minutes', n: 5 },
+      { t: 'Play an instrument', s: 'Practice 15 minutes', n: 5 },
+      { t: 'Learn some Spanish or Tagalog', s: 'Learn 5 new words (Amigo · Kaibigan helps)', n: 3 },
+      { t: 'Cook for my family', s: 'Help make dinner', n: 1 },
+      { t: 'Save and spend wisely', s: 'Put part of any money I get in savings', n: 1 },
+      { t: 'Find out about a job I might like', s: 'Ask someone about their work, or read about it', n: 1 },
+      { t: 'Do my best at school', s: 'Homework before games', n: 5 },
+      { t: 'Understand a gospel truth deeply', s: 'Study it 15 minutes (a Deep dive counts)', n: 2, ref: 'Isaiah 53:4' }
+    ]
+  };
+
+  // Seasons: the quarter a day falls in, from the first Monday of its month.
+  const firstMonday = k => dayAdd(k, (8 - new Date(k + 'T12:00:00').getDay()) % 7);
+  const mdShort = k => shortDay(k);
+  function seasonAt(k) {
+    const y = +k.slice(0, 4), starts = [];
+    for (let yy = y - 1; yy <= y + 1; yy++) for (let q = 0; q < 4; q++)
+      starts.push({ id: yy + '-Q' + (q + 1), n: q + 1, year: yy, start: firstMonday(yy + '-' + String(q * 3 + 1).padStart(2, '0') + '-01') });
+    let i = starts.length - 2;
+    while (i > 0 && starts[i].start > k) i--;
+    const s = starts[i], next = starts[i + 1];
+    return Object.assign({}, s, { end: dayAdd(next.start, -1), weeks: dayDiff(s.start, next.start) / 7, name: 'Season ' + s.n + ' · ' + s.year });
+  }
+  const seasonDates = s => mdShort(s.start) + ' – ' + mdShort(s.end);
+  const liveGoals = rec => rec && rec.goals ? rec.goals.filter(g => g.status !== 'gone') : [];
+  function seasonRec(id, make) {
+    if (!S.seasons) { if (!make) return null; S.seasons = {}; }
+    if (!S.seasons[id] && make) S.seasons[id] = { goals: [], ticks: {}, checks: {}, reflect: {} };
+    return S.seasons[id] || null;
+  }
+  // The Season Today plans for: this one, or, in this one's last week with no goals in it, the next.
+  function seasonNow() {
+    const today = dayKey(), cur = seasonAt(today);
+    if (!liveGoals(seasonRec(cur.id)).length && dayDiff(today, cur.end) < 7) return seasonAt(dayAdd(cur.end, 1));
+    return cur;
+  }
+  // The last Season, for its reflection: done with goals, not looked back on, ended in the last 4 weeks.
+  function seasonToReflect() {
+    const today = dayKey(), cur = seasonAt(today), prev = seasonAt(dayAdd(cur.start, -1)), rec = seasonRec(prev.id);
+    if (liveGoals(rec).length && !rec.reflected && dayDiff(prev.end, today) <= 28) return prev;
+    if (liveGoals(seasonRec(cur.id)).length && !seasonRec(cur.id).reflected && dayDiff(today, cur.end) < 14) return cur;
+    return null;
+  }
+  const seasonWho = () => S.seasonWho || (F && F.role !== 'kid' ? 'adult' : 'youth');
+  const weekOfSeason = (s, k) => Math.min(s.weeks, Math.max(1, Math.floor(dayDiff(s.start, k) / 7) + 1));
+  // A tick is a day's time (+) or its undoing (−), so two devices' ticks merge by the later one.
+  const ticked = (rec, stepId, day) => (((rec && rec.ticks) || {})[stepId] || {})[day] > 0;
+  const ticksIn = (rec, stepId, from, to) => Object.entries(((rec && rec.ticks) || {})[stepId] || {}).filter(([d, v]) => v > 0 && d >= from && d <= to).length;
+  function weekTicks(rec, g, mon) {
+    const to = dayAdd(mon, 6);
+    return { done: (g.steps || []).reduce((n, st) => n + Math.min(st.n, ticksIn(rec, st.id, mon, to)), 0), of: (g.steps || []).reduce((n, st) => n + st.n, 0) };
+  }
+  // The weekend check-in: Saturday or Sunday for this week, Monday for the week just ended.
+  function checkWeek() {
+    const today = dayKey(), wd = new Date(today + 'T12:00:00').getDay(), mon = mondayOf(today);
+    const w = wd === 6 || wd === 0 ? mon : wd === 1 ? dayAdd(mon, -7) : null;
+    if (!w) return null;
+    const s = seasonAt(w);
+    return liveGoals(seasonRec(s.id)).length && w >= s.start ? { w, s } : null;
+  }
+  const lastStatus = (rec, gid) => {
+    const ws = Object.keys((rec && rec.checks) || {}).sort();
+    for (let i = ws.length - 1; i >= 0; i--) { const x = rec.checks[ws[i]].goals || {}; if (x[gid]) return x[gid]; }
+    return '';
+  };
+  const seaId = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+
+  function tickStep(sid, stepId, day) {
+    const rec = seasonRec(sid, true), ticks = rec.ticks || (rec.ticks = {}), t = ticks[stepId] || (ticks[stepId] = {});
+    t[day] = t[day] > 0 ? -Date.now() : Date.now();
+    use('seasonTick');
+    save();
+  }
+
+  // ----- Today's card -----
+  function seasonCardHtml() {
+    const s = seasonNow(), rec = seasonRec(s.id), goals = liveGoals(rec), today = dayKey(), started = s.start <= today;
+    const refl = seasonToReflect(), chk = checkWeek();
+    const head = `<div class="sea-top"><span class="eyebrow">🌱 My Season</span><button class="sea-link" data-season="home">${esc(s.name)}${started ? ' · week ' + weekOfSeason(s, today) + ' of ' + s.weeks : ''} ›</button></div>`;
+    if (!goals.length) return `<div class="sea-card">${head}
+      <p class="sea-intro">${started ? esc(s.name) + ' runs ' : esc(s.name) + ' starts ' + esc(DAY_NAMES[0]) + ', '}${esc(started ? seasonDates(s) : mdShort(s.start))}. Pick ${WHO[seasonWho()].goals === 1 ? 'a goal' : 'a goal or two'} to grow the way Jesus did: spiritual, social, physical and intellectual (Luke 2:52).</p>
+      <button class="btn sea-go" data-season="discover">Plan my Season</button>
+      ${refl ? `<button class="sea-check" data-season="reflect">🌟 Look back on ${esc(refl.name)}<small>+${SEASON_REFLECT_XP} XP</small></button>` : ''}</div>`;
+    const mon = mondayOf(today);
+    const rows = !started ? goals.map(g => `<div class="sea-goal"><span>${areaOf(g.area).icon}</span><span>${esc(g.text)}${g.private ? ' 🔒' : ''}<small>Starts ${esc(mdShort(s.start))}</small></span></div>`).join('')
+      : goals.flatMap(g => (g.steps || []).map(st => {
+        const on = ticked(rec, st.id, today), n = ticksIn(rec, st.id, mon, dayAdd(mon, 6));
+        return `<button class="sea-tick${on ? ' on' : ''}" data-tick="${esc(s.id)}|${esc(st.id)}" aria-pressed="${on}"><i>${on ? '✓' : ''}</i><span>${esc(st.text)}<small>${areaOf(g.area).icon} ${esc(g.text)}${g.private ? ' 🔒' : ''} · ${st.n === 7 ? n + ' of 7 days' : n + ' of ' + st.n + ' this week'}</small></span></button>`;
+      })).join('');
+    const ck = chk && !(seasonRec(chk.s.id).checks || {})[chk.w];
+    return `<div class="sea-card">${head}${rows}
+      ${ck ? `<button class="sea-check" data-season="check">🗓️ Weekend check-in: how's it going?<small>+${SEASON_CHECK_XP} XP</small></button>` : ''}
+      ${refl ? `<button class="sea-check" data-season="reflect">🌟 Look back on ${esc(refl.name)}<small>+${SEASON_REFLECT_XP} XP</small></button>` : ''}</div>`;
+  }
+
+  // ----- the Season sheet: home, who, discover, plan, check, reflect -----
+  let seasonView = 'home', seasonDraft = null, seasonArea = null, impRef = '', impShare = false;
+  const seasonOpen = () => !$('appSheet').hidden && !!$('appBody').querySelector('.sea-sheet');
+  function openSeason(view, opt) {
+    seasonView = view || 'home';
+    if (opt && opt.ref != null) impRef = opt.ref;
+    if (seasonView === 'discover' && !S.seasonWho) seasonView = 'who';
+    use('season');
+    seasonDraw(opt && opt.msg, true);
+    if (opt && opt.ref) { const t = $('impText'); if (t) t.focus(); }
+  }
+  function seasonDraw(msg, top) {
+    const c = document.querySelector('#appSheet .ws-card'), y = c ? c.scrollTop : 0;
+    openSheet(seasonSheetHtml(msg));
+    if (c) c.scrollTop = top || msg ? 0 : y;
+  }
+  function seasonSheetHtml(msg) {
+    const body = seasonView === 'who' ? whoHtml() : seasonView === 'discover' ? discoverHtml() : seasonView === 'plan' ? planHtml()
+      : seasonView === 'check' ? checkHtml() : seasonView === 'reflect' ? reflectHtml() : seasonHomeHtml();
+    return `<div class="sea-sheet">${msg ? `<p class="shop-msg">${msg}</p>` : ''}${body}</div>`;
+  }
+  function seasonHomeHtml() {
+    const s = seasonNow(), rec = seasonRec(s.id), goals = liveGoals(rec), today = dayKey(), who = seasonWho(), started = s.start <= today;
+    const mon = mondayOf(today), fg = famHome && famHome.seasonGoal && famHome.seasonGoal.sid === s.id ? famHome.seasonGoal.text : '';
+    const goal = g => {
+      const st = lastStatus(rec, g.id);
+      return `<div class="sea-g">
+        <div class="sea-g-top"><span class="sea-area">${areaOf(g.area).icon} ${esc(areaOf(g.area).name)}</span>${g.private ? '<span class="sea-lock">🔒 Private</span>' : ''}<button class="today-alt" data-season-edit="${esc(g.id)}">Change</button></div>
+        <div class="sea-g-text">${esc(g.text)}</div>
+        ${g.why ? `<p class="sea-why">${esc(g.why)}</p>` : ''}
+        ${(g.steps || []).map(stp => `<div class="sea-step"><span>${esc(stp.text)}<small>${stp.n === 7 ? 'Every day' : stp.n + (stp.n === 1 ? ' time' : ' times') + ' a week'}${started ? ' · this week ' + Math.min(stp.n, ticksIn(rec, stp.id, mon, dayAdd(mon, 6))) + ' of ' + stp.n : ''}</small></span></div>${gridHtml(s, rec, stp)}`).join('')}
+        <p class="sea-meta">${[st ? esc(STATUS[st]) : '', helperNames(g) ? 'Helping: ' + esc(helperNames(g)) : ''].filter(Boolean).join(' · ')}</p>
+      </div>`;
+    };
+    const imps = Object.entries(S.impressions || {}).filter(([, x]) => x && !x.gone).sort((a, b) => (b[1].at || 0) - (a[1].at || 0)).slice(0, 12);
+    const kid = who !== 'adult';
+    const chk = checkWeek(), refl = seasonToReflect();
+    return `<div class="sh-title">🌱 My Season</div>
+      <p class="sh-small"><b>${esc(s.name)}</b> · ${esc(seasonDates(s))}${started ? ' · week ' + weekOfSeason(s, today) + ' of ' + s.weeks : ' · starts ' + esc(mdShort(s.start))}. “Jesus increased in wisdom and stature, and in favour with God and man” (${linkRefs('Luke 2:52')}).</p>
+      ${fg ? `<p class="sea-fam">👪 Family goal this Season: <b>${esc(fg)}</b></p>` : ''}
+      ${goals.map(goal).join('') || `<p class="sea-intro">No goals yet for ${esc(s.name)}. ${who === 'child' ? 'One is plenty.' : who === 'youth' ? 'Two is a good number: by the end of the year that’s two in every area.' : 'Pick what matters most.'}</p>`}
+      <div class="board-actions">
+        ${goals.length < WHO[who].max ? `<button class="btn${goals.length ? ' ghost' : ''}" data-season="discover">${goals.length ? 'Add a goal' : 'Plan my Season'}</button>` : ''}
+        ${chk && chk.s.id === s.id ? `<button class="btn ghost" data-season="check">Weekend check-in</button>` : ''}
+        ${refl ? `<button class="btn ghost" data-season="reflect">Look back on ${esc(refl.name)}</button>` : ''}
+      </div>
+      <div class="eyebrow" style="margin-top:20px">✍️ Impressions</div>
+      <p class="sh-small">A thought, a feeling, something the Spirit taught you.${kid ? ' Just yours, unless you share it with your parents.' : ' Just yours.'}</p>
+      <textarea id="impText" class="field sea-imp" maxlength="1000" rows="3" placeholder="${impRef ? 'What did ' + esc(impRef) + ' teach you?' : 'What did you notice today?'}"></textarea>
+      <div class="sea-imp-bar">${impRef ? `<span class="sea-ref">📖 ${esc(impRef)} <button class="today-alt" data-imp-noref>✕</button></span>` : '<span></span>'}
+        ${kid ? `<button class="sh-pill${impShare ? ' on' : ''}" data-imp-share>${impShare ? '👀 Share with my parents' : '🔒 Just me'}</button>` : ''}
+        <button class="btn" data-imp-save>Save</button></div>
+      ${imps.map(([id, x]) => `<div class="sea-imp-row"><p>${esc(x.text)}</p><small>${esc(mdShort(x.day))}${x.ref ? ' · ' + linkRefs(x.ref) : ''}
+        ${kid ? ` · <button class="today-alt" data-imp-toggle="${esc(id)}">${x.share ? '👀 Shared with your parents' : '🔒 Just you'}</button>` : ''} · <button class="today-alt" data-imp-del="${esc(id)}">Delete</button></small></div>`).join('')}
+      <p class="sh-small" style="margin-top:16px">I am ${esc(WHO[who].name.replace(/^A /, 'a '))} · <button class="today-alt" data-season="who" style="display:inline;margin:0">Change</button></p>`;
+  }
+  // The Season's days as a grid, a column a week, Monday on top; a tap ticks or unticks a day up to today.
+  function gridHtml(s, rec, stp) {
+    if (s.start > dayKey()) return '';
+    const today = dayKey(), cols = [];
+    for (let w = 0; w < s.weeks; w++) {
+      const mon = dayAdd(s.start, w * 7), n = ticksIn(rec, stp.id, mon, dayAdd(mon, 6));
+      cols.push(`<div class="sg-col${n >= stp.n ? ' full' : ''}">${weekDays(mon).map(d => d > today ? '<i class="sg-d later"></i>'
+        : `<button class="sg-d${ticked(rec, stp.id, d) ? ' on' : ''}${d === today ? ' now' : ''}" data-tick="${esc(s.id)}|${esc(stp.id)}|${d}" aria-label="${esc(mdShort(d))}"></button>`).join('')}</div>`);
+    }
+    return `<div class="sea-grid" aria-label="${esc(stp.text)}: the Season, a column a week">${cols.join('')}</div><div class="sg-cap"><span>${esc(mdShort(s.start))} · Mondays on top</span><span>${esc(mdShort(s.end))}</span></div>`;
+  }
+  const weekDays = mon => Array.from({ length: 7 }, (_, i) => dayAdd(mon, i));
+  function helperNames(g) {
+    const names = (g.helpers || []).map(pid => ((famHome && famHome.progress) || []).find(x => x.pid === pid)).filter(Boolean).map(x => x.name);
+    if (g.helpText) names.push(g.helpText);
+    return names.join(', ');
+  }
+  function whoHtml() {
+    const who = S.seasonWho || seasonWho();
+    return `<div class="sh-title">🌱 Who's this Season for?</div>
+      <p class="sh-small">So it asks the right questions and suggests how many goals.</p>
+      <div class="sea-who">${Object.entries(WHO).map(([k, w]) => `<button class="sh-row sh-go${k === who ? ' on' : ''}" data-season-who="${k}"><span>${esc(w.name)}<small>${w.goals === 1 ? 'One goal a Season' : 'About ' + w.goals + ' goals a Season'}</small></span><span>›</span></button>`).join('')}</div>`;
+  }
+  function discoverHtml() {
+    const s = seasonNow(), who = seasonWho(), y = s.year;
+    const thisYear = a => Object.entries(S.seasons || {}).filter(([id]) => id.startsWith(y + '-')).reduce((n, [, r]) => n + liveGoals(r).filter(g => g.area === a).length, 0);
+    const qs = who === 'child' ? ['What do you feel you should learn or try?', 'What do you do well?', 'What do you want to do better?']
+      : ['How can I develop my talents?', 'What responsibilities do I have right now?', 'What do I want to do better?'];
+    const a = seasonArea;
+    return `<div class="sh-title">🔎 Discover</div>
+      <p class="sh-small">Before you pick, think about it, and “ask Heavenly Father to help you know what you need to work on right now.”</p>
+      <ul class="sea-qs">${qs.map(q => `<li>${esc(q)}</li>`).join('')}</ul>
+      <div class="eyebrow" style="margin-top:16px">Pick an area</div>
+      <div class="sea-areas">${AREAS.map(x => `<button class="sea-areab${a === x.id ? ' on' : ''}" data-season-area="${x.id}"><b>${x.icon} ${esc(x.name)}</b><small>${esc(x.luke)}${thisYear(x.id) ? ' · ' + thisYear(x.id) + ' this year' : ''}</small></button>`).join('')}</div>
+      ${a ? `<div class="eyebrow" style="margin-top:16px">Ideas</div>
+        <div class="sea-ideas">${SEASON_IDEAS[a].map((x, i) => `<button class="sea-idea" data-season-idea="${i}"><b>${esc(x.t)}</b><small>${esc(x.s)} · ${x.n === 7 ? 'every day' : x.n + (x.n === 1 ? ' time' : ' times') + ' a week'}${x.ref ? ' · ' + esc(x.ref) : ''}</small></button>`).join('')}</div>
+        <div class="board-actions"><button class="btn ghost" data-season-own>Write my own</button></div>` : ''}
+      <button class="today-alt" data-season="home">Back to my Season</button>`;
+  }
+  function draftFrom(g, area) {
+    return g ? JSON.parse(JSON.stringify(g)) : { id: null, area: area || 'spiritual', text: '', why: '', follow: '', steps: [{ id: seaId('t'), text: '', n: 3 }], helpers: [], helpText: '', private: false };
+  }
+  function planHtml() {
+    const d = seasonDraft, who = seasonWho(), kids = ((famHome && famHome.progress) || []).filter(x => !F || x.pid !== F.pid);
+    const nSel = (st, i) => `<select class="field sea-n" data-step-n="${i}" aria-label="How often">${[1, 2, 3, 4, 5, 6, 7].map(n => `<option value="${n}"${st.n === n ? ' selected' : ''}>${n === 7 ? 'Every day' : n + (n === 1 ? ' time' : ' times') + ' a week'}</option>`).join('')}</select>`;
+    return `<div class="sh-title">📝 Plan${d.id ? ': change a goal' : ''}</div>
+      <div class="sea-areas sm">${AREAS.map(x => `<button class="sea-areab${d.area === x.id ? ' on' : ''}" data-plan-area="${x.id}"><b>${x.icon} ${esc(x.name)}</b></button>`).join('')}</div>
+      <label class="sea-lbl" for="pgText">My goal</label>
+      <input id="pgText" class="field" maxlength="120" value="${esc(d.text)}" placeholder="Run and not be weary">
+      <label class="sea-lbl" for="pgWhy">Why does it matter to me?</label>
+      <textarea id="pgWhy" class="field" maxlength="300" rows="2">${esc(d.why)}</textarea>
+      <label class="sea-lbl" for="pgFollow">${who === 'child' ? 'How can this help me follow Jesus?' : 'How will it help me become more like Jesus Christ?'}</label>
+      <textarea id="pgFollow" class="field" maxlength="300" rows="2">${esc(d.follow)}</textarea>
+      <div class="sea-lbl">Small steps (I'll tick them on Today)</div>
+      ${d.steps.map((st, i) => `<div class="sea-steprow"><input class="field" data-step-text="${i}" maxlength="80" value="${esc(st.text)}" placeholder="Run, walk or bike 20 minutes">${nSel(st, i)}${d.steps.length > 1 ? `<button class="today-alt" data-step-del="${i}" aria-label="Remove this step">✕</button>` : ''}</div>`).join('')}
+      ${d.steps.length < 2 ? '<button class="today-alt" data-step-add style="margin-left:0">+ Another step</button>' : ''}
+      <div class="sea-lbl">Who can help?</div>
+      ${kids.length ? `<div class="sea-helpers">${kids.map(x => `<button class="sh-pill${(d.helpers || []).includes(x.pid) ? ' on' : ''}" data-plan-helper="${esc(x.pid)}">${esc(x.name)}</button>`).join('')}</div>` : ''}
+      <input id="pgHelp" class="field" maxlength="60" value="${esc(d.helpText || '')}" placeholder="${kids.length ? 'Anyone else? A leader, a friend' : 'Mom, Dad, a leader, a friend'}" style="margin-top:6px">
+      <button class="sea-private${d.private ? ' on' : ''}" data-plan-private><span>${d.private ? '🔒' : '👪'}</span><span>${d.private ? 'Private: between me and the Lord' : 'The family can see it'}<small>${d.private ? 'Your family sees a 🔒 and how often you tick it, not the words.' : 'Tap to keep it private.'}</small></span></button>
+      <div class="board-actions"><button class="btn" data-plan-save>Save my goal</button><button class="btn ghost" data-season="home">Cancel</button>
+        ${d.id ? '<button class="btn ghost" data-plan-remove>Remove it</button>' : ''}</div>`;
+  }
+  // What's typed in the plan, kept as it's changed (a re-render redraws from it).
+  function readPlan() {
+    const d = seasonDraft;
+    if (!d || !$('pgText')) return d;
+    d.text = $('pgText').value.trim(); d.why = $('pgWhy').value.trim(); d.follow = $('pgFollow').value.trim(); d.helpText = $('pgHelp').value.trim();
+    d.steps.forEach((st, i) => {
+      const t = document.querySelector(`[data-step-text="${i}"]`), n = document.querySelector(`[data-step-n="${i}"]`);
+      if (t) st.text = t.value.trim(); if (n) st.n = Number(n.value) || 1;
+    });
+    return d;
+  }
+  function savePlan() {
+    const d = readPlan(), s = seasonNow();
+    d.steps = d.steps.filter(st => st.text);
+    if (!d.text) return seasonDraw(('Write your goal first.'));
+    if (!d.steps.length) { d.steps = [{ id: seaId('t'), text: '', n: 3 }]; return seasonDraw(('Add one small step, something you can tick.')); }
+    const rec = seasonRec(s.id, true), g = Object.assign({}, d, { upd: Date.now() });
+    if (!g.id) { g.id = seaId('g'); g.made = dayKey(); g.status = 'on'; rec.goals.push(g); }
+    else { const i = rec.goals.findIndex(x => x.id === g.id); if (i >= 0) rec.goals[i] = Object.assign({}, rec.goals[i], g); else rec.goals.push(g); }
+    seasonDraft = null; seasonArea = null;
+    save(); refreshHome();
+    seasonView = 'home';
+    seasonDraw((`Saved: <b>${esc(g.text)}</b>. Its steps are on Today to tick.`));
+  }
+  function removeGoal() {
+    const d = seasonDraft, s = seasonNow(), rec = seasonRec(s.id);
+    const g = rec && rec.goals.find(x => x.id === d.id);
+    if (g) { g.status = 'gone'; g.upd = Date.now(); }
+    seasonDraft = null; save(); refreshHome();
+    seasonView = 'home'; seasonDraw(('Removed.'));
+  }
+  // Act: the weekend check-in, a word for each goal (the guidebook's three).
+  let checkDraft = {};
+  function checkHtml() {
+    const c = checkWeek();
+    if (!c) return `<div class="sh-title">🗓️ Check-in</div><p class="sh-small">The check-in opens on Saturday.</p><button class="today-alt" data-season="home">Back</button>`;
+    const rec = seasonRec(c.s.id), was = (rec.checks || {})[c.w];
+    return `<div class="sh-title">🗓️ How's it going?</div>
+      <p class="sh-small">The week of ${esc(mdShort(c.w))}. “How are you feeling about what you are learning?”</p>
+      ${liveGoals(rec).map(g => {
+        const wk = weekTicks(rec, g, c.w), pick = checkDraft[g.id] || (was && was.goals && was.goals[g.id]) || '';
+        return `<div class="sea-g"><div class="sea-g-text">${areaOf(g.area).icon} ${esc(g.text)}${g.private ? ' 🔒' : ''}</div><p class="sea-why">Ticked ${wk.done} of ${wk.of} this week</p>
+          <div class="sea-stat">${Object.entries(STATUS).map(([k, w]) => `<button class="sh-pill${pick === k ? ' on' : ''}" data-check="${esc(g.id)}|${k}">${esc(w)}</button>`).join('')}</div></div>`;
+      }).join('')}
+      <div class="board-actions"><button class="btn" data-check-save>${was ? 'Save' : 'Check in · +' + SEASON_CHECK_XP + ' XP'}</button><button class="btn ghost" data-season="home">Back</button></div>`;
+  }
+  function saveCheck() {
+    const c = checkWeek();
+    if (!c) return;
+    const rec = seasonRec(c.s.id, true), goals = liveGoals(rec), was = (rec.checks || {})[c.w];
+    const picks = Object.assign({}, (was && was.goals) || {}, checkDraft);
+    if (goals.some(g => !picks[g.id])) return seasonDraw(('Pick one for each goal.'));
+    rec.checks = rec.checks || {};
+    const x = rec.checks[c.w] = Object.assign({}, was || { day: dayKey() }, { goals: picks, upd: Date.now() });
+    if (!was) payXp(x, SEASON_CHECK_XP, 'Weekend check-in');
+    checkDraft = {};
+    save(); refreshHome();
+    const change = goals.find(g => picks[g.id] === 'change');
+    if (change) { seasonDraft = draftFrom(change); seasonView = 'plan'; return seasonDraw(('Something different: change the goal or its steps.')); }
+    const help = goals.filter(g => picks[g.id] === 'help');
+    seasonView = 'home';
+    seasonDraw((help.length ? (F ? 'Checked in. Your helpers can see you’d like help.' : 'Checked in. Tell someone you’d like help: a parent, a leader, a friend.') : 'Checked in. Keep going!'));
+  }
+  // Reflect, at the Season's end: the guidebook's three questions for each goal.
+  function reflectHtml() {
+    const s = seasonToReflect();
+    if (!s) return `<div class="sh-title">🌟 Look back</div><p class="sh-small">This opens in a Season's last two weeks.</p><button class="today-alt" data-season="home">Back</button>`;
+    const rec = seasonRec(s.id), who = seasonWho();
+    const qs = [['learned', 'What did I learn?'], ['follow', who === 'child' ? 'How did working on this help me follow Jesus?' : 'How am I closer to the Savior?'], ['serve', 'How can I use it to serve others?']];
+    return `<div class="sh-title">🌟 Look back on ${esc(s.name)}</div>
+      <p class="sh-small">${esc(seasonDates(s))}. Then celebrate!</p>
+      ${liveGoals(rec).map(g => {
+        const r = (rec.reflect || {})[g.id] || {}, tot = (g.steps || []).reduce((n, st) => n + ticksIn(rec, st.id, s.start, s.end), 0);
+        return `<div class="sea-g"><div class="sea-g-text">${areaOf(g.area).icon} ${esc(g.text)}</div><p class="sea-why">${tot} ${tot === 1 ? 'tick' : 'ticks'} this Season</p>
+          ${qs.map(([k, q]) => `<label class="sea-lbl">${esc(q)}</label><textarea class="field" data-refl="${esc(g.id)}|${k}" maxlength="500" rows="2">${esc(r[k] || '')}</textarea>`).join('')}</div>`;
+      }).join('')}
+      <div class="board-actions"><button class="btn" data-refl-save>${rec.reflected ? 'Save' : 'Done · +' + SEASON_REFLECT_XP + ' XP'}</button><button class="btn ghost" data-season="home">Back</button></div>`;
+  }
+  function saveReflect() {
+    const s = seasonToReflect();
+    if (!s) return;
+    const rec = seasonRec(s.id, true);
+    rec.reflect = rec.reflect || {};
+    document.querySelectorAll('#appBody [data-refl]').forEach(t => {
+      const [gid, k] = t.dataset.refl.split('|');
+      (rec.reflect[gid] = rec.reflect[gid] || {})[k] = t.value.trim();
+    });
+    if (liveGoals(rec).some(g => !((rec.reflect[g.id] || {}).learned))) { save(); return seasonDraw(('Write at least what you learned for each goal.')); }
+    let paid = false;
+    if (!rec.reflected) { rec.reflected = { day: dayKey() }; payXp(rec.reflected, SEASON_REFLECT_XP, s.name + ' · looked back'); paid = true; }
+    save(); refreshHome();
+    seasonView = 'home';
+    seasonDraw((paid ? `🎉 ${esc(s.name)} done! Well done.` : 'Saved.'));
+  }
+  function saveImpression() {
+    const t = $('impText'), text = t ? t.value.trim() : '';
+    if (!text) return;
+    const id = seaId('i'), kid = seasonWho() !== 'adult';
+    (S.impressions = S.impressions || {})[id] = { text: text.slice(0, 1000), day: dayKey(), at: Date.now(), upd: Date.now(), ref: impRef || '', share: kid && impShare };
+    impRef = ''; impShare = false;
+    use('impression');
+    save();
+    seasonDraw(('Saved.'));
+  }
+
+  // The Season's clicks, on Today, the Family tab and the sheet.
+  function seasonClick(e) {
+    const t = e.target;
+    const tk = t.closest('[data-tick]');
+    if (tk) {
+      const [sid, step, day] = tk.dataset.tick.split('|');
+      tickStep(sid, step, day || dayKey());
+      if (seasonOpen()) seasonDraw(); else refreshHome();
+      return true;
+    }
+    const sv = t.closest('[data-season]');
+    if (sv) { if (seasonView === 'plan' && sv.dataset.season === 'home') seasonDraft = null; openSeason(sv.dataset.season); return true; }
+    const ch = t.closest('[data-cheer]');
+    if (ch) { sendCheer(ch.dataset.cheer); ch.disabled = true; ch.textContent = '👏 Sent'; return true; }
+    const fg = t.closest('[data-season-famgoal]');
+    if (fg) { setFamSeasonGoal(); return true; }
+    return false;
+  }
+  function seasonSheetClick(e) {
+    const t = e.target;
+    const w = t.closest('[data-season-who]');
+    if (w) { S.seasonWho = w.dataset.seasonWho; save(); refreshHome(); openSeason(liveGoals(seasonRec(seasonNow().id)).length ? 'home' : 'discover'); return true; }
+    const a = t.closest('[data-season-area]');
+    if (a) { seasonArea = a.dataset.seasonArea; seasonDraw(); return true; }
+    const idea = t.closest('[data-season-idea]');
+    if (idea) {
+      const x = SEASON_IDEAS[seasonArea][Number(idea.dataset.seasonIdea)];
+      seasonDraft = draftFrom(null, seasonArea);
+      seasonDraft.text = x.t; seasonDraft.steps[0].text = x.s; seasonDraft.steps[0].n = x.n;
+      if (x.ref) seasonDraft.why = x.ref + ': ';
+      seasonView = 'plan'; seasonDraw('', true); return true;
+    }
+    if (t.closest('[data-season-own]')) { seasonDraft = draftFrom(null, seasonArea); seasonView = 'plan'; seasonDraw('', true); return true; }
+    const ed = t.closest('[data-season-edit]');
+    if (ed) { const g = liveGoals(seasonRec(seasonNow().id)).find(x => x.id === ed.dataset.seasonEdit); if (g) { seasonDraft = draftFrom(g); seasonView = 'plan'; seasonDraw('', true); } return true; }
+    const pa = t.closest('[data-plan-area]');
+    if (pa) { readPlan().area = pa.dataset.planArea; seasonDraw(); return true; }
+    const ph = t.closest('[data-plan-helper]');
+    if (ph) { const d = readPlan(), id = ph.dataset.planHelper; d.helpers = d.helpers.includes(id) ? d.helpers.filter(x => x !== id) : d.helpers.concat(id); seasonDraw(); return true; }
+    if (t.closest('[data-plan-private]')) { const d = readPlan(); d.private = !d.private; seasonDraw(); return true; }
+    if (t.closest('[data-step-add]')) { readPlan().steps.push({ id: seaId('t'), text: '', n: 3 }); seasonDraw(); return true; }
+    const sd = t.closest('[data-step-del]');
+    if (sd) { readPlan().steps.splice(Number(sd.dataset.stepDel), 1); seasonDraw(); return true; }
+    if (t.closest('[data-plan-save]')) { savePlan(); return true; }
+    if (t.closest('[data-plan-remove]')) { removeGoal(); return true; }
+    const c = t.closest('[data-check]');
+    if (c) { const [gid, k] = c.dataset.check.split('|'); checkDraft[gid] = k; c.parentNode.querySelectorAll('[data-check]').forEach(b => b.classList.toggle('on', b === c)); return true; }
+    if (t.closest('[data-check-save]')) { saveCheck(); return true; }
+    if (t.closest('[data-refl-save]')) { saveReflect(); return true; }
+    if (t.closest('[data-imp-share]')) { impShare = !impShare; const b = t.closest('[data-imp-share]'); b.classList.toggle('on', impShare); b.textContent = impShare ? '👀 Share with my parents' : '🔒 Just me'; return true; }
+    if (t.closest('[data-imp-noref]')) { const keep = $('impText').value; impRef = ''; seasonDraw(); $('impText').value = keep; return true; }
+    if (t.closest('[data-imp-save]')) { saveImpression(); return true; }
+    const it = t.closest('[data-imp-toggle]');
+    if (it) { const x = S.impressions[it.dataset.impToggle]; if (x) { x.share = !x.share; x.upd = Date.now(); save(); seasonDraw(); } return true; }
+    const id = t.closest('[data-imp-del]');
+    if (id) {
+      if (id.dataset.sure !== '1') { id.dataset.sure = '1'; id.textContent = 'Tap again to delete'; return true; }
+      S.impressions[id.dataset.impDel] = { gone: true, upd: Date.now() }; save(); seasonDraw(); return true;
+    }
+    return false;
+  }
+
+  // ----- the family: what everyone sees, cheers, help, the family's goal -----
+  // What this person's Season shows the family (families/{fid}/seasons/{pid}):
+  // each goal's area and words (none for a private one), this week's ticks,
+  // the last check-in's word, and who was asked to help.
+  function seasonSummary() {
+    const s = seasonNow(), rec = seasonRec(s.id), mon = mondayOf(dayKey());
+    return {
+      name: F.name, sid: s.id,
+      goals: liveGoals(rec).slice(0, 6).map(g => {
+        const wk = weekTicks(rec, g, mon);
+        return { id: g.id, area: g.area, text: g.private ? '' : String(g.text || '').slice(0, 120), private: !!g.private, done: wk.done, of: wk.of,
+          status: lastStatus(rec, g.id), helpers: (g.helpers || []).slice(0, 8) };
+      }),
+      wk: mon
+    };
+  }
+  let seasonSumTimer = null;
+  function queueSeasonSum() {
+    if (!F || F.pending || !FIREBASE_CONFIG) return;
+    clearTimeout(seasonSumTimer);
+    seasonSumTimer = setTimeout(() => {
+      const sum = seasonSummary(), json = JSON.stringify(sum);
+      if (!sum.goals.length && !stored(NS + 'seasonSum')) return;
+      if (stored(NS + 'seasonSum') === json) return;
+      famWrite(() => famCol(F.fid, 'seasons').doc(F.pid).set(Object.assign(sum, { updated: TS() })).then(() => store(NS + 'seasonSum', json)));
+    }, 2500);
+  }
+  // Everyone's Seasons, this device's from here (the family's copy can lag).
+  function famSeasons() {
+    const h = famHome, mine = F ? Object.assign(seasonSummary(), { pid: F.pid, mine: true }) : null;
+    const s = seasonNow();
+    const others = ((h && h.seasons) || []).filter(x => !F || x.pid !== F.pid).filter(x => x.sid === s.id && (x.goals || []).length);
+    return (mine && mine.goals.length ? [mine] : []).concat(others);
+  }
+  // Seasons over 4 months gone keep each step's tick count, not every day's
+  // tick: the family's copy of his progress has to stay small.
+  function compactSeasons() {
+    const cut = dayAdd(dayKey(), -120);
+    for (const [id, rec] of Object.entries(S.seasons || {})) {
+      const q = /^(\d{4})-Q(\d)$/.exec(id);
+      if (!rec || !rec.ticks || !q) continue;
+      if (seasonAt(q[1] + '-' + String((q[2] - 1) * 3 + 1).padStart(2, '0') + '-15').end >= cut) continue;
+      rec.tickN = {};
+      for (const st in rec.ticks) rec.tickN[st] = Object.values(rec.ticks[st]).filter(v => v > 0).length;
+      delete rec.ticks;
+    }
+  }
+  function seasonFamHtml() {
+    if (!F) return '';
+    const rows = famSeasons(), s = seasonNow(), parent = F.role === 'parent';
+    const fg = famHome && famHome.seasonGoal && famHome.seasonGoal.sid === s.id ? famHome.seasonGoal.text : '';
+    const help = rows.filter(x => !x.mine).flatMap(x => (x.goals || []).filter(g => g.status === 'help' && ((g.helpers || []).includes(F.pid) || (!(g.helpers || []).length && parent))).map(g => ({ x, g })));
+    const mon = mondayOf(dayKey());
+    const dots = (x, g) => { const of = Math.min(g.of || 0, 14), done = x.wk === mon ? Math.min(g.done || 0, of) : 0; return of ? `<span class="sf-dots" aria-label="${done} of ${g.of} this week">${'●'.repeat(done)}${'○'.repeat(of - done)}</span>` : ''; };
+    return `<div class="eyebrow" style="margin-top:20px">🌱 Seasons · ${esc(s.name)}</div>
+      <div class="fam-card">
+        ${fg ? `<p class="sea-fam">👪 Family goal: <b>${esc(fg)}</b></p>` : ''}
+        ${help.map(({ x, g }) => `<p class="sf-help">🙋 <b>${esc(x.name)}</b> could use your help${g.private ? '' : ': ' + esc(g.text)}.</p>`).join('')}
+        ${rows.length ? rows.map(x => `<div class="sf-person"><div class="sf-top"><b>${esc(x.name)}${x.mine ? ' <small>you</small>' : ''}</b>${x.mine ? '' : `<button class="sh-pill" data-cheer="${esc(x.pid)}">👏 Cheer</button>`}</div>
+          ${(x.goals || []).map(g => `<div class="sf-goal"><span>${areaOf(g.area).icon} ${g.private ? '🔒 <i>A private goal</i>' : esc(g.text)}${g.status && g.status !== 'on' ? ` <small>${esc(STATUS[g.status] || '')}</small>` : ''}</span>${dots(x, g)}</div>`).join('')}</div>`).join('')
+          : `<p class="kc-none">Nobody has planned ${esc(s.name)} yet. <button class="today-alt" data-season="discover" style="display:inline;margin:0">Plan yours</button></p>`}
+        ${parent ? `<div class="sf-set"><input id="famSeasonGoal" class="field" maxlength="140" placeholder="A goal for the whole family this Season" value="${esc(fg)}"><button class="btn ghost" data-season-famgoal>Save</button></div>` : ''}
+      </div>`;
+  }
+  function sendCheer(pid) {
+    famWrite(() => famCol(F.fid, 'cheers').add({ from: F.pid, name: F.name, to: pid, at: TS() }));
+    toast('👏 Cheer sent', '');
+  }
+  function setFamSeasonGoal() {
+    const text = ($('famSeasonGoal').value || '').trim().slice(0, 140), s = seasonNow();
+    if (!famHome) { toast('Not connected to the family yet', 'Try again in a moment'); return; }
+    famHome.seasonGoal = text ? { sid: s.id, text } : null;
+    famWrite(() => famDoc(F.fid).update({ seasonGoal: { sid: s.id, text } }));
+    toast(text ? '👪 Family goal saved' : 'Family goal cleared', text);
+    famRedraw();
+  }
+  // Someone asked this person for help: once a week a toast, besides the Family tab.
+  function seasonHelpToasts() {
+    if (!F || !famHome) return;
+    const parent = F.role === 'parent', seen = (() => { try { return JSON.parse(stored(NS + 'helpSeen') || '{}'); } catch (e) { return {}; } })();
+    let changed = false;
+    for (const x of famHome.seasons || []) if (x.pid !== F.pid) for (const g of x.goals || []) {
+      if (g.status !== 'help' || !((g.helpers || []).includes(F.pid) || (!(g.helpers || []).length && parent))) continue;
+      const k = x.pid + '|' + g.id + '|' + mondayOf(dayKey());
+      if (seen[k]) continue;
+      seen[k] = 1; changed = true;
+      toast('🙋 ' + x.name + ' could use your help', g.private ? 'With a private goal: ask how you can help' : g.text);
+    }
+    if (changed) store(NS + 'helpSeen', JSON.stringify(seen));
+  }
+  // For a parent: a child's Season on their card (private goals as a 🔒), and impressions shared with parents this week.
+  function kidSeasonHtml(st) {
+    if (!st || !st.seasons) return '';
+    const s = seasonAt(dayKey()), rec = st.seasons[s.id], goals = liveGoals(rec), mon = mondayOf(dayKey());
+    const shared = Object.values(st.impressions || {}).filter(x => x && !x.gone && x.share && x.day >= dayAdd(dayKey(), -7)).sort((a, b) => (b.at || 0) - (a.at || 0)).slice(0, 2);
+    if (!goals.length && !shared.length) return '';
+    return `${goals.map(g => { const wk = weekTicks(rec, g, mon), stt = lastStatus(rec, g.id);
+        return `<p class="kc-week">${areaOf(g.area).icon} ${g.private ? '🔒 A private goal' : esc(g.text)} · ${wk.done} of ${wk.of} this week${stt ? ' · ' + esc(STATUS[stt]) : ''}</p>`; }).join('')}
+      ${shared.map(x => `<p class="kc-note">✍️ “${esc(x.text)}”<small>${x.ref ? esc(x.ref) : 'An impression'}, shared with you</small></p>`).join('')}`;
+  }
+  // The same, on the parent screen of this device.
+  function parentSeasonHtml() {
+    const s = seasonAt(dayKey()), rec = seasonRec(s.id), goals = liveGoals(rec), mon = mondayOf(dayKey());
+    const shared = Object.values(S.impressions || {}).filter(x => x && !x.gone && x.share).sort((a, b) => (b.at || 0) - (a.at || 0)).slice(0, 10);
+    const priv = Object.values(S.impressions || {}).filter(x => x && !x.gone && !x.share).length;
+    if (!goals.length && !shared.length && !priv) return '';
+    return `<div class="eyebrow" style="margin-top:22px">🌱 His Season · ${esc(s.name)}</div>
+      ${goals.map(g => { const wk = weekTicks(rec, g, mon), stt = lastStatus(rec, g.id);
+        return `<p class="text-[14px] mt-2">${areaOf(g.area).icon} ${g.private ? '🔒 <i>A private goal</i>' : esc(g.text)}<br><small class="text-white/55">${wk.done} of ${wk.of} this week${stt ? ' · ' + esc(STATUS[stt]) : ''}</small></p>`; }).join('')}
+      ${shared.map(x => `<p class="kc-note">✍️ “${esc(x.text)}”<small>${esc(mdShort(x.day))}${x.ref ? ' · ' + esc(x.ref) : ''}</small></p>`).join('')}
+      ${priv ? `<p class="text-[12px] text-white/50 mt-2">${priv} private ${priv === 1 ? 'impression' : 'impressions'}, just his.</p>` : ''}`;
+  }
+
   function rewardsHtml() {
     const open = P.rewards.filter(r => !r.claimed).sort((a, b) => a.xp - b.xp);
     const rows = open.map(r => {
@@ -3983,6 +4599,7 @@ const TreasureUp = (function () {
         <button class="btn ghost" data-act="add">Add a reward</button>
         <button class="btn" data-act="save">Save</button>
       </div>
+      ${parentSeasonHtml()}
       ${readingLogHtml()}
       <div class="eyebrow" style="margin-top:22px">His notes</div>
       ${journalHtml()}
@@ -5321,6 +5938,7 @@ const TreasureUp = (function () {
         ${u.verses ? tldrHtml(u, week) + layersBarHtml(u, week) + `<div class="ls-verses">${versesHtml(u, week)}</div>`
           : link ? `<a class="deep-open" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Read ${esc(u.ref)} in Gospel Library ↗</a>` : ''}
         ${end || ''}
+        <button class="today-alt sea-impress" data-impress="${esc(u.ref)}">✍️ Write an impression about ${esc(u.ref)}</button>
       </div>
     </article>`;
   }
@@ -9364,6 +9982,13 @@ const TreasureUp = (function () {
     for (const k in L.libRead || {}) if (!has(B.libRead, k) && has(R.libRead, k)) gained -= xpOf(L.libRead[k], READ_XP);
     const wb = o => o && o.weekBonus && o.weekBonus.week;
     if (wb(L) && wb(L) === wb(R) && wb(B) !== wb(L)) gained -= xpOf(L.weekBonus, WEEK_READ_XP);
+    // My Season: a check-in or a Season's reflection pays once, whichever device did it first.
+    const sea = o => (o && o.seasons) || {};
+    for (const id in sea(L)) {
+      const l = sea(L)[id], r = sea(R)[id], b = sea(B)[id];
+      for (const w in (l && l.checks) || {}) if (!(b && b.checks && b.checks[w]) && r && r.checks && r.checks[w]) gained -= xpOf(l.checks[w], SEASON_CHECK_XP);
+      if (l && l.reflected && !(b && b.reflected) && r && r.reflected) gained -= xpOf(l.reflected, SEASON_REFLECT_XP);
+    }
     M.xp = (R.xp || 0) + Math.max(0, gained);
     M.libRead = Object.assign({}, L.libRead || {}, R.libRead || {});
     const lo = (L.shop && L.shop.orders) || {}, ro = (R.shop && R.shop.orders) || {};
@@ -9371,6 +9996,9 @@ const TreasureUp = (function () {
     for (const k in lo) if (!ro[k] || (lo[k].upd || 0) > (ro[k].upd || 0)) M.shop.orders[k] = lo[k];
     M.libClock = Object.assign({}, L.libClock || {}, R.libClock || {});
     M.weekBonus = [L.weekBonus, R.weekBonus].find(b => b && b.week === WEEK.title) || R.weekBonus || L.weekBonus || null;
+    M.seasons = mergeSeasons(R.seasons, L.seasons);
+    M.impressions = newerById(R.impressions, L.impressions);
+    M.seasonWho = R.seasonWho || L.seasonWho;
     for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found', 'insights', 'sunday', 'talks', 'picks']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
     // The reading clock: a chapter finished on either device keeps its record.
     M.readLog = Object.assign({}, L.readLog || {}, R.readLog || {});
@@ -9429,6 +10057,37 @@ const TreasureUp = (function () {
     return M;
   }
 
+  // Two maps of records, each with its time (upd): each key's later one.
+  function newerById(a, b) {
+    const out = Object.assign({}, a || {});
+    for (const k in b || {}) if (!out[k] || (b[k].upd || 0) > (out[k].upd || 0)) out[k] = b[k];
+    return out;
+  }
+  // Two devices' Seasons: goals by their later change, each day's tick by
+  // its later tap, a week's check-in by its later save (keeping what the
+  // family's copy paid), and every reflection answer either one has.
+  function mergeSeasons(R, L) {
+    const out = JSON.parse(JSON.stringify(R || {}));
+    for (const id in L || {}) {
+      const l = L[id], r = out[id];
+      if (!r) { out[id] = JSON.parse(JSON.stringify(l)); continue; }
+      const goals = new Map((r.goals || []).map(g => [g.id, g]));
+      for (const g of l.goals || []) { const x = goals.get(g.id); if (!x || (g.upd || 0) > (x.upd || 0)) goals.set(g.id, g); }
+      r.goals = [...goals.values()];
+      if (l.ticks) {
+        r.ticks = r.ticks || {};
+        for (const st in l.ticks) { const t = r.ticks[st] || (r.ticks[st] = {}); for (const d in l.ticks[st]) if (!t[d] || Math.abs(l.ticks[st][d]) > Math.abs(t[d])) t[d] = l.ticks[st][d]; }
+      }
+      r.checks = r.checks || {};
+      for (const w in l.checks || {}) { const a = r.checks[w], c = l.checks[w]; r.checks[w] = !a ? c : (c.upd || 0) > (a.upd || 0) ? Object.assign({}, c, { xp: a.xp }) : a; }
+      r.reflect = r.reflect || {};
+      for (const g in l.reflect || {}) for (const k in l.reflect[g]) if (!(r.reflect[g] || {})[k]) (r.reflect[g] = r.reflect[g] || {})[k] = l.reflect[g][k];
+      if (!r.reflected && l.reflected) r.reflected = l.reflected;
+      if (!r.tickN && l.tickN) r.tickN = l.tickN;
+    }
+    return out;
+  }
+
   // What the whole family sees about one person.
   // `read`, this week's chapters read, is for the family's leaderboard; until
   // a family's rules allow it (firestore.rules, 2026-10-02), the summary goes without it.
@@ -9476,12 +10135,14 @@ const TreasureUp = (function () {
   function watchHome() {
     stopHome();
     if (!F || !FIREBASE_CONFIG) return;
-    const h = famHome = { progress: [], goal: false, kids: {}, watching: {}, errors: [], feedback: [], prizes: null, orders: [] };
+    const h = famHome = { progress: [], goal: false, kids: {}, watching: {}, errors: [], feedback: [], prizes: null, orders: [], seasons: [], seasonGoal: null };
     sendErrors = flushErrors; flushErrors();
     famHomeOff.push(famDoc(F.fid).onSnapshot(d => {
       h.goal = !!(d.exists && d.data().goal);
       const pz = d.exists && d.data().prizes;
       h.prizes = Array.isArray(pz) ? pz : null;
+      const sg = d.exists && d.data().seasonGoal;
+      h.seasonGoal = sg && typeof sg.text === 'string' && sg.text ? sg : null;
       famRedraw(); if (shopOpen()) openSheet(shopHtml());
     }, () => {}));
     // Prize requests: a parent sees everyone's; anyone sees their own, which keeps this device's list in step.
@@ -9490,6 +10151,15 @@ const TreasureUp = (function () {
       h.orders = q.docs.map(d => Object.assign({ id: d.id }, d.data({ serverTimestamps: 'estimate' })));
       syncOrders(h.orders); famRedraw();
     }, () => {}));
+    // Everyone's Season (families/{fid}/seasons), and cheers sent to this person (each shown once, then cleared).
+    famHomeOff.push(famCol(F.fid, 'seasons').onSnapshot(q => {
+      h.seasons = q.docs.map(d => Object.assign({ pid: d.id }, d.data()));
+      seasonHelpToasts(); famRedraw();
+    }, () => {}));
+    famHomeOff.push(famCol(F.fid, 'cheers').where('to', '==', F.pid).onSnapshot(q => {
+      q.docs.forEach(d => { const c = d.data(); toast('👏 ' + (c.name || 'Someone') + ' cheered you on', 'Your Season goals'); d.ref.delete().catch(() => {}); });
+    }, () => {}));
+    queueSeasonSum();
     // This Sunday's and next Sunday's conference talks, as the family picked them.
     for (const k of sundaysAround()) famHomeOff.push(famCol(F.fid, 'talks').doc(k).onSnapshot(d => {
       if (!d.exists || !S) return;
@@ -9557,6 +10227,7 @@ const TreasureUp = (function () {
   let feedbackFrom = '';
   function stopHome() { famHomeOff.forEach(f => { try { f(); } catch (e) {} }); famHomeOff = []; famHome = null; sendErrors = () => {}; famRedraw(); }
   function famRedraw() {
+    if (document.activeElement && document.activeElement.id === 'famSeasonGoal') return;
     const el = document.getElementById('familyTab');
     if (el) el.innerHTML = familyTabHtml();
   }
@@ -9572,6 +10243,7 @@ const TreasureUp = (function () {
     const kids = parentCardsHtml();
     return `<div class="eyebrow">Family</div><h1 class="reel-hook lib-h">${esc(F.family || 'Your family')}</h1>
       ${board}
+      ${seasonFamHtml()}
       ${parent ? `<div class="fam-goal-set"><span>Family goal<small>Everyone reads all of the week's chapters</small></span><span><button class="sh-pill${goal ? ' on' : ''}" data-fam-goal="1">On</button><button class="sh-pill${goal ? '' : ' on'}" data-fam-goal="0">Off</button></span></div>` : ''}
       ${parent && requestsHtml(false) ? `<div class="eyebrow" style="margin-top:20px">🎁 Prize requests</div><div class="fam-card">${requestsHtml(false)}</div>` : ''}
       ${parent ? `<div class="eyebrow" style="margin-top:20px">Today, for parents</div>${kids || '<p class="kc-none">A child\u2019s card shows here once their device has joined the family.</p>'}` : ''}
@@ -9624,6 +10296,7 @@ const TreasureUp = (function () {
       ${!fresh ? '<p class="kc-none">Hasn’t opened this week yet.</p>' : reads.length ? `<ul class="kc-reads">${reads.join('')}</ul>` : `<p class="kc-none">Nothing read yet today${st.lastStudy ? ' · last studied ' + esc(shortDay(st.lastStudy)) : ''}.</p>`}
       ${fresh ? `<p class="kc-week">This week: ${week} of ${total} chapters</p>` : ''}
       ${notes.map(n => `<p class="kc-note">✏️ “${esc(n.text)}”<small>${esc(n.hook || '')}</small></p>`).join('')}
+      ${kidSeasonHtml(st)}
       ${ask ? `<p class="kc-ask"><b>Ask about:</b> ${esc(ask)}</p>` : ''}</div>`;
   }
   function parentCardsHtml() {
@@ -11635,6 +12308,7 @@ const TreasureUp = (function () {
   function wire() {
     // The page: today's lesson, a day on the map, a reel to look back at.
     $('home').addEventListener('click', e => {
+      if (seasonClick(e)) return;
       // The timeline: a day, or a week of the year (its Monday).
       const day = e.target.closest('[data-day]');
       if (day) { selDay = day.dataset.day === dayKey() ? null : day.dataset.day; const h = $('home'), y = h.scrollTop; renderHome(); h.scrollTop = y; return; }
@@ -11783,6 +12457,7 @@ const TreasureUp = (function () {
     $('setBtn').addEventListener('click', () => openSheet(settingsSheetHtml()));
     $('appSheet').addEventListener('click', e => {
       if (e.target.closest('#appClose') || e.target.id === 'appSheet') { stopClips(); closeSheet(); refreshHome(); return; }
+      if (seasonSheetClick(e) || seasonClick(e)) return;
       const clip = e.target.closest('button.clip');
       if (clip) { playClip(clip); return; }
       const v = e.target.closest('[data-set-voice]');
@@ -11808,6 +12483,11 @@ const TreasureUp = (function () {
       if (g && g.dataset.setGo === 'feedback') { feedbackFrom = screenName(); return openSheet(feedbackSheetHtml()); }
       if (g) { closeSheet(); return openParent(); }
       if (e.target.closest('[data-dev-open]')) { e.preventDefault(); closeSheet(); openDev(); }
+    });
+    // An impression, from the end of a chapter in the reader.
+    document.addEventListener('click', e => {
+      const im = e.target.closest('[data-impress]');
+      if (im) openSeason('home', { ref: im.dataset.impress });
     });
     // A Hebrew or Greek word, tapped: its word study.
     document.addEventListener('click', e => {
@@ -12000,6 +12680,7 @@ const TreasureUp = (function () {
       if (S.lastStudy && S.streak > 0) for (let i = 0; i < S.streak; i++) (S.days = S.days || {})[dayAdd(S.lastStudy, -i)] = 1;
     }
     updateStreak();
+    compactSeasons();
 
     applyTextSize();
     rollDay();
