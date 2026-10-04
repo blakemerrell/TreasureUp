@@ -5323,6 +5323,62 @@ window.TU_WEEKS = [
         },
         "find": "that saith unto Zion, Thy God reigneth. 15 gather",
         "note": "The page where this change was first written down: for verse 15, Joseph Smith’s Old Testament manuscript has one word, “gather.”"
+      },
+      {
+        "id": "isa52-jsp-strength",
+        "ref": "Isaiah 52:1",
+        "title": "Joseph explains: Zion’s strength",
+        "text": "In March 1838 Elias Higbee asked what Isaiah meant by “put on thy strength, O Zion.” The answer, written in Joseph Smith’s journal, is now Doctrine and Covenants 113. Zion’s strength is “the authority of the priesthood,” and the people Isaiah meant are those God calls in the last days to hold the priesthood and bring again Zion.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Questions and Answers, March 1838 [D&C 113:7–10]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/questions-and-answers-between-circa-16-and-circa-29-march-1838-b-dc-1137-10/1"
+        },
+        "find": "He had reference to those whome God should call in the last day’s who should hold the power of Priesthood",
+        "note": "The first record of this answer: Joseph Smith’s reply to Elias Higbee in March 1838, written in his journal, explains Zion’s strength as priesthood authority (D&C 113:7–10)."
+      },
+      {
+        "id": "isa52-jsp-gladness",
+        "ref": "Isaiah 52:7",
+        "title": "Joseph: a voice of gladness",
+        "text": "In 1842 Joseph Smith wrote a joyful letter to the Church about baptism for the dead, now Doctrine and Covenants 128. Near its end he asks what we hear in the restored gospel, and answers, “a voice of gladness!” Then he quotes this verse: how beautiful are the feet of those who bring good news, to the living and to the dead.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Letter to the Church, 7 September 1842 [D&C 128]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-the-church-7-september-1842-dc-128/6"
+        },
+        "find": "Now what do we hear in the gospel which we have received? a voice of gladness!",
+        "note": "Joseph Smith quoted this verse in his 1842 letter on baptism for the dead (D&C 128:19): glad tidings for the living and the dead, “a voice of gladness!”"
+      },
+      {
+        "id": "isa53-jsp-lamb",
+        "ref": "Isaiah 53:7",
+        "title": "Joseph in jail: like the Savior",
+        "text": "In December 1838 Joseph Smith wrote to the Saints from Liberty Jail. He and other leaders had been betrayed and led into the militia’s camp without a fight, as the Savior was led. He told it in the words of this verse: like “a sheep dumb before his shearer so we opened not our mouth.”",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Letter to the Church in Caldwell County, Missouri, 16 December 1838",
+          "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-the-church-in-caldwell-county-missouri-16-december-1838/2"
+        },
+        "find": "aided him in leading us, as the savior was led, into the camp",
+        "note": "From Liberty Jail in December 1838, Joseph Smith used this verse for his own betrayal: led “as the savior was led,” and silent, like a sheep before the shearer."
+      },
+      {
+        "id": "isa54-jsp-small-moment",
+        "ref": "Isaiah 54:7",
+        "title": "Liberty Jail: but a small moment",
+        "text": "In March 1839, after months in Liberty Jail, Joseph Smith wrote a long letter to the Saints. In it he records the Lord’s answer to his prayer, now Doctrine and Covenants 121: “thine advirsity and thy afflictions shall be but a small moment.” It echoes this verse: “For a small moment have I forsaken thee; but with great mercies will I gather thee.”",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Letter to the Church and Edward Partridge, 20 March 1839 [D&C 121]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-the-church-and-edward-partridge-20-march-1839/8"
+        },
+        "find": "my son pease be unto thy soul thine advirsity and thy afflictions shall be but a small moment",
+        "note": "From Liberty Jail in 1839, the Lord told Joseph Smith his troubles “shall be but a small moment” (D&C 121:7–8), echoing this verse."
       }
     ]
   },
@@ -7177,6 +7233,62 @@ window.TU_WEEKS = [
         },
         "find": "for the child shall not die, but shall live to be a hundred years old",
         "note": "Joseph Smith’s Bible revision: “the child shall not die, but shall live to be a hundred years old,” in those days of the new heavens and new earth."
+      },
+      {
+        "id": "isa60-jsp-arise",
+        "ref": "Isaiah 60:1",
+        "title": "Arise and shine, in a revelation",
+        "text": "In April 1838 the Lord gave Joseph Smith the revelation that named the Church, now Doctrine and Covenants 115. In it He gives Isaiah’s call to the Latter-day Saints: arise and shine, “that thy light may be a standard for the nations.” Gathering to Zion and her stakes would be a defense and a refuge.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Revelation, 26 April 1838 [D&C 115]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/revelation-26-april-1838-dc-115/2"
+        },
+        "find": "Verrily I say unto you all; arise and shine",
+        "note": "In the 1838 revelation that named the Church (D&C 115:5), the Lord gave this verse to the Saints: arise and shine, “that thy light may be a standard for the nations.”"
+      },
+      {
+        "id": "isa60-jsp-emma",
+        "ref": "Isaiah 60:2",
+        "title": "Joseph’s letter to Emma",
+        "text": "In October 1832, on a trip to New York City, Joseph Smith wrote to his wife Emma in his own handwriting. Troubled by the wickedness he saw, he prayed in the words of this verse: “how long Oh Lord Shall this order of things exist and darkness cover the Earth.” Then he went back to his room to calm his mind.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Letter to Emma Smith, 13 October 1832",
+          "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-emma-smith-13-october-1832/1"
+        },
+        "find": "Oh how long Oh Lord Shall this order of things exist and darkness cover the Earth and gross darkness cover the people",
+        "note": "In a letter to Emma in his own hand (New York City, 1832), Joseph Smith prayed in this verse’s words: how long shall “darkness cover the Earth”?"
+      },
+      {
+        "id": "isa63-jsp-winepress",
+        "ref": "Isaiah 63:3",
+        "title": "The Lord in red, in a revelation",
+        "text": "In November 1831 Joseph Smith received a revelation about the Second Coming, now Doctrine and Covenants 133. It takes up Isaiah 63: the Lord comes in red clothing, and He says, “I have trodden the wine press alone.” Then His people remember His loving kindness, and that in all their afflictions He was afflicted.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Revelation, 3 November 1831 [D&C 133]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/revelation-3-november-1831-dc-133/4"
+        },
+        "find": "I have trodden the wine press alone & have brought Judgement upon all people & none was with me",
+        "note": "Joseph Smith’s November 1831 revelation on the Second Coming (D&C 133:46–53) takes up this chapter: “I have trodden the wine press alone.”"
+      },
+      {
+        "id": "isa65-jsp-tree",
+        "ref": "Isaiah 65:22",
+        "title": "Joseph: as the age of a tree",
+        "text": "In March 1841 Joseph Smith taught in Nauvoo that not everyone will be destroyed when Christ comes again; some will live on into the Millennium. A listener wrote down his evidence: “Isaiah says the Days of an infant shall be as the age of a tree.” It joins verse 20, about long lives, with verse 22: “as the days of a tree are the days of my people.”",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Discourse, circa 16 March 1841",
+          "url": "https://www.josephsmithpapers.org/paper-summary/discourse-circa-16march-1841/1"
+        },
+        "find": "Isaiah says the Days of an infant shall be as the age of a tree",
+        "note": "In an 1841 sermon, as a listener recorded it, Joseph Smith cited this: “Isaiah says the Days of an infant shall be as the age of a tree.”"
       }
     ]
   },
@@ -9085,6 +9197,34 @@ window.TU_WEEKS = [
         },
         "find": "turn from — withhold",
         "note": "Joseph Smith’s Old Testament manuscript gives one word for this verse and for verse 10: “withhold.” The Lord withholds the evil, or the good, rather than repenting; the page doesn’t mark the spot, but it can only replace “repent of.”"
+      },
+      {
+        "id": "jer16-jsp-lies",
+        "ref": "Jeremiah 16:19",
+        "title": "Liberty Jail: inherited lies",
+        "text": "From Liberty Jail in March 1839, Joseph Smith asked the Saints to write down what they had suffered in Missouri. He traced the hatred against them to false traditions passed down to children, the creeds of the fathers “who have inherited lies.” The words come from this verse, and they’re now in Doctrine and Covenants 123:7.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Letter to Edward Partridge and the Church, circa 22 March 1839 [D&C 123]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-edward-partridge-and-the-church-circa-22-march-1839/6"
+        },
+        "find": "upheld by the influance of that spirit which hath so strongly rivited the creeds of the fathers",
+        "note": "From Liberty Jail in 1839, Joseph Smith used this verse’s words for the false traditions behind the Saints’ persecution: creeds of the fathers “who have inherited lies” (D&C 123:7)."
+      },
+      {
+        "id": "jer17-jsp-tree",
+        "ref": "Jeremiah 17:8",
+        "title": "A tree by a pure stream",
+        "text": "Jeremiah compares a person who trusts the Lord to “a tree planted by the waters.” In August 1833 the Lord gave Joseph Smith a revelation with the same picture, now Doctrine and Covenants 97: Saints who are honest and humble will be like “a very fruitful tree” by a pure stream. The Joseph Smith Papers’ own notes point to Jeremiah 17.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Revelation, 2 August 1833–A [D&C 97]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/revelation-2-august-1833-a-dc-97/2"
+        },
+        "find": "a very fruitful tree which is planted in a goodly land by a pure stream that yealdeth much precious fruit",
+        "note": "An 1833 revelation to Joseph Smith (D&C 97:9) uses this picture: the honest and contrite will be like “a very fruitful tree” by a pure stream."
       }
     ]
   }
