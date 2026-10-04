@@ -206,7 +206,6 @@
   h2.camp { font-size: 22px; margin: 26px 0 2px; color: var(--gold); }
   .camp-about { margin: 0 0 12px; color: var(--dim); font-size: 14px; line-height: 1.4; }
   .card { background: rgba(255, 255, 255, .05); border: 1px solid var(--line); border-radius: 16px; padding: 16px; }
-  .card.locked { opacity: .92; }
   .card .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
   .card p { margin: 6px 0 0; color: var(--dim); line-height: 1.4; font-size: 14px; }
   .stars { color: var(--gold); letter-spacing: 2px; font-size: 18px; }
@@ -217,6 +216,7 @@
   .btn.go { background: var(--gold); color: #1a1405; }
   .btn.go:disabled { background: rgba(252, 211, 77, .25); color: #fff; }
   .lock { font-size: 13px; color: var(--dim); margin-top: 8px; }
+  .lock.suggest { color: #fde68a; }
   details.how { margin-top: 22px; background: rgba(255, 255, 255, .04); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; }
   details.how summary { font-weight: 800; cursor: pointer; }
   details.how li { margin: 6px 0; line-height: 1.4; color: rgba(255, 255, 255, .85); font-size: 14px; }
@@ -251,6 +251,14 @@
   .verse p { margin: 0 0 8px; } .verse p:last-child { margin: 0; }
   .say { margin-top: 12px; font-weight: 800; font-size: 16px; }
   .say.good { color: var(--good); } .say.bad { color: var(--warn); }
+  /* the tips card: four or five things to know, a picture each (ui.js: TIPS) */
+  .tipsCard { margin-top: 6vh; }
+  .tipTabs { margin: 4px 0 2px; } .tipTabs .btn { height: 34px; padding: 0 12px; font-size: 13px; }
+  ul.tips { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 10px; }
+  ul.tips li { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 10px; align-items: center; }
+  ul.tips img { width: 48px; height: 48px; border-radius: 10px; object-fit: cover; background: rgba(255, 255, 255, .06); border: 1px solid var(--line); }
+  ul.tips b { display: block; font-size: 15px; color: var(--gold); }
+  ul.tips span { display: block; font-size: 14px; line-height: 1.35; color: rgba(255, 255, 255, .88); }
   .end h1 { font-size: 40px; }
   .quote { font-family: Georgia, serif; font-size: 19px; line-height: 1.5; margin: 14px 0 4px; color: rgba(255, 255, 255, .92); }
 
@@ -396,11 +404,11 @@
 <script src="../vendor/qrcode.js"></script>
 <script src="webrtc.js?v=15"></script>
 <script src="multi.js?v=15"></script>
-<script src="data.js?v=28"></script>
-<script src="sim.js?v=28"></script>
-<script src="camp.js?v=5"></script>
-<script src="missions.js?v=27"></script>
+<script src="data.js?v=29"></script>
+<script src="sim.js?v=29"></script>
+<script src="camp.js?v=6"></script>
+<script src="missions.js?v=28"></script>
 <script src="scripture.js?v=15"></script>
-<script src="ui.js?v=45"></script>
+<script src="ui.js?v=46"></script>
 </body>
 </html>

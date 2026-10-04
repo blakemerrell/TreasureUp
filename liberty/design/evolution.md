@@ -312,6 +312,52 @@ All five pictures are Gemini's (art/requests/018). The Rameumptom's braziers
 burn with six painted flame frames, flipped like a flipbook and added as
 light; incense smoke rises before the idols.
 
+## 13d. Blake's gameplay review: open play, a tips card, fighting on the way (decided with Blake)
+
+The review played Javan's first hour on a phone and ran 78 simulated games
+across both sides, three levels and five styles of play. What it found, and
+what was decided, one question at a time:
+
+- **Reading first wasn't working.** Blake: "The read first then play isn't
+  really working." Every mission and skirmish is open now (the 3 Nephi 4
+  mission no longer waits for 3 Nephi 3 to be won). Reading a mission's
+  chapters first brings a gift when it starts, 100 grain and 100 timber,
+  and the council asks about every chapter read (none read: no council).
+- **A tips card**, Blake: "a card that we can really quickly that teaches
+  things about the gameplay." Four or five tips with a picture each, shown
+  before each kind of game until **Don't show again**; **How to play** on
+  the menu opens them all. The briefings shrank to a verse or two and the
+  goal, since the card carries the how.
+- **Soldiers fight on the way** (Red Alert's attack-move), the main reason
+  the simulated players lost: sent across the field, they walked past the
+  enemy, or into it. Now a march fights whoever it meets, then goes on;
+  soldiers sent against a building turn on whoever strikes them; **Fall
+  back** is a plain march home that stops for nothing.
+- **No clock in a skirmish.** Blake: "In RA skirmish I don't ever remember
+  a time limit. But stories seemed. Like they did sometimes." The story
+  missions keep their clocks; a skirmish lasts until one side falls, and
+  nothing breaks a stalemate.
+- **Balance.** Hard was never won before. Retuned (missions.js: LEVELS):
+  Normal comes a little later and lighter (first march 5½ min, armies of 7
+  growing by 2, strength ×1.18, 12 guards); Hard keeps its armor but
+  marches a little later (5 min) with smaller armies (7 growing by 2,
+  ×1.25, 15 guards);
+  Zarahemla gets watchtowers of its own (1, 2, 2), since a rush took the
+  city in five minutes. Result over 54 games, three a cell: Easy won by a
+  casual player most times; Normal by a strong player every time and one
+  who upgrades about half the time; Hard by a strong one about one in
+  three.
+- **The King-men get swords and cimeters** at the ladder-works (Alma
+  43:20): +2 up close. +3 like the Nephites' steel tipped a scripted
+  Freemen game at Normal into a loss: a warrior strikes for 8, so +3 was
+  38% to a spearman's 27%.
+- **The Freemen opponent builds its temple** straight after the hall,
+  saving up for it the way it saves for a level of walls, so its miracles
+  are seen: before, it never got that far; left alone, it now stands at
+  about 11 minutes. The Liahona points at the
+  enemy's camp or city, whichever side you play. The "nowhere to bring the
+  harvest" warning comes every 90 s, not 40.
+
 ## 14. Open questions
 
 - Does the King-men side get a temple-like healer, or is "cheaper warriors" its

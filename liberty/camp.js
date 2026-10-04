@@ -16,7 +16,7 @@
     kingmen: [['storetent', 1], ['tents', 1], ['muster', 1], ['tents', 2], ['shieldtent', 1], ['tents', 3], ['pavilion', 1],
               ['tents', 4], ['ladderworks', 1], ['tents', 5], ['wardance', 1], ['rameumptom', 1], ['idol', 1], ['tents', 6], ['idol', 2]],
     freemen: [['storehouse', 1], ['farm', 1], ['barracks', 1], ['farm', 2], ['granary', 1], ['armory', 1], ['farm', 3], ['smithy', 1], ['training', 1],
-              ['farm', 4], ['hall', 1], ['stables', 1], ['farm', 5], ['tower', 1], ['temple', 1]]
+              ['farm', 4], ['hall', 1], ['temple', 1], ['stables', 1], ['farm', 5], ['tower', 1]]   // (the temple straight after the hall, so its miracles are seen)
   };
   // Who each side trains, as shares of the army; what a tent can't make yet is left for later.
   const MIXES = {
@@ -101,7 +101,9 @@
       const W = this.W, type = this.nextWanted();
       if (!type) return;
       const def = BUILDINGS[type];
-      if (!W.canAfford(def.cost, this.team)) return;
+      // The great house (temple or Rameumptom) is saved for, as a level of walls is (train() pauses once half the army is gathered).
+      if (!W.canAfford(def.cost, this.team)) { if (def.powers) this.saving = def.cost; return; }
+      if (def.powers && this.saving === def.cost) this.saving = null;
       if (this.buildings().some(b => b.built < 1)) return;            // one thing at a time
       const spot = this.spotFor(type);
       if (!spot) return;
@@ -158,6 +160,7 @@
           if (side.researched[key]) continue;
           const r = RESEARCH[key];
           if (r.ladders && this.marches < 2) continue;                      // ladders come after the walls have stopped them twice (Alma 49:22)
+          if (r.level && BUILDINGS[this.nextWanted()] && BUILDINGS[this.nextWanted()].powers) continue;   // the great house before the next level of walls
           this.stoneFor = r.cost.stone || 0;                                // (the haulers quarry what it needs)
           if (!W.canAfford(r.cost, this.team) || side.res.grain - (r.cost.grain || 0) < this.reserve()) { if (r.level) this.saving = r.cost; return; }
           this.stoneFor = 0; this.saving = null;

@@ -129,10 +129,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     catch (e) { return { read: {}, won: {} }; }
   })();
   const store = () => { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) { /* private mode: progress lasts this visit */ } };
-  // A mission opens once every chapter it's from has been read (and the one before it won).
+  // Every mission is open (Blake: "read first, then play isn't really working"). Reading its chapter first earns a gift
+  // at the start and opens the council's questions; it is suggested, not required.
   const chaptersOf = m => m.chapters || [m.chapter];
   const allRead = m => chaptersOf(m).every(c => save.read[c]);
-  const unlocked = m => allRead(m) && (!m.needs || !!save.won[m.needs]);
   const inCampaign = m => MISSIONS.filter(x => x.campaign === m.campaign);
 
   // ------------------------------------------------------------ scripture
@@ -1622,8 +1622,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   // The Liahona: a brass pointer at the edge of the view, toward the war camp when it's out of sight (1 Nephi 16:10).
   function drawLiahona() {
-    if (!W.artifacts.liahona || !mission.warcamp || mission.warcamp.dead) return;
-    const t = toIso(mission.warcamp.x, mission.warcamp.y);
+    const goal = mission.targets ? mission.targets().find(b => b && !b.dead) : mission.warcamp;   // (for the King-men, Zarahemla, not their own camp)
+    if (!W.artifacts.liahona || !goal || goal.dead) return;
+    const t = toIso(goal.x, goal.y);
     const x0 = cam.x, y0 = cam.y, x1 = cam.x + (vw - rightW()) / cam.z, y1 = cam.y + (vh - bottomH()) / cam.z, top = y0 + topH() / cam.z;
     if (t.ix > x0 && t.ix < x1 && t.iy > top && t.iy < y1) return;
     const mx = (x0 + x1) / 2, my = (top + y1) / 2, a = Math.atan2(t.iy - my, t.ix - mx);
@@ -1901,12 +1902,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (others.length) moveGroup(others, tx, ty);
       return ping(wx, wy, kind === 'timber' ? '#a3e635' : kind === 'stone' ? '#d6d3d1' : '#fde047');
     }
-    moveGroup(units, tx, ty);
+    moveGroup(units, tx, ty, true);
     ping(wx, wy, '#86efac');
   }
-  // Everyone to their own tile around the spot, nearest first.
-  function moveGroup(units, tx, ty) {
-    if (W.border != null && !W.borderOpen && ty < W.border) { W.moveTo(units[0], tx, ty); ty = W.border; }
+  // Everyone to their own tile around the spot, nearest first. With `fight`, soldiers fight whatever they meet on the way
+  // (Blake's review: they used to walk past the enemy); Fall back passes no `fight`, so they keep walking.
+  function moveGroup(units, tx, ty, fight) {
+    if (W.border != null && !W.borderOpen && ty < W.border) { W.moveTo(units[0], tx, ty, fight && fighterOf(units[0])); ty = W.border; }
     const spots = [];
     for (let r = 0; spots.length < units.length && r < 9; r++) {
       for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
@@ -1916,8 +1918,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     const cx = (tx + 0.5) * TILE, cy = (ty + 0.5) * TILE;
     units.slice().sort((a, b) => Math.hypot(a.x - cx, a.y - cy) - Math.hypot(b.x - cx, b.y - cy))
-      .forEach((u, i) => { const s = spots[i] || [tx, ty]; W.moveTo(u, s[0], s[1]); });
+      .forEach((u, i) => { const s = spots[i] || [tx, ty]; W.moveTo(u, s[0], s[1], fight && fighterOf(u)); });
   }
+  const fighterOf = u => !!((u.def.soldier || u.def.foe) && u.def.dmg && !u.def.gathers && !u.def.builds && !u.def.scout);
   function ping(wx, wy, color) { pings.push({ wx, wy, color, t: performance.now(), type: color === '#f87171' ? 'attack' : 'move' }); }
 
   // --- building
@@ -2241,6 +2244,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'research:breastplates': 'assets/cameo_breastplates.png?v=1',
     'research:cimeters': 'assets/cameo_cimeters.png?v=1',
     'research:pickets': 'assets/cameo_pickets.png?v=1',
+    'research:lcimeters': 'assets/cameo_cimeters.png?v=1',
     'research:bows': 'assets/cameo_bows.png?v=1',
     'research:clothing': 'assets/cameo_clothing.png?v=1',
     'research:ladders': 'assets/cameo_ladders.png?v=1'
@@ -2251,6 +2255,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Buttons with no picture: a drawn sign instead.
   const SIGN = {
     stop: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
+    fallback: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6L4 12l6 6M4 12h11a5 5 0 0 1 0 10h-2"/></svg>',
     letgo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
     cancel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
     done: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>',
@@ -2454,7 +2459,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
       return `<p class="hint">Choose soldiers, then tap him to fight.</p>`;
     }
     if (ents.some(e => e.kind === 'unit')) {
-      return (ents.length === 1 && b.def.deploys ? a('deploy', 'Plant it here', 'go') : '') + a('stop', 'Stop') + a('letgo', 'Let go');
+      const home = W.stronghold(), canFall = home && ents.some(e => e.kind === 'unit' && fighterOf(e));
+      return (ents.length === 1 && b.def.deploys ? a('deploy', 'Plant it here', 'go') : '') + (canFall ? a('fallback', 'Fall back') : '') + a('stop', 'Stop') + a('letgo', 'Let go');
     }
     let h = '';
     if (b.built < 1) h += `<p class="hint minor">It builds itself. Workers sent to it hurry it along.</p>`;
@@ -2472,6 +2478,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const act = btn.dataset.cmd, one = selEnts()[0];
     if (act === 'done' || act === 'cancel') { placing = null; aiming = null; wallLine = null; wallStart = null; }
     else if (act === 'stop') for (const u of selUnits()) W.order(u, { type: 'idle' });
+    else if (act === 'fallback') {                 // home without stopping to fight: a retreat
+      const h = W.stronghold(); if (h) { moveGroup(selUnits(), tileOf(h.x), h.ty + h.h + 1, false); ping(h.x, h.y, '#93c5fd'); toast('Falling back to ' + (h.type === 'warcamp' ? 'your camp' : 'your city') + '.', 'me'); }
+    }
     else if (act === 'letgo') return setSel([]);
     else if (act === 'remove' && one) {
       if (armedRemove !== one.id) {                // a second tap, so a slip of the finger takes nothing down
@@ -2598,7 +2607,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function openCouncil() {
     if (!W || (council && W.t < council.nextAt)) return;
     const qs = (mission.free ? Object.keys(save.read) : chaptersOf(mission)).flatMap(c => QUESTIONS[c] || []);
-    if (!qs.length) return toast('Read a chapter from the missions first: the council asks about what you have read.', 'warn');
+    if (!qs.length) return toast('Read a chapter from the missions to open the council: its right answers bring grain, timber and treasures.', 'warn');
     if (!council.queue.length) council.queue = shuffle(qs.map((_, i) => i));
     // Opening a question starts the wait, and it comes back later unless it's answered right,
     // so closing one you don't know isn't a way to skip to an easier one.
@@ -2679,50 +2688,50 @@ IMG.farm.src = 'assets/farm.png?v=13';
     W = null; mission = null; sel = []; placing = null; aiming = null;
     setGameUi(false);
     const card = m => {
-      const read = allRead(m), open = unlocked(m), stars = save.won[m.id] || 0, need = m.needs && MISSIONS.find(x => x.id === m.needs);
+      const stars = save.won[m.id] || 0;
       const unread = chaptersOf(m).filter(c => !save.read[c]);
-      const why = unread.length ? `Read ${unread.join(' and ')} to open this mission.` : !open ? `Win ${need.title} first.` : '';
-      return `<div class="card ${open ? '' : 'locked'}">
+      const why = unread.length ? `Read ${unread.join(' and ')} first: you start with a gift of grain and timber, and the council asks about it.` : '';
+      return `<div class="card">
         <div class="kicker">Mission ${inCampaign(m).indexOf(m) + 1} · ${esc(m.chapter)}</div>
         <h2>${esc(m.title)}</h2>
         ${stars ? starsHtml(stars) : ''}
         <p>${esc(m.goals)}</p>
-        ${why ? `<div class="lock">🔒 ${esc(why)}</div>` : ''}
+        ${why ? `<div class="lock suggest">${esc(why)}</div>` : ''}
         <div class="row">
-          ${chaptersOf(m).map(c => `<button class="btn ${save.read[c] ? '' : 'go'}" data-read="${esc(c)}">${save.read[c] ? 'Read ' + esc(c) + ' again' : 'Read ' + esc(c)}</button>`).join('')}
-          <button class="btn ${read && open ? 'go' : ''}" data-play="${m.id}" ${open ? '' : 'disabled'}>${stars ? 'Play again' : 'Play'}</button>
+          <button class="btn go" data-play="${m.id}">${stars ? 'Play again' : 'Play'}</button>
+          ${chaptersOf(m).map(c => `<button class="btn" data-read="${esc(c)}">${save.read[c] ? 'Read ' + esc(c) + ' again' : 'Read ' + esc(c)}</button>`).join('')}
         </div></div>`;
     };
     const cards = CAMPAIGNS.map(c => `<h2 class="camp">${esc(c.title)}</h2><p class="camp-about">${esc(c.about)}</p><div class="cards">${MISSIONS.filter(m => m.campaign === c.id).map(card).join('')}</div>`).join('');
-    // Free battle: open once any chapter with council questions has been read.
-    const anyRead = Object.keys(save.read).some(c => QUESTIONS[c]);
-    const lock = anyRead ? '' : '<div class="lock">🔒 Read a mission\'s chapter to open the skirmishes.</div>';
+    // The skirmishes are open too; the council asks about the chapters read so far (none read: no council).
+    const lock = Object.keys(save.read).some(c => QUESTIONS[c]) ? '' : '<div class="lock suggest">Read a mission\'s chapter to open the council: its right answers bring grain, timber and treasures.</div>';
     const freeCard = `<h2 class="camp">Skirmish</h2><p class="camp-about">Red Alert's way of playing: plant the standard of liberty and build your city up through the tech tree. Then hold off the raids, or tear down the Lamanite war camp.</p>
-      <div class="cards"><div class="card ${anyRead ? '' : 'locked'}">
+      <div class="cards"><div class="card">
         <div class="kicker">The council asks about every chapter you've read</div>
         <h2>${esc(WILD.title)}</h2>
         ${save.won.wild ? starsHtml(save.won.wild) : ''}
         <p>${esc(WILD.goals)}</p>
         ${lock}
-        ${Object.keys(WILD.LENGTHS).map(len => `<div class="row" style="align-items:center"><span style="min-width:9em;font-size:13px"><b>${esc(WILD.LENGTHS[len].name)}</b> · ${esc(WILD.LENGTHS[len].about)}</span>${Object.keys(WILD.LEVELS).map(l => `<button class="btn ${anyRead && l === 'easy' && len === 'short' ? 'go' : ''}" data-wild="${l}:${len}" ${anyRead ? '' : 'disabled'}>${WILD.LEVELS[l].name}</button>`).join('')}</div>`).join('')}
-      </div><div class="card ${anyRead ? '' : 'locked'}">
+        ${Object.keys(WILD.LENGTHS).map(len => `<div class="row" style="align-items:center"><span style="min-width:9em;font-size:13px"><b>${esc(WILD.LENGTHS[len].name)}</b> · ${esc(WILD.LENGTHS[len].about)}</span>${Object.keys(WILD.LEVELS).map(l => `<button class="btn ${l === 'easy' && len === 'short' ? 'go' : ''}" data-wild="${l}:${len}">${WILD.LEVELS[l].name}</button>`).join('')}</div>`).join('')}
+      </div><div class="card">
         <div class="kicker">The council asks about every chapter you've read</div>
         <h2>Free battle</h2>
         ${save.won.free ? starsHtml(save.won.free) : ''}
         <p>${esc(FREE.goals)}</p>
         ${lock}
         <div class="pick" id="pick">${pickHtml()}</div>
-        <div class="row">${Object.keys(FREE.LEVELS).map(l => `<button class="btn ${anyRead && l === 'easy' ? 'go' : ''}" data-free="${l}" ${anyRead ? '' : 'disabled'}>${FREE.LEVELS[l].name}</button>`).join('')}</div>
+        <div class="row">${Object.keys(FREE.LEVELS).map(l => `<button class="btn ${l === 'easy' ? 'go' : ''}" data-free="${l}">${FREE.LEVELS[l].name}</button>`).join('')}</div>
       </div></div>`;
     const s = showScreen(`<div class="wrap">
       <div class="kicker">A Book of Mormon strategy game</div>
       <h1><span>Title of Liberty</span></h1>
-      <p class="lede">Lead the Nephites through the wars of the Book of Mormon. Read each chapter first, then play it: the missions follow what happens in the verses.</p>
+      <p class="lede">Lead the Nephites through the wars of the Book of Mormon. Each mission follows a chapter: read it first and the people and the council reward you.</p>
+      <div class="row"><button class="btn go" id="bHow">How to play</button></div>
       ${cards}
       ${freeCard}
-      <details class="how"><summary>How to play</summary><ul>
+      <details class="how"><summary>All the controls</summary><ul>
         <li><b>Choose</b> your people: tap or click one. Drag a box around several (on a touch screen, tap <b>Box select</b> first). <b>Soldiers</b> chooses your whole army.</li>
-        <li><b>Give orders</b>: with people chosen, tap the ground to march, an enemy to fight, trees or a field to gather, or an unfinished building to build it. (On a computer, right-click works too.)</li>
+        <li><b>Give orders</b>: with people chosen, tap the ground to march, an enemy to fight, trees or a field to gather, or an unfinished building to build it. (On a computer, right-click works too.) Soldiers fight anyone they meet on the way; <b>Fall back</b> brings them home without stopping.</li>
         <li><b>Build</b>: tap your city (or the <b>City</b> button), pick a building, then tap where it goes, within reach of what you have. It rises on its own. For walls, drag a line.</li>
         <li><b>Gather</b>: carts bring in grain and timber by themselves, and stone from a rock face when you ask. Tap a cart, then a field, a forest or a rock face, to choose which.</li>
         <li><b>Train</b>: your city makes carts and workers; the barracks, soldiers and spies. Workers mend what's damaged and hurry what's being built. A soldier who fells three foes becomes a veteran.</li>
@@ -2736,6 +2745,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       <p class="aside">The title of liberty was Captain Moroni's banner (Alma 46:12–13); his story is the first campaign. The maps are pictures of each story: where these places were isn't known.</p>
       <p class="aside"><a href="../">← Back to Treasure Up</a></p>
     </div>`);
+    $('bHow').onclick = () => showTips('free-' + pick.side, null, true);
     s.onclick = e => {
       const r = e.target.closest('[data-read]'), p = e.target.closest('[data-play]'), f = e.target.closest('[data-free]'), w = e.target.closest('[data-wild]');
       const sd = e.target.closest('[data-side]'), cp = e.target.closest('[data-captain]');
@@ -2774,11 +2784,53 @@ IMG.farm.src = 'assets/farm.png?v=13';
       <div class="kicker">${m.kicker ? esc(m.kicker()) : m.free ? 'Free battle · ' + esc(m.LEVELS[m.level].name) : esc(CAMPAIGNS.find(c => c.id === m.campaign).title) + ' · Mission ' + (inCampaign(m).indexOf(m) + 1) + ' · ' + esc(m.chapter)} · ${esc(m.year)}</div>
       <h2 style="font-size:32px">${esc(m.title)}</h2>
       <ul>${m.briefing.map(([t, r]) => `<li>${esc(t)} ${refBtn(r)}</li>`).join('')}</ul>
-      ${m.free ? (m.side === 'kingmen' ? `<p class="lede">You are the King-men, under ${esc(CAPTAINS.kingmen[m.captain].name)}. Tap your camp to build. Your line: a store tent first (bearers bring the provisions there) → tents → muster ground → shield-makers' tent → pavilion → the Rameumptom, then idols. A tent feeds 8 warriors; nobody can be trained without food.</p>` : `<p class="lede">You are the Freemen, under ${esc(CAPTAINS.freemen[m.captain].name)}. Tap your city to build. Your building line: a storehouse first (carts bring the harvest there, and each brings a cart) → farms and granaries → barracks → armory and smithy → stables and the hall of the captains → the temple. A farm feeds 8 people; nobody can be trained without food.</p>`) : ''}
+      ${m.free ? `<p class="lede">You are the ${m.side === 'kingmen' ? 'King-men' : 'Freemen'}, under ${esc(CAPTAINS[m.side === 'kingmen' ? 'kingmen' : 'freemen'][m.captain].name)}.</p>` : ''}
       <div class="goalbox"><b>Your goals.</b> ${esc(m.goals)}</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn go" id="bBegin">Begin</button><button class="btn" id="bBack">Back</button></div></div>`);
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn go" id="bBegin">Begin</button><button class="btn" id="bTips">Tips</button><button class="btn" id="bBack">Back</button></div></div>`);
     $('bBegin').onclick = () => begin(m);
     $('bBack').onclick = home;
+    $('bTips').onclick = () => showTips(tipsKey(m));
+    if (!(save.tips || {})[tipsKey(m)]) showTips(tipsKey(m));
+  }
+
+  // ------------------------------------------------------------ the tips card
+  // Blake: "a card that we can read really quickly that teaches things about the gameplay." Four or five tips, a picture each;
+  // it shows over the briefing before each kind of game until "Don't show again", and from How to play on the menu.
+  const TIPS = {
+    'free-freemen': { title: 'Free battle · the Freemen', tips: [
+      ['cameo_stronghold', 'Plant the standard', 'Tap the flag, then Plant it here. Your city begins where it stands.'],
+      ['cameo_storehouse', 'Build', 'Tap your city. A storehouse first, then farms for food and a barracks for soldiers.'],
+      ['cameo_spearman', 'Fight', 'Tap Soldiers, then where to go. They fight anyone they meet. Fall back brings them home.'],
+      ['cameo_breastplates', 'Grow stronger', 'The armory and smithy make upgrades. Soldiers who win fights become veterans.'],
+      ['cameo_temple', 'Win', 'Tear down the three Lamanite camps and their war camp. Your temple works miracles.']] },
+    'free-kingmen': { title: 'Free battle · the King-men', tips: [
+      ['cameo_storetent', 'Your camp', 'Tap your war camp. A store tent first, then tents: each feeds eight warriors.'],
+      ['cameo_muster', 'Warriors', 'The muster ground trains warriors and slingers: cheap, quick and many.'],
+      ['cameo_lamanite', 'Fight', 'Tap Soldiers, then where to go. They fight anyone they meet. Fall back brings them home.'],
+      ['cameo_cimeters', 'Grow stronger', 'The shield-makers make shields; the ladder-works, cimeters and ladders.'],
+      ['cameo_rameumptom', 'Win', 'Tear down Zarahemla. Your Rameumptom poisons an enemy and stirs up bloodthirst.']] },
+    mission: { title: 'Story missions', tips: [
+      ['cameo_moroni', 'Follow the story', 'Each mission is a chapter. The Goals panel says what to do, with its verse.'],
+      ['cameo_spearman', 'Command', 'Tap your people, then where they go or what they fight. Soldiers fight on the way.'],
+      ['cameo_storehouse', 'Build', 'Tap your city to build. Carts bring in grain and timber on their own.'],
+      ['cameo_plates', 'Read first', 'Read the chapter before you play: you start with a gift, and the council asks about it.'],
+      ['cameo_sword', 'Story moments', 'When the big moment comes, a gold button appears at the top. Tap it.']] },
+    wild: { title: 'Out of the Wilderness', tips: [
+      ['cameo_stronghold', 'Plant the standard', 'Tap the flag, then Plant it here. Your city begins where it stands.'],
+      ['cameo_tower', 'Watch the ways', 'Raiders come by four ways. A watchtower near a way warns you sooner.'],
+      ['cameo_spearman', 'Fight', 'Tap Soldiers, then where to go. They fight anyone they meet. Fall back brings them home.'],
+      ['cameo_wall', 'Hold out', 'Walls and towers slow the raiders. Beat every raid to win.']] }
+  };
+  const tipsKey = m => m === WILD ? 'wild' : m.free ? 'free-' + (m.side === 'kingmen' ? 'kingmen' : 'freemen') : 'mission';
+  function showTips(key, done, browse) {
+    const T = TIPS[key] || TIPS.mission;
+    const tabs = browse ? `<div class="row tipTabs">${Object.keys(TIPS).map(k => `<button class="btn ${k === key ? 'go' : ''}" data-tips="${k}">${esc(TIPS[k].title.replace(/^Free battle · /, ''))}</button>`).join('')}</div>` : '';
+    openDialog(`<div class="dialog tipsCard"><div class="kicker">How to play</div><h2>${esc(T.title)}</h2>${tabs}
+      <ul class="tips">${T.tips.map(([pic, b, t]) => `<li><img src="assets/${pic}.png?v=2" alt=""><div><b>${esc(b)}</b><span>${esc(t)}</span></div></li>`).join('')}</ul>
+      <div class="row" style="margin-top:14px"><button class="btn go" id="tGot">Got it</button>${browse ? '' : '<button class="btn" id="tNever">Don\'t show again</button>'}</div></div>`);
+    $('tGot').onclick = () => { closeDialog(); if (done) done(); };
+    if ($('tNever')) $('tNever').onclick = () => { save.tips = save.tips || {}; save.tips[key] = 1; store(); closeDialog(); if (done) done(); };
+    $('dialog').querySelectorAll('[data-tips]').forEach(b => b.onclick = () => showTips(b.dataset.tips, done, true));
   }
 
   function begin(m) {
@@ -2786,6 +2838,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
     W = new S.World(undefined, m.map);
     W.mission = m;
     m.setup(W);
+    // Read the chapter first, and the people bring a gift (Blake: reading earns bonuses instead of opening the mission).
+    if (!m.free && m !== WILD && allRead(m)) { W.gain('grain', 100); W.gain('timber', 100); W.msg(`You read ${chaptersOf(m).join(' and ')}: the people bring 100 grain and 100 timber.`, null, 'good'); }
     buildHeights();
     sel = []; placing = null; wallLine = null; painted = null; miniDirty = true; shownMsgs = 0; endShown = false; particles.length = 0;
     seenTiles.clear(); for (const k in newUntil) delete newUntil[k];
@@ -2812,9 +2866,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (o.won) { save.won[mission.id] = Math.max(save.won[mission.id] || 0, o.stars || 1); store(); }
     const next = inCampaign(mission)[inCampaign(mission).indexOf(mission) + 1];
     const unread = next ? chaptersOf(next).filter(c => !save.read[c]) : [];
-    const nextBtn = o.won && next ? (!unread.length
-      ? `<button class="btn go" id="eNext">Next: ${esc(next.title)}</button>`
-      : `<button class="btn go" data-read="${esc(unread[0])}">Read ${esc(unread[0])}</button>`) : '';
+    const nextBtn = o.won && next ? `<button class="btn go" id="eNext">Next: ${esc(next.title)}</button>` + (unread.length ? `<button class="btn" data-read="${esc(unread[0])}">Read ${esc(unread[0])} first</button>` : '') : '';
     setTimeout(() => {
       const s = showScreen(`<div class="wrap end">
         <div class="kicker">${o.won ? 'Victory' : 'Defeat'} · ${esc(mission.title)}</div>

@@ -467,6 +467,8 @@ console.log('Free battle · build a city, tear down the war camp');
   { FB.level = 'normal'; FB.side = 'kingmen'; FB.captain = 'ammoron';
     const W = new S.World(undefined, FB.map); W.mission = FB; FB.setup(W);
     ok(W.side('p').side === 'kingmen' && W.side('r').side === 'freemen' && W.side('p').captain.name === 'Ammoron' && D.CAPTAINS.freemen[FB.theirCaptain], 'the human holds the King-men under Ammoron; the opponent holds the Freemen under a captain of its own');
+    { const zara = W.buildings('r', 'stronghold')[0], towers = W.buildings('r', 'tower').filter(t => S.dist(t, zara) < 9 * 32);
+      ok(towers.length === FB.LEVELS.normal.cityTowers, `Zarahemla stands behind watchtowers of its own (${towers.length} on Normal), as the war camp has its lookouts`); }
     const camp = W.stronghold();
     ok(camp && camp.type === 'warcamp' && camp.name === 'Your camp' && W.units('p').some(u => u.type === 'ammoron') && W.units('p').filter(u => u.type === 'bearer').length === 2, 'the King-men start with their war camp, two bearers, a few warriors and their captain');
     ok(W.buildings('r', 'stronghold').length === 1 && W.units('r').some(u => u.def.hero) && FB.targets()[0].type === 'stronghold', 'the Freemen opponent starts with Zarahemla, its guards and its captain; Zarahemla is what you must tear down');
@@ -591,6 +593,46 @@ console.log('Free battle · build a city, tear down the war camp');
 }
 
 // ------------------------------------------------------------ out of the wilderness
+// ------------------------------------------------------------ Blake's gameplay review: fighting on the way, falling back, the levels
+console.log('Fighting on the way · Blake\'s gameplay review');
+{
+  const FB = require('../liberty/missions.js').FREE_BATTLE;
+  FB.level = 'normal'; FB.side = 'freemen'; FB.captain = Object.keys(D.CAPTAINS.freemen)[0];
+  const W = new S.World(undefined, FB.map); W.mission = FB; FB.setup(W);
+  const city = W.deploy(W.units('p').find(u => u.def.deploys));
+  const x0 = city.x + 64, y0 = city.y - 6 * 32, far = tileOf(x0) + 14;            // (open ground above the city)
+  const man = (type, team, x, y) => { const u = W.addUnit(type, team, x, y); u.scripted = true; return u; };
+  // A soldier sent across the field (the way the game sends them now) fights the enemy he meets, then goes on.
+  { const s = man('spearman', 'p', x0, y0), foe = man('lamanite', 'r', x0 + 120, y0);
+    W.moveTo(s, far, tileOf(y0), true); for (let i = 0; i < 10; i++) W.step(0.1);
+    ok(s.order.type === 'attack' && s.order.target === foe.id && s.order.then && s.order.then.type === 'move', 'a soldier sent across the field fights the enemy he meets on the way');
+    W.kill(foe); for (let i = 0; i < 10; i++) W.step(0.1);
+    ok(s.order.type === 'move' && s.order.tx === far, 'and when the enemy falls he goes on where he was sent');
+    W.remove(s); }
+  // Fall back: a plain march keeps walking, struck or not.
+  { const s = man('spearman', 'p', x0, y0), foe = man('lamanite', 'r', x0 + 120, y0);
+    W.moveTo(s, far, tileOf(y0)); for (let i = 0; i < 10; i++) W.step(0.1);
+    W.damage(s, 5, foe); for (let i = 0; i < 5; i++) W.step(0.1);
+    ok(s.order.type === 'move', 'Fall back: a soldier told only to march keeps walking, even when struck');
+    W.remove(s); W.remove(foe); }
+  // Sent against a building, he strikes back at whoever strikes him, then goes on to the building.
+  { const camp = FB.camps.find(c => !c.dead), s = man('spearman', 'p', camp.x - 260, camp.y + 40), foe = man('lamanite', 'r', s.x - 30, s.y);
+    W.order(s, { type: 'attack', target: camp.id }); W.step(0.1);
+    W.damage(s, 5, foe);
+    ok(s.order.type === 'attack' && s.order.target === foe.id && s.order.then && s.order.then.target === camp.id, 'a soldier sent against a camp turns on the warrior who strikes him on the way');
+    W.kill(foe); for (let i = 0; i < 5; i++) W.step(0.1);
+    ok(s.order.type === 'attack' && s.order.target === camp.id, 'then goes on to the camp');
+    W.remove(s); }
+  // The levels climb: each harder level comes sooner, stronger and better guarded; Normal's war camp and city stand behind towers.
+  { const L = FB.LEVELS, up = (k) => L.easy[k] <= L.normal[k] && L.normal[k] <= L.hard[k];
+    ok(L.easy.first >= L.normal.first && L.normal.first >= L.hard.first && up('strength') && up('guards') && up('campGuards') && up('march') && up('towers') && up('stars'),
+      'the levels climb: from Easy to Hard the Lamanites march sooner, stronger, and keep more guards and towers');
+    ok(!L.easy.works && L.normal.works && L.hard.works, 'the opponent works its powers on Normal and Hard, not on Easy'); }
+  // The King-men's swords and cimeters (Alma 43:20): the ladder-works makes them, lighter than Nephite steel.
+  ok(D.BUILDINGS.ladderworks.research.includes('lcimeters') && D.RESEARCH.lcimeters.side === 'kingmen' && D.RESEARCH.lcimeters.dmg === 2 && D.RESEARCH.cimeters.dmg === 3,
+    'the King-men\'s ladder-works makes swords and cimeters: +2 for warriors who fight up close (the Nephites\' steel gives +3)');
+}
+
 console.log('Out of the Wilderness · build a city, hold off the raids');
 {
   const WM = require('../liberty/missions.js').WILD;
