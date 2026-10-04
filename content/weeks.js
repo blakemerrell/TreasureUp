@@ -7161,8 +7161,9 @@ window.TU_WEEKS = [
           "end": 295,
           "title": "4 Simple Missions the Savior Gives Us (Come, Follow Me: Isaiah 58-66)",
           "channel": "Scripture Central",
-          "previewed": false
-        }
+          "previewed": true
+        },
+        "approved": "e6005bbb"
       },
       {
         "id": "isa62-jsp-names",
