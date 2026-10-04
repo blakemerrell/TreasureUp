@@ -205,6 +205,33 @@ function loadBoards() {
   try { return JSON.parse(text.slice(at + BOARDS_MARK.length, end)); }
   catch (e) { throw new Error('content/boards.js is not valid JSON after window.TU_BOARDS = (' + e.message + ')'); }
 }
+// The arcade games' words (content/arcade.js): each “quote” is in the verse
+// cited after it, and a reference never stands without its quote.
+const ARCADE_MARK = 'window.TU_ARCADE = ';
+function loadArcade() {
+  const file = path.join(ROOT, 'content', 'arcade.js');
+  if (!fs.existsSync(file)) return null;
+  const text = fs.readFileSync(file, 'utf8');
+  const at = text.indexOf(ARCADE_MARK), end = text.lastIndexOf(';');
+  if (at < 0 || end < at) throw new Error('content/arcade.js must be a comment, then window.TU_ARCADE = <JSON>;');
+  try { return JSON.parse(text.slice(at + ARCADE_MARK.length, end)); }
+  catch (e) { throw new Error('content/arcade.js is not valid JSON after window.TU_ARCADE = (' + e.message + ')'); }
+}
+function checkArcade(arcade, { verses }) {
+  if (!arcade) return;
+  const textOf = ref => { const refs = expand(ref); return refs && refs.every(r => verses.has(r)) ? refs.map(r => verses.get(r)).join(' ') : null; };
+  const strings = (v, at) => typeof v === 'string' ? [[at, v]] : v && typeof v === 'object' ? Object.entries(v).flatMap(([k, x]) => strings(x, at + '.' + k)) : [];
+  for (const game of ['snake', 'look']) if (!arcade[game] || !arcade[game].title || !arcade[game].hook) failures.push(`content/arcade.js: ${game} needs a title and a hook`);
+  for (const [at, line] of strings(arcade, 'arcade')) {
+    if (/"/.test(line)) failures.push(`content/arcade.js ${at}: uses a straight " quote; use “curly quotes”`);
+    for (const m of line.matchAll(/“([^”]+)”[^(“]*\(([^)]+)\)/g)) {
+      const src = textOf(m[2]);
+      if (src == null) failures.push(`content/arcade.js ${at}: reference "${m[2]}" does not exist`);
+      else if (!quoteMatches(m[1], src)) failures.push(`content/arcade.js ${at}: “${m[1]}” is not in ${m[2]}`);
+    }
+    if ((line.match(/“/g) || []).length !== (line.match(/\(/g) || []).length) failures.push(`content/arcade.js ${at}: every quote needs its reference, and every reference its quote`);
+  }
+}
 // Is a point inside an outline? (even-odd ray casting)
 function insideRing([x, y], ring) {
   let c = false;
@@ -1157,6 +1184,7 @@ const sundayUrls = !sunday ? [] : [
   ...(sunday.youth || []).flatMap(m => (m.lessons || []).map(l => l && l.read)),
   ...(sunday.conference || []).flatMap(c => (c.talks || []).map(t => t && t.url))].filter(u => typeof u === 'string' && GOSPEL_LIBRARY.test(u));
 checkBoards(boards, scripture);
+checkArcade(loadArcade(), scripture);
 const online = args.has('--online') || args.has('--lesson');
 const pages = new Map();
 if (online) {

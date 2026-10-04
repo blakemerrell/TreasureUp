@@ -90,6 +90,10 @@ IMG.lamaniteCamp.src = 'assets/lamanite_camp.png?v=1';   // and these: 009-battl
 IMG.robbersCamp.src = 'assets/robbers_camp.png?v=1';
 IMG.warcamp.src = 'assets/warcamp.png?v=1';
 IMG.lamaniteTower.src = 'assets/lamanite_tower.png?v=1';
+// The King-men's camp (camp.js; pictures: 014-kingmen-camp.md).
+for (const k of ['bearer', 'tents', 'storetent', 'muster', 'shieldtent', 'ladderworks', 'pavilion']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
+// The Freemen's smithy and training ground (pictures: 015-smithy-training.md).
+for (const k of ['smithy', 'training']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
 IMG.gate.src = 'assets/gate.png?v=1';
 IMG.farm.src = 'assets/farm.png?v=13';
                                 // the simulation's tick, as in the tests
@@ -1153,6 +1157,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     } else if (u.type === 'zerahemnah') {
       uImg = IMG.zerahemnah;
       uw = 36; uh = 48; uox = 17; uoy = 47;
+    } else if (u.type === 'bearer') {              // the King-men's bearer (014), bent under his bundle
+      uImg = ready(IMG.bearer) ? IMG.bearer : IMG.lamanite;
+      if (uImg === IMG.bearer) { uw = 27; uh = 44; uox = 13; uoy = 43; } else { uw = 41; uh = 44; uox = 19; uoy = 43; }
     } else if (u.type === 'lamanite' || d.foe) {
       uImg = IMG.lamanite;
       uw = 41; uh = 44; uox = 19; uoy = 43;
@@ -1222,6 +1229,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
     tower: { cx: 214, by: 493, span: 428 },
     armory: { cx: 74, by: 147, span: 150 },
     granary: { cx: 200, by: 333, span: 397 },
+    // The King-men's camp (014) and the Freemen's smithy and training ground (015): each as wide as its plot, set by its front corner.
+    tents: { cx: 150, by: 183, span: 300 },
+    storetent: { cx: 150, by: 193, span: 300 },
+    muster: { cx: 225, by: 276, span: 450 },
+    shieldtent: { cx: 150, by: 186, span: 300 },
+    ladderworks: { cx: 150, by: 197, span: 300 },
+    pavilion: { cx: 225, by: 380, span: 450 },
+    smithy: { cx: 150, by: 295, span: 300 },
+    training: { cx: 187, by: 322, span: 375 },
     stables: { cx: 200, by: 318, span: 375 },
     hall: { cx: 200, by: 310, span: 400 },
     temple: { cx: 168, by: 283, span: 295 },      // its stair pokes out past the platform's diamond
@@ -1234,7 +1250,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Which picture a building is drawn with: the Lamanites' watchtowers are their own; a camp is the robbers' in 3 Nephi, the Lamanites' elsewhere.
   const pictureOf = b => b.type === 'tower' && b.team === 'r' ? 'lamaniteTower' : b.type === 'warcamp' ? 'warcamp'
     : b.type === 'camp' ? (mission && mission.campaign === 'gidgiddoni' ? 'robbersCamp' : 'lamaniteCamp') : PICTURE[b.type];
-  const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables', temple: 'temple', relic: 'ruin' };
+  const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables', temple: 'temple', relic: 'ruin',
+    tents: 'tents', storetent: 'storetent', muster: 'muster', shieldtent: 'shieldtent', ladderworks: 'ladderworks', pavilion: 'pavilion', smithy: 'smithy', training: 'training' };
   const ready = img => img && img.complete && img.naturalWidth;
   // A building stands on flat ground just above the highest corner of its plot.
   function floorOf(b) {
@@ -1250,7 +1267,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function drawFloor(b) {
     if (b.def.wall != null) return;
     const x0 = b.tx, y0 = b.ty, x1 = b.tx + b.w, y1 = b.ty + b.h;
-    if (b.type === 'camp' || b.type === 'warcamp' || b.type === 'village') {
+    if (b.type === 'camp' || b.type === 'warcamp' || b.type === 'village' || b.def.side === 'kingmen' || (b.type === 'training' && !ready(IMG.training))) {
       const P = [];
       for (let x = x0; x <= x1; x++) P.push(isoPt(x, y0, hv(x, y0)));
       for (let y = y0 + 1; y <= y1; y++) P.push(isoPt(x1, y, hv(x1, y)));
@@ -1287,8 +1304,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
       ctx.drawImage(img, ix - sp.cx * sc, front.iy - sp.by * sc, img.naturalWidth * sc, img.naturalHeight * sc);
     };
     if (b.def.wall != null) drawEarthwork(b);
-    else if (b.type === 'camp' || b.type === 'warcamp') {
-      if (ready(img)) { place(); if (b.type === 'warcamp') banner(ix + 4, iy - h * 0.9, '#9f1239', now, b.id); }
+    else if (b.type === 'camp' || b.type === 'warcamp' || (b.def.side === 'kingmen' && !(sp && ready(img)))) {
+      if (sp && ready(img)) { place(); if (b.type === 'warcamp') banner(ix + 4, iy - h * 0.9, '#9f1239', now, b.id); }
       else drawCamp(b, now);
     }
     else if (b.type === 'village') drawVillage(b);
@@ -1298,6 +1315,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
     } else if (sp && ready(img)) {
       place();
       if (b.type === 'hall') banner(ix + 6, iy - h * 1.2, '#d4a017', now, b.id);
+    } else if (b.type === 'smithy' && ready(IMG.armory)) {   // the armory's picture, on the smaller plot, with the forge's glow
+      const a = SPRITE.armory, im = IMG.armory, front = isoAt((b.tx + b.w) * TILE, (b.ty + b.h) * TILE, top), sc = (b.w + b.h) * TILE / a.span;
+      ctx.drawImage(im, ix - a.cx * sc, front.iy - a.by * sc, im.naturalWidth * sc, im.naturalHeight * sc);
+      if (b.built >= 1) { ctx.fillStyle = `rgba(255, 150, 40, ${0.55 + 0.25 * Math.sin(now / 90 + b.id)})`; ctx.beginPath(); ctx.arc(ix + 4, iy - 14, 4.5, 0, Math.PI * 2); ctx.fill(); }
+    } else if (b.type === 'training') {
+      drawTraining(b, now);
     } else { ctx.fillStyle = '#bfa97c'; ctx.fillRect(ix - w * 0.5, iy - h, w, h); }
     ctx.restore();
 
@@ -1310,6 +1333,18 @@ IMG.farm.src = 'assets/farm.png?v=13';
     } else if (b.def.hp < 99999 && (selected || b.hp < S.maxHp(b))) {
       hpBar(ix, iy - 36, 44, b.hp / S.maxHp(b));
     }
+  }
+
+  // The training ground: posts at the plot's corners, a straw dummy in the middle, a banner.
+  function drawTraining(b, now) {
+    const top = floorOf(b);
+    const post = (x, y) => { const [px, py] = isoPt(x, y, top); ctx.strokeStyle = '#4a3420'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px, py - 16); ctx.stroke(); };
+    for (const [x, y] of [[b.tx + 0.3, b.ty + 0.3], [b.tx + b.w - 0.3, b.ty + 0.3], [b.tx + 0.3, b.ty + b.h - 0.3], [b.tx + b.w - 0.3, b.ty + b.h - 0.3]]) post(x, y);
+    const [cx, cy] = isoPt(b.tx + b.w / 2, b.ty + b.h / 2, top);
+    ctx.strokeStyle = '#4a3420'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx, cy + 2); ctx.lineTo(cx, cy - 20); ctx.stroke();
+    ctx.fillStyle = '#c9a85a'; ctx.beginPath(); ctx.ellipse(cx, cy - 14, 7, 10, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#8a6a2a'; ctx.lineWidth = 1; ctx.stroke();
+    if (b.built >= 1) banner(cx + 14, cy - 26, '#f4f1e6', now, b.id);
   }
 
   // A cloth on a pole, stirring in the wind.
@@ -1954,7 +1989,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const DRAWN_AS = { lehi: 'lehi', gidgiddoni: 'gidgiddoni', robber: 'robber', robberArcher: 'robber_archer', giddianhi: 'robber_chief', zemnarihah: 'robber_chief',
     slinger: 'lamanite_slinger', amalekite: 'lamanite_captain', zoramite: 'lamanite_captain', zerahemnah: 'zerahemnah' };
   function picOf(e) {
-    const own = e.kind === 'building' && e.team !== 'p' && IMG[pictureOf(e)];
+    const pic = e.kind === 'building' && e.team !== 'p' && IMG[pictureOf(e)];
+    const own = pic && (ready(pic) ? pic : e.def.side === 'kingmen' ? IMG.lamaniteCamp : pic);   // (a tent without its picture yet shows the camp's)
     const c = own ? own.src : CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && 'assets/cameo_stronghold.png?v=1');
     if (c) return `<img class="pic" src="${c}" alt="">`;
     if (DRAWN_AS[e.type]) return `<img class="pic" src="assets/${DRAWN_AS[e.type]}.png?v=1" alt="">`;
@@ -2000,6 +2036,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'build:stables': 'assets/cameo_stables.png?v=1',
     'build:hall': 'assets/cameo_hall.png?v=1',
     'build:temple': 'assets/cameo_temple.png?v=1',
+    'build:smithy': 'assets/cameo_smithy.png?v=1',
+    'build:training': 'assets/cameo_training.png?v=1',
+    'train:bearer': 'assets/cameo_bearer.png?v=1',
+    'build:tents': 'assets/cameo_tents.png?v=1',
+    'build:storetent': 'assets/cameo_storetent.png?v=1',
+    'build:muster': 'assets/cameo_muster.png?v=1',
+    'build:shieldtent': 'assets/cameo_shieldtent.png?v=1',
+    'build:ladderworks': 'assets/cameo_ladderworks.png?v=1',
+    'build:pavilion': 'assets/cameo_pavilion.png?v=1',
     'research:armor': 'assets/cameo_armor.png?v=1',
     'research:breastplates': 'assets/cameo_breastplates.png?v=1',
     'research:cimeters': 'assets/cameo_cimeters.png?v=1',
@@ -2025,8 +2070,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'miracle:mercy': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg>',
     'miracle:shock': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg>'
   };
+  // A tile that can be used for the first time wears "New" for a while, like a new icon in Red Alert.
+  const seenTiles = new Set(), newUntil = {};
+  function noteUnlock(act, can) { if (can && !seenTiles.has(act)) { seenTiles.add(act); if (W && W.t > 2) newUntil[act] = performance.now() + 25000; } }
   const cmd = (act, name, cost, cls) => {
     const pic = CAMEO_MAP[act], sign = SIGN[act];
+    if (newUntil[act] > performance.now()) cls = (cls || '') + ' new';
     const face = pic ? `<img src="${pic}" alt="">` : sign ? `<i class="ic">${sign}</i>` : '';
     // Long words may break where they'd break in print (Watch-tower), never anywhere else; the longest piece sets how big the name can be.
     const shown = String(name).replace(/[A-Za-z]{7,}/g, w => BREAKS[w] || w);
@@ -2049,7 +2098,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (b.type === 'village') return `<div class="note">${b.state === 'waiting' ? 'Send a soldier or worker here. When the proclamation reaches ' + esc(b.name) + ', its people march to Zarahemla.' : 'Its people have gone.'}</div>`;
       if (b.team === 'x') return `<div class="note">He gave himself up (3 Nephi 4:27).</div>`;
       if (b.def.prophet) return `<div class="note">${esc(b.def.about)}</div>`;
-      if (b.kind === 'building') return `<div class="note">${b.untouchable ? 'Too strong to tear down.' : 'Choose soldiers, then tap it to tear it down.'}</div>`;
+      if (b.kind === 'building') return `<div class="note"><b>${esc(b.name || b.def.name)}</b>${b.def.about ? ' ' + esc(b.def.about) : ''} ${b.untouchable ? 'Too strong to tear down.' : 'Choose soldiers, then tap it to tear it down.'}</div>`;
       return `<div class="note">${esc(b.def.about || (b.def.leader ? 'A leader of the robbers.' : 'A Gadianton robber.'))} Choose soldiers, then tap him to fight.</div>`;
     }
     const units = ents.filter(e => e.kind === 'unit');
@@ -2063,20 +2112,23 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (b.built < 1) return `<div class="note">It builds itself. Workers sent to it hurry it along.</div>`;
     let h = '';
     if (b.def.builder) {                            // the city: like Red Alert's construction yard, everything is built from here
-      const list = W.tech ? ['farm', 'granary', 'storehouse', 'barracks', 'wall', 'gate', 'tower', 'armory', 'stables', 'hall', 'temple'] : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
+      const list = W.tech ? ['farm', 'granary', 'storehouse', 'barracks', 'wall', 'gate', 'tower', 'armory', 'smithy', 'training', 'stables', 'hall', 'temple'] : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
       for (const t of list) {
         const def = BUILDINGS[t], why = W.whyNotBuild(t);
+        noteUnlock('build:' + t, !why);
         h += cmd('build:' + t, t === 'wall' ? 'Walls' : def.name, why ? esc(why) : costHtml(def.cost) + (t === 'wall' ? ' each' : ''), why || !W.canAfford(def.cost) ? 'poor' : '');
       }
     }
     for (const t of (b.def.trains || []).filter(t => W.visible(UNITS[t]))) {
       const why = W.whyNotTrain(t);
+      noteUnlock('train:' + t, !why || why.startsWith('Not enough food'));
       h += cmd('train:' + t, UNITS[t].name, why ? esc(why) : costHtml(UNITS[t].cost), why || !W.canAfford(UNITS[t].cost) ? 'poor' : '');
     }
     // What this building can make: in free battle, the armory's list; in a mission, the mission's own armor.
     const keys = W.researchAt(b);
     for (const k of keys.filter(k => !W.researched[k])) {
       const r = RESEARCH[k];
+      noteUnlock('research:' + k, true);
       if (W.researching && W.researching.key === k) h += `<div class="note">Making ${esc(r.name.toLowerCase())}: ${Math.ceil(W.researching.left)}s</div>`;
       else h += cmd('research:' + k, esc(r.name), W.researching ? 'Wait: one at a time' : costHtml(r.cost), W.researching || !W.canAfford(r.cost) ? 'poor' : '');
     }
@@ -2390,6 +2442,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     m.setup(W);
     buildHeights();
     sel = []; placing = null; wallLine = null; painted = null; miniDirty = true; shownMsgs = 0; endShown = false; particles.length = 0;
+    seenTiles.clear(); for (const k in newUntil) delete newUntil[k];
+    for (const t in BUILDINGS) noteUnlock('build:' + t, !W.whyNotBuild(t));                 // what can be made at the start is not new
+    for (const t in UNITS) { const why = W.whyNotTrain(t); noteUnlock('train:' + t, !why || why.startsWith('Not enough food')); }
     paused = false; speed = 1; $('bSpeed').textContent = '1×'; $('bPause').textContent = '❚❚';
     council = { nextAt: 20, queue: [], right: 0, streak: 0 };
     closeDialog(); hideScreen();

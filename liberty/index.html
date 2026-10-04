@@ -132,6 +132,7 @@
     background: linear-gradient(rgba(15, 9, 4, 0), rgba(15, 9, 4, .92) 45%); text-shadow: 0 1px 1px #000; -webkit-hyphens: auto; hyphens: auto;
     display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .cmd .face .ic { position: absolute; inset: 0 0 26% 0; display: flex; align-items: center; justify-content: center; color: var(--brass-hi); }
+  .cmd.new .face::after { content: 'New'; position: absolute; top: 3px; right: 3px; font-size: 8.5px; font-weight: 800; letter-spacing: .02em; color: #fff; background: #b91c1c; border-radius: 4px; padding: 1px 4px; box-shadow: 0 1px 2px rgba(0,0,0,.5); }
   .cmd .face .ic svg { width: 44%; height: 44%; }
   .cmd small { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 0 4px; min-height: 13px; font-size: 10px; font-weight: 700; line-height: 1.15; color: var(--parch-dim); }
   .cmd small .c { white-space: nowrap; }
@@ -349,10 +350,11 @@
 <script src="../vendor/qrcode.js"></script>
 <script src="webrtc.js?v=15"></script>
 <script src="multi.js?v=15"></script>
-<script src="data.js?v=22"></script>
-<script src="sim.js?v=21"></script>
-<script src="missions.js?v=21"></script>
+<script src="data.js?v=24"></script>
+<script src="sim.js?v=23"></script>
+<script src="camp.js?v=1"></script>
+<script src="missions.js?v=23"></script>
 <script src="scripture.js?v=15"></script>
-<script src="ui.js?v=36"></script>
+<script src="ui.js?v=39"></script>
 </body>
 </html>

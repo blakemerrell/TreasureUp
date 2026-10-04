@@ -34,13 +34,16 @@
                     about: 'Chief captain "only twenty and five years old" (Alma 43:17). Soldiers near him fight harder.' },
     lehi:         { name: 'Lehi', hp: 240, speed: 62, dmg: 15, range: 22, cd: 0.9, armor: 4, sight: 190, soldier: true, hero: true, aura: 110,
                     about: 'Leads the army hidden on the south of the hill Riplah (Alma 43:35).' },
-    lamanite:     { name: 'Lamanite', hp: 72, speed: 60, dmg: 8, range: 20, cd: 1.0, armor: 0, sight: 180, foe: true, color: '#b45309', band: '#e7c9a0',
+    // The King-men's camp (design/evolution.md): a bearer hauls and builds; the warriors cost what the camp can pay.
+    bearer:       { name: 'Bearer', hp: 45, speed: 60, dmg: 2, range: 18, cd: 1.2, armor: 0, sight: 120, cost: { grain: 30 }, time: 6, gathers: true, builds: true, load: 12, side: 'kingmen', tier: true,
+                    about: 'Carries the camp\'s provisions on his back and raises its tents: "new supplies of provisions" (Alma 55:34).' },
+    lamanite:     { name: 'Lamanite', hp: 72, speed: 60, dmg: 8, range: 20, cd: 1.0, armor: 0, sight: 180, cost: { grain: 30 }, time: 7, foe: true, color: '#b45309', band: '#e7c9a0',
                     about: 'No breastplates or shields: "naked, save it were a skin which was girded about their loins" (Alma 43:20).' },
-    slinger:      { name: 'Lamanite slinger', hp: 46, speed: 58, dmg: 6, range: 130, cd: 1.5, armor: 0, sight: 190, foe: true, ranged: true, beats: 'light', color: '#b45309', band: '#e7c9a0',
+    slinger:      { name: 'Lamanite slinger', hp: 46, speed: 58, dmg: 6, range: 130, cd: 1.5, armor: 0, sight: 190, cost: { grain: 25, timber: 10 }, time: 7, foe: true, ranged: true, beats: 'light', color: '#b45309', band: '#e7c9a0',
                     about: 'Bows and arrows, stones and slings (Alma 43:20).' },
-    amalekite:    { name: 'Amalekite captain', hp: 140, speed: 58, dmg: 12, range: 20, cd: 1.0, armor: 2, sight: 190, foe: true, color: '#7c2d12', band: '#a8a29e',
+    amalekite:    { name: 'Amalekite captain', hp: 140, speed: 58, dmg: 12, range: 20, cd: 1.0, armor: 2, sight: 190, cost: { grain: 60, timber: 40 }, time: 12, needs: ['pavilion'], foe: true, color: '#7c2d12', band: '#a8a29e',
                     about: 'Zerahemnah made Amalekites and Zoramites his chief captains (Alma 43:6). They were not naked like the others (43:20).' },
-    zoramite:     { name: 'Zoramite captain', hp: 140, speed: 58, dmg: 12, range: 20, cd: 1.0, armor: 2, sight: 190, foe: true, color: '#7c2d12', band: '#a8a29e',
+    zoramite:     { name: 'Zoramite captain', hp: 140, speed: 58, dmg: 12, range: 20, cd: 1.0, armor: 2, sight: 190, cost: { grain: 60, timber: 40 }, time: 12, needs: ['pavilion'], foe: true, color: '#7c2d12', band: '#a8a29e',
                     about: 'Zerahemnah made Amalekites and Zoramites his chief captains (Alma 43:6). They were not naked like the others (43:20).' },
     zerahemnah:   { name: 'Zerahemnah', hp: 520, speed: 56, dmg: 18, range: 22, cd: 1.0, armor: 3, sight: 200, foe: true, leader: true, color: '#7c2d12', band: '#a8a29e',
                     about: 'Leader of the Lamanite armies (Alma 43:5).' },
@@ -50,15 +53,15 @@
     // there (W.tech); `needs` names the buildings that must stand first.
     standard:     { name: 'Standard of liberty', hp: 220, speed: 42, dmg: 0, range: 0, cd: 1, armor: 3, sight: 160, deploys: true, tier: true,
                     about: 'Moroni "planted the standard of liberty among the Nephites" (Alma 46:36). Choose open ground and plant it: your city grows from there.' },
-    swordsman:    { name: 'Swordsman', hp: 115, speed: 58, dmg: 14, range: 20, cd: 1.0, armor: 2, sight: 170, cost: { grain: 55, timber: 35 }, time: 11, soldier: true, tier: true, needs: ['armory'], beats: 'ranged',
+    swordsman:    { name: 'Swordsman', hp: 115, speed: 58, dmg: 14, range: 20, cd: 1.0, armor: 2, sight: 170, cost: { grain: 55, timber: 35 }, time: 11, soldier: true, tier: true, needs: ['smithy'], beats: 'ranged',
                     about: 'Armed "with swords, and with cimeters" (Alma 43:18). Strong up close, and against slingers and archers.' },
     nslinger:     { name: 'Slinger', hp: 55, speed: 60, dmg: 6, range: 140, cd: 1.3, armor: 0, sight: 180, cost: { grain: 35, timber: 15 }, time: 7, soldier: true, ranged: true, tier: true, beats: 'light',
                     about: 'The Nephites armed themselves "with stones, and with slings" (Alma 2:12). Cheap, strikes from far off, and strong against those without armor.' },
     javelin:      { name: 'Javelin thrower', hp: 75, speed: 60, dmg: 20, range: 95, cd: 1.7, armor: 1, sight: 180, cost: { grain: 50, timber: 40 }, time: 12, soldier: true, ranged: true, tier: true, needs: ['hall'], beats: 'armored',
                     about: '"The dart, and the javelin" (Jarom 1:8). Strong against armored captains. From history, not the verse: ancient Americans threw darts with a spear-thrower called an atlatl.' },
-    stripling:    { name: 'Stripling warrior', hp: 190, speed: 64, dmg: 15, range: 20, cd: 0.9, armor: 4, sight: 180, cost: { grain: 90, timber: 60 }, time: 16, soldier: true, tier: true, needs: ['hall'],
+    stripling:    { name: 'Stripling warrior', hp: 190, speed: 64, dmg: 15, range: 20, cd: 0.9, armor: 4, sight: 180, cost: { grain: 90, timber: 60 }, time: 16, soldier: true, tier: true, needs: ['hall', 'training'],
                     about: '"Exceedingly valiant for courage" (Alma 53:20), "taught by their mothers" (Alma 56:47). Very hard to bring down.' },
-    spy:          { name: 'Spy', hp: 40, speed: 82, dmg: 0, range: 0, cd: 1, armor: 0, sight: 270, cost: { grain: 30 }, time: 6, tier: true, scout: true,
+    spy:          { name: 'Spy', hp: 40, speed: 82, dmg: 0, range: 0, cd: 1, armor: 0, sight: 270, cost: { grain: 30 }, time: 6, tier: true, scout: true, needs: ['training'],
                     about: '"Moroni sent spies into the wilderness to watch their camp" (Alma 43:23). Fast and far-seeing, and no fighter: send him to look, not to fight.' },
     cart:         { name: 'Horse cart', hp: 90, speed: 78, dmg: 0, range: 0, cd: 1, armor: 1, sight: 140, cost: { grain: 60, timber: 40 }, time: 12, gathers: true, load: 30, quick: 1.5,
                     about: 'Brings in grain and timber on its own, whichever is shorter: it finds the nearest field or forest and hauls the load home. Tap it on a field, a forest or a rock face to choose which; stone only comes when you ask. The Nephites had "horses, and their chariots" (3 Nephi 3:22).' },
@@ -68,28 +71,47 @@
   const BUILDINGS = {
     stronghold: { name: 'Zarahemla', w: 4, h: 4, hp: 2400, armor: 4, dmg: 8, range: 130, cd: 1.4, dropoff: true, builder: true, trains: ['cart', 'worker'], food: 10, store: 300, about: 'The gathering place (3 Nephi 3:23). Its guards shoot at robbers. Lose it and the mission is lost.' },
     storehouse: { name: 'Storehouse', w: 2, h: 2, hp: 450, armor: 2, cost: { timber: 60 }, work: 18, dropoff: true, store: 300, about: 'Carts bring grain, timber and stone here too.' },
-    barracks:   { name: 'Barracks', w: 3, h: 3, hp: 650, armor: 2, cost: { timber: 110 }, work: 30, trains: ['spearman', 'nslinger', 'archer', 'swordsman', 'spy'], research: ['armor'], about: 'Trains the guards.' },
+    barracks:   { name: 'Barracks', w: 3, h: 3, hp: 650, armor: 2, cost: { timber: 110 }, work: 30, trains: ['spearman', 'nslinger', 'archer'], research: ['armor'], about: 'Trains the guards.' },
     tower:      { name: 'Watchtower', w: 2, h: 2, hp: 520, armor: 3, cost: { timber: 40, stone: 40 }, work: 26, dmg: 9, range: 150, cd: 1.3, needs: ['barracks'], about: 'Guards "watch them … day and night" (3 Nephi 3:14). Shoots at robbers.' },
     wall:       { name: 'Earthwork', w: 1, h: 1, hp: 260, armor: 5, cost: { timber: 6 }, work: 5, wall: true, about: 'Fortifications "round about them" (3 Nephi 3:14). Robbers must break through.' },
     gate:       { name: 'Gate', w: 1, h: 1, hp: 320, armor: 4, cost: { timber: 10, stone: 15 }, work: 8, wall: true, gate: true, about: 'Your people pass through; robbers must break it.' },
     village:    { name: 'Village', w: 3, h: 3, hp: 99999, neutral: true },
-    camp:       { name: "Robbers' camp", w: 3, h: 3, hp: 380, armor: 2, about: 'Part of the siege round about the city (3 Nephi 4:16).' },
+    camp:       { name: "Robbers' camp", w: 3, h: 3, hp: 380, armor: 2, food: 8, about: 'Part of the siege round about the city (3 Nephi 4:16).' },
     // Free battle.
     farm:       { name: 'Farm', w: 2, h: 2, hp: 300, armor: 1, cost: { timber: 50 }, work: 14, food: 8, grows: 0.25, tier: true,
                   about: 'Feeds 8 more people, and grows a little grain. "They did raise grain in abundance" (Helaman 6:12).' },
     granary:    { name: 'Granary', w: 2, h: 2, hp: 380, armor: 2, cost: { timber: 45 }, work: 14, store: 500, tier: true,
                   about: 'Holds 500 more of each: grain, timber and stone. The Nephites "reserved for themselves provisions" (3 Nephi 4:4). From history, not the verses: clay granaries like these have held maize in Mexico since long before the Spanish came.' },
-    armory:     { name: 'Armory', w: 3, h: 2, hp: 500, armor: 2, cost: { grain: 40, timber: 120 }, work: 24, needs: ['barracks'], research: ['breastplates', 'cimeters', 'pickets', 'bows', 'clothing', 'ladders'], tier: true,
+    // The Freemen's second tier (design/evolution.md, section 4): the armory keeps the armor; the smithy makes the steel; the training ground makes veterans.
+    smithy:     { name: 'Smithy', w: 2, h: 2, hp: 480, armor: 2, cost: { grain: 40, timber: 90, stone: 30 }, work: 22, needs: ['barracks'], trains: ['swordsman'], research: ['cimeters', 'bows'], tier: true,
+                  about: 'Nephi "did make tools of the ore" (1 Nephi 17:16) and, after the manner of the sword of Laban, "did make many swords" (2 Nephi 5:14). Arms swordsmen; makes cimeters and bows of fine steel.' },
+    training:   { name: 'Training ground', w: 3, h: 2, hp: 400, armor: 1, cost: { grain: 40, timber: 80 }, work: 20, needs: ['barracks', 'farm'], trains: ['spy'], veterans: true, tier: true,
+                  about: 'Where new soldiers drill. While it stands, every soldier trained comes out a veteran, like the striplings, "taught to keep the commandments of God" (Alma 53:21). Trains spies.' },
+    armory:     { name: 'Armory', w: 3, h: 2, hp: 500, armor: 2, cost: { grain: 40, timber: 120 }, work: 24, needs: ['barracks'], research: ['breastplates', 'clothing', 'pickets'], tier: true,
                   about: 'Makes "all manner of weapons of war, of every kind" (Alma 2:12). Opens swordsmen, and makes armor, better weapons and stronger walls.' },
     stables:    { name: 'Stables', w: 2, h: 3, hp: 420, armor: 1, cost: { timber: 100 }, work: 20, needs: ['farm'], trains: ['cart'], fast: 2, tier: true,
                   about: 'Horse carts, twice as fast as the city makes them. They had "horses, and their chariots" (3 Nephi 3:22).' },
-    hall:       { name: 'Hall of the captains', w: 3, h: 3, hp: 800, armor: 3, cost: { grain: 100, timber: 150, stone: 80 }, work: 36, needs: ['armory'], trains: ['javelin', 'stripling'], tier: true,
+    hall:       { name: 'Hall of the captains', w: 3, h: 3, hp: 800, armor: 3, cost: { grain: 100, timber: 150, stone: 80 }, work: 36, needs: ['armory', 'smithy'], trains: ['javelin', 'stripling'], research: ['ladders'], tier: true,
                   about: 'Where the chief captains plan the war. Trains javelin throwers and stripling warriors. From history, not the verses: its stepped platform is like those built in ancient Mesoamerica.' },
     temple:     { name: 'Temple', w: 3, h: 3, hp: 1200, armor: 4, cost: { grain: 100, timber: 120, stone: 200 }, work: 50, needs: ['hall'], heals: 190, miracles: true, tier: true,
                   about: 'Built "after the manner of the temple of Solomon" (2 Nephi 5:16). Your people near it are made whole; the council comes back sooner and gives double, as at King Benjamin\'s tower by the temple (Mosiah 2:7); and miracles are worked from it.' },
     relic:      { name: 'Jaredite ruin', w: 2, h: 2, hp: 99999, armor: 9, neutral: true, untouchable: true, relic: true, tier: true,
                   about: 'The ruins of a people who were before. Limhi\'s men found such a land, "covered with ruins of buildings of every kind" (Mosiah 8:8), and in it plates, breastplates and swords. Send someone to see what this one holds.' },
-    warcamp:    { name: 'Lamanite war camp', w: 4, h: 4, hp: 1800, armor: 3, tier: true, about: 'Where the Lamanite armies gather. Tear it down to win.' }
+    // The King-men's camp (design/evolution.md, section 4): tents round the war camp, raised by its bearers.
+    tents:      { name: 'Tents', w: 2, h: 2, hp: 260, armor: 1, cost: { timber: 40 }, work: 12, food: 8, side: 'kingmen', tier: true,
+                  about: 'Hide tents for the warriors and their families: "they pitched their tents round about" (Mosiah 2:6). Each feeds eight.' },
+    storetent:  { name: 'Store tent', w: 2, h: 2, hp: 300, armor: 1, cost: { timber: 50 }, work: 14, dropoff: true, store: 400, side: 'kingmen', tier: true,
+                  about: 'Where the bearers bring the camp\'s "new supplies of provisions" (Alma 55:34). Holds 400 of each.' },
+    muster:     { name: 'Muster ground', w: 3, h: 3, hp: 520, armor: 2, cost: { timber: 90 }, work: 24, trains: ['lamanite', 'slinger'], side: 'kingmen', tier: true,
+                  about: 'Where the warriors gather, armed with "their stones and their slings" (Alma 43:20).' },
+    shieldtent: { name: 'Shield-makers\' tent', w: 2, h: 2, hp: 420, armor: 2, cost: { grain: 40, timber: 100 }, work: 22, needs: ['muster'], research: ['lshields', 'skins'], side: 'kingmen', tier: true,
+                  about: 'Here they "prepared themselves with shields, and with breastplates" (Alma 49:6). Opens the chief captain\'s pavilion.' },
+    ladderworks: { name: 'Ladder-works', w: 2, h: 2, hp: 400, armor: 1, cost: { timber: 110 }, work: 22, needs: ['muster'], research: ['lladders'], side: 'kingmen', tier: true,
+                  about: 'Ladders for the banks of earth they could not "dig down" (Alma 49:22).' },
+    pavilion:   { name: 'Chief captain\'s pavilion', w: 3, h: 3, hp: 700, armor: 3, cost: { grain: 80, timber: 140 }, work: 32, needs: ['shieldtent'], trains: ['amalekite', 'zoramite'], side: 'kingmen', tier: true,
+                  about: 'Zerahemnah "appointed chief captains over the Lamanites, and they were all Amalekites and Zoramites" (Alma 43:6).' },
+    warcamp:    { name: 'Lamanite war camp', w: 4, h: 4, hp: 1800, armor: 3, tier: true, dropoff: true, builder: true, trains: ['bearer'], food: 40, store: 300, side: 'kingmen',
+                  about: 'Where the Lamanite armies gather, and where the bearers bring the camp\'s provisions. Tear it down to win.' }
   };
 
   // The temple's miracles: each works at a spot you tap (or on one foe, or on everyone), then waits its time.
@@ -155,6 +177,16 @@
     ladders: { name: 'Ladders and cords', cost: { timber: 120 }, time: 25, ref: 'Alma 62:21', ladders: true,
              about: 'Moroni\'s men took Nephihah by night with "strong cords and ladders" (Alma 62:21). Your soldiers climb over enemy walls.',
              done: 'Ladders and cords: your soldiers climb over enemy walls.' },
+    // The King-men's (made at their tents; design/evolution.md, section 5).
+    lshields: { name: 'Shields and breastplates', cost: { grain: 80, timber: 100 }, time: 25, ref: 'Alma 49:6', armor: 2, side: 'kingmen',
+                about: 'The Lamanites "prepared themselves with shields, and with breastplates" (Alma 49:6). Warriors +2 armor.',
+                done: 'The warriors have shields and breastplates.' },
+    skins:    { name: 'Garments of skins', cost: { grain: 60, timber: 60 }, time: 20, ref: 'Alma 49:6', clothing: true, side: 'kingmen',
+                about: '"Garments of skins, yea, very thick garments to cover their nakedness" (Alma 49:6). Slingers +2 armor.',
+                done: 'The slingers wear thick garments of skins.' },
+    lladders: { name: 'Ladders', cost: { timber: 100 }, time: 25, ref: 'Alma 49:22', ladders: true, side: 'kingmen',
+                about: 'What they tried at the banks of earth, done right: warriors climb over enemy walls instead of breaking through (Alma 49:22).',
+                done: 'The warriors carry ladders: they go over walls now.' },
     breastplates: { name: 'Breastplates and shields', cost: { grain: 100, timber: 100 }, time: 25, ref: 'Alma 43:19', armor: 4,
              about: 'Moroni "prepared his people with breastplates and with arm-shields, yea, and also shields to defend their heads" (Alma 43:19). Soldiers +4 armor.',
              done: 'Your soldiers have breastplates, arm-shields and head-plates, and thick clothing.' }
@@ -416,7 +448,16 @@
     ]
   };
 
-  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, ARTIFACTS, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
+  // The sides of a skirmish (design/evolution.md, section 2). The human is team 'p' and the opponent team 'r';
+  // each team carries a side, which chooses its tree, its pictures and its words.
+  const SIDES = {
+    freemen: { name: 'Freemen', people: 'The Nephites', ref: 'Alma 51:6', capital: 'stronghold',
+               about: 'Those who "took upon them the name of freemen" (Alma 51:6): the people of liberty, under Moroni\'s title.' },
+    kingmen: { name: 'King-men', people: 'The Lamanites', ref: 'Alma 51:5', capital: 'warcamp',
+               about: 'Those who "were called king-men" (Alma 51:5): all who fought for Amalickiah\'s crown, the Lamanite armies and the dissenters with them.' }
+  };
+
+  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, ARTIFACTS, SIDES, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
   if (typeof module !== 'undefined' && module.exports) module.exports = DATA;
   else root.LIB_DATA = DATA;
 })(this);
