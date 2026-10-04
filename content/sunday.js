@@ -72,7 +72,8 @@ window.TU_SUNDAY = {
               ],
               "why": "The chapter’s promised blessings: God’s approval and personal spiritual power, and protection for you and your future family."
             }
-          ]
+          ],
+          "approved": "6046e017"
         },
         {
           "id": "fsy10-word-of-wisdom",
@@ -137,7 +138,8 @@ window.TU_SUNDAY = {
               ],
               "why": "The lesson says it helps you stay healthy, make good choices and keep your mind clear so you can feel the Spirit more easily."
             }
-          ]
+          ],
+          "approved": "e62285cd"
         },
         {
           "id": "fsy10-chastity",
@@ -202,7 +204,8 @@ window.TU_SUNDAY = {
               ],
               "why": "Through the Atonement of Jesus Christ there’s always a way back; His love and sacrifice are bigger than any mistake (Alma 42:29–31)."
             }
-          ]
+          ],
+          "approved": "b5fbecc5"
         },
         {
           "id": "fsy10-covenant-son",
@@ -267,7 +270,8 @@ window.TU_SUNDAY = {
               ],
               "why": "Chapter 10, “Your Body Is Sacred,” covers all three, and the stripling warriors show what being true at all times looks like."
             }
-          ]
+          ],
+          "approved": "a0c57f4d"
         }
       ]
     }
