@@ -2026,7 +2026,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   // ------------------------------------------------------------ the bottom panel
 
-  let panelKey = '', panelAt = 0;
+  let actsKey = '', panelKey = '', panelAt = 0;
   function refreshPanel(force) {
     if (!W) return;
     let ents = selEnts();
@@ -2034,18 +2034,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (!ents.length && infoEnt && !infoEnt.dead && W.ents.has(infoEnt.id)) ents = [infoEnt];
     cv.classList.toggle('placing', !!placing);
     const one = ents.length === 1 ? ents[0] : null;
-    const key = [sel.join(','), ents.length && ents[0].id, placing, W.res.grain >= 20, W.res.timber >= 6, W.tech && W.foodUsed() >= W.foodCap(), Object.keys(W.researched).join(), W.researching && W.researching.key,
-      W.tech && ['barracks', 'armory', 'stables', 'hall', 'farm'].map(t => W.has(t)).join(),
-      ...(W.tech ? ['farm', 'granary', 'armory', 'stables', 'hall'].map(t => W.canAfford(BUILDINGS[t].cost)) : []),
-      ...(W.tech ? ['nslinger', 'swordsman', 'cart', 'javelin', 'stripling'].map(t => W.canAfford(UNITS[t].cost)) : []),
-      ...['storehouse', 'barracks', 'tower', 'gate'].map(t => W.canAfford(BUILDINGS[t].cost)),
-      ...['worker', 'spearman', 'archer'].map(t => W.canAfford(UNITS[t].cost)),
-      one && one.kind === 'building' ? [one.built > 0 ? Math.floor(one.built * 20) : 0, one.queue.map(q => q.type + Math.ceil(q.left)).join(), W.researching ? Math.ceil(W.researching.left) : '', W.armor, Math.ceil(one.hp / one.def.hp * 20)] : '',
-      one && one.kind === 'unit' ? Math.ceil(one.hp / one.def.hp * 20) + one.order.type : ''].join('|');
-    if (!force && key === panelKey) return;
-    panelKey = key;
-    $('selInfo').innerHTML = infoHtml(ents);
-    $('cmds').innerHTML = cmdsHtml(ents);
+    const info = $('selInfo');
+    if (!info.querySelector('.selcard')) info.innerHTML = '<div class="selcard"></div><div class="acts"></div>';
+    const cardKey = [sel.join(','), ents.length && ents[0].id, one && one.kind === 'building' ? [Math.floor(one.built * 20), Math.ceil(one.hp / S.maxHp(one) * 20)].join() : '',
+      one && one.kind === 'unit' ? Math.ceil(one.hp / S.maxHp(one) * 20) + one.order.type : '', ents.length > 1 ? ents.map(e => e.type).join() : ''].join('|');
+    const actKey = [sel.join(','), ents.length && ents[0].id, placing, aiming, wallStart && wallStart.join(), armedRemove, touchy, one && one.built >= 1, one && one.rally ? 1 : 0,
+      one && one.type === 'wall' && W.canAfford(W.costOf(BUILDINGS.gate, 'p', 'build')), one && one.state].join('|');
+    if (force || cardKey !== panelKey) { panelKey = cardKey; info.querySelector('.selcard').innerHTML = infoHtml(ents); }
+    if (force || actKey !== actsKey) { actsKey = actKey; info.querySelector('.acts').innerHTML = actsHtml(ents); }
+    updateBar();
   }
   // The picture on the card: its button picture if it has one, or else the picture it's drawn with.
   const DRAWN_AS = { lehi: 'lehi', gidgiddoni: 'gidgiddoni', robber: 'robber', robberArcher: 'robber_archer', giddianhi: 'robber_chief', zemnarihah: 'robber_chief',
@@ -2060,7 +2057,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     return '';
   }
   function infoHtml(ents) {
-    if (!ents.length) return `<div><h3>${esc(mission.title)}</h3></div><p class="about only">Tap one of your people to choose them. ${W.night ? 'It is night.' : ''}</p>`;
+    if (!ents.length) return W.night ? '<p class="about only">It is night.</p>' : '';     // (nothing chosen: the room goes to the build bar)
     if (ents.length === 1) {
       const e = ents[0], d = e.def;
       const bar = d.hp < 99999 ? `<div class="hp"><em style="width:${Math.max(0, e.hp / S.maxHp(e) * 100)}%"></em></div>` : '';
@@ -2124,7 +2121,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'research:ladders': 'assets/cameo_ladders.png?v=1'
   };
   const BREAKS = Object.fromEntries(['Store-house', 'Watch-tower', 'Swords-man', 'Spear-man', 'Breast-plates', 'Strip-ling', 'cime-ters', 'Bar-racks', 'Earth-quake', 'Con-fusion',
-    'cap-tains', 'Jave-lin', 'Gran-ary', 'Sta-bles', 'Sol-diers', 'war-rior', 'throw-er'].map(w => [w.replace('-', ''), w.replace('-', '\u00ad')]));
+    'cap-tains', 'Jave-lin', 'Gran-ary', 'Sta-bles', 'Sol-diers', 'war-rior', 'throw-er', 'Train-ing', 'Lad-der', 'Pavil-ion', 'Lama-nite', 'Ama-lekite', 'Zora-mite',
+    'Dis-sension', 'Strata-gem', 'Flat-tery', 'Mus-ter', 'Sling-er', 'Pick-ets', 'Cloth-ing'].map(w => [w.replace('-', ''), w.replace('-', '\u00ad')]));
   // Buttons with no picture: a drawn sign instead.
   const SIGN = {
     stop: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>',
@@ -2132,6 +2130,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     cancel: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
     done: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>',
     remove: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5M14 11v5"/></svg>',
+    gatehere: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9l8-5 8 5v12M8 21v-8h8v8M12 13v8"/></svg>',
+    deploy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V3M6 4h11l-3 4 3 4H6"/></svg>',
+    research: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l6 6-9 9H5v-6z"/><path d="M12 6l6 6"/></svg>',
     // the temple's miracles
     'miracle:flattery': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12c3-4 6-4 8 0s5 4 8 0"/><path d="M12 4v3M12 17v3"/></svg>',
     'miracle:dissension': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9l8-5 8 5v11"/><path d="M12 9v7M9 12l3 4 3-4"/></svg>',
@@ -2157,117 +2158,213 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const n = Math.max(6, ...shown.split(/[\s\u00ad]+/).map(w => w.length));
     return `<button class="cmd ${cls || ''}" data-cmd="${act}" data-label="${name}" style="--n:${n}"><span class="face">${face}<b>${shown}</b></span>${cost ? `<small>${cost}</small>` : ''}</button>`;
   };
-  // What you can do to anything you built: a wall piece can become a gate, and anything can be taken down (half back, all back while it rises).
-  function ownExtras(b) {
-    if (b.team !== 'p' || !b.def.cost || b.untouchable) return '';
-    let h = '';
-    if (b.type === 'wall' && b.built >= 1) {
-      const c = W.costOf(BUILDINGS.gate, 'p', 'build'), why = W.whyNotBuild('gate');
-      h += cmd('gatehere', 'Make a gate here', why ? esc(why) : costHtml(c), why || !W.canAfford(c) ? 'poor' : '');
+  // ------------------------------------------------------------ the side panel: Red Alert's build bar (Blake's play-test)
+  // Two columns that are always there: what you can build and make on the left, who you can train and the powers on the right.
+  // Each tile shows its own progress swept over its picture, like Red Alert's clock, and a people tile how many are waiting.
+  // The tiles are made once and then changed where they stand, so a tap on one is never lost to a redraw.
+  const capitalUp = () => W.buildings('p').some(b => b.def.builder && b.built >= 1 && !b.dead);
+  function barTiles() {
+    const build = [], train = [];
+    if (capitalUp()) {
+      const list = W.tech ? (SIDES[W.side('p').side] || SIDES.freemen).build : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
+      for (const t of list) if (!W.whyNotBuild(t)) build.push('build:' + t);
     }
-    const armed = armedRemove === b.id;
-    h += cmd('remove', armed ? 'Tap again' : b.built < 1 ? 'Stop building' : 'Remove', costHtml(W.sellValue(b)) + ' back', armed ? 'armed' : '');
-    return h;
+    const mine = W.buildings('p').filter(b => b.built >= 1 && !b.dead);
+    const seenK = new Set(), seenT = new Set();
+    for (const b of mine) for (const k of W.researchAt(b)) if (!W.researched[k] && !seenK.has(k)) { seenK.add(k); build.push('research:' + k); }
+    for (const b of mine) for (const t of b.def.trains || []) {
+      if (seenT.has(t) || !W.visible(UNITS[t])) continue;
+      const why = W.whyNotTrain(t);
+      if (why && !why.startsWith('Not enough food')) continue;          // like Red Alert: only what you can make now
+      seenT.add(t); train.push('train:' + t);
+    }
+    const h = W.powerHouse('p');
+    if (h) for (const k of Object.keys(POWERS[h.def.powers] || {})) train.push('miracle:' + k);
+    return { build, train };
   }
-  function cmdsHtml(ents) {
+  const tileName = id => { const [act, arg] = id.split(':'); return act === 'build' ? (arg === 'wall' ? 'Walls' : BUILDINGS[arg].name) : act === 'train' ? UNITS[arg].name : act === 'research' ? RESEARCH[arg].name : W.power(arg).name; };
+  // Shorter names where the whole one won't fit on a tile (the whole name shows when you hold the mouse over it).
+  const SHORT = { 'build:pavilion': 'Pavilion', 'build:wardance': 'War-dance', 'build:shieldtent': 'Shield tent', 'build:hall': "Captains' hall", 'build:kingscourt': "King's court",
+    'miracle:host': "King's call", 'train:amalekite': 'Amalekite', 'train:zoramite': 'Zoramite', 'train:javelin': 'Javelin', 'train:nslinger': 'Slinger', 'train:slinger': 'Slinger',
+    'miracle:fire': 'Pillar of fire', 'miracle:cloud': 'Darkness', 'research:lladders': 'Ladders', 'research:ladders': 'Ladders' };
+  function tileHtml(id) {
+    const pic = CAMEO_MAP[id], sign = SIGN[id] || (id.startsWith('research:') ? SIGN.research : '');
+    const face = pic ? `<img src="${pic}" alt="">` : sign ? `<i class="ic">${sign}</i>` : '';
+    const shown = esc(SHORT[id] || tileName(id)).replace(/[A-Za-z]{7,}/g, w => BREAKS[w] || w);     // (long words break where they would in print)
+    return `<button class="bt" data-cmd="${id}" title="${esc(tileName(id))}"><span class="pic">${face}<i class="sweep"></i><em class="n"></em></span><span class="tx"><b>${shown}</b><small></small></span></button>`;
+  }
+  // How a tile stands now: its progress (0 to 1), how many wait, what its small line says, and whether it can be used.
+  function tileState(id) {
+    const [act, arg] = id.split(':');
+    let p = 0, n = 0, small = '', poor = false, on = false, ready = false;
+    if (act === 'build') {
+      const cost = W.costOf(BUILDINGS[arg], 'p', 'build'), rising = W.buildings('p', arg).filter(b => b.built < 1 && !b.dead);
+      on = placing === arg;
+      if (rising.length) { p = rising.reduce((a, c) => c.id > a.id ? c : a).built; n = rising.length > 1 ? rising.length : 0; }
+      poor = !W.canAfford(cost);
+      small = on ? 'Tap the map' : costHtml(cost) + (arg === 'wall' ? ' each' : '');
+    } else if (act === 'train') {
+      const def = UNITS[arg], cost = W.costOf(def, 'p', 'train'), why = W.whyNotTrain(arg);
+      for (const b of W.buildings('p')) b.queue.forEach((q, i) => { if (q.type !== arg) return; n++; if (i === 0) p = Math.max(p, 1 - q.left / def.time); });
+      poor = !!why || !W.canAfford(cost);
+      small = why ? 'Not enough food' : costHtml(cost);
+    } else if (act === 'research') {
+      const r = RESEARCH[arg], R = W.side('p').researching;
+      if (R && R.key === arg) { p = 1 - R.left / r.time; small = 'Making: ' + Math.ceil(R.left) + 's'; }
+      else { poor = !!R || !W.canAfford(r.cost); small = R ? 'One at a time' : costHtml(r.cost); }
+    } else if (act === 'miracle') {
+      const m = W.power(arg), wait = W.miracleWait(arg), cap = W.side('p').captain, full = m.wait * ((cap && cap.bonus.powerWait) || 1);
+      on = aiming === arg;
+      if (wait > 0) { p = Math.max(0.01, 1 - wait / full); poor = true; small = 'in ' + Math.ceil(wait) + 's'; }
+      else { ready = true; small = on ? 'Tap where' : 'Ready'; }
+    }
+    return { p, n, small, poor, on, ready, going: p > 0 && p < 1 };
+  }
+  let barKey = '', tileEls = new Map();
+  function updateBar() {
+    if (!W) return;
+    const { build, train } = barTiles(), key = build.join() + '|' + train.join(), bar = $('cmds');
+    if (key !== barKey || !bar.classList.contains('bar')) {
+      barKey = key; bar.classList.add('bar');
+      for (const id of build.concat(train)) noteUnlock(id, true);
+      const standard = W.units('p').some(u => u.def.deploys);
+      bar.innerHTML = `<div class="bcol"><h4>Build</h4>${build.length ? build.map(tileHtml).join('') : `<div class="note">${standard ? 'Plant the standard of liberty first: choose it, then <b>Plant it here</b>.' : 'Nothing to build yet.'}</div>`}</div>` +
+        `<div class="bcol"><h4>Train</h4>${train.length ? train.map(tileHtml).join('') : '<div class="note">Your people come out of your buildings.</div>'}</div>`;
+      tileEls = new Map([...bar.querySelectorAll('.bt')].map(el => [el.dataset.cmd, el]));
+    }
+    const nowMs = performance.now();
+    for (const [id, el] of tileEls) {
+      const s = tileState(id);
+      const cls = 'bt' + (s.poor ? ' poor' : '') + (s.on ? ' on' : '') + (s.ready ? ' ready' : '') + (s.going ? ' going' : '') + (newUntil[id] > nowMs ? ' new' : '');
+      if (el.className !== cls) el.className = cls;
+      const pv = s.going ? s.p.toFixed(3) : '0';
+      if (el._p !== pv) { el._p = pv; el.style.setProperty('--p', pv); }
+      const nv = s.n ? String(s.n) : '';
+      if (el._n !== nv) { el._n = nv; el.querySelector('.n').textContent = nv; }
+      if (el._s !== s.small) { el._s = s.small; el.querySelector('small').innerHTML = s.small; }
+    }
+  }
+  // A tap on a tile: place it, train one more, make it, or work it.
+  function useTile(id) {
+    const [act, arg] = id.split(':');
+    if (act === 'build') { if (placing === arg) { placing = null; wallLine = null; wallStart = null; refreshPanel(true); } else startPlacing(arg); }
+    else if (act === 'train') trainOne(arg);
+    else if (act === 'research') {
+      const b = W.buildings('p').find(b => b.built >= 1 && W.researchAt(b).includes(arg));
+      if (b && W.research(b, arg)) toast(RESEARCH[arg].about, 'me', RESEARCH[arg].ref);
+      else toast(W.researching ? 'One thing at a time: wait until this is made.' : poorText(RESEARCH[arg].cost), 'warn');
+    }
+    else if (act === 'miracle') startAiming(arg);
+  }
+  // One more of them, from whichever of your buildings has the shortest line (the chosen one first, if it trains them).
+  function trainOne(type) {
+    const one = selEnts()[0], score = b => b.queue.length - (b === one ? 0.5 : 0);
+    const at = W.buildings('p').filter(b => b.built >= 1 && !b.dead && (b.def.trains || []).includes(type)).sort((a, b) => score(a) - score(b))[0];
+    if (!at) return;
+    if (!W.train(at, type)) toast(at.queue.length >= 5 ? 'The line is full.' : W.whyNotTrain(type) || poorText(W.costOf(UNITS[type], 'p', 'train')), 'warn');
+  }
+  // Hold a tile (or right-click it) to take one back: the last of that kind still waiting, or a building still rising, with all it cost.
+  function takeBack(id) {
+    const [act, arg] = id.split(':');
+    if (act === 'train') {
+      let best = null;
+      for (const b of W.buildings('p')) for (let i = b.queue.length - 1; i >= 0; i--) if (b.queue[i].type === arg) { if (!best || i > best.i) best = { b, i }; break; }
+      if (!best) return;
+      best.b.queue.splice(best.i, 1); W.refund(W.costOf(UNITS[arg], 'p', 'train'));
+      toast(`One ${UNITS[arg].name.toLowerCase()} fewer: what it cost comes back.`, 'me');
+    } else if (act === 'build') {
+      const b = W.buildings('p', arg).filter(b => b.built < 1 && !b.dead).sort((a, c) => c.id - a.id)[0];
+      if (b && W.sell(b)) toast(`${b.def.name} stopped: all it cost comes back.`, 'me');
+    }
+    updateBar(); refreshPanel(true);
+  }
+  let holdT = null, held = false, holdTouch = false;
+  $('cmds').addEventListener('pointerdown', e => {
+    const btn = e.target.closest('.bt');
+    held = false; clearTimeout(holdT);
+    if (!btn || !W || e.pointerType === 'mouse') return;
+    holdTouch = true;
+    holdT = setTimeout(() => { held = true; takeBack(btn.dataset.cmd); }, 550);
+  });
+  for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) $('cmds').addEventListener(ev, () => clearTimeout(holdT));
+  $('cmds').addEventListener('contextmenu', e => {
+    const btn = e.target.closest('.bt');
+    if (!btn || !W) return;
+    e.preventDefault();
+    if (held) return;                                // (a long press already took one back)
+    clearTimeout(holdT);
+    if (holdTouch) held = true;
+    takeBack(btn.dataset.cmd);
+  });
+  $('cmds').addEventListener('click', e => {
+    const btn = e.target.closest('.bt');
+    if (!btn || !W) return;
+    if (held) { held = false; return; }
+    holdTouch = false;
+    useTile(btn.dataset.cmd);
+    updateBar(); refreshPanel(true);
+  });
+
+  // Under the chosen one's card: what can be done with it (and, while building or aiming, how, and how to stop).
+  function actsHtml(ents) {
+    const a = (id, label, cls) => `<button class="act ${cls || ''}" data-cmd="${id}">${SIGN[id] ? `<i>${SIGN[id]}</i>` : ''}<span>${label}</span></button>`;
     if (aiming) {
       const m = W.power(aiming);
-      return `<div class="note">${m.aim === 'foe' ? 'Tap the enemy it falls on.' : m.aim === 'building' ? 'Tap the enemy building it falls on.' : 'Tap the spot where it falls.'} <i>${esc(m.ref)}</i></div>` + cmd('cancel', 'Cancel');
+      return `<p class="hint">${m.aim === 'foe' ? 'Tap the enemy it falls on.' : m.aim === 'building' ? 'Tap the enemy building it falls on.' : 'Tap the spot where it falls.'} <i>${esc(m.ref)}</i></p>` + a('cancel', 'Cancel');
     }
     if (placing) {
-      const def = BUILDINGS[placing];
-      const each = costHtml(W.costOf(def, 'p', 'build'));
-      return `<div class="note">${placing === 'wall' ? (touchy ? (wallStart ? 'Now tap where the wall ends.' : 'Tap where the wall starts, then where it ends.') : 'Drag a line on the map for a wall.') + ' Each piece costs ' + each + '. Tap one of your people to stop building.' : 'Tap the map where the ' + esc(def.name.toLowerCase()) + ' goes. ' + each}</div>` +
-        (placing === 'wall' ? cmd('done', 'Done', '', 'on') : '') + cmd('cancel', 'Cancel');
+      const def = BUILDINGS[placing], each = costHtml(W.costOf(def, 'p', 'build'));
+      return `<p class="hint">${placing === 'wall' ? (touchy ? (wallStart ? 'Now tap where the wall ends.' : 'Tap where the wall starts, then where it ends.') : 'Drag a line on the map for a wall.') + ' Each piece ' + each + '.' : 'Tap the map where the ' + esc(def.name.toLowerCase()) + ' goes.'} Tap one of your people to stop.</p>` +
+        (placing === 'wall' ? a('done', 'Done', 'on') : '') + a('cancel', 'Cancel');
     }
-    if (!ents.length) return `<div class="note">Choose people with a tap, or a whole group with <b>Soldiers</b> or <b>Box select</b>. Then tap where they should go, or what they should gather, build or fight.</div>`;
+    if (!ents.length) return `<p class="hint minor">Tap your people (or <b>Soldiers</b>), then where they go or what they fight.</p>`;
     const b = ents[0];
     if (b.team !== 'p') {
-      if (b.type === 'village') return `<div class="note">${b.state === 'waiting' ? 'Send a soldier or worker here. When the proclamation reaches ' + esc(b.name) + ', its people march to Zarahemla.' : 'Its people have gone.'}</div>`;
-      if (b.team === 'x') return `<div class="note">He gave himself up (3 Nephi 4:27).</div>`;
-      if (b.def.prophet) return `<div class="note">${esc(b.def.about)}</div>`;
-      if (b.kind === 'building') return `<div class="note"><b>${esc(b.name || b.def.name)}</b>${b.def.about ? ' ' + esc(b.def.about) : ''} ${b.untouchable ? 'Too strong to tear down.' : 'Choose soldiers, then tap it to tear it down.'}</div>`;
-      return `<div class="note">${esc(b.def.about || (b.def.leader ? 'A leader of the robbers.' : 'A Gadianton robber.'))} Choose soldiers, then tap him to fight.</div>`;
+      if (b.type === 'village') return `<p class="hint">${b.state === 'waiting' ? 'Send a soldier or worker here. When the proclamation reaches ' + esc(b.name) + ', its people march to Zarahemla.' : 'Its people have gone.'}</p>`;
+      if (b.team === 'x') return `<p class="hint">He gave himself up (3 Nephi 4:27).</p>`;
+      if (b.def.prophet) return '';
+      if (b.kind === 'building') return `<p class="hint">${b.untouchable ? 'Too strong to tear down.' : 'Choose soldiers, then tap it to tear it down.'}</p>`;
+      return `<p class="hint">Choose soldiers, then tap him to fight.</p>`;
     }
-    const units = ents.filter(e => e.kind === 'unit');
-    if (units.length) {
-      let h = '';
-      if (units.length === 1 && units[0].def.deploys) h += cmd('deploy', 'Plant it here', 'Alma 46:36', 'wide on');
-      h += cmd('stop', 'Stop', touchy ? '' : 'H');
-      h += cmd('letgo', 'Let go', touchy ? '' : 'Esc');
-      return h;
+    if (ents.some(e => e.kind === 'unit')) {
+      return (ents.length === 1 && b.def.deploys ? a('deploy', 'Plant it here', 'go') : '') + a('stop', 'Stop') + a('letgo', 'Let go');
     }
-    if (b.built < 1) return `<div class="note">It builds itself. Workers sent to it hurry it along.</div>` + ownExtras(b);
     let h = '';
-    if (b.def.builder) {                            // the city: like Red Alert's construction yard, everything is built from here
-      const list = W.tech ? (SIDES[W.side('p').side] || SIDES.freemen).build : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
-      for (const t of list) {
-        const def = BUILDINGS[t], why = W.whyNotBuild(t);
-        noteUnlock('build:' + t, !why);
-        const cost = W.costOf(def, null, 'build');
-        h += cmd('build:' + t, t === 'wall' ? 'Walls' : def.name, why ? esc(why) : costHtml(cost) + (t === 'wall' ? ' each' : ''), why || !W.canAfford(cost) ? 'poor' : '');
-      }
+    if (b.built < 1) h += `<p class="hint minor">It builds itself. Workers sent to it hurry it along.</p>`;
+    else if (b.def.trains) h += `<p class="hint minor">${b.rally ? 'New ones go to the rally point.' : 'Tap the ground to set where new ones go.'}</p>`;
+    if (b.def.cost && !b.untouchable) {
+      if (b.type === 'wall' && b.built >= 1) { const c = W.costOf(BUILDINGS.gate, 'p', 'build'), why = W.whyNotBuild('gate'); h += a('gatehere', 'Make a gate here ' + (why ? '' : costHtml(c)), why || !W.canAfford(c) ? 'poor' : ''); }
+      const armed = armedRemove === b.id;
+      h += a('remove', (armed ? 'Tap again' : b.built < 1 ? 'Stop building' : 'Remove') + ' ' + costHtml(W.sellValue(b)) + ' back', armed ? 'armed' : '');
     }
-    for (const t of (b.def.trains || []).filter(t => W.visible(UNITS[t]))) {
-      const why = W.whyNotTrain(t);
-      noteUnlock('train:' + t, !why || why.startsWith('Not enough food'));
-      const cost = W.costOf(UNITS[t], null, 'train');
-      h += cmd('train:' + t, UNITS[t].name, why ? esc(why) : costHtml(cost), why || !W.canAfford(cost) ? 'poor' : '');
-    }
-    // What this building can make: in free battle, the armory's list; in a mission, the mission's own armor.
-    const keys = W.researchAt(b);
-    for (const k of keys.filter(k => !W.researched[k])) {
-      const r = RESEARCH[k];
-      noteUnlock('research:' + k, true);
-      if (W.researching && W.researching.key === k) h += `<div class="note">Making ${esc(r.name.toLowerCase())}: ${Math.ceil(W.researching.left)}s</div>`;
-      else h += cmd('research:' + k, esc(r.name), W.researching ? 'Wait: one at a time' : costHtml(r.cost), W.researching || !W.canAfford(r.cost) ? 'poor' : '');
-    }
-    if (b.def.powers && b.built >= 1) {             // the temple's miracles, or the king's court's cunning: each, and how long until it can be worked again
-      for (const k of Object.keys(POWERS[b.def.powers])) {
-        const m = POWERS[b.def.powers][k], wait = W.miracleWait(k);
-        h += cmd('miracle:' + k, m.name, wait > 0 ? 'in ' + Math.ceil(wait) + 's' : m.aim === 'none' ? 'Now' : m.aim === 'foe' ? 'Tap a foe' : m.aim === 'building' ? 'Tap a building' : 'Tap a spot', wait > 0 ? 'poor' : '');
-      }
-    }
-    if (b.queue && b.queue.length) {
-      const q = b.queue[0], p = 100 - q.left / UNITS[q.type].time * 100;
-      h += `<div class="queue">Training: ${b.queue.map((x, i) => `<span${i ? '' : ` style="--p:${p.toFixed(0)}%"`}>${esc(UNITS[x.type].name)}</span>`).join('')}</div>`;
-    }
-    if (b.def.trains) h += `<div class="note">${b.rally ? 'New ones go to the rally point.' : 'Tap the ground to set where new ones go.'}</div>`;
-    return (h || `<div class="note">${esc(b.about || b.def.about || '')}</div>`) + ownExtras(b);
+    return h;
   }
-  $('cmds').addEventListener('click', e => {
-    const btn = e.target.closest('[data-cmd]');
+  $('selInfo').addEventListener('click', e => {
+    const btn = e.target.closest('.act');
     if (!btn || !W) return;
-    const [act, arg] = btn.dataset.cmd.split(':');
-    const one = selEnts()[0];
-    if (act === 'build') startPlacing(arg);
-    else if (act === 'done' || act === 'cancel') { placing = null; aiming = null; wallLine = null; wallStart = null; refreshPanel(true); }
-    else if (act === 'miracle') startAiming(arg);
+    const act = btn.dataset.cmd, one = selEnts()[0];
+    if (act === 'done' || act === 'cancel') { placing = null; aiming = null; wallLine = null; wallStart = null; }
     else if (act === 'stop') for (const u of selUnits()) W.order(u, { type: 'idle' });
-    else if (act === 'letgo') setSel([]);
-    else if (act === 'train' && one) { if (!W.train(one, arg)) toast(one.queue.length >= 5 ? 'The line is full.' : W.whyNotTrain(arg) || poorText(UNITS[arg].cost), 'warn'); }
+    else if (act === 'letgo') return setSel([]);
     else if (act === 'remove' && one) {
       if (armedRemove !== one.id) {                // a second tap, so a slip of the finger takes nothing down
-        armedRemove = one.id; refreshPanel(true);
+        armedRemove = one.id;
         const id = one.id; setTimeout(() => { if (armedRemove === id) { armedRemove = null; refreshPanel(true); } }, 3000);
       } else {
         const back = W.sellValue(one), name = one.name || one.def.name;
         armedRemove = null;
-        if (W.sell(one)) { toast(`${name} taken down: ${costText(back)} back.`, 'me'); setSel([]); }
+        if (W.sell(one)) { toast(`${name} taken down: ${costText(back)} back.`, 'me'); return setSel([]); }
       }
     }
     else if (act === 'gatehere' && one) {
       const g = W.place('gate', one.tx, one.ty, []);
-      if (g) { setSel([g]); toast('A gate goes in where the wall was: your people pass, robbers must break it.', 'me'); }
-      else toast(W.whyNotBuild('gate') ? W.whyNotBuild('gate') + '.' : poorText(W.costOf(BUILDINGS.gate, 'p', 'build')), 'warn');
+      if (g) { toast('A gate goes in where the wall was: your people pass, robbers must break it.', 'me'); return setSel([g]); }
+      toast(W.whyNotBuild('gate') ? W.whyNotBuild('gate') + '.' : poorText(W.costOf(BUILDINGS.gate, 'p', 'build')), 'warn');
     }
     else if (act === 'deploy' && one) {
       const city = W.deploy(one);
-      if (city) setSel([city]); else toast('The city needs open ground, 4 by 4. Move the standard to a clear spot.', 'warn');
-    }
-    else if (act === 'research' && one) {
-      if (W.research(one, arg)) toast(RESEARCH[arg].about, 'me', RESEARCH[arg].ref);
-      else toast(W.researching ? 'One thing at a time: wait until this is made.' : poorText(RESEARCH[arg].cost), 'warn');
+      if (city) return setSel([city]);
+      toast('The city needs open ground, 4 by 4. Move the standard to a clear spot.', 'warn');
     }
     refreshPanel(true);
   });
@@ -2301,6 +2398,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const ps = W.units('p');
     setText('rPeople', W.tech ? W.foodUsed() + '/' + W.foodCap() : ps.filter(u => u.def.gathers || u.def.builds).length + ' · ' + ps.filter(u => u.def.soldier).length);
     if (W.fullAt && W.fullAt > (shown.fullToast || -99) + 20) { shown.fullToast = W.fullAt; toast('Your storehouses are full: build a granary to hold more.', 'warn'); }
+    updateBar();                                       // (every frame: the tiles' clocks sweep smoothly)
     if (now - hudAt < 250) return;
     hudAt = now;
     const left = mission.timeLeft(W), label = W.artifacts.interpreters && mission.nextAttack ? 'Next: ' + mission.nextAttack(W) : (mission.phaseLabel || mission.timerLabel || '');
@@ -2696,7 +2794,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       else if (act === 'done' || act === 'cancel') { placing = null; aiming = null; wallLine = null; wallStart = null; refreshPanel(true); }
       else if (act === 'miracle') startAiming(arg);
       else if (act === 'stop') for (const u of selUnits()) W.order(u, { type: 'idle' });
-      else if (act === 'train' && one) { W.train(one, arg); }
+      else if (act === 'train') trainOne(arg);
       refreshPanel(true);
     }
   };

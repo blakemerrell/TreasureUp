@@ -352,7 +352,13 @@ game opens the verse itself.
 select** first), then tap the ground, a robber, trees or a field, or an
 unfinished building. Right-click also gives orders. Everything is built
 from Zarahemla (walls go in from where you tap first to where you tap next; with a mouse, drag a line; tap one of your people to stop) and rises on its own; workers
-mend and hurry it; carts haul on their own; the barracks trains guards. On a touch screen a new building shows where it will go on the first
+mend and hurry it; carts haul on their own; the barracks trains guards. The side panel is Red Alert's build bar: two columns that are always
+there, buildings and upgrades on the left, people and powers on the right, only what you can make now (a tile wears New when it first
+opens). Each tile shows its own progress swept over its picture like Red Alert's clock, with a thin bar under it: a building rising,
+someone training, an upgrade being made, a power coming back. Tap a people tile again to queue more (the number on it is how many are
+waiting; they come from whichever building has the shortest line), and hold a tile (or right-click it) to take one back with what it
+cost, or to stop the newest building of that kind. What can be done with the one you chose (Stop, Let go, Plant it here, Remove, Make a
+gate here, Done, Cancel) sits under its card. On a touch screen a new building shows where it will go on the first
 tap and is built on the second, and **Let go** clears the selection. When
 something of yours is attacked a message says so and a red ring shows where,
 on the map and the small map. Drag or arrow keys to look around, pinch or
