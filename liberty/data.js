@@ -233,7 +233,9 @@
   // A small seeded random, so the map is the same every time.
   function rng(seed) {
     let s = seed >>> 0;
-    return () => { s = Math.imul(s ^ (s >>> 15), 2246822507) >>> 0; s = Math.imul(s ^ (s >>> 13), 3266489909) >>> 0; s ^= s >>> 16; return (s >>> 0) / 4294967296; };
+    const next = () => { s = Math.imul(s ^ (s >>> 15), 2246822507) >>> 0; s = Math.imul(s ^ (s >>> 13), 3266489909) >>> 0; s ^= s >>> 16; return (s >>> 0) / 4294967296; };
+    next.state = () => s >>> 0;                     // where the dice stand, so a saved game rolls on the same (save.js): rng(state) picks up from there
+    return next;
   }
 
   // The land between the mountains and Zarahemla: rock along the top with

@@ -207,6 +207,27 @@ the people bring 100 grain and 100 timber when it starts, and the council
 asks about them (its right answers bring more grain and timber, and
 treasures). A mission card says so under its **Play** button.
 
+**The opening page** (Blake, 2026-10-04: "can you add some art!? And better
+layout the game options cleaner"): a painting of Moroni raising the title of
+liberty (Alma 46:12–13), then three big painted tiles, **Story missions**,
+**Free battle** and **Out of the Wilderness**, each opening a screen with only
+its own choices: the missions and their chapters; a side, a captain and a
+level; how long and how hard. Each has one **Play** button, and the last
+choices are remembered. Back from a briefing returns to the screen it came
+from. The paintings are Gemini's (`liberty/art/requests/019-title-screen.md`).
+
+**A game is never lost by a slip of the finger** (Blake, 2026-10-04: "find a
+way to prevent us accidentally exiting the game"). A game in progress saves
+itself every 15 seconds, when it starts, when you leave it, and whenever the
+page is hidden or closed (`liberty/save.js`, about 30–70 KB in the browser's
+storage); the opening page then offers **Continue**, and the game comes back
+paused exactly where it was. A back swipe or the back button opens the pause
+menu instead of leaving; a refresh or closing the tab asks first, where the
+browser lets a page ask (iPhones don't, and the save covers them). Starting a
+different game while one is saved asks before replacing it; a game that ends
+clears its save. `node tools/test-liberty.mjs` checks that a game saved and
+loaded in a fresh page plays on exactly as it would have.
+
 **The tips card.** Before each kind of game (the story missions, free battle
 as either side, Out of the Wilderness), a short card of four or five tips,
 a picture each, shows over the briefing until **Don't show again**. **How to
@@ -419,6 +440,7 @@ Progress (chapters read, stars) is kept on the device (`localStorage`,
 `liberty.v1`). The code is plain JavaScript with no build step:
 `liberty/data.js` (map, units, questions), `liberty/sim.js` (the rules),
 `liberty/missions.js` (the story), `liberty/ui.js` (drawing and controls) and
+`liberty/save.js` (saving and loading a game in progress),
 `liberty/scripture.js`, the chapters' text, made by `node
 tools/build-liberty-text.mjs` from the same pinned data the checker uses.
 `node tools/test-liberty.mjs` plays the missions and both skirmishes with a

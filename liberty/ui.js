@@ -2666,69 +2666,64 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   const starsHtml = n => `<span class="stars">${[1, 2, 3].map(k => `<span class="${k <= n ? '' : 'off'}">★</span>`).join('')}</span>`;
   // Pick a side, then a captain, for free battle (design/evolution.md, section 7); the last pick is remembered.
-  const pick = (() => { try { const p = JSON.parse(localStorage.getItem('liberty.pick') || '{}'); if (CAPTAINS[p.side] && CAPTAINS[p.side][p.captain]) return p; } catch (e) { /* no store */ } return { side: 'freemen', captain: 'moroni' }; })();
+  // The last choices on the free battle and wilderness screens are remembered too (Easy and short until changed).
+  const pick = (() => {
+    let p = {}; try { p = JSON.parse(localStorage.getItem('liberty.pick') || '{}') || {}; } catch (e) { /* no store */ }
+    if (!(CAPTAINS[p.side] && CAPTAINS[p.side][p.captain])) { p.side = 'freemen'; p.captain = 'moroni'; }
+    if (!FREE.LEVELS[p.level]) p.level = 'easy';
+    if (!WILD.LEVELS[p.wild]) p.wild = 'easy';
+    if (!WILD.LENGTHS[p.length]) p.length = Object.keys(WILD.LENGTHS)[0];
+    return p;
+  })();
   function savePick() { try { localStorage.setItem('liberty.pick', JSON.stringify(pick)); } catch (e) { /* no store */ } }
-  function pickHtml() {
-    const S = SIDES[pick.side], caps = CAPTAINS[pick.side], c = caps[pick.captain];
-    return `<div class="row">${Object.keys(SIDES).map(k => `<button class="btn ${pick.side === k ? 'go' : ''}" data-side="${k}">${esc(SIDES[k].name)}</button>`).join('')}</div>
-      <p class="small">${esc(S.about)}</p>
-      <div class="row">${Object.keys(caps).map(k => `<button class="btn cap ${pick.captain === k ? 'go' : ''}" data-captain="${k}" title="${esc(caps[k].gift)}"><img src="assets/cameo_${caps[k].hero}.png?v=1" alt="">${esc(caps[k].name)}</button>`).join('')}</div>
-      <p class="small"><b>${esc(c.gift)}.</b> ${esc(c.about)}</p>`;
-  }
   function openMenu() {
     if (!W || W.over) return home();
     openDialog(`<div class="dialog"><div class="kicker">Paused</div><h2>${esc(mission.title)}</h2>
-      <div class="choices"><button class="choice" data-close>Keep playing</button><button class="choice" id="mRestart">Start this mission again</button><button class="choice" id="mQuit">Leave to the missions</button></div></div>`);
+      <div class="choices"><button class="choice" data-close>Keep playing</button><button class="choice" id="mRestart">Start this mission again</button><button class="choice" id="mQuit">Leave this game (it stays saved)</button></div></div>`);
     $('mRestart').onclick = () => { closeDialog(); begin(mission); };
-    $('mQuit').onclick = () => { closeDialog(); home(); };
+    $('mQuit').onclick = () => { closeDialog(); menuFor(mission)(); };
   }
   $('bMenu').onclick = openMenu;
 
-  function home() {
+  // ------------------------------------------------------------ the opening page
+  // Blake: "The opening page.. can you add some art!? And better layout the game options cleaner." A painting of Moroni raising
+  // the title of liberty (art/requests/019), then three big tiles, each opening a screen with only its own choices.
+  const ART = { title: 'assets/title.jpg?v=1', story: 'assets/tile_story.jpg?v=1', free: 'assets/tile_free.jpg?v=1', wild: 'assets/tile_wild.jpg?v=1' };
+  const menuFor = m => m === WILD ? wildScreen : m && m.free ? freeScreen : storyScreen;
+  const councilNote = () => Object.keys(save.read).some(c => QUESTIONS[c]) ? '' : '<p class="lock suggest">Read a mission\'s chapter to open the council: its right answers bring grain, timber and treasures.</p>';
+  const segHtml = (keys, on, attr, label) => `<div class="seg">${keys.map(k => `<button class="btn ${k === on ? 'go' : ''}" ${attr}="${k}">${label(k)}</button>`).join('')}</div>`;
+  const modeHead = (art, kicker, title) => `<div class="modeHead"><img src="${art}" alt=""><button class="back" id="mBack" aria-label="Back">←</button>
+      <div class="over"><div class="kicker">${esc(kicker)}</div><h2>${esc(title)}</h2></div></div>`;
+
+  // Off the battlefield: the game in progress is saved first (it can be continued from the opening page).
+  function leaveGame() {
+    if (W && !W.over) autosave();
     W = null; mission = null; sel = []; placing = null; aiming = null;
     setGameUi(false);
-    const card = m => {
-      const stars = save.won[m.id] || 0;
-      const unread = chaptersOf(m).filter(c => !save.read[c]);
-      const why = unread.length ? `Read ${unread.join(' and ')} first: you start with a gift of grain and timber, and the council asks about it.` : '';
-      return `<div class="card">
-        <div class="kicker">Mission ${inCampaign(m).indexOf(m) + 1} · ${esc(m.chapter)}</div>
-        <h2>${esc(m.title)}</h2>
-        ${stars ? starsHtml(stars) : ''}
-        <p>${esc(m.goals)}</p>
-        ${why ? `<div class="lock suggest">${esc(why)}</div>` : ''}
-        <div class="row">
-          <button class="btn go" data-play="${m.id}">${stars ? 'Play again' : 'Play'}</button>
-          ${chaptersOf(m).map(c => `<button class="btn" data-read="${esc(c)}">${save.read[c] ? 'Read ' + esc(c) + ' again' : 'Read ' + esc(c)}</button>`).join('')}
-        </div></div>`;
-    };
-    const cards = CAMPAIGNS.map(c => `<h2 class="camp">${esc(c.title)}</h2><p class="camp-about">${esc(c.about)}</p><div class="cards">${MISSIONS.filter(m => m.campaign === c.id).map(card).join('')}</div>`).join('');
-    // The skirmishes are open too; the council asks about the chapters read so far (none read: no council).
-    const lock = Object.keys(save.read).some(c => QUESTIONS[c]) ? '' : '<div class="lock suggest">Read a mission\'s chapter to open the council: its right answers bring grain, timber and treasures.</div>';
-    const freeCard = `<h2 class="camp">Skirmish</h2><p class="camp-about">Red Alert's way of playing: plant the standard of liberty and build your city up through the tech tree. Then hold off the raids, or tear down the Lamanite war camp.</p>
-      <div class="cards"><div class="card">
-        <div class="kicker">The council asks about every chapter you've read</div>
-        <h2>${esc(WILD.title)}</h2>
-        ${save.won.wild ? starsHtml(save.won.wild) : ''}
-        <p>${esc(WILD.goals)}</p>
-        ${lock}
-        ${Object.keys(WILD.LENGTHS).map(len => `<div class="row" style="align-items:center"><span style="min-width:9em;font-size:13px"><b>${esc(WILD.LENGTHS[len].name)}</b> · ${esc(WILD.LENGTHS[len].about)}</span>${Object.keys(WILD.LEVELS).map(l => `<button class="btn ${l === 'easy' && len === 'short' ? 'go' : ''}" data-wild="${l}:${len}">${WILD.LEVELS[l].name}</button>`).join('')}</div>`).join('')}
-      </div><div class="card">
-        <div class="kicker">The council asks about every chapter you've read</div>
-        <h2>Free battle</h2>
-        ${save.won.free ? starsHtml(save.won.free) : ''}
-        <p>${esc(FREE.goals)}</p>
-        ${lock}
-        <div class="pick" id="pick">${pickHtml()}</div>
-        <div class="row">${Object.keys(FREE.LEVELS).map(l => `<button class="btn ${l === 'easy' ? 'go' : ''}" data-free="${l}">${FREE.LEVELS[l].name}</button>`).join('')}</div>
-      </div></div>`;
-    const s = showScreen(`<div class="wrap">
-      <div class="kicker">A Book of Mormon strategy game</div>
-      <h1><span>Title of Liberty</span></h1>
-      <p class="lede">Lead the Nephites through the wars of the Book of Mormon. Each mission follows a chapter: read it first and the people and the council reward you.</p>
-      <div class="row"><button class="btn go" id="bHow">How to play</button></div>
-      ${cards}
-      ${freeCard}
+    dropGuard();
+  }
+
+  function home() {
+    leaveGame();
+    const won = MISSIONS.filter(m => save.won[m.id]).length;
+    const snap = savedGame(), d = snap && SAVE.describe(snap), sub = d ? (snap.kicker || '').replace(d.title + ' · ', '') : '';
+    const resume = d ? `<div class="resume"><div class="rtext"><div class="kicker">Your saved game</div><b>${esc(d.title)}</b>
+        <small>${esc(sub)}${sub ? ' · ' : ''}${d.minutes} minute${d.minutes > 1 ? 's' : ''} in</small></div>
+        <button class="btn go" id="bContinue">Continue</button></div>` : '';
+    const tile = (mode, title, about, stars) => `<button class="tile" data-mode="${mode}"><img src="${ART[mode]}" alt="">
+        ${stars ? `<span class="tstars">${starsHtml(stars)}</span>` : ''}<span class="cap"><b>${esc(title)}</b><small>${esc(about)}</small></span></button>`;
+    const s = showScreen(`<div class="hero"><img src="${ART.title}" alt="Captain Moroni lifts the title of liberty before his army (Alma 46:12–13)"></div>
+      <div class="wrap home">
+      <div class="heroText"><div class="kicker">A Book of Mormon strategy game</div>
+        <h1><span>Title of Liberty</span></h1>
+        <p class="lede">Lead the Nephites through the wars of the Book of Mormon. ${refBtn('Alma 46:12')}</p>
+        <button class="btn" id="bHow">How to play</button></div>
+      ${resume}
+      <div class="tiles">
+        ${tile('story', 'Story missions', `Play the chapters · ${won} of ${MISSIONS.length} won`, 0)}
+        ${tile('free', 'Free battle', 'Pick a side and a captain, and tear down the enemy', save.won.free || 0)}
+        ${tile('wild', WILD.title, 'Build a city and hold off the raids', save.won.wild || 0)}
+      </div>
       <details class="how"><summary>All the controls</summary><ul>
         <li><b>Choose</b> your people: tap or click one. Drag a box around several (on a touch screen, tap <b>Box select</b> first). <b>Soldiers</b> chooses your whole army.</li>
         <li><b>Give orders</b>: with people chosen, tap the ground to march, an enemy to fight, trees or a field to gather, or an unfinished building to build it. (On a computer, right-click works too.) Soldiers fight anyone they meet on the way; <b>Fall back</b> brings them home without stopping.</li>
@@ -2745,16 +2740,98 @@ IMG.farm.src = 'assets/farm.png?v=13';
       <p class="aside">The title of liberty was Captain Moroni's banner (Alma 46:12–13); his story is the first campaign. The maps are pictures of each story: where these places were isn't known.</p>
       <p class="aside"><a href="../">← Back to Treasure Up</a></p>
     </div>`);
-    $('bHow').onclick = () => showTips('free-' + pick.side, null, true);
+    $('bHow').onclick = () => showTips('mission', null, true);
+    if ($('bContinue')) $('bContinue').onclick = continueGame;
     s.onclick = e => {
-      const r = e.target.closest('[data-read]'), p = e.target.closest('[data-play]'), f = e.target.closest('[data-free]'), w = e.target.closest('[data-wild]');
-      const sd = e.target.closest('[data-side]'), cp = e.target.closest('[data-captain]');
-      if (sd) { pick.side = sd.dataset.side; pick.captain = Object.keys(CAPTAINS[pick.side])[0]; savePick(); $('pick').innerHTML = pickHtml(); return; }
-      if (cp) { pick.captain = cp.dataset.captain; savePick(); $('pick').innerHTML = pickHtml(); return; }
-      if (f && !f.disabled) { FREE.level = f.dataset.free; FREE.side = pick.side; FREE.captain = pick.captain; return briefing(FREE); }
-      if (w && !w.disabled) { [WILD.level, WILD.length] = w.dataset.wild.split(':'); return briefing(WILD); }
+      const t = e.target.closest('[data-mode]');
+      if (t) ({ story: storyScreen, free: freeScreen, wild: wildScreen })[t.dataset.mode]();
+    };
+  }
+
+  // Story missions: the campaigns, each mission a card. Every one is open; reading its chapters first brings a gift.
+  function storyScreen() {
+    leaveGame();
+    const card = m => {
+      const stars = save.won[m.id] || 0;
+      const unread = chaptersOf(m).filter(c => !save.read[c]);
+      const why = unread.length ? `Read ${unread.join(' and ')} first: you start with a gift of grain and timber, and the council asks about it.` : '';
+      return `<div class="card">
+        <div class="kicker">Mission ${inCampaign(m).indexOf(m) + 1} · ${esc(m.chapter)}</div>
+        <h2>${esc(m.title)}</h2>
+        ${stars ? starsHtml(stars) : ''}
+        <p>${esc(m.goals)}</p>
+        ${why ? `<div class="lock suggest">${esc(why)}</div>` : `<div class="lock read">✓ Read: the people bring a gift when it starts.</div>`}
+        <div class="row">
+          <button class="btn go" data-play="${m.id}">${stars ? 'Play again' : 'Play'}</button>
+          ${chaptersOf(m).map(c => `<button class="btn" data-read="${esc(c)}">${save.read[c] ? 'Read ' + esc(c) + ' again' : 'Read ' + esc(c)}</button>`).join('')}
+        </div></div>`;
+    };
+    const s = showScreen(`${modeHead(ART.story, 'Follow the chapters', 'Story missions')}<div class="wrap mode">
+      ${CAMPAIGNS.map(c => `<h2 class="camp">${esc(c.title)}</h2><p class="camp-about">${esc(c.about)}</p><div class="cards">${MISSIONS.filter(m => m.campaign === c.id).map(card).join('')}</div>`).join('')}
+      <div class="row"><button class="btn" data-how>How to play</button></div></div>`);
+    $('mBack').onclick = home;
+    s.onclick = e => {
+      const r = e.target.closest('[data-read]'), p = e.target.closest('[data-play]');
+      if (e.target.closest('[data-how]')) return showTips('mission', null, true);
       if (r) openReader(r.dataset.read);
-      else if (p && !p.disabled) briefing(MISSIONS.find(m => m.id === p.dataset.play));
+      else if (p) briefing(MISSIONS.find(m => m.id === p.dataset.play));
+    };
+  }
+
+  // Free battle: a side, a captain, a level, then Play. Only these choices on the screen.
+  function freeScreen() {
+    leaveGame();
+    const opts = () => {
+      const S = SIDES[pick.side], caps = CAPTAINS[pick.side], c = caps[pick.captain], L = FREE.LEVELS;
+      return `<h3 class="sec">Your side</h3>
+        <div class="seg sides">${Object.keys(SIDES).map(k => `<button class="btn ${pick.side === k ? 'go' : ''}" data-side="${k}"><img src="assets/cameo_${k === 'kingmen' ? 'lamanite' : 'spearman'}.png?v=1" alt="">${esc(SIDES[k].name)}</button>`).join('')}</div>
+        <p class="small">${esc(S.about)}</p>
+        <h3 class="sec">Your captain</h3>
+        <div class="seg caps">${Object.keys(caps).map(k => `<button class="btn cap ${pick.captain === k ? 'go' : ''}" data-captain="${k}"><img src="assets/cameo_${caps[k].hero}.png?v=1" alt="">${esc(caps[k].name)}</button>`).join('')}</div>
+        <p class="small"><b>${esc(c.gift)}.</b> ${esc(c.about)}</p>
+        <h3 class="sec">Level</h3>
+        ${segHtml(Object.keys(L), pick.level, 'data-level', l => `${esc(L[l].name)} <span class="lv">${'★'.repeat(L[l].stars)}</span>`)}`;
+    };
+    const s = showScreen(`${modeHead(ART.free, 'Skirmish', 'Free battle')}<div class="wrap mode">
+      ${save.won.free ? starsHtml(save.won.free) : ''}
+      <p class="lede">Build up your city or camp, and tear down the enemy's. The council asks about every chapter you've read.</p>
+      <div id="freeOpts">${opts()}</div>
+      ${councilNote()}
+      <div class="row play"><button class="btn go big" id="bPlay">Play</button><button class="btn" data-how>How to play</button></div></div>`);
+    $('mBack').onclick = home;
+    $('bPlay').onclick = () => { FREE.level = pick.level; FREE.side = pick.side; FREE.captain = pick.captain; briefing(FREE); };
+    s.onclick = e => {
+      const sd = e.target.closest('[data-side]'), cp = e.target.closest('[data-captain]'), lv = e.target.closest('[data-level]');
+      if (e.target.closest('[data-how]')) return showTips('free-' + pick.side, null, true);
+      if (sd) { pick.side = sd.dataset.side; pick.captain = Object.keys(CAPTAINS[pick.side])[0]; }
+      else if (cp) pick.captain = cp.dataset.captain;
+      else if (lv) pick.level = lv.dataset.level;
+      else return;
+      savePick(); $('freeOpts').innerHTML = opts();
+    };
+  }
+
+  // Out of the Wilderness: how long, how hard, then Play.
+  function wildScreen() {
+    leaveGame();
+    const opts = () => `<h3 class="sec">How long</h3>
+        ${segHtml(Object.keys(WILD.LENGTHS), pick.length, 'data-length', k => esc(WILD.LENGTHS[k].name))}
+        <p class="small">${esc(WILD.LENGTHS[pick.length].about)}</p>
+        <h3 class="sec">Level</h3>
+        ${segHtml(Object.keys(WILD.LEVELS), pick.wild, 'data-level', l => esc(WILD.LEVELS[l].name))}`;
+    const s = showScreen(`${modeHead(ART.wild, 'Skirmish', WILD.title)}<div class="wrap mode">
+      ${save.won.wild ? starsHtml(save.won.wild) : ''}
+      <p class="lede">${esc(WILD.goals)} The council asks about every chapter you've read.</p>
+      <div id="wildOpts">${opts()}</div>
+      ${councilNote()}
+      <div class="row play"><button class="btn go big" id="bPlay">Play</button><button class="btn" data-how>How to play</button></div></div>`);
+    $('mBack').onclick = home;
+    $('bPlay').onclick = () => { WILD.level = pick.wild; WILD.length = pick.length; briefing(WILD); };
+    s.onclick = e => {
+      const ln = e.target.closest('[data-length]'), lv = e.target.closest('[data-level]');
+      if (e.target.closest('[data-how]')) return showTips('wild', null, true);
+      if (ln) pick.length = ln.dataset.length; else if (lv) pick.wild = lv.dataset.level; else return;
+      savePick(); $('wildOpts').innerHTML = opts();
     };
   }
 
@@ -2774,8 +2851,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
     body.addEventListener('scroll', check, { passive: true });
     requestAnimationFrame(check);
     if ($('rdGL')) $('rdGL').addEventListener('click', ok);
-    $('rdBack').onclick = home;
-    done.onclick = () => { save.read[chapter] = save.read[chapter] || Date.now(); store(); home(); };
+    $('rdBack').onclick = storyScreen;
+    done.onclick = () => { save.read[chapter] = save.read[chapter] || Date.now(); store(); storyScreen(); };
     s.onclick = null;
   }
 
@@ -2784,11 +2861,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
       <div class="kicker">${m.kicker ? esc(m.kicker()) : m.free ? 'Free battle · ' + esc(m.LEVELS[m.level].name) : esc(CAMPAIGNS.find(c => c.id === m.campaign).title) + ' · Mission ' + (inCampaign(m).indexOf(m) + 1) + ' · ' + esc(m.chapter)} · ${esc(m.year)}</div>
       <h2 style="font-size:32px">${esc(m.title)}</h2>
       <ul>${m.briefing.map(([t, r]) => `<li>${esc(t)} ${refBtn(r)}</li>`).join('')}</ul>
-      ${m.free ? `<p class="lede">You are the ${m.side === 'kingmen' ? 'King-men' : 'Freemen'}, under ${esc(CAPTAINS[m.side === 'kingmen' ? 'kingmen' : 'freemen'][m.captain].name)}.</p>` : ''}
+      ${m === FREE ? `<p class="lede">You are the ${m.side === 'kingmen' ? 'King-men' : 'Freemen'}, under ${esc(CAPTAINS[m.side === 'kingmen' ? 'kingmen' : 'freemen'][m.captain].name)}.</p>` : ''}
       <div class="goalbox"><b>Your goals.</b> ${esc(m.goals)}</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn go" id="bBegin">Begin</button><button class="btn" id="bTips">Tips</button><button class="btn" id="bBack">Back</button></div></div>`);
     $('bBegin').onclick = () => begin(m);
-    $('bBack').onclick = home;
+    $('bBack').onclick = () => menuFor(m)();
     $('bTips').onclick = () => showTips(tipsKey(m));
     if (!(save.tips || {})[tipsKey(m)]) showTips(tipsKey(m));
   }
@@ -2834,34 +2911,47 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
 
   function begin(m) {
-    mission = m;
-    W = new S.World(undefined, m.map);
-    W.mission = m;
-    m.setup(W);
+    if (!beginOk(m)) return;
+    const world = new S.World(undefined, m.map);
+    world.mission = m;
+    m.setup(world);
+    W = world;
     // Read the chapter first, and the people bring a gift (Blake: reading earns bonuses instead of opening the mission).
     if (!m.free && m !== WILD && allRead(m)) { W.gain('grain', 100); W.gain('timber', 100); W.msg(`You read ${chaptersOf(m).join(' and ')}: the people bring 100 grain and 100 timber.`, null, 'good'); }
+    enterGame(m, null);
+    autosave();
+  }
+  // The screen around a world, new or loaded (`ui`: what save.js kept of the screen: the council, the camera, what was explored).
+  function enterGame(m, ui) {
+    mission = m;
     buildHeights();
-    sel = []; placing = null; wallLine = null; painted = null; miniDirty = true; shownMsgs = 0; endShown = false; particles.length = 0;
+    sel = []; placing = null; wallLine = null; painted = null; miniDirty = true; endShown = false; particles.length = 0;
+    shownMsgs = ui ? W.msgs.length : 0;                     // (a loaded game doesn't replay its old messages)
     seenTiles.clear(); for (const k in newUntil) delete newUntil[k];
     for (const t in BUILDINGS) noteUnlock('build:' + t, !W.whyNotBuild(t));                 // what can be made at the start is not new
     for (const t in UNITS) { const why = W.whyNotTrain(t); noteUnlock('train:' + t, !why || why.startsWith('Not enough food')); }
-    paused = false; speed = 1; $('bSpeed').textContent = '1×'; $('bPause').textContent = '❚❚';
-    council = { nextAt: 20, queue: [], right: 0, streak: 0 };
+    paused = !!ui; speed = 1; $('bSpeed').textContent = '1×'; $('bPause').textContent = paused ? '▶' : '❚❚';
+    council = ui && ui.council ? ui.council : { nextAt: 20, queue: [], right: 0, streak: 0 };
     closeDialog(); hideScreen();
     $('feed').innerHTML = '';
     setGameUi(true);
     $('goals').open = window.innerWidth >= 700 && window.innerHeight >= 600;
     resize();
     initShroud();
-    cam.z = vw < 700 ? 0.8 : 1;
+    if (ui && ui.explored && ui.explored.length === explored.length) { explored.set(ui.explored); paintShroud(); }
+    cam.z = ui && ui.cam ? ui.cam.z : vw < 700 ? 0.8 : 1;
     const s = W.stronghold() || W.units('p')[0];
-    lookAt(s.x, s.y - (m.id === 'm1' ? 160 : 60));
-    if (m.free) setSel(W.units('p').filter(u => u.def.deploys));
+    if (ui && ui.cam) { cam.x = ui.cam.x; cam.y = ui.cam.y; clampCam(); }
+    else if (s) lookAt(s.x, s.y - (m.id === 'm1' ? 160 : 60));
+    if (m.free && !ui) setSel(W.units('p').filter(u => u.def.deploys));
     refreshPanel(true);
+    guardHistory();
+    if (ui) toast('Your game is back where you left it. Tap ▶ to go on.', 'me');
   }
 
   function showEnd() {
     endShown = true;
+    clearSave();
     const o = W.over;
     if (o.won) { save.won[mission.id] = Math.max(save.won[mission.id] || 0, o.stars || 1); store(); }
     const next = inCampaign(mission)[inCampaign(mission).indexOf(mission) + 1];
@@ -2876,9 +2966,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
         ${o.detail ? `<p class="lede" style="margin-top:12px">${esc(o.detail)}</p>` : ''}
         ${o.next ? `<p class="lede">${esc(o.next)}</p>` : ''}
         ${o.won && mission.starsText ? `<p class="lede">Stars: ${esc(mission.starsText)}</p>` : ''}
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">${nextBtn}<button class="btn ${nextBtn ? '' : 'go'}" id="eAgain">Play again</button><button class="btn" id="eHome">Missions</button></div></div>`);
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">${nextBtn}<button class="btn ${nextBtn ? '' : 'go'}" id="eAgain">Play again</button><button class="btn" id="eHome">${mission === WILD ? 'Choices' : mission.free ? 'Choices' : 'Missions'}</button></div></div>`);
       $('eAgain').onclick = () => begin(mission);
-      $('eHome').onclick = home;
+      $('eHome').onclick = () => menuFor(mission)();
       if ($('eNext')) $('eNext').onclick = () => briefing(next);
       s.onclick = e => { const r = e.target.closest('[data-read]'); if (r) openReader(r.dataset.read); };
     }, 1200);
@@ -2890,6 +2980,58 @@ IMG.farm.src = 'assets/farm.png?v=13';
   let powerNow = null;
   $('cry').onclick = () => { if (W && powerNow) { mission.usePower(W, powerNow.id); $('cry').hidden = true; powerNow = null; shown.cry = null; } };
   document.addEventListener('visibilitychange', () => { if (document.hidden && W && !W.over && !paused) togglePause(); });
+
+  // ------------------------------------------------------------ keeping a game safe
+  // Blake: "find a way to prevent us accidentally exiting the game. If I hit the wrong gesture or something, it will exit the game
+  // and we'll lose our progress." A game in progress saves itself (save.js) every 15 seconds, when it starts, and whenever the page
+  // is hidden or left; the opening page offers to continue it. A back swipe or the back button opens the pause menu instead of
+  // leaving; a refresh or a closing tab asks first, where the browser lets a page ask (iPhones don't: the save covers them).
+  const SAVE = window.LIB_SAVE;
+  function autosave() {
+    if (!SAVE || !W || !mission || W.over) return;
+    try {
+      const snap = SAVE.dump(W, { council, cam: { x: cam.x, y: cam.y, z: cam.z }, explored });
+      if (snap.lost.length) return;                        // something couldn't be written down: keep the last good save
+      snap.kicker = mission.kicker ? mission.kicker() : mission.free ? `Free battle · ${FREE.LEVELS[FREE.level].name} · ${SIDES[FREE.side].name}` : mission.chapter;
+      localStorage.setItem(SAVE.KEY, JSON.stringify(snap));
+    } catch (e) { /* storage full, or a private window: play on */ }
+  }
+  function savedGame() {
+    try { const s = SAVE && JSON.parse(localStorage.getItem(SAVE.KEY) || 'null'); return s && s.v === SAVE.VERSION ? s : null; } catch (e) { return null; }
+  }
+  function clearSave() { try { if (SAVE) localStorage.removeItem(SAVE.KEY); } catch (e) { /* no store */ } }
+  setInterval(() => { if (!paused) autosave(); }, 15000);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) autosave(); });
+  window.addEventListener('pagehide', autosave);
+  window.addEventListener('beforeunload', e => { if (W && !W.over) { autosave(); e.preventDefault(); e.returnValue = ''; } });
+  // The back swipe: while a game is on, one step of history stands in front of it. Going back opens the pause menu and puts it back.
+  function guardHistory() { try { if (!(history.state && history.state.libertyGame)) history.pushState({ libertyGame: 1 }, ''); } catch (e) { /* no history */ } }
+  function dropGuard() { try { if (history.state && history.state.libertyGame) history.back(); } catch (e) { /* no history */ } }
+  window.addEventListener('popstate', () => {
+    if (!W || W.over || endShown) return;                   // (on the menus, back works as usual)
+    guardHistory(); autosave(); openMenu();
+  });
+  function continueGame() {
+    const snap = savedGame();
+    let got = null;
+    try { got = snap && SAVE.load(snap); } catch (e) { got = null; }
+    if (!got) { clearSave(); toast('That saved game could not be opened, sorry.', 'warn'); return home(); }
+    W = got.W;
+    enterGame(got.mission, got.ui || {});
+  }
+  // Starting another game would write over the saved one: ask first.
+  function beginOk(m) {
+    const snap = savedGame();
+    if (!snap || W || beginOk.asked) { beginOk.asked = false; return true; }
+    const d = SAVE.describe(snap);
+    if (!d) return true;
+    openDialog(`<div class="dialog"><div class="kicker">A game is saved</div><h2>${esc(d.title)}, ${d.minutes} minute${d.minutes > 1 ? 's' : ''} in</h2>
+      <p class="lede">Starting ${esc(m.title)} will replace it.</p>
+      <div class="choices"><button class="choice" id="sgGo">Continue the saved game</button><button class="choice" id="sgNew">Start ${esc(m.title)}</button><button class="choice" data-close>Back</button></div></div>`);
+    $('sgGo').onclick = () => { closeDialog(); continueGame(); };
+    $('sgNew').onclick = () => { closeDialog(); clearSave(); beginOk.asked = true; begin(m); };
+    return false;
+  }
 
   // ------------------------------------------------------------ ?debug=1: what this device really drew
   // Colours read back from each layer at your city: if a layer shows 0,0,0,0 the device drew nothing on it.

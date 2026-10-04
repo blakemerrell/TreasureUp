@@ -73,6 +73,14 @@
 
   // ------------------------------------------------ Mission 1 · 3 Nephi 3
 
+  // Mission 1's tips, each shown only while it's still needed.
+  const TIP_NEEDS = {
+    barracks: W => !W.buildings('p', 'barracks').length,
+    walls: W => W.buildings('p').filter(b => b.def.wall).length < 4,
+    tower: W => !W.buildings('p', 'tower').length,
+    short: W => W.res.grain + W.res.timber < 150,
+    stone: W => W.res.stone < 40 && W.buildings('p', 'tower').length < 4
+  };
   const m1 = {
     id: 'm1', campaign: 'gidgiddoni', chapter: '3 Nephi 3', title: 'Gather to One Place', year: 'The seventeenth year',
     starsText: '★ ready in time, ★★ with weapons, armor and shields made, ★★★ with all five villages gathered.',
@@ -102,12 +110,13 @@
       this.nextRaid = 0;
       this.check = 0;
       // Hints for a first game, each only if it hasn't been done by then.
+      // [when, which check (TIP_NEEDS), what to say]: plain data, so a saved game keeps it (save.js).
       this.tips = [
-        [40, W => !W.buildings('p', 'barracks').length, 'Tap Zarahemla, tap Barracks, then tap where it goes. It builds itself; the barracks trains guards.'],
-        [100, W => W.buildings('p').filter(b => b.def.wall).length < 4, 'Tap Zarahemla, tap Walls, and drag a line on the map. Build them round about the city.'],
-        [160, W => !W.buildings('p', 'tower').length, 'Watchtowers shoot at robbers who come near. Build one on each side of the city.'],
-        [240, W => W.res.grain + W.res.timber < 150, 'Short of timber? Tap a cart, then a forest. Zarahemla can make more carts, and the council gives some too.'],
-        [300, W => W.res.stone < 40 && W.buildings('p', 'tower').length < 4, 'Watchtowers take stone. Tap a cart, then a rock face, and it quarries and hauls on its own.']
+        [40, 'barracks', 'Tap Zarahemla, tap Barracks, then tap where it goes. It builds itself; the barracks trains guards.'],
+        [100, 'walls', 'Tap Zarahemla, tap Walls, and drag a line on the map. Build them round about the city.'],
+        [160, 'tower', 'Watchtowers shoot at robbers who come near. Build one on each side of the city.'],
+        [240, 'short', 'Short of timber? Tap a cart, then a forest. Zarahemla can make more carts, and the council gives some too.'],
+        [300, 'stone', 'Watchtowers take stone. Tap a cart, then a rock face, and it quarries and hauls on its own.']
       ];
       W.msg('Lachoneus sends a proclamation: gather your families, flocks, herds and all your substance “unto one place.”', '3 Nephi 3:13');
       W.msg('Send a soldier to each village. When the proclamation reaches it, its people march to Zarahemla.', null, 'tip');
@@ -137,7 +146,7 @@
           if (near) this.gatherVillage(W, v);
         }
       }
-      while (this.tips.length && W.t >= this.tips[0][0]) { const [, need, text] = this.tips.shift(); if (need(W)) W.msg(text, null, 'tip'); }
+      while (this.tips.length && W.t >= this.tips[0][0]) { const [, need, text] = this.tips.shift(); if (TIP_NEEDS[need](W)) W.msg(text, null, 'tip'); }
       // Raids from the hills on the villages that haven't gathered.
       const r = this.raids[this.nextRaid];
       if (r && W.t >= r[0]) {
@@ -634,7 +643,7 @@
       if (!W.soldiers().length) return this.finish(W, false, 'Moroni\'s armies are gone.');
       if (!alive(this.jershon) && !f.jershonLost) { f.jershonLost = true; W.msg('The Lamanites have taken Jershon.', null, 'warn'); }
       if (this.boostEnds && W.t >= this.boostEnds) { W.boost.p = 1; this.boostEnds = 0; }
-      while (this.story.length && W.t >= this.story[0][0]) this.story.shift()[1](W);
+      while (this.story.length && W.t >= this.story[0][0]) this.parleyStep(W, this.story.shift()[1]);
       if ((this.check -= dt) > 0) return;
       this.check = 0.5;
       if (this.phase === 'ready' && W.t >= this.comeAt) this.startMarch(W);
@@ -749,27 +758,29 @@
       W.truce = true; W.boost.r = 1;
       for (const s of W.units('p')) if (s.def.soldier) W.order(s, { type: 'idle' });
       for (const u of host) { u.mode = 'cornered'; W.order(u, { type: 'idle' }); }
-      const at = W.t, say = (dt, fn) => this.story.push([at + dt, fn]);
+      // Alma 44, step by step: [when, which step] (parleyStep below), plain data so a saved game keeps it (save.js).
+      for (const [dt, k] of [[4, 0], [9, 1], [15, 2], [21, 3], [27, 4], [32, 5], [37, 6]]) this.story.push([W.t + dt, k]);
       W.msg('They are encircled on both sides of the river, and are struck with terror. Moroni commands his men “that they should stop shedding their blood.”', 'Alma 43:53–54', 'good');
-      say(4, W => W.msg('Moroni: “Behold, Zerahemnah, that we do not desire to be men of blood.”', 'Alma 44:1'));
-      say(9, W => W.msg('“Deliver up your weapons of war unto us, and we will seek not your blood, … if ye will go your way and come not again to war against us.”', 'Alma 44:6'));
-      say(15, W => W.msg('Zerahemnah gives up his sword, but will not take an oath: “it is your breastplates and your shields that have preserved you.”', 'Alma 44:8–9', 'warn'));
-      say(21, W => W.msg('Moroni gives back the weapons: “ye shall not depart except ye depart with an oath that ye will not return again against us to war.”', 'Alma 44:10–11'));
-      say(27, W => W.msg('Zerahemnah rushes at Moroni, but “one of Moroni\'s soldiers smote it even to the earth, and it broke by the hilt.”', 'Alma 44:12', 'warn'));
-      say(32, W => {
+    },
+    parleyStep(W, k) {
+      if (k === 0) W.msg('Moroni: “Behold, Zerahemnah, that we do not desire to be men of blood.”', 'Alma 44:1');
+      else if (k === 1) W.msg('“Deliver up your weapons of war unto us, and we will seek not your blood, … if ye will go your way and come not again to war against us.”', 'Alma 44:6');
+      else if (k === 2) W.msg('Zerahemnah gives up his sword, but will not take an oath: “it is your breastplates and your shields that have preserved you.”', 'Alma 44:8–9', 'warn');
+      else if (k === 3) W.msg('Moroni gives back the weapons: “ye shall not depart except ye depart with an oath that ye will not return again against us to war.”', 'Alma 44:10–11');
+      else if (k === 4) W.msg('Zerahemnah rushes at Moroni, but “one of Moroni\'s soldiers smote it even to the earth, and it broke by the hilt.”', 'Alma 44:12', 'warn');
+      else if (k === 5) {
         const list = this.host.filter(alive).filter(u => !u.surrendered && !u.def.leader);
         const go = list.slice(0, Math.ceil(list.length * 0.55));
         for (const u of go) this.covenant(W, u);
         W.msg('Many throw down their weapons of war at the feet of Moroni, and enter into a covenant of peace, and depart into the wilderness.', 'Alma 44:15', 'good');
-      });
-      say(37, W => {
+      } else if (k === 6) {
         this.phase = 'fight2';
         W.truce = false;
         const rest = this.host.filter(alive).filter(u => !u.surrendered);
         this.remainAt = rest.length;
         for (const u of rest) if (u.mode !== 'withdrawn') { u.mode = 'fight'; u.noAuto = false; }
         W.msg('Zerahemnah stirs up the rest to anger, and Moroni commands his people to fall upon them.', 'Alma 44:16–17', 'warn');
-      });
+      }
     },
     covenant(W, u) {
       u.surrendered = true; u.untouchable = true; u.team = 'x';
