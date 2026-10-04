@@ -208,15 +208,23 @@ the app's reading). The second 3 Nephi mission also needs the first won.
 | **2 · The Robbers Come Down** (3 Nephi 4) | Giddianhi's army attacks (4:7); **Cry unto the Lord** puts everyone on their knees for a moment, then they take less harm for a while (4:8–10). They fall back and can be pursued; Giddianhi is slowed, "weary because of his much fighting" (4:14). Then Zemnarihah's siege round about (4:16): a bar shows the robbers' food running out, since the Nephites have seven years' provisions and the wild game is gone (4:2–4, 18–20). When it runs out it's night, the border opens, and the armies can go to the three passes before the robbers march at dawn (4:24–26); a robber caught by two soldiers gives himself up (4:27). |
 
 **Skirmishes** (Red Alert's way of playing, once any mission's chapter is
-read): start with the standard of liberty, two carts, two workers and three
+read): start with the standard of liberty, one cart, two workers and three
 soldiers, and plant the standard on open ground to make your city
 (Alma 46:36). Then build up and either hold off the raids or tear down the
 war camp. The rules are Red Alert's: everything is built from the city and
-rises on its own once placed, within reach of what you already have; carts
+rises on its own once placed, within reach of what you already have; the
+storehouse is the refinery, so carts bring the harvest only to a storehouse
+(the city takes none), each storehouse comes with a cart, no cart can be
+made until one stands, and with none left the carts stop and wait; carts
 bring in grain and timber by themselves, and stone from a rock face when
 asked (tap one on a field, a forest or a rock face to choose which); workers are the engineers, mending what's damaged and
-hurrying what's being built; and several of the same building make things
-faster, up to two and a half times.
+hurrying what's being built: a helper at work swings at it with dust where
+the blows land, and the building's bar shows a hammer for each helper and
+how much faster it goes; anything you built can be taken down (Remove, then
+a second tap) for half its cost, or all of it while it is still rising, and
+a wall piece can be made a gate; and several of the same building make things
+faster, up to two and a half times. The King-men's store tent works the same
+way for their bearers, who can still build without one.
 
 **The temple and its miracles** (free battle, once the hall of the captains
 stands): built "after the manner of the temple of Solomon" (2 Nephi 5:16),
@@ -270,9 +278,10 @@ The buildings:
 
 | Building | Needs | What it does |
 |---|---|---|
-| City | the standard | Builds everything; makes carts and workers; feeds 10, stores 300 |
+| City | the standard | Builds everything; makes carts (once a storehouse stands) and workers; feeds 10, stores 300 |
 | Farm | | Feeds 8 more and grows a little grain (Helaman 6:12) |
-| Granary, storehouse | | Store 500 / 300 more of each; past that, what the carts bring is lost |
+| Storehouse | | Where the carts unload; comes with a cart; stores 300 more of each |
+| Granary | | Stores 500 more of each; past that, what the carts bring is lost |
 | Barracks | | Spearmen, slingers (Alma 2:12) and archers; weapons, armor and shields (3 Nephi 3:26) |
 | Watchtower | barracks | Shoots at enemies. Takes stone, quarried from rock faces |
 | Armory | barracks | Breastplates and shields (+4 armor, Alma 43:19), thick clothing (+2 armor for shooters, Alma 43:19), ridges of earth and pickets (walls ×2, Alma 50:1–3) |
@@ -281,6 +290,23 @@ The buildings:
 | Stables | farm | Horse carts twice as fast as the city makes them (3 Nephi 3:22) |
 | Hall of the captains | armory, smithy | Javelin throwers (Jarom 1:8) and stripling warriors (Alma 53:20; they also need the training ground); ladders and cords (Alma 62:21). Takes stone |
 | Temple | hall | Your people near it are made whole; the council comes back sooner and gives double (Mosiah 2:7); miracles are worked from it (2 Nephi 5:16). Mostly stone |
+
+**Pick a side, then a captain.** Free battle is played as the **Freemen**,
+"the people of liberty" (Alma 51:7), or as the **King-men**, all who fought
+for Amalickiah's crown (Alma 51:5, 47:35); the opponent plays the other
+side with the same rules (`liberty/camp.js`). Each side picks a captain,
+who comes as a hero and brings one gift: Moroni (earthworks and gates cost
+half), Helaman (the training ground gives two ranks), Teancum (javelin
+throwers reach farther and strike harder); Amalickiah (cunning waits half
+as long), Ammoron (warriors cost less), Zerahemnah (captains cost less).
+The King-men's tree mirrors the Freemen's: tents feed the warriors, the
+muster ground trains warriors and slingers, the shield-makers' tent makes
+their armor, the ladder-works their ladders, the chief captain's pavilion
+their captains, the war-dance ground sends warriors out fierce for a while
+(Alma 48:3), and the king's court works their cunning: flattery that turns
+one enemy on his own (Alma 46:5), dissension that stops an enemy building's
+work (Alma 53:8), stratagem that hides your warriors until they strike
+(Alma 58:6), and the king's call, four warriors at once (Alma 48:3).
 
 Nobody can be trained without food for them. Each soldier is strong against
 one kind of enemy (×1.5 damage), so a mixed army wins:
@@ -308,8 +334,9 @@ it makes shields and breastplates, garments of skins and, after your walls
 have stopped it twice, ladders (Alma 49:6, 49:22); and a tent you burn goes
 up again a few minutes later. Kill its bearers and the camp starves. Tear
 down the war camp and the camps to win. Both skirmishes give Easy ★, Normal ★★, Hard ★★★. A scripted
-player wins free battle's Normal in about 12 to 14 minutes against the living camp and
-Hard about 2 times in 6; it holds off the raids at every level and length,
+player wins free battle's Normal in about 12 minutes against the living camp as
+the Freemen, and in about 10 as the King-men against a Freemen camp (which, holding
+the stronger men, fields half the heads and fewer haulers); Hard about 2 times in 6; it holds off the raids at every level and length,
 and a city left alone falls (Easy by about 15 minutes, Normal by 8). The
 council asks about every chapter read so far. Where a description borrows
 from history rather than the verses (the atlatl, the stepped platform of the
@@ -325,8 +352,14 @@ game opens the verse itself.
 **Controls**: tap or click to choose, drag a box (on a touch screen, **Box
 select** first), then tap the ground, a robber, trees or a field, or an
 unfinished building. Right-click also gives orders. Everything is built
-from Zarahemla (walls are dragged as a line) and rises on its own; workers
-mend and hurry it; carts haul on their own; the barracks trains guards. On a touch screen a new building shows where it will go on the first
+from Zarahemla (walls go in from where you tap first to where you tap next; with a mouse, drag a line; tap one of your people to stop) and rises on its own; workers
+mend and hurry it; carts haul on their own; the barracks trains guards. The side panel is Red Alert's build bar: two columns that are always
+there, buildings and upgrades on the left, people and powers on the right, only what you can make now (a tile wears New when it first
+opens). Each tile shows its own progress swept over its picture like Red Alert's clock, with a thin bar under it: a building rising,
+someone training, an upgrade being made, a power coming back. Tap a people tile again to queue more (the number on it is how many are
+waiting; they come from whichever building has the shortest line), and hold a tile (or right-click it) to take one back with what it
+cost, or to stop the newest building of that kind. What can be done with the one you chose (Stop, Let go, Plant it here, Remove, Make a
+gate here, Done, Cancel) sits under its card. On a touch screen a new building shows where it will go on the first
 tap and is built on the second, and **Let go** clears the selection. When
 something of yours is attacked a message says so and a red ring shows where,
 on the map and the small map. Drag or arrow keys to look around, pinch or
