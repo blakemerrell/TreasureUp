@@ -812,9 +812,9 @@
   // and how long a tent it loses waits before going up again.
   const LEVELS = {
     // (Their shields and breastplates now come from the shield-makers' tent, so the armor here is only what they start with.)
-    easy:   { name: 'Easy',   first: 360, every: 150, bearers: 3, start: { grain: 150, timber: 150 }, march: 6,  marchGrow: 1, rebuild: 240, stars: 1, guards: 8,  campGuards: 3, towers: 1, strength: 1.1,  armor: 0, fierce: 0.05 },
-    normal: { name: 'Normal', first: 300, every: 130, bearers: 5, start: { grain: 250, timber: 250 }, march: 8,  marchGrow: 2, rebuild: 180, stars: 2, guards: 14, campGuards: 5, towers: 3, strength: 1.25, armor: 0, fierce: 0.08 },
-    hard:   { name: 'Hard',   first: 270, every: 115, bearers: 7, start: { grain: 350, timber: 350, stone: 50 }, march: 10, marchGrow: 3, rebuild: 120, stars: 3, guards: 18, campGuards: 6, towers: 3, strength: 1.35, armor: 1, fierce: 0.1 }
+    easy:   { name: 'Easy',   first: 360, every: 150, bearers: 3, start: { grain: 150, timber: 150 }, march: 6,  marchGrow: 1, rebuild: 240, stars: 1, guards: 8,  campGuards: 3, towers: 1, strength: 1.1,  armor: 0, fierce: 0.05, works: false },
+    normal: { name: 'Normal', first: 300, every: 130, bearers: 5, start: { grain: 250, timber: 250 }, march: 8,  marchGrow: 2, rebuild: 180, stars: 2, guards: 14, campGuards: 5, towers: 3, strength: 1.25, armor: 0, fierce: 0.08, works: true, holdWorks: ['dissension'] },
+    hard:   { name: 'Hard',   first: 270, every: 115, bearers: 7, start: { grain: 350, timber: 350, stone: 50 }, march: 10, marchGrow: 3, rebuild: 120, stars: 3, guards: 18, campGuards: 6, towers: 3, strength: 1.35, armor: 1, fierce: 0.1, works: true }
   };
 
   // The Lamanites: guards keep near home; the rest go for your nearest building.
@@ -920,7 +920,8 @@
       // The camp's mind (camp.js), on whichever side the opponent holds.
       this.camp = new CAMP.Camp(W, 'r', K === 'r' ? this.warcamp : this.city, L);
       // Jaredite ruins, each holding something (Mosiah 8:8-11): the sword of Laban far to the south-east, the Liahona across the ford, breastplates in the north-west.
-      for (const [x, y, key] of [[54, 45, 'sword'], [37, 24, 'liahona'], [7, 7, 'breastplate']]) {
+      // (and a fourth, between the two camps, where a great beast waits tame: Ether 9:19)
+      for (const [x, y, key] of [[54, 45, 'sword'], [37, 24, 'liahona'], [7, 7, 'breastplate'], [27, 18, 'beast']]) {
         let spot = null;
         for (let r = 0; r < 6 && !spot; r++) for (let dy = -r; dy <= r && !spot; dy++) for (let dx = -r; dx <= r && !spot; dx++) if (W.whyNotPlace('relic', x + dx, y + dy) !== 'ground') spot = [x + dx, y + dy];
         if (!spot) continue;

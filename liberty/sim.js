@@ -14,7 +14,7 @@
   const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
   const maxHp = e => e.max || e.def.hp;                // walls grow stronger with pickets
   // What kind of fighter a unit is, for who beats whom: shooters, the armored, and the lightly armed.
-  const kindOf = def => def.ranged ? 'ranged' : (def.armor || 0) >= 2 ? 'armored' : 'light';
+  const kindOf = def => def.beast ? 'beast' : def.ranged ? 'ranged' : (def.armor || 0) >= 2 ? 'armored' : 'light';
   // A fighter: a soldier of the Nephites, or a warrior of the Lamanites.
   const fighter = def => !!(def.soldier || def.foe);
   // Armor takes a share of each blow, never all of it.
@@ -70,7 +70,7 @@
     // World.res, World.researched and so on, so the panel, the missions and the tests needn't know about sides.
     static side(name) {
       return { side: name || null, res: { grain: 0, timber: 0, stone: 0 }, researched: {}, researching: null,
-        armor: 0, dmgUp: 0, wallMul: 1, bows: false, clothing: false, ladders: false, artifacts: {}, ready: {}, captain: null };
+        armor: 0, dmgUp: 0, wallMul: 1, wallLevel: 1, bows: false, clothing: false, ladders: false, artifacts: {}, ready: {}, captain: null };
     }
     side(team) { return this.sides[team] || (this.sides[team] = World.side()); }
     // What to call a side's people in a message: "The Lamanites have made ..." (data.js: SIDES).
@@ -275,8 +275,8 @@
       let n = 0;
       for (const e of this.ents.values()) {
         if (e.team !== team) continue;
-        if (e.kind === 'unit' && !this.heroic(e) && (fighter(e.def) || e.def.gathers || e.def.builds || e.def.scout)) n++;
-        else if (e.kind === 'building') n += e.queue.length;
+        if (e.kind === 'unit' && !this.heroic(e) && (fighter(e.def) || e.def.gathers || e.def.builds || e.def.scout)) n += e.def.eats || 1;
+        else if (e.kind === 'building') for (const q of e.queue) n += UNITS[q.type].eats || 1;
       }
       return n;
     }
@@ -301,7 +301,7 @@
       const def = UNITS[type], need = this.missing(def, team);
       if (!this.visible(def)) return 'Not in this mission';
       if (need.length) return 'Needs ' + need.map(t => BUILDINGS[t].name).join(' and ');
-      if (this.tech && this.foodUsed(team) >= this.foodCap(team)) return 'Not enough food: ' + this.foodHint(team);
+      if (this.tech && this.foodUsed(team) + (def.eats || 1) > this.foodCap(team)) return 'Not enough food: ' + this.foodHint(team);
       return '';
     }
     // The standard of liberty, planted: your city stands there (Alma 46:36).
@@ -382,7 +382,7 @@
       b.queue.push({ type, left: def.time });
       return true;
     }
-    // What a thing costs this side: a captain's gift, or the king's court, may make it cheaper (data.js: CAPTAINS).
+    // What a thing costs this side: a captain's gift, or the Rameumptom, may make it cheaper (data.js: CAPTAINS).
     costOf(def, team, what) {
       team = team || this.me;
       const c = this.side(team).captain, g = (c && c.bonus) || {};
@@ -391,7 +391,7 @@
       if (what === 'train' && def.foe && !def.leader) {
         if (def.needs && g.captainCost) k = g.captainCost;                                   // the captains
         else if (!def.needs && g.warriorCost) k = g.warriorCost;                             // warriors and slingers
-        if (!def.needs && this.buildings(team).some(x => x.def.powers === 'cunning' && x.built >= 1 && !x.dead)) k *= 0.8;   // the king's court: numbers (Alma 49:6)
+        if (!def.needs && this.buildings(team).some(x => x.def.powers === 'cunning' && x.built >= 1 && !x.dead)) k *= 0.8;   // the Rameumptom: numbers (Alma 49:6)
       }
       if (k === 1 || !def.cost) return def.cost;
       const out = {}; for (const r of KINDS) if (def.cost[r]) out[r] = Math.round(def.cost[r] * k);
@@ -399,7 +399,7 @@
     }
     // What a building can make: in free battle, the armory's list; in a mission, the mission's own armor at the barracks.
     researchAt(b) {
-      if (this.tech) return (b.def.research || []).filter(k => k !== 'armor');
+      if (this.tech) return (b.def.research || []).filter(k => k !== 'armor' && (!RESEARCH[k].after || this.side(b.team).researched[RESEARCH[k].after]));   // (a level of walls after the one before it)
       return b.def.research ? [(this.mission && this.mission.research) || 'armor'] : [];
     }
     research(b, key) {
@@ -423,11 +423,13 @@
       if (from && from.type === 'archer' && F.bows) a += 4;                                // bows of fine steel
       if (from && from.type === 'javelin' && F.captain && F.captain.bonus.javelin) a += 4;  // Teancum's javelins
       if (from && from.fierceUntil > this.t) a *= 1.25;                                     // fierce from the war-dance
+      if (from && from.thirstUntil > this.t) a *= 1.5;                                      // bloodthirst: they "fight like dragons" (Alma 43:44)
       if (from && from.rank) a *= 1 + 0.15 * from.rank;                                   // a veteran strikes harder
       if (from && from.sword) a *= 1.5;                                                   // the sword of Laban (1 Nephi 4:9)
       if (from && from.def.foe && from.weak) a *= 0.6;
       // Each kind of fighter is strong against another (data.js: `beats`).
-      if (from && from.kind === 'unit' && target.kind === 'unit' && from.def.beats && from.def.beats === kindOf(target.def)) a *= 1.5;
+      if (from && from.kind === 'unit' && target.kind === 'unit' && from.def.beats && [].concat(from.def.beats).includes(kindOf(target.def))) a *= 1.5;
+      if (from && from.def.siege && target.kind === 'building') a *= from.def.siege;     // the cumom butts down walls and buildings
       const TS = this.side(target.team), unit = target.kind === 'unit';
       const armor = (target.def.armor || 0) + (unit && target.def.ranged && TS.clothing ? 2 : 0) + (unit && (target.def.soldier || target.def.foe) ? TS.armor : 0);
       a = Math.max(1, a * ARMOR / (ARMOR + armor));
@@ -467,11 +469,15 @@
       return false;
     }
     // --- artifacts: found among the Jaredite ruins, or brought out by the people (data.js: ARTIFACTS)
-    grant(key, how, team) {
+    grant(key, how, team, at) {
       team = team || this.me;
       const a = ARTIFACTS[key], S = this.side(team);
       if (!a || S.artifacts[key]) return false;
       S.artifacts[key] = true;
+      if (key === 'beast') {                         // the side's own great beast, tame, where it was found
+        const type = S.side === 'kingmen' ? 'cumom' : 'curelom', [x, y] = this.freeTileNear(at ? at.tx : tileOf(this.stronghold(team).x), at ? at.ty + 1 : tileOf(this.stronghold(team).y) + 3, team);
+        this.addUnit(type, team, center(x), center(y));
+      }
       if (key === 'breastplate') S.armor += 2;
       if (key === 'sword') this.swordTo(null, team);
       if (team === this.me) this.msg(a.found, a.ref, 'good');
@@ -491,7 +497,7 @@
     // --- the temple's miracles
     // Is `e` within a zone of that kind? With `team`, one worked by that side; with `foe`, one worked by any other side.
     inZone(e, kind, team, foe) { return this.zones.some(z => z.kind === kind && (team == null || z.team === team) && (foe == null || z.team !== foe) && Math.hypot(e.x - z.x, e.y - z.y) < z.r); }
-    // Where a side's powers are worked: the Freemen's temple, the King-men's court (data.js: POWERS). temple() is the old name.
+    // Where a side's powers are worked: the Freemen's temple, the King-men's Rameumptom (data.js: POWERS). temple() is the old name.
     powerHouse(team) { return this.buildings(team || this.me).find(b => b.def.powers && b.built >= 1 && !b.dead) || null; }
     temple(team) { return this.powerHouse(team); }
     power(key) { for (const k in D.POWERS) if (D.POWERS[k][key]) return D.POWERS[k][key]; return null; }
@@ -504,9 +510,11 @@
       const m = this.power(key);
       if (!m || this.whyNotMiracle(key, team)) return false;
       const foesIn = r => [...this.ents.values()].filter(e => e.kind === 'unit' && e.team !== team && e.team !== 'n' && !e.dead && !e.untouchable && Math.hypot(e.x - x, e.y - y) < r);
+      const thirsty = u => u.thirstUntil > this.t;   // bloodthirst: fire, sleep and confusion don't turn them back (Moroni 9:5)
       if (key === 'fire') {
         this.zones.push({ kind: 'fire', team, x, y, r: m.r, until: this.t + m.last });
         for (const u of foesIn(m.r)) {
+          if (thirsty(u)) continue;
           u.fearUntil = this.t + m.last;
           const a = Math.atan2(u.y - y, u.x - x), [tx, ty] = this.freeTileNear(tileOf(x + Math.cos(a) * (m.r + 80)), tileOf(y + Math.sin(a) * (m.r + 80)), u.team);
           this.order(u, { type: 'move', tx, ty });
@@ -519,12 +527,12 @@
         for (const u of [...this.ents.values()]) if (u.kind === 'unit' && !u.dead && Math.hypot(u.x - x, u.y - y) < m.r) u.kneelUntil = this.t + 3;
       } else if (key === 'sleep') {
         this.zones.push({ kind: 'sleep', team, x, y, r: m.r, until: this.t + m.last });
-        for (const u of foesIn(m.r)) { u.sleepUntil = this.t + m.last; this.order(u, { type: 'idle' }); }
+        for (const u of foesIn(m.r)) { if (thirsty(u)) continue; u.sleepUntil = this.t + m.last; this.order(u, { type: 'idle' }); }
       } else if (key === 'turn') {
         this.zones.push({ kind: 'turn', team, x, y, r: m.r, until: this.t + m.last });
-        for (const u of foesIn(m.r)) { u.turnUntil = this.t + m.last; this.turnOn(u); }
+        for (const u of foesIn(m.r)) { if (thirsty(u)) continue; u.turnUntil = this.t + m.last; this.turnOn(u); }
       } else if (key === 'mercy') {
-        for (const u of this.units(team)) u.hp = maxHp(u);
+        for (const u of this.units(team)) { u.hp = maxHp(u); u.poisonUntil = 0; }          // (and any poison is purged)
         this.zones.push({ kind: 'mercy', team, x: 0, y: 0, r: 0, until: this.t + 2 });
       } else if (key === 'shock') {
         const u = this.ents.get(targetId);
@@ -549,14 +557,29 @@
       } else if (key === 'stratagem') {             // your fighters go unseen until they strike (Alma 58:6)
         for (const u of this.units(team)) if (fighter(u.def)) u.stealthUntil = this.t + m.last;
         this.zones.push({ kind: 'mercy', team, x: 0, y: 0, r: 0, until: this.t + 2 });
-      } else if (key === 'host') {                  // four warriors at once (Alma 48:3)
+      } else if (key === 'poison') {                // "poison by degrees" (Alma 47:18): three quarters of his strength, little by little
+        const u = this.ents.get(targetId);
+        if (!u || u.kind !== 'unit' || u.team === team || u.team === 'n' || u.dead || u.untouchable) return false;
+        u.poisonUntil = this.t + m.last; u.poisonDps = maxHp(u) * 0.75 / m.last;
+        this.zones.push({ kind: 'poison', team, x: u.x, y: u.y, r: 24, until: this.t + 2 });
+      } else if (key === 'bloodthirst') {           // "they thirst after blood" (Moroni 9:5): harder blows, and nothing turns them back
+        this.zones.push({ kind: 'thirst', team, x, y, r: m.r, until: this.t + m.last });
+        for (const u of this.units(team)) {
+          if (!fighter(u.def) || u.dead || Math.hypot(u.x - x, u.y - y) >= m.r) continue;
+          u.thirstUntil = this.t + m.last; u.fearUntil = 0; u.sleepUntil = 0;
+          if (u.turnUntil > this.t) { u.turnUntil = 0; this.order(u, { type: 'idle' }); }
+        }
+      } else if (key === 'host') {                  // six warriors at once (Alma 48:3)
         const at = this.buildings(team).find(b => b.def.trains && b.def.trains.includes('lamanite') && b.built >= 1 && !b.dead) || this.powerHouse(team);
-        for (let i = 0; i < 4; i++) { const [tx, ty] = this.freeTileNear(at.tx + i % 3, at.ty + at.h, team); this.addUnit('lamanite', team, center(tx), center(ty), at.spawn || undefined); }
+        for (let i = 0; i < 6; i++) { const [tx, ty] = this.freeTileNear(at.tx + i % 3, at.ty + at.h, team); this.addUnit('lamanite', team, center(tx), center(ty), at.spawn || undefined); }
         this.zones.push({ kind: 'mercy', team, x: 0, y: 0, r: 0, until: this.t + 2 });
       }
       const cap = this.side(team).captain;
-      this.side(team).ready[key] = this.t + m.wait * ((cap && cap.bonus.powerWait) || 1);
+      // Each idol standing, up to three, brings the Rameumptom's works back a sixth sooner (data.js: idol).
+      const idols = Math.min(3, this.buildings(team).filter(b => b.def.idol && b.built >= 1 && !b.dead).length);
+      this.side(team).ready[key] = this.t + m.wait * ((cap && cap.bonus.powerWait) || 1) * (1 - idols / 6);
       if (team === this.me) this.msg(m.done, m.ref, 'good');
+      else { const h = (D.SIDES[this.side(team).side] || {}).house || 'Temple'; this.msg(`Their ${h === 'Temple' ? 'temple' : h}: ${m.name}!`, m.ref, 'warn'); }
       return true;
     }
     // A foe turned against his own fights the nearest of them.
@@ -631,6 +654,18 @@
     // How far a unit strikes: archers farther with bows of fine steel (1 Nephi 16:18).
     rangeOf(u) { const S = this.side(u.team); return u.def.range + (u.type === 'archer' && S.bows ? 40 : 0) + (u.type === 'javelin' && S.captain && S.captain.bonus.javelin ? S.captain.bonus.javelin : 0); }
     // Who can go over an enemy wall: those who brought ladders, or a side's fighters once it has made ladders (Alma 62:21).
+    // A wall of the third level, with its ditch, belonging to someone other than `team`, on that square.
+    ditchAt(x, y, team) {
+      const id = this.inBounds(x, y) && this.occ[idx(x, y)], e = id && this.ents.get(id);
+      return !!(e && e.def.wall != null && e.team !== team && !e.dead && e.built >= 1 && this.side(e.team).wallLevel >= 3);
+    }
+    ditchNear(u) {
+      const x = tileOf(u.x), y = tileOf(u.y);
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if (this.ditchAt(x + dx, y + dy, u.team)) return true;
+      return false;
+    }
+    // A guard on every fourth wall piece at the third level, who casts stones down on enemies close below (Alma 49:22).
+    guarded(b) { return b.type === 'wall' && b.built >= 1 && !b.dead && this.side(b.team).wallLevel >= 3 && (b.tx + b.ty) % 4 === 0; }
     canClimb(u) { return !!u.ladders || ((u.def.soldier || u.def.foe) && !!this.side(u.team).ladders); }
 
     // ------------------------------------------------------------ the tick
@@ -657,6 +692,7 @@
           if (r.bows) S.bows = true;
           if (r.clothing) S.clothing = true;
           if (r.ladders) S.ladders = true;
+          if (r.level) S.wallLevel = Math.max(S.wallLevel, r.level);
           if (r.walls) {
             S.wallMul = r.walls;
             for (const w of this.buildings(team)) if (w.def.wall) { const f = w.hp / maxHp(w); w.max = w.def.hp * r.walls; w.hp = f * w.max; }
@@ -670,10 +706,10 @@
         const s = this.stronghold();
         if (s) { const [x, y] = this.freeTileNear(s.tx + 1, s.ty + s.h, this.me); this.addUnit(h.type, this.me, center(x), center(y)); this.msg(UNITS[h.type].name + ' leads the armies again.', null, 'good'); }
       }
-      this.effects = this.effects.filter(f => this.t - f.t < 0.35);
+      this.effects = this.effects.filter(f => this.t - f.t < (f.kind === 'stone' ? 0.6 : 0.35));   // (a stone cast down takes a little longer to land)
       this.zones = this.zones.filter(z => this.t < z.until);
       // A Jaredite ruin: someone of yours beside it finds what it holds (Mosiah 8:9-11).
-      for (const b of this.buildings('n')) if (b.def.relic && !b.dead && b.artifact) for (const team in this.sides) if (this.units(team).some(u => (team === this.me || !u.def.foe) && this.nextTo(u, this.rectOf(b)))) { const key = b.artifact; this.remove(b); this.grant(key, 'ruin', team); break; }   // (an army marching past takes nothing; that's for 5c)
+      for (const b of this.buildings('n')) if (b.def.relic && !b.dead && b.artifact) for (const team in this.sides) if (this.units(team).some(u => (team === this.me || !u.def.foe) && this.nextTo(u, this.rectOf(b)))) { const key = b.artifact; this.remove(b); this.grant(key, 'ruin', team, b); break; }   // (an army marching past takes nothing; that's for 5c)
       if (this.t - (this.swordCheckAt || -99) > 2) { this.swordCheckAt = this.t; for (const team in this.sides) if (this.sides[team].artifacts.sword && !this.units(team).some(u => u.sword)) this.swordTo(null, team); }
       // A temple: that side's people near it are made whole, a little at a time.
       for (const b of this.buildings(null, 'temple')) if (b.built >= 1 && !b.dead) for (const u of this.units(b.team)) if (u.hp < maxHp(u) && dist(u, b) < b.def.heals) u.hp = Math.min(maxHp(u), u.hp + maxHp(u) * 0.012 * dt);
@@ -721,6 +757,18 @@
           if (b.rally) this.moveTo(u, b.rally[0], b.rally[1]);
         }
       }
+      if (this.guarded(b)) {                        // the wall's guard: a heavy stone on whoever is close below
+        b.cool = (b.cool || 0) - dt;
+        if (b.cool <= 0) {
+          const e = this.enemiesNear(b, b.team, 56, true);
+          if (e) {
+            this.effects.push({ t: this.t, x0: b.x, y0: b.y, x1: e.x, y1: e.y, kind: 'stone', team: b.team });
+            this.damage(e, 22, b);
+            for (const o of [...this.ents.values()]) if (o !== e && o.kind === 'unit' && o.team === e.team && !o.dead && dist(o, e) < 24) this.damage(o, 9, b);   // and it rolls
+            b.cool = 3;
+          } else b.cool = 0.4;
+        }
+      }
       if (b.def.dmg) {                              // a watchtower
         b.cool -= dt;
         if (b.cool <= 0) {
@@ -737,6 +785,11 @@
 
     stepUnit(u, dt) {
       u.cool -= dt;
+      if (u.poisonUntil > this.t && !this.truce) {         // poison by degrees (Alma 47:18): no armor stops it
+        const a = u.spare ? Math.min(u.poisonDps * dt, Math.max(0, u.hp - 1)) : u.poisonDps * dt;
+        u.hp -= a; u.hitAt = this.t;
+        if (u.hp <= 0) { this.kill(u, null); return; }
+      }
       if (u.kneelUntil && this.t < u.kneelUntil) return;   // "fallen to the earth" in prayer (3 Nephi 4:8)
       if (u.sleepUntil && this.t < u.sleepUntil) return;   // in a deep sleep (Alma 55:16)
       u.think -= dt;
@@ -832,7 +885,8 @@
       const cx = center(tx), cy = center(ty);
       const dx = cx - u.x, dy = cy - u.y, d = Math.hypot(dx, dy);
       let sp = u.def.speed * (u.slow || 1) * (this.tile(tileOf(u.x), tileOf(u.y)) === T.FORD ? 0.7 : 1);
-      if (u.climbing) sp *= 0.4;
+      if (u.climbing) sp *= this.ditchAt(tx, ty, u.team) ? 0.25 : 0.4;
+      else if (this.ditchNear(u)) sp *= 0.6;                 // down into the ditch and up again (Alma 49:18)
       if (u.fierceUntil > this.t) sp *= 1.15;
       if (u.carry && u.carry.amt) sp *= 0.9;
       const s = sp * dt;

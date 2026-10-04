@@ -242,6 +242,76 @@ round every store, or its own haulers can't get in. With these, a steady
 King-men player on Normal takes Zarahemla in about 13 minutes, as a steady
 Freemen player takes the war camp in about 14.
 
+## 13b. Walls that level up, and the great beasts (decided with Blake)
+
+Walls have three levels per side, and every piece changes at once when the
+side makes the next (research, like Red Alert's upgrades you can see):
+
+| Level | Freemen (armory) | King-men |
+|---|---|---|
+| 1 | Bank of earth (Alma 48:8) | Stake palisade |
+| 2 | Timbers and pickets on the ridge (Alma 50:2–3), walls ×2 | Hung with hides and shields (Alma 49:6), shield-makers' tent, walls ×2 |
+| 3 | Ditch and walls of stone (Alma 48:8, 49:18), walls ×3 | Ditch, bank and slingers (Alma 55:33), pavilion, walls ×3 |
+
+At level 3 the ditch slows attackers beside the wall (×0.6, and ladders over
+it ×0.25 instead of ×0.4), and a guard on every fourth piece casts a stone
+on an enemy close below (22 harm, a little to those beside, every 3 s; Alma
+49:22). The guards don't shoot far: towers do that, so a long wall can't
+become forty towers. All the wall pictures are Gemini's (art/requests/017):
+one straight section per level, sheared to the map's slant and joined in
+code, with a post where a line turns or ends.
+
+Each side gets one great beast from Ether 9:19, its use in war imagined:
+the Freemen's curelom (stables, once the hall stands), a heavy fighter; the
+King-men's cumom (pavilion), a wall-breaker that strikes buildings ×5. Both
+are slow, cost a lot and eat for three; spearmen and Lamanite warriors beat
+them. A fourth Jaredite ruin, between the camps, holds one tame. The
+opponents train a few, save for their walls' levels once half their army is
+gathered, and quarry the stone the Freemen's third level needs.
+
+## 13c. The great buildings: the temple, the Rameumptom and the idols (decided with Blake)
+
+Blake's play-test: the start building, Zarahemla's huge red pyramid, stood
+taller than the temple. Decided with him, one question at a time:
+
+- **Zarahemla becomes the chief judge's hall**, the judgment-seat (Alma
+  50:39): a long, low hall of stone and timber with a seat of judgment
+  before its porch, in a yard behind a bank of earth and pickets. A seat
+  of government, not a place of worship, and lower than the temple.
+- **The temple grows to 4 × 4** and is built "after the manner of the
+  temple of Solomon" (2 Nephi 5:16): two pillars of brass before a porch
+  that rises far above the house (1 Kings 7:15; 2 Chronicles 3:4), an
+  altar, and the basin on twelve oxen. It is the tallest thing on the field.
+- **The King-men's Rameumptom replaces the king's court** as their great
+  house, 4 × 4: the Zoramites' "holy stand", "high above the head" (Alma
+  31:13, 21). Honest note: it was the Zoramites', but the Zoramites fight
+  on the King-men's side. Blake: "It's the anti to the temple."
+- **Its works are wicked men stirred up, not magic.** The scriptures call
+  the idols "dumb" (Alma 31:1), so no idol has power of its own. New:
+  **Poison** "by degrees" (Alma 47:18): one enemy, even a captain, loses
+  three quarters of his strength over 15 s; armor doesn't stop it and Mercy
+  cures it. **Bloodthirst** (Moroni 9:5; "fight like dragons", Alma 43:44):
+  warriors at the spot strike ×1.5 for 15 s, and the pillar of fire, deep
+  sleep and confusion don't turn them back (inside the pillar the Nephites
+  still take no harm: Helaman 5:23 stands). The court's cunning comes along,
+  stronger: flattery and stratagem last longer, dissension a full minute,
+  the king's call brings six.
+- **Idols you build**: huge stone idols, 3 × 3, after the Rameumptom (two
+  designs, a seated jaguar and a standing war god). Each one standing, up to
+  three, brings the works back a sixth sooner. Pull them down and the zeal
+  goes with them.
+- **The opponents now work their powers** where the fighting is thickest
+  (camp.js: works): the King-men poison a captain, send bloodthirst into a
+  melee, flatter, call the host when the camp is struck, and go out under
+  stratagem; the Freemen work mercy, fire, sleep, darkness, confusion and
+  the shock. Not at Easy. At Normal the King-men keep dissension back for
+  Hard: with all of it the scripted Freemen player lost; without it the
+  player wins in about 12 minutes while the bot poisons and thirsts.
+
+All five pictures are Gemini's (art/requests/018). The Rameumptom's braziers
+burn with six painted flame frames, flipped like a flipbook and added as
+light; incense smoke rises before the idols.
+
 ## 14. Open questions
 
 - Does the King-men side get a temple-like healer, or is "cheaper warriors" its

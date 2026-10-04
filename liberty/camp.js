@@ -8,20 +8,20 @@
   const D = root.LIB_DATA || require('./data.js');
   const S = root.LIB_SIM || require('./sim.js');
   const { BUILDINGS, UNITS, RESEARCH, T, MAP_W } = D;
-  const { dist } = S;
+  const { dist, maxHp } = S;
   const alive = e => e && !e.dead;
 
   // What each side's camp wants standing, in order: it raises the first thing on the list it lacks and can pay for.
   const PLANS = {
     kingmen: [['storetent', 1], ['tents', 1], ['muster', 1], ['tents', 2], ['shieldtent', 1], ['tents', 3], ['pavilion', 1],
-              ['tents', 4], ['ladderworks', 1], ['tents', 5], ['wardance', 1], ['kingscourt', 1]],
+              ['tents', 4], ['ladderworks', 1], ['tents', 5], ['wardance', 1], ['rameumptom', 1], ['idol', 1], ['tents', 6], ['idol', 2]],
     freemen: [['storehouse', 1], ['farm', 1], ['barracks', 1], ['farm', 2], ['granary', 1], ['armory', 1], ['farm', 3], ['smithy', 1], ['training', 1],
-              ['farm', 4], ['hall', 1], ['farm', 5], ['tower', 1], ['temple', 1]]
+              ['farm', 4], ['hall', 1], ['stables', 1], ['farm', 5], ['tower', 1], ['temple', 1]]
   };
   // Who each side trains, as shares of the army; what a tent can't make yet is left for later.
   const MIXES = {
-    kingmen: [['lamanite', 0.55], ['slinger', 0.3], ['amalekite', 0.075], ['zoramite', 0.075]],
-    freemen: [['spearman', 0.35], ['nslinger', 0.2], ['archer', 0.2], ['swordsman', 0.15], ['javelin', 0.05], ['stripling', 0.05]]
+    kingmen: [['lamanite', 0.55], ['slinger', 0.3], ['amalekite', 0.075], ['zoramite', 0.075], ['cumom', 0.09]],
+    freemen: [['spearman', 0.35], ['nslinger', 0.2], ['archer', 0.2], ['swordsman', 0.15], ['javelin', 0.05], ['stripling', 0.05], ['curelom', 0.07]]
   };
   const fighter = def => !!(def.soldier || def.foe);
 
@@ -67,7 +67,7 @@
       const W = this.W;
       if (!alive(this.home) || W.t < this.nextThink) return;
       this.nextThink = W.t + 1;
-      this.keepBearers(); this.build(); this.research(); this.train(); this.defend(); this.muster();
+      this.keepBearers(); this.build(); this.research(); this.train(); this.defend(); this.muster(); this.works();
     }
 
     // --- the economy: enough haulers hauling (and, where they're not the same, builders building).
@@ -77,7 +77,8 @@
       const want = Math.max(1, Math.round(this.L.bearers * ((D.SIDES[this.side].bot || {}).haulers || 1)));
       if (haulers.length + queued < want && queued < 2) W.train(this.home, this.hauler);
       else if (this.builder !== this.hauler && this.units().filter(u => u.def.builds).length + queued < 2 && queued < 2) W.train(this.home, this.builder);
-      const next = this.nextWanted(), need = next && (BUILDINGS[next].cost.stone || 0) - W.side(this.team).res.stone;
+      // Stone for the next building, or for a level of walls it is saving for (research(), below).
+      const next = this.nextWanted(), need = Math.max(next ? BUILDINGS[next].cost.stone || 0 : 0, this.stoneFor || 0) - W.side(this.team).res.stone;
       const quarrier = haulers.find(u => u.pref === 'stone');
       if (need > 0 && !quarrier && haulers.length > 1) {
         const u = haulers.find(h => h.order.type !== 'build'), f = u && W.nearestResource(this.home.tx, this.home.ty, 'stone', u);
@@ -157,7 +158,9 @@
           if (side.researched[key]) continue;
           const r = RESEARCH[key];
           if (r.ladders && this.marches < 2) continue;                      // ladders come after the walls have stopped them twice (Alma 49:22)
-          if (!W.canAfford(r.cost, this.team) || side.res.grain - (r.cost.grain || 0) < this.reserve()) return;
+          this.stoneFor = r.cost.stone || 0;                                // (the haulers quarry what it needs)
+          if (!W.canAfford(r.cost, this.team) || side.res.grain - (r.cost.grain || 0) < this.reserve()) { if (r.level) this.saving = r.cost; return; }
+          this.stoneFor = 0; this.saving = null;
           if (W.research(b, key)) return;
         }
       }
@@ -171,6 +174,8 @@
       for (const b of this.buildings()) for (const q of b.queue) if (UNITS[q.type].foe) queued.push(q);
       const total = army.length + queued.length || 1;
       if (army.length + queued.length >= this.wantArmy) return;         // the army is gathered: grain goes to tents and research now
+      // Saving for a level of walls: once half the army is gathered, no more until it is paid for.
+      if (this.saving && this.marches >= 1 && army.length + queued.length >= this.wantArmy * 0.5 && !W.canAfford(this.saving, this.team)) return;
       for (const b of this.buildings()) {
         if (b.built < 1 || !b.def.trains || b.queue.length >= 2) continue;
         let pick = null, worst = -Infinity;
@@ -216,11 +221,49 @@
       if (m.length < this.wantArmy && !overdue) return;
       if (this.marches && W.t - this.lastMarch < L.every * 0.5) return;   // a rich camp still marches in waves, not a stream: half the usual gap at least
       for (const u of m.concat(this.units().filter(u => W.heroic(u) && u.mode === 'muster'))) { u.mode = 'attack'; u.home = null; W.order(u, { type: 'idle' }); }
+      if (this.L.works && !W.whyNotMiracle('stratagem', this.team)) W.miracle('stratagem', 0, 0, null, this.team);   // they set out unseen (Alma 58:6)
       this.marches++; this.lastMarch = W.t; this.wantArmy = this.nextArmy();
       const side = W.side(this.team), who = W.peopleOf(this.team);
       W.msg(`${who} come to battle: ${m.length} of them${side.ladders ? ', with ladders' : ''}.`, null, 'warn');
       if (side.ladders && !this.warned.ladders) { this.warned.ladders = true; W.msg('They bring ladders: your walls slow them now, but no longer stop them. Towers and archers behind the walls will.', 'Alma 49:22', 'warn'); }
       if (this.side === 'kingmen' && m.some(u => u.type === 'amalekite' || u.type === 'zoramite') && !this.warned.captains) { this.warned.captains = true; W.msg('Captains lead them now, "and they were all Amalekites and Zoramites": armored, and the warriors near them fight harder.', 'Alma 43:6', 'warn'); }
+    }
+
+    // --- the powers worked from its temple or Rameumptom, where they count (not at Easy: missions.js LEVELS.works)
+    works() {
+      const W = this.W, team = this.team;
+      if (!this.L.works || !W.powerHouse(team)) return;
+      const can = k => W.power(k) && !W.whyNotMiracle(k, team) && !(this.L.holdWorks || []).includes(k);   // (at Normal, dissension is kept for Hard)
+      const mine = this.warriors().concat(this.units().filter(u => W.heroic(u)));
+      const foes = [...W.ents.values()].filter(e => e.kind === 'unit' && e.team !== team && e.team !== 'n' && !e.dead && !e.untouchable && fighter(e.def));
+      const near = (p, r, list) => list.filter(e => Math.hypot(e.x - p.x, e.y - p.y) < r);
+      const mid = list => ({ x: list.reduce((a, e) => a + e.x, 0) / list.length, y: list.reduce((a, e) => a + e.y, 0) / list.length });
+      // Where the fighting is thickest: one of ours with the most foes close by.
+      let at = null, most = 0;
+      for (const u of mine) { const n = near(u, 140, foes).length; if (n > most) { most = n; at = u; } }
+      const close = at ? near(at, 160, foes) : [];
+      const work = (k, x, y, id) => W.miracle(k, x, y, id, team);
+      if (this.side === 'kingmen') {
+        if (at && most >= 3 && can('bloodthirst') && near(at, 120, mine).length >= 4) return work('bloodthirst', at.x, at.y);
+        if (can('poison')) {                                     // a captain first, else the strongest in reach
+          const t = foes.filter(f => mine.some(u => dist(u, f) < 240)).sort((a, b) => (W.heroic(b) ? 1 : 0) - (W.heroic(a) ? 1 : 0) || maxHp(b) - maxHp(a))[0];
+          if (t) return work('poison', t.x, t.y, t.id);
+        }
+        if (at && most >= 4 && can('flattery')) { const t = close.sort((a, b) => b.hp - a.hp)[0]; if (t) return work('flattery', t.x, t.y, t.id); }
+        if (alive(this.home) && W.t - (this.home.hitAt || -99) < 3 && can('host')) return work('host', 0, 0);
+        if (this.marches && can('dissension')) {               // their barracks stops while the march is out
+          const b = [...W.ents.values()].filter(e => e.kind === 'building' && e.team !== team && e.team !== 'n' && !e.dead && !e.untouchable && e.built >= 1 && e.def.trains && e.def.trains.some(t => fighter(UNITS[t])))[0];
+          if (b) return work('dissension', b.x, b.y, b.id);
+        }
+      } else {
+        const hurt = mine.filter(u => u.hp < maxHp(u) * 0.5).length;
+        if (hurt >= 5 && can('mercy')) return work('mercy', 0, 0);
+        if (at && most >= 4 && can('fire')) return work('fire', at.x, at.y);
+        if (close.length >= 5 && can('sleep')) { const p = mid(close); return work('sleep', p.x, p.y); }
+        if (close.length >= 4 && can('cloud')) { const p = mid(close); return work('cloud', p.x, p.y); }
+        if (close.length >= 6 && can('turn')) { const p = mid(close); return work('turn', p.x, p.y); }
+        if (at && can('shock')) { const t = close.sort((a, b) => maxHp(b) - maxHp(a))[0]; if (t) return work('shock', t.x, t.y, t.id); }
+      }
     }
   }
 

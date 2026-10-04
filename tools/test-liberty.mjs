@@ -288,7 +288,7 @@ console.log('Free battle · build a city, tear down the war camp');
     ok(W.miracle('turn', foes[0].x, foes[0].y) && foes.some(f => f.order.type === 'attack' && foes.some(o => o.id === f.order.target)), 'confusion turns the enemies on each other (Judges 7:22)');
     const camp = FB.camps.find(c => !c.dead), chp = camp.hp;
     ok(W.miracle('quake', camp.x, camp.y) && camp.hp < chp, `the earthquake shakes a Lamanite camp (${Math.round(chp)} to ${Math.round(camp.hp)})`);
-    g.hp = 5; W.miracle('mercy'); ok(g.hp === (g.max || g.def.hp), 'mercy makes everyone whole (Alma 2:30)');
+    g.hp = 5; g.poisonUntil = W.t + 10; g.poisonDps = 3; W.miracle('mercy'); ok(g.hp === (g.max || g.def.hp) && !(g.poisonUntil > W.t), 'mercy makes everyone whole (Alma 2:30), and purges poison');
     const sh = foes[2], shp = sh.hp; ok(W.miracle('shock', sh.x, sh.y, sh.id) && (sh.dead || (sh.hp < shp && sh.kneelUntil > W.t)), 'the shock throws one enemy down (1 Nephi 17:54)');
     for (const f of foes) if (!f.dead) W.kill(f);
     W.kill(t); }
@@ -329,7 +329,7 @@ console.log('Free battle · build a city, tear down the war camp');
     for (const w of wall) W.kill(w); W.kill(foe); W.kill(a); v.rank = 0; v.kills = 0; v.max = v.def.hp; }
   // Artifacts: the Jaredite ruins hold the sword of Laban, the Liahona and breastplates; right answers in a row bring the plates and the interpreters.
   { const relics = W.buildings('n').filter(b => b.def.relic);
-    ok(relics.length === 3, `three Jaredite ruins stand on the map (${relics.length})`);
+    ok(relics.length === 4, `four Jaredite ruins stand on the map (${relics.length})`);
     const r = relics.find(b => b.artifact === 'breastplate'), s = W.addUnit('spearman', 'p', (r.tx - 1) * 32 + 16, r.ty * 32 + 16), armor0 = W.armor;
     run(W, 1, 0.1, () => {});
     ok(W.artifacts.breastplate && W.armor === armor0 + 2 && r.dead, 'a soldier beside a ruin finds the Jaredite breastplates: 2 more armor (Mosiah 8:10)');
@@ -344,6 +344,46 @@ console.log('Free battle · build a city, tear down the war camp');
     ok(W.grant('interpreters', 'test') && /Lamanites/.test(FB.nextAttack(W)), `the interpreters tell what comes next: "${FB.nextAttack(W)}" (Mosiah 8:17)`);
     ok(!W.grant('plates', 'test'), 'nothing is brought out twice');
     W.armor = armor0; }
+  // Walls that level up, the ditch and its guards, and the great beasts of Ether 9:19 (art request 017).
+  { const S = W.side('p'), R = W.side('r'), relics = W.buildings('n').filter(b => b.def.relic && !b.dead);
+    const ruin = relics.find(b => b.artifact === 'beast'), w0 = W.units('p').filter(u => u.type === 'curelom').length;
+    const scout = W.addUnit('worker', 'p', (ruin.tx - 1) * 32 + 16, ruin.ty * 32 + 16);
+    run(W, 1, 0.1, () => {});
+    ok(W.units('p').filter(u => u.type === 'curelom').length === w0 + 1 && ruin.dead, 'a ruin holds a great beast, tame: the Freemen find a curelom (Ether 9:19)');
+    W.kill(scout); for (const u of W.units('p').filter(u => u.type === 'curelom')) W.remove(u);
+    const armory = W.buildings('p', 'armory').find(b => b.built >= 1) || W.addBuilding('armory', 'p', city.tx + 7, city.ty + 6, true);
+    const had = { ...S.researched }; delete S.researched.pickets;
+    ok(!W.researchAt(armory).includes('stonewalls'), 'walls of stone come only after ridges of earth and pickets');
+    S.researched.pickets = true;
+    ok(W.researchAt(armory).includes('stonewalls'), 'and then the armory can make them');
+    // a straight wall, raised to the third level by the research itself
+    const wy = city.ty - 6; let wx = null;
+    for (let x = city.tx - 8; x < city.tx + 8 && wx == null; x++) { let fits = true; for (let i = 0; i < 6; i++) if (!W.canPlace('wall', x + i, wy)) fits = false; if (fits && (x + wy) % 4 === 0) wx = x; }
+    const line = []; for (let i = 0; i < 6; i++) line.push(W.addBuilding('wall', 'p', wx + i, wy, true));
+    S.researching = { key: 'stonewalls', left: 0.01, by: armory.id }; W.step(0.05);
+    ok(S.wallLevel === 3 && line.every(w => w.max === w.def.hp * 3), `the third level: walls three times as strong (${line[0].max})`);
+    // the guard on every fourth piece casts a stone down on an enemy close below, and not on one farther off
+    const guard = line.find(w => W.guarded(w)), near = W.addUnit('lamanite', 'r', guard.x, guard.y - 40), far = W.addUnit('lamanite', 'r', guard.x + 300, guard.y - 200);
+    near.order = { type: 'idle' }; near.scripted = true; far.scripted = true; const h0 = near.hp, f0 = far.hp;
+    for (let i = 0; i < 12; i++) { near.x = guard.x; near.y = guard.y - 40; W.step(0.1); }
+    ok(line.filter(w => W.guarded(w)).length >= 1 && near.hp < h0 && far.hp === f0, `a guard casts stones down on enemies close below (Alma 49:22; ${h0} to ${Math.round(near.hp)})`);
+    W.remove(near); W.remove(far);
+    // the ditch: the same walk is slower beside the wall
+    const walk = (y) => { const u = W.addUnit('lamanite', 'r', (wx - 3) * 32 + 16, y); u.scripted = true; W.order(u, { type: 'move', tx: wx + 9, ty: Math.floor(y / 32) }); for (let i = 0; i < 20; i++) W.step(0.1); const d = u.x - ((wx - 3) * 32 + 16); W.remove(u); return d; };
+    const by = walk((wy - 1) * 32 + 16), open = walk((wy - 6) * 32 + 16);
+    ok(by < open * 0.85, `the ditch slows those who come at the wall (${Math.round(by)} against ${Math.round(open)} in 2s; Alma 49:18)`);
+    for (const w of line) W.remove(w); S.wallLevel = 1; S.wallMul = 1; S.researched = had;
+    // the beasts: three mouths each, strong, and brought down by spearmen and Lamanite warriors
+    const food0 = W.foodUsed(), cu = W.addUnit('curelom', 'p', city.x + 400, city.y + 300);
+    ok(W.foodUsed() === food0 + 3, 'a curelom eats for three');
+    const sp = W.addUnit('spearman', 'p', cu.x + 60, cu.y), sw = W.addUnit('swordsman', 'p', cu.x + 60, cu.y + 30), cm = W.addUnit('cumom', 'r', cu.x + 30, cu.y);
+    const hitBy = (from, to) => { const h = to.hp; W.damage(to, 10, from); const d = h - to.hp; to.hp = h; return d; };
+    ok(hitBy(sp, cm) > hitBy(sw, cm) * 1.3, 'spearmen strike a great beast half again as hard');
+    const lm = W.addUnit('lamanite', 'r', cu.x - 30, cu.y), sl = W.addUnit('slinger', 'r', cu.x - 30, cu.y + 30);
+    ok(hitBy(lm, cu) > hitBy(sl, cu) * 1.3, 'and so do Lamanite warriors');
+    const tower = W.addBuilding('tower', 'p', city.tx + 9, city.ty - 3, true), hb = (f) => { const h = tower.hp; W.damage(tower, f.def.dmg, f); const d = h - tower.hp; tower.hp = h; return d; };
+    ok(hb(cm) > hb(lm) * 4, `the cumom butts down buildings (${hb(cm).toFixed(0)} a blow against a warrior's ${hb(lm).toFixed(0)})`);
+    for (const u of [cu, sp, sw, cm, lm, sl]) W.remove(u); W.remove(tower); }
 
   // A steady player: the carts haul on their own; build up the tree, keep an army home, then march on the camps.
   const S0 = { x: city.tx, y: city.ty };
@@ -413,6 +453,8 @@ console.log('Free battle · build a city, tear down the war camp');
   ok(W.trained.stripling > 0 && W.trained.cart > 0, `the hall trains stripling warriors (${W.trained.stripling || 0}), and the stables horse carts (${W.trained.cart || 0})`);
   ok(FB.camp.marches >= 2, 'the Lamanites marched on the city, again and again (' + FB.camp.marches + ' marches)');
   ok(W.over && W.over.won && W.over.stars === 2, 'the war camp falls: ' + (W.over ? W.over.title + ' ★' + W.over.stars : 'not over'));
+  { const worked = W.msgs.filter(m => /^Their Rameumptom: /.test(m.text)).map(m => m.text.slice(18, -1));
+    console.log(`    the King-men opponent worked from its Rameumptom: ${worked.join(', ') || 'nothing'}`); }
   ok(ms < 40, 'a step stays fast enough with a whole city');
 }
 
@@ -421,14 +463,14 @@ console.log('Free battle · build a city, tear down the war camp');
   console.log('Free battle as the King-men · pick a side, then a captain');
   const FB = require('../liberty/missions.js').FREE_BATTLE, CAMP = require('../liberty/camp.js');
   const spotNear = (W, home, t, dx, dy) => { for (let r = 0; r < 14; r++) for (let oy = -r; oy <= r; oy++) for (let ox = -r; ox <= r; ox++) if (W.canPlace(t, home.tx + dx + ox, home.ty + dy + oy)) return [home.tx + dx + ox, home.ty + dy + oy]; return null; };
-  // The captains' gifts and the king's court's cunning, in a world of their own.
+  // The captains' gifts and the Rameumptom's works, in a world of their own.
   { FB.level = 'normal'; FB.side = 'kingmen'; FB.captain = 'ammoron';
     const W = new S.World(undefined, FB.map); W.mission = FB; FB.setup(W);
     ok(W.side('p').side === 'kingmen' && W.side('r').side === 'freemen' && W.side('p').captain.name === 'Ammoron' && D.CAPTAINS.freemen[FB.theirCaptain], 'the human holds the King-men under Ammoron; the opponent holds the Freemen under a captain of its own');
     const camp = W.stronghold();
     ok(camp && camp.type === 'warcamp' && camp.name === 'Your camp' && W.units('p').some(u => u.type === 'ammoron') && W.units('p').filter(u => u.type === 'bearer').length === 2, 'the King-men start with their war camp, two bearers, a few warriors and their captain');
     ok(W.buildings('r', 'stronghold').length === 1 && W.units('r').some(u => u.def.hero) && FB.targets()[0].type === 'stronghold', 'the Freemen opponent starts with Zarahemla, its guards and its captain; Zarahemla is what you must tear down');
-    ok(W.whyNotTrain('lamanite') === '' && W.whyNotBuild('kingscourt') === "Needs Chief captain's pavilion" && W.foodHint('p') === 'pitch tents', "the King-men's tree: warriors now, the king's court after the pavilion; food comes from tents");
+    ok(W.whyNotTrain('lamanite') === '' && W.whyNotBuild('rameumptom') === "Needs Chief captain's pavilion" && W.whyNotBuild('idol') === 'Needs Rameumptom' && W.foodHint('p') === 'pitch tents', "the King-men's tree: warriors now, the Rameumptom after the pavilion, idols after it; food comes from tents" + ` (${W.whyNotBuild('idol')})`);
     ok(W.costOf(D.UNITS.lamanite, 'p', 'train').grain === 24 && W.costOf(D.UNITS.amalekite, 'p', 'train').grain === 60, "Ammoron's gift: warriors cost less (24 grain), captains the same");
     W.side('p').captain = D.CAPTAINS.kingmen.zerahemnah;
     ok(W.costOf(D.UNITS.amalekite, 'p', 'train').grain === 42 && W.costOf(D.UNITS.lamanite, 'p', 'train').grain === 30, "Zerahemnah's gift: captains cost less (42 grain)");
@@ -439,27 +481,63 @@ console.log('Free battle · build a city, tear down the war camp');
     W.side('p').captain = D.CAPTAINS.kingmen.amalickiah;
     W.res = { grain: 900, timber: 900, stone: 100 }; W.truce = true;
     const at = (t, dx, dy) => { const s = spotNear(W, camp, t, dx, dy); return W.addBuilding(t, 'p', s[0], s[1], true); };
-    const muster = at('muster', 0, 9), court = at('kingscourt', 5, 12), dance = at('wardance', -7, 9);
-    ok(W.temple() === court && W.whyNotMiracle('flattery') === '' && W.whyNotMiracle('fire') === 'temple', "the king's court works cunning, not miracles");
-    ok(W.costOf(D.UNITS.lamanite, 'p', 'train').grain === 24, "while the king's court stands, warriors cost less (Alma 49:6)");
+    const muster = at('muster', 0, 9), court = at('rameumptom', 5, 12), dance = at('wardance', -7, 9);
+    ok(W.temple() === court && court.w === 4 && W.whyNotMiracle('poison') === '' && W.whyNotMiracle('flattery') === '' && W.whyNotMiracle('fire') === 'temple', 'the Rameumptom (4 x 4) works poison, bloodthirst and cunning, not miracles (Alma 31:21)');
+    ok(W.costOf(D.UNITS.lamanite, 'p', 'train').grain === 24, 'while the Rameumptom stands, warriors cost less (Alma 49:6)');
     const city = W.buildings('r', 'stronghold')[0];
     const foe = W.addUnit('spearman', 'r', camp.x + 200, camp.y + 320), foe2 = W.addUnit('spearman', 'r', foe.x + 30, foe.y);
     ok(W.miracle('flattery', foe.x, foe.y, foe.id) && foe.turnUntil > W.t && foe.order.type === 'attack' && foe.order.target === foe2.id, 'flattery turns one enemy on his own (Alma 46:5)');
     ok(W.miracle('dissension', city.x, city.y, city.id) && city.stalledUntil > W.t, "dissension stops an enemy building's work for a while (Alma 53:8)");
     { city.queue.push({ type: 'cart', left: 30 }); for (let i = 0; i < 20; i++) W.step(0.1); ok(city.queue[0] && city.queue[0].left === 30, 'while it lasts, nothing is trained there'); }
     const n0 = W.units('p').filter(u => u.type === 'lamanite').length;
-    ok(W.miracle('host') && W.units('p').filter(u => u.type === 'lamanite').length === n0 + 4, "the king's call brings four warriors at once (Alma 48:3)");
+    ok(W.miracle('host') && W.units('p').filter(u => u.type === 'lamanite').length === n0 + 6, "the king's call brings six warriors at once (Alma 48:3)");
     { const seen = () => { const e = W.enemiesNear(foe2, 'r', 400, true); return e && (e.def.foe || e.def.soldier) ? e.type : ''; };   // (a bearer with his knife is no warrior)
       ok(W.miracle('stratagem') && W.units('p').filter(u => u.def.foe).every(u => W.hidden(u)) && !seen(), 'by stratagem your warriors go unseen until they strike (Alma 58:6)' + (seen() ? ' (seen: ' + seen() + ')' : '')); }
     ok(W.miracleWait('stratagem') > 0 && W.miracleWait('stratagem') <= D.CUNNING.stratagem.wait * 0.5 + 0.01, "Amalickiah's gift: cunning waits half as long");
     { const before = new Set(W.units('p').map(u => u.id)); W.train(muster, 'lamanite'); let w = null; for (let i = 0; i < 200 && !w; i++) { W.step(0.1); w = W.units('p').find(u => u.type === 'lamanite' && !before.has(u.id)); }
-      ok(w && w.fierceUntil > W.t, 'from the war-dance ground a warrior comes out fierce for a while (Alma 48:3)'); } }
-  // A steady King-men player: tents and a muster ground, bearers hauling, cunning from the court, then the host marches on Zarahemla.
+      ok(w && w.fierceUntil > W.t, 'from the war-dance ground a warrior comes out fierce for a while (Alma 48:3)'); }
+    // The Rameumptom's own works (018): bloodthirst, poison by degrees, and the idols' zeal.
+    { const band = W.units('p').filter(u => u.type === 'lamanite').slice(0, 4), c = band[0];
+      for (const u of band) { u.x = c.x + (u.id % 3) * 10; u.y = c.y; W.order(u, { type: 'idle' }); }
+      W.side('p').ready.bloodthirst = 0;
+      ok(W.miracle('bloodthirst', c.x, c.y) && band.every(u => u.thirstUntil > W.t), 'bloodthirst takes the warriors at the spot (Moroni 9:5)');
+      const T = W.addBuilding('temple', 'r', city.tx - 6, city.ty, true); W.side('r').ready.fire = 0; W.side('r').ready.sleep = 0;
+      ok(W.miracle('fire', c.x, c.y, null, 'r') && band.every(u => !(u.fearUntil > W.t)), "the pillar of fire doesn't turn back the bloodthirsty");
+      W.zones = W.zones.filter(z => z.kind !== 'fire');
+      ok(W.miracle('sleep', c.x, c.y, null, 'r') && band.every(u => !(u.sleepUntil > W.t)), 'nor does a deep sleep fall on them');
+      W.truce = false;
+      const dummy = W.addUnit('spearman', 'r', c.x + 400, c.y + 400), plain = band.find(u => u !== c);
+      plain.thirstUntil = 0; let h = dummy.hp; W.damage(dummy, 20, plain); const d0 = h - dummy.hp; h = dummy.hp; W.damage(dummy, 20, c); const d1 = h - dummy.hp;
+      ok(d1 > d0 * 1.4, `the bloodthirsty strike half again as hard (${d0.toFixed(1)} then ${d1.toFixed(1)})`);
+      W.remove(dummy);
+      const v = W.addUnit('spearman', 'r', c.x + 600, c.y - 300), mx = S.maxHp(v); W.side('p').ready.poison = 0;
+      ok(W.miracle('poison', v.x, v.y, v.id) && v.poisonUntil > W.t, 'poison is given to one enemy (Alma 47:18)');
+      for (let i = 0; i < 80; i++) W.step(0.1);
+      ok(v.dead || (v.hp < mx * 0.75 && v.hp > mx * 0.5), `by degrees: after 8 s about half his strength is gone (${Math.round(v.hp)} of ${mx})`);
+      for (let i = 0; i < 80; i++) W.step(0.1);
+      ok(v.dead || v.hp <= mx * 0.3, `after 15 s, three quarters (${Math.round(v.hp)} of ${mx})`);
+      W.truce = true; W.kill(T);
+      for (let i = 0; i < 4; i++) at('idol', 12 + i * 4, 0);
+      W.side('p').ready.dissension = 0; W.miracle('dissension', city.x, city.y, city.id);
+      ok(Math.abs(W.miracleWait('dissension') - D.CUNNING.dissension.wait * 0.5 * 0.5) < 0.01, `three idols (a fourth adds nothing) bring the works back half again sooner (${W.miracleWait('dissension').toFixed(1)} s)`); } }
+  // The opponents work their powers where the fighting is (camp.js: works), and not at Easy.
+  for (const level of ['normal', 'easy']) { FB.level = level; FB.side = 'kingmen'; FB.captain = 'ammoron';
+    const W = new S.World(undefined, FB.map); W.mission = FB; FB.setup(W); W.truce = true;
+    const city = W.buildings('r', 'stronghold')[0], bot = FB.camp;
+    W.addBuilding('temple', 'r', city.tx - 6, city.ty, true);
+    const x = city.x + 300, y = city.y + 300;
+    const mine = [0, 1, 2, 3, 4].map(i => W.addUnit('spearman', 'r', x + i * 12, y)), foes = [0, 1, 2, 3, 4].map(i => W.addUnit('lamanite', 'p', x + i * 12, y + 40));
+    bot.works();
+    const worked = Object.keys(W.side('r').ready).filter(k => W.side('r').ready[k] > W.t);
+    if (level === 'normal') ok(worked.length === 1 && W.msgs.some(m => /^Their temple: /.test(m.text)), `the Freemen opponent works a miracle where the fighting is (${worked.join(', ')})`);
+    else ok(!worked.length, 'at Easy the opponents work no powers');
+    for (const u of mine.concat(foes)) W.remove(u); }
+  // A steady King-men player: tents and a muster ground, bearers hauling, works from the Rameumptom, then the host marches on Zarahemla.
   { FB.level = 'normal'; FB.side = 'kingmen'; FB.captain = 'ammoron';
     const W = new S.World(undefined, FB.map); W.mission = FB; FB.setup(W);
     const camp = W.stronghold(), S0 = { x: camp.tx, y: camp.ty };
     const plan = [['storetent', -6, 9], ['tents', 0, 8], ['muster', 4, 8], ['tents', -4, 8], ['tents', 8, -2], ['shieldtent', -4, 12], ['tents', 0, 12], ['pavilion', 4, 12], ['tents', 8, 6], ['wardance', -8, 4], ['tents', -8, 0],
-      ['kingscourt', 9, 10], ['tents', 12, 2], ['muster', -8, 8], ['tents', 12, 6], ['tents', -8, -4], ['ladderworks', 2, 15], ['tents', 12, 10], ['tents', -12, 4], ['tents', 16, 2], ['tents', -12, 0], ['tents', 16, 6]];
+      ['rameumptom', 9, 10], ['tents', 12, 2], ['muster', -8, 8], ['tents', 12, 6], ['tents', -8, -4], ['ladderworks', 2, 15], ['tents', 12, 10], ['tents', -12, 4], ['tents', 16, 2], ['tents', -12, 0], ['tents', 16, 6]];
     const research = { shieldtent: ['lshields', 'skins'], ladderworks: ['lladders'] };
     const bearers = () => W.units('p').filter(u => u.type === 'bearer'), army = () => W.soldiers('p').filter(u => !u.def.hero);
     let attackAt = null, raised = false;
@@ -484,7 +562,7 @@ console.log('Free battle · build a city, tear down the war camp');
         if (city && !city.dead && !W.whyNotMiracle('dissension')) W.miracle('dissension', city.x, city.y, city.id);
         if (attackAt && !W.whyNotMiracle('stratagem')) W.miracle('stratagem');
       }
-      const big = plan.length && ['muster', 'shieldtent', 'pavilion', 'kingscourt'].includes(plan[0][0]) && !W.whyNotBuild(plan[0][0]) && !W.canAfford(W.costOf(D.BUILDINGS[plan[0][0]], 'p', 'build')) && army().length >= 6;
+      const big = plan.length && ['muster', 'shieldtent', 'pavilion', 'rameumptom'].includes(plan[0][0]) && !W.whyNotBuild(plan[0][0]) && !W.canAfford(W.costOf(D.BUILDINGS[plan[0][0]], 'p', 'build')) && army().length >= 6;
       const pav = W.buildings('p', 'pavilion').find(b => b.built >= 1);
       if (!big) {
         if (pav && pav.queue.length < 1 && army().length >= 8 && army().filter(u => u.def.needs).length < army().length / 5) W.train(pav, army().length % 2 ? 'amalekite' : 'zoramite');
@@ -498,14 +576,16 @@ console.log('Free battle · build a city, tear down the war camp');
       }
       // (and comes back when the raiders run home: no chasing them into Zarahemla's guns before the army is ready)
       if (!attackAt) for (const u of army()) { const t = u.order.type === 'attack' && W.ents.get(u.order.target); if (t && t.kind === 'unit' && !W.buildings('p').some(b => S.dist(b, t) < 360)) W.order(u, { type: 'move', tx: S0.x + 2, ty: S0.y + 9 }); }
-      if (!attackAt && ((army().length >= 55 && W.buildings('p', 'kingscourt').some(b => b.built >= 1)) || W.t > 16 * 60)) attackAt = W.t;   // a great host, with the court's cunning behind it
+      if (!attackAt && ((army().length >= 55 && W.buildings('p', 'rameumptom').some(b => b.built >= 1)) || W.t > 16 * 60)) attackAt = W.t;   // a great host, with the Rameumptom's works behind it
       if (attackAt) { const t = W.buildings('r').filter(b => !b.dead && !b.def.wall).sort((a, b) => S.dist(a, camp) - S.dist(b, camp))[0]; if (t) for (const u of army().filter(u => u.order.type === 'idle').slice(8)) W.order(u, { type: 'attack', target: t.id }); }   // (eight stay home)
       if (process.env.DIAG && Math.floor(W.t) % 60 === 0 && Math.floor(W.t) !== (W._diag || 0)) { W._diag = Math.floor(W.t); console.log(`      diag t=${Math.floor(W.t)} mine=${army().length} theirs=${W.soldiers('r').length} myBld=${W.buildings('p').filter(b => b.def.cost && !b.def.wall).map(b => b.type[0]).join('')} theirBld=${W.buildings('r').filter(b => b.def.cost && !b.def.wall).map(b => b.type[0]).join('')} g/t=${Math.round(W.res.grain)}/${Math.round(W.res.timber)} marches ${FB.camp.marches} city=${city ? Math.round(city.hp) : 'down'}`); }
     });
     console.log(`    at ${Math.round(W.t / 60)} min · their marches ${FB.camp.marches} · my army ${army().length} · their army ${W.soldiers('r').length} · fallen ${W.stats.fallen} · defeated ${W.stats.defeated} · slowest step ${ms}ms`);
     ok(raised && FB.camp.marches >= 2, `the Freemen opponent raised farms and a barracks and marched on the camp, again and again (${FB.camp.marches} marches)`);
-    ok((W.trained.lamanite || 0) >= 8 && W.buildings('p', 'muster').length >= 1 && W.buildings('p', 'kingscourt').length === 1, `the King-men player raised a muster ground and the king's court and trained warriors (${W.trained.lamanite || 0})`);
+    ok((W.trained.lamanite || 0) >= 8 && W.buildings('p', 'muster').length >= 1 && W.buildings('p', 'rameumptom').length === 1, `the King-men player raised a muster ground and the Rameumptom and trained warriors (${W.trained.lamanite || 0})`);
     ok(W.over && W.over.won && W.t < 20 * 60, 'Zarahemla falls within 20 minutes: ' + (W.over ? W.over.title + ' ★' + W.over.stars : 'not over'));
+    { const worked = W.msgs.filter(m => /^Their temple: /.test(m.text)).map(m => m.text.slice(14, -1));
+      console.log(`    the Freemen opponent worked from its temple: ${worked.join(', ') || 'nothing (it had none yet)'}`); }
     ok(ms < 40, 'a step stays fast enough with two camps');
     FB.side = 'freemen'; FB.captain = 'moroni'; }
 }
