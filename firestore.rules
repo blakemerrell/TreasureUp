@@ -300,6 +300,21 @@ service cloud.firestore {
           && request.resource.data.at == request.time;
       }
 
+      // The arcade games' best scores (Wilderness Snake, Look and Live): one
+      // record a person, which the whole family sees. Only that person's own
+      // devices write it, and a best never goes down.
+      match /scores/{pid} {
+        allow read: if isMember();
+        allow create, update: if isMember() && me().pid == pid
+          && only(['name', 'snake', 'look', 'updated'])
+          && request.resource.data.name == me().name
+          && request.resource.data.snake is int && request.resource.data.snake >= 0 && request.resource.data.snake <= 10000000
+          && request.resource.data.look is int && request.resource.data.look >= 0 && request.resource.data.look <= 10000000
+          && request.resource.data.updated == request.time
+          && (resource == null || (request.resource.data.snake >= resource.data.snake && request.resource.data.look >= resource.data.look));
+        allow delete: if isParent();
+      }
+
       match /backup/{pid} {
         allow read: if isMember() && (me().pid == pid || me().role == 'parent');
         allow create, update: if isMember() && me().pid == pid
