@@ -97,7 +97,26 @@ family also saves a copy to the family's Firebase project.
 All content is **`content/weeks.js`** (see `content/README.md` for every
 field). Blake reviews, approves, changes and publishes it from **developer
 mode** on the test site (`…/TreasureUp-test/#dev`); new weeks arrive there as
-drafts. **Add next week any time before its Monday**: the app opens on the
+drafts. Developer mode is short (Blake, 2026-10-05: "rows of things … at a
+glance i just approve all"):
+- **The weeks list.** A week with anything left to approve has one button:
+  **Approve N and publish**. Two taps approve every piece left, save it to the
+  test site, wait for its check, and publish the week to the live app (about two
+  minutes). A week that's approved but not live yet says **Publish**.
+- **A week.** One line per piece: ✓ approved, or empty for a draft, with what
+  it is (a reel's headline; "19 verses · 4 notes · 1 to look at first" for a
+  chapter's plain words). A tap opens a piece to read, approve or edit it.
+- **Folding.** A part with nothing waiting folds to one line ("Go deeper · All
+  6 approved"), and in a part with drafts only the drafts show, with a line for
+  the rest.
+- **The clips.** A reel whose clip hasn't been watched isn't approved by the
+  button; it waits for that reel, approved on its own.
+- **✏️ in the app.** Signed in as Blake, a ✏️ sits on each lesson step, reel,
+  Go-deeper reading, chapter and short version. It opens developer mode on that
+  piece, ready to change (`…/TreasureUp-test/#dev/<week's dates>/<piece>`).
+  Nothing changes until he saves there.
+
+**Add next week any time before its Monday**: the app opens on the
 week whose dates include today, so it switches by itself (and last week turns
 green on Your year). Keep weeks in date order and drop ones older than
 last week. One reel, the short version (as JSON in the file):
