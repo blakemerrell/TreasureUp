@@ -1,6 +1,6 @@
 # 022 · The opening paintings: the new palace and the gold temple in the city
 
-**The temple in these paintings was redone in request 023,** without the tower, to match the game's new temple.
+**Replaced in request 023:** Blake found the pasted-in buildings looked bad, so the city in all three paintings was painted fresh, with the palace and Solomon's temple without the tower.
 
 **Status: done.** Made with Gemini through Blake's n8n backup (executions
 13480–13485, six billed to the Merit3D Gemini account). Each painting was

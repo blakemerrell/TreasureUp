@@ -1,7 +1,7 @@
 # 023 · The temple without the tower: Solomon's porch and two great pillars
 
 **Status: done.** Made with Gemini through Blake's n8n backup (executions
-13488–13496, nine billed to the Merit3D Gemini account; 13486–13487 were
+13488–13501, fourteen billed to the Merit3D Gemini account; 13486–13487 were
 turned away before Gemini because their reference was a JPEG, and the
 workflow only takes PNGs).
 
@@ -15,17 +15,23 @@ workflow only takes PNGs).
   changed). Cut out, de-spilled at the outline only, scaled to 150 px a
   square of plot (4 × 4), with the soft cast shadow; button picture made
   with `mkcameo.py`; the lampstand's seven flames moved to its new lamps.
-- **The three paintings.** In each, the old tower was painted out by
-  blending the sky or hills on either side across it, and the new temple was
-  pasted on the same court. The first pass (13491–13493) asked Gemini to set
-  it on the ground in the painting's light; it redrew the temple bigger and
-  different in the opening painting and the Story tile, so the second
-  (13494–13496) asked only to blend it in: same size, same outline, same
-  design. Only the box around the temple is taken from Gemini's picture,
-  with Gemini's slight drift in the sky's colour measured outside the temple
-  and taken back out, so the box leaves no seam. In the Free tile the temple
-  was warmed a little toward the evening haze (22%) so it doesn't stand out
-  bright white.
+- **The three paintings, painted fresh.** A first try pasted the new temple
+  into the paintings and had Gemini blend it (13491–13496). Blake: "The
+  temple in the background with the other building looks so bad": both
+  buildings still looked like game pieces stuck on a painting. So the city
+  was repainted instead, from the original paintings of request 019: Gemini
+  replaced the old hall with the palace and the old tower with Solomon's
+  temple from a written description, in each painting's own style, light and
+  angle, with nothing pasted in (13497–13501). The Story tile and the Free
+  tile came right first time. In the opening painting Gemini zoomed in and
+  filled the city with one giant temple, so its city was cut out, enlarged,
+  painted on its own twice (13500, 13501) and shrunk back; the first was
+  used. In every painting only the city is taken from Gemini's picture, with
+  its slight drift in colour measured outside the city and taken back out,
+  so no edge shows; Moroni, the soldiers, the plates, the two warriors and
+  the spear are the paintings of request 019, pixel for pixel. The painted
+  temples follow the game's design (a long house, a lower porch with gold
+  doors, two bronze pillars, no tower) but are painted, not copied.
 - **On a phone** the opening painting's crop moved to 66% across, so the
   porch, the pillars and the glowing doors show.
 
