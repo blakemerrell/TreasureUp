@@ -1034,6 +1034,10 @@
   .vn-verse { margin: 4px 0 10px; font-size: 14px; line-height: 1.45; color: rgba(255,255,255,.7); font-style: italic; }
   .vn-gl { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-top: 14px; } .vn-gl .btn { text-decoration: none; }
   .vn-foot { margin-top: 14px; }
+  .gr-verse { margin: 2px 0 6px; font-size: 14px; line-height: 1.45; font-style: italic; color: rgba(255,255,255,.7); } .gr-verse a { font-style: normal; }
+  .gr-q { margin: 0 0 10px; font-size: 17px; font-weight: 800; line-height: 1.3; }
+  .gr-in { display: block; width: 100%; margin-top: 8px; }
+  .gr-past { margin-top: 6px; font-size: 14px; color: rgba(255,255,255,.75); } .gr-past b { color: rgba(255,255,255,.5); font-size: 12px; margin-right: 6px; }
   .ls-vv > p { margin: 0 0 6px; }
   .ls-vv > p:last-child { margin-bottom: 0; }
   .ls-plain, .ls-bsb, .ls-lang { padding-left: 12px; border-left: 3px solid #58cc02; font-size: 16px; line-height: 1.5; color: rgba(255,255,255,.8); }
@@ -1908,7 +1912,7 @@ const TreasureUp = (function () {
   // read it), the last 60 days kept. Nothing else is recorded.
   const USE_NAMES = { 'tab:study': 'Study tab', 'tab:scriptures': 'Scriptures tab', 'tab:family': 'Family tab', lesson: 'Lessons',
     chapter: 'Chapters opened', library: 'Scripture chapters', card: 'Cards', word: 'Word studies', listen: 'Listen',
-    sunday: 'Sunday lessons', talk: 'Conference talks', shop: 'Rewards shop', season: 'My Season', seasonTick: 'Season ticks', impression: 'Impressions', highlight: 'Highlights', verseNote: 'Verse notes' };
+    sunday: 'Sunday lessons', talk: 'Conference talks', shop: 'Rewards shop', season: 'My Season', seasonTick: 'Season ticks', impression: 'Impressions', highlight: 'Highlights', verseNote: 'Verse notes', grateful: 'Gratitude' };
   function use(key) {
     if (!S) return;
     const u = S.usage || (S.usage = {}), d = dayKey(), day = u[d] || (u[d] = {});
@@ -2458,7 +2462,7 @@ const TreasureUp = (function () {
     // An earlier day still behind brings only what's left of it; today's own steps stay, done or not.
     let rows = entries.flatMap(e => { const from = isToday && flowDay(e) < d, r = entryRows(e, from); return from ? r.filter(x => !x.done) : r; });
     if (d === 6) rows = rows.concat(sundayRows(k));
-    if (isToday) rows = rows.concat(seasonRows());
+    if (isToday) rows = rows.concat(gratefulRows(), seasonRows());
     let button;
     if (isToday) button = upNext(entries, rows, d, k);
     else {
@@ -2478,6 +2482,89 @@ const TreasureUp = (function () {
       <div class="fl-list">${rows.filter(r => !(button.hide.includes(r.card) && !r.done)).map(r => r.html).join('')}${d < 6 ? moreHtml(d) : ''}${talkDayHtml(k)}</div>
     </div>`;
   }
+  // A daily gratitude prompt (Blake, 2026-10-05: "Add a daily gratitude
+  // prompt"; he picked up to three lines, one enough to tick it; a question
+  // that changes each day; private unless shared; a row on Today, no XP).
+  // A day's is an impression of its own kind (kind: 'grateful', its lines in
+  // items), so it's kept, synced and shared like one and shows with his
+  // impressions in the Season tab. It counts in "n of m done", pays nothing
+  // (like a Season tick: nobody is paid to be grateful), and doesn't keep the
+  // day for the streak.
+  const GRATEFUL_QS = [
+    'Who helped you today?', 'What made you smile today?', 'Something small you’d miss if it were gone?',
+    'Someone in your family you’re thankful for, and why?', 'WEEK', 'A prayer that was answered, big or small?',
+    'Something you learned today?', 'A place you love to be?', 'Something your body can do that you’re glad of?',
+    'A friend you’re glad you have?', 'Something hard that taught you something?', 'Something beautiful you saw today?',
+    'A blessing you almost didn’t notice?', 'Something about Jesus Christ you’re thankful for?', 'A meal or a food you were glad of today?',
+    'A teacher or leader you’re thankful for?', 'Something you get to do that you love?', 'A way someone served you this week?',
+    ['“Thou shalt thank the Lord thy God in all things”', 'Doctrine and Covenants 59:7', 'What’s one thing from today?'],
+    ['“live in thanksgiving daily, for the many mercies and blessings which he doth bestow upon you”', 'Alma 34:38', 'What mercies did you notice today?'],
+    ['“In every thing give thanks”', '1 Thessalonians 5:18', 'Even in something hard today, what can you be thankful for?'],
+    ['“O give thanks unto the LORD, for he is good: for his mercy endureth for ever”', 'Psalm 107:1', 'How has the Lord been good to you lately?'],
+    ['“Enter into his gates with thanksgiving”', 'Psalm 100:4', 'What would you thank Heavenly Father for in your prayer tonight?'],
+    ['“O how you ought to thank your heavenly King!”', 'Mosiah 2:19', 'What has Heavenly Father given you that you can’t pay back?'],
+    ['“be ye thankful”', 'Colossians 3:15', 'Who could you say thank you to tomorrow?']
+  ];
+  // Each question once before any comes back, in a mixed-up order (a step through the list that never lands twice).
+  function gratefulPrompt(k) {
+    const n = GRATEFUL_QS.length, day = Math.round(Date.parse(k + 'T12:00:00Z') / 864e5), gcd = (a, b) => b ? gcd(b, a % b) : a;
+    let step = 7;
+    while (gcd(step, n) !== 1) step++;
+    const x = GRATEFUL_QS[((day * step) % n + n) % n];
+    if (x === 'WEEK') return { q: 'Something in this week’s reading (' + WEEK.reference + ') you’re thankful for?' };
+    return Array.isArray(x) ? { verse: x[0], ref: x[1], q: x[2] } : { q: x };
+  }
+  const gratefulOf = k => Object.entries(S.impressions || {}).find(([, x]) => x && !x.gone && x.kind === 'grateful' && x.day === k) || null;
+  function gratefulRows() {
+    const k = dayKey(), had = gratefulOf(k), items = had ? had[1].items || [] : [], q = gratefulPrompt(k).q;
+    return [{ card: 'grateful', done: !!had, go: { attr: 'data-grateful', title: '🙏 Grateful for…', sub: q },
+      html: flowRow('data-grateful', !!had, '🙏 Grateful for…', had ? esc(items.join(' · ')) : esc(q)) }];
+  }
+  let grShare = false;
+  function gratefulHtml() {
+    const k = dayKey(), had = gratefulOf(k), x = had && had[1], p = gratefulPrompt(k), kid = seasonWho() !== 'adult', items = (x && x.items) || [];
+    const past = Object.values(S.impressions || {}).filter(y => y && !y.gone && y.kind === 'grateful' && y.day < k).sort((a, b) => b.day.localeCompare(a.day)).slice(0, 3);
+    return `<div class="sh-title">🙏 Grateful for…</div>
+      ${p.verse ? `<p class="gr-verse">${esc(p.verse)} (${linkRefs(p.ref)})</p>` : ''}
+      <p class="gr-q">${esc(p.q)}</p>
+      ${[0, 1, 2].map(i => `<input class="field gr-in" data-gr-i="${i}" maxlength="200" value="${esc(items[i] || '')}" placeholder="${i ? (i === 1 ? 'Another, if you like' : 'And one more') : 'One thing is enough'}" enterkeyhint="${i < 2 ? 'next' : 'done'}">`).join('')}
+      <div class="sea-imp-bar">${kid ? `<button class="sh-pill${grShare ? ' on' : ''}" data-gr-share>${grShare ? '👀 Share with my parents' : '🔒 Just me'}</button>` : '<span class="sh-small">🔒 Just yours</span>'}
+        <button class="btn" data-gr-save>Save</button></div>
+      ${past.length ? `<div class="eyebrow" style="margin-top:18px">Earlier</div>${past.map(y => `<p class="gr-past"><b>${esc(mdShort(y.day))}</b> ${esc((y.items || []).join(' · '))}</p>`).join('')}` : ''}
+      <p class="sh-small" style="margin-top:14px">Kept with your impressions in the 🌱 Season tab.</p>`;
+  }
+  function openGrateful() {
+    const had = gratefulOf(dayKey());
+    grShare = !!(had && had[1].share);
+    openSheet(gratefulHtml());
+    const first = document.querySelector('#appBody .gr-in');
+    if (first && !had) first.focus();
+  }
+  function saveGrateful() {
+    const k = dayKey(), had = gratefulOf(k), imps = S.impressions || (S.impressions = {});
+    const items = [...document.querySelectorAll('#appBody .gr-in')].map(i => i.value.trim()).filter(Boolean).map(t => t.slice(0, 200));
+    if (!items.length) { if (had) imps[had[0]] = { gone: true, upd: Date.now() }; }
+    else {
+      imps[had ? had[0] : seaId('g')] = { kind: 'grateful', items, text: items.join('\n'), q: gratefulPrompt(k).q, day: k, at: had ? had[1].at : Date.now(), upd: Date.now(), ref: '', share: seasonWho() !== 'adult' && grShare };
+      if (!had) use('grateful');
+    }
+    save(); closeSheet(); refreshHome();
+    if (items.length) toast('🙏 Thank you', items.length === 1 ? '1 thing today' : items.length + ' things today');
+  }
+  function gratefulClick(e) {
+    const t = e.target;
+    if (t.closest('[data-grateful]')) { openGrateful(); return; }
+    if (t.closest('[data-gr-share]')) {
+      const keep = [...document.querySelectorAll('#appBody .gr-in')].map(i => i.value);
+      grShare = !grShare; openSheet(gratefulHtml());
+      document.querySelectorAll('#appBody .gr-in').forEach((i, n) => { i.value = keep[n] || ''; });
+      return;
+    }
+    if (t.closest('[data-gr-save]')) saveGrateful();
+  }
+  // An impression's words, wherever they're listed: a day's gratitude as its lines.
+  const impWords = x => x.kind === 'grateful' ? '🙏 ' + (x.items || []).join(' · ') : x.text;
+
   // Who's using the app, by name (Blake, 2026-10-05: "Make it so the app tells
   // me who is logged in... Hi Blake! Or good morning Javan!"): this device's
   // person in the family, else whose progress it holds, else the Google
@@ -4521,7 +4608,7 @@ const TreasureUp = (function () {
       <div class="sea-imp-bar">${impRef ? `<span class="sea-ref">📖 ${esc(impRef)} <button class="today-alt" data-imp-noref>✕</button></span>` : '<span></span>'}
         ${kid ? `<button class="sh-pill${impShare ? ' on' : ''}" data-imp-share>${impShare ? '👀 Share with my parents' : '🔒 Just me'}</button>` : ''}
         <button class="btn" data-imp-save>Save</button></div>
-      ${imps.map(([id, x]) => `<div class="sea-imp-row"><p>${esc(x.text)}</p><small>${esc(mdShort(x.day))}${x.ref ? ' · ' + linkRefs(x.ref) : ''}
+      ${imps.map(([id, x]) => `<div class="sea-imp-row"><p>${esc(impWords(x))}</p><small>${esc(mdShort(x.day))}${x.ref ? ' · ' + linkRefs(x.ref) : ''}
         ${kid ? ` · <button class="today-alt" data-imp-toggle="${esc(id)}">${x.share ? '👀 Shared with your parents' : '🔒 Just you'}</button>` : ''} · <button class="today-alt" data-imp-del="${esc(id)}">Delete</button></small></div>`).join('')}
       <p class="sh-small" style="margin-top:16px">I am ${esc(WHO[who].name.replace(/^A /, 'a '))} · <button class="today-alt" data-season="who" style="display:inline;margin:0">Change</button></p>`;
   }
@@ -4856,7 +4943,7 @@ const TreasureUp = (function () {
     if (!goals.length && !shared.length) return '';
     return `${goals.map(g => { const wk = weekTicks(rec, g, mon), stt = lastStatus(rec, g.id);
         return `<p class="kc-week">${areaOf(g.area).icon} ${g.private ? '🔒 A private goal' : esc(g.text)} · ${wk.done} of ${wk.of} this week${stt ? ' · ' + esc(STATUS[stt]) : ''}</p>`; }).join('')}
-      ${shared.map(x => `<p class="kc-note">✍️ “${esc(x.text)}”<small>${x.ref ? esc(x.ref) : 'An impression'}, shared with you</small></p>`).join('')}`;
+      ${shared.map(x => `<p class="kc-note">${x.kind === 'grateful' ? esc(impWords(x)) : '✍️ “' + esc(x.text) + '”'}<small>${x.kind === 'grateful' ? 'Grateful for' : x.ref ? esc(x.ref) : 'An impression'}, shared with you</small></p>`).join('')}`;
   }
   // The same, on the parent screen of this device.
   function parentSeasonHtml() {
@@ -4867,7 +4954,7 @@ const TreasureUp = (function () {
     return `<div class="eyebrow" style="margin-top:22px">🌱 His Season · ${esc(s.name)}</div>
       ${goals.map(g => { const wk = weekTicks(rec, g, mon), stt = lastStatus(rec, g.id);
         return `<p class="text-[14px] mt-2">${areaOf(g.area).icon} ${g.private ? '🔒 <i>A private goal</i>' : esc(g.text)}<br><small class="text-white/55">${wk.done} of ${wk.of} this week${stt ? ' · ' + esc(STATUS[stt]) : ''}</small></p>`; }).join('')}
-      ${shared.map(x => `<p class="kc-note">✍️ “${esc(x.text)}”<small>${esc(mdShort(x.day))}${x.ref ? ' · ' + esc(x.ref) : ''}</small></p>`).join('')}
+      ${shared.map(x => `<p class="kc-note">${x.kind === 'grateful' ? esc(impWords(x)) : '✍️ “' + esc(x.text) + '”'}<small>${esc(mdShort(x.day))}${x.kind === 'grateful' ? ' · Grateful for' : x.ref ? ' · ' + esc(x.ref) : ''}</small></p>`).join('')}
       ${priv ? `<p class="text-[12px] text-white/50 mt-2">${priv} private ${priv === 1 ? 'impression' : 'impressions'}, just his.</p>` : ''}`;
   }
 
@@ -13134,6 +13221,15 @@ const TreasureUp = (function () {
     });
     // A verse, tapped: the bar under it; its highlight and note.
     document.addEventListener('click', verseClick);
+    // Today's gratitude: its row (or the green button), and its sheet.
+    document.addEventListener('click', gratefulClick);
+    document.addEventListener('keydown', e => {
+      const i = e.key === 'Enter' && e.target.closest && e.target.closest('#appBody .gr-in');
+      if (!i) return;
+      e.preventDefault();
+      const next = document.querySelector(`#appBody .gr-in[data-gr-i="${+i.dataset.grI + 1}"]`);
+      if (next && i.value.trim()) next.focus(); else saveGrateful();
+    });
     // A Hebrew or Greek word, tapped: its word study.
     document.addEventListener('click', e => {
       const w = e.target.closest('[data-word]');
