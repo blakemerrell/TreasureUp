@@ -1,0 +1,2295 @@
+{
+  "dates": "November 23–29, 2026",
+  "title": "Seek the Lord, and Ye Shall Live",
+  "reference": "Amos; Obadiah; Jonah",
+  "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/48?lang=eng",
+  "sections": [
+    "The Lord reveals truth through His prophets",
+    "“Seek the Lord, and ye shall live.”",
+    "The word of the Lord can satisfy spiritual hunger and thirst",
+    "Who are the “saviours … on mount Zion”?",
+    "The Lord is merciful to all who turn to Him"
+  ],
+  "puzzle": {
+    "groups": [
+      {
+        "section": 0,
+        "tiles": [
+          {
+            "text": "Revealeth his secret",
+            "ref": "Amos 3:7"
+          },
+          {
+            "text": "The lion hath roared",
+            "ref": "Amos 3:8"
+          },
+          {
+            "text": "Prophesy not",
+            "ref": "Amos 2:12"
+          },
+          {
+            "text": "Sycomore fruit",
+            "ref": "Amos 7:14"
+          }
+        ]
+      },
+      {
+        "section": 1,
+        "tiles": [
+          {
+            "text": "Seek ye me",
+            "ref": "Amos 5:4"
+          },
+          {
+            "text": "Love the good",
+            "ref": "Amos 5:15"
+          },
+          {
+            "text": "A mighty stream",
+            "ref": "Amos 5:24"
+          },
+          {
+            "text": "Yet have ye not returned",
+            "ref": "Amos 4:6"
+          }
+        ]
+      },
+      {
+        "section": 3,
+        "tiles": [
+          {
+            "text": "Saviours on mount Zion",
+            "ref": "Obadiah 1:21"
+          },
+          {
+            "text": "Nest among the stars",
+            "ref": "Obadiah 1:4"
+          },
+          {
+            "text": "Clefts of the rock",
+            "ref": "Obadiah 1:3"
+          },
+          {
+            "text": "Thy brother Jacob",
+            "ref": "Obadiah 1:10"
+          }
+        ]
+      },
+      {
+        "section": 4,
+        "tiles": [
+          {
+            "text": "A great fish",
+            "ref": "Jonah 1:17"
+          },
+          {
+            "text": "Yet forty days",
+            "ref": "Jonah 3:4"
+          },
+          {
+            "text": "Prepared a gourd",
+            "ref": "Jonah 4:6"
+          },
+          {
+            "text": "Sixscore thousand",
+            "ref": "Jonah 4:11"
+          }
+        ]
+      }
+    ],
+    "approved": "f86ec52d"
+  },
+  "sayings": [
+    {
+      "id": "say-no-prophet",
+      "text": "I was no prophet, neither was I a prophet's son",
+      "ref": "Amos 7:14",
+      "speaker": "Amos, to Amaziah",
+      "wrong": [
+        "Jonah, to the sailors",
+        "Obadiah, to Edom"
+      ],
+      "why": "Amaziah told Amos to go home to Judah. Amos answered that he was a herdman until “the LORD took me as I followed the flock” (Amos 7:15).",
+      "approved": "68f7a250"
+    },
+    {
+      "id": "say-o-thou-seer",
+      "text": "O thou seer, go, flee thee away into the land of Judah",
+      "ref": "Amos 7:12",
+      "speaker": "Amaziah, to Amos",
+      "wrong": [
+        "Amos, to Amaziah",
+        "The king, to Jonah"
+      ],
+      "why": "Amaziah, the priest at Beth-el, wanted Amos gone. He called Beth-el “the king’s chapel” (Amos 7:13), and Amos’s warnings weren’t welcome there.",
+      "approved": "1dc0b98c"
+    },
+    {
+      "id": "say-seek-ye-me",
+      "text": "Seek ye me, and ye shall live",
+      "ref": "Amos 5:4",
+      "speaker": "The Lord, to Israel",
+      "wrong": [
+        "Moses, to the tribes",
+        "Jonah, to Nineveh"
+      ],
+      "why": "The Lord pleaded with Israel to come to Him. Going to holy places like Beth-el and Gilgal wasn’t enough (verse 5).",
+      "approved": "c1a4acd5"
+    },
+    {
+      "id": "say-o-lord-forgive",
+      "text": "O Lord GOD, forgive, I beseech thee: by whom shall Jacob arise? for he is small.",
+      "ref": "Amos 7:2",
+      "speaker": "Amos, praying for Israel",
+      "wrong": [
+        "Jonah, praying in the fish",
+        "Obadiah, praying for Edom"
+      ],
+      "why": "In a vision Amos saw grasshoppers eating up the land. He begged the Lord to spare Israel, and the Lord said, “It shall not be” (Amos 7:3).",
+      "approved": "2b472f7c"
+    },
+    {
+      "id": "say-bring-me-down",
+      "text": "Who shall bring me down to the ground?",
+      "ref": "Obadiah 1:3",
+      "speaker": "Edom, in its heart",
+      "wrong": [
+        "Babylon, on its walls",
+        "Nineveh, in its pride"
+      ],
+      "why": "Edom lived high in the rocks and felt safe. The Lord answered, “thence will I bring thee down” (Obadiah 1:4).",
+      "approved": "44789481"
+    },
+    {
+      "id": "say-o-sleeper",
+      "text": "What meanest thou, O sleeper? arise, call upon thy God",
+      "ref": "Jonah 1:6",
+      "speaker": "The shipmaster, to Jonah",
+      "wrong": [
+        "Eli, to young Samuel",
+        "Jonah, to the sailors"
+      ],
+      "why": "The storm was about to break the ship, and Jonah was asleep below. The captain woke him up to pray, “that we perish not.”",
+      "approved": "eb435a91"
+    },
+    {
+      "id": "say-cast-me-forth",
+      "text": "Take me up, and cast me forth into the sea",
+      "ref": "Jonah 1:12",
+      "speaker": "Jonah, to the sailors",
+      "wrong": [
+        "The captain, to his crew",
+        "The sailors, to Jonah"
+      ],
+      "why": "Jonah knew the storm was his fault: “for my sake this great tempest is upon you.” The sailors tried rowing to land first (verse 13).",
+      "approved": "aba699ea"
+    },
+    {
+      "id": "say-who-can-tell",
+      "text": "Who can tell if God will turn and repent, and turn away from his fierce anger, that we perish not?",
+      "ref": "Jonah 3:9",
+      "speaker": "The king of Nineveh",
+      "wrong": [
+        "The sailors, in the storm",
+        "Jonah, under the gourd"
+      ],
+      "why": "The king ordered everyone to fast and turn from evil. He hoped God would spare them, and He did (Jonah 3:10).",
+      "approved": "bfff9cc3"
+    },
+    {
+      "id": "say-doest-thou-well",
+      "text": "Doest thou well to be angry?",
+      "ref": "Jonah 4:4",
+      "speaker": "The Lord, to Jonah",
+      "wrong": [
+        "Jonah, to the king",
+        "Amos, to Amaziah"
+      ],
+      "why": "Jonah was angry that the Lord spared Nineveh. The Lord answered with a question to help him think about it.",
+      "approved": "32f61d35"
+    }
+  ],
+  "words": [
+    {
+      "word": "SECRET",
+      "clue": "he revealeth his ____ unto his servants the prophets",
+      "ref": "Amos 3:7",
+      "mean": "Before the Lord acts, He tells His prophets His plans, so they can warn and teach us."
+    },
+    {
+      "word": "STREAM",
+      "clue": "righteousness as a mighty ____",
+      "ref": "Amos 5:24",
+      "mean": "The Lord wants fairness and goodness to keep flowing all the time, like a river that never dries up."
+    },
+    {
+      "word": "FAMINE",
+      "clue": "I will send a ____ in the land",
+      "ref": "Amos 8:11",
+      "mean": "Without prophets, people go hungry for God’s word. The Restoration ended that hunger."
+    },
+    {
+      "word": "SIEVE",
+      "clue": "like as corn is sifted in a ____",
+      "ref": "Amos 9:9",
+      "mean": "Israel was scattered among the nations, but the Lord did not lose a single one of His children."
+    },
+    {
+      "word": "ZION",
+      "clue": "saviours shall come up on mount ____",
+      "ref": "Obadiah 1:21",
+      "mean": "When we do temple work for people who have died, we help save them, in a small way, like the Savior."
+    },
+    {
+      "word": "FISH",
+      "clue": "the LORD had prepared a great ____ to swallow up Jonah",
+      "ref": "Jonah 1:17",
+      "mean": "The Lord saved Jonah’s life in the sea and gave him time to turn back to Him."
+    },
+    {
+      "word": "GOURD",
+      "clue": "the LORD God prepared a ____",
+      "ref": "Jonah 4:6",
+      "mean": "The Lord used a plant to teach Jonah that He loves all people, even Jonah’s enemies."
+    }
+  ],
+  "deep": [
+    {
+      "id": "deep48-own-mouth",
+      "section": 0,
+      "read": "D&C 21:4–6",
+      "intro": "The lesson lists scriptures about why God sends prophets. In this revelation, given the day the Church was organized, the Lord tells the Church how to receive His prophet’s words.",
+      "q": "In D&C 21:5, how does the Lord say the Church should receive the prophet’s word?",
+      "right": "As if from the Lord’s own mouth",
+      "wrong": [
+        "As advice they could take or leave",
+        "Only after a vote of the members"
+      ],
+      "why": "Verse 5: “his word ye shall receive, as if from mine own mouth, in all patience and faith.” The Lord speaks through His prophet.",
+      "source": "D&C 21:5",
+      "find": "as if from mine own mouth",
+      "hunt": "In D&C 21, how does the Lord say the Church should receive the prophet’s word?",
+      "approved": "c4f5b0b6"
+    },
+    {
+      "id": "deep48-gate",
+      "section": 1,
+      "read": "Amos 5:14–15",
+      "intro": "The lesson asks you to read Amos 5:4, 14–15 and ponder how seeking the Lord brings life. In these two verses Amos explains what seeking Him looks like.",
+      "q": "In Amos 5:15, where does Amos tell the people to establish judgment, or fairness?",
+      "right": "In the gate",
+      "wrong": [
+        "In the temple",
+        "In the palace"
+      ],
+      "why": "Verse 15: “Hate the evil, and love the good, and establish judgment in the gate.” That’s where the poor had been turned aside from their rights (verse 12).",
+      "source": "Amos 5:15",
+      "find": "establish judgment in the gate",
+      "hunt": "In Amos 5, where does Amos tell the people to establish judgment, or fairness?",
+      "approved": "64abcfd7"
+    },
+    {
+      "id": "deep48-enos",
+      "section": 2,
+      "read": "Enos 1:4–8",
+      "intro": "Amos spoke of people hungry for the word of the Lord. The lesson points to Enos, who felt that hunger too. Read what happened when his soul hungered.",
+      "q": "In Enos 1:4, how long did Enos pray?",
+      "right": "All day, and on into the night",
+      "wrong": [
+        "Until the sun went down",
+        "For three days and three nights"
+      ],
+      "why": "Verse 4: “all the day long did I cry unto him; yea, and when the night came I did still raise my voice.” His hunger was answered (verse 5).",
+      "source": "Enos 1:4",
+      "find": "all the day long did I cry unto him",
+      "hunt": "In Enos 1, how long did Enos pray?",
+      "approved": "867b2a3d"
+    },
+    {
+      "id": "deep48-celestial-room",
+      "section": 3,
+      "read": "https://www.churchofjesuschrist.org/study/general-conference/2004/10/closing-remarks?lang=eng",
+      "intro": "This week’s lesson points to President Gordon B. Hinckley’s talk about becoming saviors on Mount Zion. In it he also describes a special room found in every temple.",
+      "q": "In President Hinckley’s talk, what did one visitor call the celestial room?",
+      "right": "God’s living room",
+      "wrong": [
+        "The Lord’s waiting room",
+        "Heaven’s front porch"
+      ],
+      "why": "He says that when the Mesa Arizona Temple was opened for tours, a visitor called the celestial room God’s living room. It represents the celestial kingdom.",
+      "source": "https://www.churchofjesuschrist.org/study/general-conference/2004/10/closing-remarks?lang=eng",
+      "find": "described the celestial room as God’s living room",
+      "approved": "bfab8edc"
+    },
+    {
+      "id": "deep48-sons-of-mosiah",
+      "section": 4,
+      "read": "Mosiah 28:1–5",
+      "intro": "The lesson invites you to compare Jonah with the sons of Mosiah, who were also sent to a people known as enemies. Read how they felt about going.",
+      "q": "In Mosiah 28:3, why did the sons of Mosiah want to preach to the Lamanites?",
+      "right": "They couldn’t bear for anyone to perish",
+      "wrong": [
+        "They wanted to rule over the Lamanites",
+        "Their father ordered them to go"
+      ],
+      "why": "Verse 3: “they could not bear that any human soul should perish.” Jonah ran from Nineveh. They begged to go.",
+      "source": "Mosiah 28:3",
+      "find": "they could not bear that any human soul should perish",
+      "hunt": "In Mosiah 28, why did the sons of Mosiah want to preach to the Lamanites?",
+      "approved": "e6005fb5"
+    },
+    {
+      "id": "deep48-kids",
+      "day": "friday",
+      "title": "From the children’s part of the lesson",
+      "read": "lesson",
+      "intro": "This week the children’s part of the lesson starts with Amos 3:7: prophets are messengers of Jesus Christ. It suggests a simple game you could play as a family.",
+      "q": "To help children see that prophets are the Lord’s messengers, what does the lesson suggest doing with a simple message?",
+      "right": "Whisper it to one child to pass on",
+      "wrong": [
+        "Write it on a card and hide it",
+        "Sing it together as a song"
+      ],
+      "why": "It suggests whispering a simple message to one child, who shares it with the others. Then you can talk about how that messenger is like a prophet.",
+      "source": "lesson",
+      "find": "whisper a simple message to one of them",
+      "approved": "6c60222d"
+    },
+    {
+      "id": "deep48-small-throats",
+      "day": "friday",
+      "title": "From a general conference talk",
+      "read": "https://www.churchofjesuschrist.org/study/general-conference/2025/10/53holland?lang=eng",
+      "intro": "In October 2025, Elder Matthew S. Holland of the Seventy gave a talk about Jonah, and this week’s lesson suggests it. It starts with a funny story about a girl and her teacher.",
+      "q": "In Elder Holland’s story, why did the teacher say a whale couldn’t swallow a person?",
+      "right": "Whales have small throats",
+      "wrong": [
+        "Whales only eat tiny fish",
+        "Whales never swim near ships"
+      ],
+      "why": "The teacher said whales have small throats. The girl answered that when she got to heaven, she would ask Jonah himself.",
+      "source": "https://www.churchofjesuschrist.org/study/general-conference/2025/10/53holland?lang=eng",
+      "find": "because whales have small throats",
+      "approved": "619a07b8"
+    }
+  ],
+  "reels": [
+    {
+      "id": "amos3-secret",
+      "section": 0,
+      "hook": "The Lord tells His prophets first.",
+      "seek": "Before He acts, God tells His chosen messengers",
+      "body": "Some people in Israel told the prophets, “Prophesy not” (Amos 2:12). They didn’t want to hear warnings. Amos answered with one of the best-known verses in the Old Testament. Before the Lord does something important, He tells His prophets, so they can warn and teach His people. That’s still true. The Lord speaks through a living prophet today, so we don’t have to guess what He wants.",
+      "verse": {
+        "text": "Surely the Lord GOD will do nothing, but he revealeth his secret unto his servants the prophets.",
+        "ref": "Amos 3:7"
+      },
+      "question": {
+        "q": "What does Amos 3:7 say the Lord does before He acts?",
+        "right": "Reveals His plans to His prophets",
+        "wrong": [
+          "Sends an angel to every family",
+          "Writes His plans on the temple"
+        ],
+        "why": "“He revealeth his secret unto his servants the prophets.” The Lord warns and teaches His people through the prophets He calls."
+      },
+      "bonus": {
+        "q": "A Liahona page about this verse explains the Hebrew word translated secret. What does it literally mean?",
+        "right": "Counsel",
+        "wrong": [
+          "Treasure",
+          "Mystery"
+        ],
+        "why": "It says the Hebrew word literally means counsel, so it has to do with the Lord’s plans or intentions.",
+        "source": "https://www.churchofjesuschrist.org/study/liahona/2012/03/youth/amos-3-7?lang=eng",
+        "find": "literally means “counsel,”"
+      },
+      "gradient": "linear-gradient(150deg,#1e1b4b 0%,#4338ca 50%,#c7d2fe 115%)",
+      "blobA": "rgba(199,210,254,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "53c05844"
+    },
+    {
+      "id": "amos7-herdman",
+      "section": 0,
+      "hook": "Called from the fields to speak for God.",
+      "body": "A priest named Amaziah told Amos to go home to Judah and stop prophesying at Beth-el, “the king’s chapel” (Amos 7:13). Amos said he had never trained to be a prophet. He was a herdman who also tended fig trees. But the Lord called him while he was following his flock. Prophets don’t choose themselves. The Lord calls them, and they speak His words even when it’s hard.",
+      "verse": {
+        "text": "I was no prophet, neither was I a prophet's son; but I was an herdman, and a gatherer of sycomore fruit: And the LORD took me as I followed the flock, and the LORD said unto me, Go, prophesy unto my people Israel.",
+        "ref": "Amos 7:14–15"
+      },
+      "question": {
+        "q": "What was Amos doing when the Lord called him to be a prophet?",
+        "right": "Following his flock",
+        "wrong": [
+          "Studying with other prophets",
+          "Serving as a priest at Beth-el"
+        ],
+        "why": "“The LORD took me as I followed the flock.” Amos wasn’t a trained prophet. The Lord chose him and sent him to Israel."
+      },
+      "bonus": {
+        "q": "In Amos 7:10, what did Amaziah tell King Jeroboam the land could not do?",
+        "hunt": "In Amos 7, what did Amaziah tell King Jeroboam the land could not do?",
+        "right": "Bear all of Amos’s words",
+        "wrong": [
+          "Feed all of the king’s army",
+          "Hold back the Assyrians"
+        ],
+        "why": "Verse 10: “the land is not able to bear all his words.” Amaziah accused Amos of plotting against the king.",
+        "source": "Amos 7:10",
+        "find": "the land is not able to bear all his words"
+      },
+      "gradient": "linear-gradient(150deg,#1a2e05 0%,#4d7c0f 50%,#d9f99d 115%)",
+      "blobA": "rgba(217,249,157,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "e5ce0667"
+    },
+    {
+      "id": "amos4-returned",
+      "section": 1,
+      "hook": "Five hard times. Each one was a call to come home.",
+      "seek": "No food to eat, and still they didn’t come back to God",
+      "body": "In Amos 4, the Lord lists hard things Israel went through: hunger, drought, ruined crops, sickness and war. After each one He says the same sad words: “yet have ye not returned unto me.” He wanted their troubles to turn them back to Him. Not every hard thing comes from God. But any hard thing can be a time to turn to Him, and He is waiting.",
+      "verse": {
+        "text": "And I also have given you cleanness of teeth in all your cities, and want of bread in all your places: yet have ye not returned unto me, saith the LORD.",
+        "ref": "Amos 4:6"
+      },
+      "question": {
+        "q": "Why did the Lord let Israel go through these hard times?",
+        "right": "So they would turn back to Him",
+        "wrong": [
+          "So they would move to a new land",
+          "So they would build bigger cities"
+        ],
+        "why": "Again and again He says, “yet have ye not returned unto me.” He hoped their trials would bring them back to Him."
+      },
+      "bonus": {
+        "q": "In Amos 4:12, what does the Lord tell Israel to prepare to do?",
+        "hunt": "In Amos 4, what does the Lord tell Israel to prepare to do?",
+        "right": "Meet their God",
+        "wrong": [
+          "Leave their land",
+          "Fight their enemies"
+        ],
+        "why": "Verse 12: “prepare to meet thy God, O Israel.” They hadn’t come back to Him, so they needed to get ready to stand before Him.",
+        "source": "Amos 4:12",
+        "find": "prepare to meet thy God"
+      },
+      "gradient": "linear-gradient(150deg,#292524 0%,#a16207 50%,#fde68a 115%)",
+      "blobA": "rgba(253,230,138,.4)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "fb55bf74"
+    },
+    {
+      "id": "amos5-seek",
+      "section": 1,
+      "hook": "Not a place, but a Person.",
+      "seek": "God tells His people to come looking for Him so they won’t die",
+      "body": "Israel kept going to famous worship places like Beth-el and Gilgal. But the Lord said, “seek not Beth-el” (Amos 5:5). Visiting holy places didn’t help while people took bribes and pushed the poor aside (Amos 5:12). He didn’t want them to look for a place. He wanted them to look for Him: to love good, hate evil and be fair to others (Amos 5:14–15). That’s how they would truly live.",
+      "verse": {
+        "text": "For thus saith the LORD unto the house of Israel, Seek ye me, and ye shall live:",
+        "ref": "Amos 5:4"
+      },
+      "question": {
+        "q": "What did the Lord want Israel to seek?",
+        "right": "The Lord Himself",
+        "wrong": [
+          "The holy place at Beth-el",
+          "A stronger king for Israel"
+        ],
+        "why": "“Seek ye me, and ye shall live.” Going to holy places wasn’t enough. They needed to come to Him and live His way."
+      },
+      "bonus": {
+        "q": "In Amos 5:8, what does Amos say the Lord made in the night sky?",
+        "hunt": "In Amos 5, what does Amos say the Lord made in the night sky?",
+        "right": "The seven stars and Orion",
+        "wrong": [
+          "The moon and the North Star",
+          "The sun and the Milky Way"
+        ],
+        "why": "Verse 8: “Seek him that maketh the seven stars and Orion.” The One who made the stars is the One worth seeking.",
+        "source": "Amos 5:8",
+        "find": "maketh the seven stars and Orion"
+      },
+      "gradient": "linear-gradient(160deg,#0f172a 0%,#1e3a8a 55%,#bfdbfe 115%)",
+      "blobA": "rgba(191,219,254,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "3d75af2a"
+    },
+    {
+      "id": "amos8-famine",
+      "section": 2,
+      "hook": "Hungry, but not for food.",
+      "body": "Amos saw a strange famine coming. People would be hungry, but not for bread. They would go looking everywhere for the word of the Lord and not find it (Amos 8:12). That happened after Jesus and His Apostles died, in the Great Apostasy. For centuries there were no prophets. Then in 1820, Heavenly Father and Jesus Christ appeared to Joseph Smith, and the famine began to end.",
+      "verse": {
+        "text": "Behold, the days come, saith the Lord GOD, that I will send a famine in the land, not a famine of bread, nor a thirst for water, but of hearing the words of the LORD:",
+        "ref": "Amos 8:11"
+      },
+      "question": {
+        "q": "What kind of famine did Amos say would come?",
+        "right": "A famine of hearing God’s words",
+        "wrong": [
+          "A famine of bread and water",
+          "A famine of gold and silver"
+        ],
+        "why": "“Not a famine of bread, nor a thirst for water, but of hearing the words of the LORD.” People would be spiritually starving."
+      },
+      "bonus": {
+        "q": "This week’s Scripture Helps say Amos’s famine came true once after the prophet Malachi. How long were there no prophets in the land of Israel?",
+        "right": "More than 400 years",
+        "wrong": [
+          "About 40 years",
+          "Exactly 1,000 years"
+        ],
+        "why": "They say that after Malachi, more than 400 years passed with no prophets called by God ministering in the land of Israel.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/46-amos-obadiah-jonah?lang=eng",
+        "find": "more than 400 years passed without divinely called prophets"
+      },
+      "media": {
+        "image": {
+          "src": "media/first-vision-parson.jpg",
+          "alt": "Painting of God the Father and Jesus Christ appearing to young Joseph Smith in a grove of trees",
+          "credit": "The First Vision, by Del Parson",
+          "link": "https://www.churchofjesuschrist.org/media/image/the-first-vision-fe5db8d?lang=eng"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#422006 0%,#b45309 50%,#fef3c7 115%)",
+      "blobA": "rgba(254,243,199,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "0fd766e6"
+    },
+    {
+      "id": "amos9-sieve",
+      "section": 2,
+      "hook": "Shaken all over the world, but not one is lost.",
+      "body": "Amos ends his book with hope. A sieve is a basket with small holes for shaking dirt out of grain. The Lord would shake Israel among all nations, scattering them far from home. Yet not one good grain would be lost. He knows each of His children. He promised to bring them home again (Amos 9:14–15), and today the restored gospel is gathering them.",
+      "verse": {
+        "text": "For, lo, I will command, and I will sift the house of Israel among all nations, like as corn is sifted in a sieve, yet shall not the least grain fall upon the earth.",
+        "ref": "Amos 9:9"
+      },
+      "question": {
+        "q": "What does Amos 9:9 promise about the Lord’s scattered people?",
+        "right": "Not even the smallest grain is lost",
+        "wrong": [
+          "Only the biggest grains are kept",
+          "Most of the grain blows away"
+        ],
+        "why": "“Yet shall not the least grain fall upon the earth.” Even when Israel was scattered, the Lord kept track of every one."
+      },
+      "bonus": {
+        "q": "In Amos 9:13, who does Amos say will overtake the reaper?",
+        "hunt": "In Amos 9, who does Amos say will overtake the reaper?",
+        "right": "The plowman",
+        "wrong": [
+          "The shepherd",
+          "The fisherman"
+        ],
+        "why": "Verse 13: “the plowman shall overtake the reaper.” The land will be so fruitful that one harvest runs right into the next planting.",
+        "source": "Amos 9:13",
+        "find": "the plowman shall overtake the reaper"
+      },
+      "gradient": "linear-gradient(150deg,#3f2a14 0%,#a16207 50%,#fef9c3 115%)",
+      "blobA": "rgba(254,249,195,.4)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "69a7ae03"
+    },
+    {
+      "id": "obad1-saviours",
+      "section": 3,
+      "hook": "You can help save people you’ve never met.",
+      "body": "Obadiah’s last verse promises “saviours” on mount Zion. Jesus Christ is the Savior of all, who did for us what we could never do ourselves. But latter-day prophets teach that we become saviors in a small way when we do temple work for people who have died. We give them ordinances they need but can’t receive on their own, just as the Savior did what we couldn’t.",
+      "verse": {
+        "text": "And saviours shall come up on mount Zion to judge the mount of Esau; and the kingdom shall be the LORD's.",
+        "ref": "Obadiah 1:21"
+      },
+      "question": {
+        "q": "How can we become “saviours” on mount Zion today?",
+        "right": "Doing temple work for those who died",
+        "wrong": [
+          "Building a city on a high mountain",
+          "Becoming kings and rulers of nations"
+        ],
+        "why": "Latter-day prophets teach that when we do ordinances in the temple for those who have died, we become like saviors to them, in a small way."
+      },
+      "bonus": {
+        "q": "This week’s Scripture Helps explain what mount Zion usually means in the Old Testament. What does it refer to?",
+        "right": "Jerusalem, especially the temple mount",
+        "wrong": [
+          "A high mountain far away in Edom",
+          "The hills where Abraham once lived"
+        ],
+        "why": "They say that in the Old Testament, Mount Zion usually means Jerusalem, and especially the hill where the temple stood.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/46-amos-obadiah-jonah?lang=eng",
+        "find": "typically refers to Jerusalem, particularly the temple mount"
+      },
+      "media": {
+        "image": {
+          "src": "media/manila-temple-evening.jpg",
+          "alt": "The white Manila Philippines Temple with its tall spires at sunset, framed by palm trees",
+          "credit": "Manila Philippines Temple in the Evening, from the Church Media Library",
+          "link": "https://www.churchofjesuschrist.org/media/image/manila-philippines-temple-lds-75a25fc?lang=eng"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0284c7 50%,#e0f2fe 115%)",
+      "blobA": "rgba(224,242,254,.4)",
+      "blobB": "rgba(0,0,0,.4)",
+      "approved": "198c05ac"
+    },
+    {
+      "id": "obad1-eagle",
+      "section": 3,
+      "hook": "Living up high didn’t make them safe.",
+      "body": "Edom’s people came from Esau, Jacob’s brother. They lived in cities cut into high cliffs and felt no one could reach them. They asked, “Who shall bring me down?” (Obadiah 1:3). When enemies attacked Jerusalem, Edom watched and even helped (Obadiah 1:11–14). The Lord said He would bring them down, even from a nest among the stars. Pride can make anyone feel safer than they are.",
+      "verse": {
+        "text": "Though thou exalt thyself as the eagle, and though thou set thy nest among the stars, thence will I bring thee down, saith the LORD.",
+        "ref": "Obadiah 1:4"
+      },
+      "question": {
+        "q": "Why did Edom feel so safe?",
+        "right": "They lived high up in the rocks",
+        "wrong": [
+          "They had the biggest army around",
+          "They had a treaty with Babylon"
+        ],
+        "why": "Their “nest among the stars” seemed out of reach. But the Lord said, “thence will I bring thee down.”"
+      },
+      "bonus": {
+        "q": "In Obadiah 1:5, what does Obadiah say grape gatherers would leave behind?",
+        "hunt": "In Obadiah 1, what does Obadiah say grape gatherers would leave behind?",
+        "right": "Some grapes",
+        "wrong": [
+          "Their baskets",
+          "A few coins"
+        ],
+        "why": "Verse 5: “would they not leave some grapes?” Even thieves leave something behind. But Edom would be searched out completely (verse 6).",
+        "source": "Obadiah 1:5",
+        "find": "would they not leave some grapes"
+      },
+      "media": {
+        "image": {
+          "src": "media/eagle-flying.jpg",
+          "alt": "A bald eagle flying with its wings spread against a gray sky",
+          "credit": "Bald eagle in flight. Photo: U.S. Fish and Wildlife Service, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Bald_Eagle_Flying_(51021802108).jpg"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#450a0a 0%,#b91c1c 50%,#fecaca 115%)",
+      "blobA": "rgba(254,202,202,.35)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "2b74f18d"
+    },
+    {
+      "id": "jonah1-flee",
+      "section": 4,
+      "hook": "Sent east, he sailed west.",
+      "body": "The Lord told Jonah to go to Nineveh, a huge city of the Assyrians, Israel’s cruel enemies. Jonah went the other way. He took a ship toward Tarshish, probably in Spain, as far as he could get. Notice the words: he went “down to Joppa,” then “down into” the ship. Running from the Lord only takes you down. But the Lord sent a storm. He wasn’t done with Jonah.",
+      "verse": {
+        "text": "But Jonah rose up to flee unto Tarshish from the presence of the LORD, and went down to Joppa; and he found a ship going to Tarshish…",
+        "ref": "Jonah 1:3"
+      },
+      "question": {
+        "q": "Why did Jonah pay for a ship to Tarshish?",
+        "right": "To get far from where God sent him",
+        "wrong": [
+          "To buy goods to sell in Nineveh",
+          "To warn the people of Tarshish"
+        ],
+        "why": "He went “to flee unto Tarshish from the presence of the LORD.” Tarshish was the opposite direction from Nineveh."
+      },
+      "bonus": {
+        "q": "In Jonah 1:5, what did the sailors throw into the sea to make the ship lighter?",
+        "hunt": "In Jonah 1, what did the sailors throw into the sea to make the ship lighter?",
+        "right": "The wares in the ship",
+        "wrong": [
+          "Their oars and sails",
+          "Their food and water"
+        ],
+        "why": "Verse 5: they “cast forth the wares that were in the ship into the sea, to lighten it.” Wares are goods for selling.",
+        "source": "Jonah 1:5",
+        "find": "cast forth the wares that were in the ship into the sea"
+      },
+      "gradient": "linear-gradient(160deg,#020617 0%,#1e3a5f 50%,#94a3b8 115%)",
+      "blobA": "rgba(148,163,184,.4)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "3ccf1df1"
+    },
+    {
+      "id": "jonah2-fish",
+      "section": 4,
+      "hook": "Three days inside a fish, and he finally prayed.",
+      "seek": "Even from the deepest, darkest place, God listened to him",
+      "body": "Jonah was in the belly of the fish three days and three nights (Jonah 1:17). There he finally prayed. He felt thrown away, but he said, “I will look again toward thy holy temple” (Jonah 2:4). The Lord heard him. Jesus later said Jonah’s three days were a sign of His own death and Resurrection (Matthew 12:40). No place is too deep for the Lord to hear you.",
+      "verse": {
+        "text": "And said, I cried by reason of mine affliction unto the LORD, and he heard me; out of the belly of hell cried I, and thou heardest my voice.",
+        "ref": "Jonah 2:2"
+      },
+      "question": {
+        "q": "What did Jonah learn about prayer inside the fish?",
+        "right": "God heard him even in the deep",
+        "wrong": [
+          "God only hears prayers at the temple",
+          "God can’t hear prayers underwater"
+        ],
+        "why": "“Out of the belly of hell cried I, and thou heardest my voice.” Even there, the Lord heard Jonah’s prayer."
+      },
+      "bonus": {
+        "q": "This week’s Scripture Helps describe Jonah’s prayer from inside the fish. What kind of prayer is it shaped like?",
+        "right": "A psalm of thanksgiving",
+        "wrong": [
+          "A lament for the dead",
+          "A list of commandments"
+        ],
+        "why": "They say his prayer is shaped like a psalm of thanksgiving and echoes many themes from the book of Psalms.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/46-amos-obadiah-jonah?lang=eng",
+        "find": "structured as a psalm of thanksgiving"
+      },
+      "gradient": "linear-gradient(170deg,#022c22 0%,#0f766e 50%,#99f6e4 115%)",
+      "blobA": "rgba(153,246,228,.4)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "4b2a0372"
+    },
+    {
+      "id": "jonah3-nineveh",
+      "section": 4,
+      "hook": "The biggest and the smallest all turned to God.",
+      "body": "The second time the Lord called, Jonah went (Jonah 3:1–3). His warning was short: “Yet forty days, and Nineveh shall be overthrown” (Jonah 3:4). Then something amazing happened. The people believed God. They fasted and wore sackcloth, rough cloth that showed sorrow. Even the king left his throne. They turned from their evil ways, and God spared the city (Jonah 3:10). No one is too far gone to change.",
+      "verse": {
+        "text": "So the people of Nineveh believed God, and proclaimed a fast, and put on sackcloth, from the greatest of them even to the least of them.",
+        "ref": "Jonah 3:5"
+      },
+      "question": {
+        "q": "What did the people of Nineveh do when they heard Jonah’s warning?",
+        "right": "Believed God and repented",
+        "wrong": [
+          "Threw Jonah out of the city",
+          "Laughed and kept on sinning"
+        ],
+        "why": "“The people of Nineveh believed God, and proclaimed a fast.” From the greatest to the least, they turned from their evil ways."
+      },
+      "bonus": {
+        "q": "In Jonah 3:3, how big does it say Nineveh was?",
+        "hunt": "In Jonah 3, how big does it say Nineveh was?",
+        "right": "Three days’ journey",
+        "wrong": [
+          "One day’s journey",
+          "Seven days’ journey"
+        ],
+        "why": "Verse 3: “Nineveh was an exceeding great city of three days’ journey.” Jonah walked only one day into it before he began to preach (verse 4).",
+        "source": "Jonah 3:3",
+        "find": "exceeding great city of three days' journey"
+      },
+      "gradient": "linear-gradient(150deg,#2e1065 0%,#7e22ce 50%,#e9d5ff 115%)",
+      "blobA": "rgba(233,213,255,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "60b2674c"
+    },
+    {
+      "id": "jonah4-gourd",
+      "section": 4,
+      "hook": "Sad about a plant, but not about a city full of people.",
+      "body": "Jonah was angry that God spared Nineveh. He sat outside the city to watch. God made a gourd, a leafy plant, grow up to shade him, and Jonah was glad. The next day the plant withered, and Jonah was angry again. So God asked: if you feel sorry for a plant, shouldn’t I care about a city of people? Sixscore thousand means 120,000. God loves all His children, even our enemies.",
+      "verse": {
+        "text": "And should not I spare Nineveh, that great city, wherein are more than sixscore thousand persons that cannot discern between their right hand and their left hand; and also much cattle?",
+        "ref": "Jonah 4:11"
+      },
+      "question": {
+        "q": "What was the Lord teaching Jonah with the gourd?",
+        "right": "People matter far more than plants",
+        "wrong": [
+          "He should build a better shelter",
+          "He should leave Nineveh for good"
+        ],
+        "why": "Jonah pitied a plant he didn’t even grow. The Lord asks, “should not I spare Nineveh, that great city?” He cares about every person there."
+      },
+      "bonus": {
+        "q": "In Jonah 4:8, what kind of wind did God send after the gourd withered?",
+        "hunt": "In Jonah 4, what kind of wind did God send after the gourd withered?",
+        "right": "A vehement east wind",
+        "wrong": [
+          "A cold north wind",
+          "A gentle west wind"
+        ],
+        "why": "Verse 8: “God prepared a vehement east wind,” and the sun beat on Jonah’s head until he fainted. Vehement means strong and fierce.",
+        "source": "Jonah 4:8",
+        "find": "God prepared a vehement east wind"
+      },
+      "gradient": "linear-gradient(150deg,#14532d 0%,#65a30d 50%,#fef08a 115%)",
+      "blobA": "rgba(254,240,138,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "e06eabf6"
+    }
+  ],
+  "tldr": [
+    {
+      "ch": "Amos 1",
+      "lines": [
+        "Amos, a herdman from Tekoa, sees a message from the Lord about Israel. The Lord will roar like a lion from Zion. (verses 1–2)",
+        "The Lord will judge Syria, whose capital is Damascus, for crushing the people of Gilead. (verses 3–5)",
+        "He will judge the Philistines of Gaza and the city of Tyre for selling whole groups of captives to Edom. (verses 6–10)",
+        "Edom chased its own brother with the sword, and Ammon cruelly attacked Gilead. Fire will come on them too. (verses 11–15)"
+      ],
+      "review": [
+        {
+          "v": 3,
+          "about": "“For three transgressions … and for four” is left out of the lines; the insight card from the Old Testament Student Manual explains it."
+        },
+        {
+          "v": 13,
+          "about": "Ammon’s crime (“ripped up the women with child of Gilead”) is summed up gently as “cruelly attacked Gilead.”"
+        }
+      ],
+      "approved": "f69e3d30"
+    },
+    {
+      "ch": "Amos 2",
+      "lines": [
+        "Moab will be judged for burning the bones of Edom’s king. Judah will be judged for rejecting the Lord’s law. (verses 1–5)",
+        "Israel sells the poor for a pair of shoes and treats the needy cruelly, even while worshipping. (verses 6–8)",
+        "The Lord freed them from Egypt and gave them prophets and Nazarites, but they made the Nazarites drink wine and silenced the prophets. (verses 9–12)",
+        "So even the strongest and fastest in Israel won’t escape. (verses 13–16)"
+      ],
+      "review": [
+        {
+          "v": 7,
+          "about": "Verse 7’s sexual sin is folded into “treats the needy cruelly, even while worshipping” (verses 6–8); nothing about it is spelled out."
+        }
+      ],
+      "approved": "d80629cf"
+    },
+    {
+      "ch": "Amos 3",
+      "lines": [
+        "The Lord chose Israel out of all the families on earth, so He holds them responsible for their sins. (verses 1–2)",
+        "Things happen for a reason, like a lion roaring over its prey. The Lord does nothing without first revealing His secret to His prophets. (verses 3–8)",
+        "Because Israel rejects the prophets and does evil, an enemy will surround the land and ruin its palaces. (verses 9–11)",
+        "Only a few will be saved, like scraps a shepherd pulls from a lion’s mouth. Altars and fine houses will fall. (verses 12–15)"
+      ],
+      "review": [
+        {
+          "v": 9,
+          "about": "“Rejects the prophets” comes from the chapter heading; in these verses the charge is violence and robbery, and the rejecting of prophets is in Amos 2:12 and 7:10–13."
+        }
+      ],
+      "approved": "99c612b2"
+    },
+    {
+      "ch": "Amos 4",
+      "lines": [
+        "Wealthy women of Samaria, called cows of Bashan, crush the poor. The people offer sacrifices just to show off. (verses 1–5)",
+        "The Lord sent hunger, drought, ruined gardens and vineyards, sickness and war, but Israel still did not come back to Him. (verses 6–11)",
+        "So Israel needs to get ready to face the Lord, who made the mountains and the wind. (verses 12–13)"
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "“Women” follows the Old Testament Student Manual (8-11), which reads the “kine of Bashan” as the women of Samaria."
+        },
+        {
+          "v": 12,
+          "about": "Said as “get ready to face the Lord” so the line doesn’t give away the bonus answer (“prepare to meet thy God”)."
+        }
+      ],
+      "approved": "98f75fbf"
+    },
+    {
+      "ch": "Amos 5",
+      "lines": [
+        "Amos mourns for Israel like someone at a funeral. Her armies will shrink to just a few. (verses 1–3)",
+        "The Lord says, “Seek ye me, and ye shall live.” Going to Beth-el and Gilgal won’t save them. (verses 4–9)",
+        "They hate honest people and cheat the poor. Amos pleads with them to seek good and hate evil so they may live. (verses 10–17)",
+        "The day of the Lord will be dark for them. God hates their feasts and false gods and wants justice to flow like a river. (verses 18–27)"
+      ],
+      "approved": "4a40dbc7"
+    },
+    {
+      "ch": "Amos 6",
+      "lines": [
+        "Woe to those who are at ease in Zion, lying on ivory beds and feasting, but not caring about Israel’s troubles. (verses 1–6)",
+        "They will be the first taken captive. The Lord will give up their proud city. (verses 7–8)",
+        "Death and ruin will fill the houses. Israel has turned justice into poison and boasts of its own strength. (verses 9–13)",
+        "The Lord will raise up a nation to trouble Israel from one end of the land to the other. (verse 14)"
+      ],
+      "approved": "3ef8ed4f"
+    },
+    {
+      "ch": "Amos 7",
+      "lines": [
+        "In visions of locusts and fire, Amos begs the Lord to spare Israel, and the Lord holds back. (verses 1–6)",
+        "The Lord shows Amos a plumb line, a weighted cord builders use to check walls. It shows how far Israel has strayed. (verses 7–9)",
+        "A priest named Amaziah tells Amos to go home. Amos says the Lord called him while he was following his flock. (verses 10–15)",
+        "Amos prophesies that Israel will be carried away captive out of its land. (verses 16–17)"
+      ],
+      "review": [
+        {
+          "v": 3,
+          "about": "The KJV says “the LORD repented”; the line says “holds back,” as the Scripture Helps and the Joseph Smith Translation explain."
+        }
+      ],
+      "approved": "12426d4d"
+    },
+    {
+      "ch": "Amos 8",
+      "lines": [
+        "A basket of summer fruit means Israel is ripe for its end. Its songs will turn to wailing. (verses 1–3)",
+        "People who cheat the poor with false scales and can’t wait for the Sabbath to end will be judged. (verses 4–10)",
+        "There will be a famine, not of bread, but of hearing the Lord’s words. People will search everywhere and not find them. (verses 11–14)"
+      ],
+      "review": [
+        {
+          "v": 11,
+          "about": "The lesson’s children’s part ties this famine to the Great Apostasy and says the Restoration ended it; the line stays with what the verses say, and the reel amos8-famine tells the rest."
+        },
+        {
+          "v": 2,
+          "about": "“Ripe for its end” follows the Old Testament Student Manual (8-16): summer fruit that must be eaten before it spoils."
+        }
+      ],
+      "approved": "83998e48"
+    },
+    {
+      "ch": "Amos 9",
+      "lines": [
+        "Amos sees the Lord at the altar. No one can hide from Him, not in the deepest sea or on the highest mountain. (verses 1–6)",
+        "The Lord will sift Israel among all nations like grain in a sieve, but not one good grain will be lost. (verses 7–10)",
+        "In the last days He will rebuild David’s fallen house and gather Israel to their land, and it will grow plenty of food. (verses 11–15)"
+      ],
+      "approved": "e068072b"
+    },
+    {
+      "ch": "Obadiah 1",
+      "lines": [
+        "Obadiah prophesies that proud Edom, living high in the rocks, will be brought down. (verses 1–9)",
+        "Edom, Jacob’s brother nation, cheered and helped when enemies destroyed Jerusalem. What Edom did will come back on it. (verses 10–16)",
+        "But Mount Zion will be holy and a place of rescue, and Israel will get back its land. (verses 17–20)",
+        "Saviors will come up on Mount Zion, and the kingdom will be the Lord’s. (verse 21)"
+      ],
+      "review": [
+        {
+          "v": 21,
+          "about": "The line stays with what the verse says; the temple-work meaning latter-day prophets give it is in the reels and the cards."
+        }
+      ],
+      "approved": "230e0f70"
+    },
+    {
+      "ch": "Jonah 1",
+      "lines": [
+        "The Lord sends Jonah to warn the wicked city of Nineveh. Jonah runs the other way and takes a ship toward Tarshish. (verses 1–3)",
+        "The Lord sends a great storm. The frightened sailors pray to their gods, while Jonah sleeps below. (verses 4–6)",
+        "The sailors learn Jonah is running from the Lord. He tells them to throw him into the sea, and the storm stops. (verses 7–16)",
+        "The Lord prepares a great fish to swallow Jonah. He is inside it three days and three nights. (verse 17)"
+      ],
+      "approved": "95040c9c"
+    },
+    {
+      "ch": "Jonah 2",
+      "lines": [
+        "From inside the fish, Jonah prays. He was sinking into the deep, but the Lord heard him. (verses 1–6)",
+        "Jonah remembers the Lord and His holy temple and promises to keep his vows. Salvation comes from the Lord. (verses 7–9)",
+        "The Lord speaks to the fish, and it spits Jonah out onto dry land. (verse 10)"
+      ],
+      "approved": "920bb244"
+    },
+    {
+      "ch": "Jonah 3",
+      "lines": [
+        "The Lord calls Jonah a second time, and this time he goes to Nineveh, a huge city. (verses 1–3)",
+        "Jonah warns that in forty days Nineveh will be overthrown. (verse 4)",
+        "Everyone, from the king down, believes God, fasts, and turns from evil. God sees it and spares the city. (verses 5–10)"
+      ],
+      "approved": "9395f4ed"
+    },
+    {
+      "ch": "Jonah 4",
+      "lines": [
+        "Jonah is angry that the Lord showed mercy to Nineveh. He says he ran away because he knew God is gracious and merciful. (verses 1–4)",
+        "Jonah waits outside the city. God makes a plant grow to shade him, then sends a worm and a hot wind, and Jonah wants to die. (verses 5–9)",
+        "The Lord asks: if Jonah cared about a plant, shouldn’t God care about the 120,000 people of Nineveh? (verses 10–11)"
+      ],
+      "approved": "affaf22d"
+    }
+  ],
+  "insights": [
+    {
+      "id": "amos1-burden",
+      "ref": "Amos 1:1",
+      "title": "A heavy message from a shepherd",
+      "text": "The Bible Dictionary explains that the name Amos means burden. Amos was a shepherd from Tekoa, a small town about 12 miles south of Jerusalem, in the kingdom of Judah. Yet the Lord sent him north, to preach to the kingdom of Israel. He carried a heavy message to people who weren’t his own.",
+      "source": {
+        "by": "Bible Dictionary",
+        "title": "Amos",
+        "url": "https://www.churchofjesuschrist.org/study/scriptures/bd/amos?lang=eng"
+      },
+      "find": "native of Tekoa, 12 miles south of Jerusalem",
+      "approved": "58b087b8"
+    },
+    {
+      "id": "amos1-three-four",
+      "ref": "Amos 1:3",
+      "title": "Three sins, and four",
+      "text": "Amos keeps saying “For three transgressions… and for four.” The Old Testament Student Manual explains that this is a way of saying the sins were many, more than enough. It’s like our saying “a hundred and one times.” Three would already be too many, and these nations had gone even further.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "Amos: The Lord Reveals His Secrets to His Servants the Prophets",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-8?lang=eng"
+      },
+      "find": "A modern English equivalent would be the expression",
+      "approved": "93dbea9c"
+    },
+    {
+      "id": "amos2-surrounded",
+      "ref": "Amos 2:6",
+      "title": "Surrounded, then just like them",
+      "text": "Amos first listed the sins of the nations all around Israel. Blair G. Van Dyke and D. Kelly Ogden point out that this pictures Israel surrounded on every side by wickedness. But that wasn’t the real problem. The problem was that Israel had become wicked too. Noah, Abraham and Moses were surrounded by wickedness and stayed true.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "Blair G. Van Dyke and D. Kelly Ogden",
+        "title": "Amos through Malachi: Major Teachings of the Twelve Prophets",
+        "url": "https://rsc.byu.edu/vol-4-no-3-2003/amos-through-malachi-major-teachings-twelve-prophets"
+      },
+      "find": "The problem is not that northern Israelites are surrounded by wickedness",
+      "approved": "5eddc6c7"
+    },
+    {
+      "id": "amos3-lion",
+      "ref": "Amos 3:4–8",
+      "title": "When the lion roars",
+      "text": "Dr. Ryan C. Davis points out that Amos was a herdman, so he knew lions were a real danger to his animals. A lion doesn’t roar for nothing (verse 4). When it roars, you respond. Amos felt the Lord’s call the same way: “The lion hath roared, who will not fear?” He had to go, even to people who might treat him as an enemy.",
+      "source": {
+        "by": "followHIM",
+        "who": "Ryan C. Davis",
+        "title": "Old Testament: EPISODE 47 – Amos, Obadiah – Part 1",
+        "url": "https://followhim.co/show-note/2-225/"
+      },
+      "find": "We hear when the lion roars, you have to respond.",
+      "deep": {
+        "paras": [
+          "Amos begins his book by saying the Lord will roar from Zion (Amos 1:2). Dr. Ryan C. Davis says this sets up the whole book: picture Jehovah as a lion. In chapter 3 Amos asks, “Will a lion roar in the forest, when he hath no prey?” A lion roars for a reason. So if God is roaring, we should ask why.",
+          "Hank Smith remembers teasing a lion at a zoo as a missionary, until it roared at him from a few feet away. The sound shook his whole body. Amos’s first listeners likely knew that sound. And Amos was a herdman from Tekoa who cared for animals, so for him a lion was a real threat, not just a figure of speech.",
+          "Then come verses 7 and 8: the Lord reveals His secret to His prophets, and “The lion hath roared, who will not fear?” Dr. Davis explains that Amos felt his own calling this way: “that call for him is a roar and he has to respond to it.” As John Bytheway puts it, Amos didn’t ask to be a prophet, but when the lion roars, what do you do? You respond.",
+          "Dr. Davis adds that most of the time God reaches out to us to lift us up and help us, and our part is to respond. Amos answered by going somewhere he didn’t know, to people who might treat him as an enemy, because of his relationship with God."
+        ],
+        "find": [
+          "So if you hear a lion roaring, there’s a reason he’s roaring.",
+          "It literally shook my head, shook my whole body.",
+          "And that’s how Amos feels, that he has been called by God and that call for him is a roar and he has to respond to it.",
+          "If you’re in charge of animals, lions are dangerous and they’re a threat.",
+          "Amos I think is responding and going somewhere that he’s not familiar with to a people that may be enemies"
+        ],
+        "listen": {
+          "youtube": "3Xld3gLrkak",
+          "start": 314,
+          "end": 700,
+          "title": "followHIM: Amos and Obadiah, part 1, with Dr. Ryan C. Davis",
+          "channel": "followHIM Podcast",
+          "previewed": false
+        },
+        "approved": "3f2ace5e"
+      },
+      "approved": "b78c80cf"
+    },
+    {
+      "id": "amos3-jsp-until",
+      "ref": "Amos 3:7",
+      "title": "Joseph’s Bible: until",
+      "text": "In the King James Version, Amos 3:7 says the Lord will do nothing “but he revealeth his secret.” In Joseph Smith’s Bible manuscript, the note for verse 7 has “until” where the King James Version has but. So the Lord will do nothing until He reveals His secret to His servants the prophets. They are told first.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Old Testament Revision 2, page 117",
+        "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/124"
+      },
+      "find": "vers[e] 7— until— the",
+      "approved": "e6d9e3a3"
+    },
+    {
+      "id": "amos3-jsp-letter",
+      "ref": "Amos 3:7",
+      "title": "A sign the Lord hadn’t shown",
+      "text": "In 1843 a newspaper reported that a man had seen the sign of the Son of Man in the sky. Joseph Smith wrote a letter saying that no one had seen that sign, “for the Lord hath not shown me any such sign.” Then he quoted Amos 3:7. The Lord reveals His secrets to His prophets first.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Letter to Editor, 28 February 1843",
+        "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-editor-28-february-1843/1"
+      },
+      "find": "for the Lord hath not shown me any such sign, and, as the prophet saith, so it must be",
+      "approved": "dc713c36"
+    },
+    {
+      "id": "amos3-jsp-conference",
+      "ref": "Amos 3:7",
+      "title": "Not like a thief in the night",
+      "text": "At the April 1843 general conference, Joseph Smith spoke about the signs before the Second Coming. Willard Richards’s notes record his point from Paul: the Saints are children of the light, so that day should not catch them like a thief in the night. God won’t crush the earth without warning: “he will reveal it to his servants the prophets.”",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Discourse, 6 April 1843–B, as Reported by Willard Richards",
+        "url": "https://www.josephsmithpapers.org/paper-summary/discourse-6-april-1843-b-as-reported-by-willard-richards/12"
+      },
+      "find": "it is not the design of the Almighty to come upon the Earth & crush it, & grind it to powder",
+      "approved": "8e6a3299"
+    },
+    {
+      "id": "amos3-q-soares",
+      "kind": "quote",
+      "ref": "Amos 3:7",
+      "quote": "Having prophets is a sign of God’s love for His children.",
+      "text": "Amos 3:7 says the Lord reveals His plans to His prophets. Elder Soares says having prophets shows how God feels about us.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Ulisses Soares",
+        "title": "Prophets Speak by the Power of the Holy Spirit",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2018/04/prophets-speak-by-the-power-of-the-holy-spirit?lang=eng"
+      },
+      "approved": "aa6639dc"
+    },
+    {
+      "id": "amos5-righteous",
+      "ref": "Amos 5:21–24",
+      "title": "The offering the Lord wants most",
+      "text": "In Amos 5, the Lord says He hates Israel’s feast days and won’t accept their offerings. Why? The Bible Dictionary explains that the offering the Lord cares about most is a righteous life. Sacrifices lose their meaning when people offer them in place of living right. What He wants is fairness and goodness flowing like a mighty river.",
+      "source": {
+        "by": "Bible Dictionary",
+        "title": "Amos",
+        "url": "https://www.churchofjesuschrist.org/study/scriptures/bd/amos?lang=eng"
+      },
+      "find": "the offering the Lord most cares for is a righteous life",
+      "approved": "21c06d81"
+    },
+    {
+      "id": "amos5-stream",
+      "ref": "Amos 5:24",
+      "title": "A river, not a flash flood",
+      "text": "“Let judgment run down as waters, and righteousness as a mighty stream.” Dr. Ryan C. Davis explains that many streambeds in Israel only run for a while after a rain, then dry up. A mighty stream flows all the time. The Lord wants His people to be fair and kind like that: always, to everyone, not just when it’s easy.",
+      "source": {
+        "by": "followHIM",
+        "who": "Ryan C. Davis",
+        "title": "Old Testament: EPISODE 47 – Amos, Obadiah – Part 2",
+        "url": "https://followhim.co/show-note/2-224/"
+      },
+      "find": "So God’s covenant people need to make sure that justice and righteousness are always there.",
+      "deep": {
+        "paras": [
+          "In Amos 5, the Lord invites Israel to seek Him and live. Dr. Ryan C. Davis asks: how? The people kept visiting Beth-el and Gilgal, their famous places of worship, but they weren’t finding God there. For them worship had become a celebration at a sanctuary. The Lord’s answer is that a relationship with Him begins with showing justice and righteousness to the people around you.",
+          "Then he turns to verse 24, where justice and righteousness are to flow like waters and “a mighty stream.” Many riverbeds in Israel, called wadis, run only after a cloudburst and then go dry. Righteousness that shows up only when conditions are favorable is like a wadi. God wants a river that never stops.",
+          "“We’re not fair-weather disciples,” Dr. Davis says. He ties this to the Sermon on the Mount, where the Father sends rain on the just and the unjust (Matthew 5:45), and to Luke 6:36, where “be ye therefore merciful” stands where Matthew has perfect. Loving everyone, all the time, is hard, he admits, but trying makes the world better.",
+          "Borrowing Elder D. Todd Christofferson’s point that God is not a cosmic vending machine, he warns against relationships that are only a trade: you put in your money, you get your soda, and you don’t care about the machine. Jesus Christ rescued us before we could do anything to deserve it, and His disciples care about people for who they are, not for what they can give."
+        ],
+        "find": [
+          "Let judgment run down as waters and righteousness as a mighty stream.",
+          "If you are one of these wadis where you know, oh, it’ll be there when the times are right and when the conditions are favorable",
+          "We’re not fair-weather disciples we’re there all the time no matter what.",
+          "a vending machine is the greatest example of what a transactional relationship looks like"
+        ],
+        "approved": "6512165d"
+      },
+      "approved": "db41b75c"
+    },
+    {
+      "id": "amos7-intercede",
+      "ref": "Amos 7:1–6",
+      "title": "A prophet who prayed for Israel",
+      "text": "We often think of prophets speaking to us for God. Joshua M. Sears points out that prophets also speak to God for us. When Amos saw locusts and fire coming in visions, he pleaded, “O Lord GOD, forgive.” Like Samuel and Moses, he prayed for people who weren’t living righteously, and the Lord held back.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "Joshua M. Sears",
+        "title": "“O Lord God, Forgive!” Prophetic Intercession in Amos",
+        "url": "https://rsc.byu.edu/prophets-prophecies-old-testament/o-lord-god-forgive"
+      },
+      "find": "One important way the prophets act as emissaries to God is by engaging in intercession",
+      "approved": "0b64e942"
+    },
+    {
+      "id": "amos7-jsp-jacob",
+      "ref": "Amos 7:3",
+      "title": "Joseph’s Bible: Jacob shall repent",
+      "text": "The King James Version says “The LORD repented” after Amos prayed. In Joseph Smith’s Bible manuscript, the Lord says instead that Jacob shall repent, “therefore I will not utterly distroy him.” Verse 6 is changed the same way. It isn’t the Lord who needs to repent. Israel does, and the Lord holds back the destruction.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Old Testament Revision 2, page 117",
+        "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/124"
+      },
+      "find": "Jacob shall repent for this, therefore I will not utterly distroy him, saith the Lord.",
+      "approved": "e35a57b4"
+    },
+    {
+      "id": "amos7-plumbline",
+      "ref": "Amos 7:7–8",
+      "title": "A string that never lies",
+      "text": "In a vision, Amos saw the Lord holding a plumb line. This week’s Scripture Helps explain that it’s a cord with a weight tied to one end. Builders used it to make sure walls were perfectly straight up and down. The Lord used it to show how far His people had leaned away from His commandments.",
+      "source": {
+        "by": "Scripture Helps",
+        "title": "Amos; Obadiah; Jonah",
+        "url": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/46-amos-obadiah-jonah?lang=eng"
+      },
+      "find": "This tool was used by builders to ensure that walls were exactly straight vertically",
+      "approved": "6159c8b4"
+    },
+    {
+      "id": "amos8-hunter",
+      "ref": "Amos 8:11–12",
+      "title": "Running to and fro",
+      "text": "Elder Howard W. Hunter called Amos’s famine one of the most striking prophecies of the Old Testament. He noted that in 1838 a famous speaker, Ralph Waldo Emerson, told a class of future ministers that the world needed new revelation more than ever. Already in 1820, Joseph Smith had gone into a grove to ask God, and God had answered.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Howard W. Hunter",
+        "title": "Spiritual Famine",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/1972/10/spiritual-famine?lang=eng"
+      },
+      "find": "One of the most striking prophecies of the Old Testament, which certainly characterizes our day",
+      "approved": "59aa7c23"
+    },
+    {
+      "id": "amos8-q-kimball",
+      "kind": "quote",
+      "ref": "Amos 8:11–12",
+      "quote": "After centuries of spiritual darkness, … we solemnly announce to all the world that the spiritual famine is ended, the spiritual drought is spent",
+      "text": "Verses 11–12 foretell a famine of the Lord’s words. Elder Kimball announces that with the Restoration, it is over.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "who": "Elder Spencer W. Kimball",
+        "title": "Amos: The Lord Reveals His Secrets to His Servants the Prophets",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-8?lang=eng"
+      },
+      "approved": "3bf586b8"
+    },
+    {
+      "id": "obad1-servant",
+      "ref": "Obadiah 1:1",
+      "title": "Servant of the Lord",
+      "text": "The name Obadiah means servant of the Lord. The Bible Dictionary says nothing is known about his life. His prophecy came right after enemies captured Jerusalem, most likely the Babylonians in 586 B.C., when the Edomites were hostile to Judah. It adds that Obadiah 1:21, about saviours on mount Zion, refers to the doctrine of salvation for the dead.",
+      "source": {
+        "by": "Bible Dictionary",
+        "title": "Obadiah",
+        "url": "https://www.churchofjesuschrist.org/study/scriptures/bd/obadiah?lang=eng"
+      },
+      "find": "Nothing is known of his personal history",
+      "approved": "a6445376"
+    },
+    {
+      "id": "obad1-rasmussen",
+      "ref": "Obadiah 1:10–12",
+      "title": "Cousins who cheered",
+      "text": "Ellis T. Rasmussen, writing in 1963, called the Edomites Judah’s cousin-peoples, living in the rock clefts of Edom. They were glad when Jerusalem was laid waste. He saw Edom as a picture of worldly people who are pleased when the Lord’s people come to nothing. But Obadiah also saw Mount Zion as a place of escape.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Ellis T. Rasmussen",
+        "title": "Zephaniah, Obadiah, and Micah: Prophets During Times of Crises",
+        "url": "https://scripturecentral.org/archive/periodicals/magazine-article/zephaniah-obadiah-and-micah-prophets-during-times-crises"
+      },
+      "find": "Obadiah chastised Judah's cousin-peoples in the rock clefts of Edom",
+      "approved": "e58e9187"
+    },
+    {
+      "id": "obad1-vandyke",
+      "ref": "Obadiah 1:17",
+      "title": "A place of refuge",
+      "text": "Blair G. Van Dyke and D. Kelly Ogden list Edom’s three wrongs: pride, cheering when Jerusalem fell, and catching people trying to escape. Then Obadiah’s prophecy turns to the last days, when the wicked are destroyed and there will be one special place of refuge, the temple. If the temple is at the center of our lives, we can help others on both sides of the veil.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "Blair G. Van Dyke and D. Kelly Ogden",
+        "title": "Amos through Malachi: Major Teachings of the Twelve Prophets",
+        "url": "https://rsc.byu.edu/vol-4-no-3-2003/amos-through-malachi-major-teachings-twelve-prophets"
+      },
+      "find": "there will be one special place of refuge: the temple",
+      "approved": "994855ff"
+    },
+    {
+      "id": "obad1-pike",
+      "ref": "Obadiah 1:21",
+      "title": "How Joseph Smith used the verse",
+      "text": "Dana M. Pike traced how Latter-day Saints came to use Obadiah 1:21. In a sermon on 16 May 1841, Joseph Smith said that in the last days Israel would have the priesthood restored and be the saviors on mount Zion. A few months later, in October 1841, he taught that baptism for the dead is how people can become saviors on mount Zion.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "Dana M. Pike",
+        "title": "Obadiah 1:21: Context, Text, Interpretation, and Application",
+        "url": "https://rsc.byu.edu/prophets-prophecies-old-testament/obadiah-121"
+      },
+      "find": "come together in a sermon by Joseph Smith on 16 May 1841",
+      "approved": "3b12ced2"
+    },
+    {
+      "id": "obad1-deliverers",
+      "ref": "Obadiah 1:21",
+      "title": "Saviours, like the judges of old",
+      "text": "Dr. Ryan C. Davis notes that the Hebrew word for saviours in this verse is the word used for Israel’s judges, like Othniel, the deliverer the Lord raised up when Israel cried to Him (Judges 3:9). The Spirit of the Lord gave them power. With the Holy Ghost, disciples of Christ help rescue others today, the living and the dead.",
+      "source": {
+        "by": "followHIM",
+        "who": "Ryan C. Davis",
+        "title": "Old Testament: EPISODE 47 – Amos, Obadiah – Part 2",
+        "url": "https://followhim.co/show-note/2-224/"
+      },
+      "find": "So the word there for Savior in Hebrew is actually the word that is often used for the judges in the time of the judges.",
+      "deep": {
+        "paras": [
+          "Obadiah is only 21 verses long, and Dr. Ryan C. Davis admits there isn’t much context. The prophet’s name means servant of Jehovah, and his message is against Edom, Israel’s neighbor and relative, since Edom’s ancestor Esau was Jacob’s brother. When Jerusalem fell, Edom didn’t help. It went to see what it could get.",
+          "But Obadiah also sees deliverance on Mount Zion, where the temple stood. Where God is, Dr. Davis says, that’s where rescue happens. Then the last verse: “saviours shall come up on mount Zion.” The Hebrew word for savior here is the word the Bible uses for the deliverers in the book of Judges. In Judges 3:9, when Israel cried to the Lord, He raised up a deliverer, Othniel.",
+          "What gave those judges power was the Spirit of the Lord, which came upon them (Judges 3:10). Jesus Christ began His ministry with the Spirit upon Him, and Isaiah 61:1 describes His mission: to bind up the brokenhearted and free the captives. As disciples, Dr. Davis says, we receive the Holy Ghost to help with that same rescue.",
+          "He calls work for the dead a beautiful application of this verse, and says it is all one mission: “Our mission to rescue scattered Israel on both sides of the veil.” John Bytheway reads President Gordon B. Hinckley’s words that in the temple we become saviors on Mount Zion, and Hank Smith remembers a story President Hinckley’s father told about two boys who chose kindness over a prank."
+        ],
+        "find": [
+          "So the word there for Savior in Hebrew is actually the word that is often used for the judges in the time of the judges.",
+          "Where God is that’s where rescue happens.",
+          "a savior in this sense, a deliverer, someone that rescues others from captivity is one that has the Spirit of the Lord come upon them",
+          "Our mission to rescue scattered Israel on both sides of the veil is the same mission that both Amos has been talking about"
+        ],
+        "approved": "712e3d14"
+      },
+      "approved": "4983a632"
+    },
+    {
+      "id": "obad1-jsp-1844",
+      "ref": "Obadiah 1:21",
+      "title": "How are they to become saviors?",
+      "text": "On 21 January 1844, Joseph Smith preached about Elijah’s mission to turn the hearts of fathers and children to each other. How would the Saints become saviors on mount Zion? Joseph answered, “by building their temples erecting their Baptismal fonts,” and receiving all the ordinances in behalf of their ancestors who had died, so their families could be bound together.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Discourse, 21 January 1844",
+        "url": "https://www.josephsmithpapers.org/paper-summary/discourse-21-january-1844/2"
+      },
+      "find": "how are they to become Saviors on Mount Zion by building their temples erecting their Baptismal fonts",
+      "note": "Joseph Smith, 21 January 1844: the Saints become saviors on mount Zion “by building their temples erecting their Baptismal fonts” and receiving the ordinances for their dead.",
+      "approved": "fea5fd78"
+    },
+    {
+      "id": "obad1-q-hinckley",
+      "kind": "quote",
+      "ref": "Obadiah 1:21",
+      "quote": "Just as our Redeemer gave His life as a vicarious sacrifice for all men, and in so doing became our Savior, even so we, in a small measure, … become as saviors to those on the other side",
+      "text": "Verse 21 promises saviours on mount Zion. President Hinckley explains how temple work for the dead lets us, in a small way, do what the Savior did.",
+      "source": {
+        "by": "General Conference",
+        "who": "President Gordon B. Hinckley",
+        "title": "Closing Remarks",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2004/10/closing-remarks?lang=eng"
+      },
+      "approved": "82683779"
+    },
+    {
+      "id": "jonah1-tarshish",
+      "ref": "Jonah 1:1–3",
+      "title": "As far away as he could get",
+      "text": "Nineveh was a major city of the Assyrian Empire, more than 500 miles from Jonah’s hometown of Gath-hepher. This week’s Scripture Helps say many scholars think Tarshish was Tartessus, a city in southern Spain, in the opposite direction. Jonah wasn’t just avoiding Nineveh. He was trying to get as far as he could from where the Lord sent him.",
+      "source": {
+        "by": "Scripture Helps",
+        "title": "Amos; Obadiah; Jonah",
+        "url": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/46-amos-obadiah-jonah?lang=eng"
+      },
+      "find": "By attempting to flee to Tarshish, Jonah was trying to get as far away as he could from where the Lord had called him to go",
+      "approved": "9c663cfb"
+    },
+    {
+      "id": "jonah1-sailors",
+      "ref": "Jonah 1:11–16",
+      "title": "Sailors who tried everything",
+      "text": "Jonah told the sailors to throw him overboard, but they didn’t want to. The Old Testament Student Manual points out that they first did everything they could to save themselves another way, rowing hard for land. Only then did they cast him into the sea, praying that the Lord wouldn’t hold it against them. Afterward they feared the Lord and offered Him a sacrifice.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "Jonah: One Should Not Flee from His Responsibilities",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-9?lang=eng"
+      },
+      "find": "The men did not accept Jonah’s offer until they had made every effort to save themselves in other ways",
+      "approved": "3aa4db86"
+    },
+    {
+      "id": "jonah1-parry",
+      "ref": "Jonah 1:5–6",
+      "title": "Asleep in a storm",
+      "text": "Donald W. Parry points to another story with the same picture. Jonah slept in a ship during a great storm until the captain woke him. Centuries later, Jesus slept in a ship during a great storm until His disciples woke Him (Mark 4:38). But there’s a difference: the storm stopped when Jonah was thrown out. Jesus stopped the storm Himself.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Donald W. Parry",
+        "title": "The Sign of Jonah: Pointing to Christ’s Death",
+        "url": "https://scripturecentral.org/archive/books/book-chapter/sign-jonah-pointing-christs-death"
+      },
+      "find": "This parallels the occurrence when Jesus slept in the ship during a great storm",
+      "approved": "8b8184cf"
+    },
+    {
+      "id": "jonah1-dove",
+      "ref": "Jonah 1:12",
+      "title": "A dove who gave himself",
+      "text": "Jonah’s name is the Hebrew word for dove. A Scripture Central KnoWhy notes that doves were offered as sacrifices at the temple, pointing to the Savior’s great sacrifice. When Jonah said, “Take me up, and cast me forth into the sea,” he offered himself to save the sailors. Jesus Himself pointed to Jonah as a sign of His death and Resurrection.",
+      "source": {
+        "by": "Scripture Central",
+        "title": "What Is the Sign of Jonah?",
+        "url": "https://scripturecentral.org/knowhy/what-is-the-sign-of-jonah"
+      },
+      "find": "offered himself for sacrifice in an effort to save the lives of the sailors",
+      "approved": "6a1d15a0"
+    },
+    {
+      "id": "jonah1-v-followhim",
+      "kind": "video",
+      "ref": "Jonah 1",
+      "title": "Jonah 1 with Dr. Joshua Sears (followHIM)",
+      "text": "Dr. Joshua Sears and the followHIM hosts walk through Jonah 1: the call, the ship to Tarshish, the storm and the sailors. Watch for how Jonah keeps going down, to Joppa, into the ship and into the sea, while the Lord and the ship’s captain tell him to arise.",
+      "video": {
+        "youtube": "Mw0LiyYltco",
+        "start": 2483,
+        "end": 2865,
+        "title": "Jonah, Micah Part 1 • Dr. Joshua Sears • Nov. 21 - 27 • Come Follow Me",
+        "channel": "followHIM Podcast",
+        "previewed": false
+      },
+      "approved": "c5527fd7"
+    },
+    {
+      "id": "jonah2-jared",
+      "ref": "Jonah 2:2–4",
+      "title": "Two prayers from the deep",
+      "text": "A Scripture Central KnoWhy compares Jonah’s prayer with the brother of Jared’s prayer in Ether 3:1–2. Both men cried to the Lord. Both talk about floods all around them. Both worry about being far from God, and both look to where God dwells: Jonah says, “I will look again toward thy holy temple.” When we feel overwhelmed, we can cry to Him too.",
+      "source": {
+        "by": "Scripture Central",
+        "title": "How Were Jonah and the Brother of Jared Able to Find Comfort?",
+        "url": "https://scripturecentral.org/knowhy/how-were-jonah-and-the-brother-of-jared-able-to-find-comfort"
+      },
+      "find": "The first verse of this prayer is remarkably similar to Jonah 2",
+      "approved": "8ce46987"
+    },
+    {
+      "id": "jonah2-hesed",
+      "ref": "Jonah 2:8",
+      "title": "Forsaking your own mercy",
+      "text": "“They that observe lying vanities forsake their own mercy.” Dr. Joshua Sears explains that mercy here is the Hebrew word hesed: God’s loyal, covenant love. Lying vanities are empty, worthless things. When we trust them instead of God, we walk away from the love He keeps offering us. God never breaks His side of the covenant, but we can step outside its blessings.",
+      "source": {
+        "by": "followHIM",
+        "who": "Joshua Sears",
+        "title": "Old Testament: EPISODE 48 – Jonah, Micah – Part 1",
+        "url": "https://followhim.co/show-note/2-228/"
+      },
+      "find": "You abandon the love you could be getting and the blessings you’d be getting.",
+      "deep": {
+        "paras": [
+          "Early in the episode, Dr. Joshua Sears explains a Hebrew word that runs through Jonah: hesed. President Russell M. Nelson has taught about it as the special love and mercy that come with a covenant with God, and English has no good word for it. It appears some 250 times in the Old Testament, translated a dozen different ways, so English readers often miss the connections.",
+          "Inside the fish, Jonah prays a psalm. He describes waters closing over him and weeds wrapped around his head, sinking to the bottoms of the mountains, and then the Lord bringing his life back up. Dr. Sears sees why Jesus later pointed to Jonah’s story: you are down in the depths where no one can save you, and Jehovah reaches down and brings you back up to life.",
+          "Then verse 8. Observe is the same verb as keep, as in keeping the commandments. Lying vanities translates hevel, the word behind Ecclesiastes’ “vanity of vanities”: things that go up in smoke. And mercy is hesed. People who keep empty things instead of God’s commandments forsake the covenant love He is still offering them.",
+          "“God’s never going to forsake it,” Dr. Sears says, “but we can place ourselves outside of those blessings there if we stray.” Jonah promises to pay what he has vowed. In chapter 3 the Lord repeats His call almost word for word, and John Bytheway notices that He never says, I told you so."
+        ],
+        "find": [
+          "In the Hebrew language that covenantal love is called hesed.",
+          "Lying vanities is hevel. It’s like empty things, worthless things.",
+          "You forsake your own hesed. God’s still offering that to you, but you’ve put yourself out, you forsake it.",
+          "God’s never going to forsake it, but we can place ourselves outside of those blessings there if we stray.",
+          "The Lord doesn’t say, “I told you.”"
+        ],
+        "listen": {
+          "youtube": "Mw0LiyYltco",
+          "start": 2909,
+          "end": 3135,
+          "title": "followHIM: Jonah and Micah, part 1, with Dr. Joshua Sears",
+          "channel": "followHIM Podcast",
+          "previewed": false
+        },
+        "approved": "efea00c0"
+      },
+      "approved": "b0cc49fc"
+    },
+    {
+      "id": "jonah2-own-mercy",
+      "ref": "Jonah 2:8",
+      "title": "Mercy that is your own",
+      "text": "Elder Matthew S. Holland found Jonah 2 during a dark time in his own life. He points to verse 8: “They that observe lying vanities forsake their own mercy.” The Savior’s mercy is called your own, he explains, because it is suited perfectly to you and your pains. So don’t forsake it. Turn to the temple, keep your covenants and serve.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Matthew S. Holland",
+        "title": "Forsake Not Your Own Mercy",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2025/10/53holland?lang=eng"
+      },
+      "find": "meaning it is perfectly suited to you",
+      "approved": "e5b366bf"
+    },
+    {
+      "id": "jonah3-q-faust",
+      "kind": "quote",
+      "ref": "Jonah 3:1–2",
+      "quote": "Many of us backslide, many stumble, and I believe firmly in the gospel of the second chance.",
+      "text": "Verse 1: “the word of the LORD came unto Jonah the second time.” President Faust’s words fit Jonah, and us.",
+      "source": {
+        "by": "Seminary manual",
+        "who": "President James E. Faust",
+        "title": "Lesson 153: Jonah",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-teacher-material-2018/jonah/lesson-153?lang=eng"
+      },
+      "approved": "86f1588d"
+    },
+    {
+      "id": "jonah3-uceda",
+      "ref": "Jonah 3:1–3",
+      "title": "The word came a second time",
+      "text": "Elder Juan Uceda wrote that Jonah’s story shows the test of life is a multipart exam. The Lord gave Jonah a second chance, then gave the people of Nineveh one too. And when Jonah was angry about it, the Lord gave Jonah yet another lesson. We can give others the same patient chances the Lord gives us.",
+      "source": {
+        "by": "Ensign",
+        "who": "Elder Juan Uceda",
+        "title": "Jonah and the Second Chance",
+        "url": "https://www.churchofjesuschrist.org/study/ensign/2002/09/jonah-and-the-second-chance?lang=eng"
+      },
+      "find": "the test of life is a multipart exam",
+      "approved": "a966a858"
+    },
+    {
+      "id": "jonah3-jsp",
+      "ref": "Jonah 3:9–10",
+      "title": "Joseph’s Bible: Nineveh repents",
+      "text": "In the King James Version, “God repented of the evil” He had said He would do. Joseph Smith’s Bible manuscript makes it the people who repent. The king says, “if we will repent and turn unto God,” and verse 10 adds that the people repented, and God turned away the destruction He had warned them of.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Old Testament Revision 2, page 118",
+        "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/125"
+      },
+      "find": "verse 9 Who can tell, if we will repent and turn unto God, but he will turn away from us his fierce anger, that we perish not?",
+      "approved": "99e8bfb0"
+    },
+    {
+      "id": "jonah4-question",
+      "ref": "Jonah 4:2–11",
+      "title": "A book that ends with a question",
+      "text": "Jonah finally admits why he ran: he knew the Lord is “a gracious God, and merciful.” Dr. Joshua Sears notes that Jonah is quoting the Lord’s own description of Himself in Exodus 34:6, and using it as a complaint. Jonah is the only book of prophecy that ends with a question. Each reader has to answer it: am I glad when God is merciful to people I don’t like?",
+      "source": {
+        "by": "followHIM",
+        "who": "Joshua Sears",
+        "title": "Old Testament: EPISODE 48 – Jonah, Micah – Part 1",
+        "url": "https://followhim.co/show-note/2-228/"
+      },
+      "find": "This is the only prophetic book to end on a rhetorical question.",
+      "deep": {
+        "paras": [
+          "In Jonah 4:2 Jonah finally explains why he ran: he knew the Lord is “a gracious God, and merciful, slow to anger, and of great kindness.” Dr. Joshua Sears points out that Jonah is quoting Exodus 34:6, the Lord’s classic description of His own nature, and that kindness there is hesed, His covenant love. Jonah quotes the merciful half and leaves out the part about justice, because justice was what he wanted for Nineveh.",
+          "Dr. Sears notes the irony. In 2 Kings 14:25, Jonah prophesied that God would restore Israel’s borders even though Israel was wicked. Jonah was fine with undeserved mercy for his own people, but not for the Assyrians, Israel’s cruelest enemy.",
+          "Then comes the gourd. Jonah pities a plant he never planted, and the Lord asks whether He should not spare a great city with more than 120,000 people, and also much cattle. Jonah never answers. The book leaves the question with us: “Are you okay with God extending mercy to your enemies?”",
+          "The hosts compare Jonah to the elder brother in the parable of the prodigal son, and to the laborers in the vineyard who grumbled when latecomers were paid the same, from a talk by Elder Jeffrey R. Holland. Dr. Sears adds that if the natural man is an enemy to God, all of us are His enemies to some extent, “and we’re only saved through the atonement of Christ the Lord.”"
+        ],
+        "find": [
+          "He’s quoting the part he doesn’t like.",
+          "So Jonah’s fine prophesying about people getting what they don’t deserve there when it’s his people.",
+          "Are you okay with God extending mercy to your enemies?",
+          "if the natural man is an enemy to God, that suggests that all of us are his enemies to some extent"
+        ],
+        "listen": {
+          "youtube": "Mw0LiyYltco",
+          "start": 3726,
+          "end": 3945,
+          "title": "followHIM: Jonah and Micah, part 1, with Dr. Joshua Sears",
+          "channel": "followHIM Podcast",
+          "previewed": false
+        },
+        "approved": "5c5c2730"
+      },
+      "approved": "989aeb37"
+    },
+    {
+      "id": "jonah4-cattle",
+      "ref": "Jonah 4:11",
+      "title": "And also much cattle",
+      "text": "The book of Jonah ends with the Lord’s question: shouldn’t He spare Nineveh, with more than 120,000 people “and also much cattle”? Blair G. Van Dyke and D. Kelly Ogden notice that the Lord wanted to save even the animals. The worth of souls is great in His sight (D&C 18:10). Jonah had underestimated how much God loves all His children.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "Blair G. Van Dyke and D. Kelly Ogden",
+        "title": "Amos through Malachi: Major Teachings of the Twelve Prophets",
+        "url": "https://rsc.byu.edu/vol-4-no-3-2003/amos-through-malachi-major-teachings-twelve-prophets"
+      },
+      "find": "Jonah had underestimated the love and mercy that God has for all His children",
+      "approved": "961ee3ad"
+    },
+    {
+      "id": "jonah4-q-uchtdorf",
+      "kind": "quote",
+      "ref": "Jonah 4:1–3",
+      "quote": "Because we all depend on the mercy of God, how can we deny to others any measure of the grace we so desperately desire for ourselves?",
+      "text": "Verses 1–3: Jonah was angry that God gave Nineveh the same mercy Jonah had just received inside the fish.",
+      "source": {
+        "by": "General Conference",
+        "who": "President Dieter F. Uchtdorf",
+        "title": "The Merciful Obtain Mercy",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2012/04/the-merciful-obtain-mercy?lang=eng"
+      },
+      "approved": "56258852"
+    }
+  ],
+  "plain": [
+    {
+      "ch": "Amos 1",
+      "verses": [
+        "These are the words of Amos, one of the shepherds of Tekoa—what he saw about Israel in the days of Uzziah king of Judah and in the days of Jeroboam son of Joash king of Israel, two years before the earthquake.",
+        "He said: The Lord will roar from Zion and raise His voice from Jerusalem. The shepherds’ pastures will mourn, and the top of Mount Carmel will wither.",
+        "This is what the Lord says: For three crimes of Damascus, and for four, I will not take back its punishment, because they threshed Gilead with iron threshing sledges.",
+        "So I will send a fire on the house of Hazael, and it will burn up the palaces of Ben-hadad.",
+        "I will break the bar that locks the gates of Damascus. I will cut off the people living in the valley of Aven, and the one who holds the scepter in the house of Eden. The people of Syria will be carried away captive to Kir, says the Lord.",
+        "This is what the Lord says: For three crimes of Gaza, and for four, I will not take back its punishment, because they carried off whole communities as captives and handed them over to Edom.",
+        "So I will send a fire on the wall of Gaza, and it will burn up its palaces.",
+        "I will cut off the people living in Ashdod and the one who holds the scepter in Ashkelon. I will turn my hand against Ekron, and the rest of the Philistines will die, says the Lord God.",
+        "This is what the Lord says: For three crimes of Tyrus, and for four, I will not take back its punishment, because they handed over whole communities of captives to Edom and did not remember the covenant between brothers.",
+        "So I will send a fire on the wall of Tyrus, and it will burn up its palaces.",
+        "This is what the Lord says: For three crimes of Edom, and for four, I will not take back its punishment, because he chased his brother with the sword and threw away all pity. His anger kept tearing without end, and he held on to his fury forever.",
+        "So I will send a fire on Teman, and it will burn up the palaces of Bozrah.",
+        "This is what the Lord says: For three crimes of the children of Ammon, and for four, I will not take back its punishment, because they ripped open the pregnant women of Gilead to make their own land bigger.",
+        "So I will light a fire in the wall of Rabbah, and it will burn up its palaces, with war cries on the day of battle and a storm on the day of the whirlwind.",
+        "And their king will go away captive, he and his princes together, says the Lord."
+      ],
+      "notes": [],
+      "review": [
+        {
+          "v": 3,
+          "about": "The refrain “For three transgressions … and for four” (verses 3–13, and 2:1–6) is a Hebrew way of saying sin on top of sin. The plain words keep the numbers, give “transgressions” as “crimes,” and “I will not turn away the punishment thereof” as “I will not take back its punishment.” No note."
+        },
+        {
+          "v": 5,
+          "about": "The KJV’s “the inhabitant” (here and in verse 8) can also be read as the one who sits on a throne: the BSB has ‘the ruler,’ to match the one who holds the scepter. The plain words follow the KJV (“the people living in”), with no note."
+        },
+        {
+          "v": 13,
+          "about": "A hard verse: the Ammonites ripping open pregnant women in war. The plain words say it no more plainly than the KJV."
+        }
+      ],
+      "approved": "f8b96358"
+    },
+    {
+      "ch": "Amos 2",
+      "verses": [
+        "This is what the Lord says: For three crimes of Moab, and for four, I will not take back its punishment, because he burned the bones of the king of Edom into lime (a white powder).",
+        "So I will send a fire on Moab, and it will burn up the palaces of Kerioth. Moab will die in an uproar, with war cries and the sound of the trumpet.",
+        "I will cut off its ruler from among them and kill all its princes with him, says the Lord.",
+        "This is what the Lord says: For three crimes of Judah, and for four, I will not take back its punishment, because they have rejected the law of the Lord and have not kept His commandments. The lies their fathers followed have led them astray.",
+        "So I will send a fire on Judah, and it will burn up the palaces of Jerusalem.",
+        "This is what the Lord says: For three crimes of Israel, and for four, I will not take back its punishment, because they sold the righteous for silver and the poor for a pair of sandals.",
+        "They trample the heads of the poor into the dust of the earth and push the humble out of the way. A man and his father go to the same young woman, and so they dishonor my holy name.",
+        "They lie down beside every altar on clothes they took as a pledge for a loan, and in the house of their god they drink wine paid for with fines.",
+        "Yet it was I who destroyed the Amorite in front of them. He was as tall as the cedars and as strong as the oaks, but I destroyed his fruit above and his roots below.",
+        "And I brought you up out of the land of Egypt and led you forty years through the wilderness, so you could take the land of the Amorite.",
+        "I raised up some of your sons to be prophets and some of your young men to be Nazarites (men set apart to God by a vow, who drank no wine). Isn’t that true, children of Israel? says the Lord.",
+        "But you made the Nazarites drink wine, and you commanded the prophets, “Don’t prophesy.”",
+        "Look, I am weighed down under you, like a cart loaded full of sheaves of grain.",
+        "So the fast runner will not escape, the strong man will not hold on to his strength, and the mighty warrior will not save his life.",
+        "The archer will not stand his ground, the one who is quick on his feet will not get away, and the horseman will not save his life.",
+        "Even the bravest of the mighty warriors will run away naked on that day, says the Lord."
+      ],
+      "notes": [
+        {
+          "v": 7,
+          "text": "The KJV says they “pant after the dust of the earth on the head of the poor.” The Hebrew verb can mean pant or trample; the BSB has ‘They trample on the heads of the poor.’"
+        },
+        {
+          "v": 13,
+          "text": "The KJV says “I am pressed under you,” the Lord weighed down by His people. The Hebrew word is rare, and the BSB reads it as judgment: ‘I am about to crush you in your place as with a cart full of grain.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 3,
+          "about": "The KJV’s “judge” is the ruler of Moab (BSB ‘ruler’); the plain words say “ruler.”"
+        },
+        {
+          "v": 7,
+          "about": "“Go in unto the same maid”: the Hebrew says only that they “go to” the young woman, and the plain words say that, no plainer than the KJV. “Pant after” follows the Hebrew and the BSB (“trample”), with a note; Amos 8:4 uses the same verb."
+        },
+        {
+          "v": 8,
+          "about": "The KJV’s “wine of the condemned” is wine bought with fines (BSB ‘wine obtained through fines’). “Their god” stays lowercase as in the KJV; the BSB has ‘their God.’"
+        },
+        {
+          "v": 11,
+          "about": "A few words say what Nazarites were (Numbers 6:1–3), so verse 12 makes sense."
+        },
+        {
+          "v": 13,
+          "about": "Hard Hebrew. The plain words follow the KJV (the Lord weighed down under them), and the note gives the BSB’s reading (the Lord crushing them)."
+        }
+      ],
+      "approved": "180d7805"
+    },
+    {
+      "ch": "Amos 3",
+      "verses": [
+        "Hear this word that the Lord has spoken against you, children of Israel—against the whole family I brought up out of the land of Egypt:",
+        "Of all the families of the earth, you are the only ones I have known. That is why I will punish you for all your sins.",
+        "Can two people walk together unless they have agreed to?",
+        "Does a lion roar in the forest when it has no prey? Does a young lion growl from its den if it has caught nothing?",
+        "Does a bird fall into a trap on the ground when there is no bait for it? Does a trap spring up from the ground when it has caught nothing at all?",
+        "If a trumpet is blown in a city, won’t the people be afraid? If disaster comes to a city, hasn’t the Lord done it?",
+        "Surely the Lord God will do nothing unless He reveals His secret to His servants the prophets.",
+        "The lion has roared—who will not be afraid? The Lord God has spoken—who can keep from prophesying?",
+        "Announce it to the palaces in Ashdod and to the palaces in the land of Egypt. Say, Gather on the mountains of Samaria, and see the great uproar inside her and the people oppressed there.",
+        "For they don’t know how to do what is right, says the Lord. They store up in their palaces what they took by violence and robbery.",
+        "So this is what the Lord God says: An enemy will surround the land. He will pull down your strength, and your palaces will be robbed.",
+        "This is what the Lord says: As a shepherd pulls out of a lion’s mouth only two legs or a piece of an ear, so the children of Israel who live in Samaria will be pulled out—with only the corner of a bed and the cushion of a couch.",
+        "Hear this, and testify against the house of Jacob, says the Lord God, the God of Hosts:",
+        "On the day I punish Israel for its crimes, I will also punish the altars of Beth-el. The horns of the altar (its corner points) will be cut off and fall to the ground.",
+        "I will strike down the winter house along with the summer house. The houses decorated with ivory will be destroyed, and the great houses will come to an end, says the Lord."
+      ],
+      "notes": [
+        {
+          "v": 6,
+          "text": "Here “evil” means disaster, as the BSB reads it: ‘If calamity comes to a city.’ The Joseph Smith Translation has ‘known’ where the KJV has “done.”"
+        },
+        {
+          "v": 7,
+          "text": "The Joseph Smith Translation has ‘until’ where the KJV has “but”: the Lord God will do nothing until He reveals His secret to His servants the prophets."
+        },
+        {
+          "v": 12,
+          "text": "The KJV says “in Damascus in a couch.” The Hebrew word is spelled almost like Damascus, and the BSB reads it as part of the couch: ‘the cushion of a couch.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 2,
+          "about": "“Known” is kept: in Hebrew it means known as His own, chosen. No note."
+        },
+        {
+          "v": 6,
+          "about": "The plain words say “disaster” for the KJV’s “evil” and translate the Hebrew (“done it”); the note gives the Joseph Smith Translation’s “known.”"
+        },
+        {
+          "v": 7,
+          "about": "A verse Latter-day Saints quote often. The plain words follow the Hebrew (‘except he has revealed’), which agrees with the Joseph Smith Translation’s “until.” No note beyond the JST, since the README’s note kinds don’t cover other cross-references."
+        },
+        {
+          "v": 12,
+          "about": "A choice between readings: the KJV has “in Damascus in a couch”; the BSB and most modern translations read the word as part of the couch. The plain words follow the BSB, with a note. Your call."
+        }
+      ],
+      "approved": "e0b94c7d"
+    },
+    {
+      "ch": "Amos 4",
+      "verses": [
+        "Hear this word, you cows of Bashan on the mountain of Samaria—you women who oppress the poor and crush the needy, who say to your husbands, “Bring us something to drink!”",
+        "The Lord God has sworn by His holiness: Look, the days are coming when you will be dragged away with hooks, and your descendants with fishhooks.",
+        "You will go out through the broken places in the walls, each one straight out through the gap in front of her, and you will be thrown out toward Harmon, says the Lord.",
+        "Come to Beth-el and sin! Go to Gilgal and sin even more! Bring your sacrifices every morning and your tithes every three days!",
+        "Burn bread made with yeast as a thank offering, and announce your freewill offerings so everyone will hear. For this is what you love to do, children of Israel, says the Lord God.",
+        "I gave you clean teeth in all your cities, with nothing to eat, and no bread in all your towns. Yet you did not come back to me, says the Lord.",
+        "I also held back the rain from you when there were still three months until harvest. I sent rain on one city and no rain on another. One field had rain, and the field without rain dried up.",
+        "People from two or three cities staggered to one city to drink water, but there was not enough. Yet you did not come back to me, says the Lord.",
+        "I struck you with blight and mildew. When your gardens, vineyards, fig trees, and olive trees grew, the locusts ate them. Yet you did not come back to me, says the Lord.",
+        "I sent a plague among you like the plagues of Egypt. I killed your young men with the sword and carried off your horses. I made the stink of your camps rise up into your noses. Yet you did not come back to me, says the Lord.",
+        "I overthrew some of you, as God overthrew Sodom and Gomorrah, and you were like a burning stick pulled out of the fire. Yet you did not come back to me, says the Lord.",
+        "So this is what I will do to you, O Israel. And because I will do this to you, prepare to meet your God, O Israel!",
+        "For look, He forms the mountains and creates the wind, and He makes known to man what his thoughts are. He turns the morning into darkness and walks on the high places of the earth. The Lord, the God of Hosts, is His name."
+      ],
+      "notes": [
+        {
+          "v": 3,
+          "text": "The KJV says “ye shall cast them into the palace.” The Hebrew word is unclear, and the BSB reads it as a place: ‘you will be cast out toward Harmon.’"
+        },
+        {
+          "v": 4,
+          "text": "The KJV says “your tithes after three years.” The Hebrew says days, and the BSB reads ‘your tithes every three days.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "The “kine (cows) of Bashan” are the rich women of Samaria: the Hebrew is feminine. The plain words add “you women,” as the BSB does, and say “husbands” for the KJV’s “masters.”"
+        },
+        {
+          "v": 3,
+          "about": "Hard Hebrew. The KJV’s “cast them into the palace” is hard to follow, so the plain words follow the BSB (“thrown out toward Harmon,” a place no one knows today), with a note."
+        },
+        {
+          "v": 4,
+          "about": "Verses 4–5 are scornful: the Lord mocks offerings brought while the people keep sinning. The plain words follow the Hebrew “every three days” (the Church’s footnote: HEB days), with a note."
+        },
+        {
+          "v": 13,
+          "about": "Whose thoughts? The Hebrew says “what is his thought”; the KJV leaves it open, and the BSB reads it as God’s (‘reveals His thoughts to man’). The plain words keep it open, as the KJV does."
+        }
+      ],
+      "approved": "4cb634a8"
+    },
+    {
+      "ch": "Amos 5",
+      "verses": [
+        "Hear this word, house of Israel—a song of mourning that I sing over you:",
+        "Israel, pictured as a young woman, has fallen, and she will never rise again. She lies deserted on her own land, with no one to lift her up.",
+        "For this is what the Lord God says: The city that marched out with a thousand soldiers will have a hundred left, and the city that marched out with a hundred will have ten left, in the house of Israel.",
+        "For this is what the Lord says to the house of Israel: Seek me, and you will live.",
+        "But don’t seek Beth-el, don’t go into Gilgal, and don’t cross over to Beer-sheba. For Gilgal will surely be carried away captive, and Beth-el will come to nothing.",
+        "Seek the Lord, and you will live. If not, He will break out like a fire in the house of Joseph and burn it up, and there will be no one in Beth-el to put it out.",
+        "You turn justice into wormwood (a bitter plant) and throw righteousness down to the ground.",
+        "Seek Him who made the seven stars (the Pleiades) and Orion, who turns the shadow of death into morning and darkens the day into night, who calls for the waters of the sea and pours them out on the face of the earth. The Lord is His name.",
+        "He makes the weak who have been robbed strong against the mighty, so that the robbed come against the fortress.",
+        "They hate the one who corrects them at the gate (where the city’s court was held), and they despise the one who speaks honestly.",
+        "Because you trample on the poor and take a tax of grain from them, you have built houses of cut stone, but you will not live in them. You have planted lovely vineyards, but you will not drink their wine.",
+        "For I know how many your crimes are and how great your sins are. You oppress the righteous, you take bribes, and you turn the poor away from justice at the gate.",
+        "So the wise will keep quiet at such a time, because it is an evil time.",
+        "Seek good and not evil, so that you may live. Then the Lord, the God of Hosts, will be with you, just as you say He is.",
+        "Hate evil, love good, and set up justice at the gate. Maybe the Lord God of Hosts will be gracious to the remnant of Joseph.",
+        "So this is what the Lord, the God of Hosts, the Lord, says: There will be wailing in all the town squares, and in all the streets people will cry, “Oh no! Oh no!” They will call the farmer to mourn, and those who are skilled at mourning to wail.",
+        "There will be wailing in all the vineyards, for I will pass through among you, says the Lord.",
+        "How terrible for you who long for the day of the Lord! What will the day of the Lord be for you? It will be darkness, not light.",
+        "It will be like a man who runs away from a lion, and a bear meets him, or who goes into his house and leans his hand on the wall, and a snake bites him.",
+        "Won’t the day of the Lord be darkness and not light—very dark, with no brightness in it?",
+        "I hate, I despise your feast days, and I take no pleasure in the smell of your solemn assemblies.",
+        "Even if you offer me burnt offerings and your grain offerings, I will not accept them, and I will not look at the peace offerings of your fattened animals.",
+        "Take the noise of your songs away from me. I will not listen to the music of your harps.",
+        "But let justice roll down like waters, and righteousness like a stream that never runs dry.",
+        "Did you bring me sacrifices and offerings in the wilderness for forty years, house of Israel?",
+        "But you have carried the shrine of your Moloch and Chiun, your idols, the star of your god, which you made for yourselves.",
+        "So I will send you away as captives beyond Damascus, says the Lord, whose name is the God of Hosts."
+      ],
+      "notes": [
+        {
+          "v": 9,
+          "text": "The KJV says He “strengtheneth the spoiled against the strong.” The Hebrew words are hard, and the BSB reads them as destruction: ‘He flashes destruction on the strong, so that fury comes upon the stronghold.’"
+        },
+        {
+          "v": 22,
+          "text": "In the KJV, “meat” means food. A meat offering was an offering of grain."
+        },
+        {
+          "v": 25,
+          "text": "Stephen quotes verses 25–27 to the council in Jerusalem, about Israel turning to idols in the wilderness: “have ye offered to me slain beasts and sacrifices by the space of forty years in the wilderness?” (Acts 7:42)."
+        },
+        {
+          "v": 26,
+          "text": "The KJV’s “Moloch” translates the Hebrew ‘your king.’ The BSB reads the verse as naming two star gods: ‘You have taken along Sakkuth your king and Kaiwan your star god.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 8,
+          "about": "“Seek him” is in italics in the KJV (added by the translators); the plain words keep it, so the verse reads as a sentence. The seven stars are the Pleiades, as the Church’s footnote says."
+        },
+        {
+          "v": 9,
+          "about": "Hard Hebrew. The plain words follow the KJV (the Lord makes the robbed strong against the mighty), and the note gives the BSB’s reading."
+        },
+        {
+          "v": 21,
+          "about": "“I will not smell in your solemn assemblies” is the smell of their offerings; the plain words say “I take no pleasure in the smell,” and keep “solemn assemblies.”"
+        },
+        {
+          "v": 24,
+          "about": "The Hebrew word behind “mighty” means ever-flowing (BSB ‘an ever-flowing stream’); the plain words say “a stream that never runs dry.”"
+        },
+        {
+          "v": 26,
+          "about": "Hard Hebrew. The plain words keep the KJV’s Moloch and Chiun, with a note. Stephen’s quotation (Acts 7:43) says “beyond Babylon” where Amos says “beyond Damascus” (verse 27); no note on that."
+        }
+      ],
+      "approved": "48f9355d"
+    },
+    {
+      "ch": "Amos 6",
+      "verses": [
+        "How terrible for those who are at ease in Zion and who feel safe on the mountain of Samaria—the famous men of the first of the nations, the ones the house of Israel comes to!",
+        "Go over to Calneh and look. Go from there to Hamath the great, then go down to Gath of the Philistines. Are they better than these kingdoms? Is their land bigger than yours?",
+        "You push the day of disaster far away in your minds, yet you bring the rule of violence near.",
+        "You lie on beds of ivory and stretch out on your couches. You eat lambs from the flock and calves from the stall.",
+        "You make up songs to the sound of the harp and invent musical instruments for yourselves, like David.",
+        "You drink wine by the bowlful and rub yourselves with the finest oils, but you do not grieve over the ruin of Joseph.",
+        "So now they will be the first to go into captivity, and the feasting of those who lounge around will come to an end.",
+        "The Lord God has sworn by Himself, says the Lord, the God of Hosts: I detest the pride of Jacob, and I hate his palaces. So I will hand over the city and everything in it.",
+        "And if ten men are left in one house, they will die.",
+        "And when a man’s uncle, the one who burns the bodies, picks him up to carry the bones out of the house, he will ask someone in the back of the house, “Is anyone else with you?” He will say, “No.” Then he will say, “Hush! We must not even mention the name of the Lord.”",
+        "For look, the Lord gives the command, and He will strike the great house into pieces and the little house into splinters.",
+        "Do horses run on rocky cliffs? Does anyone plow there with oxen? Yet you have turned justice into poison and the fruit of righteousness into bitter wormwood.",
+        "You are happy about a thing that is nothing, and you say, “Didn’t we take horns (power) for ourselves by our own strength?”",
+        "But look, I will raise up a nation against you, house of Israel, says the Lord, the God of Hosts, and they will oppress you from the entrance of Hemath in the north to the river of the wilderness in the south."
+      ],
+      "notes": [
+        {
+          "v": 13,
+          "text": "The KJV’s “a thing of nought” and “horns” are also the names of two towns, Lo-debar and Karnaim, as the BSB reads them. Lo-debar sounds like ‘nothing’ in Hebrew, and Karnaim means ‘horns,’ a picture of strength."
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "“Woe” is “How terrible for,” as in the approved Isaiah chapters."
+        },
+        {
+          "v": 10,
+          "about": "A hard verse: so many dead that relatives burn the bodies, afraid even to say the Lord’s name. The Hebrew word for “uncle” can mean any close relative (BSB ‘relative’); the plain words keep the KJV’s “uncle.”"
+        },
+        {
+          "v": 12,
+          "about": "The BSB divides the Hebrew letters differently and reads ‘Does one plow the sea with oxen?’ The plain words follow the KJV (“plow there”), with no note. “Gall” and “hemlock” are given as poison and wormwood, the Hebrew words."
+        },
+        {
+          "v": 14,
+          "about": "“In the north” and “in the south” are added to say where Hemath and the river of the wilderness are: Israel’s northern and southern borders."
+        }
+      ],
+      "approved": "e44ed621"
+    },
+    {
+      "ch": "Amos 7",
+      "verses": [
+        "This is what the Lord God showed me: He was forming swarms of locusts just as the late crop was beginning to come up—the late crop after the king’s harvest had been cut.",
+        "When they had finished eating the plants of the land, I said, “O Lord God, please forgive! How can Jacob stand? He is so small.”",
+        "So the Lord turned this disaster away. “It will not happen,” said the Lord.",
+        "This is what the Lord God showed me: The Lord God was calling for fire to judge them. It burned up the great deep and began eating up the land.",
+        "Then I said, “O Lord God, please stop! How can Jacob stand? He is so small.”",
+        "So the Lord turned this disaster away too. “This will not happen either,” said the Lord God.",
+        "This is what He showed me: The Lord was standing on a wall built straight with a plumb line (a cord with a weight, used to check that a wall is straight), and He had a plumb line in His hand.",
+        "And the Lord said to me, “Amos, what do you see?” I said, “A plumb line.” Then the Lord said, “Look, I am setting a plumb line among my people Israel. I will not spare them anymore.”",
+        "“The high places of Isaac will be ruined, and the holy places of Israel will be laid waste. I will rise up against the house of Jeroboam with the sword.”",
+        "Then Amaziah the priest of Beth-el sent a message to Jeroboam king of Israel: “Amos has plotted against you right in the middle of the house of Israel. The land cannot bear all his words.”",
+        "“For this is what Amos says: ‘Jeroboam will die by the sword, and Israel will surely be carried away captive out of their own land.’”",
+        "Then Amaziah said to Amos, “Go away, you seer! Run away to the land of Judah. Earn your bread there, and do your prophesying there.”",
+        "“But never prophesy at Beth-el again, because it is the king’s holy place and the royal temple.”",
+        "Then Amos answered Amaziah, “I was not a prophet, and I was not a prophet’s son. I was a herdsman, and I took care of sycamore fig trees.”",
+        "“But the Lord took me from following the flock, and the Lord said to me, ‘Go, prophesy to my people Israel.’”",
+        "“So now hear the word of the Lord. You say, ‘Don’t prophesy against Israel, and don’t preach against the house of Isaac.’”",
+        "“So this is what the Lord says: ‘Your wife will become a harlot in the city, and your sons and your daughters will die by the sword. Your land will be divided up with a measuring line, and you will die in an unclean land. And Israel will surely be carried away captive out of its land.’”"
+      ],
+      "notes": [
+        {
+          "v": 3,
+          "text": "The Joseph Smith Translation reads: ‘And the Lord said, concerning Jacob, Jacob shall repent for this, therefore I will not utterly destroy him, saith the Lord.’"
+        },
+        {
+          "v": 6,
+          "text": "The Joseph Smith Translation reads: ‘And the Lord said, concerning Jacob, Jacob shall repent of his wickedness; therefore I will not utterly destroy him, saith the Lord God.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 3,
+          "about": "Where the KJV says “The LORD repented” (verses 3 and 6), the Hebrew means He relented. The plain words say He turned the disaster away, as Jeremiah 18:8 does, and the notes give the Joseph Smith Translation, where Jacob is the one who repents."
+        },
+        {
+          "v": 7,
+          "about": "A few words say what a plumb line is. Some scholars read the Hebrew word as ‘tin’; the plain words keep “plumb line,” as the KJV and the BSB do."
+        },
+        {
+          "v": 8,
+          "about": "“I will not again pass by them any more” (also Amos 8:2) means He will no longer overlook their sins; the plain words say “I will not spare them anymore,” as the BSB does."
+        },
+        {
+          "v": 17,
+          "about": "“Harlot” is kept, as in the KJV (BSB ‘prostitute’), as Isaiah 1:21 decided. The verse is Amaziah’s punishment when the city is captured."
+        }
+      ],
+      "approved": "c2551fdd"
+    },
+    {
+      "ch": "Amos 8",
+      "verses": [
+        "This is what the Lord God showed me: Look, a basket of summer fruit.",
+        "He said, “Amos, what do you see?” I said, “A basket of summer fruit.” Then the Lord said to me, “The end has come for my people Israel. I will not spare them anymore.”",
+        "On that day the songs of the temple will turn into wailing, says the Lord God. There will be many dead bodies everywhere. They will be thrown out in silence.",
+        "Hear this, you who trample the needy and wipe out the poor of the land,",
+        "Who say, “When will the new moon festival be over, so we can sell grain? When will the Sabbath be over, so we can sell wheat? We will make the ephah (the grain measure) small and the shekel (the price) big, and cheat with dishonest scales.”",
+        "“We will buy the poor for silver and the needy for a pair of sandals, and we will even sell the chaff along with the wheat.”",
+        "The Lord has sworn by the pride of Jacob: I will never forget anything they have done.",
+        "Won’t the land shake because of this, and everyone who lives in it mourn? All of it will rise up like a flood and be tossed about, and then sink down again like the flood of Egypt’s river, the Nile.",
+        "And on that day, says the Lord God, I will make the sun go down at noon and darken the earth in broad daylight.",
+        "I will turn your feasts into mourning and all your songs into songs of sorrow. I will put sackcloth (rough cloth worn for mourning) around every waist and make every head bald. I will make it like the mourning for an only son, and its end like a bitter day.",
+        "Look, the days are coming, says the Lord God, when I will send a famine on the land—not a hunger for bread or a thirst for water, but a famine of hearing the words of the Lord.",
+        "People will wander from sea to sea and run back and forth from the north to the east, looking for the word of the Lord, but they will not find it.",
+        "On that day the beautiful young women and the young men will faint from thirst.",
+        "Those who swear by the sin of Samaria and say, “As your god lives, Dan,” and, “As the way of Beer-sheba lives”—they will fall and never rise again."
+      ],
+      "notes": [
+        {
+          "v": 2,
+          "text": "In Hebrew, the word for summer fruit (qayits) sounds like the word for end (qets), so the basket of summer fruit means the end has come for Israel."
+        }
+      ],
+      "review": [
+        {
+          "v": 2,
+          "about": "A note on the play on words, like the approved one on the almond branch in Jeremiah 1:12."
+        },
+        {
+          "v": 5,
+          "about": "The ephah (a measure for grain) and the shekel (a weight for silver) are explained in a few words: they sell short measures for too much money."
+        },
+        {
+          "v": 11,
+          "about": "The famine of hearing the words of the Lord, which the chapter heading names. The plain words stay close to the KJV; no note, since no other scripture quotes it."
+        },
+        {
+          "v": 14,
+          "about": "“The sin of Samaria” is probably an idol, and Dan had one of Jeroboam’s golden calves (1 Kings 12:29). The plain words don’t explain either."
+        }
+      ],
+      "approved": "73fa87ba"
+    },
+    {
+      "ch": "Amos 9",
+      "verses": [
+        "I saw the Lord standing beside the altar, and He said: Strike the top of the doorway so that the doorposts shake, and break them over the heads of all the people. I will kill the last of them with the sword. Not one of them who runs will get away, and not one who escapes will be saved.",
+        "Even if they dig down into hell, the place of the dead, my hand will take them from there. Even if they climb up to heaven, I will bring them down from there.",
+        "Even if they hide on the top of Carmel, I will search them out and take them from there. Even if they hide from my sight at the bottom of the sea, I will command the serpent there, and it will bite them.",
+        "Even if they go into captivity in front of their enemies, I will command the sword there, and it will kill them. I will fix my eyes on them for harm and not for good.",
+        "The Lord God of Hosts is the one who touches the land, and it melts, and everyone who lives in it mourns. All of it will rise up like a flood and sink down again like the flood of Egypt.",
+        "He builds His upper rooms in the heavens and sets the dome of the sky over the earth. He calls for the waters of the sea and pours them out on the face of the earth. The Lord is His name.",
+        "Aren’t you like the children of the Ethiopians to me, children of Israel? says the Lord. Didn’t I bring Israel up out of the land of Egypt, the Philistines from Caphtor, and the Syrians from Kir?",
+        "Look, the eyes of the Lord God are on the sinful kingdom, and I will destroy it from the face of the earth. But I will not completely destroy the house of Jacob, says the Lord.",
+        "For look, I will give the command, and I will sift the house of Israel among all the nations, the way grain is shaken in a sieve. Yet not even the smallest grain will fall to the ground.",
+        "All the sinners among my people will die by the sword—those who say, “Disaster will not come near us or catch up with us.”",
+        "On that day I will raise up the tabernacle of David, the tent that has fallen. I will close up its broken places, raise up its ruins, and build it as it was in the days of old,",
+        "So that they will possess what is left of Edom and all the nations that are called by my name, says the Lord who does this.",
+        "Look, the days are coming, says the Lord, when the one plowing will catch up with the one harvesting, and the one treading grapes will catch up with the one planting seed. The mountains will drip with sweet wine, and all the hills will flow with it.",
+        "I will bring my people Israel back from captivity. They will rebuild the ruined cities and live in them. They will plant vineyards and drink their wine, and they will make gardens and eat their fruit.",
+        "I will plant them on their own land, and they will never again be pulled up out of the land I have given them, says the Lord your God."
+      ],
+      "notes": [
+        {
+          "v": 2,
+          "text": "The KJV’s “hell” is the Hebrew word Sheol, the place of the dead, as the BSB has it."
+        },
+        {
+          "v": 9,
+          "text": "The KJV says “yet shall not the least grain fall upon the earth.” The Hebrew word can mean a kernel or a small stone, and the BSB reads ‘but not a pebble will reach the ground.’"
+        },
+        {
+          "v": 11,
+          "text": "James quotes verses 11–12 at the council in Jerusalem, about Gentiles coming into the Church: “After this I will return, and will build again the tabernacle of David, which is fallen down” (Acts 15:16)."
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "Hard Hebrew: the KJV’s “lintel” and “posts” are the tops of the pillars and the thresholds (BSB). The plain words stay close to the KJV."
+        },
+        {
+          "v": 6,
+          "about": "The KJV’s “stories” are upper rooms, and its “troop” is read by the BSB as ‘His vault,’ the dome of the sky. The plain words follow the BSB there, with no note."
+        },
+        {
+          "v": 7,
+          "about": "“Ethiopians” is kept, as the KJV spells it (Hebrew Cush; BSB ‘Cushites’)."
+        },
+        {
+          "v": 9,
+          "about": "The plain words follow the KJV (not one grain is lost); the BSB reads the opposite picture (not one pebble gets through). A note gives both."
+        },
+        {
+          "v": 12,
+          "about": "“Heathen” is “nations”; James quotes the verse with “Gentiles” (Acts 15:17)."
+        }
+      ],
+      "approved": "7aadfa2c"
+    },
+    {
+      "ch": "Obadiah 1",
+      "verses": [
+        "The vision of Obadiah. This is what the Lord God says about Edom (the nation that came from Esau, Jacob’s brother): We have heard news from the Lord, and a messenger has been sent among the nations to say, “Get up! Let’s rise up against her in battle!”",
+        "Look, I have made you small among the nations. You are greatly despised.",
+        "The pride of your heart has fooled you—you who live in the cracks of the rock, whose home is high up, who say in your heart, “Who can bring me down to the ground?”",
+        "Even if you fly as high as the eagle, and even if you set your nest among the stars, I will bring you down from there, says the Lord.",
+        "If thieves came to you, if robbers came by night—oh, how you are cut off!—wouldn’t they steal only what they wanted? If grape pickers came to you, wouldn’t they leave some grapes behind?",
+        "But how Esau’s things are searched through! How his hidden treasures are hunted down!",
+        "All the men you made covenants with have pushed you out to the border. The men who were at peace with you have tricked you and beaten you. Those who eat your bread have set a trap under you, and there is no understanding in Edom.",
+        "On that day, says the Lord, won’t I destroy the wise men out of Edom and understanding out of the mountain of Esau?",
+        "Your mighty men, O Teman, will be terrified, so that everyone on the mountain of Esau will be cut off by slaughter.",
+        "Because of the violence you did to your brother Jacob, shame will cover you, and you will be cut off forever.",
+        "On the day you stood off to the side—on the day strangers carried away his wealth, and foreigners went in through his gates and cast lots for Jerusalem—you were just like one of them.",
+        "But you should not have gloated over your brother on his day of misfortune. You should not have been glad over the children of Judah on the day they were destroyed. You should not have bragged on the day of their trouble.",
+        "You should not have gone in through the gate of my people on the day of their disaster. You should not have gloated over their suffering on the day of their disaster, or grabbed their riches on the day of their disaster.",
+        "You should not have stood where the roads cross to cut off those who escaped, or handed over the survivors on the day of trouble.",
+        "For the day of the Lord is near for all the nations. As you have done, it will be done to you. What you have done will come back on your own head.",
+        "For just as you drank on my holy mountain, so all the nations will keep on drinking. They will drink and swallow it down, and they will be as if they had never been.",
+        "But on Mount Zion there will be deliverance, and it will be holy. And the house of Jacob will take possession of what is theirs.",
+        "The house of Jacob will be a fire and the house of Joseph a flame, and the house of Esau will be straw. They will set it on fire and burn it up, and there will be no one left of the house of Esau, for the Lord has spoken it.",
+        "The people of the south will take the mountain of Esau, and the people of the plain will take the land of the Philistines. They will take the fields of Ephraim and the fields of Samaria, and Benjamin will take Gilead.",
+        "The captives of this army of the children of Israel will take the land of the Canaanites as far as Zarephath, and the captives from Jerusalem who are in Sepharad will take the cities of the south.",
+        "And saviors will come up on Mount Zion to judge the mountain of Esau, and the kingdom will be the Lord’s."
+      ],
+      "notes": [
+        {
+          "v": 7,
+          "text": "The KJV says “they that eat thy bread have laid a wound under thee.” The BSB reads the Hebrew word as a trap: ‘Those who eat your bread will set a trap for you.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "A few words say who Edom is: “Esau, who is Edom” (Genesis 36:1). This is why verse 10 calls Jacob his brother."
+        },
+        {
+          "v": 11,
+          "about": "The KJV’s “his forces” is the same Hebrew word as “their substance” in verse 13, so the plain words say “his wealth,” as the BSB does. No note."
+        },
+        {
+          "v": 12,
+          "about": "The KJV’s “in the day that he became a stranger” is, in the Hebrew, his day of misfortune (BSB), and the plain words follow the Hebrew, with no note. Verses 12–14 keep the KJV’s “thou shouldest not have”; the BSB reads them as commands (‘you should not gloat’)."
+        },
+        {
+          "v": 21,
+          "about": "“Saviours … on mount Zion”: Latter-day Saints often apply this to temple work for the dead, and the Church’s footnote points to D&C 103:9–10 and the Topical Guide’s Salvation for the Dead. There is no note, since the README’s note kinds don’t cover it. Decide if you want one."
+        }
+      ],
+      "approved": "2611a873"
+    },
+    {
+      "ch": "Jonah 1",
+      "verses": [
+        "The word of the Lord came to Jonah son of Amittai. It said:",
+        "“Get up, go to Nineveh, that great city in Assyria, and cry out against it, because their wickedness has come up before me.”",
+        "But Jonah got up to run away to Tarshish (a far-off port), away from the presence of the Lord. He went down to Joppa and found a ship going to Tarshish. He paid the fare and went down into the ship to go with them to Tarshish, away from the presence of the Lord.",
+        "But the Lord threw a great wind onto the sea, and there was such a mighty storm on the sea that the ship was about to break apart.",
+        "The sailors were afraid, and each man cried out to his own god. They threw the cargo in the ship into the sea to make it lighter. But Jonah had gone down into the bottom of the ship, and he lay there fast asleep.",
+        "So the ship’s captain came to him and said, “How can you be sleeping? Get up and call on your God! Maybe God will think about us, and we won’t die.”",
+        "Then they said to each other, “Come, let’s cast lots (like drawing straws) to find out whose fault it is that this trouble has come on us.” So they cast lots, and the lot fell on Jonah.",
+        "Then they said to him, “Please tell us, whose fault is it that this trouble has come on us? What is your work? Where do you come from? What is your country? What people are you from?”",
+        "He said to them, “I am a Hebrew, and I fear the Lord, the God of heaven, who made the sea and the dry land.”",
+        "Then the men were terribly afraid and said to him, “Why have you done this?” For the men knew he was running away from the presence of the Lord, because he had told them.",
+        "Then they said to him, “What should we do to you so the sea will calm down for us?” For the sea was getting rougher and rougher.",
+        "He said to them, “Pick me up and throw me into the sea, and the sea will calm down for you. For I know it is because of me that this great storm has come on you.”",
+        "Instead, the men rowed hard to get back to land, but they could not, because the sea was getting rougher and rougher against them.",
+        "So they cried out to the Lord and said, “Please, Lord, please don’t let us die for taking this man’s life, and don’t hold us guilty of innocent blood. For you, Lord, have done what pleased you.”",
+        "Then they picked Jonah up and threw him into the sea, and the sea stopped raging.",
+        "Then the men greatly feared the Lord. They offered a sacrifice to the Lord and made vows.",
+        "Now the Lord had prepared a great fish to swallow Jonah. And Jonah was in the belly of the fish three days and three nights."
+      ],
+      "notes": [
+        {
+          "v": 17,
+          "text": "Jesus called this “the sign of the prophet Jonas” (Matthew 12:39): “as Jonas was three days and three nights in the whale’s belly; so shall the Son of man be three days and three nights in the heart of the earth” (Matthew 12:40)."
+        }
+      ],
+      "review": [
+        {
+          "v": 2,
+          "about": "“In Assyria” is added to say where Nineveh was. Verse 3 adds “a far-off port” for Tarshish, as Isaiah 23:1 does."
+        },
+        {
+          "v": 7,
+          "about": "“Like drawing straws” is added to say what casting lots is."
+        },
+        {
+          "v": 14,
+          "about": "God is spoken to here, so “you” stays lowercase, as in the approved chapters."
+        },
+        {
+          "v": 17,
+          "about": "The Hebrew numbers this verse Jonah 2:1, and Jonah 2:1–10 as 2:2–11. The plain words follow the KJV’s numbering, one line per KJV verse."
+        }
+      ],
+      "approved": "8025c1a9"
+    },
+    {
+      "ch": "Jonah 2",
+      "verses": [
+        "Then Jonah prayed to the Lord his God from inside the fish.",
+        "He said: I called to the Lord in my trouble, and He answered me. From the belly of hell, the place of the dead, I cried out, and you heard my voice.",
+        "You threw me into the deep, into the heart of the seas, and the current swirled around me. All your waves and breakers rolled over me.",
+        "Then I said, “I have been thrown out of your sight. Yet I will look again toward your holy temple.”",
+        "The waters closed around me until my life was nearly gone. The deep was all around me, and seaweed was wrapped around my head.",
+        "I went down to the roots of the mountains. The earth locked its bars behind me forever. Yet you brought my life up from the pit, O Lord my God.",
+        "When my life was fading away, I remembered the Lord, and my prayer came to you, into your holy temple.",
+        "Those who cling to worthless idols give up their own mercy.",
+        "But I will offer sacrifices to you with a voice of thanks. I will pay what I have vowed. Salvation comes from the Lord!",
+        "Then the Lord spoke to the fish, and it vomited Jonah out onto the dry land."
+      ],
+      "notes": [
+        {
+          "v": 2,
+          "text": "The KJV’s “hell” is the Hebrew word Sheol, the place of the dead, as the BSB has it."
+        },
+        {
+          "v": 8,
+          "text": "The KJV says they “forsake their own mercy.” The Hebrew word is the one for loving-kindness, and the BSB reads it as God’s: ‘Those who cling to worthless idols forsake His loving devotion.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 2,
+          "about": "Jonah’s prayer (verses 2–9) has no quote marks, like the approved poetry; verse 4 quotes what he said inside it. “Hell” is kept with “the place of the dead,” as Isaiah 14:15 does, with a note."
+        },
+        {
+          "v": 5,
+          "about": "The KJV’s “even to the soul” means to the point of death (the Church’s footnote); the Hebrew word can mean the neck or the life. The plain words say “until my life was nearly gone.”"
+        },
+        {
+          "v": 8,
+          "about": "The plain words keep the KJV’s “their own mercy,” and the note gives the BSB’s reading."
+        }
+      ],
+      "approved": "5e3eefce"
+    },
+    {
+      "ch": "Jonah 3",
+      "verses": [
+        "Then the word of the Lord came to Jonah a second time. It said:",
+        "“Get up, go to Nineveh, that great city, and preach to it the message I tell you.”",
+        "So Jonah got up and went to Nineveh, as the Lord had said. Now Nineveh was a very great city; it took three days to go through it.",
+        "Jonah began to go into the city, a day’s walk, and he cried out, “Forty more days, and Nineveh will be overthrown!”",
+        "And the people of Nineveh believed God. They announced a fast and put on sackcloth (rough cloth worn to show sorrow), from the greatest of them to the least.",
+        "When the news reached the king of Nineveh, he got up from his throne, took off his robe, covered himself with sackcloth, and sat in ashes.",
+        "Then he had it announced through Nineveh: “By order of the king and his nobles: No person or animal, no herd or flock, may taste anything. They must not eat or drink water.”",
+        "“But let people and animals be covered with sackcloth, and let them cry out to God with all their might. Let every one of them turn from his evil way and from the violence in their hands.”",
+        "“Who knows? God may turn and show mercy, and turn away from His fierce anger, so that we will not die.”",
+        "When God saw what they did—that they turned from their evil way—God turned away the disaster He had said He would bring on them, and He did not do it."
+      ],
+      "notes": [
+        {
+          "v": 5,
+          "text": "Jesus said the men of Nineveh will rise in the judgment and condemn His generation, because “they repented at the preaching of Jonas; and, behold, a greater than Jonas is here” (Matthew 12:41)."
+        },
+        {
+          "v": 9,
+          "text": "The Joseph Smith Translation has the people repent: ‘we will repent, and turn unto God, but he will turn away from us his fierce anger.’"
+        },
+        {
+          "v": 10,
+          "text": "The KJV says “God repented of the evil.” The Joseph Smith Translation says the people ‘repented; and God turned away the evil that he had said he would bring upon them.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 3,
+          "about": "The KJV’s “exceeding great city” is, in the Hebrew, ‘a great city to God’ (the Church’s footnote); the plain words say “a very great city.” The three days’ journey is going through greater Nineveh with its towns around it (the footnote)."
+        },
+        {
+          "v": 9,
+          "about": "Where the KJV says God may “repent” (verses 9–10), the Hebrew means relent. The plain words say God may “show mercy” (verse 9) and “turned away the disaster” (verse 10), as Jeremiah 18:8 does; the notes give the Joseph Smith Translation, where the people repent. Your call on “show mercy.”"
+        }
+      ],
+      "approved": "616da1b7"
+    },
+    {
+      "ch": "Jonah 4",
+      "verses": [
+        "But this displeased Jonah very much, and he was angry.",
+        "He prayed to the Lord and said, “Please, Lord, isn’t this what I said when I was still in my own country? That is why I ran away to Tarshish in the first place. For I knew that you are a gracious and merciful God, slow to anger and full of loving-kindness, and that you turn away disaster.”",
+        "“So now, Lord, please take my life from me, because it is better for me to die than to live.”",
+        "Then the Lord said, “Is it right for you to be angry?”",
+        "Then Jonah went out of the city and sat down east of it. There he made himself a shelter and sat under it in the shade, waiting to see what would happen to the city.",
+        "Then the Lord God prepared a plant and made it grow up over Jonah, to shade his head and ease his misery. And Jonah was very happy about the plant.",
+        "But when dawn came the next day, God prepared a worm, and it attacked the plant so that it dried up.",
+        "When the sun came up, God prepared a hot east wind, and the sun beat down on Jonah’s head until he grew faint. He wished he could die, and he said, “It is better for me to die than to live.”",
+        "Then God said to Jonah, “Is it right for you to be angry about the plant?” He said, “It is right for me to be angry, angry enough to die.”",
+        "Then the Lord said, “You have had pity on the plant, though you did not work for it or make it grow. It came up in a night and died in a night.”",
+        "“So shouldn’t I have pity on Nineveh, that great city, with more than 120,000 people who cannot tell their right hand from their left, and many animals too?”"
+      ],
+      "notes": [
+        {
+          "v": 2,
+          "text": "The KJV says “repentest thee of the evil.” The Hebrew word means to relent, as the BSB has it: ‘One who relents from sending disaster.’"
+        },
+        {
+          "v": 6,
+          "text": "The KJV’s “gourd” is a Hebrew word found only in this chapter, a fast-growing plant, perhaps the castor bean plant. The BSB says ‘a vine.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 2,
+          "about": "“Repentest thee of the evil”: the Church’s footnote gives HEB ‘relentest.’ The plain words say “you turn away disaster,” as in Jonah 3:10, with a note."
+        },
+        {
+          "v": 6,
+          "about": "“Gourd” is “a plant,” here and in verses 7, 9 and 10 (the Church’s footnote: or castor bean plant), with a note."
+        },
+        {
+          "v": 11,
+          "about": "“Sixscore thousand” is 120,000. “Spare” and “had pity” (verse 10) are the same Hebrew word, so the plain words say “have pity” in both."
+        }
+      ],
+      "approved": "4a6ce9fd"
+    }
+  ],
+  "approved": "d6e16f2c",
+  "wordsApproved": "1c42aff1"
+}

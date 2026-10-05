@@ -1,0 +1,1695 @@
+{
+  "dates": "December 14–20, 2026",
+  "title": "I Have Loved You, Saith the Lord",
+  "reference": "Malachi",
+  "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/51?lang=eng",
+  "sections": [
+    "“Return unto me, and I will return unto you.”",
+    "The Lord asks for “a pure offering.”",
+    "The Lord opens the windows of heaven as I show my faith by paying tithing",
+    "“I will send you Elijah the prophet.”"
+  ],
+  "puzzle": {
+    "groups": [
+      {
+        "section": 0,
+        "tiles": [
+          {
+            "text": "Return unto me",
+            "ref": "Malachi 3:7"
+          },
+          {
+            "text": "I have loved you",
+            "ref": "Malachi 1:2"
+          },
+          {
+            "text": "Book of remembrance",
+            "ref": "Malachi 3:16"
+          },
+          {
+            "text": "Sun of righteousness",
+            "ref": "Malachi 4:2"
+          }
+        ]
+      },
+      {
+        "section": 1,
+        "tiles": [
+          {
+            "text": "Polluted bread",
+            "ref": "Malachi 1:7"
+          },
+          {
+            "text": "The blind for sacrifice",
+            "ref": "Malachi 1:8"
+          },
+          {
+            "text": "A pure offering",
+            "ref": "Malachi 1:11"
+          },
+          {
+            "text": "Refiner’s fire",
+            "ref": "Malachi 3:2"
+          }
+        ]
+      },
+      {
+        "section": 2,
+        "tiles": [
+          {
+            "text": "Will a man rob God?",
+            "ref": "Malachi 3:8"
+          },
+          {
+            "text": "Tithes and offerings",
+            "ref": "Malachi 3:8"
+          },
+          {
+            "text": "Windows of heaven",
+            "ref": "Malachi 3:10"
+          },
+          {
+            "text": "Prove me now herewith",
+            "ref": "Malachi 3:10"
+          }
+        ]
+      },
+      {
+        "section": 3,
+        "tiles": [
+          {
+            "text": "Elijah the prophet",
+            "ref": "Malachi 4:5"
+          },
+          {
+            "text": "Heart of the fathers",
+            "ref": "Malachi 4:6"
+          },
+          {
+            "text": "Neither root nor branch",
+            "ref": "Malachi 4:1"
+          },
+          {
+            "text": "Great and dreadful day",
+            "ref": "Malachi 4:5"
+          }
+        ]
+      }
+    ],
+    "approved": "279a6c89"
+  },
+  "sayings": [
+    {
+      "id": "say-wherein-loved",
+      "text": "Wherein hast thou loved us?",
+      "ref": "Malachi 1:2",
+      "speaker": "Israel, to the Lord",
+      "wrong": [
+        "Esau, to his father Isaac",
+        "The priests, to Malachi"
+      ],
+      "why": "The Lord had just said, “I have loved you.” His people answered with doubt, so He reminded them He had chosen their father Jacob.",
+      "approved": "3b7a7be7"
+    },
+    {
+      "id": "say-son-honoureth",
+      "text": "A son honoureth his father, and a servant his master",
+      "ref": "Malachi 1:6",
+      "speaker": "The Lord, to the priests",
+      "wrong": [
+        "Malachi, to his sons",
+        "Moses, to the elders"
+      ],
+      "why": "The Lord went on: “if then I be a father, where is mine honour?” The priests gave Him less honor than a son gives his father.",
+      "approved": "1fa6e886"
+    },
+    {
+      "id": "say-table-contemptible",
+      "text": "The table of the LORD is contemptible.",
+      "ref": "Malachi 1:7",
+      "speaker": "The priests, about the altar",
+      "wrong": [
+        "Pharaoh, about the Israelites",
+        "Haman, about the king’s feast"
+      ],
+      "why": "The Lord said the priests despised His name by saying this. They treated His altar as worthless, so they offered “polluted bread” on it.",
+      "approved": "49f41b4b"
+    },
+    {
+      "id": "say-wherein-return",
+      "text": "Wherein shall we return?",
+      "ref": "Malachi 3:7",
+      "speaker": "The people, to the Lord",
+      "wrong": [
+        "Malachi, to the Lord",
+        "Jonah, to the sailors"
+      ],
+      "why": "The Lord had invited them, “Return unto me, and I will return unto you.” They answered as if they had never wandered away.",
+      "approved": "a1505e66"
+    },
+    {
+      "id": "say-rob-god",
+      "text": "Will a man rob God? Yet ye have robbed me.",
+      "ref": "Malachi 3:8",
+      "speaker": "The Lord, to His people",
+      "wrong": [
+        "Joseph, to his brothers",
+        "Nathan, to King David"
+      ],
+      "why": "The people asked how they had robbed Him. His answer: “In tithes and offerings.”",
+      "approved": "04e2c564"
+    },
+    {
+      "id": "say-prove-me",
+      "text": "prove me now herewith, saith the LORD of hosts",
+      "ref": "Malachi 3:10",
+      "speaker": "The Lord, to Israel",
+      "wrong": [
+        "Gideon, to the Lord",
+        "Elijah, to Baal’s priests"
+      ],
+      "why": "The Lord invited His people to test Him by paying their tithes, and promised to “open you the windows of heaven.”",
+      "approved": "8a95f901"
+    },
+    {
+      "id": "say-vain-to-serve",
+      "text": "It is vain to serve God",
+      "ref": "Malachi 3:14",
+      "speaker": "Doubters among the Jews",
+      "wrong": [
+        "Pharaoh’s magicians",
+        "Job’s three friends"
+      ],
+      "why": "They thought obeying God gained them nothing, since the proud seemed happy. But the Lord kept “a book of remembrance” (Malachi 3:16) for the faithful.",
+      "approved": "5a3f50e9"
+    },
+    {
+      "id": "say-my-messenger",
+      "text": "Behold, I will send my messenger, and he shall prepare the way before me",
+      "ref": "Malachi 3:1",
+      "speaker": "The Lord, about a messenger",
+      "wrong": [
+        "John the Baptist, about Jesus",
+        "Isaiah, about King Cyrus"
+      ],
+      "why": "John the Baptist was that messenger before Jesus’ ministry. Jesus said so in Matthew 11:10, quoting these words.",
+      "approved": "d70ca8ee"
+    },
+    {
+      "id": "say-send-elijah",
+      "text": "Behold, I will send you Elijah the prophet",
+      "ref": "Malachi 4:5",
+      "speaker": "The Lord, through Malachi",
+      "wrong": [
+        "Elisha, to the prophets",
+        "Jesus, on the mountain"
+      ],
+      "why": "These are among the last words of the Old Testament. Elijah came to Joseph Smith and Oliver Cowdery in the Kirtland Temple in 1836 (D&C 110:13).",
+      "approved": "4e241abf"
+    }
+  ],
+  "words": [
+    {
+      "word": "ESAU",
+      "clue": "Was not ____ Jacob's brother?",
+      "ref": "Malachi 1:2",
+      "mean": "God reminded His people that He had made His covenant with Jacob’s family, a sign that He loved them."
+    },
+    {
+      "word": "PURE",
+      "clue": "in every place incense shall be offered unto my name, and a ____ offering",
+      "ref": "Malachi 1:11",
+      "mean": "One day people everywhere will honor the Lord with offerings that come from honest, willing hearts."
+    },
+    {
+      "word": "SILVER",
+      "clue": "he shall sit as a refiner and purifier of ____",
+      "ref": "Malachi 3:3",
+      "mean": "Like a refiner removing the dross from silver, the Lord helps us become clean and pure."
+    },
+    {
+      "word": "TITHES",
+      "clue": "Wherein have we robbed thee? In ____ and offerings.",
+      "ref": "Malachi 3:8",
+      "mean": "Holding back our tithes and offerings is like keeping what belongs to the Lord."
+    },
+    {
+      "word": "WINDOWS",
+      "clue": "if I will not open you the ____ of heaven",
+      "ref": "Malachi 3:10",
+      "mean": "When we pay tithing, the Lord pours out blessings, many of them quiet and spiritual."
+    },
+    {
+      "word": "JEWELS",
+      "clue": "in that day when I make up my ____",
+      "ref": "Malachi 3:17",
+      "mean": "The faithful are precious to the Lord. He remembers them and keeps them as His own."
+    },
+    {
+      "word": "ELIJAH",
+      "clue": "Behold, I will send you ____ the prophet",
+      "ref": "Malachi 4:5",
+      "mean": "Elijah came to the Kirtland Temple in 1836 and restored the keys that seal families forever."
+    }
+  ],
+  "deep": [
+    {
+      "id": "deep51-spare",
+      "section": 0,
+      "read": "Malachi 3:13–18",
+      "intro": "Some people said serving God was useless. Read what the Lord promised the ones who kept fearing Him, and how He will treat them.",
+      "q": "In Malachi 3:17, how does the Lord say He will spare those who fear Him?",
+      "hunt": "In Malachi 3, how does the Lord say He will spare those who fear Him?",
+      "right": "As a man spares his son who serves him",
+      "wrong": [
+        "As a king spares a city that surrenders",
+        "As a shepherd spares his strongest lambs"
+      ],
+      "why": "Verse 17: “I will spare them, as a man spareth his own son that serveth him.” The faithful are like beloved children to Him.",
+      "source": "Malachi 3:17",
+      "find": "as a man spareth his own son that serveth him",
+      "approved": "89d9667f"
+    },
+    {
+      "id": "deep51-weariness",
+      "section": 1,
+      "read": "Malachi 1:6–14",
+      "intro": "The lesson asks what the priests’ sacrifices show about how they felt toward the Lord. Read what they said about bringing Him offerings.",
+      "q": "In Malachi 1:13, what did the people say about bringing offerings to the Lord?",
+      "hunt": "In Malachi 1, what did the people say about bringing offerings to the Lord?",
+      "right": "What a weariness it is!",
+      "wrong": [
+        "What a joy it is to give!",
+        "What a gift we bring Him!"
+      ],
+      "why": "Verse 13: “Behold, what a weariness is it! and ye have snuffed at it.” They treated worship like a chore, so they gave the Lord their worst.",
+      "source": "Malachi 1:13",
+      "find": "Behold, what a weariness is it",
+      "approved": "e48c5193"
+    },
+    {
+      "id": "deep51-blessed",
+      "section": 2,
+      "read": "Malachi 3:8–12",
+      "intro": "The lesson asks what in these verses could help you answer a friend who asks why you pay tithing. Read the whole promise, to the end.",
+      "q": "In Malachi 3:12, what will all nations call the people who obey?",
+      "hunt": "In Malachi 3, what will all nations call the people who obey the law of tithing?",
+      "right": "Blessed, a delightsome land",
+      "wrong": [
+        "Wealthy, a powerful nation",
+        "Clever, a people of trade"
+      ],
+      "why": "Verse 12: “All nations shall call you blessed: for ye shall be a delightsome land.” Others will see the Lord’s blessings on them.",
+      "source": "Malachi 3:12",
+      "find": "all nations shall call you blessed",
+      "approved": "5d286f59"
+    },
+    {
+      "id": "deep51-doors",
+      "section": 3,
+      "read": "D&C 110:13–16",
+      "intro": "The lesson points to these verses to show where Malachi’s promise came true. Read what Elijah said when he came to the Kirtland Temple in 1836.",
+      "q": "In D&C 110:16, what did Elijah say his coming showed about the great and dreadful day of the Lord?",
+      "hunt": "In D&C 110, what did Elijah say his coming showed about the great and dreadful day of the Lord?",
+      "right": "It is near, even at the doors",
+      "wrong": [
+        "It has already come and gone",
+        "It is thousands of years away"
+      ],
+      "why": "Verse 16: “By this ye may know that the great and dreadful day of the Lord is near, even at the doors.” His coming was a sign to get ready.",
+      "source": "D&C 110:16",
+      "find": "is near, even at the doors",
+      "approved": "fe605a22"
+    },
+    {
+      "id": "deep51-kids",
+      "day": "friday",
+      "title": "From the children's part of the lesson",
+      "read": "lesson",
+      "intro": "The children’s part of this week’s lesson has hands-on ideas for Malachi 3:10. One of them helps you picture blessings so big there isn’t room enough to receive them.",
+      "q": "To show blessings with not room enough to receive them, what does the lesson suggest doing with a cup?",
+      "right": "Pour water in until it overflows",
+      "wrong": [
+        "Fill it with coins, one per blessing",
+        "Turn it over and stack ten more"
+      ],
+      "why": "It suggests pouring water into a cup until it overflows, to picture the Lord pouring out more blessings than we have room to hold.",
+      "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/51?lang=eng",
+      "find": "pour water into a cup until it overflows",
+      "approved": "a9806370"
+    },
+    {
+      "id": "deep51-ftsoy",
+      "day": "friday",
+      "title": "From For the Strength of Youth",
+      "read": "https://www.churchofjesuschrist.org/study/ftsoy/2026/12/what-are-the-windows-of-heaven?lang=eng",
+      "intro": "A short December article in For the Strength of Youth explains where Malachi’s picture of the windows of heaven came from.",
+      "q": "According to the article, what did ancient people think was kept above the sky?",
+      "right": "Water, stored in heavenly storehouses",
+      "wrong": [
+        "Gold, saved up for the righteous",
+        "Fire, saved for the last days"
+      ],
+      "why": "It says people pictured water stored above the sky, let down through windows or floodgates as heavy rain. The Lord used that picture for a flood of blessings.",
+      "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/12/what-are-the-windows-of-heaven?lang=eng",
+      "find": "water was thought to be kept in storehouses",
+      "approved": "d6ac1d78"
+    }
+  ],
+  "reels": [
+    {
+      "id": "mal1-loved",
+      "section": 0,
+      "hook": "God told His people He loved them. They asked how.",
+      "body": "Malachi’s book opens with the Lord saying, “I have loved you.” But His people, back from years of captivity, answered, “Wherein hast thou loved us?” He reminded them that He had chosen their father Jacob and made a covenant with his family, a covenant He was still keeping. The lesson asks you the same question: how have you felt the Lord’s love?",
+      "verse": {
+        "text": "I have loved you, saith the LORD. Yet ye say, Wherein hast thou loved us? Was not Esau Jacob's brother? saith the LORD: yet I loved Jacob,",
+        "ref": "Malachi 1:2"
+      },
+      "question": {
+        "q": "What did the Lord point to as proof that He loved them?",
+        "right": "His covenant with their father Jacob",
+        "wrong": [
+          "The rich land He had just given them",
+          "The new king He had chosen for them"
+        ],
+        "why": "“Was not Esau Jacob’s brother? … yet I loved Jacob.” He chose Jacob’s family for His covenant, and He kept it."
+      },
+      "bonus": {
+        "q": "The Lord says He hated Esau. What can that word sometimes mean, say this week’s Scripture Helps?",
+        "right": "Not to choose",
+        "wrong": [
+          "To forget forever",
+          "To be angry at"
+        ],
+        "why": "They say the word translated hate can sometimes mean not to choose. The Lord chose Jacob’s family for His covenant; it wasn’t bitter hatred.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/49-malachi?lang=eng",
+        "find": "can sometimes mean “not to choose”"
+      },
+      "gradient": "linear-gradient(150deg,#4c0519 0%,#be123c 50%,#fecdd3 115%)",
+      "blobA": "rgba(254,205,211,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "9a59be81"
+    },
+    {
+      "id": "mal3-return",
+      "section": 0,
+      "hook": "Turn back to Him, and He comes toward you.",
+      "body": "For generations the people had drifted from the Lord’s ways. He didn’t start with punishments. He invited them: “Return unto me, and I will return unto you.” They asked, “Wherein shall we return?” as if they didn’t know they had left. Returning to the Lord means repenting: turning around and coming back. When you turn toward Him, He comes toward you too.",
+      "verse": {
+        "text": "Even from the days of your fathers ye are gone away from mine ordinances, and have not kept them. Return unto me, and I will return unto you, saith the LORD of hosts. But ye said, Wherein shall we return?",
+        "ref": "Malachi 3:7"
+      },
+      "question": {
+        "q": "What does the Lord promise if His people return to Him?",
+        "right": "He will return to them",
+        "wrong": [
+          "He will give them a king",
+          "He will rebuild their walls"
+        ],
+        "why": "“Return unto me, and I will return unto you, saith the LORD of hosts.” When we turn back, He turns toward us."
+      },
+      "bonus": {
+        "q": "In Malachi 3:6, right before this invitation, what does the Lord say about Himself?",
+        "hunt": "In Malachi 3, right before inviting His people to return, what does the Lord say about Himself?",
+        "right": "He does not change",
+        "wrong": [
+          "He is slow to anger",
+          "He forgets their sins"
+        ],
+        "why": "Verse 6: “For I am the LORD, I change not; therefore ye sons of Jacob are not consumed.” Because He is steady, returning to Him is always possible.",
+        "source": "Malachi 3:6",
+        "find": "I change not"
+      },
+      "gradient": "linear-gradient(150deg,#1e1b4b 0%,#4338ca 50%,#c7d2fe 115%)",
+      "blobA": "rgba(199,210,254,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "f87a917c"
+    },
+    {
+      "id": "mal3-remembrance",
+      "section": 0,
+      "hook": "Heaven keeps a record of those who stay faithful.",
+      "body": "Some people grumbled that serving God was useless, because the proud seemed to get ahead (Malachi 3:14–15). But others who feared the Lord kept talking together about Him. The Lord noticed, and “a book of remembrance was written before him” for them. He promised they would be His “jewels” (verse 17). When doing right seems to make no difference, the Lord still sees it.",
+      "verse": {
+        "text": "Then they that feared the LORD spake often one to another: and the LORD hearkened, and heard it, and a book of remembrance was written before him for them that feared the LORD, and that thought upon his name.",
+        "ref": "Malachi 3:16"
+      },
+      "question": {
+        "q": "What did the Lord do for those who feared Him and spoke of Him?",
+        "right": "Kept a book of remembrance for them",
+        "wrong": [
+          "Gave them jewels of gold and silver",
+          "Made them priests in His temple"
+        ],
+        "why": "“A book of remembrance was written before him for them that feared the LORD.” He remembers those who stay faithful."
+      },
+      "bonus": {
+        "q": "Scripture Helps say the Hebrew word translated jewels in this passage is segullah. What else can it mean?",
+        "right": "Valued property or treasure",
+        "wrong": [
+          "Shining stars in the sky",
+          "Crowns worn by kings"
+        ],
+        "why": "They say segullah can also mean valued property or treasure. The Lord often uses it for His covenant people, the ones He treasures.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/49-malachi?lang=eng",
+        "find": "can also mean “valued property” or “treasure.”"
+      },
+      "gradient": "linear-gradient(150deg,#422006 0%,#a16207 50%,#fef08a 115%)",
+      "blobA": "rgba(254,240,138,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "5576bab6"
+    },
+    {
+      "id": "mal4-sun",
+      "section": 0,
+      "hook": "A sunrise that heals, for those who love the Lord.",
+      "body": "Malachi warned that the day of the Lord’s coming would burn like an oven for the proud (Malachi 4:1). But for those who fear His name, “the Sun of righteousness” will rise “with healing in his wings.” This week’s lesson calls Jesus Christ the Sun of Righteousness. Like the morning sun, He brings light, warmth and healing. He is the greatest proof of God’s love.",
+      "verse": {
+        "text": "But unto you that fear my name shall the Sun of righteousness arise with healing in his wings…",
+        "ref": "Malachi 4:2"
+      },
+      "question": {
+        "q": "What will the Sun of righteousness bring to those who fear the Lord?",
+        "right": "Healing, like warm morning light",
+        "wrong": [
+          "Burning heat, like an oven",
+          "Darkness, like a long night"
+        ],
+        "why": "“Unto you that fear my name shall the Sun of righteousness arise with healing in his wings.” For the faithful, His coming heals."
+      },
+      "bonus": {
+        "q": "In Malachi 4:2, what will the faithful go forth and grow up like?",
+        "hunt": "In Malachi 4, what will the faithful go forth and grow up like?",
+        "right": "Calves let out of the stall",
+        "wrong": [
+          "Cedars on the mountains",
+          "Lambs in the green pasture"
+        ],
+        "why": "Verse 2: “ye shall go forth, and grow up as calves of the stall.” Like healthy young calves, the faithful will go out and grow strong.",
+        "source": "Malachi 4:2",
+        "find": "grow up as calves of the stall"
+      },
+      "media": {
+        "image": {
+          "src": "media/sunrise-harding-icefield.jpg",
+          "alt": "The sun rising over snowy mountains, lighting a wide white field of snow with orange and pink",
+          "credit": "Sunrise on the Harding Icefield, Kenai Fjords National Park. Photo: NPS, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Sunrise_on_the_Harding_Icefield,_Kenai_Fjords_National_Park.jpg"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#7c2d12 0%,#ea580c 50%,#fed7aa 115%)",
+      "blobA": "rgba(254,215,170,.4)",
+      "blobB": "rgba(0,0,0,.4)",
+      "approved": "41279219"
+    },
+    {
+      "id": "mal1-blemished",
+      "section": 1,
+      "hook": "They gave God leftovers they’d never give a ruler.",
+      "body": "Animal sacrifices pointed to Jesus Christ, the Lamb of God. But in Malachi’s day the priests accepted blind, lame and sick animals, and kept the healthy ones for themselves. The Lord asked them to try offering those to their governor. Would he be pleased? If a ruler wouldn’t want it, why give it to God? The Lord wanted their best, given with their whole heart.",
+      "verse": {
+        "text": "And if ye offer the blind for sacrifice, is it not evil? and if ye offer the lame and sick, is it not evil? offer it now unto thy governor; will he be pleased with thee, or accept thy person? saith the LORD of hosts.",
+        "ref": "Malachi 1:8"
+      },
+      "question": {
+        "q": "Why was the Lord unhappy with their sacrifices?",
+        "right": "They gave Him blind, lame and sick animals",
+        "wrong": [
+          "They brought too many animals at once",
+          "They offered them on the wrong day"
+        ],
+        "why": "“If ye offer the blind for sacrifice, is it not evil?” They kept their best animals and gave the Lord what they didn’t want."
+      },
+      "bonus": {
+        "q": "Under the law of Moses, what did a sacrifice have to be, in Leviticus 22:21?",
+        "hunt": "Under the law of Moses, what did a sacrifice have to be, in Leviticus 22?",
+        "right": "Perfect, with no blemish",
+        "wrong": [
+          "Young, born that same year",
+          "Large, the biggest of the flock"
+        ],
+        "why": "Leviticus 22:21: “it shall be perfect to be accepted; there shall be no blemish therein.” A perfect animal pointed to the perfect Savior.",
+        "source": "Leviticus 22:21",
+        "find": "it shall be perfect to be accepted"
+      },
+      "media": {
+        "image": {
+          "src": "media/agnus-dei-zurbaran.jpg",
+          "alt": "Painting of a white lamb lying calmly on a gray table, its feet tied together, against a dark background",
+          "credit": "Agnus Dei (Lamb of God), by Francisco de Zurbarán, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Agnus_Dei,_por_Francisco_de_Zurbar%C3%A1n.jpg"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#1c1917 0%,#57534e 50%,#e7e5e4 115%)",
+      "blobA": "rgba(231,229,228,.35)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "6a67a277"
+    },
+    {
+      "id": "mal1-pure",
+      "section": 1,
+      "hook": "One day, people everywhere will honor His name.",
+      "body": "Right after scolding the priests, the Lord looked ahead. From sunrise to sunset, “my name shall be great among the Gentiles,” and in every place people would bring Him “a pure offering.” A pure offering isn’t about how much it costs. It comes from an honest, willing heart. Your prayers, your time and your kindness can all be pure offerings to the Lord.",
+      "verse": {
+        "text": "For from the rising of the sun even unto the going down of the same my name shall be great among the Gentiles; and in every place incense shall be offered unto my name, and a pure offering: for my name shall be great among the heathen, saith the LORD of hosts.",
+        "ref": "Malachi 1:11"
+      },
+      "question": {
+        "q": "What kind of offering will people everywhere bring the Lord one day?",
+        "right": "A pure offering",
+        "wrong": [
+          "A golden offering",
+          "A burnt offering"
+        ],
+        "why": "“In every place incense shall be offered unto my name, and a pure offering.” The Lord wants offerings from honest, willing hearts."
+      },
+      "bonus": {
+        "q": "This week’s lesson suggests something to do with the offerings you make to the Lord. What is it?",
+        "right": "List them, then ponder each one",
+        "wrong": [
+          "Write them on a card for church",
+          "Count them every Sunday night"
+        ],
+        "why": "It suggests listing the offerings or sacrifices you make to the Lord, then pondering what might make each one polluted or pure.",
+        "source": "lesson",
+        "find": "Consider making a list of offerings, or sacrifices, that you make to the Lord"
+      },
+      "media": {
+        "image": {
+          "src": "media/blue-marble.jpg",
+          "alt": "The whole Earth seen from space, a blue and white ball against black",
+          "credit": "The Blue Marble, Earth from Apollo 17, 1972. Photo: NASA, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:The_Blue_Marble,_AS17-148-22727.jpg"
+        }
+      },
+      "gradient": "linear-gradient(160deg,#020617 0%,#1e3a8a 55%,#bfdbfe 115%)",
+      "blobA": "rgba(191,219,254,.4)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "e74d6599"
+    },
+    {
+      "id": "mal3-refiner",
+      "section": 1,
+      "hook": "Silver gets pure in the fire. So can people.",
+      "body": "Malachi said the Lord would come “like a refiner’s fire, and like fullers’ soap” (Malachi 3:2). A refiner heats silver until the dross, the junk mixed in, rises to the top so he can remove it. A fuller scrubs and stamps cloth until it’s clean. Both take work. The Lord purifies His people the same way, so they can “offer unto the LORD an offering in righteousness.”",
+      "verse": {
+        "text": "And he shall sit as a refiner and purifier of silver: and he shall purify the sons of Levi, and purge them as gold and silver, that they may offer unto the LORD an offering in righteousness.",
+        "ref": "Malachi 3:3"
+      },
+      "question": {
+        "q": "What is the refiner in Malachi 3:3 working to make?",
+        "right": "Pure silver, with the dross removed",
+        "wrong": [
+          "Bright coins to pay the priests",
+          "Strong swords for the soldiers"
+        ],
+        "why": "“He shall sit as a refiner and purifier of silver.” The Lord refines His people so they can offer Him “an offering in righteousness.”"
+      },
+      "bonus": {
+        "q": "According to the September 2016 Ensign, how did a refiner often know his silver was finally pure?",
+        "right": "It gave off a pure, glowing light",
+        "wrong": [
+          "It rang like a bell when struck",
+          "It turned a deep shade of blue"
+        ],
+        "why": "The article says the refiner often knew he had pure silver when he saw its pure, glowing light. Getting there took just the right heat.",
+        "source": "https://www.churchofjesuschrist.org/study/ensign/2016/09/refiners-fire-and-fullers-soap?lang=eng",
+        "find": "seeing its unmistakably pure glowing light"
+      },
+      "media": {
+        "image": {
+          "src": "media/steel-furnace-slag.jpg",
+          "alt": "Glowing slag, the melted junk drained off the top of molten steel, pouring from a steel-mill furnace",
+          "credit": "Slag run-off at a steel mill, 1941. Photo: Alfred T. Palmer, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Slag_runoff_Republic_Steel.jpg"
+        }
+      },
+      "gradient": "linear-gradient(155deg,#1c0a00 0%,#9a3412 50%,#fdba74 115%)",
+      "blobA": "rgba(253,186,116,.4)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "a0af3481"
+    },
+    {
+      "id": "mal3-rob",
+      "section": 2,
+      "hook": "Can a person steal from God?",
+      "body": "It sounds impossible to rob God. Everything already belongs to Him. But the Lord told His people, “Yet ye have robbed me.” Surprised, they asked how. His answer: “In tithes and offerings.” The Lord asks us to give Him a tenth of what we earn as tithing. When we hold back what He asks, we keep what is His, and we miss the blessings He wants to give.",
+      "verse": {
+        "text": "Will a man rob God? Yet ye have robbed me. But ye say, Wherein have we robbed thee? In tithes and offerings.",
+        "ref": "Malachi 3:8"
+      },
+      "question": {
+        "q": "How did the Lord say His people were robbing Him?",
+        "right": "In tithes and offerings",
+        "wrong": [
+          "In songs and prayers",
+          "In fasts and feasts"
+        ],
+        "why": "“Wherein have we robbed thee? In tithes and offerings.” Holding back what the Lord asks means keeping what is His."
+      },
+      "bonus": {
+        "q": "Scripture Helps tell who paid the first tithing recorded in the Old Testament. Who was it, and to whom?",
+        "right": "Abraham, to Melchizedek",
+        "wrong": [
+          "Jacob, to his father Isaac",
+          "Moses, to his brother Aaron"
+        ],
+        "why": "They say the first recorded tithing in the Old Testament was Abraham paying tithes to Melchizedek, the high priest.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/49-malachi?lang=eng",
+        "find": "Abraham’s payment of tithes to Melchizedek"
+      },
+      "gradient": "linear-gradient(150deg,#064e3b 0%,#047857 50%,#a7f3d0 115%)",
+      "blobA": "rgba(167,243,208,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "d90d57fb"
+    },
+    {
+      "id": "mal3-windows",
+      "section": 2,
+      "hook": "Test Me, the Lord says. Then watch what pours down.",
+      "body": "Here the Lord does something surprising. He tells His people to test Him: “prove me now herewith.” If they bring their tithes, He will “open you the windows of heaven, and pour you out a blessing.” Elder David A. Bednar taught that windows let light into a building. In the same way, tithing opens our lives to light and blessings from heaven, often in quiet ways.",
+      "verse": {
+        "text": "Bring ye all the tithes into the storehouse, that there may be meat in mine house, and prove me now herewith, saith the LORD of hosts, if I will not open you the windows of heaven, and pour you out a blessing, that there shall not be room enough to receive it.",
+        "ref": "Malachi 3:10"
+      },
+      "question": {
+        "q": "What does the Lord invite His people to do in Malachi 3:10?",
+        "right": "Test Him by paying their tithes",
+        "wrong": [
+          "Build bigger barns for their grain",
+          "Wait for rain before they pay"
+        ],
+        "why": "“Prove me now herewith, saith the LORD of hosts, if I will not open you the windows of heaven.” He invites us to try Him and see."
+      },
+      "bonus": {
+        "q": "Scripture Helps explain the Lord’s promise to rebuke the devourer. What did the devourer likely mean?",
+        "right": "Pests like locusts that eat crops",
+        "wrong": [
+          "Robbers who steal the harvest",
+          "Wild lions that eat the flocks"
+        ],
+        "why": "They say the devourer likely meant pests such as locusts that could damage crops. More broadly, the Lord promises help and protection to those who pay tithing.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/49-malachi?lang=eng",
+        "find": "pests such as locusts"
+      },
+      "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0284c7 50%,#e0f2fe 115%)",
+      "blobA": "rgba(224,242,254,.4)",
+      "blobB": "rgba(0,0,0,.4)",
+      "approved": "f0daffae"
+    },
+    {
+      "id": "mal4-elijah",
+      "section": 3,
+      "hook": "A prophet from long ago, promised to come back.",
+      "body": "Elijah lived centuries before Malachi and was taken into heaven without dying. He appeared with Moses when Jesus was transfigured (Matthew 17:3). Malachi promised he would come again “before the coming of the great and dreadful day of the LORD.” On April 3, 1836, Elijah appeared to Joseph Smith and Oliver Cowdery in the Kirtland Temple and gave them the sealing keys.",
+      "verse": {
+        "text": "Behold, I will send you Elijah the prophet before the coming of the great and dreadful day of the LORD:",
+        "ref": "Malachi 4:5"
+      },
+      "question": {
+        "q": "When did Malachi’s promise about Elijah come true?",
+        "right": "When Elijah came to the Kirtland Temple",
+        "wrong": [
+          "When Elijah was taken up to heaven",
+          "When Malachi finished writing his book"
+        ],
+        "why": "“Behold, I will send you Elijah the prophet.” In 1836 he came to the Kirtland Temple and restored the keys to seal families."
+      },
+      "bonus": {
+        "q": "Scripture Helps tell how long after Moroni first quoted this prophecy to Joseph Smith that Elijah came. How long?",
+        "right": "Twelve and a half years",
+        "wrong": [
+          "Three and a half years",
+          "Seven and a half years"
+        ],
+        "why": "They say Moroni quoted Malachi’s prophecy in 1823, and twelve and a half years later Elijah came to the Kirtland Temple.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/49-malachi?lang=eng",
+        "find": "Twelve and a half years later"
+      },
+      "media": {
+        "image": {
+          "src": "media/transfiguration-bloch.jpg",
+          "alt": "Painting of Jesus Christ glowing with bright white light on a mountain, with two prophets beside Him and three disciples shielding their eyes",
+          "credit": "The Transfiguration, by Carl Bloch, 1872. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Transfiguration_bloch.jpg"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#0f172a 0%,#334155 50%,#f8fafc 115%)",
+      "blobA": "rgba(248,250,252,.35)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "c38d0051"
+    },
+    {
+      "id": "mal4-hearts",
+      "section": 3,
+      "hook": "Families tied together across the generations.",
+      "body": "Elijah’s work would “turn the heart of the fathers to the children, and the heart of the children to their fathers.” When Moroni quoted this to Joseph Smith, he said Elijah would “plant in the hearts of the children the promises made to the fathers” (D&C 2:2). When you learn your ancestors’ stories or are baptized for them in the temple, your heart is turning.",
+      "verse": {
+        "text": "And he shall turn the heart of the fathers to the children, and the heart of the children to their fathers, lest I come and smite the earth with a curse.",
+        "ref": "Malachi 4:6"
+      },
+      "question": {
+        "q": "What did Malachi say Elijah would turn?",
+        "right": "The hearts of parents and children",
+        "wrong": [
+          "The armies of the nations back home",
+          "The proud away from the temple"
+        ],
+        "why": "“He shall turn the heart of the fathers to the children, and the heart of the children to their fathers.” Families are joined across generations."
+      },
+      "bonus": {
+        "q": "Scripture Helps say the fathers in this verse can mean our ancestors. Who else can they be, President Nelson taught?",
+        "right": "Abraham, Isaac and Jacob",
+        "wrong": [
+          "Moses, Aaron and Joshua",
+          "Peter, James and John"
+        ],
+        "why": "They say President Joseph Fielding Smith taught the fathers can be our ancestors, and President Russell M. Nelson taught they can also be the ancient patriarchs Abraham, Isaac and Jacob.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/49-malachi?lang=eng",
+        "find": "the ancient patriarchs Abraham, Isaac, and Jacob"
+      },
+      "media": {
+        "image": {
+          "src": "media/manila-temple-evening.jpg",
+          "alt": "The white Manila Philippines Temple with its tall spires at sunset, framed by palm trees",
+          "credit": "Manila Philippines Temple in the Evening, from the Church Media Library",
+          "link": "https://www.churchofjesuschrist.org/media/image/manila-philippines-temple-lds-75a25fc?lang=eng"
+        }
+      },
+      "gradient": "linear-gradient(160deg,#172554 0%,#6d28d9 50%,#ede9fe 115%)",
+      "blobA": "rgba(237,233,254,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "0c078d86"
+    },
+    {
+      "id": "mal4-roots",
+      "section": 3,
+      "hook": "A tree with no roots and no branches can’t live.",
+      "body": "Malachi warned that at the Second Coming the proud and wicked would burn like stubble, the dry stalks left after a harvest, with “neither root nor branch.” Think of a family tree. Your roots are your ancestors, and your branches are your children and grandchildren. Elijah’s sealing keys let families be joined forever, so no one has to be cut off from either.",
+      "verse": {
+        "text": "For, behold, the day cometh, that shall burn as an oven; and all the proud, yea, and all that do wickedly, shall be stubble: and the day that cometh shall burn them up, saith the LORD of hosts, that it shall leave them neither root nor branch.",
+        "ref": "Malachi 4:1"
+      },
+      "question": {
+        "q": "In a family tree, what do the roots and branches stand for?",
+        "right": "Ancestors and descendants",
+        "wrong": [
+          "Neighbors and close friends",
+          "Farmers and their fields"
+        ],
+        "why": "Roots are the family who came before you, and branches the family who come after. Elijah’s keys let them be sealed together."
+      },
+      "bonus": {
+        "q": "In Malachi 4:4, where does the Lord say He gave Moses the law?",
+        "hunt": "In Malachi 4, where does the Lord say He gave Moses the law?",
+        "right": "In Horeb",
+        "wrong": [
+          "In Egypt",
+          "In Jerusalem"
+        ],
+        "why": "Verse 4: “Remember ye the law of Moses my servant, which I commanded unto him in Horeb.” Horeb is another name for Mount Sinai.",
+        "source": "Malachi 4:4",
+        "find": "which I commanded unto him in Horeb"
+      },
+      "gradient": "linear-gradient(150deg,#14532d 0%,#3f6212 50%,#d9f99d 115%)",
+      "blobA": "rgba(217,249,157,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "cb3da4a4"
+    }
+  ],
+  "tldr": [
+    {
+      "ch": "Malachi 1",
+      "lines": [
+        "The Lord tells His people He loves them. When they ask how, He points to how He loved their father Jacob and judged Esau’s land, Edom. (verses 1–5)",
+        "The priests dishonor the Lord. They offer polluted bread and blind, lame and sick animals they would never dare give their governor. (verses 6–10)",
+        "Yet from sunrise to sunset His name will be great among the Gentiles, and in every place people will bring Him a pure offering. (verse 11)",
+        "But the priests call His table worthless and bring injured, lame and sick animals. He curses the cheat who keeps his best animal for himself. (verses 12–14)"
+      ],
+      "review": [
+        {
+          "v": 3,
+          "about": "“I hated Esau” is put as “judged Esau’s land, Edom” (verses 3–4). The line avoids saying what hate means there, since a bonus asks it (Scripture Helps: not to choose)."
+        },
+        {
+          "v": 13,
+          "about": "“Torn” (KJV) is “stolen” in the BSB; the line says “injured,” as Scripture Helps describe the animals (blind, injured, deformed, or diseased)."
+        },
+        {
+          "v": 14,
+          "about": "The cheat vows a healthy male from his flock but sacrifices “a corrupt thing” (BSB “a defective animal”); the line says he keeps his best animal for himself."
+        }
+      ],
+      "approved": "b9b4be3a"
+    },
+    {
+      "ch": "Malachi 2",
+      "lines": [
+        "The Lord warns the priests that if they will not honor His name, He will turn their blessings into curses. (verses 1–4)",
+        "His covenant with Levi brought life and peace. A true priest teaches truth, turns people from sin, and serves as the Lord’s messenger. (verses 5–7)",
+        "But these priests have left the way, broken the covenant, and caused many to stumble, so the people look down on them. (verses 8–9)",
+        "The people break faith with one another, marry women who worship false gods, and leave the wives of their youth. Their words weary the Lord. (verses 10–17)"
+      ],
+      "review": [
+        {
+          "v": 11,
+          "about": "“Married the daughter of a strange god” is read as marrying women who worship false gods, as the Old Testament Student Manual and the BSB (“a foreign god”) take it."
+        },
+        {
+          "v": 16,
+          "about": "“Putting away” is divorce (BSB “I hate divorce”); the line says they “leave the wives of their youth.”"
+        }
+      ],
+      "approved": "b57b84c2"
+    },
+    {
+      "ch": "Malachi 3",
+      "lines": [
+        "The Lord’s messenger will prepare the way for His Second Coming. Then He will come suddenly to His temple, like a refiner’s fire. (verses 1–4)",
+        "He will judge those who do evil and cheat workers, widows and the fatherless. Yet He calls His people to return to Him. (verses 5–7)",
+        "They have robbed Him in tithes and offerings. If they bring their tithes, He will open the windows of heaven and pour out blessings. (verses 8–12)",
+        "Some say serving God is useless, but the faithful talk together, and a book of remembrance is kept for them. They will be His. (verses 13–18)"
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "The heading says the messenger prepares for the Second Coming; Scripture Helps add John the Baptist before Jesus’ mortal ministry and Joseph Smith in our day. The line follows the heading."
+        }
+      ],
+      "approved": "36d5444a"
+    },
+    {
+      "ch": "Malachi 4",
+      "lines": [
+        "At the Second Coming, the proud and wicked will burn like stubble, the stalks left after harvest, with no root or branch left. (verse 1)",
+        "For those who fear His name, the Sun of righteousness will rise with healing. They will triumph over the wicked and remember the law of Moses. (verses 2–4)",
+        "Before that great and dreadful day, the Lord will send Elijah to turn the hearts of fathers and children to each other. (verses 5–6)"
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "“The Second Coming” is from the chapter heading; the verse says “the day cometh.” Moroni quoted it as “they that come shall burn them” (Joseph Smith—History 1:37); the line keeps the KJV."
+        },
+        {
+          "v": 6,
+          "about": "Moroni’s wording (D&C 2:2), “plant in the hearts of the children the promises made to the fathers,” is left to the reels and the Joseph Smith Papers cards."
+        }
+      ],
+      "approved": "d805c59e"
+    }
+  ],
+  "insights": [
+    {
+      "id": "mal1-nephites",
+      "ref": "Malachi 1:1",
+      "title": "Words the Nephites got from Jesus",
+      "text": "Malachi lived about 400 years before Jesus was born, nearly 200 years after Lehi’s family left Jerusalem. The Old Testament Student Manual points out that the brass plates Lehi took couldn’t have held Malachi’s words, so the Nephites could only get them from the Lord. That’s just what happened: the risen Savior gave them Malachi 3 and 4 (3 Nephi 24–25).",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "“Behold, I Will Send You Elijah the Prophet”",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-34?lang=eng"
+      },
+      "find": "The plates of Laban could not have contained them.",
+      "approved": "782c16b9"
+    },
+    {
+      "id": "mal1-burden",
+      "ref": "Malachi 1:1",
+      "title": "The burden of a prophet",
+      "text": "Malachi begins with “the burden of the word of the LORD.” Dr. Barbara Morgan Gardner says prophets don’t speak for themselves, and carrying God’s message can be heavy, especially when people don’t want to hear it. She shared President Russell M. Nelson’s words to young adults: “Prophets are rarely popular, but we will always teach the truth.”",
+      "source": {
+        "by": "followHIM",
+        "who": "Barbara Morgan Gardner",
+        "title": "Old Testament: EPISODE 51 - Malachi - Part 1",
+        "url": "https://followhim.co/show-note/2-236/"
+      },
+      "find": "They don’t speak for themselves.",
+      "approved": "b0b78c2f"
+    },
+    {
+      "id": "mal1-q-oaks",
+      "kind": "quote",
+      "ref": "Malachi 1:2",
+      "quote": "What has Jesus Christ done for each of us? He has done everything that is essential for our journey through mortality toward the destiny outlined in the plan of our Heavenly Father.",
+      "text": "Verse 2: the people asked how God had loved them. A woman once asked President Oaks, “What’s He done for me?” This was his answer.",
+      "source": {
+        "by": "General Conference",
+        "who": "President Dallin H. Oaks",
+        "title": "What Has Our Savior Done for Us?",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2021/04/35oaks?lang=eng"
+      },
+      "approved": "f47beb22"
+    },
+    {
+      "id": "mal1-best",
+      "ref": "Malachi 1:8",
+      "title": "Not your best",
+      "text": "Why were blind and lame animals wrong to offer? Dr. Barbara Morgan Gardner says it wasn’t really about the sheep. It was about the people’s hearts. They were giving God something, but not their best, and keeping the rest for themselves. Hank Smith pointed to verse 8: offer it to your governor and see if he’s pleased.",
+      "source": {
+        "by": "followHIM",
+        "who": "Barbara Morgan Gardner",
+        "title": "Old Testament: EPISODE 51 - Malachi - Part 1",
+        "url": "https://followhim.co/show-note/2-236/"
+      },
+      "find": "It’s not a statement on how good or bad the sheep are, it’s how good or bad the intention and the motivation is of the people.",
+      "deep": {
+        "paras": [
+          "The priests in Malachi’s day were bringing blind, lame and sick animals to the altar. John Bytheway asks a fair question: plenty of good people are blind or lame or sick, so why would such an animal be a polluted sacrifice? The answer lies in what the sacrifices pointed to. They were to be the firstborn and the best of the flock because they pointed to Christ.",
+          "Dr. Barbara Morgan Gardner puts it in the Lord’s voice: “You’re offering what is worth less to you.” The problem wasn’t the animals but the hearts behind them. She compares it to Cain and Abel. These people were willing to give something, but they always held a piece back. Bytheway reads the Old Testament Student Manual’s summary: “They had no reverence for what they were doing.”",
+          "Hank Smith notices the test in verse 8: try giving the same offering to the governor and see if he is pleased. Gardner is careful to add that none of us is perfect, and we all hold some things back. The difference is intention. These priests were knowingly cutting corners and calling it their best. Our intention can be to give it all to Christ and let Him make us better."
+        ],
+        "find": [
+          "So why is it that that would be a polluted sacrifice? I guess it’s because what that sacrifice is pointing to.",
+          "They’re willing to do the Cain sacrifice, but they’re not willing to do the Abel sacrifice.",
+          "He says in verse eight, “Offer it to the governor. See if he’s pleased with what you’re offering me.”",
+          "I think the difference though, is our intention is to give it all to Christ"
+        ],
+        "listen": {
+          "youtube": "mo91BOlJYm4",
+          "start": 799,
+          "end": 1207,
+          "title": "followHIM: Malachi, part 1, with Dr. Barbara Morgan Gardner",
+          "channel": "followHIM Podcast",
+          "previewed": false
+        },
+        "approved": "c8b37169"
+      },
+      "approved": "180c0f19"
+    },
+    {
+      "id": "mal1-pure-reasons",
+      "ref": "Malachi 1:11",
+      "title": "Tithing for the right reasons",
+      "text": "A young adult realized she hadn’t paid tithing all year, and her bishop couldn’t mark her as a full-tithe payer. She paid right away, then wondered if she had paid only because she was asked. The Lord expects “a pure offering,” she remembered. She learned that tithing is about faith, not finances, and that its blessings aren’t always about money.",
+      "source": {
+        "by": "Liahona",
+        "who": "Jocelyn Burnside",
+        "title": "3 Truths That Motivated Me to Start Paying Tithing",
+        "url": "https://www.churchofjesuschrist.org/study/liahona/2026/12/3-truths-that-motivated-me-to-start-paying-tithing?lang=eng"
+      },
+      "find": "Tithing Is About Faith—Not Finances",
+      "approved": "209521bc"
+    },
+    {
+      "id": "mal1-weak",
+      "ref": "Malachi 1:13–14",
+      "title": "Keeping the strong ones",
+      "text": "The priests kept their healthy animals and brought the torn, lame and sick ones to the altar. Scripture Central notes that this is backwards from what the Lord later taught Moroni: when we come to Him, He makes weak things strong (Ether 12:27). These priests did the opposite. They gave their weak things to the Lord and kept the strong ones for themselves.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Noe Correa",
+        "title": "Old Testament Minute: Malachi",
+        "url": "https://scripturecentral.org/archive/books/book/old-testament-minute-malachi"
+      },
+      "find": "They were putting forth their weak things unto the Lord and withholding the strong animals for themselves.",
+      "approved": "0419440a"
+    },
+    {
+      "id": "mal1-jsp-correct",
+      "ref": "Malachi 1",
+      "title": "Joseph’s Bible: no changes",
+      "text": "Joseph Smith worked through the whole Bible, changing verses as the Lord inspired him. When he reached Malachi, his manuscript has just two words for all four chapters: “Malicah Correct.” He made no changes. Malachi was the last book of his Old Testament work, and a scribe wrote that it was finished on July 2, 1833.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Old Testament Revision 2, page 119",
+        "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/126"
+      },
+      "find": "Malicah Correct Finished on the 2 d day of July 1833",
+      "note": "Joseph Smith’s Bible manuscript makes no changes to Malachi. It says just “Malicah Correct,” the last entry of his Old Testament work, finished July 2, 1833.",
+      "approved": "09331dd5"
+    },
+    {
+      "id": "mal2-priesthood",
+      "ref": "Malachi 2:5–7",
+      "title": "What a priesthood holder is like",
+      "text": "Malachi 2 describes a faithful priest: the law of truth was in his mouth, and he turned many away from sin. The Old Testament Student Manual turns this into a picture of a faithful priesthood holder today. He is honest, speaks with dignity, and studies the scriptures so he can teach others. On the Lord’s errand, he acts as if he were in the Lord’s presence.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "“Behold, I Will Send You Elijah the Prophet”",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-34?lang=eng"
+      },
+      "find": "He is a student of the scriptures and has the capacity to teach the words of life to others",
+      "approved": "b63534fd"
+    },
+    {
+      "id": "mal2-wearied",
+      "ref": "Malachi 2:17",
+      "title": "Can we tire out the Lord?",
+      "text": "“Ye have wearied the LORD with your words.” Can God get weary? Scripture Central explains that the Lord is a God of love who watches over His people and weeps for them. Their disobedience wearied Him. That means our choices matter to Him. He isn’t far away and unfeeling. He cares about what happens to us.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Noe Correa",
+        "title": "Old Testament Minute: Malachi",
+        "url": "https://scripturecentral.org/archive/books/book/old-testament-minute-malachi"
+      },
+      "find": "As a God of love, the Lord watches and weeps over His people",
+      "approved": "ee7ddf9f"
+    },
+    {
+      "id": "mal3-messengers",
+      "ref": "Malachi 3:1",
+      "title": "Two messengers",
+      "text": "Malachi 3:1 names two messengers. Scripture Helps explain that the one who prepares the way was John the Baptist, before Jesus’ ministry, and Joseph Smith in our day. The other, “the messenger of the covenant,” is Jesus Christ Himself. One fulfillment of His coming “suddenly” to His temple was April 3, 1836, when He appeared in the Kirtland Temple.",
+      "source": {
+        "by": "Scripture Helps: Old Testament",
+        "title": "Malachi",
+        "url": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/49-malachi?lang=eng"
+      },
+      "find": "“Messenger of the covenant” is a title of Jesus Christ",
+      "approved": "a8508a92"
+    },
+    {
+      "id": "mal3-jsp-moroni",
+      "ref": "Malachi 3",
+      "title": "The first scripture Moroni quoted",
+      "text": "On the night of September 21, 1823, the angel Moroni visited young Joseph Smith. Joseph’s history says that after telling him about the gold plates, Moroni began quoting the Old Testament. The first passage was “part of the third chapter of Malachi.” Then he quoted chapter 4, with some differences from the Bible.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "History, 1838–1856, volume A-1 [23 December 1805–30 August 1834]",
+        "url": "https://www.josephsmithpapers.org/paper-summary/history-1838-1856-volume-a-1-23-december-1805-30-august-1834/5"
+      },
+      "find": "he first quoted part of the third chapter of Malachi and he quoted also the fourth or last chapter of the same prophecy",
+      "note": "Joseph Smith’s history says this was the first scripture Moroni quoted to him in 1823: “part of the third chapter of Malachi.” It doesn’t say which verses.",
+      "approved": "88cc7ecf"
+    },
+    {
+      "id": "mal3-fullers",
+      "ref": "Malachi 3:2",
+      "title": "A smelly job outside the city",
+      "text": "Fullers’ soap is the second picture in Malachi 3:2. A fuller cleaned and whitened wool. The September 2016 Ensign explains that in Jerusalem the work was done in a field outside the city, because of the smell. Fullers soaked the cloth in soap and water, then beat or stamped on it to get the dirt out. The Lord cleans us too, and He stays with us the whole time.",
+      "source": {
+        "by": "Ensign",
+        "title": "Refiner’s Fire and Fullers’ Soap",
+        "url": "https://www.churchofjesuschrist.org/study/ensign/2016/09/refiners-fire-and-fullers-soap?lang=eng"
+      },
+      "find": "the cleansing process took place in a fullers’ field outside the city because of the smell",
+      "approved": "ae6d19bc"
+    },
+    {
+      "id": "mal3-repent",
+      "ref": "Malachi 3:7",
+      "title": "Return means repent",
+      "text": "When the Lord says “Return unto me,” He is inviting His people to repent. Scripture Central explains that in the Old Testament, to return was to repent: to turn around and come back. And the Lord makes a promise with it: “I will return unto you.” As we repent, He draws closer to us.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Noe Correa",
+        "title": "Old Testament Minute: Malachi",
+        "url": "https://scripturecentral.org/archive/books/book/old-testament-minute-malachi"
+      },
+      "find": "In the Old Testament, to return was to repent.",
+      "approved": "c534e0f1"
+    },
+    {
+      "id": "mal3-q-holland",
+      "kind": "quote",
+      "ref": "Malachi 3:8",
+      "quote": "Paying tithing is not a token gift we are somehow charitably bestowing upon God. Paying tithing is discharging a debt.",
+      "text": "Verse 8: “Will a man rob God?” Elder Holland called it one of the most piercing lines in scripture. Here is how he described tithing.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Jeffrey R. Holland",
+        "title": "“Like a Watered Garden”",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2001/10/like-a-watered-garden?lang=eng"
+      },
+      "approved": "2f7b76bc"
+    },
+    {
+      "id": "mal3-fourteen-cents",
+      "ref": "Malachi 3:8",
+      "title": "Fourteen cents",
+      "text": "Elder Jeffrey R. Holland told about President Howard W. Hunter’s seven-year-old grandson, who paid a full tithing of 14 cents. The bishop asked if he thought the gospel was true. The boy said he guessed so, but “it sure costs a lot of money.” Elder Holland’s point: teach children that tithes and offerings pay for their temples, chapels and seminaries.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Jeffrey R. Holland",
+        "title": "“Like a Watered Garden”",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2001/10/like-a-watered-garden?lang=eng"
+      },
+      "find": "this seven-year-old said he guessed the gospel was true",
+      "approved": "d4354a3a"
+    },
+    {
+      "id": "mal3-v-gospelforkids",
+      "kind": "video",
+      "ref": "Malachi 3:8–10",
+      "title": "Malachi the Prophet, for kids",
+      "text": "A one-minute cartoon of Malachi’s message for children, from a channel of kids’ scripture videos. Watch for what some people gave the Lord instead of an honest tithe, and what He promised to those who paid it (Malachi 3:10).",
+      "video": {
+        "youtube": "1xmgU5drz88",
+        "start": 0,
+        "end": 59,
+        "title": "Malachi the Prophet | Old Testament Stories for Kids",
+        "channel": "Gospel For Kids",
+        "previewed": false
+      },
+      "approved": "afb2f5d0"
+    },
+    {
+      "id": "mal3-prove-me",
+      "ref": "Malachi 3:10",
+      "title": "The Lord asks to be tested",
+      "text": "We usually think of life as a test from God. John Bytheway noticed that Malachi 3:10 flips it around. The Lord says, “prove me now herewith”: test Me. Dr. Barbara Morgan Gardner adds that the Lord wants to pour out blessings, but He won’t break His own law. When we pay tithing, we let Him keep His promise.",
+      "source": {
+        "by": "followHIM",
+        "who": "Barbara Morgan Gardner",
+        "title": "Old Testament: EPISODE 51 - Malachi - Part 1",
+        "url": "https://followhim.co/show-note/2-236/"
+      },
+      "find": "He’s asking them to test Him, which is kind of a fun reversal of things.",
+      "deep": {
+        "paras": [
+          "Near the end of the first episode on Malachi, John Bytheway points out a twist. Elder Bednar, he recalls, noted that the scriptures speak of being proved and tried. But in Malachi 3:10 the roles flip. “Prove me now herewith,” the Lord says. Instead of us being tested, He tells His people, “Test me on this and see what I’ll do.”",
+          "Dr. Barbara Morgan Gardner explains why the Lord would ask. He is a God of principle who wants very much to bless His children, but He won’t break His own law to do it. When Israel held back their tithes, they kept Him from opening the windows of heaven. “He wants to just soak them in blessings, but they refuse,” she says.",
+          "She also connects tithing to the rest of Malachi. In the first two chapters the people held back their best animals and their faithfulness. She sees the famous question “Will a man rob God?” as being about everything they held back, with tithes and offerings standing for the rest. The Lord had already given them everything. Robbing Him, she says, was really refusing to be blessed."
+        ],
+        "find": [
+          "He’s asking them to test Him, which is kind of a fun reversal of things.",
+          "He wants so bad to bless. But if they aren’t using their agency, He can’t break His own law.",
+          "And I would say the tithes and offerings is a symbol of everything else they have robbed.",
+          "You refuse to be blessed. That’s the robbing of God."
+        ],
+        "listen": {
+          "youtube": "mo91BOlJYm4",
+          "start": 2979,
+          "end": 3230,
+          "title": "followHIM: Malachi, part 1, with Dr. Barbara Morgan Gardner",
+          "channel": "followHIM Podcast",
+          "previewed": false
+        },
+        "approved": "faee6fed"
+      },
+      "approved": "26a15413"
+    },
+    {
+      "id": "mal3-subtle",
+      "ref": "Malachi 3:10",
+      "title": "Blessings that are easy to miss",
+      "text": "For decades Sister Bednar’s mother kept careful records of her family’s money. One day she noticed they had spent far less on doctor visits and medicine than expected. She taught her daughter that tithing often brings blessings that are significant but subtle. Elder David A. Bednar says we notice such blessings only if we are spiritually attentive.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder David A. Bednar",
+        "title": "The Windows of Heaven",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2013/10/the-windows-of-heaven?lang=eng"
+      },
+      "find": "we often receive significant but subtle blessings that are not always what we expect",
+      "approved": "90d29529"
+    },
+    {
+      "id": "mal3-potatoes",
+      "ref": "Malachi 3:10",
+      "title": "Mary Fielding Smith’s potatoes",
+      "text": "After her husband was killed in the martyrdom, Mary Fielding Smith made her way west with five fatherless children and very little else. When she brought a tenth of her potatoes as tithing, a man at the tithing office said she shouldn’t pay. She answered, “Would you deny me a blessing?” Elder Holland told her story to teach paying tithing to claim the Lord’s promised blessings.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Jeffrey R. Holland",
+        "title": "“Like a Watered Garden”",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2001/10/like-a-watered-garden?lang=eng"
+      },
+      "find": "Would you deny me a blessing?",
+      "approved": "899f7d1b"
+    },
+    {
+      "id": "mal3-q-bednar",
+      "kind": "quote",
+      "ref": "Malachi 3:10",
+      "quote": "Windows allow natural light to enter into a building. In like manner, spiritual illumination and perspective are poured out through the windows of heaven and into our lives as we honor the law of tithing.",
+      "text": "Verse 10 promises to “open you the windows of heaven.” Elder Bednar explains why windows are such a good picture of tithing’s blessings.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder David A. Bednar",
+        "title": "The Windows of Heaven",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2013/10/the-windows-of-heaven?lang=eng"
+      },
+      "approved": "1db2f66e"
+    },
+    {
+      "id": "mal3-bakery",
+      "ref": "Malachi 3:11",
+      "title": "The bakery that wasn’t touched",
+      "text": "In 2019 a five-day blackout in Venezuela led to riots, and food stores were looted. Brother Roger Parra’s family gave away all the food in their bakery to people in need. At dawn every food business nearby had been destroyed, but theirs was untouched. His 12-year-old son said it was because his parents always paid tithing. Brother Parra thought of Malachi 3:11.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Neil L. Andersen",
+        "title": "Tithing: Opening the Windows of Heaven",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2023/10/22andersen?lang=eng"
+      },
+      "find": "I know why our store was protected. You and Mama always pay your tithes.",
+      "approved": "0f747592"
+    },
+    {
+      "id": "mal3-ford",
+      "ref": "Malachi 3:13–15",
+      "title": "Why do the proud seem to win?",
+      "text": "A sister once complained to President Spencer W. Kimball. Her family paid tithing and kept the Sabbath, while her neighbors spent everything on themselves and seemed to prosper. It seemed living the gospel didn’t pay. He told her hers was an ancient question and quoted her Malachi’s answer. Then he pointed to her good children, a blessing her neighbors’ wealth couldn’t buy.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "“Behold, I Will Send You Elijah the Prophet”",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-34?lang=eng"
+      },
+      "find": "Yours is an ancient question. Job and Jeremiah made the same complaint.",
+      "approved": "6f51f78c"
+    },
+    {
+      "id": "mal4-q-cook",
+      "kind": "quote",
+      "ref": "Malachi 4:1",
+      "quote": "Remember, we without our roots and branches cannot be saved.",
+      "text": "Verse 1 warns of being left with no root or branch. Elder Cook, speaking about family history, explains why that matters so much.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Quentin L. Cook",
+        "title": "Roots and Branches",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2014/04/roots-and-branches?lang=eng"
+      },
+      "approved": "7480af8a"
+    },
+    {
+      "id": "mal4-transfiguration",
+      "ref": "Malachi 4:5",
+      "title": "Elijah’s keys, given twice",
+      "text": "Elijah held the sealing power, and he was the last prophet to hold it before Jesus’ time. Elder David A. Bednar explained that Elijah appeared with Moses on the Mount of Transfiguration and gave that authority to Peter, James and John. On April 3, 1836, he appeared again in the Kirtland Temple and gave the same keys to Joseph Smith and Oliver Cowdery.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder David A. Bednar",
+        "title": "The Hearts of the Children Shall Turn",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2011/10/the-hearts-of-the-children-shall-turn?lang=eng"
+      },
+      "find": "Elijah appeared with Moses on the Mount of Transfiguration",
+      "approved": "9b1eb823"
+    },
+    {
+      "id": "mal4-in-person",
+      "ref": "Malachi 4:5",
+      "title": "They said he wouldn’t come",
+      "text": "For centuries, Bible scholars argued about Malachi’s promise. Many said John the Baptist had fulfilled it. In 1835 one minister wrote that Elijah would not return in person. Kenneth L. Alford points out what happened a few months later: Elijah came to the Kirtland Temple. We understand the prophecy because Elijah actually came and restored the sealing keys.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "Kenneth L. Alford",
+        "title": "“I Will Send You Elijah the Prophet”",
+        "url": "https://rsc.byu.edu/you-shall-have-my-word/i-will-send-you-elijah-prophet"
+      },
+      "find": "Yet that is what occurred in Ohio a few months later.",
+      "approved": "c736e75c"
+    },
+    {
+      "id": "mal4-jsp-priesthood",
+      "ref": "Malachi 4:5",
+      "title": "Moroni’s words for verse 5",
+      "text": "Joseph Smith wrote that Moroni quoted Malachi 4 “with a little variation from the way it reads in our Bibles.” Instead of only sending Elijah, the Lord would reveal the priesthood by Elijah’s hand. Elijah would bring priesthood keys, as he did in the Kirtland Temple in 1836. Moroni’s words are now Doctrine and Covenants 2:1.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "History, 1838–1856, volume A-1 [23 December 1805–30 August 1834]",
+        "url": "https://www.josephsmithpapers.org/paper-summary/history-1838-1856-volume-a-1-23-december-1805-30-august-1834/5"
+      },
+      "find": "by the hand of Elijah the prophet before the coming of the great and dreadful day of the Lord",
+      "approved": "f43cad0f"
+    },
+    {
+      "id": "mal4-jsp-kirtland",
+      "ref": "Malachi 4:5",
+      "title": "Elijah keeps Malachi’s promise",
+      "text": "On April 3, 1836, Joseph Smith and Oliver Cowdery saw Elijah in the Kirtland Temple. Joseph’s journal records Elijah’s words: “behold the time has fully come which was spoken of by the mouth of Malachi.” Elijah gave them keys, including the power to seal families. Malachi’s promise, the last words of the Old Testament, had come true.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Visions, 3 April 1836 [D&C 110]",
+        "url": "https://www.josephsmithpapers.org/paper-summary/visions-3-april-1836-dc-110/2"
+      },
+      "find": "Elijah, the Prophet, who was taken to Heaven without tasting death",
+      "approved": "a3cae4ea"
+    },
+    {
+      "id": "mal4-q-nelson",
+      "kind": "quote",
+      "ref": "Malachi 4:5–6",
+      "quote": "The sealing power is supernal evidence of how much God loves all of His children everywhere and wants each of them to choose to return home to Him.",
+      "text": "Verses 5–6 promise Elijah’s return. President Nelson explains what the sealing keys Elijah brought show about God. Compare Malachi 1:2.",
+      "source": {
+        "by": "General Conference",
+        "who": "President Russell M. Nelson",
+        "title": "Rejoice in the Gift of Priesthood Keys",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2024/04/57nelson?lang=eng"
+      },
+      "approved": "7c4b57a7"
+    },
+    {
+      "id": "mal4-bookends",
+      "ref": "Malachi 4:5–6",
+      "title": "Two prophetic bookends",
+      "text": "The last words of the Old Testament promise that Elijah will come. The earliest revelation in the Doctrine and Covenants, section 2, repeats that promise in Moroni’s words. E. Dale LeBaron calls them two prophetic bookends. Moroni quoted many scriptures to Joseph that night, but these are the only verses we know the Lord had Joseph put in the Doctrine and Covenants.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "E. Dale LeBaron",
+        "title": "Elijah’s Mission: His Keys, Powers, and Blessings from the Old Testament to the Latter Days",
+        "url": "https://rsc.byu.edu/sperry-symposium-classics-old-testament/elijahs-mission"
+      },
+      "find": "like two prophetic bookends, the last words of the Old Testament",
+      "approved": "db59e871"
+    },
+    {
+      "id": "mal4-reveal",
+      "ref": "Malachi 4:5–6",
+      "title": "Who restored the priesthood?",
+      "text": "Moroni told Joseph Smith the Lord would “reveal unto you the priesthood by the hand of Elijah” (D&C 2:1). John Bytheway asks his students: didn’t John the Baptist, and Peter, James and John, restore the priesthood? Yes. So Elijah brought something more: the sealing keys. Elder Bruce R. McConkie called sealing the greatest use of the priesthood on earth.",
+      "source": {
+        "by": "followHIM",
+        "who": "Barbara Morgan Gardner",
+        "title": "Old Testament: EPISODE 51 – Malachi – Part 2",
+        "url": "https://followhim.co/show-note/2-233/"
+      },
+      "find": "It’s the sealing keys he’s going to bring.",
+      "deep": {
+        "paras": [
+          "When John Bytheway teaches Malachi 4, he sets it beside 3 Nephi 25 and Moroni’s words in Joseph Smith—History, because the wording differs a little. It isn’t that one is true and the other isn’t, he says; one simply gives us more. In Moroni’s version, Elijah will “plant in the hearts of the children the promises made to the fathers,” which sounds like the Abrahamic covenant.",
+          "Then he asks his students who restored the priesthood. John the Baptist did, and Peter, James and John. So when Moroni says the Lord will “reveal” the priesthood by Elijah’s hand, it must mean something different from restoring it. Dr. Barbara Morgan Gardner explains that the keys from Peter, James and John let Joseph Smith preside over the Church, but they did not give him the keys to seal.",
+          "Those keys came in 1836, when Elijah appeared in the Kirtland Temple. Gardner also notices how our scriptures are arranged: the Old Testament ends with Malachi’s promise of Elijah, and the Doctrine and Covenants as we have it ends with section 138 and Elijah’s work for the dead. “Malachi closes the Old Testament with Elijah,” she says. For her it means hope: everyone will have a chance, and families can be sealed forever."
+        ],
+        "find": [
+          "it’s not that one is true and one isn’t, it’s that one gives us a little bit more",
+          "It’s the sealing keys he’s going to bring.",
+          "That gave Joseph Smith the ability to have the presiding authority over the church, but that did not give him the keys necessary to seal.",
+          "Malachi closes the Old Testament with Elijah. Joseph F. Smith closes the Doctrine & Covenants as it is today with Elijah and the Abrahamic Covenant.",
+          "Everyone’s going to have a chance again."
+        ],
+        "listen": {
+          "youtube": "NmCM8pIrhUo",
+          "start": 1994,
+          "end": 2164,
+          "title": "followHIM: Malachi, part 2, with Dr. Barbara Morgan Gardner",
+          "channel": "followHIM Podcast",
+          "previewed": false
+        },
+        "approved": "dab7ad72"
+      },
+      "approved": "7e942874"
+    },
+    {
+      "id": "mal4-jsp-plant",
+      "ref": "Malachi 4:6",
+      "title": "Moroni’s words for verse 6",
+      "text": "Moroni also quoted the last verse of the Old Testament differently. Instead of turning hearts, Elijah would “plant in the hearts of the Children the promises made to the fathers.” And if that didn’t happen, the whole earth would be wasted when the Lord comes. Joseph wrote it all in his history. Today it is Doctrine and Covenants 2:2–3.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "History, 1838–1856, volume A-1 [23 December 1805–30 August 1834]",
+        "url": "https://www.josephsmithpapers.org/paper-summary/history-1838-1856-volume-a-1-23-december-1805-30-august-1834/6"
+      },
+      "find": "if it were not so the whole earth would be utterly wasted at his coming",
+      "approved": "b0145ba9"
+    },
+    {
+      "id": "mal4-jsp-welding",
+      "ref": "Malachi 4:6",
+      "title": "A welding link",
+      "text": "In September 1842 Joseph Smith wrote to the Saints about baptism for the dead, in a letter now in Doctrine and Covenants 128. He quoted Malachi 4:5–6, then explained that the earth will be cursed unless there is “a welding link of some kind or other, between the fathers and the children.” That link, he wrote, is baptism for the dead.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Letter to the Church, 7 September 1842 [D&C 128]",
+        "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-the-church-7-september-1842-dc-128/6"
+      },
+      "find": "It is sufficient to know in this case that the earth will be smitten with a curse",
+      "approved": "937c7b2a"
+    },
+    {
+      "id": "mal4-jsp-bind",
+      "ref": "Malachi 4:6",
+      "title": "Turn means bind",
+      "text": "In January 1844 Joseph Smith, though his lungs were weak, preached in Nauvoo about Elijah. He read Malachi’s promise that Elijah would turn the hearts of the fathers and the children. Then he said the word turn here should be translated “bind or seal.” The keys were to be delivered, and the spirit of Elijah would come.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Discourse, 21 January 1844",
+        "url": "https://www.josephsmithpapers.org/paper-summary/discourse-21-january-1844/1"
+      },
+      "find": "Now the word turn here should be translated",
+      "approved": "b92b438f"
+    },
+    {
+      "id": "mal4-sealed-baptism",
+      "ref": "Malachi 4:6",
+      "title": "A seal on your baptism too",
+      "text": "We often think Elijah’s sealing power is only for temple ordinances like marriage. Elder D. Todd Christofferson taught that it’s needed to make any ordinance last beyond death. It puts a seal on your baptism, so that it is recognized on earth and in heaven. All of these ordinances are done under the keys held by the President of the Church.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder D. Todd Christofferson",
+        "title": "The Sealing Power",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2023/10/15christofferson?lang=eng"
+      },
+      "find": "The sealing power confers a seal of legitimacy upon your baptism",
+      "approved": "69e6b24a"
+    },
+    {
+      "id": "mal4-q-eyring",
+      "kind": "quote",
+      "ref": "Malachi 4:6",
+      "quote": "I bear testimony that Elijah did come. The hearts of the children—of you and me—have turned to our fathers, our ancestors.",
+      "text": "Verse 6 promised that hearts would turn. President Eyring says the world’s growing love of family history is that prophecy coming true.",
+      "source": {
+        "by": "General Conference",
+        "who": "President Henry B. Eyring",
+        "title": "Gathering the Family of God",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2017/04/gathering-the-family-of-god?lang=eng"
+      },
+      "approved": "479019ee"
+    }
+  ],
+  "plain": [
+    {
+      "ch": "Malachi 1",
+      "verses": [
+        "This is the burden (a heavy message from God): the word of the Lord to Israel through Malachi.",
+        "I have loved you, says the Lord. But you ask, “How have you loved us?” Wasn’t Esau Jacob’s brother? says the Lord. Yet I loved Jacob,",
+        "but I hated Esau. I have made his mountains a wasteland and left his inheritance to the jackals of the desert.",
+        "Edom (Esau’s descendants) may say, “We have been beaten down, but we will come back and rebuild the ruins.” But this is what the Lord of Hosts says: They may build, but I will tear down. People will call them the Land of Wickedness, and the people the Lord is angry with forever.",
+        "You will see it with your own eyes, and you will say, “The Lord is great, even beyond the borders of Israel!”",
+        "A son honors his father, and a servant honors his master. So if I am a father, where is my honor? If I am a master, where is the respect you owe me? says the Lord of Hosts to you priests who despise my name. But you ask, “How have we despised your name?”",
+        "You offer unclean food on my altar. And you ask, “How have we made you unclean?” By saying that the Lord’s table (the altar) deserves no respect.",
+        "When you offer blind animals as sacrifices, isn’t that wrong? When you offer lame and sick animals, isn’t that wrong? Try offering them to your governor! Would he be pleased with you or show you favor? says the Lord of Hosts.",
+        "So now, please, beg God to be gracious to us! This came from your own hands. Will He show favor to any of you? says the Lord of Hosts.",
+        "Who is there among you who would even shut the doors without being paid? You won’t even light a fire on my altar for nothing. I am not pleased with you, says the Lord of Hosts, and I will not accept an offering from your hands.",
+        "For from where the sun rises to where it sets, my name will be great among the Gentiles. In every place incense and a pure offering will be offered to my name, because my name will be great among the nations, says the Lord of Hosts.",
+        "But you dishonor my name when you say, “The Lord’s table is unclean, and the food on it deserves no respect.”",
+        "You also say, “What a bother this is!” and you turn up your noses at it, says the Lord of Hosts. You bring stolen animals, and lame and sick ones, and that is what you bring as an offering. Should I accept it from your hands? says the Lord.",
+        "Cursed is the cheater who has a male animal in his flock and makes a vow, but then sacrifices a blemished animal to the Lord. For I am a great King, says the Lord of Hosts, and my name is feared among the nations."
+      ],
+      "notes": [
+        {
+          "v": 3,
+          "text": "In Hebrew, “hated” can mean loved less. Jacob “loved also Rachel more than Leah” (Genesis 29:30), and the next verse says “Leah was hated” (Genesis 29:31)."
+        },
+        {
+          "v": 3,
+          "text": "The Hebrew word the KJV calls “dragons” is read as jackals, wild dogs of the desert, in the BSB."
+        },
+        {
+          "v": 10,
+          "text": "The KJV reads this as priests who wouldn’t even shut a door or light the altar fire unless they were paid. The BSB reads the Hebrew as a wish: ‘Oh, that one of you would shut the temple doors.’"
+        },
+        {
+          "v": 13,
+          "text": "The KJV has “that which was torn.” The Hebrew word means taken by force, so the BSB reads ‘stolen.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 3,
+          "about": "“Hated” is kept, as in the KJV and the BSB. The note says the Hebrew can mean loved less, as the Old Testament Student Manual teaches (34-3, comparing Genesis 29:31); verse 4 shows the Lord is speaking of Esau’s descendants, Edom. Decide if the note is enough."
+        },
+        {
+          "v": 10,
+          "about": "The plain words follow the KJV: priests who won’t even shut a door or light the altar fire without pay, the way the Old Testament Student Manual reads it (34-4). The BSB and most modern translations read the Hebrew as a wish; the note gives it."
+        },
+        {
+          "v": 13,
+          "about": "The KJV’s “torn” is given as “stolen,” following the Hebrew word (taken by force) and the BSB, with a note."
+        }
+      ],
+      "approved": "124849df"
+    },
+    {
+      "ch": "Malachi 2",
+      "verses": [
+        "And now, you priests, this commandment is for you.",
+        "If you will not listen, and if you will not take it to heart to give glory to my name, says the Lord of Hosts, I will send a curse on you, and I will curse your blessings. In fact, I have already cursed them, because you are not taking it to heart.",
+        "Look, I will rebuke your descendants, and I will spread dung on your faces, the dung from your festival sacrifices, and you will be carried away with it.",
+        "Then you will know that I have sent you this commandment so that my covenant with Levi (the ancestor of the priests) would continue, says the Lord of Hosts.",
+        "My covenant with him was one of life and peace, and I gave them to him so he would fear me. And he did fear me, and he stood in awe of my name.",
+        "True teaching was in his mouth, and nothing wrong was found on his lips. He walked with me in peace and in what is right, and he turned many people away from sin.",
+        "For a priest’s lips should guard knowledge, and people should come to him to learn the law, because he is the messenger of the Lord of Hosts.",
+        "But you have turned off the path. You have made many people stumble by the way you teach the law. You have ruined the covenant of Levi, says the Lord of Hosts.",
+        "So I have made you despised and looked down on by all the people, because you have not kept my ways, but have played favorites when you teach the law.",
+        "Don’t we all have one Father? Didn’t one God create us? Then why are we unfaithful to one another, dishonoring the covenant of our fathers?",
+        "Judah has been unfaithful, and a disgusting thing has been done in Israel and in Jerusalem. For Judah has dishonored what is holy to the Lord, which He loves, and has married the daughter of a foreign god (a woman who worships an idol).",
+        "The Lord will cut off from the tents of Jacob the man who does this—the teacher and the student—even the one who brings an offering to the Lord of Hosts.",
+        "And here is another thing you do: you cover the Lord’s altar with tears, weeping and crying out, because He no longer pays attention to your offering or accepts it gladly from your hands.",
+        "Yet you ask, “Why?” It is because the Lord has been a witness between you and the wife you married when you were young. You have broken faith with her, though she is your partner and your wife by covenant.",
+        "Didn’t He make them one? Yet He had spirit to spare. And why one? Because He was seeking godly children. So guard your spirit, and don’t let anyone break faith with the wife he married when he was young.",
+        "For the Lord, the God of Israel, says that He hates divorce, and the man who does it covers his clothing with violence, says the Lord of Hosts. So guard your spirit, and don’t break faith.",
+        "You have worn out the Lord with your words. Yet you ask, “How have we worn Him out?” By saying, “Everyone who does evil is good in the Lord’s eyes, and He is pleased with them,” or by asking, “Where is the God of justice?”"
+      ],
+      "notes": [
+        {
+          "v": 3,
+          "text": "The KJV says “I will corrupt your seed.” The Hebrew verb means to rebuke, as in “I will rebuke the devourer” (Malachi 3:11), and the BSB reads ‘I will rebuke your descendants.’"
+        },
+        {
+          "v": 12,
+          "text": "The KJV has “the master and the scholar.” The Hebrew says ‘one who wakes and one who answers,’ which the BSB reads as ‘everyone who is awake and aware.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 15,
+          "about": "The hardest verse in the book; translations disagree on almost every word. The plain words stay close to the KJV: “them” is added, as in the BSB (husband and wife made one), and “Yet had he the residue of the spirit” is given as “Yet He had spirit to spare,” lowercase as in the KJV."
+        },
+        {
+          "v": 16,
+          "about": "The KJV says one “covereth violence with his garment” (hides it); the Hebrew reads ‘covers violence over his clothing,’ which the BSB takes as covering his garment with violence. The plain words follow the Hebrew and the BSB. Your call."
+        },
+        {
+          "v": 10,
+          "about": "“Father” is capitalized for God, as in the BSB, because the next line says “one God created us”; the Old Testament Student Manual reads it the same way (34-6). The KJV has lowercase “father,” and some read it as Abraham or Jacob."
+        },
+        {
+          "v": 12,
+          "about": "The plain words follow the KJV (“the teacher and the student”), as the Old Testament Student Manual reads it (34-7): the one who teaches it and the one who follows. The note gives the Hebrew and the BSB."
+        },
+        {
+          "v": 11,
+          "about": "“(a woman who worships an idol)” is added to say what “the daughter of a strange god” means, as the Old Testament Student Manual explains it (34-7). “Which he loved” could be Judah or the Lord; the plain words follow the BSB (“which He loves”)."
+        },
+        {
+          "v": 3,
+          "about": "“Seed” can mean crops as well as children; the plain words follow the BSB (“descendants”), with a note on the KJV’s “corrupt.” “The dung of your solemn feasts” is given as the dung from the festival sacrifices."
+        }
+      ],
+      "approved": "2f3af590"
+    },
+    {
+      "ch": "Malachi 3",
+      "verses": [
+        "Look, I will send my messenger, and he will prepare the way before me. Then the Lord you are seeking will suddenly come to His temple—the messenger of the covenant, whom you delight in. Look, He is coming, says the Lord of Hosts.",
+        "But who can bear the day of His coming? Who can stand when He appears? For He is like a refiner’s fire that makes metal pure, and like strong soap for washing clothes.",
+        "He will sit like a refiner purifying silver. He will purify the sons of Levi and refine them like gold and silver, so they will offer an offering to the Lord in righteousness.",
+        "Then the offering of Judah and Jerusalem will please the Lord, as in the days long ago and in years gone by.",
+        "I will come near to you to judge. I will be quick to testify against sorcerers, against adulterers, against those who lie under oath, against those who cheat hired workers of their pay and mistreat widows and the fatherless, and against those who deny foreigners their rights and do not fear me, says the Lord of Hosts.",
+        "For I am the Lord. I do not change. That is why you sons of Jacob have not been destroyed.",
+        "Ever since the days of your fathers, you have turned away from my laws and have not kept them. Come back to me, and I will come back to you, says the Lord of Hosts. But you ask, “How are we to come back?”",
+        "Will a man rob God? Yet you have robbed me. But you ask, “How have we robbed you?” In tithes and offerings.",
+        "You are under a curse, because you have robbed me—the whole nation of you.",
+        "Bring all the tithes into the storehouse, so there will be food in my house. Test me in this, says the Lord of Hosts, and see if I will not open the windows of heaven for you and pour out a blessing so great that you won’t have room enough to hold it.",
+        "I will rebuke the devourer for your sake, so it will not destroy the crops of your land, and your vines in the field will not drop their fruit before it is ripe, says the Lord of Hosts.",
+        "Then all nations will call you blessed, because you will be a land of delight, says the Lord of Hosts.",
+        "Your words against me have been harsh, says the Lord. Yet you ask, “What have we said against you?”",
+        "You have said, “It is useless to serve God. What good has it done us to keep what He requires, and to walk around like mourners before the Lord of Hosts?”",
+        "“So now we call the proud blessed. People who do evil are doing well, and when they test God, they get away with it.”",
+        "Then those who feared the Lord talked with each other, and the Lord paid attention and heard them. A book of remembrance was written before Him about those who feared the Lord and thought about His name.",
+        "They will be mine, says the Lord of Hosts, on the day when I gather my jewels. I will spare them, as a man spares his own son who serves him.",
+        "Then you will again see the difference between the righteous and the wicked, between the one who serves God and the one who does not serve Him."
+      ],
+      "notes": [
+        {
+          "v": 1,
+          "text": "Jesus said this messenger was John the Baptist: “this is he, of whom it is written, Behold, I send my messenger before thy face” (Matthew 11:10)."
+        },
+        {
+          "v": 1,
+          "text": "The Savior gave Malachi 3–4 to the Nephites, who did not have them: “These scriptures, which ye had not with you, the Father commanded that I should give unto you” (3 Nephi 26:2). They are 3 Nephi 24–25."
+        },
+        {
+          "v": 3,
+          "text": "When John the Baptist gave Joseph Smith and Oliver Cowdery the Aaronic Priesthood, he said it would never be taken from the earth again “until the sons of Levi do offer again an offering unto the Lord in righteousness” (D&C 13:1)."
+        },
+        {
+          "v": 3,
+          "text": "Joseph Smith quoted verses 2–3 and wrote, “Let us … offer unto the Lord an offering in righteousness; and let us present in his holy temple … a book containing the records of our dead” (D&C 128:24)."
+        },
+        {
+          "v": 10,
+          "text": "In the KJV, “meat” means food."
+        },
+        {
+          "v": 17,
+          "text": "The Hebrew word behind “jewels” means a treasured possession. It is the word in “ye shall be a peculiar treasure unto me” (Exodus 19:5)."
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "“My messenger” stays lowercase (John the Baptist, Matthew 11:10, in a note); He and His are capitalized for the Lord who comes to His temple, the messenger of the covenant, whom the Old Testament Student Manual names as Jesus Christ (34-8)."
+        },
+        {
+          "v": 7,
+          "about": "The KJV’s “ordinances” here (and “ordinance” in verse 14) are the Hebrew words for statutes and a charge, so the plain words say “my laws” and “what He requires,” not ordinances like baptism."
+        },
+        {
+          "v": 17,
+          "about": "“Jewels” is kept, as the Lord uses it again in D&C 60:4 and 101:3; the Hebrew means a treasured possession (BSB), which the note gives."
+        },
+        {
+          "v": 2,
+          "about": "A few words are added to say what a refiner’s fire does (“that makes metal pure”) and what fullers’ soap is (“strong soap for washing clothes”)."
+        }
+      ],
+      "approved": "4cb5753f"
+    },
+    {
+      "ch": "Malachi 4",
+      "verses": [
+        "For look, the day is coming that will burn like an oven. All the proud, and everyone who does wickedly, will be stubble (dry straw). The day that is coming will burn them up, says the Lord of Hosts, so that it leaves them neither root nor branch.",
+        "But for you who fear my name, the Sun of righteousness will rise with healing in His wings. You will go out and grow up like calves from the stall.",
+        "You will trample the wicked, for they will be ashes under the soles of your feet on the day when I do this, says the Lord of Hosts.",
+        "Remember the law of my servant Moses, which I commanded him at Horeb (Mount Sinai) for all Israel, with its laws and rules.",
+        "Look, I will send you Elijah the prophet before the great and dreadful day of the Lord comes.",
+        "And he will turn the hearts of the fathers to the children, and the hearts of the children to their fathers, or else I will come and strike the earth with a curse."
+      ],
+      "notes": [
+        {
+          "v": 1,
+          "text": "Moroni quoted this verse to Joseph Smith a little differently: “all that do wickedly shall burn as stubble; for they that come shall burn them” (Joseph Smith—History 1:37)."
+        },
+        {
+          "v": 2,
+          "text": "In the Book of Mormon this verse reads “the Son of Righteousness” (3 Nephi 25:2). Nephi uses that name for Jesus Christ: “the Son of Righteousness shall appear unto them; and he shall heal them” (2 Nephi 26:9)."
+        },
+        {
+          "v": 5,
+          "text": "When the angel Moroni came to Joseph Smith in 1823, he quoted this verse differently: “Behold, I will reveal unto you the Priesthood, by the hand of Elijah the prophet” (Joseph Smith—History 1:38). It is also D&C 2:1."
+        },
+        {
+          "v": 5,
+          "text": "In the Kirtland Temple in 1836, Elijah came and said, “the time has fully come, which was spoken of by the mouth of Malachi” (D&C 110:14). He gave Joseph Smith and Oliver Cowdery “the keys of this dispensation” (D&C 110:16)."
+        },
+        {
+          "v": 6,
+          "text": "Moroni quoted this verse differently too: “he shall plant in the hearts of the children the promises made to the fathers … If it were not so, the whole earth would be utterly wasted” (D&C 2:2–3)."
+        },
+        {
+          "v": 6,
+          "text": "Joseph Smith wrote that the earth will be smitten with a curse “unless there is a welding link of some kind or other between the fathers and the children” (D&C 128:18), and that the link is baptism for the dead."
+        }
+      ],
+      "review": [
+        {
+          "v": 2,
+          "about": "“His wings” is capitalized, reading the Sun of righteousness as Christ, as the Book of Mormon does (3 Nephi 25:2 has “Son”; note); the BSB has ‘its wings.’ “Grow up” follows the KJV and 3 Nephi 25:2; the Hebrew verb is usually read ‘leap’ (BSB)."
+        },
+        {
+          "v": 5,
+          "about": "Verses 5–6 carry two notes each (Moroni’s wording, D&C 110, D&C 128:18). The plain words themselves follow the KJV and the Hebrew; check the notes say no more than the verses they quote."
+        },
+        {
+          "v": 1,
+          "about": "Hebrew Bibles number this chapter Malachi 3:19–24; the plain words, the BSB and the Hebrew button all follow the KJV’s numbering. “Stubble” gets “(dry straw).”"
+        }
+      ],
+      "approved": "ddadaa18"
+    }
+  ],
+  "approved": "3fc9ceb9",
+  "wordsApproved": "e007549f"
+}

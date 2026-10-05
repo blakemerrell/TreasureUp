@@ -1,0 +1,2108 @@
+{
+  "dates": "December 7–13, 2026",
+  "title": "Holiness unto the Lord",
+  "reference": "Haggai 1–2; Zechariah 1–4; 7–14",
+  "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/50?lang=eng",
+  "sections": [
+    "“Consider your ways.”",
+    "The Lord can make me holy",
+    "Jesus Christ is the promised Messiah"
+  ],
+  "sayings": [
+    {
+      "id": "say-time-not-come",
+      "text": "The time is not come, the time that the LORD's house should be built.",
+      "ref": "Haggai 1:2",
+      "speaker": "The people, about the temple",
+      "wrong": [
+        "David, about the temple",
+        "Solomon, about the temple"
+      ],
+      "why": "The Lord, through Haggai, repeated what the people kept saying. About 15 years after coming home, they still had not rebuilt His house.",
+      "approved": "ea05b151"
+    },
+    {
+      "id": "say-first-glory",
+      "text": "Who is left among you that saw this house in her first glory?",
+      "ref": "Haggai 2:3",
+      "speaker": "The Lord, through Haggai",
+      "wrong": [
+        "Ezra, at the new altar",
+        "Nehemiah, at the walls"
+      ],
+      "why": "Some old people remembered Solomon’s grand temple. The Lord asked them about it, then promised the new one greater glory (Haggai 2:9).",
+      "approved": "9beed157"
+    },
+    {
+      "id": "say-turn-unto-me",
+      "text": "Turn ye unto me, saith the LORD of hosts, and I will turn unto you",
+      "ref": "Zechariah 1:3",
+      "speaker": "The Lord, through Zechariah",
+      "wrong": [
+        "Moses, at Mount Sinai",
+        "Elijah, on Mount Carmel"
+      ],
+      "why": "These were the Lord’s first words through Zechariah. When His people turn back to Him, He turns back to them.",
+      "approved": "96486d92"
+    },
+    {
+      "id": "say-filthy-garments",
+      "text": "Take away the filthy garments from him.",
+      "ref": "Zechariah 3:4",
+      "speaker": "The angel, about Joshua",
+      "wrong": [
+        "Pharaoh, about Joseph",
+        "A father, about his son"
+      ],
+      "why": "In Zechariah’s vision, the angel had Joshua’s dirty clothes taken off. Then he told Joshua, “I have caused thine iniquity to pass from thee.”",
+      "approved": "83e819c2"
+    },
+    {
+      "id": "say-not-by-might",
+      "text": "Not by might, nor by power, but by my spirit",
+      "ref": "Zechariah 4:6",
+      "speaker": "The Lord, to Zerubbabel",
+      "wrong": [
+        "David, to Goliath",
+        "Gideon, to his army"
+      ],
+      "why": "An angel gave Zechariah this message for Zerubbabel, who had to finish the temple with few people and little money.",
+      "approved": "9177f356"
+    },
+    {
+      "id": "say-we-will-go",
+      "text": "We will go with you: for we have heard that God is with you.",
+      "ref": "Zechariah 8:23",
+      "speaker": "Many nations, to a Jew",
+      "wrong": [
+        "Ruth, to Naomi",
+        "Caleb, to Joshua"
+      ],
+      "why": "Zechariah saw people from every language take hold of a Jew’s robe, wanting to come to the Lord with him.",
+      "approved": "5aa6d4d3"
+    },
+    {
+      "id": "say-rejoice-greatly",
+      "text": "Rejoice greatly, O daughter of Zion",
+      "ref": "Zechariah 9:9",
+      "speaker": "Zechariah, about the King",
+      "wrong": [
+        "Isaiah, about Cyrus",
+        "Miriam, at the Red Sea"
+      ],
+      "why": "Zechariah told Jerusalem to rejoice because her King was coming, riding on a donkey. Jesus fulfilled it on Palm Sunday.",
+      "approved": "b478570d"
+    },
+    {
+      "id": "say-give-me-my-price",
+      "text": "If ye think good, give me my price; and if not, forbear.",
+      "ref": "Zechariah 11:12",
+      "speaker": "Zechariah, as a shepherd",
+      "wrong": [
+        "Judas, to the priests",
+        "Esau, to Jacob"
+      ],
+      "why": "Zechariah asked for his pay as a shepherd and got thirty pieces of silver. Judas later asked the priests, “What will ye give me” (Matthew 26:15).",
+      "approved": "9dc3863f"
+    },
+    {
+      "id": "say-these-wounds",
+      "text": "What are these wounds in thine hands?",
+      "ref": "Zechariah 13:6",
+      "speaker": "People, to the Lord",
+      "wrong": [
+        "Thomas, to Jesus",
+        "Peter, to Jesus"
+      ],
+      "why": "Zechariah foresaw this question. In Doctrine and Covenants 45:51 the Lord says the Jews will ask it when He comes again.",
+      "approved": "1b21b338"
+    }
+  ],
+  "words": [
+    {
+      "word": "HOLES",
+      "clue": "earneth wages to put it into a bag with ____",
+      "ref": "Haggai 1:6",
+      "mean": "Working only for ourselves and leaving the Lord out is like putting our pay into a bag that leaks."
+    },
+    {
+      "word": "PEACE",
+      "clue": "and in this place will I give ____",
+      "ref": "Haggai 2:9",
+      "mean": "The Lord promised peace in His house. We can feel it in the temple today."
+    },
+    {
+      "word": "APPLE",
+      "clue": "he that toucheth you toucheth the ____ of his eye",
+      "ref": "Zechariah 2:8",
+      "mean": "The Lord’s people are as precious to Him as the center of His own eye."
+    },
+    {
+      "word": "RAIMENT",
+      "clue": "I will clothe thee with change of ____",
+      "ref": "Zechariah 3:4",
+      "mean": "Raiment means clothing. Through Jesus Christ, our sins can be taken away like dirty clothes."
+    },
+    {
+      "word": "KING",
+      "clue": "behold, thy ____ cometh unto thee",
+      "ref": "Zechariah 9:9",
+      "mean": "Zechariah saw Jesus Christ, the King, coming humbly into Jerusalem on a donkey."
+    },
+    {
+      "word": "SILVER",
+      "clue": "So they weighed for my price thirty pieces of ____",
+      "ref": "Zechariah 11:12",
+      "mean": "A shepherd was paid a tiny price. Judas sold Jesus for the same thirty pieces of silver."
+    },
+    {
+      "word": "OLIVES",
+      "clue": "his feet shall stand in that day upon the mount of ____",
+      "ref": "Zechariah 14:4",
+      "mean": "When Jesus comes again, He will stand on the Mount of Olives to save His people."
+    }
+  ],
+  "deep": [
+    {
+      "id": "deep50-silver-gold",
+      "section": 0,
+      "read": "Haggai 2:1–9",
+      "intro": "The people felt their new temple was poor next to Solomon’s. Read what the Lord told them about His riches and the glory to come.",
+      "q": "In Haggai 2:8, what does the Lord say belongs to Him?",
+      "right": "The silver and the gold",
+      "wrong": [
+        "The cedar trees of Lebanon",
+        "The stones of the old temple"
+      ],
+      "why": "Verse 8: “The silver is mine, and the gold is mine, saith the LORD of hosts.” He could give His house all it needed.",
+      "source": "Haggai 2:8",
+      "find": "The silver is mine, and the gold is mine",
+      "hunt": "In Haggai 2, what does the Lord say belongs to Him?",
+      "approved": "89cafc2c"
+    },
+    {
+      "id": "deep50-city",
+      "section": 1,
+      "read": "Zechariah 8:1–8",
+      "intro": "The lesson invites you to read what life will be like when the Lord dwells with His people. Picture Jerusalem as Zechariah saw it.",
+      "q": "In Zechariah 8:3, what will Jerusalem be called?",
+      "right": "A city of truth",
+      "wrong": [
+        "A city of gold",
+        "A city of kings"
+      ],
+      "why": "Verse 3: “Jerusalem shall be called a city of truth; and the mountain of the LORD of hosts the holy mountain.”",
+      "source": "Zechariah 8:3",
+      "find": "Jerusalem shall be called a city of truth",
+      "hunt": "In Zechariah 8, what will Jerusalem be called?",
+      "approved": "f0193d9a"
+    },
+    {
+      "id": "deep50-need-of-them",
+      "section": 2,
+      "read": "Matthew 21:1–11",
+      "intro": "The lesson asks you to compare Zechariah 9:9 with the day Jesus came into Jerusalem. Read Matthew’s account of that day.",
+      "q": "In Matthew 21:3, what were the disciples to say if anyone asked why they took the donkeys?",
+      "right": "The Lord hath need of them",
+      "wrong": [
+        "We will bring them back soon",
+        "The King will pay you well"
+      ],
+      "why": "Verse 3: “The Lord hath need of them; and straightway he will send them.” Then Matthew says it fulfilled the prophet’s words (verse 4).",
+      "source": "Matthew 21:3",
+      "find": "The Lord hath need of them",
+      "hunt": "In Matthew 21, what were the disciples to say if anyone asked why they took the donkeys?",
+      "approved": "233a6507"
+    },
+    {
+      "id": "deep50-kids",
+      "day": "friday",
+      "title": "From the children’s part of the lesson",
+      "read": "lesson",
+      "intro": "The children’s part of this week’s lesson helps you picture Jesus riding into Jerusalem, and compare Zechariah’s prophecies with the New Testament.",
+      "q": "Which New Testament Stories chapter does the lesson suggest for Zechariah’s prophecy of the King on a donkey?",
+      "right": "The Savior Goes to Jerusalem",
+      "wrong": [
+        "Jesus Feeds Five Thousand",
+        "Jesus Is Baptized"
+      ],
+      "why": "It suggests The Savior Goes to Jerusalem, from New Testament Stories. Then children can point to the people in the pictures who are rejoicing.",
+      "source": "lesson",
+      "find": "The Savior Goes to Jerusalem",
+      "approved": "cc5f86b6"
+    },
+    {
+      "id": "deep50-ftsoy",
+      "day": "friday",
+      "title": "From For the Strength of Youth",
+      "read": "https://www.churchofjesuschrist.org/study/ftsoy/2026/12/hidden-treasures?lang=eng",
+      "intro": "This month’s For the Strength of Youth looks at Haggai’s call to consider your ways, and what it might sound like if he said it today.",
+      "q": "What modern question does the article say is like Haggai’s call to consider your ways?",
+      "right": "How’s that working out for you?",
+      "wrong": [
+        "What would your friends think?",
+        "Have you said your prayers?"
+      ],
+      "why": "The author says we might put it as asking how that’s working out for you. For the Israelites it was going poorly: they ate and drank but never felt full.",
+      "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/12/hidden-treasures?lang=eng",
+      "find": "How’s that working out for you?",
+      "approved": "a1daf573"
+    }
+  ],
+  "reels": [
+    {
+      "id": "hag1-bag",
+      "section": 0,
+      "hook": "Working hard, but the money leaks away.",
+      "body": "About 15 years after coming home from Babylon, the people had fine houses, but the Lord’s temple still lay in ruins (Haggai 1:4). So the Lord said, “Consider your ways” (Haggai 1:5). They planted a lot but harvested little. They ate but stayed hungry. Their pay seemed to drop into “a bag with holes.” Leaving the Lord out left them empty. His answer: get wood and build (Haggai 1:8).",
+      "verse": {
+        "text": "Ye have sown much, and bring in little; ye eat, but ye have not enough; ye drink, but ye are not filled with drink; ye clothe you, but there is none warm; and he that earneth wages earneth wages to put it into a bag with holes.",
+        "ref": "Haggai 1:6"
+      },
+      "question": {
+        "q": "What did the Lord mean by “a bag with holes”?",
+        "right": "Their work wasn’t filling their lives",
+        "wrong": [
+          "They needed to sew better bags",
+          "Thieves were stealing their money"
+        ],
+        "why": "They kept working, but it never filled them up, because they left the Lord’s house in ruins. So He said, “Consider your ways” (Haggai 1:7)."
+      },
+      "bonus": {
+        "q": "In Haggai 1:15, on what day did the people start working on the temple?",
+        "hunt": "In Haggai 1, on what day did the people start working on the temple?",
+        "right": "The 24th day of the sixth month",
+        "wrong": [
+          "The first day of the seventh month",
+          "The tenth day of the first month"
+        ],
+        "why": "Verse 15: “In the four and twentieth day of the sixth month.” Haggai spoke on the first day of that month (verse 1), so they got to work 23 days later.",
+        "source": "Haggai 1:15",
+        "find": "In the four and twentieth day of the sixth month"
+      },
+      "gradient": "linear-gradient(150deg,#292524 0%,#a16207 50%,#fde68a 115%)",
+      "blobA": "rgba(253,230,138,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "2ad119c2"
+    },
+    {
+      "id": "hag2-glory",
+      "section": 0,
+      "hook": "A plain little temple with a bigger future.",
+      "body": "Some old people had seen Solomon’s beautiful temple before it was destroyed. Next to it, the new one looked like nothing (Haggai 2:3). The Lord said, “Be strong … and work: for I am with you” (Haggai 2:4). He promised that “the desire of all nations shall come” (Haggai 2:7), a title for Jesus Christ. Centuries later, Jesus Himself taught in this temple. There, the Lord promised, He would give peace.",
+      "verse": {
+        "text": "The glory of this latter house shall be greater than of the former, saith the LORD of hosts: and in this place will I give peace, saith the LORD of hosts.",
+        "ref": "Haggai 2:9"
+      },
+      "question": {
+        "q": "Why would this plainer temple have the greater glory?",
+        "right": "The Savior Himself would come to it",
+        "wrong": [
+          "It would be covered in more gold",
+          "It would be twice as big as before"
+        ],
+        "why": "Haggai promised “the desire of all nations shall come” (Haggai 2:7) and fill the house with glory. Jesus Christ came and taught there."
+      },
+      "bonus": {
+        "q": "In Haggai 2:5, the Lord reminds them of a covenant He made when they came out of where?",
+        "hunt": "In Haggai 2, the Lord reminds them of a covenant He made when they came out of where?",
+        "right": "Egypt",
+        "wrong": [
+          "Babylon",
+          "Assyria"
+        ],
+        "why": "Verse 5: “According to the word that I covenanted with you when ye came out of Egypt, so my spirit remaineth among you.” The God who freed Israel was with them still.",
+        "source": "Haggai 2:5",
+        "find": "when ye came out of Egypt"
+      },
+      "gradient": "linear-gradient(155deg,#1c1917 0%,#78716c 50%,#fef3c7 115%)",
+      "blobA": "rgba(254,243,199,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "c1a8ceea"
+    },
+    {
+      "id": "zech4-spirit",
+      "section": 0,
+      "hook": "Big jobs get done God’s way, not by muscle.",
+      "body": "Zerubbabel had a huge job: finish the temple with few people and little money. An angel showed Zechariah a golden lampstand kept burning with olive oil. The message for Zerubbabel: “Not by might, nor by power, but by my spirit.” His problems looked like a mountain, but it would become flat ground (Zechariah 4:7). His hands began the temple, and “his hands shall also finish it” (Zechariah 4:9).",
+      "verse": {
+        "text": "Then he answered and spake unto me, saying, This is the word of the LORD unto Zerubbabel, saying, Not by might, nor by power, but by my spirit, saith the LORD of hosts.",
+        "ref": "Zechariah 4:6"
+      },
+      "question": {
+        "q": "How would Zerubbabel get the temple finished?",
+        "right": "With help from the Lord’s Spirit",
+        "wrong": [
+          "With a big army and lots of money",
+          "By hiring the best builders around"
+        ],
+        "why": "“Not by might, nor by power, but by my spirit, saith the LORD of hosts.” The Lord’s Spirit would carry the work through."
+      },
+      "bonus": {
+        "q": "In Zechariah 4:10, what kind of day should no one look down on?",
+        "hunt": "In Zechariah 4, what kind of day should no one look down on?",
+        "right": "The day of small things",
+        "wrong": [
+          "The day of hard work",
+          "The day of the Sabbath"
+        ],
+        "why": "Verse 10: “For who hath despised the day of small things?” A small start, like a temple’s first stones, is part of the Lord’s work.",
+        "source": "Zechariah 4:10",
+        "find": "the day of small things"
+      },
+      "gradient": "linear-gradient(150deg,#422006 0%,#ca8a04 50%,#fef9c3 115%)",
+      "blobA": "rgba(254,249,195,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "2aaf3c28"
+    },
+    {
+      "id": "zech1-turn",
+      "section": 1,
+      "hook": "Take one step toward God, and He comes toward you.",
+      "body": "Zechariah’s first message reminded the people of their fathers, who didn’t listen to the prophets and lost their land (Zechariah 1:4–6). Then came the Lord’s promise: “Turn ye unto me … and I will turn unto you.” In the Old Testament, turning to God means repenting. And it goes both ways. As we turn toward Him, He turns toward us. We never come back to Him alone.",
+      "verse": {
+        "text": "Therefore say thou unto them, Thus saith the LORD of hosts; Turn ye unto me, saith the LORD of hosts, and I will turn unto you, saith the LORD of hosts.",
+        "ref": "Zechariah 1:3"
+      },
+      "question": {
+        "q": "What does the Lord promise when His people turn to Him?",
+        "right": "He will turn to them too",
+        "wrong": [
+          "He will give them a new king",
+          "He will make them rich again"
+        ],
+        "why": "“Turn ye unto me … and I will turn unto you.” Repenting isn’t a one-way trip. The Lord comes toward us as we come toward Him."
+      },
+      "bonus": {
+        "q": "In Zechariah 1:4, what did the earlier prophets tell the fathers to turn from?",
+        "hunt": "In Zechariah 1, what did the earlier prophets tell the fathers to turn from?",
+        "right": "Their evil ways and evil doings",
+        "wrong": [
+          "The idols of Egypt and Babylon",
+          "Their enemies in the north"
+        ],
+        "why": "Verse 4: “Turn ye now from your evil ways, and from your evil doings: but they did not hear.” Their children could choose differently.",
+        "source": "Zechariah 1:4",
+        "find": "Turn ye now from your evil ways"
+      },
+      "gradient": "linear-gradient(150deg,#0f172a 0%,#4338ca 50%,#c7d2fe 115%)",
+      "blobA": "rgba(199,210,254,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "76ece595"
+    },
+    {
+      "id": "zech3-garments",
+      "section": 1,
+      "hook": "Dirty clothes off, clean clothes on.",
+      "body": "In a vision, Zechariah saw Joshua the high priest standing before an angel in “filthy garments” (Zechariah 3:3), while Satan stood by to accuse him. The angel had the dirty clothes taken off and gave Joshua clean ones. Dirty clothes are like sins. Through Jesus Christ, our sins can be taken away too. We promise to follow Him when we’re baptized, and the sacrament helps us stay clean.",
+      "verse": {
+        "text": "And he answered and spake unto those that stood before him, saying, Take away the filthy garments from him. And unto him he said, Behold, I have caused thine iniquity to pass from thee, and I will clothe thee with change of raiment.",
+        "ref": "Zechariah 3:4"
+      },
+      "question": {
+        "q": "In Zechariah’s vision, what did the clean clothes show?",
+        "right": "Joshua’s sins were taken away",
+        "wrong": [
+          "Joshua was going to be king",
+          "Joshua had won a great battle"
+        ],
+        "why": "“I have caused thine iniquity to pass from thee, and I will clothe thee with change of raiment.” Iniquity means sin."
+      },
+      "bonus": {
+        "q": "In Zechariah 3:2, what does the Lord call Joshua?",
+        "hunt": "In Zechariah 3, what does the Lord call Joshua?",
+        "right": "A burning stick pulled from the fire",
+        "wrong": [
+          "A lamb saved from the hungry wolves",
+          "A fish pulled up out of the deep sea"
+        ],
+        "why": "Verse 2: “is not this a brand plucked out of the fire?” A brand is a burning stick. The Lord had rescued Joshua and his people.",
+        "source": "Zechariah 3:2",
+        "find": "a brand plucked out of the fire"
+      },
+      "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0284c7 50%,#f0f9ff 115%)",
+      "blobA": "rgba(240,249,255,.45)",
+      "blobB": "rgba(0,0,0,.4)",
+      "approved": "433b92e5"
+    },
+    {
+      "id": "zech14-holiness",
+      "section": 1,
+      "hook": "Holy words, even on a horse’s bells.",
+      "seek": "Even everyday things become holy",
+      "body": "Zechariah saw a day when even ordinary things, like the bells on horses and the cooking pots, would say “HOLINESS UNTO THE LORD.” Today the words Holiness to the Lord are written on every temple. But Zechariah saw them on everyday things too. Holiness isn’t only for the temple. It’s for your whole life: how you talk, what you watch, how you treat your family.",
+      "verse": {
+        "text": "In that day shall there be upon the bells of the horses, HOLINESS UNTO THE LORD; and the pots in the LORD's house shall be like the bowls before the altar.",
+        "ref": "Zechariah 14:20"
+      },
+      "question": {
+        "q": "Why would ordinary pots and bells say “HOLINESS UNTO THE LORD”?",
+        "right": "Even everyday things would be holy",
+        "wrong": [
+          "They were made from temple gold",
+          "Only priests were allowed to use them"
+        ],
+        "why": "Zechariah saw that “the pots in the LORD's house shall be like the bowls before the altar.” In that day everything would be holy, not just the temple."
+      },
+      "bonus": {
+        "q": "The lesson points to Exodus 28:36. What was HOLINESS TO THE LORD engraved on there?",
+        "hunt": "The lesson points to Exodus 28. What was HOLINESS TO THE LORD engraved on there?",
+        "right": "A plate of pure gold",
+        "wrong": [
+          "A tablet of stone",
+          "A silver trumpet"
+        ],
+        "why": "Exodus 28:36: “thou shalt make a plate of pure gold, and grave upon it … HOLINESS TO THE LORD.” The high priest wore it on his forehead (verse 38).",
+        "source": "Exodus 28:36",
+        "find": "make a plate of pure gold"
+      },
+      "media": {
+        "image": {
+          "src": "media/manila-temple-evening.jpg",
+          "alt": "The white Manila Philippines Temple with its tall spires at sunset, framed by palm trees",
+          "credit": "Manila Philippines Temple in the Evening, from the Church Media Library",
+          "link": "https://www.churchofjesuschrist.org/media/image/manila-philippines-temple-lds-75a25fc?lang=eng"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#1e3a8a 0%,#7c3aed 50%,#fde68a 115%)",
+      "blobA": "rgba(253,230,138,.4)",
+      "blobB": "rgba(0,0,0,.4)",
+      "approved": "f7e54610"
+    },
+    {
+      "id": "zech9-colt",
+      "section": 2,
+      "hook": "A King who rides a donkey, not a war horse.",
+      "body": "Zechariah saw a King coming to Jerusalem, “lowly, and riding upon an ass,” a donkey. Horses meant war, but kings also rode donkeys. More than 500 years later, Jesus rode a young donkey into Jerusalem, and crowds spread branches and shouted Hosanna (Matthew 21:8–9). That was Palm Sunday, the week before Easter. Matthew says it happened to fulfill this very prophecy (Matthew 21:4–5).",
+      "verse": {
+        "text": "Rejoice greatly, O daughter of Zion; shout, O daughter of Jerusalem: behold, thy King cometh unto thee: he is just, and having salvation; lowly, and riding upon an ass, and upon a colt the foal of an ass.",
+        "ref": "Zechariah 9:9"
+      },
+      "question": {
+        "q": "How did Jesus fulfill Zechariah 9:9?",
+        "right": "He rode into Jerusalem on a donkey",
+        "wrong": [
+          "He was born in a stable in Bethlehem",
+          "He walked on the water to His friends"
+        ],
+        "why": "Zechariah saw the King “riding upon an ass, and upon a colt the foal of an ass.” Jesus did just that on Palm Sunday (Matthew 21:7)."
+      },
+      "bonus": {
+        "q": "In Zechariah 9:16, what will the Lord’s people be like on His land?",
+        "hunt": "In Zechariah 9, what will the Lord’s people be like on His land?",
+        "right": "Stones of a crown",
+        "wrong": [
+          "Seeds in a field",
+          "Stars in the sky"
+        ],
+        "why": "Verse 16: “they shall be as the stones of a crown, lifted up as an ensign upon his land.” Like jewels, His people shine for all to see.",
+        "source": "Zechariah 9:16",
+        "find": "they shall be as the stones of a crown"
+      },
+      "gradient": "linear-gradient(150deg,#14532d 0%,#65a30d 50%,#fef08a 115%)",
+      "blobA": "rgba(254,240,138,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "2ff9fef8"
+    },
+    {
+      "id": "zech11-silver",
+      "section": 2,
+      "hook": "A shepherd paid the price of a slave.",
+      "body": "In Zechariah 11, the Lord had Zechariah act out a story. He worked as a shepherd for a flock, but the people didn’t want him. When he asked for his pay, they gave him “thirty pieces of silver,” the price of a slave. The Lord told him to throw it “to the potter in the house of the LORD” (Zechariah 11:13). Judas later sold Jesus for thirty pieces of silver (Matthew 26:15).",
+      "verse": {
+        "text": "And I said unto them, If ye think good, give me my price; and if not, forbear. So they weighed for my price thirty pieces of silver.",
+        "ref": "Zechariah 11:12"
+      },
+      "question": {
+        "q": "What price did the people put on their shepherd?",
+        "right": "Thirty pieces of silver",
+        "wrong": [
+          "A hundred pieces of gold",
+          "Ten sheep from the flock"
+        ],
+        "why": "“So they weighed for my price thirty pieces of silver.” It was a tiny price. Judas sold the Good Shepherd, Jesus, for the same amount."
+      },
+      "bonus": {
+        "q": "In Zechariah 11:7, what did Zechariah name his two shepherd’s staffs?",
+        "hunt": "In Zechariah 11, what did Zechariah name his two shepherd’s staffs?",
+        "right": "Beauty and Bands",
+        "wrong": [
+          "Faith and Hope",
+          "Peace and Plenty"
+        ],
+        "why": "Verse 7: “the one I called Beauty, and the other I called Bands.” Breaking them showed a broken covenant (verses 10 and 14).",
+        "source": "Zechariah 11:7",
+        "find": "the one I called Beauty, and the other I called Bands"
+      },
+      "media": {
+        "image": {
+          "src": "media/good-shepherd-plockhorst.jpg",
+          "alt": "Painting of Jesus Christ as a shepherd, carrying a lamb in His arms while His flock of sheep walks beside Him",
+          "credit": "The Good Shepherd, by Bernhard Plockhorst. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Bernhard_Plockhorst_-_Good_Shephard.jpg"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#1f2937 0%,#64748b 50%,#e2e8f0 115%)",
+      "blobA": "rgba(226,232,240,.4)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "20b983f6"
+    },
+    {
+      "id": "zech12-pierced",
+      "section": 2,
+      "hook": "One day they’ll see the One they hurt, and cry.",
+      "body": "Zechariah saw a day when the people of Jerusalem “shall look upon me whom they have pierced,” and weep as if they had lost an only son. The Apostle John says this was about Jesus, whose side a soldier pierced with a spear on the cross (John 19:34–37). When Jesus comes again, many who did not know Him will finally see that He is their Messiah.",
+      "verse": {
+        "text": "And I will pour upon the house of David, and upon the inhabitants of Jerusalem, the spirit of grace and of supplications: and they shall look upon me whom they have pierced, and they shall mourn for him, as one mourneth for his only son, and shall be in bitterness for him, as one that is in bitterness for his firstborn.",
+        "ref": "Zechariah 12:10"
+      },
+      "question": {
+        "q": "Who is the One “whom they have pierced”?",
+        "right": "Jesus Christ, who was crucified",
+        "wrong": [
+          "King David, wounded in battle",
+          "A soldier defending Jerusalem"
+        ],
+        "why": "John quotes these words about Jesus on the cross: “They shall look on him whom they pierced” (John 19:37)."
+      },
+      "bonus": {
+        "q": "In Zechariah 12:8, who will the weakest people in Jerusalem be like?",
+        "hunt": "In Zechariah 12, who will the weakest people in Jerusalem be like?",
+        "right": "King David",
+        "wrong": [
+          "King Saul",
+          "Prophet Samuel"
+        ],
+        "why": "Verse 8: “he that is feeble among them at that day shall be as David.” The Lord will make even the weakest strong.",
+        "source": "Zechariah 12:8",
+        "find": "he that is feeble among them at that day shall be as David"
+      },
+      "gradient": "linear-gradient(150deg,#1e1b4b 0%,#7f1d1d 50%,#fecaca 115%)",
+      "blobA": "rgba(254,202,202,.35)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "2d07826b"
+    },
+    {
+      "id": "zech13-wounds",
+      "section": 2,
+      "hook": "He kept the marks in His hands so we’d know Him.",
+      "body": "Zechariah heard someone ask the Lord, “What are these wounds in thine hands?” He answers that He was wounded “in the house of my friends.” In Doctrine and Covenants 45:51–52 the Lord explains more: when He comes again, He will show the wounds in His hands and feet and say, “I am Jesus that was crucified” (Doctrine and Covenants 45:52). His wounds show how much He loves us.",
+      "verse": {
+        "text": "And one shall say unto him, What are these wounds in thine hands? Then he shall answer, Those with which I was wounded in the house of my friends.",
+        "ref": "Zechariah 13:6"
+      },
+      "question": {
+        "q": "When Jesus comes again, what will help people know who He is?",
+        "right": "The wounds in His hands and feet",
+        "wrong": [
+          "A golden crown on His head",
+          "A sign written across the sky"
+        ],
+        "why": "He will show His wounds and say, “I am Jesus that was crucified” (Doctrine and Covenants 45:52)."
+      },
+      "bonus": {
+        "q": "In Zechariah 13:1, what will be opened for sin and uncleanness?",
+        "hunt": "In Zechariah 13, what will be opened for sin and uncleanness?",
+        "right": "A fountain",
+        "wrong": [
+          "A temple",
+          "A prison"
+        ],
+        "why": "Verse 1: “In that day there shall be a fountain opened … for sin and for uncleanness.” The Savior is the source that makes us clean.",
+        "source": "Zechariah 13:1",
+        "find": "there shall be a fountain opened"
+      },
+      "media": {
+        "image": {
+          "src": "media/jesus-shows-wounds-anderson.jpg",
+          "alt": "Painting of the resurrected Jesus Christ holding out His hands to show the nail wounds to His disciples",
+          "credit": "Jesus Shows His Wounds (Behold My Hands and Feet), by Harry Anderson",
+          "link": "https://www.churchofjesuschrist.org/media/image/resurrected-christ-d0f28b0?lang=eng"
+        }
+      },
+      "gradient": "linear-gradient(160deg,#172554 0%,#9f1239 55%,#fde68a 115%)",
+      "blobA": "rgba(253,230,138,.35)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "7f017758"
+    },
+    {
+      "id": "zech14-olives",
+      "section": 2,
+      "hook": "A mountain splits in two when He comes back.",
+      "body": "Zechariah saw the last days, when armies from many nations will fight against Jerusalem. Then shall “the LORD go forth, and fight against those nations” (Zechariah 14:3). His feet will stand on the Mount of Olives, and the mountain will split in two, opening a valley for His people to escape. It’s the same mountain Jesus went up from to heaven (Acts 1:9–12).",
+      "verse": {
+        "text": "And his feet shall stand in that day upon the mount of Olives, which is before Jerusalem on the east, and the mount of Olives shall cleave in the midst thereof toward the east and toward the west, and there shall be a very great valley; and half of the mountain shall remove toward the north, and half of it toward the south.",
+        "ref": "Zechariah 14:4"
+      },
+      "question": {
+        "q": "Where will the Lord’s feet stand in that day?",
+        "right": "On the Mount of Olives",
+        "wrong": [
+          "On top of Mount Sinai",
+          "On the roof of the temple"
+        ],
+        "why": "“His feet shall stand in that day upon the mount of Olives.” The mountain will split, making a valley for His people to flee through (verse 5)."
+      },
+      "bonus": {
+        "q": "In Zechariah 14:7, what will happen at evening time?",
+        "hunt": "In Zechariah 14, what will happen at evening time?",
+        "right": "It will be light",
+        "wrong": [
+          "It will be dark and cold",
+          "The stars will fall"
+        ],
+        "why": "Verse 7: “at evening time it shall be light.” That day will not be like any other day.",
+        "source": "Zechariah 14:7",
+        "find": "at evening time it shall be light"
+      },
+      "gradient": "linear-gradient(150deg,#022c22 0%,#047857 50%,#d9f99d 115%)",
+      "blobA": "rgba(217,249,157,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "4a8bc3f0"
+    }
+  ],
+  "tldr": [
+    {
+      "ch": "Haggai 1",
+      "lines": [
+        "In 520 BC the Lord sends Haggai to Zerubbabel the governor and Joshua the high priest. The people say it isn’t time yet to build the Lord’s house. (verses 1–2)",
+        "They live in fine paneled houses while the temple lies in ruins. The Lord tells them to consider their ways: they work hard but never have enough. (verses 3–7)",
+        "He tells them to bring wood and build. Because they left His house in ruins, He has held back the rain and their crops. (verses 8–11)",
+        "The leaders and the people obey and fear the Lord. He promises to be with them and stirs up their spirits, and they go to work on the temple. (verses 12–15)"
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "“In 520 BC” comes from the Scripture Helps (“His prophecies are dated to 520 BC”); the verse dates it by Darius’s second year."
+        },
+        {
+          "v": 4,
+          "about": "“Fine paneled houses” is for “ceiled houses” (paneled, as the BSB has it)."
+        }
+      ],
+      "approved": "13b259da"
+    },
+    {
+      "ch": "Haggai 2",
+      "lines": [
+        "Some remember Solomon’s temple and think the new one is nothing beside it. The Lord tells everyone to be strong and work, because He is with them. (verses 1–5)",
+        "He will shake the nations, and the Desire of All Nations, Jesus Christ, will come. This house will have greater glory, and there He will give peace. (verses 6–9)",
+        "Haggai teaches that touching holy things can’t make unclean people holy. But from the day the temple’s foundation is laid, the Lord will bless them. (verses 10–19)",
+        "The Lord will overthrow kingdoms and make Zerubbabel like His signet ring, a sign that He has chosen him. (verses 20–23)"
+      ],
+      "review": [
+        {
+          "v": 7,
+          "about": "“Jesus Christ” comes from the chapter heading (“Haggai speaks about the Messiah”) and the Scripture Helps, which say the title can refer to the Savior."
+        }
+      ],
+      "approved": "671edc40"
+    },
+    {
+      "ch": "Zechariah 1",
+      "lines": [
+        "Zechariah calls Judah to repent: if they turn to the Lord, He will turn to them. Their fathers didn’t listen to the prophets, and the Lord’s words came true. (verses 1–6)",
+        "In a night vision, riders on horses report that the whole earth is at rest. An angel asks how long Jerusalem must wait for mercy. (verses 7–12)",
+        "The Lord answers with comforting words. He has returned to Jerusalem with mercy, and His house and the cities of Judah will be built again. (verses 13–17)",
+        "Four horns that scattered Judah will be thrown down by four craftsmen the Lord sends. (verses 18–21)"
+      ],
+      "review": [
+        {
+          "v": 20,
+          "about": "“Craftsmen” is for the KJV’s “carpenters” (the Bible Dictionary uses “craftsmen” too)."
+        }
+      ],
+      "approved": "b54d5606"
+    },
+    {
+      "ch": "Zechariah 2",
+      "lines": [
+        "A man goes to measure Jerusalem, but it will be too full of people for walls. The Lord will be a wall of fire around it and its glory inside. (verses 1–5)",
+        "In the last days the Lord calls His scattered people to flee from the land of the north and come home. Whoever harms them harms what He holds most dear. (verses 6–9)",
+        "Zion can sing for joy: the Lord will come and live among His people. Many nations will join Him, and He will choose Jerusalem again. (verses 10–13)"
+      ],
+      "review": [
+        {
+          "v": 8,
+          "about": "“What He holds most dear” is for “the apple of his eye,” kept out of the card because APPLE is Tuesday’s Verse Word."
+        }
+      ],
+      "approved": "1b096da0"
+    },
+    {
+      "ch": "Zechariah 3",
+      "lines": [
+        "In a vision, Joshua the high priest stands before the angel of the Lord in filthy clothes, with Satan beside him to accuse him. The Lord rebukes Satan. (verses 1–3)",
+        "The dirty clothes are taken off, and Joshua gets clean clothes and a clean priest’s cap. His sins are taken away. (verses 4–5)",
+        "If Joshua walks in the Lord’s ways and keeps His commands, he will take care of the Lord’s house. (verses 6–7)",
+        "The Lord will bring His servant the Branch, the Messiah. At the Second Coming He will remove the land’s sin in one day. (verses 8–10)"
+      ],
+      "approved": "3878c9d3"
+    },
+    {
+      "ch": "Zechariah 4",
+      "lines": [
+        "An angel wakes Zechariah and shows him a golden lampstand with seven lamps, and two olive trees beside it. (verses 1–5)",
+        "The message to Zerubbabel: the work will be done not by might or power, but by the Lord’s Spirit. The mountain in front of him will become flat ground. (verses 6–7)",
+        "Zerubbabel laid the temple’s foundation, and his own hands will finish it. (verses 8–10)",
+        "The two olive trees are the two anointed ones who stand by the Lord of the whole earth. (verses 11–14)"
+      ],
+      "approved": "0a067d67"
+    },
+    {
+      "ch": "Zechariah 7",
+      "lines": [
+        "Some people send men to ask the priests whether they should keep fasting to mourn the temple’s fall. (verses 1–3)",
+        "The Lord asks if their fasts and feasts were really for Him, or only for themselves. He wanted them to listen to His prophets. (verses 4–7)",
+        "He calls them to judge fairly, show mercy and kindness, and never mistreat widows, orphans, strangers or the poor. (verses 8–10)",
+        "Their fathers hardened their hearts and wouldn’t listen, so the Lord scattered them and the land was left empty. (verses 11–14)"
+      ],
+      "approved": "0db65bb3"
+    },
+    {
+      "ch": "Zechariah 8",
+      "lines": [
+        "The Lord will return to Zion and live in Jerusalem. Old people and children playing will fill its streets again. (verses 1–5)",
+        "In the last days He will gather His people from east and west, and they will be His people. He tells them to be strong and build the temple. (verses 6–13)",
+        "He will bless them more than ever before. They must speak the truth, judge fairly and love peace. Their sad fasts will become happy feasts. (verses 14–19)",
+        "People from many nations will come to Jerusalem to seek the Lord, because they have heard that God is with His people. (verses 20–23)"
+      ],
+      "approved": "60adf4b6"
+    },
+    {
+      "ch": "Zechariah 9",
+      "lines": [
+        "Judgment will come on the proud cities around Israel, like Tyrus and Gaza, but the Lord will guard His house. (verses 1–8)",
+        "Zion can rejoice: her King, the Messiah, will come bringing salvation, humble and riding on a donkey. He will speak peace to the nations. (verses 9–10)",
+        "Because of His covenant, He will free prisoners from a pit with no water. (verses 11–12)",
+        "The Lord will make Judah and Ephraim His bow and arrows. He will defend them and save them like a shepherd saves his flock. (verses 13–17)"
+      ],
+      "review": [
+        {
+          "v": 9,
+          "about": "The heading says “Zechariah speaks as the Messiah”; the line names the King as the Messiah, as the heading does."
+        }
+      ],
+      "approved": "c8be94f2"
+    },
+    {
+      "ch": "Zechariah 10",
+      "lines": [
+        "Ask the Lord for rain, not idols, which only tell lies. Without a true shepherd, the people wander like lost sheep. (verses 1–2)",
+        "The Lord is angry with the bad shepherds. He will make Judah strong and save the house of Joseph, because He has mercy on them. (verses 3–7)",
+        "He has scattered them in far countries, but He will whistle for them, gather them and redeem them. They will remember Him and come home. (verses 8–12)"
+      ],
+      "review": [
+        {
+          "v": 8,
+          "about": "“Whistle” is for the KJV’s “hiss” (the heading says “hiss for them”); it means calling them, like a shepherd."
+        }
+      ],
+      "approved": "9f44e142"
+    },
+    {
+      "ch": "Zechariah 11",
+      "lines": [
+        "The cedars of Lebanon and the oaks of Bashan fall, and the shepherds cry out. (verses 1–3)",
+        "The Lord has Zechariah act as shepherd of a flock headed for slaughter. He breaks one of his two staffs to show the covenant is broken. (verses 4–11)",
+        "He is paid thirty pieces of silver, the price of a slave, and throws it to the potter in the Lord’s house. This points to the Messiah’s betrayal. (verses 12–14)",
+        "The Lord will let a worthless shepherd rise who doesn’t care for the flock, and sorrow will come on him. (verses 15–17)"
+      ],
+      "review": [
+        {
+          "v": 12,
+          "about": "“The price of a slave” is from the Scripture Helps; the betrayal is from the chapter heading."
+        }
+      ],
+      "approved": "26b88b56"
+    },
+    {
+      "ch": "Zechariah 12",
+      "lines": [
+        "In the final great war, all nations will gather against Jerusalem, but the city will be like a heavy stone that hurts all who try to lift it. (verses 1–3)",
+        "The Lord will defend His people. Even the weakest will be strong, and He will destroy the nations that attack. (verses 4–9)",
+        "He will pour out His Spirit, and the Jews will look on Him, the One they pierced and crucified. They will mourn deeply, every family apart. (verses 10–14)"
+      ],
+      "review": [
+        {
+          "v": 10,
+          "about": "“Crucified” comes from the chapter heading (“the Lord, whom they crucified”); the verse says pierced."
+        }
+      ],
+      "approved": "72bdfb5a"
+    },
+    {
+      "ch": "Zechariah 13",
+      "lines": [
+        "At the Second Coming the Jews will be forgiven and made clean. Idols and false prophets will be gone from the land. (verses 1–5)",
+        "They will ask the Lord about the wounds in His hands. He will answer that He was wounded in the house of His friends. (verse 6)",
+        "The Shepherd will be struck and the sheep scattered. A third of the people will be refined like silver and gold, and they will be His people. (verses 7–9)"
+      ],
+      "approved": "f04c97f9"
+    },
+    {
+      "ch": "Zechariah 14",
+      "lines": [
+        "At His Second Coming the Lord will fight the nations that attack Jerusalem. His feet will stand on the Mount of Olives, and it will split in two. (verses 1–5)",
+        "That day will be like no other. Living water will flow out from Jerusalem, and the Lord will be King over all the earth. (verses 6–11)",
+        "Plagues will destroy the wicked who fought Jerusalem. Those left from the nations will come each year to worship the King. (verses 12–19)",
+        "Even the bells of the horses and the cooking pots will be holy to the Lord. (verses 20–21)"
+      ],
+      "approved": "fb041358"
+    }
+  ],
+  "insights": [
+    {
+      "id": "hag1-ceiled",
+      "ref": "Haggai 1:4",
+      "title": "Fancy walls, ruined temple",
+      "text": "The Lord asked if it was time for His people to live in “ceiled houses” while His house lay waste. BYU professor Ray L. Huntington explains that ceiled houses probably means homes with costly cedar paneling on the walls. The people had money and time to decorate their own homes, but not to rebuild the temple. They had put their own houses first.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "Ray L. Huntington",
+        "title": "Consider Your Ways: The Book of Haggai and the Responsibilities and Blessings of Temple Work",
+        "url": "https://rsc.byu.edu/sperry-symposium-classics-old-testament/consider-your-ways"
+      },
+      "find": "may refer to the costly cedar paneling many of the wealthy were using to decorate the interior of their homes",
+      "approved": "7ba97ba9"
+    },
+    {
+      "id": "hag1-wifi",
+      "ref": "Haggai 1:6",
+      "title": "Less Wi-Fi, more Nephi",
+      "text": "Elder Terence M. Vinson of the Seventy loves Haggai’s word pictures, like wages put into “a bag with holes.” He says they show how useless it is to put things of no eternal value ahead of God. He told of a father who said to his children, “What we need here is less Wi-Fi and more Nephi!”",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Terence M. Vinson",
+        "title": "True Disciples of the Savior",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2019/10/12vinson?lang=eng"
+      },
+      "find": "Don’t you love those descriptions of the futility of prioritizing things of no eternal consequence above the things of God?",
+      "approved": "8d1a2785"
+    },
+    {
+      "id": "hag1-realign",
+      "ref": "Haggai 1:5–7",
+      "title": "Repentance is realignment",
+      "text": "“Consider your ways,” the Lord said, twice (verses 5 and 7). Dr. Anthony Sweat, a BYU religion professor, says this isn’t a scolding. He calls repentance realignment: noticing where we’ve drifted from God and steering back to Him. He says the invitation is hopeful and loving. The people of Haggai’s day took it that way. Instead of fighting the prophet, they went to work.",
+      "source": {
+        "by": "followHIM",
+        "who": "Anthony Sweat",
+        "title": "Old Testament: EPISODE 50 – Haggai; Zechariah – Part 1",
+        "url": "https://followhim.co/show-note/2-234/"
+      },
+      "find": "that repentance is realignment",
+      "deep": {
+        "paras": [
+          "Dr. Anthony Sweat breaks Haggai’s short book into four messages given over four months, which he names accusation, expectation, invitation and celebration. The first, all of chapter 1, names the problem. The people had come home from Babylon fifteen or sixteen years before, built themselves comfortable paneled houses, and kept saying it wasn’t yet time to build the Lord’s house (verses 2–4).",
+          "Twice the Lord says, “Consider your ways” (verses 5 and 7). Dr. Sweat doesn’t hear a condemnation in it. “The concept of repentance is constant reevaluation and constant realignment,” he says. We all drift, and our work is to compare our ways with the Lord’s and line back up. He calls the invitation “hopeful and it’s a loving thing.”",
+          "John Bytheway recalls President J. Reuben Clark’s picture of a mariner who, after fog and clouds, takes the first clear sky to find the stars, learn where he is and reset his course. Hank Smith adds that followHIM is a shame-free zone: the Atonement is a gift, not a guilt trip. Their models are Zerubbabel, Joshua and the people, who “obeyed the voice of the LORD” (Haggai 1:12) and within weeks were at work on the temple (verse 14)."
+        ],
+        "find": [
+          "The first one I call accusation. The second prophecy is expectation. The third one is invitation.",
+          "The concept of repentance is constant reevaluation and constant realignment.",
+          "I actually think that invitation to consider our ways is hopeful and it’s a loving thing.",
+          "We like to keep followHIM as a shame free zone."
+        ],
+        "approved": "227f18f9"
+      },
+      "approved": "e32ea962"
+    },
+    {
+      "id": "hag1-q-bednar",
+      "kind": "quote",
+      "ref": "Haggai 1:5",
+      "quote": "Each of us should evaluate our temporal and spiritual priorities sincerely and prayerfully to identify the things in our lives that may impede the bounteous blessings that Heavenly Father and the Savior are willing to bestow upon us.",
+      "text": "Right after repeating Haggai’s words, “Consider your ways,” Elder Bednar tells what considering our ways looks like today.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder David A. Bednar",
+        "title": "Put On Thy Strength, O Zion",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2022/10/46bednar?lang=eng"
+      },
+      "approved": "d4b88fac"
+    },
+    {
+      "id": "hag2-five-missing",
+      "ref": "Haggai 2:3",
+      "title": "What the new temple was missing",
+      "text": "Haggai asked who still remembered Solomon’s temple “in her first glory.” The Bible Dictionary says the Jews counted five things the new temple lacked: the ark of the covenant, the visible glory of the Lord, the Urim and Thummim, the holy fire on the altar, and the spirit of prophecy. No wonder it seemed “as nothing” to some. Still, the Lord promised greater glory.",
+      "source": {
+        "by": "Bible Dictionary",
+        "title": "Temple of Zerubbabel",
+        "url": "https://www.churchofjesuschrist.org/study/scriptures/bd/temple-of-zerubbabel?lang=eng"
+      },
+      "find": "The Jews reckoned the temple of Zerubbabel to be in five points inferior to the temple of Solomon",
+      "approved": "65b7b047"
+    },
+    {
+      "id": "hag2-restorer",
+      "ref": "Haggai 2:3–9",
+      "title": "A temple rebuilt with greater glory",
+      "text": "“The glory of this latter house shall be greater than of the former.” Dr. Anthony Sweat points to the Provo City Center Temple. It was a pioneer tabernacle until it burned down by accident. Then it was rebuilt, not as a tabernacle, but as a temple, with greater glory than before. He says one of the Savior’s titles is Restorer. He can make our future greater than our past.",
+      "source": {
+        "by": "followHIM",
+        "who": "Anthony Sweat",
+        "title": "Old Testament: EPISODE 50 – Haggai; Zechariah – Part 1",
+        "url": "https://followhim.co/show-note/2-234/"
+      },
+      "find": "Jesus is a restorer.",
+      "deep": {
+        "paras": [
+          "In chapter 2, Haggai’s second message raises the people’s sights. Those who remembered Solomon’s temple thought the new one was “as nothing” (verse 3). Dr. Sweat calls this the expectation. The Lord tells Zerubbabel, Joshua and all the people to be strong and work, “for I am with you” (verse 4), and promises that the latter house will have greater glory than the former, and peace (verse 9).",
+          "The Come, Follow Me lesson links these verses to the Provo City Center Temple, and Dr. Sweat tells its story. An old pioneer tabernacle burned down by accident, “through no malicious intent on anyone’s part,” and President Monson announced that it would be rebuilt, not as a tabernacle, but as a temple. “The glory of that house now is greater than the former.”",
+          "He sees a pattern for our own losses, many of them no one’s fault. Remembering a talk by Sister Linda Burton, he says the Lord can redeem, rectify, restore, reclaim and recompense in ways we can’t imagine. Hank Smith thinks of Isaiah’s promise of beauty for ashes (Isaiah 61:3), literally true of that temple. John Bytheway adds the lost 116 pages of the Book of Mormon, a loss the Lord turned into something better. “He’s such a restorer,” John says."
+        ],
+        "find": [
+          "It was a tabernacle. It wasn’t a temple originally, it was a tabernacle",
+          "He can redeem, He can rectify, He can restore, He can reclaim, He can recompense in ways that we can’t even fathom.",
+          "The glory of that house now is greater than the former.",
+          "He’s such a restorer, He can make things better than they were."
+        ],
+        "approved": "476fcd25"
+      },
+      "approved": "7b45b705"
+    },
+    {
+      "id": "hag2-q-nelson",
+      "kind": "quote",
+      "ref": "Haggai 2:7",
+      "quote": "Here is my promise to you: Every sincere seeker of Jesus Christ will find Him in the temple.",
+      "text": "Verse 7 promises that the Desire of All Nations, Jesus Christ, will come to the temple. This week’s Scripture Helps share President Nelson’s promise about finding Him there.",
+      "source": {
+        "by": "General Conference",
+        "who": "President Russell M. Nelson",
+        "title": "The Lord Jesus Christ Will Come Again",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2024/10/57nelson?lang=eng"
+      },
+      "approved": "713650e4"
+    },
+    {
+      "id": "hag2-unclean",
+      "ref": "Haggai 2:11–14",
+      "title": "Uncleanness spreads faster",
+      "text": "Haggai asked the priests two questions from the law of Moses. Holy meat could make a robe holy, but the robe couldn’t pass that holiness on to bread. Yet someone unclean made everything he touched unclean. Ray L. Huntington sums it up: “uncleanness is much more easily transmitted than holiness.” Living in the holy land couldn’t make the people holy by itself. They needed to rebuild the temple and worship there worthily.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "Ray L. Huntington",
+        "title": "Consider Your Ways: The Book of Haggai and the Responsibilities and Blessings of Temple Work",
+        "url": "https://rsc.byu.edu/sperry-symposium-classics-old-testament/consider-your-ways"
+      },
+      "find": "the garment itself could not transmit that holiness to a third or fourth object",
+      "approved": "dacfd1da"
+    },
+    {
+      "id": "zech1-name",
+      "ref": "Zechariah 1:1–3",
+      "title": "Jehovah remembers",
+      "text": "Zechariah’s name means “Jehovah remembers,” says Noe Correa of Scripture Central. That fits a book about the Lord keeping His covenants. His first message was turn to the Lord, and He will turn to you. Correa adds that repenting isn’t only us moving closer to God. It goes both ways: as we turn to Him, He draws closer to us.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Noe Correa",
+        "title": "Old Testament Minute: Zechariah",
+        "url": "https://scripturecentral.org/archive/books/book/old-testament-minute-zechariah"
+      },
+      "find": "Repentance is often thought of as a unidirectional movement closer to God.",
+      "approved": "b4b231b6"
+    },
+    {
+      "id": "zech2-apple",
+      "ref": "Zechariah 2:8",
+      "title": "The apple of His eye",
+      "text": "“He that toucheth you toucheth the apple of his eye.” The Old Testament Student Manual explains that the apple of the eye most likely means the pupil, the center of the eye, the part a person protects most carefully. It is a way of saying someone’s dearest treasure. That is how precious the Lord’s people are to Him.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "Preparations for the Lord’s Return in Glory",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-33?lang=eng"
+      },
+      "find": "more probably the pupil of the eye, pupilla, as being the object most carefully preserved",
+      "approved": "754532da"
+    },
+    {
+      "id": "zech3-accuser",
+      "ref": "Zechariah 3:1–2",
+      "title": "Satan means accuser",
+      "text": "Zechariah’s vision of Joshua the high priest is like a courtroom. Noe Correa of Scripture Central explains that in Hebrew, satan is a title that means “accuser,” and the same root shows up in the word “resist.” Satan stood ready to accuse Joshua. But the Lord stood up for Joshua and rebuked Satan.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Noe Correa",
+        "title": "Old Testament Minute: Zechariah",
+        "url": "https://scripturecentral.org/archive/books/book/old-testament-minute-zechariah"
+      },
+      "find": "Satan literally means “accuser,” and its Hebrew root is repeated in verse 1 in the verb translated by the King James Version as “resist.”",
+      "approved": "398ac908"
+    },
+    {
+      "id": "zech3-clothing",
+      "ref": "Zechariah 3:3–5",
+      "title": "Clean clothes from the Lord",
+      "text": "Joshua the high priest stood before the angel in “filthy garments.” Dr. Anthony Sweat sees a picture of the Atonement of Jesus Christ. Satan wanted to stop Joshua, but the Lord took away the dirty clothes and gave him clean ones, covering his sins. Dr. Sweat notes that the words behind atonement have to do with covering. He hears an echo of the temple too.",
+      "source": {
+        "by": "followHIM",
+        "who": "Anthony Sweat",
+        "title": "Old Testament: EPISODE 50 – Haggai; Zechariah – Part 2",
+        "url": "https://followhim.co/show-note/3-11/"
+      },
+      "find": "giving him new clothing to cover his sins and weakness",
+      "deep": {
+        "paras": [
+          "Dr. Anthony Sweat counts eight visions in Zechariah 1–6 and sees them arranged in pairs: the first with the eighth, the second with the seventh, the third with the sixth, and the fourth and fifth at the center. Those middle visions are about the two leaders who would see the temple built, Joshua the high priest and Zerubbabel the governor, so he slows down in chapter 3.",
+          "Satan stands by to oppose Joshua, who is dressed in filthy garments. The Lord rebukes Satan, has the dirty clothes taken off, and says, “I have caused thine iniquity to pass from thee” (verse 4). A clean mitre, a priest’s cap, is set on his head. “The symbolism there is so evident,” Dr. Sweat says. The dirty clothes stand for weakness or sin, and the Lord gives new clothing to cover them.",
+          "He notes that the root words behind atonement have to do with covering our sins. For Latter-day Saints he sees temple echoes as well: holy clothing that reminds us we are a covenant people, set apart, and that points to the Savior whose Atonement covers and cleanses us. Hank Smith compares Isaiah’s call, when an angel cleansed his unclean lips and he was ready to serve (Isaiah 6:5–8)."
+        ],
+        "find": [
+          "You have somebody who Satan is trying to stop and thwart.",
+          "He has on filthy garments that are likely symbolic of maybe his weakness or shortcoming or sin.",
+          "the atonement, some of the root words get at to cloth or to cover, to cover our sins",
+          "Reminds me a little bit of the calling of Isaiah."
+        ],
+        "approved": "62bdc1df"
+      },
+      "approved": "16437b0f"
+    },
+    {
+      "id": "zech3-q-renlund",
+      "kind": "quote",
+      "ref": "Zechariah 3:4",
+      "quote": "I have learned that sins are cleansed by the power of Jesus Christ through His atoning sacrifice as we make and keep the baptismal covenant.",
+      "text": "In verse 4 the Lord takes away Joshua’s dirty clothes. As a boy, Elder Renlund thought the water of baptism itself washed sins away. Here is what he learned instead.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Dale G. Renlund",
+        "title": "Jesus Christ Is the Treasure",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2023/10/57renlund?lang=eng"
+      },
+      "approved": "79a98428"
+    },
+    {
+      "id": "zech4-finishers",
+      "ref": "Zechariah 4:9",
+      "title": "Finishers wanted",
+      "text": "“His hands shall also finish it,” Zechariah said of Zerubbabel and the temple. The Old Testament Student Manual shares a story from Elder Thomas S. Monson. In a store window he once saw a small sign: Finishers Wanted. He said life needs finishers too. Starting is often easy; finishing is harder. The manual points out that Jesus Christ finished His work for us.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "Preparations for the Lord’s Return in Glory",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-33?lang=eng"
+      },
+      "find": "In life, as in business, there has always been a need for those persons who could be called finishers.",
+      "approved": "06470535"
+    },
+    {
+      "id": "zech4-jsp-servants",
+      "ref": "Zechariah 4:10",
+      "title": "Joseph’s Bible: the Lord’s servants",
+      "text": "In the KJV, the seven are “the eyes of the LORD, which run to and fro through the whole earth.” On page 118 of Joseph Smith’s Old Testament manuscript, the note for this verse is one word: “servants.” In Joseph’s revision, the seven who go through the whole earth are the Lord’s servants.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Old Testament Revision 2, page 118",
+        "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/125"
+      },
+      "find": "Zechariah Chapter IV verse 10— servants",
+      "note": "Joseph Smith’s Old Testament manuscript gives one word for this verse: “servants.” In his revision, the seven who go through the whole earth are the Lord’s servants rather than His eyes.",
+      "approved": "07eb2621"
+    },
+    {
+      "id": "zech7-fasts",
+      "ref": "Zechariah 7:5–6",
+      "title": "Fasting for whom?",
+      "text": "For seventy years the Jews had fasted to remember the burning of Jerusalem and the temple. Now they asked if they should keep doing it. The Lord asked, “Did ye at all fast unto me, even to me?” The Old Testament Student Manual explains that Zechariah cared much more about righteousness than about ritual. God wanted fairness, kindness and mercy.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "Preparations for the Lord’s Return in Glory",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-33?lang=eng"
+      },
+      "find": "cared infinitely more for righteousness than for ritual",
+      "approved": "bead3985"
+    },
+    {
+      "id": "zech7-brother",
+      "ref": "Zechariah 7:9–10",
+      "title": "Build the temple, build the people",
+      "text": "“Shew mercy and compassions every man to his brother,” the Lord said through Zechariah. Hank Smith of followHIM says he might put that verse up on the wall at home, and John Bytheway says to take brother literally: kindness starts in the family. As Hank puts it, Haggai is about building the temple, and Zechariah is about building the people.",
+      "source": {
+        "by": "followHIM",
+        "who": "Hank Smith",
+        "title": "Old Testament: EPISODE 50 – Haggai; Zechariah – Part 2",
+        "url": "https://followhim.co/show-note/3-11/"
+      },
+      "find": "So it’s almost as if Haggai is build the temple, and Zechariah is build the people.",
+      "deep": {
+        "paras": [
+          "Zechariah 7 and 8 turn from visions to plain counsel. People asked whether to keep fasting for the fallen temple (verse 3), and the Lord’s answer was about how they treated others: “Execute true judgment, and shew mercy and compassions every man to his brother” (verse 9), with care for widows, orphans, strangers and the poor (verse 10). Dr. Anthony Sweat hears echoes of the covenants made in the temple: to consecrate, to help others, to be chaste and compassionate.",
+          "Hank Smith asks how parents teach children to show mercy and not “imagine evil” against anyone. John Bytheway answers that he often repents to his kids: “Hey, I’m sorry I blew up about that mess in the kitchen.” Children learn most from what their parents are, and seeing a parent apologize lets them know everyone stumbles, gets up and keeps trying.",
+          "Hank tells of his son, then twelve or thirteen, who saw that his older sister was having a terrible day, rode his bike to a gas station, and slipped treats and a note under her door. Moments like that, more than a swim trophy, are what a family is after. Dr. Sweat adds the young men’s theme, “I will serve others beginning in my own home,” and calls the home the place where we practice these holy ways of living."
+        ],
+        "find": [
+          "I find myself repenting to my kids a lot.",
+          "bought a couple of treats for her and slipped them under her door with a note",
+          "I will serve others beginning in my own home",
+          "the home is where we practice and try to learn to implement these holy ways of living"
+        ],
+        "approved": "84501472"
+      },
+      "approved": "93ba356c"
+    },
+    {
+      "id": "zech8-jsp-gather",
+      "ref": "Zechariah 8:7",
+      "title": "Joseph’s Bible: I will gather",
+      "text": "The KJV says, “I will save my people from the east country, and from the west country.” On the last page of Joseph Smith’s Old Testament manuscript, the note for this verse is “gather,” and verse 13 gets the same word. The Lord will gather His people. Below these notes the manuscript records that the work was finished on July 2, 1833.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Old Testament Revision 2, page 119",
+        "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/126"
+      },
+      "find": "Chapte VIII verse 7 gather 13 gather",
+      "note": "Joseph Smith’s Old Testament manuscript gives “gather” for this verse and for verse 13: the Lord will gather His people. It is on the manuscript’s last page, finished July 2, 1833.",
+      "approved": "38d2583b"
+    },
+    {
+      "id": "zech8-missionary",
+      "ref": "Zechariah 8:23",
+      "title": "Ten men take hold",
+      "text": "Zechariah saw people from every language take hold of a Jew’s robe and say, “We will go with you: for we have heard that God is with you.” Noe Correa of Scripture Central says that today the verse can mean people taking hold of a missionary or a Latter-day Saint. So we need to be ready to help God’s children come to Christ.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Noe Correa",
+        "title": "Old Testament Minute: Zechariah",
+        "url": "https://scripturecentral.org/archive/books/book/old-testament-minute-zechariah"
+      },
+      "find": "people will take hold of a missionary or a Latter-day Saint",
+      "approved": "1721b40b"
+    },
+    {
+      "id": "zech9-two-parades",
+      "ref": "Zechariah 9:9–10",
+      "title": "Two parades into Jerusalem",
+      "text": "Zechariah’s King comes “riding upon an ass,” and the Lord will “cut off … the horse from Jerusalem.” Eric D. Huntsman and Trevan G. Hatch describe two parades that week. Jesus rode a donkey in from the east as His disciples praised Him. About the same time, the Roman governor would have ridden in from the west on a war horse, with armed soldiers.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "Eric D. Huntsman and Trevan G. Hatch",
+        "title": "Palm Sunday: The True King Comes to Jerusalem",
+        "url": "https://rsc.byu.edu/greater-love-hath-no-man/palm-sunday"
+      },
+      "find": "Jesus’s royal procession, entering the city from the east, contrasted with another, more worldly procession that would have entered the city from the west",
+      "approved": "d5729859"
+    },
+    {
+      "id": "zech9-cook",
+      "ref": "Zechariah 9:9",
+      "title": "Rejoice: the King came",
+      "text": "In this month’s Liahona, Elder Quentin L. Cook quotes Zechariah, “Rejoice greatly … behold, thy King cometh unto thee.” He says the angel’s message to the shepherds on the night Jesus was born echoed it: good tidings of great joy. We rejoice because Jesus came, and because of why He came and what He has done for each of us.",
+      "source": {
+        "by": "Liahona",
+        "who": "Elder Quentin L. Cook",
+        "title": "We Have Every Reason to Rejoice",
+        "url": "https://www.churchofjesuschrist.org/study/liahona/2026/12/03-we-have-every-reason-to-rejoice?lang=eng"
+      },
+      "find": "This prophecy was echoed in the angelic announcement to the shepherds the night of Jesus Christ’s birth",
+      "approved": "627387dc"
+    },
+    {
+      "id": "zech9-q-soares",
+      "kind": "quote",
+      "ref": "Zechariah 9:9",
+      "quote": "May we today, on this Palm Sunday, spread out our robes of love and palm leaves of charity, walking in the footsteps of the Prince of Peace",
+      "text": "Verse 9: the King comes lowly, riding a donkey. Speaking on Palm Sunday, Elder Soares turns the crowd’s welcome into something we can do every day.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Ulisses Soares",
+        "title": "Followers of the Prince of Peace",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2023/04/43soares?lang=eng"
+      },
+      "approved": "ac98d33c"
+    },
+    {
+      "id": "zech9-prisoners",
+      "ref": "Zechariah 9:11",
+      "title": "Prisoners in a pit with no water",
+      "text": "“I have sent forth thy prisoners out of the pit wherein is no water.” The Old Testament Student Manual quotes Elder Bruce R. McConkie: this is about spirits waiting in the spirit world. The water is baptism, an ordinance done on earth that spirits can’t receive there. That is why we do baptisms for the dead. Through Christ’s covenant, they can be set free.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "who": "Elder Bruce R. McConkie",
+        "title": "Preparations for the Lord’s Return in Glory",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-33?lang=eng"
+      },
+      "find": "the saving water, which is baptism, is an earthly ordinance and cannot be performed by spirit beings while they dwell in the spirit world",
+      "approved": "2c26f01d"
+    },
+    {
+      "id": "zech9-v-triumphal-entry",
+      "kind": "video",
+      "ref": "Zechariah 9:9",
+      "title": "The Lord’s Triumphal Entry into Jerusalem",
+      "text": "A short Bible video from the Church of Matthew 21, when Jesus rode into Jerusalem the week before He died. Watch for the donkey and how the crowd welcomes Him, then compare it with Zechariah 9:9.",
+      "video": {
+        "youtube": "gdUw_E-tGjE",
+        "start": 0,
+        "end": 120,
+        "title": "Matthew 21 | The Lord's Triumphal Entry into Jerusalem | The Bible",
+        "channel": "The Church of Jesus Christ of Latter-day Saints",
+        "previewed": false
+      },
+      "approved": "6d7d9467"
+    },
+    {
+      "id": "zech11-worthless-price",
+      "ref": "Zechariah 11:12–13",
+      "title": "A worthless price",
+      "text": "Zechariah asked for his pay as a shepherd and got “thirty pieces of silver.” Noe Correa of Scripture Central explains that in the ancient Sumerian language, saying something was worth thirty pieces of silver meant it had little value. That is what the people thought their shepherd was worth. Judas later sold Jesus for that same small price.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Noe Correa",
+        "title": "Old Testament Minute: Zechariah",
+        "url": "https://scripturecentral.org/archive/books/book/old-testament-minute-zechariah"
+      },
+      "find": "In the Sumerian language, to say something was worth thirty pieces of silver meant that it had little value.",
+      "approved": "fd902c85"
+    },
+    {
+      "id": "zech12-megiddo",
+      "ref": "Zechariah 12:11",
+      "title": "Mourning like the day Josiah died",
+      "text": "Zechariah compares the great mourning to the mourning of Hadadrimmon “in the valley of Megiddon.” The Old Testament Student Manual explains that good King Josiah was mortally wounded in the valley of Megiddo, and all Judah wept for him; even Jeremiah wrote a lament. Zechariah compares that grief to the mourning for the Messiah who was put to death.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "Preparations for the Lord’s Return in Glory",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-33?lang=eng"
+      },
+      "find": "The death of this most pious of all the kings of Judah was bewailed by the people",
+      "approved": "98346cc3"
+    },
+    {
+      "id": "zech12-dc45",
+      "ref": "Zechariah 12:10",
+      "title": "Zechariah in Doctrine and Covenants 45",
+      "text": "In 1831 the Lord gave Joseph Smith a revelation about His Second Coming, now Doctrine and Covenants 45. Scripture Central notes that, without naming Zechariah, it uses three of his prophecies: the Mount of Olives splitting (Zechariah 14:4), the question about His wounds (Zechariah 13:6), and the mourning for the One they pierced (Zechariah 12:10).",
+      "source": {
+        "by": "Scripture Central",
+        "title": "Why Does Doctrine and Covenants 45 Quote the Book of Zechariah?",
+        "url": "https://scripturecentral.org/knowhy/why-does-doctrine-and-covenants-45-quote-the-book-of-zechariah"
+      },
+      "find": "One additional Old Testament prophet cited—but not named—in this revelation is Zechariah.",
+      "deep": {
+        "paras": [
+          "Doctrine and Covenants 45 came about March 7, 1831, while Joseph Smith was working on his inspired revision of the Bible. Much of it is the Lord’s own commentary on His Olivet Discourse in Matthew 24, given on the Mount of Olives. Steven C. Harper calls section 45 “the only source on earth in which the Savior of the world interprets and applies his own Olivet discourse.”",
+          "Besides Joel and Daniel, the Lord draws on Zechariah 12–14. Doctrine and Covenants 45:48 echoes the Mount of Olives splitting in two (Zechariah 14:4). Doctrine and Covenants 45:51–52 takes up the question, “What are these wounds in thine hands?” (Zechariah 13:6). And Doctrine and Covenants 45:53 echoes the mourning for the One “whom they have pierced.” In Zechariah 13 the words first described a false prophet; the Lord applies them to Himself, the One wrongly taken for one.",
+          "The KnoWhy links this verse to John 19:37, which applies it to the wounds Jesus received on the cross. When Israel at last recognizes Him, Stephen E. Robinson and H. Dean Garrett write, it will begin a great repentance, not for His death, since these Jews are not guilty of that, but “the same repentance that all who come unto Christ must go through.”",
+          "Why give such a revelation then? Joseph noted that false reports and lies were spreading to keep people from looking into the Church. Section 45 came to cheer the Saints, who, like Zechariah’s people, were trying to build temples and Zion. The promise in both is the same: the Lord remembers His covenant and will rescue His people."
+        ],
+        "find": [
+          "Section 45 is the only source on earth in which the Savior of the world interprets and applies his own Olivet discourse.",
+          "Jesus especially refers to three passages from this prophet that likewise refer to the Day of the Lord and the Savior’s ultimate triumph",
+          "This is not repentance for the death of Christ, for these Jews are not guilty of that.",
+          "This revelation, in short, was given to cheer the Saints and reinvigorate their hope in the Savior’s promises"
+        ],
+        "approved": "4dc09f3a"
+      },
+      "approved": "6018c3ec"
+    },
+    {
+      "id": "zech13-jsp-wounds",
+      "ref": "Zechariah 13:6",
+      "title": "The answer in Joseph’s manuscript",
+      "text": "“What are these wounds in thine hands?” In March 1831 the Lord gave Joseph Smith the answer, now Doctrine and Covenants 45:51–52. In an early copy in John Whitmer’s handwriting, the Lord says the wounds are those “with which I was wounded in the house of my friends,” and then, “I am Jesus which was crusified.”",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Revelation, circa 7 March 1831 [D&C 45], page 75",
+        "url": "https://www.josephsmithpapers.org/paper-summary/revelation-circa-7-march-1831-dc-45/5"
+      },
+      "find": "I am he that was lifted up I am Jesus which was crusified I am the Son of God",
+      "note": "In an early copy of the 1831 revelation now in Doctrine and Covenants 45, the Lord answers this question Himself and adds, “I am Jesus which was crusified.”",
+      "approved": "f5463d4b"
+    },
+    {
+      "id": "zech13-q-stapley",
+      "kind": "quote",
+      "ref": "Zechariah 13:6",
+      "quote": "Christ was received into heaven with his resurrected body. If he is to return in like manner at his second coming, as this scripture affirms, he will come with his same body.",
+      "text": "Verse 6 asks about the wounds in His hands. Elder Stapley explains why the Savior will still bear them when He comes again.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Delbert L. Stapley",
+        "title": "Easter Thoughts",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/1976/04/easter-thoughts?lang=eng"
+      },
+      "approved": "f31d8abe"
+    },
+    {
+      "id": "zech13-shepherd",
+      "ref": "Zechariah 13:7",
+      "title": "Smite the shepherd",
+      "text": "“Smite the shepherd, and the sheep shall be scattered.” The night He was arrested, Jesus quoted these words to His Apostles (Matthew 26:31). The Old Testament Student Manual explains that the Shepherd is Jesus Christ. When He was taken prisoner, His disciples fled. But after He rose, He gathered them again, as the Lord promised to turn His hand to the little ones.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "Preparations for the Lord’s Return in Glory",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-33?lang=eng"
+      },
+      "find": "The Shepherd of Israel is Jesus Christ.",
+      "approved": "54196d46"
+    },
+    {
+      "id": "zech14-jsp-mount",
+      "ref": "Zechariah 14:4",
+      "title": "The mount that splits, in D&C 45",
+      "text": "Zechariah saw the Mount of Olives split in two when the Lord’s feet stand on it. In an 1831 revelation, now Doctrine and Covenants 45, the Lord told Joseph Smith the same. An early copy says He will “set his foot upon this mount & it shall cleave in twain.” The Joseph Smith Papers’ own note on that line points to this verse.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Revelation, circa 7 March 1831 [D&C 45], page 74",
+        "url": "https://www.josephsmithpapers.org/paper-summary/revelation-circa-7-march-1831-dc-45/4"
+      },
+      "find": "then shall the lord set his foot upon this mount & it shall cleave in twain",
+      "approved": "cbea7843"
+    },
+    {
+      "id": "zech14-gong",
+      "ref": "Zechariah 14:20",
+      "title": "Nine words on our temples",
+      "text": "Zechariah saw “HOLINESS UNTO THE LORD” even on the bells of horses. Elder Gerrit W. Gong points to the words our temples carry: Holiness to the Lord, the House of the Lord. A few temples have the lines the other way around, and the Logan Utah Temple says simply Holiness to the Lord. He says holiness to the Lord makes everyday living sacred.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Gerrit W. Gong",
+        "title": "Holiness to the Lord in Everyday Life",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2024/10/31gong?lang=eng"
+      },
+      "find": "On our temples, the standard inscription is “Holiness to the Lord, the House of the Lord.”",
+      "approved": "572f0009"
+    },
+    {
+      "id": "zech14-q-christofferson",
+      "kind": "quote",
+      "ref": "Zechariah 14:20",
+      "quote": "These references to holiness in seemingly unusual or unexpected places may seem incongruous, but they suggest just how pervasive and constant our focus on holiness needs to be.",
+      "text": "Verse 20 puts holy words even on horses’ bells. Elder Christofferson tells how pioneer Saints wrote Holiness to the Lord on a hammer, a drum and doorknobs.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder D. Todd Christofferson",
+        "title": "The Living Bread Which Came Down from Heaven",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2017/10/the-living-bread-which-came-down-from-heaven?lang=eng"
+      },
+      "approved": "0763fdbc"
+    },
+    {
+      "id": "zech14-made-holy",
+      "ref": "Zechariah 14:20–21",
+      "title": "God is the one who makes things holy",
+      "text": "In Zechariah’s vision even pots and bells become holy. The Encyclopedia of Mormonism, on Scripture Central, explains that it is God who makes a person, place or thing holy. Temples are holy because they are dedicated to Him. And He promises His people, “For I am able to make you holy” (Doctrine and Covenants 60:7). Over a lifetime, holiness is His gift.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Elouise M. Bell",
+        "title": "Holiness",
+        "url": "https://scripturecentral.org/archive/articles/encyclopedia-entry/holiness"
+      },
+      "find": "it is God who invests a person, place, or object with holiness",
+      "approved": "df94282b"
+    },
+    {
+      "id": "zech14-traders",
+      "ref": "Zechariah 14:21",
+      "title": "No more traders in the Lord’s house",
+      "text": "Zechariah’s last verse says there will be “no more the Canaanite in the house of the LORD.” Eric D. Huntsman and Trevan G. Hatch read it as no more traders. When Jesus came to Jerusalem, He drove out those buying and selling in the temple. They see Him following Zechariah 14: coming to the Mount of Olives, judging, and cleansing the temple.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "Eric D. Huntsman and Trevan G. Hatch",
+        "title": "Palm Sunday: The True King Comes to Jerusalem",
+        "url": "https://rsc.byu.edu/greater-love-hath-no-man/palm-sunday"
+      },
+      "find": "Jesus’s activities mirror the three-part structure in Zechariah 14 that refers to the future divine messianic figure",
+      "approved": "9e7ae5ab"
+    }
+  ],
+  "plain": [
+    {
+      "ch": "Haggai 1",
+      "verses": [
+        "In the second year of King Darius (of Persia), on the first day of the sixth month, the word of the Lord came through Haggai the prophet to Zerubbabel, the son of Shealtiel, governor of Judah, and to Joshua, the son of Josedech, the high priest. It said:",
+        "This is what the Lord of Hosts says: These people say, “The time has not come, the time for the Lord’s house to be built.”",
+        "Then the word of the Lord came through Haggai the prophet. It said:",
+        "Is it time for you yourselves to live in your paneled houses, while this house lies in ruins?",
+        "So now this is what the Lord of Hosts says: Think carefully about your ways.",
+        "You have planted much but brought in little. You eat, but you never have enough. You drink, but you are never full. You put on clothes, but no one is warm. And whoever earns wages puts them into a bag with holes.",
+        "This is what the Lord of Hosts says: Think carefully about your ways.",
+        "Go up into the mountains, bring down wood, and build the house. Then I will take pleasure in it, and I will be glorified, says the Lord.",
+        "You looked for much, but look, it came to little. And when you brought it home, I blew it away. Why? says the Lord of Hosts. Because my house lies in ruins, while each of you hurries off to his own house.",
+        "So the sky over you holds back its dew, and the earth holds back its crops.",
+        "I called for a drought on the land and on the mountains, on the grain, the new wine, and the olive oil, on whatever the ground produces, on people and on animals, and on all the work of your hands.",
+        "Then Zerubbabel, the son of Shealtiel, and Joshua, the son of Josedech, the high priest, with all the remnant of the people, obeyed the voice of the Lord their God and the words of Haggai the prophet, because the Lord their God had sent him. And the people feared the Lord.",
+        "Then Haggai, the Lord’s messenger, gave the people the Lord’s message: “I am with you,” says the Lord.",
+        "So the Lord stirred up the spirit of Zerubbabel, the son of Shealtiel, governor of Judah, and the spirit of Joshua, the son of Josedech, the high priest, and the spirit of all the remnant of the people. They came and worked on the house of the Lord of Hosts, their God.",
+        "This was on the twenty-fourth day of the sixth month, in the second year of King Darius."
+      ],
+      "notes": [],
+      "review": [
+        {
+          "v": 1,
+          "about": "“(of Persia)” is added to say who Darius was. The KJV spells the high priest’s father Josedech; the Hebrew and the BSB have Jehozadak. The plain words keep the KJV spelling here and in verses 12 and 14."
+        },
+        {
+          "v": 4,
+          "about": "The KJV’s “ceiled houses” are houses with wood paneling on the walls and ceilings, a sign of wealth; the plain words say “paneled houses,” as the BSB does. No note."
+        },
+        {
+          "v": 10,
+          "about": "The Hebrew word the KJV reads “over you” can also mean ‘because of you’ (BSB ‘on account of you’). The plain words follow the KJV."
+        },
+        {
+          "v": 15,
+          "about": "This verse finishes verse 14 in the Hebrew (they started work on this day). The plain words add “This was” so it stands as its own line."
+        }
+      ],
+      "approved": "1ce2eda0"
+    },
+    {
+      "ch": "Haggai 2",
+      "verses": [
+        "On the twenty-first day of the seventh month, the word of the Lord came through Haggai the prophet. It said:",
+        "Speak now to Zerubbabel, the son of Shealtiel, governor of Judah, and to Joshua, the son of Josedech, the high priest, and to the rest of the people. Say to them:",
+        "Who is left among you who saw this house in its first glory? And how does it look to you now? Doesn’t it seem like nothing to you compared with that?",
+        "But now be strong, Zerubbabel, says the Lord. Be strong, Joshua, son of Josedech, the high priest. Be strong, all you people of the land, says the Lord, and work, for I am with you, says the Lord of Hosts.",
+        "Just as I promised in the covenant I made with you when you came out of Egypt, my Spirit stays among you. Don’t be afraid.",
+        "For this is what the Lord of Hosts says: Once more, in a little while, I will shake the heavens and the earth, the sea and the dry land.",
+        "I will shake all nations, and the desire of all nations will come. And I will fill this house with glory, says the Lord of Hosts.",
+        "The silver is mine, and the gold is mine, says the Lord of Hosts.",
+        "The glory of this latter house will be greater than the glory of the former house, says the Lord of Hosts. And in this place I will give peace, says the Lord of Hosts.",
+        "On the twenty-fourth day of the ninth month, in the second year of Darius, the word of the Lord came to Haggai the prophet. It said:",
+        "This is what the Lord of Hosts says: Ask the priests what the law says. Ask them:",
+        "If someone carries holy meat from a sacrifice in the fold of his robe, and that fold touches bread, or stew, or wine, or oil, or any food, does that food become holy? The priests answered, “No.”",
+        "Then Haggai said, “If someone who is unclean from touching a dead body touches any of these, does it become unclean?” The priests answered, “It becomes unclean.”",
+        "Then Haggai answered: That is how this people is, and how this nation is in front of me, says the Lord. That is how all the work of their hands is, and whatever they offer there is unclean.",
+        "And now, please think carefully, from this day on, about the time before one stone was laid on another in the temple of the Lord.",
+        "Back then, when someone came to a pile of grain that should have been twenty measures, there were only ten. When someone came to the wine vat to draw out fifty measures from the press, there were only twenty.",
+        "I struck you with blight, mildew, and hail in all the work of your hands, yet you did not turn to me, says the Lord.",
+        "Think carefully, from this day on—from the twenty-fourth day of the ninth month, the day the foundation of the Lord’s temple was laid. Think about it:",
+        "Is there still seed in the barn? The vine, the fig tree, the pomegranate, and the olive tree have not yet given their fruit. But from this day on I will bless you.",
+        "The word of the Lord came to Haggai a second time, on the twenty-fourth day of the month. It said:",
+        "Speak to Zerubbabel, governor of Judah, and say: I will shake the heavens and the earth.",
+        "I will overturn the thrones of kingdoms and destroy the strength of the kingdoms of the nations. I will overturn the chariots and those who ride in them. The horses and their riders will fall, each one by his brother’s sword.",
+        "On that day, says the Lord of Hosts, I will take you, Zerubbabel, my servant, the son of Shealtiel, says the Lord, and I will make you like a signet ring (the ring a king used to stamp his seal), for I have chosen you, says the Lord of Hosts."
+      ],
+      "notes": [
+        {
+          "v": 6,
+          "text": "Hebrews quotes this promise: “Yet once more I shake not the earth only, but also heaven” (Hebrews 12:26). It says the shaking removes what can be shaken, and we receive “a kingdom which cannot be moved” (Hebrews 12:27–28)."
+        },
+        {
+          "v": 7,
+          "text": "The KJV says “the desire of all nations shall come.” The Hebrew word means something precious or longed for, and the BSB reads it as the nations’ riches: ‘they will come with all their treasures.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 7,
+          "about": "A choice between readings. The KJV’s “the desire of all nations shall come” is often taught as the Savior; the BSB reads the same words as the nations’ treasures coming in (compare verse 8). The plain words keep the KJV’s wording, which leaves both open, with a note giving the BSB."
+        },
+        {
+          "v": 5,
+          "about": "Hard Hebrew: the verse begins with no verb (‘the word that I cut with you’). The plain words follow the KJV’s “According to the word that I covenanted with you” as “Just as I promised in the covenant I made with you.” “My spirit” is given as “my Spirit,” as in the approved Isaiah chapters."
+        },
+        {
+          "v": 15,
+          "about": "The KJV’s “from this day and upward” is unclear in the Hebrew too; it can look forward or back. The plain words say “from this day on,” as the BSB does, and make the rest of the verse the time they are to think about (verses 15–17 describe the hard years before the temple’s foundation)."
+        },
+        {
+          "v": 12,
+          "about": "“Holy flesh” is given as “holy meat from a sacrifice,” and the “skirt” of a garment as the fold of a robe. Verse 11’s “concerning the law” is given as “what the law says.”"
+        },
+        {
+          "v": 23,
+          "about": "A few words are added to say what a signet ring is. The KJV has “a signet”; the BSB ‘My signet ring.’"
+        }
+      ],
+      "approved": "fc360cad"
+    },
+    {
+      "ch": "Zechariah 1",
+      "verses": [
+        "In the eighth month, in the second year of Darius, the word of the Lord came to the prophet Zechariah, the son of Berechiah, the son of Iddo. It said:",
+        "The Lord has been very angry with your fathers.",
+        "So say to them, This is what the Lord of Hosts says: Turn back to me, says the Lord of Hosts, and I will turn back to you, says the Lord of Hosts.",
+        "Don’t be like your fathers, to whom the earlier prophets called out, “This is what the Lord of Hosts says: Turn away now from your evil ways and your evil deeds.” But they would not listen or pay attention to me, says the Lord.",
+        "Your fathers—where are they now? And the prophets—do they live forever?",
+        "But my words and my laws, which I commanded my servants the prophets, didn’t they catch up with your fathers? Then they repented and said, “The Lord of Hosts has done to us just what He planned to do, as our ways and our deeds deserved.”",
+        "On the twenty-fourth day of the eleventh month, the month Sebat, in the second year of Darius, the word of the Lord came to the prophet Zechariah, the son of Berechiah, the son of Iddo:",
+        "I saw in the night, and look—a man riding on a red horse! He was standing among the myrtle trees in the hollow, and behind him were red, speckled, and white horses.",
+        "I asked, “What are these, my lord?” And the angel who was talking with me said to me, “I will show you what they are.”",
+        "Then the man standing among the myrtle trees answered, “These are the ones the Lord has sent to go back and forth through the earth.”",
+        "And they answered the angel of the Lord, who was standing among the myrtle trees, “We have gone back and forth through the earth, and look, the whole earth sits still and is at rest.”",
+        "Then the angel of the Lord said, “O Lord of Hosts, how long will you hold back your mercy from Jerusalem and the cities of Judah, which you have been angry with these seventy years?”",
+        "And the Lord answered the angel who was talking with me with kind words, words of comfort.",
+        "So the angel who was talking with me said to me, Call out this message: This is what the Lord of Hosts says: I am jealous for Jerusalem and for Zion with a great jealousy.",
+        "And I am very angry with the nations that feel safe and at ease. For I was only a little angry, but they helped make the disaster worse.",
+        "So this is what the Lord says: I have come back to Jerusalem with mercy. My house will be built in it, says the Lord of Hosts, and a measuring line will be stretched out over Jerusalem.",
+        "Call out again: This is what the Lord of Hosts says: My cities will again overflow with good things, and the Lord will again comfort Zion and will again choose Jerusalem.",
+        "Then I looked up, and I saw four horns.",
+        "I asked the angel who was talking with me, “What are these?” He answered me, “These are the horns that have scattered Judah, Israel, and Jerusalem.”",
+        "Then the Lord showed me four craftsmen.",
+        "I asked, “What are these coming to do?” He said, “These are the horns that scattered Judah, so that no one could lift up his head. But these craftsmen have come to terrify them and to throw down the horns of the Gentiles, who lifted up their horn against the land of Judah to scatter it.”"
+      ],
+      "notes": [
+        {
+          "v": 20,
+          "text": "The KJV says “four carpenters.” The Hebrew word means skilled workmen in wood, stone or metal, and the BSB has ‘four craftsmen.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 18,
+          "about": "Numbering: in Hebrew Bibles, verses 18–21 are chapter 2:1–4 (and the KJV’s 2:1–13 are the Hebrew 2:5–17). The plain words follow the KJV’s numbering, as the Hebrew and BSB lines in the app do. Horns are a picture of strength; verse 19 says whose."
+        },
+        {
+          "v": 1,
+          "about": "The KJV’s “the son of Iddo the prophet” could make Iddo the prophet; the Hebrew and BSB make it Zechariah, and the plain words follow them, here and in verse 7."
+        },
+        {
+          "v": 14,
+          "about": "“Jealous” is kept, as in the KJV: the Hebrew means a burning, protective love for Jerusalem. The message runs through verse 17, so it has no quote marks, as in the approved Jeremiah chapters."
+        },
+        {
+          "v": 15,
+          "about": "The KJV’s “helped forward the affliction” means the nations made Judah’s punishment worse than the Lord intended. The plain words don’t name who He was angry with, as the KJV and Hebrew don’t."
+        }
+      ],
+      "approved": "1b70d712"
+    },
+    {
+      "ch": "Zechariah 2",
+      "verses": [
+        "I looked up again, and I saw a man with a measuring line in his hand.",
+        "I asked, “Where are you going?” He said to me, “To measure Jerusalem, to see how wide it is and how long it is.”",
+        "Then the angel who was talking with me went out, and another angel came out to meet him.",
+        "He said to him, Run and tell this young man: Jerusalem will be lived in like towns without walls, because there will be so many people and animals in it.",
+        "For I will be a wall of fire all around her, says the Lord, and I will be the glory inside her.",
+        "Come! Come out and run away from the land of the north, says the Lord, for I have spread you out like the four winds of the sky, says the Lord.",
+        "Escape, Zion, you who live with the daughter of Babylon (the people of Babylon)!",
+        "For this is what the Lord of Hosts says: After the glory, He has sent me to the nations that robbed you—for whoever touches you touches the apple of His eye.",
+        "For look, I will shake my hand over them, and they will be robbed by those who served them. Then you will know that the Lord of Hosts has sent me.",
+        "Sing and be glad, daughter of Zion! For look, I am coming, and I will live among you, says the Lord.",
+        "Many nations will join themselves to the Lord on that day and will become my people. I will live among you, and you will know that the Lord of Hosts has sent me to you.",
+        "The Lord will take Judah as His own share in the holy land, and He will choose Jerusalem again.",
+        "Be silent before the Lord, all people, for He has risen up from His holy home."
+      ],
+      "notes": [],
+      "review": [
+        {
+          "v": 8,
+          "about": "Hard Hebrew. The KJV’s “After the glory hath he sent me” is kept word for word (“After the glory, He has sent me”); the BSB reads ‘After His Glory has sent Me,’ as a title for the Lord. “The apple of his eye” is literally the pupil; His is capitalized for the Lord, as in the BSB. No note; decide if one is wanted."
+        },
+        {
+          "v": 6,
+          "about": "The KJV’s “Ho, ho” is a Hebrew call to get someone moving; the plain words say “Come! Come out,” and the BSB ‘Get up! Get up!’"
+        },
+        {
+          "v": 11,
+          "about": "The speaker in verses 8–11 is the Lord, who also says the Lord of Hosts has sent him. The plain words keep “me” and “my” lowercase, as for the Lord speaking everywhere in the approved chapters; the BSB capitalizes ‘Me.’"
+        },
+        {
+          "v": 4,
+          "about": "The message runs into verse 5, so it has no quote marks. “The daughter of Babylon” in verse 7 has a few words added to say who she is."
+        }
+      ],
+      "approved": "bb6062f2"
+    },
+    {
+      "ch": "Zechariah 3",
+      "verses": [
+        "Then he showed me Joshua the high priest standing in front of the angel of the Lord, and Satan standing at his right hand to accuse him.",
+        "The Lord said to Satan, “May the Lord rebuke you, Satan! May the Lord, who has chosen Jerusalem, rebuke you! Isn’t this man a burning stick pulled out of the fire?”",
+        "Now Joshua was dressed in filthy clothes as he stood in front of the angel.",
+        "The angel said to those standing in front of him, “Take the filthy clothes off him.” And to Joshua he said, “Look, I have taken your sin away from you, and I will dress you in fine new clothes.”",
+        "Then I said, “Let them put a clean turban on his head.” So they put a clean turban on his head and dressed him in clothes, while the angel of the Lord stood by.",
+        "Then the angel of the Lord gave Joshua this solemn charge:",
+        "This is what the Lord of Hosts says: If you will walk in my ways and keep my charge, then you will also rule my house and take care of my courts, and I will give you a place to walk among these who are standing here.",
+        "Listen now, Joshua the high priest, you and your friends who sit in front of you, for they are men who are a sign. For look, I will bring my servant, the Branch.",
+        "For look at the stone I have set in front of Joshua. On this one stone are seven eyes. Look, I will carve its inscription, says the Lord of Hosts, and I will take away the sin of that land in one day.",
+        "On that day, says the Lord of Hosts, each of you will invite his neighbor to come and sit under the vine and under the fig tree."
+      ],
+      "notes": [
+        {
+          "v": 1,
+          "text": "The KJV says Satan stood “to resist him.” The Hebrew verb is the root of the name Satan, which means ‘the accuser’ or ‘the adversary,’ and the BSB has ‘to accuse him.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "The plain words follow the Hebrew and BSB (“to accuse him”) over the KJV’s “to resist him,” with a note. The Hebrew says “the satan” (the accuser); the plain words keep the KJV’s name Satan."
+        },
+        {
+          "v": 4,
+          "about": "“He” is given as “The angel” so it is clear who speaks (the BSB does the same). The KJV’s “change of raiment” is festival clothing, given as “fine new clothes.”"
+        },
+        {
+          "v": 8,
+          "about": "“Men wondered at” is, in Hebrew, ‘men of a sign’: Joshua and the priests with him stand for something to come. “The BRANCH,” in capitals in the KJV, is kept as a title, “the Branch”; Jeremiah 23:5 and Zechariah 6:12 use the same title for a coming King from David’s line. No note, since the New Testament does not quote it; decide if one is wanted."
+        },
+        {
+          "v": 10,
+          "about": "The Hebrew says they will invite each other to “under a vine and under a fig tree,” a picture of peace (as in Micah 4:4). The plain words add “to come and sit.”"
+        }
+      ],
+      "approved": "0916862b"
+    },
+    {
+      "ch": "Zechariah 4",
+      "verses": [
+        "Then the angel who was talking with me came back and woke me up, like someone who is woken from his sleep.",
+        "He asked me, “What do you see?” I said, “I see a lampstand made all of gold, with a bowl on top of it. It has seven lamps on it, and seven pipes going to the seven lamps on top of it.”",
+        "And there are two olive trees beside it, one on the right side of the bowl and the other on its left side.",
+        "Then I asked the angel who was talking with me, “What are these, my lord?”",
+        "The angel who was talking with me answered, “Don’t you know what these are?” I said, “No, my lord.”",
+        "So he said to me, This is the word of the Lord to Zerubbabel: Not by might, nor by power, but by my Spirit, says the Lord of Hosts.",
+        "Who are you, great mountain? In front of Zerubbabel you will become flat ground. And he will bring out the top stone while people shout, “Grace, grace to it!”",
+        "The word of the Lord also came to me. It said:",
+        "The hands of Zerubbabel have laid the foundation of this house, and his hands will also finish it. Then you will know that the Lord of Hosts has sent me to you.",
+        "For who has looked down on the day of small things? They will rejoice when they see the plumb line (a weight on a string, for building straight walls) in Zerubbabel’s hand. These seven are the eyes of the Lord, which go back and forth through the whole earth.",
+        "Then I asked him, “What are these two olive trees on the right side and the left side of the lampstand?”",
+        "And I asked him again, “What are these two olive branches that pour out the golden oil through the two gold pipes?”",
+        "He answered me, “Don’t you know what these are?” I said, “No, my lord.”",
+        "So he said, “These are the two anointed ones who stand beside the Lord of the whole earth.”"
+      ],
+      "notes": [
+        {
+          "v": 2,
+          "text": "The KJV says “a candlestick all of gold.” It held oil lamps, not candles: the Hebrew word means a lampstand, as the BSB has it."
+        }
+      ],
+      "review": [
+        {
+          "v": 2,
+          "about": "The Hebrew can be read as seven pipes for each lamp (‘seven and seven’); the plain words follow the KJV’s “seven pipes to the seven lamps,” and the BSB is close to it."
+        },
+        {
+          "v": 10,
+          "about": "A few words are added to say what a plumb line (the KJV’s “plummet”) is. The KJV’s order is kept: they rejoice and see the plumb line, and the seven are the Lord’s eyes; the BSB makes the seven eyes the ones who rejoice."
+        },
+        {
+          "v": 14,
+          "about": "The Hebrew for “the two anointed ones” is ‘the two sons of oil.’ Revelation 11:4 uses the picture of two olive trees for the two witnesses of the last days (D&C 77:15), but it reuses the words rather than saying who these two are, so there is no note (as decided for Isaiah 21:9)."
+        },
+        {
+          "v": 6,
+          "about": "“Not by might, nor by power, but by my Spirit” is kept almost word for word, since it is well known. The message runs through verse 7, so it has no outer quote marks."
+        }
+      ],
+      "approved": "93d29973"
+    },
+    {
+      "ch": "Zechariah 7",
+      "verses": [
+        "In the fourth year of King Darius, the word of the Lord came to Zechariah on the fourth day of the ninth month, the month Chisleu.",
+        "The people of Bethel had sent Sherezer and Regem-melech and their men to pray to the Lord,",
+        "and to ask the priests of the house of the Lord of Hosts, and the prophets, “Should I weep and fast in the fifth month, setting myself apart as I have done for so many years?”",
+        "Then the word of the Lord of Hosts came to me. It said:",
+        "Say to all the people of the land and to the priests: When you fasted and mourned in the fifth month and the seventh month all these seventy years, did you really fast for me—for me?",
+        "And when you ate and when you drank, weren’t you eating and drinking just for yourselves?",
+        "Shouldn’t you have listened to the words the Lord called out through the earlier prophets, when Jerusalem was full of people and doing well, along with the cities around it, and when people lived in the south and in the lowlands?",
+        "And the word of the Lord came to Zechariah. It said:",
+        "This is what the Lord of Hosts says: Judge with true justice. Show mercy and compassion to each other.",
+        "Don’t mistreat widows, orphans, foreigners, or the poor. And don’t plan evil in your hearts against each other.",
+        "But they refused to listen. They stubbornly turned their shoulders away and covered their ears so they wouldn’t hear.",
+        "They made their hearts as hard as flint so they would not hear the law or the words the Lord of Hosts had sent by His Spirit through the earlier prophets. So great anger came from the Lord of Hosts.",
+        "So, just as He called and they would not listen, so they called and I would not listen, says the Lord of Hosts.",
+        "I scattered them with a whirlwind among all the nations they did not know. The land they left behind became so empty that no one came or went through it, because they turned the pleasant land into a wasteland."
+      ],
+      "notes": [
+        {
+          "v": 2,
+          "text": "The KJV says they sent men “unto the house of God.” In Hebrew this is Beth-el, which means ‘house of God’ and is also the name of a town. The BSB reads ‘the people of Bethel had sent Sharezer.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 2,
+          "about": "A choice between readings. The KJV reads Beth-el as the place they were sent to (“the house of God”); the BSB and most modern translations read it as the town that sent them. The plain words follow the Hebrew and BSB (the Hebrew verb “sent” is singular, fitting “Bethel” as the sender), with a note giving the KJV. Your call."
+        },
+        {
+          "v": 3,
+          "about": "The KJV’s “separating myself” is a Hebrew word for setting oneself apart, here by fasting (BSB ‘weep and fast’). The plain words say both. The fifth-month fast mourned the burning of the temple (2 Kings 25:8–9); no note."
+        },
+        {
+          "v": 7,
+          "about": "The KJV’s “the south and the plain” are the Negev and the Shephelah, the low hills west of Judah; the plain words say “the south and the lowlands.”"
+        },
+        {
+          "v": 13,
+          "about": "The Hebrew says “as he called” and then “I would not listen,” the Lord speaking of Himself both ways. The plain words capitalize He for the Lord; the BSB evens it to ‘I.’"
+        }
+      ],
+      "approved": "53ca4c46"
+    },
+    {
+      "ch": "Zechariah 8",
+      "verses": [
+        "Again the word of the Lord of Hosts came to me. It said:",
+        "This is what the Lord of Hosts says: I am jealous for Zion with great jealousy. I am jealous for her with great fury.",
+        "This is what the Lord says: I have come back to Zion, and I will live in Jerusalem. Jerusalem will be called a city of truth, and the mountain of the Lord of Hosts will be called the holy mountain.",
+        "This is what the Lord of Hosts says: Old men and old women will again sit in the streets of Jerusalem, each with a walking stick in his hand because he is so old.",
+        "And the streets of the city will be full of boys and girls playing there.",
+        "This is what the Lord of Hosts says: If this seems too hard to the remnant of this people in those days, should it also seem too hard to me? says the Lord of Hosts.",
+        "This is what the Lord of Hosts says: Look, I will save my people from the land of the east and from the land of the west.",
+        "I will bring them back, and they will live in Jerusalem. They will be my people, and I will be their God, in truth and in righteousness.",
+        "This is what the Lord of Hosts says: Let your hands be strong, you who are hearing these words in these days from the mouths of the prophets, who were there on the day the foundation of the house of the Lord of Hosts was laid so the temple could be built.",
+        "For before those days there were no wages for people or for animals. There was no peace for anyone who went out or came in, because of the trouble, for I turned everyone against his neighbor.",
+        "But now I will not treat the remnant of this people as I did in the past, says the Lord of Hosts.",
+        "For the seed will grow well. The vine will give its fruit, the ground will give its crops, and the sky will give its dew. And I will give the remnant of this people all these things to have as their own.",
+        "House of Judah and house of Israel, just as you were a curse among the nations, so I will save you, and you will be a blessing. Don’t be afraid, but let your hands be strong.",
+        "For this is what the Lord of Hosts says: When your fathers made me angry, I planned to punish you, says the Lord of Hosts, and I did not hold back.",
+        "So now, in these days, I have planned again to do good to Jerusalem and to the house of Judah. Don’t be afraid.",
+        "These are the things you must do: Speak the truth to each other. In your city gates, where cases are judged, give judgments that are true and that bring peace.",
+        "Don’t plan evil in your hearts against your neighbor, and don’t love to swear false oaths. For I hate all these things, says the Lord.",
+        "And the word of the Lord of Hosts came to me. It said:",
+        "This is what the Lord of Hosts says: The fast of the fourth month, the fast of the fifth, the fast of the seventh, and the fast of the tenth will become times of joy and gladness and happy feasts for the house of Judah. So love truth and peace.",
+        "This is what the Lord of Hosts says: Peoples will still come, people who live in many cities.",
+        "The people who live in one city will go to another and say, “Let’s go right away to pray to the Lord and to seek the Lord of Hosts. I’m going too!”",
+        "Yes, many peoples and strong nations will come to Jerusalem to seek the Lord of Hosts and to pray to the Lord.",
+        "This is what the Lord of Hosts says: In those days ten men from all the languages of the nations will take hold of the edge of a Jew’s robe and say, “Let us go with you, for we have heard that God is with you.”"
+      ],
+      "notes": [
+        {
+          "v": 14,
+          "text": "The KJV says “I repented not.” The Hebrew word means to relent or change course, and the BSB has ‘I did not relent.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 2,
+          "about": "The KJV puts this in the past (“I was jealous”); the Hebrew verb can be read as now, as the BSB does (‘I am jealous’). The plain words follow the Hebrew and BSB."
+        },
+        {
+          "v": 6,
+          "about": "The KJV’s “marvellous” is a Hebrew word for something too hard or too wonderful, the same word as “Is any thing too hard for the LORD?” (Genesis 18:14). The plain words say “too hard.”"
+        },
+        {
+          "v": 10,
+          "about": "The KJV’s “because of the affliction” can also be read ‘from the enemy’ (BSB). The plain words follow the KJV (“because of the trouble”)."
+        },
+        {
+          "v": 14,
+          "about": "Where the KJV says “I repented not,” the plain words say “I did not hold back,” with a note, as with “repent” in Jeremiah 18:8."
+        },
+        {
+          "v": 23,
+          "about": "“Take hold” comes twice in the Hebrew (“shall take hold … even shall take hold of the skirt”); the plain words say it once. The “skirt” is the edge of the robe."
+        }
+      ],
+      "approved": "ed24d0f8"
+    },
+    {
+      "ch": "Zechariah 9",
+      "verses": [
+        "The burden (a heavy message) of the word of the Lord is against the land of Hadrach, and Damascus is where it will rest, when the eyes of all people, and of all the tribes of Israel, will look to the Lord.",
+        "It is also against Hamath, which borders it, and against Tyrus and Zidon, even though they are very wise.",
+        "Tyrus built herself a fortress and piled up silver like dust and fine gold like the mud in the streets.",
+        "Look, the Lord will take away all she has. He will strike down her power on the sea, and she will be burned up with fire.",
+        "Ashkelon will see it and be afraid. Gaza will see it and be in great pain, and so will Ekron, for what she hoped in will put her to shame. The king will be gone from Gaza, and no one will live in Ashkelon.",
+        "A people of mixed birth will live in Ashdod, and I will cut off the pride of the Philistines.",
+        "I will take the blood out of his mouth and the disgusting foods from between his teeth. Those who are left will belong to our God. They will be like a leader in Judah, and Ekron will be like a Jebusite.",
+        "I will camp around my house to guard it against the army, against those who pass through and those who return. No oppressor will march through them anymore, for now I have seen it with my own eyes.",
+        "Rejoice greatly, daughter of Zion! Shout, daughter of Jerusalem! Look, your King is coming to you. He is righteous and brings salvation. He is humble and riding on a donkey, on a colt, the foal of a donkey.",
+        "I will cut off the chariot from Ephraim and the horse from Jerusalem, and the bow used in battle will be cut off. He will speak peace to the nations. His rule will reach from sea to sea, and from the river (the Euphrates) to the ends of the earth.",
+        "As for you, because of the blood of your covenant, I have set your prisoners free from the pit that has no water.",
+        "Come back to the stronghold, you prisoners of hope! Even today I announce that I will give you back twice as much.",
+        "For I have bent Judah like my bow and filled it with Ephraim. I have stirred up your sons, Zion, against your sons, Greece, and made you like a mighty man’s sword.",
+        "Then the Lord will appear over them, and His arrow will flash out like lightning. The Lord God will blow the trumpet (a ram’s horn), and He will go out in the whirlwinds of the south.",
+        "The Lord of Hosts will defend them. They will devour, and they will conquer with sling stones. They will drink and roar as if from wine. They will be full like the bowls used at the altar, like the corners of the altar.",
+        "On that day the Lord their God will save them as the flock of His people. They will be like the jewels of a crown, lifted up like a flag over His land.",
+        "How great His goodness is, and how great His beauty! Grain will make the young men thrive, and new wine the young women."
+      ],
+      "notes": [
+        {
+          "v": 9,
+          "text": "Matthew says this was fulfilled when Jesus rode into Jerusalem on a donkey: “Behold, thy King cometh unto thee, meek, and sitting upon an ass” (Matthew 21:4–5)."
+        },
+        {
+          "v": 13,
+          "text": "The KJV’s “Greece” is Javan in the Hebrew, the name of a grandson of Noah: “The sons of Japheth; Gomer, and Magog, and Madai, and Javan” (Genesis 10:2)."
+        },
+        {
+          "v": 17,
+          "text": "The KJV says “how great is his goodness, and how great is his beauty!” The BSB reads it of God’s people instead: ‘How lovely they will be, and how beautiful!’"
+        }
+      ],
+      "review": [
+        {
+          "v": 9,
+          "about": "He and His are capitalized for the King in verses 9–10, as the BSB does, because Matthew 21:4–5 says it is Jesus. The KJV’s “having salvation” is one Hebrew word that can mean ‘saved’ or ‘victorious’ (BSB); the plain words say “brings salvation.” Check that wording."
+        },
+        {
+          "v": 6,
+          "about": "The KJV’s “a bastard” is a Hebrew word for someone of mixed or unlawful birth (BSB ‘a mixed race’). The plain words say “a people of mixed birth.” No note."
+        },
+        {
+          "v": 7,
+          "about": "Verses 7 and 15 are hard. In verse 7 the Philistines stop eating blood and food offered to idols, and the survivors join Judah as the Jebusites of Jerusalem once did. The plain words keep the KJV’s “his” and “governor” (as “a leader”) and add nothing more."
+        },
+        {
+          "v": 11,
+          "about": "The Hebrew and the KJV say “the blood of thy covenant”; the BSB has ‘My covenant.’ The plain words follow the Hebrew (“your covenant”)."
+        },
+        {
+          "v": 15,
+          "about": "Hard Hebrew. “Subdue with sling stones” may mean trampling the enemy’s sling stones underfoot. The bowls are the bowls of blood at the altar, and the altar’s corners were splashed with blood; the plain words say only “the bowls used at the altar.”"
+        },
+        {
+          "v": 17,
+          "about": "The KJV’s “his” is read as the Lord’s and capitalized; the BSB reads it as the people’s, so there is a note. “Cheerful” is a Hebrew word for growing strong (BSB ‘flourish’); the plain words say “thrive.”"
+        }
+      ],
+      "approved": "de9c18da"
+    },
+    {
+      "ch": "Zechariah 10",
+      "verses": [
+        "Ask the Lord for rain in the time of the latter rain (the spring rain). The Lord makes the storm clouds and gives people showers of rain, and green plants in the field for everyone.",
+        "For the idols speak nonsense, and the fortune-tellers see lies. They tell false dreams and give empty comfort. So the people wander like sheep. They are in trouble because there is no shepherd.",
+        "My anger burns against the shepherds, and I will punish the goats (the leaders). For the Lord of Hosts has come to care for His flock, the house of Judah, and He will make them like His splendid horse in battle.",
+        "From Judah will come the cornerstone, from him the tent peg, from him the battle bow, and from him every ruler together.",
+        "They will be like mighty men in battle, trampling their enemies in the mud of the streets. They will fight, because the Lord is with them, and the men riding horses will be put to shame.",
+        "I will make the house of Judah strong, and I will save the house of Joseph. I will bring them back and settle them, because I have mercy on them. They will be as if I had never cast them off, for I am the Lord their God, and I will hear them.",
+        "The people of Ephraim will be like a mighty man, and their hearts will be glad as if from wine. Their children will see it and be glad. Their hearts will rejoice in the Lord.",
+        "I will whistle for them and gather them, for I have redeemed them, and they will become as many as they were before.",
+        "I will scatter them like seed among the peoples, and in far countries they will remember me. They will live, along with their children, and they will come back.",
+        "I will bring them back from the land of Egypt and gather them from Assyria. I will bring them into the land of Gilead and Lebanon, until there is no room left for them.",
+        "He will pass through the sea of trouble and strike the waves in the sea, and all the depths of the river (the Nile) will dry up. The pride of Assyria will be brought down, and the scepter of Egypt will go away.",
+        "I will make them strong in the Lord, and they will walk up and down in His name, says the Lord."
+      ],
+      "notes": [
+        {
+          "v": 4,
+          "text": "The KJV says “every oppressor.” The Hebrew word can mean a harsh master or a ruler, and the BSB reads ‘every ruler.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 3,
+          "about": "The KJV has the past (“was kindled,” “I punished the goats”); the Hebrew and BSB read the punishment as coming. The plain words follow them. The “goats” are the leaders (BSB ‘leaders’), so a word is added in brackets. “Goodly horse” is a royal war horse."
+        },
+        {
+          "v": 4,
+          "about": "“Out of him” is Judah (verse 3), named as the BSB does. The KJV’s “nail” is a tent peg, and its past tense (“came forth”) is given as future, as in the Hebrew and BSB."
+        },
+        {
+          "v": 11,
+          "about": "Hard Hebrew: “he shall pass through the sea with affliction.” “He” may be the Lord leading His people, as at the Red Sea, or Israel (the BSB has ‘They’). The plain words keep a lowercase “he,” as the KJV does. “The river” is the Hebrew word for the Nile."
+        },
+        {
+          "v": 2,
+          "about": "The KJV’s “idols” are teraphim, household idols used to ask about the future. The plain words keep “idols.”"
+        }
+      ],
+      "approved": "716984fd"
+    },
+    {
+      "ch": "Zechariah 11",
+      "verses": [
+        "Open your doors, Lebanon, so the fire can burn up your cedars!",
+        "Wail, fir tree, for the cedar has fallen, because the mighty trees are ruined! Wail, you oaks of Bashan, for the thick forest has come down!",
+        "Listen to the shepherds wailing, for their glory is ruined! Listen to the young lions roaring, for the pride of the Jordan, its thick woods, is ruined!",
+        "This is what the Lord my God says: Feed the flock that is marked for slaughter.",
+        "Those who buy them kill them and feel no guilt. Those who sell them say, “Blessed be the Lord, for I am rich!” And their own shepherds have no pity on them.",
+        "For I will no longer have pity on the people who live in the land, says the Lord. Look, I will hand each person over to his neighbor and to his king. They will crush the land, and I will not rescue them from their hands.",
+        "So I fed the flock marked for slaughter, the poor of the flock. I took two staffs for myself. One I called Beauty (or Favor), and the other I called Bands (or Union). And I fed the flock.",
+        "In one month I cut off three shepherds. I lost patience with them, and they hated me too.",
+        "Then I said, “I will not feed you anymore. Let the dying die, and let what is to be destroyed be destroyed. And let those who are left eat each other’s flesh.”",
+        "Then I took my staff called Beauty and broke it in two, to break the covenant I had made with all the peoples.",
+        "It was broken that day. And so the poor of the flock who were watching me knew it was the word of the Lord.",
+        "I said to them, “If it seems right to you, pay me my price. If not, keep it.” So they weighed out my price: thirty pieces of silver.",
+        "Then the Lord said to me, “Throw it to the potter”—that fine price they valued me at! So I took the thirty pieces of silver and threw them to the potter in the house of the Lord.",
+        "Then I broke my other staff, Bands, in two, to break the brotherhood between Judah and Israel.",
+        "Then the Lord said to me, “Take once more the things a foolish shepherd uses.”",
+        "For look, I will raise up a shepherd in the land who will not care for those that are perishing, or look for the young ones, or heal the injured, or feed the healthy. Instead he will eat the meat of the fat sheep and tear off their hooves.",
+        "How terrible for the worthless shepherd who leaves the flock! The sword will strike his arm and his right eye. His arm will wither away completely, and his right eye will go completely blind."
+      ],
+      "notes": [
+        {
+          "v": 12,
+          "text": "Matthew says verses 12–13 were fulfilled when Judas threw back the money paid to betray Jesus, and the priests bought the potter’s field with it: “they took the thirty pieces of silver, the price of him that was valued” (Matthew 27:9–10)."
+        },
+        {
+          "v": 17,
+          "text": "The KJV says “the idol shepherd.” The Hebrew word means worthless and is often used for idols; the BSB has ‘the worthless shepherd.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 7,
+          "about": "The KJV has “I will feed”; the Hebrew verb tells what the prophet did (BSB ‘So I pastured’), and the plain words follow the Hebrew. The staffs keep the KJV’s names, Beauty and Bands, with the Hebrew meanings Favor and Union (BSB) in brackets."
+        },
+        {
+          "v": 13,
+          "about": "“A goodly price” is said with scorn: thirty pieces of silver was the price of a slave (Exodus 21:32). The plain words say “that fine price” and leave the scorn to the reader. Me is lowercase for the speaker, as everywhere."
+        },
+        {
+          "v": 2,
+          "about": "The KJV’s “forest of the vintage” follows the written Hebrew; the Hebrew as read aloud has ‘the dense forest’ (BSB), and the plain words follow that. Verse 3’s “pride of Jordan” is the thick woods along the river, given as both."
+        },
+        {
+          "v": 17,
+          "about": "The KJV states what will happen (“the sword shall be upon his arm”); the BSB makes it a curse (‘May a sword strike’). The plain words follow the KJV."
+        }
+      ],
+      "approved": "82c12b89"
+    },
+    {
+      "ch": "Zechariah 12",
+      "verses": [
+        "The burden (a heavy message) of the word of the Lord for Israel, says the Lord, who stretches out the heavens, lays the foundation of the earth, and forms the spirit of man inside him:",
+        "Look, I will make Jerusalem a cup that makes all the peoples around it stagger, when they lay siege against Judah as well as against Jerusalem.",
+        "On that day I will make Jerusalem a heavy stone for all the peoples. Everyone who tries to lift it will be badly hurt, even though all the nations of the earth gather together against it.",
+        "On that day, says the Lord, I will strike every horse with panic and its rider with madness. I will keep my eyes open over the house of Judah, but I will strike every horse of the peoples with blindness.",
+        "Then the leaders of Judah will say in their hearts, “The people who live in Jerusalem are my strength in the Lord of Hosts, their God.”",
+        "On that day I will make the leaders of Judah like a pot of fire in a pile of wood, like a burning torch in a bundle of grain. They will devour all the peoples around them, on the right and on the left. And Jerusalem will be lived in again in her own place, in Jerusalem.",
+        "The Lord will also save the tents of Judah first, so that the glory of the house of David and the glory of the people of Jerusalem will not be greater than Judah’s.",
+        "On that day the Lord will defend the people of Jerusalem. The weakest among them on that day will be like David, and the house of David will be like God, like the angel of the Lord going before them.",
+        "On that day I will set out to destroy all the nations that come against Jerusalem.",
+        "I will pour out on the house of David and on the people of Jerusalem the spirit of grace and of prayers for mercy. They will look on me, the one they pierced, and they will mourn for Him as someone mourns for an only son. They will grieve bitterly for Him, as someone grieves for a firstborn son.",
+        "On that day the mourning in Jerusalem will be great, like the mourning of Hadadrimmon in the valley of Megiddon.",
+        "The land will mourn, each family by itself: the family of the house of David by itself, and their wives by themselves; the family of the house of Nathan by itself, and their wives by themselves;",
+        "The family of the house of Levi by itself, and their wives by themselves; the family of Shimei by itself, and their wives by themselves;",
+        "And all the families that are left, each family by itself, and their wives by themselves."
+      ],
+      "notes": [
+        {
+          "v": 10,
+          "text": "John says this scripture was fulfilled when a soldier pierced Jesus’ side on the cross: “They shall look on him whom they pierced” (John 19:37)."
+        },
+        {
+          "v": 10,
+          "text": "The Savior said that when He comes, “then shall the Jews look upon me” (D&C 45:51) and learn, “I am Jesus that was crucified” (D&C 45:52). “Then shall they lament because they persecuted their king” (D&C 45:53)."
+        }
+      ],
+      "review": [
+        {
+          "v": 10,
+          "about": "The Lord says “me, whom they have pierced,” then “mourn for him”: the Hebrew changes person, as the KJV does. “Me” stays lowercase like the Lord’s other words; “Him” is capitalized because John 19:37 and D&C 45:51–53 say He is Jesus (the BSB capitalizes both). “Supplications” is given as “prayers for mercy.”"
+        },
+        {
+          "v": 11,
+          "about": "Hadadrimmon and Megiddon keep the KJV spellings (BSB ‘Hadad-rimmon,’ ‘Megiddo’). What the mourning of Hadadrimmon was is not known for sure, so the plain words say no more than the KJV."
+        },
+        {
+          "v": 6,
+          "about": "The KJV’s “hearth of fire among the wood” is a pot holding live coals (BSB ‘firepot’), given as “a pot of fire in a pile of wood.” “Governors” (here and in verse 5) is given as “leaders,” since the Hebrew word means clan chiefs."
+        },
+        {
+          "v": 12,
+          "about": "Verses 12–14 are one sentence in the KJV, as here; each family and its wives mourn apart."
+        }
+      ],
+      "approved": "9550ecb3"
+    },
+    {
+      "ch": "Zechariah 13",
+      "verses": [
+        "On that day a fountain will be opened for the house of David and for the people of Jerusalem, to wash away sin and uncleanness.",
+        "On that day, says the Lord of Hosts, I will cut off the names of the idols from the land, and they will not be remembered anymore. I will also remove the false prophets and the unclean spirit from the land.",
+        "And if anyone still prophesies, his own father and mother will say to him, “You must not live, because you speak lies in the name of the Lord.” And his own father and mother will stab him when he prophesies.",
+        "On that day every prophet will be ashamed of his vision when he prophesies. They will not wear a rough, hairy coat to fool people.",
+        "Instead he will say, “I am not a prophet. I am a farmer, for someone bought me as a servant when I was young.”",
+        "And someone will ask him, “What are these wounds in your hands?” He will answer, “The wounds I was given in the house of my friends.”",
+        "Wake up, sword, against my shepherd, against the man who is my companion, says the Lord of Hosts. Strike the shepherd, and the sheep will be scattered, and I will turn my hand on the little ones.",
+        "In the whole land, says the Lord, two parts out of three will be cut off and die, but the third part will be left in it.",
+        "And I will bring that third part through the fire. I will refine them as silver is refined and test them as gold is tested. They will call on my name, and I will hear them. I will say, “They are my people,” and they will say, “The Lord is my God.”"
+      ],
+      "notes": [
+        {
+          "v": 5,
+          "text": "The KJV says “man taught me to keep cattle from my youth.” The BSB reads the Hebrew as ‘I was purchased as a servant in my youth.’"
+        },
+        {
+          "v": 6,
+          "text": "When the Savior comes again and the Jews ask, “What are these wounds in thine hands and in thy feet?” (D&C 45:51), He will answer, “These wounds are the wounds with which I was wounded in the house of my friends” (D&C 45:52)."
+        },
+        {
+          "v": 7,
+          "text": "On the night before He died, Jesus told His disciples they would all fall away, “for it is written, I will smite the shepherd, and the sheep of the flock shall be scattered abroad” (Matthew 26:31)."
+        }
+      ],
+      "review": [
+        {
+          "v": 6,
+          "about": "In the Hebrew the one asked follows on from the false prophet of verses 4–5, so the plain words keep “him” and “he” lowercase, as the KJV does, and the note gives D&C 45:51–52, where the Savior uses these words of Himself. “In your hands” follows the KJV and D&C; the Hebrew says ‘between your hands’ (BSB ‘on your chest’). Your call on the capitals."
+        },
+        {
+          "v": 2,
+          "about": "“False” is added to “the prophets,” since verses 3–5 show who they are. Verse 3’s “thrust him through” (the law’s penalty for a false prophet, Deuteronomy 13:5–10) is given as “stab him,” no more plainly than the KJV."
+        },
+        {
+          "v": 5,
+          "about": "The KJV reads the Hebrew as “man taught me to keep cattle”; the BSB and other modern translations as ‘a man bought me’ (made me his servant). The plain words follow the Hebrew and BSB, with a note giving the KJV."
+        },
+        {
+          "v": 7,
+          "about": "Jesus applies this verse to Himself (Matthew 26:31, note), so the BSB writes ‘My Shepherd’ and ‘the Shepherd.’ The plain words keep the KJV’s lowercase, as with “king” in Isaiah 33:17. “I will turn mine hand upon the little ones” may mean against them or to care for them; the plain words keep “on.”"
+        }
+      ],
+      "approved": "30c26776"
+    },
+    {
+      "ch": "Zechariah 14",
+      "verses": [
+        "Look, the day of the Lord is coming, when the loot taken from you will be divided up right inside your city.",
+        "For I will gather all nations against Jerusalem to fight. The city will be captured, the houses robbed, and the women abused. Half of the city will go away as captives, but the rest of the people will not be cut off from the city.",
+        "Then the Lord will go out and fight against those nations, as when He fought in the day of battle.",
+        "On that day His feet will stand on the Mount of Olives, which faces Jerusalem on the east. The Mount of Olives will split in two from east to west, making a very great valley. Half of the mountain will move toward the north, and half of it toward the south.",
+        "And you will run away through the valley of the mountains, for the valley of the mountains will reach to Azal. Yes, you will run away just as you ran from the earthquake in the days of Uzziah king of Judah. Then the Lord my God will come, and all the saints with you.",
+        "On that day the light will be neither bright nor dark.",
+        "It will be one special day, known to the Lord—not day and not night. But in the evening there will be light.",
+        "On that day living waters will flow out from Jerusalem, half of them toward the eastern sea (the Dead Sea) and half toward the western sea (the Mediterranean). It will be so in summer and in winter.",
+        "The Lord will be king over all the earth. On that day there will be one Lord, and His name will be one.",
+        "The whole land, from Geba to Rimmon south of Jerusalem, will be made flat like a plain. But Jerusalem will be lifted up and lived in, in her own place—from Benjamin’s gate to the place of the first gate, to the corner gate, and from the tower of Hananeel to the king’s winepresses.",
+        "People will live in it, and it will never again be completely destroyed. Jerusalem will be lived in safely.",
+        "This is the plague the Lord will strike all the peoples with who have fought against Jerusalem: their flesh will waste away while they are still standing on their feet, their eyes will waste away in their sockets, and their tongues will waste away in their mouths.",
+        "On that day a great panic from the Lord will come over them. Each one will grab his neighbor’s hand, and each will raise his hand against his neighbor.",
+        "Judah also will fight at Jerusalem. And the wealth of all the nations around will be gathered together—gold, silver, and clothing—in great amounts.",
+        "A plague like this one will also strike the horses, mules, camels, donkeys, and all the animals in those camps.",
+        "Then everyone who is left of all the nations that came against Jerusalem will go up year after year to worship the King, the Lord of Hosts, and to keep the Feast of Tabernacles (the harvest festival of shelters).",
+        "And if any of the families of the earth will not come up to Jerusalem to worship the King, the Lord of Hosts, they will have no rain.",
+        "If the family of Egypt, who have no rain, does not go up and come, there will be the plague the Lord uses to strike the nations that don’t come up to keep the Feast of Tabernacles.",
+        "This will be the punishment of Egypt, and the punishment of all nations that don’t come up to keep the Feast of Tabernacles.",
+        "On that day the words “Holiness to the Lord” will be on the bells of the horses. And the cooking pots in the Lord’s house will be like the bowls in front of the altar.",
+        "Yes, every pot in Jerusalem and in Judah will be holy to the Lord of Hosts. All who offer sacrifices will come and take some of them and cook in them. And on that day there will no longer be a Canaanite in the house of the Lord of Hosts."
+      ],
+      "notes": [
+        {
+          "v": 4,
+          "text": "The Lord told Joseph Smith this will happen when He comes again: “then shall the Lord set his foot upon this mount, and it shall cleave in twain” (D&C 45:48)."
+        },
+        {
+          "v": 5,
+          "text": "The KJV says “all the saints with thee,” as the Hebrew does. The BSB reads ‘all the holy ones with Him,’ as the ancient Greek translation does."
+        },
+        {
+          "v": 6,
+          "text": "The KJV says “the light shall not be clear, nor dark.” The Hebrew here is hard to read, and the BSB has ‘there will be no light, no cold or frost.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 2,
+          "about": "The KJV’s “the women ravished” is given as “the women abused,” which is true to the Hebrew without being more graphic than the KJV. Verse 12’s plague (“consume away”) is given as “waste away.” Both are hard for a child; decide if they read right."
+        },
+        {
+          "v": 6,
+          "about": "Hard Hebrew (see the note). The plain words follow the KJV, as the approved chapters do where the Hebrew is unsure."
+        },
+        {
+          "v": 18,
+          "about": "Hard Hebrew. The KJV reads “that have no rain” as describing Egypt, which is watered by the Nile, not by rain; the BSB reads ‘then the rain will not fall on them.’ The plain words follow the KJV. No note; decide if one is wanted."
+        },
+        {
+          "v": 20,
+          "about": "“HOLINESS UNTO THE LORD” is given as “Holiness to the Lord,” the words on the high priest’s gold plate (Exodus 28:36) and on Latter-day Saint temples. A note was left out because the README’s note kinds don’t cover it; decide if one is wanted."
+        },
+        {
+          "v": 21,
+          "about": "The Hebrew word for “Canaanite” can also mean a trader. The plain words keep “Canaanite,” as the KJV and BSB do. In verse 16 a few words say what the Feast of Tabernacles was; in verse 8 the eastern and western seas are named."
+        }
+      ],
+      "approved": "acaa599e"
+    }
+  ],
+  "approved": "6ada9225",
+  "wordsApproved": "a6b36461"
+}

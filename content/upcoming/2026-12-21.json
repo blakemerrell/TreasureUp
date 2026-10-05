@@ -1,0 +1,1129 @@
+{
+  "dates": "December 21–27, 2026",
+  "title": "We Have Waited for Him, and He Will Save Us",
+  "reference": "Christmas",
+  "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/52?lang=eng",
+  "sections": [
+    "I rejoice in my Redeemer",
+    "Symbols can help me remember Jesus Christ",
+    "“His name shall be called Wonderful.”"
+  ],
+  "sayings": [
+    {
+      "id": "say-provide-lamb",
+      "text": "My son, God will provide himself a lamb for a burnt offering",
+      "ref": "Genesis 22:8",
+      "speaker": "Abraham, to Isaac",
+      "wrong": [
+        "Isaac, to Abraham",
+        "Moses, to Aaron"
+      ],
+      "why": "Isaac had asked, “where is the lamb for a burnt offering?” (Genesis 22:7). Abraham’s answer pointed ahead to the Lamb of God.",
+      "approved": "f92aa264"
+    },
+    {
+      "id": "say-not-now",
+      "text": "I shall see him, but not now: I shall behold him, but not nigh",
+      "ref": "Numbers 24:17",
+      "speaker": "Balaam, about a coming King",
+      "wrong": [
+        "Moses, from Mount Nebo",
+        "Jacob, blessing his sons"
+      ],
+      "why": "Balak hired Balaam to curse Israel, but Balaam blessed them instead and saw “a Star out of Jacob” far in the future.",
+      "approved": "4fac25cd"
+    },
+    {
+      "id": "say-we-have-waited",
+      "text": "Lo, this is our God; we have waited for him, and he will save us",
+      "ref": "Isaiah 25:9",
+      "speaker": "God’s people, in that day",
+      "wrong": [
+        "The shepherds, at the manger",
+        "The wise men, in Jerusalem"
+      ],
+      "why": "The verse begins, “And it shall be said in that day.” This week’s title is what God’s people will say when He comes.",
+      "approved": "24196fb8"
+    },
+    {
+      "id": "say-good-tidings",
+      "text": "Fear not: for, behold, I bring you good tidings of great joy",
+      "ref": "Luke 2:10",
+      "speaker": "An angel, to shepherds",
+      "wrong": [
+        "Gabriel, to Mary",
+        "Isaiah, to King Ahaz"
+      ],
+      "why": "The angel came to shepherds “keeping watch over their flock by night” (Luke 2:8) and told them the Savior was born.",
+      "approved": "72446068"
+    },
+    {
+      "id": "say-his-star",
+      "text": "Where is he that is born King of the Jews? for we have seen his star in the east",
+      "ref": "Matthew 2:2",
+      "speaker": "Wise men, in Jerusalem",
+      "wrong": [
+        "King Herod, to the scribes",
+        "Shepherds, to Mary"
+      ],
+      "why": "Wise men from the east came looking for the newborn King. Long before, Balaam had seen “a Star out of Jacob” (Numbers 24:17).",
+      "approved": "7327b4ad"
+    },
+    {
+      "id": "say-thus-written",
+      "text": "In Bethlehem of Judæa: for thus it is written by the prophet",
+      "ref": "Matthew 2:5",
+      "speaker": "Chief priests and scribes, to Herod",
+      "wrong": [
+        "Wise men, to King Herod",
+        "Joseph, to Mary"
+      ],
+      "why": "Herod asked where Christ should be born. They answered with the prophecy of Micah (Micah 5:2).",
+      "approved": "a0331cd7"
+    },
+    {
+      "id": "say-eve-glad",
+      "text": "Were it not for our transgression we never should have had seed",
+      "ref": "Moses 5:11",
+      "speaker": "Eve, after the Fall",
+      "wrong": [
+        "Adam, to the angel",
+        "Sarah, to Abraham"
+      ],
+      "why": "Eve was glad when she learned of “the joy of our redemption.” The Fall opened the way for families and for a Redeemer.",
+      "approved": "a6f5cc85"
+    },
+    {
+      "id": "say-handmaid",
+      "text": "Behold the handmaid of the Lord; be it unto me according to thy word",
+      "ref": "Luke 1:38",
+      "speaker": "Mary, to the angel Gabriel",
+      "wrong": [
+        "Hannah, to Eli the priest",
+        "Elisabeth, to Zacharias"
+      ],
+      "why": "Gabriel told Mary she would have a son and “call his name JESUS” (Luke 1:31). Mary answered with faith.",
+      "approved": "216ee0bb"
+    },
+    {
+      "id": "say-messiah-enoch",
+      "text": "I am Messiah, the King of Zion, the Rock of Heaven",
+      "ref": "Moses 7:53",
+      "speaker": "The Lord, to Enoch",
+      "wrong": [
+        "Isaiah, about Christ",
+        "David, in a psalm"
+      ],
+      "why": "The Lord showed Enoch a vision of the Savior’s coming and used these titles for Himself. Messiah means the Anointed One.",
+      "approved": "8f7dd6e3"
+    }
+  ],
+  "words": [
+    {
+      "word": "SAVIOUR",
+      "clue": "For unto you is born this day in the city of David a ____, which is Christ the Lord.",
+      "ref": "Luke 2:11",
+      "mean": "The baby born in Bethlehem was the Savior and Lord the prophets had promised."
+    },
+    {
+      "word": "REJOICE",
+      "clue": "And my soul shall be joyful in the LORD: it shall ____ in his salvation.",
+      "ref": "Psalm 35:9",
+      "mean": "David’s soul was full of joy because the Lord saves."
+    },
+    {
+      "word": "STAR",
+      "clue": "there shall come a ____ out of Jacob",
+      "ref": "Numbers 24:17",
+      "mean": "Balaam saw that a King, Jesus Christ, would come from Jacob’s family like a rising star."
+    },
+    {
+      "word": "PEACE",
+      "clue": "The everlasting Father, The Prince of ____.",
+      "ref": "Isaiah 9:6",
+      "mean": "Jesus brings peace to our hearts now, and one day He will bring it to the whole earth."
+    },
+    {
+      "word": "LAMB",
+      "clue": "God will provide himself a ____ for a burnt offering",
+      "ref": "Genesis 22:8",
+      "mean": "Abraham’s words pointed to Jesus Christ, the Lamb of God, whom Heavenly Father would give."
+    },
+    {
+      "word": "MANGER",
+      "clue": "and wrapped him in swaddling clothes, and laid him in a ____",
+      "ref": "Luke 2:7",
+      "mean": "The Son of God was born in a humble place and laid in a feeding box for animals."
+    },
+    {
+      "word": "LIGHT",
+      "clue": "The people that walked in darkness have seen a great ____",
+      "ref": "Isaiah 9:2",
+      "mean": "Jesus Christ is the great light Isaiah saw coming: the Light of the World."
+    }
+  ],
+  "deep": [
+    {
+      "id": "deep52-sing",
+      "section": 0,
+      "read": "Isaiah 44:21–24",
+      "intro": "The lesson lists Isaiah 44:21–24 among passages that gave Israel joy as they waited for the Savior. Read what the Lord did for His people, and who sings about it.",
+      "q": "In Isaiah 44:23, besides the heavens, what does Isaiah call on to sing?",
+      "hunt": "In Isaiah 44, besides the heavens, what does Isaiah call on to sing?",
+      "right": "The mountains, the forest and every tree",
+      "wrong": [
+        "The priests, the Levites and the singers",
+        "The kings, the princes and the judges"
+      ],
+      "why": "Verse 23: “break forth into singing, ye mountains, O forest, and every tree therein: for the LORD hath redeemed Jacob.” All creation rejoices in the Redeemer.",
+      "source": "Isaiah 44:23",
+      "find": "break forth into singing, ye mountains, O forest, and every tree therein",
+      "approved": "aa30201f"
+    },
+    {
+      "id": "deep52-typifying",
+      "section": 1,
+      "read": "2 Nephi 11:2–6",
+      "intro": "The lesson points to 2 Nephi 11:4 to show why the Old Testament is full of symbols of Christ. Read why Nephi loved Isaiah’s words.",
+      "q": "In 2 Nephi 11:4, what does Nephi say all things given of God from the beginning of the world are?",
+      "hunt": "In 2 Nephi 11, what does Nephi say all things given of God from the beginning of the world are?",
+      "right": "Types, or symbols, of Christ",
+      "wrong": [
+        "Tests to see who would obey",
+        "Records of Israel’s history"
+      ],
+      "why": "Verse 4: all things given of God “from the beginning of the world, unto man, are the typifying of him.” Typifying means being a type, or symbol, of Him.",
+      "source": "2 Nephi 11:4",
+      "find": "are the typifying of him",
+      "approved": "85dec910"
+    },
+    {
+      "id": "deep52-no-end",
+      "section": 2,
+      "read": "Isaiah 9:6–7",
+      "intro": "Right after the names in Isaiah 9:6, verse 7 tells what kind of King this child will be. Read it, then compare what the angel told Mary in Luke 1:32–33.",
+      "q": "In Isaiah 9:7, what will have no end?",
+      "hunt": "In Isaiah 9, what will have no end?",
+      "right": "The increase of His government and peace",
+      "wrong": [
+        "The wars between Israel and Assyria",
+        "The line of kings from Ahaz"
+      ],
+      "why": "Verse 7: “Of the increase of his government and peace there shall be no end.” Gabriel told Mary the same: “of his kingdom there shall be no end” (Luke 1:33).",
+      "source": "Isaiah 9:7",
+      "find": "Of the increase of his government and peace there shall be no end",
+      "approved": "41514446"
+    },
+    {
+      "id": "deep52-kids",
+      "day": "friday",
+      "title": "From the children’s part of the lesson",
+      "read": "lesson",
+      "intro": "The children’s part of this week’s lesson starts with Christmas decorations, like a star, lights or a gift. It suggests verses about a lamb, a star, a shepherd and light, and a song to sing.",
+      "q": "Which song from the Children’s Songbook does the lesson suggest singing as you look for those symbols?",
+      "right": "Stars Were Gleaming",
+      "wrong": [
+        "I Am like a Star",
+        "Picture a Christmas"
+      ],
+      "why": "It suggests singing Stars Were Gleaming, from the Children’s Songbook, after talking about how Jesus is like a lamb, a star, a shepherd or a light.",
+      "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/52?lang=eng",
+      "find": "Stars Were Gleaming",
+      "approved": "a482e5f0"
+    },
+    {
+      "id": "deep52-ftsoy",
+      "day": "friday",
+      "title": "From For the Strength of Youth",
+      "read": "https://www.churchofjesuschrist.org/study/ftsoy/2022/12/06-your-promised-messiah?lang=eng",
+      "intro": "In a 2022 Christmas article for youth, Elder D. Todd Christofferson lists prophecies of the Savior’s birth, from Adam’s sacrifices to Isaiah, Lehi, Nephi and King Benjamin.",
+      "q": "According to Elder Christofferson, what have the life and mission of Jesus Christ always been?",
+      "right": "The central message of prophets",
+      "wrong": [
+        "A secret kept from most people",
+        "A message for Israel alone"
+      ],
+      "why": "He writes that prophets have always taught first of all about Jesus Christ’s life and mission, and that Abinadi said all the prophets since the world began spoke of the Messiah.",
+      "source": "https://www.churchofjesuschrist.org/study/ftsoy/2022/12/06-your-promised-messiah?lang=eng",
+      "find": "have always been the central message of prophets",
+      "approved": "e51d44fa"
+    }
+  ],
+  "reels": [
+    {
+      "id": "isa25-waited-christmas",
+      "section": 0,
+      "hook": "The whole Old Testament was waiting for Him.",
+      "body": "Isaiah saw a day when God’s people would say, “Lo, this is our God; we have waited for him, and he will save us.” That’s this week’s title. From Adam to Malachi, prophets looked forward to the Savior. Isaiah also promised, “He will swallow up death in victory” (Isaiah 25:8). Jesus came, and by rising from the dead He did it. The long wait ended in joy.",
+      "verse": {
+        "text": "And it shall be said in that day, Lo, this is our God; we have waited for him, and he will save us: this is the LORD; we have waited for him, we will be glad and rejoice in his salvation.",
+        "ref": "Isaiah 25:9"
+      },
+      "question": {
+        "q": "How do the people in Isaiah 25:9 feel when their God comes?",
+        "right": "Glad: they rejoice in His salvation",
+        "wrong": [
+          "Afraid: they hide from His face",
+          "Tired: they gave up waiting"
+        ],
+        "why": "“We will be glad and rejoice in his salvation.” After the long wait, they meet their God with joy."
+      },
+      "bonus": {
+        "q": "In Isaiah 25:8, what will the Lord God wipe away from off all faces?",
+        "hunt": "In Isaiah 25, what will the Lord God wipe away from off all faces?",
+        "right": "Tears",
+        "wrong": [
+          "Dust",
+          "Frowns"
+        ],
+        "why": "Verse 8: “the Lord GOD will wipe away tears from off all faces.” John saw the same promise for the faithful (Revelation 21:4).",
+        "source": "Isaiah 25:8",
+        "find": "wipe away tears from off all faces"
+      },
+      "gradient": "linear-gradient(150deg,#422006 0%,#a16207 50%,#fde68a 115%)",
+      "blobA": "rgba(253,230,138,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "000f5c4a"
+    },
+    {
+      "id": "moses5-joy-christmas",
+      "section": 0,
+      "hook": "The first family on earth already rejoiced in Him.",
+      "body": "An angel taught Adam that his sacrifices were “a similitude of the sacrifice of the Only Begotten of the Father” (Moses 5:7). Then Adam said, “in this life I shall have joy” (Moses 5:10). Eve was glad too, for “the joy of our redemption.” Long before Bethlehem, the first family knew a Redeemer would come, and it filled them with joy.",
+      "verse": {
+        "text": "And Eve, his wife, heard all these things and was glad, saying: Were it not for our transgression we never should have had seed, and never should have known good and evil, and the joy of our redemption, and the eternal life which God giveth unto all the obedient.",
+        "ref": "Moses 5:11"
+      },
+      "question": {
+        "q": "Why was Eve glad?",
+        "right": "She learned they could be redeemed",
+        "wrong": [
+          "She would never have to work again",
+          "She could go back to the garden"
+        ],
+        "why": "She rejoiced in “the joy of our redemption, and the eternal life which God giveth unto all the obedient.”"
+      },
+      "bonus": {
+        "q": "In Moses 5:6, an angel asks Adam why he offers sacrifices. What does Adam answer?",
+        "hunt": "In Moses 5, an angel asks Adam why he offers sacrifices. What does Adam answer?",
+        "right": "He didn’t know; God told him to",
+        "wrong": [
+          "To thank God for the harvest",
+          "Because Eve asked him to"
+        ],
+        "why": "Verse 6: “I know not, save the Lord commanded me.” Adam obeyed first. Then the angel explained that the sacrifice pointed to the Savior (verse 7).",
+        "source": "Moses 5:6",
+        "find": "I know not, save the Lord commanded me"
+      },
+      "gradient": "linear-gradient(150deg,#14532d 0%,#4d7c0f 50%,#d9f99d 115%)",
+      "blobA": "rgba(217,249,157,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "4d37bc3f"
+    },
+    {
+      "id": "zeph3-sings-christmas",
+      "section": 0,
+      "hook": "At Christmas we sing about Him. He sings about you.",
+      "body": "Zephaniah warned of hard days ahead, but he ended his book with a promise: “The LORD thy God in the midst of thee is mighty; he will save.” Then he said the Lord “will joy over thee with singing.” At Christmas we sing carols about the Savior. Zephaniah says He rejoices over His people too, so much that He sings.",
+      "verse": {
+        "text": "The LORD thy God in the midst of thee is mighty; he will save, he will rejoice over thee with joy; he will rest in his love, he will joy over thee with singing.",
+        "ref": "Zephaniah 3:17"
+      },
+      "question": {
+        "q": "How does Zephaniah say the Lord feels about His people?",
+        "right": "He rejoices over them with singing",
+        "wrong": [
+          "He is tired of their mistakes",
+          "He watches them from far away"
+        ],
+        "why": "“He will rejoice over thee with joy; he will rest in his love.” He is glad to save them."
+      },
+      "bonus": {
+        "q": "In Zephaniah 3:19, who does the Lord promise to save, along with gathering the one driven out?",
+        "hunt": "In Zephaniah 3, who does the Lord promise to save, along with gathering the one driven out?",
+        "right": "The one who limps",
+        "wrong": [
+          "The one who is strongest",
+          "The one who runs fastest"
+        ],
+        "why": "Verse 19: “I will save her that halteth.” Halteth means limps. He saves the ones who struggle, and gathers “her that was driven out.”",
+        "source": "Zephaniah 3:19",
+        "find": "I will save her that halteth"
+      },
+      "gradient": "linear-gradient(150deg,#4c0519 0%,#be123c 50%,#fecdd3 115%)",
+      "blobA": "rgba(254,205,211,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "503a3bb3"
+    },
+    {
+      "id": "luke2-great-joy-christmas",
+      "section": 0,
+      "hook": "The joy the prophets waited for finally came.",
+      "body": "Isaiah promised that the redeemed would have “everlasting joy” (Isaiah 51:11). The night Jesus was born, an angel brought that joy to shepherds near Bethlehem: “Fear not: for, behold, I bring you good tidings of great joy, which shall be to all people.” Tidings means news. The joy wasn’t just for Israel. It was for all people, and that includes you.",
+      "verse": {
+        "text": "And the angel said unto them, Fear not: for, behold, I bring you good tidings of great joy, which shall be to all people. For unto you is born this day in the city of David a Saviour, which is Christ the Lord.",
+        "ref": "Luke 2:10–11"
+      },
+      "question": {
+        "q": "Who was the angel’s good news for?",
+        "right": "All people, everywhere",
+        "wrong": [
+          "Only the shepherds",
+          "Only the people of Bethlehem"
+        ],
+        "why": "The good tidings of great joy “shall be to all people.” That includes you."
+      },
+      "bonus": {
+        "q": "In Luke 2:19, what did Mary do with all these things?",
+        "hunt": "In Luke 2, what did Mary do with all the things the shepherds told?",
+        "right": "Kept them and pondered them in her heart",
+        "wrong": [
+          "Told them to everyone in Bethlehem",
+          "Wrote them down for the temple priests"
+        ],
+        "why": "Verse 19: “But Mary kept all these things, and pondered them in her heart.” To ponder is to think deeply about something.",
+        "source": "Luke 2:19",
+        "find": "pondered them in her heart"
+      },
+      "gradient": "linear-gradient(160deg,#0b1024 0%,#1e3a8a 55%,#fde68a 115%)",
+      "blobA": "rgba(253,230,138,.35)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "e564ff31"
+    },
+    {
+      "id": "num24-star-christmas",
+      "section": 1,
+      "hook": "A prophet hired to curse Israel saw their King coming.",
+      "body": "Balak, king of Moab, hired Balaam to curse Israel. Instead, the Lord had him bless them. Balaam saw far ahead: “I shall see him, but not now.” A Star would come out of Jacob. Centuries later, wise men came to Jerusalem saying, “we have seen his star in the east” (Matthew 2:2). Jesus calls Himself “the bright and morning star” (Revelation 22:16).",
+      "verse": {
+        "text": "I shall see him, but not now: I shall behold him, but not nigh: there shall come a Star out of Jacob…",
+        "ref": "Numbers 24:17"
+      },
+      "question": {
+        "q": "Balaam said, “I shall see him, but not now.” What did he mean?",
+        "right": "He saw Someone who would come much later",
+        "wrong": [
+          "He would meet the king of Moab soon",
+          "He could see only in the daytime"
+        ],
+        "why": "He saw a Star “out of Jacob” far in the future, not near: Jesus Christ, born centuries later."
+      },
+      "bonus": {
+        "q": "In Numbers 24:17, what else will rise out of Israel besides a Star?",
+        "hunt": "In Numbers 24, what else will rise out of Israel besides a Star?",
+        "right": "A Sceptre, a king’s rod",
+        "wrong": [
+          "A tower, a city’s wall",
+          "A temple, a holy house"
+        ],
+        "why": "Verse 17: “a Sceptre shall rise out of Israel.” A sceptre is the rod a king holds. The Star would be a King.",
+        "source": "Numbers 24:17",
+        "find": "a Sceptre shall rise out of Israel"
+      },
+      "media": {
+        "image": {
+          "src": "media/milky-way-inferno-cone.jpg",
+          "alt": "Thousands of stars and the Milky Way filling the night sky above a lone tree",
+          "credit": "The Milky Way from Inferno Cone, Craters of the Moon. Photo: NPS / Jacob W. Frank, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Milky_Way_From_Inferno_Cone_(4fc3421b-c931-4347-a4f6-7b5806c41456).jpg"
+        }
+      },
+      "gradient": "linear-gradient(165deg,#020617 0%,#1e1b4b 55%,#a5b4fc 115%)",
+      "blobA": "rgba(165,180,252,.35)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "11ea4a7f"
+    },
+    {
+      "id": "gen22-lamb-christmas",
+      "section": 1,
+      "hook": "His father’s answer pointed to Jesus.",
+      "body": "Isaac carried the wood up the mountain and asked, “where is the lamb for a burnt offering?” (Genesis 22:7). Abraham answered, “God will provide himself a lamb.” The Book of Mormon says this was “a similitude of God and his Only Begotten Son” (Jacob 4:5). Centuries later, John the Baptist saw Jesus and said, “Behold the Lamb of God” (John 1:29).",
+      "verse": {
+        "text": "And Abraham said, My son, God will provide himself a lamb for a burnt offering: so they went both of them together.",
+        "ref": "Genesis 22:8"
+      },
+      "question": {
+        "q": "How was Abraham offering Isaac like Heavenly Father and Jesus?",
+        "right": "A father was willing to give his only son",
+        "wrong": [
+          "A king was sending out his army",
+          "A family was moving to a new land"
+        ],
+        "why": "Jacob called it “a similitude of God and his Only Begotten Son” (Jacob 4:5). Heavenly Father gave His Son for us."
+      },
+      "bonus": {
+        "q": "In Genesis 22:13, what did Abraham see caught in a thicket?",
+        "hunt": "In Genesis 22, what did Abraham see caught in a thicket?",
+        "right": "A ram, caught by its horns",
+        "wrong": [
+          "A lamb, caught by its wool",
+          "A goat, caught by its leg"
+        ],
+        "why": "Verse 13: “behold behind him a ram caught in a thicket by his horns.” Abraham offered the ram “in the stead of his son.”",
+        "source": "Genesis 22:13",
+        "find": "a ram caught in a thicket by his horns"
+      },
+      "media": {
+        "image": {
+          "src": "media/agnus-dei-zurbaran.jpg",
+          "alt": "Painting of a white lamb lying calmly on a gray table, its feet tied together, against a dark background",
+          "credit": "Agnus Dei (Lamb of God), by Francisco de Zurbarán, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Agnus_Dei,_por_Francisco_de_Zurbar%C3%A1n.jpg"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#292524 0%,#57534e 50%,#e7e5e4 115%)",
+      "blobA": "rgba(231,229,228,.35)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "da1145e2"
+    },
+    {
+      "id": "ps23-shepherd-christmas",
+      "section": 1,
+      "hook": "A shepherd boy from Bethlehem knew his Shepherd.",
+      "body": "David was a shepherd boy, a son of Jesse of Bethlehem (1 Samuel 16:11–18). He wrote, “The LORD is my shepherd; I shall not want.” Want means lack: with Him, we have what we truly need. Centuries later, shepherds near Bethlehem were the first to hear that Jesus was born (Luke 2:8–11). He would call Himself “the good shepherd” (John 10:11).",
+      "verse": {
+        "text": "The LORD is my shepherd; I shall not want. He maketh me to lie down in green pastures: he leadeth me beside the still waters.",
+        "ref": "Psalm 23:1–2"
+      },
+      "question": {
+        "q": "What does “I shall not want” mean?",
+        "right": "With Him, I’ll have what I truly need",
+        "wrong": [
+          "I don’t want anything for Christmas",
+          "I don’t need a shepherd anymore"
+        ],
+        "why": "Want here means lack. Like a good shepherd, the Lord leads His sheep to green pastures and still waters."
+      },
+      "bonus": {
+        "q": "The Friend’s Christmas program says candy canes can remind us of shepherds. Why?",
+        "right": "They look like the sticks shepherds use",
+        "wrong": [
+          "Shepherds ate them on the hills",
+          "They are white like a lamb’s wool"
+        ],
+        "why": "It says candy canes look like the sticks shepherds use to lead their sheep. They remind us of the shepherds at Bethlehem and of Jesus, the Good Shepherd.",
+        "source": "https://www.churchofjesuschrist.org/study/friend/2022/12/the-symbols-of-christmas?lang=eng",
+        "find": "Candy canes look like the sticks that shepherds use to lead their sheep"
+      },
+      "media": {
+        "image": {
+          "src": "media/good-shepherd-plockhorst.jpg",
+          "alt": "Painting of Jesus Christ as a shepherd, carrying a lamb in His arms while His flock of sheep walks beside Him",
+          "credit": "The Good Shepherd, by Bernhard Plockhorst. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Bernhard_Plockhorst_-_Good_Shephard.jpg"
+        }
+      },
+      "gradient": "linear-gradient(155deg,#052e16 0%,#166534 50%,#a7f3d0 115%)",
+      "blobA": "rgba(167,243,208,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "affb78d7"
+    },
+    {
+      "id": "isa9-light-christmas",
+      "section": 1,
+      "hook": "Why we fill December nights with lights.",
+      "body": "Isaiah wrote to people living in dark, frightening times: “The people that walked in darkness have seen a great light.” Matthew says this came true when Jesus lived and taught in Galilee (Matthew 4:13–16). Jesus said, “I am the light of the world: he that followeth me shall not walk in darkness” (John 8:12). Christmas lights can remind us of Him.",
+      "verse": {
+        "text": "The people that walked in darkness have seen a great light: they that dwell in the land of the shadow of death, upon them hath the light shined.",
+        "ref": "Isaiah 9:2"
+      },
+      "question": {
+        "q": "Who is the “great light” Isaiah saw coming?",
+        "right": "Jesus Christ, the Light of the World",
+        "wrong": [
+          "A fire on the hills to warn of war",
+          "The sun rising after a long night"
+        ],
+        "why": "Matthew saw Isaiah’s words fulfilled in Jesus (Matthew 4:16), who said, “I am the light of the world” (John 8:12)."
+      },
+      "bonus": {
+        "q": "In Micah 7:8, what does Micah say will happen after he falls?",
+        "hunt": "In Micah 7, what does Micah say will happen after he falls?",
+        "right": "He will rise up again",
+        "wrong": [
+          "He will stay down a while",
+          "He will be carried away"
+        ],
+        "why": "Verse 8: “when I fall, I shall arise; when I sit in darkness, the LORD shall be a light unto me.”",
+        "source": "Micah 7:8",
+        "find": "when I fall, I shall arise"
+      },
+      "media": {
+        "image": {
+          "src": "media/sunrise-harding-icefield.jpg",
+          "alt": "The sun rising over snowy mountains, lighting a wide white field of snow with orange and pink",
+          "credit": "Sunrise on the Harding Icefield, Kenai Fjords National Park. Photo: NPS, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Sunrise_on_the_Harding_Icefield,_Kenai_Fjords_National_Park.jpg"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#1c1917 0%,#c2410c 50%,#fed7aa 115%)",
+      "blobA": "rgba(254,215,170,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "9080774b"
+    },
+    {
+      "id": "isa9-wonderful-christmas",
+      "section": 2,
+      "hook": "Five names for one baby.",
+      "body": "Isaiah saw a child who would be born and called “Wonderful, Counsellor, The mighty God, The everlasting Father, The Prince of Peace.” No one name could say all He is. He was already “The mighty God” before He came to earth as a baby. Handel’s Messiah, music many people sing at Christmas, uses these very words. Which of His names means the most to you right now?",
+      "verse": {
+        "text": "For unto us a child is born, unto us a son is given: and the government shall be upon his shoulder: and his name shall be called Wonderful, Counsellor, The mighty God, The everlasting Father, The Prince of Peace.",
+        "ref": "Isaiah 9:6"
+      },
+      "question": {
+        "q": "Why did Isaiah give the child so many names?",
+        "right": "No single name could show all He is",
+        "wrong": [
+          "Each of His parents chose some names",
+          "People in Judah all had five names"
+        ],
+        "why": "He is “Wonderful, Counsellor, The mighty God, The everlasting Father, The Prince of Peace.” Each name shows a different part of who He is."
+      },
+      "bonus": {
+        "q": "Isaiah’s own name had a meaning. What does it mean, say the Scripture Helps for Isaiah 1–12?",
+        "right": "Jehovah is salvation",
+        "wrong": [
+          "God is my strength",
+          "The Lord remembers"
+        ],
+        "why": "They say Isaiah’s name means Jehovah is salvation, showing the power of Jesus Christ to save His people. His sons’ names carried messages too.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/36-isaiah-1-12?lang=eng",
+        "find": "Jehovah is salvation"
+      },
+      "media": {
+        "image": {
+          "src": "media/isaiah-henninger.jpg",
+          "alt": "Painting of the prophet Isaiah, an old man with a long white beard",
+          "credit": "Isaiah, by Ted Henninger",
+          "link": "https://www.churchofjesuschrist.org/media/image/isaiah-4e7875b?lang=eng"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#2e1065 0%,#7c3aed 50%,#ddd6fe 115%)",
+      "blobA": "rgba(221,214,254,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "c27e48e7"
+    },
+    {
+      "id": "isa7-immanuel-christmas",
+      "section": 2,
+      "hook": "A sign for a king who refused to ask for one.",
+      "body": "King Ahaz was afraid of two enemy armies. Isaiah told him to ask the Lord for a sign, but Ahaz said, “I will not ask” (Isaiah 7:12). The Lord gave one anyway. Matthew tells us it came true when Jesus was born to Mary, and that Immanuel means “God with us” (Matthew 1:23). At Christmas, God came to be with His people.",
+      "verse": {
+        "text": "Therefore the Lord himself shall give you a sign; Behold, a virgin shall conceive, and bear a son, and shall call his name Immanuel.",
+        "ref": "Isaiah 7:14"
+      },
+      "question": {
+        "q": "What does the name Immanuel mean?",
+        "right": "God with us",
+        "wrong": [
+          "God is great",
+          "God will judge"
+        ],
+        "why": "Matthew explains: “Emmanuel, which being interpreted is, God with us” (Matthew 1:23). Jesus is God, and He came to live among us."
+      },
+      "bonus": {
+        "q": "In Matthew 1:21, why would the baby be named Jesus?",
+        "hunt": "In Matthew 1, why would the baby be named Jesus?",
+        "right": "He would save His people from their sins",
+        "wrong": [
+          "He would rule over Judah from Jerusalem",
+          "He would build a new temple in Zion"
+        ],
+        "why": "Verse 21: “thou shalt call his name JESUS: for he shall save his people from their sins.”",
+        "source": "Matthew 1:21",
+        "find": "he shall save his people from their sins"
+      },
+      "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0284c7 50%,#e0f2fe 115%)",
+      "blobA": "rgba(224,242,254,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "fd5d0efd"
+    },
+    {
+      "id": "mic5-bethlehem-christmas",
+      "section": 2,
+      "hook": "A little town picked out centuries ahead.",
+      "body": "Micah named the very town the Ruler of Israel would come from: Bethlehem, “little among the thousands of Judah.” He also said this Ruler’s “goings forth have been from of old, from everlasting.” Jesus lived with God long before His birth. When wise men asked where the King was born, the priests and scribes quoted Micah: Bethlehem (Matthew 2:4–6).",
+      "verse": {
+        "text": "But thou, Beth-lehem Ephratah, though thou be little among the thousands of Judah, yet out of thee shall he come forth unto me that is to be ruler in Israel; whose goings forth have been from of old, from everlasting.",
+        "ref": "Micah 5:2"
+      },
+      "question": {
+        "q": "What do the words “from everlasting” tell us about this Ruler?",
+        "right": "He lived long before He was born",
+        "wrong": [
+          "He would rule only a short time",
+          "He would never leave Bethlehem"
+        ],
+        "why": "His “goings forth have been from of old, from everlasting.” Before Bethlehem, He was Jehovah, the God of the Old Testament."
+      },
+      "bonus": {
+        "q": "The Scripture Helps for Micah say how far Bethlehem is from Jerusalem. About how far?",
+        "right": "About five miles",
+        "wrong": [
+          "About fifty miles",
+          "About five hundred miles"
+        ],
+        "why": "They say Bethlehem is a small town about five miles, or eight kilometers, south of Jerusalem. Young David lived there too.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/47-micah-nahum-habakkuk-zephaniah?lang=eng",
+        "find": "about five miles (eight kilometers) south of Jerusalem"
+      },
+      "gradient": "linear-gradient(150deg,#3f2a14 0%,#92400e 50%,#fef3c7 115%)",
+      "blobA": "rgba(254,243,199,.4)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "c7c28d26"
+    }
+  ],
+  "insights": [
+    {
+      "id": "xmas-isa25-song",
+      "ref": "Isaiah 25:9",
+      "title": "The chorus of a song",
+      "text": "“We have waited for him” comes twice in Isaiah 25:9. Donald W. Parry, writing for Scripture Central, notes that this refrain and another repeated line in the next verses suggest the passage is a song. The righteous will sing these words. So this week’s title is the chorus of a song God’s people will one day sing about the Savior who came to save them.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Donald W. Parry",
+        "title": "Isaiah 25",
+        "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-25"
+      },
+      "find": "The righteous will sing these words",
+      "approved": "d804728f"
+    },
+    {
+      "id": "xmas-isa9-joy",
+      "ref": "Isaiah 9:3–6",
+      "title": "So many words for joy",
+      "text": "Isaiah 9 overflows with joy. Donald W. Parry, writing for Scripture Central, counts four different words for joy in verse 3 alone. Why so much joy? He points to the reasons in the verses after it: the heavy burden is broken, war comes to an end, and most of all, “unto us a child is born, unto us a son is given.”",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Donald W. Parry",
+        "title": "Isaiah 9",
+        "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-9"
+      },
+      "find": "Isaiah employs four words to emphasize the great joy that comes because of Jesus Christ",
+      "approved": "d32f8daa"
+    },
+    {
+      "id": "xmas-moses5-psalm",
+      "ref": "Moses 5:10–11",
+      "title": "Adam and Eve’s song of thanks",
+      "text": "Read Adam’s words in verse 10 and Eve’s in verse 11 side by side. Jeffrey M. Bradshaw, writing for Scripture Central, notes that Adam’s words are shaped to match Eve’s. Together, their new understanding and joy make one psalm of thanks. The first family on earth praised God for redemption long before the Redeemer was born.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Jeffrey M. Bradshaw",
+        "title": "Moses 5; Genesis 4",
+        "url": "https://scripturecentral.org/archive/books/book-chapter/moses-5-genesis-4"
+      },
+      "find": "meld to form a harmonious dual psalm of gratitude",
+      "approved": "744fefbb"
+    },
+    {
+      "id": "xmas-moses5-jsp-name",
+      "ref": "Moses 5:9",
+      "title": "Joseph’s 1830 manuscript names Jesus Christ",
+      "text": "Moses 5 came to Joseph Smith as he worked on his revision of the Bible. On this page of his earliest manuscript, in Oliver Cowdery’s handwriting, the Holy Ghost tells Adam, “I am Jesus Christ from the beginning henceforth & forever.” The printed verse says “the Only Begotten of the Father.” Either way, Adam was taught of the Savior by name and title, thousands of years before Bethlehem.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Old Testament Revision 1, page 8",
+        "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-1/10"
+      },
+      "find": "the Holy Ghost fell upon Adam which bore record of the Father & the Son saying I am Jesus Christ from the beginning",
+      "note": "In Joseph Smith’s 1830 manuscript, the Holy Ghost tells Adam, “I am Jesus Christ from the beginning”; the printed verse, our scripture, reads “the Only Begotten of the Father.”",
+      "approved": "0e7e01b0"
+    },
+    {
+      "id": "xmas-isa44-cloud",
+      "ref": "Isaiah 44:22",
+      "title": "Sins washed away like rain",
+      "text": "“I have blotted out, as a thick cloud, thy transgressions.” Donald W. Parry, writing for Scripture Central, explains the picture: as rain from a cloud cleanses the earth, the Lord wipes our sins clean through His Atonement. The verse also says “return unto me.” In Hebrew, return is one way of saying repent. Repenting means coming back to Him.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Donald W. Parry",
+        "title": "Isaiah 44",
+        "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-44"
+      },
+      "find": "As the rain from a cloud cleanses the earth",
+      "approved": "e0d8be13"
+    },
+    {
+      "id": "xmas-luke2-three-groups",
+      "ref": "Luke 2:10–11",
+      "title": "The humble, the holy and the wise",
+      "text": "Who heard first that Jesus was born? President Dallin H. Oaks pointed to three groups. Humble shepherds heard it from angels. Simeon and Anna, holy people at the temple, knew the baby was the Messiah. And wise men came from another land. Because they were from another culture, he said, their witness reminds us the Messiah was born for all people.",
+      "source": {
+        "by": "First Presidency’s Christmas Devotional",
+        "who": "President Dallin H. Oaks",
+        "title": "Good Tidings of Great Joy",
+        "url": "https://www.churchofjesuschrist.org/study/broadcasts/christmas-devotional/2022/12/14oaks?lang=eng"
+      },
+      "find": "Those who received the heavenly announcement of the birth were the very humble, the very holy, and the very wise.",
+      "approved": "a641d9b2"
+    },
+    {
+      "id": "xmas-luke2-three-levels",
+      "ref": "Luke 2:11",
+      "title": "Don’t leave Him in the manger",
+      "text": "On followHIM, John Bytheway shares an idea from a Church News editorial by William B. Smart: Christmas has three levels. Level one is the fun of trees, stockings and Santa. Level two is the baby in the manger, the shepherds and the wise men. Level three is the Lord, who suffered for us and rose again. Keep Christ in the manger, Smart warned, and you will be unfulfilled.",
+      "source": {
+        "by": "followHIM",
+        "who": "John Bytheway",
+        "title": "Old Testament: EPISODE 52 – Christmas – Favorites",
+        "url": "https://followhim.co/show-note/2-237/"
+      },
+      "find": "if you keep Christ in the manger, you’ll be unfulfilled",
+      "deep": {
+        "paras": [
+          "For their last followHIM Favorites of the Old Testament year, Hank Smith asked John Bytheway for his lesson on the three levels of Christmas. It comes from a Church News editorial by William B. Smart. Level one is the Santa Claus level: reindeer, stockings by the tree, Christmas trees and all the fun. Hank calls it an important part of Christmas, and John agrees: he loves it and watches the Christmas shows like everyone else.",
+          "Level two is the Silent Night level: the baby Jesus, the shepherds hearing the angel, the wise men coming. Hank observes that kneeling before the Lord of the universe can feel intimidating, and Christmas lets us come to Him as a little baby. John points to the nativity scenes that remind us of an event “that had been prophesied forever and finally came.”",
+          "But Smart added, “if you keep Christ in the manger, you’ll be unfulfilled.” Level three is the Lord level: the resurrected Christ, who suffered for our sins, problems and infirmities, so that we will all live again. Without it, John says, we would not have levels one or two. Hank adds that many people have been born, but no one else has died and come back to life the way He did.",
+          "John’s suggestion for this season: as you sing Christmas carols, listen for both levels, words about the newborn Child and words that call Him the Lord and the Savior. Their wish for every listener fits this last week of the Old Testament: a joyous level-one Christmas, a reverent level-two Christmas and a powerful level-three Christmas."
+        ],
+        "find": [
+          "Christmas has about three levels and level one is the Santa Claus level",
+          "he called it the Silent Night level about the baby Jesus",
+          "And that’s the Lord level, he called it.",
+          "We hope you have a reverent level two Christmas and we hope you have a powerful level three Christmas."
+        ],
+        "approved": "ee000e59"
+      },
+      "approved": "e72de15a"
+    },
+    {
+      "id": "xmas-ps118-many-symbols",
+      "ref": "Psalms 118:22",
+      "title": "Many symbols, one Savior",
+      "text": "“The stone which the builders refused is become the head stone of the corner.” Paul calls Jesus the chief cornerstone (Ephesians 2:20). The Old Testament Student Manual explains that the Savior’s life and mission have so many sides that it takes many symbols to show Him: the Lamb, the Light, the Rock, the Good Shepherd, the Cornerstone, the Bright and Morning Star, and more.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "Enrichment Section C: Symbolism and Typology in the Old Testament",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-genesis-2-samuel/enrichment-section-c-symbolism-and-typology-in-the-old-testament?lang=eng"
+      },
+      "find": "He is typified or symbolized as the Lamb",
+      "approved": "4d175995"
+    },
+    {
+      "id": "xmas-gen22-jireh",
+      "ref": "Genesis 22:8–14",
+      "title": "The Lord will provide",
+      "text": "After Isaac was spared, Abraham named the place Jehovah-jireh. Jeffrey M. Bradshaw, writing for Scripture Central, explains that a footnote in our Bible gives its meaning as “the Lord will see or provide.” It echoes what Abraham told Isaac in verse 8: God would provide. The Lord provided for Abraham that day, and later God provided His Only Begotten Son.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Jeffrey M. Bradshaw",
+        "title": "Genesis 21–23",
+        "url": "https://scripturecentral.org/archive/books/book-chapter/genesis-2123"
+      },
+      "find": "Christians also know that God later provided His Only Begotten Son as a substitute sacrifice",
+      "approved": "2fd635e8"
+    },
+    {
+      "id": "xmas-ex12-lamb",
+      "ref": "Exodus 12:5",
+      "title": "A lamb without blemish",
+      "text": "“Your lamb shall be without blemish.” The Old Testament Student Manual quotes Elder Bruce R. McConkie, who taught that the details of the first Passover were arranged to testify of Israel’s Deliverer. The lamb had to be perfect, with no flaw, because the Lamb of God would be pure and perfect. The lamb’s blood on the doorposts saved Israel, as the Savior’s blood saves the faithful.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "who": "Elder Bruce R. McConkie",
+        "title": "Exodus 11–19: The Passover and the Exodus",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-genesis-2-samuel/exodus-11-19-the-passover-and-the-exodus?lang=eng"
+      },
+      "find": "signifying that the Lamb of God, pure and perfect, without spot or blemish",
+      "approved": "849925c3"
+    },
+    {
+      "id": "xmas-mic5-bread",
+      "ref": "Micah 5:2",
+      "title": "The house of bread",
+      "text": "Why Bethlehem? President Russell M. Nelson noted that Jesus could have been born anywhere on earth, yet He chose the land He had made holy. He explained that Bethlehem, bet lehem in Hebrew, means “house of bread.” How fitting, he said, that the One who called Himself the bread of life (John 6:35) would come from the house of bread.",
+      "source": {
+        "by": "First Presidency’s Christmas Devotional",
+        "who": "President Russell M. Nelson",
+        "title": "Divine Gifts",
+        "url": "https://www.churchofjesuschrist.org/study/broadcasts/christmas-devotional/2020/12/15nelson?lang=eng"
+      },
+      "find": "That word in Hebrew, bet lehem, means “house of bread.”",
+      "approved": "822d07e3"
+    },
+    {
+      "id": "xmas-isa9-galilee",
+      "ref": "Isaiah 9:1–2",
+      "title": "A light for Galilee",
+      "text": "Isaiah named the lands of Zebulun and Naphtali in northern Israel, where invading Assyrian armies brought dark days. The Old Testament Student Manual explains that this region was later called the Galilee, where Jesus grew up and did most of His teaching. Matthew saw Isaiah’s words come true there (Matthew 4:12–16). The people who walked in darkness saw the “great light” up close.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "Chapter 13: The Establishment of Zion",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-13?lang=eng"
+      },
+      "find": "where Jesus was raised and spent most of His ministry",
+      "approved": "1c42f0cc"
+    },
+    {
+      "id": "xmas-isa11-branch",
+      "ref": "Isaiah 11:1",
+      "title": "A branch from Jesse’s roots",
+      "text": "On followHIM, Dr. Jeffrey R. Chadwick calls Isaiah 11 the “chief among equals” of the Old Testament’s predictions of Christ. Verse 1 says one thing twice: a rod from the stem of Jesse, a branch from his roots. Jesse was King David’s father, so the branch is a son of David: Jesus. That is why Matthew opens with Jesus’ family line through David.",
+      "source": {
+        "by": "followHIM",
+        "who": "Jeffrey R. Chadwick",
+        "title": "Old Testament: EPISODE 52 – Christmas – Part 1",
+        "url": "https://followhim.co/show-note/2-239/"
+      },
+      "find": "It is the chief among equals",
+      "deep": {
+        "paras": [
+          "Dr. Jeffrey R. Chadwick, a BYU professor of archaeology and Near Eastern studies, told Hank Smith and John Bytheway that of all the Old Testament passages this week’s lesson suggests, Isaiah 11 jumped out at him. In his view it is “the chief among equals” of the Old Testament’s predictions of Christ, though not everyone sees it that way.",
+          "He explains that Isaiah 2 through 12 is one great unit. It opens with the great prophecy of the temple in Isaiah 2, moves through events in Israel’s history that point toward the coming Messiah in Isaiah 11, and closes with a song of victory in Isaiah 12, “the Lord Jehovah is my strength.” Nephi focused on this same block of Isaiah in 2 Nephi 12–24.",
+          "Verse 1 is a synonymous parallel, Isaiah saying the same thing twice with different words. A rod, the limb of a tree, comes from the stem, the lower trunk, of Jesse; a branch grows out of his roots. Jesse was the father of David, so both lines point to a Messiah from David’s family. “This is Christ. This is Messiah. This is Jesus,” he says.",
+          "That, he adds, is the message of the genealogy at the start of Matthew: Jesus, born in Bethlehem, came from the line of David going back to Abraham. It is why people who loved Jesus called out to Him as the Son of David. He also notes that Latter-day Saints read Isaiah 11 with help from Doctrine and Covenants 113."
+        ],
+        "find": [
+          "Isaiah chapter two through Isaiah chapter 12 is one entire unit",
+          "You have here what we call a synonymous parallel where Isaiah is saying the same thing with synonyms saying it twice.",
+          "Jesse was the father of David, right?",
+          "that whole genealogy of Jesus is to demonstrate that Jesus, born in Bethlehem, was of the lineage of David going back to Abraham"
+        ],
+        "approved": "38e4cf3c"
+      },
+      "approved": "7b26f019"
+    },
+    {
+      "id": "xmas-isa7-immanuel",
+      "ref": "Isaiah 7:14",
+      "title": "God with us, in the flesh",
+      "text": "Donald W. Parry, writing for Scripture Central, notes that Immanuel is a Hebrew word meaning “God with us.” He says the name teaches two things at once: Jesus is God, and He came down to live among us in the flesh. In Doctrine and Covenants 128:22, He is even called the King Immanuel.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Donald W. Parry",
+        "title": "Isaiah 7",
+        "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-7"
+      },
+      "find": "Immanuel emphasizes that Jesus is God",
+      "approved": "6d166670"
+    },
+    {
+      "id": "xmas-isa9-father",
+      "ref": "Isaiah 9:6",
+      "title": "Why He is called the everlasting Father",
+      "text": "Jesus is the Son of God, so why does Isaiah call Him “The everlasting Father”? The Old Testament Student Manual shares an explanation from the First Presidency and the Twelve in 1916. Under the direction of His Father, Jesus Christ created the heavens and the earth. As the Creator, He is rightly called the Father of heaven and earth.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "Chapter 13: The Establishment of Zion",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-13?lang=eng"
+      },
+      "find": "Jesus Christ, being the Creator, is constantly called the Father of heaven and earth",
+      "approved": "a4aecf87"
+    },
+    {
+      "id": "xmas-isa9-personal-peace",
+      "ref": "Isaiah 9:6",
+      "title": "Peace in Christ, even now",
+      "text": "Elder Quentin L. Cook calls “Prince of Peace” one of the Savior’s most cherished titles. He points out that peace in the whole world isn’t promised until the Second Coming. But each of us can have personal peace now, even when the world is angry and divided, by following Christ and doing the “works of righteousness.”",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Quentin L. Cook",
+        "title": "Personal Peace in Challenging Times",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2021/10/46cook?lang=eng"
+      },
+      "find": "personal peace can be achieved despite the anger, contention, and division",
+      "approved": "1520c27b"
+    },
+    {
+      "id": "xmas-isa12-salvation-name",
+      "ref": "Isaiah 12:2",
+      "title": "Salvation, and the name of Jesus",
+      "text": "“Behold, God is my salvation.” Donald W. Parry, writing for Scripture Central, points out that salvation is the main theme of this short song: the word comes twice in verse 2 and again in verse 3. He adds that the Hebrew word for salvation, yshu‘ah, is also the name of Jesus in Hebrew.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Donald W. Parry",
+        "title": "Isaiah 12",
+        "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-12"
+      },
+      "find": "is also the name of Jesus in Hebrew",
+      "approved": "c7d95aa7"
+    },
+    {
+      "id": "xmas-ps83-jehovah",
+      "ref": "Psalms 83:18",
+      "title": "His name, written out",
+      "text": "In the King James Bible, the Lord’s name Jehovah usually appears as LORD in capital letters. The Old Testament Student Manual points out that Isaiah 12:2 is one of the few places the name is written out in full, and lists this verse as another: “whose name alone is JEHOVAH.” Jehovah, the God of Israel, is Jesus Christ.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "Chapter 13: The Establishment of Zion",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-13?lang=eng"
+      },
+      "find": "This is one of the few times the name is written out fully as Jehovah in the King James translation.",
+      "approved": "ac5d308a"
+    },
+    {
+      "id": "xmas-mic5-tiny-village",
+      "ref": "Micah 5:2",
+      "title": "Born in a tiny village",
+      "text": "President Henry B. Eyring points out that Jesus could have been born into any situation the Father chose. In fulfillment of Micah’s prophecy, He was born in a tiny village in the hill country of Judea. Humble shepherds welcomed Him, wise men followed a star, and rulers feared Him. He chose to come down from His throne out of love for each of us.",
+      "source": {
+        "by": "Liahona",
+        "who": "President Henry B. Eyring",
+        "title": "The Promised Messiah",
+        "url": "https://www.churchofjesuschrist.org/study/liahona/2022/12/04-the-promised-messiah?lang=eng"
+      },
+      "find": "Jesus could have been born into any situation the Father chose",
+      "approved": "1f5cfd72"
+    },
+    {
+      "id": "xmas-moses7-titles",
+      "ref": "Moses 7:53",
+      "title": "Titles found only in Moses",
+      "text": "“I am Messiah, the King of Zion, the Rock of Heaven.” Jeffrey M. Bradshaw, writing for Scripture Central, points out that some of the Savior’s titles in Enoch’s vision, like the King of Zion and the Rock of Heaven, appear only in the book of Moses. Messiah, he notes, means the Anointed One.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Jeffrey M. Bradshaw",
+        "title": "Moses 7",
+        "url": "https://scripturecentral.org/archive/books/book-chapter/moses-7"
+      },
+      "find": "appear only in the book of Moses",
+      "approved": "06ce242b"
+    },
+    {
+      "id": "xmas-luke2-q-oaks",
+      "kind": "quote",
+      "ref": "Luke 2:10–11",
+      "quote": "For us, there is nothing new in the celebration of the birth of Christ. The message is timeless and familiar. It was taught to Adam. It was preached to the children of Israel.",
+      "text": "The angel’s “good tidings” were not new news. President Oaks reminds us that prophets taught the same message from Adam on.",
+      "source": {
+        "by": "First Presidency’s Christmas Devotional",
+        "who": "President Dallin H. Oaks",
+        "title": "Good Tidings of Great Joy",
+        "url": "https://www.churchofjesuschrist.org/study/broadcasts/christmas-devotional/2022/12/14oaks?lang=eng"
+      },
+      "approved": "5c1ed0e2"
+    },
+    {
+      "id": "xmas-moses5-q-kimball",
+      "kind": "quote",
+      "ref": "Moses 5:9",
+      "quote": "Old Testament prophets from Adam to Malachi are testifying of the divinity of the Lord Jesus Christ and our Heavenly Father.",
+      "text": "Verse 9: the Holy Ghost taught Adam of the Only Begotten. President Kimball says every prophet after him testified of the Savior too.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "who": "President Spencer W. Kimball",
+        "title": "Chapter 35: The Old Testament Closes",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-35?lang=eng"
+      },
+      "approved": "f56e8a20"
+    },
+    {
+      "id": "xmas-isa53-q-romney",
+      "kind": "quote",
+      "ref": "Isaiah 53:4–5",
+      "quote": "The message of the Old Testament is the message of Christ and his coming and his atonement",
+      "text": "The lesson points to these verses: He bore our griefs and was wounded for our sins. President Romney sums up the whole Old Testament in one line.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "who": "President Marion G. Romney",
+        "title": "Chapter 35: The Old Testament Closes",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-35?lang=eng"
+      },
+      "approved": "9a80b217"
+    },
+    {
+      "id": "xmas-isa61-q-eyring",
+      "kind": "quote",
+      "ref": "Isaiah 61:1",
+      "quote": "We may not be captive in Egypt or Babylon, as were the ancient Israelites, but we are captive nonetheless—captive to sin and death.",
+      "text": "Verse 1 promises “liberty to the captives.” President Eyring explains who the captives are today, and why the birth of Jesus is good news for them.",
+      "source": {
+        "by": "Liahona",
+        "who": "President Henry B. Eyring",
+        "title": "The Promised Messiah",
+        "url": "https://www.churchofjesuschrist.org/study/liahona/2022/12/04-the-promised-messiah?lang=eng"
+      },
+      "approved": "4d5a4a10"
+    },
+    {
+      "id": "xmas-isa25-q-holland",
+      "kind": "quote",
+      "ref": "Isaiah 25:8",
+      "quote": "Christmas is joyful not because it is a season or decade or lifetime without pain and privation, but precisely because life does hold those moments for us.",
+      "text": "Verse 8 promises that the Lord will swallow up death and end sorrow. President Holland explains why Christmas joy is real even in hard times.",
+      "source": {
+        "by": "Liahona",
+        "who": "President Jeffrey R. Holland",
+        "title": "That Babe in the Manger Makes All the Difference",
+        "url": "https://www.churchofjesuschrist.org/study/liahona/2025/12/08-that-babe-in-the-manger-makes-all-the-difference?lang=eng"
+      },
+      "approved": "3048d3c4"
+    },
+    {
+      "id": "xmas-num24-q-nelson",
+      "kind": "quote",
+      "ref": "Numbers 24:17",
+      "quote": "At the birth of Him who is called the “bright and morning star,” a new star appeared in the heavens.",
+      "text": "Balaam saw “a Star out of Jacob.” President Nelson ties the new star at Jesus’ birth to one of the Savior’s own titles (Revelation 22:16).",
+      "source": {
+        "by": "First Presidency’s Christmas Devotional",
+        "who": "President Russell M. Nelson",
+        "title": "Divine Gifts",
+        "url": "https://www.churchofjesuschrist.org/study/broadcasts/christmas-devotional/2020/12/15nelson?lang=eng"
+      },
+      "approved": "5c05bd53"
+    },
+    {
+      "id": "xmas-ps23-q-nelson",
+      "kind": "quote",
+      "ref": "Psalms 23:1",
+      "quote": "He was both the Lamb and the Shepherd. At the birth of Him who is called the “good shepherd,” shepherds were the first to receive the announcement of His holy birth.",
+      "text": "Psalm 23 calls the Lord a shepherd. President Nelson notices who heard first that the Good Shepherd was born.",
+      "source": {
+        "by": "First Presidency’s Christmas Devotional",
+        "who": "President Russell M. Nelson",
+        "title": "Divine Gifts",
+        "url": "https://www.churchofjesuschrist.org/study/broadcasts/christmas-devotional/2020/12/15nelson?lang=eng"
+      },
+      "approved": "97331b73"
+    },
+    {
+      "id": "xmas-isa7-q-nelson",
+      "kind": "quote",
+      "ref": "Isaiah 7:14",
+      "quote": "Jesus Christ was the Great Jehovah, God of the Old Testament. He was the promised Immanuel.",
+      "text": "Isaiah promised a son called Immanuel. President Nelson testifies who that child was, long before He was born.",
+      "source": {
+        "by": "First Presidency’s Christmas Devotional",
+        "who": "President Russell M. Nelson",
+        "title": "“Come, Let Us Adore Him”",
+        "url": "https://www.churchofjesuschrist.org/study/broadcasts/christmas-devotional/2023/12/14nelson?lang=eng"
+      },
+      "approved": "0009d7ec"
+    },
+    {
+      "id": "xmas-moses6-q-mcconkie",
+      "kind": "quote",
+      "ref": "Moses 6:63",
+      "quote": "It is wholesome and proper to look for similitudes of Christ everywhere and to use them repeatedly in keeping him and his laws uppermost in our minds",
+      "text": "Moses 6:63 says “all things bear record of me.” Elder McConkie invites us to look for symbols of Christ everywhere, like the ones in this week’s lesson.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "who": "Elder Bruce R. McConkie",
+        "title": "Enrichment Section C: Symbolism and Typology in the Old Testament",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-genesis-2-samuel/enrichment-section-c-symbolism-and-typology-in-the-old-testament?lang=eng"
+      },
+      "approved": "c48f17d1"
+    },
+    {
+      "id": "xmas-luke2-v-church",
+      "kind": "video",
+      "ref": "Luke 2",
+      "title": "The Birth of Jesus (Bible video for children)",
+      "text": "A three-minute Bible video for children from the Church, telling the story of Jesus’ birth. Watch for the town where He is born, and remember that the prophet Micah named it centuries before (Micah 5:2).",
+      "video": {
+        "youtube": "jw6AsaF7kkc",
+        "start": 0,
+        "end": 202,
+        "title": "The Birth of Jesus: A Bible Story for Children",
+        "channel": "The Church of Jesus Christ of Latter-day Saints",
+        "previewed": false
+      },
+      "approved": "f7a940c6"
+    }
+  ],
+  "approved": "1fdaa824",
+  "wordsApproved": "666323c5"
+}
