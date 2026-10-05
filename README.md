@@ -230,6 +230,26 @@ different game while one is saved asks before replacing it; a game that ends
 clears its save. `node tools/test-liberty.mjs` checks that a game saved and
 loaded in a fresh page plays on exactly as it would have.
 
+**Quick to open, and it works offline** (Blake, 2026-10-05, asking how best to
+host it, chose "Faster, more reliable": a smaller download and an offline
+copy, staying on GitHub Pages). The opening page used to fetch every picture
+in the game first, 8.2 MB. Now each picture is shown as WebP, about a quarter
+of the size and the same to the eye (8.5 MB of PNG and JPG come to 2.1 MB);
+a browser that can't show WebP (an iPhone before iOS 14) gets the original.
+The game's own pictures wait until the opening page has shown, so a first
+visit fetches 0.56 MB before the paintings are up and 2.5 MB in all. An
+offline copy (`liberty/sw.js`, a service worker) then keeps everything on the
+device: the next visit opens from it, with or without the internet. The page
+itself is asked of the network first (3.5 s at most), so a new version
+reaches a phone the next time it opens the game online; files with a version
+on their address are kept until a newer version replaces them. GitHub Pages
+on its own lets a browser keep a file only 10 minutes. After adding or
+changing a picture in `liberty/assets/`, run `python3 tools/liberty-webp.py`
+(Pillow), which makes its WebP; `node tools/test-liberty.mjs` fails if any
+WebP is missing or was made from an older picture. `?nosw=1` on the address
+leaves the offline copy out; to take it off every device, publish an `sw.js`
+whose install handler unregisters it.
+
 **The tips card.** Before each kind of game (the story missions, free battle
 as either side, Out of the Wilderness), a short card of four or five tips,
 a picture each, shows over the briefing until **Don't show again**. **How to
