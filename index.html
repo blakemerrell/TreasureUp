@@ -842,8 +842,18 @@
   .rk-order { display: flex; flex-wrap: wrap; gap: 8px 14px; justify-self: start; font-size: clamp(13px, 1.5vw, 24px); font-weight: 800; }
   .rk-order-p { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 6px; border-radius: 999px; border: 2px solid var(--k); background: rgba(0,0,0,.25); }
   .rk-order-p > b { min-width: 1.4em; text-align: center; color: var(--gold); }
-  .rk-order-p .rk-die { width: 1.6em; height: 1.6em; }
+  .rk-order-p .rk-die { flex: none; box-sizing: border-box; width: 2.2em; height: 2.2em; padding: .2em; border-radius: .35em; }
+  .rk-order-p .rk-die i { width: 72%; height: 72%; }   /* the pips scale with the die, so they stay inside it */
   .rk-order-p small { font-size: .7em; opacity: .75; }
+  .rk-die-hid { grid-template: 1fr / 1fr; place-items: center; background: #475569 !important; color: #fff; font-weight: 900; line-height: 1; }
+  button.rk-order-p.roll { font: inherit; color: inherit; cursor: pointer; animation: rkNudge 1.2s ease-in-out infinite; box-shadow: 0 0 0 3px rgba(250,204,21,.25); }
+  .rk-order-go { padding: 3px 10px; border-radius: 999px; background: var(--k); color: #fff; font-size: .85em; white-space: nowrap; }
+  .rk-order-p.wait { border-style: dashed; }
+  .rk-order-first { margin: 0; font-size: clamp(20px, 2.6vw, 44px); font-weight: 900; color: var(--gold); animation: lvPop .5s ease-out both; }
+  .rk-rollcall { display: grid; gap: 12px; }
+  .rk-rollbtn { display: flex; align-items: center; justify-content: center; gap: 14px; width: 100%; padding: 18px; border-radius: 18px; border: 3px solid var(--gold); background: rgba(250,204,21,.12); color: #fff; font: inherit; font-size: 24px; font-weight: 900; cursor: pointer; animation: rkNudge 1.2s ease-in-out infinite; }
+  .rk-rollbtn .rk-die { width: 56px; height: 56px; font-size: 28px; }
+  @media (prefers-reduced-motion: reduce) { button.rk-order-p.roll, .rk-rollbtn, .rk-order-first { animation: none; } }
   .rk-chapter-who { display: inline-flex; align-items: center; gap: 10px; justify-self: start; padding: 6px 16px; border-radius: 999px; border: 3px solid var(--k); font-size: clamp(14px, 1.8vw, 30px); font-weight: 900; }
   .rk-chapters { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0; padding: 0; list-style: none; }
   .rk-chapters li { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(10,10,20,.85); border: 1px solid rgba(255,255,255,.16); font-size: clamp(11px, 1.1vw, 18px); font-weight: 800; color: rgba(255,255,255,.65); }
@@ -7132,7 +7142,7 @@ const TreasureUp = (function () {
     }
     const cmp = (a, b) => { for (let k = 0; k < Math.max(a.r.length, b.r.length); k++) if ((a.r[k] || 0) !== (b.r[k] || 0)) return (b.r[k] || 0) - (a.r[k] || 0); return a.i - b.i; };
     live.sort(cmp);
-    g.order = { round: g.round, seats: live.map(x => x.i), rolls: Object.fromEntries(live.map(x => [x.s.uid, x.r])) };
+    g.order = { round: g.round, seats: live.map(x => x.i), rolls: Object.fromEntries(live.map(x => [x.s.uid, x.r])), shown: {} };
   }
   // This round's order (a game from before the dice: the seats as they sit).
   const riskOrder = g => g.order && g.order.round === g.round ? g.order.seats : g.seats.map((s, i) => i);
@@ -7144,6 +7154,46 @@ const TreasureUp = (function () {
     const named = o.seats.map(i => g.seats[i]).filter(s => !s.out), roll = s => o.rolls[s.uid] || [];
     const tie = named.some(s => roll(s).length > 1);
     return `🎲 The dice set the order: ${andList(named.map(s => `${s.name} (${roll(s)[0]})`))}${tie ? ', ties rolled again' : ''}. `;
+  }
+  // 🎲 Tapped to roll (Blake, 2026-10-04: the roll "didn't seem fun at all"):
+  // the order's dice are thrown when the round begins, and each comes out
+  // when its own player taps it (a tie's next die once every first one is
+  // out). Until every die is out, nobody's turn starts and nobody is told
+  // who's first. g.order.shown = { uid: dice shown }; a game from before
+  // has none, and its order is out already.
+  const riskOrderNow = g => g && g.order && g.order.round === g.round ? g.order : null;
+  const riskOrderLive = (g, o) => o.seats.map(i => g.seats[i]).filter(s => s && !s.out);
+  const riskOrderShown = (o, uid) => Math.min((o.shown || {})[uid] || 0, (o.rolls[uid] || []).length);
+  function riskOrderOpen(g) {
+    const o = riskOrderNow(g);
+    return !o || !o.shown || riskOrderLive(g, o).every(s => riskOrderShown(o, s.uid) >= (o.rolls[s.uid] || []).length);
+  }
+  function riskOrderCan(g, uid) {
+    const o = riskOrderNow(g), s = o && o.shown && seatOf(g, uid);
+    if (!s || s.out) return false;
+    const k = riskOrderShown(o, uid);
+    return k < (o.rolls[uid] || []).length && riskOrderLive(g, o).every(x => riskOrderShown(o, x.uid) >= Math.min(k, (o.rolls[x.uid] || []).length));
+  }
+  const riskRollCall = 'Roll for who goes first: everyone, tap your die!';
+  const riskFirstLine = g => { const s = g.seats[g.turn.i]; return `${kingdomOf(s.k).name} goes first: ${s.name}, ${g.turn.phase === 'return' ? 'come back from exile!' : 'raise your soldiers!'}`; };
+  function riskOrderTap(g, uid) {
+    if (!riskOrderCan(g, uid)) return;
+    const o = g.order, k = riskOrderShown(o, uid) + 1;
+    o.shown = Object.assign({}, o.shown, { [uid]: k });
+    if (riskOrderOpen(g)) return riskSay(g, riskOrderLine(g) + riskFirstLine(g));
+    // Every die of this throw out, and a tie: those tied roll again.
+    const live = riskOrderLive(g, o);
+    if (live.every(s => riskOrderShown(o, s.uid) >= Math.min(k, (o.rolls[s.uid] || []).length))) {
+      const again = live.filter(s => (o.rolls[s.uid] || []).length > k);
+      if (again.length) riskSay(g, `🎲 A tie! ${andList(again.map(s => s.name))}, roll again.`);
+    }
+  }
+  // Every die still to come, out at once (from the map screen's ⋯ menu, if a phone has gone quiet).
+  function riskOrderAll(g) {
+    const o = riskOrderNow(g);
+    if (!o || riskOrderOpen(g)) return;
+    o.shown = Object.fromEntries(riskOrderLive(g, o).map(s => [s.uid, (o.rolls[s.uid] || []).length]));
+    riskSay(g, riskOrderLine(g) + riskFirstLine(g));
   }
   // Babylon's holder wins once every other kingdom still playing has had a
   // turn since it was taken (g.babHeld = { uid, seen: [uids] }). Who still
@@ -7187,7 +7237,7 @@ const TreasureUp = (function () {
   function riskStoryDone(g) {
     g.story = false;
     const s = g.seats[g.turn.i];
-    riskSay(g, riskChapterLine(g, 1) + riskOrderLine(g) + kingdomOf(s.k).name + ' moves first: ' + s.name + ', raise your soldiers!');
+    riskSay(g, riskChapterLine(g, 1) + (riskOrderOpen(g) ? riskOrderLine(g) + kingdomOf(s.k).name + ' moves first: ' + s.name + ', raise your soldiers!' : riskRollCall));
   }
   // Each round opens a chapter of the story: the board's plan says which
   // for each game length (so chapter 2 always opens Babylon's gates, and
@@ -7256,6 +7306,7 @@ const TreasureUp = (function () {
     const w = (g.wait || {})[seat.uid];
     if (w) { w.q = null; w.tok = ''; }
     const first = riskFirstInRound(g);
+    if (first && !riskOrderOpen(g)) return riskSay(g, riskChapterLine(g, g.round) + grew + riskRollCall);
     riskSay(g, (first ? riskChapterLine(g, g.round) + riskOrderLine(g) : '') + grew + kingdomOf(seat.k).name + "'s turn: " + seat.name + (seat.exile ? ', come back from exile!' : ', raise your soldiers!'));
   }
 
@@ -7633,8 +7684,10 @@ const TreasureUp = (function () {
     if (m.kind === 'fort') return riskFortify(g, m);
     if (m.kind === 'fortask') return riskFortAsk(g, m);
     if (m.kind === 'defend') return riskDefend(g, m.uid);
+    if (m.kind === 'order') return riskOrderTap(g, m.uid);
     const t = g.turn, seat = g.seats[t.i];
     if (!seat || seat.uid !== m.uid) return;                             // not your turn
+    if (!riskOrderOpen(g)) return;                                       // (or not yet: the dice for the order are still rolling)
     const uid = m.uid, K = kingdomOf(seat.k).name;
     if (m.kind === 'return' && t.phase === 'return') {
       // Back from exile: onto a land nobody holds, with RISK.returnArmies soldiers.
@@ -8634,7 +8687,7 @@ const TreasureUp = (function () {
       ${item('data-rkv="log"', "🕘 What's happened")}
       ${role !== 'host' ? item('data-rkv="mode"', riskModeOf() === 'pro' ? '⚡ Playing Pro: switch to 📖 Story' : '📖 Playing Story: switch to ⚡ Pro') : ''}
       ${role !== 'player' ? item('data-rkv="voice"', riskVoiceOn() ? '🔊 Narrator’s voice: on' : '🔈 Narrator’s voice: off') : item('data-rkv="chime"', riskChimeOn() ? '🔔 Chime when my turn starts: on' : '🔕 Chime when my turn starts: off')}
-      ${play && role === 'host' ? item('data-rkh="skip"', '⏭️ Skip this turn') + item('data-rkh="finish"', '🏁 End the game now') : ''}
+      ${play && role === 'host' ? item('data-rkh="skip"', riskOrderOpen(rk.g) ? '⏭️ Skip this turn' : '🎲 Roll everyone’s dice') + item('data-rkh="finish"', '🏁 End the game now') : ''}
       ${play && role === 'solo' ? item('data-rk="soloskip"', '⏭️ Skip this turn') + item('data-rk="solofinish"', '🏁 End the game now') : ''}
     </div>${back}`;
   }
@@ -8730,11 +8783,12 @@ const TreasureUp = (function () {
   // for whoever holds Babylon).
   function riskStripHtml(g, me) {
     // In this round's turn order (the fallen last), each with the die it rolled for it.
-    const play = g.state === 'play' && !g.story, o = play && g.order && g.order.round === g.round ? g.order : null;
-    const seq = o ? o.seats.concat(g.seats.map((x, i) => i).filter(i => !o.seats.includes(i))) : g.seats.map((x, i) => i);
+    // (While the order's dice roll: as they sit, with only the dice out so far.)
+    const play = g.state === 'play' && !g.story, o = play && g.order && g.order.round === g.round ? g.order : null, rolling = !!o && !riskOrderOpen(g);
+    const seq = o && !rolling ? o.seats.concat(g.seats.map((x, i) => i).filter(i => !o.seats.includes(i))) : g.seats.map((x, i) => i);
     return `<div class="rk-strip">${play ? `<span class="rk-round">Round ${g.round} of ${g.rounds}</span>` : ''}${seq.map(i => {
       const s = g.seats[i], ls = landsOf(g, s.uid), pts = ls.length + (ls.includes(BOARD().walls) ? 2 : 0), k = kingdomOf(s.k), ins = g.insightOn !== false ? (g.insight || {})[s.uid] || 0 : 0;
-      const now = play && g.turn && g.turn.i === i, die = o && !s.out && (o.rolls[s.uid] || [])[0];
+      const now = play && !rolling && g.turn && g.turn.i === i, die = o && !s.out && (rolling ? (o.rolls[s.uid] || [])[riskOrderShown(o, s.uid) - 1] : (o.rolls[s.uid] || [])[0]);
       return `<span class="rk-pl${now ? ' now' : ''}${s.out ? ' out' : ''}${s.uid === me ? ' me' : ''}" style="--c:${k.color}" title="${esc(k.name)}">
         <span class="rk-dot" style="background:${k.color}"></span>${esc(s.name)}${s.uid === me ? ' (you)' : ''}${ls.includes(BOARD().walls) ? ' 👑' : ''}<small>${die ? '🎲' + die + ' · ' : ''}${s.out ? 'fallen' : s.exile ? 'in exile' : pts + (pts === 1 ? ' point' : ' points')}${ins ? ' · 💡' + ins : ''}${((g.hands || {})[s.uid] || []).length ? ' · 📜' + g.hands[s.uid].length : ''}</small></span>`;
     }).join('')}</div>`;
@@ -8859,24 +8913,67 @@ const TreasureUp = (function () {
   // or the one screen passed around), until the round's first player picks
   // a question (or a tap closes it): its name and words, and every chapter
   // of this game with the ones done ticked.
-  // 🎲 This round's order as dice: each kingdom's roll, first to last.
+  // 🎲 This round's order as dice. While they roll: each kingdom as it sits
+  // (the order would give it away), a ? for a die still to come, and on the
+  // one screen, a Roll button on each; then first to last, and who's first.
   function riskOrderHtml(g) {
-    const o = g.order && g.order.round === g.round ? g.order : null;
+    const o = riskOrderNow(g);
     if (!o) return '';
-    return `<div class="rk-order" aria-label="Turn order">${o.seats.map(i => g.seats[i]).filter(s => !s.out).map((s, n) => { const k = kingdomOf(s.k), r = o.rolls[s.uid] || [];
-      return `<span class="rk-order-p" style="--k:${k.color}"><b>${n + 1}</b>${dieHtml(r[0], 'att')}${esc(s.name)}${r.length > 1 ? `<small>tie: ${r.slice(1).join(', ')}</small>` : ''}</span>`; }).join('')}</div>`;
+    const open = riskOrderOpen(g), seq = open ? o.seats : g.seats.map((s, i) => i).filter(i => o.seats.includes(i));
+    const first = open && o.shown && riskOrderLive(g, o)[0];
+    return `<div class="rk-order${open ? '' : ' rolling'}" aria-label="Turn order">${seq.map(i => g.seats[i]).filter(s => s && !s.out).map((s, n) => {
+      const k = kingdomOf(s.k), r = o.rolls[s.uid] || [], shown = o.shown ? riskOrderShown(o, s.uid) : r.length, can = !open && riskOrderCan(g, s.uid);
+      const die = shown ? dieHtml(r[shown - 1], 'att' + (riskOrderFresh(g, s.uid, shown) ? ' roll-in' : '')) : '<span class="rk-die att rk-die-hid" aria-label="not rolled yet">?</span>';
+      const note = shown > 1 ? `<small>tie: ${r.slice(0, shown - 1).join(', ')}</small>` : can && shown ? '<small>tie! roll again</small>' : '';
+      const inner = `${open ? `<b>${n + 1}</b>` : ''}${die}${esc(s.name)}${note}`;
+      if (can && rk.role === 'solo') return `<button class="rk-order-p roll" style="--k:${k.color}" data-rk="orderroll" data-uid="${esc(s.uid)}">${inner}<span class="rk-order-go">🎲 Roll</span></button>`;
+      return `<span class="rk-order-p${can ? ' wait' : ''}" style="--k:${k.color}">${inner}${can ? `<small>${rk.role === 'host' ? 'roll on your phone' : 'to roll'}</small>` : ''}</span>`;
+    }).join('')}</div>${first ? `<p class="rk-order-first">🎲 ${esc(first.name)} goes first!</p>` : ''}`;
+  }
+  // A die just come out on this screen (so it tumbles in, with a rattle), once.
+  function riskOrderFresh(g, uid, shown) {
+    const key = g.gid + '|' + g.round + '|' + uid, seen = rk.orderSeen = rk.orderSeen || {}, was = seen[key];
+    seen[key] = shown;
+    if (was === undefined || shown <= was) return false;
+    riskRattle();
+    return true;
+  }
+  // Dice on a table: a few quick clicks (where this screen has sound going).
+  function riskRattle() {
+    try {
+      if (!riskAudio || riskAudio.state !== 'running' || (rk.role === 'player' && !riskChimeOn())) return;
+      const t0 = riskAudio.currentTime + 0.02;
+      [0, 0.07, 0.15, 0.26, 0.4].forEach((dt, i) => {
+        const o = riskAudio.createOscillator(), v = riskAudio.createGain(), t = t0 + dt;
+        o.type = 'square'; o.frequency.value = 900 + ((i * 337) % 500);
+        v.gain.setValueAtTime(0.0001, t); v.gain.exponentialRampToValueAtTime(0.12 / (1 + i * 0.4), t + 0.005); v.gain.exponentialRampToValueAtTime(0.0001, t + 0.05);
+        o.connect(v); v.connect(riskAudio.destination); o.start(t); o.stop(t + 0.06);
+      });
+    } catch (e) {}
+  }
+  // A phone while the order's dice roll: a big Roll button for its own die
+  // (or what it rolled, and who's still to roll), and everyone's dice.
+  function riskOrderCard(g, me) {
+    const o = riskOrderNow(g), can = riskOrderCan(g, me), k = riskOrderShown(o, me);
+    const left = riskOrderLive(g, o).filter(s => riskOrderCan(g, s.uid) && s.uid !== me).map(s => s.name);
+    return `${riskSayHtml(g)}<div class="rk-rollcall"><p class="rk-big rk-read">🎲 Who goes first this round?</p>
+      ${can ? `<button class="rk-rollbtn" data-rk="orderroll"><span class="rk-die att rk-die-hid" aria-hidden="true">?</span><b>${k ? 'A tie! Roll again' : 'Tap to roll'}</b></button>`
+        : `<p class="rk-plain rk-read">${left.length ? `Waiting for ${esc(andList(left))} to roll.` : ''}</p>`}
+      ${riskOrderHtml(g)}</div>`;
   }
   function riskChapterHtml(g) {
-    if (!rk || g.state !== 'play' || g.story || !g.turn || g.turn.phase !== 'choose' || rk.view) return '';
-    if (!riskFirstInRound(g) || rk.chapterShut === g.gid + '|' + g.round) return '';
+    if (!rk || g.state !== 'play' || g.story || !g.turn || rk.view) return '';
+    const rolling = !riskOrderOpen(g);
+    if (!rolling && (g.turn.phase !== 'choose' || !riskFirstInRound(g) || rk.chapterShut === g.gid + '|' + g.round)) return '';
     const c = riskChapter(g, g.round), s = g.seats[g.turn.i], K = kingdomOf(s.k);
     if (!c) return '';
     const all = Array.from({ length: g.rounds }, (_, i) => riskChapter(g, i + 1));
     return `<div class="rk-chapter" role="dialog" aria-label="Chapter ${c.n}: ${esc(c.title)}"><div class="rk-chapter-card">
       <div class="rk-chapter-n"><span aria-hidden="true">📖</span> <span class="rk-read-tv">Chapter ${c.n} of ${c.of}</span></div><div class="rk-chapter-t rk-read-tv">${esc(c.title)}</div>
       <p class="rk-chapter-x rk-read-tv">${linkRefs(c.text)}</p>
-      <div class="rk-chapter-who" style="--k:${K.color}"><span class="rk-dot" style="background:${K.color}"></span>${esc(s.name)}’s turn · ${esc(K.name)}</div>${riskOrderHtml(g)}
-      ${rk.role === 'solo' ? '<button class="btn ghost" data-rk="chapterclose">Close</button>' : ''}</div>
+      ${rolling ? `<div class="rk-chapter-who rk-read-tv">🎲 ${rk.role === 'solo' ? 'Who goes first? Each of you, tap Roll on your own die.' : 'Who goes first? Tap Roll on your phone.'}</div>`
+        : `<div class="rk-chapter-who" style="--k:${K.color}"><span class="rk-dot" style="background:${K.color}"></span>${esc(s.name)}’s turn · ${esc(K.name)}</div>`}${riskOrderHtml(g)}
+      ${rk.role === 'solo' && !rolling ? '<button class="btn ghost" data-rk="chapterclose">Close</button>' : ''}</div>
       <ol class="rk-chapters${g.rounds > 5 ? ' short' : ''}">${all.map((x, i) => x ? `<li class="${i + 1 === c.n ? 'now' : i + 1 < c.n ? 'done' : ''}"><b>${i + 1 < c.n ? '✓' : i + 1}</b>${g.rounds > 5 && i + 1 !== c.n ? '' : `<span>${esc(x.title)}</span>`}</li>` : '').join('')}</ol></div>`;
   }
 
@@ -8985,7 +9082,7 @@ const TreasureUp = (function () {
     if (!g) return;
     if (g.state === 'play') riskWaitSetup(g);
     const fields = {};
-    ['state', 'gid', 'rounds', 'timer', 'insightOn', 'round', 'seats', 'lands', 'bricks', 'deck', 'hands', 'discard', 'played', 'speed', 'boost', 'insight', 'wait', 'fort', 'used', 'turn', 'dice', 'battle', 'told', 'log', 'final', 'say', 'says', 'story'].forEach(k => { if (g[k] !== undefined) fields[k] = g[k]; });
+    ['state', 'gid', 'rounds', 'timer', 'insightOn', 'round', 'seats', 'lands', 'bricks', 'deck', 'hands', 'discard', 'played', 'speed', 'boost', 'insight', 'wait', 'fort', 'used', 'turn', 'dice', 'battle', 'told', 'log', 'final', 'say', 'says', 'story', 'order', 'babHeld'].forEach(k => { if (g[k] !== undefined) fields[k] = g[k]; });
     try { await riskConn().save(rk.code, JSON.parse(JSON.stringify(fields))); }
     catch (e) { toast("Couldn't reach the game", 'Check the internet'); }
   }
@@ -9016,6 +9113,7 @@ const TreasureUp = (function () {
       g.seats = g.seats.map((x, i) => Object.assign({}, x, { k: pair[i] }));
       riskLog(g, '🎲 ' + g.seats.map(x => x.name + ': ' + kingdomOf(x.k).name).join(', '));
     }
+    else if (act === 'skip' && g.state === 'play' && !g.story && !riskOrderOpen(g)) riskOrderAll(g);   // (a phone gone quiet mid-roll)
     else if (act === 'skip' && g.state === 'play' && !g.story) { riskLog(g, g.seats[g.turn.i].name + "'s turn was skipped."); riskNextTurn(g); }
     else if (act === 'finish' && g.state === 'play') riskOver(g);
     else if (act === 'again' && g.state === 'over') {
@@ -9063,7 +9161,9 @@ const TreasureUp = (function () {
       if (!rk.qr) riskQr(rk.code);
       return;
     }
-    const card = g.state === 'over' ? riskOverCard(g, null) : g.story ? riskStartCard() : riskSayHtml(g) + riskCrownHtml(g) + riskWatchHtml(g);
+    const card = g.state === 'over' ? riskOverCard(g, null) : g.story ? riskStartCard()
+      : !riskOrderOpen(g) ? riskSayHtml(g) + '<p class="rk-big rk-read">🎲 Who goes first this round? Tap Roll on your phone.</p>'
+      : riskSayHtml(g) + riskCrownHtml(g) + riskWatchHtml(g);
     riskScreen(g, card, g.battle ? { from: g.battle.from, to: g.battle.to } : g.dice ? { from: g.dice.from, to: g.dice.to } : {}, g.state === 'over' ? riskWinHtml(g) : riskChapterHtml(g));
     riskSceneSync(g);
     riskNarrate(g);
@@ -9105,7 +9205,7 @@ const TreasureUp = (function () {
     rk = { role: 'player', code, name, g: null, sel: {}, unsub: [] };
     rk.tick = setInterval(riskTick, 500);
     riskWake();
-    const myTurn = x => !!(x && x.state === 'play' && !x.story && x.turn && x.seats[x.turn.i] && x.seats[x.turn.i].uid === C.uid());
+    const myTurn = x => !!(x && x.state === 'play' && !x.story && x.turn && x.seats[x.turn.i] && x.seats[x.turn.i].uid === C.uid() && riskOrderOpen(x));
     const at = x => x && x.turn ? x.turn.i + '|' + x.turn.phase : '';
     const turnOf = x => x && x.turn ? x.round + '|' + x.turn.i : '';    // (the dice can give him the next round's first turn right after his last)
     rk.unsub.push(C.watchGame(code, g => {
@@ -9134,8 +9234,8 @@ const TreasureUp = (function () {
   // one, so a run of quick taps counts as one (dice go a tap each, though,
   // and Pro's +1s on the map). Undo, Cancel, 🔊 and the like are never held.
   const RISK_BUSY = 2500, RISK_ARM = 600, RISK_QUICK = 400;
-  const RISK_HOLD = new Set(['level', 'ans', 'go', 'roll', 'proroll', 'blitz', 'done', 'end', 'offer', 'promove', 'fortask', 'wait', 'fortput', 'fortsave', 'speed', 'defend', 'allhere', 'soloready', 'cardplay', 'map', 'palace', 'palaceans']);
-  const RISK_EACH = new Set(['roll', 'proroll', 'defend', 'map']);
+  const RISK_HOLD = new Set(['level', 'ans', 'go', 'roll', 'proroll', 'blitz', 'done', 'end', 'offer', 'promove', 'fortask', 'wait', 'fortput', 'fortsave', 'speed', 'defend', 'allhere', 'soloready', 'cardplay', 'map', 'palace', 'palaceans', 'orderroll']);
+  const RISK_EACH = new Set(['roll', 'proroll', 'defend', 'map', 'orderroll']);
   const riskBusy = () => !!rk && rk.role === 'player' && Date.now() - (rk.busy || 0) < RISK_BUSY;
   function riskHeld(act) {
     if (!rk || !RISK_HOLD.has(act)) return false;
@@ -9340,6 +9440,13 @@ const TreasureUp = (function () {
     if (act === 'chapterclose') { if (rk.g) rk.chapterShut = rk.g.gid + '|' + rk.g.round; return riskRender(); }
     if (act === 'mode') { riskPickMode(el.dataset.v); return riskRender(); }
     if (!g) return;
+    if (act === 'orderroll') {
+      riskWakeAudio();
+      if (rk.role !== 'solo') return riskSend({ kind: 'order' });
+      riskOrderTap(g, el.dataset.uid);
+      riskSoloSave();
+      return renderRiskSolo();
+    }
     const t = g.turn, dn = (g.dice && g.dice.n) || 0;
     const w = (g.wait || {})[riskConn().uid()];
     if (act === 'wait' && w && w.q && !riskLocked(rk.waitSent, w.tok)) { riskLock('waitSent', w.tok); riskSend({ kind: 'wait', a: el.dataset.v, b: w.tok }); }
@@ -9438,10 +9545,11 @@ const TreasureUp = (function () {
         ${seat ? riskModePicker() : ''}`);
       return;
     }
-    const mine = g.state === 'play' && !g.story && seat && !seat.out && g.seats[g.turn.i].uid === me;
+    const mine = g.state === 'play' && !g.story && seat && !seat.out && g.seats[g.turn.i].uid === me && riskOrderOpen(g);
     let card, ui = {};
     if (g.state === 'over') card = riskOverCard(g, me);
     else if (g.story) card = riskStartCard();
+    else if (g.state === 'play' && seat && !seat.out && !riskOrderOpen(g)) card = riskOrderCard(g, me);
     else if (mine) { riskSelFix(g, me); card = riskCrownHtml(g, me) + riskMyCard(g, me); ui = riskMapUi(g, me); }
     else {
       card = (!seat ? '<p class="rk-note">You joined after the game started. Watch the map!</p>'
@@ -9575,6 +9683,7 @@ const TreasureUp = (function () {
     let card, ui = g.dice ? { from: g.dice.from, to: g.dice.to } : {};
     if (g.state === 'over') card = riskOverCard(g, null);
     else if (g.story) card = riskStartCard();
+    else if (!riskOrderOpen(g)) card = `${riskSayHtml(g)}<p class="rk-big rk-read">🎲 Who goes first this round? Each of you, tap Roll on your own die.</p>`;
     else if (rk.pass) {
       const s = g.seats[g.turn.i], k = kingdomOf(s.k);
       card = `${riskSayHtml(g)}${riskCrownHtml(g)}<div class="rk-pass" style="border-color:${k.color}"><p class="rk-q">Pass to ${esc(s.name)}</p><p class="rk-note">${esc(k.name)}'s turn.</p>
