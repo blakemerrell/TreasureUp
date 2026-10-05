@@ -61,14 +61,15 @@ jobs:
           git push origin HEAD:main
       # content/weeks.js stays under the 1 MB developer mode can read through
       # the GitHub API: weeks that ended before last week move to content/past/
-      # (tools/archive-weeks.mjs), and on the test site the weeks written ahead
-      # come in from content/upcoming/ as room allows (tools/upcoming-weeks.mjs).
+      # (tools/archive-weeks.mjs), and the weeks written ahead come in from
+      # content/upcoming/ as room allows (tools/upcoming-weeks.mjs): on the live
+      # app too since Blake had the rest of 2026 approved at once (2026-10-05).
       # Saved back to the repo; if that fails (someone pushed meanwhile), the
       # files go back as they were and the next deploy tries again.
       - name: Move weeks in and out of weeks.js
         run: |
           node tools/archive-weeks.mjs
-          if [ "$GITHUB_REPOSITORY" = "blakemerrell/TreasureUp-test" ]; then node tools/upcoming-weeks.mjs; fi
+          node tools/upcoming-weeks.mjs
           git add content
           if git diff --cached --quiet; then echo "Nothing to move."; exit 0; fi
           git config user.name "github-actions[bot]"

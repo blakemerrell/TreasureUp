@@ -6,9 +6,15 @@
 // written further ahead wait in content/upcoming/, one file a week
 // (<start>.json, plain JSON, like "2026-11-16.json"), and come in oldest
 // first while weeks.js stays under BUDGET. tools/archive-weeks.mjs makes the
-// room, moving weeks that ended before last week to content/past/. The test
-// site's deploy runs both and saves the result back to the repo; a week that
-// came in is a draft there, like any other, until Blake approves it.
+// room, moving weeks that ended before last week to content/past/. Both
+// sites' deploys run both and save the result back to the repo (the live one
+// since 2026-10-05, when Blake had the rest of 2026 approved at once: "Get it
+// all live"). On the test site a week that came in is a draft, like any other,
+// until Blake approves it; the live deploy refuses a week that isn't approved.
+// Developer mode publishes a week into the live weeks.js, so a week can be in
+// weeks.js and still waiting here: the one in weeks.js is the one developer
+// mode wrote, so it stays and the waiting copy goes. (To change a week that's
+// in weeks.js, change it there, not here.)
 //
 //   node tools/upcoming-weeks.mjs             bring in what fits
 //   node tools/upcoming-weeks.mjs --dry-run   say what would come in
@@ -35,11 +41,15 @@ if (!files.length) { console.log('No weeks waiting in content/upcoming/.'); proc
 const src = fs.readFileSync(WEEKS, 'utf8'), cut = src.indexOf(MARK);
 const weeks = JSON.parse(src.slice(cut + MARK.length).replace(/;\s*$/, ''));
 const text = list => src.slice(0, cut) + MARK + JSON.stringify(list, null, 2) + ';\n';
-const came = [];
+const came = [], gone = [], waiting = [];
 for (const f of files) {
   const week = JSON.parse(fs.readFileSync(path.join(UP, f), 'utf8'));
   if (weekStart(week.dates) + '.json' !== f) throw new Error(`content/upcoming/${f} holds ${week.dates}: name it ${weekStart(week.dates)}.json`);
-  if (weeks.some(w => w.dates === week.dates)) throw new Error(`${week.dates} is in both weeks.js and content/upcoming/${f}: keep it in one`);
+  if (!weeks.some(w => w.dates === week.dates)) { waiting.push([f, week]); continue; }
+  gone.push(f);
+  console.log(`${dry ? 'Would drop' : 'Dropping'} content/upcoming/${f}: ${week.dates} is in weeks.js already (published from developer mode), and that copy stays.`);
+}
+for (const [f, week] of waiting) {
   const next = weeks.concat([week]).sort((a, b) => weekStart(a.dates).localeCompare(weekStart(b.dates)));
   const size = Buffer.byteLength(text(next));
   if (size > BUDGET) { console.log(`${week.dates} waits: weeks.js would be ${Math.round(size / 1000)} KB (at most ${BUDGET / 1000}).`); break; }   // in order: none skips ahead
@@ -47,7 +57,7 @@ for (const f of files) {
   came.push(f);
   console.log(`${dry ? 'Would bring in' : 'Bringing in'} ${week.dates} · ${week.title} (weeks.js ${Math.round(size / 1000)} KB)`);
 }
-if (dry || !came.length) process.exit(0);
-fs.writeFileSync(WEEKS, text(weeks));
-for (const f of came) fs.unlinkSync(path.join(UP, f));
-console.log(`weeks.js holds ${weeks.length} weeks; ${files.length - came.length} still waiting in content/upcoming/.`);
+if (dry) process.exit(0);
+if (came.length) fs.writeFileSync(WEEKS, text(weeks));
+for (const f of came.concat(gone)) fs.unlinkSync(path.join(UP, f));
+if (came.length) console.log(`weeks.js holds ${weeks.length} weeks; ${files.length - came.length - gone.length} still waiting in content/upcoming/.`);
