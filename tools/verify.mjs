@@ -473,7 +473,7 @@ async function main(scripture, week, pages, online) {
   const { verses, books, names } = scripture;
   // A block it can't read is a note: the app then plans a section a day, as before.
   const block = blockChapters(week.reference, verses);
-  if (!week.library && (!block || !block.length)) note(`week: reference "${week.reference}" can't be read as a list of chapters (like "Isaiah 13–14; 22; 24–30; 35"), so the days follow the sections, with no reading path`);
+  if (!week.library && (!block || !block.length)) note(`week: reference "${week.reference}" can't be read as a list of chapters (like "Isaiah 13–14; 22; 24–30; 35"), so its reels spread over Monday to Saturday in section order, with no reading path`);
 
   const textOf = ref => {
     const refs = expand(ref);
@@ -664,7 +664,7 @@ async function main(scripture, week, pages, online) {
 
     // Reading first: a reel comes on the day its chapter is read, and its
     // headline (or `seek`) is the clue for "Find it in the chapter".
-    if (block && r.verse && r.verse.ref && !block.includes(r.verse.ref.replace(/:.*/, ''))) {
+    if (block && block.length && r.verse && r.verse.ref && !block.includes(r.verse.ref.replace(/:.*/, ''))) {
       note(`${where}: ${r.verse.ref} is outside this week's reading (${week.reference}), so it comes on the day of its section's other reels`);
     }
     if (r.seek != null && (typeof r.seek !== 'string' || !r.seek.trim() || r.seek.length > LIMITS.hookChars + 20)) {
@@ -1015,7 +1015,8 @@ async function main(scripture, week, pages, online) {
       const ch = m && m[1], from = m && m[2] ? Number(m[2]) : 0, to = m && m[3] ? Number(m[3]) : from;
       let home = null;
       if (!m) fail(where, `ref "${x.ref}" must be a chapter or verses, like "Isaiah 53" or "Isaiah 40:28–31"`);
-      else if (!chapters.has(ch)) fail(where, `${x.ref} is not in this week's reading (${week.reference})`);
+      // A week with no chapters to read (Christmas): any chapter of the scriptures.
+      else if (chapters.size ? !chapters.has(ch) : !verses.has(`${ch}:1`)) fail(where, chapters.size ? `${x.ref} is not in this week's reading (${week.reference})` : `${x.ref} does not exist`);
       else if (m[3] && to <= from) fail(where, `${x.ref}: a range goes from the lower verse to the higher`);
       else if (from && !(verses.has(`${ch}:${from}`) && verses.has(`${ch}:${to}`))) fail(where, `${x.ref} does not exist`);
       else home = `${ch}:${from || 1}`;
