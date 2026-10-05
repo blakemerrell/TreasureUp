@@ -425,6 +425,7 @@
   .sea-grid { display: flex; gap: 3px; margin-top: 6px; overflow-x: auto; padding-bottom: 2px; }
   .sg-col { display: grid; grid-template-rows: repeat(7, 1fr); gap: 3px; padding: 2px; border-radius: 5px; } .sg-col.full { background: rgba(134,239,172,.14); }
   .sg-d { width: 14px; height: 14px; padding: 0; border-radius: 3px; border: 0; background: rgba(255,255,255,.12); cursor: pointer; display: block; }
+  .sg-col.head { opacity: .75; margin-right: 4px; }
   .sg-d.on { background: #86efac; } .sg-d.now { outline: 2px solid var(--gold); outline-offset: 0; } .sg-d.later { background: rgba(255,255,255,.04); cursor: default; }
   .sg-cap { display: flex; justify-content: space-between; max-width: calc(13 * 23px); font-size: 11px; color: rgba(255,255,255,.45); margin-top: 2px; }
   .sea-fam { margin: 10px 0 2px; padding: 8px 12px; border-radius: 12px; font-size: 14px; background: rgba(252,211,77,.08); border: 1px solid rgba(252,211,77,.25); }
@@ -1309,6 +1310,7 @@
   .fl-row.done .fl-t { color: rgba(255,255,255,.62); }
   .fl-go { color: rgba(255,255,255,.4); font-size: 18px; }
   .fl-row.muted .fl-t { font-weight: 600; color: rgba(255,255,255,.7); } .fl-row.muted .fl-c { border-style: dashed; }
+  .fl-ic { flex: 0 0 24px; height: 24px; display: grid; place-items: center; font-size: 18px; }
   .fl-pair { display: flex; align-items: center; gap: 8px; border-bottom: 1px solid rgba(255,255,255,.08); } .fl-pair .fl-row { flex: 1; min-width: 0; border-bottom: 0; }
   .fl-pick { flex: 0 0 auto; padding: 6px 4px; font: inherit; font-size: 12px; font-weight: 800; color: var(--gold); background: none; border: 0; cursor: pointer; }
   .fl-list .more { margin-top: 0; border-bottom: 1px solid rgba(255,255,255,.08); } .fl-list .more summary { padding: 12px 2px; }
@@ -1837,6 +1839,7 @@ const TreasureUp = (function () {
     insights: {},    // insight cards he has read (Go further): id -> the day; kept across weeks
     sunday: {},      // the youth's Sunday lessons: cardId -> { right, picked, day, xp }  first try; kept across weeks
     talks: {},       // conference talks studied: talkId -> { day, xp }; kept across weeks
+    played: {},      // family games played (Sunday, on Today): day -> the tap's time, or minus it once untapped
     picks: {},       // each Sunday's talks for elders quorum and Relief Society: "2026-10-11" -> { eq, rs } (the family's, mirrored)
     readPos: {},     // where he was in a chapter not read yet: ref -> { v: first verse showing, at }
     weekChapters: 0  // how many chapters this week's reading has, for the year's count
@@ -2317,7 +2320,7 @@ const TreasureUp = (function () {
   const flowAt = e => `${flowDay(e)}.${weekPlan()[flowDay(e)].findIndex(x => x.kind === e.kind)}`;
   function flowRow(attrs, done, title, sub, opt) {
     opt = opt || {};
-    const mark = opt.box ? `<span class="fl-box">${done ? '✓' : ''}</span>` : `<span class="fl-c">${done ? (opt.wrong ? '✕' : '✓') : ''}</span>`;
+    const mark = opt.icon ? `<span class="fl-ic" aria-hidden="true">${opt.icon}</span>` : opt.box ? `<span class="fl-box">${done ? '✓' : ''}</span>` : `<span class="fl-c">${done ? (opt.wrong ? '✕' : '✓') : ''}</span>`;
     return `<button class="fl-row${done ? ' done' : ''}${opt.muted ? ' muted' : ''}${opt.wrong ? ' wrong' : ''}" ${attrs}${opt.box ? ` aria-pressed="${!!done}"` : ''}>${mark}<span class="fl-t">${title}${sub ? `<small>${sub}</small>` : ''}</span>${opt.box ? '' : '<span class="fl-go">›</span>'}</button>`;
   }
   // One part of the plan as rows: { card, done (null: not counted), html }.
@@ -2366,27 +2369,46 @@ const TreasureUp = (function () {
         rows.push({ card: 'talk-' + slot, done: null, html: `<div class="fl-pair">${flowRow(`data-talk="${esc(show.id)}"`, done, '🎤 ' + name + (t ? '' : ' <em>· suggested</em>'), esc(show.title) + ' · ' + esc(show.speaker))}<button class="fl-pick" data-talkpick="${slot}|${k}">${t ? 'Change' : 'Pick'}</button></div>` });
       }
     }
-    rows.push({ card: 'family', done: null, html: flowRow('data-games', false, '🎮 A family game', 'Showdown, Babylon Falls, the arcade…') });
+    // A family game, ticked when it's played (Blake, 2026-10-04: "I want to
+    // mark these complete! … I played games with Javan"); Games › opens them.
+    if (k <= dayKey()) {
+      const on = playedOn(k);
+      rows.push({ card: 'family', done: on, html: `<div class="fl-pair">${flowRow(`data-played="${k}"`, on, '🎮 A family game', on ? 'We played!' : 'Tap when you’ve played · Showdown, Babylon Falls, the arcade…', { box: true })}<button class="fl-pick" data-games>Games ›</button></div>` });
+    } else rows.push({ card: 'family', done: null, html: flowRow('data-games', false, '🎮 A family game', 'Showdown, Babylon Falls, the arcade…') });
     return rows;
+  }
+  // A family game played: day -> the tap's time, or minus it once untapped,
+  // so two devices keep the later tap. Today's counts for the day, like any
+  // answer; the last 60 days are kept.
+  const playedOn = k => ((S.played || {})[k] || 0) > 0;
+  function setPlayed(k, on) {
+    const p = S.played || (S.played = {}), keep = dayAdd(dayKey(), -60);
+    p[k] = on ? Date.now() : -Date.now();
+    for (const d of Object.keys(p)) if (d < keep) delete p[d];
+    if (on && k === dayKey()) markStudied();
+    save();
   }
   // My Season on Today: each step to tick, the weekend check-in, the look back, and the Season itself.
   function seasonRows() {
     const s = seasonNow(), rec = seasonRec(s.id), goals = liveGoals(rec), today = dayKey(), started = s.start <= today;
-    const rows = [], refl = seasonToReflect(), chk = checkWeek();
-    if (!goals.length) rows.push({ card: 'season', done: null, html: flowRow('data-season="discover"', false, '🌱 Plan my Season', started ? esc(s.name) + ' · ' + esc(seasonDates(s)) : esc(s.name) + ' starts ' + DAY_NAMES[0] + ', ' + esc(mdShort(s.start))) });
-    else if (!started) rows.push({ card: 'season', done: null, html: flowRow('data-season="home"', false, '🌱 My Season', 'Starts ' + DAY_NAMES[0] + ', ' + esc(mdShort(s.start)) + ' · ' + goals.length + (goals.length === 1 ? ' goal' : ' goals') + ' planned') });
+    const rows = [], refl = seasonToReflect(), chk = checkWeek(), starts = DAY_NAMES[0] + ', ' + esc(mdShort(s.start));
+    if (!goals.length) rows.push({ card: 'season', done: null, html: flowRow('data-season="discover"', false, '🌱 Plan my Season', started ? esc(s.name) + ' · ' + esc(seasonDates(s)) : esc(s.name) + ' starts ' + starts) });
     else {
+      // Steps tick from the day they're planned (Blake, 2026-10-04, the day
+      // before his Season began: "I set goals and did them today"): a head start.
       const mon = mondayOf(today);
       for (const g of goals) for (const st of g.steps || []) {
         const on = ticked(rec, st.id, today), n = ticksIn(rec, st.id, mon, dayAdd(mon, 6));
-        rows.push({ card: 'tick-' + st.id, done: on, html: flowRow(`data-tick="${esc(s.id)}|${esc(st.id)}"`, on, '🌱 ' + esc(st.text), 'My Season · ' + (st.n === 7 ? n + ' of 7 days' : n + ' of ' + st.n + ' this week'), { box: true }) });
+        rows.push({ card: 'tick-' + st.id, done: on, html: flowRow(`data-tick="${esc(s.id)}|${esc(st.id)}"`, on, '🌱 ' + esc(st.text), 'My Season · ' + (!started ? 'a head start: it begins ' + starts : st.n === 7 ? n + ' of 7 days' : n + ' of ' + st.n + ' this week'), { box: true }) });
       }
-      if (chk && !(seasonRec(chk.s.id).checks || {})[chk.w]) rows.push({ card: 'check', done: false, go: { attr: 'data-season="check"', title: 'Weekend check-in', sub: 'My Season · ' + SEASON_CHECK_XP + ' XP' },
+      if (started && chk && !(seasonRec(chk.s.id).checks || {})[chk.w]) rows.push({ card: 'check', done: false, go: { attr: 'data-season="check"', title: 'Weekend check-in', sub: 'My Season · ' + SEASON_CHECK_XP + ' XP' },
         html: flowRow('data-season="check"', false, '🗓️ Weekend check-in', 'My Season · how’s it going? · ' + SEASON_CHECK_XP + ' XP') });
     }
     if (refl) rows.push({ card: 'reflect', done: false, go: { attr: 'data-season="reflect"', title: 'Look back on ' + refl.name, sub: 'My Season · ' + SEASON_REFLECT_XP + ' XP' },
       html: flowRow('data-season="reflect"', false, '🌟 Look back on ' + esc(refl.name), SEASON_REFLECT_XP + ' XP') });
-    if (goals.length && started) rows.push({ card: 'season', done: null, html: flowRow('data-season="home"', false, 'My Season', esc(s.name) + ' · week ' + weekOfSeason(s, today) + ' of ' + s.weeks + ' · goals, the grid, impressions', { muted: true }) });
+    // The way into My Season: a 🌱, not a circle, since there's nothing to tick on it.
+    if (goals.length) rows.push({ card: 'season', done: null, html: flowRow('data-season="home"', false, 'My Season', started ? esc(s.name) + ' · week ' + weekOfSeason(s, today) + ' of ' + s.weeks + ' · goals, the grid, impressions'
+      : 'Starts ' + starts + ' · ' + goals.length + (goals.length === 1 ? ' goal' : ' goals') + ' planned', { muted: true, icon: '🌱' }) });
     return rows;
   }
   // The green button: today's lesson (catching up first), then the weekend
@@ -2897,6 +2919,7 @@ const TreasureUp = (function () {
     // The strip stays where he left it (Blake, 2026-10-02: tapping a day "does
     // a weird auto scroll"); the day picked comes to the middle only when it's
     // off screen (the first time, or a week's dot).
+    backSync();
     const strip = $('home').querySelector('.strip'), sel = strip && strip.querySelector('.sel');
     if (!strip) return;
     if (left != null) strip.scrollLeft = left;
@@ -4343,7 +4366,7 @@ const TreasureUp = (function () {
         <div class="sea-g-top"><span class="sea-area">${areaOf(g.area).icon} ${esc(areaOf(g.area).name)}</span>${g.private ? '<span class="sea-lock">🔒 Private</span>' : ''}<button class="today-alt" data-season-edit="${esc(g.id)}">Change</button></div>
         <div class="sea-g-text">${esc(g.text)}</div>
         ${g.why ? `<p class="sea-why">${esc(g.why)}</p>` : ''}
-        ${(g.steps || []).map(stp => `<div class="sea-step"><span>${esc(stp.text)}<small>${stp.n === 7 ? 'Every day' : stp.n + (stp.n === 1 ? ' time' : ' times') + ' a week'}${started ? ' · this week ' + Math.min(stp.n, ticksIn(rec, stp.id, mon, dayAdd(mon, 6))) + ' of ' + stp.n : ''}</small></span></div>${gridHtml(s, rec, stp)}`).join('')}
+        ${(g.steps || []).map(stp => `<div class="sea-step"><span>${esc(stp.text)}<small>${stp.n === 7 ? 'Every day' : stp.n + (stp.n === 1 ? ' time' : ' times') + ' a week'}${started ? ' · this week ' + Math.min(stp.n, ticksIn(rec, stp.id, mon, dayAdd(mon, 6))) + ' of ' + stp.n : headStart(s, rec, stp) ? ' · a head start: ' + headStart(s, rec, stp) + (headStart(s, rec, stp) === 1 ? ' day' : ' days') : ''}</small></span></div>${gridHtml(s, rec, stp)}`).join('')}
         <p class="sea-meta">${[st ? esc(STATUS[st]) : '', helperNames(g) ? 'Helping: ' + esc(helperNames(g)) : ''].filter(Boolean).join(' · ')}</p>
       </div>`;
     };
@@ -4369,16 +4392,19 @@ const TreasureUp = (function () {
         ${kid ? ` · <button class="today-alt" data-imp-toggle="${esc(id)}">${x.share ? '👀 Shared with your parents' : '🔒 Just you'}</button>` : ''} · <button class="today-alt" data-imp-del="${esc(id)}">Delete</button></small></div>`).join('')}
       <p class="sh-small" style="margin-top:16px">I am ${esc(WHO[who].name.replace(/^A /, 'a '))} · <button class="today-alt" data-season="who" style="display:inline;margin:0">Change</button></p>`;
   }
-  // The Season's days as a grid, a column a week, Monday on top; a tap ticks or unticks a day up to today.
+  // Days ticked in the week before a Season began (planned early, and started early).
+  const headStart = (s, rec, stp) => ticksIn(rec, stp.id, dayAdd(s.start, -7), dayAdd(s.start, -1));
+  // The Season's days as a grid, a column a week, Monday on top; a tap ticks
+  // or unticks a day up to today. A head start gets a column of its own, first.
   function gridHtml(s, rec, stp) {
     if (s.start > dayKey()) return '';
-    const today = dayKey(), cols = [];
-    for (let w = 0; w < s.weeks; w++) {
+    const today = dayKey(), cols = [], head = headStart(s, rec, stp) > 0;
+    for (let w = head ? -1 : 0; w < s.weeks; w++) {
       const mon = dayAdd(s.start, w * 7), n = ticksIn(rec, stp.id, mon, dayAdd(mon, 6));
-      cols.push(`<div class="sg-col${n >= stp.n ? ' full' : ''}">${weekDays(mon).map(d => d > today ? '<i class="sg-d later"></i>'
+      cols.push(`<div class="sg-col${n >= stp.n ? ' full' : ''}${w < 0 ? ' head' : ''}">${weekDays(mon).map(d => d > today ? '<i class="sg-d later"></i>'
         : `<button class="sg-d${ticked(rec, stp.id, d) ? ' on' : ''}${d === today ? ' now' : ''}" data-tick="${esc(s.id)}|${esc(stp.id)}|${d}" aria-label="${esc(mdShort(d))}"></button>`).join('')}</div>`);
     }
-    return `<div class="sea-grid" aria-label="${esc(stp.text)}: the Season, a column a week">${cols.join('')}</div><div class="sg-cap"><span>${esc(mdShort(s.start))} · Mondays on top</span><span>${esc(mdShort(s.end))}</span></div>`;
+    return `<div class="sea-grid" aria-label="${esc(stp.text)}: the Season, a column a week">${cols.join('')}</div><div class="sg-cap"><span>${head ? 'A head start, then ' : ''}${esc(mdShort(s.start))} · Mondays on top</span><span>${esc(mdShort(s.end))}</span></div>`;
   }
   const weekDays = mon => Array.from({ length: 7 }, (_, i) => dayAdd(mon, i));
   function helperNames(g) {
@@ -4504,7 +4530,7 @@ const TreasureUp = (function () {
     return `<div class="sh-title">🌟 Look back on ${esc(s.name)}</div>
       <p class="sh-small">${esc(seasonDates(s))}. Then celebrate!</p>
       ${liveGoals(rec).map(g => {
-        const r = (rec.reflect || {})[g.id] || {}, tot = (g.steps || []).reduce((n, st) => n + ticksIn(rec, st.id, s.start, s.end), 0);
+        const r = (rec.reflect || {})[g.id] || {}, tot = (g.steps || []).reduce((n, st) => n + ticksIn(rec, st.id, dayAdd(s.start, -7), s.end), 0);
         return `<div class="sea-g"><div class="sea-g-text">${areaOf(g.area).icon} ${esc(g.text)}</div><p class="sea-why">${tot} ${tot === 1 ? 'tick' : 'ticks'} this Season</p>
           ${qs.map(([k, q]) => `<label class="sea-lbl">${esc(q)}</label><textarea class="field" data-refl="${esc(g.id)}|${k}" maxlength="500" rows="2">${esc(r[k] || '')}</textarea>`).join('')}</div>`;
       }).join('')}
@@ -6783,6 +6809,7 @@ const TreasureUp = (function () {
     const g = lv && lv.game;
     if (!g || g.state !== 'question' || lv.picked[g.qi] != null) return;
     lv.picked[g.qi] = choice;
+    if (!(S.played || {})[dayKey()]) (S.played = S.played || {})[dayKey()] = Date.now();   // and ticks "A family game" on Sunday's Today
     markStudied();               // playing the family game counts for the day (Blake, 2026-10-01), like any answer
     save();
     renderPlayer();
@@ -8769,7 +8796,7 @@ const TreasureUp = (function () {
     const was = rk;
     stopRisk();
     $('risk').hidden = true;
-    if (location.hash.startsWith('#babylon')) history.replaceState(null, '', location.pathname + location.search);
+    if (location.hash.startsWith('#babylon')) history.replaceState(history.state, '', location.pathname + location.search);
     if (was && was.role === 'host' && was.code) {
       try { sessionStorage.removeItem(NS + 'risk.host'); } catch (e) {}
       try { await riskConn().end(was.code); } catch (e) {}
@@ -10416,6 +10443,8 @@ const TreasureUp = (function () {
     M.libClock = Object.assign({}, L.libClock || {}, R.libClock || {});
     M.weekBonus = [L.weekBonus, R.weekBonus].find(b => b && b.week === WEEK.title) || R.weekBonus || L.weekBonus || null;
     M.seasons = mergeSeasons(R.seasons, L.seasons);
+    M.played = Object.assign({}, R.played || {});
+    for (const d in L.played || {}) if (!M.played[d] || Math.abs(L.played[d]) > Math.abs(M.played[d])) M.played[d] = L.played[d];
     M.impressions = newerById(R.impressions, L.impressions);
     M.seasonWho = R.seasonWho || L.seasonWho;
     for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found', 'insights', 'sunday', 'talks', 'picks']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
@@ -10621,6 +10650,56 @@ const TreasureUp = (function () {
         try { const k = JSON.parse(localStorage.getItem(ERR_KEY) || 'null') || { day: '', n: 0, seen: [], queue: [] }; k.queue = (k.queue || []).concat([x]).slice(-20); localStorage.setItem(ERR_KEY, JSON.stringify(k)); } catch (e) {}
       });
   }
+  /* ---------------- the back gesture ---------------- */
+
+  // Back goes back (Blake, 2026-10-04: "My back gesture exits the app without
+  // warning. What I want it to do is go back. Not exit."). Each screen or
+  // sheet that's open, and a tab or day other than today's, has a step of its
+  // own in the browser's history, so a swipe back closes the top one, then
+  // comes to Today; on Today it says one more leaves. Steps are added only
+  // after a tap (a browser skips steps a page adds by itself), and taken off
+  // again when a screen closes its own way.
+  const BACK_LAYERS = [   // topmost first: each screen, and what closes it
+    ['wordSheet', '#wordClose'], ['appSheet', '#appClose'], ['parent', '#parentClose'], ['lesson', '#lessonExit'],
+    ['dev', '#devExit'], ['fam', '#famExit'], ['ammon', 'am'], ['look', 'lk'], ['snake', 'sn'],
+    ['risk', '#riskExit'], ['live', '#liveExit'], ['play', '#playExit'], ['board', '#boardExit'], ['view', '#viewBack'], ['past', '#pastBack']
+  ];
+  let backAt = (history.state && history.state.tu) || 0, backGoing = false, backPopping = false, backTapAt = 0;
+  const backOpen = () => BACK_LAYERS.filter(([id]) => { const el = $(id); return el && !el.hidden; });
+  const backAway = () => homeTab !== 'today' || (!!selDay && selDay !== dayKey());
+  function backSync() {
+    if (backGoing) return;
+    const want = 1 + (backAway() ? 1 : 0) + backOpen().length, ua = navigator.userActivation;
+    if (backAt > want) { backGoing = true; history.go(want - backAt); return; }
+    const tapped = ua ? ua.isActive : Date.now() - backTapAt < 2000;
+    if (backAt < want && !backPopping && tapped) while (backAt < want) history.pushState({ tu: ++backAt }, '');
+  }
+  function backStep() {
+    const top = backOpen()[0];
+    if (top) {
+      const [id, how] = top, el = $(id);
+      // An arcade game pauses first; paused (or not playing), it ends.
+      const btn = how[0] === '#' ? el.querySelector(how)
+        : !el.querySelector(`[data-${how}="resume"]`) && el.querySelector(`[data-${how}="pause"]`) || el.querySelector(`[data-${how}="exit"]`);
+      if (btn) btn.click();
+    } else if (backAway()) { homeTab = 'today'; selDay = null; renderHome(); $('home').scrollTop = 0; }
+    if (!backAt) toast('Swipe back again to leave', 'or tap to stay');
+  }
+  function backWire() {
+    window.addEventListener('popstate', e => {
+      backAt = (e.state && e.state.tu) || 0;
+      if (backGoing) { backGoing = false; backSync(); return; }
+      backPopping = true;
+      try { backStep(); } finally { setTimeout(() => { backPopping = false; }); }
+    });
+    // A tap: once what it opened is open, its step.
+    const tap = e => { if (e.isTrusted) { backTapAt = Date.now(); setTimeout(backSync); } };
+    window.addEventListener('click', tap, true);
+    window.addEventListener('keydown', tap, true);
+    const mo = new MutationObserver(() => backSync());
+    for (const [id] of BACK_LAYERS) { const el = $(id); if (el) mo.observe(el, { attributes: true, attributeFilter: ['hidden'] }); }
+  }
+
   // What's open, for an error or a note: "Today", "a lesson", "Babylon Falls"…
   function screenName() {
     const open = id => { const el = document.getElementById(id); return el && !el.hidden; };
@@ -10777,7 +10856,7 @@ const TreasureUp = (function () {
     $('fam').hidden = true;
     $('famBody').innerHTML = '';   // its lists refresh from background saves only while it's open
     store(NS + 'pendingInvite', null);
-    if (new URLSearchParams(location.search).get('invite')) history.replaceState(null, '', location.pathname);
+    if (new URLSearchParams(location.search).get('invite')) history.replaceState(history.state, '', location.pathname);
   }
   function stopFamWatch() {
     if (!fam) return;
@@ -10904,7 +10983,7 @@ const TreasureUp = (function () {
   function clearInvite() {
     store(NS + 'pendingInvite', null);
     if (fam) fam.invite = null;
-    if (new URLSearchParams(location.search).get('invite')) history.replaceState(null, '', location.pathname);
+    if (new URLSearchParams(location.search).get('invite')) history.replaceState(history.state, '', location.pathname);
   }
 
   function inviteHtml() {
@@ -11025,7 +11104,7 @@ const TreasureUp = (function () {
       const q = new URLSearchParams(location.search);
       ['apiKey', 'oobCode', 'mode', 'lang', 'continueUrl', 'tenantId'].forEach(k => q.delete(k));
       const rest = q.toString();
-      history.replaceState(null, '', location.pathname + (rest ? '?' + rest : ''));
+      history.replaceState(history.state, '', location.pathname + (rest ? '?' + rest : ''));
     };
     try { await firebase.auth().signInWithEmailLink(email, location.href); }
     catch (e) { if (/action-code/.test(e.code || '')) drop(); throw e; }
@@ -11678,7 +11757,7 @@ const TreasureUp = (function () {
     const L = lesson;
     lesson = null;
     $('lesson').hidden = true;
-    if (location.hash === '#lesson') history.replaceState(null, '', location.pathname + location.search);
+    if (location.hash === '#lesson') history.replaceState(history.state, '', location.pathname + location.search);
     stopClips();
     if (!L) return;
     renderHome();
@@ -12232,7 +12311,7 @@ const TreasureUp = (function () {
     dev = null;
     $('dev').hidden = true;
     $('devBody').innerHTML = '';
-    if (location.hash === '#dev') history.replaceState(null, '', location.pathname + location.search);
+    if (location.hash === '#dev') history.replaceState(history.state, '', location.pathname + location.search);
   }
   async function devStart() {
     try {
@@ -12771,6 +12850,8 @@ const TreasureUp = (function () {
       if (rs) { openChapter(rs.dataset.resume); return; }
       const vd = e.target.closest('[data-vod]');
       if (vd) { openChapter(vd.dataset.vod); scrollToVerse($('viewBody').querySelector('.ls-chapter'), vd.dataset.v, true); return; }
+      const pl = e.target.closest('[data-played]');
+      if (pl) { setPlayed(pl.dataset.played, !playedOn(pl.dataset.played)); refreshHome(); return; }
       if (e.target.closest('[data-games]')) { openGames(); return; }
       const gm = e.target.closest('[data-game]');
       if (gm) { startGame(gm.dataset.game); return; }
@@ -13115,6 +13196,7 @@ const TreasureUp = (function () {
     renderHome();
     renderHud();
     wire();
+    backWire();
     save();
 
     // …/TreasureUp/#family opens straight to Scripture Showdown: bookmark it on the TV laptop.
