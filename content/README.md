@@ -57,6 +57,17 @@ in Past weeks, which loads its file (content/past/week-<num>.js) only when
 he opens it, with its chapters built at deploy like content/reading.js.
 Never just delete a week: Past weeks would lose it.
 
+Weeks written further ahead wait in **content/upcoming/**, one file a week
+named for its Monday (`2026-11-16.json`, the week's plain JSON), because
+weeks.js has to stay under the 1 MB developer mode can read. Every deploy
+runs  node tools/archive-weeks.mjs  (on both sites), and on the test site
+node tools/upcoming-weeks.mjs, which brings the waiting weeks in, oldest
+first, while weeks.js stays under 960 KB; the deploy saves the result back
+to the repo, and runs every Monday too, so about three weeks ahead are always
+in weeks.js for Blake to approve. tools/verify.mjs checks the waiting weeks
+like the others, so a mistake shows when a week is written, not the day it
+comes in.
+
 Run  node tools/verify.mjs  after every edit. It checks every quote
 word for word against the scripture text, checks every reference
 exists, and fails the deploy if anything doesn't match.

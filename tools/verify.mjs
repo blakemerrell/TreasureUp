@@ -803,12 +803,7 @@ async function main(scripture, week, pages, online) {
   // Weekly puzzle: 4 groups of 4, one per section, every tile from this week's reading.
   if (week.puzzle) {
     const where = 'puzzle';
-    const block = new Set();                                      // "Isaiah 13–14; 22; 24–30; 35"
-    const bm = /^(.+?) (\d.*)$/.exec(week.reference || '');
-    if (bm) for (const part of bm[2].split(';')) {
-      const [a, z] = part.trim().split(/[–-]/).map(Number);
-      for (let c = a; c <= (z || a); c++) block.add(`${bm[1]} ${c}`);
-    }
+    const block = new Set(blockChapters(week.reference, verses) || []);   // "Jeremiah 31–33; 36–39; Lamentations 1; 3": every book's chapters
     const groups = week.puzzle.groups || [];
     if (groups.length !== 4) fail(where, `needs exactly 4 groups (has ${groups.length})`);
     const secs = new Set(), texts = new Set();
@@ -1193,6 +1188,16 @@ const APP_BOOKS = appBooks();
   if (missing.length) failures.push(`index.html: BOOK_PATHS has no Gospel Library link for ${missing.join(', ')}`);
 }
 const weeks = loadWeeks();
+// content/upcoming/: weeks written ahead, waiting for room in weeks.js
+// (tools/upcoming-weeks.mjs brings them in). Checked with the rest, so a
+// mistake shows when the week is written, not the day it comes in.
+{
+  const dir = path.join(ROOT, 'content', 'upcoming');
+  for (const f of fs.existsSync(dir) ? fs.readdirSync(dir).filter(x => x.endsWith('.json')).sort() : []) {
+    try { weeks.push(JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'))); }
+    catch (e) { failures.push(`content/upcoming/${f}: not valid JSON (${e.message})`); }
+  }
+}
 const boards = loadBoards();
 // content/sunday.js: the Sunday classes' study (Blake, 2026-10-03: "We need
 // to incorporate sunday lesson study as well.... Javan needs to study YM

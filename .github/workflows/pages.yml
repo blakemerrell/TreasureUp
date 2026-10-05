@@ -9,9 +9,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:        # lets you re-run it by hand from the Actions tab
+  schedule:
+    - cron: '30 7 * * 1'    # Mondays (Sunday night in Utah): last week's turn to move out, the next week's to come in
 
 permissions:
-  contents: write     # the test site's deploy saves new Tagalog recordings back to the repo
+  contents: write     # the deploy saves new recordings, and weeks moved in or out, back to the repo
   pages: write
   id-token: write
 
@@ -57,6 +59,23 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Amigo · Kaibigan: record the new Tagalog and Spanish"
           git push origin HEAD:main
+      # content/weeks.js stays under the 1 MB developer mode can read through
+      # the GitHub API: weeks that ended before last week move to content/past/
+      # (tools/archive-weeks.mjs), and on the test site the weeks written ahead
+      # come in from content/upcoming/ as room allows (tools/upcoming-weeks.mjs).
+      # Saved back to the repo; if that fails (someone pushed meanwhile), the
+      # files go back as they were and the next deploy tries again.
+      - name: Move weeks in and out of weeks.js
+        run: |
+          node tools/archive-weeks.mjs
+          if [ "$GITHUB_REPOSITORY" = "blakemerrell/TreasureUp-test" ]; then node tools/upcoming-weeks.mjs; fi
+          git add content
+          if git diff --cached --quiet; then echo "Nothing to move."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Move weeks in and out of content/weeks.js (tools/archive-weeks.mjs, tools/upcoming-weeks.mjs)"
+          git push origin HEAD:main || { echo "Couldn't save it; the next deploy tries again."; git reset --hard HEAD~1; }
+
       # The live app (this repo) also requires every piece of a new week to
       # be approved in developer mode; the test site shows drafts.
       - name: Check the week's content
