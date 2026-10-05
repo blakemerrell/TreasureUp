@@ -440,8 +440,8 @@
   .nb-due { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px; padding: 10px 14px; border-radius: 14px; font: inherit; font-size: 15px; font-weight: 800; text-align: left; color: #fff; cursor: pointer; background: rgba(252,211,77,.1); border: 1px solid rgba(252,211,77,.42); }
   .nb-due small { display: block; margin-top: 2px; font-size: 12.5px; font-weight: 600; color: var(--gold); }
   .nb-due.done { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.14); } .nb-due.done small { color: rgba(255,255,255,.55); }
-  .nb-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin-top: 14px; }
-  .nb-tabs button { min-width: 0; padding: 7px 4px; border-radius: 14px; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.05); color: rgba(255,255,255,.82); font: inherit; font-size: 12.5px; font-weight: 800; line-height: 1.2; cursor: pointer; }
+  .nb-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 5px; margin-top: 14px; }
+  .nb-tabs button { min-width: 0; padding: 7px 2px; border-radius: 14px; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.05); color: rgba(255,255,255,.82); font: inherit; font-size: 12px; font-weight: 800; line-height: 1.2; cursor: pointer; overflow-wrap: anywhere; }
   .nb-tabs button span { display: block; font-size: 17px; line-height: 1.2; }
   .nb-tabs button[aria-selected="true"] { background: #fff; color: #1b1736; border-color: #fff; }
   .nb-hb[aria-expanded="true"] { background: var(--gold); border-color: var(--gold); color: #1c1406; }
@@ -512,7 +512,62 @@
   .nb-spine { flex: 0 0 16px; background: linear-gradient(90deg, #5b3fd9, #7c5cff 60%, #5b3fd9); } .nb-book.now .nb-spine { background: linear-gradient(90deg, #3fae2a, #58cc02 60%, #3fae2a); }
   .nb-bk { flex: 1; min-width: 0; padding: 12px 14px; } .nb-bk b { display: block; font-size: 17px; font-weight: 900; } .nb-bk small { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 600; color: #6b6578; }
   .nb-chips { display: block; margin-top: 6px; font-size: 13px; font-weight: 700; line-height: 1.5; }
-  @media (max-width: 380px) { .nb-page { --mx: 23px; padding-left: 34px; padding-right: 10px; } .nb-grid { gap: 2px; } .nb-tabs button { font-size: 12px; } }
+  /* The Parent hub: what's waiting first, then each child, the letter, setup. */
+  .hub-eyebrow { display: flex; align-items: center; gap: 8px; margin: 22px 2px 8px; font-size: 12px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; color: rgba(255,255,255,.62); }
+  .hub-badge { min-width: 20px; padding: 1px 7px; border-radius: 99px; background: #ff5a5f; color: #fff; font-size: 11.5px; letter-spacing: 0; text-align: center; }
+  .hub-card, .hub-rv { padding: 14px; border-radius: 16px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.13); }
+  .hub-card + .hub-card, .hub-rv + .hub-rv, .hub-rv + .hub-card { margin-top: 10px; }
+  .hub-none, .hub-small { margin: 0 2px; font-size: 13px; line-height: 1.45; color: rgba(255,255,255,.6); }
+  .hub-small { margin-bottom: 8px; }
+  .hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .hub-chips span { padding: 3px 9px; border-radius: 99px; background: rgba(255,255,255,.1); font-size: 11.5px; font-weight: 800; letter-spacing: .04em; }
+  .hub-chips .lock { background: rgba(139,92,246,.25); color: #d9ccff; }
+  .hub-what { margin-top: 8px; font-size: 18px; font-weight: 900; line-height: 1.25; }
+  .hub-strip { display: grid; grid-template-columns: repeat(13, minmax(0, 1fr)); gap: 2px; max-width: 250px; margin-top: 10px; }
+  .hub-strip i { aspect-ratio: 1; border-radius: 3px; background: rgba(255,255,255,.1); } .hub-strip i.on { background: #3fae2a; } .hub-strip i.some { background: rgba(63,174,42,.45); }
+  .hub-strip i.later { background: transparent; outline: 1px dotted rgba(255,255,255,.2); outline-offset: -1px; }
+  .hub-stats { margin-top: 6px; font-size: 13px; color: rgba(255,255,255,.62); font-variant-numeric: tabular-nums; }
+  .hub-his { margin-top: 10px; padding: 10px 12px; border-radius: 12px; background: rgba(0,0,0,.22); }
+  .hub-his small { display: block; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.6); }
+  .hub-his div { font-family: 'Patrick Hand', 'Segoe Print', 'Bradley Hand', 'Comic Sans MS', cursive; font-size: 19px; line-height: 1.35; color: #c9d6ff; white-space: pre-wrap; }
+  .hub-pick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .hub-pick button { padding: 10px 4px; border-radius: 12px; border: 1.5px solid rgba(255,255,255,.16); background: rgba(255,255,255,.04); color: #fff; font: inherit; font-size: 15px; font-weight: 900; font-variant-numeric: tabular-nums; cursor: pointer; }
+  .hub-pick button small { display: block; font-size: 11px; font-weight: 600; color: rgba(255,255,255,.6); }
+  .hub-pick button.on { border-color: var(--gold); background: rgba(252,211,77,.14); color: var(--gold); }
+  .hub-won { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 6px 0; font-size: 14px; } .hub-won + .hub-won { border-top: 1px solid rgba(255,255,255,.08); }
+  .hub-won b { min-width: 0; } .hub-won span { flex: 0 0 auto; font-size: 12.5px; color: rgba(255,255,255,.6); font-variant-numeric: tabular-nums; }
+  .hub-set { margin-top: 8px; padding: 12px 14px; border-radius: 14px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.12); }
+  .hub-set summary { cursor: pointer; font-weight: 800; } .hub-set summary small { margin-left: 6px; font-weight: 600; color: rgba(255,255,255,.55); }
+  .hub-row { margin-top: 20px; }
+  .sf-win { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 8px 0; padding: 10px 12px; border-radius: 14px; background: linear-gradient(135deg, rgba(252,211,77,.2), rgba(88,204,2,.12)); border: 1px solid rgba(252,211,77,.42); font-size: 14.5px; }
+  .sf-win small { display: block; margin-top: 2px; font-size: 12px; color: rgba(255,255,255,.6); }
+  /* A goal finished: asked, waiting, not yet, or stamped done; and his celebration. */
+  .nb-done { display: block; width: 100%; margin-top: 12px; padding: 9px 12px; border: 1.5px solid #8fd17a; border-radius: 10px; background: #f1fbe9; color: #22631a; font: inherit; font-size: 14px; font-weight: 900; cursor: pointer; }
+  .nb-wait { margin-top: 12px; padding: 9px 12px; border-radius: 10px; background: #fff3cd; color: #6b4a00; font-size: 14px; font-weight: 800; }
+  .nb-wait small { display: block; font-size: 12.5px; font-weight: 600; color: #8a6a1a; } .nb-wait .nb-link { color: #6b4a00; }
+  .nb-notyet { margin-top: 12px; padding: 9px 12px; border-radius: 10px; background: #efeafc; color: #3d2a7a; font-size: 14px; font-weight: 800; }
+  .nb-notyet .nb-hand { display: block; font-size: 18px; font-weight: 400; }
+  .nb-won { margin-top: 10px; font-size: 13.5px; font-weight: 800; color: #2e6b22; }
+  .nb-stamp { display: inline-block; vertical-align: middle; margin-left: 6px; padding: 0 7px; border: 2px solid #2e8a1d; border-radius: 6px; background: rgba(63,174,42,.08); color: #2e8a1d; font-size: 11px; font-weight: 900; letter-spacing: .08em; line-height: 17px; text-transform: uppercase; transform: rotate(-3deg); white-space: nowrap; }
+  .nb-nw { white-space: nowrap; }
+  .nb-c.after { border-color: transparent; background: transparent; }
+  .nb-tile.won { grid-column: 1 / -1; background: #eaf7e2; }
+  .nb-sign { text-align: right; }
+  .party { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: calc(env(safe-area-inset-top, 0px) + 18px) 18px calc(env(safe-area-inset-bottom, 0px) + 18px); background: radial-gradient(circle at 50% 35%, #3b2a8f, #120e2b 72%); overflow: hidden; }
+  .party-bits i { position: absolute; top: -14px; width: 8px; height: 14px; border-radius: 2px; animation: party-fall 2.6s linear infinite; }
+  @keyframes party-fall { to { transform: translateY(110vh) rotate(540deg); } }
+  .party-card { position: relative; width: min(380px, 100%); padding: 22px 18px 18px; border-radius: 22px; background: #fbf8f1; color: #23202f; text-align: center; animation: party-pop .4s ease-out; }
+  @keyframes party-pop { from { transform: scale(.86); opacity: 0; } to { transform: none; opacity: 1; } }
+  .party-cup { font-size: 64px; line-height: 1; }
+  .party-card h3 { margin-top: 10px; font-size: 24px; font-weight: 900; line-height: 1.2; text-wrap: balance; }
+  .party-goal { margin-top: 4px; font-family: 'Patrick Hand', 'Segoe Print', 'Bradley Hand', 'Comic Sans MS', cursive; font-size: 22px; color: #23408e; }
+  .party-xp { display: inline-block; margin-top: 12px; padding: 6px 16px; border-radius: 99px; background: #fff3cd; color: #6b4a00; font-size: 22px; font-weight: 900; font-variant-numeric: tabular-nums; }
+  .party-note { margin-top: 14px; padding: 12px; border-radius: 12px; background: #f2eee2; text-align: left; }
+  .party-note small { display: block; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #6b6578; }
+  .party-note div { margin-top: 2px; font-family: 'Patrick Hand', 'Segoe Print', 'Bradley Hand', 'Comic Sans MS', cursive; font-size: 20px; line-height: 1.3; color: #23408e; white-space: pre-wrap; }
+  .party-ok { width: 100%; margin-top: 16px; }
+  @media (prefers-reduced-motion: reduce) { .party-bits { display: none; } .party-card { animation: none; } }
+  @media (max-width: 380px) { .nb-page { --mx: 23px; padding-left: 34px; padding-right: 10px; } .nb-grid { gap: 2px; } .nb-tabs button { font-size: 11px; } }
   @media (prefers-reduced-motion: reduce) { .nb-switch i::after { transition: none; } }
   /* Printed: the notebook alone, a page each. */
   #nbPrintOut { display: none; }
@@ -1791,7 +1846,7 @@
 <section id="parent" class="overlay" hidden aria-label="Parents">
   <div class="overlay-card">
     <div class="flex items-center justify-between">
-      <h2 class="text-xl font-black">Family rewards</h2>
+      <h2 class="text-xl font-black">👪 Parent hub</h2>
       <button id="parentClose" class="text-white/50 text-sm font-bold px-2 py-1">Close</button>
     </div>
     <div id="parentBody"></div>
@@ -2489,8 +2544,10 @@ const TreasureUp = (function () {
   }
   // My Season on Today: each step to tick, the weekend check-in, the look back, and the Season itself.
   function seasonRows() {
-    const s = seasonNow(), rec = seasonRec(s.id), goals = liveGoals(rec), today = dayKey(), started = s.start <= today;
+    const s = seasonNow(), rec = seasonRec(s.id), goals = activeGoals(rec), today = dayKey(), started = s.start <= today;
     const rows = [], refl = seasonToReflect(), chk = checkWeek(), starts = DAY_NAMES[0] + ', ' + esc(mdShort(s.start));
+    const asks = F && F.role === 'parent' && famHome ? (famHome.reviews || []).filter(r => r.status === 'pending' && r.pid !== F.pid) : [];
+    if (asks.length) rows.push({ card: 'hub', done: null, html: flowRow('data-hub', false, '🏆 ' + esc([...new Set(asks.map(r => r.name))].join(' and ')) + (asks.length === 1 ? ' finished a goal' : ' finished goals'), 'Look it over in the Parent hub, and pick the XP', { icon: '🏆' }) });
     if (!goals.length) rows.push({ card: 'season', done: null, html: flowRow('data-season="discover"', false, '🌱 Plan my Season', started ? esc(s.name) + ' · ' + esc(seasonDates(s)) : esc(s.name) + ' starts ' + starts) });
     else {
       // Steps tick from the day they're planned (Blake, 2026-10-04, the day
@@ -3104,6 +3161,7 @@ const TreasureUp = (function () {
 
 
   function renderHome() {
+    setTimeout(maybeCelebrate, 0);   // a goal a parent said done: his celebration, once the home is drawn
     const was = $('home').querySelector('.strip'), left = was ? was.scrollLeft : null;
     $('home').innerHTML = homeHtml();
     document.querySelectorAll('#tabs [data-tab]').forEach(b => b.classList.toggle('on', b.dataset.tab === homeTab));
@@ -3225,9 +3283,10 @@ const TreasureUp = (function () {
 
   /* ---------------- XP ---------------- */
 
-  // Every XP he earns, supercharged by the streak (chargeOf).
-  function grantXp(amount, reason) {
-    const charge = chargeOf(streakNow());
+  // Every XP he earns, supercharged by the streak (chargeOf); exactly as
+  // given (`exact`) when a parent picked it, for a finished goal.
+  function grantXp(amount, reason, exact) {
+    const charge = exact ? 1 : chargeOf(streakNow());
     amount = Math.round(amount * charge);
     const beforeXp = S.xp;
     const before = levelFor(S.xp);
@@ -3238,7 +3297,7 @@ const TreasureUp = (function () {
     // its last screen, since the lesson covers the toasts.
     if (lesson) unlocked.forEach(r => lesson.rewards.push(r.text));
     else {
-      toast('＋' + amount + ' XP' + (charge > 1 ? ' ⚡×' + charge : ''), reason);
+      if (!exact) toast('＋' + amount + ' XP' + (charge > 1 ? ' ⚡×' + charge : ''), reason);
       unlocked.forEach(r => toast('🎁 Reward unlocked', r.text + ' · show a parent'));
     }
     renderHud();
@@ -3248,7 +3307,7 @@ const TreasureUp = (function () {
 
   // XP for a record (an answer, a note…), which keeps what it paid: with the
   // supercharge that varies, and the family's merge needs it (mergeProgress).
-  function payXp(rec, amount, reason) { const before = S.xp; grantXp(amount, reason); rec.xp = S.xp - before; }
+  function payXp(rec, amount, reason, exact) { const before = S.xp; grantXp(amount, reason, exact); rec.xp = S.xp - before; }
 
   let lvTimer = null;
   function levelUp(L) {
@@ -4123,7 +4182,7 @@ const TreasureUp = (function () {
       <div class="sh-row"><span>Listen voice</span><span>${pill(voice === 'male', 'data-set-voice="male"', 'Man')}${pill(voice === 'female', 'data-set-voice="female"', 'Woman')}</span></div>
       <div class="sh-row"><span>Verse size</span><span>${[['m', 'Normal'], ['l', 'Large'], ['xl', 'Larger']].map(([k, l]) => pill(textSize() === k, `data-set-text="${k}"`, l)).join('')}</span></div>
       <button class="sh-row sh-go" data-set-go="feedback"><span>Something wrong, or an idea?<small>Tell the parents, from right here</small></span><span>›</span></button>
-      <button class="sh-row sh-go" data-set-go="parent"><span>Parent rewards<small>Prize requests, the prize shop and milestones, behind a PIN</small></span><span>›</span></button>
+      <button class="sh-row sh-go" data-set-go="parent"><span>👪 Parent hub<small>Finished goals and prizes to answer, each child’s Season, the Season letter, prizes</small></span><span>›</span></button>
       ${devOwner() ? `<a class="sh-row sh-go" href="${here ? '#dev' : 'https://blakemerrell.github.io/TreasureUp-test/#dev'}"${here ? ' data-dev-open' : ''}><span>Developer mode<small>Approve the coming weeks</small></span><span>›</span></a>` : ''}
       ${TEST_SITE ? `<a class="sh-row sh-go" href="${esc(location.origin + '/TreasureUp/')}"><span>This is the test site<small>Open the live app</small></span><span>›</span></a>` : ''}`;
   }
@@ -4636,7 +4695,7 @@ const TreasureUp = (function () {
     const w = wd === 6 || wd === 0 ? mon : wd === 1 ? dayAdd(mon, -7) : null;
     if (!w) return null;
     const s = seasonAt(w);
-    return liveGoals(seasonRec(s.id)).length && w >= s.start ? { w, s } : null;
+    return activeGoals(seasonRec(s.id)).length && w >= s.start ? { w, s } : null;
   }
   const lastStatus = (rec, gid) => {
     const ws = Object.keys((rec && rec.checks) || {}).sort();
@@ -4691,7 +4750,7 @@ const TreasureUp = (function () {
   }
   function seasonSheetHtml(msg) {
     const body = seasonView === 'who' ? whoHtml() : seasonView === 'discover' ? discoverHtml() : seasonView === 'plan' ? planHtml()
-      : seasonView === 'check' ? checkHtml() : seasonView === 'reflect' ? reflectHtml() : seasonHomeHtml();
+      : seasonView === 'check' ? checkHtml() : seasonView === 'reflect' ? reflectHtml() : seasonView === 'done' ? doneHtml() : seasonHomeHtml();
     return `<div class="sea-sheet">${msg ? `<p class="shop-msg">${msg}</p>` : ''}${body}</div>`;
   }
   // ----- the notebook (Blake, 2026-10-05: "i just need a good place where we
@@ -4707,7 +4766,7 @@ const TreasureUp = (function () {
   // 🖨 prints the Season as a little book, his private goals and notes only
   // if he says so.
   const nb = { tab: 'goals', book: null, shelf: false, printing: false, priv: false };
-  const NB_TABS = [['goals', '📓', 'Goals'], ['notes', '✍️', 'Notes'], ['look', '🌟', 'Look back'], ['numbers', '📊', 'Numbers']];
+  const NB_TABS = [['goals', '📓', 'Goals'], ['notes', '✍️', 'Notes'], ['look', '🌟', 'Look back'], ['numbers', '📊', 'Numbers'], ['letter', '💌', 'Letter']];
   // The notebook open: this Season's (its goals change and tick), or an old one off the shelf (to read).
   function nbBook() {
     const cur = seasonNow(), s = nb.book && nb.book !== cur.id && seasonById(nb.book) || cur;
@@ -4728,7 +4787,7 @@ const TreasureUp = (function () {
     const chk = cur ? checkWeek() : null, refl = seasonToReflect(), was = chk && chk.s.id === s.id && ((rec && rec.checks) || {})[chk.w];
     const due = (chk && chk.s.id === s.id ? `<button class="nb-due${was ? ' done' : ''}" data-season="check"><span>🗓️ ${was ? 'This week’s check-in' : 'Weekend check-in'}<small>${was ? 'Done · change it' : 'How’s it going? · ' + SEASON_CHECK_XP + ' XP'}</small></span><span>›</span></button>` : '')
       + (refl ? `<button class="nb-due" data-season="reflect"><span>🌟 Look back on ${esc(refl.name)}<small>Three questions for each goal · ${SEASON_REFLECT_XP} XP</small></span><span>›</span></button>` : '');
-    const page = { goals: nbGoalsHtml, notes: nbNotesHtml, look: nbLookHtml, numbers: nbNumbersHtml }[nb.tab] || nbGoalsHtml;
+    const page = { goals: nbGoalsHtml, notes: nbNotesHtml, look: nbLookHtml, numbers: nbNumbersHtml, letter: nbLetterHtml }[nb.tab] || nbGoalsHtml;
     return `<div class="nb-head"><div><div class="sh-title">${cur ? '🌱 My Season' : '📚 ' + esc(s.name)}</div>
         <p class="sh-small">${cur ? `<b>${esc(s.name)}</b> · ` : ''}${esc(seasonDates(s))} · ${s.end < today ? 'finished' : started ? 'week ' + weekOfSeason(s, today) + ' of ' + s.weeks : 'starts ' + esc(mdShort(s.start))}</p></div>
         <button class="nb-hb" data-nb-shelf aria-label="Past Seasons">📚 Past</button><button class="nb-hb" data-nb-printbox aria-label="Print or save as PDF" aria-expanded="${nb.printing}">🖨</button></div>
@@ -4745,14 +4804,15 @@ const TreasureUp = (function () {
   // A step's grid: a column a week (a head start first, when there is one),
   // Monday on top, and the weekend check-ins under the goal's last step; on
   // this Season's page a tap ticks or unticks a day up to today.
-  function nbGridHtml(s, rec, stp, live, checksOf) {
+  function nbGridHtml(s, rec, stp, live, checksOf, doneDay) {
     const today = dayKey(), head = headStart(s, rec, stp) > 0, weeks = Array.from({ length: s.weeks + (head ? 1 : 0) }, (_, i) => i - (head ? 1 : 0));
     let html = '<span></span>' + weeks.map(w => `<span class="nb-wk">${w < 0 ? '·' : w + 1}</span>`).join('');
     ['M', 'T', 'W', 'T', 'F', 'S', 'S'].forEach((dl, d) => {
       html += `<span class="nb-dy">${dl}</span>` + weeks.map(w => {
         const day = dayAdd(s.start, w * 7 + d), on = ticked(rec, stp.id, day), cls = `nb-c${on ? ' on' : ''}${w < 0 ? ' head' : ''}${live && day === today ? ' now' : ''}`;
         if (day > today) return '<i class="nb-c later"></i>';
-        return live ? `<button class="${cls}" data-tick="${esc(s.id)}|${esc(stp.id)}|${day}" aria-label="${esc(mdShort(day))}${on ? ', ticked' : ''}"></button>` : `<i class="${cls}"></i>`;
+        if (doneDay && day > doneDay) return '<i class="nb-c after"></i>';
+        return live && !doneDay ? `<button class="${cls}" data-tick="${esc(s.id)}|${esc(stp.id)}|${day}" aria-label="${esc(mdShort(day))}${on ? ', ticked' : ''}"></button>` : `<i class="${cls}"></i>`;
       }).join('');
     });
     if (checksOf) html += '<span class="nb-dy">✓</span>' + weeks.map(w => {
@@ -4761,31 +4821,45 @@ const TreasureUp = (function () {
     }).join('');
     const started = s.start <= today, over = s.end < today, tot = ticksIn(rec, stp.id, dayAdd(s.start, -7), s.end);
     const weeksIn = started ? Math.min(s.weeks, Math.floor(dayDiff(s.start, over ? s.end : today) / 7) + 1) : 0, mon = mondayOf(today);
-    const tally = !started ? (tot ? `A head start: ${tot} ${tot === 1 ? 'day' : 'days'}` : `It begins ${mdShort(s.start)}`)
+    const tally = doneDay ? `${tot} ticked · 🏆 done ${mdShort(doneDay)}, in week ${Math.max(1, Math.floor(dayDiff(s.start, doneDay) / 7) + 1)}`
+      : !started ? (tot ? `A head start: ${tot} ${tot === 1 ? 'day' : 'days'}` : `It begins ${mdShort(s.start)}`)
       : over ? `${tot} ticked of ${s.weeks * stp.n} planned`
       : `${tot} ticked · ${weeksIn * stp.n} planned so far · this week ${Math.min(stp.n, ticksIn(rec, stp.id, mon, dayAdd(mon, 6)))} of ${stp.n}`;
     const count = rec && !rec.ticks && !rec.tickDays && rec.tickN && rec.tickN[stp.id] != null ? `<p class="nb-tally">Kept as a count: ${rec.tickN[stp.id]} ticked</p>` : '';
     return `<div class="nb-gw"><div class="nb-grid" style="grid-template-columns:14px repeat(${weeks.length}, minmax(0, 1fr))" aria-label="${esc(stp.text)}: the Season, a column a week">${html}</div></div><p class="nb-tally">${esc(tally)}</p>${count}`;
   }
+  // Under a goal: I finished it, waiting for a parent, Not yet (with what's left), or done.
+  function doneBlockHtml(g, live) {
+    const d = g.done, adult = seasonWho() === 'adult';
+    if (!d) return live ? `<button class="nb-done" data-done-ask="${esc(g.id)}">🏆 I finished it! ${adult ? 'Mark it done' : 'Ask Mom and Dad'}</button>` : '';
+    if (d.st === 'pending') return `<div class="nb-wait">⏳ Waiting for Mom or Dad<small>Asked ${esc(mdShort(d.day))}${live ? ` · <button class="nb-link" data-done-undo="${esc(g.id)}">Take back</button>` : ''}</small></div>`;
+    if (d.st === 'notyet') return `<div class="nb-notyet">Not yet${d.pnote ? `<span class="nb-hand">“${esc(d.pnote)}”${d.by ? ' — ' + esc(d.by) : ''}</span>` : ''}</div>${live ? `<button class="nb-done" data-done-ask="${esc(g.id)}">🏆 Ask again when it’s done</button>` : ''}`;
+    if (d.st === 'approved') return `<p class="nb-won">🏆 ${esc(d.by || 'Mom and Dad')} said done · +${fmtN(d.xp || 0)} XP</p>`;
+    return `<p class="nb-won">🏆 Done${d.st === 'private' ? ', kept private' : ''}${live ? ` · <button class="nb-link" data-done-undo="${esc(g.id)}">Undo</button>` : ''}</p>`;
+  }
+  // A title whose last word keeps the 🔒 and the stamp with it, so they never wrap onto a line alone.
+  const titleWith = (t, tail) => { const i = String(t).lastIndexOf(' '); return tail ? `${esc(t.slice(0, i + 1))}<span class="nb-nw">${esc(t.slice(i + 1))}${tail}</span>` : esc(t); };
+  const doneStamp = g => isDone(g) ? `<span class="nb-stamp">Done · ${esc(mdShort(g.done.day))}</span>` : '';
   function nbGoalsHtml({ s, rec, cur }, print) {
-    const goals = nbGoalsOf(rec, print), who = seasonWho(), live = cur && !print, n = liveGoals(rec).length;
+    const goals = nbGoalsOf(rec, print), who = seasonWho(), live = cur && !print, all = liveGoals(rec).length, n = activeGoals(rec).length;
     const goal = g => {
-      const st = lastStatus(rec, g.id), help = helperNames(g), from = g.from && seasonById(g.from), to = carriedTo(g);
+      const st = lastStatus(rec, g.id), help = helperNames(g), from = g.from && seasonById(g.from), to = carriedTo(g), done = isDone(g);
       return `<div class="nb-goal">
-        <div class="nb-gtop"><span class="nb-area">${areaOf(g.area).icon} ${esc(areaOf(g.area).name)}</span>${g.private ? '<span class="nb-lock">🔒 Private</span>' : ''}${live ? `<button class="nb-link" data-season-edit="${esc(g.id)}">Change</button>` : ''}</div>
+        <div class="nb-gtop"><span class="nb-area">${areaOf(g.area).icon} ${esc(areaOf(g.area).name)}</span>${g.private ? '<span class="nb-lock">🔒 Private</span>' : ''}${doneStamp(g)}${live && !done ? `<button class="nb-link" data-season-edit="${esc(g.id)}">Change</button>` : ''}</div>
         <div class="nb-gtitle">${esc(g.text)}</div>
         ${from ? `<div class="nb-from">↪ Kept going from ${esc(from.name)}</div>` : ''}${to ? `<div class="nb-from">↪ Kept going in ${esc(to.name)}</div>` : ''}
         ${g.why ? `<div class="nb-lbl">Why it matters</div><div class="nb-hand">${esc(g.why)}</div>` : ''}
         ${g.follow ? `<div class="nb-lbl">How it helps me follow Jesus</div><div class="nb-hand">${esc(g.follow)}</div>` : ''}
-        ${(g.steps || []).map((stp, i, all) => `<div class="nb-step">${esc(stp.text)} <small>· ${freqWords(stp.n)}</small></div>${nbGridHtml(s, rec, stp, live, i === all.length - 1 ? g.id : null)}`).join('')}
+        ${(g.steps || []).map((stp, i, steps) => `<div class="nb-step">${esc(stp.text)} <small>· ${freqWords(stp.n)}</small></div>${nbGridHtml(s, rec, stp, live, i === steps.length - 1 ? g.id : null, done ? g.done.day : null)}`).join('')}
         ${st || help ? `<p class="nb-meta">${[st ? esc(STATUS[st]) : '', help ? 'Helping: ' + esc(help) : ''].filter(Boolean).join(' · ')}</p>` : ''}
+        ${doneBlockHtml(g, live)}
       </div>`;
     };
     return `<section class="nb-page"><div class="nb-run"><span>My goals</span><span>${esc(s.name)}</span></div><h2 class="nb-h">My goals</h2>
       <p class="nb-sub">What I picked, why, and every day I did it.</p>
       ${goals.map(goal).join('') || `<p class="nb-empty">${cur ? `No goals yet for ${esc(s.name)}. ${who === 'child' ? 'One is plenty.' : who === 'youth' ? 'Two is a good number: by the end of the year that’s two in every area.' : 'Pick what matters most.'}` : 'No goals to show.'}</p>`}
       ${goals.length ? '<p class="nb-key">Weekend check-ins: 👍 progressing · 🙋 needed help · 🔄 tried something different</p>' : ''}
-      ${live && n < WHO[who].max ? (n ? '<button class="nb-add" data-season="discover">+ Add a goal</button>' : '<div class="board-actions"><button class="btn" data-season="discover">Plan my Season</button></div>') : ''}
+      ${live && n < WHO[who].max ? (all ? '<button class="nb-add" data-season="discover">+ Add a goal</button>' : '<div class="board-actions"><button class="btn" data-season="discover">Plan my Season</button></div>') : ''}
       ${live ? `<p class="nb-who">I am ${esc(WHO[who].name.replace(/^A /, 'a '))} · <button class="nb-link" data-season="who">Change</button></p>` : ''}</section>`;
   }
   // The Season a note belongs to: the one its day falls in, or, in the week
@@ -4836,8 +4910,8 @@ const TreasureUp = (function () {
       ${open ? `<div class="nb-row"><button class="nb-save" data-season="reflect">🌟 ${begun ? 'Finish' : 'Write'} my look back</button></div>` : ''}
       ${nbGoalsOf(rec, print).map(g => {
         const r = answers[g.id] || {}, to = carriedTo(g);
-        return `<div class="nb-gap"></div><div class="nb-goal"><div class="nb-gtitle">${esc(g.text)}${g.private ? ' 🔒' : ''}</div>
-          ${keep ? `<div class="nb-row"><button class="nb-keep" data-keep="${esc(s.id)}|${esc(g.id)}" aria-pressed="${!!to}">${to ? '✓ Going on into ' + esc(next.name) : '↪ Keep going in ' + esc(next.name)}</button></div>`
+        return `<div class="nb-gap"></div><div class="nb-goal"><div class="nb-gtitle">${titleWith(g.text, (g.private ? ' 🔒' : '') + (isDone(g) ? '<span class="nb-stamp">Done</span>' : ''))}</div>
+          ${keep && !isDone(g) ? `<div class="nb-row"><button class="nb-keep" data-keep="${esc(s.id)}|${esc(g.id)}" aria-pressed="${!!to}">${to ? '✓ Going on into ' + esc(next.name) : '↪ Keep going in ' + esc(next.name)}</button></div>`
             : to ? `<div class="nb-from">↪ Kept going in ${esc(to.name)}</div>` : ''}
           ${qs.map(([k, q]) => `<div class="nb-q">${esc(q)}</div>${r[k] ? `<div class="nb-hand">${esc(r[k])}</div>` : '<div class="nb-gap"></div>'}`).join('')}</div>`;
       }).join('')}</section>`;
@@ -4874,7 +4948,7 @@ const TreasureUp = (function () {
     for (const w of Object.values(S.late || {})) for (const [c, x] of Object.entries((w && w.read) || {})) if (x && inS(x.day)) chs.add(c);
     const days = new Set(Object.keys(S.days || {}).concat(Object.keys(S.filled || {})).filter(inS));
     const ticks = nbGoalsOf(rec, print).reduce((n, g) => n + (g.steps || []).reduce((m, st) => m + ticksIn(rec, st.id, dayAdd(s.start, -7), s.end), 0), 0);
-    return { chapters: [...chs], days: days.size, checks: Object.keys((rec && rec.checks) || {}).length, ticks };
+    return { chapters: [...chs], days: days.size, checks: Object.keys((rec && rec.checks) || {}).length, ticks, done: nbGoalsOf(rec, print).filter(isDone).length };
   }
   // "Isaiah 50", "Isaiah 51", "Isaiah 52", "Jeremiah 1" → "Isaiah 50–52 · Jeremiah 1".
   function chapterList(refs) {
@@ -4893,8 +4967,17 @@ const TreasureUp = (function () {
       [n.checks, n.checks === 1 ? 'weekend check-in' : 'weekend check-ins'], [n.ticks, n.ticks === 1 ? 'tick on my goals' : 'ticks on my goals']];
     return `<section class="nb-page"><div class="nb-run"><span>The Season in numbers</span><span>${s.end < today ? 'finished' : s.start > today ? 'not begun' : 'week ' + weekOfSeason(s, today) + ' of ' + s.weeks}</span></div>
       <h2 class="nb-h">The Season in numbers</h2>
-      <div class="nb-tiles">${tiles.map(([v, l]) => `<div class="nb-tile"><b>${fmtN(v)}</b><small>${esc(l)}</small></div>`).join('')}</div>
+      <div class="nb-tiles">${tiles.map(([v, l]) => `<div class="nb-tile"><b>${fmtN(v)}</b><small>${esc(l)}</small></div>`).join('')}
+        ${n.done ? `<div class="nb-tile won"><b>🏆 ${fmtN(n.done)}</b><small>${n.done === 1 ? 'goal done' : 'goals done'}</small></div>` : ''}</div>
       <div class="nb-lbl" style="margin-top:16px">Chapters I read</div><p class="nb-chs">${n.chapters.length ? esc(chapterList(n.chapters)) : 'They list here as you read them.'}</p></section>`;
+  }
+  // A note from Mom and Dad (Blake picked it for the notebook): written in
+  // their Parent hub, it shows here once they save it, and prints with it.
+  function nbLetterHtml({ s, rec }) {
+    const L = rec && rec.letter && rec.letter.text ? rec.letter : null;
+    return `<section class="nb-page ruled"><div class="nb-run"><span>A note from Mom and Dad</span><span>${esc(s.name)}</span></div><h2 class="nb-h">A note from Mom and Dad</h2>
+      ${L ? `<div class="nb-gap"></div><div class="nb-hand nb-letter">${esc(L.text)}</div><div class="nb-hand nb-sign">— ${esc(L.by || 'Mom and Dad')}</div>`
+        : '<p class="nb-sub">Mom and Dad write this in their Parent hub.</p><p class="nb-sub">It shows here when they save it.</p><div class="nb-gap"></div><div class="nb-gap"></div>'}</section>`;
   }
   // The shelf: this Season on top, then every Season with goals or notes, newest first.
   function shelfHtml() {
@@ -4906,7 +4989,7 @@ const TreasureUp = (function () {
       const s = seasonById(id), rec = seasonRec(id), goals = liveGoals(rec), notes = seasonNotes(s).length, kept = goals.filter(carriedTo).length;
       return `<button class="nb-book${now ? ' now' : ''}" data-nb-book="${now ? '' : esc(id)}"><span class="nb-spine"></span><span class="nb-bk"><b>${now ? '🌱 ' : ''}${esc(s.name)}</b>
         <small>${esc(seasonDates(s))} · ${s.end < today ? 'finished' : s.start > today ? 'begins ' + esc(mdShort(s.start)) : 'now, week ' + weekOfSeason(s, today) + ' of ' + s.weeks}</small>
-        <span class="nb-chips">${goals.length} ${goals.length === 1 ? 'goal' : 'goals'}${rec && rec.reflected ? ' · 🌟 looked back' : ''}${kept ? ' · ↪ ' + kept + ' kept going' : ''} · ✍️ ${notes} ${notes === 1 ? 'note' : 'notes'}</span></span></button>`;
+        <span class="nb-chips">${goals.length} ${goals.length === 1 ? 'goal' : 'goals'}${goals.some(isDone) ? ' · 🏆 ' + goals.filter(isDone).length + ' done' : ''}${rec && rec.reflected ? ' · 🌟 looked back' : ''}${rec && rec.letter && rec.letter.text ? ' · 💌 a letter' : ''}${kept ? ' · ↪ ' + kept + ' kept going' : ''} · ✍️ ${notes} ${notes === 1 ? 'note' : 'notes'}</span></span></button>`;
     };
     return `<div class="nb-head"><div><div class="sh-title">📚 My Seasons</div><p class="sh-small">Every Season with goals is a notebook, kept for good.</p></div><button class="nb-hb" data-nb-book="" aria-label="Back to this Season">✕</button></div>
       ${card(cur.id, true)}${old.map(id => card(id)).join('')}
@@ -4928,7 +5011,7 @@ const TreasureUp = (function () {
     box.id = 'nbPrintOut';
     box.innerHTML = `<section class="nb-page nb-cover"><small>My Season notebook</small><b>${esc(s.name)}</b><span>${esc(seasonDates(s))}</span>${name ? `<span class="nb-hand">${esc(name)}</span>` : ''}
         <p>“And Jesus increased in wisdom and stature, and in favour with God and man.” Luke 2:52</p></section>`
-      + nbGoalsHtml(ctx, true) + nbNotesHtml(ctx, true) + nbLookHtml(ctx, true) + nbNumbersHtml(ctx, true);
+      + nbGoalsHtml(ctx, true) + nbNotesHtml(ctx, true) + nbLookHtml(ctx, true) + nbNumbersHtml(ctx, true) + (ctx.rec && ctx.rec.letter && ctx.rec.letter.text ? nbLetterHtml(ctx) : '');
     document.body.appendChild(box);
     use('seasonPrint');
     const done = () => { box.remove(); window.removeEventListener('afterprint', done); };
@@ -5052,7 +5135,7 @@ const TreasureUp = (function () {
     const rec = seasonRec(c.s.id), was = (rec.checks || {})[c.w];
     return `<div class="sh-title">🗓️ How's it going?</div>
       <p class="sh-small">The week of ${esc(mdShort(c.w))}. “How are you feeling about what you are learning?”</p>
-      ${liveGoals(rec).map(g => {
+      ${activeGoals(rec).map(g => {
         const wk = weekTicks(rec, g, c.w), pick = checkDraft[g.id] || (was && was.goals && was.goals[g.id]) || '';
         return `<div class="sea-g"><div class="sea-g-text">${areaOf(g.area).icon} ${esc(g.text)}${g.private ? ' 🔒' : ''}</div><p class="sea-why">Ticked ${wk.done} of ${wk.of} this week</p>
           <div class="sea-stat">${Object.entries(STATUS).map(([k, w]) => `<button class="sh-pill${pick === k ? ' on' : ''}" data-check="${esc(g.id)}|${k}">${esc(w)}</button>`).join('')}</div></div>`;
@@ -5062,7 +5145,7 @@ const TreasureUp = (function () {
   function saveCheck() {
     const c = checkWeek();
     if (!c) return;
-    const rec = seasonRec(c.s.id, true), goals = liveGoals(rec), was = (rec.checks || {})[c.w];
+    const rec = seasonRec(c.s.id, true), goals = activeGoals(rec), was = (rec.checks || {})[c.w];
     const picks = Object.assign({}, (was && was.goals) || {}, checkDraft);
     if (goals.some(g => !picks[g.id])) return seasonDraw(('Pick one for each goal.'));
     rec.checks = rec.checks || {};
@@ -5089,7 +5172,7 @@ const TreasureUp = (function () {
         const to = carriedTo(g), next = seasonAt(dayAdd(s.end, 1));
         return `<div class="sea-g"><div class="sea-g-text">${areaOf(g.area).icon} ${esc(g.text)}</div><p class="sea-why">${tot} ${tot === 1 ? 'tick' : 'ticks'} this Season</p>
           ${qs.map(([k, q]) => `<label class="sea-lbl">${esc(q)}</label><textarea class="field" data-refl="${esc(g.id)}|${k}" maxlength="500" rows="2">${esc(r[k] || '')}</textarea>`).join('')}
-          ${keepWindow(s) ? `<div class="sea-stat"><button class="sh-pill${to ? ' on' : ''}" data-keep="${esc(s.id)}|${esc(g.id)}">${to ? '✓ Going on into ' + esc(next.name) : '↪ Keep going in ' + esc(next.name)}</button></div>` : ''}</div>`;
+          ${keepWindow(s) && !isDone(g) ? `<div class="sea-stat"><button class="sh-pill${to ? ' on' : ''}" data-keep="${esc(s.id)}|${esc(g.id)}">${to ? '✓ Going on into ' + esc(next.name) : '↪ Keep going in ' + esc(next.name)}</button></div>` : ''}</div>`;
       }).join('')}
       <div class="board-actions"><button class="btn" data-refl-save>${rec.reflected ? 'Save' : 'Done · +' + SEASON_REFLECT_XP + ' XP'}</button><button class="btn ghost" data-season="home">Back</button></div>`;
   }
@@ -5141,6 +5224,7 @@ const TreasureUp = (function () {
     if (sv) { if (seasonView === 'plan' && sv.dataset.season === 'home') seasonDraft = null; openSeason(sv.dataset.season); return true; }
     const ch = t.closest('[data-cheer]');
     if (ch) { sendCheer(ch.dataset.cheer); ch.disabled = true; ch.textContent = '👏 Sent'; return true; }
+    if (t.closest('[data-hub]')) { closeSheet(); openParent(); return true; }
     const fg = t.closest('[data-season-famgoal]');
     if (fg) { setFamSeasonGoal(); return true; }
     return false;
@@ -5171,6 +5255,13 @@ const TreasureUp = (function () {
     if (t.closest('[data-step-add]')) { readPlan().steps.push({ id: seaId('t'), text: '', n: 3 }); seasonDraw(); return true; }
     const sd = t.closest('[data-step-del]');
     if (sd) { readPlan().steps.splice(Number(sd.dataset.stepDel), 1); seasonDraw(); return true; }
+    const da = t.closest('[data-done-ask]');
+    if (da) { doneDraft = { gid: da.dataset.doneAsk, keep: false, note: '' }; seasonView = 'done'; seasonDraw('', true); return true; }
+    const dk = t.closest('[data-done-keep]');
+    if (dk && doneDraft) { if ($('doneNote')) doneDraft.note = $('doneNote').value; doneDraft.keep = dk.dataset.doneKeep === '1'; seasonDraw(); return true; }
+    if (t.closest('[data-done-send]')) { sendDone(); return true; }
+    const du = t.closest('[data-done-undo]');
+    if (du) { undoDone(du.dataset.doneUndo); return true; }
     if (t.closest('[data-plan-save]')) { savePlan(); return true; }
     if (t.closest('[data-plan-remove]')) { removeGoal(); return true; }
     const c = t.closest('[data-check]');
@@ -5190,6 +5281,131 @@ const TreasureUp = (function () {
     return false;
   }
 
+  // ----- a goal finished (Blake, 2026-10-05: "marking a goal done requires a
+  // parent review. we get to celebrate it, and he gets massive XP"). He asks
+  // (🏆 I finished it!) and says how it went; a parent looks it over in the
+  // Parent hub and picks the XP (500, 1,000 or 2,000, exactly, with no streak
+  // charge), or says Not yet with what's left. A private goal is shown to them
+  // for the review only if he says so; kept private, it's stamped done with no
+  // review and no XP. A grown-up's own goal is simply marked done. The ask is
+  // a family record (families/{fid}/reviews) a parent's phone sees; without a
+  // family, a parent answers on his device with the PIN. When it's approved,
+  // his device celebrates the next time he opens the app, and the family sees
+  // it on the Family tab. g.done: { st: pending | notyet | approved | private
+  // | self, rid, day (the day he finished), note, xp, pnote, by, seen }.
+  const isDone = g => !!(g && g.done && (g.done.st === 'approved' || g.done.st === 'private' || g.done.st === 'self'));
+  // The goals still being worked on: Today's ticks, the check-in, room for another.
+  const activeGoals = rec => liveGoals(rec).filter(g => !isDone(g));
+  const GOAL_XP = [[500, 'a good one'], [1000, 'a big one'], [2000, 'huge']];
+  let doneDraft = null;
+  // Ticks on a goal so far this Season, and in how many weeks.
+  function doneStats(s, rec, g) {
+    let n = 0; const weeks = new Set(), last = dayKey() < s.end ? dayKey() : s.end;
+    for (const st of g.steps || []) for (let d = dayAdd(s.start, -7); d <= last; d = dayAdd(d, 1)) if (ticked(rec, st.id, d)) { n++; weeks.add(Math.floor(dayDiff(s.start, d) / 7)); }
+    return { n, weeks: weeks.size };
+  }
+  function doneHtml() {
+    const rec = seasonRec(seasonNow().id), g = doneDraft && liveGoals(rec).find(x => x.id === doneDraft.gid);
+    if (!g) return `<div class="sh-title">🏆 Finished</div><p class="sh-small">That goal isn't here any more.</p><button class="today-alt" data-season="home">Back</button>`;
+    const adult = seasonWho() === 'adult', keep = adult || (g.private && doneDraft.keep);
+    const pick = (v, title, sub) => `<button class="sh-row sh-go${!!doneDraft.keep === v ? ' on' : ''}" data-done-keep="${v ? 1 : 0}" role="radio" aria-checked="${!!doneDraft.keep === v}"><span>${title}<small>${sub}</small></span><span>${!!doneDraft.keep === v ? '●' : '○'}</span></button>`;
+    return `<div class="sh-title">🏆 Finished “${esc(g.text)}”?</div>
+      <p class="sh-small">${adult ? 'It’s stamped done in your notebook, and the family sees it.' : 'Mom or Dad looks it over, then you celebrate. They pick the XP: a big goal can be a lot.'}</p>
+      ${!adult && g.private ? `<p class="sea-fam">🔒 This goal is private. For the review, Mom and Dad would see it; it stays private everywhere else.</p>
+        <div class="sea-who" role="radiogroup">${pick(false, 'Show it to Mom and Dad', 'They look it over; you get the XP and the celebration.')}${pick(true, 'Keep it private', 'It’s stamped done in your notebook. No review, no XP.')}</div>` : ''}
+      ${keep ? '' : `<label class="sea-lbl" for="doneNote">How did it go? (for Mom and Dad)</label><textarea id="doneNote" class="field" maxlength="400" rows="3" placeholder="What you did, and what it was like">${esc(doneDraft.note || '')}</textarea>`}
+      <div class="board-actions"><button class="btn" data-done-send>${keep ? 'Mark it done' : 'Ask Mom and Dad'}</button><button class="btn ghost" data-season="home">Cancel</button></div>`;
+  }
+  function doneBack(msg) {
+    doneDraft = null; save(); refreshHome();
+    seasonView = 'home'; Object.assign(nb, { tab: 'goals', book: null, shelf: false });
+    seasonDraw(msg);
+  }
+  function sendDone() {
+    const s = seasonNow(), rec = seasonRec(s.id), g = doneDraft && liveGoals(rec).find(x => x.id === doneDraft.gid);
+    if (!g) return;
+    const adult = seasonWho() === 'adult', note = ($('doneNote') ? $('doneNote').value.trim() : '').slice(0, 400);
+    if (adult || (g.private && doneDraft.keep)) {
+      g.done = { st: adult ? 'self' : 'private', day: dayKey(), upd: Date.now() }; g.upd = Date.now();
+      return doneBack(`🏆 <b>${esc(g.text)}</b>: stamped done.`);
+    }
+    const rid = seaId('r'), t = doneStats(s, rec, g);
+    g.done = { st: 'pending', rid, day: dayKey(), note, upd: Date.now() }; g.upd = Date.now();
+    famWrite(() => famCol(F.fid, 'reviews').doc(rid).set({ pid: F.pid, name: F.name, sid: s.id, gid: g.id, area: g.area, text: String(g.text || '').slice(0, 120),
+      private: !!g.private, note, ticks: Math.min(t.n, 1000), weeks: Math.min(t.weeks, 20), status: 'pending', at: TS(), upd: TS() }));
+    doneBack(F && FIREBASE_CONFIG ? 'Asked! Mom and Dad see it in their Parent hub.' : 'Asked! Show Mom or Dad: they look it over in ⚙️ → Parent hub, with the PIN.');
+  }
+  // His ask taken back while it waits, or a done he marked himself undone.
+  function undoDone(gid) {
+    const rec = seasonRec(seasonNow().id), g = rec && liveGoals(rec).find(x => x.id === gid);
+    if (!g || !g.done || g.done.st === 'approved') return;
+    const rid = g.done.st === 'pending' && g.done.rid;
+    delete g.done; g.upd = Date.now();
+    if (rid) famWrite(() => famCol(F.fid, 'reviews').doc(rid).update({ status: 'cancelled', upd: TS() }));
+    doneBack(rid ? 'Taken back.' : 'Back to working on it.');
+  }
+  // A parent's answer to his ask (from the family, or the PIN on this
+  // device): Not yet with what's left, or done with the XP they picked, paid
+  // once. True when it changed something.
+  function answerDone(sid, gid, rid, st, xp, pnote, by) {
+    const rec = seasonRec(sid), g = rec && liveGoals(rec).find(x => x.id === gid);
+    if (!g || !g.done || g.done.rid !== rid || g.done.st === 'approved') return false;
+    if (st === 'approved') {
+      g.done = Object.assign({}, g.done, { st: 'approved', at: dayKey(), pnote: pnote || '', by: by || '', seen: false, upd: Date.now() });
+      payXp(g.done, Math.max(1, Math.min(5000, Math.round(Number(xp)) || 1000)), '🏆 ' + g.text, true);
+    } else if (st === 'notyet' && g.done.st === 'pending') {
+      g.done = { st: 'notyet', rid, day: g.done.day, note: g.done.note || '', pnote: pnote || '', by: by || '', upd: Date.now() };
+    } else return false;
+    g.upd = Date.now();
+    return true;
+  }
+  // The family's answers to his asks, into this device's goals.
+  function syncReviews(list) {
+    if (!F || !S) return;
+    const now = list.filter(d => d.pid === F.pid && (d.status === 'approved' || d.status === 'notyet') && answerDone(d.sid, d.gid, d.id, d.status, d.xp, d.pnote, d.by));
+    if (now.length) {
+      save(); renderHud(); refreshHome();
+      if (now.some(d => d.status === 'notyet')) toast('Not yet', 'Mom or Dad wrote what’s left, under your goal');
+      maybeCelebrate();
+    }
+  }
+  // His celebration, the next time the app's home is in front of him: the
+  // goal, the XP, and the parent's note, with confetti.
+  function maybeCelebrate() {
+    if (!S || !S.seasons || $('party') || !onHome()) return;
+    for (const [sid, rec] of Object.entries(S.seasons)) for (const g of liveGoals(rec)) if (g.done && g.done.st === 'approved' && g.done.seen === false) return showParty(sid, g);
+  }
+  function showParty(sid, g) {
+    const colors = ['#fcd34d', '#58cc02', '#8b5cf6', '#ff5a5f', '#38bdf8'], el = document.createElement('div');
+    el.id = 'party'; el.className = 'party'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'A goal done');
+    el.innerHTML = `<div class="party-bits" aria-hidden="true">${Array.from({ length: 28 }, (_, i) => `<i style="left:${(i * 37) % 100}%;background:${colors[i % 5]};animation-delay:${((i * 53) % 260) / 100}s"></i>`).join('')}</div>
+      <div class="party-card"><div class="party-cup">🏆</div><h3>Mom and Dad said it’s done!</h3><div class="party-goal">${esc(g.text)}</div><div class="party-xp">+${fmtN(g.done.xp || 0)} XP</div>
+        ${g.done.pnote ? `<div class="party-note"><small>From ${esc(g.done.by || 'Mom and Dad')}</small><div>${esc(g.done.pnote)}</div></div>` : ''}
+        <button class="btn party-ok" data-party-ok>Awesome! 🎉</button></div>`;
+    document.body.appendChild(el);
+    el.querySelector('[data-party-ok]').addEventListener('click', () => {
+      const x = liveGoals(seasonRec(sid)).find(y => y.id === g.id);
+      if (x && x.done) { x.done.seen = true; x.done.upd = Date.now(); x.upd = Date.now(); save(); }
+      el.remove(); refreshHome(); maybeCelebrate();
+    });
+    el.querySelector('[data-party-ok]').focus();
+  }
+  // The family's letters to him, into this device's Seasons (and so his
+  // notebook, his saved progress, and a printed copy).
+  function syncLetters(list) {
+    if (!F || !S) return;
+    let fresh = false, changed = false;
+    for (const d of list) {
+      if (d.to !== F.pid || !seasonById(d.sid) || typeof d.text !== 'string') continue;
+      const upd = tsMs(d.upd) || 0, rec = seasonRec(d.sid, true);
+      if (rec.letter && (rec.letter.upd || 0) >= upd) continue;
+      if (!(rec.letter && rec.letter.text) && d.text) fresh = true;
+      rec.letter = { text: d.text.slice(0, 3000), by: d.by || '', upd }; changed = true;
+    }
+    if (fresh) toast('💌 A note from Mom and Dad', 'In your Season notebook');
+    if (changed) { save(); refreshHome(); }
+  }
+
   // ----- the family: what everyone sees, cheers, help, the family's goal -----
   // What this person's Season shows the family (families/{fid}/seasons/{pid}):
   // each goal's area and words (none for a private one), this week's ticks,
@@ -5201,7 +5417,7 @@ const TreasureUp = (function () {
       goals: liveGoals(rec).slice(0, 6).map(g => {
         const wk = weekTicks(rec, g, mon);
         return { id: g.id, area: g.area, text: g.private ? '' : String(g.text || '').slice(0, 120), private: !!g.private, done: wk.done, of: wk.of,
-          status: lastStatus(rec, g.id), helpers: (g.helpers || []).slice(0, 8) };
+          status: lastStatus(rec, g.id), helpers: (g.helpers || []).slice(0, 8), fin: isDone(g) ? (g.done.at || g.done.day || '') : '' };
       }),
       wk: mon
     };
@@ -5253,14 +5469,15 @@ const TreasureUp = (function () {
     const rows = famSeasons(), s = seasonNow(), parent = F.role === 'parent';
     const fg = famHome && famHome.seasonGoal && famHome.seasonGoal.sid === s.id ? famHome.seasonGoal.text : '';
     const help = rows.filter(x => !x.mine).flatMap(x => (x.goals || []).filter(g => g.status === 'help' && ((g.helpers || []).includes(F.pid) || (!(g.helpers || []).length && parent))).map(g => ({ x, g })));
-    const mon = mondayOf(dayKey());
+    const mon = mondayOf(dayKey()), wins = rows.flatMap(x => (x.goals || []).filter(g => g.fin && g.fin >= dayAdd(dayKey(), -14)).map(g => ({ x, g })));
     const dots = (x, g) => { const of = Math.min(g.of || 0, 14), done = x.wk === mon ? Math.min(g.done || 0, of) : 0; return of ? `<span class="sf-dots" aria-label="${done} of ${g.of} this week">${'●'.repeat(done)}${'○'.repeat(of - done)}</span>` : ''; };
     return `<div class="eyebrow" style="margin-top:20px">🌱 Seasons · ${esc(s.name)}</div>
       <div class="fam-card">
         ${fg ? `<p class="sea-fam">👪 Family goal: <b>${esc(fg)}</b></p>` : ''}
+        ${wins.map(({ x, g }) => `<div class="sf-win"><span>🏆 <b>${x.mine ? 'You' : esc(x.name)}</b> finished ${g.private ? 'a private goal' : '“' + esc(g.text) + '”'}!<small>${esc(mdShort(g.fin))}</small></span>${x.mine ? '' : `<button class="sh-pill" data-cheer="${esc(x.pid)}">👏 Cheer</button>`}</div>`).join('')}
         ${help.map(({ x, g }) => `<p class="sf-help">🙋 <b>${esc(x.name)}</b> could use your help${g.private ? '' : ': ' + esc(g.text)}.</p>`).join('')}
         ${rows.length ? rows.map(x => `<div class="sf-person"><div class="sf-top"><b>${esc(x.name)}${x.mine ? ' <small>you</small>' : ''}</b>${x.mine ? '' : `<button class="sh-pill" data-cheer="${esc(x.pid)}">👏 Cheer</button>`}</div>
-          ${(x.goals || []).map(g => `<div class="sf-goal"><span>${areaOf(g.area).icon} ${g.private ? '🔒 <i>A private goal</i>' : esc(g.text)}${g.status && g.status !== 'on' ? ` <small>${esc(STATUS[g.status] || '')}</small>` : ''}</span>${dots(x, g)}</div>`).join('')}</div>`).join('')
+          ${(x.goals || []).map(g => `<div class="sf-goal"><span>${areaOf(g.area).icon} ${g.private ? '🔒 <i>A private goal</i>' : esc(g.text)}${g.fin ? ' 🏆' : ''}${g.status && g.status !== 'on' ? ` <small>${esc(STATUS[g.status] || '')}</small>` : ''}</span>${dots(x, g)}</div>`).join('')}</div>`).join('')
           : `<p class="kc-none">Nobody has planned ${esc(s.name)} yet. <button class="today-alt" data-season="discover" style="display:inline;margin:0">Plan yours</button></p>`}
         ${parent ? `<div class="sf-set"><input id="famSeasonGoal" class="field" maxlength="140" placeholder="A goal for the whole family this Season" value="${esc(fg)}"><button class="btn ghost" data-season-famgoal>Save</button></div>` : ''}
       </div>`;
@@ -5298,7 +5515,7 @@ const TreasureUp = (function () {
     const shared = Object.values(st.impressions || {}).filter(x => x && !x.gone && x.share && x.day >= dayAdd(dayKey(), -7)).sort((a, b) => (b.at || 0) - (a.at || 0)).slice(0, 2);
     if (!goals.length && !shared.length) return '';
     return `${goals.map(g => { const wk = weekTicks(rec, g, mon), stt = lastStatus(rec, g.id);
-        return `<p class="kc-week">${areaOf(g.area).icon} ${g.private ? '🔒 A private goal' : esc(g.text)} · ${wk.done} of ${wk.of} this week${stt ? ' · ' + esc(STATUS[stt]) : ''}</p>`; }).join('')}
+        return `<p class="kc-week">${areaOf(g.area).icon} ${g.private ? '🔒 A private goal' : esc(g.text)}${isDone(g) ? ' 🏆 done' : g.done && g.done.st === 'pending' ? ' ⏳ asked you' : ''} · ${wk.done} of ${wk.of} this week${stt ? ' · ' + esc(STATUS[stt]) : ''}</p>`; }).join('')}
       ${shared.map(x => `<p class="kc-note">${x.kind === 'grateful' ? esc(impWords(x)) : '✍️ “' + esc(x.text) + '”'}<small>${x.kind === 'grateful' ? 'Grateful for' : x.ref ? esc(x.ref) : 'An impression'}, shared with you</small></p>`).join('')}`;
   }
   // The same, on the parent screen of this device.
@@ -5309,21 +5526,144 @@ const TreasureUp = (function () {
     if (!goals.length && !shared.length && !priv) return '';
     return `<div class="eyebrow" style="margin-top:22px">🌱 His Season · ${esc(s.name)}</div>
       ${goals.map(g => { const wk = weekTicks(rec, g, mon), stt = lastStatus(rec, g.id);
-        return `<p class="text-[14px] mt-2">${areaOf(g.area).icon} ${g.private ? '🔒 <i>A private goal</i>' : esc(g.text)}<br><small class="text-white/55">${wk.done} of ${wk.of} this week${stt ? ' · ' + esc(STATUS[stt]) : ''}</small></p>`; }).join('')}
+        return `<p class="text-[14px] mt-2">${areaOf(g.area).icon} ${g.private ? '🔒 <i>A private goal</i>' : esc(g.text)}${isDone(g) ? ' 🏆 done' : g.done && g.done.st === 'pending' ? ' ⏳ asked you' : ''}<br><small class="text-white/55">${wk.done} of ${wk.of} this week${stt ? ' · ' + esc(STATUS[stt]) : ''}</small></p>`; }).join('')}
       ${shared.map(x => `<p class="kc-note">${x.kind === 'grateful' ? esc(impWords(x)) : '✍️ “' + esc(x.text) + '”'}<small>${esc(mdShort(x.day))}${x.kind === 'grateful' ? ' · Grateful for' : x.ref ? ' · ' + esc(x.ref) : ''}</small></p>`).join('')}
       ${priv ? `<p class="text-[12px] text-white/50 mt-2">${priv} private ${priv === 1 ? 'impression' : 'impressions'}, just his.</p>` : ''}`;
   }
 
 
 
+  // ----- the Parent hub (Blake, 2026-10-05: "marking a goal done requires a
+  // parent review ... we might need to repurpose the parent page"; he picked
+  // a hub). What's waiting for a parent comes first (finished goals to look
+  // over, with the XP to pick, and prize requests), then each child's Season,
+  // the Season letter, the goals celebrated, and setup (prizes, milestones,
+  // the PIN). On a parent's own phone, in a family, it's every child, from the
+  // family's copy of their progress, with no PIN; on his device, behind the
+  // PIN, it's him.
+  const hubFam = () => !!(F && F.role === 'parent' && famHome);
+  const rvXp = {}, rvNy = {}, hubOpen = {};
+  // Finished goals waiting for a parent: everyone's in the family, or this device's.
+  function hubReviews() {
+    if (hubFam()) return (famHome.reviews || []).filter(r => r.status === 'pending' && r.pid !== F.pid);
+    const out = [], name = (F && F.name) || S.ownerName || 'He';
+    for (const [sid, rec] of Object.entries(S.seasons || {})) for (const g of liveGoals(rec)) if (g.done && g.done.st === 'pending') {
+      const s = seasonById(sid), t = s ? doneStats(s, rec, g) : { n: 0, weeks: 0 };
+      out.push({ id: g.done.rid, local: true, name, sid, gid: g.id, area: g.area, text: g.text, private: !!g.private, note: g.done.note || '', ticks: t.n, weeks: t.weeks });
+    }
+    return out;
+  }
+  const hubWaiting = () => hubReviews().length + (hubFam() ? famHome.orders || [] : myOrders()).filter(o => o.status === 'pending').length;
+  // The Family tab's way in, for a parent.
+  function hubRowHtml() {
+    const n = hubWaiting();
+    return `<button class="sh-row sh-go hub-row" data-hub><span>👪 Parent hub${n ? ` <b class="set-new">· ${n} waiting</b>` : ''}<small>Finished goals and prizes to answer, each child’s Season, the Season letter, prizes</small></span><span>›</span></button>`;
+  }
+  // A goal's Season at a glance: a square a week, filled when its steps' number was met.
+  function weekStripHtml(s, rec, g) {
+    const need = (g.steps || []).reduce((n, st) => n + st.n, 0), today = dayKey();
+    return `<div class="hub-strip" aria-label="The Season, a square a week">${Array.from({ length: s.weeks }, (_, w) => {
+      const mon = dayAdd(s.start, w * 7);
+      if (mon > today) return '<i class="later"></i>';
+      const got = (g.steps || []).reduce((n, st) => n + Math.min(st.n, ticksIn(rec, st.id, mon, dayAdd(mon, 6))), 0);
+      return `<i class="${need && got >= need ? 'on' : got ? 'some' : ''}"></i>`;
+    }).join('')}</div>`;
+  }
+  function reviewCardHtml(r) {
+    const xp = rvXp[r.id] || 1000, st = r.local ? S : famHome.kids[r.pid], rec = st && st.seasons && st.seasons[r.sid];
+    const g = rec && (rec.goals || []).find(x => x.id === r.gid), s = seasonById(r.sid), rid = esc(r.id);
+    return `<div class="hub-rv"><div class="hub-chips"><span>🏆 Finished goal</span><span>${areaOf(r.area).icon} ${esc(areaOf(r.area).name)}</span>${r.private ? '<span class="lock">🔒 Private: shown to you for this review</span>' : ''}</div>
+      <div class="hub-what">${esc(r.name)}: ${esc(r.text)}</div>
+      ${g && s ? weekStripHtml(s, rec, g) : ''}
+      <p class="hub-stats">${fmtN(r.ticks || 0)} ${r.ticks === 1 ? 'tick' : 'ticks'} in ${r.weeks || 0} ${r.weeks === 1 ? 'week' : 'weeks'}${g && g.steps ? ' · ' + esc(g.steps.map(x => x.text + ', ' + freqWords(x.n)).join('; ')) : ''}</p>
+      ${r.note ? `<div class="hub-his"><small>${esc(r.name)} wrote</small><div>${esc(r.note)}</div></div>` : ''}
+      ${rvNy[r.id] ? `<label class="sea-lbl" for="rvNo_${rid}">What’s left? ${esc(r.name)} sees this under the goal</label><textarea id="rvNo_${rid}" class="field" maxlength="300" rows="2" placeholder="Two more weeks of it, and it’s yours."></textarea>
+          <div class="board-actions"><button class="btn" data-act="rv-nosend" data-rid="${rid}">Send “Not yet”</button><button class="btn ghost" data-act="rv-noback" data-rid="${rid}">Back</button></div>`
+        : `<div class="sea-lbl">How big a deal? XP</div><div class="hub-pick" role="radiogroup">${GOAL_XP.map(([v, l]) => `<button class="${xp === v ? 'on' : ''}" role="radio" aria-checked="${xp === v}" data-act="rv-xp" data-rid="${rid}" data-xp="${v}">${fmtN(v)}<small>${l}</small></button>`).join('')}</div>
+          <label class="sea-lbl" for="rvNote_${rid}">A note for ${esc(r.name)}’s celebration</label><textarea id="rvNote_${rid}" class="field" maxlength="300" rows="2" placeholder="We’re so proud of you!"></textarea>
+          <div class="board-actions"><button class="btn" data-act="rv-ok" data-rid="${rid}">🎉 Approve · +${fmtN(xp)} XP</button><button class="btn ghost" data-act="rv-no" data-rid="${rid}">Not yet</button></div>`}</div>`;
+  }
+  // A parent's answer: in the family, its record (his devices pick it up);
+  // on his device with the PIN, his goal at once, and the record marked so.
+  function answerReview(rid, st) {
+    const r = hubReviews().find(x => x.id === rid);
+    if (!r) return renderParent();
+    const xp = rvXp[rid] || 1000, box = $((st === 'approved' ? 'rvNote_' : 'rvNo_') + rid), pnote = (box ? box.value : '').trim().slice(0, 300);
+    if (st === 'notyet' && !pnote) return renderParent('Write what’s left, so ' + r.name + ' knows what to do.');
+    const by = hubFam() ? F.name : 'Mom and Dad', paid = st === 'approved' ? xp : 0;
+    if (r.local) {
+      if (answerDone(r.sid, r.gid, rid, st, xp, pnote, by)) { save(); renderHud(); refreshHome(); }
+      famWrite(() => famCol(F.fid, 'reviews').doc(rid).update({ status: st, xp: paid, pnote, by, pin: true, upd: TS() }));
+    } else {
+      Object.assign(famHome.reviews.find(x => x.id === rid) || {}, { status: st, xp: paid, pnote, by });
+      famWrite(() => famCol(F.fid, 'reviews').doc(rid).update({ status: st, xp: paid, pnote, by, upd: TS() }));
+      famRedraw();
+    }
+    delete rvXp[rid]; delete rvNy[rid];
+    renderParent(st === 'approved' ? `🎉 Approved: ${r.name} gets ${fmtN(xp)} XP and the celebration${r.local ? ' when this closes' : ' the next time the app opens'}.`
+      : `Sent: ${r.name} sees “Not yet” and your note under the goal.`);
+  }
+  // Each child, for a parent's own phone: the Family tab's card on them.
+  function kidsHubHtml() {
+    const cards = parentCardsHtml();
+    return `<div class="hub-eyebrow">Your children</div>${cards || '<p class="hub-none">No children in the family yet.</p>'}`;
+  }
+  // On his device: him (what was here before, under his name).
+  function selfHubHtml() {
+    const name = (F && F.name) || S.ownerName || '';
+    return `<div class="hub-eyebrow">${name ? esc(name) : 'On this device'}</div>
+      <div class="hub-card"><p class="text-[14px] text-white/75">${name ? esc(name) + ' has' : 'This device has'} earned <b class="text-amber-300">${fmtN(S.xp)} XP</b>, and has <b class="text-amber-300">${fmtN(xpToSpend())}</b> to spend in the rewards shop.</p>
+        ${parentSeasonHtml()}${readingLogHtml()}<div class="eyebrow" style="margin-top:22px">Notes</div>${journalHtml()}</div>`;
+  }
+  // The Season letter: one to each child (in a family), or to him on his device.
+  function letterHubHtml() {
+    const s = seasonAt(dayKey());
+    const kids = hubFam() ? famHome.progress.filter(x => x.role === 'kid' && x.pid !== F.pid).map(x => ({ pid: x.pid, name: x.name, text: ((famHome.letters || []).find(l => l.to === x.pid && l.sid === s.id) || {}).text || '' }))
+      : [{ pid: 'me', name: (F && F.name) || S.ownerName || 'him', text: (((seasonRec(s.id) || {}).letter) || {}).text || '' }];
+    if (!kids.length) return '';
+    return `<div class="hub-eyebrow">💌 Season letter · ${esc(s.name)}</div>
+      <p class="hub-small">A note for the end of the Season. It shows on the Letter page of the notebook when you save it, and prints with it.</p>
+      ${kids.map(k => `<div class="hub-card"><label class="sea-lbl" for="letter_${esc(k.pid)}">To ${esc(k.name)}</label>
+        <textarea id="letter_${esc(k.pid)}" class="field" maxlength="3000" rows="4" placeholder="${esc(k.name)}, we watched you…">${esc(k.text)}</textarea>
+        <div class="board-actions"><button class="btn ghost" data-act="letter" data-pid="${esc(k.pid)}" data-name="${esc(k.name)}">Save the letter</button></div></div>`).join('')}`;
+  }
+  function saveLetter(pid, name) {
+    const box = $('letter_' + pid), text = (box ? box.value : '').trim().slice(0, 3000), s = seasonAt(dayKey());
+    if (pid === 'me') {
+      seasonRec(s.id, true).letter = { text, by: 'Mom and Dad', upd: Date.now() };
+      save(); refreshHome();
+    } else {
+      const f = (famHome.letters || []).find(l => l.to === pid && l.sid === s.id);
+      if (f) Object.assign(f, { text, by: F.name }); else (famHome.letters = famHome.letters || []).push({ id: pid + '_' + s.id, to: pid, sid: s.id, text, by: F.name });
+      famWrite(() => famCol(F.fid, 'letters').doc(pid + '_' + s.id).set({ to: pid, sid: s.id, text, by: F.name, upd: TS() }));
+    }
+    renderParent(text ? `Saved. ${name || 'He'} sees it on the Letter page of the notebook.` : 'Cleared.');
+  }
+  // The goals a parent said done, newest first.
+  function wonHubHtml() {
+    let won = [];
+    if (hubFam()) won = (famHome.reviews || []).filter(r => r.status === 'approved').map(r => ({ name: r.name, text: r.private ? '🔒 A private goal' : r.text, xp: r.xp, day: tsMs(r.upd) ? dayKey(new Date(tsMs(r.upd))) : '' }));
+    else for (const rec of Object.values(S.seasons || {})) for (const g of liveGoals(rec)) if (g.done && g.done.st === 'approved') won.push({ name: '', text: g.private ? '🔒 A private goal' : g.text, xp: g.done.xp, day: g.done.at || g.done.day || '' });
+    won = won.sort((a, b) => (b.day || '').localeCompare(a.day || '')).slice(0, 12);
+    return won.length ? `<div class="hub-eyebrow">🏆 Goals you’ve celebrated</div><div class="hub-card">${won.map(x => `<div class="hub-won"><b>${x.name ? esc(x.name) + ' · ' : ''}${esc(x.text)}</b><span>${x.day ? esc(mdShort(x.day)) + ' · ' : ''}${fmtN(x.xp || 0)} XP</span></div>`).join('')}</div>` : '';
+  }
+  // Redraw it as the family's records change, unless a parent is typing in it.
+  function hubRefresh() {
+    const a = document.activeElement;
+    if ($('parent').hidden || !parentUnlocked || (a && a.closest && a.closest('#parent') && /^(TEXTAREA|INPUT)$/.test(a.tagName))) return;
+    renderParent();
+  }
+
   function openParent() {
-    parentUnlocked = false;
+    parentUnlocked = hubFam();
+    if (parentUnlocked) { draft = P.rewards.length ? P.rewards.map(r => Object.assign({}, r)) : [{ xp: 0, text: '', claimed: false }]; prizeDraft = prizes().map(p => Object.assign({}, p)); }
     renderParent();
     $('parent').hidden = false;
   }
   function closeParent() {
     $('parent').hidden = true;
     parentUnlocked = false;
+    maybeCelebrate();
   }
 
   function rewardRow(r, n) {
@@ -5335,10 +5675,17 @@ const TreasureUp = (function () {
       </div>`;
   }
 
+  let hubSaid = null;   // the hub's last message, kept a few seconds through a redraw
   function renderParent(msg) {
+    if (msg) hubSaid = { msg, at: Date.now() };
+    else if (hubSaid && Date.now() - hubSaid.at < 8000) msg = hubSaid.msg;
     const body = $('parentBody');
     const note = msg ? `<p class="parent-msg">${esc(msg)}</p>` : '';
-    if (!P.pin) {
+    // What's typed in its boxes stays across a redraw (a new record arriving, an XP picked).
+    const typed = {};
+    body.querySelectorAll('textarea[id], input[id]:not([type="password"])').forEach(el => { typed[el.id] = el.value; });
+    if (hubFam()) parentUnlocked = true;   // a parent's own phone: no PIN
+    if (!P.pin && !parentUnlocked) {
       body.innerHTML = `
         <p class="text-[14px] text-white/75 mt-2">Choose a 4-digit parent PIN so rewards can't be changed without you.</p>
         ${note}
@@ -5357,31 +5704,41 @@ const TreasureUp = (function () {
         <div class="board-actions"><button class="btn" data-act="unlock">Unlock</button></div>`;
       return;
     }
+    const fam = hubFam(), waits = hubReviews(), prizeAsks = requestsHtml(true), anyPrize = /req-row/.test(prizeAsks), n = hubWaiting();
     body.innerHTML = `
-      <p class="text-[14px] text-white/75 mt-2">He has earned <b class="text-amber-300">${fmtN(S.xp)} XP</b>, and has <b class="text-amber-300">${fmtN(xpToSpend())}</b> to spend in the rewards shop.</p>
       ${note}
-      <div class="eyebrow" style="margin-top:18px">🎁 Prize requests</div>
-      ${requestsHtml(true)}
-      <div class="eyebrow" style="margin-top:22px">🎁 The prize shop</div>
-      <p class="text-[12px] text-white/50 mt-1">What he can spend XP on. “0 a week” means no limit. Clear a prize's name to remove it.${F && F.role === 'parent' ? ' Saved here, it is the whole family’s list.' : F ? ' In a family, a list a parent saves on their own phone takes the place of this one.' : ''}</p>
-      <div class="grid gap-2 mt-3" id="prizeRows">${prizeDraft.map(prizeRow).join('')}</div>
-      <div class="board-actions">
-        <button class="btn ghost" data-act="addprize">Add a prize</button>
-        <button class="btn ghost" data-act="starter">Start over with the starter list</button>
-        <button class="btn" data-act="saveprizes">Save prizes</button>
-      </div>
-      <div class="eyebrow" style="margin-top:22px">Milestones</div>
-      <p class="text-[12px] text-white/50 mt-1">Rewards at XP marks, with no XP spent. Tick Given once he's had it. Clear a reward's text to remove it.</p>
-      <div class="grid gap-2 mt-4" id="rewardRows">${draft.map(rewardRow).join('')}</div>
-      <div class="board-actions">
-        <button class="btn ghost" data-act="add">Add a reward</button>
-        <button class="btn" data-act="save">Save</button>
-      </div>
-      ${parentSeasonHtml()}
-      ${readingLogHtml()}
-      <div class="eyebrow" style="margin-top:22px">His notes</div>
-      ${journalHtml()}
+      <div class="hub-eyebrow">Waiting for you${n ? ` <span class="hub-badge">${n}</span>` : ''}</div>
+      ${waits.map(reviewCardHtml).join('')}
+      ${anyPrize ? `<div class="hub-card"><div class="eyebrow">🎁 Prize requests</div>${prizeAsks}</div>` : ''}
+      ${!waits.length && !anyPrize ? '<p class="hub-none">Nothing waiting. 🎉 Finished goals and prize requests show up here.</p>' : ''}
+      ${fam ? kidsHubHtml() : selfHubHtml()}
+      ${letterHubHtml()}
+      ${wonHubHtml()}
+      <div class="hub-eyebrow">Setup</div>
+      <details class="hub-set" data-set="prizes"${hubOpen.prizes ? ' open' : ''}><summary>🎁 The prize shop <small>${prizes().length} prizes</small></summary>
+        <p class="text-[12px] text-white/50 mt-2">What XP can be spent on. “0 a week” means no limit. Clear a prize's name to remove it.${F && F.role === 'parent' ? ' Saved here, it is the whole family’s list.' : F ? ' In a family, a list a parent saves on their own phone takes the place of this one.' : ''}</p>
+        <div class="grid gap-2 mt-3" id="prizeRows">${prizeDraft.map(prizeRow).join('')}</div>
+        <div class="board-actions">
+          <button class="btn ghost" data-act="addprize">Add a prize</button>
+          <button class="btn ghost" data-act="starter">Start over with the starter list</button>
+          <button class="btn" data-act="saveprizes">Save prizes</button>
+        </div></details>
+      <details class="hub-set" data-set="miles"${hubOpen.miles ? ' open' : ''}><summary>🎯 Milestones <small>${P.rewards.length || 'none'}</small></summary>
+        <p class="text-[12px] text-white/50 mt-2">Rewards at XP marks, with no XP spent. Tick Given once it's been had. Clear a reward's text to remove it.</p>
+        <div class="grid gap-2 mt-4" id="rewardRows">${draft.map(rewardRow).join('')}</div>
+        <div class="board-actions">
+          <button class="btn ghost" data-act="add">Add a reward</button>
+          <button class="btn" data-act="save">Save</button>
+        </div></details>
+      ${fam ? '' : `<details class="hub-set" data-set="pin"${hubOpen.pin ? ' open' : ''}><summary>🔢 Parent PIN</summary>
+        <label class="block mt-3 text-[12px] text-white/60" for="pinNew">New PIN</label>
+        <input id="pinNew" class="field" type="password" inputmode="numeric" maxlength="4" autocomplete="off">
+        <label class="block mt-3 text-[12px] text-white/60" for="pinAgain">Type it again</label>
+        <input id="pinAgain" class="field" type="password" inputmode="numeric" maxlength="4" autocomplete="off">
+        <div class="board-actions"><button class="btn ghost" data-act="setpin">Change the PIN</button></div></details>`}
       ${/\/TreasureUp-test\//.test(location.pathname) ? '<a class="parent-link" href="#dev" data-act="dev">Developer mode: review and change content ›</a>' : ''}`;
+    for (const [id, v] of Object.entries(typed)) { const el = $(id); if (el && el.tagName !== 'SELECT') el.value = v; }
+    body.querySelectorAll('details.hub-set').forEach(d => d.addEventListener('toggle', () => { hubOpen[d.dataset.set] = d.open; }));
   }
 
   // The week's chapters: how long each was open before "I read it" (reading
@@ -5435,6 +5792,15 @@ const TreasureUp = (function () {
   }));
 
   function parentAction(act, el) {
+    const rid = el.dataset.rid;
+    if (act === 'rv-xp') { rvXp[rid] = Number(el.dataset.xp); return renderParent(); }
+    if (act === 'rv-ok') return answerReview(rid, 'approved');
+    if (act === 'rv-no') { rvNy[rid] = true; return renderParent(); }
+    if (act === 'rv-noback') { rvNy[rid] = false; return renderParent(); }
+    if (act === 'rv-nosend') return answerReview(rid, 'notyet');
+    if (act === 'letter') return saveLetter(el.dataset.pid, el.dataset.name);
+    if (['addprize', 'starter', 'saveprizes'].includes(act)) hubOpen.prizes = true;
+    if (['add', 'save'].includes(act)) hubOpen.miles = true;
     if (act === 'order') { setOrder(el.dataset.oid, el.dataset.st, !(F && F.role === 'parent')); return renderParent(el.dataset.st === 'declined' ? 'Said no: his XP is back.' : el.dataset.st === 'given' ? 'Marked given. 🎉' : 'Said yes. Mark it given once he has it.'); }
     if (act === 'addprize') { prizeDraft = readPrizeRows().concat({ emoji: '', name: '', cost: 0, limit: 0 }); return renderParent(); }
     if (act === 'starter') { prizeDraft = STARTER_PRIZES.map(p => Object.assign({}, p)); return renderParent('The starter list, not saved yet.'); }
@@ -5454,7 +5820,7 @@ const TreasureUp = (function () {
       if (a !== b) return renderParent("The two PINs don't match. Try again.");
       P.pin = a; saveParent();
       parentUnlocked = true; draft = [{ xp: 0, text: '', claimed: false }]; prizeDraft = prizes().map(p => Object.assign({}, p));
-      renderParent('PIN saved. Prize requests, the prize shop and milestones are below.');
+      renderParent('PIN saved. Finished goals and prize requests to answer come first, and the setup is at the bottom.');
     } else if (act === 'dev') {
       closeParent();
       openDev();
@@ -5473,9 +5839,9 @@ const TreasureUp = (function () {
       if (bad) { draft = rows; return renderParent('"' + bad.text + '" needs an XP number above 0.'); }
       P.rewards = rows.filter(r => r.text);
       saveParent();
-      closeParent();
+      draft = P.rewards.length ? P.rewards.map(r => Object.assign({}, r)) : [{ xp: 0, text: '', claimed: false }];
       refreshHome();
-      toast('Rewards saved', P.rewards.length + ' reward' + (P.rewards.length === 1 ? '' : 's'));
+      renderParent('Milestones saved: ' + P.rewards.length + '.');
     }
   }
 
@@ -10949,7 +11315,7 @@ const TreasureUp = (function () {
     if (!a || !F) return;
     if (canon(S) !== a.from) { pendingAdopt = null; queueSync(0); return; }
     const typing = [...document.querySelectorAll('textarea, input.field')].some(t => t.value.trim() && !t.readOnly);
-    const busy = ['play', 'live', 'board', 'parent', 'lesson', 'view', 'risk', 'snake', 'look'].some(id => !$(id).hidden) || typing;
+    const busy = ['play', 'live', 'board', 'parent', 'lesson', 'view', 'risk', 'snake', 'look'].some(id => !$(id).hidden) || typing || !!$('party');
     if (busy) { adoptTimer = setTimeout(tryAdopt, 10000); return; }
     try {
       localStorage.setItem(STORE_KEY, a.json);
@@ -11014,6 +11380,8 @@ const TreasureUp = (function () {
       const l = sea(L)[id], r = sea(R)[id], b = sea(B)[id];
       for (const w in (l && l.checks) || {}) if (!(b && b.checks && b.checks[w]) && r && r.checks && r.checks[w]) gained -= xpOf(l.checks[w], SEASON_CHECK_XP);
       if (l && l.reflected && !(b && b.reflected) && r && r.reflected) gained -= xpOf(l.reflected, SEASON_REFLECT_XP);
+      const paidFor = (o, gid) => { const g = o && (o.goals || []).find(x => x.id === gid); return g && g.done && g.done.st === 'approved' ? g.done.xp || 0 : 0; };
+      for (const g of (l && l.goals) || []) if (paidFor(l, g.id) && paidFor(r, g.id) && !paidFor(b, g.id)) gained -= paidFor(l, g.id);
     }
     M.xp = (R.xp || 0) + Math.max(0, gained);
     M.libRead = Object.assign({}, L.libRead || {}, R.libRead || {});
@@ -11114,6 +11482,7 @@ const TreasureUp = (function () {
       for (const g in l.reflect || {}) for (const k in l.reflect[g]) if (!(r.reflect[g] || {})[k]) (r.reflect[g] = r.reflect[g] || {})[k] = l.reflect[g][k];
       if (!r.reflected && l.reflected) r.reflected = l.reflected;
       if (!r.tickN && l.tickN) r.tickN = l.tickN;
+      if (l.letter && (!r.letter || (l.letter.upd || 0) > (r.letter.upd || 0))) r.letter = l.letter;
       // One device folded its ticks into lines and the other hasn't yet: lines it is.
       if (l.tickDays) {
         r.tickDays = r.tickDays || { from: l.tickDays.from, steps: {} };
@@ -11171,7 +11540,7 @@ const TreasureUp = (function () {
   function watchHome() {
     stopHome();
     if (!F || !FIREBASE_CONFIG) return;
-    const h = famHome = { progress: [], goal: false, kids: {}, watching: {}, errors: [], feedback: [], prizes: null, orders: [], seasons: [], seasonGoal: null };
+    const h = famHome = { progress: [], goal: false, kids: {}, watching: {}, errors: [], feedback: [], prizes: null, orders: [], seasons: [], seasonGoal: null, reviews: [], letters: [] };
     sendErrors = flushErrors; flushErrors();
     famHomeOff.push(famDoc(F.fid).onSnapshot(d => {
       h.goal = !!(d.exists && d.data().goal);
@@ -11186,6 +11555,21 @@ const TreasureUp = (function () {
     famHomeOff.push(oq.onSnapshot(q => {
       h.orders = q.docs.map(d => Object.assign({ id: d.id }, d.data({ serverTimestamps: 'estimate' })));
       syncOrders(h.orders); famRedraw();
+    }, () => {}));
+    // Finished goals asked about (families/{fid}/reviews) and Season letters:
+    // a parent sees everyone's; anyone else, their own, which bring a parent's
+    // answer and letter to this device.
+    const parentHere = F.role === 'parent';
+    famHomeOff.push((parentHere ? famCol(F.fid, 'reviews').orderBy('at', 'desc').limit(60) : famCol(F.fid, 'reviews').where('pid', '==', F.pid)).onSnapshot(q => {
+      h.reviews = q.docs.map(d => Object.assign({ id: d.id }, d.data({ serverTimestamps: 'estimate' })));
+      syncReviews(h.reviews); famRedraw(); hubRefresh();
+      // A parent's Today has a row for asks waiting: redraw it when they change.
+      const waiting = h.reviews.filter(r => r.status === 'pending').map(r => r.id).join();
+      if (parentHere && waiting !== h.waiting) { h.waiting = waiting; refreshHome(); }
+    }, () => {}));
+    famHomeOff.push((parentHere ? famCol(F.fid, 'letters') : famCol(F.fid, 'letters').where('to', '==', F.pid)).onSnapshot(q => {
+      h.letters = q.docs.map(d => Object.assign({ id: d.id }, d.data({ serverTimestamps: 'estimate' })));
+      syncLetters(h.letters); hubRefresh();
     }, () => {}));
     // Everyone's Season (families/{fid}/seasons), and cheers sent to this person (each shown once, then cleared).
     famHomeOff.push(famCol(F.fid, 'seasons').onSnapshot(q => {
@@ -11291,7 +11675,7 @@ const TreasureUp = (function () {
   function screenName() {
     const open = id => { const el = document.getElementById(id); return el && !el.hidden; };
     return open('lesson') ? 'a lesson' : open('view') ? 'the reader' : open('wordSheet') ? 'a word study' : open('fam') ? 'Family screen'
-      : open('parent') ? 'Parent rewards' : ({ today: 'Today', study: 'Study', scriptures: 'Scriptures', games: 'Games tab', season: 'Season tab', family: 'Family (from Settings)' })[homeTab] || 'the app';
+      : open('parent') ? 'Parent hub' : ({ today: 'Today', study: 'Study', scriptures: 'Scriptures', games: 'Games tab', season: 'Season tab', family: 'Family (from Settings)' })[homeTab] || 'the app';
   }
   // Something wrong, or an idea (Settings): to the family, for a parent.
   function feedbackSheetHtml(sent) {
@@ -11331,7 +11715,7 @@ const TreasureUp = (function () {
       ${board}
       ${seasonFamHtml()}
       ${parent ? `<div class="fam-goal-set"><span>Family goal<small>Everyone reads all of the week's chapters</small></span><span><button class="sh-pill${goal ? ' on' : ''}" data-fam-goal="1">On</button><button class="sh-pill${goal ? '' : ' on'}" data-fam-goal="0">Off</button></span></div>` : ''}
-      ${parent && requestsHtml(false) ? `<div class="eyebrow" style="margin-top:20px">🎁 Prize requests</div><div class="fam-card">${requestsHtml(false)}</div>` : ''}
+      ${parent ? hubRowHtml() : ''}
       ${parent ? `<div class="eyebrow" style="margin-top:20px">Today, for parents</div>${kids || '<p class="kc-none">A child\u2019s card shows here once their device has joined the family.</p>'}` : ''}
       ${parent ? trialHtml() : ''}
       <div class="fam-go"><button class="sh-row sh-go" data-fam-open="chat"><span>💬 Family chat</span><span>›</span></button>

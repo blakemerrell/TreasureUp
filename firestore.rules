@@ -353,6 +353,59 @@ service cloud.firestore {
           && request.resource.data.updated == request.time;
         allow delete: if isParent() || (isMember() && me().pid == pid);
       }
+      // A finished goal for a parent to look over (2026-10-05): asked by that
+      // person only, answered by a parent (the XP they picked, a note, and who),
+      // or on his own device with the parent PIN (marked pin). Only parents and
+      // the one who asked can read it: a private goal shown for the review
+      // stays out of the rest of the family's sight.
+      match /reviews/{id} {
+        allow read: if isParent() || (isMember() && resource.data.pid == me().pid);
+        allow create: if isMember()
+          && only(['pid', 'name', 'sid', 'gid', 'area', 'text', 'private', 'note', 'ticks', 'weeks', 'status', 'at', 'upd'])
+          && request.resource.data.pid == me().pid
+          && request.resource.data.name == me().name
+          && request.resource.data.status == 'pending'
+          && request.resource.data.sid is string && request.resource.data.sid.size() <= 10
+          && request.resource.data.gid is string && request.resource.data.gid.size() <= 40
+          && request.resource.data.area is string && request.resource.data.area.size() <= 20
+          && request.resource.data.text is string && request.resource.data.text.size() <= 120
+          && request.resource.data.private is bool
+          && request.resource.data.note is string && request.resource.data.note.size() <= 400
+          && request.resource.data.ticks is int && request.resource.data.ticks >= 0 && request.resource.data.ticks <= 1000
+          && request.resource.data.weeks is int && request.resource.data.weeks >= 0 && request.resource.data.weeks <= 20
+          && request.resource.data.at == request.time
+          && request.resource.data.upd == request.time;
+        allow update: if isParent()
+          && changes(['status', 'xp', 'pnote', 'by', 'upd'])
+          && request.resource.data.status in ['approved', 'notyet']
+          && request.resource.data.xp is int && request.resource.data.xp >= 0 && request.resource.data.xp <= 5000
+          && request.resource.data.pnote is string && request.resource.data.pnote.size() <= 300
+          && request.resource.data.by is string && request.resource.data.by.size() <= 40
+          && request.resource.data.upd == request.time;
+        allow update: if isMember() && resource.data.pid == me().pid
+          && changes(['status', 'xp', 'pnote', 'by', 'pin', 'upd'])
+          && request.resource.data.upd == request.time
+          && ((resource.data.status == 'pending' && request.resource.data.status == 'cancelled')
+              || (request.resource.data.pin == true && request.resource.data.status in ['approved', 'notyet']
+                  && request.resource.data.xp is int && request.resource.data.xp >= 0 && request.resource.data.xp <= 5000
+                  && request.resource.data.pnote is string && request.resource.data.pnote.size() <= 300
+                  && request.resource.data.by is string && request.resource.data.by.size() <= 40));
+        allow delete: if isParent();
+      }
+      // A parent's letter to a child for the end of the Season (2026-10-05),
+      // one a child a Season (id: pid_sid), read by parents and that child.
+      match /letters/{id} {
+        allow read: if isParent() || (isMember() && resource.data.to == me().pid);
+        allow create, update: if isParent()
+          && only(['to', 'sid', 'text', 'by', 'upd'])
+          && request.resource.data.to is string && request.resource.data.to.size() <= 64
+          && request.resource.data.sid is string && request.resource.data.sid.size() <= 10
+          && id == request.resource.data.to + '_' + request.resource.data.sid
+          && request.resource.data.text is string && request.resource.data.text.size() <= 3000
+          && request.resource.data.by is string && request.resource.data.by.size() <= 40
+          && request.resource.data.upd == request.time;
+        allow delete: if isParent();
+      }
       // A 👏 from one person to another, cleared by whoever it was for once seen.
       match /cheers/{id} {
         allow read: if isMember() && (resource.data.to == me().pid || resource.data.from == me().pid || isParent());
