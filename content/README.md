@@ -87,7 +87,11 @@ deep (Go deeper): one per section, plus Friday's pieces.
   A Go deeper comes on the day its passage is read. The page plans
   the week from `reference`: its chapters a day or two at a time,
   Monday to Saturday, each day's reels after its reading; Friday's
-  deep dive, Saturday's puzzle, Sunday's family game.
+  deep dive, Saturday's puzzle, Sunday's family game. A week whose
+  `reference` names no chapters ("Christmas") has no reading path: its
+  reels spread over Monday to Saturday in section order, each insight
+  card comes with a reel from its chapter (or the cards spread over the
+  week), and its cards and reels may use any chapter of the scriptures.
 
 Each reel:
   id        unique and stable. Changing it resets that reel's answer.

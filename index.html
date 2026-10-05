@@ -3842,11 +3842,15 @@ const TreasureUp = (function () {
     needOrig(box);
   }
   // Without a reading plan, a section a day as before.
-  const sectionDay = i => { const n = WEEK.sections.length; return n <= 5 ? i : Math.floor(i * 5 / n); };
   // A reel comes on the day its chapter is read; one outside the reading,
-  // with its section's other reels.
+  // with its section's other reels. A week with no chapters to read
+  // (Christmas) spreads its reels over Monday to Saturday, in section order,
+  // so no day is empty while another has a section's worth.
   function reelDay(r) {
-    if (!readingAll().length) return sectionDay(r.section);
+    if (!readingAll().length) {
+      const order = WEEK.reels.map((x, i) => [x, i]).sort((a, b) => (a[0].section - b[0].section) || (a[1] - b[1])).map(p => p[0]);
+      return Math.floor(order.indexOf(r) * READING_DAYS / Math.max(1, order.length));
+    }
     const d = readingDayOf(r.verse.ref);
     if (d >= 0) return d;
     const mates = WEEK.reels.filter(x => x !== r && x.section === r.section).map(x => readingDayOf(x.verse.ref)).filter(x => x >= 0);
@@ -3861,8 +3865,18 @@ const TreasureUp = (function () {
   }
   const dayReels = d => WEEK.reels.filter(r => reelDay(r) === d);
   const dayDeep = d => deepItems().filter(x => x.day !== 'friday' && deepDay(x) === d);
-  // An insight card comes on the day its verses are read.
-  const insightDay = i => { const d = readingDayOf(i.x.ref); return d >= 0 ? d : lastReadingDay(); };
+  // An insight card comes on the day its verses are read. In a week with no
+  // chapters to read (Christmas), on the day of a reel from its chapter, or
+  // else the cards spread over the week in their order.
+  const insightDay = i => {
+    const d = readingDayOf(i.x.ref);
+    if (d >= 0) return d;
+    if (readingAll().length) return lastReadingDay();
+    const ch = String(i.x.ref || '').replace(/:.*/, ''), r = WEEK.reels.find(x => x.verse.ref.replace(/:.*/, '') === ch);
+    if (r) return reelDay(r);
+    const all = WEEK.insights || [], k = all.findIndex(x => x && x.id === i.x.id);
+    return Math.floor(Math.max(0, k) * READING_DAYS / Math.max(1, all.length));
+  };
   const dayInsights = d => insightsOf(WEEK).filter(i => insightDay(i) === d);
   // A day's best cards, about three (Blake, 2026-10-02: "Fewer, better
   // cards"): its first insight, its quote, its video, then more insights.
