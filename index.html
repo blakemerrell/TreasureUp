@@ -1286,6 +1286,8 @@
   .dc-row .st { flex: 0 0 22px; height: 22px; border-radius: 999px; display: grid; place-items: center; font-size: 11px; font-weight: 900; border: 1.5px solid rgba(255,255,255,.3); }
   .dc-row.is-right .st { background: var(--right); border-color: var(--right); color: #052e16; }
   .dc-row.is-wrong .st { background: var(--wrong); border-color: var(--wrong); color: #3b0512; }
+  .dc-row.is-done .st { background: rgba(255,255,255,.7); border-color: rgba(255,255,255,.7); color: #0b1024; }
+  .dc-row .st.ic { border: 0; font-size: 15px; }
   .dc-row .go { margin-left: auto; color: rgba(255,255,255,.35); }
   .more { margin-top: 10px; }
   .more summary { display: flex; align-items: center; gap: 10px; padding: 8px 2px; cursor: pointer; list-style: none; }
@@ -2644,20 +2646,29 @@ const TreasureUp = (function () {
   const pastLoaded = {};
   function pastDayHtml(w, k) {
     const d = dayDiff(w.start, k), data = w.week ? { week: w.week, text: window.TU_READING || {} } : pastLoaded[w.num];
-    const head = dcTitle(k, keptDay(k) ? '<span class="dc-tag kept">Read ✓</span>' : '') + `<div class="dc-week">${esc(w.title)}</div>`;
+    const head = dcTitle(k, keptDay(k) ? '<span class="dc-tag kept">✓ Kept</span>' : '') + `<div class="dc-week">${esc(w.title)}</div>`;
+    const weekRow = `<button class="dc-row" data-past="${w.num}"><span class="st ic" aria-hidden="true">🗓️</span><span>Open the whole week</span><span class="go">›</span></button>`;
     if (!data) {
       pastWeekData({ num: w.num, dates: w.dates, title: w.title, week: null }).then(x => { pastLoaded[w.num] = x; refreshHome(); }).catch(() => {});
       return `<div class="day-card">${head}<p class="dc-note">Opening that week…</p></div>`;
     }
-    if (d === 6) return `<div class="day-card">${head}<div class="dc-head">Church, then a family game</div><button class="dc-row" data-past="${w.num}"><span class="st"></span><span>Open the whole week</span><span class="go">›</span></button></div>`;
-    const units = planOf(data.week, data.text)[d] || [], chs = new Set(units.map(u => u.ch));
+    if (d === 6) return `<div class="day-card">${head}<div class="dc-head">Church, then a family game</div>${weekRow}</div>`;
+    // Done as the whole week shows it (Blake, 2026-10-05: "Why can't I see
+    // these checked off when I complete them?"): a chapter read that week, since,
+    // or in the library; a question answered then or since, ✓ or ✕.
+    const units = planOf(data.week, data.text)[d] || [], chs = new Set(units.map(u => u.ch)), all = readingUnits(data.week.reference, data.text);
+    const read = u => pastReadDoneOf(w.num, u.ref, all);
     const reels = data.week.reels.filter(r => chs.has(r.verse.ref.replace(/:.*/, '')));
-    const left = units.filter(u => !weekRead(data.week, u.ref));
+    const left = units.filter(u => !read(u));
+    const reelRow = r => {
+      const t = pastTryOf(w.num, data.week, 'answers', r.id), cls = !t ? '' : t.right == null ? ' is-done' : t.right ? ' is-right' : ' is-wrong';
+      return `<button class="dc-row${cls}" data-past-reel="${w.num}|${esc(r.id)}"><span class="st">${!t ? '' : t.right === false ? '✕' : '✓'}</span><span>${esc(r.hook)}</span><span class="go">›</span></button>`;
+    };
     return `<div class="day-card">${head}
-      ${units.length ? `<div class="dc-chips">${units.map(u => chipHtml(u.ref, weekRead(data.week, u.ref), `data-past-chapter="${w.num}|${esc(u.ref)}"`)).join('')}</div>` : ''}
+      ${units.length ? `<div class="dc-chips">${units.map(u => chipHtml(u.ref, read(u), `data-past-chapter="${w.num}|${esc(u.ref)}"`)).join('')}</div>` : ''}
       ${left.length ? `<button class="board-link ls-start" data-past-chapter="${w.num}|${esc(left[0].ref)}">▶ Read ${esc(left[0].ref)}<small>Catch up: ${READ_XP} XP a chapter, marked read at its end</small></button>` : units.length ? '<p class="dc-note">✓ Every chapter of this day is read.</p>' : ''}
-      ${reels.length ? `<div class="dc-rows">${reels.map(r => `<button class="dc-row" data-past-reel="${w.num}|${esc(r.id)}"><span class="st"></span><span>${esc(r.hook)}</span><span class="go">›</span></button>`).join('')}</div>` : ''}
-      <button class="dc-row" data-past="${w.num}"><span class="st"></span><span>Open the whole week</span><span class="go">›</span></button>
+      ${reels.length ? `<div class="dc-rows">${reels.map(reelRow).join('')}</div>` : ''}
+      ${weekRow}
     </div>`;
   }
   // A later week's day: what it will read, and when it opens.
@@ -6236,11 +6247,12 @@ const TreasureUp = (function () {
   // totals: all its reels answered means each one was, and all right (or
   // none) says how each went; `right` is null when they don't say.
   // Null when nothing says he answered it.
-  function pastTry(kind, id) {
-    const { p, week } = past, h = recordOf(p.num), rec = h && h.rec;
+  // Any past week's (Today's day cards ask too), or the open one's.
+  function pastTryOf(num, week, kind, id) {
+    const h = recordOf(num), rec = h && h.rec;
     const a = rec && (rec[kind] || {})[id];
     if (a) return { right: a.right, picked: a.picked };
-    const l = (((S.late || {})[p.num] || {})[kind] || {})[id];
+    const l = (((S.late || {})[num] || {})[kind] || {})[id];
     if (l) return { right: l.right, picked: l.picked, late: l.day };
     if (h && !rec && kind === 'answers' && week.reels.length && h.answered >= week.reels.length) {
       const r = week.reels.find(x => x.id === id), right = h.right >= h.answered ? true : h.right ? null : false;
@@ -6248,14 +6260,16 @@ const TreasureUp = (function () {
     }
     return null;
   }
+  const pastTry = (kind, id) => pastTryOf(past.p.num, past.week, kind, id);
   // A chapter of the open week he read: saved with the week, or, for a week
   // with only its totals, when he read all of them; or read since (lateRead).
-  function pastReadDone(ref, units) {
-    if (lateRead(ref) || (S.libRead && S.libRead[ref])) return true;
-    const h = recordOf(past.p.num), rec = h && h.rec;
+  function pastReadDoneOf(num, ref, units) {
+    if ((((S.late || {})[num] || {}).read || {})[ref] || (S.libRead && S.libRead[ref])) return true;
+    const h = recordOf(num), rec = h && h.rec;
     if (rec) return (Array.isArray(rec.read) ? rec.read : Object.keys(rec.read || {})).includes(ref);
     return !!(h && units.length && h.read >= units.length);
   }
+  const pastReadDone = (ref, units) => pastReadDoneOf(past.p.num, ref, units);
   // A chapter of the open week read since it ended (Blake, 2026-10-01: "I want
   // to catch up with all the reading of even the past weeks"): { day, secs, said, xp }.
   const lateRead = ref => (((S.late || {})[past.p.num] || {}).read || {})[ref] || null;
@@ -6368,6 +6382,7 @@ const TreasureUp = (function () {
     $('past').hidden = true;
     $('pastBody').innerHTML = '';
     past = null;
+    refreshHome();     // a day card under it shows what was done there
   }
   function pastWeekHtml() {
     const { p, week, text } = past, h = recordOf(p.num);
