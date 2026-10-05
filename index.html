@@ -915,6 +915,8 @@
   /* ---- Family: people, join links and the family chat ---- */
   .hud-dot { position: absolute; top: 1px; right: 1px; width: 9px; height: 9px; border-radius: 99px; background: var(--gold); box-shadow: 0 0 0 2px #0a0a14; }
   .hud-dot[hidden] { display: none; }
+  .set-new { color: var(--gold); font-weight: 800; }
+  .sea-tab { padding-top: 6px; }
   .fam-wrap { width: 100%; max-width: 560px; margin: 14px auto 0; }
   .fam-wrap label { display: block; margin-top: 12px; font-size: 12px; color: rgba(255,255,255,.6); }
   .fam-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
@@ -1520,7 +1522,7 @@
     <button id="fsBtn" data-fs class="pointer-events-auto grid place-items-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-md ring-1 ring-white/15 shrink-0 leading-none" aria-label="Full screen" hidden></button>
 
     <!-- Settings: Listen voice, text size, a note to the parents, rewards, developer mode -->
-    <button id="setBtn" class="pointer-events-auto grid place-items-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-md ring-1 ring-white/15 shrink-0 text-lg leading-none" aria-label="Settings">⚙️</button>
+    <button id="setBtn" class="pointer-events-auto relative grid place-items-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-md ring-1 ring-white/15 shrink-0 text-lg leading-none" aria-label="Settings and Family">⚙️<i id="chatDot" class="hud-dot" hidden></i></button>
   </div>
 </header>
 
@@ -1535,7 +1537,7 @@
   <button data-tab="study"><span>💡</span>Study</button>
   <button data-tab="scriptures"><span>📖</span>Scriptures</button>
   <button data-tab="games"><span>🎮</span>Games</button>
-  <button data-tab="family"><span>👪</span>Family<i id="chatDot" class="hud-dot" hidden></i></button>
+  <button data-tab="season"><span>🌱</span>Season</button>
 </nav>
 
 <!-- One reel, looked back at. -->
@@ -2234,7 +2236,7 @@ const TreasureUp = (function () {
     return `
       <div class="home-in">
         ${TEST_SITE ? testNoteHtml() : ''}
-        ${homeTab === 'study' ? studyHtml() : homeTab === 'scriptures' ? scripturesHtml() : homeTab === 'games' ? gamesTabHtml() : homeTab === 'family' ? `<div id="familyTab">${familyTabHtml()}</div>` : todayTabHtml()}
+        ${homeTab === 'study' ? studyHtml() : homeTab === 'scriptures' ? scripturesHtml() : homeTab === 'games' ? gamesTabHtml() : homeTab === 'season' ? seasonTabHtml() : homeTab === 'family' ? `<div id="familyTab">${familyTabHtml()}</div>` : todayTabHtml()}
       </div>`;
   }
   function todayTabHtml() {
@@ -2528,12 +2530,14 @@ const TreasureUp = (function () {
     const sun = sundayStudyHtml();
     const kinds = [['all', 'All'], ['deep', 'Deep dives'], ['jsp', 'Joseph Smith'], ['insight', 'Insights'], ['quote', 'Quotes'], ['video', 'Videos'], ['sunday', 'Sunday']]
       .filter(([k]) => (k !== 'deep' || insightsOf(WEEK).some(i => hasDeep(i.x))) && (k !== 'jsp' || insightsOf(WEEK).some(i => isJsp(i.x))) && (k !== 'sunday' || sun));   // each once the week has one; Sunday once there's Sunday study
+    // Each day with its date (Blake, 2026-10-05: "Need to see dates on these"): Monday, Oct 5 · Isaiah 50.
+    const monday = weekStart(WEEK.dates), dateOf = d => monday ? ', ' + shortDay(dayAdd(monday, d)) : '';
     const days = studyKind === 'sunday' ? '' : DAY_NAMES.slice(0, 6).map((name, d) => {
       const cards = dayInsights(d).filter(i => studyKind === 'all' || (studyKind === 'deep' ? hasDeep(i.x) : studyKind === 'jsp' ? isJsp(i.x) : (i.x.kind || 'insight') === studyKind));
-      return cards.length ? `<div class="st-day"><div class="eyebrow">${name} · ${esc(unitsLabel(readingPlan()[d]) || '')}</div>${cards.map(i => cardRowHtml(i)).join('')}</div>` : '';
+      return cards.length ? `<div class="st-day"><div class="eyebrow">${name}${esc(dateOf(d))} · ${esc(unitsLabel(readingPlan()[d]) || '')}</div>${cards.map(i => cardRowHtml(i)).join('')}</div>` : '';
     }).join('');
     const n = insightsOf(WEEK).length, read = insightsOf(WEEK).filter(i => (S.insights || {})[i.x.id]).length;
-    return `<div class="eyebrow" style="color:#c4b5fd">Study · for deep-dive days</div>
+    return `<div class="eyebrow" style="color:#c4b5fd">Study · ${esc(monday ? shortDay(monday) + ' – ' + shortDay(dayAdd(monday, 6)) : 'for deep-dive days')}</div>
       <h1 class="reel-hook" style="font-size:26px">${esc(WEEK.title)}</h1>
       <p class="lb-help">${n ? `${read} of ${n} cards read. The best of each day are in Today too.` : 'This week has no cards yet.'}</p>
       <div class="st-kinds">${kinds.map(([k, l]) => `<button class="sh-pill${studyKind === k ? ' on' : ''}" data-study-kind="${k}">${l}</button>`).join('')}</div>
@@ -3740,7 +3744,9 @@ const TreasureUp = (function () {
     try { voice = localStorage.getItem(VOICE_KEY) || 'male'; } catch (e) {}
     const pill = (on, attr, label) => `<button class="sh-pill${on ? ' on' : ''}" ${attr}>${label}</button>`;
     const here = /\/TreasureUp-test\//.test(location.pathname);
+    const unread = !$('chatDot').hidden;
     return `<div class="sh-title">Settings</div>
+      <button class="sh-row sh-go" data-set-go="family"><span>👪 Family${unread ? ' <b class="set-new">· new message</b>' : ''}<small>${F ? 'This week, chat, people, everyone’s Season' : 'Sign in or join your family'}</small></span><span>›</span></button>
       <div class="sh-row"><span>Listen voice</span><span>${pill(voice === 'male', 'data-set-voice="male"', 'Man')}${pill(voice === 'female', 'data-set-voice="female"', 'Woman')}</span></div>
       <div class="sh-row"><span>Verse size</span><span>${[['m', 'Normal'], ['l', 'Large'], ['xl', 'Larger']].map(([k, l]) => pill(textSize() === k, `data-set-text="${k}"`, l)).join('')}</span></div>
       <button class="sh-row sh-go" data-set-go="feedback"><span>Something wrong, or an idea?<small>Tell the parents, from right here</small></span><span>›</span></button>
@@ -4269,7 +4275,27 @@ const TreasureUp = (function () {
     seasonDraw(opt && opt.msg, true);
     if (opt && opt.ref) { const t = $('impText'); if (t) t.focus(); }
   }
+  // My Season has its own tab (Blake, 2026-10-05: "where is the hub for my
+  // season goals?"; a Season tab, with Family moved under ⚙️). Its home draws
+  // there whenever the home screen is showing: from Today's rows, a Back, or
+  // saving a goal, a check-in or a look back. Planning, the check-in and the
+  // look back still open from the bottom; an impression from the reader stays
+  // in a sheet over the chapter.
+  let seasonMsg = '';
+  const onHome = () => !['lesson', 'view', 'past', 'wordSheet', 'fam', 'parent'].some(id => { const el = $(id); return el && !el.hidden; });
+  function seasonTabHtml() {
+    const msg = seasonMsg; seasonMsg = '';
+    return `<div class="sea-sheet sea-tab">${msg ? `<p class="shop-msg">${msg}</p>` : ''}${seasonHomeHtml()}</div>`;
+  }
   function seasonDraw(msg, top) {
+    if (seasonView === 'home' && onHome()) {
+      if (seasonOpen()) closeSheet();
+      seasonMsg = msg || '';
+      const was = homeTab;
+      homeTab = 'season';
+      if (was !== 'season' || top || msg) { renderHome(); $('home').scrollTop = 0; } else refreshHome();
+      return;
+    }
     const c = document.querySelector('#appSheet .ws-card'), y = c ? c.scrollTop : 0;
     openSheet(seasonSheetHtml(msg));
     if (c) c.scrollTop = top || msg ? 0 : y;
@@ -10471,7 +10497,7 @@ const TreasureUp = (function () {
   function screenName() {
     const open = id => { const el = document.getElementById(id); return el && !el.hidden; };
     return open('lesson') ? 'a lesson' : open('view') ? 'the reader' : open('wordSheet') ? 'a word study' : open('fam') ? 'Family screen'
-      : open('parent') ? 'Parent rewards' : ({ today: 'Today', study: 'Study', scriptures: 'Scriptures', games: 'Games tab', family: 'Family tab' })[homeTab] || 'the app';
+      : open('parent') ? 'Parent rewards' : ({ today: 'Today', study: 'Study', scriptures: 'Scriptures', games: 'Games tab', season: 'Season tab', family: 'Family (from Settings)' })[homeTab] || 'the app';
   }
   // Something wrong, or an idea (Settings): to the family, for a parent.
   function feedbackSheetHtml(sent) {
@@ -12574,6 +12600,7 @@ const TreasureUp = (function () {
   function wire() {
     // The page: today's lesson, a day on the map, a reel to look back at.
     $('home').addEventListener('click', e => {
+      if (homeTab === 'season' && seasonSheetClick(e)) return;      // the Season tab is the Season's home
       if (seasonClick(e)) return;
       if (e.target.closest('[data-weeksheet]')) { use('week'); return openSheet(weekSheetHtml()); }
       // The timeline: a day, or a week of the year (its Monday).
@@ -12753,6 +12780,7 @@ const TreasureUp = (function () {
       if (e.target.closest('[data-shop-parent]')) { closeSheet(); return openParent(); }
       const g = e.target.closest('[data-set-go]');
       if (g && g.dataset.setGo === 'feedback') { feedbackFrom = screenName(); return openSheet(feedbackSheetHtml()); }
+      if (g && g.dataset.setGo === 'family') { closeSheet(); homeTab = 'family'; renderHome(); $('home').scrollTop = 0; return; }
       if (g) { closeSheet(); return openParent(); }
       if (e.target.closest('[data-dev-open]')) { e.preventDefault(); closeSheet(); openDev(); }
     });
