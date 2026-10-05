@@ -1195,8 +1195,12 @@ const weeks = loadWeeks();
 {
   const dir = path.join(ROOT, 'content', 'upcoming');
   for (const f of fs.existsSync(dir) ? fs.readdirSync(dir).filter(x => x.endsWith('.json')).sort() : []) {
-    try { weeks.push(JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'))); }
-    catch (e) { failures.push(`content/upcoming/${f}: not valid JSON (${e.message})`); }
+    let w;
+    try { w = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); }
+    catch (e) { failures.push(`content/upcoming/${f}: not valid JSON (${e.message})`); continue; }
+    // Published into weeks.js from developer mode: that copy is the one kept.
+    if (weeks.some(x => x.dates === w.dates)) notes.push(`content/upcoming/${f}: ${w.dates} is in weeks.js already, so tools/upcoming-weeks.mjs drops this copy`);
+    else weeks.push(w);
   }
 }
 const boards = loadBoards();

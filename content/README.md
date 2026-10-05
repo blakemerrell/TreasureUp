@@ -59,14 +59,18 @@ Never just delete a week: Past weeks would lose it.
 
 Weeks written further ahead wait in **content/upcoming/**, one file a week
 named for its Monday (`2026-11-16.json`, the week's plain JSON), because
-weeks.js has to stay under the 1 MB developer mode can read. Every deploy
-runs  node tools/archive-weeks.mjs  (on both sites), and on the test site
+weeks.js has to stay under the 1 MB developer mode can read. Every deploy,
+on both sites, runs  node tools/archive-weeks.mjs  and then
 node tools/upcoming-weeks.mjs, which brings the waiting weeks in, oldest
 first, while weeks.js stays under 960 KB; the deploy saves the result back
 to the repo, and runs every Monday too, so about three weeks ahead are always
 in weeks.js for Blake to approve. tools/verify.mjs checks the waiting weeks
 like the others, so a mistake shows when a week is written, not the day it
-comes in.
+comes in. The live repo has waiting weeks too since Blake had the rest of
+2026 approved at once (2026-10-05: "Get it all live"); the live deploy still
+refuses a week that isn't approved. A week developer mode publishes while
+the live copy is still waiting goes into weeks.js, and the waiting copy is
+dropped, so change a week that's in weeks.js there, not in content/upcoming/.
 
 Run  node tools/verify.mjs  after every edit. It checks every quote
 word for word against the scripture text, checks every reference

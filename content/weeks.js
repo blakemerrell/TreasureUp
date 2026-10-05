@@ -7465,5 +7465,6320 @@ window.TU_WEEKS = [
         "approved": "ed6e9ac6"
       }
     ]
+  },
+  {
+    "dates": "October 26–November 1, 2026",
+    "title": "I Will Turn Their Mourning into Joy",
+    "reference": "Jeremiah 31–33; 36–39; Lamentations 1; 3",
+    "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/44?lang=eng",
+    "sections": [
+      "The Lord will bring His covenant people out of captivity",
+      "“They shall be my people, and I will be their God.”",
+      "The scriptures have power to turn me away from evil",
+      "Be firm in following God’s prophets",
+      "I can be bold in standing up for what is right",
+      "The Lord can relieve the sorrow I experience because of sin"
+    ],
+    "puzzle": {
+      "groups": [
+        {
+          "section": 0,
+          "tiles": [
+            {
+              "text": "Everlasting love",
+              "ref": "Jeremiah 31:3"
+            },
+            {
+              "text": "Watchmen on Ephraim",
+              "ref": "Jeremiah 31:6"
+            },
+            {
+              "text": "Rachel weeping",
+              "ref": "Jeremiah 31:15"
+            },
+            {
+              "text": "Branch of righteousness",
+              "ref": "Jeremiah 33:15"
+            }
+          ]
+        },
+        {
+          "section": 2,
+          "tiles": [
+            {
+              "text": "Roll of a book",
+              "ref": "Jeremiah 36:2"
+            },
+            {
+              "text": "Ink in the book",
+              "ref": "Jeremiah 36:18"
+            },
+            {
+              "text": "Fire on the hearth",
+              "ref": "Jeremiah 36:22"
+            },
+            {
+              "text": "Cut with the penknife",
+              "ref": "Jeremiah 36:23"
+            }
+          ]
+        },
+        {
+          "section": 4,
+          "tiles": [
+            {
+              "text": "Sunk in the mire",
+              "ref": "Jeremiah 38:6"
+            },
+            {
+              "text": "Ebed-melech",
+              "ref": "Jeremiah 38:7"
+            },
+            {
+              "text": "Old rotten rags",
+              "ref": "Jeremiah 38:11"
+            },
+            {
+              "text": "Drawn up with cords",
+              "ref": "Jeremiah 38:13"
+            }
+          ]
+        },
+        {
+          "section": 5,
+          "tiles": [
+            {
+              "text": "As a widow",
+              "ref": "Lamentations 1:1"
+            },
+            {
+              "text": "Mine eye runneth down",
+              "ref": "Lamentations 1:16"
+            },
+            {
+              "text": "Wormwood and the gall",
+              "ref": "Lamentations 3:19"
+            },
+            {
+              "text": "New every morning",
+              "ref": "Lamentations 3:23"
+            }
+          ]
+        }
+      ],
+      "approved": "a2b7abe2"
+    },
+    "sayings": [
+      {
+        "id": "say-everlasting-love",
+        "text": "Yea, I have loved thee with an everlasting love: therefore with lovingkindness have I drawn thee.",
+        "ref": "Jeremiah 31:3",
+        "speaker": "The Lord, to His people",
+        "wrong": [
+          "Jacob, to Rachel",
+          "Ruth, to Naomi"
+        ],
+        "why": "The Lord spoke these words to His scattered people. His love for them hadn’t ended, and it never would.",
+        "approved": "6e9c9d5f"
+      },
+      {
+        "id": "say-too-hard",
+        "text": "Behold, I am the LORD, the God of all flesh: is there any thing too hard for me?",
+        "ref": "Jeremiah 32:27",
+        "speaker": "The Lord, to Jeremiah",
+        "wrong": [
+          "Jeremiah, to the Lord",
+          "Gabriel, to Mary"
+        ],
+        "why": "Jeremiah had just prayed, “there is nothing too hard for thee” (Jeremiah 32:17). The Lord answered with the same truth, asked as a question.",
+        "approved": "6cacf0ce"
+      },
+      {
+        "id": "say-wrote-with-ink",
+        "text": "He pronounced all these words unto me with his mouth, and I wrote them with ink in the book.",
+        "ref": "Jeremiah 36:18",
+        "speaker": "Baruch, to the princes",
+        "wrong": [
+          "Jeremiah, to the king",
+          "Moses, to Israel"
+        ],
+        "why": "The princes asked how the words had been written. Baruch said Jeremiah spoke them aloud, and he wrote them down with ink.",
+        "approved": "e034ee91"
+      },
+      {
+        "id": "say-go-hide",
+        "text": "Go, hide thee, thou and Jeremiah; and let no man know where ye be.",
+        "ref": "Jeremiah 36:19",
+        "speaker": "The princes, to Baruch",
+        "wrong": [
+          "The king, to his guards",
+          "Jeremiah, to Baruch"
+        ],
+        "why": "The princes knew the king would be furious about the scroll. When he sent men to arrest them, “the LORD hid them” (Jeremiah 36:26).",
+        "approved": "5d15bbe3"
+      },
+      {
+        "id": "say-not-the-welfare",
+        "text": "this man seeketh not the welfare of this people, but the hurt.",
+        "ref": "Jeremiah 38:4",
+        "speaker": "The princes, about Jeremiah",
+        "wrong": [
+          "King Ahab, about Elijah",
+          "Laman, about Nephi"
+        ],
+        "why": "The princes wanted Jeremiah dead for telling people to surrender. In truth he was trying to save their lives (Jeremiah 38:2).",
+        "approved": "1155af58"
+      },
+      {
+        "id": "say-in-your-hand",
+        "text": "Behold, he is in your hand: for the king is not he that can do any thing against you.",
+        "ref": "Jeremiah 38:5",
+        "speaker": "King Zedekiah, to his princes",
+        "wrong": [
+          "Pilate, to the crowd",
+          "King Darius, to his princes"
+        ],
+        "why": "Instead of protecting the Lord’s prophet, Zedekiah let the princes do whatever they wanted with him.",
+        "approved": "4708f3ef"
+      },
+      {
+        "id": "say-done-evil",
+        "text": "My lord the king, these men have done evil in all that they have done to Jeremiah the prophet",
+        "ref": "Jeremiah 38:9",
+        "speaker": "Ebed-melech, to the king",
+        "wrong": [
+          "Baruch, to the king",
+          "Nathan, to King David"
+        ],
+        "why": "Ebed-melech wasn’t a prince or a prophet. He was an official from another land, yet he told the king plainly that what the princes did was wrong.",
+        "approved": "7c45e547"
+      },
+      {
+        "id": "say-hide-nothing",
+        "text": "I will ask thee a thing; hide nothing from me.",
+        "ref": "Jeremiah 38:14",
+        "speaker": "King Zedekiah, to Jeremiah",
+        "wrong": [
+          "Eli, to young Samuel",
+          "King Saul, to Samuel"
+        ],
+        "why": "Zedekiah wanted the truth in secret. Jeremiah gave it, but first asked, “wilt thou not hearken unto me?” (Jeremiah 38:15).",
+        "approved": "453ec343"
+      },
+      {
+        "id": "say-look-well",
+        "text": "Take him, and look well to him, and do him no harm",
+        "ref": "Jeremiah 39:12",
+        "speaker": "The king of Babylon, about Jeremiah",
+        "wrong": [
+          "King Zedekiah, about Jeremiah",
+          "Pharaoh, about Joseph"
+        ],
+        "why": "The prophet his own king had locked up was protected by the enemy. The king of Babylon gave orders to care for Jeremiah (Jeremiah 39:11).",
+        "approved": "6af85d9f"
+      },
+      {
+        "id": "say-is-it-nothing",
+        "text": "Is it nothing to you, all ye that pass by? behold, and see if there be any sorrow like unto my sorrow",
+        "ref": "Lamentations 1:12",
+        "speaker": "Jerusalem, in mourning",
+        "wrong": [
+          "Job, to his friends",
+          "Naomi, in Bethlehem"
+        ],
+        "why": "In Lamentations 1, the ruined city itself speaks, like a person crying out to everyone walking past.",
+        "approved": "6f21accb"
+      }
+    ],
+    "words": [
+      {
+        "word": "LOVED",
+        "clue": "Yea, I have ____ thee with an everlasting love",
+        "ref": "Jeremiah 31:3",
+        "mean": "The Lord’s love for His children never ends, even when they wander far from Him."
+      },
+      {
+        "word": "HEARTS",
+        "clue": "I will put my law in their inward parts, and write it in their ____",
+        "ref": "Jeremiah 31:33",
+        "mean": "The Lord wants His people to love His ways, not just know them."
+      },
+      {
+        "word": "BRANCH",
+        "clue": "will I cause the ____ of righteousness to grow up unto David",
+        "ref": "Jeremiah 33:15",
+        "mean": "The Branch is Jesus Christ, born into King David’s family to reign forever."
+      },
+      {
+        "word": "ROLL",
+        "clue": "Take thee a ____ of a book, and write therein all the words",
+        "ref": "Jeremiah 36:2",
+        "mean": "The Lord had His words written down so His people could read them and turn back to Him."
+      },
+      {
+        "word": "MIRE",
+        "clue": "so Jeremiah sunk in the ____",
+        "ref": "Jeremiah 38:6",
+        "mean": "Jeremiah was dropped into a muddy pit for telling the truth, and the Lord sent someone to rescue him."
+      },
+      {
+        "word": "WIDOW",
+        "clue": "how is she become as a ____!",
+        "ref": "Lamentations 1:1",
+        "mean": "Jerusalem, once full of people, sat alone and grieving after her people turned from the Lord."
+      },
+      {
+        "word": "PORTION",
+        "clue": "The LORD is my ____, saith my soul; therefore will I hope in him.",
+        "ref": "Lamentations 3:24",
+        "mean": "Even when everything else is lost, having the Lord is enough, so there is always hope."
+      }
+    ],
+    "deep": [
+      {
+        "id": "deep44-rachel",
+        "section": 0,
+        "read": "Jeremiah 31:15–17",
+        "intro": "Ramah may be where Rachel, Jacob’s beloved wife, was buried. Jeremiah pictures her weeping for her children as they are carried away. Read what the Lord tells her.",
+        "q": "In Jeremiah 31:17, what does the Lord promise Rachel about her children?",
+        "hunt": "In Jeremiah 31, what does the Lord promise Rachel about her children?",
+        "right": "They will come back to their own land",
+        "wrong": [
+          "They will grow rich in Babylon",
+          "They will rule over the nations"
+        ],
+        "why": "Verse 17: “there is hope in thine end, saith the LORD, that thy children shall come again to their own border.” Her weeping would end.",
+        "source": "Jeremiah 31:17",
+        "find": "thy children shall come again to their own border",
+        "approved": "930542b0"
+      },
+      {
+        "id": "deep44-husband",
+        "section": 1,
+        "read": "Jeremiah 31:31–34",
+        "intro": "The lesson points to these verses about the new covenant. The Lord explains why a new one was needed: Israel broke the covenant He made when He led them out of Egypt.",
+        "q": "In Jeremiah 31:32, what does the Lord say He was to Israel, even though they broke His covenant?",
+        "hunt": "In Jeremiah 31, what does the Lord say He was to Israel, even though they broke His covenant?",
+        "right": "A husband to them",
+        "wrong": [
+          "A stranger to them",
+          "A judge over them"
+        ],
+        "why": "Verse 32: “which my covenant they brake, although I was an husband unto them.” He had been faithful to them, like a loving husband.",
+        "source": "Jeremiah 31:32",
+        "find": "although I was an husband unto them",
+        "approved": "fd418bdc"
+      },
+      {
+        "id": "deep44-no-throne",
+        "section": 2,
+        "read": "Jeremiah 36:27–32",
+        "intro": "The king burned the scroll and tried to arrest Jeremiah and Baruch. Read what the Lord told Jeremiah to do next, and what would happen to King Jehoiakim.",
+        "q": "In Jeremiah 36:30, what does the Lord say Jehoiakim will not have?",
+        "hunt": "In Jeremiah 36, what does the Lord say Jehoiakim will not have?",
+        "right": "Anyone to sit on David’s throne",
+        "wrong": [
+          "Any gold left in his treasury",
+          "Any more sons or daughters"
+        ],
+        "why": "Verse 30: “He shall have none to sit upon the throne of David.” Burning God’s word didn’t save his kingdom.",
+        "source": "Jeremiah 36:30",
+        "find": "He shall have none to sit upon the throne of David",
+        "approved": "c83d50ad"
+      },
+      {
+        "id": "deep44-lehi-obeyed",
+        "section": 3,
+        "read": "1 Nephi 2:1–4",
+        "intro": "The lesson invites you to compare Zedekiah with Lehi’s family. Lehi lived at Jerusalem when Zedekiah began to reign (1 Nephi 1:4). Read what Lehi did when the Lord warned him in a dream.",
+        "q": "In 1 Nephi 2:3, how does Nephi describe his father?",
+        "hunt": "In 1 Nephi 2, how does Nephi describe his father when the Lord warned him?",
+        "right": "Obedient unto the word of the Lord",
+        "wrong": [
+          "Afraid of what the people would say",
+          "Slow to believe what he was told"
+        ],
+        "why": "Verse 3: “he was obedient unto the word of the Lord, wherefore he did as the Lord commanded him.” Zedekiah heard the Lord’s word too, but didn’t obey.",
+        "source": "1 Nephi 2:3",
+        "find": "he was obedient unto the word of the Lord",
+        "approved": "fdf185ae"
+      },
+      {
+        "id": "deep44-trust",
+        "section": 4,
+        "read": "Jeremiah 39:15–18",
+        "intro": "While Jeremiah was still shut up in the prison court, the Lord gave him a message for Ebed-melech, the man who had pulled him out of the pit.",
+        "q": "In Jeremiah 39:18, why does the Lord promise to save Ebed-melech?",
+        "hunt": "In Jeremiah 39, why does the Lord promise to save Ebed-melech?",
+        "right": "He put his trust in the Lord",
+        "wrong": [
+          "He was the king’s best servant",
+          "He gave gold to the temple"
+        ],
+        "why": "Verse 18: “I will surely deliver thee… because thou hast put thy trust in me.” His courage came from trusting the Lord.",
+        "source": "Jeremiah 39:18",
+        "find": "because thou hast put thy trust in me",
+        "approved": "eb160a99"
+      },
+      {
+        "id": "deep44-not-willingly",
+        "section": 5,
+        "read": "Lamentations 3:31–33",
+        "intro": "The lesson points to Lamentations 3:20–33 for messages of hope in Christ. Read these three verses about how the Lord feels when His children suffer.",
+        "q": "In Lamentations 3:33, how does the Lord feel about afflicting His children?",
+        "hunt": "In Lamentations 3, how does the Lord feel about afflicting His children?",
+        "right": "He doesn’t do it willingly",
+        "wrong": [
+          "He likes teaching hard lessons",
+          "He doesn’t notice their pain"
+        ],
+        "why": "Verse 33: “he doth not afflict willingly nor grieve the children of men.” Even His correction comes with “compassion” (verse 32).",
+        "source": "Lamentations 3:33",
+        "find": "he doth not afflict willingly",
+        "approved": "3f31ce9d"
+      },
+      {
+        "id": "deep44-kids",
+        "day": "friday",
+        "title": "From the children’s part of the lesson",
+        "read": "lesson",
+        "intro": "The children’s part of this week’s lesson starts with Jeremiah 31:3, where the Lord says His love for His people is everlasting. One idea is to find objects that last a long time and objects that don’t.",
+        "q": "Which object does the lesson give as an example of something that lasts a long time?",
+        "right": "A metal coin",
+        "wrong": [
+          "A river stone",
+          "A family photo"
+        ],
+        "why": "It suggests comparing a metal coin, which lasts, with a piece of fruit, which doesn’t, and then talking about what everlasting means.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/44?lang=eng",
+        "find": "such as a metal coin",
+        "approved": "eb1ed92d"
+      },
+      {
+        "id": "deep44-ballard",
+        "day": "friday",
+        "title": "From general conference",
+        "read": "https://www.churchofjesuschrist.org/study/general-conference/1992/10/the-joy-of-hope-fulfilled?lang=eng",
+        "intro": "The lesson quotes Elder M. Russell Ballard’s talk about hope for anyone weighed down by sorrow or sin. In it, he explains how faith, hope, and charity work together.",
+        "q": "What does Elder Ballard compare faith, hope, and charity to?",
+        "right": "The legs of a three-legged stool",
+        "wrong": [
+          "The walls of a strong house",
+          "The roots of a tall tree"
+        ],
+        "why": "He says the three hold up our lives together. Each one matters, and none of them is complete without the other two.",
+        "source": "https://www.churchofjesuschrist.org/study/general-conference/1992/10/the-joy-of-hope-fulfilled?lang=eng",
+        "find": "like the legs of a three-legged stool",
+        "approved": "fcb1988d"
+      }
+    ],
+    "reels": [
+      {
+        "id": "jer31-mourning-joy",
+        "section": 0,
+        "hook": "Dancing again after the saddest days.",
+        "body": "Jeremiah lived to see his city attacked and his people carried away as captives. Yet the Lord gave him a promise for His scattered people: “I will turn their mourning into joy.” Mourning is deep sadness, like the sadness people feel when someone dies. One day young and old would dance together again. The Lord doesn’t promise we’ll never be sad. He promises to comfort us, so sadness isn’t the end of the story.",
+        "verse": {
+          "text": "Then shall the virgin rejoice in the dance, both young men and old together: for I will turn their mourning into joy, and will comfort them, and make them rejoice from their sorrow.",
+          "ref": "Jeremiah 31:13"
+        },
+        "question": {
+          "q": "What does the Lord promise in Jeremiah 31:13?",
+          "right": "To turn their sadness into joy",
+          "wrong": [
+            "That they would never be sad again",
+            "To take away all of their enemies"
+          ],
+          "why": "“I will turn their mourning into joy, and will comfort them.” Sad times come, but the Lord promises they won’t last forever."
+        },
+        "bonus": {
+          "q": "In Jeremiah 31:12, what does the Lord say their soul will be like?",
+          "hunt": "In Jeremiah 31, what does the Lord say His people’s soul will be like when they come home?",
+          "right": "A watered garden",
+          "wrong": [
+            "A deep, clear well",
+            "A tall cedar tree"
+          ],
+          "why": "Verse 12: “their soul shall be as a watered garden; and they shall not sorrow any more at all.” Dry, thirsty souls would grow green again.",
+          "source": "Jeremiah 31:12",
+          "find": "their soul shall be as a watered garden"
+        },
+        "media": {
+          "image": {
+            "src": "media/christus-consolator-bloch.jpg",
+            "alt": "Painting of Jesus Christ with His arms open wide, surrounded by people who are hurting",
+            "credit": "Christus Consolator, by Carl Heinrich Bloch",
+            "link": "https://www.churchofjesuschrist.org/media/image/christ-the-consolator-carl-bloch-1800ee8?lang=eng"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#4c1d95 0%,#c026d3 50%,#fde68a 115%)",
+        "blobA": "rgba(253,230,138,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "eefbee45"
+      },
+      {
+        "id": "jer32-field",
+        "section": 0,
+        "hook": "Buying land while the enemy is at the gate.",
+        "seek": "A promise that people will own homes and farms here again",
+        "body": "Babylon’s army had surrounded Jerusalem, and Jeremiah was locked in the prison court. Then the Lord told him to buy his cousin’s field (Jeremiah 32:7–9). Who buys land in a city about to fall? Jeremiah paid, had the deed sealed in a clay jar, and explained why: one day people would buy land and live here again. Buying that field showed he trusted the Lord’s promise.",
+        "verse": {
+          "text": "For thus saith the LORD of hosts, the God of Israel; Houses and fields and vineyards shall be possessed again in this land.",
+          "ref": "Jeremiah 32:15"
+        },
+        "question": {
+          "q": "Why did the Lord have Jeremiah buy a field during the siege?",
+          "right": "To show His people would come back",
+          "wrong": [
+            "To give Jeremiah a safe place to hide",
+            "To grow food for the hungry city"
+          ],
+          "why": "“Houses and fields and vineyards shall be possessed again in this land.” The field was a sign that the captivity would end."
+        },
+        "bonus": {
+          "q": "In Jeremiah 32:9, how much did Jeremiah pay for the field?",
+          "hunt": "In Jeremiah 32, how much did Jeremiah pay for his cousin’s field?",
+          "right": "Seventeen shekels of silver",
+          "wrong": [
+            "Thirty pieces of silver",
+            "A hundred shekels of gold"
+          ],
+          "why": "Verse 9: he “weighed him the money, even seventeen shekels of silver.” Then he signed the deed in front of witnesses (verse 10).",
+          "source": "Jeremiah 32:9",
+          "find": "seventeen shekels of silver"
+        },
+        "gradient": "linear-gradient(150deg,#422006 0%,#a16207 50%,#fef08a 115%)",
+        "blobA": "rgba(254,240,138,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "bbba73e9"
+      },
+      {
+        "id": "jer33-branch",
+        "section": 0,
+        "hook": "A new shoot from an old family tree.",
+        "body": "In the scriptures, a branch can mean a descendant, someone who grows out of a family tree. Jeremiah promised that the Lord would make “the Branch of righteousness” grow up from King David’s family. This week’s Scripture Helps say the Branch is Jesus Christ. Judah’s kings were about to lose their throne, but Jesus, born into David’s family, will reign forever (Jeremiah 33:17).",
+        "verse": {
+          "text": "In those days, and at that time, will I cause the Branch of righteousness to grow up unto David; and he shall execute judgment and righteousness in the land.",
+          "ref": "Jeremiah 33:15"
+        },
+        "question": {
+          "q": "Who is “the Branch of righteousness”?",
+          "right": "Jesus Christ, from David’s family",
+          "wrong": [
+            "The last king of Judah",
+            "A tree planted at the temple"
+          ],
+          "why": "The Branch grows “unto David” and will “execute judgment and righteousness in the land.” That’s Jesus Christ, born into David’s family."
+        },
+        "bonus": {
+          "q": "In Jeremiah 33:3, what does the Lord promise if Jeremiah calls to Him?",
+          "hunt": "In Jeremiah 33, what does the Lord promise if Jeremiah calls to Him?",
+          "right": "He will answer and show great things",
+          "wrong": [
+            "He will free him from prison that day",
+            "He will send an angel to guard him"
+          ],
+          "why": "Verse 3: “Call unto me, and I will answer thee, and shew thee great and mighty things, which thou knowest not.”",
+          "source": "Jeremiah 33:3",
+          "find": "I will answer thee, and shew thee great and mighty things"
+        },
+        "gradient": "linear-gradient(150deg,#14532d 0%,#4d7c0f 50%,#d9f99d 115%)",
+        "blobA": "rgba(217,249,157,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "e0eae842"
+      },
+      {
+        "id": "jer31-new-covenant",
+        "section": 1,
+        "hook": "Not carved in stone. Written on hearts.",
+        "body": "The Ten Commandments were carved on tablets of stone. Jeremiah saw a day when the Lord would make “a new covenant” (Jeremiah 31:31) and write His law on His people’s hearts instead. That means more than knowing the rules. It means loving what God loves, so that obeying Him comes from inside you. Then, the Lord said, He “will be their God, and they shall be my people.”",
+        "verse": {
+          "text": "But this shall be the covenant that I will make with the house of Israel; After those days, saith the LORD, I will put my law in their inward parts, and write it in their hearts; and will be their God, and they shall be my people.",
+          "ref": "Jeremiah 31:33"
+        },
+        "question": {
+          "q": "What does it mean to have God’s law written in your heart?",
+          "right": "You love His ways, not just know them",
+          "wrong": [
+            "You’ve memorized every commandment",
+            "Your name is written in a holy book"
+          ],
+          "why": "“I will put my law in their inward parts, and write it in their hearts.” Then keeping His commandments comes from what you love."
+        },
+        "bonus": {
+          "q": "This week’s Scripture Helps explain what new means in the new covenant. What does it mean here?",
+          "right": "Revealed again in the last days",
+          "wrong": [
+            "Never made with anyone before",
+            "Only for people born after Jesus"
+          ],
+          "why": "They say the covenant, the fulness of the gospel, would be given again in the latter days. The Lord sometimes calls it the new and everlasting covenant.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/42-jeremiah-31-33-36-38-lamentations-1-3?lang=eng",
+          "find": "would be revealed anew in the last days"
+        },
+        "gradient": "linear-gradient(150deg,#7f1d1d 0%,#be123c 50%,#fecdd3 115%)",
+        "blobA": "rgba(254,205,211,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "aa727a33"
+      },
+      {
+        "id": "jer32-everlasting",
+        "section": 1,
+        "hook": "A promise from God that never runs out.",
+        "body": "When you’re baptized, you make a covenant: a two-way promise with God. You renew it each week when you take the sacrament. Jeremiah heard the Lord promise “an everlasting covenant,” one that never wears out. The Lord said He would “not turn away from them, to do them good.” We still make mistakes. But He doesn’t give up on us, and He helps us keep our side.",
+        "verse": {
+          "text": "And I will make an everlasting covenant with them, that I will not turn away from them, to do them good; but I will put my fear in their hearts, that they shall not depart from me.",
+          "ref": "Jeremiah 32:40"
+        },
+        "question": {
+          "q": "What does the Lord promise in His everlasting covenant?",
+          "right": "He will not turn away from them",
+          "wrong": [
+            "They will never face hard times",
+            "They will rule over other nations"
+          ],
+          "why": "“I will not turn away from them, to do them good.” Everlasting means it lasts forever."
+        },
+        "bonus": {
+          "q": "In Jeremiah 32:39, what two things will the Lord give His people?",
+          "hunt": "In Jeremiah 32, what two things will the Lord give His gathered people?",
+          "right": "One heart and one way",
+          "wrong": [
+            "A new name and a new land",
+            "A king and a temple"
+          ],
+          "why": "Verse 39: “I will give them one heart, and one way, that they may fear me for ever.” United, they would walk the same path with Him.",
+          "source": "Jeremiah 32:39",
+          "find": "I will give them one heart, and one way"
+        },
+        "gradient": "linear-gradient(150deg,#1e3a8a 0%,#2563eb 50%,#bfdbfe 115%)",
+        "blobA": "rgba(191,219,254,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "c75460ff"
+      },
+      {
+        "id": "jer36-scroll",
+        "section": 2,
+        "hook": "Why God wanted His warnings written down.",
+        "body": "The Lord told Jeremiah to write all His words in a scroll (Jeremiah 36:2). Jeremiah spoke, and his helper Baruch wrote them down (Jeremiah 36:4). Why? So the people could hear the warnings, turn from their wrong choices, and be forgiven. That’s still one purpose of the scriptures. Reading them can turn you away from evil and toward Jesus Christ, who forgives.",
+        "verse": {
+          "text": "It may be that the house of Judah will hear all the evil which I purpose to do unto them; that they may return every man from his evil way; that I may forgive their iniquity and their sin.",
+          "ref": "Jeremiah 36:3"
+        },
+        "question": {
+          "q": "Why did the Lord want His words written in a book?",
+          "right": "So people would turn back and be forgiven",
+          "wrong": [
+            "So the king could keep them in his palace",
+            "So Jeremiah wouldn’t forget them later"
+          ],
+          "why": "“That they may return every man from his evil way; that I may forgive their iniquity.” The words were written to help people change."
+        },
+        "bonus": {
+          "q": "This week’s Scripture Helps tell what happened to Baruch after Jerusalem fell. Where did he go with Jeremiah?",
+          "right": "To Egypt",
+          "wrong": [
+            "To Babylon",
+            "To Assyria"
+          ],
+          "why": "They call Baruch Jeremiah’s faithful scribe and close companion. After Jerusalem fell, Baruch went along when the prophet was taken there against his will.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/42-jeremiah-31-33-36-38-lamentations-1-3?lang=eng",
+          "find": "Baruch accompanied Jeremiah to Egypt"
+        },
+        "gradient": "linear-gradient(150deg,#3b2410 0%,#92400e 50%,#fed7aa 115%)",
+        "blobA": "rgba(254,215,170,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "5168e1bf"
+      },
+      {
+        "id": "jer36-penknife",
+        "section": 2,
+        "hook": "The king who tried to burn God’s words away.",
+        "body": "King Jehoiakim sat by a fire in his winter house while a servant read Jeremiah’s scroll aloud. After every few columns, the king cut them off with a small knife and tossed them into the fire, until the whole scroll was gone. Three of his princes begged him to stop (Jeremiah 36:25). Burning the words didn’t make them any less true. The Lord just had them written again.",
+        "verse": {
+          "text": "And it came to pass, that when Jehudi had read three or four leaves, he cut it with the penknife, and cast it into the fire that was on the hearth, until all the roll was consumed in the fire that was on the hearth.",
+          "ref": "Jeremiah 36:23"
+        },
+        "question": {
+          "q": "What did King Jehoiakim do with the scroll?",
+          "right": "Cut it up and burned it in the fire",
+          "wrong": [
+            "Hid it in the temple treasury",
+            "Sent it to the king of Babylon"
+          ],
+          "why": "He “cut it with the penknife, and cast it into the fire.” Destroying the scroll couldn’t stop God’s word."
+        },
+        "bonus": {
+          "q": "In Jeremiah 36:24, how did the king and his servants react to hearing the words?",
+          "hunt": "In Jeremiah 36, how did the king and his servants react to hearing the words of the scroll?",
+          "right": "They were not afraid",
+          "wrong": [
+            "They wept and tore their robes",
+            "They knelt down and prayed"
+          ],
+          "why": "Verse 24: “Yet they were not afraid, nor rent their garments.” Tearing your clothes showed sorrow, but they felt none.",
+          "source": "Jeremiah 36:24",
+          "find": "Yet they were not afraid, nor rent their garments"
+        },
+        "gradient": "linear-gradient(155deg,#1c0a00 0%,#9a3412 50%,#fb923c 115%)",
+        "blobA": "rgba(251,146,60,.4)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "8840d7c5"
+      },
+      {
+        "id": "jer37-secretly",
+        "section": 3,
+        "hook": "A king who wanted God’s word, but only in private.",
+        "seek": "The ruler wants a message from heaven, but behind closed doors",
+        "body": "The princes had Jeremiah beaten and locked in a dungeon (Jeremiah 37:15). Then King Zedekiah brought him to the palace in secret and asked, “Is there any word from the LORD?” Jeremiah told him the hard truth: the king of Babylon would capture him. Zedekiah seemed to believe Jeremiah was a true prophet. But he was afraid of what others would do (Jeremiah 38:19). Following a prophet takes courage.",
+        "verse": {
+          "text": "Then Zedekiah the king sent, and took him out: and the king asked him secretly in his house, and said, Is there any word from the LORD? And Jeremiah said, There is: for, said he, thou shalt be delivered into the hand of the king of Babylon.",
+          "ref": "Jeremiah 37:17"
+        },
+        "question": {
+          "q": "Why do you think Zedekiah asked Jeremiah in secret?",
+          "right": "He was afraid of what others would do",
+          "wrong": [
+            "He wanted to surprise his family",
+            "Jeremiah asked him to keep quiet"
+          ],
+          "why": "He asked “secretly in his house.” He wanted God’s word, but he feared people more than he trusted the prophet (Jeremiah 38:19)."
+        },
+        "bonus": {
+          "q": "In Jeremiah 37:21, what did Zedekiah order to be given to Jeremiah each day?",
+          "hunt": "In Jeremiah 37, what did Zedekiah order to be given to Jeremiah each day?",
+          "right": "A piece of bread",
+          "wrong": [
+            "A cup of wine",
+            "A bowl of lentils"
+          ],
+          "why": "Verse 21: “give him daily a piece of bread out of the bakers' street, until all the bread in the city were spent.”",
+          "source": "Jeremiah 37:21",
+          "find": "give him daily a piece of bread out of the bakers' street"
+        },
+        "gradient": "linear-gradient(150deg,#0f172a 0%,#334155 50%,#cbd5e1 115%)",
+        "blobA": "rgba(203,213,225,.35)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "89dfde62"
+      },
+      {
+        "id": "jer38-obey",
+        "section": 3,
+        "hook": "Scared of being mocked? So was a king.",
+        "body": "Jeremiah gave King Zedekiah a clear promise: surrender to Babylon’s princes, and you and the city will live (Jeremiah 38:17). The king admitted he was afraid people would mock him (Jeremiah 38:19). Jeremiah pleaded, “Obey, I beseech thee, the voice of the LORD.” Zedekiah didn’t. Jerusalem was burned, and the king was taken to Babylon in chains (Jeremiah 39:7). Following the prophet is safer than following the crowd.",
+        "verse": {
+          "text": "But Jeremiah said, They shall not deliver thee. Obey, I beseech thee, the voice of the LORD, which I speak unto thee: so it shall be well unto thee, and thy soul shall live.",
+          "ref": "Jeremiah 38:20"
+        },
+        "question": {
+          "q": "Why didn’t Zedekiah obey the Lord’s message?",
+          "right": "He feared what people would do to him",
+          "wrong": [
+            "He never heard Jeremiah’s message",
+            "He had already left the city"
+          ],
+          "why": "He said, “I am afraid of the Jews… and they mock me” (Jeremiah 38:19). Fear of people kept him from doing what God said."
+        },
+        "bonus": {
+          "q": "Helaman 8:21 says one son of Zedekiah was not slain. What was his name?",
+          "hunt": "Helaman 8 says one son of Zedekiah was not slain. What was his name?",
+          "right": "Mulek",
+          "wrong": [
+            "Nephi",
+            "Zoram"
+          ],
+          "why": "Helaman 8:21: “the sons of Zedekiah were not slain, all except it were Mulek.” Mulek escaped, and the Lord led his people to the promised land too.",
+          "source": "Helaman 8:21",
+          "find": "all except it were Mulek"
+        },
+        "gradient": "linear-gradient(150deg,#1e1b4b 0%,#4338ca 50%,#c7d2fe 115%)",
+        "blobA": "rgba(199,210,254,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "24d7fe0d"
+      },
+      {
+        "id": "jer38-ebed-melech",
+        "section": 4,
+        "hook": "Old rags, a long rope, and one brave man.",
+        "body": "The princes dropped Jeremiah into a deep pit with no water, only mud, and he sank into it (Jeremiah 38:6). Ebed-melech, a servant from Ethiopia, went straight to the king and said it was wrong. Then he lowered old rags on ropes, so Jeremiah could pad his arms as they pulled him up. Ebed-melech was brave and kind at the same time.",
+        "verse": {
+          "text": "And Ebed-melech the Ethiopian said unto Jeremiah, Put now these old cast clouts and rotten rags under thine armholes under the cords. And Jeremiah did so.",
+          "ref": "Jeremiah 38:12"
+        },
+        "question": {
+          "q": "How did Ebed-melech help Jeremiah?",
+          "right": "Spoke up to the king and pulled him out",
+          "wrong": [
+            "Brought him food and water in secret",
+            "Hid him in the house of the Lord"
+          ],
+          "why": "He told the king, “these men have done evil” (Jeremiah 38:9). Then he drew Jeremiah up with cords and old rags."
+        },
+        "bonus": [
+          {
+            "q": "In Jeremiah 38:9, why did Ebed-melech say Jeremiah was about to die?",
+            "hunt": "In Jeremiah 38, why did Ebed-melech say Jeremiah was about to die where he was?",
+            "right": "There was no more bread in the city",
+            "wrong": [
+              "The mud was too deep to breathe",
+              "The princes would soon kill him"
+            ],
+            "why": "Verse 9: “he is like to die for hunger in the place where he is: for there is no more bread in the city.”",
+            "source": "Jeremiah 38:9",
+            "find": "for there is no more bread in the city"
+          },
+          {
+            "q": "In Jeremiah 38:10, how many men did the king tell Ebed-melech to take?",
+            "hunt": "In Jeremiah 38, how many men did the king tell Ebed-melech to take to the pit?",
+            "right": "Thirty",
+            "wrong": [
+              "Three",
+              "Three hundred"
+            ],
+            "why": "Verse 10: “Take from hence thirty men with thee, and take up Jeremiah the prophet out of the dungeon, before he die.”",
+            "source": "Jeremiah 38:10",
+            "find": "Take from hence thirty men with thee"
+          }
+        ],
+        "media": {
+          "image": {
+            "src": "media/cistern-beersheba.jpg",
+            "alt": "Old black-and-white photo of a Bedouin woman, two boys and a donkey carrying water jars beside a round stone cistern in the desert",
+            "credit": "A desert cistern near Beersheba. Photo: Matson Collection, Library of Congress, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Beersheba_Bedouins._A_desert_cistern._(Women_and_children_with_a_donkey_loaded_with_water_jars)_LOC_matpc.22004.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#292524 0%,#57534e 50%,#d6d3d1 115%)",
+        "blobA": "rgba(214,211,209,.35)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "42aacf09"
+      },
+      {
+        "id": "lam1-widow",
+        "section": 5,
+        "hook": "A busy city, suddenly empty and silent.",
+        "body": "Lamentations is a book of sad poems written after Babylon destroyed Jerusalem and its temple. The first poem pictures the city as a widow weeping at night, with no one to comfort her (Lamentations 1:2). Why did this happen? “Jerusalem hath grievously sinned” (Lamentations 1:8). Sin can leave us empty and lonely too. But the book doesn’t end without hope (Lamentations 3:21).",
+        "verse": {
+          "text": "How doth the city sit solitary, that was full of people! how is she become as a widow! she that was great among the nations, and princess among the provinces, how is she become tributary!",
+          "ref": "Lamentations 1:1"
+        },
+        "question": {
+          "q": "What is Jerusalem compared to in Lamentations 1:1?",
+          "right": "A widow sitting all alone",
+          "wrong": [
+            "A queen on a golden throne",
+            "A shepherd who lost his sheep"
+          ],
+          "why": "“How is she become as a widow!” The city that was once full of people now sat alone, grieving."
+        },
+        "bonus": {
+          "q": "This week’s Scripture Helps explain a pattern in Lamentations 1. What does each verse start with?",
+          "right": "The next letter of the Hebrew alphabet",
+          "wrong": [
+            "The same word as the verse before",
+            "The name of a city that fell"
+          ],
+          "why": "They say chapters 1, 2, and 4 each have 22 verses, each starting with the next letter of the Hebrew alphabet. Chapter 3 gives each letter three verses.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/42-jeremiah-31-33-36-38-lamentations-1-3?lang=eng",
+          "find": "22 verses that begin with successive letters of the Hebrew alphabet"
+        },
+        "media": {
+          "image": {
+            "src": "media/jeremiah-lamenting-rembrandt.jpg",
+            "alt": "Painting of the old prophet Jeremiah sitting alone in a dark cave, his head in his hand, while a city burns far behind him",
+            "credit": "Jeremiah Lamenting the Destruction of Jerusalem, by Rembrandt, 1630. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Rembrandt_-_Jeremiah_Lamenting_the_Destruction_of_Jerusalem_-_WGA19091.jpg"
+          }
+        },
+        "gradient": "linear-gradient(155deg,#1c0a00 0%,#78350f 50%,#fbbf24 115%)",
+        "blobA": "rgba(251,191,36,.35)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "c00937d3"
+      },
+      {
+        "id": "lam3-new-every-morning",
+        "section": 5,
+        "hook": "Each sunrise brings a fresh supply of mercy.",
+        "body": "In the middle of his sorrow, Jeremiah remembered something that gave him hope (Lamentations 3:21). The Lord’s compassion never runs out. His mercies are “new every morning.” Yesterday’s mistakes don’t use up today’s mercy. Because of Jesus Christ, we can repent, start fresh, and feel His love again every single day.",
+        "verse": {
+          "text": "It is of the LORD's mercies that we are not consumed, because his compassions fail not. They are new every morning: great is thy faithfulness.",
+          "ref": "Lamentations 3:22–23"
+        },
+        "question": {
+          "q": "What does Jeremiah say about the Lord’s mercies?",
+          "right": "They are new every morning",
+          "wrong": [
+            "They run out if we sin too much",
+            "They come only to the righteous"
+          ],
+          "why": "“His compassions fail not. They are new every morning.” The Lord’s mercy never runs dry."
+        },
+        "bonus": {
+          "q": "In Lamentations 3:26, what two things is it good for a person to do?",
+          "hunt": "In Lamentations 3, what two things does Jeremiah say it is good for a person to do?",
+          "right": "Hope and quietly wait for the Lord",
+          "wrong": [
+            "Fast and pray all through the night",
+            "Weep and tell everyone their troubles"
+          ],
+          "why": "Verse 26: “It is good that a man should both hope and quietly wait for the salvation of the LORD.”",
+          "source": "Lamentations 3:26",
+          "find": "both hope and quietly wait for the salvation of the LORD"
+        },
+        "media": {
+          "image": {
+            "src": "media/sunrise-harding-icefield.jpg",
+            "alt": "The sun rising over snowy mountains, lighting a wide white field of snow with orange and pink",
+            "credit": "Sunrise on the Harding Icefield, Kenai Fjords National Park. Photo: NPS, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Sunrise_on_the_Harding_Icefield,_Kenai_Fjords_National_Park.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#7c2d12 0%,#f97316 50%,#fde68a 115%)",
+        "blobA": "rgba(253,230,138,.4)",
+        "blobB": "rgba(0,0,0,.35)",
+        "approved": "c7fec794"
+      }
+    ],
+    "tldr": [
+      {
+        "ch": "Jeremiah 31",
+        "lines": [
+          "The Lord loves His people with an everlasting love. In the last days He will gather scattered Israel, and Ephraim is His firstborn. (verses 1–9)",
+          "Like a shepherd, He will gather and keep His people. He will turn their mourning into joy and end Rachel’s weeping. (verses 10–17)",
+          "Ephraim repents, and the Lord has mercy on him. He will build and plant again, and each person will answer for his own sins. (verses 18–30)",
+          "The Lord will make a new covenant, writing His law in their hearts. All will know Him, and He will forgive their sins. (verses 31–40)"
+        ],
+        "review": [
+          {
+            "v": 9,
+            "about": "Ephraim as firstborn is the heading’s “Ephraim has the birthright as the firstborn”; the verse itself says “Ephraim is my firstborn.”"
+          },
+          {
+            "v": 15,
+            "about": "Rachel’s weeping is left as the verses give it; the Scripture Helps explain she stands for the northern tribes taken by Assyria. The Go-deeper answer (verse 17) is kept out of the line."
+          }
+        ],
+        "approved": "274be31b"
+      },
+      {
+        "ch": "Jeremiah 32",
+        "lines": [
+          "Babylon’s army surrounds Jerusalem. King Zedekiah has shut Jeremiah in the prison court for prophesying that the city will fall. (verses 1–5)",
+          "The Lord tells Jeremiah to buy his cousin’s field. He seals the deed in a clay jar, a sign that Israel will return to the land. (verses 6–15)",
+          "Jeremiah prays, and the Lord answers that nothing is too hard for Him. The city will burn because its people worshipped idols. (verses 16–35)",
+          "Then He will gather His people, make an everlasting covenant with them, and never turn away from doing them good. (verses 36–44)"
+        ],
+        "review": [
+          {
+            "v": 7,
+            "about": "“Cousin” is the KJV’s “Hanameel the son of Shallum thine uncle” / “mine uncle’s son” (verses 7–8)."
+          },
+          {
+            "v": 39,
+            "about": "The bonus answer (one heart and one way) is left out of the last line on purpose."
+          }
+        ],
+        "approved": "8a29ec5e"
+      },
+      {
+        "ch": "Jeremiah 33",
+        "lines": [
+          "While Jeremiah is still in prison, the Lord promises to heal Jerusalem, bring Judah and Israel home, and forgive their sins. (verses 1–9)",
+          "Joy, weddings and praise will be heard there again, and shepherds will count their flocks in the land. (verses 10–13)",
+          "The Lord will make the Branch of righteousness grow from David’s family. The Branch is the Messiah, Jesus Christ. (verses 14–18)",
+          "His covenant with David is as sure as day and night. The Seed of David, the Messiah, will reign forever. (verses 19–26)"
+        ],
+        "review": [
+          {
+            "v": 13,
+            "about": "“Count their flocks” is the KJV’s “pass again under the hands of him that telleth them” (to tell = to count, Old Testament Student Manual 25-16)."
+          },
+          {
+            "v": 15,
+            "about": "Branch = the Messiah, Jesus Christ, from the heading and the Scripture Helps."
+          }
+        ],
+        "approved": "57b16ee5"
+      },
+      {
+        "ch": "Jeremiah 36",
+        "lines": [
+          "The Lord tells Jeremiah to write His words in a scroll, hoping Judah will turn from evil and be forgiven. Baruch writes as Jeremiah speaks. (verses 1–8)",
+          "Baruch reads the scroll in the temple on a fast day. The frightened princes tell King Jehoiakim, but first they warn Baruch and Jeremiah to hide. (verses 9–20)",
+          "As it is read, the king cuts the scroll apart and burns it, then orders their arrest. But the Lord hides them. (verses 21–26)",
+          "For burning the book, judgment will come on the king. Jeremiah has Baruch write it all again, and adds many more words. (verses 27–32)"
+        ],
+        "review": [
+          {
+            "v": 30,
+            "about": "The judgment on Jehoiakim is kept general; what he won’t have (verse 30) is the Go-deeper question."
+          }
+        ],
+        "approved": "fd34eb6f"
+      },
+      {
+        "ch": "Jeremiah 37",
+        "lines": [
+          "Zedekiah becomes king, but neither he nor his people listen to the Lord. When Egypt’s army comes, Babylon’s army leaves Jerusalem for a while. (verses 1–5)",
+          "Jeremiah warns that Egypt won’t save Judah. Babylon will come back, take the city and burn it. (verses 6–10)",
+          "Leaving the city, Jeremiah is falsely accused of going over to the enemy. He is beaten and thrown into a dungeon. (verses 11–16)",
+          "Zedekiah secretly asks him for a word from the Lord, then moves him out of the dungeon to the prison court. (verses 17–21)"
+        ],
+        "review": [
+          {
+            "v": 21,
+            "about": "The daily bread is left out of the last line; it is a bonus answer."
+          }
+        ],
+        "approved": "293e61aa"
+      },
+      {
+        "ch": "Jeremiah 38",
+        "lines": [
+          "The princes say Jeremiah’s warnings weaken the soldiers. Zedekiah lets them throw him into a dungeon, where he sinks in the mud. (verses 1–6)",
+          "Ebed-melech, an Ethiopian servant, pleads with the king. Using old rags and ropes, he pulls Jeremiah out, and Jeremiah stays in the prison court. (verses 7–13)",
+          "Zedekiah secretly asks Jeremiah about the war. If the king surrenders to Babylon, he and the city will live; if not, the city will burn. (verses 14–23)",
+          "The king tells Jeremiah to keep their talk secret from the princes. Jeremiah stays in the prison court until Jerusalem is taken. (verses 24–28)"
+        ],
+        "approved": "295fcfd8"
+      },
+      {
+        "ch": "Jeremiah 39",
+        "lines": [
+          "Babylon breaks into Jerusalem. Zedekiah flees but is caught; his sons are killed before his eyes, and he is blinded and bound in chains. (verses 1–7)",
+          "The Babylonians burn the houses, break down the walls, and take most of the people captive to Babylon, leaving only the poor. (verses 8–10)",
+          "The king of Babylon orders that Jeremiah be cared for, and Jeremiah is set free to live among his people. (verses 11–14)",
+          "The Lord sends word that Ebed-melech, the Ethiopian, will be kept safe when the city falls. (verses 15–18)"
+        ],
+        "review": [
+          {
+            "v": 6,
+            "about": "The line follows the verse. The Book of Mormon says one son, Mulek, was not slain (Helaman 8:21); that is a bonus answer, so it stays out of the card."
+          },
+          {
+            "v": 18,
+            "about": "Why Ebed-melech is saved (verse 18) is the Go-deeper answer, so the line only says he will be kept safe."
+          }
+        ],
+        "approved": "ab90c2fd"
+      },
+      {
+        "ch": "Lamentations 1",
+        "lines": [
+          "Jeremiah mourns over Jerusalem. The once-crowded city sits alone like a widow, weeping at night with no one to comfort her, and her people are captives. (verses 1–7)",
+          "Jerusalem sinned greatly. Now enemies have entered her temple, and her hungry people trade their treasures for food. (verses 8–11)",
+          "Then Jerusalem herself speaks to all who pass by: no sorrow is like hers, and she has no comforter. (verses 12–17)",
+          "She admits the Lord is right, because she rebelled against Him, and asks Him to see her distress. (verses 18–22)"
+        ],
+        "review": [
+          {
+            "v": 10,
+            "about": "“Enemies have entered her temple” is the KJV’s “the heathen entered into her sanctuary.”"
+          }
+        ],
+        "approved": "c4827786"
+      },
+      {
+        "ch": "Lamentations 3",
+        "lines": [
+          "Speaking for Judah, Jeremiah describes deep suffering, as if he were trapped in darkness with no way out. (verses 1–20)",
+          "Then he remembers the Lord’s compassion, which never fails and is new every morning, and he trusts in Him. (verses 21–30)",
+          "The Lord will not cast people off forever. Jeremiah urges his people to look at their ways and turn back to Him. (verses 31–42)",
+          "From a low dungeon he calls on the Lord, who comes near and says, “Fear not.” He prays to be saved from his enemies. (verses 43–66)"
+        ],
+        "review": [
+          {
+            "v": 26,
+            "about": "What it is good to do (verse 26) is a bonus answer, so the second line stops at trusting Him."
+          },
+          {
+            "v": 33,
+            "about": "The third line uses verse 31; verse 33 is the Go-deeper answer."
+          }
+        ],
+        "approved": "c42f605b"
+      }
+    ],
+    "insights": [
+      {
+        "id": "jer31-walker",
+        "ref": "Jeremiah 31:1",
+        "title": "Still calling a covenant people",
+        "text": "“They shall be my people.” Elder Alan R. Walker teaches that the Lord set a pattern for becoming His covenant people: obey His voice and keep our covenants with Him. Then He calls us His peculiar, or special, treasure. Elder Walker testifies that the same Lord who spoke to Moses on Mount Sinai still calls a covenant people today.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Alan R. Walker",
+          "title": "A Peculiar Treasure",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2026/04/48walker?lang=eng"
+        },
+        "find": "That pattern includes two simple but powerful conditions: to obey His voice and to keep our covenants with Him",
+        "approved": "0629400a"
+      },
+      {
+        "id": "jer31-hesed",
+        "ref": "Jeremiah 31:3",
+        "title": "Lovingkindness: a covenant love",
+        "text": "“With lovingkindness have I drawn thee.” President Russell M. Nelson explains that King James translators often chose lovingkindness for the Hebrew word hesed. No English word fits it exactly. Hesed is a special kind of love and mercy God has for those who make covenants with Him. They become bound together, and He will not abandon them.",
+        "source": {
+          "by": "Liahona",
+          "who": "President Russell M. Nelson",
+          "title": "The Everlasting Covenant",
+          "url": "https://www.churchofjesuschrist.org/study/liahona/2022/10/04-the-everlasting-covenant?lang=eng"
+        },
+        "find": "Translators of the King James Version of the Bible must have struggled with how to render hesed in English",
+        "approved": "d82e9b82"
+      },
+      {
+        "id": "jer31-pioneers",
+        "ref": "Jeremiah 31:9–13",
+        "title": "Weeping, then dancing",
+        "text": "Elder LeGrand Richards saw a parallel between these verses and the early Saints. They left their homes in Nauvoo “with weeping,” then traveled about six hundred miles beside the North Platte River. They found joy together too, even in dancing. The Old Testament Student Manual adds that the full fulfillment of these verses is still in the future.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Prophecies of a Latter-day Gathering",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-25?lang=eng"
+        },
+        "find": "Elder LeGrand Richards saw a parallel between verses 7–14 and the early history",
+        "approved": "eeac5bcf"
+      },
+      {
+        "id": "jer31-rachels-tomb",
+        "ref": "Jeremiah 31:15–17",
+        "title": "Words on Rachel’s tomb",
+        "text": "After his wife Laurie died, Dr. S. Michael Wilcox longed for comfort. On a trip to Israel, he felt prompted again and again to visit Rachel’s tomb. Inside, nothing happened. But outside, above a tiny garden by the wall, he found these verses. To him, the Lord was saying, “Refrain thy voice from weeping”: his work would be rewarded.",
+        "source": {
+          "by": "followHIM",
+          "who": "S. Michael Wilcox",
+          "title": "Old Testament: EPISODE 43 – Jeremiah, Lamentations – Part 2",
+          "url": "https://followhim.co/show-note/2-213/"
+        },
+        "find": "there on the wall above the flowers was a scripture from the book of Jeremiah",
+        "deep": {
+          "paras": [
+            "Dr. S. Michael Wilcox closed his episode on Jeremiah with something personal. His wife, Laurie, died of cancer, and he speaks of a love called longing. The two of them had loved the story of Jacob and Rachel, and he used to call Laurie his Rachel. After she died, he wanted some reassurance that she was still his.",
+            "A few months later, on a trip to Israel, he kept feeling a prompting: “Go to Rachel’s tomb.” He had been to Israel many times but never there. He went, reread the story of Jacob and Rachel, and waited for an hour. Nothing happened. Then, walking out, he noticed a tiny garden beside the security wall, and on the wall above it these verses from Jeremiah 31, in Hebrew and in English.",
+            "He read them as the Lord speaking to him: refrain from weeping, your work will be rewarded, there is hope in your end. His guide then told him these were the very words written on Rachel’s tomb in Hebrew. “Now, who knew that? My father in heaven knew it.” Brother Wilcox believes the Lord knows where the verses we need are, which is why it helps to know them all, even the ones in Jeremiah and Lamentations."
+          ],
+          "find": [
+            "And the spirit just kept saying, “Go to Rachel’s tomb. Go to Rachel’s tomb.”",
+            "there on the wall above the flowers was a scripture from the book of Jeremiah",
+            "Mike, those are the words on Rachel’s tomb you saw in Hebrew.",
+            "He knows where the verses are we need"
+          ],
+          "listen": {
+            "youtube": "6-sytrkRFQo",
+            "start": 2455,
+            "end": 3024,
+            "title": "followHIM: Jeremiah and Lamentations, part 2, with Dr. S. Michael Wilcox",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          },
+          "approved": "3055b42a"
+        },
+        "approved": "b6f75556"
+      },
+      {
+        "id": "jer31-sour-grapes",
+        "ref": "Jeremiah 31:29–30",
+        "title": "Sour grapes",
+        "text": "People had a saying: the fathers ate sour grapes, and the children’s teeth are set on edge. It suggested children carry the blame for what their parents did. The Old Testament Student Manual explains that Jeremiah set this straight: “every one shall die for his own iniquity.” Children may suffer because of a parent’s choices, but God holds each person accountable for his own sins.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Prophecies of a Latter-day Gathering",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-25?lang=eng"
+        },
+        "find": "Nothing in Exodus 20:5–6 justifies saying that, in a final sense, children are punished for their parents’ sins",
+        "approved": "5965538e"
+      },
+      {
+        "id": "jer31-sacrament",
+        "ref": "Jeremiah 31:31",
+        "title": "The new covenant and the sacrament",
+        "text": "Jeremiah foretold “a new covenant.” George S. Tate, writing in the Encyclopedia of Mormonism, says Latter-day Saints believe this prophecy was fulfilled in the New Testament, or New Covenant, through Jesus Christ. He adds that the sacrament is the new covenant’s repeated sign of renewal. It centers on promising to remember Christ always.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "George S. Tate",
+          "title": "Covenants in Biblical Times",
+          "url": "https://scripturecentral.org/archive/articles/encyclopedia-entry/covenants-biblical-times"
+        },
+        "find": "The recurring symbol of renewal in the new covenant is the Sacrament",
+        "approved": "f342cce1"
+      },
+      {
+        "id": "jer31-jsp-covenant",
+        "ref": "Jeremiah 31:31–33",
+        "title": "Joseph’s letter: two parties agree",
+        "text": "In January 1833, Joseph Smith wrote to a New York newspaper editor about the last days and pointed him to Jeremiah 31:31–33. A covenant, Joseph explained, “requires two parties” who agree. Many rejected Christ’s covenant in His day. But Joseph wrote that in the Lord’s day His people would be willing, and He would write His laws in their hearts.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Letter to Noah C. Saxton, 4 January 1833",
+          "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-noah-c-saxton-4-january-1833/2"
+        },
+        "find": "This covenant has never been established with the house of Isreal",
+        "note": "In 1833 Joseph Smith pointed a newspaper editor to these verses: a covenant “requires two parties” who agree, and God would write His laws in His people’s hearts.",
+        "approved": "71201b92"
+      },
+      {
+        "id": "jer31-christofferson",
+        "ref": "Jeremiah 31:33",
+        "title": "An open heart first",
+        "text": "How does the gospel get written in your heart? Elder D. Todd Christofferson says it can’t happen unless your heart is open: you have to want it. Then he tells what helps: studying the scriptures slowly and pondering, praying, serving others, repenting and obeying. Over time the gospel becomes not just an influence in your life, but who you are.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder D. Todd Christofferson",
+          "title": "When Thou Art Converted",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2004/04/when-thou-art-converted?lang=eng"
+        },
+        "find": "The gospel cannot be written in your heart unless your heart is open",
+        "approved": "b53023dc"
+      },
+      {
+        "id": "jer31-forgetting",
+        "ref": "Jeremiah 31:34",
+        "title": "A God who forgets",
+        "text": "“I will forgive their iniquity, and I will remember their sin no more.” Dr. S. Michael Wilcox reads this promise as written to us in the latter days. He notes that the Lord gave Joseph Smith the same promise (Doctrine and Covenants 58:42). As Brother Wilcox puts it, we don’t only worship a forgiving God; “we worship a forgetting God.”",
+        "source": {
+          "by": "followHIM",
+          "who": "S. Michael Wilcox",
+          "title": "Old Testament: EPISODE 43 – Jeremiah, Lamentations – Part 2",
+          "url": "https://followhim.co/show-note/2-213/"
+        },
+        "find": "We worship not only a forgiving God, we worship a forgetting God",
+        "approved": "c2ec4dae"
+      },
+      {
+        "id": "jer31-jsp-know",
+        "ref": "Jeremiah 31:34",
+        "title": "Joseph Smith: all shall know Him",
+        "text": "In the summer of 1839, Joseph Smith taught from this verse. As Willard Richards recorded it, Joseph said the day must come when no one needs to tell a neighbor to know the Lord, “for all shall know him.” How? Joseph answered that it would come by the sealing power and the other Comforter, made known by revelation.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Discourse, between circa 26 June and circa 2 July 1839, as Reported by Willard Richards",
+          "url": "https://www.josephsmithpapers.org/paper-summary/discourse-between-circa-26-june-and-circa-2-july-1839-as-reported-by-willard-richards/4"
+        },
+        "find": "know ye the Lord for all shall know him",
+        "note": "In 1839 Joseph Smith taught that a day must come when no one needs to teach a neighbor, “for all shall know him,” through the sealing power and revelation.",
+        "approved": "1b9f5455"
+      },
+      {
+        "id": "jer32-jar",
+        "ref": "Jeremiah 32:14–15",
+        "title": "A deed in a jar",
+        "text": "Jeremiah sealed the deed to his field in a clay jar so it would last “many days.” The Old Testament Student Manual explains that this was proof of his faith in God’s promise that houses, fields, and vineyards would be owned in the land again. After Jeremiah’s death, the right to the land would pass to his closest family.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "The Babylonian Captivity",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-24?lang=eng"
+        },
+        "find": "as proof of his faith in God’s promise",
+        "approved": "3c69fa09"
+      },
+      {
+        "id": "jer32-rising-early",
+        "ref": "Jeremiah 32:33",
+        "title": "Prophets rise up early",
+        "text": "“Though I taught them, rising up early and teaching them, yet they have not hearkened.” Dr. S. Michael Wilcox finds this phrase again and again in Jeremiah. He says prophets don’t go along with the times, not because they’re behind, but because they’re ahead. They are seers. They see trouble coming and warn us early.",
+        "source": {
+          "by": "followHIM",
+          "who": "S. Michael Wilcox",
+          "title": "Old Testament: EPISODE 43 - Jeremiah, Lamentations - Part 1",
+          "url": "https://followhim.co/show-note/2-214/"
+        },
+        "find": "Prophets never go with the times, not because they’re behind the times",
+        "deep": {
+          "paras": [
+            "The Lord’s complaint in Jeremiah 32:33 is that He taught His people, “rising up early and teaching them,” and they would not listen. Dr. S. Michael Wilcox points out that when a phrase repeats in a prophet’s book, it is a flag that says this matters. This one keeps coming back, in Jeremiah 7:13, 25; 25:4; 26:5; 29:19; and 44:4: the Lord rising up early to speak to His people and to send them prophets.",
+            "Prophets, he says, are not behind the times. They are ahead of them, because they are seers. His examples: President David O. McKay spoke constantly about the family in the 1950s, before the upheavals of the 1960s. President Spencer W. Kimball urged missionary work in the 1970s, before the Berlin Wall fell and many nations opened. President Russell M. Nelson taught home-centered, Church-supported gospel learning before COVID kept families at home.",
+            "His summary: “They’re always rising up early, and they’re ahead of the times.” Jeremiah’s people ignored the warnings until it was too late. Brother Wilcox calls this a theme we need to think about in our own lives."
+          ],
+          "find": [
+            "Now, when you see repetition, that is a little flag waving that this is important.",
+            "Prophets never go with the times, not because they’re behind the times",
+            "And what’s the great message of President Nelson? It’s home centered, church supported.",
+            "They’re always rising up early, and they’re ahead of the times."
+          ],
+          "listen": {
+            "youtube": "i3L48io1Aqs",
+            "start": 3044,
+            "end": 3390,
+            "title": "followHIM: Jeremiah and Lamentations, part 1, with Dr. S. Michael Wilcox",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          },
+          "approved": "ef518731"
+        },
+        "approved": "bf3675f9"
+      },
+      {
+        "id": "jer32-q-nelson",
+        "kind": "quote",
+        "ref": "Jeremiah 32:40",
+        "quote": "Once we make a covenant with God, we leave neutral ground forever. God will not abandon His relationship with those who have forged such a bond with Him.",
+        "text": "Verse 40: the Lord promises, “I will not turn away from them.” President Nelson explains what making a covenant does to our relationship with God.",
+        "source": {
+          "by": "Liahona",
+          "who": "President Russell M. Nelson",
+          "title": "The Everlasting Covenant",
+          "url": "https://www.churchofjesuschrist.org/study/liahona/2022/10/04-the-everlasting-covenant?lang=eng"
+        },
+        "approved": "6acbbde1"
+      },
+      {
+        "id": "jer33-flocks",
+        "ref": "Jeremiah 33:12–13",
+        "title": "Counting sheep in the ruins",
+        "text": "Jeremiah 33:13 says the flocks will pass again “under the hands of him that telleth them.” The Old Testament Student Manual explains that to tell means to count. Cities that sat empty and ruined would one day be full of people again, with shepherds counting big, healthy flocks. The Lord would do all He had promised Israel and Judah.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Prophecies of a Latter-day Gathering",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-25?lang=eng"
+        },
+        "find": "will again be full of people and their bounteous flocks",
+        "approved": "c083185b"
+      },
+      {
+        "id": "jer33-justice",
+        "ref": "Jeremiah 33:15",
+        "title": "Justice and righteousness",
+        "text": "The Branch will “execute judgment and righteousness in the land.” David A. LeFevre explains that these two Hebrew words, mishpat and tsedaqah, sum up Jeremiah’s preaching. They meant caring for widows, orphans, and refugees, being fair, and never abusing power. Jeremiah hoped for the day when the Messiah, from David’s family, would rule that way.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "David A. LeFevre",
+          "title": "Justice and Righteousness: Jeremiah against King and People",
+          "url": "https://rsc.byu.edu/covenant-compassion/justice-righteousness"
+        },
+        "find": "In Jeremiah’s teachings, establishing justice and righteousness meant caring for those in need",
+        "approved": "7791afaf"
+      },
+      {
+        "id": "jer36-record",
+        "ref": "Jeremiah 36:2",
+        "title": "Two prophets, two records",
+        "text": "The Lord told Jeremiah to write His words so the people might repent. Scripture Central points out that Lehi, a prophet in Jerusalem at the same time, kept a record too (1 Nephi 1:16). Later Book of Mormon prophets followed the same pattern, writing in hope that their people would repent (Enos 1:13; Moroni 1:4).",
+        "source": {
+          "by": "Scripture Central",
+          "title": "How Did Jeremiah’s and Lehi’s Ministries Reflect One Another?",
+          "url": "https://scripturecentral.org/knowhy/how-did-jeremiahs-and-lehis-ministries-reflect-one-another"
+        },
+        "find": "both prophets are explicitly connected with the act of record keeping",
+        "approved": "1ee781a9"
+      },
+      {
+        "id": "jer36-q-benson",
+        "kind": "quote",
+        "ref": "Jeremiah 36:2–3",
+        "quote": "The word of God, as found in the scriptures, … has the power to fortify the Saints and arm them with the Spirit so they can resist evil, hold fast to the good, and find joy in this life.",
+        "text": "Verses 2–3: the Lord had His words written so His people might “return every man from his evil way.” President Benson explains the power those words still have.",
+        "source": {
+          "by": "Seminary manual",
+          "who": "President Ezra Taft Benson",
+          "title": "Jeremiah 36: The Word of God",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/43-jeremiah-lamentations/432-jeremiah-36?lang=eng"
+        },
+        "approved": "1d150d8e"
+      },
+      {
+        "id": "jer36-animosity",
+        "ref": "Jeremiah 36:23",
+        "title": "Why the king burned the scroll",
+        "text": "Why was King Jehoiakim so hostile to Jeremiah’s scroll? David A. LeFevre explains that Jeremiah had already called the king to repent of cheating and mistreating his people, and warned that no one would mourn him when he died. The king grew angry, and the two men became enemies. So when the scroll was read, he cut it apart and burned it.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "David A. LeFevre",
+          "title": "Justice and Righteousness: Jeremiah against King and People",
+          "url": "https://rsc.byu.edu/covenant-compassion/justice-righteousness"
+        },
+        "find": "This discord was the beginning of great animosity between the two men",
+        "approved": "1c810a1a"
+      },
+      {
+        "id": "jer37-jsp-dungeon",
+        "ref": "Jeremiah 37:16",
+        "title": "Joseph’s Bible: a sentence finished",
+        "text": "In the King James Version, verse 16 begins “When Jeremiah was entered into the dungeon” and leaves the sentence hanging until the next verse. In Joseph Smith’s Bible manuscript, the verse becomes its own sentence, ending “and he remained there many days.” It says simply that Jeremiah was put in the dungeon and stayed there a long time.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 114",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/121"
+        },
+        "find": "And Jeremiah was entered into the dungeon, and into the cabbins, and he remained there many days",
+        "note": "Joseph Smith’s Bible manuscript makes this verse its own sentence: Jeremiah was put in the dungeon, “and he remained there many days.” The King James wording leaves it unfinished until verse 17.",
+        "approved": "436a01cd"
+      },
+      {
+        "id": "jer37-where-prophets",
+        "ref": "Jeremiah 37:19",
+        "title": "Where are your prophets now?",
+        "text": "Other prophets had promised that Babylon would never attack Jerusalem. Now Babylon’s army had come, and Jeremiah, who had warned them, sat in prison. So he asked the king, “Where are now your prophets?” The Old Testament Student Manual points out the irony: the true prophet was locked up, and the false ones were nowhere to be found.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "The Babylonian Captivity",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-24?lang=eng"
+        },
+        "find": "Their word had been proven false, and where were they?",
+        "approved": "0c899557"
+      },
+      {
+        "id": "jer38-ebed-permission",
+        "ref": "Jeremiah 38:7–10",
+        "title": "Doing the right thing the right way",
+        "text": "Ebed-melech was one of the king’s officials. Kevin L. Tolley points out that he could have tried to rescue Jeremiah on his own. Instead, he went to the king, said plainly that the princes had done evil, and asked permission. Tolley writes that he was spurring a weak king to act, and showing by his own example how to make right choices.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Kevin L. Tolley",
+          "title": "The Imprisonment of Jeremiah in Its Historical Context",
+          "url": "https://rsc.byu.edu/vol-20-no-3-2019/imprisonment-jeremiah-its-historical-context"
+        },
+        "find": "he sought the king’s permission and tried to spur Zedekiah on to action",
+        "approved": "9db10da2"
+      },
+      {
+        "id": "jer38-meservy",
+        "ref": "Jeremiah 38:17–24",
+        "title": "Advice kept secret",
+        "text": "In the last days before Jerusalem fell, Zedekiah desperately asked Jeremiah for advice. Keith H. Meservy notes that Jeremiah promised the king his life, and the city’s safety, if he would give himself up to the Babylonians. But Zedekiah kept the advice secret because he feared his own people. So Jeremiah’s prophecy came true.",
+        "source": {
+          "by": "Ensign",
+          "who": "Keith H. Meservy",
+          "title": "Jerusalem at the Time of Lehi and Jeremiah",
+          "url": "https://www.churchofjesuschrist.org/study/ensign/1988/01/jerusalem-at-the-time-of-lehi-and-jeremiah?lang=eng"
+        },
+        "find": "Zedekiah kept the advice secret for fear of his own people",
+        "approved": "db21d150"
+      },
+      {
+        "id": "jer38-q-benson",
+        "kind": "quote",
+        "ref": "Jeremiah 38:20",
+        "quote": "How we respond to the words of a living prophet when he tells us what we need to know, but would rather not hear, is a test of our faithfulness",
+        "text": "Verse 20: Jeremiah pleaded, “Obey, I beseech thee, the voice of the LORD.” President Benson names what a moment like that is for anyone who hears a prophet.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "who": "President Ezra Taft Benson",
+          "title": "The Babylonian Captivity",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-24?lang=eng"
+        },
+        "approved": "0590be0f"
+      },
+      {
+        "id": "jer38-mire",
+        "ref": "Jeremiah 38:22",
+        "title": "Stuck in the mud",
+        "text": "Jeremiah warned Zedekiah that if he refused to surrender, people would say, “thy feet are sunk in the mire.” Kevin L. Tolley notes how this mirrors Jeremiah sinking in the mud of the pit. Zedekiah had let Jeremiah be lifted out of the mud. But by refusing to obey, the king would end up stuck himself, with his friends turned away.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Kevin L. Tolley",
+          "title": "The Imprisonment of Jeremiah in Its Historical Context",
+          "url": "https://rsc.byu.edu/vol-20-no-3-2019/imprisonment-jeremiah-its-historical-context"
+        },
+        "find": "The imagery seems to mirror Jeremiah’s incarceration in a muddy cistern",
+        "approved": "30cc12d0"
+      },
+      {
+        "id": "jer39-two-prophets",
+        "ref": "Jeremiah 39:7",
+        "title": "Two prophecies, both true",
+        "text": "Jeremiah said Zedekiah would be taken to Babylon. The prophet Ezekiel, already a captive there, said he would never see it (Ezekiel 12:13). Dr. S. Michael Wilcox says Zedekiah decided prophets who seemed to disagree couldn’t both be true, so he listened to false advisers. Both prophecies came true: his eyes were put out, and he was carried to Babylon.",
+        "source": {
+          "by": "followHIM",
+          "who": "S. Michael Wilcox",
+          "title": "Old Testament: EPISODE 43 – Jeremiah, Lamentations – Part 2",
+          "url": "https://followhim.co/show-note/2-213/"
+        },
+        "find": "So we have two prophets: Ezekiel saying Zedekiah will never see Babylon",
+        "deep": {
+          "paras": [
+            "Dr. S. Michael Wilcox reminds listeners why Zedekiah’s name sounds familiar: he was king when Lehi was prophesying (1 Nephi 1:4). The world of Jeremiah is Lehi’s world. The Babylonians had made Zedekiah king to rule for them, and Brother Wilcox describes him as weak: “He vacillates between Jeremiah’s words and the false prophets’ words.”",
+            "Ezekiel had already been carried to Babylon, and he prophesied that Zedekiah would be brought there but would not see it (Ezekiel 12:13). Jeremiah told the king to his face that he would be taken captive. Zedekiah, Brother Wilcox says, decided the two prophets contradicted each other and so couldn’t be true. He listened to his advisers instead.",
+            "Then both prophecies came true. The Babylonians put out Zedekiah’s eyes and carried him to Babylon, so “he never sees Babylon,” yet he was taken there. As Hank Smith notes, by then Lehi had already left. Brother Wilcox sees Laman and Lemuel as part of that same unbelieving spirit of the times, while Lehi and Nephi believed the prophets."
+          ],
+          "find": [
+            "Because he’s the king when Lehi is prophesying.",
+            "He vacillates between Jeremiah’s words and the false prophets’ words.",
+            "So we have two prophets: Ezekiel saying Zedekiah will never see Babylon",
+            "So he never sees Babylon. Ezekiel is correct.",
+            "Laman and Lemuel are in the group that are not believers."
+          ],
+          "listen": {
+            "youtube": "6-sytrkRFQo",
+            "start": 21,
+            "end": 337,
+            "title": "followHIM: Jeremiah and Lamentations, part 2, with Dr. S. Michael Wilcox",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          },
+          "approved": "a3af6acc"
+        },
+        "approved": "cbe1e576"
+      },
+      {
+        "id": "jer39-spared",
+        "ref": "Jeremiah 39:11–14",
+        "title": "Kept safe in different ways",
+        "text": "Jeremiah and Lehi both warned Jerusalem, and the Lord protected both, in different ways. Scripture Central notes that Lehi was commanded to leave Jerusalem to save his life, while Jeremiah was commanded to stay and survived when Babylon took the city. In these verses the king of Babylon even orders that Jeremiah be looked after.",
+        "source": {
+          "by": "Scripture Central",
+          "title": "How Did Jeremiah’s and Lehi’s Ministries Reflect One Another?",
+          "url": "https://scripturecentral.org/knowhy/how-did-jeremiahs-and-lehis-ministries-reflect-one-another"
+        },
+        "find": "Jeremiah was commanded to stay in Jerusalem where he would survive the Babylonian assault",
+        "approved": "ee622caf"
+      },
+      {
+        "id": "lam1-alas",
+        "ref": "Lamentations 1:1",
+        "title": "A song of grief for a city",
+        "text": "In the Hebrew Bible, the heading of this book is aychah, which the Old Testament Student Manual translates as “alas! how.” It is a cry of grief. The manual explains that people in Judah would compose and sing laments, sad songs, about friends and family who had died. Jeremiah wrote one for his beloved city, Jerusalem.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "The Babylonian Captivity",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-24?lang=eng"
+        },
+        "find": "It was customary in ancient Judah to compose and sing lamentations about departed friends or relatives",
+        "approved": "b5183360"
+      },
+      {
+        "id": "lam1-lovers",
+        "ref": "Lamentations 1:2",
+        "title": "Friends who weren’t there",
+        "text": "“Among all her lovers she hath none to comfort her.” Who were these lovers? The Old Testament Student Manual explains that they were the false gods Jerusalem had worshipped. When trouble came, those gods did nothing to help. Instead, they abandoned her to her enemies.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "The Babylonian Captivity",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-24?lang=eng"
+        },
+        "find": "All her “lovers” (the false gods she worshiped) abandoned her to her enemies",
+        "approved": "e6f7809d"
+      },
+      {
+        "id": "lam1-q-cook",
+        "kind": "quote",
+        "ref": "Lamentations 1:14",
+        "quote": "We must always remember that we do not save ourselves. We are liberated by the love, grace, and atoning sacrifice of the Savior.",
+        "text": "Verse 14 calls sin a heavy yoke tied around the neck. Speaking of Jeremiah’s lamentations, Elder Cook tells who sets us free.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Quentin L. Cook",
+          "title": "Lamentations of Jeremiah: Beware of Bondage",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2013/10/lamentations-of-jeremiah-beware-of-bondage?lang=eng"
+        },
+        "approved": "48faca71"
+      },
+      {
+        "id": "lam1-he-wept",
+        "ref": "Lamentations 1:12–16",
+        "title": "He wept instead",
+        "text": "Jeremiah warned Jerusalem for years, and almost no one listened. When the city fell, he could have said, I told you so. Dr. S. Michael Wilcox points out that he didn’t. He wept: “mine eye, mine eye runneth down with water.” Brother Wilcox sees God’s own feelings in Jeremiah’s tears. God takes no joy in His children’s suffering.",
+        "source": {
+          "by": "followHIM",
+          "who": "S. Michael Wilcox",
+          "title": "Old Testament: EPISODE 43 - Jeremiah, Lamentations - Part 1",
+          "url": "https://followhim.co/show-note/2-214/"
+        },
+        "find": "He will weep. And that’s what Lamentations is all about.",
+        "deep": {
+          "paras": [
+            "Dr. S. Michael Wilcox pictures Jeremiah as an uncle at the foot of a hill, waving his arms to stop a disaster. As a boy, Brother Wilcox ignored his own uncle’s warning, raced his horse down a rocky slope, and rolled it. Jeremiah waved at Judah the same way: don’t rebel, don’t trust Egypt, trust God. They rode down the hill anyway.",
+            "When disaster came, Jeremiah didn’t turn away saying, I told you so. “He will weep. And that’s what Lamentations is all about.” Brother Wilcox points to Rembrandt’s painting in this week’s lesson. The light on Jeremiah’s face comes from Jerusalem burning, and in a good copy you can see a tiny figure of Zedekiah fleeing, his hands over his eyes.",
+            "Beside Jeremiah lies the reward the Babylonians gave him (Jeremiah 40:5). Does he look happy to have it? No. In Lamentations 1 he asks those who pass by whether any sorrow is like his (verse 12), and weeps because the comforter is far from him (verse 16). Brother Wilcox hears God’s heart there too: “It’s not joyful to be right. God has no joy in it.”"
+          ],
+          "find": [
+            "He’s also at the bottom of the hill waving at the children of Israel.",
+            "He will weep. And that’s what Lamentations is all about.",
+            "Rembrandt just had a power of capturing the emotion of scriptural stories.",
+            "Does he look happy to have it? No.",
+            "It’s not joyful to be right. God has no joy in it."
+          ],
+          "listen": {
+            "youtube": "i3L48io1Aqs",
+            "start": 2398,
+            "end": 2835,
+            "title": "followHIM: Jeremiah and Lamentations, part 1, with Dr. S. Michael Wilcox",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          },
+          "approved": "f56e9339"
+        },
+        "approved": "9381cc37"
+      },
+      {
+        "id": "lam3-new-mercies",
+        "ref": "Lamentations 3:21–24",
+        "title": "Mercy renewed every morning",
+        "text": "Dr. S. Michael Wilcox calls these beautiful verses, ones he wishes we looked at more. In the ruins of Jerusalem, Jeremiah remembers the Lord’s mercies and finds hope. Brother Wilcox says he can’t tell how much it comforts him that every morning the Lord’s mercy and compassion are renewed. Whatever yesterday held, today starts with fresh mercy.",
+        "source": {
+          "by": "followHIM",
+          "who": "S. Michael Wilcox",
+          "title": "Old Testament: EPISODE 43 - Jeremiah, Lamentations - Part 1",
+          "url": "https://followhim.co/show-note/2-214/"
+        },
+        "find": "every morning his mercy and compassion is renewed",
+        "deep": {
+          "paras": [
+            "After two chapters of mourning, Lamentations 3 turns: “This I recall to my mind, therefore have I hope.” Dr. S. Michael Wilcox hears in it the hope that runs through every Old Testament prophet: “All the prophets always give hope, always hope.” Even in Jerusalem’s ruins, Jeremiah could see that not everyone had been destroyed.",
+            "Some of the people were still in the land, and others, like Daniel and Ezekiel, were alive in Babylon. “It is of the LORD’s mercies that we are not consumed.” Brother Wilcox finds the next words deeply personal: “They are new every morning: great is thy faithfulness.” Whatever yesterday was like, the Lord’s mercy starts fresh each day.",
+            "He ties these verses to another question in Jeremiah, “Is there no balm in Gilead?” (Jeremiah 8:22). His answer is yes: there is a physician, the Savior, who heals our wounds with mercy, forgiveness, and compassion. Because His mercies are renewed every morning, Brother Wilcox says, we shouldn’t stay stuck in sorrow. There is always hope."
+          ],
+          "find": [
+            "If you want to jump to Lamentations for a second, you get that hope and longing, sorrow, but always hope.",
+            "I can’t tell you how much that’s comforting to me, that every morning his mercy and compassion is renewed.",
+            "There is a balm in Gilead; it’s mercy, it is forgiveness, it is compassion.",
+            "Don’t stay in a state of sorrow, because there’s always hope something."
+          ],
+          "listen": {
+            "youtube": "i3L48io1Aqs",
+            "start": 1566,
+            "end": 1806,
+            "title": "followHIM: Jeremiah and Lamentations, part 1, with Dr. S. Michael Wilcox",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          },
+          "approved": "6f31108c"
+        },
+        "approved": "616976fa"
+      },
+      {
+        "id": "lam3-q-ballard",
+        "kind": "quote",
+        "ref": "Lamentations 3:21",
+        "quote": "Regardless of how desperate things may seem or how desperate they may yet become, please believe me, you can always have hope. Always.",
+        "text": "Verse 21: “therefore have I hope.” Elder Ballard spoke these words to anyone who has lost hope, even because of sin.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder M. Russell Ballard",
+          "title": "The Joy of Hope Fulfilled",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/1992/10/the-joy-of-hope-fulfilled?lang=eng"
+        },
+        "approved": "8fee4bc6"
+      },
+      {
+        "id": "lam3-compassion",
+        "ref": "Lamentations 3:22",
+        "title": "What compassion means",
+        "text": "“His compassions fail not.” What is compassion? The seminary manual shares the Guide to the Scriptures’ definition: compassion literally means to suffer with someone, and to show sympathy, pity, and mercy. From these verses the manual draws a truth to remember: the Lord has compassion for us, even when we sin.",
+        "source": {
+          "by": "Seminary manual",
+          "title": "Lamentations 1; 3: “His Compassions Fail Not”",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/43-jeremiah-lamentations/433-lamentations?lang=eng"
+        },
+        "find": "The Lord has compassion for us, even when we sin",
+        "approved": "27b3a815"
+      },
+      {
+        "id": "lam3-q-andersen",
+        "kind": "quote",
+        "ref": "Lamentations 3:24",
+        "quote": "Hope is a living gift, a gift that grows as we increase our faith in Jesus Christ.",
+        "text": "Verse 24: because the Lord is his, Jeremiah says, “therefore will I hope in him.” Elder Andersen explains how hope like that grows.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Neil L. Andersen",
+          "title": "The Triumph of Hope",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2024/10/12andersen?lang=eng"
+        },
+        "approved": "f1f9f9c9"
+      }
+    ],
+    "plain": [
+      {
+        "ch": "Jeremiah 31",
+        "verses": [
+          "At that time, says the Lord, I will be the God of all the families of Israel, and they will be my people.",
+          "This is what the Lord says: The people who escaped the sword found grace in the wilderness. That was Israel, when I went to give them rest.",
+          "Long ago the Lord appeared to me and said: I have loved you with an everlasting love, so I have drawn you to me with loving-kindness.",
+          "Again I will build you up, and you will be built, virgin of Israel (Israel pictured as a young woman). Again you will pick up your tambourines and go out dancing with people who celebrate.",
+          "Again you will plant vineyards on the mountains of Samaria. The planters will plant them and enjoy their fruit.",
+          "For a day will come when watchmen on the hills of Ephraim will call out, “Get up, and let’s go up to Zion, to the Lord our God!”",
+          "For this is what the Lord says: Sing with joy for Jacob, and shout for the greatest of the nations. Announce it, give praise, and say, “Lord, save your people, the remnant of Israel!”",
+          "Look, I will bring them from the land of the north and gather them from the ends of the earth. With them will be the blind and the lame, women who are expecting and women giving birth, all together. A great crowd will come back here.",
+          "They will come weeping, and I will lead them as they plead with me. I will make them walk beside streams of water, on a straight path where they won’t stumble. For I am a father to Israel, and Ephraim is my firstborn.",
+          "Hear the word of the Lord, you nations, and announce it in the islands far away. Say, “He who scattered Israel will gather him and watch over him, as a shepherd watches over his flock.”",
+          "For the Lord has redeemed Jacob and bought him back from the hand of someone stronger than he was.",
+          "They will come and sing for joy on the heights of Zion. They will stream together to the good things of the Lord—the grain, the new wine, the oil, and the young of the flocks and herds. Their lives will be like a watered garden, and they will never be sad again.",
+          "Then young women will rejoice and dance, and young men and old men together. I will turn their mourning into joy. I will comfort them and give them joy in place of their sorrow.",
+          "I will fill the souls of the priests with rich food, and my people will be satisfied with my goodness, says the Lord.",
+          "This is what the Lord says: A voice is heard in Ramah, mourning and bitter weeping. Rahel (Rachel) is weeping for her children. She refuses to be comforted for her children, because they are gone.",
+          "This is what the Lord says: Keep your voice from weeping and your eyes from tears, for your work will be rewarded, says the Lord. They will come back from the land of the enemy.",
+          "There is hope for your future, says the Lord. Your children will come back to their own land.",
+          "I have surely heard Ephraim mourning: “You disciplined me, and I was disciplined, like a young bull not trained to the yoke. Bring me back, and I will come back, for you are the Lord my God.”",
+          "“After I turned back, I repented. After I was taught, I struck my thigh in sorrow. I was ashamed and humiliated, because I carried the disgrace of my youth.”",
+          "Isn’t Ephraim my dear son, a child I delight in? Even though I often speak against him, I still remember him. That is why my heart longs for him. I will surely have mercy on him, says the Lord.",
+          "Set up road signs. Put up markers. Keep your mind on the highway, the road you traveled. Come back, virgin of Israel. Come back to these cities of yours.",
+          "How long will you wander back and forth, you unfaithful daughter? For the Lord has created a new thing on the earth: a woman will surround a man.",
+          "This is what the Lord of Hosts, the God of Israel, says: When I bring them back from captivity, people in the land of Judah and its cities will once again say, “The Lord bless you, home of justice, holy mountain!”",
+          "Farmers and those who travel with their flocks will live together in Judah and in all its cities.",
+          "For I have satisfied the weary soul, and I have filled every soul that is sorrowful.",
+          "At this I woke up and looked around, and my sleep had been sweet to me.",
+          "Look, the days are coming, says the Lord, when I will sow the house of Israel and the house of Judah with the seed of people and the seed of animals.",
+          "Just as I watched over them to pull up and tear down, to throw down, destroy, and bring trouble, so I will watch over them to build and to plant, says the Lord.",
+          "In those days people will no longer say, “The fathers ate sour grapes, and the children’s teeth feel the sourness.”",
+          "Instead, everyone will die for his own sin. Whoever eats the sour grapes, his own teeth will feel the sourness.",
+          "Look, the days are coming, says the Lord, when I will make a new covenant with the house of Israel and with the house of Judah.",
+          "It will not be like the covenant I made with their fathers on the day I took them by the hand to bring them out of the land of Egypt. They broke that covenant of mine, even though I was a husband to them, says the Lord.",
+          "But this is the covenant I will make with the house of Israel after those days, says the Lord: I will put my law deep inside them and write it on their hearts. I will be their God, and they will be my people.",
+          "No longer will each person teach his neighbor and his brother, saying, “Know the Lord,” because they will all know me, from the least of them to the greatest, says the Lord. For I will forgive their wrongdoing, and I will remember their sin no more.",
+          "This is what the Lord says—He who gives the sun to light the day, and the moon and the stars in their fixed order to light the night, who stirs up the sea so that its waves roar. The Lord of Hosts is His name:",
+          "If that fixed order ever disappears from before me, says the Lord, then the descendants of Israel will also stop being a nation before me forever.",
+          "This is what the Lord says: If the heavens above can be measured and the foundations of the earth below can be searched out, then I will also reject all the descendants of Israel for all they have done, says the Lord.",
+          "Look, the days are coming, says the Lord, when the city will be rebuilt for the Lord from the tower of Hananeel to the Corner Gate.",
+          "The measuring line will stretch out again straight to the hill Gareb, and then turn toward Goath.",
+          "The whole valley of dead bodies and ashes, and all the fields as far as the brook of Kidron and the corner of the Horse Gate on the east, will be holy to the Lord. It will never again be pulled up or thrown down."
+        ],
+        "notes": [
+          {
+            "v": 9,
+            "text": "Jacob blessed Joseph’s younger son ahead of the older: “he set Ephraim before Manasseh” (Genesis 48:20). The Lord speaks of “the richer blessing upon the head of Ephraim and his fellows” (D&C 133:34)."
+          },
+          {
+            "v": 15,
+            "text": "Rahel is Rachel, Jacob’s wife. Matthew says this was fulfilled when King Herod killed the young children of Bethlehem: “Rachel weeping for her children, and would not be comforted” (Matthew 2:17–18)."
+          },
+          {
+            "v": 31,
+            "text": "Hebrews 8:8–12 quotes verses 31–34 and says Jesus Christ is “the mediator of a better covenant” (Hebrews 8:6)."
+          }
+        ],
+        "review": [
+          {
+            "v": 2,
+            "about": "The KJV has the Lord going to give Israel rest (“when I went to cause him to rest”); the BSB reads ‘when Israel went to find rest.’ The plain words follow the KJV."
+          },
+          {
+            "v": 12,
+            "about": "The KJV’s “flow together” is a Hebrew word that can mean to stream like a river or to shine; the BSB reads ‘they will be radiant.’ The plain words follow the KJV."
+          },
+          {
+            "v": 22,
+            "about": "“A woman shall compass a man” is a hard line in the Hebrew. The plain words say “a woman will surround a man,” as the KJV does; the BSB has ‘a woman will shelter a man.’ No one knows exactly what it means."
+          },
+          {
+            "v": 29,
+            "about": "The KJV’s “the children’s teeth are set on edge” is the sour feeling in your teeth; the plain words say the children’s teeth “feel the sourness” (here and in verse 30)."
+          },
+          {
+            "v": 35,
+            "about": "The KJV’s “divideth the sea”: the Hebrew word means to stir up (or to still), and the BSB reads ‘stirs up the sea.’ The plain words follow the Hebrew, since the waves roar."
+          },
+          {
+            "v": 31,
+            "about": "Verses 31–34, the new covenant, are the heart of the chapter. Check they read the way you want; the note gives Hebrews 8."
+          }
+        ],
+        "approved": "aef9f5dd"
+      },
+      {
+        "ch": "Jeremiah 32",
+        "verses": [
+          "This is the word that came to Jeremiah from the Lord in the tenth year of Zedekiah king of Judah, which was the eighteenth year of Nebuchadrezzar.",
+          "At that time the army of the king of Babylon had surrounded Jerusalem to attack it, and Jeremiah the prophet was locked up in the courtyard of the guard, in the palace of the king of Judah.",
+          "Zedekiah king of Judah had locked him up there. He had said, “Why do you prophesy like this? You say, This is what the Lord says: Look, I will hand this city over to the king of Babylon, and he will capture it.”",
+          "“Zedekiah king of Judah will not escape from the Chaldeans (the Babylonians), but he will surely be handed over to the king of Babylon. He will speak with him face to face and see him with his own eyes.”",
+          "“He will take Zedekiah to Babylon, and there he will stay until I come to deal with him, says the Lord. Even if you fight against the Chaldeans, you will not win.”",
+          "Jeremiah said: The word of the Lord came to me. It said:",
+          "Look, Hanameel, the son of your uncle Shallum, will come to you and say, “Buy my field in Anathoth, because the right to redeem it—to buy it and keep it in the family—is yours.”",
+          "Then, just as the Lord had said, my cousin Hanameel came to me in the courtyard of the guard. He said to me, “Please buy my field in Anathoth, in the land of Benjamin. The right to inherit it and to redeem it is yours. Buy it for yourself.” Then I knew that this was the word of the Lord.",
+          "So I bought the field in Anathoth from my cousin Hanameel, and I weighed out the money for him: seventeen shekels of silver.",
+          "I signed the deed and sealed it, called witnesses, and weighed the money on scales.",
+          "Then I took the deed of purchase—the sealed copy with its terms and conditions, and the open copy.",
+          "I gave the deed of purchase to Baruch the son of Neriah, the son of Maaseiah. My cousin Hanameel watched, along with the witnesses who had signed the deed and all the Jews sitting in the courtyard of the guard.",
+          "In front of them I gave Baruch this command:",
+          "This is what the Lord of Hosts, the God of Israel, says: Take these deeds, both the sealed copy and the open copy of this deed of purchase, and put them in a clay jar so they will last a long time.",
+          "For this is what the Lord of Hosts, the God of Israel, says: Houses and fields and vineyards will again be bought in this land.",
+          "After I had given the deed of purchase to Baruch the son of Neriah, I prayed to the Lord:",
+          "Oh, Lord God! Look, you made the heavens and the earth by your great power and your outstretched arm. Nothing is too hard for you.",
+          "You show loving-kindness to thousands, but you pay back the sins of the fathers into the laps of their children after them. You are the great and mighty God; the Lord of Hosts is His name.",
+          "You are great in counsel and mighty in what you do. Your eyes are open to all the ways of people, to give each one what his ways and the fruit of his actions deserve.",
+          "You did signs and wonders in the land of Egypt, and you still do them today, in Israel and among all people. You have made a name for yourself that lasts to this day.",
+          "You brought your people Israel out of the land of Egypt with signs and wonders, with a strong hand and an outstretched arm, and with great terror.",
+          "You gave them this land, which you had promised with an oath to their fathers, a land flowing with milk and honey.",
+          "They came in and took it for their own, but they did not obey your voice or walk in your law. They did nothing of all you commanded them to do. So you have brought all this disaster on them.",
+          "Look at the siege ramps (mounds of earth piled up against the walls)! They have come up to the city to capture it. Because of the sword, the famine, and the plague, the city has been handed over to the Chaldeans who are fighting against it. What you said has happened, and look, you see it.",
+          "Yet you, Lord God, have said to me, “Buy the field with money, and call witnesses”—even though the city has been handed over to the Chaldeans.",
+          "Then the word of the Lord came to Jeremiah:",
+          "Look, I am the Lord, the God of all people. Is anything too hard for me?",
+          "So this is what the Lord says: Look, I am handing this city over to the Chaldeans and to Nebuchadrezzar king of Babylon, and he will capture it.",
+          "The Chaldeans who are fighting against this city will come in and set it on fire. They will burn it down, along with the houses where people burned incense to Baal on the roofs and poured out drink offerings to other gods to make me angry.",
+          "For the children of Israel and the children of Judah have done nothing but evil in my sight since they were young. The children of Israel have done nothing but make me angry with what their hands have made, says the Lord.",
+          "For this city has stirred up my anger and my fury from the day they built it until today, so I will remove it from my sight",
+          "because of all the evil the children of Israel and the children of Judah have done to make me angry—they, their kings, their officials, their priests, their prophets, the men of Judah, and the people who live in Jerusalem.",
+          "They have turned their backs to me, not their faces. I taught them again and again, but they would not listen or accept correction.",
+          "They set up their disgusting idols in the house that is called by my name, to make it unclean.",
+          "They built the high places of Baal in the valley of the son of Hinnom, to make their sons and daughters pass through the fire to Molech (a false god). I never commanded them this, and it never even came into my mind that they should do this disgusting thing and make Judah sin.",
+          "So now this is what the Lord, the God of Israel, says about this city, which you say will be handed over to the king of Babylon by the sword, by famine, and by plague:",
+          "Look, I will gather them out of all the countries where I have driven them in my anger, my fury, and my great wrath. I will bring them back to this place and let them live in safety.",
+          "They will be my people, and I will be their God.",
+          "I will give them one heart and one way, so that they will fear me forever, for their own good and for the good of their children after them.",
+          "I will make an everlasting covenant with them: I will never turn away from doing good to them. I will put the fear of me in their hearts, so they will never turn away from me.",
+          "I will rejoice over them and do them good. I will truly plant them in this land with all my heart and all my soul.",
+          "For this is what the Lord says: Just as I have brought all this great disaster on this people, so I will bring on them all the good I have promised them.",
+          "Fields will again be bought in this land, the land you say is a ruin with no people or animals, handed over to the Chaldeans.",
+          "People will buy fields with money, sign and seal deeds, and call witnesses in the land of Benjamin, in the places around Jerusalem, in the cities of Judah, in the cities of the hill country, in the cities of the lowlands, and in the cities of the south. For I will bring them back from captivity, says the Lord."
+        ],
+        "notes": [
+          {
+            "v": 7,
+            "text": "Under the law of Moses, when a man had to sell his land, his nearest relative could buy it back: “then shall he redeem that which his brother sold” (Leviticus 25:25). That kept the land in the family."
+          },
+          {
+            "v": 27,
+            "text": "The Lord asked Abraham the same question when He promised that Sarah would have a son: “Is any thing too hard for the LORD?” (Genesis 18:14). Jeremiah had just said, “there is nothing too hard for thee” (verse 17)."
+          }
+        ],
+        "review": [
+          {
+            "v": 3,
+            "about": "Verses 3–5 are Zedekiah quoting Jeremiah’s prophecy back to him, so each verse is in its own quote marks, and the Lord’s words inside them have none (as in Jeremiah 2:2). Check it reads clearly enough."
+          },
+          {
+            "v": 5,
+            "about": "The KJV’s “until I visit him”: the Hebrew word can mean to punish or to care for. The plain words say “until I come to deal with him,” which leaves it open, as the KJV does."
+          },
+          {
+            "v": 7,
+            "about": "The plain words add a short gloss on the right of redemption (“to buy it and keep it in the family”), and the note gives Leviticus 25:25."
+          },
+          {
+            "v": 24,
+            "about": "The KJV’s “mounts” are siege ramps; the plain words say so, with a short gloss."
+          }
+        ],
+        "approved": "320d2eeb"
+      },
+      {
+        "ch": "Jeremiah 33",
+        "verses": [
+          "While Jeremiah was still locked up in the courtyard of the guard, the word of the Lord came to him a second time. It said:",
+          "This is what the Lord says—the Lord who made it, the Lord who formed it and set it firmly in place; the Lord is His name:",
+          "Call to me, and I will answer you and show you great and mighty things that you do not know.",
+          "For this is what the Lord, the God of Israel, says about the houses of this city and the houses of the kings of Judah that have been torn down because of the siege ramps and the sword:",
+          "They come to fight against the Chaldeans, but it is only to fill these houses with the dead bodies of men I have struck down in my anger and my fury. I have hidden my face from this city because of all its wickedness.",
+          "But look, I will bring it health and healing. I will heal them and show them peace and truth in abundance.",
+          "I will bring Judah and Israel back from captivity and build them up as they were at first.",
+          "I will cleanse them from all the sin they have done against me, and I will forgive all their sins, all the ways they have sinned and rebelled against me.",
+          "This city will bring me a name of joy, praise, and honor before all the nations of the earth. They will hear about all the good I do for its people, and they will fear and tremble because of all the goodness and all the peace I bring to it.",
+          "This is what the Lord says: In this place, which you say is a ruin with no people or animals—in the cities of Judah and the streets of Jerusalem that are empty, with no people, no one living there, and no animals—there will be heard again",
+          "the sound of joy and the sound of gladness, the voice of the bridegroom and the voice of the bride, and the voices of people saying, “Praise the Lord of Hosts, for the Lord is good, and His mercy lasts forever!” as they bring thank offerings into the house of the Lord. For I will bring the land back from captivity, as it was at first, says the Lord.",
+          "This is what the Lord of Hosts says: In this place, which is a ruin with no people or animals, and in all its cities, there will again be pastures where shepherds let their flocks lie down.",
+          "In the cities of the hill country, the cities of the lowlands, the cities of the south, the land of Benjamin, the places around Jerusalem, and the cities of Judah, flocks will again pass under the hands of the one who counts them, says the Lord.",
+          "Look, the days are coming, says the Lord, when I will do the good thing I promised to the house of Israel and to the house of Judah.",
+          "In those days and at that time I will make a Branch of righteousness grow up for David. He will bring justice and righteousness to the land.",
+          "In those days Judah will be saved, and Jerusalem will live in safety. And this is the name she will be called: The Lord Our Righteousness.",
+          "For this is what the Lord says: David will never lack a man to sit on the throne of the house of Israel.",
+          "And the priests, the Levites, will never lack a man to stand before me to offer burnt offerings, burn grain offerings, and make sacrifices every day.",
+          "The word of the Lord came to Jeremiah:",
+          "This is what the Lord says: If you can break my covenant with the day and my covenant with the night, so that day and night no longer come at their right times,",
+          "then my covenant with David my servant can also be broken, so that he would have no son to reign on his throne—and my covenant with the Levites, the priests who serve me.",
+          "No one can count the host of heaven, the stars, or measure the sand of the sea. In the same way I will multiply the descendants of David my servant and the Levites who serve me.",
+          "The word of the Lord came to Jeremiah again:",
+          "Haven’t you noticed what these people are saying? “The Lord has rejected the two families He chose” (Israel and Judah). So they look down on my people and no longer think of them as a nation.",
+          "This is what the Lord says: If I have not made my covenant with day and night, and if I have not set the fixed laws of heaven and earth,",
+          "then I will also reject the descendants of Jacob and of David my servant, and not choose any of David’s descendants to rule over the descendants of Abraham, Isaac, and Jacob. For I will bring them back from captivity and have mercy on them."
+        ],
+        "notes": [
+          {
+            "v": 3,
+            "text": "The KJV has “great and mighty things.” The Hebrew word means walled off, out of reach, so the BSB reads ‘great and unsearchable things’: things no one could find out unless the Lord shows them."
+          },
+          {
+            "v": 15,
+            "text": "The Branch is the Messiah, a King from David’s family: “I will raise unto David a righteous Branch, and a King shall reign” (Jeremiah 23:5). The angel told Mary that Jesus would have “the throne of his father David” (Luke 1:32)."
+          },
+          {
+            "v": 16,
+            "text": "In Jeremiah 23 this is the Branch’s own name: “THE LORD OUR RIGHTEOUSNESS” (Jeremiah 23:6). Here Jerusalem is called by that name too."
+          },
+          {
+            "v": 18,
+            "text": "In the KJV, “meat” means food. A meat offering was an offering of grain."
+          }
+        ],
+        "review": [
+          {
+            "v": 2,
+            "about": "The KJV’s “the maker thereof” doesn’t say what “it” is, and neither does the Hebrew; the BSB adds ‘the earth.’ The plain words keep “it.”"
+          },
+          {
+            "v": 4,
+            "about": "The KJV says the houses were “thrown down by the mounts.” The BSB reads them as torn down to defend against the siege ramps. The plain words say “because of the siege ramps and the sword,” which fits both."
+          },
+          {
+            "v": 15,
+            "about": "The note says the Branch is the Messiah, as the Church’s chapter heading does (“The Branch of Righteousness (the Messiah) is promised”), with Jeremiah 23:5 and Luke 1:32."
+          },
+          {
+            "v": 24,
+            "about": "The plain words add “(Israel and Judah)” to say who the two families are."
+          }
+        ],
+        "approved": "707522ab"
+      },
+      {
+        "ch": "Jeremiah 36",
+        "verses": [
+          "In the fourth year of Jehoiakim the son of Josiah, king of Judah, this word came to Jeremiah from the Lord:",
+          "Take a scroll and write in it all the words I have spoken to you against Israel, against Judah, and against all the nations, from the day I first spoke to you in the days of Josiah until today.",
+          "Maybe when the house of Judah hears about all the disaster I plan to bring on them, each of them will turn from his evil way. Then I will forgive their wrongdoing and their sin.",
+          "So Jeremiah called Baruch the son of Neriah, and as Jeremiah spoke, Baruch wrote on a scroll all the words the Lord had spoken to him.",
+          "Then Jeremiah gave Baruch this command: “I am confined. I can’t go into the house of the Lord.”",
+          "“So you go, and on a day of fasting read the words of the Lord from the scroll you wrote as I spoke, so the people in the Lord’s house can hear them. Read them also so all the people of Judah who come in from their cities can hear.”",
+          "“Maybe they will bring their pleas before the Lord, and each one will turn from his evil way. For the anger and fury the Lord has spoken against this people are great.”",
+          "Baruch the son of Neriah did everything Jeremiah the prophet commanded him. He read the words of the Lord from the scroll in the Lord’s house.",
+          "In the ninth month of the fifth year of Jehoiakim the son of Josiah, king of Judah, a fast before the Lord was announced for all the people in Jerusalem and all the people who came to Jerusalem from the cities of Judah.",
+          "Then Baruch read the words of Jeremiah from the scroll in the house of the Lord, so all the people could hear. He read in the room of Gemariah the son of Shaphan the scribe, in the upper courtyard, at the entrance of the New Gate of the Lord’s house.",
+          "When Michaiah the son of Gemariah, the son of Shaphan, had heard all the words of the Lord from the scroll,",
+          "he went down to the king’s palace, to the scribe’s room. All the officials were sitting there: Elishama the scribe, Delaiah the son of Shemaiah, Elnathan the son of Achbor, Gemariah the son of Shaphan, Zedekiah the son of Hananiah, and all the other officials.",
+          "Michaiah told them all the words he had heard when Baruch read the scroll for the people to hear.",
+          "Then all the officials sent Jehudi the son of Nethaniah, the son of Shelemiah, the son of Cushi, to Baruch to say, “Take the scroll you read to the people, and come.” So Baruch the son of Neriah took the scroll in his hand and came to them.",
+          "They said to him, “Please sit down and read it to us.” So Baruch read it to them.",
+          "When they had heard all the words, they turned to each other in fear and said to Baruch, “We must tell the king all these words.”",
+          "Then they asked Baruch, “Tell us, how did you write all these words? Did he speak them to you?”",
+          "Baruch answered them, “He spoke all these words to me, and I wrote them in ink on the scroll.”",
+          "Then the officials said to Baruch, “Go and hide, you and Jeremiah. Don’t let anyone know where you are.”",
+          "They put the scroll away in the room of Elishama the scribe and went in to the king in the courtyard, and they told the king all the words.",
+          "So the king sent Jehudi to get the scroll, and Jehudi took it from the room of Elishama the scribe. He read it to the king and to all the officials standing beside the king.",
+          "It was the ninth month, and the king was sitting in his winter house, with a fire burning in the fire pot in front of him.",
+          "Every time Jehudi had read three or four columns, the king cut them off with a scribe’s knife and threw them into the fire in the fire pot, until the whole scroll was burned up in the fire.",
+          "Yet the king and all his servants who heard all these words were not afraid, and they did not tear their clothes in sorrow.",
+          "Even though Elnathan, Delaiah, and Gemariah begged the king not to burn the scroll, he would not listen to them.",
+          "Instead the king commanded Jerahmeel the son of Hammelech, Seraiah the son of Azriel, and Shelemiah the son of Abdeel to arrest Baruch the scribe and Jeremiah the prophet. But the Lord hid them.",
+          "After the king had burned the scroll with the words Baruch had written as Jeremiah spoke them, the word of the Lord came to Jeremiah:",
+          "Take another scroll and write on it all the words that were on the first scroll, which Jehoiakim king of Judah burned.",
+          "And say to Jehoiakim king of Judah, This is what the Lord says: You burned this scroll and said, “Why did you write in it that the king of Babylon will surely come and destroy this land, and wipe out both people and animals from it?”",
+          "So this is what the Lord says about Jehoiakim king of Judah: He will have no one to sit on the throne of David. His dead body will be thrown out, into the heat by day and the frost by night.",
+          "I will punish him, his children, and his servants for their sins. I will bring on them, on the people who live in Jerusalem, and on the men of Judah all the disaster I warned them about, but they would not listen.",
+          "So Jeremiah took another scroll and gave it to Baruch the scribe, the son of Neriah. As Jeremiah spoke, Baruch wrote on it all the words of the scroll that Jehoiakim king of Judah had burned in the fire. And many more words like them were added."
+        ],
+        "notes": [
+          {
+            "v": 26,
+            "text": "The KJV’s “Hammelech” is the Hebrew for ‘the king,’ so this Jerahmeel was a son of the king. The BSB reads ‘Jerahmeel, a son of the king.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 12,
+            "about": "The KJV’s “princes” (here and through chapters 36–38) are the king’s officials, not his sons, so the plain words say “officials,” as the BSB does."
+          },
+          {
+            "v": 23,
+            "about": "The KJV just says “he cut it”; the plain words say the king did, as the BSB does (‘Jehoiakim would cut them off’). The KJV’s “leaves” are columns of the scroll."
+          },
+          {
+            "v": 30,
+            "about": "“He shall have none to sit upon the throne of David”: his son Jehoiachin did reign three months (2 Kings 24:8), so this is often read as no lasting heir. The plain words keep the Hebrew as it is and add nothing."
+          }
+        ],
+        "approved": "1961eaa4"
+      },
+      {
+        "ch": "Jeremiah 37",
+        "verses": [
+          "King Zedekiah the son of Josiah reigned in place of Coniah (Jehoiachin) the son of Jehoiakim. Nebuchadrezzar king of Babylon had made Zedekiah king in the land of Judah.",
+          "But neither he, nor his servants, nor the people of the land listened to the words of the Lord that He spoke through Jeremiah the prophet.",
+          "Still, King Zedekiah sent Jehucal the son of Shelemiah and Zephaniah the priest, the son of Maaseiah, to Jeremiah the prophet to say, “Please pray to the Lord our God for us.”",
+          "At that time Jeremiah was free to come and go among the people, because they had not put him in prison yet.",
+          "Pharaoh’s army had come out of Egypt. When the Chaldeans (the Babylonians) who were attacking Jerusalem heard the news about them, they pulled back from Jerusalem.",
+          "Then the word of the Lord came to Jeremiah the prophet:",
+          "This is what the Lord, the God of Israel, says: Tell the king of Judah, who sent you to ask me, Look, Pharaoh’s army, which came out to help you, will go back to its own land, Egypt.",
+          "Then the Chaldeans will come back and fight against this city. They will capture it and burn it with fire.",
+          "This is what the Lord says: Don’t fool yourselves by saying, “The Chaldeans will surely go away from us,” because they won’t go away.",
+          "Even if you struck down the whole army of the Chaldeans that is fighting you, and only wounded men were left in their tents, they would still get up and burn this city with fire.",
+          "When the army of the Chaldeans had pulled back from Jerusalem because they were afraid of Pharaoh’s army,",
+          "Jeremiah left Jerusalem to go to the land of Benjamin, to claim his share of property there among the people.",
+          "But when he reached the gate of Benjamin, a captain of the guard named Irijah, the son of Shelemiah, the son of Hananiah, arrested Jeremiah the prophet and said, “You are deserting to the Chaldeans!”",
+          "Jeremiah said, “That’s a lie! I am not deserting to the Chaldeans.” But Irijah would not listen to him. He arrested Jeremiah and brought him to the officials.",
+          "The officials were angry with Jeremiah. They beat him and put him in prison in the house of Jonathan the scribe, which they had made into a prison.",
+          "Jeremiah was put down into the dungeon, into its cells, and he stayed there many days.",
+          "Then King Zedekiah sent for him and had him brought out. The king asked him in secret in his palace, “Is there any word from the Lord?” Jeremiah said, “There is. You will be handed over to the king of Babylon.”",
+          "Jeremiah also said to King Zedekiah, “What wrong have I done to you, to your servants, or to this people, that you have put me in prison?”",
+          "“Where are your prophets now who prophesied to you, ‘The king of Babylon will not come against you or against this land’?”",
+          "“Now please listen, my lord the king. Please accept my plea. Don’t send me back to the house of Jonathan the scribe, or I will die there.”",
+          "So King Zedekiah gave orders, and they put Jeremiah in the courtyard of the guard. They gave him a loaf of bread every day from the bakers’ street, until all the bread in the city was gone. So Jeremiah stayed in the courtyard of the guard."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "Lehi’s story in the Book of Mormon begins “in the commencement of the first year of the reign of Zedekiah, king of Judah” (1 Nephi 1:4), years before this chapter."
+          },
+          {
+            "v": 12,
+            "text": "The KJV has “to separate himself thence.” The Hebrew word can mean to get a share, so the BSB reads ‘to claim his portion there among the people.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "The plain words add “(Jehoiachin),” the name Coniah goes by in 2 Kings 24, so he can tell who it is."
+          },
+          {
+            "v": 12,
+            "about": "The plain words follow the Hebrew and the BSB (to claim his share of property) over the KJV’s “to separate himself thence,” with a note."
+          },
+          {
+            "v": 16,
+            "about": "The KJV’s “dungeon” is literally ‘the house of the cistern,’ and its “cabins” are cells. The plain words keep “dungeon” and say “cells.”"
+          }
+        ],
+        "approved": "10a2b173"
+      },
+      {
+        "ch": "Jeremiah 38",
+        "verses": [
+          "Shephatiah the son of Mattan, Gedaliah the son of Pashur, Jucal the son of Shelemiah, and Pashur the son of Malchiah heard the words Jeremiah was speaking to all the people. He was saying,",
+          "“This is what the Lord says: Whoever stays in this city will die by the sword, by famine, or by plague. But whoever goes out to the Chaldeans (the Babylonians) will live. He will escape with his life as his prize, and he will live.”",
+          "“This is what the Lord says: This city will surely be handed over to the army of the king of Babylon, and he will capture it.”",
+          "Then the officials said to the king, “Please, let this man be put to death. He is making the soldiers who are left in this city lose heart, and all the people too, by saying such things to them. This man is not looking for the good of these people, but for their harm.”",
+          "King Zedekiah said, “Look, he is in your hands. The king can’t do anything against you.”",
+          "So they took Jeremiah and threw him into the cistern (a deep pit for holding water) of Malchiah the son of Hammelech, which was in the courtyard of the guard. They let Jeremiah down with ropes. There was no water in the cistern, only mud, and Jeremiah sank into the mud.",
+          "Ebed-melech the Ethiopian, a court official in the king’s palace, heard that they had put Jeremiah in the cistern. The king was sitting at the gate of Benjamin at the time.",
+          "Ebed-melech went out of the king’s palace and spoke to the king. He said,",
+          "“My lord the king, these men have done evil in everything they have done to Jeremiah the prophet. They have thrown him into the cistern, and he is about to die of hunger where he is, because there is no more bread in the city.”",
+          "Then the king commanded Ebed-melech the Ethiopian, “Take thirty men from here with you, and pull Jeremiah the prophet up out of the cistern before he dies.”",
+          "So Ebed-melech took the men with him and went into the king’s palace, to a place under the treasury. From there he took some old rags and worn-out clothes, and he let them down by ropes to Jeremiah in the cistern.",
+          "Ebed-melech the Ethiopian said to Jeremiah, “Put these old rags and worn-out clothes under your arms, under the ropes.” And Jeremiah did so.",
+          "Then they pulled Jeremiah up with the ropes and lifted him out of the cistern. And Jeremiah stayed in the courtyard of the guard.",
+          "Then King Zedekiah sent for Jeremiah the prophet and had him brought to the third entrance of the house of the Lord. The king said to Jeremiah, “I am going to ask you something. Don’t hide anything from me.”",
+          "Jeremiah said to Zedekiah, “If I tell you, won’t you surely put me to death? And if I give you advice, you won’t listen to me.”",
+          "So King Zedekiah made a secret promise with an oath to Jeremiah: “As surely as the Lord lives, who has given us this life, I will not put you to death or hand you over to these men who want to kill you.”",
+          "Then Jeremiah said to Zedekiah, “This is what the Lord, the God of Hosts, the God of Israel, says: If you will go out and surrender to the officials of the king of Babylon, then you will live, and this city will not be burned down. You and your family will live.”",
+          "“But if you will not surrender to the officials of the king of Babylon, then this city will be handed over to the Chaldeans. They will burn it down, and you will not escape from them.”",
+          "King Zedekiah said to Jeremiah, “I am afraid of the Jews who have deserted to the Chaldeans. The Chaldeans might hand me over to them, and they would treat me cruelly.”",
+          "Jeremiah said, “They won’t hand you over. Please obey the voice of the Lord in what I am telling you. Then it will go well with you, and you will live.”",
+          "“But if you refuse to surrender, this is what the Lord has shown me:”",
+          "“Look, all the women left in the palace of the king of Judah will be brought out to the officials of the king of Babylon. Those women will say, ‘Your trusted friends misled you and overpowered you. Now that your feet are sunk in the mud, they have turned their backs on you.’”",
+          "“They will bring out all your wives and your children to the Chaldeans. You will not escape from them, but you will be captured by the king of Babylon, and you will cause this city to be burned down.”",
+          "Then Zedekiah said to Jeremiah, “Don’t let anyone know about this talk, and you will not die.”",
+          "“If the officials hear that I have talked with you, and they come and say to you, ‘Tell us what you said to the king and what the king said to you. Don’t hide it from us, and we won’t put you to death,’”",
+          "“then tell them, ‘I was begging the king not to send me back to Jonathan’s house to die there.’”",
+          "All the officials did come to Jeremiah and question him, and he told them exactly what the king had commanded him to say. So they stopped questioning him, because no one had heard the conversation.",
+          "So Jeremiah stayed in the courtyard of the guard until the day Jerusalem was captured. He was there when Jerusalem was captured."
+        ],
+        "notes": [
+          {
+            "v": 6,
+            "text": "As in Jeremiah 36:26, the KJV’s “Hammelech” is the Hebrew for ‘the king.’ The BSB reads ‘Malchiah, the king’s son.’"
+          },
+          {
+            "v": 7,
+            "text": "The KJV’s “Ethiopian” is a Cushite in the Hebrew (BSB), a man from Cush, the land south of Egypt. His name, Ebed-melech, means servant of the king."
+          }
+        ],
+        "review": [
+          {
+            "v": 6,
+            "about": "The KJV’s “dungeon” is a cistern in the Hebrew, a pit for holding water. The plain words say “cistern,” with a short gloss the first time, here and in verses 7–13."
+          },
+          {
+            "v": 7,
+            "about": "The KJV’s “one of the eunuchs”: the Hebrew word is used for any palace officer, and the BSB reads ‘a court official.’ The plain words say “a court official.” Your call."
+          },
+          {
+            "v": 15,
+            "about": "The KJV makes both halves questions; the Hebrew’s second half is a statement (‘you will not listen to me,’ BSB). The plain words follow the Hebrew there."
+          },
+          {
+            "v": 25,
+            "about": "The KJV and the Hebrew have the officials promising “we will not put thee to death”; the BSB reads it as a threat (‘or we will kill you’). The plain words follow the KJV."
+          }
+        ],
+        "approved": "63834ae6"
+      },
+      {
+        "ch": "Jeremiah 39",
+        "verses": [
+          "In the ninth year of Zedekiah king of Judah, in the tenth month, Nebuchadrezzar king of Babylon and all his army came against Jerusalem and surrounded it to attack it.",
+          "In the eleventh year of Zedekiah, on the ninth day of the fourth month, the city was broken into.",
+          "Then all the officials of the king of Babylon came in and sat in the Middle Gate: Nergal-sharezer, Samgar-nebo, Sarsechim, Rab-saris, Nergal-sharezer, Rab-mag, and all the rest of the officials of the king of Babylon.",
+          "When Zedekiah king of Judah and all the soldiers saw them, they ran away. They left the city at night by way of the king’s garden, through the gate between the two walls, and he went out toward the plain (the Jordan Valley).",
+          "But the army of the Chaldeans (the Babylonians) chased them and caught up with Zedekiah in the plains of Jericho. They captured him and brought him up to Nebuchadnezzar king of Babylon at Riblah in the land of Hamath, where he passed sentence on him.",
+          "There at Riblah the king of Babylon killed Zedekiah’s sons while he watched. The king of Babylon also killed all the nobles of Judah.",
+          "Then he put out Zedekiah’s eyes and bound him in bronze chains to take him to Babylon.",
+          "The Chaldeans burned the king’s palace and the houses of the people, and they broke down the walls of Jerusalem.",
+          "Then Nebuzar-adan, the captain of the guard, carried away to Babylon as captives the rest of the people who were left in the city, those who had deserted to him, and the rest of the people who remained.",
+          "But Nebuzar-adan, the captain of the guard, left some of the poorest people, who owned nothing, in the land of Judah. At that time he gave them vineyards and fields.",
+          "Now Nebuchadrezzar king of Babylon had given orders about Jeremiah to Nebuzar-adan, the captain of the guard. He said,",
+          "“Take him and look after him. Don’t do anything to hurt him. Do for him whatever he asks you.”",
+          "So Nebuzar-adan, the captain of the guard, sent word, along with Nebushasban, Rab-saris, Nergal-sharezer, Rab-mag, and all the officials of the king of Babylon.",
+          "They sent and took Jeremiah out of the courtyard of the guard and handed him over to Gedaliah the son of Ahikam, the son of Shaphan, to take him home. So he lived among the people.",
+          "While Jeremiah was locked up in the courtyard of the guard, the word of the Lord had come to him:",
+          "Go and tell Ebed-melech the Ethiopian, This is what the Lord of Hosts, the God of Israel, says: Look, I will make my words come true against this city, for disaster and not for good. On that day they will come true in front of your eyes.",
+          "But I will rescue you on that day, says the Lord. You will not be handed over to the men you are afraid of.",
+          "For I will surely save you. You will not be killed by the sword. You will escape with your life as your prize, because you have trusted in me, says the Lord."
+        ],
+        "notes": [
+          {
+            "v": 3,
+            "text": "The KJV reads “Rab-saris” and “Rab-mag” as names. They are titles of high Babylonian officers, and the BSB reads ‘Nebo-sarsekim the Rabsaris’ and ‘Nergal-sharezer the Rabmag.’"
+          },
+          {
+            "v": 6,
+            "text": "Nephi, the son of Helaman, asked, “Will ye say that the sons of Zedekiah were not slain, all except it were Mulek?” (Helaman 8:21). Mulek escaped: “the Lord did bring Mulek into the land north” (Helaman 6:10)."
+          }
+        ],
+        "review": [
+          {
+            "v": 3,
+            "about": "The names are kept as the KJV spells them, with a note that Rab-saris and Rab-mag are titles. The BSB divides the names differently."
+          },
+          {
+            "v": 6,
+            "about": "Verses 6–7 are hard: Zedekiah’s sons killed in front of him, then his eyes put out. The plain words say it no more plainly than the KJV. The note gives Mulek from the Book of Mormon."
+          },
+          {
+            "v": 18,
+            "about": "The KJV’s “thy life shall be for a prey unto thee” (also Jeremiah 38:2) means he gets away with his life like a prize won in war. The plain words say “escape with your life as your prize.”"
+          }
+        ],
+        "approved": "a38b704d"
+      },
+      {
+        "ch": "Lamentations 1",
+        "verses": [
+          "How lonely the city sits, the city that was once full of people! She has become like a widow. She who was great among the nations, a princess among the provinces, has been made a slave.",
+          "She weeps bitterly in the night, with tears on her cheeks. Of all her lovers, there is no one to comfort her. All her friends have betrayed her and become her enemies.",
+          "Judah has gone into captivity because of suffering and hard slavery. She lives among the nations and finds no rest. All who chased her caught her in the narrow places, where she could not get away.",
+          "The roads to Zion mourn, because no one comes to her holy feasts. All her gates are empty. Her priests groan, her young women grieve, and she is full of bitterness.",
+          "Her enemies have become her masters, and her foes are doing well. For the Lord has made her suffer because of her many sins. Her children have gone away as captives in front of the enemy.",
+          "All the beauty has gone from the daughter of Zion (Jerusalem). Her leaders have become like deer that find no pasture. They have run without strength in front of the hunter.",
+          "In the days of her suffering and wandering, Jerusalem remembers all the precious things she had in days long ago. When her people fell into the enemy’s hands, no one helped her. Her enemies looked at her and laughed at her downfall.",
+          "Jerusalem has sinned greatly, so she has become unclean. All who used to honor her now despise her, because they have seen her nakedness. She herself groans and turns away.",
+          "Her uncleanness is on her skirts. She did not think about where she would end up. Her fall was shocking, and she has no one to comfort her. Look, Lord, at my suffering, for the enemy has triumphed!",
+          "The enemy has reached out his hand to take all her precious things. She has watched the nations go into her holy temple—the people you commanded never to come into your congregation.",
+          "All her people groan as they search for bread. They have traded their precious things for food to stay alive. Look, Lord, and see how despised I have become.",
+          "Does this mean nothing to you, all you who pass by? Look and see if there is any sorrow like the sorrow that has been brought on me, which the Lord has made me suffer on the day of His fierce anger.",
+          "From above He sent fire into my bones, and it overpowered them. He spread a net for my feet and turned me back. He has left me ruined and faint all day long.",
+          "My sins have been tied into a yoke by His hand. They are woven together and put on my neck. He has made my strength fail. The Lord has handed me over to people I cannot stand up against.",
+          "The Lord has thrown aside all my mighty men in my midst. He has called an army together against me to crush my young men. The Lord has trampled the virgin daughter of Judah like grapes in a winepress.",
+          "This is why I weep. My eyes, my eyes overflow with tears, because the one who could comfort me and give me new life is far away. My children are left with nothing, because the enemy has won.",
+          "Zion stretches out her hands, but there is no one to comfort her. The Lord has given orders about Jacob, that his enemies would surround him. Jerusalem has become an unclean thing among them.",
+          "The Lord is righteous, for I rebelled against His command. Please listen, all you people, and look at my sorrow. My young women and young men have gone into captivity.",
+          "I called to my lovers, but they betrayed me. My priests and my elders died in the city while they searched for food to keep themselves alive.",
+          "Look, Lord, how troubled I am! I am churning inside. My heart is turned over within me, because I have been so rebellious. Outside, the sword takes away children. Inside the house, there is death.",
+          "People have heard my groaning, but there is no one to comfort me. All my enemies have heard about my trouble, and they are glad that you have done it. You will bring the day you announced, and they will become like me.",
+          "Let all their wickedness come before you. Do to them what you have done to me because of all my sins. For my groans are many, and my heart is faint."
+        ],
+        "notes": [
+          {
+            "v": 7,
+            "text": "The KJV has “did mock at her sabbaths.” The Hebrew word comes from the word for stopping or resting, so the BSB reads ‘laughing at her downfall.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "In this chapter the city of Jerusalem is pictured as a woman, and from verse 9 on she speaks for herself (“my affliction”). The plain words keep the switch as the KJV has it, without quote marks."
+          },
+          {
+            "v": 8,
+            "about": "The KJV’s “she is removed”: the Hebrew word is usually read as unclean or scorned (BSB ‘an object of scorn’). The plain words say “unclean.”"
+          },
+          {
+            "v": 15,
+            "about": "The KJV’s “trodden under foot all my mighty men”: the Hebrew word means to throw aside or reject (BSB ‘rejected’). The plain words say “thrown aside.”"
+          },
+          {
+            "v": 17,
+            "about": "The KJV’s “as a menstruous woman”: the plain words say “an unclean thing,” as the BSB does, which is what the picture means."
+          }
+        ],
+        "approved": "29e13594"
+      },
+      {
+        "ch": "Lamentations 3",
+        "verses": [
+          "I am the man who has seen suffering under the rod of His anger.",
+          "He has led me and made me walk in darkness, not in light.",
+          "Surely He has turned against me. He turns His hand against me again and again, all day long.",
+          "He has made my flesh and my skin waste away. He has broken my bones.",
+          "He has built walls against me and surrounded me with bitterness and hardship.",
+          "He has made me live in dark places, like people who died long ago.",
+          "He has walled me in so I can’t get out. He has made my chains heavy.",
+          "Even when I cry out and call for help, He shuts out my prayer.",
+          "He has blocked my ways with cut stone. He has made my paths crooked.",
+          "To me He is like a bear lying in wait, like a lion hiding in secret places.",
+          "He has turned me off my path and torn me to pieces. He has left me ruined.",
+          "He has bent His bow and set me up as a target for His arrow.",
+          "He has shot the arrows from His quiver deep inside me.",
+          "I have become a joke to all my people. They make fun of me in their songs all day long.",
+          "He has filled me with bitterness. He has made me drunk on wormwood (a bitter plant).",
+          "He has broken my teeth on gravel. He has covered me with ashes.",
+          "You have pushed my soul far away from peace. I have forgotten what good things are.",
+          "So I said, “My strength and my hope from the Lord are gone.”",
+          "I remember my suffering and my wandering, the wormwood and the bitter gall.",
+          "My soul still remembers them, and it is bowed down inside me.",
+          "But I call this to mind, and so I have hope:",
+          "It is because of the Lord’s mercies that we are not destroyed, because His compassion never fails.",
+          "They are new every morning. Great is your faithfulness.",
+          "“The Lord is my portion,” says my soul, “so I will hope in Him.”",
+          "The Lord is good to those who wait for Him, to the soul who seeks Him.",
+          "It is good to hope and to wait quietly for the salvation of the Lord.",
+          "It is good for a man to carry the yoke while he is young.",
+          "Let him sit alone and keep quiet, because He has put it on him.",
+          "Let him put his face in the dust. Maybe there is still hope.",
+          "Let him turn his cheek to the one who hits him, and let him be filled with insults.",
+          "For the Lord will not cast us off forever.",
+          "Even though He brings grief, He will have compassion, because His mercies are so great.",
+          "For He does not bring suffering or grief to the children of men because He wants to.",
+          "When someone crushes under his feet all the prisoners of the land,",
+          "when someone takes away a man’s rights in front of the Most High,",
+          "or cheats a man in his case in court—the Lord does not approve.",
+          "Who can speak and have it happen, if the Lord has not commanded it?",
+          "Don’t both trouble and good come from the mouth of the Most High?",
+          "Why should any living person complain, any man punished for his sins?",
+          "Let us search and test our ways, and turn back to the Lord.",
+          "Let us lift up our hearts and our hands to God in heaven.",
+          "We have sinned and rebelled, and you have not forgiven.",
+          "You have covered yourself with anger and chased us. You have killed without pity.",
+          "You have covered yourself with a cloud so that no prayer can get through.",
+          "You have made us like scum and garbage among the peoples.",
+          "All our enemies have opened their mouths against us.",
+          "Fear and a trap have come on us, ruin and destruction.",
+          "Rivers of tears run down from my eyes because my people are destroyed.",
+          "My eyes keep flowing without stopping, with no rest,",
+          "until the Lord looks down from heaven and sees.",
+          "What my eyes see breaks my heart because of all the daughters of my city.",
+          "My enemies hunted me down like a bird, for no reason.",
+          "They tried to end my life in the pit, and they threw a stone on me.",
+          "Water flowed over my head, and I said, “I am cut off!”",
+          "I called on your name, Lord, from the bottom of the pit.",
+          "You heard my voice. Don’t close your ear when I gasp for breath and cry for help.",
+          "You came near on the day I called to you. You said, “Don’t be afraid.”",
+          "Lord, you have argued my case for me. You have redeemed my life.",
+          "Lord, you have seen the wrong done to me. Judge my case.",
+          "You have seen all their revenge and all their plans against me.",
+          "Lord, you have heard their insults and all their plans against me—",
+          "the words of those who rise up against me, and what they whisper against me all day long.",
+          "Look at them! Whether they sit down or stand up, I am the song they mock.",
+          "Pay them back, Lord, for what their hands have done.",
+          "Give them sorrow of heart, and let your curse be on them.",
+          "Chase them in anger and destroy them from under the heavens of the Lord."
+        ],
+        "notes": [
+          {
+            "v": 13,
+            "text": "In the KJV, “reins” means the kidneys, which the Hebrews spoke of as the place of a person’s deepest feelings."
+          },
+          {
+            "v": 30,
+            "text": "Jesus taught the same: “whosoever shall smite thee on thy right cheek, turn to him the other also” (Matthew 5:39)."
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "In verses 1–16 the “he” who afflicts the man is the Lord (BSB ‘God’s wrath’), though He isn’t named until verse 18. The plain words capitalize He and His there."
+          },
+          {
+            "v": 22,
+            "about": "Verses 22–26 are the hope at the center of the book. The plain words keep the KJV’s “mercies,” “new every morning” and “Great is your faithfulness.”"
+          },
+          {
+            "v": 28,
+            "about": "The KJV reads verses 28–30 as statements (“He sitteth alone”); the Hebrew and the BSB read them as ‘Let him sit alone.’ The plain words follow the Hebrew, and say the Lord (“He”) put the yoke on him, as the BSB does. Verse 31 adds “us,” as the BSB does."
+          },
+          {
+            "v": 34,
+            "about": "Verses 34–36 are one sentence: three wrongs the Lord does not approve. The plain words add “When someone…” so it reads that way."
+          },
+          {
+            "v": 53,
+            "about": "The KJV’s “cut off my life in the dungeon”: the man is still alive and praying, so the plain words say “tried to end my life in the pit.”"
+          },
+          {
+            "v": 65,
+            "about": "The KJV’s “sorrow of heart” is a rare Hebrew word, maybe a covering over the heart (BSB ‘a veil of anguish’). The plain words keep the KJV."
+          }
+        ],
+        "approved": "cd0ab336"
+      }
+    ],
+    "approved": "13426348",
+    "wordsApproved": "0f07f32b"
+  },
+  {
+    "dates": "November 2–8, 2026",
+    "title": "A New Spirit Will I Put within You",
+    "reference": "Ezekiel 1–3; 33–34; 36–37; 47",
+    "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/45?lang=eng",
+    "sections": [
+      "The Lord invites me to feed His sheep",
+      "The Lord wants to forgive",
+      "The Lord is gathering His people and giving them new life",
+      "I can find spiritual healing in the house of the Lord"
+    ],
+    "puzzle": {
+      "groups": [
+        {
+          "section": 0,
+          "tiles": [
+            {
+              "text": "Watchman",
+              "ref": "Ezekiel 3:17"
+            },
+            {
+              "text": "Feed the flock",
+              "ref": "Ezekiel 34:2"
+            },
+            {
+              "text": "Seek the lost",
+              "ref": "Ezekiel 34:16"
+            },
+            {
+              "text": "One shepherd",
+              "ref": "Ezekiel 34:23"
+            }
+          ]
+        },
+        {
+          "section": 1,
+          "tiles": [
+            {
+              "text": "Turn ye, turn ye",
+              "ref": "Ezekiel 33:11"
+            },
+            {
+              "text": "No pleasure in death",
+              "ref": "Ezekiel 33:11"
+            },
+            {
+              "text": "Sins not mentioned",
+              "ref": "Ezekiel 33:16"
+            },
+            {
+              "text": "A heart of flesh",
+              "ref": "Ezekiel 36:26"
+            }
+          ]
+        },
+        {
+          "section": 2,
+          "tiles": [
+            {
+              "text": "Valley of dry bones",
+              "ref": "Ezekiel 37:1"
+            },
+            {
+              "text": "Bone to his bone",
+              "ref": "Ezekiel 37:7"
+            },
+            {
+              "text": "Stick of Judah",
+              "ref": "Ezekiel 37:16"
+            },
+            {
+              "text": "Stick of Joseph",
+              "ref": "Ezekiel 37:16"
+            }
+          ]
+        },
+        {
+          "section": 3,
+          "tiles": [
+            {
+              "text": "Waters to the ankles",
+              "ref": "Ezekiel 47:3"
+            },
+            {
+              "text": "Waters to swim in",
+              "ref": "Ezekiel 47:5"
+            },
+            {
+              "text": "Trees on the bank",
+              "ref": "Ezekiel 47:7"
+            },
+            {
+              "text": "Many fish",
+              "ref": "Ezekiel 47:10"
+            }
+          ]
+        }
+      ],
+      "approved": "d2f35742"
+    },
+    "sayings": [
+      {
+        "id": "say-glory-from-his-place",
+        "text": "Blessed be the glory of the LORD from his place.",
+        "ref": "Ezekiel 3:12",
+        "speaker": "A great voice behind Ezekiel",
+        "wrong": [
+          "The choir at the temple",
+          "The captives by the river"
+        ],
+        "why": "As the Spirit lifted Ezekiel up, he heard behind him “a voice of a great rushing” praising the glory of the Lord.",
+        "approved": "cdcf6ded"
+      },
+      {
+        "id": "say-city-smitten",
+        "text": "The city is smitten.",
+        "ref": "Ezekiel 33:21",
+        "speaker": "A man who escaped Jerusalem",
+        "wrong": [
+          "A soldier of Babylon",
+          "A watchman on the wall"
+        ],
+        "why": "In the twelfth year of the captivity, a survivor reached Ezekiel in Babylon with the news. Jerusalem had fallen, just as Ezekiel had warned.",
+        "approved": "ef30cb87"
+      },
+      {
+        "id": "say-way-not-equal",
+        "text": "The way of the Lord is not equal.",
+        "ref": "Ezekiel 33:17",
+        "speaker": "Ezekiel’s people, about God",
+        "wrong": [
+          "Job’s friends, about Job",
+          "Jonah, about Nineveh"
+        ],
+        "why": "They called the Lord unfair. He answered that their way was the unfair one, and that He will judge “every one after his ways” (Ezekiel 33:20).",
+        "approved": "d656fe77"
+      },
+      {
+        "id": "say-hear-the-word",
+        "text": "Come, I pray you, and hear what is the word that cometh forth from the LORD.",
+        "ref": "Ezekiel 33:30",
+        "speaker": "Ezekiel’s neighbors in exile",
+        "wrong": [
+          "Jeremiah, at the temple gate",
+          "The priests, to the people"
+        ],
+        "why": "People gathered to hear Ezekiel like a lovely song, but the Lord said, “they hear thy words, but they do them not” (Ezekiel 33:32).",
+        "approved": "57458f7a"
+      },
+      {
+        "id": "say-woe-shepherds",
+        "text": "Woe be to the shepherds of Israel that do feed themselves!",
+        "ref": "Ezekiel 34:2",
+        "speaker": "The Lord, to Israel’s leaders",
+        "wrong": [
+          "Moses, to Israel’s elders",
+          "Nathan, to King David"
+        ],
+        "why": "Israel’s leaders took care of themselves, not the flock. The Lord asked, “should not the shepherds feed the flocks?”",
+        "approved": "24ae4bc4"
+      },
+      {
+        "id": "say-search-my-sheep",
+        "text": "Behold, I, even I, will both search my sheep, and seek them out.",
+        "ref": "Ezekiel 34:11",
+        "speaker": "The Lord, about His flock",
+        "wrong": [
+          "David, about his father’s sheep",
+          "Jacob, about Laban’s flock"
+        ],
+        "why": "Since Israel’s shepherds wouldn’t, the Lord said He would find His scattered sheep Himself: “I will seek that which was lost” (Ezekiel 34:16).",
+        "approved": "52d221e4"
+      },
+      {
+        "id": "say-hope-is-lost",
+        "text": "Our bones are dried, and our hope is lost: we are cut off for our parts.",
+        "ref": "Ezekiel 37:11",
+        "speaker": "The house of Israel, in exile",
+        "wrong": [
+          "Job, in his suffering",
+          "Jeremiah, in the dungeon"
+        ],
+        "why": "The Lord told Ezekiel the dry bones were Israel. The captives felt their hope was as dead as old bones, but the Lord promised to bring them back to life.",
+        "approved": "02c0bdf6"
+      },
+      {
+        "id": "say-shew-us",
+        "text": "Wilt thou not shew us what thou meanest by these?",
+        "ref": "Ezekiel 37:18",
+        "speaker": "Ezekiel’s people, about the sticks",
+        "wrong": [
+          "The king, about his dream",
+          "The disciples, about a parable"
+        ],
+        "why": "Ezekiel held two sticks joined as one. When people asked, the Lord explained He would make Joseph’s stick and Judah’s stick one in His hand (Ezekiel 37:19).",
+        "approved": "59f50d46"
+      },
+      {
+        "id": "say-hast-thou-seen",
+        "text": "Son of man, hast thou seen this?",
+        "ref": "Ezekiel 47:6",
+        "speaker": "Ezekiel’s guide, at the river",
+        "wrong": [
+          "The Lord, at the burning bush",
+          "An angel, to the shepherds"
+        ],
+        "why": "After leading Ezekiel through water that kept getting deeper, his guide brought him back to the riverbank, where trees grew on both sides (Ezekiel 47:7).",
+        "approved": "27efcecc"
+      }
+    ],
+    "words": [
+      {
+        "word": "HONEY",
+        "clue": "it was in my mouth as ____ for sweetness",
+        "ref": "Ezekiel 3:3",
+        "mean": "God’s word tasted sweet to Ezekiel, even though the message he had to give was hard."
+      },
+      {
+        "word": "TRUMPET",
+        "clue": "he blow the ____, and warn the people",
+        "ref": "Ezekiel 33:3",
+        "mean": "A watchman sounds the alarm when danger comes. The Lord’s prophets warn us the same way."
+      },
+      {
+        "word": "PASTURE",
+        "clue": "I will feed them in a good ____",
+        "ref": "Ezekiel 34:14",
+        "mean": "The Lord is our Shepherd. He leads His people to everything they need to grow."
+      },
+      {
+        "word": "HEART",
+        "clue": "A new ____ also will I give you",
+        "ref": "Ezekiel 36:26",
+        "mean": "The Lord can soften a hard heart and help us change for good."
+      },
+      {
+        "word": "BREATH",
+        "clue": "I will cause ____ to enter into you, and ye shall live",
+        "ref": "Ezekiel 37:5",
+        "mean": "Only God gives life, to dry bones and to people who feel they have lost hope."
+      },
+      {
+        "word": "STICK",
+        "clue": "join them one to another into one ____",
+        "ref": "Ezekiel 37:17",
+        "mean": "The Bible and the Book of Mormon work together as witnesses of Jesus Christ."
+      },
+      {
+        "word": "RIVER",
+        "clue": "every thing shall live whither the ____ cometh",
+        "ref": "Ezekiel 47:9",
+        "mean": "The blessings the Lord gives through His house bring healing and new life."
+      }
+    ],
+    "deep": [
+      {
+        "id": "deep45-showers",
+        "section": 0,
+        "read": "Ezekiel 34:25–31",
+        "intro": "The lesson asks how you can follow the Savior’s example as our shepherd (verses 11–31). The chapter ends with His promises to the flock He gathers.",
+        "q": "In Ezekiel 34:26, what will the Lord send down in its season?",
+        "right": "Showers of blessing",
+        "wrong": [
+          "Bread from heaven",
+          "Fire from the sky"
+        ],
+        "why": "Verse 26: “I will cause the shower to come down in his season; there shall be showers of blessing.” The Good Shepherd takes care of His flock.",
+        "source": "Ezekiel 34:26",
+        "find": "there shall be showers of blessing",
+        "hunt": "In Ezekiel 34, what will the Lord send down in its season?",
+        "approved": "c86162c1"
+      },
+      {
+        "id": "deep45-clean-water",
+        "section": 1,
+        "read": "Ezekiel 36:25–27",
+        "intro": "The lesson points to Ezekiel 36:26–27 to help you understand repenting. Read the verse just before the promise of a new heart, too.",
+        "q": "In Ezekiel 36:25, what will the Lord sprinkle on His people to make them clean?",
+        "right": "Clean water",
+        "wrong": [
+          "Fresh olive oil",
+          "Warm ashes"
+        ],
+        "why": "Verse 25: “Then will I sprinkle clean water upon you, and ye shall be clean: from all your filthiness, and from all your idols, will I cleanse you.”",
+        "source": "Ezekiel 36:25",
+        "find": "Then will I sprinkle clean water upon you",
+        "hunt": "In Ezekiel 36, what will the Lord sprinkle on His people to make them clean?",
+        "approved": "6bbfcadc"
+      },
+      {
+        "id": "deep45-grow-together",
+        "section": 2,
+        "read": "2 Nephi 3:11–13",
+        "intro": "The lesson points to 2 Nephi 3, where Lehi tells his son Joseph about a promise the Lord made to Joseph of Egypt. It’s the Book of Mormon’s side of Ezekiel’s two sticks.",
+        "q": "In 2 Nephi 3:12, what will the writings of Joseph’s and Judah’s descendants do?",
+        "right": "Grow together",
+        "wrong": [
+          "Stay apart",
+          "Be lost forever"
+        ],
+        "why": "Verse 12: “that which shall be written by the fruit of thy loins, and also that which shall be written by the fruit of the loins of Judah, shall grow together.”",
+        "source": "2 Nephi 3:12",
+        "find": "shall grow together",
+        "hunt": "In 2 Nephi 3, what will the writings of Joseph’s and Judah’s descendants do?",
+        "approved": "71dfa625"
+      },
+      {
+        "id": "deep45-medicine",
+        "section": 3,
+        "read": "Ezekiel 47:6–12",
+        "intro": "The lesson asks what the trees by the river in verse 12 could represent. Read what grows along the healing river.",
+        "q": "In Ezekiel 47:12, what will the leaves of the trees by the river be for?",
+        "right": "For medicine",
+        "wrong": [
+          "For shade",
+          "For building"
+        ],
+        "why": "Verse 12: “the fruit thereof shall be for meat, and the leaf thereof for medicine.” Meat here means food. The trees feed and heal.",
+        "source": "Ezekiel 47:12",
+        "find": "the leaf thereof for medicine",
+        "hunt": "In Ezekiel 47, what will the leaves of the trees by the river be for?",
+        "approved": "3e4d5843"
+      },
+      {
+        "id": "deep45-kids",
+        "day": "friday",
+        "title": "From the children’s part of the lesson",
+        "read": "lesson",
+        "intro": "The children’s part of this week’s lesson suggests drawing things from Ezekiel’s vision, like a temple, a river, a desert and many fish, and holding them up as you read about them.",
+        "q": "Which song does the lesson suggest singing about the blessings of the Lord’s house?",
+        "right": "Families Can Be Together Forever",
+        "wrong": [
+          "I Love to See the Temple",
+          "Teach Me to Walk in the Light"
+        ],
+        "why": "It suggests singing Families Can Be Together Forever, from the Children’s Songbook, and talking about how the Lord blesses us in His holy house.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/45?lang=eng",
+        "find": "Families Can Be Together Forever",
+        "approved": "d74effce"
+      },
+      {
+        "id": "deep45-renlund",
+        "day": "friday",
+        "title": "From a talk about Ezekiel’s river",
+        "read": "https://www.churchofjesuschrist.org/study/general-conference/2018/04/family-history-and-temple-work-sealing-and-healing?lang=eng",
+        "intro": "Elder Dale G. Renlund was a heart doctor before he became an Apostle. In this talk, which the lesson suggests, he tells a true story about a heart transplant and the temple.",
+        "q": "In Elder Renlund’s story, where did Rod and Betty first meet in person?",
+        "right": "In a temple’s celestial room",
+        "wrong": [
+          "In a hospital waiting room",
+          "At a ward Christmas party"
+        ],
+        "why": "They first met in the celestial room of the St. George Utah Temple, on the day Betty went to the temple for the first time.",
+        "source": "https://www.churchofjesuschrist.org/study/general-conference/2018/04/family-history-and-temple-work-sealing-and-healing?lang=eng",
+        "find": "Rod and Betty first met in person in the celestial room",
+        "approved": "02f84718"
+      }
+    ],
+    "reels": [
+      {
+        "id": "ezk1-glory",
+        "section": 0,
+        "hook": "He saw God’s glory and ran out of words for it.",
+        "seek": "A shining brightness like a rainbow after a storm",
+        "body": "Ezekiel was a captive in Babylon, far from the temple, when “the heavens were opened” (Ezekiel 1:1). He saw a storm of fire, shining creatures, wheels and a throne. How do you describe something that glorious? Ezekiel kept saying it looked like, it was the likeness of, it had the appearance of. In the end it shone like a rainbow, and he fell on his face.",
+        "verse": {
+          "text": "As the appearance of the bow that is in the cloud in the day of rain, so was the appearance of the brightness round about. This was the appearance of the likeness of the glory of the LORD. And when I saw it, I fell upon my face, and I heard a voice of one that spake.",
+          "ref": "Ezekiel 1:28"
+        },
+        "question": {
+          "q": "Why does Ezekiel keep saying “likeness” and “appearance”?",
+          "right": "What he saw was beyond words",
+          "wrong": [
+            "He couldn’t see it very clearly",
+            "He was only guessing what it was"
+          ],
+          "why": "He saw “the likeness of the glory of the LORD.” Words couldn’t hold it, so he compared it to fire, a sapphire stone and a rainbow."
+        },
+        "bonus": {
+          "q": "In Ezekiel 1:10, what four faces did each living creature have?",
+          "hunt": "In Ezekiel 1, what four faces did each living creature have?",
+          "right": "A man, a lion, an ox and an eagle",
+          "wrong": [
+            "A lamb, a bear, a horse and a dove",
+            "A king, a lion, a calf and a hawk"
+          ],
+          "why": "Verse 10: “they four had the face of a man, and the face of a lion, on the right side,” then an ox on the left, and an eagle.",
+          "source": "Ezekiel 1:10",
+          "find": "the face of a man, and the face of a lion"
+        },
+        "gradient": "linear-gradient(150deg,#1e1b4b 0%,#4338ca 50%,#fde68a 115%)",
+        "blobA": "rgba(253,230,138,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "a827bde4"
+      },
+      {
+        "id": "ezk3-scroll",
+        "section": 0,
+        "hook": "God handed him a book to eat. It tasted like honey.",
+        "body": "In a vision, a hand held out a scroll, a rolled-up book, written on both sides with “lamentations, and mourning, and woe” (Ezekiel 2:10). The Lord told Ezekiel to eat it. The words were sad, yet it tasted sweet. This week’s Scripture Helps explain that eating it likely meant taking the Lord’s message inside himself. A prophet makes God’s word part of him before he shares it.",
+        "verse": {
+          "text": "And he said unto me, Son of man, cause thy belly to eat, and fill thy bowels with this roll that I give thee. Then did I eat it; and it was in my mouth as honey for sweetness.",
+          "ref": "Ezekiel 3:3"
+        },
+        "question": {
+          "q": "What did eating the scroll show about Ezekiel?",
+          "right": "He took God’s message deep inside",
+          "wrong": [
+            "He was hungry after his long trip",
+            "He wanted to hide the bad news"
+          ],
+          "why": "The Lord said, “fill thy bowels with this roll that I give thee.” Before speaking God’s words, Ezekiel made them part of himself."
+        },
+        "bonus": {
+          "q": "The Lord keeps calling Ezekiel son of man. How many times does that happen in his book, say this week’s Scripture Helps?",
+          "right": "Over 90 times",
+          "wrong": [
+            "Just 7 times",
+            "About 12 times"
+          ],
+          "why": "They say Ezekiel is called son of man more than ninety times. The title points to his being a mortal man, unlike God.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/43-ezekiel-1-3-33-34-36-37?lang=eng",
+          "find": "over 90 times"
+        },
+        "gradient": "linear-gradient(150deg,#451a03 0%,#b45309 50%,#fde68a 115%)",
+        "blobA": "rgba(253,230,138,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "4eccae6f"
+      },
+      {
+        "id": "ezk3-watchman",
+        "section": 0,
+        "hook": "A lookout on the city wall who sees danger first.",
+        "body": "Ancient cities had watchmen on walls and towers. From up high, a watchman could see an enemy coming long before anyone else and shout a warning. The Lord made Ezekiel “a watchman unto the house of Israel.” If he warned people and they ignored him, he had still done his part (verse 19). The Lord’s prophets today are watchmen too. They see spiritual dangers we can’t see yet.",
+        "verse": {
+          "text": "Son of man, I have made thee a watchman unto the house of Israel: therefore hear the word at my mouth, and give them warning from me.",
+          "ref": "Ezekiel 3:17"
+        },
+        "question": {
+          "q": "Why is a watchman a good picture of a prophet?",
+          "right": "He sees danger far off and warns us",
+          "wrong": [
+            "He guards the king’s palace at night",
+            "He decides who may enter the city"
+          ],
+          "why": "A watchman sees what people below can’t. The Lord told Ezekiel to “hear the word at my mouth, and give them warning from me.”"
+        },
+        "bonus": {
+          "q": "In Ezekiel 3:18, what was the watchman’s warning meant to do for the wicked man?",
+          "hunt": "In Ezekiel 3, what was the watchman’s warning meant to do for the wicked man?",
+          "right": "Save his life",
+          "wrong": [
+            "Make him leave",
+            "Shame him in public"
+          ],
+          "why": "Verse 18: the watchman was to “warn the wicked from his wicked way, to save his life.” A warning is a rescue.",
+          "source": "Ezekiel 3:18",
+          "find": "to save his life"
+        },
+        "gradient": "linear-gradient(155deg,#0f172a 0%,#334155 50%,#fbbf24 115%)",
+        "blobA": "rgba(251,191,36,.4)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "a3eac276"
+      },
+      {
+        "id": "ezk34-shepherd",
+        "section": 0,
+        "hook": "The Shepherd who goes looking for the one who wandered off.",
+        "body": "Israel’s leaders were like bad shepherds. They took the wool and the meat but didn’t care for the sheep (Ezekiel 34:2–4). So the Lord said He would do it Himself. He will find the lost, bring back the ones driven away, bandage the broken and strengthen the sick. This week’s Scripture Helps explain that the “one shepherd” (verse 23) is Jesus Christ. When you minister, you help Him.",
+        "verse": {
+          "text": "I will seek that which was lost, and bring again that which was driven away, and will bind up that which was broken, and will strengthen that which was sick…",
+          "ref": "Ezekiel 34:16"
+        },
+        "question": {
+          "q": "What does the Lord promise to do for His hurt and lost sheep?",
+          "right": "Find them, bandage them, make them strong",
+          "wrong": [
+            "Leave them so the strong ones can lead",
+            "Sell them and buy a healthier flock"
+          ],
+          "why": "“I will seek that which was lost… and will bind up that which was broken.” The Good Shepherd goes after each one Himself."
+        },
+        "bonus": {
+          "q": "The Lord calls the coming shepherd my servant David. How long before Ezekiel had King David died, say this week’s Scripture Helps?",
+          "right": "About four centuries",
+          "wrong": [
+            "About ten years",
+            "About two thousand years"
+          ],
+          "why": "They say King David had died about four hundred years before Ezekiel, so this David means Jesus Christ, born in David’s family line.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/43-ezekiel-1-3-33-34-36-37?lang=eng",
+          "find": "died about four centuries before Ezekiel’s ministry"
+        },
+        "media": {
+          "image": {
+            "src": "media/good-shepherd-plockhorst.jpg",
+            "alt": "Painting of Jesus Christ as a shepherd, carrying a lamb in His arms while His flock of sheep walks beside Him",
+            "credit": "The Good Shepherd, by Bernhard Plockhorst. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Bernhard_Plockhorst_-_Good_Shephard.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#14532d 0%,#4d7c0f 50%,#ecfccb 115%)",
+        "blobA": "rgba(236,252,203,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "bc1932c2"
+      },
+      {
+        "id": "ezk33-turn",
+        "section": 1,
+        "hook": "God isn’t waiting to punish you. He’s pleading with you.",
+        "body": "The captives felt crushed by their sins. They asked, “how should we then live?” (Ezekiel 33:10). The Lord’s answer wasn’t anger. He promised He has “no pleasure in the death of the wicked.” He wants them to turn around and live. Then He asks, like a worried parent, “why will ye die?” Turning back to Him is how they could really live.",
+        "verse": {
+          "text": "Say unto them, As I live, saith the Lord GOD, I have no pleasure in the death of the wicked; but that the wicked turn from his way and live: turn ye, turn ye from your evil ways; for why will ye die, O house of Israel?",
+          "ref": "Ezekiel 33:11"
+        },
+        "question": {
+          "q": "What does the Lord want for people who have sinned?",
+          "right": "To turn from their sins and live",
+          "wrong": [
+            "To suffer for as long as they live",
+            "To try harder to hide their sins"
+          ],
+          "why": "“I have no pleasure in the death of the wicked; but that the wicked turn from his way and live.” He wants every one of them back."
+        },
+        "bonus": {
+          "q": "In Ezekiel 33:10, what did the people say they were doing in their sins?",
+          "hunt": "In Ezekiel 33, what did the people say they were doing in their sins?",
+          "right": "Pining away",
+          "wrong": [
+            "Hiding away",
+            "Running away"
+          ],
+          "why": "Verse 10: “If our transgressions and our sins be upon us, and we pine away in them.” To pine away is to waste away in sadness.",
+          "source": "Ezekiel 33:10",
+          "find": "we pine away in them"
+        },
+        "media": {
+          "image": {
+            "src": "media/christus-consolator-bloch.jpg",
+            "alt": "Painting of Jesus Christ with His arms open wide, surrounded by people who are hurting",
+            "credit": "Christus Consolator, by Carl Heinrich Bloch",
+            "link": "https://www.churchofjesuschrist.org/media/image/christ-the-consolator-carl-bloch-1800ee8?lang=eng"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#3b0764 0%,#7e22ce 50%,#f5d0fe 115%)",
+        "blobA": "rgba(245,208,254,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "7ebe54af"
+      },
+      {
+        "id": "ezk33-not-mentioned",
+        "section": 1,
+        "hook": "Once you’ve truly repented, God won’t bring it up again.",
+        "body": "Ezekiel 33 gives a promise for anyone who turns from sin and does what is right: “None of his sins that he hath committed shall be mentioned unto him.” The Lord won’t keep throwing your old mistakes back at you. In our day He said the same thing: “I, the Lord, remember them no more” (D&C 58:42). Repenting lets you move forward in peace.",
+        "verse": {
+          "text": "None of his sins that he hath committed shall be mentioned unto him: he hath done that which is lawful and right; he shall surely live.",
+          "ref": "Ezekiel 33:16"
+        },
+        "question": {
+          "q": "What happens to the old sins of someone who truly turns from them?",
+          "right": "They won’t be mentioned to him",
+          "wrong": [
+            "They’re read aloud at church",
+            "They’re saved for his judgment day"
+          ],
+          "why": "“None of his sins that he hath committed shall be mentioned unto him: he hath done that which is lawful and right; he shall surely live.”"
+        },
+        "bonus": {
+          "q": "In Ezekiel 33:13, what does a righteous man do that makes his good deeds not remembered?",
+          "hunt": "In Ezekiel 33, what does a righteous man do that makes his good deeds not remembered?",
+          "right": "Trusts in his own goodness and sins",
+          "wrong": [
+            "Forgets to pray for one whole day",
+            "Moves to live in a different city"
+          ],
+          "why": "Verse 13: “if he trust to his own righteousness, and commit iniquity, all his righteousnesses shall not be remembered.” Past goodness doesn’t excuse new sin.",
+          "source": "Ezekiel 33:13",
+          "find": "if he trust to his own righteousness"
+        },
+        "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0284c7 50%,#e0f2fe 115%)",
+        "blobA": "rgba(224,242,254,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "89263a65"
+      },
+      {
+        "id": "ezk36-new-heart",
+        "section": 1,
+        "hook": "Trade in a heart of stone for one that can feel.",
+        "body": "A stone is hard and cold. Nothing grows in it. The Lord promised His people He would take away their “stony heart” and give them “an heart of flesh,” a soft heart that can feel, love and change. He would even put His Spirit within them (verse 27). Repenting isn’t only stopping bad things. It’s letting the Lord give you a new heart.",
+        "verse": {
+          "text": "A new heart also will I give you, and a new spirit will I put within you: and I will take away the stony heart out of your flesh, and I will give you an heart of flesh.",
+          "ref": "Ezekiel 36:26"
+        },
+        "question": {
+          "q": "What is the difference between a stony heart and a heart of flesh?",
+          "right": "One is hard, the other soft and able to change",
+          "wrong": [
+            "One is old, the other young and strong",
+            "One is sad, the other happy all the time"
+          ],
+          "why": "The Lord promised, “I will take away the stony heart out of your flesh, and I will give you an heart of flesh.” A soft heart can feel and repent."
+        },
+        "bonus": {
+          "q": "In Ezekiel 36:35, what will people say the desolate land has become like?",
+          "hunt": "In Ezekiel 36, what will people say the desolate land has become like?",
+          "right": "The garden of Eden",
+          "wrong": [
+            "The city of Babylon",
+            "The land of Egypt"
+          ],
+          "why": "Verse 35: “This land that was desolate is become like the garden of Eden.” The Lord can make ruined places beautiful again.",
+          "source": "Ezekiel 36:35",
+          "find": "is become like the garden of Eden"
+        },
+        "gradient": "linear-gradient(150deg,#7f1d1d 0%,#dc2626 50%,#fecaca 115%)",
+        "blobA": "rgba(254,202,202,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "fb148ed4"
+      },
+      {
+        "id": "ezk37-dry-bones",
+        "section": 2,
+        "hook": "A valley of dry bones. Could they ever live again?",
+        "seek": "Dead bones rise and stand, ready like soldiers",
+        "body": "The Spirit set Ezekiel down in a valley of very dry bones. The Lord asked, “Son of man, can these bones live?” (Ezekiel 37:3). Ezekiel spoke the Lord’s words, and with a rattling, bone joined bone. Then came sinews, flesh and skin, and then breath. The bones were Israel, who said, “our hope is lost” (Ezekiel 37:11). The Lord can bring back hope, and one day raise the dead.",
+        "verse": {
+          "text": "So I prophesied as he commanded me, and the breath came into them, and they lived, and stood up upon their feet, an exceeding great army.",
+          "ref": "Ezekiel 37:10"
+        },
+        "question": {
+          "q": "What finally made the bones come alive and stand up?",
+          "right": "Breath from the Lord came into them",
+          "wrong": [
+            "Ezekiel carried them out of the valley",
+            "The sun warmed them back to life"
+          ],
+          "why": "“The breath came into them, and they lived, and stood up upon their feet.” Flesh and skin weren’t enough. Life came from God."
+        },
+        "bonus": {
+          "q": "In Ezekiel 37:9, where does Ezekiel call the breath to come from?",
+          "hunt": "In Ezekiel 37, where does Ezekiel call the breath to come from?",
+          "right": "From the four winds",
+          "wrong": [
+            "From the high mountains",
+            "From the deep sea"
+          ],
+          "why": "Verse 9: “Come from the four winds, O breath, and breathe upon these slain, that they may live.” In Hebrew, one word can mean breath, wind or spirit.",
+          "source": "Ezekiel 37:9",
+          "find": "Come from the four winds, O breath"
+        },
+        "gradient": "linear-gradient(160deg,#1c1917 0%,#78716c 50%,#f5f5f4 115%)",
+        "blobA": "rgba(245,245,244,.35)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "b445ad3c"
+      },
+      {
+        "id": "ezk37-two-sticks",
+        "section": 2,
+        "hook": "Two records, two families, one book in your hands.",
+        "body": "The Lord told Ezekiel to write on two sticks, one for Judah and one for Joseph (Ezekiel 37:16), and join them. The lesson says many scholars see them as wooden writing boards joined by a hinge. Much of the Bible was written by Judah’s descendants. The Book of Mormon was written by Lehi’s descendants, who came from Joseph. Today you can hold both together, one in your hand.",
+        "verse": {
+          "text": "And join them one to another into one stick; and they shall become one in thine hand.",
+          "ref": "Ezekiel 37:17"
+        },
+        "question": {
+          "q": "What do the stick of Judah and the stick of Joseph stand for today?",
+          "right": "The Bible and the Book of Mormon",
+          "wrong": [
+            "The two tablets of the Ten Commandments",
+            "Moses’ rod and Aaron’s rod"
+          ],
+          "why": "The Bible came mostly from Judah’s people, the Book of Mormon from Joseph’s. Together they become “one in thine hand.”"
+        },
+        "bonus": {
+          "q": "The stick of Joseph is also called the stick of Ephraim. Why, say this week’s Scripture Helps?",
+          "right": "Ephraim was Joseph’s son and a leading tribe",
+          "wrong": [
+            "Ephraim was the prophet who wrote it",
+            "Ephraim was the land it was found in"
+          ],
+          "why": "They say Ephraim was one of Joseph’s sons and the strongest tribe among Joseph’s descendants, so his name can stand for Joseph’s family.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/43-ezekiel-1-3-33-34-36-37?lang=eng",
+          "find": "Ephraim was one of Joseph’s sons and a dominant tribe among his descendants"
+        },
+        "gradient": "linear-gradient(150deg,#422006 0%,#a16207 50%,#fef3c7 115%)",
+        "blobA": "rgba(254,243,199,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "39f8b468"
+      },
+      {
+        "id": "ezk47-deeper",
+        "section": 3,
+        "hook": "Ankle-deep, then knee-deep, then too deep to cross.",
+        "body": "Water trickled out from under the temple. A man with a measuring line led Ezekiel through it. First it came to his ankles, then his knees, then his waist (Ezekiel 47:3–4). Soon it was a river he could only swim in. Elder Dale G. Renlund taught that temple blessings grow the same way, getting deeper as families are sealed together through the generations.",
+        "verse": {
+          "text": "Afterward he measured a thousand; and it was a river that I could not pass over: for the waters were risen, waters to swim in, a river that could not be passed over.",
+          "ref": "Ezekiel 47:5"
+        },
+        "question": {
+          "q": "What happened to the water the farther it flowed from the temple?",
+          "right": "It got deeper until he had to swim",
+          "wrong": [
+            "It dried up in the hot desert sand",
+            "It split into four small streams"
+          ],
+          "why": "It went from his ankles to his knees to his waist, then became “waters to swim in, a river that could not be passed over.”"
+        },
+        "bonus": {
+          "q": "Ezekiel’s guide measured in cubits. A cubit runs from your elbow to the tips of what, says this week’s seminary manual?",
+          "right": "Your fingers",
+          "wrong": [
+            "Your toes",
+            "Your shoulder"
+          ],
+          "why": "It explains that a cubit is the length from the elbow to the fingertips, about 18 to 21 inches.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/44-ezekiel/444-ezekiel-47?lang=eng",
+          "find": "from the elbow to the tips of the fingers"
+        },
+        "media": {
+          "image": {
+            "src": "media/quillayute-river.jpg",
+            "alt": "A calm green river reflecting the forest along its banks",
+            "credit": "Quillayute River, Olympic National Park. Photo: NPS / D. Archuleta, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Green_quillayute_river_summer_calm_reflections_d_archuleta_2015_(23104417456).jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#064e3b 0%,#0f766e 50%,#99f6e4 115%)",
+        "blobA": "rgba(153,246,228,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "690e57b4"
+      },
+      {
+        "id": "ezk47-healed",
+        "section": 3,
+        "hook": "A river that brings a dead sea back to life.",
+        "body": "The Dead Sea is so salty that fish and plants can’t live in it. In Ezekiel’s vision, the river from the temple flowed into that sea and healed it. Soon there were so many fish that fishermen lined the shore (Ezekiel 47:10). Wherever the river went, things came alive. The Lord blesses us through His house in the same way, healing hearts and families.",
+        "verse": {
+          "text": "And it shall come to pass, that every thing that liveth, which moveth, whithersoever the rivers shall come, shall live… for they shall be healed; and every thing shall live whither the river cometh.",
+          "ref": "Ezekiel 47:9"
+        },
+        "question": {
+          "q": "What happened to everything the river from the temple reached?",
+          "right": "It came to life and was healed",
+          "wrong": [
+            "It turned into salt and dried up",
+            "It was washed away into the sea"
+          ],
+          "why": "“Every thing shall live whither the river cometh.” Water from the Lord’s house brought life to the deadest place around."
+        },
+        "bonus": {
+          "q": "In Ezekiel 47:11, which places will not be healed?",
+          "hunt": "In Ezekiel 47, which places will not be healed?",
+          "right": "The muddy swamps and marshes",
+          "wrong": [
+            "The hills and the high mountains",
+            "The roads and the city streets"
+          ],
+          "why": "Verse 11: “the miry places thereof and the marshes thereof shall not be healed; they shall be given to salt.” Miry means muddy.",
+          "source": "Ezekiel 47:11",
+          "find": "the miry places thereof and the marshes thereof shall not be healed"
+        },
+        "media": {
+          "image": {
+            "src": "media/manila-temple-evening.jpg",
+            "alt": "The white Manila Philippines Temple with its tall spires at sunset, framed by palm trees",
+            "credit": "Manila Philippines Temple in the Evening, from the Church Media Library",
+            "link": "https://www.churchofjesuschrist.org/media/image/manila-philippines-temple-lds-75a25fc?lang=eng"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0891b2 50%,#cffafe 115%)",
+        "blobA": "rgba(207,250,254,.4)",
+        "blobB": "rgba(0,0,0,.4)",
+        "approved": "c89a563b"
+      }
+    ],
+    "tldr": [
+      {
+        "ch": "Ezekiel 1",
+        "lines": [
+          "Ezekiel, a priest taken captive to Babylon, is by the river Chebar when the heavens open and he sees visions of God. (verses 1–3)",
+          "Out of a great storm cloud full of fire come four living creatures, each with four faces and four wings. (verses 4–14)",
+          "Beside them are wheels full of eyes that go wherever the spirit goes. (verses 15–25)",
+          "Above them on a throne is the glory of the Lord, bright as a rainbow. Ezekiel falls on his face. (verses 26–28)"
+        ],
+        "review": [
+          {
+            "v": 4,
+            "about": "The KJV’s “whirlwind” is given as a great storm, following the student manual (a furious, powerful wind, not a spinning one)."
+          },
+          {
+            "v": 10,
+            "about": "The four faces are left unnamed on purpose: a bonus asks for them."
+          }
+        ],
+        "approved": "7b39ffec"
+      },
+      {
+        "ch": "Ezekiel 2",
+        "lines": [
+          "The Lord tells Ezekiel to stand up and sends him to the rebellious children of Israel to speak His words. (verses 1–5)",
+          "He must not be afraid of them, even if living among them feels like sitting among thorns and scorpions. (verses 6–7)",
+          "The Lord tells Ezekiel to eat what He gives him. A hand holds out a scroll written on both sides with lamentations and mourning. (verses 8–10)"
+        ],
+        "review": [
+          {
+            "v": 9,
+            "about": "The KJV’s “roll of a book” is called a scroll, as the Scripture Helps do."
+          }
+        ],
+        "approved": "e11e0dd8"
+      },
+      {
+        "ch": "Ezekiel 3",
+        "lines": [
+          "Ezekiel eats the scroll, and it tastes sweet as honey. The Lord sends him to Israel, whose hearts are hard. (verses 1–7)",
+          "The Lord makes Ezekiel’s forehead harder than flint so he won’t fear them. The Spirit carries him to the captives at Tel-abib. (verses 8–15)",
+          "The Lord makes him a watchman. If he warns the wicked, he has done his part. If he doesn’t, the Lord will hold him responsible. (verses 16–21)",
+          "Ezekiel sees the Lord’s glory again. The Lord will keep his mouth closed until it’s time for him to speak. (verses 22–27)"
+        ],
+        "review": [
+          {
+            "v": 18,
+            "about": "“The Lord will hold him responsible” sums up “his blood will I require at thine hand” (the heading: the blood of Israel is required at his hand unless he raises the warning voice)."
+          }
+        ],
+        "approved": "8bc9d7bd"
+      },
+      {
+        "ch": "Ezekiel 33",
+        "lines": [
+          "A watchman who blows the trumpet when he sees danger has done his duty. The Lord makes Ezekiel that watchman. (verses 1–9)",
+          "The Lord wants sinners to turn and live. Those who repent are saved, but good people who turn to sin will die in it. (verses 10–20)",
+          "News comes that Jerusalem has fallen. The people left in the land will be destroyed for their sins. (verses 21–29)",
+          "People love to hear Ezekiel, like a pleasant song, but they don’t do what he says. (verses 30–33)"
+        ],
+        "review": [
+          {
+            "v": 13,
+            "about": "The heading’s “the righteous who turn to sin are damned” is put as “will die in it,” the verses’ own words (verses 13 and 18)."
+          },
+          {
+            "v": 21,
+            "about": "The heading says the people of Judah in Jerusalem are destroyed; verses 24–29 speak of those still living in the ruined land."
+          }
+        ],
+        "approved": "c7386db3"
+      },
+      {
+        "ch": "Ezekiel 34",
+        "lines": [
+          "The Lord scolds Israel’s shepherds, its leaders, who feed themselves but not the sheep and let them scatter. (verses 1–10)",
+          "In the last days the Lord Himself will search for His lost sheep, gather them home, feed them and heal them. (verses 11–22)",
+          "He will set one shepherd over them, His servant David, meaning the Messiah, Jesus Christ. (verses 23–24)",
+          "He will make a covenant of peace with them, and they will live safely in their land. (verses 25–31)"
+        ],
+        "review": [
+          {
+            "v": 23,
+            "about": "“David” as the Messiah, Jesus Christ, follows the heading and the Scripture Helps (King David had died about four centuries earlier)."
+          },
+          {
+            "v": 25,
+            "about": "The heading’s “gospel covenant” is given as the verse’s “covenant of peace.”"
+          }
+        ],
+        "approved": "59bbad7d"
+      },
+      {
+        "ch": "Ezekiel 36",
+        "lines": [
+          "The Lord promises the mountains of Israel that His scattered people will come home and the land will bear fruit again. (verses 1–15)",
+          "Israel made the land unclean, so He scattered them. For His holy name’s sake, He will gather them home in the last days. (verses 16–24)",
+          "He will cleanse them, give them a new heart and a new spirit, and put His Spirit in them so they keep His laws. (verses 25–27)",
+          "Their ruined cities will be rebuilt and filled with people, and the nations will know He is the Lord. (verses 28–38)"
+        ],
+        "review": [
+          {
+            "v": 24,
+            "about": "“In the last days” comes from the chapter heading; the verses say “I will take you from among the heathen.”"
+          }
+        ],
+        "approved": "717166b2"
+      },
+      {
+        "ch": "Ezekiel 37",
+        "lines": [
+          "In a vision, Ezekiel prophesies to a valley of dry bones. They come together, get flesh and breath, and stand up alive. (verses 1–10)",
+          "The bones are Israel, who have lost hope. The Lord will open their graves, raise them up, and bring them to their land. (verses 11–14)",
+          "Two sticks, one for Judah and one for Joseph, become one in the Lord’s hand, like the Bible and the Book of Mormon. (verses 15–20)",
+          "The Lord will gather and cleanse Israel and make them one nation, with David, the Messiah, as king, in an everlasting covenant. (verses 21–28)"
+        ],
+        "review": [
+          {
+            "v": 12,
+            "about": "The heading’s “inherit the land in the Resurrection” is put as “raise them up”; the Scripture Helps also read the vision as a prophecy of the Resurrection."
+          }
+        ],
+        "approved": "b64dda2a"
+      },
+      {
+        "ch": "Ezekiel 47",
+        "lines": [
+          "Water flows out from under the temple. Ezekiel wades in to his ankles, knees and waist, until it’s a river too deep to cross. (verses 1–5)",
+          "The river flows down to the Dead Sea and heals it, so it fills with fish, and fruit trees grow along its banks. (verses 6–12)",
+          "The Lord shows the borders of the land the twelve tribes will inherit. Joseph gets two shares. (verses 13–21)",
+          "Strangers who live among the tribes will get an inheritance too. (verses 22–23)"
+        ],
+        "review": [
+          {
+            "v": 12,
+            "about": "The trees’ leaves (for medicine) are left out on purpose: a Go deeper asks about them."
+          }
+        ],
+        "approved": "960c77a6"
+      }
+    ],
+    "insights": [
+      {
+        "id": "ezk1-four-prophets",
+        "ref": "Ezekiel 1:1–3",
+        "title": "Four prophets, four callings",
+        "text": "Ezekiel lived at the same time as Lehi. Gerald N. Lund names four prophets of that day: Lehi, Ezekiel, Jeremiah, and Daniel. Each had a different calling. Lehi led a group to a promised land. Jeremiah stayed to witness Jerusalem’s fall. Daniel served in Babylon’s royal court. And Ezekiel was sent among the captives, to help them understand why their tragedy had happened.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Gerald N. Lund",
+          "title": "Ezekiel: Prophet of Judgment, Prophet of Promise",
+          "url": "https://rsc.byu.edu/isaiah-prophets/ezekiel-prophet-judgment-prophet-promise"
+        },
+        "find": "We know the names of four of the prophets of that day—Lehi, Ezekiel, Jeremiah, and Daniel.",
+        "approved": "8bce9807"
+      },
+      {
+        "id": "ezk1-likeness",
+        "ref": "Ezekiel 1:26–28",
+        "title": "Like, likeness, appearance",
+        "text": "Read Ezekiel 1 and count how often you find “likeness” and “appearance.” The Old Testament Student Manual explains why. It is very hard for anyone to put a vision of heaven into words. So Ezekiel compared what he saw to things people knew, like fire, a sapphire stone and a rainbow. Not everything he described needs to be taken literally.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Ezekiel: Watchman of Israel",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-26?lang=eng"
+        },
+        "find": "he used words like as, likeness, and appearance",
+        "approved": "18a5a879"
+      },
+      {
+        "id": "ezk1-wheels",
+        "ref": "Ezekiel 1:15–21",
+        "title": "Wheels no one has explained",
+        "text": "What do Ezekiel’s wheels mean? The Old Testament Student Manual says the meaning hasn’t been revealed to the Church. It shares a teaching of Joseph Smith: when God gives a vision of a figure, He holds Himself responsible to give its meaning too. Until He does, we aren’t accountable for knowing it. It’s fine to say we don’t know yet.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Ezekiel: Watchman of Israel",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-26?lang=eng"
+        },
+        "find": "At present the interpretation of Ezekiel’s vision has not been given to the Church",
+        "approved": "cca359c4"
+      },
+      {
+        "id": "ezk2-son-of-man",
+        "ref": "Ezekiel 2:1",
+        "title": "Son of man means human",
+        "text": "Again and again the Lord calls Ezekiel “Son of man.” Noe Correa, writing for Scripture Central, explains that in the language of the Old Testament this title simply means human. Ezekiel was a mortal man who had just seen the glory of God. Even so, the Lord told him to stand on his feet, and He spoke with him.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Noe Correa",
+          "title": "Ezekiel 1–3; 33–34; 36–37; 47",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/ezekiel-13-3334-3637-47"
+        },
+        "find": "the title “son of man” simply means “human.”",
+        "approved": "06f26259"
+      },
+      {
+        "id": "ezk3-face-up",
+        "ref": "Ezekiel 3:8",
+        "title": "Face up to it",
+        "text": "The Lord told Ezekiel, “I have made thy face strong against their faces.” The Old Testament Student Manual explains that this is a Hebrew way of saying what we mean by “face up to it.” Ezekiel’s own name means God is strong, or God will strengthen. The Lord gives His servants enough strength to stand up to opposition as they do His will.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Ezekiel: Watchman of Israel",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-26?lang=eng"
+        },
+        "find": "The words of Ezekiel 3:8 are a Hebrew idiom suggesting essentially the English idiom",
+        "approved": "ae298a24"
+      },
+      {
+        "id": "ezk3-fh-adamant",
+        "ref": "Ezekiel 3:8–9",
+        "title": "A forehead like a diamond",
+        "text": "The Lord told Ezekiel, “As an adamant harder than flint have I made thy forehead.” Dr. Jan J. Martin, who studies early English Bibles, explains that adamant means diamond, the hardest thing there is. Ezekiel’s listeners would glare at him and argue. So the Lord made him firm enough to keep teaching the truth, kindly but without backing down.",
+        "source": {
+          "by": "followHIM",
+          "who": "Jan J. Martin",
+          "title": "Old Testament: EPISODE 44 – Ezekiel – Part 1",
+          "url": "https://followhim.co/show-note/2-217/"
+        },
+        "find": "So in our tongue that would be diamonds.",
+        "deep": {
+          "paras": [
+            "The Lord didn’t promise Ezekiel an easy audience. He warned him not to be afraid of the captives’ words or “dismayed at their looks,” even if living among them felt like living among briers, thorns and scorpions. Dr. Jan J. Martin tells of finding a scorpion in her own hallway one evening, tail up, ready to attack. Some people, she says, react to God’s word the same way.",
+            "Then the Lord promised help: “I have made thy face strong against their faces, and thy forehead strong against their foreheads.” Dr. Martin points out that adamant in verse 9 means a diamond, “the hardest structure of something.” Harder than flint, the Lord made His prophet able to stand up to that kind of pressure. It was, she says, a really tough assignment.",
+            "She recalls President Russell M. Nelson teaching that it isn’t loving to hold back the truth. Prophets, she says, “have to be able to firmly and lovingly stand against false ideas and not cave.” John Bytheway sums it up: the most loving thing you can do is teach the truth. And Dr. Martin adds that we still need to teach it nicely and with compassion."
+          ],
+          "find": [
+            "So in our tongue that would be diamonds. That’s the hardest structure of something.",
+            "They have to be able to firmly and lovingly stand against false ideas and not cave.",
+            "I love that you said that the most loving thing you can do is teach the truth.",
+            "And not apologize and we need to teach it nicely and compassionately and things."
+          ],
+          "listen": {
+            "youtube": "T0ZLK-8t2kk",
+            "start": 1228,
+            "end": 1526,
+            "title": "followHIM: Ezekiel, part 1, with Dr. Jan J. Martin",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          },
+          "approved": "082fff53"
+        },
+        "approved": "57159fda"
+      },
+      {
+        "id": "ezk3-sat-with-them",
+        "ref": "Ezekiel 3:15",
+        "title": "He sat where they sat",
+        "text": "When Ezekiel came to the captives at Tel-abib, he “sat where they sat.” Noe Correa, writing for Scripture Central, sees wisdom in that. Sometimes the best way to serve people is to be quiet, listen, and stay with them, before giving any advice. As Alma taught, we can “comfort those that stand in need of comfort” (Mosiah 18:9).",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Noe Correa",
+          "title": "Ezekiel 1–3; 33–34; 36–37; 47",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/ezekiel-13-3334-3637-47"
+        },
+        "find": "There is much wisdom in learning to be silent and in actively listening to those whom we serve.",
+        "approved": "2ad867b2"
+      },
+      {
+        "id": "ezk3-watchman-danger",
+        "ref": "Ezekiel 3:17–21",
+        "title": "A dangerous job",
+        "text": "In Ezekiel’s day, a city’s watchman had to stay awake and watch for enemies. The Old Testament Student Manual explains that he was in danger either way. The enemy wanted him out of the way, so no warning would be given. And if he failed to warn the city, he could be put to death. Being the Lord’s watchman is serious work too.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Ezekiel: Watchman of Israel",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-26?lang=eng"
+        },
+        "find": "faced execution if he failed to warn the city when the enemy appeared",
+        "approved": "ec7e0745"
+      },
+      {
+        "id": "ezk3-mastery",
+        "ref": "Ezekiel 3:16–17",
+        "title": "A verse to know by heart",
+        "text": "Ezekiel 3:16–17 is a doctrinal mastery passage in seminary. Students mark it, learn where to find it, and memorize its key phrase: the prophet is “a watchman unto the house of Israel.” The seminary manual explains that the Lord calls prophets as watchmen to warn us of spiritual dangers, and that their warnings show God’s love for us.",
+        "source": {
+          "by": "Seminary manual",
+          "title": "Ezekiel 1–3; 33: “I Have Made Thee a Watchman”",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/44-ezekiel/441-ezekiel-1-3-33?lang=eng"
+        },
+        "find": "Ezekiel 3:16–17 is a doctrinal mastery passage.",
+        "approved": "72dd9abc"
+      },
+      {
+        "id": "ezk3-q-andersen",
+        "kind": "quote",
+        "ref": "Ezekiel 3:17",
+        "quote": "A prophet is a watchman on the tower, protecting us from spiritual dangers we may not see.",
+        "text": "Verse 17: the Lord made Ezekiel “a watchman unto the house of Israel.” Elder Andersen explains what a watchman does for us today.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Neil L. Andersen",
+          "title": "The Prophet of God",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2018/04/the-prophet-of-god?lang=eng"
+        },
+        "approved": "24627717"
+      },
+      {
+        "id": "ezk3-q-nelson",
+        "kind": "quote",
+        "ref": "Ezekiel 3:18–19",
+        "quote": "Right now I am preparing for the day when I will be required to give an accounting … to the Lord about my stewardship as God’s prophet upon the earth today.",
+        "text": "Verses 18–19: a watchman answers to God for warning the people. President Nelson felt that duty, and so he invited every youth from 12 to 18 to help gather Israel.",
+        "source": {
+          "by": "Seminary manual",
+          "who": "President Russell M. Nelson",
+          "title": "Ezekiel 1–3; 33: “I Have Made Thee a Watchman”",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/44-ezekiel/441-ezekiel-1-3-33?lang=eng"
+        },
+        "approved": "b34b9df4"
+      },
+      {
+        "id": "ezk33-q-christofferson",
+        "kind": "quote",
+        "ref": "Ezekiel 33:11",
+        "quote": "Far from being anxious to condemn, our Heavenly Father and our Savior seek our happiness and plead with us to repent",
+        "text": "Verse 11: “turn ye, turn ye from your evil ways.” President Christofferson explains why God keeps pleading with us through His prophets.",
+        "source": {
+          "by": "General Conference",
+          "who": "President D. Todd Christofferson",
+          "title": "The Voice of Warning",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2017/04/the-voice-of-warning?lang=eng"
+        },
+        "approved": "2860b763"
+      },
+      {
+        "id": "ezk33-restitution",
+        "ref": "Ezekiel 33:15",
+        "title": "Give it back",
+        "text": "Ezekiel says a sinner who turns around should “restore the pledge, give again that he had robbed.” The Old Testament Student Manual shares President Spencer W. Kimball’s teaching on this: a person who truly repents should restore, as far as possible, what was damaged. If you took something, give it back. Even when you can’t fix everything, there are usually things you can do.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Prophecies of the Restoration (Ezekiel 25–48)",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-27?lang=eng"
+        },
+        "find": "he should next restore insofar as possible that which was damaged",
+        "approved": "1b09ecb3"
+      },
+      {
+        "id": "ezk33-fh-song",
+        "ref": "Ezekiel 33:30–33",
+        "title": "A lovely song, then nothing",
+        "text": "People in exile loved to gather and hear Ezekiel. But the Lord told him that to them he was like “a very lovely song,” pleasant to hear and then forgotten: “they hear thy words, but they do them not.” Hank Smith admits that verse hits him, because he has heard good counsel and never acted on it. Dr. Jan J. Martin’s fix: pick one thing and do it.",
+        "source": {
+          "by": "followHIM",
+          "who": "Jan J. Martin",
+          "title": "Old Testament: EPISODE 44 – Ezekiel – Part 2",
+          "url": "https://followhim.co/show-note/2-216/"
+        },
+        "find": "That’s a verse that hits you. Because I’ve done that.",
+        "deep": {
+          "paras": [
+            "After Jerusalem fell, Ezekiel’s neighbors in Babylon talked about him by the walls and in their doorways and invited each other to come and hear him. Dr. Jan J. Martin points to the sad problem in verse 31: they sat before him as the Lord’s people and heard his words, “but they will not do them.” With their mouths they showed much love, but their hearts went after their own gain.",
+            "John Bytheway’s favorite is verse 32, where the Lord calls Ezekiel “a very lovely song of one that hath a pleasant voice.” Hank Smith connects it to King Benjamin’s counsel to see that we do what we believe. Dr. Martin explains that we are judged not only on our good intentions and desires but on our works: “the proof is in the behavior.”",
+            "Hank admits the verse hits him, because he has heard good counsel, agreed it was good, and never done it, even after general conference. John remembers that when President Thomas S. Monson pleaded with everyone to read the Book of Mormon, President Nelson went out and did it. Dr. Martin’s suggestion is simple: “What if we just picked one of those things, and tried it, and worked on it?”"
+          ],
+          "find": [
+            "but part of what we are judged on isn’t just our desires, it’s our works",
+            "That’s a verse that hits you. Because I’ve done that.",
+            "who went out and did it? President Nelson.",
+            "What if we just picked one of those things, and tried it, and worked on it?"
+          ],
+          "listen": {
+            "youtube": "lnL2Q8E_PsE",
+            "start": 551,
+            "end": 819,
+            "title": "followHIM: Ezekiel, part 2, with Dr. Jan J. Martin",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          },
+          "approved": "c42e1003"
+        },
+        "approved": "edbb5579"
+      },
+      {
+        "id": "ezk33-forgive",
+        "ref": "Ezekiel 33:14–16",
+        "title": "Fully forgiven",
+        "text": "The seminary manual asks students to read Ezekiel 33:14–16 and link it to two other promises, Isaiah 1:18 and D&C 58:42–43. Together they teach a truth: when we repent, the Lord forgives us completely. A sinner who turns from sin and does what is right “shall surely live,” and none of his sins will be brought up again.",
+        "source": {
+          "by": "Seminary manual",
+          "title": "Ezekiel 1–3; 33: “I Have Made Thee a Watchman”",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/44-ezekiel/441-ezekiel-1-3-33?lang=eng"
+        },
+        "find": "when we repent, the Lord will fully forgive us of our sins",
+        "approved": "fd6c1fc4"
+      },
+      {
+        "id": "ezk34-lasater",
+        "ref": "Ezekiel 34:11–16",
+        "title": "He called the lamb by name",
+        "text": "Elder John R. Lasater once saw a car hit a shepherd’s lamb in Morocco. By law the old shepherd could take a large payment, but he refused it because he loved each of his sheep. He lifted the hurt lamb into a pouch on his robe, repeating its name. The good shepherds there, Elder Lasater learned, know each of their sheep by name.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder John R. Lasater",
+          "title": "Shepherds of Israel",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/1988/04/shepherds-of-israel?lang=eng"
+        },
+        "find": "the good shepherds know each one of their sheep by name",
+        "approved": "cbe6cffc"
+      },
+      {
+        "id": "ezk34-fh-shepherds",
+        "ref": "Ezekiel 34:2–16",
+        "title": "Not about you, about them",
+        "text": "The Lord scolded Israel’s shepherds for feeding themselves instead of the flock. Dr. Jan J. Martin says these shepherds were all kinds of leaders, and even parents can be shepherds over their children. They forgot the point of leading: it isn’t about the leader, it’s about the people. Then, from verse 11, the Lord shows what a real shepherd does.",
+        "source": {
+          "by": "followHIM",
+          "who": "Jan J. Martin",
+          "title": "Old Testament: EPISODE 44 – Ezekiel – Part 2",
+          "url": "https://followhim.co/show-note/2-216/"
+        },
+        "find": "You’ve just been so focused on your own self, that you’ve lost sight of what the purpose of leadership is.",
+        "deep": {
+          "paras": [
+            "Ezekiel 34 turns from the people to their leaders. The Lord speaks to the “shepherds of Israel,” the ones who should have protected the flock. John Bytheway asks whether they were political or religious leaders. Dr. Jan J. Martin answers, all of the above: Jerusalem fell because none of them were leading as they should. “Even parents can be in this group of shepherds over their children.”",
+            "Hank Smith notes that the shepherds took the perks, eating the fat and wearing the wool, while they left the sick unhealed and the wanderers unsought. Dr. Martin’s summary: they had lost sight of the purpose of leadership. “It’s not about you, it’s about them.” Hank sets this against the Savior in John 10, who knows His sheep, loves them, and lays down His life for them.",
+            "Then comes the part Dr. Martin calls fun. In verse 11 the Lord says, “Behold, I, even I, will both search my sheep, and seek them out.” Hank circles every “I will” in the verses that follow: the Lord will gather His flock, feed it and care for it Himself. Dr. Martin calls the chapter a lesson for anyone with leadership responsibilities, and John hears the 23rd Psalm in its good pastures."
+          ],
+          "find": [
+            "And even parents can be in this group of shepherds over their children.",
+            "You’ve just been so focused on your own self, that you’ve lost sight of what the purpose of leadership is.",
+            "I’m circling all the “I’s” here.",
+            "But what a commentary on anyone who has leadership responsibilities."
+          ],
+          "listen": {
+            "youtube": "lnL2Q8E_PsE",
+            "start": 819,
+            "end": 1095,
+            "title": "followHIM: Ezekiel, part 2, with Dr. Jan J. Martin",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          },
+          "approved": "a8466875"
+        },
+        "approved": "ca3162c1"
+      },
+      {
+        "id": "ezk34-q-gong",
+        "kind": "quote",
+        "ref": "Ezekiel 34:16",
+        "quote": "Because He is good, He can go about doing good. He blesses the one and the 99. He is ministering personified.",
+        "text": "Verse 16: the Lord seeks the lost and binds up the broken. Elder Gong points to the Savior as the example of what ministering looks like.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Gerrit W. Gong",
+          "title": "Ministering",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2023/04/14gong?lang=eng"
+        },
+        "approved": "896470cd"
+      },
+      {
+        "id": "ezk36-new-mind",
+        "ref": "Ezekiel 36:26",
+        "title": "A new heart, a new mind",
+        "text": "Today we think of the heart as the place where we feel love. Noe Correa, writing for Scripture Central, explains that anciently the heart was more like what we would call the mind. So a new heart meant a new way of seeing things. That fits repentance: in the New Testament’s Greek, the word for repent means to have a change of mind.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Noe Correa",
+          "title": "Ezekiel 1–3; 33–34; 36–37; 47",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/ezekiel-13-3334-3637-47"
+        },
+        "find": "To have a new heart was to have a new perspective and outlook.",
+        "approved": "19eab010"
+      },
+      {
+        "id": "ezk36-promise",
+        "ref": "Ezekiel 36:24–28",
+        "title": "Judgment, then promise",
+        "text": "Ezekiel warned of terrible judgments. But Gerald N. Lund points out a pattern: even his harshest warnings were quickly followed by hope. After explaining why Israel was scattered, the Lord promises, “I will take you from among the heathen, and gather you out of all countries.” That’s why Lund calls Ezekiel both a prophet of judgment and a prophet of promise.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Gerald N. Lund",
+          "title": "Ezekiel: Prophet of Judgment, Prophet of Promise",
+          "url": "https://rsc.byu.edu/isaiah-prophets/ezekiel-prophet-judgment-prophet-promise"
+        },
+        "find": "even the most harsh and caustic predictions and judgments were counterbalanced by an immediate addendum of hope",
+        "approved": "eefaceb5"
+      },
+      {
+        "id": "ezk37-fh-bones",
+        "ref": "Ezekiel 37:1–14",
+        "title": "Two words in the margin",
+        "text": "Next to the very dry bones, Dr. Jan J. Martin wrote two words in her scriptures: No hope. That is how the exiles felt: “Our bones are dried, and our hope is lost” (verse 11). And what brings dry bones back? Ezekiel was told to say, “O ye dry bones, hear the word of the LORD.” Hearing His word is how hope comes back.",
+        "source": {
+          "by": "followHIM",
+          "who": "Jan J. Martin",
+          "title": "Old Testament: EPISODE 44 – Ezekiel – Part 2",
+          "url": "https://followhim.co/show-note/2-216/"
+        },
+        "find": "something I had just written in my margin",
+        "deep": {
+          "paras": [
+            "Ezekiel saw a valley full of bones, and “lo, they were very dry.” Dr. Jan J. Martin says that as she thought about these people, she wrote two words in her margin: “No hope.” Dry bones are a picture of people who have lost all hope, with no life left in them. Verse 11 says it outright: the bones are the house of Israel, who say, “our hope is lost.”",
+            "When the Lord asks, “Son of man, can these bones live?” Ezekiel answers, “O Lord GOD, thou knowest.” Then the Lord lets Ezekiel take part in the miracle, as the Savior often lets others do. The cure for lost hope, Dr. Martin notes, is right in the command: “hear the word of the LORD.” Then breath enters, and the bones live.",
+            "Hank Smith wonders how many listeners feel like dry bones, sure nothing will ever get better. He shares President Dieter F. Uchtdorf’s talk “The Infinite Power of Hope,” where despair drains life away but hope rises “like the beam of sunlight.” Dr. Martin’s answer for the whole house of Israel, and for us, is to turn back to the Lord’s word and let life breathe back in."
+          ],
+          "find": [
+            "I just wrote, “No hope.”",
+            "the Savior does this often where He’ll let other people perform the miracles",
+            "how many of our listeners are going through things where they feel like they have dry bones?",
+            "And let’s get that life breathing back into you."
+          ],
+          "listen": {
+            "youtube": "lnL2Q8E_PsE",
+            "start": 1376,
+            "end": 1666,
+            "title": "followHIM: Ezekiel, part 2, with Dr. Jan J. Martin",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          },
+          "approved": "ea1e3530"
+        },
+        "approved": "71e5255c"
+      },
+      {
+        "id": "ezk37-q-mcconkie",
+        "kind": "quote",
+        "ref": "Ezekiel 37:12–13",
+        "quote": "There is nothing more real, more literal, more personal than the resurrection, as Ezekiel then beheld in vision.",
+        "text": "Verses 12–13: “I will open your graves.” Elder McConkie says Ezekiel saw a real resurrection, as real as the Savior’s own.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "who": "Elder Bruce R. McConkie",
+          "title": "Prophecies of the Restoration (Ezekiel 25–48)",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-27?lang=eng"
+        },
+        "approved": "b60607a9"
+      },
+      {
+        "id": "ezk37-new-life",
+        "ref": "Ezekiel 37:9–14",
+        "title": "Where new life comes from",
+        "text": "The Old Testament Student Manual explains the symbols in the valley of dry bones. The bones stand for Israel, lost and scattered. The graves show where Israel is, and that it is spiritually dead. The spirit, ruach in Hebrew (verse 9), is the new spirit of righteousness the people will have. And the source of that new life will be the Holy Ghost.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Prophecies of the Restoration (Ezekiel 25–48)",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-27?lang=eng"
+        },
+        "find": "The source of this new life will be the Holy Ghost.",
+        "approved": "fa79f5c0"
+      },
+      {
+        "id": "ezk37-boards",
+        "ref": "Ezekiel 37:16–17",
+        "title": "Boards that fold into one",
+        "text": "In 1953 archaeologists found a set of ancient writing boards at the bottom of a well in Assyria. Scribes filled wooden boards with wax and wrote on the wax. Keith H. Meservy explains that they joined boards with cords or metal hinges, so two boards folded into one. Ezekiel lived among such scribes, and Meservy concludes he most likely used boards like these. Joined, they became one in his hand.",
+        "source": {
+          "by": "Ensign",
+          "who": "Keith H. Meservy",
+          "title": "Ezekiel’s Sticks and the Gathering of Israel",
+          "url": "https://www.churchofjesuschrist.org/study/ensign/1987/02/ezekiels-sticks-and-the-gathering-of-israel?lang=eng"
+        },
+        "find": "By joining two boards together by thongs or metal hinges, a scribe could fold them together",
+        "approved": "1f40d462"
+      },
+      {
+        "id": "ezk37-print-shops",
+        "ref": "Ezekiel 37:15–17",
+        "title": "Two print shops",
+        "text": "Elder Boyd K. Packer told how Ezekiel’s prophecy came true in two print shops. In 1830 the Book of Mormon came off a small press in Palmyra, New York. Then in 1977, Church workers went to Cambridge University Press in England to print a Latter-day Saint Bible, with footnotes linking it to the Book of Mormon. Now study one, and you are drawn to the other.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Boyd K. Packer",
+          "title": "Scriptures",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/1982/10/scriptures?lang=eng"
+        },
+        "find": "Two events connected with the fulfillment of the prophecy were centered in print shops.",
+        "approved": "a0ddb173"
+      },
+      {
+        "id": "ezk37-q-nelson",
+        "kind": "quote",
+        "ref": "Ezekiel 37:16–17",
+        "quote": "Today, Saints living in many nations of the earth gratefully hold the Bible (the stick of Judah) and the Book of Mormon (the stick of Ephraim) bound as one in their hands.",
+        "text": "Verse 17: “they shall become one in thine hand.” President Nelson describes what that looks like for Latter-day Saints all over the world.",
+        "source": {
+          "by": "General Conference",
+          "who": "President Russell M. Nelson",
+          "title": "Scriptural Witnesses",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2007/10/scriptural-witnesses?lang=eng"
+        },
+        "approved": "9ce089c5"
+      },
+      {
+        "id": "ezk37-jsp-post",
+        "ref": "Ezekiel 37:19",
+        "title": "Joseph Smith’s puzzle about the stick",
+        "text": "In 1838 a Church member named Stephen Post asked Joseph Smith about “the stick of Joseph, which is in the hand of Ephraim.” Joseph, writing with Sidney Rigdon, answered with a little puzzle. Suppose you are of Ephraim, and the Book of Mormon is a record of Joseph. If you hold that record in your hand, isn’t the stick of Joseph in the hand of Ephraim?",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Letter to Stephen Post, 17 September 1838",
+          "url": "https://www.josephsmithpapers.org/paper-summary/letter-to-stephen-post-17-september-1838/2"
+        },
+        "find": "Should take the record of Joseph in your hand, would not then the stick of Joseph of Joseph be in the hand of Ephraim",
+        "note": "In an 1838 letter, Joseph Smith explained this verse: when members of Ephraim’s line hold the Book of Mormon, a record of Joseph, the stick of Joseph is “in the hand of Ephraim.”",
+        "approved": "eb093858"
+      },
+      {
+        "id": "ezk37-jsp-dc27",
+        "ref": "Ezekiel 37:16",
+        "title": "Moroni and the stick of Ephraim",
+        "text": "When an 1830 revelation was printed in the 1835 Doctrine and Covenants, it included new words: the Lord had given Moroni the keys of the record of “the stick of Ephraim.” Today that’s D&C 27:5. The Joseph Smith Papers’ notes explain that the wording comes from Ezekiel 37:16–17, and that early Saints understood it to mean the Book of Mormon.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Revelation, circa August 1835 [D&C 27]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/revelation-circa-august-1835-dc-27/2"
+        },
+        "find": "This wording comes from Ezekiel 37:16–17, which is referred to in 2 Nephi, chapter 3",
+        "approved": "208cd1bd"
+      },
+      {
+        "id": "ezk47-cowan",
+        "ref": "Ezekiel 47:1–5",
+        "title": "Deeper every time",
+        "text": "The water from Ezekiel’s temple got deeper the farther it flowed. Richard O. Cowan, a BYU professor, sees a lesson in that: the blessings we receive in the Lord’s house grow as we return to it again and again. He also links this river to the “pure river of water of life” that John saw flowing from God’s throne (Revelation 22:1).",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Richard O. Cowan",
+          "title": "What Old Testament Temples Can Teach Us about Our Own Temple Activity",
+          "url": "https://rsc.byu.edu/ascending-mountain-lord/what-old-testament-temples-can-teach-us-about-our-own-temple-activity"
+        },
+        "find": "the impact of temple blessings increases as we return again and again to the Lord’s house",
+        "approved": "ac9d9474"
+      },
+      {
+        "id": "ezk47-jsp-temple",
+        "ref": "Ezekiel 47:1",
+        "title": "Joseph Smith on the healing water",
+        "text": "At a Church conference in Nauvoo on April 6, 1843, Joseph Smith spoke about things that must happen before the Savior comes again. Willard Richards wrote his words in Joseph’s journal: Jerusalem must be rebuilt, Judah must return, and water must “come out from under the temple,” and the Dead Sea be healed. The Joseph Smith Papers’ note points to Ezekiel 47:1.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Discourse, 6 April 1843–B, as Reported by Willard Richards",
+          "url": "https://www.josephsmithpapers.org/paper-summary/discourse-6-april-1843-b-as-reported-by-willard-richards/12"
+        },
+        "find": "water come out from under the temple",
+        "note": "Joseph Smith taught in 1843 that before the Savior comes, water must “come out from under the temple” and the Dead Sea be healed, as Ezekiel saw.",
+        "approved": "842860c2"
+      },
+      {
+        "id": "ezk47-q-renlund",
+        "kind": "quote",
+        "ref": "Ezekiel 47:8–9",
+        "quote": "Second, the river renewed everything that it touched. The blessings of the temple likewise have a stunning capacity to heal. Temple blessings can heal hearts and lives and families.",
+        "text": "Verse 9: “every thing shall live whither the river cometh.” Elder Renlund, a heart doctor before he was an Apostle, explains what the river means for families.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Dale G. Renlund",
+          "title": "Family History and Temple Work: Sealing and Healing",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2018/04/family-history-and-temple-work-sealing-and-healing?lang=eng"
+        },
+        "approved": "36132e00"
+      },
+      {
+        "id": "ezk47-strangers",
+        "ref": "Ezekiel 47:22–23",
+        "title": "Room for strangers",
+        "text": "Ezekiel’s vision ends with the land divided among Israel’s twelve tribes. But the Lord adds that strangers living among them will get an inheritance too. The Old Testament Student Manual explains that these may be converts who aren’t Israelites by birth. Because of their devotion to the gospel, they will be adopted into the house of Israel.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Prophecies of the Restoration (Ezekiel 25–48)",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-27?lang=eng"
+        },
+        "find": "They will then be adopted into the house of Israel.",
+        "approved": "777b216e"
+      },
+      {
+        "id": "ezk47-fh-hope",
+        "ref": "Ezekiel 47:8–9",
+        "title": "Look to the temple for hope",
+        "text": "Dr. Jan J. Martin connects Ezekiel’s dry bones with his river. First the bones came back to life. Then a river from the temple brought a salty sea and a desert to life. Water, she says, is what makes everything green instead of dry. It could stand for God’s word, covenants, or the way God heals. Her advice: look to the temple when you need hope.",
+        "source": {
+          "by": "followHIM",
+          "who": "Jan J. Martin",
+          "title": "Old Testament: EPISODE 44 – Ezekiel – Part 2",
+          "url": "https://followhim.co/show-note/2-216/"
+        },
+        "find": "Look to the temple when you’re looking for that hope.",
+        "approved": "12585981"
+      }
+    ],
+    "plain": [
+      {
+        "ch": "Ezekiel 1",
+        "verses": [
+          "In the thirtieth year, on the fifth day of the fourth month, I was among the captives by the river Chebar. The heavens opened, and I saw visions of God.",
+          "It was the fifth day of the month, in the fifth year since King Jehoiachin had been taken captive.",
+          "The word of the Lord came directly to Ezekiel the priest, the son of Buzi, in the land of the Chaldeans (Babylon), by the river Chebar. The hand of the Lord was on him there.",
+          "I looked, and I saw a whirlwind coming out of the north: a huge cloud with fire flashing through it and bright light all around it. In the middle of the fire was something that gleamed like amber.",
+          "Out of the middle of it came what looked like four living creatures. This is what they looked like: they had the form of a man.",
+          "Each one had four faces, and each one had four wings.",
+          "Their legs were straight, and the soles of their feet were like the hooves of a calf. They sparkled like polished bronze.",
+          "Under their wings, on all four sides, they had human hands. All four of them had faces and wings.",
+          "Their wings touched one another. They did not turn as they moved; each one went straight ahead.",
+          "This is what their faces looked like: each of the four had the face of a man, the face of a lion on the right side, the face of an ox on the left side, and the face of an eagle.",
+          "That is how their faces were. Their wings were spread out upward. Each one had two wings that touched the wings of the creature next to it, and two wings that covered its body.",
+          "Each one went straight ahead. Wherever the spirit would go, they went, and they did not turn as they moved.",
+          "The living creatures looked like burning coals of fire, like torches. Fire moved back and forth among the living creatures. The fire was bright, and lightning flashed out of it.",
+          "The living creatures darted back and forth like flashes of lightning.",
+          "As I looked at the living creatures, I saw a wheel on the ground beside the living creatures—one beside each creature with its four faces.",
+          "The wheels, and the way they were made, gleamed like beryl, and all four looked the same. They were made like a wheel inside a wheel.",
+          "When they moved, they went in any of their four directions, and they did not turn as they went.",
+          "Their rims were tall and fearsome, and the rims of all four were full of eyes all around.",
+          "When the living creatures moved, the wheels moved beside them. When the living creatures rose up from the ground, the wheels rose too.",
+          "Wherever the spirit would go, they went, wherever the spirit went. The wheels rose up beside them, because the spirit of the living creatures was in the wheels.",
+          "When the creatures moved, the wheels moved. When the creatures stood still, the wheels stood still. When the creatures rose from the ground, the wheels rose beside them, because the spirit of the living creatures was in the wheels.",
+          "Over the heads of the living creatures was something like an expanse that gleamed like awesome crystal, spread out above their heads.",
+          "Under the expanse, their wings were stretched out straight toward one another. Each of them had two wings covering its body, on one side and on the other.",
+          "When they moved, I heard the sound of their wings. It was like the sound of many waters, like the voice of the Almighty, a roaring sound like the noise of an army. When they stood still, they lowered their wings.",
+          "Then a voice came from the expanse over their heads, as they stood still with their wings lowered.",
+          "Above the expanse over their heads was something that looked like a throne, like sapphire stone. High above, on the throne, was a figure that looked like a man.",
+          "From what looked like His waist up, I saw something gleaming like amber, with what looked like fire all around inside it. From what looked like His waist down, I saw what looked like fire, and bright light shone all around Him.",
+          "Like a rainbow in the clouds on a rainy day, so was the bright light all around. This is what the likeness of the glory of the Lord looked like. When I saw it, I fell on my face, and I heard the voice of someone speaking."
+        ],
+        "notes": [
+          {
+            "v": 18,
+            "text": "The KJV’s “rings” are the rims of the wheels. The BSB reads ‘Their rims were high and awesome.’"
+          },
+          {
+            "v": 22,
+            "text": "The KJV’s “firmament” is the Hebrew word for an ‘expanse’ (BSB), the same word as in “Let there be a firmament” (Genesis 1:6). Here “terrible” means awesome, and the Hebrew word for crystal can also mean ice."
+          },
+          {
+            "v": 24,
+            "text": "The KJV says “the voice of speech.” The Hebrew word means a roar or uproar, and the BSB reads ‘the tumult of an army.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 5,
+            "about": "The Church’s Scripture Helps says the full meaning of the creatures and wheels “has not been revealed.” The plain words only describe them, and no note explains them. Revelation 4:6–7 has four creatures with the same four faces; it is left out because the helps say it is unclear whether they mean the same thing."
+          },
+          {
+            "v": 15,
+            "about": "The Hebrew is ‘a wheel, one, on the ground beside the living creatures, for its four faces.’ The plain words follow the BSB: a wheel beside each creature. Verse 16 shows there were four wheels."
+          },
+          {
+            "v": 23,
+            "about": "Hard Hebrew: it repeats ‘each had two covering,’ which the KJV reads as “on this side” and “on that side.” Verse 11 says each had two wings covering its body, so the plain words say two wings, one on each side."
+          },
+          {
+            "v": 27,
+            "about": "His and Him are capitalized for the figure on the throne, since verse 28 says this is “the likeness of the glory of the LORD.” The BSB does the same. “The spirit” in verses 12 and 20 stays lowercase, as in the KJV and the BSB."
+          },
+          {
+            "v": 3,
+            "about": "A few words are added: “(Babylon)” for the land of the Chaldeans. The JST marks Ezekiel 1–13 “All Correct,” so there are no JST notes in chapters 1–3."
+          }
+        ],
+        "approved": "6cdfbe7f"
+      },
+      {
+        "ch": "Ezekiel 2",
+        "verses": [
+          "He said to me, “Son of man, stand up on your feet, and I will speak to you.”",
+          "As He spoke to me, the Spirit came into me and set me on my feet, and I heard Him speaking to me.",
+          "He said to me: Son of man, I am sending you to the children of Israel, to a rebellious nation that has rebelled against me. They and their fathers have sinned against me to this very day.",
+          "The children are bold-faced and stubborn-hearted. I am sending you to them, and you will say to them, This is what the Lord God says.",
+          "And whether they listen or refuse to listen—for they are a rebellious house—they will know that a prophet has been among them.",
+          "And you, son of man, don’t be afraid of them or of their words, even though briers and thorns are all around you and you live among scorpions. Don’t be afraid of their words, and don’t be terrified by their looks, for they are a rebellious house.",
+          "You will speak my words to them, whether they listen or refuse to listen, for they are very rebellious.",
+          "But you, son of man, listen to what I am saying to you. Don’t be rebellious like that rebellious house. Open your mouth and eat what I am giving you.",
+          "Then I looked, and I saw a hand reaching out to me, and in it was a scroll.",
+          "He spread it out in front of me, and it had writing on the front and on the back. Written on it were words of lament, mourning, and woe."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "In Hebrew, “Son of man” means ‘son of a human,’ a mortal man. The Lord calls Ezekiel this over 90 times. It is not the title of Jesus Christ: “the Son of Man, even Jesus Christ” (Moses 6:57)."
+          },
+          {
+            "v": 9,
+            "text": "The KJV’s “roll of a book” is a scroll (BSB): a long sheet for writing, kept rolled up."
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "The note on “Son of man” follows the Church’s Scripture Helps, which says the Hebrew can be translated ‘son of a human’ and is “not to be confused with the title ‘Son of Man,’ which refers to Christ.” “Son of man” is kept in every verse."
+          },
+          {
+            "v": 2,
+            "about": "“Spirit” is capitalized, as the BSB has it; the KJV has “the spirit.” The same in Ezekiel 3:12, 14 and 24."
+          },
+          {
+            "v": 3,
+            "about": "Verses 3–8 are one long speech, so they have no quotation marks, as in Jeremiah 1:7–8. “Transgressed” is “sinned.” The Hebrew has ‘nations’; the KJV and the BSB say “a rebellious nation,” and the plain words follow them."
+          },
+          {
+            "v": 10,
+            "about": "Eating the scroll (2:8–3:3): the Scripture Helps says it likely meant Ezekiel taking the Lord’s message into himself, and names Revelation 10:9–10. No note was added, since the README’s kinds of notes don’t cover a likeness like that; add one if you want it."
+          }
+        ],
+        "approved": "271a70e5"
+      },
+      {
+        "ch": "Ezekiel 3",
+        "verses": [
+          "He said to me, “Son of man, eat what you find here. Eat this scroll, and then go and speak to the house of Israel.”",
+          "So I opened my mouth, and He gave me the scroll to eat.",
+          "He said to me, “Son of man, feed your stomach and fill your insides with this scroll I am giving you.” So I ate it, and in my mouth it was as sweet as honey.",
+          "Then He said to me: Son of man, go to the house of Israel and speak my words to them.",
+          "For you are not being sent to a people whose speech is strange and whose language is hard, but to the house of Israel.",
+          "Not to many peoples with strange speech and hard languages, whose words you cannot understand. Surely if I had sent you to them, they would have listened to you.",
+          "But the house of Israel will not be willing to listen to you, because they are not willing to listen to me. For the whole house of Israel is hard-headed and hard-hearted.",
+          "Look, I have made your face as hard as their faces, and your forehead as hard as their foreheads.",
+          "I have made your forehead like a diamond, harder than flint. Don’t be afraid of them or terrified by their looks, for they are a rebellious house.",
+          "He also said to me: Son of man, take into your heart all the words I will speak to you, and listen with your ears.",
+          "Go to the captives, to your own people, and speak to them. Tell them, This is what the Lord God says—whether they listen or refuse to listen.",
+          "Then the Spirit lifted me up, and behind me I heard a loud rumbling sound, saying, “Blessed be the glory of the Lord from His place!”",
+          "It was the sound of the wings of the living creatures touching one another, and the sound of the wheels beside them—a loud rumbling sound.",
+          "The Spirit lifted me up and took me away. I went bitter, with my spirit burning with anger, but the hand of the Lord was strong on me.",
+          "Then I came to the captives at Tel-abib, who lived by the river Chebar. I sat where they sat, and I stayed there among them for seven days, stunned.",
+          "At the end of seven days, the word of the Lord came to me. It said:",
+          "Son of man, I have made you a watchman for the house of Israel. So listen to the word from my mouth, and give them a warning from me.",
+          "When I say to a wicked man, “You will surely die,” and you don’t warn him or speak up to warn him from his wicked way to save his life, that wicked man will die in his sin, but I will hold you responsible for his blood.",
+          "But if you warn the wicked man, and he does not turn from his wickedness or from his wicked way, he will die in his sin, but you will have saved your soul.",
+          "And when a righteous man turns from his righteousness and does evil, and I put a stumbling block in front of him, he will die. Because you did not warn him, he will die in his sin, and the righteous things he did will not be remembered. But I will hold you responsible for his blood.",
+          "But if you warn the righteous man not to sin, and he does not sin, he will surely live, because he was warned. And you will have saved your soul.",
+          "The hand of the Lord was on me there, and He said to me, “Get up and go out into the plain, and I will talk with you there.”",
+          "So I got up and went out into the plain, and there stood the glory of the Lord, like the glory I had seen by the river Chebar. And I fell on my face.",
+          "Then the Spirit came into me and set me on my feet. He spoke with me and said to me: Go and shut yourself inside your house.",
+          "And you, son of man, look, they will put ropes on you and tie you up with them, so you cannot go out among them.",
+          "I will make your tongue stick to the roof of your mouth, so that you will not be able to speak or to correct them, for they are a rebellious house.",
+          "But when I speak with you, I will open your mouth, and you will say to them, This is what the Lord God says. Whoever will listen, let him listen, and whoever refuses, let him refuse, for they are a rebellious house."
+        ],
+        "notes": [
+          {
+            "v": 9,
+            "text": "The KJV’s “adamant” is the Hebrew word shamir, a very hard stone. The BSB says ‘like a diamond, harder than flint.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 14,
+            "about": "The KJV’s “in the heat of my spirit” is ‘in the rage of my spirit’ in the Hebrew (BSB ‘the anger of my spirit’), so the plain words say his spirit was “burning with anger.” “Astonished” in verse 15 is “stunned.”"
+          },
+          {
+            "v": 18,
+            "about": "“His blood will I require at thine hand” is “I will hold you responsible for his blood,” as the BSB has it, here and in verse 20 and Ezekiel 33:6, 8. “Iniquity” is “sin,” and “delivered thy soul” is “saved your soul.” Jacob 1:19 teaches the same duty (“their blood would come upon our garments”); no note was added, since it doesn’t name this verse."
+          },
+          {
+            "v": 26,
+            "about": "The KJV’s “dumb” is “not able to speak.” His mouth is opened in Ezekiel 33:22, but verse 27 shows he still spoke when the Lord gave him words, so no note says how long it lasted."
+          },
+          {
+            "v": 12,
+            "about": "“Spirit” is capitalized in verses 12, 14 and 24, as the BSB has it; Ezekiel’s own “spirit” in verse 14 stays lowercase. The rumbling “saying” follows the KJV; the Hebrew has the words right after the sound."
+          }
+        ],
+        "approved": "283f27e9"
+      },
+      {
+        "ch": "Ezekiel 33",
+        "verses": [
+          "The word of the Lord came to me again. It said:",
+          "Son of man, speak to the children of your people and say to them: Suppose I bring the sword against a land, and the people of that land choose one man from among them and make him their watchman.",
+          "He sees the sword coming against the land, and he blows the trumpet to warn the people.",
+          "Then anyone who hears the sound of the trumpet but does not take the warning—if the sword comes and takes him away, his blood will be on his own head.",
+          "He heard the sound of the trumpet but did not take the warning, so his blood will be on him. But whoever takes the warning will save his life.",
+          "But if the watchman sees the sword coming and does not blow the trumpet, and the people are not warned, and the sword comes and takes any one of them, that person is taken away in his sin, but I will hold the watchman responsible for his blood.",
+          "As for you, son of man, I have made you a watchman for the house of Israel. So listen to the word from my mouth, and give them a warning from me.",
+          "When I say to the wicked, “Wicked man, you will surely die,” and you do not speak up to warn the wicked man from his way, that wicked man will die in his sin, but I will hold you responsible for his blood.",
+          "But if you warn the wicked man to turn from his way, and he does not turn from it, he will die in his sin, but you will have saved your soul.",
+          "So you, son of man, speak to the house of Israel. This is what you are saying: “Our wrongs and our sins are on us, and we are wasting away because of them. How can we live?”",
+          "Say to them, As surely as I live, says the Lord God, I take no pleasure in the death of the wicked, but I want the wicked to turn from his way and live. Turn back, turn back from your evil ways! Why should you die, house of Israel?",
+          "So you, son of man, say to the children of your people: The righteousness of a righteous man will not save him on the day he rebels. And the wickedness of a wicked man will not make him fall on the day he turns from his wickedness. A righteous man will not be able to live by his righteousness on the day he sins.",
+          "When I tell a righteous man that he will surely live, but he trusts in his own righteousness and does evil, none of his righteous deeds will be remembered. He will die because of the evil he has done.",
+          "And when I say to a wicked man, “You will surely die,” but he turns from his sin and does what is just and right,",
+          "If the wicked man gives back what he took as a pledge for a loan, pays back what he stole, and lives by the laws that give life, without doing evil, he will surely live. He will not die.",
+          "None of the sins he has committed will be remembered against him. He has done what is just and right; he will surely live.",
+          "Yet the children of your people say, “The way of the Lord is not fair.” But it is their own way that is not fair.",
+          "When a righteous man turns from his righteousness and does evil, he will die because of it.",
+          "But when a wicked man turns from his wickedness and does what is just and right, he will live because of it.",
+          "Yet you say, “The way of the Lord is not fair.” House of Israel, I will judge each one of you by his own ways.",
+          "In the twelfth year of our captivity, on the fifth day of the tenth month, a man who had escaped from Jerusalem came to me and said, “The city has been struck down!”",
+          "The evening before the man who escaped arrived, the hand of the Lord had been on me, and He had opened my mouth by the time the man came to me in the morning. My mouth was opened, and I was no longer unable to speak.",
+          "Then the word of the Lord came to me. It said:",
+          "Son of man, the people living in those ruins in the land of Israel are saying, “Abraham was only one man, and he inherited the land. But we are many, so the land has been given to us as our inheritance.”",
+          "So say to them, This is what the Lord God says: You eat meat with the blood still in it, you look to your idols, and you shed blood. Should you then own the land?",
+          "You depend on your swords, you do disgusting things, and each of you commits adultery with his neighbor’s wife. Should you then own the land?",
+          "Say this to them: This is what the Lord God says: As surely as I live, those in the ruins will fall by the sword. Anyone out in the open field I will give to the wild animals to be eaten. And those in the strongholds and caves will die of plague.",
+          "I will make the land an empty waste, and the pride of its strength will come to an end. The mountains of Israel will be so empty that no one will pass through them.",
+          "Then they will know that I am the Lord, when I have made the land an empty waste because of all the disgusting things they have done.",
+          "As for you, son of man, the children of your people are talking about you by the walls and in the doorways of their houses. They say to one another, each to his brother, “Please come and hear what the word is that has come from the Lord.”",
+          "They come to you as people do, and they sit in front of you as my people, and they hear your words, but they will not do them. With their mouths they show much love, but their hearts go after their own greedy gain.",
+          "Look, to them you are like a love song sung by someone with a beautiful voice who plays an instrument well. They hear your words, but they do not do them.",
+          "When this comes true—and it surely will come—then they will know that a prophet has been among them."
+        ],
+        "notes": [
+          {
+            "v": 17,
+            "text": "In the KJV, “not equal” means not fair or not just. The BSB reads ‘The way of the Lord is not just.’ It means the same in verse 20."
+          },
+          {
+            "v": 32,
+            "text": "The KJV says “a very lovely song.” The Hebrew word is about love, and the BSB reads ‘a singer of love songs.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 5,
+            "about": "The end of the verse can be read two ways. The KJV: “he that taketh warning shall deliver his soul.” The BSB: ‘If he had heeded the warning, he would have saved his life.’ The plain words follow the KJV."
+          },
+          {
+            "v": 10,
+            "about": "“Transgressions” is “wrongs” here, and “transgression” in verse 12 is “the day he rebels.” “Iniquity” is “sin” or “evil” throughout, as in the approved chapters."
+          },
+          {
+            "v": 15,
+            "about": "“Restore the pledge” is given as “gives back what he took as a pledge for a loan” (something held until a loan was paid back). “The statutes of life” is “the laws that give life.”"
+          },
+          {
+            "v": 26,
+            "about": "The KJV’s “defile every one his neighbour’s wife” is given as “commits adultery with his neighbor’s wife,” as in Jeremiah 7:9."
+          },
+          {
+            "v": 30,
+            "about": "The KJV says the people are “talking against thee”; the Hebrew says ‘speaking about you’ (BSB). The plain words follow the Hebrew."
+          }
+        ],
+        "approved": "1b22414d"
+      },
+      {
+        "ch": "Ezekiel 34",
+        "verses": [
+          "The word of the Lord came to me. It said:",
+          "Son of man, prophesy against the shepherds of Israel. Prophesy and say to them, to the shepherds, This is what the Lord God says: How terrible for the shepherds of Israel who feed themselves! Shouldn’t the shepherds feed the flock?",
+          "You eat the fat, you dress yourselves in the wool, and you kill the fattened sheep, but you do not feed the flock.",
+          "You have not made the weak strong, healed the sick, bandaged the injured, brought back the ones that were driven away, or looked for the lost. Instead, you have ruled them with force and cruelty.",
+          "So they were scattered because there was no shepherd, and when they were scattered, they became food for all the wild animals.",
+          "My sheep wandered over all the mountains and on every high hill. My flock was scattered over the whole face of the earth, and no one searched or looked for them.",
+          "So, you shepherds, hear the word of the Lord:",
+          "As surely as I live, says the Lord God, my flock has become prey, and my flock has become food for every wild animal, because there was no shepherd. My shepherds did not search for my flock. Instead, the shepherds fed themselves and did not feed my flock.",
+          "So, you shepherds, hear the word of the Lord!",
+          "This is what the Lord God says: Look, I am against the shepherds, and I will demand my flock back from them. I will stop them from feeding the flock, and the shepherds will no longer feed themselves. I will rescue my flock from their mouths, so it will no longer be food for them.",
+          "For this is what the Lord God says: Look, I myself will search for my sheep and seek them out.",
+          "As a shepherd looks for his flock on the day he is among his scattered sheep, so I will look for my sheep. I will rescue them from all the places where they were scattered on a cloudy and dark day.",
+          "I will bring them out from the peoples and gather them from the countries, and I will bring them into their own land. I will feed them on the mountains of Israel, by the streams, and in all the places where people live in the land.",
+          "I will feed them in good pasture, and their fold will be on the high mountains of Israel. There they will lie down in a good fold and feed in rich pasture on the mountains of Israel.",
+          "I will feed my flock myself, and I will make them lie down, says the Lord God.",
+          "I will look for the lost, bring back the ones that were driven away, bandage the injured, and make the sick strong. But I will destroy the fat and the strong. I will feed them with justice.",
+          "And as for you, my flock, this is what the Lord God says: Look, I will judge between one sheep and another, between the rams and the male goats.",
+          "Is it not enough for you to eat the good pasture? Must you also trample the rest of your pasture with your feet? Is it not enough for you to drink the clear water? Must you also make the rest muddy with your feet?",
+          "And my flock has to eat what your feet have trampled and drink what your feet have muddied.",
+          "So this is what the Lord God says to them: Look, I myself will judge between the fat sheep and the thin sheep.",
+          "Because you shove with your sides and shoulders and butt all the weak ones with your horns until you have scattered them far away,",
+          "I will save my flock, and they will no longer be prey. I will judge between one sheep and another.",
+          "I will set up one shepherd over them, my servant David, and he will feed them. He will feed them and be their shepherd.",
+          "I, the Lord, will be their God, and my servant David will be a prince among them. I, the Lord, have spoken.",
+          "I will make a covenant of peace with them and rid the land of dangerous animals, so they can live safely in the wilderness and sleep in the woods.",
+          "I will make them and the places around my hill a blessing. I will send down the rain in its season; there will be showers of blessing.",
+          "The trees of the field will give their fruit, and the land will give its crops, and they will be safe in their land. They will know that I am the Lord when I break the bars of their yoke and rescue them from the hands of those who made them slaves.",
+          "They will no longer be prey for the nations, and the wild animals of the land will not eat them. They will live safely, and no one will make them afraid.",
+          "I will raise up for them a planting that is famous, and they will no longer be wiped out by hunger in the land or bear the insults of the nations anymore.",
+          "Then they will know that I, the Lord their God, am with them, and that they, the house of Israel, are my people, says the Lord God.",
+          "And you, my flock, the flock of my pasture, are people, and I am your God, says the Lord God."
+        ],
+        "notes": [
+          {
+            "v": 17,
+            "text": "In the KJV, “cattle” means any farm animals. The Hebrew word here means a sheep or a goat, and the BSB reads ‘between one sheep and another.’ Verses 20 and 22 use the same word."
+          },
+          {
+            "v": 23,
+            "text": "Jesus called Himself “the good shepherd” (John 10:11) and said, “there shall be one fold, and one shepherd” (John 10:16). He said it again to the Nephites (3 Nephi 15:21)."
+          },
+          {
+            "v": 29,
+            "text": "The KJV says “a plant of renown.” The Hebrew word means a planting or a place where things are planted, and the BSB reads ‘a garden of renown.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 23,
+            "about": "The Scripture Helps says “my servant David” here “does not refer to King David, who died about four centuries before,” but to Jesus Christ, the Good Shepherd, a descendant of David. The plain words keep lowercase “he,” as the KJV and the BSB do, like Isaiah 16:5. Capitalize He if you want it to say who it is. The same in verse 24 and Ezekiel 37:24–25."
+          },
+          {
+            "v": 23,
+            "about": "Check the note’s kind: John 10:16 is Jesus using this verse’s words, “one shepherd,” of Himself, without naming Ezekiel."
+          },
+          {
+            "v": 4,
+            "about": "The KJV’s “that which was broken” is “the injured” (here and in verse 16). “Driven away” and “lost” are kept apart, because the lesson asks what the difference is."
+          },
+          {
+            "v": 13,
+            "about": "The KJV’s “rivers” is a Hebrew word for streambeds or ravines (BSB ‘ravines’); the plain words say “streams.” The same in Ezekiel 36:4 and 6."
+          },
+          {
+            "v": 29,
+            "about": "The plain words say “a planting that is famous” to cover both readings, the KJV’s “plant” and the BSB’s ‘garden,’ with a note."
+          }
+        ],
+        "approved": "5d9ed11b"
+      },
+      {
+        "ch": "Ezekiel 36",
+        "verses": [
+          "And you, son of man, prophesy to the mountains of Israel and say, Mountains of Israel, hear the word of the Lord.",
+          "This is what the Lord God says: Because the enemy has said about you, “Aha! Even the ancient high places are ours now,”",
+          "Therefore prophesy and say, This is what the Lord God says: Because they have made you a ruin and swallowed you up on every side, so that you became the property of the rest of the nations, and you have become something gossips talk about and people speak evil of—",
+          "Therefore, mountains of Israel, hear the word of the Lord God. This is what the Lord God says to the mountains and the hills, to the streams and the valleys, to the empty ruins and the abandoned cities that have been robbed and mocked by the rest of the nations around them:",
+          "So this is what the Lord God says: In the fire of my jealousy I have surely spoken against the rest of the nations, and against all of Idumea (Edom). With hearts full of joy and minds full of scorn, they took my land as their own, to plunder it.",
+          "So prophesy about the land of Israel, and say to the mountains and the hills, to the streams and the valleys, This is what the Lord God says: Look, I have spoken in my jealousy and my anger, because you have suffered the insults of the nations.",
+          "So this is what the Lord God says: I have raised my hand and sworn that the nations around you will surely suffer insults of their own.",
+          "But you, mountains of Israel, will grow your branches and bear your fruit for my people Israel, for they will soon come.",
+          "For look, I am on your side. I will turn to you, and you will be plowed and planted.",
+          "I will fill you with people—the whole house of Israel, all of it. The cities will be lived in, and the ruins will be rebuilt.",
+          "I will fill you with people and animals, and they will grow in number and have many young. I will let people live on you as they did before, and I will treat you better than at the beginning. Then you will know that I am the Lord.",
+          "Yes, I will make people walk on you—my people Israel. They will own you, and you will be their inheritance, and you will never again leave them without children.",
+          "This is what the Lord God says: Because people say to you, “You are a land that eats people up and leaves your nations without children,”",
+          "Therefore you will no longer eat people up or leave your nations without children, says the Lord God.",
+          "I will no longer let you hear the insults of the nations, and you will no longer bear the shame the peoples put on you, and you will no longer make your nations fall, says the Lord God.",
+          "The word of the Lord came to me again. It said:",
+          "Son of man, when the house of Israel lived in their own land, they made it unclean by their ways and by what they did. To me their ways were as unclean as a woman set apart during her time of uncleanness.",
+          "So I poured out my anger on them for the blood they had shed on the land, and because they had made it unclean with their idols.",
+          "I scattered them among the nations, and they were spread through the countries. I judged them by their ways and by what they did.",
+          "Wherever they went among the nations, they dishonored my holy name, because people said about them, “These are the people of the Lord, and they have had to leave His land.”",
+          "But I cared about my holy name, which the house of Israel had dishonored among the nations where they went.",
+          "So say to the house of Israel, This is what the Lord God says: I am not doing this for your sake, house of Israel, but for the sake of my holy name, which you have dishonored among the nations where you went.",
+          "I will show that my great name is holy—the name that was dishonored among the nations, the name you dishonored among them. Then the nations will know that I am the Lord, says the Lord God, when I show through you, before their eyes, that I am holy.",
+          "For I will take you out from among the nations, gather you from all the countries, and bring you into your own land.",
+          "Then I will sprinkle clean water on you, and you will be clean. I will make you clean from all your filthiness and from all your idols.",
+          "I will give you a new heart, and I will put a new spirit inside you. I will take the heart of stone out of your body and give you a heart of flesh.",
+          "I will put my Spirit inside you and make you follow my laws, and you will keep my commands and obey them.",
+          "You will live in the land I gave to your fathers. You will be my people, and I will be your God.",
+          "I will save you from all your uncleanness. I will call for the grain and make it plentiful, and I will not send famine on you.",
+          "I will make the fruit of the trees and the crops of the field plentiful, so that you will never again suffer the shame of famine among the nations.",
+          "Then you will remember your evil ways and the things you did that were not good, and you will hate yourselves for your sins and your disgusting deeds.",
+          "I am not doing this for your sake, says the Lord God—know that. Be ashamed and embarrassed because of your ways, house of Israel!",
+          "This is what the Lord God says: On the day I make you clean from all your sins, I will let you live in the cities again, and the ruins will be rebuilt.",
+          "The land that was empty will be plowed, instead of lying empty for everyone passing by to see.",
+          "They will say, “This land that was empty has become like the garden of Eden. The cities that were ruined, empty, and torn down are now fortified and full of people.”",
+          "Then the nations that are left around you will know that I, the Lord, have rebuilt what was torn down and planted what was empty. I, the Lord, have spoken, and I will do it.",
+          "This is what the Lord God says: I will again let the house of Israel ask me to do this for them: I will make their people as many as a flock.",
+          "Like the holy flocks, set apart for offerings—like the flocks in Jerusalem at her appointed feasts—so the ruined cities will be filled with flocks of people. Then they will know that I am the Lord."
+        ],
+        "notes": [
+          {
+            "v": 5,
+            "text": "The KJV’s “Idumea” is Edom in the Hebrew, as the BSB has it. Edom’s people came from Esau, Jacob’s brother: “Esau, who is Edom” (Genesis 36:1)."
+          }
+        ],
+        "review": [
+          {
+            "v": 26,
+            "about": "No note: the lesson points to Alma 7:14–16 with verses 26–27, but no scripture names these verses. The “new spirit” here stays lowercase; “my spirit” in verse 27 is “my Spirit,” as the BSB has it. “The stony heart out of your flesh” is “the heart of stone out of your body.”"
+          },
+          {
+            "v": 5,
+            "about": "The KJV’s “jealousy” is kept here and in verse 6; the Hebrew word also means zeal (BSB ‘burning zeal’). The KJV’s “to cast it out for a prey” is hard Hebrew (BSB ‘so that its pastureland became plunder’); the plain words say “to plunder it.”"
+          },
+          {
+            "v": 13,
+            "about": "The Hebrew read aloud has ‘your nations,’ as the KJV does; the Hebrew as written has ‘your nation’ (BSB). The plain words follow the KJV here and in verses 14–15. In verse 14, too, the KJV follows the Hebrew read aloud (“bereave”); the written word is ‘make stumble.’"
+          },
+          {
+            "v": 17,
+            "about": "The KJV’s “the uncleanness of a removed woman” is about the law of Moses on a woman’s monthly uncleanness. The plain words say it modestly: “a woman set apart during her time of uncleanness.”"
+          },
+          {
+            "v": 36,
+            "about": "The JST’s only change in this chapter is here, and it is small: “plant that that was desolate” becomes “which.” No note."
+          }
+        ],
+        "approved": "39d66d06"
+      },
+      {
+        "ch": "Ezekiel 37",
+        "verses": [
+          "The hand of the Lord was on me, and He carried me out by the Spirit of the Lord and set me down in the middle of the valley, and it was full of bones.",
+          "He led me all around among them, and I saw that there were very many bones on the floor of the valley, and they were very dry.",
+          "He said to me, “Son of man, can these bones live?” I answered, “O Lord God, you know.”",
+          "Then He said to me: Prophesy to these bones, and say to them, Dry bones, hear the word of the Lord!",
+          "This is what the Lord God says to these bones: Look, I will make breath come into you, and you will live.",
+          "I will put tendons on you, make flesh grow on you, and cover you with skin. I will put breath in you, and you will live. Then you will know that I am the Lord.",
+          "So I prophesied as I was commanded. As I prophesied, there was a noise, a rattling, and the bones came together, bone to bone.",
+          "As I watched, tendons and flesh came on them, and skin covered them over, but there was no breath in them.",
+          "Then He said to me: Prophesy to the wind. Prophesy, son of man, and say to the wind, This is what the Lord God says: Come from the four winds, O breath, and breathe on these people who were killed, so they can live.",
+          "So I prophesied as He commanded me, and the breath came into them. They came to life and stood up on their feet—a very great army.",
+          "Then He said to me: Son of man, these bones are the whole house of Israel. Look, they are saying, “Our bones are dried up, and our hope is gone. We are cut off.”",
+          "So prophesy and say to them, This is what the Lord God says: Look, my people, I will open your graves and bring you up out of your graves, and I will bring you into the land of Israel.",
+          "Then you will know that I am the Lord, when I have opened your graves, my people, and brought you up out of your graves.",
+          "I will put my Spirit in you, and you will live, and I will settle you in your own land. Then you will know that I, the Lord, have spoken it and done it, says the Lord.",
+          "The word of the Lord came to me again. It said:",
+          "And you, son of man, take a stick and write on it, “For Judah, and for the children of Israel who are joined with him.” Then take another stick and write on it, “For Joseph, the stick of Ephraim, and for all the house of Israel who are joined with him.”",
+          "Join them together into one stick, so that they become one in your hand.",
+          "When the children of your people ask you, “Won’t you tell us what you mean by these?”",
+          "Say to them, This is what the Lord God says: Look, I will take the stick of Joseph, which is in the hand of Ephraim, and the tribes of Israel who are joined with him, and I will put them together with the stick of Judah. I will make them one stick, and they will be one in my hand.",
+          "The sticks you write on will be in your hand where they can see them.",
+          "Then say to them, This is what the Lord God says: Look, I will take the children of Israel out from among the nations where they have gone. I will gather them from every side and bring them into their own land.",
+          "I will make them one nation in the land, on the mountains of Israel, and one king will be king over them all. They will no longer be two nations, and they will never again be divided into two kingdoms.",
+          "They will no longer make themselves unclean with their idols, their disgusting things, or any of their wrongs. I will save them out of all the places where they lived and sinned, and I will make them clean. They will be my people, and I will be their God.",
+          "My servant David will be king over them, and they will all have one shepherd. They will follow my commands and be careful to keep my laws.",
+          "They will live in the land I gave to my servant Jacob, where your fathers lived. They will live there forever—they, their children, and their children’s children—and my servant David will be their prince forever.",
+          "I will make a covenant of peace with them. It will be an everlasting covenant with them. I will settle them and make them many, and I will put my sanctuary among them forever.",
+          "My tabernacle (my dwelling place) will be with them. I will be their God, and they will be my people.",
+          "Then the nations will know that I, the Lord, make Israel holy, when my sanctuary is among them forever."
+        ],
+        "notes": [
+          {
+            "v": 1,
+            "text": "President Joseph F. Smith saw Ezekiel in the spirit world, “who was shown in vision the great valley of dry bones, which were to be clothed upon with flesh, to come forth again in the resurrection of the dead” (D&C 138:43)."
+          },
+          {
+            "v": 9,
+            "text": "In Hebrew, “wind” and “breath” here are the same word, ruach, which also means spirit. The same word is “my spirit” (verse 14)."
+          },
+          {
+            "v": 16,
+            "text": "The Lord says He gave Moroni, who revealed the Book of Mormon, “the keys of the record of the stick of Ephraim” (D&C 27:5). Lehi, whose family wrote it, “was a descendant of Joseph” (1 Nephi 5:14)."
+          },
+          {
+            "v": 17,
+            "text": "Joseph of Egypt was told that what his descendants wrote and what Judah’s descendants wrote “shall grow together, unto the confounding of false doctrines” (2 Nephi 3:12)."
+          },
+          {
+            "v": 23,
+            "text": "The KJV says “out of all their dwellingplaces.” The BSB reads the Hebrew word with two letters swapped, as ‘apostasies’: the times they turned away from God."
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "The note gives D&C 138:43, which says this vision is of the Resurrection. The Scripture Helps also reads verses 1–14 as Israel restored to new spiritual life (verse 11). “Spirit of the Lord” is capitalized, and so is “my Spirit” in verse 14, as the BSB has it."
+          },
+          {
+            "v": 16,
+            "about": "Notes on verses 16–17 give the latter-day scriptures on the sticks (D&C 27:5; 2 Nephi 3:12), and 1 Nephi 5:14 for Lehi descending from Joseph. They don’t say “the stick of Judah is the Bible,” which the lesson says but no scripture quoted here does."
+          },
+          {
+            "v": 23,
+            "about": "A choice between readings: the KJV and the Hebrew as written say “dwellingplaces”; the BSB reads ‘apostasies’ (the same letters, two swapped). The plain words follow the KJV, with a note."
+          },
+          {
+            "v": 24,
+            "about": "As in Ezekiel 34:23, “my servant David” keeps lowercase pronouns; the Scripture Helps says this means Jesus Christ. “Tabernacle” in verse 27 is kept, with “(my dwelling place)” added."
+          }
+        ],
+        "approved": "e15adea9"
+      },
+      {
+        "ch": "Ezekiel 47",
+        "verses": [
+          "Then he brought me back to the door of the house (the temple), and I saw water flowing out from under the threshold of the house toward the east, for the front of the house faced east. The water was flowing down from under the right side of the house, south of the altar.",
+          "Then he brought me out through the north gate and led me around the outside to the outer gate that faces east, and I saw water trickling out on the right side.",
+          "The man with the measuring line in his hand went out toward the east. He measured a thousand cubits (more than a quarter of a mile) and led me through the water. The water came up to my ankles.",
+          "He measured another thousand and led me through the water, and it came up to my knees. He measured another thousand and led me through, and the water came up to my waist.",
+          "He measured another thousand, and now it was a river I could not cross. The water had risen. It was deep enough to swim in, a river no one could cross.",
+          "He said to me, “Son of man, have you seen this?” Then he led me back to the bank of the river.",
+          "When I got back, I saw very many trees on both sides of the river.",
+          "Then he said to me: This water flows out toward the land to the east, goes down into the desert, and flows into the sea (the Dead Sea). When it flows into the sea, the water there will be healed.",
+          "Wherever the rivers go, every living thing that swarms there will live. There will be very many fish, because this water goes there and the waters will be healed. Everything will live wherever the river goes.",
+          "Fishermen will stand beside it from En-gedi to En-eglaim. It will be a place for spreading out fishing nets. Its fish will be of many kinds, like the fish of the Great Sea (the Mediterranean), and very many.",
+          "But its swamps and marshes will not be healed. They will be left for salt.",
+          "On both banks of the river, all kinds of trees for food will grow. Their leaves will not wither, and their fruit will not run out. They will bear new fruit every month, because their water flows from the sanctuary. Their fruit will be for food, and their leaves for healing.",
+          "This is what the Lord God says: These are the borders by which you will divide the land as an inheritance among the twelve tribes of Israel. Joseph will have two portions.",
+          "You will inherit it equally, one as much as another. I raised my hand and swore to give it to your fathers, and this land will fall to you as your inheritance.",
+          "This will be the border of the land on the north side: from the Great Sea, by the road to Hethlon, on the way to Zedad;",
+          "Hamath, Berothah, and Sibraim, which is between the border of Damascus and the border of Hamath; and Hazar-hatticon, which is on the border of Hauran.",
+          "So the border will run from the sea to Hazar-enan, along the border of Damascus, with the border of Hamath to the north. This is the north side.",
+          "On the east side, you will measure from between Hauran and Damascus, and between Gilead and the land of Israel, along the Jordan, from the border to the east sea. This is the east side.",
+          "On the south side, the border will go from Tamar to the waters of strife at Kadesh, then along the brook to the Great Sea. This is the south side.",
+          "On the west side, the Great Sea will be the border, from the border up to a point across from the way into Hamath. This is the west side.",
+          "So you will divide this land among yourselves by the tribes of Israel.",
+          "You will divide it by lot as an inheritance for yourselves and for the foreigners who live among you and have children among you. You are to treat them like people born in the land among the children of Israel. They will receive an inheritance with you among the tribes of Israel.",
+          "In whatever tribe a foreigner lives, there you will give him his inheritance, says the Lord God."
+        ],
+        "notes": [
+          {
+            "v": 12,
+            "text": "John saw a river in his vision too: “a pure river of water of life” (Revelation 22:1), with the tree of life beside it, whose leaves “were for the healing of the nations” (Revelation 22:2)."
+          },
+          {
+            "v": 13,
+            "text": "Joseph’s two sons each became a tribe. Jacob told Joseph, “thy two sons, Ephraim and Manasseh … are mine” (Genesis 48:5)."
+          },
+          {
+            "v": 19,
+            "text": "The KJV’s “waters of strife” are the waters of Meribah (‘strife’), where Israel “strove with the LORD” (Numbers 20:13) for water. The BSB says ‘the waters of Meribath-kadesh.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 12,
+            "about": "Check the note’s kind: Revelation 22:1–2 is a vision like this one, which the lesson points to (“see also Revelation 22:1”), but it doesn’t name Ezekiel. Remove it if you want only the README’s kinds."
+          },
+          {
+            "v": 3,
+            "about": "A few words are added: “(more than a quarter of a mile)” for a thousand cubits (a cubit was about a foot and a half, a little more in Ezekiel 40:5), “(the temple)” for the house in verse 1, “(the Dead Sea)” in verse 8 and “(the Mediterranean)” for the Great Sea in verse 10."
+          },
+          {
+            "v": 8,
+            "about": "The KJV’s “the desert” is the Arabah in the Hebrew, the deep valley of the Jordan and the Dead Sea; the plain words keep “the desert.” The lesson and the Scripture Helps say this water heals the Dead Sea."
+          },
+          {
+            "v": 9,
+            "about": "The Hebrew says ‘two rivers’ here; the KJV has “rivers” and the BSB ‘the river.’ The plain words keep the KJV’s plural."
+          },
+          {
+            "v": 18,
+            "about": "The KJV’s “ye shall measure” is the Hebrew word tamoddu; the BSB and the old Greek read it as the town ‘Tamar’ (verse 19), and so does the Hebrew button’s gloss. The plain words follow the KJV. In verses 15 and 20 the plain words follow the KJV’s “as men go to” and “till a man come over against”; the BSB reads a town, ‘Lebo-hamath.’"
+          },
+          {
+            "v": 19,
+            "about": "“The river” is a brook or wadi in the Hebrew (BSB ‘the Brook of Egypt’); the plain words say “the brook.” “Strangers” in verses 22–23 is “foreigners,” as in Jeremiah 7:6."
+          }
+        ],
+        "approved": "5d987731"
+      }
+    ],
+    "approved": "36c9ab4e",
+    "wordsApproved": "e69dadee"
+  },
+  {
+    "dates": "November 9–15, 2026",
+    "title": "There Is No Other God That Can Deliver",
+    "reference": "Daniel 1–7",
+    "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/46?lang=eng",
+    "sections": [
+      "I can trust in the Lord when my faith is tried",
+      "The Church of Jesus Christ of Latter-day Saints is the kingdom of God on earth",
+      "Receiving revelation requires spiritual preparation",
+      "Jesus Christ is the Son of the Eternal Father"
+    ],
+    "puzzle": {
+      "groups": [
+        {
+          "section": 0,
+          "tiles": [
+            {
+              "text": "Purposed in his heart",
+              "ref": "Daniel 1:8"
+            },
+            {
+              "text": "Ten days of pulse",
+              "ref": "Daniel 1:12"
+            },
+            {
+              "text": "But if not",
+              "ref": "Daniel 3:18"
+            },
+            {
+              "text": "Windows toward Jerusalem",
+              "ref": "Daniel 6:10"
+            }
+          ]
+        },
+        {
+          "section": 1,
+          "tiles": [
+            {
+              "text": "Stone cut without hands",
+              "ref": "Daniel 2:34"
+            },
+            {
+              "text": "Head of gold",
+              "ref": "Daniel 2:38"
+            },
+            {
+              "text": "Everlasting kingdom",
+              "ref": "Daniel 4:3"
+            },
+            {
+              "text": "Weighed in the balances",
+              "ref": "Daniel 5:27"
+            }
+          ]
+        },
+        {
+          "section": 2,
+          "tiles": [
+            {
+              "text": "Knowledge and skill",
+              "ref": "Daniel 1:17"
+            },
+            {
+              "text": "Desire mercies",
+              "ref": "Daniel 2:18"
+            },
+            {
+              "text": "A night vision",
+              "ref": "Daniel 2:19"
+            },
+            {
+              "text": "Revealer of secrets",
+              "ref": "Daniel 2:47"
+            }
+          ]
+        },
+        {
+          "section": 3,
+          "tiles": [
+            {
+              "text": "Son of man",
+              "ref": "Daniel 7:13"
+            },
+            {
+              "text": "Clouds of heaven",
+              "ref": "Daniel 7:13"
+            },
+            {
+              "text": "Ancient of days",
+              "ref": "Daniel 7:9"
+            },
+            {
+              "text": "Everlasting dominion",
+              "ref": "Daniel 7:14"
+            }
+          ]
+        }
+      ],
+      "approved": "e3679d69"
+    },
+    "sayings": [
+      {
+        "id": "say-fear-my-lord",
+        "text": "I fear my lord the king, who hath appointed your meat and your drink",
+        "ref": "Daniel 1:10",
+        "speaker": "The prince of the eunuchs",
+        "wrong": [
+          "The captain of the guard",
+          "The king’s chief butler"
+        ],
+        "why": "He was afraid the king would see Daniel’s group looking worse than the others. Daniel answered with a ten-day test (Daniel 1:12).",
+        "approved": "e57e0039"
+      },
+      {
+        "id": "say-not-a-man",
+        "text": "There is not a man upon the earth that can shew the king’s matter",
+        "ref": "Daniel 2:10",
+        "speaker": "The Chaldeans, to the king",
+        "wrong": [
+          "Daniel, to the king",
+          "Arioch, to Daniel"
+        ],
+        "why": "The king’s wise men said no one could tell a king his own dream. Daniel answered that “there is a God in heaven that revealeth secrets” (Daniel 2:28).",
+        "approved": "1da90755"
+      },
+      {
+        "id": "say-captives-of-judah",
+        "text": "I have found a man of the captives of Judah, that will make known unto the king the interpretation.",
+        "ref": "Daniel 2:25",
+        "speaker": "Arioch, the king’s captain",
+        "wrong": [
+          "The queen, to Belshazzar",
+          "Melzar, to the king"
+        ],
+        "why": "Arioch hurried Daniel in to the king as if he had found him himself. Really, Daniel had asked to be taken in (Daniel 2:24).",
+        "approved": "1f93c6d9"
+      },
+      {
+        "id": "say-able-to-deliver",
+        "text": "our God whom we serve is able to deliver us from the burning fiery furnace",
+        "ref": "Daniel 3:17",
+        "speaker": "Shadrach, Meshach, and Abed-nego",
+        "wrong": [
+          "Daniel, before the lions",
+          "Jeremiah, in the dungeon"
+        ],
+        "why": "Then they added, “But if not” (Daniel 3:18): even if God didn’t save them, they still would not worship the king’s image.",
+        "approved": "9db934fe"
+      },
+      {
+        "id": "say-three-men-bound",
+        "text": "Did not we cast three men bound into the midst of the fire?",
+        "ref": "Daniel 3:24",
+        "speaker": "King Nebuchadnezzar",
+        "wrong": [
+          "The king’s counsellors",
+          "The princes of Babylon"
+        ],
+        "why": "The astonished king jumped up. He saw four men walking free in the fire, and “they have no hurt” (Daniel 3:25).",
+        "approved": "27aea4da"
+      },
+      {
+        "id": "say-great-babylon",
+        "text": "Is not this great Babylon, that I have built for the house of the kingdom by the might of my power",
+        "ref": "Daniel 4:30",
+        "speaker": "Nebuchadnezzar, bragging",
+        "wrong": [
+          "Belshazzar, at his feast",
+          "Darius, signing a law"
+        ],
+        "why": "While the words were still in his mouth, a voice from heaven said, “The kingdom is departed from thee” (Daniel 4:31).",
+        "approved": "03b26aca"
+      },
+      {
+        "id": "say-thy-gifts",
+        "text": "Let thy gifts be to thyself, and give thy rewards to another",
+        "ref": "Daniel 5:17",
+        "speaker": "Daniel, to Belshazzar",
+        "wrong": [
+          "Daniel, to Nebuchadnezzar",
+          "Joseph, to Pharaoh"
+        ],
+        "why": "Belshazzar offered scarlet clothes, a gold chain and a high office. Daniel didn’t want them, but he read the writing anyway.",
+        "approved": "ef6d3213"
+      },
+      {
+        "id": "say-servest-continually",
+        "text": "Thy God whom thou servest continually, he will deliver thee.",
+        "ref": "Daniel 6:16",
+        "speaker": "King Darius, to Daniel",
+        "wrong": [
+          "Nebuchadnezzar, to the three",
+          "Daniel, to his friends"
+        ],
+        "why": "Darius had been tricked into his own law. Early the next morning he called out, “is thy God… able to deliver thee from the lions?” (Daniel 6:20).",
+        "approved": "74efed60"
+      },
+      {
+        "id": "say-not-hurt-me",
+        "text": "My God hath sent his angel, and hath shut the lions’ mouths, that they have not hurt me",
+        "ref": "Daniel 6:22",
+        "speaker": "Daniel, from the den",
+        "wrong": [
+          "Darius, to his lords",
+          "An angel, to Darius"
+        ],
+        "why": "Daniel had done no wrong before God or the king. He came out with “no manner of hurt” (Daniel 6:23), because he believed in his God.",
+        "approved": "2abf9b2d"
+      }
+    ],
+    "words": [
+      {
+        "word": "KINGDOM",
+        "clue": "shall the God of heaven set up a ____, which shall never be destroyed",
+        "ref": "Daniel 2:44",
+        "mean": "God’s latter-day kingdom, His Church, will never be destroyed or given to anyone else."
+      },
+      {
+        "word": "PULSE",
+        "clue": "let them give us ____ to eat, and water to drink",
+        "ref": "Daniel 1:12",
+        "mean": "Daniel asked for simple food from seeds and grains, and God blessed him for keeping His law."
+      },
+      {
+        "word": "STONE",
+        "clue": "a ____ was cut out without hands",
+        "ref": "Daniel 2:34",
+        "mean": "The stone cut out without hands is God’s kingdom, set up by Him and not by people."
+      },
+      {
+        "word": "FURNACE",
+        "clue": "our God whom we serve is able to deliver us from the burning fiery ____",
+        "ref": "Daniel 3:17",
+        "mean": "The three friends knew God could save them from the fire, and they trusted Him either way."
+      },
+      {
+        "word": "PRIDE",
+        "clue": "those that walk in ____ he is able to abase",
+        "ref": "Daniel 4:37",
+        "mean": "God can humble the proud, even the mightiest king on earth. Nebuchadnezzar learned it the hard way."
+      },
+      {
+        "word": "WEIGHED",
+        "clue": "Thou art ____ in the balances, and art found wanting",
+        "ref": "Daniel 5:27",
+        "mean": "God measured King Belshazzar’s life, and it didn’t measure up."
+      },
+      {
+        "word": "CLOUDS",
+        "clue": "one like the Son of man came with the ____ of heaven",
+        "ref": "Daniel 7:13",
+        "mean": "Daniel saw Jesus Christ, the Son of Man, coming in glory to receive a kingdom that lasts forever."
+      }
+    ],
+    "deep": [
+      {
+        "id": "deep46-prince",
+        "section": 0,
+        "read": "Daniel 1:8–13",
+        "intro": "The lesson asks how Daniel and his friends answered pressure to do wrong (Daniel 1:10–13). The official in charge of their food was under pressure too.",
+        "q": "In Daniel 1:10, what did the prince of the eunuchs say Daniel’s plan would put in danger?",
+        "hunt": "In Daniel 1, what did the prince of the eunuchs say Daniel’s plan would put in danger?",
+        "right": "His own head, with the king",
+        "wrong": [
+          "His job in the king’s kitchen",
+          "His friendship with Daniel"
+        ],
+        "why": "Verse 10: “then shall ye make me endanger my head to the king.” So Daniel offered a fair ten-day test that wouldn’t get him in trouble.",
+        "source": "Daniel 1:10",
+        "find": "then shall ye make me endanger my head to the king",
+        "approved": "48646f39"
+      },
+      {
+        "id": "deep46-chaff",
+        "section": 1,
+        "read": "Daniel 2:31–35",
+        "intro": "The lesson invites you to read the descriptions of the stone in Daniel 2:34–35. Here is the whole dream, right up to the moment the stone strikes.",
+        "q": "In Daniel 2:35, what did the broken pieces of the image become like?",
+        "hunt": "In Daniel 2, what did the broken pieces of the image become like?",
+        "right": "Chaff on summer threshing floors",
+        "wrong": [
+          "Sand on the shore of the sea",
+          "Dust on a busy city street"
+        ],
+        "why": "Verse 35: they “became like the chaff of the summer threshingfloors; and the wind carried them away.” Chaff is the dry husk that blows off grain.",
+        "source": "Daniel 2:35",
+        "find": "became like the chaff of the summer threshingfloors",
+        "approved": "9435bcec"
+      },
+      {
+        "id": "deep46-light",
+        "section": 2,
+        "read": "Daniel 2:19–23",
+        "intro": "The lesson asks what you can learn from Daniel’s words after he received the Lord’s help. Before he went to the king, he praised God.",
+        "q": "In Daniel 2:22, what does Daniel say dwells with God?",
+        "hunt": "In Daniel 2, what does Daniel say dwells with God?",
+        "right": "The light",
+        "wrong": [
+          "The stars",
+          "The angels"
+        ],
+        "why": "Verse 22: “he knoweth what is in the darkness, and the light dwelleth with him.” God sees what is hidden, and He gives light to those who ask.",
+        "source": "Daniel 2:22",
+        "find": "the light dwelleth with him",
+        "approved": "a4d8638c"
+      },
+      {
+        "id": "deep46-holiness",
+        "section": 3,
+        "read": "Moses 6:57",
+        "intro": "The lesson points to Moses 6:57 to help explain Daniel 7:13–14. It tells where the title Son of Man comes from.",
+        "q": "In Moses 6:57, what is Heavenly Father’s name in the language of Adam?",
+        "hunt": "In Moses 6, what is Heavenly Father’s name in the language of Adam?",
+        "right": "Man of Holiness",
+        "wrong": [
+          "Ancient of Days",
+          "Lord of Hosts"
+        ],
+        "why": "Verse 57: “in the language of Adam, Man of Holiness is his name, and the name of his Only Begotten is the Son of Man.” So Son of Man means Son of the Man of Holiness.",
+        "source": "Moses 6:57",
+        "find": "Man of Holiness",
+        "approved": "30dc0454"
+      },
+      {
+        "id": "deep46-kids",
+        "day": "friday",
+        "title": "From the children’s part of the lesson",
+        "read": "lesson",
+        "intro": "The children’s part of this week’s lesson starts with Daniel 1, 3 and 6. One idea is to share times you were blessed for making a good choice when it was hard.",
+        "q": "Which hymn does the lesson suggest singing together after you share those times?",
+        "right": "Choose the Right",
+        "wrong": [
+          "Do What Is Right",
+          "Dare to Do Right"
+        ],
+        "why": "It suggests singing Choose the Right, number 239 in the hymnbook, after sharing how you have been blessed for making the right choice even when it was hard.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/46?lang=eng",
+        "find": "Choose the Right",
+        "approved": "bc382232"
+      },
+      {
+        "id": "deep46-friend",
+        "day": "friday",
+        "title": "From the Friend",
+        "read": "https://www.churchofjesuschrist.org/study/friend/2026/10/come-follow-me/25-safe-in-the-fire?lang=eng",
+        "intro": "The October Friend retells the story of Shadrach, Meshach, and Abed-nego for children. Read it, then look for what it says about who was in the fire.",
+        "q": "In the Friend’s retelling, what was the king surprised to see in the fire with the three men?",
+        "right": "A heavenly being",
+        "wrong": [
+          "A golden statue",
+          "Three soldiers"
+        ],
+        "why": "The Friend says the king was surprised to see a heavenly being in the fire with them. Daniel 3:25 says the fourth was like the Son of God.",
+        "source": "https://www.churchofjesuschrist.org/study/friend/2026/10/come-follow-me/25-safe-in-the-fire?lang=eng",
+        "find": "a heavenly being in the fire with the three men",
+        "approved": "56d90e04"
+      }
+    ],
+    "reels": [
+      {
+        "id": "dan1-purposed",
+        "section": 0,
+        "hook": "The king’s food was free. Daniel still said no.",
+        "seek": "A young captive decides not to eat the ruler’s dinner",
+        "body": "Daniel and his friends were taken to Babylon as young men to serve King Nebuchadnezzar. The king gave them his own rich food and wine, but Daniel “purposed in his heart” not to defile himself with it. He asked for ten days of plain food and water instead. The lesson invites you to compare the blessings that followed with those the Lord promises for keeping the Word of Wisdom (Doctrine and Covenants 89:18–21).",
+        "verse": {
+          "text": "But Daniel purposed in his heart that he would not defile himself with the portion of the king's meat, nor with the wine which he drank: therefore he requested of the prince of the eunuchs that he might not defile himself.",
+          "ref": "Daniel 1:8"
+        },
+        "question": {
+          "q": "What did Daniel do about the king’s food?",
+          "right": "Asked kindly for a test of plain food",
+          "wrong": [
+            "Ate a little so nobody would notice",
+            "Hid the food and pretended to eat it"
+          ],
+          "why": "Verse 8: he “requested of the prince of the eunuchs that he might not defile himself.” He had already decided, so he asked politely for another way."
+        },
+        "bonus": {
+          "q": "This week’s Scripture Helps give one reason the king’s food could defile Daniel. What might have been done with it first?",
+          "right": "It was offered to Babylonian gods",
+          "wrong": [
+            "It was cooked by enemy soldiers",
+            "It was taken from the temple"
+          ],
+          "why": "They say the king’s meat and wine may have been offered to Babylon’s gods first, so eating them would have been like joining in idol worship.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/44-daniel-1-7?lang=eng",
+          "find": "may have first been offered to Babylonian gods"
+        },
+        "media": {
+          "image": {
+            "src": "media/ishtar-gate.jpg",
+            "alt": "The blue-tiled Ishtar Gate of ancient Babylon, rebuilt inside the Pergamon Museum in Berlin",
+            "credit": "Babylon's Ishtar Gate, about 575 BC. Photo: Kurt Kaiser, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Ishtar_Gate_in_the_Pergamon_Museum_-.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#172554 0%,#1d4ed8 50%,#93c5fd 115%)",
+        "blobA": "rgba(147,197,253,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "6a0bc5eb"
+      },
+      {
+        "id": "dan1-knowledge",
+        "section": 2,
+        "hook": "Where did the smartest students in Babylon get it?",
+        "body": "After three years of training, the king tested his young students himself. Daniel and his friends were “ten times better than all the magicians and astrologers” (Daniel 1:20). Where did that come from? Verse 17 says God gave it to them. The lesson asks what this teaches about how God prepared Daniel. Long before the king’s scary dream in chapter 2, God was already giving Daniel understanding of visions and dreams.",
+        "verse": {
+          "text": "As for these four children, God gave them knowledge and skill in all learning and wisdom: and Daniel had understanding in all visions and dreams.",
+          "ref": "Daniel 1:17"
+        },
+        "question": {
+          "q": "Where did Daniel and his friends get their knowledge and skill?",
+          "right": "God gave it to them",
+          "wrong": [
+            "The king’s teachers alone",
+            "Books from Jerusalem"
+          ],
+          "why": "Verse 17: “God gave them knowledge and skill in all learning and wisdom.” Their training mattered, but the real gift came from God."
+        },
+        "bonus": {
+          "q": "In Daniel 1:21, until whose first year did Daniel continue?",
+          "hunt": "In Daniel 1, until whose first year did Daniel continue?",
+          "right": "King Cyrus",
+          "wrong": [
+            "King Darius",
+            "King Belshazzar"
+          ],
+          "why": "Verse 21: “Daniel continued even unto the first year of king Cyrus.” He served in Babylon through many kings and many years.",
+          "source": "Daniel 1:21",
+          "find": "unto the first year of king Cyrus"
+        },
+        "gradient": "linear-gradient(150deg,#1e1b4b 0%,#4338ca 50%,#c7d2fe 115%)",
+        "blobA": "rgba(199,210,254,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "18ca3653"
+      },
+      {
+        "id": "dan2-night-vision",
+        "section": 2,
+        "hook": "The king wants them dead. First, Daniel’s friends pray.",
+        "body": "The king ordered every wise man in Babylon killed, Daniel too. Daniel didn’t panic. He went to the king, then home to his three friends. Together they asked “the God of heaven” to be merciful (verse 18). That night God showed Daniel the secret in a vision. Before rushing to the king, Daniel stopped to thank Him (Daniel 2:20–23). They prepared, and God answered.",
+        "verse": {
+          "text": "That they would desire mercies of the God of heaven concerning this secret; that Daniel and his fellows should not perish with the rest of the wise men of Babylon.",
+          "ref": "Daniel 2:18"
+        },
+        "question": {
+          "q": "What did Daniel do before he gave the king an answer?",
+          "right": "Prayed with his friends, then thanked God",
+          "wrong": [
+            "Asked the other wise men to guess",
+            "Hid until the angry king calmed down"
+          ],
+          "why": "They asked to “desire mercies of the God of heaven concerning this secret.” When the answer came, Daniel blessed God before going in (Daniel 2:19)."
+        },
+        "bonus": {
+          "q": "In Daniel 2:14, how did Daniel answer Arioch, the captain sent to kill the wise men?",
+          "hunt": "In Daniel 2, how did Daniel answer Arioch, the captain sent to kill the wise men?",
+          "right": "With counsel and wisdom",
+          "wrong": [
+            "With anger and threats",
+            "With tears and begging"
+          ],
+          "why": "Verse 14: “Daniel answered with counsel and wisdom to Arioch.” He stayed calm and wise, even with his life in danger.",
+          "source": "Daniel 2:14",
+          "find": "answered with counsel and wisdom"
+        },
+        "media": {
+          "image": {
+            "src": "media/praying-hands-durer.jpg",
+            "alt": "Drawing of two hands pressed together in prayer, in fine white lines on blue paper",
+            "credit": "Praying Hands, by Albrecht Dürer, 1508. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Albrecht_D%C3%BCrer_-_Praying_Hands,_1508_-_Google_Art_Project.jpg"
+          }
+        },
+        "gradient": "linear-gradient(160deg,#0f172a 0%,#1e3a8a 55%,#a5b4fc 115%)",
+        "blobA": "rgba(165,180,252,.4)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "8aeae892"
+      },
+      {
+        "id": "dan2-god-in-heaven",
+        "section": 2,
+        "hook": "He could have taken the credit. He gave it to God.",
+        "body": "The king asked Daniel if he could tell him “the dream which I have seen” (Daniel 2:26). Daniel could have taken the credit. Instead he said no wise man could do it, but God could. The secret came, he said, not “for any wisdom that I have more than any living” (Daniel 2:30). He wanted the king to know God, not to think Daniel was special.",
+        "verse": {
+          "text": "But there is a God in heaven that revealeth secrets, and maketh known to the king Nebuchadnezzar what shall be in the latter days. Thy dream, and the visions of thy head upon thy bed, are these;",
+          "ref": "Daniel 2:28"
+        },
+        "question": {
+          "q": "Why could Daniel tell the king his dream?",
+          "right": "God in heaven revealed it to him",
+          "wrong": [
+            "He was wiser than all other men",
+            "He had studied the king’s dreams"
+          ],
+          "why": "“There is a God in heaven that revealeth secrets.” Daniel told the king the answer came from God, not from his own wisdom."
+        },
+        "bonus": {
+          "q": "In Daniel 2:47, what does the king call Daniel’s God, besides a revealer of secrets?",
+          "hunt": "In Daniel 2, what does the king call Daniel’s God, besides a revealer of secrets?",
+          "right": "A God of gods and Lord of kings",
+          "wrong": [
+            "The King of the whole earth",
+            "The Lord of all the heavens"
+          ],
+          "why": "Verse 47: “your God is a God of gods, and a Lord of kings, and a revealer of secrets.” Daniel’s humility helped the king honor God.",
+          "source": "Daniel 2:47",
+          "find": "a God of gods, and a Lord of kings"
+        },
+        "gradient": "linear-gradient(150deg,#3b0764 0%,#7e22ce 50%,#f0abfc 115%)",
+        "blobA": "rgba(240,171,252,.35)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "2b074897"
+      },
+      {
+        "id": "dan2-stone",
+        "section": 1,
+        "hook": "A little rock that grows until it covers the world.",
+        "seek": "God starts a reign that nobody will wipe out",
+        "body": "In the king’s dream, a stone “cut out without hands” (Daniel 2:34) smashed a giant statue of metal and clay. Then it became a great mountain and “filled the whole earth” (Daniel 2:35). Without hands means God made it, not people. President D. Todd Christofferson taught that this kingdom is The Church of Jesus Christ of Latter-day Saints, rolling forth to fill the earth.",
+        "verse": {
+          "text": "And in the days of these kings shall the God of heaven set up a kingdom, which shall never be destroyed: and the kingdom shall not be left to other people, but it shall break in pieces and consume all these kingdoms, and it shall stand for ever.",
+          "ref": "Daniel 2:44"
+        },
+        "question": {
+          "q": "What does the stone in the king’s dream stand for?",
+          "right": "God’s kingdom, His Church today",
+          "wrong": [
+            "Babylon’s mighty army",
+            "A mountain near Jerusalem"
+          ],
+          "why": "Daniel said “the God of heaven” would “set up a kingdom, which shall never be destroyed.” Latter-day prophets teach that kingdom is the restored Church."
+        },
+        "bonus": [
+          {
+            "q": "In D&C 65:2, what does the Lord say will roll forth unto the ends of the earth?",
+            "hunt": "In D&C 65, what does the Lord say will roll forth unto the ends of the earth?",
+            "right": "The gospel",
+            "wrong": [
+              "His armies",
+              "His temple"
+            ],
+            "why": "Verse 2: “from thence shall the gospel roll forth unto the ends of the earth, as the stone which is cut out of the mountain without hands.”",
+            "source": "D&C 65:2",
+            "find": "shall the gospel roll forth unto the ends of the earth"
+          },
+          {
+            "q": "Does the stone filling the whole earth mean that everyone will join the Church, says the seminary manual?",
+            "right": "No, it will spread across the earth",
+            "wrong": [
+              "Yes, every person will join it",
+              "Yes, but only after a thousand years"
+            ],
+            "why": "The manual explains it doesn’t mean everyone will join. It means the Church will spread throughout the earth, as Nephi also saw.",
+            "source": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/45-daniel/452-daniel-2?lang=eng",
+            "find": "does not mean that everyone will join the Lord’s Church"
+          }
+        ],
+        "media": {
+          "image": {
+            "src": "media/blue-marble.jpg",
+            "alt": "The whole Earth seen from space, a blue and white ball against black",
+            "credit": "The Blue Marble, Earth from Apollo 17, 1972. Photo: NASA, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:The_Blue_Marble,_AS17-148-22727.jpg"
+          }
+        },
+        "gradient": "linear-gradient(160deg,#020617 0%,#0c4a6e 55%,#7dd3fc 115%)",
+        "blobA": "rgba(125,211,252,.4)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "9c8dc67e"
+      },
+      {
+        "id": "dan3-but-if-not",
+        "section": 0,
+        "hook": "Even if God doesn’t save us, we still won’t bow.",
+        "body": "King Nebuchadnezzar set up a gold image about 90 feet tall and ordered everyone to bow down when the music played. Shadrach, Meshach, and Abed-nego wouldn’t. The furious king asked, “Who is that God that shall deliver you out of my hands?” (Daniel 3:15). They answered that God could save them. But even if He didn’t, they still would not bow. Their faith was in God, not in getting rescued.",
+        "verse": {
+          "text": "But if not, be it known unto thee, O king, that we will not serve thy gods, nor worship the golden image which thou hast set up.",
+          "ref": "Daniel 3:18"
+        },
+        "question": {
+          "q": "What did the three friends mean by “But if not”?",
+          "right": "They’d obey God even if He didn’t save them",
+          "wrong": [
+            "They’d bow down if God didn’t come first",
+            "They weren’t sure God could save them"
+          ],
+          "why": "If God didn’t deliver them, “we will not serve thy gods.” Their obedience didn’t depend on being saved."
+        },
+        "bonus": {
+          "q": "In verse 16 the friends say, “We are not careful to answer thee.” How do modern translations put it, say this week’s Scripture Helps?",
+          "right": "We have no need to answer you",
+          "wrong": [
+            "We are afraid to answer you",
+            "We will answer you carefully"
+          ],
+          "why": "They say it means the three had no need to answer the king. Their minds were already made up: they would not worship the image.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/44-daniel-1-7?lang=eng",
+          "find": "We have no need to answer you in this matter"
+        },
+        "gradient": "linear-gradient(155deg,#1c0a00 0%,#9a3412 50%,#fdba74 115%)",
+        "blobA": "rgba(253,186,116,.4)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "4f5ea1a1"
+      },
+      {
+        "id": "dan3-fourth-man",
+        "section": 0,
+        "hook": "Three were thrown in. The king saw one more.",
+        "body": "The furnace was so hot it killed the soldiers who threw the three friends in (Daniel 3:22). Then the king jumped up. He saw four men walking around in the fire, unhurt. When they came out, not a hair was singed. The king said God had “sent his angel, and delivered his servants that trusted in him” (Daniel 3:28). God didn’t keep them out of the fire. He sent help into it.",
+        "verse": {
+          "text": "He answered and said, Lo, I see four men loose, walking in the midst of the fire, and they have no hurt; and the form of the fourth is like the Son of God.",
+          "ref": "Daniel 3:25"
+        },
+        "question": {
+          "q": "What did the king see when he looked into the furnace?",
+          "right": "Four men walking, unhurt",
+          "wrong": [
+            "Three men lying tied up",
+            "Nothing but smoke and flames"
+          ],
+          "why": "“Lo, I see four men loose, walking in the midst of the fire, and they have no hurt.” Someone had come to be with them."
+        },
+        "bonus": {
+          "q": "In Daniel 3:27, what had not even passed on the three men?",
+          "hunt": "In Daniel 3, what had not even passed on the three men?",
+          "right": "The smell of fire",
+          "wrong": [
+            "The heat of the flames",
+            "The soot of the furnace"
+          ],
+          "why": "Verse 27: their coats weren’t changed, “nor the smell of fire had passed on them.” They didn’t even smell like smoke.",
+          "source": "Daniel 3:27",
+          "find": "nor the smell of fire had passed on them"
+        },
+        "media": {
+          "image": {
+            "src": "media/steel-furnace-slag.jpg",
+            "alt": "Glowing slag, the melted junk drained off the top of molten steel, pouring from a steel-mill furnace",
+            "credit": "Slag run-off at a steel mill, 1941. Photo: Alfred T. Palmer, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Slag_runoff_Republic_Steel.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#450a0a 0%,#c2410c 50%,#fde047 115%)",
+        "blobA": "rgba(253,224,71,.35)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "4df8c64d"
+      },
+      {
+        "id": "dan4-most-high",
+        "section": 1,
+        "hook": "The proudest king on earth learned who really rules.",
+        "body": "Nebuchadnezzar dreamed of a giant tree chopped down to a stump. Daniel said the tree was the king himself. A year later the king bragged about the “great Babylon, that I have built” (Daniel 4:30). That same hour he lost his mind and lived like an animal for “seven times” (Daniel 4:32). At last he looked up to heaven, his understanding came back, and he praised God.",
+        "verse": {
+          "text": "Now I Nebuchadnezzar praise and extol and honour the King of heaven, all whose works are truth, and his ways judgment: and those that walk in pride he is able to abase.",
+          "ref": "Daniel 4:37"
+        },
+        "question": {
+          "q": "What did Nebuchadnezzar learn after living like an animal?",
+          "right": "God rules and can humble the proud",
+          "wrong": [
+            "Kings must be tougher on their people",
+            "Babylon’s gods had punished him"
+          ],
+          "why": "He praised “the King of heaven” and said “those that walk in pride he is able to abase.” To abase means to bring low."
+        },
+        "bonus": {
+          "q": "In Daniel 4:27, what did Daniel tell the king to show to the poor?",
+          "hunt": "In Daniel 4, what did Daniel tell the king to show to the poor?",
+          "right": "Mercy",
+          "wrong": [
+            "Gold",
+            "Bread"
+          ],
+          "why": "Verse 27: “break off thy sins by righteousness, and thine iniquities by shewing mercy to the poor.” Daniel hoped the king would repent in time.",
+          "source": "Daniel 4:27",
+          "find": "shewing mercy to the poor"
+        },
+        "media": {
+          "image": {
+            "src": "media/babylon-ruins-1932.jpg",
+            "alt": "Black-and-white photo from 1932 of the crumbling brick ruins of ancient Babylon",
+            "credit": "Babylon's ruins, 1932. Photo: Matson Collection, Library of Congress, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Iraq._Babylon_%27the_great.%27_Various_views_of_the_crumbling_ruins._Massive_brick_buildings_LOC_matpc.16072.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#292524 0%,#78716c 50%,#e7e5e4 115%)",
+        "blobA": "rgba(231,229,228,.35)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "49afa2de"
+      },
+      {
+        "id": "dan5-writing",
+        "section": 1,
+        "hook": "A hand wrote on the wall. The king’s knees knocked.",
+        "seek": "God measured the king, and he came up short",
+        "body": "King Belshazzar threw a feast and drank from the sacred cups taken from the Lord’s temple in Jerusalem. Suddenly fingers appeared and wrote on the palace wall. Only Daniel could read it: God had numbered the king’s kingdom, weighed him, and given his kingdom away. Belshazzar knew how God had humbled Nebuchadnezzar, but he never humbled himself (Daniel 5:22). That very night Babylon fell (Daniel 5:30).",
+        "verse": {
+          "text": "TEKEL; Thou art weighed in the balances, and art found wanting.",
+          "ref": "Daniel 5:27"
+        },
+        "question": {
+          "q": "What did “Thou art weighed in the balances, and art found wanting” mean?",
+          "right": "God judged him and he fell short",
+          "wrong": [
+            "He would have to pay heavy taxes",
+            "He had grown too heavy to ride"
+          ],
+          "why": "God had weighed the king, like goods on a scale, and he didn’t measure up. He “hast not humbled thine heart” (Daniel 5:22)."
+        },
+        "bonus": {
+          "q": "This week’s Scripture Helps say mene, tekel, and upharsin were also names of what?",
+          "right": "Ancient units of weight",
+          "wrong": [
+            "Babylonian months of the year",
+            "Gods of the Medes and Persians"
+          ],
+          "why": "They say the three words named weights, from heaviest to lightest. That may have pictured Babylon’s power shrinking away.",
+          "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/44-daniel-1-7?lang=eng",
+          "find": "referred to ancient units of weight, listed in descending order"
+        },
+        "media": {
+          "image": {
+            "src": "media/cyrus-cylinder.jpg",
+            "alt": "The Cyrus Cylinder, a clay record made in King Cyrus's name after he took Babylon, covered in wedge-shaped writing",
+            "credit": "The Cyrus Cylinder, British Museum. Photo: Daderot, public domain (CC0)",
+            "link": "https://commons.wikimedia.org/wiki/File:Cyrus_Cylinder,_Babylon,_Iraq,_mid_500s_BC,_cuneiform_on_clay_-_British_Museum_-_DSC01316.jpg"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#1c1917 0%,#854d0e 50%,#fde68a 115%)",
+        "blobA": "rgba(253,230,138,.4)",
+        "blobB": "rgba(0,0,0,.5)",
+        "approved": "ae7bb75c"
+      },
+      {
+        "id": "dan6-window",
+        "section": 0,
+        "hook": "A new law said don’t pray. Daniel opened his window.",
+        "body": "Jealous leaders couldn’t find anything wrong with Daniel, so they tricked King Darius into signing a law: for thirty days, ask nothing of any god or man except the king. Daniel knew. He went home, opened his windows toward Jerusalem, and knelt to pray three times a day, “as he did aforetime.” Prayer wasn’t new for Daniel. It was his habit, and he kept it, even with lions waiting.",
+        "verse": {
+          "text": "Now when Daniel knew that the writing was signed, he went into his house; and his windows being open in his chamber toward Jerusalem, he kneeled upon his knees three times a day, and prayed, and gave thanks before his God, as he did aforetime.",
+          "ref": "Daniel 6:10"
+        },
+        "question": {
+          "q": "Why did Daniel keep praying after the law was signed?",
+          "right": "Praying to God mattered more to him",
+          "wrong": [
+            "He hadn’t heard of the new law",
+            "He wanted the king to notice him"
+          ],
+          "why": "He “knew that the writing was signed,” and still prayed “as he did aforetime.” He wouldn’t stop talking to God for anyone."
+        },
+        "bonus": [
+          {
+            "q": "This week’s Scripture Helps compare Daniel’s den with Jesus’s tomb. How was the tomb closed?",
+            "right": "A large stone and a Roman seal",
+            "wrong": [
+              "A wooden door and an iron lock",
+              "A row of soldiers with spears"
+            ],
+            "why": "They say the den was sealed with a stone and the king’s seal, and Jesus’s tomb with a stone and a Roman seal. Both came out alive.",
+            "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/44-daniel-1-7?lang=eng",
+            "find": "sealed with a large stone and a Roman seal"
+          },
+          {
+            "q": "In Daniel 6:18, how did the king spend the night Daniel was in the den?",
+            "hunt": "In Daniel 6, how did the king spend the night Daniel was in the den?",
+            "right": "Fasting, with no music",
+            "wrong": [
+              "Feasting with his lords",
+              "Sleeping in his palace"
+            ],
+            "why": "Verse 18: he “passed the night fasting,” with no music, and “his sleep went from him.” He was worried about Daniel.",
+            "source": "Daniel 6:18",
+            "find": "passed the night fasting"
+          }
+        ],
+        "media": {
+          "image": {
+            "src": "media/boy-praying.jpg",
+            "alt": "A young boy with his arms folded and his eyes closed, praying",
+            "credit": "Prayer, from the Church Media Library",
+            "link": "https://www.churchofjesuschrist.org/media/image/boy-prayer-f7345ef?lang=eng"
+          }
+        },
+        "gradient": "linear-gradient(150deg,#064e3b 0%,#047857 50%,#a7f3d0 115%)",
+        "blobA": "rgba(167,243,208,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "bff2f03e"
+      },
+      {
+        "id": "dan7-son-of-man",
+        "section": 3,
+        "hook": "Not another beast this time. Someone like a man.",
+        "body": "After four wild beasts, Daniel saw someone very different: “one like the Son of man” coming “with the clouds of heaven.” He was given a kingdom that “shall not be destroyed” (Daniel 7:14). Jesus often called Himself the Son of Man. At His trial He used Daniel’s words about Himself, saying He would come “in the clouds of heaven” (Mark 14:62).",
+        "verse": {
+          "text": "I saw in the night visions, and, behold, one like the Son of man came with the clouds of heaven, and came to the Ancient of days, and they brought him near before him.",
+          "ref": "Daniel 7:13"
+        },
+        "question": {
+          "q": "Who is the “Son of man” Daniel saw coming with the clouds?",
+          "right": "Jesus Christ",
+          "wrong": [
+            "Daniel himself",
+            "King Darius"
+          ],
+          "why": "Jesus often called Himself “the Son of man.” Daniel saw Him given “an everlasting dominion, which shall not pass away” (Daniel 7:14)."
+        },
+        "bonus": {
+          "q": "In Mark 14:62, where did Jesus say they would see the Son of man sitting?",
+          "hunt": "In Mark 14, where did Jesus say they would see the Son of man sitting?",
+          "right": "On the right hand of power",
+          "wrong": [
+            "On a throne in the temple",
+            "On the walls of Jerusalem"
+          ],
+          "why": "Verse 62: “ye shall see the Son of man sitting on the right hand of power.” Jesus used Daniel’s words about Himself.",
+          "source": "Mark 14:62",
+          "find": "sitting on the right hand of power"
+        },
+        "gradient": "linear-gradient(165deg,#0f172a 0%,#334155 50%,#f1f5f9 115%)",
+        "blobA": "rgba(241,245,249,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "2e2d2332"
+      },
+      {
+        "id": "dan7-ancient-of-days",
+        "section": 3,
+        "hook": "The oldest man ever gets a seat of honor.",
+        "body": "Daniel saw thrones, and “the Ancient of days” sitting in judgment, with hair “like the pure wool.” Modern revelation tells us who he is: Adam, the father of all (Doctrine and Covenants 27:11). Joseph Smith taught that before the Second Coming, Adam will call his children together, and the Son of Man will come to him and receive the kingdom (Daniel 7:13–14).",
+        "verse": {
+          "text": "I beheld till the thrones were cast down, and the Ancient of days did sit, whose garment was white as snow, and the hair of his head like the pure wool: his throne was like the fiery flame, and his wheels as burning fire.",
+          "ref": "Daniel 7:9"
+        },
+        "question": {
+          "q": "Who does modern revelation say the Ancient of Days is?",
+          "right": "Adam, the first man",
+          "wrong": [
+            "Noah, after the Flood",
+            "Enoch, of the city of Zion"
+          ],
+          "why": "The Lord speaks of “Michael, or Adam, the father of all, the prince of all, the ancient of days” (Doctrine and Covenants 27:11)."
+        },
+        "bonus": {
+          "q": "In Daniel 7:10, what were opened when the judgment was set?",
+          "hunt": "In Daniel 7, what were opened when the judgment was set?",
+          "right": "The books",
+          "wrong": [
+            "The gates",
+            "The graves"
+          ],
+          "why": "Verse 10: “the judgment was set, and the books were opened.” Thousands upon thousands stood before the Ancient of days.",
+          "source": "Daniel 7:10",
+          "find": "the books were opened"
+        },
+        "gradient": "linear-gradient(150deg,#422006 0%,#a16207 50%,#fef9c3 115%)",
+        "blobA": "rgba(254,249,195,.4)",
+        "blobB": "rgba(0,0,0,.45)",
+        "approved": "a9c0d694"
+      }
+    ],
+    "tldr": [
+      {
+        "ch": "Daniel 1",
+        "lines": [
+          "King Nebuchadnezzar of Babylon takes young men from Judah to train for his court. Daniel and his three friends are given new Babylonian names. (verses 1–7)",
+          "Daniel decides not to make himself unclean with the king’s food and wine. He asks for a ten-day test of plain food and water. (verses 8–14)",
+          "After ten days they look healthier than all the others. God gives the four of them knowledge and wisdom, and Daniel understands visions and dreams. (verses 15–17)",
+          "The king finds them ten times wiser than all his magicians and astrologers, and Daniel serves in Babylon for many years. (verses 18–21)"
+        ],
+        "review": [
+          {
+            "v": 8,
+            "about": "“Make himself unclean” is defile, as the Scripture Helps explain it (to make himself spiritually unclean)."
+          },
+          {
+            "v": 12,
+            "about": "“Plain food” is the chapter heading’s; the KJV’s pulse is food made of seeds and grains (footnote 12a)."
+          },
+          {
+            "v": 21,
+            "about": "Left as “for many years”: the verse names King Cyrus, and a bonus asks for that name."
+          }
+        ],
+        "approved": "f16457c1"
+      },
+      {
+        "ch": "Daniel 2",
+        "lines": [
+          "King Nebuchadnezzar has a troubling dream. When his wise men can’t tell him what he dreamed, he orders all the wise men killed, Daniel too. (verses 1–13)",
+          "Daniel asks for time. He and his friends pray, God shows Daniel the secret in a night vision, and Daniel praises God. (verses 14–23)",
+          "Daniel tells the king his dream: a great metal image smashed by a stone cut out without hands. The stone is God’s latter-day kingdom, filling the earth. (verses 24–45)",
+          "The king honors Daniel’s God as the revealer of secrets and makes Daniel ruler over the province of Babylon. (verses 46–49)"
+        ],
+        "review": [
+          {
+            "v": 44,
+            "about": "“The stone is God’s latter-day kingdom” is from the chapter heading; the verses say God will set up a kingdom that will never be destroyed (verse 44)."
+          }
+        ],
+        "approved": "d8494fe0"
+      },
+      {
+        "ch": "Daniel 3",
+        "lines": [
+          "King Nebuchadnezzar sets up a huge golden image and commands everyone to bow down and worship it, or be thrown into a fiery furnace. (verses 1–7)",
+          "Shadrach, Meshach, and Abed-nego refuse. They tell the king God can save them, but even if He doesn’t, they won’t worship his gods. (verses 8–18)",
+          "The king has them thrown into the furnace, heated seven times hotter. Then he sees four men walking in the fire, unharmed. (verses 19–25)",
+          "The three come out without even a burned hair. The king praises their God, because no other god can save like Him. (verses 26–30)"
+        ],
+        "approved": "3a5f0631"
+      },
+      {
+        "ch": "Daniel 4",
+        "lines": [
+          "Nebuchadnezzar dreams of a great tree cut down. A messenger from heaven says the Most High rules over kingdoms and can set even the lowliest man over them. (verses 1–18)",
+          "Daniel explains that the tree is the king. He will live like an animal until he learns that God rules. Daniel begs him to repent. (verses 19–27)",
+          "A year later the king brags about the great Babylon he has built. He loses his mind and eats grass like an ox, as the dream said. (verses 28–33)",
+          "When his understanding returns, he praises God, the King of heaven, who rules over all and can humble the proud. (verses 34–37)"
+        ],
+        "review": [
+          {
+            "v": 17,
+            "about": "“The lowliest man” is the heading’s “basest of men” (the KJV’s word in verse 17)."
+          },
+          {
+            "v": 1,
+            "about": "The chapter is told by Nebuchadnezzar himself (verses 1–18 and 34–37); the line leaves that out to stay short."
+          }
+        ],
+        "approved": "fe4e1966"
+      },
+      {
+        "ch": "Daniel 5",
+        "lines": [
+          "King Belshazzar throws a great feast and drinks wine from the sacred vessels taken from the temple in Jerusalem, praising idols of gold and silver. (verses 1–4)",
+          "Fingers of a hand write on the palace wall. The king is terrified, and none of his wise men can read the writing. (verses 5–9)",
+          "The queen remembers Daniel. Daniel turns down the king’s gifts and scolds him for his pride and his idols. (verses 10–24)",
+          "Daniel explains the words: God has ended the king’s reign, weighed him, and given his kingdom to the Medes and Persians. That night Babylon falls. (verses 25–31)"
+        ],
+        "approved": "6eee76de"
+      },
+      {
+        "ch": "Daniel 6",
+        "lines": [
+          "Darius sets Daniel over his rulers. Jealous men find no fault in him, so they trick the king into a law: for thirty days, pray only to the king. (verses 1–9)",
+          "Daniel keeps praying to God three times a day, as before. The men report him, and the upset king has to throw him to the lions. (verses 10–17)",
+          "The king has a sleepless night. In the morning Daniel is alive: God sent His angel, and the lions didn’t hurt him, because he believed in God. (verses 18–23)",
+          "Daniel’s accusers are thrown to the lions. Darius commands everyone in his kingdom to honor the living God of Daniel. (verses 24–28)"
+        ],
+        "approved": "9d5199cb"
+      },
+      {
+        "ch": "Daniel 7",
+        "lines": [
+          "Daniel dreams of four great beasts coming up out of the sea. They stand for kingdoms of men that will rise and fall. (verses 1–8)",
+          "He sees the Ancient of Days, who is Adam, sit in judgment. One like the Son of Man, Jesus Christ, comes with the clouds and receives an everlasting kingdom. (verses 9–14)",
+          "An angel explains the vision. One horn makes war against the Saints, but in the end the kingdom is given to the Saints of the Most High forever. (verses 15–28)"
+        ],
+        "review": [
+          {
+            "v": 9,
+            "about": "“Who is Adam” and “Jesus Christ” come from the chapter heading (Adam; Christ); the verses say the Ancient of days and one like the Son of man."
+          },
+          {
+            "v": 3,
+            "about": "The beasts are explained in verse 17 (four kings); the line puts that with verses 1–8, as the heading does."
+          }
+        ],
+        "approved": "3cc7e305"
+      }
+    ],
+    "insights": [
+      {
+        "id": "dan1-q-uchtdorf",
+        "kind": "quote",
+        "ref": "Daniel 1:3–4",
+        "quote": "Daniel was very likely your age when he was taken into the king’s court to be educated in the language, laws, religion, and science of the worldly Babylon.",
+        "text": "Verses 3–4: the king wanted the best young men of Judah for his court. President Uchtdorf said this to young men holding the Aaronic Priesthood.",
+        "source": {
+          "by": "General Conference",
+          "who": "President Dieter F. Uchtdorf",
+          "title": "Be Not Afraid, Only Believe",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2015/10/be-not-afraid-only-believe?lang=eng"
+        },
+        "approved": "716736fc"
+      },
+      {
+        "id": "dan1-go-along",
+        "ref": "Daniel 1:8",
+        "title": "What if Daniel had gone along?",
+        "text": "President Dieter F. Uchtdorf asked how much easier it would have been for Daniel to go along with Babylon: eat the king’s rich food and avoid being mocked. But then, on the day the king demanded his dream, Daniel would have been like Babylon’s other wise men, cut off from the true source of light and wisdom.",
+        "source": {
+          "by": "General Conference",
+          "who": "President Dieter F. Uchtdorf",
+          "title": "Be Not Afraid, Only Believe",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2015/10/be-not-afraid-only-believe?lang=eng"
+        },
+        "find": "had lost his connection to the true source of light and wisdom",
+        "approved": "215e976b"
+      },
+      {
+        "id": "dan1-peacemakers",
+        "ref": "Daniel 1:8–14",
+        "title": "He asked kindly, not angrily",
+        "text": "Daniel didn’t refuse the king’s food by picking a fight. Dr. Lili de Hoyos Anderson points out that he and his friends weren’t adversarial. They asked politely and offered a fair ten-day test, and the official over them agreed. She calls them peacemakers. Because they weren’t troublemakers, people wanted to help them, even though they were captives with few choices.",
+        "source": {
+          "by": "followHIM",
+          "who": "Lili de Hoyos Anderson",
+          "title": "Old Testament: EPISODE 45 – Daniel 1-6 – Part 1",
+          "url": "https://followhim.co/show-note/2-220/"
+        },
+        "find": "They were not obviously adversarial people",
+        "deep": {
+          "paras": [
+            "In Daniel 1 the official in charge is afraid: if Daniel and his friends look worse than the others, he will answer to the king. Dr. Lili de Hoyos Anderson notices how Daniel handles it. Instead of a standoff, he proposes an experiment. “Let’s do a scientific little test here,” she says, with a before and after, and a control group: the young men eating the king’s rich food.",
+            "The test worked, but she sees something more in the story. The official gave them the chance because of who they were. “They were not obviously adversarial people,” she says. They worked to find collaboration and to get along, so that they could have some influence. They were captives with very limited choices, yet they could ask for things, and people felt like granting them.",
+            "She ties this to what Church leaders keep asking of us: to be peacemakers and to put away contention. In a world where many people love to fight, with words and otherwise, Daniel and his friends kept the commandment without being combative. Then God blessed their obedience. In verse 17 He gives them knowledge and skill, and Daniel understanding in visions and dreams."
+          ],
+          "find": [
+            "They were not obviously adversarial people. They were working to find collaboration.",
+            "Let’s do a scientific little test here.",
+            "They obviously were peacemakers and are able then to ask for some things that people feel like granting to them because they’re not troublemakers.",
+            "They didn’t come in there with an adversarial or combative attitude even though they are captives and they have very limited choices."
+          ],
+          "listen": {
+            "youtube": "MuHJL3qGJq8",
+            "start": 1254,
+            "end": 1420,
+            "title": "followHIM: Daniel 1–6, part 1, with Dr. Lili de Hoyos Anderson",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          },
+          "approved": "b81836f2"
+        },
+        "approved": "cb6c920e"
+      },
+      {
+        "id": "dan1-q-rasband",
+        "kind": "quote",
+        "ref": "Daniel 1:8",
+        "quote": "I made a decision in advance to follow God’s laws, and I never had to revisit it.",
+        "text": "Verse 8: Daniel “purposed in his heart” before the test came. As a young man, Elder Rasband promised his mother he would always live the Word of Wisdom.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder Ronald A. Rasband",
+          "title": "Standing by Our Promises and Covenants",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2019/10/29rasband?lang=eng"
+        },
+        "approved": "7b07d9bb"
+      },
+      {
+        "id": "dan1-pulse",
+        "ref": "Daniel 1:12–16",
+        "title": "What was pulse?",
+        "text": "Daniel asked for “pulse to eat, and water to drink.” The Old Testament Student Manual explains that pulse means seeds and grains, like peas, wheat, barley, and rye. That simple food surely helped them stay healthy. But the manual adds that God also blessed them for keeping His laws. That is why they looked better than those who ate the king’s food.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Daniel: Prophet of God, Companion of Kings",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-28?lang=eng"
+        },
+        "find": "they were also blessed by God for adhering to His laws",
+        "approved": "103b0a06"
+      },
+      {
+        "id": "dan1-health-law",
+        "ref": "Daniel 1:15–20",
+        "title": "A health law for our day",
+        "text": "Daniel and his friends kept the Lord’s health laws in Babylon, and He blessed them in body and in mind. The seminary manual explains that, as in Daniel’s day, the Lord has given a health law for today: the Word of Wisdom (Doctrine and Covenants 89). As we keep it, the manual teaches, He blesses us in both body and spirit.",
+        "source": {
+          "by": "Seminary manual",
+          "title": "Daniel 1: “Daniel … Would Not Defile Himself”",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/45-daniel/451-daniel-1?lang=eng"
+        },
+        "find": "the Lord has revealed a health law for His children today",
+        "approved": "2b16b694"
+      },
+      {
+        "id": "dan2-certain",
+        "ref": "Daniel 2:5–9",
+        "title": "Had the king forgotten his dream?",
+        "text": "When the king said, “The thing is gone from me,” had he forgotten his dream? The Old Testament Student Manual quotes Ellis T. Rasmussen, who said the words should probably read “is certain with me.” In verse 9 the king explains: if his wise men can tell him the dream, he will know he can trust what they say it means. It was a test only God could pass.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Daniel: Prophet of God, Companion of Kings",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-28?lang=eng"
+        },
+        "find": "should probably read ‘is certain with me,’",
+        "approved": "95723277"
+      },
+      {
+        "id": "dan2-personal-god",
+        "ref": "Daniel 2:10–22",
+        "title": "Gods far away, and a God close by",
+        "text": "Babylon’s wise men said only “the gods, whose dwelling is not with flesh” could tell the king his dream. Richard D. Draper notes that they were admitting they couldn’t reach their own gods. Daniel’s God was different: He “revealeth the deep and secret things.” Draper writes that even in Babylon, Jehovah was close and personal to Daniel.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Richard D. Draper",
+          "title": "The Prophets of the Exile: Saviors of a People",
+          "url": "https://rsc.byu.edu/sperry-symposium-classics-old-testament/prophets-exile"
+        },
+        "find": "the Babylonian priests admit that they could not get in contact with their own local gods",
+        "approved": "34b1618b"
+      },
+      {
+        "id": "dan2-witness",
+        "ref": "Daniel 2:27–30",
+        "title": "A witness, not a showman",
+        "text": "Daniel stood before a king who could have him killed and said the wise men couldn’t do it, but “there is a God in heaven that revealeth secrets.” Dr. Lili de Hoyos Anderson calls Daniel always a witness of Christ. He never took the honor for himself. In verse 30 he even says the secret didn’t come because he was wiser than anyone else.",
+        "source": {
+          "by": "followHIM",
+          "who": "Lili de Hoyos Anderson",
+          "title": "Old Testament: EPISODE 45 – Daniel 1-6 – Part 1",
+          "url": "https://followhim.co/show-note/2-220/"
+        },
+        "find": "He never takes that honor into himself",
+        "deep": {
+          "paras": [
+            "When Daniel stands before Nebuchadnezzar in verse 27, he begins by saying what no wise man, astrologer, or magician could do. Then he turns the king’s attention upward: “there is a God in heaven that revealeth secrets.” Hank Smith’s reaction is simple: “Man, he is bold.”",
+            "Dr. Lili de Hoyos Anderson answers that Daniel “is a witness of Christ,” always. He never takes the honor himself or claims he figured it out. In verse 30 he goes further, telling the king the secret was not revealed to him for any wisdom he has above anyone living. She calls it incredible understanding and humility: Daniel doesn’t even want the king to think he is better than anybody else.",
+            "She also notices who the revelation was for. Verse 30 says it came for the sake of those who would make it known, and so the king could know the thoughts of his heart. “This is a blessing for Nebuchadnezzar as well,” she says. God gave Daniel the answer, and through Daniel He was reaching out to a proud king too."
+          ],
+          "find": [
+            "He is a witness of Christ. He’s always a witness of Christ.",
+            "He never takes that honor into himself",
+            "Look at this incredible understanding and humility.",
+            "This is a blessing for Nebuchadnezzar as well."
+          ],
+          "listen": {
+            "youtube": "MuHJL3qGJq8",
+            "start": 1787,
+            "end": 1892,
+            "title": "followHIM: Daniel 1–6, part 1, with Dr. Lili de Hoyos Anderson",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          },
+          "approved": "21c1c7ba"
+        },
+        "approved": "df2182b1"
+      },
+      {
+        "id": "dan2-moroni",
+        "ref": "Daniel 2:28",
+        "title": "Moroni quoted Daniel 2",
+        "text": "Daniel told the king his dream was about “what shall be in the latter days.” The Encyclopedia of Mormonism notes that, according to Wilford Woodruff, the angel Moroni quoted from Daniel 2 to the Prophet Joseph Smith. Latter-day prophets have taught that the stone cut out without hands stands for the latter-day kingdom of God.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Jeffrey R. Chadwick",
+          "title": "Daniel, Prophecies of",
+          "url": "https://scripturecentral.org/archive/articles/encyclopedia-entry/daniel-prophecies"
+        },
+        "find": "the angel Moroni quoted to the Prophet Joseph Smith from Daniel chapter two",
+        "approved": "876f8436"
+      },
+      {
+        "id": "dan2-growth",
+        "ref": "Daniel 2:35",
+        "title": "The stone is still rolling",
+        "text": "The stone in the dream “became a great mountain.” Richard O. Cowan traces the Church’s growth: just over a quarter of a million members in 1900, one million by 1947, ten million by 1997. Still, around the year 2000 there were about five hundred other people for every Latter-day Saint. He writes that there is still a long way to go before it fills the earth.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Richard O. Cowan",
+          "title": "The Restoration in the Lord’s Plan",
+          "url": "https://rsc.byu.edu/window-faith/restoration-lords-plan"
+        },
+        "find": "there is still a long way to go before it even came close to filling the earth",
+        "approved": "42516e5e"
+      },
+      {
+        "id": "dan2-not-political",
+        "ref": "Daniel 2:44",
+        "title": "Not that kind of kingdom",
+        "text": "Daniel saw God’s kingdom break in pieces all the other kingdoms. Does that mean the Church will take over governments? President D. Todd Christofferson taught that until the Savior returns, it is not a political kingdom at all. It holds His authority and covenants, cares for His temples, teaches His truth, and gathers scattered Israel.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder D. Todd Christofferson",
+          "title": "Why the Church",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2015/10/why-the-church?lang=eng"
+        },
+        "find": "it will not be a kingdom in any political sense",
+        "approved": "cba9576f"
+      },
+      {
+        "id": "dan2-earthly-hands",
+        "ref": "Daniel 2:44–45",
+        "title": "Without earthly hands",
+        "text": "What does “cut out of the mountain without hands” mean? John Bytheway thinks it means without earthly hands: this is something people didn’t do. Dr. Lili de Hoyos Anderson adds that Joseph Smith had no wealth, no fame, and no armies. The kingdom Daniel saw was restored by the gift and power of God, not by human power.",
+        "source": {
+          "by": "followHIM",
+          "who": "John Bytheway",
+          "title": "Old Testament: EPISODE 45 – Daniel 1-6 – Part 1",
+          "url": "https://followhim.co/show-note/2-220/"
+        },
+        "find": "I think it means without earthly hands, it’s going to be something that man didn’t do.",
+        "deep": {
+          "paras": [
+            "Reading the dream with Dr. Lili de Hoyos Anderson, John Bytheway turns to Doctrine and Covenants 65:2, where the Lord says the keys of the kingdom of God are on the earth again. For him that is the fulfillment: Peter, James, and John came back and restored the keys, and the stone began to roll. And “without hands”? “I think it means without earthly hands,” he says. It is something man didn’t do.",
+            "Dr. Anderson agrees. Joseph Smith had no power of his own: he wasn’t wealthy, he wasn’t famous, and he had no armies at his command. It was done, she says, through the gift and power of God, and the Holy Ghost given to a steward on the earth.",
+            "Hank Smith remembers President Gordon B. Hinckley speaking of the stone again and again, and reads his words: “Daniel had foreseen a stone which was cut out of the mountain without hands and which became a great mountain and filled the earth.” That day dawned, President Hinckley said, in 1820, when a boy walked into a grove of trees to pray. Dr. Anderson adds that God does reveal His secrets to His prophets, and nothing men do can halt His hand."
+          ],
+          "find": [
+            "I think it means without earthly hands, it’s going to be something that man didn’t do.",
+            "Joseph Smith didn’t have power. That’s right. He wasn’t wealthy. He wasn’t famous. He certainly had no armies at his command.",
+            "It was done through the gift and power of God",
+            "God does reveal his secrets to the prophets."
+          ],
+          "listen": {
+            "youtube": "MuHJL3qGJq8",
+            "start": 2580,
+            "end": 2708,
+            "title": "followHIM: Daniel 1–6, part 1, with Dr. Lili de Hoyos Anderson",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          },
+          "approved": "9e63fdef"
+        },
+        "approved": "2ddafda4"
+      },
+      {
+        "id": "dan2-q-hinckley",
+        "kind": "quote",
+        "ref": "Daniel 2:44–45",
+        "quote": "No force under the heavens can stop it if we will walk in righteousness and be faithful and true.",
+        "text": "Verses 44–45: the stone breaks every other kingdom and stands forever. President Hinckley was speaking of that little stone, rolling forth to fill the earth.",
+        "source": {
+          "by": "General Conference",
+          "who": "President Gordon B. Hinckley",
+          "title": "This Is the Work of the Master",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/1995/04/this-is-the-work-of-the-master?lang=eng"
+        },
+        "approved": "4b49cba8"
+      },
+      {
+        "id": "dan2-jsp-stone",
+        "ref": "Daniel 2:44–45",
+        "title": "The stone in an 1831 revelation",
+        "text": "In October 1831 the Lord gave Joseph Smith a revelation, now Doctrine and Covenants 65. A copy made soon after, in Revelation Book 1, says the keys of God’s kingdom are on the earth, and that the gospel will spread as “the stone which is hewn from the Mountain without hands” rolls forth. The Joseph Smith Papers’ own notes point to Daniel 2:35, 44.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Revelation, 30 October 1831 [D&C 65]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/revelation-30-october-1831-dc-65/1"
+        },
+        "find": "as the stone which is hewn from the Mountain without hands shall roll forth untill it hath filled the whole Earth",
+        "approved": "017c3d95"
+      },
+      {
+        "id": "dan3-q-christofferson",
+        "kind": "quote",
+        "ref": "Daniel 3:16–18",
+        "quote": "They trusted in Jehovah for deliverance, “but if not,” that is, even if God in His wisdom did not prevent their death, yet they would remain true to Him.",
+        "text": "Verse 18: “But if not.” Here is what those three short words meant for the three friends.",
+        "source": {
+          "by": "General Conference",
+          "who": "Elder D. Todd Christofferson",
+          "title": "Worship",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2025/04/35christofferson?lang=eng"
+        },
+        "approved": "3ae503c4"
+      },
+      {
+        "id": "dan3-promise",
+        "ref": "Daniel 3:16–18",
+        "title": "Because they said they would",
+        "text": "Sister Joy D. Jones, then the Primary General President, noticed that the three young men weren’t obeying in order to be rescued. Even if they weren’t delivered, they would keep their promise to the Lord. She told of a boy who kept a promise not to tease his little sister for one day, then two. Small promises kept prepare us to keep sacred covenants.",
+        "source": {
+          "by": "General Conference",
+          "who": "Joy D. Jones",
+          "title": "A Sin-Resistant Generation",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2017/04/a-sin-resistant-generation?lang=eng"
+        },
+        "find": "These three young men were not basing their obedience upon being delivered",
+        "approved": "870a74db"
+      },
+      {
+        "id": "dan3-friends",
+        "ref": "Daniel 3:16–18",
+        "title": "We, not I",
+        "text": "Listen to the words in verses 16–18: we, our, us. Hank Smith notices that Daniel and his friends did hard things as a group. In Daniel 1 they turned down the king’s food together, and here they answer the king together. John Bytheway shares a teaching from Elder Robert D. Hales: a true friend makes it easier, not harder, to live the gospel of Jesus Christ.",
+        "source": {
+          "by": "followHIM",
+          "who": "Hank Smith and John Bytheway",
+          "title": "Old Testament: EPISODE 45 – Daniel 1-6 – Favorites",
+          "url": "https://followhim.co/show-note/2-218/"
+        },
+        "find": "It’s easier to live the gospel when you’ve got three or four people around you who are also living the gospel",
+        "deep": {
+          "paras": [
+            "In the followHIM Favorites episode for Daniel, Hank Smith asks a question every young person faces: does it matter who my friends are? John Bytheway answers with a picture from learning to drive: “If you get in somebody else’s car, you’re going where they’re going.” Friends either influence you or you get influenced, and from the back seat you don’t get much say.",
+            "Hank Smith points to Daniel and his friends. They faced their tests together: in chapter 1 they turned down the king’s food as a group, and in chapter 3 the three answer the king with we and us. “There’s not a lot of I’s and him’s. They do things as a group,” he says. It is easier to live the gospel with three or four people around you who are living it too.",
+            "John Bytheway shares Elder Robert D. Hales’s description of a true friend: one who makes it easier to live the gospel just by being around, and who will never ask you to choose between their way and the Lord’s way. Hank Smith adds that if your friends make it harder, you don’t have to condemn them, but you may need to change your situation to have the future you want."
+          ],
+          "find": [
+            "If you get in somebody else’s car, you’re going where they’re going.",
+            "There’s not a lot of I’s and him’s. They do things as a group.",
+            "It’s easier to live the gospel when you’ve got three or four people around you who are also living the gospel",
+            "A true friend makes it easier to live the gospel of Jesus Christ by being around him or her."
+          ],
+          "listen": {
+            "youtube": "YYvlVYMEyoo",
+            "start": 63,
+            "end": 391,
+            "title": "followHIM Favorites: Why does it matter who my friends are?",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          },
+          "approved": "6f1d4a8f"
+        },
+        "approved": "6f78d82c"
+      },
+      {
+        "id": "dan3-hotter",
+        "ref": "Daniel 3:19–22",
+        "title": "Seven times hotter",
+        "text": "The king ordered the furnace heated “seven times more than it was wont to be heated.” The Old Testament Student Manual explains this was probably a way of saying as hot as it could possibly get. It was so hot that the flames killed the soldiers who threw the three friends in. Yet the fire didn’t harm the friends at all.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Daniel: Prophet of God, Companion of Kings",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-28?lang=eng"
+        },
+        "find": "to be heated as hot as it could be heated",
+        "approved": "a909dfa2"
+      },
+      {
+        "id": "dan4-astonied",
+        "ref": "Daniel 4:19",
+        "title": "Daniel was upset for the king",
+        "text": "When Daniel heard the king’s dream, he “was astonied for one hour.” The Old Testament Student Manual explains that astonied means bewildered, or filled with dismay. Daniel was troubled because he knew the dream meant bad news for the king. He even wished it were about the king’s enemies. He gave God’s hard message, but with real care for the man.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Daniel: Prophet of God, Companion of Kings",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-28?lang=eng"
+        },
+        "find": "Daniel was troubled because he knew that the message of Nebuchadnezzar’s dream was not good",
+        "approved": "ef487dcf"
+      },
+      {
+        "id": "dan4-king-of-heaven",
+        "ref": "Daniel 4:34–37",
+        "title": "Not just Daniel’s God anymore",
+        "text": "When Nebuchadnezzar’s understanding came back, he praised God. Dr. Lili de Hoyos Anderson notices a change in his words. Before, he spoke of the God of Daniel, or of Shadrach, Meshach, and Abed-nego. Now he honors “the King of heaven” (verse 37). God wasn’t only their God to him anymore. He had learned that the Most High rules, and that He can humble the proud.",
+        "source": {
+          "by": "followHIM",
+          "who": "Lili de Hoyos Anderson",
+          "title": "Old Testament: EPISODE 45 – Daniel 1-6 – Part 2",
+          "url": "https://followhim.co/show-note/2-219/"
+        },
+        "find": "Not Daniel’s God or Shadrach, Meshach, and Abednego’s God, but the king of heaven.",
+        "deep": {
+          "paras": [
+            "Dr. Lili de Hoyos Anderson points out that even after the fiery furnace, Nebuchadnezzar respected the God of Israel but was not humble. He had built an image of gold and still had not bowed to God himself. So in chapter 4 Daniel tells him his dream means he will be driven out until he knows the Most High rules. Hank Smith notes that Daniel even begs the king to repent and to care for the poor.",
+            "After seven times pass, the king lifts his eyes to heaven and his understanding returns. Dr. Anderson notices the change in language in verse 37: “Not Daniel’s God or Shadrach, Meshach, and Abednego’s God, but the king of heaven.” In her words, “There’s a different level of acknowledgement here.” He even admits that God can humble those who walk in pride, as he had.",
+            "John Bytheway sums up what he has felt through these chapters: “this is a very involved God.” He watches over Shadrach, Meshach, and Abed-nego even in captivity. Dr. Anderson adds a line from Elizabeth Barrett Browning about Moses and the burning bush: earth is crammed with heaven, but only those who see take off their shoes. Do we have eyes to see God’s hand?"
+          ],
+          "find": [
+            "Even though Nebuchadnezzar has acknowledged the power of Daniel and Shadrach, Meshach, and Abednego’s God, the God of Israel, he still is not humble.",
+            "Not Daniel’s God or Shadrach, Meshach, and Abednego’s God, but the king of heaven.",
+            "There’s a different level of acknowledgement here.",
+            "Something I’ve just felt this whole time is that this is a very involved God, isn’t it?"
+          ],
+          "listen": {
+            "youtube": "vaPuHxYFEjw",
+            "start": 281,
+            "end": 575,
+            "title": "followHIM: Daniel 1–6, part 2, with Dr. Lili de Hoyos Anderson",
+            "channel": "followHIM Podcast",
+            "previewed": false
+          },
+          "approved": "24794dfa"
+        },
+        "approved": "31b64bc8"
+      },
+      {
+        "id": "dan5-third-ruler",
+        "ref": "Daniel 5:7",
+        "title": "Why third, not second?",
+        "text": "Belshazzar promised that whoever read the writing would be “the third ruler in the kingdom.” Why third? The Old Testament Student Manual explains that the word means one of three. Belshazzar ruled together with his father, Nabonidus, so the best he could offer was the place right after the two of them.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Daniel: Prophet of God, Companion of Kings",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-28?lang=eng"
+        },
+        "find": "would be made third in authority in the kingdom next to Nabonidus and Belshazzar",
+        "approved": "40430552"
+      },
+      {
+        "id": "dan5-jsp-upharsin",
+        "ref": "Daniel 5:28",
+        "title": "Joseph’s Bible: Upharsin",
+        "text": "The hand wrote MENE, MENE, TEKEL, UPHARSIN (verse 25). But when Daniel explains the last word in verse 28, the King James Version says PERES. On page 116 of Joseph Smith’s Old Testament manuscript, the note for verse 28 is one word: “Upharsin.” So in Joseph’s revision, Daniel explains the very word the hand wrote.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Old Testament Revision 2, page 116",
+          "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/123"
+        },
+        "find": "th Upharsin —— Hosea, Chapter 11",
+        "note": "Joseph Smith’s Old Testament manuscript gives one word for this verse: “Upharsin,” the word written on the wall in verse 25, where the King James Version has Peres.",
+        "approved": "bd7a763b"
+      },
+      {
+        "id": "dan5-one-night",
+        "ref": "Daniel 5:30–31",
+        "title": "Babylon fell in one night",
+        "text": "Babylon’s walls were enormous. How could the city fall “in that night”? The Old Testament Student Manual points to the Greek historian Herodotus, who wrote that Cyrus turned the Euphrates River aside until it was shallow enough for his soldiers to walk along the riverbed, under the walls and into the city.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Daniel: Prophet of God, Companion of Kings",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-28?lang=eng"
+        },
+        "find": "Thus the Persians marched under the massive walls",
+        "approved": "516bfd18"
+      },
+      {
+        "id": "dan6-toward-temple",
+        "ref": "Daniel 6:10",
+        "title": "Praying toward the temple",
+        "text": "Why did Daniel pray with his windows open toward Jerusalem? The temple had stood there. When it was dedicated, Solomon asked the Lord to hear people who prayed toward it (1 Kings 8:44). The Old Testament Student Manual explains that the direction itself isn’t magic. Facing the temple means turning your heart to the Lord and to the covenants made there.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "title": "Daniel: Prophet of God, Companion of Kings",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-28?lang=eng"
+        },
+        "find": "To face the temple, which is the temporal representation of the House of God, suggests that one turns one’s heart to the Lord",
+        "approved": "20ebe362"
+      },
+      {
+        "id": "dan6-q-eyring",
+        "kind": "quote",
+        "ref": "Daniel 6:10",
+        "quote": "It is significant that their spiritual strength came from continued prayer rather than waiting to pray until a moment of crisis when they desperately needed divine help.",
+        "text": "Verse 10: Daniel prayed “as he did aforetime.” President Eyring was speaking of the sons of Mosiah, but it fits Daniel too: his habit of prayer was there before the crisis came.",
+        "source": {
+          "by": "General Conference",
+          "who": "President Henry B. Eyring",
+          "title": "Prayers for Peace",
+          "url": "https://www.churchofjesuschrist.org/study/general-conference/2026/04/19eyring?lang=eng"
+        },
+        "approved": "9e7d8aea"
+      },
+      {
+        "id": "dan6-living-god",
+        "ref": "Daniel 6:25–27",
+        "title": "How Babylon’s kings came to see God",
+        "text": "Watch how the kings talk about Daniel’s God. First Nebuchadnezzar calls Him the greatest of gods. After the furnace, no other god can save like Him. After his madness, the king praises the King of heaven. At last Darius orders everyone to honor “the living God” (verse 26). Richard D. Draper writes that by then, Jehovah was no longer one god among many.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Richard D. Draper",
+          "title": "The Prophets of the Exile: Saviors of a People",
+          "url": "https://rsc.byu.edu/sperry-symposium-classics-old-testament/prophets-exile"
+        },
+        "find": "He was the living God whose kingdom and dominion were everlasting",
+        "deep": {
+          "paras": [
+            "Richard D. Draper notes that the prophets of the exile had to assure Judah that, even in Babylon, Jehovah was with them. They did it by teaching that the Lord governed the destiny of every nation, Babylon included. Daniel’s stories make the point by following how Babylon’s rulers slowly came to see who God is.",
+            "The first step came with the king’s dream. Babylon’s wise men said only gods who don’t live among people could reveal it, which Draper reads as an admission that they couldn’t reach their own gods. Daniel’s God revealed it, and the king honored Him above other gods. After the furnace, Nebuchadnezzar decreed that no other god could deliver like this one. In Draper’s words, “Jehovah had definitely climbed a few more rungs up the ladder of the pantheon.”",
+            "Then came the king’s madness. When his reason returned, he praised the one who lives forever. Draper says it is hard to know from the text how far Nebuchadnezzar’s beliefs changed, but one thing is sure: he now counted Jehovah as the King of heaven, whose works are truth and who can humble the proud.",
+            "The last step came under Darius. Tricked into throwing Daniel to the lions, the king still hoped Daniel’s God could save him. When He did, Darius decreed that everyone should tremble before “the living God.” Draper concludes that Jehovah no longer stood as one of many gods, or even as the head of the gods. He was the living God, whose kingdom would never end."
+          ],
+          "find": [
+            "Jehovah governed and controlled the destiny of all nations, including Babylon",
+            "Jehovah had definitely climbed a few more rungs up the ladder of the pantheon",
+            "One thing is sure: he reckoned Jehovah as",
+            "Jehovah no longer stood as one of the many gods nor as the head of the gods"
+          ],
+          "approved": "c413bca9"
+        },
+        "approved": "06cadf2f"
+      },
+      {
+        "id": "dan6-v-latterdaykids",
+        "kind": "video",
+        "ref": "Daniel 6",
+        "title": "Daniel and the Lion’s Den (Latter Day Kids)",
+        "text": "A five-minute animated retelling of Daniel 6 for kids, from Latter Day Kids. Watch for what Daniel does once he learns the new law has been signed, then compare it with verse 10.",
+        "video": {
+          "youtube": "k8l228B7UHY",
+          "start": 0,
+          "end": 327,
+          "title": "Daniel and the Lion's Den | Animated Scripture Lesson for Kids",
+          "channel": "Latter Day Kids",
+          "previewed": false
+        },
+        "approved": "8f0bcf84"
+      },
+      {
+        "id": "dan7-thrones",
+        "ref": "Daniel 7:9",
+        "title": "Thrones set up, not knocked over",
+        "text": "“I beheld till the thrones were cast down” sounds like thrones being knocked over. But Jared W. Ludlow explains that the Aramaic words mean set up, or established. He also notes there is more than one throne: likely one for the Ancient of Days and one for the Son of Man, who comes to him in verse 13.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Jared W. Ludlow",
+          "title": "“One Like the Son of Man Came with the Clouds of Heaven”: The Context and Influence of the Son of Man Prophecy in Daniel 7",
+          "url": "https://rsc.byu.edu/vol-24-no-1-2023/one-like-son-man-came-clouds-heaven"
+        },
+        "find": "Although the King James Version makes it sound like the thrones are toppled",
+        "approved": "7c26d757"
+      },
+      {
+        "id": "dan7-jsp-ancient",
+        "ref": "Daniel 7:9",
+        "title": "Adam-ondi-Ahman in Joseph’s journal",
+        "text": "In 1838 Joseph Smith’s journal told why a new settlement in northwest Missouri was named Adam-ondi-Ahman. It is the place where Adam will come to visit his people, where “the Ancient of days shall sit as spoken of by Daniel the Prophet.” The Papers’ notes link it to Daniel 7:13–14, and part of the entry is now Doctrine and Covenants 116.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Journal, March–September 1838, page 44 [D&C 116]",
+          "url": "https://www.josephsmithpapers.org/paper-summary/journal-march-september-1838/30"
+        },
+        "find": "is the place where Adam shall come to visit his people, or the Ancient of days shall sit as spoken of by Daniel the Prophet",
+        "note": "Joseph Smith’s 1838 journal names Adam-ondi-Ahman as the place where “the Ancient of days shall sit as spoken of by Daniel the Prophet” (D&C 116).",
+        "approved": "6988e0b1"
+      },
+      {
+        "id": "dan7-like",
+        "ref": "Daniel 7:4–13",
+        "title": "Not a beast, but like a man",
+        "text": "Daniel saw beasts “like a lion” and “like a leopard.” Then came “one like the Son of man.” Jared W. Ludlow suggests the word like sets Him apart from the beasts. The kingdoms of the world look like wild animals. The Savior comes not as another beast, but as one like a man, to receive a kingdom that lasts forever.",
+        "source": {
+          "by": "BYU Religious Studies Center",
+          "who": "Jared W. Ludlow",
+          "title": "“One Like the Son of Man Came with the Clouds of Heaven”: The Context and Influence of the Son of Man Prophecy in Daniel 7",
+          "url": "https://rsc.byu.edu/vol-24-no-1-2023/one-like-son-man-came-clouds-heaven"
+        },
+        "find": "Rather than coming as another type of beast, he will come like or as a Son of man",
+        "approved": "37e9134d"
+      },
+      {
+        "id": "dan7-son-of-man",
+        "ref": "Daniel 7:13",
+        "title": "Son of Man, Son of God",
+        "text": "In Hebrew, a son of man is just a human being, a child of Adam, and Jesus did inherit mortality from His mother. But the Encyclopedia of Mormonism explains that the title means more. Jesus is the Son of the perfect, heavenly Man, the Eternal Father (Moses 6:57). So, in this sense, Son of Man means Son of God.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Stephen E. Robinson",
+          "title": "Jesus Christ, Names and Titles of",
+          "url": "https://scripturecentral.org/archive/articles/encyclopedia-entry/jesus-christ-names-and-titles"
+        },
+        "find": "Jesus is the son of the archetypal Man, the perfect heavenly Man, the Eternal Father",
+        "approved": "b34a0087"
+      },
+      {
+        "id": "dan7-jsp-stewardship",
+        "ref": "Daniel 7:13–14",
+        "title": "Joseph Smith on Adam’s grand council",
+        "text": "In the summer of 1839 Joseph Smith taught about Daniel 7, and Willard Richards copied his words into a notebook. Adam is the father of the human family, and all who have held priesthood keys must stand before him in a grand council. Then “The Son of Man Stands before him & there is given him glory & dominion.” Adam gives his stewardship to Christ but stays the head of the human family.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Discourse, between circa 26 June and circa 4 August 1839–A, as Reported by Willard Richards",
+          "url": "https://www.josephsmithpapers.org/paper-summary/discourse-between-circa-26-june-and-circa-4-august-1839-a-as-reported-by-willard-richards/2"
+        },
+        "find": "The Son of Man Stands before him & there is given him glory & dominion",
+        "note": "In 1839 Joseph Smith taught that at Adam’s grand council, “The Son of Man Stands before him & there is given him glory & dominion,” as Willard Richards recorded.",
+        "approved": "eb96c684"
+      },
+      {
+        "id": "dan7-q-richards",
+        "kind": "quote",
+        "ref": "Daniel 7:13–14",
+        "quote": "tell me how can the kingdom be given to him when he comes in the clouds of heaven if there is no kingdom prepared for him? That is what we Latter-day Saints are doing.",
+        "text": "Verse 14: the Son of Man is given a kingdom. A minister told Elder Richards the Church couldn’t be that kingdom, because it had no king. This was his answer.",
+        "source": {
+          "by": "Old Testament Student Manual",
+          "who": "Elder LeGrand Richards",
+          "title": "Daniel: Prophet of God, Companion of Kings",
+          "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-28?lang=eng"
+        },
+        "approved": "7e82ef53"
+      },
+      {
+        "id": "dan7-jsp-beasts",
+        "ref": "Daniel 7:17",
+        "title": "Joseph Smith on Daniel’s beasts",
+        "text": "In a sermon on 8 April 1843, as Willard Richards recorded it, Joseph Smith talked about the beasts in the prophets’ visions. God used beasts, he said, to stand for the kingdoms of the world, like the bear and the lion in Daniel. He laughed at the idea that God would picture His own kingdom of people as a beast. Verse 17 agrees: the beasts are kings.",
+        "source": {
+          "by": "Joseph Smith Papers",
+          "who": "Joseph Smith",
+          "title": "Discourse, 8 April 1843, as Reported by Willard Richards",
+          "url": "https://www.josephsmithpapers.org/paper-summary/discourse-8-april-1843-as-reported-by-willard-richards/3"
+        },
+        "find": "By figure of Beasts God represented the kingdoms of the world",
+        "note": "Joseph Smith in 1843, as Willard Richards recorded: “By figure of Beasts God represented the kingdoms of the world.” He laughed at the idea of a beast picturing God’s kingdom.",
+        "approved": "2d9abd85"
+      }
+    ],
+    "plain": [
+      {
+        "ch": "Daniel 1",
+        "verses": [
+          "In the third year that Jehoiakim was king of Judah, Nebuchadnezzar king of Babylon came to Jerusalem and put it under siege.",
+          "The Lord handed Jehoiakim king of Judah over to him, along with some of the cups and bowls from the house of God. Nebuchadnezzar carried them off to the land of Shinar (Babylonia), to the house of his god, and put them in his god’s treasure house.",
+          "Then the king told Ashpenaz, the chief of his palace officials, to bring in some of the children of Israel—some from the king’s family and some from the nobles.",
+          "They were to be young men with nothing wrong with their bodies, good-looking, skilled in all kinds of wisdom, full of knowledge, quick to understand, and able to serve in the king’s palace. They were to be taught the writings and the language of the Chaldeans.",
+          "The king gave them a daily share of his own fine food and of the wine he drank. They were to be trained for three years, and at the end of that time they would serve the king.",
+          "Among them were some from Judah: Daniel, Hananiah, Mishael, and Azariah.",
+          "The chief official gave them new names. He gave Daniel the name Belteshazzar; Hananiah, Shadrach; Mishael, Meshach; and Azariah, Abed-nego.",
+          "But Daniel made up his mind that he would not make himself unclean with the king’s fine food or with the wine he drank. So he asked the chief official for permission not to make himself unclean.",
+          "Now God had made the chief official kind and caring toward Daniel.",
+          "But the chief official said to Daniel, “I am afraid of my lord the king, who has decided what you are to eat and drink. Why should he see your faces looking thinner than the other young men your age? You would put my head in danger with the king.”",
+          "Then Daniel spoke to Melzar, the steward the chief official had put in charge of Daniel, Hananiah, Mishael, and Azariah.",
+          "“Please test your servants for ten days. Let us be given vegetables to eat and water to drink.”",
+          "“Then compare how we look with how the young men look who eat the king’s fine food, and treat your servants by what you see.”",
+          "So he agreed to this and tested them for ten days.",
+          "At the end of the ten days they looked healthier and better fed than all the young men who ate the king’s fine food.",
+          "So Melzar kept taking away their fine food and the wine they were to drink, and gave them vegetables.",
+          "To these four young men God gave knowledge and skill in all kinds of learning and wisdom. And Daniel could understand all kinds of visions and dreams.",
+          "At the end of the time the king had set for bringing them in, the chief official brought them in before Nebuchadnezzar.",
+          "The king talked with them, and among them all no one was found like Daniel, Hananiah, Mishael, and Azariah. So they began to serve the king.",
+          "Whenever the king asked them about anything that needed wisdom and understanding, he found them ten times better than all the magicians and enchanters in his whole kingdom.",
+          "And Daniel stayed on until the first year of King Cyrus."
+        ],
+        "notes": [
+          {
+            "v": 11,
+            "text": "The KJV uses “Melzar” like a name. The Hebrew word is a title, and the BSB calls him ‘the steward.’ Verse 16 has the same word."
+          },
+          {
+            "v": 12,
+            "text": "The KJV’s “pulse” is a Hebrew word for food grown from seeds. The BSB says ‘vegetables.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 3,
+            "about": "The KJV’s “master of his eunuchs” (and “prince of the eunuchs” after it) is a title in the Hebrew; the word can mean a eunuch or a court official, and the BSB says ‘chief of his court officials.’ The plain words say “chief of his palace officials” and then “the chief official.”"
+          },
+          {
+            "v": 2,
+            "about": "The KJV’s “vessels” (Hebrew ‘articles, utensils’) are said “cups and bowls,” which fits chapter 5, where they drink from them (Daniel 5:2–3, 23). The BSB says ‘articles’ and ‘vessels.’"
+          },
+          {
+            "v": 11,
+            "about": "“Melzar” is kept, since the KJV makes it a name, with “the steward” after it (BSB). The note says the Hebrew word is a title."
+          },
+          {
+            "v": 20,
+            "about": "The KJV’s “astrologers” here (and in chapters 2, 4 and 5) is a Hebrew and Aramaic word for people who use spells; the plain words say “enchanters,” as the BSB does. The KJV’s “soothsayers” is “fortune-tellers” (BSB ‘diviners’)."
+          }
+        ],
+        "approved": "254ab8bd"
+      },
+      {
+        "ch": "Daniel 2",
+        "verses": [
+          "In the second year of Nebuchadnezzar’s reign, Nebuchadnezzar had dreams that troubled his spirit, and he could not sleep.",
+          "Then the king gave orders to call the magicians, the enchanters, the sorcerers, and the Chaldeans to tell the king what he had dreamed. So they came and stood before the king.",
+          "The king said to them, “I have had a dream, and my spirit is troubled to understand the dream.”",
+          "Then the Chaldeans spoke to the king in Syriack (Aramaic): “O king, may you live forever! Tell your servants the dream, and we will tell you what it means.”",
+          "The king answered the Chaldeans, “This is my firm decision: If you do not tell me the dream and what it means, you will be cut into pieces, and your houses will be turned into piles of rubble.”",
+          "“But if you tell me the dream and what it means, you will receive gifts, rewards, and great honor from me. So tell me the dream and what it means.”",
+          "They answered a second time, “Let the king tell his servants the dream, and we will tell him what it means.”",
+          "The king answered, “I know for sure that you are trying to buy time, because you see that my decision is firm.”",
+          "“If you do not tell me the dream, there is only one sentence for you. You have agreed together to tell me lies and twisted words, hoping things will change. So tell me the dream, and then I will know that you can tell me what it means.”",
+          "The Chaldeans answered the king, “There is no man on earth who can do what the king asks! No king, however great and powerful, has ever asked such a thing of any magician, enchanter, or Chaldean.”",
+          "“What the king asks is too hard. No one can tell it to the king except the gods, and they do not live among human beings.”",
+          "This made the king so angry and furious that he ordered all the wise men of Babylon to be put to death.",
+          "So the decree went out that the wise men were to be killed, and they looked for Daniel and his friends to kill them.",
+          "Then Daniel spoke with careful, wise words to Arioch, the captain of the king’s guard, who had gone out to kill the wise men of Babylon.",
+          "He asked Arioch, the king’s captain, “Why is the king’s decree so urgent?” Then Arioch explained the matter to Daniel.",
+          "So Daniel went in and asked the king to give him time, so that he could tell the king what the dream meant.",
+          "Then Daniel went home and told the matter to his friends Hananiah, Mishael, and Azariah,",
+          "so that they would ask the God of heaven for mercy about this secret, and so that Daniel and his friends would not be killed with the rest of the wise men of Babylon.",
+          "Then the secret was revealed to Daniel in a vision at night. And Daniel blessed the God of heaven.",
+          "Daniel said, “Blessed be the name of God forever and ever, for wisdom and power belong to Him.”",
+          "“He changes the times and the seasons. He removes kings and sets up kings. He gives wisdom to the wise and knowledge to those who understand.”",
+          "“He reveals deep and hidden things. He knows what is in the darkness, and light lives with Him.”",
+          "“I thank You and praise You, O God of my fathers, for You have given me wisdom and power. Now You have shown me what we asked of You, for You have shown us what the king wanted to know.”",
+          "So Daniel went to Arioch, whom the king had appointed to kill the wise men of Babylon. He went and said to him, “Do not kill the wise men of Babylon. Take me in to the king, and I will tell the king what his dream means.”",
+          "Arioch quickly brought Daniel in to the king and said to him, “I have found a man among the captives from Judah who will tell the king what it means.”",
+          "The king said to Daniel, whose name was Belteshazzar, “Are you able to tell me the dream I saw, and what it means?”",
+          "Daniel answered the king, “No wise men, enchanters, magicians, or fortune-tellers can tell the king the secret he has asked about.”",
+          "“But there is a God in heaven who reveals secrets, and He has shown King Nebuchadnezzar what will happen in the latter days. Your dream and the visions in your head as you lay on your bed were these:”",
+          "“As for you, O king, as you lay on your bed, your thoughts turned to what would happen in the future. And He who reveals secrets has shown you what will happen.”",
+          "“As for me, this secret was not revealed to me because I have more wisdom than anyone else alive. It was revealed so that the king could be told what it means, and so that you could understand the thoughts of your heart.”",
+          "“You looked, O king, and there stood a great statue. This huge statue, shining brightly, stood in front of you, and it looked terrifying.”",
+          "“The statue’s head was made of fine gold, its chest and arms of silver, its belly and thighs of bronze,”",
+          "“its legs of iron, and its feet partly of iron and partly of clay.”",
+          "“As you watched, a stone was cut out, but not by human hands. It struck the statue on its feet of iron and clay and smashed them to pieces.”",
+          "“Then the iron, the clay, the bronze, the silver, and the gold were all broken to pieces at once. They became like chaff, the dry husks of grain, on a threshing floor in summer, and the wind blew them away until not a trace of them was left. But the stone that struck the statue became a great mountain and filled the whole earth.”",
+          "“That was the dream. Now we will tell the king what it means.”",
+          "“You, O king, are the king of kings. The God of heaven has given you a kingdom, power, strength, and glory.”",
+          "“Wherever people live, He has put them in your hands, along with the wild animals and the birds of the sky, and He has made you ruler over them all. You are that head of gold.”",
+          "“After you, another kingdom will rise that is not as great as yours. Then a third kingdom, of bronze, will rule over the whole earth.”",
+          "“And the fourth kingdom will be as strong as iron. Just as iron breaks and smashes everything, and as iron crushes all these things, it will break and crush all the others.”",
+          "“You saw that the feet and toes were partly potter’s clay and partly iron. So it will be a divided kingdom, but it will have some of the strength of iron in it, just as you saw iron mixed with soft clay.”",
+          "“And as the toes of the feet were partly iron and partly clay, so the kingdom will be partly strong and partly easy to break.”",
+          "“And as you saw iron mixed with soft clay, so they will mix with other peoples, but they will not hold together, just as iron does not mix with clay.”",
+          "“In the days of those kings, the God of heaven will set up a kingdom that will never be destroyed. That kingdom will not be left to another people. It will break all these kingdoms to pieces and bring them to an end, and it will stand forever.”",
+          "“You saw that a stone was cut out of the mountain, not by human hands, and that it broke to pieces the iron, the bronze, the clay, the silver, and the gold. The great God has shown the king what will happen in the future. The dream is true, and what it means is sure.”",
+          "Then King Nebuchadnezzar fell on his face and bowed down to Daniel. He ordered that an offering and sweet-smelling incense be offered to him.",
+          "The king said to Daniel, “Truly your God is the God of gods and the Lord of kings, and He reveals secrets, for you were able to reveal this secret.”",
+          "Then the king made Daniel a great man and gave him many great gifts. He made him ruler over the whole province of Babylon and chief of the officials over all the wise men of Babylon.",
+          "At Daniel’s request, the king put Shadrach, Meshach, and Abed-nego in charge of the work of the province of Babylon. But Daniel stayed at the king’s court."
+        ],
+        "notes": [
+          {
+            "v": 2,
+            "text": "Here the “Chaldeans” are a group of Babylon’s wise men, and the BSB says ‘astrologers.’ Elsewhere the word means the people of Babylon, as in “Belshazzar the king of the Chaldeans” (Daniel 5:30)."
+          },
+          {
+            "v": 4,
+            "text": "The KJV’s “Syriack” is Aramaic (BSB). From “O king, live for ever” to the end of chapter 7, Daniel is written in Aramaic, not Hebrew."
+          },
+          {
+            "v": 5,
+            "text": "The KJV says “The thing is gone from me,” as if the king had forgotten his dream. The BSB reads the Aramaic as ‘My word is final’: he had made up his mind. Verse 8 has the same words."
+          },
+          {
+            "v": 44,
+            "text": "In a revelation given through Joseph Smith, the Lord said, “The keys of the kingdom of God are committed unto man on the earth, and from thence shall the gospel roll forth unto the ends of the earth” (D&C 65:2)."
+          },
+          {
+            "v": 45,
+            "text": "The same revelation says the gospel will roll forth “as the stone which is cut out of the mountain without hands shall roll forth, until it has filled the whole earth” (D&C 65:2)."
+          }
+        ],
+        "review": [
+          {
+            "v": 5,
+            "about": "The plain words follow the Aramaic and the BSB (“This is my firm decision”) over the KJV’s “The thing is gone from me,” which reads it as the king forgetting the dream. The same in verse 8. There’s a note; check you’re happy with the change in the story’s picture."
+          },
+          {
+            "v": 2,
+            "about": "The lists of wise men (verses 2, 10, 27, and in chapters 4 and 5) follow the Aramaic: magicians, enchanters (KJV “astrologers”), sorcerers, Chaldeans, fortune-tellers (KJV “soothsayers”). “Chaldeans” is kept as the KJV has it, with a note."
+          },
+          {
+            "v": 43,
+            "about": "The KJV’s “mingle themselves with the seed of men” is said plainly as “mix with other peoples,” close to the BSB’s ‘the peoples will mix with one another.’ Some read it as kingdoms joined by marriage; the plain words don’t say so."
+          },
+          {
+            "v": 44,
+            "about": "Verses 44–45 have the D&C 65:2 notes, quoted exactly. They say what the revelation says and nothing more."
+          },
+          {
+            "v": 46,
+            "about": "The KJV’s “worshipped Daniel” is the Aramaic word for bowing down low (BSB ‘paid homage’). The plain words say “bowed down to Daniel.”"
+          }
+        ],
+        "approved": "4abaa91f"
+      },
+      {
+        "ch": "Daniel 3",
+        "verses": [
+          "King Nebuchadnezzar made a statue of gold, sixty cubits (about ninety feet) high and six cubits wide. He set it up on the plain of Dura in the province of Babylon.",
+          "Then King Nebuchadnezzar sent for the high rulers, the deputies, the governors, the advisers, the treasurers, the judges, the magistrates, and all the officials of the provinces to come to the dedication of the statue King Nebuchadnezzar had set up.",
+          "So the high rulers, the deputies, the governors, the advisers, the treasurers, the judges, the magistrates, and all the officials of the provinces gathered for the dedication of the statue King Nebuchadnezzar had set up. They stood in front of the statue Nebuchadnezzar had set up.",
+          "Then a herald called out loudly, “This is the command for you, people of every nation and language:”",
+          "“As soon as you hear the sound of the horn, flute, zither, lyre, harp, pipes, and every kind of music, you must fall down and worship the gold statue that King Nebuchadnezzar has set up.”",
+          "“Whoever does not fall down and worship will be thrown at once into the middle of a burning fiery furnace.”",
+          "So as soon as all the people heard the sound of the horn, flute, zither, lyre, harp, and every kind of music, all the people of every nation and language fell down and worshipped the gold statue King Nebuchadnezzar had set up.",
+          "At that time some Chaldeans came forward and accused the Jews.",
+          "They said to King Nebuchadnezzar, “O king, may you live forever!”",
+          "“You, O king, have made a decree that everyone who hears the sound of the horn, flute, zither, lyre, harp, pipes, and every kind of music must fall down and worship the gold statue,”",
+          "“and that whoever does not fall down and worship will be thrown into the middle of a burning fiery furnace.”",
+          "“There are some Jews you have put in charge of the work of the province of Babylon—Shadrach, Meshach, and Abed-nego. These men, O king, pay no attention to you. They do not serve your gods or worship the gold statue you have set up.”",
+          "Then Nebuchadnezzar, in a furious rage, ordered Shadrach, Meshach, and Abed-nego to be brought in. So these men were brought before the king.",
+          "Nebuchadnezzar said to them, “Is it true, Shadrach, Meshach, and Abed-nego, that you do not serve my gods or worship the gold statue I have set up?”",
+          "“Now if you are ready, when you hear the sound of the horn, flute, zither, lyre, harp, pipes, and every kind of music, to fall down and worship the statue I have made, very good. But if you do not worship it, you will be thrown at once into the middle of a burning fiery furnace. And what god is there who can rescue you from my hands?”",
+          "Shadrach, Meshach, and Abed-nego answered the king, “O Nebuchadnezzar, we do not need to give you an answer about this.”",
+          "“If it comes to that, our God whom we serve is able to save us from the burning fiery furnace, and He will save us from your hand, O king.”",
+          "“But if not, we want you to know, O king, that we will not serve your gods or worship the gold statue you have set up.”",
+          "Then Nebuchadnezzar was filled with rage, and the look on his face changed toward Shadrach, Meshach, and Abed-nego. He ordered the furnace to be heated seven times hotter than usual.",
+          "He commanded some of the strongest men in his army to tie up Shadrach, Meshach, and Abed-nego and throw them into the burning fiery furnace.",
+          "So these men were tied up in their robes, their trousers, their hats, and their other clothes, and were thrown into the middle of the burning fiery furnace.",
+          "Because the king’s command was so urgent and the furnace so very hot, the flames of the fire killed the men who carried up Shadrach, Meshach, and Abed-nego.",
+          "And these three men, Shadrach, Meshach, and Abed-nego, fell, tied up, into the middle of the burning fiery furnace.",
+          "Then King Nebuchadnezzar was amazed and jumped up quickly. He said to his advisers, “Didn’t we throw three men, tied up, into the middle of the fire?” They answered the king, “That’s true, O king.”",
+          "He said, “Look! I see four men walking around in the middle of the fire, untied and unharmed, and the fourth one looks like the Son of God!”",
+          "Then Nebuchadnezzar came near the door of the burning fiery furnace and called out, “Shadrach, Meshach, and Abed-nego, servants of the Most High God, come out! Come here!” So Shadrach, Meshach, and Abed-nego came out of the middle of the fire.",
+          "The high rulers, the deputies, the governors, and the king’s advisers gathered around and saw that the fire had no power over these men’s bodies. Not a hair on their heads was burned, their robes were not harmed, and they did not even smell of fire.",
+          "Then Nebuchadnezzar said, “Blessed be the God of Shadrach, Meshach, and Abed-nego! He has sent His angel and rescued His servants who trusted in Him. They defied the king’s command and were willing to give up their lives rather than serve or worship any god except their own God.”",
+          "“So I make this decree: People of any nation or language who say anything against the God of Shadrach, Meshach, and Abed-nego will be cut into pieces, and their houses will be turned into piles of rubble. For there is no other god who can rescue like this.”",
+          "Then the king promoted Shadrach, Meshach, and Abed-nego in the province of Babylon."
+        ],
+        "notes": [
+          {
+            "v": 5,
+            "text": "The KJV gave these ancient instruments the names of instruments of its own day, like the “sackbut,” an early trombone. The BSB says ‘horn, flute, zither, lyre, harp, pipes.’"
+          },
+          {
+            "v": 17,
+            "text": "The KJV’s “If it be so” is two short Aramaic words, ‘if there is.’ The BSB reads them ‘If the God whom we serve exists.’"
+          },
+          {
+            "v": 25,
+            "text": "The KJV says “like the Son of God.” The Aramaic can also be read ‘like a son of the gods,’ as the BSB does. Nebuchadnezzar then says God “hath sent his angel” (verse 28)."
+          }
+        ],
+        "review": [
+          {
+            "v": 25,
+            "about": "The plain words keep the KJV’s “the Son of God,” with a note giving the BSB’s ‘a son of the gods’ (both are fair readings of the Aramaic). Decide which he should read in the plain words."
+          },
+          {
+            "v": 17,
+            "about": "The KJV’s “If it be so” is short and hard in the Aramaic; the BSB reads ‘If the God whom we serve exists.’ The plain words say “If it comes to that,” close to the KJV, with a note."
+          },
+          {
+            "v": 2,
+            "about": "The titles follow the Aramaic and the BSB, in plain words: “high rulers” for the satraps (KJV “princes”), “deputies” (KJV “governors”), “governors” (KJV “captains”), then advisers, treasurers, judges, magistrates, where the KJV has judges, treasurers, counsellors, sheriffs. The same words are used in chapter 6."
+          },
+          {
+            "v": 1,
+            "about": "The plain words add “(about ninety feet)” after sixty cubits, a cubit being about a foot and a half."
+          }
+        ],
+        "approved": "6926866d"
+      },
+      {
+        "ch": "Daniel 4",
+        "verses": [
+          "King Nebuchadnezzar, to all peoples, nations, and people of every language who live in all the earth: May your peace increase!",
+          "I am glad to tell you about the signs and wonders the Most High God has done for me.",
+          "How great are His signs! How mighty are His wonders! His kingdom is a kingdom that lasts forever, and His dominion goes on from generation to generation.",
+          "I, Nebuchadnezzar, was at ease in my house and doing well in my palace.",
+          "I had a dream that made me afraid. As I lay in bed, the things I imagined and the visions in my head frightened me.",
+          "So I gave an order to bring all the wise men of Babylon before me to tell me what the dream meant.",
+          "Then the magicians, the enchanters, the Chaldeans, and the fortune-tellers came in. I told them the dream, but they could not tell me what it meant.",
+          "But at last Daniel came in before me. His name is Belteshazzar, after the name of my god, and the spirit of the holy gods is in him. I told him the dream:",
+          "“Belteshazzar, chief of the magicians, I know that the spirit of the holy gods is in you, and no secret is too hard for you. Tell me the visions I saw in my dream, and what they mean.”",
+          "These were the visions in my head as I lay in bed: I looked, and there was a tree in the middle of the earth, and it was very tall.",
+          "The tree grew large and strong. Its top reached the sky, and it could be seen to the ends of the earth.",
+          "Its leaves were beautiful and its fruit was plentiful, and it had food for everyone. The wild animals rested in its shade, the birds of the sky lived in its branches, and every living thing was fed from it.",
+          "As I lay on my bed, I saw in the visions of my head a watcher, a holy one, coming down from heaven.",
+          "He called out loudly, “Cut down the tree and cut off its branches! Strip off its leaves and scatter its fruit! Let the animals run away from under it, and the birds from its branches.”",
+          "“But leave the stump with its roots in the ground, with a band of iron and bronze around it, in the new grass of the field. Let him be wet with the dew of heaven, and let him share the grass of the earth with the animals.”",
+          "“Let his mind be changed from a man’s mind, and let him be given an animal’s mind, and let seven periods of time pass over him.”",
+          "“This is decided by the decree of the watchers, the command of the holy ones, so that the living may know that the Most High rules over the kingdom of men. He gives it to whomever He wants, and He sets over it even the lowliest of men.”",
+          "“This is the dream that I, King Nebuchadnezzar, saw. Now you, Belteshazzar, tell me what it means, because none of the wise men in my kingdom can tell me. But you can, because the spirit of the holy gods is in you.”",
+          "Then Daniel, whose name was Belteshazzar, was stunned for a while, and his thoughts troubled him. The king said, “Belteshazzar, don’t let the dream or what it means trouble you.” Belteshazzar answered, “My lord, I wish the dream were about those who hate you, and its meaning about your enemies!”",
+          "“The tree you saw, which grew large and strong, whose top reached the sky and could be seen by all the earth,”",
+          "“whose leaves were beautiful and whose fruit was plentiful, which had food for everyone, under which the wild animals lived, and in whose branches the birds of the sky made their homes—”",
+          "“that tree is you, O king! You have grown great and strong. Your greatness has grown until it reaches the sky, and your rule reaches to the ends of the earth.”",
+          "“And you, O king, saw a watcher, a holy one, coming down from heaven and saying, ‘Cut down the tree and destroy it, but leave the stump with its roots in the ground, with a band of iron and bronze around it, in the new grass of the field. Let him be wet with the dew of heaven, and let him live with the wild animals until seven periods of time pass over him.’”",
+          "“This is what it means, O king, and this is the decree of the Most High that has come upon my lord the king:”",
+          "“You will be driven away from people, and you will live with the wild animals. You will be made to eat grass like an ox, and you will be wet with the dew of heaven. Seven periods of time will pass over you, until you know that the Most High rules over the kingdom of men and gives it to whomever He wants.”",
+          "“And because they commanded that the stump with the tree’s roots be left, your kingdom will be yours again once you know that Heaven rules.”",
+          "“So, O king, please accept my advice: Break away from your sins by doing what is right, and from your wrongs by showing mercy to the poor. Then perhaps your peace will last longer.”",
+          "All this happened to King Nebuchadnezzar.",
+          "Twelve months later, he was walking on the roof of the royal palace of Babylon.",
+          "The king said, “Isn’t this great Babylon, which I have built as my royal home by my mighty power and for the glory of my majesty?”",
+          "While the words were still in the king’s mouth, a voice came down from heaven: “King Nebuchadnezzar, this is said to you: The kingdom has gone from you.”",
+          "“You will be driven away from people, and you will live with the wild animals. You will be made to eat grass like an ox, and seven periods of time will pass over you, until you know that the Most High rules over the kingdom of men and gives it to whomever He wants.”",
+          "At that very moment it happened to Nebuchadnezzar. He was driven away from people and ate grass like an ox. His body was wet with the dew of heaven until his hair grew long like an eagle’s feathers and his nails like a bird’s claws.",
+          "At the end of that time, I, Nebuchadnezzar, looked up to heaven, and my mind came back to me. I blessed the Most High, and I praised and honored Him who lives forever. His dominion lasts forever, and His kingdom goes on from generation to generation.",
+          "All the people of the earth are counted as nothing. He does what He wants with the armies of heaven and with the people of the earth. No one can hold back His hand or say to Him, “What have You done?”",
+          "At that same time my mind came back to me, and my honor and my splendor came back to me for the glory of my kingdom. My advisers and my nobles came looking for me. I was set over my kingdom again, and even greater majesty was given to me.",
+          "Now I, Nebuchadnezzar, praise and lift up and honor the King of heaven. All His works are true, and His ways are just. And He is able to humble those who walk in pride."
+        ],
+        "notes": [
+          {
+            "v": 29,
+            "text": "The KJV says he “walked in the palace.” The Aramaic says on the palace, and the BSB reads it ‘walking on the roof of the royal palace.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 1,
+            "about": "The chapter is Nebuchadnezzar’s own letter, so his telling has no quote marks (like Jeremiah 1). What he says to Belteshazzar (verses 9 and 18), the watcher’s words, Daniel’s answer (verses 19–27) and the voice from heaven are in quotes."
+          },
+          {
+            "v": 16,
+            "about": "“Seven times” is said “seven periods of time,” so it isn’t read as seven repeats (also verses 23, 25, 32). The Aramaic word for heart is said “mind,” as the BSB does, here and in Daniel 5:21 and 7:4."
+          },
+          {
+            "v": 19,
+            "about": "The KJV’s “astonied for one hour” is ‘about a moment’ in the Aramaic, a short time (BSB ‘for a time’). The plain words say “stunned for a while.”"
+          },
+          {
+            "v": 26,
+            "about": "The KJV’s “the heavens do rule” is said “Heaven rules,” with a capital H, as the BSB does: Heaven here is a way of saying God."
+          },
+          {
+            "v": 29,
+            "about": "The plain words follow the Aramaic and the BSB (“on the roof of the royal palace”) over the KJV’s “in the palace,” with a note."
+          }
+        ],
+        "approved": "30ab1ded"
+      },
+      {
+        "ch": "Daniel 5",
+        "verses": [
+          "King Belshazzar gave a great feast for a thousand of his nobles, and he drank wine in front of the thousand.",
+          "While Belshazzar was drinking the wine, he ordered that the gold and silver cups and bowls be brought in—the ones his father Nebuchadnezzar had taken from the temple in Jerusalem—so that the king and his nobles, his wives, and his concubines (wives of lower rank) could drink from them.",
+          "So they brought in the gold cups and bowls that had been taken from the temple, the house of God in Jerusalem. And the king and his nobles, his wives, and his concubines drank from them.",
+          "They drank wine and praised the gods of gold and silver, of bronze, iron, wood, and stone.",
+          "At that very moment the fingers of a human hand appeared and wrote on the plaster of the wall of the king’s palace, across from the lampstand. And the king watched the hand as it wrote.",
+          "Then the king’s face turned pale, and his thoughts frightened him. The joints of his hips gave way, and his knees knocked together.",
+          "The king shouted for the enchanters, the Chaldeans, and the fortune-tellers to be brought in. He said to the wise men of Babylon, “Whoever reads this writing and tells me what it means will be dressed in purple and have a gold chain put around his neck, and he will be the third ruler in the kingdom.”",
+          "Then all the king’s wise men came in, but they could not read the writing or tell the king what it meant.",
+          "Then King Belshazzar was terrified, and his face turned even paler. His nobles did not know what to do.",
+          "Because of what the king and his nobles had said, the queen came into the banquet hall. The queen said, “O king, may you live forever! Don’t let your thoughts frighten you, and don’t let your face turn pale.”",
+          "“There is a man in your kingdom who has the spirit of the holy gods in him. In your father’s days, insight and understanding and wisdom like the wisdom of the gods were found in him. King Nebuchadnezzar your father—yes, your father the king—made him chief of the magicians, enchanters, Chaldeans, and fortune-tellers,”",
+          "“because this Daniel, whom the king named Belteshazzar, was found to have an excellent spirit, knowledge, and understanding. He could explain dreams, solve riddles, and untangle hard problems. Now call for Daniel, and he will tell you what it means.”",
+          "So Daniel was brought in before the king. The king said to Daniel, “Are you that Daniel, one of the captives from Judah, whom my father the king brought out of Jewry (Judah)?”",
+          "“I have heard about you, that the spirit of the gods is in you, and that insight, understanding, and excellent wisdom are found in you.”",
+          "“The wise men and enchanters were just brought in before me to read this writing and tell me what it means, but they could not tell me its meaning.”",
+          "“But I have heard that you can give meanings and untangle hard problems. Now if you can read the writing and tell me what it means, you will be dressed in purple and have a gold chain put around your neck, and you will be the third ruler in the kingdom.”",
+          "Then Daniel answered the king, “Keep your gifts for yourself, and give your rewards to someone else. But I will read the writing for the king and tell him what it means.”",
+          "“O king, the Most High God gave your father Nebuchadnezzar a kingdom, greatness, glory, and honor.”",
+          "“Because of the greatness He gave him, all the people of every nation and language trembled and were afraid of him. He killed whomever he wanted, and he let live whomever he wanted. He raised up whomever he wanted, and he brought down whomever he wanted.”",
+          "“But when his heart grew proud and his spirit became hard and arrogant, he was put down from his royal throne, and his glory was taken from him.”",
+          "“He was driven away from people, and his mind was made like an animal’s. He lived with the wild donkeys and was fed grass like an ox, and his body was wet with the dew of heaven, until he knew that the Most High God rules over the kingdom of men and sets over it whomever He wants.”",
+          "“But you, his son, Belshazzar, have not humbled your heart, even though you knew all this.”",
+          "“Instead, you have lifted yourself up against the Lord of heaven. The cups and bowls of His house were brought to you, and you and your nobles, your wives, and your concubines drank wine from them. You praised the gods of silver and gold, of bronze, iron, wood, and stone, which cannot see or hear or know anything. But you have not glorified the God who holds your breath in His hand and to whom all your ways belong.”",
+          "“So He sent the hand, and this writing was written.”",
+          "“This is the writing that was written: MENE, MENE, TEKEL, UPHARSIN.”",
+          "“This is what it means: MENE: God has counted up your kingdom and brought it to an end.”",
+          "“TEKEL: You have been weighed on the scales and found lacking.”",
+          "“PERES: Your kingdom is divided and given to the Medes and Persians.”",
+          "Then at Belshazzar’s command they dressed Daniel in purple, put a gold chain around his neck, and announced that he would be the third ruler in the kingdom.",
+          "That very night Belshazzar the king of the Chaldeans was killed.",
+          "And Darius the Median received the kingdom when he was about sixty-two years old."
+        ],
+        "notes": [
+          {
+            "v": 7,
+            "text": "The KJV says “clothed with scarlet.” The Aramaic word means purple, the color kings wore, and the BSB reads ‘clothed in purple.’ Verses 16 and 29 have the same word."
+          },
+          {
+            "v": 25,
+            "text": "The KJV’s “UPHARSIN” is ‘and PARSIN’ (BSB ‘PARSIN’): the U at the start means ‘and.’ PERES in verse 28 is the same word."
+          }
+        ],
+        "review": [
+          {
+            "v": 2,
+            "about": "“Concubines” is kept, as in the KJV and BSB, with “(wives of lower rank)” the first time. Decide if he needs more, or less."
+          },
+          {
+            "v": 7,
+            "about": "The plain words follow the Aramaic (“purple”) over the KJV’s “scarlet,” with a note. The same in verses 16 and 29."
+          },
+          {
+            "v": 13,
+            "about": "The KJV’s “Jewry” is kept as the name, with “(Judah)” after it; the Aramaic has the same name as “Judah” earlier in the verse."
+          },
+          {
+            "v": 24,
+            "about": "Verses 17–28 are all Daniel speaking, so each is in quotes, including the writing and its meaning (verses 25–28)."
+          },
+          {
+            "v": 26,
+            "about": "The KJV’s “numbered thy kingdom, and finished it” is said “counted up your kingdom and brought it to an end.” MENE means numbered or counted; the BSB adds ‘the days of your reign.’"
+          }
+        ],
+        "approved": "0c15daf4"
+      },
+      {
+        "ch": "Daniel 6",
+        "verses": [
+          "Darius decided to set 120 high rulers over the kingdom, to be over the whole kingdom.",
+          "Over them he set three chief officials, and Daniel was one of them. The high rulers were to report to them, so that the king would not suffer any loss.",
+          "Then this Daniel stood out above the chief officials and the high rulers, because an excellent spirit was in him. And the king planned to set him over the whole kingdom.",
+          "Then the chief officials and the high rulers tried to find something to accuse Daniel of in the way he ran the kingdom. But they could find nothing to accuse him of and no wrongdoing, because he was faithful. No mistake or fault was found in him.",
+          "Then these men said, “We will never find anything to accuse this Daniel of, unless we find it in the law of his God.”",
+          "So these chief officials and high rulers came together to the king and said to him, “King Darius, may you live forever!”",
+          "“All the chief officials of the kingdom, the deputies, the high rulers, the advisers, and the governors have agreed that the king should make a royal law and a strict order: for thirty days, whoever makes a request to any god or man except you, O king, will be thrown into the den of lions.”",
+          "“Now, O king, make the order and sign the writing, so that it cannot be changed, by the law of the Medes and Persians, which cannot be undone.”",
+          "So King Darius signed the writing and the order.",
+          "When Daniel knew that the writing had been signed, he went into his house. The windows of his upstairs room were open toward Jerusalem. Three times a day he got down on his knees, prayed, and gave thanks before his God, just as he had done before.",
+          "Then these men came together and found Daniel praying and pleading before his God.",
+          "So they went to the king and spoke to him about the king’s order: “Didn’t you sign an order that for thirty days anyone who makes a request to any god or man except you, O king, will be thrown into the den of lions?” The king answered, “That is true, by the law of the Medes and Persians, which cannot be undone.”",
+          "Then they said to the king, “Daniel, one of the captives from Judah, pays no attention to you, O king, or to the order you signed. He still makes his requests three times a day.”",
+          "When the king heard this, he was very upset, and he set his heart on saving Daniel. He worked until the sun went down trying to rescue him.",
+          "Then these men came together to the king and said to him, “Remember, O king, that by the law of the Medes and Persians, no order or law the king makes can be changed.”",
+          "So the king gave the order, and they brought Daniel and threw him into the den of lions. The king said to Daniel, “Your God, whom you always serve, will save you.”",
+          "A stone was brought and placed over the mouth of the den. The king sealed it with his own signet ring and with the rings of his nobles, so that nothing could be changed in Daniel’s case.",
+          "Then the king went to his palace and spent the night without eating. No entertainment was brought to him, and he could not sleep.",
+          "Very early in the morning, at dawn, the king got up and hurried to the den of lions.",
+          "When he came near the den, he called to Daniel in a voice full of pain. The king said to Daniel, “Daniel, servant of the living God, has your God, whom you always serve, been able to save you from the lions?”",
+          "Then Daniel said to the king, “O king, may you live forever!”",
+          "“My God sent His angel and shut the lions’ mouths, and they have not hurt me, because I was found innocent before Him. And I have done nothing wrong to you either, O king.”",
+          "The king was overjoyed and ordered that Daniel be lifted out of the den. So Daniel was lifted out of the den, and no injury of any kind was found on him, because he believed in his God.",
+          "Then the king gave the order, and the men who had accused Daniel were brought and thrown into the den of lions—they, their children, and their wives. Before they even reached the bottom of the den, the lions overpowered them and broke all their bones.",
+          "Then King Darius wrote to all peoples, nations, and people of every language who live in all the earth: “May your peace increase!”",
+          "“I make a decree that in every part of my kingdom, people must tremble and fear before the God of Daniel. For He is the living God, and He lasts forever. His kingdom will never be destroyed, and His dominion will last to the end.”",
+          "“He rescues and He saves. He does signs and wonders in heaven and on earth. He has rescued Daniel from the power of the lions.”",
+          "So this Daniel prospered during the reign of Darius and the reign of Cyrus the Persian."
+        ],
+        "notes": [
+          {
+            "v": 2,
+            "text": "The KJV says “Daniel was first” of the three. The Aramaic word means one, and the BSB reads ‘three administrators, including Daniel.’"
+          },
+          {
+            "v": 18,
+            "text": "The Aramaic word the KJV translates “instruments of musick” is found only here, and its meaning is not sure. The BSB reads ‘No entertainment was brought before him.’"
+          }
+        ],
+        "review": [
+          {
+            "v": 2,
+            "about": "The plain words follow the Aramaic (“Daniel was one of them”) over the KJV’s “Daniel was first,” with a note. The titles are as in chapter 3: “chief officials” (KJV “presidents”) and “high rulers” for the satraps (KJV “princes”)."
+          },
+          {
+            "v": 16,
+            "about": "The Aramaic can be read as the king’s promise (KJV “he will deliver thee”) or his wish (BSB ‘May your God … deliver you!’). The plain words follow the KJV."
+          },
+          {
+            "v": 18,
+            "about": "An Aramaic word no one is sure of. The plain words follow the BSB (“No entertainment”) over the KJV’s “instruments of musick,” with a note."
+          },
+          {
+            "v": 24,
+            "about": "A hard verse for a child: the accusers’ wives and children are thrown to the lions too. The plain words say it no more plainly than the KJV."
+          }
+        ],
+        "approved": "58760c1f"
+      },
+      {
+        "ch": "Daniel 7",
+        "verses": [
+          "In the first year of Belshazzar king of Babylon, Daniel had a dream, and visions came into his head as he lay on his bed. Then he wrote down the dream and told the main points.",
+          "Daniel said: In my vision at night I looked, and there were the four winds of heaven stirring up the great sea.",
+          "And four great beasts came up out of the sea, each one different from the others.",
+          "The first was like a lion and had an eagle’s wings. I watched until its wings were torn off. It was lifted up from the ground and made to stand on two feet like a man, and a man’s mind was given to it.",
+          "Then I saw another beast, a second one, that looked like a bear. It was raised up on one side, and it had three ribs in its mouth between its teeth. It was told, “Get up and eat much flesh!”",
+          "After this I looked, and there was another beast, like a leopard. On its back it had four wings like a bird’s, and the beast had four heads. And it was given power to rule.",
+          "After this, in my visions at night, I looked, and there was a fourth beast—dreadful, terrifying, and very strong. It had large iron teeth. It devoured and crushed, and it stamped on whatever was left with its feet. It was different from all the beasts before it, and it had ten horns.",
+          "While I was thinking about the horns, I saw another horn, a little one, come up among them, and three of the first horns were pulled out by the roots in front of it. This horn had eyes like a man’s eyes and a mouth that spoke boastful words.",
+          "I watched as thrones were set in place, and the Ancient of Days sat down. His clothing was white as snow, and the hair of his head was like pure wool. His throne was flames of fire, and its wheels were burning fire.",
+          "A river of fire flowed out from before him. A thousand thousands served him, and ten thousand times ten thousand stood before him. The court was seated, and the books were opened.",
+          "Then I kept watching because of the boastful words the horn was speaking. I watched until the beast was killed, and its body was destroyed and thrown into the burning fire.",
+          "As for the rest of the beasts, their power to rule was taken away, but they were allowed to live on for a season and a time.",
+          "In my visions at night I looked, and there with the clouds of heaven came One like the Son of Man. He came to the Ancient of Days, and they brought Him near to him.",
+          "He was given dominion, and glory, and a kingdom, so that all the people of every nation and language would serve Him. His dominion is an everlasting dominion that will not pass away, and His kingdom is one that will never be destroyed.",
+          "As for me, Daniel, my spirit was troubled within me, and the visions in my head frightened me.",
+          "I went up to one of those standing there and asked him what all this really meant. So he told me and explained what these things meant:",
+          "“These great beasts, which are four, are four kings who will rise up out of the earth.”",
+          "“But the saints of the Most High will receive the kingdom and possess it forever—yes, forever and ever.”",
+          "Then I wanted to know the truth about the fourth beast, which was different from all the others and very terrifying, with teeth of iron and claws of bronze. It devoured and crushed, and it stamped on whatever was left with its feet.",
+          "I also wanted to know about the ten horns on its head, and about the other horn that came up, before which three fell—the horn that had eyes and a mouth that spoke boastful words, and that looked greater than the others.",
+          "As I watched, this horn made war against the saints and was winning against them,",
+          "until the Ancient of Days came, and judgment was given to the saints of the Most High, and the time came for the saints to possess the kingdom.",
+          "This is what he said: “The fourth beast will be a fourth kingdom on the earth. It will be different from all the other kingdoms. It will devour the whole earth, trample it down, and crush it.”",
+          "“The ten horns are ten kings who will rise up out of this kingdom. Another king will rise after them. He will be different from the earlier ones, and he will bring down three kings.”",
+          "“He will speak against the Most High and wear down the saints of the Most High. He will try to change the set times and the law. The saints will be handed over to him for a time, times, and half a time.”",
+          "“But the court will sit, and they will take away his power to rule, and destroy it completely, to the very end.”",
+          "“Then the kingdom, the dominion, and the greatness of the kingdoms under the whole heaven will be given to the people of the saints of the Most High. His kingdom is an everlasting kingdom, and all rulers will serve and obey Him.”",
+          "This is the end of the matter. As for me, Daniel, my thoughts troubled me greatly, and my face turned pale. But I kept the matter in my heart."
+        ],
+        "notes": [
+          {
+            "v": 9,
+            "text": "The KJV says the thrones “were cast down.” The Aramaic word means thrown or put, and the BSB reads ‘thrones were set in place.’"
+          },
+          {
+            "v": 9,
+            "text": "The Lord named a place Adam-ondi-Ahman because “it is the place where Adam shall come to visit his people, or the Ancient of Days shall sit, as spoken of by Daniel the prophet” (D&C 116:1)."
+          },
+          {
+            "v": 13,
+            "text": "Asked if He was the Christ, Jesus answered with Daniel’s words: “I am: and ye shall see the Son of man … coming in the clouds of heaven” (Mark 14:62)."
+          }
+        ],
+        "review": [
+          {
+            "v": 9,
+            "about": "The Ancient of Days is Adam (D&C 116:1; D&C 27:11), so “his” and “him” for him are not capitalized in verses 9–10 and 13, though the BSB capitalizes them. The One like the Son of Man is capitalized (verses 13–14), with the note on Jesus."
+          },
+          {
+            "v": 9,
+            "about": "The plain words follow the Aramaic and the BSB (“thrones were set in place”) over the KJV’s “cast down,” with a note."
+          },
+          {
+            "v": 8,
+            "about": "The KJV’s “a mouth speaking great things” means proud, boasting words (BSB ‘words of arrogance’); the plain words say “boastful words” here and in verses 11 and 20."
+          },
+          {
+            "v": 27,
+            "about": "“His kingdom … obey Him” is capitalized as the Most High’s kingdom, as the BSB does; the KJV’s “whose kingdom … obey him” could also be read as the saints’ people."
+          },
+          {
+            "v": 22,
+            "about": "The plain words keep the KJV’s “judgment was given to the saints.” The BSB reads ‘pronounced judgment in favor of the saints.’ Both fit the Aramaic."
+          }
+        ],
+        "approved": "779f4599"
+      }
+    ],
+    "approved": "87456b26",
+    "wordsApproved": "39439e32"
   }
 ];

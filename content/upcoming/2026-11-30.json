@@ -1,0 +1,2515 @@
+{
+  "dates": "November 30–December 6, 2026",
+  "title": "He Delighteth in Mercy",
+  "reference": "Micah; Nahum; Habakkuk; Zephaniah",
+  "lesson": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/49?lang=eng",
+  "sections": [
+    "“What doth the Lord require of thee?”",
+    "The Lord is both powerful and merciful",
+    "I can trust the Lord’s will and His timing",
+    "“Seek ye the Lord, all ye meek of the earth.”",
+    "The Lord will rejoice with His people in Zion"
+  ],
+  "puzzle": {
+    "groups": [
+      {
+        "section": 0,
+        "tiles": [
+          {
+            "text": "Do justly",
+            "ref": "Micah 6:8"
+          },
+          {
+            "text": "Love mercy",
+            "ref": "Micah 6:8"
+          },
+          {
+            "text": "Walk humbly",
+            "ref": "Micah 6:8"
+          },
+          {
+            "text": "Thousands of rams",
+            "ref": "Micah 6:7"
+          }
+        ]
+      },
+      {
+        "section": 1,
+        "tiles": [
+          {
+            "text": "Slow to anger",
+            "ref": "Nahum 1:3"
+          },
+          {
+            "text": "A strong hold",
+            "ref": "Nahum 1:7"
+          },
+          {
+            "text": "Delighteth in mercy",
+            "ref": "Micah 7:18"
+          },
+          {
+            "text": "Depths of the sea",
+            "ref": "Micah 7:19"
+          }
+        ]
+      },
+      {
+        "section": 2,
+        "tiles": [
+          {
+            "text": "How long shall I cry",
+            "ref": "Habakkuk 1:2"
+          },
+          {
+            "text": "Wait for it",
+            "ref": "Habakkuk 2:3"
+          },
+          {
+            "text": "Live by his faith",
+            "ref": "Habakkuk 2:4"
+          },
+          {
+            "text": "Yet I will rejoice",
+            "ref": "Habakkuk 3:18"
+          }
+        ]
+      },
+      {
+        "section": 4,
+        "tiles": [
+          {
+            "text": "Sing, O daughter of Zion",
+            "ref": "Zephaniah 3:14"
+          },
+          {
+            "text": "Rejoice over thee",
+            "ref": "Zephaniah 3:17"
+          },
+          {
+            "text": "Mountain of the Lord",
+            "ref": "Micah 4:2"
+          },
+          {
+            "text": "Swords into plowshares",
+            "ref": "Micah 4:3"
+          }
+        ]
+      }
+    ],
+    "approved": "34756968"
+  },
+  "sayings": [
+    {
+      "id": "say-what-have-i-done",
+      "text": "O my people, what have I done unto thee? and wherein have I wearied thee?",
+      "ref": "Micah 6:3",
+      "speaker": "The Lord, to His people",
+      "wrong": [
+        "Micah, to the Lord",
+        "The people, to Micah"
+      ],
+      "why": "In Micah 6 the Lord brings a case against His people, like a trial. He asks them to name one way He has let them down. He had only blessed them.",
+      "approved": "b29fe0c2"
+    },
+    {
+      "id": "say-full-of-power",
+      "text": "But truly I am full of power by the spirit of the LORD",
+      "ref": "Micah 3:8",
+      "speaker": "Micah, about himself",
+      "wrong": [
+        "Samson, about himself",
+        "Nephi, about himself"
+      ],
+      "why": "Other prophets in Micah’s day said whatever they were paid to say (Micah 3:11). Micah had the Spirit, so he told the people the truth about their sins.",
+      "approved": "c01bf34e"
+    },
+    {
+      "id": "say-bethlehem",
+      "text": "But thou, Beth-lehem Ephratah, though thou be little among the thousands of Judah",
+      "ref": "Micah 5:2",
+      "speaker": "Micah, about the Messiah",
+      "wrong": [
+        "Samuel, about King David",
+        "Herod, about the Wise Men"
+      ],
+      "why": "About 700 years before Jesus was born, Micah named His birthplace. When the Wise Men came, Herod’s advisers found the answer in this verse (Matthew 2:5–6).",
+      "approved": "66985336"
+    },
+    {
+      "id": "say-delighteth",
+      "text": "he retaineth not his anger for ever, because he delighteth in mercy",
+      "ref": "Micah 7:18",
+      "speaker": "Micah, about the Lord",
+      "wrong": [
+        "Jonah, about the Lord",
+        "Nahum, about Nineveh"
+      ],
+      "why": "Micah ends his book asking, “Who is a God like unto thee?” The Lord doesn’t hold on to His anger. He loves to forgive.",
+      "approved": "0ad0439a"
+    },
+    {
+      "id": "say-strong-hold",
+      "text": "The LORD is good, a strong hold in the day of trouble",
+      "ref": "Nahum 1:7",
+      "speaker": "Nahum, about the Lord",
+      "wrong": [
+        "David, about the Lord",
+        "Isaiah, about the Lord"
+      ],
+      "why": "Nahum’s book announces the fall of cruel Nineveh. But in chapter 1 he stops to say that the Lord shelters everyone who trusts in Him.",
+      "approved": "a928c1a0"
+    },
+    {
+      "id": "say-how-long",
+      "text": "O LORD, how long shall I cry, and thou wilt not hear!",
+      "ref": "Habakkuk 1:2",
+      "speaker": "Habakkuk, praying",
+      "wrong": [
+        "Jonah, praying",
+        "Job, praying"
+      ],
+      "why": "Habakkuk saw violence all around him and felt unheard. Joseph Smith asked something like it in Liberty Jail: “How long shall thy hand be stayed” (D&C 121:2).",
+      "approved": "0762556a"
+    },
+    {
+      "id": "say-chaldeans",
+      "text": "For, lo, I raise up the Chaldeans, that bitter and hasty nation",
+      "ref": "Habakkuk 1:6",
+      "speaker": "The Lord, to Habakkuk",
+      "wrong": [
+        "Habakkuk, to the Lord",
+        "Jeremiah, to the king"
+      ],
+      "why": "This was the Lord’s answer to Habakkuk’s prayer: Babylon would come to punish Judah. The answer troubled Habakkuk even more (verses 12–13).",
+      "approved": "9c738415"
+    },
+    {
+      "id": "say-rejoice",
+      "text": "Yet I will rejoice in the LORD, I will joy in the God of my salvation.",
+      "ref": "Habakkuk 3:18",
+      "speaker": "Habakkuk, in his song",
+      "wrong": [
+        "Mary, in her song",
+        "Hannah, in her song"
+      ],
+      "why": "Habakkuk begins his book with hard questions and ends it singing. Even if every crop failed, he would still rejoice in the Lord (Habakkuk 3:17).",
+      "approved": "b606d133"
+    },
+    {
+      "id": "say-seek-meek",
+      "text": "Seek ye the LORD, all ye meek of the earth",
+      "ref": "Zephaniah 2:3",
+      "speaker": "Zephaniah, to the humble",
+      "wrong": [
+        "Jesus, on the mountain",
+        "Alma, to the poor"
+      ],
+      "why": "Before the day of judgment, Zephaniah invited the humble to seek the Lord, so they might be “hid in the day of the LORD’s anger.”",
+      "approved": "8d85fdcb"
+    },
+    {
+      "id": "say-sing-zion",
+      "text": "Sing, O daughter of Zion; shout, O Israel",
+      "ref": "Zephaniah 3:14",
+      "speaker": "Zephaniah, to Jerusalem",
+      "wrong": [
+        "Zechariah, to Jerusalem",
+        "Jeremiah, to Jerusalem"
+      ],
+      "why": "After all his warnings, Zephaniah ends with joy. The Lord will be in the midst of His people and rejoice over them (Zephaniah 3:17).",
+      "approved": "8eb75233"
+    }
+  ],
+  "words": [
+    {
+      "word": "SWORDS",
+      "clue": "they shall beat their ____ into plowshares",
+      "ref": "Micah 4:3",
+      "mean": "In the last days, nations will turn their weapons into farm tools. When the Lord reigns, war will end."
+    },
+    {
+      "word": "RULER",
+      "clue": "out of thee shall he come forth unto me that is to be ____ in Israel",
+      "ref": "Micah 5:2",
+      "mean": "Micah foretold that the Savior would be born in little Bethlehem, long before it happened."
+    },
+    {
+      "word": "JUSTLY",
+      "clue": "what doth the LORD require of thee, but to do ____",
+      "ref": "Micah 6:8",
+      "mean": "The Lord asks us to be fair and honest, to love mercy, and to walk humbly with Him."
+    },
+    {
+      "word": "DEPTHS",
+      "clue": "thou wilt cast all their sins into the ____ of the sea",
+      "ref": "Micah 7:19",
+      "mean": "When we repent, the Lord throws our sins far away, where they are gone for good."
+    },
+    {
+      "word": "TROUBLE",
+      "clue": "The LORD is good, a strong hold in the day of ____",
+      "ref": "Nahum 1:7",
+      "mean": "When hard times come, the Lord is a safe place for everyone who trusts Him."
+    },
+    {
+      "word": "FAITH",
+      "clue": "the just shall live by his ____",
+      "ref": "Habakkuk 2:4",
+      "mean": "Righteous people keep trusting God and stay faithful to Him, even while they wait."
+    },
+    {
+      "word": "SINGING",
+      "clue": "he will joy over thee with ____",
+      "ref": "Zephaniah 3:17",
+      "mean": "The Lord is so glad to be with His faithful people that He rejoices over them."
+    }
+  ],
+  "deep": [
+    {
+      "id": "deep49-mountains",
+      "section": 0,
+      "read": "Micah 6:1–8",
+      "intro": "The lesson asks what Micah 6:6–8 says matters most to the Lord. Before that answer, the chapter opens like a court case, with the Lord bringing charges against His people.",
+      "q": "In Micah 6:2, whom does the Lord call to hear His case against His people?",
+      "right": "The mountains and the earth",
+      "wrong": [
+        "The priests and the kings",
+        "The angels and the stars"
+      ],
+      "why": "Verse 2: “Hear ye, O mountains, the LORD’s controversy, and ye strong foundations of the earth.” A controversy here is a case in court, with the mountains as witnesses.",
+      "source": "Micah 6:2",
+      "find": "Hear ye, O mountains, the LORD’s controversy",
+      "hunt": "In Micah 6, whom does the Lord call to hear His case against His people?",
+      "approved": "ffbcb807"
+    },
+    {
+      "id": "deep49-clouds",
+      "section": 1,
+      "read": "Nahum 1:2–8",
+      "intro": "The lesson invites you to look in Nahum 1 for verses about the Lord’s power and His mercy. Read how Nahum pictures the power of the One who is also slow to anger.",
+      "q": "In Nahum 1:3, what does Nahum say the clouds are?",
+      "right": "The dust of His feet",
+      "wrong": [
+        "The smoke of His altar",
+        "The curtains of His tent"
+      ],
+      "why": "Verse 3: “the LORD hath his way in the whirlwind and in the storm, and the clouds are the dust of his feet.” The clouds are like dust kicked up as He walks.",
+      "source": "Nahum 1:3",
+      "find": "the clouds are the dust of his feet",
+      "hunt": "In Nahum 1, what does Nahum say the clouds are?",
+      "approved": "f3975779"
+    },
+    {
+      "id": "deep49-tower",
+      "section": 2,
+      "read": "Habakkuk 2:1–4",
+      "intro": "The lesson asks what in Habakkuk 2:1–4 helps you trust the Lord when you have unanswered questions. Read what Habakkuk does while he waits for the Lord’s answer.",
+      "q": "In Habakkuk 2:1, where does Habakkuk go to wait for the Lord’s answer?",
+      "right": "Up on the tower, to watch",
+      "wrong": [
+        "Into the temple, to pray",
+        "Out to the desert, to fast"
+      ],
+      "why": "Verse 1: “I will stand upon my watch, and set me upon the tower, and will watch to see what he will say unto me.” He waited like a guard, ready for the answer.",
+      "source": "Habakkuk 2:1",
+      "find": "set me upon the tower",
+      "hunt": "In Habakkuk 2, where does Habakkuk go to wait for the Lord’s answer?",
+      "approved": "741a8122"
+    },
+    {
+      "id": "deep49-trust",
+      "section": 3,
+      "read": "Zephaniah 3:12–13",
+      "intro": "The lesson invites you to look for the kind of people God would preserve. Near the end of his book, Zephaniah describes them.",
+      "q": "In Zephaniah 3:12, what will the afflicted and poor people the Lord leaves do?",
+      "right": "Trust in the name of the Lord",
+      "wrong": [
+        "Rebuild the walls of the city",
+        "Go back to their own land"
+      ],
+      "why": "Verse 12: “they shall trust in the name of the LORD.” Verse 13 adds that they won’t lie or do wrong. The humble and honest trust Him.",
+      "source": "Zephaniah 3:12",
+      "find": "they shall trust in the name of the LORD",
+      "hunt": "In Zephaniah 3, what will the afflicted and poor people the Lord leaves do?",
+      "approved": "732302bc"
+    },
+    {
+      "id": "deep49-children",
+      "section": 4,
+      "read": "3 Nephi 17:18–24",
+      "intro": "The lesson suggests comparing Zephaniah 3:14–20 with 3 Nephi 17. Read how the risen Savior showed His joy in His people, and especially in their children.",
+      "q": "In 3 Nephi 17:21, what did Jesus do for the little children?",
+      "right": "Blessed them one by one, and prayed",
+      "wrong": [
+        "Gave them bread and fish to eat",
+        "Taught them a song to sing"
+      ],
+      "why": "Verse 21: “he took their little children, one by one, and blessed them, and prayed unto the Father for them.” Just before, He said His joy was full.",
+      "source": "3 Nephi 17:21",
+      "find": "he took their little children, one by one, and blessed them",
+      "hunt": "In 3 Nephi 17, what did Jesus do for the little children?",
+      "approved": "ba4a3afa"
+    },
+    {
+      "id": "deep49-kids",
+      "day": "friday",
+      "title": "From the children’s part of the lesson",
+      "read": "lesson",
+      "intro": "The children’s part of this week’s lesson includes “Wait for it; because it will surely come” (Habakkuk 2:3). It suggests talking about good things that only come after we wait.",
+      "q": "The lesson gives two examples of good things you have to wait for. What are they?",
+      "right": "Fruit to ripen and dough to bake",
+      "wrong": [
+        "Seeds to sprout and eggs to hatch",
+        "Snow to melt and flowers to bloom"
+      ],
+      "why": "It mentions fruit that has to ripen and dough that has to bake. Eaten too soon, they aren’t ready yet. God’s promises come when they are ready.",
+      "source": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/49?lang=eng",
+      "find": "fruit that needs to ripen or dough that needs to bake",
+      "approved": "42c563db"
+    },
+    {
+      "id": "deep49-ftsoy",
+      "day": "friday",
+      "title": "From For the Strength of Youth",
+      "read": "https://www.churchofjesuschrist.org/study/ftsoy/2026/12/02-jesus-christ-your-reason-for-rejoicing?lang=eng",
+      "intro": "In this month’s For the Strength of Youth, Elder Quentin L. Cook writes that Jesus Christ gives us every reason to rejoice. Zephaniah told God’s people to sing and rejoice too.",
+      "q": "What does Elder Cook suggest inviting someone to this Christmas season?",
+      "right": "A Christmas sacrament meeting",
+      "wrong": [
+        "A ward Christmas dinner party",
+        "A neighborhood caroling night"
+      ],
+      "why": "He says inviting someone to a Christmas sacrament meeting can help them feel the Spirit and remember Jesus Christ. Don’t worry about the outcome; the Savior magnifies sincere efforts.",
+      "source": "https://www.churchofjesuschrist.org/study/ftsoy/2026/12/02-jesus-christ-your-reason-for-rejoicing?lang=eng",
+      "find": "inviting someone to attend a Christmas sacrament meeting",
+      "approved": "af5e26ac"
+    }
+  ],
+  "reels": [
+    {
+      "id": "mic6-require",
+      "section": 0,
+      "hook": "Three things the Lord asks of you",
+      "body": "Micah sums up what the Lord wants in three things. Do justly: be fair and honest with God and with people. Love mercy: be kind and forgiving, the way He is with you. Walk humbly with God: stay close to Him and let Him lead. Jesus taught the same thing when He named the two great commandments: love God, and love your neighbor (Matthew 22:37–39).",
+      "verse": {
+        "text": "He hath shewed thee, O man, what is good; and what doth the LORD require of thee, but to do justly, and to love mercy, and to walk humbly with thy God?",
+        "ref": "Micah 6:8"
+      },
+      "question": {
+        "q": "What does the Lord ask of us in Micah 6:8?",
+        "right": "Be just, love mercy, walk humbly with Him",
+        "wrong": [
+          "Bring Him bigger and better offerings",
+          "Build Him a grander, richer temple"
+        ],
+        "why": "He asks us “to do justly, and to love mercy, and to walk humbly with thy God.” Not bigger offerings, but a changed heart and life."
+      },
+      "bonus": {
+        "q": "This week’s Scripture Helps quote Elder Dale G. Renlund on Micah’s call to do justly. What does he say it means?",
+        "right": "Act honorably with God and with others",
+        "wrong": [
+          "Punish every person who does wrong",
+          "Follow every single rule perfectly"
+        ],
+        "why": "He says doing justly means acting honorably with God and with other people. We do that with God by walking humbly with Him, and with others by loving mercy.",
+        "source": "https://www.churchofjesuschrist.org/study/manual/scripture-helps-old-testament/47-micah-nahum-habakkuk-zephaniah?lang=eng",
+        "find": "To do justly means acting honorably with God and with other people"
+      },
+      "media": {
+        "image": {
+          "src": "media/forest-path.jpg",
+          "alt": "A narrow dirt path winding through misty spring woods",
+          "credit": "Trail through the spring woods. Photo: National Park Service, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Trail_through_the_Spring_Woods_(fe523b5b-2ef8-40fe-98c0-64302233d24c).jpg"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#14532d 0%,#166534 50%,#bbf7d0 115%)",
+      "blobA": "rgba(187,247,208,.4)",
+      "blobB": "rgba(0,0,0,.4)",
+      "approved": "e70e6c05"
+    },
+    {
+      "id": "mic6-rivers-of-oil",
+      "section": 0,
+      "hook": "What gift could ever pay for sin?",
+      "seek": "Someone wonders if huge piles of offerings would make God happy",
+      "body": "Micah pictures someone asking how to make things right with God. Bring thousands of rams? Ten thousand rivers of olive oil? Even their own firstborn child? The answer is no. No offering, however huge, can pay for sin. Only Jesus Christ could do that. What the Lord asks of us is our hearts: to do justly, love mercy and walk humbly with Him (verse 8).",
+      "verse": {
+        "text": "Will the LORD be pleased with thousands of rams, or with ten thousands of rivers of oil? shall I give my firstborn for my transgression, the fruit of my body for the sin of my soul?",
+        "ref": "Micah 6:7"
+      },
+      "question": {
+        "q": "Why couldn’t thousands of rams make up for sin?",
+        "right": "Only Jesus Christ can pay for sin",
+        "wrong": [
+          "Rams cost too little to count",
+          "God wanted gold instead of rams"
+        ],
+        "why": "No offering was big enough, not even “thousands of rams.” Jesus Christ paid for sin. The Lord asks for our hearts."
+      },
+      "bonus": {
+        "q": "In Micah 6:4, which three leaders does the Lord remind Israel that He sent before them?",
+        "hunt": "In Micah 6, which three leaders does the Lord remind Israel that He sent before them?",
+        "right": "Moses, Aaron, and Miriam",
+        "wrong": [
+          "Abraham, Isaac, and Jacob",
+          "Joshua, Caleb, and Samuel"
+        ],
+        "why": "Verse 4: “I brought thee up out of the land of Egypt… and I sent before thee Moses, Aaron, and Miriam.” The Lord had always taken care of them.",
+        "source": "Micah 6:4",
+        "find": "I sent before thee Moses, Aaron, and Miriam"
+      },
+      "gradient": "linear-gradient(150deg,#422006 0%,#a16207 50%,#fde68a 115%)",
+      "blobA": "rgba(253,230,138,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "9b878158"
+    },
+    {
+      "id": "nah1-stronghold",
+      "section": 1,
+      "hook": "A safe fortress when hard times come",
+      "body": "Most of Nahum is about the fall of Nineveh, the capital of cruel Assyria, which had hurt God’s people for years. But in chapter 1 Nahum stops to say this. A strong hold is a fortress: thick walls on high ground, a safe place when enemies come. When hard times come, the Lord is that safe place, and He knows every person who trusts Him.",
+      "verse": {
+        "text": "The LORD is good, a strong hold in the day of trouble; and he knoweth them that trust in him.",
+        "ref": "Nahum 1:7"
+      },
+      "question": {
+        "q": "What is the Lord like for the people who trust Him?",
+        "right": "A fortress that keeps them safe",
+        "wrong": [
+          "A judge who waits to punish them",
+          "A king who lives far away"
+        ],
+        "why": "“The LORD is good, a strong hold in the day of trouble.” A strong hold is a fortress, and He knows each one who trusts Him."
+      },
+      "bonus": {
+        "q": "In Nahum 1:15, once the wicked enemy is cut off, what does Nahum tell Judah to keep?",
+        "hunt": "In Nahum 1, once the wicked enemy is cut off, what does Nahum tell Judah to keep?",
+        "right": "Their solemn feasts",
+        "wrong": [
+          "Their city walls",
+          "Their swords sharp"
+        ],
+        "why": "Verse 15: “O Judah, keep thy solemn feasts, perform thy vows: for the wicked shall no more pass through thee.” With Assyria gone, they could worship in peace.",
+        "source": "Nahum 1:15",
+        "find": "keep thy solemn feasts"
+      },
+      "gradient": "linear-gradient(155deg,#1c1917 0%,#57534e 50%,#e7e5e4 115%)",
+      "blobA": "rgba(231,229,228,.35)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "5ed2a6aa"
+    },
+    {
+      "id": "mic7-depths",
+      "section": 1,
+      "hook": "He throws your sins where no one can reach them",
+      "body": "Micah’s own name asks a question: who is like the Lord? He ends his book asking it: “Who is a God like unto thee, that pardoneth iniquity” (Micah 7:18). The Lord doesn’t stay angry, “because he delighteth in mercy” (Micah 7:18). When we repent, He doesn’t keep our sins close by. He throws them into the deepest sea, where no one can bring them back.",
+      "verse": {
+        "text": "He will turn again, he will have compassion upon us; he will subdue our iniquities; and thou wilt cast all their sins into the depths of the sea.",
+        "ref": "Micah 7:19"
+      },
+      "question": {
+        "q": "What does Micah say the Lord does with the sins of those who repent?",
+        "right": "Throws them into the deep sea",
+        "wrong": [
+          "Keeps them in a book forever",
+          "Hides them away in a box"
+        ],
+        "why": "“Thou wilt cast all their sins into the depths of the sea.” He doesn’t keep them nearby. He gets rid of them."
+      },
+      "bonus": {
+        "q": "In Micah 7:8, what does Micah say the Lord will be to him when he sits in darkness?",
+        "hunt": "In Micah 7, what does Micah say the Lord will be to him when he sits in darkness?",
+        "right": "A light for him",
+        "wrong": [
+          "A shield for him",
+          "A song for him"
+        ],
+        "why": "Verse 8: “when I fall, I shall arise; when I sit in darkness, the LORD shall be a light unto me.” Falling isn’t the end of the story.",
+        "source": "Micah 7:8",
+        "find": "the LORD shall be a light unto me"
+      },
+      "gradient": "linear-gradient(165deg,#0c1e3e 0%,#1e40af 55%,#93c5fd 115%)",
+      "blobA": "rgba(147,197,253,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "d5b79588"
+    },
+    {
+      "id": "hab1-how-long",
+      "section": 2,
+      "hook": "Even a prophet felt God wasn’t listening",
+      "body": "Habakkuk saw violence and fighting all around him, and his prayers didn’t seem to change anything. So he told the Lord exactly how he felt. Joseph Smith asked something like it in Liberty Jail: “O God, where art thou?” (D&C 121:1). It’s all right to bring hard questions to God. Habakkuk didn’t stop praying. He kept asking, and he kept listening for the answer.",
+      "verse": {
+        "text": "O LORD, how long shall I cry, and thou wilt not hear! even cry out unto thee of violence, and thou wilt not save!",
+        "ref": "Habakkuk 1:2"
+      },
+      "question": {
+        "q": "What did Habakkuk do when his prayers seemed unanswered?",
+        "right": "Told God his worries and kept asking",
+        "wrong": [
+          "Stopped praying and gave up on God",
+          "Pretended that nothing was wrong"
+        ],
+        "why": "“O LORD, how long shall I cry, and thou wilt not hear!” He took his honest question straight to the Lord."
+      },
+      "bonus": {
+        "q": "In Habakkuk 1:8, which animals does the Lord say the Chaldeans’ horses are swifter than?",
+        "hunt": "In Habakkuk 1, which animals does the Lord say the Chaldeans’ horses are swifter than?",
+        "right": "Leopards",
+        "wrong": [
+          "Lions",
+          "Gazelles"
+        ],
+        "why": "Verse 8: “Their horses also are swifter than the leopards, and are more fierce than the evening wolves.” Babylon’s army would come fast.",
+        "source": "Habakkuk 1:8",
+        "find": "swifter than the leopards"
+      },
+      "media": {
+        "image": {
+          "src": "media/stilling-the-storm-henninger.jpg",
+          "alt": "Painting of Jesus Christ standing in a small boat on a stormy sea while His frightened disciples hold on",
+          "credit": "Stilling the Storm, by Ted Henninger",
+          "link": "https://www.churchofjesuschrist.org/media/image/jesus-calms-the-storm-5c4cb06?lang=eng"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#0f172a 0%,#334155 50%,#cbd5e1 115%)",
+      "blobA": "rgba(203,213,225,.35)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "556ab7b3"
+    },
+    {
+      "id": "hab2-wait",
+      "section": 2,
+      "hook": "Still waiting? His promise is on its way.",
+      "body": "After Habakkuk’s questions, the Lord gave him a vision and told him it would come true at the time God had set. Even if it seemed slow: “wait for it; because it will surely come.” The lesson says spiritual answers take time too, and can’t be forced. God’s timing can feel late to us, but His promises always come.",
+      "verse": {
+        "text": "For the vision is yet for an appointed time, but at the end it shall speak, and not lie: though it tarry, wait for it; because it will surely come, it will not tarry.",
+        "ref": "Habakkuk 2:3"
+      },
+      "question": {
+        "q": "What does the Lord tell Habakkuk to do about His promise?",
+        "right": "Wait for it, because it will come",
+        "wrong": [
+          "Give up if it doesn’t come soon",
+          "Make it happen by himself"
+        ],
+        "why": "“Though it tarry, wait for it; because it will surely come.” Tarry means take a long time. His promises always come true."
+      },
+      "bonus": {
+        "q": "In Habakkuk 2:2, what does the Lord tell Habakkuk to do with the vision?",
+        "hunt": "In Habakkuk 2, what does the Lord tell Habakkuk to do with the vision?",
+        "right": "Write it plainly on tablets",
+        "wrong": [
+          "Keep it secret until later",
+          "Tell it only to the king"
+        ],
+        "why": "Verse 2: “Write the vision, and make it plain upon tables, that he may run that readeth it.” Tables here means tablets.",
+        "source": "Habakkuk 2:2",
+        "find": "Write the vision, and make it plain upon tables"
+      },
+      "gradient": "linear-gradient(150deg,#3b0764 0%,#7e22ce 50%,#e9d5ff 115%)",
+      "blobA": "rgba(233,213,255,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "cbee2a21"
+    },
+    {
+      "id": "hab3-rejoice",
+      "section": 2,
+      "hook": "Crops gone, flocks gone, and still full of joy",
+      "body": "Habakkuk started his book upset and asking hard questions. He ends it singing. In verse 17 he pictures losing everything a farmer needs: figs, grapes, olives, crops, sheep and cattle. Then he says, “Yet I will rejoice in the LORD.” His joy didn’t depend on how things turned out. It came from the God he trusted.",
+      "verse": {
+        "text": "Although the fig tree shall not blossom, neither shall fruit be in the vines; … Yet I will rejoice in the LORD, I will joy in the God of my salvation.",
+        "ref": "Habakkuk 3:17–18"
+      },
+      "question": {
+        "q": "Why could Habakkuk rejoice even if his crops failed?",
+        "right": "His joy came from the Lord, not his farm",
+        "wrong": [
+          "He knew the rain would come next week",
+          "He had plenty of food saved up"
+        ],
+        "why": "“Yet I will rejoice in the LORD, I will joy in the God of my salvation.” Things could go wrong. The Lord would not."
+      },
+      "bonus": {
+        "q": "In Habakkuk 3:11, what does Habakkuk say stood still?",
+        "hunt": "In Habakkuk 3, what does Habakkuk say stood still?",
+        "right": "The sun and moon",
+        "wrong": [
+          "The rivers and seas",
+          "The stars and clouds"
+        ],
+        "why": "Verse 11: “The sun and moon stood still in their habitation.” He remembers Joshua’s day, when the Lord fought for Israel (Joshua 10:12–14).",
+        "source": "Habakkuk 3:11",
+        "find": "The sun and moon stood still in their habitation"
+      },
+      "gradient": "linear-gradient(150deg,#7c2d12 0%,#ea580c 50%,#fed7aa 115%)",
+      "blobA": "rgba(254,215,170,.4)",
+      "blobB": "rgba(0,0,0,.45)",
+      "approved": "d257ea6a"
+    },
+    {
+      "id": "mic5-bethlehem",
+      "section": 2,
+      "hook": "A tiny town, picked centuries ahead",
+      "body": "About 700 years before Jesus was born, Micah named the little town He would come from: Bethlehem. When Wise Men came to Jerusalem asking where the new King was born, Herod’s advisers found the answer in Micah’s words (Matthew 2:5–6). God made that promise long before, and He kept it right on time. He keeps His promises to you too.",
+      "verse": {
+        "text": "But thou, Beth-lehem Ephratah, though thou be little among the thousands of Judah, yet out of thee shall he come forth unto me that is to be ruler in Israel; whose goings forth have been from of old, from everlasting.",
+        "ref": "Micah 5:2"
+      },
+      "question": {
+        "q": "How did Herod’s advisers know where Jesus would be born?",
+        "right": "Micah had prophesied it long before",
+        "wrong": [
+          "The Wise Men had a map to it",
+          "An angel told King Herod in a dream"
+        ],
+        "why": "Micah wrote, “But thou, Beth-lehem Ephratah… out of thee shall he come forth unto me that is to be ruler in Israel.” His word came true."
+      },
+      "bonus": {
+        "q": "In Micah 5:4, what will this ruler do in the strength of the Lord?",
+        "hunt": "In Micah 5, what will this ruler do in the strength of the Lord?",
+        "right": "Stand and feed His people",
+        "wrong": [
+          "Sit on a throne of gold",
+          "Ride out to win wars"
+        ],
+        "why": "Verse 4: “he shall stand and feed in the strength of the LORD.” Feeding is what a shepherd does for his flock.",
+        "source": "Micah 5:4",
+        "find": "he shall stand and feed in the strength of the LORD"
+      },
+      "gradient": "linear-gradient(160deg,#0b1026 0%,#312e81 55%,#fde68a 115%)",
+      "blobA": "rgba(253,230,138,.4)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "b437a41a"
+    },
+    {
+      "id": "zeph2-seek",
+      "section": 3,
+      "hook": "Humble hearts find a hiding place",
+      "body": "Zephaniah warned that a day of judgment was coming on the proud. But first he gave an invitation: seek the Lord, seek righteousness, seek meekness. Meek doesn’t mean weak. It means humble and willing to be taught. The promise for the meek: “it may be ye shall be hid in the day of the LORD’s anger.” Jesus taught it too: “Blessed are the meek” (Matthew 5:5).",
+      "verse": {
+        "text": "Seek ye the LORD, all ye meek of the earth, which have wrought his judgment; seek righteousness, seek meekness: it may be ye shall be hid in the day of the LORD’s anger.",
+        "ref": "Zephaniah 2:3"
+      },
+      "question": {
+        "q": "What three things does Zephaniah tell the meek to seek?",
+        "right": "The Lord, righteousness, and meekness",
+        "wrong": [
+          "Riches, honor, and a long life",
+          "Strong walls, armies, and allies"
+        ],
+        "why": "“Seek ye the LORD… seek righteousness, seek meekness.” The humble can be sheltered when hard times come."
+      },
+      "bonus": {
+        "q": "In Zephaniah 2:15, what did proud Nineveh say in her heart?",
+        "hunt": "In Zephaniah 2, what did proud Nineveh say in her heart?",
+        "right": "I am, and there is none beside me",
+        "wrong": [
+          "I will repent and serve the Lord",
+          "My walls will fall one day soon"
+        ],
+        "why": "Verse 15: she “said in her heart, I am, and there is none beside me.” That’s pride: thinking you need no one, not even God.",
+        "source": "Zephaniah 2:15",
+        "find": "I am, and there is none beside me"
+      },
+      "gradient": "linear-gradient(150deg,#134e4a 0%,#0f766e 50%,#99f6e4 115%)",
+      "blobA": "rgba(153,246,228,.4)",
+      "blobB": "rgba(0,0,0,.4)",
+      "approved": "d002ee9d"
+    },
+    {
+      "id": "zeph1-candles",
+      "section": 3,
+      "hook": "God searches every corner with a lamp",
+      "body": "Zephaniah described people who thought God didn’t care what they did. They said, “The LORD will not do good, neither will he do evil.” The Lord said He would search Jerusalem with candles, like someone hunting through a dark house for something lost. The Old Testament Student Manual explains that “settled on their lees” compares lazy hearts to wine left sitting too long, getting thick and bitter.",
+      "verse": {
+        "text": "And it shall come to pass at that time, that I will search Jerusalem with candles, and punish the men that are settled on their lees: that say in their heart, The LORD will not do good, neither will he do evil.",
+        "ref": "Zephaniah 1:12"
+      },
+      "question": {
+        "q": "What did the people in Zephaniah 1:12 think about God?",
+        "right": "That He wouldn’t do anything at all",
+        "wrong": [
+          "That He would come to save them soon",
+          "That He was angry with everyone"
+        ],
+        "why": "They said, “The LORD will not do good, neither will he do evil.” They thought He didn’t notice. He notices everything."
+      },
+      "bonus": {
+        "q": "In Zephaniah 1:5, where were people worshipping the host of heaven?",
+        "hunt": "In Zephaniah 1, where were people worshipping the host of heaven?",
+        "right": "On their housetops",
+        "wrong": [
+          "In the temple courts",
+          "By the riverbanks"
+        ],
+        "why": "Verse 5: “them that worship the host of heaven upon the housetops.” The host of heaven means false gods tied to the stars and planets.",
+        "source": "Zephaniah 1:5",
+        "find": "worship the host of heaven upon the housetops"
+      },
+      "gradient": "linear-gradient(155deg,#18181b 0%,#78350f 55%,#fcd34d 115%)",
+      "blobA": "rgba(252,211,77,.4)",
+      "blobB": "rgba(0,0,0,.5)",
+      "approved": "c96dbb46"
+    },
+    {
+      "id": "zeph3-singing",
+      "section": 4,
+      "hook": "The Lord sings over you with joy",
+      "body": "After all of Zephaniah’s warnings, his book ends with a song. The Lord, the King of Israel, will be right in the midst of His people. He “will rejoice over thee with joy.” He “will joy over thee with singing.” The lesson invites us to compare this with 3 Nephi 17, when the risen Jesus stood among the Nephites and said His joy was full. That’s how He feels about His people, including you.",
+      "verse": {
+        "text": "The LORD thy God in the midst of thee is mighty; he will save, he will rejoice over thee with joy; he will rest in his love, he will joy over thee with singing.",
+        "ref": "Zephaniah 3:17"
+      },
+      "question": {
+        "q": "How does Zephaniah 3:17 say the Lord feels about His faithful people?",
+        "right": "He is so glad He sings over them",
+        "wrong": [
+          "He puts up with them, but barely",
+          "He is too busy to notice them"
+        ],
+        "why": "“He will rejoice over thee with joy… he will joy over thee with singing.” The Lord is happy to be with His people."
+      },
+      "bonus": {
+        "q": "In Zephaniah 3:16, what will be said to Jerusalem in that day?",
+        "hunt": "In Zephaniah 3, what will be said to Jerusalem in that day?",
+        "right": "Fear thou not",
+        "wrong": [
+          "Flee to the hills",
+          "Mourn and weep"
+        ],
+        "why": "Verse 16: “In that day it shall be said to Jerusalem, Fear thou not.” With the Lord in their midst, there’s nothing to fear.",
+        "source": "Zephaniah 3:16",
+        "find": "it shall be said to Jerusalem, Fear thou not"
+      },
+      "media": {
+        "image": {
+          "src": "media/one-by-one-rane.jpg",
+          "alt": "Painting of the resurrected Jesus Christ letting people in ancient America feel the wounds in His hands, one by one",
+          "credit": "One by One, by Walter Rane",
+          "link": "https://www.churchofjesuschrist.org/media/image/christ-nephites-rane-ca72ab5?lang=eng"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#1e3a8a 0%,#2563eb 50%,#fef08a 115%)",
+      "blobA": "rgba(254,240,138,.4)",
+      "blobB": "rgba(0,0,0,.4)",
+      "approved": "83a34cc3"
+    },
+    {
+      "id": "mic4-mountain",
+      "section": 4,
+      "hook": "The whole world comes to learn at His house",
+      "body": "Micah saw the last days. The Lord’s house would stand like the highest mountain, and people from many nations would stream to it to learn His ways. Then they would beat their swords into plowshares, tools for farming, and stop learning war (verse 3). Isaiah saw the same thing (Isaiah 2:2–4). Today temples are rising all over the earth, and people still go there to learn of Him.",
+      "verse": {
+        "text": "And many nations shall come, and say, Come, and let us go up to the mountain of the LORD, and to the house of the God of Jacob; and he will teach us of his ways, and we will walk in his paths: for the law shall go forth of Zion, and the word of the LORD from Jerusalem.",
+        "ref": "Micah 4:2"
+      },
+      "question": {
+        "q": "In Micah 4:2, why do the nations go up to the Lord’s house?",
+        "right": "So He can teach them His ways",
+        "wrong": [
+          "To bring Him their taxes and tribute",
+          "To hide from an enemy army"
+        ],
+        "why": "“He will teach us of his ways, and we will walk in his paths.” His house is a place to learn from Him."
+      },
+      "bonus": {
+        "q": "In Micah 4:4, where will every man sit, with no one to make him afraid?",
+        "hunt": "In Micah 4, where will every man sit, with no one to make him afraid?",
+        "right": "Under his vine and fig tree",
+        "wrong": [
+          "Inside a tall stone tower",
+          "Beside the king’s own table"
+        ],
+        "why": "Verse 4: “they shall sit every man under his vine and under his fig tree; and none shall make them afraid.” It’s a picture of peace at home.",
+        "source": "Micah 4:4",
+        "find": "under his vine and under his fig tree"
+      },
+      "media": {
+        "image": {
+          "src": "media/manila-temple-evening.jpg",
+          "alt": "The white Manila Philippines Temple with its tall spires at sunset, framed by palm trees",
+          "credit": "Manila Philippines Temple in the Evening, from the Church Media Library",
+          "link": "https://www.churchofjesuschrist.org/media/image/manila-philippines-temple-lds-75a25fc?lang=eng"
+        }
+      },
+      "gradient": "linear-gradient(150deg,#1e1b4b 0%,#6d28d9 50%,#fbcfe8 115%)",
+      "blobA": "rgba(251,207,232,.4)",
+      "blobB": "rgba(0,0,0,.4)",
+      "approved": "62295bfb"
+    }
+  ],
+  "tldr": [
+    {
+      "ch": "Micah 1",
+      "lines": [
+        "Micah, a prophet in the days of three kings of Judah, receives the word of the Lord about Samaria and Jerusalem. (verse 1)",
+        "The Lord is coming to judge. Samaria, the capital of Israel, will become a heap of stones, and its idols will be broken. (verses 2–7)",
+        "Micah mourns, because the same sickness has spread to Judah and reached the gate of Jerusalem. (verses 8–9)",
+        "He names town after town in Judah that will weep, and their children will be taken captive. (verses 10–16)"
+      ],
+      "approved": "9a46b4b9"
+    },
+    {
+      "ch": "Micah 2",
+      "lines": [
+        "Woe to people who lie awake planning evil, then take other families’ fields and houses by force. (verses 1–2)",
+        "So the Lord will bring trouble on them, and their land will be divided up among others. (verses 3–5)",
+        "The people tell true prophets to stop, but they would gladly follow a prophet who promised them wine. (verses 6–11)",
+        "Still, the Lord will gather the remnant of Israel like sheep in a fold and lead them out as their King. (verses 12–13)"
+      ],
+      "approved": "81d64467"
+    },
+    {
+      "ch": "Micah 3",
+      "lines": [
+        "Micah tells Israel’s leaders they hate good and love evil and devour God’s people. When they cry to the Lord, He won’t answer. (verses 1–4)",
+        "False prophets promise peace to anyone who feeds them, but Micah is full of power by the Spirit of the Lord. (verses 5–8)",
+        "Judges take bribes, priests teach for pay, and prophets prophesy for money. So Jerusalem will be plowed like a field. (verses 9–12)"
+      ],
+      "review": [
+        {
+          "v": 11,
+          "about": "The heading’s “divine for money” is put as “prophesy for money,” as the plain words and the BSB read it."
+        }
+      ],
+      "approved": "2a8026ee"
+    },
+    {
+      "ch": "Micah 4",
+      "lines": [
+        "In the last days the house of the Lord will rise above the mountains, and people from many nations will go there to learn His ways. (verses 1–2)",
+        "Nations will beat their swords into farm tools and stop learning war, in the time of peace the Lord brings in the Millennium. (verses 3–5)",
+        "The Lord will gather His scattered and hurting people and reign over them in Zion forever. (verses 6–8)",
+        "First Jerusalem will suffer and go to Babylon, but the Lord will redeem her there and make her strong against her enemies. (verses 9–13)"
+      ],
+      "review": [
+        {
+          "v": 3,
+          "about": "“The Millennium” comes from the chapter heading (“the millennial era will commence”); the verses describe the peace without naming it."
+        }
+      ],
+      "approved": "2512cad5"
+    },
+    {
+      "ch": "Micah 5",
+      "lines": [
+        "Out of little Bethlehem will come a ruler whose goings forth are from everlasting: the Messiah, Jesus Christ. (verses 1–2)",
+        "He will be great to the ends of the earth. He will be their peace and save them from Assyria. (verses 3–6)",
+        "In the last days the remnant of Jacob will be like dew from the Lord, and will triumph over the Gentiles like a lion. (verses 7–9)",
+        "The Lord will take away their chariots, witchcraft and idols, and judge the nations that would not obey. (verses 10–15)"
+      ],
+      "review": [
+        {
+          "v": 2,
+          "about": "The heading and Scripture Helps name the ruler as the Messiah; Matthew 2:5–6 applies it to Jesus."
+        },
+        {
+          "v": 15,
+          "about": "“Nations that would not obey” follows the BSB and the plain words; the KJV reads “such as they have not heard.”"
+        }
+      ],
+      "approved": "085ddea3"
+    },
+    {
+      "ch": "Micah 6",
+      "lines": [
+        "The Lord brings His case against His people. He reminds them how He freed them from Egypt and kept them safe. (verses 1–5)",
+        "What does He want? Not thousands of rams or rivers of oil, but to do justly, love mercy and walk humbly with God. (verses 6–8)",
+        "In spite of all His goodness, the people cheat with false scales, lie and do violence, so they will plant but not harvest. (verses 9–16)"
+      ],
+      "approved": "db377216"
+    },
+    {
+      "ch": "Micah 7",
+      "lines": [
+        "Micah mourns that no good person is left. People lie, take bribes, and even families turn on each other. (verses 1–6)",
+        "Still Micah will look to the Lord and wait for Him. Even if he falls, he will rise again. (verses 7–10)",
+        "In the last days the walls will be rebuilt and God’s people gathered from every land. The nations will see it and be ashamed. (verses 11–17)",
+        "Who is a God like Him? He has compassion, pardons sin, and loves to show mercy. He throws our sins into the depths of the sea. (verses 18–20)"
+      ],
+      "approved": "8889d836"
+    },
+    {
+      "ch": "Nahum 1",
+      "lines": [
+        "Nahum’s vision about Nineveh begins with the Lord’s power. Mountains quake and the earth burns before Him, a picture of the Second Coming. (verses 1–6)",
+        "The Lord is good, a safe fortress in the day of trouble. He knows those who trust Him, but His enemies will be swept away. (verses 7–10)",
+        "He will break Assyria’s yoke off Judah. A messenger brings good news of peace: the wicked enemy is cut off. (verses 11–15)"
+      ],
+      "review": [
+        {
+          "v": 5,
+          "about": "“A picture of the Second Coming” is from the chapter heading (“the burning of the earth at the Second Coming”)."
+        }
+      ],
+      "approved": "f73ff66a"
+    },
+    {
+      "ch": "Nahum 2",
+      "lines": [
+        "An army with red shields and racing chariots attacks Nineveh. The river gates open and the palace collapses. (verses 1–6)",
+        "Nineveh’s people run, and her silver and gold are carried off. (verses 7–10)",
+        "Assyria hunted like a lion, but now it will lose its den and its prey. Its fall is a symbol of what will happen in the last days. (verses 11–13)"
+      ],
+      "review": [
+        {
+          "v": 13,
+          "about": "The “symbol of what will be in the latter days” from the heading is placed on the last line."
+        }
+      ],
+      "approved": "5937d40a"
+    },
+    {
+      "ch": "Nahum 3",
+      "lines": [
+        "Woe to Nineveh, a city full of lies and robbery and killing, which led other nations into evil. (verses 1–7)",
+        "The Egyptian city of No, or Thebes, was strong too, and it fell. Nineveh’s forts will drop like ripe figs. (verses 8–13)",
+        "No matter how it prepares, Nineveh will be destroyed. Its leaders run like locusts, and its people are scattered. (verses 14–19)"
+      ],
+      "approved": "b3be9b8b"
+    },
+    {
+      "ch": "Habakkuk 1",
+      "lines": [
+        "Habakkuk asks the Lord how long he must cry out about the violence and wrong all around him. (verses 1–4)",
+        "The Lord answers that He is raising up the Chaldeans, or Babylonians, a fierce nation, to overrun the land. (verses 5–11)",
+        "Habakkuk is troubled. How can a holy God use people more wicked than Judah, who catch nations like fish in a net? (verses 12–17)"
+      ],
+      "approved": "4fbb88cb"
+    },
+    {
+      "ch": "Habakkuk 2",
+      "lines": [
+        "Habakkuk waits for the Lord’s answer. The Lord tells him to be patient: the vision will surely come at its time. (verses 1–3)",
+        "The proud will fail, but the just will live by faith. Woe to those who grow rich by violence and greed. (verses 4–13)",
+        "The earth will be filled with the knowledge of the Lord’s glory, as the waters cover the sea. (verse 14)",
+        "Woe to those who make others drunk and who pray to idols, which have no breath or power. The Lord is in His holy temple. (verses 15–20)"
+      ],
+      "approved": "5672a777"
+    },
+    {
+      "ch": "Habakkuk 3",
+      "lines": [
+        "Habakkuk prays in a song. He has heard of the Lord’s work, and he asks Him to remember mercy, even in anger. (verses 1–2)",
+        "He trembles at God’s majesty, shown as in the days of Moses: mountains shake, and God goes out to save His people. (verses 3–15)",
+        "Habakkuk is afraid. Yet even if crops and flocks fail, he will rejoice in the Lord, who is his strength. (verses 16–19)"
+      ],
+      "approved": "425fb30f"
+    },
+    {
+      "ch": "Zephaniah 1",
+      "lines": [
+        "In King Josiah’s days the Lord tells Zephaniah He will cut off the wicked of Judah, who worship idols and the stars. (verses 1–6)",
+        "The day of the Lord’s sacrifice is near. He will search Jerusalem with lamps and punish those who think He does nothing. (verses 7–13)",
+        "That great day will be a day of wrath and trouble, a picture of the Second Coming. Silver and gold won’t save anyone. (verses 14–18)"
+      ],
+      "review": [
+        {
+          "v": 14,
+          "about": "The heading says Judah’s destruction is symbolic of the Second Coming; the line places that on the “great day of the LORD” verses."
+        }
+      ],
+      "approved": "27fa6cc4"
+    },
+    {
+      "ch": "Zephaniah 2",
+      "lines": [
+        "Before the day of the Lord’s anger, the meek should seek the Lord, righteousness and meekness, and they may be hidden. (verses 1–3)",
+        "Judgment will come on the Philistines, and their coast will go to the remnant of Judah. (verses 4–7)",
+        "Moab and the children of Ammon, who mocked God’s people, will be like Sodom and Gomorrah, and the Ethiopians will fall. (verses 8–12)",
+        "Assyria and proud Nineveh will become a dry wilderness where wild animals lie down. (verses 13–15)"
+      ],
+      "approved": "02512907"
+    },
+    {
+      "ch": "Zephaniah 3",
+      "lines": [
+        "Woe to Jerusalem, which would not obey or trust the Lord. Its leaders, prophets and priests are all corrupt. (verses 1–7)",
+        "At the Second Coming the Lord will gather the nations to judge them. Then He will give people a pure language to call on Him. (verses 8–13)",
+        "Sing and rejoice! The Lord, the King of Israel, will be in the midst of His people and rejoice over them with singing. (verses 14–17)",
+        "He will gather the scattered and the hurting, and make them honored among all the people of the earth. (verses 18–20)"
+      ],
+      "review": [
+        {
+          "v": 8,
+          "about": "The heading says all nations will assemble to battle at the Second Coming; verse 8 says the Lord will gather the nations to pour out His anger."
+        }
+      ],
+      "approved": "560b470e"
+    }
+  ],
+  "insights": [
+    {
+      "id": "mic1-jsp-correct",
+      "ref": "Micah 1:1",
+      "title": "Joseph’s Bible: four books marked correct",
+      "text": "Joseph Smith worked through the whole Old Testament for his inspired revision of the Bible. His scribe, Frederick G. Williams, wrote down each change in a manuscript. Next to Micah, Nahum, Habakkuk and Zephaniah he wrote one word: “Correct.” The manuscript lists no changes for any of these four books.",
+      "source": {
+        "by": "Joseph Smith Papers",
+        "who": "Joseph Smith",
+        "title": "Old Testament Revision 2, page 118",
+        "url": "https://www.josephsmithpapers.org/paper-summary/old-testament-revision-2/125"
+      },
+      "find": "Micah— Correct— Nahum, Chapters 1–3 —— Nahum Correct —— Habakkuk, Chapters 1–3 —— Habakkuk Correct —— Zephaniah, Chapters 1–3 —— Zephaniah Correct",
+      "note": "Joseph Smith’s Bible revision manuscript lists Micah, with Nahum, Habakkuk and Zephaniah, as “Correct,” and records no changes for any of the four books.",
+      "approved": "484b74bb"
+    },
+    {
+      "id": "mic1-wordplay",
+      "ref": "Micah 1:10–16",
+      "title": "Puns in a sad song",
+      "text": "In Micah 1:10–16, Micah mourns over towns in Judah, and he plays on their names. George A. Pierce explains that one town’s name means “House of Dust,” so Micah tells it to roll in the dust. And “Declare ye it not at Gath” echoes David’s lament for Saul and Jonathan (2 Samuel 1:20). Micah’s sad song was carefully made.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "George A. Pierce",
+        "title": "Understanding Micah’s Lament for Judah (Micah 1:10–16) through Text, Archaeology, and Geography",
+        "url": "https://rsc.byu.edu/prophets-prophecies-old-testament/understanding-micahs-lament-judah-micah-110-16-through-text-archaeology-geography"
+      },
+      "find": "Micah employs paronomasia based on the names of towns that he is lamenting",
+      "approved": "fe46bd46"
+    },
+    {
+      "id": "mic2-sleepless",
+      "ref": "Micah 2:1–2",
+      "title": "Plotting in bed",
+      "text": "Micah 2:1 describes people who “devise iniquity, and work evil upon their beds.” The Old Testament Student Manual explains that they probably lay awake at night thinking up evil things to do, then did them as soon as it was light. Their plans? Taking fields and houses from families who couldn’t fight back.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "Promise of Judgments, Promise of Salvation (Micah)",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-11?lang=eng"
+      },
+      "find": "probably referring to those who lay awake at night thinking up evil things to do",
+      "approved": "6e46577c"
+    },
+    {
+      "id": "mic3-full-of-power",
+      "ref": "Micah 3:5–11",
+      "title": "Prophets for hire, and a true one",
+      "text": "In Micah’s day some prophets said whatever paid. Dr. Joshua Sears explains that they promised peace to anyone who fed them. Micah was different: “full of power by the spirit of the LORD,” he told the people about their sins. Dr. Sears calls that the burden of true prophets. “They have to tell the people what they don’t want to hear.”",
+      "source": {
+        "by": "followHIM",
+        "who": "Joshua M. Sears",
+        "title": "Old Testament: EPISODE 48 – Jonah, Micah – Part 2",
+        "url": "https://followhim.co/show-note/2-227/"
+      },
+      "find": "And that’s the burden of the true prophets. They have to tell the people what they don’t want to hear.",
+      "deep": {
+        "paras": [
+          "Micah lived among prophets who would say whatever paid. In Micah 3:5 they “bite with their teeth, and cry, Peace.” Dr. Joshua Sears reads it this way: they promised peace to people who gave them something to eat and turned against anyone who didn’t. By verse 11 the judges, priests and prophets are all working for money, and still they say the Lord is among them.",
+          "Micah set himself against them: “But truly I am full of power by the spirit of the LORD.” Dr. Sears calls this the burden of the true prophets. “They have to tell the people what they don’t want to hear.” Hank Smith adds that no one was paying Micah to say it.",
+          "Dr. Sears compares Micah with President Russell M. Nelson, who at a BYU devotional described the burden the prophetic mantle places on him: “The arbiter of truth is God not your favorite social media newsfeed.” Apostles are commanded to teach truth, even when they are called uncaring for it. Micah felt that same weight, Dr. Sears says, because he truly had the Spirit, and with it the duty to declare transgression and sin."
+        ],
+        "find": [
+          "So I think that means who say peace to people who give them something to eat, but they make war against he that put it not into their mouth.",
+          "And that’s the burden of the true prophets. They have to tell the people what they don’t want to hear.",
+          "He’s probably not biting with his teeth very much.",
+          "And he discussed this kind of burden that the prophetic mantle places on him.",
+          "professional prophets that are just saying whatever people will pay them to say versus Micah who truly does have the spirit"
+        ],
+        "listen": {
+          "youtube": "D0Dhiv8_IZw",
+          "start": 761,
+          "end": 959,
+          "title": "followHIM: Jonah and Micah, part 2, with Dr. Joshua Sears",
+          "channel": "followHIM Podcast",
+          "previewed": false
+        },
+        "approved": "80061cde"
+      },
+      "approved": "b86d5107"
+    },
+    {
+      "id": "mic4-temples",
+      "ref": "Micah 4:1–2",
+      "title": "Streaming up to the temples",
+      "text": "Micah saw that in the last days people would “flow unto” the mountain of the Lord’s house. Noe Correa, writing for Scripture Central, sees it happening now. In the Restoration, the Lord’s people go up to His temples to make covenants with Him. And at almost every general conference, the prophet announces more temples around the world.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Noe Correa",
+        "title": "Old Testament Minute: Micah",
+        "url": "https://scripturecentral.org/archive/books/book/old-testament-minute-micah"
+      },
+      "find": "In the restoration, the Lord’s modern Israel has flowed up to the mountain-temples to receive and make covenants with Him",
+      "approved": "bd066d6c"
+    },
+    {
+      "id": "mic4-babylon",
+      "ref": "Micah 4:10",
+      "title": "Babylon, named early",
+      "text": "Micah told Jerusalem, “thou shalt go even to Babylon; there shalt thou be delivered.” The Old Testament Student Manual points out why that is amazing. In Micah’s day Assyria ruled the world, and Babylon was only one of its provinces. Micah was seeing nearly 130 years ahead, to the captivity and to the Lord redeeming His people from it.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "Promise of Judgments, Promise of Salvation (Micah)",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-11?lang=eng"
+      },
+      "find": "This prophecy is amazing because Assyria was mistress of the world in Micah’s day, Babylon being only a province of Assyria",
+      "approved": "4c0f3544"
+    },
+    {
+      "id": "mic5-jesus-quoted",
+      "ref": "Micah 5:8–9",
+      "title": "Jesus quoted Micah",
+      "text": "On His second day with the Nephites, the risen Jesus quoted Micah and Isaiah so much that exactly half the verses of His sermon came from them. He used Micah 5:8–9 and 4:12–13 (3 Nephi 20:15–20). Scripture Central explains that His theme was the Father’s covenant with Israel, a covenant He has never forgotten.",
+      "source": {
+        "by": "Scripture Central",
+        "title": "Why Did Jesus Mix Together Micah and Isaiah?",
+        "url": "https://scripturecentral.org/knowhy/why-did-jesus-mix-together-micah-and-isaiah"
+      },
+      "find": "exactly half of the verses in the speech come from these prophets",
+      "approved": "82013c6b"
+    },
+    {
+      "id": "mic5-ephratah",
+      "ref": "Micah 5:2",
+      "title": "Which Bethlehem?",
+      "text": "Why does Micah say “Beth-lehem Ephratah” and not just Bethlehem? The Old Testament Student Manual explains that there was another Bethlehem, in the land given to the tribe of Zebulun (Joshua 19:15). Ephratah marks the Bethlehem in Judah, the town where Jesus was born (Matthew 2:1).",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "title": "Promise of Judgments, Promise of Salvation (Micah)",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-11?lang=eng"
+      },
+      "find": "Ephratah is simply an additional name to distinguish the Bethlehem in Judah from another Bethlehem in the land assigned to the tribe of Zebulun",
+      "approved": "52b1d751"
+    },
+    {
+      "id": "mic5-q-nelson",
+      "kind": "quote",
+      "ref": "Micah 5:2",
+      "quote": "How appropriate it was that He, the “bread of life,” was to come from the “house of bread.”",
+      "text": "Micah 5:2 names Bethlehem as the Savior’s birthplace. Elder Nelson notes that Bethlehem means house of bread in Hebrew, and Jesus called Himself the bread of life (John 6:48).",
+      "source": {
+        "by": "Liahona",
+        "who": "Elder Russell M. Nelson",
+        "title": "In This Holy Land",
+        "url": "https://www.churchofjesuschrist.org/study/liahona/1991/02/in-this-holy-land?lang=eng"
+      },
+      "approved": "fe3cb9f1"
+    },
+    {
+      "id": "mic5-dew",
+      "ref": "Micah 5:7",
+      "title": "Like dew on the grass",
+      "text": "Micah says the remnant of Jacob will be “as a dew from the LORD, as the showers upon the grass.” Blair G. Van Dyke and D. Kelly Ogden explain that people who keep their lives focused on the Savior will be like nourishing dew and life-saving rain to the rest of the world.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "Blair G. Van Dyke and D. Kelly Ogden",
+        "title": "Amos through Malachi: Major Teachings of the Twelve Prophets",
+        "url": "https://rsc.byu.edu/archived/volume-4-number-3-2003/amos-through-malachi-major-teachings-twelve-prophets"
+      },
+      "find": "they will be like nourishing dew and life-saving rain to the rest of the world",
+      "approved": "cd458bb4"
+    },
+    {
+      "id": "mic6-renlund",
+      "ref": "Micah 6:8",
+      "title": "Caring, not judging",
+      "text": "Elder Dale G. Renlund remembers a tired young doctor who complained about caring for a patient whose illness was his own fault. Her supervisor answered quietly: “You didn’t become a physician to judge them.” Elder Renlund says loving mercy means we aren’t judgmental. We’re glad when God shows others the same mercy He shows us.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Dale G. Renlund",
+        "title": "Do Justly, Love Mercy, and Walk Humbly with God",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2020/10/55renlund?lang=eng"
+      },
+      "find": "Loving mercy means that we do not just love the mercy God extends to us; we delight that God extends the same mercy to others",
+      "approved": "4f00df33"
+    },
+    {
+      "id": "mic6-q-renlund",
+      "kind": "quote",
+      "ref": "Micah 6:6–7",
+      "quote": "Without the blessings that come from Heavenly Father and Jesus Christ, we can never do enough or be enough by ourselves.",
+      "text": "Verses 6–7 ask whether huge offerings could pay for sin. Elder Renlund answers no, and then shares the good news: through Jesus Christ we can become enough.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Dale G. Renlund",
+        "title": "Do Justly, Love Mercy, and Walk Humbly with God",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2020/10/55renlund?lang=eng"
+      },
+      "approved": "cb536010"
+    },
+    {
+      "id": "mic6-hesed",
+      "ref": "Micah 6:8",
+      "title": "The love God shows, and asks for",
+      "text": "The Hebrew word behind “mercy” in Micah 6:8 is hesed: God’s loving-kindness, faithfulness and steadfast love. David Rolph Seely points out that the kindness God shows His children is also something He asks His covenant people to show. God invites us to become like Him by doing what He does.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "David Rolph Seely",
+        "title": "Tender Mercies and Loving-Kindness",
+        "url": "https://rsc.byu.edu/winter-2026/tender-mercies-loving-kindness"
+      },
+      "find": "Such actions are also an obligation placed on the Lord’s covenant people",
+      "approved": "a2c8383b"
+    },
+    {
+      "id": "mic7-name",
+      "ref": "Micah 7:18",
+      "title": "A name that asks a question",
+      "text": "Micah’s name, like Michael, means “like unto Jehovah.” His book ends by asking, “Who is a God like unto thee, that pardoneth iniquity”? Noe Correa, writing for Scripture Central, says the prophet’s name and this closing question are bookends around the whole book.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Noe Correa",
+        "title": "Old Testament Minute: Micah",
+        "url": "https://scripturecentral.org/archive/books/book/old-testament-minute-micah"
+      },
+      "find": "The name of the prophet and this closing statement serve as bookends",
+      "approved": "269f88c3"
+    },
+    {
+      "id": "mic7-hurl",
+      "ref": "Micah 7:18–20",
+      "title": "He loves to forgive",
+      "text": "Micah says the Lord “delighteth in mercy.” Dr. Joshua Sears explains that mercy here is the Hebrew hesed, God’s covenant love and loyalty. God isn’t grumbling when He forgives. He loves it. And in verse 19 the word for “cast” is like hurling. He doesn’t hide our sins in a closet. He throws them into the depths of the sea.",
+      "source": {
+        "by": "followHIM",
+        "who": "Joshua M. Sears",
+        "title": "Old Testament: EPISODE 48 – Jonah, Micah – Part 2",
+        "url": "https://followhim.co/show-note/2-227/"
+      },
+      "find": "He delights in extending that love and mercy and loyalty to us. It’s not like he’s grumbling about it.",
+      "deep": {
+        "paras": [
+          "Dr. Joshua Sears points out that Micah’s name means “who is like,” and the book ends playing on it. In Micah 7:18 the prophet asks God, “Who is a God like unto thee, that pardoneth iniquity”? He “retaineth not his anger for ever, because he delighteth in mercy.”",
+          "The Hebrew word for mercy there is hesed, the covenant love President Russell M. Nelson wrote about in the October 2022 Liahona: a love and loyalty between God and those who make covenants with Him. Dr. Sears stresses that God is not grudging about it. “He loves extending mercy. He loves forgiving.”",
+          "Verse 19 says He will “cast all their sins into the depths of the sea,” and Dr. Sears says the verb is like hurling something. The Lord doesn’t sweep sins under a rug or shut them in a closet. He takes them to the edge of the cliff and throws them as far as He can. Verse 20 uses hesed again, “the mercy to Abraham,” the covenant God swore to keep, no matter how long it takes.",
+          "Dr. Sears ends with a promise for anyone who wonders if they, or someone they love, have gone too far. No one is so far gone that the light of that covenant love can’t reach them. As soon as we turn to Him and sincerely repent, “he will delight in forgetting all that happened.”"
+        ],
+        "find": [
+          "He delights in Hesed. He delights in extending that love and mercy and loyalty to us.",
+          "He’s going to take your sins and not just sweep them under the rug, not just put them in the closet and close the door.",
+          "You’re going to do Hesed to Abraham. You’re going to be true to the covenant that you made with him.",
+          "you, or they are never so far gone that the light of that love that he has, that stems from his covenant with us can’t reach us and them"
+        ],
+        "listen": {
+          "youtube": "D0Dhiv8_IZw",
+          "start": 3919,
+          "end": 4081,
+          "title": "followHIM: Jonah and Micah, part 2, with Dr. Joshua Sears",
+          "channel": "followHIM Podcast",
+          "previewed": false
+        },
+        "approved": "155c6fe7"
+      },
+      "approved": "2cd24331"
+    },
+    {
+      "id": "mic7-q-holland",
+      "kind": "quote",
+      "ref": "Micah 7:18",
+      "quote": "Surely the thing God enjoys most about being God is the thrill of being merciful, especially to those who don’t expect it and often feel they don’t deserve it.",
+      "text": "Micah 7:18 says the Lord “delighteth in mercy.” Elder Holland says the same thing in his own words.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Jeffrey R. Holland",
+        "title": "The Laborers in the Vineyard",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2012/04/the-laborers-in-the-vineyard?lang=eng"
+      },
+      "approved": "258035ad"
+    },
+    {
+      "id": "nah1-comforter",
+      "ref": "Nahum 1:1",
+      "title": "Nahum means comforter",
+      "text": "Nahum’s name comes from a Hebrew root meaning to comfort, so it means comforter. Terry B. Ball compares Nahum’s message to watching a replay of a game you already know your team won. The close plays don’t worry you much. Nahum promised God’s people that their cruel enemy would fall. In the end, God triumphs over the adversary.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "Terry B. Ball",
+        "title": "What Is in a Name? Lessons from the Names of Old Testament Prophets",
+        "url": "https://rsc.byu.edu/vol-15-no-2-2014/what-name-lessons-names-old-testament-prophets"
+      },
+      "find": "Nahum is typically understood to mean a comforter or consoler",
+      "approved": "1dd737e8"
+    },
+    {
+      "id": "nah1-balance",
+      "ref": "Nahum 1:3–7",
+      "title": "Justice and mercy, both",
+      "text": "Nahum says the Lord “is slow to anger, and great in power, and will not at all acquit the wicked,” and also that He “is good.” Ellis T. Rasmussen, quoted in the Old Testament Student Manual, sums it up: His mercy won’t rob justice, and His justice won’t rob His mercy. He is both powerful and merciful.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "who": "Ellis T. Rasmussen",
+        "title": "‘The Burden of Ninevah’ (Nahum)",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-20?lang=eng"
+      },
+      "find": "His mercy shall not rob justice, but neither will justice rob His mercy",
+      "approved": "667d829a"
+    },
+    {
+      "id": "nah1-refuge",
+      "ref": "Nahum 1:7",
+      "title": "Run to Him for shelter",
+      "text": "“The LORD is good, a strong hold in the day of trouble; and he knoweth them that trust in him.” Dr. Joshua Matson explains that the Hebrew behind “trust in him” better reads “those who seek refuge in Him.” It isn’t only believing God can help. It’s choosing to run to Him for shelter.",
+      "source": {
+        "by": "followHIM",
+        "who": "Joshua M. Matson",
+        "title": "Old Testament: EPISODE 49 – Nahum; Habakkuk; Zephaniah – Part 1",
+        "url": "https://followhim.co/show-note/2-231/"
+      },
+      "find": "it’s this intentionality of finding refuge in God",
+      "deep": {
+        "paras": [
+          "Dr. Joshua Matson suggests reading Nahum by first asking the disciples’ question, “Lord, is it I?” Chapter 1 pictures Jehovah as a warrior fighting the battles of His covenant people, so mighty that the mountains quake and the hills melt before Him.",
+          "Then comes verse 7, which John Bytheway calls the positive verse in the middle of it all: “The LORD is good, a strong hold in the day of trouble.” Dr. Matson notes that the Hebrew behind “them that trust in him” better reads “those who seek refuge in Him.” It isn’t only knowing that God can do these things. It is the deliberate choice to find refuge in Him.",
+          "That choice, he says, is what separates the covenant people from those who are destroyed later in the book. At the end of Nahum, Assyria’s shepherds slumber and its people are scattered, with no one to gather them (Nahum 3:18). Nineveh trusted the wrong shepherd. “But we are disciples of the Good Shepherd,” Dr. Matson says, and if we find refuge in Him, we will be protected."
+        ],
+        "find": [
+          "the whole focus of this section is to describe Jehovah, the God of the Old Testament, as a warrior",
+          "That’s the positive verse in the middle of all that.",
+          "it’s this intentionality of finding refuge in God",
+          "Nineveh put their trust in the wrong shepherd. And because of that, they were led astray.",
+          "But we are disciples of the Good Shepherd, who if we find refuge in Him, we will be protected."
+        ],
+        "listen": {
+          "youtube": "Ph68oglD638",
+          "start": 2040,
+          "end": 2116,
+          "title": "followHIM: Nahum, Habakkuk, Zephaniah, part 1, with Dr. Joshua Matson",
+          "channel": "followHIM Podcast",
+          "previewed": false
+        },
+        "approved": "44e3508f"
+      },
+      "approved": "6fa9913b"
+    },
+    {
+      "id": "nah1-q-gong",
+      "kind": "quote",
+      "ref": "Nahum 1:7",
+      "quote": "When we trust God and His love for us, even our greatest heartbreaks can, in the end, work together for our good.",
+      "text": "Nahum 1:7 promises that the Lord knows those who trust Him. Elder Gong teaches what that trust can do with our hardest days.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Gerrit W. Gong",
+        "title": "All Things for Our Good",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2024/04/25gong?lang=eng"
+      },
+      "approved": "80d408fb"
+    },
+    {
+      "id": "nah2-gates",
+      "ref": "Nahum 2:6",
+      "title": "The river gates open",
+      "text": "Nahum saw that “the gates of the rivers shall be opened, and the palace shall be dissolved.” Wally Breitenstein, writing for Scripture Central, explains that these were probably sluice gates, which control the flow of water. Archaeologists have learned that the Khosr River, which ran through the middle of Nineveh, overran the city.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Wally Breitenstein",
+        "title": "Old Testament Minute: Nahum",
+        "url": "https://scripturecentral.org/archive/books/book/old-testament-minute-nahum"
+      },
+      "find": "Nineveh was overrun by the Khosr River, which was a tributary of the Tigris River and ran through the center of Nineveh",
+      "approved": "8a9397e4"
+    },
+    {
+      "id": "nah3-thebes",
+      "ref": "Nahum 3:8–10",
+      "title": "No better than Thebes",
+      "text": "Nahum asks Nineveh, “Art thou better than populous No”? No was Thebes, a great city in Egypt that Assyria itself had captured in 663 BC. Sidney B. Sperry explains that this helps date Nahum: after Thebes fell, but before Nineveh fell in 612 BC. Nineveh was no better than Thebes, and it would fall too.",
+      "source": {
+        "by": "Old Testament Student Manual",
+        "who": "Sidney B. Sperry",
+        "title": "‘The Burden of Ninevah’ (Nahum)",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-20?lang=eng"
+      },
+      "find": "reference is made to the destruction of the city of No-Amon, the Egyptian Thebes, as an already accomplished fact",
+      "approved": "dab63882"
+    },
+    {
+      "id": "hab1-wrestle",
+      "ref": "Habakkuk 1:2–4",
+      "title": "Wrestling with God in prayer",
+      "text": "Dr. Joshua Matson says Habakkuk’s name is close to a Hebrew word for clasp or embrace, and he pictures a wrestler’s hold. In chapters 1 and 2 Habakkuk wrestles with God in prayer, asking hard questions and listening for answers. “Friends, I think God can handle it,” Dr. Matson tells his students.",
+      "source": {
+        "by": "followHIM",
+        "who": "Joshua M. Matson",
+        "title": "Old Testament: EPISODE 49 – Nahum; Habakkuk; Zephaniah – Part 2",
+        "url": "https://followhim.co/show-note/2-230/"
+      },
+      "find": "Habakkuk is amazingly fit for this idea of a wrestle",
+      "deep": {
+        "paras": [
+          "Dr. Joshua Matson notes that the root of Habakkuk’s name is uncertain, but it is close to a word used in Genesis for unfolding, clasping or embracing. He hears two pictures in it: the embrace of family, and the hold of a wrestler, like Jacob wrestling the angel (Genesis 32:24). The second fits best, he says, because chapters 1 and 2 go back and forth between Habakkuk’s prayers and Jehovah’s answers.",
+          "Habakkuk’s first prayer, in verses 2–4, asks why God isn’t listening and why He lets injustice go on. Dr. Matson hears the same cry in Psalm 13 and in Joseph Smith’s plea from Liberty Jail (D&C 121:1–3). Many people tell him they feel their prayers hit the ceiling and fall back to the floor. “And that’s Habakkuk,” he says.",
+          "His counsel is not to be afraid of that wrestle: “Friends, I think God can handle it.” John Bytheway adds that the cry of “how long” isn’t unbelief. It is faith asking how long it has to wait. Habakkuk keeps praying, and the Lord answers him."
+        ],
+        "find": [
+          "The root for Habakkuk is somewhat unknown, but it’s really close to a word that’s used frequently in Genesis to unfold, clasp or embrace.",
+          "Habakkuk is amazingly fit for this idea of a wrestle",
+          "I don’t feel like God is listening to my prayers.",
+          "And one thing that I like to tell my students all the time is, “Friends, I think God can handle it.”"
+        ],
+        "listen": {
+          "youtube": "ZlQwhSBPGOU",
+          "start": 73,
+          "end": 266,
+          "title": "followHIM: Nahum, Habakkuk, Zephaniah, part 2, with Dr. Joshua Matson",
+          "channel": "followHIM Podcast",
+          "previewed": false
+        },
+        "approved": "9409e3bb"
+      },
+      "approved": "10bf4f40"
+    },
+    {
+      "id": "hab1-q-holland",
+      "kind": "quote",
+      "ref": "Habakkuk 1:2",
+      "quote": "I offer you my apostolic promise that they are heard and they are answered, though perhaps not at the time or in the way we wanted.",
+      "text": "Habakkuk cried, “How long shall I cry, and thou wilt not hear!” Speaking of prayers that seem to go unanswered, Elder Holland makes this promise.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Jeffrey R. Holland",
+        "title": "Waiting on the Lord",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2020/10/57holland?lang=eng"
+      },
+      "approved": "38f5b0db"
+    },
+    {
+      "id": "hab2-q-hales",
+      "kind": "quote",
+      "ref": "Habakkuk 2:3",
+      "quote": "We may not know when or how the Lord’s answers will be given, but in His time and His way, I testify, His answers will come.",
+      "text": "The Lord told Habakkuk, “Though it tarry, wait for it.” Elder Hales gives the same counsel about our own prayers.",
+      "source": {
+        "by": "General Conference",
+        "who": "Elder Robert D. Hales",
+        "title": "Waiting upon the Lord: Thy Will Be Done",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2011/10/waiting-upon-the-lord-thy-will-be-done?lang=eng"
+      },
+      "approved": "03766801"
+    },
+    {
+      "id": "hab2-soap",
+      "ref": "Habakkuk 2:4",
+      "title": "Faith, like soap, has to be used",
+      "text": "“The just shall live by his faith.” President Dieter F. Uchtdorf tells of a soap maker who said religion hadn’t made the world better. A rabbi pointed to some muddy children: soap had been around for years, so why were they dirty? Soap has to be used, the man said. So does faith. Living by faith means acting on it.",
+      "source": {
+        "by": "Ensign",
+        "who": "President Dieter F. Uchtdorf",
+        "title": "The Just Shall Live by Faith",
+        "url": "https://www.churchofjesuschrist.org/study/ensign/2017/04/the-just-shall-live-by-faith?lang=eng"
+      },
+      "find": "Religion without action is like soap that remains in the box",
+      "approved": "5e3c91bc"
+    },
+    {
+      "id": "hab2-earth",
+      "ref": "Habakkuk 2:14",
+      "title": "Covered like the sea",
+      "text": "Between woes against Babylon’s greed and violence, Habakkuk 2:14 shines: “the earth shall be filled with the knowledge of the glory of the LORD, as the waters cover the sea.” Wally Breitenstein, writing for Scripture Central, says God’s glory will finally overcome all the violence, greed and wickedness on the earth.",
+      "source": {
+        "by": "Scripture Central",
+        "who": "Wally Breitenstein",
+        "title": "Old Testament Minute: Habakkuk",
+        "url": "https://scripturecentral.org/archive/books/book/old-testament-minute-habakkuk"
+      },
+      "find": "God’s glory will eventually dominate the earth, overtaking the violence, greediness, and iniquity mentioned above",
+      "approved": "e86912c1"
+    },
+    {
+      "id": "hab2-silence",
+      "ref": "Habakkuk 2:20",
+      "title": "Over a temple doorway",
+      "text": "Dr. Joshua Matson first met Habakkuk above a doorway in the Idaho Falls Idaho Temple, marked with Habakkuk 2:20: “the LORD is in his holy temple: let all the earth keep silence before him.” He points out that all the earth includes Habakkuk. The Lord had answered him. Now it was time to trust the Lord and be still.",
+      "source": {
+        "by": "followHIM",
+        "who": "Joshua M. Matson",
+        "title": "Old Testament: EPISODE 49 – Nahum; Habakkuk; Zephaniah – Part 2",
+        "url": "https://followhim.co/show-note/2-230/"
+      },
+      "find": "When we know that we’ve received an answer, it’s time for us to keep silence before him",
+      "approved": "901cc2fd"
+    },
+    {
+      "id": "hab3-hinds",
+      "ref": "Habakkuk 3:19",
+      "title": "Feet made for mountains",
+      "text": "Habakkuk ends his song: the Lord “will make my feet like hinds’ feet, and he will make me to walk upon mine high places.” The seminary manual explains that hinds are deer, whose feet let them climb rough ground. The Lord can help us climb our own steep mountains.",
+      "source": {
+        "by": "Seminary manual",
+        "title": "Habakkuk: Waiting for Answers to Our Sincere Questions",
+        "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/48-micah-zephaniah/482-habakkuk?lang=eng"
+      },
+      "find": "refers to deer feet, which enable deer to climb difficult ground",
+      "approved": "4f982ee9"
+    },
+    {
+      "id": "hab3-q-nelson",
+      "kind": "quote",
+      "ref": "Habakkuk 3:17–18",
+      "quote": "The joy we feel has little to do with the circumstances of our lives and everything to do with the focus of our lives.",
+      "text": "Habakkuk could rejoice even if every crop failed. President Nelson explains how that kind of joy works.",
+      "source": {
+        "by": "General Conference",
+        "who": "President Russell M. Nelson",
+        "title": "Joy and Spiritual Survival",
+        "url": "https://www.churchofjesuschrist.org/study/general-conference/2016/10/joy-and-spiritual-survival?lang=eng"
+      },
+      "approved": "ad466594"
+    },
+    {
+      "id": "hab2-v-lift-us-up",
+      "kind": "video",
+      "ref": "Habakkuk 2:1–4",
+      "title": "God Will Lift Us Up (Church video)",
+      "text": "The lesson suggests this five-minute Church video with Habakkuk 2:1–4. Rather than focus on her medical condition, Brittany finds comfort in serving others and trusting in the Lord. Watch for how she keeps trusting while she waits, the way Habakkuk did.",
+      "video": {
+        "youtube": "bhXPgZ4-krc",
+        "start": 0,
+        "end": 298,
+        "title": "God Will Lift Us Up",
+        "channel": "The Church of Jesus Christ of Latter-day Saints",
+        "previewed": false
+      },
+      "approved": "2025d66f"
+    },
+    {
+      "id": "zeph1-prophets",
+      "ref": "Zephaniah 1:1",
+      "title": "One of the many prophets",
+      "text": "Nephi wrote that in Lehi’s day “many prophets” warned Jerusalem to repent (1 Nephi 1:4). Scripture Central counts nine Bible prophets active in those years, a remarkably high number. Zephaniah is on the list, along with Nahum, Habakkuk and Jeremiah. Lehi was not the only voice warning Jerusalem.",
+      "source": {
+        "by": "Scripture Central",
+        "title": "Who Were the “Many Prophets” in Jerusalem During Lehi’s Time?",
+        "url": "https://scripturecentral.org/knowhy/who-were-the-many-prophets-in-jerusalem-during-lehis-time"
+      },
+      "find": "Nine prophets from the Bible were active during the late-7th/early-6th centuries bc",
+      "approved": "329c5485"
+    },
+    {
+      "id": "zeph2-hidden",
+      "ref": "Zephaniah 2:3",
+      "title": "A name that means hidden",
+      "text": "Zephaniah’s name comes from a Hebrew root meaning to hide, protect or treasure up. It can mean one who is hidden or protected by the Lord. Terry B. Ball points to the wordplay in Zephaniah 2:3, where the meek may be “hid in the day of the LORD’s anger.” In righteous King Josiah’s day, Jerusalem was spared.",
+      "source": {
+        "by": "BYU Religious Studies Center",
+        "who": "Terry B. Ball",
+        "title": "What Is in a Name? Lessons from the Names of Old Testament Prophets",
+        "url": "https://rsc.byu.edu/vol-15-no-2-2014/what-name-lessons-names-old-testament-prophets"
+      },
+      "find": "the name Zephaniah can be translated as one who is protected or hidden by the Lord",
+      "approved": "5cbb7e1c"
+    },
+    {
+      "id": "zeph3-two-cities",
+      "ref": "Zephaniah 3",
+      "title": "A tale of two cities",
+      "text": "Dr. Joshua Matson reads Zephaniah 3 as two cities. Verses 1–13 describe a proud, oppressing city under a “woe.” Verses 14–20 are a song for Jerusalem, the city of peace, where “the LORD, is in the midst of thee.” Which city do we want to live in? Zephaniah sets them side by side and lets us choose.",
+      "source": {
+        "by": "followHIM",
+        "who": "Joshua M. Matson",
+        "title": "Old Testament: EPISODE 49 – Nahum; Habakkuk; Zephaniah – Part 2",
+        "url": "https://followhim.co/show-note/2-230/"
+      },
+      "find": "Which city do we want to take up residency in?",
+      "deep": {
+        "paras": [
+          "Dr. Joshua Matson notes that Zephaniah, unlike Nahum and Habakkuk, dates himself exactly: the days of King Josiah (Zephaniah 1:1). The book could almost be read as one long chapter, he says, but it has key moments: doom announced, one last chance to repent in chapter 2, and then a proud city set against a city of peace.",
+          "Zephaniah 3:1–13 is a woe on “the oppressing city,” which “obeyed not the voice.” Some call it the woe against the oppressive city, Dr. Matson says, because the text never says which city it is. Any city that oppresses can hear what God will do, and any reader can ask whether he lives there.",
+          "Then verses 14–20 burst into a song for Jerusalem. Dr. Matson hears the earlier books answered. Habakkuk had asked, “Why dost thou shew me iniquity” (Habakkuk 1:3), and now the Lord promises, “thou shalt not see evil any more.” After a week of woes, he asks, what better way to end than with God in the midst of His people?"
+        ],
+        "find": [
+          "Unlike the other ones where we had to go dig to find context, we don’t have to dig very hard here.",
+          "Chapter 3 verses 1 through 13 sets up this city that has puffed itself up in pride.",
+          "Some people will actually call this the woe against the oppressive city",
+          "Which city do we want to take up residency in?",
+          "especially the blessing that God is in the midst of those who are part of this city"
+        ],
+        "listen": {
+          "youtube": "ZlQwhSBPGOU",
+          "start": 2990,
+          "end": 3254,
+          "title": "followHIM: Nahum, Habakkuk, Zephaniah, part 2, with Dr. Joshua Matson",
+          "channel": "followHIM Podcast",
+          "previewed": false
+        },
+        "approved": "cecf1d86"
+      },
+      "approved": "4ff0f341"
+    },
+    {
+      "id": "zeph3-joy",
+      "ref": "Zephaniah 3:17",
+      "title": "God’s joy in His people",
+      "text": "Scripture Central’s article on joy and the temple quotes Zephaniah 3:17. It says Zephaniah described the joy and love God feels when He is with us. We feel joy in the Lord’s presence, and the article explains that the temple is one place where we can come into it.",
+      "source": {
+        "by": "Scripture Central",
+        "title": "Why Is Joy Associated with Temple Work in the Scriptures?",
+        "url": "https://scripturecentral.org/knowhy/why-is-joy-associated-with-temple-work-in-the-scriptures"
+      },
+      "find": "the prophet Zephaniah described the joy and love that God feels when He is with us",
+      "approved": "3d8893fc"
+    }
+  ],
+  "plain": [
+    {
+      "ch": "Micah 1",
+      "verses": [
+        "This is the word of the Lord that came to Micah the Morasthite (from the town of Moresheth) in the days of Jotham, Ahaz, and Hezekiah, kings of Judah. It is what he saw about Samaria and Jerusalem.",
+        "Hear, all you peoples! Listen, earth, and everything in it! Let the Lord God be a witness against you, the Lord from His holy temple.",
+        "For look, the Lord is coming out of His place. He will come down and tread on the high places of the earth.",
+        "The mountains will melt under Him, and the valleys will split open, like wax before the fire, like water pouring down a steep slope.",
+        "All this is because of what Jacob has done wrong, and because of the sins of the house of Israel. What is Jacob’s wrong? Isn’t it Samaria? And what are Judah’s high places (places of idol worship)? Aren’t they Jerusalem?",
+        "So I will make Samaria a heap of rubble in the open field, a place for planting vineyards. I will pour her stones down into the valley and lay her foundations bare.",
+        "All her carved idols will be smashed to pieces, and all her earnings will be burned in the fire. I will make all her idols a ruin. She gathered them from a prostitute’s pay, and they will go back to being a prostitute’s pay.",
+        "Because of this I will mourn and wail. I will go barefoot and naked. I will howl like the jackals and mourn like the ostriches.",
+        "For her wound cannot be healed. It has come to Judah. It has reached the gate of my people, even Jerusalem.",
+        "Don’t tell it in Gath. Don’t weep at all. In the house of Aphrah, roll in the dust.",
+        "Pass on, you who live in Saphir, naked and ashamed. The people who live in Zaanan do not come out. Beth-ezel is mourning, and its support is taken away from you.",
+        "For the people who live in Maroth wait anxiously for good, but disaster has come down from the Lord to the gate of Jerusalem.",
+        "You who live in Lachish, hitch your chariot to the fast horses. You were the beginning of sin for the daughter of Zion, because the wrongs of Israel were found in you.",
+        "So you will give parting gifts to Moresheth-gath. The houses of Achzib will prove to be a lie to the kings of Israel.",
+        "I will again bring someone to take possession of you, you who live in Mareshah. The glory of Israel will come to Adullam.",
+        "Shave your head and cut off your hair in mourning for the children you love. Make yourself as bald as an eagle, for they will be taken away from you as captives."
+      ],
+      "notes": [
+        {
+          "v": 8,
+          "text": "The KJV’s “dragons” are the Hebrew tannim, which the BSB reads as ‘jackals.’ Its “owls” are ‘ostriches’ in the BSB."
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "The plain words add “(from the town of Moresheth)” to explain “Morasthite”; verse 14 names Moresheth-gath. The Joseph Smith Translation has no changes in this book: Old Testament Revision 2 marks Micah, Nahum, Habakkuk and Zephaniah “Correct” (josephsmithpapers.org, old-testament-revision-2/125, manuscript page 118). So there are no JST notes."
+        },
+        {
+          "v": 5,
+          "about": "Two choices here. “Transgression” is given as “what Jacob has done wrong” and “Jacob’s wrong,” as the approved Isaiah chapters do (Isaiah 58:1). The “high places” of Judah get “(places of idol worship)”; in verse 3 they are just the heights of the earth."
+        },
+        {
+          "v": 7,
+          "about": "The KJV says “harlot”; the plain words say “prostitute” (the BSB’s word), as in Isaiah 23:15–17; “harlot” is the alternative. The idols are pictured as bought with a prostitute’s pay, a picture of Samaria’s unfaithfulness to the Lord. “Hires” (the gifts paid to her temples) is given as “earnings.”"
+        },
+        {
+          "v": 10,
+          "about": "Verses 10–15 are a string of plays on the town names in Hebrew (Aphrah sounds like ‘dust,’ Achzib like ‘a lie’ in verse 14). The plain words keep the KJV’s names and spellings (the BSB has Beth-leaphrah, Shaphir) with no note."
+        },
+        {
+          "v": 11,
+          "about": "Hard Hebrew. The KJV’s last words, “he shall receive of you his standing,” are unsure; the plain words follow the BSB (‘its support is taken from you’). The KJV joins Zaanan to Beth-ezel’s mourning; the plain words follow the Hebrew’s break, as the BSB does."
+        },
+        {
+          "v": 15,
+          "about": "The KJV’s “heir” is a Hebrew word for one who takes possession (BSB ‘conqueror’), given as “someone to take possession of you.” The KJV reads “Adullam the glory of Israel”; the Hebrew says the glory of Israel will come to Adullam, as the plain words do."
+        }
+      ],
+      "approved": "c27ee8ac"
+    },
+    {
+      "ch": "Micah 2",
+      "verses": [
+        "How terrible for those who plan wickedness and work out evil on their beds! When morning comes, they do it, because they have the power to.",
+        "They covet fields and seize them, and houses, and take them away. They oppress a man and his household, a man and his inheritance.",
+        "So this is what the Lord says: Look, I am planning disaster against this family, and you will not be able to pull your necks out from under it. You will not walk proudly anymore, for it will be an evil time.",
+        "On that day people will make up a saying against you and mourn with a bitter song: “We are completely ruined! He has traded away my people’s share of the land. How He has taken it from me! He has divided our fields among traitors.”",
+        "So you will have no one in the congregation of the Lord to measure out the land by lot.",
+        "“Don’t prophesy,” they say to those who prophesy. “Don’t prophesy about these things. Disgrace will not catch up with us.”",
+        "You who are called the house of Jacob, is the Spirit of the Lord impatient? Are these the things He does? Don’t my words do good to the one who walks uprightly?",
+        "But lately my people have risen up like an enemy. You strip the robe off the clothes of people passing by who feel safe, like men who have turned away from war.",
+        "You drive the women of my people out of the homes they love. You take my glory away from their children forever.",
+        "Get up and go! This is not your place of rest, because it has been made unclean, and it will destroy you with a terrible destruction.",
+        "If a man walking in empty wind and lies were to say, “I will prophesy to you about wine and strong drink,” he would be just the prophet for this people!",
+        "I will surely gather all of you, Jacob. I will surely bring together the remnant of Israel. I will put them together like the sheep of Bozrah, like a flock in the middle of its pasture. They will make a loud noise because there are so many people.",
+        "The one who breaks open the way will go up ahead of them. They will break through, pass through the gate, and go out by it. Their King will go on before them, with the Lord at their head."
+      ],
+      "notes": [
+        {
+          "v": 12,
+          "text": "The KJV says “the sheep of Bozrah,” a city of Edom. The BSB reads the same Hebrew word as a sheepfold: ‘like sheep in a pen.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 4,
+          "about": "Hard Hebrew. The KJV’s “turning away he hath divided our fields” reads a word the BSB takes as ‘traitors’ (‘He has allotted our fields to traitors’); the plain words follow the BSB. “He” is capitalized for the Lord, as in the BSB; the mourners may mean the conqueror."
+        },
+        {
+          "v": 6,
+          "about": "Hard Hebrew. The plain words follow the BSB’s reading (the people tell the prophets to stop, and say disgrace will not reach them). The KJV’s “they shall not prophesy to them, that they shall not take shame” is less clear."
+        },
+        {
+          "v": 8,
+          "about": "The KJV’s “as men averse from war” is a Hebrew phrase that can mean turned away from war or coming back from war (BSB ‘like men returning from battle’). The plain words say “turned away from war,” close to the KJV."
+        },
+        {
+          "v": 11,
+          "about": "The KJV’s “walking in the spirit” is the Hebrew word for wind or spirit; the plain words say “empty wind,” as the BSB has ‘a man of wind.’"
+        },
+        {
+          "v": 13,
+          "about": "“King” is capitalized because the verse names Him as the Lord. “The breaker” is given as “the one who breaks open the way” (BSB)."
+        }
+      ],
+      "approved": "47f0284d"
+    },
+    {
+      "ch": "Micah 3",
+      "verses": [
+        "And I said, Please listen, you heads of Jacob and you rulers of the house of Israel! Isn’t it your job to know what is just?",
+        "You hate good and love evil. You tear the skin off people and the flesh off their bones.",
+        "You eat the flesh of my people, strip off their skin, and break their bones. You chop them up like meat for the pot, like flesh in a cooking pot.",
+        "Then they will cry out to the Lord, but He will not answer them. At that time He will hide His face from them, because of the evil things they have done.",
+        "This is what the Lord says about the prophets who lead my people astray: When they have something to chew, they announce, “Peace!” But if someone doesn’t put food in their mouths, they declare war on him.",
+        "So night will come over you, and you will have no vision. Darkness will come, and you will not be able to tell the future. The sun will go down on the prophets, and the day will turn dark over them.",
+        "The seers will be ashamed, and the fortune-tellers embarrassed. They will all cover their lips, because there is no answer from God.",
+        "But as for me, I am full of power by the Spirit of the Lord, and of justice and strength, to tell Jacob what he has done wrong, and Israel his sin.",
+        "Please hear this, you heads of the house of Jacob and rulers of the house of Israel, who hate justice and twist everything that is right,",
+        "who build Zion with blood and Jerusalem with wickedness.",
+        "Her leaders judge for bribes, her priests teach for pay, and her prophets tell fortunes for money. Yet they lean on the Lord and say, “Isn’t the Lord with us? No disaster will come on us.”",
+        "So because of you, Zion will be plowed like a field, Jerusalem will become heaps of rubble, and the mountain of the house (the temple) will become a wooded hilltop."
+      ],
+      "notes": [],
+      "review": [
+        {
+          "v": 2,
+          "about": "The KJV’s “their skin from off them” means the people (verse 3 says “my people”); the plain words say “people” so it reads clearly, without adding “my.”"
+        },
+        {
+          "v": 7,
+          "about": "“Cover their lips” is literally ‘cover the mustache,’ a sign of shame or mourning. The plain words keep the KJV."
+        },
+        {
+          "v": 12,
+          "about": "Possible note, left out because it isn’t one of the README’s note kinds: elders of Judah later quoted this verse word for word, “Micah the Morasthite prophesied in the days of Hezekiah king of Judah” (Jeremiah 26:18), and recalled that Hezekiah feared the Lord and the disaster was turned away (Jeremiah 26:19)."
+        }
+      ],
+      "approved": "a8432d13"
+    },
+    {
+      "ch": "Micah 4",
+      "verses": [
+        "But in the last days, the mountain of the Lord’s house will be set up at the top of the mountains and raised above the hills, and peoples will flow to it.",
+        "Many nations will come and say, “Come, let’s go up to the mountain of the Lord, to the house of the God of Jacob. He will teach us His ways, and we will walk in His paths.” For the law will go out from Zion, and the word of the Lord from Jerusalem.",
+        "He will judge between many peoples and settle arguments for strong nations far away. They will hammer their swords into plowshares (plow blades) and their spears into pruning hooks. Nation will not lift up a sword against nation, and they will not train for war anymore.",
+        "Everyone will sit under his own vine and under his own fig tree, and no one will make them afraid, for the mouth of the Lord of Hosts has spoken it.",
+        "All the peoples walk, each one in the name of his own god, but we will walk in the name of the Lord our God forever and ever.",
+        "On that day, says the Lord, I will gather the lame. I will bring together those who were driven out and those I have made to suffer.",
+        "I will make the lame into a remnant, and those who were sent far away into a strong nation. The Lord will reign over them in Mount Zion from now on and forever.",
+        "And you, tower of the flock, stronghold of the daughter of Zion, it will come to you: your first kingdom will come back. The kingdom will come to the daughter of Jerusalem.",
+        "Now why do you cry out so loudly? Is there no king among you? Has your counselor died, so that pain has gripped you like a woman giving birth?",
+        "Twist in pain and labor to give birth, daughter of Zion, like a woman in labor. For now you will go out of the city and live in the open field. You will go all the way to Babylon. There you will be rescued. There the Lord will redeem you from the hand of your enemies.",
+        "Now many nations have gathered against you. They say, “Let her be made unclean, and let our eyes gloat over Zion.”",
+        "But they don’t know the thoughts of the Lord or understand His plan, for He has gathered them like sheaves of grain to the threshing floor.",
+        "Get up and thresh, daughter of Zion, for I will make your horn iron and your hoofs bronze. You will beat many peoples to pieces, and I will dedicate what they gained to the Lord, and their wealth to the Lord of the whole earth."
+      ],
+      "notes": [
+        {
+          "v": 1,
+          "text": "Isaiah has almost the same words (Isaiah 2:2–4), and Nephi copies them from Isaiah into the Book of Mormon (2 Nephi 12:2–4). Micah goes on to promise that “they shall sit every man under his vine and under his fig tree” (Micah 4:4)."
+        },
+        {
+          "v": 12,
+          "text": "When Jesus taught the Nephites, He used these words for gathering His own people: “I will gather my people together as a man gathereth his sheaves into the floor” (3 Nephi 20:18)."
+        },
+        {
+          "v": 13,
+          "text": "Jesus quoted this verse to the Nephites and said whom it is about: “I will make my people with whom the Father hath covenanted, yea, I will make thy horn iron” (3 Nephi 20:19)."
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "Verses 1–3 follow the approved plain words of Isaiah 2:2–4 wherever the Hebrew is the same. Micah has “people” where Isaiah has “all nations” (verse 1), and “strong nations afar off” (verse 3)."
+        },
+        {
+          "v": 8,
+          "about": "“Tower of the flock” is the Hebrew Migdal-eder (the “tower of Edar” of Genesis 35:21), and “strong hold” is Ophel, a hill of Jerusalem. The plain words keep the KJV’s meaning with no names added."
+        },
+        {
+          "v": 13,
+          "about": "The KJV’s “brass” is given as “bronze” (Hebrew nechosheth, BSB ‘bronze’). The KJV and the Hebrew say “I will consecrate”; the BSB says ‘you will devote.’ 3 Nephi 20:19 has “I will consecrate,” so the plain words keep it."
+        }
+      ],
+      "approved": "637d0bf6"
+    },
+    {
+      "ch": "Micah 5",
+      "verses": [
+        "Now gather your troops, daughter of troops! An enemy has laid siege against us. They will strike the judge of Israel on the cheek with a rod.",
+        "But you, Beth-lehem Ephratah, though you are small among the clans of Judah, out of you will come for me the one who will be ruler in Israel. His beginnings are from long ago, from everlasting.",
+        "So He will give them up until the time when the woman in labor has given birth. Then the rest of His brothers will return to the children of Israel.",
+        "He will stand and shepherd His flock in the strength of the Lord, in the majesty of the name of the Lord His God. And they will live in safety, for now He will be great to the ends of the earth.",
+        "And this One will be our peace. When the Assyrian comes into our land and marches through our palaces, we will raise up against him seven shepherds and eight leaders of men.",
+        "They will rule the land of Assyria with the sword, and the land of Nimrod at its gates. So He will rescue us from the Assyrian when he comes into our land and marches within our borders.",
+        "The remnant of Jacob will be among many peoples like dew from the Lord, like showers on the grass, which do not wait for any man or linger for any person.",
+        "The remnant of Jacob will be among the Gentiles, in the middle of many peoples, like a lion among the animals of the forest, like a young lion among flocks of sheep. When it goes through, it tramples and tears to pieces, and no one can rescue them.",
+        "Your hand will be lifted up over your foes, and all your enemies will be cut off.",
+        "On that day, says the Lord, I will cut off your horses from among you, and I will destroy your chariots.",
+        "I will cut off the cities of your land and tear down all your strongholds.",
+        "I will cut off witchcraft from your hand, and you will have no more fortune-tellers.",
+        "I will also cut off your carved idols and your sacred standing stones from among you, and you will no longer bow down to what your own hands have made.",
+        "I will pull up your Asherah poles (wooden poles for a false goddess) from among you, and I will destroy your cities.",
+        "In anger and fury I will take vengeance on the nations, such as they have never heard of."
+      ],
+      "notes": [
+        {
+          "v": 2,
+          "text": "When King Herod asked where Christ would be born, the chief priests and scribes answered with this verse: “out of thee shall come a Governor, that shall rule my people Israel” (Matthew 2:6)."
+        },
+        {
+          "v": 8,
+          "text": "Jesus quoted verses 8–9 to the Nephites and told them who the remnant is: “ye, who are a remnant of the house of Jacob” (3 Nephi 20:16). He quoted verses 8–14 again in 3 Nephi 21:12–18."
+        },
+        {
+          "v": 10,
+          "text": "In the Book of Mormon, Jesus begins this verse with a warning: “Yea, wo be unto the Gentiles except they repent” (3 Nephi 21:14). There, verses 10–14 are about the Gentiles."
+        },
+        {
+          "v": 15,
+          "text": "The KJV says “such as they have not heard,” and Jesus used the same words to the Nephites (3 Nephi 21:21). The BSB reads the Hebrew as ‘the nations that have not obeyed Me.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "Numbering: in the Hebrew this verse is Micah 4:14, so Hebrew 5:1 is the KJV’s verse 2, and so on. The plain words follow the KJV’s numbering, as the BSB does. “Gather thyself in troops” can also be read ‘gash yourself’; the plain words keep the KJV."
+        },
+        {
+          "v": 2,
+          "about": "He, His and Him are capitalized for the ruler in verses 2–6 (Matthew 2:6 says He is Christ), as the BSB does and as approved Isaiah 9:6–7 does; lowercase them if you’d rather. “Thousands” is given as “clans” (BSB). “From everlasting” is kept (BSB ‘from the days of eternity’)."
+        },
+        {
+          "v": 5,
+          "about": "The Hebrew says ‘this one will be peace’; the plain words say “our peace,” as the BSB does."
+        },
+        {
+          "v": 6,
+          "about": "The KJV’s “waste” is a Hebrew verb that usually means ‘shepherd’ or ‘rule’ (BSB ‘rule’). “In the entrances thereof” is given as “at its gates”; the BSB reads ‘with the blade drawn.’"
+        },
+        {
+          "v": 12,
+          "about": "3 Nephi 21:16 says “out of thy land” where the KJV has “out of thine hand.” Small difference; no note."
+        },
+        {
+          "v": 14,
+          "about": "The KJV’s “groves” are Asherah poles (BSB), as in approved Isaiah 17:8 and 27:9."
+        },
+        {
+          "v": 15,
+          "about": "The plain words follow the KJV and 3 Nephi 21:21 (“such as they have not heard”), with a note giving the BSB’s reading."
+        }
+      ],
+      "approved": "c41c20ef"
+    },
+    {
+      "ch": "Micah 6",
+      "verses": [
+        "Now listen to what the Lord says: Get up and argue your case before the mountains, and let the hills hear your voice.",
+        "Listen, you mountains, and you strong foundations of the earth, to the Lord’s case! For the Lord has a case against His people, and He will argue it with Israel.",
+        "My people, what have I done to you? How have I worn you out? Testify against me!",
+        "For I brought you up out of the land of Egypt and redeemed you from the house of slavery. I sent Moses, Aaron, and Miriam to lead you.",
+        "My people, remember what Balak king of Moab planned, and how Balaam the son of Beor answered him. Remember what happened from Shittim to Gilgal (when Israel crossed the Jordan), so that you may know the righteous acts of the Lord.",
+        "What should I bring when I come before the Lord and bow down before God on high? Should I come before Him with burnt offerings, with calves a year old?",
+        "Will the Lord be pleased with thousands of rams, or with ten thousand rivers of olive oil? Should I give my firstborn for my wrongs, my own child for the sin of my soul?",
+        "He has shown you, O man, what is good. And what does the Lord require of you but to do what is just, to love mercy, and to walk humbly with your God?",
+        "The Lord’s voice calls out to the city, and the wise will look to your name: Pay attention to the rod and to Him who appointed it.",
+        "Are there still treasures gained by wickedness in the house of the wicked, and the short measure for cheating, which is cursed?",
+        "Should I count them innocent when they use dishonest scales and a bag of false weights?",
+        "Her rich men are full of violence. The people who live there speak lies, and their tongues are deceitful in their mouths.",
+        "So I will make you sick by striking you, and make you a ruin because of your sins.",
+        "You will eat but not be full, and you will still be empty inside. You will try to carry things away but not save them, and what you do save I will give to the sword.",
+        "You will plant but not harvest. You will press olives but not rub yourself with the oil. You will press grapes for sweet wine but not drink the wine.",
+        "For you keep the laws of Omri and all the practices of the house of Ahab (wicked kings of Israel), and you follow their advice. So I will make you a ruin, and the people who live there something to hiss at. You will carry the shame of my people."
+      ],
+      "notes": [],
+      "review": [
+        {
+          "v": 5,
+          "about": "The plain words add “(when Israel crossed the Jordan)” to say what Shittim to Gilgal means: Israel’s last camp before the Jordan and first camp after it (Joshua 3:1; 4:19). The BSB adds ‘Remember your journey.’"
+        },
+        {
+          "v": 8,
+          "about": "Kept close to the KJV, since many know this verse by heart. “Mercy” is the Hebrew hesed, loyal covenant love (BSB ‘mercy’)."
+        },
+        {
+          "v": 9,
+          "about": "Hard Hebrew. The plain words stay near the KJV (“the man of wisdom shall see thy name”) and use lowercase “your” for God, as the approved chapters do when He is spoken to. The BSB reads ‘it is sound wisdom to fear Your name’ and ‘Heed the rod.’"
+        },
+        {
+          "v": 14,
+          "about": "The KJV’s “thy casting down shall be in the midst of thee” rests on a Hebrew word found only here; the plain words follow the BSB’s reading (hunger, emptiness)."
+        },
+        {
+          "v": 16,
+          "about": "“(Wicked kings of Israel)” is added for Omri and Ahab. The KJV and the Hebrew end “the reproach of my people”; the BSB has ‘the scorn of the nations.’ The plain words follow the Hebrew."
+        }
+      ],
+      "approved": "4cce61d4"
+    },
+    {
+      "ch": "Micah 7",
+      "verses": [
+        "How terrible for me! I am like someone after the summer fruit has been picked, after the grapes have been gleaned. There is no cluster of grapes to eat, no early fig that I long for.",
+        "The faithful have disappeared from the land, and there is no one upright among people. They all lie in wait to shed blood. Each one hunts his brother with a net.",
+        "Both their hands are eager to do evil. The ruler asks for a bribe, and so does the judge. The powerful man says what evil he wants, and they all weave it together.",
+        "The best of them is like a brier, and the most upright is worse than a thorn hedge. The day your watchmen warned of, the day of your punishment, is coming. Now they will be confused.",
+        "Don’t trust a friend, and don’t rely on a close companion. Guard what you say, even to the one who lies in your arms.",
+        "For the son dishonors his father, the daughter rises up against her mother, and the daughter-in-law against her mother-in-law. A man’s enemies are the people of his own household.",
+        "But as for me, I will look to the Lord. I will wait for the God of my salvation. My God will hear me.",
+        "Don’t gloat over me, my enemy! When I fall, I will get up. When I sit in darkness, the Lord will be my light.",
+        "I will bear the Lord’s anger, because I have sinned against Him, until He takes up my case and gives me justice. He will bring me out into the light, and I will see His righteousness.",
+        "Then my enemy will see it, and shame will cover her—the one who said to me, “Where is the Lord your God?” My eyes will look on her. Now she will be trampled like mud in the streets.",
+        "A day will come to build your walls. On that day your borders will reach far out.",
+        "On that day people will come to you from Assyria and the cities of Egypt, from Egypt all the way to the river (the Euphrates), from sea to sea, and from mountain to mountain.",
+        "But the land will become a wasteland because of the people who live in it, as the fruit of what they have done.",
+        "Shepherd your people with your rod, the flock that is your inheritance, which lives alone in the forest in the middle of Carmel. Let them feed in Bashan and Gilead as in the days long ago.",
+        "As in the days when you came out of the land of Egypt, I will show them marvelous things.",
+        "The nations will see it and be put to shame in spite of all their strength. They will put their hands over their mouths, and their ears will go deaf.",
+        "They will lick the dust like a snake. Like crawling things of the earth, they will come trembling out of their hiding places. They will be afraid of the Lord our God, and they will fear because of you.",
+        "Who is a God like you, who forgives sin and passes over the wrongs of the remnant of His inheritance? He does not stay angry forever, because He loves to show mercy.",
+        "He will turn again and have compassion on us. He will trample our sins under His feet. You will throw all their sins into the depths of the sea.",
+        "You will show faithfulness to Jacob and mercy to Abraham, as you swore to our fathers from the days long ago."
+      ],
+      "notes": [
+        {
+          "v": 6,
+          "text": "Jesus used these words when He sent out the Twelve, warning that following Him could divide families: “a man’s foes shall be they of his own household” (Matthew 10:36)."
+        },
+        {
+          "v": 11,
+          "text": "The KJV says “the decree be far removed.” The Hebrew word can mean a decree or a boundary, and the BSB reads ‘the day for extending your boundary.’"
+        },
+        {
+          "v": 12,
+          "text": "The KJV says “the fortified cities” and “the fortress.” The Hebrew word can mean a fortress or be a name for Egypt, and the BSB reads ‘the cities of Egypt, even from Egypt to the Euphrates.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 11,
+          "about": "A choice between readings: the plain words follow the BSB (borders pushed out), with a note giving the KJV’s “decree.”"
+        },
+        {
+          "v": 12,
+          "about": "A choice between readings: the plain words follow the BSB and the Hebrew glosses (Egypt), with a note. Keeping the KJV’s “fortified cities” and “fortress” is the alternative. “The river” is explained as the Euphrates."
+        },
+        {
+          "v": 14,
+          "about": "“Carmel” can be the name or the Hebrew word for garden land (BSB ‘surrounded by pastures’); the plain words keep the KJV’s name. God is spoken to here, so “your” stays lowercase."
+        },
+        {
+          "v": 15,
+          "about": "The KJV and the Hebrew say “unto him” (Israel); the plain words say “them” so it reads clearly."
+        },
+        {
+          "v": 19,
+          "about": "The KJV and the Hebrew say “our iniquities” and then “all their sins”; the BSB makes both ‘our.’ The plain words keep the Hebrew, which may read oddly. “Subdue” is the Hebrew for treading down, given as “trample… under His feet.”"
+        }
+      ],
+      "approved": "f1867a18"
+    },
+    {
+      "ch": "Nahum 1",
+      "verses": [
+        "The burden of Nineveh (a heavy message from God about Assyria’s capital). The book of the vision of Nahum the Elkoshite (from Elkosh).",
+        "The Lord is a jealous God who takes vengeance. The Lord takes vengeance and is full of fury. The Lord takes vengeance on His foes, and He stores up anger for His enemies.",
+        "The Lord is slow to anger and great in power, and He will never let the guilty go unpunished. The Lord’s way is in the whirlwind and the storm, and the clouds are the dust of His feet.",
+        "He rebukes the sea and makes it dry, and He dries up all the rivers. Bashan and Carmel wither, and the flowers of Lebanon fade.",
+        "The mountains shake before Him, and the hills melt. The earth heaves at His presence—the world and everyone who lives in it.",
+        "Who can stand before His anger? Who can last in His burning anger? His fury is poured out like fire, and the rocks are broken apart before Him.",
+        "The Lord is good, a stronghold in the day of trouble, and He knows those who trust in Him.",
+        "But with an overflowing flood He will make a complete end of its place (Nineveh), and darkness will chase His enemies.",
+        "Whatever you plot against the Lord, He will make a complete end of it. Trouble will not rise up a second time.",
+        "For though they are tangled together like thorns and drunk like drunkards, they will be burned up like completely dry stubble.",
+        "From you (Nineveh) has come one who plots evil against the Lord, a wicked counselor.",
+        "This is what the Lord says: Though they are at peace and many in number, they will still be cut down and pass away. Though I have afflicted you (Judah), I will not afflict you anymore.",
+        "Now I will break his yoke off you and tear your chains apart.",
+        "The Lord has given a command about you (Nineveh): No more children will carry on your name. I will cut off the carved idols and the cast idols from the house of your gods. I will make your grave, because you are worthless.",
+        "Look! On the mountains are the feet of the one who brings good news, who announces peace! Judah, celebrate your holy feasts and keep your vows. For the wicked will never again march through you. He is completely cut off."
+      ],
+      "notes": [
+        {
+          "v": 5,
+          "text": "The KJV says “the earth is burned at his presence.” The Hebrew verb means to rise up or heave, and the BSB reads ‘the earth trembles at His presence.’"
+        },
+        {
+          "v": 15,
+          "text": "Isaiah has almost the same words (Isaiah 52:7). In the Book of Mormon, Abinadi says the one who brings good tidings is “the founder of peace, yea, even the Lord, who has redeemed his people” (Mosiah 15:18)."
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "The plain words explain “burden” as in approved Isaiah 15:1, and add that Nineveh was Assyria’s capital and that Elkosh was Nahum’s town. The Joseph Smith Translation has no changes in this book: Old Testament Revision 2 marks Micah, Nahum, Habakkuk and Zephaniah “Correct” (josephsmithpapers.org, old-testament-revision-2/125, manuscript page 118)."
+        },
+        {
+          "v": 8,
+          "about": "The plain words add “(Nineveh)” here and in verses 11 and 14, and “(Judah)” in verse 12, to say who “you” is, as the BSB does."
+        },
+        {
+          "v": 12,
+          "about": "The KJV’s “quiet” is a Hebrew word for whole or at peace (BSB ‘allied’); the plain words say “at peace.” The KJV’s “when he shall pass through” is given as “pass away” (BSB)."
+        },
+        {
+          "v": 15,
+          "about": "Numbering: in the Hebrew this verse is Nahum 2:1, and the KJV’s Nahum 2:1–13 are Hebrew 2:2–14. The plain words follow the KJV’s numbering, as the BSB does. The note’s Mosiah 15:18 is Abinadi explaining the same words in Isaiah 52:7; drop it if that feels like a stretch for Nahum."
+        }
+      ],
+      "approved": "b3aaf8ab"
+    },
+    {
+      "ch": "Nahum 2",
+      "verses": [
+        "The one who smashes to pieces has come up against you. Guard the fortress! Watch the road! Brace yourself! Gather all your strength!",
+        "For the Lord will bring back the glory of Jacob, like the glory of Israel, for destroyers have stripped them bare and ruined their vine branches.",
+        "The shields of his mighty men are red, and his brave warriors are dressed in scarlet. The chariots flash like fire on the day he gets ready, and the spears of fir wood are shaken.",
+        "The chariots race madly through the streets and rush back and forth in the squares. They look like torches, and they dart like lightning.",
+        "He calls up his best men, but they stumble as they march. They hurry to the city wall, and the shield for defense is set up.",
+        "The river gates are thrown open, and the palace melts away.",
+        "Huzzab is stripped and carried away. Her servant girls moan like doves and beat on their breasts like drums.",
+        "Nineveh has been like a pool of water from long ago, but now they are fleeing. “Stop! Stop!” they cry, but no one looks back.",
+        "Take the silver! Take the gold! There is no end to the treasure, the riches of every precious thing.",
+        "She is empty, emptied out, and ruined! Hearts melt, knees knock together, every body shakes with pain, and every face turns pale.",
+        "Where now is the lions’ den, the feeding place of the young lions, where the lion and the lioness walked with their cub, and nothing made them afraid?",
+        "The lion tore up enough prey for his cubs and killed for his lionesses. He filled his caves with prey and his dens with torn flesh.",
+        "Look, I am against you, says the Lord of Hosts. I will burn her chariots in smoke, and the sword will eat up your young lions. I will cut off your prey from the earth, and the voices of your messengers will never be heard again."
+      ],
+      "notes": [
+        {
+          "v": 2,
+          "text": "The KJV says the Lord “hath turned away the excellency of Jacob.” The Hebrew verb means to turn back or restore, and the BSB reads ‘will restore the splendor of Jacob.’"
+        },
+        {
+          "v": 7,
+          "text": "The KJV keeps “Huzzab” as a name. The Hebrew word means ‘it is fixed,’ and the BSB reads ‘It is decreed that the city be exiled and carried away.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "The attacker is coming against Nineveh; the BSB adds ‘O Nineveh.’ The plain words add no name here, since verse 8 names it."
+        },
+        {
+          "v": 2,
+          "about": "A choice between readings: the plain words follow the Hebrew and the BSB (the Lord restores Jacob’s glory), with a note giving the KJV’s “turned away.”"
+        },
+        {
+          "v": 3,
+          "about": "Hard Hebrew. The KJV’s “flaming torches” is literally ‘fire of steel’ (the chariots’ metal flashing), and its “fir trees” are read as spears with shafts of that wood (BSB ‘spears of cypress’). The plain words follow that reading."
+        },
+        {
+          "v": 7,
+          "about": "Like “Bajith” in approved Isaiah 15:2, the plain words keep the KJV’s name, with a note giving the BSB’s reading. “Tabering” (beating like a drum) is given as “beat on their breasts like drums.”"
+        },
+        {
+          "v": 10,
+          "about": "The KJV says faces “gather blackness”; the Hebrew is unsure (literally ‘gather a glow’), and the BSB reads ‘grows pale.’ The plain words follow the BSB, with no note."
+        }
+      ],
+      "approved": "06c0217b"
+    },
+    {
+      "ch": "Nahum 3",
+      "verses": [
+        "How terrible for the city of blood! It is all full of lies and robbery, and it never stops taking victims.",
+        "Listen to the crack of the whip, the rattle of the wheels, the galloping horses, and the bouncing chariots!",
+        "The horseman raises his flashing sword and his glittering spear. There are crowds of the dead and heaps of bodies. There is no end to the corpses; people stumble over them.",
+        "All this is because of the endless prostitution of the charming prostitute, the mistress of witchcraft, who sells nations through her prostitution and families through her witchcraft.",
+        "Look, I am against you, says the Lord of Hosts. I will lift your skirts over your face. I will show the nations your nakedness and the kingdoms your shame.",
+        "I will throw filth on you, treat you with scorn, and make you a sight for everyone to stare at.",
+        "Everyone who sees you will run from you and say, “Nineveh is ruined! Who will mourn for her?” Where can I find anyone to comfort you?",
+        "Are you better than populous No (Thebes, in Egypt), which sat among the rivers with water all around her? The sea was her rampart, and her wall rose from the sea.",
+        "Ethiopia and Egypt were her strength, and it had no end. Put and Lubim (Libya) were your helpers.",
+        "Yet she was carried away into captivity. Her little children were smashed to pieces at the head of every street. They cast lots for her honored men, and all her great men were bound in chains.",
+        "You too will be drunk. You will hide. You too will look for a safe place from the enemy.",
+        "All your fortresses will be like fig trees with the first ripe figs. If they are shaken, the figs fall right into the mouth of the eater.",
+        "Look, your people inside you are like women. The gates of your land will be wide open to your enemies. Fire will burn up the bars of your gates.",
+        "Draw water for the siege! Make your fortresses strong! Go into the clay and stomp the mortar! Make the brick kiln strong!",
+        "There the fire will burn you up, and the sword will cut you off. It will eat you up like young locusts. Make yourself as many as the young locusts! Make yourself as many as the swarming locusts!",
+        "You have made your merchants more numerous than the stars of heaven. The young locust strips the land and flies away.",
+        "Your crowned princes are like locusts, and your officials like swarms of grasshoppers that settle in the walls on a cold day. When the sun rises they fly away, and no one knows where they are.",
+        "Your shepherds are asleep, king of Assyria. Your nobles lie down in the dust. Your people are scattered on the mountains, and no one gathers them.",
+        "Nothing can heal your injury; your wound is severe. Everyone who hears the news about you claps their hands over you, for who has not suffered from your endless cruelty?"
+      ],
+      "notes": [
+        {
+          "v": 8,
+          "text": "The KJV says “populous No.” The Hebrew is No-amon, which the BSB calls ‘Thebes,’ a great city of Egypt on the Nile."
+        }
+      ],
+      "review": [
+        {
+          "v": 4,
+          "about": "Nineveh is pictured as a prostitute who lures and sells nations. As in Micah 1:7 and approved Isaiah 23:15, the plain words say “prostitute” for the KJV’s “harlot” and “prostitution” for “whoredoms”; “harlot” and “harlotry” are the alternative."
+        },
+        {
+          "v": 5,
+          "about": "A hard picture for a child (the city shamed like a woman stripped). The plain words keep it, as the KJV and BSB do."
+        },
+        {
+          "v": 8,
+          "about": "The plain words keep the KJV’s “populous No” and add “(Thebes, in Egypt),” with a note. The Nile is called “the sea” here, as in the Hebrew."
+        },
+        {
+          "v": 9,
+          "about": "The KJV’s Ethiopia is the Hebrew Cush (BSB ‘Cush’); Lubim are the Libyans. The plain words keep the KJV names."
+        },
+        {
+          "v": 15,
+          "about": "The KJV’s “cankerworm” is the Hebrew yeleq, a young locust (BSB ‘young locust’), here and in verse 16. Verse 17’s “great grasshoppers” are a swarm of locusts."
+        },
+        {
+          "v": 18,
+          "about": "The Hebrew says only that the nobles ‘lie down’ or ‘settle’ (in death); the plain words keep the KJV’s “in the dust.”"
+        }
+      ],
+      "approved": "da802bd4"
+    },
+    {
+      "ch": "Habakkuk 1",
+      "verses": [
+        "This is the burden (a heavy message from God) that Habakkuk the prophet saw.",
+        "O Lord, how long will I cry for help, and you will not hear? I cry out to you, “Violence!” but you will not save.",
+        "Why do you make me see wickedness and look at trouble? Destruction and violence are in front of me. There is fighting, and arguing breaks out.",
+        "So the law loses its power, and justice never comes out. For the wicked surround the righteous, so justice comes out twisted.",
+        "Look among the nations and watch, and be amazed—truly amazed! For I am doing a work in your days that you would not believe, even if you were told.",
+        "For look, I am raising up the Chaldeans (the Babylonians), that bitter and fierce nation, which marches across the wide earth to take homes that are not theirs.",
+        "They are terrible and frightening. They make their own rules and their own greatness.",
+        "Their horses are faster than leopards and fiercer than wolves in the evening. Their horsemen charge ahead; their horsemen come from far away. They fly like an eagle swooping down to eat.",
+        "They all come for violence. Their faces push forward like the east wind, and they gather captives like sand.",
+        "They make fun of kings, and rulers are a joke to them. They laugh at every fortress, for they pile up dirt into ramps and capture it.",
+        "Then he sweeps past like the wind and goes on, and he becomes guilty, for he makes his own strength his god.",
+        "Aren’t you from everlasting, O Lord my God, my Holy One? We will not die. O Lord, you have appointed them to bring judgment. O Rock, you have set them up to bring correction.",
+        "Your eyes are too pure to look at evil, and you cannot look at wrongdoing. So why do you look at those who betray, and stay silent when the wicked swallow up people more righteous than they are?",
+        "You make people like the fish of the sea, like creeping things that have no ruler over them.",
+        "They pull them all up with a fishhook. They catch them in their net and gather them in their dragnet. So they rejoice and are glad.",
+        "So they offer sacrifices to their net and burn incense to their dragnet, because by them they live in luxury and have plenty of rich food.",
+        "Will they keep emptying their net and never stop killing nations without mercy?"
+      ],
+      "notes": [
+        {
+          "v": 5,
+          "text": "Paul quoted this verse in the synagogue at Antioch, warning his hearers not to reject the good news about Jesus: “Behold, ye despisers, and wonder, and perish: for I work a work in your days” (Acts 13:41)."
+        },
+        {
+          "v": 12,
+          "text": "The KJV says “O mighty God.” The Hebrew word is ‘Rock,’ a name for God, and the BSB reads ‘O Rock, You have established them for correction.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "“Burden” is explained as in approved Isaiah 15:1. The Joseph Smith Translation has no changes in this book: Old Testament Revision 2 marks Micah, Nahum, Habakkuk and Zephaniah “Correct” (josephsmithpapers.org, old-testament-revision-2/125, manuscript page 118)."
+        },
+        {
+          "v": 5,
+          "about": "Paul’s words in Acts 13:41 (“ye despisers”) come from the Greek translation; the Hebrew and the KJV say “among the heathen.” The plain words follow the Hebrew; the note quotes Acts as written."
+        },
+        {
+          "v": 9,
+          "about": "Hard Hebrew. The KJV’s “their faces shall sup up as the east wind” is unsure; the plain words say the faces push forward like the east wind (BSB ‘their hordes advance like the east wind’)."
+        },
+        {
+          "v": 11,
+          "about": "The KJV reads “his mind change… imputing this his power unto his god.” The plain words follow the Hebrew and the BSB: he sweeps on like the wind and makes his strength his god."
+        },
+        {
+          "v": 12,
+          "about": "The plain words follow the Hebrew (“O Rock”) with a note. The KJV and the Hebrew have no object for “correction”; the plain words say “to bring correction.”"
+        },
+        {
+          "v": 15,
+          "about": "The Hebrew in verses 15–17 is singular (the Chaldean), as in the BSB; the plain words keep the KJV’s “they.”"
+        }
+      ],
+      "approved": "63edf3fc"
+    },
+    {
+      "ch": "Habakkuk 2",
+      "verses": [
+        "I will stand at my watch post and take my place on the tower. I will watch to see what He will say to me, and what I will answer when I am corrected.",
+        "Then the Lord answered me and said: Write down the vision. Make it plain on tablets, so that whoever reads it may run.",
+        "For the vision is still waiting for its appointed time. In the end it will speak, and it will not lie. Though it seems slow, wait for it, because it will surely come. It will not be late.",
+        "Look at the proud one: his soul is not upright inside him. But the just will live by his faith.",
+        "Yes, wine betrays him. He is a proud man who never stays home. He opens his throat as wide as the place of the dead, and like death he is never satisfied. He gathers all the nations to himself and collects all the peoples as his own.",
+        "Won’t all of these make up a saying against him, a mocking riddle about him? They will say, “How terrible for the one who piles up what isn’t his—how long will this go on?—and loads himself down with things taken for debts!”",
+        "Won’t those who bite you (the people you owe) suddenly rise up? Won’t those who make you tremble wake up? Then you will be their plunder.",
+        "Because you have robbed many nations, all the rest of the peoples will rob you, because of the blood you shed and the violence you did to the land, to the city, and to everyone who lives in it.",
+        "How terrible for the one who gets evil gain for his house, to set his nest up high, to be safe from the hand of disaster!",
+        "You have planned shame for your house by cutting off many peoples, and you have sinned against your own soul.",
+        "For the stone will cry out from the wall, and the beam in the woodwork will answer it.",
+        "How terrible for the one who builds a town with blood and sets up a city by wickedness!",
+        "Look, isn’t it from the Lord of Hosts that peoples work hard only for the fire, and nations wear themselves out for nothing?",
+        "For the earth will be filled with the knowledge of the glory of the Lord, as the waters cover the sea.",
+        "How terrible for the one who gives his neighbor drink, pouring from his wineskin until he is drunk, so he can look at their nakedness!",
+        "You are filled with shame instead of glory. Now you drink too, and be exposed as uncircumcised! The cup in the Lord’s right hand will come around to you, and deep disgrace will cover your glory.",
+        "The violence done to Lebanon will cover you, and so will the destruction of the animals that terrified them, because of the blood you shed and the violence you did to the land, to the city, and to everyone who lives in it.",
+        "What good is a carved idol, that its maker has carved it? Or a cast idol, a teacher of lies? Its maker trusts in what he has made, when he makes idols that cannot speak.",
+        "How terrible for the one who says to wood, “Wake up!” or to a silent stone, “Get up!” Can it teach? Look, it is covered with gold and silver, but there is no breath in it at all.",
+        "But the Lord is in His holy temple. Let all the earth be silent before Him."
+      ],
+      "notes": [
+        {
+          "v": 3,
+          "text": "Hebrews uses these words for the Lord’s coming: “For yet a little while, and he that shall come will come, and will not tarry” (Hebrews 10:37)."
+        },
+        {
+          "v": 4,
+          "text": "Paul quotes these words about the gospel of Christ: “therein is the righteousness of God revealed from faith to faith: as it is written, The just shall live by faith” (Romans 1:17). See also Galatians 3:11 and Hebrews 10:38."
+        },
+        {
+          "v": 6,
+          "text": "The KJV says “thick clay.” The BSB reads the Hebrew word as ‘many loans’: things taken as pledges for debts."
+        },
+        {
+          "v": 14,
+          "text": "Isaiah has almost the same words (Isaiah 11:9). Nephi repeats them in his prophecy of the last days: “the earth shall be full of the knowledge of the Lord as the waters cover the sea” (2 Nephi 30:15)."
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "The KJV’s “when I am reproved” is literally ‘about my complaint’ (BSB ‘when corrected’); the plain words keep the KJV’s sense."
+        },
+        {
+          "v": 4,
+          "about": "“The just shall live by his faith” is kept close to the KJV, since the New Testament quotes it three times (note). The Hebrew word for faith also means faithfulness."
+        },
+        {
+          "v": 5,
+          "about": "The KJV’s “hell” is the Hebrew Sheol; the plain words say “the place of the dead,” as in approved Isaiah 5:14 and 14:9."
+        },
+        {
+          "v": 6,
+          "about": "A choice between readings: the plain words follow the Hebrew and the BSB (pledges for debts), with a note giving the KJV’s “thick clay.”"
+        },
+        {
+          "v": 7,
+          "about": "“Those who bite you” is a Hebrew play on the word for interest; the plain words add “(the people you owe),” as the BSB has ‘your creditors.’"
+        },
+        {
+          "v": 16,
+          "about": "Frank words: the KJV’s “let thy foreskin be uncovered” is given as “be exposed as uncircumcised” (BSB ‘expose your uncircumcision’), and its “shameful spewing” as “deep disgrace” (BSB ‘utter disgrace’). Check you’re happy with this for a child."
+        },
+        {
+          "v": 17,
+          "about": "Hard Hebrew. The KJV’s “which made them afraid” is kept (“that terrified them”); the BSB reads ‘will terrify you.’"
+        },
+        {
+          "v": 19,
+          "about": "The KJV says “Arise, it shall teach!”; the Hebrew and the BSB make it a question, “Can it teach?” The plain words follow the Hebrew."
+        }
+      ],
+      "approved": "309f118b"
+    },
+    {
+      "ch": "Habakkuk 3",
+      "verses": [
+        "A prayer of Habakkuk the prophet, set to Shigionoth (a musical term).",
+        "O Lord, I have heard the report of you, and I am afraid. O Lord, bring your work to life again in the middle of the years. In the middle of the years make it known. In anger, remember mercy.",
+        "God came from Teman, and the Holy One from Mount Paran. Selah (a musical term). His glory covered the heavens, and the earth was full of His praise.",
+        "His brightness was like the light. Rays of light flashed from His hand, and there His power was hidden.",
+        "Plague went before Him, and burning coals went out at His feet.",
+        "He stood and measured the earth. He looked, and the nations jumped in fear. The ancient mountains were shattered, and the age-old hills bowed down. His ways are everlasting.",
+        "I saw the tents of Cushan in distress, and the tent curtains of the land of Midian trembled.",
+        "Were you angry with the rivers, O Lord? Was your anger against the rivers, or your fury against the sea, when you rode on your horses, on your chariots of salvation?",
+        "Your bow was taken out and made ready, as you swore to the tribes with your word. Selah. You split the earth with rivers.",
+        "The mountains saw you and shook. The flood of waters swept by. The deep roared and lifted its hands up high.",
+        "The sun and moon stood still in their places at the light of your flying arrows, at the flash of your shining spear.",
+        "You marched through the land in anger. You threshed the nations in fury.",
+        "You went out to save your people, to save your anointed one. You struck the head of the house of the wicked and stripped him bare from the foundation to the neck. Selah.",
+        "With his own spears you pierced the head of his warriors when they stormed out like a whirlwind to scatter me. They rejoiced as if they were about to eat up the poor in secret.",
+        "You walked through the sea with your horses, through the heaped-up mighty waters.",
+        "When I heard, my insides trembled, and my lips shook at the sound. Rottenness came into my bones, and I trembled where I stood. Yet I will wait quietly for the day of trouble, when he comes up against the people with his troops.",
+        "Even though the fig tree does not blossom and there is no fruit on the vines, even though the olive crop fails and the fields produce no food, even though the flock is cut off from the fold and there are no cattle in the stalls,",
+        "yet I will rejoice in the Lord. I will be joyful in the God of my salvation.",
+        "The Lord God is my strength. He makes my feet like the feet of a deer, and He makes me walk on my high places. To the chief singer, on my stringed instruments."
+      ],
+      "notes": [
+        {
+          "v": 4,
+          "text": "The KJV says “horns coming out of his hand.” The Hebrew word can mean horns or rays of light, and the BSB reads ‘rays flashed from His hand.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "Shigionoth (verse 1) and Selah (verses 3, 9 and 13) are kept, with “(a musical term)” the first time; their exact meanings are unknown."
+        },
+        {
+          "v": 2,
+          "about": "The KJV’s “thy speech” is literally ‘your report’ (what is heard about the Lord); the plain words say “the report of you.” The BSB reads the verse differently (‘I stand in awe, O LORD, of Your deeds’)."
+        },
+        {
+          "v": 8,
+          "about": "God is spoken to in verses 8–15, so “you” and “your” stay lowercase, as in the approved chapters."
+        },
+        {
+          "v": 9,
+          "about": "Very hard Hebrew (literally ‘oaths of rods/arrows, a word’). The plain words stay near the KJV (“according to the oaths of the tribes, even thy word”); the BSB reads ‘You called for many arrows.’ No note."
+        },
+        {
+          "v": 14,
+          "about": "The KJV’s “his villages” is a Hebrew word read today as ‘his warriors’ (BSB); the plain words follow the BSB. The KJV’s “staves” is given as “spears.”"
+        },
+        {
+          "v": 16,
+          "about": "The end of the verse is hard Hebrew; the plain words follow the KJV’s reading of the invader coming up with his troops."
+        }
+      ],
+      "approved": "93acb796"
+    },
+    {
+      "ch": "Zephaniah 1",
+      "verses": [
+        "This is the word of the Lord that came to Zephaniah the son of Cushi, the son of Gedaliah, the son of Amariah, the son of Hizkiah, in the days of Josiah the son of Amon, king of Judah.",
+        "I will sweep away everything completely from the face of the land, says the Lord.",
+        "I will sweep away people and animals. I will sweep away the birds of the sky and the fish of the sea, and the stumbling blocks along with the wicked. I will cut off mankind from the face of the land, says the Lord.",
+        "I will stretch out my hand against Judah and against everyone who lives in Jerusalem. I will cut off from this place what is left of Baal, and the name of the Chemarims (the idol priests) along with the priests,",
+        "And those who bow down on the housetops to worship the host of heaven (the sun, moon, and stars), and those who bow down and swear by the Lord but also swear by Malcham (a false god),",
+        "And those who have turned back from following the Lord, and those who have not looked for the Lord or asked for Him.",
+        "Be silent before the Lord God, for the day of the Lord is near. The Lord has prepared a sacrifice; He has set apart the guests He invited.",
+        "On the day of the Lord’s sacrifice, I will punish the princes, the king’s sons, and all who dress in foreign clothes.",
+        "On that day I will also punish all who leap over the threshold, who fill their masters’ houses with violence and lies.",
+        "On that day, says the Lord, a cry will go up from the Fish Gate, wailing from the Second Quarter (a part of Jerusalem), and a great crashing from the hills.",
+        "Wail, you who live in Maktesh (‘the Mortar’), for all the merchants are destroyed, and all who weigh out silver are cut off.",
+        "At that time I will search Jerusalem with lamps and punish the men who sit at ease like wine left on its dregs, who say in their hearts, “The Lord will not do good, and He will not do evil.”",
+        "So their wealth will be plundered and their houses left in ruins. They will build houses but not live in them. They will plant vineyards but not drink their wine.",
+        "The great day of the Lord is near—it is near and coming very fast. Listen, the day of the Lord! There the mighty man will cry out bitterly.",
+        "That day is a day of wrath, a day of trouble and distress, a day of ruin and desolation, a day of darkness and gloom, a day of clouds and thick darkness,",
+        "A day of the trumpet and the battle cry against the walled cities and against the high corner towers.",
+        "I will bring distress on people, and they will walk like blind men, because they have sinned against the Lord. Their blood will be poured out like dust, and their flesh like dung.",
+        "Neither their silver nor their gold will be able to save them on the day of the Lord’s wrath. The whole land will be burned up by the fire of His jealousy, for He will make a quick end of everyone who lives in the land."
+      ],
+      "notes": [],
+      "review": [
+        {
+          "v": 1,
+          "about": "The plain words keep the KJV’s “Hizkiah” (the BSB spells it ‘Hezekiah’) and do not say he was King Hezekiah, since the verse doesn’t. The Joseph Smith Translation has no changes in this book: Old Testament Revision 2 marks Micah, Nahum, Habakkuk and Zephaniah “Correct” (josephsmithpapers.org, old-testament-revision-2/125, manuscript page 118)."
+        },
+        {
+          "v": 3,
+          "about": "The KJV’s “stumblingblocks” are things that make people fall into sin; the BSB reads ‘idols.’ The plain words keep “stumbling blocks,” with no note."
+        },
+        {
+          "v": 4,
+          "about": "“Chemarims” is a Hebrew word for idol priests; the plain words keep it and add “(the idol priests).” In verse 5, “Malcham” may be the god Milcom (BSB) or ‘their king’; the plain words keep the KJV name and add “(a false god).” “The host of heaven” is explained as “the sun, moon, and stars.”"
+        },
+        {
+          "v": 9,
+          "about": "“Leap on the threshold” may be a custom tied to idol worship (compare 1 Samuel 5:5), but the verse doesn’t say; the plain words don’t explain it."
+        },
+        {
+          "v": 11,
+          "about": "“Maktesh” means ‘the Mortar,’ a part of Jerusalem (BSB ‘the Hollow’); “Second” in verse 10 is the Second Quarter of the city. The KJV’s “merchant people” is literally ‘people of Canaan.’"
+        },
+        {
+          "v": 12,
+          "about": "“Settled on their lees” pictures wine left on its dregs so long it thickens: people who are lazy and careless about God. The plain words keep the picture."
+        }
+      ],
+      "approved": "a192438d"
+    },
+    {
+      "ch": "Zephaniah 2",
+      "verses": [
+        "Gather yourselves together—yes, gather together, you nation without shame,",
+        "before the decree takes effect and the day blows away like chaff, before the burning anger of the Lord comes on you, before the day of the Lord’s anger comes on you.",
+        "Seek the Lord, all you meek of the earth, who have kept His laws. Seek righteousness. Seek meekness. Maybe you will be hidden on the day of the Lord’s anger.",
+        "For Gaza will be left empty, and Ashkelon will become a ruin. Ashdod will be driven out at noon, and Ekron will be pulled up by the roots.",
+        "How terrible for those who live by the seacoast, the nation of the Cherethites! The word of the Lord is against you, Canaan, land of the Philistines: I will destroy you until no one is left living there.",
+        "The seacoast will become pastures, with huts for shepherds and pens for flocks.",
+        "The coast will belong to the remnant of the house of Judah. They will graze their flocks there, and in the evening they will lie down in the houses of Ashkelon. For the Lord their God will visit them and bring back their captives.",
+        "I have heard Moab’s insults and the mocking of the children of Ammon, how they insulted my people and bragged against their borders.",
+        "So, as I live, says the Lord of Hosts, the God of Israel, Moab will surely become like Sodom, and the children of Ammon like Gomorrah—a land of nettles and salt pits, a wasteland forever. The rest of my people will plunder them, and the survivors of my nation will take their land.",
+        "This is what they will get for their pride, because they insulted the people of the Lord of Hosts and bragged against them.",
+        "The Lord will be terrifying to them, for He will starve all the gods of the earth. Then people will worship Him, each one from his own place—all the islands of the nations.",
+        "You Ethiopians too will be killed by my sword.",
+        "He will stretch out His hand against the north and destroy Assyria. He will make Nineveh a ruin, as dry as a desert.",
+        "Flocks will lie down in the middle of her, every kind of animal. Both the cormorant and the bittern (wild birds) will roost on the tops of her pillars. Their calls will sing out in the windows, and ruin will be in the doorways, for He will strip bare the cedar work.",
+        "This is the happy city that lived without a care, that said in her heart, “I am, and there is no one else besides me.” How she has become a ruin, a place where wild animals lie down! Everyone who passes by her will hiss and shake his fist."
+      ],
+      "notes": [
+        {
+          "v": 1,
+          "text": "The KJV says “not desired.” The Hebrew verb can mean to long for or to be ashamed, and the BSB reads ‘O shameful nation.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "A choice between readings: the plain words follow the Hebrew glosses and the BSB (“without shame”), with a note giving the KJV’s “not desired.” Keeping the KJV (“you nation no one wants”) is the alternative."
+        },
+        {
+          "v": 4,
+          "about": "In Hebrew, Gaza sounds like “forsaken” and Ekron like “rooted up.” The plain words keep the names, with no note."
+        },
+        {
+          "v": 11,
+          "about": "“The isles of the heathen” is given as “the islands of the nations.” “Famish” (make lean) is given as “starve.”"
+        },
+        {
+          "v": 12,
+          "about": "The KJV’s “Ethiopians” are the Hebrew Cushites (BSB); the plain words keep the KJV name."
+        },
+        {
+          "v": 14,
+          "about": "The birds are unsure in the Hebrew (the BSB has ‘the desert owl and screech owl’). As in approved Isaiah 34:11, the plain words keep the KJV’s cormorant and bittern and add “(wild birds).” “Upper lintels” are the tops of pillars (BSB ‘atop her pillars’)."
+        }
+      ],
+      "approved": "f0985e2d"
+    },
+    {
+      "ch": "Zephaniah 3",
+      "verses": [
+        "How terrible for the filthy and unclean city, the city that oppresses!",
+        "She did not listen to the voice. She did not accept correction. She did not trust in the Lord. She did not come near to her God.",
+        "Her princes inside her are roaring lions. Her judges are wolves in the evening that leave not a bone for the morning.",
+        "Her prophets are reckless, unfaithful men. Her priests have made the holy place unclean, and they have done violence to the law.",
+        "The Lord in the middle of her is righteous. He does no wrong. Every morning He brings His justice to light, and He never fails. But the unjust person knows no shame.",
+        "I have cut off nations. Their towers are in ruins. I have made their streets empty, with no one passing through. Their cities are destroyed, with no one left, no one living there.",
+        "I said, “Surely you will fear me and accept correction.” Then her home would not be cut off, in spite of all the punishment I brought on her. But they got up early to make everything they did corrupt.",
+        "So wait for me, says the Lord, until the day I rise up to take the prey. For I have decided to gather the nations and bring the kingdoms together, to pour out on them my anger, all my burning anger. The whole earth will be burned up by the fire of my jealousy.",
+        "For then I will give the peoples a pure language, so that all of them may call on the name of the Lord and serve Him together as one.",
+        "From beyond the rivers of Ethiopia, those who pray to me, my scattered people, will bring me offerings.",
+        "On that day you will not be put to shame for all the things you did when you rebelled against me. For then I will take away from among you those who boast in their pride, and you will never again be proud on my holy mountain.",
+        "I will leave among you a humble and poor people, and they will trust in the name of the Lord.",
+        "The remnant of Israel will do no wrong and tell no lies, and no lying tongue will be found in their mouths. They will graze and lie down, and no one will make them afraid.",
+        "Sing, daughter of Zion! Shout, Israel! Be glad and rejoice with all your heart, daughter of Jerusalem!",
+        "The Lord has taken away your punishment. He has thrown out your enemy. The King of Israel, the Lord, is with you. You will never again be afraid of harm.",
+        "On that day people will say to Jerusalem, “Don’t be afraid!” and to Zion, “Don’t let your hands go limp.”",
+        "The Lord your God is with you, mighty to save. He will rejoice over you with joy. He will rest in His love. He will rejoice over you with singing.",
+        "I will gather those who mourn because they miss the holy assemblies. They are your own people, and the shame of it has been a burden on them.",
+        "Look, at that time I will deal with all who make you suffer. I will save the lame and gather those who were driven out. I will give them praise and fame in every land where they were put to shame.",
+        "At that time I will bring you back, at the time I gather you. For I will make you famous and praised among all the peoples of the earth, when I bring back your captives before your eyes, says the Lord."
+      ],
+      "notes": [
+        {
+          "v": 15,
+          "text": "The KJV says “thou shalt not see evil any more.” In Hebrew the words for ‘see’ and ‘fear’ look almost the same, and the BSB reads ‘no longer will you fear any harm.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 1,
+          "about": "The KJV’s “filthy” is a Hebrew word the BSB reads as ‘rebellious’; the plain words keep the KJV."
+        },
+        {
+          "v": 8,
+          "about": "The KJV’s “rise up to the prey” follows the Hebrew; the BSB reads the same letters as ‘rise to testify’ (as the ancient Greek does). The plain words keep the KJV, with no note."
+        },
+        {
+          "v": 9,
+          "about": "“A pure language” is literally ‘a pure lip,’ and “with one consent” is literally ‘one shoulder’ (BSB ‘shoulder to shoulder’); the plain words say “together as one.”"
+        },
+        {
+          "v": 15,
+          "about": "A choice between readings: the plain words follow the Hebrew glosses and the BSB (“afraid of harm”), with a note giving the KJV’s “see evil.” “Thy judgments” is given as “your punishment.”"
+        },
+        {
+          "v": 17,
+          "about": "Kept close to the KJV, a loved verse. “He will rest in his love” is literally ‘He will be silent in His love’; the BSB reads ‘He will quiet you with His love.’"
+        },
+        {
+          "v": 18,
+          "about": "Hard Hebrew. The plain words stay near the KJV; the BSB reads ‘I will gather those among you who grieve over the appointed feasts, so that you will no longer suffer reproach.’"
+        }
+      ],
+      "approved": "b8c26090"
+    }
+  ],
+  "approved": "0765e592",
+  "wordsApproved": "d87c659a"
+}
