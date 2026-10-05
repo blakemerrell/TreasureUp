@@ -926,6 +926,10 @@
   .hud-dot { position: absolute; top: 1px; right: 1px; width: 9px; height: 9px; border-radius: 99px; background: var(--gold); box-shadow: 0 0 0 2px #0a0a14; }
   .hud-dot[hidden] { display: none; }
   .set-new { color: var(--gold); font-weight: 800; }
+  .fl-hi { font-size: 24px; font-weight: 900; line-height: 1.15; color: #fff; margin: 2px 0 10px; }
+  .fl-hi small { display: block; margin-top: 4px; font-size: 13px; font-weight: 700; color: rgba(255,255,255,.55); }
+  .set-who { margin: -4px 0 10px; }
+  .set-who b { color: #fff; }
   .sea-tab { padding-top: 6px; }
   .fam-wrap { width: 100%; max-width: 560px; margin: 14px auto 0; }
   .fam-wrap label { display: block; margin-top: 12px; font-size: 12px; color: rgba(255,255,255,.6); }
@@ -2428,11 +2432,25 @@ const TreasureUp = (function () {
     const counted = rows.filter(r => r.done !== null), n = counted.filter(r => r.done).length;
     const tag = isToday ? '' : keptDay(k) ? '✓ Kept' : k > today ? 'Coming up' : '';
     return `<div class="flow">
+      ${isToday ? greetingHtml() : ''}
       <div class="fl-date"><b>${DAY_NAMES[(new Date(k + 'T12:00:00').getDay() + 6) % 7]} · ${esc(shortDay(k))}</b><small>${counted.length ? n + ' of ' + counted.length + ' done' : ''}${tag ? (counted.length ? ' · ' : '') + tag : ''}</small></div>
       ${isToday ? verseHeroHtml() : ''}
       ${button.html}${isToday ? pickUpHtml() : ''}
       <div class="fl-list">${rows.filter(r => !(button.hide.includes(r.card) && !r.done)).map(r => r.html).join('')}${d < 6 ? moreHtml(d) : ''}${talkDayHtml(k)}</div>
     </div>`;
+  }
+  // Who's using the app, by name (Blake, 2026-10-05: "Make it so the app tells
+  // me who is logged in... Hi Blake! Or good morning Javan!"): this device's
+  // person in the family, else whose progress it holds, else the Google
+  // account it's signed in with; the first name, with the time of day.
+  function whoName() {
+    const u = authUser(), n = (F && F.name) || S.ownerName || (u && u.displayName) || '';
+    return String(n).trim().split(/\s+/)[0] || '';
+  }
+  function greetingHtml() {
+    const h = new Date().getHours(), hi = h < 4 ? 'Hi' : h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening', name = whoName();
+    return name ? `<div class="fl-hi">${hi}, ${esc(name)}!</div>`
+      : `<div class="fl-hi">${hi}!<small>Not signed in yet: join your family in ⚙️ to see your name here</small></div>`;
   }
   // Today's verse, first and large (Blake picked "Verse first"): a tap on its reference opens it in its chapter.
   function verseHeroHtml() {
@@ -3754,8 +3772,9 @@ const TreasureUp = (function () {
     try { voice = localStorage.getItem(VOICE_KEY) || 'male'; } catch (e) {}
     const pill = (on, attr, label) => `<button class="sh-pill${on ? ' on' : ''}" ${attr}>${label}</button>`;
     const here = /\/TreasureUp-test\//.test(location.pathname);
-    const unread = !$('chatDot').hidden;
+    const unread = !$('chatDot').hidden, u = authUser(), who = whoName();
     return `<div class="sh-title">Settings</div>
+      <p class="sh-small set-who">${who ? `Signed in as <b>${esc((F && F.name) || who)}</b>${F && F.role ? ' (' + esc(F.role === 'kid' ? 'a kid' : F.role) + ')' : ''}${u && u.email ? ' · ' + esc(u.email) : ''}` : 'Not signed in. Join your family below to keep progress safe and see your name.'}</p>
       <button class="sh-row sh-go" data-set-go="family"><span>👪 Family${unread ? ' <b class="set-new">· new message</b>' : ''}<small>${F ? 'This week, chat, people, everyone’s Season' : 'Sign in or join your family'}</small></span><span>›</span></button>
       <div class="sh-row"><span>Listen voice</span><span>${pill(voice === 'male', 'data-set-voice="male"', 'Man')}${pill(voice === 'female', 'data-set-voice="female"', 'Woman')}</span></div>
       <div class="sh-row"><span>Verse size</span><span>${[['m', 'Normal'], ['l', 'Large'], ['xl', 'Larger']].map(([k, l]) => pill(textSize() === k, `data-set-text="${k}"`, l)).join('')}</span></div>
