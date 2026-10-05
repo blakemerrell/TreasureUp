@@ -5282,8 +5282,9 @@ window.TU_WEEKS = [
           "end": 324,
           "title": "Jesus Christ | My Kingdom Is Not of This World | The Bible",
           "channel": "The Church of Jesus Christ of Latter-day Saints",
-          "previewed": false
-        }
+          "previewed": true
+        },
+        "approved": "b222ffdf"
       },
       {
         "id": "isa50-jsp-cast-off",
