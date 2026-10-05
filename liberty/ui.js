@@ -84,7 +84,7 @@ IMG.armory.src = 'assets/armory.png?v=13';
 IMG.granary.src = 'assets/granary.png?v=2';      // and these: 007-buildings.md (with shadows since)
 IMG.stables.src = 'assets/stables.png?v=2';
 IMG.hall.src = 'assets/hall.png?v=2';
-IMG.temple.src = 'assets/temple.png?v=3';           // after the manner of Solomon's, in stone and gold, with its lampstand (021)
+IMG.temple.src = 'assets/temple.png?v=4';           // after the manner of Solomon's: its porch and two great pillars, no tower (023)
 IMG.ruin.src = 'assets/ruin.png?v=1';
 IMG.lamaniteCamp.src = 'assets/lamanite_camp.png?v=1';   // and these: 009-battlefield.md
 IMG.robbersCamp.src = 'assets/robbers_camp.png?v=1';
@@ -1300,7 +1300,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     idol_warrior: { cx: 226, by: 556, span: 450 },
     stables: { cx: 200, by: 318, span: 375 },
     hall: { cx: 200, by: 310, span: 400 },
-    temple: { cx: 301, by: 870, span: 600 },
+    temple: { cx: 301, by: 709, span: 600 },
     ruin: { cx: 99, by: 154, span: 209 },
     lamaniteCamp: { cx: 210, by: 240, span: 419 },
     robbersCamp: { cx: 210, by: 242, span: 418 },
@@ -1356,7 +1356,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // like a flipbook and added as light; incense rises before the idols. Points are in each picture's own pixels.
   const FX = {
     rameumptom: { fire: [[175, 247], [435, 247], [304, 330]] },
-    temple: { fire: [[385, 506], [371, 515], [358, 523], [344, 529], [329, 541], [315, 548], [301, 558]], fireH: 9 },   // the great lampstand's seven lamps (021)
+    temple: { fire: [[386, 366], [372, 375], [358, 383], [344, 391], [330, 401], [317, 409], [302, 418]], fireH: 9 },   // the great lampstand's seven lamps (023)
     idol_jaguar: { smoke: [[90, 248], [230, 312]] },
     idol_warrior: { smoke: [[95, 362], [228, 428]] }
   };
@@ -2233,7 +2233,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'build:armory': 'assets/cameo_armory.png?v=10',
     'build:stables': 'assets/cameo_stables.png?v=1',
     'build:hall': 'assets/cameo_hall.png?v=1',
-    'build:temple': 'assets/cameo_temple.png?v=3',
+    'build:temple': 'assets/cameo_temple.png?v=5',
     'build:smithy': 'assets/cameo_smithy.png?v=1',
     'build:training': 'assets/cameo_training.png?v=1',
     'train:bearer': 'assets/cameo_bearer.png?v=1',
@@ -2917,7 +2917,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const T = TIPS[key] || TIPS.mission;
     const tabs = browse ? `<div class="row tipTabs">${Object.keys(TIPS).map(k => `<button class="btn ${k === key ? 'go' : ''}" data-tips="${k}">${esc(TIPS[k].title.replace(/^Free battle · /, ''))}</button>`).join('')}</div>` : '';
     openDialog(`<div class="dialog tipsCard"><div class="kicker">How to play</div><h2>${esc(T.title)}</h2>${tabs}
-      <ul class="tips">${T.tips.map(([pic, b, t]) => `<li><img src="assets/${pic}.png?v=4" alt=""><div><b>${esc(b)}</b><span>${esc(t)}</span></div></li>`).join('')}</ul>
+      <ul class="tips">${T.tips.map(([pic, b, t]) => `<li><img src="assets/${pic}.png?v=5" alt=""><div><b>${esc(b)}</b><span>${esc(t)}</span></div></li>`).join('')}</ul>
       <div class="row" style="margin-top:14px"><button class="btn go" id="tGot">Got it</button>${browse ? '' : '<button class="btn" id="tNever">Don\'t show again</button>'}</div></div>`);
     $('tGot').onclick = () => { closeDialog(); if (done) done(); };
     if ($('tNever')) $('tNever').onclick = () => { save.tips = save.tips || {}; save.tips[key] = 1; store(); closeDialog(); if (done) done(); };

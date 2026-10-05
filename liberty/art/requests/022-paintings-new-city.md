@@ -1,5 +1,7 @@
 # 022 · The opening paintings: the new palace and the gold temple in the city
 
+**The temple in these paintings was redone in request 023,** without the tower, to match the game's new temple.
+
 **Status: done.** Made with Gemini through Blake's n8n backup (executions
 13480–13485, six billed to the Merit3D Gemini account). Each painting was
 touched up, not repainted: the game's own `stronghold.png` and `temple.png`

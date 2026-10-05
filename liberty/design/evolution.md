@@ -280,8 +280,11 @@ taller than the temple. Decided with him, one question at a time:
   of government, not a place of worship, and lower than the temple.
 - **The temple grows to 4 × 4** and is built "after the manner of the
   temple of Solomon" (2 Nephi 5:16): two pillars of brass before a porch
-  that rises far above the house (1 Kings 7:15; 2 Chronicles 3:4), an
-  altar, and the basin on twelve oxen. It is the tallest thing on the field.
+  (1 Kings 7:15), an altar, and the basin on twelve oxen. It is the tallest
+  thing on the field. At first the porch rose far above the house, from
+  "an hundred and twenty" cubits in 2 Chronicles 3:4; Blake found the tower
+  odd, and since some ancient copies read twenty, the porch is now lower
+  than the house and the two pillars are the landmark (art request 023).
 - **The King-men's Rameumptom replaces the king's court** as their great
   house, 4 × 4: the Zoramites' "holy stand", "high above the head" (Alma
   31:13, 21). Honest note: it was the Zoramites', but the Zoramites fight

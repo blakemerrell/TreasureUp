@@ -1,5 +1,7 @@
 # 021 · The temple, after the manner of Solomon's: stone and gold, lit, with its lampstand
 
+**Replaced in request 023:** Blake found the porch tower odd, so the temple now has Solomon's porch lower than the house, with its two great pillars, and no tower.
+
 **Status: done.** Made with Gemini through Blake's n8n backup (executions
 13477–13479, three billed to the Merit3D Gemini account). Two layouts were
 painted from the temple of request 018 set on a tall magenta canvas: one
