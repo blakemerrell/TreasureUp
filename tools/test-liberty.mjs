@@ -820,5 +820,21 @@ console.log('Losing');
   ok(W.over && !W.over.won, 'losing Zarahemla ends the mission');
 }
 
+// ------------------------------------------------------------ the pictures
+// The game shows each picture's WebP, so a WebP made from an older picture would quietly show the old one. Every PNG and
+// JPG in liberty/assets/ needs a WebP made from it as it is now (python3 tools/liberty-webp.py writes them, and
+// webp.json notes the picture each was made from).
+console.log('Pictures');
+{
+  const fs = await import('node:fs'), path = await import('node:path'), { createHash } = await import('node:crypto');
+  const dir = path.join(path.dirname(new URL(import.meta.url).pathname), '..', 'liberty', 'assets');
+  const made = JSON.parse(fs.readFileSync(path.join(dir, 'webp.json'), 'utf8'));
+  const pics = fs.readdirSync(dir).filter(n => /\.(png|jpg)$/.test(n));
+  const missing = pics.filter(n => !fs.existsSync(path.join(dir, n.replace(/\.(png|jpg)$/, '.webp'))));
+  const stale = pics.filter(n => made[n] !== createHash('sha256').update(fs.readFileSync(path.join(dir, n))).digest('hex'));
+  ok(!missing.length, `every picture has its WebP${missing.length ? ' (missing: ' + missing.join(', ') + ')' : ''}`);
+  ok(!stale.length, `every WebP was made from its picture as it is now${stale.length ? ' (run python3 tools/liberty-webp.py: ' + stale.join(', ') + ')' : ''}`);
+}
+
 console.log(failed ? `\n${failed} failed` : '\nall passed');
 process.exit(failed ? 1 : 0);

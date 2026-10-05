@@ -10,47 +10,73 @@
   const WORLD_W = MAP_W * TILE, WORLD_H = MAP_H * TILE;
   const STEP = 1 / 20;
 
+  // Every picture has a WebP beside its PNG or JPG, about a quarter of the size (8.5 MB of them came to 2.1 MB) and the same
+  // to the eye. A browser that can't show WebP (an iPhone before iOS 14) gets the original: a game picture tries it on its
+  // own error, a picture in the menus through the one listener below.
+  const ORIG = new Map();
+  const webp = url => { const w = String(url).replace(/\.(png|jpg)(?=\?|$)/, '.webp'); if (w !== url) ORIG.set(w, url); return w; };
+  document.addEventListener('error', e => { const t = e.target; if (t && t.tagName === 'IMG') { const o = ORIG.get(t.getAttribute('src')); if (o) t.src = o; } }, true);
+  // The game's own pictures wait until the opening page has shown (or a game begins), so the paintings on it come first:
+  // until then a picture keeps the address it's given, and loadPictures() sends for them all.
+  const LATER = [];
+  function picture() {
+    const im = new Image();
+    Object.defineProperty(im, 'src', { configurable: true, get() { return im.want || ''; }, set(u) { im.want = u; LATER.push(im); } });
+    return im;
+  }
+  let picturesAsked = false;
+  function loadPictures() {
+    if (picturesAsked) return;
+    picturesAsked = true;
+    for (const im of LATER) { const u = im.want; delete im.src; im.onerror = () => { im.onerror = null; im.src = u; }; im.src = webp(u); }
+  }
+  if (document.readyState === 'complete') setTimeout(loadPictures, 0); else addEventListener('load', () => setTimeout(loadPictures, 0));
+  // The offline copy (sw.js): after one visit the game opens from the device, with or without the internet. Only over https
+  // (and on this computer, for the tests); ?nosw=1 on the address leaves it out.
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) && !/[?&]nosw=1/.test(location.search))
+    addEventListener('load', () => navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).catch(() => { /* no offline copy: the game is the same */ }));
+
 const IMG = {
-  moroni: new Image(),
-  spearman: new Image(),
-  worker: new Image(),
-  spy: new Image(),
-  robber: new Image(),
-  robberArcher: new Image(),
-  robberChief: new Image(),
-  nslinger: new Image(),
-  archer: new Image(),
-  swordsman: new Image(),
-  javelin: new Image(),
-  lehi: new Image(),
-  gidgiddoni: new Image(),
-  lamanSlinger: new Image(),
-  lamanCaptain: new Image(),
-  zerahemnah: new Image(),
-  stripling: new Image(),
-  lamanite: new Image(),
-  cart: new Image(),
-  cartGrain: new Image(),                          // the cart, laden: a picture per load, and one loading
-  cartTimber: new Image(),
-  cartStone: new Image(),
-  cartWork: new Image(),
-  unit: new Image(),
-  stronghold: new Image(),
-  barracks: new Image(),
-  tower: new Image(),
-  storehouse: new Image(),
-  armory: new Image(),
-  granary: new Image(),
-  stables: new Image(),
-  hall: new Image(),
-  temple: new Image(),
-  ruin: new Image(),
-  lamaniteCamp: new Image(),
-  robbersCamp: new Image(),
-  warcamp: new Image(),
-  lamaniteTower: new Image(),
-  gate: new Image(),
-  farm: new Image()
+  moroni: picture(),
+  spearman: picture(),
+  worker: picture(),
+  spy: picture(),
+  robber: picture(),
+  robberArcher: picture(),
+  robberChief: picture(),
+  nslinger: picture(),
+  archer: picture(),
+  swordsman: picture(),
+  javelin: picture(),
+  lehi: picture(),
+  gidgiddoni: picture(),
+  lamanSlinger: picture(),
+  lamanCaptain: picture(),
+  zerahemnah: picture(),
+  stripling: picture(),
+  lamanite: picture(),
+  cart: picture(),
+  cartGrain: picture(),                          // the cart, laden: a picture per load, and one loading
+  cartTimber: picture(),
+  cartStone: picture(),
+  cartWork: picture(),
+  unit: picture(),
+  stronghold: picture(),
+  barracks: picture(),
+  tower: picture(),
+  storehouse: picture(),
+  armory: picture(),
+  granary: picture(),
+  stables: picture(),
+  hall: picture(),
+  temple: picture(),
+  ruin: picture(),
+  lamaniteCamp: picture(),
+  robbersCamp: picture(),
+  warcamp: picture(),
+  lamaniteTower: picture(),
+  gate: picture(),
+  farm: picture()
 };
 IMG.moroni.src = 'assets/moroni.png?v=13';
 IMG.spearman.src = 'assets/spearman.png?v=13';
@@ -91,17 +117,17 @@ IMG.robbersCamp.src = 'assets/robbers_camp.png?v=1';
 IMG.warcamp.src = 'assets/warcamp.png?v=1';
 IMG.lamaniteTower.src = 'assets/lamanite_tower.png?v=1';
 // The King-men's camp (camp.js; pictures: 014-kingmen-camp.md).
-for (const k of ['bearer', 'tents', 'storetent', 'muster', 'shieldtent', 'ladderworks', 'pavilion']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
+for (const k of ['bearer', 'tents', 'storetent', 'muster', 'shieldtent', 'ladderworks', 'pavilion']) { IMG[k] = picture(); IMG[k].src = `assets/${k}.png?v=1`; }
 // Walls of every level and both sides, a guard, and the great beasts, drawn by Gemini (art/requests/017).
-for (const k of ['bank', 'pickets', 'stone', 'stakes', 'hides', 'campditch']) { IMG['wall_' + k] = new Image(); IMG['wall_' + k].src = `assets/wall_${k}.png?v=1`; }
-for (const k of ['bank', 'pickets', 'stone', 'stakes']) { IMG['wallpost_' + k] = new Image(); IMG['wallpost_' + k].src = `assets/wall_${k}_post.png?v=1`; }
-for (const k of ['gate_stone', 'gate_stakes', 'wallguard', 'curelom', 'cumom']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
+for (const k of ['bank', 'pickets', 'stone', 'stakes', 'hides', 'campditch']) { IMG['wall_' + k] = picture(); IMG['wall_' + k].src = `assets/wall_${k}.png?v=1`; }
+for (const k of ['bank', 'pickets', 'stone', 'stakes']) { IMG['wallpost_' + k] = picture(); IMG['wallpost_' + k].src = `assets/wall_${k}_post.png?v=1`; }
+for (const k of ['gate_stone', 'gate_stakes', 'wallguard', 'curelom', 'cumom']) { IMG[k] = picture(); IMG[k].src = `assets/${k}.png?v=1`; }
 // The Freemen's smithy and training ground (pictures: 015-smithy-training.md).
-for (const k of ['smithy', 'training']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
+for (const k of ['smithy', 'training']) { IMG[k] = picture(); IMG[k].src = `assets/${k}.png?v=1`; }
 // The captains' heroes (Helaman from 006, the rest from 016) and the King-men's war-dance ground (016).
-for (const k of ['helaman', 'teancum', 'amalickiah', 'ammoron', 'wardance']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
+for (const k of ['helaman', 'teancum', 'amalickiah', 'ammoron', 'wardance']) { IMG[k] = picture(); IMG[k].src = `assets/${k}.png?v=1`; }
 // The Rameumptom and the idols (018), and the painted flames that burn in its braziers (the 'Fire and Frames' demo).
-for (const k of ['rameumptom', 'idol_jaguar', 'idol_warrior', 'flames']) { IMG[k] = new Image(); IMG[k].src = `assets/${k}.png?v=1`; }
+for (const k of ['rameumptom', 'idol_jaguar', 'idol_warrior', 'flames']) { IMG[k] = picture(); IMG[k].src = `assets/${k}.png?v=1`; }
 IMG.gate.src = 'assets/gate.png?v=1';
 IMG.farm.src = 'assets/farm.png?v=13';
                                 // the simulation's tick, as in the tests
@@ -2206,9 +2232,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const pic = e.kind === 'building' && e.team !== 'p' && IMG[pictureOf(e)];
     const own = pic && (ready(pic) ? pic : e.def.side === 'kingmen' ? IMG.lamaniteCamp : pic);   // (a tent without its picture yet shows the camp's)
     const c = own ? own.src : CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && 'assets/cameo_stronghold.png?v=3');
-    if (c) return `<img class="pic" src="${c}" alt="">`;
-    if (DRAWN_AS[e.type]) return `<img class="pic" src="assets/${DRAWN_AS[e.type]}.png?v=1" alt="">`;
-    if (e.kind === 'unit' && (e.type === 'lamanite' || e.def.foe)) return `<img class="pic" src="assets/cameo_lamanite.png?v=10" alt="">`;
+    if (c) return `<img class="pic" src="${webp(c)}" alt="">`;
+    if (DRAWN_AS[e.type]) return `<img class="pic" src="${webp(`assets/${DRAWN_AS[e.type]}.png?v=1`)}" alt="">`;
+    if (e.kind === 'unit' && (e.type === 'lamanite' || e.def.foe)) return `<img class="pic" src="${webp('assets/cameo_lamanite.png?v=10')}" alt="">`;
     return '';
   }
   function infoHtml(ents) {
@@ -2317,7 +2343,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const cmd = (act, name, cost, cls) => {
     const pic = CAMEO_MAP[act], sign = SIGN[act];
     if (newUntil[act] > performance.now()) cls = (cls || '') + ' new';
-    const face = pic ? `<img src="${pic}" alt="">` : sign ? `<i class="ic">${sign}</i>` : '';
+    const face = pic ? `<img src="${webp(pic)}" alt="">` : sign ? `<i class="ic">${sign}</i>` : '';
     // Long words may break where they'd break in print (Watch-tower), never anywhere else; the longest piece sets how big the name can be.
     const shown = String(name).replace(/[A-Za-z]{7,}/g, w => BREAKS[w] || w);
     const n = Math.max(6, ...shown.split(/[\s\u00ad]+/).map(w => w.length));
@@ -2354,7 +2380,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'miracle:fire': 'Pillar of fire', 'miracle:cloud': 'Darkness', 'research:lladders': 'Ladders', 'research:ladders': 'Ladders' };
   function tileHtml(id) {
     const pic = CAMEO_MAP[id], sign = SIGN[id] || (id.startsWith('research:') ? SIGN.research : '');
-    const face = pic ? `<img src="${pic}" alt="">` : sign ? `<i class="ic">${sign}</i>` : '';
+    const face = pic ? `<img src="${webp(pic)}" alt="">` : sign ? `<i class="ic">${sign}</i>` : '';
     const shown = esc(SHORT[id] || tileName(id)).replace(/[A-Za-z]{7,}/g, w => BREAKS[w] || w);     // (long words break where they would in print)
     return `<button class="bt" data-cmd="${id}" title="${esc(tileName(id))}"><span class="pic">${face}<i class="sweep"></i><em class="n"></em></span><span class="tx"><b>${shown}</b><small></small></span></button>`;
   }
@@ -2581,7 +2607,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       $('bCity').lastChild.textContent = S.capital === 'warcamp' ? 'Camp' : 'City'; $('bCity').title = S.capital === 'warcamp' ? 'Your war camp: everything is built from here' : 'Your city: everything is built from here'; }
     const held = Object.keys(W.artifacts || {}).filter(k => W.artifacts[k] && ARTIFACTS[k]);
     $('arts').hidden = !held.length;
-    setHtml('arts', held.map(k => `<img src="assets/cameo_${k === 'beast' ? (W.side('p').side === 'kingmen' ? 'cumom' : 'curelom') : k}.png?v=1" data-art="${k}" title="${esc(ARTIFACTS[k].name)}" alt="">`).join(''));
+    setHtml('arts', held.map(k => `<img src="${webp(`assets/cameo_${k === 'beast' ? (W.side('p').side === 'kingmen' ? 'cumom' : 'curelom') : k}.png?v=1`)}" data-art="${k}" title="${esc(ARTIFACTS[k].name)}" alt="">`).join(''));
     if (pw) setHtml('cry', esc(pw.label) + '<small>' + esc(pw.ref || '') + '</small>');
     powerNow = pw;
     const ready = !council || W.t >= council.nextAt;
@@ -2725,7 +2751,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const menuFor = m => m === WILD ? wildScreen : m && m.free ? freeScreen : storyScreen;
   const councilNote = () => Object.keys(save.read).some(c => QUESTIONS[c]) ? '' : '<p class="lock suggest">Read a mission\'s chapter to open the council: its right answers bring grain, timber and treasures.</p>';
   const segHtml = (keys, on, attr, label) => `<div class="seg">${keys.map(k => `<button class="btn ${k === on ? 'go' : ''}" ${attr}="${k}">${label(k)}</button>`).join('')}</div>`;
-  const modeHead = (art, kicker, title) => `<div class="modeHead"><img src="${art}" alt=""><button class="back" id="mBack" aria-label="Back">←</button>
+  const modeHead = (art, kicker, title) => `<div class="modeHead"><img src="${webp(art)}" alt=""><button class="back" id="mBack" aria-label="Back">←</button>
       <div class="over"><div class="kicker">${esc(kicker)}</div><h2>${esc(title)}</h2></div></div>`;
 
   // Off the battlefield: the game in progress is saved first (it can be continued from the opening page).
@@ -2743,9 +2769,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const resume = d ? `<div class="resume"><div class="rtext"><div class="kicker">Your saved game</div><b>${esc(d.title)}</b>
         <small>${esc(sub)}${sub ? ' · ' : ''}${d.minutes} minute${d.minutes > 1 ? 's' : ''} in</small></div>
         <button class="btn go" id="bContinue">Continue</button></div>` : '';
-    const tile = (mode, title, about, stars) => `<button class="tile" data-mode="${mode}"><img src="${ART[mode]}" alt="">
+    const tile = (mode, title, about, stars) => `<button class="tile" data-mode="${mode}"><img src="${webp(ART[mode])}" alt="">
         ${stars ? `<span class="tstars">${starsHtml(stars)}</span>` : ''}<span class="cap"><b>${esc(title)}</b><small>${esc(about)}</small></span></button>`;
-    const s = showScreen(`<div class="hero"><img src="${ART.title}" alt="Captain Moroni lifts the title of liberty before his army (Alma 46:12–13)"></div>
+    const s = showScreen(`<div class="hero"><img src="${webp(ART.title)}" alt="Captain Moroni lifts the title of liberty before his army (Alma 46:12–13)"></div>
       <div class="wrap home">
       <div class="heroText"><div class="kicker">A Book of Mormon strategy game</div>
         <h1><span>Title of Liberty</span></h1>
@@ -2817,10 +2843,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const opts = () => {
       const S = SIDES[pick.side], caps = CAPTAINS[pick.side], c = caps[pick.captain], L = FREE.LEVELS;
       return `<h3 class="sec">Your side</h3>
-        <div class="seg sides">${Object.keys(SIDES).map(k => `<button class="btn ${pick.side === k ? 'go' : ''}" data-side="${k}"><img src="assets/cameo_${k === 'kingmen' ? 'lamanite' : 'spearman'}.png?v=1" alt="">${esc(SIDES[k].name)}</button>`).join('')}</div>
+        <div class="seg sides">${Object.keys(SIDES).map(k => `<button class="btn ${pick.side === k ? 'go' : ''}" data-side="${k}"><img src="${webp(`assets/cameo_${k === 'kingmen' ? 'lamanite' : 'spearman'}.png?v=1`)}" alt="">${esc(SIDES[k].name)}</button>`).join('')}</div>
         <p class="small">${esc(S.about)}</p>
         <h3 class="sec">Your captain</h3>
-        <div class="seg caps">${Object.keys(caps).map(k => `<button class="btn cap ${pick.captain === k ? 'go' : ''}" data-captain="${k}"><img src="assets/cameo_${caps[k].hero}.png?v=1" alt="">${esc(caps[k].name)}</button>`).join('')}</div>
+        <div class="seg caps">${Object.keys(caps).map(k => `<button class="btn cap ${pick.captain === k ? 'go' : ''}" data-captain="${k}"><img src="${webp(`assets/cameo_${caps[k].hero}.png?v=1`)}" alt="">${esc(caps[k].name)}</button>`).join('')}</div>
         <p class="small"><b>${esc(c.gift)}.</b> ${esc(c.about)}</p>
         <h3 class="sec">Level</h3>
         ${segHtml(Object.keys(L), pick.level, 'data-level', l => `${esc(L[l].name)} <span class="lv">${'★'.repeat(L[l].stars)}</span>`)}`;
@@ -2939,7 +2965,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const T = TIPS[key] || TIPS.mission;
     const tabs = browse ? `<div class="row tipTabs">${Object.keys(TIPS).map(k => `<button class="btn ${k === key ? 'go' : ''}" data-tips="${k}">${esc(TIPS[k].title.replace(/^Free battle · /, ''))}</button>`).join('')}</div>` : '';
     openDialog(`<div class="dialog tipsCard"><div class="kicker">How to play</div><h2>${esc(T.title)}</h2>${tabs}
-      <ul class="tips">${T.tips.map(([pic, b, t]) => `<li><img src="assets/${pic}.png?v=5" alt=""><div><b>${esc(b)}</b><span>${esc(t)}</span></div></li>`).join('')}</ul>
+      <ul class="tips">${T.tips.map(([pic, b, t]) => `<li><img src="${webp(`assets/${pic}.png?v=5`)}" alt=""><div><b>${esc(b)}</b><span>${esc(t)}</span></div></li>`).join('')}</ul>
       <div class="row" style="margin-top:14px"><button class="btn go" id="tGot">Got it</button>${browse ? '' : '<button class="btn" id="tNever">Don\'t show again</button>'}</div></div>`);
     $('tGot').onclick = () => { closeDialog(); if (done) done(); };
     if ($('tNever')) $('tNever').onclick = () => { save.tips = save.tips || {}; save.tips[key] = 1; store(); closeDialog(); if (done) done(); };
@@ -2961,6 +2987,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
   // The screen around a world, new or loaded (`ui`: what save.js kept of the screen: the council, the camera, what was explored).
   function enterGame(m, ui) {
+    loadPictures();                                         // (if the opening page hadn't finished, the game's pictures start now)
     mission = m;
     buildHeights();
     sel = []; placing = null; wallLine = null; painted = null; miniDirty = true; endShown = false; particles.length = 0;
