@@ -2699,7 +2699,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // ------------------------------------------------------------ the opening page
   // Blake: "The opening page.. can you add some art!? And better layout the game options cleaner." A painting of Moroni raising
   // the title of liberty (art/requests/019), then three big tiles, each opening a screen with only its own choices.
-  const ART = { title: 'assets/title.jpg?v=1', story: 'assets/tile_story.jpg?v=1', free: 'assets/tile_free.jpg?v=1', wild: 'assets/tile_wild.jpg?v=1' };
+  const ART = { title: 'assets/title.jpg?v=2', story: 'assets/tile_story.jpg?v=2', free: 'assets/tile_free.jpg?v=2', wild: 'assets/tile_wild.jpg?v=1' };
   const menuFor = m => m === WILD ? wildScreen : m && m.free ? freeScreen : storyScreen;
   const councilNote = () => Object.keys(save.read).some(c => QUESTIONS[c]) ? '' : '<p class="lock suggest">Read a mission\'s chapter to open the council: its right answers bring grain, timber and treasures.</p>';
   const segHtml = (keys, on, attr, label) => `<div class="seg">${keys.map(k => `<button class="btn ${k === on ? 'go' : ''}" ${attr}="${k}">${label(k)}</button>`).join('')}</div>`;
