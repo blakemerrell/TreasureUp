@@ -1017,7 +1017,23 @@
   .ls-vv sup, .ls-find sup { margin-right: 5px; font-family: inherit; font-size: 11px; font-weight: 900; color: var(--gold); }
   .ls-ch-end { margin: 18px 0 8px; text-align: center; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.45); }
   /* A verse: the texts he has on (KJV, plain words, BSB, Spanish or Tagalog), the first one full size, then its notes. */
-  .ls-vv { margin: 0 0 14px; }
+  .ls-vv { margin: 0 0 14px; cursor: pointer; }
+  .ls-vv[data-hl] { margin-left: -8px; margin-right: -8px; padding: 4px 8px; border-radius: 8px; }
+  .ls-vv[data-hl="yellow"] { background: rgba(250,204,21,.2); } .ls-vv[data-hl="green"] { background: rgba(74,222,128,.17); }
+  .ls-vv[data-hl="blue"] { background: rgba(96,165,250,.2); } .ls-vv[data-hl="pink"] { background: rgba(244,114,182,.2); }
+  .ls-vv.vsel { outline: 2px solid rgba(252,211,77,.6); outline-offset: 3px; border-radius: 8px; }
+  .vbar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: -4px 0 16px; padding: 8px 10px; border-radius: 14px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); }
+  .vb-dots { display: flex; align-items: center; gap: 8px; margin-right: auto; }
+  .vb-dot { width: 28px; height: 28px; border-radius: 999px; border: 2px solid rgba(255,255,255,.2); cursor: pointer; }
+  .vb-dot[data-hl-set="yellow"] { background: #facc15; } .vb-dot[data-hl-set="green"] { background: #4ade80; } .vb-dot[data-hl-set="blue"] { background: #60a5fa; } .vb-dot[data-hl-set="pink"] { background: #f472b6; }
+  .vb-dot.on { border-color: #fff; box-shadow: 0 0 0 2px rgba(0,0,0,.5) inset; }
+  .vb-x { width: 28px; height: 28px; border-radius: 999px; background: rgba(255,255,255,.12); color: #fff; font-size: 12px; font-weight: 900; cursor: pointer; }
+  .vb-btn { padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.12); color: #fff; font-size: 13px; font-weight: 800; text-decoration: none; cursor: pointer; white-space: nowrap; }
+  .ls-mine { display: block; width: calc(100% - 15px); text-align: left; margin-top: 6px; font: inherit; font-size: 13.5px; background: rgba(134,239,172,.1); white-space: pre-wrap; cursor: pointer; }
+  .ls-mine b { color: #86efac; } .ls-mine small { color: rgba(255,255,255,.5); font-size: 12px; }
+  .vn-verse { margin: 4px 0 10px; font-size: 14px; line-height: 1.45; color: rgba(255,255,255,.7); font-style: italic; }
+  .vn-gl { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin-top: 14px; } .vn-gl .btn { text-decoration: none; }
+  .vn-foot { margin-top: 14px; }
   .ls-vv > p { margin: 0 0 6px; }
   .ls-vv > p:last-child { margin-bottom: 0; }
   .ls-plain, .ls-bsb, .ls-lang { padding-left: 12px; border-left: 3px solid #58cc02; font-size: 16px; line-height: 1.5; color: rgba(255,255,255,.8); }
@@ -1839,6 +1855,7 @@ const TreasureUp = (function () {
     insights: {},    // insight cards he has read (Go further): id -> the day; kept across weeks
     sunday: {},      // the youth's Sunday lessons: cardId -> { right, picked, day, xp }  first try; kept across weeks
     talks: {},       // conference talks studied: talkId -> { day, xp }; kept across weeks
+    marks: {},       // his highlights: "Isaiah 50:4" -> { c: 'yellow' | 'green' | 'blue' | 'pink', or '' once cleared; upd }
     played: {},      // family games played (Sunday, on Today): day -> the tap's time, or minus it once untapped
     picks: {},       // each Sunday's talks for elders quorum and Relief Society: "2026-10-11" -> { eq, rs } (the family's, mirrored)
     readPos: {},     // where he was in a chapter not read yet: ref -> { v: first verse showing, at }
@@ -1891,7 +1908,7 @@ const TreasureUp = (function () {
   // read it), the last 60 days kept. Nothing else is recorded.
   const USE_NAMES = { 'tab:study': 'Study tab', 'tab:scriptures': 'Scriptures tab', 'tab:family': 'Family tab', lesson: 'Lessons',
     chapter: 'Chapters opened', library: 'Scripture chapters', card: 'Cards', word: 'Word studies', listen: 'Listen',
-    sunday: 'Sunday lessons', talk: 'Conference talks', shop: 'Rewards shop', season: 'My Season', seasonTick: 'Season ticks', impression: 'Impressions' };
+    sunday: 'Sunday lessons', talk: 'Conference talks', shop: 'Rewards shop', season: 'My Season', seasonTick: 'Season ticks', impression: 'Impressions', highlight: 'Highlights', verseNote: 'Verse notes' };
   function use(key) {
     if (!S) return;
     const u = S.usage || (S.usage = {}), d = dayKey(), day = u[d] || (u[d] = {});
@@ -3547,8 +3564,10 @@ const TreasureUp = (function () {
       if (lang && lang[v.n - 1]) lines.push(['ls-lang', lang[v.n - 1], on.lang]);
       if (on.kjv || !lines.length) lines.unshift(['ls-v', v.t]);          // a text not in yet, or without this verse: the KJV
       const notes = on.notes && x ? (x.p.notes || []).filter(n => n.v === v.n) : [], jsp = on.notes ? jspNotesOf(week, u.ch).filter(n => n.v === v.n) : [];
-      return `<div class="ls-vv" data-v="${v.n}">` +
+      const ref = u.ch + ':' + v.n, hl = markOf(ref);
+      return `<div class="ls-vv" data-v="${v.n}" data-ref="${esc(ref)}"${hl ? ` data-hl="${hl}"` : ''}>` +
         lines.map(([c, t, l], i) => `<p class="${c}${i ? '' : ' lead'}"${l ? ` lang="${l}"` : ''}>${i ? '' : `<sup>${v.n}</sup>`}${esc(t)}</p>`).join('') +
+        myNotesOf(ref).map(([id, x]) => `<button class="ls-note ls-mine" data-vnote="${esc(ref)}" data-vnote-id="${esc(id)}"><b>✍️ My note:</b> ${esc(x.text)}${x.share ? ' <small>· 👀 shared with your parents</small>' : ''}</button>`).join('') +
         (on.orig ? origHtml(u.ch, v.n) : '') +
         notes.map(n => `<p class="ls-note"><b>Note:</b> ${linkRefs(n.text, u.ch + ':' + v.n)}</p>`).join('') +
         jsp.map(n => `<p class="ls-note ls-jsp"><b>📜 Joseph Smith Papers:</b> ${linkRefs(n.text, u.ch + ':' + v.n)} <a href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">${esc(n.title)} ↗</a>${n.draft ? ' <span class="plain-draft">Draft</span>' : ''}</p>`).join('') + '</div>';
@@ -3556,6 +3575,120 @@ const TreasureUp = (function () {
       (lang ? `<p class="ls-orig-credit">${LANGS[on.lang].name}: ${LANGS[on.lang].full} (public domain)</p>` : '') +
       (on.orig && origOf(u.ch) ? `<p class="ls-orig-credit">${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew'} words: STEPBible.org, from work at Tyndale House, Cambridge (CC BY 4.0)</p>` : '');
   }
+  // His own highlights and notes, verse by verse (Blake, 2026-10-04: "I
+  // need a way to write my own note as I read the scriptures in this app...
+  // a highlight and note feature or a way to open up my note on that verse
+  // in Gospel Library... Or both"). A tap on a verse puts a bar under it: four
+  // colors, ✍️ Note, and 📖 the verse in Gospel Library. A note is an
+  // impression tied to the verse (Blake picked "With my Impressions"), so it
+  // shows under the verse wherever it's read and with his impressions in the
+  // Season tab; a child's or youth's is his unless he shares it with his
+  // parents. Gospel Library keeps its own notes, which this app can't read or
+  // write: "Copy, then open in Gospel Library" carries a note there to paste.
+  // Highlights: "Isaiah 50:4" -> { c: a color, or '' once cleared; upd }.
+  const HL_COLORS = ['yellow', 'green', 'blue', 'pink'];
+  const markOf = ref => { const m = (S.marks || {})[ref]; return m && HL_COLORS.includes(m.c) ? m.c : ''; };
+  const myNotesOf = ref => Object.entries(S.impressions || {}).filter(([, x]) => x && !x.gone && x.ref === ref).sort((a, b) => (a[1].at || 0) - (b[1].at || 0));
+  function verseBarHtml(ref) {
+    const c = markOf(ref), gl = readLink(ref);
+    return `<div class="vbar" data-ref="${esc(ref)}">
+      <span class="vb-dots">${HL_COLORS.map(h => `<button class="vb-dot${c === h ? ' on' : ''}" data-hl-set="${h}" aria-label="Highlight ${h}${c === h ? ' (on)' : ''}"></button>`).join('')}${c ? '<button class="vb-x" data-hl-set="" aria-label="Clear the highlight">✕</button>' : ''}</span>
+      <button class="vb-btn" data-vnote="${esc(ref)}">✍️ Note</button>${gl ? `<a class="vb-btn" href="${esc(gl)}" target="_blank" rel="noopener noreferrer">📖 Gospel Library ↗</a>` : ''}</div>`;
+  }
+  const verseEls = ref => [...document.querySelectorAll('.ls-vv')].filter(x => x.dataset.ref === ref);
+  function closeVerseBar() {
+    document.querySelectorAll('.vbar').forEach(b => b.remove());
+    document.querySelectorAll('.ls-vv.vsel').forEach(x => x.classList.remove('vsel'));
+  }
+  function verseBar(vv) {
+    const open = vv.nextElementSibling && vv.nextElementSibling.classList.contains('vbar');
+    closeVerseBar();
+    if (open) return;              // a second tap on the verse puts it away
+    vv.classList.add('vsel');
+    vv.insertAdjacentHTML('afterend', verseBarHtml(vv.dataset.ref));
+  }
+  function setMark(ref, c) {
+    (S.marks = S.marks || {})[ref] = { c: HL_COLORS.includes(c) ? c : '', upd: Date.now() };
+    if (c) use('highlight');
+    save();
+    for (const el of verseEls(ref)) { if (c) el.dataset.hl = c; else delete el.dataset.hl; }
+    const bar = document.querySelector('.vbar');
+    if (bar && bar.dataset.ref === ref) bar.outerHTML = verseBarHtml(ref);
+  }
+  // A verse's note, in a sheet over the chapter: new, or one he tapped to change.
+  let vnShare = false;
+  function verseNoteHtml(ref, id) {
+    const x = id && (S.impressions || {})[id], kid = seasonWho() !== 'adult', gl = readLink(ref);
+    const lead = verseEls(ref).map(el => el.querySelector('p.lead')).find(Boolean), said = lead ? lead.textContent.replace(/^\d+/, '').trim() : '';
+    const key = esc(ref) + '|' + esc(x ? id : '');
+    return `<div class="sh-title">✍️ ${esc(ref)}</div>
+      ${said ? `<p class="vn-verse">“${esc(said)}”</p>` : ''}
+      <textarea id="vnText" class="field sea-imp" maxlength="1000" rows="4" placeholder="What does this verse teach you?">${esc(x ? x.text : '')}</textarea>
+      <div class="sea-imp-bar">${kid ? `<button class="sh-pill${vnShare ? ' on' : ''}" data-vn-share>${vnShare ? '👀 Share with my parents' : '🔒 Just me'}</button>` : '<span class="sh-small">🔒 Just yours</span>'}
+        <button class="btn" data-vn-save="${key}">Save</button></div>
+      ${gl ? `<div class="vn-gl"><a class="btn ghost" href="${esc(gl)}" target="_blank" rel="noopener noreferrer" data-vn-copy="${key}">📋 Copy it, then open Gospel Library ↗</a>
+        <a class="today-alt" href="${esc(gl)}" target="_blank" rel="noopener noreferrer">Just open ${esc(ref)} in Gospel Library ↗</a></div>` : ''}
+      ${x ? `<button class="today-alt" data-vn-del="${esc(id)}">Delete this note</button>` : ''}
+      <p class="sh-small vn-foot">It’s kept with your impressions in the 🌱 Season tab. Gospel Library keeps its own notes; this app can’t see or change them, so “Copy it” is the way to put this one there too: in Gospel Library, tap the verse, add a note, and paste.</p>`;
+  }
+  function openVerseNote(ref, id) {
+    const x = id && (S.impressions || {})[id];
+    vnShare = !!(x && x.share);
+    closeVerseBar();
+    openSheet(verseNoteHtml(ref, id));
+    const t = $('vnText');
+    if (t && !x) t.focus();
+  }
+  // Save it (Save, or Copy it…), or clear it when its words are gone: true when there's a note.
+  function saveVerseNote(ref, id, close) {
+    const t = $('vnText'), text = t ? t.value.trim() : '', imps = S.impressions || (S.impressions = {}), was = id && imps[id];
+    if (!text) { if (was) imps[id] = { gone: true, upd: Date.now() }; }
+    else {
+      imps[was ? id : seaId('i')] = { text: text.slice(0, 1000), day: was ? was.day : dayKey(), at: was ? was.at : Date.now(), upd: Date.now(), ref, share: seasonWho() !== 'adult' && vnShare };
+      if (!was) use('verseNote');
+    }
+    save();
+    const done = () => { closeSheet(); redrawVerse(ref); refreshHome(); };
+    if (close) done(); else setTimeout(done, 300);   // a link tapped still has to open
+    return !!text;
+  }
+  // His notes under a verse, again, wherever that chapter is open.
+  function redrawVerse(ref) {
+    const boxes = new Set(verseEls(ref).map(el => el.closest('.ls-chapter')).filter(Boolean));
+    boxes.forEach(b => redrawChapter(b));
+  }
+  function verseClick(e) {
+    const t = e.target;
+    const hs = t.closest('[data-hl-set]');
+    if (hs) { const bar = hs.closest('.vbar'); if (bar) setMark(bar.dataset.ref, hs.dataset.hlSet); return true; }
+    const vn = t.closest('[data-vnote]');
+    if (vn) { openVerseNote(vn.dataset.vnote, vn.dataset.vnoteId); return true; }
+    if (t.closest('[data-vn-share]')) { const keep = $('vnText').value; vnShare = !vnShare; const k = document.querySelector('#appSheet [data-vn-save]').dataset.vnSave.split('|'); openSheet(verseNoteHtml(k[0], k[1])); $('vnText').value = keep; return true; }
+    const sv = t.closest('[data-vn-save]');
+    if (sv) { const [ref, id] = sv.dataset.vnSave.split('|'); if (saveVerseNote(ref, id, true)) toast('✍️ Note saved', ref); return true; }
+    const cp = t.closest('[data-vn-copy]');
+    if (cp) {
+      const [ref, id] = cp.dataset.vnCopy.split('|'), text = $('vnText').value.trim();
+      if (text) {
+        try { navigator.clipboard.writeText(text).then(() => toast('Note copied', 'In Gospel Library, tap ' + ref + ', add a note, and paste'), () => toast("Couldn't copy", 'Hold on your note to copy it')); }
+        catch (x) { toast("Couldn't copy", 'Hold on your note to copy it'); }
+      }
+      saveVerseNote(ref, id, false);   // and the link opens
+      return true;
+    }
+    const dl = t.closest('[data-vn-del]');
+    if (dl) { const x = S.impressions[dl.dataset.vnDel], ref = x && x.ref; S.impressions[dl.dataset.vnDel] = { gone: true, upd: Date.now() }; save(); closeSheet(); if (ref) redrawVerse(ref); refreshHome(); return true; }
+    if (t.closest('.vbar')) return false;
+    const vv = t.closest('.ls-verses .ls-vv');
+    if (vv && !t.closest('a, button, input, textarea, select, [data-word]')) {
+      if (String(window.getSelection ? window.getSelection() : '').trim()) return false;   // choosing words to copy
+      verseBar(vv);
+      return true;
+    }
+    if (document.querySelector('.vbar') && !t.closest('#appSheet, #wordSheet')) closeVerseBar();
+    return false;
+  }
+
   // The chapter open in the day's lesson or in Past weeks.
   function chapterCtx(box) {
     if (box.closest('#lesson')) { const step = lesson && lesson.steps[lesson.at]; return step && step.kind === 'chapter' ? { u: step.u, week: WEEK } : null; }
@@ -10446,6 +10579,7 @@ const TreasureUp = (function () {
     M.played = Object.assign({}, R.played || {});
     for (const d in L.played || {}) if (!M.played[d] || Math.abs(L.played[d]) > Math.abs(M.played[d])) M.played[d] = L.played[d];
     M.impressions = newerById(R.impressions, L.impressions);
+    M.marks = newerById(R.marks, L.marks);
     M.seasonWho = R.seasonWho || L.seasonWho;
     for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found', 'insights', 'sunday', 'talks', 'picks']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
     // The reading clock: a chapter finished on either device keeps its record.
@@ -12998,6 +13132,8 @@ const TreasureUp = (function () {
       const im = e.target.closest('[data-impress]');
       if (im) openSeason('home', { ref: im.dataset.impress });
     });
+    // A verse, tapped: the bar under it; its highlight and note.
+    document.addEventListener('click', verseClick);
     // A Hebrew or Greek word, tapped: its word study.
     document.addEventListener('click', e => {
       const w = e.target.closest('[data-word]');
