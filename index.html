@@ -4788,12 +4788,19 @@ const TreasureUp = (function () {
       ${live && n < WHO[who].max ? (n ? '<button class="nb-add" data-season="discover">+ Add a goal</button>' : '<div class="board-actions"><button class="btn" data-season="discover">Plan my Season</button></div>') : ''}
       ${live ? `<p class="nb-who">I am ${esc(WHO[who].name.replace(/^A /, 'a '))} · <button class="nb-link" data-season="who">Change</button></p>` : ''}</section>`;
   }
+  // The Season a note belongs to: the one its day falls in, or, in the week
+  // before a Season begins, that Season's head start when the one ending had
+  // no goals (his first goals were set, and written about, the day before).
+  function noteSeason(day) {
+    const own = seasonAt(day), next = seasonAt(dayAdd(own.end, 1));
+    return dayDiff(day, next.start) <= 7 && !liveGoals(seasonRec(own.id)).length ? next.id : own.id;
+  }
   // A Season's notes, newest first: impressions (a verse's note and a day's
-  // gratitude are impressions too) and reel notes, from the week before it
-  // began to its end. A printed copy leaves out what's just his unless he
-  // says otherwise; reel notes are on his parents' cards already.
+  // gratitude are impressions too) and reel notes. A printed copy leaves out
+  // what's just his unless he says otherwise; reel notes are on his parents'
+  // cards already.
   function seasonNotes(s, print) {
-    const from = dayAdd(s.start, -7), inS = d => typeof d === 'string' && d >= from && d <= s.end;
+    const inS = d => typeof d === 'string' && d <= s.end && d >= dayAdd(s.start, -7) && noteSeason(d) === s.id;
     const imps = Object.entries(S.impressions || {}).filter(([, x]) => x && !x.gone && inS(x.day) && (!print || nb.priv || x.share))
       .map(([id, x]) => ({ id, imp: true, icon: x.kind === 'grateful' ? '🙏' : /:\d/.test(x.ref || '') ? '🖍' : '✍️', day: x.day, at: x.at || 0, ref: x.kind === 'grateful' ? '' : x.ref || '',
         text: x.kind === 'grateful' ? 'Grateful for ' + (x.items || []).join(' · ') : x.text || '', share: !!x.share }));
@@ -4893,7 +4900,7 @@ const TreasureUp = (function () {
   function shelfHtml() {
     const cur = seasonNow(), today = dayKey(), ids = new Set();
     for (const id of Object.keys(S.seasons || {})) if (seasonById(id) && liveGoals(S.seasons[id]).length) ids.add(id);
-    for (const x of Object.values(S.impressions || {})) if (x && !x.gone && x.day && x.day <= today) ids.add(seasonAt(x.day).id);
+    for (const x of Object.values(S.impressions || {})) if (x && !x.gone && x.day && x.day <= today) ids.add(noteSeason(x.day));
     const old = [...ids].filter(id => id !== cur.id && seasonById(id).start <= today).sort().reverse();
     const card = (id, now) => {
       const s = seasonById(id), rec = seasonRec(id), goals = liveGoals(rec), notes = seasonNotes(s).length, kept = goals.filter(carriedTo).length;
