@@ -276,35 +276,57 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Chrome on a phone can drop what a canvas holds when the device runs short of graphics memory: the canvas
   // fires 'contextlost', then 'contextrestored' when it can be painted again, blank. Everything painted once
   // (the ground, the fog, the tree pictures) has to be painted again then; the screen repaints every frame anyway.
-  let repaintAll = false;
+  // A loss means the phone is short of graphics memory, so the ground and the fog come back one size smaller (shrinkBig):
+  // painted again at the same size they could be dropped again, and again, each time a heavy repaint.
+  let repaintAll = false, shrinkBig = false;
   function watchLoss(c) {
     c.addEventListener('contextlost', () => { DBG.lost++; });
-    c.addEventListener('contextrestored', () => { DBG.restored++; repaintAll = true; });
+    c.addEventListener('contextrestored', () => { DBG.restored++; repaintAll = true; shrinkBig = true; });
     return c;
   }
   const lostNow = x => !!(x && x.isContextLost && x.isContextLost());
+  // Chrome (and Silk on the Fire tablet, and Edge and Samsung's browser, all built on it) says when it drops a canvas, so there
+  // the game never reads a canvas back to check. Reading back is worse than it looks: after a couple of reads Chrome moves the
+  // canvas off the graphics chip ("Multiple readback operations using getImageData..."), and then the ground and the fog,
+  // copied to the screen every frame, cost the phone dearly. Blake's Android phone: "Chrome isn't responding" 16 s in.
+  // Only a browser that wipes without a word (Safari on the iPhone) gets the test dot and the once-a-second look.
+  // (Chrome's engine, by its name in the browser's description; on an iPhone every browser is Safari's engine underneath.)
+  const SAYS_LOST = typeof HTMLCanvasElement !== 'undefined' && 'oncontextlost' in HTMLCanvasElement.prototype &&
+    /(Chrome|Chromium)\/\d/.test(navigator.userAgent) && !/iPhone|iPad|iPod/.test(navigator.userAgent);
+  // A phone with little memory (Chrome tells, rounded down: 4 for a 6 GB phone) starts the ground and the fog a size smaller.
+  const LOW_MEM = !!(navigator.deviceMemory && navigator.deviceMemory <= 4);
   // ?canvas=0.5 on the address makes every big canvas that size, as a phone short of memory would (to test on a computer).
   const FORCE_K = +((location.search.match(/[?&]canvas=([\d.]+)/) || [])[1] || 0);
   function bigCanvas(w, h, sizes, name) {
     for (const k of FORCE_K ? [FORCE_K] : sizes) {
       const c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k);
       const x = c.getContext('2d');
-      if (x) {
+      if (x && SAYS_LOST) {
+        if (!lostNow(x)) { x.scale(k, k); c.k = k; c.sizes = sizes; c.full = [w, h]; DBG.made[name] = c.width + '×' + c.height + ' at ' + k; return [watchLoss(c), x]; }
+      } else if (x) {
         x.fillStyle = '#fff'; x.fillRect(0, 0, 1, 1);
         let ok = false; try { ok = x.getImageData(0, 0, 1, 1).data[3] === 255; } catch (e) { ok = false; }
-        if (ok) { x.clearRect(0, 0, 1, 1); x.scale(k, k); c.k = k; DBG.made[name] = c.width + '×' + c.height + ' at ' + k; return [watchLoss(c), x]; }
+        if (ok) { x.clearRect(0, 0, 1, 1); x.scale(k, k); c.k = k; c.sizes = sizes; c.full = [w, h]; DBG.made[name] = c.width + '×' + c.height + ' at ' + k; return [watchLoss(c), x]; }
       }
       c.width = c.height = 0;                       // hand its memory back before trying smaller
     }
     DBG.made[name] = 'every size refused';
-    const c = document.createElement('canvas'); c.k = 1; return [watchLoss(c), c.getContext('2d')];
+    const c = document.createElement('canvas'); c.k = 1; c.sizes = []; c.full = [w, h]; return [watchLoss(c), c.getContext('2d')];
+  }
+  // One size smaller, in place (painting goes through fit(), which reads c.k): true if there was a smaller size to go to.
+  function shrinkCanvas(c, name) {
+    const k = c.sizes.find(s => s < c.k);
+    if (!k || FORCE_K) return false;
+    c.width = Math.round(c.full[0] * k); c.height = Math.round(c.full[1] * k); c.k = k;
+    DBG.made[name] = c.width + '×' + c.height + ' at ' + k + ' (made smaller after a loss)';
+    return true;
   }
   // A big canvas is drawn on at its own scale (bigCanvas). A phone that wipes a canvas to save memory (an iPhone does it without
   // a word; Chrome says 'contextlost') resets that scale with it, and the next painting came out magnified and shifted: Blake's
   // screenshot, the ground slid off to one side, the fog gone, "too far from your city". So every painting sets the scale first.
   const fit = (cv, c) => c.setTransform(cv.k || 1, 0, 0, cv.k || 1, 0, 0);
   // The fog is soft at its edges, so half size looks the same and leaves the ground the room to be sharp.
-  const [shroudCv, sctx] = bigCanvas(TERR_W, TERR_H, [0.5, 0.35, 0.25], 'fog');
+  const [shroudCv, sctx] = bigCanvas(TERR_W, TERR_H, LOW_MEM ? [0.35, 0.25] : [0.5, 0.35, 0.25], 'fog');
   const explored = new Uint8Array(MAP_W * MAP_H);
 
   function initShroud() {
@@ -399,7 +421,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // buildings and people. It's painted once onto a canvas, and a tile again
   // only when it changes (a wood cut down, a field reaped).
 
-  const [terrain, tctx] = bigCanvas(TERR_W, TERR_H, [1, 0.7, 0.5, 0.35], 'ground');
+  const [terrain, tctx] = bigCanvas(TERR_W, TERR_H, LOW_MEM ? [0.7, 0.5, 0.35] : [1, 0.7, 0.5, 0.35], 'ground');
   let painted = null, miniDirty = true;
   function hash(x, y, k) {
     let h = Math.imul(x, 374761393) ^ Math.imul(y, 668265263) ^ Math.imul(k | 0, 1442695041);
@@ -3076,11 +3098,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
       `ground canvas ${DBG.made.ground}   fog canvas ${DBG.made.fog}`,
       `ground painting: ${DBG.paint}   trees ${trees.length}   tree pictures ${TREES ? TREES.length : 'none yet'}`,
       `painted again ${DBG.repaints || 0} time(s) (${DBG.blank || 0} after finding it blank); context lost ${DBG.lost} time(s), restored ${DBG.restored}; lost now: ground ${tctx.isContextLost ? lostNow(tctx) : 'can\'t tell'}, fog ${sctx.isContextLost ? lostNow(sctx) : 'can\'t tell'}, tree ${TREES && TREES[0].cv.getContext('2d').isContextLost ? lostNow(TREES[0].cv.getContext('2d')) : 'can\'t tell'}`,
-      `graphics memory: ${navigator.deviceMemory || '?'} GB device, ${performance.memory ? Math.round(performance.memory.usedJSHeapSize / 1048576) + ' MB script' : ''}`,
-      `ground at city: ${px(terrain, gx * terrain.k, gy * terrain.k)}`,
-      `fog at city: ${px(shroudCv, gx * shroudCv.k, gy * shroudCv.k)}`,
-      `screen at city: ${px(cv, s.x * dpr, (s.y) * dpr)}`,
-      `tree picture: ${TREES ? px(TREES[0].cv, TREES[0].cv.width / 2, TREES[0].cv.height * 0.4) : '-'}`,
+      `graphics memory: ${navigator.deviceMemory || '?'} GB device${LOW_MEM ? ' (low: smaller ground and fog)' : ''}, ${performance.memory ? Math.round(performance.memory.usedJSHeapSize / 1048576) + ' MB script' : ''}`,
+      `frames: ${DBG.fps} a second, the longest ${DBG.worst} ms`,
+      // Reading the canvases back is what makes Chrome move them off the graphics chip, so where the browser says
+      // when it drops one, the box doesn't read them either (it would slow the very thing it's watching).
+      ...(SAYS_LOST ? ['browser says when it drops a canvas: yes, so nothing is read back'] : [
+        `ground at city: ${px(terrain, gx * terrain.k, gy * terrain.k)}`,
+        `fog at city: ${px(shroudCv, gx * shroudCv.k, gy * shroudCv.k)}`,
+        `screen at city: ${px(cv, s.x * dpr, (s.y) * dpr)}`,
+        `tree picture: ${TREES ? px(TREES[0].cv, TREES[0].cv.width / 2, TREES[0].cv.height * 0.4) : '-'}`]),
       `canvas onto canvas (should be 255,0,0,255): ${px(b, 4, 4)}`,
       `errors: ${[...reported].join(' | ') || 'none'}`,
     ].join('\n');
@@ -3105,13 +3131,18 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function frame(now) {
     requestAnimationFrame(frame);
     const dt = Math.min(0.25, (now - (last || now)) / 1000);
+    if (DBG.on && last) {                              // for the debug box: frames a second, and the longest, over the last second
+      DBG.n = (DBG.n || 0) + 1; DBG.w = Math.max(DBG.w || 0, now - last);
+      if (now - (DBG.since || 0) > 1000) { DBG.fps = DBG.n; DBG.worst = Math.round(DBG.w); DBG.n = 0; DBG.w = 0; DBG.since = now; }
+    }
     last = now;
     if (!W) return;
     if (repaintAll && !lostNow(tctx) && !lostNow(sctx)) {
+      if (shrinkBig) { shrinkBig = false; shrinkCanvas(terrain, 'ground'); shrinkCanvas(shroudCv, 'fog'); probe = null; }
       repaintAll = false; painted = null; TREES = null; paintShroud(); DBG.repaints = (DBG.repaints || 0) + 1;
     }
-    // Once a second, make sure the ground is still there: a phone can drop it without saying so.
-    if (now - probeAt > 1000 && painted && !lostNow(tctx)) {
+    // Once a second, make sure the ground is still there: a phone can drop it without saying so (only where it doesn't say).
+    if (!SAYS_LOST && now - probeAt > 1000 && painted && !lostNow(tctx)) {
       probeAt = now;
       if (!probe) { const s = W.stronghold() || W.units('p')[0]; const { ix, iy } = toIso(s.x - 2 * TILE, s.y + 2 * TILE); probe = [(ix + ISO_OFFSET_X) * terrain.k, (iy + PAD) * terrain.k]; }
       let a = 255; try { a = tctx.getImageData(Math.round(probe[0]), Math.round(probe[1]), 1, 1).data[3]; } catch (e) { a = 255; }
