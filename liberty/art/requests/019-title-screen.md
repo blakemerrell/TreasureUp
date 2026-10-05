@@ -25,17 +25,17 @@ All painted, warm light, in the manner of a classic strategy game's box art
 or loading screen; no lettering anywhere (the page sets its own titles);
 nothing gory.
 
-- **`title.jpg`** (16:9, 156 KB): Moroni "rent his coat" and wrote on it, fastened
+- **`title.jpg`** (16:9, 156 KB; its city touched up in request 022 with the new palace and gold temple): Moroni "rent his coat" and wrote on it, fastened
   it "upon the end of a pole", put on "his head-plate, and his breastplate,
   and his shields", and called it "the title of liberty" (Alma 46:12–13). He
   stands on a rise and lifts it high, the cloth with lines of writing too
   small to read; soldiers gather below him; Zarahemla's judge's hall and the
   white temple stand behind, in the light of morning. Moroni as the game
   draws him: bronze armor, a red crest and a red cloak.
-- **`tile_story.jpg`** (3:2, 98 KB): plates of gold lie open on a stone in front,
+- **`tile_story.jpg`** (3:2, 98 KB; its town touched up in request 022): plates of gold lie open on a stone in front,
   and beyond them a Nephite army marches toward Zarahemla: the missions are
   the chapters.
-- **`tile_free.jpg`** (3:2, 75 KB): a Nephite spearman with his round shield and a
+- **`tile_free.jpg`** (3:2, 75 KB; its town touched up in request 022): a Nephite spearman with his round shield and a
   Lamanite warrior with his club face each other across open ground,
   Zarahemla on one side behind, the Lamanite war camp's palisade on the
   other.

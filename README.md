@@ -264,9 +264,11 @@ way for their bearers, who can still build without one.
 **The temple and its miracles** (free battle, once the hall of the captains
 stands): built "after the manner of the temple of Solomon" (2 Nephi 5:16),
 mostly of stone: a long house carved with cherubims, palm trees and open
-flowers picked out in gold, its gold doors open on a glow, a porch tower
-rising far above it (2 Chronicles 3:4), two pillars of brass, the altar of
-brass and the sea on twelve oxen in its court, and a great golden lampstand
+flowers picked out in gold, its gold doors open on a glow, a porch across
+its front lower than the house (twenty cubits, as some ancient copies of
+2 Chronicles 3:4 read it, not a hundred and twenty), two great pillars of
+brass standing free before it (1 Kings 7:15–21), the altar of brass and the
+sea on twelve oxen in its court, and a great golden lampstand
 whose seven lamps burn on the map (game license: Solomon's candlesticks
 stood inside, 1 Kings 7:49). Your people near it are made whole; the council comes back
 sooner and gives double, as at King Benjamin's tower by the temple
