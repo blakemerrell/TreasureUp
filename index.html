@@ -1321,6 +1321,23 @@
   .dv-week b { display: block; font-size: 16px; }
   .dv-week small { display: block; margin-top: 3px; font-size: 12.5px; color: rgba(255,255,255,.65); }
   .dv-group { margin-top: 22px; }
+  #dev { z-index: 121; }   /* over a lesson (115), where a ✏️ on the test site opens it */
+  /* A week in the list, with its one button; a piece of a week, one line until it's opened. */
+  .dv-week-row { margin-top: 10px; border-radius: 16px; background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.14); }
+  .dv-week-row .dv-week { margin-top: 0; background: none; border: 0; }
+  .dv-week-row .btn { margin: -4px 16px 14px; padding: 8px 16px; font-size: 14px; }
+  .dv-row { display: flex; gap: 10px; align-items: center; width: 100%; margin-top: 6px; padding: 10px 12px; border-radius: 12px; text-align: left; cursor: pointer;
+            font: inherit; color: #fff; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); }
+  .dv-row .go { margin-left: auto; color: rgba(255,255,255,.4); }
+  .dv-st { flex: 0 0 22px; height: 22px; border-radius: 999px; display: grid; place-items: center; font-size: 12px; font-weight: 900; border: 1.5px solid rgba(255,255,255,.3); }
+  .dv-st.ok { background: var(--right); border-color: var(--right); color: #052e16; }
+  .dv-st.changed { background: var(--gold); border-color: var(--gold); color: #3b2a05; }
+  .dv-row-t { min-width: 0; flex: 1; }
+  .dv-row-t b { display: block; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: rgba(255,255,255,.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dv-row-t small { display: block; margin-top: 1px; font-size: 14px; color: rgba(255,255,255,.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dv-head .dv-close { margin-left: auto; }
+  /* Blake's ✏️ on a piece in the app: developer mode, open on it. */
+  .fix-link { display: inline-block; margin-left: 6px; padding: 0 4px; font-size: 14px; line-height: 1; text-decoration: none; vertical-align: middle; opacity: .8; }
   .dv-item { margin-top: 10px; padding: 12px 14px; border-radius: 16px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); font-size: 14px; line-height: 1.4; }
   .dv-head { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; margin-bottom: 6px; }
   .dv-head b { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.6); }
@@ -2350,7 +2367,7 @@ const TreasureUp = (function () {
     <article class="reel${r.media && r.media.image ? ' has-photo' : ''}" data-id="${esc(r.id)}" data-index="${i}">
       ${backdrop(r)}
       <div class="relative z-20 px-5 pr-7 content-pad">
-        ${reelFaceHtml(r, WEEK.sections[r.section])}
+        ${reelFaceHtml(r, WEEK.sections[r.section], WEEK.dates)}
         ${quizHtml(r, 'reel', picked)}
         ${bonus}
         ${a ? noteHtml(r) : ''}
@@ -2359,7 +2376,7 @@ const TreasureUp = (function () {
   }
   // A reel's picture, section, headline, text, clip and verse: everything
   // but its questions. (A past week's reels show the same face.)
-  function reelFaceHtml(r, section) {
+  function reelFaceHtml(r, section, dates) {
     const link = readLink(r.verse.ref);
     const media = r.media || {};
     const photo = media.image;
@@ -2371,7 +2388,7 @@ const TreasureUp = (function () {
         <div class="credit">Picture: <a href="${esc(photo.link)}" target="_blank" rel="noopener noreferrer">${esc(photo.credit)}</a></div>` : '';
     return `
         ${pic}
-        <div class="eyebrow">${esc(section)}</div>
+        <div class="eyebrow">${esc(section)}${fixHtml(dates, 'reel:' + r.id)}</div>
         <h2 class="reel-hook">${linkRefs(r.hook, r.verse.ref)}</h2>
         <p class="reel-body">${linkRefs(r.body, r.verse.ref)}</p>
         ${media.video && (media.video.previewed === true || window.TU_NO_EMBED) ? clipHtml(media.video) : ''}
@@ -3106,6 +3123,18 @@ const TreasureUp = (function () {
   // Settings (on the live app, the test site's, where it is). Only a way in;
   // developer mode itself checks who may use it.
   const devOwner = () => { const u = authUser(); return !!u && !u.isAnonymous && (u.email || '').toLowerCase() === DEV.owner; };
+  // His ✏️ on a piece of a week (Blake, 2026-10-05: "if I find an issue live,
+  // I can go in and fix it"): developer mode on the test site, open on that
+  // piece, ready to change. `key` names it as developer mode does (reel:id,
+  // plain:Isaiah 29…). Nothing changes until he saves there.
+  function fixHtml(dates, key) {
+    if (!dates || !key || !devOwner()) return '';
+    const hash = '#dev/' + encodeURIComponent(dates) + '/' + encodeURIComponent(key);
+    return TEST_SITE ? `<a class="fix-link" href="${hash}" aria-label="Fix this in developer mode">✏️</a>`
+      : `<a class="fix-link" href="https://blakemerrell.github.io/TreasureUp-test/${hash}" target="_blank" rel="noopener noreferrer" aria-label="Fix this in developer mode">✏️</a>`;
+  }
+  // A chapter's ✏️: its plain words, or else its short version.
+  const chapterFixHtml = (week, ch) => !week || !week.dates || !devOwner() ? '' : plainOf(week, ch) ? fixHtml(week.dates, 'plain:' + ch) : tldrOf(week, ch) ? fixHtml(week.dates, 'tldr:' + ch) : '';
 
   // How the week is going, in big numbers.
   function weekStatsHtml() {
@@ -3621,7 +3650,7 @@ const TreasureUp = (function () {
       const m = TLDR_END.exec(l);
       return m && { text: l.slice(0, m.index), label: m[1] + ' ' + m[2] + (m[3] ? '–' + m[3] : ''), from: Number(m[2]), to: Number(m[3] || m[2]) };
     }).filter(l => l && (u.whole || (l.to >= u.from && l.from <= u.to)));   // part of a chapter: the lines about that part
-    return !lines.length ? '' : `<div class="ls-sum"><div class="ls-sum-h">The short version${x.draft ? '<span class="plain-draft">Draft: not approved yet</span>' : ''}</div><ul>` +
+    return !lines.length ? '' : `<div class="ls-sum"><div class="ls-sum-h">The short version${x.draft ? '<span class="plain-draft">Draft: not approved yet</span>' : ''}${fixHtml(week && week.dates, 'tldr:' + u.ch)}</div><ul>` +
       lines.map(l => `<li>${linkRefs(l.text, u.ch)} <span class="ls-vs">(<button type="button" class="ref-link ls-jump" data-jump="${Math.max(l.from, u.from)}">${esc(l.label)}</button>)</span></li>`).join('') + '</ul>' +
       (x.t.also ? `<p class="ls-sum-also">${linkRefs(x.t.also, u.ch)}</p>` : '') + '</div>';
   }
@@ -4202,7 +4231,7 @@ const TreasureUp = (function () {
     <article class="reel" data-id="deep-${esc(d.id)}" data-index="${i}">
       ${backdrop({ gradient: 'linear-gradient(160deg,#0b1024 0%,#1e3a8a 62%,#3b1d6e 100%)', blobA: 'rgba(147,197,253,.3)', blobB: 'rgba(0,0,0,.45)' })}
       <div class="relative z-20 px-5 pr-7 content-pad">
-        <div class="eyebrow">${friday ? 'Friday deep dive' : 'Go deeper · ' + esc(WEEK.sections[d.section])}</div>
+        <div class="eyebrow">${friday ? 'Friday deep dive' : 'Go deeper · ' + esc(WEEK.sections[d.section])}${fixHtml(WEEK.dates, 'deep:' + d.id)}</div>
         <h2 class="reel-hook">${friday ? esc(d.title) : 'Read ' + linkRefs(d.read)}</h2>
         <p class="reel-body">${linkRefs(d.intro, deepPassage(d))}</p>
         ${url ? `<a class="deep-open" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open ${esc(name)} ↗</a>` : ''}
@@ -7195,7 +7224,7 @@ const TreasureUp = (function () {
     <article class="reel${r.media && r.media.image ? ' has-photo' : ''}" data-id="${esc(r.id)}" data-index="0">
       ${backdrop(r)}
       <div class="relative z-20 px-5 pr-7 content-pad">
-        ${reelFaceHtml(r, past.week.sections[r.section])}
+        ${reelFaceHtml(r, past.week.sections[r.section], past.week.dates)}
         ${pastQuizHtml(r.question, r.id, t, r.verse.ref, t ? 'Quick check' : 'Quick check · +' + XP.firstTry + ' XP if right', ['answers', r.id])}
         ${bonuses}
         ${note ? `<div class="past-note"><div class="eyebrow">Your note</div><p>${esc(note)}</p></div>` : ''}
@@ -7210,7 +7239,7 @@ const TreasureUp = (function () {
     <article class="reel" data-id="deep-${esc(d.id)}" data-index="0">
       ${backdrop({ gradient: 'linear-gradient(160deg,#0b1024 0%,#1e3a8a 62%,#3b1d6e 100%)', blobA: 'rgba(147,197,253,.3)', blobB: 'rgba(0,0,0,.45)' })}
       <div class="relative z-20 px-5 pr-7 content-pad">
-        <div class="eyebrow">${friday ? 'Friday deep dive' : 'Go deeper · ' + esc(past.week.sections[d.section])}</div>
+        <div class="eyebrow">${friday ? 'Friday deep dive' : 'Go deeper · ' + esc(past.week.sections[d.section])}${fixHtml(past.week.dates, 'deep:' + d.id)}</div>
         <h2 class="reel-hook">${friday ? esc(d.title) : 'Read ' + linkRefs(d.read)}</h2>
         <p class="reel-body">${linkRefs(d.intro, deepPassage(d))}</p>
         ${url ? `<a class="deep-open" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open ${esc(web ? sourceLabel(d.read) : d.read)} ↗</a>` : ''}
@@ -7227,7 +7256,7 @@ const TreasureUp = (function () {
       ${backdrop({ gradient: 'linear-gradient(160deg,#1c1917 0%,#292524 60%,#44403c 100%)', blobA: 'rgba(252,211,77,.12)', blobB: 'rgba(0,0,0,.45)' })}
       <div class="relative z-20 px-5 pr-7 content-pad ls-chapter">
         <div class="eyebrow">${esc(week.title)}</div>
-        <h2 class="reel-hook">${esc(u.ref)}</h2>
+        <h2 class="reel-hook">${esc(u.ref)}${chapterFixHtml(week, u.ch)}</h2>
         ${listenHtml(u)}
         ${u.verses ? tldrHtml(u, week) + layersBarHtml(u, week) + `<div class="ls-verses">${versesHtml(u, week)}</div>`
           : link ? `<a class="deep-open" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Read ${esc(u.ref)} in Gospel Library ↗</a>` : ''}
@@ -12760,6 +12789,16 @@ const TreasureUp = (function () {
     insight: '💡 Insight', bonus: 'Bonus · find it in the reading · +' + XP.bonus + ' XP', note: 'Write a note · +' + NOTE_XP + ' XP',
     sunintro: 'Sunday class · For the Strength of Youth', sunread: 'Read', sunq: 'Choose the right answer' };
 
+  // The piece of the week a lesson step comes from, for Blake's ✏️ (fixHtml).
+  function stepFixHtml(s) {
+    if (!devOwner()) return '';
+    if (s.kind === 'chapter') return chapterFixHtml(WEEK, s.u.ch);
+    if (s.kind === 'deep') return fixHtml(WEEK.dates, 'deep:' + s.id);
+    if (s.kind === 'insight') return fixHtml(WEEK.dates, 'insight:' + s.x.id);
+    if (s.kind === 'sunintro') return fixHtml(SUNW, 'sunl:' + s.l.id);
+    const id = s.r ? s.r.id : ['reel', 'recall', 'bonus', 'find'].includes(s.kind) ? s.id : null;
+    return id ? fixHtml(WEEK.dates, 'reel:' + id) : '';
+  }
   function renderLesson() {
     if (!lesson) return;
     const L = lesson, step = L.steps[L.at], xp = S.xp - L.xp0;
@@ -12776,7 +12815,7 @@ const TreasureUp = (function () {
     const min = step.kind === 'chapter' ? minutesOf([step.u]) : 0;
     let html = `<div class="ls-kind">${step.retry ? '↻ Try it again' : step.kind === 'read' ? 'Read' : step.kind === 'chapter' ? 'Read the chapter' + (min ? ' · about ' + min + ' min' : '') : step.kind === 'puzzle' ? 'Saturday'
       : step.kind === 'bonus' ? esc('Bonus · find it in ' + sourceLabel(step.q.source) + ' · +' + XP.bonus + ' XP')
-      : step.kind === 'insight' ? { quote: '💬 Quote', video: '🎬 Video' }[step.x.kind] || LESSON_KIND.insight : LESSON_KIND[step.kind]}</div>`;
+      : step.kind === 'insight' ? { quote: '💬 Quote', video: '🎬 Video' }[step.x.kind] || LESSON_KIND.insight : LESSON_KIND[step.kind]}${stepFixHtml(step)}</div>`;
     if (step.kind === 'chapter') {
       // The chapter itself, or, without its text, the way to it in Gospel Library.
       const u = step.u, gl = u.whole ? readLink(u.ch, true) : readLink(u.ref);
@@ -13271,10 +13310,14 @@ const TreasureUp = (function () {
     return { ok: true, owner, email, token: secret };
   }
 
-  function openDev() {
-    if (!dev) dev = { view: 'loading', weeks: null, live: null, week: null, changes: new Map(), editing: null, raw: false, status: null, busy: false, people: [] };
+  // `focus`, from a ✏️ in the app ({ week, key }): open on that piece, ready to change it.
+  function openDev(focus) {
+    const fresh = !dev;
+    if (fresh) dev = { view: 'loading', weeks: null, live: null, week: null, changes: new Map(), editing: null, raw: false, status: null, busy: false, people: [], open: null, groups: new Set() };
+    if (focus) Object.assign(dev, { week: focus.week, open: focus.key, editing: focus.key, raw: false, focus: focus.key }, dev.weeks ? { view: 'week' } : {});
     $('dev').hidden = false;
     renderDev();
+    if (!fresh) return;
     devStart();
     loadBsb('content/bsb.js').then(() => { if (dev && dev.view === 'week') renderDev(); }).catch(() => {});   // the BSB next to the plain words
   }
@@ -13282,7 +13325,16 @@ const TreasureUp = (function () {
     dev = null;
     $('dev').hidden = true;
     $('devBody').innerHTML = '';
-    if (location.hash === '#dev') history.replaceState(history.state, '', location.pathname + location.search);
+    if (/^#dev(\/|$)/.test(location.hash)) history.replaceState(history.state, '', location.pathname + location.search);
+  }
+  // …/#dev opens developer mode; …/#dev/<week's dates>/<piece> opens it on that piece (a ✏️ in the app).
+  function devFromHash() {
+    const m = /^#dev(?:\/([^/]+)\/(.+))?$/.exec(location.hash);
+    if (!m) return false;
+    let focus = null;
+    try { focus = m[1] ? { week: decodeURIComponent(m[1]), key: decodeURIComponent(m[2]) } : null; } catch (e) { /* a mangled link: just open it */ }
+    openDev(focus);
+    return true;
   }
   async function devStart() {
     try {
@@ -13342,7 +13394,11 @@ const TreasureUp = (function () {
       : `<p class="board-help">Blake hasn't connected GitHub yet, so there's nothing to review here.</p>`);
     if (dev.view === 'people') return put(peopleHtml());
     if (dev.view === 'weeks') return put(weeksHtml());
-    if (dev.view === 'week') return put(weekHtml());
+    if (dev.view === 'week') {
+      put(weekHtml());
+      const at = dev.focus && $('devBody').querySelector(`[data-item="${CSS.escape(dev.focus)}"]`);
+      if (at) { at.scrollIntoView({ block: 'start' }); dev.focus = null; }
+    }
   }
 
   function devTopHtml(back) {
@@ -13355,15 +13411,34 @@ const TreasureUp = (function () {
     </div>`;
   }
 
+  // A week as the live app has it (a plain-words or Sunday entry: its file), and whether that's the same as here.
+  function devLiveOf(w) {
+    return w.library ? dev.livePlain && libWeek(dev.livePlain.lib) : w.sunday ? dev.liveSunday && sunWeek(dev.liveSunday.sun) : dev.live && dev.live.weeks.find(x => x.dates === w.dates);
+  }
+  const devPart = (w, x) => w.library ? libOf(x) : w.sunday ? x.sun : x;
+  const devLiveSame = w => { const lw = devLiveOf(w); return !!lw && canon(devPart(w, lw)) === canon(devPart(w, w)); };
+  // A week's one button (Blake, 2026-10-05: "at a glance i just approve all"):
+  // approve what's left, save, check and publish; or, with nothing left to
+  // approve, publish. Null when it's on the live app already, or can't go yet.
+  function devShipOf(w) {
+    const n = devLeft(w).length, saved = dev.weeks.find(x => x.dates === w.dates);
+    if (n) return { go: `Approve ${n} and publish`, sure: `Tap again: approve ${n} and publish` };
+    if (!saved || devLiveSame(saved)) return null;
+    if (!saved.library && !saved.sunday && devNeeded(devItems(saved)).some(i => i.state !== 'ok')) return null;
+    return { go: 'Publish', sure: 'Tap again to publish' };
+  }
+  function devShipBtn(w, act) {
+    const x = devShipOf(w);
+    return x ? `<button class="btn" data-dev="${act}" data-week="${esc(w.dates)}"${dev.busy ? ' disabled' : ''}>${dev.confirmShip === w.dates ? x.sure : x.go}</button>` : '';
+  }
+
   function weeksHtml() {
-    return devTopHtml(false) + `<p class="board-help" style="margin-top:12px">Every week the test site has. Open one to review it.</p>` +
+    return devTopHtml(false) + `<p class="board-help" style="margin-top:12px">Every week the test site has. A week's button approves what's left and puts it on the live app; open a week to read or change any piece.</p>` +
       dev.draft.map(w => {
-        const items = devItems(w), ok = items.filter(i => i.state === 'ok').length;
-        const lw = w.library ? dev.livePlain && libWeek(dev.livePlain.lib) : w.sunday ? dev.liveSunday && sunWeek(dev.liveSunday.sun) : dev.live && dev.live.weeks.find(x => x.dates === w.dates);
-        const part = x => w.library ? libOf(x) : w.sunday ? x.sun : x;
-        const live = !lw ? 'Not on the live app yet' : canon(part(lw)) === canon(part(dev.weeks.find(x => x.dates === w.dates))) ? 'On the live app' : 'On the live app (an older version)';
-        return `<button class="dv-week" data-dev="open" data-week="${esc(w.dates)}">
-          <b>${esc(w.title)}</b><small>${w.library ? 'Chapters no week reads' : w.sunday ? 'Youth lessons and conference talks' : esc(w.dates)} · ${ok} of ${items.length} approved · ${live}</small></button>`;
+        const items = devItems(w), ok = items.filter(i => i.state === 'ok').length, saved = dev.weeks.find(x => x.dates === w.dates);
+        const live = !devLiveOf(w) ? 'Not on the live app yet' : devLiveSame(saved || w) ? 'On the live app' : 'On the live app (an older version)';
+        return `<div class="dv-week-row"><button class="dv-week" data-dev="open" data-week="${esc(w.dates)}">
+          <b>${esc(w.title)}</b><small>${w.library ? 'Chapters no week reads' : w.sunday ? 'Youth lessons and conference talks' : esc(w.dates)} · ${ok} of ${items.length} approved · ${live}</small></button>${devShipBtn(w, 'shipweek')}</div>`;
       }).join('');
   }
 
@@ -13387,10 +13462,10 @@ const TreasureUp = (function () {
     const w = devWeek();
     if (!w) { dev.view = 'weeks'; return weeksHtml(); }
     const items = devItems(w), ok = items.filter(i => i.state === 'ok').length;
-    // Approve all: everything not approved yet, but a reel whose clip he hasn't
-    // watched (approving a reel marks its clip watched, and a clip never shows unwatched).
-    const left = devLeft(w), clips = items.filter(i => i.state !== 'ok' && devUnwatched(i)).length;
-    const all = left.length ? `<div class="board-actions" style="margin-top:6px"><button class="btn" data-dev="approveall">${dev.confirmAll ? 'Tap again to approve all ' + left.length : 'Approve all ' + left.length + ' left'}</button></div>` : '';
+    // The one button approves everything not approved yet, but a reel whose clip he
+    // hasn't watched (approving a reel marks its clip watched, and a clip never shows unwatched).
+    const clips = items.filter(i => i.state !== 'ok' && devUnwatched(i)).length, ship = devLeft(w).length ? devShipBtn(w, 'ship') : '';
+    const all = ship ? `<div class="board-actions" style="margin-top:6px">${ship}</div><p class="dv-small">Approves every piece left, saves it, checks it, and puts the week on the live app: about two minutes. Tap a piece below to read it or change it.</p>` : '';
     const clipNote = clips ? `<p class="dv-small">${clips} ${clips === 1 ? 'reel has a clip' : 'reels have a clip'} you haven’t watched: watch it, then approve the reel on its own.</p>` : '';
     const groups = [['The week', i => i.key === 'week'], ['Reels', i => i.key.startsWith('reel:')], ['Go deeper', i => i.key.startsWith('deep:')],
                     ['Games', i => i.key === 'puzzle' || i.key === 'words' || i.key.startsWith('say:')],
@@ -13400,15 +13475,48 @@ const TreasureUp = (function () {
     return devTopHtml(true) + `
       <p class="board-help" style="margin-top:12px">${w.library ? 'Chapters no week reads, in the Scriptures tab' : w.sunday ? 'The Sunday classes: the youth’s lessons and the conference talks' : esc(w.dates)} · ${ok} of ${items.length} approved.
         <a href="./" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Open the test site ↗</a></p>${all}${clipNote}` +
-      groups.filter(([, f]) => items.some(f))
-        .map(([name, f]) => `<div class="dv-group"><div class="eyebrow">${name}</div>${name === 'Plain words' ? '<p class="dv-small">Each verse of the KJV with its plain words under it, and the BSB to compare. A chapter shows in the app once it’s approved.</p>' : name === 'The short version' ? '<p class="dv-small">The lines at the top of each chapter, each with the KJV verses it sums up under it. A chapter’s card shows in the app once it’s approved.</p>'
-          : name === 'Insights' ? '<p class="dv-small">Each card in its day’s Go further: a point from the page it credits, in our words. Open the page to check it says so. Each card shows in the app once it’s approved.</p>'
-          : name === 'Youth Sunday lessons' ? '<p class="dv-small">Each Sunday’s mini-lesson on its card, from For the Strength of Youth, in our words. Open its page to check it says so. Each shows in the app once it’s approved.</p>'
-          : name === 'Conference talks' ? '<p class="dv-small">Each talk shows already with its speaker’s own words and its scriptures; what it teaches, the questions and the deep dive, in our words, show once it’s approved.</p>' : ''}${items.filter(f).map(i => devItemHtml(w, i)).join('')}</div>`).join('');
+      groups.filter(([, f]) => items.some(f)).map(([name, f]) => {
+        // Only what's waiting, and a line for the rest; a part with nothing waiting is that one line.
+        // He can open the rest (and fold it again), and a piece he's opened stays.
+        const its = items.filter(f), all = dev.groups.has(name);
+        const shown = all ? its : its.filter(i => i.state !== 'ok' || i.key === dev.open || i.key === dev.editing), rest = its.length - shown.length;
+        const more = !rest ? '' : `<button class="dv-row" data-dev="group" data-group="${esc(name)}"><span class="dv-st ok">✓</span>
+          <span class="dv-row-t"><b>${shown.length ? 'And' : name}</b><small>${shown.length ? rest + ' more approved' : its.length === 1 ? 'Approved' : 'All ' + its.length + ' approved'}</small></span><span class="go">›</span></button>`;
+        return `<div class="dv-group">${shown.length ? `<div class="eyebrow">${name}${all && its.every(i => i.state === 'ok') ? ` <button class="fam-link" data-dev="group" data-group="${esc(name)}">Fold</button>` : ''}</div>` : ''}${shown.map(i => devItemHtml(w, i)).join('')}${more}</div>`;
+      }).join('');
   }
 
+  // What a kind of piece is, under it when it's opened.
+  const DEV_HELP = {
+    'plain:': 'Each verse of the KJV with its plain words under it, and the BSB to compare. A chapter shows in the app once it’s approved.',
+    'tldr:': 'The lines at the top of each chapter, each with the KJV verses it sums up under it. A chapter’s card shows in the app once it’s approved.',
+    'insight:': 'A card in its day’s Go further: a point from the page it credits, in our words. Open the page to check it says so. It shows in the app once it’s approved.',
+    'sunl:': 'A Sunday’s mini-lesson on its card, from For the Strength of Youth, in our words. Open its page to check it says so. It shows in the app once it’s approved.',
+    'talk:': 'The talk shows already with its speaker’s own words and its scriptures; what it teaches, the questions and the deep dive, in our words, show once it’s approved.'
+  };
+  // One line on what a piece is, for its row.
+  function devSummary(it) {
+    const o = it.obj || {}, k = it.key, n = (x, one, many) => x + ' ' + (x === 1 ? one : many);
+    if (k === 'week') return [o.dates, o.reference].filter(Boolean).join(' · ');
+    if (k.startsWith('reel:')) return (o.hook || '') + (devUnwatched(it) ? ' · clip not watched yet' : '');
+    if (k.startsWith('deep:')) return o.title || 'Read ' + o.read;
+    if (k === 'puzzle') return n((o.groups || []).length, 'group', 'groups') + ' of tiles';
+    if (k.startsWith('say:')) return '“' + o.text + '” · ' + o.speaker;
+    if (k === 'words') return [].concat(o).map(x => x && x.word).filter(Boolean).join(' · ');
+    if (k.startsWith('plain:')) return [n((o.verses || []).length, 'verse', 'verses'), (o.notes || []).length && n(o.notes.length, 'note', 'notes'), (o.review || []).length && o.review.length + ' to look at first'].filter(Boolean).join(' · ');
+    if (k.startsWith('tldr:')) return (o.lines || [])[0] || '';
+    if (k.startsWith('insight:')) return o.title || o.quote || '';
+    if (k.startsWith('sunl:')) return (o.title || '') + ' · ' + n((o.cards || []).length, 'card', 'cards');
+    if (k.startsWith('talk:')) return (o.title || '') + ' · ' + (o.speaker || '');
+    return '';
+  }
   function devItemHtml(w, it) {
     const editing = dev.editing === it.key;
+    const unsavedRow = dev.changes.has(w.dates + '|' + it.key) ? '<span class="dv-chip pend">Not saved</span>' : '';
+    if (!editing && dev.open !== it.key) return `<button class="dv-row" data-dev="toggle" data-key="${esc(it.key)}" data-item="${esc(it.key)}">
+      <span class="dv-st ${it.state}">${it.state === 'ok' ? '✓' : it.state === 'changed' ? '!' : ''}</span>
+      <span class="dv-row-t"><b>${esc(it.label)}</b><small>${esc(devSummary(it))}</small></span>${unsavedRow}<span class="go">›</span></button>`;
+    const help = Object.keys(DEV_HELP).find(p => it.key.startsWith(p));
     const chip = it.state === 'ok' ? '<span class="dv-chip ok">✓ Approved</span>'
       : it.state === 'changed' ? '<span class="dv-chip warn">Changed since approved</span>' : '<span class="dv-chip">Draft</span>';
     const unsaved = dev.changes.has(w.dates + '|' + it.key) ? '<span class="dv-chip pend">Not saved yet</span>' : '';
@@ -13417,8 +13525,8 @@ const TreasureUp = (function () {
                           : `<button class="btn" data-dev="approve" data-key="${esc(it.key)}">Approve</button>`}
       <button class="btn ghost" data-dev="edit" data-key="${esc(it.key)}">Edit</button></div>`;
     return `<div class="dv-item" data-item="${esc(it.key)}">
-      <div class="dv-head"><b>${esc(it.label)}</b>${chip}${unsaved}</div>
-      ${editing ? devEditorHtml(it) : devPreviewHtml(w, it)}${acts}</div>`;
+      <div class="dv-head"><b>${esc(it.label)}</b>${chip}${unsaved}${editing ? '' : `<button class="fam-link dv-close" data-dev="toggle" data-key="${esc(it.key)}">Close</button>`}</div>
+      ${help && !editing ? `<p class="dv-small" style="margin:-2px 0 8px">${DEV_HELP[help]}</p>` : ''}${editing ? devEditorHtml(it) : devPreviewHtml(w, it)}${acts}</div>`;
   }
 
   // A piece as he'll see it, compactly, with the right answer marked.
@@ -13573,7 +13681,7 @@ const TreasureUp = (function () {
       }
       const later = [(w.plain || []).length && 'the plain words', (w.tldr || []).length && 'the short versions'].filter(Boolean);
       const wait = later.length ? '; ' + later.join(' and ') + ' can wait' : '';
-      if (!w.library && !w.sunday) publish = ok < items.length ? `<p class="dv-small">Approve every piece to publish this week (${ok} of ${items.length} approved${wait}).</p>`
+      if (!w.library && !w.sunday) publish = ok < items.length ? devLeft(devWeek()).length ? '' : `<p class="dv-small">Approve every piece to publish this week (${ok} of ${items.length} approved${wait}).</p>`
         : lw && canon(lw) === canon(w) ? '<p class="dv-small">✓ This week is on the live app, exactly as it is here.</p>'
         : `<button class="btn" data-dev="publish"${dev.busy ? ' disabled' : ''}>Publish this week to the live app</button>`;
     }
@@ -13641,9 +13749,30 @@ const TreasureUp = (function () {
     if (moved) dev.week = moved.obj.dates;
     dev.changes.clear();
     renderDev();
-    await devWatch(DEV.test, sha, 'the test site');
+    const ok = await devWatch(DEV.test, sha, 'the test site');
+    if (!dev) return ok;
     dev.busy = false;
-    if (dev) { const t = await readWeeksFile(DEV.test).catch(() => null); if (t) Object.assign(dev, { file: t }); renderDevBar(); }
+    const t = await readWeeksFile(DEV.test).catch(() => null); if (t) Object.assign(dev, { file: t }); renderDevBar();
+    return ok;
+  }
+
+  // A week's one button: approve every piece left, save, and once the test
+  // site's check passes, publish it. A reel whose clip he hasn't watched isn't
+  // approved by it, so a week with one saves but waits for that reel.
+  async function devShip(dates) {
+    dev.week = dates;
+    devLeft(devWeek()).forEach(i => devApprove(i.key));
+    dev.open = dev.editing = null;
+    renderDev();
+    if (dev.changes.size && await devSave() !== true) return;     // the checker's findings, or still going, are in the bar
+    if (!dev) return;
+    const w = savedWeek();
+    if (!w.library && !w.sunday) {
+      const short = devNeeded(devItems(w)).filter(i => i.state !== 'ok').length;
+      if (short) { dev.status = { kind: 'bad', text: `Saved. ${short} more to approve before it can go live: a reel's clip has to be watched first. Open it, watch the clip, approve it, then publish.` }; renderDev(); return; }
+    }
+    if (devLiveSame(w)) { dev.status = { kind: 'ok', text: '✓ Approved and saved. It was on the live app already.' }; renderDev(); return; }
+    await devPublish();
   }
 
   async function devPublish() {
@@ -13708,7 +13837,7 @@ const TreasureUp = (function () {
 
   async function devAction(el) {
     const act = el.dataset.dev, say = m => { const n = $('devNote'); if (n) n.textContent = m; };
-    if (act !== 'approveall') dev.confirmAll = false;
+    if (act !== 'ship' && act !== 'shipweek') dev.confirmShip = null;
     try {
       if (act === 'retry') { dev.view = 'loading'; renderDev(); return devStart(); }
       if (act === 'google') { await googleSignIn(); return devStart(); }
@@ -13738,13 +13867,14 @@ const TreasureUp = (function () {
       }
       if (act === 'weeks') { dev.view = 'weeks'; dev.editing = null; return renderDev(); }
       if (act === 'open') { dev.week = el.dataset.week; dev.view = 'week'; dev.status = null; return renderDev(); }
-      if (act === 'approve') { devApprove(el.dataset.key); return renderDev(); }
-      // Two taps, so one can't approve a whole week by accident.
-      if (act === 'approveall') {
-        if (!dev.confirmAll) { dev.confirmAll = true; return renderDev(); }
-        dev.confirmAll = false;
-        devLeft(devWeek()).forEach(i => devApprove(i.key));
-        return renderDev();
+      if (act === 'approve') { devApprove(el.dataset.key); if (dev.open === el.dataset.key) dev.open = null; return renderDev(); }
+      if (act === 'group') { const g = el.dataset.group; dev.groups.has(g) ? dev.groups.delete(g) : dev.groups.add(g); return renderDev(); }
+      if (act === 'toggle') { const k = el.dataset.key; dev.open = dev.open === k || dev.editing === k ? null : k; if (dev.editing === k) dev.editing = null; return renderDev(); }
+      // Two taps, so one can't publish a whole week by accident.
+      if (act === 'ship' || act === 'shipweek') {
+        if (dev.confirmShip !== el.dataset.week) { dev.confirmShip = el.dataset.week; return renderDev(); }
+        dev.confirmShip = null;
+        return await devShip(el.dataset.week);
       }
       if (act === 'unapprove') { const w = devWeek(); devChange(el.dataset.key, devGet(w, el.dataset.key), null, 'unapprove'); return renderDev(); }
       if (act === 'edit') { dev.editing = el.dataset.key; dev.raw = false; return renderDev(); }
@@ -14062,6 +14192,7 @@ const TreasureUp = (function () {
 
     // Developer mode.
     $('devExit').addEventListener('click', closeDev);
+    window.addEventListener('hashchange', () => { if (/^#dev\//.test(location.hash)) devFromHash(); });   // a ✏️ on the test site
     $('dev').addEventListener('click', e => {
       const el = e.target.closest('[data-dev]');
       if (el && !el.disabled && dev) devAction(el);
@@ -14187,7 +14318,7 @@ const TreasureUp = (function () {
     else if (location.hash === '#host') hostLive();
     else if (/^#join(-\d{4})?$/.test(location.hash)) joinForm(location.hash.slice(6));
     // …/TreasureUp-test/#dev: developer mode.
-    else if (location.hash === '#dev') openDev();
+    else if (/^#dev(\/|$)/.test(location.hash)) devFromHash();
     // …/#lesson opens today's lesson.
     else if (location.hash === '#lesson') openLesson('');
     // …/#babylon puts up the map game's map; …/#babylon-join-1234 joins it.
