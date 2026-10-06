@@ -4,24 +4,30 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0a0a14">
-<title>Amigo · Kaibigan</title>
-<!-- Spanish for his friends at school and Tagalog from Tatay: five-minute
-     lessons, a streak, and Baybayin. The lessons are made in engine.js, the
-     words are in course-es.js and course-tl.js (and Tatay's own Tagalog, past
-     the basics, in course-tl2.js), the old script in
-     baybayin.js (all tested by tools/test-amigo.mjs); this page draws them.
-     Progress stays on the phone (localStorage amigo.v1). -->
+<title>Wika</title>
+<!-- Wika (Tagalog for "language"; it was Amigo · Kaibigan, and keeps its
+     address, amigo/, and its progress, localStorage amigo.v1). Spanish for his
+     friends at school, Tagalog from Tatay, and the Bible's Hebrew and Greek:
+     five-minute lessons, a streak, and three scripts as side quests. The
+     lessons are made in engine.js; the words are in course-es.js, course-tl.js
+     and course-tl2.js (Tatay's own Tagalog, past the basics), and the Hebrew
+     and Greek treasure words in course-he.js and course-el.js (made by
+     tools/wika-words.mjs from the weeks); the scripts in baybayin.js,
+     alefbet.js and greek-letters.js (all tested by tools/test-amigo.mjs). This
+     page draws them. ?course=he (or es, tl, tl2, el) opens a course, and
+     ?quest=alef (or greek, bay) a side quest. -->
 <link rel="icon" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Noto+Sans+Tagalog&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Noto+Sans+Tagalog&family=Noto+Serif+Hebrew:wght@400;600;700&family=Noto+Serif:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     color-scheme: dark;
     --ink: #0a0a14; --panel: #14142a; --panel-2: #1c1c38; --line: rgba(255,255,255,.12);
     --text: rgba(255,255,255,.94); --soft: rgba(255,255,255,.66); --gold: #fcd34d; --right: #34d399; --wrong: #fb7185;
     --es: #fb923c; --es-2: #2dd4bf; --tl: #38bdf8; --tl-2: #fde047; --tl2: #fbbf24; --bay: #c4b5fd;
+    --he: #5eead4; --el: #93c5fd; --alef: #f0abfc; --greek: #a5b4fc;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; }
@@ -64,7 +70,17 @@
   .card.tl2 .who { color: var(--tl2); } .card.tl2 .meter { color: var(--tl2); }
   .card.bay { background: linear-gradient(145deg, #1e1b4b 0%, #312e81 70%, #4c1d95 130%); }
   .card.bay .who { color: var(--bay); } .card.bay .meter { color: var(--bay); }
-  .card.soon { opacity: .6; }
+  .card.he { background: linear-gradient(145deg, #042f2e 0%, #115e59 60%, #713f12 140%); }
+  .card.he .who { color: var(--he); } .card.he .meter { color: var(--he); }
+  .card.el { background: linear-gradient(145deg, #0b1d4d 0%, #1e40af 65%, #f8fafc 190%); }
+  .card.el .who { color: var(--el); } .card.el .meter { color: var(--el); }
+  .card.alef { background: linear-gradient(145deg, #2e1065 0%, #701a75 70%, #831843 130%); }
+  .card.alef .who { color: var(--alef); } .card.alef .meter { color: var(--alef); }
+  .card.greek { background: linear-gradient(145deg, #172554 0%, #3730a3 70%, #0e7490 130%); }
+  .card.greek .who { color: var(--greek); } .card.greek .meter { color: var(--greek); }
+  .card.soon { opacity: .75; }
+  .card .glyph.heb, .card .glyph.grk { font-size: 34px; }
+  .card.he .glyph, .card.el .glyph { top: auto; bottom: 12px; opacity: .3; }
   .card .glyph { position: absolute; right: 14px; top: 10px; font-family: 'Noto Sans Tagalog', serif; font-size: 42px; opacity: .35; }
   .card .chips { margin-top: 6px; }
   h2.sub { font-size: 13px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--soft); margin: 6px 0 0; }
@@ -108,14 +124,42 @@
   .bank { display: flex; flex-wrap: wrap; gap: 8px; }
   .tile { border: 1px solid var(--line); border-bottom-width: 3px; background: var(--panel-2); padding: 8px 12px; border-radius: 12px; font-size: 16px; font-weight: 700; }
   .tile.used { visibility: hidden; }
+  /* Hebrew (right to left, with its vowel points) and Greek: a serif that has every mark, and big */
+  .heb { font-family: 'Noto Serif Hebrew', 'SBL Hebrew', 'Taamey Frank CLM', 'Times New Roman', serif; direction: rtl; unicode-bidi: isolate; font-weight: 400; }
+  .grk { font-family: 'Noto Serif', 'Gentium Plus', 'Times New Roman', serif; font-weight: 400; }
+  .wordbox { display: flex; align-items: center; gap: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 14px 16px; }
+  .wordbox .w { display: grid; gap: 2px; flex: 1; min-width: 0; text-align: center; }
+  .bigword { font-size: 54px; line-height: 1.35; overflow-wrap: anywhere; }
+  .bigword.grk { font-size: 44px; }
+  .sayit { color: var(--soft); font-size: 15px; font-weight: 700; letter-spacing: .04em; }
+  .hearbig { width: 100%; border: 0; border-radius: 20px; padding: 26px 10px; background: var(--accent, var(--gold)); color: #111; font-size: 20px; font-weight: 900; }
+  .opts.words .opt { display: grid; gap: 0; text-align: center; padding: 8px 12px; }
+  .opts.words .opt .heb { font-size: 36px; line-height: 1.4; }
+  .opts.words .opt .grk { font-size: 30px; line-height: 1.4; }
+  .opts.words .opt small { color: var(--soft); font-size: 13px; }
+  .pairs .opt.heb { font-size: 28px; padding: 6px 8px; line-height: 1.35; font-weight: 400; }
+  .pairs .opt.grk { font-size: 22px; font-weight: 400; }
+  .tcard { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 16px; display: grid; gap: 8px; }
+  .tcard .gloss { font-size: 22px; font-weight: 900; margin: 0; }
+  .tcard p { margin: 0; }
+  .tcard .kjv { color: var(--soft); font-size: 14px; }
+  .tcard details summary { color: var(--accent, var(--gold)); font-weight: 800; cursor: pointer; }
+  .wordrow { color: var(--soft); font-size: 22px; margin: 0; line-height: 1.5; }
+  .fact { background: var(--panel-2); border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px; font-size: 14px; margin: 0; }
+  .fact .heb { font-size: 22px; }
   .glyph-big { font-family: 'Noto Sans Tagalog', serif; font-size: 64px; line-height: 1.3; text-align: center; background: var(--panel); border: 1px solid var(--line);
     border-radius: 20px; padding: 16px 10px 6px; overflow-wrap: anywhere; }
   .opts.glyphs { grid-template-columns: repeat(3, 1fr); }
   .opts.glyphs .opt { font-family: 'Noto Sans Tagalog', serif; font-size: 34px; text-align: center; padding: 8px; }
+  .glyph-big.heb, .opts.glyphs .opt.heb, .bay-out.heb, .chart b.heb { font-family: 'Noto Serif Hebrew', 'SBL Hebrew', 'Times New Roman', serif; }
+  .glyph-big.grk, .opts.glyphs .opt.grk, .bay-out.grk, .chart b.grk { font-family: 'Noto Serif', 'Gentium Plus', 'Times New Roman', serif; }
+  .glyph-big.heb { font-size: 72px; }
+  .opts.glyphs .opt.heb { font-size: 40px; }
   .note { color: var(--soft); font-size: 14px; margin: 0; }
   .foot { padding: 12px 16px 16px; border-top: 1px solid var(--line); display: grid; gap: 8px; background: rgba(10,10,20,.85); }
   .feedback { margin: 0; font-weight: 700; font-size: 15px; }
   .feedback.good { color: var(--right); } .feedback.bad { color: var(--wrong); }
+  .feedback .heb, .note .heb { font-size: 1.5em; line-height: 1.2; } .feedback .grk, .note .grk { font-size: 1.2em; }
   .go { border: 0; border-radius: 16px; padding: 14px; font-size: 17px; font-weight: 900; background: var(--accent, var(--gold)); color: #111; }
   .go:disabled { opacity: .35; }
   .go.ghost { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); }
@@ -154,7 +198,7 @@
   /* Baybayin */
   .tabs { display: flex; gap: 6px; }
   .tabs button { flex: 1; border-radius: 12px; border: 1px solid var(--line); background: var(--panel); padding: 8px; font-weight: 800; }
-  .tabs button.on { background: var(--bay); color: #111; border-color: transparent; }
+  .tabs button.on { background: var(--accent, var(--bay)); color: #111; border-color: transparent; }
   .bay-out { font-family: 'Noto Sans Tagalog', serif; font-size: 54px; line-height: 1.3; text-align: center; background: var(--panel); border: 1px solid var(--line);
     border-radius: 20px; padding: 18px 10px 6px; min-height: 100px; overflow-wrap: anywhere; }
   .bay-parts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
@@ -166,7 +210,11 @@
   .chart small { color: var(--soft); font-size: 12px; }
   .baylist { display: grid; gap: 8px; }
   .baylist button { text-align: left; border-radius: 14px; border: 1px solid var(--line); background: var(--panel); padding: 12px 14px; font-weight: 700; display: flex; justify-content: space-between; gap: 8px; }
-  .baylist button.next { border-color: var(--bay); box-shadow: 0 0 0 1px var(--bay) inset; }
+  .baylist button.next { border-color: var(--accent, var(--bay)); box-shadow: 0 0 0 1px var(--accent, var(--bay)) inset; }
+  .chart button { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 6px 0 4px; text-align: center; color: var(--text); display: grid; }
+  .chart button b { display: block; font-size: 30px; font-weight: 400; line-height: 1.35; }
+  .chart button small { color: var(--soft); font-size: 11px; line-height: 1.2; padding: 0 2px; }
+  .chart.wide { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
   .baylist button:disabled { opacity: .45; }
   /* The Tagalog list for Blake to check (test site) */
   .check { display: grid; gap: 6px; }
@@ -182,19 +230,33 @@
 <script src="../fullscreen.js"></script>
 <script src="engine.js?v=dev"></script>
 <script src="baybayin.js?v=dev"></script>
+<script src="alefbet.js?v=dev"></script>
+<script src="greek-letters.js?v=dev"></script>
 <script src="course-es.js?v=dev"></script>
 <script src="course-tl.js?v=dev"></script>
 <script src="course-tl2.js?v=dev"></script>
+<script src="course-he.js?v=dev"></script>
+<script src="course-el.js?v=dev"></script>
 <script src="audio/index.js?v=dev"></script>
 <script>
 (function () {
   'use strict';
-  const E = window.AMIGO_ENGINE, BAY = window.AMIGO_BAYBAYIN, COURSES = window.AMIGO_COURSES;
+  const E = window.AMIGO_ENGINE, BAY = window.AMIGO_BAYBAYIN, ALEF = window.AMIGO_ALEFBET, GRK = window.AMIGO_GREEK, COURSES = window.AMIGO_COURSES;
   const app = document.getElementById('app');
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   // The test site shows the Tagalog Blake hasn't checked yet, marked; the live app waits for his check.
   const TEST_SITE = /\/TreasureUp-test\//.test(location.pathname);
-  const ACCENT = { es: 'var(--es)', tl: 'var(--tl)', tl2: 'var(--tl2)', bay: 'var(--bay)' };
+  const ACCENT = { es: 'var(--es)', tl: 'var(--tl)', tl2: 'var(--tl2)', bay: 'var(--bay)', he: 'var(--he)', el: 'var(--el)', alef: 'var(--alef)', greek: 'var(--greek)' };
+  // The live app has only the Hebrew and Greek words Blake approved (their
+  // fingerprint matching), and a week only with enough of them; the test site
+  // has them all, marked.
+  for (const cid of ['he', 'el']) if (COURSES[cid] && !TEST_SITE) COURSES[cid] = E.liveWords(COURSES[cid]);
+  const LANG_NAME = { es: 'Spanish', tl: 'Tagalog', he: 'Hebrew', el: 'Greek' };
+  // How a language's words are written: Hebrew right to left, in a font with its vowel points.
+  const SCRIPT = { he: { cls: 'heb', dir: 'rtl' }, el: { cls: 'grk', dir: 'ltr' } };
+  const scriptOf = cid => SCRIPT[cid] || { cls: '', dir: 'ltr' };
+  // Hebrew or Greek text, isolated so a line of English around it reads right.
+  const native = (text, lang, extra) => SCRIPT[lang] ? `<bdi class="${SCRIPT[lang].cls}${extra ? ' ' + extra : ''}" dir="${SCRIPT[lang].dir}" lang="${lang}">${esc(text)}</bdi>` : esc(text);
 
   // ------------------------------------------------------------ saves
   const KEY = 'amigo.v1';
@@ -204,12 +266,31 @@
   })();
   const store = () => { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) { /* private mode: progress lasts this visit */ } };
   const cs = cid => E.courseSave(save, cid);
-  const baySave = () => save.bay || (save.bay = { done: {}, xp: 0 });
+  // The side quests: Baybayin, the alef-bet and the Greek letters. Each is said
+  // in its language's voice (Baybayin in Tagalog's), and keeps its own lessons
+  // done (save.bay, save.alef, save.greek).
+  const QUESTS = {
+    bay: { mod: BAY, course: 'tl', lang: 'tl', title: 'Baybayin', praise: 'Tama!', last: 'Mabuhay!', end: 'You can read Baybayin now. Try writing a secret message.' },
+    alef: { mod: ALEF, course: 'he', lang: 'he', title: 'The alef-bet', praise: 'Tov me’od!', last: 'Kol hakavod!', end: 'You can read Hebrew letters now. Try writing your name.' },
+    greek: { mod: GRK, course: 'el', lang: 'el', title: 'Greek letters', praise: 'Bravo!', last: 'Bravo!', end: 'You can read Greek letters now. Try writing your name.' },
+  };
+  const questSave = qid => save[qid] || (save[qid] = { done: {}, xp: 0 });
+  const baySave = () => questSave('bay');
 
   // What shows: all the Spanish; the Tagalog Blake has checked (all of it on the test site).
   const shows = x => !!x && (TEST_SITE || !!x.checked);
   const unitsOf = C => C.id === 'tl' ? C.units.filter(shows) : C.units;
   const notChecked = x => TEST_SITE && !x.checked;
+  const notApproved = x => TEST_SITE && x && x.approved === false;
+  const approvedChip = '<span class="chip warn">Not approved yet</span>';
+  // A course's treasure words, to read in its letters quest.
+  const treasureOf = cid => COURSES[cid] ? COURSES[cid].units.flatMap(u => u.words.map(w => ({ word: w.word, say: w.say, en: w.gloss }))) : [];
+  // Each quest's lesson steps, and its words to read.
+  function questSteps(qid, n) {
+    if (qid === 'bay') return BAY.lessonSteps(n, bayWords(), 'amigo');
+    const Q = QUESTS[qid];
+    return Q.mod.lessonSteps(n, Q.mod.readingWords(treasureOf(Q.course)), 'amigo');
+  }
   const TL = COURSES.tl;
   const bayWords = () => shows(TL.baybayin) ? TL.baybayin.words : [];
 
@@ -244,7 +325,7 @@
     if (!C) return null;
     const own = findVoice(C.voices);
     if (own) return { voice: own, say: t => t, own: true };
-    const es = langOf(C) === 'tl' && findVoice(COURSES.es.voices);
+    const es = langOf(C) === 'tl' && findVoice(COURSES.es.voices);       // Hebrew and Greek have no stand-in
     return es ? { voice: es, say: asSpanish, own: false } : null;
   }
   const canSay = (text, C) => recorded(text, C) || !!reader(C);
@@ -315,7 +396,15 @@
   const nowText = lines => state.saying >= 0 ? 'Line ' + (state.saying + 1) + ' of ' + lines.length : '';
 
   // ------------------------------------------------------------ state
-  const state = { view: 'home', cid: null, run: null, bayTab: 'learn', bayText: 'Tatay', rate: 1, saying: -1 };
+  const state = { view: 'home', cid: null, qid: 'bay', run: null, bayTab: 'learn', bayText: 'Tatay', rate: 1, saying: -1 };
+  // A link can open a course (?course=he) or a side quest (?quest=alef).
+  (() => {
+    let q = null;
+    try { q = new URLSearchParams(location.search); } catch (e) { return; }
+    const c = q.get('course'), k = q.get('quest');
+    if (c && COURSES[c]) Object.assign(state, { view: 'course', cid: c });
+    else if (k && QUESTS[k]) Object.assign(state, { view: 'quest', qid: k, bayText: k === 'bay' ? 'Tatay' : 'Javan' });
+  })();
   if (window.AMIGO_TEST) window.AMIGO_TEST.state = state;          // the browser test reads the lesson from here
   function go(view, extra) {
     Object.assign(state, { view }, extra || {});
@@ -326,7 +415,7 @@
   window.addEventListener('popstate', () => {
     hush();
     // Back from a lesson goes to its course; from anything else, home.
-    if (state.view === 'lesson' || state.view === 'done') state.view = state.run && state.run.cid === 'bay' ? 'bay' : 'course';
+    if (state.view === 'lesson' || state.view === 'done') state.view = state.run && QUESTS[state.run.cid] ? 'quest' : 'course';
     else state.view = 'home';
     state.run = state.view === 'lesson' ? state.run : null;
     render();
@@ -336,35 +425,43 @@
   function courseCard(cid) {
     const C = COURSES[cid], units = unitsOf(C), s = cs(cid);
     if (!units.length) {
-      return `<div class="card ${cid} soon"><span class="who">${esc(C.who)}</span><span class="name">${esc(C.name)}</span>
-        <span class="unit">Coming soon: Tatay is checking the Tagalog.</span></div>`;
+      return `<button class="card ${cid} soon" data-course="${cid}"><span class="who">${esc(C.who)}</span><span class="name">${esc(C.name)}</span>
+        <span class="unit">${C.kind === 'words' ? esc(C.empty || 'The words come once Tatay approves them.') : 'Coming soon: Tatay is checking the Tagalog.'}</span></button>`;
     }
     const all = E.path(C, units), done = all.filter(x => s.done[x.key]).length, next = E.nextLesson(C, s, units);
     const streak = E.streakNow(s);
-    return `<button class="card ${cid}" data-course="${cid}">
+    return `<button class="card ${cid}" data-course="${cid}">${C.native ? `<span class="glyph ${scriptOf(cid).cls}" aria-hidden="true">${esc(C.native)}</span>` : ''}
       <span class="who">${esc(C.who)}</span><span class="name">${esc(C.name)}</span>
       <span class="unit">${next ? `${esc(next.unit.title)} · ${C.lessonNames ? esc(C.lessonNames[next.n]) : 'lesson ' + (next.n + 1) + ' of 3'}: ${esc(next.unit.blurb)}` : 'Every lesson done. Practice any of them.'}</span>
       <span class="meter"><i style="width:${Math.round(100 * done / all.length)}%"></i></span>
       <span class="chips">${streak ? `<span class="chip">🔥 ${streak} ${streak === 1 ? 'day' : 'days'}</span>` : ''}<span class="chip">${done} of ${all.length} lessons</span>${s.xp ? `<span class="chip">${s.xp} XP</span>` : ''}</span>
     </button>`;
   }
+  // A side quest's card on the home screen.
+  function questCard(qid, glyph, who, name, line) {
+    const Q = QUESTS[qid], b = questSave(qid), done = Q.mod.LESSONS.filter(l => b.done[l.id]).length, sc = scriptOf(Q.lang);
+    return `<button class="card ${qid}" data-quest="${qid}">
+          <span class="glyph ${sc.cls}" ${sc.dir === 'rtl' ? 'dir="rtl"' : ''} aria-hidden="true">${glyph}</span>
+          <span class="who">${who}</span><span class="name">${name}</span>
+          <span class="unit">${line}</span>
+          <span class="meter"><i style="width:${Math.round(100 * done / Q.mod.LESSONS.length)}%"></i></span>
+        </button>`;
+  }
   function home() {
-    const b = baySave(), bayDone = BAY.LESSONS.filter(l => b.done[l.id]).length;
     const tatay = shows(TL.tatay) ? `<h2 class="sub">A little Tagalog from Tatay${notChecked(TL.tatay) ? ' <span class="chip warn">Not checked yet</span>' : ''}</h2>
       <div class="mini">${TL.tatay.words.map(([w, en]) => `<button class="word" data-say="${esc(w)}"><b>${esc(w)}</b><small>${esc(en)}</small></button>`).join('')}</div>` : '';
     return `
-      <div class="bar"><a class="back" href="../" aria-label="Back to Treasure Up">←</a><h1>Amigo <span class="dot">·</span> Kaibigan</h1>${window.TUFull ? TUFull.html('back fs') : ''}</div>
+      <div class="bar"><a class="back" href="../" aria-label="Back to Treasure Up">←</a><h1>Wika</h1>${window.TUFull ? TUFull.html('back fs') : ''}</div>
       <div class="screen">
-        <p class="hello">Both words mean friend. Spanish for friends at school, and Tagalog from Tatay. Five minutes a day.</p>
+        <p class="hello"><i>Wika</i> is Tagalog for “language.” Spanish for friends at school, Tagalog from Tatay, and the Bible’s own Hebrew and Greek. Five minutes a day.</p>
         ${courseCard('es')}
         ${courseCard('tl')}
         ${courseCard('tl2')}
-        <button class="card bay" data-bay-open>
-          <span class="glyph" aria-hidden="true">ᜀᜋᜒᜄᜓ</span>
-          <span class="who">Side quest · Baybayin</span><span class="name">Write it the old way</span>
-          <span class="unit">The script Filipinos wrote before the Spanish came, often called alibata.</span>
-          <span class="meter"><i style="width:${Math.round(100 * bayDone / BAY.LESSONS.length)}%"></i></span>
-        </button>
+        ${courseCard('he')}
+        ${courseCard('el')}
+        ${questCard('bay', 'ᜀᜋᜒᜄᜓ', 'Side quest · Baybayin', 'Write it the old way', 'The script Filipinos wrote before the Spanish came, often called alibata.')}
+        ${questCard('alef', 'אָלֶף־בֵּית', 'Side quest · Hebrew', 'The alef-bet', 'The 22 letters the Old Testament was written in, right to left, and your name in them.')}
+        ${questCard('greek', 'Αα Ββ Γγ', 'Side quest · Greek', 'The Greek letters', 'The 24 letters of the New Testament, and your name in them.')}
         ${tatay}
         ${TEST_SITE ? `<button class="go ghost" data-check>Check the Tagalog (test site only)</button>` : ''}
         <p class="foot-note">Progress stays on this phone. It doesn’t add to Treasure Up’s XP.</p>
@@ -379,9 +476,13 @@
       <div class="bar"><button class="back" data-home aria-label="Back">←</button><h1>${esc(C.name)}${C.title ? ' · ' + esc(C.title) : ''}</h1>
         ${streak ? `<span class="chip">🔥 ${streak}</span>` : ''}<span class="chip">${s.xp} XP</span></div>
       <div class="screen" style="--accent:${ACCENT[C.id]}">
+        ${C.kind === 'words' && !units.length ? `<p class="note">${esc(C.empty || 'The words come once Tatay approves them.')}</p>
+          <button class="go" data-quest="${C.id === 'el' ? 'greek' : 'alef'}">Learn the ${C.id === 'el' ? 'Greek letters' : 'alef-bet'}</button>` : ''}
+        ${C.kind === 'words' && units.length ? `<p class="note">A week’s treasure words: the ${esc(C.name)} behind words in its chapters.${C.id === 'he' ? ' Hebrew reads right to left.' : ''}</p>` : ''}
         ${units.map(u => `<section class="unitbox">
-          <h3>${esc(u.title)} <small>${esc(u.sub)}</small>${C.id === 'tl' && notChecked(u) ? '<span class="chip warn">Not checked yet</span>' : ''}</h3>
+          <h3>${esc(u.title)} <small>${esc(u.sub)}</small>${C.id === 'tl' && notChecked(u) ? '<span class="chip warn">Not checked yet</span>' : ''}${notApproved(u) ? approvedChip : ''}</h3>
           <p>${esc(u.blurb)}</p>
+          ${u.words ? `<p class="wordrow" ${scriptOf(C.id).dir === 'rtl' ? 'dir="rtl"' : ''}>${u.words.map(w => native(w.word, C.id)).join(' · ')}</p>` : ''}
           <div class="lessons">${[0, 1, 2].map(n => {
             const key = u.id + ':' + (n + 1), done = !!s.done[key], open = E.unlocked(C, s, key, units), isNext = next && next.key === key;
             const name = C.lessonNames ? C.lessonNames[n] : String(n + 1);
@@ -397,10 +498,10 @@
   const freshStep = () => ({ picked: null, checked: false, correct: false, built: [], matched: [], sel: null, misses: 0, missAt: null, shown: false, heard: false });
   function start(cid, key) {
     let steps, practice;
-    if (cid === 'bay') {
-      const n = BAY.LESSONS.findIndex(l => l.id === key);
-      steps = BAY.lessonSteps(n, bayWords(), 'amigo');
-      practice = !!baySave().done[key];
+    if (QUESTS[cid]) {
+      const n = QUESTS[cid].mod.LESSONS.findIndex(l => l.id === key);
+      steps = questSteps(cid, n);
+      practice = !!questSave(cid).done[key];
     } else {
       const C = COURSES[cid], item = E.path(C, unitsOf(C)).find(x => x.key === key);
       if (!item) return;
@@ -408,16 +509,17 @@
       practice = !!cs(cid).done[key];
     }
     hush();
-    go('lesson', { cid: cid === 'bay' ? state.cid : cid, run: Object.assign({ cid, key, steps, at: 0, xp: 0, right: 0, total: 0, practice }, freshStep()) });
+    go('lesson', { cid: QUESTS[cid] ? state.cid : cid, run: Object.assign({ cid, key, steps, at: 0, xp: 0, right: 0, total: 0, practice }, freshStep()) });
     sayStep();
   }
-  const runCourse = r => COURSES[r.cid] || COURSES.tl;          // Baybayin is read in the Tagalog voice
+  const runCourse = r => COURSES[r.cid] || (QUESTS[r.cid] && COURSES[QUESTS[r.cid].course]) || COURSES.tl;   // a quest is said in its language's voice (Baybayin in Tagalog's)
   // A conversation lesson's lines: its own step's, or its unit's (a question about them).
   const linesOf = r => { const st = r.steps[r.at], C = COURSES[r.cid], u = C && C.units.find(x => x.id === r.key.split(':')[0]); return st.lines || (u && u.dialog ? u.dialog.lines : []); };
   // What a step says as it opens: a phrase to listen to, or the line with a word missing.
   function sayStep() {
     const r = state.run, st = r && r.steps[r.at];
     if (st && st.type === 'listen') speak(st.phrase, runCourse(r));
+    if (st && st.type === 'hear') speak(st.word, runCourse(r));
     if (st && st.type === 'gap') speakKey(st.say, st.t, runCourse(r));
   }
 
@@ -427,11 +529,18 @@
     const pct = Math.round(100 * r.at / r.steps.length);
     const speakBtn = text => `<button class="speak" data-speak="${esc(text)}" ${canSay(text, C) ? '' : 'disabled'} aria-label="Hear it">🔊</button>`;
     // Said how: a recording needs no word; a Spanish voice reading Tagalog, or none, gets one.
-    const shown = st.type === 'listen' ? [st.phrase] : st.type === 'scene' ? st.choices : [];
+    const shown = st.type === 'listen' ? [st.phrase] : st.type === 'scene' || st.type === 'pick' ? st.choices : ['hear', 'see', 'card'].includes(st.type) ? [st.word]
+      : r.cid !== 'bay' && QUESTS[r.cid] && st.voice ? [st.voice] : [];
     const unrecorded = shown.some(t => !recorded(t, C));
+    const lname = LANG_NAME[langOf(C)] || C.name;
     const noVoice = r.cid === 'bay' || !unrecorded || (rd && rd.own) ? ''
       : `<p class="novoice">${rd ? 'This phone has no Tagalog voice, so a Spanish voice reads it. A few sounds come out a little off.'
-        : langOf(C) === 'tl' ? 'This phone has no Tagalog voice, so read it instead.' : 'This phone has no Spanish voice, so read it instead.'}</p>`;
+        : QUESTS[r.cid] ? `This phone has no ${lname} voice yet, so this can’t be heard here. The recordings are coming.`
+        : SCRIPT[langOf(C)] ? `This phone has no ${lname} voice yet, so read it instead: the line under each word says how.` : `This phone has no ${lname} voice, so read it instead.`}</p>`;
+    // Hebrew and Greek: the script's class and direction, and a word with how it's said under it.
+    const sc = scriptOf(langOf(C)), qsc = QUESTS[r.cid] && r.cid !== 'bay' ? scriptOf(QUESTS[r.cid].lang) : null;
+    const qattr = qsc ? `class="glyph-big ${qsc.cls}" dir="${qsc.dir}" lang="${QUESTS[r.cid].lang}"` : 'class="glyph-big" lang="tl"';
+    const wordBox = (w, say) => `<div class="wordbox">${speakBtn(w)}<div class="w">${native(w, langOf(C), 'bigword')}<span class="sayit">${esc(say)}</span></div></div>`;
     const voice = st.type === 'listen' && canSay(st.phrase, C);
     const cls = o => !r.checked ? (r.picked === o ? 'picked' : '') : o === st.right ? 'good' : r.picked === o ? 'bad' : '';
     const opt = o => `<button class="opt ${cls(o)}" data-pick="${esc(o)}">${esc(o)}</button>`;
@@ -443,7 +552,27 @@
     const lineCard = (line, i, people) => `<div class="line ${state.saying === i ? 'on' : ''}" data-at="${i}">${lineBtn(line)}<div><small>${esc(people[line.who])}</small>
       <b lang="tl">${esc(line.t)}</b><span>${esc(line.en)}</span>${line.note ? `<em>${esc(line.note)}</em>` : ''}</div></div>`;
     let body = '', ready = false;
-    if (st.type === 'listen') {
+    if (st.type === 'hear') {
+      const can = canSay(st.word, C);
+      body = `<p class="kind">${st.review ? 'Remember this?' : can ? 'Listen and pick the meaning' : 'Read and pick the meaning'}</p>
+        ${can && !r.checked ? `<button class="hearbig" data-speak="${esc(st.word)}">🔊 Hear it again</button>` : wordBox(st.word, st.say)}${noVoice}
+        <div class="opts">${st.choices.map(opt).join('')}</div>`;
+      ready = r.picked != null;
+    } else if (st.type === 'see') {
+      body = `<p class="kind">${st.review ? 'Remember this?' : 'What does it mean?'}</p>${wordBox(st.word, st.say)}${noVoice}
+        <div class="opts">${st.choices.map(opt).join('')}</div>`;
+      ready = r.picked != null;
+    } else if (st.type === 'pick') {
+      body = `<p class="kind">${st.review ? 'Remember this? ' : ''}Which word means…</p><p class="prompt">“${esc(st.gloss)}”</p>
+        <div class="opts words">${st.choices.map(o => `<button class="opt ${cls(o)}" data-pick="${esc(o)}">${native(o, langOf(C))}<small>${esc(st.says[o])}</small></button>`).join('')}</div>${noVoice}`;
+      ready = r.picked != null;
+    } else if (st.type === 'card') {
+      body = `<p class="kind">Treasure word${notApproved(st) ? ' ' + approvedChip : ''}</p>${wordBox(st.word, st.say)}${noVoice}
+        <div class="tcard"><p class="gloss">${esc(st.gloss)}</p><p>${esc(st.means)}</p>
+          <p class="kjv">${esc(st.ref)} · the KJV says “${esc(st.kjv)}”</p>
+          ${st.more ? `<details><summary>More</summary><p class="note">${esc(st.more)}</p></details>` : ''}</div>`;
+      ready = true;
+    } else if (st.type === 'listen') {
       body = `<p class="kind">${st.review ? 'Remember this?' : voice ? 'Listen and pick' : 'Read and pick'}</p>
         <div class="say">${speakBtn(st.phrase)}<span class="phrase" lang="${langOf(C)}">${esc(st.phrase)}</span></div>${noVoice}
         <div class="opts">${st.choices.map(opt).join('')}</div>`;
@@ -456,7 +585,7 @@
       const left = st.left, right = st.rightSide, meaningOf = w => st.pairs.find(p => p[0] === w)[1];
       const doneRight = en => r.matched.some(w => meaningOf(w) === en);
       body = `<p class="kind">Match the pairs</p><p class="note">Tap a word, then what it means.</p>
-        <div class="pairs">${left.map((w, n) => `<button class="opt ${r.matched.includes(w) ? 'done' : ''} ${r.sel === w ? 'picked' : ''}" data-left="${esc(w)}" lang="${langOf(C)}">${esc(w)}</button>
+        <div class="pairs">${left.map((w, n) => `<button class="opt ${sc.cls} ${r.matched.includes(w) ? 'done' : ''} ${r.sel === w ? 'picked' : ''}" data-left="${esc(w)}" lang="${langOf(C)}" ${sc.dir === 'rtl' ? 'dir="rtl"' : ''}>${esc(w)}</button>
           <button class="opt ${doneRight(right[n]) ? 'done' : ''} ${r.missAt === right[n] ? 'miss' : ''}" data-right="${esc(right[n])}">${esc(right[n])}</button>`).join('')}</div>`;
       ready = r.matched.length === st.pairs.length;
     } else if (st.type === 'build') {
@@ -465,14 +594,14 @@
         <div class="bank" lang="${langOf(C)}">${st.bank.map((w, i) => `<button class="tile ${r.built.includes(i) ? 'used' : ''}" data-build="${i}" ${r.checked ? 'disabled' : ''}>${esc(w)}</button>`).join('')}</div>`;
       ready = r.built.length > 0;
     } else if (st.type === 'bsound') {
-      body = `<p class="kind">What sound is this?</p><div class="glyph-big" lang="tl">${esc(st.glyph)}</div><div class="opts">${st.choices.map(opt).join('')}</div>`;
+      body = `<p class="kind">${qsc ? 'What is it?' : 'What sound is this?'}</p><div ${qattr}>${esc(st.glyph)}</div><div class="opts">${st.choices.map(opt).join('')}</div>${r.checked ? '' : noVoice}`;
       ready = r.picked != null;
     } else if (st.type === 'bglyph') {
       body = `<p class="kind">Which character is it?</p><p class="prompt">“${esc(st.sound)}”</p>
-        <div class="opts glyphs">${st.choices.map(o => `<button class="opt ${cls(o)}" data-pick="${esc(o)}" lang="tl">${esc(o)}</button>`).join('')}</div>`;
+        <div class="opts glyphs">${st.choices.map(o => `<button class="opt ${qsc ? qsc.cls : ''} ${cls(o)}" data-pick="${esc(o)}" ${qsc ? `lang="${QUESTS[r.cid].lang}" dir="${qsc.dir}"` : 'lang="tl"'}>${esc(o)}</button>`).join('')}</div>`;
       ready = r.picked != null;
     } else if (st.type === 'bread') {
-      body = `<p class="kind">Read it</p><div class="glyph-big" lang="tl">${esc(st.glyph)}</div><div class="opts">${st.choices.map(opt).join('')}</div>`;
+      body = `<p class="kind">Read it${qsc && qsc.dir === 'rtl' ? ', right to left' : ''}</p><div ${qattr}>${esc(st.glyph)}</div><div class="opts">${st.choices.map(opt).join('')}</div>`;
       ready = r.picked != null;
     } else if (st.type === 'dialog') {
       body = `<p class="kind">Listen</p><p class="prompt">${esc(st.setting)}</p>${talkers(st.people, st.lines)}
@@ -516,8 +645,11 @@
     const answerText = st.type === 'build' ? st.answer.join(' ') : st.type === 'say' ? st.t : st.right;
     const note = st.type === 'bread' ? `“${st.right}” means ${st.en}.` : st.note;
     const praise = C.praise[r.at % C.praise.length];
-    const fb = r.checked ? `<p class="feedback ${r.correct ? 'good' : 'bad'}" role="status">${r.correct ? '✓ ' + esc(r.cid === 'bay' ? 'Tama!' : praise) : st.type === 'say' ? '✗ Not yet' : '✗ The answer: ' + esc(answerText)}</p>
-      ${note ? `<p class="note">${esc(note)}</p>` : ''}${!r.correct && !st.retry ? '<p class="note">It comes back at the end.</p>' : ''}` : '';
+    // A Hebrew or Greek answer is shown in its own script, with how it's said.
+    const answerHtml = st.type === 'pick' ? native(st.right, langOf(C)) + ' ' + esc(st.say) : st.type === 'bglyph' && qsc ? native(st.right, QUESTS[r.cid].lang) : esc(answerText);
+    const wordNote = ['hear', 'see', 'pick'].includes(st.type) ? `${native(st.word, langOf(C))} (${esc(st.say)}) means “${esc(st.gloss)}.”` : '';
+    const fb = r.checked ? `<p class="feedback ${r.correct ? 'good' : 'bad'}" role="status">${r.correct ? '✓ ' + esc(QUESTS[r.cid] ? QUESTS[r.cid].praise : praise) : st.type === 'say' ? '✗ Not yet' : '✗ The answer: ' + answerHtml}</p>
+      ${wordNote ? `<p class="note">${wordNote}</p>` : ''}${note ? `<p class="note">${esc(note)}</p>` : ''}${!r.correct && !st.retry ? '<p class="note">It comes back at the end.</p>' : ''}` : '';
     return `
       <div class="bar"><button class="back" data-quit aria-label="Stop the lesson">✕</button>
         <div class="progress" aria-label="Progress"><i style="width:${pct}%"></i></div><span class="chip">${r.practice ? 'Practice' : r.xp + ' XP'}</span></div>
@@ -545,7 +677,9 @@
       if (right && !r.practice) r.xp += st.type === 'pairs' && r.misses ? E.XP_RIGHT / 2 : E.XP_RIGHT;
       if (!right) r.steps.push(Object.assign({}, st, { retry: true }));    // it comes back at the end
     }
-    if (r.cid !== 'bay' && st.id) { E.remember(cs(r.cid), st.id, right); store(); }
+    if (!QUESTS[r.cid] && st.id) { E.remember(cs(r.cid), st.id, right); store(); }
+    if (st.type === 'see') speak(st.word, runCourse(r));
+    if (st.voice) speak(st.voice, runCourse(r));                     // a letter's name, a word read
     if (right && st.type === 'build') speak(st.answer.join(' '), runCourse(r));
     if (st.type === 'form') speak(st.say, runCourse(r));
     if (st.type === 'gap') speakKey(st.say, st.t, runCourse(r));
@@ -556,8 +690,8 @@
     r.at++;
     Object.assign(r, freshStep());
     if (r.at < r.steps.length) { render(); sayStep(); return; }
-    if (r.cid === 'bay') {
-      const b = baySave();
+    if (QUESTS[r.cid]) {
+      const b = questSave(r.cid);
       r.first = !b.done[r.key];
       if (r.first) { b.done[r.key] = { day: E.dayNum(), xp: r.xp }; b.xp += r.xp; }
     } else {
@@ -572,11 +706,11 @@
   function donePage() {
     const r = state.run, accent = ACCENT[r.cid];
     let title = 'Lesson done', big = 'Tama!', note = '', nextBtn = '';
-    if (r.cid === 'bay') {
-      const n = BAY.LESSONS.findIndex(l => l.id === r.key), nx = BAY.LESSONS[n + 1];
-      big = n === BAY.LESSONS.length - 1 ? 'Mabuhay!' : 'Tama!';
-      note = nx ? 'Next: ' + nx.title + '.' : 'You can read Baybayin now. Try writing a secret message.';
-      if (nx) nextBtn = `<button class="go" data-lesson-bay="${nx.id}">Next lesson</button>`;
+    if (QUESTS[r.cid]) {
+      const Q = QUESTS[r.cid], L = Q.mod.LESSONS, n = L.findIndex(l => l.id === r.key), nx = L[n + 1];
+      big = n === L.length - 1 ? Q.last : Q.praise;
+      note = nx ? 'Next: ' + nx.title + '.' : Q.end;
+      if (nx) nextBtn = `<button class="go" data-lesson-quest="${nx.id}">Next lesson</button>`;
     } else {
       const C = COURSES[r.cid], units = unitsOf(C), item = E.path(C, units).find(x => x.key === r.key);
       const last = item && item.n === E.LESSONS_PER_UNIT - 1;
@@ -597,8 +731,13 @@
       <div class="foot" style="--accent:${accent}">${nextBtn}<button class="go ghost" data-back-done>Back</button></div>`;
   }
 
-  // ------------------------------------------------------------ Baybayin
-  function bayPage() {
+  // ------------------------------------------------------------ the side quests
+  // Baybayin, the alef-bet and the Greek letters: Learn (the lessons), Write
+  // (a name or a message in the script) and Chart.
+  const spellIn = (qid, text) => QUESTS[qid].mod.spell(text);
+  function questPage() {
+    const qid = QUESTS[state.qid] ? state.qid : 'bay';
+    if (qid !== 'bay') return letterPage(qid);
     const b = baySave(), tab = state.bayTab;
     const nextN = BAY.LESSONS.findIndex(l => !b.done[l.id]);
     let body = '';
@@ -606,7 +745,7 @@
       body = `<p class="note">A few characters at a time. Each lesson opens once the one before it is done.</p>
         <div class="baylist">${BAY.LESSONS.map((l, n) => {
           const done = !!b.done[l.id], open = n === 0 || !!b.done[BAY.LESSONS[n - 1].id];
-          return `<button class="${n === nextN ? 'next' : ''}" data-lesson-bay="${l.id}" ${open ? '' : 'disabled'}><span>${n + 1}. ${esc(l.title)}</span><span>${done ? '✓' : open ? '▶' : '🔒'}</span></button>`;
+          return `<button class="${n === nextN ? 'next' : ''}" data-lesson-quest="${l.id}" ${open ? '' : 'disabled'}><span>${n + 1}. ${esc(l.title)}</span><span>${done ? '✓' : open ? '▶' : '🔒'}</span></button>`;
         }).join('')}</div>
         ${bayWords().length ? '' : '<p class="foot-note">Reading words come once Tatay checks them.</p>'}
         ${notChecked(TL.baybayin) ? '<p class="foot-note"><span class="chip warn">Not checked yet</span> The reading words.</p>' : ''}`;
@@ -625,7 +764,51 @@
     return `
       <div class="bar"><button class="back" data-home aria-label="Back">←</button><h1>Baybayin</h1><span class="chip">${b.xp} XP</span></div>
       <div class="screen" style="--accent:var(--bay)">
-        <div class="tabs">${[['learn', 'Learn'], ['write', 'Write'], ['chart', 'Chart']].map(([k, l]) => `<button class="${tab === k ? 'on' : ''}" data-tab="${k}">${l}</button>`).join('')}</div>
+        <div class="tabs" role="tablist">${[['learn', 'Learn'], ['write', 'Write'], ['chart', 'Chart']].map(([k, l]) => `<button class="${tab === k ? 'on' : ''}" data-tab="${k}">${l}</button>`).join('')}</div>
+        ${body}
+      </div>`;
+  }
+
+  // The alef-bet and the Greek letters.
+  function letterPage(qid) {
+    const Q = QUESTS[qid], M = Q.mod, b = questSave(qid), tab = state.bayTab, sc = scriptOf(Q.lang), C = COURSES[Q.course];
+    const nextN = M.LESSONS.findIndex(l => !b.done[l.id]), he = qid === 'alef';
+    const rd = reader(C), anyRec = AUDIO[C.id] && Object.keys(AUDIO[C.id]).length;
+    const voiceNote = rd || anyRec ? '' : `<p class="novoice">This phone has no ${LANG_NAME[Q.lang]} voice yet, so the letters can’t be heard here. The recordings are coming.</p>`;
+    const fact = `<p class="fact">💡 ${he ? `Your name is Hebrew! ${native('יָוָן', 'he')} (Genesis 10:2), Yavan: Javan was Noah’s grandson, and his name became the Old Testament’s name for Greece.`
+      : `Your name is in the Old Testament: ${native('יָוָן', 'he')}, Javan (Genesis 10:2), is its name for Greece. This is Javan’s alphabet.`}</p>`;
+    let body = '';
+    if (tab === 'learn') {
+      body = `${fact}<p class="note">${he ? 'Hebrew reads right to left. Its letters are consonants; the vowels are dots and dashes under them.' : 'The New Testament was first written in these letters. Many look like ours.'} Each lesson opens once the one before it is done.</p>
+        ${voiceNote}
+        <div class="baylist">${M.LESSONS.map((l, n) => {
+          const done = !!b.done[l.id], open = n === 0 || !!b.done[M.LESSONS[n - 1].id];
+          return `<button class="${n === nextN ? 'next' : ''}" data-lesson-quest="${l.id}" ${open ? '' : 'disabled'}><span>${n + 1}. ${esc(l.title)}</span><span>${done ? '✓' : open ? '▶' : '🔒'}</span></button>`;
+        }).join('')}</div>`;
+    } else if (tab === 'write') {
+      const r = M.spell(state.bayText);
+      body = `<h2 class="sub">Write your name</h2><label class="note" for="bayIn">Type your name, or anything, the way it sounds.</label>
+        <input id="bayIn" class="field" value="${esc(state.bayText)}" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="40">
+        <div class="bay-out ${sc.cls}" lang="${Q.lang}" dir="${sc.dir}" id="bayOut">${esc(r.text) || '&nbsp;'}</div>
+        <div class="bay-parts" id="bayParts">${r.parts.map(p => `<span>${esc(p)}</span>`).join('')}</div>
+        <p class="note" id="bayNote">${esc(r.note || '')}</p>
+        <p class="foot-note">${he ? 'It’s approximate: Hebrew writes a name from another language by its sound, and there’s more than one way to do it. A Bible name is spelled the Bible’s way.'
+          : 'It’s approximate: Greek writes a name from another language by its sound.'}</p>
+        <button class="go ghost" data-copy>Copy it</button>
+        <div class="mini">${['Javan', 'Blake', 'Mom', 'Dad'].map(w => `<button class="word" data-bay-word="${esc(w)}"><b>${esc(w)}</b></button>`).join('')}</div>`;
+    } else {
+      const cell = (glyph, name, sound, said) => `<button data-say-q="${esc(said)}" aria-label="${esc(name)}"><b class="${sc.cls}" lang="${Q.lang}">${esc(glyph)}</b><small>${esc(name)}</small><small>${esc(sound)}</small></button>`;
+      body = he ? `<p class="note">Right to left: א is the first letter. Tap a letter to hear its name.</p>${voiceNote}
+          <div class="chart" dir="rtl">${M.LETTERS.map(l => cell(l.glyph, l.name, l.sound.split(' (')[0].split(',')[0], l.he)).join('')}</div>
+          <h2 class="sub">At the end of a word</h2><div class="chart" dir="rtl">${M.FINALS.map(l => cell(l.glyph, l.name, l.sound.split(',')[0], l.he)).join('')}</div>
+          <h2 class="sub">The vowel points</h2><div class="chart wide" dir="rtl">${M.VOWELS.map(v => `<div><b class="heb" lang="he">${esc(v.glyph)}</b><small>${esc(v.sound)}</small></div>`).join('')}</div>`
+        : `<p class="note">Capital and small. Tap a letter to hear its name, the way Greeks say it today.</p>${voiceNote}
+          <div class="chart wide">${M.LETTERS.map(l => cell(l.cap + ' ' + l.small, l.name, l.sound.split(' (')[0], l.el)).join('')}</div>`;
+    }
+    return `
+      <div class="bar"><button class="back" data-home aria-label="Back">←</button><h1>${esc(Q.title)}</h1><span class="chip">${b.xp} XP</span></div>
+      <div class="screen" style="--accent:${ACCENT[qid]}">
+        <div class="tabs">${[['learn', 'Learn'], ['write', 'Your name'], ['chart', 'Chart']].map(([k, l]) => `<button class="${tab === k ? 'on' : ''}" data-tab="${k}">${l}</button>`).join('')}</div>
         ${body}
       </div>`;
   }
@@ -654,13 +837,14 @@
     const v = state.view;
     if (v === 'lesson' && !state.run) state.view = 'home';
     app.innerHTML = state.view === 'course' ? coursePage() : state.view === 'lesson' ? lessonPage() : state.view === 'done' ? donePage()
-      : state.view === 'bay' ? bayPage() : state.view === 'check' && TEST_SITE ? checkPage() : home();
+      : state.view === 'quest' ? questPage() : state.view === 'check' && TEST_SITE ? checkPage() : home();
     const inp = document.getElementById('bayIn');
     if (inp) inp.addEventListener('input', () => {
       state.bayText = inp.value;
-      const r = BAY.spell(inp.value);
+      const r = spellIn(state.qid, inp.value), note = document.getElementById('bayNote');
       document.getElementById('bayOut').textContent = r.text || ' ';
       document.getElementById('bayParts').innerHTML = r.parts.map(p => `<span>${esc(p)}</span>`).join('');
+      if (note) note.textContent = r.note || '';
     });
   }
 
@@ -670,24 +854,25 @@
     const d = b.dataset, r = state.run;
     if (d.course) return go('course', { cid: d.course });
     if (d.home != null) return go('home');
-    if (d.bayOpen != null) return go('bay');
+    if (d.quest) return go('quest', { qid: d.quest, bayTab: 'learn', bayText: d.quest === 'bay' ? 'Tatay' : 'Javan' });
+    if (d.sayQ) return speak(d.sayQ, COURSES[QUESTS[state.qid].course]);
     if (d.check != null) return go('check');
     if (d.tab) { state.bayTab = d.tab; return render(); }
     if (d.bayWord) { state.bayText = d.bayWord; return render(); }
     if (d.say) return speak(d.say, TL);
     if (d.copy != null) {
-      const text = BAY.spell(state.bayText).text;
+      const text = spellIn(state.qid, state.bayText).text;
       const done = () => { b.textContent = 'Copied! Paste it in a message.'; };
       try { navigator.clipboard.writeText(text).then(done, () => {}); } catch (err) { /* no clipboard */ }
       return;
     }
-    if (d.lesson) return start(state.run && state.view === 'done' && state.run.cid !== 'bay' ? state.run.cid : state.cid, d.lesson);
-    if (d.lessonBay) return start('bay', d.lessonBay);
+    if (d.lesson) return start(state.run && state.view === 'done' && !QUESTS[state.run.cid] ? state.run.cid : state.cid, d.lesson);
+    if (d.lessonQuest) return start(state.run && state.view === 'done' && QUESTS[state.run.cid] ? state.run.cid : state.qid, d.lessonQuest);
     if (d.quit != null || d.backDone != null) {
       hush();
-      const bay = r && r.cid === 'bay';
+      const quest = r && QUESTS[r.cid];
       state.run = null;
-      return go(bay ? 'bay' : 'course');
+      return go(quest ? 'quest' : 'course');
     }
     if (d.speak) return speak(d.speak, runCourse(r));
     if (state.view !== 'lesson' || !r) return;
@@ -701,7 +886,7 @@
     if (d.show != null) { r.shown = true; speak(st.t, runCourse(r)); return render(); }
     if (d.self && !r.checked) { r.picked = d.self; check(); return render(); }
     if (r.checked) return;
-    if (d.pick != null) { r.picked = d.pick; if (st.type === 'scene') speak(d.pick, runCourse(r)); }
+    if (d.pick != null) { r.picked = d.pick; if (st.type === 'scene' || st.type === 'pick') speak(d.pick, runCourse(r)); }
     if (d.left != null) r.sel = d.left;
     if (d.right != null && r.sel != null) {
       const pair = st.pairs.find(p => p[0] === r.sel);

@@ -6313,7 +6313,7 @@ const TreasureUp = (function () {
     let amigo = {};
     try { amigo = JSON.parse(localStorage.getItem('amigo.v1')) || {}; } catch (e) { /* storage blocked */ }
     const lessonsDone = Object.values(amigo.courses || {}).reduce((n, c) => n + Object.keys(c.done || {}).length, 0);
-    const language = gameRow('amigo', '🌎', 'Amigo · Kaibigan', 'Spanish for friends at school and Tagalog from Tatay: five-minute lessons, a streak, and Baybayin, the old Filipino script.',
+    const language = gameRow('amigo', '🌎', 'Wika', 'Wika is Tagalog for “language”: Spanish for friends at school, Tagalog from Tatay, and the treasure words in Hebrew and Greek. Five-minute lessons, a streak, and the letters: Baybayin, the alef-bet and Greek.',
       lessonsDone ? lessonsDone + (lessonsDone > 1 ? ' lessons' : ' lesson') + ' done · its own XP, apart from Treasure Up’s' : 'Five minutes a day · its own XP, apart from Treasure Up’s', false);
     const arcade = gameRow('snake', '🐍', 'Wilderness Snake', 'Arcade Snake in the camp of Israel: gather manna, and eat the jar with the right answer to this week’s questions. 1 player, or 2 on one screen.', arcadeStatus('snake'), false)
       + gameRow('ammon', '⚔️', 'Ammon at Sebus', 'Robbers come to scatter king Lamoni’s flock at the waters of Sebus (Alma 17). Stand against them with your sword and sling, and gather the sheep back. A question from this week after each level.', arcadeStatus('ammon'), false)
