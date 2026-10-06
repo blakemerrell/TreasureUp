@@ -7950,7 +7950,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#422006 0%,#a16207 50%,#fef08a 115%)",
         "blobA": "rgba(254,240,138,.4)",
         "blobB": "rgba(0,0,0,.45)",
-        "approved": "bbba73e9"
+        "approved": "f3bdcc02",
+        "media": {
+          "image": {
+            "src": "media/scroll-jar-louvre.jpg",
+            "alt": "A tall clay jar with a round lid, the kind of jar that kept ancient scrolls safe for hundreds of years",
+            "credit": "A Dead Sea Scroll jar from Qumran, Louvre Museum, Paris. Photo: Tangopaso, public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Jarre_%C3%A0_manuscrit_de_la_mer_Morte_(Louvre,_AO_31164).jpg"
+          }
+        }
       },
       {
         "id": "jer33-branch",
@@ -7985,7 +7993,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#14532d 0%,#4d7c0f 50%,#d9f99d 115%)",
         "blobA": "rgba(217,249,157,.4)",
         "blobB": "rgba(0,0,0,.4)",
-        "approved": "e0eae842"
+        "approved": "dd183e69",
+        "media": {
+          "image": {
+            "src": "media/divine-redeemer-dewey.jpg",
+            "alt": "Painting of Jesus Christ with a red cloth over His shoulder, looking calmly into the distance",
+            "credit": "Divine Redeemer, by Simon Dewey",
+            "link": "https://www.churchofjesuschrist.org/media/image/redeemer-art-lds-3e6c301?lang=eng"
+          }
+        }
       },
       {
         "id": "jer31-new-covenant",
@@ -8019,7 +8035,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#7f1d1d 0%,#be123c 50%,#fecdd3 115%)",
         "blobA": "rgba(254,205,211,.4)",
         "blobB": "rgba(0,0,0,.4)",
-        "approved": "aa727a33"
+        "approved": "113082b5",
+        "media": {
+          "image": {
+            "src": "media/moses-tablets-harston.jpg",
+            "alt": "Painting of Moses with a long white beard and a staff, holding a stone tablet carved with writing, in front of rugged mountains",
+            "credit": "Moses and the Tablets, by Jerry Harston",
+            "link": "https://www.churchofjesuschrist.org/media/image/moses-ten-commandments-1717b4a?lang=eng"
+          }
+        }
       },
       {
         "id": "jer32-everlasting",
@@ -8054,7 +8078,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#1e3a8a 0%,#2563eb 50%,#bfdbfe 115%)",
         "blobA": "rgba(191,219,254,.4)",
         "blobB": "rgba(0,0,0,.4)",
-        "approved": "c75460ff"
+        "approved": "3fcc9c84",
+        "media": {
+          "image": {
+            "src": "media/passing-sacrament-chapel.jpg",
+            "alt": "A family on a chapel pew taking the sacrament, as a hand in a white sleeve holds out a tray of small water cups",
+            "credit": "Passing the Sacrament, from the Church Media Library",
+            "link": "https://www.churchofjesuschrist.org/media/image/sacrament-meetings-9a9227a?lang=eng"
+          }
+        }
       },
       {
         "id": "jer36-scroll",
@@ -8088,7 +8120,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#3b2410 0%,#92400e 50%,#fed7aa 115%)",
         "blobA": "rgba(254,215,170,.4)",
         "blobB": "rgba(0,0,0,.45)",
-        "approved": "5168e1bf"
+        "approved": "c4ae538f",
+        "media": {
+          "image": {
+            "src": "media/baruch-scroll-dore.jpg",
+            "alt": "Engraving of the prophet Jeremiah standing in a beam of light while his helper Baruch kneels beside him, writing down his words",
+            "credit": "Baruch Writes Jeremiah’s Prophecies, by Gustave Doré, 1866. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:123.Baruch_Writes_Jeremiah%27s_Prophecies.jpg"
+          }
+        }
       },
       {
         "id": "jer36-penknife",
@@ -8123,7 +8163,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(155deg,#1c0a00 0%,#9a3412 50%,#fb923c 115%)",
         "blobA": "rgba(251,146,60,.4)",
         "blobB": "rgba(0,0,0,.5)",
-        "approved": "8840d7c5"
+        "approved": "4efdced7",
+        "media": {
+          "image": {
+            "src": "media/jehoiakim-scroll-luyken.jpg",
+            "alt": "Old etching of King Jehoiakim on his throne holding Jeremiah’s scroll over a fire, while his princes and servants look on",
+            "credit": "King Jehoiakim Burns Jeremiah’s Scroll, by Jan Luyken, 1708. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Koning_Jojakim_verbrandt_de_boekrol_van_Jeremia,_RP-P-OB-45.382.jpg"
+          }
+        }
       },
       {
         "id": "jer37-secretly",
@@ -8159,7 +8207,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#0f172a 0%,#334155 50%,#cbd5e1 115%)",
         "blobA": "rgba(203,213,225,.35)",
         "blobB": "rgba(0,0,0,.5)",
-        "approved": "89dfde62"
+        "approved": "5d82ec3c",
+        "media": {
+          "image": {
+            "src": "media/jeremiah-warns-king-engraving.jpg",
+            "alt": "Old engraving of the prophet Jeremiah pointing as he warns a king, who sits on his throne with his head bowed",
+            "credit": "Jeremiah Tells the King That Jerusalem Shall Be Taken, from The Story of the Bible from Genesis to Revelation, 1873. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Jeremiah_tells_the_king_that_Jerusalem_shall_be_taken.jpg"
+          }
+        }
       },
       {
         "id": "jer38-obey",
@@ -8194,7 +8250,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#1e1b4b 0%,#4338ca 50%,#c7d2fe 115%)",
         "blobA": "rgba(199,210,254,.4)",
         "blobB": "rgba(0,0,0,.45)",
-        "approved": "24d7fe0d"
+        "approved": "09ab4ce9",
+        "media": {
+          "image": {
+            "src": "media/flight-of-prisoners-tissot.jpg",
+            "alt": "Painting of a long line of captives carrying bundles away from a smoking walled city, watched by soldiers with spears",
+            "credit": "The Flight of the Prisoners, by James Tissot, about 1896–1902. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Tissot_The_Flight_of_the_Prisoners.jpg"
+          }
+        }
       },
       {
         "id": "jer38-ebed-melech",
@@ -9080,6 +9144,22 @@ window.TU_WEEKS = [
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2024/10/12andersen?lang=eng"
         },
         "approved": "f1f9f9c9"
+      },
+      {
+        "id": "jer31-v-central",
+        "kind": "video",
+        "ref": "Jeremiah 31",
+        "title": "Hope in Despair (Scripture Central)",
+        "text": "A five-minute video from Scripture Central. Casey Griffiths talks about the burden Jeremiah carried, the new covenant the Lord promised in Jeremiah 31, and the last days. Watch for what makes the covenant new, then compare it with verse 33.",
+        "video": {
+          "youtube": "H5sVRsyafJk",
+          "start": 0,
+          "end": 327,
+          "title": "Hope in Despair (Come, Follow Me: Jeremiah 30-36, Lamentations)",
+          "channel": "Scripture Central",
+          "previewed": false
+        },
+        "approved": "907919bb"
       }
     ],
     "plain": [
@@ -10091,7 +10171,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#1e1b4b 0%,#4338ca 50%,#fde68a 115%)",
         "blobA": "rgba(253,230,138,.4)",
         "blobB": "rgba(0,0,0,.45)",
-        "approved": "a827bde4"
+        "approved": "522cdd0c",
+        "media": {
+          "image": {
+            "src": "media/ezekiel-glory-padgett.jpg",
+            "alt": "Drawing of the prophet Ezekiel kneeling on the ground in a wide beam of bright golden light, looking up in awe",
+            "credit": "Bible illustration of Ezekiel, by Jim Padgett, 1984, courtesy of Sweet Publishing. CC BY-SA 3.0",
+            "link": "https://commons.wikimedia.org/wiki/File:Book_of_Ezekiel_Chapter_1-4_(Bible_Illustrations_by_Sweet_Media).jpg"
+          }
+        }
       },
       {
         "id": "ezk3-scroll",
@@ -10125,7 +10213,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#451a03 0%,#b45309 50%,#fde68a 115%)",
         "blobA": "rgba(253,230,138,.4)",
         "blobB": "rgba(0,0,0,.45)",
-        "approved": "4eccae6f"
+        "approved": "a3ef109e",
+        "media": {
+          "image": {
+            "src": "media/scroll-and-oil-lamp.jpg",
+            "alt": "Photo of an old scroll on two wooden rollers, opened to show lines of handwriting, on a wooden beam beside an old oil lamp",
+            "credit": "Scroll, from the Church Media Library",
+            "link": "https://www.churchofjesuschrist.org/media/image/parchment-scroll-lamps-56e52e4?lang=eng"
+          }
+        }
       },
       {
         "id": "ezk3-watchman",
@@ -10160,7 +10256,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(155deg,#0f172a 0%,#334155 50%,#fbbf24 115%)",
         "blobA": "rgba(251,191,36,.4)",
         "blobB": "rgba(0,0,0,.5)",
-        "approved": "a3eac276"
+        "approved": "d1f0021c",
+        "media": {
+          "image": {
+            "src": "media/watchman-tower-nazareth.jpg",
+            "alt": "Photo of a man in a robe standing watch in a round stone tower with a shady roof of poles and reeds, looking out over green hills",
+            "credit": "Watchman on a Tower, from the Church Media Library",
+            "link": "https://www.churchofjesuschrist.org/media/image/nazareth-watchtower-f88e9f6?lang=eng"
+          }
+        }
       },
       {
         "id": "ezk34-shepherd",
@@ -10280,7 +10384,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0284c7 50%,#e0f2fe 115%)",
         "blobA": "rgba(224,242,254,.4)",
         "blobB": "rgba(0,0,0,.4)",
-        "approved": "89263a65"
+        "approved": "4b9ad599",
+        "media": {
+          "image": {
+            "src": "media/prodigal-son-price.jpg",
+            "alt": "Painting of a father hugging his ragged, barefoot son tight on the road home, with golden fields and a farmhouse behind them",
+            "credit": "The Prodigal Son, by Clark Kelley Price",
+            "link": "https://www.churchofjesuschrist.org/media/image/prodigal-son-a2bbb57?lang=eng"
+          }
+        }
       },
       {
         "id": "ezk36-new-heart",
@@ -10315,7 +10427,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#7f1d1d 0%,#dc2626 50%,#fecaca 115%)",
         "blobA": "rgba(254,202,202,.4)",
         "blobB": "rgba(0,0,0,.45)",
-        "approved": "fb148ed4"
+        "approved": "3c90c63e",
+        "media": {
+          "image": {
+            "src": "media/heart-shaped-stone.jpg",
+            "alt": "A smooth gray stone shaped like a heart, lying among other pale rocks and pebbles",
+            "credit": "Heart-shaped stone, photo by Sylda31, CC BY-SA 3.0",
+            "link": "https://commons.wikimedia.org/wiki/File:Heart-shaped_stone.JPG"
+          }
+        }
       },
       {
         "id": "ezk37-dry-bones",
@@ -10351,7 +10471,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(160deg,#1c1917 0%,#78716c 50%,#f5f5f4 115%)",
         "blobA": "rgba(245,245,244,.35)",
         "blobB": "rgba(0,0,0,.5)",
-        "approved": "b445ad3c"
+        "approved": "29cad402",
+        "media": {
+          "image": {
+            "src": "media/dry-bones-army-padgett.jpg",
+            "alt": "Drawing of the prophet Ezekiel raising his arms as a great army of men in gold helmets gets up off the ground and stands on their feet",
+            "credit": "Bible illustration of Ezekiel 37, by Jim Padgett, 1984, courtesy of Sweet Publishing. CC BY-SA 3.0",
+            "link": "https://commons.wikimedia.org/wiki/File:Book_of_Ezekiel_Chapter_37-4_(Bible_Illustrations_by_Sweet_Media).jpg"
+          }
+        }
       },
       {
         "id": "ezk37-two-sticks",
@@ -10385,7 +10513,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#422006 0%,#a16207 50%,#fef3c7 115%)",
         "blobA": "rgba(254,243,199,.4)",
         "blobB": "rgba(0,0,0,.45)",
-        "approved": "39f8b468"
+        "approved": "b8e31540",
+        "media": {
+          "image": {
+            "src": "media/ezekiel-two-sticks-beddes.jpg",
+            "alt": "Painting of the prophet Ezekiel with a long white beard holding a big scroll in each hand, with a map of the world, a Bible and gold plates behind him",
+            "credit": "The Prophet Ezekiel, by Lyle Beddes",
+            "link": "https://www.churchofjesuschrist.org/media/image/the-prophet-ezekiel-scrolls-beddes-f127ed6?lang=eng"
+          }
+        }
       },
       {
         "id": "ezk47-deeper",
@@ -11157,6 +11293,22 @@ window.TU_WEEKS = [
         },
         "find": "Look to the temple when you’re looking for that hope.",
         "approved": "12585981"
+      },
+      {
+        "id": "ezk33-v-latterdaykids",
+        "kind": "video",
+        "ref": "Ezekiel 33",
+        "title": "The Snail and the Watchtower (Latter Day Kids)",
+        "text": "A seven-minute animated parable from Latter Day Kids about snails and a watchtower. Watch for who can see the danger coming first, then compare it with the watchman in Ezekiel 33:2–6.",
+        "video": {
+          "youtube": "bxo3ndWiCXI",
+          "start": 0,
+          "end": 403,
+          "title": "The Snail and the Watchtower | Animated Scripture Lesson for Kids",
+          "channel": "Latter Day Kids",
+          "previewed": false
+        },
+        "approved": "b9e82828"
       }
     ],
     "plain": [
@@ -12129,7 +12281,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#1e1b4b 0%,#4338ca 50%,#c7d2fe 115%)",
         "blobA": "rgba(199,210,254,.4)",
         "blobB": "rgba(0,0,0,.45)",
-        "approved": "18ca3653"
+        "approved": "ddb75e1c",
+        "media": {
+          "image": {
+            "src": "media/daniel-friends-studying-babylon.jpg",
+            "alt": "Illustration of the king, seen from behind, watching young Daniel and his friends study in a palace courtyard, one writing with a quill pen while another holds a scroll",
+            "credit": "Old Testament Stories: Daniel and His Friends, from the Church Media Library",
+            "link": "https://www.churchofjesuschrist.org/media/image/old-testament-stories-daniel-and-his-friends-6-b5670bb?lang=eng"
+          }
+        }
       },
       {
         "id": "dan2-night-vision",
@@ -12207,7 +12367,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#3b0764 0%,#7e22ce 50%,#f0abfc 115%)",
         "blobA": "rgba(240,171,252,.35)",
         "blobB": "rgba(0,0,0,.5)",
-        "approved": "2b074897"
+        "approved": "8ee2891e",
+        "media": {
+          "image": {
+            "src": "media/daniel-interprets-dream-clawson.jpg",
+            "alt": "Painting of young Daniel in white, kneeling before King Nebuchadnezzar on his throne and telling him his dream, as the dream’s great metal statue glows beside the king",
+            "credit": "Daniel Interprets Nebuchadnezzar’s Dream, by Grant Romney Clawson",
+            "link": "https://www.churchofjesuschrist.org/media/image/daniel-interprets-dream-834d6fd?lang=eng"
+          }
+        }
       },
       {
         "id": "dan2-stone",
@@ -12298,7 +12466,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(155deg,#1c0a00 0%,#9a3412 50%,#fdba74 115%)",
         "blobA": "rgba(253,186,116,.4)",
         "blobB": "rgba(0,0,0,.5)",
-        "approved": "4f5ea1a1"
+        "approved": "cd94860f",
+        "media": {
+          "image": {
+            "src": "media/golden-image-luyken.jpg",
+            "alt": "Old etching of crowds kneeling before King Nebuchadnezzar’s tall statue as a horn blows, while three men in long robes stand upright at the left",
+            "credit": "The Idol of Nebuchadnezzar, by Jan Luyken, 1698. Public domain",
+            "link": "https://commons.wikimedia.org/wiki/File:Het_afgodsbeeld_van_Nebukadnezar,_RP-P-OB-44.699.jpg"
+          }
+        }
       },
       {
         "id": "dan3-fourth-man",
@@ -12518,7 +12694,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(165deg,#0f172a 0%,#334155 50%,#f1f5f9 115%)",
         "blobA": "rgba(241,245,249,.4)",
         "blobB": "rgba(0,0,0,.45)",
-        "approved": "2e2d2332"
+        "approved": "077870f4",
+        "media": {
+          "image": {
+            "src": "media/second-coming-anderson.jpg",
+            "alt": "Painting of Jesus Christ in a white robe and red sash coming down through the clouds with His arms open, as angels on each side blow trumpets",
+            "credit": "The Second Coming, by Harry Anderson",
+            "link": "https://www.churchofjesuschrist.org/media/image/the-second-coming-a824e2d?lang=eng"
+          }
+        }
       },
       {
         "id": "dan7-ancient-of-days",
@@ -12553,7 +12737,15 @@ window.TU_WEEKS = [
         "gradient": "linear-gradient(150deg,#422006 0%,#a16207 50%,#fef9c3 115%)",
         "blobA": "rgba(254,249,195,.4)",
         "blobB": "rgba(0,0,0,.45)",
-        "approved": "a9c0d694"
+        "approved": "4c5019ab",
+        "media": {
+          "image": {
+            "src": "media/adam-ondi-ahman-missouri.jpg",
+            "alt": "A green valley of fields and woods at Adam-ondi-Ahman, Missouri, seen from a grassy hill under a shady tree",
+            "credit": "Looking over Adam-ondi-Ahman, from the Church Media Library",
+            "link": "https://www.churchofjesuschrist.org/media/image/adam-ondi-ahman-valley-53de60e?lang=eng"
+          }
+        }
       }
     ],
     "tldr": [

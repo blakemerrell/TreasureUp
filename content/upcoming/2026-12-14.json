@@ -389,7 +389,15 @@
       "gradient": "linear-gradient(150deg,#4c0519 0%,#be123c 50%,#fecdd3 115%)",
       "blobA": "rgba(254,205,211,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "9a59be81"
+      "approved": "12701748",
+      "media": {
+        "image": {
+          "src": "media/jacob-blessing-sons-anderson.jpg",
+          "alt": "Painting of old Jacob in white robes laying his hand on his son Joseph’s head to bless him, while his other sons gather around",
+          "credit": "Jacob Blessing His Sons, by Harry Anderson",
+          "link": "https://www.churchofjesuschrist.org/media/image/jacob-blessing-his-sons-d2e59a7?lang=eng"
+        }
+      }
     },
     {
       "id": "mal3-return",
@@ -424,7 +432,15 @@
       "gradient": "linear-gradient(150deg,#1e1b4b 0%,#4338ca 50%,#c7d2fe 115%)",
       "blobA": "rgba(199,210,254,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "f87a917c"
+      "approved": "65d5e34f",
+      "media": {
+        "image": {
+          "src": "media/prodigal-son-rembrandt.jpg",
+          "alt": "Painting of a ragged, barefoot son kneeling with his head against his old father’s chest, as the father in a red cloak lays both hands on his back",
+          "credit": "The Return of the Prodigal Son (detail), by Rembrandt, about 1668. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Rembrandt_Harmensz_van_Rijn_-_Return_of_the_Prodigal_Son_-_Google_Art_Project.jpg"
+        }
+      }
     },
     {
       "id": "mal3-remembrance",
@@ -458,7 +474,15 @@
       "gradient": "linear-gradient(150deg,#422006 0%,#a16207 50%,#fef08a 115%)",
       "blobA": "rgba(254,240,138,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "5576bab6"
+      "approved": "e8d73f03",
+      "media": {
+        "image": {
+          "src": "media/ezra-scribe-amiatinus.jpg",
+          "alt": "Old painting of a white-bearded scribe on a stool writing in a big book, beside an open cupboard full of red books",
+          "credit": "Ezra the scribe, from the Codex Amiatinus (folio 5r), photo by Gennadii Saus i Segura, CC BY-SA 4.0",
+          "link": "https://commons.wikimedia.org/wiki/File:Codex_Amiantinus._Firenze,_Biblioteca_Medicea_Laurenziana,_Amiat.1,_fol._5r.jpg"
+        }
+      }
     },
     {
       "id": "mal4-sun",
@@ -662,7 +686,15 @@
       "gradient": "linear-gradient(150deg,#064e3b 0%,#047857 50%,#a7f3d0 115%)",
       "blobA": "rgba(167,243,208,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "d90d57fb"
+      "approved": "07495845",
+      "media": {
+        "image": {
+          "src": "media/tithing-bunderson.jpg",
+          "alt": "Photo of a smiling girl in a red dress handing a tithing envelope to her bishop, while her parents, holding a baby, look on",
+          "credit": "Payment of Tithing, by Steve Bunderson",
+          "link": "https://www.churchofjesuschrist.org/media/image/tithing-lds-25a7f90?lang=eng"
+        }
+      }
     },
     {
       "id": "mal3-windows",
@@ -696,7 +728,15 @@
       "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0284c7 50%,#e0f2fe 115%)",
       "blobA": "rgba(224,242,254,.4)",
       "blobB": "rgba(0,0,0,.4)",
-      "approved": "f0daffae"
+      "approved": "0b5e989b",
+      "media": {
+        "image": {
+          "src": "media/sunbeams-iceberg-notch.jpg",
+          "alt": "Bright beams of sunlight pouring down through the sky onto tall, rugged mountains and a forested ridge",
+          "credit": "Crepuscular Rays over Iceberg Notch, Glacier National Park. Photo: NPS / Jacob W. Frank, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Crepuscular_Rays_Over_Iceberg_Notch_(28920700955).jpg"
+        }
+      }
     },
     {
       "id": "mal4-elijah",
@@ -815,7 +855,15 @@
       "gradient": "linear-gradient(150deg,#14532d 0%,#3f6212 50%,#d9f99d 115%)",
       "blobA": "rgba(217,249,157,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "cb3da4a4"
+      "approved": "729d25c9",
+      "media": {
+        "image": {
+          "src": "media/pine-roots-bryce-canyon.jpg",
+          "alt": "A lone pine tree on the edge of a red rock cliff, its long roots spread across the ground and its branches reaching up, with a young tree growing below",
+          "credit": "Bristlecone pine, Bryce Canyon, Utah, photo by inkknife_2000, CC BY-SA 2.0",
+          "link": "https://commons.wikimedia.org/wiki/File:Bristlecone,_BryceCanyon,_UT_9-09_(33167824886).jpg"
+        }
+      }
     }
   ],
   "tldr": [

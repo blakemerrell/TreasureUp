@@ -407,7 +407,15 @@
       "gradient": "linear-gradient(150deg,#1e1b4b 0%,#4338ca 50%,#c7d2fe 115%)",
       "blobA": "rgba(199,210,254,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "53c05844"
+      "approved": "b7a11bca",
+      "media": {
+        "image": {
+          "src": "media/amos-prophet-dore.jpg",
+          "alt": "Engraving of the prophet Amos in a long cloak and head covering, leaning on a staff on a hilltop as he looks down at a city",
+          "credit": "The Prophet Amos, by Gustave Doré, 1866. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:136.The_Prophet_Amos.jpg"
+        }
+      }
     },
     {
       "id": "amos7-herdman",
@@ -442,7 +450,15 @@
       "gradient": "linear-gradient(150deg,#1a2e05 0%,#4d7c0f 50%,#d9f99d 115%)",
       "blobA": "rgba(217,249,157,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "e5ce0667"
+      "approved": "9d47993b",
+      "media": {
+        "image": {
+          "src": "media/amos-herdman-tissot.jpg",
+          "alt": "Painting of the prophet Amos as a barefoot herdsman in a striped robe, holding a long staff and pointing ahead, with his white dog beside him",
+          "credit": "Amos, by James Tissot, about 1896–1902. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Tissot_Amos.jpg"
+        }
+      }
     },
     {
       "id": "amos4-returned",
@@ -478,7 +494,15 @@
       "gradient": "linear-gradient(150deg,#292524 0%,#a16207 50%,#fde68a 115%)",
       "blobA": "rgba(253,230,138,.4)",
       "blobB": "rgba(0,0,0,.5)",
-      "approved": "fb55bf74"
+      "approved": "249a48e6",
+      "media": {
+        "image": {
+          "src": "media/drought-soybeans-texas.jpg",
+          "alt": "Rows of wilting, yellowing bean plants in a farm field where the dry ground has cracked into pieces from drought",
+          "credit": "Soybeans hurt by drought near Navasota, Texas, 2013. Photo: Bob Nichols, USDA, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:20130821-OC-RBN-2783_(9682290440).jpg"
+        }
+      }
     },
     {
       "id": "amos5-seek",
@@ -514,7 +538,15 @@
       "gradient": "linear-gradient(160deg,#0f172a 0%,#1e3a8a 55%,#bfdbfe 115%)",
       "blobA": "rgba(191,219,254,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "3d75af2a"
+      "approved": "b9ed6299",
+      "media": {
+        "image": {
+          "src": "media/christs-image-hofmann.jpg",
+          "alt": "Painting of Jesus Christ in a white robe, looking straight out at you, with soft golden light all around His head",
+          "credit": "Christ’s Image, by Heinrich Hofmann",
+          "link": "https://www.churchofjesuschrist.org/media/image/portrait-jesus-christ-heinrich-hofmann-29decdc?lang=eng"
+        }
+      }
     },
     {
       "id": "amos8-famine",
@@ -591,7 +623,15 @@
       "gradient": "linear-gradient(150deg,#3f2a14 0%,#a16207 50%,#fef9c3 115%)",
       "blobA": "rgba(254,249,195,.4)",
       "blobB": "rgba(0,0,0,.5)",
-      "approved": "69a7ae03"
+      "approved": "c187997f",
+      "media": {
+        "image": {
+          "src": "media/sifting-grain-matson.jpg",
+          "alt": "Old black-and-white photo of a woman holding up a round sieve as grain pours down onto a big pile, with other workers behind her",
+          "credit": "A peasant woman sifting grain. Photo: Matson Collection, Library of Congress, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Peasant_woman_sifting_the_grain_LOC_matpc.00936.jpg"
+        }
+      }
     },
     {
       "id": "obad1-saviours",
@@ -711,7 +751,23 @@
       "gradient": "linear-gradient(160deg,#020617 0%,#1e3a5f 50%,#94a3b8 115%)",
       "blobA": "rgba(148,163,184,.4)",
       "blobB": "rgba(0,0,0,.5)",
-      "approved": "3ccf1df1"
+      "approved": "ef4bd0e5",
+      "media": {
+        "image": {
+          "src": "media/sailing-ship-jaffa.jpg",
+          "alt": "Old black-and-white photo of a wooden sailing boat with two slanting sails heading out to sea past dark rocks at Jaffa",
+          "credit": "A sailing boat among the rocks at Jaffa (Joppa). Photo: Matson Collection, Library of Congress, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Jaffa_(Joppa)_and_environs._Sailing_vessel_among_the_rocks_LOC_matpc.06518.jpg"
+        },
+        "video": {
+          "youtube": "vV_yB8_RiFA",
+          "start": 0,
+          "end": 150,
+          "title": "Jonah the Prophet | Old Testament Stories for Kids",
+          "channel": "Gospel For Kids",
+          "previewed": false
+        }
+      }
     },
     {
       "id": "jonah2-fish",
@@ -746,7 +802,15 @@
       "gradient": "linear-gradient(170deg,#022c22 0%,#0f766e 50%,#99f6e4 115%)",
       "blobA": "rgba(153,246,228,.4)",
       "blobB": "rgba(0,0,0,.5)",
-      "approved": "4b2a0372"
+      "approved": "e72f25ae",
+      "media": {
+        "image": {
+          "src": "media/jonah-beach-lewis.jpg",
+          "alt": "Painting of Jonah, soaking wet in his robe, crawling out of the waves onto a beach while a whale’s fin rises from the sea behind him",
+          "credit": "Jonah on the Beach at Nineveh, by Daniel A. Lewis",
+          "link": "https://www.churchofjesuschrist.org/media/image/jonah-nineveh-beach-4a9024e?lang=eng"
+        }
+      }
     },
     {
       "id": "jonah3-nineveh",
@@ -781,7 +845,15 @@
       "gradient": "linear-gradient(150deg,#2e1065 0%,#7e22ce 50%,#e9d5ff 115%)",
       "blobA": "rgba(233,213,255,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "60b2674c"
+      "approved": "34cc4075",
+      "media": {
+        "image": {
+          "src": "media/jonah-nineveh-dore.jpg",
+          "alt": "Engraving of Jonah in a long robe, arms spread wide, preaching from a stone step while the people of Nineveh kneel and bow their heads in sorrow",
+          "credit": "Jonah Preaches to the Ninevites, by Gustave Doré, 1866. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:138.Jonah_Preaches_to_the_Ninevites.jpg"
+        }
+      }
     },
     {
       "id": "jonah4-gourd",
@@ -816,7 +888,15 @@
       "gradient": "linear-gradient(150deg,#14532d 0%,#65a30d 50%,#fef08a 115%)",
       "blobA": "rgba(254,240,138,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "e06eabf6"
+      "approved": "9047ea75",
+      "media": {
+        "image": {
+          "src": "media/jonah-gourd-luyken.jpg",
+          "alt": "Engraving of Jonah sitting on a rock under a leafy vine hung with big gourds, looking up to heaven, with the city of Nineveh in the distance",
+          "credit": "Jonah Sits Under the Gourd Near Nineveh, by Caspar Luyken, 1708. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Jona_zit_onder_de_wonderboom_in_de_buurt_van_Nineve,_RP-P-OB-45.390.jpg"
+        }
+      }
     }
   ],
   "tldr": [

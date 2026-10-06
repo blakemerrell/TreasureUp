@@ -463,7 +463,15 @@
       "gradient": "linear-gradient(150deg,#422006 0%,#a16207 50%,#fde68a 115%)",
       "blobA": "rgba(253,230,138,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "9b878158"
+      "approved": "35fd14d2",
+      "media": {
+        "image": {
+          "src": "media/sheep-flock-yodfat.jpg",
+          "alt": "A flock of white and brown sheep grazing together on a green hillside in Israel, with wooded hills behind",
+          "credit": "Sheep grazing at Tel Yodfat, Israel, photo by Noa Steiner, Pikiwiki Israel, CC BY 2.5",
+          "link": "https://commons.wikimedia.org/wiki/File:PikiWiki_Israel_35745_Sheep_grazing.JPG"
+        }
+      }
     },
     {
       "id": "nah1-stronghold",
@@ -498,7 +506,15 @@
       "gradient": "linear-gradient(155deg,#1c1917 0%,#57534e 50%,#e7e5e4 115%)",
       "blobA": "rgba(231,229,228,.35)",
       "blobB": "rgba(0,0,0,.5)",
-      "approved": "5ed2a6aa"
+      "approved": "a179f8d8",
+      "media": {
+        "image": {
+          "src": "media/fortress-masada.jpg",
+          "alt": "Aerial photo of Masada, an ancient fortress with stone walls on top of a steep desert cliff, with the Dead Sea far behind",
+          "credit": "Masada, a desert fortress above the Dead Sea, photo by Andrew Shiva / Wikipedia, CC BY-SA 4.0",
+          "link": "https://commons.wikimedia.org/wiki/File:Israel-2013-Aerial_21-Masada.jpg"
+        }
+      }
     },
     {
       "id": "mic7-depths",
@@ -533,7 +549,15 @@
       "gradient": "linear-gradient(165deg,#0c1e3e 0%,#1e40af 55%,#93c5fd 115%)",
       "blobA": "rgba(147,197,253,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "d5b79588"
+      "approved": "7c8c08d3",
+      "media": {
+        "image": {
+          "src": "media/ocean-wave-sullivan.jpg",
+          "alt": "A wave curling into white spray on the deep blue open sea, with nothing but water out to the horizon",
+          "credit": "Ocean waves, photo by Jon Sullivan, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Ocean_waves_water.jpg"
+        }
+      }
     },
     {
       "id": "hab1-how-long",
@@ -611,7 +635,15 @@
       "gradient": "linear-gradient(150deg,#3b0764 0%,#7e22ce 50%,#e9d5ff 115%)",
       "blobA": "rgba(233,213,255,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "cbee2a21"
+      "approved": "c374fa5e",
+      "media": {
+        "image": {
+          "src": "media/habakkuk-window-wadham.jpg",
+          "alt": "Stained-glass window of the prophet Habakkuk in a purple and blue robe, looking up toward heaven, with a city and blue hills behind him",
+          "credit": "The prophet Habakkuk, stained-glass window in Wadham College Chapel, Oxford, photo by Medarduss, CC BY-SA 4.0",
+          "link": "https://commons.wikimedia.org/wiki/File:Wadham_Chapel_Habakkuk.jpg"
+        }
+      }
     },
     {
       "id": "hab3-rejoice",
@@ -646,7 +678,15 @@
       "gradient": "linear-gradient(150deg,#7c2d12 0%,#ea580c 50%,#fed7aa 115%)",
       "blobA": "rgba(254,215,170,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "d257ea6a"
+      "approved": "1053bf8a",
+      "media": {
+        "image": {
+          "src": "media/drought-corn-texas.jpg",
+          "alt": "Dried-up brown corn plants standing in a field of cracked, dusty ground after a drought, under a cloudy blue sky",
+          "credit": "Corn dried up by drought in Texas, 2013. Photo: Bob Nichols, USDA, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Corn_shows_the_effect_of_drought.jpg"
+        }
+      }
     },
     {
       "id": "mic5-bethlehem",
@@ -681,7 +721,15 @@
       "gradient": "linear-gradient(160deg,#0b1026 0%,#312e81 55%,#fde68a 115%)",
       "blobA": "rgba(253,230,138,.4)",
       "blobB": "rgba(0,0,0,.5)",
-      "approved": "b437a41a"
+      "approved": "bdd63f3d",
+      "media": {
+        "image": {
+          "src": "media/bethlehem-town-matson.jpg",
+          "alt": "Old black-and-white photo of the little town of Bethlehem, its stone houses spread along a hilltop behind a twisted old tree",
+          "credit": "General view of Bethlehem. Photo: Matson Collection, Library of Congress, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:General_view_of_Bethlehem_LOC_matpc.12198.jpg"
+        }
+      }
     },
     {
       "id": "zeph2-seek",
@@ -716,7 +764,15 @@
       "gradient": "linear-gradient(150deg,#134e4a 0%,#0f766e 50%,#99f6e4 115%)",
       "blobA": "rgba(153,246,228,.4)",
       "blobB": "rgba(0,0,0,.4)",
-      "approved": "d002ee9d"
+      "approved": "896acbe6",
+      "media": {
+        "image": {
+          "src": "media/sermon-on-the-mount-hillside.jpg",
+          "alt": "Jesus Christ sitting in the dry grass on a hillside above the sea, teaching a group of people seated around Him",
+          "credit": "Sermon on the Mount, from the Church Media Library",
+          "link": "https://www.churchofjesuschrist.org/media/image/bible-pictures-sermon-on-the-mount-91e8c2a?lang=eng"
+        }
+      }
     },
     {
       "id": "zeph1-candles",
@@ -751,7 +807,15 @@
       "gradient": "linear-gradient(155deg,#18181b 0%,#78350f 55%,#fcd34d 115%)",
       "blobA": "rgba(252,211,77,.4)",
       "blobB": "rgba(0,0,0,.5)",
-      "approved": "c96dbb46"
+      "approved": "8a9f9102",
+      "media": {
+        "image": {
+          "src": "media/lost-piece-of-silver-millais.jpg",
+          "alt": "Black-and-white engraving of a woman with a broom bending low in a dark room at night, holding a candle near the floor to search for something lost",
+          "credit": "The Lost Piece of Silver, by John Everett Millais, engraved by the Dalziel Brothers, 1864. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:The_Lost_Piece_of_Silver_(The_Parables_of_Our_Lord_and_Saviour_Jesus_Christ)_MET_DP835788.jpg"
+        }
+      }
     },
     {
       "id": "zeph3-singing",
