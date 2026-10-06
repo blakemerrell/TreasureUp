@@ -1227,11 +1227,11 @@
   .ws-all span { color: rgba(255,255,255,.55); }
   .ws-wait { margin-top: 16px; text-align: center; font-size: 14px; color: rgba(255,255,255,.6); }
   .ws-credit { margin-top: 12px; text-align: center; font-size: 11.5px; color: rgba(255,255,255,.45); }
-  .ls-orig .ow-w { font-family: 'Noto Serif Hebrew', 'Noto Sans Hebrew', 'Arial Hebrew', 'Times New Roman', serif; font-size: 23px; line-height: 1.45; color: #fff; direction: rtl; }
+  .ls-orig .ow-w { font-family: 'Noto Serif Hebrew', 'Noto Sans Hebrew', 'Arial Hebrew', 'Times New Roman', serif; font-size: 21px; line-height: 1.45; color: #fff; direction: rtl; }
   .ls-orig[lang="el"] .ow-w { font-family: 'Noto Serif', Georgia, 'Times New Roman', serif; font-size: 19px; direction: ltr; }
-  .ls-orig .ow-s { margin-top: 1px; font-size: 11px; font-style: italic; color: rgba(255,255,255,.45); }
-  .ls-orig .ow-s b { font-weight: 800; color: rgba(255,255,255,.6); }
-  .ls-orig .ow-m { font-size: 14px; font-weight: 700; line-height: 1.25; color: #e9d5ff; }
+  .ls-orig .ow-s { margin-top: 1px; font-size: 12px; letter-spacing: .02em; color: rgba(255,255,255,.6); }
+  .ls-orig .ow-s b { font-weight: 800; color: rgba(255,255,255,.85); }
+  .ls-orig .ow-m { font-size: 15px; font-weight: 800; line-height: 1.25; color: #e9d5ff; margin-bottom: 1px; }
   .ls-orig .ow-tag { align-self: center; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #c084fc; }
   /* The test site says so on every screen (its progress and family are its own) */
   .test-frame { position: fixed; inset: 0; border: 3px solid #f97316; pointer-events: none; z-index: 2147483647; }
@@ -1245,6 +1245,26 @@
   .ls-jsp { background: rgba(147,197,253,.09); }
   .ls-jsp a { color: #bfdbfe; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
   /* The short version: a few lines on the whole chapter, above its buttons. Each line's verses are a button to them. */
+  /* Treasure words (Blake, 2026-10-06): at a chapter's top, on the Hebrew button, the card and the Word of the day. */
+  .tw-strip { margin: 2px 0 14px; padding: 10px 12px 12px; border-radius: 14px; background: rgba(251,191,36,.08); border: 1px solid rgba(251,191,36,.3); }
+  .tw-h { font-size: 13px; font-weight: 800; color: var(--gold); margin-bottom: 8px; }
+  .tw-h small { display: block; font-weight: 600; color: rgba(255,255,255,.55); margin-top: 1px; }
+  .tw-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tw-chip { display: inline-flex; flex-direction: column; align-items: center; gap: 1px; padding: 6px 12px; border-radius: 12px; background: rgba(255,255,255,.06); border: 1px solid rgba(251,191,36,.35); color: #fff; font: inherit; cursor: pointer; }
+  .tw-chip .tw-w { font-family: 'Noto Serif Hebrew', 'Noto Serif', 'Times New Roman', serif; font-size: 22px; line-height: 1.3; }
+  .tw-chip .tw-k { font-size: 12px; font-weight: 700; color: #fde68a; }
+  .tw-card { text-align: center; margin: 6px 0 16px; }
+  .tw-big { display: block; font-family: 'Noto Serif Hebrew', 'Noto Serif', 'Times New Roman', serif; font-size: 54px; line-height: 1.35; color: #fff; }
+  .tw-say { font-size: 22px; font-weight: 800; letter-spacing: .03em; color: var(--gold); }
+  .tw-play { margin-left: 6px; font-size: 20px; background: none; border: 0; cursor: pointer; }
+  .tw-kjv { margin: 8px 0 0; font-size: 14px; color: rgba(255,255,255,.7); }
+  .tw-means { margin: 14px 0 0; font-size: 18px; line-height: 1.45; font-weight: 700; color: #fff; text-align: left; }
+  .tw-more { margin: 10px 0 0; font-size: 15px; line-height: 1.5; color: rgba(255,255,255,.8); text-align: left; }
+  .tw-wika { display: block; text-align: center; text-decoration: none; }
+  .tw-inline { font-family: 'Noto Serif Hebrew', 'Noto Serif', 'Times New Roman', serif; font-size: 1.15em; unicode-bidi: isolate; }
+  .ls-orig .ow-tw { border: 1px solid rgba(251,191,36,.55); background: rgba(251,191,36,.08); }
+  .ls-orig .ow-tw .ow-m { color: #fde68a; }
+  .ls-orig-tip { margin: 0 0 8px; font-size: 12.5px; line-height: 1.45; color: rgba(255,255,255,.55); }
   .ls-sum { margin: 2px 0 14px; padding: 12px 14px; border-radius: 14px; background: rgba(192,132,252,.09); border: 1px solid rgba(192,132,252,.28); }
   .ls-sum-h { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 10px; font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #c084fc; }
   .ls-sum-h .plain-draft { letter-spacing: 0; text-transform: none; }
@@ -2614,7 +2634,7 @@ const TreasureUp = (function () {
     // An earlier day still behind brings only what's left of it; today's own steps stay, done or not.
     let rows = entries.flatMap(e => { const from = isToday && flowDay(e) < d, r = entryRows(e, from); return from ? r.filter(x => !x.done) : r; });
     if (d === 6) rows = rows.concat(sundayRows(k));
-    if (isToday) rows = rows.concat(gratefulRows(), seasonRows());
+    if (isToday) rows = rows.concat(wordRows(), gratefulRows(), seasonRows());
     let button;
     if (isToday) button = upNext(entries, rows, d, k);
     else {
@@ -3654,6 +3674,89 @@ const TreasureUp = (function () {
       lines.map(l => `<li>${linkRefs(l.text, u.ch)} <span class="ls-vs">(<button type="button" class="ref-link ls-jump" data-jump="${Math.max(l.from, u.from)}">${esc(l.label)}</button>)</span></li>`).join('') + '</ul>' +
       (x.t.also ? `<p class="ls-sum-also">${linkRefs(x.t.also, u.ch)}</p>` : '') + '</div>';
   }
+  // Treasure words (Blake, 2026-10-06: "What about super easy to understand
+  // version of the Hebrew translation?", then, of the choices, "Treasure
+  // words", "Easier Hebrew button" and "a word of the day would be a fun
+  // feature as well"): five to seven Hebrew or Greek words a week from its
+  // chapters (week.treasure), each with how it's said today, the KJV's word for
+  // it and what it really means, said for Javan. They show at the top of their
+  // chapter, with 💎 on the word under the Hebrew button, one a day as the Word
+  // of the day on Today, and as Wika's Hebrew and Greek lessons
+  // (tools/wika-words.mjs). Each shows once approved, like plain words (the
+  // test site shows drafts, marked). tools/verify.mjs checks each is the word
+  // its verse has in STEPBible's Hebrew or Greek.
+  const twKnown = new Map();      // id -> { x, draft }, of the weeks shown so far, for the card
+  function treasureOf(week) {
+    return ((week && week.treasure) || []).map(x => {
+      const ok = !!x.approved && x.approved === approvalHash(noApproval(x)), t = ok || TEST_SITE ? { x, draft: !ok } : null;
+      if (t) twKnown.set(x.id, t);
+      return t;
+    }).filter(Boolean);
+  }
+  const twLang = x => /^G/.test(x.strong || '') ? 'el' : 'he';
+  const twWordHtml = (x, cls) => `<span class="${cls}" lang="${twLang(x)}" dir="${twLang(x) === 'he' ? 'rtl' : 'ltr'}">${esc(x.word)}</span>`;
+  function treasureStripHtml(u, week) {
+    const list = treasureOf(week).filter(t => {
+      const m = /^(.+) (\d+):(\d+)$/.exec(t.x.ref), v = m ? Number(m[3]) : 0;
+      return m && `${m[1]} ${m[2]}` === u.ch && (u.whole || !u.from || (v >= u.from && v <= u.to));
+    });
+    return !list.length ? '' : `<div class="tw-strip"><div class="tw-h">💎 Treasure words <small>Tap one: what the ${list.some(t => twLang(t.x) === 'he') ? 'Hebrew' : 'Greek'} really says</small></div><div class="tw-chips">` +
+      list.map(t => `<button class="tw-chip" data-treasure="${esc(t.x.id)}">${twWordHtml(t.x, 'tw-w')}<span class="tw-k">${esc(t.x.kjv)}</span>${t.draft ? '<span class="plain-draft">Draft</span>' : ''}</button>`).join('') + '</div></div>';
+  }
+  // A word under the Hebrew button that is one of the week's treasure words,
+  // anywhere in its chapter (the same Strong's number): its item, or null.
+  function treasureAt(week, ch, strong) {
+    const base = String(strong || '').replace(/[A-Z]$/, '');
+    const t = base && treasureOf(week).find(t => t.x.ref.replace(/:\d+$/, '') === ch && String(t.x.strong).replace(/[A-Z]$/, '') === base);
+    return t ? t.x : null;
+  }
+  // Said in the phone's own Hebrew or Greek voice, where it has one. (Wika's
+  // recordings are for its lessons.)
+  function twVoice(x) {
+    const want = twLang(x) === 'he' ? /^(he|iw)/i : /^el/i;
+    return window.speechSynthesis && speechSynthesis.getVoices().find(v => want.test(v.lang));
+  }
+  function twSay(id) {
+    const t = twKnown.get(id), v = t && twVoice(t.x);
+    if (!v) { toast('No ' + (t && twLang(t.x) === 'el' ? 'Greek' : 'Hebrew') + ' voice on this device', 'Wika has it recorded'); return; }
+    const u = new SpeechSynthesisUtterance(t.x.word);
+    u.voice = v; u.lang = v.lang; u.rate = 0.8;
+    speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }
+  function treasureCardHtml(t) {
+    const x = t.x, he = twLang(x) === 'he';
+    return `<div class="sh-title">💎 ${he ? 'Hebrew' : 'Greek'} treasure word${t.draft ? ' <span class="plain-draft">Draft: not approved yet</span>' : ''}</div>
+      <div class="tw-card">${twWordHtml(x, 'tw-big')}
+        <div class="tw-say">${esc(x.say)}${window.speechSynthesis ? ` <button class="tw-play" data-tw-say="${esc(x.id)}" aria-label="Hear it">🔊</button>` : ''}</div>
+        <p class="tw-kjv">The KJV says “${esc(x.kjv)}” · ${linkRefs(x.ref)}</p>
+        <p class="tw-means">${esc(x.means)}</p>
+        ${x.more ? `<p class="tw-more">${esc(x.more)}</p>` : ''}
+      </div>
+      <a class="btn tw-wika" href="amigo/">🗣️ Practice it in Wika ›</a>
+      <p class="sh-small" style="margin-top:12px">Said the way it’s said in ${he ? 'Israel' : 'Greece'} today, the stressed part in capitals. Words: STEPBible.org, from work at Tyndale House, Cambridge (CC BY 4.0).</p>`;
+  }
+  function openTreasure(id) {
+    const t = twKnown.get(id);
+    if (!t) return;
+    openSheet(treasureCardHtml(t));
+    const k = dayKey(), seen = S.twSeen || (S.twSeen = {});
+    if (seen[k] !== id) { seen[k] = id; save(); }
+    use('treasure');
+  }
+  // Today's word: the week's words in turn, a new one each day from Monday.
+  function wordOfDay() {
+    const list = treasureOf(WEEK), start = WEEK && weekStart(WEEK.dates);
+    if (!list.length || !start) return null;
+    const days = Math.max(0, Math.round((new Date(dayKey() + 'T12:00') - new Date(start + 'T12:00')) / 864e5));
+    return list[days % list.length];
+  }
+  function wordRows() {
+    const t = wordOfDay();
+    if (!t) return [];
+    const x = t.x, seen = (S.twSeen || {})[dayKey()] === x.id, attr = `data-treasure="${esc(x.id)}"`;
+    return [{ card: 'tword', done: seen, go: { attr, title: '💎 Word of the day', sub: x.say + ' · ' + x.kjv },
+      html: flowRow(attr, seen, '💎 Word of the day', `${twWordHtml(x, 'tw-inline')} · ${esc(x.say)} · “${esc(x.kjv)}”`) }];
+  }
   // A line's verses: the first of them, just below the buttons, lit up for a moment.
   function jumpToVerse(btn) { scrollToVerse(btn.closest('.ls-chapter'), btn.dataset.jump, true); }
   // A chapter's scroller, and where its verses start showing: just under the
@@ -3721,9 +3824,15 @@ const TreasureUp = (function () {
   const origLang = ch => { const p = BOOK_PATHS[(/^(.+) \d+$/.exec(ch) || [])[1]] || ''; return /^ot\//.test(p) ? 'he' : /^nt\//.test(p) ? 'el' : null; };
   const origOf = ch => (window.TU_ORIG || {})[ch];
   const origSrc = ch => 'content/original/' + ch.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.js';
-  // How a Hebrew word sounds, its syllables apart and the stressed one bold ("he.'Ir" -> he·'ir).
+  // How a word sounds, made easy to read aloud (Blake, 2026-10-06: "Easier
+  // Hebrew button"): syllables apart with hyphens, the stressed one in
+  // capitals, ch (ח, which kids read as in "church") as kh, the marks for
+  // the silent letters left out: "ve.'a.ha.Vat" -> ve-a-ha-VAT, "Cha.sed" ->
+  // KHA-sed. Greek without its long-vowel marks: "sōtēr" -> soter.
   const soundHtml = (s, lang) => lang === 'he'
-    ? esc(s).split('.').map(x => /[A-Z]/.test(x) ? `<b>${x.toLowerCase()}</b>` : x.toLowerCase()).join('·') : esc(s.toLowerCase());
+    ? esc(String(s).replace(/['’ʼ]/g, '').replace(/ch/gi, m => m[0] === 'C' ? 'Kh' : 'kh')).split('.').filter(Boolean)
+        .map(x => /[A-Z]/.test(x) ? `<b>${x.toUpperCase()}</b>` : x.toLowerCase()).join('-')
+    : esc(String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase());
   // A word's study (Blake, 2026-10-02: "connect to strongs and when i click a
   // word ... i get a deeper word study"): tapping a Hebrew or Greek word opens
   // its root word and Strong's number, what it means, its grammar in plain
@@ -3768,7 +3877,7 @@ const TreasureUp = (function () {
   }
   function closeStudy() { $('wordSheet').hidden = true; $('wordBody').innerHTML = ''; }
 
-  function origHtml(ch, n) {
+  function origHtml(ch, n, week) {
     const o = origOf(ch), words = o && o.v[n - 1];
     if (!words || !words.length) return '';
     // In the verse's own order, left to right as he reads English (Blake,
@@ -3777,7 +3886,11 @@ const TreasureUp = (function () {
     // means under it, and how it sounds, small, under that.
     return `<div class="ls-orig" lang="${o.lang}" dir="ltr">` +
       ((o.ar || []).includes(n) ? '<span class="ow-tag">Aramaic</span>' : '') +
-      words.map(([w, s, m, strong], i) => `<button type="button" class="ow"${strong ? ` data-word="${esc(ch)}|${n}|${i}"` : ' disabled'} aria-label="${esc(w)}: ${esc(m)}${strong ? ', word study' : ''}"><span class="ow-w">${esc(w)}</span><span class="ow-m">${esc(m)}</span><span class="ow-s">${soundHtml(s, o.lang)}</span></button>`).join('') + '</div>';
+      words.map(([w, s, m, strong], i) => {
+        // Easier (Blake, 2026-10-06): what it means first and biggest, then the word, then how it sounds.
+        const tw = treasureAt(week, ch, strong), act = tw ? ` data-treasure="${esc(tw.id)}"` : strong ? ` data-word="${esc(ch)}|${n}|${i}"` : ' disabled';
+        return `<button type="button" class="ow${tw ? ' ow-tw' : ''}"${act} aria-label="${esc(w)}: ${esc(m)}${tw ? ', treasure word' : strong ? ', word study' : ''}"><span class="ow-m">${tw ? '💎 ' : ''}${esc(m)}</span><span class="ow-w">${esc(w)}</span><span class="ow-s">${soundHtml(s, o.lang)}</span></button>`;
+      }).join('') + '</div>';
   }
   // What a chapter offers, and what shows: the buttons that are on, and the
   // KJV when none of the texts on is there for this chapter.
@@ -3819,7 +3932,8 @@ const TreasureUp = (function () {
   }
   function versesHtml(u, week) {
     const x = plainOf(week, u.ch), on = shownLayers(haveOf(u, week)), bsb = on.bsb && bsbOf(week, u.ch), lang = on.lang && transOf(on.lang, week, u.ch);
-    return u.verses.map(v => {
+    const tip = on.orig && origOf(u.ch) ? `<p class="ls-orig-tip">${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew reads right to left, but here its'} words are in English order: what each means on top, then the word, then how to say it (the loud part in capitals). Tap a word to learn more${treasureOf(week).length ? '; 💎 is a treasure word' : ''}.</p>` : '';
+    return tip + u.verses.map(v => {
       const lines = [];
       if (on.plain && x.p.verses[v.n - 1]) lines.push(['ls-plain', x.p.verses[v.n - 1]]);
       if (bsb && bsb[v.n - 1]) lines.push(['ls-bsb', bsb[v.n - 1]]);
@@ -3830,7 +3944,7 @@ const TreasureUp = (function () {
       return `<div class="ls-vv" data-v="${v.n}" data-ref="${esc(ref)}"${hl ? ` data-hl="${hl}"` : ''}>` +
         lines.map(([c, t, l], i) => `<p class="${c}${i ? '' : ' lead'}"${l ? ` lang="${l}"` : ''}>${i ? '' : `<sup>${v.n}</sup>`}${esc(t)}</p>`).join('') +
         myNotesOf(ref).map(([id, x]) => `<button class="ls-note ls-mine" data-vnote="${esc(ref)}" data-vnote-id="${esc(id)}"><b>✍️ My note:</b> ${esc(x.text)}${x.share ? ' <small>· 👀 shared with your parents</small>' : ''}</button>`).join('') +
-        (on.orig ? origHtml(u.ch, v.n) : '') +
+        (on.orig ? origHtml(u.ch, v.n, week) : '') +
         notes.map(n => `<p class="ls-note"><b>Note:</b> ${linkRefs(n.text, u.ch + ':' + v.n)}</p>`).join('') +
         jsp.map(n => `<p class="ls-note ls-jsp"><b>📜 Joseph Smith Papers:</b> ${linkRefs(n.text, u.ch + ':' + v.n)} <a href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">${esc(n.title)} ↗</a>${n.draft ? ' <span class="plain-draft">Draft</span>' : ''}</p>`).join('') + '</div>';
     }).join('') + `<p class="ls-ch-end">End of ${esc(u.ref)}</p>` +
@@ -3942,7 +4056,7 @@ const TreasureUp = (function () {
     if (dl) { const x = S.impressions[dl.dataset.vnDel], ref = x && x.ref; S.impressions[dl.dataset.vnDel] = { gone: true, upd: Date.now() }; save(); closeSheet(); if (ref) redrawVerse(ref); refreshHome(); return true; }
     if (t.closest('.vbar')) return false;
     const vv = t.closest('.ls-verses .ls-vv');
-    if (vv && !t.closest('a, button, input, textarea, select, [data-word]')) {
+    if (vv && !t.closest('a, button, input, textarea, select, [data-word], [data-treasure]')) {
       if (String(window.getSelection ? window.getSelection() : '').trim()) return false;   // choosing words to copy
       verseBar(vv);
       return true;
@@ -7258,7 +7372,7 @@ const TreasureUp = (function () {
         <div class="eyebrow">${esc(week.title)}</div>
         <h2 class="reel-hook">${esc(u.ref)}${chapterFixHtml(week, u.ch)}</h2>
         ${listenHtml(u)}
-        ${u.verses ? tldrHtml(u, week) + layersBarHtml(u, week) + `<div class="ls-verses">${versesHtml(u, week)}</div>`
+        ${u.verses ? tldrHtml(u, week) + treasureStripHtml(u, week) + layersBarHtml(u, week) + `<div class="ls-verses">${versesHtml(u, week)}</div>`
           : link ? `<a class="deep-open" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Read ${esc(u.ref)} in Gospel Library ↗</a>` : ''}
         ${end || ''}
         <button class="today-alt sea-impress" data-impress="${esc(u.ref)}">✍️ Write an impression about ${esc(u.ref)}</button>
@@ -12828,7 +12942,7 @@ const TreasureUp = (function () {
         <div class="ls-prompt">${esc(u.ref)}</div>
         ${gl ? `<a class="ls-gl" data-ls="gl" href="${esc(gl)}" target="_blank" rel="noopener noreferrer">${u.verses ? 'Or read it in Gospel Library ↗' : 'Read it in Gospel Library ↗'}</a>` : ''}
         ${listenHtml(u)}
-        ${u.verses ? tldrHtml(u, WEEK) + layersBarHtml(u, WEEK) + `<div class="ls-verses">${versesHtml(u, WEEK)}</div>`
+        ${u.verses ? tldrHtml(u, WEEK) + treasureStripHtml(u, WEEK) + layersBarHtml(u, WEEK) + `<div class="ls-verses">${versesHtml(u, WEEK)}</div>`
                    : `<p class="reel-body">Read ${esc(u.ref)} in Gospel Library, then come back and tap “I read it”.</p>`}
       </div>`;
     } else if (step.kind === 'find') {
@@ -13178,6 +13292,7 @@ const TreasureUp = (function () {
     if (w.words) add('words', 'Verse Words', w.words, w.wordsApproved, w.words);
     (w.plain || []).forEach(p => add('plain:' + p.ch, 'Plain words · ' + p.ch, p, p.approved, noApproval(p)));
     (w.tldr || []).forEach(t => add('tldr:' + t.ch, 'The short version · ' + t.ch, t, t.approved, noApproval(t)));
+    (w.treasure || []).forEach(t => add('treasure:' + t.id, 'Treasure word · ' + t.word + ' · ' + t.ref, t, t.approved, noApproval(t)));
     (w.insights || []).forEach(x => add('insight:' + x.id, (x.kind === 'quote' ? 'Quote · ' : x.kind === 'video' ? 'Video · ' : isJsp(x) ? 'Joseph Smith Papers · ' : 'Insight · ') + x.ref +
       (hasDeep(x) && !diveOk(x.deep) && x.approved ? ' · its new deep dive' : ''), x, x.approved, cardOf(x)));
     // A card approved but with a deep dive not yet approved still needs a look.
@@ -13193,7 +13308,7 @@ const TreasureUp = (function () {
   const devNeeded = items => items.filter(i => !OPTIONAL.test(i.key));
   // A kind of piece's list in a week, and a piece's name in it (plain words and short versions go by chapter).
   const devList = (w, kind) => kind === 'reel' ? w.reels : kind === 'deep' ? w.deep : kind === 'plain' ? (w.plain || []) : kind === 'tldr' ? (w.tldr || [])
-    : kind === 'insight' ? (w.insights || []) : kind === 'sunl' ? sunLessonsOf(w) : kind === 'talk' ? sunTalksOf(w) : w.sayings;
+    : kind === 'treasure' ? (w.treasure || []) : kind === 'insight' ? (w.insights || []) : kind === 'sunl' ? sunLessonsOf(w) : kind === 'talk' ? sunTalksOf(w) : w.sayings;
   const devIdOf = (kind, x) => kind === 'plain' || kind === 'tldr' ? x.ch : x.id;
   function devGet(w, key) {
     if (key === 'week') return weekMeta(w);
@@ -13470,6 +13585,7 @@ const TreasureUp = (function () {
     const groups = [['The week', i => i.key === 'week'], ['Reels', i => i.key.startsWith('reel:')], ['Go deeper', i => i.key.startsWith('deep:')],
                     ['Games', i => i.key === 'puzzle' || i.key === 'words' || i.key.startsWith('say:')],
                     ['Plain words', i => i.key.startsWith('plain:')], ['The short version', i => i.key.startsWith('tldr:')],
+                    ['Treasure words', i => i.key.startsWith('treasure:')],
                     ['Insights', i => i.key.startsWith('insight:')],
                     ['Youth Sunday lessons', i => i.key.startsWith('sunl:')], ['Conference talks', i => i.key.startsWith('talk:')]];
     return devTopHtml(true) + `
@@ -13490,6 +13606,7 @@ const TreasureUp = (function () {
   const DEV_HELP = {
     'plain:': 'Each verse of the KJV with its plain words under it, and the BSB to compare. A chapter shows in the app once it’s approved.',
     'tldr:': 'The lines at the top of each chapter, each with the KJV verses it sums up under it. A chapter’s card shows in the app once it’s approved.',
+    'treasure:': 'A Hebrew or Greek word from the week’s chapters, for the top of its chapter, the Word of the day and Wika. The checker found it in its verse. It shows in the app once it’s approved.',
     'insight:': 'A card in its day’s Go further: a point from the page it credits, in our words. Open the page to check it says so. It shows in the app once it’s approved.',
     'sunl:': 'A Sunday’s mini-lesson on its card, from For the Strength of Youth, in our words. Open its page to check it says so. It shows in the app once it’s approved.',
     'talk:': 'The talk shows already with its speaker’s own words and its scriptures; what it teaches, the questions and the deep dive, in our words, show once it’s approved.'
@@ -13549,6 +13666,8 @@ const TreasureUp = (function () {
         ${devQHtml(o.question)}
         ${bonusesOf(o).map((b, n) => `<div class="dv-small" style="margin-top:8px;font-weight:800">Bonus${bonusesOf(o).length > 1 ? ' ' + (n + 1) : ''}</div>${devQHtml(b, true)}`).join('')}`;
     }
+    if (it.key.startsWith('treasure:')) return `<div class="dv-hook">${twWordHtml(o, 'tw-inline')} · ${esc(o.say)} · “${esc(o.kjv)}” (${esc(o.ref)})</div>
+      <p>${esc(o.means)}</p>${o.more ? `<p class="dv-small">${esc(o.more)}</p>` : ''}<p class="dv-small">In the verse: ${twWordHtml({ word: o.form, strong: o.strong }, 'tw-inline')} · ${esc(o.strong)} · STEPBible gloss “${esc(o.gloss || '')}”</p>`;
     if (it.key.startsWith('deep:')) return `<div class="dv-hook">${esc(o.title || 'Read ' + o.read)}</div><p>${esc(o.intro)}</p><p class="dv-small">Reads: ${esc(o.read)}</p>${devQHtml(o, true)}`;
     if (it.key === 'puzzle') return o.groups.map(g => `<p class="dv-small" style="margin-top:6px"><b>${esc(w.sections[g.section] || '')}</b>: ${g.tiles.map(t => esc(t.text) + ' (' + esc(t.ref) + ')').join(' · ')}</p>`).join('');
     if (it.key.startsWith('say:')) return `<div class="dv-hook">“${esc(o.text)}”</div><p class="dv-small">${esc(o.ref)}</p>
@@ -14112,6 +14231,10 @@ const TreasureUp = (function () {
     });
     // A Hebrew or Greek word, tapped: its word study.
     document.addEventListener('click', e => {
+      const tw = e.target.closest('[data-treasure]');
+      if (tw) { openTreasure(tw.dataset.treasure); return; }
+      const ts = e.target.closest('[data-tw-say]');
+      if (ts) { twSay(ts.dataset.twSay); return; }
       const w = e.target.closest('[data-word]');
       if (w) { openStudy(w.dataset.word); return; }
       if (e.target.closest('#wordClose') || e.target.id === 'wordSheet') closeStudy();

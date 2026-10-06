@@ -2160,5 +2160,85 @@
     }
   ],
   "approved": "6ada9225",
-  "wordsApproved": "a6b36461"
+  "wordsApproved": "a6b36461",
+  "treasure": [
+    {
+      "id": "hag2-chotam",
+      "ref": "Haggai 2:23",
+      "word": "חֹתָם",
+      "form": "כַּחוֹתָם",
+      "strong": "H2368",
+      "gloss": "like signet-ring",
+      "say": "kho-TAM",
+      "kjv": "signet",
+      "means": "A signet ring or seal. Pressing it into clay or wax marked something as belonging to its owner.",
+      "more": "The Lord called Zerubbabel His signet and said, “I have chosen thee.” He was close to the Lord and trusted to finish the Lord’s temple.",
+      "approved": "debbb838"
+    },
+    {
+      "id": "zech3-tsemach",
+      "ref": "Zechariah 3:8",
+      "word": "צֶמַח",
+      "form": "צֶמַח",
+      "strong": "H6780",
+      "gloss": "branch",
+      "say": "TSEH-makh",
+      "kjv": "BRANCH",
+      "means": "A sprout or new shoot growing up out of a plant. Here it is a title for the promised Messiah.",
+      "more": "“The BRANCH” is a name for Jesus Christ, the new shoot growing from King David’s family tree, sent to bring God’s people new life.",
+      "approved": "161f1601"
+    },
+    {
+      "id": "zech4-menorah",
+      "ref": "Zechariah 4:2",
+      "word": "מְנוֹרָה",
+      "form": "מְנוֹרַת",
+      "strong": "H4501",
+      "gloss": "a lampstand of",
+      "say": "meh-no-RAH",
+      "kjv": "candlestick",
+      "means": "A lampstand that held oil lamps, not candles. A golden one gave light inside the tabernacle and temple.",
+      "more": "Zechariah saw a golden lampstand kept full of oil by two olive trees. Its message: the Lord’s work succeeds “not by might, nor by power, but by my spirit.”",
+      "approved": "5e4555f7"
+    },
+    {
+      "id": "zech9-ani",
+      "ref": "Zechariah 9:9",
+      "word": "עָנִי",
+      "form": "עָנִי",
+      "strong": "H6041",
+      "gloss": "poor",
+      "say": "ah-NEE",
+      "kjv": "lowly",
+      "means": "Poor, humble, lowly. Someone who doesn’t show off or push himself above other people.",
+      "more": "The promised King would come humbly, riding a donkey. Jesus fulfilled this when He rode into Jerusalem on a donkey (Matthew 21:5).",
+      "approved": "81d039c9"
+    },
+    {
+      "id": "zech12-daqar",
+      "ref": "Zechariah 12:10",
+      "word": "דָּקַר",
+      "form": "דָּקָרוּ",
+      "strong": "H1856",
+      "gloss": "they have pierced through",
+      "say": "dah-KAR",
+      "kjv": "pierced",
+      "means": "To pierce: to stab right through something, like with a spear or a sword.",
+      "more": "John saw this fulfilled when a soldier pierced Jesus’ side with a spear (John 19:34, 37). One day the Jews will see His wounds and know Him (D&C 45:51–52).",
+      "approved": "8a607084"
+    },
+    {
+      "id": "zech14-qodesh",
+      "ref": "Zechariah 14:20",
+      "word": "קֹדֶשׁ",
+      "form": "קֹדֶשׁ",
+      "strong": "H6944G",
+      "gloss": "holiness",
+      "say": "KOH-desh",
+      "kjv": "HOLINESS",
+      "means": "Holiness: being set apart for God, separate from what is ordinary or unclean.",
+      "more": "Zechariah saw a day when even horse bells and cooking pots would be holy to the Lord. Our temples carry the same words: “Holiness to the Lord.”",
+      "approved": "2e32305b"
+    }
+  ]
 }
