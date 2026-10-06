@@ -3681,7 +3681,153 @@ window.TU_WEEKS = [
         "short": "humble",
         "approved": "9e94efd5"
       }
-    ]
+    ],
+    "guide": [
+      {
+        "h": "The future is bright for the Lord’s people.",
+        "id": "title3",
+        "ref": "Isaiah 50–52",
+        "kids": false,
+        "lines": [
+          "Israel would spend years as captives because of their own poor choices. Still, the Lord asked them to face what was coming with hope.",
+          "He promised, “the redeemed of the LORD shall return, and come with singing unto Zion” (Isaiah 51:11).",
+          "Try three columns as you read: what God is like (Isaiah 51:3–8), His promises of hope (Isaiah 52:9–10), and your part (Isaiah 51:1–2)."
+        ],
+        "ask": "Which promise in Isaiah 50–52 gives you the most hope for what’s ahead, and why?",
+        "approved": "c51719c7"
+      },
+      {
+        "h": "Jesus Christ took upon Himself my sins and sorrows.",
+        "id": "title4",
+        "ref": "Isaiah 53",
+        "kids": false,
+        "lines": [
+          "Few chapters show the Savior’s mission as beautifully as Isaiah 53, and it was written centuries before He was born.",
+          "Movie heroes usually rescue people by fighting. Compare that with the Savior here: “he was wounded for our transgressions” (Isaiah 53:5).",
+          "Read one verse at a time and pause. Try I and my in place of we and our, and notice your thoughts and feelings.",
+          "Match pictures of His suffering and death to phrases in the chapter, or watch the video ‘My Kingdom Is Not of This World’ in Gospel Library."
+        ],
+        "ask": "Which line in Isaiah 53 helps you see that He did this for you personally?",
+        "approved": "5586e632"
+      },
+      {
+        "h": "Jesus Christ wants me to return to Him.",
+        "id": "title5",
+        "ref": "Isaiah 54; 57:15–19",
+        "kids": false,
+        "lines": [
+          "Everyone feels far from the Lord sometimes because of sins or weaknesses. Some people even stop believing He could forgive them.",
+          "Isaiah 54 and Isaiah 57 answer that fear. The Lord says, “with great mercies will I gather thee” (Isaiah 54:7).",
+          "Look in Isaiah 54:4–10 and Isaiah 57:15–19 for words that show how He feels about you.",
+          "President Dieter F. Uchtdorf taught that no life is too ruined, and no heart too broken, for the Savior to rebuild."
+        ],
+        "ask": "How does it change things to know how the Savior feels about you, even after a mistake?",
+        "approved": "b8f563bf"
+      },
+      {
+        "h": "The Lord invites all to “take hold of my covenant.”",
+        "id": "title6",
+        "ref": "Isaiah 55–56",
+        "kids": false,
+        "lines": [
+          "Israel was known as God’s covenant people, but His plan was always bigger than one nation: “Ho, every one that thirsteth, come ye to the waters” (Isaiah 55:1).",
+          "Even someone who says, “The LORD hath utterly separated me from his people” (Isaiah 56:3), is welcome to come.",
+          "Mark what people who hold on to His covenant think and do in Isaiah 56:4–7."
+        ],
+        "ask": "What would the Lord say to someone who feels left out of His family?",
+        "approved": "13a093f6"
+      },
+      {
+        "h": "The Lord invites me to “put on [my] strength.”",
+        "id": "title8",
+        "ref": "Isaiah 51–52",
+        "kids": true,
+        "lines": [
+          "Hunt for wake-up words in Isaiah 51–52, like “Awake, awake; put on thy strength, O Zion” (Isaiah 52:1). Then act them out.",
+          "Talk about what it looks like to wake up, stand up and grow strong spiritually. What is the Lord asking of us?",
+          "In Isaiah 51:1, 4 and 7, see who the Lord is talking to and what He asks: “Hearken unto me, my people” (Isaiah 51:4)."
+        ],
+        "ask": "How can you show the Lord that you’re really listening to Him?",
+        "approved": "26538061"
+      },
+      {
+        "h": "Jesus Christ took upon Himself my sins and sorrows.",
+        "id": "title9",
+        "ref": "Isaiah 53:3–9",
+        "kids": true,
+        "lines": [
+          "Look at pictures of the Savior’s suffering and death. Then read Isaiah 53:3–6, 9 and find words that match what you see.",
+          "Isaiah wrote this hundreds of years before it happened. Alma 39:15–19 helps explain why people needed to know so early.",
+          "Read “Surely he hath borne our griefs, and carried our sorrows” (Isaiah 53:4), then try to lift something heavy. Sadness can weigh on us like that.",
+          "Why did He carry our griefs, sorrows and sins? Alma 7:11–12 helps answer. Then share how He has helped each of you."
+        ],
+        "ask": "When has Jesus Christ helped you with something heavy, like sadness, worry or a mistake?",
+        "approved": "1234e46a"
+      },
+      {
+        "h": "I can seek the Lord and call upon Him.",
+        "id": "title10",
+        "ref": "Isaiah 55:6",
+        "kids": true,
+        "lines": [
+          "Isaiah invites, “Seek ye the LORD while he may be found, call ye upon him while he is near” (Isaiah 55:6).",
+          "Take turns hiding a picture of the Savior. Whoever finds it names one way to seek Him, then hides it for the next round.",
+          "For more ideas, sing ‘Seek the Lord Early’ (Children’s Songbook, 108)."
+        ],
+        "ask": "What are some ways you can seek the Lord, even on a busy school day?",
+        "approved": "17b077d9"
+      },
+      {
+        "h": "The Lord’s ways are higher than mine.",
+        "id": "title11",
+        "ref": "Isaiah 55:8–9",
+        "kids": true,
+        "lines": [
+          "“For as the heavens are higher than the earth, so are my ways higher than your ways” (Isaiah 55:9).",
+          "Stand on a sturdy stool and notice how the room looks from up high. Or draw what the verse means to you.",
+          "Then compare His ways with ours: how He treats sinners (Mark 2:15–17) and how He leads others (Matthew 20:25–28)."
+        ],
+        "ask": "When have you learned to trust the Lord’s way, even when it wasn’t what you expected?",
+        "approved": "171e232f"
+      }
+    ],
+    "family": {
+      "title": "Seek Him; He carries the load",
+      "minutes": 20,
+      "from": [
+        "title10",
+        "title9"
+      ],
+      "steps": [
+        {
+          "k": "open",
+          "text": "Sing ‘Seek the Lord Early’ (Children’s Songbook, 108) together. Then someone offers a prayer."
+        },
+        {
+          "k": "learn",
+          "ref": "Isaiah 55:6",
+          "text": "Read Isaiah 55:6 together. Listen for the two things Isaiah asks us to do, and when to do them."
+        },
+        {
+          "k": "do",
+          "text": "Take turns hiding a picture of Jesus somewhere in the house. Whoever finds it names one way to seek Him, like praying, reading scriptures or helping someone, then hides it for the next person. Play a few rounds."
+        },
+        {
+          "k": "learn",
+          "ref": "Isaiah 53:4",
+          "text": "Read Isaiah 53:4. Then everyone tries to lift something heavy, like a full laundry basket or a stack of books. Talk about how sadness can feel that heavy, and who carries it with us."
+        },
+        {
+          "k": "talk",
+          "text": "When have you felt Jesus Christ help you carry something hard? Where could you look for Him this week?"
+        },
+        {
+          "k": "close",
+          "text": "A parent shares how they know the Savior is near when we seek Him. Invite everyone to try their way of seeking Him each day this week."
+        }
+      ],
+      "approved": "be5c69d6"
+    }
   },
   {
     "dates": "October 12–18, 2026",
