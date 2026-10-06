@@ -1173,5 +1173,98 @@
     }
   ],
   "approved": "1fdaa824",
-  "wordsApproved": "666323c5"
+  "wordsApproved": "666323c5",
+  "treasure": [
+    {
+      "id": "isa7-immanuel",
+      "ref": "Isaiah 7:14",
+      "word": "עִמָּנוּאֵל",
+      "form": "אֵל",
+      "strong": "H6005",
+      "gloss": "-el",
+      "say": "i-ma-nu-EL",
+      "kjv": "Immanuel",
+      "means": "A name that means “God with us.” Isaiah gave it as the sign of a special Son to be born.",
+      "more": "Matthew teaches that this sign was fulfilled when Jesus was born to Mary (Matthew 1:23). In Jesus Christ, God truly came to be with us.",
+      "approved": "60a92abc"
+    },
+    {
+      "id": "isa9-pele",
+      "ref": "Isaiah 9:6",
+      "word": "פֶּלֶא",
+      "form": "פֶּלֶא",
+      "strong": "H6382",
+      "gloss": "a wonder",
+      "say": "PEH-leh",
+      "kjv": "Wonderful",
+      "means": "A wonder or marvel: something so amazing and extraordinary that only God could do it.",
+      "more": "In Hebrew, Isaiah doesn’t just call the Child wonderful; he names Him “Wonder.” His birth, life and Atonement are God’s greatest marvel.",
+      "approved": "28bd1c55"
+    },
+    {
+      "id": "mic5-tsair",
+      "ref": "Micah 5:2",
+      "word": "צָעִיר",
+      "form": "צָעִיר",
+      "strong": "H6810",
+      "gloss": "are insignificant",
+      "say": "tsa-EER",
+      "kjv": "little",
+      "means": "Little, small or young. Something that seems too small to matter.",
+      "more": "Bethlehem was a small town, yet the Ruler of Israel, whose goings forth were “from everlasting,” would be born there. By small things the Lord does great things (Alma 37:6).",
+      "approved": "3fdcd5d1"
+    },
+    {
+      "id": "luke2-phatne",
+      "ref": "Luke 2:7",
+      "word": "φάτνη",
+      "form": "φάτνῃ",
+      "strong": "G5336",
+      "gloss": "a manger,",
+      "say": "FAT-nee",
+      "kjv": "manger",
+      "means": "A manger: the box or trough that farm animals eat their food from.",
+      "more": "The Son of God was laid where animals ate. The shepherds’ sign was finding a baby “lying in a manger” (Luke 2:12).",
+      "approved": "ccd0b96d"
+    },
+    {
+      "id": "luke2-euangelizomai",
+      "ref": "Luke 2:10",
+      "word": "εὐαγγελίζομαι",
+      "form": "εὐαγγελίζομαι",
+      "strong": "G2097",
+      "gloss": "I bring good news",
+      "say": "ev-an-ge-LEE-zo-meh",
+      "kjv": "I bring you good tidings",
+      "means": "To announce good news. In the New Testament it means sharing the good news of Jesus Christ and His salvation.",
+      "more": "The angel was the first to announce the good news of Christ’s birth. Our English word “gospel” means the same thing: “good news.”",
+      "approved": "4a801084"
+    },
+    {
+      "id": "luke2-soter",
+      "ref": "Luke 2:11",
+      "word": "σωτήρ",
+      "form": "σωτὴρ",
+      "strong": "G4990",
+      "gloss": "a Savior",
+      "say": "so-TEER",
+      "kjv": "Saviour",
+      "means": "A savior: someone who rescues and delivers people from a danger they can’t escape on their own.",
+      "more": "Kings in those days sometimes called themselves “savior.” But the angel announced the true Saviour: a baby in Bethlehem who saves us from sin and death.",
+      "approved": "0fef2891"
+    },
+    {
+      "id": "matt2-aster",
+      "ref": "Matthew 2:2",
+      "word": "ἀστήρ",
+      "form": "ἀστέρα",
+      "strong": "G792",
+      "gloss": "star",
+      "say": "as-TEER",
+      "kjv": "star",
+      "means": "A star: a light shining in the night sky. The wise men followed His star to find Jesus.",
+      "more": "Balaam prophesied, “There shall come a Star out of Jacob” (Numbers 24:17). Jesus calls Himself “the bright and morning star” (Revelation 22:16).",
+      "approved": "e2700536"
+    }
+  ]
 }

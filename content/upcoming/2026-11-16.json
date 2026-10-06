@@ -2247,5 +2247,85 @@
     }
   ],
   "approved": "f0f80669",
-  "wordsApproved": "aabe288d"
+  "wordsApproved": "aabe288d",
+  "treasure": [
+    {
+      "id": "hos2-aras",
+      "ref": "Hosea 2:19",
+      "word": "אָרַשׂ",
+      "form": "וְאֵרַשְׂתִּיךְ",
+      "strong": "H781",
+      "gloss": "and I will betroth you",
+      "say": "a-RAS",
+      "kjv": "betroth",
+      "means": "To get engaged: to promise to marry someone. Here the Lord promises to make Israel His bride forever.",
+      "more": "Even after Israel was unfaithful, the Lord promised a new engagement “in righteousness, and in judgment, and in lovingkindness, and in mercies.” His covenant love is that faithful.",
+      "approved": "cbac2b0a"
+    },
+    {
+      "id": "hos6-shuv",
+      "ref": "Hosea 6:1",
+      "word": "שׁוּב",
+      "form": "וְנָשׁוּבָה",
+      "strong": "H7725G",
+      "gloss": "so let us return",
+      "say": "SHOOV",
+      "kjv": "return",
+      "means": "To turn around and come back. It’s the Old Testament’s main word for repenting: turning away from sin and back to God.",
+      "more": "Hosea says the Lord who has “torn” will also “heal us” and “bind us up.” Repenting means coming home to the Savior, who heals.",
+      "approved": "587c369e"
+    },
+    {
+      "id": "hos13-padah",
+      "ref": "Hosea 13:14",
+      "word": "פָּדָה",
+      "form": "אֶפְדֵּם",
+      "strong": "H6299",
+      "gloss": "will I ransom? them",
+      "say": "pa-DAH",
+      "kjv": "ransom",
+      "means": "To ransom: to pay the price so that someone who is held captive can go free.",
+      "more": "Paul echoes this verse when he teaches about the Resurrection (1 Corinthians 15:55). Jesus Christ paid the price to free us from death and the grave.",
+      "approved": "256b306c"
+    },
+    {
+      "id": "hos14-nedavah",
+      "ref": "Hosea 14:4",
+      "word": "נְדָבָה",
+      "form": "נְדָבָה",
+      "strong": "H5071",
+      "gloss": "voluntariness",
+      "say": "ne-da-VAH",
+      "kjv": "freely",
+      "means": "Something given freely, because you want to and not because you have to. It’s also the word for a freewill offering.",
+      "more": "The Lord says, “I will love them freely.” His love isn’t a payment Israel earned. It’s a gift He chooses to give.",
+      "approved": "674e7583"
+    },
+    {
+      "id": "joel2-shofar",
+      "ref": "Joel 2:1",
+      "word": "שֹׁפָר",
+      "form": "שׁוֹפָר",
+      "strong": "H7782",
+      "gloss": "a ram's horn",
+      "say": "sho-FAR",
+      "kjv": "trumpet",
+      "means": "A trumpet made from a ram’s horn. It was blown to sound a warning or to call all the people together.",
+      "more": "Joel’s shofar warns that “the day of the LORD cometh.” In verse 15 it sounds again, calling everyone to fast, gather, and turn back to God.",
+      "approved": "a8f3064d"
+    },
+    {
+      "id": "joel2-shafakh",
+      "ref": "Joel 2:28",
+      "word": "שָׁפַךְ",
+      "form": "אֶשְׁפּוֹךְ",
+      "strong": "H8210G",
+      "gloss": "I will pour out",
+      "say": "sha-FAKH",
+      "kjv": "pour out",
+      "means": "To pour out, like water poured from a jar. God promises to pour His Spirit on sons and daughters, young and old.",
+      "more": "The angel Moroni quoted this prophecy to Joseph Smith and said it was soon to be fulfilled (Joseph Smith—History 1:41).",
+      "approved": "4fa02a97"
+    }
+  ]
 }

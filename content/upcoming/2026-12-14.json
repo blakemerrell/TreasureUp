@@ -1739,5 +1739,98 @@
     }
   ],
   "approved": "3fc9ceb9",
-  "wordsApproved": "e007549f"
+  "wordsApproved": "e007549f",
+  "treasure": [
+    {
+      "id": "mal1-ahav",
+      "ref": "Malachi 1:2",
+      "word": "אָהַב",
+      "form": "אָהַבְתִּי",
+      "strong": "H157G",
+      "gloss": "I have loved",
+      "say": "a-HAV",
+      "kjv": "have loved",
+      "means": "To love. The same word is used for a parent’s love, a friend’s love, and God’s love for His people.",
+      "more": "Malachi’s message opens with the Lord saying, “I have loved you.” Even when Israel doubted it, His love came first.",
+      "approved": "384af29a"
+    },
+    {
+      "id": "mal2-emet",
+      "ref": "Malachi 2:6",
+      "word": "אֱמֶת",
+      "form": "אֱמֶת",
+      "strong": "H571H",
+      "gloss": "truth",
+      "say": "eh-MET",
+      "kjv": "truth",
+      "means": "Truth: something firm, sure and reliable, that you can count on because it won’t let you down.",
+      "more": "A faithful priest had “the law of truth” in his mouth and turned many away from iniquity. Priesthood holders today serve the same way.",
+      "approved": "0af20fde"
+    },
+    {
+      "id": "mal3-malakh",
+      "ref": "Malachi 3:1",
+      "word": "מַלְאָךְ",
+      "form": "מַלְאָכִי",
+      "strong": "H4397G",
+      "gloss": "my messenger",
+      "say": "mal-AKH",
+      "kjv": "messenger",
+      "means": "A messenger: someone sent to carry another person’s message. The same word also means an angel.",
+      "more": "The prophet’s name, Malachi, means “my messenger.” Jesus taught that the messenger who prepared His way was John the Baptist (Matthew 11:10).",
+      "approved": "207e445b"
+    },
+    {
+      "id": "mal3-tsaraf",
+      "ref": "Malachi 3:3",
+      "word": "צָרַף",
+      "form": "מְצָרֵף",
+      "strong": "H6884",
+      "gloss": "one who refines",
+      "say": "tsa-RAF",
+      "kjv": "refiner",
+      "means": "To refine: to melt silver or gold in a hot fire so the junk separates and only pure metal is left.",
+      "more": "The Lord “shall sit as a refiner and purifier of silver.” He makes His people pure so they can offer Him “an offering in righteousness.”",
+      "approved": "2b1954cf"
+    },
+    {
+      "id": "mal3-maaser",
+      "ref": "Malachi 3:10",
+      "word": "מַעֲשֵׂר",
+      "form": "הַמַּעֲשֵׂר",
+      "strong": "H4643",
+      "gloss": "the tithe",
+      "say": "ma-a-SER",
+      "kjv": "tithes",
+      "means": "A tithe: one tenth. Giving the Lord one part out of every ten that you earn or receive.",
+      "more": "The Lord invites us, “Prove me now herewith,” and promises to “open you the windows of heaven” for those who pay their tithing.",
+      "approved": "31dd27ee"
+    },
+    {
+      "id": "mal3-segullah",
+      "ref": "Malachi 3:17",
+      "word": "סְגֻלָּה",
+      "form": "סְגֻלָּה",
+      "strong": "H5459",
+      "gloss": "a possession",
+      "say": "se-gu-LAH",
+      "kjv": "jewels",
+      "means": "A special treasure: something precious that belongs to you and that you keep safe and close.",
+      "more": "It’s the same word as the “peculiar treasure” of Exodus 19:5. A real treasure word: the Lord calls His faithful people His own treasure.",
+      "approved": "e4af3777"
+    },
+    {
+      "id": "mal4-kanaf",
+      "ref": "Malachi 4:2",
+      "word": "כָּנָף",
+      "form": "בִּכְנָפֶיהָ",
+      "strong": "H3671",
+      "gloss": "will be in its wings",
+      "say": "ka-NAF",
+      "kjv": "wings",
+      "means": "A wing, like a bird’s. It can also mean the edge or corner of a robe.",
+      "more": "Jesus Christ is the “Sun of righteousness.” He rises “with healing in his wings,” bringing light and healing to all who fear His name.",
+      "approved": "0cd7961a"
+    }
+  ]
 }

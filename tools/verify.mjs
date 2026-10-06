@@ -178,6 +178,7 @@ function reviewItems(week) {
   if (week.words) items.push({ key: 'words', approved: week.wordsApproved, hash: approvalHash(week.words) });
   for (const p of Array.isArray(week.plain) ? week.plain : []) items.push({ key: 'plain:' + p.ch, approved: p.approved, hash: approvalHash(withoutApproval(p)) });
   for (const t of Array.isArray(week.tldr) ? week.tldr : []) items.push({ key: 'tldr:' + t.ch, approved: t.approved, hash: approvalHash(withoutApproval(t)) });
+  for (const t of Array.isArray(week.treasure) ? week.treasure : []) items.push({ key: 'treasure:' + t.id, approved: t.approved, hash: approvalHash(withoutApproval(t)) });
   // An insight card's fingerprint leaves out its deep dive, which has its own (deep.approved).
   for (const x of Array.isArray(week.insights) ? week.insights : []) { const c = withoutApproval(x || {}); delete c.deep; items.push({ key: 'insight:' + (x && x.id), approved: x && x.approved, hash: approvalHash(c) }); }
   return items;
@@ -1249,10 +1250,10 @@ for (const week of weeks) {
   weekLabel = weeks.length > 1 ? `Week ${num || '?'} · ` : '';
   await main(scripture, week, pages, online);
   // The live app only takes weeks Blake approved in developer mode. Plain
-  // words, short versions and insight cards are the exception: the app shows
+  // words, short versions, insight cards and treasure words are the exception: the app shows
   // each only once it's approved, so they never hold a week back.
   if (args.has('--require-approval') && weekStart(week.dates) >= REVIEW_FROM) {
-    for (const it of reviewItems(week).filter(x => !/^(plain|tldr|insight):/.test(x.key))) {
+    for (const it of reviewItems(week).filter(x => !/^(plain|tldr|insight|treasure):/.test(x.key))) {
       if (!it.approved) failures.push(`${weekLabel}${it.key}: not approved yet (approve it in developer mode, then publish)`);
       else if (it.approved !== it.hash) failures.push(`${weekLabel}${it.key}: changed since it was approved (approve it again in developer mode)`);
     }
@@ -1504,6 +1505,56 @@ let origChapters = 0;
     else origChapters++;
   }
 }
+
+// Treasure words (Blake, 2026-10-06, of the Hebrew: "What about super easy to
+// understand version"): five to seven Hebrew or Greek words a week, each
+// explained for Javan, shown in the reader, as the Word of the Day on Today
+// and in Wika's Hebrew and Greek courses (tools/wika-words.mjs). Each is the
+// word that verse really has in STEPBible's data, with that Strong's number,
+// and the KJV words it's translated by are in the verse; a word is taught in
+// one week only. Shown once approved, like plain words.
+let treasureCount = 0, treasureWeeks = 0;
+{
+  const items = weeks.flatMap(w => (Array.isArray(w.treasure) ? w.treasure : []).map(x => ({ w, x })));
+  const chOf = r => (/^(.+ \d+):\d+$/.exec(r || '') || [])[1];
+  let orig = null;
+  if (items.length) try { orig = await loadOriginal(CACHE, [...new Set(items.map(({ x }) => chOf(x.ref)).filter(Boolean))].filter(langOf)); } catch (e) { failures.push('Treasure words: ' + e.message); }
+  const ids = new Set(), byStrong = new Map(), clean = t => String(t || '').replace(/[־.,;:·]+$/, '').normalize('NFC');
+  const count = t => String(t || '').trim().split(/\s+/).filter(Boolean).length;
+  for (const w of weeks) if (Array.isArray(w.treasure) && w.treasure.length) {
+    treasureWeeks++;
+    if (w.treasure.length < 5 || w.treasure.length > 7) failures.push(`${w.title}: ${w.treasure.length} treasure words (5 to 7 a week)`);
+  }
+  for (const { w, x } of items) {
+    const where = `${w.title}: treasure word ${x.id || '?'}`;
+    if (!/^[a-z0-9]+(-[a-z0-9]+)+$/.test(x.id || '')) failures.push(`${where}: id like "jer31-chesed"`);
+    else if (ids.has(x.id)) failures.push(`${where}: its id is used twice`);
+    ids.add(x.id);
+    const m = /^(.+) (\d+):(\d+)$/.exec(x.ref || ''), ch = chOf(x.ref);
+    if (!m) { failures.push(`${where}: ref like "Jeremiah 31:3"`); continue; }
+    const text = scripture.verses.get(`${BOOK_ALIAS[m[1]] || m[1]} ${m[2]}:${m[3]}`);
+    if (!text) { failures.push(`${where}: ${x.ref} doesn't exist`); continue; }
+    const block = blockChapters(w.reference, scripture.verses);
+    if (block && block.length && !block.includes(ch)) failures.push(`${where}: ${ch} isn't in this week's reading`);
+    const o = orig && orig.get(ch), lang = langOf(ch);
+    if (!o) { failures.push(`${where}: no Hebrew or Greek for ${ch}`); continue; }
+    const hit = (o.v[Number(m[3]) - 1] || []).find(v => clean(v[0]) === clean(x.form));
+    const base = String(x.strong || '').replace(/[A-Z]$/, '');
+    if (!(lang === 'he' ? /^H\d+[A-Z]?$/ : /^G\d+[A-Z]?$/).test(x.strong || '')) failures.push(`${where}: strong like ${lang === 'he' ? 'H2617A' : 'G4990'}`);
+    if (!hit) failures.push(`${where}: "${x.form}" isn't a word of ${x.ref} in the ${lang === 'he' ? 'Hebrew' : 'Greek'}`);
+    else if (String(hit[3]).replace(/[A-Z]$/, '') !== base) failures.push(`${where}: "${x.form}" in ${x.ref} is ${hit[3]}, not ${x.strong}`);
+    if (byStrong.has(base) && byStrong.get(base) !== w.title) failures.push(`${where}: ${base} is a treasure word in ${byStrong.get(base)} too (one week only)`);
+    byStrong.set(base, w.title);
+    if (!x.word) failures.push(`${where}: needs word, its dictionary form`);
+    if (!/^[A-Za-z]+(-[A-Za-z]+)*$/.test(x.say || '') || !/[A-Z]{2}/.test(x.say || '')) failures.push(`${where}: say like "KHEH-sed"`);
+    if (!x.kjv || !text.toLowerCase().includes(String(x.kjv).toLowerCase())) failures.push(`${where}: “${x.kjv}” isn't in the KJV of ${x.ref}`);
+    if (count(x.means) < 6 || count(x.means) > 30) failures.push(`${where}: means is ${count(x.means)} words (6 to 30)`);
+    if (x.more !== undefined && (count(x.more) < 6 || count(x.more) > 40)) failures.push(`${where}: more is ${count(x.more)} words (6 to 40)`);
+    if (/["']/.test([x.means, x.more, x.kjv].join(' '))) failures.push(`${where}: uses a straight quote; use “ ” ’`);
+    treasureCount++;
+  }
+}
+if (treasureCount) console.log(`✓ Treasure words: ${treasureCount} in ${treasureWeeks} weeks, each the word its verse has in the Hebrew or Greek`);
 
 // Past weeks (content/past/, written by tools/archive-weeks.mjs): every
 // week its index lists has its file, with the same dates and title, so Past

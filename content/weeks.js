@@ -3599,6 +3599,86 @@ window.TU_WEEKS = [
         "note": "From Liberty Jail in 1839, the Lord told Joseph Smith his troubles “shall be but a small moment” (D&C 121:7–8), echoing this verse.",
         "approved": "9067b8b6"
       }
+    ],
+    "treasure": [
+      {
+        "id": "isa52-basar",
+        "ref": "Isaiah 52:7",
+        "word": "בָּשַׂר",
+        "form": "מְבַשֵּׂר",
+        "strong": "H1319",
+        "gloss": "one who bears news",
+        "say": "ba-SAR",
+        "kjv": "bringeth good tidings",
+        "means": "To bring good news. Here it’s a messenger running over the mountains to tell Zion happy news.",
+        "more": "His news is peace, salvation, and “Thy God reigneth!” Anyone who shares the gospel, the good news of Jesus Christ, has those beautiful feet.",
+        "approved": "99c7622e"
+      },
+      {
+        "id": "isa53-choli",
+        "ref": "Isaiah 53:4",
+        "word": "חֳלִי",
+        "form": "חֳלָיֵנוּ",
+        "strong": "H2483",
+        "gloss": "our sicknesses",
+        "say": "KHO-lee",
+        "kjv": "griefs",
+        "means": "Sickness. Where the KJV says “griefs,” the Hebrew says our sicknesses: real illness and pain.",
+        "more": "Jesus Christ carried our sicknesses as well as our sins. Alma 7:11 says He would “take upon him the pains and the sicknesses of his people.”",
+        "approved": "1f078259"
+      },
+      {
+        "id": "isa53-shalom",
+        "ref": "Isaiah 53:5",
+        "word": "שָׁלוֹם",
+        "form": "שְׁלוֹמֵנוּ",
+        "strong": "H7965G",
+        "gloss": "our peace",
+        "say": "sha-LOHM",
+        "kjv": "peace",
+        "means": "Peace that means being whole and well: safe, healthy, and friends with God, not just quiet.",
+        "more": "“The chastisement of our peace was upon him.” The Savior took the punishment Himself so that we could be made whole and at peace with God.",
+        "approved": "07a114b9"
+      },
+      {
+        "id": "isa54-yated",
+        "ref": "Isaiah 54:2",
+        "word": "יָתֵד",
+        "form": "וִיתֵדֹתַיִךְ",
+        "strong": "H3489",
+        "gloss": "and your tent pegs",
+        "say": "ya-TED",
+        "kjv": "stakes",
+        "means": "A tent peg: the stake you pound into the ground to hold a tent’s cords tight so it stands firm.",
+        "more": "This verse is where the Church gets the word “stake.” As Zion’s tent grows bigger, each stake helps hold it strong.",
+        "approved": "f5641ac9"
+      },
+      {
+        "id": "isa56-tefillah",
+        "ref": "Isaiah 56:7",
+        "word": "תְּפִלָּה",
+        "form": "תְּפִלָּה",
+        "strong": "H8605",
+        "gloss": "prayer",
+        "say": "tfee-LAH",
+        "kjv": "prayer",
+        "means": "Prayer: talking with God, asking Him for help and thanking Him.",
+        "more": "“Mine house shall be called an house of prayer for all people.” Jesus quoted this when He cleansed the temple (Mark 11:17). The temple is still a house of prayer.",
+        "approved": "d2ffd645"
+      },
+      {
+        "id": "isa57-dakka",
+        "ref": "Isaiah 57:15",
+        "word": "דַּכָּא",
+        "form": "דַּכָּא",
+        "strong": "H1793A",
+        "gloss": "a person contrite",
+        "say": "da-KA",
+        "kjv": "contrite",
+        "means": "Contrite: humble and sorry inside, with your pride crushed, ready to let God help you.",
+        "more": "The holy God dwells with the contrite and revives them. A related word in Isaiah 53:5 says the Savior was “bruised,” crushed, for our sins.",
+        "approved": "619fa80c"
+      }
     ]
   },
   {
@@ -5520,6 +5600,86 @@ window.TU_WEEKS = [
         "find": "Isaiah says the Days of an infant shall be as the age of a tree",
         "note": "In an 1841 sermon, as a listener recorded it, Joseph Smith cited this: “Isaiah says the Days of an infant shall be as the age of a tree.”",
         "approved": "82f20af7"
+      }
+    ],
+    "treasure": [
+      {
+        "id": "isa58-tsom",
+        "ref": "Isaiah 58:6",
+        "word": "צוֹם",
+        "form": "צוֹם",
+        "strong": "H6685",
+        "gloss": "the fast",
+        "say": "TSOHM",
+        "kjv": "fast",
+        "means": "A fast: going without food and drink for a while to draw closer to God.",
+        "more": "The fast the Lord chooses sets people free and feeds the hungry (verses 6–7). That’s why we give fast offerings on fast Sunday.",
+        "approved": "7628bdc3"
+      },
+      {
+        "id": "isa59-goel",
+        "ref": "Isaiah 59:20",
+        "word": "גָּאַל",
+        "form": "גּוֹאֵל",
+        "strong": "H1350A",
+        "gloss": "a redeemer",
+        "say": "ga-AL",
+        "kjv": "Redeemer",
+        "means": "To redeem: to buy back a relative who had been sold, or his land. The one who did it was the go’el, the redeemer.",
+        "more": "A redeemer had to be close family. Jesus Christ is our Redeemer: He paid the price to buy us back and bring us home.",
+        "approved": "0b43986e"
+      },
+      {
+        "id": "isa60-qadosh",
+        "ref": "Isaiah 60:14",
+        "word": "קָדוֹשׁ",
+        "form": "קְדוֹשׁ",
+        "strong": "H6918G",
+        "gloss": "of the holy one of",
+        "say": "ka-DOHSH",
+        "kjv": "Holy One",
+        "means": "Holy: set apart, pure, and belonging to God. Isaiah calls the Lord “the Holy One of Israel” again and again.",
+        "more": "The Holy One of Israel is Jehovah, who is Jesus Christ. One day even Zion’s enemies will bow and call it the city of the Holy One.",
+        "approved": "7dfa433f"
+      },
+      {
+        "id": "isa61-mashach",
+        "ref": "Isaiah 61:1",
+        "word": "מָשַׁח",
+        "form": "מָשַׁח",
+        "strong": "H4886",
+        "gloss": "he has anointed",
+        "say": "ma-SHAKH",
+        "kjv": "anointed",
+        "means": "To anoint: to pour or smear oil on someone to set them apart for a holy calling, like a king or priest.",
+        "more": "Messiah means “Anointed One.” In Nazareth, Jesus read this verse aloud and said, “This day is this scripture fulfilled in your ears” (Luke 4:21).",
+        "approved": "dcc4c304"
+      },
+      {
+        "id": "isa63-purah",
+        "ref": "Isaiah 63:3",
+        "word": "פּוּרָה",
+        "form": "פּוּרָה",
+        "strong": "H6333",
+        "gloss": "the winepress",
+        "say": "poo-RAH",
+        "kjv": "winepress",
+        "means": "A winepress: a big trough where people stomped grapes with their bare feet until red juice ran out.",
+        "more": "“I have trodden the winepress alone.” Doctrine and Covenants 133:46–50 shows these are Jesus Christ’s words. He did what no one else could, all by Himself.",
+        "approved": "cdef08c5"
+      },
+      {
+        "id": "isa65-bara",
+        "ref": "Isaiah 65:17",
+        "word": "בָּרָא",
+        "form": "בוֹרֵא",
+        "strong": "H1254A",
+        "gloss": "am about to create",
+        "say": "ba-RAH",
+        "kjv": "create",
+        "means": "To create. In this form the Bible always uses it for God; people never “create” this way.",
+        "more": "It’s the word in Genesis 1:1. Here the Lord promises new heavens and a new earth, when the earth will be renewed and made glorious.",
+        "approved": "aa4bd63e"
       }
     ]
   },
@@ -7463,6 +7623,86 @@ window.TU_WEEKS = [
         "find": "a very fruitful tree which is planted in a goodly land by a pure stream that yealdeth much precious fruit",
         "note": "An 1833 revelation to Joseph Smith (D&C 97:9) uses this picture: the honest and contrite will be like “a very fruitful tree” by a pure stream.",
         "approved": "ed6e9ac6"
+      }
+    ],
+    "treasure": [
+      {
+        "id": "jer1-navi",
+        "ref": "Jeremiah 1:5",
+        "word": "נָבִיא",
+        "form": "נָבִיא",
+        "strong": "H5030",
+        "gloss": "a prophet",
+        "say": "na-VEE",
+        "kjv": "prophet",
+        "means": "A prophet: God’s spokesman, someone who speaks for God and tells people His words.",
+        "more": "God knew Jeremiah and chose him before he was born. We all lived with Heavenly Father before birth too, and He knows each of us.",
+        "approved": "7af00c11"
+      },
+      {
+        "id": "jer2-maqor",
+        "ref": "Jeremiah 2:13",
+        "word": "מָקוֹר",
+        "form": "מְקוֹר",
+        "strong": "H4726",
+        "gloss": "a spring of",
+        "say": "ma-KOR",
+        "kjv": "fountain",
+        "means": "A spring: a fountain where fresh water bubbles up out of the ground and keeps on flowing.",
+        "more": "Israel left the Lord, their spring of living water, to dig their own cracked cisterns that hold nothing. Only He gives water that never runs dry.",
+        "approved": "93e9a7fc"
+      },
+      {
+        "id": "jer7-shama",
+        "ref": "Jeremiah 7:23",
+        "word": "שָׁמַע",
+        "form": "שִׁמְעוּ",
+        "strong": "H8085H",
+        "gloss": "listen",
+        "say": "sha-MA",
+        "kjv": "Obey",
+        "means": "To hear. In Hebrew, really hearing God means listening and then doing it, so the KJV says “obey.”",
+        "more": "It’s the first word of Israel’s great prayer, the Shema: “Hear, O Israel” (Deuteronomy 6:4). To the Lord, hearing and doing go together.",
+        "approved": "e5e6b35f"
+      },
+      {
+        "id": "jer16-dayag",
+        "ref": "Jeremiah 16:16",
+        "word": "דַּיָּג",
+        "form": "לְדַיָּגִים",
+        "strong": "H1771",
+        "gloss": "for fishermen",
+        "say": "da-YAG",
+        "kjv": "fishers",
+        "means": "A fisherman: someone whose job is catching fish with nets.",
+        "more": "The Lord promised to send fishers to gather scattered Israel. Jesus called Peter and Andrew to be “fishers of men” (Matthew 4:19), and missionaries still are.",
+        "approved": "52c68f7e"
+      },
+      {
+        "id": "jer17-batach",
+        "ref": "Jeremiah 17:7",
+        "word": "בָּטַח",
+        "form": "יִבְטַח",
+        "strong": "H982",
+        "gloss": "he trusts",
+        "say": "ba-TAKH",
+        "kjv": "trusteth",
+        "means": "To trust: to lean on someone and feel safe and sure, because you know they won’t let you down.",
+        "more": "The one who trusts the Lord is like a tree planted by the water (verse 8). Even in a dry year, its leaves stay green.",
+        "approved": "a195fa88"
+      },
+      {
+        "id": "jer18-yatsar",
+        "ref": "Jeremiah 18:6",
+        "word": "יָצַר",
+        "form": "הַיּוֹצֵר",
+        "strong": "H3335H",
+        "gloss": "the potter",
+        "say": "ya-TSAR",
+        "kjv": "potter",
+        "means": "To form or shape, the way a potter shapes clay with his hands. A potter is “one who shapes.”",
+        "more": "It’s the same word as “Before I formed thee” in Jeremiah 1:5. When a pot was marred, the potter made it again (verse 4). The Lord can reshape us too.",
+        "approved": "c1f794a9"
       }
     ]
   },
@@ -9776,7 +10016,87 @@ window.TU_WEEKS = [
       }
     ],
     "approved": "13426348",
-    "wordsApproved": "0f07f32b"
+    "wordsApproved": "0f07f32b",
+    "treasure": [
+      {
+        "id": "jer31-berit",
+        "ref": "Jeremiah 31:31",
+        "word": "בְּרִית",
+        "form": "בְּרִית",
+        "strong": "H1285",
+        "gloss": "a covenant",
+        "say": "BREET",
+        "kjv": "covenant",
+        "means": "A covenant: a sacred, binding agreement between God and His people, with promises on both sides.",
+        "more": "Here the Lord promises a “new covenant” that He will write in His people’s hearts (verse 33). We make covenants with Him at baptism and in the temple.",
+        "approved": "2d07b1ac"
+      },
+      {
+        "id": "jer31-salach",
+        "ref": "Jeremiah 31:34",
+        "word": "סָלַח",
+        "form": "אֶסְלַח",
+        "strong": "H5545",
+        "gloss": "I will forgive",
+        "say": "sa-LAKH",
+        "kjv": "forgive",
+        "means": "To forgive or pardon: to let go of a wrong so it no longer stands between you.",
+        "more": "The Lord adds, “I will remember their sin no more.” Because of Jesus Christ’s Atonement, His forgiveness is complete when we truly repent.",
+        "approved": "2ba40066"
+      },
+      {
+        "id": "jer32-pala",
+        "ref": "Jeremiah 32:17",
+        "word": "פָּלָא",
+        "form": "יִפָּלֵא",
+        "strong": "H6381",
+        "gloss": "it is too difficult",
+        "say": "pa-LA",
+        "kjv": "too hard",
+        "means": "To be wonderful, or beyond what anyone could do. Nothing is too wonderful, too hard, for the Lord.",
+        "more": "Jeremiah bought a field while Babylon was attacking, trusting God’s promise that Israel would come home. The Lord answers him in verse 27: “Is there any thing too hard for me?”",
+        "approved": "622aadf6"
+      },
+      {
+        "id": "jer36-megillah",
+        "ref": "Jeremiah 36:2",
+        "word": "מְגִלָּה",
+        "form": "מְגִלַּת־",
+        "strong": "H4039",
+        "gloss": "a scroll of",
+        "say": "me-gi-LAH",
+        "kjv": "roll",
+        "means": "A scroll: a long sheet of writing that is rolled up instead of bound like a book. The KJV calls it a “roll.”",
+        "more": "King Jehoiakim cut Jeremiah’s scroll apart and burned it, so the Lord simply had Jeremiah write it again (verses 23, 28). God’s word can’t be destroyed.",
+        "approved": "e8df64c6"
+      },
+      {
+        "id": "jer38-bor",
+        "ref": "Jeremiah 38:6",
+        "word": "בּוֹר",
+        "form": "הַבּוֹר",
+        "strong": "H953A",
+        "gloss": "the cistern of",
+        "say": "BOR",
+        "kjv": "dungeon",
+        "means": "A pit or cistern: a deep hole dug in the ground to hold water. The KJV calls it a “dungeon.”",
+        "more": "This pit had no water, only mud, and Jeremiah sank in it. A kind servant, Ebed-melech, pulled him out with ropes and old rags (verses 11–13).",
+        "approved": "0abd49cd"
+      },
+      {
+        "id": "lam3-rachamim",
+        "ref": "Lamentations 3:22",
+        "word": "רַחֲמִים",
+        "form": "רַחֲמָיו",
+        "strong": "H7356B",
+        "gloss": "his compassion",
+        "say": "ra-kha-MEEM",
+        "kjv": "compassions",
+        "means": "Compassion: tender, caring love, like a mother feels for her hurting child.",
+        "more": "Even after Jerusalem fell, Jeremiah said the Lord’s compassions “fail not” and “are new every morning” (verse 23). The same letters spell רַחַם, “womb.”",
+        "approved": "4e4ef2ad"
+      }
+    ]
   },
   {
     "dates": "November 2–8, 2026",
@@ -11844,7 +12164,100 @@ window.TU_WEEKS = [
       }
     ],
     "approved": "36c9ab4e",
-    "wordsApproved": "e69dadee"
+    "wordsApproved": "e69dadee",
+    "treasure": [
+      {
+        "id": "ezek1-ophan",
+        "ref": "Ezekiel 1:16",
+        "word": "אוֹפָן",
+        "form": "הָאוֹפַנִּים",
+        "strong": "H212",
+        "gloss": "the wheels",
+        "say": "o-FAN",
+        "kjv": "wheels",
+        "means": "A wheel, like a chariot wheel. Ezekiel saw wheels full of eyes that went wherever the Spirit went.",
+        "more": "Ezekiel saw this vision in Babylon, far from the temple (verse 1). The glory of the Lord could come to His people even in exile.",
+        "approved": "c256a3c8"
+      },
+      {
+        "id": "ezek3-dvash",
+        "ref": "Ezekiel 3:3",
+        "word": "דְּבַשׁ",
+        "form": "כִּדְבַשׁ",
+        "strong": "H1706",
+        "gloss": "like honey",
+        "say": "DVASH",
+        "kjv": "honey",
+        "means": "Honey: the sweet, sticky food bees make. Ezekiel ate a scroll from the Lord, and it tasted like honey.",
+        "more": "The scroll was full of hard warnings, yet God’s word tasted sweet to Ezekiel. “How sweet are thy words unto my taste! yea, sweeter than honey” (Psalm 119:103).",
+        "approved": "065d1bd7"
+      },
+      {
+        "id": "ezek34-raah",
+        "ref": "Ezekiel 34:23",
+        "word": "רָעָה",
+        "form": "רֹעֶה",
+        "strong": "H7462B",
+        "gloss": "a shepherd",
+        "say": "ra-AH",
+        "kjv": "shepherd",
+        "means": "To shepherd: to feed, lead and care for a flock. A רֹעֶה (ro-EH) is a shepherd.",
+        "more": "Israel’s leaders fed themselves, not the sheep. So the Lord promised, “I will seek out my sheep” (verse 12), and one Shepherd from David’s line: Jesus Christ, the Good Shepherd.",
+        "approved": "994c8f56"
+      },
+      {
+        "id": "ezek36-lev",
+        "ref": "Ezekiel 36:26",
+        "word": "לֵב",
+        "form": "לֵב",
+        "strong": "H3820A",
+        "gloss": "a heart",
+        "say": "LEV",
+        "kjv": "heart",
+        "means": "Heart. In Hebrew it’s not just feelings but your mind, your choices and your whole inner self.",
+        "more": "A “stony heart” is hard and won’t change. The Lord promises a new “heart of flesh” that is soft, alive and ready to follow Him.",
+        "approved": "de49e66b"
+      },
+      {
+        "id": "ezek37-ruach",
+        "ref": "Ezekiel 37:5",
+        "word": "רוּחַ",
+        "form": "רוּחַ",
+        "strong": "H7307H",
+        "gloss": "breath",
+        "say": "ROO-akh",
+        "kjv": "breath",
+        "means": "One word for breath, wind and spirit. Ezekiel 37 uses it all three ways.",
+        "more": "The dry bones came together, but they stayed dead until God’s רוּחַ entered them (verses 8–10). “I shall put my spirit in you, and ye shall live” (verse 14).",
+        "approved": "d8d486df"
+      },
+      {
+        "id": "ezek37-ets",
+        "ref": "Ezekiel 37:16",
+        "word": "עֵץ",
+        "form": "עֵץ",
+        "strong": "H6086I",
+        "gloss": "a piece of wood",
+        "say": "ETS",
+        "kjv": "stick",
+        "means": "Wood: a tree, a stick or a piece of wood. Here it’s a stick with writing on it.",
+        "more": "Latter-day Saints see the stick of Judah as the Bible and the stick of Joseph, or Ephraim, as the Book of Mormon, joined “one in thine hand” (verse 17).",
+        "approved": "0a0ba1db"
+      },
+      {
+        "id": "ezek47-rafa",
+        "ref": "Ezekiel 47:8",
+        "word": "רָפָא",
+        "form": "וְנִרְפּוּ",
+        "strong": "H7495",
+        "gloss": "and they will be healed",
+        "say": "ra-FA",
+        "kjv": "healed",
+        "means": "To heal: to make sick or broken things healthy and whole again.",
+        "more": "Water flowing from the temple made even the salty Dead Sea fresh and full of fish (verse 9). Blessings that flow from the Lord’s house can heal us too.",
+        "approved": "72c5d1c0"
+      }
+    ]
   },
   {
     "dates": "November 9–15, 2026",
@@ -13971,6 +14384,99 @@ window.TU_WEEKS = [
       }
     ],
     "approved": "87456b26",
-    "wordsApproved": "39439e32"
+    "wordsApproved": "39439e32",
+    "treasure": [
+      {
+        "id": "dan1-zeroa",
+        "ref": "Daniel 1:12",
+        "word": "זֵרֹעַ",
+        "form": "הַזֵּרֹעִים",
+        "strong": "H2235A",
+        "gloss": "the vegetables",
+        "say": "ze-RO-a",
+        "kjv": "pulse",
+        "means": "Vegetables: food grown from seeds that are planted. The KJV calls them “pulse.”",
+        "more": "Daniel and his friends chose simple food over the king’s rich food and wine. After ten days they looked healthier than all the others (verse 15).",
+        "approved": "7533d7c6"
+      },
+      {
+        "id": "dan1-chokhmah",
+        "ref": "Daniel 1:17",
+        "word": "חׇכְמָה",
+        "form": "וְחָכְמָה",
+        "strong": "H2451",
+        "gloss": "and wisdom",
+        "say": "khokh-MAH",
+        "kjv": "wisdom",
+        "means": "Wisdom: knowing how to live and choose well, not just knowing lots of facts.",
+        "more": "“God gave them” their wisdom. The Word of Wisdom promises the same: those who obey “shall find wisdom and great treasures of knowledge” (D&C 89:19).",
+        "approved": "cf802b0d"
+      },
+      {
+        "id": "dan2-even",
+        "ref": "Daniel 2:45",
+        "word": "אֶבֶן",
+        "form": "אֶבֶן",
+        "strong": "H69",
+        "gloss": "a stone",
+        "say": "EH-ven",
+        "kjv": "stone",
+        "means": "A stone. Daniel saw a stone cut out of a mountain “without hands” that grew and filled the whole earth.",
+        "more": "This part of Daniel is in Aramaic, a sister language of Hebrew. Latter-day prophets teach that the stone is God’s kingdom, His restored Church, rolling forth to fill the earth (D&C 65:2).",
+        "approved": "21e007d0"
+      },
+      {
+        "id": "dan3-attun",
+        "ref": "Daniel 3:6",
+        "word": "אַתּוּן",
+        "form": "אַתּוּן",
+        "strong": "H861",
+        "gloss": "the furnace of",
+        "say": "a-TOON",
+        "kjv": "furnace",
+        "means": "A furnace: a huge, roaring oven. This one was heated seven times hotter than usual (verse 19).",
+        "more": "This part of Daniel is in Aramaic, a sister language of Hebrew. A fourth person walked in the fire with the three friends, and the fire had no power over them (verses 25, 27).",
+        "approved": "906ba71d"
+      },
+      {
+        "id": "dan5-mene",
+        "ref": "Daniel 5:25",
+        "word": "מְנֵא",
+        "form": "מְנֵא",
+        "strong": "H4484",
+        "gloss": "mene",
+        "say": "meh-NEH",
+        "kjv": "MENE",
+        "means": "A mina, a weight used for measuring money. Daniel explained that God had “numbered” Belshazzar’s kingdom: its time was up.",
+        "more": "This part of Daniel is in Aramaic, a sister language of Hebrew. A hand wrote it on the palace wall, and that very night Belshazzar was slain (verses 5, 30).",
+        "approved": "c138ad00"
+      },
+      {
+        "id": "dan6-aryeh",
+        "ref": "Daniel 6:22",
+        "word": "אַרְיֵה",
+        "form": "אַרְיָוָתָא",
+        "strong": "H744",
+        "gloss": "the lions",
+        "say": "ar-YEH",
+        "kjv": "lions",
+        "means": "A lion: a big, fierce hunting cat. The king’s lions lived in a den with a stone over its mouth (verse 17).",
+        "more": "This part of Daniel is in Aramaic, a sister language of Hebrew. Daniel kept praying three times a day, even against the law, and God “shut the lions’ mouths.”",
+        "approved": "670ea167"
+      },
+      {
+        "id": "dan7-attiq",
+        "ref": "Daniel 7:9",
+        "word": "עַתִּיק",
+        "form": "וְעַתִּיק",
+        "strong": "H6268",
+        "gloss": "and one ancient of",
+        "say": "a-TEEK",
+        "kjv": "Ancient of days",
+        "means": "Ancient, very old. The “Ancient of days” is someone who has lived a very, very long time.",
+        "more": "This part of Daniel is in Aramaic, a sister language of Hebrew. Latter-day revelation teaches that the Ancient of Days is Adam, also called Michael (D&C 27:11; 116:1).",
+        "approved": "2d67bf10"
+      }
+    ]
   }
 ];

@@ -29,6 +29,9 @@ name and email, each signed in with Google; the Firebase rules enforce that.
 - **The short version** is a piece per chapter too: each line of the card
   with the KJV verses it sums up under it, and first anything to look at
   (`review`). Like plain words, a card shows only once it's approved.
+- **Treasure words** are a piece per word (`treasure`, below): the word, how
+  it's said, the KJV's word and what it means. Like plain words, a word shows
+  only once it's approved.
 - **Insights** are a piece per card: the card, the page it comes from (a
   link to check it says so), the words to find there, and its verses. Like
   plain words, a card shows only once it's approved.
@@ -148,6 +151,18 @@ Each reel:
                    a parent has watched the clip. Deploys refuse
                    clips that aren't previewed.
   gradient, blobA, blobB   colours
+
+treasure (optional): five to seven Hebrew (or Greek) words from the week's
+  chapters, for the top of a chapter, the Word of the day and Wika's lessons:
+  { id: "jer31-chesed", ref: "Jeremiah 31:3", word: "חֶסֶד" (the dictionary
+  form, pointed), form: the word exactly as that verse has it in STEPBible's
+  data (the reader's Hebrew button), strong: its Strong's number there
+  ("H2617A"), gloss: the data's gloss, say: "KHEH-sed" (plain letters,
+  syllables with hyphens, the loud one in capitals, said as in Israel or
+  Greece today), kjv: the KJV's word for it in that verse, means: 6–30 words,
+  more: 6–40 words (optional), approved }. A word (its Strong's number) is
+  taught in one week only. Not the divine name, little grammar words, or
+  names whose meaning doesn't matter to the verse.
 
 ## The games' fields
 

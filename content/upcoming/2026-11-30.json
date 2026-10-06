@@ -2575,5 +2575,98 @@
     }
   ],
   "approved": "0765e592",
-  "wordsApproved": "d87c659a"
+  "wordsApproved": "d87c659a",
+  "treasure": [
+    {
+      "id": "mic4-mazmerah",
+      "ref": "Micah 4:3",
+      "word": "מַזְמֵרָה",
+      "form": "לְמַזְמֵרוֹת",
+      "strong": "H4211",
+      "gloss": "into pruning knives",
+      "say": "maz-me-RAH",
+      "kjv": "pruninghooks",
+      "means": "A pruning knife: a farmer’s tool for trimming vines and trees so they grow better fruit.",
+      "more": "Micah sees a day when the Lord rules and people turn their spears into farm tools. Weapons for hurting become tools for growing.",
+      "approved": "d2df29c0"
+    },
+    {
+      "id": "mic6-tsana",
+      "ref": "Micah 6:8",
+      "word": "צָנַע",
+      "form": "וְהַצְנֵעַ",
+      "strong": "H6800A",
+      "gloss": "and to be modest",
+      "say": "tsa-NA",
+      "kjv": "humbly",
+      "means": "To be humble and modest: not showing off or acting more important than you are.",
+      "more": "Micah’s answer to what the Lord wants is simple: do justly, love mercy, and walk humbly with your God every day.",
+      "approved": "cf364180"
+    },
+    {
+      "id": "mic7-chesed",
+      "ref": "Micah 7:18",
+      "word": "חֶסֶד",
+      "form": "חֶסֶד",
+      "strong": "H2617A",
+      "gloss": "covenant loyalty",
+      "say": "KHEH-sed",
+      "kjv": "mercy",
+      "means": "Loyal, covenant love that keeps its promises, even when people don’t deserve it.",
+      "more": "Micah says the Lord “delighteth in mercy.” He doesn’t forgive grudgingly. He loves to forgive and to keep His promises to His people.",
+      "approved": "2228efe5"
+    },
+    {
+      "id": "nah1-maoz",
+      "ref": "Nahum 1:7",
+      "word": "מָעוֹז",
+      "form": "לְמָעוֹז",
+      "strong": "H4581",
+      "gloss": "a refuge",
+      "say": "ma-OZ",
+      "kjv": "strong hold",
+      "means": "A stronghold: a safe, protected place, like a fortress, where you run when danger comes.",
+      "more": "Nahum is mostly about Nineveh’s fall, but this verse is a promise: the Lord Himself is a safe place for those who trust Him.",
+      "approved": "574eef01"
+    },
+    {
+      "id": "hab2-emunah",
+      "ref": "Habakkuk 2:4",
+      "word": "אֱמוּנָה",
+      "form": "בֶּאֱמוּנָתוֹ",
+      "strong": "H530",
+      "gloss": "by his faithfulness",
+      "say": "e-moo-NAH",
+      "kjv": "faith",
+      "means": "Faithfulness: being firm, steady, and true. It’s faith that keeps holding on to God.",
+      "more": "The New Testament quotes this verse three times. Habakkuk learned that real faith stays true to the Lord, even while waiting for answers.",
+      "approved": "ad7a31d0"
+    },
+    {
+      "id": "hab3-ayalah",
+      "ref": "Habakkuk 3:19",
+      "word": "אַיָּלָה",
+      "form": "כָּאַיָּלוֹת",
+      "strong": "H355",
+      "gloss": "like does",
+      "say": "a-ya-LAH",
+      "kjv": "hinds",
+      "means": "A doe, a female deer. Deer can leap over steep, rocky mountains without slipping.",
+      "more": "Even if the crops fail (verse 17), Habakkuk trusts the Lord to give him sure feet, like a deer’s, to climb the high places.",
+      "approved": "9e45908a"
+    },
+    {
+      "id": "zeph3-rinnah",
+      "ref": "Zephaniah 3:17",
+      "word": "רִנָּה",
+      "form": "בְּרִנָּה",
+      "strong": "H7440",
+      "gloss": "with a shout of joy",
+      "say": "ri-NAH",
+      "kjv": "singing",
+      "means": "A ringing cry or shout of joy, like singing out loud when you’re really happy.",
+      "more": "Zephaniah pictures the Lord Himself singing with joy over His people when they come home to Him.",
+      "approved": "d6182d91"
+    }
+  ]
 }
