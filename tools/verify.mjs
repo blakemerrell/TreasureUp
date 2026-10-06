@@ -179,6 +179,8 @@ function reviewItems(week) {
   for (const p of Array.isArray(week.plain) ? week.plain : []) items.push({ key: 'plain:' + p.ch, approved: p.approved, hash: approvalHash(withoutApproval(p)) });
   for (const t of Array.isArray(week.tldr) ? week.tldr : []) items.push({ key: 'tldr:' + t.ch, approved: t.approved, hash: approvalHash(withoutApproval(t)) });
   for (const t of Array.isArray(week.treasure) ? week.treasure : []) items.push({ key: 'treasure:' + t.id, approved: t.approved, hash: approvalHash(withoutApproval(t)) });
+  for (const g of Array.isArray(week.guide) ? week.guide : []) items.push({ key: 'guide:' + (g && g.id), approved: g && g.approved, hash: approvalHash(withoutApproval(g || {})) });
+  if (week.family) items.push({ key: 'family', approved: week.family.approved, hash: approvalHash(withoutApproval(week.family)) });
   // An insight card's fingerprint leaves out its deep dive, which has its own (deep.approved).
   for (const x of Array.isArray(week.insights) ? week.insights : []) { const c = withoutApproval(x || {}); delete c.deep; items.push({ key: 'insight:' + (x && x.id), approved: x && x.approved, hash: approvalHash(c) }); }
   return items;
@@ -994,6 +996,74 @@ async function main(scripture, week, pages, online) {
     }
   }
 
+  // The lesson, part by part (week.guide), and the week's family night
+  // (week.family), both in our own words: the site is public, and the
+  // Church's terms cover personal and family use. With --online, each
+  // heading must be on the lesson page, and no 8 words in a row (outside a
+  // “scripture quote”) may match it. Whether it's faithful to the lesson is
+  // Blake's call when he approves.
+  const lessonPage = online ? pages.get(week.lesson) : null;
+  const wordsOf = t => String(t || '').toLowerCase().replace(/[‘’]/g, "'").match(/[a-z0-9']+/g) || [];
+  const pageGrams = lessonPage ? (() => { const w = wordsOf(lessonPage), g = new Set(); for (let i = 0; i + 8 <= w.length; i++) g.add(w.slice(i, i + 8).join(' ')); return g; })() : null;
+  function ownWords(where, field, text) {
+    if (!pageGrams) return;
+    for (const part of String(text || '').split(/“[^”]*”/)) {
+      const w = wordsOf(part);
+      for (let i = 0; i + 8 <= w.length; i++) {
+        const g = w.slice(i, i + 8).join(' ');
+        if (pageGrams.has(g)) { fail(where, `${field}: “${g}…” is the lesson's own words; say it in ours`); break; }
+      }
+    }
+  }
+  const countWords = t => (String(t || '').match(/\S+/g) || []).length;
+  const guideIds = new Set();
+  if (week.guide !== undefined) {
+    if (!Array.isArray(week.guide)) fail('lesson part by part', 'must be a list of the lesson\'s sections');
+    for (const [n, g] of (Array.isArray(week.guide) ? week.guide : []).entries()) {
+      const where = 'lesson part ' + (n + 1) + (g && g.h ? ' (' + g.h + ')' : '');
+      if (!g || typeof g.h !== 'string' || !g.h.trim()) { fail(where, 'needs h: the section\'s heading, as the lesson has it'); continue; }
+      if (typeof g.id !== 'string' || !/^[A-Za-z][\w-]*$/.test(g.id)) fail(where, 'needs id: the heading\'s anchor on the lesson page (like "title3")');
+      else if (guideIds.has(g.id)) fail(where, `id "${g.id}" is used twice`);
+      guideIds.add(g.id);
+      if (typeof g.ref !== 'string' || !g.ref.trim()) fail(where, 'needs ref: the verses it is about (like "Isaiah 50–52")');
+      else checkRefs(where, 'ref', g.ref, null);
+      if (g.kids !== undefined && typeof g.kids !== 'boolean') fail(where, 'kids must be true or false');
+      const lines = Array.isArray(g.lines) ? g.lines : [];
+      if (lines.length < 2 || lines.length > 4) fail(where, `needs 2 to 4 lines (has ${lines.length})`);
+      lines.forEach((l, i) => {
+        if (typeof l !== 'string' || !l.trim()) return fail(where, `line ${i + 1} is empty`);
+        if (countWords(l) > 30) fail(where, `line ${i + 1} is ${countWords(l)} words (max 30)`);
+        checkText(where, `line ${i + 1}`, l, null); checkRefs(where, `line ${i + 1}`, l, g.ref); ownWords(where, `line ${i + 1}`, l);
+      });
+      if (typeof g.ask !== 'string' || !g.ask.trim()) fail(where, 'needs ask: one question to talk about');
+      else {
+        if (countWords(g.ask) > 25) fail(where, `ask is ${countWords(g.ask)} words (max 25)`);
+        checkText(where, 'ask', g.ask, null); checkRefs(where, 'ask', g.ask, g.ref); ownWords(where, 'ask', g.ask);
+      }
+      if (lessonPage && !norm(lessonPage).includes(norm(g.h))) fail(where, `"${g.h}" isn't a heading on the lesson page`);
+    }
+  }
+  if (week.family !== undefined) {
+    const f = week.family, where = 'family night';
+    if (!f || typeof f !== 'object') fail(where, 'must be { title, minutes, from, steps }');
+    else {
+      if (typeof f.title !== 'string' || !f.title.trim() || f.title.length > 40) fail(where, 'needs a title, 40 characters at most');
+      if (!Number.isInteger(f.minutes) || f.minutes < 10 || f.minutes > 30) fail(where, 'minutes must be 10 to 30');
+      if (!Array.isArray(f.from) || !f.from.length) fail(where, 'from needs the ids of the lesson parts it draws on');
+      else for (const id of f.from) if (!guideIds.has(id)) fail(where, `from: "${id}" isn't a lesson part's id`);
+      const steps = Array.isArray(f.steps) ? f.steps : [];
+      if (steps.length < 4 || steps.length > 6) fail(where, `needs 4 to 6 steps (has ${steps.length})`);
+      steps.forEach((s, i) => {
+        const at = `step ${i + 1}`;
+        if (!s || !['open', 'learn', 'do', 'talk', 'close'].includes(s.k)) return fail(where, `${at}: k must be open, learn, do, talk or close`);
+        if (typeof s.text !== 'string' || !s.text.trim()) return fail(where, `${at} is empty`);
+        if (countWords(s.text) > 50) fail(where, `${at} is ${countWords(s.text)} words (max 50)`);
+        if (s.k === 'learn') { if (typeof s.ref !== 'string' || !s.ref.trim()) fail(where, `${at}: a learn step needs ref, the verses to read`); else checkRefs(where, `${at} ref`, s.ref, null); }
+        checkText(where, at, s.text, s.ref || null); checkRefs(where, at, s.text, s.ref || null); ownWords(where, at, s.text);
+      });
+    }
+  }
+
   // Insight cards (week.insights): one point about verses of the reading,
   // from a page on one of INSIGHT_SITES, in our own words. `find` is words
   // on that page where the point is, checked with --online (a page that
@@ -1250,10 +1320,11 @@ for (const week of weeks) {
   weekLabel = weeks.length > 1 ? `Week ${num || '?'} · ` : '';
   await main(scripture, week, pages, online);
   // The live app only takes weeks Blake approved in developer mode. Plain
-  // words, short versions, insight cards and treasure words are the exception: the app shows
-  // each only once it's approved, so they never hold a week back.
+  // words, short versions, insight cards, treasure words, the lesson part by
+  // part and family night are the exception: the app shows each only once
+  // it's approved, so they never hold a week back.
   if (args.has('--require-approval') && weekStart(week.dates) >= REVIEW_FROM) {
-    for (const it of reviewItems(week).filter(x => !/^(plain|tldr|insight|treasure):/.test(x.key))) {
+    for (const it of reviewItems(week).filter(x => !/^(plain|tldr|insight|treasure|guide):/.test(x.key) && x.key !== 'family')) {
       if (!it.approved) failures.push(`${weekLabel}${it.key}: not approved yet (approve it in developer mode, then publish)`);
       else if (it.approved !== it.hash) failures.push(`${weekLabel}${it.key}: changed since it was approved (approve it again in developer mode)`);
     }

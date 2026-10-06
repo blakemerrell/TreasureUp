@@ -25,7 +25,10 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const WEEKS = path.join(ROOT, 'content', 'weeks.js'), UP = path.join(ROOT, 'content', 'upcoming');
 const MARK = 'window.TU_WEEKS = ';
-const BUDGET = 960 * 1000;   // bytes: under the API's 1 MB, with room for Blake's approvals and edits
+// Under the API's 1 MB, with room for a week to grow: Blake's approvals and
+// edits, and its lesson part by part and family night (Blake, 2026-10-06),
+// published from developer mode (about 10 KB a week).
+const BUDGET = 900 * 1000;   // bytes
 const dry = process.argv.includes('--dry-run');
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -36,7 +39,7 @@ function weekStart(dates) {
 }
 
 const files = fs.existsSync(UP) ? fs.readdirSync(UP).filter(f => /^\d{4}-\d{2}-\d{2}\.json$/.test(f)).sort() : [];
-if (!files.length) { console.log('No weeks waiting in content/upcoming/.'); process.exit(0); }
+if (!files.length) console.log('No weeks waiting in content/upcoming/.');
 
 const src = fs.readFileSync(WEEKS, 'utf8'), cut = src.indexOf(MARK);
 const weeks = JSON.parse(src.slice(cut + MARK.length).replace(/;\s*$/, ''));
@@ -49,6 +52,22 @@ for (const f of files) {
   gone.push(f);
   console.log(`${dry ? 'Would drop' : 'Dropping'} content/upcoming/${f}: ${week.dates} is in weeks.js already (published from developer mode), and that copy stays.`);
 }
+// Room to grow: past BUDGET (a week grew once it was in), the weeks furthest
+// ahead go back to waiting, the latest first, until it's under again. This
+// week and next always stay. A week goes back exactly as weeks.js had it
+// (approvals and all), and comes in again when there's room.
+const sent = [];
+{
+  const keep = new Date(Date.now() + 14 * 864e5).toISOString().slice(0, 10);
+  while (Buffer.byteLength(text(weeks)) > BUDGET) {
+    const later = weeks.filter(w => weekStart(w.dates) > keep).sort((a, b) => weekStart(b.dates).localeCompare(weekStart(a.dates)));
+    if (!later.length) break;
+    const w = later[0];
+    weeks.splice(weeks.indexOf(w), 1);
+    sent.push(w);
+    console.log(`${dry ? 'Would send' : 'Sending'} ${w.dates} back to content/upcoming/ to make room (weeks.js ${Math.round(Buffer.byteLength(text(weeks)) / 1000)} KB).`);
+  }
+}
 for (const [f, week] of waiting) {
   const next = weeks.concat([week]).sort((a, b) => weekStart(a.dates).localeCompare(weekStart(b.dates)));
   const size = Buffer.byteLength(text(next));
@@ -58,6 +77,8 @@ for (const [f, week] of waiting) {
   console.log(`${dry ? 'Would bring in' : 'Bringing in'} ${week.dates} · ${week.title} (weeks.js ${Math.round(size / 1000)} KB)`);
 }
 if (dry) process.exit(0);
-if (came.length) fs.writeFileSync(WEEKS, text(weeks));
+if (sent.length) fs.mkdirSync(UP, { recursive: true });
+for (const w of sent) fs.writeFileSync(path.join(UP, weekStart(w.dates) + '.json'), JSON.stringify(w, null, 2) + '\n');
+if (came.length || sent.length) fs.writeFileSync(WEEKS, text(weeks));
 for (const f of came.concat(gone)) fs.unlinkSync(path.join(UP, f));
 if (came.length) console.log(`weeks.js holds ${weeks.length} weeks; ${files.length - came.length - gone.length} still waiting in content/upcoming/.`);
