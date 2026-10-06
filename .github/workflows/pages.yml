@@ -38,26 +38,33 @@ jobs:
         with:
           node-version: 22
 
-      # Amigo · Kaibigan's Tagalog and Spanish: record any line that has no
-      # recording yet, in the Filipino voice or the Spanish one
-      # (tools/amigo-voice.mjs), and save the recordings
+      # Wika's Hebrew and Greek courses (amigo/course-he.js, course-el.js),
+      # made from every week's treasure words, approved or not: each word says
+      # whether its fingerprint matches, and the live app shows only those
+      # (tools/wika-words.mjs). Both sites, before the recording.
+      - name: Make Wika's Hebrew and Greek courses
+        run: node tools/wika-words.mjs
+
+      # Wika's Tagalog, Spanish, Hebrew and Greek: record any line that has no
+      # recording yet, in the Filipino voice, the Spanish one, or the Hebrew
+      # and Greek ones (tools/amigo-voice.mjs), and save the recordings
       # to the repo; this deploy publishes them. The test site only: the
       # Google key lives there as the secret GOOGLE_TTS_JSON, on no computer.
       # Recordings reach the live app in the PR that brings their lines. If
       # Google can't be reached, the deploy goes on, and the game uses the
       # phone's voice for those lines.
-      - name: Record new Tagalog and Spanish
+      - name: Record new Wika lines (Tagalog, Spanish, Hebrew, Greek)
         if: github.repository == 'blakemerrell/TreasureUp-test'
         continue-on-error: true
         env:
           GOOGLE_TTS_JSON: ${{ secrets.GOOGLE_TTS_JSON }}
         run: |
           node tools/amigo-voice.mjs
-          git add amigo/audio
+          git add amigo/audio amigo/course-he.js amigo/course-el.js
           if git diff --cached --quiet; then echo "Nothing new to record."; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Amigo · Kaibigan: record the new Tagalog and Spanish"
+          git commit -m "Wika: record the new Tagalog, Spanish, Hebrew and Greek"
           git push origin HEAD:main
       # content/weeks.js stays under the 1 MB developer mode can read through
       # the GitHub API: weeks that ended before last week move to content/past/
@@ -91,10 +98,12 @@ jobs:
         env:
           SCRIPTURE_CACHE: ${{ runner.temp }}/scripture
 
-      # Amigo · Kaibigan (amigo/): the courses follow their rules, every lesson
-      # builds and can be answered, and Baybayin spells words right.
-      # The live app refuses Tagalog the game would say without a recording.
-      - name: Check Amigo · Kaibigan
+      # Wika (amigo/): the courses follow their rules, every lesson builds and
+      # can be answered, Baybayin spells words right, the Hebrew and Greek
+      # courses are up to date with the weeks, and the letters quests teach
+      # every letter. The live app refuses Tagalog the game would say without
+      # a recording (Hebrew, Greek and Spanish fall back to the phone's voice).
+      - name: Check Wika
         run: node tools/test-amigo.mjs $([ "$GITHUB_REPOSITORY" = "blakemerrell/TreasureUp" ] && echo --require-recordings)
 
       # The chapters of each week's reading, so he can read them in the app
@@ -106,10 +115,10 @@ jobs:
         env:
           SCRIPTURE_CACHE: ${{ runner.temp }}/scripture
 
-      # Amigo's script links get this deploy's commit (?v=…), so a phone never
+      # Wika's script links get this deploy's commit (?v=…), so a phone never
       # runs a new page with old cached scripts or an old list of recordings
       # (GitHub Pages lets a phone keep a file for 10 minutes).
-      - name: Stamp this deploy on Amigo's scripts
+      - name: Stamp this deploy on Wika's scripts
         run: sed -i "s/?v=dev\"/?v=${GITHUB_SHA::8}\"/g" amigo/index.html
 
       - uses: actions/configure-pages@v5

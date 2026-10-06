@@ -2173,7 +2173,8 @@
       "kjv": "signet",
       "means": "A signet ring or seal. Pressing it into clay or wax marked something as belonging to its owner.",
       "more": "The Lord called Zerubbabel His signet and said, “I have chosen thee.” He was close to the Lord and trusted to finish the Lord’s temple.",
-      "approved": "debbb838"
+      "short": "signet ring",
+      "approved": "e9d6018a"
     },
     {
       "id": "zech3-tsemach",
@@ -2212,7 +2213,8 @@
       "kjv": "lowly",
       "means": "Poor, humble, lowly. Someone who doesn’t show off or push himself above other people.",
       "more": "The promised King would come humbly, riding a donkey. Jesus fulfilled this when He rode into Jerusalem on a donkey (Matthew 21:5).",
-      "approved": "81d039c9"
+      "short": "lowly",
+      "approved": "360e9374"
     },
     {
       "id": "zech12-daqar",

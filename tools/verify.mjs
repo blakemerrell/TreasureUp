@@ -1551,6 +1551,7 @@ let treasureCount = 0, treasureWeeks = 0;
     if (count(x.means) < 6 || count(x.means) > 30) failures.push(`${where}: means is ${count(x.means)} words (6 to 30)`);
     if (x.more !== undefined && (count(x.more) < 6 || count(x.more) > 40)) failures.push(`${where}: more is ${count(x.more)} words (6 to 40)`);
     if (/["']/.test([x.means, x.more, x.kjv].join(' '))) failures.push(`${where}: uses a straight quote; use “ ” ’`);
+    if (x.short !== undefined && (count(x.short) < 1 || count(x.short) > 4)) failures.push(`${where}: short is ${count(x.short)} words (1 to 4: Wika’s choices)`);
     treasureCount++;
   }
 }

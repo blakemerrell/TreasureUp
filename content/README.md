@@ -160,7 +160,8 @@ treasure (optional): five to seven Hebrew (or Greek) words from the week's
   ("H2617A"), gloss: the data's gloss, say: "KHEH-sed" (plain letters,
   syllables with hyphens, the loud one in capitals, said as in Israel or
   Greece today), kjv: the KJV's word for it in that verse, means: 6–30 words,
-  more: 6–40 words (optional), approved }. A word (its Strong's number) is
+  more: 6–40 words (optional), short: 1–4 words, the meaning Wika's
+  choices show, where the data's gloss reads oddly (optional), approved }. A word (its Strong's number) is
   taught in one week only. Not the divine name, little grammar words, or
   names whose meaning doesn't matter to the verse.
 
