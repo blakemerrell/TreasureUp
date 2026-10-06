@@ -318,7 +318,15 @@
       "gradient": "linear-gradient(155deg,#1c1917 0%,#78716c 50%,#fef3c7 115%)",
       "blobA": "rgba(254,243,199,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "c1a8ceea"
+      "approved": "dff3ab85",
+      "media": {
+        "image": {
+          "src": "media/zerubbabel-temple-lawlor.jpg",
+          "alt": "Painting of a plain, boxy stone temple with two tall pillars by its door, smoke rising from the altar beside it, and two men in robes walking across the courtyard",
+          "credit": "Zerubbabel’s Temple, by Sam Lawlor",
+          "link": "https://www.churchofjesuschrist.org/media/image/zerubbabel-temple-ddaf390?lang=eng"
+        }
+      }
     },
     {
       "id": "zech4-spirit",
@@ -353,7 +361,15 @@
       "gradient": "linear-gradient(150deg,#422006 0%,#ca8a04 50%,#fef9c3 115%)",
       "blobA": "rgba(254,249,195,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "2aaf3c28"
+      "approved": "1f4c04ac",
+      "media": {
+        "image": {
+          "src": "media/lampstand-vision-luyken.jpg",
+          "alt": "Etching of a tall seven-branched lampstand with a bowl on top and two olive trees dripping oil into it, as an angel shows it to the prophet Zechariah",
+          "credit": "The Lampstand Seen in a Vision by Zechariah, by Jan Luyken, 1683. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Zacharias_aanschouwt_de_menora_Den_Kandelaar_in_een_gesigte_van_Zacharias_gezien_(titel_op_object),_RP-P-1896-A-19368-320.jpg"
+        }
+      }
     },
     {
       "id": "zech1-turn",
@@ -388,7 +404,15 @@
       "gradient": "linear-gradient(150deg,#0f172a 0%,#4338ca 50%,#c7d2fe 115%)",
       "blobA": "rgba(199,210,254,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "76ece595"
+      "approved": "d403af2d",
+      "media": {
+        "image": {
+          "src": "media/prodigal-son-price.jpg",
+          "alt": "Painting of a father hugging his ragged, barefoot son on a path through golden fields as the son comes home",
+          "credit": "The Prodigal Son, by Clark Kelley Price",
+          "link": "https://www.churchofjesuschrist.org/media/image/prodigal-son-a2bbb57?lang=eng"
+        }
+      }
     },
     {
       "id": "zech3-garments",
@@ -423,7 +447,15 @@
       "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0284c7 50%,#f0f9ff 115%)",
       "blobA": "rgba(240,249,255,.45)",
       "blobB": "rgba(0,0,0,.4)",
-      "approved": "433b92e5"
+      "approved": "e9099474",
+      "media": {
+        "image": {
+          "src": "media/boy-baptized-font.jpg",
+          "alt": "A man dressed in white raises his right arm as he baptizes a young boy, also in white, in the blue water of a baptismal font",
+          "credit": "Boy Being Baptized, from the Church Media Library",
+          "link": "https://www.churchofjesuschrist.org/media/image/baptism-boy-18cdb62?lang=eng"
+        }
+      }
     },
     {
       "id": "zech14-holiness",
@@ -502,7 +534,15 @@
       "gradient": "linear-gradient(150deg,#14532d 0%,#65a30d 50%,#fef08a 115%)",
       "blobA": "rgba(254,240,138,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "2ff9fef8"
+      "approved": "187d0889",
+      "media": {
+        "image": {
+          "src": "media/triumphal-entry-anderson.jpg",
+          "alt": "Painting of Jesus Christ riding a white donkey through a stone archway into Jerusalem as people wave palm branches and spread cloth on the road",
+          "credit": "Triumphal Entry (Christ’s Triumphal Entry into Jerusalem), by Harry Anderson",
+          "link": "https://www.churchofjesuschrist.org/media/image/triumphant-entry-3691253?lang=eng"
+        }
+      }
     },
     {
       "id": "zech11-silver",
@@ -580,7 +620,15 @@
       "gradient": "linear-gradient(150deg,#1e1b4b 0%,#7f1d1d 50%,#fecaca 115%)",
       "blobA": "rgba(254,202,202,.35)",
       "blobB": "rgba(0,0,0,.5)",
-      "approved": "2d07826b"
+      "approved": "b5010563",
+      "media": {
+        "image": {
+          "src": "media/second-coming-anderson.jpg",
+          "alt": "Painting of Jesus Christ in a white robe and red sash coming down through the clouds with His arms open, as angels on each side blow trumpets",
+          "credit": "The Second Coming, by Harry Anderson",
+          "link": "https://www.churchofjesuschrist.org/media/image/the-second-coming-a824e2d?lang=eng"
+        }
+      }
     },
     {
       "id": "zech13-wounds",
@@ -658,7 +706,15 @@
       "gradient": "linear-gradient(150deg,#022c22 0%,#047857 50%,#d9f99d 115%)",
       "blobA": "rgba(217,249,157,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "4a8bc3f0"
+      "approved": "2bd60ab6",
+      "media": {
+        "image": {
+          "src": "media/mount-of-olives-temple-mount.jpg",
+          "alt": "Photo of the green Mount of Olives seen through a stone archway on the Temple Mount, with the golden domes of a church on its slope",
+          "credit": "The Mount of Olives from the Temple Mount, Jerusalem, photo by Beko, CC BY-SA 4.0",
+          "link": "https://commons.wikimedia.org/wiki/File:Mount_of_Olives_from_Temple_Mount_Plaza.jpg"
+        }
+      }
     }
   ],
   "tldr": [

@@ -283,7 +283,15 @@
       "gradient": "linear-gradient(150deg,#422006 0%,#a16207 50%,#fde68a 115%)",
       "blobA": "rgba(253,230,138,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "000f5c4a"
+      "approved": "1e1db9d2",
+      "media": {
+        "image": {
+          "src": "media/he-is-risen-parson.jpg",
+          "alt": "Painting of the resurrected Jesus Christ in white robes stepping out of the open tomb, one hand held out, with white flowers blooming beside the door",
+          "credit": "He Is Risen, by Del Parson",
+          "link": "https://www.churchofjesuschrist.org/media/image/christ-resurrected-leaves-tomb-parson-20e51f4?lang=eng"
+        }
+      }
     },
     {
       "id": "moses5-joy-christmas",
@@ -318,7 +326,15 @@
       "gradient": "linear-gradient(150deg,#14532d 0%,#4d7c0f 50%,#d9f99d 115%)",
       "blobA": "rgba(217,249,157,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "4d37bc3f"
+      "approved": "f9b9e649",
+      "media": {
+        "image": {
+          "src": "media/adam-eve-altar-parson.jpg",
+          "alt": "Painting of Adam and Eve in simple robes kneeling side by side at a stone altar in a forest, looking up toward heaven",
+          "credit": "Adam and Eve Kneeling at an Altar, by Del Parson",
+          "link": "https://www.churchofjesuschrist.org/media/image/adam-eve-altar-6752507?lang=eng"
+        }
+      }
     },
     {
       "id": "zeph3-sings-christmas",
@@ -353,7 +369,15 @@
       "gradient": "linear-gradient(150deg,#4c0519 0%,#be123c 50%,#fecdd3 115%)",
       "blobA": "rgba(254,205,211,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "503a3bb3"
+      "approved": "6734969c",
+      "media": {
+        "image": {
+          "src": "media/carolers-snow-pymonenko.jpg",
+          "alt": "Painting of Christmas carolers holding up a glowing red star at the lit doorway of a snowy village cottage at dusk, as two dogs watch from the snow",
+          "credit": "Koliadky (Christmas Carols), by Mykola Pymonenko, late 1800s. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:%D0%9F%D0%B8%D0%BC%D0%BE%D0%BD%D0%B5%D0%BD%D0%BA%D0%BE_%D0%9A%D0%BE%D0%BB%D1%8F%D0%B4%D0%BA%D0%B8.jpg"
+        }
+      }
     },
     {
       "id": "luke2-great-joy-christmas",
@@ -388,7 +412,15 @@
       "gradient": "linear-gradient(160deg,#0b1024 0%,#1e3a8a 55%,#fde68a 115%)",
       "blobA": "rgba(253,230,138,.35)",
       "blobB": "rgba(0,0,0,.5)",
-      "approved": "e564ff31"
+      "approved": "c9332b1a",
+      "media": {
+        "image": {
+          "src": "media/good-tidings-shepherds-rane.jpg",
+          "alt": "Painting of a glowing angel in white robes appearing at night to startled shepherds and their sheep on a hillside",
+          "credit": "Good Tidings of Great Joy (The Angel Appears to the Shepherds), by Walter Rane",
+          "link": "https://www.churchofjesuschrist.org/media/image/angel-appears-to-shepherds-5f99ad8?lang=eng"
+        }
+      }
     },
     {
       "id": "num24-star-christmas",
@@ -636,7 +668,15 @@
       "gradient": "linear-gradient(150deg,#0c4a6e 0%,#0284c7 50%,#e0f2fe 115%)",
       "blobA": "rgba(224,242,254,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "fd5d0efd"
+      "approved": "5a351980",
+      "media": {
+        "image": {
+          "src": "media/isaiah-christs-birth-anderson.jpg",
+          "alt": "Painting of the white-bearded prophet Isaiah writing on a long scroll as two men watch, with a vision above him of Mary and Joseph beside the baby Jesus in a manger",
+          "credit": "Isaiah Writes of Christ’s Birth (The Prophet Isaiah Foretells Christ’s Birth), by Harry Anderson",
+          "link": "https://www.churchofjesuschrist.org/media/image/prophet-isaiah-foretells-christs-birth-75578c1?lang=eng"
+        }
+      }
     },
     {
       "id": "mic5-bethlehem-christmas",
@@ -670,7 +710,15 @@
       "gradient": "linear-gradient(150deg,#3f2a14 0%,#92400e 50%,#fef3c7 115%)",
       "blobA": "rgba(254,243,199,.4)",
       "blobB": "rgba(0,0,0,.5)",
-      "approved": "c7c28d26"
+      "approved": "d9dfebab",
+      "media": {
+        "image": {
+          "src": "media/bethlehem-roberts.jpg",
+          "alt": "Old colored print of the small town of Bethlehem in 1839, its stone houses spread along a ridge above a valley of trees, with travelers resting on a rock",
+          "credit": "Bethlehem, by David Roberts, 1839, Cleveland Museum of Art. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:David_Roberts_-_Bethlehem_-_1927.131_-_Cleveland_Museum_of_Art.tif"
+        }
+      }
     }
   ],
   "insights": [

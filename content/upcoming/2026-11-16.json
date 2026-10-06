@@ -270,7 +270,15 @@
       "gradient": "linear-gradient(150deg,#3b0764 0%,#9d174d 50%,#fbcfe8 115%)",
       "blobA": "rgba(251,207,232,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "8ec6dcfa"
+      "approved": "fa63f846",
+      "media": {
+        "image": {
+          "src": "media/hosea-tissot.jpg",
+          "alt": "Painting of the prophet Hosea in a white robe and red headcloth, raising one hand as he speaks, with a white town behind him",
+          "credit": "Hosea, by James Tissot, about 1900. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Hosea_by_James_Tissot.jpg"
+        }
+      }
     },
     {
       "id": "hos2-ishi",
@@ -348,7 +356,15 @@
       "gradient": "linear-gradient(155deg,#1e3a8a 0%,#2563eb 50%,#bfdbfe 115%)",
       "blobA": "rgba(191,219,254,.4)",
       "blobB": "rgba(0,0,0,.4)",
-      "approved": "88e25b23"
+      "approved": "20005e8f",
+      "media": {
+        "image": {
+          "src": "media/first-steps-van-gogh.jpg",
+          "alt": "Painting of a mother holding up her toddler by the arms as the father kneels in the garden with open arms, waiting for the child’s first steps",
+          "credit": "First Steps, after Millet, by Vincent van Gogh, 1890. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:First_Steps,_after_Millet_MET_DP124808.jpg"
+        }
+      }
     },
     {
       "id": "hos13-ransom",
@@ -468,7 +484,15 @@
       "gradient": "linear-gradient(165deg,#312e81 0%,#7c3aed 50%,#fde68a 115%)",
       "blobA": "rgba(253,230,138,.4)",
       "blobB": "rgba(0,0,0,.4)",
-      "approved": "ff6c797d"
+      "approved": "e2655600",
+      "media": {
+        "image": {
+          "src": "media/morning-fog-yellowstone.jpg",
+          "alt": "Morning fog lying low across a valley, below sunlit golden hills dotted with pine trees",
+          "credit": "Foggy morning near Tower Junction, Yellowstone National Park. Photo: NPS / Jacob W. Frank, public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Foggy_morning_near_Tower_Junction_(50513732883).jpg"
+        }
+      }
     },
     {
       "id": "hos6-mercy",
@@ -502,7 +526,15 @@
       "gradient": "linear-gradient(150deg,#14532d 0%,#16a34a 50%,#bbf7d0 115%)",
       "blobA": "rgba(187,247,208,.4)",
       "blobB": "rgba(0,0,0,.4)",
-      "approved": "30993f34"
+      "approved": "c14907e2",
+      "media": {
+        "image": {
+          "src": "media/jesus-eats-with-sinners-bida.jpg",
+          "alt": "Engraving of Jesus Christ sitting at a low table, sharing a meal with a group of men while a servant brings a dish",
+          "credit": "Jesus Eats with Sinners and Tax Collectors, by Alexandre Bida, 1875. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Jesus_eats_with_sinners_and_tax_collectors.png"
+        }
+      }
     },
     {
       "id": "hos10-seek",
@@ -579,7 +611,15 @@
       "gradient": "linear-gradient(150deg,#450a0a 0%,#b91c1c 50%,#fecaca 115%)",
       "blobA": "rgba(254,202,202,.4)",
       "blobB": "rgba(0,0,0,.5)",
-      "approved": "083cdd39"
+      "approved": "657235df",
+      "media": {
+        "image": {
+          "src": "media/joel-hoffbauer.jpg",
+          "alt": "Painting of the prophet Joel in a long dark robe, standing in a garden with both hands pressed over his heart",
+          "credit": "Joel, by Charles Hoffbauer after James Tissot, 1904. Photo: Phillip Medhurst, CC BY-SA 4.0",
+          "link": "https://commons.wikimedia.org/wiki/File:Jo%C3%ABl_(Joel_1_1)_%E2%80%A2_invenit_James_Tissot_%E2%80%A2_pinxit_Charles_Hoffbauer_%E2%80%A2_excudit_Maurice_de_Brunoff_apud_Philip_de_Vere_%E2%80%A2_praesentat_Phillip_Medhurst.jpg"
+        }
+      }
     },
     {
       "id": "joel2-pour-out",
@@ -614,7 +654,15 @@
       "gradient": "linear-gradient(160deg,#0c4a6e 0%,#0284c7 50%,#e0f2fe 115%)",
       "blobA": "rgba(224,242,254,.45)",
       "blobB": "rgba(0,0,0,.4)",
-      "approved": "4bf4d5ad"
+      "approved": "ceb8e48f",
+      "media": {
+        "image": {
+          "src": "media/moroni-joseph-smith-lovell.jpg",
+          "alt": "Painting of the angel Moroni in a white robe standing in the air beside young Joseph Smith, who sits up in bed in his log-cabin room",
+          "credit": "Moroni Appears to Joseph Smith in His Room, by Tom Lovell",
+          "link": "https://www.churchofjesuschrist.org/media/image/angel-moroni-appears-to-joseph-5f68ab3?lang=eng"
+        }
+      }
     },
     {
       "id": "joel2-restore-years",
@@ -691,7 +739,15 @@
       "gradient": "linear-gradient(155deg,#0f172a 0%,#334155 50%,#fcd34d 115%)",
       "blobA": "rgba(252,211,77,.4)",
       "blobB": "rgba(0,0,0,.5)",
-      "approved": "9b9b2739"
+      "approved": "2b4cce78",
+      "media": {
+        "image": {
+          "src": "media/valley-of-jehoshaphat-seddon.jpg",
+          "alt": "Painting of a deep, rocky valley below the walls of Jerusalem, with a village on the far hillside and sheep grazing in front",
+          "credit": "Jerusalem and the Valley of Jehoshaphat from the Hill of Evil Counsel, by Thomas Seddon, about 1854. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Thomas_Seddon_-_Jerusalem_and_the_Valley_of_Jehoshaphat_from_the_Hill_of_Evil_Counsel_-_Google_Art_Project.jpg"
+        }
+      }
     }
   ],
   "tldr": [
