@@ -12409,6 +12409,141 @@ window.TU_WEEKS = [
         "more": "Water flowing from the temple made even the salty Dead Sea fresh and full of fish (verse 9). Blessings that flow from the Lord’s house can heal us too.",
         "approved": "72c5d1c0"
       }
-    ]
+    ],
+    "guide": [
+      {
+        "h": "The Lord invites me to feed His sheep.",
+        "id": "title3",
+        "ref": "Ezekiel 3; 34",
+        "kids": false,
+        "lines": [
+          "The Lord calls the leaders of His people watchmen (Ezekiel 3:17) and shepherds (Ezekiel 34:2). Think about what each title says a good leader should do.",
+          "In Ezekiel 34:11–31 the Savior shows how a true shepherd acts: He searches for the lost, binds up the hurt and feeds His flock.",
+          "Missionaries, parents and ministering brothers and sisters can all learn from Him. Jesus asked Peter to feed His sheep too (John 21:15–17).",
+          "Look for symbols as well, like the good pasture and fold in Ezekiel 34:14, and the lost sheep versus the ones driven away (Ezekiel 34:16)."
+        ],
+        "ask": "Whom has the Lord given our family to watch over and feed, and how can we help one of them this week?",
+        "approved": "845c57f5"
+      },
+      {
+        "h": "The Lord wants to forgive.",
+        "id": "title4",
+        "ref": "Ezekiel 33:10–19",
+        "kids": false,
+        "lines": [
+          "Weighed down by their sins, the captives asked, “how should we then live?” (Ezekiel 33:10). The Lord answered by teaching them to repent and be forgiven.",
+          "He warns against leaning on the good we did before, and promises that a sinner who turns away and does right will live (Ezekiel 33:12–16).",
+          "If that seems unfair, compare the two sons in Matthew 21:28–31 and the two men praying in Luke 18:9–14.",
+          "For more on what repenting means, read about a new heart and spirit in Ezekiel 36:26–27, and being born again and washed clean in Alma 7:14–16."
+        ],
+        "ask": "What might it look like to “trust to his own righteousness” (Ezekiel 33:13), and how is repenting different from that?",
+        "approved": "1d1cac62"
+      },
+      {
+        "h": "The Lord is gathering His people and giving them new life.",
+        "id": "title5",
+        "ref": "Ezekiel 37",
+        "kids": false,
+        "lines": [
+          "Ezekiel 37 shows the gathering of Israel in two pictures. First, a valley of dry bones comes back to life (Ezekiel 37:1–14; see also Ezekiel 36:24–30).",
+          "Think about how the Lord gathers His children, both the living and those who have died.",
+          "Second, two sticks, which many scholars think were wooden writing boards, one for Judah and one for Joseph, become one in the Lord’s hand (Ezekiel 37:15–28).",
+          "Judah’s stick can stand for the Bible and Joseph’s for the Book of Mormon. Ask what the Lord wants the gathering to do, and how He does it."
+        ],
+        "ask": "Which verses from the Bible and the Book of Mormon have worked as a pair to bring you closer to Jesus Christ?",
+        "approved": "276ab6d5"
+      },
+      {
+        "h": "I can find spiritual healing in the house of the Lord.",
+        "id": "title6",
+        "ref": "Ezekiel 47:1–12",
+        "kids": false,
+        "lines": [
+          "In Ezekiel’s vision, water runs out from under the temple and becomes a river that heals the Dead Sea, where fish and plants couldn’t live (Ezekiel 47:1–9).",
+          "Notice what the water does wherever it flows, and compare Revelation 22:1. What could the water stand for, and the fruit trees in Ezekiel 47:12?",
+          "Elder Dale G. Renlund’s 2018 talk about temple and family history work, and the healing it brings, can add to what you see here."
+        ],
+        "ask": "When has the temple, or getting ready to go there, brought healing or new life to you or our family?",
+        "approved": "3d786d1d"
+      },
+      {
+        "h": "Prophets are like watchmen who warn us of danger.",
+        "id": "title8",
+        "ref": "Ezekiel 3:17; 33:1–5",
+        "kids": true,
+        "lines": [
+          "In Ezekiel 3:17 the Lord makes Ezekiel a watchman. As you read it, point to your eyes, ears and mouth for watchman, hear and mouth.",
+          "Go for a walk outside or around the room while one person calls out pretend dangers on the path, like a stream to leap or a branch to duck.",
+          "Or let someone stand at a window and report what is going on outside. The lesson also suggests the video ‘Watchman on the Tower’.",
+          "A watchman sees trouble coming and blows the trumpet in time (Ezekiel 33:1–5). Prophets warn us of dangers we can’t see yet."
+        ],
+        "ask": "What has our living prophet warned us about lately, and how is he like a watchman on a tower?",
+        "approved": "2f759ee1"
+      },
+      {
+        "h": "The Bible and the Book of Mormon help “gather” us to Jesus Christ.",
+        "id": "title9",
+        "ref": "Ezekiel 37:15–23",
+        "kids": true,
+        "lines": [
+          "Read Ezekiel 37:15–23 together, then find two sticks. Label one for Judah, the Bible, and the other for Joseph, the Book of Mormon.",
+          "Take turns sharing a story or verse from each book that helps you feel close to the Savior.",
+          "The Lord promises to gather and cleanse His people: “so shall they be my people, and I will be their God” (Ezekiel 37:23)."
+        ],
+        "ask": "Why is it a blessing to have both the Bible and the Book of Mormon?",
+        "approved": "db7c0519"
+      },
+      {
+        "h": "Our hearts and families can find healing in the house of the Lord.",
+        "id": "title10",
+        "ref": "Ezekiel 47:1–12",
+        "kids": true,
+        "lines": [
+          "Each person draws something from Ezekiel 47:1–12: the temple, the river, the desert, the Dead Sea, lots of fish, or a fruit tree. Hold it up when it comes.",
+          "Talk about the blessings the river brought, and how they are like what the Savior gives those who keep their temple covenants.",
+          "Sing a song together about the blessings of the temple, or watch the video ‘And the River Will Grow’. The lesson suggests both."
+        ],
+        "ask": "What blessings did the river bring, and how does the temple bring blessings like those to our family?",
+        "approved": "927013cd"
+      }
+    ],
+    "family": {
+      "title": "The Watchman and the Two Sticks",
+      "minutes": 20,
+      "from": [
+        "title8",
+        "title9",
+        "title5"
+      ],
+      "steps": [
+        {
+          "k": "open",
+          "text": "Sing ‘Israel, Israel, God Is Calling’ (Hymns, no. 7), a hymn about the Lord gathering His people. Then someone offers the opening prayer."
+        },
+        {
+          "k": "do",
+          "text": "One child is the watchman and leads the family on a trail through the house, calling out pretend dangers ahead: a river to leap, a low branch to duck, a bear to tiptoe past. Everyone moves only when the watchman says it’s safe."
+        },
+        {
+          "k": "learn",
+          "ref": "Ezekiel 33:1–5",
+          "text": "Read about the watchman chosen to guard the land. What does he do when he sees the sword coming, and what happens to people who ignore the trumpet? Then read Ezekiel 3:17, where the Lord gives Ezekiel that same job."
+        },
+        {
+          "k": "learn",
+          "ref": "Ezekiel 37:15–23",
+          "text": "Find two sticks, wooden spoons or pencils. Write Judah (Bible) on one and Joseph (Book of Mormon) on the other. Read the verses, and when the Lord joins the sticks, hold them end to end so they look like one in your hand."
+        },
+        {
+          "k": "talk",
+          "text": "In what ways is the prophet today like that watchman? Then each person shares one story from the Bible and one from the Book of Mormon that helps them feel close to Jesus."
+        },
+        {
+          "k": "close",
+          "text": "Parents share why they trust the prophet’s warnings and love both books of scripture. This week, listen for one thing the prophet has asked us to do, and do it as a family."
+        }
+      ],
+      "approved": "8bafacc7"
+    }
   }
 ];
