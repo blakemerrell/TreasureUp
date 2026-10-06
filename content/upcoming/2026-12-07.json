@@ -283,7 +283,15 @@
       "gradient": "linear-gradient(150deg,#292524 0%,#a16207 50%,#fde68a 115%)",
       "blobA": "rgba(253,230,138,.4)",
       "blobB": "rgba(0,0,0,.45)",
-      "approved": "2ad119c2"
+      "approved": "a46573e5",
+      "media": {
+        "image": {
+          "src": "media/sower-millet.jpg",
+          "alt": "Painting of a farmer in a brown shirt and blue trousers striding down a dark hillside, flinging seed from the sack on his shoulder while birds swoop behind him",
+          "credit": "The Sower, by Jean-François Millet, 1850. Public domain",
+          "link": "https://commons.wikimedia.org/wiki/File:Jean-Fran%C3%A7ois_Millet_-_The_Sower_-_Google_Art_Project.jpg"
+        }
+      }
     },
     {
       "id": "hag2-glory",
