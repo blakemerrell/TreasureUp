@@ -1,11 +1,21 @@
-# Amigo · Kaibigan: how a course is written
+# Wika: how a course is written
 
-Both words mean *friend*. Spanish for his friends at school, and Tagalog,
-Blake's mission language (the Philippines, 2002–2004), with Baybayin as a
-side quest. Each course is a file: `course-es.js` and `course-tl.js`, and
-Blake's own, `course-tl2.js` (Tagalog past the basics, below).
-`node tools/test-amigo.mjs` checks every rule below that can be counted, and
-runs at every deploy.
+*Wika* is Tagalog for "language" (Blake, 2026-10-06: "Change the name … to …
+wika", "Add the 2 other languages"). It was Amigo · Kaibigan, and keeps that
+game's address (`amigo/`) and progress (localStorage `amigo.v1`), so Javan's
+lessons and streaks carry on and old links still work.
+
+Spanish for his friends at school; Tagalog, Blake's mission language (the
+Philippines, 2002–2004); and the Bible's own Hebrew and Greek, from the
+weeks' treasure words. Each course is a file: `course-es.js` and
+`course-tl.js`, Blake's own `course-tl2.js` (Tagalog past the basics, below),
+and `course-he.js` and `course-el.js` (Hebrew and Greek, made by a tool,
+below). Three scripts are side quests: Baybayin, the alef-bet and the Greek
+letters. `node tools/test-amigo.mjs` checks every rule below that can be
+counted, and runs at every deploy.
+
+A link can open a course or a quest straight away: `amigo/?course=he` (or
+`es`, `tl`, `tl2`, `el`), `amigo/?quest=alef` (or `greek`, `bay`).
 
 ## A unit
 
@@ -84,6 +94,68 @@ review. A unit:
 - It isn't held back for Blake's check: he is the one learning it, and it
   goes live once he has tried it on the test site.
 
+## Hebrew and Greek: the treasure words (`course-he.js`, `course-el.js`)
+
+Each week in `content/weeks.js`, `content/past/` and `content/upcoming/` has a
+`treasure` list: five to seven words from its chapters, in Hebrew (a Strong's
+number starting with H) or Greek (G), each with `word` (the dictionary form,
+with its vowel points or accents), `say` (how it's said today), `gloss`,
+`kjv`, `means`, `more` and `approved` (see `content/README.md`).
+**Don't edit the course files**: `node tools/wika-words.mjs` writes them from
+the weeks, and both deploys run it before the recording step. It makes:
+
+- **A unit a week**, in date order, titled with the week's reading
+  ("Jeremiah 31–33; 36–39; Lamentations 1; 3") and dates, Hebrew words in
+  the Hebrew course and Greek in the Greek one (Christmas week has both).
+- **Each word marked `approved: true` only when its fingerprint matches**
+  (`approvalHash(withoutApproval(item))`, the function in `tools/verify.mjs`,
+  which the tool reads from that file). **The live app shows only those**,
+  and a week only with at least 3 of them (`engine.js` `liveWords`). The test
+  site shows every word, and marks a week or a word "Not approved yet".
+- **The meaning the choices use**: the gloss without the words that fit only
+  its verse ("of the holy one of" → "holy one"; a gloss that leaves nothing
+  gives way to the KJV's word). A word can carry `short` to say it instead.
+  Two words of a week with one meaning get their KJV word added.
+
+`kind: 'words'`: three lessons a week (`engine.js` `buildWords`), with no
+building from tiles. **Hear**: the first half of the words, each heard (the
+word hidden until he answers, if it can be heard) and its meaning picked,
+then its card (the word, how it's said, the meaning, `means`, the verse and
+the KJV's word, and `more`). **See**: the rest, each seen and its meaning
+picked, then its card; the first half the other way round, the meaning → pick
+the word. **Pick**: every word heard again, the meaning → pick the word. Match
+the pairs in each. A week of 3 or 4 words (Christmas) meets them all in Hear.
+A word answered right comes back later as a review, like a phrase. **Hebrew
+reads right to left**: every Hebrew word is drawn in a `<bdi dir="rtl">` (or
+with `dir="rtl"`), big, in Noto Serif Hebrew, which has the vowel points, with
+`say` under it. A course with no weeks yet says so (Greek: "The Greek words
+come with next year's New Testament"), and its letters quest still works.
+
+## The alef-bet and the Greek letters
+
+Side quests like Baybayin, each with Learn, Your name and Chart:
+
+- **The alef-bet** (`alefbet.js`): six lessons: Alef to Vav; the vowel points
+  (on bet: a, e, i, o, u, the sheva, the dot that makes ב a b); Zayin to
+  Lamed; Mem to Tsadi; Qof to Tav; the five final forms (ך ם ן ף ץ). Each
+  letter by sight and by name; the chart is right to left, and a tap says its
+  name. The fun fact: Javan's name is Hebrew, יָוָן (Genesis 10:2), and it's
+  the Old Testament's name for Greece.
+- **The Greek letters** (`greek-letters.js`): all 24 in five lessons (Alpha to
+  Epsilon, Zeta to Kappa, Lambda to Omicron, Pi to Upsilon, Phi to Omega,
+  with the breathing marks), capital and small.
+- **Words to read** end each lesson once its letters allow: the language's
+  treasure words (the approved ones on the live app), else a few well-known
+  Bible words (`FIXED`: שָׁלוֹם, אָמֵן, יָוָן…; ἀγάπη, φῶς…). Each fixed word is
+  in STEPBible's lexicon (TBESH, TBESG) under its Strong's number with that
+  spelling; the test checks it where it has the files (`STEP_LEX`, or
+  `/home/user/drafts/treasure/lex`). A word appears only once every letter
+  (and, in Hebrew, its vowel points) has been taught.
+- **Write your name**: by its sound, an approximation, and the screen says
+  so. Hebrew: a letter with its vowel point (Blake → בְּלֵיק), and a Bible name
+  the Bible's way (Javan → יָוָן). Greek: Blake → Βλεικ, and a J name starts
+  with Iota, like Ἰησοῦς (Javan → Ιαβαν).
+
 ## Voices
 
 A line is said, in this order, by:
@@ -111,9 +183,23 @@ A line is said, in this order, by:
    line in each. The live app doesn't require the Spanish recordings yet (a
    line without one is said by the phone's voice, as before), so the first
    Spanish recordings must come from the test site's deploy.
+   **Hebrew and Greek** (`amigo/audio/he/`, `amigo/audio/el/`) are recorded
+   the same way, by the same step: each treasure word, each letter's name (in
+   Hebrew, אָלֶף; in Greek, άλφα) and each fixed reading word, in Google's
+   Israeli Hebrew (he-IL) and Greek (el-GR) voices, a little slow (0.9). The
+   voice is picked the first time like the Spanish one (a man's, among its
+   Neural2, WaveNet or Chirp voices if it has any) and kept in
+   `amigo/audio/index.js`; `--voice-he`, `--voice-el` pick another,
+   `--samples <dir> --course he` says a line in each. **They're modern
+   pronunciation**, the way Israelis and Greeks talk today, not a
+   reconstruction of Bible times: β is said v, and the treasure words' `say`
+   is written the same way. The test tries the recording against a stand-in
+   for Google (`AMIGO_TTS_API`, `AMIGO_AUDIO_DIR`).
 2. **The phone's own voice** for the language: Spanish in its Mexican voice;
    Tagalog on phones that have one (many Androids: Google's Filipino voice
-   data).
+   data); Hebrew (he-IL) and Greek (el-GR) where the phone has them. Until
+   the recordings exist, a phone with neither shows the word and how it's
+   said, and says on screen that it has no Hebrew (or Greek) voice yet.
 3. For Tagalog on a phone without a Tagalog voice (every iPhone): **the
    Spanish voice**, since Tagalog is said much like Spanish, with *h* said as
    *j* (Spanish *h* is silent) and *ng*, *mga* as they're said. A lesson says
