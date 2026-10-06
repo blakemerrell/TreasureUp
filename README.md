@@ -107,7 +107,10 @@ glance i just approve all"):
 - **The weeks list.** A week with anything left to approve has one button:
   **Approve N and publish**. Two taps approve every piece left, save it to the
   test site, wait for its check, and publish the week to the live app (about two
-  minutes). A week that's approved but not live yet says **Publish**.
+  minutes). A week that's approved but not live yet says **Publish**. One at a
+  time: while a week saves or publishes, every other button waits, and a week's
+  button publishes that week even with another week's change waiting (it's saved
+  with it).
 - **A week.** One line per piece: ✓ approved, or empty for a draft, with what
   it is (a reel's headline; "19 verses · 4 notes · 1 to look at first" for a
   chapter's plain words). A tap opens a piece to read, approve or edit it.
@@ -119,7 +122,8 @@ glance i just approve all"):
 - **✏️ in the app.** Signed in as Blake, a ✏️ sits on each lesson step, reel,
   Go-deeper reading, chapter and short version. It opens developer mode on that
   piece, ready to change (`…/TreasureUp-test/#dev/<week's dates>/<piece>`).
-  Nothing changes until he saves there.
+  On the test site it opens over what's open (a lesson stays under it, and back
+  closes developer mode first). Nothing changes until he saves there.
 
 **Add next week any time before its Monday**: the app opens on the
 week whose dates include today, so it switches by itself (and last week turns

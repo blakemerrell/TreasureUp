@@ -3217,7 +3217,7 @@ const TreasureUp = (function () {
   function fixHtml(dates, key) {
     if (!dates || !key || !devOwner()) return '';
     const hash = '#dev/' + encodeURIComponent(dates) + '/' + encodeURIComponent(key);
-    return TEST_SITE ? `<a class="fix-link" href="${hash}" aria-label="Fix this in developer mode">✏️</a>`
+    return TEST_SITE ? `<a class="fix-link" href="${hash}" data-fix aria-label="Fix this in developer mode">✏️</a>`
       : `<a class="fix-link" href="https://blakemerrell.github.io/TreasureUp-test/${hash}" target="_blank" rel="noopener noreferrer" aria-label="Fix this in developer mode">✏️</a>`;
   }
   // A chapter's ✏️: its plain words, or else its short version.
@@ -11851,8 +11851,8 @@ const TreasureUp = (function () {
   // after a tap (a browser skips steps a page adds by itself), and taken off
   // again when a screen closes its own way.
   const BACK_LAYERS = [   // topmost first: each screen, and what closes it
-    ['wordSheet', '#wordClose'], ['appSheet', '#appClose'], ['parent', '#parentClose'], ['lesson', '#lessonExit'],
-    ['dev', '#devExit'], ['fam', '#famExit'], ['ammon', 'am'], ['look', 'lk'], ['snake', 'sn'],
+    ['wordSheet', '#wordClose'], ['appSheet', '#appClose'], ['dev', '#devExit'], ['parent', '#parentClose'], ['lesson', '#lessonExit'],
+    ['fam', '#famExit'], ['ammon', 'am'], ['look', 'lk'], ['snake', 'sn'],
     ['risk', '#riskExit'], ['live', '#liveExit'], ['play', '#playExit'], ['board', '#boardExit'], ['view', '#viewBack'], ['past', '#pastBack']
   ];
   let backAt = (history.state && history.state.tu) || 0, backGoing = false, backPopping = false, backTapAt = 0;
@@ -13627,9 +13627,11 @@ const TreasureUp = (function () {
     if (!saved.library && !saved.sunday && devNeeded(devItems(saved)).some(i => i.state !== 'ok')) return null;
     return { go: 'Publish', sure: 'Tap again to publish' };
   }
+  // Saving or publishing (one at a time: two at once could collide, or one's undo could drop the other's week).
+  const devBusy = () => !!(dev && (dev.busy || dev.shipping));
   function devShipBtn(w, act) {
     const x = devShipOf(w);
-    return x ? `<button class="btn" data-dev="${act}" data-week="${esc(w.dates)}"${dev.busy ? ' disabled' : ''}>${dev.confirmShip === w.dates ? x.sure : x.go}</button>` : '';
+    return x ? `<button class="btn" data-dev="${act}" data-week="${esc(w.dates)}"${devBusy() ? ' disabled' : ''}>${dev.confirmShip === w.dates ? x.sure : x.go}</button>` : '';
   }
 
   function weeksHtml() {
@@ -13885,21 +13887,21 @@ const TreasureUp = (function () {
       if (w.sunday) {
         const same = dev.liveSunday && canon(dev.liveSunday.sun) === canon(w.sun);
         publish = same ? '<p class="dv-small">✓ The Sunday classes are on the live app, exactly as they are here.</p>'
-          : `<button class="btn" data-dev="publish"${dev.busy ? ' disabled' : ''}>Publish to the live app</button><p class="dv-small">Only the approved lessons, and the talks’ approved words, show in the app.</p>`;
+          : `<button class="btn" data-dev="publish"${devBusy() ? ' disabled' : ''}>Publish to the live app</button><p class="dv-small">Only the approved lessons, and the talks’ approved words, show in the app.</p>`;
       }
       if (w.library) {
         const same = dev.livePlain && canon(dev.livePlain.lib) === canon(libOf(w));
         publish = same ? '<p class="dv-small">✓ These are on the live app, exactly as they are here.</p>'
-          : `<button class="btn" data-dev="publish"${dev.busy ? ' disabled' : ''}>Publish to the live app</button><p class="dv-small">Only the approved chapters show in the app.</p>`;
+          : `<button class="btn" data-dev="publish"${devBusy() ? ' disabled' : ''}>Publish to the live app</button><p class="dv-small">Only the approved chapters show in the app.</p>`;
       }
       const later = [(w.plain || []).length && 'the plain words', (w.tldr || []).length && 'the short versions'].filter(Boolean);
       const wait = later.length ? '; ' + later.join(' and ') + ' can wait' : '';
       if (!w.library && !w.sunday) publish = ok < items.length ? devLeft(devWeek()).length ? '' : `<p class="dv-small">Approve every piece to publish this week (${ok} of ${items.length} approved${wait}).</p>`
         : lw && canon(lw) === canon(w) ? '<p class="dv-small">✓ This week is on the live app, exactly as it is here.</p>'
-        : `<button class="btn" data-dev="publish"${dev.busy ? ' disabled' : ''}>Publish this week to the live app</button>`;
+        : `<button class="btn" data-dev="publish"${devBusy() ? ' disabled' : ''}>Publish this week to the live app</button>`;
     }
     const status = s ? `<div class="dv-status ${s.kind}">${esc(s.text)}${(s.items || []).length ? '<ul>' + s.items.map(x => `<li>${esc(x)}</li>`).join('') + '</ul>' : ''}</div>` : '';
-    const save = n ? `<button class="btn" data-dev="save"${dev.busy ? ' disabled' : ''}>Save ${n} change${n === 1 ? '' : 's'} and check</button>` : '';
+    const save = n ? `<button class="btn" data-dev="save"${devBusy() ? ' disabled' : ''}>Save ${n} change${n === 1 ? '' : 's'} and check</button>` : '';
     bar.innerHTML = status || save || publish ? `<div class="dv-bar-in">${status}${save}${publish}</div>` : '';
   }
 
@@ -13958,7 +13960,9 @@ const TreasureUp = (function () {
     }
     sha = sunSha || libSha || sha;
     devSetWeeks(weeksNow, plainNow, sundayNow);
-    const moved = changes.find(c => c.key === 'week');
+    // Only this week's own change can move it: another week's waiting change
+    // mustn't, or a week's button would go on to publish that other week.
+    const moved = changes.find(c => c.key === 'week' && c.dates === dev.week);
     if (moved) dev.week = moved.obj.dates;
     dev.changes.clear();
     renderDev();
@@ -13972,20 +13976,26 @@ const TreasureUp = (function () {
   // A week's one button: approve every piece left, save, and once the test
   // site's check passes, publish it. A reel whose clip he hasn't watched isn't
   // approved by it, so a week with one saves but waits for that reel.
+  // Until it's done, every week's button and the bar's Save and Publish wait (devBusy).
   async function devShip(dates) {
     dev.week = dates;
     devLeft(devWeek()).forEach(i => devApprove(i.key));
     dev.open = dev.editing = null;
+    dev.shipping = true;
     renderDev();
-    if (dev.changes.size && await devSave() !== true) return;     // the checker's findings, or still going, are in the bar
-    if (!dev) return;
-    const w = savedWeek();
-    if (!w.library && !w.sunday) {
-      const short = devNeeded(devItems(w)).filter(i => i.state !== 'ok').length;
-      if (short) { dev.status = { kind: 'bad', text: `Saved. ${short} more to approve before it can go live: a reel's clip has to be watched first. Open it, watch the clip, approve it, then publish.` }; renderDev(); return; }
+    try {
+      if (dev.changes.size && await devSave() !== true) return;     // the checker's findings, or still going, are in the bar
+      if (!dev) return;
+      const w = savedWeek();
+      if (!w.library && !w.sunday) {
+        const short = devNeeded(devItems(w)).filter(i => i.state !== 'ok').length;
+        if (short) { dev.status = { kind: 'bad', text: `Saved. ${short} more to approve before it can go live: a reel's clip has to be watched first. Open it, watch the clip, approve it, then publish.` }; return; }
+      }
+      if (devLiveSame(w)) { dev.status = { kind: 'ok', text: '✓ Approved and saved. It was on the live app already.' }; return; }
+      await devPublish();
+    } finally {
+      if (dev) { dev.shipping = false; if (dev.editing) renderDevBar(); else renderDev(); }
     }
-    if (devLiveSame(w)) { dev.status = { kind: 'ok', text: '✓ Approved and saved. It was on the live app already.' }; renderDev(); return; }
-    await devPublish();
   }
 
   async function devPublish() {
@@ -14050,6 +14060,7 @@ const TreasureUp = (function () {
 
   async function devAction(el) {
     const act = el.dataset.dev, say = m => { const n = $('devNote'); if (n) n.textContent = m; };
+    if (devBusy() && /^(save|publish|ship|shipweek)$/.test(act)) return;   // one save or publish at a time, even from a button drawn before it began
     if (act !== 'ship' && act !== 'shipweek') dev.confirmShip = null;
     try {
       if (act === 'retry') { dev.view = 'loading'; renderDev(); return devStart(); }
@@ -14411,7 +14422,16 @@ const TreasureUp = (function () {
 
     // Developer mode.
     $('devExit').addEventListener('click', closeDev);
-    window.addEventListener('hashchange', () => { if (/^#dev\//.test(location.hash)) devFromHash(); });   // a ✏️ on the test site
+    window.addEventListener('hashchange', () => { if (/^#dev\//.test(location.hash)) devFromHash(); });   // a #dev/… link typed or pasted
+    // A ✏️ on the test site opens developer mode over what's open. Not by following
+    // its link: a jump within the page counts as a step back, which closed the lesson.
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a.fix-link[data-fix]');
+      if (!a) return;
+      e.preventDefault();
+      history.replaceState(history.state, '', a.getAttribute('href'));
+      devFromHash();
+    }, true);
     $('dev').addEventListener('click', e => {
       const el = e.target.closest('[data-dev]');
       if (el && !el.disabled && dev) devAction(el);
