@@ -1183,6 +1183,26 @@
   .ls-orig .ow:active, .ls-orig .ow:focus-visible { background: rgba(192,132,252,.18); outline: none; }
   .ls-orig .ow:disabled { cursor: default; }
   .sh-title { padding-right: 44px; font-size: 21px; font-weight: 900; }
+  /* The lesson, part by part, and family night. */
+  .gd { margin-top: 18px; }
+  .gd-sub { margin: 14px 0 2px; font-size: 13px; font-weight: 800; color: var(--gold); }
+  .gd-part { margin-top: 8px; border-radius: 14px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); }
+  .gd-part summary { list-style: none; cursor: pointer; padding: 11px 14px; display: flex; align-items: center; gap: 10px; }
+  .gd-part summary::-webkit-details-marker { display: none; }
+  .gd-part summary::after { content: '›'; margin-left: auto; color: rgba(255,255,255,.4); transition: transform .15s; }
+  .gd-part[open] summary::after { transform: rotate(90deg); }
+  .gd-part summary b { display: block; font-size: 15px; line-height: 1.3; }
+  .gd-part summary small { display: block; margin-top: 2px; font-size: 12.5px; color: rgba(255,255,255,.6); }
+  .gd-part > :not(summary) { margin-left: 14px; margin-right: 14px; }
+  .gd-part ul { margin-top: 2px; padding-left: 18px; font-size: 14.5px; line-height: 1.45; }
+  .gd-part li + li { margin-top: 4px; }
+  .gd-ask { margin-top: 10px; font-size: 14.5px; line-height: 1.45; }
+  .gd-go { display: inline-block; margin: 10px 0 12px; font-size: 13px; font-weight: 700; color: var(--gold); }
+  .fn-steps { list-style: none; margin: 14px 0 0; padding: 0; }
+  .fn-steps li { display: flex; gap: 12px; padding: 10px 0; border-top: 1px solid rgba(255,255,255,.08); }
+  .fn-ic { flex: 0 0 28px; font-size: 20px; line-height: 1.2; }
+  .fn-steps b { font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--gold); }
+  .fn-steps p { margin-top: 3px; font-size: 15px; line-height: 1.45; }
   .sh-ladder { margin-top: 14px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
   .sh-ladder div { padding: 10px 4px; border-radius: 12px; text-align: center; background: rgba(255,255,255,.05); border: 1.5px solid rgba(255,255,255,.12); }
   .sh-ladder div.on { background: rgba(252,211,77,.16); border-color: var(--gold); }
@@ -2634,6 +2654,7 @@ const TreasureUp = (function () {
     // An earlier day still behind brings only what's left of it; today's own steps stay, done or not.
     let rows = entries.flatMap(e => { const from = isToday && flowDay(e) < d, r = entryRows(e, from); return from ? r.filter(x => !x.done) : r; });
     if (d === 6) rows = rows.concat(sundayRows(k));
+    if (d === 0 && familyOf(WEEK)) rows = rows.concat([{ card: 'familynight', done: null, html: familyRowHtml(WEEK) }]);
     if (isToday) rows = rows.concat(wordRows(), gratefulRows(), seasonRows());
     let button;
     if (isToday) button = upNext(entries, rows, d, k);
@@ -2763,12 +2784,58 @@ const TreasureUp = (function () {
   // This week, from the row at the foot of Today: the numbers that were on the page, and the lesson.
   function weekSheetHtml() {
     return `<div class="sh-title">This week</div><p class="sh-small"><b>${esc(WEEK.title)}</b> · ${linkRefs(WEEK.reference)}</p>
-      ${weekStatsHtml().replace('<div class="eyebrow">Your week</div>', '')}
+      ${familyRowHtml(WEEK)}${guideHtml(WEEK)}
+      ${weekStatsHtml().replace('<div class="eyebrow">Your week</div>', guideOf(WEEK).length ? '<div class="eyebrow" style="margin-top:18px">Your week</div>' : '')}
       <a class="parent-link" href="${esc(WEEK.lesson)}" target="_blank" rel="noopener noreferrer">Open this week's lesson in Gospel Library ↗</a>`;
+  }
+  // The lesson, part by part (week.guide; Blake, 2026-10-06: "Are you taking
+  // the church manual and breaking it up for us in this app?"): each section of
+  // the week's Come, Follow Me lesson in our own words, a question to talk
+  // about, and the section itself a tap away in Gospel Library. And the week's
+  // family night (week.family): a 15–20 minute plan from the lesson's ideas.
+  // Each shows once approved, or on the test site as a marked draft, like the
+  // plain words.
+  function shownOf(x) {
+    if (!x) return null;
+    const approved = !!x.approved && x.approved === approvalHash(noApproval(x));
+    return approved || TEST_SITE ? { x, draft: !approved } : null;
+  }
+  const guideOf = week => ((week && week.guide) || []).map(shownOf).filter(Boolean);
+  const familyOf = week => shownOf(week && week.family);
+  const lessonAt = (week, id) => week.lesson + (week.lesson.includes('?') ? '&' : '?') + 'id=' + encodeURIComponent(id) + '#' + encodeURIComponent(id);
+  const draftTag = '<span class="plain-draft">Draft: not approved yet</span>';
+  function guideHtml(week) {
+    const parts = guideOf(week);
+    if (!parts.length) return '';
+    const part = ({ x, draft }) => `<details class="gd-part"><summary><span><b>${esc(x.h)}</b><small>${esc(x.ref)}</small></span></summary>
+        ${draft ? draftTag : ''}<ul>${x.lines.map(l => `<li>${linkRefs(l, x.ref)}</li>`).join('')}</ul>
+        <p class="gd-ask"><b>Talk about it:</b> ${linkRefs(x.ask, x.ref)}</p>
+        <a class="gd-go" href="${esc(lessonAt(week, x.id))}" target="_blank" rel="noopener noreferrer">Read this part in Gospel Library ↗</a>${fixHtml(week.dates, 'guide:' + x.id)}</details>`;
+    const home = parts.filter(p => !p.x.kids), kids = parts.filter(p => p.x.kids);
+    return `<div class="gd"><div class="eyebrow">The lesson, part by part</div>${home.map(part).join('')}
+      ${kids.length ? `<div class="gd-sub">For children</div>${kids.map(part).join('')}` : ''}</div>`;
+  }
+  const FAMILY_STEP = { open: ['🎵', 'Begin'], learn: ['📖', 'Read together'], do: ['🧩', 'Do'], talk: ['💬', 'Talk'], close: ['🙏', 'End'] };
+  function familyHtml(week) {
+    const f = familyOf(week);
+    if (!f) return '';
+    const x = f.x, from = (week.guide || []).filter(g => (x.from || []).includes(g.id)).map(g => g.h);
+    return `<div class="sh-title">👨‍👩‍👦 Family night</div>
+      <p class="sh-line">${esc(x.title)} · about ${x.minutes} minutes${fixHtml(week.dates, 'family')}</p>${f.draft ? draftTag : ''}
+      <ol class="fn-steps">${x.steps.map(s => {
+        const [ic, name] = FAMILY_STEP[s.k] || ['•', ''];
+        return `<li><span class="fn-ic" aria-hidden="true">${ic}</span><div><b>${name}${s.ref ? ' · ' + linkRefs(s.ref) : ''}</b><p>${linkRefs(s.text, s.ref)}</p></div></li>`;
+      }).join('')}</ol>
+      ${from.length ? `<p class="sh-small">From this week's lesson: ${from.map(esc).join(' · ')}</p>` : ''}
+      <a class="parent-link" href="${esc(week.lesson)}" target="_blank" rel="noopener noreferrer">Open the lesson in Gospel Library ↗</a>`;
+  }
+  function familyRowHtml(week) {
+    const f = familyOf(week);
+    return f ? flowRow('data-familynight', false, 'Family night: ' + esc(f.x.title), 'About ' + f.x.minutes + ' minutes, for everyone' + (f.draft ? ' · draft' : ''), { icon: '👨‍👩‍👦' }) : '';
   }
   function weekRowHtml() {
     const units = readingAll(), readN = units.filter(u => S.read[u.ref]).length, total = WEEK.reels.length, answered = WEEK.reels.filter(r => S.answers[r.id]).length;
-    return `<button class="fl-week" data-weeksheet><span><b>This week</b><small>${units.length ? readN + ' of ' + units.length + ' chapters · ' : ''}${answered} of ${total} reels · more numbers</small></span><span class="fl-go">›</span></button>`;
+    return `<button class="fl-week" data-weeksheet><span><b>This week</b><small>${units.length ? readN + ' of ' + units.length + ' chapters · ' : ''}${answered} of ${total} reels · ${guideOf(WEEK).length ? 'the lesson, part by part' : 'more numbers'}</small></span><span class="fl-go">›</span></button>`;
   }
 
   function dayCardHtml(k) {
@@ -13257,7 +13324,9 @@ const TreasureUp = (function () {
     ch: 'Chapter', verses: 'Plain words (one line per verse)', notes: 'Notes under verses', v: 'Verse number',
     review: 'For your review (not shown in the app)', about: 'What to look at',
     lines: 'Lines (one per line, each ending with its verses, like (verses 4–5))', also: 'Under the card: the Book of Mormon copy the heading names',
-    by: 'From (Scripture Central, BYU Speeches, General Conference…)', who: 'Speaker or author', url: 'Page link'
+    by: 'From (Scripture Central, BYU Speeches, General Conference…)', who: 'Speaker or author', url: 'Page link',
+    h: 'Heading (as the lesson has it)', kids: 'For children (from Ideas for Teaching Children)', ask: 'Question to talk about',
+    minutes: 'Minutes', from: 'Lesson parts it draws on (their ids, one per line)', steps: 'Steps', k: 'Kind: open, learn, do, talk or close'
   };
   let dev = null;
   const devTest = () => !FIREBASE_CONFIG && window.TU_DEV_TEST;   // the tests' stand-in for GitHub and sign-in
@@ -13288,6 +13357,8 @@ const TreasureUp = (function () {
     w.reels.forEach((r, n) => add('reel:' + r.id, 'Reel ' + (n + 1) + ' · ' + (w.sections[r.section] || ''), r, r.approved, noApproval(r)));
     (w.deep || []).forEach(d => add('deep:' + d.id, d.day === 'friday' ? 'Friday deep dive' : 'Go deeper · ' + (w.sections[d.section] || ''), d, d.approved, noApproval(d)));
     if (w.puzzle) add('puzzle', 'Weekly puzzle', w.puzzle, w.puzzle.approved, noApproval(w.puzzle));
+    (w.guide || []).forEach(g => add('guide:' + g.id, (g.kids ? 'For children · ' : 'Lesson part · ') + g.h, g, g.approved, noApproval(g)));
+    if (w.family) add('family', 'Family night', w.family, w.family.approved, noApproval(w.family));
     (w.sayings || []).forEach(x => add('say:' + x.id, 'Who said it?', x, x.approved, noApproval(x)));
     if (w.words) add('words', 'Verse Words', w.words, w.wordsApproved, w.words);
     (w.plain || []).forEach(p => add('plain:' + p.ch, 'Plain words · ' + p.ch, p, p.approved, noApproval(p)));
@@ -13304,16 +13375,19 @@ const TreasureUp = (function () {
   const devLeft = w => devItems(w).filter(i => i.state !== 'ok' && !devUnwatched(i));
   // Plain words, short versions and insight cards never hold a week back:
   // each shows in the app only once it's approved, so a week publishes without them.
-  const OPTIONAL = /^(plain|tldr|insight|sunl|talk):/;
-  const devNeeded = items => items.filter(i => !OPTIONAL.test(i.key));
+  // So do the lesson part by part and family night.
+  const OPTIONAL = /^(plain|tldr|insight|sunl|talk|guide):/;
+  const devNeeded = items => items.filter(i => !OPTIONAL.test(i.key) && i.key !== 'family');
   // A kind of piece's list in a week, and a piece's name in it (plain words and short versions go by chapter).
   const devList = (w, kind) => kind === 'reel' ? w.reels : kind === 'deep' ? w.deep : kind === 'plain' ? (w.plain || []) : kind === 'tldr' ? (w.tldr || [])
-    : kind === 'treasure' ? (w.treasure || []) : kind === 'insight' ? (w.insights || []) : kind === 'sunl' ? sunLessonsOf(w) : kind === 'talk' ? sunTalksOf(w) : w.sayings;
+    : kind === 'treasure' ? (w.treasure || []) : kind === 'insight' ? (w.insights || []) : kind === 'sunl' ? sunLessonsOf(w) : kind === 'talk' ? sunTalksOf(w)
+    : kind === 'guide' ? (w.guide || []) : w.sayings;
   const devIdOf = (kind, x) => kind === 'plain' || kind === 'tldr' ? x.ch : x.id;
   function devGet(w, key) {
     if (key === 'week') return weekMeta(w);
     if (key === 'words') return w.words;
     if (key === 'puzzle') return w.puzzle;
+    if (key === 'family') return w.family;
     const kind = key.slice(0, key.indexOf(':')), id = key.slice(key.indexOf(':') + 1);
     return devList(w, kind).find(x => devIdOf(kind, x) === id);
   }
@@ -13323,6 +13397,7 @@ const TreasureUp = (function () {
     if (key === 'week') Object.assign(w, weekMeta(obj));
     else if (key === 'words') w.words = obj;
     else if (key === 'puzzle') w.puzzle = obj;
+    else if (key === 'family') w.family = obj;
     else {
       const kind = key.slice(0, key.indexOf(':')), id = key.slice(key.indexOf(':') + 1);
       // A Sunday lesson or talk sits in its month's or conference's list.
@@ -13584,6 +13659,7 @@ const TreasureUp = (function () {
     const clipNote = clips ? `<p class="dv-small">${clips} ${clips === 1 ? 'reel has a clip' : 'reels have a clip'} you haven’t watched: watch it, then approve the reel on its own.</p>` : '';
     const groups = [['The week', i => i.key === 'week'], ['Reels', i => i.key.startsWith('reel:')], ['Go deeper', i => i.key.startsWith('deep:')],
                     ['Games', i => i.key === 'puzzle' || i.key === 'words' || i.key.startsWith('say:')],
+                    ['The lesson, part by part', i => i.key.startsWith('guide:')], ['Family night', i => i.key === 'family'],
                     ['Plain words', i => i.key.startsWith('plain:')], ['The short version', i => i.key.startsWith('tldr:')],
                     ['Treasure words', i => i.key.startsWith('treasure:')],
                     ['Insights', i => i.key.startsWith('insight:')],
@@ -13604,6 +13680,8 @@ const TreasureUp = (function () {
 
   // What a kind of piece is, under it when it's opened.
   const DEV_HELP = {
+    'guide:': 'A section of the week’s lesson in our own words, with a question to talk about and a link to the section. Open the section to check it says so. It shows in This week once it’s approved.',
+    'family': 'The week’s family night, from the lesson’s ideas. It shows on Monday and in This week once it’s approved.',
     'plain:': 'Each verse of the KJV with its plain words under it, and the BSB to compare. A chapter shows in the app once it’s approved.',
     'tldr:': 'The lines at the top of each chapter, each with the KJV verses it sums up under it. A chapter’s card shows in the app once it’s approved.',
     'treasure:': 'A Hebrew or Greek word from the week’s chapters, for the top of its chapter, the Word of the day and Wika. The checker found it in its verse. It shows in the app once it’s approved.',
@@ -13622,6 +13700,8 @@ const TreasureUp = (function () {
     if (k === 'words') return [].concat(o).map(x => x && x.word).filter(Boolean).join(' · ');
     if (k.startsWith('plain:')) return [n((o.verses || []).length, 'verse', 'verses'), (o.notes || []).length && n(o.notes.length, 'note', 'notes'), (o.review || []).length && o.review.length + ' to look at first'].filter(Boolean).join(' · ');
     if (k.startsWith('tldr:')) return (o.lines || [])[0] || '';
+    if (k.startsWith('guide:')) return (o.ref || '') + ' · ' + ((o.lines || [])[0] || '');
+    if (k === 'family') return (o.title || '') + ' · ' + (o.minutes || '?') + ' min · ' + n((o.steps || []).length, 'step', 'steps');
     if (k.startsWith('insight:')) return o.title || o.quote || '';
     if (k.startsWith('sunl:')) return (o.title || '') + ' · ' + n((o.cards || []).length, 'card', 'cards');
     if (k.startsWith('talk:')) return (o.title || '') + ' · ' + (o.speaker || '');
@@ -13721,6 +13801,10 @@ const TreasureUp = (function () {
         list('What it teaches', o.points) + list('To talk over', o.discuss) +
         (o.deep ? `<div class="dv-deep"><p class="dv-small">🤿 Deep dive:</p>${(o.deep.paras || []).map(t => `<p>${esc(t)}</p>`).join('')}<p class="dv-small">On the page: ${[].concat(o.deep.find || []).map(f => `“${esc(f)}”`).join(' · ')}</p></div>` : '');
     }
+    if (it.key.startsWith('guide:')) return `<div class="dv-hook">${esc(o.h)}</div><p class="dv-small">${esc(o.ref)}${o.kids ? ' · For children' : ''} · <a href="${esc(lessonAt(w, o.id))}" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">the section ↗</a></p>
+      <ul style="padding-left:18px;margin-top:6px">${(o.lines || []).map(l => `<li>${esc(l)}</li>`).join('')}</ul><p class="dv-small" style="margin-top:6px">Talk about it: ${esc(o.ask || '')}</p>`;
+    if (it.key === 'family') return `<div class="dv-hook">${esc(o.title)}</div><p class="dv-small">About ${esc(String(o.minutes))} minutes · from ${esc((o.from || []).map(id => ((w.guide || []).find(g => g.id === id) || {}).h || id).join(' · '))}</p>
+      <ol style="padding-left:18px;margin-top:6px">${(o.steps || []).map(st => `<li style="margin-top:4px"><b>${esc((FAMILY_STEP[st.k] || ['', st.k])[1])}${st.ref ? ' · ' + esc(st.ref) : ''}:</b> ${esc(st.text)}</li>`).join('')}</ol>`;
     if (it.key.startsWith('tldr:')) {
       // Each line of the card, with the KJV verses it sums up under it.
       const kjv = (window.TU_READING || {})[o.ch] || [], look = o.review || [];
@@ -14004,7 +14088,7 @@ const TreasureUp = (function () {
         let obj;
         if (dev.raw) { try { obj = JSON.parse($('devJson').value); } catch (e) { return say("That isn't valid JSON: " + e.message); } }
         else obj = devReadForm(el.closest('.dv-editor'), key === 'words' ? before : noApproval(before));
-        if (/^(reel|deep|say|insight):/.test(key)) obj.id = before.id;                                         // ids stay put: answers are saved by id
+        if (/^(reel|deep|say|insight|guide):/.test(key)) obj.id = before.id;                                         // ids stay put: answers are saved by id
         if (key.startsWith('plain:') || key.startsWith('tldr:')) obj.ch = before.ch;                        // plain words and short versions stay with their chapter
         if (key === 'week') obj.dates = before.dates;                                                        // and the dates are the week itself
         dev.editing = null;
@@ -14030,6 +14114,7 @@ const TreasureUp = (function () {
       if (homeTab === 'season' && seasonSheetClick(e)) return;      // the Season tab is the Season's home
       if (seasonClick(e)) return;
       if (e.target.closest('[data-weeksheet]')) { use('week'); return openSheet(weekSheetHtml()); }
+      if (e.target.closest('[data-familynight]')) return openSheet(familyHtml(WEEK));
       // The timeline: a day, or a week of the year (its Monday).
       const day = e.target.closest('[data-day]');
       if (day) { selDay = day.dataset.day === dayKey() ? null : day.dataset.day; const h = $('home'), y = h.scrollTop; renderHome(); h.scrollTop = y; return; }
@@ -14186,6 +14271,7 @@ const TreasureUp = (function () {
     $('appSheet').addEventListener('click', e => {
       if (e.target.closest('#appClose') || e.target.id === 'appSheet') { stopClips(); closeSheet(); refreshHome(); return; }
       if (seasonSheetClick(e) || seasonClick(e)) return;
+      if (e.target.closest('[data-familynight]')) return openSheet(familyHtml(WEEK));
       const clip = e.target.closest('button.clip');
       if (clip) { playClip(clip); return; }
       const v = e.target.closest('[data-set-voice]');

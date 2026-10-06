@@ -65,9 +65,12 @@ named for its Monday (`2026-11-16.json`, the week's plain JSON), because
 weeks.js has to stay under the 1 MB developer mode can read. Every deploy,
 on both sites, runs  node tools/archive-weeks.mjs  and then
 node tools/upcoming-weeks.mjs, which brings the waiting weeks in, oldest
-first, while weeks.js stays under 960 KB; the deploy saves the result back
+first, while weeks.js stays under 900 KB; the deploy saves the result back
 to the repo, and runs every Monday too, so about three weeks ahead are always
-in weeks.js for Blake to approve. tools/verify.mjs checks the waiting weeks
+in weeks.js for Blake to approve. A week grows once it's in (approvals,
+edits, its lesson part by part and family night), so when weeks.js is over
+900 KB the weeks furthest ahead go back to waiting, the latest first, until
+it's under again; this week and next always stay. tools/verify.mjs checks the waiting weeks
 like the others, so a mistake shows when a week is written, not the day it
 comes in. The live repo has waiting weeks too since Blake had the rest of
 2026 approved at once (2026-10-05: "Get it all live"); the live deploy still
@@ -268,6 +271,64 @@ each `{ ch, lines, review }`.
 - Each week's cards are read against the verses, the heading and the lesson
   by a second reviewer before they go in. The checker counts the lines,
   their length and verses, their references, and checks any quote.
+
+## The lesson, part by part (`guide`)
+
+Blake, 2026-10-06: "Are you taking the church manual and breaking it up for
+us in this app? Can you?" The week's Come, Follow Me lesson, section by
+section, in **This week** (the week sheet): what each section teaches and
+asks, a question to talk about, and a link to that section in Gospel Library.
+A week's `guide` is every section of its lesson in the lesson's order:
+"Ideas for Learning at Home and at Church", then "Ideas for Teaching
+Children". Leave out the lesson's "Scripture Helps" (the short versions use
+it). Each section is `{ h, id, ref, kids, lines, ask }`.
+
+- `h`: the section's heading as the lesson has it, word for word. It's a
+  title, and it's how he finds the section on the page.
+- `id`: the heading's anchor on the lesson page (`title3`). The link opens
+  the lesson at it: `<lesson>&id=<id>#<id>`.
+- `ref`: the verses the section is about, as the lesson labels them ("Isaiah
+  50–52"). For a children's section, the verses it uses.
+- `kids`: `true` for a section from "Ideas for Teaching Children".
+- `lines`: 2 to 4 lines on what the section teaches and invites the family
+  to do, 30 words max each. Write for an 11-year-old and his parents.
+  References are links. Quote only scripture, in the KJV's own words with
+  its reference.
+- `ask`: one question to talk about, from the section's own invitation. 25
+  words max.
+- **In our own words.** The site is public, and the Church's terms of use
+  cover personal and family use. Outside a scripture quote, no run of 8
+  words may match the lesson page; `tools/verify.mjs --online` compares them.
+- **Shown once approved.** Each section shows once it's approved in
+  developer mode, like the plain words; the test site shows drafts, marked.
+  It never holds a week back.
+- **Every section covered** (Blake, 2026-10-06: "Check nothing's missed").
+  Each section of "Ideas for Learning at Home and at Church" has at least one
+  reel on its idea. Each "Ideas for Teaching Children" section has a reel,
+  or the week's family night or Friday deep dive.
+
+## Family night (`family`)
+
+One plan a week for the whole family, 15 to 20 minutes, from the lesson's
+ideas, most often its "Ideas for Teaching Children" (Blake, 2026-10-06: "A
+family night plan"). It shows on Monday's card and in This week, and is
+`{ title, minutes, from, steps }`.
+
+- `title`: the evening's idea, 40 characters max.
+- `minutes`: 10 to 30.
+- `from`: the `id`s of the `guide` sections it draws on.
+- `steps`: 4 to 6, in order, each `{ k, text }`, with `ref` on a `learn`
+  step. 50 words max each. The `k` values:
+  - `open`: a song by its name in ‘single quotes’ and its number in the
+    Children's Songbook or Hymns, with no lyrics (“curly quotes” are for
+    scripture, which the checker matches); or a picture to look at. Then a
+    prayer.
+  - `learn`: verses to read together (`ref`) and what to look for.
+  - `do`: an activity with things a family has at home.
+  - `talk`: a question or two.
+  - `close`: a testimony to share or an invitation for the week.
+- **In our own words**, checked against the lesson page like the `guide`.
+- **Shown once approved** in developer mode; drafts on the test site.
 
 ## Insight cards (`insights`)
 
