@@ -10247,7 +10247,190 @@ window.TU_WEEKS = [
         "more": "Even after Jerusalem fell, Jeremiah said the Lord’s compassions “fail not” and “are new every morning” (verse 23). The same letters spell רַחַם, “womb.”",
         "approved": "4e4ef2ad"
       }
-    ]
+    ],
+    "guide": [
+      {
+        "h": "The Lord will bring His covenant people out of captivity.",
+        "id": "title3",
+        "ref": "Jeremiah 31; 33",
+        "kids": false,
+        "lines": [
+          "The Lord knew captivity would bring His people “lamentation, and bitter weeping” (Jeremiah 31:15). He didn’t look away from their sorrow.",
+          "But Jeremiah 31 and 33 are full of comfort and hope too. Look for those promises as you read, like “I will turn their mourning into joy” (Jeremiah 31:13).",
+          "He even promised to bring the captives home: “I will cause the captivity of Judah and the captivity of Israel to return” (Jeremiah 33:7)."
+        ],
+        "ask": "Which of the Lord’s promises in these chapters feels most like it’s meant for you, and why?",
+        "approved": "31d39626"
+      },
+      {
+        "h": "“They shall be my people, and I will be their God.”",
+        "id": "title4",
+        "ref": "Jeremiah 31:31–34; 32:37–42",
+        "kids": false,
+        "lines": [
+          "Israel had broken its covenants, yet the Lord promised “a new covenant” (Jeremiah 31:31) and “an everlasting covenant” (Jeremiah 32:40). What is that covenant?",
+          "For help, look up New and Everlasting Covenant in the Guide to the Scriptures, or read Elder Alan R. Walker’s talk ‘A Peculiar Treasure.’",
+          "As you read, ponder what it means to belong to God’s covenant people, with His law written on your heart.",
+          "Think too about what the Lord promises you in your covenants, and how keeping close to Him changes you."
+        ],
+        "ask": "What promises have you made to God, at baptism or in other ordinances, and how have you seen Him keep His?",
+        "approved": "365ec5df"
+      },
+      {
+        "h": "The scriptures have power to turn me away from evil.",
+        "id": "title5",
+        "ref": "Jeremiah 36",
+        "kids": false,
+        "lines": [
+          "Jeremiah 36:2–3 tells why the Lord had Jeremiah write His words in a scroll: so the people might hear, turn from evil and be forgiven.",
+          "As you read, notice how each one felt about the scroll: the Lord, Jeremiah, Baruch, Jehudi, King Jehoiakim, and the princes who begged the king not to burn it."
+        ],
+        "ask": "How do you feel about the scriptures? When have they helped you stay away from something wrong?",
+        "approved": "1f5d2921"
+      },
+      {
+        "h": "Be firm in following God’s prophets.",
+        "id": "title6",
+        "ref": "Jeremiah 37–39",
+        "kids": false,
+        "lines": [
+          "In Jeremiah 37:1–3, 15–21 and Jeremiah 38:1–6, 14–28, look for clues that King Zedekiah believed Jeremiah spoke for the Lord, and clues that he didn’t.",
+          "Jeremiah 39 shows what happened when the warnings were ignored. How might things have gone if the king and his people had obeyed?",
+          "Lehi lived in Jerusalem under the same king. Set his family’s story in 1 Nephi 1–2 beside Zedekiah’s. What do you notice?"
+        ],
+        "ask": "What helps you follow the prophet even when it’s hard, or when others around you won’t?",
+        "approved": "8155e421"
+      },
+      {
+        "h": "I can be bold in standing up for what is right.",
+        "id": "title7",
+        "ref": "Jeremiah 38:6–13; 39:15–18",
+        "kids": false,
+        "lines": [
+          "The princes claimed Jeremiah’s words were weakening the soldiers, so they lowered him into a muddy pit (Jeremiah 38:1–6).",
+          "Read Jeremiah 38:7–13. What stands out to you about the way Ebed-melech, a servant from Ethiopia, came to Jeremiah’s rescue?",
+          "Then see what the Lord promised him in Jeremiah 39:15–18: “I will surely deliver thee” (Jeremiah 39:18)."
+        ],
+        "ask": "Where might you need to be brave like Ebed-melech, at school, with friends or online?",
+        "approved": "5390c157"
+      },
+      {
+        "h": "The Lord can relieve the sorrow I experience because of sin.",
+        "id": "title8",
+        "ref": "Lamentations 1; 3",
+        "kids": false,
+        "lines": [
+          "Lamentations gathers sad poems from the time after Babylon destroyed Jerusalem and its temple. Why might it matter that they were saved for us?",
+          "Its word pictures, like Jerusalem as a widow weeping in the night (Lamentations 1:1–2), show how deep Israel’s sorrow was.",
+          "Look for hope in Christ too, especially in Lamentations 3:20–33. Matthew 5:4, James 4:8–10 and Alma 36:17–20 add more.",
+          "President M. Russell Ballard pleaded with anyone trapped by sin never to give up, because hope is always there. See also hymn 115, ‘Come, Ye Disconsolate.’"
+        ],
+        "ask": "Which verse in Lamentations 3:20–33 gives you the most hope in Jesus Christ, and why?",
+        "approved": "edb81d36"
+      },
+      {
+        "h": "Heavenly Father and Jesus love me “with an everlasting love.”",
+        "id": "title10",
+        "ref": "Jeremiah 31:3",
+        "kids": true,
+        "lines": [
+          "Read Jeremiah 31:3. Then hunt the house for things that last a long time and things that don’t, like a piece of fruit.",
+          "What does everlasting mean? Tell each other about a time you felt Heavenly Father’s love that never runs out.",
+          "Sing ‘God Is Watching Over All’ together, from page 229 of the Children’s Songbook."
+        ],
+        "ask": "How does it feel to know that Heavenly Father and Jesus will never stop loving you?",
+        "approved": "9a1c5425"
+      },
+      {
+        "h": "God will help me keep my covenants.",
+        "id": "title11",
+        "ref": "Jeremiah 31:31–34; 32:38–41",
+        "kids": true,
+        "lines": [
+          "Draw a big heart on paper. As you read Jeremiah 31:31–34, write inside it what you learn about making covenants with God.",
+          "Go over the promises made at baptism in Mosiah 18:10, 13. What would it mean to have them written in your heart?",
+          "The Lord promises His help: “I will not turn away from them, to do them good” (Jeremiah 32:40)."
+        ],
+        "ask": "What is one way Heavenly Father has helped you keep the promises you made when you were baptized?",
+        "approved": "0d718f4d"
+      },
+      {
+        "h": "The scriptures are the word of God.",
+        "id": "title12",
+        "ref": "Jeremiah 36:1–4",
+        "kids": true,
+        "lines": [
+          "Act out Jeremiah 36:4–10: one person speaks the Lord’s words like Jeremiah, another writes them in a book like Baruch, then reads them aloud to everyone.",
+          "This week’s children’s activity page can help with the story of Jeremiah, Baruch and the king.",
+          "Set a storybook next to the scriptures. How are they different, and what makes the scriptures special?"
+        ],
+        "ask": "Which scripture passage is special to you, and why? Take turns sharing one.",
+        "approved": "5914807a"
+      },
+      {
+        "h": "I can stand up for what is right.",
+        "id": "title13",
+        "ref": "Jeremiah 38:6–13",
+        "kids": true,
+        "lines": [
+          "Look at the picture at the end of the lesson while you tell how Ebed-melech saved Jeremiah (Jeremiah 38:6–13).",
+          "Which verse shows Ebed-melech being brave for the prophet? See who can find it first."
+        ],
+        "ask": "How can we show that we believe the prophet God has called for our day?",
+        "approved": "4e6572ea"
+      },
+      {
+        "h": "The Savior made it possible for me to be forgiven of my sins.",
+        "id": "title14",
+        "ref": "Lamentations 1:1–2, 16; 3:22–26",
+        "kids": true,
+        "lines": [
+          "Jerusalem and its temple were destroyed because the people would not repent. Read Lamentations 1:1–2, 16. How might you have felt living there?",
+          "Then read Lamentations 3:22–26. How could “his compassions fail not” (Lamentations 3:22) bring hope to someone that sad?",
+          "Tell each other about a time you felt sad after a wrong choice. What do these verses teach about the forgiveness Jesus Christ offers?"
+        ],
+        "ask": "What does “new every morning” (Lamentations 3:23) tell you about starting fresh after a mistake?",
+        "approved": "f8b9ff15"
+      }
+    ],
+    "family": {
+      "title": "Everlasting Love and a Rope Rescue",
+      "minutes": 20,
+      "from": [
+        "title10",
+        "title13",
+        "title14"
+      ],
+      "steps": [
+        {
+          "k": "open",
+          "text": "Sing ‘God Is Watching Over All’ (Children’s Songbook, page 229) together, then say a family prayer."
+        },
+        {
+          "k": "learn",
+          "ref": "Jeremiah 31:3",
+          "text": "Read Jeremiah 31:3. Then everyone gets one minute to grab one thing that lasts and one that won’t, like a banana. Which kind is the Lord’s love, and why?"
+        },
+        {
+          "k": "learn",
+          "ref": "Jeremiah 38:6–13",
+          "text": "Read Jeremiah 38:6–13 together. Look for what Ebed-melech told the king, and how he got Jeremiah out of the mud."
+        },
+        {
+          "k": "do",
+          "text": "Rope rescue: one person sits on the floor as Jeremiah in the muddy pit. Twist a towel or sheet into a rope, tuck socks under their arms for the old rags, and gently pull them to their feet. Take turns."
+        },
+        {
+          "k": "talk",
+          "text": "Read Lamentations 3:22–23. When have you felt sad about a wrong choice? How does Jesus Christ help us start fresh, with mercies that are new every morning?"
+        },
+        {
+          "k": "close",
+          "text": "Parents, share how you have felt the never-ending love of Heavenly Father and Jesus Christ. This week, look for a chance to be brave like Ebed-melech and stand up for what is right."
+        }
+      ],
+      "approved": "0c1e558c"
+    }
   },
   {
     "dates": "November 2–8, 2026",
