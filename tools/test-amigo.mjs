@@ -182,6 +182,14 @@ for (const [id, C] of Object.entries(COURSES)) {
   }
 }
 
+// A Hebrew or Greek week opens on its Monday, done or not before it; its lessons go in order.
+{
+  const C = { kind: 'words', units: [{ id: 'a', start: '2026-10-05' }, { id: 'b', start: '2026-10-12' }] }, cs = E.courseSave(E.freshSave(), 'x');
+  const mon = E.dayNum(new Date('2026-10-12T12:00'));
+  ok(!E.unlocked(C, cs, 'b:1', undefined, mon - 1) && E.unlocked(C, cs, 'b:1', undefined, mon) && !E.unlocked(C, cs, 'b:2', undefined, mon)
+    && E.nextLesson(C, cs, undefined, mon).key === 'b:1', 'a words week opens on its Monday, even with earlier weeks unfinished, and comes up next');
+}
+
 // ------------------------------------------------------------ lessons
 function lessonChecks(id, C, label) {
   console.log(label || `${C.name}${C.title ? ' · ' + C.title : ''}: the lessons`);
@@ -190,7 +198,9 @@ function lessonChecks(id, C, label) {
   const save = E.freshSave(), cs = E.courseSave(save, id), problems = [], sizes = [];
   let day = 20600, reviewsSeen = 0;
   for (const { unit, n, key } of E.path(C)) {
-    if (!E.unlocked(C, cs, key)) problems.push(`${key} is still locked when its turn comes`);
+    // A words course's week opens on its Monday: try each lesson on the day its week has begun.
+    const on = words && unit.start ? Math.max(E.dayNum(new Date(unit.start + 'T12:00')), E.dayNum()) : undefined;
+    if (!E.unlocked(C, cs, key, undefined, on)) problems.push(`${key} is still locked when its turn comes`);
     const steps = E.lesson(C, unit, n, cs, day);
     sizes.push(steps.length);
     if (steps.length < 6 || steps.length > 16) problems.push(`${key}: ${steps.length} steps (6 to 16)`);

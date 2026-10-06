@@ -3612,7 +3612,8 @@ window.TU_WEEKS = [
         "kjv": "bringeth good tidings",
         "means": "To bring good news. Here it’s a messenger running over the mountains to tell Zion happy news.",
         "more": "His news is peace, salvation, and “Thy God reigneth!” Anyone who shares the gospel, the good news of Jesus Christ, has those beautiful feet.",
-        "approved": "99c7622e"
+        "short": "bring good news",
+        "approved": "a633398e"
       },
       {
         "id": "isa53-choli",
@@ -3677,7 +3678,8 @@ window.TU_WEEKS = [
         "kjv": "contrite",
         "means": "Contrite: humble and sorry inside, with your pride crushed, ready to let God help you.",
         "more": "The holy God dwells with the contrite and revives them. A related word in Isaiah 53:5 says the Savior was “bruised,” crushed, for our sins.",
-        "approved": "619fa80c"
+        "short": "humble",
+        "approved": "9e94efd5"
       }
     ]
   },
@@ -5640,7 +5642,8 @@ window.TU_WEEKS = [
         "kjv": "Holy One",
         "means": "Holy: set apart, pure, and belonging to God. Isaiah calls the Lord “the Holy One of Israel” again and again.",
         "more": "The Holy One of Israel is Jehovah, who is Jesus Christ. One day even Zion’s enemies will bow and call it the city of the Holy One.",
-        "approved": "7dfa433f"
+        "short": "holy",
+        "approved": "af37574d"
       },
       {
         "id": "isa61-mashach",
@@ -7689,7 +7692,8 @@ window.TU_WEEKS = [
         "kjv": "trusteth",
         "means": "To trust: to lean on someone and feel safe and sure, because you know they won’t let you down.",
         "more": "The one who trusts the Lord is like a tree planted by the water (verse 8). Even in a dry year, its leaves stay green.",
-        "approved": "a195fa88"
+        "short": "trust",
+        "approved": "a930a35a"
       },
       {
         "id": "jer18-yatsar",
@@ -10055,7 +10059,8 @@ window.TU_WEEKS = [
         "kjv": "too hard",
         "means": "To be wonderful, or beyond what anyone could do. Nothing is too wonderful, too hard, for the Lord.",
         "more": "Jeremiah bought a field while Babylon was attacking, trusting God’s promise that Israel would come home. The Lord answers him in verse 27: “Is there any thing too hard for me?”",
-        "approved": "622aadf6"
+        "short": "too wonderful",
+        "approved": "1836d812"
       },
       {
         "id": "jer36-megillah",
@@ -12242,7 +12247,8 @@ window.TU_WEEKS = [
         "kjv": "stick",
         "means": "Wood: a tree, a stick or a piece of wood. Here it’s a stick with writing on it.",
         "more": "Latter-day Saints see the stick of Judah as the Bible and the stick of Joseph, or Ephraim, as the Book of Mormon, joined “one in thine hand” (verse 17).",
-        "approved": "0a0ba1db"
+        "short": "stick",
+        "approved": "206e00c3"
       },
       {
         "id": "ezek47-rafa",
@@ -14449,7 +14455,8 @@ window.TU_WEEKS = [
         "kjv": "MENE",
         "means": "A mina, a weight used for measuring money. Daniel explained that God had “numbered” Belshazzar’s kingdom: its time was up.",
         "more": "This part of Daniel is in Aramaic, a sister language of Hebrew. A hand wrote it on the palace wall, and that very night Belshazzar was slain (verses 5, 30).",
-        "approved": "c138ad00"
+        "short": "numbered",
+        "approved": "ab5e77c6"
       },
       {
         "id": "dan6-aryeh",
@@ -14462,7 +14469,8 @@ window.TU_WEEKS = [
         "kjv": "lions",
         "means": "A lion: a big, fierce hunting cat. The king’s lions lived in a den with a stone over its mouth (verse 17).",
         "more": "This part of Daniel is in Aramaic, a sister language of Hebrew. Daniel kept praying three times a day, even against the law, and God “shut the lions’ mouths.”",
-        "approved": "670ea167"
+        "short": "lion",
+        "approved": "116f269f"
       },
       {
         "id": "dan7-attiq",
@@ -14475,7 +14483,8 @@ window.TU_WEEKS = [
         "kjv": "Ancient of days",
         "means": "Ancient, very old. The “Ancient of days” is someone who has lived a very, very long time.",
         "more": "This part of Daniel is in Aramaic, a sister language of Hebrew. Latter-day revelation teaches that the Ancient of Days is Adam, also called Michael (D&C 27:11; 116:1).",
-        "approved": "2d67bf10"
+        "short": "ancient",
+        "approved": "539aa490"
       }
     ]
   }

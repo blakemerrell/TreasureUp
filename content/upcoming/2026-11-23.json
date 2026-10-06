@@ -2423,7 +2423,8 @@
       "kjv": "plumbline",
       "means": "A plumbline: a lead weight hanging on a string. Builders use it to check that a wall stands perfectly straight.",
       "more": "The Lord held His straight line up next to His people to show how far they were leaning. His commandments show what truly straight looks like.",
-      "approved": "a7231f1a"
+      "short": "plumb line",
+      "approved": "ea8af888"
     },
     {
       "id": "obad1-yasha",
@@ -2436,7 +2437,8 @@
       "kjv": "saviours",
       "means": "To save or rescue. Here it means “saviours”: people who deliver others from trouble they can’t get out of alone.",
       "more": "Latter-day prophets teach that we become “saviours on mount Zion” when we do temple work for ancestors who died without the gospel.",
-      "approved": "1d0109f9"
+      "short": "save",
+      "approved": "0fbae2d0"
     },
     {
       "id": "jonah1-dag",
@@ -2462,7 +2464,8 @@
       "kjv": "spare",
       "means": "To feel pity for someone and spare them: to look at them with compassion instead of punishing them.",
       "more": "Jonah wanted Nineveh destroyed, but the Lord cared about every person there, and even the animals. His mercy reaches His enemies too.",
-      "approved": "971ff3ef"
+      "short": "spare",
+      "approved": "0a90cf0a"
     }
   ]
 }

@@ -51,11 +51,24 @@
   function path(course, units = course.units) {
     return units.flatMap(u => Array.from({ length: LESSONS_PER_UNIT }, (_, n) => ({ unit: u, n, key: u.id + ':' + (n + 1) })));
   }
-  function unlocked(course, cs, key, units) {
+  // A Hebrew or Greek week (kind 'words') opens on its Monday whatever's done
+  // before it, so this week's treasure words are always his to play; its
+  // lessons, and every other course's, go in order.
+  const startDay = u => u.start ? dayNum(new Date(u.start + 'T12:00')) : -Infinity;
+  function unlocked(course, cs, key, units, today = dayNum()) {
     const p = path(course, units), i = p.findIndex(x => x.key === key);
-    return i === 0 || (i > 0 && !!cs.done[p[i - 1].key]);
+    if (i < 0) return false;
+    if (course.kind === 'words') return p[i].n > 0 ? !!cs.done[p[i - 1].key] : i === 0 || startDay(p[i].unit) <= today;
+    return i === 0 || !!cs.done[p[i - 1].key];
   }
-  const nextLesson = (course, cs, units) => path(course, units).find(x => !cs.done[x.key]) || null;
+  // The next lesson: the first not done that's open (in a words course, the
+  // newest open week's first, so this week comes up before older ones).
+  function nextLesson(course, cs, units, today = dayNum()) {
+    const open = path(course, units).filter(x => !cs.done[x.key] && unlocked(course, cs, x.key, units, today));
+    if (course.kind !== 'words' || !open.length) return open[0] || null;
+    const newest = Math.max(...open.map(x => startDay(x.unit)));
+    return open.find(x => startDay(x.unit) === newest);
+  }
   function streakNow(cs, today = dayNum()) {
     const s = cs.streak;
     return s.last === today || s.last === today - 1 ? s.count : 0;

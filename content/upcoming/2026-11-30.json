@@ -2601,7 +2601,8 @@
       "kjv": "humbly",
       "means": "To be humble and modest: not showing off or acting more important than you are.",
       "more": "Micah’s answer to what the Lord wants is simple: do justly, love mercy, and walk humbly with your God every day.",
-      "approved": "cf364180"
+      "short": "humbly",
+      "approved": "54dfde8d"
     },
     {
       "id": "mic7-chesed",
@@ -2614,7 +2615,8 @@
       "kjv": "mercy",
       "means": "Loyal, covenant love that keeps its promises, even when people don’t deserve it.",
       "more": "Micah says the Lord “delighteth in mercy.” He doesn’t forgive grudgingly. He loves to forgive and to keep His promises to His people.",
-      "approved": "2228efe5"
+      "short": "loyal love",
+      "approved": "e46b54fa"
     },
     {
       "id": "nah1-maoz",
@@ -2653,7 +2655,8 @@
       "kjv": "hinds",
       "means": "A doe, a female deer. Deer can leap over steep, rocky mountains without slipping.",
       "more": "Even if the crops fail (verse 17), Habakkuk trusts the Lord to give him sure feet, like a deer’s, to climb the high places.",
-      "approved": "9e45908a"
+      "short": "deer",
+      "approved": "78d36320"
     },
     {
       "id": "zeph3-rinnah",
