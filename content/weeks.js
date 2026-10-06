@@ -5830,7 +5830,164 @@ window.TU_WEEKS = [
         "more": "It’s the word in Genesis 1:1. Here the Lord promises new heavens and a new earth, when the earth will be renewed and made glorious.",
         "approved": "aa4bd63e"
       }
-    ]
+    ],
+    "guide": [
+      {
+        "h": "Fasting builds spiritual power and blesses people in need.",
+        "id": "title3",
+        "ref": "Isaiah 58:3–12",
+        "kids": false,
+        "lines": [
+          "Why would anyone skip meals with food right there in the kitchen? Isaiah 58 gives the Lord’s reasons for fasting. Think about yours, too.",
+          "Fasting can start to feel like a burden (Isaiah 58:3–5). The Lord’s kind of fast is meant “to loose the bands of wickedness” (Isaiah 58:6).",
+          "It reaches others too, like feeding the hungry and helping the poor (Isaiah 58:7). Then He promises light, healing and guidance (Isaiah 58:8–12).",
+          "President Henry B. Eyring has told of several people blessed by fasting and fast offerings."
+        ],
+        "ask": "When has fasting, or a fast offering, blessed you or someone you know?",
+        "approved": "1b6c7aca"
+      },
+      {
+        "h": "Honoring the Lord on the Sabbath brings joy.",
+        "id": "title4",
+        "ref": "Isaiah 58:13–14",
+        "kids": false,
+        "lines": [
+          "The Lord asks His people to “call the sabbath a delight, the holy of the LORD, honourable” (Isaiah 58:13). Is it a delight for you?",
+          "Think about what it means to set your own plans aside on His day, and to find your joy in Him instead.",
+          "President Russell M. Nelson taught about making the Sabbath a delight. What could help your family enjoy it more?"
+        ],
+        "ask": "What’s one change that would make next Sunday more of a delight for our family?",
+        "approved": "5bfd65d7"
+      },
+      {
+        "h": "Jesus Christ is my Savior and Redeemer.",
+        "id": "title5",
+        "ref": "Isaiah 59:9–21; 61:1–3; 63:7–9",
+        "kids": false,
+        "lines": [
+          "These chapters keep pointing to the Savior. Watch for His titles and how He’s described, like “the Redeemer shall come to Zion” (Isaiah 59:20).",
+          "No one could rescue the people from the darkness of Isaiah 59:9–15. In Isaiah 59:16–21, the Lord steps in Himself as their intercessor.",
+          "In Nazareth, Jesus read Isaiah 61:1–2 and said it was about Him (Luke 4:16–21). Where has He given you “beauty for ashes” (Isaiah 61:3)?",
+          "In Isaiah 63:7–9, Isaiah remembers how the Lord has cared for His people. What would you add from your own life?"
+        ],
+        "ask": "Which blessing in Isaiah 61:1–3 have you seen the Savior give to you or someone you love?",
+        "approved": "a8ec4d8c"
+      },
+      {
+        "h": "“The Lord shall be unto thee an everlasting light.”",
+        "id": "title6",
+        "ref": "Isaiah 60; 62",
+        "kids": false,
+        "lines": [
+          "Isaiah 60 and Isaiah 62 are full of light and darkness, eyes and seeing. They show the Savior’s gospel blessing the whole world in the latter days.",
+          "Look for those ideas in Isaiah 60:1–5, 19–20 and Isaiah 62:1–2, like “darkness shall cover the earth… but the LORD shall arise upon thee” (Isaiah 60:2).",
+          "The Lord is bringing His children out of darkness into His light. What can you do to help?"
+        ],
+        "ask": "Who could our family help come a little closer to the Lord’s light this week?",
+        "approved": "b1918543"
+      },
+      {
+        "h": "Christ will reign on earth during the Millennium.",
+        "id": "title7",
+        "ref": "Isaiah 64:1–5; 65:17–25; 66",
+        "kids": false,
+        "lines": [
+          "Isaiah saw a day when “the former troubles are forgotten” (Isaiah 65:16). This promise comes true more than once, but most fully when Jesus Christ comes again.",
+          "Read Isaiah 64:1–5, Isaiah 65:17–25 and Isaiah 66, and count words like rejoice and joy as you go.",
+          "The Lord says, “be ye glad and rejoice for ever in that which I create” (Isaiah 65:18)."
+        ],
+        "ask": "Why will the day Jesus comes again be a joyful day for you, and how can you get ready for it?",
+        "approved": "2702d2fe"
+      },
+      {
+        "h": "Fasting blesses me and others in need.",
+        "id": "title9",
+        "ref": "Isaiah 58:6–11",
+        "kids": true,
+        "lines": [
+          "Knowing the Lord’s reasons may be the best help in getting ready to fast. Read Isaiah 58:6–11 together to find why we fast, and how.",
+          "The Guide to the Scriptures has an entry on fasting that can help, too.",
+          "Parents, if fasting has ever meant a lot to you, tell the story."
+        ],
+        "ask": "If a friend asked you why we fast, what would you say?",
+        "approved": "13dbb869"
+      },
+      {
+        "h": "The Sabbath can be a delight to me.",
+        "id": "title10",
+        "ref": "Isaiah 58:13–14",
+        "kids": true,
+        "lines": [
+          "After reading Isaiah 58:13–14, say the days of the week together on a calendar. When you reach Sunday, call it “a delight” (Isaiah 58:13).",
+          "Parents, tell why Sunday is a delight to you.",
+          "Share ways to “delight thyself in the LORD” (Isaiah 58:14) on Sunday. Draw your ideas and save them for a Sunday when you need something to do."
+        ],
+        "ask": "What’s something you love doing on Sunday that helps you feel close to the Lord?",
+        "approved": "53705829"
+      },
+      {
+        "h": "The Savior is like a light for me.",
+        "id": "title11",
+        "ref": "Isaiah 60:1–3",
+        "kids": true,
+        "lines": [
+          "Close your eyes while someone reads Isaiah 60:1–3. Open them at the word light, and shut them again at darkness.",
+          "Jesus Christ and His gospel work like a light, showing us the way home to Heavenly Father."
+        ],
+        "ask": "When has following Jesus helped you see what to do, like a light in a dark room?",
+        "approved": "8627a8fb"
+      },
+      {
+        "h": "When Jesus comes again, He will bring peace and joy.",
+        "id": "title12",
+        "ref": "Isaiah 65:17–25",
+        "kids": true,
+        "lines": [
+          "Isaiah 65:17–25 pictures life after the Savior returns. Read it together and look for what will be different on the “new earth” (Isaiah 65:17).",
+          "No more crying (Isaiah 65:19), and even animals at peace (Isaiah 65:25). Why is it a time to “rejoice for ever” (Isaiah 65:18)?",
+          "Sing ‘When the Savior Comes Again’ (number 1002 in Hymns for Home and Church) together."
+        ],
+        "ask": "What are you most excited about for when Jesus comes again, and how can we prepare?",
+        "approved": "edf4f7c4"
+      }
+    ],
+    "family": {
+      "title": "His light now, His joy to come",
+      "minutes": 20,
+      "from": [
+        "title11",
+        "title12"
+      ],
+      "steps": [
+        {
+          "k": "open",
+          "text": "Sing ‘When the Savior Comes Again’ (number 1002 in Hymns for Home and Church), then have someone pray."
+        },
+        {
+          "k": "learn",
+          "ref": "Isaiah 60:1–3",
+          "text": "Dim the lights and close your eyes while a parent reads slowly. Open your eyes every time you hear “light,” and squeeze them shut at “darkness.” Then do it again with someone else reading."
+        },
+        {
+          "k": "talk",
+          "text": "How is Jesus Christ like a light? Talk about how He and His gospel help us find the way back to Heavenly Father, and a time He helped you see what to do."
+        },
+        {
+          "k": "learn",
+          "ref": "Isaiah 65:17–25",
+          "text": "Take turns reading these verses about the earth after the Savior comes again. Then each person acts out one change they found, like the wolf and the lamb eating together (verse 25), while everyone else guesses which verse it is."
+        },
+        {
+          "k": "talk",
+          "text": "What are you most looking forward to when He comes? What could each of us do this week to get ready?"
+        },
+        {
+          "k": "close",
+          "text": "A parent shares why they love the Savior and look forward to His coming. Invite everyone to let His light show in one kind act this week."
+        }
+      ],
+      "approved": "ef983a66"
+    }
   },
   {
     "dates": "October 19–25, 2026",
