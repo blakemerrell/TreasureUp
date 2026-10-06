@@ -122,7 +122,7 @@
   // in a line, then the transcript. Grammar: the point, picking the right form,
   // building sentences. Say it: say the Tagalog aloud and mark yourself, then
   // what would you say?. Its sentences come back later as reviews.
-  const INFO = new Set(['dialog', 'transcript', 'grammar']);     // heard or read, not answered
+  const INFO = new Set(['dialog', 'transcript', 'grammar', 'card']);     // heard or read, not answered (a card: a treasure word's meaning)
   const lineSay = line => line.who + '|' + line.t;              // a conversation line is recorded in its speaker's voice
   const filled = f => f.prompt.replace('___', f.right);
   // A line with one word taken out: that whole word, wherever it stands.
@@ -168,8 +168,62 @@
     }
     return [...unit.says.map(sayStep), ...unit.scenes.map((sc, i) => sceneStep(sc, seed + 's' + i)), ...due];
   }
+  // ------------------------------------------------------------ treasure words
+  // A words course (kind 'words', amigo/course-he.js and course-el.js, made by
+  // tools/wika-words.mjs from the weeks' treasure words): a unit a week, its
+  // 3 to 9 words, each { id, word, say, gloss, kjv, means, ref, approved }.
+  // Three lessons: Hear (the first half of the words: hear it and pick the
+  // meaning, then its card), See (the rest: see it and pick the meaning, and
+  // its card; the first half the other way round, meaning → the word) and
+  // Pick (hear every word, meaning → the word). Match the pairs in each. A
+  // word answered right comes back later as a review, like a phrase.
+  const MIN_WORDS = 3;
+  const halves = words => { const k = words.length <= 4 ? words.length : Math.max(3, Math.ceil(words.length / 2)); return [words.slice(0, k), words.slice(k)]; };
+  const others = (list, not, k, seed) => shuffled(list.filter(x => x !== not), seed).slice(0, k);
+  // Wrong meanings and wrong words come from the same week, or the course when it's short.
+  const pool = (course, unit) => unit.words.length >= 3 ? unit.words : course.units.flatMap(u => u.words);
+  const wordFields = w => ({ id: w.id, word: w.word, say: w.say, gloss: w.gloss });
+  function hearStep(course, unit, w, seed) {
+    return Object.assign({ type: 'hear', right: w.gloss, choices: shuffled([w.gloss, ...others([...new Set(pool(course, unit).map(x => x.gloss))], w.gloss, 2, seed)], seed + 'c') }, wordFields(w));
+  }
+  function seeStep(course, unit, w, seed) {
+    return Object.assign(hearStep(course, unit, w, seed), { type: 'see' });
+  }
+  function pickStep(course, unit, w, seed) {
+    const wrong = others(pool(course, unit).filter(x => x.word !== w.word), w, 2, seed);
+    const these = shuffled([w, ...wrong], seed + 'c');
+    return Object.assign({ type: 'pick', right: w.word, choices: these.map(x => x.word), says: Object.fromEntries(these.map(x => [x.word, x.say])) }, wordFields(w));
+  }
+  const cardStep = w => ({ type: 'card', id: null, word: w.word, say: w.say, gloss: w.gloss, kjv: w.kjv, means: w.means, more: w.more, ref: w.ref, wordId: w.id, approved: w.approved });
+  const wordPairs = (words, seed) => words.length >= 3 ? [pairsStep(shuffled(words, seed).map(w => [w.word, w.gloss]), seed)] : [];
+  function buildWords(course, unit, n, cs, today = dayNum()) {
+    const seed = course.id + ':' + unit.id + ':' + n, [A, B] = halves(unit.words);
+    let steps;
+    if (n === 0) steps = [...A.flatMap((w, i) => [hearStep(course, unit, w, seed + 'h' + i), cardStep(w)]), ...wordPairs(A, seed + 'p')];
+    else if (n === 1) steps = [...B.flatMap((w, i) => [seeStep(course, unit, w, seed + 's' + i), cardStep(w)]), ...(B.length ? [] : A.map((w, i) => seeStep(course, unit, w, seed + 'S' + i))),
+      ...A.map((w, i) => pickStep(course, unit, w, seed + 'k' + i)), ...wordPairs(unit.words.slice(0, 5), seed + 'p')];
+    else steps = [...unit.words.map((w, i) => hearStep(course, unit, w, seed + 'h' + i)), ...(B.length ? B : A).map((w, i) => pickStep(course, unit, w, seed + 'k' + i)),
+      ...wordPairs(unit.words.slice(-5), seed + 'p')];
+    // Earlier words that are due (not this lesson's own), the least known first: seen, or picked from their meaning.
+    const own = new Set(steps.map(s => s.id).filter(Boolean)), byId = new Map(course.units.flatMap(u => u.words.map(w => [w.id, { u, w }])));
+    const due = Object.entries(cs.mem).filter(([id, m]) => byId.has(id) && !own.has(id) && m.due <= today)
+      .sort((a, b) => a[1].box - b[1].box || a[1].due - b[1].due).slice(0, REVIEWS)
+      .map(([id], i) => { const { u, w } = byId.get(id); return Object.assign((i % 2 ? pickStep : seeStep)(course, u, w, seed + 'r' + i), { review: true }); });
+    return [...due.slice(0, 2), ...steps, ...due.slice(2)];
+  }
+  // A words course as the live app shows it: only words Blake approved (their
+  // fingerprint matches, which tools/wika-words.mjs works out), and only weeks
+  // with enough of them for the lessons. The test site shows them all, marked.
+  function liveWords(course) {
+    const units = course.units.map(u => Object.assign({}, u, { words: u.words.filter(w => w.approved === true) })).filter(u => u.words.length >= MIN_WORDS);
+    return Object.assign({}, course, { units });
+  }
+  // Everything a words course says, for its recordings: each word.
+  const wordLines = course => [...new Set(course.units.flatMap(u => u.words.map(w => w.word.normalize('NFC'))))];
+
   // Any course's lesson n of a unit.
-  const lesson = (course, unit, n, cs, today) => course.kind === 'conversation' ? buildConversation(course, unit, n, cs, today) : buildLesson(course, unit, n, cs, today);
+  const lesson = (course, unit, n, cs, today) => course.kind === 'conversation' ? buildConversation(course, unit, n, cs, today)
+    : course.kind === 'words' ? buildWords(course, unit, n, cs, today) : buildLesson(course, unit, n, cs, today);
   // Everything a conversation course says, and who says it, for its recordings
   // (tools/amigo-voice.mjs): each conversation line under lineSay, in its
   // speaker's voice; the sentences, a tapped tile's word and every answer in a
@@ -209,7 +263,7 @@
   }
 
   const API = { LESSONS_PER_UNIT, INTERVALS, XP_RIGHT, INFO, audioKey, sayable, lineSay, filled, blanked, rng, shuffled, dayNum, freshSave, courseSave, path, unlocked, nextLesson, streakNow,
-    buildLesson, buildConversation, lesson, voiceLines, check, remember, finish, tiles };
+    buildLesson, buildConversation, lesson, voiceLines, check, remember, finish, tiles, MIN_WORDS, buildWords, liveWords, wordLines };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
   else root.AMIGO_ENGINE = API;
 })(this);
