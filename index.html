@@ -3710,15 +3710,25 @@ const TreasureUp = (function () {
     const t = base && treasureOf(week).find(t => t.x.ref.replace(/:\d+$/, '') === ch && String(t.x.strong).replace(/[A-Z]$/, '') === base);
     return t ? t.x : null;
   }
-  // Said in the phone's own Hebrew or Greek voice, where it has one. (Wika's
-  // recordings are for its lessons.)
+  // Said in Wika's recording of it (Google's Hebrew or Greek voice, made at
+  // the test site's deploy by tools/amigo-voice.mjs; Blake, 2026-10-06: "Why
+  // can't Hebrew and Greek use the API?"), else the phone's own voice where
+  // it has one. amigo/audio/index.js lists what's recorded, by the key
+  // amigo/engine.js audioKey makes of the word.
+  const twKey = t => { const s = String(t).normalize('NFC'); let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(16).padStart(8, '0'); };
+  let twAudioList = null;
+  const twRecorded = () => twAudioList || (twAudioList = loadScript('amigo/audio/index.js').then(() => window.AMIGO_AUDIO || {}).catch(() => { twAudioList = null; return {}; }));
   function twVoice(x) {
     const want = twLang(x) === 'he' ? /^(he|iw)/i : /^el/i;
     return window.speechSynthesis && speechSynthesis.getVoices().find(v => want.test(v.lang));
   }
-  function twSay(id) {
-    const t = twKnown.get(id), v = t && twVoice(t.x);
-    if (!v) { toast('No ' + (t && twLang(t.x) === 'el' ? 'Greek' : 'Hebrew') + ' voice on this device', 'Wika has it recorded'); return; }
+  async function twSay(id) {
+    const t = twKnown.get(id);
+    if (!t) return;
+    const lang = twLang(t.x), key = twKey(t.x.word), list = await twRecorded();
+    if (list[lang] && list[lang][key]) { new Audio(`amigo/audio/${lang}/${key}.mp3`).play().catch(() => {}); return; }
+    const v = twVoice(t.x);
+    if (!v) { toast('Not recorded yet', 'Its recording comes with the next update; read the line under it'); return; }
     const u = new SpeechSynthesisUtterance(t.x.word);
     u.voice = v; u.lang = v.lang; u.rate = 0.8;
     speechSynthesis.cancel(); speechSynthesis.speak(u);
@@ -3727,7 +3737,7 @@ const TreasureUp = (function () {
     const x = t.x, he = twLang(x) === 'he';
     return `<div class="sh-title">💎 ${he ? 'Hebrew' : 'Greek'} treasure word${t.draft ? ' <span class="plain-draft">Draft: not approved yet</span>' : ''}</div>
       <div class="tw-card">${twWordHtml(x, 'tw-big')}
-        <div class="tw-say">${esc(x.say)}${window.speechSynthesis ? ` <button class="tw-play" data-tw-say="${esc(x.id)}" aria-label="Hear it">🔊</button>` : ''}</div>
+        <div class="tw-say">${esc(x.say)} <button class="tw-play" data-tw-say="${esc(x.id)}" aria-label="Hear it">🔊</button></div>
         <p class="tw-kjv">The KJV says “${esc(x.kjv)}” · ${linkRefs(x.ref)}</p>
         <p class="tw-means">${esc(x.means)}</p>
         ${x.more ? `<p class="tw-more">${esc(x.more)}</p>` : ''}
