@@ -1265,6 +1265,36 @@
   .ls-jsp { background: rgba(147,197,253,.09); }
   .ls-jsp a { color: #bfdbfe; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
   /* The short version: a few lines on the whole chapter, above its buttons. Each line's verses are a button to them. */
+  /* Be still (Blake, 2026-10-06): the quiet timer, over every screen. */
+  .still { position: fixed; inset: 0; z-index: 130; overflow-y: auto; display: grid; place-items: center; padding: calc(var(--sat, 0px) + 56px) 20px calc(env(safe-area-inset-bottom, 0px) + 24px);
+    background: radial-gradient(circle at 50% 35%, #1e293b, #020617 72%); color: #e2e8f0; }
+  .still-x { position: absolute; top: calc(var(--sat, 0px) + 12px); right: 14px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.08); color: #cbd5e1; font-size: 18px; }
+  .still-in { width: 100%; max-width: 420px; text-align: center; }
+  .still-dove { font-size: 44px; line-height: 1; }
+  .still-h { margin: 8px 0 4px; font-size: 28px; font-weight: 800; color: #f1f5f9; }
+  .still-verse { margin: 10px auto 20px; max-width: 340px; font-size: 18px; line-height: 1.5; font-style: italic; color: #cbd5e1; }
+  .still-verse small { display: block; margin-top: 6px; font-style: normal; font-size: 13px; color: #94a3b8; }
+  .still-opts { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+  .still-opt { padding: 9px 14px; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); color: #e2e8f0; font-weight: 700; font-size: 14px; }
+  .still-opt.on { background: rgba(125,211,252,.18); border-color: #7dd3fc; color: #fff; }
+  .still-go { display: block; width: 100%; margin-top: 8px; }
+  .still-tip, .still-streak { margin-top: 14px; font-size: 13px; line-height: 1.5; color: #94a3b8; }
+  .still-streak { color: #7dd3fc; font-weight: 700; }
+  .still-run .still-verse { margin-top: 28px; }
+  .still-ring { position: relative; width: 240px; height: 240px; margin: 0 auto; display: grid; place-items: center; }
+  .still-circle { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, rgba(125,211,252,.55), rgba(56,189,248,.12) 70%); box-shadow: 0 0 60px rgba(125,211,252,.25);
+    animation: stillBreathe 10s ease-in-out infinite; }
+  @keyframes stillBreathe { 0% { transform: scale(.5); } 40% { transform: scale(1); } 100% { transform: scale(.5); } }
+  @media (prefers-reduced-motion: reduce) { .still-circle { animation-duration: 20s; } }
+  .still-cue { position: relative; font-size: 18px; font-weight: 800; color: #f8fafc; letter-spacing: .03em; }
+  .still-left { margin-top: 6px; font-size: 15px; font-variant-numeric: tabular-nums; color: #64748b; }
+  .still-done { color: #7dd3fc; font-weight: 700; margin-bottom: 18px; }
+  .still-q { font-weight: 800; color: #f1f5f9; margin-bottom: 8px; text-align: left; }
+  .still-note { width: 100%; }
+  .still-skip { margin-top: 12px; font-size: 14px; color: #94a3b8; text-decoration: underline; background: none; }
+  .still-first { display: flex; align-items: baseline; gap: 8px; margin: 0 0 10px; padding: 8px 14px; border-radius: 999px; background: rgba(125,211,252,.1); border: 1px solid rgba(125,211,252,.3); color: #e0f2fe; font-weight: 700; font-size: 14px; }
+  .still-first small { font-weight: 500; color: #94a3b8; font-size: 12px; }
+  .sea-still { margin: 6px 0 10px; font-size: 14px; color: #7dd3fc; }
   /* Treasure words (Blake, 2026-10-06): at a chapter's top, on the Hebrew button, the card and the Word of the day. */
   .tw-strip { margin: 2px 0 14px; padding: 10px 12px 12px; border-radius: 14px; background: rgba(251,191,36,.08); border: 1px solid rgba(251,191,36,.3); }
   .tw-h { font-size: 13px; font-weight: 800; color: var(--gold); margin-bottom: 8px; }
@@ -1744,6 +1774,9 @@
       <span id="freezeNum" class="text-[11px] font-black leading-none text-sky-300 ml-1" hidden></span>
     </button>
 
+    <!-- Be still: a quiet timer (Blake, 2026-10-06), from any screen -->
+    <button id="stillBtn" data-still class="pointer-events-auto grid place-items-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-md ring-1 ring-white/15 shrink-0 text-lg leading-none" aria-label="Be still: a quiet timer">🕊️</button>
+
     <!-- Full screen for the whole app (fullscreen.js), where the browser offers it: Silk on the Fire tablets -->
     <button id="fsBtn" data-fs class="pointer-events-auto grid place-items-center w-9 h-9 rounded-full bg-black/45 backdrop-blur-md ring-1 ring-white/15 shrink-0 leading-none" aria-label="Full screen" hidden></button>
 
@@ -1780,6 +1813,7 @@
 <!-- ==================== OVERLAYS ==================== -->
 <div id="toasts"></div>
 <!-- The streak's ladder, or Settings, from the bottom. -->
+<section id="stillLayer" class="still" hidden aria-label="Be still"></section>
 <section id="appSheet" class="word-sheet" hidden aria-label="Panel">
   <div class="ws-card">
     <button id="appClose" class="ws-close" aria-label="Close">✕</button>
@@ -2051,6 +2085,7 @@ const TreasureUp = (function () {
     talks: {},       // conference talks studied: talkId -> { day, xp }; kept across weeks
     marks: {},       // his highlights: "Isaiah 50:4" -> { c: 'yellow' | 'green' | 'blue' | 'pink', or '' once cleared; upd }
     played: {},      // family games played (Sunday, on Today): day -> the tap's time, or minus it once untapped
+    still: {},       // Be still: day -> quiet minutes that day
     picks: {},       // each Sunday's talks for elders quorum and Relief Society: "2026-10-11" -> { eq, rs } (the family's, mirrored)
     readPos: {},     // where he was in a chapter not read yet: ref -> { v: first verse showing, at }
     weekChapters: 0  // how many chapters this week's reading has, for the year's count
@@ -2655,7 +2690,7 @@ const TreasureUp = (function () {
     let rows = entries.flatMap(e => { const from = isToday && flowDay(e) < d, r = entryRows(e, from); return from ? r.filter(x => !x.done) : r; });
     if (d === 6) rows = rows.concat(sundayRows(k));
     if (d === 0 && familyOf(WEEK)) rows = rows.concat([{ card: 'familynight', done: null, html: familyRowHtml(WEEK) }]);
-    if (isToday) rows = rows.concat(wordRows(), gratefulRows(), seasonRows());
+    if (isToday) rows = rows.concat(wordRows(), gratefulRows(), stillRows(), seasonRows());
     let button;
     if (isToday) button = upNext(entries, rows, d, k);
     else {
@@ -2744,6 +2779,185 @@ const TreasureUp = (function () {
     save(); closeSheet(); refreshHome();
     if (items.length) toast('🙏 Thank you', items.length === 1 ? '1 thing today' : items.length + ' things today');
   }
+  // ----- Be still (Blake, 2026-10-06: "Add a be still button and feature. A
+  // meditation timer."): 🕊️ in the top bar on every screen, a row on Today and
+  // "Be still first" at the top of a chapter. 1, 3, 5 or 10 minutes: a circle
+  // that grows as he breathes in (4 seconds) and shrinks as he breathes out
+  // (6), one calm verse, the screen dimmed and kept awake, quiet or with soft
+  // rain or a stream (made by the phone, no files), and a soft bell at the end.
+  // Then "Did anything come to mind?": a line kept with his impressions (a
+  // child's or youth's his unless he shares it with his parents), or skip.
+  // It ticks Today (no XP, like gratitude) and any Season step about being
+  // still, and the Season tab counts his days in a row (S.still: day -> minutes).
+  const STILL_VERSES = [   // each checked word for word against the KJV and the Church's text
+    ['Psalm 46:10', 'Be still, and know that I am God'],
+    ['Mark 4:39', 'Peace, be still'],
+    ['Psalm 23:2', 'he leadeth me beside the still waters'],
+    ['Isaiah 30:15', 'in quietness and in confidence shall be your strength'],
+    ['Isaiah 26:3', 'Thou wilt keep him in perfect peace, whose mind is stayed on thee'],
+    ['1 Kings 19:12', 'a still small voice'],
+    ['Matthew 11:28', 'Come unto me, all ye that labour and are heavy laden, and I will give you rest'],
+    ['John 14:27', 'Peace I leave with you, my peace I give unto you'],
+    ['Psalm 37:7', 'Rest in the LORD, and wait patiently for him'],
+    ['Isaiah 40:31', 'they that wait upon the LORD shall renew their strength'],
+    ['Doctrine and Covenants 88:63', 'Draw near unto me and I will draw near unto you'],
+    ['Philippians 4:7', 'the peace of God, which passeth all understanding'],
+    ['Alma 37:37', 'Counsel with the Lord in all thy doings, and he will direct thee for good'],
+    ['Doctrine and Covenants 101:16', 'be still and know that I am God']
+  ];
+  const STILL_MINS = [1, 3, 5, 10], STILL_SOUNDS = [['', '🔇 Quiet'], ['rain', '🌧️ Rain'], ['stream', '🌊 Stream']];
+  const stillOn = k => ((S.still || {})[k] || 0) > 0;
+  function stillStreak() {
+    let d = stillOn(dayKey()) ? dayKey() : dayAdd(dayKey(), -1), n = 0;
+    while (stillOn(d)) { n++; d = dayAdd(d, -1); }
+    return n;
+  }
+  const stillVerse = () => STILL_VERSES[Math.floor(Date.parse(dayKey() + 'T12:00:00Z') / 864e5) % STILL_VERSES.length];
+  const stillVerseHtml = v => `<p class="still-verse">“${esc(v[1])}”<small>${esc(v[0])}</small></p>`;
+  let still = null;   // the open session: { phase, mins, sound, start, end, timer, ac, noise, wake, note, share }
+  function stillRows() {
+    const m = (S.still || {})[dayKey()] || 0, n = stillStreak(), row = '🕊️ Be still';
+    const sub = m ? `${m} quiet ${m === 1 ? 'minute' : 'minutes'} today` + (n > 1 ? ` · ${n} days in a row` : '') : 'A few quiet minutes with Heavenly Father' + (n ? ` · ${n} ${n === 1 ? 'day' : 'days'} in a row` : '');
+    return [{ card: 'still', done: m > 0, go: { attr: 'data-still', title: row, sub: 'A few quiet minutes' }, html: flowRow('data-still', m > 0, row, esc(sub)) }];
+  }
+  const stillFirstHtml = () => stillOn(dayKey()) ? '' : '<button class="still-first" data-still>🕊️ Be still first <small>a quiet minute before you read</small></button>';
+  function stillSeasonHtml(s) {
+    const n = stillStreak(), days = Object.keys(S.still || {}).filter(d => stillOn(d) && d >= s.start && d <= s.end).length;
+    return days ? `<p class="sea-still">🕊️ Be still: <b>${n} ${n === 1 ? 'day' : 'days'} in a row</b> · ${days} ${days === 1 ? 'day' : 'days'} this Season</p>` : '';
+  }
+  function stillDraw() {
+    const box = $('stillLayer'), p = S.stillPrefs || { mins: 3, sound: '' }, v = stillVerse();
+    const x = '<button id="stillClose" class="still-x" aria-label="Close">✕</button>';
+    if (!still || still.phase === 'pick') {
+      const n = stillStreak();
+      box.innerHTML = x + `<div class="still-in"><div class="still-dove" aria-hidden="true">🕊️</div><h2 class="still-h">Be still</h2>${stillVerseHtml(v)}
+        <div class="still-opts" role="group" aria-label="How long">${STILL_MINS.map(m => `<button class="still-opt${m === p.mins ? ' on' : ''}" data-still-mins="${m}" aria-pressed="${m === p.mins}">${m} min</button>`).join('')}</div>
+        <div class="still-opts" role="group" aria-label="Sound">${STILL_SOUNDS.map(([k, l]) => `<button class="still-opt${k === p.sound ? ' on' : ''}" data-still-snd="${k}" aria-pressed="${k === p.sound}">${l}</button>`).join('')}</div>
+        <button class="btn still-go" data-still-go>Begin</button>
+        <p class="still-tip">Sit comfortably. Breathe in as the circle grows, out as it shrinks, and think of Heavenly Father. A soft bell rings at the end.</p>
+        ${n ? `<p class="still-streak">🕊️ ${n} ${n === 1 ? 'day' : 'days'} in a row</p>` : ''}</div>`;
+    } else if (still.phase === 'run') {
+      box.innerHTML = x + `<div class="still-in still-run"><div class="still-ring" aria-hidden="true"><div class="still-circle"></div><span class="still-cue" id="stillCue">Breathe in</span></div>
+        ${stillVerseHtml(v)}<p class="still-left" id="stillLeft"></p></div>`;
+      stillTick();
+    } else {
+      const m = still.mins, n = stillStreak(), kid = seasonWho() !== 'adult';
+      box.innerHTML = x + `<div class="still-in"><div class="still-dove" aria-hidden="true">🕊️</div><h2 class="still-h">Well done</h2>
+        <p class="still-done">${m} quiet ${m === 1 ? 'minute' : 'minutes'}${n > 1 ? ` · ${n} days in a row` : ''}</p>
+        <p class="still-q">Did anything come to mind?</p>
+        <textarea class="field still-note" id="stillNote" maxlength="1000" rows="3" placeholder="A thought, a feeling, someone to help… or skip">${esc(still.note || '')}</textarea>
+        <div class="sea-imp-bar">${kid ? `<button class="sh-pill${still.share ? ' on' : ''}" data-still-share>${still.share ? '👀 Share with my parents' : '🔒 Just me'}</button>` : '<span class="sh-small">🔒 Just yours</span>'}
+          <button class="btn" data-still-save>Save</button></div>
+        <button class="still-skip" data-still-done>Skip</button></div>`;
+    }
+  }
+  function openStill() {
+    if (still && still.phase === 'run') return;
+    still = { phase: 'pick' };
+    $('stillLayer').hidden = false;
+    stillDraw();
+    use('still');
+  }
+  // Rain is soft hiss through a band, a stream deep rumble through a low
+  // pass, both from noise the phone makes, faded in over three seconds.
+  function stillNoise(ac, kind) {
+    const len = ac.sampleRate * 3, buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < len; i++) { const w = Math.random() * 2 - 1; if (kind === 'stream') { last = (last + 0.02 * w) / 1.02; d[i] = last * 3.5; } else d[i] = w; }
+    const src = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
+    src.buffer = buf; src.loop = true;
+    f.type = kind === 'stream' ? 'lowpass' : 'bandpass'; f.frequency.value = kind === 'stream' ? 650 : 2600; f.Q.value = kind === 'stream' ? 0.7 : 0.5;
+    g.gain.setValueAtTime(0.0001, ac.currentTime); g.gain.linearRampToValueAtTime(kind === 'stream' ? 0.5 : 0.1, ac.currentTime + 3);
+    src.connect(f); f.connect(g); g.connect(ac.destination); src.start();
+    return { src, g };
+  }
+  // A soft bell: three sine partials that ring and fade over five seconds.
+  function stillBell(ac) {
+    const t = ac.currentTime + 0.05;
+    [[528, 0.3], [1056, 0.1], [1584, 0.05]].forEach(([f, a]) => {
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.frequency.value = f; g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(a, t + 0.03); g.gain.exponentialRampToValueAtTime(0.0001, t + 5);
+      o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t + 5.2);
+    });
+  }
+  async function stillBegin() {
+    const p = S.stillPrefs || { mins: 3, sound: '' };
+    still = { phase: 'run', mins: p.mins, sound: p.sound, start: Date.now(), end: Date.now() + p.mins * 60000 };
+    try { const AC = window.AudioContext || window.webkitAudioContext; if (AC) { still.ac = new AC(); if (p.sound) still.noise = stillNoise(still.ac, p.sound); } } catch (e) {}
+    stillDraw();
+    still.timer = setInterval(stillTick, 250);
+    try { if ('wakeLock' in navigator) still.wake = await navigator.wakeLock.request('screen'); } catch (e) {}
+  }
+  function stillTick() {
+    if (!still || still.phase !== 'run') return;
+    const now = Date.now(), left = Math.max(0, still.end - now), sec = ((now - still.start) / 1000) % 10;
+    const cue = $('stillCue'), lt = $('stillLeft');
+    if (cue) cue.textContent = sec < 4 ? 'Breathe in' : 'Breathe out';
+    if (lt) lt.textContent = Math.floor(left / 60000) + ':' + String(Math.ceil(left / 1000) % 60 === 0 && left >= 1000 && left % 60000 < 1000 ? 0 : Math.floor((left % 60000) / 1000)).padStart(2, '0');
+    if (!left) stillFinish(true);
+  }
+  // The end: the bell (when the time ran out), the sound fading, and the day
+  // counted (a minute or more, when he stops early).
+  function stillFinish(full) {
+    const st = still;
+    if (!st || st.phase !== 'run') return;
+    clearInterval(st.timer);
+    try { if (st.wake) st.wake.release(); } catch (e) {}
+    const ac = st.ac;
+    if (ac) {
+      if (st.noise) { try { st.noise.g.gain.cancelScheduledValues(ac.currentTime); st.noise.g.gain.setValueAtTime(st.noise.g.gain.value, ac.currentTime); st.noise.g.gain.linearRampToValueAtTime(0.0001, ac.currentTime + 2.5); } catch (e) {} }
+      if (full) try { stillBell(ac); } catch (e) {}
+      setTimeout(() => { try { ac.close(); } catch (e) {} }, full ? 6000 : 3000);
+    }
+    const mins = full ? st.mins : Math.floor((Date.now() - st.start) / 60000);
+    if (!mins) { still = null; $('stillLayer').hidden = true; $('stillLayer').innerHTML = ''; return; }
+    const k = dayKey(), all = S.still || (S.still = {});
+    all[k] = (all[k] || 0) + mins;
+    // A Season step about being still ticks itself today.
+    try {
+      const s = seasonNow(), rec = seasonRec(s.id);
+      for (const g of activeGoals(rec)) for (const stp of g.steps || []) if (/be still|🕊️/i.test(stp.text || '') && !ticked(rec, stp.id, k)) tickStep(s.id, stp.id, k);
+    } catch (e) {}
+    save();
+    refreshHome();
+    still = { phase: 'after', mins, share: false };
+    stillDraw();
+  }
+  function stillClose() {
+    if (still && still.phase === 'run') { stillFinish(false); if (still && still.phase === 'after') return; }
+    still = null;
+    $('stillLayer').hidden = true;
+    $('stillLayer').innerHTML = '';
+  }
+  function stillSave() {
+    const text = (($('stillNote') || {}).value || '').trim().slice(0, 1000);
+    if (text) {
+      const imps = S.impressions || (S.impressions = {});
+      imps[seaId('i')] = { kind: 'still', text, day: dayKey(), at: Date.now(), upd: Date.now(), ref: '', mins: still.mins, share: seasonWho() !== 'adult' && !!still.share };
+      save();
+      toast('🕊️ Kept', 'With your impressions in the 🌱 Season tab');
+    }
+    still = null;
+    $('stillLayer').hidden = true;
+    $('stillLayer').innerHTML = '';
+    refreshHome();
+  }
+  function stillClick(e) {
+    const t = e.target;
+    if (t.closest('#stillClose')) { stillClose(); return; }
+    if (t.closest('[data-still-go]')) { stillBegin(); return; }
+    const m = t.closest('[data-still-mins]'), sd = t.closest('[data-still-snd]');
+    if (m || sd) {
+      const p = S.stillPrefs || (S.stillPrefs = { mins: 3, sound: '' });
+      if (m) p.mins = Number(m.dataset.stillMins); else p.sound = sd.dataset.stillSnd;
+      save(); stillDraw(); return;
+    }
+    if (t.closest('[data-still-share]')) { still.note = ($('stillNote') || {}).value || ''; still.share = !still.share; stillDraw(); return; }
+    if (t.closest('[data-still-save]')) { stillSave(); return; }
+    if (t.closest('[data-still-done]')) { still = null; $('stillLayer').hidden = true; $('stillLayer').innerHTML = ''; return; }
+    if (t.closest('[data-still]')) { e.preventDefault(); openStill(); }
+  }
+
   function gratefulClick(e) {
     const t = e.target;
     if (t.closest('[data-grateful]')) { openGrateful(); return; }
@@ -4818,6 +5032,7 @@ const TreasureUp = (function () {
       { t: 'Talk with Heavenly Father every day', s: 'Pray morning and night', n: 7 },
       { t: 'Know the scriptures better', s: 'Read the scriptures 10 minutes', n: 6 },
       { t: 'Remember what the Spirit teaches me', s: 'Write an impression', n: 2 },
+      { t: 'Be still, and know God', s: 'Be still 3 minutes (🕊️ ticks it)', n: 5, ref: 'Psalm 46:10' },
       { t: 'Not be afraid', s: 'Say my verse from memory', n: 3, ref: 'Isaiah 41:10' },
       { t: 'Make the Sabbath a delight', s: 'Do one Sabbath thing I love', n: 1, ref: 'Isaiah 58:13' },
       { t: 'Get ready for the temple', s: 'Find a family name, or learn one thing about the temple', n: 1 },
@@ -5014,6 +5229,7 @@ const TreasureUp = (function () {
       ${cur ? `<p class="nb-verse">“And Jesus increased in wisdom and stature, and in favour with God and man.”<small>${linkRefs('Luke 2:52')}</small></p>`
         : '<div class="nb-old"><span>📖 An old notebook, just as you left it.</span><button data-nb-book="">← This Season</button></div>'}
       ${fg ? `<p class="sea-fam">👪 Family goal this Season: <b>${esc(fg)}</b></p>` : ''}
+      ${cur ? stillSeasonHtml(s) : ''}
       ${due}
       <div class="nb-tabs" role="tablist">${NB_TABS.map(([k, i, l]) => `<button role="tab" aria-selected="${nb.tab === k}" data-nb-tab="${k}"><span aria-hidden="true">${i}</span>${l}</button>`).join('')}</div>
       ${nb.printing ? nbPrintBoxHtml(s, rec) : ''}
@@ -7449,7 +7665,7 @@ const TreasureUp = (function () {
         <div class="eyebrow">${esc(week.title)}</div>
         <h2 class="reel-hook">${esc(u.ref)}${chapterFixHtml(week, u.ch)}</h2>
         ${listenHtml(u)}
-        ${u.verses ? tldrHtml(u, week) + treasureStripHtml(u, week) + layersBarHtml(u, week) + `<div class="ls-verses">${versesHtml(u, week)}</div>`
+        ${u.verses ? stillFirstHtml() + tldrHtml(u, week) + treasureStripHtml(u, week) + layersBarHtml(u, week) + `<div class="ls-verses">${versesHtml(u, week)}</div>`
           : link ? `<a class="deep-open" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Read ${esc(u.ref)} in Gospel Library ↗</a>` : ''}
         ${end || ''}
         <button class="today-alt sea-impress" data-impress="${esc(u.ref)}">✍️ Write an impression about ${esc(u.ref)}</button>
@@ -11613,6 +11829,8 @@ const TreasureUp = (function () {
     M.seasons = mergeSeasons(R.seasons, L.seasons);
     M.played = Object.assign({}, R.played || {});
     for (const d in L.played || {}) if (!M.played[d] || Math.abs(L.played[d]) > Math.abs(M.played[d])) M.played[d] = L.played[d];
+    M.still = Object.assign({}, R.still || {});
+    for (const d in L.still || {}) if (!M.still[d] || L.still[d] > M.still[d]) M.still[d] = L.still[d];
     M.impressions = newerById(R.impressions, L.impressions);
     M.marks = newerById(R.marks, L.marks);
     M.seasonWho = R.seasonWho || L.seasonWho;
@@ -11851,7 +12069,7 @@ const TreasureUp = (function () {
   // after a tap (a browser skips steps a page adds by itself), and taken off
   // again when a screen closes its own way.
   const BACK_LAYERS = [   // topmost first: each screen, and what closes it
-    ['wordSheet', '#wordClose'], ['appSheet', '#appClose'], ['parent', '#parentClose'], ['lesson', '#lessonExit'],
+    ['stillLayer', '#stillClose'], ['wordSheet', '#wordClose'], ['appSheet', '#appClose'], ['parent', '#parentClose'], ['lesson', '#lessonExit'],
     ['dev', '#devExit'], ['fam', '#famExit'], ['ammon', 'am'], ['look', 'lk'], ['snake', 'sn'],
     ['risk', '#riskExit'], ['live', '#liveExit'], ['play', '#playExit'], ['board', '#boardExit'], ['view', '#viewBack'], ['past', '#pastBack']
   ];
@@ -13019,7 +13237,7 @@ const TreasureUp = (function () {
         <div class="ls-prompt">${esc(u.ref)}</div>
         ${gl ? `<a class="ls-gl" data-ls="gl" href="${esc(gl)}" target="_blank" rel="noopener noreferrer">${u.verses ? 'Or read it in Gospel Library ↗' : 'Read it in Gospel Library ↗'}</a>` : ''}
         ${listenHtml(u)}
-        ${u.verses ? tldrHtml(u, WEEK) + treasureStripHtml(u, WEEK) + layersBarHtml(u, WEEK) + `<div class="ls-verses">${versesHtml(u, WEEK)}</div>`
+        ${u.verses ? stillFirstHtml() + tldrHtml(u, WEEK) + treasureStripHtml(u, WEEK) + layersBarHtml(u, WEEK) + `<div class="ls-verses">${versesHtml(u, WEEK)}</div>`
                    : `<p class="reel-body">Read ${esc(u.ref)} in Gospel Library, then come back and tap “I read it”.</p>`}
       </div>`;
     } else if (step.kind === 'find') {
@@ -14318,6 +14536,7 @@ const TreasureUp = (function () {
     document.addEventListener('click', verseClick);
     // Today's gratitude: its row (or the green button), and its sheet.
     document.addEventListener('click', gratefulClick);
+    document.addEventListener('click', stillClick);
     document.addEventListener('keydown', e => {
       const i = e.key === 'Enter' && e.target.closest && e.target.closest('#appBody .gr-in');
       if (!i) return;

@@ -1628,6 +1628,31 @@ let treasureCount = 0, treasureWeeks = 0;
 }
 if (treasureCount) console.log(`✓ Treasure words: ${treasureCount} in ${treasureWeeks} weeks, each the word its verse has in the Hebrew or Greek`);
 
+// Be still's Verse by verse (content/still.js, tools/build-still.mjs): each
+// verse's halves are the KJV's words and the Hebrew's, whole and in order.
+let stillVerses = 0;
+{
+  const f = path.join(ROOT, 'content', 'still.js');
+  if (fs.existsSync(f)) {
+    const box = {};
+    try { new Function('window', fs.readFileSync(f, 'utf8'))(box); } catch (e) { failures.push('content/still.js: ' + e.message); }
+    const ps = (box.TU_STILL && box.TU_STILL.passages) || [];
+    let orig = null;
+    const chOf = r => r.replace(/^Psalm /, 'Psalms ').replace(/:\d+$/, '');
+    try { orig = await loadOriginal(CACHE, [...new Set(ps.flatMap(p => p.verses.map(v => chOf(v.ref))))]); } catch (e) { failures.push('content/still.js: ' + e.message); }
+    for (const p of ps) for (const v of p.verses) {
+      const m = /^(.+) (\d+):(\d+)$/.exec(v.ref), text = m && scripture.verses.get(`${BOOK_ALIAS[m[1]] || m[1]} ${m[2]}:${m[3]}`);
+      if (!text) { failures.push(`content/still.js: ${v.ref} doesn't exist`); continue; }
+      if (v.en.join(' ') !== text) failures.push(`content/still.js: ${v.ref} isn't the KJV's words: “${v.en.join(' | ')}”`);
+      const he = orig && orig.get(chOf(v.ref)), words = he && he.v[Number(m[3]) - 1];
+      if (words && v.he.join(' ') !== words.map(w => w[0]).join(' ')) failures.push(`content/still.js: ${v.ref}'s Hebrew isn't the data's`);
+      if (v.en.length !== v.he.length) failures.push(`content/still.js: ${v.ref} has ${v.en.length} English halves and ${v.he.length} Hebrew`);
+      stillVerses++;
+    }
+  }
+}
+if (stillVerses) console.log(`✓ Be still: ${stillVerses} verses of Verse by verse, each split where the Hebrew pauses, the KJV's words whole`);
+
 // Past weeks (content/past/, written by tools/archive-weeks.mjs): every
 // week its index lists has its file, with the same dates and title, so Past
 // weeks can open it. And weeks.js holds last week and later: older weeks
