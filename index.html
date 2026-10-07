@@ -1525,6 +1525,33 @@
   .fl-pick { flex: 0 0 auto; padding: 6px 4px; font: inherit; font-size: 12px; font-weight: 800; color: var(--gold); background: none; border: 0; cursor: pointer; }
   .fl-list .more { margin-top: 0; border-bottom: 1px solid rgba(255,255,255,.08); } .fl-list .more summary { padding: 12px 2px; }
   .fl-list .more summary > span:first-child { font-size: 15.5px; font-weight: 700; color: rgba(255,255,255,.75); }
+  /* The day's path (2026-10-07): its steps under the button, and the path's own steps in the lesson. */
+  .pth { list-style: none; margin: 8px 0 0; padding: 0; }
+  .pth li { display: flex; align-items: center; gap: 12px; padding: 10px 2px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .pth-dot { flex: 0 0 22px; height: 22px; border-radius: 999px; border: 2px solid rgba(255,255,255,.3); display: grid; place-items: center; font-size: 12px; font-weight: 900; }
+  .pth li.ok .pth-dot { background: var(--right); border-color: var(--right); color: #052e16; }
+  .pth li.next .pth-dot { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(252,211,77,.22); }
+  .pth-t { flex: 1; min-width: 0; font-size: 15px; font-weight: 700; line-height: 1.3; }
+  .pth-t b { display: block; font-weight: 700; } .pth-t small { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.55); }
+  .pth li.ok .pth-t b { color: rgba(255,255,255,.6); }
+  .pth em { flex: 0 0 auto; font-style: normal; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.45); }
+  .ls-coming { margin: 2px 0 12px; padding: 11px 13px; border-radius: 14px; background: rgba(252,211,77,.09); border: 1px solid rgba(252,211,77,.3); font-size: 15px; line-height: 1.45; }
+  .ls-coming small { display: block; margin-bottom: 3px; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
+  .cfm-lines { margin: 10px 0 14px; padding-left: 18px; display: grid; gap: 8px; } .cfm-lines li { font-size: 15.5px; line-height: 1.5; }
+  .cfm-ask { padding: 12px 13px; border-radius: 14px; background: rgba(124,58,237,.16); border: 1px solid rgba(167,139,250,.35); }
+  .cfm-ask b { display: block; margin-bottom: 4px; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #c4b5fd; }
+  .cfm-ask p { margin: 0 0 10px; font-size: 16px; font-weight: 600; line-height: 1.45; } .cfm-ask textarea { width: 100%; }
+  .cfm-ask small { display: block; margin-top: 5px; font-size: 12px; color: rgba(255,255,255,.55); }
+  .gc-talk { margin: 0 0 10px; font-size: 13.5px; font-weight: 600; color: rgba(255,255,255,.6); }
+  .gc-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .gc-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 13px; border-radius: 999px; font: inherit; font-size: 13.5px; font-weight: 800; color: #fff; text-decoration: none; background: transparent; border: 1px solid rgba(255,255,255,.25); cursor: pointer; }
+  .gc-btn.on { background: rgba(251,113,133,.18); border-color: rgba(251,113,133,.6); }
+  .gl-list { display: grid; gap: 10px; margin-top: 12px; }
+  .gl-row { display: flex; align-items: center; gap: 12px; padding: 13px 14px; border-radius: 14px; text-align: left; font: inherit; color: #fff; background: rgba(255,255,255,.06); border: 2px solid rgba(255,255,255,.12); cursor: pointer; }
+  .gl-box { flex: 0 0 28px; height: 28px; border-radius: 8px; border: 2px solid rgba(134,239,172,.6); display: grid; place-items: center; font-weight: 900; }
+  .gl-row.on { border-color: var(--right); background: rgba(52,211,153,.1); } .gl-row.on .gl-box { background: var(--right); border-color: var(--right); color: #052e16; }
+  .gl-t { flex: 1; min-width: 0; } .gl-t b { display: block; font-size: 16px; line-height: 1.3; } .gl-t small { display: block; margin-top: 2px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.6); }
+  .ls-gr { margin: 8px 0 12px; }
   .fl-week { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-top: 22px; padding: 14px 16px; border-radius: 16px; text-align: left; font: inherit; color: #fff; background: rgba(255,255,255,.05); border: 0; cursor: pointer; }
   .fl-week b { font-size: 15px; font-weight: 800; } .fl-week small { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.55); }
   /* the header: the XP bar on its own line under the badges */
@@ -1962,7 +1989,7 @@ const TreasureUp = (function () {
   window.addEventListener('unhandledrejection', e => { const r = e.reason || {}; noteError(r.message || String(r), 'a promise', r.stack); });
 
   const XP = { firstTry: 20, recall: 15, bonus: 25 };
-  const RECALL_PER_DAY = 3;
+  const RECALL_PER_DAY = 1;   // one review question opens the day's path (2026-10-07; it was three)
 
   // Level titles double as the level cap: 20 levels (Blake, 2026-10-04: more
   // levels, since a week or two of steady play reached the old top, 8).
@@ -2053,6 +2080,9 @@ const TreasureUp = (function () {
     played: {},      // family games played (Sunday, on Today): day -> the tap's time, or minus it once untapped
     picks: {},       // each Sunday's talks for elders quorum and Relief Society: "2026-10-11" -> { eq, rs } (the family's, mirrored)
     readPos: {},     // where he was in a chapter not read yet: ref -> { v: first verse showing, at }
+    partRead: {},    // parts of a long chapter read (the day's path): ref -> first verse -> { day, base, xp }
+    cfm: {},         // the week's Come Follow Me parts done: weekNum.id -> { day, xp }
+    pathDone: {},    // the path's own steps done: day -> { gc: { xp }, goals, thanks }
     weekChapters: 0  // how many chapters this week's reading has, for the year's count
   });
 
@@ -2649,13 +2679,14 @@ const TreasureUp = (function () {
     return { hide: [], html: `<div class="fl-done"><b>✓ Done for today</b><small>${counted.length ? counted.filter(r => r.done).length + ' of ' + counted.length + ' · ' : ''}${d === 6 ? 'church, then a family game' : 'more from this day below, if you want it'}</small></div>` };
   }
   function dayFlowHtml(d, k) {
+    if (d < 6) return pathDayHtml(d, k);
     const today = dayKey(), isToday = k === today, plan = weekPlan()[d] || [];
     const entries = isToday ? todayEntries() : plan.filter(e => e.kind !== 'family' && e.kind !== 'further');
     // An earlier day still behind brings only what's left of it; today's own steps stay, done or not.
     let rows = entries.flatMap(e => { const from = isToday && flowDay(e) < d, r = entryRows(e, from); return from ? r.filter(x => !x.done) : r; });
     if (d === 6) rows = rows.concat(sundayRows(k));
     if (d === 0 && familyOf(WEEK)) rows = rows.concat([{ card: 'familynight', done: null, html: familyRowHtml(WEEK) }]);
-    if (isToday) rows = rows.concat(wordRows(), gratefulRows(), seasonRows());
+    if (isToday) rows = rows.concat(gratefulRows(), seasonRows());
     let button;
     if (isToday) button = upNext(entries, rows, d, k);
     else {
@@ -2673,6 +2704,49 @@ const TreasureUp = (function () {
       ${isToday ? verseHeroHtml() : ''}
       ${button.html}${isToday ? pickUpHtml() : ''}
       <div class="fl-list">${rows.filter(r => !(button.hide.includes(r.card) && !r.done)).map(r => r.html).join('')}${d < 6 ? moreHtml(d) : ''}${talkDayHtml(k)}</div>
+    </div>`;
+  }
+  // A reading day, Monday to Saturday, as one path (Blake, 2026-10-07, from
+  // the mockup he tapped through: "that flow is much better"): the date and
+  // the day's verse, one button, the day's steps under it, one row for a day
+  // left behind (today's comes first), his goals still to tick once the path
+  // has asked, and More if you want. Another day of the week shows its own
+  // reading and lesson part, to read ahead or catch up.
+  function pathDayHtml(d, k) {
+    const today = dayKey(), isToday = k === today, rows = dayPath(d, isToday ? k : null), plan = weekPlan()[d] || [];
+    const at = plan.findIndex(e => e.kind === 'day'), n = rows.filter(r => r.done).length, next = rows.find(r => !r.done);
+    const mins = list => list.reduce((m, r) => m + pathRowMin(r), 0), started = n > 0 || !!(next && next.started);
+    const what = [unitsLabel(readingPlan()[d]) || (dayReels(d).length ? qWord(dayReels(d).length) : ''), rows.some(r => r.kind === 'cfm') && 'Come Follow Me',
+      rows.some(r => r.kind === 'gc') && 'conference', rows.some(r => r.kind === 'goals') && 'goals', rows.some(r => r.kind === 'thanks') && 'thanks'].filter(Boolean).join(' · ');
+    let button = '';
+    if (rows.length && !next) button = isToday ? `<div class="fl-done"><b>✓ Today’s study: done</b><small>${esc(d < 5 ? 'Tomorrow: ' + dayName(d + 1) : 'Tomorrow: church, then a family game')}</small></div>`
+      : at >= 0 ? `<button class="fl-next ahead" data-lesson="${d}.${at}"><b>▶ Practice it again</b><small>Already done: nothing new to earn</small></button>` : '';
+    else if (next && (isToday || at >= 0)) button = `<button class="fl-next${k > today ? ' ahead' : ''}" data-lesson="${isToday ? '' : d + '.' + at}"><b>▶ ${esc(k > today ? 'Read ahead' : started ? 'Pick up at ' + pathRowTitle(next) : isToday ? 'Today’s study' : 'Finish this day')}</b>
+      <small>${esc(started ? n + ' of ' + rows.length + ' done · about ' + mins(rows.filter(r => !r.done)) + ' min left' : what + ' · about ' + mins(rows) + ' min')}</small></button>`;
+    const extra = [];
+    if (isToday) {
+      const behind = behindDays();
+      if (behind.length) {
+        const b = behind[0], ba = (weekPlan()[b] || []).findIndex(e => e.kind === 'day'), bl = dayPath(b, null).filter(r => !r.done);
+        const what = [unitsLabel(readingPlan()[b].filter(u => !S.read[u.ref])), bl.length === 1 ? '1 step' : bl.length + ' steps', 'about ' + mins(bl) + ' min'].filter(Boolean).join(' · ');
+        extra.push(flowRow(`data-lesson="${b}.${ba}"`, false, '↩ Catch up: ' + behind.map(x => DAY_NAMES[x]).join(' and '), esc(what + (next ? ' · after today’s' : ''))));
+      }
+      // His goals not ticked yet, once today's path has asked about them.
+      if (pathDoneOf(k).goals) for (const x of goalSteps().filter(x => !x.on)) {
+        extra.push(flowRow(`data-tick="${esc(x.s.id)}|${esc(x.st.id)}"`, false, '🌱 ' + esc(x.st.text), 'Still to do today · ' + esc(x.sub), { box: true }));
+      }
+      // The Season's other rows: finished goals for a parent to look at, planning a Season, the weekend check-in, looking back.
+      seasonRows().filter(r => /^(hub|check|reflect)$/.test(r.card) || (r.card === 'season' && !goalSteps().length)).forEach(r => extra.push(r.html));
+    }
+    if (d === 0 && familyOf(WEEK)) extra.push(familyRowHtml(WEEK));
+    const tag = isToday ? '' : keptDay(k) ? '✓ Kept' : k > today ? 'Coming up' : '';
+    return `<div class="flow">
+      ${isToday ? greetingHtml() : ''}
+      <div class="fl-date"><b>${DAY_NAMES[d]} · ${esc(shortDay(k))}</b><small>${rows.length ? n + ' of ' + rows.length + ' done' : ''}${tag ? (rows.length ? ' · ' : '') + tag : ''}</small></div>
+      ${isToday ? verseHeroHtml() : ''}
+      ${button}
+      ${rows.length ? pathListHtml(rows) : ''}
+      <div class="fl-list">${extra.join('')}${moreHtml(d)}</div>
     </div>`;
   }
   // A daily gratitude prompt (Blake, 2026-10-05: "Add a daily gratitude
@@ -2705,7 +2779,9 @@ const TreasureUp = (function () {
     while (gcd(step, n) !== 1) step++;
     const x = GRATEFUL_QS[((day * step) % n + n) % n];
     if (x === 'WEEK') return { q: 'Something in this week’s reading (' + WEEK.reference + ') you’re thankful for?' };
-    return Array.isArray(x) ? { verse: x[0], ref: x[1], q: x[2] } : { q: x };
+    // He studies at different times (Blake, 2026-10-07): before noon, "today" hasn't happened yet, so it asks about yesterday.
+    const when = q => k === dayKey() && new Date().getHours() < 12 ? q.replace(/\btoday\b/g, 'yesterday').replace(/\btomorrow\b/g, 'today') : q;
+    return Array.isArray(x) ? { verse: x[0], ref: x[1], q: when(x[2]) } : { q: when(x) };
   }
   const gratefulOf = k => Object.entries(S.impressions || {}).find(([, x]) => x && !x.gone && x.kind === 'grateful' && x.day === k) || null;
   function gratefulRows() {
@@ -2733,14 +2809,18 @@ const TreasureUp = (function () {
     const first = document.querySelector('#appBody .gr-in');
     if (first && !had) first.focus();
   }
-  function saveGrateful() {
+  // Today's lines (none: an earlier day's are taken back), from the sheet or the path's last step.
+  function storeGrateful(items, share) {
     const k = dayKey(), had = gratefulOf(k), imps = S.impressions || (S.impressions = {});
-    const items = [...document.querySelectorAll('#appBody .gr-in')].map(i => i.value.trim()).filter(Boolean).map(t => t.slice(0, 200));
     if (!items.length) { if (had) imps[had[0]] = { gone: true, upd: Date.now() }; }
     else {
-      imps[had ? had[0] : seaId('g')] = { kind: 'grateful', items, text: items.join('\n'), q: gratefulPrompt(k).q, day: k, at: had ? had[1].at : Date.now(), upd: Date.now(), ref: '', share: seasonWho() !== 'adult' && grShare };
+      imps[had ? had[0] : seaId('g')] = { kind: 'grateful', items, text: items.join('\n'), q: gratefulPrompt(k).q, day: k, at: had ? had[1].at : Date.now(), upd: Date.now(), ref: '', share: seasonWho() !== 'adult' && share };
       if (!had) use('grateful');
     }
+  }
+  function saveGrateful() {
+    const items = [...document.querySelectorAll('#appBody .gr-in')].map(i => i.value.trim()).filter(Boolean).map(t => t.slice(0, 200));
+    storeGrateful(items, grShare);
     save(); closeSheet(); refreshHome();
     if (items.length) toast('🙏 Thank you', items.length === 1 ? '1 thing today' : items.length + ' things today');
   }
@@ -2860,13 +2940,19 @@ const TreasureUp = (function () {
   // "More from this day": its best cards (about three, Blake: "Fewer, better
   // cards"), then its Go further lesson (the cards, its bonus questions and a
   // note) and everything else in Study.
+  // Since the day became one path (2026-10-07): More if you want, with
+  // Friday's deep dive and Saturday's puzzle too.
   function moreHtml(d) {
-    const best = bestCards(d), all = dayInsights(d), fk = furtherKey(d) || (weekPlan()[d] || []).map((e, i) => e.kind === 'further' ? d + '.' + i : '').find(Boolean);
-    if (!best.length && !fk) return '';
-    const done = furtherItems(d).filter(x => x.done).length, total = furtherItems(d).length;
-    return `<details class="more"><summary><span>More from this day<small>${esc(furtherParts(d))}</small></span><span class="more-n">${!total ? '' : done === total ? '✓' : done + '/' + total}</span></summary>
+    const best = bestCards(d), all = dayInsights(d), plan = weekPlan()[d] || [], fk = furtherKey(d) || plan.map((e, i) => e.kind === 'further' ? d + '.' + i : '').find(Boolean);
+    const fri = d === 4 ? plan.findIndex(e => e.kind === 'friday') : -1, pz = d === 5 ? plan.findIndex(e => e.kind === 'puzzle') : -1;
+    if (!best.length && !fk && fri < 0 && pz < 0) return '';
+    const items = furtherItems(d).concat(fri >= 0 ? entryItems(plan[fri]) : [], pz >= 0 ? entryItems(plan[pz]) : []);
+    const done = items.filter(x => x.done).length, total = items.length;
+    return `<details class="more"><summary><span>More if you want<small>${esc([furtherParts(d), fri >= 0 && 'the Friday deep dive', pz >= 0 && 'the weekly puzzle'].filter(Boolean).join(' · '))}</small></span><span class="more-n">${!total ? '' : done === total ? '✓' : done + '/' + total}</span></summary>
       ${best.map(i => cardRowHtml(i)).join('')}
-      ${fk ? `<button class="more-go" data-lesson="${fk}">🔭 Go further: the cards, bonus questions and a note ›</button>` : ''}
+      ${fk ? `<button class="more-go" data-lesson="${fk}">🔭 Go further: the cards, deeper readings, bonus questions and a note ›</button>` : ''}
+      ${fri >= 0 ? `<button class="more-go" data-lesson="4.${fri}">🔭 Friday deep dive: the children’s lesson and a magazine piece ›</button>` : ''}
+      ${pz >= 0 ? `<button class="more-go" data-lesson="5.${pz}">🧩 The weekly puzzle ›</button>` : ''}
       ${all.length > best.length ? `<button class="more-go" data-tab="study">See all ${all.length} in Study ›</button>` : ''}
     </details>`;
   }
@@ -3299,9 +3385,9 @@ const TreasureUp = (function () {
     h.scrollTop = top;
   }
 
-  // Today's warm-up questions (and Who said it?) not answered yet.
-  const warmupsLeft = () =>
-    S.daily.ids.filter(id => !S.daily.done[id]).concat(S.daily.say && !S.daily.sayDone ? ['say'] : []);
+  // Today's review question, if it hasn't been answered: the first of the day's
+  // warm-ups (Who said it? moved to More if you want, with the path).
+  const warmupsLeft = () => S.daily.ids.slice(0, RECALL_PER_DAY).filter(id => !S.daily.done[id]);
 
   // Redraw one card in place after an answer, keeping its inner scroll.
   function redrawCard(dataId, html) {
@@ -3827,13 +3913,7 @@ const TreasureUp = (function () {
     const days = Math.max(0, Math.round((new Date(dayKey() + 'T12:00') - new Date(start + 'T12:00')) / 864e5));
     return list[days % list.length];
   }
-  function wordRows() {
-    const t = wordOfDay();
-    if (!t) return [];
-    const x = t.x, seen = (S.twSeen || {})[dayKey()] === x.id, attr = `data-treasure="${esc(x.id)}"`;
-    return [{ card: 'tword', done: seen, go: { attr, title: '💎 Word of the day', sub: x.say + ' · ' + x.kjv },
-      html: flowRow(attr, seen, '💎 Word of the day', `${twWordHtml(x, 'tw-inline')} · ${esc(x.say)} · “${esc(x.kjv)}”`) }];
-  }
+
   // A line's verses: the first of them, just below the buttons, lit up for a moment.
   function jumpToVerse(btn) { scrollToVerse(btn.closest('.ls-chapter'), btn.dataset.jump, true); }
   // A chapter's scroller, and where its verses start showing: just under the
@@ -4266,11 +4346,13 @@ const TreasureUp = (function () {
     if (S.read[ref]) return false;
     S.read[ref] = dayKey();
     if (S.readPos) delete S.readPos[ref];
+    // Read in parts, each part was paid its share already: the chapter pays the rest.
+    const xp = Math.max(0, READ_XP - Object.values((S.partRead || {})[ref] || {}).reduce((n, x) => n + (x.base || 0), 0));
     const log = S.readLog || (S.readLog = {}), start = log[ref] && log[ref].start;
-    log[ref] = { start: start || null, secs: start ? Math.round((Date.now() - start) / 1000) : null, said: !!said, xp: READ_XP, day: dayKey() };
+    log[ref] = { start: start || null, secs: start ? Math.round((Date.now() - start) / 1000) : null, said: !!said, xp, day: dayKey() };
     markStudied(true);
     const before = S.xp;
-    grantXp(READ_XP, 'Read ' + ref);
+    if (xp) grantXp(xp, 'Read ' + ref);
     log[ref].xp = S.xp - before;         // with the streak's supercharge
     weekBonusCheck();
     save();
@@ -4286,6 +4368,184 @@ const TreasureUp = (function () {
     S.weekBonus = { week: WEEK.title, xp: S.xp - before, day: dayKey() };
   }
 
+  /* ---------------- the day's path ---------------- */
+
+  // One path a day (Blake, 2026-10-07: "The learning section is getting
+  // segmented again.... How do we make this super easy... Chunk able for long
+  // chapter reading. Then come follow me lessons"; from a mockup he picked
+  // one button): one review question, the day's chapters in parts with a
+  // question after each part that has one, the day's Come Follow Me part, a
+  // line from general conference, his Season goals, and one thing he's
+  // grateful for. Everything else is "More if you want".
+
+  // A long chapter in parts, cut where its short version's lines start (each
+  // line ends with its verses: "… (verses 6–15)"). A chapter under about four
+  // minutes, or without its text or short version, is one part, and a part
+  // of fewer than PART_MIN_WORDS joins the one before it. Each part is paid
+  // its share of the chapter's XP; its last part, the rest (recordRead).
+  const PARTS_FROM_WORDS = 480, PART_MIN_WORDS = 90, partsCache = new WeakMap();   // a week's units stay the same objects (planOf)
+  function partsOf(u, week = WEEK) {
+    if (partsCache.has(u)) return partsCache.get(u);
+    const out = cutParts(u, week);
+    partsCache.set(u, out);
+    return out;
+  }
+  function cutParts(u, week) {
+    const one = [{ u, pu: u, from: u.from, to: u.to, n: 1, of: 1, key: u.ref, line: '' }];
+    const x = u.verses && u.whole && u.words >= PARTS_FROM_WORDS && tldrOf(week, u.ch);
+    if (!x) return one;
+    const cuts = [];
+    for (const l of x.t.lines) {
+      const m = TLDR_END.exec(l), from = m && Number(m[2]);
+      if (!m || from < u.from || from > u.to) continue;
+      const at = cuts.find(c => c.from === from);
+      if (at) at.line += ' ' + l.slice(0, m.index); else cuts.push({ from, line: l.slice(0, m.index) });
+    }
+    cuts.sort((a, b) => a.from - b.from);
+    if (cuts.length < 2) return one;
+    cuts[0].from = u.from;
+    const words = (a, b) => u.verses.filter(v => v.n >= a && v.n <= b).reduce((n, v) => n + countWords(v.t), 0);
+    const parts = cuts.map((c, i) => ({ from: c.from, to: i + 1 < cuts.length ? cuts[i + 1].from - 1 : u.to, line: c.line }));
+    for (let i = 0; i < parts.length && parts.length > 1;) {
+      if (words(parts[i].from, parts[i].to) >= PART_MIN_WORDS) { i++; continue; }
+      const into = i ? parts[i - 1] : parts[1];
+      into.from = Math.min(into.from, parts[i].from); into.to = Math.max(into.to, parts[i].to);
+      into.line = i ? into.line + ' ' + parts[i].line : parts[i].line + ' ' + into.line;
+      parts.splice(i, 1);
+    }
+    if (parts.length < 2) return one;
+    return parts.map((p, i) => {
+      const key = u.ch + ':' + p.from + '–' + p.to, verses = u.verses.filter(v => v.n >= p.from && v.n <= p.to);
+      const pu = Object.assign({}, u, { ref: key, whole: false, from: p.from, to: p.to, verses, words: verses.reduce((n, v) => n + countWords(v.t), 0) });
+      return { u, pu, from: p.from, to: p.to, n: i + 1, of: parts.length, key, line: p.line };
+    });
+  }
+  // A part is read once the chapter is, or on its own (S.partRead: ref -> from -> { day, base, xp }).
+  const partDone = p => !!S.read[p.u.ref] || (p.of > 1 && !!((S.partRead || {})[p.u.ref] || {})[p.from]);
+  // Read: its share of the chapter's XP, and the chapter once every part is read.
+  function recordPart(p, said) {
+    if (partDone(p)) return false;
+    if (p.of === 1) return recordRead(p.u.ref, said);
+    const all = S.partRead || (S.partRead = {}), m = all[p.u.ref] || (all[p.u.ref] = {});
+    if (S.readPos) delete S.readPos[p.key];
+    const rest = partsOf(p.u).filter(q => q.from !== p.from && !m[q.from]).length;
+    if (!rest) { m[p.from] = { day: dayKey(), base: 0 }; return recordRead(p.u.ref, said); }
+    const base = Math.floor(READ_XP / p.of);
+    m[p.from] = { day: dayKey(), base, said: !!said };
+    markStudied(true);
+    payXp(m[p.from], base, 'Read ' + p.key);
+    save();
+    return true;
+  }
+  const verseNo = ref => Number((/:(\d+)/.exec(ref) || [])[1]) || 0;
+  const chOfRef = ref => String(ref).replace(/:.*/, '');
+  // A day's reading in parts, each with the reels on its verses after it; a
+  // reel on other verses (or a week with no chapters to read) comes after.
+  function dayParts(d) {
+    const reels = dayReels(d), placed = new Set(), out = [];
+    for (const u of readingPlan()[d]) for (const p of partsOf(u)) {
+      const rs = reels.filter(r => !placed.has(r.id) && chOfRef(r.verse.ref) === u.ch &&
+        (p.of === 1 || (verseNo(r.verse.ref) >= p.from && verseNo(r.verse.ref) <= p.to)));
+      rs.forEach(r => placed.add(r.id));
+      out.push({ p, reels: rs });
+    }
+    const rest = reels.filter(r => !placed.has(r.id));
+    if (rest.length) { if (out.length) out[out.length - 1].reels = out[out.length - 1].reels.concat(rest); else out.push({ p: null, reels: rest }); }
+    return out;
+  }
+
+  // The week's Come Follow Me parts (week.guide, the ones for everyone), one
+  // a reading day: each on the first day that reads one of its chapters and
+  // has none yet; one that fits no day goes to the first day without one.
+  function cfmPlan() {
+    const text = window.TU_READING || {};
+    if (cfmPlan.c && cfmPlan.c.week === WEEK && cfmPlan.c.text === text) return cfmPlan.c.days;
+    const parts = guideOf(WEEK).filter(g => !g.x.kids), plan = readingPlan();
+    const days = DAY_NAMES.map(() => null), reading = [0, 1, 2, 3, 4, 5].filter(d => plan[d].length);
+    const open = reading.length ? reading : [0, 1, 2, 3, 4, 5];
+    parts.forEach((g, i) => {
+      const chs = new Set(readingUnits(g.x.ref, text).map(u => u.ch).concat(String(g.x.ref).split(';').map(x => chOfRef(x.trim()))));
+      const fit = open.find(d => !days[d] && plan[d].some(u => chs.has(u.ch))), d = fit != null ? fit : open.find(d => !days[d]);
+      if (d != null) days[d] = Object.assign({ n: i + 1, of: parts.length }, g);
+    });
+    cfmPlan.c = { week: WEEK, text, days };
+    return days;
+  }
+  const cfmOf = d => cfmPlan()[d] || null;
+  // Done this week: weekNum.id -> { day, xp } (a lesson's ids repeat from week to week).
+  const cfmKey = c => weekNumOf(WEEK) + '.' + c.x.id;
+  const cfmDone = c => !!(S.cfm || {})[cfmKey(c)];
+
+  // A line from general conference a day: the talk a day (the conference's
+  // talks in order from its `from`), with one of its quotes; once every talk
+  // has had a day, round again with each one's next quote.
+  function gcOf(k) {
+    const c = curConf(), i = c && c.from ? dayDiff(c.from, k) : -1;
+    if (!c || i < 0) return null;
+    const t = c.talks[i % c.talks.length], qs = (t && t.quotes) || [];
+    return qs.length ? { c, t, q: qs[Math.floor(i / c.talks.length) % qs.length], n: i % c.talks.length + 1, of: c.talks.length } : null;
+  }
+  // Up to the first full stop after a word, not an initial ("President D. Todd Christofferson teaches…").
+  const firstSentence = t => (/^.+?[a-z0-9)”’'][.!?](?=\s+[A-Z“"‘]|$)/.exec(String(t || '').trim()) || [String(t || '')])[0];
+
+  // His Season's goal steps to tick today, as on the Season's rows.
+  function goalSteps() {
+    const s = seasonNow(), rec = seasonRec(s.id), today = dayKey(), mon = mondayOf(today), out = [];
+    for (const g of activeGoals(rec)) for (const st of g.steps || []) {
+      const n = ticksIn(rec, st.id, mon, dayAdd(mon, 6));
+      out.push({ s, g, st, on: ticked(rec, st.id, today), sub: st.n === 7 ? n + ' of 7 days' : n + ' of ' + st.n + ' this week' });
+    }
+    return out;
+  }
+  // The day's own steps after the reading (S.pathDone: day -> { gc, goals, thanks }), kept two weeks.
+  const pathDoneOf = k => (S.pathDone || {})[k] || {};
+  function setPathDone(k, what, val) {
+    const all = S.pathDone || (S.pathDone = {}), keep = dayAdd(dayKey(), -14);
+    (all[k] || (all[k] = {}))[what] = val || 1;
+    for (const d of Object.keys(all)) if (d < keep) delete all[d];
+  }
+  const CFM_XP = 10, GC_XP = 5;
+
+  // A day's path, as rows: the reading in parts (each with its questions), the
+  // Come Follow Me part, and today's own steps (k: the day, or null for
+  // another day of the week, which has only its reading and lesson part).
+  function dayPath(d, k) {
+    const rows = [];
+    for (const g of dayParts(d)) rows.push({ kind: g.p ? 'part' : 'reels', p: g.p, reels: g.reels,
+      done: (!g.p || partDone(g.p)) && g.reels.every(r => S.answers[r.id]), started: !!g.p && !!((S.readPos || {})[g.p.key]) });
+    const c = cfmOf(d);
+    if (c) rows.push({ kind: 'cfm', c, done: cfmDone(c) });
+    if (k) {
+      const dn = pathDoneOf(k), t = gcOf(k);
+      if (t) rows.push({ kind: 'gc', t, done: !!dn.gc });
+      if (goalSteps().length) rows.push({ kind: 'goals', done: !!dn.goals });
+      rows.push({ kind: 'thanks', done: !!gratefulOf(k) || !!dn.thanks });
+    }
+    return rows;
+  }
+  const qWord = n => n === 1 ? 'a question' : n + ' questions';
+  function pathRowTitle(r) {
+    if (r.kind === 'part') return r.p.of > 1 ? r.p.key : 'Read ' + r.p.u.ref;
+    if (r.kind === 'reels') return r.reels.length === 1 ? r.reels[0].hook : r.reels.length + ' reels';
+    return { cfm: 'Come Follow Me', gc: 'Conference', goals: 'My goals', thanks: 'Grateful for…' }[r.kind];
+  }
+  function pathRowSub(r) {
+    if (r.kind === 'part') return (r.p.of > 1 ? 'Part ' + r.p.n + ' of ' + r.p.of : READ_XP + ' XP') + (r.reels.length ? ' · then ' + qWord(r.reels.length) : '');
+    if (r.kind === 'reels') return 'This week’s reels · ' + qWord(r.reels.length);
+    if (r.kind === 'cfm') return r.c.x.h.replace(/^[“"]|[”"]$/g, '').replace(/\.$/, '');
+    if (r.kind === 'gc') return r.t.t.speaker;
+    if (r.kind === 'goals') { const g = goalSteps(), on = g.filter(x => x.on).length; return on ? on + ' of ' + g.length + ' ticked today' : g.length === 1 ? '1 to tick' : g.length + ' to tick'; }
+    return gratefulPrompt(dayKey()).q;
+  }
+  const pathRowMin = r => r.kind === 'part' ? Math.max(1, minutesOf([r.p.pu]) || 1) + Math.ceil(r.reels.length / 2) : r.kind === 'reels' ? Math.max(1, r.reels.length) : r.kind === 'cfm' ? 2 : 1;
+  function pathListHtml(rows) {
+    const next = rows.findIndex(r => !r.done);
+    return `<ul class="pth">${rows.map((r, i) => `<li class="${r.done ? 'ok' : i === next ? 'next' : ''}"><span class="pth-dot">${r.done ? '✓' : ''}</span>
+      <span class="pth-t"><b>${esc(pathRowTitle(r))}</b><small>${esc(pathRowSub(r))}</small></span><em>${pathRowMin(r)} min</em></li>`).join('')}</ul>`;
+  }
+  // Earlier days this week with part of their path left (reading, questions, lesson part).
+  const behindDays = () => [0, 1, 2, 3, 4, 5].filter(d => d < todayIndex() && dayPath(d, null).some(r => !r.done));
+
   /* ---------------- the week's plan and Go deeper ---------------- */
 
   // A suggested pace for the week, Monday to Sunday: the week's chapters a
@@ -4300,7 +4560,7 @@ const TreasureUp = (function () {
   // day's lesson is done, never part of Today's.
   function weekPlan() {
     const days = DAY_NAMES.map(() => []), plan = readingPlan();
-    for (let d = 0; d < 6; d++) if (plan[d].length || dayReels(d).length || dayDeep(d).length) days[d].push({ kind: 'day', d });
+    for (let d = 0; d < 6; d++) if (plan[d].length || dayReels(d).length || cfmOf(d)) days[d].push({ kind: 'day', d });
     for (let d = 0; d < 6; d++) if (furtherItems(d).length) days[d].push({ kind: 'further', d });
     if (fridayItems().length) days[4].push({ kind: 'friday' });
     if (WEEK.puzzle) days[5].push({ kind: 'puzzle' });
@@ -4314,9 +4574,10 @@ const TreasureUp = (function () {
   // The cards one part of the plan asks for, and whether each is done.
   function entryItems(e) {
     if (e.kind === 'day') {
-      return readingPlan()[e.d].map(u => ({ card: 'read-' + u.ref, done: !!S.read[u.ref] }))
-        .concat(dayReels(e.d).map(r => ({ card: r.id, done: !!S.answers[r.id] })))
-        .concat(dayDeep(e.d).map(d => ({ card: 'deep-' + d.id, done: !!S.deep[d.id] })));
+      // The day's path, but for today's own steps: its reading in parts, its reels, its Come Follow Me part.
+      const c = cfmOf(e.d);
+      return dayParts(e.d).flatMap(g => (g.p ? [{ card: 'part-' + g.p.key, done: partDone(g.p) }] : []).concat(g.reels.map(r => ({ card: r.id, done: !!S.answers[r.id] }))))
+        .concat(c ? [{ card: 'cfm-' + c.x.id, done: cfmDone(c) }] : []);
     }
     if (e.kind === 'further') return furtherItems(e.d);
     if (e.kind === 'friday') return fridayItems().map(d => ({ card: 'deep-' + d.id, done: !!S.deep[d.id] }));
@@ -4326,19 +4587,25 @@ const TreasureUp = (function () {
   }
   // A day's Go further (Blake, 2026-10-01: the extra content shouldn't be
   // "hidden in the same row of a green check mark"): its insight cards, its
-  // reels' bonus questions (a reel's open once it's answered), and a note
-  // on one of its reels.
+  // Go-deeper readings, its reels' bonus questions (a reel's open once it's
+  // answered), a Who said it? line from its chapters, and a note on one of
+  // its reels. Since the day became one path (2026-10-07), this is "More if
+  // you want".
+  const daySaying = d => (WEEK.sayings || []).find(y => dayChapters(d).has(chOfRef(y.ref))) || null;
   function furtherItems(d) {
-    const reels = dayReels(d);
+    const reels = dayReels(d), say = daySaying(d);
     return bestCards(d).map(i => ({ card: 'insight-' + i.x.id, done: !!(S.insights || {})[i.x.id] }))
+      .concat(dayDeep(d).map(x => ({ card: 'deep-' + x.id, done: !!S.deep[x.id] })))
       .concat(reels.flatMap(r => bonusesOf(r).map((_, n) => ({ card: 'bonus-' + bonusKey(r.id, n), done: !!S.bonus[bonusKey(r.id, n)] }))))
+      .concat(say ? [{ card: 'say-' + say.id, done: !!S.sayings[say.id] }] : [])
       .concat(reels.length ? [{ card: 'note-' + d, done: reels.some(r => S.notes[r.id]) }] : []);
   }
   function furtherParts(d) {
     const cards = bestCards(d), vids = cards.filter(i => i.x.kind === 'video').length, ins = cards.length - vids;
-    const bon = dayReels(d).reduce((n, r) => n + bonusesOf(r).length, 0);
+    const bon = dayReels(d).reduce((n, r) => n + bonusesOf(r).length, 0), deep = dayDeep(d).length;
     return [ins && (ins === 1 ? '1 insight' : ins + ' insights'), vids && (vids === 1 ? 'a video' : vids + ' videos'),
-      bon && (bon === 1 ? '1 bonus question' : bon + ' bonus questions'), dayReels(d).length && 'a note'].filter(Boolean).join(' · ');
+      deep && (deep === 1 ? 'a deeper reading' : deep + ' deeper readings'),
+      bon && (bon === 1 ? '1 bonus question' : bon + ' bonus questions'), daySaying(d) && 'Who said it?', dayReels(d).length && 'a note'].filter(Boolean).join(' · ');
   }
   // The week map's key for a day's Go further, while it has something left.
   function furtherKey(d) {
@@ -4353,7 +4620,7 @@ const TreasureUp = (function () {
   // reading that day, by its reels' section.
   function dayName(d) {
     const units = readingPlan()[d], r = dayReels(d)[0];
-    return units.length ? 'Read ' + unitsLabel(units) : r ? WEEK.sections[r.section] : 'Go deeper';
+    return units.length ? 'Read ' + unitsLabel(units) : r ? WEEK.sections[r.section] : 'Today’s study';
   }
   // Today's part: anything unfinished from earlier days, then today's.
   function todayEntries() {
@@ -6395,6 +6662,12 @@ const TreasureUp = (function () {
 
   function gamesHtml() {
     const rows = [], family = [];
+    // The Word of the day, from Today since the day became one path (2026-10-07).
+    const tw = wordOfDay();
+    if (tw) {
+      const x = tw.x, seen = (S.twSeen || {})[dayKey()] === x.id;
+      rows.push(`<button class="game-row" data-treasure="${esc(x.id)}"><span class="gi">💎</span><span><span class="gt block">Word of the day</span><span class="gd block">${twWordHtml(x, 'tw-inline')} · ${esc(x.say)} · “${esc(x.kjv)}”</span><span class="gs block">${seen ? '✓ Seen today' : 'A Hebrew or Greek word from this week'}</span></span></button>`);
+    }
     if (WEEK.puzzle) {
       rows.push(gameRow('puzzle', '🧩', 'Weekly puzzle', "Sort 16 ideas into this week's 4 lesson sections.", puzzleStatus(), reelsLeft() > 0));
     }
@@ -11614,6 +11887,16 @@ const TreasureUp = (function () {
         }
       }
     }
+    // The day's path (2026-10-07): a part of a chapter, a Come Follow Me part, a
+    // day's conference line, each paid once, whichever device did it first.
+    for (const ref in L.partRead || {}) for (const f in L.partRead[ref]) {
+      if (!has((B.partRead || {})[ref], f) && has((R.partRead || {})[ref], f) && L.partRead[ref][f].xp) gained -= L.partRead[ref][f].xp;
+    }
+    for (const k in L.cfm || {}) if (!has(B.cfm, k) && has(R.cfm, k) && L.cfm[k].xp) gained -= L.cfm[k].xp;
+    for (const d in L.pathDone || {}) {
+      const g = L.pathDone[d].gc;
+      if (g && g.xp && !((B.pathDone || {})[d] || {}).gc && ((R.pathDone || {})[d] || {}).gc) gained -= g.xp;
+    }
     // Chapters read from the library, and the week's reading bonus: paid once.
     for (const k in L.libRead || {}) if (!has(B.libRead, k) && has(R.libRead, k)) gained -= xpOf(L.libRead[k], READ_XP);
     const wb = o => o && o.weekBonus && o.weekBonus.week;
@@ -11644,6 +11927,11 @@ const TreasureUp = (function () {
     for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found', 'insights', 'sunday', 'talks', 'picks']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
     // The reading clock: a chapter finished on either device keeps its record.
     M.readLog = Object.assign({}, L.readLog || {}, R.readLog || {});
+    M.partRead = {};
+    for (const ref of new Set(Object.keys(L.partRead || {}).concat(Object.keys(R.partRead || {})))) M.partRead[ref] = Object.assign({}, (L.partRead || {})[ref] || {}, (R.partRead || {})[ref] || {});
+    M.cfm = Object.assign({}, L.cfm || {}, R.cfm || {});
+    M.pathDone = {};
+    for (const d of new Set(Object.keys(L.pathDone || {}).concat(Object.keys(R.pathDone || {})))) M.pathDone[d] = Object.assign({}, (L.pathDone || {})[d] || {}, (R.pathDone || {})[d] || {});
     for (const k in L.readLog || {}) if (L.readLog[k].day && !M.readLog[k].day) M.readLog[k] = L.readLog[k];
     // Where he was in a chapter: the later place.
     M.readPos = Object.assign({}, R.readPos || {}, L.readPos || {});
@@ -12808,9 +13096,14 @@ const TreasureUp = (function () {
   const keyWord = w => w.length >= 5 && !LESSON_SKIP.has(w.toLowerCase());
   let lesson = null;
 
-  // The part of the plan the Today card starts: the first one, from today
-  // or an earlier day, that isn't finished.
-  const lessonNow = () => todayEntries().find(e => entryItems(e).some(x => !x.done)) || null;
+  // The path the Today button starts: today's while any of it is left, then
+  // the earliest day still behind.
+  function lessonNow() {
+    const t = todayIndex();
+    if (t < 6 && dayPath(t, dayKey()).some(r => !r.done)) return (weekPlan()[t] || []).find(e => e.kind === 'day') || { kind: 'day', d: t };
+    const b = behindDays()[0];
+    return b != null ? (weekPlan()[b] || []).find(e => e.kind === 'day') || null : null;
+  }
   // What a lesson holds, for the button that starts it.
   function lessonParts(e) {
     const parts = warmupsLeft().length ? ['Warm-up'] : [];
@@ -12896,42 +13189,50 @@ const TreasureUp = (function () {
   // Who said it?: a line from today's chapters.
   function sayStep(d) {
     const chs = dayChapters(d), x = (WEEK.sayings || []).find(y => chs.has(y.ref.replace(/:.*/, '')));
-    return !x ? null : { kind: 'say', text: x.text, ref: x.ref, home: x.ref, right: x.speaker, choices: shuffled([x.speaker].concat(x.wrong), x.id + '|say'), why: x.why };
+    return !x ? null : { kind: 'say', id: x.id, text: x.text, ref: x.ref, home: x.ref, right: x.speaker, choices: shuffled([x.speaker].concat(x.wrong), x.id + '|say'), why: x.why };
   }
   const deepStep = d => ({ kind: 'deep', id: d.id, d, home: deepHome(d), q: d.q, right: d.right, why: d.why, choices: choicesFor(d, 'deep|' + d.id) });
 
   // A finished part plays again as practice: everything in it, nothing to earn.
   function buildLesson(entry) {
     const steps = [], further = !!entry && entry.kind === 'further', sunday = !!entry && entry.kind === 'sunday';
-    // The day's warm-up comes first, but not in Go further (extra, after the lesson) or a Sunday class's lesson.
-    if (!further && !sunday) S.daily.ids.filter(id => !S.daily.done[id]).map(reelById).filter(Boolean).forEach(r => steps.push({
+    // The day's review question comes first, but not in Go further (extra, after the lesson) or a Sunday class's lesson.
+    if (!further && !sunday) warmupsLeft().map(reelById).filter(Boolean).forEach(r => steps.push({
       kind: 'recall', id: r.id, r, home: r.verse.ref, q: r.question.q, right: r.question.right, why: r.question.why, choices: choicesFor(r.question, r.id + '|' + S.daily.day) }));
-    const x = !further && !sunday && S.daily.say && !S.daily.sayDone && (WEEK.sayings || []).find(y => y.id === S.daily.say);
-    if (x) steps.push({ kind: 'saywarm', text: x.text, ref: x.ref, home: x.ref, right: x.speaker, why: x.why, choices: shuffled([x.speaker].concat(x.wrong), x.id + '|' + S.daily.day) });
     const practice = !!entry && entryItems(entry).every(i => i.done);
     if (entry && entry.kind === 'day') {
-      // Reading first: the day's chapters, then finding a verse in them, then
-      // the reels about what he just read.
-      const d = entry.d;
-      readingPlan()[d].filter(u => practice || !S.read[u.ref]).forEach(u => steps.push({ kind: 'chapter', u }));
-      const f = findStep(d, practice);
-      if (f) steps.push(f);
-      dayReels(d).filter(r => practice || !S.answers[r.id]).forEach(r => {
-        steps.push({ kind: 'read', r });
-        steps.push({ kind: 'reel', id: r.id, home: r.verse.ref, q: r.question.q, right: r.question.right, why: r.question.why, choices: choicesFor(r.question, r.id) });
-        const b = blankStep(r);
-        if (b) steps.push(b);
-      });
-      [matchStep(d), x ? null : sayStep(d)].forEach(y => { if (y) steps.push(y); });
-      dayDeep(d).filter(g => practice || !S.deep[g.id]).forEach(g => steps.push(deepStep(g)));
+      // The day's path: each part of its reading, then the questions on what
+      // he just read (finding a verse first, once a day); then its Come Follow
+      // Me part; and on today's path, conference, his goals, and thanks.
+      const d = entry.d, f = findStep(d, practice);
+      for (const g of dayParts(d)) {
+        if (g.p && (practice || !partDone(g.p))) steps.push({ kind: 'chapter', u: g.p.pu, part: g.p });
+        if (f && g.reels.some(r => r.id === f.id)) steps.push(f);
+        g.reels.filter(r => practice || !S.answers[r.id]).forEach(r => {
+          steps.push({ kind: 'read', r });
+          steps.push({ kind: 'reel', id: r.id, home: r.verse.ref, q: r.question.q, right: r.question.right, why: r.question.why, choices: choicesFor(r.question, r.id) });
+        });
+      }
+      const c = cfmOf(d);
+      if (c && (practice || !cfmDone(c))) steps.push({ kind: 'cfm', c });
+      if (d === todayIndex()) {
+        const k = dayKey(), dn = pathDoneOf(k), t = gcOf(k);
+        if (t && !dn.gc) steps.push({ kind: 'gc', t });
+        if (goalSteps().length && !dn.goals) steps.push({ kind: 'goals' });
+        if (!gratefulOf(k) && !dn.thanks) steps.push({ kind: 'thanks' });
+      }
     } else if (further) {
-      // Go further: the day's insight cards, then the bonus questions of its
-      // answered reels, then a note on one of them that has none.
+      // Go further: the day's insight cards, its Go-deeper readings, the bonus
+      // questions of its answered reels, a Who said it? line from its chapters,
+      // then a note on one of its reels that has none.
       const d = entry.d, open = dayReels(d).filter(r => S.answers[r.id]);
       bestCards(d).filter(i => practice || !(S.insights || {})[i.x.id]).forEach(i => steps.push({ kind: 'insight', x: i.x, draft: i.draft }));
+      dayDeep(d).filter(g => practice || !S.deep[g.id]).forEach(g => steps.push(deepStep(g)));
       open.forEach(r => bonusesOf(r).forEach((q, n) => {
         if (practice || !S.bonus[bonusKey(r.id, n)]) steps.push({ kind: 'bonus', id: r.id, n, q, home: homeOf(r, q), right: q.right, why: q.why, choices: choicesFor(q, r.id + '|bonus' + n) });
       }));
+      const say = daySaying(d);
+      if (say && (practice || !S.sayings[say.id])) steps.push(sayStep(d));
       const r = open.find(y => !S.notes[y.id]);
       if (r) steps.push({ kind: 'note', r });
     } else if (sunday) {
@@ -12991,6 +13292,11 @@ const TreasureUp = (function () {
     if (step.kind === 'reel') recordReel(step.id, picked);
     else if (step.kind === 'recall') recordRecall(step.id, picked);
     else if (step.kind === 'saywarm') recordSayWarm(picked);
+    else if (step.kind === 'say' && step.id && !S.sayings[step.id]) {   // a line's first answer, as in the game
+      S.sayings[step.id] = { right: ok }; markStudied();
+      if (ok) grantXp(SAY_XP, 'Who said it?');
+      save();
+    }
     else if (step.kind === 'deep') recordDeep(step.id, picked);
     else if (step.kind === 'bonus') recordBonus(step.id, step.n, picked);
     else if (step.kind === 'find' && !step.practice) recordFind(step.id, ok);
@@ -12999,8 +13305,8 @@ const TreasureUp = (function () {
   }
 
   // "Right first time" on the last screen counts the questions, not the practice.
-  const SCORED = { recall: 1, saywarm: 1, reel: 1, deep: 1, find: 1, bonus: 1, sunq: 1 };
-  const LESSON_KIND = { recall: 'Warm-up · remember this?', saywarm: 'Warm-up · who said it?', reel: 'Choose the right answer',
+  const SCORED = { recall: 1, saywarm: 1, reel: 1, deep: 1, find: 1, bonus: 1, sunq: 1, say: 1 };
+  const LESSON_KIND = { recall: 'Review · remember this?', saywarm: 'Warm-up · who said it?', reel: 'Choose the right answer',
     blank: 'Fill in the missing word', find: 'Find it in the chapter', match: 'Match each idea to its verse', say: 'Who said it?', deep: 'Go deeper',
     insight: '💡 Insight', bonus: 'Bonus · find it in the reading · +' + XP.bonus + ' XP', note: 'Write a note · +' + NOTE_XP + ' XP',
     sunintro: 'Sunday class · For the Strength of Youth', sunread: 'Read', sunq: 'Choose the right answer' };
@@ -13028,8 +13334,11 @@ const TreasureUp = (function () {
     const opt = (v, cls) => `<button class="ls-opt${cls}" data-ls="pick" data-v="${esc(v)}"${L.checked ? ' disabled' : ''}>${esc(v)}</button>`;
     const optCls = v => !L.checked ? (L.picked === v ? ' on' : '') : v === step.right ? ' good' : v === L.picked ? ' bad' : '';
     const opts = () => `<div class="ls-opts">${step.choices.map(c => opt(c, optCls(c))).join('')}</div>`;
-    const min = step.kind === 'chapter' ? minutesOf([step.u]) : 0;
-    let html = `<div class="ls-kind">${step.retry ? '↻ Try it again' : step.kind === 'read' ? 'Read' : step.kind === 'chapter' ? 'Read the chapter' + (min ? ' · about ' + min + ' min' : '') : step.kind === 'puzzle' ? 'Saturday'
+    const min = step.kind === 'chapter' ? minutesOf([step.u]) : 0, part = step.kind === 'chapter' && step.part && step.part.of > 1 ? step.part : null;
+    let html = `<div class="ls-kind">${step.retry ? '↻ Try it again' : step.kind === 'read' ? 'Read' : part ? 'Read · part ' + part.n + ' of ' + part.of + (min ? ' · about ' + min + ' min' : '')
+      : step.kind === 'chapter' ? 'Read the chapter' + (min ? ' · about ' + min + ' min' : '') : step.kind === 'puzzle' ? 'Saturday'
+      : step.kind === 'cfm' ? 'Come Follow Me · part ' + step.c.n + ' of ' + step.c.of : step.kind === 'gc' ? '🎤 General conference · talk ' + step.t.n + ' of ' + step.t.of
+      : step.kind === 'goals' ? '🌱 My Season · ' + esc(seasonNow().name) : step.kind === 'thanks' ? '🙏 Grateful for…'
       : step.kind === 'bonus' ? esc('Bonus · find it in ' + sourceLabel(step.q.source) + ' · +' + XP.bonus + ' XP')
       : step.kind === 'insight' ? { quote: '💬 Quote', video: '🎬 Video' }[step.x.kind] || LESSON_KIND.insight : LESSON_KIND[step.kind]}${stepFixHtml(step)}</div>`;
     if (step.kind === 'chapter') {
@@ -13037,14 +13346,17 @@ const TreasureUp = (function () {
       const u = step.u, gl = u.whole ? readLink(u.ch, true) : readLink(u.ref);
       // Its clock starts the first time he opens it, and keeps running while he's away (in Gospel Library).
       // Back from Gospel Library, even after the phone closed the app, "I read it" is still open.
-      const log = S.readLog || (S.readLog = {});
-      if (!S.read[u.ref] && !(log[u.ref] && log[u.ref].start)) { log[u.ref] = { start: Date.now() }; saveLocal(); }
-      if (log[u.ref] && log[u.ref].gl) L.readOk = true;
+      // A part of a long chapter: its own clock, kept while the lesson is open (its text is always here).
+      const log = S.readLog || (S.readLog = {}), whole = part ? part.u : u;
+      if (part) { const ps = L.partStart || (L.partStart = {}); if (!ps[part.key]) ps[part.key] = Date.now(); }
+      else if (!S.read[u.ref] && !(log[u.ref] && log[u.ref].start)) { log[u.ref] = { start: Date.now() }; saveLocal(); }
+      if (!part && log[u.ref] && log[u.ref].gl) L.readOk = true;
       html += `<div class="ls-chapter">
         <div class="ls-prompt">${esc(u.ref)}</div>
+        ${part ? `<div class="ls-coming"><small>What’s coming · verses ${part.from}–${part.to}</small>${linkRefs(part.line, part.u.ch)}</div>` : ''}
         ${gl ? `<a class="ls-gl" data-ls="gl" href="${esc(gl)}" target="_blank" rel="noopener noreferrer">${u.verses ? 'Or read it in Gospel Library ↗' : 'Read it in Gospel Library ↗'}</a>` : ''}
-        ${listenHtml(u)}
-        ${u.verses ? tldrHtml(u, WEEK) + treasureStripHtml(u, WEEK) + layersBarHtml(u, WEEK) + `<div class="ls-verses">${versesHtml(u, WEEK)}</div>`
+        ${!part || part.n === 1 ? listenHtml(whole) : ''}
+        ${u.verses ? (part ? '' : tldrHtml(u, WEEK)) + (!part || part.n === 1 ? treasureStripHtml(whole, WEEK) : '') + layersBarHtml(u, WEEK) + `<div class="ls-verses">${versesHtml(u, WEEK)}</div>`
                    : `<p class="reel-body">Read ${esc(u.ref)} in Gospel Library, then come back and tap “I read it”.</p>`}
       </div>`;
     } else if (step.kind === 'find') {
@@ -13128,6 +13440,41 @@ const TreasureUp = (function () {
         ${L.checked && n ? `<p class="note-text">${esc(n.text)}</p>`
           : `<textarea id="lsNote" class="field note-input" rows="4" maxlength="600" placeholder="At least ${NOTE_MIN_WORDS} words"></textarea><p class="note-msg" id="lsNoteMsg"></p>`}
         <p class="note-help">Your parents can read your notes.</p>`;
+    } else if (step.kind === 'cfm') {
+      // The day's Come Follow Me part: the section in our words, a question to
+      // think about (a line written here goes to his Season notebook), and the
+      // section in Gospel Library.
+      const x = step.c.x;
+      html += `<div class="ls-prompt">${esc(x.h)}</div>${step.c.draft ? draftTag : ''}
+        <div class="ls-ins-ref">${linkRefs(x.ref)}</div>
+        <ul class="cfm-lines">${x.lines.map(l => `<li>${linkRefs(l, x.ref)}</li>`).join('')}</ul>
+        <div class="cfm-ask"><b>Think about it</b><p>${linkRefs(x.ask, x.ref)}</p>
+          <textarea id="cfmNote" class="field" rows="3" maxlength="600" placeholder="Write a line, if you want" aria-label="Your answer">${esc(L.cfmText || '')}</textarea>
+          <small>It goes in your Season notebook, with your notes.</small></div>
+        <a class="gd-go" href="${esc(lessonAt(WEEK, x.id))}" target="_blank" rel="noopener noreferrer">Read this part in Gospel Library ↗</a>`;
+    } else if (step.kind === 'gc') {
+      // A line from conference: the talk a day, one of its quotes, what it teaches (once approved).
+      const { t, q } = step.t;
+      html += `<blockquote class="ins-quote">“${esc(String(q).replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote>
+        <p class="ins-who">${esc(t.speaker)}</p><p class="gc-talk">${esc(t.title)}</p>
+        ${sunShow(t) && t.quick ? `<p class="reel-body">${linkRefs(firstSentence(t.quick))}</p>` : ''}
+        <div class="gc-acts"><button class="gc-btn" data-ls="gctalk">More from the talk</button>
+          ${t.url ? `<a class="gc-btn" href="${esc(t.url)}" target="_blank" rel="noopener noreferrer">▶ Watch it ↗</a>` : ''}
+          <button class="gc-btn${L.gcSaved ? ' on' : ''}" data-ls="gcsave"${L.gcSaved ? ' disabled' : ''}>${L.gcSaved ? '♥ In your notebook' : '♡ Save to my notebook'}</button></div>`;
+    } else if (step.kind === 'goals') {
+      // His Season's steps for today: he ticks what's done; what isn't stays on Today.
+      html += `<div class="ls-prompt">Your goals today</div>
+        <p class="ls-hint">Tick what you’ve done. Not yet? Leave it: it stays on Today, to tick when it’s done.</p>
+        <div class="gl-list">${goalSteps().map(x => `<button class="gl-row${x.on ? ' on' : ''}" data-ls="tick" data-tick="${esc(x.s.id)}|${esc(x.st.id)}" aria-pressed="${x.on}">
+          <span class="gl-box">${x.on ? '✓' : ''}</span><span class="gl-t"><b>${esc(x.st.text)}</b><small>${esc(x.sub)}</small></span></button>`).join('')}</div>`;
+    } else if (step.kind === 'thanks') {
+      // The day's gratitude question, the last step: one line is enough.
+      const pr = gratefulPrompt(dayKey()), kid = seasonWho() !== 'adult', vals = L.grText || [];
+      const ph = ['One thing is enough', 'Another, if you like', 'And one more'];
+      html += `${pr.verse ? `<p class="gr-verse">${esc(pr.verse)} (${linkRefs(pr.ref)})</p>` : ''}<div class="ls-prompt">${esc(pr.q)}</div>
+        <div class="ls-gr">${[0, 1, 2].map(i => `<input class="field gr-in" id="lsGr${i}" data-gr-i="${i}" maxlength="200" value="${esc(vals[i] || '')}" placeholder="${ph[i]}" aria-label="${ph[i]}" enterkeyhint="${i < 2 ? 'next' : 'done'}">`).join('')}</div>
+        ${kid ? `<button class="sh-pill${L.grShare ? ' on' : ''}" data-ls="grshare">${L.grShare ? '👀 Share with my parents' : '🔒 Just me'}</button>` : '<p class="sh-small">🔒 Just yours</p>'}
+        <p class="sh-small" style="margin-top:10px">Kept with your notes in your Season notebook.</p>`;
     } else if (step.kind === 'puzzle') {
       const left = reelsLeft();
       html += `<div class="ls-prompt">The weekly puzzle</div>
@@ -13144,6 +13491,8 @@ const TreasureUp = (function () {
     // The bottom: Continue, Check, or how it went.
     let footHtml;
     if (step.kind === 'read' || step.kind === 'insight' || step.kind === 'sunintro' || step.kind === 'sunread') footHtml = `<button class="ls-go" data-ls="next">Continue</button>`;
+    else if (step.kind === 'cfm' || step.kind === 'gc' || step.kind === 'goals') footHtml = `<button class="ls-go" data-ls="${step.kind}done">Continue</button>`;
+    else if (step.kind === 'thanks') footHtml = `<button class="ls-go" data-ls="thanks">Finish</button><button class="ls-alt" data-ls="thanksskip">Skip for today</button>`;
     else if (step.kind === 'note') {
       footHtml = L.checked ? `<div class="ls-say">Saved in your notes${L.earned ? ` <span class="ls-earn">+${L.earned} XP</span>` : ''}</div><button class="ls-go" data-ls="next">Continue</button>`
         : `<button class="ls-go" data-ls="savenote">Save note</button><button class="ls-alt" data-ls="next">Skip</button>`;
@@ -13151,12 +13500,13 @@ const TreasureUp = (function () {
     else if (step.kind === 'chapter') {
       // Opens once he's reached the end of the chapter here, or gone to read it in Gospel Library.
       // Quicker than a real read, it asks him first; then the XP.
+      const what = part ? 'verses ' + part.from + '–' + part.to : step.u.ref;
       if (L.checked) footHtml = `<div class="ls-say">✓ ${esc(step.u.ref)}${L.earned ? ` <span class="ls-earn">+${L.earned} XP</span>` : ''}</div><button class="ls-go" data-ls="next">Continue</button>`;
-      else if (L.askRead) footHtml = `<div class="ls-say">That was quick. Did you read all of ${esc(step.u.ref)}?</div>
+      else if (L.askRead) footHtml = `<div class="ls-say">That was quick. Did you read all of ${esc(what)}?</div>
         <button class="ls-go" data-ls="readyes">Yes, I read every verse</button>
         <button class="ls-alt" data-ls="readnot">Not yet</button>`;
       else footHtml = `<div class="ls-say ls-read-hint"${L.readOk ? ' hidden' : ''}>${step.u.verses ? 'Read to the end, then tap it.' : 'Open it in Gospel Library first.'}</div>
-        <button class="ls-go" data-ls="readdone"${L.readOk ? '' : ' disabled'}>I read ${esc(step.u.ref)}</button>`;
+        <button class="ls-go" data-ls="readdone"${L.readOk ? '' : ' disabled'}>${part ? 'Done with ' + esc(what) : 'I read ' + esc(step.u.ref)}</button>`;
     }
     else if (step.kind === 'puzzle') {
       footHtml = reelsLeft() ? `<button class="ls-go" data-ls="next">Continue</button>` : `<button class="ls-go" data-ls="puzzle">Start the puzzle</button>`;
@@ -13193,8 +13543,11 @@ const TreasureUp = (function () {
     // Go further, the bonus questions still waiting on that day's reels.
     const fk = e && e.kind === 'day' ? furtherKey(e.d) : null;
     const locked = e && e.kind === 'further' ? dayReels(e.d).filter(r => !S.answers[r.id]).reduce((n, r) => n + bonusesOf(r).length, 0) : 0;
+    // Today's path, all of it: done for the day, and his goals still to tick, if any.
+    const todays = e && e.kind === 'day' && e.d === todayIndex() && !dayPath(e.d, dayKey()).some(r => !r.done);
+    const goalsLeft = todays ? goalSteps().filter(x => !x.on).length : 0;
     body.innerHTML = `<div class="ls-done"><div class="big">🎉</div>
-      <div class="ls-prompt">${L.practice ? 'Practice done!' : 'Lesson complete!'}</div>
+      <div class="ls-prompt">${L.practice ? 'Practice done!' : todays ? 'Today’s study: done!' : 'Lesson complete!'}</div>
       <p class="reel-body">${esc(name)}</p>
       <div class="ls-stats">
         <div class="ls-stat"><b>+${xp}</b><span>XP</span></div>
@@ -13206,6 +13559,7 @@ const TreasureUp = (function () {
       ${L.rewards.map(t => `<p class="ls-news">🎁 Reward unlocked: ${esc(t)} · show a parent</p>`).join('')}
       ${fk ? `<button class="ls-further" data-ls="further" data-key="${fk}">🔭 Go further<small>${esc(furtherParts(e.d))}</small></button>` : ''}
       ${locked ? `<p class="fam-note">${locked === 1 ? '1 more bonus question opens' : locked + ' more bonus questions open'} once you answer that day's reels.</p>` : ''}
+      ${goalsLeft ? `<p class="fam-note">🌱 ${goalsLeft === 1 ? '1 goal' : goalsLeft + ' goals'} left for today: tick ${goalsLeft === 1 ? 'it' : 'them'} on Today when ${goalsLeft === 1 ? 'it’s' : 'they’re'} done.</p>` : ''}
       ${L.practice ? `<p class="fam-note">Practice: this part was already answered, so nothing new was earned.</p>` : ''}
       ${!next && !L.practice ? `<p class="fam-note">${e && e.kind === 'sunday' ? 'Ready for class.' : "That's today's reading done. Come back tomorrow for the next part."}</p>` : ''}</div>`;
     foot.className = 'ls-foot';
@@ -13230,14 +13584,14 @@ const TreasureUp = (function () {
     if (!L) return;
     // Check and Continue take each other's place, so a quick double tap
     // would check and move on before he saw the answer.
-    if (act === 'check' || act === 'next' || act === 'readdone' || act === 'readyes' || act === 'readnot' || act === 'savenote') {
+    if (act === 'check' || act === 'next' || act === 'readdone' || act === 'readyes' || act === 'readnot' || act === 'savenote' || /^(cfm|gc|goals)done$|^thanks/.test(act)) {
       if (Date.now() - (L.tapAt || 0) < 400) return;
       L.tapAt = Date.now();
     }
     // Gone to read it in Gospel Library (the link opens as usual): "I read it" opens, and stays open.
     if (act === 'gl') {
       if (step && step.kind === 'chapter') {
-        const x = S.readLog && S.readLog[step.u.ref];
+        const x = !(step.part && step.part.of > 1) && S.readLog && S.readLog[step.u.ref];
         if (x && !S.read[step.u.ref]) { x.gl = true; saveLocal(); }
         lessonReadOk();
       }
@@ -13245,15 +13599,53 @@ const TreasureUp = (function () {
     }
     if (act === 'readdone' || act === 'readyes') {
       if (!L.readOk || L.checked) return;
-      const u = step.u;
-      if (S.read[u.ref]) { L.at++; lessonReset(); return renderLesson(); }             // practice: read before
-      if (act === 'readdone' && readSecs(u.ref) < readMinSecs(u)) { L.askRead = true; return keepPlace(renderLesson); }
+      const u = step.u, part = step.part && step.part.of > 1 ? step.part : null;
+      if (part ? partDone(part) : S.read[u.ref]) { L.at++; lessonReset(); return renderLesson(); }             // practice: read before
+      const secs = part ? (Date.now() - ((L.partStart || {})[part.key] || Date.now())) / 1000 : readSecs(u.ref);
+      if (act === 'readdone' && secs < readMinSecs(u)) { L.askRead = true; return keepPlace(renderLesson); }
       const before = S.xp;
-      recordRead(u.ref, act === 'readyes');
+      if (part) recordPart(part, act === 'readyes'); else recordRead(u.ref, act === 'readyes');
       Object.assign(L, { askRead: false, checked: true, ok: true, earned: S.xp - before });
       return keepPlace(renderLesson);
     }
     if (act === 'readnot') { L.askRead = false; return keepPlace(renderLesson); }
+    // The day's own steps (the path, 2026-10-07): each moves on with Continue.
+    const k = dayKey(), on = () => { stopClips(); L.at++; lessonReset(); renderLesson(); };
+    if (act === 'cfmdone') {
+      const c = step.c, text = (($('cfmNote') || {}).value || '').trim().slice(0, 1000);
+      if (text) { (S.impressions = S.impressions || {})[seaId('i')] = { text, day: k, at: Date.now(), upd: Date.now(), ref: c.x.ref, share: false }; use('impression'); }
+      if (!cfmDone(c)) { const m = S.cfm || (S.cfm = {}); m[cfmKey(c)] = { day: k }; payXp(m[cfmKey(c)], CFM_XP, 'Come Follow Me'); markStudied(); }
+      save(); L.cfmText = ''; return on();
+    }
+    if (act === 'gctalk') { openTalk(step.t.t.id); return; }
+    if (act === 'gcsave') {
+      if (!L.gcSaved) {
+        const t = step.t.t;
+        (S.impressions = S.impressions || {})[seaId('i')] = { text: '“' + step.t.q + '” (' + t.speaker + ', ' + t.title + ')', day: k, at: Date.now(), upd: Date.now(), ref: '', share: false };
+        use('impression'); save(); L.gcSaved = true;
+      }
+      return keepPlace(renderLesson);
+    }
+    if (act === 'gcdone') {
+      if (!pathDoneOf(k).gc) { const rec = {}; payXp(rec, GC_XP, 'General conference'); setPathDone(k, 'gc', rec); markStudied(); save(); }
+      L.gcSaved = false; return on();
+    }
+    if (act === 'tick') {
+      const [sid, stepId] = el.dataset.tick.split('|');
+      tickStep(sid, stepId, k);
+      return keepPlace(renderLesson);
+    }
+    if (act === 'goalsdone') { setPathDone(k, 'goals'); save(); return on(); }
+    if (act === 'grshare') {
+      L.grText = [...$('lessonBody').querySelectorAll('.gr-in')].map(i => i.value);
+      L.grShare = !L.grShare;
+      return keepPlace(renderLesson);
+    }
+    if (act === 'thanks' || act === 'thanksskip') {
+      const items = act === 'thanks' ? [...$('lessonBody').querySelectorAll('.gr-in')].map(i => i.value.trim()).filter(Boolean).map(t => t.slice(0, 200)) : [];
+      if (items.length) storeGrateful(items, !!L.grShare); else setPathDone(k, 'thanks');
+      save(); L.grText = null; return on();
+    }
     if (act === 'close') return closeLesson();
     if (act === 'nextlesson') { closeLesson(); return openLesson(''); }
     if (act === 'further') { closeLesson(); return openLesson(el.dataset.key); }
@@ -14565,6 +14957,8 @@ const TreasureUp = (function () {
     const units = new Set(readingAll().map(u => u.ref));
     Object.keys(S.read || {}).forEach(ref => { if (!units.has(ref)) delete S.read[ref]; });
     Object.keys(S.readLog || {}).forEach(ref => { if (!units.has(ref)) delete S.readLog[ref]; });
+    Object.keys(S.partRead || {}).forEach(ref => { if (!units.has(ref)) delete S.partRead[ref]; });
+    Object.keys(S.cfm || {}).forEach(k => { if (!k.startsWith(weekNum + '.')) delete S.cfm[k]; });
     S.weekChapters = units.size;
 
     // The streak became days kept (2026-10-01): the run it had becomes its days.
