@@ -61,6 +61,10 @@ const IMG = {
   cartTimber: picture(),
   cartStone: picture(),
   cartWork: picture(),
+  cartParked: picture(),
+  cartGrainParked: picture(),
+  cartTimberParked: picture(),
+  cartStoneParked: picture(),
   unit: picture(),
   stronghold: picture(),
   encampment: picture(),
@@ -105,6 +109,10 @@ IMG.cartGrain.src = 'assets/cart_grain.png?v=1';
 IMG.cartTimber.src = 'assets/cart_timber.png?v=1';
 IMG.cartStone.src = 'assets/cart_stone.png?v=1';
 IMG.cartWork.src = 'assets/cart_loading.png?v=1';
+IMG.cartParked.src = 'assets/cart_parked.png?v=1';
+IMG.cartGrainParked.src = 'assets/cart_grain_parked.png?v=1';
+IMG.cartTimberParked.src = 'assets/cart_timber_parked.png?v=1';
+IMG.cartStoneParked.src = 'assets/cart_stone_parked.png?v=1';
 IMG.unit.src = 'assets/spearman.png?v=13';
 IMG.stronghold.src = 'assets/stronghold.png?v=15';   // the chief judge's palace, in the white stone of the other buildings (020-city-palace.md)
 IMG.encampment.src = 'assets/encampment.png?v=1';
@@ -946,9 +954,17 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (W.border != null && !W.borderOpen) drawBorder();
 
     // Isometric depth sorting: entities with larger (x + y) are closer to camera and drawn on top
-    const isoDepth = e => e.kind === 'building' ? (e.tx + e.w * 0.5 + e.ty + e.h * 0.5) * TILE : (e.x + e.y);
+    const isoDepth = e => e.kind === 'building' ? (e.tx + e.w * 0.5 + e.ty + e.h * 0.5) * TILE : (e.depth != null ? e.depth : (e.x + e.y));
     const ents = [];
-    for (const e of W.ents.values()) if (inView(e) && isVisible(e)) ents.push(e);
+    for (const e of W.ents.values()) {
+      if (inView(e) && isVisible(e)) {
+        ents.push(e);
+        if (e.type === 'cart' && e.order && e.order.type === 'gather' && e.phase === 'work' && !(e.path && e.path.length)) {
+          const hwProxy = getCartHarvesterProxy(e, now);
+          if (hwProxy) ents.push(hwProxy);
+        }
+      }
+    }
     for (const e of ents) if (e.kind === 'building') drawFloor(e);
     for (const t of trees) if (inView(t)) ents.push(t);
     ents.sort((a, b) => isoDepth(a) - isoDepth(b));
@@ -959,6 +975,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
         drawTree(e);
       } else if (e.kind === 'building') {
         drawBuilding(e, selSet.has(e.id), now);
+      } else if (e.kind === 'cartHarvester') {
+        drawCartHarvesterWorker(e.state, now);
       } else {
         if (selSet.has(e.id)) drawRing(e);
         drawUnit(e, now);
@@ -1178,6 +1196,254 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.restore();
   }
 
+  const ready = img => img && img.complete && img.naturalWidth;
+
+  // Harvester worker logistics attached to parked horse carts
+  function getCartHarvesterProxy(u, now) {
+    if (!u.order || u.order.tx == null || u.order.ty == null) return null;
+    let k = unitKinetic.get(u);
+    if (!k) { k = {}; unitKinetic.set(u, k); }
+
+    const targetTile = W ? W.tile(u.order.tx, u.order.ty) : null;
+    const gatherRes = u.order.res || (targetTile === T.FOREST ? 'timber' : targetTile === T.ROCK ? 'stone' : 'grain');
+
+    // Cart facing and wagon bed tailgate deposit spot
+    const cartFlip = k.lastFlip || 1;
+    const bedWx = u.x + (cartFlip > 0 ? 10 : -10);
+    const bedWy = u.y + (cartFlip > 0 ? 6 : -6);    // Tailgate deposit area at the rear of the wagon bed
+
+    // Direction vector from cart bed to resource tile center
+    const resWx = (u.order.tx + 0.5) * TILE;
+    const resWy = (u.order.ty + 0.5) * TILE;
+    const toResX = resWx - bedWx;
+    const toResY = resWy - bedWy;
+    const toResDist = Math.hypot(toResX, toResY) || 1;
+    const dirX = toResX / toResDist;
+    const dirY = toResY / toResDist;
+
+    // Harvest station: deliberate visual stride of 22 to 28 world pixels away from wagon bed
+    const harvestDist = Math.max(22, Math.min(toResDist - 8, 28));
+    const standWx = bedWx + dirX * harvestDist + 4;
+    const standWy = bedWy + dirY * harvestDist + 8;
+
+    // 2.8 second deliberate RTS logistics loop (100% continuous, zero teleportation)
+    const loopSec = 2.8;
+    const cycle = ((now * 0.001 / loopSec + (u.id * 0.37)) % 1.0);
+
+    let curWx = bedWx, curWy = bedWy;
+    let wAngle = 0;
+    let wBob = 0;
+    let wCarrying = false;
+    let settleBounce = 0;
+
+    if (cycle < 0.28) {
+      // Phase 1: Walking from cart bed tailgate out to resource station (empty hands)
+      const p = cycle / 0.28;
+      const ease = p * p * (3 - 2 * p);
+      curWx = bedWx + (standWx - bedWx) * ease;
+      curWy = bedWy + (standWy - bedWy) * ease;
+      wBob = Math.abs(Math.sin(p * Math.PI * 4)) * 2.2;
+      const wFlip = (standWx >= bedWx) ? 1 : -1;
+      wAngle = 0.07 * wFlip;
+      wCarrying = false;
+    } else if (cycle < 0.64) {
+      // Phase 2: Harvesting at resource (2 heavy, deliberate strikes)
+      curWx = standWx;
+      curWy = standWy;
+      const p = (cycle - 0.28) / 0.36;
+      const swing = (p * 2) % 1.0;
+      const swingIdx = Math.floor(p * 2);
+
+      if (swing < 0.52) {
+        // Slow deliberate windup
+        const wp = swing / 0.52;
+        wAngle = -0.32 * Math.sin(wp * Math.PI * 0.5);
+        wBob = -wp * 1.4;
+      } else if (swing < 0.76) {
+        // Power strike impact
+        const sp = (swing - 0.52) / 0.24;
+        wAngle = -0.32 + sp * 0.68;
+        wBob = sp * 2.4;
+        const strikeId = swingIdx + '_' + Math.floor(now * 0.001 / loopSec);
+        if (sp > 0.60 && k.lastCartStrike !== strikeId) {
+          k.lastCartStrike = strikeId;
+          const { ix: sIsoX, iy: sIsoY } = toIso(standWx, standWy);
+          const wFlip = (resWx >= standWx) ? 1 : -1;
+          if (gatherRes === 'timber') {
+            for (let c = 0; c < 5; c++) {
+              particles.push({
+                ix: sIsoX + 10 * wFlip, iy: sIsoY - 14 + (Math.random() - 0.5) * 6,
+                vx: wFlip * (0.8 + Math.random() * 1.6), vy: -1.4 - Math.random() * 1.2,
+                size: 2.4, wood: true, life: 0, maxLife: 26
+              });
+            }
+          } else if (gatherRes === 'grain') {
+            for (let c = 0; c < 5; c++) {
+              particles.push({
+                ix: sIsoX + 8 * wFlip + (Math.random() - 0.5) * 6, iy: sIsoY - 8,
+                vx: (Math.random() - 0.5) * 1.8, vy: -1.2 - Math.random() * 0.8,
+                size: 2.0, chaff: true, life: 0, maxLife: 26
+              });
+            }
+          } else if (gatherRes === 'stone') {
+            addDust(sIsoX + 10 * wFlip, sIsoY - 6);
+            addSpark(sIsoX + 10 * wFlip, sIsoY - 12);
+          }
+        }
+      } else {
+        // Recovery back to ready position
+        const rp = (swing - 0.76) / 0.24;
+        wAngle = 0.36 * (1 - rp);
+        wBob = 2.4 * (1 - rp);
+      }
+      if (p > 0.85) wCarrying = true; // Bends down and picks up the load
+    } else if (cycle < 0.88) {
+      // Phase 3: Walking back to cart tailgate carrying the resource bundle
+      const p = (cycle - 0.64) / 0.24;
+      const ease = p * p * (3 - 2 * p);
+      curWx = standWx + (bedWx - standWx) * ease;
+      curWy = standWy + (bedWy - standWy) * ease;
+      wBob = Math.abs(Math.sin(p * Math.PI * 4)) * 2.0;
+      const wFlip = (bedWx >= standWx) ? 1 : -1;
+      wAngle = -0.06 * wFlip; // Weight lean
+      wCarrying = true;
+    } else {
+      // Phase 4: Depositing goods into cart bed
+      const p = (cycle - 0.88) / 0.12;
+      curWx = bedWx;
+      curWy = bedWy;
+      const wFlip = (bedWx >= standWx) ? 1 : -1;
+      const dumpCurve = Math.sin(p * Math.PI);
+      wAngle = dumpCurve * 0.38 * wFlip;
+      wBob = dumpCurve * 2.4;
+      settleBounce = Math.sin(p * Math.PI) * 3.4;
+      k.settleBounce = settleBounce;
+      const dumpId = 'dump_' + Math.floor(now * 0.001 / loopSec);
+      if (p > 0.35 && p < 0.75 && k.lastCartDump !== dumpId) {
+        k.lastCartDump = dumpId;
+        const { ix: bIsoX, iy: bIsoY } = toIso(bedWx, bedWy);
+        const col = gatherRes === 'grain' ? '#fde047' : gatherRes === 'stone' ? '#d1d5db' : '#b45309';
+        for (let t = 0; t < 5; t++) {
+          particles.push({
+            ix: bIsoX + (Math.random() - 0.5) * 8, iy: bIsoY - 10,
+            vx: (Math.random() - 0.5) * 1.4, vy: -1.3 - Math.random() * 0.8,
+            size: 2.4, transfer: true, col, life: 0, maxLife: 20
+          });
+        }
+      }
+      if (p < 0.45) wCarrying = true;
+    }
+
+    // Convert to isometric for drawing
+    const { ix, iy } = toIso(curWx, curWy);
+    const wFlip = (cycle < 0.64) ? (standWx >= bedWx ? 1 : -1) : (bedWx >= standWx ? 1 : -1);
+
+    // Natural depth sorting ensures worker renders cleanly relative to nearby trees
+    const sortDepth = curWx + curWy + 2;
+
+    return {
+      kind: 'cartHarvester',
+      cart: u,
+      x: curWx,
+      y: curWy,
+      depth: sortDepth,
+      state: {
+        wx: ix,
+        wy: iy,
+        wFlip,
+        wAngle,
+        wBob,
+        wCarrying,
+        gatherRes,
+        cycle
+      }
+    };
+  }
+
+  function drawCartHarvesterWorker(hw, now) {
+    const { wx, wy, wFlip, wAngle, wBob, wCarrying, gatherRes, cycle } = hw;
+    const wImg = ready(IMG.worker) ? IMG.worker : null;
+
+    // Contact shadow
+    ctx.fillStyle = 'rgba(0,0,0,0.32)';
+    ctx.beginPath();
+    ctx.ellipse(wx, wy + 1, 8, 4, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.save();
+    ctx.translate(wx, wy - wBob);
+    ctx.scale(wFlip, 1);
+    if (wAngle) ctx.rotate(wAngle);
+
+    if (wImg) {
+      ctx.drawImage(wImg, -14, -39, 20, 40);
+    } else {
+      ctx.fillStyle = '#a8814f';
+      ctx.fillRect(-4, -18, 8, 12);
+      ctx.fillStyle = '#d8bd8e';
+      ctx.beginPath(); ctx.arc(0, -22, 4, 0, 7); ctx.fill();
+    }
+
+    // Carried resource or tools in hands
+    if (wCarrying) {
+      if (gatherRes === 'timber') {
+        // Cut timber log held in both arms across chest
+        ctx.fillStyle = '#451a03';
+        ctx.beginPath(); ctx.roundRect(-4, -24, 18, 8, 2); ctx.fill();
+        ctx.fillStyle = '#92400e';
+        ctx.beginPath(); ctx.roundRect(-3, -23, 16, 6, 1.5); ctx.fill();
+        ctx.fillStyle = '#fde68a';
+        ctx.beginPath(); ctx.ellipse(-2, -20, 1.5, 3, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#b45309';
+        ctx.beginPath(); ctx.ellipse(-2, -20, 0.8, 1.8, 0, 0, Math.PI * 2); ctx.fill();
+      } else if (gatherRes === 'grain') {
+        // Golden sheaf of ripe wheat
+        ctx.fillStyle = '#ca8a04'; ctx.beginPath();
+        ctx.ellipse(5, -21, 6, 9, 0.25, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#fde047'; ctx.beginPath();
+        ctx.ellipse(5, -21, 4.5, 7, 0.25, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = '#eab308'; ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.moveTo(4, -26); ctx.lineTo(1, -32); ctx.moveTo(5, -26); ctx.lineTo(5, -33); ctx.moveTo(6, -26); ctx.lineTo(9, -32); ctx.stroke();
+      } else if (gatherRes === 'stone') {
+        // Dressed limestone building block
+        ctx.fillStyle = '#57534e'; ctx.fillRect(-1, -24, 14, 10);
+        ctx.fillStyle = '#a8a29e'; ctx.fillRect(0, -23, 12, 8);
+        ctx.fillStyle = '#e7e5e4'; ctx.fillRect(1, -22, 10, 3);
+      }
+    } else if (cycle >= 0.28 && cycle < 0.64) {
+      // Dynamic tool swing at resource
+      if (gatherRes === 'grain') {
+        // Harvesting scythe
+        ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.0; ctx.beginPath();
+        ctx.moveTo(0, -16); ctx.lineTo(10, -26); ctx.stroke();
+        ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2.2; ctx.beginPath();
+        ctx.arc(12, -28, 7, -1.2, 0.8); ctx.stroke();
+      } else if (gatherRes === 'stone') {
+        // Quarry pickaxe
+        ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.2; ctx.beginPath();
+        ctx.moveTo(0, -18); ctx.lineTo(12, -28); ctx.stroke();
+        ctx.strokeStyle = '#64748b'; ctx.lineWidth = 2.4; ctx.beginPath();
+        ctx.moveTo(7, -30); ctx.lineTo(16, -26); ctx.stroke();
+      }
+    } else if (cycle < 0.28) {
+      // Tool held over shoulder while striding to resource
+      ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.0; ctx.lineCap = 'round'; ctx.beginPath();
+      ctx.moveTo(-2, -18); ctx.lineTo(-12, -28); ctx.stroke();
+      if (gatherRes === 'timber') {
+        ctx.fillStyle = '#cbd5e1'; ctx.beginPath();
+        ctx.moveTo(-11, -30); ctx.lineTo(-16, -27); ctx.lineTo(-12, -25); ctx.closePath(); ctx.fill();
+      } else if (gatherRes === 'grain') {
+        ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2.0; ctx.beginPath();
+        ctx.arc(-11, -28, 5, 2.0, 4.0); ctx.stroke();
+      } else if (gatherRes === 'stone') {
+        ctx.strokeStyle = '#64748b'; ctx.lineWidth = 2.2; ctx.beginPath();
+        ctx.moveTo(-7, -29); ctx.lineTo(-15, -26); ctx.stroke();
+      }
+    }
+
+    ctx.restore();
+  }
+
   // Ancient American / Book of Mormon Character Sprites in 2:1 Isometric (Westwood RA2 Kinetic Engine)
   function drawUnit(u, now) {
     const d = u.def;
@@ -1260,20 +1526,26 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
 
     // 5. Facing orientation & forward body lean (velocity banking)
-    let flip = 1;
+    let flip = k.lastFlip || 1;
     if (moving && u.path && u.path.length > 0) {
       const tx = Math.floor(u.x / 32), ty = Math.floor(u.y / 32);
       const nx = u.path[0][0], ny = u.path[0][1];
       const dx = nx - tx, dy = ny - ty;
       if (dx - dy < 0) flip = -1;
+      else if (dx - dy > 0) flip = 1;
+      k.lastFlip = flip;
     } else if (u.order.type === 'attack' && u.order.target) {
       const target = W.ents.get(u.order.target);
       if (target) {
         const dx = target.x - u.x, dy = target.y - u.y;
         if (dx - dy < 0) flip = -1;
+        else if (dx - dy > 0) flip = 1;
+        k.lastFlip = flip;
       }
     } else if (hammering) {
       if (bt.x - u.x - (bt.y - u.y) < 0) flip = -1;
+      else flip = 1;
+      k.lastFlip = flip;
     }
 
     const normSpeed = Math.min(1.4, k.speed / Math.max(1, (d.speed || 60)));
@@ -1350,54 +1622,84 @@ IMG.farm.src = 'assets/farm.png?v=13';
       }
     }
 
-    // 10. Harvester Labor Mechanics: Woodcutting Axe, Scythe Reaping & Stone Quarrying
-    const isGathering = u.order.type === 'gather' && u.phase === 'work' && !moving;
+    // 10. Harvester Labor Mechanics: Woodcutting Axe, Scythe Reaping & Stone Quarrying (Workers Only)
+    const isWorkerGathering = (u.type === 'worker' || u.type === 'bearer') && u.order.type === 'gather' && u.phase === 'work' && !moving;
     let workAngle = 0;
     let workBob = 0;
     let workSway = 0;
-    if (isGathering) {
+    if (isWorkerGathering) {
       const targetTile = W ? W.tile(u.order.tx, u.order.ty) : null;
       const gatherRes = u.order.res || (targetTile === T.FOREST ? 'timber' : targetTile === T.ROCK ? 'stone' : 'grain');
       if (gatherRes === 'timber') {
-        const chopPhase = (now * 0.009 + u.id * 1.5) % (Math.PI * 2);
-        const chopVal = Math.sin(chopPhase);
-        workAngle = chopVal < 0 ? chopVal * 0.15 : chopVal * 0.28;
-        workBob = Math.max(0, chopVal) * 1.8;
-        if (chopVal > 0.94 && now - (k.lastChopAt || 0) > 360) {
-          k.lastChopAt = now;
-          for (let w = 0; w < 3; w++) {
-            particles.push({
-              ix: ix + 8 * flip, iy: iy - 12 + (Math.random() - 0.5) * 6,
-              vx: flip * (0.8 + Math.random() * 1.4), vy: -1.2 - Math.random() * 1.2,
-              size: 2.2, wood: true, life: 0, maxLife: 22
-            });
+        // Natural human woodcutting rhythm: 1.4s cycle (60% slow windup, 15% power chop, 25% recovery)
+        const cycle = ((now * 0.0007 + u.id * 0.37) % 1.0);
+        if (cycle < 0.6) {
+          const p = cycle / 0.6;
+          workAngle = -0.16 * Math.sin(p * Math.PI * 0.5);
+          workBob = -p * 1.0;
+        } else if (cycle < 0.75) {
+          const p = (cycle - 0.6) / 0.15;
+          workAngle = -0.16 + p * 0.42;
+          workBob = p * 2.2;
+          if (p > 0.8 && now - (k.lastChopAt || 0) > 400) {
+            k.lastChopAt = now;
+            for (let w = 0; w < 3; w++) {
+              particles.push({
+                ix: ix + 8 * flip, iy: iy - 12 + (Math.random() - 0.5) * 6,
+                vx: flip * (0.8 + Math.random() * 1.4), vy: -1.2 - Math.random() * 1.2,
+                size: 2.2, wood: true, life: 0, maxLife: 22
+              });
+            }
           }
+        } else {
+          const p = (cycle - 0.75) / 0.25;
+          workAngle = 0.26 * (1 - p);
+          workBob = 2.2 * (1 - p);
         }
       } else if (gatherRes === 'grain') {
-        const reapPhase = (now * 0.0075 + u.id * 1.2) % (Math.PI * 2);
-        const reapVal = Math.sin(reapPhase);
-        workAngle = reapVal * 0.22;
-        workSway = Math.cos(reapPhase) * 2.2;
-        workBob = Math.abs(reapVal) * 1.2;
-        if (reapVal > 0.92 && now - (k.lastReapAt || 0) > 360) {
-          k.lastReapAt = now;
-          for (let g = 0; g < 3; g++) {
-            particles.push({
-              ix: ix + 6 * flip + (Math.random() - 0.5) * 6, iy: iy - 6,
-              vx: (Math.random() - 0.5) * 1.5, vy: -0.8 - Math.random() * 0.8,
-              size: 1.8, chaff: true, life: 0, maxLife: 24
-            });
+        // Natural human scythe harvest: 1.6s broad sweeping arc
+        const cycle = ((now * 0.0006 + u.id * 0.31) % 1.0);
+        if (cycle < 0.5) {
+          const p = cycle / 0.5;
+          workAngle = -0.15 * Math.sin(p * Math.PI);
+          workSway = -1.8 * Math.sin(p * Math.PI);
+        } else if (cycle < 0.8) {
+          const p = (cycle - 0.5) / 0.3;
+          workAngle = 0.22 * Math.sin(p * Math.PI);
+          workSway = 2.0 * Math.sin(p * Math.PI);
+          if (p > 0.5 && now - (k.lastReapAt || 0) > 450) {
+            k.lastReapAt = now;
+            for (let g = 0; g < 3; g++) {
+              particles.push({
+                ix: ix + 6 * flip + (Math.random() - 0.5) * 6, iy: iy - 6,
+                vx: (Math.random() - 0.5) * 1.5, vy: -0.8 - Math.random() * 0.8,
+                size: 1.8, chaff: true, life: 0, maxLife: 24
+              });
+            }
           }
+        } else {
+          workAngle = 0; workSway = 0;
         }
       } else if (gatherRes === 'stone') {
-        const minePhase = (now * 0.0085 + u.id * 1.4) % (Math.PI * 2);
-        const mineVal = Math.sin(minePhase);
-        workAngle = mineVal < 0 ? mineVal * 0.18 : mineVal * 0.32;
-        workBob = Math.max(0, mineVal) * 2.0;
-        if (mineVal > 0.94 && now - (k.lastMineAt || 0) > 360) {
-          k.lastMineAt = now;
-          addDust(ix + 8 * flip, iy - 6);
-          addSpark(ix + 8 * flip, iy - 10);
+        // Natural human quarry pickaxe: 1.5s strike
+        const cycle = ((now * 0.00065 + u.id * 0.41) % 1.0);
+        if (cycle < 0.6) {
+          const p = cycle / 0.6;
+          workAngle = -0.18 * Math.sin(p * Math.PI * 0.5);
+          workBob = -p * 1.2;
+        } else if (cycle < 0.75) {
+          const p = (cycle - 0.6) / 0.15;
+          workAngle = -0.18 + p * 0.46;
+          workBob = p * 2.4;
+          if (p > 0.8 && now - (k.lastMineAt || 0) > 400) {
+            k.lastMineAt = now;
+            addDust(ix + 8 * flip, iy - 6);
+            addSpark(ix + 8 * flip, iy - 10);
+          }
+        } else {
+          const p = (cycle - 0.75) / 0.25;
+          workAngle = 0.28 * (1 - p);
+          workBob = 2.4 * (1 - p);
         }
       }
     }
@@ -1405,7 +1707,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     // 11. Worker Resource Dump & Cart Heavy-Load Suspension Settle
     let dumpAngle = 0;
     let dumpY = 0;
-    if (u.dumpAt && W.t - u.dumpAt < 0.35) {
+    if (!isCart && u.dumpAt && W.t - u.dumpAt < 0.35) {
       const dp = (W.t - u.dumpAt) / 0.35;
       const dumpCurve = Math.sin(dp * Math.PI);
       dumpAngle = dumpCurve * 0.28 * flip;
@@ -1424,9 +1726,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
 
     let cartBounce = 0;
-    if (isCart && u.settleAt && W.t - u.settleAt < 0.4) {
+    const isCartHarvesting = isCart && u.order.type === 'gather' && u.phase === 'work' && !moving;
+    if (isCart && k.settleBounce) {
+      cartBounce += k.settleBounce;
+      k.settleBounce *= 0.85;
+    } else if (isCart && u.settleAt && W.t - u.settleAt < 0.4) {
       const sp = (W.t - u.settleAt) / 0.4;
-      cartBounce = Math.sin(sp * Math.PI * 2) * (1 - sp) * 4.2; // 4.2px spring settle
+      cartBounce = Math.sin(sp * Math.PI * 2) * (1 - sp) * 2.8; // subtle 2.8px wooden spring settle
     }
 
     const blow = hammering ? Math.max(0, Math.sin(now * 0.011 + u.id * 1.7)) : 0;
@@ -1477,7 +1783,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.translate(x, y);
     ctx.scale(flip * scaleX, scaleY);
     if (hammering) ctx.rotate(blow * 0.24 - 0.07);    // leans into each blow
-    else if (isGathering) ctx.rotate(workAngle);      // woodchopping chop, scythe sweep, or pickaxe strike
+    else if (isWorkerGathering) ctx.rotate(workAngle); // woodchopping chop, scythe sweep, or pickaxe strike
     else if (dumpAngle) ctx.rotate(dumpAngle);        // bending forward to dump goods into cart
     else if (k.lean) ctx.rotate(k.lean);
 
@@ -1551,7 +1857,14 @@ IMG.farm.src = 'assets/farm.png?v=13';
       // The cart and its driver: loading at a field, forest or rock face; laden on the way home; else empty.
       // The pictures are kept at three times their size on screen, all scaled alike, so the cart stays one size.
       const load = u.carry && u.carry.amt > 0 ? u.carry.type : null;
-      uImg = working ? IMG.cartWork : load === 'grain' ? IMG.cartGrain : load === 'timber' ? IMG.cartTimber : load === 'stone' ? IMG.cartStone : IMG.cart;
+      if (isCartHarvesting) {
+        uImg = load === 'grain' ? (ready(IMG.cartGrainParked) ? IMG.cartGrainParked : IMG.cartGrain) :
+               load === 'timber' ? (ready(IMG.cartTimberParked) ? IMG.cartTimberParked : IMG.cartTimber) :
+               load === 'stone' ? (ready(IMG.cartStoneParked) ? IMG.cartStoneParked : IMG.cartStone) :
+               (ready(IMG.cartParked) ? IMG.cartParked : IMG.cart);
+      } else {
+        uImg = load === 'grain' ? IMG.cartGrain : load === 'timber' ? IMG.cartTimber : load === 'stone' ? IMG.cartStone : IMG.cart;
+      }
       if (!(uImg.complete && uImg.naturalWidth)) uImg = IMG.cart;
       uw = uImg.naturalWidth / 3; uh = uImg.naturalHeight / 3; uox = uw / 2; uoy = uh - 1;
     } else if (u.type === 'spy') {
@@ -1664,7 +1977,6 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const PICTURE = { stronghold: 'acropolis', encampment: 'encampment', councilPlatform: 'councilPlatform', acropolis: 'acropolis', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables', temple: 'temple', relic: 'ruin',
     quarry: 'quarry', sawmill: 'sawmill', brickworks: 'brickworks',
     tents: 'tents', storetent: 'storetent', muster: 'muster', shieldtent: 'shieldtent', ladderworks: 'ladderworks', pavilion: 'pavilion', smithy: 'smithy', training: 'training', wardance: 'wardance', rameumptom: 'rameumptom' };
-  const ready = img => img && img.complete && img.naturalWidth;
   // A building stands on flat ground just above the highest corner of its plot.
   function floorOf(b) {
     let top = -9;
