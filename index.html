@@ -1491,7 +1491,6 @@
   .cr-what { flex: 1; font-size: 14px; line-height: 1.3; }
   .cr-mark { flex: 0 0 auto; font-size: 13px; font-weight: 900; color: var(--right); }
   .card-row.seen { opacity: .75; }
-  .more-go { display: block; width: 100%; margin-top: 8px; padding: 10px 2px; text-align: left; font: inherit; font-size: 14px; font-weight: 800; color: var(--gold); background: none; border: 0; cursor: pointer; }
   .fold { margin-top: 12px; padding: 12px 16px; border-radius: 16px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); }
   .fold summary { cursor: pointer; font-size: 15px; font-weight: 800; list-style: none; }
   .fold summary small { display: block; font-size: 12px; font-weight: 500; color: rgba(255,255,255,.55); }
@@ -1529,12 +1528,17 @@
   .pth { list-style: none; margin: 8px 0 0; padding: 0; }
   .pth li { display: flex; align-items: center; gap: 12px; padding: 10px 2px; border-bottom: 1px solid rgba(255,255,255,.08); }
   .pth-dot { flex: 0 0 22px; height: 22px; border-radius: 999px; border: 2px solid rgba(255,255,255,.3); display: grid; place-items: center; font-size: 12px; font-weight: 900; }
-  .pth li.ok .pth-dot { background: var(--right); border-color: var(--right); color: #052e16; }
+  .pth li.ok .pth-dot, .pth-row.ok .pth-dot { background: var(--right); border-color: var(--right); color: #052e16; }
   .pth li.next .pth-dot { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(252,211,77,.22); }
   .pth-t { flex: 1; min-width: 0; font-size: 15px; font-weight: 700; line-height: 1.3; }
   .pth-t b { display: block; font-weight: 700; } .pth-t small { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.55); }
-  .pth li.ok .pth-t b { color: rgba(255,255,255,.6); }
+  .pth li.ok .pth-t b, .pth-row.ok .pth-t b { color: rgba(255,255,255,.6); }
   .pth em { flex: 0 0 auto; font-style: normal; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.45); }
+  /* More if you want (2026-10-07): the same rows, each a tap. */
+  .pth-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 2px; text-align: left; font: inherit; color: #fff; background: none; border: 0; border-bottom: 1px solid rgba(255,255,255,.08); cursor: pointer; }
+  .pth-dot.ic { border: 0; font-size: 16px; }
+  .pth-go { flex: 0 0 auto; font-size: 18px; color: rgba(255,255,255,.4); }
+  .more-list { margin: 0; } .more-list .pth-row:last-child { border-bottom: 0; }
   .ls-coming { margin: 2px 0 12px; padding: 11px 13px; border-radius: 14px; background: rgba(252,211,77,.09); border: 1px solid rgba(252,211,77,.3); font-size: 15px; line-height: 1.45; }
   .ls-coming small { display: block; margin-bottom: 3px; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
   .cfm-lines { margin: 10px 0 14px; padding-left: 18px; display: grid; gap: 8px; } .cfm-lines li { font-size: 15.5px; line-height: 1.5; }
@@ -2489,6 +2493,7 @@ const TreasureUp = (function () {
   // Scriptures. On a wide screen (the Kindle) the timeline and the day card
   // sit side by side.
   let selDay = null;        // the day the card shows; today when null
+  let moreOpen = null;      // the More if you want left open ("week|day"), open again after a card or a lesson
   let homeTab = 'today';
   function homeHtml() {
     return `
@@ -2941,19 +2946,49 @@ const TreasureUp = (function () {
   // cards"), then its Go further lesson (the cards, its bonus questions and a
   // note) and everything else in Study.
   // Since the day became one path (2026-10-07): More if you want, with
-  // Friday's deep dive and Saturday's puzzle too.
+  // Friday's deep dive and Saturday's puzzle too; each a row like the path's
+  // (Blake: "The same list and green check box ... keep it standard even as
+  // I deep dive"), a tap opening that one thing.
+  const moreRow = (attr, done, title, sub, icon) => `<button class="pth-row${done ? ' ok' : ''}" ${attr}><span class="pth-dot${icon ? ' ic' : ''}">${icon || (done ? '✓' : '')}</span>
+    <span class="pth-t"><b>${esc(title)}</b><small>${esc(sub)}</small></span><span class="pth-go" aria-hidden="true">›</span></button>`;
+  const cut = (t, n) => t.length > n ? t.slice(0, n).replace(/\s+\S*$/, '').replace(/[\s.,;:!?…]+$/, '') + '…' : t;
   function moreHtml(d) {
     const best = bestCards(d), all = dayInsights(d), plan = weekPlan()[d] || [], fk = furtherKey(d) || plan.map((e, i) => e.kind === 'further' ? d + '.' + i : '').find(Boolean);
     const fri = d === 4 ? plan.findIndex(e => e.kind === 'friday') : -1, pz = d === 5 ? plan.findIndex(e => e.kind === 'puzzle') : -1;
     if (!best.length && !fk && fri < 0 && pz < 0) return '';
     const items = furtherItems(d).concat(fri >= 0 ? entryItems(plan[fri]) : [], pz >= 0 ? entryItems(plan[pz]) : []);
     const done = items.filter(x => x.done).length, total = items.length;
-    return `<details class="more"><summary><span>More if you want<small>${esc([furtherParts(d), fri >= 0 && 'the Friday deep dive', pz >= 0 && 'the weekly puzzle'].filter(Boolean).join(' · '))}</small></span><span class="more-n">${!total ? '' : done === total ? '✓' : done + '/' + total}</span></summary>
-      ${best.map(i => cardRowHtml(i)).join('')}
-      ${fk ? `<button class="more-go" data-lesson="${fk}">🔭 Go further: the cards, deeper readings, bonus questions and a note ›</button>` : ''}
-      ${fri >= 0 ? `<button class="more-go" data-lesson="4.${fri}">🔭 Friday deep dive: the children’s lesson and a magazine piece ›</button>` : ''}
-      ${pz >= 0 ? `<button class="more-go" data-lesson="5.${pz}">🧩 The weekly puzzle ›</button>` : ''}
-      ${all.length > best.length ? `<button class="more-go" data-tab="study">See all ${all.length} in Study ›</button>` : ''}
+    const reels = dayReels(d), say = daySaying(d), rows = [];
+    for (const i of best) {
+      const x = i.x, s = x.source || {};
+      rows.push(moreRow(`data-card="${esc(x.id)}"`, !!(S.insights || {})[x.id], x.kind === 'quote' ? '“' + cut(x.quote, 70) + '”' : x.title,
+        [x.kind === 'quote' ? 'Quote' + (s.who ? ' · ' + s.who : '') : KIND_NAME[x.kind] || (isJsp(x) ? 'Joseph Smith Papers' : 'Insight'), x.ref].filter(Boolean).join(' · ')));
+    }
+    if (fk) {
+      for (const x of dayDeep(d)) rows.push(moreRow(`data-lesson="${fk}" data-focus="deep-${esc(x.id)}"`, !!S.deep[x.id], 'Go deeper: ' + x.read,
+        S.deep[x.id] ? (S.deep[x.id].right ? 'Right first time' : 'Answered') : 'Read it, then a question · ' + XP.bonus + ' XP'));
+      const bon = reels.flatMap(r => bonusesOf(r).map((_, n) => ({ r, k: bonusKey(r.id, n) })));
+      if (bon.length) {
+        const got = bon.filter(b => S.bonus[b.k]).length, open = bon.filter(b => S.answers[b.r.id]).length;
+        rows.push(moreRow(`data-lesson="${fk}" data-focus="bonus-"`, got === bon.length, bon.length === 1 ? 'A bonus question' : bon.length + ' bonus questions',
+          got === bon.length ? 'All done' : !open ? 'They open after the day’s questions · ' + XP.bonus + ' XP each'
+            : (got ? got + ' of ' + bon.length + ' done · ' : 'Find it in the reading · ') + XP.bonus + ' XP each'));
+      }
+      if (say) rows.push(moreRow(`data-lesson="${fk}" data-focus="say-${esc(say.id)}"`, !!S.sayings[say.id], 'Who said it?',
+        S.sayings[say.id] ? (S.sayings[say.id].right ? 'Right first time' : 'Answered') : 'A line from ' + say.ref + ' · ' + SAY_XP + ' XP'));
+      if (reels.length) {
+        const wrote = reels.some(r => S.notes[r.id]);
+        rows.push(moreRow(`data-lesson="${fk}" data-focus="note-"`, wrote, 'Write a note',
+          wrote ? 'Saved in your notes' : reels.some(r => S.answers[r.id]) ? 'On a verse from today · ' + NOTE_XP + ' XP' : 'After the day’s questions · ' + NOTE_XP + ' XP'));
+      }
+    }
+    if (fri >= 0) for (const x of fridayItems()) rows.push(moreRow(`data-lesson="4.${fri}" data-focus="deep-${esc(x.id)}"`, !!S.deep[x.id], x.title || 'Deep dive: ' + x.read,
+      'Friday deep dive · ' + (S.deep[x.id] ? (S.deep[x.id].right ? 'Right first time' : 'Answered') : 'Read it, then a question · ' + XP.bonus + ' XP')));
+    if (pz >= 0) { const won = entryItems(plan[pz]).every(x => x.done); rows.push(moreRow(`data-lesson="5.${pz}" data-focus="puzzle"`, won, 'The weekly puzzle', won ? 'Solved' : reelsLeft() ? 'Opens when every reel is answered' : PUZZLE_XP + ' XP and a streak freeze')); }
+    if (all.length > best.length) rows.push(moreRow('data-tab="study"', false, 'All ' + all.length + ' cards for this day', 'In the Study tab', '💡'));
+    const key = WEEK.title + '|' + d;
+    return `<details class="more" data-more="${esc(key)}"${moreOpen === key ? ' open' : ''}><summary><span>More if you want<small>${esc([furtherParts(d), fri >= 0 && 'the Friday deep dive', pz >= 0 && 'the weekly puzzle'].filter(Boolean).join(' · '))}</small></span><span class="more-n">${!total ? '' : done === total ? '✓' : done + '/' + total}</span></summary>
+      <div class="more-list">${rows.join('')}</div>
     </details>`;
   }
   const KIND_NAME = { quote: 'Quote', video: 'Video' };
@@ -13194,12 +13229,15 @@ const TreasureUp = (function () {
   const deepStep = d => ({ kind: 'deep', id: d.id, d, home: deepHome(d), q: d.q, right: d.right, why: d.why, choices: choicesFor(d, 'deep|' + d.id) });
 
   // A finished part plays again as practice: everything in it, nothing to earn.
-  function buildLesson(entry) {
+  // `focus` is one thing of a part, from a row of More if you want: an item's
+  // key ("deep-<id>"), or all of a kind ("bonus-", "note-").
+  function buildLesson(entry, focus) {
     const steps = [], further = !!entry && entry.kind === 'further', sunday = !!entry && entry.kind === 'sunday';
+    const want = c => !focus || c === focus || (focus.endsWith('-') && c.startsWith(focus));
     // The day's review question comes first, but not in Go further (extra, after the lesson) or a Sunday class's lesson.
     if (!further && !sunday) warmupsLeft().map(reelById).filter(Boolean).forEach(r => steps.push({
       kind: 'recall', id: r.id, r, home: r.verse.ref, q: r.question.q, right: r.question.right, why: r.question.why, choices: choicesFor(r.question, r.id + '|' + S.daily.day) }));
-    const practice = !!entry && entryItems(entry).every(i => i.done);
+    const practice = !!entry && entryItems(entry).filter(i => want(i.card)).every(i => i.done);
     if (entry && entry.kind === 'day') {
       // The day's path: each part of its reading, then the questions on what
       // he just read (finding a verse first, once a day); then its Come Follow
@@ -13226,14 +13264,14 @@ const TreasureUp = (function () {
       // questions of its answered reels, a Who said it? line from its chapters,
       // then a note on one of its reels that has none.
       const d = entry.d, open = dayReels(d).filter(r => S.answers[r.id]);
-      bestCards(d).filter(i => practice || !(S.insights || {})[i.x.id]).forEach(i => steps.push({ kind: 'insight', x: i.x, draft: i.draft }));
-      dayDeep(d).filter(g => practice || !S.deep[g.id]).forEach(g => steps.push(deepStep(g)));
+      bestCards(d).filter(i => want('insight-' + i.x.id) && (practice || !(S.insights || {})[i.x.id])).forEach(i => steps.push({ kind: 'insight', x: i.x, draft: i.draft }));
+      dayDeep(d).filter(g => want('deep-' + g.id) && (practice || !S.deep[g.id])).forEach(g => steps.push(deepStep(g)));
       open.forEach(r => bonusesOf(r).forEach((q, n) => {
-        if (practice || !S.bonus[bonusKey(r.id, n)]) steps.push({ kind: 'bonus', id: r.id, n, q, home: homeOf(r, q), right: q.right, why: q.why, choices: choicesFor(q, r.id + '|bonus' + n) });
+        if (want('bonus-' + bonusKey(r.id, n)) && (practice || !S.bonus[bonusKey(r.id, n)])) steps.push({ kind: 'bonus', id: r.id, n, q, home: homeOf(r, q), right: q.right, why: q.why, choices: choicesFor(q, r.id + '|bonus' + n) });
       }));
       const say = daySaying(d);
-      if (say && (practice || !S.sayings[say.id])) steps.push(sayStep(d));
-      const r = open.find(y => !S.notes[y.id]);
+      if (say && want('say-' + say.id) && (practice || !S.sayings[say.id])) steps.push(sayStep(d));
+      const r = want('note-' + d) && open.find(y => !S.notes[y.id]);
       if (r) steps.push({ kind: 'note', r });
     } else if (sunday) {
       // The youth's Sunday class: what it's about and where to read it, then
@@ -13244,14 +13282,14 @@ const TreasureUp = (function () {
         steps.push({ kind: 'sunq', id: c.id, q: c.q, right: c.right, why: c.why, choices: choicesFor(c, 'sun|' + c.id) });
       });
     } else if (entry && entry.kind === 'friday') {
-      fridayItems().filter(d => practice || !S.deep[d.id]).forEach(d => steps.push(deepStep(d)));
+      fridayItems().filter(d => want('deep-' + d.id) && (practice || !S.deep[d.id])).forEach(d => steps.push(deepStep(d)));
     } else if (entry && entry.kind === 'puzzle') steps.push({ kind: 'puzzle' });
-    return { entry, practice, steps, at: 0, right: 0, scored: 0, start: Date.now(), xp0: S.xp, rewards: [], level: 0 };
+    return { entry, focus, practice, steps, at: 0, right: 0, scored: 0, start: Date.now(), xp0: S.xp, rewards: [], level: 0 };
   }
 
   // `key` is a part of the week map ("day.part"), a Sunday class's lesson
-  // ("sun:<id>"), or '' for today's.
-  function openLesson(key) {
+  // ("sun:<id>"), or '' for today's; `focus`, one thing of it (buildLesson).
+  function openLesson(key, focus) {
     use('lesson');
     const m = /^(\d)\.(\d+)$/.exec(key || ''), sun = /^sun:(.+)$/.exec(key || '');
     const plan = weekPlan(), found = sun && sunLessonById(sun[1]);
@@ -13261,8 +13299,12 @@ const TreasureUp = (function () {
     // that's left; with nothing left, today's part again as practice.
     const entry = found ? { kind: 'sunday', l: found.l, m: found.m } : m ? (plan[m[1]] || [])[m[2]]
       : lessonNow() || (warmupsLeft().length ? null : plan[todayIndex()].find(e => e.kind !== 'family')) || null;
-    const L = buildLesson(entry || null);
-    if (!L.steps.length && entry && entry.kind === 'further') { toast('Do the day’s lesson first', 'Its bonus questions open after its reels'); return; }
+    const L = buildLesson(entry || null, focus || '');
+    if (!L.steps.length && entry && entry.kind === 'further') {
+      if (focus === 'note-' && dayReels(entry.d).some(r => S.answers[r.id])) toast('✓ Note saved', 'It’s on the Notes page of your notebook');
+      else toast('Do the day’s lesson first', focus === 'note-' ? 'A note comes after its questions' : 'Its bonus questions open after its reels');
+      return;
+    }
     if (!L.steps.length) { toast('Nothing planned today', 'Catch up, or read ahead on the week map'); return; }
     lesson = L;
     lessonReset();
@@ -13277,8 +13319,9 @@ const TreasureUp = (function () {
     if (location.hash === '#lesson') history.replaceState(history.state, '', location.pathname + location.search);
     stopClips();
     if (!L) return;
+    const y = $('home').scrollTop;
     renderHome();
-    $('home').scrollTop = 0;
+    $('home').scrollTop = L.focus ? y : 0;   // one thing from More if you want: back to the same place
     renderHud();
     if (L.level) levelUp(L.level);
     if (L.at < L.steps.length) L.rewards.forEach(t => toast('🎁 Reward unlocked', t + ' · show a parent'));
@@ -14548,6 +14591,11 @@ const TreasureUp = (function () {
 
   function wire() {
     // The page: today's lesson, a day on the map, a reel to look back at.
+    // More if you want stays open once opened (a toggle doesn't bubble, so caught on the way down).
+    $('home').addEventListener('toggle', e => {
+      const m = e.target;
+      if (m.matches && m.matches('details.more')) moreOpen = m.open ? m.dataset.more : moreOpen === m.dataset.more ? null : moreOpen;
+    }, true);
     $('home').addEventListener('click', e => {
       if (homeTab === 'season' && seasonSheetClick(e)) return;      // the Season tab is the Season's home
       if (seasonClick(e)) return;
@@ -14581,7 +14629,7 @@ const TreasureUp = (function () {
       const pr = e.target.closest('[data-past-reel]');
       if (pr) { openPastItem('reel', pr.dataset.pastReel); return; }
       const ls = e.target.closest('[data-lesson]');
-      if (ls) { openLesson(ls.dataset.lesson); return; }
+      if (ls) { openLesson(ls.dataset.lesson, ls.dataset.focus); return; }
       const v = e.target.closest('[data-view]');
       if (v) { openView(v.dataset.view); return; }
       const pw = e.target.closest('[data-past]');
