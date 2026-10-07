@@ -3913,13 +3913,7 @@ const TreasureUp = (function () {
     const days = Math.max(0, Math.round((new Date(dayKey() + 'T12:00') - new Date(start + 'T12:00')) / 864e5));
     return list[days % list.length];
   }
-  function wordRows() {
-    const t = wordOfDay();
-    if (!t) return [];
-    const x = t.x, seen = (S.twSeen || {})[dayKey()] === x.id, attr = `data-treasure="${esc(x.id)}"`;
-    return [{ card: 'tword', done: seen, go: { attr, title: '💎 Word of the day', sub: x.say + ' · ' + x.kjv },
-      html: flowRow(attr, seen, '💎 Word of the day', `${twWordHtml(x, 'tw-inline')} · ${esc(x.say)} · “${esc(x.kjv)}”`) }];
-  }
+
   // A line's verses: the first of them, just below the buttons, lit up for a moment.
   function jumpToVerse(btn) { scrollToVerse(btn.closest('.ls-chapter'), btn.dataset.jump, true); }
   // A chapter's scroller, and where its verses start showing: just under the
@@ -4491,7 +4485,8 @@ const TreasureUp = (function () {
     const t = c.talks[i % c.talks.length], qs = (t && t.quotes) || [];
     return qs.length ? { c, t, q: qs[Math.floor(i / c.talks.length) % qs.length], n: i % c.talks.length + 1, of: c.talks.length } : null;
   }
-  const firstSentence = t => (/^.+?[.!?](?=\s+[A-Z“"‘]|$)/.exec(String(t || '').trim()) || [String(t || '')])[0];
+  // Up to the first full stop after a word, not an initial ("President D. Todd Christofferson teaches…").
+  const firstSentence = t => (/^.+?[a-z0-9)”’'][.!?](?=\s+[A-Z“"‘]|$)/.exec(String(t || '').trim()) || [String(t || '')])[0];
 
   // His Season's goal steps to tick today, as on the Season's rows.
   function goalSteps() {
