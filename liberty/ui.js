@@ -215,6 +215,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const keys = new Set();
   const pings = [];                                  // where an order was given, for a moment
   const dustAt = new WeakMap();                      // when a helper's blow last raised dust (this page's clock: kept off the unit, which is saved)
+  const unitKinetic = new WeakMap();                 // Westwood RA2 procedural motion engine: displacement, stride, lean, squash-and-stretch, recoil
 
   // ------------------------------------------------------------ 2:1 Isometric Projection
   // Standard Westwood Red Alert 2 dimetric ratio (tile width : height = 2 : 1)
@@ -1164,7 +1165,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.restore();
   }
 
-  // Ancient American / Book of Mormon Character Sprites in 2:1 Isometric
+  // Ancient American / Book of Mormon Character Sprites in 2:1 Isometric (Westwood RA2 Kinetic Engine)
   function drawUnit(u, now) {
     const d = u.def;
     let { ix, iy } = toIso(u.x, u.y);
@@ -1174,12 +1175,74 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const bt = u.order.type === 'build' && W.ents.get(u.order.target);
     const hammering = !!(bt && !bt.dead && !moving && W.nextTo(u, W.rectOf(bt)));   // a helper at work on a building
     const working = (u.order.type === 'gather' && u.phase === 'work') || hammering;
-    const walkCycle = moving ? Math.sin(now * 0.015 + u.id) : 0;
-    const bob = moving ? Math.abs(walkCycle) * 2.2 : (working ? Math.abs(Math.sin(now * 0.02 + u.id)) * 1.5 : 0);
-    const blow = hammering ? Math.max(0, Math.sin(now * 0.011 + u.id * 1.7)) : 0;      // 0 at rest, 1 at the strike
-    if (hammering) { const p = toIso(bt.x, bt.y), dx = p.ix - ix, dy = p.iy - iy, dd = Math.hypot(dx, dy) || 1; ix += dx / dd * 18; iy += dy / dd * 9; }   // drawn up against the work
-    const x = ix, y = iy - (kneel ? -2 : 1) - bob;
-    
+
+    // --- Westwood RA2 Kinetic Motion Physics ---
+    let k = unitKinetic.get(u);
+    if (!k) {
+      k = {
+        lx: u.x, ly: u.y, lastTime: now,
+        dist: 0, stridePhase: 0, speed: 0,
+        lean: 0, lastFoot: -1,
+        wasSel: false, popAt: 0,
+        lastHp: u.hp, flinchAt: 0,
+        lastStruckAt: u.struckAt || 0, lungeAt: 0
+      };
+      unitKinetic.set(u, k);
+    }
+
+    const dt = Math.max(0.001, Math.min(0.1, (now - (k.lastTime || now)) / 1000));
+    k.lastTime = now;
+
+    // 1. Physical ground displacement (zero moonwalking)
+    const deltaX = u.x - k.lx;
+    const deltaY = u.y - k.ly;
+    const rawDist = Math.hypot(deltaX, deltaY);
+    k.lx = u.x;
+    k.ly = u.y;
+
+    const isWarp = rawDist > 48;
+    const moved = isWarp ? 0 : rawDist;
+    const instantSpeed = moved / dt;
+    k.speed = k.speed * 0.72 + instantSpeed * 0.28;
+    const isPhysicallyMoving = k.speed > 2.2 || (moving && moved > 0.02);
+
+    // 2. Accumulated stride & displacement-locked walk cadence
+    const isCart = u.type === 'cart';
+    const STRIDE_PX = isCart ? 22 : 13; // pixels per footstep
+    if (moved > 0.001) {
+      k.dist += moved;
+      k.stridePhase = (k.dist / STRIDE_PX) * Math.PI;
+    } else if (!isPhysicallyMoving) {
+      k.stridePhase = k.stridePhase * 0.82;
+      if (Math.abs(k.stridePhase) < 0.02) k.stridePhase = 0;
+    }
+
+    // 3. Stride vertical bobbing & lateral hip sway
+    const walkCycle = isPhysicallyMoving ? Math.sin(k.stridePhase) : 0;
+    const stepDown = Math.abs(walkCycle); // 0 at passing, 1 at ground impact
+    let bob = 0;
+    let sway = 0;
+    if (isCart) {
+      bob = isPhysicallyMoving ? Math.sin(k.dist * 0.55) * 0.85 : 0; // wheel chassis rumble
+    } else {
+      bob = isPhysicallyMoving ? stepDown * 2.2 : (working ? Math.abs(Math.sin(now * 0.02 + u.id)) * 1.5 : 0);
+      sway = isPhysicallyMoving ? walkCycle * 0.65 : 0;
+    }
+
+    // 4. Westwood Kinetic Squash & Stretch (muscle & armor weight)
+    let scaleX = 1.0;
+    let scaleY = 1.0;
+    if (isPhysicallyMoving && !isCart) {
+      const squash = stepDown * 0.052;
+      scaleX = 1.0 + squash * 0.75;
+      scaleY = 1.0 - squash;
+    } else if (!working && !isCart) {
+      const breath = Math.sin(now * 0.003 + u.id) * 0.015;
+      scaleX += breath;
+      scaleY -= breath;
+    }
+
+    // 5. Facing orientation & forward body lean (velocity banking)
     let flip = 1;
     if (moving && u.path && u.path.length > 0) {
       const tx = Math.floor(u.x / 32), ty = Math.floor(u.y / 32);
@@ -1194,14 +1257,93 @@ IMG.farm.src = 'assets/farm.png?v=13';
       }
     } else if (hammering) {
       if (bt.x - u.x - (bt.y - u.y) < 0) flip = -1;
-      if (blow > 0.97 && now - (dustAt.get(u) || -1e9) > 300) {     // the blow lands: dust where it struck
-        dustAt.set(u, now);
-        const a = Math.atan2(bt.y - u.y, bt.x - u.x), p = toIso(u.x + Math.cos(a) * 18, u.y + Math.sin(a) * 18);
-        addDust(p.ix, p.iy - 6); addDust(p.ix, p.iy - 10);
+    }
+
+    const normSpeed = Math.min(1.4, k.speed / Math.max(1, (d.speed || 60)));
+    const targetLean = (isPhysicallyMoving && !isCart) ? (0.075 * normSpeed) : 0;
+    k.lean = k.lean * 0.72 + targetLean * 0.28;
+
+    // 6. Tactical Selection "Command Pop" (instant responsiveness)
+    const isSelected = sel.includes(u.id);
+    if (isSelected && !k.wasSel) {
+      k.popAt = now;
+    }
+    k.wasSel = isSelected;
+    let popHop = 0;
+    if (now - (k.popAt || 0) < 160) {
+      const pp = (now - k.popAt) / 160;
+      const pop = Math.sin(pp * Math.PI);
+      scaleX *= (1 + pop * 0.07);
+      scaleY *= (1 + pop * 0.07);
+      popHop = pop * 2.5;
+    }
+
+    // 7. Combat Strike Lunge & Weapon Recoil Kickback
+    if (u.struckAt && u.struckAt !== k.lastStruckAt) {
+      k.lastStruckAt = u.struckAt;
+      k.lungeAt = now;
+    }
+    let combatOffsetX = 0, combatOffsetY = 0;
+    const lungeElapsed = now - (k.lungeAt || 0);
+    if (lungeElapsed < 220) {
+      const lp = lungeElapsed / 220;
+      const curve = Math.sin(lp * Math.PI);
+      const isRanged = (d.range || 1) > 2;
+      const dist = isRanged ? -curve * 2.8 : curve * 4.5;
+      combatOffsetX = dist * flip;
+      combatOffsetY = dist * 0.25;
+    }
+
+    // 8. Hit Flinch / Damage Shudder
+    if (u.hp < k.lastHp || (u.hitAt && W.t - u.hitAt < 0.16)) {
+      if (u.hp < k.lastHp) k.flinchAt = now;
+      k.lastHp = u.hp;
+    }
+    let flinchX = 0, flinchY = 0;
+    const flinchElapsed = now - (k.flinchAt || 0);
+    if (flinchElapsed < 150) {
+      const fp = flinchElapsed / 150;
+      const amp = (1 - fp) * 2.2;
+      flinchX = Math.sin(fp * Math.PI * 5) * amp;
+      flinchY = -Math.abs(Math.sin(fp * Math.PI * 3)) * amp * 0.6;
+    }
+
+    // 9. Tactile Footfall Dust Puffs & River Sidon Water Droplets
+    const inFord = W && W.tile(tileOf(u.x), tileOf(u.y)) === T.FORD;
+    const currentFoot = Math.floor(k.stridePhase / Math.PI);
+    if (isPhysicallyMoving && currentFoot !== k.lastFoot) {
+      k.lastFoot = currentFoot;
+      if (inFord) {
+        if (Math.random() < 0.65) {
+          particles.push({
+            ix: ix + (Math.random() - 0.5) * 8,
+            iy: iy - 1,
+            vx: (Math.random() - 0.5) * 1.4,
+            vy: -1.2 - Math.random() * 0.8,
+            size: 1.8, life: 0, maxLife: 15
+          });
+        }
+      } else if (k.speed > 20 && !isCart) {
+        addDust(ix - 4 * flip + (Math.random() - 0.5) * 4, iy + 1);
+      } else if (isCart && k.speed > 15) {
+        addDust(ix - 8 * flip, iy + 2);
       }
     }
 
-    const inFord = W && W.tile(tileOf(u.x), tileOf(u.y)) === T.FORD;
+    const blow = hammering ? Math.max(0, Math.sin(now * 0.011 + u.id * 1.7)) : 0;
+    if (hammering) {
+      const p = toIso(bt.x, bt.y), dx = p.ix - ix, dy = p.iy - iy, dd = Math.hypot(dx, dy) || 1;
+      ix += dx / dd * 18; iy += dy / dd * 9;
+      if (blow > 0.97 && now - (dustAt.get(u) || -1e9) > 300) {     // the blow lands: dust where it struck
+        dustAt.set(u, now);
+        const a = Math.atan2(bt.y - u.y, bt.x - u.x), pt = toIso(u.x + Math.cos(a) * 18, u.y + Math.sin(a) * 18);
+        addDust(pt.ix, pt.iy - 6); addDust(pt.ix, pt.iy - 10);
+      }
+    }
+
+    const x = ix + sway + combatOffsetX + flinchX;
+    const y = iy - (kneel ? -2 : 1) - bob - popHop + combatOffsetY + flinchY;
+
     if (inFord) {
       // Tactical river ford crossing (Alma 43:31–35): animated ripples and splashes over River Sidon
       const rip1 = (now * 0.0022 + u.id * 0.23) % 1;
@@ -1216,7 +1358,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
         ctx.beginPath(); ctx.arc(ix + 6 * flip, iy - 1, 1.8, 0, 7); ctx.fill();
       }
     } else {
-      ctx.fillStyle = 'rgba(0,0,0,.32)'; ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 0.95, r * 0.48, 0, 0, 7); ctx.fill();
+      const shadowScale = isPhysicallyMoving ? (1.0 - (bob / 2.2) * 0.1) : (popHop > 0 ? (1.0 - (popHop / 2.5) * 0.18) : 1.0);
+      ctx.fillStyle = `rgba(0,0,0,${0.32 * shadowScale})`;
+      ctx.beginPath();
+      ctx.ellipse(ix + 2, iy + 2, r * 0.95 * shadowScale, r * 0.48 * shadowScale, 0, 0, 7);
+      ctx.fill();
     }
     if (u.thirstUntil > W.t) {                       // bloodthirst (Moroni 9:5): a red glow at his feet
       ctx.fillStyle = `rgba(220,38,38,${0.32 + 0.18 * Math.sin(now * 0.015 + u.id)})`; ctx.beginPath(); ctx.ellipse(ix, iy, r * 1.6, r * 0.8, 0, 0, 7); ctx.fill();
@@ -1230,8 +1376,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
     ctx.save();
     ctx.translate(x, y);
-    ctx.scale(flip, 1);
+    ctx.scale(flip * scaleX, scaleY);
     if (hammering) ctx.rotate(blow * 0.24 - 0.07);    // leans into each blow
+    else if (k.lean) ctx.rotate(k.lean);
 
     let uImg = IMG.spearman;
     let uw = 28, uh = 44, uox = 11, uoy = 43;
