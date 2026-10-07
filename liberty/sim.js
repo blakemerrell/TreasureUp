@@ -875,7 +875,8 @@
       }
     }
     shoot(from, target, dmg) {
-      this.effects.push({ t: this.t, x0: from.x, y0: from.y, x1: target.x, y1: target.y, kind: 'arrow', team: from.team });
+      const kind = from.type === 'javelin' ? 'javelin' : (from.type === 'slinger' || from.type === 'nslinger') ? 'stone' : 'arrow';
+      this.effects.push({ t: this.t, x0: from.x, y0: from.y, x1: target.x, y1: target.y, kind, team: from.team });
       this.damage(target, dmg, from);
     }
 
@@ -1094,7 +1095,14 @@
         const drop = this.nearestDropoff(u);
         if (!drop) { this.order(u, { type: 'idle' }); return; }
         if (this.nextTo(u, this.rectOf(drop))) {
-          if (u.carry) { this.gain(u.carry.type, u.carry.amt, u.team); u.carry = null; }
+          if (u.carry) {
+            this.gain(u.carry.type, u.carry.amt, u.team);
+            u.dumpAt = this.t;
+            u.dumpType = u.carry.type;
+            u.dumpTo = drop.id;
+            if (drop.type === 'cart') drop.settleAt = this.t;
+            u.carry = null;
+          }
           // A cart hauling on its own chooses afresh each trip, so it never keeps filling a full store while the other runs short.
           if (!u.pref && u.def.load) { this.order(u, { type: 'idle' }); return; }
           u.phase = 'go'; u.path = null; u.tries = 0; return;

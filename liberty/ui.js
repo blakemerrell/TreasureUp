@@ -990,6 +990,19 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (p.spark) {
         ctx.fillStyle = `rgba(254,240,138,${alpha})`;
         ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size, 0, 7); ctx.fill();
+      } else if (p.wood) {
+        ctx.fillStyle = `rgba(180,83,9,${alpha})`;
+        ctx.save(); ctx.translate(p.ix, p.iy); ctx.rotate(p.life * 0.25);
+        ctx.fillRect(-p.size, -p.size * 0.6, p.size * 2, p.size * 1.2);
+        ctx.restore();
+      } else if (p.chaff) {
+        ctx.fillStyle = `rgba(253,224,71,${alpha * 0.95})`;
+        ctx.save(); ctx.translate(p.ix, p.iy); ctx.rotate(p.life * 0.18);
+        ctx.fillRect(-p.size, -p.size * 0.4, p.size * 2, p.size * 0.8);
+        ctx.restore();
+      } else if (p.transfer) {
+        ctx.fillStyle = p.col || '#fbbf24';
+        ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size, 0, 7); ctx.fill();
       } else if (p.dust) {
         ctx.fillStyle = `rgba(214,190,140,${alpha * 0.85})`;
         ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size + p.life * 0.08, 0, 7); ctx.fill();
@@ -1208,7 +1221,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
     // 2. Accumulated stride & displacement-locked walk cadence
     const isCart = u.type === 'cart';
-    const STRIDE_PX = isCart ? 22 : 13; // pixels per footstep
+    const isBeast = u.type === 'curelom' || u.type === 'cumom';
+    const STRIDE_PX = isBeast ? 30 : (isCart ? 22 : 13); // pixels per footstep
     if (moved > 0.001) {
       k.dist += moved;
       k.stridePhase = (k.dist / STRIDE_PX) * Math.PI;
@@ -1224,6 +1238,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     let sway = 0;
     if (isCart) {
       bob = isPhysicallyMoving ? Math.sin(k.dist * 0.55) * 0.85 : 0; // wheel chassis rumble
+    } else if (isBeast) {
+      bob = isPhysicallyMoving ? stepDown * 3.4 : 0; // deep quadruped ground impacts
+      sway = isPhysicallyMoving ? walkCycle * 1.8 : 0; // heavy head/tusk momentum
     } else {
       bob = isPhysicallyMoving ? stepDown * 2.2 : (working ? Math.abs(Math.sin(now * 0.02 + u.id)) * 1.5 : 0);
       sway = isPhysicallyMoving ? walkCycle * 0.65 : 0;
@@ -1233,7 +1250,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     let scaleX = 1.0;
     let scaleY = 1.0;
     if (isPhysicallyMoving && !isCart) {
-      const squash = stepDown * 0.052;
+      const squash = stepDown * (isBeast ? 0.075 : 0.052);
       scaleX = 1.0 + squash * 0.75;
       scaleY = 1.0 - squash;
     } else if (!working && !isCart) {
@@ -1260,7 +1277,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
 
     const normSpeed = Math.min(1.4, k.speed / Math.max(1, (d.speed || 60)));
-    const targetLean = (isPhysicallyMoving && !isCart) ? (0.075 * normSpeed) : 0;
+    const targetLean = (isPhysicallyMoving && !isCart) ? ((isBeast ? 0.04 : 0.075) * normSpeed) : 0;
     k.lean = k.lean * 0.72 + targetLean * 0.28;
 
     // 6. Tactical Selection "Command Pop" (instant responsiveness)
@@ -1285,11 +1302,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     let combatOffsetX = 0, combatOffsetY = 0;
     const lungeElapsed = now - (k.lungeAt || 0);
-    if (lungeElapsed < 220) {
-      const lp = lungeElapsed / 220;
+    if (lungeElapsed < 240) {
+      const lp = lungeElapsed / 240;
       const curve = Math.sin(lp * Math.PI);
       const isRanged = (d.range || 1) > 2;
-      const dist = isRanged ? -curve * 2.8 : curve * 4.5;
+      const dist = isBeast ? curve * 7.5 : (isRanged ? -curve * 2.8 : curve * 4.5);
       combatOffsetX = dist * flip;
       combatOffsetY = dist * 0.25;
     }
@@ -1323,11 +1340,93 @@ IMG.farm.src = 'assets/farm.png?v=13';
             size: 1.8, life: 0, maxLife: 15
           });
         }
+      } else if (isBeast && k.speed > 10) {
+        addDust(ix - 8 * flip, iy + 2);
+        addDust(ix + 6 * flip, iy + 2);
       } else if (k.speed > 20 && !isCart) {
         addDust(ix - 4 * flip + (Math.random() - 0.5) * 4, iy + 1);
       } else if (isCart && k.speed > 15) {
         addDust(ix - 8 * flip, iy + 2);
       }
+    }
+
+    // 10. Harvester Labor Mechanics: Woodcutting Axe, Scythe Reaping & Stone Quarrying
+    const isGathering = u.order.type === 'gather' && u.phase === 'work' && !moving;
+    let workAngle = 0;
+    let workBob = 0;
+    let workSway = 0;
+    if (isGathering) {
+      const targetTile = W ? W.tile(u.order.tx, u.order.ty) : null;
+      const gatherRes = u.order.res || (targetTile === T.FOREST ? 'timber' : targetTile === T.ROCK ? 'stone' : 'grain');
+      if (gatherRes === 'timber') {
+        const chopPhase = (now * 0.009 + u.id * 1.5) % (Math.PI * 2);
+        const chopVal = Math.sin(chopPhase);
+        workAngle = chopVal < 0 ? chopVal * 0.15 : chopVal * 0.28;
+        workBob = Math.max(0, chopVal) * 1.8;
+        if (chopVal > 0.94 && now - (k.lastChopAt || 0) > 360) {
+          k.lastChopAt = now;
+          for (let w = 0; w < 3; w++) {
+            particles.push({
+              ix: ix + 8 * flip, iy: iy - 12 + (Math.random() - 0.5) * 6,
+              vx: flip * (0.8 + Math.random() * 1.4), vy: -1.2 - Math.random() * 1.2,
+              size: 2.2, wood: true, life: 0, maxLife: 22
+            });
+          }
+        }
+      } else if (gatherRes === 'grain') {
+        const reapPhase = (now * 0.0075 + u.id * 1.2) % (Math.PI * 2);
+        const reapVal = Math.sin(reapPhase);
+        workAngle = reapVal * 0.22;
+        workSway = Math.cos(reapPhase) * 2.2;
+        workBob = Math.abs(reapVal) * 1.2;
+        if (reapVal > 0.92 && now - (k.lastReapAt || 0) > 360) {
+          k.lastReapAt = now;
+          for (let g = 0; g < 3; g++) {
+            particles.push({
+              ix: ix + 6 * flip + (Math.random() - 0.5) * 6, iy: iy - 6,
+              vx: (Math.random() - 0.5) * 1.5, vy: -0.8 - Math.random() * 0.8,
+              size: 1.8, chaff: true, life: 0, maxLife: 24
+            });
+          }
+        }
+      } else if (gatherRes === 'stone') {
+        const minePhase = (now * 0.0085 + u.id * 1.4) % (Math.PI * 2);
+        const mineVal = Math.sin(minePhase);
+        workAngle = mineVal < 0 ? mineVal * 0.18 : mineVal * 0.32;
+        workBob = Math.max(0, mineVal) * 2.0;
+        if (mineVal > 0.94 && now - (k.lastMineAt || 0) > 360) {
+          k.lastMineAt = now;
+          addDust(ix + 8 * flip, iy - 6);
+          addSpark(ix + 8 * flip, iy - 10);
+        }
+      }
+    }
+
+    // 11. Worker Resource Dump & Cart Heavy-Load Suspension Settle
+    let dumpAngle = 0;
+    let dumpY = 0;
+    if (u.dumpAt && W.t - u.dumpAt < 0.35) {
+      const dp = (W.t - u.dumpAt) / 0.35;
+      const dumpCurve = Math.sin(dp * Math.PI);
+      dumpAngle = dumpCurve * 0.28 * flip;
+      dumpY = dumpCurve * 3.0;
+      if (!k.dumpSpawned || k.dumpAt !== u.dumpAt) {
+        k.dumpSpawned = true; k.dumpAt = u.dumpAt;
+        const col = u.dumpType === 'grain' ? '#fde047' : u.dumpType === 'stone' ? '#d1d5db' : '#b45309';
+        for (let t = 0; t < 4; t++) {
+          particles.push({
+            ix: ix + (Math.random() - 0.5) * 6, iy: iy - 10,
+            vx: flip * (1.0 + Math.random() * 1.2), vy: -1.6 - Math.random() * 1.0,
+            size: 2.2, transfer: true, col, life: 0, maxLife: 18
+          });
+        }
+      }
+    }
+
+    let cartBounce = 0;
+    if (isCart && u.settleAt && W.t - u.settleAt < 0.4) {
+      const sp = (W.t - u.settleAt) / 0.4;
+      cartBounce = Math.sin(sp * Math.PI * 2) * (1 - sp) * 4.2; // 4.2px spring settle
     }
 
     const blow = hammering ? Math.max(0, Math.sin(now * 0.011 + u.id * 1.7)) : 0;
@@ -1341,8 +1440,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
       }
     }
 
-    const x = ix + sway + combatOffsetX + flinchX;
-    const y = iy - (kneel ? -2 : 1) - bob - popHop + combatOffsetY + flinchY;
+    const x = ix + sway + workSway + combatOffsetX + flinchX;
+    const y = iy - (kneel ? -2 : 1) - bob - workBob - popHop + combatOffsetY + flinchY + dumpY + cartBounce;
 
     if (inFord) {
       // Tactical river ford crossing (Alma 43:31–35): animated ripples and splashes over River Sidon
@@ -1378,6 +1477,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.translate(x, y);
     ctx.scale(flip * scaleX, scaleY);
     if (hammering) ctx.rotate(blow * 0.24 - 0.07);    // leans into each blow
+    else if (isGathering) ctx.rotate(workAngle);      // woodchopping chop, scythe sweep, or pickaxe strike
+    else if (dumpAngle) ctx.rotate(dumpAngle);        // bending forward to dump goods into cart
     else if (k.lean) ctx.rotate(k.lean);
 
     let uImg = IMG.spearman;
@@ -1960,6 +2061,33 @@ IMG.farm.src = 'assets/farm.png?v=13';
         const q = clamp((W.t - f.t) / 0.5, 0, 1), sx = p0.ix + (p1.ix - p0.ix) * q, sy = p0.iy - 26 * (1 - q * q) + (p1.iy - p0.iy) * q;
         if (q < 1) { ctx.fillStyle = '#9ca3af'; ctx.strokeStyle = '#4b5563'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(sx, sy - 4, 3.5, 0, 7); ctx.fill(); ctx.stroke(); }
         else if (!f.dusted) { f.dusted = true; addDust(p1.ix, p1.iy); addDust(p1.ix + 4, p1.iy); addDust(p1.ix - 4, p1.iy); if (AUDIO) AUDIO.play('combatHit'); }
+        continue;
+      }
+      if (f.kind === 'javelin') {
+        const dist = Math.hypot(p1.ix - p0.ix, p1.iy - p0.iy);
+        const maxH = Math.min(38, dist * 0.25);
+        const h = Math.sin(p * Math.PI) * maxH;
+        // Ground Shadow
+        ctx.fillStyle = `rgba(0,0,0,${0.35 * (1 - h / 45)})`;
+        ctx.beginPath(); ctx.ellipse(gx, gy, 6, 2.5, 0, 0, 7); ctx.fill();
+        // Flying Javelin: heavy wooden spear shaft + bronze spearpoint glint
+        const jx = gx, jy = gy - h;
+        const angle = Math.atan2((p1.iy - p0.iy) - Math.cos(p * Math.PI) * maxH * 0.08, p1.ix - p0.ix);
+        ctx.strokeStyle = '#92400e'; ctx.lineWidth = 2.2; ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(jx - Math.cos(angle) * 13, jy - Math.sin(angle) * 13);
+        ctx.lineTo(jx, jy);
+        ctx.stroke();
+        ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 2.8;
+        ctx.beginPath();
+        ctx.moveTo(jx - Math.cos(angle) * 3, jy - Math.sin(angle) * 3);
+        ctx.lineTo(jx + Math.cos(angle) * 2, jy + Math.sin(angle) * 2);
+        ctx.stroke();
+        if (p >= 0.95 && !f.hitPlayed) {
+          f.hitPlayed = true;
+          if (AUDIO) AUDIO.play('combatHit');
+          addSpark(p1.ix, p1.iy - 10);
+        }
         continue;
       }
       if (f.kind === 'arrow') {
