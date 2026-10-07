@@ -16,6 +16,7 @@ changing when the week does.
 | `merge.test.mjs` | Two devices' copies merged by the app's own `mergeProgress`: Be still's minutes add up, the warm-up and Scripture Climb pay once, freezes count once, settings changed on either are kept, two years' week 39 both stay; then start-up files a week once and trims old things. |
 | `pro.test.mjs` | Pro Mode in the Season notebook: ✨ Pro on, roles and a mission, a year goal and a 90-day goal, Sunday's plan for next week (rocks on days, one moved), Monday's top 3 from the plan and typed, ticked there and on Today, the month's review; Simple again is the notebook exactly as before, Pro again keeps it all; two devices' Pro data merged by `mergeProgress`. |
 | `games.test.mjs` | On the emulators: a live game on a TV and two phones (a phone that reloads is back in and still locked in, the answer and scores are written as one so a TV reload can't count a question twice, Play again doesn't wait on someone who left, an old game's code is refused) and Babylon Falls' map reloaded from the Games tab. |
+| `offline.test.mjs` | The app opened once with a connection, then with no Wi-Fi: it opens, Today's study runs with the chapter, coming back to it offline doesn't reload it (the app's self-update finds the same page), a family device starts with no errors, and the live app and the test site (one address on github.io) keep separate copies (`sw.js`). |
 | `family.test.mjs` | On the Firebase emulators with `firestore.rules`: Dad (Google) starts a family, Sam joins on a phone and a Kindle; the rules refuse 8 things a child mustn't do; both devices agree after a study; a save on the Kindle doesn't restart the phone in the middle of Be still; chat, a prize and a finished goal (1,000 XP, paid once) go end to end. |
 
 ## Running them
@@ -24,7 +25,7 @@ changing when the week does.
 cd tests
 npm install                 # once: Playwright, the Firebase SDK, the Firebase tools
 npx playwright install chromium
-node run.mjs                # smoke, dates, merge, week, coach, pro and reader (about 3 minutes)
+node run.mjs                # smoke, dates, merge, week, coach, pro, reader and offline (about 5 minutes)
 node run.mjs week           # one test
 npm run test:family         # the family and games tests, under the emulators (needs Java 11 or later)
 ```
@@ -36,10 +37,11 @@ app uses the test project's Firebase settings, pointed at the emulators
 its storage; `window.__skip(ms)` moves it on (Be still's minutes).
 
 Every pull request runs all of them (`.github/workflows/tests.yml`); the deploy
-runs `node run.mjs` (smoke, dates, merge, week, coach, pro and reader) after building the chapters (`pages.yml`).
+runs `node run.mjs` (smoke, dates, merge, week, coach, pro, reader and offline) after building the chapters (`pages.yml`).
 
-Two checks read the Scriptures tab's books, which only the deploy builds
-(`tools/build-reading.mjs` writes `content/library.js`, not kept in git): the
-reading-ahead check and the half-read chapter from the Scriptures tab. Without
+Some checks read the chapters, which only the deploy builds
+(`tools/build-reading.mjs` writes `content/reading.js` and `content/library.js`,
+not kept in git): the reading-ahead check, the half-read chapter from the
+Scriptures tab, and the chapter in Today's study offline. Without
 the built chapters, as on a pull request, they print a NOTE and are skipped;
 the deploy runs them before anything goes live.

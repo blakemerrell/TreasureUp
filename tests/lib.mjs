@@ -74,8 +74,9 @@ const SDK = (() => { try { return path.dirname(require.resolve('firebase/package
 // (and moving on in real time; window.__skip(ms) jumps it ahead), with
 // Firebase pointed at the emulators when `emulators` is set, and `files`
 // ({ 'content/weeks.js': text }) served in place of the repo's.
-export async function device(name, { url, day = null, emulators = false, files = {} }) {
-  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+export async function device(name, { url, day = null, emulators = false, files = {}, sw = false }) {
+  // The service worker (sw.js) only where a test asks for it: elsewhere it would answer for the network the test controls.
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: sw ? 'allow' : 'block' });
   await ctx.route('**/*', r => {
     const u = r.request().url();
     const own = Object.keys(files).find(f => new URL(u).pathname.endsWith('/' + f));   // a test's own copy of a file
