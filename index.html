@@ -2803,14 +2803,18 @@ const TreasureUp = (function () {
   function pathDayHtml(d, k) {
     const today = dayKey(), isToday = k === today, rows = dayPath(d, isToday ? k : null), plan = weekPlan()[d] || [];
     const at = plan.findIndex(e => e.kind === 'day'), n = rows.filter(r => r.done).length, next = pathLeft(rows)[0];
-    const mins = list => list.reduce((m, r) => m + pathRowMin(r), 0), started = n > 0 || !!(next && next.started);
+    const mins = list => list.reduce((m, r) => m + pathRowMin(r), 0), started = rows.some(r => r.done && !r.own) || !!(next && next.started);   // his own rows (Be still, goals) don't start the study
     const what = [unitsLabel(readingPlan()[d]) || (dayReels(d).length ? qWord(dayReels(d).length) : ''), rows.some(r => r.kind === 'cfm') && 'Come Follow Me',
       rows.some(r => r.kind === 'gc') && 'conference', rows.some(r => r.kind === 'goal') && 'goals', rows.some(r => r.kind === 'thanks') && 'thanks'].filter(Boolean).join(' · ');
     let button = '';
     if (rows.length && !next) button = isToday ? `<div class="fl-done"><b>✓ Today’s study: done</b><small>${esc(d < 5 ? 'Tomorrow: ' + dayName(d + 1) : 'Tomorrow: church, then a family game')}</small></div>`
       : at >= 0 ? `<button class="fl-next ahead" data-lesson="${d}.${at}"><b>▶ Practice it again</b><small>Already done: nothing new to earn</small></button>` : '';
-    else if (next && (isToday || at >= 0)) button = `<button class="fl-next${k > today ? ' ahead' : ''}" data-lesson="${isToday ? '' : d + '.' + at}"><b>▶ ${esc(k > today ? 'Read ahead' : started ? 'Pick up at ' + pathRowTitle(next) : isToday ? 'Today’s study' : 'Finish this day')}</b>
-      <small>${esc(started ? n + ' of ' + rows.length + ' done · about ' + mins(pathLeft(rows)) + ' min left' : what + ' · about ' + mins(rows.filter(r => !r.own)) + ' min')}</small></button>`;
+    else if (next && (isToday || at >= 0)) {
+      // Today's study opens with Be still, then the lesson (Blake picked both: the first row, and the green button), until he's been still or passed it by today.
+      const stillFirst = isToday && !stillOn(k) && !pathDoneOf(k).stillSkip && !started;
+      button = `<button class="fl-next${k > today ? ' ahead' : ''}" ${stillFirst ? 'data-still-first' : `data-lesson="${isToday ? '' : d + '.' + at}"`}><b>▶ ${esc(k > today ? 'Read ahead' : started ? 'Pick up at ' + pathRowTitle(next) : isToday ? 'Today’s study' : 'Finish this day')}</b>
+      <small>${esc((stillFirst ? '🕊️ Be still, then ' : '') + (started ? n + ' of ' + rows.length + ' done · about ' + mins(pathLeft(rows)) + ' min left' : what + ' · about ' + mins(rows.filter(r => !r.own)) + ' min'))}</small></button>`;
+    }
     const extra = [];
     if (isToday) {
       const behind = behindDays();
@@ -3064,7 +3068,8 @@ const TreasureUp = (function () {
       under = `<div class="still-mins" role="group" aria-label="A bowl every so many minutes">${STILL_MINS.map(m => `<button data-still-mins="${m}" aria-pressed="${m === p.mins}">${m}</button>`).join('')}</div>
         <div class="still-hint">a bowl every ${p.mins === 1 ? 'minute' : p.mins + ' minutes'} · as long as you like</div>
         <button class="still-snd" data-still-snd aria-label="Sound: ${esc(name)}. Tap to change">♪ <b>${esc(name)}</b></button>
-        <div class="still-hint">${st.view === 'starting' ? 'a moment…' : 'tap the ring to begin'}</div>${n ? `<div class="still-streak">🕊️ ${n} ${n === 1 ? 'day' : 'days'} in a row</div>` : ''}`;
+        <div class="still-hint">${st.view === 'starting' ? 'a moment…' : 'tap the ring to begin'}</div>${n ? `<div class="still-streak">🕊️ ${n} ${n === 1 ? 'day' : 'days'} in a row</div>` : ''}
+        ${st.then ? '<button class="still-skip" data-still-onward>Not today: on to the reading ›</button>' : ''}`;
     } else if (run) {
       under = `<div class="still-ctl" id="stillCtl"${st.paused ? '' : ' hidden'}><button data-still-pause>${st.paused ? 'Resume' : 'Pause'}</button><button data-still-end>End</button></div>`;
     } else {
@@ -3167,7 +3172,17 @@ const TreasureUp = (function () {
   }
   function stillClose() {
     if (still && still.view === 'run') { stillFinish(); if (still && still.view === 'done') return; }   // a minute or more: Well done first
+    if (still && still.then && !stillOn(dayKey())) { setPathDone(dayKey(), 'stillSkip'); save(); }   // closed before it began: Today's study goes straight to the reading
     stillHide();
+    refreshHome();
+  }
+  // From Today's study: when he's done (or passes it by), the lesson.
+  function stillOnward() {
+    const go = !!(still && still.then);
+    if (go && !stillOn(dayKey())) { setPathDone(dayKey(), 'stillSkip'); save(); }
+    stillHide();
+    refreshHome();
+    if (go) openLesson('');
   }
   function stillSave() {
     const text = (($('stillNote') || {}).value || '').trim().slice(0, 1000);
@@ -3177,8 +3192,7 @@ const TreasureUp = (function () {
       save();
       toast('🕊️ Kept', 'With your impressions in the 🌱 Season tab');
     }
-    stillHide();
-    refreshHome();
+    stillOnward();
   }
   function stillClick(e) {
     const t = e.target;
@@ -3196,6 +3210,7 @@ const TreasureUp = (function () {
           if (sound === 'bowl') stillBowl(0, 0.22); else stillTrack(sound);
           stillDraw(); return;
         }
+        if (t.closest('[data-still-onward]')) { stillOnward(); return; }
         if (t.closest('[data-still-light]')) stillBegin();
       } else if (st.view === 'run') {
         if (t.closest('[data-still-pause]')) stillPause();
@@ -3204,10 +3219,11 @@ const TreasureUp = (function () {
       } else if (st.view === 'done') {
         if (t.closest('[data-still-share]')) { st.note = ($('stillNote') || {}).value || ''; st.share = !st.share; stillDraw(); }
         else if (t.closest('[data-still-save]')) stillSave();
-        else if (t.closest('[data-still-skip]')) { stillHide(); refreshHome(); }
+        else if (t.closest('[data-still-skip]')) stillOnward();
       }
       return;
     }
+    if (t.closest('[data-still-first]')) { e.preventDefault(); still = { view: 'set', then: 'lesson' }; openStill(); return; }
     if (t.closest('[data-still]')) { e.preventDefault(); openStill(); }
   }
 
@@ -5112,7 +5128,8 @@ const TreasureUp = (function () {
       // day's study back (a step may be for tonight).
       for (const x of goalSteps()) rows.push({ kind: 'goal', x, k, done: x.on, own: true });
       rows.push({ kind: 'thanks', k, done: !!gratefulOf(k) || !!dn.thanks });
-      rows.push({ kind: 'still', k, done: stillOn(k), own: true });
+      // Be still leads the day (Blake, 2026-10-07: "Be still at the top? Start out that way?").
+      rows.unshift({ kind: 'still', k, done: stillOn(k), own: true });
     }
     return rows;
   }
