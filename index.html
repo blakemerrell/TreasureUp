@@ -2288,10 +2288,12 @@ const TreasureUp = (function () {
   }
 
   // Reading first: a day counts once he reads. With no reading left to do
-  // (Sunday, or all caught up), an answer counts, as before.
+  // (all caught up), or on a day with no reading of its own (Sunday, or a
+  // light week's spare day, even when he's behind), an answer counts.
   function markStudied(read) {
     const today = dayKey(), days = S.days = S.days || {};
-    if (!days[today] && (read || !readingDue())) days[today] = 1;
+    const own = (readingPlan()[todayIndex()] || []).length;
+    if (!days[today] && (read || !own || !readingDue())) days[today] = 1;
     updateStreak();
   }
 
@@ -3869,7 +3871,10 @@ const TreasureUp = (function () {
   let readUnit = null;
   // The week map's part (its key) where a chapter is read.
   function chapterLesson(ref) {
-    const d = readingPlan().findIndex(day => day.some(u => (u.chapter || u).ref === ref));
+    // A chapter split over two days opens the day with its first unread part (Tuesday's lesson holds only Tuesday's part).
+    const has = (day, unread) => day.some(u => (u.chapter || u).ref === ref && (!unread || !unitRead(u)));
+    const plan = readingPlan(), first = plan.findIndex(day => has(day, true));
+    const d = first >= 0 ? first : plan.findIndex(day => has(day));
     const k = d < 0 ? -1 : weekPlan()[d].findIndex(e => e.kind === 'day');
     return k < 0 ? null : d + '.' + k;
   }
@@ -12254,7 +12259,15 @@ const TreasureUp = (function () {
     try { note = sessionStorage.getItem(NS + 'adopted'); sessionStorage.removeItem(NS + 'adopted'); } catch (e) {}
     if (note) toast('👪 ' + note.split('|')[0], note.split('|')[1] || '');
     const q = new URLSearchParams(location.search);
-    if (q.get('invite') || (q.get('mode') === 'signIn' && q.get('oobCode'))) openFam();
+    if (q.get('invite')) {
+      // The link's invite moves out of the address at once: left there, the back button's history brought it back
+      // after Exit, and the next restart opened this screen again (tests/family.test.mjs, 2026-10-07).
+      store(NS + 'pendingInvite', q.get('invite'));
+      q.delete('invite');
+      history.replaceState(history.state, '', location.pathname + (q.toString() ? '?' + q : '') + location.hash);
+      openFam();
+    // Back from a Google sign-in that left the page (a blocked popup), the join it was part of goes on.
+    } else if ((q.get('mode') === 'signIn' && q.get('oobCode')) || (!F && stored(NS + 'pendingInvite'))) openFam();
     else if (F && FIREBASE_CONFIG) setTimeout(() => famConnect(), 600);
     // Save before the app goes to the background. Coming back, or the
     // internet coming back, reconnects (the first try may have been offline).
@@ -12499,7 +12512,8 @@ const TreasureUp = (function () {
     if (!a || !F) return;
     if (canon(S) !== a.from) { pendingAdopt = null; queueSync(0); return; }
     const typing = [...document.querySelectorAll('textarea, input.field')].some(t => t.value.trim() && !t.readOnly);
-    const busy = ['play', 'live', 'board', 'parent', 'lesson', 'view', 'risk', 'snake', 'look'].some(id => !$(id).hidden) || typing || !!$('party');
+    // Any screen over the tabs waits: a restart under Be still ended his quiet time and lost its minutes (tracer, 2026-10-07).
+    const busy = ['play', 'live', 'board', 'parent', 'lesson', 'view', 'risk', 'snake', 'look', 'ammon', 'past', 'fam', 'dev', 'stillLayer', 'appSheet', 'wordSheet'].some(id => !$(id).hidden) || typing || !!$('party');
     if (busy) { adoptTimer = setTimeout(tryAdopt, 10000); return; }
     try {
       localStorage.setItem(STORE_KEY, a.json);

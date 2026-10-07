@@ -1,0 +1,55 @@
+# Checks every pull request before it can reach main: every script parses
+# (tools/check-parse.mjs), and the browser tests in tests/ pass: the app on
+# today's week, a week of study on one device, and a family on the Firebase
+# emulators with the repo's firestore.rules (tests/README.md). The deploy
+# (pages.yml) runs the same parse check and the first two again.
+name: Tests
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: tests/package-lock.json
+
+      - name: Every script parses
+        run: node tools/check-parse.mjs
+
+      - name: Install the test packages and the browser
+        working-directory: tests
+        run: |
+          npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: The app, and a week on one device
+        working-directory: tests
+        run: node run.mjs
+
+      # The Firestore emulator needs Java; its download is kept between runs.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/firebase/emulators
+          key: firebase-emulators-${{ hashFiles('tests/package-lock.json') }}
+
+      - name: A family on the Firebase emulators
+        run: tests/node_modules/.bin/firebase emulators:exec --only auth,firestore --project scripturetok-test "node tests/run.mjs family"
