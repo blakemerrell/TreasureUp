@@ -33,6 +33,7 @@ import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { loadOriginal, langOf } from './original.mjs';
+import { weekStart, utahToday } from './week-dates.mjs';   // "September 28–October 4, 2026" -> "2026-09-28" (the app's rule; the New Year week too)
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CACHE = process.env.SCRIPTURE_CACHE || path.join(ROOT, 'tools', '.scripture-cache');
@@ -384,19 +385,15 @@ function checkBoards(boards, { verses }) {
   }
 }
 
-// "September 28–October 4, 2026" -> "2026-09-28" (same rule as the app).
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-function weekStart(dates) {
-  const m = /^([A-Z][a-z]+) (\d{1,2})–(?:[A-Z][a-z]+ )?\d{1,2}, (\d{4})$/.exec(dates || '');
-  if (!m || MONTHS.indexOf(m[1]) < 0) return null;
-  return m[3] + '-' + String(MONTHS.indexOf(m[1]) + 1).padStart(2, '0') + '-' + m[2].padStart(2, '0');
-}
 
 // A Gospel Library page as plain text, or null if it won't load.
+// Pages and videos it couldn't reach: notes, and one warning on the deploy, so an outage
+// (or a site that blocks GitHub) never fails a deploy but never goes unseen either.
+const unreached = [];
 async function fetchPageText(url) {
   try {
-    const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' } });
-    if (!res.ok) { notes.push(`couldn't load ${url} (HTTP ${res.status}); what cites it wasn't checked`); return null; }
+    const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0' }, signal: AbortSignal.timeout(20000) });
+    if (!res.ok) { unreached.push(url); notes.push(`couldn't load ${url} (HTTP ${res.status}); what cites it wasn't checked`); return null; }
     return (await res.text())
       .replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, ' ')
       .replace(/<[^>]+>/g, ' ')
@@ -405,9 +402,24 @@ async function fetchPageText(url) {
       .replace(/&(nbsp|quot|amp|rsquo|lsquo|rdquo|ldquo|mdash|ndash|hellip|apos);/g, (m, n) => ({ nbsp: ' ', quot: '"', amp: '&', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', mdash: '—', ndash: '–', hellip: '…', apos: "'" })[n])
       .replace(/\s+/g, ' ');
   } catch (e) {
+    unreached.push(url);
     notes.push(`couldn't reach ${url} (${e.message}); what cites it wasn't checked`);
     return null;
   }
+}
+
+// Who owns a YouTube video, so a typo'd id can't slip in another channel's clip. A video
+// YouTube says isn't there fails; YouTube being busy or down (429, 5xx, no answer) is a note.
+async function checkOwner(where, v) {
+  if (!/^[A-Za-z0-9_-]{11}$/.test(v.youtube || '')) return;
+  const url = 'https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + v.youtube);
+  let res;
+  try { res = await fetch(url, { signal: AbortSignal.timeout(20000) }); }
+  catch (e) { unreached.push(url); note(`${where}: couldn't ask YouTube about video ${v.youtube} (${e.message}); its channel wasn't checked`); return; }
+  if (res.status === 429 || res.status >= 500) { unreached.push(url); note(`${where}: YouTube didn't answer about video ${v.youtube} (HTTP ${res.status}); its channel wasn't checked`); return; }
+  if (!res.ok) { fail(where, `YouTube doesn't know video ${v.youtube} (HTTP ${res.status})`); return; }
+  const meta = await res.json();
+  if (meta.author_name !== v.channel) fail(where, `video ${v.youtube} belongs to "${meta.author_name}", not "${v.channel}"`);
 }
 
 const bonusesOf = r => !r.bonus ? [] : Array.isArray(r.bonus) ? r.bonus : [r.bonus];
@@ -747,15 +759,7 @@ async function main(scripture, week, pages, online) {
       // An unwatched clip is never shown in the app (only in the private
       // preview, marked, so a parent can review it). So it's a note, not a failure.
       if (v.previewed !== true) note(`${where}: clip ${v.youtube} ${v.start}–${v.end}s is hidden until a parent watches it and sets previewed: true`);
-      // Ask YouTube who actually owns the video, so a typo'd id can't slip in another channel's clip.
-      if (/^[A-Za-z0-9_-]{11}$/.test(v.youtube || '')) {
-        const res = await fetch('https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + v.youtube));
-        if (!res.ok) fail(where, `YouTube doesn't know video ${v.youtube} (HTTP ${res.status})`);
-        else {
-          const meta = await res.json();
-          if (meta.author_name !== v.channel) fail(where, `video ${v.youtube} belongs to "${meta.author_name}", not "${v.channel}"`);
-        }
-      }
+      await checkOwner(where, v);
     }
   }
 
@@ -1108,11 +1112,7 @@ async function main(scripture, week, pages, online) {
         if (!v.title) fail(where, 'video needs its title');
         if (!MEDIA.channels.includes(v.channel)) fail(where, `channel "${v.channel}" isn't on the approved list in tools/verify.mjs`);
         if (v.previewed !== true) note(`${where}: video ${v.youtube} ${v.start}–${v.end}s is hidden until a parent watches it (approving the card marks it watched)`);
-        if (/^[A-Za-z0-9_-]{11}$/.test(v.youtube || '')) {
-          const res = await fetch('https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + v.youtube));
-          if (!res.ok) fail(where, `YouTube doesn't know video ${v.youtube} (HTTP ${res.status})`);
-          else { const meta = await res.json(); if (meta.author_name !== v.channel) fail(where, `video ${v.youtube} belongs to "${meta.author_name}", not "${v.channel}"`); }
-        }
+        await checkOwner(where, v);
         if (home) checkRefs(where, 'text', x.text, home);
         continue;
       }
@@ -1265,11 +1265,7 @@ async function main(scripture, week, pages, online) {
           if (!v.title) fail(w2, 'listen needs its title');
           if (!MEDIA.channels.includes(v.channel)) fail(w2, `channel "${v.channel}" isn't on the approved list in tools/verify.mjs`);
           if (v.previewed !== true) note(`${w2}: its clip ${v.youtube} ${v.start}–${v.end}s is hidden until a parent watches it (approving the card marks it watched)`);
-          if (/^[A-Za-z0-9_-]{11}$/.test(v.youtube || '')) {
-            const res = await fetch('https://www.youtube.com/oembed?format=json&url=' + encodeURIComponent('https://www.youtube.com/watch?v=' + v.youtube));
-            if (!res.ok) fail(w2, `YouTube doesn't know video ${v.youtube} (HTTP ${res.status})`);
-            else { const meta = await res.json(); if (meta.author_name !== v.channel) fail(w2, `video ${v.youtube} belongs to "${meta.author_name}", not "${v.channel}"`); }
-          }
+          await checkOwner(w2, v);
         }
         if (home) paras.forEach((t, k) => checkRefs(w2, 'paragraph ' + (k + 1), t, home));
       }
@@ -1293,7 +1289,10 @@ const APP_BOOKS = appBooks();
 const weeks = loadWeeks();
 // content/upcoming/: weeks written ahead, waiting for room in weeks.js
 // (tools/upcoming-weeks.mjs brings them in). Checked with the rest, so a
-// mistake shows when the week is written, not the day it comes in.
+// mistake shows when the week is written, not the day it comes in. Not
+// on the live app yet, they needn't be approved yet (--require-approval):
+// one waiting week months ahead mustn't hold back every deploy.
+const waiting = new Set();
 {
   const dir = path.join(ROOT, 'content', 'upcoming');
   for (const f of fs.existsSync(dir) ? fs.readdirSync(dir).filter(x => x.endsWith('.json')).sort() : []) {
@@ -1302,7 +1301,7 @@ const weeks = loadWeeks();
     catch (e) { failures.push(`content/upcoming/${f}: not valid JSON (${e.message})`); continue; }
     // Published into weeks.js from developer mode: that copy is the one kept.
     if (weeks.some(x => x.dates === w.dates)) notes.push(`content/upcoming/${f}: ${w.dates} is in weeks.js already, so tools/upcoming-weeks.mjs drops this copy`);
-    else weeks.push(w);
+    else { weeks.push(w); waiting.add(w); }
   }
 }
 const boards = loadBoards();
@@ -1349,12 +1348,14 @@ weeks.forEach(w => (Array.isArray(w.insights) ? w.insights : []).forEach(x => {
 for (const week of weeks) {
   const num = (/\/(\d+)\?/.exec(week.lesson || '') || [])[1];
   weekLabel = weeks.length > 1 ? `Week ${num || '?'} · ` : '';
+  // tools/archive-weeks.mjs names a past week's file by this number, and stops the deploy without it.
+  if (!num) failures.push(`${week.title} (${week.dates}): its lesson link must end with the lesson's number, like …/come-follow-me-…/41?lang=eng`);
   await main(scripture, week, pages, online);
   // The live app only takes weeks Blake approved in developer mode. Plain
   // words, short versions, insight cards, treasure words, the lesson part by
   // part and family night are the exception: the app shows each only once
   // it's approved, so they never hold a week back.
-  if (args.has('--require-approval') && weekStart(week.dates) >= REVIEW_FROM) {
+  if (args.has('--require-approval') && weekStart(week.dates) >= REVIEW_FROM && !waiting.has(week)) {
     for (const it of reviewItems(week).filter(x => !/^(plain|tldr|insight|treasure|guide):/.test(x.key) && x.key !== 'family')) {
       if (!it.approved) failures.push(`${weekLabel}${it.key}: not approved yet (approve it in developer mode, then publish)`);
       else if (it.approved !== it.hash) failures.push(`${weekLabel}${it.key}: changed since it was approved (approve it again in developer mode)`);
@@ -1678,13 +1679,17 @@ if (treasureCount) console.log(`✓ Treasure words: ${treasureCount} in ${treasu
     if (!week || week.dates !== p.dates || week.title !== p.title) failures.push(`content/past/week-${p.num}.js doesn't hold ${p.title} (${p.dates}) under ${p.num}`);
     if (weeks.some(x => x.dates === p.dates)) failures.push(`${p.dates} is in both content/weeks.js and content/past/: keep it in one`);
   }
-  const d = new Date(), today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const today = utahToday();
   const started = weeks.map(w => weekStart(w.dates)).filter(s => s && s <= today).sort();
   const old = started.length >= 2 ? started.slice(0, -2).length : 0;
   if (old) note(`content/weeks.js holds ${old} ${old === 1 ? 'week' : 'weeks'} older than last week: node tools/archive-weeks.mjs moves ${old === 1 ? 'it' : 'them'} to content/past/, where Past weeks still opens ${old === 1 ? 'it' : 'them'}`);
 }
 
 for (const n of notes) console.log('  · ' + n);
+if (unreached.length && process.env.GITHUB_ACTIONS) {
+  const hosts = [...new Set(unreached.map(u => new URL(u).host))].join(', ');
+  console.log(`::warning title=Online checks::${unreached.length} page${unreached.length === 1 ? '' : 's'} couldn't be reached (${hosts}); what cites ${unreached.length === 1 ? 'it' : 'them'} wasn't checked this time`);
+}
 if (failures.length) {
   console.error(`✗ ${failures.length} problem${failures.length === 1 ? '' : 's'}:\n`);
   for (const f of failures) console.error('  - ' + f);

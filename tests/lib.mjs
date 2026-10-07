@@ -69,11 +69,14 @@ const SDK = (() => { try { return path.dirname(require.resolve('firebase/package
 
 // A device: a phone-sized browser context on `url`, its Date set to `day`
 // (and moving on in real time; window.__skip(ms) jumps it ahead), with
-// Firebase pointed at the emulators when `emulators` is set.
-export async function device(name, { url, day = null, emulators = false, port }) {
+// Firebase pointed at the emulators when `emulators` is set, and `files`
+// ({ 'content/weeks.js': text }) served in place of the repo's.
+export async function device(name, { url, day = null, emulators = false, files = {} }) {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
   await ctx.route('**/*', r => {
     const u = r.request().url();
+    const own = Object.keys(files).find(f => new URL(u).pathname.endsWith('/' + f));   // a test's own copy of a file
+    if (own) return r.fulfill({ body: files[own], contentType: 'text/javascript' });
     const m = /^https:\/\/www\.gstatic\.com\/firebasejs\/[\d.]+\/(firebase-[a-z-]+\.js)/.exec(u);
     if (m && SDK) return r.fulfill({ path: path.join(SDK, m[1]), contentType: 'text/javascript' });
     return /^http:\/\/(127\.0\.0\.1|localhost):/.test(u) ? r.continue() : r.abort();

@@ -21,6 +21,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { weekStartOrThrow as weekStart } from './week-dates.mjs';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const WEEKS = path.join(ROOT, 'content', 'weeks.js'), UP = path.join(ROOT, 'content', 'upcoming');
@@ -31,12 +32,6 @@ const MARK = 'window.TU_WEEKS = ';
 const BUDGET = 900 * 1000;   // bytes
 const dry = process.argv.includes('--dry-run');
 
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-function weekStart(dates) {
-  const m = /^([A-Z][a-z]+) (\d{1,2})–(?:[A-Z][a-z]+ )?\d{1,2}, (\d{4})$/.exec(dates || '');
-  if (!m || MONTHS.indexOf(m[1]) < 0) throw new Error(`Can't read the dates "${dates}"`);
-  return m[3] + '-' + String(MONTHS.indexOf(m[1]) + 1).padStart(2, '0') + '-' + m[2].padStart(2, '0');
-}
 
 const files = fs.existsSync(UP) ? fs.readdirSync(UP).filter(f => /^\d{4}-\d{2}-\d{2}\.json$/.test(f)).sort() : [];
 if (!files.length) console.log('No weeks waiting in content/upcoming/.');

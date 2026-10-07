@@ -21,15 +21,17 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: tests/package-lock.json
 
       - name: Every script parses
-        run: node tools/check-parse.mjs
+        run: |
+          node tools/check-parse.mjs
+          node tools/week-dates.mjs
 
       - name: Install the test packages and the browser
         working-directory: tests
@@ -42,11 +44,11 @@ jobs:
         run: node run.mjs
 
       # The Firestore emulator needs Java; its download is kept between runs.
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: 21
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: ~/.cache/firebase/emulators
           key: firebase-emulators-${{ hashFiles('tests/package-lock.json') }}

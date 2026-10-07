@@ -602,9 +602,12 @@ five minutes with the tests). Setting it up on a new repo:
 
 **Tests** (review, 2026-10-07: "Yes, in CI"): before anything else, every
 script the site ships must parse (`tools/check-parse.mjs`); after the chapters
-are built, the browser tests in `tests/` open the app on today's week and do a
-week of study on one device, Monday to Sunday. A failure stops the deploy, and
-the site keeps the last good one. Every pull request runs the same, plus a
+are built, the browser tests in `tests/` open the app on today's week, check
+the New Year week, and do a week of study on one device, Monday to Sunday. A
+failure stops the deploy, and the site keeps the last good one. Weeks moved in
+and out of `content/weeks.js` are saved to the repo only after every check has
+passed (review, 2026-10-07), on Utah's date, and the deploy leaves `tools/` and
+`tests/` out of the site. Every pull request runs the same, plus a
 family on the Firebase emulators with `firestore.rules` (`.github/workflows/tests.yml`):
 the rules refuse what a child mustn't do, his two devices agree, chat, a prize
 and a finished goal go end to end. They read the week from `content/weeks.js`,

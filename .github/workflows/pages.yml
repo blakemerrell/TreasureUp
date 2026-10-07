@@ -10,7 +10,7 @@ on:
     branches: [main]
   workflow_dispatch:        # lets you re-run it by hand from the Actions tab
   schedule:
-    - cron: '30 7 * * 1'    # Mondays (Sunday night in Utah): last week's turn to move out, the next week's to come in
+    - cron: '30 7 * * 1'    # Mondays at 07:30 UTC, just after midnight in Utah: last week's turn to move out, the next week's to come in
 
 permissions:
   contents: write     # the deploy saves new recordings, and weeks moved in or out, back to the repo
@@ -24,17 +24,17 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # pinned: ubuntu-latest moves to a new Ubuntu on its own
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Nothing ships unless every quote matches the scripture text, every
       # reference exists, and every bonus answer is on the page it cites.
       # See tools/verify.mjs.
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
 
@@ -57,7 +57,8 @@ jobs:
       # Google key lives there as the secret GOOGLE_TTS_JSON, on no computer.
       # Recordings reach the live app in the PR that brings their lines. If
       # Google can't be reached, the deploy goes on, and the game uses the
-      # phone's voice for those lines.
+      # phone's voice for those lines; a line that fails is a warning on the
+      # run, and the ones already made are kept.
       - name: Record new Wika lines (Tagalog, Spanish, Hebrew, Greek)
         if: github.repository == 'blakemerrell/TreasureUp-test'
         continue-on-error: true
@@ -76,8 +77,9 @@ jobs:
       # (tools/archive-weeks.mjs), and the weeks written ahead come in from
       # content/upcoming/ as room allows (tools/upcoming-weeks.mjs): on the live
       # app too since Blake had the rest of 2026 approved at once (2026-10-05).
-      # Saved back to the repo; if that fails (someone pushed meanwhile), the
-      # files go back as they were and the next deploy tries again.
+      # Committed here, and saved back to the repo only once every check below
+      # has passed (Save the moved weeks), so a week that fails a check never
+      # reaches main. The week's date is Utah's (tools/week-dates.mjs).
       - name: Move weeks in and out of weeks.js
         run: |
           node tools/archive-weeks.mjs
@@ -87,7 +89,16 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Move weeks in and out of content/weeks.js (tools/archive-weeks.mjs, tools/upcoming-weeks.mjs)"
-          git push origin HEAD:main || { echo "Couldn't save it; the next deploy tries again."; git reset --hard HEAD~1; }
+          echo "MOVED=1" >> "$GITHUB_ENV"
+
+      # The scripture data the checks and the chapters are built from (about
+      # 120 MB, pinned to one commit of each source): kept between runs.
+      - name: Name the scripture data by its commits
+        run: echo "DATA_KEY=$(grep -ho "_COMMIT = '[0-9a-f]*'" tools/verify.mjs tools/original.mjs | sha1sum | cut -c1-16)" >> "$GITHUB_ENV"
+      - uses: actions/cache@v6
+        with:
+          path: ${{ runner.temp }}/scripture
+          key: scripture-${{ env.DATA_KEY }}
 
       # The live app (this repo) also requires every piece of a new week to
       # be approved in developer mode; the test site shows drafts.
@@ -113,10 +124,11 @@ jobs:
 
       # The chapters of each week's reading, so he can read them in the app
       # (tools/build-reading.mjs, from the data the check just downloaded).
-      # If it can't, the app still works and sends him to Gospel Library.
+      # It goes on by itself without a source that's down (the Hebrew and
+      # Greek words, a chapter's Listen button), so a failure here is a bug,
+      # and stops the deploy rather than ship the app without its reader.
       - name: Build the week's chapters
         run: node tools/build-reading.mjs
-        continue-on-error: true
         env:
           SCRIPTURE_CACHE: ${{ runner.temp }}/scripture
 
@@ -136,19 +148,33 @@ jobs:
           node run.mjs
           rm -rf node_modules   # the site is the whole repo folder: the test packages stay out of it
 
+      # Every check passed: the moved weeks go to the repo. If main moved on
+      # meanwhile, the save goes on top of it (three tries); if it still can't,
+      # the site goes out with them moved, and the next deploy saves them.
+      - name: Save the moved weeks
+        if: env.MOVED == '1'
+        run: |
+          for i in 1 2 3; do
+            git push origin HEAD:main && exit 0
+            git pull --rebase origin main || { git rebase --abort; break; }
+          done
+          echo "::warning title=Weeks not saved::The weeks moved in and out of content/weeks.js couldn't be saved to the repo; the next deploy moves them again."
+
       # Wika's script links get this deploy's commit (?v=…), so a phone never
       # runs a new page with old cached scripts or an old list of recordings
       # (GitHub Pages lets a phone keep a file for 10 minutes).
       - name: Stamp this deploy on Wika's scripts
         run: sed -i "s/?v=dev\"/?v=${GITHUB_SHA::8}\"/g" amigo/index.html
 
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
 
       # The app is a single self-contained index.html at the repo root,
-      # so the whole repo is the site. No build step.
-      - uses: actions/upload-pages-artifact@v3
+      # so the repo is the site, less what only builds and checks it.
+      - name: Leave the tools and tests out of the site
+        run: rm -rf tools tests firebase.json
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: .
 
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
