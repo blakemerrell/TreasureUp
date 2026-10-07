@@ -66,11 +66,8 @@
   .home-in { max-width: 600px; margin: 0 auto; padding: calc(var(--sat) + 92px) 20px calc(var(--sab) + 48px); }
   .home-sec { margin-top: 26px; }
   .home-win { margin-top: 6px; font-size: 15px; font-weight: 800; color: var(--right); }
-  .dev-link { display: inline-block; margin-bottom: 10px; padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 800;
-              color: var(--gold); background: rgba(252,211,77,.1); border: 1px solid rgba(252,211,77,.35); }
   .lb-help { margin-top: 4px; font-size: 12.5px; color: rgba(255,255,255,.6); }
   .lb-sec { margin-top: 16px; font-size: 13px; font-weight: 800; color: var(--gold); }
-  .report-row.todo { color: rgba(255,255,255,.55); }
 
   /* A past week on its own screen; a reel or chapter from it opens over it, in #view. */
   #past { position: fixed; inset: 0; z-index: 85; overflow-y: auto; background: var(--ink); -webkit-overflow-scrolling: touch; }
@@ -741,8 +738,6 @@
   .live-scores i { font-style: normal; color: var(--right); }
   .live-clock { font-weight: 900; font-size: clamp(28px, 5vw, 64px); font-variant-numeric: tabular-nums; color: var(--gold); }
   .live-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  .live-bar { height: 10px; border-radius: 99px; background: rgba(255,255,255,.12); overflow: hidden; margin-top: 4px; }
-  .live-bar div { height: 100%; }
   .live-big { font-weight: 900; font-size: clamp(30px, 8vw, 64px); line-height: 1.1; text-align: center; margin-top: 18vh; }
   .live-sub { text-align: center; font-size: clamp(16px, 4vw, 24px); color: rgba(255,255,255,.75); margin-top: 12px; }
   .live-mode { font-size: 12px; color: rgba(255,255,255,.5); margin-top: 16px; }
@@ -831,7 +826,6 @@
   .rk-defend .rk-btns { margin-top: 8px; }
   .rk-card .ls-opt:disabled, .rk-card .btn:disabled { opacity: .5; }   /* sent: waiting for the map screen */
   .rk-card .btn.sure { background: #fde68a; color: #0b1020; }          /* "Tap again…" */
-  .rk-borders { color: rgba(255,255,255,.8); }
   .rk-alert { margin: 4px 0 8px; padding: 8px 12px; border-radius: 12px; background: rgba(251,191,36,.14); border: 1px solid rgba(251,191,36,.55); font-weight: 800; font-size: 15px; line-height: 1.4; }
   .rk-fort { position: fixed; z-index: 141; transform: translateX(-50%); padding: 8px 16px; border-radius: 999px; border: 2px solid; background: rgba(5,5,15,.85); font-weight: 900; font-size: clamp(15px, 2vw, 22px); white-space: nowrap; pointer-events: none; animation: rkFort .35s ease both; transition: opacity .45s; }
   .rk-fort.gone { opacity: 0; }
@@ -1155,9 +1149,6 @@
   .ls-verse span.ref { display: block; margin-top: 6px; font-size: 12.5px; font-weight: 800; color: var(--gold); }
   .ls-ref-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
   .ls-ref-row a { font-size: 12px; font-weight: 700; color: rgba(255,255,255,.65); text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); white-space: nowrap; }
-  .ls-reads { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: -6px 0 16px; font-size: 13px; color: rgba(255,255,255,.65); }
-  .ls-reads a { padding: 6px 12px; border-radius: 999px; font-weight: 800; color: #1c1406; background: var(--gold); text-decoration: none; }
-  .ls-blank { display: inline-block; min-width: 4.5em; border-bottom: 3px solid #c084fc; color: #e9d5ff; font-weight: 900; text-align: center; }
   .ls-opts { display: grid; gap: 10px; }
   .ls-opt {
     width: 100%; padding: 14px 16px; border-radius: 16px; cursor: pointer; text-align: left;
@@ -1591,10 +1582,6 @@
   /* Find it in the chapter: each verse is a choice. */
   .ls-find { display: grid; gap: 8px; }
   .ls-find .ls-opt { font-family: Georgia, 'Times New Roman', serif; font-size: 15.5px; font-weight: 500; line-height: 1.45; }
-  .ls-match { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .ls-match .ls-opt { font-size: 14.5px; text-align: center; min-height: 58px; }
-  .ls-match .ls-opt.done { opacity: .35; border-color: #58cc02; }
-  .ls-match .ls-opt.miss { border-color: #ff4b4b; }
   .ls-foot { padding: 14px 18px calc(var(--sab) + 16px); border-top: 1px solid rgba(255,255,255,.1); }
   .ls-foot.good { background: rgba(88,204,2,.14); border-top-color: #58cc02; }
   .ls-foot.bad { background: rgba(255,75,75,.14); border-top-color: #ff4b4b; }
@@ -1811,8 +1798,6 @@
 
   /* ---- The week's plan on the page, and the Go-deeper reading ---- */
   .today { margin-top: 16px; padding: 14px 16px; border-radius: 16px; background: rgba(0,0,0,.35); border: 1.5px solid rgba(252,211,77,.55); }
-  .today-head { margin-top: 4px; font-weight: 900; font-size: 19px; line-height: 1.2; }
-  .today-sub { margin-top: 3px; font-size: 13px; color: rgba(255,255,255,.72); }
   .today-bar { margin-top: 9px; height: 6px; border-radius: 999px; background: rgba(255,255,255,.14); overflow: hidden; }
   .today-bar div { height: 100%; border-radius: 999px; background: var(--gold); }
   .today .board-link { margin-top: 12px; }
@@ -1998,7 +1983,6 @@
   .still-snd b { font-weight: 600; color: #ece5d9; }
   .still-hint { font-size: 13px; letter-spacing: .08em; color: #6b6358; }
   .still-streak { font-size: 13px; letter-spacing: .04em; color: #c9974f; }
-  .still-left { font: 400 22px 'Marcellus', Georgia, serif; color: #8a8174; font-variant-numeric: tabular-nums; letter-spacing: .04em; }
   .still-ctl { display: flex; gap: 28px; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: #8a8174; }
   .still-ctl button { padding: 6px 4px; background: none; color: inherit; } .still-ctl[hidden] { display: none; }
   .still-verse { margin: auto 0 0; padding-top: 24px; max-width: 28ch; font: italic 14px/1.5 Georgia, 'Times New Roman', serif; color: #6b6358; }
@@ -2044,8 +2028,6 @@
   header.hud-pad { background: linear-gradient(180deg, #1c1946 0%, #1d1a4a 88%, rgba(29,26,74,0) 100%); }
   .hud-xp { order: 10; flex: 1 0 100%; display: flex; align-items: center; gap: 10px; }
   .hud-xp > div:first-child { flex: 1; } .hud-xp #nextLevel { margin: 0; font-size: 11px; font-weight: 700; white-space: nowrap; overflow: visible; color: rgba(255,255,255,.6); }
-  .foot-note { margin-top: 18px; font-size: 13px; line-height: 1.45; color: rgba(255,255,255,.62); }
-  .foot-note a { color: rgba(255,255,255,.75); text-decoration: underline; }
   .st-kinds { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
   .st-day { margin-top: 16px; }
   .wk-line + .year { margin-top: 10px; }
@@ -2164,22 +2146,8 @@
   .ds-day.kept { background: rgba(88,204,2,.14); } .ds-day.kept i { color: #86efac; }
   .ds-day.later { color: rgba(255,255,255,.4); }
   .ds-day.now { border-color: var(--gold); }
-  .vod { margin-top: 12px; padding: 12px 16px; border-radius: 16px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); }
-  .vod-text { margin-top: 6px; font-family: Georgia, 'Times New Roman', serif; font-size: 17px; line-height: 1.45; }
-  .vod .vod-go { margin: 8px 0 0; }
-  .streak-card { margin-top: 12px; padding: 12px 16px; border-radius: 16px; background: rgba(0,0,0,.3); border: 1.5px solid rgba(251,146,60,.5); }
-  .sk-head { font-weight: 900; font-size: 16px; color: #fdba74; }
-  .sk-say { margin-top: 10px; font-size: 13.5px; font-weight: 700; line-height: 1.35; color: rgba(255,255,255,.85); }
-  .sk-row { display: grid; grid-template-columns: 92px 1fr auto; gap: 8px; align-items: baseline; width: 100%; padding: 7px 0; text-align: left;
-    font: inherit; font-size: 13.5px; color: #fff; background: none; border: 0; border-bottom: 1px solid rgba(255,255,255,.08); }
-  button.sk-row { cursor: pointer; }
-  .sk-row span:first-child { font-size: 12px; font-weight: 800; color: rgba(255,255,255,.55); }
-  .sk-row .go { color: rgba(255,255,255,.4); }
   .today-alt { display: block; margin: 12px auto 0; font: inherit; font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,.62); background: none; border: 0; cursor: pointer; text-decoration: underline; text-decoration-color: rgba(255,255,255,.3); }
-  .week-map { margin-top: 16px; }
   /* This week's chapters, each a tap from the reader */
-  .ch-book { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; }
-  .ch-name { margin-right: 4px; font-size: 13.5px; font-weight: 800; color: rgba(255,255,255,.82); }
   .ch-chip { font: inherit; font-size: 14px; font-weight: 800; padding: 6px 12px; border-radius: 999px; cursor: pointer;
     color: #fff; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.18); }
   .ch-chip.done { color: #bbf7d0; background: rgba(88,204,2,.12); border-color: rgba(88,204,2,.5); }
@@ -2206,15 +2174,7 @@
   .ins-src span { display: block; font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #c4b5fd; }
   .ins-src b { display: block; margin-top: 3px; font-size: 14.5px; line-height: 1.3; }
   /* Sunday classes on Sunday's card, and a talk a day */
-  .sun-box { margin-top: 12px; padding: 12px; border-radius: 16px; background: rgba(250,204,21,.06); border: 1px solid rgba(250,204,21,.22); }
-  .sun-h { font-size: 11.5px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
-  .sun-box .ls-start { margin-top: 6px; }
-  .sun-link { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 6px; padding: 10px 12px; border-radius: 12px; color: #fff; text-decoration: none; background: rgba(255,255,255,.05); font-weight: 800; }
-  .sun-link small, .sun-talk small, .talk-day small { display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.6); }
-  .sun-talk { margin-top: 6px; }
-  .sun-talk .dc-row { margin: 0; }
-  .sun-talk em { font-style: normal; font-weight: 700; font-size: 12px; color: rgba(255,255,255,.55); }
-  .sun-pick { display: block; margin: 4px 0 0 auto; font-size: 13px; }
+  .talk-day small { display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.6); }
   .talk-h { margin-top: 16px; font-size: 11.5px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #c4b5fd; }
   .talk-list { margin: 6px 0 0; padding-left: 20px; list-style: disc; font-size: 15.5px; line-height: 1.5; color: rgba(255,255,255,.88); }
   .talk-list li { margin-top: 4px; }
@@ -6198,27 +6158,6 @@ const TreasureUp = (function () {
     const left = c.talks.filter(t => !used.has(t.id) && t.id !== other);
     return (slot === 'rs' && !other ? left[1] : left[0]) || left[0] || c.talks[0];
   }
-  function sundayHtml(k) {
-    const m = youthMonth(k), c = curConf();
-    if (!m && !c) return '';
-    let html = '<div class="sun-box"><div class="sun-h">Sunday classes</div>';
-    if (m) {
-      const l = (m.lessons || []).find(x => x.sunday === k && sunShow(x)), n = sunCards(l).length, done = sunDone(l);
-      html += l ? `<button class="board-link ls-start" data-sunlesson="${esc(l.id)}">▶ ${done === n ? 'Practice it again' : 'Youth: ' + esc(l.title)}<small>Aaronic Priesthood and Young Women · Chapter ${m.chapter}: ${esc(m.title)} · ${done === n ? '✓ done' : n + ' cards'}</small></button>`
-        : `<a class="sun-link" href="${esc(m.guide)}" target="_blank" rel="noopener noreferrer"><span>Youth · Chapter ${m.chapter}: ${esc(m.title)}<small>For the Strength of Youth, this month’s chapter</small></span><span>↗</span></a>`;
-    }
-    if (c) {
-      const p = pickOf(k);
-      for (const [slot, name] of [['eq', 'Elders quorum'], ['rs', 'Relief Society']]) {
-        const t = talkById(p[slot]), show = t || suggestTalk(k, slot);
-        if (!show) continue;
-        html += `<div class="sun-talk"><button class="dc-row" data-talk="${esc(show.id)}"><span class="st">${(S.talks || {})[show.id] ? '✓' : ''}</span>
-          <span><b>${name}</b>${t ? '' : ' <em>· suggested</em>'}<small>${esc(show.title)} · ${esc(show.speaker)}</small></span><span class="go">›</span></button>
-          <button class="fam-link sun-pick" data-talkpick="${slot}|${k}">${t ? 'Change' : 'Pick the talk'}</button></div>`;
-      }
-    }
-    return html + '</div>';
-  }
   // The talk a day (Blake: "Both"): the conference's talks in order, one a
   // day from the conference's `from`.
   function talkDayHtml(k) {
@@ -6733,8 +6672,8 @@ const TreasureUp = (function () {
       if (S.libClock) delete S.libClock[ref];
       if (S.readPos) delete S.readPos[ref];
       markStudied();
-      const before = S.xp;
-      grantXp(READ_XP, 'Read ' + ref);
+      const before = S.xp, rest = Math.max(0, READ_XP - partsPaid(ref));
+      if (rest) grantXp(rest, 'Read ' + ref);
       L[ref].xp = S.xp - before;
       save();
     }
@@ -7244,6 +7183,13 @@ const TreasureUp = (function () {
   }
   // Each day whose planned chapters are all read now counts (S.filled), for
   // every week in weeks.js up to this one, and a past week that's open.
+  // A day is kept by its reading done that day or later: reading Tuesday's on Monday doesn't keep
+  // Tuesday ahead of time (Blake, 2026-10-07: "No, only on the day"). Catching up later still does.
+  function readOnOrAfter(u, k) {
+    if (!unitRead(u)) return false;
+    const days = u.chapter ? u.parts.map(p => (((S.partRead || {})[p.u.ref] || {})[p.from] || {}).day || S.read[p.u.ref]) : [S.read[u.ref]];
+    return days.every(d => typeof d !== 'string' || d >= k);
+  }
   function fillDays() {
     const f = S.filled = S.filled || {}, today = dayKey();
     const weeks = (window.TU_WEEKS || []).map(w => [w, window.TU_READING]);
@@ -7253,7 +7199,7 @@ const TreasureUp = (function () {
       if (!start || start > today) continue;
       planOf(w, text).forEach((units, d) => {
         const k = dayAdd(start, d);
-        if (units.length && !f[k] && units.every(u => w === WEEK ? unitRead(u) : weekRead(w, (u.chapter || u).ref))) f[k] = 1;
+        if (units.length && !f[k] && k <= today && units.every(u => w === WEEK ? readOnOrAfter(u, k) : weekRead(w, (u.chapter || u).ref))) f[k] = 1;
       });
     }
   }
@@ -8052,6 +7998,12 @@ const TreasureUp = (function () {
   // A part is read once the chapter is, or on its own (S.partRead: ref -> from -> { day, base, xp }).
   const partDone = p => !!S.read[p.u.ref] || (p.of > 1 && !!((S.partRead || {})[p.u.ref] || {})[p.from]);
   // Read: its share of the chapter's XP, and the chapter once every part is read.
+  // What a chapter's parts were paid already (their base, before the ⚡ charge): this week's,
+  // or a past week's kept in its history, so reading it whole later pays only the rest (review, 2026-10-07).
+  function partsPaid(ref) {
+    const now = Object.values((S.partRead || {})[ref] || {}).reduce((n, x) => n + (x.base || 0), 0);
+    return now || Math.max(0, ...(S.history || []).map(h => ((h.rec || {}).parts || {})[ref] || 0));
+  }
   function recordPart(p, said) {
     if (partDone(p)) return false;
     if (p.of === 1) return recordRead(p.u.ref, said);
@@ -9283,7 +9235,6 @@ const TreasureUp = (function () {
     }
     return false;
   }
-  const weekDays = mon => Array.from({ length: 7 }, (_, i) => dayAdd(mon, i));
   function helperNames(g) {
     const names = (g.helpers || []).map(pid => ((famHome && famHome.progress) || []).find(x => x.pid === pid)).filter(Boolean).map(x => x.name);
     if (g.helpText) names.push(g.helpText);
@@ -11205,24 +11156,6 @@ const TreasureUp = (function () {
     renderHud();
   }
 
-  /* ----- Who said it? in the daily warm-up ----- */
-
-  // On warm-up days one line comes back too (see rollDay), in the lesson.
-  function recordSayWarm(picked) {
-    const x = S.daily.say && (WEEK.sayings || []).find(s => s.id === S.daily.say);
-    if (!x || S.daily.sayDone) return false;
-    const right = picked === x.speaker;
-    S.daily.sayDone = { picked, right };
-    S.sayRecall = S.sayRecall || {};
-    S.sayRecall[x.id] = dayKey();
-    // XP counts a line's first answer only, here or in the game.
-    const first = !S.sayings[x.id];
-    if (first) S.sayings[x.id] = { right };
-    markStudied();
-    if (right && first) grantXp(SAY_XP, 'Who said it?');
-    save();
-    return true;
-  }
   /* ----- the year trail on the home page ----- */
 
   // Come, Follow Me 2026 (Old Testament) runs 52 weeks. Each finished week
@@ -11318,8 +11251,8 @@ const TreasureUp = (function () {
     if (w.clock) delete w.clock[u.ref];
     if (S.readPos) delete S.readPos[u.ref];
     markStudied(true);
-    const before = S.xp;
-    grantXp(READ_XP, 'Caught up: read ' + u.ref);
+    const before = S.xp, rest = Math.max(0, READ_XP - partsPaid(u.ref));
+    if (rest) grantXp(rest, 'Caught up: read ' + u.ref);
     rec.xp = S.xp - before;
     save();
     return true;
@@ -14066,7 +13999,7 @@ const TreasureUp = (function () {
   // 💡 Insight, bought with a hunt found in the chapter: for the rest of a
   // turn, what the choices mean right now, with the real odds.
   function riskCoach(g, me) {
-    const B = BOARD(), t = g.turn, sel = rk.sel || {}, mine = landsOf(g, me);
+    const t = g.turn, sel = rk.sel || {}, mine = landsOf(g, me);
     const pct = x => Math.round(x * 100) + '%', armies = n => n + (n === 1 ? ' soldier' : ' soldiers');
     const odds = (f, to) => takeOdds(g.lands[f].a, riskFoes(g, f, to), riskDefDice(g, f, to));
     const aim = (f, to) => riskHitsWall(g, f, to) ? 'Babylon’s wall' : riskNeedsPalace(g, f, to) ? landName(to) + ' (📜 read the writing first)' : landName(to);
@@ -17058,7 +16991,6 @@ const TreasureUp = (function () {
   const LESSON_SKIP = new Set(('shall their which there these those thee thine unto them with from have that this will when what ' +
     'they were into upon your also hath doth said saith every because before after again being where whose shalt').split(' '));
   const wordsOf = t => t.match(/[A-Za-z’']+/g) || [];
-  const keyWord = w => w.length >= 5 && !LESSON_SKIP.has(w.toLowerCase());
   let lesson = null;
 
   // The path the Today button starts: today's while any of it is left, then
@@ -17085,23 +17017,6 @@ const TreasureUp = (function () {
     return parts.join(' · ');
   }
 
-  // Fill in the missing word: one word of the verse, and two from the week's other verses.
-  function blankStep(r) {
-    const all = wordsOf(r.verse.text), once = w => all.filter(x => x.toLowerCase() === w.toLowerCase()).length === 1;
-    const keys = all.filter(keyWord), words = keys.filter(once).length ? keys.filter(once) : keys;
-    if (!words.length) return null;
-    const right = words[hash(r.id + '|blank') % words.length], cap = w => /^[A-Z]/.test(w);
-    const pool = [...new Map(WEEK.reels.filter(x => x.id !== r.id).flatMap(x => wordsOf(x.verse.text)).filter(keyWord)
-      .filter(w => w.toLowerCase() !== right.toLowerCase() && cap(w) === cap(right)).map(w => [w.toLowerCase(), w])).values()];
-    const near = pool.sort((a, b) => Math.abs(a.length - right.length) - Math.abs(b.length - right.length) || hash(a) - hash(b)).slice(0, 6);
-    const wrong = shuffled(near, r.id + '|near').slice(0, 2);
-    if (wrong.length < 2) return null;
-    // The word itself, not the same letters inside a longer word.
-    const m = new RegExp('(^|[^A-Za-z’\'])' + right + '(?![A-Za-z’\'])').exec(r.verse.text);
-    const at = m.index + m[1].length;
-    return { kind: 'blank', ref: r.verse.ref, home: r.verse.ref, before: r.verse.text.slice(0, at), after: r.verse.text.slice(at + right.length),
-             right, choices: shuffled([right].concat(wrong), r.id + '|blankc') };
-  }
   // Find it in the chapter: a reel's headline (or its `seek`, a clue in plain
   // words) and the verses around its verse; he taps the one it describes.
   // The clue that shares the fewest words with its verse, so it takes
@@ -17144,13 +17059,6 @@ const TreasureUp = (function () {
   }
   // The chapters a day's practice comes from: its reading, or its reels' chapters.
   const dayChapters = d => new Set(readingPlan()[d].map(u => u.ch).concat(dayReels(d).map(r => r.verse.ref.replace(/:.*/, ''))));
-  // Match each idea to its verse: the puzzle's tiles from today's chapters.
-  function matchStep(d) {
-    const chs = dayChapters(d), seen = new Set();
-    const tiles = ((WEEK.puzzle && WEEK.puzzle.groups) || []).flatMap(g => g.tiles || []).filter(t => chs.has(String(t.ref).replace(/:.*/, '')));
-    const pairs = shuffled(tiles.filter(t => !seen.has(t.ref) && seen.add(t.ref)), WEEK.title + '|match' + d).slice(0, 4).map(t => ({ a: t.text, b: t.ref }));
-    return pairs.length < 3 ? null : { kind: 'match', pairs, left: shuffled(pairs.map(p => p.a), 'L' + d), right: shuffled(pairs.map(p => p.b), 'R' + d) };
-  }
   // Who said it?: a line from today's chapters.
   function sayStep(d) {
     const x = daySaying(d);
@@ -17257,7 +17165,7 @@ const TreasureUp = (function () {
     if (L.level) levelUp(L.level);
     if (L.at < L.steps.length) L.rewards.forEach(t => toast('🎁 Reward unlocked', t + ' · show a parent'));
   }
-  function lessonReset() { Object.assign(lesson, { picked: null, matched: {}, sel: null, missR: null, misses: 0, checked: false, ok: null, earned: 0, readOk: false, askRead: false }); }
+  function lessonReset() { Object.assign(lesson, { picked: null, checked: false, ok: null, earned: 0, readOk: false, askRead: false }); }
 
   // Checking a step records it, the first time only.
   function recordStep(step, picked, ok) {
@@ -17265,7 +17173,6 @@ const TreasureUp = (function () {
     const before = S.xp;
     if (step.kind === 'reel') recordReel(step.id, picked);
     else if (step.kind === 'recall') recordRecall(step.id, picked);
-    else if (step.kind === 'saywarm') recordSayWarm(picked);
     else if (step.kind === 'say' && step.id && !S.sayings[step.id]) {   // a line's first answer, as in the game
       S.sayings[step.id] = { right: ok }; markStudied();
       if (ok) grantXp(SAY_XP, 'Who said it?');
@@ -17279,9 +17186,9 @@ const TreasureUp = (function () {
   }
 
   // "Right first time" on the last screen counts the questions, not the practice.
-  const SCORED = { recall: 1, saywarm: 1, reel: 1, deep: 1, find: 1, bonus: 1, sunq: 1, say: 1 };
-  const LESSON_KIND = { recall: 'Review · remember this?', saywarm: 'Warm-up · who said it?', reel: 'Choose the right answer',
-    blank: 'Fill in the missing word', find: 'Find it in the chapter', match: 'Match each idea to its verse', say: 'Who said it?', deep: 'Go deeper',
+  const SCORED = { recall: 1, reel: 1, deep: 1, find: 1, bonus: 1, sunq: 1, say: 1 };
+  const LESSON_KIND = { recall: 'Review · remember this?', reel: 'Choose the right answer',
+    find: 'Find it in the chapter', say: 'Who said it?', deep: 'Go deeper',
     insight: '💡 Insight', bonus: 'Bonus · find it in the reading · +' + XP.bonus + ' XP', note: 'Write a note · +' + NOTE_XP + ' XP',
     sunintro: 'Sunday class · For the Strength of Youth', sunread: 'Read', sunq: 'Choose the right answer' };
 
@@ -17354,19 +17261,7 @@ const TreasureUp = (function () {
       html += `<div class="ls-read"><div class="ls-prompt">${linkRefs(step.c.hook)}</div><p class="reel-body">${linkRefs(step.c.body)}</p></div>`;
     } else if (step.kind === 'reel' || step.kind === 'recall' || step.kind === 'sunq') {
       html += `<div class="ls-prompt">${step.kind === 'recall' && !L.checked ? esc(step.q) : linkRefs(step.q, step.home)}</div>${step.kind === 'recall' && !step.retry ? '<p class="ls-hint">From earlier this week. No peeking.</p>' : ''}${opts()}`;
-    } else if (step.kind === 'blank') {
-      const fill = L.checked ? step.right : L.picked || '';
-      html += `<div class="ls-verse" style="margin:6px 0 18px">“${esc(step.before)}<span class="ls-blank">${esc(fill) || '&nbsp;'}</span>${esc(step.after)}”<span class="ref">${L.checked ? linkRefs(step.ref) : esc(step.ref)}</span></div>${opts()}`;
-    } else if (step.kind === 'match') {
-      const doneL = new Set(Object.keys(L.matched)), doneR = new Set(Object.values(L.matched));
-      // Each verse opens in Gospel Library, to read before matching.
-      const reads = step.right.filter(b => readLink(b))
-        .map(b => `<a href="${esc(readLink(b))}" target="_blank" rel="noopener noreferrer">${esc(b)} ↗</a>`).join('');
-      html += `<div class="ls-prompt" style="font-size:18px">Tap an idea, then its verse.</div>
-        ${reads ? `<div class="ls-reads"><span>Read them first:</span>${reads}</div>` : ''}
-        <div class="ls-match"><div class="ls-opts">${step.left.map(a => `<button class="ls-opt${doneL.has(a) ? ' done' : L.sel === a ? ' on' : ''}" data-ls="L" data-v="${esc(a)}"${doneL.has(a) ? ' disabled' : ''}>${esc(a)}</button>`).join('')}</div>
-          <div class="ls-opts">${step.right.map(b => `<button class="ls-opt${doneR.has(b) ? ' done' : L.missR === b ? ' miss' : ''}" data-ls="R" data-v="${esc(b)}"${doneR.has(b) ? ' disabled' : ''}>${esc(b)}</button>`).join('')}</div></div>`;
-    } else if (step.kind === 'say' || step.kind === 'saywarm') {
+    } else if (step.kind === 'say') {
       html += `<div class="ls-prompt">“${esc(step.text)}”</div>${opts()}`;
     } else if (step.kind === 'deep') {
       const d = step.d, web = /^https:|^lesson$/.test(d.read);
@@ -17484,11 +17379,6 @@ const TreasureUp = (function () {
     }
     else if (step.kind === 'puzzle') {
       footHtml = reelsLeft() ? `<button class="ls-go" data-ls="next">Continue</button>` : `<button class="ls-go" data-ls="puzzle">Start the puzzle</button>`;
-    } else if (step.kind === 'match') {
-      const all = Object.keys(L.matched).length === step.pairs.length;
-      footHtml = all ? `<div class="ls-say">${L.misses ? 'All matched' : 'Perfect!'}</div><button class="ls-go" data-ls="next">Continue</button>`
-                     : `<button class="ls-go" disabled>Match them all</button>`;
-      if (all) foot.className = 'ls-foot good';
     } else if (L.checked) {
       const answer = step.kind === 'find' ? step.answer : step.right;
       footHtml = `<div class="ls-say">${L.ok ? ['Nice!', 'Great job!', 'You got it!'][L.at % 3] : 'Correct answer:'}${L.earned ? ` <span class="ls-earn">+${L.earned} XP</span>` : ''}</div>
@@ -17647,11 +17537,6 @@ const TreasureUp = (function () {
       L.earned = recordStep(step, L.picked, L.ok);
       // A miss comes back at the end, with its choices in a new order.
       if (!L.ok) L.steps.push(Object.assign({}, step, { retry: true, choices: step.choices && shuffled(step.choices, 'again' + L.steps.length) }));
-    } else if (act === 'L') { L.sel = el.dataset.v; L.missR = null; }
-    else if (act === 'R' && L.sel) {
-      const pair = step.pairs.find(p => p.a === L.sel);
-      if (pair && pair.b === el.dataset.v) { L.matched[L.sel] = el.dataset.v; L.sel = null; L.missR = null; }
-      else { L.misses++; L.missR = el.dataset.v; }
     }
     renderLesson();
   }
@@ -19289,7 +19174,8 @@ const TreasureUp = (function () {
       const read = Object.keys(S.read || {}).length;
       const tries = o => Object.fromEntries(Object.entries(o || {}).map(([k, a]) => [k, { right: !!a.right, picked: a.picked }]));
       const h = { title: S.weekTitle, num: S.weekNum, right: vals.filter(a => a.right).length, answered: vals.length, read, chapters: S.weekChapters || 0,
-        rec: { answers: tries(S.answers), bonus: tries(S.bonus), deep: tries(S.deep), read: Object.keys(S.read || {}) } };
+        rec: { answers: tries(S.answers), bonus: tries(S.bonus), deep: tries(S.deep), read: Object.keys(S.read || {}),
+          parts: Object.fromEntries(Object.keys(S.partRead || {}).filter(ref => !(S.read || {})[ref]).map(ref => [ref, partsPaid(ref)]).filter(([, n]) => n > 0)) } };
       // Filed once: a merge with a device still on that week brought its title back, and it was filed again (review, 2026-10-07).
       const i = S.history.findIndex(x => x.title === h.title && (x.num || null) === (h.num || null));
       if (i >= 0) { if (h.answered + h.read >= (S.history[i].answered || 0) + (S.history[i].read || 0)) S.history[i] = h; }

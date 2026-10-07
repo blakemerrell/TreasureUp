@@ -54,6 +54,22 @@ export default async function merge({ port }) {
   check(s.history.filter(h => h.title === 'Week 11').length === 1, `a week already in history isn't filed again (${s.history.filter(h => h.title === 'Week 11').length})`);
   check(!('picked' in s.history[0].rec.answers.q0) && 'picked' in s.history[s.history.length - 1].rec.answers.q11, 'weeks past the last 8 keep whether he was right, not what he picked; the last 8 keep both');
   check(!s.impressions.gone1 && !!s.impressions.gone2, 'a deleted note’s mark goes after 60 days, not before');
+  // A chapter half read in a past week (part 1 paid 25), read later from the Scriptures tab: it pays the other 25, not 50.
+  await d.page.evaluate(() => {
+    const S = JSON.parse(localStorage.getItem('treasureup.v1'));
+    S.history.push({ title: 'A past week', num: 1, right: 0, answered: 0, read: 0, rec: { answers: {}, bonus: {}, deep: {}, read: [], parts: { 'Genesis 1': 25 } } });
+    S.streak = 0; S.days = {}; S.filled = {};
+    localStorage.setItem('treasureup.v1', JSON.stringify(S));
+  });
+  await d.page.reload(); await wait(1500);
+  const x0 = (await state(d.page)).xp || 0;
+  await d.page.click('#tabs [data-tab="scriptures"]'); await wait(800);
+  await d.page.click('[data-lib-book="Genesis"]'); await wait(300);
+  await d.page.click('[data-lib-ch="Genesis 1"]'); await wait(1200);
+  await d.page.click('[data-lib-mark]'); await wait(300);
+  if (await d.page.locator('[data-lib-readyes]').count()) { await d.page.click('[data-lib-readyes]'); await wait(300); }
+  const x1 = (await state(d.page)).xp || 0;
+  check(x1 - x0 === 25, `Genesis 1, half read in a past week, read from the Scriptures tab pays the rest: +${x1 - x0} (want +25)`);
   check(!d.page.errors.length, 'no page errors' + (d.page.errors.length ? ': ' + d.page.errors.join(' | ') : ''));
   await d.ctx.close();
 }

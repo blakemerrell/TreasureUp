@@ -50,6 +50,25 @@ export default async function week({ port }) {
   } else note('NOTE', 'Sunday has no family game row to tap: skipped');
   await behind.ctx.close();
 
+  // Reading ahead keeps only the day it's read (Blake, 2026-10-07: "No, only on the day"): the whole week read on Monday.
+  const ahead = await device('ahead', { url, day: days[0] + 'T16:30:00' });
+  await ahead.page.click('#tabs [data-tab="scriptures"]'); await wait(400);
+  if (await ahead.page.locator('#home [data-lib-book=""]').count()) await ahead.page.click('#home [data-lib-book=""]');
+  await ahead.page.click('#home .lib-week').catch(() => {}); await wait(400);
+  const refs = await ahead.page.$$eval('#home [data-lib-ch]', els => [...new Set(els.map(e => e.dataset.libCh))]);
+  await ahead.page.evaluate(([refs, d]) => {
+    const S = JSON.parse(localStorage.getItem('treasureup.v1'));
+    S.read = Object.fromEntries(refs.map(r => [r, d]));
+    localStorage.setItem('treasureup.v1', JSON.stringify(S));
+  }, [refs, days[0]]);
+  await ahead.page.reload(); await wait(1500);
+  let f = (await state(ahead.page)).filled || {};
+  check(refs.length > 2 && f[days[0]] === 1 && !f[days[1]] && !f[days[5]], `the week's ${refs.length} chapters read on Monday: Monday is kept, Tuesday to Saturday aren't yet (${Object.keys(f).sort().join(', ') || 'none'})`);
+  await setDay(ahead, days[1] + 'T16:30:00');
+  f = (await state(ahead.page)).filled || {};
+  check(!f[days[1]], 'and Tuesday, when it comes, isn’t kept by Monday’s reading');
+  await ahead.ctx.close();
+
   // A chapter split over two days: after the first day, the reader's "Mark it read in its lesson" opens the second day.
   let split = null;
   const scan = await device('scan', { url, day: w.start + 'T08:00:00' });
