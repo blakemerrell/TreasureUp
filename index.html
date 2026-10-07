@@ -2636,6 +2636,9 @@ const TreasureUp = (function () {
   // The button's own step isn't listed twice; done steps stay in the list ✓.
   const flowDay = e => e.d != null ? e.d : e.kind === 'friday' ? 4 : e.kind === 'puzzle' ? 5 : 6;
   const flowAt = e => `${flowDay(e)}.${weekPlan()[flowDay(e)].findIndex(x => x.kind === e.kind)}`;
+  // Done is green, right or not (Blake, 2026-10-07: "I'm less concerned about
+  // him getting questions right as much as him just doing the learning"): a
+  // missed question comes back first as a day's warm-up review.
   function flowRow(attrs, done, title, sub, opt) {
     opt = opt || {};
     const mark = opt.icon ? `<span class="fl-ic" aria-hidden="true">${opt.icon}</span>` : opt.box ? `<span class="fl-box">${done ? '✓' : ''}</span>` : `<span class="fl-c">${done ? (opt.wrong ? '✕' : '✓') : ''}</span>`;
@@ -2652,11 +2655,11 @@ const TreasureUp = (function () {
       }
       for (const r of dayReels(d)) {
         const a = S.answers[r.id];
-        add(r.id, !!a, flowRow(a ? `data-view="${esc(r.id)}"` : `data-lesson="${at}"`, !!a, esc(r.hook), was + (a ? (a.right ? 'Right the first time' : 'Answered') : 'A question'), { wrong: a && !a.right }));
+        add(r.id, !!a, flowRow(a ? `data-view="${esc(r.id)}"` : `data-lesson="${at}"`, !!a, esc(r.hook), was + (a ? (a.right ? 'Right the first time' : 'Done · it comes back for review') : 'A question')));
       }
       for (const x of dayDeep(d)) {
         const a = S.deep[x.id];
-        add('deep-' + x.id, !!a, flowRow(a ? `data-view="deep-${esc(x.id)}"` : `data-lesson="${at}"`, !!a, '🧭 Go deeper: ' + esc(x.read), was + (a ? 'Done' : 'Read, then a question'), { wrong: a && !a.right }));
+        add('deep-' + x.id, !!a, flowRow(a ? `data-view="deep-${esc(x.id)}"` : `data-lesson="${at}"`, !!a, '🧭 Go deeper: ' + esc(x.read), was + (a ? 'Done' : 'Read, then a question')));
       }
     } else if (e.kind === 'friday') {
       const items = entryItems(e), done = items.length && items.every(x => x.done);
@@ -3393,8 +3396,8 @@ const TreasureUp = (function () {
     const reels = data.week.reels.filter(r => chs.has(chOfRef(r.verse.ref)) && units.some(u => u.ch === chOfRef(r.verse.ref) && (!u.chapter || (verseNo(r.verse.ref) >= u.from && verseNo(r.verse.ref) <= u.to))));
     const left = units.filter(u => !read(u));
     const reelRow = r => {
-      const t = pastTryOf(w.num, data.week, 'answers', r.id), cls = !t ? '' : t.right == null ? ' is-done' : t.right ? ' is-right' : ' is-wrong';
-      return `<button class="dc-row${cls}" data-past-reel="${w.num}|${esc(r.id)}"><span class="st">${!t ? '' : t.right === false ? '✕' : '✓'}</span><span>${esc(r.hook)}</span><span class="go">›</span></button>`;
+      const t = pastTryOf(w.num, data.week, 'answers', r.id), cls = !t ? '' : t.right == null ? ' is-done' : ' is-right';
+      return `<button class="dc-row${cls}" data-past-reel="${w.num}|${esc(r.id)}"><span class="st">${t ? '✓' : ''}</span><span>${esc(r.hook)}</span><span class="go">›</span></button>`;
     };
     return `<div class="day-card">${head}
       ${units.length ? `<div class="dc-chips">${units.map(u => chipHtml(u.ref, read(u), `data-past-chapter="${w.num}|${esc(at(u))}"`)).join('')}</div>` : ''}
@@ -8197,10 +8200,10 @@ const TreasureUp = (function () {
     const tries = [];
     const row = (t, name, attr) => {
       tries.push(t);
-      const cls = !t ? '' : t.right == null ? ' is-done' : (t.right ? ' is-right' : ' is-wrong') + (t.late ? ' late' : '');
+      const cls = !t ? '' : t.right == null ? ' is-done' : ' is-right' + (t.late ? ' late' : '');
       return `
       <button class="report-row${cls}" ${attr}>
-        <span class="st">${!t ? '' : t.right === false ? '✕' : '✓'}</span><span>${esc(name)}</span><span class="go">›</span></button>`;
+        <span class="st">${t ? '✓' : ''}</span><span>${esc(name)}</span><span class="go">›</span></button>`;
     };
     const deepRow = d => row(pastTry('deep', d.id), '🧭 ' + (d.day === 'friday' ? d.title : 'Read ' + d.read), `data-past-deep="${esc(d.id)}"`);
     const parts = week.sections.map((name, i) => `<div class="lb-sec">${esc(name)}</div>` +
