@@ -3078,7 +3078,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const WORLD_POIS = [
     {
       id: 'lehi',
-      cx: 215, cy: 620,
+      cx: 210, cy: 645, rx: 110, ry: 75,
       name: "Lehi's Landing & First Inheritance",
       ref: 'Alma 22:28 · 1 Nephi 18',
       chapter: '1 Nephi 18',
@@ -3086,7 +3086,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'nephi',
-      cx: 565, cy: 660,
+      cx: 750, cy: 625, rx: 80, ry: 55,
       name: 'City of Lehi-Nephi',
       ref: '2 Nephi 5:5–8 · Mosiah 9',
       chapter: '2 Nephi 5',
@@ -3094,7 +3094,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'mormon',
-      cx: 805, cy: 690,
+      cx: 1075, cy: 635, rx: 105, ry: 60,
       name: 'Waters & Forest of Mormon',
       ref: 'Mosiah 18:4–30',
       chapter: 'Mosiah 18',
@@ -3102,7 +3102,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'zarahemla',
-      cx: 485, cy: 480,
+      cx: 620, cy: 450, rx: 85, ry: 45,
       name: 'City of Zarahemla',
       ref: 'Omni 1:13 · Alma 2:15',
       chapter: 'Alma 2',
@@ -3110,7 +3110,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'gideon',
-      cx: 665, cy: 500,
+      cx: 885, cy: 450, rx: 65, ry: 38,
       name: 'Valley of Gideon',
       ref: 'Alma 6:7 · Alma 14',
       chapter: 'Alma 6',
@@ -3118,7 +3118,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'noah',
-      cx: 308, cy: 400,
+      cx: 455, cy: 375, rx: 75, ry: 45,
       name: 'City of Noah',
       ref: 'Alma 49:12–25',
       chapter: 'Alma 49',
@@ -3126,7 +3126,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'antiparah',
-      cx: 235, cy: 540,
+      cx: 295, cy: 500, rx: 70, ry: 45,
       name: 'Antiparah & Southwest Frontier',
       ref: 'Alma 53 · Alma 56',
       chapter: 'Alma 56',
@@ -3134,7 +3134,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'neck',
-      cx: 520, cy: 310,
+      cx: 695, cy: 308, rx: 130, ry: 32,
       name: 'The Narrow Neck of Land & Pass',
       ref: 'Alma 22:32 · Alma 52:9',
       chapter: 'Alma 22',
@@ -3142,7 +3142,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'hagoth',
-      cx: 330, cy: 260,
+      cx: 450, cy: 268, rx: 70, ry: 60,
       name: 'Ship of Hagoth & West Sea Launch',
       ref: 'Alma 63:5–8',
       chapter: 'Alma 63',
@@ -3150,7 +3150,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'cumorah',
-      cx: 650, cy: 200,
+      cx: 840, cy: 195, rx: 85, ry: 48,
       name: 'Hill Cumorah & Land of Desolation',
       ref: 'Mormon 6:6 · Ether 15:11',
       chapter: 'Mormon 6',
@@ -3162,25 +3162,23 @@ IMG.farm.src = 'assets/farm.png?v=13';
     let poisHtml = '';
     for (const p of WORLD_POIS) {
       const active = activePoiId === p.id;
-      poisHtml += `<g class="poiNode ${active ? 'active' : ''}" data-poi="${p.id}" role="button" aria-label="${esc(p.name)}">
-        <!-- Golden radiant pulse aura -->
-        <circle cx="${p.cx}" cy="${p.cy}" r="40" class="sealGlow" fill="rgba(245,158,11,0.35)" opacity="${active ? '0.95' : '0'}"/>
-        <!-- Burnished Gold Rim -->
-        <circle cx="${p.cx}" cy="${p.cy}" r="22" fill="url(#goldMedallion)" stroke="#78350f" stroke-width="2"/>
-        <!-- Aged Vellum Core -->
-        <circle cx="${p.cx}" cy="${p.cy}" r="17" fill="#fdfaf3" stroke="#92400e" stroke-width="1.3"/>
-        <!-- Central Ruby Pinpoint -->
-        <circle cx="${p.cx}" cy="${p.cy}" r="6" fill="#991b1b" stroke="#7f1d1d" stroke-width="1"/>
+      poisHtml += `<g class="poiNode ${active ? 'active' : ''}" data-poi="${p.id}" role="button" tabindex="0" aria-label="${esc(p.name)}">
+        <!-- Soft golden radiant pulse halo illuminating city art & text -->
+        <ellipse cx="${p.cx}" cy="${p.cy}" rx="${p.rx}" ry="${p.ry}" class="poiAura" fill="url(#poiAuraGradient)"/>
+        <!-- Delicate antique dashed gold tracer line -->
+        <ellipse cx="${p.cx}" cy="${p.cy}" rx="${p.rx}" ry="${p.ry}" class="poiTracer" fill="none"/>
+        <!-- Generous transparent hit area for easy tapping on touch screens -->
+        <ellipse cx="${p.cx}" cy="${p.cy}" rx="${p.rx + 10}" ry="${p.ry + 8}" fill="transparent"/>
       </g>`;
     }
 
     return `<div class="campMapWrap">
       <svg class="campMapSvg" viewBox="0 0 1376 768" preserveAspectRatio="xMidYMid meet">
         <defs>
-          <radialGradient id="goldMedallion" cx="35%" cy="35%" r="65%">
-            <stop offset="0%" stop-color="#fef08a"/>
-            <stop offset="50%" stop-color="#f59e0b"/>
-            <stop offset="100%" stop-color="#78350f"/>
+          <radialGradient id="poiAuraGradient" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.55"/>
+            <stop offset="60%" stop-color="#f59e0b" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#d97706" stop-opacity="0"/>
           </radialGradient>
         </defs>
         <image href="assets/world_map.webp" x="0" y="0" width="1376" height="768" onerror="this.setAttribute('href','assets/world_map.jpg')"/>
