@@ -2591,8 +2591,8 @@ const TreasureUp = (function () {
     const was = from ? 'From ' + DAY_NAMES[d] + ' · ' : '';
     if (e.kind === 'day') {
       for (const u of readingPlan()[d]) {
-        const done = !!S.read[u.ref], min = minutesOf([u]);
-        add('read-' + u.ref, done, flowRow(`data-chapter="${esc(u.ref)}"`, done, 'Read ' + esc(u.ref), was + (done ? 'Read' : min ? min + ' min · ' + READ_XP + ' XP' : READ_XP + ' XP')));
+        const done = unitRead(u), min = minutesOf([u]);
+        add('read-' + u.ref, done, flowRow(`data-chapter="${esc((u.chapter || u).ref)}"`, done, 'Read ' + esc(u.ref), was + (done ? 'Read' : min ? min + ' min · ' + READ_XP + ' XP' : READ_XP + ' XP')));
       }
       for (const r of dayReels(d)) {
         const a = S.answers[r.id];
@@ -2683,7 +2683,7 @@ const TreasureUp = (function () {
       const target = now && entryItems(now).find(x => !x.done), t = todayIndex(), from = now && flowDay(now) < t;
       let title = 'Warm-up', hide = [];
       if (target && /^read-/.test(target.card)) {
-        const left = readingPlan()[flowDay(now)].filter(u => !S.read[u.ref]);
+        const left = readingPlan()[flowDay(now)].filter(u => !unitRead(u));
         title = 'Read ' + unitsLabel(left); hide = left.map(u => 'read-' + u.ref);
       } else if (target && now.kind === 'day') {
         const r = dayReels(flowDay(now)).find(x => x.id === target.card), x = dayDeep(flowDay(now)).find(y => 'deep-' + y.id === target.card);
@@ -2713,7 +2713,7 @@ const TreasureUp = (function () {
     else {
       const at = plan.findIndex(e => e.kind === 'day');
       if (at >= 0) {
-        const items = entryItems(plan[at]), all = items.length && items.every(x => x.done), left = readingPlan()[d].filter(u => !S.read[u.ref]);
+        const items = entryItems(plan[at]), all = items.length && items.every(x => x.done), left = readingPlan()[d].filter(u => !unitRead(u));
         button = { hide: [], html: `<button class="fl-next${k > today ? ' ahead' : ''}" data-lesson="${d}.${at}"><b>▶ ${all ? 'Practice it again' : k > today ? 'Read ahead' : left.length ? 'Read ' + esc(unitsLabel(left)) : 'Finish this day'}</b><small>${esc(all ? 'Already done: nothing new to earn' : lessonParts(plan[at]).replace(/^Warm-up · /, '').replace(/^Read [^·]*\((\d+ min)\)/, '$1'))}</small></button>` };
       } else button = { hide: [], html: '' };
     }
@@ -2749,7 +2749,7 @@ const TreasureUp = (function () {
       const behind = behindDays();
       if (behind.length) {
         const b = behind[0], ba = (weekPlan()[b] || []).findIndex(e => e.kind === 'day'), bl = dayPath(b, null).filter(r => !r.done);
-        const what = [unitsLabel(readingPlan()[b].filter(u => !S.read[u.ref])), bl.length === 1 ? '1 step' : bl.length + ' steps', 'about ' + mins(bl) + ' min'].filter(Boolean).join(' · ');
+        const what = [unitsLabel(readingPlan()[b].filter(u => !unitRead(u))), bl.length === 1 ? '1 step' : bl.length + ' steps', 'about ' + mins(bl) + ' min'].filter(Boolean).join(' · ');
         extra.push(flowRow(`data-lesson="${b}.${ba}"`, false, '↩ Catch up: ' + behind.map(x => DAY_NAMES[x]).join(' and '), esc(what + (next ? ' · after today’s' : ''))));
       }
       // His goals not ticked yet, once today's path has asked about them.
@@ -3031,16 +3031,16 @@ const TreasureUp = (function () {
     // these checked off when I complete them?"): a chapter read that week, since,
     // or in the library; a question answered then or since, ✓ or ✕.
     const units = planOf(data.week, data.text)[d] || [], chs = new Set(units.map(u => u.ch)), all = readingUnits(data.week.reference, data.text);
-    const read = u => pastReadDoneOf(w.num, u.ref, all);
-    const reels = data.week.reels.filter(r => chs.has(r.verse.ref.replace(/:.*/, '')));
+    const read = u => pastReadDoneOf(w.num, (u.chapter || u).ref, all), at = u => (u.chapter || u).ref;   // a piece of a chapter: the chapter
+    const reels = data.week.reels.filter(r => chs.has(chOfRef(r.verse.ref)) && units.some(u => u.ch === chOfRef(r.verse.ref) && (!u.chapter || (verseNo(r.verse.ref) >= u.from && verseNo(r.verse.ref) <= u.to))));
     const left = units.filter(u => !read(u));
     const reelRow = r => {
       const t = pastTryOf(w.num, data.week, 'answers', r.id), cls = !t ? '' : t.right == null ? ' is-done' : t.right ? ' is-right' : ' is-wrong';
       return `<button class="dc-row${cls}" data-past-reel="${w.num}|${esc(r.id)}"><span class="st">${!t ? '' : t.right === false ? '✕' : '✓'}</span><span>${esc(r.hook)}</span><span class="go">›</span></button>`;
     };
     return `<div class="day-card">${head}
-      ${units.length ? `<div class="dc-chips">${units.map(u => chipHtml(u.ref, read(u), `data-past-chapter="${w.num}|${esc(u.ref)}"`)).join('')}</div>` : ''}
-      ${left.length ? `<button class="board-link ls-start" data-past-chapter="${w.num}|${esc(left[0].ref)}">▶ Read ${esc(left[0].ref)}<small>Catch up: ${READ_XP} XP a chapter, marked read at its end</small></button>` : units.length ? '<p class="dc-note">✓ Every chapter of this day is read.</p>' : ''}
+      ${units.length ? `<div class="dc-chips">${units.map(u => chipHtml(u.ref, read(u), `data-past-chapter="${w.num}|${esc(at(u))}"`)).join('')}</div>` : ''}
+      ${left.length ? `<button class="board-link ls-start" data-past-chapter="${w.num}|${esc(at(left[0]))}">▶ Read ${esc(at(left[0]))}<small>Catch up: ${READ_XP} XP a chapter, marked read at its end</small></button>` : units.length ? '<p class="dc-note">✓ Every chapter of this day is read.</p>' : ''}
       ${reels.length ? `<div class="dc-rows">${reels.map(reelRow).join('')}</div>` : ''}
       ${weekRow}
     </div>`;
@@ -3487,7 +3487,7 @@ const TreasureUp = (function () {
   let readUnit = null;
   // The week map's part (its key) where a chapter is read.
   function chapterLesson(ref) {
-    const d = readingPlan().findIndex(day => day.some(u => u.ref === ref));
+    const d = readingPlan().findIndex(day => day.some(u => (u.chapter || u).ref === ref));
     const k = d < 0 ? -1 : weekPlan()[d].findIndex(e => e.kind === 'day');
     return k < 0 ? null : d + '.' + k;
   }
@@ -3711,7 +3711,19 @@ const TreasureUp = (function () {
   // day as short as it can be: its reading, plus the reels and Go-deeper
   // readings that come with it (about 150 words' worth of time each). By
   // chapters, without the text.
-  const READ_ITEM_WORDS = 150;
+  // A long chapter can end one day and finish the next (Blake, 2026-10-07,
+  // "so no day runs much past 12 minutes"): from the week of PARTS_FROM, a
+  // week is planned in the minutes the path shows (partMin: each part, and
+  // half a minute for each question after it), by its chapters' parts
+  // (partsOf) when that makes the longest day at least SPLIT_MIN minutes
+  // shorter, splitting as few chapters as that allows. A day then reads,
+  // say, "Jeremiah 36:21–32; 37": a piece of a chapter is a unit like one
+  // (its ref, verses and words), with the chapter (`chapter`) and its parts
+  // (`parts`); the chapter is read once all its parts are, on whichever
+  // days. A week begun before then keeps its plan, so no day he has done
+  // moves.
+  const READ_ITEM_WORDS = 150, PARTS_FROM = '2026-10-12', SPLIT_MIN = 2;
+  const partMin = (words, reels) => Math.max(1, Math.round(words / READ_WPM)) + Math.ceil(reels / 2);
   const readingPlan = () => planOf(WEEK, window.TU_READING);
   // Any week's plan, with its chapters' text (a past week's, for the streak).
   function planOf(week, text) {
@@ -3721,28 +3733,99 @@ const TreasureUp = (function () {
     if (cached && cached.key === key) return cached.days;
     text = text || {};
     const units = readingUnits(week.reference, text), days = DAY_NAMES.map(() => []);
-    const n = units.length, k = Math.min(READING_DAYS, n);
-    if (n) {
+    const words = units.length && units.every(x => x.words);
+    if (units.length && (!words || (weekStart(week.dates) || '') < PARTS_FROM)) {
+      // By whole chapters: each chapter's words, with its reels and Go-deeper readings.
       const extra = u => READ_ITEM_WORDS * (week.reels.filter(r => r.verse.ref.replace(/:.*/, '') === u.ch).length +
         (week.deep || []).filter(x => deepPassage(x) && deepPassage(x).replace(/:.*/, '') === u.ch).length);
-      const w = units.map(u => units.every(x => x.words) ? u.words + extra(u) : 1), pre = [0];
-      w.forEach(x => pre.push(pre[pre.length - 1] + x));
-      // best[j][i]: the longest day when the first i units go in j days; cut[j][i]: where day j starts.
-      const best = [[0].concat(Array(n).fill(Infinity))], cut = [[]];
-      for (let j = 1; j <= k; j++) {
-        best[j] = Array(n + 1).fill(Infinity); cut[j] = [];
-        for (let i = j; i <= n; i++) for (let p = j - 1; p < i; p++) {
-          const v = Math.max(best[j - 1][p], pre[i] - pre[p]);
-          if (v < best[j][i]) { best[j][i] = v; cut[j][i] = p; }
-        }
-      }
-      for (let j = k, i = n; j > 0; j--) { const p = cut[j][i]; days[j - 1] = units.slice(p, i); i = p; }
+      minMax(units.map(u => words ? u.words + extra(u) : 1)).cuts.forEach(([a, b], d) => { days[d] = units.slice(a, b); });
+    } else if (units.length) {
+      // Atoms: each chapter, or each of its parts, in the path's minutes; c, the chapter's index.
+      const reelsIn = (ch, a, b) => week.reels.filter(r => chOfRef(r.verse.ref) === ch && (a == null || (verseNo(r.verse.ref) >= a && verseNo(r.verse.ref) <= b))).length;
+      const atoms = [];
+      units.forEach((u, c) => {
+        const ps = partsOf(u, week);
+        if (ps.length > 1) ps.forEach(p => atoms.push({ c, p, w: partMin(p.pu.words, reelsIn(u.ch, p.from, p.to)) }));
+        else atoms.push({ c, p: null, w: partMin(u.words, reelsIn(u.ch, u.whole ? null : u.from, u.to)) });
+      });
+      const whole = units.map((u, c) => atoms.filter(a => a.c === c).reduce((n, a) => n + a.w, 0));
+      const chapters = minMax(whole), parts = atoms.length > units.length ? minMax(atoms.map(a => a.w)) : null;
+      if (parts && chapters.max - parts.max >= SPLIT_MIN) {
+        // As few chapters split as that longest day allows, then the days as even as can be.
+        const cuts = fewestSplits(atoms, parts.max);
+        cuts.forEach(([a, b], d) => { days[d] = piecesOf(units, atoms.slice(a, b)); });
+      } else chapters.cuts.forEach(([a, b], d) => { days[d] = units.slice(a, b); });
     }
     if (week === WEEK) readingCache = { week, key, days };
     else planOf.weeks.set(week, { key, days });
     return days;
   }
-  const readingAll = () => readingPlan().flat();
+  // Items of weight w over min(6, n) days in order, the longest day as short
+  // as it can be: { max, cuts: [[from, to), …] }.
+  function minMax(w) {
+    const n = w.length, k = Math.min(READING_DAYS, n), pre = [0];
+    w.forEach(x => pre.push(pre[pre.length - 1] + x));
+    // best[j][i]: the longest day when the first i items go in j days; cut[j][i]: where day j starts.
+    const best = [[0].concat(Array(n).fill(Infinity))], cut = [[]];
+    for (let j = 1; j <= k; j++) {
+      best[j] = Array(n + 1).fill(Infinity); cut[j] = [];
+      for (let i = j; i <= n; i++) for (let p = j - 1; p < i; p++) {
+        const v = Math.max(best[j - 1][p], pre[i] - pre[p]);
+        if (v < best[j][i]) { best[j][i] = v; cut[j][i] = p; }
+      }
+    }
+    const cuts = [];
+    for (let j = k, i = n; j > 0; j--) { const p = cut[j][i]; cuts.unshift([p, i]); i = p; }
+    return { max: best[k][n], cuts };
+  }
+  // The atoms over min(6, n) days, none longer than max: the fewest chapters
+  // cut between two days, then the evenest days (the least sum of squares).
+  function fewestSplits(atoms, max) {
+    const n = atoms.length, k = Math.min(READING_DAYS, n), pre = [0];
+    atoms.forEach(a => pre.push(pre[pre.length - 1] + a.w));
+    const less = (x, y) => x[0] < y[0] || (x[0] === y[0] && x[1] < y[1]);
+    const best = [[[0, 0]].concat(Array(n).fill(null))], cut = [[]];
+    for (let j = 1; j <= k; j++) {
+      best[j] = Array(n + 1).fill(null); cut[j] = [];
+      for (let i = j; i <= n; i++) for (let p = j - 1; p < i; p++) {
+        const seg = pre[i] - pre[p], b = best[j - 1][p];
+        if (!b || seg > max) continue;
+        const v = [b[0] + (p > 0 && atoms[p - 1].c === atoms[p].c ? 1 : 0), b[1] + seg * seg];
+        if (!best[j][i] || less(v, best[j][i])) { best[j][i] = v; cut[j][i] = p; }
+      }
+    }
+    const cuts = [];
+    for (let j = k, i = n; j > 0; j--) { const p = cut[j][i]; cuts.unshift([p, i]); i = p; }
+    return cuts;
+  }
+  // A day's atoms as units: a chapter all there is the chapter; some of its parts, a piece.
+  function piecesOf(units, atoms) {
+    const out = [];
+    for (let i = 0; i < atoms.length;) {
+      let j = i;
+      while (j + 1 < atoms.length && atoms[j + 1].c === atoms[i].c) j++;
+      const u = units[atoms[i].c], ps = atoms.slice(i, j + 1).map(a => a.p);
+      if (!ps[0] || ps.length === ps[0].of) out.push(u);
+      else {
+        const from = ps[0].from, to = ps[ps.length - 1].to, verses = u.verses.filter(v => v.n >= from && v.n <= to);
+        out.push(Object.assign({}, u, { ref: u.ch + ':' + from + (to !== from ? '–' + to : ''), whole: false, from, to, verses,
+          words: verses.reduce((n, v) => n + countWords(v.t), 0), chapter: u, parts: ps }));
+      }
+      i = j + 1;
+    }
+    return out;
+  }
+  // The week's chapters, each once (a chapter over two days is one).
+  const readingAll = () => {
+    const plan = readingPlan();
+    if (readingAll.c && readingAll.c.plan === plan) return readingAll.c.all;
+    const all = [];
+    for (const u of plan.flat()) if (!all.includes(u.chapter || u)) all.push(u.chapter || u);
+    readingAll.c = { plan, all };
+    return all;
+  };
+  // A unit of a day read: its chapter, or every part of a piece of one.
+  const unitRead = u => u.chapter ? u.parts.every(partDone) : !!S.read[u.ref];
   // Whether he has read a chapter of a week: this week's in S.read; an
   // earlier one's, saved when it ended or read since (S.late).
   function weekRead(week, ref) {
@@ -3762,7 +3845,7 @@ const TreasureUp = (function () {
       if (!start || start > today) continue;
       planOf(w, text).forEach((units, d) => {
         const k = dayAdd(start, d);
-        if (units.length && !f[k] && units.every(u => weekRead(w, u.ref))) f[k] = 1;
+        if (units.length && !f[k] && units.every(u => w === WEEK ? unitRead(u) : weekRead(w, (u.chapter || u).ref))) f[k] = 1;
       });
     }
   }
@@ -4466,7 +4549,7 @@ const TreasureUp = (function () {
   }
   const minutesOf = units => { const w = units.reduce((n, u) => n + u.words, 0); return w ? Math.max(1, Math.round(w / READ_WPM)) : 0; };
   // Reading due by today (today's and earlier days' chapters not read yet).
-  const readingDue = () => readingPlan().slice(0, todayIndex() + 1).flat().some(u => !S.read[u.ref]);
+  const readingDue = () => readingPlan().slice(0, todayIndex() + 1).flat().some(u => !unitRead(u));
   // `said`: he said yes to "Did you read all of it?" (it was quicker than a real read).
   function recordRead(ref, said) {
     if (S.read[ref]) return false;
@@ -4511,6 +4594,7 @@ const TreasureUp = (function () {
   // its share of the chapter's XP; its last part, the rest (recordRead).
   const PARTS_FROM_WORDS = 480, PART_MIN_WORDS = 90, partsCache = new WeakMap();   // a week's units stay the same objects (planOf)
   function partsOf(u, week = WEEK) {
+    if (u.chapter) return u.parts;                     // a piece of a chapter (planOf)
     if (partsCache.has(u)) return partsCache.get(u);
     const out = cutParts(u, week);
     partsCache.set(u, out);
@@ -4663,7 +4747,7 @@ const TreasureUp = (function () {
     if (r.kind === 'goals') { const g = goalSteps(), on = g.filter(x => x.on).length; return on ? on + ' of ' + g.length + ' ticked today' : g.length === 1 ? '1 to tick' : g.length + ' to tick'; }
     return gratefulPrompt(dayKey()).q;
   }
-  const pathRowMin = r => r.kind === 'part' ? Math.max(1, minutesOf([r.p.pu]) || 1) + Math.ceil(r.reels.length / 2) : r.kind === 'reels' ? Math.max(1, r.reels.length) : r.kind === 'cfm' ? 2 : 1;
+  const pathRowMin = r => r.kind === 'part' ? partMin(r.p.pu.words, r.reels.length) : r.kind === 'reels' ? Math.max(1, r.reels.length) : r.kind === 'cfm' ? 2 : 1;
   function pathListHtml(rows) {
     const next = rows.findIndex(r => !r.done);
     return `<ul class="pth">${rows.map((r, i) => `<li class="${r.done ? 'ok' : i === next ? 'next' : ''}"><span class="pth-dot">${r.done ? '✓' : ''}</span>
@@ -4717,7 +4801,8 @@ const TreasureUp = (function () {
   // answered), a Who said it? line from its chapters, and a note on one of
   // its reels. Since the day became one path (2026-10-07), this is "More if
   // you want".
-  const daySaying = d => (WEEK.sayings || []).find(y => dayChapters(d).has(chOfRef(y.ref))) || null;
+  // A line from the day's verses (a chapter over two days gives each day its own), else from its chapters.
+  const daySaying = d => { const ys = WEEK.sayings || []; return ys.find(y => readingDayOf(y.ref) === d) || ys.find(y => readingDayOf(y.ref) < 0 && dayChapters(d).has(chOfRef(y.ref))) || null; };
   function furtherItems(d) {
     const reels = dayReels(d), say = daySaying(d);
     return bestCards(d).map(i => ({ card: 'insight-' + i.x.id, done: !!(S.insights || {})[i.x.id] }))
@@ -6870,7 +6955,7 @@ const TreasureUp = (function () {
   function arcadeLeft() {
     if (seasonWho() === 'adult' || (S.arcadeOpen || '') === dayKey()) return null;
     const d = todayIndex(), read = readingPlan()[d] || [], reels = dayReels(d);
-    const all = read.length + reels.length, left = read.filter(u => !S.read[u.ref]).length + reels.filter(r => !S.answers[r.id]).length;
+    const all = read.length + reels.length, left = read.filter(u => !unitRead(u)).length + reels.filter(r => !S.answers[r.id]).length;
     return left ? { left, all, ref: unitsLabel(read) } : null;
   }
   const arcadeLockLine = a => `Opens after today’s reading${a.ref ? ' (' + a.ref + ')' : ''} and its questions · ${a.all - a.left} of ${a.all} done`;
@@ -13234,7 +13319,7 @@ const TreasureUp = (function () {
   function lessonParts(e) {
     const parts = warmupsLeft().length ? ['Warm-up'] : [];
     if (e && e.kind === 'day') {
-      const toRead = readingPlan()[e.d].filter(u => !S.read[u.ref]), min = minutesOf(toRead);
+      const toRead = readingPlan()[e.d].filter(u => !unitRead(u)), min = minutesOf(toRead);
       if (toRead.length) parts.push('Read ' + unitsLabel(toRead) + (min ? ' (' + min + ' min)' : ''));
       const n = dayReels(e.d).filter(r => !S.answers[r.id]).length;
       if (n) parts.push(n === 1 ? '1 reel' : n + ' reels');
@@ -13314,7 +13399,7 @@ const TreasureUp = (function () {
   }
   // Who said it?: a line from today's chapters.
   function sayStep(d) {
-    const chs = dayChapters(d), x = (WEEK.sayings || []).find(y => chs.has(y.ref.replace(/:.*/, '')));
+    const x = daySaying(d);
     return !x ? null : { kind: 'say', id: x.id, text: x.text, ref: x.ref, home: x.ref, right: x.speaker, choices: shuffled([x.speaker].concat(x.wrong), x.id + '|say'), why: x.why };
   }
   const deepStep = d => ({ kind: 'deep', id: d.id, d, home: deepHome(d), q: d.q, right: d.right, why: d.why, choices: choicesFor(d, 'deep|' + d.id) });
