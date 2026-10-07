@@ -3815,9 +3815,18 @@ const TreasureUp = (function () {
       const saved = JSON.parse(localStorage.getItem(LAYERS_KEY));
       if (saved && typeof saved === 'object') return { kjv: !!saved.kjv, plain: !!saved.plain, bsb: !!saved.bsb, lang: LANGS[saved.lang] ? saved.lang : '', notes: !!saved.notes, orig: !!saved.orig };
       const plain = localStorage.getItem(NS + 'plain') === '1';          // the one switch these replaced
-      return { kjv: true, plain, bsb: false, lang: '', notes: plain, orig: false };
-    } catch (e) { return { kjv: true, plain: false, bsb: false, lang: '', notes: false, orig: false }; }
+      return { kjv: true, plain, bsb: false, lang: '', notes: true, orig: false };
+    } catch (e) { return { kjv: true, plain: false, bsb: false, lang: '', notes: true, orig: false }; }
   })();
+  // Notes on for everyone, once (Blake, 2026-10-07: "Notes for everyone"): the
+  // cards that explain a verse live there now. Turned off after that, it stays off.
+  try {
+    if (!localStorage.getItem(NS + 'notesOn')) {
+      layers.notes = true;
+      localStorage.setItem(LAYERS_KEY, JSON.stringify(layers));
+      localStorage.setItem(NS + 'notesOn', '1');
+    }
+  } catch (e) {}
   function plainOf(week, ch) {
     const p = ((week && week.plain) || []).find(x => x.ch === ch);
     if (!p || !Array.isArray(p.verses)) return null;
