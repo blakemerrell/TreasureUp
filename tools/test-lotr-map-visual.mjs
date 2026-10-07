@@ -68,12 +68,35 @@ server.listen(PORT, async () => {
 
     console.log('Capturing campaign map on story screen...');
     const mapEl = await page.$('.campMapWrap');
-    console.log('Found .campMapWrap?', !!mapEl);
     if (mapEl) {
       await mapEl.screenshot({ path: path.join(ARTIFACT_DIR, 'lotr_parchment_map_crop_live.png') });
     }
     await page.screenshot({ path: path.join(ARTIFACT_DIR, 'story_screen_lotr_map_live.png') });
-    console.log('Screenshots saved successfully!');
+    console.log('Campaign map screenshot saved.');
+
+    console.log('Switching to Lands of the Book of Mormon world map tab...');
+    await page.evaluate(() => {
+      const tab = document.querySelector('[data-maptab="world"]');
+      if (tab) tab.click();
+    });
+    await new Promise(r => setTimeout(r, 1000));
+
+    const worldMapWrap = await page.$('.campMapWrap');
+    if (worldMapWrap) {
+      await worldMapWrap.screenshot({ path: path.join(ARTIFACT_DIR, 'bom_world_map_crop_live.png') });
+    }
+    await page.screenshot({ path: path.join(ARTIFACT_DIR, 'story_screen_world_map_live.png') });
+    console.log('World map screenshot saved.');
+
+    console.log('Clicking Lehi\'s Landing POI...');
+    await page.evaluate(() => {
+      const poi = document.querySelector('[data-poi="lehi"]');
+      if (poi) poi.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    });
+    await new Promise(r => setTimeout(r, 800));
+
+    await page.screenshot({ path: path.join(ARTIFACT_DIR, 'story_screen_poi_card_live.png') });
+    console.log('POI card screenshot saved successfully!');
 
   } catch (err) {
     console.error('Error running visual test:', err);
@@ -83,3 +106,4 @@ server.listen(PORT, async () => {
     process.exit(0);
   }
 });
+

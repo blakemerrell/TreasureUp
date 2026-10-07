@@ -3072,6 +3072,140 @@ IMG.farm.src = 'assets/farm.png?v=13';
     };
   }
 
+  let currentMapTab = 'tactical';
+  let activePoiId = null;
+
+  const WORLD_POIS = [
+    {
+      id: 'lehi',
+      cx: 215, cy: 620,
+      name: "Lehi's Landing & First Inheritance",
+      ref: 'Alma 22:28 · 1 Nephi 18',
+      chapter: '1 Nephi 18',
+      short: "Lehi's family landed on the Sea West seashore, pitched their tents, and planted seeds in abundance. Here Nephi fled from his brethren upward into the mountains."
+    },
+    {
+      id: 'nephi',
+      cx: 565, cy: 660,
+      name: 'City of Lehi-Nephi',
+      ref: '2 Nephi 5:5–8 · Mosiah 9',
+      chapter: '2 Nephi 5',
+      short: 'The ancestral highland valley where Nephi built a temple after the manner of Solomon; later reclaimed by Zeniff, Noah, and Limhi.'
+    },
+    {
+      id: 'mormon',
+      cx: 805, cy: 690,
+      name: 'Waters & Forest of Mormon',
+      ref: 'Mosiah 18:4–30',
+      chapter: 'Mosiah 18',
+      short: "A secluded fountain of pure water bordered by a thicket of small trees where Alma preached and baptized 204 souls into Christ's covenant."
+    },
+    {
+      id: 'zarahemla',
+      cx: 485, cy: 480,
+      name: 'City of Zarahemla',
+      ref: 'Omni 1:13 · Alma 2:15',
+      chapter: 'Alma 2',
+      short: 'The walled capitol on the west bank of River Sidon, seat of the Chief Judge, and cultural heart of the Nephite nation.'
+    },
+    {
+      id: 'gideon',
+      cx: 665, cy: 500,
+      name: 'Valley of Gideon',
+      ref: 'Alma 6:7 · Alma 14',
+      chapter: 'Alma 6',
+      short: 'Fertile valley across the River Sidon on the east bank, named after the faithful patriot who withstood King Noah and Korihor.'
+    },
+    {
+      id: 'noah',
+      cx: 308, cy: 400,
+      name: 'City of Noah',
+      ref: 'Alma 49:12–25',
+      chapter: 'Alma 49',
+      short: 'Fortified by Captain Moroni with high earthen ramparts, deep ditches, and timber pickets, completely thwarting the Lamanite assault.'
+    },
+    {
+      id: 'antiparah',
+      cx: 235, cy: 540,
+      name: 'Antiparah & Southwest Frontier',
+      ref: 'Alma 53 · Alma 56',
+      chapter: 'Alma 56',
+      short: 'Stone mountain fortress near Sea West where Helaman and his 2,000 stripling warriors led the Lamanites on a decoy march.'
+    },
+    {
+      id: 'neck',
+      cx: 520, cy: 310,
+      name: 'The Narrow Neck of Land & Pass',
+      ref: 'Alma 22:32 · Alma 52:9',
+      chapter: 'Alma 22',
+      short: "A day and a half's journey from Sea East to Sea West. The continental chokepoint heavily guarded by Moroni and Teancum."
+    },
+    {
+      id: 'hagoth',
+      cx: 330, cy: 260,
+      name: 'Ship of Hagoth & West Sea Launch',
+      ref: 'Alma 63:5–8',
+      chapter: 'Alma 63',
+      short: 'An exceedingly curious man built large ships launched into the West Sea by the narrow neck, carrying Nephites into the land northward.'
+    },
+    {
+      id: 'cumorah',
+      cx: 650, cy: 200,
+      name: 'Hill Cumorah & Land of Desolation',
+      ref: 'Mormon 6:6 · Ether 15:11',
+      chapter: 'Mormon 6',
+      short: 'Ancient hill where both the Jaredite and Nephite civilizations made their final stands, and where sacred records were hidden.'
+    }
+  ];
+
+  function worldMapHtml() {
+    let poisHtml = '';
+    for (const p of WORLD_POIS) {
+      const active = activePoiId === p.id;
+      poisHtml += `<g class="poiNode ${active ? 'active' : ''}" data-poi="${p.id}" role="button" aria-label="${esc(p.name)}">
+        <!-- Golden radiant pulse aura -->
+        <circle cx="${p.cx}" cy="${p.cy}" r="40" class="sealGlow" fill="rgba(245,158,11,0.35)" opacity="${active ? '0.95' : '0'}"/>
+        <!-- Burnished Gold Rim -->
+        <circle cx="${p.cx}" cy="${p.cy}" r="22" fill="url(#goldMedallion)" stroke="#78350f" stroke-width="2"/>
+        <!-- Aged Vellum Core -->
+        <circle cx="${p.cx}" cy="${p.cy}" r="17" fill="#fdfaf3" stroke="#92400e" stroke-width="1.3"/>
+        <!-- Central Ruby Pinpoint -->
+        <circle cx="${p.cx}" cy="${p.cy}" r="6" fill="#991b1b" stroke="#7f1d1d" stroke-width="1"/>
+      </g>`;
+    }
+
+    return `<div class="campMapWrap">
+      <svg class="campMapSvg" viewBox="0 0 1376 768" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <radialGradient id="goldMedallion" cx="35%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#fef08a"/>
+            <stop offset="50%" stop-color="#f59e0b"/>
+            <stop offset="100%" stop-color="#78350f"/>
+          </radialGradient>
+        </defs>
+        <image href="assets/world_map.webp" x="0" y="0" width="1376" height="768" onerror="this.setAttribute('href','assets/world_map.jpg')"/>
+        ${poisHtml}
+      </svg>
+    </div>`;
+  }
+
+  function activePoiCardHtml() {
+    if (!activePoiId) return '';
+    const p = WORLD_POIS.find(x => x.id === activePoiId);
+    if (!p) return '';
+    return `<div class="poiCard">
+      <h3>
+        <span>📜 ${esc(p.name)}</span>
+        <span class="poiRef">${esc(p.ref)}</span>
+      </h3>
+      <p>${esc(p.short)}</p>
+      <div class="row">
+        ${p.chapter ? `<button class="btn go" data-read="${esc(p.chapter)}">📖 Read ${esc(p.chapter)}</button>` : ''}
+        <button class="btn" data-close-poi>✕ Close</button>
+      </div>
+    </div>`;
+  }
+
   function campaignMapHtml() {
     const coords = {
       m3: { cx: 770, cy: 535, label: 'River Sidon', num: 1, ref: 'Alma 43–44', labelY: 596, refY: 616 },
@@ -3185,8 +3319,14 @@ IMG.farm.src = 'assets/farm.png?v=13';
           ${chaptersOf(m).map(c => `<button class="btn" data-read="${esc(c)}">${save.read[c] ? 'Read ' + esc(c) + ' again' : 'Read ' + esc(c)}</button>`).join('')}
         </div></div>`;
     };
+    const mapSection = `<div class="mapTabs">
+      <button class="mapTab ${currentMapTab === 'tactical' ? 'active' : ''}" data-maptab="tactical">⚔️ Wars of Liberty Campaign</button>
+      <button class="mapTab ${currentMapTab === 'world' ? 'active' : ''}" data-maptab="world">📜 Lands of the Book of Mormon</button>
+    </div>
+    ${currentMapTab === 'tactical' ? campaignMapHtml() : worldMapHtml()}
+    ${currentMapTab === 'world' ? activePoiCardHtml() : ''}`;
     const s = showScreen(`${modeHead(ART.story, 'Follow the chapters', 'Story missions')}<div class="wrap mode">
-      ${campaignMapHtml()}
+      ${mapSection}
       ${perksHtml()}
       ${CAMPAIGNS.map(c => `<h2 class="camp">${esc(c.title)}</h2><p class="camp-about">${esc(c.about)}</p><div class="cards">${MISSIONS.filter(m => m.campaign === c.id).map(card).join('')}</div>`).join('')}
       <div class="row"><button class="btn" data-how>How to play</button></div></div>`);
@@ -3196,6 +3336,28 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const pu = e.target.closest('[data-perk-unlock]');
       const pr = e.target.closest('[data-perk-refund]');
       const rst = e.target.closest('#bResetPerks');
+      const mt = e.target.closest('[data-maptab]');
+      const poi = e.target.closest('[data-poi]');
+      const cp = e.target.closest('[data-close-poi]');
+      if (mt) {
+        currentMapTab = mt.dataset.maptab;
+        activePoiId = null;
+        if (AUDIO) AUDIO.play('select');
+        storyScreen();
+        return;
+      }
+      if (poi) {
+        activePoiId = (activePoiId === poi.dataset.poi) ? null : poi.dataset.poi;
+        if (AUDIO) AUDIO.play(activePoiId ? 'select' : 'cancel');
+        storyScreen();
+        return;
+      }
+      if (cp) {
+        activePoiId = null;
+        if (AUDIO) AUDIO.play('cancel');
+        storyScreen();
+        return;
+      }
       if (e.target.closest('[data-how]')) return showTips('mission', null, true);
       if (pu) {
         const id = pu.dataset.perkUnlock;

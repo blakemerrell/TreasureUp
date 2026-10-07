@@ -212,6 +212,20 @@
   .campMapWrap { position: relative; width: 100%; border-radius: 14px; border: 3.5px double #6b3e15; outline: 1px solid rgba(251, 191, 36, .35);
     overflow: hidden; margin: 16px 0 22px; background: #f6eedb; box-shadow: 0 16px 48px rgba(0, 0, 0, .85); }
   .campMapSvg { display: block; width: 100%; height: auto; user-select: none; font-family: 'Cinzel', 'Palatino Linotype', 'Georgia', serif; }
+  .mapTabs { display: flex; gap: 8px; margin: 14px 0 10px; background: rgba(20, 14, 8, .6); padding: 5px; border-radius: 12px; border: 1.5px solid var(--brass); }
+  .mapTab { flex: 1; height: 38px; border-radius: 9px; border: none; background: transparent; color: var(--parch-dim); font-family: 'Cinzel', serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all .2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+  .mapTab:hover { color: #fff; background: rgba(255, 255, 255, .06); }
+  .mapTab.active { background: linear-gradient(135deg, #78350f, #92400e); color: #fef3c7; border: 1px solid #f59e0b; box-shadow: 0 2px 10px rgba(0,0,0,.6); }
+  .poiCard { background: #f6eedb; color: #2c1608; border-radius: 14px; border: 3px double #6b3e15; outline: 1px solid rgba(251, 191, 36, .35); padding: 14px 18px; margin: -10px 0 20px; box-shadow: 0 12px 36px rgba(0,0,0,.75); font-family: 'Cinzel', serif; }
+  .poiCard h3 { margin: 0 0 4px; font-size: 16px; color: #78350f; font-weight: 800; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .poiCard .poiRef { font-size: 12px; font-style: italic; color: #8b1e0f; }
+  .poiCard p { margin: 6px 0 10px; font-family: 'Outfit', sans-serif; font-size: 13.5px; line-height: 1.45; color: #3d2314; }
+  .poiCard .row { display: flex; gap: 8px; align-items: center; }
+  .poiNode { cursor: pointer; transition: transform .22s ease, filter .22s ease; transform-box: fill-box; transform-origin: center; }
+  .poiNode:hover { transform: scale(1.12); filter: drop-shadow(0 0 16px rgba(245, 158, 11, .9)); }
+  .poiNode.active { filter: drop-shadow(0 0 20px rgba(217, 119, 6, 1)); }
+  .poiNode .sealGlow { transition: opacity .3s ease; }
+  .poiNode:hover .sealGlow, .poiNode.active .sealGlow { opacity: 0.95; }
   .mapNode { cursor: pointer; transition: transform .22s ease, filter .22s ease; transform-box: fill-box; transform-origin: center; }
   .mapNode:hover { transform: scale(1.09); filter: drop-shadow(0 0 14px rgba(245, 158, 11, .85)); }
   .mapNode:hover circle.core { fill: #fffdf5; stroke: #b45309; }
