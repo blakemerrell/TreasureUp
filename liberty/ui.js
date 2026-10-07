@@ -927,6 +927,98 @@ IMG.farm.src = 'assets/farm.png?v=13';
     particles.push({ ix, iy, vx: (Math.random() - 0.5) * 2.5, vy: (Math.random() - 0.5) * 2.5 - 1, size: 1.5, life: 0, maxLife: 15, spark: true });
   }
 
+  // Sacred Covenant Ripples & Pillar of Light (Alma 46:36)
+  const sacredRipples = [];
+  let camShake = 0;
+  function triggerPlantStandardEffect(city, pos, now) {
+    const { ix, iy } = toIso(pos.x, pos.y);
+    sacredRipples.push({
+      ix, iy,
+      born: now,
+      maxLife: 1500,
+      maxR: 160
+    });
+    camShake = 4.2;
+    // Holy golden light particles ascending to heaven
+    for (let i = 0; i < 28; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 0.8 + Math.random() * 2.4;
+      particles.push({
+        ix: ix + (Math.random() - 0.5) * 10,
+        iy: iy - 14 + (Math.random() - 0.5) * 8,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed * 0.45 - 1.3 - Math.random() * 1.8,
+        size: 2.2 + Math.random() * 2.4,
+        life: 0,
+        maxLife: 35 + Math.floor(Math.random() * 25),
+        gold: true
+      });
+    }
+    // Deep ground impact dust puffs around standard base
+    for (let d = 0; d < 7; d++) {
+      addDust(ix + (Math.random() - 0.5) * 20, iy + 3 + (Math.random() - 0.5) * 8);
+    }
+  }
+
+  function drawSacredRipples(now) {
+    if (!sacredRipples.length) return;
+    for (let i = sacredRipples.length - 1; i >= 0; i--) {
+      const r = sacredRipples[i];
+      const elapsed = now - r.born;
+      if (elapsed >= r.maxLife) {
+        sacredRipples.splice(i, 1);
+        continue;
+      }
+      const p = elapsed / r.maxLife;
+      const curR = r.maxR * Math.sqrt(p);
+      const alpha = (1 - p) * 0.88;
+
+      ctx.save();
+      // Outer golden covenant ring
+      ctx.strokeStyle = `rgba(253, 230, 138, ${alpha})`;
+      ctx.lineWidth = 3.5 * (1 - p * 0.65);
+      ctx.beginPath();
+      ctx.ellipse(r.ix, r.iy, curR, curR * 0.5, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Inner amber resonance ring
+      ctx.strokeStyle = `rgba(217, 119, 6, ${alpha * 0.65})`;
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.ellipse(r.ix, r.iy, curR * 0.72, curR * 0.36, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Soft holy turf illumination
+      ctx.fillStyle = `rgba(254, 240, 138, ${alpha * 0.12})`;
+      ctx.beginPath();
+      ctx.ellipse(r.ix, r.iy, curR, curR * 0.5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  function drawSacredPillars(now) {
+    if (!sacredRipples.length) return;
+    for (const r of sacredRipples) {
+      const elapsed = now - r.born;
+      if (elapsed >= r.maxLife) continue;
+      const p = elapsed / r.maxLife;
+      if (p < 0.65) {
+        const lp = p / 0.65;
+        const beamAlpha = Math.sin(lp * Math.PI) * 0.85;
+        const beamW = 24 * (1 - lp * 0.45);
+        ctx.save();
+        const grad = ctx.createLinearGradient(r.ix, r.iy, r.ix, r.iy - 140);
+        grad.addColorStop(0, `rgba(254, 240, 138, ${beamAlpha * 0.85})`);
+        grad.addColorStop(0.65, `rgba(253, 230, 138, ${beamAlpha * 0.45})`);
+        grad.addColorStop(1, 'rgba(253, 230, 138, 0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(r.ix - beamW * 0.5, r.iy - 140, beamW, 140);
+        ctx.restore();
+      }
+    }
+  }
+
   // ------------------------------------------------------------ drawing
 
   const TEAM = { p: '#1d4ed8', r: '#b91c1c' };
@@ -941,6 +1033,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const z = cam.z * dpr;
     ctx.setTransform(z, 0, 0, z, -cam.x * z, -cam.y * z);
     if (W.t - W.quakeAt < 1.2) { const s = (1.2 - (W.t - W.quakeAt)) * 5; ctx.translate((Math.random() - 0.5) * s, (Math.random() - 0.5) * s); }   // the earthquake
+    if (camShake > 0.05) { ctx.translate((Math.random() - 0.5) * camShake, (Math.random() - 0.5) * camShake); camShake *= 0.88; }
     ctx.drawImage(terrain, -ISO_OFFSET_X, -PAD, TERR_W, TERR_H);
     drawGlints(now);
 
@@ -951,6 +1044,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const selSet = new Set(sel);
 
     drawCover();
+    drawSacredRipples(now);
     if (W.border != null && !W.borderOpen) drawBorder();
 
     // Isometric depth sorting: entities with larger (x + y) are closer to camera and drawn on top
@@ -987,11 +1081,22 @@ IMG.farm.src = 'assets/farm.png?v=13';
       }
     }
 
-    // Dynamic environmental smoke & fire particles
+    drawSacredPillars(now);
+
+    // Dynamic environmental smoke, sparks & specialized industry particles
     for (const e of ents) {
-      if (e.kind === 'building') {
+      if (e.kind === 'building' && e.built >= 1) {
         const { ix, iy } = toIso(e.x, e.y);
-        if (e.type === 'armory' && Math.random() < 0.25) addSmoke(ix + 6, iy - 32, false);
+        if (e.type === 'armory' && Math.random() < 0.25) { addSmoke(ix + 6, iy - 32, false); addSpark(ix + 8, iy - 12); }
+        if (e.type === 'brickworks' && Math.random() < 0.16) addSmoke(ix + 10, iy - 42, true);
+        if (e.type === 'quarry' && Math.random() < 0.18) { addDust(ix + (Math.random() - 0.5) * 22, iy - 6); addSpark(ix + (Math.random() - 0.5) * 22, iy - 10); }
+        if (e.type === 'sawmill' && Math.random() < 0.25) {
+          particles.push({
+            ix: ix + 4, iy: iy - 12,
+            vx: 0.8 + Math.random() * 1.2, vy: -0.8 - Math.random(),
+            size: 2.0, wood: true, life: 0, maxLife: 20
+          });
+        }
         if (e.type === 'warcamp' && Math.random() < 0.3) { addSmoke(ix, iy - 20, false); addFire(ix, iy - 8); }
         if (e.hp < S.maxHp(e) * 0.6 && Math.random() < 0.3) addSmoke(ix, iy - 24, true);
         if (e.hp < S.maxHp(e) * 0.3 && Math.random() < 0.4) { addSmoke(ix, iy - 28, true); addFire(ix, iy - 16); }
@@ -1008,6 +1113,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (p.spark) {
         ctx.fillStyle = `rgba(254,240,138,${alpha})`;
         ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size, 0, 7); ctx.fill();
+      } else if (p.gold) {
+        ctx.fillStyle = `rgba(254,240,138,${alpha * 0.95})`;
+        ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size * (1 - p.life / p.maxLife * 0.4), 0, 7); ctx.fill();
       } else if (p.wood) {
         ctx.fillStyle = `rgba(180,83,9,${alpha})`;
         ctx.save(); ctx.translate(p.ix, p.iy); ctx.rotate(p.life * 0.25);
@@ -1769,6 +1877,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       ctx.ellipse(ix + 2, iy + 2, r * 0.95 * shadowScale, r * 0.48 * shadowScale, 0, 0, 7);
       ctx.fill();
     }
+    if (u.type === 'cart' && u.burstUntil > W.t && Math.random() < 0.45) addDust(ix - 12 * flip, iy + 2);
     if (u.thirstUntil > W.t) {                       // bloodthirst (Moroni 9:5): a red glow at his feet
       ctx.fillStyle = `rgba(220,38,38,${0.32 + 0.18 * Math.sin(now * 0.015 + u.id)})`; ctx.beginPath(); ctx.ellipse(ix, iy, r * 1.6, r * 0.8, 0, 0, 7); ctx.fill();
     }
@@ -1878,7 +1987,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (uImg && uImg.complete && uImg.naturalWidth) {
       ctx.drawImage(uImg, -uox, -uoy, uw, uh);
       if (u.type === 'standard') {
-        banner(flip > 0 ? 8 : -8, -uh + 8, '#f4f1e6', now, u.id);
+        drawTitleOfLibertyStandard(flip, now, u.id);
+      } else if (u.type === 'worker' && ((u.order && u.order.type === 'attack') || (u.cool && u.cool > 0.6))) {
+        drawWorkerScytheCombat(now, u.id);
       }
     } else {
       ctx.fillStyle = '#451a03';
@@ -1889,6 +2000,28 @@ IMG.farm.src = 'assets/farm.png?v=13';
       ctx.fillRect(-4, -6, 8, 8);
       ctx.fillStyle = d.foe ? '#b45309' : '#d8bd8e';
       ctx.beginPath(); ctx.arc(0, -10, 4, 0, 7); ctx.fill();
+      if (u.type === 'standard') {
+        drawTitleOfLibertyStandard(flip, now, u.id);
+      } else if (u.type === 'worker' && ((u.order && u.order.type === 'attack') || (u.cool && u.cool > 0.6))) {
+        drawWorkerScytheCombat(now, u.id);
+      }
+    }
+
+    if (u.type === 'cart' && u.burstUntil > W.t) {
+      if (!u.burstSoundPlayed) {
+        u.burstSoundPlayed = true;
+        if (AUDIO) AUDIO.play('cartSpeedBurst');
+      }
+      ctx.strokeStyle = 'rgba(254, 240, 138, 0.7)'; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
+      for (let s = 0; s < 3; s++) {
+        const sy = -8 - s * 6;
+        ctx.beginPath();
+        ctx.moveTo(-uox - 4, sy);
+        ctx.lineTo(-uox - 22 - s * 5, sy);
+        ctx.stroke();
+      }
+    } else if (u.type === 'cart') {
+      u.burstSoundPlayed = false;
     }
     
     ctx.restore();
@@ -2069,10 +2202,45 @@ IMG.farm.src = 'assets/farm.png?v=13';
         const bannerY = b.tier === 1 ? iy - h * 0.45 : b.tier === 2 ? iy - h * 0.65 : iy - h * 0.75;
         banner(ix + 8, bannerY, '#f4f1e6', now, b.id);
       }
+      if (b.built >= 1) {
+        const inScreen = ix > cam.x - 100 && ix < cam.x + vw / cam.z + 100 && iy > cam.y - 100 && iy < cam.y + vh / cam.z + 100;
+        if (b.type === 'sawmill') {
+          // Spinning bronze circular saw blade / waterwheel (Helaman 3:9)
+          const sawAngle = (now * 0.008) % (Math.PI * 2);
+          ctx.save();
+          ctx.translate(ix + 6, iy - 16);
+          ctx.rotate(sawAngle);
+          ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2.0;
+          ctx.beginPath(); ctx.arc(0, 0, 7.5, 0, Math.PI * 2); ctx.stroke();
+          ctx.strokeStyle = '#fef08a'; ctx.lineWidth = 1.0;
+          for (let a = 0; a < 4; a++) {
+            const rad = a * Math.PI / 2;
+            ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(rad) * 7.5, Math.sin(rad) * 7.5); ctx.stroke();
+          }
+          ctx.restore();
+          if (inScreen && Math.random() < 0.003 && AUDIO) AUDIO.play('industrySaw');
+        } else if (b.type === 'brickworks') {
+          // Warm pulsating kiln furnace glow in brick archway (Helaman 3:7)
+          const kilnGlow = 0.5 + 0.3 * Math.sin(now * 0.005 + b.id);
+          ctx.fillStyle = `rgba(249, 115, 22, ${kilnGlow})`;
+          ctx.beginPath(); ctx.ellipse(ix + 4, iy - 18, 9, 5.5, 0, 0, 7); ctx.fill();
+          ctx.fillStyle = `rgba(254, 240, 138, ${kilnGlow * 0.8})`;
+          ctx.beginPath(); ctx.ellipse(ix + 4, iy - 18, 4.5, 2.5, 0, 0, 7); ctx.fill();
+        } else if (b.type === 'quarry') {
+          if (inScreen && Math.random() < 0.003 && AUDIO) AUDIO.play('industryChisel');
+        } else if (b.type === 'armory') {
+          if (inScreen && Math.random() < 0.003 && AUDIO) AUDIO.play('industryAnvil');
+        }
+      }
     } else if (b.type === 'smithy' && ready(IMG.armory)) {   // the armory's picture, on the smaller plot, with the forge's glow
       const a = SPRITE.armory, im = IMG.armory, front = isoAt((b.tx + b.w) * TILE, (b.ty + b.h) * TILE, top), sc = (b.w + b.h) * TILE / a.span;
       ctx.drawImage(im, ix - a.cx * sc, front.iy - a.by * sc, im.naturalWidth * sc, im.naturalHeight * sc);
-      if (b.built >= 1) { ctx.fillStyle = `rgba(255, 150, 40, ${0.55 + 0.25 * Math.sin(now / 90 + b.id)})`; ctx.beginPath(); ctx.arc(ix + 4, iy - 14, 4.5, 0, Math.PI * 2); ctx.fill(); }
+      if (b.built >= 1) {
+        ctx.fillStyle = `rgba(255, 150, 40, ${0.55 + 0.25 * Math.sin(now / 90 + b.id)})`;
+        ctx.beginPath(); ctx.arc(ix + 4, iy - 14, 4.5, 0, Math.PI * 2); ctx.fill();
+        const inScreen = ix > cam.x - 100 && ix < cam.x + vw / cam.z + 100 && iy > cam.y - 100 && iy < cam.y + vh / cam.z + 100;
+        if (inScreen && Math.random() < 0.003 && AUDIO) AUDIO.play('industryAnvil');
+      }
     } else if (b.type === 'training') {
       drawTraining(b, now);
     } else { ctx.fillStyle = '#bfa97c'; ctx.fillRect(ix - w * 0.5, iy - h, w, h); }
@@ -2125,6 +2293,148 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.quadraticCurveTo(x + 8, y - 6 + wave, x + 15, y - 3 + wave); ctx.lineTo(x + 15, y + 6 + wave);
     ctx.quadraticCurveTo(x + 8, y + 4 + wave, x + 1, y + 6); ctx.closePath(); ctx.fill();
     ctx.strokeStyle = 'rgba(0,0,0,.35)'; ctx.lineWidth = 0.8; ctx.stroke();
+  }
+
+  // The Title of Liberty (Alma 46:12–13): Captain Moroni's torn coat fastened upon the end of a pole
+  function drawTitleOfLibertyStandard(flip, now, id) {
+    ctx.save();
+    const poleX = -2;
+    const poleBottomY = 4;
+    const poleTopY = -68;
+
+    // 1. Carved Hardwood Spear-Staff
+    ctx.strokeStyle = '#3e2009'; ctx.lineWidth = 2.8; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(poleX, poleBottomY); ctx.lineTo(poleX, poleTopY); ctx.stroke();
+    ctx.strokeStyle = '#78350f'; ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(poleX - 0.4, poleBottomY); ctx.lineTo(poleX - 0.4, poleTopY); ctx.stroke();
+
+    // Golden grip rings
+    ctx.fillStyle = '#f59e0b';
+    ctx.fillRect(poleX - 2, -26, 4, 3);
+    ctx.fillRect(poleX - 2, -32, 4, 2);
+
+    // Bronze spearhead point atop staff
+    ctx.fillStyle = '#b45309';
+    ctx.beginPath();
+    ctx.moveTo(poleX - 3.5, poleTopY + 2);
+    ctx.lineTo(poleX, poleTopY - 9);
+    ctx.lineTo(poleX + 3.5, poleTopY + 2);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = '#fef08a';
+    ctx.beginPath();
+    ctx.moveTo(poleX - 1.2, poleTopY + 1);
+    ctx.lineTo(poleX, poleTopY - 8);
+    ctx.lineTo(poleX + 1.2, poleTopY + 1);
+    ctx.closePath();
+    ctx.fill();
+
+    // 2. Dynamic Aerodynamic Linen Wind Waves
+    const w1 = Math.sin(now * 0.0045 + id) * 4.2;
+    const w2 = Math.sin(now * 0.008 + id * 1.6) * 2.4;
+    const w3 = Math.cos(now * 0.012 + id * 2.2) * 1.8;
+
+    const topY = poleTopY + 4;
+    const bannerH = 30;
+    const bannerL = 34; // length of cloth trailing backward
+
+    // Sacred Covenant Radiant Glow
+    const auraAlpha = 0.32 + 0.16 * Math.sin(now * 0.0035 + id);
+    ctx.strokeStyle = `rgba(253, 230, 138, ${auraAlpha})`;
+    ctx.lineWidth = 3.2;
+    ctx.beginPath();
+    ctx.moveTo(poleX, topY);
+    ctx.bezierCurveTo(poleX - 10, topY + w1, poleX - 22, topY - 2 + w2, poleX - bannerL, topY + w1 + w2);
+    ctx.lineTo(poleX - bannerL, topY + bannerH + w1 + w2 + w3);
+    ctx.bezierCurveTo(poleX - 22, topY + bannerH - 2 + w2, poleX - 10, topY + bannerH + w1, poleX, topY + bannerH);
+    ctx.stroke();
+
+    // 3. Woven Bleached Linen Cloth Body (Moroni's rent coat)
+    ctx.fillStyle = '#faf8f5';
+    ctx.beginPath();
+    ctx.moveTo(poleX, topY);
+    ctx.bezierCurveTo(poleX - 10, topY + w1, poleX - 22, topY - 2 + w2, poleX - bannerL, topY + w1 + w2);
+    
+    // Ragged torn bottom edge (rent coat silhouette)
+    ctx.lineTo(poleX - bannerL, topY + bannerH * 0.75 + w1 + w2);
+    ctx.lineTo(poleX - bannerL + 5, topY + bannerH + w1 + w2);
+    ctx.lineTo(poleX - bannerL + 11, topY + bannerH * 0.85 + w2);
+    ctx.lineTo(poleX - bannerL + 18, topY + bannerH + w1);
+    ctx.lineTo(poleX - bannerL + 25, topY + bannerH * 0.9 + w1);
+    ctx.lineTo(poleX, topY + bannerH);
+    ctx.closePath();
+    ctx.fill();
+
+    // Shading on cloth folds
+    ctx.fillStyle = 'rgba(214, 209, 199, 0.45)';
+    ctx.beginPath();
+    ctx.moveTo(poleX - 12, topY + w1);
+    ctx.quadraticCurveTo(poleX - 18, topY + bannerH * 0.5 + w2, poleX - 14, topY + bannerH * 0.9);
+    ctx.lineTo(poleX - 17, topY + bannerH * 0.9);
+    ctx.quadraticCurveTo(poleX - 21, topY + bannerH * 0.5 + w2, poleX - 15, topY + w1);
+    ctx.closePath();
+    ctx.fill();
+
+    // 4. Crimson & Gold Ornamental Borders
+    ctx.strokeStyle = '#991b1b'; ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.moveTo(poleX, topY + 1.2);
+    ctx.bezierCurveTo(poleX - 10, topY + 1.2 + w1, poleX - 22, topY - 0.8 + w2, poleX - bannerL, topY + 1.2 + w1 + w2);
+    ctx.stroke();
+    ctx.strokeStyle = '#d97706'; ctx.lineWidth = 1.0;
+    ctx.beginPath();
+    ctx.moveTo(poleX, topY + 2.8);
+    ctx.bezierCurveTo(poleX - 10, topY + 2.8 + w1, poleX - 22, topY + 0.8 + w2, poleX - bannerL, topY + 2.8 + w1 + w2);
+    ctx.stroke();
+
+    // 5. Ancient Reformed Egyptian Script Lines ("In memory of our God...")
+    ctx.strokeStyle = 'rgba(41, 37, 36, 0.7)'; ctx.lineWidth = 1.1; ctx.lineCap = 'butt';
+    for (let r = 0; r < 3; r++) {
+      const lineY = topY + 8 + r * 6.5;
+      const lw1 = (w1 + w2) * (0.4 + r * 0.25);
+      ctx.beginPath();
+      ctx.moveTo(poleX - 4, lineY + lw1 * 0.5);
+      ctx.lineTo(poleX - 9, lineY + lw1 * 0.7);
+      ctx.moveTo(poleX - 11, lineY + lw1 * 0.8);
+      ctx.lineTo(poleX - 18, lineY + lw1 * 0.9);
+      ctx.moveTo(poleX - 20, lineY + lw1);
+      ctx.lineTo(poleX - 27, lineY + lw1);
+      ctx.stroke();
+    }
+
+    // 6. Fluttering Frayed Threads at the Trailing Edge
+    ctx.strokeStyle = '#f4f1e6'; ctx.lineWidth = 0.9;
+    ctx.beginPath();
+    ctx.moveTo(poleX - bannerL, topY + 4 + w1 + w2);
+    ctx.lineTo(poleX - bannerL - 5, topY + 6 + w1 + w2 + w3);
+    ctx.moveTo(poleX - bannerL, topY + bannerH * 0.5 + w2);
+    ctx.lineTo(poleX - bannerL - 6, topY + bannerH * 0.5 + w2 + w1);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  // Worker Scythe Defensive Combat Stance
+  function drawWorkerScytheCombat(now, id) {
+    ctx.save();
+    const cycle = ((now * 0.005 + id) % 1.0);
+    const slash = Math.sin(cycle * Math.PI);
+    // Dynamic sweeping curved scythe blade in local unit coordinates
+    ctx.translate(2, -18);
+    ctx.rotate(slash * 0.65);
+    // Shaft
+    ctx.strokeStyle = '#5c2e0b'; ctx.lineWidth = 2.4; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(-6, 12); ctx.lineTo(12, -14); ctx.stroke();
+    // Silver blade
+    ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2.8;
+    ctx.beginPath(); ctx.arc(12, -14, 10, -1.2, 0.8); ctx.stroke();
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.4;
+    ctx.beginPath(); ctx.arc(12, -14, 10, -0.6, 0.4); ctx.stroke();
+    if (slash > 0.65) {
+      ctx.fillStyle = '#fef08a';
+      ctx.beginPath(); ctx.arc(17, -19, 2.0, 0, 7); ctx.fill();
+    }
+    ctx.restore();
   }
 
   // Earthworks (Alma 50:1–3): a bank of earth with grass on top, joined to the banks beside it, and a frame of pickets
@@ -2370,10 +2680,49 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const gy = p0.iy + (p1.iy - p0.iy) * p;
 
       if (f.kind === 'stone') {
+        if (!f.launchedSound) {
+          f.launchedSound = true;
+          if (AUDIO) AUDIO.play('cartFlingStone');
+        }
         const q = clamp((W.t - f.t) / 0.5, 0, 1), sx = p0.ix + (p1.ix - p0.ix) * q, sy = p0.iy - 26 * (1 - q * q) + (p1.iy - p0.iy) * q;
         if (q < 1) { ctx.fillStyle = '#9ca3af'; ctx.strokeStyle = '#4b5563'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(sx, sy - 4, 3.5, 0, 7); ctx.fill(); ctx.stroke(); }
         else if (!f.dusted) { f.dusted = true; addDust(p1.ix, p1.iy); addDust(p1.ix + 4, p1.iy); addDust(p1.ix - 4, p1.iy); if (AUDIO) AUDIO.play('combatHit'); }
         continue;
+      }
+      if (f.stake) {
+        if (!f.stakeSound) {
+          f.stakeSound = true;
+          if (AUDIO) AUDIO.play('cartStakes');
+          for (let k = 0; k < 5; k++) {
+            particles.push({
+              ix: p1.ix + (Math.random() - 0.5) * 14, iy: p1.iy + (Math.random() - 0.5) * 8,
+              vx: (Math.random() - 0.5) * 1.5, vy: -1.0 - Math.random() * 1.5,
+              size: 2.0, wood: true, life: 0, maxLife: 20
+            });
+          }
+        }
+        ctx.save();
+        ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.4; ctx.lineCap = 'round';
+        for (let s = -1; s <= 1; s++) {
+          const sx = p1.ix + s * 6, sy = p1.iy;
+          ctx.beginPath();
+          ctx.moveTo(sx, sy);
+          ctx.lineTo(sx - s * 2, sy - 13 + Math.abs(s) * 3);
+          ctx.stroke();
+          ctx.strokeStyle = '#fef08a'; ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(sx - s * 2, sy - 10 + Math.abs(s) * 3);
+          ctx.lineTo(sx - s * 2, sy - 13 + Math.abs(s) * 3);
+          ctx.stroke();
+          ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.4;
+        }
+        ctx.restore();
+        continue;
+      }
+      if (f.scythe && !f.scytheSound) {
+        f.scytheSound = true;
+        if (AUDIO) AUDIO.play('scytheSlash');
+        addSpark(p1.ix, p1.iy - 10);
       }
       if (f.kind === 'javelin') {
         const dist = Math.hypot(p1.ix - p0.ix, p1.iy - p0.iy);
@@ -3372,8 +3721,18 @@ IMG.farm.src = 'assets/farm.png?v=13';
       toast(W.whyNotBuild('gate') ? W.whyNotBuild('gate') + '.' : poorText(W.costOf(BUILDINGS.gate, 'p', 'build')), 'warn');
     }
     else if (act === 'deploy' && one) {
+      const pos = { x: one.x, y: one.y };
       const city = W.deploy(one);
-      if (city) { if (AUDIO) AUDIO.announce('deploy'); return setSel([city]); }
+      if (city) {
+        triggerPlantStandardEffect(city, pos, performance.now());
+        if (AUDIO) {
+          AUDIO.play('plantStandard');
+          AUDIO.announce('deploy');
+        }
+        camShake = 7.0;
+        toast('“In memory of our God, our religion, and freedom, and our peace, our wives, and our children…” (Alma 46:12)', 'good');
+        return setSel([city]);
+      }
       toast('The city needs open ground, 4 by 4. Move the standard to a clear spot.', 'warn');
     }
     refreshPanel(true);
@@ -3472,6 +3831,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function addMsg(text, kind, ref) {
     if (AUDIO) {
       if (text.includes('is finished')) AUDIO.announce('buildDone');
+      else if (text.includes('advances to Tier') || text.includes('reaches Tier') || text.includes('Acropolis Citadel is complete')) {
+        AUDIO.play('upgradeCheer');
+      }
       else if (text.includes('is ready')) {
         const name = text.replace(' is ready.', '').trim();
         AUDIO.announce('unitReady', name);
@@ -3609,6 +3971,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Off the battlefield: the game in progress is saved first (it can be continued from the opening page).
   function leaveGame() {
     if (W && !W.over) autosave();
+    if (AUDIO && AUDIO.stopAmbience) AUDIO.stopAmbience();
     W = null; mission = null; sel = []; placing = null; aiming = null;
     setGameUi(false);
     dropGuard();
@@ -4060,20 +4423,96 @@ IMG.farm.src = 'assets/farm.png?v=13';
     s.onclick = null;
   }
 
+  // Canonical Book of Mormon War Council Dialogues before battle
+  const WAR_COUNCILS = {
+    m3: {
+      title: 'Council at the River Sidon',
+      ref: 'Alma 43:23–24',
+      speakers: [
+        { name: 'Captain Moroni', role: 'Chief Captain', cameo: 'cameo_moroni', quote: 'Inquire of the Lord whether our armies shall go into the wilderness to search out the Lamanites.' },
+        { name: 'Alma the Younger', role: 'High Priest & Prophet', cameo: 'cameo_plates', quote: 'Behold, the Lamanites will cross the river Sidon in the south wilderness, away by the head of the river.' },
+        { name: 'Chief Lehi', role: 'Nephite Commander', cameo: 'cameo_spearman', quote: 'We shall conceal our men in the valley east of Sidon, and fall upon their rear when they pass.' }
+      ]
+    },
+    m4: {
+      title: 'Moroni\'s Covenant Council',
+      ref: 'Alma 46:12–13',
+      speakers: [
+        { name: 'Captain Moroni', role: 'Chief Captain', cameo: 'cameo_moroni', quote: 'In memory of our God, our religion, and freedom, and our peace, our wives, and our children!' },
+        { name: 'Nephite Council', role: 'Voice of the People', cameo: 'cameo_council', quote: 'Whosoever will maintain this title upon the land, let them come forth in the strength of the Lord!' }
+      ]
+    },
+    m5: {
+      title: 'Council on Fortifications',
+      ref: 'Alma 48:8, Alma 49:4',
+      speakers: [
+        { name: 'Captain Moroni', role: 'Chief Captain', cameo: 'cameo_moroni', quote: 'We shall cast up dirt round about to shield our men, and build timber pickets higher than a man\'s stature.' },
+        { name: 'Chief Lehi', role: 'City Commander', cameo: 'cameo_spearman', quote: 'Ammonihah and Noah are fortified; the enemy expects easy plunder, but they shall meet walls of stone and earth.' }
+      ]
+    },
+    m6: {
+      title: 'Covenant of the Two Thousand',
+      ref: 'Alma 53:17, Alma 56:46',
+      speakers: [
+        { name: 'Helaman', role: 'Prophet & Captain', cameo: 'cameo_helaman', quote: 'They entered into a covenant that they never would give up their liberty, but would fight in all cases.' },
+        { name: 'Stripling Warrior', role: 'Son of the Anti-Nephi-Lehies', cameo: 'cameo_stripling', quote: 'Father, behold our God is with us, and he will not suffer that we should fall; our mothers taught us!' }
+      ]
+    },
+    m1: {
+      title: 'The Great Gathering Council',
+      ref: '3 Nephi 3:21–22',
+      speakers: [
+        { name: 'Governor Lachoneus', role: 'Chief Judge', cameo: 'cameo_council', quote: 'Gather together all our people with their flocks and herds into one place, in the land of Zarahemla.' },
+        { name: 'Gidgiddoni', role: 'Chief Captain & Prophet', cameo: 'cameo_moroni', quote: 'Except the Lord bid us, we will not go against them; but we will prepare and wait until they come down upon us.' }
+      ]
+    },
+    m2: {
+      title: 'Council of the Siege',
+      ref: '3 Nephi 4:18–19',
+      speakers: [
+        { name: 'Gidgiddoni', role: 'Chief Captain', cameo: 'cameo_moroni', quote: 'The robbers have no meat save it be in the wilderness; their provisions fail, and famine weakens their host.' },
+        { name: 'Governor Lachoneus', role: 'Chief Judge', cameo: 'cameo_council', quote: 'Hold the strongholds and guard the storehouses! In the strength of the Lord the siege shall be broken.' }
+      ]
+    }
+  };
+
   // What game this is, in a line: the briefing's kicker, and the saved game's on the opening page.
   const kickerOf = m => m.kicker ? m.kicker() : m === FREE ? `Free battle · ${FREE.LEVELS[FREE.level].name} · ${SIDES[FREE.side === 'kingmen' ? 'kingmen' : 'freemen'].name}`
     : `${CAMPAIGNS.find(c => c.id === m.campaign).title} · Mission ${inCampaign(m).indexOf(m) + 1} · ${m.chapter}`;
   function briefing(m) {
+    const councilData = WAR_COUNCILS[m.id];
+    const councilHtml = councilData ? `<div class="councilCard" style="background:rgba(26,20,13,0.88);border:1.5px solid rgba(212,160,23,0.45);border-radius:10px;padding:14px 18px;margin:16px 0;box-shadow:0 4px 16px rgba(0,0,0,0.4)">
+      <div style="font-size:11px;letter-spacing:1.5px;color:#d4a017;text-transform:uppercase;font-weight:700;margin-bottom:10px">📜 War Council · ${esc(councilData.title)} ${refBtn(councilData.ref)}</div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        ${councilData.speakers.map(s => `
+          <div style="display:flex;gap:12px;align-items:center">
+            <img src="${webp(`assets/${s.cameo}.png?v=5`)}" alt="${esc(s.name)}" style="width:42px;height:42px;border-radius:50%;border:1.5px solid #d4a017;object-fit:cover;flex-shrink:0;background:#2a1c0d">
+            <div style="flex:1">
+              <div style="font-size:12px;font-weight:700;color:#fef08a">${esc(s.name)} <span style="font-weight:400;color:#a8a29e;font-size:11px">(${esc(s.role)})</span></div>
+              <div style="font-size:13px;font-style:italic;color:#e7e5e4;line-height:1.4">&ldquo;${esc(s.quote)}&rdquo;</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>` : '';
+
     showScreen(`<div class="wrap brief">
       <div class="kicker">${esc(kickerOf(m))} · ${esc(m.year)}</div>
       <h2 style="font-size:32px">${esc(m.title)}</h2>
       <ul>${m.briefing.map(([t, r]) => `<li>${esc(t)} ${refBtn(r)}</li>`).join('')}</ul>
+      ${councilHtml}
       ${m === FREE ? `<p class="lede">You are the ${m.side === 'kingmen' ? 'King-men' : 'Freemen'}, under ${esc(CAPTAINS[m.side === 'kingmen' ? 'kingmen' : 'freemen'][m.captain].name)}.</p>` : ''}
       <div class="goalbox"><b>Your goals.</b> ${esc(m.goals)}</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn go" id="bBegin">Begin</button><button class="btn" id="bTips">Tips</button><button class="btn" id="bBack">Back</button></div></div>`);
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn go" id="bBegin">Begin</button>
+        ${m.campaign ? '<button class="btn" id="bMap">View Map</button>' : ''}
+        <button class="btn" id="bTips">Tips</button>
+        <button class="btn" id="bBack">Back</button>
+      </div></div>`);
     $('bBegin').onclick = () => askThenBegin(m);
     $('bBack').onclick = () => menuFor(m)();
     $('bTips').onclick = () => showTips(tipsKey(m));
+    if ($('bMap')) $('bMap').onclick = () => storyScreen();
     if (!(save.tips || {})[tipsKey(m)]) showTips(tipsKey(m));
   }
 
@@ -4134,6 +4573,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // The screen around a world, new or loaded (`ui`: what save.js kept of the screen: the council, the camera, what was explored).
   function enterGame(m, ui) {
     loadPictures();                                         // (if the opening page hadn't finished, the game's pictures start now)
+    if (AUDIO && AUDIO.startAmbience) AUDIO.startAmbience();
     mission = m;
     buildHeights();
     sel = []; placing = null; wallLine = null; painted = null; miniDirty = true; endShown = false; particles.length = 0;
@@ -4373,6 +4813,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
   requestAnimationFrame(frame);
   // A window on the game for automated play-throughs in a browser.
   window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, get sel() { return sel; }, get selEnts() { return selEnts(); }, cam, begin: (id, level, length) => { const m = id === 'free' ? FREE : id === 'wild' ? WILD : MISSIONS.find(m => m.id === id); if (level) m.level = level; if (length) m.length = length; begin(m, { noSave: true }); }, toWorld, lookAt, setSel: s => setSel(s), refreshPanel: () => refreshPanel(true),
+    briefing: (id) => { const m = typeof id === 'string' ? MISSIONS.find(x => x.id === id) : id; briefing(m); },
+    storyScreen: () => storyScreen(),
+    home: () => home(),
     screenOf: (x, y) => toScreen(x, y),
     hidden: () => ({ terrain, shroudCv, trees: TREES }),         // the canvases painted once, for tests that wipe them
     remoteClick: (sx, sy, color) => {

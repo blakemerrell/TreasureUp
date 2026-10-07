@@ -19,8 +19,75 @@ const LIB_AUDIO = (() => {
     }
   }
 
+  let ambientNoiseNode = null;
+  let ambientGain = null;
+  let ambientFilter = null;
+  let ambientRunning = false;
+
+  function startAmbience() {
+    if (muted || ambientRunning || typeof window === 'undefined') return;
+    wake();
+    if (!ctx) return;
+    try {
+      const bufferSize = ctx.sampleRate * 3;
+      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const output = noiseBuffer.getChannelData(0);
+      let b0 = 0, b1 = 0, b2 = 0;
+      for (let i = 0; i < bufferSize; i++) {
+        const white = Math.random() * 2 - 1;
+        b0 = 0.99 * b0 + white * 0.05;
+        b1 = 0.95 * b1 + white * 0.05;
+        b2 = 0.85 * b2 + white * 0.05;
+        output[i] = (b0 + b1 + b2) * 0.35;
+      }
+
+      ambientNoiseNode = ctx.createBufferSource();
+      ambientNoiseNode.buffer = noiseBuffer;
+      ambientNoiseNode.loop = true;
+
+      ambientFilter = ctx.createBiquadFilter();
+      ambientFilter.type = 'lowpass';
+      ambientFilter.frequency.setValueAtTime(280, ctx.currentTime);
+      ambientFilter.Q.setValueAtTime(1.4, ctx.currentTime);
+
+      ambientGain = ctx.createGain();
+      ambientGain.gain.setValueAtTime(0.001, ctx.currentTime);
+      ambientGain.gain.linearRampToValueAtTime(0.02, ctx.currentTime + 1.2);
+
+      ambientNoiseNode.connect(ambientFilter).connect(ambientGain).connect(ctx.destination);
+      ambientNoiseNode.start(0);
+      ambientRunning = true;
+    } catch (e) {}
+  }
+
+  function stopAmbience() {
+    if (!ambientRunning) return;
+    try {
+      if (ambientGain && ctx) {
+        ambientGain.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+        setTimeout(() => {
+          if (ambientNoiseNode) {
+            try { ambientNoiseNode.stop(); ambientNoiseNode.disconnect(); } catch (e) {}
+            ambientNoiseNode = null;
+          }
+          ambientRunning = false;
+        }, 450);
+      } else {
+        if (ambientNoiseNode) {
+          try { ambientNoiseNode.stop(); ambientNoiseNode.disconnect(); } catch (e) {}
+          ambientNoiseNode = null;
+        }
+        ambientRunning = false;
+      }
+    } catch (e) {
+      ambientRunning = false;
+    }
+  }
+
   function setMuted(val) {
     muted = !!val;
+    if (muted) stopAmbience();
+    else startAmbience();
     try {
       localStorage.setItem('liberty_muted', muted ? '1' : '0');
     } catch (e) {}
@@ -211,6 +278,141 @@ const LIB_AUDIO = (() => {
         });
         break;
       }
+      case 'plantStandard': {
+        haptic(45);
+        // Sacred Moroni Fanfare: Alma 46:12 Title of Liberty
+        // Dual brass horns (C4, G4, C5, E5, G5, C6) with golden temple chimes
+        const chord = [261.63, 392.00, 523.25, 659.25, 783.99, 1046.5];
+        chord.forEach((f, i) => {
+          // Brass horn tone
+          const o1 = ctx.createOscillator(), g1 = ctx.createGain();
+          o1.type = 'sawtooth';
+          o1.frequency.setValueAtTime(f, t + i * 0.07);
+          o1.frequency.linearRampToValueAtTime(f * 1.01, t + i * 0.07 + 0.35);
+          g1.gain.setValueAtTime(0.001, t + i * 0.07);
+          g1.gain.linearRampToValueAtTime(0.09, t + i * 0.07 + 0.05);
+          g1.gain.exponentialRampToValueAtTime(0.001, t + i * 0.07 + 0.65);
+          o1.connect(g1).connect(ctx.destination);
+          o1.start(t + i * 0.07); o1.stop(t + i * 0.07 + 0.7);
+
+          // Golden bell chime
+          const o2 = ctx.createOscillator(), g2 = ctx.createGain();
+          o2.type = 'sine';
+          o2.frequency.setValueAtTime(f * 2, t + i * 0.07);
+          g2.gain.setValueAtTime(0.001, t + i * 0.07);
+          g2.gain.linearRampToValueAtTime(0.06, t + i * 0.07 + 0.02);
+          g2.gain.exponentialRampToValueAtTime(0.001, t + i * 0.07 + 0.5);
+          o2.connect(g2).connect(ctx.destination);
+          o2.start(t + i * 0.07); o2.stop(t + i * 0.07 + 0.55);
+        });
+        break;
+      }
+      case 'cartStakes': {
+        haptic(16);
+        // Wooden stakes splintering and impaling ground
+        const osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(340, t);
+        osc.frequency.exponentialRampToValueAtTime(75, t + 0.08);
+        g.gain.setValueAtTime(0.14, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
+        osc.connect(g).connect(ctx.destination);
+        osc.start(t); osc.stop(t + 0.095);
+        break;
+      }
+      case 'cartFlingStone': {
+        haptic(14);
+        // Whoosh of stone thrown from wagon
+        const osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(140, t);
+        osc.frequency.linearRampToValueAtTime(320, t + 0.06);
+        osc.frequency.exponentialRampToValueAtTime(90, t + 0.14);
+        g.gain.setValueAtTime(0.09, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
+        osc.connect(g).connect(ctx.destination);
+        osc.start(t); osc.stop(t + 0.16);
+        break;
+      }
+      case 'cartSpeedBurst': {
+        haptic(15);
+        // Whip crack and gallop rush
+        const osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(600, t);
+        osc.frequency.exponentialRampToValueAtTime(120, t + 0.07);
+        g.gain.setValueAtTime(0.11, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+        osc.connect(g).connect(ctx.destination);
+        osc.start(t); osc.stop(t + 0.085);
+        break;
+      }
+      case 'scytheSlash': {
+        haptic(10);
+        // Whistling curved blade slice
+        const osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(720, t);
+        osc.frequency.exponentialRampToValueAtTime(260, t + 0.09);
+        g.gain.setValueAtTime(0.08, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.09);
+        osc.connect(g).connect(ctx.destination);
+        osc.start(t); osc.stop(t + 0.095);
+        break;
+      }
+      case 'industrySaw': {
+        // Sawmill timber cutting hum
+        const osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(110, t);
+        osc.frequency.linearRampToValueAtTime(125, t + 0.12);
+        osc.frequency.linearRampToValueAtTime(105, t + 0.25);
+        g.gain.setValueAtTime(0.001, t);
+        g.gain.linearRampToValueAtTime(0.035, t + 0.05);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+        osc.connect(g).connect(ctx.destination);
+        osc.start(t); osc.stop(t + 0.3);
+        break;
+      }
+      case 'industryChisel': {
+        // Quarry limestone stone clink
+        const osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1760, t);
+        osc.frequency.exponentialRampToValueAtTime(880, t + 0.06);
+        g.gain.setValueAtTime(0.05, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
+        osc.connect(g).connect(ctx.destination);
+        osc.start(t); osc.stop(t + 0.075);
+        break;
+      }
+      case 'industryAnvil': {
+        // Blacksmith iron forge ping
+        [1174.66, 2349.32].forEach((f, i) => {
+          const osc = ctx.createOscillator(), g = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(f, t);
+          g.gain.setValueAtTime(0.06 / (i + 1), t);
+          g.gain.exponentialRampToValueAtTime(0.001, t + 0.22);
+          osc.connect(g).connect(ctx.destination);
+          osc.start(t); osc.stop(t + 0.25);
+        });
+        break;
+      }
+      case 'upgradeCheer': {
+        haptic(25);
+        // Triumphant stronghold upgrade fanfare
+        [440, 554.37, 659.25, 880].forEach((f, i) => {
+          const osc = ctx.createOscillator(), g = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(f, t + i * 0.06);
+          g.gain.setValueAtTime(0.08, t + i * 0.06);
+          g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.06 + 0.25);
+          osc.connect(g).connect(ctx.destination);
+          osc.start(t + i * 0.06); osc.stop(t + i * 0.06 + 0.28);
+        });
+        break;
+      }
     }
   }
 
@@ -338,6 +540,8 @@ const LIB_AUDIO = (() => {
     setMuted,
     toggleMute,
     isMuted,
+    startAmbience,
+    stopAmbience,
     haptic
   };
 })();

@@ -489,7 +489,7 @@
           } else if (load === 'timber') {
             if (dist(target, from) <= 35 && target.cool <= 0) {
               target.face = Math.atan2(from.y - target.y, from.x - target.x);
-              this.effects.push({ t: this.t, x0: target.x, y0: target.y, x1: from.x, y1: from.y, kind: 'hit', team: target.team });
+              this.effects.push({ t: this.t, x0: target.x, y0: target.y, x1: from.x, y1: from.y, kind: 'hit', stake: true, team: target.team });
               this.damage(from, 8, target);
               target.cool = 1.4;
               from.slow = 0.5;
@@ -499,7 +499,7 @@
         } else if (target.type === 'worker') {
           if (dist(target, from) <= 22 && target.cool <= 0) {
             target.face = Math.atan2(from.y - target.y, from.x - target.x);
-            this.effects.push({ t: this.t, x0: target.x, y0: target.y, x1: from.x, y1: from.y, kind: 'hit', team: target.team });
+            this.effects.push({ t: this.t, x0: target.x, y0: target.y, x1: from.x, y1: from.y, kind: 'hit', scythe: true, team: target.team });
             this.damage(from, target.def.dmg || 5, target);
             target.cool = target.def.cd || 1.2;
           }
@@ -897,7 +897,7 @@
           const foe = this.enemiesNear(u, u.team, 35, true);
           if (foe) {
             u.face = Math.atan2(foe.y - u.y, foe.x - u.x);
-            this.effects.push({ t: this.t, x0: u.x, y0: u.y, x1: foe.x, y1: foe.y, kind: 'hit', team: u.team });
+            this.effects.push({ t: this.t, x0: u.x, y0: u.y, x1: foe.x, y1: foe.y, kind: 'hit', stake: true, team: u.team });
             this.damage(foe, 8, u);
             u.cool = 1.4;
             foe.slow = 0.5;
