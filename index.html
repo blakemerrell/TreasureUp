@@ -19530,6 +19530,10 @@ const TreasureUp = (function () {
 const WEEKS = window.TU_WEEKS || [];
 const WEEK_CONTENT = TreasureUp.pickWeek(WEEKS);
 TreasureUp.boot(WEEK_CONTENT);
+// It opens with no Wi-Fi too: sw.js keeps a copy of the app (README, Hosting).
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname))) {
+  addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
 </script>
 
 </body>

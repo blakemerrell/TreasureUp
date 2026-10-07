@@ -166,6 +166,11 @@ jobs:
       - name: Stamp this deploy on Wika's scripts
         run: sed -i "s/?v=dev\"/?v=${GITHUB_SHA::8}\"/g" amigo/index.html
 
+      # The app's offline copy (sw.js) is named by this deploy, so a phone
+      # that opens it with a connection keeps this deploy's, not an older one.
+      - name: Stamp this deploy on the offline copy
+        run: sed -i "s/const VERSION = 'dev';/const VERSION = '${GITHUB_SHA::8}';/" sw.js && grep -q "VERSION = '${GITHUB_SHA::8}'" sw.js
+
       - uses: actions/configure-pages@v6
 
       # The app is a single self-contained index.html at the repo root,

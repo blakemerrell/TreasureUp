@@ -616,6 +616,8 @@ and a finished goal go end to end; and a game night (a live game on a TV and two
 phones, Babylon Falls' map reloaded). They read the week from `content/weeks.js`,
 so they never need changing when the week does. How to run them: `tests/README.md`.
 
+**With no Wi-Fi** (review, 2026-10-07: "Yes, add it"): once the app has been opened with a connection, `sw.js` keeps a copy, so it opens offline and Today's study runs with the week's chapters; what he does saves to the family when the connection's back. With a connection everything comes fresh from the site first, as before, so each deploy reaches him the same way; the deploy stamps its commit into `sw.js` so the copy follows. Pictures, Be still's tracks and the Firebase library are kept once fetched. `tests/offline.test.mjs` opens it offline.
+
 **On his phone:** open the link in Safari → Share → **Add to Home Screen**. On
 iOS it launches full-screen like an app. On Android, Chrome's **Add to Home
 screen** installs it full-screen too (`manifest.webmanifest` and `icons/`).
