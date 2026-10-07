@@ -181,8 +181,9 @@ function reviewItems(week) {
   for (const t of Array.isArray(week.treasure) ? week.treasure : []) items.push({ key: 'treasure:' + t.id, approved: t.approved, hash: approvalHash(withoutApproval(t)) });
   for (const g of Array.isArray(week.guide) ? week.guide : []) items.push({ key: 'guide:' + (g && g.id), approved: g && g.approved, hash: approvalHash(withoutApproval(g || {})) });
   if (week.family) items.push({ key: 'family', approved: week.family.approved, hash: approvalHash(withoutApproval(week.family)) });
-  // An insight card's fingerprint leaves out its deep dive, which has its own (deep.approved).
-  for (const x of Array.isArray(week.insights) ? week.insights : []) { const c = withoutApproval(x || {}); delete c.deep; items.push({ key: 'insight:' + (x && x.id), approved: x && x.approved, hash: approvalHash(c) }); }
+  // An insight card's fingerprint leaves out its deep dive and its note in the
+  // reader, which have their own (deep.approved, margin.approved).
+  for (const x of Array.isArray(week.insights) ? week.insights : []) { const c = withoutApproval(x || {}); delete c.deep; delete c.margin; items.push({ key: 'insight:' + (x && x.id), approved: x && x.approved, hash: approvalHash(c) }); }
   return items;
 }
 // Weeks from here on can't go live without every piece approved; the two
@@ -1192,6 +1193,36 @@ async function main(scripture, week, pages, online) {
           if (page != null && !norm(page).includes(trimPunct(norm(q)))) fail(w3, `“${q}” is not on ${s.url}`);
         }
         if (home) checkRefs(w3, 'note', v, home);
+      }
+      // Its note in the reader (Blake, 2026-10-07): `glance`, one sentence
+      // under its first verse (5 to 24 words); `short`, "In a sentence", what
+      // a child or youth reads first (5 to 30 words); `place`, 'note' (it
+      // leaves the Study tab) or 'both'. Our own words: a quote is the verses'
+      // own, or the card's, or at most one of 12 words or fewer from the page
+      // (found there with --online). Shown once approved, on its own.
+      if (x.margin !== undefined) {
+        const g = x.margin && typeof x.margin === 'object' ? x.margin : {}, w4 = where + ' note in the reader';
+        const extra = Object.keys(g).filter(k => !['glance', 'short', 'place', 'approved'].includes(k));
+        if (extra.length) fail(w4, `has ${extra.join(', ')}; a note has glance, short and place`);
+        if (x.kind === 'video') fail(w4, 'a video card stays a card, with no note');
+        if (!['note', 'both'].includes(g.place)) fail(w4, 'place must be "note" (a note only) or "both" (a card too)');
+        if (count(g.glance) < 5 || count(g.glance) > 24) fail(w4, `glance is ${count(g.glance)} words (5 to 24)`);
+        if (count(g.short) < 5 || count(g.short) > 30) fail(w4, `short is ${count(g.short)} words (5 to 30)`);
+        if ((String(g.glance || '').match(/[.?](\s|$)/g) || []).length > 1) fail(w4, 'glance is one sentence');
+        const both = [g.glance, g.short].map(t => String(t || '')).join(' ');
+        if (/["']/.test(both)) fail(w4, 'uses a straight quote; use “ ” ’');
+        if (/!/.test(both)) fail(w4, 'has an exclamation mark');
+        if ((both.match(/“/g) || []).length !== (both.match(/”/g) || []).length) fail(w4, 'has unbalanced “quotes”');
+        if (/\b(thee|thou|thy|thine|ye|hath|saith|doth|shalt|unto)\b/i.test(both.replace(/“[^”]*”/g, ' '))) fail(w4, 'has KJV English outside a quote');
+        const own = [x.text, x.quote, x.note, x.title, ...((x.deep && x.deep.paras) || [])].filter(Boolean).join(' ');
+        const nq = [...new Set((both.match(/“[^”]*”/g) || []).map(q => q.slice(1, -1)))].filter(q => !(refText && quoteMatches(q, refText)) && !quoteMatches(q, own));
+        if (nq.length > 1) fail(w4, `quotes the page ${nq.length} times; once at most`);
+        for (const q of nq) {
+          if (count(q) > 12) fail(w4, `“${q}” is ${count(q)} words; 12 at most`);
+          const page = online && site ? pages.get(s.url) : null;
+          if (page != null && !norm(page).includes(trimPunct(norm(q)))) fail(w4, `“${q}” is not on ${s.url}`);
+        }
+        if (!g.approved || g.approved !== approvalHash(withoutApproval(g))) note(`${w4}: ${g.approved ? 'changed since it was approved' : 'not approved yet'}; the card shows without it until it is`);
       }
       // Its deep dive (Blake, 2026-10-03: "Longer adult level deep dive would
       // be great!"), folded under the card: the same point at length for a

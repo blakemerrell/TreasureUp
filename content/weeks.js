@@ -3067,7 +3067,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-50"
         },
         "find": "In essence, the Lord is asking, do I lack power to redeem?",
-        "approved": "17c9ee3b"
+        "approved": "17c9ee3b",
+        "margin": {
+          "glance": "In Hebrew, “hand” also means power: the Lord is asking if He is too weak to redeem.",
+          "short": "In Hebrew, the word for hand also means power. So God is asking if He is too weak to save you, and He isn’t.",
+          "place": "note"
+        }
       },
       {
         "id": "isa50-advocate",
@@ -3103,6 +3108,11 @@ window.TU_WEEKS = [
             "previewed": true
           },
           "approved": "62232159"
+        },
+        "margin": {
+          "glance": "Satan is the adversary and accuser, but Jesus is our Advocate who stands beside us.",
+          "short": "Satan tries to accuse you. Jesus stands up for you, and when He is near, the accuser has nothing to say.",
+          "place": "both"
         }
       },
       {
@@ -3116,7 +3126,12 @@ window.TU_WEEKS = [
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-student-manual-2026/40-isaiah-50-57/401-isaiah-51-52?lang=eng"
         },
         "find": "to hear what the Savior says and then to heed His counsel",
-        "approved": "606ea79b"
+        "approved": "606ea79b",
+        "margin": {
+          "glance": "President Nelson taught that “hearken,” said three times here, means “to listen with the intent to obey.”",
+          "short": "To hearken means to listen and then do what the Savior says. It’s more than just hearing.",
+          "place": "note"
+        }
       },
       {
         "id": "isa51-cup",
@@ -3130,7 +3145,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-51"
         },
         "find": "Jesus drinks the bitter cup so that we would not need to do so",
-        "approved": "8644f67a"
+        "approved": "8644f67a",
+        "margin": {
+          "glance": "Parry links this “cup of his fury” to the bitter cup Jesus drank for us in Doctrine and Covenants 19:18.",
+          "short": "Jesus drank a bitter cup for us. If we accept His help, we won’t have to drink it ourselves.",
+          "place": "note"
+        }
       },
       {
         "id": "isa52-redeemer",
@@ -3144,7 +3164,12 @@ window.TU_WEEKS = [
           "url": "https://rsc.byu.edu/finding-christ-covenant-path/redemption-gaal"
         },
         "find": "Knowing that the Lord is our Kinsman-Redeemer gives us confidence to ask for help",
-        "approved": "cc016177"
+        "approved": "cc016177",
+        "margin": {
+          "glance": "In Hebrew, a go’el was a kinsman who rescued family; the Lord is our Kinsman-Redeemer.",
+          "short": "The Lord is like a relative whose job is to rescue family. You can ask Him for help, even after your own mistakes.",
+          "place": "note"
+        }
       },
       {
         "id": "isa52-nauvoo",
@@ -3157,7 +3182,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/knowhy/where-does-the-name-nauvoo-come-from-0"
         },
         "find": "one of the only places the complete Hebrew word nauvoo appears in the entire Old Testament",
-        "approved": "01108894"
+        "approved": "01108894",
+        "margin": {
+          "glance": "Joseph Smith renamed a town Nauvoo, a rare Hebrew word for “beautiful” found whole in this verse.",
+          "short": "Nauvoo is a Hebrew word that means beautiful. A swampy town got that name and grew into a beautiful city.",
+          "place": "note"
+        }
       },
       {
         "id": "isa52-arm",
@@ -3171,7 +3201,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-52"
         },
         "find": "Anciently, men prepared for battle by removing their robes from their shoulders",
-        "approved": "a9fdc665"
+        "approved": "a9fdc665",
+        "margin": {
+          "glance": "“Made bare his holy arm”: like a warrior freeing his arm for battle, the Lord steps in to save.",
+          "short": "Long ago, men pulled back their robes to free their arms for battle. Isaiah shows the Lord ready to fight evil and save His people.",
+          "place": "note"
+        }
       },
       {
         "id": "isa52-vessels",
@@ -3185,7 +3220,12 @@ window.TU_WEEKS = [
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2000/10/sanctify-yourselves?lang=eng"
         },
         "find": "they themselves were to be as clean as the ceremonial instruments they bore",
-        "approved": "9d77951f"
+        "approved": "9d77951f",
+        "margin": {
+          "glance": "Elder Holland: those carrying the Lord’s holy vessels home from Babylon had to be as clean as what they carried.",
+          "short": "People carrying the temple’s holy cups had to be clean too. Elder Holland said this applies to deacons, teachers and priests at the sacrament.",
+          "place": "note"
+        }
       },
       {
         "id": "isa53-alma",
@@ -3199,7 +3239,12 @@ window.TU_WEEKS = [
           "url": "https://rsc.byu.edu/vol-16-no-2-2015/whom-arm-lord-revealed-part-1"
         },
         "find": "Of all the priests and other observers in King Noah",
-        "approved": "aa96b919"
+        "approved": "aa96b919",
+        "margin": {
+          "glance": "Of King Noah’s whole court, only Alma believed Abinadi’s reading of this chapter.",
+          "short": "When Abinadi read this chapter to King Noah’s court, only one man believed him: Alma.",
+          "place": "note"
+        }
       },
       {
         "id": "isa53-past-tense",
@@ -3212,7 +3257,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/knowhy/why-did-book-of-mormon-prophets-speak-of-future-events-as-if-they-had-already-happened"
         },
         "find": "Isaiah uses the past and perfect tenses to describe a series of events",
-        "approved": "53dffe8c"
+        "approved": "53dffe8c",
+        "margin": {
+          "glance": "Written 700 years early, but in the past tense: the “prophetic perfect.”",
+          "short": "Isaiah wrote this 700 years early, but as if it had already happened. That’s how sure it was.",
+          "place": "note"
+        }
       },
       {
         "id": "isa53-ethiopian",
@@ -3225,7 +3275,12 @@ window.TU_WEEKS = [
           "url": "https://www.churchofjesuschrist.org/study/manual/new-testament-seminary-student-manual-2023/acts-8?lang=eng"
         },
         "find": "The scripture passage the Ethiopian read is found in Isaiah 53",
-        "approved": "62a11895"
+        "approved": "62a11895",
+        "margin": {
+          "glance": "Philip taught an Ethiopian about Jesus starting from these verses (Acts 8).",
+          "short": "A man from Ethiopia was reading these verses when Philip came and taught him about Jesus. He believed and was baptized.",
+          "place": "note"
+        }
       },
       {
         "id": "isa53-seed",
@@ -3239,7 +3294,12 @@ window.TU_WEEKS = [
           "url": "https://rsc.byu.edu/book-mormon-mosiah-salvation-only-through-christ/abinadis-commentary-isaiah"
         },
         "find": "Those who are spiritually begotten of Christ through being born again are adopted as his sons and daughters",
-        "approved": "b9a43f3c"
+        "approved": "b9a43f3c",
+        "margin": {
+          "glance": "His “seed”: all who are born again through Christ become His children.",
+          "short": "His “seed” means His children: people who follow Him. You can be one.",
+          "place": "both"
+        }
       },
       {
         "id": "isa53-spoil",
@@ -3275,7 +3335,72 @@ window.TU_WEEKS = [
             "previewed": true
           },
           "approved": "f8fe3e53"
+        },
+        "margin": {
+          "glance": "“Divide the spoil”: the winner shares His victory with us.",
+          "short": "Jesus won against sin and death, and He shares the prize with you.",
+          "place": "both"
         }
+      },
+      {
+        "id": "isa53-sc-abinadi",
+        "ref": "Isaiah 53:3",
+        "title": "Abinadi saw himself in it",
+        "text": "Abinadi turned to this chapter when he stood accused before King Noah. Scripture Central suggests he likely saw himself in the Servant who was “despised and rejected of men.” Sent twice to call his people to repentance, Abinadi was scorned, rejected, imprisoned and put to death by the people he came to help. Yet he kept testifying of Christ.",
+        "source": {
+          "by": "Scripture Central",
+          "title": "Why Did Abinadi Talk About the Suffering Messiah?",
+          "url": "https://scripturecentral.org/knowhy/why-did-abinadi-talk-about-the-suffering-messiah"
+        },
+        "find": "It seems likely that Abinadi would have personally identified with Isaiah’s portrayal of the Suffering Servant"
+      },
+      {
+        "id": "isa53-sc-parry-rebel",
+        "ref": "Isaiah 53:5",
+        "title": "Wounded for rebellions",
+        "text": "Donald W. Parry notes that the Hebrew word behind “transgressions” here, and in verses 8 and 12, carries the sense of rebellion: sinning on purpose. He was wounded even for those. Peter took up this verse when he testified that Christ bore our sins in His own body, “by whose stripes ye were healed” (1 Peter 2:24).",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 53",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-53"
+        },
+        "find": "have the sense of transgressions because of rebellion or intentional sinning",
+        "margin": {
+          "glance": "“Transgressions” here means rebelling on purpose, and Peter quotes this verse in 1 Peter 2:24.",
+          "short": "The word for “transgressions” means doing wrong on purpose. Jesus was hurt even for those, so we can be healed.",
+          "place": "note"
+        }
+      },
+      {
+        "id": "isa53-sc-parry-sheep",
+        "ref": "Isaiah 53:6",
+        "title": "Peter’s sheep",
+        "text": "Donald W. Parry points to Peter, who used this verse for the Saints of his day. They had been like sheep going astray, Peter wrote, but they had “now returned unto the Shepherd” (1 Peter 2:25). The verse that names our wandering also points to the Shepherd who brings us back.",
+        "source": {
+          "by": "Scripture Central",
+          "who": "Donald W. Parry",
+          "title": "Isaiah 53",
+          "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-53"
+        },
+        "find": "For ye were as sheep going astray; but are now returned unto the Shepherd",
+        "margin": {
+          "glance": "Peter used this verse: once strayed sheep, now “returned unto the Shepherd.”",
+          "short": "We all wander off like sheep sometimes. Jesus is the Shepherd who brings us back.",
+          "place": "note"
+        }
+      },
+      {
+        "id": "isa53-sc-hezekiah",
+        "ref": "Isaiah 53:10",
+        "title": "Where did the vision come from?",
+        "text": "Scholars have long asked what moved Isaiah to see a suffering servant. Margaret Barker has suggested King Hezekiah: so sick he could seem “stricken, smitten of God,” he prayed, and the Lord added fifteen years to his life, an echo of “he shall prolong his days.” Scripture Central calls it one theory among many. Anciently both Jews and Christians read the chapter as about the Messiah, and Latter-day Saints see it as a prophecy of Christ’s atoning sacrifice.",
+        "source": {
+          "by": "Scripture Central",
+          "title": "Why Did Isaiah Prophesy of a Suffering Messiah?",
+          "url": "https://scripturecentral.org/knowhy/why-did-isaiah-prophesy-of-a-suffering-messiah"
+        },
+        "find": "Barker’s theory is only one of many among scholarly attempts to explain the origins of Isaiah 53"
       },
       {
         "id": "isa54-nephites",
@@ -3288,7 +3413,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/knowhy/why-did-jesus-quote-all-of-isaiah-54"
         },
         "find": "It was custom in the ancient Near East to conclude a covenant with promised blessings",
-        "approved": "d95a232b"
+        "approved": "d95a232b",
+        "margin": {
+          "glance": "The risen Jesus recited this whole chapter to the Nephites (3 Nephi 22), seemingly as a covenant’s closing blessings.",
+          "short": "When Jesus taught the Nephites, He recited this whole chapter to them. He helped them see it fit their lives, and it can fit yours.",
+          "place": "note"
+        }
       },
       {
         "id": "isa54-jewels",
@@ -3302,7 +3432,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-54"
         },
         "find": "This fortress, however, will not be any average fortress but will feature precious stones",
-        "approved": "567a0220"
+        "approved": "567a0220",
+        "margin": {
+          "glance": "In Hebrew, Zion means a fortress: the Lord promises to build His storm-tossed people a castle of jewels.",
+          "short": "Zion means a castle. After a big storm, God promises to build His people a castle of beautiful jewels.",
+          "place": "note"
+        }
       },
       {
         "id": "isa54-weapon",
@@ -3315,7 +3450,12 @@ window.TU_WEEKS = [
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-teacher-manual/introduction-to-the-book-of-isaiah/lesson-129-isaiah-54-57?lang=eng"
         },
         "find": "Furthermore, the divine promise is that no weapon formed against the",
-        "approved": "418fe560"
+        "approved": "418fe560",
+        "margin": {
+          "glance": "Elder Maxwell taught that “no weapon” formed against the Lord’s work will succeed in the end.",
+          "short": "People may fight against the Lord’s work for a while, but nothing they use against it will win in the end.",
+          "place": "note"
+        }
       },
       {
         "id": "isa55-david",
@@ -3329,7 +3469,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-55"
         },
         "find": "Even though David had committed great sins, the Lord promised him the Resurrection",
-        "approved": "b9077564"
+        "approved": "b9077564",
+        "margin": {
+          "glance": "Paul taught that “the sure mercies of David” point to the Resurrection, promised even to David after his sins.",
+          "short": "David made big mistakes, but God still promised he would rise again. That means you can have the same hope.",
+          "place": "note"
+        }
       },
       {
         "id": "isa55-thorn",
@@ -3365,6 +3510,11 @@ window.TU_WEEKS = [
             "previewed": true
           },
           "approved": "b02c08dd"
+        },
+        "margin": {
+          "glance": "Where thorns grew, the Lord promises fir and myrtle trees: through Christ, what is bad can become beautiful.",
+          "short": "Jesus can take the thorny, hard parts of your life and grow something beautiful there instead.",
+          "place": "both"
         }
       },
       {
@@ -3378,7 +3528,12 @@ window.TU_WEEKS = [
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-18?lang=eng"
         },
         "find": "the Lord told Moses that keeping the Sabbath was a sign of the covenant between Israel and God",
-        "approved": "bb21414d"
+        "approved": "bb21414d",
+        "margin": {
+          "glance": "The Sabbath, named three times here, was the Lord’s sign of His covenant with Israel.",
+          "short": "Keeping the Sabbath was a sign that Israel belonged to the Lord. It showed they had a covenant with Him.",
+          "place": "note"
+        }
       },
       {
         "id": "isa57-mountain",
@@ -3392,7 +3547,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-57"
         },
         "find": "and to possess all of the blessings that it provides to them",
-        "approved": "c0bdfa25"
+        "approved": "c0bdfa25",
+        "margin": {
+          "glance": "A “holy mountain” can mean the temple, so those who trust the Lord are promised its blessings.",
+          "short": "The holy mountain can mean the temple. If you trust the Lord, you get to enter His house and receive its blessings.",
+          "place": "note"
+        }
       },
       {
         "id": "isa57-stumbling",
@@ -3406,7 +3566,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-57"
         },
         "find": "The righteous are to help lift the stumbling blocks out of the way of those who return to God",
-        "approved": "4cf99adb"
+        "approved": "4cf99adb",
+        "margin": {
+          "glance": "The righteous are asked to lift stumbling blocks out of the way of people returning to God.",
+          "short": "A stumbling block is anything that trips someone up. When a friend is trying to come back, you can help clear the road.",
+          "place": "both"
+        }
       },
       {
         "id": "isa57-sea",
@@ -3420,7 +3585,12 @@ window.TU_WEEKS = [
           "url": "https://speeches.byu.edu/talks/neal-a-maxwell/patience/"
         },
         "find": "the wicked are like the pounding and troubled sea which cannot rest",
-        "approved": "521e7506"
+        "approved": "521e7506",
+        "margin": {
+          "glance": "Elder Maxwell set this restless, muddy sea against the quiet peace believers can feel, a peace that takes patience.",
+          "short": "Picture waves that never stop crashing and stirring up mud. Elder Maxwell said quiet peace inside is the opposite, and it takes patience.",
+          "place": "note"
+        }
       },
       {
         "id": "isa51-q-andersen",
@@ -3434,7 +3604,12 @@ window.TU_WEEKS = [
           "title": "Repent … That I May Heal You",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2009/10/repent-that-i-may-heal-you?lang=eng"
         },
-        "approved": "c34f2175"
+        "approved": "c34f2175",
+        "margin": {
+          "glance": "Elder Andersen: we have each felt His arms of comfort, forgiveness and love around us.",
+          "short": "The Lord says He is the one who comforts you. Elder Andersen says it’s like His arms wrapped around you.",
+          "place": "both"
+        }
       },
       {
         "id": "isa53-q-porter",
@@ -3448,7 +3623,12 @@ window.TU_WEEKS = [
           "title": "A Broken Heart and a Contrite Spirit",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2007/10/a-broken-heart-and-a-contrite-spirit?lang=eng"
         },
-        "approved": "594f9d9f"
+        "approved": "594f9d9f",
+        "margin": {
+          "glance": "Elder Porter: His heart broke with love for God’s children.",
+          "short": "Elder Porter said Jesus’s heart broke with love for us on the cross.",
+          "place": "both"
+        }
       },
       {
         "id": "isa54-q-nelson",
@@ -3462,7 +3642,12 @@ window.TU_WEEKS = [
           "title": "Let God Prevail",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2020/10/46nelson?lang=eng"
         },
-        "approved": "3b4beff7"
+        "approved": "3b4beff7",
+        "margin": {
+          "glance": "President Nelson: the Lord is gathering those willing to “let God prevail in their lives.”",
+          "short": "Israel means “let God prevail.” The Lord gathers people who choose to make God the most important thing in their lives.",
+          "place": "both"
+        }
       },
       {
         "id": "isa57-q-uchtdorf",
@@ -3476,7 +3661,12 @@ window.TU_WEEKS = [
           "title": "October 5–11. “He Hath Borne Our Griefs, and Carried Our Sorrows”: Isaiah 50–57",
           "url": "https://www.churchofjesuschrist.org/study/manual/come-follow-me-for-home-and-church-old-testament-2026/41?lang=eng"
         },
-        "approved": "0789c866"
+        "approved": "0789c866",
+        "margin": {
+          "glance": "President Uchtdorf: however ruined a life may seem, even those without hope can be rebuilt.",
+          "short": "The Lord says, “I have seen his ways, and will heal him.” No matter how broken things feel, anyone can be rebuilt.",
+          "place": "both"
+        }
       },
       {
         "id": "isa53-v-church",
@@ -3507,7 +3697,12 @@ window.TU_WEEKS = [
         },
         "find": "Have I put thee away, or have I cast thee off forever?",
         "note": "Joseph Smith’s Bible revision adds the Lord’s question, “Have I put thee away, or have I cast thee off forever?”, as Nephi’s copy of Isaiah has it (2 Nephi 7:1).",
-        "approved": "1a1626d4"
+        "approved": "1a1626d4",
+        "margin": {
+          "glance": "Joseph Smith’s revision adds the Lord’s question, “have I cast thee off forever?”, as Nephi’s copy also reads.",
+          "short": "In Joseph Smith’s Bible, the Lord asks if He has cast His people off forever. The answer is no, He never walks away.",
+          "place": "note"
+        }
       },
       {
         "id": "isa52-jsp-then-say",
@@ -3522,7 +3717,12 @@ window.TU_WEEKS = [
         },
         "find": "And then shall they say, How beautiful upon the mountains",
         "note": "Joseph Smith’s Bible revision begins this verse “And then shall they say,” and adds that the good tidings are brought to them, as the Savior said it in 3 Nephi 20:40.",
-        "approved": "15a51316"
+        "approved": "15a51316",
+        "margin": {
+          "glance": "Joseph Smith’s revision begins “And then shall they say,” as Jesus also said it in 3 Nephi 20:40.",
+          "short": "In Joseph Smith’s Bible, this verse is what the Lord’s people will say when they know Him. Jesus said it that way too.",
+          "place": "note"
+        }
       },
       {
         "id": "isa52-jsp-gather",
@@ -3537,7 +3737,12 @@ window.TU_WEEKS = [
         },
         "find": "that saith unto Zion, Thy God reigneth. 15 gather",
         "note": "The page where this change was first written down: for verse 15, Joseph Smith’s Old Testament manuscript has one word, “gather.”",
-        "approved": "1737a8e9"
+        "approved": "1737a8e9",
+        "margin": {
+          "glance": "Where the King James Version says “sprinkle many nations,” Joseph Smith’s manuscript has one word: “gather.”",
+          "short": "In Joseph Smith’s Bible, “sprinkle” becomes “gather.” So the Lord’s servant will gather many nations.",
+          "place": "note"
+        }
       },
       {
         "id": "isa52-jsp-strength",
@@ -3552,7 +3757,12 @@ window.TU_WEEKS = [
         },
         "find": "He had reference to those whome God should call in the last day’s who should hold the power of Priesthood",
         "note": "The first record of this answer: Joseph Smith’s reply to Elias Higbee in March 1838, written in his journal, explains Zion’s strength as priesthood authority (D&C 113:7–10).",
-        "approved": "63c79dda"
+        "approved": "63c79dda",
+        "margin": {
+          "glance": "Answering Elias Higbee in 1838, Joseph Smith said Zion’s “strength” is “the authority of the priesthood.”",
+          "short": "Isaiah said, “put on thy strength, O Zion.” Joseph Smith explained that Zion’s strength is the authority of the priesthood.",
+          "place": "note"
+        }
       },
       {
         "id": "isa52-jsp-gladness",
@@ -3567,7 +3777,12 @@ window.TU_WEEKS = [
         },
         "find": "Now what do we hear in the gospel which we have received? a voice of gladness!",
         "note": "Joseph Smith quoted this verse in his 1842 letter on baptism for the dead (D&C 128:19): glad tidings for the living and the dead, “a voice of gladness!”",
-        "approved": "efead935"
+        "approved": "efead935",
+        "margin": {
+          "glance": "In his 1842 letter on baptism for the dead, Joseph Smith quoted this verse: good news for living and dead.",
+          "short": "Joseph Smith said we hear “a voice of gladness” in the gospel. He used this verse for good news to the living and the dead.",
+          "place": "note"
+        }
       },
       {
         "id": "isa53-jsp-lamb",
@@ -3582,7 +3797,12 @@ window.TU_WEEKS = [
         },
         "find": "aided him in leading us, as the savior was led, into the camp",
         "note": "From Liberty Jail in December 1838, Joseph Smith used this verse for his own betrayal: led “as the savior was led,” and silent, like a sheep before the shearer.",
-        "approved": "60aa9897"
+        "approved": "60aa9897",
+        "margin": {
+          "glance": "From Liberty Jail, Joseph Smith used this verse for his own betrayal.",
+          "short": "From jail, Joseph Smith said he was led away quietly, like a sheep, the way Jesus was.",
+          "place": "note"
+        }
       },
       {
         "id": "isa54-jsp-small-moment",
@@ -3597,7 +3817,12 @@ window.TU_WEEKS = [
         },
         "find": "my son pease be unto thy soul thine advirsity and thy afflictions shall be but a small moment",
         "note": "From Liberty Jail in 1839, the Lord told Joseph Smith his troubles “shall be but a small moment” (D&C 121:7–8), echoing this verse.",
-        "approved": "9067b8b6"
+        "approved": "9067b8b6",
+        "margin": {
+          "glance": "In Liberty Jail, Joseph Smith received the Lord’s answer echoing this verse: his troubles would be “but a small moment.”",
+          "short": "In jail, Joseph Smith prayed, and the Lord said his hard times would last only a small moment, like this verse says.",
+          "place": "note"
+        }
       }
     ],
     "treasure": [
@@ -5193,7 +5418,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-58"
         },
         "find": "The Lord commands Isaiah to raise his voice, in loudness and clarity",
-        "approved": "b6364596"
+        "approved": "b6364596",
+        "margin": {
+          "glance": "The “trumpet” here is a ram’s horn: a loud, clear blast that no one can miss.",
+          "short": "Isaiah was told to speak like a ram’s horn, loud and clear so nobody misses it. God gave the same command again in our day.",
+          "place": "note"
+        }
       },
       {
         "id": "isa58-rearguard",
@@ -5206,7 +5436,12 @@ window.TU_WEEKS = [
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-18?lang=eng"
         },
         "find": "it is applied to the gathering up of the scattered rear of an army",
-        "approved": "8fb4e086"
+        "approved": "8fb4e086",
+        "margin": {
+          "glance": "“Rearward” is an old word for rear guard: God’s glory guards from behind, so no one is left behind.",
+          "short": "Soldiers at the back of an army protect it from behind. God’s glory is like that, gathering up anyone left behind.",
+          "place": "note"
+        }
       },
       {
         "id": "isa58-repairer",
@@ -5220,7 +5455,12 @@ window.TU_WEEKS = [
           "url": "https://speeches.byu.edu/talks/clark-g-gilbert/christs-peace-in-perilous-times/"
         },
         "find": "In these troubled times, Christ is the repairer of the breaches in our lives",
-        "approved": "f4f50603"
+        "approved": "f4f50603",
+        "margin": {
+          "glance": "“The repairer of the breach”: Elder Gilbert teaches that Christ fixes the breaches in our lives.",
+          "short": "When water sprayed everywhere in Elder Gilbert’s home, a friend stopped it and fixed the break. Jesus can fix what breaks in your life.",
+          "place": "note"
+        }
       },
       {
         "id": "isa59-reach",
@@ -5233,7 +5473,12 @@ window.TU_WEEKS = [
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-teacher-manual/introduction-to-the-book-of-isaiah/lesson-131-isaiah-59-66?lang=eng"
         },
         "find": "power to save has not decreased",
-        "approved": "ae1bc624"
+        "approved": "ae1bc624",
+        "margin": {
+          "glance": "The Lord’s “hand is not shortened”: His power to save hasn’t shrunk, and our sins make the distance.",
+          "short": "God can always reach you. When we sin, we pull away from Him, but when we repent, He comes to help.",
+          "place": "note"
+        }
       },
       {
         "id": "isa59-webs",
@@ -5247,7 +5492,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-59"
         },
         "find": "the webs end up binding and restricting the sinners",
-        "approved": "de5b87df"
+        "approved": "de5b87df",
+        "margin": {
+          "glance": "Sinners try to hide under spider webs instead of letting God clothe them, and the webs trap them.",
+          "short": "Trying to hide your sins is like covering up with a spider web. It hides nothing, and it gets you stuck.",
+          "place": "note"
+        }
       },
       {
         "id": "isa59-redeemer",
@@ -5261,7 +5511,12 @@ window.TU_WEEKS = [
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2011/10/redemption?lang=eng"
         },
         "find": "the law of Moses provided different ways that servants and property could be freed",
-        "approved": "32c5d81c"
+        "approved": "32c5d81c",
+        "margin": {
+          "glance": "To redeem means to buy back, and Jesus paid for our sins Himself, not with silver or gold.",
+          "short": "To redeem something is to buy it back. Jesus paid the price for your sins, so you can be forgiven when you repent.",
+          "place": "note"
+        }
       },
       {
         "id": "isa60-temples",
@@ -5275,7 +5530,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-60"
         },
         "find": "is used to build His temples, which exist throughout the world",
-        "approved": "4ac9a6db"
+        "approved": "4ac9a6db",
+        "margin": {
+          "glance": "Parry reads the gold, incense, flocks and rams as a picture of God’s temples built all over the world today.",
+          "short": "Gold, incense and rams were part of Solomon’s temple long ago. Parry sees them as a picture of temples all over the world today.",
+          "place": "note"
+        }
       },
       {
         "id": "isa60-doves",
@@ -5289,7 +5549,12 @@ window.TU_WEEKS = [
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2000/04/as-doves-to-our-windows?lang=eng"
         },
         "find": "people coming as doves to the windows, that all nations should flock unto",
-        "approved": "c733aada"
+        "approved": "c733aada",
+        "margin": {
+          "glance": "In 1830 the whole Church fit in one small room, yet they spoke of nations coming “as doves to the windows.”",
+          "short": "In 1830 every Church member fit in one room, yet they talked about people from all nations coming. By 2000 there were nearly 11 million.",
+          "place": "note"
+        }
       },
       {
         "id": "isa60-isles",
@@ -5303,7 +5568,12 @@ window.TU_WEEKS = [
           "url": "https://rsc.byu.edu/witness-restoration/isaiah-restoration-israel"
         },
         "find": "Isaiah often refers to these scattered covenant people metaphorically as",
-        "approved": "800bcee7"
+        "approved": "800bcee7",
+        "margin": {
+          "glance": "“Isles” is often Isaiah’s name for the Lord’s scattered covenant people, so the ships bring Zion’s children home.",
+          "short": "Isaiah often calls God’s scattered people “isles.” He saw ships bringing them home, a gathering that would start when the gospel was restored.",
+          "place": "note"
+        }
       },
       {
         "id": "isa61-anointed",
@@ -5316,7 +5586,12 @@ window.TU_WEEKS = [
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-seminary-manual-2026/41-isaiah-58-66/413-isaiah-61?lang=eng"
         },
         "find": "anointed in verse 1 means that Jesus Christ was set apart or sent with a specific purpose",
-        "approved": "9f0def03"
+        "approved": "9f0def03",
+        "margin": {
+          "glance": "“Christ” in Greek and “Messiah” in Hebrew both mean “the anointed,” the word this verse uses.",
+          "short": "Anointed means sent for a special job. The word Christ means “the anointed,” so when Jesus said this verse was about Him, He was saying He is the Christ.",
+          "place": "note"
+        }
       },
       {
         "id": "isa61-stopped",
@@ -5329,7 +5604,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/knowhy/why-does-jesus-announce-that-isaiah-611-2-is-fulfilled"
         },
         "find": "By ending His citation where He did, Jesus effectively separated the two aspects of Isaiah",
-        "approved": "4dda427c"
+        "approved": "4dda427c",
+        "margin": {
+          "glance": "Reading this in Nazareth, Jesus stopped mid-verse, before “the day of vengeance,” splitting the prophecy in two.",
+          "short": "Jesus read this verse but stopped halfway. The part He skipped is about the last days, when He comes to judge.",
+          "place": "note"
+        }
       },
       {
         "id": "isa62-reward",
@@ -5343,7 +5623,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-62"
         },
         "find": "Jesus Christ will reward the righteous and compensate them for losses, sufferings, and injustices",
-        "approved": "0a62bb08"
+        "approved": "0a62bb08",
+        "margin": {
+          "glance": "Parry reads “salvation” here as Jesus Christ, who comes to reward the righteous and make up for their losses.",
+          "short": "Jesus will come with a reward for good people. He will make up for the hurts and unfair things they went through.",
+          "place": "note"
+        }
       },
       {
         "id": "isa63-alone",
@@ -5357,7 +5642,12 @@ window.TU_WEEKS = [
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2009/04/none-were-with-him?lang=eng"
         },
         "find": "because Jesus walked such a long, lonely path utterly alone, we do not have to do so",
-        "approved": "75244a1c"
+        "approved": "75244a1c",
+        "margin": {
+          "glance": "Jesus trod “the winepress alone” so that we will “never be left alone nor unaided,” Elder Holland promised.",
+          "short": "At the end, no one could help Jesus. He went through it alone so you never have to be alone.",
+          "place": "note"
+        }
       },
       {
         "id": "isa65-seek",
@@ -5407,7 +5697,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-65"
         },
         "find": "do not destroy the righteous, because they are a blessing to Israel and to the world",
-        "approved": "8d705a5a"
+        "approved": "8d705a5a",
+        "margin": {
+          "glance": "The grape cluster stands for righteous people, kept safe because they bless others in Israel and the world.",
+          "short": "A bunch of grapes is saved because there’s new wine in it. Good people are kept safe because they bless others.",
+          "place": "note"
+        }
       },
       {
         "id": "isa65-newearth",
@@ -5421,7 +5716,12 @@ window.TU_WEEKS = [
           "url": "https://www.churchofjesuschrist.org/study/liahona/2020/04/the-future-of-the-church-preparing-the-world-for-the-saviors-second-coming?lang=eng"
         },
         "find": "The earth will be returned to its paradisiacal state and be made new",
-        "approved": "3e75a355"
+        "approved": "3e75a355",
+        "margin": {
+          "glance": "When the Savior comes again, President Nelson taught, the earth itself will be renewed like a paradise.",
+          "short": "When Jesus comes again, the earth will be made new, like a paradise. Helping the world get ready is our job and a privilege.",
+          "place": "note"
+        }
       },
       {
         "id": "isa66-priests",
@@ -5434,7 +5734,12 @@ window.TU_WEEKS = [
           "url": "https://www.churchofjesuschrist.org/study/manual/old-testament-student-manual-kings-malachi/chapter-18?lang=eng"
         },
         "find": "Evidently many will then join the Church, for the Lord said He will take of the Gentiles",
-        "approved": "6845aa9e"
+        "approved": "6845aa9e",
+        "margin": {
+          "glance": "People from faraway nations become “priests” and “Levites”: the manual reads it as many joining the Church and receiving the priesthood.",
+          "short": "The Church’s manual says many people from faraway places will join the Church and receive the priesthood.",
+          "place": "note"
+        }
       },
       {
         "id": "isa66-offering",
@@ -5470,6 +5775,11 @@ window.TU_WEEKS = [
             "previewed": true
           },
           "approved": "fd41556b"
+        },
+        "margin": {
+          "glance": "The offering of the last days is people: our families, ourselves, and others on both sides of the veil.",
+          "short": "The gift we bring to the Lord is people: your family, yourself, and others, on both sides of the veil.",
+          "place": "both"
         }
       },
       {
@@ -5484,7 +5794,12 @@ window.TU_WEEKS = [
           "url": "https://scripturecentral.org/archive/books/book-chapter/isaiah-66"
         },
         "find": "posterity, eternal families, and eternal increase",
-        "approved": "d4dc27a3"
+        "approved": "d4dc27a3",
+        "margin": {
+          "glance": "“Your seed and your name” will last: Parry calls it a promise of eternal families.",
+          "short": "Your “seed” means the family that comes after you. Parry says this promises families that last forever.",
+          "place": "note"
+        }
       },
       {
         "id": "isa58-q-oaks",
@@ -5498,7 +5813,12 @@ window.TU_WEEKS = [
           "title": "The Light and Life of the World",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1987/10/the-light-and-life-of-the-world?lang=eng"
         },
-        "approved": "c2c6b131"
+        "approved": "c2c6b131",
+        "margin": {
+          "glance": "President Oaks: as we keep the commandments, the Lord’s light grows ever brighter on our path.",
+          "short": "Each time you keep a commandment, the Lord’s light on your path gets brighter, and He guides you.",
+          "place": "both"
+        }
       },
       {
         "id": "isa58-q-nelson",
@@ -5512,7 +5832,12 @@ window.TU_WEEKS = [
           "title": "The Sabbath Is a Delight",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2015/04/the-sabbath-is-a-delight?lang=eng"
         },
-        "approved": "7bd1e16a"
+        "approved": "7bd1e16a",
+        "margin": {
+          "glance": "President Nelson made his Sabbath choices by asking, “What sign do I want to give to God?”",
+          "short": "President Nelson asked himself what sign he wanted to give God. That made his Sabbath choices clear.",
+          "place": "both"
+        }
       },
       {
         "id": "isa60-q-aburto",
@@ -5526,7 +5851,12 @@ window.TU_WEEKS = [
           "title": "Thru Cloud and Sunshine, Lord, Abide with Me!",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2019/10/31aburto?lang=eng"
         },
-        "approved": "ad275461"
+        "approved": "ad275461",
+        "margin": {
+          "glance": "Sister Aburto: for all who come to Christ, the Lord will be their light and their mourning will end.",
+          "short": "If you come to Christ, the Lord will be your light forever, and your sad days will end.",
+          "place": "both"
+        }
       },
       {
         "id": "isa61-q-schmutz",
@@ -5540,7 +5870,12 @@ window.TU_WEEKS = [
           "title": "God Shall Wipe Away All Tears",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2016/10/god-shall-wipe-away-all-tears?lang=eng"
         },
-        "approved": "fa464687"
+        "approved": "fa464687",
+        "margin": {
+          "glance": "Elder Schmutz: Jesus Christ can and will “bind up the brokenhearted.”",
+          "short": "When your heart hurts, Jesus can heal it, like bandaging a wound. Elder Schmutz says He will.",
+          "place": "both"
+        }
       },
       {
         "id": "isa62-q-coleman",
@@ -5554,7 +5889,12 @@ window.TU_WEEKS = [
           "title": "Lessons from the Old Testament: Watchmen of the Lord",
           "url": "https://www.churchofjesuschrist.org/study/ensign/2006/09/lessons-from-the-old-testament-watchmen-of-the-lord?lang=eng"
         },
-        "approved": "2ed2bb80"
+        "approved": "2ed2bb80",
+        "margin": {
+          "glance": "Elder Coleman: like a “watchman upon the tower,” prophets and apostles see far and protect us.",
+          "short": "Elder Coleman once watched for forest fires from a tower. Prophets watch over us like that and keep us safe.",
+          "place": "both"
+        }
       },
       {
         "id": "isa63-q-maxwell",
@@ -5568,7 +5908,12 @@ window.TU_WEEKS = [
           "title": "Overcome … Even As I Also Overcame",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1987/04/overcome-even-as-i-also-overcame?lang=eng"
         },
-        "approved": "f8f04f72"
+        "approved": "f8f04f72",
+        "margin": {
+          "glance": "Elder Maxwell: His red clothing will remind us how He suffered for each of us.",
+          "short": "When Jesus comes again, He will wear red. It will remind you how much He suffered for you.",
+          "place": "both"
+        }
       },
       {
         "id": "isa64-q-ballard",
@@ -5582,7 +5927,12 @@ window.TU_WEEKS = [
           "title": "Hope in Christ",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/2021/04/28ballard?lang=eng"
         },
-        "approved": "5b35475d"
+        "approved": "5b35475d",
+        "margin": {
+          "glance": "President Ballard: waiting on the Lord isn’t sitting in a waiting room; it means action.",
+          "short": "Waiting on the Lord doesn’t mean sitting around. It means staying busy doing good while you wait.",
+          "place": "both"
+        }
       },
       {
         "id": "isa66-q-benson",
@@ -5596,7 +5946,12 @@ window.TU_WEEKS = [
           "title": "Beware of Pride",
           "url": "https://www.churchofjesuschrist.org/study/general-conference/1989/04/beware-of-pride?lang=eng"
         },
-        "approved": "7494b9eb"
+        "approved": "7494b9eb",
+        "margin": {
+          "glance": "President Benson: the cure for pride is humility, “the broken heart and contrite spirit.”",
+          "short": "Being humble is the cure for pride. The Lord looks to people who are humble and sorry for their sins.",
+          "place": "both"
+        }
       },
       {
         "id": "isa58-v-central",
@@ -5627,7 +5982,12 @@ window.TU_WEEKS = [
         },
         "find": "Isaiah, Chapter 62 LXII verse 4 Delightful",
         "note": "Joseph Smith’s Bible revision puts these names in English: Hephzi-bah becomes Delightful, and Beulah, the land, becomes Union.",
-        "approved": "1dda1c8b"
+        "approved": "1dda1c8b",
+        "margin": {
+          "glance": "Joseph Smith’s Bible puts the names in English: Hephzi-bah is Delightful, and Beulah is Union.",
+          "short": "Isaiah gives Zion new names. Joseph Smith wrote them in English, Delightful and Union, and the Lord delights in His people.",
+          "place": "note"
+        }
       },
       {
         "id": "isa63-jsp-suffered",
@@ -5642,7 +6002,12 @@ window.TU_WEEKS = [
         },
         "find": "Isaiah, Chapter 63 LXIII verse 17— suffered",
         "note": "In Joseph Smith’s Old Testament manuscript, the change for this verse is the word “suffered”: the Lord allowed them to err and to harden their hearts. He didn’t make them.",
-        "approved": "9daf60b7"
+        "approved": "9daf60b7",
+        "margin": {
+          "glance": "Joseph Smith’s Bible gives this verse the word “suffered”: God allowed them to err, but didn’t make them.",
+          "short": "God lets us choose, even when we choose wrong. But He never makes us sin.",
+          "place": "note"
+        }
       },
       {
         "id": "isa64-jsp-continuance",
@@ -5657,7 +6022,12 @@ window.TU_WEEKS = [
         },
         "find": "Thou meetest him that worketh righteousness, and rejoiceth him that",
         "note": "Joseph Smith’s Bible revision drops “behold, thou art wroth” and reads that in righteousness there is continuance, and such shall be saved (his manuscript, pages 110–111).",
-        "approved": "0a33a359"
+        "approved": "0a33a359",
+        "margin": {
+          "glance": "Joseph Smith’s Bible makes this hard verse clear: in righteousness there is continuance, and such shall be saved.",
+          "short": "This verse is hard to read in the King James Bible. Joseph Smith’s version says people who do right will be saved.",
+          "place": "note"
+        }
       },
       {
         "id": "isa65-jsp-seek",
@@ -5672,7 +6042,12 @@ window.TU_WEEKS = [
         },
         "find": "I am found of them who seek after me; I give unto all them that ask of me",
         "note": "Joseph Smith’s Bible revision turns this verse around: “I am found of them who seek after me,” and the Lord gives to all who ask of Him.",
-        "approved": "a6d28de6"
+        "approved": "a6d28de6",
+        "margin": {
+          "glance": "Joseph Smith’s manuscript turns the verse around: “I am found of them who seek after me.”",
+          "short": "In Joseph Smith’s Bible, the Lord is found by people who look for Him, and He gives to all who ask.",
+          "place": "note"
+        }
       },
       {
         "id": "isa65-jsp-hundred",
@@ -5687,7 +6062,12 @@ window.TU_WEEKS = [
         },
         "find": "for the child shall not die, but shall live to be a hundred years old",
         "note": "Joseph Smith’s Bible revision: “the child shall not die, but shall live to be a hundred years old,” in those days of the new heavens and new earth.",
-        "approved": "55b321ab"
+        "approved": "55b321ab",
+        "margin": {
+          "glance": "In Joseph Smith’s Bible, “the child shall not die” but will live to be a hundred years old.",
+          "short": "In those days, children won’t die young. Joseph Smith’s Bible says they will live to be a hundred.",
+          "place": "note"
+        }
       },
       {
         "id": "isa60-jsp-arise",
@@ -5702,7 +6082,12 @@ window.TU_WEEKS = [
         },
         "find": "Verrily I say unto you all; arise and shine",
         "note": "In the 1838 revelation that named the Church (D&C 115:5), the Lord gave this verse to the Saints: arise and shine, “that thy light may be a standard for the nations.”",
-        "approved": "11ad43f3"
+        "approved": "11ad43f3",
+        "margin": {
+          "glance": "In the 1838 revelation that named the Church, the Lord told the Saints to arise and shine, as in this verse.",
+          "short": "The Lord told the Church to arise and shine, “that thy light may be a standard for the nations.”",
+          "place": "note"
+        }
       },
       {
         "id": "isa60-jsp-emma",
@@ -5717,7 +6102,12 @@ window.TU_WEEKS = [
         },
         "find": "Oh how long Oh Lord Shall this order of things exist and darkness cover the Earth and gross darkness cover the people",
         "note": "In a letter to Emma in his own hand (New York City, 1832), Joseph Smith prayed in this verse’s words: how long shall “darkness cover the Earth”?",
-        "approved": "4d1926a3"
+        "approved": "4d1926a3",
+        "margin": {
+          "glance": "In an 1832 letter to Emma, Joseph Smith prayed in this verse’s words about darkness covering the earth.",
+          "short": "Joseph Smith saw a lot of wickedness on a trip to New York City. He wrote to Emma, praying with this verse.",
+          "place": "note"
+        }
       },
       {
         "id": "isa63-jsp-winepress",
@@ -5732,7 +6122,12 @@ window.TU_WEEKS = [
         },
         "find": "I have trodden the wine press alone & have brought Judgement upon all people & none was with me",
         "note": "Joseph Smith’s November 1831 revelation on the Second Coming (D&C 133:46–53) takes up this chapter: “I have trodden the wine press alone.”",
-        "approved": "4f992f78"
+        "approved": "4f992f78",
+        "margin": {
+          "glance": "Joseph Smith’s 1831 revelation on the Second Coming takes up this chapter: “I have trodden the wine press alone.”",
+          "short": "In a revelation about Jesus coming again, the Lord says He trod the winepress alone, and His people remember His kindness.",
+          "place": "note"
+        }
       },
       {
         "id": "isa65-jsp-tree",
@@ -5747,7 +6142,12 @@ window.TU_WEEKS = [
         },
         "find": "Isaiah says the Days of an infant shall be as the age of a tree",
         "note": "In an 1841 sermon, as a listener recorded it, Joseph Smith cited this: “Isaiah says the Days of an infant shall be as the age of a tree.”",
-        "approved": "82f20af7"
+        "approved": "82f20af7",
+        "margin": {
+          "glance": "In 1841 Joseph Smith cited this verse to show that some will live on into the Millennium.",
+          "short": "Joseph Smith taught that not everyone will be destroyed when Jesus comes again. Some will live on, with lives as long as a tree’s.",
+          "place": "note"
+        }
       }
     ],
     "treasure": [

@@ -409,6 +409,43 @@ note adds the original source; it doesn't repeat what the chapter's own notes
 already say. Where Joseph's wording differs from the KJV the KJV stays the
 scripture, and the note says plainly that the change is Joseph's.
 
+**Notes in the reader** (Blake, 2026-10-07, from a mockup: "Let's try folding
+it all into the current format of the notes. Simple version at a glance. Tap
+for expanded info"; then "Anything that should go to study cards instead of
+notes?" and the split below). Any insight card except a video can carry
+`margin: { glance, short, place }`:
+
+- `glance`: one sentence, 5 to 24 words, shown under the first of its verses
+  (a whole chapter's, at the chapter's top) when **Notes** is on, after its
+  source's name: "🏛️ Scripture Central: …". A tap opens the sheet: the verse,
+  the whole card, the page ("Read the whole thing ↗").
+- `short`: **In a sentence**, 5 to 30 words, said for Javan; on a child's or
+  youth's phone it shows first in the sheet, on a grown-up's after the card.
+- `place`: `note` or `both`.
+  - `note`: what explains a verse's words: a fact, a word's meaning, a
+    cross-reference, a fulfillment, every Joseph Smith Papers card. Once its
+    note shows, the card leaves the Study tab and the day's cards.
+  - `both`: a card with a deep dive, a quote card, a personal invitation. It
+    stays a card, and its note says **📖 Also a card**, with **Open the study
+    card ›** in the sheet.
+  - No `margin` at all (card only): bigger ideas that need room, a
+    scholar's theory stated with care, videos.
+
+Our own words: a quote is the verses' own, the card's, or once from the page
+(12 words or fewer, found there with `--online`). It says only what the card
+says. It has its own approval (`margin.approved`), like a deep dive: the
+card's fingerprint leaves it out, developer mode lists an approved card again
+("its new note in the reader"), approving the card approves it too, and off the
+test site an unapproved note isn't shown (and the card stays in Study). A
+Joseph Smith Papers card's older `note` shows only when the card has no margin
+showing.
+
+Every chapter's top, with Notes on, also has **🏛️ Scripture Central**: a
+sheet that searches their whole archive for the chapter
+(`scripturecentral.org/search?q=`) and, for Isaiah, opens Donald W. Parry's
+chapter in *Old Testament Minute: Isaiah*. Links only: their site's terms are
+for reading there, so the notes are our summaries of the pages they credit.
+
 Two more kinds go in the same list (Blake, 2026-10-02, from the Scripture
 Central app):
 
