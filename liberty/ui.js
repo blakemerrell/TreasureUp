@@ -167,7 +167,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   if (!Array.isArray(save.perks)) save.perks = [];
   const store = () => { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) { /* private mode: progress lasts this visit */ } };
   const totalStars = () => Object.values(save.won || {}).reduce((a, b) => a + (Number(b) || 0), 0);
-  const spentStars = () => (save.perks || []).reduce((a, id) => a + (DATA.PERKS[id] ? DATA.PERKS[id].stars : 0), 0);
+  const spentStars = () => (save.perks || []).reduce((a, id) => a + (D.PERKS[id] ? D.PERKS[id].stars : 0), 0);
   const availableStars = () => Math.max(0, totalStars() - spentStars());
   // Every mission is open (Blake: "read first, then play isn't really working"). Reading its chapter first earns a gift
   // at the start and opens the council's questions; it is suggested, not required.
@@ -3074,13 +3074,94 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   function campaignMapHtml() {
     const coords = {
-      m3: { cx: 520, cy: 235, label: 'River Sidon', num: 1, ref: 'Alma 43–44' },
-      m4: { cx: 410, cy: 210, label: 'Standard Raised', num: 2, ref: 'Alma 46' },
-      m5: { cx: 290, cy: 225, label: 'City of Noah', num: 3, ref: 'Alma 48–49' },
-      m6: { cx: 160, cy: 250, label: 'Antiparah', num: 4, ref: 'Alma 53, 56' },
-      m1: { cx: 340, cy: 140, label: 'Zarahemla', num: 5, ref: '3 Nephi 3' },
-      m2: { cx: 210, cy: 75, label: 'Northern Passes', num: 6, ref: '3 Nephi 4' }
+      m3: { cx: 535, cy: 235, label: 'River Sidon', num: 1, ref: 'Alma 43–44' },
+      m4: { cx: 430, cy: 215, label: 'Standard Raised', num: 2, ref: 'Alma 46' },
+      m5: { cx: 310, cy: 245, label: 'City of Noah', num: 3, ref: 'Alma 48–49' },
+      m6: { cx: 160, cy: 260, label: 'Antiparah', num: 4, ref: 'Alma 53, 56' },
+      m1: { cx: 345, cy: 145, label: 'Zarahemla', num: 5, ref: '3 Nephi 3' },
+      m2: { cx: 210, cy: 88, label: 'Northern Passes', num: 6, ref: '3 Nephi 4' }
     };
+
+    function tolkienPeak(cx, cy, w, h, ridgeShift = 0.1) {
+      const lx = cx - w / 2, rx = cx + w / 2, by = cy + h;
+      const rxX = cx + w * ridgeShift;
+      const ridge = `M ${cx} ${cy} Q ${rxX} ${cy + h * 0.55}, ${rxX} ${by}`;
+      const outline = `M ${lx} ${by} L ${cx} ${cy} L ${rx} ${by} Z`;
+      let hatches = '';
+      const n = Math.max(4, Math.floor(h / 4.5));
+      for (let i = 1; i < n; i++) {
+        const t = i / n;
+        const y1 = cy + h * t;
+        const x1 = cx + (rxX - cx) * t;
+        const x2 = cx + (rx - cx) * t;
+        hatches += `M ${x1.toFixed(1)} ${y1.toFixed(1)} L ${x2.toFixed(1)} ${(y1 + 2.5).toFixed(1)} `;
+      }
+      return `<polygon points="${lx},${by} ${cx},${cy} ${rx},${by}" fill="#fcf6ea"/>
+        <path d="${outline}" stroke="#2c1608" stroke-width="1.2" fill="#fcf6ea" stroke-linejoin="round"/>
+        <path d="${ridge}" stroke="#2c1608" stroke-width="1.1" fill="none"/>
+        <path d="${hatches}" stroke="#2c1608" stroke-width="0.8" opacity="0.85"/>`;
+    }
+
+    function tolkienTree(x, y, r = 6) {
+      return `<line x1="${x}" y1="${y + r * 0.4}" x2="${x}" y2="${y + r * 1.2}" stroke="#2c1608" stroke-width="1"/>
+        <path d="M ${x - r} ${y + r * 0.3} C ${x - r} ${y - r * 0.8}, ${x - r * 0.4} ${y - r * 1.1}, ${x} ${y - r * 1.1} C ${x + r * 0.4} ${y - r * 1.1}, ${x + r} ${y - r * 0.8}, ${x + r} ${y + r * 0.3} C ${x + r * 0.6} ${y + r * 0.7}, ${x - r * 0.6} ${y + r * 0.7}, ${x - r} ${y + r * 0.3} Z" fill="#ebdcbe" stroke="#2c1608" stroke-width="1"/>
+        <path d="M ${x} ${y - r * 0.8} Q ${x + r * 0.5} ${y - r * 0.2}, ${x + r * 0.6} ${y + r * 0.2}" stroke="#2c1608" stroke-width="0.7" fill="none" opacity="0.6"/>`;
+    }
+
+    // Classic Middle-earth railway coordinate border ticks
+    let borderTicks = '';
+    for (let x = 14; x < 706; x += 14) {
+      const fill = (Math.floor(x / 14) % 2 === 0) ? '#2c1608' : '#f5e8cc';
+      borderTicks += `<rect x="${x}" y="10" width="14" height="6" fill="${fill}"/>`;
+      borderTicks += `<rect x="${x}" y="324" width="14" height="6" fill="${fill}"/>`;
+    }
+    for (let y = 16; y < 324; y += 14) {
+      const fill = (Math.floor(y / 14) % 2 === 0) ? '#2c1608' : '#f5e8cc';
+      borderTicks += `<rect x="10" y="${y}" width="6" height="14" fill="${fill}"/>`;
+      borderTicks += `<rect x="704" y="${y}" width="6" height="14" fill="${fill}"/>`;
+    }
+
+    // Hand-drawn Tolkien mountain ranges
+    const hillRiplah = [
+      tolkienPeak(615, 215, 46, 40),
+      tolkienPeak(655, 225, 40, 36),
+      tolkienPeak(580, 226, 38, 34),
+      tolkienPeak(605, 238, 50, 44),
+      tolkienPeak(645, 244, 42, 38),
+      tolkienPeak(575, 260, 36, 30),
+      tolkienPeak(615, 264, 34, 28)
+    ].join('');
+
+    const robberPasses = [
+      tolkienPeak(145, 55, 38, 36),
+      tolkienPeak(248, 55, 38, 36),
+      tolkienPeak(175, 68, 42, 40),
+      tolkienPeak(268, 70, 44, 40),
+      tolkienPeak(135, 85, 34, 30),
+      tolkienPeak(285, 88, 36, 32)
+    ].join('');
+
+    const southWilderness = [
+      tolkienPeak(340, 292, 28, 18),
+      tolkienPeak(370, 290, 30, 20),
+      tolkienPeak(400, 292, 26, 16),
+      tolkienPeak(485, 292, 30, 20),
+      tolkienPeak(515, 290, 28, 18)
+    ].join('');
+
+    const forests = [
+      // Western Wilderness forest (Hermounts)
+      tolkienTree(65, 140, 7), tolkienTree(78, 144, 6), tolkienTree(60, 155, 6.5),
+      tolkienTree(72, 160, 7), tolkienTree(85, 175, 6), tolkienTree(68, 182, 7.5),
+      tolkienTree(80, 192, 6.5), tolkienTree(65, 225, 7), tolkienTree(78, 235, 6.5),
+      // River Sidon valley groves
+      tolkienTree(470, 150, 6.5), tolkienTree(482, 156, 6), tolkienTree(475, 165, 7),
+      tolkienTree(395, 195, 6), tolkienTree(382, 202, 6.5),
+      // Antiparah coastal scrub
+      tolkienTree(115, 255, 6), tolkienTree(126, 262, 6.5), tolkienTree(118, 272, 6),
+      // Bountiful groves
+      tolkienTree(470, 85, 6.5), tolkienTree(485, 88, 6), tolkienTree(498, 84, 6.5)
+    ].join('');
 
     let nodes = '';
     for (const m of MISSIONS) {
@@ -3089,93 +3170,213 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const stars = save.won[m.id] || 0;
       const active = !stars;
       nodes += `<g class="mapNode ${active ? 'active' : ''}" data-node="${m.id}" role="button" aria-label="${esc(m.title)}">
-        <circle cx="${pos.cx}" cy="${pos.cy}" r="26" fill="rgba(201,150,46,0.12)" stroke="#fcd34d" stroke-width="1.2" stroke-dasharray="3 3"/>
-        <circle cx="${pos.cx}" cy="${pos.cy}" r="18" class="core" fill="#241407" stroke="#c9962e" stroke-width="2.5"/>
-        <text x="${pos.cx}" y="${pos.cy + 5}" text-anchor="middle" fill="#fde68a" font-weight="900" font-size="13">${pos.num}</text>
-        <text x="${pos.cx}" y="${pos.cy - 24}" text-anchor="middle" fill="#ecc764" font-weight="800" font-size="11.5">${esc(pos.label)}</text>
-        <text x="${pos.cx}" y="${pos.cy - 12}" text-anchor="middle" fill="rgba(244,232,204,0.65)" font-weight="600" font-size="9.5">${esc(pos.ref)}</text>
-        ${stars ? `<text x="${pos.cx}" y="${pos.cy + 34}" text-anchor="middle" fill="#fcd34d" font-size="13">${'★'.repeat(stars)}</text>` : ''}
+        <!-- Glowing candlelight aura -->
+        <circle cx="${pos.cx}" cy="${pos.cy}" r="25" class="sealGlow" fill="rgba(217,119,6,0.25)" opacity="0"/>
+        <!-- Outer Crimson Wax Seal with seal rim edge -->
+        <circle cx="${pos.cx}" cy="${pos.cy}" r="17.5" fill="url(#sealWax)" stroke="#4a0e0e" stroke-width="1.4"/>
+        <!-- Burnished Gold Inner Rim -->
+        <circle cx="${pos.cx}" cy="${pos.cy}" r="14" class="sealRim" fill="none" stroke="#d97706" stroke-width="1.3"/>
+        <!-- Aged Vellum Core Disc -->
+        <circle cx="${pos.cx}" cy="${pos.cy}" r="12" class="core" fill="#fdfaf3" stroke="#2c1608" stroke-width="0.9"/>
+        <!-- Mission Number in Cinzel Roman Serif -->
+        <text x="${pos.cx}" y="${pos.cy + 4.5}" text-anchor="middle" fill="#2c1608" font-family="'Cinzel', 'Georgia', serif" font-weight="900" font-size="12">${pos.num}</text>
+        <!-- Label above with parchment halo -->
+        <text x="${pos.cx}" y="${pos.cy - 24}" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-weight="800" font-size="10.5" fill="#2c1608" style="paint-order: stroke fill; stroke: #f6ebd2; stroke-width: 3.5px; stroke-linejoin: round;">${esc(pos.label)}</text>
+        <!-- Scripture Ref with parchment halo in rubricated red -->
+        <text x="${pos.cx}" y="${pos.cy - 12}" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-weight="700" font-size="8.5" fill="#8b1e0f" font-style="italic" style="paint-order: stroke fill; stroke: #f6ebd2; stroke-width: 3px; stroke-linejoin: round;">${esc(pos.ref)}</text>
+        <!-- Stars below -->
+        ${stars ? `<text x="${pos.cx}" y="${pos.cy + 29}" text-anchor="middle" fill="#b45309" font-size="12" font-weight="900" style="paint-order: stroke fill; stroke: #f6ebd2; stroke-width: 2.5px;">${'★'.repeat(stars)}</text>` : ''}
       </g>`;
     }
 
     return `<div class="campMapWrap">
       <svg class="campMapSvg" viewBox="0 0 720 340">
         <defs>
-          <radialGradient id="parchGrad" cx="50%" cy="50%" r="70%">
-            <stop offset="0%" stop-color="#2c1d0f"/>
-            <stop offset="65%" stop-color="#190e06"/>
-            <stop offset="100%" stop-color="#0e0703"/>
+          <!-- Aged warm parchment paper wash -->
+          <radialGradient id="lotrParchment" cx="50%" cy="48%" r="68%">
+            <stop offset="0%" stop-color="#faf2e3"/>
+            <stop offset="35%" stop-color="#f5e8cc"/>
+            <stop offset="68%" stop-color="#eed5aa"/>
+            <stop offset="88%" stop-color="#dfbd83"/>
+            <stop offset="100%" stop-color="#cca062"/>
           </radialGradient>
-          <linearGradient id="riverGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-            <stop offset="0%" stop-color="#0284c7"/>
-            <stop offset="100%" stop-color="#38bdf8"/>
+          <!-- Corner & edge burn vignette (aged leather & burnt vellum) -->
+          <radialGradient id="vignetteBurn" cx="50%" cy="50%" r="65%">
+            <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+            <stop offset="82%" stop-color="#5a2e0a" stop-opacity="0.18"/>
+            <stop offset="96%" stop-color="#381b05" stop-opacity="0.42"/>
+            <stop offset="100%" stop-color="#241103" stop-opacity="0.65"/>
+          </radialGradient>
+          <!-- Soft antique watercolor wash for rivers & sea -->
+          <linearGradient id="lotrWater" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#608b9e"/>
+            <stop offset="60%" stop-color="#4e788c"/>
+            <stop offset="100%" stop-color="#3c6578"/>
           </linearGradient>
+          <!-- Crimson wax seal radial gradient -->
+          <radialGradient id="sealWax" cx="40%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#c92a1d"/>
+            <stop offset="55%" stop-color="#991b1b"/>
+            <stop offset="100%" stop-color="#691010"/>
+          </radialGradient>
         </defs>
-        <rect width="720" height="340" fill="url(#parchGrad)" rx="14"/>
-        <rect x="12" y="12" width="696" height="316" fill="none" stroke="rgba(201,150,46,0.3)" stroke-width="1.5" rx="10"/>
-        <rect x="16" y="16" width="688" height="308" fill="none" stroke="rgba(201,150,46,0.15)" stroke-width="1" rx="8"/>
 
-        <!-- Mesoamerican Corner Frets -->
-        <path d="M 22 36 L 22 22 L 36 22 M 698 36 L 698 22 L 684 22 M 22 304 L 22 318 L 36 318 M 698 304 L 698 318 L 684 318" stroke="#c9962e" stroke-width="2" fill="none"/>
+        <!-- Base Parchment Surface & Edge Vignette -->
+        <rect width="720" height="340" fill="url(#lotrParchment)"/>
+        <rect width="720" height="340" fill="url(#vignetteBurn)" opacity="0.65"/>
 
-        <!-- Geography Legends -->
-        <text x="360" y="36" text-anchor="middle" fill="#c9962e" font-size="11" font-weight="800" letter-spacing="3" opacity="0.8">LAND OF BOUNTIFUL &amp; SEA NORTH</text>
-        <text x="360" y="322" text-anchor="middle" fill="#c9962e" font-size="10" font-weight="800" letter-spacing="3" opacity="0.6">NARROW STRIP OF WILDERNESS</text>
-        <text x="34" y="170" fill="#c9962e" font-size="9" font-weight="700" letter-spacing="2" opacity="0.45" transform="rotate(-90 34 170)">WESTERN WILDERNESS</text>
-        <text x="686" y="170" fill="#c9962e" font-size="9" font-weight="700" letter-spacing="2" opacity="0.45" transform="rotate(90 686 170)">EASTERN BORDERS</text>
+        <!-- Subtle antique folding creases -->
+        <line x1="360" y1="0" x2="360" y2="340" stroke="#4a2608" stroke-width="0.8" opacity="0.12"/>
+        <line x1="361" y1="0" x2="361" y2="340" stroke="#fff" stroke-width="0.8" opacity="0.15"/>
+        <line x1="0" y1="170" x2="720" y2="170" stroke="#4a2608" stroke-width="0.8" opacity="0.12"/>
+        <line x1="0" y1="171" x2="720" y2="171" stroke="#fff" stroke-width="0.8" opacity="0.15"/>
 
-        <!-- Compass Rose -->
-        <g transform="translate(640, 60)" opacity="0.7">
-          <circle cx="0" cy="0" r="16" fill="none" stroke="#c9962e" stroke-width="1"/>
-          <path d="M 0 -18 L 4 -4 L 18 0 L 4 4 L 0 18 L -4 4 L -18 0 L -4 -4 Z" fill="#c9962e"/>
-          <text x="0" y="-21" text-anchor="middle" fill="#fcd34d" font-size="8" font-weight="900">N</text>
+        <!-- Middle-earth Style Double Rule & Railway Border -->
+        <rect x="6" y="6" width="708" height="328" fill="none" stroke="#2c1608" stroke-width="1.8" rx="4"/>
+        <g opacity="0.9">${borderTicks}</g>
+        <rect x="20" y="20" width="680" height="300" fill="none" stroke="#2c1608" stroke-width="1.2" rx="3"/>
+
+        <!-- Corner Flourishes / Scrolls -->
+        <g stroke="#2c1608" stroke-width="1.2" fill="none">
+          <path d="M 24 38 C 24 24, 38 24, 38 24 M 28 42 C 28 28, 42 28, 42 28"/>
+          <path d="M 696 38 C 696 24, 682 24, 682 24 M 692 42 C 692 28, 678 28, 678 28"/>
+          <path d="M 24 302 C 24 316, 38 316, 38 316 M 28 298 C 28 312, 42 312, 42 312"/>
+          <path d="M 696 302 C 696 316, 682 316, 682 316 M 692 298 C 692 312, 678 312, 678 312"/>
         </g>
 
-        <!-- Hill Riplah Mountain Ridges (Alma 43:31) -->
-        <g opacity="0.6">
-          <polygon points="510,265 535,220 560,265" fill="rgba(180,83,9,0.3)" stroke="#c9962e" stroke-width="1.5"/>
-          <polygon points="545,265 570,230 595,265" fill="rgba(180,83,9,0.3)" stroke="#c9962e" stroke-width="1.5"/>
-          <polygon points="485,265 508,235 530,265" fill="rgba(180,83,9,0.2)" stroke="#c9962e" stroke-width="1.2"/>
-          <text x="548" y="278" fill="#fcd34d" font-size="9.5" font-weight="700" text-anchor="middle">Hill Riplah</text>
+        <!-- Sea North Coastline & Shore Wave Contours -->
+        <path d="M 30 64 C 110 58, 220 70, 360 62 C 480 54, 580 68, 690 60" fill="none" stroke="#4e788c" stroke-width="1.3" opacity="0.65"/>
+        <path d="M 30 68 C 110 62, 220 74, 360 66 C 480 58, 580 72, 690 64" fill="none" stroke="#4e788c" stroke-width="0.8" stroke-dasharray="8 4" opacity="0.45"/>
+        <path d="M 30 72 C 110 66, 220 78, 360 70 C 480 62, 580 76, 690 68" fill="none" stroke="#4e788c" stroke-width="0.6" stroke-dasharray="4 6" opacity="0.3"/>
+
+        <!-- Ship of Hagoth in Sea North (Alma 63:5) -->
+        <g transform="translate(565, 52)" opacity="0.8">
+          <path d="M -14 6 C -10 11, 10 11, 14 6 C 10 8, -10 8, -14 6 Z" fill="#2c1608"/>
+          <path d="M -14 6 Q -17 0, -15 -3 M 14 6 Q 17 0, 15 -3" stroke="#2c1608" stroke-width="1.2" fill="none"/>
+          <line x1="0" y1="8" x2="0" y2="-12" stroke="#2c1608" stroke-width="1.2"/>
+          <line x1="-8" y1="-8" x2="8" y2="-8" stroke="#2c1608" stroke-width="0.9"/>
+          <path d="M -7 -8 C -4 -5, -4 2, -6 4 L 6 4 C 4 2, 4 -5, 7 -8 Z" fill="#faf2e3" stroke="#2c1608" stroke-width="1"/>
+          <path d="M -18 8 Q -10 9, -2 8 M 6 8 Q 12 9, 18 8" stroke="#4e788c" stroke-width="0.7" fill="none"/>
+          <text x="0" y="16" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-style="italic" font-size="6.5" fill="#3a5a6b">Ship of Hagoth</text>
         </g>
 
-        <!-- Fortifications of Noah Earthworks (Alma 49:18) -->
-        <g opacity="0.6">
-          <rect x="272" y="246" width="36" height="6" fill="#78350f" stroke="#c9962e" stroke-width="1" rx="2"/>
-          <text x="290" y="261" fill="#ecc764" font-size="8.5" font-weight="700" text-anchor="middle">Earthworks of Noah</text>
+        <!-- River Sidon Path (Alma 43:32) with watercolor wash & sepia banks -->
+        <path d="M 455 348 C 448 312, 478 276, 446 236 C 418 200, 452 156, 420 114 C 396 78, 426 48, 412 24" fill="none" stroke="url(#lotrWater)" stroke-width="6.5" stroke-linecap="round" opacity="0.75"/>
+        <path d="M 452 348 C 445 312, 474 276, 442 236 C 415 200, 448 156, 416 114 C 392 78, 422 48, 408 24" fill="none" stroke="#2c1608" stroke-width="1.1"/>
+        <path d="M 458 348 C 451 312, 482 276, 450 236 C 421 200, 456 156, 424 114 C 400 78, 430 48, 416 24" fill="none" stroke="#2c1608" stroke-width="1.1"/>
+
+        <!-- Tributaries -->
+        <path d="M 535 244 Q 486 240, 446 236" fill="none" stroke="#4e788c" stroke-width="1.2"/>
+        <path d="M 285 186 Q 345 192, 428 178" fill="none" stroke="#4e788c" stroke-width="1.2"/>
+
+        <!-- River Sidon Italic Title -->
+        <text x="444" y="124" fill="#2c1608" font-family="'Cinzel', 'Georgia', serif" font-size="9.5" font-weight="700" font-style="italic" opacity="0.9">River Sidon</text>
+
+        <!-- The Fords of Sidon (Alma 43:35) -->
+        <g transform="translate(444, 255)">
+          <circle cx="-6" cy="0" r="1.5" fill="#2c1608"/>
+          <circle cx="-1" cy="0" r="1.5" fill="#2c1608"/>
+          <circle cx="4" cy="0" r="1.5" fill="#2c1608"/>
+          <circle cx="9" cy="0" r="1.5" fill="#2c1608"/>
+          <circle cx="14" cy="0" r="1.5" fill="#2c1608"/>
+          <text x="24" y="3" fill="#5c3818" font-family="'Cinzel', 'Georgia', serif" font-size="7.5" font-style="italic" font-weight="700" style="paint-order: stroke fill; stroke: #f6ebd2; stroke-width: 2.5px;">Fords of Sidon</text>
         </g>
 
-        <!-- City of Antiparah Fortress (Alma 56:31) -->
-        <g opacity="0.6">
-          <polygon points="150,272 160,260 170,272" fill="#78350f" stroke="#c9962e" stroke-width="1"/>
-          <text x="160" y="284" fill="#ecc764" font-size="8.5" font-weight="700" text-anchor="middle">Antiparah</text>
+        <!-- Mountain Ranges -->
+        <g>${hillRiplah}</g>
+        <g>${robberPasses}</g>
+        <g>${southWilderness}</g>
+
+        <!-- Forest Copses -->
+        <g>${forests}</g>
+
+        <!-- Hill Riplah Title -->
+        <text x="625" y="292" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-weight="700" font-size="9" fill="#2c1608" style="paint-order: stroke fill; stroke: #f6ebd2; stroke-width: 2.5px;">Hill Riplah</text>
+        <text x="625" y="301" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-style="italic" font-size="7.5" fill="#78350f" style="paint-order: stroke fill; stroke: #f6ebd2; stroke-width: 2px;">Alma 43:31</text>
+
+        <!-- Northern Robber Passes Title -->
+        <text x="210" y="122" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-weight="700" font-size="8.5" fill="#2c1608" style="paint-order: stroke fill; stroke: #f6ebd2; stroke-width: 2.5px;">Robber Passes</text>
+        <text x="210" y="131" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-style="italic" font-size="7" fill="#78350f" style="paint-order: stroke fill; stroke: #f6ebd2; stroke-width: 2px;">3 Nephi 4:1</text>
+
+        <!-- Ancient Fortress & Settlement Cartography -->
+        <!-- Zarahemla Citadel -->
+        <g transform="translate(345, 120)">
+          <polygon points="-24,12 24,12 18,-2 -18,-2" fill="#fcf6ea" stroke="#2c1608" stroke-width="1.2"/>
+          <rect x="-14" y="-12" width="28" height="10" fill="#fcf6ea" stroke="#2c1608" stroke-width="1.2"/>
+          <rect x="-7" y="-20" width="14" height="9" fill="#fcf6ea" stroke="#2c1608" stroke-width="1.2"/>
+          <path d="M -14 -12 L -14 -15 L -10 -15 L -10 -12 L -6 -12 L -6 -15 L -2 -15 L -2 -12 L 2 -12 L 2 -15 L 6 -15 L 6 -12 L 10 -12 L 10 -15 L 14 -15 L 14 -12" fill="none" stroke="#2c1608" stroke-width="0.9"/>
+          <line x1="0" y1="-20" x2="0" y2="-32" stroke="#2c1608" stroke-width="1.3"/>
+          <path d="M 0 -32 L 12 -28 L 0 -24 Z" fill="#991b1b" stroke="#7f1d1d" stroke-width="0.8"/>
+          <path d="M -4 12 A 4 4 0 0 1 4 12 Z" fill="#2c1608"/>
         </g>
 
-        <!-- Zarahemla Citadel (3 Nephi 3:23) -->
-        <g opacity="0.6">
-          <polygon points="330,122 340,112 350,122" fill="#b45309" stroke="#fcd34d" stroke-width="1.2"/>
-          <text x="340" y="108" fill="#fde68a" font-size="9" font-weight="800" text-anchor="middle">Zarahemla</text>
+        <!-- City of Noah -->
+        <g transform="translate(310, 222)">
+          <ellipse cx="0" cy="5" rx="22" ry="8" fill="#dfc092" stroke="#2c1608" stroke-width="1.2"/>
+          <path d="M -18 3 L -18 -3 L -14 0 L -14 -4 L -10 0 L -10 -4 L -6 0 L -6 -4 L -2 0 L -2 -4 L 2 0 L 2 -4 L 6 0 L 6 -4 L 10 0 L 10 -4 L 14 0 L 14 -3 L 18 3" fill="none" stroke="#2c1608" stroke-width="1.1"/>
+          <path d="M -18 9 Q 0 13, 18 9" fill="none" stroke="#5c3818" stroke-width="1.6"/>
         </g>
 
-        <!-- Northern Mountain Passes (3 Nephi 4:1) -->
-        <g opacity="0.6">
-          <polygon points="180,95 200,60 220,95" fill="rgba(180,83,9,0.3)" stroke="#c9962e" stroke-width="1.2"/>
-          <polygon points="210,95 225,68 240,95" fill="rgba(180,83,9,0.3)" stroke="#c9962e" stroke-width="1.2"/>
-          <text x="210" y="106" fill="#fcd34d" font-size="8.5" font-weight="700" text-anchor="middle">Robber Passes</text>
+        <!-- Fortress of Antiparah -->
+        <g transform="translate(160, 234)">
+          <polygon points="-16,8 16,8 14,-2 -14,-2" fill="#fcf6ea" stroke="#2c1608" stroke-width="1.2"/>
+          <rect x="-16" y="-6" width="7" height="10" fill="#fcf6ea" stroke="#2c1608" stroke-width="1.1"/>
+          <rect x="9" y="-6" width="7" height="10" fill="#fcf6ea" stroke="#2c1608" stroke-width="1.1"/>
+          <rect x="-4" y="-10" width="8" height="12" fill="#fcf6ea" stroke="#2c1608" stroke-width="1.1"/>
+          <path d="M -2 8 A 2.5 2.5 0 0 1 2 8 Z" fill="#2c1608"/>
         </g>
 
-        <!-- River Sidon Path (Alma 43:32) -->
-        <path d="M 440 330 C 420 280, 480 230, 430 170 C 390 120, 440 70, 390 18" stroke="url(#riverGrad)" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.8"/>
-        <text x="442" y="125" fill="#7dd3fc" font-size="10.5" font-weight="700" font-style="italic" opacity="0.8">River Sidon</text>
+        <!-- Standard Raised Watchtower -->
+        <g transform="translate(430, 192)">
+          <polygon points="-7,8 7,8 5,-8 -5,-8" fill="#fcf6ea" stroke="#2c1608" stroke-width="1.2"/>
+          <line x1="0" y1="-8" x2="0" y2="-28" stroke="#2c1608" stroke-width="1.3"/>
+          <line x1="-1" y1="-26" x2="16" y2="-26" stroke="#2c1608" stroke-width="1"/>
+          <path d="M 0 -26 L 16 -26 L 12 -17 L 16 -8 L 0 -8 Z" fill="#fcfaf2" stroke="#991b1b" stroke-width="1.1"/>
+          <line x1="3" y1="-17" x2="11" y2="-17" stroke="#991b1b" stroke-width="0.8"/>
+        </g>
 
-        <!-- Shallows and Fords (Alma 43:35) -->
-        <line x1="422" y1="190" x2="445" y2="190" stroke="#fef08a" stroke-width="2" stroke-dasharray="2 3" opacity="0.9"/>
-        <text x="452" y="193" fill="#fde68a" font-size="8" font-weight="600">Ford</text>
+        <!-- Red Dotted Campaign Trail (The Fellowship Route) -->
+        <path d="M 535 235 C 485 225, 455 220, 430 215 C 380 215, 345 235, 310 245 C 260 255, 205 260, 160 260 C 210 195, 275 160, 345 145 C 300 120, 255 98, 210 88" stroke="#991b1b" stroke-width="2.2" stroke-dasharray="3 4" fill="none" opacity="0.85"/>
 
-        <!-- Marching / Campaign Highway Route connecting all 6 story chapters -->
-        <path d="M 520 235 C 470 220, 440 215, 410 210 C 360 205, 320 215, 290 225 C 240 235, 190 245, 160 250 C 200 190, 270 155, 340 140 C 290 115, 250 90, 210 75" stroke="#fcd34d" stroke-width="2.2" stroke-dasharray="5 5" fill="none" opacity="0.65"/>
+        <!-- Middle-earth Style 8-Point Compass Rose -->
+        <g transform="translate(650, 78)">
+          <circle cx="0" cy="0" r="22" fill="none" stroke="#2c1608" stroke-width="1.2"/>
+          <circle cx="0" cy="0" r="18" fill="none" stroke="#2c1608" stroke-width="0.8" stroke-dasharray="2 3"/>
+          <!-- Minor points -->
+          <path d="M 0 0 L 12 -12 L 0 -4 L -12 -12 Z M 0 0 L 12 12 L 4 0 L 12 -12 Z M 0 0 L -12 12 L 0 4 L 12 12 Z M 0 0 L -12 -12 L -4 0 L -12 12 Z" fill="#d4b27b" stroke="#2c1608" stroke-width="0.8"/>
+          <!-- Cardinal points -->
+          <path d="M 0 0 L 0 -26 L 5 -5 Z" fill="#991b1b" stroke="#2c1608" stroke-width="1"/>
+          <path d="M 0 0 L 0 -26 L -5 -5 Z" fill="#c92a1d" stroke="#2c1608" stroke-width="1"/>
+          <path d="M 0 0 L 22 0 L 5 4 Z" fill="#2c1608"/>
+          <path d="M 0 0 L 22 0 L 5 -4 Z" fill="#5c3818"/>
+          <path d="M 0 0 L 0 22 L -4 5 Z" fill="#2c1608"/>
+          <path d="M 0 0 L 0 22 L 4 5 Z" fill="#5c3818"/>
+          <path d="M 0 0 L -22 0 L -5 -4 Z" fill="#2c1608"/>
+          <path d="M 0 0 L -22 0 L -5 4 Z" fill="#5c3818"/>
+          <path d="M 0 -26 L 3 -21 L 0 -22 L -3 -21 Z" fill="#991b1b"/>
+          <circle cx="0" cy="0" r="3.5" fill="#c9962e" stroke="#2c1608" stroke-width="1"/>
+          <text x="0" y="-30" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-weight="900" font-size="10" fill="#991b1b">N</text>
+          <text x="28" y="3.5" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-weight="800" font-size="8" fill="#2c1608">E</text>
+          <text x="0" y="32" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-weight="800" font-size="8" fill="#2c1608">S</text>
+          <text x="-28" y="3.5" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-weight="800" font-size="8" fill="#2c1608">W</text>
+        </g>
 
-        <!-- Mission Nodes -->
+        <!-- Top Cartouche Header Scroll -->
+        <g transform="translate(360, 36)">
+          <path d="M -180 8 L -150 -8 L 150 -8 L 180 8 L 150 24 L -150 24 Z" fill="#faf2e3" stroke="#2c1608" stroke-width="1.3"/>
+          <path d="M -150 -8 L -190 -16 L -175 0 L -190 16 L -150 24 L -160 8 Z" fill="#ebd6ad" stroke="#2c1608" stroke-width="1.1"/>
+          <path d="M 150 -8 L 190 -16 L 175 0 L 190 16 L 150 24 L 160 8 Z" fill="#ebd6ad" stroke="#2c1608" stroke-width="1.1"/>
+          <text x="0" y="5" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-weight="900" font-size="10.5" letter-spacing="2.5" fill="#2c1608">THE LANDS OF THE NEPHITES</text>
+          <text x="0" y="18" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-style="italic" font-weight="700" font-size="7.5" letter-spacing="1.5" fill="#8b1e0f">★ IN THE WARS OF LIBERTY ★</text>
+        </g>
+
+        <!-- Regional Geography Legends in Tolkien Serif Roman Script -->
+        <text x="360" y="74" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-size="9" font-weight="700" letter-spacing="3.5" fill="#3a5a6b" opacity="0.9">LAND OF BOUNTIFUL &amp; THE SEA NORTH</text>
+        <text x="360" y="316" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-size="8.5" font-weight="700" letter-spacing="3" fill="#5c3818" opacity="0.85">THE NARROW STRIP OF WILDERNESS</text>
+        <text x="32" y="170" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-size="8" font-weight="700" letter-spacing="2.5" fill="#5c3818" opacity="0.75" transform="rotate(-90 32 170)">WESTERN WILDERNESS</text>
+        <text x="688" y="170" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-size="8" font-weight="700" letter-spacing="2.5" fill="#5c3818" opacity="0.75" transform="rotate(90 688 170)">EASTERN BORDERS</text>
+
+        <!-- Mission Nodes (Illuminated Crimson Wax Seals) -->
         ${nodes}
       </svg>
     </div>`;
@@ -3183,7 +3384,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   function perksHtml() {
     const tot = totalStars(), avail = availableStars(), spent = spentStars();
-    const perkEntries = Object.values(DATA.PERKS || {});
+    const perkEntries = Object.values(D.PERKS || {});
     const items = perkEntries.map(p => {
       const active = (save.perks || []).includes(p.id);
       const canAfford = avail >= p.stars;
@@ -3248,7 +3449,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (e.target.closest('[data-how]')) return showTips('mission', null, true);
       if (pu) {
         const id = pu.dataset.perkUnlock;
-        const perk = DATA.PERKS[id];
+        const perk = D.PERKS[id];
         if (perk && availableStars() >= perk.stars) {
           save.perks = save.perks || [];
           if (!save.perks.includes(id)) {

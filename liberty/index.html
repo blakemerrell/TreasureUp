@@ -10,7 +10,7 @@
      (tested by tools/test-liberty.mjs); this page draws them and takes orders. -->
 <link rel="icon" href="../icons/icon-192.png">
 <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #0a0a14; --panel: rgba(30, 20, 12, .93); --line: rgba(255, 255, 255, .12);
@@ -209,8 +209,16 @@
   .card.highlighted { border-color: var(--brass-hi); box-shadow: 0 0 22px rgba(245, 158, 11, .45); }
   .card .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
   .card p { margin: 6px 0 0; color: var(--dim); line-height: 1.4; font-size: 14px; }
-  .campMapWrap { position: relative; width: 100%; border-radius: 16px; border: 2px solid var(--brass); overflow: hidden; margin: 16px 0 22px;
-    background: radial-gradient(ellipse at center, #2b1c0e 0%, #160d06 100%); box-shadow: 0 10px 30px rgba(0, 0, 0, .65); }
+  .campMapWrap { position: relative; width: 100%; border-radius: 14px; border: 3px double #6b3e15; outline: 1px solid rgba(251, 191, 36, .3);
+    overflow: hidden; margin: 16px 0 22px; background: #f6eedb; box-shadow: 0 14px 44px rgba(0, 0, 0, .8), inset 0 0 60px rgba(92, 45, 12, .35); }
+  .campMapSvg { display: block; width: 100%; height: auto; user-select: none; font-family: 'Cinzel', 'Palatino Linotype', 'Georgia', serif; }
+  .mapNode { cursor: pointer; transition: transform .22s ease, filter .22s ease; transform-origin: center; }
+  .mapNode:hover { transform: scale(1.09); filter: drop-shadow(0 0 10px rgba(180, 83, 9, .65)); }
+  .mapNode:hover circle.core { fill: #fffdf5; stroke: #b45309; }
+  .mapNode.active { filter: drop-shadow(0 0 12px rgba(217, 119, 6, .8)); }
+  .mapNode.active circle.core { fill: #fef9e8; stroke: #991b1b; }
+  .mapNode .sealGlow { transition: opacity .3s ease; }
+  .mapNode:hover .sealGlow, .mapNode.active .sealGlow { opacity: 0.85; }
   .perksDrawer { background: rgba(20, 14, 8, .6); border: 1.5px solid var(--brass); border-radius: 16px; margin: 16px 0 20px; overflow: hidden; }
   .perksSummary { padding: 14px 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 15px; color: var(--gold); user-select: none; }
   .perksSummary:hover { background: rgba(255, 255, 255, .04); }
@@ -227,10 +235,6 @@
   .perkAbout { font-size: 12px; color: var(--dim); line-height: 1.35; margin: 0 0 10px; flex-grow: 1; }
   .perkAction .btn { width: 100%; height: 34px; font-size: 12.5px; padding: 0 8px; }
   .perkAction .perkActive { background: linear-gradient(90deg, #10b981, #059669); color: #fff; border: 1px solid #34d399; }
-  .campMapSvg { display: block; width: 100%; height: auto; user-select: none; }
-  .mapNode { cursor: pointer; transition: transform .2s ease; transform-origin: center; }
-  .mapNode:hover circle.core { fill: #f59e0b; stroke: #fff; }
-  .mapNode.active circle.core { fill: #ecc764; stroke: #fff; }
   .stars { color: var(--gold); letter-spacing: 2px; font-size: 18px; }
   .stars .off { color: rgba(255, 255, 255, .2); }
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 44px; padding: 0 18px; border-radius: 12px;
