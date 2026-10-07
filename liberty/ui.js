@@ -4506,14 +4506,26 @@ IMG.farm.src = 'assets/farm.png?v=13';
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn go" id="bBegin">Begin</button>
         ${m.campaign ? '<button class="btn" id="bMap">View Map</button>' : ''}
+        ${m.id === 'm3' ? '<button class="btn" id="bCinematic" style="background:linear-gradient(180deg,#831843,#500724);border:1.5px solid #f43f5e;color:#ffe4e6;font-weight:700">▶ Red Alert Briefing</button>' : ''}
         <button class="btn" id="bTips">Tips</button>
         <button class="btn" id="bBack">Back</button>
       </div></div>`);
     $('bBegin').onclick = () => askThenBegin(m);
     $('bBack').onclick = () => menuFor(m)();
     $('bTips').onclick = () => showTips(tipsKey(m));
+    if ($('bCinematic')) $('bCinematic').onclick = openRaCinematic;
     if ($('bMap')) $('bMap').onclick = () => storyScreen();
     if (!(save.tips || {})[tipsKey(m)]) showTips(tipsKey(m));
+  }
+
+  function openRaCinematic() {
+    openDialog(`<div class="card" style="max-width:980px;width:95vw;padding:0;overflow:hidden;background:#05070a;border:2px solid #2c3842;border-radius:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;background:#0b0f14;padding:8px 14px;border-bottom:1px solid #1f2a33">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:#39ff14;letter-spacing:1px">🔴 REC · EVA TACTICAL BRIEFING · ALMA 43</div>
+        <button data-close class="btn" style="padding:2px 8px;font-size:12px">Close ✕</button>
+      </div>
+      <iframe src="ra_briefing.html" style="width:100%;height:min(78vh,580px);border:none;display:block"></iframe>
+    </div>`);
   }
 
   // ------------------------------------------------------------ the tips card
