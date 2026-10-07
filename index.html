@@ -6421,9 +6421,10 @@ const TreasureUp = (function () {
     const lessonsDone = Object.values(amigo.courses || {}).reduce((n, c) => n + Object.keys(c.done || {}).length, 0);
     const language = gameRow('amigo', '🌎', 'Wika', 'Wika is Tagalog for “language”: Spanish for friends at school, Tagalog from Tatay, and the treasure words in Hebrew and Greek. Five-minute lessons, a streak, and the letters: Baybayin, the alef-bet and Greek.',
       lessonsDone ? lessonsDone + (lessonsDone > 1 ? ' lessons' : ' lesson') + ' done · its own XP, apart from Treasure Up’s' : 'Five minutes a day · its own XP, apart from Treasure Up’s', false);
-    const arcade = gameRow('snake', '🐍', 'Wilderness Snake', 'Arcade Snake in the camp of Israel: gather manna, and eat the jar with the right answer to this week’s questions. 1 player, or 2 on one screen.', arcadeStatus('snake'), false)
-      + gameRow('ammon', '⚔️', 'Ammon at Sebus', 'Robbers come to scatter king Lamoni’s flock at the waters of Sebus (Alma 17). Stand against them with your sword and sling, and gather the sheep back. A question from this week after each level.', arcadeStatus('ammon'), false)
-      + gameRow('look', '👀', 'Look and Live', 'Dodge the fiery serpents, and stop to look at the brass serpent on Moses’s pole to heal (Numbers 21). Each level brings more serpents.', arcadeStatus('look'), false);
+    const lock = arcadeLeft(), arc = id => lock ? '🔒 ' + arcadeLockLine(lock) : arcadeStatus(id);
+    const arcade = gameRow('snake', '🐍', 'Wilderness Snake', 'Arcade Snake in the camp of Israel: gather manna, and eat the jar with the right answer to this week’s questions. 1 player, or 2 on one screen.', arc('snake'), !!lock)
+      + gameRow('ammon', '⚔️', 'Ammon at Sebus', 'Robbers come to scatter king Lamoni’s flock at the waters of Sebus (Alma 17). Stand against them with your sword and sling, and gather the sheep back. A question from this week after each level.', arc('ammon'), !!lock)
+      + gameRow('look', '👀', 'Look and Live', 'Dodge the fiery serpents, and stop to look at the brass serpent on Moses’s pole to heal (Numbers 21). A question from this week after each level.', arc('look'), !!lock);
     return `<div class="games-head">Every day</div>${rows.join('')}<div class="games-head">Arcade</div>${arcade}<div class="games-head">Family night</div>${family.join('')}<div class="games-head">Book of Mormon</div>${strategy}<div class="games-head">Languages</div>${language}`;
   }
   // The Games tab: every game, in its groups.
@@ -6447,7 +6448,7 @@ const TreasureUp = (function () {
     else if (id === 'babylon') riskChooser();
     else if (id === 'liberty') location.href = 'liberty/';
     else if (id === 'amigo') location.href = 'amigo/';
-    else if (id === 'snake' || id === 'look' || id === 'ammon') openArcade(id);
+    else if (id === 'snake' || id === 'look' || id === 'ammon') { const a = arcadeLeft(); if (a) openSheet(arcadeLockHtml(id, a)); else openArcade(id); }
   }
 
   /* ----- the arcade: Wilderness Snake and Look and Live ----- */
@@ -6462,6 +6463,29 @@ const TreasureUp = (function () {
     const s = arcadeSaved(id), top = (s.fam || []).slice().sort((a, b) => b.best - a.best)[0], n = x => Number(x || 0).toLocaleString('en-US');
     const bits = [s.best ? 'Your best ' + n(s.best) : '', top && top.best && !top.me ? 'family best: ' + top.name + ' ' + n(top.best) : ''].filter(Boolean);
     return (bits.length ? bits.join(' · ') + ' · ' : '') + 'no XP, just for fun';
+  }
+  // The arcade opens once today's learning is done (Blake, 2026-10-07: "The arcade games I think need
+  // to be locked until the main learning for the day is done"): today's chapter and its reels. A
+  // grown-up is never locked out, and a parent can open it for the day with the parent PIN (trips,
+  // sick days). The learning games stay open: they are the learning.
+  function arcadeLeft() {
+    if (seasonWho() === 'adult' || (S.arcadeOpen || '') === dayKey()) return null;
+    const d = todayIndex(), read = readingPlan()[d] || [], reels = dayReels(d);
+    const all = read.length + reels.length, left = read.filter(u => !S.read[u.ref]).length + reels.filter(r => !S.answers[r.id]).length;
+    return left ? { left, all, ref: unitsLabel(read) } : null;
+  }
+  const arcadeLockLine = a => `Opens after today’s reading${a.ref ? ' (' + a.ref + ')' : ''} and its questions · ${a.all - a.left} of ${a.all} done`;
+  function arcadeLockHtml(id, a, err) {
+    return `<div class="ls-kind">🔒 ${esc(GAME_NAMES[id])}</div><div class="sh-title">Today’s learning first</div>
+      <p class="reel-body" style="margin-top:8px">The arcade opens once today’s reading${a.ref ? ', <b>' + esc(a.ref) + '</b>,' : ''} and its questions are done. You’ve done ${a.all - a.left} of ${a.all}.</p>
+      <p class="gs-status">Who said it?, Verse Word and the family games are open any time.</p>
+      <div class="board-actions"><button class="btn" data-arcade-today>▶ Do today’s reading</button></div>
+      <details class="hub-set"${err ? ' open' : ''}><summary>👪 A parent can open it today</summary>
+        ${P && P.pin ? `<label class="block mt-3 text-[12px] text-white/60" for="arcadePin">Parent PIN</label>
+        <input id="arcadePin" type="password" inputmode="numeric" maxlength="4" autocomplete="off" class="w-full mt-1 px-3 py-2 rounded-xl bg-black/30 border border-white/15 text-white">
+        ${err ? `<p class="text-[13px] mt-2" style="color:#fca5a5">${esc(err)}</p>` : ''}
+        <div class="board-actions"><button class="btn ghost" data-arcade-pin="${esc(id)}">Open the arcade for today</button></div>`
+        : '<p class="text-[13px] text-white/70 mt-2">First, a parent sets a PIN in ⚙️ → Parent hub.</p>'}</details>`;
   }
   async function openArcade(id) {
     const g = ARCADE[id];
@@ -11616,6 +11640,7 @@ const TreasureUp = (function () {
     M.impressions = newerById(R.impressions, L.impressions);
     M.marks = newerById(R.marks, L.marks);
     M.seasonWho = R.seasonWho || L.seasonWho;
+    M.arcadeOpen = [R.arcadeOpen, L.arcadeOpen].filter(Boolean).sort().pop() || '';
     for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found', 'insights', 'sunday', 'talks', 'picks']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
     // The reading clock: a chapter finished on either device keeps its record.
     M.readLog = Object.assign({}, L.readLog || {}, R.readLog || {});
@@ -14286,6 +14311,13 @@ const TreasureUp = (function () {
       if (clip) { playClip(clip); return; }
       const v = e.target.closest('[data-set-voice]');
       if (v) { switchVoice(v.dataset.setVoice); return openSheet(settingsSheetHtml()); }
+      if (e.target.closest('[data-arcade-today]')) { closeSheet(); openLesson(''); return; }
+      const ap = e.target.closest('[data-arcade-pin]');
+      if (ap) {
+        const id = ap.dataset.arcadePin, a = arcadeLeft();
+        if (!P.pin || ($('arcadePin') && $('arcadePin').value) !== P.pin) return openSheet(arcadeLockHtml(id, a || { left: 0, all: 0, ref: '' }, "That PIN isn't right."));
+        S.arcadeOpen = dayKey(); save(); closeSheet(); refreshHome(); toast('🎮 The arcade is open today', 'Opened by a parent'); openArcade(id); return;
+      }
       const td = e.target.closest('[data-talkdone]');
       if (td) { markTalk(td.dataset.talkdone); return openTalk(td.dataset.talkdone); }
       const sp = e.target.closest('[data-setpick]');

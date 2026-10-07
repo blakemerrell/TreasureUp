@@ -23,7 +23,8 @@
     look: 4, lookStep: 0.45,     // seconds of clear looking to clear level 1, and more each level
     shield: 1.0,                 // seconds after a bite before another
     flyFrom: 3,                  // the level the fiery flying serpents start
-    between: 2.6                 // seconds between levels
+    between: 2.6,                // seconds between levels
+    guard: 5                     // seconds no serpent can bite, after a right answer between levels
   };
   let STORE = 'treasureup.look.v1';
   let host = null, root = null, G = null, raf = 0, last = 0, off = null, audio = null;
@@ -59,7 +60,7 @@
     const portrait = window.innerHeight > window.innerWidth * 1.05;
     const seed = typeof window.TU_LOOK_SEED === 'number' ? window.TU_LOOK_SEED : Date.now();
     G = { w: portrait ? 18 : 32, h: portrait ? 26 : 19, rand: rng(seed), time: 0, level: 0, score: 0, state: 'play', ready: manual() ? 0 : 3,
-      poison: 0, faith: 0, looking: false, clear: false, block: null, shieldUntil: 0, bites: 0, levelBites: 0, levelStart: 0, lookedEver: false,
+      poison: 0, faith: 0, looking: false, clear: false, block: null, shieldUntil: 0, bites: 0, levelBites: 0, levelStart: 0, lookedEver: false, used: new Set(), q: null, rightQs: 0,
       player: { x: 0, y: 0, fx: 1, fy: 0 }, moses: { x: 0, y: 0 }, tents: [], serpents: [], floats: [], between: 0, banner: null, hurt: 0, cleared: 0 };
     nextLevel();
   }
@@ -117,11 +118,11 @@
   }
 
   function update(dt) {
-    if (!G || G.state !== 'play') return;
+    if (!G || G.state !== 'play' || G.q) return;
     G.time += dt;
     if (G.between > 0) {
       G.between -= dt;
-      if (G.between <= 0) nextLevel();
+      if (G.between <= 0) askQuestion();
       return;
     }
     const P = G.player;
@@ -198,6 +199,45 @@
       line: G.level + 1 === T.flyFrom ? W().flying : lines[(G.level - 1) % Math.max(1, lines.length)] };
     G.between = T.between;
     sound('clear');
+  }
+  // Between levels: a question from this week, as in the other arcade games (Blake, 2026-10-07: "heavily
+  // encorporate learning into the start and throughout the games"). Right: +200, and no serpent can bite
+  // for the next level's first seconds.
+  function askQuestion() {
+    const q = host && host.ask ? host.ask(G.used) : null;
+    if (!q) return afterQuestion();
+    G.looking = false;
+    G.q = Object.assign({}, q, { picked: null });
+    renderQuestion();
+  }
+  function answer(i) {
+    const q = G.q;
+    if (!q || q.picked != null) return;
+    q.picked = i;
+    const right = q.choices[i] === q.right;
+    if (right) { G.score += 200; G.rightQs++; G.guardNext = true; sound('clear'); } else sound('blocked');
+    renderQuestion();
+  }
+  function afterQuestion() {
+    const guard = G.guardNext;
+    G.q = null; G.guardNext = false; G.banner = null;
+    const box = $('lkBox');
+    if (box) { box.hidden = true; box.innerHTML = ''; }
+    nextLevel();
+    G.ready = manual() ? 0 : 1.5;
+    if (guard) G.shieldUntil = G.time + T.guard;
+  }
+  function renderQuestion() {
+    const box = $('lkBox'), q = G && G.q;
+    if (!box || !q) return;
+    box.hidden = false;
+    const picked = q.picked != null, right = picked && q.choices[q.picked] === q.right;
+    box.innerHTML = `<div class="lk-card">
+      <div class="eyebrow">${q.review ? 'A review · ' + esc(q.review) : 'From this week'}</div>
+      <p class="lk-q">${host.html(q.q, q.ref)}</p>
+      <div class="lk-choices">${q.choices.map((c, i) => `<button class="lk-choice${picked ? (c === q.right ? ' right' : i === q.picked ? ' wrong' : '') : ''}" data-ans="${i}"${picked ? ' disabled' : ''}><b>${'ABCD'[i]}</b><span>${esc(c)}</span></button>`).join('')}</div>
+      ${picked ? `<p class="lk-why"><b class="${right ? 'ok' : 'no'}">${right ? 'Right! +200, and no serpent can bite you as the next level begins' : 'Not this time.'}</b> ${q.why ? host.html(q.why, q.ref) : ''}</p>
+        <div class="board-actions"><button class="btn" data-lk="next">▶ Level ${G.level + 1}</button></div>` : ''}</div>`;
   }
   function over() {
     G.state = 'over';
@@ -455,6 +495,7 @@
         <li><b>Hold SPACE</b>${coarse() ? ' or <b>LOOK</b>' : ''} to stop and look at the serpent of brass on Moses’s pole. Looking heals you, and fills the gold meter that clears the level.</li>
         <li>You can only look when nothing is <b>in the way</b>: a tent, or a serpent crossing your view. And you can’t move while you look.</li>
         <li>Each level brings more serpents, faster. From level ${T.flyFrom}, some fly.</li>
+        <li>After each level, a <b>question from this week</b>: right, and you get 200 points and a few seconds no serpent can bite.</li>
       </ul>
       <div id="lkScores" class="lk-scores">${scoresHtml()}</div></div>`);
     hud();
@@ -463,7 +504,7 @@
     root.dataset.view = 'game';
     shell(`<div id="lkPanel" class="lk-panel" aria-live="polite"></div>
       <div id="lkStage" class="lk-stage"><div class="lk-frame"><canvas id="lkCanvas" role="img" aria-label="The camp: you, Moses with the brass serpent, the tents and the fiery serpents"></canvas>
-        ${coarse() ? '<button class="lk-look" data-lk="look" aria-label="Hold to look at the brass serpent">LOOK</button>' : ''}<div id="lkPause" class="lk-pausebox" hidden></div></div></div>`);
+        ${coarse() ? '<button class="lk-look" data-lk="look" aria-label="Hold to look at the brass serpent">LOOK</button>' : ''}<div id="lkBox" class="lk-box" hidden></div><div id="lkPause" class="lk-pausebox" hidden></div></div></div>`);
     bg = null;
     hud(); panel();
   }
@@ -494,7 +535,7 @@
     shell(`<div class="lk-menu">
       <div class="eyebrow">${G.newBest ? '🏆 New best!' : 'The poison won this time'}</div>
       <div class="lk-big">${fmt(G.score)}</div>
-      <p class="lk-note">${G.cleared ? `${G.cleared} ${G.cleared === 1 ? 'level' : 'levels'} cleared` : 'No level cleared yet'} · ${G.bites} ${G.bites === 1 ? 'bite' : 'bites'}</p>
+      <p class="lk-note">${G.cleared ? `${G.cleared} ${G.cleared === 1 ? 'level' : 'levels'} cleared` : 'No level cleared yet'} · ${G.bites} ${G.bites === 1 ? 'bite' : 'bites'}${G.used.size ? ` · ${G.rightQs} of ${G.used.size} ${G.used.size === 1 ? 'question' : 'questions'} right` : ''}</p>
       <p class="lk-hook">${host.html(line || '')}</p>
       <div class="board-actions"><button class="btn" data-lk="start">▶ Play again</button><button class="btn ghost" data-lk="menu">Menu</button></div>
       <div id="lkScores" class="lk-scores">${scoresHtml()}</div></div>`);
@@ -521,6 +562,8 @@
     else if (e.key === ' ' && G) G.looking = false;
   }
   function onClick(e) {
+    const ans = e.target.closest('[data-ans]');
+    if (ans) { answer(Number(ans.dataset.ans)); return; }
     const b = e.target.closest('[data-lk]');
     if (!b) return;
     const act = b.dataset.lk;
@@ -532,6 +575,7 @@
     else if (act === 'pause') pause(!G.paused);
     else if (act === 'resume') pause(false);
     else if (act === 'quit') { pause(false); over(); }
+    else if (act === 'next') afterQuestion();
   }
   // LOOK is held (pointer down to up); a drag anywhere else on the camp moves you.
   function onDown(e) {
@@ -599,7 +643,15 @@
       #look canvas { display: block; touch-action: none; border-radius: 4px; }
       #look .lk-look { position: absolute; right: 12px; bottom: 12px; width: 92px; height: 92px; border-radius: 50%; border: 3px solid #fde68a; background: rgba(120,53,15,.78); color: #fde68a; font: 900 18px system-ui, sans-serif; letter-spacing: .05em; touch-action: none; user-select: none; -webkit-user-select: none; line-height: 1; }
       #look .lk-look:active { background: rgba(253,224,71,.5); color: #422006; }
-      #look .lk-pausebox[hidden] { display: none; }
+      #look .lk-pausebox[hidden], #look .lk-box[hidden] { display: none; }
+      #look .lk-box { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(15,10,5,.6); line-height: 1.35; overflow-y: auto; padding: 10px; z-index: 2; }
+      #look .lk-card { width: min(560px, 100%); display: grid; gap: 10px; padding: 16px; border-radius: 16px; background: rgba(20,16,40,.95); border: 1px solid rgba(255,255,255,.15); }
+      #look .lk-q { margin: 0; font-weight: 800; font-size: clamp(16px, 1.8vw, 21px); line-height: 1.3; }
+      #look .lk-choices { display: grid; gap: 8px; }
+      #look .lk-choice { display: flex; gap: 10px; align-items: center; text-align: left; padding: 10px 12px; border-radius: 12px; border: 2px solid rgba(255,255,255,.18); background: rgba(255,255,255,.06); color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+      #look .lk-choice b { display: grid; place-items: center; min-width: 1.7em; height: 1.7em; border-radius: 8px; background: rgba(255,255,255,.14); }
+      #look .lk-choice.right { border-color: #4ade80; background: rgba(74,222,128,.18); } #look .lk-choice.wrong { border-color: #f87171; background: rgba(248,113,113,.15); }
+      #look .lk-why { margin: 0; font-size: 15px; } #look .lk-why .ok { color: #86efac; } #look .lk-why .no { color: #fca5a5; }
       #look .lk-pausebox { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(15,10,5,.55); line-height: 1.3; }
       #look .lk-pausecard { display: grid; gap: 10px; padding: 16px 20px; border-radius: 16px; background: rgba(20,16,40,.92); text-align: center; } #look .lk-pausecard b { font-size: 24px; }
       #look .lk-big { font-size: clamp(36px, 6vw, 64px); font-weight: 900; line-height: 1.1; }
