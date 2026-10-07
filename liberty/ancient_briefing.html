@@ -420,6 +420,7 @@
     <!-- Screen Column -->
     <div class="screen-col">
       <div class="cinema-container" id="cinemaBox">
+        <video id="videoPlayerMp4" class="video-display" playsinline loop muted autoplay style="display:none"></video>
         <img id="videoPlayer" class="video-display" src="assets/cinematics/ancient_scene1_loop.webp" alt="Ancient Sacred Record">
         <div class="torch-overlay"></div>
 
@@ -481,8 +482,8 @@
           <button class="scene-btn" data-scene="4">
             <span class="scene-num">V</span>
             <div>
-              <div>Ambush at River Sidon</div>
-              <small style="color:#a8a29e">Riplah ridge & Manti temple</small>
+              <div>Ambush at River Sidon <span style="background:#b91c1c;color:#fee2e2;padding:1px 5px;border-radius:3px;font-size:9px;font-weight:700;margin-left:4px">VEO 3.1</span></div>
+              <small style="color:#a8a29e">Live-action cinematic ambush</small>
             </div>
           </button>
           <button class="scene-btn" data-scene="5">
@@ -544,6 +545,7 @@
       <button class="btn-ancient" id="btnPrev">◀ PREV</button>
       <button class="btn-ancient" id="btnNext">NEXT ▶</button>
       <button class="btn-ancient" id="btnReplay">🔁 REPLAY SCENE</button>
+      <button class="btn-ancient" id="btnTakeToggle" style="display:none;background:linear-gradient(180deg,#991b1b,#701313);border-color:#ef4444;color:#fee2e2">🎬 VEO: TAKE 1</button>
     </div>
 
     <div class="ctrl-group">
@@ -594,7 +596,9 @@
     {
       title: "V. THE AMBUSH AT RIVER SIDON",
       ref: "Alma 43:31–35, 53",
-      speaker: "BATTLEFIELD COMMENCEMENT · RIVER SIDON",
+      speaker: "BATTLEFIELD COMMENCEMENT · RIVER SIDON [VEO 3.1 CINEMATIC]",
+      videoMp4: "assets/cinematics/veo_sidon_ambush_take2.mp4",
+      videoMp4Alt: "assets/cinematics/veo_sidon_ambush_take1.mp4",
       loop: "assets/cinematics/ancient_scene5_loop.webp",
       still: "assets/cinematics/ancient_scene5_sidon_ambush.jpg",
       text: "At dawn, Moroni's hidden armies rise from the wooded slopes of Hill Riplah and encircle the river fords.",
@@ -700,14 +704,37 @@
     else if (idx === 0 || idx === 3 || idx === 5) playTempleChime();
     else playCeremonialDrum();
 
-    // Switch video
-    const vid = document.getElementById('videoPlayer');
-    vid.style.opacity = '0.3';
-    setTimeout(() => {
-      vid.src = scene.loop;
-      vid.onerror = () => { vid.src = scene.still; };
-      vid.style.opacity = '1';
-    }, 120);
+    let activeTake = 2;
+
+    // Switch video or image
+    const imgEl = document.getElementById('videoPlayer');
+    const vidEl = document.getElementById('videoPlayerMp4');
+    const takeBtn = document.getElementById('btnTakeToggle');
+
+    if (scene.videoMp4) {
+      imgEl.style.display = 'none';
+      vidEl.style.display = 'block';
+      const targetSrc = (window.activeVeoTake === 1 && scene.videoMp4Alt) ? scene.videoMp4Alt : scene.videoMp4;
+      if (!vidEl.src.endsWith(targetSrc)) {
+        vidEl.src = targetSrc;
+        vidEl.load();
+      }
+      vidEl.play().catch(e => {});
+      if (takeBtn) {
+        takeBtn.style.display = 'inline-flex';
+        takeBtn.textContent = (window.activeVeoTake === 1) ? '🎬 VEO: TAKE 1' : '🎬 VEO: TAKE 2';
+      }
+    } else {
+      if (vidEl) { vidEl.pause(); vidEl.style.display = 'none'; }
+      if (takeBtn) takeBtn.style.display = 'none';
+      imgEl.style.display = 'block';
+      imgEl.style.opacity = '0.3';
+      setTimeout(() => {
+        imgEl.src = scene.loop;
+        imgEl.onerror = () => { imgEl.src = scene.still; };
+        imgEl.style.opacity = '1';
+      }, 120);
+    }
 
     // Update Text
     document.getElementById('screenTitle').textContent = scene.title;
@@ -792,6 +819,15 @@
     document.getElementById('cardTech').style.display = 'block';
     loadScene(5); // Show codex & tech scene
   });
+
+  window.activeVeoTake = 2;
+  const takeBtn = document.getElementById('btnTakeToggle');
+  if (takeBtn) {
+    takeBtn.addEventListener('click', () => {
+      window.activeVeoTake = (window.activeVeoTake === 1) ? 2 : 1;
+      loadScene(currentIdx);
+    });
+  }
 
   window.addEventListener('DOMContentLoaded', () => {
     loadScene(0);
