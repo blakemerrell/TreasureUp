@@ -209,16 +209,16 @@
   .card.highlighted { border-color: var(--brass-hi); box-shadow: 0 0 22px rgba(245, 158, 11, .45); }
   .card .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
   .card p { margin: 6px 0 0; color: var(--dim); line-height: 1.4; font-size: 14px; }
-  .campMapWrap { position: relative; width: 100%; border-radius: 14px; border: 3px double #6b3e15; outline: 1px solid rgba(251, 191, 36, .3);
-    overflow: hidden; margin: 16px 0 22px; background: #f6eedb; box-shadow: 0 14px 44px rgba(0, 0, 0, .8), inset 0 0 60px rgba(92, 45, 12, .35); }
+  .campMapWrap { position: relative; width: 100%; border-radius: 14px; border: 3.5px double #6b3e15; outline: 1px solid rgba(251, 191, 36, .35);
+    overflow: hidden; margin: 16px 0 22px; background: #f6eedb; box-shadow: 0 16px 48px rgba(0, 0, 0, .85); }
   .campMapSvg { display: block; width: 100%; height: auto; user-select: none; font-family: 'Cinzel', 'Palatino Linotype', 'Georgia', serif; }
-  .mapNode { cursor: pointer; transition: transform .22s ease, filter .22s ease; transform-origin: center; }
-  .mapNode:hover { transform: scale(1.09); filter: drop-shadow(0 0 10px rgba(180, 83, 9, .65)); }
+  .mapNode { cursor: pointer; transition: transform .22s ease, filter .22s ease; transform-box: fill-box; transform-origin: center; }
+  .mapNode:hover { transform: scale(1.09); filter: drop-shadow(0 0 14px rgba(245, 158, 11, .85)); }
   .mapNode:hover circle.core { fill: #fffdf5; stroke: #b45309; }
-  .mapNode.active { filter: drop-shadow(0 0 12px rgba(217, 119, 6, .8)); }
+  .mapNode.active { filter: drop-shadow(0 0 16px rgba(217, 119, 6, .95)); }
   .mapNode.active circle.core { fill: #fef9e8; stroke: #991b1b; }
   .mapNode .sealGlow { transition: opacity .3s ease; }
-  .mapNode:hover .sealGlow, .mapNode.active .sealGlow { opacity: 0.85; }
+  .mapNode:hover .sealGlow, .mapNode.active .sealGlow { opacity: 0.9; }
   .perksDrawer { background: rgba(20, 14, 8, .6); border: 1.5px solid var(--brass); border-radius: 16px; margin: 16px 0 20px; overflow: hidden; }
   .perksSummary { padding: 14px 18px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 15px; color: var(--gold); user-select: none; }
   .perksSummary:hover { background: rgba(255, 255, 255, .04); }
