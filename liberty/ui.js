@@ -4506,16 +4506,27 @@ IMG.farm.src = 'assets/farm.png?v=13';
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <button class="btn go" id="bBegin">Begin</button>
         ${m.campaign ? '<button class="btn" id="bMap">View Map</button>' : ''}
-        ${m.id === 'm3' ? '<button class="btn" id="bCinematic" style="background:linear-gradient(180deg,#831843,#500724);border:1.5px solid #f43f5e;color:#ffe4e6;font-weight:700">▶ Red Alert Briefing</button>' : ''}
+        ${m.id === 'm3' ? '<button class="btn" id="bAncientBriefing" style="background:linear-gradient(180deg,#78350f,#451a03);border:1.5px solid #d97706;color:#fef3c7;font-weight:700">📜 Sacred War Council</button><button class="btn" id="bCinematic" style="background:linear-gradient(180deg,#831843,#500724);border:1.5px solid #f43f5e;color:#ffe4e6;font-weight:700">▶ Red Alert Briefing</button>' : ''}
         <button class="btn" id="bTips">Tips</button>
         <button class="btn" id="bBack">Back</button>
       </div></div>`);
     $('bBegin').onclick = () => askThenBegin(m);
     $('bBack').onclick = () => menuFor(m)();
     $('bTips').onclick = () => showTips(tipsKey(m));
+    if ($('bAncientBriefing')) $('bAncientBriefing').onclick = openAncientBriefing;
     if ($('bCinematic')) $('bCinematic').onclick = openRaCinematic;
     if ($('bMap')) $('bMap').onclick = () => storyScreen();
     if (!(save.tips || {})[tipsKey(m)]) showTips(tipsKey(m));
+  }
+
+  function openAncientBriefing() {
+    openDialog(`<div class="card" style="max-width:980px;width:95vw;padding:0;overflow:hidden;background:#0d0905;border:2px solid #c9962e;border-radius:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;background:#1a1007;padding:8px 14px;border-bottom:1px solid rgba(201,150,46,0.35)">
+        <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;color:#ecc764;letter-spacing:1.5px;font-weight:700">✦ WAR COUNCIL OF THE NEPHITES · RECORD OF MORONI (ALMA 43)</div>
+        <button data-close class="btn" style="padding:2px 8px;font-size:12px">Close ✕</button>
+      </div>
+      <iframe src="ancient_briefing.html" style="width:100%;height:min(78vh,580px);border:none;display:block"></iframe>
+    </div>`);
   }
 
   function openRaCinematic() {
