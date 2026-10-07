@@ -4021,11 +4021,11 @@ const TreasureUp = (function () {
     const r = reelById(id);
     if (!r || S.daily.done[id]) return false;
     const right = picked === r.question.right;
-    S.daily.done[id] = { right, picked };
+    const done = S.daily.done[id] = { right, picked };
     const rc = S.recall[id] || { misses: 0 };
     S.recall[id] = { last: dayKey(), misses: right ? 0 : (rc.misses || 0) + 1 };
     markStudied();
-    if (right) grantXp(XP.recall, 'Remembered it');
+    if (right) payXp(done, XP.recall, 'Remembered it');   // the record keeps what it paid, so two devices pay it once (mergeProgress)
     save();
     return true;
   }
@@ -5685,7 +5685,8 @@ const TreasureUp = (function () {
   }
   // The family's word on his requests (a parent's yes, given or no), into this
   // device's own list; one asked for on his other device joins it.
-  function syncOrders(list) {
+  const resentOrders = new Set();
+  function syncOrders(list, fromServer) {
     if (!F || !S) return;
     let changed = false;
     const mine = (S.shop = S.shop || {}).orders = S.shop.orders || {};
@@ -5694,11 +5695,20 @@ const TreasureUp = (function () {
       const upd = d.upd && d.upd.toMillis ? d.upd.toMillis() : 0, at = d.at && d.at.toMillis ? d.at.toMillis() : upd;
       const o = mine[d.id];
       if (!o) { mine[d.id] = { prize: d.prize, emoji: d.emoji, cost: d.cost, day: dayKey(new Date(at || Date.now())), at, status: d.status, upd, pin: !!d.pin }; changed = true; continue; }
-      if (o.status !== d.status && upd >= (o.upd || 0) - 2000) {
+      // The family's word wins once nothing from here is still on its way: its clock and this
+      // device's aren't the same clock, so comparing times could ignore a parent's yes (review, 2026-10-07).
+      if (o.status !== d.status && !d.pending) {
         o.status = d.status; o.upd = upd; changed = true;
         if (d.status === 'approved') toast('✅ A parent said yes!', o.prize);
         if (d.status === 'declined') toast('↩️ Not this time', o.prize + ' · your XP is back');
       }
+    }
+    // A request that never reached the family (asked with no connection, then the app was
+    // closed): asked again, once a session, so it doesn't wait on his phone forever.
+    if (fromServer && F.role !== 'parent') for (const [oid, o] of Object.entries(mine)) {   // a child's list is all of his
+      if (o.status !== 'pending' || resentOrders.has(oid) || list.some(d => d.id === oid)) continue;
+      resentOrders.add(oid);
+      famWrite(() => famCol(F.fid, 'orders').doc(oid).set({ pid: F.pid, name: F.name, prize: o.prize, emoji: o.emoji, cost: o.cost, status: 'pending', at: TS(), upd: TS() }));
     }
     if (changed) { saveLocal(); renderHud(); refreshHome(); if (shopOpen()) openSheet(shopHtml()); }
   }
@@ -6493,11 +6503,15 @@ const TreasureUp = (function () {
       g.done = { st: adult ? 'self' : 'private', day: dayKey(), upd: Date.now() }; g.upd = Date.now();
       return doneBack(`🏆 <b>${esc(g.text)}</b>: stamped done.`);
     }
-    const rid = seaId('r'), t = doneStats(s, rec, g);
+    const rid = seaId('r');
     g.done = { st: 'pending', rid, day: dayKey(), note, upd: Date.now() }; g.upd = Date.now();
-    famWrite(() => famCol(F.fid, 'reviews').doc(rid).set({ pid: F.pid, name: F.name, sid: s.id, gid: g.id, area: g.area, text: String(g.text || '').slice(0, 120),
-      private: !!g.private, note, ticks: Math.min(t.n, 1000), weeks: Math.min(t.weeks, 20), status: 'pending', at: TS(), upd: TS() }));
+    sendReview(s, rec, g);
     doneBack(F && FIREBASE_CONFIG ? 'Asked! Mom and Dad see it in their Parent hub.' : 'Asked! Show Mom or Dad: they look it over in ⚙️ → Parent hub, with the PIN.');
+  }
+  function sendReview(s, rec, g) {
+    const t = doneStats(s, rec, g), d = g.done;
+    famWrite(() => famCol(F.fid, 'reviews').doc(d.rid).set({ pid: F.pid, name: F.name, sid: s.id, gid: g.id, area: g.area, text: String(g.text || '').slice(0, 120),
+      private: !!g.private, note: d.note || '', ticks: Math.min(t.n, 1000), weeks: Math.min(t.weeks, 20), status: 'pending', at: TS(), upd: TS() }));
   }
   // His ask taken back while it waits, or a done he marked himself undone.
   function undoDone(gid) {
@@ -6524,8 +6538,16 @@ const TreasureUp = (function () {
     return true;
   }
   // The family's answers to his asks, into this device's goals.
-  function syncReviews(list) {
+  const resentReviews = new Set();
+  function syncReviews(list, fromServer) {
     if (!F || !S) return;
+    // An ask that never reached the family (sent with no connection, then the app was closed): sent again, once a session.
+    if (fromServer && F.role !== 'parent') for (const [sid, rec] of Object.entries(S.seasons || {})) for (const g of liveGoals(rec)) {
+      const d = g.done, s = seasonById(sid);
+      if (!d || d.st !== 'pending' || !d.rid || !s || resentReviews.has(d.rid) || list.some(x => x.id === d.rid)) continue;
+      resentReviews.add(d.rid);
+      sendReview(s, rec, g);
+    }
     const now = list.filter(d => d.pid === F.pid && (d.status === 'approved' || d.status === 'notyet') && answerDone(d.sid, d.gid, d.id, d.status, d.xp, d.pnote, d.by));
     if (now.length) {
       save(); renderHud(); refreshHome();
@@ -6799,7 +6821,11 @@ const TreasureUp = (function () {
     } else {
       const f = (famHome.letters || []).find(l => l.to === pid && l.sid === s.id);
       if (f) Object.assign(f, { text, by: F.name }); else (famHome.letters = famHome.letters || []).push({ id: pid + '_' + s.id, to: pid, sid: s.id, text, by: F.name });
-      famWrite(() => famCol(F.fid, 'letters').doc(pid + '_' + s.id).set({ to: pid, sid: s.id, text, by: F.name, upd: TS() }));
+      // Said if it doesn't reach the family, rather than "Saved" either way (review, 2026-10-07).
+      try {
+        famCol(F.fid, 'letters').doc(pid + '_' + s.id).set({ to: pid, sid: s.id, text, by: F.name, upd: TS() })
+          .catch(() => renderParent(`Not saved: ${name || 'his'} letter didn't reach the family. Check the internet, then Save again.`));
+      } catch (e) { return renderParent('Not saved: this phone isn’t connected to the family yet. Try again in a moment.'); }
     }
     renderParent(text ? `Saved. ${name || 'He'} sees it on the Letter page of the notebook.` : 'Cleared.');
   }
@@ -8071,7 +8097,8 @@ const TreasureUp = (function () {
       markStudied();                     // an answer counts, even if he leaves the climb partway
       if (c.paid) {
         if (S.climbDay !== dayKey()) S.climbDay = dayKey();
-        if (c.picked === cur.q.right) { c.xp += 2; grantXp(2, 'Scripture Climb'); }
+        const cp = S.climbPaid && S.climbPaid.day === dayKey() ? S.climbPaid : (S.climbPaid = { day: dayKey(), xp: 0 });   // what today's climb paid (mergeProgress)
+        if (c.picked === cur.q.right) { c.xp += 2; const x0 = S.xp; grantXp(2, 'Scripture Climb'); cp.xp += S.xp - x0; }
         save();
       }
     } else if (el.dataset.climb === 'next') {
@@ -12478,6 +12505,10 @@ const TreasureUp = (function () {
       else next = mergeProgress(JSON.parse(theirs), S, base ? JSON.parse(base) : null);    // both changed
       next = Object.assign({}, next, { owner: F.pid, ownerName: F.name });
       wrote = canon(next);
+      if (wrote.length >= SAVE_LIMIT) {
+        if (!sizeWarned) { sizeWarned = true; toast('👪 Not saved to the family', 'This progress is too big to save now. A parent can see why in 👪 People.'); }
+        throw Object.assign(new Error('too big'), { code: 'too-big' });
+      }
       t.set(ref, { xp: next.xp, state: wrote, by: F.uid, updated: TS() });
       t.set(sumRef, summaryOf(next));
     });
@@ -12487,6 +12518,7 @@ const TreasureUp = (function () {
     if ($('famPeople')) renderPeople();
   }
   function syncFailed(e) {
+    if (e && e.code === 'too-big') { if ($('famPeople')) renderPeople(); return; }   // said once; tried again at the next save
     if (e && e.code === 'permission-denied') return recheckMembership(e);   // most likely taken out of the family
     // No connection, or Firestore busy: try again, less often each time.
     syncFails++;
@@ -12533,6 +12565,28 @@ const TreasureUp = (function () {
   // wins where both did the same thing; XP is the family's plus what this
   // device earned since base, not counting anything the family's copy
   // already has.
+  // Kept small for the family's copy: its rule stops at 500,000 characters, and past that
+  // sync stopped for good, with nothing said (review, 2026-10-07: about 6,700 a week).
+  // What only matters for a while goes once it's old.
+  function compactSaved() {
+    const cut = Date.now() - 60 * 864e5, old = dayAdd(dayKey(), -60);
+    // Finished weeks past the last 8: each answer keeps whether it was right, not what he picked.
+    for (const h of (S.history || []).slice(0, -8)) if (h.rec) for (const k of ['answers', 'bonus', 'deep']) {
+      for (const id in h.rec[k] || {}) if (h.rec[k][id] && 'picked' in h.rec[k][id]) h.rec[k][id] = { right: !!h.rec[k][id].right };
+    }
+    // A deleted note or a highlight taken off: the mark of it, after 60 days.
+    for (const k in S.impressions || {}) if (S.impressions[k] && S.impressions[k].gone && (S.impressions[k].upd || 0) < cut) delete S.impressions[k];
+    for (const k in S.marks || {}) if (S.marks[k] && !S.marks[k].c && (S.marks[k].upd || 0) < cut) delete S.marks[k];
+    // His place in a chapter, and a library chapter's clock: once it's read, or after 60 days.
+    for (const k in S.readPos || {}) if ((S.read || {})[k] || ((S.readPos[k] || {}).at || 0) < cut) delete S.readPos[k];
+    for (const k in S.libClock || {}) if ((S.libRead || {})[k] || (S.libClock[k] || 0) < cut) delete S.libClock[k];
+    // The day's treasure word he opened: only today's is looked at.
+    for (const d in S.twSeen || {}) if (d < old) delete S.twSeen[d];
+  }
+  // Said once if the family's copy is too big for its rule (the size it can't pass).
+  const SAVE_LIMIT = 500000;
+  let sizeWarned = false;
+
   function mergeProgress(R, L, B) {
     B = B || {};
     const has = (o, k) => !!o && Object.prototype.hasOwnProperty.call(o, k);
@@ -12596,6 +12650,11 @@ const TreasureUp = (function () {
       const paidFor = (o, gid) => { const g = o && (o.goals || []).find(x => x.id === gid); return g && g.done && g.done.st === 'approved' ? g.done.xp || 0 : 0; };
       for (const g of (l && l.goals) || []) if (paidFor(l, g.id) && paidFor(r, g.id) && !paidFor(b, g.id)) gained -= paidFor(l, g.id);
     }
+    // Today's warm-up and Scripture Climb, done on both devices the same day: paid once (review, 2026-10-07).
+    const dl = L.daily || {}, dr = R.daily || {}, db = B.daily && B.daily.day === dl.day ? B.daily : { done: {} };
+    if (dl.day && dl.day === dr.day) for (const id in dl.done || {}) if (dl.done[id].right && !has(db.done, id) && has(dr.done, id)) gained -= xpOf(dl.done[id], XP.recall);
+    const cl = o => (o && o.climbPaid) || {};
+    if (cl(L).day && cl(L).day === cl(R).day && cl(B).day !== cl(L).day) gained -= cl(L).xp || 0;
     M.xp = (R.xp || 0) + Math.max(0, gained);
     M.libRead = Object.assign({}, L.libRead || {}, R.libRead || {});
     const lo = (L.shop && L.shop.orders) || {}, ro = (R.shop && R.shop.orders) || {};
@@ -12604,13 +12663,21 @@ const TreasureUp = (function () {
     M.libClock = Object.assign({}, L.libClock || {}, R.libClock || {});
     M.weekBonus = [L.weekBonus, R.weekBonus].find(b => b && b.week === WEEK.title) || R.weekBonus || L.weekBonus || null;
     M.seasons = mergeSeasons(R.seasons, L.seasons);
+    // Be still: each device's minutes since they last met, added (the larger alone lost the other's).
     M.still = Object.assign({}, R.still || {});
-    for (const d in L.still || {}) if (!M.still[d] || L.still[d] > M.still[d]) M.still[d] = L.still[d];
+    for (const d in L.still || {}) {
+      const add = Math.max(0, L.still[d] - ((B.still || {})[d] || 0));
+      if (add) M.still[d] = (M.still[d] || 0) + add;
+    }
     M.played = Object.assign({}, R.played || {});
     for (const d in L.played || {}) if (!M.played[d] || Math.abs(L.played[d]) > Math.abs(M.played[d])) M.played[d] = L.played[d];
     M.impressions = newerById(R.impressions, L.impressions);
     M.marks = newerById(R.marks, L.marks);
-    M.seasonWho = R.seasonWho || L.seasonWho;
+    // Settings: one changed on this device since they last met wins; else the family's.
+    for (const key of ['seasonWho', 'stillPrefs', 'sayPos']) {
+      if (JSON.stringify(L[key]) !== JSON.stringify(B[key]) && L[key] !== undefined) M[key] = L[key];
+      else if (M[key] === undefined && L[key] !== undefined) M[key] = L[key];
+    }
     M.arcadeOpen = [R.arcadeOpen, L.arcadeOpen].filter(Boolean).sort().pop() || '';
     for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found', 'insights', 'sunday', 'talks', 'picks']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
     // The reading clock: a chapter finished on either device keeps its record.
@@ -12645,8 +12712,20 @@ const TreasureUp = (function () {
     // from whichever studied more recently.
     for (const key of ['days', 'filled', 'frozen']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
     M.daysFrom = [L.daysFrom, R.daysFrom].filter(Boolean).sort()[0] || null;
-    if ((L.lastStudy || '') > (R.lastStudy || '')) Object.assign(M, { lastStudy: L.lastStudy, streak: L.streak, freezes: L.freezes });
+    if ((L.lastStudy || '') > (R.lastStudy || '')) Object.assign(M, { lastStudy: L.lastStudy, streak: L.streak });
     else if (L.lastStudy === R.lastStudy) M.streak = Math.max(L.streak || 0, R.streak || 0);
+    // Freezes: the family's count and what this device did since (one won or given back
+    // here used to be lost, or given back twice). A day both used a freeze for costs one;
+    // a day both gave back gives one; a day either gave back stays given back.
+    const bf = B.frozen || {}, lf = L.frozen || {}, rf = R.frozen || {};
+    let fz = (R.freezes || 0) + (L.freezes || 0) - (B.freezes || 0);
+    for (const d in lf) if (!bf[d] && rf[d]) fz++;
+    for (const d in bf) {
+      if (!lf[d] && !rf[d]) fz--;
+      if (!lf[d] || !rf[d]) delete M.frozen[d];
+    }
+    if (pzPaid(L.puzzle) && pzPaid(R.puzzle) && !pzPaid(B.puzzle)) fz--;   // the week's puzzle won on both: one freeze
+    M.freezes = Math.max(0, fz);
     // Today's warm-up: both sets of answers.
     if (L.daily && (!R.daily || L.daily.day > R.daily.day)) M.daily = L.daily;
     else if (L.daily && R.daily && L.daily.day === R.daily.day) {
@@ -12663,10 +12742,11 @@ const TreasureUp = (function () {
     };
     if (pzAhead(L.puzzle, R.puzzle)) M.puzzle = L.puzzle;
     M.climbDay = [L.climbDay, R.climbDay].filter(Boolean).sort().pop() || null;
+    M.climbPaid = [R.climbPaid, L.climbPaid].filter(Boolean).sort((a, b) => (a.day < b.day ? 1 : -1))[0] || null;
     // Finished weeks: every week either device has. For one both have, the
     // copy that kept what he did in it (a device that changed weeks on an
     // older app kept only the totals).
-    const weekOf = h => h.num || h.title;
+    const weekOf = h => (h.num || '') + '|' + h.title;   // lesson numbers start again each year
     M.history = (R.history || []).slice();
     for (const h of L.history || []) {
       const i = M.history.findIndex(x => weekOf(x) === weekOf(h));
@@ -12774,8 +12854,8 @@ const TreasureUp = (function () {
     // Prize requests: a parent sees everyone's; anyone sees their own, which keeps this device's list in step.
     const oq = F.role === 'parent' ? famCol(F.fid, 'orders').orderBy('at', 'desc').limit(60) : famCol(F.fid, 'orders').where('pid', '==', F.pid);
     famHomeOff.push(oq.onSnapshot(q => {
-      h.orders = q.docs.map(d => Object.assign({ id: d.id }, d.data({ serverTimestamps: 'estimate' })));
-      syncOrders(h.orders); famRedraw();
+      h.orders = q.docs.map(d => Object.assign({ id: d.id, pending: d.metadata.hasPendingWrites }, d.data({ serverTimestamps: 'estimate' })));
+      syncOrders(h.orders, !q.metadata.fromCache); famRedraw();
     }, () => {}));
     // Finished goals asked about (families/{fid}/reviews) and Season letters:
     // a parent sees everyone's; anyone else, their own, which bring a parent's
@@ -12783,7 +12863,7 @@ const TreasureUp = (function () {
     const parentHere = F.role === 'parent';
     famHomeOff.push((parentHere ? famCol(F.fid, 'reviews').orderBy('at', 'desc').limit(60) : famCol(F.fid, 'reviews').where('pid', '==', F.pid)).onSnapshot(q => {
       h.reviews = q.docs.map(d => Object.assign({ id: d.id }, d.data({ serverTimestamps: 'estimate' })));
-      syncReviews(h.reviews); famRedraw(); hubRefresh();
+      syncReviews(h.reviews, !q.metadata.fromCache); famRedraw(); hubRefresh();
       // A parent's Today has a row for asks waiting: redraw it when they change.
       const waiting = h.reviews.filter(r => r.status === 'pending').map(r => r.id).join();
       if (parentHere && waiting !== h.waiting) { h.waiting = waiting; refreshHome(); }
@@ -13472,6 +13552,7 @@ const TreasureUp = (function () {
     if (S.owner !== F.pid) return 'This device saves to the family once the question about its progress is answered.';
     const at = Number(stored(NS + 'savedAt')) || 0;
     if (canon(S) === synced()) return "This device's progress is saved to the family" + (at ? ' (' + when(at) + ').' : '.');
+    if (sizeWarned) return `This device's progress is too big to save to the family (the family's limit is ${fmtN(SAVE_LIMIT)} characters). It's all still on this device; it needs a cleanup in the app's code.`;
     return "Some progress on this device isn't saved to the family yet" + (at ? ' (last saved ' + when(at) + ')' : '') +
       '. It saves by itself when there’s a connection.';
   }
@@ -15674,11 +15755,16 @@ const TreasureUp = (function () {
       const vals = Object.values(S.answers);
       const read = Object.keys(S.read || {}).length;
       const tries = o => Object.fromEntries(Object.entries(o || {}).map(([k, a]) => [k, { right: !!a.right, picked: a.picked }]));
-      if (vals.length || read) S.history.push({ title: S.weekTitle, num: S.weekNum, right: vals.filter(a => a.right).length, answered: vals.length, read, chapters: S.weekChapters || 0,
-        rec: { answers: tries(S.answers), bonus: tries(S.bonus), deep: tries(S.deep), read: Object.keys(S.read || {}) } });
+      const h = { title: S.weekTitle, num: S.weekNum, right: vals.filter(a => a.right).length, answered: vals.length, read, chapters: S.weekChapters || 0,
+        rec: { answers: tries(S.answers), bonus: tries(S.bonus), deep: tries(S.deep), read: Object.keys(S.read || {}) } };
+      // Filed once: a merge with a device still on that week brought its title back, and it was filed again (review, 2026-10-07).
+      const i = S.history.findIndex(x => x.title === h.title && (x.num || null) === (h.num || null));
+      if (i >= 0) { if (h.answered + h.read >= (S.history[i].answered || 0) + (S.history[i].read || 0)) S.history[i] = h; }
+      else if (vals.length || read) S.history.push(h);
     }
     S.weekTitle = WEEK.title;
     S.weekNum = weekNum;
+    compactSaved();
 
     // Drop saved answers for reels that aren't in this week, so an old
     // week never counts toward this one.
@@ -15754,7 +15840,7 @@ const TreasureUp = (function () {
     return started.length ? started[started.length - 1] : sorted[0];
   }
 
-  return { boot: boot, pickWeek: pickWeek, weekStart: weekStart, approvalHash: approvalHash };
+  return { boot: boot, pickWeek: pickWeek, weekStart: weekStart, approvalHash: approvalHash, mergeProgress: mergeProgress };   // mergeProgress: for tests/merge.test.mjs
 })();
 </script>
 
