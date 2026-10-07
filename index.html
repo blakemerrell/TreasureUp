@@ -1550,6 +1550,13 @@
   .pth-t b { display: block; font-weight: 700; } .pth-t small { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.55); }
   .pth li.ok .pth-t b, .pth-row.ok .pth-t b { color: rgba(255,255,255,.6); }
   .pth em { flex: 0 0 auto; font-style: normal; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.45); }
+  /* Every row a tap (2026-10-07), with its XP; a goal step a box to tick */
+  .pth li { padding: 0; }
+  .pth-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 2px; font: inherit; color: inherit; text-align: left; background: none; border: 0; cursor: pointer; }
+  .pth-dot.box { border-radius: 7px; border-color: rgba(134,239,172,.6); }
+  .pth .pth-xp { text-align: right; font-size: 12.5px; font-weight: 900; color: var(--gold); white-space: nowrap; }
+  .pth .pth-xp small { display: block; font-size: 10.5px; font-weight: 700; color: rgba(255,255,255,.45); }
+  .pth .pth-xp.ok { color: var(--right); }
   /* More if you want (2026-10-07): the same rows, each a tap. */
   .pth-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 2px; text-align: left; font: inherit; color: #fff; background: none; border: 0; border-bottom: 1px solid rgba(255,255,255,.08); cursor: pointer; }
   .pth-dot.ic { border: 0; font-size: 16px; }
@@ -2255,7 +2262,8 @@ const TreasureUp = (function () {
   // The supercharge (Blake, 2026-10-01: "the longer the streaks, the more
   // powerful the power up is! Like in video games when you supercharge"):
   // every XP he earns, times this, the steady climb he chose.
-  const CHARGE = [[30, 3], [14, 2.5], [7, 2], [3, 1.5]];
+  // Capped at ×2 (Blake, 2026-10-07, after an XP review: "Tone down the streak boost"; it went to ×3).
+  const CHARGE = [[7, 2], [3, 1.5]];
   const chargeOf = n => (CHARGE.find(([d]) => n >= d) || [0, 1])[1];
   const nextCharge = n => CHARGE.slice().reverse().find(([d]) => n < d) || null;
 
@@ -2794,15 +2802,15 @@ const TreasureUp = (function () {
   // reading and lesson part, to read ahead or catch up.
   function pathDayHtml(d, k) {
     const today = dayKey(), isToday = k === today, rows = dayPath(d, isToday ? k : null), plan = weekPlan()[d] || [];
-    const at = plan.findIndex(e => e.kind === 'day'), n = rows.filter(r => r.done).length, next = rows.find(r => !r.done);
+    const at = plan.findIndex(e => e.kind === 'day'), n = rows.filter(r => r.done).length, next = pathLeft(rows)[0];
     const mins = list => list.reduce((m, r) => m + pathRowMin(r), 0), started = n > 0 || !!(next && next.started);
     const what = [unitsLabel(readingPlan()[d]) || (dayReels(d).length ? qWord(dayReels(d).length) : ''), rows.some(r => r.kind === 'cfm') && 'Come Follow Me',
-      rows.some(r => r.kind === 'gc') && 'conference', rows.some(r => r.kind === 'goals') && 'goals', rows.some(r => r.kind === 'thanks') && 'thanks'].filter(Boolean).join(' · ');
+      rows.some(r => r.kind === 'gc') && 'conference', rows.some(r => r.kind === 'goal') && 'goals', rows.some(r => r.kind === 'thanks') && 'thanks'].filter(Boolean).join(' · ');
     let button = '';
     if (rows.length && !next) button = isToday ? `<div class="fl-done"><b>✓ Today’s study: done</b><small>${esc(d < 5 ? 'Tomorrow: ' + dayName(d + 1) : 'Tomorrow: church, then a family game')}</small></div>`
       : at >= 0 ? `<button class="fl-next ahead" data-lesson="${d}.${at}"><b>▶ Practice it again</b><small>Already done: nothing new to earn</small></button>` : '';
     else if (next && (isToday || at >= 0)) button = `<button class="fl-next${k > today ? ' ahead' : ''}" data-lesson="${isToday ? '' : d + '.' + at}"><b>▶ ${esc(k > today ? 'Read ahead' : started ? 'Pick up at ' + pathRowTitle(next) : isToday ? 'Today’s study' : 'Finish this day')}</b>
-      <small>${esc(started ? n + ' of ' + rows.length + ' done · about ' + mins(rows.filter(r => !r.done)) + ' min left' : what + ' · about ' + mins(rows) + ' min')}</small></button>`;
+      <small>${esc(started ? n + ' of ' + rows.length + ' done · about ' + mins(pathLeft(rows)) + ' min left' : what + ' · about ' + mins(rows.filter(r => !r.own)) + ' min')}</small></button>`;
     const extra = [];
     if (isToday) {
       const behind = behindDays();
@@ -2811,11 +2819,6 @@ const TreasureUp = (function () {
         const what = [unitsLabel(readingPlan()[b].filter(u => !unitRead(u))), bl.length === 1 ? '1 step' : bl.length + ' steps', 'about ' + mins(bl) + ' min'].filter(Boolean).join(' · ');
         extra.push(flowRow(`data-lesson="${b}.${ba}"`, false, '↩ Catch up: ' + behind.map(x => DAY_NAMES[x]).join(' and '), esc(what + (next ? ' · after today’s' : ''))));
       }
-      // His goals not ticked yet, once today's path has asked about them.
-      if (pathDoneOf(k).goals) for (const x of goalSteps().filter(x => !x.on)) {
-        extra.push(flowRow(`data-tick="${esc(x.s.id)}|${esc(x.st.id)}"`, false, '🌱 ' + esc(x.st.text), 'Still to do today · ' + esc(x.sub), { box: true }));
-      }
-      extra.push(stillRowHtml());
       // The Season's other rows: finished goals for a parent to look at, planning a Season, the weekend check-in, looking back.
       seasonRows().filter(r => /^(hub|check|reflect)$/.test(r.card) || (r.card === 'season' && !goalSteps().length)).forEach(r => extra.push(r.html));
     }
@@ -2826,13 +2829,13 @@ const TreasureUp = (function () {
       <div class="fl-date"><b>${DAY_NAMES[d]} · ${esc(shortDay(k))}</b><small>${rows.length ? n + ' of ' + rows.length + ' done' : ''}${tag ? (rows.length ? ' · ' : '') + tag : ''}</small></div>
       ${isToday ? verseHeroHtml() : ''}
       ${button}
-      ${rows.length ? pathListHtml(rows) : ''}
+      ${rows.length ? pathListHtml(rows, { d, at, isToday }) : ''}
       <div class="fl-list">${extra.join('')}${moreHtml(d)}</div>
     </div>`;
   }
   // A daily gratitude prompt (Blake, 2026-10-05: "Add a daily gratitude
   // prompt"; he picked up to three lines, one enough to tick it; a question
-  // that changes each day; private unless shared; a row on Today, no XP).
+  // that changes each day; private unless shared; a row on Today; THANKS_XP once a day, since 2026-10-07).
   // A day's is an impression of its own kind (kind: 'grateful', its lines in
   // items), so it's kept, synced and shared like one and shows with his
   // impressions in the Season tab. It counts in "n of m done", pays nothing
@@ -2897,6 +2900,7 @@ const TreasureUp = (function () {
     else {
       imps[had ? had[0] : seaId('g')] = { kind: 'grateful', items, text: items.join('\n'), q: gratefulPrompt(k).q, day: k, at: had ? had[1].at : Date.now(), upd: Date.now(), ref: '', share: seasonWho() !== 'adult' && share };
       if (!had) use('grateful');
+      if (!pathDoneOf(k).grXp) { const rec = {}; payXp(rec, THANKS_XP, 'Grateful for…'); setPathDone(k, 'grXp', rec); }
     }
   }
   function saveGrateful() {
@@ -2921,7 +2925,7 @@ const TreasureUp = (function () {
   // brook made by the phone, or the bowl alone; the bowl is in the track's key.
   // Then "Well done" and "Did anything come to mind?": a line kept with his
   // impressions (a child's or youth's his unless he shares it), or skip. A
-  // minute or more ticks Today (no XP, like gratitude) and any Season step
+  // minute or more ticks Today (STILL_XP once a day, since 2026-10-07) and any Season step
   // about being still, and the Season tab counts his days in a row
   // (S.still: day -> quiet minutes). Left on for an hour, it ends itself.
   const STILL_VERSES = [   // each checked word for word against the KJV and the Church's text
@@ -2959,12 +2963,12 @@ const TreasureUp = (function () {
     const p = S.stillPrefs || {};
     return { mins: STILL_MINS.includes(p.mins) ? p.mins : 3, sound: STILL_SOUNDS.some(x => x.id === p.sound) ? p.sound : 'fire' };
   }
-  function stillRowHtml() {
+  function stillSub() {
     const m = (S.still || {})[dayKey()] || 0, n = stillStreak();
-    const sub = m ? `${m} quiet ${m === 1 ? 'minute' : 'minutes'} today` + (n > 1 ? ` · ${n} days in a row` : '')
+    return m ? `${m} quiet ${m === 1 ? 'minute' : 'minutes'} today` + (n > 1 ? ` · ${n} days in a row` : '')
       : 'A few quiet minutes with Heavenly Father' + (n ? ` · ${n} ${n === 1 ? 'day' : 'days'} in a row` : '');
-    return flowRow('data-still', m > 0, '🕊️ Be still', esc(sub));
   }
+  const stillRowHtml = () => flowRow('data-still', stillOn(dayKey()), '🕊️ Be still', esc(stillSub()));
   const stillFirstHtml = () => stillOn(dayKey()) ? '' : '<button class="still-first" data-still>🕊️ Be still first <small>a quiet minute before you read</small></button>';
   function stillSeasonHtml(s) {
     const n = stillStreak(), days = Object.keys(S.still || {}).filter(d => stillOn(d) && d >= s.start && d <= s.end).length;
@@ -3142,6 +3146,7 @@ const TreasureUp = (function () {
     stillBowl(0.3); stillBowl(4.3); stillBowl(8.3, 0.28);
     const k = dayKey(), all = S.still || (S.still = {});
     all[k] = (all[k] || 0) + mins;
+    if (!pathDoneOf(k).stillXp) { const rec = {}; payXp(rec, STILL_XP, '🕊️ Be still'); setPathDone(k, 'stillXp', rec); }
     // A Season step about being still ticks itself today.
     try {
       const s = seasonNow(), rec = seasonRec(s.id);
@@ -3364,7 +3369,7 @@ const TreasureUp = (function () {
     if (pz >= 0) { const won = entryItems(plan[pz]).every(x => x.done); rows.push(moreRow(`data-lesson="5.${pz}" data-focus="puzzle"`, won, 'The weekly puzzle', won ? 'Solved' : reelsLeft() ? 'Opens when every reel is answered' : PUZZLE_XP + ' XP and a streak freeze')); }
     if (all.length > best.length) rows.push(moreRow('data-tab="study"', false, 'All ' + all.length + ' cards for this day', 'In the Study tab', '💡'));
     const key = WEEK.title + '|' + d;
-    return `<details class="more" data-more="${esc(key)}"${moreOpen === key ? ' open' : ''}><summary><span>More if you want<small>${esc([furtherParts(d), fri >= 0 && 'the Friday deep dive', pz >= 0 && 'the weekly puzzle'].filter(Boolean).join(' · '))}</small></span><span class="more-n">${!total ? '' : done === total ? '✓' : done + '/' + total}</span></summary>
+    return `<details class="more" data-more="${esc(key)}"${moreOpen === key ? ' open' : ''}><summary><span>Keep going ›<small>${esc([furtherParts(d), fri >= 0 && 'the Friday deep dive', pz >= 0 && 'the weekly puzzle'].filter(Boolean).join(' · '))}</small></span><span class="more-n">${!total ? '' : done === total ? '✓' : done + '/' + total}</span></summary>
       <div class="more-list">${rows.join('')}</div>
     </details>`;
   }
@@ -5085,6 +5090,9 @@ const TreasureUp = (function () {
     for (const d of Object.keys(all)) if (d < keep) delete all[d];
   }
   const CFM_XP = 10, GC_XP = 5;
+  // Goals, thanks and Be still pay too (Blake, 2026-10-07, after an XP review:
+  // "Pay goals, gratitude, Be still"): small, once a day each, so they count.
+  const GOAL_TICK_XP = 5, THANKS_XP = 10, STILL_XP = 10;
 
   // A day's path, as rows: the reading in parts (each with its questions), the
   // Come Follow Me part, and today's own steps (k: the day, or null for
@@ -5097,34 +5105,87 @@ const TreasureUp = (function () {
     if (c) rows.push({ kind: 'cfm', c, done: cfmDone(c) });
     if (k) {
       const dn = pathDoneOf(k), t = gcOf(k);
-      if (t) rows.push({ kind: 'gc', t, done: !!dn.gc });
-      if (goalSteps().length) rows.push({ kind: 'goals', done: !!dn.goals });
-      rows.push({ kind: 'thanks', done: !!gratefulOf(k) || !!dn.thanks });
+      if (t) rows.push({ kind: 'gc', t, k, done: !!dn.gc });
+      // Each goal step its own row, ticked right there (Blake, 2026-10-07: "I want
+      // my goals to be on timeline as separate things so I see them... Same with
+      // gratitude, and be still"). Those two are his own: they never hold the
+      // day's study back (a step may be for tonight).
+      for (const x of goalSteps()) rows.push({ kind: 'goal', x, k, done: x.on, own: true });
+      rows.push({ kind: 'thanks', k, done: !!gratefulOf(k) || !!dn.thanks });
+      rows.push({ kind: 'still', k, done: stillOn(k), own: true });
     }
     return rows;
   }
+  // What's left of a day's study: its rows not done, but for his own (goals, Be still).
+  const pathLeft = rows => rows.filter(r => !r.done && !r.own);
   const qWord = n => n === 1 ? 'a question' : n + ' questions';
   function pathRowTitle(r) {
     if (r.kind === 'part') return r.p.of > 1 ? r.p.key : 'Read ' + r.p.u.ref;
     if (r.kind === 'reels') return r.reels.length === 1 ? r.reels[0].hook : r.reels.length + ' reels';
-    return { cfm: 'Come Follow Me', gc: 'Conference', goals: 'My goals', thanks: 'Grateful for…' }[r.kind];
+    if (r.kind === 'goal') return '🌱 ' + r.x.st.text;
+    return { cfm: 'Come Follow Me', gc: 'Conference', thanks: 'Grateful for…', still: '🕊️ Be still' }[r.kind];
   }
   function pathRowSub(r) {
-    if (r.kind === 'part') return (r.p.of > 1 ? 'Part ' + r.p.n + ' of ' + r.p.of : READ_XP + ' XP') + (r.reels.length ? ' · then ' + qWord(r.reels.length) : '');
+    if (r.kind === 'part') return [r.p.of > 1 && 'Part ' + r.p.n + ' of ' + r.p.of, pathRowMin(r) + ' min', r.reels.length && 'then ' + qWord(r.reels.length)].filter(Boolean).join(' · ');
     if (r.kind === 'reels') return 'This week’s reels · ' + qWord(r.reels.length);
     if (r.kind === 'cfm') return r.c.x.h.replace(/^[“"]|[”"]$/g, '').replace(/\.$/, '');
     if (r.kind === 'gc') return r.t.t.speaker;
-    if (r.kind === 'goals') { const g = goalSteps(), on = g.filter(x => x.on).length; return on ? on + ' of ' + g.length + ' ticked today' : g.length === 1 ? '1 to tick' : g.length + ' to tick'; }
-    return gratefulPrompt(dayKey()).q;
+    if (r.kind === 'goal') return 'My Season · ' + r.x.sub;
+    if (r.kind === 'still') return stillSub();
+    const had = r.k && gratefulOf(r.k);
+    return had ? (had[1].items || []).join(' · ') : gratefulPrompt(dayKey()).q;
   }
   const pathRowMin = r => r.kind === 'part' ? partMin(r.p.pu.words, r.reels.length) : r.kind === 'reels' ? Math.max(1, r.reels.length) : r.kind === 'cfm' ? 2 : 1;
-  function pathListHtml(rows) {
-    const next = rows.findIndex(r => !r.done);
-    return `<ul class="pth">${rows.map((r, i) => `<li class="${r.done ? 'ok' : i === next ? 'next' : ''}"><span class="pth-dot">${r.done ? '✓' : ''}</span>
-      <span class="pth-t"><b>${esc(pathRowTitle(r))}</b><small>${esc(pathRowSub(r))}</small></span><em>${pathRowMin(r)} min</em></li>`).join('')}</ul>`;
+  // Every row a tap (Blake, 2026-10-07: "I want to be able to tap on the row
+  // conference, come follow me, read Isaiah 53.... And see that content"): one
+  // done opens it again to look over (nothing new to earn), one still to do
+  // opens it. Each says its XP with today's streak boost, or what it earned.
+  function pathRowAttr(r, c) {
+    const go = `data-lesson="${c.isToday ? '' : c.d + '.' + c.at}"`;
+    if (r.kind === 'part') return r.done ? `data-chapter="${esc(r.p.u.ref)}"` : go;
+    if (r.kind === 'reels') return r.done && r.reels.length ? `data-view="${esc(r.reels[0].id)}"` : go;
+    if (r.kind === 'cfm') return c.at >= 0 ? `data-lesson="${c.d}.${c.at}" data-focus="cfm-${esc(r.c.x.id)}"` : go;
+    if (r.kind === 'gc') return `data-path-gc="${esc(r.t.t.id)}"`;
+    if (r.kind === 'goal') return `data-tick="${esc(r.x.s.id)}|${esc(r.x.st.id)}" aria-pressed="${!!r.done}"`;
+    if (r.kind === 'thanks') return 'data-grateful';
+    return 'data-still';
+  }
+  // XP a row pays (base, before the streak), and whether that's "up to" (its questions pay when right the first time).
+  function pathRowBase(r) {
+    const qs = (r.reels || []).filter(x => !S.answers[x.id]).length * XP.firstTry;
+    if (r.kind === 'part') return [(partDone(r.p) ? 0 : r.p.of > 1 ? Math.floor(READ_XP / r.p.of) : READ_XP) + qs, qs > 0];
+    if (r.kind === 'reels') return [qs, true];
+    return [{ cfm: CFM_XP, gc: GC_XP, goal: GOAL_TICK_XP, thanks: THANKS_XP, still: STILL_XP }[r.kind] || 0, false];
+  }
+  // What a done row earned, streak and all, as far as it was kept.
+  function pathRowEarned(r) {
+    const xpOf = x => (x && x.xp) || 0, dn = r.k ? pathDoneOf(r.k) : {};
+    const asked = (r.reels || []).reduce((n, x) => n + xpOf(S.answers[x.id]), 0);
+    if (r.kind === 'part') {
+      const ref = r.p.u.ref, whole = xpOf((S.readLog || {})[ref]), m = ((S.partRead || {})[ref] || {})[r.p.from];
+      return asked + (r.p.of > 1 ? (m ? (m.base === 0 ? whole : xpOf(m)) : 0) : whole);
+    }
+    if (r.kind === 'reels') return asked;
+    if (r.kind === 'cfm') return xpOf((S.cfm || {})[cfmKey(r.c)]);
+    if (r.kind === 'gc') return xpOf(dn.gc);
+    if (r.kind === 'goal') return xpOf((S.tickPaid || {})[r.k + '|' + r.x.st.id]);
+    if (r.kind === 'thanks') return xpOf(dn.grXp);
+    if (r.kind === 'still') return xpOf(dn.stillXp);
+    return 0;
+  }
+  function pathRowXp(r) {
+    if (r.done) { const n = pathRowEarned(r); return n ? `<em class="pth-xp ok">+${n}<small>earned</small></em>` : ''; }
+    const [base, upTo] = pathRowBase(r), ch = chargeOf(streakNow());
+    return base ? `<em class="pth-xp">${upTo ? '<small>up to</small>' : ''}+${Math.round(base * ch)}${ch > 1 ? ' ⚡' : ' XP'}</em>` : '';
+  }
+  function pathListHtml(rows, c) {
+    const next = rows.findIndex(r => !r.done && !r.own);
+    return `<ul class="pth">${rows.map((r, i) => `<li class="${r.done ? 'ok' : i === next ? 'next' : ''}"><button type="button" class="pth-btn" ${pathRowAttr(r, c)}>
+      <span class="pth-dot${r.kind === 'goal' ? ' box' : ''}">${r.done ? '✓' : ''}</span><span class="pth-t"><b>${esc(pathRowTitle(r))}</b><small>${esc(pathRowSub(r))}</small></span>
+      ${pathRowXp(r)}${r.kind === 'goal' ? '' : '<span class="pth-go">›</span>'}</button></li>`).join('')}</ul>`;
   }
   // Earlier days this week with part of their path left (reading, questions, lesson part).
-  const behindDays = () => [0, 1, 2, 3, 4, 5].filter(d => d < todayIndex() && dayPath(d, null).some(r => !r.done));
+  const behindDays = () => [0, 1, 2, 3, 4, 5].filter(d => d < todayIndex() && pathLeft(dayPath(d, null)).length);
 
   /* ---------------- the week's plan and Go deeper ---------------- */
 
@@ -5229,7 +5290,7 @@ const TreasureUp = (function () {
     const n = streakNow(), charge = chargeOf(n), up = nextCharge(n), f = S.freezes || 0;
     return `<div class="sh-title">${n ? `🔥 ${n}-day streak${charge > 1 ? ` · ⚡ XP ×${charge}` : ''}` : '🔥 Start a streak today'}</div>
       <div class="sh-ladder">${CHARGE.slice().reverse().map(([d, x]) => `<div class="${n >= d ? 'on' : ''}"><b>×${x}</b><span>${d} days</span></div>`).join('')}</div>
-      <p class="sh-line">${!up ? 'Every XP you earn is ×3.' : n ? `${(S.days || {})[dayKey()] ? 'Today is kept' : 'Read today to keep it going'}: ${up[0] - n === 1 ? '1 more day' : up[0] - n + ' more days'} to ⚡ XP ×${up[1]}.` : `Read today, and keep it going: ${up[0]} days in a row is ⚡ XP ×${up[1]}.`}</p>
+      <p class="sh-line">${!up ? 'Every XP you earn is ×2.' : n ? `${(S.days || {})[dayKey()] ? 'Today is kept' : 'Read today to keep it going'}: ${up[0] - n === 1 ? '1 more day' : up[0] - n + ' more days'} to ⚡ XP ×${up[1]}.` : `Read today, and keep it going: ${up[0]} days in a row is ⚡ XP ×${up[1]}.`}</p>
       <p class="sh-small">${f ? `❄️ ${f} streak ${f === 1 ? 'freeze' : 'freezes'}: each covers a day you miss.` : '❄️ No streak freezes yet. Solve the weekly puzzle to win one; it covers a day you miss.'}</p>`;
   }
   // Settings: the Listen voice and the verses' size (on this device), a note
@@ -5777,6 +5838,12 @@ const TreasureUp = (function () {
     const rec = seasonRec(sid, true), ticks = rec.ticks || (rec.ticks = {}), t = ticks[stepId] || (ticks[stepId] = {});
     t[day] = t[day] > 0 ? -Date.now() : Date.now();
     use('seasonTick');
+    // Ticked today: GOAL_TICK_XP, once a step a day (untick and tick again, nothing more).
+    if (t[day] > 0 && day === dayKey()) {
+      const paid = S.tickPaid || (S.tickPaid = {}), key = day + '|' + stepId, keep = dayAdd(day, -14);
+      if (!paid[key]) { paid[key] = {}; payXp(paid[key], GOAL_TICK_XP, 'A goal step'); }
+      for (const x of Object.keys(paid)) if (x < keep) delete paid[x];
+    }
     save();
   }
 
@@ -13685,7 +13752,7 @@ const TreasureUp = (function () {
   // the earliest day still behind.
   function lessonNow() {
     const t = todayIndex();
-    if (t < 6 && dayPath(t, dayKey()).some(r => !r.done)) return (weekPlan()[t] || []).find(e => e.kind === 'day') || { kind: 'day', d: t };
+    if (t < 6 && pathLeft(dayPath(t, dayKey())).length) return (weekPlan()[t] || []).find(e => e.kind === 'day') || { kind: 'day', d: t };
     const b = behindDays()[0];
     return b != null ? (weekPlan()[b] || []).find(e => e.kind === 'day') || null : null;
   }
@@ -13785,25 +13852,26 @@ const TreasureUp = (function () {
     const steps = [], further = !!entry && entry.kind === 'further', sunday = !!entry && entry.kind === 'sunday';
     const want = c => !focus || c === focus || (focus.endsWith('-') && c.startsWith(focus));
     // The day's review question comes first, but not in Go further (extra, after the lesson) or a Sunday class's lesson.
-    if (!further && !sunday) warmupsLeft().map(reelById).filter(Boolean).forEach(r => steps.push({
+    if (!further && !sunday && !focus) warmupsLeft().map(reelById).filter(Boolean).forEach(r => steps.push({
       kind: 'recall', id: r.id, r, home: r.verse.ref, q: r.question.q, right: r.question.right, why: r.question.why, choices: choicesFor(r.question, r.id + '|' + S.daily.day) }));
     const practice = !!entry && entryItems(entry).filter(i => want(i.card)).every(i => i.done);
     if (entry && entry.kind === 'day') {
       // The day's path: each part of its reading, then the questions on what
       // he just read (finding a verse first, once a day); then its Come Follow
       // Me part; and on today's path, conference, his goals, and thanks.
-      const d = entry.d, f = findStep(d, practice);
+      // One thing of it (`focus`, a tap on its row on Today): just that.
+      const d = entry.d, f = !focus && findStep(d, practice);
       for (const g of dayParts(d)) {
-        if (g.p && (practice || !partDone(g.p))) steps.push({ kind: 'chapter', u: g.p.pu, part: g.p });
+        if (g.p && want('part-' + g.p.key) && (practice || !partDone(g.p))) steps.push({ kind: 'chapter', u: g.p.pu, part: g.p });
         if (f && g.reels.some(r => r.id === f.id)) steps.push(f);
-        g.reels.filter(r => practice || !S.answers[r.id]).forEach(r => {
+        g.reels.filter(r => want(r.id) && (practice || !S.answers[r.id])).forEach(r => {
           steps.push({ kind: 'read', r });
           steps.push({ kind: 'reel', id: r.id, home: r.verse.ref, q: r.question.q, right: r.question.right, why: r.question.why, choices: choicesFor(r.question, r.id) });
         });
       }
       const c = cfmOf(d);
-      if (c && (practice || !cfmDone(c))) steps.push({ kind: 'cfm', c });
-      if (d === todayIndex()) {
+      if (c && want('cfm-' + c.x.id) && (practice || !cfmDone(c))) steps.push({ kind: 'cfm', c });
+      if (d === todayIndex() && !focus) {
         const k = dayKey(), dn = pathDoneOf(k), t = gcOf(k);
         if (t && !dn.gc) steps.push({ kind: 'gc', t });
         if (goalSteps().length && !dn.goals) steps.push({ kind: 'goals' });
@@ -14137,7 +14205,7 @@ const TreasureUp = (function () {
     const fk = e && e.kind === 'day' ? furtherKey(e.d) : null;
     const locked = e && e.kind === 'further' ? dayReels(e.d).filter(r => !S.answers[r.id]).reduce((n, r) => n + bonusesOf(r).length, 0) : 0;
     // Today's path, all of it: done for the day, and his goals still to tick, if any.
-    const todays = e && e.kind === 'day' && e.d === todayIndex() && !dayPath(e.d, dayKey()).some(r => !r.done);
+    const todays = e && e.kind === 'day' && e.d === todayIndex() && !pathLeft(dayPath(e.d, dayKey())).length;
     const goalsLeft = todays ? goalSteps().filter(x => !x.on).length : 0;
     body.innerHTML = `<div class="ls-done"><div class="big">🎉</div>
       <div class="ls-prompt">${L.practice ? 'Practice done!' : todays ? 'Today’s study: done!' : 'Lesson complete!'}</div>
@@ -15163,6 +15231,12 @@ const TreasureUp = (function () {
       if (card) { openCard(card.dataset.card); return; }
       const sl = e.target.closest('[data-sunlesson]');
       if (sl) { openLesson('sun:' + sl.dataset.sunlesson); return; }
+      const pg = e.target.closest('[data-path-gc]');
+      if (pg) {
+        const k = dayKey();
+        if (!pathDoneOf(k).gc) { const rec = {}; payXp(rec, GC_XP, 'General conference'); setPathDone(k, 'gc', rec); markStudied(); save(); refreshHome(); }
+        openTalk(pg.dataset.pathGc); return;
+      }
       const tk = e.target.closest('[data-talk]');
       if (tk) { openTalk(tk.dataset.talk); return; }
       const tp = e.target.closest('[data-talkpick]');
