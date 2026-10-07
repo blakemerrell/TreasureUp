@@ -2941,6 +2941,7 @@ const TreasureUp = (function () {
   // A track plays from its start, then loops `loop` (seconds); `bowl`, the bowl's note in its key (Hz).
   const STILL_SOUNDS = [
     { id: 'fire', name: 'Low Hummed Fire', src: 'media/still/low-hummed-fire.m4a', loop: [10, 212], bowl: 155.56 },   // E-flat
+    { id: 'deep', name: 'Deep Hum', src: 'media/still/deep-hum.m4a', loop: [26, 121], bowl: 138.59 },                 // D-flat; best with headphones
     { id: 'rain', name: 'Rain' }, { id: 'brook', name: 'Brook' }, { id: 'bowl', name: 'Bowl only' }];
   const STILL_BOWL_HZ = 155.56;
   const stillSound = id => STILL_SOUNDS.find(x => x.id === id) || STILL_SOUNDS[0];
