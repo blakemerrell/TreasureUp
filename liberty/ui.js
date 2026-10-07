@@ -3078,7 +3078,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const WORLD_POIS = [
     {
       id: 'lehi',
-      cx: 210, cy: 645, rx: 110, ry: 75,
+      x: 50, y: 642, w: 260, h: 88,
       name: "Lehi's Landing & First Inheritance",
       ref: 'Alma 22:28 · 1 Nephi 18',
       chapter: '1 Nephi 18',
@@ -3086,7 +3086,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'nephi',
-      cx: 750, cy: 625, rx: 80, ry: 55,
+      x: 672, y: 622, w: 165, h: 58,
       name: 'City of Lehi-Nephi',
       ref: '2 Nephi 5:5–8 · Mosiah 9',
       chapter: '2 Nephi 5',
@@ -3094,7 +3094,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'mormon',
-      cx: 1075, cy: 635, rx: 105, ry: 60,
+      x: 990, y: 615, w: 180, h: 55,
       name: 'Waters & Forest of Mormon',
       ref: 'Mosiah 18:4–30',
       chapter: 'Mosiah 18',
@@ -3102,7 +3102,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'zarahemla',
-      cx: 620, cy: 450, rx: 85, ry: 45,
+      x: 526, y: 416, w: 118, h: 66,
       name: 'City of Zarahemla',
       ref: 'Omni 1:13 · Alma 2:15',
       chapter: 'Alma 2',
@@ -3110,7 +3110,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'gideon',
-      cx: 885, cy: 450, rx: 65, ry: 38,
+      x: 820, y: 418, w: 140, h: 52,
       name: 'Valley of Gideon',
       ref: 'Alma 6:7 · Alma 14',
       chapter: 'Alma 6',
@@ -3118,7 +3118,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'noah',
-      cx: 455, cy: 375, rx: 75, ry: 45,
+      x: 450, y: 350, w: 120, h: 46,
       name: 'City of Noah',
       ref: 'Alma 49:12–25',
       chapter: 'Alma 49',
@@ -3126,7 +3126,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'antiparah',
-      cx: 295, cy: 500, rx: 70, ry: 45,
+      x: 275, y: 442, w: 115, h: 34,
       name: 'Antiparah & Southwest Frontier',
       ref: 'Alma 53 · Alma 56',
       chapter: 'Alma 56',
@@ -3134,7 +3134,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'neck',
-      cx: 695, cy: 308, rx: 130, ry: 32,
+      x: 550, y: 276, w: 290, h: 36,
       name: 'The Narrow Neck of Land & Pass',
       ref: 'Alma 22:32 · Alma 52:9',
       chapter: 'Alma 22',
@@ -3142,7 +3142,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'hagoth',
-      cx: 450, cy: 268, rx: 70, ry: 60,
+      x: 382, y: 286, w: 135, h: 42,
       name: 'Ship of Hagoth & West Sea Launch',
       ref: 'Alma 63:5–8',
       chapter: 'Alma 63',
@@ -3150,7 +3150,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     },
     {
       id: 'cumorah',
-      cx: 840, cy: 195, rx: 85, ry: 48,
+      x: 752, y: 168, w: 130, h: 44,
       name: 'Hill Cumorah & Land of Desolation',
       ref: 'Mormon 6:6 · Ether 15:11',
       chapter: 'Mormon 6',
@@ -3163,24 +3163,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
     for (const p of WORLD_POIS) {
       const active = activePoiId === p.id;
       poisHtml += `<g class="poiNode ${active ? 'active' : ''}" data-poi="${p.id}" role="button" tabindex="0" aria-label="${esc(p.name)}">
-        <!-- Soft golden radiant pulse halo illuminating city art & text -->
-        <ellipse cx="${p.cx}" cy="${p.cy}" rx="${p.rx}" ry="${p.ry}" class="poiAura" fill="url(#poiAuraGradient)"/>
-        <!-- Delicate antique dashed gold tracer line -->
-        <ellipse cx="${p.cx}" cy="${p.cy}" rx="${p.rx}" ry="${p.ry}" class="poiTracer" fill="none"/>
+        <!-- Exact glowing gold text calligraphy directly illuminating city name -->
+        <image href="assets/text_glow_${p.id}.webp" x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" class="poiTextGlow" onerror="this.setAttribute('href','assets/text_glow_${p.id}.png')"/>
         <!-- Generous transparent hit area for easy tapping on touch screens -->
-        <ellipse cx="${p.cx}" cy="${p.cy}" rx="${p.rx + 10}" ry="${p.ry + 8}" fill="transparent"/>
+        <rect x="${p.x - 8}" y="${p.y - 6}" width="${p.w + 16}" height="${p.h + 12}" fill="transparent" class="poiHitbox"/>
       </g>`;
     }
 
     return `<div class="campMapWrap">
       <svg class="campMapSvg" viewBox="0 0 1376 768" preserveAspectRatio="xMidYMid meet">
-        <defs>
-          <radialGradient id="poiAuraGradient" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.55"/>
-            <stop offset="60%" stop-color="#f59e0b" stop-opacity="0.25"/>
-            <stop offset="100%" stop-color="#d97706" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
         <image href="assets/world_map.webp" x="0" y="0" width="1376" height="768" onerror="this.setAttribute('href','assets/world_map.jpg')"/>
         ${poisHtml}
       </svg>
