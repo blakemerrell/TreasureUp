@@ -11,13 +11,13 @@ import { serve, launch, closeBrowser, results, note } from './lib.mjs';
 const port = Number(process.env.TEST_PORT || 8131);
 const emulators = !!process.env.FIRESTORE_EMULATOR_HOST;
 const asked = process.argv.slice(2);
-const names = asked.length ? asked : ['smoke', 'dates', 'merge', 'week', ...(emulators ? ['family'] : [])];
+const names = asked.length ? asked : ['smoke', 'dates', 'merge', 'week', ...(emulators ? ['family', 'games'] : [])];
 
 const server = await serve(port);
 await launch();
 const t0 = Date.now();
 for (const name of names) {
-  if (name === 'family' && !emulators) { note('NOTE', 'family: skipped (it runs under the Firebase emulators)'); continue; }
+  if ((name === 'family' || name === 'games') && !emulators) { note('NOTE', `${name}: skipped (it runs under the Firebase emulators)`); continue; }
   console.log(`\n== ${name}`);
   const t = Date.now();
   try { await (await import(`./${name}.test.mjs`)).default({ port }); }

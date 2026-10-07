@@ -5,7 +5,7 @@
   "description": "Browser tests for TreasureUp (see README.md).",
   "scripts": {
     "test": "node run.mjs",
-    "test:family": "cd .. && tests/node_modules/.bin/firebase emulators:exec --only auth,firestore --project scripturetok-test \"node tests/run.mjs family\""
+    "test:family": "cd .. && tests/node_modules/.bin/firebase emulators:exec --only auth,firestore --project scripturetok-test \"node tests/run.mjs family games\""
   },
   "devDependencies": {
     "firebase-tools": "13.35.1"

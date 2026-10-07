@@ -54,4 +54,4 @@ jobs:
           key: firebase-emulators-${{ hashFiles('tests/package-lock.json') }}
 
       - name: A family on the Firebase emulators
-        run: tests/node_modules/.bin/firebase emulators:exec --only auth,firestore --project scripturetok-test "node tests/run.mjs family"
+        run: tests/node_modules/.bin/firebase emulators:exec --only auth,firestore --project scripturetok-test "node tests/run.mjs family games"
