@@ -658,6 +658,88 @@ console.log('Fighting on the way · Blake\'s gameplay review');
     'the King-men\'s ladder-works makes swords and cimeters: +2 for warriors who fight up close (the Nephites\' steel gives +3)');
 }
 
+console.log('Defensive Carts & Fighting Workers · Blake\'s gameplay evolution');
+{
+  const W = new S.World();
+  const man = (type, team, x, y) => W.addUnit(type, team, x, y);
+  // 1. Worker fights back with scythe (dmg 5)
+  {
+    const wrk = man('worker', 'p', 200, 200), foe = man('lamanite', 'r', 215, 200);
+    const hp0 = foe.hp;
+    W.damage(wrk, 5, foe);
+    ok(foe.hp < hp0, 'worker strikes back with scythe when attacked');
+    ok(W.effects.some(f => f.kind === 'hit' && f.team === 'p'), 'worker scythe hit effect shown');
+    W.remove(wrk); W.remove(foe);
+  }
+  // 2. Grain cart bursts into speed escape
+  {
+    const cart = man('cart', 'p', 200, 200), foe = man('lamanite', 'r', 215, 200);
+    cart.pref = 'grain';
+    W.damage(cart, 5, foe);
+    ok(cart.burstUntil > W.t, 'grain cart gets speed burst when attacked');
+    W.remove(cart); W.remove(foe);
+  }
+  // 3. Stone cart flings stones up to range 110
+  {
+    const cart = man('cart', 'p', 200, 200), foe = man('lamanite', 'r', 280, 200);
+    cart.carry = { type: 'stone', amt: 10 };
+    const hp0 = foe.hp;
+    W.damage(cart, 5, foe);
+    ok(foe.hp < hp0, 'stone cart flings stones at pursuer');
+    ok(W.effects.some(f => f.kind === 'stone' && f.team === 'p'), 'stone projectile thrown from cart');
+    W.remove(cart); W.remove(foe);
+  }
+  // 4. Timber cart drops stakes and slows pursuer
+  {
+    const cart = man('cart', 'p', 200, 200), foe = man('lamanite', 'r', 225, 200);
+    cart.carry = { type: 'timber', amt: 10 };
+    const hp0 = foe.hp;
+    W.damage(cart, 5, foe);
+    ok(foe.hp < hp0, 'timber cart drops stakes on attacker');
+    ok(foe.slow < 1, 'timber cart slows attacker');
+    ok(W.effects.some(f => f.kind === 'hit' && f.team === 'p'), 'timber defensive hit effect');
+    W.remove(cart); W.remove(foe);
+  }
+}
+
+console.log('Specialized Industry Buildings · Ancient Nephite Crafts');
+{
+  const W = new S.World();
+  W.side('p').res.grain = 500;
+  W.side('p').res.timber = 500;
+  W.side('p').res.stone = 500;
+
+  // 1. Sawmill
+  const saw = W.addBuilding('sawmill', 'p', 20, 20, true);
+  const t0 = W.side('p').res.timber;
+  W.step(5.0);
+  ok(W.side('p').res.timber > t0, 'timber works passively mills timber (Helaman 3:9)');
+  ok(W.takesHarvest(saw), 'timber works serves as local timber dropoff');
+
+  // 2. Stone Quarry
+  const qry = W.addBuilding('quarry', 'p', 25, 20, true);
+  const s0 = W.side('p').res.stone;
+  W.step(5.0);
+  ok(W.side('p').res.stone > s0, 'stone quarry passively cuts limestone blocks');
+  ok(W.takesHarvest(qry), 'stone quarry serves as local stone dropoff');
+
+  // 3. Cement Kiln / Brickworks
+  const kl = W.addBuilding('brickworks', 'p', 30, 20, true);
+  ok(W.takesHarvest(kl), 'cement kiln serves as dropoff');
+  ok(kl.def.cement === true, 'cement kiln marked as cement works (Helaman 3:7)');
+
+  // 4. Cement repair bonus
+  const wall = W.addBuilding('wall', 'p', 22, 25, true);
+  wall.hp = 100;
+  const wrk = W.addUnit('worker', 'p', S.center(21), S.center(25));
+  W.order(wrk, { type: 'build', target: wall.id });
+  const hpA = wall.hp;
+  W.step(1.0);
+  ok(wall.hp > hpA, 'worker repairs damaged fortifications with cement');
+
+  W.remove(saw); W.remove(qry); W.remove(kl); W.remove(wall); W.remove(wrk);
+}
+
 console.log('Out of the Wilderness · build a city, hold off the raids');
 {
   const WM = require('../liberty/missions.js').WILD;
@@ -743,7 +825,7 @@ console.log('Saving a game · Blake\'s "we\'ll lose our progress"');
   // to 5 minutes. The two must match to the last arrow: the save holds everything the game needs.
   const { execFileSync } = await import('node:child_process'), fs = await import('node:fs'), os = await import('node:os'), path = await import('node:path');
   const child = new URL('./liberty-save-child.mjs', import.meta.url).pathname;
-  for (const sc of ['m2', 'm3', 'free:normal:freemen', 'free:hard:kingmen', 'wild:normal']) {
+  for (const sc of ['m2', 'm3', 'm4', 'm5', 'm6', 'free:normal:freemen', 'free:hard:kingmen', 'wild:normal']) {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'liberty-save-'));
     const played = JSON.parse(execFileSync('node', [child, 'play', sc, '180', '120', dir]).toString().trim().split('\n').pop());
     execFileSync('node', [child, 'load', '120', dir + '/a.json', dir + '/b2.json']);
@@ -762,6 +844,90 @@ console.log('Saving a game · Blake\'s "we\'ll lose our progress"');
   // Anything that can't be written down (a function) is noted, so the screen keeps the last good save instead.
   { const SAVE = require('../liberty/save.js'), W = start('m1'); W.mission.flags = { oops: () => 1 };
     ok(SAVE.dump(W, {}).lost.includes('oops'), 'a save that would lose something says so'); W.mission.flags = {}; }
+}
+
+// ------------------------------------------------------------ Campaign Missions & Star Perks
+console.log('Campaign Missions & Star Perks · Meta-Progression');
+{
+  const { MISSIONS } = require('../liberty/missions.js');
+  ok(MISSIONS.length === 6, 'all 6 campaign missions defined and exported');
+  for (const id of ['m3', 'm4', 'm5', 'm6', 'm1', 'm2']) {
+    const m = MISSIONS.find(x => x.id === id);
+    ok(m && m.chapter && m.goals && m.starsText, `mission ${id} has full canonical metadata (${m.chapter})`);
+    const W = new S.World(undefined, m.map);
+    W.mission = m;
+    m.setup(W);
+    ok(W.ents.size > 0 && Array.isArray(m.objectives(W)), `mission ${id} sets up world entities and objectives`);
+  }
+
+  // Perks mechanics tests
+  // 1. brass_plates increases research speed by 25%
+  {
+    const W = new S.World();
+    W.tech = true;
+    W.perks = ['brass_plates'];
+    W.res = { grain: 500, timber: 500, stone: 500 };
+    const b = W.addBuilding('armory', 'p', 10, 10, true);
+    ok(W.research(b, 'breastplates'), 'armory starts research');
+    const t0 = W.side('p').researching.left;
+    W.step(1);
+    const dt = t0 - W.side('p').researching.left;
+    ok(Math.abs(dt - 1.25) < 0.05, `brass_plates perk speeds up research by 1.25x (${dt.toFixed(2)}s per 1s)`);
+  }
+
+  // 2. moroni_forts discounts walls, gates, and ditches by 20%
+  {
+    const W = new S.World();
+    W.perks = ['moroni_forts'];
+    const wallCostNormal = D.BUILDINGS.wall.cost.timber;
+    const wallCostPerk = W.costOf(D.BUILDINGS.wall, 'p', 'build').timber;
+    ok(wallCostPerk === Math.round(wallCostNormal * 0.8), `moroni_forts perk gives 20% discount on walls (${wallCostPerk} vs ${wallCostNormal})`);
+    const gateCostNormal = D.BUILDINGS.gate.cost.timber;
+    const gateCostPerk = W.costOf(D.BUILDINGS.gate, 'p', 'build').timber;
+    ok(gateCostPerk === Math.round(gateCostNormal * 0.8), `moroni_forts perk gives 20% discount on gates (${gateCostPerk} vs ${gateCostNormal})`);
+  }
+
+  // 3. stripling_covenant gives striplings +20% HP and rank 1
+  {
+    const W = new S.World();
+    W.perks = ['stripling_covenant'];
+    const u = W.addUnit('stripling', 'p', 100, 100);
+    ok(u.rank >= 1 && u.max === Math.round(D.UNITS.stripling.hp * 1.2), `stripling_covenant perk grants rank 1 and +20% HP (${u.max} vs ${D.UNITS.stripling.hp})`);
+  }
+
+  // 4. joseph_granaries adds +300 to storeCap
+  {
+    const W0 = new S.World();
+    const cap0 = W0.storeCap('p');
+    const W1 = new S.World();
+    W1.perks = ['joseph_granaries'];
+    const cap1 = W1.storeCap('p');
+    ok(cap1 === cap0 + 300, `joseph_granaries perk increases storeCap by +300 (${cap1} vs ${cap0})`);
+  }
+
+  // 5. nephite_chariots gives carts 20% speed
+  {
+    const W = new S.World();
+    W.perks = ['nephite_chariots'];
+    const c = W.addUnit('cart', 'p', 100, 100);
+    c.path = [[10, 10]];
+    const x0 = c.x, y0 = c.y;
+    W.follow(c, 1);
+    const distMoved = Math.hypot(c.x - x0, c.y - y0);
+    const expected = D.UNITS.cart.speed * 1.2;
+    ok(Math.abs(distMoved - expected) < 2, `nephite_chariots perk gives carts 20% speed boost (${distMoved.toFixed(1)} vs ${expected.toFixed(1)})`);
+  }
+
+  // 6. Council questions defined for all campaign chapters
+  {
+    for (const m of MISSIONS) {
+      const chaps = m.chapters || [m.chapter];
+      for (const c of chaps) {
+        const qs = D.QUESTIONS[c];
+        ok(Array.isArray(qs) && qs.length >= 5, `council questions defined for ${c} (${qs ? qs.length : 0} >= 5)`);
+      }
+    }
+  }
 }
 
 // ------------------------------------------------------------ quotes

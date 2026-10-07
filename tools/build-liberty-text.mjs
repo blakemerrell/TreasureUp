@@ -8,7 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const CHAPTERS = ['3 Nephi 3', '3 Nephi 4', 'Alma 43', 'Alma 44'];
+const CHAPTERS = ['3 Nephi 3', '3 Nephi 4', 'Alma 43', 'Alma 44', 'Alma 46', 'Alma 48', 'Alma 49', 'Alma 53', 'Alma 56'];
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CACHE = process.env.SCRIPTURE_CACHE || path.join(ROOT, 'tools', '.scripture-cache');

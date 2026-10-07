@@ -5,6 +5,7 @@
   'use strict';
   const D = window.LIB_DATA, S = window.LIB_SIM, MISSIONS = window.LIB_MISSIONS.MISSIONS, CAMPAIGNS = window.LIB_MISSIONS.CAMPAIGNS, FREE = window.LIB_MISSIONS.FREE_BATTLE, WILD = window.LIB_MISSIONS.WILD;
   const TEXT = window.LIBERTY_SCRIPTURE || {};
+  const AUDIO = window.LIB_AUDIO;
   const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, QUESTIONS, MIRACLES, POWERS, ARTIFACTS, SIDES, CAPTAINS } = D;
   const { tileOf, dist } = S;
   const WORLD_W = MAP_W * TILE, WORLD_H = MAP_H * TILE;
@@ -62,6 +63,9 @@ const IMG = {
   cartWork: picture(),
   unit: picture(),
   stronghold: picture(),
+  encampment: picture(),
+  councilPlatform: picture(),
+  acropolis: picture(),
   barracks: picture(),
   tower: picture(),
   storehouse: picture(),
@@ -103,6 +107,9 @@ IMG.cartStone.src = 'assets/cart_stone.png?v=1';
 IMG.cartWork.src = 'assets/cart_loading.png?v=1';
 IMG.unit.src = 'assets/spearman.png?v=13';
 IMG.stronghold.src = 'assets/stronghold.png?v=15';   // the chief judge's palace, in the white stone of the other buildings (020-city-palace.md)
+IMG.encampment.src = 'assets/encampment.png?v=1';
+IMG.councilPlatform.src = 'assets/council_platform.png?v=1';
+IMG.acropolis.src = 'assets/acropolis.png?v=1';
 IMG.barracks.src = 'assets/barracks.png?v=13';
 IMG.tower.src = 'assets/tower.png?v=13';
 IMG.storehouse.src = 'assets/storehouse.png?v=13';
@@ -111,6 +118,9 @@ IMG.granary.src = 'assets/granary.png?v=2';      // and these: 007-buildings.md 
 IMG.stables.src = 'assets/stables.png?v=2';
 IMG.hall.src = 'assets/hall.png?v=2';
 IMG.temple.src = 'assets/temple.png?v=4';           // after the manner of Solomon's: its porch and two great pillars, no tower (023)
+IMG.quarry = picture(); IMG.quarry.src = 'assets/quarry.png?v=1';
+IMG.sawmill = picture(); IMG.sawmill.src = 'assets/sawmill.png?v=1';
+IMG.brickworks = picture(); IMG.brickworks.src = 'assets/brickworks.png?v=1';
 IMG.ruin.src = 'assets/ruin.png?v=1';
 IMG.lamaniteCamp.src = 'assets/lamanite_camp.png?v=1';   // and these: 009-battlefield.md
 IMG.robbersCamp.src = 'assets/robbers_camp.png?v=1';
@@ -151,10 +161,14 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   const KEY = 'liberty.v1';
   const save = (() => {
-    try { return Object.assign({ read: {}, won: {} }, JSON.parse(localStorage.getItem(KEY)) || {}); }
-    catch (e) { return { read: {}, won: {} }; }
+    try { return Object.assign({ read: {}, won: {}, perks: [] }, JSON.parse(localStorage.getItem(KEY)) || {}); }
+    catch (e) { return { read: {}, won: {}, perks: [] }; }
   })();
+  if (!Array.isArray(save.perks)) save.perks = [];
   const store = () => { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) { /* private mode: progress lasts this visit */ } };
+  const totalStars = () => Object.values(save.won || {}).reduce((a, b) => a + (Number(b) || 0), 0);
+  const spentStars = () => (save.perks || []).reduce((a, id) => a + (DATA.PERKS[id] ? DATA.PERKS[id].stars : 0), 0);
+  const availableStars = () => Math.max(0, totalStars() - spentStars());
   // Every mission is open (Blake: "read first, then play isn't really working"). Reading its chapter first earns a gift
   // at the start and opens the council's questions; it is suggested, not required.
   const chaptersOf = m => m.chapters || [m.chapter];
@@ -1187,7 +1201,23 @@ IMG.farm.src = 'assets/farm.png?v=13';
       }
     }
 
-    ctx.fillStyle = 'rgba(0,0,0,.32)'; ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 0.95, r * 0.48, 0, 0, 7); ctx.fill();
+    const inFord = W && W.tile(tileOf(u.x), tileOf(u.y)) === T.FORD;
+    if (inFord) {
+      // Tactical river ford crossing (Alma 43:31–35): animated ripples and splashes over River Sidon
+      const rip1 = (now * 0.0022 + u.id * 0.23) % 1;
+      const rip2 = (now * 0.0022 + u.id * 0.23 + 0.5) % 1;
+      ctx.strokeStyle = `rgba(186, 230, 253, ${0.55 * (1 - rip1)})`; ctx.lineWidth = 1.3;
+      ctx.beginPath(); ctx.ellipse(ix, iy, r * 1.1 + rip1 * 12, (r * 0.55 + rip1 * 6), 0, 0, 7); ctx.stroke();
+      ctx.strokeStyle = `rgba(186, 230, 253, ${0.4 * (1 - rip2)})`; ctx.lineWidth = 1.0;
+      ctx.beginPath(); ctx.ellipse(ix, iy, r * 1.1 + rip2 * 12, (r * 0.55 + rip2 * 6), 0, 0, 7); ctx.stroke();
+      if (moving) {
+        ctx.fillStyle = `rgba(255, 255, 255, ${0.7 + 0.2 * Math.sin(now * 0.02 + u.id)})`;
+        ctx.beginPath(); ctx.arc(ix - 5 * flip, iy - 2, 2.2, 0, 7); ctx.fill();
+        ctx.beginPath(); ctx.arc(ix + 6 * flip, iy - 1, 1.8, 0, 7); ctx.fill();
+      }
+    } else {
+      ctx.fillStyle = 'rgba(0,0,0,.32)'; ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 0.95, r * 0.48, 0, 0, 7); ctx.fill();
+    }
     if (u.thirstUntil > W.t) {                       // bloodthirst (Moroni 9:5): a red glow at his feet
       ctx.fillStyle = `rgba(220,38,38,${0.32 + 0.18 * Math.sin(now * 0.015 + u.id)})`; ctx.beginPath(); ctx.ellipse(ix, iy, r * 1.6, r * 0.8, 0, 0, 7); ctx.fill();
     }
@@ -1203,14 +1233,16 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.scale(flip, 1);
     if (hammering) ctx.rotate(blow * 0.24 - 0.07);    // leans into each blow
 
-    if (u.type === 'standard') {
-      ctx.restore(); if (hid) ctx.globalAlpha = 1;
-      banner(x - 1, y - 30, '#f4f1e6', now, u.id);
-      return;
-    }
     let uImg = IMG.spearman;
     let uw = 28, uh = 44, uox = 11, uoy = 43;
-    if (u.type === 'lehi') {
+    if (u.type === 'standard') {
+      const hType = u.heroType || 'moroni';
+      uImg = ready(IMG[hType]) ? IMG[hType] : IMG.moroni;
+      if (hType === 'lehi') { uw = 40; uh = 48; uox = 24; uoy = 47; }
+      else if (hType === 'gidgiddoni') { uw = 28; uh = 48; uox = 18; uoy = 47; }
+      else if (hType === 'helaman') { uw = 37; uh = 48; uox = 18; uoy = 47; }
+      else { uw = 37; uh = 48; uox = 17; uoy = 47; }
+    } else if (u.type === 'lehi') {
       uImg = IMG.lehi;
       uw = 40; uh = 48; uox = 24; uoy = 47;
     } else if (u.type === 'gidgiddoni') {
@@ -1284,6 +1316,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
     if (uImg && uImg.complete && uImg.naturalWidth) {
       ctx.drawImage(uImg, -uox, -uoy, uw, uh);
+      if (u.type === 'standard') {
+        banner(flip > 0 ? 8 : -8, -uh + 8, '#f4f1e6', now, u.id);
+      }
     } else {
       ctx.fillStyle = '#451a03';
       ctx.fillRect(-3 + walkCycle * 3, 2, 2.5, 6);
@@ -1303,14 +1338,26 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const sy = iy - uh - 8 - (u.rank || 0) * 4; ctx.beginPath(); ctx.moveTo(ix + 7, sy - 8); ctx.lineTo(ix + 7, sy + 2); ctx.moveTo(ix + 4, sy); ctx.lineTo(ix + 10, sy); ctx.stroke();
     }
     if (u.rank) {                                   // a veteran's chevrons (Alma 53:20)
-      ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
-      for (let k = 0; k < u.rank; k++) { const cy = iy - uh - 6 - k * 4; ctx.beginPath(); ctx.moveTo(ix - 4, cy); ctx.lineTo(ix, cy + 3); ctx.lineTo(ix + 4, cy); ctx.stroke(); }
+      const rankColor = u.rank >= 2 ? '#fef08a' : '#f59e0b';
+      for (let k = 0; k < u.rank; k++) {
+        const cy = iy - uh - 5 - k * 5;
+        ctx.strokeStyle = 'rgba(15, 9, 4, 0.9)'; ctx.lineWidth = 2.8; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+        ctx.beginPath(); ctx.moveTo(ix - 4, cy + 3); ctx.lineTo(ix, cy - 1); ctx.lineTo(ix + 4, cy + 3); ctx.stroke();
+        ctx.strokeStyle = rankColor; ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.moveTo(ix - 4, cy + 3); ctx.lineTo(ix, cy - 1); ctx.lineTo(ix + 4, cy + 3); ctx.stroke();
+      }
+      if (u.rank >= 2) {
+        const glow = (Math.sin(now / 180 + u.id) + 1) * 0.5;
+        ctx.strokeStyle = `rgba(253, 224, 71, ${0.3 + 0.3 * glow})`; ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.ellipse(ix, iy, r * 1.15, r * 0.58, 0, 0, 7); ctx.stroke();
+      }
     }
     if (u.hp < u.max && (sel.includes(u.id) || u.team === 'r')) {
       const pct = Math.max(0, u.hp / u.max);
-      ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(ix - 8, iy - 22, 16, 3);
+      const barY = iy - uh - 4 - (u.rank ? u.rank * 5 + 3 : 0);
+      ctx.fillStyle = 'rgba(0,0,0,0.65)'; ctx.fillRect(ix - 10, barY, 20, 3.5);
       ctx.fillStyle = u.team === 'p' ? '#4ade80' : '#f87171';
-      ctx.fillRect(ix - 8, iy - 22, 16 * pct, 3);
+      ctx.fillRect(ix - 9.5, barY + 0.5, 19 * pct, 2.5);
     }
     if (sel.includes(u.id)) {
       ctx.strokeStyle = '#fde047'; ctx.lineWidth = 1; ctx.setLineDash([2, 2]);
@@ -1327,7 +1374,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // In each picture's own pixels: the middle of its base across, the front
   // corner where it meets the ground, and how wide the base is.
   const SPRITE = {
-    stronghold: { cx: 300, by: 430, span: 600 },
+    stronghold: { cx: 542, by: 701, span: 990 },
+    encampment: { cx: 498, by: 740, span: 996 },
+    councilPlatform: { cx: 488, by: 708, span: 962 },
+    acropolis: { cx: 542, by: 701, span: 990 },
     barracks: { cx: 191, by: 291, span: 331 },
     storehouse: { cx: 187, by: 283, span: 358 },
     tower: { cx: 214, by: 493, span: 428 },
@@ -1353,12 +1403,18 @@ IMG.farm.src = 'assets/farm.png?v=13';
     lamaniteCamp: { cx: 210, by: 240, span: 419 },
     robbersCamp: { cx: 210, by: 242, span: 418 },
     warcamp: { cx: 210, by: 267, span: 419 },
+    quarry: { cx: 488, by: 702, span: 977 },
+    sawmill: { cx: 437, by: 736, span: 875 },
+    brickworks: { cx: 502, by: 848, span: 1004 },
     lamaniteTower: { cx: 199, by: 461, span: 398 },
   };
   // Which picture a building is drawn with: the Lamanites' watchtowers are their own; a camp is the robbers' in 3 Nephi, the Lamanites' elsewhere.
   const pictureOf = b => (b.type === 'tower' && b.team === 'r') || b.type === 'lookout' ? 'lamaniteTower' : b.type === 'warcamp' ? 'warcamp' : b.type === 'idol' ? (b.id % 2 ? 'idol_jaguar' : 'idol_warrior')
-    : b.type === 'camp' ? (mission && mission.campaign === 'gidgiddoni' ? 'robbersCamp' : 'lamaniteCamp') : PICTURE[b.type];
-  const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables', temple: 'temple', relic: 'ruin',
+    : b.type === 'camp' ? (mission && mission.campaign === 'gidgiddoni' ? 'robbersCamp' : 'lamaniteCamp')
+    : (b.type === 'stronghold') ? (b.tier === 1 ? 'encampment' : b.tier === 2 ? 'councilPlatform' : 'acropolis')
+    : PICTURE[b.type];
+  const PICTURE = { stronghold: 'acropolis', encampment: 'encampment', councilPlatform: 'councilPlatform', acropolis: 'acropolis', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables', temple: 'temple', relic: 'ruin',
+    quarry: 'quarry', sawmill: 'sawmill', brickworks: 'brickworks',
     tents: 'tents', storetent: 'storetent', muster: 'muster', shieldtent: 'shieldtent', ladderworks: 'ladderworks', pavilion: 'pavilion', smithy: 'smithy', training: 'training', wardance: 'wardance', rameumptom: 'rameumptom' };
   const ready = img => img && img.complete && img.naturalWidth;
   // A building stands on flat ground just above the highest corner of its plot.
@@ -1404,9 +1460,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // like a flipbook and added as light; incense rises before the idols. Points are in each picture's own pixels.
   const FX = {
     rameumptom: { fire: [[175, 247], [435, 247], [304, 330]] },
+    councilPlatform: { fire: [[200, 435], [788, 435], [500, 580]], fireH: 10 },
     temple: { fire: [[386, 366], [372, 375], [358, 383], [344, 391], [330, 401], [317, 409], [302, 418]], fireH: 9 },   // the great lampstand's seven lamps (023)
     idol_jaguar: { smoke: [[90, 248], [230, 312]] },
-    idol_warrior: { smoke: [[95, 362], [228, 428]] }
+    idol_warrior: { smoke: [[95, 362], [228, 428]] },
+    brickworks: { smoke: [[310, 175]] }
   };
   function drawFx(b, key, ix, frontY, sc, now) {
     const fx = FX[key], sp = SPRITE[key];
@@ -1447,6 +1505,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     } else if (sp && ready(img)) {
       place();
       if (b.type === 'hall') banner(ix + 6, iy - h * 1.2, '#d4a017', now, b.id);
+      if (b.type === 'stronghold') {
+        const bannerY = b.tier === 1 ? iy - h * 0.45 : b.tier === 2 ? iy - h * 0.65 : iy - h * 0.75;
+        banner(ix + 8, bannerY, '#f4f1e6', now, b.id);
+      }
     } else if (b.type === 'smithy' && ready(IMG.armory)) {   // the armory's picture, on the smaller plot, with the forge's glow
       const a = SPRITE.armory, im = IMG.armory, front = isoAt((b.tx + b.w) * TILE, (b.ty + b.h) * TILE, top), sc = (b.w + b.h) * TILE / a.span;
       ctx.drawImage(im, ix - a.cx * sc, front.iy - a.by * sc, im.naturalWidth * sc, im.naturalHeight * sc);
@@ -1750,7 +1812,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (f.kind === 'stone') {
         const q = clamp((W.t - f.t) / 0.5, 0, 1), sx = p0.ix + (p1.ix - p0.ix) * q, sy = p0.iy - 26 * (1 - q * q) + (p1.iy - p0.iy) * q;
         if (q < 1) { ctx.fillStyle = '#9ca3af'; ctx.strokeStyle = '#4b5563'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(sx, sy - 4, 3.5, 0, 7); ctx.fill(); ctx.stroke(); }
-        else if (!f.dusted) { f.dusted = true; addDust(p1.ix, p1.iy); addDust(p1.ix + 4, p1.iy); addDust(p1.ix - 4, p1.iy); }
+        else if (!f.dusted) { f.dusted = true; addDust(p1.ix, p1.iy); addDust(p1.ix + 4, p1.iy); addDust(p1.ix - 4, p1.iy); if (AUDIO) AUDIO.play('combatHit'); }
         continue;
       }
       if (f.kind === 'arrow') {
@@ -1768,11 +1830,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
         ctx.moveTo(ax - Math.cos(angle) * 7, ay - Math.sin(angle) * 7);
         ctx.lineTo(ax, ay);
         ctx.stroke();
+        if (p >= 0.95 && !f.hitPlayed) { f.hitPlayed = true; if (AUDIO) AUDIO.play('combatHit'); }
       } else {
         // Hit Impact Spark & Dust
         ctx.fillStyle = `rgba(255,255,255,${0.8 * (1 - p)})`;
         ctx.beginPath(); ctx.arc(gx, gy, 4 + p * 5, 0, 7); ctx.fill();
         if (Math.random() < 0.4) addSpark(gx, gy);
+        if (!f.hitPlayed) { f.hitPlayed = true; if (AUDIO) AUDIO.play('combatHit'); }
       }
     }
   }
@@ -1805,6 +1869,47 @@ IMG.farm.src = 'assets/farm.png?v=13';
           ctx.fillStyle = ok ? 'rgba(74,222,128,.4)' : 'rgba(248,113,113,.45)'; ctx.fill();
           ctx.strokeStyle = ok ? '#4ade80' : '#f87171'; ctx.lineWidth = 1.5; ctx.stroke();
         }
+      }
+    }
+    if (placing !== 'wall' && spots.length) {
+      const [x, y] = spots[0];
+      const ok = W.canPlace(placing, x, y) && KINDS.every(k => left[k] >= 0);
+      const bObj = { tx: x, ty: y, w: def.w, h: def.h, def, type: placing, team: 'p', tier: 1 };
+      const topH = floorOf(bObj);
+      const { ix, iy } = isoAt(x * TILE, y * TILE, topH);
+      const front = isoAt((x + def.w) * TILE, (y + def.h) * TILE, topH);
+      const key = pictureOf(bObj) || placing;
+      const sp = SPRITE[key], img = IMG[key];
+      if (sp && ready(img)) {
+        const sc = (def.w + def.h) * TILE / sp.span;
+        ctx.save();
+        ctx.globalAlpha = ok ? 0.72 : 0.42;
+        if (!ok) ctx.filter = 'grayscale(0.6) brightness(0.85) sepia(0.6) hue-rotate(-50deg)';
+        ctx.drawImage(img, ix - sp.cx * sc, front.iy - sp.by * sc, img.naturalWidth * sc, img.naturalHeight * sc);
+        ctx.restore();
+      }
+      if (touchPlacePos) {
+        const centerIso = toIso((x + def.w / 2) * TILE, (y + def.h / 2) * TILE);
+        const touchIsoX = cam.x + touchPlacePos.x / cam.z;
+        const touchIsoY = cam.y + touchPlacePos.y / cam.z;
+        ctx.save();
+        ctx.strokeStyle = 'rgba(253, 230, 138, 0.8)';
+        ctx.lineWidth = 2 / cam.z;
+        ctx.beginPath();
+        ctx.arc(touchIsoX, touchIsoY, 16 / cam.z, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(253, 230, 138, 0.2)';
+        ctx.fill();
+
+        ctx.strokeStyle = ok ? 'rgba(74, 222, 128, 0.9)' : 'rgba(248, 113, 113, 0.9)';
+        ctx.lineWidth = 2 / cam.z;
+        ctx.setLineDash([4 / cam.z, 4 / cam.z]);
+        ctx.beginPath();
+        ctx.moveTo(touchIsoX, touchIsoY);
+        ctx.lineTo(centerIso.ix, centerIso.iy);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
       }
     }
     if (def.range && spots.length) {
@@ -1888,7 +1993,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const selectable = e => e && !e.dead && e.team === 'p' && e.type !== 'villager' && e.type !== 'flock';
   const selEnts = () => sel.map(id => W.ents.get(id)).filter(e => e && !e.dead);
   const selUnits = () => selEnts().filter(e => e.kind === 'unit' && selectable(e));
-  function setSel(list) { sel = list.filter(selectable).map(e => e.id); infoEnt = null; placing = null; aiming = null; wallLine = null; wallStart = null; armedRemove = null; refreshPanel(true); }
+  function setSel(list) {
+    const prev = sel.length;
+    sel = list.filter(selectable).map(e => e.id);
+    infoEnt = null; placing = null; aiming = null; wallLine = null; wallStart = null; armedRemove = null; touchSpot = null; touchPlacePos = null;
+    if (sel.length && AUDIO && (!prev || sel.length !== prev)) AUDIO.play('select');
+    refreshPanel(true);
+  }
 
   function entityAt(wx, wy, sx, sy) {
     let best = null, bd = 24;
@@ -1946,12 +2057,14 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const e = entityAt(wx, wy, sx, sy), tx = tileOf(wx), ty = tileOf(wy);
     if (e && e.team === 'r' && !e.untouchable) {
       for (const u of units) if (u.def.dmg) W.order(u, { type: 'attack', target: e.id });
+      if (AUDIO) { AUDIO.play('orderAttack'); AUDIO.unitAcknowledge(units[0], 'attack'); }
       return ping(e.x, e.y, '#f87171');
     }
     const workers = units.filter(u => u.def.builds), rest = units.filter(u => !u.def.builds);
     if (e && e.kind === 'building' && workers.length && W.needsWork(e)) {
       for (const u of workers) W.order(u, { type: 'build', target: e.id });
       if (rest.length) moveGroup(rest, tx, ty);
+      if (AUDIO) { AUDIO.play('orderMove'); AUDIO.unitAcknowledge(workers[0] || units[0], 'move'); }
       return ping(e.x, e.y, '#fde68a');
     }
     const kind = W.isResource(tx, ty, 'timber') ? 'timber' : W.isResource(tx, ty, 'grain') ? 'grain' : W.isResource(tx, ty, 'stone') ? 'stone' : null;
@@ -1959,9 +2072,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (kind && carts.length) {
       carts.forEach((u, i) => { u.pref = kind; const f = i ? W.nearestResource(tx, ty, kind, u) || [tx, ty] : [tx, ty]; W.gatherAt(u, f[0], f[1]); });
       if (others.length) moveGroup(others, tx, ty);
+      if (AUDIO) { AUDIO.play('orderMove'); AUDIO.unitAcknowledge(carts[0] || units[0], 'move'); }
       return ping(wx, wy, kind === 'timber' ? '#a3e635' : kind === 'stone' ? '#d6d3d1' : '#fde047');
     }
     moveGroup(units, tx, ty, true);
+    if (AUDIO) { AUDIO.play('orderMove'); AUDIO.unitAcknowledge(units[0], 'move'); }
     ping(wx, wy, '#86efac');
   }
   // Everyone to their own tile around the spot, nearest first. With `fight`, soldiers fight whatever they meet on the way
@@ -1987,7 +2102,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const def = BUILDINGS[type];
     if (W.whyNotBuild(type)) return toast(W.whyNotBuild(type) + '.', 'warn');
     if (!W.canAfford(def.cost)) return toast(poorText(def.cost), 'warn');
-    placing = type; wallLine = null; wallStart = null; touchSpot = null;
+    placing = type; wallLine = null; wallStart = null; touchSpot = null; touchPlacePos = null;
     toast(type === 'wall' ? (touchy ? 'Tap where the wall starts, then where it ends. Tap Done when you finish.' : 'Drag a line where the wall goes. Tap Done when you finish.') : `Tap where the ${def.name.toLowerCase()} goes.`, 'me');
     refreshPanel(true);
   }
@@ -1998,7 +2113,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (why === 'temple') return toast(`${(SIDES[W.side('p').side] || SIDES.freemen).house === 'Temple' ? 'A temple' : 'The Rameumptom'} must stand first.`, 'warn');
     if (why === 'wait') return toast(`${m.name} can be worked again in ${Math.ceil(W.miracleWait(key))}s.`, 'warn');
     if (m.aim === 'none') { if (W.miracle(key)) { placing = null; aiming = null; refreshPanel(true); } return; }
-    aiming = key; placing = null; wallLine = null; touchSpot = null;
+    aiming = key; placing = null; wallLine = null; touchSpot = null; touchPlacePos = null;
     toast(m.aim === 'foe' ? `Tap the enemy the ${m.name.toLowerCase()} falls on.` : m.aim === 'building' ? `Tap the enemy building the ${m.name.toLowerCase()} falls on.` : `Tap the spot where the ${m.name.toLowerCase()} falls.`, 'me');
     refreshPanel(true);
   }
@@ -2007,16 +2122,17 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (m.aim === 'foe' || m.aim === 'building') {
       const e = entityAt(wx, wy, sx, sy);
       if (!e || e.kind !== (m.aim === 'foe' ? 'unit' : 'building') || e.team === 'p' || e.team === 'n') return toast(m.aim === 'foe' ? 'Tap an enemy.' : 'Tap an enemy building.', 'warn');
-      if (W.miracle(key, e.x, e.y, e.id)) { aiming = null; refreshPanel(true); }
+      if (W.miracle(key, e.x, e.y, e.id)) { aiming = null; if (AUDIO) AUDIO.announce('miracle'); refreshPanel(true); }
       return;
     }
-    if (W.miracle(key, wx, wy)) { aiming = null; refreshPanel(true); ping(wx, wy, '#fde68a'); }
+    if (W.miracle(key, wx, wy)) { aiming = null; if (AUDIO) AUDIO.announce('miracle'); refreshPanel(true); ping(wx, wy, '#fde68a'); }
   }
   function placeAt(wx, wy, keep) {
     const [x, y] = topLeft(placing, wx, wy);
     const b = W.place(placing, x, y, []);
     if (!b) { const why = W.whyNotPlace(placing, x, y); return toast(!why ? poorText(BUILDINGS[placing].cost) : why === 'far' ? 'Too far from your city. Build within reach of what you have.' : 'It can\'t go there. Build on open ground, south of the wilderness.', 'warn'); }
     assignBuilders([b]);
+    if (AUDIO) AUDIO.play('build');
     if (placing !== 'wall' && !keep) { placing = null; refreshPanel(true); }
   }
   function placeLine(tiles) {
@@ -2027,6 +2143,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       made.push(W.place('wall', x, y, []));
     }
     assignBuilders(made);
+    if (made.length && AUDIO) AUDIO.play('build');
   }
   // The chosen workers split the new work between them, nearest first.
   function assignBuilders(list) {
@@ -2061,15 +2178,18 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const ptrs = new Map();
   let gesture = null, lastTap = { t: 0, x: 0, y: 0 };
   let touchSpot = null, touchy = false;                // where a building would go, after a first tap; and whether this is a touch screen
+  let touchPlacePos = null;                            // active touch { x, y } when dragging a building on mobile
   cv.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('pointerdown', () => { if (AUDIO) AUDIO.wake(); }, { once: true, passive: true });
   cv.addEventListener('pointerdown', e => {
+    if (AUDIO) AUDIO.wake();
     if (!W || modal) return;
     cv.setPointerCapture(e.pointerId);
     ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
     touchy = e.pointerType !== 'mouse';
     if (ptrs.size === 2) {
       const [a, b] = [...ptrs.values()];
-      box = null; wallLine = null;
+      box = null; wallLine = null; touchPlacePos = null;
       gesture = { kind: 'pinch', d0: Math.hypot(a.x - b.x, a.y - b.y) || 1, z0: cam.z, mid: { x: cam.x + (a.x + b.x) / 2 / cam.z, y: cam.y + (a.y + b.y) / 2 / cam.z } };
       return;
     }
@@ -2078,6 +2198,21 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (e.button === 2) { gesture = { kind: 'right' }; return; }
     if (e.button === 1) { gesture = { kind: 'pan', lx: e.clientX, ly: e.clientY }; return; }
     if (placing === 'wall' && e.pointerType === 'mouse') { const t = [tileOf(p.x), tileOf(p.y)]; wallLine = [t]; gesture = { kind: 'wall', a: t }; return; }
+    if (placing && placing !== 'wall' && e.pointerType !== 'mouse') {
+      const own = entityAt(p.x, p.y, e.clientX, e.clientY);
+      if (!(selectable(own) && (own.kind === 'unit' || own.def.wall == null))) {
+        // Finger placement on touch: offset upward by 52px so thumb never obscures footprint!
+        const offY = 52;
+        const targetWorld = toWorld(e.clientX, e.clientY - offY);
+        hover = targetWorld;
+        touchPlacePos = { x: e.clientX, y: e.clientY };
+        const spot = topLeft(placing, targetWorld.x, targetWorld.y);
+        const wasPreviewed = touchSpot && spot[0] === touchSpot[0] && spot[1] === touchSpot[1];
+        gesture = { kind: 'place', sx: e.clientX, sy: e.clientY, spot, moved: false, alreadyPreviewed: wasPreviewed };
+        touchSpot = spot;
+        return;
+      }
+    }
     gesture = { kind: 'press', sx: e.clientX, sy: e.clientY, touch: e.pointerType !== 'mouse' };
   });
   cv.addEventListener('pointermove', e => {
@@ -2092,6 +2227,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
       cam.z = clamp(gesture.z0 * Math.hypot(a.x - b.x, a.y - b.y) / gesture.d0, 0.45, 2.2);
       const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
       cam.x = gesture.mid.x - mx / cam.z; cam.y = gesture.mid.y - my / cam.z; clampCam();
+      return;
+    }
+    if (gesture.kind === 'place') {
+      if (Math.hypot(e.clientX - gesture.sx, e.clientY - gesture.sy) > 6) gesture.moved = true;
+      const offY = 52;
+      const targetWorld = toWorld(e.clientX, e.clientY - offY);
+      hover = targetWorld;
+      touchPlacePos = { x: e.clientX, y: e.clientY };
+      touchSpot = topLeft(placing, targetWorld.x, targetWorld.y);
       return;
     }
     if (gesture.kind === 'press' && Math.hypot(e.clientX - gesture.sx, e.clientY - gesture.sy) > 9) {
@@ -2109,11 +2253,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const g = gesture;
     if (ptrs.size) { if (g && g.kind === 'pinch') gesture = { kind: 'done' }; return; }
     gesture = null;
+    touchPlacePos = null;
     if (!g || cancelled || !W) { box = null; if (!wallStart) wallLine = null; return; }
     const p = toWorld(e.clientX, e.clientY);
     // Building something, and you tap one of your own people or buildings: you mean to choose it, not to build there.
     // (Walls aside: you may be drawing next to one. And a gate goes on a wall piece of yours.)
-    if ((g.kind === 'press' || (g.kind === 'wall' && (!wallLine || wallLine.length < 2))) && placing) {
+    if ((g.kind === 'press' || g.kind === 'place' || (g.kind === 'wall' && (!wallLine || wallLine.length < 2))) && placing) {
       const own = entityAt(p.x, p.y, e.clientX, e.clientY);
       if (selectable(own) && (own.kind === 'unit' || own.def.wall == null)) { setSel([own]); return; }
     }
@@ -2122,6 +2267,25 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const t = [tileOf(p.x), tileOf(p.y)];
       if (!wallStart) { wallStart = t; wallLine = [t]; toast('Now tap where the wall ends (the same spot again for one piece).', 'me'); return; }
       placeLine(lineTiles(wallStart, t)); wallStart = null; wallLine = null;
+      return;
+    }
+    if (g.kind === 'place') {
+      if (!placing) return;
+      const spot = touchSpot || (hover && topLeft(placing, hover.x, hover.y));
+      if (!spot) return;
+      const ok = W.canPlace(placing, spot[0], spot[1]);
+      if (!g.moved && g.alreadyPreviewed && ok) {
+        const [cx, cy] = [(spot[0] + BUILDINGS[placing].w / 2) * TILE, (spot[1] + BUILDINGS[placing].h / 2) * TILE];
+        placeAt(cx, cy, false);
+        touchSpot = null;
+        return;
+      }
+      if (ok) {
+        toast('Tap again to build here, or drag to reposition.', 'me');
+      } else {
+        const why = W.whyNotPlace(placing, spot[0], spot[1]);
+        toast(why === 'far' ? 'Too far from your city: build within reach of what you have.' : 'It can\'t go there: pick open ground.', 'warn');
+      }
       return;
     }
     if (g.kind === 'press' && g.touch && placing && placing !== 'wall') {
@@ -2189,6 +2353,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     if (modal) return;
     if (e.key === ' ') { e.preventDefault(); togglePause(); return; }
+    if (e.key === 'm' || e.key === 'M') {
+      if (AUDIO) {
+        AUDIO.wake();
+        AUDIO.toggleMute();
+        updateAudioButton();
+        if (!AUDIO.isMuted()) AUDIO.play('tap');
+      }
+      return;
+    }
     if (e.key === 'h' || e.key === 'H') { for (const u of selUnits()) W.order(u, { type: 'idle' }); return; }
     if (e.key === '+' || e.key === '=') zoomAt(vw / 2, vh / 2, cam.z * 1.2);
     if (e.key === '-') zoomAt(vw / 2, vh / 2, cam.z / 1.2);
@@ -2229,9 +2402,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const DRAWN_AS = { lehi: 'lehi', gidgiddoni: 'gidgiddoni', robber: 'robber', robberArcher: 'robber_archer', giddianhi: 'robber_chief', zemnarihah: 'robber_chief',
     slinger: 'lamanite_slinger', amalekite: 'lamanite_captain', zoramite: 'lamanite_captain', zerahemnah: 'zerahemnah' };
   function picOf(e) {
+    if (e.type === 'standard') {
+      const hType = e.heroType || 'moroni';
+      return `<img class="pic" src="${webp('assets/cameo_' + hType + '.png?v=13')}" alt="">`;
+    }
     const pic = e.kind === 'building' && e.team !== 'p' && IMG[pictureOf(e)];
     const own = pic && (ready(pic) ? pic : e.def.side === 'kingmen' ? IMG.lamaniteCamp : pic);   // (a tent without its picture yet shows the camp's)
-    const c = own ? own.src : CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && 'assets/cameo_stronghold.png?v=3');
+    const c = own ? own.src : CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && (e.tier === 1 ? 'assets/cameo_encampment.png?v=1' : e.tier === 2 ? 'assets/cameo_council.png?v=1' : 'assets/cameo_acropolis.png?v=1'));
     if (c) return `<img class="pic" src="${webp(c)}" alt="">`;
     if (DRAWN_AS[e.type]) return `<img class="pic" src="${webp(`assets/${DRAWN_AS[e.type]}.png?v=1`)}" alt="">`;
     if (e.kind === 'unit' && (e.type === 'lamanite' || e.def.foe)) return `<img class="pic" src="${webp('assets/cameo_lamanite.png?v=10')}" alt="">`;
@@ -2244,7 +2421,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const bar = d.hp < 99999 ? `<div class="hp"><em style="width:${Math.max(0, e.hp / S.maxHp(e) * 100)}%"></em></div>` : '';
       const doing = e.kind === 'unit' ? ({ gather: 'Gathering ' + (e.order.res || ''), build: 'Building', attack: 'Fighting', move: 'Marching', idle: 'Waiting for orders' }[e.order.type] || '') : e.built < 1 ? 'Being built: ' + Math.floor(e.built * 100) + '%' : '';
       const pic = picOf(e);
-      return `${pic}<div${pic ? '' : ' style="grid-column: 1 / -1"'}><h3>${esc(e.name && e.kind === 'building' ? e.name : d.name)}</h3>${bar}${doing ? `<div class="doing">${esc(doing)}</div>` : ''}</div>` +
+      const title = e.type === 'standard' ? ((e.heroType && D.UNITS[e.heroType] ? D.UNITS[e.heroType].name : 'Captain Moroni') + ' (Standard-bearer)') : (e.name && e.kind === 'building' ? e.name : d.name);
+      return `${pic}<div${pic ? '' : ' style="grid-column: 1 / -1"'}><h3>${esc(title)}</h3>${bar}${doing ? `<div class="doing">${esc(doing)}</div>` : ''}</div>` +
         (e.about || d.about ? `<p class="about">${esc(e.about || d.about)}</p>` : '');
     }
     const count = {};
@@ -2284,6 +2462,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'build:temple': 'assets/cameo_temple.png?v=5',
     'build:smithy': 'assets/cameo_smithy.png?v=1',
     'build:training': 'assets/cameo_training.png?v=1',
+    'build:sawmill': 'assets/cameo_sawmill.png?v=1',
+    'build:quarry': 'assets/cameo_quarry.png?v=1',
+    'build:brickworks': 'assets/cameo_brickworks.png?v=1',
     'train:bearer': 'assets/cameo_bearer.png?v=1',
     'build:tents': 'assets/cameo_tents.png?v=1',
     'build:storetent': 'assets/cameo_storetent.png?v=1',
@@ -2306,7 +2487,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'research:lcimeters': 'assets/cameo_cimeters.png?v=1',
     'research:bows': 'assets/cameo_bows.png?v=1',
     'research:clothing': 'assets/cameo_clothing.png?v=1',
-    'research:ladders': 'assets/cameo_ladders.png?v=1'
+    'research:ladders': 'assets/cameo_ladders.png?v=1',
+    'research:council': 'assets/cameo_council.png?v=1',
+    'research:acropolis': 'assets/cameo_acropolis.png?v=1'
   };
   const BREAKS = Object.fromEntries(['Store-house', 'Watch-tower', 'Swords-man', 'Spear-man', 'Breast-plates', 'Strip-ling', 'cime-ters', 'Bar-racks', 'Earth-quake', 'Con-fusion',
     'cap-tains', 'Jave-lin', 'Gran-ary', 'Sta-bles', 'Sol-diers', 'war-rior', 'throw-er', 'Train-ing', 'Lad-der', 'Pavil-ion', 'Lama-nite', 'Ama-lekite', 'Zora-mite',
@@ -2377,7 +2560,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Shorter names where the whole one won't fit on a tile (the whole name shows when you hold the mouse over it).
   const SHORT = { 'build:training': 'Training', 'research:stonewalls': 'Walls of stone', 'research:campditch': 'Ditch and bank', 'build:pavilion': 'Pavilion', 'build:wardance': 'War-dance', 'build:shieldtent': 'Shield tent', 'build:hall': "Captains' hall", 'build:rameumptom': 'Rameumptom',
     'miracle:host': "King's call", 'train:amalekite': 'Amalekite', 'train:zoramite': 'Zoramite', 'train:javelin': 'Javelin', 'train:nslinger': 'Slinger', 'train:slinger': 'Slinger',
-    'miracle:fire': 'Pillar of fire', 'miracle:cloud': 'Darkness', 'research:lladders': 'Ladders', 'research:ladders': 'Ladders' };
+    'miracle:fire': 'Pillar of fire', 'miracle:cloud': 'Darkness', 'research:lladders': 'Ladders', 'research:ladders': 'Ladders',
+    'research:council': 'Council platform', 'research:acropolis': 'Zarahemla acropolis',
+    'build:sawmill': 'Timber works', 'build:quarry': 'Stone quarry', 'build:brickworks': 'Cement kiln' };
   function tileHtml(id) {
     const pic = CAMEO_MAP[id], sign = SIGN[id] || (id.startsWith('research:') ? SIGN.research : '');
     const face = pic ? `<img src="${webp(pic)}" alt="">` : sign ? `<i class="ic">${sign}</i>` : '';
@@ -2519,11 +2704,34 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     if (ents.some(e => e.kind === 'unit')) {
       const home = W.stronghold(), canFall = home && ents.some(e => e.kind === 'unit' && fighterOf(e));
-      return (ents.length === 1 && b.def.deploys ? a('deploy', 'Plant it here', 'go') : '') + (canFall ? a('fallback', 'Fall back') : '') + a('stop', 'Stop') + a('letgo', 'Let go');
+      const soldiers = ents.filter(e => e.kind === 'unit' && fighterOf(e));
+      const hasMelee = soldiers.some(e => !e.def.ranged);
+      const hasRanged = soldiers.some(e => e.def.ranged);
+      let subFilters = '';
+      if (soldiers.length > 1 && hasMelee && hasRanged) {
+        subFilters = a('filtermelee', '🛡️ Frontline') + a('filterranged', '🏹 Ranged');
+      }
+      return (ents.length === 1 && b.def.deploys ? a('deploy', 'Plant it here', 'go') : '') +
+        subFilters +
+        (canFall ? a('fallback', 'Fall back') : '') + a('stop', 'Stop') + a('letgo', 'Let go');
     }
     let h = '';
     if (b.built < 1) h += `<p class="hint minor">It builds itself. Workers sent to it hurry it along.</p>`;
     else if (b.def.trains) h += `<p class="hint minor">${b.rally ? 'New ones go to the rally point.' : 'Tap the ground to set where new ones go.'}</p>`;
+    if (b.type === 'stronghold' && b.built >= 1 && b.team === 'p') {
+      const rKeys = W.researchAt(b);
+      for (const k of rKeys) {
+        const r = RESEARCH[k], S = W.side(b.team);
+        if (r && !S.researched[k]) {
+          if (S.researching && S.researching.key === k) {
+            h += `<p class="hint">Upgrading to ${esc(r.name)}: ${Math.ceil(S.researching.left)}s left</p>`;
+          } else if (!S.researching) {
+            const cost = r.cost, can = W.canAfford(cost);
+            h += a('upgradestronghold:' + k, `Upgrade: ${r.name} (${costHtml(cost)})`, can ? 'go' : 'poor');
+          }
+        }
+      }
+    }
     if (b.def.cost && !b.untouchable) {
       if (b.type === 'wall' && b.built >= 1) { const c = W.costOf(BUILDINGS.gate, 'p', 'build'), why = W.whyNotBuild('gate'); h += a('gatehere', 'Make a gate here ' + (why ? '' : costHtml(c)), why || !W.canAfford(c) ? 'poor' : ''); }
       const armed = armedRemove === b.id;
@@ -2536,9 +2744,20 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (!btn || !W) return;
     const act = btn.dataset.cmd, one = selEnts()[0];
     if (act === 'done' || act === 'cancel') { placing = null; aiming = null; wallLine = null; wallStart = null; }
-    else if (act === 'stop') for (const u of selUnits()) W.order(u, { type: 'idle' });
+    else if (act === 'filtermelee') {
+      const m = selUnits().filter(u => fighterOf(u) && !u.def.ranged);
+      if (m.length) { setSel(m); if (AUDIO) AUDIO.play('select'); }
+    }
+    else if (act === 'filterranged') {
+      const r = selUnits().filter(u => u.def.ranged);
+      if (r.length) { setSel(r); if (AUDIO) AUDIO.play('select'); }
+    }
+    else if (act === 'stop') {
+      for (const u of selUnits()) W.order(u, { type: 'idle' });
+      if (AUDIO) AUDIO.play('tap');
+    }
     else if (act === 'fallback') {                 // home without stopping to fight: a retreat
-      const h = W.stronghold(); if (h) { moveGroup(selUnits(), tileOf(h.x), h.ty + h.h + 1, false); ping(h.x, h.y, '#93c5fd'); toast('Falling back to ' + (h.type === 'warcamp' ? 'your camp' : 'your city') + '.', 'me'); }
+      const h = W.stronghold(); if (h) { moveGroup(selUnits(), tileOf(h.x), h.ty + h.h + 1, false); ping(h.x, h.y, '#93c5fd'); toast('Falling back to ' + (h.type === 'warcamp' ? 'your camp' : 'your city') + '.', 'me'); if (AUDIO) AUDIO.announce('fallback'); }
     }
     else if (act === 'letgo') return setSel([]);
     else if (act === 'remove' && one) {
@@ -2551,6 +2770,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
         if (W.sell(one)) { toast(`${name} taken down: ${costText(back)} back.`, 'me'); return setSel([]); }
       }
     }
+    else if (act && act.startsWith('upgradestronghold:') && one) {
+      const k = act.slice('upgradestronghold:'.length);
+      if (W.research(one, k)) {
+        toast(`Beginning upgrade: ${RESEARCH[k].name}.`, 'me');
+      } else {
+        const r = RESEARCH[k];
+        if (r) toast(poorText(r.cost), 'warn');
+      }
+    }
     else if (act === 'gatehere' && one) {
       const g = W.place('gate', one.tx, one.ty, []);
       if (g) { toast('A gate goes in where the wall was: your people pass, robbers must break it.', 'me'); return setSel([g]); }
@@ -2558,14 +2786,36 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     else if (act === 'deploy' && one) {
       const city = W.deploy(one);
-      if (city) return setSel([city]);
+      if (city) { if (AUDIO) AUDIO.announce('deploy'); return setSel([city]); }
       toast('The city needs open ground, 4 by 4. Move the standard to a clear spot.', 'warn');
     }
     refreshPanel(true);
   });
   function showInfo(e) { sel = []; infoEnt = e; placing = null; aiming = null; refreshPanel(true); }
 
-  $('bArmy').onclick = () => { const s = W && W.soldiers(); if (s && s.length) { setSel(s); } };
+  $('bArmy').onclick = () => {
+    if (!W) return;
+    const all = W.soldiers();
+    if (!all || !all.length) return;
+    const current = selUnits();
+    const isAll = current.length === all.length && current.every(u => all.includes(u));
+    const melee = all.filter(u => !u.def.ranged);
+    const ranged = all.filter(u => u.def.ranged);
+    const isMelee = melee.length && current.length === melee.length && current.every(u => melee.includes(u));
+
+    if (!current.length || (!isAll && !isMelee)) {
+      setSel(all);
+      toast(`All soldiers selected (${all.length}). Tap again for Frontline.`, 'tip');
+    } else if (isAll && melee.length) {
+      setSel(melee);
+      toast(`Frontline selected (${melee.length}). Tap again for Ranged.`, 'tip');
+    } else if (ranged.length) {
+      setSel(ranged);
+      toast(`Ranged selected (${ranged.length}). Tap again for All.`, 'tip');
+    } else {
+      setSel(all);
+    }
+  };
   // Your city, where everything is built from; before it's planted, the standard of liberty.
   $('bCity').onclick = () => {
     if (!W) return;
@@ -2633,6 +2883,21 @@ IMG.farm.src = 'assets/farm.png?v=13';
     });
   }
   function addMsg(text, kind, ref) {
+    if (AUDIO) {
+      if (text.includes('is finished')) AUDIO.announce('buildDone');
+      else if (text.includes('is ready')) {
+        const name = text.replace(' is ready.', '').trim();
+        AUDIO.announce('unitReady', name);
+      } else if (text.startsWith('A ') && text.includes('comes with')) {
+        AUDIO.announce('unitReady');
+      } else if (text.includes('is a veteran')) {
+        AUDIO.announce('valor');
+      } else if (kind === 'warn' && (text.includes('raid') || text.includes('march') || text.includes('gathering') || text.includes('attack') || text.includes('fallen'))) {
+        AUDIO.announce('baseAttack');
+      } else if (kind === 'rule') {
+        AUDIO.play('tap');
+      }
+    }
     const el = document.createElement('div');
     el.className = 'msg ' + (kind || 'story');
     el.dataset.t = performance.now();
@@ -2807,6 +3072,150 @@ IMG.farm.src = 'assets/farm.png?v=13';
     };
   }
 
+  function campaignMapHtml() {
+    const coords = {
+      m3: { cx: 520, cy: 235, label: 'River Sidon', num: 1, ref: 'Alma 43–44' },
+      m4: { cx: 410, cy: 210, label: 'Standard Raised', num: 2, ref: 'Alma 46' },
+      m5: { cx: 290, cy: 225, label: 'City of Noah', num: 3, ref: 'Alma 48–49' },
+      m6: { cx: 160, cy: 250, label: 'Antiparah', num: 4, ref: 'Alma 53, 56' },
+      m1: { cx: 340, cy: 140, label: 'Zarahemla', num: 5, ref: '3 Nephi 3' },
+      m2: { cx: 210, cy: 75, label: 'Northern Passes', num: 6, ref: '3 Nephi 4' }
+    };
+
+    let nodes = '';
+    for (const m of MISSIONS) {
+      const pos = coords[m.id];
+      if (!pos) continue;
+      const stars = save.won[m.id] || 0;
+      const active = !stars;
+      nodes += `<g class="mapNode ${active ? 'active' : ''}" data-node="${m.id}" role="button" aria-label="${esc(m.title)}">
+        <circle cx="${pos.cx}" cy="${pos.cy}" r="26" fill="rgba(201,150,46,0.12)" stroke="#fcd34d" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <circle cx="${pos.cx}" cy="${pos.cy}" r="18" class="core" fill="#241407" stroke="#c9962e" stroke-width="2.5"/>
+        <text x="${pos.cx}" y="${pos.cy + 5}" text-anchor="middle" fill="#fde68a" font-weight="900" font-size="13">${pos.num}</text>
+        <text x="${pos.cx}" y="${pos.cy - 24}" text-anchor="middle" fill="#ecc764" font-weight="800" font-size="11.5">${esc(pos.label)}</text>
+        <text x="${pos.cx}" y="${pos.cy - 12}" text-anchor="middle" fill="rgba(244,232,204,0.65)" font-weight="600" font-size="9.5">${esc(pos.ref)}</text>
+        ${stars ? `<text x="${pos.cx}" y="${pos.cy + 34}" text-anchor="middle" fill="#fcd34d" font-size="13">${'★'.repeat(stars)}</text>` : ''}
+      </g>`;
+    }
+
+    return `<div class="campMapWrap">
+      <svg class="campMapSvg" viewBox="0 0 720 340">
+        <defs>
+          <radialGradient id="parchGrad" cx="50%" cy="50%" r="70%">
+            <stop offset="0%" stop-color="#2c1d0f"/>
+            <stop offset="65%" stop-color="#190e06"/>
+            <stop offset="100%" stop-color="#0e0703"/>
+          </radialGradient>
+          <linearGradient id="riverGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+            <stop offset="0%" stop-color="#0284c7"/>
+            <stop offset="100%" stop-color="#38bdf8"/>
+          </linearGradient>
+        </defs>
+        <rect width="720" height="340" fill="url(#parchGrad)" rx="14"/>
+        <rect x="12" y="12" width="696" height="316" fill="none" stroke="rgba(201,150,46,0.3)" stroke-width="1.5" rx="10"/>
+        <rect x="16" y="16" width="688" height="308" fill="none" stroke="rgba(201,150,46,0.15)" stroke-width="1" rx="8"/>
+
+        <!-- Mesoamerican Corner Frets -->
+        <path d="M 22 36 L 22 22 L 36 22 M 698 36 L 698 22 L 684 22 M 22 304 L 22 318 L 36 318 M 698 304 L 698 318 L 684 318" stroke="#c9962e" stroke-width="2" fill="none"/>
+
+        <!-- Geography Legends -->
+        <text x="360" y="36" text-anchor="middle" fill="#c9962e" font-size="11" font-weight="800" letter-spacing="3" opacity="0.8">LAND OF BOUNTIFUL &amp; SEA NORTH</text>
+        <text x="360" y="322" text-anchor="middle" fill="#c9962e" font-size="10" font-weight="800" letter-spacing="3" opacity="0.6">NARROW STRIP OF WILDERNESS</text>
+        <text x="34" y="170" fill="#c9962e" font-size="9" font-weight="700" letter-spacing="2" opacity="0.45" transform="rotate(-90 34 170)">WESTERN WILDERNESS</text>
+        <text x="686" y="170" fill="#c9962e" font-size="9" font-weight="700" letter-spacing="2" opacity="0.45" transform="rotate(90 686 170)">EASTERN BORDERS</text>
+
+        <!-- Compass Rose -->
+        <g transform="translate(640, 60)" opacity="0.7">
+          <circle cx="0" cy="0" r="16" fill="none" stroke="#c9962e" stroke-width="1"/>
+          <path d="M 0 -18 L 4 -4 L 18 0 L 4 4 L 0 18 L -4 4 L -18 0 L -4 -4 Z" fill="#c9962e"/>
+          <text x="0" y="-21" text-anchor="middle" fill="#fcd34d" font-size="8" font-weight="900">N</text>
+        </g>
+
+        <!-- Hill Riplah Mountain Ridges (Alma 43:31) -->
+        <g opacity="0.6">
+          <polygon points="510,265 535,220 560,265" fill="rgba(180,83,9,0.3)" stroke="#c9962e" stroke-width="1.5"/>
+          <polygon points="545,265 570,230 595,265" fill="rgba(180,83,9,0.3)" stroke="#c9962e" stroke-width="1.5"/>
+          <polygon points="485,265 508,235 530,265" fill="rgba(180,83,9,0.2)" stroke="#c9962e" stroke-width="1.2"/>
+          <text x="548" y="278" fill="#fcd34d" font-size="9.5" font-weight="700" text-anchor="middle">Hill Riplah</text>
+        </g>
+
+        <!-- Fortifications of Noah Earthworks (Alma 49:18) -->
+        <g opacity="0.6">
+          <rect x="272" y="246" width="36" height="6" fill="#78350f" stroke="#c9962e" stroke-width="1" rx="2"/>
+          <text x="290" y="261" fill="#ecc764" font-size="8.5" font-weight="700" text-anchor="middle">Earthworks of Noah</text>
+        </g>
+
+        <!-- City of Antiparah Fortress (Alma 56:31) -->
+        <g opacity="0.6">
+          <polygon points="150,272 160,260 170,272" fill="#78350f" stroke="#c9962e" stroke-width="1"/>
+          <text x="160" y="284" fill="#ecc764" font-size="8.5" font-weight="700" text-anchor="middle">Antiparah</text>
+        </g>
+
+        <!-- Zarahemla Citadel (3 Nephi 3:23) -->
+        <g opacity="0.6">
+          <polygon points="330,122 340,112 350,122" fill="#b45309" stroke="#fcd34d" stroke-width="1.2"/>
+          <text x="340" y="108" fill="#fde68a" font-size="9" font-weight="800" text-anchor="middle">Zarahemla</text>
+        </g>
+
+        <!-- Northern Mountain Passes (3 Nephi 4:1) -->
+        <g opacity="0.6">
+          <polygon points="180,95 200,60 220,95" fill="rgba(180,83,9,0.3)" stroke="#c9962e" stroke-width="1.2"/>
+          <polygon points="210,95 225,68 240,95" fill="rgba(180,83,9,0.3)" stroke="#c9962e" stroke-width="1.2"/>
+          <text x="210" y="106" fill="#fcd34d" font-size="8.5" font-weight="700" text-anchor="middle">Robber Passes</text>
+        </g>
+
+        <!-- River Sidon Path (Alma 43:32) -->
+        <path d="M 440 330 C 420 280, 480 230, 430 170 C 390 120, 440 70, 390 18" stroke="url(#riverGrad)" stroke-width="7" stroke-linecap="round" fill="none" opacity="0.8"/>
+        <text x="442" y="125" fill="#7dd3fc" font-size="10.5" font-weight="700" font-style="italic" opacity="0.8">River Sidon</text>
+
+        <!-- Shallows and Fords (Alma 43:35) -->
+        <line x1="422" y1="190" x2="445" y2="190" stroke="#fef08a" stroke-width="2" stroke-dasharray="2 3" opacity="0.9"/>
+        <text x="452" y="193" fill="#fde68a" font-size="8" font-weight="600">Ford</text>
+
+        <!-- Marching / Campaign Highway Route connecting all 6 story chapters -->
+        <path d="M 520 235 C 470 220, 440 215, 410 210 C 360 205, 320 215, 290 225 C 240 235, 190 245, 160 250 C 200 190, 270 155, 340 140 C 290 115, 250 90, 210 75" stroke="#fcd34d" stroke-width="2.2" stroke-dasharray="5 5" fill="none" opacity="0.65"/>
+
+        <!-- Mission Nodes -->
+        ${nodes}
+      </svg>
+    </div>`;
+  }
+
+  function perksHtml() {
+    const tot = totalStars(), avail = availableStars(), spent = spentStars();
+    const perkEntries = Object.values(DATA.PERKS || {});
+    const items = perkEntries.map(p => {
+      const active = (save.perks || []).includes(p.id);
+      const canAfford = avail >= p.stars;
+      const statusBtn = active
+        ? `<button class="btn go perkActive" data-perk-refund="${esc(p.id)}">✓ Active · Reclaim</button>`
+        : canAfford
+          ? `<button class="btn go" data-perk-unlock="${esc(p.id)}">Invoke (${'★'.repeat(p.stars)})</button>`
+          : `<button class="btn disabled" disabled>Needs ${p.stars - avail} more ★</button>`;
+      return `<div class="perkCard ${active ? 'active' : ''}">
+        <div class="perkHead">
+          <b>${esc(p.name)}</b>
+          <span class="perkStars">${'★'.repeat(p.stars)}</span>
+        </div>
+        <div class="perkRef">${refBtn(p.ref)}</div>
+        <p class="perkAbout">${esc(p.about)}</p>
+        <div class="perkAction">${statusBtn}</div>
+      </div>`;
+    }).join('');
+
+    return `<details class="perksDrawer" ${spent > 0 ? 'open' : ''}>
+      <summary class="perksSummary">
+        <span class="pSumTitle">🛡️ Blessings &amp; Relics of Liberty</span>
+        <span class="pSumBadge">★ ${tot} won · <b>★ ${avail} available</b></span>
+      </summary>
+      <div class="perksBody">
+        <p class="perksIntro">Invest stars won in battle to invoke enduring blessings across your campaign missions. You can reclaim your stars anytime to try different combinations.</p>
+        <div class="perksGrid">${items}</div>
+        ${spent > 0 ? `<div class="row" style="margin-top:10px"><button class="btn" id="bResetPerks">Reclaim All Stars (${spent}★)</button></div>` : ''}
+      </div>
+    </details>`;
+  }
+
   // Story missions: the campaigns, each mission a card. Every one is open; reading its chapters first brings a gift.
   function storyScreen() {
     leaveGame();
@@ -2814,7 +3223,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const stars = save.won[m.id] || 0;
       const unread = chaptersOf(m).filter(c => !save.read[c]);
       const why = unread.length ? `Read ${unread.join(' and ')} first: you start with a gift of grain and timber, and the council asks about it.` : '';
-      return `<div class="card">
+      return `<div class="card" id="card-${m.id}">
         <div class="kicker">Mission ${inCampaign(m).indexOf(m) + 1} · ${esc(m.chapter)}</div>
         <h2>${esc(m.title)}</h2>
         ${stars ? starsHtml(stars) : ''}
@@ -2826,12 +3235,59 @@ IMG.farm.src = 'assets/farm.png?v=13';
         </div></div>`;
     };
     const s = showScreen(`${modeHead(ART.story, 'Follow the chapters', 'Story missions')}<div class="wrap mode">
+      ${campaignMapHtml()}
+      ${perksHtml()}
       ${CAMPAIGNS.map(c => `<h2 class="camp">${esc(c.title)}</h2><p class="camp-about">${esc(c.about)}</p><div class="cards">${MISSIONS.filter(m => m.campaign === c.id).map(card).join('')}</div>`).join('')}
       <div class="row"><button class="btn" data-how>How to play</button></div></div>`);
     $('mBack').onclick = home;
     s.onclick = e => {
-      const r = e.target.closest('[data-read]'), p = e.target.closest('[data-play]');
+      const r = e.target.closest('[data-read]'), p = e.target.closest('[data-play]'), n = e.target.closest('[data-node]');
+      const pu = e.target.closest('[data-perk-unlock]');
+      const pr = e.target.closest('[data-perk-refund]');
+      const rst = e.target.closest('#bResetPerks');
       if (e.target.closest('[data-how]')) return showTips('mission', null, true);
+      if (pu) {
+        const id = pu.dataset.perkUnlock;
+        const perk = DATA.PERKS[id];
+        if (perk && availableStars() >= perk.stars) {
+          save.perks = save.perks || [];
+          if (!save.perks.includes(id)) {
+            save.perks.push(id);
+            store();
+            AUDIO.play('upgrade');
+            AUDIO.announce('miracle');
+            storyScreen();
+          }
+        }
+        return;
+      }
+      if (pr) {
+        const id = pr.dataset.perkRefund;
+        save.perks = (save.perks || []).filter(x => x !== id);
+        store();
+        AUDIO.play('cancel');
+        storyScreen();
+        return;
+      }
+      if (rst) {
+        save.perks = [];
+        store();
+        AUDIO.play('cancel');
+        storyScreen();
+        return;
+      }
+      if (n) {
+        const id = n.dataset.node;
+        const targetCard = $(`card-${id}`);
+        if (targetCard) {
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          targetCard.classList.remove('highlighted');
+          void targetCard.offsetWidth;
+          targetCard.classList.add('highlighted');
+          if (AUDIO) AUDIO.play('select');
+        }
+        return;
+      }
       if (r) openReader(r.dataset.read);
       else if (p) briefing(MISSIONS.find(m => m.id === p.dataset.play));
     };
@@ -2978,6 +3434,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     noSave = !!(opts && opts.noSave);
     const world = new S.World(undefined, m.map);
     world.mission = m;
+    world.perks = (opts && opts.perks) || (save.perks ? save.perks.slice() : []);
     m.setup(world);
     W = world;
     // Read the chapter first, and the people bring a gift (Blake: reading earns bonuses instead of opening the mission).
@@ -3039,9 +3496,32 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }, 1200);
   }
 
-  function togglePause() { paused = !paused; $('bPause').textContent = paused ? '▶' : '❚❚'; if (paused) toast('Paused. Press Space or ▶ to go on.'); }
+  function togglePause() {
+    paused = !paused;
+    $('bPause').textContent = paused ? '▶' : '❚❚';
+    $('bPause').style.background = paused ? '#f59e0b' : '';
+    $('bPause').style.color = paused ? '#000' : '';
+    if (paused) toast('Game is Paused. Press Space or ▶ to resume.', 'warn');
+  }
   $('bPause').onclick = togglePause;
   $('bSpeed').onclick = () => { speed = speed === 1 ? 2 : 1; $('bSpeed').textContent = speed + '×'; };
+  function updateAudioButton() {
+    if (!$('bAudio')) return;
+    const m = AUDIO && AUDIO.isMuted();
+    $('bAudio').textContent = m ? '🔇' : '🔊';
+    $('bAudio').title = m ? 'Sound: Muted (M)' : 'Sound: On (M)';
+  }
+  if ($('bAudio')) {
+    $('bAudio').onclick = () => {
+      if (AUDIO) {
+        AUDIO.wake();
+        AUDIO.toggleMute();
+        updateAudioButton();
+        if (!AUDIO.isMuted()) AUDIO.play('tap');
+      }
+    };
+    updateAudioButton();
+  }
   let powerNow = null;
   $('cry').onclick = () => { if (W && powerNow) { mission.usePower(W, powerNow.id); $('cry').hidden = true; powerNow = null; shown.cry = null; } };
   document.addEventListener('visibilitychange', () => { if (document.hidden && W && !W.over && !paused) togglePause(); });
@@ -3203,7 +3683,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   home();
   requestAnimationFrame(frame);
   // A window on the game for automated play-throughs in a browser.
-  window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, get sel() { return sel; }, get selEnts() { return selEnts(); }, cam, begin: (id, level, length) => { const m = id === 'free' ? FREE : id === 'wild' ? WILD : MISSIONS.find(m => m.id === id); if (level) m.level = level; if (length) m.length = length; begin(m, { noSave: true }); }, toWorld, lookAt,
+  window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, get sel() { return sel; }, get selEnts() { return selEnts(); }, cam, begin: (id, level, length) => { const m = id === 'free' ? FREE : id === 'wild' ? WILD : MISSIONS.find(m => m.id === id); if (level) m.level = level; if (length) m.length = length; begin(m, { noSave: true }); }, toWorld, lookAt, setSel: s => setSel(s), refreshPanel: () => refreshPanel(true),
     screenOf: (x, y) => toScreen(x, y),
     hidden: () => ({ terrain, shroudCv, trees: TREES }),         // the canvases painted once, for tests that wipe them
     remoteClick: (sx, sy, color) => {
