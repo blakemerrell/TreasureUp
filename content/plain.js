@@ -1735,8 +1735,14 @@ window.TU_PLAIN = {
         "And to Seth also there was born a son, and he called his name Enos. Then men began to call on the name of the Lord."
       ],
       "notes": [
-        "‘countenance’ means face or expression",
-        "‘artificer’ means craftsman"
+        {
+          "v": 1,
+          "text": "‘countenance’ means face or expression"
+        },
+        {
+          "v": 1,
+          "text": "‘artificer’ means craftsman"
+        }
       ],
       "approved": "f874e6c5"
     },
@@ -1806,9 +1812,18 @@ window.TU_PLAIN = {
         "Thus Noah did; according to all that God commanded him, so he did."
       ],
       "notes": [
-        "‘gopher’ wood is likely cypress or similar resinous wood",
-        "‘pitch’ means tar or a waterproof covering",
-        "‘cubit’ is an ancient unit of length, about 18 inches"
+        {
+          "v": 1,
+          "text": "‘gopher’ wood is likely cypress or similar resinous wood"
+        },
+        {
+          "v": 1,
+          "text": "‘pitch’ means tar or a waterproof covering"
+        },
+        {
+          "v": 1,
+          "text": "‘cubit’ is an ancient unit of length, about 18 inches"
+        }
       ],
       "approved": "5d9a3df8"
     },
@@ -1841,7 +1856,10 @@ window.TU_PLAIN = {
         "And the waters prevailed on the earth one hundred and fifty days."
       ],
       "notes": [
-        "‘cubits’ refers to an ancient unit of measurement, about 18 inches"
+        {
+          "v": 1,
+          "text": "‘cubits’ refers to an ancient unit of measurement, about 18 inches"
+        }
       ],
       "approved": "0acce364"
     },
@@ -1872,7 +1890,10 @@ window.TU_PLAIN = {
         "“While the earth remains, seedtime and harvest, and cold and heat, and summer and winter, and day and night will not cease.”"
       ],
       "notes": [
-        "‘savor’ means smell or aroma"
+        {
+          "v": 1,
+          "text": "‘savor’ means smell or aroma"
+        }
       ],
       "approved": "c87bb506"
     },
@@ -1915,8 +1936,14 @@ window.TU_PLAIN = {
         "Then Jacob gave Esau bread and stew of lentils; and he did eat and drink, and rose up, and went his way: thus Esau despised his birthright."
       ],
       "notes": [
-        "‘breathed his last’ means gave up the ghost",
-        "‘stew’ means pottage"
+        {
+          "v": 1,
+          "text": "‘breathed his last’ means gave up the ghost"
+        },
+        {
+          "v": 1,
+          "text": "‘stew’ means pottage"
+        }
       ],
       "approved": "6d2ed63d"
     },
@@ -1945,8 +1972,14 @@ window.TU_PLAIN = {
         "And he erected there an altar, and called it El-elohe-Israel."
       ],
       "notes": [
-        "‘booths’ means shelters",
-        "‘El-elohe-Israel’ means God, the God of Israel"
+        {
+          "v": 1,
+          "text": "‘booths’ means shelters"
+        },
+        {
+          "v": 1,
+          "text": "‘El-elohe-Israel’ means God, the God of Israel"
+        }
       ],
       "approved": "7259f460"
     },
@@ -1982,7 +2015,10 @@ window.TU_PLAIN = {
         "And all the men of his house, born in the house, and bought with money of the stranger, were circumcised with him."
       ],
       "notes": [
-        "‘stranger’ means foreigner"
+        {
+          "v": 1,
+          "text": "‘stranger’ means foreigner"
+        }
       ],
       "approved": "0afec0ff"
     },
@@ -2020,13 +2056,34 @@ window.TU_PLAIN = {
         "And all the days of Noah were nine hundred and fifty years, and he died."
       ],
       "notes": [
-        "‘replenish’ means refill",
-        "‘fowl’ means bird",
-        "‘meat’ means food",
-        "‘token’ means sign",
-        "‘bow’ means rainbow",
-        "‘overspread’ means populated",
-        "‘husbandman’ means farmer"
+        {
+          "v": 1,
+          "text": "‘replenish’ means refill"
+        },
+        {
+          "v": 1,
+          "text": "‘fowl’ means bird"
+        },
+        {
+          "v": 1,
+          "text": "‘meat’ means food"
+        },
+        {
+          "v": 1,
+          "text": "‘token’ means sign"
+        },
+        {
+          "v": 1,
+          "text": "‘bow’ means rainbow"
+        },
+        {
+          "v": 1,
+          "text": "‘overspread’ means populated"
+        },
+        {
+          "v": 1,
+          "text": "‘husbandman’ means farmer"
+        }
       ],
       "approved": "753fc984"
     },
@@ -2070,8 +2127,14 @@ window.TU_PLAIN = {
         "Which were a grief of mind to Isaac and to Rebekah."
       ],
       "notes": [
-        "‘betimes’ means early",
-        "‘sporting’ means caressing"
+        {
+          "v": 1,
+          "text": "‘betimes’ means early"
+        },
+        {
+          "v": 1,
+          "text": "‘sporting’ means caressing"
+        }
       ],
       "approved": "786d5266"
     },
@@ -2152,7 +2215,10 @@ window.TU_PLAIN = {
         "And the Lord went His way, as soon as He had left communing with Abraham: and Abraham returned to his place."
       ],
       "notes": [
-        "‘communing’ means talking"
+        {
+          "v": 1,
+          "text": "‘communing’ means talking"
+        }
       ],
       "approved": "aa2f56e0"
     },
@@ -2192,9 +2258,18 @@ window.TU_PLAIN = {
         "And they said, “Should he deal with our sister as with a harlot?”"
       ],
       "notes": [
-        "‘wroth’ means angry",
-        "‘commune’ means to talk together",
-        "‘damsel’ means young woman"
+        {
+          "v": 1,
+          "text": "‘wroth’ means angry"
+        },
+        {
+          "v": 1,
+          "text": "‘commune’ means to talk together"
+        },
+        {
+          "v": 1,
+          "text": "‘damsel’ means young woman"
+        }
       ],
       "approved": "03293ade"
     },
@@ -2260,12 +2335,30 @@ window.TU_PLAIN = {
         "And all countries came into Egypt to Joseph for to buy grain, because that the famine was so severe in all lands."
       ],
       "notes": [
-        "‘kine’ means cows",
-        "‘corn’ means grain",
-        "‘wroth’ means angry",
-        "‘raiment’ means clothing",
-        "‘dearth’ means famine",
-        "‘waxed sore’ means grew severe"
+        {
+          "v": 1,
+          "text": "‘kine’ means cows"
+        },
+        {
+          "v": 1,
+          "text": "‘corn’ means grain"
+        },
+        {
+          "v": 1,
+          "text": "‘wroth’ means angry"
+        },
+        {
+          "v": 1,
+          "text": "‘raiment’ means clothing"
+        },
+        {
+          "v": 1,
+          "text": "‘dearth’ means famine"
+        },
+        {
+          "v": 1,
+          "text": "‘waxed sore’ means grew severe"
+        }
       ],
       "approved": "b70fddd1"
     },
@@ -2306,8 +2399,14 @@ window.TU_PLAIN = {
         "And the days of Terah were two hundred and five years, and Terah died in Haran."
       ],
       "notes": [
-        "‘slime’ means tar",
-        "‘confound’ means confuse"
+        {
+          "v": 1,
+          "text": "‘slime’ means tar"
+        },
+        {
+          "v": 1,
+          "text": "‘confound’ means confuse"
+        }
       ],
       "approved": "a4d14282"
     },
@@ -2362,8 +2461,14 @@ window.TU_PLAIN = {
         "And Rebekah said to Isaac, “I am weary of my life because of the daughters of Heth: if Jacob take a wife of the daughters of Heth, such as these which are of the daughters of the land, what good shall my life do me?”"
       ],
       "notes": [
-        "‘subtilty’ means deceit",
-        "‘tarry’ means stay"
+        {
+          "v": 1,
+          "text": "‘subtilty’ means deceit"
+        },
+        {
+          "v": 1,
+          "text": "‘tarry’ means stay"
+        }
       ],
       "approved": "0fe48bfc"
     },
@@ -2401,9 +2506,18 @@ window.TU_PLAIN = {
         "And Isaac gave up the ghost, and died, and was gathered to his people, being old and full of days: and his sons Esau and Jacob buried him."
       ],
       "notes": [
-        "‘travailed’ means labored in childbirth",
-        "‘gave up the ghost’ means breathed his last",
-        "‘concubine’ means a secondary wife"
+        {
+          "v": 1,
+          "text": "‘travailed’ means labored in childbirth"
+        },
+        {
+          "v": 1,
+          "text": "‘gave up the ghost’ means breathed his last"
+        },
+        {
+          "v": 1,
+          "text": "‘concubine’ means a secondary wife"
+        }
       ],
       "approved": "0a038613"
     },
@@ -2450,7 +2564,10 @@ window.TU_PLAIN = {
         "And the younger, she also bore a son, and called his name Ben-ammi: the same is the father of the children of Ammon to this day."
       ],
       "notes": [
-        "‘brimstone’ means sulfur"
+        {
+          "v": 1,
+          "text": "‘brimstone’ means sulfur"
+        }
       ],
       "approved": "a9d81bc6"
     },
@@ -2479,8 +2596,14 @@ window.TU_PLAIN = {
         "And Pharaoh commanded his men concerning him, and they sent him away, and his wife, and all that he had."
       ],
       "notes": [
-        "‘sojourn’ means to stay temporarily",
-        "‘entreated’ means treated"
+        {
+          "v": 1,
+          "text": "‘sojourn’ means to stay temporarily"
+        },
+        {
+          "v": 1,
+          "text": "‘entreated’ means treated"
+        }
       ],
       "approved": "7d15c624"
     },
@@ -2511,7 +2634,10 @@ window.TU_PLAIN = {
         "“And this stone, which I have set for a pillar, shall be God's house: and of all that You shall give me I will surely give the tenth to You.”"
       ],
       "notes": [
-        "‘dreadful’ means awesome"
+        {
+          "v": 1,
+          "text": "‘dreadful’ means awesome"
+        }
       ],
       "approved": "cc7d2b3f"
     },
@@ -2558,9 +2684,18 @@ window.TU_PLAIN = {
         "And he said, “My son shall not go down with you, for his brother is dead, and he is left alone: if mischief befall him by the way in the which you go, then shall you bring down my gray hairs with sorrow to the grave.”"
       ],
       "notes": [
-        "‘corn’ means grain",
-        "‘asses’ means donkeys",
-        "‘provender’ means animal feed"
+        {
+          "v": 1,
+          "text": "‘corn’ means grain"
+        },
+        {
+          "v": 1,
+          "text": "‘asses’ means donkeys"
+        },
+        {
+          "v": 1,
+          "text": "‘provender’ means animal feed"
+        }
       ],
       "approved": "60a87e3b"
     },
@@ -2612,8 +2747,14 @@ window.TU_PLAIN = {
         "Duke Magdiel, duke Iram: these are the dukes of Edom, according to their habitations in the land of their possession: he is Esau the father of the Edomites."
       ],
       "notes": [
-        "‘dukes’ means chiefs",
-        "‘asses’ means donkeys"
+        {
+          "v": 1,
+          "text": "‘dukes’ means chiefs"
+        },
+        {
+          "v": 1,
+          "text": "‘asses’ means donkeys"
+        }
       ],
       "approved": "87890385"
     },
@@ -2640,7 +2781,10 @@ window.TU_PLAIN = {
         "For the Lord had completely closed up all the wombs of the house of Abimelech, because of Sarah Abraham’s wife."
       ],
       "notes": [
-        "‘reproved’ means corrected"
+        {
+          "v": 1,
+          "text": "‘reproved’ means corrected"
+        }
       ],
       "approved": "da91d246"
     },
@@ -2709,8 +2853,14 @@ window.TU_PLAIN = {
         "And she conceived again, and bore a son: and she said, “Now will I praise the Lord:” therefore she called his name Judah; and left bearing."
       ],
       "notes": [
-        "‘beguiled’ means deceived",
-        "‘tender eyed’ means weak eyes"
+        {
+          "v": 1,
+          "text": "‘beguiled’ means deceived"
+        },
+        {
+          "v": 1,
+          "text": "‘tender eyed’ means weak eyes"
+        }
       ],
       "approved": "594a6f41"
     },
@@ -2753,11 +2903,26 @@ window.TU_PLAIN = {
         "And he took and sent portions to them from before him: but Benjamin’s portion was five times so much as any of theirs. And they drank, and were merry with him."
       ],
       "notes": [
-        "‘corn’ means grain",
-        "‘straitly’ means strictly",
-        "‘asses’ means donkeys",
-        "‘bondmen’ means slaves",
-        "‘messes’ means portions"
+        {
+          "v": 1,
+          "text": "‘corn’ means grain"
+        },
+        {
+          "v": 1,
+          "text": "‘straitly’ means strictly"
+        },
+        {
+          "v": 1,
+          "text": "‘asses’ means donkeys"
+        },
+        {
+          "v": 1,
+          "text": "‘bondmen’ means slaves"
+        },
+        {
+          "v": 1,
+          "text": "‘messes’ means portions"
+        }
       ],
       "approved": "d9eaed35"
     },
@@ -2802,10 +2967,22 @@ window.TU_PLAIN = {
         "And the Midianites sold him into Egypt to Potiphar, an officer of Pharaoh’s, and captain of the guard."
       ],
       "notes": [
-        "‘obeisance’ means bowing down",
-        "‘sheaves’ means bundles of grain",
-        "‘rent’ means tore",
-        "‘spicery’ means spices"
+        {
+          "v": 1,
+          "text": "‘obeisance’ means bowing down"
+        },
+        {
+          "v": 1,
+          "text": "‘sheaves’ means bundles of grain"
+        },
+        {
+          "v": 1,
+          "text": "‘rent’ means tore"
+        },
+        {
+          "v": 1,
+          "text": "‘spicery’ means spices"
+        }
       ],
       "approved": "ed654fc3"
     },
@@ -2838,10 +3015,22 @@ window.TU_PLAIN = {
         "“Save only that which the young men have eaten, and the portion of the men who went with me, Aner, Eshcol, and Mamre; let them take their portion.”"
       ],
       "notes": [
-        "‘slimepits’ means tar pits",
-        "‘confederate’ means allied",
-        "‘tithes’ means a tenth part",
-        "‘shoelatchet’ means sandal strap"
+        {
+          "v": 1,
+          "text": "‘slimepits’ means tar pits"
+        },
+        {
+          "v": 1,
+          "text": "‘confederate’ means allied"
+        },
+        {
+          "v": 1,
+          "text": "‘tithes’ means a tenth part"
+        },
+        {
+          "v": 1,
+          "text": "‘shoelatchet’ means sandal strap"
+        }
       ],
       "approved": "c08e25ee"
     },
@@ -2884,7 +3073,10 @@ window.TU_PLAIN = {
         "And Abraham stayed in the Philistines’ land many days."
       ],
       "notes": [
-        "‘reproved’ means corrected"
+        {
+          "v": 1,
+          "text": "‘reproved’ means corrected"
+        }
       ],
       "approved": "13d97960"
     },
@@ -2936,7 +3128,10 @@ window.TU_PLAIN = {
         "And the man increased exceedingly, and had much cattle, and maidservants, and menservants, and camels, and asses."
       ],
       "notes": [
-        "‘ringstraked’ means streaked"
+        {
+          "v": 1,
+          "text": "‘ringstraked’ means streaked"
+        }
       ],
       "approved": "b9ab7350"
     },
@@ -2966,7 +3161,10 @@ window.TU_PLAIN = {
         "“And the Amorites, and the Canaanites, and the Girgashites, and the Jebusites.”"
       ],
       "notes": [
-        "‘bowels’ means body"
+        {
+          "v": 1,
+          "text": "‘bowels’ means body"
+        }
       ],
       "approved": "d1a25f9d"
     },
@@ -3005,9 +3203,18 @@ window.TU_PLAIN = {
         "And afterward came out his brother, that had the scarlet thread upon his hand: and his name was called Zarah."
       ],
       "notes": [
-        "‘travail’ means labor in childbirth",
-        "‘signet’ means seal ring",
-        "‘whoredom’ means prostitution"
+        {
+          "v": 1,
+          "text": "‘travail’ means labor in childbirth"
+        },
+        {
+          "v": 1,
+          "text": "‘signet’ means seal ring"
+        },
+        {
+          "v": 1,
+          "text": "‘whoredom’ means prostitution"
+        }
       ],
       "approved": "1f8878ff"
     },
@@ -3040,7 +3247,10 @@ window.TU_PLAIN = {
         "And his concubine, whose name was Reumah, she bore also Tebah, and Gaham, and Thahash, and Maachah."
       ],
       "notes": [
-        "‘Jehovah-jireh’ means The Lord will provide"
+        {
+          "v": 1,
+          "text": "‘Jehovah-jireh’ means The Lord will provide"
+        }
       ],
       "approved": "7885c443"
     },
@@ -3083,9 +3293,18 @@ window.TU_PLAIN = {
         "“For how shall I go up to my father, and the lad be not with me? lest perhaps I see the evil that shall come on my father.”"
       ],
       "notes": [
-        "‘corn’ means grain",
-        "‘asses’ means donkeys",
-        "‘bondmen’ means slaves"
+        {
+          "v": 1,
+          "text": "‘corn’ means grain"
+        },
+        {
+          "v": 1,
+          "text": "‘asses’ means donkeys"
+        },
+        {
+          "v": 1,
+          "text": "‘bondmen’ means slaves"
+        }
       ],
       "approved": "60b9cd45"
     },
@@ -3140,8 +3359,14 @@ window.TU_PLAIN = {
         "The keeper of the prison looked not to any thing that was under his hand; because the Lord was with him, and that which he did, the Lord made it to prosper."
       ],
       "notes": [
-        "‘goodly’ means well-built",
-        "‘wotteth’ means knows"
+        {
+          "v": 1,
+          "text": "‘goodly’ means well-built"
+        },
+        {
+          "v": 1,
+          "text": "‘wotteth’ means knows"
+        }
       ],
       "approved": "c78475b5"
     },
@@ -3170,8 +3395,14 @@ window.TU_PLAIN = {
         "And the field, and the cave that is in it, were made sure to Abraham for a possession of a burial place by the sons of Heth."
       ],
       "notes": [
-        "‘communed’ means talked",
-        "‘entreat’ means ask"
+        {
+          "v": 1,
+          "text": "‘communed’ means talked"
+        },
+        {
+          "v": 1,
+          "text": "‘entreat’ means ask"
+        }
       ],
       "approved": "f1a68ba6"
     },
@@ -3208,7 +3439,10 @@ window.TU_PLAIN = {
         "And Israel said, “It is enough; Joseph my son is yet alive: I will go and see him before I die.”"
       ],
       "notes": [
-        "‘earing’ means plowing"
+        {
+          "v": 1,
+          "text": "‘earing’ means plowing"
+        }
       ],
       "approved": "65f9e47a"
     },
@@ -3240,9 +3474,18 @@ window.TU_PLAIN = {
         "Yet did not the chief butler remember Joseph, but forgot him."
       ],
       "notes": [
-        "‘wroth’ means angry",
-        "‘ward’ means custody",
-        "‘bakemeats’ means baked goods"
+        {
+          "v": 1,
+          "text": "‘wroth’ means angry"
+        },
+        {
+          "v": 1,
+          "text": "‘ward’ means custody"
+        },
+        {
+          "v": 1,
+          "text": "‘bakemeats’ means baked goods"
+        }
       ],
       "approved": "f632cf94"
     },
@@ -3306,9 +3549,18 @@ window.TU_PLAIN = {
         "And early in the morning Laban rose up, and kissed his sons and his daughters, and blessed them: and Laban departed, and returned to his place."
       ],
       "notes": [
-        "‘grisled’ means spotted",
-        "‘wroth’ means angry",
-        "‘tarried’ means stayed"
+        {
+          "v": 1,
+          "text": "‘grisled’ means spotted"
+        },
+        {
+          "v": 1,
+          "text": "‘wroth’ means angry"
+        },
+        {
+          "v": 1,
+          "text": "‘tarried’ means stayed"
+        }
       ],
       "approved": "4b471493"
     },
@@ -3390,8 +3642,14 @@ window.TU_PLAIN = {
         "Therefore the children of Israel eat not of the sinew which shrank, which is upon the hollow of the thigh, to this day: because he touched the hollow of Jacob's thigh in the sinew that shrank."
       ],
       "notes": [
-        "‘kine’ means cows",
-        "‘halted’ means limped"
+        {
+          "v": 1,
+          "text": "‘kine’ means cows"
+        },
+        {
+          "v": 1,
+          "text": "‘halted’ means limped"
+        }
       ],
       "approved": "285db62f"
     },
@@ -3467,8 +3725,14 @@ window.TU_PLAIN = {
         "And Isaac brought her into his mother Sarah’s tent, and took Rebekah, and she became his wife; and he loved her: and Isaac was comforted after his mother’s death."
       ],
       "notes": [
-        "‘damsel’ means girl",
-        "‘provender’ means feed"
+        {
+          "v": 1,
+          "text": "‘damsel’ means girl"
+        },
+        {
+          "v": 1,
+          "text": "‘provender’ means feed"
+        }
       ],
       "approved": "d863c89a"
     },
@@ -3508,9 +3772,18 @@ window.TU_PLAIN = {
         "And he said, “Swear to me.” And he swore to him. And Israel bowed himself upon the bed’s head."
       ],
       "notes": [
-        "‘corn’ means grain",
-        "‘asses’ means donkeys",
-        "‘ought’ means anything"
+        {
+          "v": 1,
+          "text": "‘corn’ means grain"
+        },
+        {
+          "v": 1,
+          "text": "‘asses’ means donkeys"
+        },
+        {
+          "v": 1,
+          "text": "‘ought’ means anything"
+        }
       ],
       "approved": "77a9072e"
     },
@@ -3541,7 +3814,10 @@ window.TU_PLAIN = {
         "“Moreover I have given to you one portion above your brothers, which I took out of the hand of the Amorite with my sword and with my bow.”"
       ],
       "notes": [
-        "‘wittingly’ means intentionally"
+        {
+          "v": 1,
+          "text": "‘wittingly’ means intentionally"
+        }
       ],
       "approved": "a73ea49e"
     },
@@ -3616,7 +3892,10 @@ window.TU_PLAIN = {
         "So Joseph died, being one hundred and ten years old: and they embalmed him, and he was put in a coffin in Egypt."
       ],
       "notes": [
-        "‘requite’ means repay"
+        {
+          "v": 1,
+          "text": "‘requite’ means repay"
+        }
       ],
       "approved": "188c1e77"
     },
@@ -3647,7 +3926,10 @@ window.TU_PLAIN = {
         "And Pharaoh charged all his people, saying, “Every son that is born you will cast into the river, and every daughter you will save alive.”"
       ],
       "notes": [
-        "‘rigor’ means harshness or strictness"
+        {
+          "v": 1,
+          "text": "‘rigor’ means harshness or strictness"
+        }
       ],
       "approved": "dfbdc2ac"
     },
@@ -3672,7 +3954,10 @@ window.TU_PLAIN = {
         "For he said, “Because the Lord has sworn that the Lord will have war with Amalek from generation to generation.”"
       ],
       "notes": [
-        "‘Jehovah-nissi’ means The Lord is my banner"
+        {
+          "v": 1,
+          "text": "‘Jehovah-nissi’ means The Lord is my banner"
+        }
       ],
       "approved": "6d4a1095"
     },
@@ -3721,7 +4006,10 @@ window.TU_PLAIN = {
         "“And look that you make them after their pattern, which was shown you in the mount.”"
       ],
       "notes": [
-        "‘shittim wood’ means acacia wood"
+        {
+          "v": 1,
+          "text": "‘shittim wood’ means acacia wood"
+        }
       ],
       "approved": "8d10ab34"
     },
@@ -3753,9 +4041,18 @@ window.TU_PLAIN = {
         "“And I will take away My hand, and you shall see My back parts: but My face shall not be seen.”"
       ],
       "notes": [
-        "‘beseech’ means beg earnestly",
-        "‘tidings’ means news",
-        "‘cleft’ means split or crack"
+        {
+          "v": 1,
+          "text": "‘beseech’ means beg earnestly"
+        },
+        {
+          "v": 1,
+          "text": "‘tidings’ means news"
+        },
+        {
+          "v": 1,
+          "text": "‘cleft’ means split or crack"
+        }
       ],
       "approved": "a3068337"
     },
@@ -3789,8 +4086,14 @@ window.TU_PLAIN = {
         "And God looked on the children of Israel, and God had respect for them."
       ],
       "notes": [
-        "‘bulrushes’ are papyrus reeds",
-        "‘slime’ means tar or bitumen"
+        {
+          "v": 1,
+          "text": "‘bulrushes’ are papyrus reeds"
+        },
+        {
+          "v": 1,
+          "text": "‘slime’ means tar or bitumen"
+        }
       ],
       "approved": "ed677455"
     },
@@ -3826,8 +4129,14 @@ window.TU_PLAIN = {
         "And Moses let his father-in-law depart; and he went his way into his own land."
       ],
       "notes": [
-        "‘obeisance’ means bow",
-        "‘travail’ means hardship"
+        {
+          "v": 1,
+          "text": "‘obeisance’ means bow"
+        },
+        {
+          "v": 1,
+          "text": "‘travail’ means hardship"
+        }
       ],
       "approved": "290d1034"
     },
@@ -3871,9 +4180,18 @@ window.TU_PLAIN = {
         "And the heart of Pharaoh was hardened, neither would he let the children of Israel go; as the Lord had spoken by Moses."
       ],
       "notes": [
-        "‘murrain’ means plague",
-        "‘blains’ means sores",
-        "‘bolled’ means in bloom"
+        {
+          "v": 1,
+          "text": "‘murrain’ means plague"
+        },
+        {
+          "v": 1,
+          "text": "‘blains’ means sores"
+        },
+        {
+          "v": 1,
+          "text": "‘bolled’ means in bloom"
+        }
       ],
       "approved": "579a7848"
     },
@@ -3919,7 +4237,10 @@ window.TU_PLAIN = {
         "And you shall make for the hanging five pillars of shittim wood, and overlay them with gold, and their hooks shall be of gold: and you shall cast five sockets of brass for them."
       ],
       "notes": [
-        "‘shittim wood’ means acacia wood"
+        {
+          "v": 1,
+          "text": "‘shittim wood’ means acacia wood"
+        }
       ],
       "approved": "a27900ba"
     },
@@ -3963,13 +4284,34 @@ window.TU_PLAIN = {
         "And the children of Israel saw the face of Moses, that the skin of Moses’ face shone: and Moses put the veil upon his face again, until he went in to speak with Him."
       ],
       "notes": [
-        "‘terrible’ means awesome",
-        "‘whoring’ means prostituting",
-        "‘matrix’ means womb",
-        "‘earing’ means plowing",
-        "‘seethe’ means boil",
-        "‘tenor’ means meaning",
-        "‘men children’ means males"
+        {
+          "v": 1,
+          "text": "‘terrible’ means awesome"
+        },
+        {
+          "v": 1,
+          "text": "‘whoring’ means prostituting"
+        },
+        {
+          "v": 1,
+          "text": "‘matrix’ means womb"
+        },
+        {
+          "v": 1,
+          "text": "‘earing’ means plowing"
+        },
+        {
+          "v": 1,
+          "text": "‘seethe’ means boil"
+        },
+        {
+          "v": 1,
+          "text": "‘tenor’ means meaning"
+        },
+        {
+          "v": 1,
+          "text": "‘men children’ means males"
+        }
       ],
       "approved": "281f18a2"
     },
@@ -4068,9 +4410,18 @@ window.TU_PLAIN = {
         "And Moses said, “You have spoken well, I will see your face again no more.”"
       ],
       "notes": [
-        "‘coast’ means territory",
-        "‘wrought’ means done",
-        "‘stayed’ means left behind"
+        {
+          "v": 1,
+          "text": "‘coast’ means territory"
+        },
+        {
+          "v": 1,
+          "text": "‘wrought’ means done"
+        },
+        {
+          "v": 1,
+          "text": "‘stayed’ means left behind"
+        }
       ],
       "approved": "7520e0b4"
     },
@@ -4100,8 +4451,14 @@ window.TU_PLAIN = {
         "In the tabernacle of the congregation without the veil, which is before the testimony, Aaron and his sons shall order it from evening to morning before the Lord: it shall be a statute for ever to their generations on the behalf of the children of Israel."
       ],
       "notes": [
-        "‘shittim wood’ means acacia wood",
-        "‘fillets’ means bands"
+        {
+          "v": 1,
+          "text": "‘shittim wood’ means acacia wood"
+        },
+        {
+          "v": 1,
+          "text": "‘fillets’ means bands"
+        }
       ],
       "approved": "470180af"
     },
@@ -4136,8 +4493,14 @@ window.TU_PLAIN = {
         "“‘Neither will you go up by steps to My altar, that your nakedness be not discovered on it.’”"
       ],
       "notes": [
-        "‘graven’ means carved",
-        "‘hallowed’ means made holy"
+        {
+          "v": 1,
+          "text": "‘graven’ means carved"
+        },
+        {
+          "v": 1,
+          "text": "‘hallowed’ means made holy"
+        }
       ],
       "approved": "833d0d52"
     },
@@ -4181,7 +4544,10 @@ window.TU_PLAIN = {
         "“Them has He filled with wisdom of heart, to work all manner of work, of the engraver, and of the skilled workman, and of the embroiderer, in blue, and in purple, in scarlet, and in fine linen, and of the weaver, even of them that do any work, and of those that devise skilled work.”"
       ],
       "notes": [
-        "‘tablets’ means necklaces"
+        {
+          "v": 1,
+          "text": "‘tablets’ means necklaces"
+        }
       ],
       "approved": "bfd2a7fc"
     },
@@ -4200,7 +4566,10 @@ window.TU_PLAIN = {
         "And Moses and Aaron did all these wonders before Pharaoh: and the Lord hardened Pharaoh’s heart, so that he would not let the children of Israel go out of his land."
       ],
       "notes": [
-        "‘borrow’ means ask"
+        {
+          "v": 1,
+          "text": "‘borrow’ means ask"
+        }
       ],
       "approved": "2b7416ed"
     },
@@ -4247,9 +4616,18 @@ window.TU_PLAIN = {
         "And the five pillars of it with their hooks: and he overlaid their chapiters and their fillets with gold: but their five sockets were of brass."
       ],
       "notes": [
-        "‘withal’ means with it",
-        "‘chapiters’ means tops of pillars",
-        "‘fillets’ means bands"
+        {
+          "v": 1,
+          "text": "‘withal’ means with it"
+        },
+        {
+          "v": 1,
+          "text": "‘chapiters’ means tops of pillars"
+        },
+        {
+          "v": 1,
+          "text": "‘fillets’ means bands"
+        }
       ],
       "approved": "88a6cf61"
     },
@@ -4344,7 +4722,10 @@ window.TU_PLAIN = {
         "And they shall be upon Aaron, and upon his sons, when they come in to the tabernacle of the congregation, or when they come near to the altar to minister in the holy place; that they bear not iniquity, and die: it shall be a statute for ever to him and his seed after him."
       ],
       "notes": [
-        "‘habergeon’ means sleeveless jacket"
+        {
+          "v": 1,
+          "text": "‘habergeon’ means sleeveless jacket"
+        }
       ],
       "approved": "8d7c1714"
     },
@@ -4420,8 +4801,14 @@ window.TU_PLAIN = {
         "And he made the holy anointing oil, and the pure incense of sweet spices, according to the work of the apothecary."
       ],
       "notes": [
-        "‘knops’ means buds",
-        "‘apothecary’ means perfumer"
+        {
+          "v": 1,
+          "text": "‘knops’ means buds"
+        },
+        {
+          "v": 1,
+          "text": "‘apothecary’ means perfumer"
+        }
       ],
       "approved": "845df8d4"
     },
@@ -4481,12 +4868,30 @@ window.TU_PLAIN = {
         "And it came to pass the selfsame day, that the Lord did bring the children of Israel out of the land of Egypt by their armies."
       ],
       "notes": [
-        "‘sodden’ means boiled",
-        "‘purtenance’ means inner parts",
-        "‘borrowed’ means asked",
-        "‘spoiled’ means plundered",
-        "‘victual’ means food",
-        "‘aught’ means any"
+        {
+          "v": 1,
+          "text": "‘sodden’ means boiled"
+        },
+        {
+          "v": 1,
+          "text": "‘purtenance’ means inner parts"
+        },
+        {
+          "v": 1,
+          "text": "‘borrowed’ means asked"
+        },
+        {
+          "v": 1,
+          "text": "‘spoiled’ means plundered"
+        },
+        {
+          "v": 1,
+          "text": "‘victual’ means food"
+        },
+        {
+          "v": 1,
+          "text": "‘aught’ means any"
+        }
       ],
       "approved": "597f5d1c"
     },
@@ -4526,7 +4931,10 @@ window.TU_PLAIN = {
         "“And you will be holy men to Me: neither will you eat any flesh that is torn of beasts in the field; you will cast it to the dogs.”"
       ],
       "notes": [
-        "‘vex’ means mistreat"
+        {
+          "v": 1,
+          "text": "‘vex’ means mistreat"
+        }
       ],
       "approved": "7e3f1191"
     },
@@ -4558,8 +4966,14 @@ window.TU_PLAIN = {
         "“For since I came to Pharaoh to speak in Your name, he has done evil to this people. Neither have You delivered Your people at all.”"
       ],
       "notes": [
-        "‘tale’ means quota or number",
-        "‘evil entreated’ means treated badly or caused trouble"
+        {
+          "v": 1,
+          "text": "‘tale’ means quota or number"
+        },
+        {
+          "v": 1,
+          "text": "‘evil entreated’ means treated badly or caused trouble"
+        }
       ],
       "approved": "560782f8"
     },
@@ -4614,8 +5028,14 @@ window.TU_PLAIN = {
         "And they shall know that I am the Lord their God, that brought them forth out of the land of Egypt, that I may dwell among them: I am the Lord their God."
       ],
       "notes": [
-        "‘caul’ means lobe of the liver",
-        "‘meat offering’ means grain offering"
+        {
+          "v": 1,
+          "text": "‘caul’ means lobe of the liver"
+        },
+        {
+          "v": 1,
+          "text": "‘meat offering’ means grain offering"
+        }
       ],
       "approved": "644b4bf5"
     },
@@ -4655,9 +5075,18 @@ window.TU_PLAIN = {
         "And the sockets of the court round about, and the sockets of the court gate, and all the pins of the tabernacle, and all the pins of the court round about."
       ],
       "notes": [
-        "‘lookingglasses’ means mirrors",
-        "‘chapiters’ means tops of pillars",
-        "‘fillets’ means bands"
+        {
+          "v": 1,
+          "text": "‘lookingglasses’ means mirrors"
+        },
+        {
+          "v": 1,
+          "text": "‘chapiters’ means tops of pillars"
+        },
+        {
+          "v": 1,
+          "text": "‘fillets’ means bands"
+        }
       ],
       "approved": "7ad69fb5"
     },
@@ -4688,10 +5117,22 @@ window.TU_PLAIN = {
         "He took not away the pillar of the cloud by day, nor the pillar of fire by night, from before the people."
       ],
       "notes": [
-        "‘matrix’ means womb",
-        "‘firstling’ means firstborn",
-        "‘frontlets’ means headbands",
-        "‘harnessed’ means armed for battle"
+        {
+          "v": 1,
+          "text": "‘matrix’ means womb"
+        },
+        {
+          "v": 1,
+          "text": "‘firstling’ means firstborn"
+        },
+        {
+          "v": 1,
+          "text": "‘frontlets’ means headbands"
+        },
+        {
+          "v": 1,
+          "text": "‘harnessed’ means armed for battle"
+        }
       ],
       "approved": "dc5e41e7"
     },
@@ -4770,7 +5211,10 @@ window.TU_PLAIN = {
         "“They will not dwell in your land, lest they make you sin against Me: for if you serve their gods, it will surely be a snare to you.”"
       ],
       "notes": [
-        "‘wrest’ means twist"
+        {
+          "v": 1,
+          "text": "‘wrest’ means twist"
+        }
       ],
       "approved": "ca7d7217"
     },
@@ -4822,9 +5266,18 @@ window.TU_PLAIN = {
         "And Moses did look upon all the work, and, behold, they had done it as the Lord had commanded, even so had they done it: and Moses blessed them."
       ],
       "notes": [
-        "‘ouches’ means filigree settings",
-        "‘curious’ means artistic",
-        "‘habergeon’ means a piece of armor"
+        {
+          "v": 1,
+          "text": "‘ouches’ means filigree settings"
+        },
+        {
+          "v": 1,
+          "text": "‘curious’ means artistic"
+        },
+        {
+          "v": 1,
+          "text": "‘habergeon’ means a piece of armor"
+        }
       ],
       "approved": "72cb1da4"
     },
@@ -4864,8 +5317,14 @@ window.TU_PLAIN = {
         "And Israel saw that great work which the Lord did upon the Egyptians: and the people feared the Lord, and believed the Lord, and His servant Moses."
       ],
       "notes": [
-        "‘high hand’ means defiantly",
-        "‘hold your peace’ means be still"
+        {
+          "v": 1,
+          "text": "‘high hand’ means defiantly"
+        },
+        {
+          "v": 1,
+          "text": "‘hold your peace’ means be still"
+        }
       ],
       "approved": "3d00f28f"
     },
@@ -4912,8 +5371,14 @@ window.TU_PLAIN = {
         "“Whoever shall make like to that, to smell it, shall even be cut off from his people.”"
       ],
       "notes": [
-        "‘meat offering’ means grain offering",
-        "‘apothecary’ means perfumer"
+        {
+          "v": 1,
+          "text": "‘meat offering’ means grain offering"
+        },
+        {
+          "v": 1,
+          "text": "‘apothecary’ means perfumer"
+        }
       ],
       "approved": "c05680cc"
     },
@@ -5076,10 +5541,22 @@ window.TU_PLAIN = {
         "And they came to Elim, where were twelve wells of water, and seventy palm trees: and they encamped there by the waters."
       ],
       "notes": [
-        "‘murmured’ means complained",
-        "‘proved’ means tested",
-        "‘dukes’ means chiefs",
-        "‘timbrel’ means tambourine"
+        {
+          "v": 1,
+          "text": "‘murmured’ means complained"
+        },
+        {
+          "v": 1,
+          "text": "‘proved’ means tested"
+        },
+        {
+          "v": 1,
+          "text": "‘dukes’ means chiefs"
+        },
+        {
+          "v": 1,
+          "text": "‘timbrel’ means tambourine"
+        }
       ],
       "approved": "4e9acda6"
     },
@@ -5120,9 +5597,18 @@ window.TU_PLAIN = {
         "And Pharaoh hardened his heart at this time also, neither would he let the people go."
       ],
       "notes": [
-        "‘lice’ may also mean gnats or mosquitoes",
-        "‘meet’ means fitting or proper",
-        "‘entreat’ means to ask earnestly or pray"
+        {
+          "v": 1,
+          "text": "‘lice’ may also mean gnats or mosquitoes"
+        },
+        {
+          "v": 1,
+          "text": "‘meet’ means fitting or proper"
+        },
+        {
+          "v": 1,
+          "text": "‘entreat’ means to ask earnestly or pray"
+        }
       ],
       "approved": "fb18ec0e"
     },
@@ -5166,9 +5652,18 @@ window.TU_PLAIN = {
         "And the Lord plagued the people, because they made the calf, which Aaron made."
       ],
       "notes": [
-        "‘strawed’ means scattered",
-        "‘besought’ means begged",
-        "‘wax’ means grow"
+        {
+          "v": 1,
+          "text": "‘strawed’ means scattered"
+        },
+        {
+          "v": 1,
+          "text": "‘besought’ means begged"
+        },
+        {
+          "v": 1,
+          "text": "‘wax’ means grow"
+        }
       ],
       "approved": "9b16394b"
     },
@@ -5213,13 +5708,34 @@ window.TU_PLAIN = {
         "Now an omer is the tenth part of an ephah."
       ],
       "notes": [
-        "‘prove’ means test",
-        "‘murmurings’ means grumblings",
-        "‘wist’ means knew",
-        "‘mete’ means measure",
-        "‘wroth’ means angry",
-        "‘waxed’ means grew",
-        "‘seethe’ means boil"
+        {
+          "v": 1,
+          "text": "‘prove’ means test"
+        },
+        {
+          "v": 1,
+          "text": "‘murmurings’ means grumblings"
+        },
+        {
+          "v": 1,
+          "text": "‘wist’ means knew"
+        },
+        {
+          "v": 1,
+          "text": "‘mete’ means measure"
+        },
+        {
+          "v": 1,
+          "text": "‘wroth’ means angry"
+        },
+        {
+          "v": 1,
+          "text": "‘waxed’ means grew"
+        },
+        {
+          "v": 1,
+          "text": "‘seethe’ means boil"
+        }
       ],
       "approved": "8ada062f"
     },
@@ -5245,9 +5761,18 @@ window.TU_PLAIN = {
         "“And he will cleave it with its wings, but will not divide it asunder. And the priest will burn it on the altar, on the wood that is on the fire. It is a burnt sacrifice, an offering made by fire, of a sweet savor to the Lord.”"
       ],
       "notes": [
-        "‘flay’ means to skin",
-        "‘cleave’ means to split",
-        "‘asunder’ means apart"
+        {
+          "v": 1,
+          "text": "‘flay’ means to skin"
+        },
+        {
+          "v": 1,
+          "text": "‘cleave’ means to split"
+        },
+        {
+          "v": 1,
+          "text": "‘asunder’ means apart"
+        }
       ],
       "approved": "49d60d93"
     },
@@ -5293,10 +5818,22 @@ window.TU_PLAIN = {
         "“Therefore shall you observe all My statutes, and all My judgments, and do them: I am the Lord.”"
       ],
       "notes": [
-        "‘meteyard’ means measure of length",
-        "‘hoary’ means white-haired",
-        "‘scourged’ means whipped",
-        "‘gender’ means mate"
+        {
+          "v": 1,
+          "text": "‘meteyard’ means measure of length"
+        },
+        {
+          "v": 1,
+          "text": "‘hoary’ means white-haired"
+        },
+        {
+          "v": 1,
+          "text": "‘scourged’ means whipped"
+        },
+        {
+          "v": 1,
+          "text": "‘gender’ means mate"
+        }
       ],
       "approved": "9261e1ea"
     },
@@ -5343,11 +5880,26 @@ window.TU_PLAIN = {
         "Which the Lord commanded Moses in mount Sinai, in the day that He commanded the children of Israel to offer their oblations to the Lord, in the wilderness of Sinai."
       ],
       "notes": [
-        "‘inwards’ means inner parts",
-        "‘caul’ means lobe",
-        "‘oblation’ means offering",
-        "‘imputed’ means credited",
-        "‘abomination’ means detestable thing"
+        {
+          "v": 1,
+          "text": "‘inwards’ means inner parts"
+        },
+        {
+          "v": 1,
+          "text": "‘caul’ means lobe"
+        },
+        {
+          "v": 1,
+          "text": "‘oblation’ means offering"
+        },
+        {
+          "v": 1,
+          "text": "‘imputed’ means credited"
+        },
+        {
+          "v": 1,
+          "text": "‘abomination’ means detestable thing"
+        }
       ],
       "approved": "22abbb6b"
     },
@@ -5379,8 +5931,14 @@ window.TU_PLAIN = {
         "And Moses spoke to the children of Israel, that they should bring forth him that had cursed out of the camp, and stone him with stones. And the children of Israel did as the Lord commanded Moses."
       ],
       "notes": [
-        "‘ward’ means custody",
-        "‘breach’ means fracture"
+        {
+          "v": 1,
+          "text": "‘ward’ means custody"
+        },
+        {
+          "v": 1,
+          "text": "‘breach’ means fracture"
+        }
       ],
       "approved": "838e7c60"
     },
@@ -5405,9 +5963,18 @@ window.TU_PLAIN = {
         "And the priest will burn the memorial of it, part of its beaten grain, and part of its oil, with all its frankincense. It is an offering made by fire to the Lord."
       ],
       "notes": [
-        "‘meat offering’ refers to a grain or meal offering",
-        "‘oblation’ means an offering",
-        "‘memorial’ means a representative portion burnt on the altar"
+        {
+          "v": 1,
+          "text": "‘meat offering’ refers to a grain or meal offering"
+        },
+        {
+          "v": 1,
+          "text": "‘oblation’ means an offering"
+        },
+        {
+          "v": 1,
+          "text": "‘memorial’ means a representative portion burnt on the altar"
+        }
       ],
       "approved": "764e3a60"
     },
@@ -5475,8 +6042,14 @@ window.TU_PLAIN = {
         "“This is the law of the plague of leprosy in a garment of woolen or linen, either in the warp, or woof, or any thing of skins, to pronounce it clean, or to pronounce it unclean.”"
       ],
       "notes": [
-        "‘warp’ means lengthwise threads",
-        "‘woof’ means crosswise threads"
+        {
+          "v": 1,
+          "text": "‘warp’ means lengthwise threads"
+        },
+        {
+          "v": 1,
+          "text": "‘woof’ means crosswise threads"
+        }
       ],
       "approved": "c847af6b"
     },
@@ -5512,7 +6085,10 @@ window.TU_PLAIN = {
         "“A man also or woman that has a familiar spirit, or that is a wizard, shall surely be put to death: they shall stone them with stones: their blood shall be upon them.”"
       ],
       "notes": [
-        "‘spue’ means vomit"
+        {
+          "v": 1,
+          "text": "‘spue’ means vomit"
+        }
       ],
       "approved": "ab709c0a"
     },
@@ -5538,8 +6114,14 @@ window.TU_PLAIN = {
         "It will be a perpetual statute for your generations throughout all your dwellings, that you eat neither fat nor blood."
       ],
       "notes": [
-        "‘caul’ refers to the lobe or appendage of the liver",
-        "‘flanks’ refers to the lower back or loins"
+        {
+          "v": 1,
+          "text": "‘caul’ refers to the lobe or appendage of the liver"
+        },
+        {
+          "v": 1,
+          "text": "‘flanks’ refers to the lower back or loins"
+        }
       ],
       "approved": "0d03a508"
     },
@@ -5584,13 +6166,34 @@ window.TU_PLAIN = {
         "So Aaron and his sons did all things which the Lord commanded by the hand of Moses."
       ],
       "notes": [
-        "‘bullock’ means bull",
-        "‘curious girdle’ means woven band",
-        "‘mitre’ means turban",
-        "‘laver’ means basin",
-        "‘bonnets’ means headbands",
-        "‘inwards’ means inner parts",
-        "‘caul’ means lobe"
+        {
+          "v": 1,
+          "text": "‘bullock’ means bull"
+        },
+        {
+          "v": 1,
+          "text": "‘curious girdle’ means woven band"
+        },
+        {
+          "v": 1,
+          "text": "‘mitre’ means turban"
+        },
+        {
+          "v": 1,
+          "text": "‘laver’ means basin"
+        },
+        {
+          "v": 1,
+          "text": "‘bonnets’ means headbands"
+        },
+        {
+          "v": 1,
+          "text": "‘inwards’ means inner parts"
+        },
+        {
+          "v": 1,
+          "text": "‘caul’ means lobe"
+        }
       ],
       "approved": "81751b24"
     },
@@ -5623,10 +6226,22 @@ window.TU_PLAIN = {
         "And Moses told it to Aaron, and to his sons, and to all the children of Israel."
       ],
       "notes": [
-        "‘crookbackt’ means hunchbacked",
-        "‘scurvy’ means having a festering rash",
-        "‘stones’ means testicles",
-        "‘superfluous’ means having an extra or overgrown part"
+        {
+          "v": 1,
+          "text": "‘crookbackt’ means hunchbacked"
+        },
+        {
+          "v": 1,
+          "text": "‘scurvy’ means having a festering rash"
+        },
+        {
+          "v": 1,
+          "text": "‘stones’ means testicles"
+        },
+        {
+          "v": 1,
+          "text": "‘superfluous’ means having an extra or overgrown part"
+        }
       ],
       "approved": "c616e895"
     },
@@ -5692,7 +6307,10 @@ window.TU_PLAIN = {
         "“To teach when it is unclean, and when it is clean: this is the law of leprosy.”"
       ],
       "notes": [
-        "‘log’ means liquid measure"
+        {
+          "v": 1,
+          "text": "‘log’ means liquid measure"
+        }
       ],
       "approved": "5dff9f76"
     },
@@ -5756,10 +6374,22 @@ window.TU_PLAIN = {
         "“For to Me the children of Israel are servants; they are My servants whom I brought forth out of the land of Egypt: I am the Lord your God.”"
       ],
       "notes": [
-        "‘overplus’ means balance",
-        "‘usury’ means interest",
-        "‘victuals’ means food",
-        "‘bondservant’ means slave"
+        {
+          "v": 1,
+          "text": "‘overplus’ means balance"
+        },
+        {
+          "v": 1,
+          "text": "‘usury’ means interest"
+        },
+        {
+          "v": 1,
+          "text": "‘victuals’ means food"
+        },
+        {
+          "v": 1,
+          "text": "‘bondservant’ means slave"
+        }
       ],
       "approved": "08f59b7c"
     },
@@ -5792,9 +6422,18 @@ window.TU_PLAIN = {
         "And there came a fire out from before the Lord, and consumed upon the altar the burnt offering and the fat: which when all the people saw, they shouted, and fell on their faces."
       ],
       "notes": [
-        "‘bullock’ means bull",
-        "‘caul’ means lobe",
-        "‘inwards’ means inner parts"
+        {
+          "v": 1,
+          "text": "‘bullock’ means bull"
+        },
+        {
+          "v": 1,
+          "text": "‘caul’ means lobe"
+        },
+        {
+          "v": 1,
+          "text": "‘inwards’ means inner parts"
+        }
       ],
       "approved": "c2172c2d"
     },
@@ -5836,11 +6475,26 @@ window.TU_PLAIN = {
         "“That brought you out of the land of Egypt, to be your God: I am the Lord.”"
       ],
       "notes": [
-        "‘beeves’ means cattle",
-        "‘wen’ means running sore",
-        "‘scurvy’ means having a festering rash",
-        "‘superfluous’ means having an extra or overgrown part",
-        "‘dam’ means mother"
+        {
+          "v": 1,
+          "text": "‘beeves’ means cattle"
+        },
+        {
+          "v": 1,
+          "text": "‘wen’ means running sore"
+        },
+        {
+          "v": 1,
+          "text": "‘scurvy’ means having a festering rash"
+        },
+        {
+          "v": 1,
+          "text": "‘superfluous’ means having an extra or overgrown part"
+        },
+        {
+          "v": 1,
+          "text": "‘dam’ means mother"
+        }
       ],
       "approved": "842ec1a3"
     },
@@ -5909,9 +6563,18 @@ window.TU_PLAIN = {
         "And when Moses heard that, he was content."
       ],
       "notes": [
-        "‘held his peace’ means remained silent",
-        "‘rend’ means tear",
-        "‘bewail’ means mourn"
+        {
+          "v": 1,
+          "text": "‘held his peace’ means remained silent"
+        },
+        {
+          "v": 1,
+          "text": "‘rend’ means tear"
+        },
+        {
+          "v": 1,
+          "text": "‘bewail’ means mourn"
+        }
       ],
       "approved": "50045651"
     },
@@ -5966,7 +6629,10 @@ window.TU_PLAIN = {
         "These are the statutes and judgments and laws, which the Lord made between Him and the children of Israel in mount Sinai by the hand of Moses."
       ],
       "notes": [
-        "‘ague’ means fever"
+        {
+          "v": 1,
+          "text": "‘ague’ means fever"
+        }
       ],
       "approved": "18db0c4b"
     },
@@ -6010,7 +6676,10 @@ window.TU_PLAIN = {
         "And he will take away all its fat, as the fat of the lamb is taken away from the sacrifice of the peace offerings. And the priest will burn them on the altar, according to the offerings made by fire to the Lord. And the priest will make an atonement for his sin that he has committed, and it will be forgiven him."
       ],
       "notes": [
-        "‘somewhat’ means something"
+        {
+          "v": 1,
+          "text": "‘somewhat’ means something"
+        }
       ],
       "approved": "6d81b665"
     },
@@ -6038,8 +6707,14 @@ window.TU_PLAIN = {
         "“It is a trespass offering. He has certainly trespassed against the Lord.”"
       ],
       "notes": [
-        "‘shekel’ is an ancient unit of weight or money",
-        "‘ephah’ is an ancient unit of dry measurement, about a bushel"
+        {
+          "v": 1,
+          "text": "‘shekel’ is an ancient unit of weight or money"
+        },
+        {
+          "v": 1,
+          "text": "‘ephah’ is an ancient unit of dry measurement, about a bushel"
+        }
       ],
       "approved": "dbe7a519"
     },
@@ -6123,7 +6798,10 @@ window.TU_PLAIN = {
         "These are the commandments, which the Lord commanded Moses for the children of Israel in mount Sinai."
       ],
       "notes": [
-        "‘abated’ means reduced"
+        {
+          "v": 1,
+          "text": "‘abated’ means reduced"
+        }
       ],
       "approved": "d54f93af"
     },
@@ -6179,12 +6857,30 @@ window.TU_PLAIN = {
         "“To make a difference between the unclean and the clean, and between the beast that may be eaten and the beast that may not be eaten.”"
       ],
       "notes": [
-        "‘coney’ means rock badger",
-        "‘ossifrage’ means bearded vulture",
-        "‘ospray’ means osprey",
-        "‘gier eagle’ means white owl",
-        "‘lapwing’ means hoopoe",
-        "‘abomination’ means detestable thing"
+        {
+          "v": 1,
+          "text": "‘coney’ means rock badger"
+        },
+        {
+          "v": 1,
+          "text": "‘ossifrage’ means bearded vulture"
+        },
+        {
+          "v": 1,
+          "text": "‘ospray’ means osprey"
+        },
+        {
+          "v": 1,
+          "text": "‘gier eagle’ means white owl"
+        },
+        {
+          "v": 1,
+          "text": "‘lapwing’ means hoopoe"
+        },
+        {
+          "v": 1,
+          "text": "‘abomination’ means detestable thing"
+        }
       ],
       "approved": "87d4a3e5"
     },
@@ -6237,7 +6933,10 @@ window.TU_PLAIN = {
         "And Moses declared to the children of Israel the feasts of the Lord."
       ],
       "notes": [
-        "‘meat offering’ means grain offering"
+        {
+          "v": 1,
+          "text": "‘meat offering’ means grain offering"
+        }
       ],
       "approved": "c68aa7c7"
     },
@@ -6254,7 +6953,10 @@ window.TU_PLAIN = {
         "“And if she be not able to bring a lamb, then she will bring two turtles, or two young pigeons; the one for the burnt offering, and the other for a sin offering: and the priest will make an atonement for her, and she will be clean.”"
       ],
       "notes": [
-        "‘turtles’ means turtledoves"
+        {
+          "v": 1,
+          "text": "‘turtles’ means turtledoves"
+        }
       ],
       "approved": "7f4e1766"
     },
@@ -6293,7 +6995,10 @@ window.TU_PLAIN = {
         "“And no sin offering, of which any of the blood is brought into the tabernacle of the congregation to reconcile with in the holy place, will be eaten. It will be burnt in the fire.”"
       ],
       "notes": [
-        "‘appertains’ means belongs"
+        {
+          "v": 1,
+          "text": "‘appertains’ means belongs"
+        }
       ],
       "approved": "6886557c"
     },
@@ -6318,8 +7023,14 @@ window.TU_PLAIN = {
         "“But if he wash them not, nor bathe his flesh; then he will bear his iniquity.”"
       ],
       "notes": [
-        "‘imputed’ means assigned",
-        "‘savor’ means smell"
+        {
+          "v": 1,
+          "text": "‘imputed’ means assigned"
+        },
+        {
+          "v": 1,
+          "text": "‘savor’ means smell"
+        }
       ],
       "approved": "5dcfa246"
     },
@@ -6358,7 +7069,10 @@ window.TU_PLAIN = {
         "“Therefore will you keep My ordinance, that you commit not any one of these abominable customs, which were committed before you, and that you defile not yourselves in them: I am the Lord your God.”"
       ],
       "notes": [
-        "‘vex’ means anger"
+        {
+          "v": 1,
+          "text": "‘vex’ means anger"
+        }
       ],
       "approved": "c58baafe"
     },
@@ -6397,8 +7111,14 @@ window.TU_PLAIN = {
         "And Balak did as Balaam had said, and offered a bull and a ram on every altar."
       ],
       "notes": [
-        "‘unicorn’ means wild ox",
-        "‘hearken’ means listen"
+        {
+          "v": 1,
+          "text": "‘unicorn’ means wild ox"
+        },
+        {
+          "v": 1,
+          "text": "‘hearken’ means listen"
+        }
       ],
       "approved": "2a16e5c2"
     },
@@ -6453,10 +7173,22 @@ window.TU_PLAIN = {
         "At the commandment of the Lord they rested in the tents, and at the commandment of the Lord they journeyed: they kept the charge of the Lord, at the commandment of the Lord by the hand of Moses."
       ],
       "notes": [
-        "‘abode’ means stayed",
-        "‘tarried’ means remained",
-        "‘forbears’ means refrains",
-        "‘reared’ means set"
+        {
+          "v": 1,
+          "text": "‘abode’ means stayed"
+        },
+        {
+          "v": 1,
+          "text": "‘tarried’ means remained"
+        },
+        {
+          "v": 1,
+          "text": "‘forbears’ means refrains"
+        },
+        {
+          "v": 1,
+          "text": "‘reared’ means set"
+        }
       ],
       "approved": "c1a8b72a"
     },
@@ -6576,7 +7308,10 @@ window.TU_PLAIN = {
         "And the children of Israel did according to all that the Lord commanded Moses, so they did."
       ],
       "notes": [
-        "‘polls’ means heads or individuals"
+        {
+          "v": 1,
+          "text": "‘polls’ means heads or individuals"
+        }
       ],
       "approved": "07a7d698"
     },
@@ -6610,8 +7345,14 @@ window.TU_PLAIN = {
         "And Balaam rose up, and went and returned to his place: and Balak also went his way."
       ],
       "notes": [
-        "‘unicorn’ means wild ox",
-        "‘advertise’ means inform or advise"
+        {
+          "v": 1,
+          "text": "‘unicorn’ means wild ox"
+        },
+        {
+          "v": 1,
+          "text": "‘advertise’ means inform or advise"
+        }
       ],
       "approved": "829dfaa8"
     },
@@ -6694,9 +7435,18 @@ window.TU_PLAIN = {
         "And Moses and Eleazar the priest took the gold of the captains of thousands and of hundreds, and brought it into the tabernacle of the congregation, for a memorial for the children of Israel before the Lord."
       ],
       "notes": [
-        "‘oblation’ means offering",
-        "‘tablets’ means necklaces",
-        "‘wrought’ means worked"
+        {
+          "v": 1,
+          "text": "‘oblation’ means offering"
+        },
+        {
+          "v": 1,
+          "text": "‘tablets’ means necklaces"
+        },
+        {
+          "v": 1,
+          "text": "‘wrought’ means worked"
+        }
       ],
       "approved": "ab02a44c"
     },
@@ -6764,7 +7514,10 @@ window.TU_PLAIN = {
         "And the children of Israel did according to all that the Lord commanded Moses. So they pitched by their standards, and so they set forward, every one after their families, according to the house of their fathers."
       ],
       "notes": [
-        "‘hindmost’ means last or in the rear"
+        {
+          "v": 1,
+          "text": "‘hindmost’ means last or in the rear"
+        }
       ],
       "approved": "eaada12c"
     },
@@ -6805,7 +7558,10 @@ window.TU_PLAIN = {
         "“And you will bear no sin by reason of it, when you have heaved from it the best of it: neither will you pollute the holy things of the children of Israel, lest you die.”"
       ],
       "notes": [
-        "‘savor’ means smell"
+        {
+          "v": 1,
+          "text": "‘savor’ means smell"
+        }
       ],
       "approved": "036bd0f2"
     },
@@ -6850,8 +7606,14 @@ window.TU_PLAIN = {
         "And when it rested, he said, “Return, O Lord, to the many thousands of Israel.”"
       ],
       "notes": [
-        "‘rearward’ means rear guard",
-        "‘forasmuch as’ means since"
+        {
+          "v": 1,
+          "text": "‘rearward’ means rear guard"
+        },
+        {
+          "v": 1,
+          "text": "‘forasmuch as’ means since"
+        }
       ],
       "approved": "59e4d9df"
     },
@@ -6911,8 +7673,14 @@ window.TU_PLAIN = {
         "And Moses gave the money of them that were redeemed to Aaron and to his sons, according to the word of the Lord, as the Lord commanded Moses."
       ],
       "notes": [
-        "‘matrix’ means womb",
-        "‘gerah’ is an ancient Hebrew unit of weight or money"
+        {
+          "v": 1,
+          "text": "‘matrix’ means womb"
+        },
+        {
+          "v": 1,
+          "text": "‘gerah’ is an ancient Hebrew unit of weight or money"
+        }
       ],
       "approved": "529aace0"
     },
@@ -7057,10 +7825,22 @@ window.TU_PLAIN = {
         "And the people journeyed from Kibroth-hattaavah to Hazeroth; and abode at Hazeroth."
       ],
       "notes": [
-        "‘fell a lusting’ means had a strong craving",
-        "‘out of hand’ means immediately",
-        "‘waxed short’ means grown short",
-        "‘loathsome’ means nauseating"
+        {
+          "v": 1,
+          "text": "‘fell a lusting’ means had a strong craving"
+        },
+        {
+          "v": 1,
+          "text": "‘out of hand’ means immediately"
+        },
+        {
+          "v": 1,
+          "text": "‘waxed short’ means grown short"
+        },
+        {
+          "v": 1,
+          "text": "‘loathsome’ means nauseating"
+        }
       ],
       "approved": "5234c8d8"
     },
@@ -7147,9 +7927,18 @@ window.TU_PLAIN = {
         "And when all the congregation saw that Aaron was dead, they mourned for Aaron thirty days, even all the house of Israel."
       ],
       "notes": [
-        "‘travail’ means hardship",
-        "‘vexed’ means afflicted",
-        "‘uttermost’ means farthest"
+        {
+          "v": 1,
+          "text": "‘travail’ means hardship"
+        },
+        {
+          "v": 1,
+          "text": "‘vexed’ means afflicted"
+        },
+        {
+          "v": 1,
+          "text": "‘uttermost’ means farthest"
+        }
       ],
       "approved": "12ca84df"
     },
@@ -7237,7 +8026,10 @@ window.TU_PLAIN = {
         "According to the commandment of the Lord they were numbered by the hand of Moses, every one according to his service, and according to his burden. Thus were they numbered of him, as the Lord commanded Moses."
       ],
       "notes": [
-        "‘badgers’ skins’ likely refers to fine leather or hides of sea cows"
+        {
+          "v": 1,
+          "text": "‘badgers’ skins’ likely refers to fine leather or hides of sea cows"
+        }
       ],
       "approved": "3afe0626"
     },
@@ -7262,10 +8054,22 @@ window.TU_PLAIN = {
         "And afterward the people removed from Hazeroth, and pitched in the wilderness of Paran."
       ],
       "notes": [
-        "‘apparently’ means plainly",
-        "‘dark speeches’ means riddles",
-        "‘similitude’ means form",
-        "‘beseech’ means implore"
+        {
+          "v": 1,
+          "text": "‘apparently’ means plainly"
+        },
+        {
+          "v": 1,
+          "text": "‘dark speeches’ means riddles"
+        },
+        {
+          "v": 1,
+          "text": "‘similitude’ means form"
+        },
+        {
+          "v": 1,
+          "text": "‘beseech’ means implore"
+        }
       ],
       "approved": "997993e6"
     },
@@ -7330,8 +8134,14 @@ window.TU_PLAIN = {
         "“Moreover it shall come to pass, that I shall do to you, as I thought to do to them.”"
       ],
       "notes": [
-        "‘pricks’ means barbs",
-        "‘vex’ means harass"
+        {
+          "v": 1,
+          "text": "‘pricks’ means barbs"
+        },
+        {
+          "v": 1,
+          "text": "‘vex’ means harass"
+        }
       ],
       "approved": "817d91fd"
     },
@@ -7371,8 +8181,14 @@ window.TU_PLAIN = {
         "“‘You shall offer them beside the continual burnt offering, and its meat offering, (they shall be to you without blemish) and their drink offerings.’”"
       ],
       "notes": [
-        "‘meat offering’ means grain offering",
-        "‘several’ means separate or individual"
+        {
+          "v": 1,
+          "text": "‘meat offering’ means grain offering"
+        },
+        {
+          "v": 1,
+          "text": "‘several’ means separate or individual"
+        }
       ],
       "approved": "61010be8"
     },
@@ -7414,9 +8230,18 @@ window.TU_PLAIN = {
         "“And there we saw the giants, the sons of Anak, which come of the giants: and we were in our own sight as grasshoppers, and so we were in their sight.”"
       ],
       "notes": [
-        "‘firstripe’ means first ripe",
-        "‘fat’ means fertile",
-        "‘lean’ means unproductive"
+        {
+          "v": 1,
+          "text": "‘firstripe’ means first ripe"
+        },
+        {
+          "v": 1,
+          "text": "‘fat’ means fertile"
+        },
+        {
+          "v": 1,
+          "text": "‘lean’ means unproductive"
+        }
       ],
       "approved": "96b773f4"
     },
@@ -7496,8 +8321,14 @@ window.TU_PLAIN = {
         "These are they whom the Lord commanded to divide the inheritance to the children of Israel in the land of Canaan."
       ],
       "notes": [
-        "‘fetch a compass’ means turn",
-        "‘coasts’ means borders"
+        {
+          "v": 1,
+          "text": "‘fetch a compass’ means turn"
+        },
+        {
+          "v": 1,
+          "text": "‘coasts’ means borders"
+        }
       ],
       "approved": "d856e799"
     },
@@ -7537,7 +8368,10 @@ window.TU_PLAIN = {
         "“Then will the man be guiltless from iniquity, and this woman will bear her iniquity.”"
       ],
       "notes": [
-        "‘taken with the manner’ means caught in the act"
+        {
+          "v": 1,
+          "text": "‘taken with the manner’ means caught in the act"
+        }
       ],
       "approved": "5caf4acc"
     },
@@ -7591,10 +8425,22 @@ window.TU_PLAIN = {
         "Then the Amalekites came down, and the Canaanites which dwelt in that hill, and struck them, and discomfited them, even to Hormah."
       ],
       "notes": [
-        "‘bade’ means commanded",
-        "‘rent’ means tore",
-        "‘discomfited’ means defeated",
-        "‘beseech’ means implore"
+        {
+          "v": 1,
+          "text": "‘bade’ means commanded"
+        },
+        {
+          "v": 1,
+          "text": "‘rent’ means tore"
+        },
+        {
+          "v": 1,
+          "text": "‘discomfited’ means defeated"
+        },
+        {
+          "v": 1,
+          "text": "‘beseech’ means implore"
+        }
       ],
       "approved": "609e37d3"
     },
@@ -7691,8 +8537,14 @@ window.TU_PLAIN = {
         "And Moses told the children of Israel according to all that the Lord commanded Moses."
       ],
       "notes": [
-        "‘meat offering’ means grain offering",
-        "‘several’ means separate or individual"
+        {
+          "v": 1,
+          "text": "‘meat offering’ means grain offering"
+        },
+        {
+          "v": 1,
+          "text": "‘several’ means separate or individual"
+        }
       ],
       "approved": "366b2d5d"
     },
@@ -7735,8 +8587,14 @@ window.TU_PLAIN = {
         "“Defile not therefore the land which you shall inhabit, wherein I dwell: for I the Lord dwell among the children of Israel.”"
       ],
       "notes": [
-        "‘satisfaction’ means ransom",
-        "‘unawares’ means unintentionally"
+        {
+          "v": 1,
+          "text": "‘satisfaction’ means ransom"
+        },
+        {
+          "v": 1,
+          "text": "‘unawares’ means unintentionally"
+        }
       ],
       "approved": "4ff7f2df"
     },
@@ -7772,8 +8630,14 @@ window.TU_PLAIN = {
         "“And they will put My name on the children of Israel, and I will bless them.”"
       ],
       "notes": [
-        "‘Nazarite’ refers to someone separated or consecrated to God",
-        "‘countenance’ means face or presence"
+        {
+          "v": 1,
+          "text": "‘Nazarite’ refers to someone separated or consecrated to God"
+        },
+        {
+          "v": 1,
+          "text": "‘countenance’ means face or presence"
+        }
       ],
       "approved": "9b1bbdbc"
     },
@@ -7843,9 +8707,18 @@ window.TU_PLAIN = {
         "“I am the Lord your God, which brought you out of the land of Egypt, to be your God: I am the Lord your God.”"
       ],
       "notes": [
-        "‘ward’ means custody",
-        "‘go a whoring’ means prostitute yourselves",
-        "‘bullock’ means bull"
+        {
+          "v": 1,
+          "text": "‘ward’ means custody"
+        },
+        {
+          "v": 1,
+          "text": "‘go a whoring’ means prostitute yourselves"
+        },
+        {
+          "v": 1,
+          "text": "‘bullock’ means bull"
+        }
       ],
       "approved": "3703703e"
     },
@@ -7943,7 +8816,10 @@ window.TU_PLAIN = {
         "And when Moses was gone into the tabernacle of the congregation to speak with Him, then he heard the voice of one speaking to him from off the mercy seat that was on the ark of testimony, from between the two cherubim, and He spoke to him."
       ],
       "notes": [
-        "‘charger’ means a large platter or dish"
+        {
+          "v": 1,
+          "text": "‘charger’ means a large platter or dish"
+        }
       ],
       "approved": "066b6aac"
     },
@@ -8005,10 +8881,22 @@ window.TU_PLAIN = {
         "As the nations which the Lord destroys before your face, so will you perish; because you would not be obedient to the voice of the Lord your God."
       ],
       "notes": [
-        "‘waxed’ means grew",
-        "‘chastens’ means disciplines",
-        "‘brass’ means copper",
-        "‘goodly’ means fine"
+        {
+          "v": 1,
+          "text": "‘waxed’ means grew"
+        },
+        {
+          "v": 1,
+          "text": "‘chastens’ means disciplines"
+        },
+        {
+          "v": 1,
+          "text": "‘brass’ means copper"
+        },
+        {
+          "v": 1,
+          "text": "‘goodly’ means fine"
+        }
       ],
       "approved": "4e6650e8"
     },
@@ -8040,8 +8928,14 @@ window.TU_PLAIN = {
         "Only you will not eat the blood of it; you will pour it upon the ground as water."
       ],
       "notes": [
-        "‘bondman’ means slave",
-        "‘roebuck’ means gazelle"
+        {
+          "v": 1,
+          "text": "‘bondman’ means slave"
+        },
+        {
+          "v": 1,
+          "text": "‘roebuck’ means gazelle"
+        }
       ],
       "approved": "1a423c65"
     },
@@ -8080,8 +8974,14 @@ window.TU_PLAIN = {
         "A man shall not take his father's wife, nor discover his father's skirt."
       ],
       "notes": [
-        "‘dam’ means mother",
-        "‘amerce’ means fine"
+        {
+          "v": 1,
+          "text": "‘dam’ means mother"
+        },
+        {
+          "v": 1,
+          "text": "‘amerce’ means fine"
+        }
       ],
       "approved": "1828ed3f"
     },
@@ -8119,9 +9019,18 @@ window.TU_PLAIN = {
         "“The secret things belong to the Lord our God: but those things which are revealed belong to us and to our children for ever, that we may do all the words of this law.”"
       ],
       "notes": [
-        "‘hewer’ means cutter",
-        "‘gall’ means poison",
-        "‘imagination’ means stubbornness"
+        {
+          "v": 1,
+          "text": "‘hewer’ means cutter"
+        },
+        {
+          "v": 1,
+          "text": "‘gall’ means poison"
+        },
+        {
+          "v": 1,
+          "text": "‘imagination’ means stubbornness"
+        }
       ],
       "approved": "35da1860"
     },
@@ -8176,8 +9085,14 @@ window.TU_PLAIN = {
         "“So you stayed in Kadesh many days, according to the days that you stayed there.”"
       ],
       "notes": [
-        "‘strife’ means dispute or conflict",
-        "‘presumptuously’ means boldly or arrogantly"
+        {
+          "v": 1,
+          "text": "‘strife’ means dispute or conflict"
+        },
+        {
+          "v": 1,
+          "text": "‘presumptuously’ means boldly or arrogantly"
+        }
       ],
       "approved": "76ad4038"
     },
@@ -8208,7 +9123,10 @@ window.TU_PLAIN = {
         "Neither will you set you up any image; which the Lord your God hates."
       ],
       "notes": [
-        "‘bondman’ means slave"
+        {
+          "v": 1,
+          "text": "‘bondman’ means slave"
+        }
       ],
       "approved": "7e442ac9"
     },
@@ -8242,9 +9160,18 @@ window.TU_PLAIN = {
         "When you come into the standing corn of your neighbor, then you may pluck the ears with your hand; but you shall not move a sickle to your neighbor's standing corn."
       ],
       "notes": [
-        "‘hearken’ means listen",
-        "‘paddle’ means digging tool",
-        "‘victuals’ means food or provisions"
+        {
+          "v": 1,
+          "text": "‘hearken’ means listen"
+        },
+        {
+          "v": 1,
+          "text": "‘paddle’ means digging tool"
+        },
+        {
+          "v": 1,
+          "text": "‘victuals’ means food or provisions"
+        }
       ],
       "approved": "fe5017b2"
     },
@@ -8300,7 +9227,10 @@ window.TU_PLAIN = {
         "That his heart be not lifted up above his brothers, and that he turn not aside from the commandment, to the right hand, or to the left: to the end that he may prolong his days in his kingdom, he, and his children, in the midst of Israel."
       ],
       "notes": [
-        "‘defect’ replaces evilfavouredness"
+        {
+          "v": 1,
+          "text": "‘defect’ replaces evilfavouredness"
+        }
       ],
       "approved": "25317a8c"
     },
@@ -8346,8 +9276,14 @@ window.TU_PLAIN = {
         "Only to the land of the children of Ammon you came not, nor to any place of the river Jabbok, nor to the cities in the mountains, nor to whatever the Lord our God forbade us."
       ],
       "notes": [
-        "‘compassed’ means circled or went around",
-        "‘host’ means army or camp"
+        {
+          "v": 1,
+          "text": "‘compassed’ means circled or went around"
+        },
+        {
+          "v": 1,
+          "text": "‘host’ means army or camp"
+        }
       ],
       "approved": "f3a70dd4"
     },
@@ -8414,10 +9350,22 @@ window.TU_PLAIN = {
         "“Yet they are Your people and Your inheritance, which You brought out by Your mighty power and by Your stretched out arm.”"
       ],
       "notes": [
-        "‘fenced’ means fortified",
-        "‘abode’ means stayed",
-        "‘stiffnecked’ means stubborn",
-        "‘wroth’ means angry"
+        {
+          "v": 1,
+          "text": "‘fenced’ means fortified"
+        },
+        {
+          "v": 1,
+          "text": "‘abode’ means stayed"
+        },
+        {
+          "v": 1,
+          "text": "‘stiffnecked’ means stubborn"
+        },
+        {
+          "v": 1,
+          "text": "‘wroth’ means angry"
+        }
       ],
       "approved": "0637f5a9"
     },
@@ -8448,7 +9396,10 @@ window.TU_PLAIN = {
         "“When a prophet speaks in the name of the Lord, if the thing follow not, nor come to pass, that is the thing which the Lord has not spoken, but the prophet has spoken it presumptuously: you will not be afraid of him.”"
       ],
       "notes": [
-        "‘stomach’ replaces maw"
+        {
+          "v": 1,
+          "text": "‘stomach’ replaces maw"
+        }
       ],
       "approved": "39c3fb62"
     },
@@ -8476,7 +9427,10 @@ window.TU_PLAIN = {
         "Therefore it shall be, when the Lord your God has given you rest from all your enemies round about, in the land which the Lord your God gives you for an inheritance to possess it, that you shall blot out the remembrance of Amalek from under heaven; you shall not forget it."
       ],
       "notes": [
-        "‘secrets’ means genitals"
+        {
+          "v": 1,
+          "text": "‘secrets’ means genitals"
+        }
       ],
       "approved": "203219d9"
     },
@@ -8544,10 +9498,22 @@ window.TU_PLAIN = {
         "Your fathers went down into Egypt with seventy persons; and now the Lord your God has made you as the stars of heaven for multitude."
       ],
       "notes": [
-        "‘Hew’ means chisel",
-        "‘shittim’ means acacia",
-        "‘terrible’ means awesome",
-        "‘regards not persons’ means shows no partiality"
+        {
+          "v": 1,
+          "text": "‘Hew’ means chisel"
+        },
+        {
+          "v": 1,
+          "text": "‘shittim’ means acacia"
+        },
+        {
+          "v": 1,
+          "text": "‘terrible’ means awesome"
+        },
+        {
+          "v": 1,
+          "text": "‘regards not persons’ means shows no partiality"
+        }
       ],
       "approved": "65aa1ded"
     },
@@ -8577,7 +9543,10 @@ window.TU_PLAIN = {
         "And your eye will not pity; but life will go for life, eye for eye, tooth for tooth, hand for hand, foot for foot."
       ],
       "notes": [
-        "‘handle’ replaces helve"
+        {
+          "v": 1,
+          "text": "‘handle’ replaces helve"
+        }
       ],
       "approved": "b83547d2"
     },
@@ -8605,9 +9574,18 @@ window.TU_PLAIN = {
         "And to make you high above all nations which He has made, in praise, and in name, and in honor; and that you may be a holy people to the Lord your God, as He has spoken."
       ],
       "notes": [
-        "‘avouched’ means affirmed or declared",
-        "‘hearkened’ means listened",
-        "‘hearken’ means listen"
+        {
+          "v": 1,
+          "text": "‘avouched’ means affirmed or declared"
+        },
+        {
+          "v": 1,
+          "text": "‘hearkened’ means listened"
+        },
+        {
+          "v": 1,
+          "text": "‘hearken’ means listen"
+        }
       ],
       "approved": "8e9b6ea5"
     },
@@ -8645,7 +9623,10 @@ window.TU_PLAIN = {
         "So we stayed in the valley opposite Beth-peor."
       ],
       "notes": [
-        "‘cubit’ is an ancient unit of measure, about 18 inches"
+        {
+          "v": 1,
+          "text": "‘cubit’ is an ancient unit of measure, about 18 inches"
+        }
       ],
       "approved": "5ca4a41b"
     },
@@ -8713,10 +9694,22 @@ window.TU_PLAIN = {
         "“And you will observe to do all the statutes and judgments which I set before you this day.”"
       ],
       "notes": [
-        "‘chastisement’ means discipline",
-        "‘corn’ means grain",
-        "‘frontlets’ means bands",
-        "‘champaign’ means plain"
+        {
+          "v": 1,
+          "text": "‘chastisement’ means discipline"
+        },
+        {
+          "v": 1,
+          "text": "‘corn’ means grain"
+        },
+        {
+          "v": 1,
+          "text": "‘frontlets’ means bands"
+        },
+        {
+          "v": 1,
+          "text": "‘champaign’ means plain"
+        }
       ],
       "approved": "54fea7f9"
     },
@@ -8751,9 +9744,18 @@ window.TU_PLAIN = {
         "“‘Cursed be he that confirms not all the words of this law to do them.’ And all the people shall say, ‘Amen.’”"
       ],
       "notes": [
-        "‘hearken’ means listen",
-        "‘graven’ means carved",
-        "‘sets light by’ means dishonors or treats with contempt"
+        {
+          "v": 1,
+          "text": "‘hearken’ means listen"
+        },
+        {
+          "v": 1,
+          "text": "‘graven’ means carved"
+        },
+        {
+          "v": 1,
+          "text": "‘sets light by’ means dishonors or treats with contempt"
+        }
       ],
       "approved": "b51cb8a3"
     },
@@ -8814,7 +9816,10 @@ window.TU_PLAIN = {
         "“Yet you shall see the land before you; but you shall not go there to the land which I give the children of Israel.”"
       ],
       "notes": [
-        "‘asps’ means snakes"
+        {
+          "v": 1,
+          "text": "‘asps’ means snakes"
+        }
       ],
       "approved": "274e0d35"
     },
@@ -8846,9 +9851,18 @@ window.TU_PLAIN = {
         "His body will not remain all night upon the tree, but you will in any wise bury him that day; (for he that is hanged is accursed of God;) that your land be not defiled, which the Lord your God gives you for an inheritance."
       ],
       "notes": [
-        "‘worked’ replaces wrought",
-        "‘plowed’ replaces eared",
-        "‘bewail’ means mourn"
+        {
+          "v": 1,
+          "text": "‘worked’ replaces wrought"
+        },
+        {
+          "v": 1,
+          "text": "‘plowed’ replaces eared"
+        },
+        {
+          "v": 1,
+          "text": "‘bewail’ means mourn"
+        }
       ],
       "approved": "940c8434"
     },
@@ -8906,9 +9920,18 @@ window.TU_PLAIN = {
         "And all the plain on this side of the Jordan eastward, even to the sea of the plain, under the springs of Pisgah."
       ],
       "notes": [
-        "‘similitude’ means form or likeness",
-        "‘assayed’ means attempted or tried",
-        "‘heathen’ refers to the nations or Gentiles"
+        {
+          "v": 1,
+          "text": "‘similitude’ means form or likeness"
+        },
+        {
+          "v": 1,
+          "text": "‘assayed’ means attempted or tried"
+        },
+        {
+          "v": 1,
+          "text": "‘heathen’ refers to the nations or Gentiles"
+        }
       ],
       "approved": "2acac9e4"
     },
@@ -8949,12 +9972,30 @@ window.TU_PLAIN = {
         "“Whatever thing I command you, observe to do it: you will not add to it, nor diminish from it.”"
       ],
       "notes": [
-        "‘firstlings’ means firstborn",
-        "‘lusts’ means craves",
-        "‘roebuck’ means gazelle",
-        "‘hart’ means deer",
-        "‘corn’ means grain",
-        "‘forasmuch as’ means since"
+        {
+          "v": 1,
+          "text": "‘firstlings’ means firstborn"
+        },
+        {
+          "v": 1,
+          "text": "‘lusts’ means craves"
+        },
+        {
+          "v": 1,
+          "text": "‘roebuck’ means gazelle"
+        },
+        {
+          "v": 1,
+          "text": "‘hart’ means deer"
+        },
+        {
+          "v": 1,
+          "text": "‘corn’ means grain"
+        },
+        {
+          "v": 1,
+          "text": "‘forasmuch as’ means since"
+        }
       ],
       "approved": "bf2653f7"
     },
@@ -8992,9 +10033,18 @@ window.TU_PLAIN = {
         "“Happy are you, O Israel: who is like to you, O people saved by the Lord, the shield of your help, and who is the sword of your excellency! and your enemies shall be found liars to you; and you shall tread upon their high places.”"
       ],
       "notes": [
-        "‘unicorns’ means wild oxen",
-        "‘whelp’ means cub",
-        "‘couches’ means lies"
+        {
+          "v": 1,
+          "text": "‘unicorns’ means wild oxen"
+        },
+        {
+          "v": 1,
+          "text": "‘whelp’ means cub"
+        },
+        {
+          "v": 1,
+          "text": "‘couches’ means lies"
+        }
       ],
       "approved": "5f453223"
     },
@@ -9015,7 +10065,10 @@ window.TU_PLAIN = {
         "And in all that mighty hand, and in all the great terror which Moses showed in the sight of all Israel."
       ],
       "notes": [
-        "‘hearkened’ means listened"
+        {
+          "v": 1,
+          "text": "‘hearkened’ means listened"
+        }
       ],
       "approved": "11a51bb3"
     },
@@ -9042,9 +10095,18 @@ window.TU_PLAIN = {
         "“When you will listen to the voice of the Lord your God, to keep all His commandments which I command you this day, to do that which is right in the eyes of the Lord your God.”"
       ],
       "notes": [
-        "‘wrought’ means done",
-        "‘whit’ means bit",
-        "‘nought’ means nothing"
+        {
+          "v": 1,
+          "text": "‘wrought’ means done"
+        },
+        {
+          "v": 1,
+          "text": "‘whit’ means bit"
+        },
+        {
+          "v": 1,
+          "text": "‘nought’ means nothing"
+        }
       ],
       "approved": "3be52e62"
     },
@@ -9086,8 +10148,14 @@ window.TU_PLAIN = {
         "You will walk in all the ways which the Lord your God has commanded you, that you may live, and that it may be well with you, and that you may prolong your days in the land which you will possess."
       ],
       "notes": [
-        "‘vain’ means in a way that shows no respect",
-        "‘covet’ means to wrongly desire something that belongs to someone else"
+        {
+          "v": 1,
+          "text": "‘vain’ means in a way that shows no respect"
+        },
+        {
+          "v": 1,
+          "text": "‘covet’ means to wrongly desire something that belongs to someone else"
+        }
       ],
       "approved": "8e76fbb0"
     },
@@ -9121,8 +10189,14 @@ window.TU_PLAIN = {
         "“And it will be our righteousness, if we observe to do all these commandments before the Lord our God, as He has commanded us.”"
       ],
       "notes": [
-        "‘frontlets’ means bands worn on the forehead",
-        "‘bondmen’ means slaves or servants"
+        {
+          "v": 1,
+          "text": "‘frontlets’ means bands worn on the forehead"
+        },
+        {
+          "v": 1,
+          "text": "‘bondmen’ means slaves or servants"
+        }
       ],
       "approved": "b6d00e45"
     },
@@ -9160,15 +10234,42 @@ window.TU_PLAIN = {
         "“And the Levite, (because he has no part nor inheritance with you,) and the stranger, and the fatherless, and the widow, which are within your gates, will come, and will eat and be satisfied; that the Lord your God may bless you in all the work of your hand which you do.”"
       ],
       "notes": [
-        "‘pygarg’ means antelope",
-        "‘chamois’ means mountain sheep",
-        "‘coney’ means rock badger",
-        "‘ossifrage’ means bearded vulture",
-        "‘glede’ means red kite",
-        "‘seethe’ means boil",
-        "‘firstlings’ means firstborn",
-        "‘corn’ means grain",
-        "‘lusts’ means craves"
+        {
+          "v": 1,
+          "text": "‘pygarg’ means antelope"
+        },
+        {
+          "v": 1,
+          "text": "‘chamois’ means mountain sheep"
+        },
+        {
+          "v": 1,
+          "text": "‘coney’ means rock badger"
+        },
+        {
+          "v": 1,
+          "text": "‘ossifrage’ means bearded vulture"
+        },
+        {
+          "v": 1,
+          "text": "‘glede’ means red kite"
+        },
+        {
+          "v": 1,
+          "text": "‘seethe’ means boil"
+        },
+        {
+          "v": 1,
+          "text": "‘firstlings’ means firstborn"
+        },
+        {
+          "v": 1,
+          "text": "‘corn’ means grain"
+        },
+        {
+          "v": 1,
+          "text": "‘lusts’ means craves"
+        }
       ],
       "approved": "71f7b444"
     },
@@ -9245,13 +10346,34 @@ window.TU_PLAIN = {
         "And the Lord shall bring you into Egypt again with ships, by the way of which I spoke to you, ‘You shall see it no more again:’ and there you shall be sold to your enemies for bondmen and bondwomen, and no man shall buy you."
       ],
       "notes": [
-        "‘hearken’ means listen",
-        "‘hearkened’ means listened",
-        "‘fray’ means scare or frighten",
-        "‘botch’ means boil",
-        "‘emerods’ means tumors",
-        "‘wonderful’ means extraordinary or astonishing",
-        "‘meat’ means food"
+        {
+          "v": 1,
+          "text": "‘hearken’ means listen"
+        },
+        {
+          "v": 1,
+          "text": "‘hearkened’ means listened"
+        },
+        {
+          "v": 1,
+          "text": "‘fray’ means scare or frighten"
+        },
+        {
+          "v": 1,
+          "text": "‘botch’ means boil"
+        },
+        {
+          "v": 1,
+          "text": "‘emerods’ means tumors"
+        },
+        {
+          "v": 1,
+          "text": "‘wonderful’ means extraordinary or astonishing"
+        },
+        {
+          "v": 1,
+          "text": "‘meat’ means food"
+        }
       ],
       "approved": "25fae07e"
     },
@@ -9286,8 +10408,14 @@ window.TU_PLAIN = {
         "Neither will you bring an abomination into your house, lest you be a cursed thing like it. But you will utterly detest it, and you will utterly abhor it, for it is a cursed thing."
       ],
       "notes": [
-        "‘slack’ means slow or hesitant",
-        "‘bondmen’ means slaves"
+        {
+          "v": 1,
+          "text": "‘slack’ means slow or hesitant"
+        },
+        {
+          "v": 1,
+          "text": "‘bondmen’ means slaves"
+        }
       ],
       "approved": "984c1155"
     },
@@ -9331,7 +10459,10 @@ window.TU_PLAIN = {
         "“Whoever he be that does rebel against your commandment, and will not listen to your words in all that you command him, he will be put to death. Only be strong and of a good courage.”"
       ],
       "notes": [
-        "‘host’ means army or camp"
+        {
+          "v": 1,
+          "text": "‘host’ means army or camp"
+        }
       ],
       "approved": "a90122cc"
     },
@@ -9363,8 +10494,14 @@ window.TU_PLAIN = {
         "So Joshua took the whole land, according to all that the Lord said to Moses; and Joshua gave it for an inheritance to Israel according to their divisions by their tribes. And the land rested from war."
       ],
       "notes": [
-        "‘hamstring’ replaces hough",
-        "‘instructed’ replaces bade"
+        {
+          "v": 1,
+          "text": "‘hamstring’ replaces hough"
+        },
+        {
+          "v": 1,
+          "text": "‘instructed’ replaces bade"
+        }
       ],
       "approved": "a29efd82"
     },
@@ -9400,12 +10537,30 @@ window.TU_PLAIN = {
         "So the Lord was with Joshua; and his fame was noised throughout all the country."
       ],
       "notes": [
-        "‘rearward’ means rear guard",
-        "‘brass’ means bronze",
-        "‘accursed’ means devoted to destruction",
-        "‘adjured’ means commanded with an oath",
-        "‘noised’ means spread",
-        "‘compass’ means circle"
+        {
+          "v": 1,
+          "text": "‘rearward’ means rear guard"
+        },
+        {
+          "v": 1,
+          "text": "‘brass’ means bronze"
+        },
+        {
+          "v": 1,
+          "text": "‘accursed’ means devoted to destruction"
+        },
+        {
+          "v": 1,
+          "text": "‘adjured’ means commanded with an oath"
+        },
+        {
+          "v": 1,
+          "text": "‘noised’ means spread"
+        },
+        {
+          "v": 1,
+          "text": "‘compass’ means circle"
+        }
       ],
       "approved": "2097a9bc"
     },
@@ -9432,7 +10587,10 @@ window.TU_PLAIN = {
         "“But the mountain shall be yours; for it is a wood, and you shall cut it down: and the outgoings of it shall be yours: for you shall drive out the Canaanites, though they have iron chariots, and though they be strong.”"
       ],
       "notes": [
-        "‘to wit’ means that is to say"
+        {
+          "v": 1,
+          "text": "‘to wit’ means that is to say"
+        }
       ],
       "approved": "864747d3"
     },
@@ -9517,8 +10675,14 @@ window.TU_PLAIN = {
         "And they said to Joshua, “Truly the Lord has delivered into our hands all the land, for even all the inhabitants of the country do faint because of us.”"
       ],
       "notes": [
-        "‘token’ means a sign or pledge",
-        "‘quit’ means released or free from"
+        {
+          "v": 1,
+          "text": "‘token’ means a sign or pledge"
+        },
+        {
+          "v": 1,
+          "text": "‘quit’ means released or free from"
+        }
       ],
       "approved": "c808d659"
     },
@@ -9586,7 +10750,10 @@ window.TU_PLAIN = {
         "And Zelah, Eleph, and Jebusi, which is Jerusalem, Gibeath, and Kirjath; fourteen cities with their villages. This is the inheritance of the children of Benjamin according to their families."
       ],
       "notes": [
-        "‘slack’ means slow or hesitant"
+        {
+          "v": 1,
+          "text": "‘slack’ means slow or hesitant"
+        }
       ],
       "approved": "e85ed802"
     },
@@ -9662,14 +10829,38 @@ window.TU_PLAIN = {
         "And they raised over him a great heap of stones to this day. So the Lord turned from the fierceness of His anger. Therefore the name of that place was called, The valley of Achor, to this day."
       ],
       "notes": [
-        "‘rent’ means tore",
-        "‘eventide’ means evening",
-        "‘environ’ means surround",
-        "‘dissembled’ means deceived",
-        "‘accursed’ means devoted to destruction",
-        "‘wrought’ means done",
-        "‘goodly’ means fine",
-        "‘asses’ means donkeys"
+        {
+          "v": 1,
+          "text": "‘rent’ means tore"
+        },
+        {
+          "v": 1,
+          "text": "‘eventide’ means evening"
+        },
+        {
+          "v": 1,
+          "text": "‘environ’ means surround"
+        },
+        {
+          "v": 1,
+          "text": "‘dissembled’ means deceived"
+        },
+        {
+          "v": 1,
+          "text": "‘accursed’ means devoted to destruction"
+        },
+        {
+          "v": 1,
+          "text": "‘wrought’ means done"
+        },
+        {
+          "v": 1,
+          "text": "‘goodly’ means fine"
+        },
+        {
+          "v": 1,
+          "text": "‘asses’ means donkeys"
+        }
       ],
       "approved": "4fa94c60"
     },
@@ -9735,7 +10926,10 @@ window.TU_PLAIN = {
         "And the priests that bore the ark of the covenant of the Lord stood firm on dry ground in the middle of the Jordan, and all the Israelites passed over on dry ground, until all the people were passed clean over the Jordan."
       ],
       "notes": [
-        "‘host’ means army or camp"
+        {
+          "v": 1,
+          "text": "‘host’ means army or camp"
+        }
       ],
       "approved": "57ef95cc"
     },
@@ -9882,9 +11076,18 @@ window.TU_PLAIN = {
         "There was not a word of all that Moses commanded, which Joshua read not before all the congregation of Israel, with the women, and the little ones, and the strangers that were conversant among them."
       ],
       "notes": [
-        "‘abode’ means stayed",
-        "‘hasted’ means hurried",
-        "‘conversant’ means living"
+        {
+          "v": 1,
+          "text": "‘abode’ means stayed"
+        },
+        {
+          "v": 1,
+          "text": "‘hasted’ means hurried"
+        },
+        {
+          "v": 1,
+          "text": "‘conversant’ means living"
+        }
       ],
       "approved": "079a473e"
     },
@@ -9902,7 +11105,10 @@ window.TU_PLAIN = {
         "These were the cities appointed for all the children of Israel, and for the stranger that sojourns among them, that whoever kills any person at unawares might flee there, and not die by the hand of the avenger of blood, until he stood before the congregation."
       ],
       "notes": [
-        "‘beforetime’ means previously or in times past"
+        {
+          "v": 1,
+          "text": "‘beforetime’ means previously or in times past"
+        }
       ],
       "approved": "068af21e"
     },
@@ -10005,8 +11211,14 @@ window.TU_PLAIN = {
         "As for the Jebusites the inhabitants of Jerusalem, the children of Judah could not drive them out: but the Jebusites live with the children of Judah at Jerusalem to this day."
       ],
       "notes": [
-        "‘nether’ means lower",
-        "‘circled’ replaces fetched a compass"
+        {
+          "v": 1,
+          "text": "‘nether’ means lower"
+        },
+        {
+          "v": 1,
+          "text": "‘circled’ replaces fetched a compass"
+        }
       ],
       "approved": "73564a2d"
     },
@@ -10082,14 +11294,38 @@ window.TU_PLAIN = {
         "And Joshua made them that day hewers of wood and drawers of water for the congregation, and for the altar of the Lord, even to this day, in the place which He should choose."
       ],
       "notes": [
-        "‘wilily’ means deceptively",
-        "‘asses’ means donkeys",
-        "‘rent’ means cracked",
-        "‘clouted’ means patched",
-        "‘league’ means treaty",
-        "‘victuals’ means provisions",
-        "‘beguiled’ means deceived",
-        "‘sore’ means greatly"
+        {
+          "v": 1,
+          "text": "‘wilily’ means deceptively"
+        },
+        {
+          "v": 1,
+          "text": "‘asses’ means donkeys"
+        },
+        {
+          "v": 1,
+          "text": "‘rent’ means cracked"
+        },
+        {
+          "v": 1,
+          "text": "‘clouted’ means patched"
+        },
+        {
+          "v": 1,
+          "text": "‘league’ means treaty"
+        },
+        {
+          "v": 1,
+          "text": "‘victuals’ means provisions"
+        },
+        {
+          "v": 1,
+          "text": "‘beguiled’ means deceived"
+        },
+        {
+          "v": 1,
+          "text": "‘sore’ means greatly"
+        }
       ],
       "approved": "42615d15"
     },
@@ -10113,8 +11349,14 @@ window.TU_PLAIN = {
         "And the captain of the Lord’s host said to Joshua, “Loose your shoe from off your foot, for the place where you stand is holy.” And Joshua did so."
       ],
       "notes": [
-        "‘corn’ means grain",
-        "‘host’ means army"
+        {
+          "v": 1,
+          "text": "‘corn’ means grain"
+        },
+        {
+          "v": 1,
+          "text": "‘host’ means army"
+        }
       ],
       "approved": "798cf205"
     },
@@ -10166,10 +11408,22 @@ window.TU_PLAIN = {
         "And Joshua returned, and all Israel with him, to the camp to Gilgal."
       ],
       "notes": [
-        "‘discomfited’ means threw into confusion",
-        "‘hasted’ means hurried",
-        "‘suffer’ means allow",
-        "‘fenced’ means fortified"
+        {
+          "v": 1,
+          "text": "‘discomfited’ means threw into confusion"
+        },
+        {
+          "v": 1,
+          "text": "‘hasted’ means hurried"
+        },
+        {
+          "v": 1,
+          "text": "‘suffer’ means allow"
+        },
+        {
+          "v": 1,
+          "text": "‘fenced’ means fortified"
+        }
       ],
       "approved": "a3b74d90"
     },
@@ -10191,7 +11445,10 @@ window.TU_PLAIN = {
         "Then said Micah, “Now know I that the Lord will do me good, seeing I have a Levite to my priest.”"
       ],
       "notes": [
-        "‘victuals’ means food"
+        {
+          "v": 1,
+          "text": "‘victuals’ means food"
+        }
       ],
       "approved": "77c0cf92"
     },
@@ -10225,7 +11482,10 @@ window.TU_PLAIN = {
         "And the Spirit of the Lord began to move him at times in the camp of Dan between Zorah and Eshtaol."
       ],
       "notes": [
-        "‘meat offering’ means grain offering"
+        {
+          "v": 1,
+          "text": "‘meat offering’ means grain offering"
+        }
       ],
       "approved": "4477b2dd"
     },
@@ -10265,13 +11525,34 @@ window.TU_PLAIN = {
         "“So let all Your enemies perish, O Lord: but let them that love Him be as the sun when he goes forth in his might.” And the land had rest forty years."
       ],
       "notes": [
-        "‘asses’ means donkeys",
-        "‘abode’ means stayed",
-        "‘breaches’ means harbors",
-        "‘jeoparded’ means risked",
-        "‘pransings’ means gallopings",
-        "‘divers’ means various",
-        "‘meet’ means fit"
+        {
+          "v": 1,
+          "text": "‘asses’ means donkeys"
+        },
+        {
+          "v": 1,
+          "text": "‘abode’ means stayed"
+        },
+        {
+          "v": 1,
+          "text": "‘breaches’ means harbors"
+        },
+        {
+          "v": 1,
+          "text": "‘jeoparded’ means risked"
+        },
+        {
+          "v": 1,
+          "text": "‘pransings’ means gallopings"
+        },
+        {
+          "v": 1,
+          "text": "‘divers’ means various"
+        },
+        {
+          "v": 1,
+          "text": "‘meet’ means fit"
+        }
       ],
       "approved": "03e115b9"
     },
@@ -10316,8 +11597,14 @@ window.TU_PLAIN = {
         "And the coast of the Amorites was from the going up to Akrabbim, from the rock, and upward."
       ],
       "notes": [
-        "‘requited’ means repaid or retaliated",
-        "‘tributaries’ means subjects of forced labor"
+        {
+          "v": 1,
+          "text": "‘requited’ means repaid or retaliated"
+        },
+        {
+          "v": 1,
+          "text": "‘tributaries’ means subjects of forced labor"
+        }
       ],
       "approved": "ae7c822c"
     },
@@ -10383,7 +11670,10 @@ window.TU_PLAIN = {
         "And all the evil of the men of Shechem did God render upon their heads: and upon them came the curse of Jotham the son of Jerubbaal."
       ],
       "notes": [
-        "‘completely broke’ replaces all to brake"
+        {
+          "v": 1,
+          "text": "‘completely broke’ replaces all to brake"
+        }
       ],
       "approved": "f1a4162e"
     },
@@ -10412,9 +11702,18 @@ window.TU_PLAIN = {
         "But Samson's wife was given to his companion, whom he had used as his friend."
       ],
       "notes": [
-        "‘rent’ means tore",
-        "‘sheets’ means linen garments",
-        "‘meat’ means food"
+        {
+          "v": 1,
+          "text": "‘rent’ means tore"
+        },
+        {
+          "v": 1,
+          "text": "‘sheets’ means linen garments"
+        },
+        {
+          "v": 1,
+          "text": "‘meat’ means food"
+        }
       ],
       "approved": "cab0b4f7"
     },
@@ -10454,7 +11753,10 @@ window.TU_PLAIN = {
         "And they set them up Micah’s graven image, which he made, all the time that the house of God was in Shiloh."
       ],
       "notes": [
-        "‘slothful’ means lazy"
+        {
+          "v": 1,
+          "text": "‘slothful’ means lazy"
+        }
       ],
       "approved": "80761ee6"
     },
@@ -10486,9 +11788,18 @@ window.TU_PLAIN = {
         "Therefore the Lord left those nations, without driving them out hastily, neither delivered He them into the hand of Joshua."
       ],
       "notes": [
-        "‘spoilers’ means plunderers or robbers",
-        "‘vexed’ means afflicted or distressed",
-        "‘prove’ means test"
+        {
+          "v": 1,
+          "text": "‘spoilers’ means plunderers or robbers"
+        },
+        {
+          "v": 1,
+          "text": "‘vexed’ means afflicted or distressed"
+        },
+        {
+          "v": 1,
+          "text": "‘prove’ means test"
+        }
       ],
       "approved": "785f9e63"
     },
@@ -10537,8 +11848,14 @@ window.TU_PLAIN = {
         "And God did so that night: for it was dry upon the fleece only, and there was dew on all the ground."
       ],
       "notes": [
-        "‘ass’ means donkey",
-        "‘ordered’ means proper"
+        {
+          "v": 1,
+          "text": "‘ass’ means donkey"
+        },
+        {
+          "v": 1,
+          "text": "‘ordered’ means proper"
+        }
       ],
       "approved": "25efc0b2"
     },
@@ -10592,8 +11909,14 @@ window.TU_PLAIN = {
         "And he judged Israel in the days of the Philistines twenty years."
       ],
       "notes": [
-        "‘sore athirst’ means very thirsty",
-        "‘split’ means opened or cleft"
+        {
+          "v": 1,
+          "text": "‘sore athirst’ means very thirsty"
+        },
+        {
+          "v": 1,
+          "text": "‘split’ means opened or cleft"
+        }
       ],
       "approved": "a0302837"
     },
@@ -10632,7 +11955,10 @@ window.TU_PLAIN = {
         "And it was so, that all that saw it said, “There was no such deed done nor seen from the day that the children of Israel came up out of the land of Egypt to this day: consider of it, take advice, and speak your minds.”"
       ],
       "notes": [
-        "‘provender’ means feed"
+        {
+          "v": 1,
+          "text": "‘provender’ means feed"
+        }
       ],
       "approved": "32aed3aa"
     },
@@ -10672,9 +11998,18 @@ window.TU_PLAIN = {
         "And after him was Shamgar the son of Anath, which struck of the Philistines six hundred men with an ox goad. And he also delivered Israel."
       ],
       "notes": [
-        "‘prove’ means test",
-        "‘covers his feet’ is an expression meaning to relieve oneself",
-        "‘goad’ means a spiked stick used for driving cattle"
+        {
+          "v": 1,
+          "text": "‘prove’ means test"
+        },
+        {
+          "v": 1,
+          "text": "‘covers his feet’ is an expression meaning to relieve oneself"
+        },
+        {
+          "v": 1,
+          "text": "‘goad’ means a spiked stick used for driving cattle"
+        }
       ],
       "approved": "69d415e8"
     },
@@ -10723,8 +12058,14 @@ window.TU_PLAIN = {
         "That the daughters of Israel went yearly to lament the daughter of Jephthah the Gileadite four days in a year."
       ],
       "notes": [
-        "‘bewail’ means mourn",
-        "‘circled’ replaces compassed"
+        {
+          "v": 1,
+          "text": "‘bewail’ means mourn"
+        },
+        {
+          "v": 1,
+          "text": "‘circled’ replaces compassed"
+        }
       ],
       "approved": "17ac6821"
     },
@@ -10764,8 +12105,14 @@ window.TU_PLAIN = {
         "Then his brothers and all the house of his father came down, and took him, and brought him up, and buried him between Zorah and Eshtaol in the buryingplace of Manoah his father. And he judged Israel twenty years."
       ],
       "notes": [
-        "‘withs’ means cords or bowstrings",
-        "‘make us sport’ means perform or entertain us"
+        {
+          "v": 1,
+          "text": "‘withs’ means cords or bowstrings"
+        },
+        {
+          "v": 1,
+          "text": "‘make us sport’ means perform or entertain us"
+        }
       ],
       "approved": "57dd1e2f"
     },
@@ -10799,8 +12146,14 @@ window.TU_PLAIN = {
         "And they took two princes of the Midianites, Oreb and Zeeb; and they killed Oreb upon the rock Oreb, and Zeeb they killed at the winepress of Zeeb, and pursued Midian, and brought the heads of Oreb and Zeeb to Gideon on the other side Jordan."
       ],
       "notes": [
-        "‘vaunt’ means boast",
-        "‘victuals’ means provisions"
+        {
+          "v": 1,
+          "text": "‘vaunt’ means boast"
+        },
+        {
+          "v": 1,
+          "text": "‘victuals’ means provisions"
+        }
       ],
       "approved": "34c21b3d"
     },
@@ -10833,9 +12186,18 @@ window.TU_PLAIN = {
         "And the hand of the children of Israel prospered, and prevailed against Jabin the king of Canaan, until they had destroyed Jabin king of Canaan."
       ],
       "notes": [
-        "‘discomfited’ means defeated or routed",
-        "‘mantle’ means a blanket or covering",
-        "‘nail’ refers to a tent peg"
+        {
+          "v": 1,
+          "text": "‘discomfited’ means defeated or routed"
+        },
+        {
+          "v": 1,
+          "text": "‘mantle’ means a blanket or covering"
+        },
+        {
+          "v": 1,
+          "text": "‘nail’ refers to a tent peg"
+        }
       ],
       "approved": "5151a5eb"
     },
@@ -10914,7 +12276,10 @@ window.TU_PLAIN = {
         "And Abdon the son of Hillel the Pirathonite died, and was buried in Pirathon in the land of Ephraim, in the mount of the Amalekites."
       ],
       "notes": [
-        "‘grandsons’ replaces nephews"
+        {
+          "v": 1,
+          "text": "‘grandsons’ replaces nephews"
+        }
       ],
       "approved": "90b5b3cf"
     },
@@ -10958,9 +12323,18 @@ window.TU_PLAIN = {
         "Neither showed they kindness to the house of Jerubbaal, namely, Gideon, according to all the goodness which he had showed to Israel."
       ],
       "notes": [
-        "‘chide’ means contend",
-        "‘discomfited’ means threw into confusion",
-        "‘upbraid’ means taunt"
+        {
+          "v": 1,
+          "text": "‘chide’ means contend"
+        },
+        {
+          "v": 1,
+          "text": "‘discomfited’ means threw into confusion"
+        },
+        {
+          "v": 1,
+          "text": "‘upbraid’ means taunt"
+        }
       ],
       "approved": "74e4eb40"
     },
@@ -11074,10 +12448,22 @@ window.TU_PLAIN = {
         "And she said, “The glory is departed from Israel: for the ark of God is taken.”"
       ],
       "notes": [
-        "‘quit’ means conduct",
-        "‘rent’ means torn",
-        "‘tidings’ means news",
-        "‘travailed’ means labored"
+        {
+          "v": 1,
+          "text": "‘quit’ means conduct"
+        },
+        {
+          "v": 1,
+          "text": "‘rent’ means torn"
+        },
+        {
+          "v": 1,
+          "text": "‘tidings’ means news"
+        },
+        {
+          "v": 1,
+          "text": "‘travailed’ means labored"
+        }
       ],
       "approved": "9f53e8d7"
     },
@@ -11116,9 +12502,18 @@ window.TU_PLAIN = {
         "Then the princes of the Philistines went forth: and it came to pass, after they went forth, that David behaved himself more wisely than all the servants of Saul; so that his name was much set by."
       ],
       "notes": [
-        "‘tabrets’ means tambourines",
-        "‘tale’ means count or number",
-        "‘set by’ means esteemed or highly regarded"
+        {
+          "v": 1,
+          "text": "‘tabrets’ means tambourines"
+        },
+        {
+          "v": 1,
+          "text": "‘tale’ means count or number"
+        },
+        {
+          "v": 1,
+          "text": "‘set by’ means esteemed or highly regarded"
+        }
       ],
       "approved": "c6c2402c"
     },
@@ -11171,7 +12566,10 @@ window.TU_PLAIN = {
         "And the men that died not were struck with the emerods: and the cry of the city went up to heaven."
       ],
       "notes": [
-        "‘emerods’ means tumors"
+        {
+          "v": 1,
+          "text": "‘emerods’ means tumors"
+        }
       ],
       "approved": "ce9b415b"
     },
@@ -11315,9 +12713,18 @@ window.TU_PLAIN = {
         "So she kept close by the maidens of Boaz to glean to the end of barley harvest and of wheat harvest, and dwelt with her mother in law."
       ],
       "notes": [
-        "‘corn’ means grain",
-        "‘ephah’ is an ancient unit of dry measure, about half a bushel",
-        "‘recompense’ means to repay or reward"
+        {
+          "v": 1,
+          "text": "‘corn’ means grain"
+        },
+        {
+          "v": 1,
+          "text": "‘ephah’ is an ancient unit of dry measure, about half a bushel"
+        },
+        {
+          "v": 1,
+          "text": "‘recompense’ means to repay or reward"
+        }
       ],
       "approved": "b90ce2e9"
     },
@@ -11347,12 +12754,30 @@ window.TU_PLAIN = {
         "And they sent messengers to the inhabitants of Kirjath-jearim, saying, “The Philistines have brought again the ark of the Lord; come you down, and fetch it up to you.”"
       ],
       "notes": [
-        "‘emerods’ means tumors",
-        "‘kine’ means cows",
-        "‘milch’ means milk",
-        "‘coffer’ means chest",
-        "‘clave’ means split",
-        "‘fenced’ means fortified"
+        {
+          "v": 1,
+          "text": "‘emerods’ means tumors"
+        },
+        {
+          "v": 1,
+          "text": "‘kine’ means cows"
+        },
+        {
+          "v": 1,
+          "text": "‘milch’ means milk"
+        },
+        {
+          "v": 1,
+          "text": "‘coffer’ means chest"
+        },
+        {
+          "v": 1,
+          "text": "‘clave’ means split"
+        },
+        {
+          "v": 1,
+          "text": "‘fenced’ means fortified"
+        }
       ],
       "approved": "2674e540"
     },
@@ -11460,7 +12885,10 @@ window.TU_PLAIN = {
         "Then said she, “Sit still, my daughter, until you know how the matter will fall. For the man will not be in rest, until he has finished the thing this day.”"
       ],
       "notes": [
-        "‘corn’ means grain"
+        {
+          "v": 1,
+          "text": "‘corn’ means grain"
+        }
       ],
       "approved": "d0fbce58"
     },
@@ -11484,8 +12912,14 @@ window.TU_PLAIN = {
         "“Have I need of mad men, that you have brought this fellow to play the mad man in my presence? shall this fellow come into my house?”"
       ],
       "notes": [
-        "‘showbread’ means Bread of the Presence",
-        "‘scrabbled’ means scratched or marked"
+        {
+          "v": 1,
+          "text": "‘showbread’ means Bread of the Presence"
+        },
+        {
+          "v": 1,
+          "text": "‘scrabbled’ means scratched or marked"
+        }
       ],
       "approved": "92ddc464"
     },
@@ -11511,7 +12945,10 @@ window.TU_PLAIN = {
         "And his return was to Ramah; for there was his house; and there he judged Israel; and there he built an altar to the Lord."
       ],
       "notes": [
-        "‘discomfited’ means threw into confusion"
+        {
+          "v": 1,
+          "text": "‘discomfited’ means threw into confusion"
+        }
       ],
       "approved": "b133b1bd"
     },
@@ -11572,9 +13009,18 @@ window.TU_PLAIN = {
         "And there was fierce war against the Philistines all the days of Saul: and when Saul saw any strong man, or any valiant man, he took him to him."
       ],
       "notes": [
-        "‘perhaps’ replaces haply",
-        "‘strictly’ replaces straitly",
-        "‘fierce’ replaces sore"
+        {
+          "v": 1,
+          "text": "‘perhaps’ replaces haply"
+        },
+        {
+          "v": 1,
+          "text": "‘strictly’ replaces straitly"
+        },
+        {
+          "v": 1,
+          "text": "‘fierce’ replaces sore"
+        }
       ],
       "approved": "31ba7d7a"
     },
@@ -11625,7 +13071,10 @@ window.TU_PLAIN = {
         "“Abide you with me, fear not: for he that seeks my life seeks your life: but with me you shall be in safeguard.”"
       ],
       "notes": [
-        "‘victuals’ means food or provisions"
+        {
+          "v": 1,
+          "text": "‘victuals’ means food or provisions"
+        }
       ],
       "approved": "07ff4dbe"
     },
@@ -11656,10 +13105,22 @@ window.TU_PLAIN = {
         "And the Lord said to Samuel, “Listen to their voice, and make them a king.” And Samuel said to the men of Israel, “Go you every man to his city.”"
       ],
       "notes": [
-        "‘lucre’ means gain",
-        "‘confectionaries’ means perfumers",
-        "‘goodliest’ means best",
-        "‘asses’ means donkeys"
+        {
+          "v": 1,
+          "text": "‘lucre’ means gain"
+        },
+        {
+          "v": 1,
+          "text": "‘confectionaries’ means perfumers"
+        },
+        {
+          "v": 1,
+          "text": "‘goodliest’ means best"
+        },
+        {
+          "v": 1,
+          "text": "‘asses’ means donkeys"
+        }
       ],
       "approved": "fef872a2"
     },
@@ -11690,7 +13151,10 @@ window.TU_PLAIN = {
         "And Obed fathered Jesse, and Jesse fathered David."
       ],
       "notes": [
-        "‘mar’ means ruin or jeopardize"
+        {
+          "v": 1,
+          "text": "‘mar’ means ruin or jeopardize"
+        }
       ],
       "approved": "5d4d7f40"
     },
@@ -11854,11 +13318,26 @@ window.TU_PLAIN = {
         "And as they were going down to the end of the city, Samuel said to Saul, “Bid the servant pass on before us,” (and he passed on,) “but stand you still a while, that I may show you the word of God.”"
       ],
       "notes": [
-        "‘goodly’ means handsome",
-        "‘asses’ means donkeys",
-        "‘Beforetime’ means formerly",
-        "‘straightway’ means immediately",
-        "‘bidden’ means invited"
+        {
+          "v": 1,
+          "text": "‘goodly’ means handsome"
+        },
+        {
+          "v": 1,
+          "text": "‘asses’ means donkeys"
+        },
+        {
+          "v": 1,
+          "text": "‘Beforetime’ means formerly"
+        },
+        {
+          "v": 1,
+          "text": "‘straightway’ means immediately"
+        },
+        {
+          "v": 1,
+          "text": "‘bidden’ means invited"
+        }
       ],
       "approved": "dd7c151c"
     },
@@ -11895,9 +13374,18 @@ window.TU_PLAIN = {
         "“Therefore also I have lent him to the Lord. As long as he lives he will be lent to the Lord.” And he worshiped the Lord there."
       ],
       "notes": [
-        "‘Belial’ means wickedness or worthlessness",
-        "‘ephah’ is an ancient unit of dry measure, about half a bushel",
-        "‘lent’ means dedicated or given"
+        {
+          "v": 1,
+          "text": "‘Belial’ means wickedness or worthlessness"
+        },
+        {
+          "v": 1,
+          "text": "‘ephah’ is an ancient unit of dry measure, about half a bushel"
+        },
+        {
+          "v": 1,
+          "text": "‘lent’ means dedicated or given"
+        }
       ],
       "approved": "6e99d911"
     },
@@ -11929,9 +13417,18 @@ window.TU_PLAIN = {
         "And it came to pass, when the evil spirit from God was upon Saul, that David took a harp, and played with his hand: so Saul was refreshed, and was well, and the evil spirit departed from him."
       ],
       "notes": [
-        "‘skillful’ replaces cunning",
-        "‘appearance’ replaces countenance",
-        "‘handsome’ replaces comely"
+        {
+          "v": 1,
+          "text": "‘skillful’ replaces cunning"
+        },
+        {
+          "v": 1,
+          "text": "‘appearance’ replaces countenance"
+        },
+        {
+          "v": 1,
+          "text": "‘handsome’ replaces comely"
+        }
       ],
       "approved": "c127a1d7"
     },
@@ -12000,7 +13497,10 @@ window.TU_PLAIN = {
         "And David swore to Saul. And Saul went home; but David and his men got them up to the hold."
       ],
       "notes": [
-        "‘cover his feet’ means relieve himself"
+        {
+          "v": 1,
+          "text": "‘cover his feet’ means relieve himself"
+        }
       ],
       "approved": "710d8e02"
     },
@@ -12045,9 +13545,18 @@ window.TU_PLAIN = {
         "“And it will come to pass, that every one that is left in your house will come and crouch to him for a piece of silver and a morsel of bread, and will say, Put me, I pray you, into one of the priests’ offices, that I may eat a piece of bread.”"
       ],
       "notes": [
-        "‘sodden’ means boiled",
-        "‘seething’ means boiling",
-        "‘horn’ represents strength or power"
+        {
+          "v": 1,
+          "text": "‘sodden’ means boiled"
+        },
+        {
+          "v": 1,
+          "text": "‘seething’ means boiling"
+        },
+        {
+          "v": 1,
+          "text": "‘horn’ represents strength or power"
+        }
       ],
       "approved": "3c3ff228"
     },
@@ -12103,11 +13612,26 @@ window.TU_PLAIN = {
         "But the children of Belial said, “How will this man save us?” And they despised him, and brought him no presents. But he held his peace."
       ],
       "notes": [
-        "‘asses’ means donkeys",
-        "‘psaltery’ means stringed instrument",
-        "‘tabret’ means tambourine",
-        "‘beforetime’ means formerly",
-        "‘stuff’ means baggage"
+        {
+          "v": 1,
+          "text": "‘asses’ means donkeys"
+        },
+        {
+          "v": 1,
+          "text": "‘psaltery’ means stringed instrument"
+        },
+        {
+          "v": 1,
+          "text": "‘tabret’ means tambourine"
+        },
+        {
+          "v": 1,
+          "text": "‘beforetime’ means formerly"
+        },
+        {
+          "v": 1,
+          "text": "‘stuff’ means baggage"
+        }
       ],
       "approved": "52bf6ed2"
     },
@@ -12232,9 +13756,18 @@ window.TU_PLAIN = {
         "Therefore Michal the daughter of Saul had no child to the day of her death."
       ],
       "notes": [
-        "‘psalteries’ means stringed instruments",
-        "‘timbrels’ means tambourines",
-        "‘cornets’ means horn instruments"
+        {
+          "v": 1,
+          "text": "‘psalteries’ means stringed instruments"
+        },
+        {
+          "v": 1,
+          "text": "‘timbrels’ means tambourines"
+        },
+        {
+          "v": 1,
+          "text": "‘cornets’ means horn instruments"
+        }
       ],
       "approved": "38045f7e"
     },
@@ -12266,7 +13799,10 @@ window.TU_PLAIN = {
         "And the counsel of Ahithophel, which he counseled in those days, was as if a man had inquired at the oracle of God: so was all the counsel of Ahithophel both with David and with Absalom."
       ],
       "notes": [
-        "‘Belial’ means worthlessness or wickedness"
+        {
+          "v": 1,
+          "text": "‘Belial’ means worthlessness or wickedness"
+        }
       ],
       "approved": "55ffc79c"
     },
@@ -12302,8 +13838,14 @@ window.TU_PLAIN = {
         "And when the mourning was past, David sent and fetched her to his house, and she became his wife, and bore him a son. But the thing that David had done displeased the Lord."
       ],
       "notes": [
-        "‘stayed’ replaces tarried and abode",
-        "‘portion’ replaces mess"
+        {
+          "v": 1,
+          "text": "‘stayed’ replaces tarried and abode"
+        },
+        {
+          "v": 1,
+          "text": "‘portion’ replaces mess"
+        }
       ],
       "approved": "58bfbfae"
     },
@@ -12339,7 +13881,10 @@ window.TU_PLAIN = {
         "“How are the mighty fallen, and the weapons of war perished!”"
       ],
       "notes": [
-        "‘homage’ means a display of respect or submission"
+        {
+          "v": 1,
+          "text": "‘homage’ means a display of respect or submission"
+        }
       ],
       "approved": "c363aae8"
     },
@@ -12406,9 +13951,18 @@ window.TU_PLAIN = {
         "And honey, and butter, and sheep, and cheese of kine, for David, and for the people that were with him, to eat: for they said, “The people is hungry, and weary, and thirsty, in the wilderness.”"
       ],
       "notes": [
-        "‘whelps’ means cubs",
-        "‘sepulchre’ means tomb",
-        "‘kine’ means cows"
+        {
+          "v": 1,
+          "text": "‘whelps’ means cubs"
+        },
+        {
+          "v": 1,
+          "text": "‘sepulchre’ means tomb"
+        },
+        {
+          "v": 1,
+          "text": "‘kine’ means cows"
+        }
       ],
       "approved": "5d8ba53e"
     },
@@ -12448,7 +14002,10 @@ window.TU_PLAIN = {
         "And he brought forth the people that were in it, and put them under saws, and under harrows of iron, and under axes of iron, and made them pass through the brickkiln: and thus did he to all the cities of the children of Ammon. So David and all the people returned to Jerusalem."
       ],
       "notes": [
-        "‘trouble’ replaces vex"
+        {
+          "v": 1,
+          "text": "‘trouble’ replaces vex"
+        }
       ],
       "approved": "6286bfe5"
     },
@@ -12486,8 +14043,14 @@ window.TU_PLAIN = {
         "“Therefore now let it please You to bless the house of Your servant, that it may continue forever before You: for You, O Lord God, have spoken it: and with Your blessing let the house of Your servant be blessed forever.”"
       ],
       "notes": [
-        "‘beforetime’ means formerly",
-        "‘bowels’ means body"
+        {
+          "v": 1,
+          "text": "‘beforetime’ means formerly"
+        },
+        {
+          "v": 1,
+          "text": "‘bowels’ means body"
+        }
       ],
       "approved": "4ed78708"
     },
@@ -12514,7 +14077,10 @@ window.TU_PLAIN = {
         "And Benaiah the son of Jehoiada was over both the Cherethites and the Pelethites; and David’s sons were chief rulers."
       ],
       "notes": [
-        "‘houghed’ means hamstrung"
+        {
+          "v": 1,
+          "text": "‘houghed’ means hamstrung"
+        }
       ],
       "approved": "a76d7af9"
     },
@@ -12556,11 +14122,26 @@ window.TU_PLAIN = {
         "And the king was much moved, and went up to the chamber over the gate, and wept: and as he went, thus he said, “O my son Absalom, my son, my son Absalom! would God I had died for you, O Absalom, my son, my son!”"
       ],
       "notes": [
-        "‘succour’ means support or help",
-        "‘tarry’ means delay or wait",
-        "‘dale’ means valley",
-        "‘tidings’ means news",
-        "‘apace’ means swiftly or quickly"
+        {
+          "v": 1,
+          "text": "‘succour’ means support or help"
+        },
+        {
+          "v": 1,
+          "text": "‘tarry’ means delay or wait"
+        },
+        {
+          "v": 1,
+          "text": "‘dale’ means valley"
+        },
+        {
+          "v": 1,
+          "text": "‘tidings’ means news"
+        },
+        {
+          "v": 1,
+          "text": "‘apace’ means swiftly or quickly"
+        }
       ],
       "approved": "7f7a7584"
     },
@@ -12620,10 +14201,22 @@ window.TU_PLAIN = {
         "“He is the tower of salvation for His king: and shows mercy to His anointed, to David, and to his seed forevermore.”"
       ],
       "notes": [
-        "‘wroth’ means angry",
-        "‘froward’ means perverse or crooked",
-        "‘buckler’ means shield",
-        "‘discomfited’ means defeated or routed"
+        {
+          "v": 1,
+          "text": "‘wroth’ means angry"
+        },
+        {
+          "v": 1,
+          "text": "‘froward’ means perverse or crooked"
+        },
+        {
+          "v": 1,
+          "text": "‘buckler’ means shield"
+        },
+        {
+          "v": 1,
+          "text": "‘discomfited’ means defeated or routed"
+        }
       ],
       "approved": "23252c55"
     },
@@ -12664,9 +14257,18 @@ window.TU_PLAIN = {
         "And they took up Asahel, and buried him in the tomb of his father, which was in Beth-lehem. And Joab and his men went all night, and they came to Hebron at break of day."
       ],
       "notes": [
-        "‘requite’ means repay",
-        "‘roe’ refers to a small deer or gazelle",
-        "‘hinder’ means back or rear"
+        {
+          "v": 1,
+          "text": "‘requite’ means repay"
+        },
+        {
+          "v": 1,
+          "text": "‘roe’ refers to a small deer or gazelle"
+        },
+        {
+          "v": 1,
+          "text": "‘hinder’ means back or rear"
+        }
       ],
       "approved": "397d5354"
     },
@@ -12714,10 +14316,22 @@ window.TU_PLAIN = {
         "And the soul of king David longed to go forth to Absalom: for he was comforted concerning Amnon, seeing he was dead."
       ],
       "notes": [
-        "‘troubled’ replaces vexed",
-        "‘shrewd’ replaces subtil",
-        "‘prepare’ replaces dress",
-        "‘various’ replaces divers"
+        {
+          "v": 1,
+          "text": "‘troubled’ replaces vexed"
+        },
+        {
+          "v": 1,
+          "text": "‘shrewd’ replaces subtil"
+        },
+        {
+          "v": 1,
+          "text": "‘prepare’ replaces dress"
+        },
+        {
+          "v": 1,
+          "text": "‘various’ replaces divers"
+        }
       ],
       "approved": "88c5f424"
     },
@@ -12861,7 +14475,10 @@ window.TU_PLAIN = {
         "And when all the kings that were servants to Hadarezer saw that they were struck before Israel, they made peace with Israel, and served them. So the Syrians feared to help the children of Ammon any more."
       ],
       "notes": [
-        "‘play the men’ means act like men"
+        {
+          "v": 1,
+          "text": "‘play the men’ means act like men"
+        }
       ],
       "approved": "e69d083e"
     },
@@ -12909,10 +14526,22 @@ window.TU_PLAIN = {
         "“And I am this day weak, though anointed king. And these men the sons of Zeruiah be too hard for me. The Lord will reward the doer of evil according to his wickedness.”"
       ],
       "notes": [
-        "‘translate’ means to transfer",
-        "‘league’ means covenant or alliance",
-        "‘bier’ means a stand on which a corpse or coffin is placed before burial",
-        "‘issue’ means a bodily discharge"
+        {
+          "v": 1,
+          "text": "‘translate’ means to transfer"
+        },
+        {
+          "v": 1,
+          "text": "‘league’ means covenant or alliance"
+        },
+        {
+          "v": 1,
+          "text": "‘bier’ means a stand on which a corpse or coffin is placed before burial"
+        },
+        {
+          "v": 1,
+          "text": "‘issue’ means a bodily discharge"
+        }
       ],
       "approved": "72723f8a"
     },
@@ -12954,8 +14583,14 @@ window.TU_PLAIN = {
         "So Joab came to the king, and told him: and when he had called for Absalom, he came to the king, and bowed himself on his face to the ground before the king: and the king kissed Absalom."
       ],
       "notes": [
-        "‘cut’ replaces polled",
-        "‘appearance’ replaces countenance"
+        {
+          "v": 1,
+          "text": "‘cut’ replaces polled"
+        },
+        {
+          "v": 1,
+          "text": "‘appearance’ replaces countenance"
+        }
       ],
       "approved": "d49b507f"
     },
@@ -12990,8 +14625,14 @@ window.TU_PLAIN = {
         "And Ira also the Jairite was a chief ruler about David."
       ],
       "notes": [
-        "‘clave’ means clung or joined closely",
-        "‘wont’ means accustomed or used"
+        {
+          "v": 1,
+          "text": "‘clave’ means clung or joined closely"
+        },
+        {
+          "v": 1,
+          "text": "‘wont’ means accustomed or used"
+        }
       ],
       "approved": "54c70bf3"
     },
@@ -13044,7 +14685,10 @@ window.TU_PLAIN = {
         "And David commanded his young men, and they killed them, and cut off their hands and their feet, and hanged them up over the pool in Hebron. But they took the head of Ish-bosheth, and buried it in the tomb of Abner in Hebron."
       ],
       "notes": [
-        "‘tidings’ means news"
+        {
+          "v": 1,
+          "text": "‘tidings’ means news"
+        }
       ],
       "approved": "bf2d9a61"
     },
@@ -13122,9 +14766,18 @@ window.TU_PLAIN = {
         "And David did so, as the Lord had commanded him, and struck the Philistines from Geba until you come to Gazer."
       ],
       "notes": [
-        "‘league’ means covenant or alliance",
-        "‘fetch a compass’ means to circle around",
-        "‘bestir’ means to rouse to action"
+        {
+          "v": 1,
+          "text": "‘league’ means covenant or alliance"
+        },
+        {
+          "v": 1,
+          "text": "‘fetch a compass’ means to circle around"
+        },
+        {
+          "v": 1,
+          "text": "‘bestir’ means to rouse to action"
+        }
       ],
       "approved": "fce54fb6"
     },
@@ -13189,9 +14842,18 @@ window.TU_PLAIN = {
         "And a chariot came up and went out of Egypt for six hundred shekels of silver, and a horse for a hundred and fifty: and so for all the kings of the Hittites, and for the kings of Syria, did they bring them out by their means."
       ],
       "notes": [
-        "‘psalteries’ means stringed instruments",
-        "‘targets’ means shields",
-        "‘stays’ means armrests"
+        {
+          "v": 1,
+          "text": "‘psalteries’ means stringed instruments"
+        },
+        {
+          "v": 1,
+          "text": "‘targets’ means shields"
+        },
+        {
+          "v": 1,
+          "text": "‘stays’ means armrests"
+        }
       ],
       "approved": "36372b74"
     },
@@ -13261,10 +14923,22 @@ window.TU_PLAIN = {
         "And while he yet talked with them, behold, the messenger came down to him: and he said, “Behold, this evil is of the Lord; what should I wait for the Lord any longer?”"
       ],
       "notes": [
-        "‘strait’ means narrow or small",
-        "‘did swim’ means did float",
-        "‘cab’ means a measure of capacity",
-        "‘rent’ means tore"
+        {
+          "v": 1,
+          "text": "‘strait’ means narrow or small"
+        },
+        {
+          "v": 1,
+          "text": "‘did swim’ means did float"
+        },
+        {
+          "v": 1,
+          "text": "‘cab’ means a measure of capacity"
+        },
+        {
+          "v": 1,
+          "text": "‘rent’ means tore"
+        }
       ],
       "approved": "5968508f"
     },
@@ -13326,8 +15000,14 @@ window.TU_PLAIN = {
         "So king Solomon sent, and they brought him down from the altar. And he came and bowed himself to king Solomon. And Solomon said to him, “Go to your house.”"
       ],
       "notes": [
-        "‘stricken in years’ means advanced in age",
-        "‘homage’ means respect or reverence"
+        {
+          "v": 1,
+          "text": "‘stricken in years’ means advanced in age"
+        },
+        {
+          "v": 1,
+          "text": "‘homage’ means respect or reverence"
+        }
       ],
       "approved": "f1f2a30a"
     },
@@ -13427,9 +15107,18 @@ window.TU_PLAIN = {
         "And Solomon slept with his fathers, and was buried in the city of David his father: and Rehoboam his son reigned in his stead."
       ],
       "notes": [
-        "‘Forasmuch’ means since",
-        "‘victuals’ means food",
-        "‘rent’ means tore"
+        {
+          "v": 1,
+          "text": "‘Forasmuch’ means since"
+        },
+        {
+          "v": 1,
+          "text": "‘victuals’ means food"
+        },
+        {
+          "v": 1,
+          "text": "‘rent’ means tore"
+        }
       ],
       "approved": "88172991"
     },
@@ -13481,7 +15170,10 @@ window.TU_PLAIN = {
         "And the king of Israel went to his house heavy and displeased, and came to Samaria."
       ],
       "notes": [
-        "‘best’ replaces goodliest"
+        {
+          "v": 1,
+          "text": "‘best’ replaces goodliest"
+        }
       ],
       "approved": "c6f18f67"
     },
@@ -13546,7 +15238,10 @@ window.TU_PLAIN = {
         "“See you how Ahab humbles himself before Me? because he humbles himself before Me, I will not bring the evil in his days: but in his son’s days will I bring the evil upon his house.”"
       ],
       "notes": [
-        "‘urinates’ replaces pisseth"
+        {
+          "v": 1,
+          "text": "‘urinates’ replaces pisseth"
+        }
       ],
       "approved": "36c38925"
     },
@@ -13601,9 +15296,18 @@ window.TU_PLAIN = {
         "So the king commanded Benaiah the son of Jehoiada, which went out, and fell on him, that he died. And the kingdom was established in the hand of Solomon."
       ],
       "notes": [
-        "‘privy to’ means having hidden knowledge of",
-        "‘to wit’ means that is to say",
-        "‘tidings’ means news"
+        {
+          "v": 1,
+          "text": "‘privy to’ means having hidden knowledge of"
+        },
+        {
+          "v": 1,
+          "text": "‘to wit’ means that is to say"
+        },
+        {
+          "v": 1,
+          "text": "‘tidings’ means news"
+        }
       ],
       "approved": "539c5af9"
     },
@@ -13725,8 +15429,14 @@ window.TU_PLAIN = {
         "So he offered upon the altar which he had made in Beth-el the fifteenth day of the eighth month, even in the month which he had devised of his own heart; and ordained a feast to the children of Israel: and he offered upon the altar, and burnt incense."
       ],
       "notes": [
-        "‘lade’ means burden",
-        "‘tribute’ means forced labor"
+        {
+          "v": 1,
+          "text": "‘lade’ means burden"
+        },
+        {
+          "v": 1,
+          "text": "‘tribute’ means forced labor"
+        }
       ],
       "approved": "364be2e3"
     },
@@ -13788,8 +15498,14 @@ window.TU_PLAIN = {
         "For he served Baal, and worshiped him, and provoked to anger the Lord God of Israel, according to all that his father had done."
       ],
       "notes": [
-        "‘refrain’ replaces forbear",
-        "‘propped’ replaces stayed"
+        {
+          "v": 1,
+          "text": "‘refrain’ replaces forbear"
+        },
+        {
+          "v": 1,
+          "text": "‘propped’ replaces stayed"
+        }
       ],
       "approved": "c9e2c84c"
     },
@@ -13835,8 +15551,14 @@ window.TU_PLAIN = {
         "“‘And the carcass of Jezebel shall be as dung upon the face of the field in the portion of Jezreel; so that they shall not say, This is Jezebel.’”"
       ],
       "notes": [
-        "‘sepulchre’ means tomb",
-        "‘tired’ means adorned or dressed"
+        {
+          "v": 1,
+          "text": "‘sepulchre’ means tomb"
+        },
+        {
+          "v": 1,
+          "text": "‘tired’ means adorned or dressed"
+        }
       ],
       "approved": "abde6aa1"
     },
@@ -13873,7 +15595,10 @@ window.TU_PLAIN = {
         "And all Israel heard of the judgment which the king had judged. And they feared the king, for they saw that the wisdom of God was in him, to do judgment."
       ],
       "notes": [
-        "‘overlaid’ means smothered by lying on top of"
+        {
+          "v": 1,
+          "text": "‘overlaid’ means smothered by lying on top of"
+        }
       ],
       "approved": "c8ecf513"
     },
@@ -13916,11 +15641,26 @@ window.TU_PLAIN = {
         "And this thing became sin to the house of Jeroboam, even to cut it off, and to destroy it from off the face of the earth."
       ],
       "notes": [
-        "‘rent’ means tore",
-        "‘Entreat’ means plead with",
-        "‘ass’ means donkey",
-        "‘Forasmuch’ means since",
-        "‘to wit’ means namely"
+        {
+          "v": 1,
+          "text": "‘rent’ means tore"
+        },
+        {
+          "v": 1,
+          "text": "‘Entreat’ means plead with"
+        },
+        {
+          "v": 1,
+          "text": "‘ass’ means donkey"
+        },
+        {
+          "v": 1,
+          "text": "‘Forasmuch’ means since"
+        },
+        {
+          "v": 1,
+          "text": "‘to wit’ means namely"
+        }
       ],
       "approved": "3cec1595"
     },
@@ -14034,9 +15774,18 @@ window.TU_PLAIN = {
         "And the time that Jehu reigned over Israel in Samaria was twenty and eight years."
       ],
       "notes": [
-        "‘meetest’ means most fitting or suitable",
-        "‘draught house’ means latrine",
-        "‘to wit’ means that is to say"
+        {
+          "v": 1,
+          "text": "‘meetest’ means most fitting or suitable"
+        },
+        {
+          "v": 1,
+          "text": "‘draught house’ means latrine"
+        },
+        {
+          "v": 1,
+          "text": "‘to wit’ means that is to say"
+        }
       ],
       "approved": "f42796fb"
     },
@@ -14079,8 +15828,14 @@ window.TU_PLAIN = {
         "And there came of all people to hear the wisdom of Solomon, from all kings of the earth, which had heard of his wisdom."
       ],
       "notes": [
-        "‘dromedaries’ means camels",
-        "‘harts’ and ‘roebucks’ are types of deer"
+        {
+          "v": 1,
+          "text": "‘dromedaries’ means camels"
+        },
+        {
+          "v": 1,
+          "text": "‘harts’ and ‘roebucks’ are types of deer"
+        }
       ],
       "approved": "bb560ced"
     },
@@ -14120,10 +15875,22 @@ window.TU_PLAIN = {
         "And Rehoboam slept with his fathers, and was buried with his fathers in the city of David. And his mother’s name was Naamah an Ammonitess. And Abijam his son reigned in his stead."
       ],
       "notes": [
-        "‘cracknels’ means cakes",
-        "‘cruse’ means jar",
-        "‘Forasmuch’ means since",
-        "‘sodomites’ means male temple prostitutes"
+        {
+          "v": 1,
+          "text": "‘cracknels’ means cakes"
+        },
+        {
+          "v": 1,
+          "text": "‘cruse’ means jar"
+        },
+        {
+          "v": 1,
+          "text": "‘Forasmuch’ means since"
+        },
+        {
+          "v": 1,
+          "text": "‘sodomites’ means male temple prostitutes"
+        }
       ],
       "approved": "3c008c6f"
     },
@@ -14181,7 +15948,10 @@ window.TU_PLAIN = {
         "Seven years old was Jehoash when he began to reign."
       ],
       "notes": [
-        "‘rent’ means tore"
+        {
+          "v": 1,
+          "text": "‘rent’ means tore"
+        }
       ],
       "approved": "7acbe4bf"
     },
@@ -14240,9 +16010,18 @@ window.TU_PLAIN = {
         "And Solomon’s builders and Hiram’s builders did hew them, and the stone-squarers. So they prepared timber and stones to build the house."
       ],
       "notes": [
-        "‘levy’ means a drafted labor force",
-        "‘hewers’ means stonecutters or woodcutters",
-        "‘courses’ means shifts"
+        {
+          "v": 1,
+          "text": "‘levy’ means a drafted labor force"
+        },
+        {
+          "v": 1,
+          "text": "‘hewers’ means stonecutters or woodcutters"
+        },
+        {
+          "v": 1,
+          "text": "‘courses’ means shifts"
+        }
       ],
       "approved": "04c24a62"
     },
@@ -14285,8 +16064,14 @@ window.TU_PLAIN = {
         "And he did evil in the sight of the Lord, and walked in the way of Jeroboam, and in his sin with which he made Israel to sin."
       ],
       "notes": [
-        "‘sodomites’ means male temple prostitutes",
-        "‘suffer’ means allow"
+        {
+          "v": 1,
+          "text": "‘sodomites’ means male temple prostitutes"
+        },
+        {
+          "v": 1,
+          "text": "‘suffer’ means allow"
+        }
       ],
       "approved": "5a4e384d"
     },
@@ -14316,7 +16101,10 @@ window.TU_PLAIN = {
         "For Jozachar the son of Shimeath, and Jehozabad the son of Shomer, his servants, struck him, and he died; and they buried him with his fathers in the city of David: and Amaziah his son reigned in his stead."
       ],
       "notes": [
-        "‘snuffers’ means wick trimmers"
+        {
+          "v": 1,
+          "text": "‘snuffers’ means wick trimmers"
+        }
       ],
       "approved": "de53c902"
     },
@@ -14385,8 +16173,14 @@ window.TU_PLAIN = {
         "Then he took his eldest son that should have reigned in his place, and offered him for a burnt offering upon the wall. And there was great indignation against Israel: and they departed from him, and returned to their own land."
       ],
       "notes": [
-        "‘worked’ replaces wrought",
-        "‘severe’ replaces sore"
+        {
+          "v": 1,
+          "text": "‘worked’ replaces wrought"
+        },
+        {
+          "v": 1,
+          "text": "‘severe’ replaces sore"
+        }
       ],
       "approved": "28b29bbc"
     },
@@ -14433,8 +16227,14 @@ window.TU_PLAIN = {
         "And in the eleventh year, in the month Bul, which is the eighth month, was the house finished throughout all the parts thereof, and according to all the fashion of it. So was he seven years in building it."
       ],
       "notes": [
-        "‘oracle’ means the inner sanctuary or Most Holy Place",
-        "‘cherubims’ means angelic beings"
+        {
+          "v": 1,
+          "text": "‘oracle’ means the inner sanctuary or Most Holy Place"
+        },
+        {
+          "v": 1,
+          "text": "‘cherubims’ means angelic beings"
+        }
       ],
       "approved": "7afbc800"
     },
@@ -14468,9 +16268,18 @@ window.TU_PLAIN = {
         "And Jehoash the son of Jehoahaz took again out of the hand of Ben-hadad the son of Hazael the cities, which he had taken out of the hand of Jehoahaz his father by war. Three times did Joash beat him, and recovered the cities of Israel."
       ],
       "notes": [
-        "‘besought’ means begged or pleaded",
-        "‘wroth’ means angry",
-        "‘sepulchre’ means tomb"
+        {
+          "v": 1,
+          "text": "‘besought’ means begged or pleaded"
+        },
+        {
+          "v": 1,
+          "text": "‘wroth’ means angry"
+        },
+        {
+          "v": 1,
+          "text": "‘sepulchre’ means tomb"
+        }
       ],
       "approved": "e81bb77f"
     },
@@ -14540,8 +16349,14 @@ window.TU_PLAIN = {
         "In his days did Hiel the Beth-elite build Jericho: he laid the foundation of it in Abiram his firstborn, and set up the gates of it in his youngest son Segub, according to the word of the Lord, which He spoke by Joshua the son of Nun."
       ],
       "notes": [
-        "‘Forasmuch’ means since",
-        "‘wrought’ means worked"
+        {
+          "v": 1,
+          "text": "‘Forasmuch’ means since"
+        },
+        {
+          "v": 1,
+          "text": "‘wrought’ means worked"
+        }
       ],
       "approved": "f9b86d25"
     },
@@ -14594,11 +16409,26 @@ window.TU_PLAIN = {
         "So he set it before them, and they did eat, and left of it, according to the word of the Lord."
       ],
       "notes": [
-        "‘stopped’ replaces stayed",
-        "‘urged’ replaces constrained",
-        "‘distressed’ replaces vexed",
-        "‘famine’ replaces dearth",
-        "‘boil stew’ replaces seethe pottage"
+        {
+          "v": 1,
+          "text": "‘stopped’ replaces stayed"
+        },
+        {
+          "v": 1,
+          "text": "‘urged’ replaces constrained"
+        },
+        {
+          "v": 1,
+          "text": "‘distressed’ replaces vexed"
+        },
+        {
+          "v": 1,
+          "text": "‘famine’ replaces dearth"
+        },
+        {
+          "v": 1,
+          "text": "‘boil stew’ replaces seethe pottage"
+        }
       ],
       "approved": "a78d4005"
     },
@@ -14631,7 +16461,10 @@ window.TU_PLAIN = {
         "And the woman said to Elijah, “Now by this I know that you are a man of God, and that the word of the Lord in your mouth is truth.”"
       ],
       "notes": [
-        "‘cruse’ means jar"
+        {
+          "v": 1,
+          "text": "‘cruse’ means jar"
+        }
       ],
       "approved": "dd5f109c"
     },
@@ -14691,12 +16524,30 @@ window.TU_PLAIN = {
         "So was ended all the work that king Solomon made for the house of the Lord. And Solomon brought in the things which David his father had dedicated. Even the silver, and the gold, and the vessels, did he put among the treasures of the house of the Lord."
       ],
       "notes": [
-        "‘coping’ means the top course of a masonry wall",
-        "‘undersetters’ means supports or brackets",
-        "‘felloes’ means the outer rims of wheels",
-        "‘naves’ means the hubs of wheels",
-        "‘showbread’ means bread of the presence",
-        "‘to wit’ means that is to say"
+        {
+          "v": 1,
+          "text": "‘coping’ means the top course of a masonry wall"
+        },
+        {
+          "v": 1,
+          "text": "‘undersetters’ means supports or brackets"
+        },
+        {
+          "v": 1,
+          "text": "‘felloes’ means the outer rims of wheels"
+        },
+        {
+          "v": 1,
+          "text": "‘naves’ means the hubs of wheels"
+        },
+        {
+          "v": 1,
+          "text": "‘showbread’ means bread of the presence"
+        },
+        {
+          "v": 1,
+          "text": "‘to wit’ means that is to say"
+        }
       ],
       "approved": "ae5bbd0c"
     },
@@ -14812,9 +16663,18 @@ window.TU_PLAIN = {
         "“The leprosy therefore of Naaman will cleave to you, and to your seed for ever.” And he went out from his presence a leper as white as snow."
       ],
       "notes": [
-        "‘clothing’ replaces raiment",
-        "‘stepped’ replaces lighted",
-        "‘nowhere’ replaces no whither"
+        {
+          "v": 1,
+          "text": "‘clothing’ replaces raiment"
+        },
+        {
+          "v": 1,
+          "text": "‘stepped’ replaces lighted"
+        },
+        {
+          "v": 1,
+          "text": "‘nowhere’ replaces no whither"
+        }
       ],
       "approved": "76061300"
     },
@@ -14888,7 +16748,10 @@ window.TU_PLAIN = {
         "And Jotham slept with his fathers, and was buried with his fathers in the city of David his father: and Ahaz his son reigned in his stead."
       ],
       "notes": [
-        "‘in his room’ means in his place"
+        {
+          "v": 1,
+          "text": "‘in his room’ means in his place"
+        }
       ],
       "approved": "35a9086d"
     },
@@ -14943,7 +16806,10 @@ window.TU_PLAIN = {
         "And the hand of the Lord was on Elijah; and he girded up his loins, and ran before Ahab to the entrance of Jezreel."
       ],
       "notes": [
-        "‘lancets’ means lances"
+        {
+          "v": 1,
+          "text": "‘lancets’ means lances"
+        }
       ],
       "approved": "6f44f0a3"
     },
@@ -15055,9 +16921,18 @@ window.TU_PLAIN = {
         "On the eighth day he sent the people away. And they blessed the king, and went to their tents joyful and glad of heart for all the goodness that the Lord had done for David His servant, and for Israel His people."
       ],
       "notes": [
-        "‘blasting’ means a plant disease causing withering",
-        "‘supplication’ means a humble plea or request",
-        "‘staves’ means poles for carrying the ark"
+        {
+          "v": 1,
+          "text": "‘blasting’ means a plant disease causing withering"
+        },
+        {
+          "v": 1,
+          "text": "‘supplication’ means a humble plea or request"
+        },
+        {
+          "v": 1,
+          "text": "‘staves’ means poles for carrying the ark"
+        }
       ],
       "approved": "37083094"
     },
@@ -15094,9 +16969,18 @@ window.TU_PLAIN = {
         "And they came to Ophir, and fetched from there gold, four hundred and twenty talents, and brought it to king Solomon."
       ],
       "notes": [
-        "‘supplication’ means a humble plea or request",
-        "‘levy’ means a drafted labor force",
-        "‘bondservice’ means forced labor or slavery"
+        {
+          "v": 1,
+          "text": "‘supplication’ means a humble plea or request"
+        },
+        {
+          "v": 1,
+          "text": "‘levy’ means a drafted labor force"
+        },
+        {
+          "v": 1,
+          "text": "‘bondservice’ means forced labor or slavery"
+        }
       ],
       "approved": "1781152a"
     },
@@ -15245,7 +17129,10 @@ window.TU_PLAIN = {
         "All these were the children of Asher, heads of their father’s house, choice and mighty men of valor, chief of the princes. And the number throughout the genealogy of them that were apt to the war and to battle was twenty-six thousand men."
       ],
       "notes": [
-        "‘to wit’ means namely"
+        {
+          "v": 1,
+          "text": "‘to wit’ means namely"
+        }
       ],
       "approved": "2b8a6c75"
     },
@@ -15620,8 +17507,14 @@ window.TU_PLAIN = {
         "“Now set your heart and your soul to seek the Lord your God; arise therefore, and build you the sanctuary of the Lord God, to bring the ark of the covenant of the Lord, and the holy vessels of God, into the house that is to be built to the name of the Lord.”"
       ],
       "notes": [
-        "‘magnifical’ means magnificent",
-        "‘cunning’ means skilled"
+        {
+          "v": 1,
+          "text": "‘magnifical’ means magnificent"
+        },
+        {
+          "v": 1,
+          "text": "‘cunning’ means skilled"
+        }
       ],
       "approved": "65152b71"
     },
@@ -15705,8 +17598,14 @@ window.TU_PLAIN = {
         "And Azel had six sons, whose names are these, Azrikam, Bocheru, and Ishmael, and Sheariah, and Obadiah, and Hanan: these were the sons of Azel."
       ],
       "notes": [
-        "‘porters’ means gatekeepers",
-        "‘tale’ means count"
+        {
+          "v": 1,
+          "text": "‘porters’ means gatekeepers"
+        },
+        {
+          "v": 1,
+          "text": "‘tale’ means count"
+        }
       ],
       "approved": "169d960c"
     },
@@ -15846,8 +17745,14 @@ window.TU_PLAIN = {
         "And all the people departed every man to his house: and David returned to bless his house."
       ],
       "notes": [
-        "‘allowed’ replaces suffered",
-        "‘sixty’ replaces threescore"
+        {
+          "v": 1,
+          "text": "‘allowed’ replaces suffered"
+        },
+        {
+          "v": 1,
+          "text": "‘sixty’ replaces threescore"
+        }
       ],
       "approved": "6fc8aaf9"
     },
@@ -15899,7 +17804,10 @@ window.TU_PLAIN = {
         "And they struck the rest of the Amalekites that were escaped, and dwelt there to this day."
       ],
       "notes": [
-        "‘coast’ means territory or border"
+        {
+          "v": 1,
+          "text": "‘coast’ means territory or border"
+        }
       ],
       "approved": "d980db6f"
     },
@@ -15973,7 +17881,10 @@ window.TU_PLAIN = {
         "“Now therefore let it please You to bless the house of Your servant, that it may be before You for ever: for You bless, O Lord, and it will be blessed for ever.”"
       ],
       "notes": [
-        "‘awesomeness’ replaces terribleness"
+        {
+          "v": 1,
+          "text": "‘awesomeness’ replaces terribleness"
+        }
       ],
       "approved": "f53cd8bb"
     },
@@ -16029,7 +17940,10 @@ window.TU_PLAIN = {
         "Eliel, and Obed, and Jasiel the Mesobaite."
       ],
       "notes": [
-        "‘waxed’ means grew"
+        {
+          "v": 1,
+          "text": "‘waxed’ means grew"
+        }
       ],
       "approved": "1c842638"
     },
@@ -16101,8 +18015,14 @@ window.TU_PLAIN = {
         "And the God of Israel stirred up the spirit of Pul king of Assyria, and the spirit of Tilgath-pilneser king of Assyria, and he carried them away, even the Reubenites, and the Gadites, and the half tribe of Manasseh, and brought them to Halah, and Habor, and Hara, and to the river Gozan, to this day."
       ],
       "notes": [
-        "‘buckler’ means a small round shield",
-        "‘entreated’ means listened to or answered"
+        {
+          "v": 1,
+          "text": "‘buckler’ means a small round shield"
+        },
+        {
+          "v": 1,
+          "text": "‘entreated’ means listened to or answered"
+        }
       ],
       "approved": "5b55046a"
     },
@@ -16128,7 +18048,10 @@ window.TU_PLAIN = {
         "And Benaiah the son of Jehoiada was over the Cherethites and the Pelethites; and the sons of David were chief about the king."
       ],
       "notes": [
-        "‘hamstrung’ replaces houghed"
+        {
+          "v": 1,
+          "text": "‘hamstrung’ replaces houghed"
+        }
       ],
       "approved": "0cc83788"
     },
@@ -16177,8 +18100,14 @@ window.TU_PLAIN = {
         "Moreover they that were near them, even to Issachar and Zebulun and Naphtali, brought bread on asses, and on camels, and on mules, and on oxen, and meat, meal, cakes of figs, and bunches of raisins, and wine, and oil, and oxen, and sheep abundantly: for there was joy in Israel."
       ],
       "notes": [
-        "‘roes’ means gazelles",
-        "‘asses’ means donkeys"
+        {
+          "v": 1,
+          "text": "‘roes’ means gazelles"
+        },
+        {
+          "v": 1,
+          "text": "‘asses’ means donkeys"
+        }
       ],
       "approved": "5acc2d93"
     },
@@ -16268,10 +18197,22 @@ window.TU_PLAIN = {
         "And Heshbon with her suburbs, and Jazer with her suburbs."
       ],
       "notes": [
-        "‘coasts’ means territory or borders",
-        "‘suburbs’ means pasturelands or surrounding lands",
-        "‘waited’ means served",
-        "‘castles’ means settlements or encampments"
+        {
+          "v": 1,
+          "text": "‘coasts’ means territory or borders"
+        },
+        {
+          "v": 1,
+          "text": "‘suburbs’ means pasturelands or surrounding lands"
+        },
+        {
+          "v": 1,
+          "text": "‘waited’ means served"
+        },
+        {
+          "v": 1,
+          "text": "‘castles’ means settlements or encampments"
+        }
       ],
       "approved": "7bfc472c"
     },
@@ -16406,8 +18347,14 @@ window.TU_PLAIN = {
         "And they buried him in his own sepulchers, which he had made for himself in the city of David, and laid him in the bed which was filled with sweet odors and diverse kinds of spices prepared by the apothecaries’ art: and they made a very great burning for him."
       ],
       "notes": [
-        "‘listened’ replaces hearkened",
-        "‘angry’ replaces wroth"
+        {
+          "v": 1,
+          "text": "‘listened’ replaces hearkened"
+        },
+        {
+          "v": 1,
+          "text": "‘angry’ replaces wroth"
+        }
       ],
       "approved": "7ec22892"
     },
@@ -16434,7 +18381,10 @@ window.TU_PLAIN = {
         "And Huram sent him by the hands of his servants ships, and servants that had knowledge of the sea; and they went with the servants of Solomon to Ophir, and took from there four hundred and fifty talents of gold, and brought them to king Solomon."
       ],
       "notes": [
-        "‘porters’ means gatekeepers"
+        {
+          "v": 1,
+          "text": "‘porters’ means gatekeepers"
+        }
       ],
       "approved": "2521da6b"
     },
@@ -16489,7 +18439,10 @@ window.TU_PLAIN = {
         "And all the people of the land rejoiced: and the city was quiet, after that they had killed Athaliah with the sword."
       ],
       "notes": [
-        "‘rent’ means tore"
+        {
+          "v": 1,
+          "text": "‘rent’ means tore"
+        }
       ],
       "approved": "12df0e03"
     },
@@ -16517,9 +18470,18 @@ window.TU_PLAIN = {
         "These waited on the king, beside those whom the king put in the fenced cities throughout all Judah."
       ],
       "notes": [
-        "‘male goats’ replaces he goats",
-        "‘grew’ replaces waxed",
-        "‘eighty’ replaces fourscore"
+        {
+          "v": 1,
+          "text": "‘male goats’ replaces he goats"
+        },
+        {
+          "v": 1,
+          "text": "‘grew’ replaces waxed"
+        },
+        {
+          "v": 1,
+          "text": "‘eighty’ replaces fourscore"
+        }
       ],
       "approved": "8d364280"
     },
@@ -16545,8 +18507,14 @@ window.TU_PLAIN = {
         "And he set up the pillars before the temple, one on the right hand, and the other on the left. And called the name of that on the right hand Jachin, and the name of that on the left Boaz."
       ],
       "notes": [
-        "‘oracle’ means inner sanctuary or most holy place",
-        "‘capital’ means the top part of a pillar"
+        {
+          "v": 1,
+          "text": "‘oracle’ means inner sanctuary or most holy place"
+        },
+        {
+          "v": 1,
+          "text": "‘capital’ means the top part of a pillar"
+        }
       ],
       "approved": "60dbbeac"
     },
@@ -16586,12 +18554,30 @@ window.TU_PLAIN = {
         "And Solomon slept with his fathers, and he was buried in the city of David his father: and Rehoboam his son reigned in his stead."
       ],
       "notes": [
-        "‘chapmen’ means traders",
-        "‘targets’ means large shields",
-        "‘stays’ means armrests",
-        "‘raiment’ means clothing",
-        "‘harness’ means armor",
-        "‘psalteries’ means stringed instruments"
+        {
+          "v": 1,
+          "text": "‘chapmen’ means traders"
+        },
+        {
+          "v": 1,
+          "text": "‘targets’ means large shields"
+        },
+        {
+          "v": 1,
+          "text": "‘stays’ means armrests"
+        },
+        {
+          "v": 1,
+          "text": "‘raiment’ means clothing"
+        },
+        {
+          "v": 1,
+          "text": "‘harness’ means armor"
+        },
+        {
+          "v": 1,
+          "text": "‘psalteries’ means stringed instruments"
+        }
       ],
       "approved": "245aeea9"
     },
@@ -16661,8 +18647,14 @@ window.TU_PLAIN = {
         "Now concerning his sons, and the greatness of the burdens laid upon him, and the repairing of the house of God, behold, they are written in the story of the book of the kings. And Amaziah his son reigned in his stead."
       ],
       "notes": [
-        "‘withal’ means with",
-        "‘obeisance’ means a bow or curtsy expressing respect"
+        {
+          "v": 1,
+          "text": "‘withal’ means with"
+        },
+        {
+          "v": 1,
+          "text": "‘obeisance’ means a bow or curtsy expressing respect"
+        }
       ],
       "approved": "f2434dd6"
     },
@@ -16705,8 +18697,14 @@ window.TU_PLAIN = {
         "And the battle increased that day: however the king of Israel stayed himself up in his chariot against the Syrians until the evening: and about the time of the sun going down he died."
       ],
       "notes": [
-        "‘Listen’ replaces Hearken",
-        "‘however’ replaces howbeit"
+        {
+          "v": 1,
+          "text": "‘Listen’ replaces Hearken"
+        },
+        {
+          "v": 1,
+          "text": "‘however’ replaces howbeit"
+        }
       ],
       "approved": "7a390832"
     },
@@ -16737,10 +18735,22 @@ window.TU_PLAIN = {
         "And the snuffers, and the basins, and the spoons, and the censers, of pure gold. And the entry of the house, the inner doors of it for the most holy place, and the doors of the house of the temple, were of gold."
       ],
       "notes": [
-        "‘oracle’ means inner sanctuary or most holy place",
-        "‘lavers’ means basins for washing",
-        "‘capital’ means the top part of a pillar",
-        "‘bowls’ were the bowl-shaped tops of the pillars"
+        {
+          "v": 1,
+          "text": "‘oracle’ means inner sanctuary or most holy place"
+        },
+        {
+          "v": 1,
+          "text": "‘lavers’ means basins for washing"
+        },
+        {
+          "v": 1,
+          "text": "‘capital’ means the top part of a pillar"
+        },
+        {
+          "v": 1,
+          "text": "‘bowls’ were the bowl-shaped tops of the pillars"
+        }
       ],
       "approved": "135dd4f2"
     },
@@ -16786,7 +18796,10 @@ window.TU_PLAIN = {
         "And Israel rebelled against the house of David to this day."
       ],
       "notes": [
-        "‘tribute’ means forced labor"
+        {
+          "v": 1,
+          "text": "‘tribute’ means forced labor"
+        }
       ],
       "approved": "966cd7b9"
     },
@@ -16823,7 +18836,10 @@ window.TU_PLAIN = {
         "And they brought him upon horses, and buried him with his fathers in the city of Judah."
       ],
       "notes": [
-        "‘to wit’ means that is to say"
+        {
+          "v": 1,
+          "text": "‘to wit’ means that is to say"
+        }
       ],
       "approved": "ce0c3626"
     },
@@ -16846,8 +18862,14 @@ window.TU_PLAIN = {
         "So that the priests could not stand to minister by reason of the cloud. For the glory of the Lord had filled the house of God."
       ],
       "notes": [
-        "‘oracle’ means inner sanctuary or most holy place",
-        "‘psalteries’ means stringed instruments"
+        {
+          "v": 1,
+          "text": "‘oracle’ means inner sanctuary or most holy place"
+        },
+        {
+          "v": 1,
+          "text": "‘psalteries’ means stringed instruments"
+        }
       ],
       "approved": "8ec20ad5"
     },
@@ -16879,7 +18901,10 @@ window.TU_PLAIN = {
         "And he dealt wisely, and dispersed of all his children throughout all the countries of Judah and Benjamin, to every fenced city: and he gave them food in abundance. And he desired many wives."
       ],
       "notes": [
-        "‘victual’ means food"
+        {
+          "v": 1,
+          "text": "‘victual’ means food"
+        }
       ],
       "approved": "c4a726d6"
     },
@@ -16911,8 +18936,14 @@ window.TU_PLAIN = {
         "So Uzziah slept with his fathers, and they buried him with his fathers in the field of the burial which belonged to the kings; for they said, “He is a leper:” and Jotham his son reigned in his stead."
       ],
       "notes": [
-        "‘habergeons’ means coats of mail or armor",
-        "‘cunning’ means skilled"
+        {
+          "v": 1,
+          "text": "‘habergeons’ means coats of mail or armor"
+        },
+        {
+          "v": 1,
+          "text": "‘cunning’ means skilled"
+        }
       ],
       "approved": "d63d93c3"
     },
@@ -16958,7 +18989,10 @@ window.TU_PLAIN = {
         "Then Eliezer the son of Dodavah of Mareshah prophesied against Jehoshaphat, saying, “Because you have joined yourself with Ahaziah, the Lord has broken your works.” And the ships were broken, that they were not able to go to Tarshish."
       ],
       "notes": [
-        "‘ambushes’ replaces ambushments"
+        {
+          "v": 1,
+          "text": "‘ambushes’ replaces ambushments"
+        }
       ],
       "approved": "127ef513"
     },
@@ -17004,7 +19038,10 @@ window.TU_PLAIN = {
         "And in every work that he began in the service of the house of God, and in the law, and in the commandments, to seek his God, he did it with all his heart, and prospered."
       ],
       "notes": [
-        "‘groves’ means wooden poles used to worship the false goddess Asherah"
+        {
+          "v": 1,
+          "text": "‘groves’ means wooden poles used to worship the false goddess Asherah"
+        }
       ],
       "approved": "47b732b2"
     },
@@ -17112,7 +19149,10 @@ window.TU_PLAIN = {
         "And Ahaz slept with his fathers, and they buried him in the city, even in Jerusalem: but they brought him not into the tombs of the kings of Israel: and Hezekiah his son reigned in his stead."
       ],
       "notes": [
-        "‘several’ means separate or individual"
+        {
+          "v": 1,
+          "text": "‘several’ means separate or individual"
+        }
       ],
       "approved": "09f0a8cf"
     },
@@ -17141,7 +19181,10 @@ window.TU_PLAIN = {
         "Thirty-two years old was he when he began to reign, and he reigned in Jerusalem eight years, and departed without being desired. However they buried him in the city of David, but not in the sepulchers of the kings."
       ],
       "notes": [
-        "‘severe’ replaces sore"
+        {
+          "v": 1,
+          "text": "‘severe’ replaces sore"
+        }
       ],
       "approved": "2b5e3dd6"
     },
@@ -17172,7 +19215,10 @@ window.TU_PLAIN = {
         "And the rest of the acts of Abijah, and his ways, and his sayings, are written in the story of the prophet Iddo."
       ],
       "notes": [
-        "‘waxed’ means grew"
+        {
+          "v": 1,
+          "text": "‘waxed’ means grew"
+        }
       ],
       "approved": "eda1d49c"
     },
@@ -17265,8 +19311,14 @@ window.TU_PLAIN = {
         "They struck also the tents of cattle, and carried away sheep and camels in abundance, and returned to Jerusalem."
       ],
       "notes": [
-        "‘groves’ means Asherah poles",
-        "‘targets’ means large shields"
+        {
+          "v": 1,
+          "text": "‘groves’ means Asherah poles"
+        },
+        {
+          "v": 1,
+          "text": "‘targets’ means large shields"
+        }
       ],
       "approved": "05717904"
     },
@@ -17300,10 +19352,22 @@ window.TU_PLAIN = {
         "But the people of the land killed all them that had conspired against king Amon; and the people of the land made Josiah his son king in his place."
       ],
       "notes": [
-        "‘groves’ means wooden poles used to worship the false goddess Asherah",
-        "‘observed times’ means practiced fortune-telling",
-        "‘familiar spirit’ means a demon that acts as a guide or servant",
-        "‘Baalim’ means false gods"
+        {
+          "v": 1,
+          "text": "‘groves’ means wooden poles used to worship the false goddess Asherah"
+        },
+        {
+          "v": 1,
+          "text": "‘observed times’ means practiced fortune-telling"
+        },
+        {
+          "v": 1,
+          "text": "‘familiar spirit’ means a demon that acts as a guide or servant"
+        },
+        {
+          "v": 1,
+          "text": "‘Baalim’ means false gods"
+        }
       ],
       "approved": "c15d8d8b"
     },
@@ -17345,8 +19409,14 @@ window.TU_PLAIN = {
         "And Josiah took away all the abominations out of all the countries that pertained to the children of Israel, and made all that were present in Israel to serve, even to serve the Lord their God. And all his days they departed not from following the Lord, the God of their fathers."
       ],
       "notes": [
-        "‘groves’ means wooden poles used to worship the false goddess Asherah",
-        "‘Baalim’ means false gods"
+        {
+          "v": 1,
+          "text": "‘groves’ means wooden poles used to worship the false goddess Asherah"
+        },
+        {
+          "v": 1,
+          "text": "‘Baalim’ means false gods"
+        }
       ],
       "approved": "d0429b3e"
     },
@@ -17560,9 +19630,18 @@ window.TU_PLAIN = {
         "So the priests, and the Levites, and the porters, and the singers, and some of the people, and the Nethinims, and all Israel, dwelt in their cities; and when the seventh month came, the children of Israel were in their cities."
       ],
       "notes": [
-        "‘built’ replaces builded",
-        "‘sixty’ replaces threescore",
-        "‘donkeys’ replaces asses"
+        {
+          "v": 1,
+          "text": "‘built’ replaces builded"
+        },
+        {
+          "v": 1,
+          "text": "‘sixty’ replaces threescore"
+        },
+        {
+          "v": 1,
+          "text": "‘donkeys’ replaces asses"
+        }
       ],
       "approved": "f52db42a"
     },
@@ -17599,7 +19678,10 @@ window.TU_PLAIN = {
         "All the vessels of gold and of silver were five thousand and four hundred. All these did Sheshbazzar bring up with them of the captivity that were brought up from Babylon to Jerusalem."
       ],
       "notes": [
-        "‘chargers’ means dishes or platters"
+        {
+          "v": 1,
+          "text": "‘chargers’ means dishes or platters"
+        }
       ],
       "approved": "7d49cf58"
     },
@@ -17653,7 +19735,10 @@ window.TU_PLAIN = {
         "Also day by day, from the first day to the last day, he read in the book of the law of God. And they kept the feast seven days; and on the eighth day was a solemn assembly, according to the manner."
       ],
       "notes": [
-        "‘joy’ replaces mirth"
+        {
+          "v": 1,
+          "text": "‘joy’ replaces mirth"
+        }
       ],
       "approved": "31ea0fee"
     },
@@ -17685,7 +19770,10 @@ window.TU_PLAIN = {
         "And when inquisition was made of the matter, it was found out; therefore they were both hanged on a tree: and it was written in the book of the chronicles before the king."
       ],
       "notes": [
-        "‘meet’ means fit or proper"
+        {
+          "v": 1,
+          "text": "‘meet’ means fit or proper"
+        }
       ],
       "approved": "84967a04"
     },
@@ -17810,9 +19898,18 @@ window.TU_PLAIN = {
         "So the priests, and the Levites, and some of the people, and the singers, and the porters, and the Nethinims, dwelt in their cities, and all Israel in their cities."
       ],
       "notes": [
-        "‘Tirshatha’ means governor",
-        "‘Nethinims’ means temple servants",
-        "‘porters’ means gatekeepers"
+        {
+          "v": 1,
+          "text": "‘Tirshatha’ means governor"
+        },
+        {
+          "v": 1,
+          "text": "‘Nethinims’ means temple servants"
+        },
+        {
+          "v": 1,
+          "text": "‘porters’ means gatekeepers"
+        }
       ],
       "approved": "cbe37ba5"
     },
@@ -17859,10 +19956,22 @@ window.TU_PLAIN = {
         "“And because of all this we make a sure covenant, and write it; and our princes, Levites, and priests, seal to it.”"
       ],
       "notes": [
-        "‘listened’ replaces hearkened",
-        "‘worked’ replaces wrought",
-        "‘grew’ replaces waxed",
-        "‘dug’ replaces digged"
+        {
+          "v": 1,
+          "text": "‘listened’ replaces hearkened"
+        },
+        {
+          "v": 1,
+          "text": "‘worked’ replaces wrought"
+        },
+        {
+          "v": 1,
+          "text": "‘grew’ replaces waxed"
+        },
+        {
+          "v": 1,
+          "text": "‘dug’ replaces digged"
+        }
       ],
       "approved": "220b7f5c"
     },
@@ -17903,7 +20012,10 @@ window.TU_PLAIN = {
         "And between the going up of the corner to the sheep gate repaired the goldsmiths and the merchants."
       ],
       "notes": [
-        "‘apothecaries’ means perfumers"
+        {
+          "v": 1,
+          "text": "‘apothecaries’ means perfumers"
+        }
       ],
       "approved": "f3801d56"
     },
@@ -18055,9 +20167,18 @@ window.TU_PLAIN = {
         "For the children of Israel and the children of Levi will bring the offering of the corn, of the new wine, and the oil, to the chambers, where are the vessels of the sanctuary, and the priests that minister, and the porters, and the singers: and we will not forsake the house of our God."
       ],
       "notes": [
-        "‘joined’ replaces clave",
-        "‘goods’ replaces ware",
-        "‘food’ replaces victuals"
+        {
+          "v": 1,
+          "text": "‘joined’ replaces clave"
+        },
+        {
+          "v": 1,
+          "text": "‘goods’ replaces ware"
+        },
+        {
+          "v": 1,
+          "text": "‘food’ replaces victuals"
+        }
       ],
       "approved": "b950cfa9"
     },
@@ -18089,7 +20210,10 @@ window.TU_PLAIN = {
         "So neither I, nor my brothers, nor my servants, nor the men of the guard which followed me, none of us put off our clothes, saving that every one put them off for washing."
       ],
       "notes": [
-        "‘habergeons’ means armor"
+        {
+          "v": 1,
+          "text": "‘habergeons’ means armor"
+        }
       ],
       "approved": "ced9b41f"
     },
@@ -18132,8 +20256,14 @@ window.TU_PLAIN = {
         "Then ceased the work of the house of God which is at Jerusalem. So it ceased until the second year of the reign of Darius king of Persia."
       ],
       "notes": [
-        "‘chancellor’ means commander or high official",
-        "‘meet’ means fitting or proper"
+        {
+          "v": 1,
+          "text": "‘chancellor’ means commander or high official"
+        },
+        {
+          "v": 1,
+          "text": "‘meet’ means fitting or proper"
+        }
       ],
       "approved": "1c9f32b7"
     },
@@ -18161,8 +20291,14 @@ window.TU_PLAIN = {
         "Think upon me, my God, for good, according to all that I have done for this people."
       ],
       "notes": [
-        "‘dearth’ means famine",
-        "‘tribute’ means tax"
+        {
+          "v": 1,
+          "text": "‘dearth’ means famine"
+        },
+        {
+          "v": 1,
+          "text": "‘tribute’ means tax"
+        }
       ],
       "approved": "450d8b17"
     },
@@ -18207,8 +20343,14 @@ window.TU_PLAIN = {
         "And of the Levites were divisions in Judah, and in Benjamin."
       ],
       "notes": [
-        "‘sixty-eight’ replaces threescore and eight",
-        "‘twenty-eight’ replaces twenty and eight"
+        {
+          "v": 1,
+          "text": "‘sixty-eight’ replaces threescore and eight"
+        },
+        {
+          "v": 1,
+          "text": "‘twenty-eight’ replaces twenty and eight"
+        }
       ],
       "approved": "8cf512cc"
     },
@@ -18289,9 +20431,18 @@ window.TU_PLAIN = {
         "And kept the feast of unleavened bread seven days with joy. For the Lord had made them joyful, and turned the heart of the king of Assyria to them, to strengthen their hands in the work of the house of God, the God of Israel."
       ],
       "notes": [
-        "‘rolls’ means scrolls or archives",
-        "‘Achmetha’ means Ecbatana",
-        "‘forthwith’ means immediately"
+        {
+          "v": 1,
+          "text": "‘rolls’ means scrolls or archives"
+        },
+        {
+          "v": 1,
+          "text": "‘Achmetha’ means Ecbatana"
+        },
+        {
+          "v": 1,
+          "text": "‘forthwith’ means immediately"
+        }
       ],
       "approved": "d9145038"
     },
@@ -18347,7 +20498,10 @@ window.TU_PLAIN = {
         "And all Israel in the days of Zerubbabel, and in the days of Nehemiah, gave the portions of the singers and the porters, every day his portion: and they sanctified holy things to the Levites; and the Levites sanctified them to the children of Aaron."
       ],
       "notes": [
-        "‘begot’ replaces begat"
+        {
+          "v": 1,
+          "text": "‘begot’ replaces begat"
+        }
       ],
       "approved": "94410bd9"
     },
@@ -18384,9 +20538,18 @@ window.TU_PLAIN = {
         "And has extended mercy to me before the king, and his counselors, and before all the king’s mighty princes. And I was strengthened as the hand of the Lord my God was on me, and I gathered together out of Israel chief men to go up with me."
       ],
       "notes": [
-        "‘grain offerings’ is used instead of ‘meat offerings’",
-        "‘Nethinims’ means temple servants",
-        "‘gatekeepers’ is used instead of ‘porters’"
+        {
+          "v": 1,
+          "text": "‘grain offerings’ is used instead of ‘meat offerings’"
+        },
+        {
+          "v": 1,
+          "text": "‘Nethinims’ means temple servants"
+        },
+        {
+          "v": 1,
+          "text": "‘gatekeepers’ is used instead of ‘porters’"
+        }
       ],
       "approved": "5a75dad2"
     },
@@ -18426,12 +20589,30 @@ window.TU_PLAIN = {
         "And for the wood offering, at times appointed, and for the firstfruits. Remember me, O my God, for good."
       ],
       "notes": [
-        "‘previously’ replaces aforetime",
-        "‘severe’ replaces sore",
-        "‘loading’ replaces lading",
-        "‘food’ replaces victuals",
-        "‘goods’ replaces ware",
-        "‘listen’ replaces hearken"
+        {
+          "v": 1,
+          "text": "‘previously’ replaces aforetime"
+        },
+        {
+          "v": 1,
+          "text": "‘severe’ replaces sore"
+        },
+        {
+          "v": 1,
+          "text": "‘loading’ replaces lading"
+        },
+        {
+          "v": 1,
+          "text": "‘food’ replaces victuals"
+        },
+        {
+          "v": 1,
+          "text": "‘goods’ replaces ware"
+        },
+        {
+          "v": 1,
+          "text": "‘listen’ replaces hearken"
+        }
       ],
       "approved": "8f96b951"
     },
@@ -18498,7 +20679,10 @@ window.TU_PLAIN = {
         "“O Lord God of Israel, You are righteous, for we remain yet escaped, as it is this day. Behold, we are before You in our trespasses, for we cannot stand before You because of this.”"
       ],
       "notes": [
-        "‘astonished’ is used instead of ‘astonied’"
+        {
+          "v": 1,
+          "text": "‘astonished’ is used instead of ‘astonied’"
+        }
       ],
       "approved": "0be9aab2"
     },
@@ -18551,8 +20735,14 @@ window.TU_PLAIN = {
         "All these had taken foreign wives, and some of them had wives by whom they had children."
       ],
       "notes": [
-        "‘foreign’ is used instead of ‘strange’",
-        "‘gatekeepers’ is used instead of ‘porters’"
+        {
+          "v": 1,
+          "text": "‘foreign’ is used instead of ‘strange’"
+        },
+        {
+          "v": 1,
+          "text": "‘gatekeepers’ is used instead of ‘porters’"
+        }
       ],
       "approved": "3bc5149d"
     },
@@ -18590,9 +20780,18 @@ window.TU_PLAIN = {
         "They will go down to the bars of the pit, when our rest together is in the dust."
       ],
       "notes": [
-        "‘previously’ replaces aforetime",
-        "‘tambourine’ replaces tabret",
-        "‘astonished’ replaces astonied"
+        {
+          "v": 1,
+          "text": "‘previously’ replaces aforetime"
+        },
+        {
+          "v": 1,
+          "text": "‘tambourine’ replaces tabret"
+        },
+        {
+          "v": 1,
+          "text": "‘astonished’ replaces astonied"
+        }
       ],
       "approved": "c578a8e3"
     },
@@ -18636,7 +20835,10 @@ window.TU_PLAIN = {
         "“Then would I speak, and not fear Him; but it is not so with me.”"
       ],
       "notes": [
-        "‘daysman’ means mediator"
+        {
+          "v": 1,
+          "text": "‘daysman’ means mediator"
+        }
       ],
       "approved": "d02517ba"
     },
@@ -18659,7 +20861,10 @@ window.TU_PLAIN = {
         "“Lo, these are parts of His ways: but how little a portion is heard of Him? but the thunder of His power who can understand?”"
       ],
       "notes": [
-        "‘rent’ means torn or split"
+        {
+          "v": 1,
+          "text": "‘rent’ means torn or split"
+        }
       ],
       "approved": "c2f5ac55"
     },
@@ -18690,7 +20895,10 @@ window.TU_PLAIN = {
         "In all this Job sinned not, nor charged God foolishly."
       ],
       "notes": [
-        "‘shunned’ means avoided or eschewed"
+        {
+          "v": 1,
+          "text": "‘shunned’ means avoided or eschewed"
+        }
       ],
       "approved": "e06ac044"
     },
@@ -18764,10 +20972,22 @@ window.TU_PLAIN = {
         "Surely such are the dwellings of the wicked, and this is the place of him that knows not God."
       ],
       "notes": [
-        "‘trap’ replaces gin",
-        "‘famished’ replaces hungerbitten",
-        "‘astonished’ replaces astonied",
-        "‘frightened’ replaces affrighted"
+        {
+          "v": 1,
+          "text": "‘trap’ replaces gin"
+        },
+        {
+          "v": 1,
+          "text": "‘famished’ replaces hungerbitten"
+        },
+        {
+          "v": 1,
+          "text": "‘astonished’ replaces astonied"
+        },
+        {
+          "v": 1,
+          "text": "‘frightened’ replaces affrighted"
+        }
       ],
       "approved": "4037146f"
     },
@@ -18789,7 +21009,10 @@ window.TU_PLAIN = {
         "So they sat down with him on the ground seven days and seven nights, and none spoke a word to him. For they saw that his grief was very great."
       ],
       "notes": [
-        "‘potsherd’ means a piece of broken pottery"
+        {
+          "v": 1,
+          "text": "‘potsherd’ means a piece of broken pottery"
+        }
       ],
       "approved": "6895e3a6"
     },
@@ -18850,7 +21073,10 @@ window.TU_PLAIN = {
         "“A land of darkness, as darkness itself; and of the shadow of death, without any order, and where the light is as darkness.”"
       ],
       "notes": [
-        "‘given up the ghost’ means died"
+        {
+          "v": 1,
+          "text": "‘given up the ghost’ means died"
+        }
       ],
       "approved": "0b93a134"
     },
@@ -18911,7 +21137,10 @@ window.TU_PLAIN = {
         "Be you afraid of the sword: for wrath brings the punishments of the sword, that you may know there is a judgment."
       ],
       "notes": [
-        "‘truly’ replaces verily"
+        {
+          "v": 1,
+          "text": "‘truly’ replaces verily"
+        }
       ],
       "approved": "23e2ef46"
     },
@@ -18975,7 +21204,10 @@ window.TU_PLAIN = {
         "“But the eyes of the wicked shall fail, and they shall not escape, and their hope shall be as the giving up of the ghost.”"
       ],
       "notes": [
-        "‘giving up of the ghost’ means dying"
+        {
+          "v": 1,
+          "text": "‘giving up of the ghost’ means dying"
+        }
       ],
       "approved": "3e0dbe4a"
     },
@@ -19010,7 +21242,10 @@ window.TU_PLAIN = {
         "“I was not in safety, neither had I rest, neither was I quiet, yet trouble came.”"
       ],
       "notes": [
-        "‘untimely birth’ means a stillborn child"
+        {
+          "v": 1,
+          "text": "‘untimely birth’ means a stillborn child"
+        }
       ],
       "approved": "d6c91889"
     },
@@ -19048,7 +21283,10 @@ window.TU_PLAIN = {
         "This is the portion of a wicked man from God, and the heritage appointed to him by God."
       ],
       "notes": [
-        "‘built’ replaces builded"
+        {
+          "v": 1,
+          "text": "‘built’ replaces builded"
+        }
       ],
       "approved": "16c0cf75"
     },
@@ -19223,8 +21461,14 @@ window.TU_PLAIN = {
         "“‘Does not their excellency which is in them go away? They die, even without wisdom.’”"
       ],
       "notes": [
-        "‘assay’ means attempt or try",
-        "‘upheld’ is used instead of ‘upholden’"
+        {
+          "v": 1,
+          "text": "‘assay’ means attempt or try"
+        },
+        {
+          "v": 1,
+          "text": "‘upheld’ is used instead of ‘upholden’"
+        }
       ],
       "approved": "e0445269"
     },
@@ -19295,7 +21539,10 @@ window.TU_PLAIN = {
         "“My harp also is turned to mourning, and my organ into the voice of them that weep.”"
       ],
       "notes": [
-        "‘prevented’ means confronted or came before"
+        {
+          "v": 1,
+          "text": "‘prevented’ means confronted or came before"
+        }
       ],
       "approved": "6a74ca88"
     },
@@ -19332,7 +21579,10 @@ window.TU_PLAIN = {
         "“And he, as a rotten thing, consumes, as a garment that is moth eaten.”"
       ],
       "notes": [
-        "‘give up the ghost’ means die"
+        {
+          "v": 1,
+          "text": "‘give up the ghost’ means die"
+        }
       ],
       "approved": "d9621bd5"
     },
@@ -19371,10 +21621,22 @@ window.TU_PLAIN = {
         "He will deliver the island of the innocent: and it is delivered by the pureness of your hands."
       ],
       "notes": [
-        "‘nothing’ replaces nought",
-        "‘withheld’ replaces withholden",
-        "‘honorable’ replaces honourable",
-        "‘defense’ replaces defence"
+        {
+          "v": 1,
+          "text": "‘nothing’ replaces nought"
+        },
+        {
+          "v": 1,
+          "text": "‘withheld’ replaces withholden"
+        },
+        {
+          "v": 1,
+          "text": "‘honorable’ replaces honourable"
+        },
+        {
+          "v": 1,
+          "text": "‘defense’ replaces defence"
+        }
       ],
       "approved": "e405c2a2"
     },
@@ -19410,7 +21672,10 @@ window.TU_PLAIN = {
         "“Lo this, we have searched it, so it is. Hear it, and know you it for your good.”"
       ],
       "notes": [
-        "‘perverse’ is used instead of ‘froward’"
+        {
+          "v": 1,
+          "text": "‘perverse’ is used instead of ‘froward’"
+        }
       ],
       "approved": "111f58c9"
     },
@@ -19512,8 +21777,14 @@ window.TU_PLAIN = {
         "“But his flesh upon him shall have pain, and his soul within him shall mourn.”"
       ],
       "notes": [
-        "‘wax’ means grow",
-        "‘gives up the ghost’ means dies"
+        {
+          "v": 1,
+          "text": "‘wax’ means grow"
+        },
+        {
+          "v": 1,
+          "text": "‘gives up the ghost’ means dies"
+        }
       ],
       "approved": "a2aeb2ed"
     },
@@ -19581,8 +21852,14 @@ window.TU_PLAIN = {
         "“Is there iniquity in my tongue? Cannot my taste discern perverse things?”"
       ],
       "notes": [
-        "‘food’ is used instead of ‘meat’",
-        "‘donkey’ is used instead of ‘ass’"
+        {
+          "v": 1,
+          "text": "‘food’ is used instead of ‘meat’"
+        },
+        {
+          "v": 1,
+          "text": "‘donkey’ is used instead of ‘ass’"
+        }
       ],
       "approved": "bab3c613"
     },
@@ -19664,9 +21941,18 @@ window.TU_PLAIN = {
         "And if it be not so now, who will make me a liar, and make my speech nothing worth?"
       ],
       "notes": [
-        "‘donkey’ replaces ass",
-        "‘donkeys’ replaces asses",
-        "‘early’ replaces betimes"
+        {
+          "v": 1,
+          "text": "‘donkey’ replaces ass"
+        },
+        {
+          "v": 1,
+          "text": "‘donkeys’ replaces asses"
+        },
+        {
+          "v": 1,
+          "text": "‘early’ replaces betimes"
+        }
       ],
       "approved": "5d57d08e"
     },
@@ -19696,7 +21982,10 @@ window.TU_PLAIN = {
         "“And why do You not pardon my transgression, and take away my iniquity? For now will I sleep in the dust, and You will seek me in the morning, but I will not be.”"
       ],
       "notes": [
-        "‘hired worker’ is used instead of ‘hireling’"
+        {
+          "v": 1,
+          "text": "‘hired worker’ is used instead of ‘hireling’"
+        }
       ],
       "approved": "8d4d5f79"
     },
@@ -19777,7 +22066,10 @@ window.TU_PLAIN = {
         "“They conceive mischief, and bring forth vanity, and their belly prepares deceit.”"
       ],
       "notes": [
-        "‘collops’ means folds"
+        {
+          "v": 1,
+          "text": "‘collops’ means folds"
+        }
       ],
       "approved": "1c479b89"
     },
@@ -19879,7 +22171,10 @@ window.TU_PLAIN = {
         "“When a few years are come, then I shall go the way where I shall not return.”"
       ],
       "notes": [
-        "‘reins’ means kidneys"
+        {
+          "v": 1,
+          "text": "‘reins’ means kidneys"
+        }
       ],
       "approved": "56884ce9"
     },
@@ -19910,8 +22205,14 @@ window.TU_PLAIN = {
         "“They that hate you will be clothed with shame, and the dwelling place of the wicked will come to nothing.”"
       ],
       "notes": [
-        "‘betimes’ means early or promptly",
-        "‘flag’ means reed or papyrus"
+        {
+          "v": 1,
+          "text": "‘betimes’ means early or promptly"
+        },
+        {
+          "v": 1,
+          "text": "‘flag’ means reed or papyrus"
+        }
       ],
       "approved": "32564441"
     },
@@ -20009,7 +22310,10 @@ window.TU_PLAIN = {
         "Be of good courage, and He shall strengthen your heart, all you that hope in the Lord."
       ],
       "notes": [
-        "‘privily’ means secretly"
+        {
+          "v": 1,
+          "text": "‘privily’ means secretly"
+        }
       ],
       "approved": "bb4334c2"
     },
@@ -20029,7 +22333,10 @@ window.TU_PLAIN = {
         "Be glad in the Lord, and rejoice, you righteous: and shout for joy, all you that are upright in heart."
       ],
       "notes": [
-        "‘waxed’ means grew"
+        {
+          "v": 1,
+          "text": "‘waxed’ means grew"
+        }
       ],
       "approved": "b4a9ec11"
     },
@@ -20060,8 +22367,14 @@ window.TU_PLAIN = {
         "Let Your mercy, O Lord, be upon us, according as we hope in You."
       ],
       "notes": [
-        "‘comely’ means fitting",
-        "‘psaltery’ means stringed instrument"
+        {
+          "v": 1,
+          "text": "‘comely’ means fitting"
+        },
+        {
+          "v": 1,
+          "text": "‘psaltery’ means stringed instrument"
+        }
       ],
       "approved": "e7282f24"
     },
@@ -20127,7 +22440,10 @@ window.TU_PLAIN = {
         "And my tongue shall speak of Your righteousness and of Your praise all the day long."
       ],
       "notes": [
-        "‘darling’ means life"
+        {
+          "v": 1,
+          "text": "‘darling’ means life"
+        }
       ],
       "approved": "587fd0ed"
     },
@@ -20224,7 +22540,10 @@ window.TU_PLAIN = {
         "Make haste to help me, O Lord my salvation."
       ],
       "notes": [
-        "‘dumb’ means mute"
+        {
+          "v": 1,
+          "text": "‘dumb’ means mute"
+        }
       ],
       "approved": "d7abde48"
     },
@@ -20246,8 +22565,14 @@ window.TU_PLAIN = {
         "“O spare me, that I may recover strength, before I go away, and be no more.”"
       ],
       "notes": [
-        "‘dumb’ means mute",
-        "‘hence’ means away"
+        {
+          "v": 1,
+          "text": "‘dumb’ means mute"
+        },
+        {
+          "v": 1,
+          "text": "‘hence’ means away"
+        }
       ],
       "approved": "6fa838ef"
     },
@@ -20368,8 +22693,14 @@ window.TU_PLAIN = {
         "Why are you cast down, O my soul? and why are you disquieted within me? hope you in God: for I shall yet praise Him, who is the health of my countenance, and my God."
       ],
       "notes": [
-        "‘hart’ means deer",
-        "‘meat’ means food"
+        {
+          "v": 1,
+          "text": "‘hart’ means deer"
+        },
+        {
+          "v": 1,
+          "text": "‘meat’ means food"
+        }
       ],
       "approved": "18f0147e"
     },
@@ -20464,8 +22795,14 @@ window.TU_PLAIN = {
         "Arise for our help, and redeem us for Your mercies’ sake."
       ],
       "notes": [
-        "‘meat’ means food",
-        "‘dragons’ means jackals"
+        {
+          "v": 1,
+          "text": "‘meat’ means food"
+        },
+        {
+          "v": 1,
+          "text": "‘dragons’ means jackals"
+        }
       ],
       "approved": "cf4370d4"
     },
@@ -20511,7 +22848,10 @@ window.TU_PLAIN = {
         "I will make your name to be remembered in all generations: therefore shall the people praise you forever and ever."
       ],
       "notes": [
-        "‘inditing’ means composing"
+        {
+          "v": 1,
+          "text": "‘inditing’ means composing"
+        }
       ],
       "approved": "a0a1f7c9"
     },
@@ -20619,7 +22959,10 @@ window.TU_PLAIN = {
         "For this God is our God forever and ever: He will be our guide even to death."
       ],
       "notes": [
-        "‘hasted’ means hurried"
+        {
+          "v": 1,
+          "text": "‘hasted’ means hurried"
+        }
       ],
       "approved": "18d38c17"
     },
@@ -20675,7 +23018,10 @@ window.TU_PLAIN = {
         "I will early destroy all the wicked of the land; that I may cut off all wicked doers from the city of the Lord."
       ],
       "notes": [
-        "‘froward’ means perverse"
+        {
+          "v": 1,
+          "text": "‘froward’ means perverse"
+        }
       ],
       "approved": "dcd04589"
     },
@@ -20742,7 +23088,10 @@ window.TU_PLAIN = {
         "The children of Your servants shall continue, and their seed shall be established before You."
       ],
       "notes": [
-        "‘vesture’ means clothing or a garment"
+        {
+          "v": 1,
+          "text": "‘vesture’ means clothing or a garment"
+        }
       ],
       "approved": "04085c89"
     },
@@ -21021,7 +23370,10 @@ window.TU_PLAIN = {
         "But You, O God, shall bring them down into the pit of destruction: bloody and deceitful men shall not live out half their days; but I will trust in You."
       ],
       "notes": [
-        "‘quick’ means alive"
+        {
+          "v": 1,
+          "text": "‘quick’ means alive"
+        }
       ],
       "approved": "3bec20ec"
     },
@@ -21073,7 +23425,10 @@ window.TU_PLAIN = {
         "Whoever is wise, and will observe these things, even they shall understand the lovingkindness of the Lord."
       ],
       "notes": [
-        "‘contemned’ means despised or treated with contempt"
+        {
+          "v": 1,
+          "text": "‘contemned’ means despised or treated with contempt"
+        }
       ],
       "approved": "e5f28b21"
     },
@@ -21095,7 +23450,10 @@ window.TU_PLAIN = {
         "For You have delivered my soul from death: will You not deliver my feet from falling, that I may walk before God in the light of the living?"
       ],
       "notes": [
-        "‘wrest’ means twist"
+        {
+          "v": 1,
+          "text": "‘wrest’ means twist"
+        }
       ],
       "approved": "7e7d7333"
     },
@@ -21117,7 +23475,10 @@ window.TU_PLAIN = {
         "Through God we shall do valiantly: for He it is that shall tread down our enemies."
       ],
       "notes": [
-        "‘mete’ means measure"
+        {
+          "v": 1,
+          "text": "‘mete’ means measure"
+        }
       ],
       "approved": "82c565ea"
     },
@@ -21137,7 +23498,10 @@ window.TU_PLAIN = {
         "Be You exalted, O God, above the heavens: let Your glory be above all the earth."
       ],
       "notes": [
-        "‘psaltery’ means stringed instrument"
+        {
+          "v": 1,
+          "text": "‘psaltery’ means stringed instrument"
+        }
       ],
       "approved": "1fd9d55b"
     },
@@ -21233,8 +23597,14 @@ window.TU_PLAIN = {
         "To You, O my strength, will I sing: for God is my defense, and the God of my mercy."
       ],
       "notes": [
-        "‘prevent’ means go before",
-        "‘meat’ means food"
+        {
+          "v": 1,
+          "text": "‘prevent’ means go before"
+        },
+        {
+          "v": 1,
+          "text": "‘meat’ means food"
+        }
       ],
       "approved": "ba35e309"
     },
@@ -21272,7 +23642,10 @@ window.TU_PLAIN = {
         "Through God we shall do valiantly: for He it is that shall tread down our enemies."
       ],
       "notes": [
-        "‘mete’ means measure"
+        {
+          "v": 1,
+          "text": "‘mete’ means measure"
+        }
       ],
       "approved": "96469856"
     },
@@ -21407,8 +23780,14 @@ window.TU_PLAIN = {
         "Also to You, O Lord, belongs mercy: for You render to every man according to his work."
       ],
       "notes": [
-        "‘defense’ replaces defence",
-        "‘killed’ replaces slain"
+        {
+          "v": 1,
+          "text": "‘defense’ replaces defence"
+        },
+        {
+          "v": 1,
+          "text": "‘killed’ replaces slain"
+        }
       ],
       "approved": "d9fec25d"
     },
@@ -21490,7 +23869,10 @@ window.TU_PLAIN = {
         "The righteous will be glad in the Lord, and will trust in Him; and all the upright in heart will glory."
       ],
       "notes": [
-        "‘privately’ replaces privily"
+        {
+          "v": 1,
+          "text": "‘privately’ replaces privily"
+        }
       ],
       "approved": "8f255566"
     },
@@ -21736,8 +24118,14 @@ window.TU_PLAIN = {
         "Blessed be God, which has not turned away my prayer, nor His mercy from me."
       ],
       "notes": [
-        "‘honor’ replaces honour",
-        "‘truly’ replaces verily"
+        {
+          "v": 1,
+          "text": "‘honor’ replaces honour"
+        },
+        {
+          "v": 1,
+          "text": "‘truly’ replaces verily"
+        }
       ],
       "approved": "46e74f63"
     },
@@ -21810,8 +24198,14 @@ window.TU_PLAIN = {
         "O God, You are terrible out of Your holy places: the God of Israel is He that gives strength and power to His people. Blessed be God."
       ],
       "notes": [
-        "‘lain’ replaces lien",
-        "‘worked’ replaces wrought"
+        {
+          "v": 1,
+          "text": "‘lain’ replaces lien"
+        },
+        {
+          "v": 1,
+          "text": "‘worked’ replaces wrought"
+        }
       ],
       "approved": "3f5022df"
     },
@@ -21856,7 +24250,10 @@ window.TU_PLAIN = {
         "The seed also of His servants will inherit it: and they that love His name will dwell in it."
       ],
       "notes": [
-        "‘dishonor’ replaces dishonour"
+        {
+          "v": 1,
+          "text": "‘dishonor’ replaces dishonour"
+        }
       ],
       "approved": "b8afea53"
     },
@@ -21901,9 +24298,18 @@ window.TU_PLAIN = {
         "My tongue also will talk of Your righteousness all the day long: for they are confounded, for they are brought to shame, that seek my hurt."
       ],
       "notes": [
-        "‘honor’ replaces honour",
-        "‘dishonor’ replaces dishonour",
-        "‘stringed instrument’ replaces psaltery"
+        {
+          "v": 1,
+          "text": "‘honor’ replaces honour"
+        },
+        {
+          "v": 1,
+          "text": "‘dishonor’ replaces dishonour"
+        },
+        {
+          "v": 1,
+          "text": "‘stringed instrument’ replaces psaltery"
+        }
       ],
       "approved": "5beab7c2"
     },
@@ -21967,10 +24373,22 @@ window.TU_PLAIN = {
         "But it is good for me to draw near to God: I have put my trust in the Lord God, that I may declare all Your works."
       ],
       "notes": [
-        "‘near’ replaces nigh",
-        "‘here’ replaces hither",
-        "‘Truly’ replaces Verily",
-        "‘whoring’ replaces a whoring"
+        {
+          "v": 1,
+          "text": "‘near’ replaces nigh"
+        },
+        {
+          "v": 1,
+          "text": "‘here’ replaces hither"
+        },
+        {
+          "v": 1,
+          "text": "‘Truly’ replaces Verily"
+        },
+        {
+          "v": 1,
+          "text": "‘whoring’ replaces a whoring"
+        }
       ],
       "approved": "3eec2604"
     },
@@ -22065,7 +24483,10 @@ window.TU_PLAIN = {
         "You led Your people like a flock by the hand of Moses and Aaron."
       ],
       "notes": [
-        "‘favorable’ replaces favourable"
+        {
+          "v": 1,
+          "text": "‘favorable’ replaces favourable"
+        }
       ],
       "approved": "82660f48"
     },
@@ -22146,12 +24567,30 @@ window.TU_PLAIN = {
         "So he fed them according to the integrity of his heart; and guided them by the skillfulness of his hands."
       ],
       "notes": [
-        "‘split’ replaces clave",
-        "‘angry’ replaces wroth",
-        "‘killed’ replaces slew",
-        "‘worked’ replaces wrought",
-        "‘carved’ replaces graven",
-        "‘skillfulness’ replaces skilfulness"
+        {
+          "v": 1,
+          "text": "‘split’ replaces clave"
+        },
+        {
+          "v": 1,
+          "text": "‘angry’ replaces wroth"
+        },
+        {
+          "v": 1,
+          "text": "‘killed’ replaces slew"
+        },
+        {
+          "v": 1,
+          "text": "‘worked’ replaces wrought"
+        },
+        {
+          "v": 1,
+          "text": "‘carved’ replaces graven"
+        },
+        {
+          "v": 1,
+          "text": "‘skillfulness’ replaces skilfulness"
+        }
       ],
       "approved": "d606afd9"
     },
@@ -22222,10 +24661,22 @@ window.TU_PLAIN = {
         "He should have fed them also with the finest of the wheat: and with honey out of the rock should I have satisfied you."
       ],
       "notes": [
-        "‘here’ replaces hither",
-        "‘stringed instrument’ replaces psaltery",
-        "‘listen’ replaces hearken",
-        "‘listened’ replaces hearkened"
+        {
+          "v": 1,
+          "text": "‘here’ replaces hither"
+        },
+        {
+          "v": 1,
+          "text": "‘stringed instrument’ replaces psaltery"
+        },
+        {
+          "v": 1,
+          "text": "‘listen’ replaces hearken"
+        },
+        {
+          "v": 1,
+          "text": "‘listened’ replaces hearkened"
+        }
       ],
       "approved": "b45e6263"
     },
@@ -22267,7 +24718,10 @@ window.TU_PLAIN = {
         "That men may know that You, whose name alone is JEHOVAH, are the most high over all the earth."
       ],
       "notes": [
-        "‘helped’ replaces holpen"
+        {
+          "v": 1,
+          "text": "‘helped’ replaces holpen"
+        }
       ],
       "approved": "c9362039"
     },
@@ -22308,8 +24762,14 @@ window.TU_PLAIN = {
         "Righteousness will go before Him; and will set us in the way of His steps."
       ],
       "notes": [
-        "‘favorable’ replaces favourable",
-        "‘near’ replaces nigh"
+        {
+          "v": 1,
+          "text": "‘favorable’ replaces favourable"
+        },
+        {
+          "v": 1,
+          "text": "‘near’ replaces nigh"
+        }
       ],
       "approved": "6f1f7bd0"
     },
@@ -22335,7 +24795,10 @@ window.TU_PLAIN = {
         "Show me a token for good; that they which hate me may see it, and be ashamed: because You, Lord, have helped me, and comforted me."
       ],
       "notes": [
-        "‘helped’ replaces holpen"
+        {
+          "v": 1,
+          "text": "‘helped’ replaces holpen"
+        }
       ],
       "approved": "a9764606"
     },
@@ -22435,7 +24898,10 @@ window.TU_PLAIN = {
         "Blessed be the Lord for evermore. Amen, and Amen."
       ],
       "notes": [
-        "‘defense’ replaces defence"
+        {
+          "v": 1,
+          "text": "‘defense’ replaces defence"
+        }
       ],
       "approved": "f771e234"
     },
@@ -22461,7 +24927,10 @@ window.TU_PLAIN = {
         "And let the beauty of the Lord our God be upon us: and establish You the work of our hands upon us; yes, the work of our hands establish You it."
       ],
       "notes": [
-        "‘labor’ replaces labour"
+        {
+          "v": 1,
+          "text": "‘labor’ replaces labour"
+        }
       ],
       "approved": "f24a7211"
     },
@@ -23009,8 +25478,14 @@ window.TU_PLAIN = {
         "Kiss the Son, lest He be angry, and you perish from the way, when His wrath is kindled but a little. Blessed are all they that put their trust in Him."
       ],
       "notes": [
-        "‘heathen’ means nations or Gentiles",
-        "‘derision’ means mockery or ridicule"
+        {
+          "v": 1,
+          "text": "‘heathen’ means nations or Gentiles"
+        },
+        {
+          "v": 1,
+          "text": "‘derision’ means mockery or ridicule"
+        }
       ],
       "approved": "e77c4f5f"
     },
@@ -23042,8 +25517,14 @@ window.TU_PLAIN = {
         "I will both lay me down in peace, and sleep, for You, Lord, only make me dwell in safety."
       ],
       "notes": [
-        "‘leasing’ means falsehood or lies",
-        "‘grain’ is used instead of ‘corn’"
+        {
+          "v": 1,
+          "text": "‘leasing’ means falsehood or lies"
+        },
+        {
+          "v": 1,
+          "text": "‘grain’ is used instead of ‘corn’"
+        }
       ],
       "approved": "cc7ce05c"
     },
@@ -23064,7 +25545,10 @@ window.TU_PLAIN = {
         "For You, Lord, will bless the righteous. With favor will You compass him as with a shield."
       ],
       "notes": [
-        "‘leasing’ means falsehood or lies"
+        {
+          "v": 1,
+          "text": "‘leasing’ means falsehood or lies"
+        }
       ],
       "approved": "500761fa"
     },
@@ -23083,7 +25567,10 @@ window.TU_PLAIN = {
         "Let all my enemies be ashamed and severely vexed. Let them return and be ashamed suddenly."
       ],
       "notes": [
-        "‘severely’ is used instead of ‘sore’"
+        {
+          "v": 1,
+          "text": "‘severely’ is used instead of ‘sore’"
+        }
       ],
       "approved": "60b1693d"
     },
@@ -23109,9 +25596,18 @@ window.TU_PLAIN = {
         "I will praise the Lord according to His righteousness, and will sing praise to the name of the Lord most high."
       ],
       "notes": [
-        "‘reins’ refers to the inner parts or mind",
-        "‘whet’ means to sharpen",
-        "‘pate’ means the crown of the head"
+        {
+          "v": 1,
+          "text": "‘reins’ refers to the inner parts or mind"
+        },
+        {
+          "v": 1,
+          "text": "‘whet’ means to sharpen"
+        },
+        {
+          "v": 1,
+          "text": "‘pate’ means the crown of the head"
+        }
       ],
       "approved": "6e8cae1a"
     },
@@ -23129,7 +25625,10 @@ window.TU_PLAIN = {
         "O Lord our Lord, how excellent is Your name in all the earth!"
       ],
       "notes": [
-        "‘nursing infants’ is used instead of ‘sucklings’"
+        {
+          "v": 1,
+          "text": "‘nursing infants’ is used instead of ‘sucklings’"
+        }
       ],
       "approved": "3af9b8e9"
     },
@@ -23183,7 +25682,10 @@ window.TU_PLAIN = {
         "To judge the fatherless and the oppressed, that the man of the earth may no more oppress."
       ],
       "notes": [
-        "‘condemn’ is used instead of ‘contemn’"
+        {
+          "v": 1,
+          "text": "‘condemn’ is used instead of ‘contemn’"
+        }
       ],
       "approved": "34f20c53"
     },
@@ -23199,7 +25701,10 @@ window.TU_PLAIN = {
         "For the righteous Lord loves righteousness. His countenance does behold the upright."
       ],
       "notes": [
-        "‘privately’ is used instead of ‘privily’"
+        {
+          "v": 1,
+          "text": "‘privately’ is used instead of ‘privily’"
+        }
       ],
       "approved": "6e2e6ede"
     },
@@ -23255,7 +25760,10 @@ window.TU_PLAIN = {
         "He that puts not out his money to usury, nor takes reward against the innocent. He that does these things will never be moved."
       ],
       "notes": [
-        "‘condemned’ is used instead of ‘contemned’"
+        {
+          "v": 1,
+          "text": "‘condemned’ is used instead of ‘contemned’"
+        }
       ],
       "approved": "3716c5df"
     },
@@ -23354,10 +25862,22 @@ window.TU_PLAIN = {
         "Great deliverance gives He to His king, and shows mercy to His anointed, to David, and to his seed forevermore."
       ],
       "notes": [
-        "‘confronted’ is used instead of ‘prevented’",
-        "‘angry’ is used instead of ‘wroth’",
-        "‘routed’ is used instead of ‘discomfited’",
-        "‘perverse’ is used instead of ‘froward’"
+        {
+          "v": 1,
+          "text": "‘confronted’ is used instead of ‘prevented’"
+        },
+        {
+          "v": 1,
+          "text": "‘angry’ is used instead of ‘wroth’"
+        },
+        {
+          "v": 1,
+          "text": "‘routed’ is used instead of ‘discomfited’"
+        },
+        {
+          "v": 1,
+          "text": "‘perverse’ is used instead of ‘froward’"
+        }
       ],
       "approved": "df89f4d0"
     },
@@ -23416,8 +25936,14 @@ window.TU_PLAIN = {
         "Be You exalted, Lord, in Your own strength: so will we sing and praise Your power."
       ],
       "notes": [
-        "‘withheld’ is used instead of ‘withholden’",
-        "‘meet’ is used instead of ‘preventest’"
+        {
+          "v": 1,
+          "text": "‘withheld’ is used instead of ‘withholden’"
+        },
+        {
+          "v": 1,
+          "text": "‘meet’ is used instead of ‘preventest’"
+        }
       ],
       "approved": "2fb569dd"
     },
@@ -23672,9 +26198,18 @@ window.TU_PLAIN = {
         "Behold, the righteous shall be recompensed in the earth: much more the wicked and the sinner."
       ],
       "notes": [
-        "‘smart’ means suffer",
-        "‘froward’ means perverse",
-        "‘meet’ means fitting"
+        {
+          "v": 1,
+          "text": "‘smart’ means suffer"
+        },
+        {
+          "v": 1,
+          "text": "‘froward’ means perverse"
+        },
+        {
+          "v": 1,
+          "text": "‘meet’ means fitting"
+        }
       ],
       "approved": "5a15777f"
     },
@@ -23714,11 +26249,26 @@ window.TU_PLAIN = {
         "The horse is prepared against the day of battle: but safety is of the Lord."
       ],
       "notes": [
-        "‘crooked’ replaces froward",
-        "‘neighbor’ replaces neighbour",
-        "‘favor’ replaces favour",
-        "‘honor’ replaces honour",
-        "‘labor’ replaces labour"
+        {
+          "v": 1,
+          "text": "‘crooked’ replaces froward"
+        },
+        {
+          "v": 1,
+          "text": "‘neighbor’ replaces neighbour"
+        },
+        {
+          "v": 1,
+          "text": "‘favor’ replaces favour"
+        },
+        {
+          "v": 1,
+          "text": "‘honor’ replaces honour"
+        },
+        {
+          "v": 1,
+          "text": "‘labor’ replaces labour"
+        }
       ],
       "approved": "cd814f3a"
     },
@@ -23749,8 +26299,14 @@ window.TU_PLAIN = {
         "But the wicked will be cut off from the earth, and the transgressors will be rooted out of it."
       ],
       "notes": [
-        "‘perverse’ is used instead of ‘froward’",
-        "‘perversity’ is used instead of ‘frowardness’"
+        {
+          "v": 1,
+          "text": "‘perverse’ is used instead of ‘froward’"
+        },
+        {
+          "v": 1,
+          "text": "‘perversity’ is used instead of ‘frowardness’"
+        }
       ],
       "approved": "139fb906"
     },
@@ -23827,7 +26383,10 @@ window.TU_PLAIN = {
         "The wise will inherit glory: but shame will be the promotion of fools."
       ],
       "notes": [
-        "‘perverse’ is used instead of ‘froward’"
+        {
+          "v": 1,
+          "text": "‘perverse’ is used instead of ‘froward’"
+        }
       ],
       "approved": "51f75694"
     },
@@ -23900,11 +26459,26 @@ window.TU_PLAIN = {
         "See you a man diligent in his business? he will stand before kings; he will not stand before mean men."
       ],
       "notes": [
-        "‘favor’ replaces favour",
-        "‘honor’ replaces honour",
-        "‘perverse’ replaces froward",
-        "‘killed’ replaces slain",
-        "‘into it’ replaces therein"
+        {
+          "v": 1,
+          "text": "‘favor’ replaces favour"
+        },
+        {
+          "v": 1,
+          "text": "‘honor’ replaces honour"
+        },
+        {
+          "v": 1,
+          "text": "‘perverse’ replaces froward"
+        },
+        {
+          "v": 1,
+          "text": "‘killed’ replaces slain"
+        },
+        {
+          "v": 1,
+          "text": "‘into it’ replaces therein"
+        }
       ],
       "approved": "bb61af93"
     },
@@ -23946,8 +26520,14 @@ window.TU_PLAIN = {
         "“But whoever hearkens to me will dwell safely, and will be quiet from fear of evil.”"
       ],
       "notes": [
-        "‘prudence’ is used instead of ‘subtilty’",
-        "‘privately’ is used instead of ‘privily’"
+        {
+          "v": 1,
+          "text": "‘prudence’ is used instead of ‘subtilty’"
+        },
+        {
+          "v": 1,
+          "text": "‘privately’ is used instead of ‘privily’"
+        }
       ],
       "approved": "017ff408"
     },
@@ -23983,7 +26563,10 @@ window.TU_PLAIN = {
         "Turn not to the right hand nor to the left: remove your foot from evil."
       ],
       "notes": [
-        "‘deceitful’ is used instead of ‘froward’"
+        {
+          "v": 1,
+          "text": "‘deceitful’ is used instead of ‘froward’"
+        }
       ],
       "approved": "99c59983"
     },
@@ -24015,7 +26598,10 @@ window.TU_PLAIN = {
         "He will die without instruction, and in the greatness of his folly he will go astray."
       ],
       "notes": [
-        "‘held’ is used instead of ‘holden’"
+        {
+          "v": 1,
+          "text": "‘held’ is used instead of ‘holden’"
+        }
       ],
       "approved": "164b0a9a"
     },
@@ -24078,7 +26664,10 @@ window.TU_PLAIN = {
         "The righteous eats to the satisfying of his soul: but the belly of the wicked shall want."
       ],
       "notes": [
-        "‘betimes’ means early"
+        {
+          "v": 1,
+          "text": "‘betimes’ means early"
+        }
       ],
       "approved": "c54888d2"
     },
@@ -24122,8 +26711,14 @@ window.TU_PLAIN = {
         "“They have stricken me,” will you say, “and I was not sick; they have beaten me, and I felt it not: when will I awake? I will seek it yet again.”"
       ],
       "notes": [
-        "‘Labor’ replaces Labour",
-        "‘color’ replaces colour"
+        {
+          "v": 1,
+          "text": "‘Labor’ replaces Labour"
+        },
+        {
+          "v": 1,
+          "text": "‘color’ replaces colour"
+        }
       ],
       "approved": "08a7f2c8"
     },
@@ -24217,7 +26812,10 @@ window.TU_PLAIN = {
         "The king’s favor is toward a wise servant: but his wrath is against him that causes shame."
       ],
       "notes": [
-        "‘penury’ means poverty"
+        {
+          "v": 1,
+          "text": "‘penury’ means poverty"
+        }
       ],
       "approved": "feebbd2e"
     },
@@ -24260,11 +26858,26 @@ window.TU_PLAIN = {
         "So will your poverty come as one that travels; and your want as an armed man."
       ],
       "notes": [
-        "‘counselors’ replaces counsellors",
-        "‘killed’ replaces slain",
-        "‘outside’ replaces without",
-        "‘neighbor’ replaces neighbour",
-        "‘travels’ replaces travelleth"
+        {
+          "v": 1,
+          "text": "‘counselors’ replaces counsellors"
+        },
+        {
+          "v": 1,
+          "text": "‘killed’ replaces slain"
+        },
+        {
+          "v": 1,
+          "text": "‘outside’ replaces without"
+        },
+        {
+          "v": 1,
+          "text": "‘neighbor’ replaces neighbour"
+        },
+        {
+          "v": 1,
+          "text": "‘travels’ replaces travelleth"
+        }
       ],
       "approved": "7c6c4811"
     },
@@ -24533,9 +27146,18 @@ window.TU_PLAIN = {
         "He that has no rule over his own spirit is like a city that is broken down, and without walls."
       ],
       "notes": [
-        "‘here’ replaces hither",
-        "‘honor’ replaces honour",
-        "‘neighbor’ replaces neighbour"
+        {
+          "v": 1,
+          "text": "‘here’ replaces hither"
+        },
+        {
+          "v": 1,
+          "text": "‘honor’ replaces honour"
+        },
+        {
+          "v": 1,
+          "text": "‘neighbor’ replaces neighbour"
+        }
       ],
       "approved": "d3162c51"
     },
@@ -24608,10 +27230,22 @@ window.TU_PLAIN = {
         "A lying tongue hates those that are afflicted by it; and a flattering mouth works ruin."
       ],
       "notes": [
-        "‘honor’ replaces honour",
-        "‘neighbor’ replaces neighbour",
-        "‘showed’ replaces shewed",
-        "‘into it’ replaces therein"
+        {
+          "v": 1,
+          "text": "‘honor’ replaces honour"
+        },
+        {
+          "v": 1,
+          "text": "‘neighbor’ replaces neighbour"
+        },
+        {
+          "v": 1,
+          "text": "‘showed’ replaces shewed"
+        },
+        {
+          "v": 1,
+          "text": "‘into it’ replaces therein"
+        }
       ],
       "approved": "898fa602"
     },
@@ -24653,8 +27287,14 @@ window.TU_PLAIN = {
         "The lot is cast into the lap; but the whole disposing of it is of the Lord."
       ],
       "notes": [
-        "‘froward’ means perverse",
-        "‘hoary’ means gray or white with age"
+        {
+          "v": 1,
+          "text": "‘froward’ means perverse"
+        },
+        {
+          "v": 1,
+          "text": "‘hoary’ means gray or white with age"
+        }
       ],
       "approved": "46ef41f0"
     },
@@ -24722,8 +27362,14 @@ window.TU_PLAIN = {
         "He will not regard any ransom, neither will he rest content, though you give many gifts."
       ],
       "notes": [
-        "‘perverse’ is used instead of ‘froward’",
-        "‘perversity’ is used instead of ‘frowardness’"
+        {
+          "v": 1,
+          "text": "‘perverse’ is used instead of ‘froward’"
+        },
+        {
+          "v": 1,
+          "text": "‘perversity’ is used instead of ‘frowardness’"
+        }
       ],
       "approved": "01cb237f"
     },
@@ -24764,8 +27410,14 @@ window.TU_PLAIN = {
         "The lips of the righteous know what is acceptable: but the mouth of the wicked speaks perversity."
       ],
       "notes": [
-        "‘perverse’ is used instead of ‘froward’",
-        "‘perversity’ is used instead of ‘frowardness’"
+        {
+          "v": 1,
+          "text": "‘perverse’ is used instead of ‘froward’"
+        },
+        {
+          "v": 1,
+          "text": "‘perversity’ is used instead of ‘frowardness’"
+        }
       ],
       "approved": "cac9cb1e"
     },
@@ -24826,9 +27478,18 @@ window.TU_PLAIN = {
         "And you will have goats’ milk enough for your food, for the food of your household, and for the maintenance for your maidens."
       ],
       "notes": [
-        "‘neighbor’ replaces neighbour",
-        "‘betrays’ replaces bewrayeth",
-        "‘honored’ replaces honoured"
+        {
+          "v": 1,
+          "text": "‘neighbor’ replaces neighbour"
+        },
+        {
+          "v": 1,
+          "text": "‘betrays’ replaces bewrayeth"
+        },
+        {
+          "v": 1,
+          "text": "‘honored’ replaces honoured"
+        }
       ],
       "approved": "8aed6d32"
     },
@@ -24865,7 +27526,10 @@ window.TU_PLAIN = {
         "Even a fool, when he holds his peace, is counted wise: and he that shuts his lips is esteemed a man of understanding."
       ],
       "notes": [
-        "‘froward’ means perverse"
+        {
+          "v": 1,
+          "text": "‘froward’ means perverse"
+        }
       ],
       "approved": "1e2f54e0"
     },
@@ -24901,7 +27565,10 @@ window.TU_PLAIN = {
         "Her house is the way to hell, going down to the chambers of death."
       ],
       "notes": [
-        "‘cunning’ is used instead of ‘subtil’"
+        {
+          "v": 1,
+          "text": "‘cunning’ is used instead of ‘subtil’"
+        }
       ],
       "approved": "70e4970c"
     },
@@ -24946,8 +27613,14 @@ window.TU_PLAIN = {
         "“But he that sins against me wrongs his own soul: all they that hate me love death.”"
       ],
       "notes": [
-        "‘crooked’ is used instead of ‘froward’",
-        "‘perverse’ is used instead of ‘froward’"
+        {
+          "v": 1,
+          "text": "‘crooked’ is used instead of ‘froward’"
+        },
+        {
+          "v": 1,
+          "text": "‘perverse’ is used instead of ‘froward’"
+        }
       ],
       "approved": "98f74a8b"
     },
@@ -25036,7 +27709,10 @@ window.TU_PLAIN = {
         "When the wicked rise, men hide themselves: but when they perish, the righteous increase."
       ],
       "notes": [
-        "‘favor’ replaces favour"
+        {
+          "v": 1,
+          "text": "‘favor’ replaces favour"
+        }
       ],
       "approved": "1f16ef18"
     },
@@ -25086,7 +27762,10 @@ window.TU_PLAIN = {
         "A man that has friends must show himself friendly: and there is a friend that sticks closer than a brother."
       ],
       "notes": [
-        "‘ignominy’ means disgrace"
+        {
+          "v": 1,
+          "text": "‘ignominy’ means disgrace"
+        }
       ],
       "approved": "26b33409"
     },
@@ -25143,11 +27822,26 @@ window.TU_PLAIN = {
         "An unjust man is an abomination to the just: and he that is upright in the way is abomination to the wicked."
       ],
       "notes": [
-        "‘neighbor’ replaces neighbour",
-        "‘listen’ replaces hearken",
-        "‘honor’ replaces honour",
-        "‘betrays’ replaces bewrayeth",
-        "‘favor’ replaces favour"
+        {
+          "v": 1,
+          "text": "‘neighbor’ replaces neighbour"
+        },
+        {
+          "v": 1,
+          "text": "‘listen’ replaces hearken"
+        },
+        {
+          "v": 1,
+          "text": "‘honor’ replaces honour"
+        },
+        {
+          "v": 1,
+          "text": "‘betrays’ replaces bewrayeth"
+        },
+        {
+          "v": 1,
+          "text": "‘favor’ replaces favour"
+        }
       ],
       "approved": "c51077ff"
     },
@@ -25262,7 +27956,10 @@ window.TU_PLAIN = {
         "The blueness of a wound cleanses away evil: so do stripes the inward parts of the belly."
       ],
       "notes": [
-        "‘Divers’ means diverse or different"
+        {
+          "v": 1,
+          "text": "‘Divers’ means diverse or different"
+        }
       ],
       "approved": "a6cc5c38"
     },
@@ -25302,8 +27999,14 @@ window.TU_PLAIN = {
         "Give her of the fruit of her hands; and let her own works praise her in the gates."
       ],
       "notes": [
-        "‘honor’ replaces honour",
-        "‘Favor’ replaces Favour"
+        {
+          "v": 1,
+          "text": "‘honor’ replaces honour"
+        },
+        {
+          "v": 1,
+          "text": "‘Favor’ replaces Favour"
+        }
       ],
       "approved": "412296ce"
     },
@@ -25381,7 +28084,10 @@ window.TU_PLAIN = {
         "“And I will bring an everlasting reproach upon you, and a perpetual shame, which will not be forgotten.”"
       ],
       "notes": [
-        "‘neighbor’ replaces neighbour"
+        {
+          "v": 1,
+          "text": "‘neighbor’ replaces neighbour"
+        }
       ],
       "approved": "d79795e6"
     },
@@ -25407,113 +28113,12 @@ window.TU_PLAIN = {
         "“But if they will not obey, I will utterly pluck up and destroy that nation, says the Lord.”"
       ],
       "notes": [
-        "‘reins’ means inmost being or heart"
+        {
+          "v": 1,
+          "text": "‘reins’ means inmost being or heart"
+        }
       ],
       "approved": "e11fa4eb"
-    },
-    {
-      "ch": "Jeremiah 1",
-      "verses": [
-        "The words of Jeremiah the son of Hilkiah, of the priests that were in Anathoth in the land of Benjamin:",
-        "To whom the word of the Lord came in the days of Josiah the son of Amon king of Judah, in the thirteenth year of his reign.",
-        "It came also in the days of Jehoiakim the son of Josiah king of Judah, to the end of the eleventh year of Zedekiah the son of Josiah king of Judah, to the carrying away of Jerusalem captive in the fifth month.",
-        "Then the word of the Lord came to me, saying,",
-        "“Before I formed you in the belly I knew you, and before you came forth out of the womb I sanctified you, and I ordained you a prophet to the nations.”",
-        "Then said I, “Ah, Lord God! Behold, I can not speak: for I am a child.”",
-        "But the Lord said to me, “Say not, ‘I am a child:’ for you will go to all that I will send you, and whatever I command you you will speak.”",
-        "“Be not afraid of their faces: for I am with you to deliver you,” says the Lord.",
-        "Then the Lord put forth His hand, and touched my mouth. And the Lord said to me, “Behold, I have put My words in your mouth.”",
-        "“See, I have this day set you over the nations and over the kingdoms, to root out, and to pull down, and to destroy, and to throw down, to build, and to plant.”",
-        "Moreover the word of the Lord came to me, saying, “Jeremiah, what see you?” And I said, “I see a rod of an almond tree.”",
-        "Then said the Lord to me, “You have well seen: for I will hasten My word to perform it.”",
-        "And the word of the Lord came to me the second time, saying, “What see you?” And I said, “I see a seething pot, and the face of it is toward the north.”",
-        "Then the Lord said to me, “Out of the north an evil will break forth on all the inhabitants of the land.”",
-        "“For, lo, I will call all the families of the kingdoms of the north,” says the Lord, “and they will come, and they will set everyone his throne at the entering of the gates of Jerusalem, and against all the walls of it round about, and against all the cities of Judah.”",
-        "“And I will utter My judgments against them touching all their wickedness, who have forsaken Me, and have burned incense to other gods, and worshiped the works of their own hands.”",
-        "“You therefore gird up your loins, and arise, and speak to them all that I command you: be not dismayed at their faces, lest I confound you before them.”",
-        "“For, behold, I have made you this day a defensed city, and an iron pillar, and bronze walls against the whole land, against the kings of Judah, against the princes of it, against the priests of it, and against the people of the land.”",
-        "“And they will fight against you, but they will not prevail against you, for I am with you,” says the Lord, “to deliver you.”"
-      ],
-      "notes": [
-        "‘bronze’ is used instead of ‘brasen’"
-      ],
-      "approved": "c1d9c90f"
-    },
-    {
-      "ch": "Jeremiah 2",
-      "verses": [
-        "Moreover the word of the Lord came to me, saying,",
-        "“Go and cry in the ears of Jerusalem, saying, ‘Thus says the Lord, “I remember you, the kindness of your youth, the love of your espousals, when you went after Me in the wilderness, in a land that was not sown.”’”",
-        "“Israel was holiness to the Lord, and the firstfruits of His increase: all that devour him will offend, evil will come on them,” says the Lord.",
-        "Hear you the word of the Lord, O house of Jacob, and all the families of the house of Israel:",
-        "Thus says the Lord, “What iniquity have your fathers found in Me, that they are gone far from Me, and have walked after vanity, and are become vain?”",
-        "“Neither said they, ‘Where is the Lord that brought us up out of the land of Egypt, that led us through the wilderness, through a land of deserts and of pits, through a land of drought, and of the shadow of death, through a land that no man passed through, and where no man dwelt?’”",
-        "“And I brought you into a plentiful country, to eat the fruit of it and the goodness of it, but when you entered, you defiled My land, and made My heritage an abomination.”",
-        "“The priests said not, ‘Where is the Lord?’ And they that handle the law knew Me not: the pastors also transgressed against Me, and the prophets prophesied by Baal, and walked after things that do not profit.”",
-        "“Therefore I will yet plead with you,” says the Lord, “and with your children’s children will I plead.”",
-        "“For pass over the isles of Chittim, and see, and send to Kedar, and consider diligently, and see if there be such a thing.”",
-        "“Has a nation changed their gods, which are yet no gods? But My people have changed their glory for that which does not profit.”",
-        "“Be astonished, O you heavens, at this, and be horribly afraid, be you very desolate,” says the Lord.",
-        "“For My people have committed two evils: they have forsaken Me the fountain of living waters, and hewed them out cisterns, broken cisterns, that can hold no water.”",
-        "“Is Israel a servant? Is he a homeborn slave? Why is he spoiled?”",
-        "“The young lions roared on him, and yelled, and they made his land waste: his cities are burned without inhabitant.”",
-        "“Also the children of Noph and Tahapanes have broken the crown of your head.”",
-        "“Have you not procured this to yourself, in that you have forsaken the Lord your God, when He led you by the way?”",
-        "“And now what have you to do in the way of Egypt, to drink the waters of Sihor? Or what have you to do in the way of Assyria, to drink the waters of the river?”",
-        "“Your own wickedness will correct you, and your backslidings will reprove you: know therefore and see that it is an evil thing and bitter, that you have forsaken the Lord your God, and that My fear is not in you,” says the Lord God of hosts.",
-        "“For of old time I have broken your yoke, and burst your bands, and you said, ‘I will not transgress,’ when on every high hill and under every green tree you wander, playing the harlot.”",
-        "“Yet I had planted you a noble vine, wholly a right seed: how then are you turned into the degenerate plant of a strange vine to Me?”",
-        "“For though you wash yourself with nitre, and take you much soap, yet your iniquity is marked before Me,” says the Lord God.",
-        "“How can you say, ‘I am not polluted, I have not gone after Baalim’? See your way in the valley, know what you have done: you are a swift dromedary traversing her ways,”",
-        "“A wild ass used to the wilderness, that snuffs up the wind at her pleasure. In her occasion who can turn her away? All they that seek her will not weary themselves, in her month they will find her.”",
-        "“Withhold your foot from being unshod, and your throat from thirst: but you said, ‘There is no hope: no, for I have loved strangers, and after them will I go.’”",
-        "“As the thief is ashamed when he is found, so is the house of Israel ashamed, they, their kings, their princes, and their priests, and their prophets,”",
-        "“Saying to a stock, ‘You are my father,’ and to a stone, ‘You have brought me forth:’ for they have turned their back to Me, and not their face: but in the time of their trouble they will say, ‘Arise, and save us.’”",
-        "“But where are your gods that you have made you? Let them arise, if they can save you in the time of your trouble: for according to the number of your cities are your gods, O Judah.”",
-        "“Why will you plead with Me? You all have transgressed against Me,” says the Lord.",
-        "“In vain have I smitten your children, they received no correction: your own sword has devoured your prophets, like a destroying lion.”",
-        "“O generation, see you the word of the Lord. Have I been a wilderness to Israel? A land of darkness? Why say My people, ‘We are lords, we will come no more to You’?”",
-        "“Can a maid forget her ornaments, or a bride her attire? Yet My people have forgotten Me days without number.”",
-        "“Why trim you your way to seek love? Therefore have you also taught the wicked ones your ways.”",
-        "“Also in your skirts is found the blood of the souls of the poor innocents: I have not found it by secret search, but on all these.”",
-        "“Yet you say, ‘Because I am innocent, surely His anger will turn from me.’ Behold, I will plead with you, because you say, ‘I have not sinned.’”",
-        "“Why gad you about so much to change your way? You also will be ashamed of Egypt, as you were ashamed of Assyria.”",
-        "“Yes, you will go forth from him, and your hands on your head: for the Lord has rejected your confidences, and you will not prosper in them.”"
-      ],
-      "notes": [],
-      "approved": "a96a1d62"
-    },
-    {
-      "ch": "Jeremiah 3",
-      "verses": [
-        "They say, “If a man put away his wife, and she go from him, and become another man’s, will he return to her again? Will not that land be greatly polluted? But you have played the harlot with many lovers, yet return again to Me,” says the Lord.",
-        "“Lift up your eyes to the high places, and see where you have not been lain with. In the ways have you sat for them, as the Arabian in the wilderness, and you have polluted the land with your whoredoms and with your wickedness.”",
-        "“Therefore the showers have been withheld, and there has been no latter rain, and you had a whore’s forehead, you refused to be ashamed.”",
-        "“Will you not from this time cry to Me, ‘My Father, You are the guide of my youth’?”",
-        "“‘Will He reserve His anger forever? Will He keep it to the end?’ Behold, you have spoken and done evil things as you could.”",
-        "The Lord said also to me in the days of Josiah the king, “Have you seen that which backsliding Israel has done? She is gone up on every high mountain and under every green tree, and there has played the harlot.”",
-        "“And I said after she had done all these things, ‘Turn you to Me.’ But she returned not. And her treacherous sister Judah saw it.”",
-        "“And I saw, when for all the causes whereby backsliding Israel committed adultery I had put her away, and given her a bill of divorce, yet her treacherous sister Judah feared not, but went and played the harlot also.”",
-        "“And it came to pass through the lightness of her whoredom, that she defiled the land, and committed adultery with stones and with stocks.”",
-        "“And yet for all this her treacherous sister Judah has not turned to Me with her whole heart, but feignedly,” says the Lord.",
-        "And the Lord said to me, “The backsliding Israel has justified herself more than treacherous Judah.”",
-        "“Go and proclaim these words toward the north, and say, ‘Return, you backsliding Israel,’ says the Lord, ‘and I will not cause My anger to fall on you: for I am merciful,’ says the Lord, ‘and I will not keep anger forever.’”",
-        "“‘Only acknowledge your iniquity, that you have transgressed against the Lord your God, and have scattered your ways to the strangers under every green tree, and you have not obeyed My voice,’ says the Lord.”",
-        "“‘Turn, O backsliding children,’ says the Lord, ‘for I am married to you: and I will take you one of a city, and two of a family, and I will bring you to Zion:’”",
-        "“‘And I will give you pastors according to My heart, which will feed you with knowledge and understanding.’”",
-        "“‘And it will come to pass, when you be multiplied and increased in the land, in those days,’ says the Lord, ‘they will say no more, “The ark of the covenant of the Lord:” neither will it come to mind: neither will they remember it, neither will they visit it, neither will that be done any more.’”",
-        "“‘At that time they will call Jerusalem the throne of the Lord, and all the nations will be gathered to it, to the name of the Lord, to Jerusalem: neither will they walk any more after the imagination of their evil heart.’”",
-        "“‘In those days the house of Judah will walk with the house of Israel, and they will come together out of the land of the north to the land that I have given for an inheritance to your fathers.’”",
-        "“But I said, ‘How will I put you among the children, and give you a pleasant land, a goodly heritage of the hosts of nations?’ And I said, ‘You will call Me, “My Father,” and will not turn away from Me.’”",
-        "“Surely as a wife treacherously departs from her husband, so have you dealt treacherously with Me, O house of Israel,” says the Lord.",
-        "A voice was heard on the high places, weeping and supplications of the children of Israel: for they have perverted their way, and they have forgotten the Lord their God.",
-        "“Return, you backsliding children, and I will heal your backslidings.” “Behold, we come to You, for You are the Lord our God.”",
-        "“Truly in vain is salvation hoped for from the hills, and from the multitude of mountains: truly in the Lord our God is the salvation of Israel.”",
-        "“For shame has devoured the labor of our fathers from our youth, their flocks and their herds, their sons and their daughters.”",
-        "“We lie down in our shame, and our confusion covers us: for we have sinned against the Lord our God, we and our fathers, from our youth even to this day, and have not obeyed the voice of the Lord our God.”"
-      ],
-      "notes": [],
-      "approved": "13a33f04"
     },
     {
       "ch": "Jeremiah 24",
@@ -25622,45 +28227,6 @@ window.TU_PLAIN = {
       "approved": "ba134c29"
     },
     {
-      "ch": "Jeremiah 36",
-      "verses": [
-        "And it came to pass in the fourth year of Jehoiakim the son of Josiah king of Judah, that this word came to Jeremiah from the Lord, saying,",
-        "Take you a roll of a book, and write in it all the words that I have spoken to you against Israel, and against Judah, and against all the nations, from the day I spoke to you, from the days of Josiah, even to this day.",
-        "It may be that the house of Judah will hear all the evil which I purpose to do to them; that they may return every man from his evil way; that I may forgive their iniquity and their sin.",
-        "Then Jeremiah called Baruch the son of Neriah: and Baruch wrote from the mouth of Jeremiah all the words of the Lord, which He had spoken to him, upon a roll of a book.",
-        "And Jeremiah commanded Baruch, saying, I am shut up; I cannot go into the house of the Lord:",
-        "Therefore go you, and read in the roll, which you have written from my mouth, the words of the Lord in the ears of the people in the Lord's house upon the fasting day: and also you shall read them in the ears of all Judah that come out of their cities.",
-        "It may be they will present their supplication before the Lord, and will return every one from his evil way: for great is the anger and the fury that the Lord has pronounced against this people.",
-        "And Baruch the son of Neriah did according to all that Jeremiah the prophet commanded him, reading in the book the words of the Lord in the Lord's house.",
-        "And it came to pass in the fifth year of Jehoiakim the son of Josiah king of Judah, in the ninth month, that they proclaimed a fast before the Lord to all the people in Jerusalem, and to all the people that came from the cities of Judah to Jerusalem.",
-        "Then read Baruch in the book the words of Jeremiah in the house of the Lord, in the chamber of Gemariah the son of Shaphan the scribe, in the higher court, at the entry of the new gate of the Lord's house, in the ears of all the people.",
-        "When Michaiah the son of Gemariah, the son of Shaphan, had heard out of the book all the words of the Lord,",
-        "Then he went down into the king's house, into the scribe's chamber: and, lo, all the princes sat there, even Elishama the scribe, and Delaiah the son of Shemaiah, and Elnathan the son of Achbor, and Gemariah the son of Shaphan, and Zedekiah the son of Hananiah, and all the princes.",
-        "Then Michaiah declared to them all the words that he had heard, when Baruch read the book in the ears of the people.",
-        "Therefore all the princes sent Jehudi the son of Nethaniah, the son of Shelemiah, the son of Cushi, to Baruch, saying, “Take in your hand the roll in which you have read in the ears of the people, and come.” So Baruch the son of Neriah took the roll in his hand, and came to them.",
-        "And they said to him, “Sit down now, and read it in our ears.” So Baruch read it in their ears.",
-        "Now it came to pass, when they had heard all the words, they were afraid both one and other, and said to Baruch, “We will surely tell the king of all these words.”",
-        "And they asked Baruch, saying, “Tell us now, How did you write all these words at his mouth?”",
-        "Then Baruch answered them, “He pronounced all these words to me with his mouth, and I wrote them with ink in the book.”",
-        "Then said the princes to Baruch, “Go, hide yourself, you and Jeremiah; and let no man know where you be.”",
-        "And they went in to the king into the court, but they laid up the roll in the chamber of Elishama the scribe, and told all the words in the ears of the king.",
-        "So the king sent Jehudi to fetch the roll: and he took it out of Elishama the scribe's chamber. And Jehudi read it in the ears of the king, and in the ears of all the princes which stood beside the king.",
-        "Now the king sat in the winterhouse in the ninth month: and there was a fire on the hearth burning before him.",
-        "And it came to pass, that when Jehudi had read three or four leaves, he cut it with the penknife, and cast it into the fire that was on the hearth, until all the roll was consumed in the fire that was on the hearth.",
-        "Yet they were not afraid, nor rent their garments, neither the king, nor any of his servants that heard all these words.",
-        "Nevertheless Elnathan and Delaiah and Gemariah had made intercession to the king that he would not burn the roll: but he would not hear them.",
-        "But the king commanded Jerahmeel the son of Hammelech, and Seraiah the son of Azriel, and Shelemiah the son of Abdeel, to take Baruch the scribe and Jeremiah the prophet: but the Lord hid them.",
-        "Then the word of the Lord came to Jeremiah, after that the king had burned the roll, and the words which Baruch wrote at the mouth of Jeremiah, saying,",
-        "Take you again another roll, and write in it all the former words that were in the first roll, which Jehoiakim the king of Judah has burned.",
-        "And you shall say to Jehoiakim king of Judah, Thus says the Lord; You have burned this roll, saying, “Why have you written in it, saying, ‘The king of Babylon shall certainly come and destroy this land, and shall cause to cease from there man and beast?’”",
-        "Therefore thus says the Lord of Jehoiakim king of Judah; He shall have none to sit upon the throne of David: and his dead body shall be cast out in the day to the heat, and in the night to the frost.",
-        "And I will punish him and his seed and his servants for their iniquity; and I will bring upon them, and upon the inhabitants of Jerusalem, and upon the men of Judah, all the evil that I have pronounced against them; but they listened not.",
-        "Then took Jeremiah another roll, and gave it to Baruch the scribe, the son of Neriah; who wrote in it from the mouth of Jeremiah all the words of the book which Jehoiakim king of Judah had burned in the fire: and there were added besides to them many like words."
-      ],
-      "notes": [],
-      "approved": "f325415c"
-    },
-    {
       "ch": "Jeremiah 25",
       "verses": [
         "The word that came to Jeremiah concerning all the people of Judah in the fourth year of Jehoiakim the son of Josiah king of Judah, that was the first year of Nebuchadrezzar king of Babylon;",
@@ -25703,40 +28269,16 @@ window.TU_PLAIN = {
         "He has forsaken His covert, as the lion: for their land is desolate because of the fierceness of the oppressor, and because of His fierce anger."
       ],
       "notes": [
-        "‘listened’ replaces hearkened",
-        "‘spew’ replaces spue"
+        {
+          "v": 1,
+          "text": "‘listened’ replaces hearkened"
+        },
+        {
+          "v": 1,
+          "text": "‘spew’ replaces spue"
+        }
       ],
       "approved": "6f2ac61b"
-    },
-    {
-      "ch": "Jeremiah 37",
-      "verses": [
-        "And king Zedekiah the son of Josiah reigned instead of Coniah the son of Jehoiakim, whom Nebuchadrezzar king of Babylon made king in the land of Judah.",
-        "But neither he, nor his servants, nor the people of the land, did listen to the words of the Lord, which He spoke by the prophet Jeremiah.",
-        "And Zedekiah the king sent Jehucal the son of Shelemiah and Zephaniah the son of Maaseiah the priest to the prophet Jeremiah, saying, “Pray now to the Lord our God for us.”",
-        "Now Jeremiah came in and went out among the people: for they had not put him into prison.",
-        "Then Pharaoh's army was come forth out of Egypt: and when the Chaldeans that besieged Jerusalem heard tidings of them, they departed from Jerusalem.",
-        "Then came the word of the Lord to the prophet Jeremiah, saying,",
-        "Thus says the Lord, the God of Israel; Thus shall you say to the king of Judah, that sent you to Me to inquire of Me; Behold, Pharaoh's army, which is come forth to help you, shall return to Egypt into their own land.",
-        "And the Chaldeans shall come again, and fight against this city, and take it, and burn it with fire.",
-        "Thus says the Lord; Deceive not yourselves, saying, ‘The Chaldeans shall surely depart from us:’ for they shall not depart.",
-        "For though you had smitten the whole army of the Chaldeans that fight against you, and there remained but wounded men among them, yet should they rise up every man in his tent, and burn this city with fire.",
-        "And it came to pass, that when the army of the Chaldeans was broken up from Jerusalem for fear of Pharaoh's army,",
-        "Then Jeremiah went forth out of Jerusalem to go into the land of Benjamin, to separate himself from there in the midst of the people.",
-        "And when he was in the gate of Benjamin, a captain of the ward was there, whose name was Irijah, the son of Shelemiah, the son of Hananiah; and he took Jeremiah the prophet, saying, “You fall away to the Chaldeans.”",
-        "Then said Jeremiah, “It is false; I fall not away to the Chaldeans.” But he listened not to him: so Irijah took Jeremiah, and brought him to the princes.",
-        "Therefore the princes were angry with Jeremiah, and smote him, and put him in prison in the house of Jonathan the scribe: for they had made that the prison.",
-        "When Jeremiah was entered into the dungeon, and into the cabins, and Jeremiah had remained there many days;",
-        "Then Zedekiah the king sent, and took him out: and the king asked him secretly in his house, and said, “Is there any word from the Lord?” And Jeremiah said, “There is:” for, said he, “you shall be delivered into the hand of the king of Babylon.”",
-        "Moreover Jeremiah said to king Zedekiah, “What have I offended against you, or against your servants, or against this people, that you have put me in prison?”",
-        "“Where are now your prophets which prophesied to you, saying, ‘The king of Babylon shall not come against you, nor against this land?’”",
-        "“Therefore hear now, I pray you, O my lord the king: let my supplication, I pray you, be accepted before you; that you cause me not to return to the house of Jonathan the scribe, lest I die there.”",
-        "Then Zedekiah the king commanded that they should commit Jeremiah into the court of the prison, and that they should give him daily a piece of bread out of the bakers' street, until all the bread in the city were spent. Thus Jeremiah remained in the court of the prison."
-      ],
-      "notes": [
-        "‘wroth’ means angry"
-      ],
-      "approved": "7ce1b398"
     },
     {
       "ch": "Jeremiah 15",
@@ -25764,7 +28306,10 @@ window.TU_PLAIN = {
         "“And I will deliver you out of the hand of the wicked, and I will redeem you out of the hand of the terrible.”"
       ],
       "notes": [
-        "‘brasen’ means bronze"
+        {
+          "v": 1,
+          "text": "‘brasen’ means bronze"
+        }
       ],
       "approved": "1df86368"
     },
@@ -25845,72 +28390,6 @@ window.TU_PLAIN = {
       "approved": "9075f8b3"
     },
     {
-      "ch": "Jeremiah 16",
-      "verses": [
-        "The word of the Lord came also to me, saying,",
-        "“You shall not take you a wife, neither shall you have sons or daughters in this place.”",
-        "“For thus says the Lord concerning the sons and concerning the daughters that are born in this place, and concerning their mothers that bore them, and concerning their fathers that fathered them in this land;”",
-        "“They shall die of grievous deaths; they shall not be lamented; neither shall they be buried; but they shall be as dung upon the face of the earth: and they shall be consumed by the sword, and by famine; and their carcasses shall be meat for the fowls of heaven, and for the beasts of the earth.”",
-        "For thus says the Lord, “Enter not into the house of mourning, neither go to lament nor bemoan them: for I have taken away My peace from this people, says the Lord, even lovingkindness and mercies.”",
-        "“Both the great and the small shall die in this land: they shall not be buried, neither shall men lament for them, nor cut themselves, nor make themselves bald for them:”",
-        "“Neither shall men tear themselves for them in mourning, to comfort them for the dead; neither shall men give them the cup of consolation to drink for their father or for their mother.”",
-        "“You shall not also go into the house of feasting, to sit with them to eat and to drink.”",
-        "“For thus says the Lord of hosts, the God of Israel; Behold, I will cause to cease out of this place in your eyes, and in your days, the voice of mirth, and the voice of gladness, the voice of the bridegroom, and the voice of the bride.”",
-        "“And it shall come to pass, when you shall show this people all these words, and they shall say to you, ‘Why has the Lord pronounced all this great evil against us? or what is our iniquity? or what is our sin that we have committed against the Lord our God?’”",
-        "“Then shall you say to them, ‘Because your fathers have forsaken Me, says the Lord, and have walked after other gods, and have served them, and have worshiped them, and have forsaken Me, and have not kept My law;’”",
-        "“‘And you have done worse than your fathers; for, behold, you walk every one after the imagination of his evil heart, that they may not listen to Me:’”",
-        "“‘Therefore will I cast you out of this land into a land that you know not, neither you nor your fathers; and there shall you serve other gods day and night; where I will not show you favor.’”",
-        "“Therefore, behold, the days come, says the Lord, that it shall no more be said, ‘The Lord lives, that brought up the children of Israel out of the land of Egypt;’”",
-        "“But, ‘The Lord lives, that brought up the children of Israel from the land of the north, and from all the lands where He had driven them:’ and I will bring them again into their land that I gave to their fathers.”",
-        "“Behold, I will send for many fishers, says the Lord, and they shall fish them; and after will I send for many hunters, and they shall hunt them from every mountain, and from every hill, and out of the holes of the rocks.”",
-        "“For My eyes are upon all their ways: they are not hid from My face, neither is their iniquity hid from My eyes.”",
-        "“And first I will recompense their iniquity and their sin double; because they have defiled My land, they have filled My inheritance with the carcasses of their detestable and abominable things.”",
-        "O Lord, my strength, and my fortress, and my refuge in the day of affliction, the Gentiles shall come to You from the ends of the earth, and shall say, “Surely our fathers have inherited lies, vanity, and things in which there is no profit.”",
-        "Can a man make gods to himself, and they are no gods?",
-        "“Therefore, behold, I will this once cause them to know, I will cause them to know My hand and My might; and they shall know that My name is The Lord.”"
-      ],
-      "notes": [],
-      "approved": "40fd942e"
-    },
-    {
-      "ch": "Jeremiah 38",
-      "verses": [
-        "Then Shephatiah the son of Mattan, and Gedaliah the son of Pashur, and Jucal the son of Shelemiah, and Pashur the son of Malchiah, heard the words that Jeremiah had spoken to all the people, saying,",
-        "Thus says the Lord, He that remains in this city shall die by the sword, by the famine, and by the pestilence: but he that goes forth to the Chaldeans shall live; for he shall have his life for a prey, and shall live.",
-        "Thus says the Lord, This city shall surely be given into the hand of the king of Babylon's army, which shall take it.",
-        "Therefore the princes said to the king, “We beseech you, let this man be put to death: for thus he weakens the hands of the men of war that remain in this city, and the hands of all the people, in speaking such words to them: for this man seeks not the welfare of this people, but the hurt.”",
-        "Then Zedekiah the king said, “Behold, he is in your hand: for the king is not he that can do any thing against you.”",
-        "Then took they Jeremiah, and cast him into the dungeon of Malchiah the son of Hammelech, that was in the court of the prison: and they let down Jeremiah with cords. And in the dungeon there was no water, but mire: so Jeremiah sunk in the mire.",
-        "Now when Ebed-melech the Ethiopian, one of the eunuchs which was in the king's house, heard that they had put Jeremiah in the dungeon; the king then sitting in the gate of Benjamin;",
-        "Ebed-melech went forth out of the king's house, and spoke to the king, saying,",
-        "“My lord the king, these men have done evil in all that they have done to Jeremiah the prophet, whom they have cast into the dungeon; and he is like to die for hunger in the place where he is: for there is no more bread in the city.”",
-        "Then the king commanded Ebed-melech the Ethiopian, saying, “Take from here thirty men with you, and take up Jeremiah the prophet out of the dungeon, before he die.”",
-        "So Ebed-melech took the men with him, and went into the house of the king under the treasury, and took from there old cast clouts and old rotten rags, and let them down by cords into the dungeon to Jeremiah.",
-        "And Ebed-melech the Ethiopian said to Jeremiah, “Put now these old cast clouts and rotten rags under your armholes under the cords.” And Jeremiah did so.",
-        "So they drew up Jeremiah with cords, and took him up out of the dungeon: and Jeremiah remained in the court of the prison.",
-        "Then Zedekiah the king sent, and took Jeremiah the prophet to him into the third entry that is in the house of the Lord: and the king said to Jeremiah, “I will ask you a thing; hide nothing from me.”",
-        "Then Jeremiah said to Zedekiah, “If I declare it to you, will you not surely put me to death? and if I give you counsel, will you not listen to me?”",
-        "So Zedekiah the king swore secretly to Jeremiah, saying, “As the Lord lives, that made us this soul, I will not put you to death, neither will I give you into the hand of these men that seek your life.”",
-        "Then said Jeremiah to Zedekiah, “Thus says the Lord, the God of hosts, the God of Israel; ‘If you will assuredly go forth to the king of Babylon's princes, then your soul shall live, and this city shall not be burned with fire; and you shall live, and your house:’”",
-        "“‘But if you will not go forth to the king of Babylon's princes, then shall this city be given into the hand of the Chaldeans, and they shall burn it with fire, and you shall not escape out of their hand.’”",
-        "And Zedekiah the king said to Jeremiah, “I am afraid of the Jews that are fallen to the Chaldeans, lest they deliver me into their hand, and they mock me.”",
-        "But Jeremiah said, “They shall not deliver you. Obey, I beseech you, the voice of the Lord, which I speak to you: so it shall be well to you, and your soul shall live.”",
-        "“But if you refuse to go forth, this is the word that the Lord has showed me:”",
-        "“And, behold, all the women that are left in the king of Judah's house shall be brought forth to the king of Babylon's princes, and those women shall say, ‘Your friends have set you on, and have prevailed against you: your feet are sunk in the mire, and they are turned away back.’”",
-        "“So they shall bring out all your wives and your children to the Chaldeans: and you shall not escape out of their hand, but shall be taken by the hand of the king of Babylon: and you shall cause this city to be burned with fire.”",
-        "Then said Zedekiah to Jeremiah, “Let no man know of these words, and you shall not die.”",
-        "“But if the princes hear that I have talked with you, and they come to you, and say to you, ‘Declare to us now what you have said to the king, hide it not from us, and we will not put you to death; also what the king said to you:’”",
-        "“Then you shall say to them, ‘I presented my supplication before the king, that he would not cause me to return to Jonathan's house, to die there.’”",
-        "Then came all the princes to Jeremiah, and asked him: and he told them according to all these words that the king had commanded. So they left off speaking with him; for the matter was not perceived.",
-        "So Jeremiah abode in the court of the prison until the day that Jerusalem was taken: and he was there when Jerusalem was taken."
-      ],
-      "notes": [
-        "‘clouts’ means patches or pieces of cloth",
-        "‘abode’ means stayed or remained"
-      ],
-      "approved": "f08c18f0"
-    },
-    {
       "ch": "Jeremiah 26",
       "verses": [
         "In the beginning of the reign of Jehoiakim the son of Josiah king of Judah came this word from the Lord, saying,",
@@ -25939,72 +28418,20 @@ window.TU_PLAIN = {
         "Nevertheless the hand of Ahikam the son of Shaphan was with Jeremiah, that they should not give him into the hand of the people to put him to death."
       ],
       "notes": [
-        "‘listen’ replaces hearken",
-        "‘listened’ replaces hearkened",
-        "‘killed’ replaces slew"
+        {
+          "v": 1,
+          "text": "‘listen’ replaces hearken"
+        },
+        {
+          "v": 1,
+          "text": "‘listened’ replaces hearkened"
+        },
+        {
+          "v": 1,
+          "text": "‘killed’ replaces slew"
+        }
       ],
       "approved": "c8af9413"
-    },
-    {
-      "ch": "Jeremiah 39",
-      "verses": [
-        "In the ninth year of Zedekiah king of Judah, in the tenth month, came Nebuchadrezzar king of Babylon and all his army against Jerusalem, and they besieged it.",
-        "And in the eleventh year of Zedekiah, in the fourth month, the ninth day of the month, the city was broken up.",
-        "And all the princes of the king of Babylon came in, and sat in the middle gate, even Nergal-sharezer, Samgar-nebo, Sarsechim, Rab-saris, Nergal-sharezer, Rab-mag, with all the residue of the princes of the king of Babylon.",
-        "And it came to pass, that when Zedekiah the king of Judah saw them, and all the men of war, then they fled, and went forth out of the city by night, by the way of the king's garden, by the gate between the two walls: and he went out the way of the plain.",
-        "But the Chaldeans' army pursued after them, and overtook Zedekiah in the plains of Jericho: and when they had taken him, they brought him up to Nebuchadnezzar king of Babylon to Riblah in the land of Hamath, where he gave judgment upon him.",
-        "Then the king of Babylon slew the sons of Zedekiah in Riblah before his eyes: also the king of Babylon slew all the nobles of Judah.",
-        "Moreover he put out Zedekiah's eyes, and bound him with chains, to carry him to Babylon.",
-        "And the Chaldeans burned the king's house, and the houses of the people, with fire, and broke down the walls of Jerusalem.",
-        "Then Nebuzar-adan the captain of the guard carried away captive into Babylon the remnant of the people that remained in the city, and those that fell away, that fell to him, with the rest of the people that remained.",
-        "But Nebuzar-adan the captain of the guard left of the poor of the people, which had nothing, in the land of Judah, and gave them vineyards and fields at the same time.",
-        "Now Nebuchadrezzar king of Babylon gave charge concerning Jeremiah to Nebuzar-adan the captain of the guard, saying,",
-        "“Take him, and look well to him, and do him no harm; but do to him even as he shall say to you.”",
-        "So Nebuzar-adan the captain of the guard sent, and Nebushasban, Rab-saris, and Nergal-sharezer, Rab-mag, and all the king of Babylon's princes;",
-        "Even they sent, and took Jeremiah out of the court of the prison, and committed him to Gedaliah the son of Ahikam the son of Shaphan, that he should carry him home: so he dwelt among the people.",
-        "Now the word of the Lord came to Jeremiah, while he was shut up in the court of the prison, saying,",
-        "“Go and speak to Ebed-melech the Ethiopian, saying, ‘Thus says the Lord of hosts, the God of Israel; Behold, I will bring My words upon this city for evil, and not for good; and they shall be accomplished in that day before you.’”",
-        "“But I will deliver you in that day, says the Lord: and you shall not be given into the hand of the men of whom you are afraid.”",
-        "“For I will surely deliver you, and you shall not fall by the sword, but your life shall be for a prey to you: because you have put your trust in Me, says the Lord.”"
-      ],
-      "notes": [],
-      "approved": "d775fa1d"
-    },
-    {
-      "ch": "Jeremiah 17",
-      "verses": [
-        "The sin of Judah is written with a pen of iron, and with the point of a diamond: it is graven upon the table of their heart, and upon the horns of your altars;",
-        "While their children remember their altars and their groves by the green trees upon the high hills.",
-        "O My mountain in the field, I will give your substance and all your treasures to the spoil, and your high places for sin, throughout all your borders.",
-        "And you, even yourself, shall discontinue from your heritage that I gave you; and I will cause you to serve your enemies in the land which you know not: for you have kindled a fire in My anger, which shall burn forever.",
-        "Thus says the Lord; “Cursed be the man that trusts in man, and makes flesh his arm, and whose heart departs from the Lord.”",
-        "“For he shall be like the heath in the desert, and shall not see when good comes; but shall inhabit the parched places in the wilderness, in a salt land and not inhabited.”",
-        "“Blessed is the man that trusts in the Lord, and whose hope the Lord is.”",
-        "“For he shall be as a tree planted by the waters, and that spreads out her roots by the river, and shall not see when heat comes, but her leaf shall be green; and shall not be careful in the year of drought, neither shall cease from yielding fruit.”",
-        "“The heart is deceitful above all things, and desperately wicked: who can know it?”",
-        "“I the Lord search the heart, I try the reins, even to give every man according to his ways, and according to the fruit of his doings.”",
-        "“As the partridge sits on eggs, and hatches them not; so he that gets riches, and not by right, shall leave them in the midst of his days, and at his end shall be a fool.”",
-        "A glorious high throne from the beginning is the place of our sanctuary.",
-        "O Lord, the hope of Israel, all that forsake You shall be ashamed, and they that depart from Me shall be written in the earth, because they have forsaken the Lord, the fountain of living waters.",
-        "Heal me, O Lord, and I shall be healed; save me, and I shall be saved: for You are my praise.",
-        "Behold, they say to me, “Where is the word of the Lord? let it come now.”",
-        "As for me, I have not hastened from being a pastor to follow You: neither have I desired the woeful day; You know: that which came out of my lips was right before You.",
-        "Be not a terror to me: You are my hope in the day of evil.",
-        "Let them be confounded that persecute me, but let not me be confounded: let them be dismayed, but let not me be dismayed: bring upon them the day of evil, and destroy them with double destruction.",
-        "Thus said the Lord to me; “Go and stand in the gate of the children of the people, whereby the kings of Judah come in, and by the which they go out, and in all the gates of Jerusalem;”",
-        "“And say to them, ‘Hear you the word of the Lord, you kings of Judah, and all Judah, and all the inhabitants of Jerusalem, that enter in by these gates:’”",
-        "“Thus says the Lord; ‘Take heed to yourselves, and bear no burden on the sabbath day, nor bring it in by the gates of Jerusalem;’”",
-        "“‘Neither carry forth a burden out of your houses on the sabbath day, neither do you any work, but hallow you the sabbath day, as I commanded your fathers.’”",
-        "“‘But they obeyed not, neither inclined their ear, but made their neck stiff, that they might not hear, nor receive instruction.’”",
-        "“‘And it shall come to pass, if you diligently listen to Me, says the Lord, to bring in no burden through the gates of this city on the sabbath day, but hallow the sabbath day, to do no work in it;’”",
-        "“‘Then shall there enter into the gates of this city kings and princes sitting upon the throne of David, riding in chariots and on horses, they, and their princes, the men of Judah, and the inhabitants of Jerusalem: and this city shall remain forever.’”",
-        "“‘And they shall come from the cities of Judah, and from the places about Jerusalem, and from the land of Benjamin, and from the plain, and from the mountains, and from the south, bringing burnt offerings, and sacrifices, and meat offerings, and incense, and bringing sacrifices of praise, to the house of the Lord.’”",
-        "“‘But if you will not listen to Me to hallow the sabbath day, and not to bear a burden, even entering in at the gates of Jerusalem on the sabbath day; then will I kindle a fire in the gates of it, and it shall devour the palaces of Jerusalem, and it shall not be quenched.’”"
-      ],
-      "notes": [
-        "‘reins’ means inmost being or heart"
-      ],
-      "approved": "3432784e"
     },
     {
       "ch": "Jeremiah 6",
@@ -26041,52 +28468,12 @@ window.TU_PLAIN = {
         "“Reprobate silver will men call them, because the Lord has rejected them.”"
       ],
       "notes": [
-        "‘bronze’ is used instead of ‘brass’"
+        {
+          "v": 1,
+          "text": "‘bronze’ is used instead of ‘brass’"
+        }
       ],
       "approved": "e9eb6e51"
-    },
-    {
-      "ch": "Jeremiah 7",
-      "verses": [
-        "The word that came to Jeremiah from the Lord, saying,",
-        "“Stand in the gate of the Lord’s house, and proclaim there this word, and say, ‘Hear the word of the Lord, all you of Judah, that enter in at these gates to worship the Lord.’”",
-        "Thus says the Lord of hosts, the God of Israel, “Amend your ways and your doings, and I will cause you to dwell in this place.”",
-        "“Trust you not in lying words, saying, ‘The temple of the Lord, The temple of the Lord, The temple of the Lord, are these.’”",
-        "“For if you thoroughly amend your ways and your doings, if you thoroughly execute judgment between a man and his neighbor,”",
-        "“If you oppress not the stranger, the fatherless, and the widow, and shed not innocent blood in this place, neither walk after other gods to your hurt:”",
-        "“Then will I cause you to dwell in this place, in the land that I gave to your fathers, forever and ever.”",
-        "“Behold, you trust in lying words, that can not profit.”",
-        "“Will you steal, murder, and commit adultery, and swear falsely, and burn incense to Baal, and walk after other gods whom you know not,”",
-        "“And come and stand before Me in this house, which is called by My name, and say, ‘We are delivered to do all these abominations’?”",
-        "“Has this house, which is called by My name, become a den of robbers in your eyes? Behold, even I have seen it,” says the Lord.",
-        "“But go you now to My place which was in Shiloh, where I set My name at the first, and see what I did to it for the wickedness of My people Israel.”",
-        "“And now, because you have done all these works,” says the Lord, “and I spoke to you, rising up early and speaking, but you heard not, and I called you, but you answered not,”",
-        "“Therefore will I do to this house, which is called by My name, in which you trust, and to the place which I gave to you and to your fathers, as I have done to Shiloh.”",
-        "“And I will cast you out of My sight, as I have cast out all your brothers, even the whole seed of Ephraim.”",
-        "“Therefore pray not you for this people, neither lift up cry nor prayer for them, neither make intercession to Me: for I will not hear you.”",
-        "“See you not what they do in the cities of Judah and in the streets of Jerusalem?”",
-        "“The children gather wood, and the fathers kindle the fire, and the women knead their dough, to make cakes to the queen of heaven, and to pour out drink offerings to other gods, that they may provoke Me to anger.”",
-        "“Do they provoke Me to anger?” says the Lord, “Do they not provoke themselves to the confusion of their own faces?”",
-        "Therefore thus says the Lord God, “Behold, My anger and My fury will be poured out on this place, on man, and on beast, and on the trees of the field, and on the fruit of the ground, and it will burn, and will not be quenched.”",
-        "Thus says the Lord of hosts, the God of Israel, “Put your burnt offerings to your sacrifices, and eat flesh.”",
-        "“For I spoke not to your fathers, nor commanded them in the day that I brought them out of the land of Egypt, concerning burnt offerings or sacrifices:”",
-        "“But this thing commanded I them, saying, ‘Obey My voice, and I will be your God, and you will be My people: and walk you in all the ways that I have commanded you, that it may be well to you.’”",
-        "“But they hearkened not, nor inclined their ear, but walked in the counsels and in the imagination of their evil heart, and went backward, and not forward.”",
-        "“Since the day that your fathers came forth out of the land of Egypt to this day I have even sent to you all My servants the prophets, daily rising up early and sending them:”",
-        "“Yet they hearkened not to Me, nor inclined their ear, but hardened their neck: they did worse than their fathers.”",
-        "“Therefore you will speak all these words to them, but they will not hearken to you: you will also call to them, but they will not answer you.”",
-        "“But you will say to them, ‘This is a nation that obeys not the voice of the Lord their God, nor receives correction: truth is perished, and is cut off from their mouth.’”",
-        "“‘Cut off your hair, O Jerusalem, and cast it away, and take up a lamentation on high places, for the Lord has rejected and forsaken the generation of His wrath.’”",
-        "“For the children of Judah have done evil in My sight,” says the Lord, “they have set their abominations in the house which is called by My name, to pollute it.”",
-        "“And they have built the high places of Tophet, which is in the valley of the son of Hinnom, to burn their sons and their daughters in the fire, which I commanded them not, neither came it into My heart.”",
-        "“Therefore, behold, the days come,” says the Lord, “that it will no more be called Tophet, nor the valley of the son of Hinnom, but the valley of slaughter: for they will bury in Tophet, till there be no place.”",
-        "“And the carcasses of this people will be food for the fowls of the heaven, and for the beasts of the earth, and none will scare them away.”",
-        "“Then will I cause to cease from the cities of Judah, and from the streets of Jerusalem, the voice of mirth, and the voice of gladness, the voice of the bridegroom, and the voice of the bride: for the land will be desolate.”"
-      ],
-      "notes": [
-        "‘scare’ is used instead of ‘fray’"
-      ],
-      "approved": "36b8934a"
     },
     {
       "ch": "Jeremiah 45",
@@ -26438,36 +28825,6 @@ window.TU_PLAIN = {
       "approved": "3a53e88c"
     },
     {
-      "ch": "Jeremiah 18",
-      "verses": [
-        "The word which came to Jeremiah from the Lord, saying,",
-        "“Arise, and go down to the potter’s house, and there I will cause you to hear My words.”",
-        "Then I went down to the potter’s house, and, behold, he wrought a work on the wheels.",
-        "And the vessel that he made of clay was marred in the hand of the potter: so he made it again another vessel, as seemed good to the potter to make it.",
-        "Then the word of the Lord came to me, saying,",
-        "“O house of Israel, cannot I do with you as this potter? says the Lord. Behold, as the clay is in the potter’s hand, so are you in My hand, O house of Israel.”",
-        "“At what instant I shall speak concerning a nation, and concerning a kingdom, to pluck up, and to pull down, and to destroy it;”",
-        "“If that nation, against whom I have pronounced, turn from their evil, I will repent of the evil that I thought to do to them.”",
-        "“And at what instant I shall speak concerning a nation, and concerning a kingdom, to build and to plant it;”",
-        "“If it do evil in My sight, that it obey not My voice, then I will repent of the good, with which I said I would benefit them.”",
-        "Now therefore go to, speak to the men of Judah, and to the inhabitants of Jerusalem, saying, “Thus says the Lord; ‘Behold, I frame evil against you, and devise a device against you: return you now every one from his evil way, and make your ways and your doings good.’”",
-        "And they said, “There is no hope: but we will walk after our own devices, and we will every one do the imagination of his evil heart.”",
-        "Therefore thus says the Lord; “Ask you now among the heathen, who has heard such things: the virgin of Israel has done a very horrible thing.”",
-        "“Will a man leave the snow of Lebanon which comes from the rock of the field? or shall the cold flowing waters that come from another place be forsaken?”",
-        "“Because My people have forgotten Me, they have burned incense to vanity, and they have caused them to stumble in their ways from the ancient paths, to walk in paths, in a way not cast up;”",
-        "“To make their land desolate, and a perpetual hissing; every one that passes by it shall be astonished, and wag his head.”",
-        "“I will scatter them as with an east wind before the enemy; I will show them the back, and not the face, in the day of their calamity.”",
-        "Then said they, “Come, and let us devise devices against Jeremiah; for the law shall not perish from the priest, nor counsel from the wise, nor the word from the prophet. Come, and let us smite him with the tongue, and let us not give heed to any of his words.”",
-        "Give heed to me, O Lord, and listen to the voice of them that contend with me.",
-        "Shall evil be recompensed for good? for they have dug a pit for my soul. Remember that I stood before You to speak good for them, and to turn away Your wrath from them.",
-        "Therefore deliver up their children to the famine, and pour out their blood by the force of the sword; and let their wives be bereaved of their children, and be widows; and let their men be put to death; let their young men be slain by the sword in battle.",
-        "Let a cry be heard from their houses, when You shall bring a troop suddenly upon them: for they have dug a pit to take me, and hid snares for my feet.",
-        "Yet, Lord, You know all their counsel against me to slay me: forgive not their iniquity, neither blot out their sin from Your sight, but let them be overthrown before You; deal thus with them in the time of Your anger."
-      ],
-      "notes": [],
-      "approved": "1c18436e"
-    },
-    {
       "ch": "Jeremiah 27",
       "verses": [
         "In the beginning of the reign of Jehoiakim the son of Josiah king of Judah came this word to Jeremiah from the Lord, saying,",
@@ -26494,7 +28851,10 @@ window.TU_PLAIN = {
         "“‘They will be carried to Babylon, and there will they be until the day that I visit them,’ says the Lord; ‘then will I bring them up, and restore them to this place.’”"
       ],
       "notes": [
-        "‘listen’ replaces hearken"
+        {
+          "v": 1,
+          "text": "‘listen’ replaces hearken"
+        }
       ],
       "approved": "e7edb0a0"
     },
@@ -26658,8 +29018,14 @@ window.TU_PLAIN = {
         "Now therefore know certainly that you shall die by the sword, by the famine, and by the pestilence, in the place where you desire to go and to sojourn."
       ],
       "notes": [
-        "‘execration’ means a curse or something detested",
-        "‘dissembled’ means disguised your true intentions or deceived"
+        {
+          "v": 1,
+          "text": "‘execration’ means a curse or something detested"
+        },
+        {
+          "v": 1,
+          "text": "‘dissembled’ means disguised your true intentions or deceived"
+        }
       ],
       "approved": "b369828a"
     },
@@ -26700,40 +29066,12 @@ window.TU_PLAIN = {
         "“Therefore thus says the Lord; Behold, I will punish Shemaiah the Nehelamite, and his seed: he will not have a man to dwell among this people; neither will he behold the good that I will do for My people,” says the Lord; “because he has taught rebellion against the Lord.”"
       ],
       "notes": [
-        "‘neighbors’ replaces neighbours"
+        {
+          "v": 1,
+          "text": "‘neighbors’ replaces neighbours"
+        }
       ],
       "approved": "ba026e79"
-    },
-    {
-      "ch": "Jeremiah 20",
-      "verses": [
-        "Now Pashur the son of Immer the priest, who was also chief governor in the house of the Lord, heard that Jeremiah prophesied these things.",
-        "Then Pashur smote Jeremiah the prophet, and put him in the stocks that were in the high gate of Benjamin, which was by the house of the Lord.",
-        "And it came to pass on the tomorrow, that Pashur brought forth Jeremiah out of the stocks. Then said Jeremiah to him, “The Lord has not called your name Pashur, but Magor-missabib.”",
-        "“For thus says the Lord, ‘Behold, I will make you a terror to yourself, and to all your friends: and they shall fall by the sword of their enemies, and your eyes shall behold it: and I will give all Judah into the hand of the king of Babylon, and he shall carry them captive into Babylon, and shall slay them with the sword.’”",
-        "“‘Moreover I will deliver all the strength of this city, and all the labors of it, and all the precious things of it, and all the treasures of the kings of Judah will I give into the hand of their enemies, which shall spoil them, and take them, and carry them to Babylon.’”",
-        "“‘And you, Pashur, and all that dwell in your house shall go into captivity: and you shall come to Babylon, and there you shall die, and shall be buried there, you, and all your friends, to whom you have prophesied lies.’”",
-        "O Lord, You have deceived me, and I was deceived: You are stronger than I, and have prevailed: I am in derision daily, every one mocks me.",
-        "For since I spoke, I cried out, I cried violence and spoil; because the word of the Lord was made a reproach to me, and a derision, daily.",
-        "Then I said, “I will not make mention of Him, nor speak any more in His name.” But His word was in my heart as a burning fire shut up in my bones, and I was weary with forbearing, and I could not stay.",
-        "For I heard the defaming of many, fear on every side. “Report,” say they, “and we will report it.” All my familiars watched for my halting, saying, “Perhaps he will be enticed, and we shall prevail against him, and we shall take our revenge on him.”",
-        "But the Lord is with me as a mighty terrible one: therefore my persecutors shall stumble, and they shall not prevail: they shall be greatly ashamed; for they shall not prosper: their everlasting confusion shall never be forgotten.",
-        "But, O Lord of hosts, that tries the righteous, and sees the reins and the heart, let me see Your vengeance on them: for to You have I opened my cause.",
-        "Sing to the Lord, praise you the Lord: for He has delivered the soul of the poor from the hand of evildoers.",
-        "Cursed be the day in which I was born: let not the day in which my mother bore me be blessed.",
-        "Cursed be the man who brought tidings to my father, saying, “A man child is born to you;” making him very glad.",
-        "And let that man be as the cities which the Lord overthrew, and repented not: and let him hear the cry in the morning, and the shouting at noontide;",
-        "Because he killed me not from the womb; or that my mother might have been my grave, and her womb to be always great with me.",
-        "Why came I forth out of the womb to see labor and sorrow, that my days should be consumed with shame?"
-      ],
-      "notes": [
-        "‘Magor-missabib’ means terror on every side",
-        "‘stay’ means endure or hold in",
-        "‘familiars’ means trusted friends",
-        "‘halting’ means stumbling or falling",
-        "‘reins’ means inmost being or heart"
-      ],
-      "approved": "7c38a1a1"
     },
     {
       "ch": "Jeremiah 43",
@@ -26754,38 +29092,6 @@ window.TU_PLAIN = {
       ],
       "notes": [],
       "approved": "2265b758"
-    },
-    {
-      "ch": "Lamentations 1",
-      "verses": [
-        "How does the city sit solitary, that was full of people! how is she become as a widow! she that was great among the nations, and princess among the provinces, how is she become tributary!",
-        "She weeps sore in the night, and her tears are on her cheeks: among all her lovers she has none to comfort her: all her friends have dealt treacherously with her, they are become her enemies.",
-        "Judah is gone into captivity because of affliction, and because of great servitude: she dwells among the heathen, she finds no rest: all her persecutors overtook her between the straits.",
-        "The ways of Zion do mourn, because none come to the solemn feasts: all her gates are desolate: her priests sigh, her virgins are afflicted, and she is in bitterness.",
-        "Her adversaries are the chief, her enemies prosper; for the Lord has afflicted her for the multitude of her transgressions: her children are gone into captivity before the enemy.",
-        "And from the daughter of Zion all her beauty is departed: her princes are become like harts that find no pasture, and they are gone without strength before the pursuer.",
-        "Jerusalem remembered in the days of her affliction and of her miseries all her pleasant things that she had in the days of old, when her people fell into the hand of the enemy, and none did help her: the adversaries saw her, and did mock at her sabbaths.",
-        "Jerusalem has grievously sinned; therefore she is removed: all that honored her despise her, because they have seen her nakedness: yes, she sighs, and turns backward.",
-        "Her filthiness is in her skirts; she remembers not her last end; therefore she came down wonderfully: she had no comforter. O Lord, behold my affliction: for the enemy has magnified himself.",
-        "The adversary has spread out his hand upon all her pleasant things: for she has seen that the heathen entered into her sanctuary, whom You did command that they should not enter into Your congregation.",
-        "All her people sigh, they seek bread; they have given their pleasant things for meat to relieve the soul: see, O Lord, and consider; for I am become vile.",
-        "Is it nothing to you, all you that pass by? behold, and see if there be any sorrow like to my sorrow, which is done to me, with which the Lord has afflicted me in the day of His fierce anger.",
-        "From above has He sent fire into my bones, and it prevails against them: He has spread a net for my feet, He has turned me back: He has made me desolate and faint all the day.",
-        "The yoke of my transgressions is bound by His hand: they are wreathed, and come up upon my neck: He has made my strength to fall, the Lord has delivered me into their hands, from whom I am not able to rise up.",
-        "The Lord has trodden under foot all my mighty men in the midst of me: He has called an assembly against me to crush my young men: the Lord has trodden the virgin, the daughter of Judah, as in a winepress.",
-        "For these things I weep; my eye, my eye runs down with water, because the comforter that should relieve my soul is far from me: my children are desolate, because the enemy prevailed.",
-        "Zion spreads forth her hands, and there is none to comfort her: the Lord has commanded concerning Jacob, that his adversaries should be round about him: Jerusalem is as a menstruous woman among them.",
-        "The Lord is righteous; for I have rebelled against His commandment: hear, I pray you, all people, and behold my sorrow: my virgins and my young men are gone into captivity.",
-        "I called for my lovers, but they deceived me: my priests and my elders gave up the ghost in the city, while they sought their meat to relieve their souls.",
-        "Behold, O Lord; for I am in distress: my bowels are troubled; my heart is turned within me; for I have grievously rebelled: abroad the sword bereaves, at home there is as death.",
-        "They have heard that I sigh: there is none to comfort me: all my enemies have heard of my trouble; they are glad that You have done it: You will bring the day that You have called, and they shall be like to me.",
-        "Let all their wickedness come before You; and do to them, as You have done to me for all my transgressions: for my sighs are many, and my heart is faint."
-      ],
-      "notes": [
-        "‘tributary’ means forced to pay tribute",
-        "‘wreathed’ means bound together"
-      ],
-      "approved": "d2f4adb2"
     },
     {
       "ch": "Lamentations 2",
@@ -26814,85 +29120,12 @@ window.TU_PLAIN = {
         "You have called as in a solemn day my terrors round about, so that in the day of the Lord's anger none escaped nor remained: those that I have swaddled and brought up has my enemy consumed."
       ],
       "notes": [
-        "‘swoon’ means faint"
+        {
+          "v": 1,
+          "text": "‘swoon’ means faint"
+        }
       ],
       "approved": "1e24c206"
-    },
-    {
-      "ch": "Lamentations 3",
-      "verses": [
-        "I am the man that has seen affliction by the rod of His wrath.",
-        "He has led me, and brought me into darkness, but not into light.",
-        "Surely against me is He turned; He turns His hand against me all the day.",
-        "My flesh and my skin has He made old; He has broken my bones.",
-        "He has built against me, and compassed me with gall and travail.",
-        "He has set me in dark places, as they that be dead of old.",
-        "He has hedged me about, that I cannot get out: He has made my chain heavy.",
-        "Also when I cry and shout, He shuts out my prayer.",
-        "He has enclosed my ways with hewn stone, He has made my paths crooked.",
-        "He was to me as a bear lying in wait, and as a lion in secret places.",
-        "He has turned aside my ways, and pulled me in pieces: He has made me desolate.",
-        "He has bent His bow, and set me as a mark for the arrow.",
-        "He has caused the arrows of His quiver to enter into my reins.",
-        "I was a derision to all my people; and their song all the day.",
-        "He has filled me with bitterness, He has made me drunken with wormwood.",
-        "He has also broken my teeth with gravel stones, He has covered me with ashes.",
-        "And You have removed my soul far off from peace: I forgot prosperity.",
-        "And I said, My strength and my hope is perished from the Lord:",
-        "Remembering my affliction and my misery, the wormwood and the gall.",
-        "My soul has them still in remembrance, and is humbled in me.",
-        "This I recall to my mind, therefore have I hope.",
-        "It is of the Lord's mercies that we are not consumed, because His compassions fail not.",
-        "They are new every morning: great is Your faithfulness.",
-        "The Lord is my portion, says my soul; therefore will I hope in Him.",
-        "The Lord is good to them that wait for Him, to the soul that seeks Him.",
-        "It is good that a man should both hope and quietly wait for the salvation of the Lord.",
-        "It is good for a man that he bear the yoke in his youth.",
-        "He sits alone and keeps silence, because he has borne it upon him.",
-        "He puts his mouth in the dust; if so be there may be hope.",
-        "He gives his cheek to him that strikes him: he is filled full with reproach.",
-        "For the Lord will not cast off forever:",
-        "But though He cause grief, yet will He have compassion according to the multitude of His mercies.",
-        "For He does not afflict willingly nor grieve the children of men.",
-        "To crush under His feet all the prisoners of the earth,",
-        "To turn aside the right of a man before the face of the most High,",
-        "To subvert a man in his cause, the Lord approves not.",
-        "Who is he that says, and it comes to pass, when the Lord commands it not?",
-        "Out of the mouth of the most High proceeds not evil and good?",
-        "Why does a living man complain, a man for the punishment of his sins?",
-        "Let us search and try our ways, and turn again to the Lord.",
-        "Let us lift up our heart with our hands to God in the heavens.",
-        "We have transgressed and have rebelled: You have not pardoned.",
-        "You have covered with anger, and persecuted us: You have slain, You have not pitied.",
-        "You have covered Yourself with a cloud, that our prayer should not pass through.",
-        "You have made us as the offscouring and refuse in the midst of the people.",
-        "All our enemies have opened their mouths against us.",
-        "Fear and a snare is come upon us, desolation and destruction.",
-        "My eye runs down with rivers of water for the destruction of the daughter of my people.",
-        "My eye trickles down, and ceases not, without any intermission,",
-        "Till the Lord look down, and behold from heaven.",
-        "My eye affects my heart because of all the daughters of my city.",
-        "My enemies chased me sore, like a bird, without cause.",
-        "They have cut off my life in the dungeon, and cast a stone upon me.",
-        "Waters flowed over my head; then I said, I am cut off.",
-        "I called upon Your name, O Lord, out of the low dungeon.",
-        "You have heard my voice: hide not Your ear at my breathing, at my cry.",
-        "You drew near in the day that I called upon You: You said, Fear not.",
-        "O Lord, You have pleaded the causes of my soul; You have redeemed my life.",
-        "O Lord, You have seen my wrong: judge You my cause.",
-        "You have seen all their vengeance and all their imaginations against me.",
-        "You have heard their reproach, O Lord, and all their imaginations against me;",
-        "The lips of those that rose up against me, and their device against me all the day.",
-        "Behold their sitting down, and their rising up; I am their music.",
-        "Render to them a recompense, O Lord, according to the work of their hands.",
-        "Give them sorrow of heart, Your curse to them.",
-        "Persecute and destroy them in anger from under the heavens of the Lord."
-      ],
-      "notes": [
-        "‘reins’ refers to the kidneys, considered the seat of emotion",
-        "‘wormwood’ is a bitter plant, symbolic of bitter sorrow or affliction"
-      ],
-      "approved": "56ba3b2b"
     },
     {
       "ch": "Lamentations 4",
@@ -26921,7 +29154,10 @@ window.TU_PLAIN = {
         "The punishment of your iniquity is accomplished, O daughter of Zion; He will no more carry you away into captivity: He will visit your iniquity, O daughter of Edom; He will discover your sins."
       ],
       "notes": [
-        "‘sodden’ means boiled or cooked"
+        {
+          "v": 1,
+          "text": "‘sodden’ means boiled or cooked"
+        }
       ],
       "approved": "89c669a7"
     },
@@ -26952,7 +29188,10 @@ window.TU_PLAIN = {
         "But You have utterly rejected us; You are very angry against us."
       ],
       "notes": [
-        "‘wroth’ means angry"
+        {
+          "v": 1,
+          "text": "‘wroth’ means angry"
+        }
       ],
       "approved": "7a1e798a"
     },
@@ -27076,55 +29315,6 @@ window.TU_PLAIN = {
       "approved": "ec3df254"
     },
     {
-      "ch": "Jeremiah 31",
-      "verses": [
-        "“At the same time,” says the Lord, “will I be the God of all the families of Israel, and they will be My people.”",
-        "Thus says the Lord, “The people which were left of the sword found grace in the wilderness; even Israel, when I went to cause him to rest.”",
-        "The Lord has appeared of old to me, saying, “Yes, I have loved you with an everlasting love: therefore with lovingkindness have I drawn you.”",
-        "“Again I will build you, and you will be built, O virgin of Israel: you will again be adorned with your tabrets, and will go forth in the dances of them that make merry.”",
-        "“You will yet plant vines upon the mountains of Samaria: the planters will plant, and will eat them as common things.”",
-        "“For there will be a day, that the watchmen upon the mount Ephraim will cry, ‘Arise you, and let us go up to Zion to the Lord our God.’”",
-        "For thus says the Lord; “Sing with gladness for Jacob, and shout among the chief of the nations: publish you, praise you, and say, ‘O Lord, save Your people, the remnant of Israel.’”",
-        "“Behold, I will bring them from the north country, and gather them from the coasts of the earth, and with them the blind and the lame, the woman with child and her that travails with child together: a great company will return there.”",
-        "“They will come with weeping, and with supplications will I lead them: I will cause them to walk by the rivers of waters in a straight way, where they will not stumble: for I am a father to Israel, and Ephraim is My firstborn.”",
-        "“Hear the word of the Lord, O you nations, and declare it in the isles afar off, and say, ‘He that scattered Israel will gather him, and keep him, as a shepherd does his flock.’”",
-        "“For the Lord has redeemed Jacob, and ransomed him from the hand of him that was stronger than he.”",
-        "“Therefore they will come and sing in the height of Zion, and will flow together to the goodness of the Lord, for wheat, and for wine, and for oil, and for the young of the flock and of the herd: and their soul will be as a watered garden; and they will not sorrow any more at all.”",
-        "“Then will the virgin rejoice in the dance, both young men and old together: for I will turn their mourning into joy, and will comfort them, and make them rejoice from their sorrow.”",
-        "“And I will satiate the soul of the priests with fatness, and My people will be satisfied with My goodness,” says the Lord.",
-        "Thus says the Lord; “A voice was heard in Ramah, lamentation, and bitter weeping; Rahel weeping for her children refused to be comforted for her children, because they were not.”",
-        "Thus says the Lord; “Refrain your voice from weeping, and your eyes from tears: for your work will be rewarded,” says the Lord; “and they will come again from the land of the enemy.”",
-        "“And there is hope in your end,” says the Lord, “that your children will come again to their own border.”",
-        "“I have surely heard Ephraim bemoaning himself thus; ‘You have chastised me, and I was chastised, as a bullock unaccustomed to the yoke: turn You me, and I will be turned; for You are the Lord my God.’”",
-        "“Surely after that I was turned, I repented; and after that I was instructed, I struck upon my thigh: I was ashamed, yes, even confounded, because I did bear the reproach of my youth.”",
-        "“Is Ephraim My dear son? is he a pleasant child? for since I spoke against him, I do earnestly remember him still: therefore My bowels are troubled for him; I will surely have mercy upon him,” says the Lord.",
-        "“Set you up waymarks, make you high heaps: set your heart toward the highway, even the way which you went: turn again, O virgin of Israel, turn again to these your cities.”",
-        "“How long will you go about, O you backsliding daughter? for the Lord has created a new thing in the earth, A woman will compass a man.”",
-        "Thus says the Lord of hosts, the God of Israel; “As yet they will use this speech in the land of Judah and in the cities of it, when I will bring again their captivity; ‘The Lord bless you, O habitation of justice, and mountain of holiness.’”",
-        "“And there will dwell in Judah itself, and in all the cities of it together, husbandmen, and they that go forth with flocks.”",
-        "“For I have satiated the weary soul, and I have replenished every sorrowful soul.”",
-        "Upon this I awaked, and beheld; and my sleep was sweet to me.",
-        "“Behold, the days come,” says the Lord, “that I will sow the house of Israel and the house of Judah with the seed of man, and with the seed of beast.”",
-        "“And it will come to pass, that like as I have watched over them, to pluck up, and to break down, and to throw down, and to destroy, and to afflict; so will I watch over them, to build, and to plant,” says the Lord.",
-        "“In those days they will say no more, ‘The fathers have eaten a sour grape, and the children’s teeth are set on edge.’”",
-        "“But every one will die for his own iniquity: every man that eats the sour grape, his teeth will be set on edge.”",
-        "“Behold, the days come,” says the Lord, “that I will make a new covenant with the house of Israel, and with the house of Judah:”",
-        "“Not according to the covenant that I made with their fathers in the day that I took them by the hand to bring them out of the land of Egypt; which My covenant they broke, although I was a husband to them,” says the Lord:",
-        "“But this will be the covenant that I will make with the house of Israel; After those days,” says the Lord, “I will put My law in their inward parts, and write it in their hearts; and will be their God, and they will be My people.”",
-        "“And they will teach no more every man his neighbor, and every man his brother, saying, ‘Know the Lord:’ for they will all know Me, from the least of them to the greatest of them,” says the Lord: “for I will forgive their iniquity, and I will remember their sin no more.”",
-        "Thus says the Lord, which gives the sun for a light by day, and the ordinances of the moon and of the stars for a light by night, which divides the sea when the waves of it roar; The Lord of hosts is His name:",
-        "“If those ordinances depart from before Me,” says the Lord, “then the seed of Israel also will cease from being a nation before Me for ever.”",
-        "Thus says the Lord; “If heaven above can be measured, and the foundations of the earth searched out beneath, I will also cast off all the seed of Israel for all that they have done,” says the Lord.",
-        "“Behold, the days come,” says the Lord, “that the city will be built to the Lord from the tower of Hananeel to the gate of the corner.”",
-        "“And the measuring line will yet go forth over against it upon the hill Gareb, and will compass about to Goath.”",
-        "“And the whole valley of the dead bodies, and of the ashes, and all the fields to the brook of Kidron, to the corner of the horse gate toward the east, will be holy to the Lord; it will not be plucked up, nor thrown down any more for ever.”"
-      ],
-      "notes": [
-        "‘neighbor’ replaces neighbour"
-      ],
-      "approved": "543328f9"
-    },
-    {
       "ch": "Jeremiah 22",
       "verses": [
         "Thus says the Lord; “Go down to the house of the king of Judah, and speak there this word,”",
@@ -27159,8 +29349,14 @@ window.TU_PLAIN = {
         "Thus says the Lord, “Write you this man childless, a man that shall not prosper in his days: for no man of his seed shall prosper, sitting upon the throne of David, and ruling any more in Judah.”"
       ],
       "notes": [
-        "‘ass’ means donkey",
-        "‘closest’ means enclose"
+        {
+          "v": 1,
+          "text": "‘ass’ means donkey"
+        },
+        {
+          "v": 1,
+          "text": "‘closest’ means enclose"
+        }
       ],
       "approved": "174a77fe"
     },
@@ -27195,94 +29391,6 @@ window.TU_PLAIN = {
       ],
       "notes": [],
       "approved": "7aa0cb2c"
-    },
-    {
-      "ch": "Jeremiah 32",
-      "verses": [
-        "The word that came to Jeremiah from the Lord in the tenth year of Zedekiah king of Judah, which was the eighteenth year of Nebuchadrezzar.",
-        "For then the king of Babylon’s army besieged Jerusalem: and Jeremiah the prophet was shut up in the court of the prison, which was in the king of Judah’s house.",
-        "For Zedekiah king of Judah had shut him up, saying, “Why do you prophesy, and say, ‘Thus says the Lord, Behold, I will give this city into the hand of the king of Babylon, and he will take it;’”",
-        "“And Zedekiah king of Judah will not escape out of the hand of the Chaldeans, but will surely be delivered into the hand of the king of Babylon, and will speak with him mouth to mouth, and his eyes will behold his eyes;”",
-        "“‘And he will lead Zedekiah to Babylon, and there will he be until I visit him,’ says the Lord: ‘though you fight with the Chaldeans, you will not prosper?’”",
-        "And Jeremiah said, “The word of the Lord came to me, saying,”",
-        "“‘Behold, Hanameel the son of Shallum your uncle will come to you, saying, Buy you my field that is in Anathoth: for the right of redemption is yours to buy it.’”",
-        "So Hanameel my uncle’s son came to me in the court of the prison according to the word of the Lord, and said to me, “Buy my field, I pray you, that is in Anathoth, which is in the country of Benjamin: for the right of inheritance is yours, and the redemption is yours; buy it for yourself.” Then I knew that this was the word of the Lord.",
-        "And I bought the field of Hanameel my uncle’s son, that was in Anathoth, and weighed him the money, even seventeen shekels of silver.",
-        "And I subscribed the evidence, and sealed it, and took witnesses, and weighed him the money in the balances.",
-        "So I took the evidence of the purchase, both that which was sealed according to the law and custom, and that which was open:",
-        "And I gave the evidence of the purchase to Baruch the son of Neriah, the son of Maaseiah, in the sight of Hanameel my uncle’s son, and in the presence of the witnesses that subscribed the book of the purchase, before all the Jews that sat in the court of the prison.",
-        "And I charged Baruch before them, saying,",
-        "“Thus says the Lord of hosts, the God of Israel; ‘Take these evidences, this evidence of the purchase, both which is sealed, and this evidence which is open; and put them in an earthen vessel, that they may continue many days.’”",
-        "“For thus says the Lord of hosts, the God of Israel; ‘Houses and fields and vineyards will be possessed again in this land.’”",
-        "Now when I had delivered the evidence of the purchase to Baruch the son of Neriah, I prayed to the Lord, saying,",
-        "“Ah Lord God! behold, You have made the heaven and the earth by Your great power and stretched out arm, and there is nothing too hard for You:”",
-        "“You show lovingkindness to thousands, and recompense the iniquity of the fathers into the bosom of their children after them: the Great, the Mighty God, the Lord of hosts, is His name,”",
-        "“Great in counsel, and mighty in work: for Your eyes are open upon all the ways of the sons of men: to give every one according to his ways, and according to the fruit of his doings:”",
-        "“Which have set signs and wonders in the land of Egypt, even to this day, and in Israel, and among other men; and have made Yourself a name, as at this day;”",
-        "“And have brought forth Your people Israel out of the land of Egypt with signs, and with wonders, and with a strong hand, and with a stretched out arm, and with great terror;”",
-        "“And have given them this land, which You did swear to their fathers to give them, a land flowing with milk and honey;”",
-        "“And they came in, and possessed it; but they obeyed not Your voice, neither walked in Your law; they have done nothing of all that You commanded them to do: therefore You have caused all this evil to come upon them:”",
-        "“Behold the mounts, they are come to the city to take it; and the city is given into the hand of the Chaldeans, that fight against it, because of the sword, and of the famine, and of the pestilence: and what You have spoken is come to pass; and, behold, You see it.”",
-        "“And You have said to me, O Lord God, Buy you the field for money, and take witnesses; for the city is given into the hand of the Chaldeans.”",
-        "Then came the word of the Lord to Jeremiah, saying,",
-        "“Behold, I am the Lord, the God of all flesh: is there any thing too hard for Me?”",
-        "Therefore thus says the Lord; “Behold, I will give this city into the hand of the Chaldeans, and into the hand of Nebuchadrezzar king of Babylon, and he will take it:”",
-        "“And the Chaldeans, that fight against this city, will come and set fire on this city, and burn it with the houses, upon whose roofs they have offered incense to Baal, and poured out drink offerings to other gods, to provoke Me to anger.”",
-        "“For the children of Israel and the children of Judah have only done evil before Me from their youth: for the children of Israel have only provoked Me to anger with the work of their hands,” says the Lord.",
-        "“For this city has been to Me as a provocation of My anger and of My fury from the day that they built it even to this day; that I should remove it from before My face,”",
-        "“Because of all the evil of the children of Israel and of the children of Judah, which they have done to provoke Me to anger, they, their kings, their princes, their priests, and their prophets, and the men of Judah, and the inhabitants of Jerusalem.”",
-        "“And they have turned to Me the back, and not the face: though I taught them, rising up early and teaching them, yet they have not listened to receive instruction.”",
-        "“But they set their abominations in the house, which is called by My name, to defile it.”",
-        "“And they built the high places of Baal, which are in the valley of the son of Hinnom, to cause their sons and their daughters to pass through the fire to Molech; which I commanded them not, neither came it into My mind, that they should do this abomination, to cause Judah to sin.”",
-        "And now therefore thus says the Lord, the God of Israel, concerning this city, of which you say, “It will be delivered into the hand of the king of Babylon by the sword, and by the famine, and by the pestilence;”",
-        "“Behold, I will gather them out of all countries, where I have driven them in My anger, and in My fury, and in great wrath; and I will bring them again to this place, and I will cause them to dwell safely:”",
-        "“And they will be My people, and I will be their God:”",
-        "“And I will give them one heart, and one way, that they may fear Me for ever, for the good of them, and of their children after them:”",
-        "“And I will make an everlasting covenant with them, that I will not turn away from them, to do them good; but I will put My fear in their hearts, that they will not depart from Me.”",
-        "“Yes, I will rejoice over them to do them good, and I will plant them in this land assuredly with My whole heart and with My whole soul.”",
-        "For thus says the Lord; “Like as I have brought all this great evil upon this people, so will I bring upon them all the good that I have promised them.”",
-        "“And fields will be bought in this land, of which you say, ‘It is desolate without man or beast; it is given into the hand of the Chaldeans.’”",
-        "“Men will buy fields for money, and subscribe evidences, and seal them, and take witnesses in the land of Benjamin, and in the places about Jerusalem, and in the cities of Judah, and in the cities of the mountains, and in the cities of the valley, and in the cities of the south: for I will cause their captivity to return,” says the Lord."
-      ],
-      "notes": [
-        "‘listened’ replaces hearkened"
-      ],
-      "approved": "17ffe71d"
-    },
-    {
-      "ch": "Jeremiah 33",
-      "verses": [
-        "Moreover the word of the Lord came to Jeremiah the second time, while he was yet shut up in the court of the prison, saying,",
-        "“Thus says the Lord the maker of it, the Lord that formed it, to establish it; the Lord is His name;”",
-        "“Call to Me, and I will answer you, and show you great and mighty things, which you know not.”",
-        "“For thus says the Lord, the God of Israel, concerning the houses of this city, and concerning the houses of the kings of Judah, which are thrown down by the mounts, and by the sword;”",
-        "“They come to fight with the Chaldeans, but it is to fill them with the dead bodies of men, whom I have slain in My anger and in My fury, and for all whose wickedness I have hid My face from this city.”",
-        "“Behold, I will bring it health and cure, and I will cure them, and will reveal to them the abundance of peace and truth.”",
-        "“And I will cause the captivity of Judah and the captivity of Israel to return, and will build them, as at the first.”",
-        "“And I will cleanse them from all their iniquity, by which they have sinned against Me; and I will pardon all their iniquities, by which they have sinned, and by which they have transgressed against Me.”",
-        "“And it will be to Me a name of joy, a praise and an honor before all the nations of the earth, which will hear all the good that I do to them: and they will fear and tremble for all the goodness and for all the prosperity that I procure to it.”",
-        "Thus says the Lord; “Again there will be heard in this place, which you say will be desolate without man and without beast, even in the cities of Judah, and in the streets of Jerusalem, that are desolate, without man, and without inhabitant, and without beast,”",
-        "“The voice of joy, and the voice of gladness, the voice of the bridegroom, and the voice of the bride, the voice of them that will say, ‘Praise the Lord of hosts: for the Lord is good; for His mercy endures for ever:’ and of them that will bring the sacrifice of praise into the house of the Lord. For I will cause to return the captivity of the land, as at the first,” says the Lord.",
-        "Thus says the Lord of hosts; “Again in this place, which is desolate without man and without beast, and in all the cities of it, will be a habitation of shepherds causing their flocks to lie down.”",
-        "“In the cities of the mountains, in the cities of the vale, and in the cities of the south, and in the land of Benjamin, and in the places about Jerusalem, and in the cities of Judah, will the flocks pass again under the hands of him that tells them,” says the Lord.",
-        "“Behold, the days come,” says the Lord, “that I will perform that good thing which I have promised to the house of Israel and to the house of Judah.”",
-        "“In those days, and at that time, will I cause the Branch of righteousness to grow up to David; and He will execute judgment and righteousness in the land.”",
-        "“In those days will Judah be saved, and Jerusalem will dwell safely: and this is the name with which she will be called, The Lord our righteousness.”",
-        "For thus says the Lord; “David will never lack a man to sit upon the throne of the house of Israel;”",
-        "“Neither will the priests the Levites lack a man before Me to offer burnt offerings, and to kindle meat offerings, and to do sacrifice continually.”",
-        "And the word of the Lord came to Jeremiah, saying,",
-        "“Thus says the Lord; If you can break My covenant of the day, and My covenant of the night, and that there should not be day and night in their season;”",
-        "“Then may also My covenant be broken with David My servant, that he should not have a son to reign upon his throne; and with the Levites the priests, My ministers.”",
-        "“As the host of heaven cannot be numbered, neither the sand of the sea measured: so will I multiply the seed of David My servant, and the Levites that minister to Me.”",
-        "Moreover the word of the Lord came to Jeremiah, saying,",
-        "“Consider you not what this people have spoken, saying, ‘The two families which the Lord has chosen, He has even cast them off?’ thus they have despised My people, that they should be no more a nation before them.”",
-        "Thus says the Lord; “If My covenant be not with day and night, and if I have not appointed the ordinances of heaven and earth;”",
-        "“Then will I cast away the seed of Jacob, and David My servant, so that I will not take any of his seed to be rulers over the seed of Abraham, Isaac, and Jacob: for I will cause their captivity to return, and have mercy on them.”"
-      ],
-      "notes": [
-        "‘honor’ replaces honour"
-      ],
-      "approved": "2930f10a"
     },
     {
       "ch": "Ezekiel 25",
@@ -27339,79 +29447,6 @@ window.TU_PLAIN = {
       "approved": "1458e63e"
     },
     {
-      "ch": "Ezekiel 1",
-      "verses": [
-        "Now it came to pass in the thirtieth year, in the fourth month, in the fifth day of the month, as I was among the captives by the river of Chebar, that the heavens were opened, and I saw visions of God.",
-        "In the fifth day of the month, which was the fifth year of king Jehoiachin’s captivity,",
-        "The word of the Lord came expressly to Ezekiel the priest, the son of Buzi, in the land of the Chaldeans by the river Chebar, and the hand of the Lord was there on him.",
-        "And I looked, and, behold, a whirlwind came out of the north, a great cloud, and a fire infolding itself, and a brightness was about it, and out of the midst of it as the color of amber, out of the midst of the fire.",
-        "Also out of the midst of it came the likeness of four living creatures. And this was their appearance: they had the likeness of a man.",
-        "And everyone had four faces, and everyone had four wings.",
-        "And their feet were straight feet, and the sole of their feet was like the sole of a calf’s foot: and they sparkled like the color of burnished bronze.",
-        "And they had the hands of a man under their wings on their four sides, and they four had their faces and their wings.",
-        "Their wings were joined one to another, they turned not when they went, they went everyone straight forward.",
-        "As for the likeness of their faces, they four had the face of a man, and the face of a lion, on the right side: and they four had the face of an ox on the left side, they four also had the face of an eagle.",
-        "Thus were their faces: and their wings were stretched upward, two wings of everyone were joined one to another, and two covered their bodies.",
-        "And they went everyone straight forward: where the spirit was to go, they went, and they turned not when they went.",
-        "As for the likeness of the living creatures, their appearance was like burning coals of fire, and like the appearance of lamps: it went up and down among the living creatures, and the fire was bright, and out of the fire went forth lightning.",
-        "And the living creatures ran and returned as the appearance of a flash of lightning.",
-        "Now as I beheld the living creatures, behold one wheel on the earth by the living creatures, with his four faces.",
-        "The appearance of the wheels and their work was like to the color of a beryl: and they four had one likeness: and their appearance and their work was as it were a wheel in the middle of a wheel.",
-        "When they went, they went on their four sides: and they turned not when they went.",
-        "As for their rings, they were so high that they were dreadful, and their rings were full of eyes round about them four.",
-        "And when the living creatures went, the wheels went by them: and when the living creatures were lifted up from the earth, the wheels were lifted up.",
-        "Wherever the spirit was to go, they went, there was their spirit to go, and the wheels were lifted up beside them: for the spirit of the living creature was in the wheels.",
-        "When those went, these went, and when those stood, these stood, and when those were lifted up from the earth, the wheels were lifted up beside them: for the spirit of the living creature was in the wheels.",
-        "And the likeness of the firmament on the heads of the living creature was as the color of the terrible crystal, stretched forth over their heads above.",
-        "And under the firmament were their wings straight, the one toward the other: everyone had two, which covered on this side, and everyone had two, which covered on that side, their bodies.",
-        "And when they went, I heard the noise of their wings, like the noise of great waters, as the voice of the Almighty, the voice of speech, as the noise of a host: when they stood, they let down their wings.",
-        "And there was a voice from the firmament that was over their heads, when they stood, and had let down their wings.",
-        "And above the firmament that was over their heads was the likeness of a throne, as the appearance of a sapphire stone: and on the likeness of the throne was the likeness as the appearance of a man above on it.",
-        "And I saw as the color of amber, as the appearance of fire round about within it, from the appearance of His loins even upward, and from the appearance of His loins even downward, I saw as it were the appearance of fire, and it had brightness round about.",
-        "As the appearance of the bow that is in the cloud in the day of rain, so was the appearance of the brightness round about. This was the appearance of the likeness of the glory of the Lord. And when I saw it, I fell on my face, and I heard a voice of one that spoke."
-      ],
-      "notes": [
-        "‘bronze’ is used instead of ‘brass’",
-        "‘beside’ is used instead of ‘over against’"
-      ],
-      "approved": "c08f2cc2"
-    },
-    {
-      "ch": "Ezekiel 37",
-      "verses": [
-        "The hand of the Lord was upon me, and carried me out in the Spirit of the Lord, and set me down in the midst of the valley which was full of bones,",
-        "And caused me to pass by them round about: and, behold, there were very many in the open valley; and, lo, they were very dry.",
-        "And He said to me, Son of man, can these bones live? And I answered, O Lord God, You know.",
-        "Again He said to me, Prophesy upon these bones, and say to them, O you dry bones, hear the word of the Lord.",
-        "Thus says the Lord God to these bones; Behold, I will cause breath to enter into you, and you shall live:",
-        "And I will lay sinews upon you, and will bring up flesh upon you, and cover you with skin, and put breath in you, and you shall live; and you shall know that I am the Lord.",
-        "So I prophesied as I was commanded: and as I prophesied, there was a noise, and behold a shaking, and the bones came together, bone to his bone.",
-        "And when I beheld, lo, the sinews and the flesh came up upon them, and the skin covered them above: but there was no breath in them.",
-        "Then said He to me, Prophesy to the wind, prophesy, son of man, and say to the wind, Thus says the Lord God; Come from the four winds, O breath, and breathe upon these slain, that they may live.",
-        "So I prophesied as He commanded me, and the breath came into them, and they lived, and stood up upon their feet, an exceeding great army.",
-        "Then He said to me, Son of man, these bones are the whole house of Israel: behold, they say, Our bones are dried, and our hope is lost: we are cut off for our parts.",
-        "Therefore prophesy and say to them, Thus says the Lord God; Behold, O My people, I will open your graves, and cause you to come up out of your graves, and bring you into the land of Israel.",
-        "And you shall know that I am the Lord, when I have opened your graves, O My people, and brought you up out of your graves,",
-        "And shall put My Spirit in you, and you shall live, and I shall place you in your own land: then shall you know that I the Lord have spoken it, and performed it, says the Lord.",
-        "The word of the Lord came again to me, saying,",
-        "Moreover, you son of man, take you one stick, and write upon it, For Judah, and for the children of Israel his companions: then take another stick, and write upon it, For Joseph, the stick of Ephraim, and for all the house of Israel his companions:",
-        "And join them one to another into one stick; and they shall become one in your hand.",
-        "And when the children of your people shall speak to you, saying, Will you not show us what you mean by these?",
-        "Say to them, Thus says the Lord God; Behold, I will take the stick of Joseph, which is in the hand of Ephraim, and the tribes of Israel his fellows, and will put them with him, even with the stick of Judah, and make them one stick, and they shall be one in My hand.",
-        "And the sticks on which you write shall be in your hand before their eyes.",
-        "And say to them, Thus says the Lord God; Behold, I will take the children of Israel from among the heathen, where they be gone, and will gather them on every side, and bring them into their own land:",
-        "And I will make them one nation in the land upon the mountains of Israel; and one king shall be king to them all: and they shall be no more two nations, neither shall they be divided into two kingdoms any more at all:",
-        "Neither shall they defile themselves any more with their idols, nor with their detestable things, nor with any of their transgressions: but I will save them out of all their dwellingplaces, in which they have sinned, and will cleanse them: so shall they be My people, and I will be their God.",
-        "And David My servant shall be king over them; and they all shall have one shepherd: they shall also walk in My judgments, and observe My statutes, and do them.",
-        "And they shall dwell in the land that I have given to Jacob My servant, in which your fathers have dwelt; and they shall dwell therein, even they, and their children, and their children's children for ever: and My servant David shall be their prince for ever.",
-        "Moreover I will make a covenant of peace with them; it shall be an everlasting covenant with them: and I will place them, and multiply them, and will set My sanctuary in the midst of them for evermore.",
-        "My tabernacle also shall be with them: yea, I will be their God, and they shall be My people.",
-        "And the heathen shall know that I the Lord do sanctify Israel, when My sanctuary shall be in the midst of them for evermore."
-      ],
-      "notes": [],
-      "approved": "969185cb"
-    },
-    {
       "ch": "Ezekiel 26",
       "verses": [
         "And it came to pass in the eleventh year, in the first day of the month, that the word of the Lord came to me, saying,",
@@ -27438,59 +29473,6 @@ window.TU_PLAIN = {
       ],
       "notes": [],
       "approved": "5843e44c"
-    },
-    {
-      "ch": "Ezekiel 2",
-      "verses": [
-        "And He said to me, “Son of man, stand on your feet, and I will speak to you.”",
-        "And the Spirit entered into me when He spoke to me, and set me on my feet, that I heard Him that spoke to me.",
-        "And He said to me, “Son of man, I send you to the children of Israel, to a rebellious nation that has rebelled against Me: they and their fathers have transgressed against Me, even to this very day.”",
-        "“For they are impudent children and stiffhearted. I do send you to them, and you will say to them, ‘Thus says the Lord God.’”",
-        "“And they, whether they will hear, or whether they will forbear, (for they are a rebellious house,) yet will know that there has been a prophet among them.”",
-        "“And you, son of man, be not afraid of them, neither be afraid of their words, though briers and thorns be with you, and you do dwell among scorpions: be not afraid of their words, nor be dismayed at their looks, though they be a rebellious house.”",
-        "“And you will speak My words to them, whether they will hear, or whether they will forbear: for they are most rebellious.”",
-        "“But you, son of man, hear what I say to you, Be not you rebellious like that rebellious house: open your mouth, and eat that I give you.”",
-        "And when I looked, behold, a hand was sent to me, and, lo, a roll of a book was in it,",
-        "And He spread it before me, and it was written within and without: and there was written in it lamentations, and mourning, and woe."
-      ],
-      "notes": [],
-      "approved": "5fdb44f9"
-    },
-    {
-      "ch": "Ezekiel 3",
-      "verses": [
-        "Moreover He said to me, “Son of man, eat that you find, eat this roll, and go speak to the house of Israel.”",
-        "So I opened my mouth, and He caused me to eat that roll.",
-        "And He said to me, “Son of man, cause your belly to eat, and fill your bowels with this roll that I give you.” Then did I eat it, and it was in my mouth as honey for sweetness.",
-        "And He said to me, “Son of man, go, get you to the house of Israel, and speak with My words to them.”",
-        "“For you are not sent to a people of a strange speech and of a hard language, but to the house of Israel,”",
-        "“Not to many people of a strange speech and of a hard language, whose words you can not understand. Surely, had I sent you to them, they would have hearkened to you.”",
-        "“But the house of Israel will not hearken to you, for they will not hearken to Me: for all the house of Israel are impudent and hardhearted.”",
-        "“Behold, I have made your face strong against their faces, and your forehead strong against their foreheads.”",
-        "“As an adamant harder than flint have I made your forehead: fear them not, neither be dismayed at their looks, though they be a rebellious house.”",
-        "Moreover He said to me, “Son of man, all My words that I will speak to you receive in your heart, and hear with your ears.”",
-        "“And go, get you to them of the captivity, to the children of your people, and speak to them, and tell them, ‘Thus says the Lord God,’ whether they will hear, or whether they will forbear.”",
-        "Then the Spirit took me up, and I heard behind me a voice of a great rushing, saying, “Blessed be the glory of the Lord from His place.”",
-        "I heard also the noise of the wings of the living creatures that touched one another, and the noise of the wheels beside them, and a noise of a great rushing.",
-        "So the Spirit lifted me up, and took me away, and I went in bitterness, in the heat of my spirit, but the hand of the Lord was strong on me.",
-        "Then I came to them of the captivity at Tel-abib, that dwelt by the river of Chebar, and I sat where they sat, and remained there astonished among them seven days.",
-        "And it came to pass at the end of seven days, that the word of the Lord came to me, saying,",
-        "“Son of man, I have made you a watchman to the house of Israel: therefore hear the word at My mouth, and give them warning from Me.”",
-        "“When I say to the wicked, ‘You will surely die,’ and you give him not warning, nor speak to warn the wicked from his wicked way, to save his life, the same wicked man will die in his iniquity, but his blood will I require at your hand.”",
-        "“Yet if you warn the wicked, and he turn not from his wickedness, nor from his wicked way, he will die in his iniquity, but you have delivered your soul.”",
-        "“Again, When a righteous man does turn from his righteousness, and commit iniquity, and I lay a stumblingblock before him, he will die: because you have not given him warning, he will die in his sin, and his righteousness which he has done will not be remembered, but his blood will I require at your hand.”",
-        "“Nevertheless if you warn the righteous man, that the righteous sin not, and he does not sin, he will surely live, because he is warned, also you have delivered your soul.”",
-        "And the hand of the Lord was there on me, and He said to me, “Arise, go forth into the plain, and I will there talk with you.”",
-        "Then I arose, and went forth into the plain: and, behold, the glory of the Lord stood there, as the glory which I saw by the river of Chebar: and I fell on my face.",
-        "Then the Spirit entered into me, and set me on my feet, and spoke with me, and said to me, “Go, shut yourself within your house.”",
-        "“But you, O son of man, behold, they will put bands on you, and will bind you with them, and you will not go out among them:”",
-        "“And I will make your tongue cleave to the roof of your mouth, that you will be dumb, and will not be to them a reprover: for they are a rebellious house.”",
-        "“But when I speak with you, I will open your mouth, and you will say to them, ‘Thus says the Lord God.’ He that hears, let him hear, and he that forbears, let him forbear: for they are a rebellious house.”"
-      ],
-      "notes": [
-        "‘beside’ is used instead of ‘over against’"
-      ],
-      "approved": "91af265a"
     },
     {
       "ch": "Ezekiel 14",
@@ -27520,7 +29502,10 @@ window.TU_PLAIN = {
         "“‘And they shall comfort you, when you see their ways and their doings: and you shall know that I have not done without cause all that I have done in it, says the Lord God.’”"
       ],
       "notes": [
-        "‘noisome’ means harmful or destructive"
+        {
+          "v": 1,
+          "text": "‘noisome’ means harmful or destructive"
+        }
       ],
       "approved": "65cfa4e2"
     },
@@ -27567,7 +29552,10 @@ window.TU_PLAIN = {
         "“‘And I will make the land desolate, because they have committed a trespass, says the Lord God.’”"
       ],
       "notes": [
-        "‘meet’ means fit or suitable"
+        {
+          "v": 1,
+          "text": "‘meet’ means fit or suitable"
+        }
       ],
       "approved": "b1601634"
     },
@@ -27770,7 +29758,10 @@ window.TU_PLAIN = {
         "“And they will dwell safely in it, and will build houses, and plant vineyards; yes, they will dwell with confidence, when I have executed judgments upon all those that despise them round about them; and they will know that I am the Lord their God.”"
       ],
       "notes": [
-        "‘traffic’ replaces traffick"
+        {
+          "v": 1,
+          "text": "‘traffic’ replaces traffick"
+        }
       ],
       "approved": "56736ccf"
     },
@@ -27972,8 +29963,14 @@ window.TU_PLAIN = {
         "“‘That you may remember, and be confounded, and never open your mouth any more because of your shame, when I am pacified toward you for all that you have done, says the Lord God.’”"
       ],
       "notes": [
-        "‘supple’ means wash or soften",
-        "‘fretted’ means provoked or enraged"
+        {
+          "v": 1,
+          "text": "‘supple’ means wash or soften"
+        },
+        {
+          "v": 1,
+          "text": "‘fretted’ means provoked or enraged"
+        }
       ],
       "approved": "8d8f9047"
     },
@@ -28003,253 +30000,12 @@ window.TU_PLAIN = {
         "“‘In that day will I cause the horn of the house of Israel to bud forth, and I will give you the opening of the mouth in the midst of them; and they will know that I am the Lord.’”"
       ],
       "notes": [
-        "‘labor’ replaces labour"
+        {
+          "v": 1,
+          "text": "‘labor’ replaces labour"
+        }
       ],
       "approved": "d8aac9fa"
-    },
-    {
-      "ch": "Daniel 1",
-      "verses": [
-        "In the third year of the reign of Jehoiakim king of Judah came Nebuchadnezzar king of Babylon to Jerusalem, and besieged it.",
-        "And the Lord gave Jehoiakim king of Judah into his hand, with part of the vessels of the house of God: which he carried into the land of Shinar to the house of his god; and he brought the vessels into the treasure house of his god.",
-        "And the king spoke to Ashpenaz the master of his eunuchs, that he should bring certain of the children of Israel, and of the king's seed, and of the princes;",
-        "Children in whom was no blemish, but well favored, and skillful in all wisdom, and cunning in knowledge, and understanding science, and such as had ability in them to stand in the king's palace, and whom they might teach the learning and the tongue of the Chaldeans.",
-        "And the king appointed them a daily provision of the king's meat, and of the wine which he drank: so nourishing them three years, that at the end of it they might stand before the king.",
-        "Now among these were of the children of Judah, Daniel, Hananiah, Mishael, and Azariah:",
-        "To whom the prince of the eunuchs gave names: for he gave to Daniel the name of Belteshazzar; and to Hananiah, of Shadrach; and to Mishael, of Meshach; and to Azariah, of Abed-nego.",
-        "But Daniel purposed in his heart that he would not defile himself with the portion of the king's meat, nor with the wine which he drank: therefore he requested of the prince of the eunuchs that he might not defile himself.",
-        "Now God had brought Daniel into favor and tender love with the prince of the eunuchs.",
-        "And the prince of the eunuchs said to Daniel, I fear my lord the king, who has appointed your meat and your drink: for why should he see your faces worse liking than the children which are of your sort? then shall you make me endanger my head to the king.",
-        "Then said Daniel to Melzar, whom the prince of the eunuchs had set over Daniel, Hananiah, Mishael, and Azariah,",
-        "Prove your servants, I beseech you, ten days; and let them give us pulse to eat, and water to drink.",
-        "Then let our countenances be looked upon before you, and the countenance of the children that eat of the portion of the king's meat: and as you see, deal with your servants.",
-        "So he consented to them in this matter, and proved them ten days.",
-        "And at the end of ten days their countenances appeared fairer and fatter in flesh than all the children which did eat the portion of the king's meat.",
-        "Thus Melzar took away the portion of their meat, and the wine that they should drink; and gave them pulse.",
-        "As for these four children, God gave them knowledge and skill in all learning and wisdom: and Daniel had understanding in all visions and dreams.",
-        "Now at the end of the days that the king had said he should bring them in, then the prince of the eunuchs brought them in before Nebuchadnezzar.",
-        "And the king communed with them; and among them all was found none like Daniel, Hananiah, Mishael, and Azariah: therefore stood they before the king.",
-        "And in all matters of wisdom and understanding, that the king inquired of them, he found them ten times better than all the magicians and astrologers that were in all his realm.",
-        "And Daniel continued even to the first year of king Cyrus."
-      ],
-      "notes": [
-        "‘pulse’ refers to vegetables or seeds"
-      ],
-      "approved": "0960cb47"
-    },
-    {
-      "ch": "Daniel 2",
-      "verses": [
-        "And in the second year of the reign of Nebuchadnezzar Nebuchadnezzar dreamed dreams, with which his spirit was troubled, and his sleep broke from him.",
-        "Then the king commanded to call the magicians, and the astrologers, and the sorcerers, and the Chaldeans, to show the king his dreams. So they came and stood before the king.",
-        "And the king said to them, I have dreamed a dream, and my spirit was troubled to know the dream.",
-        "Then spoke the Chaldeans to the king in Syriac, O king, live forever: tell your servants the dream, and we will show the interpretation.",
-        "The king answered and said to the Chaldeans, The thing is gone from me: if you will not make known to me the dream, with the interpretation of it, you shall be cut in pieces, and your houses shall be made a dunghill.",
-        "But if you show the dream, and the interpretation of it, you shall receive of me gifts and rewards and great honor: therefore show me the dream, and the interpretation of it.",
-        "They answered again and said, Let the king tell his servants the dream, and we will show the interpretation of it.",
-        "The king answered and said, I know of certainty that you would gain the time, because you see the thing is gone from me.",
-        "But if you will not make known to me the dream, there is but one decree for you: for you have prepared lying and corrupt words to speak before me, till the time be changed: therefore tell me the dream, and I shall know that you can show me the interpretation of it.",
-        "The Chaldeans answered before the king, and said, There is not a man upon the earth that can show the king's matter: therefore there is no king, lord, nor ruler, that asked such things at any magician, or astrologer, or Chaldean.",
-        "And it is a rare thing that the king requires, and there is none other that can show it before the king, except the gods, whose dwelling is not with flesh.",
-        "For this cause the king was angry and very furious, and commanded to destroy all the wise men of Babylon.",
-        "And the decree went forth that the wise men should be slain; and they sought Daniel and his fellows to be slain.",
-        "Then Daniel answered with counsel and wisdom to Arioch the captain of the king's guard, which was gone forth to slay the wise men of Babylon:",
-        "He answered and said to Arioch the king's captain, Why is the decree so hasty from the king? Then Arioch made the thing known to Daniel.",
-        "Then Daniel went in, and desired of the king that he would give him time, and that he would show the king the interpretation.",
-        "Then Daniel went to his house, and made the thing known to Hananiah, Mishael, and Azariah, his companions:",
-        "That they would desire mercies of the God of heaven concerning this secret; that Daniel and his fellows should not perish with the rest of the wise men of Babylon.",
-        "Then was the secret revealed to Daniel in a night vision. Then Daniel blessed the God of heaven.",
-        "Daniel answered and said, Blessed be the name of God forever and ever: for wisdom and might are His:",
-        "And He changes the times and the seasons: He removes kings, and sets up kings: He gives wisdom to the wise, and knowledge to them that know understanding:",
-        "He reveals the deep and secret things: He knows what is in the darkness, and the light dwells with Him.",
-        "I thank You, and praise You, O You God of my fathers, who has given me wisdom and might, and has made known to me now what we desired of You: for You have now made known to us the king's matter.",
-        "Therefore Daniel went in to Arioch, whom the king had ordained to destroy the wise men of Babylon: he went and said thus to him; Destroy not the wise men of Babylon: bring me in before the king, and I will show to the king the interpretation.",
-        "Then Arioch brought in Daniel before the king in haste, and said thus to him, I have found a man of the captives of Judah, that will make known to the king the interpretation.",
-        "The king answered and said to Daniel, whose name was Belteshazzar, Are you able to make known to me the dream which I have seen, and the interpretation of it?",
-        "Daniel answered in the presence of the king, and said, The secret which the king has demanded cannot the wise men, the astrologers, the magicians, the soothsayers, show to the king;",
-        "But there is a God in heaven that reveals secrets, and makes known to the king Nebuchadnezzar what shall be in the latter days. Your dream, and the visions of your head upon your bed, are these;",
-        "As for you, O king, your thoughts came into your mind upon your bed, what should come to pass hereafter: and He that reveals secrets makes known to you what shall come to pass.",
-        "But as for me, this secret is not revealed to me for any wisdom that I have more than any living, but for their sakes that shall make known the interpretation to the king, and that you might know the thoughts of your heart.",
-        "You, O king, saw, and behold a great image. This great image, whose brightness was excellent, stood before you; and the form of it was terrible.",
-        "This image's head was of fine gold, his breast and his arms of silver, his belly and his thighs of brass,",
-        "His legs of iron, his feet part of iron and part of clay.",
-        "You saw till that a stone was cut out without hands, which struck the image upon his feet that were of iron and clay, and broke them to pieces.",
-        "Then was the iron, the clay, the brass, the silver, and the gold, broken to pieces together, and became like the chaff of the summer threshing floors; and the wind carried them away, that no place was found for them: and the stone that struck the image became a great mountain, and filled the whole earth.",
-        "This is the dream; and we will tell the interpretation of it before the king.",
-        "You, O king, are a king of kings: for the God of heaven has given you a kingdom, power, and strength, and glory.",
-        "And wherever the children of men dwell, the beasts of the field and the fowls of the heaven has He given into your hand, and has made you ruler over them all. You are this head of gold.",
-        "And after you shall arise another kingdom inferior to you, and another third kingdom of brass, which shall bear rule over all the earth.",
-        "And the fourth kingdom shall be strong as iron: forasmuch as iron breaks in pieces and subdues all things: and as iron that breaks all these, shall it break in pieces and bruise.",
-        "And whereas you saw the feet and toes, part of potters' clay, and part of iron, the kingdom shall be divided; but there shall be in it of the strength of the iron, forasmuch as you saw the iron mixed with miry clay.",
-        "And as the toes of the feet were part of iron, and part of clay, so the kingdom shall be partly strong, and partly broken.",
-        "And whereas you saw iron mixed with miry clay, they shall mingle themselves with the seed of men: but they shall not cling one to another, even as iron is not mixed with clay.",
-        "And in the days of these kings shall the God of heaven set up a kingdom, which shall never be destroyed: and the kingdom shall not be left to other people, but it shall break in pieces and consume all these kingdoms, and it shall stand forever.",
-        "Forasmuch as you saw that the stone was cut out of the mountain without hands, and that it broke in pieces the iron, the brass, the clay, the silver, and the gold; the great God has made known to the king what shall come to pass hereafter: and the dream is certain, and the interpretation of it sure.",
-        "Then the king Nebuchadnezzar fell upon his face, and worshiped Daniel, and commanded that they should offer an oblation and sweet odors to him.",
-        "The king answered to Daniel, and said, Of a truth it is, that your God is a God of gods, and a Lord of kings, and a revealer of secrets, seeing you could reveal this secret.",
-        "Then the king made Daniel a great man, and gave him many great gifts, and made him ruler over the whole province of Babylon, and chief of the governors over all the wise men of Babylon.",
-        "Then Daniel requested of the king, and he set Shadrach, Meshach, and Abed-nego, over the affairs of the province of Babylon: but Daniel sat in the gate of the king."
-      ],
-      "notes": [],
-      "approved": "82b6847b"
-    },
-    {
-      "ch": "Daniel 3",
-      "verses": [
-        "Nebuchadnezzar the king made an image of gold, whose height was sixty cubits, and the breadth of it six cubits: he set it up in the plain of Dura, in the province of Babylon.",
-        "Then Nebuchadnezzar the king sent to gather together the princes, the governors, and the captains, the judges, the treasurers, the counselors, the sheriffs, and all the rulers of the provinces, to come to the dedication of the image which Nebuchadnezzar the king had set up.",
-        "Then the princes, the governors, and captains, the judges, the treasurers, the counselors, the sheriffs, and all the rulers of the provinces, were gathered together to the dedication of the image that Nebuchadnezzar the king had set up; and they stood before the image that Nebuchadnezzar had set up.",
-        "Then a herald cried aloud, To you it is commanded, O people, nations, and languages,",
-        "That at what time you hear the sound of the cornet, flute, harp, sackbut, psaltery, dulcimer, and all kinds of music, you fall down and worship the golden image that Nebuchadnezzar the king has set up:",
-        "And whoever falls not down and worships shall the same hour be cast into the midst of a burning fiery furnace.",
-        "Therefore at that time, when all the people heard the sound of the cornet, flute, harp, sackbut, psaltery, and all kinds of music, all the people, the nations, and the languages, fell down and worshiped the golden image that Nebuchadnezzar the king had set up.",
-        "Therefore at that time certain Chaldeans came near, and accused the Jews.",
-        "They spoke and said to the king Nebuchadnezzar, O king, live forever.",
-        "You, O king, have made a decree, that every man that shall hear the sound of the cornet, flute, harp, sackbut, psaltery, and dulcimer, and all kinds of music, shall fall down and worship the golden image:",
-        "And whoever falls not down and worships, that he should be cast into the midst of a burning fiery furnace.",
-        "There are certain Jews whom you have set over the affairs of the province of Babylon, Shadrach, Meshach, and Abed-nego; these men, O king, have not regarded you: they serve not your gods, nor worship the golden image which you have set up.",
-        "Then Nebuchadnezzar in his rage and fury commanded to bring Shadrach, Meshach, and Abed-nego. Then they brought these men before the king.",
-        "Nebuchadnezzar spoke and said to them, Is it true, O Shadrach, Meshach, and Abed-nego, do not you serve my gods, nor worship the golden image which I have set up?",
-        "Now if you be ready that at what time you hear the sound of the cornet, flute, harp, sackbut, psaltery, and dulcimer, and all kinds of music, you fall down and worship the image which I have made; well: but if you worship not, you shall be cast the same hour into the midst of a burning fiery furnace; and who is that God that shall deliver you out of my hands?",
-        "Shadrach, Meshach, and Abed-nego, answered and said to the king, O Nebuchadnezzar, we are not careful to answer you in this matter.",
-        "If it be so, our God whom we serve is able to deliver us from the burning fiery furnace, and He will deliver us out of your hand, O king.",
-        "But if not, be it known to you, O king, that we will not serve your gods, nor worship the golden image which you have set up.",
-        "Then was Nebuchadnezzar full of fury, and the form of his visage was changed against Shadrach, Meshach, and Abed-nego: therefore he spoke, and commanded that they should heat the furnace one seven times more than it was wont to be heated.",
-        "And he commanded the most mighty men that were in his army to bind Shadrach, Meshach, and Abed-nego, and to cast them into the burning fiery furnace.",
-        "Then these men were bound in their coats, their hosen, and their hats, and their other garments, and were cast into the midst of the burning fiery furnace.",
-        "Therefore because the king's commandment was urgent, and the furnace exceeding hot, the flame of the fire slew those men that took up Shadrach, Meshach, and Abed-nego.",
-        "And these three men, Shadrach, Meshach, and Abed-nego, fell down bound into the midst of the burning fiery furnace.",
-        "Then Nebuchadnezzar the king was astonished, and rose up in haste, and spoke, and said to his counselors, Did not we cast three men bound into the midst of the fire? They answered and said to the king, True, O king.",
-        "He answered and said, Lo, I see four men loose, walking in the midst of the fire, and they have no hurt; and the form of the fourth is like the Son of God.",
-        "Then Nebuchadnezzar came near to the mouth of the burning fiery furnace, and spoke, and said, Shadrach, Meshach, and Abed-nego, you servants of the most high God, come forth, and come here. Then Shadrach, Meshach, and Abed-nego, came forth of the midst of the fire.",
-        "And the princes, governors, and captains, and the king's counselors, being gathered together, saw these men, upon whose bodies the fire had no power, nor was a hair of their head singed, neither were their coats changed, nor the smell of fire had passed on them.",
-        "Then Nebuchadnezzar spoke, and said, Blessed be the God of Shadrach, Meshach, and Abed-nego, who has sent His angel, and delivered His servants that trusted in Him, and have changed the king's word, and yielded their bodies, that they might not serve nor worship any god, except their own God.",
-        "Therefore I make a decree, That every people, nation, and language, which speak anything amiss against the God of Shadrach, Meshach, and Abed-nego, shall be cut in pieces, and their houses shall be made a dunghill: because there is no other God that can deliver after this sort.",
-        "Then the king promoted Shadrach, Meshach, and Abed-nego, in the province of Babylon."
-      ],
-      "notes": [
-        "‘hosen’ means trousers or leggings"
-      ],
-      "approved": "da0fb5f1"
-    },
-    {
-      "ch": "Daniel 4",
-      "verses": [
-        "Nebuchadnezzar the king, to all people, nations, and languages, that dwell in all the earth; Peace be multiplied to you.",
-        "I thought it good to show the signs and wonders that the high God has worked toward me.",
-        "How great are His signs! and how mighty are His wonders! His kingdom is an everlasting kingdom, and His dominion is from generation to generation.",
-        "I Nebuchadnezzar was at rest in my house, and flourishing in my palace:",
-        "I saw a dream which made me afraid, and the thoughts upon my bed and the visions of my head troubled me.",
-        "Therefore made I a decree to bring in all the wise men of Babylon before me, that they might make known to me the interpretation of the dream.",
-        "Then came in the magicians, the astrologers, the Chaldeans, and the soothsayers: and I told the dream before them; but they did not make known to me the interpretation of it.",
-        "But at the last Daniel came in before me, whose name was Belteshazzar, according to the name of my god, and in whom is the spirit of the holy gods: and before him I told the dream, saying,",
-        "O Belteshazzar, master of the magicians, because I know that the spirit of the holy gods is in you, and no secret troubles you, tell me the visions of my dream that I have seen, and the interpretation of it.",
-        "Thus were the visions of my head in my bed; I saw, and behold a tree in the midst of the earth, and the height of it was great.",
-        "The tree grew, and was strong, and the height of it reached to heaven, and the sight of it to the end of all the earth:",
-        "The leaves of it were fair, and the fruit of it much, and in it was meat for all: the beasts of the field had shadow under it, and the fowls of the heaven dwelt in the boughs of it, and all flesh was fed of it.",
-        "I saw in the visions of my head upon my bed, and, behold, a watcher and a holy one came down from heaven;",
-        "He cried aloud, and said thus, Hew down the tree, and cut off his branches, shake off his leaves, and scatter his fruit: let the beasts get away from under it, and the fowls from his branches:",
-        "Nevertheless leave the stump of his roots in the earth, even with a band of iron and brass, in the tender grass of the field; and let it be wet with the dew of heaven, and let his portion be with the beasts in the grass of the earth:",
-        "Let his heart be changed from man's, and let a beast's heart be given to him; and let seven times pass over him.",
-        "This matter is by the decree of the watchers, and the demand by the word of the holy ones: to the intent that the living may know that the most High rules in the kingdom of men, and gives it to whomever He will, and sets up over it the basest of men.",
-        "This dream I king Nebuchadnezzar have seen. Now you, O Belteshazzar, declare the interpretation of it, forasmuch as all the wise men of my kingdom are not able to make known to me the interpretation: but you are able; for the spirit of the holy gods is in you.",
-        "Then Daniel, whose name was Belteshazzar, was astonished for one hour, and his thoughts troubled him. The king spoke, and said, Belteshazzar, let not the dream, or the interpretation of it, trouble you. Belteshazzar answered and said, My lord, the dream be to them that hate you, and the interpretation of it to your enemies.",
-        "The tree that you saw, which grew, and was strong, whose height reached to the heaven, and the sight of it to all the earth;",
-        "Whose leaves were fair, and the fruit of it much, and in it was meat for all; under which the beasts of the field dwelt, and upon whose branches the fowls of the heaven had their habitation:",
-        "It is you, O king, that are grown and become strong: for your greatness is grown, and reaches to heaven, and your dominion to the end of the earth.",
-        "And whereas the king saw a watcher and a holy one coming down from heaven, and saying, Hew the tree down, and destroy it; yet leave the stump of the roots of it in the earth, even with a band of iron and brass, in the tender grass of the field; and let it be wet with the dew of heaven, and let his portion be with the beasts of the field, till seven times pass over him;",
-        "This is the interpretation, O king, and this is the decree of the most High, which is come upon my lord the king:",
-        "That they shall drive you from men, and your dwelling shall be with the beasts of the field, and they shall make you to eat grass as oxen, and they shall wet you with the dew of heaven, and seven times shall pass over you, till you know that the most High rules in the kingdom of men, and gives it to whomever He will.",
-        "And whereas they commanded to leave the stump of the tree roots; your kingdom shall be sure to you, after that you shall have known that the heavens do rule.",
-        "Therefore, O king, let my counsel be acceptable to you, and break off your sins by righteousness, and your iniquities by showing mercy to the poor; if it may be a lengthening of your tranquility.",
-        "All this came upon the king Nebuchadnezzar.",
-        "At the end of twelve months he walked in the palace of the kingdom of Babylon.",
-        "The king spoke, and said, Is not this great Babylon, that I have built for the house of the kingdom by the might of my power, and for the honor of my majesty?",
-        "While the word was in the king's mouth, there fell a voice from heaven, saying, O king Nebuchadnezzar, to you it is spoken; The kingdom is departed from you.",
-        "And they shall drive you from men, and your dwelling shall be with the beasts of the field: they shall make you to eat grass as oxen, and seven times shall pass over you, until you know that the most High rules in the kingdom of men, and gives it to whomever He will.",
-        "The same hour was the thing fulfilled upon Nebuchadnezzar: and he was driven from men, and did eat grass as oxen, and his body was wet with the dew of heaven, till his hairs were grown like eagles' feathers, and his nails like birds' claws.",
-        "And at the end of the days I Nebuchadnezzar lifted up my eyes to heaven, and my understanding returned to me, and I blessed the most High, and I praised and honored Him that lives forever, whose dominion is an everlasting dominion, and His kingdom is from generation to generation:",
-        "And all the inhabitants of the earth are reputed as nothing: and He does according to His will in the army of heaven, and among the inhabitants of the earth: and none can stay His hand, or say to Him, What do You do?",
-        "At the same time my reason returned to me; and for the glory of my kingdom, my honor and brightness returned to me; and my counselors and my lords sought to me; and I was established in my kingdom, and excellent majesty was added to me.",
-        "Now I Nebuchadnezzar praise and extol and honor the King of heaven, all whose works are truth, and His ways judgment: and those that walk in pride He is able to abase."
-      ],
-      "notes": [],
-      "approved": "778ebd2c"
-    },
-    {
-      "ch": "Daniel 5",
-      "verses": [
-        "Belshazzar the king made a great feast to a thousand of his lords, and drank wine before the thousand.",
-        "Belshazzar, while he tasted the wine, commanded to bring the golden and silver vessels which his father Nebuchadnezzar had taken out of the temple which was in Jerusalem; that the king, and his princes, his wives, and his concubines, might drink in them.",
-        "Then they brought the golden vessels that were taken out of the temple of the house of God which was at Jerusalem; and the king, and his princes, his wives, and his concubines, drank in them.",
-        "They drank wine, and praised the gods of gold, and of silver, of brass, of iron, of wood, and of stone.",
-        "In the same hour came forth fingers of a man's hand, and wrote over against the candlestick upon the plaster of the wall of the king's palace: and the king saw the part of the hand that wrote.",
-        "Then the king's countenance was changed, and his thoughts troubled him, so that the joints of his loins were loosed, and his knees struck one against another.",
-        "The king cried aloud to bring in the astrologers, the Chaldeans, and the soothsayers. And the king spoke, and said to the wise men of Babylon, Whoever shall read this writing, and show me the interpretation of it, shall be clothed with scarlet, and have a chain of gold about his neck, and shall be the third ruler in the kingdom.",
-        "Then came in all the king's wise men: but they could not read the writing, nor make known to the king the interpretation of it.",
-        "Then was king Belshazzar greatly troubled, and his countenance was changed in him, and his lords were astonished.",
-        "Now the queen, by reason of the words of the king and his lords, came into the banquet house: and the queen spoke and said, O king, live forever: let not your thoughts trouble you, nor let your countenance be changed:",
-        "There is a man in your kingdom, in whom is the spirit of the holy gods; and in the days of your father light and understanding and wisdom, like the wisdom of the gods, was found in him; whom the king Nebuchadnezzar your father, the king, I say, your father, made master of the magicians, astrologers, Chaldeans, and soothsayers;",
-        "Forasmuch as an excellent spirit, and knowledge, and understanding, interpreting of dreams, and showing of hard sentences, and dissolving of doubts, were found in the same Daniel, whom the king named Belteshazzar: now let Daniel be called, and he will show the interpretation.",
-        "Then was Daniel brought in before the king. And the king spoke and said to Daniel, Are you that Daniel, which are of the children of the captivity of Judah, whom the king my father brought out of Jewry?",
-        "I have even heard of you, that the spirit of the gods is in you, and that light and understanding and excellent wisdom is found in you.",
-        "And now the wise men, the astrologers, have been brought in before me, that they should read this writing, and make known to me the interpretation of it: but they could not show the interpretation of the thing:",
-        "And I have heard of you, that you can make interpretations, and dissolve doubts: now if you can read the writing, and make known to me the interpretation of it, you shall be clothed with scarlet, and have a chain of gold about your neck, and shall be the third ruler in the kingdom.",
-        "Then Daniel answered and said before the king, Let your gifts be to yourself, and give your rewards to another; yet I will read the writing to the king, and make known to him the interpretation.",
-        "O you king, the most high God gave Nebuchadnezzar your father a kingdom, and majesty, and glory, and honor:",
-        "And for the majesty that He gave him, all people, nations, and languages, trembled and feared before him: whom he would he slew; and whom he would he kept alive; and whom he would he set up; and whom he would he put down.",
-        "But when his heart was lifted up, and his mind hardened in pride, he was deposed from his kingly throne, and they took his glory from him:",
-        "And he was driven from the sons of men; and his heart was made like the beasts, and his dwelling was with the wild asses: they fed him with grass like oxen, and his body was wet with the dew of heaven; till he knew that the most high God ruled in the kingdom of men, and that He appoints over it whomever He will.",
-        "And you his son, O Belshazzar, have not humbled your heart, though you knew all this;",
-        "But have lifted up yourself against the Lord of heaven; and they have brought the vessels of His house before you, and you, and your lords, your wives, and your concubines, have drunk wine in them; and you have praised the gods of silver, and gold, of brass, iron, wood, and stone, which see not, nor hear, nor know: and the God in whose hand your breath is, and whose are all your ways, have you not glorified:",
-        "Then was the part of the hand sent from Him; and this writing was written.",
-        "And this is the writing that was written, MENE, MENE, TEKEL, UPHARSIN.",
-        "This is the interpretation of the thing: MENE; God has numbered your kingdom, and finished it.",
-        "TEKEL; You are weighed in the balances, and are found wanting.",
-        "PERES; Your kingdom is divided, and given to the Medes and Persians.",
-        "Then commanded Belshazzar, and they clothed Daniel with scarlet, and put a chain of gold about his neck, and made a proclamation concerning him, that he should be the third ruler in the kingdom.",
-        "In that night was Belshazzar the king of the Chaldeans slain.",
-        "And Darius the Median took the kingdom, being about sixty and two years old."
-      ],
-      "notes": [
-        "‘Jewry’ means Judah or the land of the Jews"
-      ],
-      "approved": "a973a399"
-    },
-    {
-      "ch": "Daniel 6",
-      "verses": [
-        "It pleased Darius to set over the kingdom a hundred and twenty princes, which should be over the whole kingdom;",
-        "And over these three presidents; of whom Daniel was first: that the princes might give accounts to them, and the king should have no damage.",
-        "Then this Daniel was preferred above the presidents and princes, because an excellent spirit was in him; and the king thought to set him over the whole realm.",
-        "Then the presidents and princes sought to find occasion against Daniel concerning the kingdom; but they could find none occasion nor fault; forasmuch as he was faithful, neither was there any error or fault found in him.",
-        "Then said these men, We shall not find any occasion against this Daniel, except we find it against him concerning the law of his God.",
-        "Then these presidents and princes assembled together to the king, and said thus to him, King Darius, live forever.",
-        "All the presidents of the kingdom, the governors, and the princes, the counselors, and the captains, have consulted together to establish a royal statute, and to make a firm decree, that whoever shall ask a petition of any God or man for thirty days, except of you, O king, he shall be cast into the den of lions.",
-        "Now, O king, establish the decree, and sign the writing, that it be not changed, according to the law of the Medes and Persians, which alters not.",
-        "Therefore king Darius signed the writing and the decree.",
-        "Now when Daniel knew that the writing was signed, he went into his house; and his windows being open in his chamber toward Jerusalem, he kneeled upon his knees three times a day, and prayed, and gave thanks before his God, as he did beforetime.",
-        "Then these men assembled, and found Daniel praying and making supplication before his God.",
-        "Then they came near, and spoke before the king concerning the king's decree; Have you not signed a decree, that every man that shall ask a petition of any God or man within thirty days, except of you, O king, shall be cast into the den of lions? The king answered and said, The thing is true, according to the law of the Medes and Persians, which alters not.",
-        "Then answered they and said before the king, That Daniel, which is of the children of the captivity of Judah, regards not you, O king, nor the decree that you have signed, but makes his petition three times a day.",
-        "Then the king, when he heard these words, was sore displeased with himself, and set his heart on Daniel to deliver him: and he labored till the going down of the sun to deliver him.",
-        "Then these men assembled to the king, and said to the king, Know, O king, that the law of the Medes and Persians is, That no decree nor statute which the king establishes may be changed.",
-        "Then the king commanded, and they brought Daniel, and cast him into the den of lions. Now the king spoke and said to Daniel, Your God whom you serve continually, He will deliver you.",
-        "And a stone was brought, and laid upon the mouth of the den; and the king sealed it with his own signet, and with the signet of his lords; that the purpose might not be changed concerning Daniel.",
-        "Then the king went to his palace, and passed the night fasting: neither were instruments of music brought before him: and his sleep went from him.",
-        "Then the king arose very early in the morning, and went in haste to the den of lions.",
-        "And when he came to the den, he cried with a lamentable voice to Daniel: and the king spoke and said to Daniel, O Daniel, servant of the living God, is your God, whom you serve continually, able to deliver you from the lions?",
-        "Then said Daniel to the king, O king, live forever.",
-        "My God has sent His angel, and has shut the lions' mouths, that they have not hurt me: forasmuch as before Him innocence was found in me; and also before you, O king, have I done no hurt.",
-        "Then was the king exceeding glad for him, and commanded that they should take Daniel up out of the den. So Daniel was taken up out of the den, and no manner of hurt was found upon him, because he believed in his God.",
-        "And the king commanded, and they brought those men which had accused Daniel, and they cast them into the den of lions, them, their children, and their wives; and the lions had the mastery of them, and broke all their bones in pieces or ever they came at the bottom of the den.",
-        "Then king Darius wrote to all people, nations, and languages, that dwell in all the earth; Peace be multiplied to you.",
-        "I make a decree, That in every dominion of my kingdom men tremble and fear before the God of Daniel: for He is the living God, and steadfast forever, and His kingdom that which shall not be destroyed, and His dominion shall be even to the end.",
-        "He delivers and rescues, and He works signs and wonders in heaven and in earth, who has delivered Daniel from the power of the lions.",
-        "So this Daniel prospered in the reign of Darius, and in the reign of Cyrus the Persian."
-      ],
-      "notes": [],
-      "approved": "54ec819f"
     },
     {
       "ch": "Ezekiel 8",
@@ -28274,7 +30030,10 @@ window.TU_PLAIN = {
         "“Therefore will I also deal in fury: My eye will not spare, neither will I have pity: and though they cry in My ears with a loud voice, yet will I not hear them.”"
       ],
       "notes": [
-        "‘twenty-five’ is used instead of ‘five and twenty’"
+        {
+          "v": 1,
+          "text": "‘twenty-five’ is used instead of ‘five and twenty’"
+        }
       ],
       "approved": "4f88a948"
     },
@@ -28294,7 +30053,10 @@ window.TU_PLAIN = {
         "And, behold, the man clothed with linen, which had the inkhorn by his side, reported the matter, saying, “I have done as You have commanded me.”"
       ],
       "notes": [
-        "‘bronze’ is used instead of ‘brasen’"
+        {
+          "v": 1,
+          "text": "‘bronze’ is used instead of ‘brasen’"
+        }
       ],
       "approved": "133bb7b9"
     },
@@ -28432,7 +30194,10 @@ window.TU_PLAIN = {
         "“‘And all the trees of the field shall know that I the Lord have brought down the high tree, have exalted the low tree, have dried up the green tree, and have made the dry tree to flourish: I the Lord have spoken and have done it.’”"
       ],
       "notes": [
-        "‘base’ means lowly or humbled"
+        {
+          "v": 1,
+          "text": "‘base’ means lowly or humbled"
+        }
       ],
       "approved": "5fa17b24"
     },
@@ -28498,36 +30263,6 @@ window.TU_PLAIN = {
       ],
       "notes": [],
       "approved": "5a165c3e"
-    },
-    {
-      "ch": "Ezekiel 47",
-      "verses": [
-        "Afterward he brought me again to the door of the house; and, behold, waters issued out from under the threshold of the house eastward: for the forefront of the house stood toward the east, and the waters came down from under from the right side of the house, at the south side of the altar.",
-        "Then He brought me out of the way of the gate northward, and led me about the way without to the utter gate by the way that looks eastward; and, behold, there ran out waters on the right side.",
-        "And when the man that had the line in his hand went forth eastward, he measured a thousand cubits, and he brought me through the waters; the waters were to the ankles.",
-        "Again he measured a thousand, and brought me through the waters; the waters were to the knees. Again he measured a thousand, and brought me through; the waters were to the loins.",
-        "Afterward he measured a thousand; and it was a river that I could not pass over: for the waters were risen, waters to swim in, a river that could not be passed over.",
-        "And he said to me, Son of man, have you seen this? Then he brought me, and caused me to return to the brink of the river.",
-        "Now when I had returned, behold, at the bank of the river were very many trees on the one side and on the other.",
-        "Then said he to me, These waters issue out toward the east country, and go down into the desert, and go into the sea: which being brought forth into the sea, the waters shall be healed.",
-        "And it shall come to pass, that every thing that lives, which moves, wherever the rivers shall come, shall live: and there shall be a very great multitude of fish, because these waters shall come there: for they shall be healed; and every thing shall live where the river comes.",
-        "And it shall come to pass, that the fishers shall stand upon it from En-gedi even to En-eglaim; they shall be a place to spread forth nets; their fish shall be according to their kinds, as the fish of the great sea, exceeding many.",
-        "But the miry places thereof and the marshes thereof shall not be healed; they shall be given to salt.",
-        "And by the river upon the bank thereof, on this side and on that side, shall grow all trees for meat, whose leaf shall not fade, neither shall the fruit thereof be consumed: it shall bring forth new fruit according to his months, because their waters they issued out of the sanctuary: and the fruit thereof shall be for meat, and the leaf thereof for medicine.",
-        "Thus says the Lord God; This shall be the border, whereby you shall inherit the land according to the twelve tribes of Israel: Joseph shall have two portions.",
-        "And you shall inherit it, one as well as another: concerning the which I lifted up My hand to give it to your fathers: and this land shall fall to you for inheritance.",
-        "And this shall be the border of the land toward the north side, from the great sea, the way of Hethlon, as men go to Zedad;",
-        "Hamath, Berothah, Sibraim, which is between the border of Damascus and the border of Hamath; Hazar-hatticon, which is by the coast of Hauran.",
-        "And the border from the sea shall be Hazar-enan, the border of Damascus, and the north northward, and the border of Hamath. And this is the north side.",
-        "And the east side you shall measure from Hauran, and from Damascus, and from Gilead, and from the land of Israel by Jordan, from the border to the east sea. And this is the east side.",
-        "And the south side southward, from Tamar even to the waters of strife in Kadesh, the river to the great sea. And this is the south side southward.",
-        "The west side also shall be the great sea from the border, till a man come over against Hamath. This is the west side.",
-        "So shall you divide this land to you according to the tribes of Israel.",
-        "And it shall come to pass, that you shall divide it by lot for an inheritance to you, and to the strangers that sojourn among you, which shall beget children among you: and they shall be to you as born in the country among the children of Israel; they shall have inheritance with you among the tribes of Israel.",
-        "And it shall come to pass, that in what tribe the stranger sojourns, there shall you give him his inheritance, says the Lord God."
-      ],
-      "notes": [],
-      "approved": "733c51f8"
     },
     {
       "ch": "Ezekiel 31",
@@ -28662,7 +30397,10 @@ window.TU_PLAIN = {
         "And the likeness of their faces was the same faces which I saw by the river of Chebar, their appearances and themselves: they went everyone straight forward."
       ],
       "notes": [
-        "‘beside’ is used instead of ‘over against’"
+        {
+          "v": 1,
+          "text": "‘beside’ is used instead of ‘over against’"
+        }
       ],
       "approved": "e7d5ba40"
     },
@@ -28696,7 +30434,10 @@ window.TU_PLAIN = {
         "Then I spoke to them of the captivity all the things that the Lord had showed me."
       ],
       "notes": [
-        "‘twenty-five’ is used instead of ‘five and twenty’"
+        {
+          "v": 1,
+          "text": "‘twenty-five’ is used instead of ‘five and twenty’"
+        }
       ],
       "approved": "e169b0eb"
     },
@@ -28794,41 +30535,6 @@ window.TU_PLAIN = {
       ],
       "notes": [],
       "approved": "dcbfacc3"
-    },
-    {
-      "ch": "Daniel 7",
-      "verses": [
-        "In the first year of Belshazzar king of Babylon Daniel had a dream and visions of his head upon his bed: then he wrote the dream, and told the sum of the matters.",
-        "Daniel spoke and said, I saw in my vision by night, and, behold, the four winds of the heaven strove upon the great sea.",
-        "And four great beasts came up from the sea, diverse one from another.",
-        "The first was like a lion, and had eagle's wings: I beheld till the wings of it were plucked, and it was lifted up from the earth, and made stand upon the feet as a man, and a man's heart was given to it.",
-        "And behold another beast, a second, like to a bear, and it raised up itself on one side, and it had three ribs in the mouth of it between the teeth of it: and they said thus to it, Arise, devour much flesh.",
-        "After this I beheld, and lo another, like a leopard, which had upon the back of it four wings of a fowl; the beast had also four heads; and dominion was given to it.",
-        "After this I saw in the night visions, and behold a fourth beast, dreadful and terrible, and strong exceedingly; and it had great iron teeth: it devoured and broke in pieces, and stamped the residue with the feet of it: and it was diverse from all the beasts that were before it; and it had ten horns.",
-        "I considered the horns, and, behold, there came up among them another little horn, before whom there were three of the first horns plucked up by the roots: and, behold, in this horn were eyes like the eyes of man, and a mouth speaking great things.",
-        "I beheld till the thrones were cast down, and the Ancient of days did sit, whose garment was white as snow, and the hair of His head like the pure wool: His throne was like the fiery flame, and His wheels as burning fire.",
-        "A fiery stream issued and came forth from before Him: thousand thousands ministered to Him, and ten thousand times ten thousand stood before Him: the judgment was set, and the books were opened.",
-        "I beheld then because of the voice of the great words which the horn spoke: I beheld even till the beast was slain, and his body destroyed, and given to the burning flame.",
-        "As concerning the rest of the beasts, they had their dominion taken away: yet their lives were prolonged for a season and time.",
-        "I saw in the night visions, and, behold, one like the Son of man came with the clouds of heaven, and came to the Ancient of days, and they brought Him near before Him.",
-        "And there was given Him dominion, and glory, and a kingdom, that all people, nations, and languages, should serve Him: His dominion is an everlasting dominion, which shall not pass away, and His kingdom that which shall not be destroyed.",
-        "I Daniel was grieved in my spirit in the midst of my body, and the visions of my head troubled me.",
-        "I came near to one of them that stood by, and asked him the truth of all this. So he told me, and made me know the interpretation of the things.",
-        "These great beasts, which are four, are four kings, which shall arise out of the earth.",
-        "But the saints of the most High shall take the kingdom, and possess the kingdom forever, even forever and ever.",
-        "Then I would know the truth of the fourth beast, which was diverse from all the others, exceeding dreadful, whose teeth were of iron, and his nails of brass; which devoured, broke in pieces, and stamped the residue with his feet;",
-        "And of the ten horns that were in his head, and of the other which came up, and before whom three fell; even of that horn that had eyes, and a mouth that spoke very great things, whose look was more stout than his fellows.",
-        "I beheld, and the same horn made war with the saints, and prevailed against them;",
-        "Until the Ancient of days came, and judgment was given to the saints of the most High; and the time came that the saints possessed the kingdom.",
-        "Thus he said, The fourth beast shall be the fourth kingdom upon earth, which shall be diverse from all kingdoms, and shall devour the whole earth, and shall tread it down, and break it in pieces.",
-        "And the ten horns out of this kingdom are ten kings that shall arise: and another shall rise after them; and he shall be diverse from the first, and he shall subdue three kings.",
-        "And he shall speak great words against the most High, and shall wear out the saints of the most High, and think to change times and laws: and they shall be given into his hand until a time and times and the dividing of time.",
-        "But the judgment shall sit, and they shall take away his dominion, to consume and to destroy it to the end.",
-        "And the kingdom and dominion, and the greatness of the kingdom under the whole heaven, shall be given to the people of the saints of the most High, whose kingdom is an everlasting kingdom, and all dominions shall serve and obey Him.",
-        "Hitherto is the end of the matter. As for me Daniel, my thoughts much troubled me, and my countenance changed in me: but I kept the matter in my heart."
-      ],
-      "notes": [],
-      "approved": "217451d8"
     },
     {
       "ch": "Daniel 8",
@@ -28999,48 +30705,6 @@ window.TU_PLAIN = {
       "approved": "65e4d269"
     },
     {
-      "ch": "Ezekiel 33",
-      "verses": [
-        "Again the word of the Lord came to me, saying,",
-        "“Son of man, speak to the children of your people, and say to them, ‘When I bring the sword upon a land, if the people of the land take a man of their coasts, and set him for their watchman:’”",
-        "“‘If when he sees the sword come upon the land, he blow the trumpet, and warn the people;’”",
-        "“‘Then whoever hears the sound of the trumpet, and takes not warning; if the sword come, and take him away, his blood will be upon his own head.’”",
-        "“‘He heard the sound of the trumpet, and took not warning; his blood will be upon him. But he that takes warning will deliver his soul.’”",
-        "“‘But if the watchman see the sword come, and blow not the trumpet, and the people be not warned; if the sword come, and take any person from among them, he is taken away in his iniquity; but his blood will I require at the watchman’s hand.’”",
-        "“So you, O son of man, I have set you a watchman to the house of Israel; therefore you will hear the word at My mouth, and warn them from Me.”",
-        "“When I say to the wicked, ‘O wicked man, you will surely die;’ if you do not speak to warn the wicked from his way, that wicked man will die in his iniquity; but his blood will I require at your hand.”",
-        "“Nevertheless, if you warn the wicked of his way to turn from it; if he do not turn from his way, he will die in his iniquity; but you have delivered your soul.”",
-        "“Therefore, O you son of man, speak to the house of Israel; ‘Thus you speak, saying, If our transgressions and our sins be upon us, and we pine away in them, how should we then live?’”",
-        "“Say to them, ‘As I live,’ says the Lord God, ‘I have no pleasure in the death of the wicked; but that the wicked turn from his way and live: turn you, turn you from your evil ways; for why will you die, O house of Israel?’”",
-        "“Therefore, you son of man, say to the children of your people, ‘The righteousness of the righteous will not deliver him in the day of his transgression: as for the wickedness of the wicked, he will not fall by it in the day that he turns from his wickedness; neither will the righteous be able to live for his righteousness in the day that he sins.’”",
-        "“When I will say to the righteous, that he will surely live; if he trust to his own righteousness, and commit iniquity, all his righteousness will not be remembered; but for his iniquity that he has committed, he will die for it.”",
-        "“Again, when I say to the wicked, ‘You will surely die;’ if he turn from his sin, and do that which is lawful and right;”",
-        "“If the wicked restore the pledge, give again that he had robbed, walk in the statutes of life, without committing iniquity; he will surely live, he will not die.”",
-        "“None of his sins that he has committed will be mentioned to him: he has done that which is lawful and right; he will surely live.”",
-        "“Yet the children of your people say, ‘The way of the Lord is not equal:’ but as for them, their way is not equal.”",
-        "“When the righteous turns from his righteousness, and commits iniquity, he will even die by it.”",
-        "“But if the wicked turn from his wickedness, and do that which is lawful and right, he will live by it.”",
-        "“Yet you say, ‘The way of the Lord is not equal.’ O you house of Israel, I will judge you every one after his ways.”",
-        "And it came to pass in the twelfth year of our captivity, in the tenth month, in the fifth day of the month, that one that had escaped out of Jerusalem came to me, saying, “The city is smitten.”",
-        "Now the hand of the Lord was upon me in the evening, before he that was escaped came; and had opened my mouth, until he came to me in the morning; and my mouth was opened, and I was no more mute.",
-        "Then the word of the Lord came to me, saying,",
-        "“Son of man, they that inhabit those wastes of the land of Israel speak, saying, ‘Abraham was one, and he inherited the land: but we are many; the land is given us for inheritance.’”",
-        "“Therefore say to them, ‘Thus says the Lord God; You eat with the blood, and lift up your eyes toward your idols, and shed blood: and will you possess the land?’”",
-        "“‘You stand upon your sword, you work abomination, and you defile every one his neighbor’s wife: and will you possess the land?’”",
-        "“Say you thus to them, ‘Thus says the Lord God; As I live, surely they that are in the wastes will fall by the sword, and him that is in the open field will I give to the beasts to be devoured, and they that be in the forts and in the caves will die of the pestilence.’”",
-        "“‘For I will lay the land most desolate, and the pomp of her strength will cease; and the mountains of Israel will be desolate, that none will pass through.’”",
-        "“‘Then will they know that I am the Lord, when I have laid the land most desolate because of all their abominations which they have committed.’”",
-        "“Also, you son of man, the children of your people still are talking against you by the walls and in the doors of the houses, and speak one to another, every one to his brother, saying, ‘Come, I pray you, and hear what is the word that comes forth from the Lord.’”",
-        "“And they come to you as the people comes, and they sit before you as My people, and they hear your words, but they will not do them: for with their mouth they show much love, but their heart goes after their covetousness.”",
-        "“And, lo, you are to them as a very lovely song of one that has a pleasant voice, and can play well on an instrument: for they hear your words, but they do them not.”",
-        "“And when this comes to pass, (lo, it will come,) then will they know that a prophet has been among them.”"
-      ],
-      "notes": [
-        "‘neighbor’ replaces neighbour"
-      ],
-      "approved": "bc587b80"
-    },
-    {
       "ch": "Ezekiel 20",
       "verses": [
         "And it came to pass in the seventh year, in the fifth month, the tenth day of the month, that certain of the elders of Israel came to inquire of the Lord, and sat before me.",
@@ -29094,7 +30758,10 @@ window.TU_PLAIN = {
         "Then said I, “Ah Lord God! they say of me, ‘Does he not speak parables?’”"
       ],
       "notes": [
-        "‘espied’ means searched out or spied out"
+        {
+          "v": 1,
+          "text": "‘espied’ means searched out or spied out"
+        }
       ],
       "approved": "d6400179"
     },
@@ -29135,48 +30802,16 @@ window.TU_PLAIN = {
         "“‘You shall be for fuel to the fire; your blood shall be in the midst of the land; you shall be no more remembered: for I the Lord have spoken it.’”"
       ],
       "notes": [
-        "‘furbished’ means polished or sharpened",
-        "‘contemns’ means despises or scorns"
+        {
+          "v": 1,
+          "text": "‘furbished’ means polished or sharpened"
+        },
+        {
+          "v": 1,
+          "text": "‘contemns’ means despises or scorns"
+        }
       ],
       "approved": "bdf36400"
-    },
-    {
-      "ch": "Ezekiel 34",
-      "verses": [
-        "And the word of the Lord came to me, saying,",
-        "“Son of man, prophesy against the shepherds of Israel, prophesy, and say to them, ‘Thus says the Lord God to the shepherds; Woe be to the shepherds of Israel that do feed themselves! should not the shepherds feed the flocks?’”",
-        "“‘You eat the fat, and you clothe you with the wool, you kill them that are fed: but you feed not the flock.’”",
-        "“‘The diseased have you not strengthened, neither have you healed that which was sick, neither have you bound up that which was broken, neither have you brought again that which was driven away, neither have you sought that which was lost; but with force and with cruelty have you ruled them.’”",
-        "“‘And they were scattered, because there is no shepherd: and they became meat to all the beasts of the field, when they were scattered.’”",
-        "“‘My sheep wandered through all the mountains, and upon every high hill: yes, My flock was scattered upon all the face of the earth, and none did search or seek after them.’”",
-        "“Therefore, you shepherds, hear the word of the Lord;”",
-        "“‘As I live,’ says the Lord God, ‘surely because My flock became a prey, and My flock became meat to every beast of the field, because there was no shepherd, neither did My shepherds search for My flock, but the shepherds fed themselves, and fed not My flock;’”",
-        "“Therefore, O you shepherds, hear the word of the Lord;”",
-        "“Thus says the Lord God; ‘Behold, I am against the shepherds; and I will require My flock at their hand, and cause them to cease from feeding the flock; neither will the shepherds feed themselves any more; for I will deliver My flock from their mouth, that they may not be meat for them.’”",
-        "“For thus says the Lord God; ‘Behold, I, even I, will both search My sheep, and seek them out.’”",
-        "“‘As a shepherd seeks out his flock in the day that he is among his sheep that are scattered; so will I seek out My sheep, and will deliver them out of all places where they have been scattered in the cloudy and dark day.’”",
-        "“‘And I will bring them out from the people, and gather them from the countries, and will bring them to their own land, and feed them upon the mountains of Israel by the rivers, and in all the inhabited places of the country.’”",
-        "“‘I will feed them in a good pasture, and upon the high mountains of Israel will their fold be: there will they lie in a good fold, and in a fat pasture will they feed upon the mountains of Israel.’”",
-        "“‘I will feed My flock, and I will cause them to lie down,’ says the Lord God.”",
-        "“‘I will seek that which was lost, and bring again that which was driven away, and will bind up that which was broken, and will strengthen that which was sick: but I will destroy the fat and the strong; I will feed them with judgment.’”",
-        "“And as for you, O My flock, thus says the Lord God; ‘Behold, I judge between cattle and cattle, between the rams and the he goats.’”",
-        "“‘Seems it a small thing to you to have eaten up the good pasture, but you must tread down with your feet the residue of your pastures? and to have drunk of the deep waters, but you must foul the residue with your feet?’”",
-        "“‘And as for My flock, they eat that which you have trodden with your feet; and they drink that which you have fouled with your feet.’”",
-        "“Therefore thus says the Lord God to them; ‘Behold, I, even I, will judge between the fat cattle and between the lean cattle.’”",
-        "“‘Because you have thrust with side and with shoulder, and pushed all the diseased with your horns, till you have scattered them abroad;’”",
-        "“‘Therefore will I save My flock, and they will no more be a prey; and I will judge between cattle and cattle.’”",
-        "“‘And I will set up one shepherd over them, and he will feed them, even My servant David; he will feed them, and he will be their shepherd.’”",
-        "“‘And I the Lord will be their God, and My servant David a prince among them; I the Lord have spoken it.’”",
-        "“‘And I will make with them a covenant of peace, and will cause the evil beasts to cease out of the land: and they will dwell safely in the wilderness, and sleep in the woods.’”",
-        "“‘And I will make them and the places round about My hill a blessing; and I will cause the shower to come down in his season; there will be showers of blessing.’”",
-        "“‘And the tree of the field will yield her fruit, and the earth will yield her increase, and they will be safe in their land, and will know that I am the Lord, when I have broken the bands of their yoke, and delivered them out of the hand of those that served themselves of them.’”",
-        "“‘And they will no more be a prey to the heathen, neither will the beast of the land devour them; but they will dwell safely, and none will make them afraid.’”",
-        "“‘And I will raise up for them a plant of renown, and they will be no more consumed with hunger in the land, neither bear the shame of the heathen any more.’”",
-        "“‘Thus will they know that I the Lord their God am with them, and that they, even the house of Israel, are My people,’ says the Lord God.”",
-        "“‘And you My flock, the flock of My pasture, are men, and I am your God,’ says the Lord God.”"
-      ],
-      "notes": [],
-      "approved": "793e2b77"
     },
     {
       "ch": "Ezekiel 35",
@@ -29236,54 +30871,12 @@ window.TU_PLAIN = {
         "“‘Therefore have I poured out My indignation upon them; I have consumed them with the fire of My wrath: their own way have I recompensed upon their heads, says the Lord God.’”"
       ],
       "notes": [
-        "‘ravening’ means tearing or devouring"
+        {
+          "v": 1,
+          "text": "‘ravening’ means tearing or devouring"
+        }
       ],
       "approved": "cab3f9ed"
-    },
-    {
-      "ch": "Ezekiel 36",
-      "verses": [
-        "Also, you son of man, prophesy to the mountains of Israel, and say, “You mountains of Israel, hear the word of the Lord:”",
-        "“Thus says the Lord God; ‘Because the enemy has said against you, Aha, even the ancient high places are ours in possession:’”",
-        "“Therefore prophesy and say, ‘Thus says the Lord God; Because they have made you desolate, and swallowed you up on every side, that you might be a possession to the residue of the heathen, and you are taken up in the lips of talkers, and are an infamy of the people:’”",
-        "“Therefore, you mountains of Israel, hear the word of the Lord God; Thus says the Lord God to the mountains, and to the hills, to the rivers, and to the valleys, to the desolate wastes, and to the cities that are forsaken, which became a prey and derision to the residue of the heathen that are round about;”",
-        "“Therefore thus says the Lord God; Surely in the fire of My jealousy have I spoken against the residue of the heathen, and against all Idumea, which have appointed My land into their possession with the joy of all their heart, with despiteful minds, to cast it out for a prey.”",
-        "“Prophesy therefore concerning the land of Israel, and say to the mountains, and to the hills, to the rivers, and to the valleys, ‘Thus says the Lord God; Behold, I have spoken in My jealousy and in My fury, because you have borne the shame of the heathen:’”",
-        "“Therefore thus says the Lord God; ‘I have lifted up My hand, Surely the heathen that are about you, they will bear their shame.’”",
-        "“But you, O mountains of Israel, you will shoot forth your branches, and yield your fruit to My people of Israel; for they are at hand to come.”",
-        "“For, behold, I am for you, and I will turn to you, and you will be tilled and sown:”",
-        "“And I will multiply men upon you, all the house of Israel, even all of it: and the cities will be inhabited, and the wastes will be built:”",
-        "“And I will multiply upon you man and beast; and they will increase and bring fruit: and I will settle you after your old estates, and will do better to you than at your beginnings: and you will know that I am the Lord.”",
-        "“Yes, I will cause men to walk upon you, even My people Israel; and they will possess you, and you will be their inheritance, and you will no more henceforth bereave them of men.”",
-        "“Thus says the Lord God; ‘Because they say to you, You land devour up men, and have bereaved your nations;’”",
-        "“‘Therefore you will devour men no more, neither bereave your nations any more,’ says the Lord God.”",
-        "“‘Neither will I cause men to hear in you the shame of the heathen any more, neither will you bear the reproach of the people any more, neither will you cause your nations to fall any more,’ says the Lord God.”",
-        "Moreover the word of the Lord came to me, saying,",
-        "“Son of man, when the house of Israel dwelt in their own land, they defiled it by their own way and by their doings: their way was before Me as the uncleanness of a removed woman.”",
-        "“Therefore I poured My fury upon them for the blood that they had shed upon the land, and for their idols with which they had polluted it:”",
-        "“And I scattered them among the heathen, and they were dispersed through the countries: according to their way and according to their doings I judged them.”",
-        "“And when they entered to the heathen, where they went, they profaned My holy name, when they said to them, ‘These are the people of the Lord, and are gone forth out of His land.’”",
-        "“But I had pity for My holy name, which the house of Israel had profaned among the heathen, where they went.”",
-        "“Therefore say to the house of Israel, ‘Thus says the Lord God; I do not this for your sakes, O house of Israel, but for My holy name’s sake, which you have profaned among the heathen, where you went.’”",
-        "“‘And I will sanctify My great name, which was profaned among the heathen, which you have profaned in the midst of them; and the heathen will know that I am the Lord,’ says the Lord God, ‘when I will be sanctified in you before their eyes.’”",
-        "“‘For I will take you from among the heathen, and gather you out of all countries, and will bring you into your own land.’”",
-        "“‘Then will I sprinkle clean water upon you, and you will be clean: from all your filthiness, and from all your idols, will I cleanse you.’”",
-        "“‘A new heart also will I give you, and a new spirit will I put within you: and I will take away the stony heart out of your flesh, and I will give you a heart of flesh.’”",
-        "“‘And I will put My spirit within you, and cause you to walk in My statutes, and you will keep My judgments, and do them.’”",
-        "“‘And you will dwell in the land that I gave to your fathers; and you will be My people, and I will be your God.’”",
-        "“‘I will also save you from all your uncleannesses: and I will call for the corn, and will increase it, and lay no famine upon you.’”",
-        "“‘And I will multiply the fruit of the tree, and the increase of the field, that you will receive no more reproach of famine among the heathen.’”",
-        "“‘Then will you remember your own evil ways, and your doings that were not good, and will loathe yourselves in your own sight for your iniquities and for your abominations.’”",
-        "“‘Not for your sakes do I this,’ says the Lord God, ‘be it known to you: be ashamed and confounded for your own ways, O house of Israel.’”",
-        "“Thus says the Lord God; ‘In the day that I will have cleansed you from all your iniquities I will also cause you to dwell in the cities, and the wastes will be built.’”",
-        "“‘And the desolate land will be tilled, whereas it lay desolate in the sight of all that passed by.’”",
-        "“‘And they will say, This land that was desolate is become like the garden of Eden; and the waste and desolate and ruined cities are become fenced, and are inhabited.’”",
-        "“‘Then the heathen that are left round about you will know that I the Lord build the ruined places, and plant that that was desolate: I the Lord have spoken it, and I will do it.’”",
-        "“Thus says the Lord God; ‘I will yet for this be inquired of by the house of Israel, to do it for them; I will increase them with men like a flock.’”",
-        "“‘As the holy flock, as the flock of Jerusalem in her solemn feasts; so will the waste cities be filled with flocks of men: and they will know that I am the Lord.’”"
-      ],
-      "notes": [],
-      "approved": "561cada1"
     },
     {
       "ch": "Ezekiel 23",
@@ -29373,612 +30966,12 @@ window.TU_PLAIN = {
         "“In that day shall your mouth be opened to him which is escaped, and you shall speak, and be no more dumb: and you shall be a sign to them; and they shall know that I am the Lord.”"
       ],
       "notes": [
-        "‘tire’ means turban or headdress"
+        {
+          "v": 1,
+          "text": "‘tire’ means turban or headdress"
+        }
       ],
       "approved": "49decb2d"
-    },
-    {
-      "ch": "Joel 1",
-      "verses": [
-        "The word of the Lord that came to Joel the son of Pethuel.",
-        "Hear this, you old men, and give ear, all you inhabitants of the land. Has this been in your days, or even in the days of your fathers?",
-        "Tell you your children of it, and let your children tell their children, and their children another generation.",
-        "That which the palmerworm has left has the locust eaten; and that which the locust has left has the cankerworm eaten; and that which the cankerworm has left has the caterpillar eaten.",
-        "Awake, you drunkards, and weep; and howl, all you drinkers of wine, because of the new wine; for it is cut off from your mouth.",
-        "For a nation is come up upon My land, strong, and without number, whose teeth are the teeth of a lion, and he has the cheek teeth of a great lion.",
-        "He has laid My vine waste, and barked My fig tree: he has made it clean bare, and cast it away; the branches of it are made white.",
-        "Lament like a virgin girded with sackcloth for the husband of her youth.",
-        "The food offering and the drink offering is cut off from the house of the Lord; the priests, the Lord’s ministers, mourn.",
-        "The field is wasted, the land mourns; for the corn is wasted: the new wine is dried up, the oil languishes.",
-        "Be you ashamed, O you husbandmen; howl, O you vinedressers, for the wheat and for the barley; because the harvest of the field has perished.",
-        "The vine is dried up, and the fig tree languishes; the pomegranate tree, the palm tree also, and the apple tree, even all the trees of the field, are withered: because joy is withered away from the sons of men.",
-        "Gird yourselves, and lament, you priests: howl, you ministers of the altar: come, lie all night in sackcloth, you ministers of my God: for the food offering and the drink offering is withheld from the house of your God.",
-        "Sanctify you a fast, call a solemn assembly, gather the elders and all the inhabitants of the land into the house of the Lord your God, and cry to the Lord,",
-        "Alas for the day! for the day of the Lord is at hand, and as a destruction from the Almighty shall it come.",
-        "Is not the food cut off before our eyes, yes, joy and gladness from the house of our God?",
-        "The seed is rotten under their clods, the garners are laid desolate, the barns are broken down; for the corn is withered.",
-        "How do the beasts groan! the herds of cattle are perplexed, because they have no pasture; yes, the flocks of sheep are made desolate.",
-        "O Lord, to You will I cry: for the fire has devoured the pastures of the wilderness, and the flame has burned all the trees of the field.",
-        "The beasts of the field cry also to You: for the rivers of waters are dried up, and the fire has devoured the pastures of the wilderness."
-      ],
-      "notes": [
-        "‘barked’ means stripped of bark"
-      ],
-      "approved": "98eb8705"
-    },
-    {
-      "ch": "Zephaniah 1",
-      "verses": [
-        "The word of the Lord which came to Zephaniah the son of Cushi, the son of Gedaliah, the son of Amariah, the son of Hizkiah, in the days of Josiah the son of Amon, king of Judah.",
-        "I will utterly consume all things from off the land, says the Lord.",
-        "I will consume man and beast; I will consume the fowls of the heaven, and the fishes of the sea, and the stumblingblocks with the wicked; and I will cut off man from off the land, says the Lord.",
-        "I will also stretch out My hand upon Judah, and upon all the inhabitants of Jerusalem; and I will cut off the remnant of Baal from this place, and the name of the Chemarims with the priests;",
-        "And them that worship the host of heaven upon the housetops; and them that worship and that swear by the Lord, and that swear by Malcham;",
-        "And them that are turned back from the Lord; and those that have not sought the Lord, nor inquired for Him.",
-        "Hold your peace at the presence of the Lord God: for the day of the Lord is at hand: for the Lord has prepared a sacrifice, He has bid His guests.",
-        "And it shall come to pass in the day of the Lord's sacrifice, that I will punish the princes, and the king's children, and all such as are clothed with strange apparel.",
-        "In the same day also will I punish all those that leap on the threshold, which fill their masters' houses with violence and deceit.",
-        "And it shall come to pass in that day, says the Lord, that there shall be the noise of a cry from the fish gate, and an howling from the second, and a great crashing from the hills.",
-        "Howl, you inhabitants of Maktesh, for all the merchant people are cut down; all they that bear silver are cut off.",
-        "And it shall come to pass at that time, that I will search Jerusalem with candles, and punish the men that are settled on their lees: that say in their heart, The Lord will not do good, neither will He do evil.",
-        "Therefore their goods shall become a booty, and their houses a desolation: they shall also build houses, but not inhabit them; and they shall plant vineyards, but not drink the wine thereof.",
-        "The great day of the Lord is near, it is near, and hastes greatly, even the voice of the day of the Lord: the mighty man shall cry there bitterly.",
-        "That day is a day of wrath, a day of trouble and distress, a day of wasteness and desolation, a day of darkness and gloominess, a day of clouds and thick darkness,",
-        "A day of the trumpet and alarm against the fenced cities, and against the high towers.",
-        "And I will bring distress upon men, that they shall walk like blind men, because they have sinned against the Lord: and their blood shall be poured out as dust, and their flesh as the dung.",
-        "Neither their silver nor their gold shall be able to deliver them in the day of the Lord's wrath; but the whole land shall be devoured by the fire of His jealousy: for He shall make even a speedy riddance of all them that dwell in the land."
-      ],
-      "notes": [],
-      "approved": "8f1a94bc"
-    },
-    {
-      "ch": "Hosea 1",
-      "verses": [
-        "The word of the Lord that came to Hosea, the son of Beeri, in the days of Uzziah, Jotham, Ahaz, and Hezekiah, kings of Judah, and in the days of Jeroboam the son of Joash, king of Israel.",
-        "The beginning of the word of the Lord by Hosea. And the Lord said to Hosea, “Go, take to you a wife of whoredoms and children of whoredoms: for the land has committed great whoredom, departing from the Lord.”",
-        "So he went and took Gomer the daughter of Diblaim, which conceived, and bare him a son.",
-        "And the Lord said to him, “Call his name Jezreel, for yet a little while, and I will avenge the blood of Jezreel on the house of Jehu, and will cause to cease the kingdom of the house of Israel.”",
-        "“And it will come to pass at that day, that I will break the bow of Israel in the valley of Jezreel.”",
-        "And she conceived again, and bare a daughter. And God said to him, “Call her name Lo-ruhamah: for I will no more have mercy on the house of Israel, but I will utterly take them away.”",
-        "“But I will have mercy on the house of Judah, and will save them by the Lord their God, and will not save them by bow, nor by sword, nor by battle, by horses, nor by horsemen.”",
-        "Now when she had weaned Lo-ruhamah, she conceived, and bare a son.",
-        "Then said God, “Call his name Lo-ammi: for you are not My people, and I will not be your God.”",
-        "“Yet the number of the children of Israel will be as the sand of the sea, which can not be measured nor numbered, and it will come to pass, that in the place where it was said to them, ‘You are not My people,’ there it will be said to them, ‘You are the sons of the living God.’”",
-        "“Then will the children of Judah and the children of Israel be gathered together, and appoint themselves one head, and they will come up out of the land: for great will be the day of Jezreel.”"
-      ],
-      "notes": [],
-      "approved": "8bcd6d07"
-    },
-    {
-      "ch": "Hosea 2",
-      "verses": [
-        "Say you to your brothers, “Ammi,” and to your sisters, “Ruhamah.”",
-        "“Plead with your mother, plead: for she is not My wife, neither am I her husband: let her therefore put away her whoredoms out of her sight, and her adulteries from between her breasts:”",
-        "“Lest I strip her naked, and set her as in the day that she was born, and make her as a wilderness, and set her like a dry land, and slay her with thirst.”",
-        "“And I will not have mercy on her children, for they are the children of whoredoms.”",
-        "“For their mother has played the harlot: she that conceived them has done shamefully: for she said, ‘I will go after my lovers, that give me my bread and my water, my wool and my flax, my oil and my drink.’”",
-        "“Therefore, behold, I will hedge up your way with thorns, and make a wall, that she will not find her paths.”",
-        "“And she will follow after her lovers, but she will not overtake them, and she will seek them, but will not find them: then will she say, ‘I will go and return to my first husband, for then was it better with me than now.’”",
-        "“For she did not know that I gave her corn, and wine, and oil, and multiplied her silver and gold, which they prepared for Baal.”",
-        "“Therefore will I return, and take away My corn in its time, and My wine in its season, and will recover My wool and My flax given to cover her nakedness.”",
-        "“And now will I discover her lewdness in the sight of her lovers, and none will deliver her out of My hand.”",
-        "“I will also cause all her mirth to cease, her feast days, her new moons, and her sabbaths, and all her solemn feasts.”",
-        "“And I will destroy her vines and her fig trees, of which she has said, ‘These are my rewards that my lovers have given me:’ and I will make them a forest, and the beasts of the field will eat them.”",
-        "“And I will visit on her the days of Baalim, in which she burned incense to them, and she decked herself with her earrings and her jewels, and she went after her lovers, and forgot Me,” says the Lord.",
-        "“Therefore, behold, I will allure her, and bring her into the wilderness, and speak comfortably to her.”",
-        "“And I will give her her vineyards from there, and the valley of Achor for a door of hope: and she will sing there, as in the days of her youth, and as in the day when she came up out of the land of Egypt.”",
-        "“And it will be at that day,” says the Lord, “that you will call Me Ishi, and will call Me no more Baali.”",
-        "“For I will take away the names of Baalim out of her mouth, and they will no more be remembered by their name.”",
-        "“And in that day will I make a covenant for them with the beasts of the field, and with the fowls of heaven, and with the creeping things of the ground: and I will break the bow and the sword and the battle out of the earth, and will make them to lie down safely.”",
-        "“And I will betroth you to Me forever, yes, I will betroth you to Me in righteousness, and in judgment, and in lovingkindness, and in mercies.”",
-        "“I will even betroth you to Me in faithfulness: and you will know the Lord.”",
-        "“And it will come to pass in that day, I will hear,” says the Lord, “I will hear the heavens, and they will hear the earth,”",
-        "“And the earth will hear the corn, and the wine, and the oil, and they will hear Jezreel.”",
-        "“And I will sow her to Me in the earth, and I will have mercy on her that had not obtained mercy, and I will say to them which were not My people, ‘You are My people,’ and they will say, ‘You are my God.’”"
-      ],
-      "notes": [],
-      "approved": "01975f2b"
-    },
-    {
-      "ch": "Hosea 3",
-      "verses": [
-        "Then said the Lord to me, “Go yet, love a woman beloved of her friend, yet an adulteress, according to the love of the Lord toward the children of Israel, who look to other gods, and love flagons of wine.”",
-        "So I bought her to me for fifteen pieces of silver, and for a homer of barley, and a half homer of barley:",
-        "And I said to her, “You will abide for me many days, you will not play the harlot, and you will not be for another man: so will I also be for you.”",
-        "For the children of Israel will abide many days without a king, and without a prince, and without a sacrifice, and without an image, and without an ephod, and without teraphim:",
-        "Afterward will the children of Israel return, and seek the Lord their God, and David their king, and will fear the Lord and His goodness in the latter days."
-      ],
-      "notes": [],
-      "approved": "7e7bfbfe"
-    },
-    {
-      "ch": "Zephaniah 2",
-      "verses": [
-        "Gather yourselves together, yea, gather together, O nation not desired;",
-        "Before the decree bring forth, before the day pass as the chaff, before the fierce anger of the Lord come upon you, before the day of the Lord's anger come upon you.",
-        "Seek you the Lord, all you meek of the earth, which have wrought His judgment; seek righteousness, seek meekness: it may be you shall be hid in the day of the Lord's anger.",
-        "For Gaza shall be forsaken, and Ashkelon a desolation: they shall drive out Ashdod at the noon day, and Ekron shall be rooted up.",
-        "Woe to the inhabitants of the sea coast, the nation of the Cherethites! the word of the Lord is against you; O Canaan, the land of the Philistines, I will even destroy you, that there shall be no inhabitant.",
-        "And the sea coast shall be dwellings and cottages for shepherds, and folds for flocks.",
-        "And the coast shall be for the remnant of the house of Judah; they shall feed thereupon: in the houses of Ashkelon shall they lie down in the evening: for the Lord their God shall visit them, and turn away their captivity.",
-        "I have heard the reproach of Moab, and the revilings of the children of Ammon, whereby they have reproached My people, and magnified themselves against their border.",
-        "Therefore as I live, says the Lord of hosts, the God of Israel, Surely Moab shall be as Sodom, and the children of Ammon as Gomorrah, even the breeding of nettles, and saltpits, and a perpetual desolation: the residue of My people shall spoil them, and the remnant of My people shall possess them.",
-        "This shall they have for their pride, because they have reproached and magnified themselves against the people of the Lord of hosts.",
-        "The Lord will be terrible to them: for He will famish all the gods of the earth; and men shall worship Him, every one from his place, even all the isles of the heathen.",
-        "You Ethiopians also, you shall be slain by My sword.",
-        "And He will stretch out His hand against the north, and destroy Assyria; and will make Nineveh a desolation, and dry like a wilderness.",
-        "And flocks shall lie down in the midst of her, all the beasts of the nations: both the cormorant and the bittern shall lodge in the upper lintels of it; their voice shall sing in the windows; desolation shall be in the thresholds: for He shall uncover the cedar work.",
-        "This is the rejoicing city that dwelt carelessly, that said in her heart, I am, and there is none beside me: how is she become a desolation, a place for beasts to lie down in! every one that passes by her shall hiss, and wag His hand."
-      ],
-      "notes": [],
-      "approved": "dd7449c4"
-    },
-    {
-      "ch": "Micah 1",
-      "verses": [
-        "The word of the Lord that came to Micah the Morasthite in the days of Jotham, Ahaz, and Hezekiah, kings of Judah, which he saw concerning Samaria and Jerusalem.",
-        "Hear, all you people; hearken, O earth, and all that is in it: and let the Lord God be witness against you, the Lord from His holy temple.",
-        "For, behold, the Lord comes forth out of His place, and will come down, and tread upon the high places of the earth.",
-        "And the mountains will be molten under Him, and the valleys will be cleft, as wax before the fire, and as the waters that are poured down a steep place.",
-        "For the transgression of Jacob is all this, and for the sins of the house of Israel. What is the transgression of Jacob? is it not Samaria? and what are the high places of Judah? are they not Jerusalem?",
-        "Therefore I will make Samaria as a heap of the field, and as plantings of a vineyard: and I will pour down the stones of it into the valley, and I will discover the foundations of it.",
-        "And all the graven images of it will be beaten to pieces, and all the hires of it will be burned with the fire, and all the idols of it will I lay desolate: for she gathered it of the hire of a harlot, and they will return to the hire of a harlot.",
-        "Therefore I will wail and howl, I will go stripped and naked: I will make a wailing like the dragons, and mourning as the owls.",
-        "For her wound is incurable; for it is come to Judah; he is come to the gate of my people, even to Jerusalem.",
-        "Declare you it not at Gath, weep you not at all: in the house of Aphrah roll yourself in the dust.",
-        "Pass you away, you inhabitant of Saphir, having your shame naked: the inhabitant of Zaanan came not forth in the mourning of Beth-ezel; he will receive of you his standing.",
-        "For the inhabitant of Maroth waited carefully for good: but evil came down from the Lord to the gate of Jerusalem.",
-        "O you inhabitant of Lachish, bind the chariot to the swift beast: she is the beginning of the sin to the daughter of Zion: for the transgressions of Israel were found in you.",
-        "Therefore will you give presents to Moresheth-gath: the houses of Achzib will be a lie to the kings of Israel.",
-        "Yet will I bring an heir to you, O inhabitant of Mareshah: he will come to Adullam the glory of Israel.",
-        "Make yourself bald, and poll yourself for your delicate children; enlarge your baldness as the eagle; for they are gone into captivity from you."
-      ],
-      "notes": [],
-      "approved": "93ee28c6"
-    },
-    {
-      "ch": "Zephaniah 3",
-      "verses": [
-        "Woe to her that is filthy and polluted, to the oppressing city!",
-        "She obeyed not the voice; she received not correction; she trusted not in the Lord; she drew not near to her God.",
-        "Her princes within her are roaring lions; her judges are evening wolves; they gnaw not the bones till the morrow.",
-        "Her prophets are light and treacherous persons: her priests have polluted the sanctuary, they have done violence to the law.",
-        "The just Lord is in the midst thereof; He will not do iniquity: every morning does He bring His judgment to light, He fails not; but the unjust knows no shame.",
-        "I have cut off the nations: their towers are desolate; I made their streets waste, that none passes by: their cities are destroyed, so that there is no man, that there is none inhabitant.",
-        "I said, Surely you will fear Me, you will receive instruction; so their dwelling should not be cut off, howsoever I punished them: but they rose early, and corrupted all their doings.",
-        "Therefore wait you upon Me, says the Lord, until the day that I rise up to the prey: for My determination is to gather the nations, that I may assemble the kingdoms, to pour upon them My indignation, even all My fierce anger: for all the earth shall be devoured with the fire of My jealousy.",
-        "For then will I turn to the people a pure language, that they may all call upon the name of the Lord, to serve Him with one consent.",
-        "From beyond the rivers of Ethiopia My suppliants, even the daughter of My dispersed, shall bring My offering.",
-        "In that day shall you not be ashamed for all your doings, in which you have transgressed against Me: for then I will take away out of the midst of you them that rejoice in your pride, and you shall no more be haughty because of My holy mountain.",
-        "I will also leave in the midst of you an afflicted and poor people, and they shall trust in the name of the Lord.",
-        "The remnant of Israel shall not do iniquity, nor speak lies; neither shall a deceitful tongue be found in their mouth: for they shall feed and lie down, and none shall make them afraid.",
-        "Sing, O daughter of Zion; shout, O Israel; be glad and rejoice with all the heart, O daughter of Jerusalem.",
-        "The Lord has taken away your judgments, He has cast out your enemy: the king of Israel, even the Lord, is in the midst of you: you shall not see evil any more.",
-        "In that day it shall be said to Jerusalem, Fear you not: and to Zion, Let not your hands be slack.",
-        "The Lord your God in the midst of you is mighty; He will save, He will rejoice over you with joy; He will rest in His love, He will joy over you with singing.",
-        "I will gather them that are sorrowful for the solemn assembly, who are of you, to whom the reproach of it was a burden.",
-        "Behold, at that time I will undo all that afflict you: and I will save her that halts, and gather her that was driven out; and I will get them praise and fame in every land where they have been put to shame.",
-        "At that time will I bring you again, even in the time that I gather you: for I will make you a name and a praise among all people of the earth, when I turn back your captivity before your eyes, says the Lord."
-      ],
-      "notes": [],
-      "approved": "451f34d5"
-    },
-    {
-      "ch": "Joel 2",
-      "verses": [
-        "Blow you the trumpet in Zion, and sound an alarm in My holy mountain: let all the inhabitants of the land tremble: for the day of the Lord comes, for it is near at hand;",
-        "A day of darkness and of gloominess, a day of clouds and of thick darkness, as the morning spread upon the mountains: a great people and a strong; there has not been ever the like, neither shall be any more after it, even to the years of many generations.",
-        "A fire devours before them; and behind them a flame burns: the land is as the garden of Eden before them, and behind them a desolate wilderness; yes, and nothing shall escape them.",
-        "The appearance of them is as the appearance of horses; and as horsemen, so shall they run.",
-        "Like the noise of chariots on the tops of mountains shall they leap, like the noise of a flame of fire that devours the stubble, as a strong people set in battle array.",
-        "Before their face the people shall be much pained: all faces shall gather blackness.",
-        "They shall run like mighty men; they shall climb the wall like men of war; and they shall march every one on his ways, and they shall not break their ranks:",
-        "Neither shall one thrust another; they shall walk every one in his path: and when they fall upon the sword, they shall not be wounded.",
-        "They shall run to and fro in the city; they shall run upon the wall, they shall climb up upon the houses; they shall enter in at the windows like a thief.",
-        "The earth shall quake before them; the heavens shall tremble: the sun and the moon shall be dark, and the stars shall withdraw their shining:",
-        "And the Lord shall utter His voice before His army: for His camp is very great: for He is strong that executes His word: for the day of the Lord is great and very terrible; and who can abide it?",
-        "“Therefore also now,” says the Lord, “turn you even to Me with all your heart, and with fasting, and with weeping, and with mourning:”",
-        "And rend your heart, and not your garments, and turn to the Lord your God: for He is gracious and merciful, slow to anger, and of great kindness, and repents Him of the evil.",
-        "Who knows if He will return and repent, and leave a blessing behind Him; even a food offering and a drink offering to the Lord your God?",
-        "Blow the trumpet in Zion, sanctify a fast, call a solemn assembly:",
-        "Gather the people, sanctify the congregation, assemble the elders, gather the children, and those that suck the breasts: let the bridegroom go forth of his chamber, and the bride out of her closet.",
-        "Let the priests, the ministers of the Lord, weep between the porch and the altar, and let them say, “Spare Your people, O Lord, and give not Your heritage to reproach, that the heathen should rule over them: wherefore should they say among the people, ‘Where is their God?’”",
-        "Then will the Lord be jealous for His land, and pity His people.",
-        "Yes, the Lord will answer and say to His people, “Behold, I will send you corn, and wine, and oil, and you shall be satisfied with it: and I will no more make you a reproach among the heathen:”",
-        "“But I will remove far off from you the northern army, and will drive him into a land barren and desolate, with his face toward the east sea, and his hinder part toward the utmost sea, and his stink shall come up, and his ill savor shall come up, because he has done great things.”",
-        "Fear not, O land; be glad and rejoice: for the Lord will do great things.",
-        "Be not afraid, you beasts of the field: for the pastures of the wilderness do spring, for the tree bears her fruit, the fig tree and the vine do yield their strength.",
-        "Be glad then, you children of Zion, and rejoice in the Lord your God: for He has given you the former rain moderately, and He will cause to come down for you the rain, the former rain, and the latter rain in the first month.",
-        "And the floors shall be full of wheat, and the vats shall overflow with wine and oil.",
-        "“And I will restore to you the years that the locust has eaten, the cankerworm, and the caterpillar, and the palmerworm, My great army which I sent among you.”",
-        "“And you shall eat in plenty, and be satisfied, and praise the name of the Lord your God, that has dealt wondrously with you: and My people shall never be ashamed.”",
-        "“And you shall know that I am in the midst of Israel, and that I am the Lord your God, and none else: and My people shall never be ashamed.”",
-        "“And it shall come to pass afterward, that I will pour out My spirit upon all flesh; and your sons and your daughters shall prophesy, your old men shall dream dreams, your young men shall see visions:”",
-        "“And also upon the servants and upon the handmaids in those days will I pour out My spirit.”",
-        "“And I will show wonders in the heavens and in the earth, blood, and fire, and pillars of smoke.”",
-        "“The sun shall be turned into darkness, and the moon into blood, before the great and the terrible day of the Lord come.”",
-        "“And it shall come to pass, that whoever shall call on the name of the Lord shall be delivered: for in mount Zion and in Jerusalem shall be deliverance, as the Lord has said, and in the remnant whom the Lord shall call.”"
-      ],
-      "notes": [
-        "‘fats’ means vats",
-        "‘meat offering’ means food offering"
-      ],
-      "approved": "cc900f05"
-    },
-    {
-      "ch": "Haggai 1",
-      "verses": [
-        "In the second year of Darius the king, in the sixth month, in the first day of the month, came the word of the Lord by Haggai the prophet to Zerubbabel the son of Shealtiel, governor of Judah, and to Joshua the son of Josedech, the high priest, saying,",
-        "Thus speaks the Lord of hosts, saying, This people say, The time is not come, the time that the Lord's house should be built.",
-        "Then came the word of the Lord by Haggai the prophet, saying,",
-        "Is it time for you, O you, to dwell in your ceiled houses, and this house lie waste?",
-        "Now therefore thus says the Lord of hosts; Consider your ways.",
-        "You have sown much, and bring in little; you eat, but you have not enough; you drink, but you are not filled with drink; you clothe you, but there is none warm; and he that earns wages earns wages to put it into a bag with holes.",
-        "Thus says the Lord of hosts; Consider your ways.",
-        "Go up to the mountain, and bring wood, and build the house; and I will take pleasure in it, and I will be glorified, says the Lord.",
-        "You looked for much, and, lo, it came to little; and when you brought it home, I did blow upon it. Why? says the Lord of hosts. Because of My house that is waste, and you run every man to his own house.",
-        "Therefore the heaven over you is stayed from dew, and the earth is stayed from her fruit.",
-        "And I called for a drought upon the land, and upon the mountains, and upon the corn, and upon the new wine, and upon the oil, and upon that which the ground brings forth, and upon men, and upon cattle, and upon all the labour of the hands.",
-        "Then Zerubbabel the son of Shealtiel, and Joshua the son of Josedech, the high priest, with all the remnant of the people, obeyed the voice of the Lord their God, and the words of Haggai the prophet, as the Lord their God had sent him, and the people did fear before the Lord.",
-        "Then spoke Haggai the Lord's messenger in the Lord's message to the people, saying, I am with you, says the Lord.",
-        "And the Lord stirred up the spirit of Zerubbabel the son of Shealtiel, governor of Judah, and the spirit of Joshua the son of Josedech, the high priest, and the spirit of all the remnant of the people; and they came and did work in the house of the Lord of hosts, their God,",
-        "In the four and twentieth day of the sixth month, in the second year of Darius the king."
-      ],
-      "notes": [],
-      "approved": "4fc22a47"
-    },
-    {
-      "ch": "Hosea 4",
-      "verses": [
-        "Hear the word of the Lord, you children of Israel: for the Lord has a controversy with the inhabitants of the land, because there is no truth, nor mercy, nor knowledge of God in the land.",
-        "By swearing, and lying, and killing, and stealing, and committing adultery, they break out, and blood touches blood.",
-        "Therefore will the land mourn, and everyone that dwells in it will languish, with the beasts of the field, and with the fowls of heaven, yes, the fishes of the sea also will be taken away.",
-        "Yet let no man strive, nor reprove another: for your people are as they that strive with the priest.",
-        "Therefore will you fall in the day, and the prophet also will fall with you in the night, and I will destroy your mother.",
-        "My people are destroyed for lack of knowledge: because you have rejected knowledge, I will also reject you, that you will be no priest to Me: seeing you have forgotten the law of your God, I will also forget your children.",
-        "As they were increased, so they sinned against Me: therefore will I change their glory into shame.",
-        "They eat up the sin of My people, and they set their heart on their iniquity.",
-        "And there will be, like people, like priest: and I will punish them for their ways, and reward them their doings.",
-        "For they will eat, and not have enough: they will commit whoredom, and will not increase: because they have left off to take heed to the Lord.",
-        "Whoredom and wine and new wine take away the heart.",
-        "My people ask counsel at their stocks, and their staff declares to them: for the spirit of whoredoms has caused them to err, and they have gone a-whoring from under their God.",
-        "They sacrifice on the tops of the mountains, and burn incense on the hills, under oaks and poplars and elms, because the shadow of it is good: therefore your daughters will commit whoredom, and your spouses will commit adultery.",
-        "I will not punish your daughters when they commit whoredom, nor your spouses when they commit adultery: for themselves are separated with whores, and they sacrifice with harlots: therefore the people that does not understand will fall.",
-        "Though you, Israel, play the harlot, yet let not Judah offend, and come not you to Gilgal, neither go you up to Beth-aven, nor swear, “The Lord lives.”",
-        "For Israel slides back as a backsliding heifer: now the Lord will feed them as a lamb in a large place.",
-        "Ephraim is joined to idols: let him alone.",
-        "Their drink is sour: they have committed whoredom continually: her rulers with shame do love, “Give.”",
-        "The wind has bound her up in her wings, and they will be ashamed because of their sacrifices."
-      ],
-      "notes": [
-        "‘Give’ is used instead of ‘Give ye’"
-      ],
-      "approved": "8da31654"
-    },
-    {
-      "ch": "Hosea 5",
-      "verses": [
-        "Hear this, O priests, and listen, you house of Israel, and give ear, O house of the king, for judgment is toward you, because you have been a snare on Mizpah, and a net spread on Tabor.",
-        "And the revolters are profound to make slaughter, though I have been a rebuker of them all.",
-        "I know Ephraim, and Israel is not hid from Me: for now, O Ephraim, you commit whoredom, and Israel is defiled.",
-        "They will not frame their doings to turn to their God: for the spirit of whoredoms is in the midst of them, and they have not known the Lord.",
-        "And the pride of Israel does testify to his face: therefore will Israel and Ephraim fall in their iniquity, Judah also will fall with them.",
-        "They will go with their flocks and with their herds to seek the Lord, but they will not find Him, He has withdrawn Himself from them.",
-        "They have dealt treacherously against the Lord: for they have begotten strange children: now will a month devour them with their portions.",
-        "Blow you the cornet in Gibeah, and the trumpet in Ramah: cry aloud at Beth-aven, after you, O Benjamin.",
-        "Ephraim will be desolate in the day of rebuke: among the tribes of Israel have I made known that which will surely be.",
-        "The princes of Judah were like them that remove the bound: therefore I will pour out My wrath on them like water.",
-        "Ephraim is oppressed and broken in judgment, because he willingly walked after the commandment.",
-        "Therefore will I be to Ephraim as a moth, and to the house of Judah as rottenness.",
-        "When Ephraim saw his sickness, and Judah saw his wound, then went Ephraim to the Assyrian, and sent to king Jareb: yet could he not heal you, nor cure you of your wound.",
-        "For I will be to Ephraim as a lion, and as a young lion to the house of Judah: I, even I, will tear and go away, I will take away, and none will rescue him.",
-        "I will go and return to My place, till they acknowledge their offense, and seek My face: in their affliction they will seek Me early."
-      ],
-      "notes": [
-        "‘listen’ is used instead of ‘hearken’"
-      ],
-      "approved": "347b16a7"
-    },
-    {
-      "ch": "Hosea 6",
-      "verses": [
-        "Come, and let us return to the Lord: for He has torn, and He will heal us, He has smitten, and He will bind us up.",
-        "After two days will He revive us: in the third day He will raise us up, and we will live in His sight.",
-        "Then will we know, if we follow on to know the Lord: His going forth is prepared as the morning, and He will come to us as the rain, as the latter and former rain to the earth.",
-        "O Ephraim, what will I do to you? O Judah, what will I do to you? For your goodness is as a morning cloud, and as the early dew it goes away.",
-        "Therefore have I hewed them by the prophets, I have slain them by the words of My mouth: and your judgments are as the light that goes forth.",
-        "For I desired mercy, and not sacrifice, and the knowledge of God more than burnt offerings.",
-        "But they like men have transgressed the covenant: there have they dealt treacherously against Me.",
-        "Gilead is a city of them that work iniquity, and is polluted with blood.",
-        "And as troops of robbers wait for a man, so the company of priests murder in the way by consent: for they commit lewdness.",
-        "I have seen an horrible thing in the house of Israel: there is the whoredom of Ephraim, Israel is defiled.",
-        "Also, O Judah, He has set a harvest for you, when I returned the captivity of My people."
-      ],
-      "notes": [],
-      "approved": "c8c08e4c"
-    },
-    {
-      "ch": "Micah 2",
-      "verses": [
-        "Woe to them that devise iniquity, and work evil upon their beds! when the morning is light, they practice it, because it is in the power of their hand.",
-        "And they covet fields, and take them by violence; and houses, and take them away: so they oppress a man and his house, even a man and his heritage.",
-        "Therefore thus says the Lord; “Behold, against this family do I devise an evil, from which you will not remove your necks; neither will you go haughtily: for this time is evil.”",
-        "In that day will one take up a parable against you, and lament with a doleful lamentation, and say, “We be utterly spoiled: He has changed the portion of my people: how has He removed it from me! turning away He has divided our fields.”",
-        "Therefore you will have none that will cast a cord by lot in the congregation of the Lord.",
-        "“Prophesy you not,” say they to them that prophesy: “they will not prophesy to them, that they will not take shame.”",
-        "O you that are named the house of Jacob, is the spirit of the Lord straitened? are these His doings? do not My words do good to him that walks uprightly?",
-        "Even of late My people is risen up as an enemy: you pull off the robe with the garment from them that pass by securely as men averse from war.",
-        "The women of My people have you cast out from their pleasant houses; from their children have you taken away My glory for ever.",
-        "Arise you, and depart; for this is not your rest: because it is polluted, it will destroy you, even with a sore destruction.",
-        "If a man walking in the spirit and falsehood do lie, saying, “I will prophesy to you of wine and of strong drink;” he will even be the prophet of this people.",
-        "I will surely assemble, O Jacob, all of you; I will surely gather the remnant of Israel; I will put them together as the sheep of Bozrah, as the flock in the midst of their fold: they will make great noise by reason of the multitude of men.",
-        "The breaker is come up before them: they have broken up, and have passed through the gate, and are gone out by it: and their king will pass before them, and the Lord on the head of them."
-      ],
-      "notes": [
-        "‘practice’ replaces practise"
-      ],
-      "approved": "ab29a84d"
-    },
-    {
-      "ch": "Zechariah 9",
-      "verses": [
-        "The burden of the word of the Lord in the land of Hadrach, and Damascus shall be the rest of it: when the eyes of man, as of all the tribes of Israel, shall be toward the Lord.",
-        "And Hamath also shall border thereby; Tyrus, and Zidon, though it be very wise.",
-        "And Tyrus did build herself a strong hold, and heaped up silver as the dust, and fine gold as the mire of the streets.",
-        "Behold, the Lord will cast her out, and He will smite her power in the sea; and she shall be devoured with fire.",
-        "Ashkelon shall see it, and fear; Gaza also shall see it, and be very sorrowful, and Ekron; for her expectation shall be ashamed; and the king shall perish from Gaza, and Ashkelon shall not be inhabited.",
-        "And a mixed race shall dwell in Ashdod, and I will cut off the pride of the Philistines.",
-        "And I will take away his blood out of his mouth, and his abominations from between his teeth: but he that remains, even he, shall be for our God, and he shall be as a governor in Judah, and Ekron as a Jebusite.",
-        "And I will encamp about My house because of the army, because of him that passes by, and because of him that returns: and no oppressor shall pass through them any more: for now have I seen with My eyes.",
-        "Rejoice greatly, O daughter of Zion; shout, O daughter of Jerusalem: behold, your King comes to you: He is just, and having salvation; lowly, and riding upon a donkey, and upon a colt the foal of a donkey.",
-        "And I will cut off the chariot from Ephraim, and the horse from Jerusalem, and the battle bow shall be cut off: and He shall speak peace to the heathen: and His dominion shall be from sea even to sea, and from the river even to the ends of the earth.",
-        "As for you also, by the blood of your covenant I have sent forth your prisoners out of the pit in which is no water.",
-        "Turn you to the strong hold, you prisoners of hope: even today do I declare that I will render double to you;",
-        "When I have bent Judah for Me, filled the bow with Ephraim, and raised up your sons, O Zion, against your sons, O Greece, and made you as the sword of a mighty man.",
-        "And the Lord shall be seen over them, and His arrow shall go forth as the lightning: and the Lord God shall blow the trumpet, and shall go with whirlwinds of the south.",
-        "The Lord of hosts shall defend them; and they shall devour, and subdue with sling stones; and they shall drink, and make a noise as through wine; and they shall be filled like bowls, and as the corners of the altar.",
-        "And the Lord their God shall save them in that day as the flock of His people: for they shall be as the stones of a crown, lifted up as an ensign upon His land.",
-        "For how great is His goodness, and how great is His beauty! grain shall make the young men cheerful, and new wine the maids."
-      ],
-      "notes": [],
-      "approved": "27497173"
-    },
-    {
-      "ch": "Zechariah 10",
-      "verses": [
-        "Ask you of the Lord rain in the time of the latter rain; so the Lord shall make bright clouds, and give them showers of rain, to every one grass in the field.",
-        "For the idols have spoken vanity, and the diviners have seen a lie, and have told false dreams; they comfort in vain: therefore they went their way as a flock, they were troubled, because there was no shepherd.",
-        "My anger was kindled against the shepherds, and I punished the goats: for the Lord of hosts has visited His flock the house of Judah, and has made them as His goodly horse in the battle.",
-        "Out of him came forth the corner, out of him the nail, out of him the battle bow, out of him every oppressor together.",
-        "And they shall be as mighty men, which tread down their enemies in the mire of the streets in the battle: and they shall fight, because the Lord is with them, and the riders on horses shall be confounded.",
-        "And I will strengthen the house of Judah, and I will save the house of Joseph, and I will bring them again to place them; for I have mercy upon them: and they shall be as though I had not cast them off: for I am the Lord their God, and will hear them.",
-        "And they of Ephraim shall be like a mighty man, and their heart shall rejoice as through wine: yes, their children shall see it, and be glad; their heart shall rejoice in the Lord.",
-        "I will whistle for them, and gather them; for I have redeemed them: and they shall increase as they have increased.",
-        "And I will sow them among the people: and they shall remember Me in far countries; and they shall live with their children, and turn again.",
-        "I will bring them again also out of the land of Egypt, and gather them out of Assyria; and I will bring them into the land of Gilead and Lebanon; and place shall not be found for them.",
-        "And He shall pass through the sea with affliction, and shall smite the waves in the sea, and all the deeps of the river shall dry up: and the pride of Assyria shall be brought down, and the scepter of Egypt shall depart away.",
-        "And I will strengthen them in the Lord; and they shall walk up and down in His name, says the Lord."
-      ],
-      "notes": [],
-      "approved": "82b7f67a"
-    },
-    {
-      "ch": "Zechariah 11",
-      "verses": [
-        "Open your doors, O Lebanon, that the fire may devour your cedars.",
-        "Howl, fir tree; for the cedar is fallen; because the mighty are spoiled: howl, O you oaks of Bashan; for the forest of the vintage is come down.",
-        "There is a voice of the howling of the shepherds; for their glory is spoiled: a voice of the roaring of young lions; for the pride of Jordan is spoiled.",
-        "Thus says the Lord my God; Feed the flock of the slaughter;",
-        "Whose possessors slay them, and hold themselves not guilty: and they that sell them say, Blessed be the Lord; for I am rich: and their own shepherds pity them not.",
-        "For I will no more pity the inhabitants of the land, says the Lord: but, lo, I will deliver the men every one into his neighbor's hand, and into the hand of his king: and they shall smite the land, and out of their hand I will not deliver them.",
-        "And I will feed the flock of slaughter, even you, O poor of the flock. And I took to me two staffs; the one I called Beauty, and the other I called Bands; and I fed the flock.",
-        "Three shepherds also I cut off in one month; and my soul loathed them, and their soul also abhorred me.",
-        "Then said I, I will not feed you: that that dies, let it die; and that that is to be cut off, let it be cut off; and let the rest eat every one the flesh of another.",
-        "And I took my staff, even Beauty, and cut it asunder, that I might break my covenant which I had made with all the people.",
-        "And it was broken in that day: and so the poor of the flock that waited upon me knew that it was the word of the Lord.",
-        "And I said to them, If you think good, give me my price; and if not, forbear. So they weighed for my price thirty pieces of silver.",
-        "And the Lord said to me, Cast it to the potter: a goodly price that I was prized at of them. And I took the thirty pieces of silver, and cast them to the potter in the house of the Lord.",
-        "Then I cut asunder my other staff, even Bands, that I might break the brotherhood between Judah and Israel.",
-        "And the Lord said to me, Take to you yet the instruments of a foolish shepherd.",
-        "For, lo, I will raise up a shepherd in the land, which shall not visit those that be cut off, neither shall seek the young one, nor heal that that is broken, nor feed that that stands still: but he shall eat the flesh of the fat, and tear their claws in pieces.",
-        "Woe to the idol shepherd that leaves the flock! the sword shall be upon his arm, and upon his right eye: his arm shall be clean dried up, and his right eye shall be utterly darkened."
-      ],
-      "notes": [],
-      "approved": "89aa3e42"
-    },
-    {
-      "ch": "Zechariah 12",
-      "verses": [
-        "The burden of the word of the Lord for Israel, says the Lord, which stretches forth the heavens, and lays the foundation of the earth, and forms the spirit of man within him.",
-        "Behold, I will make Jerusalem a cup of trembling to all the people round about, when they shall be in the siege both against Judah and against Jerusalem.",
-        "And in that day will I make Jerusalem a burdensome stone for all people: all that burden themselves with it shall be cut in pieces, though all the people of the earth be gathered together against it.",
-        "In that day, says the Lord, I will smite every horse with astonishment, and his rider with madness: and I will open My eyes upon the house of Judah, and will smite every horse of the people with blindness.",
-        "And the governors of Judah shall say in their heart, The inhabitants of Jerusalem shall be my strength in the Lord of hosts their God.",
-        "In that day will I make the governors of Judah like a hearth of fire among the wood, and like a torch of fire in a sheaf; and they shall devour all the people round about, on the right hand and on the left: and Jerusalem shall be inhabited again in her own place, even in Jerusalem.",
-        "The Lord also shall save the tents of Judah first, that the glory of the house of David and the glory of the inhabitants of Jerusalem do not magnify themselves against Judah.",
-        "In that day shall the Lord defend the inhabitants of Jerusalem; and he that is feeble among them at that day shall be as David; and the house of David shall be as God, as the angel of the Lord before them.",
-        "And it shall come to pass in that day, that I will seek to destroy all the nations that come against Jerusalem.",
-        "And I will pour upon the house of David, and upon the inhabitants of Jerusalem, the spirit of grace and of supplications: and they shall look upon Me whom they have pierced, and they shall mourn for Him, as one mourns for his only son, and shall be in bitterness for Him, as one that is in bitterness for his firstborn.",
-        "In that day shall there be a great mourning in Jerusalem, as the mourning of Hadadrimmon in the valley of Megiddon.",
-        "And the land shall mourn, every family apart; the family of the house of David apart, and their wives apart; the family of the house of Nathan apart, and their wives apart;",
-        "The family of the house of Levi apart, and their wives apart; the family of Shimei apart, and their wives apart;",
-        "All the families that remain, every family apart, and their wives apart."
-      ],
-      "notes": [],
-      "approved": "9010bb15"
-    },
-    {
-      "ch": "Zechariah 13",
-      "verses": [
-        "In that day there shall be a fountain opened to the house of David and to the inhabitants of Jerusalem for sin and for uncleanness.",
-        "And it shall come to pass in that day, says the Lord of hosts, that I will cut off the names of the idols out of the land, and they shall no more be remembered: and also I will cause the prophets and the unclean spirit to pass out of the land.",
-        "And it shall come to pass, that when any shall yet prophesy, then his father and his mother that begot him shall say to him, You shall not live; for you speak lies in the name of the Lord: and his father and his mother that begot him shall thrust him through when he prophesies.",
-        "And it shall come to pass in that day, that the prophets shall be ashamed every one of his vision, when he has prophesied; neither shall they wear a rough garment to deceive:",
-        "But he shall say, I am no prophet, I am a husbandman; for man taught me to keep cattle from my youth.",
-        "And one shall say to him, What are these wounds in your hands? Then he shall answer, Those with which I was wounded in the house of my friends.",
-        "Awake, O sword, against My shepherd, and against the man that is My fellow, says the Lord of hosts: smite the shepherd, and the sheep shall be scattered: and I will turn My hand upon the little ones.",
-        "And it shall come to pass, that in all the land, says the Lord, two parts in it shall be cut off and die; but the third shall be left in it.",
-        "And I will bring the third part through the fire, and will refine them as silver is refined, and will try them as gold is tried: they shall call on My name, and I will hear them: I will say, It is My people: and they shall say, The Lord is my God."
-      ],
-      "notes": [],
-      "approved": "56db9162"
-    },
-    {
-      "ch": "Haggai 2",
-      "verses": [
-        "In the seventh month, in the one and twentieth day of the month, came the word of the Lord by the prophet Haggai, saying,",
-        "Speak now to Zerubbabel the son of Shealtiel, governor of Judah, and to Joshua the son of Josedech, the high priest, and to the residue of the people, saying,",
-        "Who is left among you that saw this house in her first glory? and how do you see it now? is it not in your eyes in comparison of it as nothing?",
-        "Yet now be strong, O Zerubbabel, says the Lord; and be strong, O Joshua, son of Josedech, the high priest; and be strong, all you people of the land, says the Lord, and work: for I am with you, says the Lord of hosts:",
-        "According to the word that I covenanted with you when you came out of Egypt, so My Spirit remains among you: fear you not.",
-        "For thus says the Lord of hosts; Yet once, it is a little while, and I will shake the heavens, and the earth, and the sea, and the dry land;",
-        "And I will shake all nations, and the desire of all nations shall come: and I will fill this house with glory, says the Lord of hosts.",
-        "The silver is Mine, and the gold is Mine, says the Lord of hosts.",
-        "The glory of this latter house shall be greater than of the former, says the Lord of hosts: and in this place will I give peace, says the Lord of hosts.",
-        "In the four and twentieth day of the ninth month, in the second year of Darius, came the word of the Lord by Haggai the prophet, saying,",
-        "Thus says the Lord of hosts; Ask now the priests concerning the law, saying,",
-        "If one bear holy flesh in the skirt of his garment, and with his skirt do touch bread, or pottage, or wine, or oil, or any meat, shall it be holy? And the priests answered and said, No.",
-        "Then said Haggai, If one that is unclean by a dead body touch any of these, shall it be unclean? And the priests answered and said, It shall be unclean.",
-        "Then answered Haggai, and said, So is this people, and so is this nation before Me, says the Lord; and so is every work of their hands; and that which they offer there is unclean.",
-        "And now, I pray you, consider from this day and upward, from before a stone was laid upon a stone in the temple of the Lord:",
-        "Since those days were, when one came to an heap of twenty measures, there were but ten: when one came to the pressfat for to draw out fifty vessels out of the press, there were but twenty.",
-        "I smote you with blasting and with mildew and with hail in all the labours of your hands; yet you turned not to Me, says the Lord.",
-        "Consider now from this day and upward, from the four and twentieth day of the ninth month, even from the day that the foundation of the Lord's temple was laid, consider it.",
-        "Is the seed yet in the barn? yea, as yet the vine, and the fig tree, and the pomegranate, and the olive tree, has not brought forth: from this day will I bless you.",
-        "And again the word of the Lord came to Haggai in the four and twentieth day of the month, saying,",
-        "Speak to Zerubbabel, governor of Judah, saying, I will shake the heavens and the earth;",
-        "And I will overthrow the throne of kingdoms, and I will destroy the strength of the kingdoms of the heathen; and I will overthrow the chariots, and those that ride in them; and the horses and their riders shall come down, every one by the sword of his brother.",
-        "In that day, says the Lord of hosts, will I take you, O Zerubbabel, My servant, the son of Shealtiel, says the Lord, and will make you as a signet: for I have chosen you, says the Lord of hosts."
-      ],
-      "notes": [],
-      "approved": "a55fb138"
-    },
-    {
-      "ch": "Zechariah 14",
-      "verses": [
-        "Behold, the day of the Lord comes, and your spoil shall be divided in the midst of you.",
-        "For I will gather all nations against Jerusalem to battle; and the city shall be taken, and the houses rifled, and the women ravished; and half of the city shall go forth into captivity, and the residue of the people shall not be cut off from the city.",
-        "Then shall the Lord go forth, and fight against those nations, as when He fought in the day of battle.",
-        "And His feet shall stand in that day upon the mount of Olives, which is before Jerusalem on the east, and the mount of Olives shall divide in the midst of it toward the east and toward the west, and there shall be a very great valley; and half of the mountain shall remove toward the north, and half of it toward the south.",
-        "And you shall flee to the valley of the mountains; for the valley of the mountains shall reach to Azal: yes, you shall flee, like as you fled from before the earthquake in the days of Uzziah king of Judah: and the Lord my God shall come, and all the saints with You.",
-        "And it shall come to pass in that day, that the light shall not be clear, nor dark:",
-        "But it shall be one day which shall be known to the Lord, not day, nor night: but it shall come to pass, that at evening time it shall be light.",
-        "And it shall be in that day, that living waters shall go out from Jerusalem; half of them toward the former sea, and half of them toward the hinder sea: in summer and in winter shall it be.",
-        "And the Lord shall be king over all the earth: in that day shall there be one Lord, and His name one.",
-        "All the land shall be turned as a plain from Geba to Rimmon south of Jerusalem: and it shall be lifted up, and inhabited in her place, from Benjamin's gate to the place of the first gate, to the corner gate, and from the tower of Hananeel to the king's winepresses.",
-        "And men shall dwell in it, and there shall be no more utter destruction; but Jerusalem shall be safely inhabited.",
-        "And this shall be the plague with which the Lord will smite all the people that have fought against Jerusalem; Their flesh shall consume away while they stand upon their feet, and their eyes shall consume away in their holes, and their tongue shall consume away in their mouth.",
-        "And it shall come to pass in that day, that a great tumult from the Lord shall be among them; and they shall lay hold every one on the hand of his neighbor, and his hand shall rise up against the hand of his neighbor.",
-        "And Judah also shall fight at Jerusalem; and the wealth of all the heathen round about shall be gathered together, gold, and silver, and apparel, in great abundance.",
-        "And so shall be the plague of the horse, of the mule, of the camel, and of the donkey, and of all the beasts that shall be in these tents, as this plague.",
-        "And it shall come to pass, that every one that is left of all the nations which came against Jerusalem shall even go up from year to year to worship the King, the Lord of hosts, and to keep the feast of tabernacles.",
-        "And it shall be, that whoever will not come up of all the families of the earth to Jerusalem to worship the King, the Lord of hosts, even upon them shall be no rain.",
-        "And if the family of Egypt go not up, and come not, that have no rain; there shall be the plague, with which the Lord will smite the heathen that come not up to keep the feast of tabernacles.",
-        "This shall be the punishment of Egypt, and the punishment of all nations that come not up to keep the feast of tabernacles.",
-        "In that day shall there be upon the bells of the horses, HOLINESS TO THE Lord; and the pots in the Lord's house shall be like the bowls before the altar.",
-        "Yes, every pot in Jerusalem and in Judah shall be holiness to the Lord of hosts: and all they that sacrifice shall come and take of them, and boil in them: and in that day there shall be no more the Canaanite in the house of the Lord of hosts."
-      ],
-      "notes": [],
-      "approved": "01b74b0e"
-    },
-    {
-      "ch": "Joel 3",
-      "verses": [
-        "“For, behold, in those days, and in that time, when I shall bring again the captivity of Judah and Jerusalem,”",
-        "“I will also gather all nations, and will bring them down into the valley of Jehoshaphat, and will plead with them there for My people and for My heritage Israel, whom they have scattered among the nations, and parted My land.”",
-        "“And they have cast lots for My people; and have given a boy for a harlot, and sold a girl for wine, that they might drink.”",
-        "“Yes, and what have you to do with Me, O Tyre, and Zidon, and all the coasts of Palestine? will you render Me a recompense? and if you recompense Me, swiftly and speedily will I return your recompense upon your own head;”",
-        "“Because you have taken My silver and My gold, and have carried into your temples My goodly pleasant things:”",
-        "“The children also of Judah and the children of Jerusalem have you sold to the Grecians, that you might remove them far from their border.”",
-        "“Behold, I will raise them out of the place where you have sold them, and will return your recompense upon your own head:”",
-        "“And I will sell your sons and your daughters into the hand of the children of Judah, and they shall sell them to the Sabeans, to a people far off: for the Lord has spoken it.”",
-        "Proclaim you this among the Gentiles; “Prepare war, wake up the mighty men, let all the men of war draw near; let them come up:”",
-        "“Beat your plowshares into swords, and your pruninghooks into spears: let the weak say, ‘I am strong.’”",
-        "Assemble yourselves, and come, all you heathen, and gather yourselves together round about: there cause Your mighty ones to come down, O Lord.",
-        "“Let the heathen be wakened, and come up to the valley of Jehoshaphat: for there will I sit to judge all the heathen round about.”",
-        "“Put you in the sickle, for the harvest is ripe: come, get you down; for the press is full, the vats overflow; for their wickedness is great.”",
-        "Multitudes, multitudes in the valley of decision: for the day of the Lord is near in the valley of decision.",
-        "The sun and the moon shall be darkened, and the stars shall withdraw their shining.",
-        "The Lord also shall roar out of Zion, and utter His voice from Jerusalem; and the heavens and the earth shall shake: but the Lord will be the hope of His people, and the strength of the children of Israel.",
-        "“So shall you know that I am the Lord your God dwelling in Zion, My holy mountain: then shall Jerusalem be holy, and there shall no strangers pass through her any more.”",
-        "“And it shall come to pass in that day, that the mountains shall drop down new wine, and the hills shall flow with milk, and all the rivers of Judah shall flow with waters, and a fountain shall come forth of the house of the Lord, and shall water the valley of Shittim.”",
-        "“Egypt shall be a desolation, and Edom shall be a desolate wilderness, for the violence against the children of Judah, because they have shed innocent blood in their land.”",
-        "“But Judah shall dwell for ever, and Jerusalem from generation to generation.”",
-        "“For I will cleanse their blood that I have not cleansed: for the Lord dwells in Zion.”"
-      ],
-      "notes": [
-        "‘fats’ means vats"
-      ],
-      "approved": "0569f9a1"
-    },
-    {
-      "ch": "Micah 3",
-      "verses": [
-        "And I said, “Hear, I pray you, O heads of Jacob, and you princes of the house of Israel; Is it not for you to know judgment?”",
-        "“Who hate the good, and love the evil; who pluck off their skin from off them, and their flesh from off their bones;”",
-        "“Who also eat the flesh of my people, and flay their skin from off them; and they break their bones, and chop them in pieces, as for the pot, and as flesh within the cauldron.”",
-        "Then will they cry to the Lord, but He will not hear them: He will even hide His face from them at that time, as they have behaved themselves ill in their doings.",
-        "Thus says the Lord concerning the prophets that make My people err, that bite with their teeth, and cry, “Peace;” and he that puts not into their mouths, they even prepare war against him.",
-        "“Therefore night will be to you, that you will not have a vision; and it will be dark to you, that you will not divine; and the sun will go down over the prophets, and the day will be dark over them.”",
-        "“Then will the seers be ashamed, and the diviners confounded: yes, they will all cover their lips; for there is no answer of God.”",
-        "But truly I am full of power by the spirit of the Lord, and of judgment, and of might, to declare to Jacob his transgression, and to Israel his sin.",
-        "Hear this, I pray you, you heads of the house of Jacob, and princes of the house of Israel, that abhor judgment, and pervert all equity.",
-        "They build up Zion with blood, and Jerusalem with iniquity.",
-        "The heads of it judge for reward, and the priests of it teach for hire, and the prophets of it divine for money: yet will they lean upon the Lord, and say, “Is not the Lord among us? no evil can come upon us.”",
-        "Therefore will Zion for your sake be plowed as a field, and Jerusalem will become heaps, and the mountain of the house as the high places of the forest."
-      ],
-      "notes": [
-        "‘cauldron’ replaces caldron"
-      ],
-      "approved": "4c9aad8c"
-    },
-    {
-      "ch": "Zechariah 1",
-      "verses": [
-        "In the eighth month, in the second year of Darius, came the word of the Lord to Zechariah, the son of Berechiah, the son of Iddo the prophet, saying,",
-        "The Lord has been sore displeased with your fathers.",
-        "Therefore say you to them, Thus says the Lord of hosts; Turn you to Me, says the Lord of hosts, and I will turn to you, says the Lord of hosts.",
-        "Be you not as your fathers, to whom the former prophets have cried, saying, Thus says the Lord of hosts; Turn you now from your evil ways, and from your evil doings: but they did not hear, nor listen to Me, says the Lord.",
-        "Your fathers, where are they? and the prophets, do they live for ever?",
-        "But My words and My statutes, which I commanded My servants the prophets, did they not take hold of your fathers? and they returned and said, Like as the Lord of hosts thought to do to us, according to our ways, and according to our doings, so has He dealt with us.",
-        "Upon the four and twentieth day of the eleventh month, which is the month Sebat, in the second year of Darius, came the word of the Lord to Zechariah, the son of Berechiah, the son of Iddo the prophet, saying,",
-        "I saw by night, and behold a man riding upon a red horse, and he stood among the myrtle trees that were in the bottom; and behind him were there red horses, speckled, and white.",
-        "Then said I, O my lord, what are these? And the angel that talked with me said to me, I will show you what these be.",
-        "And the man that stood among the myrtle trees answered and said, These are they whom the Lord has sent to walk to and fro through the earth.",
-        "And they answered the angel of the Lord that stood among the myrtle trees, and said, We have walked to and fro through the earth, and, behold, all the earth sits still, and is at rest.",
-        "Then the angel of the Lord answered and said, O Lord of hosts, how long will you not have mercy on Jerusalem and on the cities of Judah, against which you have had indignation these threescore and ten years?",
-        "And the Lord answered the angel that talked with me with good words and comfortable words.",
-        "So the angel that communed with me said to Me, Cry you, saying, Thus says the Lord of hosts; I am jealous for Jerusalem and for Zion with a great jealousy.",
-        "And I am very sore displeased with the heathen that are at ease: for I was but a little displeased, and they helped forward the affliction.",
-        "Therefore thus says the Lord; I am returned to Jerusalem with mercies: My house shall be built in it, says the Lord of hosts, and a line shall be stretched forth upon Jerusalem.",
-        "Cry yet, saying, Thus says the Lord of hosts; My cities through prosperity shall yet be spread abroad; and the Lord shall yet comfort Zion, and shall yet choose Jerusalem.",
-        "Then lifted I up my eyes, and saw, and behold four horns.",
-        "And I said to the angel that talked with me, What be these? And he answered me, These are the horns which have scattered Judah, Israel, and Jerusalem.",
-        "And the Lord showed me four carpenters.",
-        "Then said I, What come these to do? And he spoke, saying, These are the horns which have scattered Judah, so that no man did lift up his head: but these are come to fray them, to cast out the horns of the Gentiles, which lifted up their horn over the land of Judah to scatter it."
-      ],
-      "notes": [],
-      "approved": "0c98c9b0"
-    },
-    {
-      "ch": "Zechariah 2",
-      "verses": [
-        "I lifted up my eyes again, and looked, and behold a man with a measuring line in his hand.",
-        "Then said I, Where do you go? And he said to me, To measure Jerusalem, to see what is the breadth thereof, and what is the length thereof.",
-        "And, behold, the angel that talked with me went forth, and another angel went out to meet him,",
-        "And said to him, Run, speak to this young man, saying, Jerusalem shall be inhabited as towns without walls for the multitude of men and cattle therein:",
-        "For I, says the Lord, will be to her a wall of fire round about, and will be the glory in the midst of her.",
-        "Ho, ho, come forth, and flee from the land of the north, says the Lord: for I have spread you abroad as the four winds of the heaven, says the Lord.",
-        "Deliver yourself, O Zion, that dwell with the daughter of Babylon.",
-        "For thus says the Lord of hosts; After the glory has He sent me to the nations which spoiled you: for he that touches you touches the apple of His eye.",
-        "For, behold, I will shake My hand upon them, and they shall be a spoil to their servants: and you shall know that the Lord of hosts has sent me.",
-        "Sing and rejoice, O daughter of Zion: for, lo, I come, and I will dwell in the midst of you, says the Lord.",
-        "And many nations shall be joined to the Lord in that day, and shall be My people: and I will dwell in the midst of you, and you shall know that the Lord of hosts has sent me to you.",
-        "And the Lord shall inherit Judah His portion in the holy land, and shall choose Jerusalem again.",
-        "Be silent, O all flesh, before the Lord: for He is raised up out of His holy habitation."
-      ],
-      "notes": [],
-      "approved": "7ac6e6a8"
     },
     {
       "ch": "Hosea 7",
@@ -30046,159 +31039,12 @@ window.TU_PLAIN = {
         "My God will cast them away, because they did not listen to Him: and they will be wanderers among the nations."
       ],
       "notes": [
-        "‘listen’ is used instead of ‘hearken’"
+        {
+          "v": 1,
+          "text": "‘listen’ is used instead of ‘hearken’"
+        }
       ],
       "approved": "cfb1a52c"
-    },
-    {
-      "ch": "Hosea 10",
-      "verses": [
-        "Israel is an empty vine, he brings forth fruit to himself: according to the multitude of his fruit he has increased the altars, according to the goodness of his land they have made goodly images.",
-        "Their heart is divided, now will they be found faulty: He will break down their altars, He will spoil their images.",
-        "For now they will say, “We have no king, because we feared not the Lord, what then should a king do to us?”",
-        "They have spoken words, swearing falsely in making a covenant: thus judgment springs up as hemlock in the furrows of the field.",
-        "The inhabitants of Samaria will fear because of the calves of Beth-aven: for the people of it will mourn over it, and the priests of it that rejoiced on it, for the glory of it, because it is departed from it.",
-        "It will be also carried to Assyria for a present to king Jareb: Ephraim will receive shame, and Israel will be ashamed of his own counsel.",
-        "As for Samaria, her king is cut off as the foam on the water.",
-        "The high places also of Aven, the sin of Israel, will be destroyed: the thorn and the thistle will come up on their altars, and they will say to the mountains, “Cover us,” and to the hills, “Fall on us.”",
-        "O Israel, you have sinned from the days of Gibeah: there they stood: the battle in Gibeah against the children of iniquity did not overtake them.",
-        "It is in My desire that I should chastise them, and the people will be gathered against them, when they will bind themselves in their two furrows.",
-        "And Ephraim is as a heifer that is taught, and loves to tread out the corn, but I passed over on her fair neck: I will make Ephraim to ride, Judah will plow, and Jacob will break his clods.",
-        "Sow to yourselves in righteousness, reap in mercy, break up your fallow ground: for it is time to seek the Lord, till He come and rain righteousness on you.",
-        "You have plowed wickedness, you have reaped iniquity, you have eaten the fruit of lies: because you did trust in your way, in the multitude of your mighty men.",
-        "Therefore will a tumult arise among your people, and all your fortresses will be spoiled, as Shalman spoiled Beth-arbel in the day of battle: the mother was dashed in pieces on her children.",
-        "So will Beth-el do to you because of your great wickedness: in a morning will the king of Israel utterly be cut off."
-      ],
-      "notes": [],
-      "approved": "a8934c6d"
-    },
-    {
-      "ch": "Amos 1",
-      "verses": [
-        "The words of Amos, who was among the herdmen of Tekoa, which he saw concerning Israel in the days of Uzziah king of Judah, and in the days of Jeroboam the son of Joash king of Israel, two years before the earthquake.",
-        "And he said, “The Lord will roar from Zion, and utter His voice from Jerusalem; and the habitations of the shepherds shall mourn, and the top of Carmel shall wither.”",
-        "Thus says the Lord; “For three transgressions of Damascus, and for four, I will not turn away the punishment of it; because they have threshed Gilead with threshing instruments of iron:”",
-        "“But I will send a fire into the house of Hazael, which shall devour the palaces of Ben-hadad.”",
-        "“I will break also the bar of Damascus, and cut off the inhabitant from the plain of Aven, and him that holds the scepter from the house of Eden: and the people of Syria shall go into captivity to Kir, says the Lord.”",
-        "Thus says the Lord; “For three transgressions of Gaza, and for four, I will not turn away the punishment of it; because they carried away captive the whole captivity, to deliver them up to Edom:”",
-        "“But I will send a fire on the wall of Gaza, which shall devour the palaces of it:”",
-        "“And I will cut off the inhabitant from Ashdod, and him that holds the scepter from Ashkelon, and I will turn My hand against Ekron: and the remnant of the Philistines shall perish, says the Lord God.”",
-        "Thus says the Lord; “For three transgressions of Tyrus, and for four, I will not turn away the punishment of it; because they delivered up the whole captivity to Edom, and remembered not the brotherly covenant:”",
-        "“But I will send a fire on the wall of Tyrus, which shall devour the palaces of it.”",
-        "Thus says the Lord; “For three transgressions of Edom, and for four, I will not turn away the punishment of it; because he did pursue his brother with the sword, and did cast off all pity, and his anger did tear perpetually, and he kept his wrath for ever:”",
-        "“But I will send a fire upon Teman, which shall devour the palaces of Bozrah.”",
-        "Thus says the Lord; “For three transgressions of the children of Ammon, and for four, I will not turn away the punishment of it; because they have ripped up the women with child of Gilead, that they might enlarge their border:”",
-        "“But I will kindle a fire in the wall of Rabbah, and it shall devour the palaces of it, with shouting in the day of battle, with a tempest in the day of the whirlwind:”",
-        "“And their king shall go into captivity, he and his princes together, says the Lord.”"
-      ],
-      "notes": [],
-      "approved": "5c24453e"
-    },
-    {
-      "ch": "Micah 4",
-      "verses": [
-        "But in the last days it will come to pass, that the mountain of the house of the Lord will be established in the top of the mountains, and it will be exalted above the hills; and people will flow to it.",
-        "And many nations will come, and say, “Come, and let us go up to the mountain of the Lord, and to the house of the God of Jacob; and He will teach us of His ways, and we will walk in His paths:” for the law will go forth of Zion, and the word of the Lord from Jerusalem.",
-        "And He will judge among many people, and rebuke strong nations afar off; and they will beat their swords into plowshares, and their spears into pruning hooks: nation will not lift up a sword against nation, neither will they learn war any more.",
-        "But they will sit every man under his vine and under his fig tree; and none will make them afraid: for the mouth of the Lord of hosts has spoken it.",
-        "For all people will walk every one in the name of his god, and we will walk in the name of the Lord our God for ever and ever.",
-        "“In that day,” says the Lord, “will I assemble her that halts, and I will gather her that is driven out, and her that I have afflicted;”",
-        "“And I will make her that halted a remnant, and her that was cast far off a strong nation: and the Lord will reign over them in mount Zion from henceforth, even for ever.”",
-        "“And you, O tower of the flock, the strong hold of the daughter of Zion, to you will it come, even the first dominion; the kingdom will come to the daughter of Jerusalem.”",
-        "“Now why do you cry out aloud? is there no king in you? has your counselor perished? for pangs have taken you as a woman in travail.”",
-        "“Be in pain, and labor to bring forth, O daughter of Zion, like a woman in travail: for now will you go forth out of the city, and you will dwell in the field, and you will go even to Babylon; there will you be delivered; there the Lord will redeem you from the hand of your enemies.”",
-        "“Now also many nations are gathered against you, that say, ‘Let her be defiled, and let our eye look upon Zion.’”",
-        "“But they know not the thoughts of the Lord, neither understand they His counsel: for He will gather them as the sheaves into the floor.”",
-        "“Arise and thresh, O daughter of Zion: for I will make your horn iron, and I will make your hoofs brass: and you will beat in pieces many people: and I will consecrate their gain to the Lord, and their substance to the Lord of the whole earth.”"
-      ],
-      "notes": [
-        "‘labor’ replaces labour",
-        "‘counselor’ replaces counsellor"
-      ],
-      "approved": "6bed7eb5"
-    },
-    {
-      "ch": "Zechariah 3",
-      "verses": [
-        "And he showed me Joshua the high priest standing before the angel of the Lord, and Satan standing at his right hand to resist him.",
-        "And the Lord said to Satan, The Lord rebuke you, O Satan; even the Lord that has chosen Jerusalem rebuke you: is not this a brand plucked out of the fire?",
-        "Now Joshua was clothed with filthy garments, and stood before the angel.",
-        "And he answered and spoke to those that stood before him, saying, Take away the filthy garments from him. And to him he said, Behold, I have caused your iniquity to pass from you, and I will clothe you with change of raiment.",
-        "And I said, Let them set a fair mitre upon his head. So they set a fair mitre upon his head, and clothed him with garments. And the angel of the Lord stood by.",
-        "And the angel of the Lord protested to Joshua, saying,",
-        "Thus says the Lord of hosts; If you will walk in My ways, and if you will keep My charge, then you shall also judge My house, and shall also keep My courts, and I will give you places to walk among these that stand by.",
-        "Hear now, O Joshua the high priest, you, and your fellows that sit before you: for they are men wondered at: for, behold, I will bring forth My servant the BRANCH.",
-        "For behold the stone that I have laid before Joshua; upon one stone shall be seven eyes: behold, I will engrave the graving thereof, says the Lord of hosts, and I will remove the iniquity of that land in one day.",
-        "In that day, says the Lord of hosts, shall you call every man his neighbour under the vine and under the fig tree."
-      ],
-      "notes": [],
-      "approved": "6035c536"
-    },
-    {
-      "ch": "Amos 2",
-      "verses": [
-        "Thus says the Lord; “For three transgressions of Moab, and for four, I will not turn away the punishment of it; because he burned the bones of the king of Edom into lime:”",
-        "“But I will send a fire upon Moab, and it shall devour the palaces of Kerioth: and Moab shall die with tumult, with shouting, and with the sound of the trumpet:”",
-        "“And I will cut off the judge from the midst of it, and will slay all the princes of it with him, says the Lord.”",
-        "Thus says the Lord; “For three transgressions of Judah, and for four, I will not turn away the punishment of it; because they have despised the law of the Lord, and have not kept His commandments, and their lies caused them to err, after the which their fathers have walked:”",
-        "“But I will send a fire upon Judah, and it shall devour the palaces of Jerusalem.”",
-        "Thus says the Lord; “For three transgressions of Israel, and for four, I will not turn away the punishment of it; because they sold the righteous for silver, and the poor for a pair of shoes;”",
-        "“That pant after the dust of the earth on the head of the poor, and turn aside the way of the meek: and a man and his father will go in to the same maid, to profane My holy name:”",
-        "“And they lay themselves down upon clothes laid to pledge by every altar, and they drink the wine of the condemned in the house of their god.”",
-        "“Yet destroyed I the Amorite before them, whose height was like the height of the cedars, and he was strong as the oaks; yet I destroyed his fruit from above, and his roots from beneath.”",
-        "“Also I brought you up from the land of Egypt, and led you forty years through the wilderness, to possess the land of the Amorite.”",
-        "“And I raised up of your sons for prophets, and of your young men for Nazarites. Is it not even thus, O you children of Israel? says the Lord.”",
-        "“But you gave the Nazarites wine to drink; and commanded the prophets, saying, ‘Prophesy not.’”",
-        "“Behold, I am pressed under you, as a cart is pressed that is full of sheaves.”",
-        "“Therefore the flight shall perish from the swift, and the strong shall not strengthen his force, neither shall the mighty deliver himself:”",
-        "“Neither shall he stand that handles the bow; and he that is swift of foot shall not deliver himself: neither shall he that rides the horse deliver himself.”",
-        "“And he that is courageous among the mighty shall flee away naked in that day, says the Lord.”"
-      ],
-      "notes": [],
-      "approved": "f2bef643"
-    },
-    {
-      "ch": "Micah 5",
-      "verses": [
-        "Now gather yourself in troops, O daughter of troops: he has laid siege against us: they will smite the judge of Israel with a rod upon the cheek.",
-        "But you, Beth-lehem Ephratah, though you be little among the thousands of Judah, yet out of you will He come forth to Me that is to be ruler in Israel; whose goings forth have been from of old, from everlasting.",
-        "Therefore will He give them up, until the time that she which travails has brought forth: then the remnant of His brethren will return to the children of Israel.",
-        "And He will stand and feed in the strength of the Lord, in the majesty of the name of the Lord His God; and they will abide: for now will He be great to the ends of the earth.",
-        "And this man will be the peace, when the Assyrian will come into our land: and when he will tread in our palaces, then will we raise against him seven shepherds, and eight principal men.",
-        "And they will waste the land of Assyria with the sword, and the land of Nimrod in the entrances of it: thus will he deliver us from the Assyrian, when he comes into our land, and when he treads within our borders.",
-        "And the remnant of Jacob will be in the midst of many people as a dew from the Lord, as the showers upon the grass, that tarries not for man, nor waits for the sons of men.",
-        "And the remnant of Jacob will be among the Gentiles in the midst of many people as a lion among the beasts of the forest, as a young lion among the flocks of sheep: who, if he go through, both treads down, and tears in pieces, and none can deliver.",
-        "Your hand will be lifted up upon your adversaries, and all your enemies will be cut off.",
-        "“And it will come to pass in that day,” says the Lord, “that I will cut off your horses out of the midst of you, and I will destroy your chariots:”",
-        "“And I will cut off the cities of your land, and throw down all your strong holds:”",
-        "“And I will cut off witchcrafts out of your hand; and you will have no more soothsayers:”",
-        "“Your graven images also will I cut off, and your standing images out of the midst of you; and you will no more worship the work of your hands.”",
-        "“And I will pluck up your groves out of the midst of you: so will I destroy your cities.”",
-        "“And I will execute vengeance in anger and fury upon the heathen, such as they have not heard.”"
-      ],
-      "notes": [],
-      "approved": "6d3fb5e9"
-    },
-    {
-      "ch": "Zechariah 4",
-      "verses": [
-        "And the angel that talked with me came again, and waked me, as a man that is wakened out of his sleep,",
-        "And said to me, What see you? And I said, I have looked, and behold a candlestick all of gold, with a bowl upon the top of it, and his seven lamps thereon, and seven pipes to the seven lamps, which are upon the top thereof:",
-        "And two olive trees by it, one upon the right side of the bowl, and the other upon the left side thereof.",
-        "So I answered and spoke to the angel that talked with me, saying, What are these, my lord?",
-        "Then the angel that talked with me answered and said to me, Know you not what these be? And I said, No, my lord.",
-        "Then he answered and spoke to me, saying, This is the word of the Lord to Zerubbabel, saying, Not by might, nor by power, but by My Spirit, says the Lord of hosts.",
-        "Who are you, O great mountain? before Zerubbabel you shall become a plain: and he shall bring forth the headstone thereof with shoutings, crying, Grace, grace to it.",
-        "Moreover the word of the Lord came to me, saying,",
-        "The hands of Zerubbabel have laid the foundation of this house; his hands shall also finish it; and you shall know that the Lord of hosts has sent me to you.",
-        "For who has despised the day of small things? for they shall rejoice, and shall see the plummet in the hand of Zerubbabel with those seven; they are the eyes of the Lord, which run to and fro through the whole earth.",
-        "Then answered I, and said to him, What are these two olive trees upon the right side of the candlestick and upon the left side thereof?",
-        "And I answered again, and said to him, What be these two olive branches which through the two golden pipes empty the golden oil out of themselves?",
-        "And he answered me and said, Know you not what these be? And I said, No, my lord.",
-        "Then said he, These are the two anointed ones, that stand by the Lord of the whole earth."
-      ],
-      "notes": [],
-      "approved": "a7f22c07"
     },
     {
       "ch": "Zechariah 5",
@@ -30217,219 +31063,6 @@ window.TU_PLAIN = {
       ],
       "notes": [],
       "approved": "1305b2a0"
-    },
-    {
-      "ch": "Malachi 1",
-      "verses": [
-        "The burden of the word of the Lord to Israel by Malachi.",
-        "I have loved you, says the Lord. Yet you say, How have You loved us? Was not Esau Jacob's brother? says the Lord: yet I loved Jacob,",
-        "And I hated Esau, and laid his mountains and his heritage waste for the dragons of the wilderness.",
-        "Whereas Edom says, We are impoverished, but we will return and build the desolate places; thus says the Lord of hosts, They shall build, but I will throw down; and they shall call them, The border of wickedness, and, The people against whom the Lord has indignation forever.",
-        "And your eyes shall see, and you shall say, The Lord will be magnified from the border of Israel.",
-        "A son honors his father, and a servant his master: if then I be a father, where is My honor? and if I be a master, where is My fear? says the Lord of hosts to you, O priests, that despise My name. And you say, How have we despised Your name?",
-        "You offer polluted bread upon My altar; and you say, How have we polluted You? In that you say, The table of the Lord is contemptible.",
-        "And if you offer the blind for sacrifice, is it not evil? and if you offer the lame and sick, is it not evil? offer it now to your governor; will he be pleased with you, or accept your person? says the Lord of hosts.",
-        "And now, I pray you, beseech God that He will be gracious to us: this has been by your means: will He regard your persons? says the Lord of hosts.",
-        "Who is there even among you that would shut the doors for nothing? neither do you kindle fire on My altar for nothing. I have no pleasure in you, says the Lord of hosts, neither will I accept an offering at your hand.",
-        "For from the rising of the sun even to the going down of the same My name shall be great among the Gentiles; and in every place incense shall be offered to My name, and a pure offering: for My name shall be great among the heathen, says the Lord of hosts.",
-        "But you have profaned it, in that you say, The table of the Lord is polluted; and the fruit of it, even his meat, is contemptible.",
-        "You said also, Behold, what a weariness is it! and you have snuffed at it, says the Lord of hosts; and you brought that which was torn, and the lame, and the sick; thus you brought an offering: should I accept this of your hand? says the Lord.",
-        "But cursed be the deceiver, which has in his flock a male, and vows, and sacrifices to the Lord a corrupt thing: for I am a great King, says the Lord of hosts, and My name is dreadful among the heathen."
-      ],
-      "notes": [],
-      "approved": "ff2d1cb0"
-    },
-    {
-      "ch": "Malachi 2",
-      "verses": [
-        "And now, O you priests, this commandment is for you.",
-        "If you will not hear, and if you will not lay it to heart, to give glory to My name, says the Lord of hosts, I will even send a curse upon you, and I will curse your blessings: yes, I have cursed them already, because you do not lay it to heart.",
-        "Behold, I will corrupt your seed, and spread dung upon your faces, even the dung of your solemn feasts; and one shall take you away with it.",
-        "And you shall know that I have sent this commandment to you, that My covenant might be with Levi, says the Lord of hosts.",
-        "My covenant was with him of life and peace; and I gave them to him for the fear with which he feared Me, and was afraid before My name.",
-        "The law of truth was in his mouth, and iniquity was not found in his lips: he walked with Me in peace and equity, and did turn many away from iniquity.",
-        "For the priest's lips should keep knowledge, and they should seek the law at his mouth: for he is the messenger of the Lord of hosts.",
-        "But you are departed out of the way; you have caused many to stumble at the law; you have corrupted the covenant of Levi, says the Lord of hosts.",
-        "Therefore have I also made you contemptible and base before all the people, according as you have not kept My ways, but have been partial in the law.",
-        "Have we not all one father? has not one God created us? why do we deal treacherously every man against his brother, by profaning the covenant of our fathers?",
-        "Judah has dealt treacherously, and an abomination is committed in Israel and in Jerusalem; for Judah has profaned the holiness of the Lord which He loved, and has married the daughter of a strange god.",
-        "The Lord will cut off the man that does this, the master and the scholar, out of the tabernacles of Jacob, and him that offers an offering to the Lord of hosts.",
-        "And this have you done again, covering the altar of the Lord with tears, with weeping, and with crying out, insomuch that He regards not the offering any more, or receives it with good will at your hand.",
-        "Yet you say, Why? Because the Lord has been witness between you and the wife of your youth, against whom you have dealt treacherously: yet is she your companion, and the wife of your covenant.",
-        "And did not He make one? Yet had He the residue of the spirit. And why one? That He might seek a godly seed. Therefore take heed to your spirit, and let none deal treacherously against the wife of his youth.",
-        "For the Lord, the God of Israel, says that He hates putting away: for one covers violence with his garment, says the Lord of hosts: therefore take heed to your spirit, that you deal not treacherously.",
-        "You have wearied the Lord with your words. Yet you say, How have we wearied Him? When you say, Every one that does evil is good in the sight of the Lord, and He delights in them; or, Where is the God of judgment?"
-      ],
-      "notes": [
-        "‘putting away’ means divorce"
-      ],
-      "approved": "449eb66b"
-    },
-    {
-      "ch": "Malachi 3",
-      "verses": [
-        "Behold, I will send My messenger, and he shall prepare the way before Me: and the Lord, whom you seek, shall suddenly come to His temple, even the messenger of the covenant, whom you delight in: behold, he shall come, says the Lord of hosts.",
-        "But who may abide the day of His coming? and who shall stand when He appears? for He is like a refiner's fire, and like fullers' soap:",
-        "And He shall sit as a refiner and purifier of silver: and He shall purify the sons of Levi, and purge them as gold and silver, that they may offer to the Lord an offering in righteousness.",
-        "Then shall the offering of Judah and Jerusalem be pleasant to the Lord, as in the days of old, and as in former years.",
-        "And I will come near to you to judgment; and I will be a swift witness against the sorcerers, and against the adulterers, and against false swearers, and against those that oppress the hireling in his wages, the widow, and the fatherless, and that turn aside the stranger from his right, and fear not Me, says the Lord of hosts.",
-        "For I am the Lord, I change not; therefore you sons of Jacob are not consumed.",
-        "Even from the days of your fathers you are gone away from My ordinances, and have not kept them. Return to Me, and I will return to you, says the Lord of hosts. But you said, How shall we return?",
-        "Will a man rob God? Yet you have robbed Me. But you say, How have we robbed You? In tithes and offerings.",
-        "You are cursed with a curse: for you have robbed Me, even this whole nation.",
-        "Bring you all the tithes into the storehouse, that there may be meat in My house, and prove Me now with this, says the Lord of hosts, if I will not open you the windows of heaven, and pour you out a blessing, that there shall not be room enough to receive it.",
-        "And I will rebuke the devourer for your sakes, and he shall not destroy the fruits of your ground; neither shall your vine cast her fruit before the time in the field, says the Lord of hosts.",
-        "And all nations shall call you blessed: for you shall be a delightsome land, says the Lord of hosts.",
-        "Your words have been stout against Me, says the Lord. Yet you say, What have we spoken so much against You?",
-        "You have said, It is vain to serve God: and what profit is it that we have kept His ordinance, and that we have walked mournfully before the Lord of hosts?",
-        "And now we call the proud happy; yes, they that work wickedness are set up; yes, they that tempt God are even delivered.",
-        "Then they that feared the Lord spoke often one to another: and the Lord listened, and heard it, and a book of remembrance was written before Him for them that feared the Lord, and that thought upon His name.",
-        "And they shall be Mine, says the Lord of hosts, in that day when I make up My jewels; and I will spare them, as a man spares his own son that serves him.",
-        "Then shall you return, and discern between the righteous and the wicked, between him that serves God and him that serves Him not."
-      ],
-      "notes": [],
-      "approved": "e056018e"
-    },
-    {
-      "ch": "Malachi 4",
-      "verses": [
-        "For, behold, the day comes, that shall burn as an oven; and all the proud, yes, and all that do wickedly, shall be stubble: and the day that comes shall burn them up, says the Lord of hosts, that it shall leave them neither root nor branch.",
-        "But to you that fear My name shall the Sun of righteousness arise with healing in His wings; and you shall go forth, and grow up as calves of the stall.",
-        "And you shall tread down the wicked; for they shall be ashes under the soles of your feet in the day that I shall do this, says the Lord of hosts.",
-        "Remember you the law of Moses My servant, which I commanded to him in Horeb for all Israel, with the statutes and judgments.",
-        "Behold, I will send you Elijah the prophet before the coming of the great and dreadful day of the Lord:",
-        "And he shall turn the heart of the fathers to the children, and the heart of the children to their fathers, lest I come and smite the earth with a curse."
-      ],
-      "notes": [],
-      "approved": "03ceaa65"
-    },
-    {
-      "ch": "Amos 3",
-      "verses": [
-        "Hear this word that the Lord has spoken against you, O children of Israel, against the whole family which I brought up from the land of Egypt, saying,",
-        "“You only have I known of all the families of the earth: therefore I will punish you for all your iniquities.”",
-        "Can two walk together, except they be agreed?",
-        "Will a lion roar in the forest, when he has no prey? will a young lion cry out of his den, if he has taken nothing?",
-        "Can a bird fall in a snare upon the earth, where no gin is for him? shall one take up a snare from the earth, and have taken nothing at all?",
-        "Shall a trumpet be blown in the city, and the people not be afraid? shall there be evil in a city, and the Lord has not done it?",
-        "Surely the Lord God will do nothing, but He reveals His secret to His servants the prophets.",
-        "The lion has roared, who will not fear? the Lord God has spoken, who can but prophesy?",
-        "Publish in the palaces at Ashdod, and in the palaces in the land of Egypt, and say, “Assemble yourselves upon the mountains of Samaria, and behold the great tumults in the midst of it, and the oppressed in the midst of it.”",
-        "“For they know not to do right,” says the Lord, “who store up violence and robbery in their palaces.”",
-        "Therefore thus says the Lord God; “An adversary there shall be even round about the land; and he shall bring down your strength from you, and your palaces shall be spoiled.”",
-        "Thus says the Lord; “As the shepherd takes out of the mouth of the lion two legs, or a piece of an ear; so shall the children of Israel be taken out that dwell in Samaria in the corner of a bed, and in Damascus in a couch.”",
-        "“Hear you, and testify in the house of Jacob,” says the Lord God, the God of hosts,",
-        "“That in the day that I shall visit the transgressions of Israel upon him I will also visit the altars of Beth-el: and the horns of the altar shall be cut off, and fall to the ground.”",
-        "“And I will smite the winter house with the summer house; and the houses of ivory shall perish, and the great houses shall have an end,” says the Lord."
-      ],
-      "notes": [
-        "‘gin’ means trap or snare"
-      ],
-      "approved": "4427ac22"
-    },
-    {
-      "ch": "Micah 6",
-      "verses": [
-        "Hear you now what the Lord says; “Arise, contend before the mountains, and let the hills hear your voice.”",
-        "“Hear you, O mountains, the Lord's controversy, and you strong foundations of the earth: for the Lord has a controversy with His people, and He will plead with Israel.”",
-        "“O My people, what have I done to you? and in what have I wearied you? testify against Me.”",
-        "“For I brought you up out of the land of Egypt, and redeemed you out of the house of servants; and I sent before you Moses, Aaron, and Miriam.”",
-        "“O My people, remember now what Balak king of Moab consulted, and what Balaam the son of Beor answered him from Shittim to Gilgal; that you may know the righteousness of the Lord.”",
-        "With what will I come before the Lord, and bow myself before the high God? will I come before Him with burnt offerings, with calves of a year old?",
-        "Will the Lord be pleased with thousands of rams, or with ten thousands of rivers of oil? will I give my firstborn for my transgression, the fruit of my body for the sin of my soul?",
-        "He has showed you, O man, what is good; and what does the Lord require of you, but to do justly, and to love mercy, and to walk humbly with your God?",
-        "The Lord's voice cries to the city, and the man of wisdom will see your name: hear you the rod, and who has appointed it.",
-        "Are there yet the treasures of wickedness in the house of the wicked, and the scant measure that is abominable?",
-        "Will I count them pure with the wicked balances, and with the bag of deceitful weights?",
-        "For the rich men of it are full of violence, and the inhabitants of it have spoken lies, and their tongue is deceitful in their mouth.",
-        "Therefore also will I make you sick in smiting you, in making you desolate because of your sins.",
-        "You will eat, but not be satisfied; and your casting down will be in the midst of you; and you will take hold, but will not deliver; and that which you deliver will I give up to the sword.",
-        "You will sow, but you will not reap; you will tread the olives, but you will not anoint yourself with oil; and sweet wine, but will not drink wine.",
-        "For the statutes of Omri are kept, and all the works of the house of Ahab, and you walk in their counsels; that I should make you a desolation, and the inhabitants of it a hissing: therefore you will bear the reproach of My people."
-      ],
-      "notes": [],
-      "approved": "8cd1d5fa"
-    },
-    {
-      "ch": "Hosea 11",
-      "verses": [
-        "When Israel was a child, then I loved him, and called My son out of Egypt.",
-        "As they called them, so they went from them: they sacrificed to Baalim, and burned incense to graven images.",
-        "I taught Ephraim also to go, taking them by their arms, but they knew not that I healed them.",
-        "I drew them with cords of a man, with bands of love: and I was to them as they that take off the yoke on their jaws, and I laid food to them.",
-        "He will not return into the land of Egypt, but the Assyrian will be his king, because they refused to return.",
-        "And the sword will abide on his cities, and will consume his branches, and devour them, because of their own counsels.",
-        "And My people are bent to backsliding from Me: though they called them to the most High, none at all would exalt Him.",
-        "How will I give you up, Ephraim? How will I deliver you, Israel? How will I make you as Admah? How will I set you as Zeboim? My heart is turned within Me, My repentings are kindled together.",
-        "I will not execute the fierceness of My anger, I will not return to destroy Ephraim: for I am God, and not man, the Holy One in the midst of you: and I will not enter into the city.",
-        "They will walk after the Lord: He will roar like a lion: when He will roar, then the children will tremble from the west.",
-        "They will tremble as a bird out of Egypt, and as a dove out of the land of Assyria: and I will place them in their houses, says the Lord.",
-        "Ephraim compasses Me about with lies, and the house of Israel with deceit: but Judah yet rules with God, and is faithful with the saints."
-      ],
-      "notes": [
-        "‘food’ is used instead of ‘meat’"
-      ],
-      "approved": "d2f626d2"
-    },
-    {
-      "ch": "Hosea 12",
-      "verses": [
-        "Ephraim feeds on wind, and follows after the east wind: he daily increases lies and desolation, and they do make a covenant with the Assyrians, and oil is carried into Egypt.",
-        "The Lord has also a controversy with Judah, and will punish Jacob according to his ways, according to his doings will He recompense him.",
-        "He took his brother by the heel in the womb, and by his strength he had power with God:",
-        "Yes, he had power over the angel, and prevailed: he wept, and made supplication to him: he found Him in Beth-el, and there He spoke with us,",
-        "Even the Lord God of hosts, the Lord is His memorial.",
-        "Therefore turn you to your God: keep mercy and judgment, and wait on your God continually.",
-        "He is a merchant, the balances of deceit are in his hand: he loves to oppress.",
-        "And Ephraim said, “Yet I am become rich, I have found me out substance: in all my labors they will find no iniquity in me that were sin.”",
-        "And I that am the Lord your God from the land of Egypt will yet make you to dwell in tabernacles, as in the days of the solemn feast.",
-        "I have also spoken by the prophets, and I have multiplied visions, and used similitudes, by the ministry of the prophets.",
-        "Is there iniquity in Gilead? Surely they are vanity: they sacrifice bullocks in Gilgal, yes, their altars are as heaps in the furrows of the fields.",
-        "And Jacob fled into the country of Syria, and Israel served for a wife, and for a wife he kept sheep.",
-        "And by a prophet the Lord brought Israel out of Egypt, and by a prophet was he preserved.",
-        "Ephraim provoked Him to anger most bitterly: therefore will He leave his blood on him, and his reproach will his Lord return to him."
-      ],
-      "notes": [],
-      "approved": "e36b46e3"
-    },
-    {
-      "ch": "Hosea 13",
-      "verses": [
-        "When Ephraim spoke trembling, he exalted himself in Israel, but when he offended in Baal, he died.",
-        "And now they sin more and more, and have made them molten images of their silver, and idols according to their own understanding, all of it the work of the craftsmen: they say of them, “Let the men that sacrifice kiss the calves.”",
-        "Therefore they will be as the morning cloud, and as the early dew that passes away, as the chaff that is driven with the whirlwind out of the floor, and as the smoke out of the chimney.",
-        "Yet I am the Lord your God from the land of Egypt, and you will know no god but Me: for there is no savior beside Me.",
-        "I did know you in the wilderness, in the land of great drought.",
-        "According to their pasture, so were they filled, they were filled, and their heart was exalted, therefore have they forgotten Me.",
-        "Therefore I will be to them as a lion: as a leopard by the way will I observe them:",
-        "I will meet them as a bear that is bereaved of her whelps, and will rend the caul of their heart, and there will I devour them like a lion: the wild beast will tear them.",
-        "O Israel, you have destroyed yourself, but in Me is your help.",
-        "I will be your king: where is any other that may save you in all your cities? And your judges of whom you said, “Give me a king and princes”?",
-        "I gave you a king in My anger, and took him away in My wrath.",
-        "The iniquity of Ephraim is bound up, his sin is hid.",
-        "The sorrows of a travailing woman will come on him: he is an unwise son, for he should not stay long in the place of the breaking forth of children.",
-        "I will ransom them from the power of the grave, I will redeem them from death: O death, I will be your plagues, O grave, I will be your destruction: repentance will be hid from My eyes.",
-        "Though he be fruitful among his brothers, an east wind will come, the wind of the Lord will come up from the wilderness, and his spring will become dry, and his fountain will be dried up: he will spoil the treasure of all pleasant vessels.",
-        "Samaria will become desolate, for she has rebelled against her God: they will fall by the sword: their infants will be dashed in pieces, and their women with child will be ripped up."
-      ],
-      "notes": [],
-      "approved": "adfd5a98"
-    },
-    {
-      "ch": "Hosea 14",
-      "verses": [
-        "O Israel, return to the Lord your God, for you have fallen by your iniquity.",
-        "Take with you words, and turn to the Lord: say to Him, “Take away all iniquity, and receive us graciously: so will we render the calves of our lips.”",
-        "“Asshur will not save us, we will not ride on horses: neither will we say any more to the work of our hands, ‘You are our gods:’ for in You the fatherless finds mercy.”",
-        "“I will heal their backsliding, I will love them freely: for My anger is turned away from him.”",
-        "“I will be as the dew to Israel: he will grow as the lily, and cast forth his roots as Lebanon.”",
-        "“His branches will spread, and his beauty will be as the olive tree, and his smell as Lebanon.”",
-        "“They that dwell under his shadow will return, they will revive as the corn, and grow as the vine: the scent of it will be as the wine of Lebanon.”",
-        "Ephraim will say, “What have I to do any more with idols?” I have heard him, and observed him: I am like a green fir tree. From Me is your fruit found.",
-        "Who is wise, and he will understand these things? Prudent, and he will know them? For the ways of the Lord are right, and the just will walk in them: but the transgressors will fall in them."
-      ],
-      "notes": [],
-      "approved": "0e320f0f"
     },
     {
       "ch": "Zechariah 6",
@@ -30452,494 +31085,6 @@ window.TU_PLAIN = {
       ],
       "notes": [],
       "approved": "6f432a0f"
-    },
-    {
-      "ch": "Micah 7",
-      "verses": [
-        "Woe is me! for I am as when they have gathered the summer fruits, as the grape gleanings of the vintage: there is no cluster to eat: my soul desired the first ripe fruit.",
-        "The good man is perished out of the earth: and there is none upright among men: they all lie in wait for blood; they hunt every man his brother with a net.",
-        "That they may do evil with both hands earnestly, the prince asks, and the judge asks for a reward; and the great man, he utters his mischievous desire: so they wrap it up.",
-        "The best of them is as a brier: the most upright is sharper than a thorn hedge: the day of your watchmen and your visitation comes; now will be their perplexity.",
-        "Trust you not in a friend, put you not confidence in a guide: keep the doors of your mouth from her that lies in your bosom.",
-        "For the son dishonors the father, the daughter rises up against her mother, the daughter in law against her mother in law; a man's enemies are the men of his own house.",
-        "Therefore I will look to the Lord; I will wait for the God of my salvation: my God will hear me.",
-        "Rejoice not against me, O my enemy: when I fall, I will arise; when I sit in darkness, the Lord will be a light to me.",
-        "I will bear the indignation of the Lord, because I have sinned against Him, until He plead my cause, and execute judgment for me: He will bring me forth to the light, and I will behold His righteousness.",
-        "Then she that is my enemy will see it, and shame will cover her which said to me, “Where is the Lord your God?” my eyes will behold her: now will she be trodden down as the mire of the streets.",
-        "In the day that your walls are to be built, in that day will the decree be far removed.",
-        "In that day also he will come even to you from Assyria, and from the fortified cities, and from the fortress even to the river, and from sea to sea, and from mountain to mountain.",
-        "Notwithstanding the land will be desolate because of them that dwell in it, for the fruit of their doings.",
-        "Feed your people with your rod, the flock of your heritage, which dwell solitarily in the wood, in the midst of Carmel: let them feed in Bashan and Gilead, as in the days of old.",
-        "According to the days of your coming out of the land of Egypt will I show to him marvelous things.",
-        "The nations will see and be confounded at all their might: they will lay their hand upon their mouth, their ears will be deaf.",
-        "They will lick the dust like a serpent, they will move out of their holes like worms of the earth: they will be afraid of the Lord our God, and will fear because of you.",
-        "Who is a God like to You, that pardons iniquity, and passes by the transgression of the remnant of His heritage? He retains not His anger for ever, because He delights in mercy.",
-        "He will turn again, He will have compassion upon us; He will subdue our iniquities; and You will cast all their sins into the depths of the sea.",
-        "You will perform the truth to Jacob, and the mercy to Abraham, which You have sworn to our fathers from the days of old."
-      ],
-      "notes": [],
-      "approved": "aa1a6b1d"
-    },
-    {
-      "ch": "Zechariah 7",
-      "verses": [
-        "And it came to pass in the fourth year of king Darius, that the word of the Lord came to Zechariah in the fourth day of the ninth month, even in Chisleu;",
-        "When they had sent to the house of God Sherezer and Regem-melech, and their men, to pray before the Lord,",
-        "And to speak to the priests which were in the house of the Lord of hosts, and to the prophets, saying, Should I weep in the fifth month, separating myself, as I have done these so many years?",
-        "Then came the word of the Lord of hosts to me, saying,",
-        "Speak to all the people of the land, and to the priests, saying, When you fasted and mourned in the fifth and seventh month, even those seventy years, did you at all fast to Me, even to Me?",
-        "And when you did eat, and when you did drink, did not you eat for yourselves, and drink for yourselves?",
-        "Should you not hear the words which the Lord has cried by the former prophets, when Jerusalem was inhabited and in prosperity, and the cities thereof round about her, when men inhabited the south and the plain?",
-        "And the word of the Lord came to Zechariah, saying,",
-        "Thus speaks the Lord of hosts, saying, Execute true judgment, and show mercy and compassions every man to his brother:",
-        "And oppress not the widow, nor the fatherless, the stranger, nor the poor; and let none of you imagine evil against his brother in your heart.",
-        "But they refused to listen, and pulled away the shoulder, and stopped their ears, that they should not hear.",
-        "Yea, they made their hearts as an adamant stone, lest they should hear the law, and the words which the Lord of hosts has sent in His Spirit by the former prophets: therefore came a great wrath from the Lord of hosts.",
-        "Therefore it is come to pass, that as He cried, and they would not hear; so they cried, and I would not hear, says the Lord of hosts:",
-        "But I scattered them with a whirlwind among all the nations whom they knew not. Thus the land was desolate after them, that no man passed through nor returned: for they laid the pleasant land desolate."
-      ],
-      "notes": [],
-      "approved": "ceab9786"
-    },
-    {
-      "ch": "Zechariah 8",
-      "verses": [
-        "Again the word of the Lord of hosts came to me, saying,",
-        "Thus says the Lord of hosts; I was jealous for Zion with great jealousy, and I was jealous for her with great fury.",
-        "Thus says the Lord; I am returned to Zion, and will dwell in the midst of Jerusalem: and Jerusalem shall be called a city of truth; and the mountain of the Lord of hosts the holy mountain.",
-        "Thus says the Lord of hosts; There shall yet old men and old women dwell in the streets of Jerusalem, and every man with his staff in his hand for very age.",
-        "And the streets of the city shall be full of boys and girls playing in the streets thereof.",
-        "Thus says the Lord of hosts; If it be marvellous in the eyes of the remnant of this people in these days, should it also be marvellous in My eyes? says the Lord of hosts.",
-        "Thus says the Lord of hosts; Behold, I will save My people from the east country, and from the west country;",
-        "And I will bring them, and they shall dwell in the midst of Jerusalem: and they shall be My people, and I will be their God, in truth and in righteousness.",
-        "Thus says the Lord of hosts; Let your hands be strong, you that hear in these days these words by the mouth of the prophets, which were in the day that the foundation of the house of the Lord of hosts was laid, that the temple might be built.",
-        "For before these days there was no hire for man, nor any hire for beast; neither was there any peace to him that went out or came in because of the affliction: for I set all men every one against his neighbour.",
-        "But now I will not be to the residue of this people as in the former days, says the Lord of hosts.",
-        "For the seed shall be prosperous; the vine shall give her fruit, and the ground shall give her increase, and the heavens shall give their dew; and I will cause the remnant of this people to possess all these things.",
-        "And it shall come to pass, that as you were a curse among the heathen, O house of Judah, and house of Israel; so will I save you, and you shall be a blessing: fear not, but let your hands be strong.",
-        "For thus says the Lord of hosts; As I thought to punish you, when your fathers provoked Me to wrath, says the Lord of hosts, and I repented not:",
-        "So again have I thought in these days to do well to Jerusalem and to the house of Judah: fear you not.",
-        "These are the things that you shall do; Speak you every man the truth to his neighbour; execute the judgment of truth and peace in your gates:",
-        "And let none of you imagine evil in your hearts against his neighbour; and love no false oath: for all these are things that I hate, says the Lord.",
-        "And the word of the Lord of hosts came to me, saying,",
-        "Thus says the Lord of hosts; The fast of the fourth month, and the fast of the fifth, and the fast of the seventh, and the fast of the tenth, shall be to the house of Judah joy and gladness, and cheerful feasts; therefore love the truth and peace.",
-        "Thus says the Lord of hosts; It shall yet come to pass, that there shall come people, and the inhabitants of many cities:",
-        "And the inhabitants of one city shall go to another, saying, Let us go speedily to pray before the Lord, and to seek the Lord of hosts: I will go also.",
-        "Yea, many people and strong nations shall come to seek the Lord of hosts in Jerusalem, and to pray before the Lord.",
-        "Thus says the Lord of hosts; In those days it shall come to pass, that ten men shall take hold out of all languages of the nations, even shall take hold of the skirt of him that is a Jew, saying, We will go with you: for we have heard that God is with you."
-      ],
-      "notes": [],
-      "approved": "83eeabef"
-    },
-    {
-      "ch": "Nahum 1",
-      "verses": [
-        "The burden of Nineveh. The book of the vision of Nahum the Elkoshite.",
-        "God is jealous, and the Lord revenges; the Lord revenges, and is furious; the Lord will take vengeance on His adversaries, and He reserves wrath for His enemies.",
-        "The Lord is slow to anger, and great in power, and will not at all acquit the wicked: the Lord has His way in the whirlwind and in the storm, and the clouds are the dust of His feet.",
-        "He rebukes the sea, and makes it dry, and dries up all the rivers: Bashan languishes, and Carmel, and the flower of Lebanon languishes.",
-        "The mountains quake at Him, and the hills melt, and the earth is burned at His presence, yes, the world, and all that dwell in it.",
-        "Who can stand before His indignation? and who can abide in the fierceness of His anger? His fury is poured out like fire, and the rocks are thrown down by Him.",
-        "The Lord is good, a strong hold in the day of trouble; and He knows them that trust in Him.",
-        "But with an overrunning flood He will make an utter end of the place of it, and darkness will pursue His enemies.",
-        "What do you imagine against the Lord? He will make an utter end: affliction will not rise up the second time.",
-        "For while they be folded together as thorns, and while they are drunken as drunkards, they will be devoured as stubble fully dry.",
-        "There is one come out of you, that imagines evil against the Lord, a wicked counselor.",
-        "Thus says the Lord; “Though they be quiet, and likewise many, yet thus will they be cut down, when he will pass through. Though I have afflicted you, I will afflict you no more.”",
-        "“For now will I break his yoke from off you, and will burst your bonds in sunder.”",
-        "“And the Lord has given a commandment concerning you, that no more of your name be sown: out of the house of your gods will I cut off the graven image and the molten image: I will make your grave; for you are vile.”",
-        "Behold upon the mountains the feet of him that brings good tidings, that publishes peace! O Judah, keep your solemn feasts, perform your vows: for the wicked will no more pass through you; he is utterly cut off."
-      ],
-      "notes": [
-        "‘counselor’ replaces counsellor"
-      ],
-      "approved": "f1dc68ee"
-    },
-    {
-      "ch": "Amos 4",
-      "verses": [
-        "Hear this word, you cows of Bashan, that are in the mountain of Samaria, which oppress the poor, which crush the needy, which say to their masters, “Bring, and let us drink.”",
-        "The Lord God has sworn by His holiness, that, lo, the days shall come upon you, that He will take you away with hooks, and your posterity with fishhooks.",
-        "And you shall go out at the breaches, every cow at that which is before her; and you shall cast them into the palace, says the Lord.",
-        "“Come to Beth-el, and transgress; at Gilgal multiply transgression; and bring your sacrifices every morning, and your tithes after three years:”",
-        "“And offer a sacrifice of thanksgiving with leaven, and proclaim and publish the free offerings: for this likes you, O you children of Israel, says the Lord God.”",
-        "“And I also have given you cleanness of teeth in all your cities, and want of bread in all your places: yet have you not returned to Me, says the Lord.”",
-        "“And also I have withheld the rain from you, when there were yet three months to the harvest: and I caused it to rain upon one city, and caused it not to rain upon another city: one piece was rained upon, and the piece on which it rained not withered.”",
-        "“So two or three cities wandered to one city, to drink water; but they were not satisfied: yet have you not returned to Me, says the Lord.”",
-        "“I have smitten you with blasting and mildew: when your gardens and your vineyards and your fig trees and your olive trees increased, the palmerworm devoured them: yet have you not returned to Me, says the Lord.”",
-        "“I have sent among you the pestilence after the manner of Egypt: your young men have I slain with the sword, and have taken away your horses; and I have made the stink of your camps to come up to your nostrils: yet have you not returned to Me, says the Lord.”",
-        "“I have overthrown some of you, as God overthrew Sodom and Gomorrah, and you were as a firebrand plucked out of the burning: yet have you not returned to Me, says the Lord.”",
-        "“Therefore thus will I do to you, O Israel: and because I will do this to you, prepare to meet your God, O Israel.”",
-        "For, lo, He that forms the mountains, and creates the wind, and declares to man what is His thought, that makes the morning darkness, and treads upon the high places of the earth, The Lord, The God of hosts, is His name."
-      ],
-      "notes": [],
-      "approved": "1b0fdd65"
-    },
-    {
-      "ch": "Nahum 2",
-      "verses": [
-        "He that dashes in pieces is come up before your face: keep the munition, watch the way, make your loins strong, fortify your power mightily.",
-        "For the Lord has turned away the excellency of Jacob, as the excellency of Israel: for the emptiers have emptied them out, and marred their vine branches.",
-        "The shield of his mighty men is made red, the valiant men are in scarlet: the chariots will be with flaming torches in the day of his preparation, and the fir trees will be terribly shaken.",
-        "The chariots will rage in the streets, they will jostle one against another in the broad ways: they will seem like torches, they will run like the lightnings.",
-        "He will recount his worthies: they will stumble in their walk; they will make haste to the wall of it, and the defense will be prepared.",
-        "The gates of the rivers will be opened, and the palace will be dissolved.",
-        "And Huzzab will be led away captive, she will be brought up, and her maids will lead her as with the voice of doves, taboring upon their breasts.",
-        "But Nineveh is of old like a pool of water: yet they will flee away. “Stand, stand,” will they cry; but none will look back.",
-        "Take you the spoil of silver, take the spoil of gold: for there is no end of the store and glory out of all the pleasant furniture.",
-        "She is empty, and void, and waste: and the heart melts, and the knees smite together, and much pain is in all loins, and the faces of them all gather blackness.",
-        "Where is the dwelling of the lions, and the feeding place of the young lions, where the lion, even the old lion, walked, and the lion's whelp, and none made them afraid?",
-        "The lion did tear in pieces enough for his whelps, and strangled for his lionesses, and filled his holes with prey, and his dens with ravin.",
-        "“Behold, I am against you,” says the Lord of hosts, “and I will burn her chariots in the smoke, and the sword will devour your young lions: and I will cut off your prey from the earth, and the voice of your messengers will no more be heard.”"
-      ],
-      "notes": [
-        "‘taboring’ replaces tabering",
-        "‘feeding place’ replaces feedingplace",
-        "‘defense’ replaces defence"
-      ],
-      "approved": "b46b772c"
-    },
-    {
-      "ch": "Amos 5",
-      "verses": [
-        "Hear you this word which I take up against you, even a lamentation, O house of Israel.",
-        "“The virgin of Israel is fallen; she shall no more rise: she is forsaken upon her land; there is none to raise her up.”",
-        "For thus says the Lord God; “The city that went out by a thousand shall leave a hundred, and that which went forth by a hundred shall leave ten, to the house of Israel.”",
-        "For thus says the Lord to the house of Israel, “Seek you Me, and you shall live:”",
-        "“But seek not Beth-el, nor enter into Gilgal, and pass not to Beer-sheba: for Gilgal shall surely go into captivity, and Beth-el shall come to nothing.”",
-        "“Seek the Lord, and you shall live; lest He break out like fire in the house of Joseph, and devour it, and there be none to quench it in Beth-el.”",
-        "“You who turn judgment to wormwood, and leave off righteousness in the earth,”",
-        "“Seek Him that makes the seven stars and Orion, and turns the shadow of death into the morning, and makes the day dark with night: that calls for the waters of the sea, and pours them out upon the face of the earth: The Lord is His name:”",
-        "“That strengthens the spoiled against the strong, so that the spoiled shall come against the fortress.”",
-        "“They hate him that rebukes in the gate, and they abhor him that speaks uprightly.”",
-        "“Forasmuch therefore as your treading is upon the poor, and you take from him burdens of wheat: you have built houses of hewn stone, but you shall not dwell in them; you have planted pleasant vineyards, but you shall not drink wine of them.”",
-        "“For I know your manifold transgressions and your mighty sins: they afflict the just, they take a bribe, and they turn aside the poor in the gate from their right.”",
-        "“Therefore the prudent shall keep silence in that time; for it is an evil time.”",
-        "“Seek good, and not evil, that you may live: and so the Lord, the God of hosts, shall be with you, as you have spoken.”",
-        "“Hate the evil, and love the good, and establish judgment in the gate: it may be that the Lord God of hosts will be gracious to the remnant of Joseph.”",
-        "Therefore the Lord, the God of hosts, the Lord, says thus; “Wailing shall be in all streets; and they shall say in all the highways, ‘Alas! alas!’ and they shall call the husbandman to mourning, and such as are skillful of lamentation to wailing.”",
-        "“And in all vineyards shall be wailing: for I will pass through you, says the Lord.”",
-        "“Woe to you that desire the day of the Lord! to what end is it for you? the day of the Lord is darkness, and not light.”",
-        "“As if a man did flee from a lion, and a bear met him; or went into the house, and leaned his hand on the wall, and a serpent bit him.”",
-        "“Shall not the day of the Lord be darkness, and not light? even very dark, and no brightness in it?”",
-        "“I hate, I despise your feast days, and I will not smell in your solemn assemblies.”",
-        "“Though you offer Me burnt offerings and your food offerings, I will not accept them: neither will I regard the peace offerings of your fat beasts.”",
-        "“Take you away from Me the noise of your songs; for I will not hear the melody of your viols.”",
-        "“But let judgment run down as waters, and righteousness as a mighty stream.”",
-        "“Have you offered to Me sacrifices and offerings in the wilderness forty years, O house of Israel?”",
-        "“But you have borne the tabernacle of your Moloch and Chiun your images, the star of your god, which you made to yourselves.”",
-        "“Therefore will I cause you to go into captivity beyond Damascus, says the Lord, whose name is The God of hosts.”"
-      ],
-      "notes": [
-        "‘viols’ means harps or stringed instruments"
-      ],
-      "approved": "638159cc"
-    },
-    {
-      "ch": "Nahum 3",
-      "verses": [
-        "Woe to the bloody city! it is all full of lies and robbery; the prey departs not;",
-        "The noise of a whip, and the noise of the rattling of the wheels, and of the prancing horses, and of the jumping chariots.",
-        "The horseman lifts up both the bright sword and the glittering spear: and there is a multitude of slain, and a great number of carcasses; and there is no end of their corpses; they stumble upon their corpses:",
-        "Because of the multitude of the whoredoms of the well favored harlot, the mistress of witchcrafts, that sells nations through her whoredoms, and families through her witchcrafts.",
-        "“Behold, I am against you,” says the Lord of hosts; “and I will discover your skirts upon your face, and I will show the nations your nakedness, and the kingdoms your shame.”",
-        "“And I will cast abominable filth upon you, and make you vile, and will set you as a gazing stock.”",
-        "“And it will come to pass, that all they that look upon you will flee from you, and say, ‘Nineveh is laid waste: who will bemoan her? from where will I seek comforters for you?’”",
-        "Are you better than populous No, that was situate among the rivers, that had the waters round about it, whose rampart was the sea, and her wall was from the sea?",
-        "Ethiopia and Egypt were her strength, and it was infinite; Put and Lubim were your helpers.",
-        "Yet was she carried away, she went into captivity: her young children also were dashed in pieces at the top of all the streets: and they cast lots for her honorable men, and all her great men were bound in chains.",
-        "You also will be drunken: you will be hid, you also will seek strength because of the enemy.",
-        "All your strong holds will be like fig trees with the first ripe figs: if they be shaken, they will even fall into the mouth of the eater.",
-        "Behold, your people in the midst of you are women: the gates of your land will be set wide open to your enemies: the fire will devour your bars.",
-        "Draw you waters for the siege, fortify your strong holds: go into clay, and tread the mortar, make strong the brick kiln.",
-        "There will the fire devour you; the sword will cut you off, it will eat you up like the cankerworm: make yourself many as the cankerworm, make yourself many as the locusts.",
-        "You have multiplied your merchants above the stars of heaven: the cankerworm spoils, and flies away.",
-        "Your crowned are as the locusts, and your captains as the great grasshoppers, which camp in the hedges in the cold day, but when the sun arises they flee away, and their place is not known where they are.",
-        "Your shepherds slumber, O king of Assyria: your nobles will dwell in the dust: your people is scattered upon the mountains, and no man gathers them.",
-        "There is no healing of your bruise; your wound is grievous: all that hear the bruit of you will clap the hands over you: for upon whom has not your wickedness passed continually?"
-      ],
-      "notes": [
-        "‘gazing stock’ replaces gazingstock"
-      ],
-      "approved": "e7bf5f39"
-    },
-    {
-      "ch": "Amos 6",
-      "verses": [
-        "Woe to them that are at ease in Zion, and trust in the mountain of Samaria, which are named chief of the nations, to whom the house of Israel came!",
-        "Pass you to Calneh, and see; and from there go you to Hamath the great: then go down to Gath of the Philistines: be they better than these kingdoms? or their border greater than your border?",
-        "You that put far away the evil day, and cause the seat of violence to come near;",
-        "That lie upon beds of ivory, and stretch themselves upon their couches, and eat the lambs out of the flock, and the calves out of the midst of the stall;",
-        "That chant to the sound of the viol, and invent to themselves instruments of music, like David;",
-        "That drink wine in bowls, and anoint themselves with the chief ointments: but they are not grieved for the affliction of Joseph.",
-        "Therefore now shall they go captive with the first that go captive, and the banquet of them that stretched themselves shall be removed.",
-        "The Lord God has sworn by Himself, says the Lord the God of hosts, “I abhor the excellency of Jacob, and hate his palaces: therefore will I deliver up the city with all that is in it.”",
-        "“And it shall come to pass, if there remain ten men in one house, that they shall die.”",
-        "“And a man’s uncle shall take him up, and he that burns him, to bring out the bones out of the house, and shall say to him that is by the sides of the house, ‘Is there yet any with you?’ and he shall say, ‘No.’ Then shall he say, ‘Hold your tongue: for we may not make mention of the name of the Lord.’”",
-        "“For, behold, the Lord commands, and He will smite the great house with breaches, and the little house with clefts.”",
-        "“Shall horses run upon the rock? will one plow there with oxen? for you have turned judgment into gall, and the fruit of righteousness into hemlock:”",
-        "“You which rejoice in a thing of nothing, which say, ‘Have we not taken to us horns by our own strength?’”",
-        "“But, behold, I will raise up against you a nation, O house of Israel,” says the Lord the God of hosts; “and they shall afflict you from the entering in of Hemath to the river of the wilderness.”"
-      ],
-      "notes": [
-        "‘viol’ means harp or stringed instrument"
-      ],
-      "approved": "0bf47552"
-    },
-    {
-      "ch": "Habakkuk 1",
-      "verses": [
-        "The burden which Habakkuk the prophet did see.",
-        "O Lord, how long will I cry, and You will not hear! even cry out to You of violence, and You will not save!",
-        "Why do You show me iniquity, and cause me to behold grievance? for spoiling and violence are before me: and there are that raise up strife and contention.",
-        "Therefore the law is slacked, and judgment does never go forth: for the wicked does compass about the righteous; therefore wrong judgment proceeds.",
-        "“Behold you among the heathen, and regard, and wonder marvelously: for I will work a work in your days, which you will not believe, though it be told you.”",
-        "“For, lo, I raise up the Chaldeans, that bitter and hasty nation, which will march through the breadth of the land, to possess the dwelling places that are not theirs.”",
-        "“They are terrible and dreadful: their judgment and their dignity will proceed of themselves.”",
-        "“Their horses also are swifter than the leopards, and are more fierce than the evening wolves: and their horsemen will spread themselves, and their horsemen will come from far; they will fly as the eagle that hastens to eat.”",
-        "“They will come all for violence: their faces will sup up as the east wind, and they will gather the captivity as the sand.”",
-        "“And they will scoff at the kings, and the princes will be a scorn to them: they will deride every strong hold; for they will heap dust, and take it.”",
-        "“Then will his mind change, and he will pass over, and offend, imputing this his power to his god.”",
-        "Are You not from everlasting, O Lord my God, my Holy One? we will not die. O Lord, You have ordained them for judgment; and, O mighty God, You have established them for correction.",
-        "You are of purer eyes than to behold evil, and can not look on iniquity: why do You look upon them that deal treacherously, and hold Your tongue when the wicked devours the man that is more righteous than he?",
-        "And make men as the fishes of the sea, as the creeping things, that have no ruler over them?",
-        "They take up all of them with the angle, they catch them in their net, and gather them in their drag: therefore they rejoice and are glad.",
-        "Therefore they sacrifice to their net, and burn incense to their drag; because by them their portion is fat, and their meat plenteous.",
-        "Will they therefore empty their net, and not spare continually to slay the nations?"
-      ],
-      "notes": [
-        "‘dwelling places’ replaces dwellingplaces"
-      ],
-      "approved": "3cccc501"
-    },
-    {
-      "ch": "Amos 7",
-      "verses": [
-        "Thus has the Lord God showed to me; and, behold, He formed grasshoppers in the beginning of the shooting up of the latter growth; and, lo, it was the latter growth after the king’s mowings.",
-        "And it came to pass, that when they had made an end of eating the grass of the land, then I said, “O Lord God, forgive, I beg You: by whom shall Jacob arise? for he is small.”",
-        "The Lord repented for this: “It shall not be,” says the Lord.",
-        "Thus has the Lord God showed to me: and, behold, the Lord God called to contend by fire, and it devoured the great deep, and did eat up a part.",
-        "Then said I, “O Lord God, cease, I beg You: by whom shall Jacob arise? for he is small.”",
-        "The Lord repented for this: “This also shall not be,” says the Lord God.",
-        "Thus He showed me: and, behold, the Lord stood upon a wall made by a plumbline, with a plumbline in His hand.",
-        "And the Lord said to me, “Amos, what see you?” And I said, “A plumbline.” Then said the Lord, “Behold, I will set a plumbline in the midst of My people Israel: I will not again pass by them any more:”",
-        "“And the high places of Isaac shall be desolate, and the sanctuaries of Israel shall be laid waste; and I will rise against the house of Jeroboam with the sword.”",
-        "Then Amaziah the priest of Beth-el sent to Jeroboam king of Israel, saying, “Amos has conspired against you in the midst of the house of Israel: the land is not able to bear all his words.”",
-        "“For thus Amos says, ‘Jeroboam shall die by the sword, and Israel shall surely be led away captive out of their own land.’”",
-        "Also Amaziah said to Amos, “O you seer, go, flee you away into the land of Judah, and there eat bread, and prophesy there:”",
-        "“But prophesy not again any more at Beth-el: for it is the king’s chapel, and it is the king’s court.”",
-        "Then answered Amos, and said to Amaziah, “I was no prophet, neither was I a prophet’s son; but I was a herdsman, and a gatherer of sycamore fruit:”",
-        "“And the Lord took me as I followed the flock, and the Lord said to me, ‘Go, prophesy to My people Israel.’”",
-        "“Now therefore hear you the word of the Lord: You say, ‘Prophesy not against Israel, and drop not your word against the house of Isaac.’”",
-        "“Therefore thus says the Lord; ‘Your wife shall be a harlot in the city, and your sons and your daughters shall fall by the sword, and your land shall be divided by line; and you shall die in a polluted land: and Israel shall surely go into captivity forth of his land.’”"
-      ],
-      "notes": [],
-      "approved": "fe017e1c"
-    },
-    {
-      "ch": "Amos 8",
-      "verses": [
-        "Thus has the Lord God showed to me: and behold a basket of summer fruit.",
-        "And He said, “Amos, what see you?” And I said, “A basket of summer fruit.” Then said the Lord to me, “The end is come upon My people of Israel; I will not again pass by them any more.”",
-        "“And the songs of the temple shall be howlings in that day,” says the Lord God: “there shall be many dead bodies in every place; they shall cast them forth with silence.”",
-        "Hear this, O you that swallow up the needy, even to make the poor of the land to fail,",
-        "Saying, “When will the new moon be gone, that we may sell corn? and the sabbath, that we may set forth wheat, making the ephah small, and the shekel great, and falsifying the balances by deceit?”",
-        "“That we may buy the poor for silver, and the needy for a pair of shoes; yes, and sell the refuse of the wheat?”",
-        "The Lord has sworn by the excellency of Jacob, “Surely I will never forget any of their works.”",
-        "“Shall not the land tremble for this, and every one mourn that dwells in it? and it shall rise up wholly as a flood; and it shall be cast out and drowned, as by the flood of Egypt.”",
-        "“And it shall come to pass in that day,” says the Lord God, “that I will cause the sun to go down at noon, and I will darken the earth in the clear day:”",
-        "“And I will turn your feasts into mourning, and all your songs into lamentation; and I will bring up sackcloth upon all loins, and baldness upon every head; and I will make it as the mourning of an only son, and the end of it as a bitter day.”",
-        "“Behold, the days come,” says the Lord God, “that I will send a famine in the land, not a famine of bread, nor a thirst for water, but of hearing the words of the Lord:”",
-        "“And they shall wander from sea to sea, and from the north even to the east, they shall run to and fro to seek the word of the Lord, and shall not find it.”",
-        "“In that day shall the fair virgins and young men faint for thirst.”",
-        "“They that swear by the sin of Samaria, and say, ‘Your god, O Dan, lives;’ and, ‘The manner of Beer-sheba lives;’ even they shall fall, and never rise up again.”"
-      ],
-      "notes": [],
-      "approved": "61374cfd"
-    },
-    {
-      "ch": "Habakkuk 2",
-      "verses": [
-        "I will stand upon my watch, and set me upon the tower, and will watch to see what He will say to me, and what I will answer when I am reproved.",
-        "And the Lord answered me, and said, “Write the vision, and make it plain upon tables, that he may run that reads it.”",
-        "“For the vision is yet for an appointed time, but at the end it will speak, and not lie: though it tarry, wait for it; because it will surely come, it will not tarry.”",
-        "“Behold, his soul which is lifted up is not upright in him: but the just will live by his faith.”",
-        "“Yes also, because he transgresses by wine, he is a proud man, neither keeps at home, who enlarges his desire as hell, and is as death, and cannot be satisfied, but gathers to him all nations, and heaps to him all people:”",
-        "“Will not all these take up a parable against him, and a taunting proverb against him, and say, ‘Woe to him that increases that which is not his! how long? and to him that loads himself with thick clay!’”",
-        "“Will they not rise up suddenly that will bite you, and awake that will vex you, and you will be for booties to them?”",
-        "“Because you have spoiled many nations, all the remnant of the people will spoil you; because of men's blood, and for the violence of the land, of the city, and of all that dwell in it.”",
-        "“Woe to him that covets an evil covetousness to his house, that he may set his nest on high, that he may be delivered from the power of evil!”",
-        "“You have consulted shame to your house by cutting off many people, and have sinned against your soul.”",
-        "“For the stone will cry out of the wall, and the beam out of the timber will answer it.”",
-        "“Woe to him that builds a town with blood, and establishes a city by iniquity!”",
-        "“Behold, is it not of the Lord of hosts that the people will labor in the very fire, and the people will weary themselves for very vanity?”",
-        "“For the earth will be filled with the knowledge of the glory of the Lord, as the waters cover the sea.”",
-        "“Woe to him that gives his neighbor drink, that puts your bottle to him, and makes him drunken also, that you may look on their nakedness!”",
-        "“You are filled with shame for glory: drink you also, and let your foreskin be uncovered: the cup of the Lord's right hand will be turned to you, and shameful spewing will be on your glory.”",
-        "“For the violence of Lebanon will cover you, and the spoil of beasts, which made them afraid, because of men's blood, and for the violence of the land, of the city, and of all that dwell in it.”",
-        "“What profits the graven image that the maker of it has graven it; the molten image, and a teacher of lies, that the maker of his work trusts in it, to make mute idols?”",
-        "“Woe to him that says to the wood, ‘Awake;’ to the mute stone, ‘Arise, it will teach!’ Behold, it is laid over with gold and silver, and there is no breath at all in the midst of it.”",
-        "But the Lord is in His holy temple: let all the earth keep silence before Him."
-      ],
-      "notes": [
-        "‘labor’ replaces labour",
-        "‘neighbor’ replaces neighbour"
-      ],
-      "approved": "f236b916"
-    },
-    {
-      "ch": "Amos 9",
-      "verses": [
-        "I saw the Lord standing upon the altar: and He said, “Smite the lintel of the door, that the posts may shake: and cut them in the head, all of them; and I will slay the last of them with the sword: he that flees of them shall not flee away, and he that escapes of them shall not be delivered.”",
-        "“Though they dig into hell, from there shall My hand take them; though they climb up to heaven, from there will I bring them down:”",
-        "“And though they hide themselves in the top of Carmel, I will search and take them out from there; and though they be hid from My sight in the bottom of the sea, from there will I command the serpent, and he shall bite them:”",
-        "“And though they go into captivity before their enemies, from there will I command the sword, and it shall slay them: and I will set My eyes upon them for evil, and not for good.”",
-        "And the Lord God of hosts is He that touches the land, and it shall melt, and all that dwell in it shall mourn: and it shall rise up wholly like a flood; and shall be drowned, as by the flood of Egypt.",
-        "It is He that builds His stories in the heaven, and has founded His troop in the earth; He that calls for the waters of the sea, and pours them out upon the face of the earth: The Lord is His name.",
-        "“Are you not as children of the Ethiopians to Me, O children of Israel?” says the Lord. “Have not I brought up Israel out of the land of Egypt? and the Philistines from Caphtor, and the Syrians from Kir?”",
-        "“Behold, the eyes of the Lord God are upon the sinful kingdom, and I will destroy it from off the face of the earth; saving that I will not utterly destroy the house of Jacob, says the Lord.”",
-        "“For, lo, I will command, and I will sift the house of Israel among all nations, like as corn is sifted in a sieve, yet shall not the least grain fall upon the earth.”",
-        "“All the sinners of My people shall die by the sword, which say, ‘The evil shall not overtake nor prevent us.’”",
-        "“In that day will I raise up the tabernacle of David that is fallen, and close up the breaches of it; and I will raise up his ruins, and I will build it as in the days of old:”",
-        "“That they may possess the remnant of Edom, and of all the heathen, which are called by My name, says the Lord that does this.”",
-        "“Behold, the days come, says the Lord, that the plowman shall overtake the reaper, and the treader of grapes him that sows seed; and the mountains shall drop sweet wine, and all the hills shall melt.”",
-        "“And I will bring again the captivity of My people of Israel, and they shall build the waste cities, and inhabit them; and they shall plant vineyards, and drink the wine of it; they shall also make gardens, and eat the fruit of them.”",
-        "“And I will plant them upon their land, and they shall no more be pulled up out of their land which I have given them, says the Lord your God.”"
-      ],
-      "notes": [],
-      "approved": "78f8a9c1"
-    },
-    {
-      "ch": "Habakkuk 3",
-      "verses": [
-        "A prayer of Habakkuk the prophet upon Shigionoth.",
-        "O Lord, I have heard Your speech, and was afraid: O Lord, revive Your work in the midst of the years, in the midst of the years make known; in wrath remember mercy.",
-        "God came from Teman, and the Holy One from mount Paran. Selah. His glory covered the heavens, and the earth was full of His praise.",
-        "And His brightness was as the light; He had horns coming out of His hand: and there was the hiding of His power.",
-        "Before Him went the pestilence, and burning coals went forth at His feet.",
-        "He stood, and measured the earth: He beheld, and drove asunder the nations; and the everlasting mountains were scattered, the perpetual hills did bow: His ways are everlasting.",
-        "I saw the tents of Cushan in affliction: and the curtains of the land of Midian did tremble.",
-        "Was the Lord displeased against the rivers? was Your anger against the rivers? was Your wrath against the sea, that You did ride upon Your horses and Your chariots of salvation?",
-        "Your bow was made quite naked, according to the oaths of the tribes, even Your word. Selah. You did cleave the earth with rivers.",
-        "The mountains saw You, and they trembled: the overflowing of the water passed by: the deep uttered his voice, and lifted up his hands on high.",
-        "The sun and moon stood still in their habitation: at the light of Your arrows they went, and at the shining of Your glittering spear.",
-        "You did march through the land in indignation, You did thresh the heathen in anger.",
-        "You went forth for the salvation of Your people, even for salvation with Your anointed; You wounded the head out of the house of the wicked, by discovering the foundation to the neck. Selah.",
-        "You did strike through with his staves the head of his villages: they came out as a whirlwind to scatter me: their rejoicing was as to devour the poor secretly.",
-        "You did walk through the sea with Your horses, through the heap of great waters.",
-        "When I heard, my belly trembled; my lips quivered at the voice: rottenness entered into my bones, and I trembled in myself, that I might rest in the day of trouble: when he comes up to the people, he will invade them with his troops.",
-        "Although the fig tree will not blossom, neither will fruit be in the vines; the labor of the olive will fail, and the fields will yield no meat; the flock will be cut off from the fold, and there will be no herd in the stalls:",
-        "Yet I will rejoice in the Lord, I will joy in the God of my salvation.",
-        "The Lord God is my strength, and He will make my feet like hinds' feet, and He will make me to walk upon my high places. To the chief singer on my stringed instruments."
-      ],
-      "notes": [
-        "‘labor’ replaces labour"
-      ],
-      "approved": "b20eab44"
-    },
-    {
-      "ch": "Obadiah 1",
-      "verses": [
-        "The vision of Obadiah. Thus says the Lord God concerning Edom; “We have heard a rumor from the Lord, and an ambassador is sent among the heathen, ‘Arise you, and let us rise up against her in battle.’”",
-        "“Behold, I have made you small among the heathen: you are greatly despised.”",
-        "“The pride of your heart has deceived you, you that dwell in the clefts of the rock, whose habitation is high; that says in his heart, ‘Who shall bring me down to the ground?’”",
-        "“Though you exalt yourself as the eagle, and though you set your nest among the stars, from there will I bring you down, says the Lord.”",
-        "“If thieves came to you, if robbers by night, (how are you cut off!) would they not have stolen till they had enough? if the grapegatherers came to you, would they not leave some grapes?”",
-        "“How are the things of Esau searched out! how are his hidden things sought up!”",
-        "“All the men of your confederacy have brought you even to the border: the men that were at peace with you have deceived you, and prevailed against you; they that eat your bread have laid a wound under you: there is none understanding in him.”",
-        "“Shall I not in that day,” says the Lord, “even destroy the wise men out of Edom, and understanding out of the mount of Esau?”",
-        "“And your mighty men, O Teman, shall be dismayed, to the end that every one of the mount of Esau may be cut off by slaughter.”",
-        "“For your violence against your brother Jacob shame shall cover you, and you shall be cut off for ever.”",
-        "“In the day that you stood on the other side, in the day that the strangers carried away captive his forces, and foreigners entered into his gates, and cast lots upon Jerusalem, even you were as one of them.”",
-        "“But you should not have looked on the day of your brother in the day that he became a stranger; neither should you have rejoiced over the children of Judah in the day of their destruction; neither should you have spoken proudly in the day of distress.”",
-        "“You should not have entered into the gate of My people in the day of their calamity; yes, you should not have looked on their affliction in the day of their calamity, nor have laid hands on their substance in the day of their calamity;”",
-        "“Neither should you have stood in the crossway, to cut off those of his that did escape; neither should you have delivered up those of his that did remain in the day of distress.”",
-        "“For the day of the Lord is near upon all the heathen: as you have done, it shall be done to you: your reward shall return upon your own head.”",
-        "“For as you have drunk upon My holy mountain, so shall all the heathen drink continually, yes, they shall drink, and they shall swallow down, and they shall be as though they had not been.”",
-        "“But upon mount Zion shall be deliverance, and there shall be holiness; and the house of Jacob shall possess their possessions.”",
-        "“And the house of Jacob shall be a fire, and the house of Joseph a flame, and the house of Esau for stubble, and they shall kindle in them, and devour them; and there shall not be any remaining of the house of Esau; for the Lord has spoken it.”",
-        "And they of the south shall possess the mount of Esau; and they of the plain the Philistines: and they shall possess the fields of Ephraim, and the fields of Samaria: and Benjamin shall possess Gilead.",
-        "And the captivity of this host of the children of Israel shall possess that of the Canaanites, even to Zarephath; and the captivity of Jerusalem, which is in Sepharad, shall possess the cities of the south.",
-        "And saviors shall come up on mount Zion to judge the mount of Esau; and the kingdom shall be the Lord’s."
-      ],
-      "notes": [],
-      "approved": "d0b49d42"
-    },
-    {
-      "ch": "Jonah 1",
-      "verses": [
-        "Now the word of the Lord came to Jonah the son of Amittai, saying,",
-        "“Arise, go to Nineveh, that great city, and cry against it; for their wickedness is come up before Me.”",
-        "But Jonah rose up to flee to Tarshish from the presence of the Lord, and went down to Joppa; and he found a ship going to Tarshish: so he paid the fare of it, and went down into it, to go with them to Tarshish from the presence of the Lord.",
-        "But the Lord sent out a great wind into the sea, and there was a mighty tempest in the sea, so that the ship was like to be broken.",
-        "Then the mariners were afraid, and cried every man to his god, and cast forth the wares that were in the ship into the sea, to lighten it of them. But Jonah was gone down into the sides of the ship; and he lay, and was fast asleep.",
-        "So the shipmaster came to him, and said to him, “What mean you, O sleeper? arise, call upon your God, if so be that God will think upon us, that we perish not.”",
-        "And they said every one to his fellow, “Come, and let us cast lots, that we may know for whose cause this evil is upon us.” So they cast lots, and the lot fell upon Jonah.",
-        "Then said they to him, “Tell us, we pray you, for whose cause this evil is upon us; What is your occupation? and where do you come from? what is your country? and of what people are you?”",
-        "And he said to them, “I am a Hebrew; and I fear the Lord, the God of heaven, which has made the sea and the dry land.”",
-        "Then were the men exceedingly afraid, and said to him, “Why have you done this?” For the men knew that he fled from the presence of the Lord, because he had told them.",
-        "Then said they to him, “What shall we do to you, that the sea may be calm to us?” for the sea wrought, and was tempestuous.",
-        "And he said to them, “Take me up, and cast me forth into the sea; so shall the sea be calm to you: for I know that for my sake this great tempest is upon you.”",
-        "Nevertheless the men rowed hard to bring it to the land; but they could not: for the sea wrought, and was tempestuous against them.",
-        "Therefore they cried to the Lord, and said, “We beg You, O Lord, we beg You, let us not perish for this man’s life, and lay not upon us innocent blood: for You, O Lord, have done as it pleased You.”",
-        "So they took up Jonah, and cast him forth into the sea: and the sea ceased from her raging.",
-        "Then the men feared the Lord exceedingly, and offered a sacrifice to the Lord, and made vows.",
-        "Now the Lord had prepared a great fish to swallow up Jonah. And Jonah was in the belly of the fish three days and three nights."
-      ],
-      "notes": [],
-      "approved": "63037cd8"
-    },
-    {
-      "ch": "Jonah 2",
-      "verses": [
-        "Then Jonah prayed to the Lord his God out of the fish’s belly,",
-        "And said, “I cried by reason of my affliction to the Lord, and He heard me; out of the belly of hell cried I, and You heard my voice.”",
-        "“For You had cast me into the deep, in the midst of the seas; and the floods compassed me about: all Your billows and Your waves passed over me.”",
-        "“Then I said, ‘I am cast out of Your sight; yet I will look again toward Your holy temple.’”",
-        "“The waters compassed me about, even to the soul: the depth closed me round about, the weeds were wrapped about my head.”",
-        "“I went down to the bottoms of the mountains; the earth with her bars was about me for ever: yet have You brought up my life from corruption, O Lord my God.”",
-        "“When my soul fainted within me I remembered the Lord: and my prayer came in to You, into Your holy temple.”",
-        "“They that observe lying vanities forsake their own mercy.”",
-        "“But I will sacrifice to You with the voice of thanksgiving; I will pay that that I have vowed. Salvation is of the Lord.”",
-        "And the Lord spoke to the fish, and it vomited out Jonah upon the dry land."
-      ],
-      "notes": [],
-      "approved": "f2f206df"
-    },
-    {
-      "ch": "Jonah 3",
-      "verses": [
-        "And the word of the Lord came to Jonah the second time, saying,",
-        "“Arise, go to Nineveh, that great city, and preach to it the preaching that I bid you.”",
-        "So Jonah arose, and went to Nineveh, according to the word of the Lord. Now Nineveh was an exceeding great city of three days’ journey.",
-        "And Jonah began to enter into the city a day’s journey, and he cried, and said, “Yet forty days, and Nineveh shall be overthrown.”",
-        "So the people of Nineveh believed God, and proclaimed a fast, and put on sackcloth, from the greatest of them even to the least of them.",
-        "For word came to the king of Nineveh, and he arose from his throne, and he laid his robe from him, and covered him with sackcloth, and sat in ashes.",
-        "And he caused it to be proclaimed and published through Nineveh by the decree of the king and his nobles, saying, “Let neither man nor beast, herd nor flock, taste any thing: let them not feed, nor drink water:”",
-        "“But let man and beast be covered with sackcloth, and cry mightily to God: yes, let them turn every one from his evil way, and from the violence that is in their hands.”",
-        "“Who can tell if God will turn and repent, and turn away from His fierce anger, that we perish not?”",
-        "And God saw their works, that they turned from their evil way; and God repented of the evil, that He had said that He would do to them; and He did it not."
-      ],
-      "notes": [],
-      "approved": "68970103"
-    },
-    {
-      "ch": "Jonah 4",
-      "verses": [
-        "But it displeased Jonah exceedingly, and he was very angry.",
-        "And he prayed to the Lord, and said, “I pray You, O Lord, was not this my saying, when I was yet in my country? Therefore I fled before to Tarshish: for I knew that You are a gracious God, and merciful, slow to anger, and of great kindness, and repent You of the evil.”",
-        "“Therefore now, O Lord, take, I beg You, my life from me; for it is better for me to die than to live.”",
-        "Then said the Lord, “Do you well to be angry?”",
-        "So Jonah went out of the city, and sat on the east side of the city, and there made him a booth, and sat under it in the shadow, till he might see what would become of the city.",
-        "And the Lord God prepared a gourd, and made it to come up over Jonah, that it might be a shadow over his head, to deliver him from his grief. So Jonah was exceeding glad of the gourd.",
-        "But God prepared a worm when the morning rose the next day, and it smote the gourd that it withered.",
-        "And it came to pass, when the sun did arise, that God prepared a vehement east wind; and the sun beat upon the head of Jonah, that he fainted, and wished in himself to die, and said, “It is better for me to die than to live.”",
-        "And God said to Jonah, “Do you well to be angry for the gourd?” And he said, “I do well to be angry, even to death.”",
-        "Then said the Lord, “You have had pity on the gourd, for the which you have not labored, neither made it grow; which came up in a night, and perished in a night:”",
-        "“And should not I spare Nineveh, that great city, in which are more than sixscore thousand persons that cannot discern between their right hand and their left hand; and also much cattle?”"
-      ],
-      "notes": [],
-      "approved": "d1c952ca"
     },
     {
       "ch": "Mark 1",
@@ -31063,9 +31208,18 @@ window.TU_PLAIN = {
         "“But many that are first will be last; and the last will be first.”"
       ],
       "notes": [
-        "‘Judaea’ replaces Judæa",
-        "‘Honor’ replaces Honour",
-        "‘neighbor’ replaces neighbour"
+        {
+          "v": 1,
+          "text": "‘Judaea’ replaces Judæa"
+        },
+        {
+          "v": 1,
+          "text": "‘Honor’ replaces Honour"
+        },
+        {
+          "v": 1,
+          "text": "‘neighbor’ replaces neighbour"
+        }
       ],
       "approved": "0e572519"
     },
@@ -31141,7 +31295,10 @@ window.TU_PLAIN = {
         "And knew her not till she had brought forth her firstborn Son: and he called His name Jesus."
       ],
       "notes": [
-        "‘begot’ is used instead of ‘begat’"
+        {
+          "v": 1,
+          "text": "‘begot’ is used instead of ‘begat’"
+        }
       ],
       "approved": "e4145645"
     },
@@ -31197,7 +31354,10 @@ window.TU_PLAIN = {
         "And lo a voice from heaven, saying, “This is My beloved Son, in whom I am well pleased.”"
       ],
       "notes": [
-        "‘food’ is used instead of ‘meat’"
+        {
+          "v": 1,
+          "text": "‘food’ is used instead of ‘meat’"
+        }
       ],
       "approved": "26c01875"
     },
@@ -31248,7 +31408,10 @@ window.TU_PLAIN = {
         "“And whoever shall give to drink to one of these little ones a cup of cold water only in the name of a disciple, truly I say to you, he shall in no wise lose his reward.”"
       ],
       "notes": [
-        "‘scrip’ means bag or pouch"
+        {
+          "v": 1,
+          "text": "‘scrip’ means bag or pouch"
+        }
       ],
       "approved": "9398a449"
     },
@@ -31291,8 +31454,14 @@ window.TU_PLAIN = {
         "So Jesus had compassion on them, and touched their eyes: and immediately their eyes received sight, and they followed Him."
       ],
       "notes": [
-        "‘laborers’ replaces labourers",
-        "‘worshiping’ replaces worshipping"
+        {
+          "v": 1,
+          "text": "‘laborers’ replaces labourers"
+        },
+        {
+          "v": 1,
+          "text": "‘worshiping’ replaces worshipping"
+        }
       ],
       "approved": "53bd455b"
     },
@@ -31524,7 +31693,10 @@ window.TU_PLAIN = {
         "And there followed Him great multitudes of people from Galilee, and from Decapolis, and from Jerusalem, and from Judæa, and from beyond Jordan."
       ],
       "notes": [
-        "‘hungry’ is used instead of ‘an hungred’"
+        {
+          "v": 1,
+          "text": "‘hungry’ is used instead of ‘an hungred’"
+        }
       ],
       "approved": "29c3d3ab"
     },
@@ -31581,7 +31753,10 @@ window.TU_PLAIN = {
         "“Be you therefore perfect, even as your Father which is in heaven is perfect.”"
       ],
       "notes": [
-        "‘two’ is used instead of ‘twain’"
+        {
+          "v": 1,
+          "text": "‘two’ is used instead of ‘twain’"
+        }
       ],
       "approved": "902be536"
     },
@@ -31624,9 +31799,18 @@ window.TU_PLAIN = {
         "“Take therefore no thought for the morrow: for the morrow will take thought for the things of itself. Sufficient to the day is the evil of it.”"
       ],
       "notes": [
-        "‘food’ is used instead of ‘meat’",
-        "‘With what’ is used instead of ‘Wherewithal’",
-        "‘Therefore’ is used instead of ‘Wherefore’"
+        {
+          "v": 1,
+          "text": "‘food’ is used instead of ‘meat’"
+        },
+        {
+          "v": 1,
+          "text": "‘With what’ is used instead of ‘Wherewithal’"
+        },
+        {
+          "v": 1,
+          "text": "‘Therefore’ is used instead of ‘Wherefore’"
+        }
       ],
       "approved": "44076c2d"
     },
@@ -31681,8 +31865,14 @@ window.TU_PLAIN = {
         "But when they sought to lay hands on Him, they feared the multitude, because they took Him for a prophet."
       ],
       "notes": [
-        "‘marveled’ replaces marvelled",
-        "‘marvelous’ replaces marvellous"
+        {
+          "v": 1,
+          "text": "‘marveled’ replaces marvelled"
+        },
+        {
+          "v": 1,
+          "text": "‘marvelous’ replaces marvellous"
+        }
       ],
       "approved": "09604696"
     },
@@ -31883,9 +32073,18 @@ window.TU_PLAIN = {
         "And no man was able to answer Him a word, neither dared any man from that day forth ask Him any more questions."
       ],
       "notes": [
-        "‘marveled’ replaces marvelled",
-        "‘neighbor’ replaces neighbour",
-        "‘Caesar’ replaces Cæsar"
+        {
+          "v": 1,
+          "text": "‘marveled’ replaces marvelled"
+        },
+        {
+          "v": 1,
+          "text": "‘neighbor’ replaces neighbour"
+        },
+        {
+          "v": 1,
+          "text": "‘Caesar’ replaces Cæsar"
+        }
       ],
       "approved": "229b2b2e"
     },
@@ -31952,8 +32151,14 @@ window.TU_PLAIN = {
         "And He did not many mighty works there because of their unbelief."
       ],
       "notes": [
-        "‘tares’ means weeds",
-        "‘anon’ means immediately"
+        {
+          "v": 1,
+          "text": "‘tares’ means weeds"
+        },
+        {
+          "v": 1,
+          "text": "‘anon’ means immediately"
+        }
       ],
       "approved": "cdbfda33"
     },
@@ -31991,8 +32196,14 @@ window.TU_PLAIN = {
         "For He taught them as one having authority, and not as the scribes."
       ],
       "notes": [
-        "‘measure’ is used instead of ‘mete’",
-        "‘there’ is used instead of ‘thereat’"
+        {
+          "v": 1,
+          "text": "‘measure’ is used instead of ‘mete’"
+        },
+        {
+          "v": 1,
+          "text": "‘there’ is used instead of ‘thereat’"
+        }
       ],
       "approved": "1c3c8b6f"
     },
@@ -32035,7 +32246,10 @@ window.TU_PLAIN = {
         "And, behold, the whole city came out to meet Jesus: and when they saw Him, they besought Him that He would depart out of their coasts."
       ],
       "notes": [
-        "‘allow’ is used instead of ‘suffer’"
+        {
+          "v": 1,
+          "text": "‘allow’ is used instead of ‘suffer’"
+        }
       ],
       "approved": "e8d4fa32"
     },
@@ -32082,9 +32296,18 @@ window.TU_PLAIN = {
         "“Pray you therefore the Lord of the harvest, that He will send forth laborers into His harvest.”"
       ],
       "notes": [
-        "‘food’ is used instead of ‘meat’",
-        "‘strictly’ is used instead of ‘straitly’",
-        "‘of this’ is used instead of ‘hereof’"
+        {
+          "v": 1,
+          "text": "‘food’ is used instead of ‘meat’"
+        },
+        {
+          "v": 1,
+          "text": "‘strictly’ is used instead of ‘straitly’"
+        },
+        {
+          "v": 1,
+          "text": "‘of this’ is used instead of ‘hereof’"
+        }
       ],
       "approved": "f1fcd058"
     },
@@ -32129,8 +32352,14 @@ window.TU_PLAIN = {
         "And begged Him that they might only touch the hem of His garment: and as many as touched were made perfectly whole."
       ],
       "notes": [
-        "‘charger’ means platter",
-        "‘victuals’ means food"
+        {
+          "v": 1,
+          "text": "‘charger’ means platter"
+        },
+        {
+          "v": 1,
+          "text": "‘victuals’ means food"
+        }
       ],
       "approved": "3ec099cd"
     },
@@ -32178,9 +32407,18 @@ window.TU_PLAIN = {
         "“For I say to you, You will not see Me henceforth, till you will say, ‘Blessed is he that comes in the name of the Lord.’”"
       ],
       "notes": [
-        "‘pretense’ replaces pretence",
-        "‘cumin’ replaces cummin",
-        "‘sepulchers’ replaces sepulchres"
+        {
+          "v": 1,
+          "text": "‘pretense’ replaces pretence"
+        },
+        {
+          "v": 1,
+          "text": "‘cumin’ replaces cummin"
+        },
+        {
+          "v": 1,
+          "text": "‘sepulchers’ replaces sepulchres"
+        }
       ],
       "approved": "ea1bf162"
     },
@@ -32639,8 +32877,14 @@ window.TU_PLAIN = {
         "And He sent away the multitude, and took ship, and came into the coasts of Magdala."
       ],
       "notes": [
-        "‘draught’ means latrine or sewer",
-        "‘meet’ means right or proper"
+        {
+          "v": 1,
+          "text": "‘draught’ means latrine or sewer"
+        },
+        {
+          "v": 1,
+          "text": "‘meet’ means right or proper"
+        }
       ],
       "approved": "00d7cf42"
     },
@@ -32700,8 +32944,14 @@ window.TU_PLAIN = {
         "“And will cut him asunder, and appoint him his portion with the hypocrites: there will be weeping and gnashing of teeth.”"
       ],
       "notes": [
-        "‘Judaea’ replaces Judæa",
-        "‘fellow servants’ replaces fellowservants"
+        {
+          "v": 1,
+          "text": "‘Judaea’ replaces Judæa"
+        },
+        {
+          "v": 1,
+          "text": "‘fellow servants’ replaces fellowservants"
+        }
       ],
       "approved": "1a1ae1e1"
     },
@@ -32791,7 +33041,10 @@ window.TU_PLAIN = {
         "“And these will go away into everlasting punishment: but the righteous into life eternal.”"
       ],
       "notes": [
-        "‘traveling’ replaces travelling"
+        {
+          "v": 1,
+          "text": "‘traveling’ replaces travelling"
+        }
       ],
       "approved": "5a46f3d6"
     },
@@ -32827,8 +33080,14 @@ window.TU_PLAIN = {
         "“Notwithstanding, lest we should offend them, go you to the sea, and cast a hook, and take up the fish that first comes up; and when you have opened his mouth, you shall find a piece of money: that take, and give to them for Me and you.”"
       ],
       "notes": [
-        "‘listed’ means wished or desired",
-        "‘prevented’ means anticipated or spoke before"
+        {
+          "v": 1,
+          "text": "‘listed’ means wished or desired"
+        },
+        {
+          "v": 1,
+          "text": "‘prevented’ means anticipated or spoke before"
+        }
       ],
       "approved": "008583bd"
     },
@@ -32872,7 +33131,10 @@ window.TU_PLAIN = {
         "“So likewise shall My heavenly Father do also to you, if you from your hearts forgive not every one his brother their trespasses.”"
       ],
       "notes": [
-        "‘halt’ means lame"
+        {
+          "v": 1,
+          "text": "‘halt’ means lame"
+        }
       ],
       "approved": "504490a5"
     },
@@ -32956,8 +33218,14 @@ window.TU_PLAIN = {
         "And Peter remembered the word of Jesus, which said to him, “Before the cock crow, you will deny Me thrice.” And he went out, and wept bitterly."
       ],
       "notes": [
-        "‘subtlety’ replaces subtilty",
-        "‘betrays’ replaces bewrayeth"
+        {
+          "v": 1,
+          "text": "‘subtlety’ replaces subtilty"
+        },
+        {
+          "v": 1,
+          "text": "‘betrays’ replaces bewrayeth"
+        }
       ],
       "approved": "d200f9f9"
     },
@@ -33032,9 +33300,18 @@ window.TU_PLAIN = {
         "So they went, and made the sepulcher sure, sealing the stone, and setting a watch."
       ],
       "notes": [
-        "‘marveled’ replaces marvelled",
-        "‘Arimathaea’ replaces Arimathæa",
-        "‘sepulcher’ replaces sepulchre"
+        {
+          "v": 1,
+          "text": "‘marveled’ replaces marvelled"
+        },
+        {
+          "v": 1,
+          "text": "‘Arimathaea’ replaces Arimathæa"
+        },
+        {
+          "v": 1,
+          "text": "‘sepulcher’ replaces sepulchre"
+        }
       ],
       "approved": "c08f4db6"
     },
@@ -33063,8 +33340,14 @@ window.TU_PLAIN = {
         "“Teaching them to observe all things whatever I have commanded you: and, lo, I am with you always, even to the end of the world. Amen.”"
       ],
       "notes": [
-        "‘sepulcher’ replaces sepulchre",
-        "‘worshiped’ replaces worshipped"
+        {
+          "v": 1,
+          "text": "‘sepulcher’ replaces sepulchre"
+        },
+        {
+          "v": 1,
+          "text": "‘worshiped’ replaces worshipped"
+        }
       ],
       "approved": "f176abff"
     },
@@ -33200,8 +33483,14 @@ window.TU_PLAIN = {
         "And they answered and said to Him, “Where, Lord?” And He said to them, “Wherever the body is, there will the eagles be gathered together.”"
       ],
       "notes": [
-        "‘offenses’ replaces offences",
-        "‘think’ replaces trow"
+        {
+          "v": 1,
+          "text": "‘offenses’ replaces offences"
+        },
+        {
+          "v": 1,
+          "text": "‘think’ replaces trow"
+        }
       ],
       "approved": "7b04c227"
     },
@@ -33272,8 +33561,14 @@ window.TU_PLAIN = {
         "And Jesus said to him, “No man, having put his hand to the plow, and looking back, is fit for the kingdom of God.”"
       ],
       "notes": [
-        "‘scrip’ means bag",
-        "‘victuals’ means food"
+        {
+          "v": 1,
+          "text": "‘scrip’ means bag"
+        },
+        {
+          "v": 1,
+          "text": "‘victuals’ means food"
+        }
       ],
       "approved": "a5ed3e97"
     },
@@ -33368,9 +33663,18 @@ window.TU_PLAIN = {
         "And immediately he received his sight, and followed Him, glorifying God: and all the people, when they saw it, gave praise to God."
       ],
       "notes": [
-        "‘Allow’ replaces Suffer",
-        "‘treated’ replaces entreated",
-        "‘spit’ replaces spitted"
+        {
+          "v": 1,
+          "text": "‘Allow’ replaces Suffer"
+        },
+        {
+          "v": 1,
+          "text": "‘treated’ replaces entreated"
+        },
+        {
+          "v": 1,
+          "text": "‘spit’ replaces spitted"
+        }
       ],
       "approved": "14863803"
     },
@@ -33421,7 +33725,10 @@ window.TU_PLAIN = {
         "“But one thing is needful: and Mary has chosen that good part, which shall not be taken away from her.”"
       ],
       "notes": [
-        "‘scrip’ means bag"
+        {
+          "v": 1,
+          "text": "‘scrip’ means bag"
+        }
       ],
       "approved": "64af50c9"
     },
@@ -33571,9 +33878,18 @@ window.TU_PLAIN = {
         "And the child grew, and waxed strong in spirit, and was in the deserts till the day of his showing to Israel."
       ],
       "notes": [
-        "‘By what’ is used instead of ‘Whereby’",
-        "‘outside’ is used instead of ‘without’",
-        "‘from where’ is used instead of ‘whence’"
+        {
+          "v": 1,
+          "text": "‘By what’ is used instead of ‘Whereby’"
+        },
+        {
+          "v": 1,
+          "text": "‘outside’ is used instead of ‘without’"
+        },
+        {
+          "v": 1,
+          "text": "‘from where’ is used instead of ‘whence’"
+        }
       ],
       "approved": "2ebe7449"
     },
@@ -33634,7 +33950,10 @@ window.TU_PLAIN = {
         "And Jesus increased in wisdom and stature, and in favor with God and man."
       ],
       "notes": [
-        "‘Knew’ is used instead of ‘wist’"
+        {
+          "v": 1,
+          "text": "‘Knew’ is used instead of ‘wist’"
+        }
       ],
       "approved": "804cde38"
     },
@@ -33681,7 +34000,10 @@ window.TU_PLAIN = {
         "Which was the son of Enos, which was the son of Seth, which was the son of Adam, which was the son of God."
       ],
       "notes": [
-        "‘food’ is used instead of ‘meat’"
+        {
+          "v": 1,
+          "text": "‘food’ is used instead of ‘meat’"
+        }
       ],
       "approved": "235f6d27"
     },
@@ -33792,9 +34114,18 @@ window.TU_PLAIN = {
         "And could not find what they might do: for all the people were very attentive to hear Him."
       ],
       "notes": [
-        "‘Zacchaeus’ replaces Zacchæus",
-        "‘sycamore’ replaces sycomore",
-        "‘today’ replaces to day"
+        {
+          "v": 1,
+          "text": "‘Zacchaeus’ replaces Zacchæus"
+        },
+        {
+          "v": 1,
+          "text": "‘sycamore’ replaces sycomore"
+        },
+        {
+          "v": 1,
+          "text": "‘today’ replaces to day"
+        }
       ],
       "approved": "04e0da57"
     },
@@ -33857,8 +34188,14 @@ window.TU_PLAIN = {
         "Laying wait for Him, and seeking to catch something out of His mouth, that they might accuse Him."
       ],
       "notes": [
-        "‘importunity’ means persistence",
-        "‘ravening’ means greed"
+        {
+          "v": 1,
+          "text": "‘importunity’ means persistence"
+        },
+        {
+          "v": 1,
+          "text": "‘ravening’ means greed"
+        }
       ],
       "approved": "3b77029c"
     },
@@ -34052,10 +34389,22 @@ window.TU_PLAIN = {
         "“Which devour widows' houses, and for a show make long prayers: the same will receive greater damnation.”"
       ],
       "notes": [
-        "‘treated’ replaces entreated",
-        "‘Caesar’ replaces Cæsar",
-        "‘marveled’ replaces marvelled",
-        "‘dared’ replaces durst"
+        {
+          "v": 1,
+          "text": "‘treated’ replaces entreated"
+        },
+        {
+          "v": 1,
+          "text": "‘Caesar’ replaces Cæsar"
+        },
+        {
+          "v": 1,
+          "text": "‘marveled’ replaces marvelled"
+        },
+        {
+          "v": 1,
+          "text": "‘dared’ replaces durst"
+        }
       ],
       "approved": "08d1f32a"
     },
@@ -34108,7 +34457,10 @@ window.TU_PLAIN = {
         "And He preached in the synagogues of Galilee."
       ],
       "notes": [
-        "‘allowed’ is used instead of ‘suffered’"
+        {
+          "v": 1,
+          "text": "‘allowed’ is used instead of ‘suffered’"
+        }
       ],
       "approved": "928cefd1"
     },
@@ -34156,7 +34508,10 @@ window.TU_PLAIN = {
         "“No man also having drunk old wine straightway desires new: for he says, ‘The old is better.’”"
       ],
       "notes": [
-        "‘on which’ is used instead of ‘whereon’"
+        {
+          "v": 1,
+          "text": "‘on which’ is used instead of ‘whereon’"
+        }
       ],
       "approved": "6021821d"
     },
@@ -34214,10 +34569,22 @@ window.TU_PLAIN = {
         "“But he that hears, and does not, is like a man that without a foundation built a house on the earth, against which the stream did beat vehemently, and immediately it fell, and the ruin of that house was great.”"
       ],
       "notes": [
-        "‘hungry’ is used instead of ‘an hungred’",
-        "‘measure with’ is used instead of ‘mete withal’",
-        "‘showbread’ is used instead of ‘shewbread’",
-        "‘dug’ is used instead of ‘digged’"
+        {
+          "v": 1,
+          "text": "‘hungry’ is used instead of ‘an hungred’"
+        },
+        {
+          "v": 1,
+          "text": "‘measure with’ is used instead of ‘mete withal’"
+        },
+        {
+          "v": 1,
+          "text": "‘showbread’ is used instead of ‘shewbread’"
+        },
+        {
+          "v": 1,
+          "text": "‘dug’ is used instead of ‘digged’"
+        }
       ],
       "approved": "4b11b2ad"
     },
@@ -34399,9 +34766,18 @@ window.TU_PLAIN = {
         "“I tell you, you shall not depart from there, till you have paid the very last mite.”"
       ],
       "notes": [
-        "‘goodman’ means master or owner",
-        "‘wax’ means grow or become",
-        "‘hale’ means drag or haul"
+        {
+          "v": 1,
+          "text": "‘goodman’ means master or owner"
+        },
+        {
+          "v": 1,
+          "text": "‘wax’ means grow or become"
+        },
+        {
+          "v": 1,
+          "text": "‘hale’ means drag or haul"
+        }
       ],
       "approved": "508ac06d"
     },
@@ -34448,7 +34824,10 @@ window.TU_PLAIN = {
         "And all the people came early in the morning to Him in the temple, for to hear Him."
       ],
       "notes": [
-        "‘Judaea’ replaces Judæa"
+        {
+          "v": 1,
+          "text": "‘Judaea’ replaces Judæa"
+        }
       ],
       "approved": "afded420"
     },
@@ -34549,8 +34928,14 @@ window.TU_PLAIN = {
         "And He said to the woman, “Your faith has saved you, go in peace.”"
       ],
       "notes": [
-        "‘To what’ is used instead of ‘Whereunto’",
-        "‘food’ is used instead of ‘meat’"
+        {
+          "v": 1,
+          "text": "‘To what’ is used instead of ‘Whereunto’"
+        },
+        {
+          "v": 1,
+          "text": "‘food’ is used instead of ‘meat’"
+        }
       ],
       "approved": "3787995f"
     },
@@ -34615,11 +35000,26 @@ window.TU_PLAIN = {
         "And her parents were astonished: but He charged them that they should tell no man what was done."
       ],
       "notes": [
-        "‘outside’ is used instead of ‘without’",
-        "‘wore’ is used instead of ‘ware’",
-        "‘broke’ is used instead of ‘brake’",
-        "‘allow’ is used instead of ‘suffer’",
-        "‘food’ is used instead of ‘meat’"
+        {
+          "v": 1,
+          "text": "‘outside’ is used instead of ‘without’"
+        },
+        {
+          "v": 1,
+          "text": "‘wore’ is used instead of ‘ware’"
+        },
+        {
+          "v": 1,
+          "text": "‘broke’ is used instead of ‘brake’"
+        },
+        {
+          "v": 1,
+          "text": "‘allow’ is used instead of ‘suffer’"
+        },
+        {
+          "v": 1,
+          "text": "‘food’ is used instead of ‘meat’"
+        }
       ],
       "approved": "c76cca62"
     },
@@ -34712,8 +35112,14 @@ window.TU_PLAIN = {
         "“It is neither fit for the land, nor yet for the dunghill; but men cast it out. He that has ears to hear, let him hear.”"
       ],
       "notes": [
-        "‘halt’ means lame",
-        "‘haply’ means perhaps"
+        {
+          "v": 1,
+          "text": "‘halt’ means lame"
+        },
+        {
+          "v": 1,
+          "text": "‘haply’ means perhaps"
+        }
       ],
       "approved": "de721e48"
     },
@@ -34793,8 +35199,14 @@ window.TU_PLAIN = {
         "And they said, “What need we any further witness? for we ourselves have heard of His own mouth.”"
       ],
       "notes": [
-        "‘Allow’ replaces Suffer",
-        "‘Galilaean’ replaces Galilæan"
+        {
+          "v": 1,
+          "text": "‘Allow’ replaces Suffer"
+        },
+        {
+          "v": 1,
+          "text": "‘Galilaean’ replaces Galilæan"
+        }
       ],
       "approved": "4c74de8e"
     },
@@ -34962,7 +35374,10 @@ window.TU_PLAIN = {
         "Jesus answered him, Will you lay down your life for My sake? Truly, truly, I say to you, The cock shall not crow, till you have denied Me thrice."
       ],
       "notes": [
-        "‘sop’ means a piece of bread dipped in liquid"
+        {
+          "v": 1,
+          "text": "‘sop’ means a piece of bread dipped in liquid"
+        }
       ],
       "approved": "81dd9af9"
     },
@@ -35314,8 +35729,14 @@ window.TU_PLAIN = {
         "“‘It was meet that we should make merry, and be glad: for this your brother was dead, and is alive again; and was lost, and is found.’”"
       ],
       "notes": [
-        "‘fain’ means gladly or willingly",
-        "‘meet’ means fitting or proper"
+        {
+          "v": 1,
+          "text": "‘fain’ means gladly or willingly"
+        },
+        {
+          "v": 1,
+          "text": "‘meet’ means fitting or proper"
+        }
       ],
       "approved": "b0684184"
     },
@@ -35380,12 +35801,30 @@ window.TU_PLAIN = {
         "And they returned, and prepared spices and ointments; and rested the sabbath day according to the commandment."
       ],
       "notes": [
-        "‘Caesar’ replaces Cæsar",
-        "‘Galilean’ replaces Galilæan",
-        "‘naught’ replaces nought",
-        "‘Today’ replaces To day",
-        "‘Arimathea’ replaces Arimathæa",
-        "‘sepulcher’ replaces sepulchre"
+        {
+          "v": 1,
+          "text": "‘Caesar’ replaces Cæsar"
+        },
+        {
+          "v": 1,
+          "text": "‘Galilean’ replaces Galilæan"
+        },
+        {
+          "v": 1,
+          "text": "‘naught’ replaces nought"
+        },
+        {
+          "v": 1,
+          "text": "‘Today’ replaces To day"
+        },
+        {
+          "v": 1,
+          "text": "‘Arimathea’ replaces Arimathæa"
+        },
+        {
+          "v": 1,
+          "text": "‘sepulcher’ replaces sepulchre"
+        }
       ],
       "approved": "bcab3462"
     },
@@ -35425,7 +35864,10 @@ window.TU_PLAIN = {
         "“And he said to him, ‘If they hear not Moses and the prophets, neither will they be persuaded, though one rose from the dead.’”"
       ],
       "notes": [
-        "‘tittle’ means a tiny stroke of a letter"
+        {
+          "v": 1,
+          "text": "‘tittle’ means a tiny stroke of a letter"
+        }
       ],
       "approved": "672e3ace"
     },
@@ -35487,10 +35929,22 @@ window.TU_PLAIN = {
         "And were continually in the temple, praising and blessing God. Amen."
       ],
       "notes": [
-        "‘sepulcher’ replaces sepulchre",
-        "‘today’ replaces to day",
-        "‘worshiped’ replaces worshipped",
-        "‘behooved’ replaces behoved"
+        {
+          "v": 1,
+          "text": "‘sepulcher’ replaces sepulchre"
+        },
+        {
+          "v": 1,
+          "text": "‘today’ replaces to day"
+        },
+        {
+          "v": 1,
+          "text": "‘worshiped’ replaces worshipped"
+        },
+        {
+          "v": 1,
+          "text": "‘behooved’ replaces behoved"
+        }
       ],
       "approved": "75d75c4e"
     },
@@ -35568,7 +36022,10 @@ window.TU_PLAIN = {
         "Which also they did, and sent it to the elders by the hands of Barnabas and Saul."
       ],
       "notes": [
-        "‘dearth’ means famine"
+        {
+          "v": 1,
+          "text": "‘dearth’ means famine"
+        }
       ],
       "approved": "29b1604b"
     },
@@ -35653,9 +36110,18 @@ window.TU_PLAIN = {
         "And when he had given him license, Paul stood on the stairs, and beckoned with the hand to the people. And when there was made a great silence, he spoke to them in the Hebrew tongue, saying,"
       ],
       "notes": [
-        "‘Caesarea’ replaces Cæsarea",
-        "‘Judaea’ replaces Judæa",
-        "‘license’ replaces licence"
+        {
+          "v": 1,
+          "text": "‘Caesarea’ replaces Cæsarea"
+        },
+        {
+          "v": 1,
+          "text": "‘Judaea’ replaces Judæa"
+        },
+        {
+          "v": 1,
+          "text": "‘license’ replaces licence"
+        }
       ],
       "approved": "9544c127"
     },
@@ -35728,8 +36194,14 @@ window.TU_PLAIN = {
         "And they gave forth their lots, and the lot fell on Matthias, and he was numbered with the eleven apostles."
       ],
       "notes": [
-        "‘apart’ is used instead of ‘asunder’",
-        "‘bishopric’ is used instead of ‘bishoprick’"
+        {
+          "v": 1,
+          "text": "‘apart’ is used instead of ‘asunder’"
+        },
+        {
+          "v": 1,
+          "text": "‘bishopric’ is used instead of ‘bishoprick’"
+        }
       ],
       "approved": "fd9d3c40"
     },
@@ -35785,9 +36257,18 @@ window.TU_PLAIN = {
         "Praising God, and having favor with all the people. And the Lord added to the church daily such as should be saved."
       ],
       "notes": [
-        "‘food’ is used instead of ‘meat’",
-        "‘allow’ is used instead of ‘suffer’",
-        "‘held’ is used instead of ‘holden’"
+        {
+          "v": 1,
+          "text": "‘food’ is used instead of ‘meat’"
+        },
+        {
+          "v": 1,
+          "text": "‘allow’ is used instead of ‘suffer’"
+        },
+        {
+          "v": 1,
+          "text": "‘held’ is used instead of ‘holden’"
+        }
       ],
       "approved": "71406d30"
     },
@@ -35821,7 +36302,10 @@ window.TU_PLAIN = {
         "And Barnabas and Saul returned from Jerusalem, when they had fulfilled their ministry, and took with them John, whose surname was Mark."
       ],
       "notes": [
-        "‘quaternions’ means squads of four soldiers"
+        {
+          "v": 1,
+          "text": "‘quaternions’ means squads of four soldiers"
+        }
       ],
       "approved": "0639d064"
     },
@@ -35920,7 +36404,10 @@ window.TU_PLAIN = {
         "On the morrow, because he would have known the certainty why he was accused of the Jews, he loosed him from his bands, and commanded the chief priests and all their council to appear, and brought Paul down, and set him before them."
       ],
       "notes": [
-        "‘commanded’ replaces bade"
+        {
+          "v": 1,
+          "text": "‘commanded’ replaces bade"
+        }
       ],
       "approved": "23e0974b"
     },
@@ -35985,8 +36472,14 @@ window.TU_PLAIN = {
         "“To you first God, having raised up His Son Jesus, sent Him to bless you, in turning away every one of you from his iniquities.”"
       ],
       "notes": [
-        "‘of which’ is used instead of ‘whereof’",
-        "‘know’ is used instead of ‘wot’"
+        {
+          "v": 1,
+          "text": "‘of which’ is used instead of ‘whereof’"
+        },
+        {
+          "v": 1,
+          "text": "‘know’ is used instead of ‘wot’"
+        }
       ],
       "approved": "a2eb3700"
     },
@@ -36032,11 +36525,26 @@ window.TU_PLAIN = {
         "Having land, sold it, and brought the money, and laid it at the apostles’ feet."
       ],
       "notes": [
-        "‘evening’ is used instead of ‘eventide’",
-        "‘next day’ is used instead of ‘morrow’",
-        "‘nothing’ is used instead of ‘nought’",
-        "‘strictly’ is used instead of ‘straitly’",
-        "‘anything’ is used instead of ‘ought’"
+        {
+          "v": 1,
+          "text": "‘evening’ is used instead of ‘eventide’"
+        },
+        {
+          "v": 1,
+          "text": "‘next day’ is used instead of ‘morrow’"
+        },
+        {
+          "v": 1,
+          "text": "‘nothing’ is used instead of ‘nought’"
+        },
+        {
+          "v": 1,
+          "text": "‘strictly’ is used instead of ‘straitly’"
+        },
+        {
+          "v": 1,
+          "text": "‘anything’ is used instead of ‘ought’"
+        }
       ],
       "approved": "51a0f922"
     },
@@ -36087,11 +36595,26 @@ window.TU_PLAIN = {
         "And daily in the temple, and in every house, they ceased not to teach and preach Jesus Christ."
       ],
       "notes": [
-        "‘outside’ is used instead of ‘without’",
-        "‘to what’ is used instead of ‘whereunto’",
-        "‘nothing’ is used instead of ‘nought’",
-        "‘strictly’ is used instead of ‘straitly’",
-        "‘dared’ is used instead of ‘durst’"
+        {
+          "v": 1,
+          "text": "‘outside’ is used instead of ‘without’"
+        },
+        {
+          "v": 1,
+          "text": "‘to what’ is used instead of ‘whereunto’"
+        },
+        {
+          "v": 1,
+          "text": "‘nothing’ is used instead of ‘nought’"
+        },
+        {
+          "v": 1,
+          "text": "‘strictly’ is used instead of ‘straitly’"
+        },
+        {
+          "v": 1,
+          "text": "‘dared’ is used instead of ‘durst’"
+        }
       ],
       "approved": "1bd2f31b"
     },
@@ -36184,7 +36707,10 @@ window.TU_PLAIN = {
         "And the disciples were filled with joy, and with the Holy Ghost."
       ],
       "notes": [
-        "‘waxed’ means grew or became"
+        {
+          "v": 1,
+          "text": "‘waxed’ means grew or became"
+        }
       ],
       "approved": "79b35857"
     },
@@ -36274,8 +36800,14 @@ window.TU_PLAIN = {
         "“I will hear you,” said he, “when your accusers are also come.” And he commanded him to be kept in Herod's judgment hall."
       ],
       "notes": [
-        "‘tomorrow’ replaces to morrow",
-        "‘Caesarea’ replaces Cæsarea"
+        {
+          "v": 1,
+          "text": "‘tomorrow’ replaces to morrow"
+        },
+        {
+          "v": 1,
+          "text": "‘Caesarea’ replaces Cæsarea"
+        }
       ],
       "approved": "283c9847"
     },
@@ -36366,12 +36898,30 @@ window.TU_PLAIN = {
         "And he kneeled down, and cried with a loud voice, “Lord, lay not this sin to their charge.” And when he had said this, he fell asleep."
       ],
       "notes": [
-        "‘grain’ is used instead of ‘corn’",
-        "‘subtilely’ is used instead of ‘subtilly’",
-        "‘did’ is used instead of ‘diddest’",
-        "‘dared’ is used instead of ‘durst’",
-        "‘know’ is used instead of ‘wot’",
-        "‘drove’ is used instead of ‘drave’"
+        {
+          "v": 1,
+          "text": "‘grain’ is used instead of ‘corn’"
+        },
+        {
+          "v": 1,
+          "text": "‘subtilely’ is used instead of ‘subtilly’"
+        },
+        {
+          "v": 1,
+          "text": "‘did’ is used instead of ‘diddest’"
+        },
+        {
+          "v": 1,
+          "text": "‘dared’ is used instead of ‘durst’"
+        },
+        {
+          "v": 1,
+          "text": "‘know’ is used instead of ‘wot’"
+        },
+        {
+          "v": 1,
+          "text": "‘drove’ is used instead of ‘drave’"
+        }
       ],
       "approved": "15170804"
     },
@@ -36408,8 +36958,14 @@ window.TU_PLAIN = {
         "And there they stayed long time with the disciples."
       ],
       "notes": [
-        "‘rent’ means tore",
-        "‘Howbeit’ means however"
+        {
+          "v": 1,
+          "text": "‘rent’ means tore"
+        },
+        {
+          "v": 1,
+          "text": "‘Howbeit’ means however"
+        }
       ],
       "approved": "6e21c379"
     },
@@ -36445,8 +37001,14 @@ window.TU_PLAIN = {
         "But after two years Porcius Festus came into Felix' room: and Felix, willing to show the Jews a pleasure, left Paul bound."
       ],
       "notes": [
-        "‘offense’ replaces offence",
-        "‘anything’ replaces ought"
+        {
+          "v": 1,
+          "text": "‘offense’ replaces offence"
+        },
+        {
+          "v": 1,
+          "text": "‘anything’ replaces ought"
+        }
       ],
       "approved": "27ad3870"
     },
@@ -36516,7 +37078,10 @@ window.TU_PLAIN = {
         "But to Israel he says, All day long I have stretched forth My hands to a disobedient and gainsaying people."
       ],
       "notes": [
-        "‘gainsaying’ means contradicting or opposing"
+        {
+          "v": 1,
+          "text": "‘gainsaying’ means contradicting or opposing"
+        }
       ],
       "approved": "bd2e79df"
     },
@@ -36610,8 +37175,14 @@ window.TU_PLAIN = {
         "But put you on the Lord Jesus Christ, and make not provision for the flesh, to fulfill the lusts of it."
       ],
       "notes": [
-        "‘chambering’ means sexual immorality",
-        "‘wantonness’ means debauchery or lust"
+        {
+          "v": 1,
+          "text": "‘chambering’ means sexual immorality"
+        },
+        {
+          "v": 1,
+          "text": "‘wantonness’ means debauchery or lust"
+        }
       ],
       "approved": "92bdf7ce"
     },
@@ -36799,9 +37370,18 @@ window.TU_PLAIN = {
         "“For it seems to me unreasonable to send a prisoner, and not withal to signify the crimes laid against him.”"
       ],
       "notes": [
-        "‘Caesarea’ replaces Cæsarea",
-        "‘Caesar’ replaces Cæsar",
-        "‘Caesar's’ replaces Cæsar's"
+        {
+          "v": 1,
+          "text": "‘Caesarea’ replaces Cæsarea"
+        },
+        {
+          "v": 1,
+          "text": "‘Caesar’ replaces Cæsar"
+        },
+        {
+          "v": 1,
+          "text": "‘Caesar's’ replaces Cæsar's"
+        }
       ],
       "approved": "73631d82"
     },
@@ -36850,10 +37430,22 @@ window.TU_PLAIN = {
         "And they went out of the prison, and entered into the house of Lydia: and when they had seen the brothers, they comforted them, and departed."
       ],
       "notes": [
-        "‘assayed’ means attempted",
-        "‘rent’ means tore",
-        "‘privily’ means secretly",
-        "‘wont’ means accustomed"
+        {
+          "v": 1,
+          "text": "‘assayed’ means attempted"
+        },
+        {
+          "v": 1,
+          "text": "‘rent’ means tore"
+        },
+        {
+          "v": 1,
+          "text": "‘privily’ means secretly"
+        },
+        {
+          "v": 1,
+          "text": "‘wont’ means accustomed"
+        }
       ],
       "approved": "f2ab7040"
     },
@@ -36902,7 +37494,10 @@ window.TU_PLAIN = {
         "But Philip was found at Azotus: and passing through he preached in all the cities, till he came to Cæsarea."
       ],
       "notes": [
-        "‘dragging’ is used instead of ‘haling’"
+        {
+          "v": 1,
+          "text": "‘dragging’ is used instead of ‘haling’"
+        }
       ],
       "approved": "f7341e8f"
     },
@@ -36954,9 +37549,18 @@ window.TU_PLAIN = {
         "And it came to pass, that he tarried many days in Joppa with one Simon a tanner."
       ],
       "notes": [
-        "‘here’ is used instead of ‘hither’",
-        "‘food’ is used instead of ‘meat’",
-        "‘near’ is used instead of ‘nigh’"
+        {
+          "v": 1,
+          "text": "‘here’ is used instead of ‘hither’"
+        },
+        {
+          "v": 1,
+          "text": "‘food’ is used instead of ‘meat’"
+        },
+        {
+          "v": 1,
+          "text": "‘near’ is used instead of ‘nigh’"
+        }
       ],
       "approved": "be45786e"
     },
@@ -36997,9 +37601,18 @@ window.TU_PLAIN = {
         "Then said Agrippa to Festus, “This man might have been set at liberty, if he had not appealed to Caesar.”"
       ],
       "notes": [
-        "‘strict’ replaces straitest",
-        "‘Judaea’ replaces Judæa",
-        "‘Caesar’ replaces Cæsar"
+        {
+          "v": 1,
+          "text": "‘strict’ replaces straitest"
+        },
+        {
+          "v": 1,
+          "text": "‘Judaea’ replaces Judæa"
+        },
+        {
+          "v": 1,
+          "text": "‘Caesar’ replaces Cæsar"
+        }
       ],
       "approved": "b05b62ab"
     },
@@ -37056,13 +37669,34 @@ window.TU_PLAIN = {
         "And he commanded them to be baptized in the name of the Lord. Then prayed they him to tarry certain days."
       ],
       "notes": [
-        "‘always’ is used instead of ‘alway’",
-        "‘next day’ is used instead of ‘morrow’",
-        "‘near’ is used instead of ‘nigh’",
-        "‘In which’ is used instead of ‘Wherein’",
-        "‘three times’ is used instead of ‘thrice’",
-        "‘for which’ is used instead of ‘wherefore’",
-        "‘here’ is used instead of ‘hither’"
+        {
+          "v": 1,
+          "text": "‘always’ is used instead of ‘alway’"
+        },
+        {
+          "v": 1,
+          "text": "‘next day’ is used instead of ‘morrow’"
+        },
+        {
+          "v": 1,
+          "text": "‘near’ is used instead of ‘nigh’"
+        },
+        {
+          "v": 1,
+          "text": "‘In which’ is used instead of ‘Wherein’"
+        },
+        {
+          "v": 1,
+          "text": "‘three times’ is used instead of ‘thrice’"
+        },
+        {
+          "v": 1,
+          "text": "‘for which’ is used instead of ‘wherefore’"
+        },
+        {
+          "v": 1,
+          "text": "‘here’ is used instead of ‘hither’"
+        }
       ],
       "approved": "e4a56323"
     },
@@ -37105,10 +37739,22 @@ window.TU_PLAIN = {
         "Howbeit certain men clave to him, and believed: among the which was Dionysius the Areopagite, and a woman named Damaris, and others with them."
       ],
       "notes": [
-        "‘lewd’ means wicked or vile",
-        "‘haply’ means perhaps",
-        "‘clave’ means clung",
-        "‘Howbeit’ means however"
+        {
+          "v": 1,
+          "text": "‘lewd’ means wicked or vile"
+        },
+        {
+          "v": 1,
+          "text": "‘haply’ means perhaps"
+        },
+        {
+          "v": 1,
+          "text": "‘clave’ means clung"
+        },
+        {
+          "v": 1,
+          "text": "‘Howbeit’ means however"
+        }
       ],
       "approved": "b14e2b59"
     },
@@ -37161,9 +37807,18 @@ window.TU_PLAIN = {
         "And the rest, some on boards, and some on broken pieces of the ship. And so it came to pass, that they escaped all safe to land."
       ],
       "notes": [
-        "‘treated’ replaces entreated",
-        "‘Caesar’ replaces Cæsar",
-        "‘hoisted’ replaces hoised"
+        {
+          "v": 1,
+          "text": "‘treated’ replaces entreated"
+        },
+        {
+          "v": 1,
+          "text": "‘Caesar’ replaces Cæsar"
+        },
+        {
+          "v": 1,
+          "text": "‘hoisted’ replaces hoised"
+        }
       ],
       "approved": "47160aa5"
     },
@@ -37200,8 +37855,14 @@ window.TU_PLAIN = {
         "For he mightily convinced the Jews, and that publicly, showing by the scriptures that Jesus was Christ."
       ],
       "notes": [
-        "‘hard to’ means close to or next to",
-        "‘lewdness’ means wickedness or criminality"
+        {
+          "v": 1,
+          "text": "‘hard to’ means close to or next to"
+        },
+        {
+          "v": 1,
+          "text": "‘lewdness’ means wickedness or criminality"
+        }
       ],
       "approved": "4147c631"
     },
@@ -37241,11 +37902,26 @@ window.TU_PLAIN = {
         "Preaching the kingdom of God, and teaching those things which concern the Lord Jesus Christ, with all confidence, no man forbidding him."
       ],
       "notes": [
-        "‘allows’ replaces suffereth",
-        "‘allowed’ replaces suffered",
-        "‘Caesar’ replaces Cæsar",
-        "‘anything’ replaces ought",
-        "‘Judaea’ replaces Judæa"
+        {
+          "v": 1,
+          "text": "‘allows’ replaces suffereth"
+        },
+        {
+          "v": 1,
+          "text": "‘allowed’ replaces suffered"
+        },
+        {
+          "v": 1,
+          "text": "‘Caesar’ replaces Cæsar"
+        },
+        {
+          "v": 1,
+          "text": "‘anything’ replaces ought"
+        },
+        {
+          "v": 1,
+          "text": "‘Judaea’ replaces Judæa"
+        }
       ],
       "approved": "d7b9a115"
     },
@@ -37295,9 +37971,18 @@ window.TU_PLAIN = {
         "And when he had thus spoken, he dismissed the assembly."
       ],
       "notes": [
-        "‘divers’ means various or several",
-        "‘implead’ means sue or accuse",
-        "‘concourse’ means gathering or assembly"
+        {
+          "v": 1,
+          "text": "‘divers’ means various or several"
+        },
+        {
+          "v": 1,
+          "text": "‘implead’ means sue or accuse"
+        },
+        {
+          "v": 1,
+          "text": "‘concourse’ means gathering or assembly"
+        }
       ],
       "approved": "862fdde6"
     },
@@ -37344,7 +38029,10 @@ window.TU_PLAIN = {
         "Sorrowing most of all for the words which he spoke, that they should see his face no more. And they accompanied him to the ship."
       ],
       "notes": [
-        "‘sore’ means greatly or bitterly"
+        {
+          "v": 1,
+          "text": "‘sore’ means greatly or bitterly"
+        }
       ],
       "approved": "a8c6e4cc"
     },
@@ -37384,8 +38072,14 @@ window.TU_PLAIN = {
         "That, according as it is written, “He that glories, let him glory in the Lord.”"
       ],
       "notes": [
-        "‘no effect’ is used instead of ‘none effect’",
-        "‘nothing’ is used instead of ‘nought’"
+        {
+          "v": 1,
+          "text": "‘no effect’ is used instead of ‘none effect’"
+        },
+        {
+          "v": 1,
+          "text": "‘nothing’ is used instead of ‘nought’"
+        }
       ],
       "approved": "bc8c649d"
     },
@@ -37410,7 +38104,10 @@ window.TU_PLAIN = {
         "“For who has known the mind of the Lord, that he may instruct Him?” But we have the mind of Christ."
       ],
       "notes": [
-        "‘nothing’ is used instead of ‘nought’"
+        {
+          "v": 1,
+          "text": "‘nothing’ is used instead of ‘nought’"
+        }
       ],
       "approved": "44a83dcd"
     },
@@ -37443,11 +38140,26 @@ window.TU_PLAIN = {
         "Not for that we have dominion over your faith, but are helpers of your joy: for by faith you stand."
       ],
       "notes": [
-        "‘wherewith’ means with which",
-        "‘insomuch’ means to such an extent",
-        "‘conversation’ means behavior or conduct",
-        "‘you-ward’ means toward you",
-        "‘earnest’ means pledge or down payment"
+        {
+          "v": 1,
+          "text": "‘wherewith’ means with which"
+        },
+        {
+          "v": 1,
+          "text": "‘insomuch’ means to such an extent"
+        },
+        {
+          "v": 1,
+          "text": "‘conversation’ means behavior or conduct"
+        },
+        {
+          "v": 1,
+          "text": "‘you-ward’ means toward you"
+        },
+        {
+          "v": 1,
+          "text": "‘earnest’ means pledge or down payment"
+        }
       ],
       "approved": "b67b8297"
     },
@@ -37546,8 +38258,14 @@ window.TU_PLAIN = {
         "For we are not as many, which corrupt the word of God: but as of sincerity, but as of God, in the sight of God speak we in Christ."
       ],
       "notes": [
-        "‘contrariwise’ means on the contrary",
-        "‘beseech’ means beg or implore"
+        {
+          "v": 1,
+          "text": "‘contrariwise’ means on the contrary"
+        },
+        {
+          "v": 1,
+          "text": "‘beseech’ means beg or implore"
+        }
       ],
       "approved": "07976749"
     },
@@ -37579,9 +38297,18 @@ window.TU_PLAIN = {
         "And you are Christ’s, and Christ is God’s."
       ],
       "notes": [
-        "‘solid food’ is used instead of ‘meat’",
-        "‘before’ is used instead of ‘hitherto’",
-        "‘field’ is used instead of ‘husbandry’"
+        {
+          "v": 1,
+          "text": "‘solid food’ is used instead of ‘meat’"
+        },
+        {
+          "v": 1,
+          "text": "‘before’ is used instead of ‘hitherto’"
+        },
+        {
+          "v": 1,
+          "text": "‘field’ is used instead of ‘husbandry’"
+        }
       ],
       "approved": "dad0feec"
     },
@@ -37665,9 +38392,18 @@ window.TU_PLAIN = {
         "In whom you also are built together for a habitation of God through the Spirit."
       ],
       "notes": [
-        "‘made alive’ replaces quickened",
-        "‘a’ replaces an",
-        "‘built’ replaces builded"
+        {
+          "v": 1,
+          "text": "‘made alive’ replaces quickened"
+        },
+        {
+          "v": 1,
+          "text": "‘a’ replaces an"
+        },
+        {
+          "v": 1,
+          "text": "‘built’ replaces builded"
+        }
       ],
       "approved": "65426f2b"
     },
@@ -37694,8 +38430,14 @@ window.TU_PLAIN = {
         "But we all, with open face beholding as in a glass the glory of the Lord, are changed into the same image from glory to glory, even as by the Spirit of the Lord."
       ],
       "notes": [
-        "‘God-ward’ means toward God",
-        "‘glass’ means mirror"
+        {
+          "v": 1,
+          "text": "‘God-ward’ means toward God"
+        },
+        {
+          "v": 1,
+          "text": "‘glass’ means mirror"
+        }
       ],
       "approved": "0a01b177"
     },
@@ -37752,7 +38494,10 @@ window.TU_PLAIN = {
         "To Him be glory in the church by Christ Jesus throughout all ages, world without end. Amen."
       ],
       "notes": [
-        "‘fellow heirs’ replaces fellowheirs"
+        {
+          "v": 1,
+          "text": "‘fellow heirs’ replaces fellowheirs"
+        }
       ],
       "approved": "c62f7a75"
     },
@@ -37801,7 +38546,10 @@ window.TU_PLAIN = {
         "While we look not at the things which are seen, but at the things which are not seen: for the things which are seen are temporal; but the things which are not seen are eternal."
       ],
       "notes": [
-        "‘redound’ means contribute or turn to"
+        {
+          "v": 1,
+          "text": "‘redound’ means contribute or turn to"
+        }
       ],
       "approved": "8e045b78"
     },
@@ -37893,10 +38641,22 @@ window.TU_PLAIN = {
         "For He has made Him to be sin for us, who knew no sin; that we might be made the righteousness of God in Him."
       ],
       "notes": [
-        "‘earnest’ means pledge or down payment",
-        "‘To wit’ means that is to say",
-        "‘beseech’ means beg or implore",
-        "‘stead’ means place"
+        {
+          "v": 1,
+          "text": "‘earnest’ means pledge or down payment"
+        },
+        {
+          "v": 1,
+          "text": "‘To wit’ means that is to say"
+        },
+        {
+          "v": 1,
+          "text": "‘beseech’ means beg or implore"
+        },
+        {
+          "v": 1,
+          "text": "‘stead’ means place"
+        }
       ],
       "approved": "7c74dce4"
     },
@@ -37941,8 +38701,14 @@ window.TU_PLAIN = {
         "But them that are outside God judges. Therefore put away from among yourselves that wicked person."
       ],
       "notes": [
-        "‘truly’ is used instead of ‘verily’",
-        "‘outside’ is used instead of ‘without’"
+        {
+          "v": 1,
+          "text": "‘truly’ is used instead of ‘verily’"
+        },
+        {
+          "v": 1,
+          "text": "‘outside’ is used instead of ‘without’"
+        }
       ],
       "approved": "2644a55d"
     },
@@ -37971,10 +38737,22 @@ window.TU_PLAIN = {
         "For you are bought with a price: therefore glorify God in your body, and in your spirit, which are God’s."
       ],
       "notes": [
-        "‘allow’ is used instead of ‘suffer’",
-        "‘No’ is used instead of ‘Nay’",
-        "‘Foods’ is used instead of ‘Meats’",
-        "‘outside’ is used instead of ‘without’"
+        {
+          "v": 1,
+          "text": "‘allow’ is used instead of ‘suffer’"
+        },
+        {
+          "v": 1,
+          "text": "‘No’ is used instead of ‘Nay’"
+        },
+        {
+          "v": 1,
+          "text": "‘Foods’ is used instead of ‘Meats’"
+        },
+        {
+          "v": 1,
+          "text": "‘outside’ is used instead of ‘without’"
+        }
       ],
       "approved": "89144e4a"
     },
@@ -38023,8 +38801,14 @@ window.TU_PLAIN = {
         "But she is happier if she so abide, after my judgment: and I think also that I have the Spirit of God."
       ],
       "notes": [
-        "‘of which’ is used instead of ‘whereof’",
-        "‘in which’ is used instead of ‘wherein’"
+        {
+          "v": 1,
+          "text": "‘of which’ is used instead of ‘whereof’"
+        },
+        {
+          "v": 1,
+          "text": "‘in which’ is used instead of ‘wherein’"
+        }
       ],
       "approved": "93e846a6"
     },
@@ -38066,9 +38850,18 @@ window.TU_PLAIN = {
         "Nevertheless let every one of you in particular so love his wife even as himself; and the wife see that she reverence her husband."
       ],
       "notes": [
-        "‘sweet smelling’ replaces sweetsmelling",
-        "‘savor’ replaces savour",
-        "‘savior’ replaces saviour"
+        {
+          "v": 1,
+          "text": "‘sweet smelling’ replaces sweetsmelling"
+        },
+        {
+          "v": 1,
+          "text": "‘savor’ replaces savour"
+        },
+        {
+          "v": 1,
+          "text": "‘savior’ replaces saviour"
+        }
       ],
       "approved": "5c93e6bc"
     },
@@ -38127,12 +38920,30 @@ window.TU_PLAIN = {
         "“And will be a Father to you, and you shall be My sons and daughters, says the Lord Almighty.”"
       ],
       "notes": [
-        "‘beseech’ means beg or implore",
-        "‘succored’ means helped",
-        "‘unfeigned’ means genuine or sincere",
-        "‘straitened’ means restricted or cramped",
-        "‘bowels’ means affections or heart",
-        "‘concord’ means harmony or agreement"
+        {
+          "v": 1,
+          "text": "‘beseech’ means beg or implore"
+        },
+        {
+          "v": 1,
+          "text": "‘succored’ means helped"
+        },
+        {
+          "v": 1,
+          "text": "‘unfeigned’ means genuine or sincere"
+        },
+        {
+          "v": 1,
+          "text": "‘straitened’ means restricted or cramped"
+        },
+        {
+          "v": 1,
+          "text": "‘bowels’ means affections or heart"
+        },
+        {
+          "v": 1,
+          "text": "‘concord’ means harmony or agreement"
+        }
       ],
       "approved": "7cd42a65"
     },
@@ -38193,9 +39004,18 @@ window.TU_PLAIN = {
         "Grace be with all them that love our Lord Jesus Christ in sincerity. Amen."
       ],
       "notes": [
-        "‘Honor’ replaces Honour",
-        "‘armor’ replaces armour",
-        "‘to this end’ replaces thereunto"
+        {
+          "v": 1,
+          "text": "‘Honor’ replaces Honour"
+        },
+        {
+          "v": 1,
+          "text": "‘armor’ replaces armour"
+        },
+        {
+          "v": 1,
+          "text": "‘to this end’ replaces thereunto"
+        }
       ],
       "approved": "1eee3d58"
     },
@@ -38265,8 +39085,14 @@ window.TU_PLAIN = {
         "Therefore, if food make my brother to offend, I will eat no flesh while the world stands, lest I make my brother to offend."
       ],
       "notes": [
-        "‘food’ is used instead of ‘meat’",
-        "‘Therefore’ is used instead of ‘Wherefore’"
+        {
+          "v": 1,
+          "text": "‘food’ is used instead of ‘meat’"
+        },
+        {
+          "v": 1,
+          "text": "‘Therefore’ is used instead of ‘Wherefore’"
+        }
       ],
       "approved": "9b4453fa"
     },
@@ -38302,9 +39128,18 @@ window.TU_PLAIN = {
         "But I keep under my body, and bring it into subjection: lest that by any means, when I have preached to others, I myself should be a castaway."
       ],
       "notes": [
-        "‘of it’ is used instead of ‘thereof’",
-        "‘grain’ is used instead of ‘corn’",
-        "‘Truly’ is used instead of ‘Verily’"
+        {
+          "v": 1,
+          "text": "‘of it’ is used instead of ‘thereof’"
+        },
+        {
+          "v": 1,
+          "text": "‘grain’ is used instead of ‘corn’"
+        },
+        {
+          "v": 1,
+          "text": "‘Truly’ is used instead of ‘Verily’"
+        }
       ],
       "approved": "fef72438"
     },
@@ -38346,11 +39181,26 @@ window.TU_PLAIN = {
         "Even as I please all men in all things, not seeking my own profit, but the profit of many, that they may be saved."
       ],
       "notes": [
-        "‘food’ is used instead of ‘meat’",
-        "‘examples’ is used instead of ‘ensamples’",
-        "‘Therefore’ is used instead of ‘Wherefore’",
-        "‘allow’ is used instead of ‘suffer’",
-        "‘fullness of it’ is used instead of ‘fulness thereof’"
+        {
+          "v": 1,
+          "text": "‘food’ is used instead of ‘meat’"
+        },
+        {
+          "v": 1,
+          "text": "‘examples’ is used instead of ‘ensamples’"
+        },
+        {
+          "v": 1,
+          "text": "‘Therefore’ is used instead of ‘Wherefore’"
+        },
+        {
+          "v": 1,
+          "text": "‘allow’ is used instead of ‘suffer’"
+        },
+        {
+          "v": 1,
+          "text": "‘fullness of it’ is used instead of ‘fulness thereof’"
+        }
       ],
       "approved": "f88b3131"
     },
@@ -38389,10 +39239,22 @@ window.TU_PLAIN = {
         "Having the same conflict which you saw in me, and now hear to be in me."
       ],
       "notes": [
-        "‘defense’ replaces defence",
-        "‘offense’ replaces offence",
-        "‘pretense’ replaces pretence",
-        "‘between’ replaces betwixt"
+        {
+          "v": 1,
+          "text": "‘defense’ replaces defence"
+        },
+        {
+          "v": 1,
+          "text": "‘offense’ replaces offence"
+        },
+        {
+          "v": 1,
+          "text": "‘pretense’ replaces pretence"
+        },
+        {
+          "v": 1,
+          "text": "‘between’ replaces betwixt"
+        }
       ],
       "approved": "837f9942"
     },
@@ -38458,11 +39320,26 @@ window.TU_PLAIN = {
         "Wherefore show you to them, and before the churches, the proof of your love, and of our boasting on your behalf."
       ],
       "notes": [
-        "‘do you to wit’ means make known to you",
-        "‘liberality’ means generosity",
-        "‘entreaty’ means earnest request or appeal",
-        "‘Insomuch’ means to such an extent",
-        "‘forwardness’ means eagerness or readiness"
+        {
+          "v": 1,
+          "text": "‘do you to wit’ means make known to you"
+        },
+        {
+          "v": 1,
+          "text": "‘liberality’ means generosity"
+        },
+        {
+          "v": 1,
+          "text": "‘entreaty’ means earnest request or appeal"
+        },
+        {
+          "v": 1,
+          "text": "‘Insomuch’ means to such an extent"
+        },
+        {
+          "v": 1,
+          "text": "‘forwardness’ means eagerness or readiness"
+        }
       ],
       "approved": "ea5970b1"
     },
@@ -38525,7 +39402,10 @@ window.TU_PLAIN = {
         "Because for the work of Christ he was near to death, not regarding his life, to supply your lack of service toward me."
       ],
       "notes": [
-        "‘Fulfill’ replaces Fulfil"
+        {
+          "v": 1,
+          "text": "‘Fulfill’ replaces Fulfil"
+        }
       ],
       "approved": "8fc7703e"
     },
@@ -38568,9 +39448,18 @@ window.TU_PLAIN = {
         "And if any man hunger, let him eat at home, that you come not together to condemnation. And the rest will I set in order when I come."
       ],
       "notes": [
-        "‘broke’ is used instead of ‘brake’",
-        "‘Therefore’ is used instead of ‘Wherefore’",
-        "‘wait’ is used instead of ‘tarry’"
+        {
+          "v": 1,
+          "text": "‘broke’ is used instead of ‘brake’"
+        },
+        {
+          "v": 1,
+          "text": "‘Therefore’ is used instead of ‘Wherefore’"
+        },
+        {
+          "v": 1,
+          "text": "‘wait’ is used instead of ‘tarry’"
+        }
       ],
       "approved": "957e521b"
     },
@@ -38610,8 +39499,14 @@ window.TU_PLAIN = {
         "But covet earnestly the best gifts: and yet show I to you a more excellent way."
       ],
       "notes": [
-        "‘Therefore’ is used instead of ‘Wherefore’",
-        "‘No’ is used instead of ‘Nay’"
+        {
+          "v": 1,
+          "text": "‘Therefore’ is used instead of ‘Wherefore’"
+        },
+        {
+          "v": 1,
+          "text": "‘No’ is used instead of ‘Nay’"
+        }
       ],
       "approved": "c4ec0bcb"
     },
@@ -38690,10 +39585,22 @@ window.TU_PLAIN = {
         "Who will change our vile body, that it may be fashioned like to His glorious body, according to the working by which He is able even to subdue all things to Himself."
       ],
       "notes": [
-        "‘to what’ replaces whereto",
-        "‘example’ replaces ensample",
-        "‘where’ replaces whence",
-        "‘Savior’ replaces Saviour"
+        {
+          "v": 1,
+          "text": "‘to what’ replaces whereto"
+        },
+        {
+          "v": 1,
+          "text": "‘example’ replaces ensample"
+        },
+        {
+          "v": 1,
+          "text": "‘where’ replaces whence"
+        },
+        {
+          "v": 1,
+          "text": "‘Savior’ replaces Saviour"
+        }
       ],
       "approved": "406a4632"
     },
@@ -38717,10 +39624,22 @@ window.TU_PLAIN = {
         "Thanks be to God for His unspeakable gift."
       ],
       "notes": [
-        "‘haply’ means perhaps",
-        "‘Whiles’ means while",
-        "‘experiment’ means proof or evidence",
-        "‘unspeakable’ means indescribable"
+        {
+          "v": 1,
+          "text": "‘haply’ means perhaps"
+        },
+        {
+          "v": 1,
+          "text": "‘Whiles’ means while"
+        },
+        {
+          "v": 1,
+          "text": "‘experiment’ means proof or evidence"
+        },
+        {
+          "v": 1,
+          "text": "‘unspeakable’ means indescribable"
+        }
       ],
       "approved": "4ca4e4c4"
     },
@@ -38752,11 +39671,26 @@ window.TU_PLAIN = {
         "The grace of our Lord Jesus Christ be with you all. Amen."
       ],
       "notes": [
-        "‘fellow laborers’ replaces fellowlabourers",
-        "‘with this’ replaces therewith",
-        "‘odor’ replaces odour",
-        "‘well pleasing’ replaces wellpleasing",
-        "‘Caesar's’ replaces Cæsar's"
+        {
+          "v": 1,
+          "text": "‘fellow laborers’ replaces fellowlabourers"
+        },
+        {
+          "v": 1,
+          "text": "‘with this’ replaces therewith"
+        },
+        {
+          "v": 1,
+          "text": "‘odor’ replaces odour"
+        },
+        {
+          "v": 1,
+          "text": "‘well pleasing’ replaces wellpleasing"
+        },
+        {
+          "v": 1,
+          "text": "‘Caesar's’ replaces Cæsar's"
+        }
       ],
       "approved": "c255f39f"
     },
@@ -38802,9 +39736,18 @@ window.TU_PLAIN = {
         "Are they not all ministering spirits, sent forth to minister for them who shall be heirs of salvation?"
       ],
       "notes": [
-        "‘sundry’ means various or different",
-        "‘divers’ means various or different",
-        "‘vesture’ means clothing or a garment"
+        {
+          "v": 1,
+          "text": "‘sundry’ means various or different"
+        },
+        {
+          "v": 1,
+          "text": "‘divers’ means various or different"
+        },
+        {
+          "v": 1,
+          "text": "‘vesture’ means clothing or a garment"
+        }
       ],
       "approved": "decf7938"
     },
@@ -39064,7 +40007,10 @@ window.TU_PLAIN = {
         "But we are not of them who draw back to perdition; but of them that believe to the saving of the soul."
       ],
       "notes": [
-        "‘despite’ means insult or contempt"
+        {
+          "v": 1,
+          "text": "‘despite’ means insult or contempt"
+        }
       ],
       "approved": "0ba29639"
     },
@@ -39206,8 +40152,14 @@ window.TU_PLAIN = {
         "For not he that commends himself is approved, but whom the Lord commends."
       ],
       "notes": [
-        "‘beseech’ means beg or implore",
-        "‘base’ means humble or lowly"
+        {
+          "v": 1,
+          "text": "‘beseech’ means beg or implore"
+        },
+        {
+          "v": 1,
+          "text": "‘base’ means humble or lowly"
+        }
       ],
       "approved": "7cd08795"
     },
@@ -39278,9 +40230,18 @@ window.TU_PLAIN = {
         "Let all things be done decently and in order."
       ],
       "notes": [
-        "‘however’ is used instead of ‘howbeit’",
-        "‘Therefore’ is used instead of ‘Wherefore’",
-        "‘truly’ is used instead of ‘verily’"
+        {
+          "v": 1,
+          "text": "‘however’ is used instead of ‘howbeit’"
+        },
+        {
+          "v": 1,
+          "text": "‘Therefore’ is used instead of ‘Wherefore’"
+        },
+        {
+          "v": 1,
+          "text": "‘truly’ is used instead of ‘verily’"
+        }
       ],
       "approved": "14c01185"
     },
@@ -39347,10 +40308,22 @@ window.TU_PLAIN = {
         "Therefore, my beloved brothers, be you steadfast, unmovable, always abounding in the work of the Lord, forasmuch as you know that your labor is not in vain in the Lord."
       ],
       "notes": [
-        "‘in which’ is used instead of ‘wherein’",
-        "‘fit’ is used instead of ‘meet’",
-        "‘tomorrow’ is used instead of ‘to morrow’",
-        "‘However’ is used instead of ‘Howbeit’"
+        {
+          "v": 1,
+          "text": "‘in which’ is used instead of ‘wherein’"
+        },
+        {
+          "v": 1,
+          "text": "‘fit’ is used instead of ‘meet’"
+        },
+        {
+          "v": 1,
+          "text": "‘tomorrow’ is used instead of ‘to morrow’"
+        },
+        {
+          "v": 1,
+          "text": "‘However’ is used instead of ‘Howbeit’"
+        }
       ],
       "approved": "bc9a2c28"
     },
@@ -39414,12 +40387,30 @@ window.TU_PLAIN = {
         "And through a window in a basket was I let down by the wall, and escaped his hands."
       ],
       "notes": [
-        "‘whit’ means bit or smallest amount",
-        "‘rude’ means unpolished or untrained",
-        "‘chargeable’ means burdensome",
-        "‘Howbeit’ means however",
-        "‘whereinsoever’ means in whatever",
-        "‘Thrice’ means three times"
+        {
+          "v": 1,
+          "text": "‘whit’ means bit or smallest amount"
+        },
+        {
+          "v": 1,
+          "text": "‘rude’ means unpolished or untrained"
+        },
+        {
+          "v": 1,
+          "text": "‘chargeable’ means burdensome"
+        },
+        {
+          "v": 1,
+          "text": "‘Howbeit’ means however"
+        },
+        {
+          "v": 1,
+          "text": "‘whereinsoever’ means in whatever"
+        },
+        {
+          "v": 1,
+          "text": "‘Thrice’ means three times"
+        }
       ],
       "approved": "fb265d33"
     },
@@ -39489,10 +40480,22 @@ window.TU_PLAIN = {
         "To which I also labor, striving according to His working, which works in me mightily."
       ],
       "notes": [
-        "‘fellow servant’ replaces fellowservant",
-        "‘unblamable’ replaces unblameable",
-        "‘unreprovable’ replaces unreproveable",
-        "‘fulfill’ replaces fulfil"
+        {
+          "v": 1,
+          "text": "‘fellow servant’ replaces fellowservant"
+        },
+        {
+          "v": 1,
+          "text": "‘unblamable’ replaces unblameable"
+        },
+        {
+          "v": 1,
+          "text": "‘unreprovable’ replaces unreproveable"
+        },
+        {
+          "v": 1,
+          "text": "‘fulfill’ replaces fulfil"
+        }
       ],
       "approved": "13f047da"
     },
@@ -39525,10 +40528,22 @@ window.TU_PLAIN = {
         "My love be with you all in Christ Jesus. Amen."
       ],
       "notes": [
-        "‘fit’ is used instead of ‘meet’",
-        "‘wherever’ is used instead of ‘whithersoever’",
-        "‘wait’ is used instead of ‘tarry’",
-        "‘act like men’ is used instead of ‘quit you like men’"
+        {
+          "v": 1,
+          "text": "‘fit’ is used instead of ‘meet’"
+        },
+        {
+          "v": 1,
+          "text": "‘wherever’ is used instead of ‘whithersoever’"
+        },
+        {
+          "v": 1,
+          "text": "‘wait’ is used instead of ‘tarry’"
+        },
+        {
+          "v": 1,
+          "text": "‘act like men’ is used instead of ‘quit you like men’"
+        }
       ],
       "approved": "4d443074"
     },
@@ -39558,8 +40573,14 @@ window.TU_PLAIN = {
         "And lest, when I come again, my God will humble me among you, and that I shall bewail many which have sinned already, and have not repented of the uncleanness and fornication and lasciviousness which they have committed."
       ],
       "notes": [
-        "‘unspeakable’ means indescribable",
-        "‘buffet’ means strike or torment"
+        {
+          "v": 1,
+          "text": "‘unspeakable’ means indescribable"
+        },
+        {
+          "v": 1,
+          "text": "‘buffet’ means strike or torment"
+        }
       ],
       "approved": "e6efb121"
     },
@@ -39591,11 +40612,26 @@ window.TU_PLAIN = {
         "Which things have indeed a show of wisdom in will worship, and humility, and neglecting of the body; not in any honor to the satisfying of the flesh."
       ],
       "notes": [
-        "‘acknowledgment’ replaces acknowledgement",
-        "‘established’ replaces stablished",
-        "‘made alive’ replaces quickened",
-        "‘a holyday’ replaces an holyday",
-        "‘honor’ replaces honour"
+        {
+          "v": 1,
+          "text": "‘acknowledgment’ replaces acknowledgement"
+        },
+        {
+          "v": 1,
+          "text": "‘established’ replaces stablished"
+        },
+        {
+          "v": 1,
+          "text": "‘made alive’ replaces quickened"
+        },
+        {
+          "v": 1,
+          "text": "‘a holyday’ replaces an holyday"
+        },
+        {
+          "v": 1,
+          "text": "‘honor’ replaces honour"
+        }
       ],
       "approved": "19d7732e"
     },
@@ -39618,9 +40654,18 @@ window.TU_PLAIN = {
         "The grace of the Lord Jesus Christ, and the love of God, and the communion of the Holy Ghost, be with you all. Amen."
       ],
       "notes": [
-        "‘heretofore’ means previously",
-        "‘you-ward’ means toward you",
-        "‘reprobates’ means rejected or disqualified"
+        {
+          "v": 1,
+          "text": "‘heretofore’ means previously"
+        },
+        {
+          "v": 1,
+          "text": "‘you-ward’ means toward you"
+        },
+        {
+          "v": 1,
+          "text": "‘reprobates’ means rejected or disqualified"
+        }
       ],
       "approved": "3e5f9998"
     },
@@ -39679,12 +40724,30 @@ window.TU_PLAIN = {
         "The salutation by the hand of me Paul. Remember my bonds. Grace be with you. Amen."
       ],
       "notes": [
-        "‘At the same time’ replaces Withal",
-        "‘fellow servant’ replaces fellowservant",
-        "‘fellow prisoner’ replaces fellowprisoner",
-        "‘greets’ replaces saluteth",
-        "‘fellow workers’ replaces fellowworkers",
-        "‘fulfill’ replaces fulfil"
+        {
+          "v": 1,
+          "text": "‘At the same time’ replaces Withal"
+        },
+        {
+          "v": 1,
+          "text": "‘fellow servant’ replaces fellowservant"
+        },
+        {
+          "v": 1,
+          "text": "‘fellow prisoner’ replaces fellowprisoner"
+        },
+        {
+          "v": 1,
+          "text": "‘greets’ replaces saluteth"
+        },
+        {
+          "v": 1,
+          "text": "‘fellow workers’ replaces fellowworkers"
+        },
+        {
+          "v": 1,
+          "text": "‘fulfill’ replaces fulfil"
+        }
       ],
       "approved": "9c5e4bec"
     },
@@ -39717,8 +40780,14 @@ window.TU_PLAIN = {
         "And they glorified God in me."
       ],
       "notes": [
-        "‘conversation’ means behavior or conduct",
-        "‘profited’ means advanced or made progress"
+        {
+          "v": 1,
+          "text": "‘conversation’ means behavior or conduct"
+        },
+        {
+          "v": 1,
+          "text": "‘profited’ means advanced or made progress"
+        }
       ],
       "approved": "dbc6b71a"
     },
@@ -39737,7 +40806,10 @@ window.TU_PLAIN = {
         "And to wait for His Son from heaven, whom He raised from the dead, even Jesus, which delivered us from the wrath to come."
       ],
       "notes": [
-        "‘examples’ replaces ensamples"
+        {
+          "v": 1,
+          "text": "‘examples’ replaces ensamples"
+        }
       ],
       "approved": "c946e7c8"
     },
@@ -39767,9 +40839,18 @@ window.TU_PLAIN = {
         "I do not frustrate the grace of God: for if righteousness come by the law, then Christ is dead in vain."
       ],
       "notes": [
-        "‘privily’ means secretly",
-        "‘dissembled’ means acted hypocritically",
-        "‘dissimulation’ means hypocrisy"
+        {
+          "v": 1,
+          "text": "‘privily’ means secretly"
+        },
+        {
+          "v": 1,
+          "text": "‘dissembled’ means acted hypocritically"
+        },
+        {
+          "v": 1,
+          "text": "‘dissimulation’ means hypocrisy"
+        }
       ],
       "approved": "40da88fc"
     },
@@ -39798,8 +40879,14 @@ window.TU_PLAIN = {
         "For you are our glory and joy."
       ],
       "notes": [
-        "‘unblamably’ replaces unblameable",
-        "‘Judaea’ replaces Judæa"
+        {
+          "v": 1,
+          "text": "‘unblamably’ replaces unblameable"
+        },
+        {
+          "v": 1,
+          "text": "‘Judaea’ replaces Judæa"
+        }
       ],
       "approved": "a40476b1"
     },
@@ -39837,8 +40924,14 @@ window.TU_PLAIN = {
         "And if you be Christ’s, then are you Abraham’s seed, and heirs according to the promise."
       ],
       "notes": [
-        "‘disannul’ means cancel or invalidate",
-        "‘schoolmaster’ means tutor or guardian"
+        {
+          "v": 1,
+          "text": "‘disannul’ means cancel or invalidate"
+        },
+        {
+          "v": 1,
+          "text": "‘schoolmaster’ means tutor or guardian"
+        }
       ],
       "approved": "c706ab25"
     },
@@ -39860,9 +40953,18 @@ window.TU_PLAIN = {
         "To the end He may establish your hearts unblamable in holiness before God, even our Father, at the coming of our Lord Jesus Christ with all His saints."
       ],
       "notes": [
-        "‘fellow laborer’ replaces fellowlabourer",
-        "‘establish’ replaces stablish",
-        "‘unblamable’ replaces unblameable"
+        {
+          "v": 1,
+          "text": "‘fellow laborer’ replaces fellowlabourer"
+        },
+        {
+          "v": 1,
+          "text": "‘establish’ replaces stablish"
+        },
+        {
+          "v": 1,
+          "text": "‘unblamable’ replaces unblameable"
+        }
       ],
       "approved": "e86f6ee6"
     },
@@ -39889,7 +40991,10 @@ window.TU_PLAIN = {
         "Therefore comfort one another with these words."
       ],
       "notes": [
-        "‘honor’ replaces honour"
+        {
+          "v": 1,
+          "text": "‘honor’ replaces honour"
+        }
       ],
       "approved": "e2bbea15"
     },
@@ -39929,11 +41034,26 @@ window.TU_PLAIN = {
         "So then, brothers, we are not children of the bondwoman, but of the free."
       ],
       "notes": [
-        "‘Howbeit’ means however",
-        "‘whereunto’ means to which",
-        "‘beggarly’ means worthless or poor",
-        "‘affect’ means court or seek to win over",
-        "‘travail’ means suffer labor pains"
+        {
+          "v": 1,
+          "text": "‘Howbeit’ means however"
+        },
+        {
+          "v": 1,
+          "text": "‘whereunto’ means to which"
+        },
+        {
+          "v": 1,
+          "text": "‘beggarly’ means worthless or poor"
+        },
+        {
+          "v": 1,
+          "text": "‘affect’ means court or seek to win over"
+        },
+        {
+          "v": 1,
+          "text": "‘travail’ means suffer labor pains"
+        }
       ],
       "approved": "ace42eb0"
     },
@@ -39970,8 +41090,14 @@ window.TU_PLAIN = {
         "The grace of our Lord Jesus Christ be with you. Amen."
       ],
       "notes": [
-        "‘a helmet’ replaces an helmet",
-        "‘a holy’ replaces an holy"
+        {
+          "v": 1,
+          "text": "‘a helmet’ replaces an helmet"
+        },
+        {
+          "v": 1,
+          "text": "‘a holy’ replaces an holy"
+        }
       ],
       "approved": "9d3ce735"
     },
@@ -40006,13 +41132,34 @@ window.TU_PLAIN = {
         "Let us not be desirous of vain glory, provoking one another, envying one another."
       ],
       "notes": [
-        "‘manifest’ means clear or obvious",
-        "‘variance’ means discord or conflict",
-        "‘emulations’ means jealousies",
-        "‘seditions’ means divisions",
-        "‘longsuffering’ means patience",
-        "‘temperance’ means self-control",
-        "‘affections’ means passions"
+        {
+          "v": 1,
+          "text": "‘manifest’ means clear or obvious"
+        },
+        {
+          "v": 1,
+          "text": "‘variance’ means discord or conflict"
+        },
+        {
+          "v": 1,
+          "text": "‘emulations’ means jealousies"
+        },
+        {
+          "v": 1,
+          "text": "‘seditions’ means divisions"
+        },
+        {
+          "v": 1,
+          "text": "‘longsuffering’ means patience"
+        },
+        {
+          "v": 1,
+          "text": "‘temperance’ means self-control"
+        },
+        {
+          "v": 1,
+          "text": "‘affections’ means passions"
+        }
       ],
       "approved": "2970f0f0"
     },
@@ -40039,7 +41186,10 @@ window.TU_PLAIN = {
         "Brothers, the grace of our Lord Jesus Christ be with your spirit. Amen."
       ],
       "notes": [
-        "‘communicate’ means share with"
+        {
+          "v": 1,
+          "text": "‘communicate’ means share with"
+        }
       ],
       "approved": "a3726b86"
     },
@@ -40089,9 +41239,18 @@ window.TU_PLAIN = {
         "For the prophecy came not in old time by the will of man: but holy men of God spoke as they were moved by the Holy Ghost."
       ],
       "notes": [
-        "‘temperance’ means self-control",
-        "‘meet’ means fitting or proper",
-        "‘whereunto’ means to which"
+        {
+          "v": 1,
+          "text": "‘temperance’ means self-control"
+        },
+        {
+          "v": 1,
+          "text": "‘meet’ means fitting or proper"
+        },
+        {
+          "v": 1,
+          "text": "‘whereunto’ means to which"
+        }
       ],
       "approved": "56a66a9e"
     },
@@ -40148,7 +41307,10 @@ window.TU_PLAIN = {
         "The mystery of the seven stars which you saw in My right hand, and the seven golden candlesticks. The seven stars are the angels of the seven churches: and the seven candlesticks which you saw are the seven churches."
       ],
       "notes": [
-        "‘chest’ replaces paps"
+        {
+          "v": 1,
+          "text": "‘chest’ replaces paps"
+        }
       ],
       "approved": "23f368de"
     },
@@ -40184,10 +41346,22 @@ window.TU_PLAIN = {
         "Pure religion and undefiled before God and the Father is this, To visit the fatherless and widows in their affliction, and to keep himself unspotted from the world."
       ],
       "notes": [
-        "‘of it’ is used instead of ‘thereof’",
-        "‘fathered’ is used instead of ‘begat’",
-        "‘Therefore’ is used instead of ‘Wherefore’",
-        "‘mirror’ is used instead of ‘glass’"
+        {
+          "v": 1,
+          "text": "‘of it’ is used instead of ‘thereof’"
+        },
+        {
+          "v": 1,
+          "text": "‘fathered’ is used instead of ‘begat’"
+        },
+        {
+          "v": 1,
+          "text": "‘Therefore’ is used instead of ‘Wherefore’"
+        },
+        {
+          "v": 1,
+          "text": "‘mirror’ is used instead of ‘glass’"
+        }
       ],
       "approved": "b097fb90"
     },
@@ -40222,9 +41396,18 @@ window.TU_PLAIN = {
         "For as the body without the spirit is dead, so faith without works is dead also."
       ],
       "notes": [
-        "‘clothing’ is used instead of ‘raiment’",
-        "‘Listen’ is used instead of ‘Hearken’",
-        "‘worked’ is used instead of ‘wrought’"
+        {
+          "v": 1,
+          "text": "‘clothing’ is used instead of ‘raiment’"
+        },
+        {
+          "v": 1,
+          "text": "‘Listen’ is used instead of ‘Hearken’"
+        },
+        {
+          "v": 1,
+          "text": "‘worked’ is used instead of ‘wrought’"
+        }
       ],
       "approved": "2100aa20"
     },
@@ -40273,12 +41456,30 @@ window.TU_PLAIN = {
         "But it is happened to them according to the true proverb, “The dog is turned to his own vomit again; and the sow that was washed to her wallowing in the mire.”"
       ],
       "notes": [
-        "‘privily’ means secretly",
-        "‘pernicious’ means highly injurious or destructive",
-        "‘feigned’ means fictitious or deceptive",
-        "‘ensample’ means example",
-        "‘conversation’ means behavior or conduct",
-        "‘wantonness’ means lustfulness or unrestrained behavior"
+        {
+          "v": 1,
+          "text": "‘privily’ means secretly"
+        },
+        {
+          "v": 1,
+          "text": "‘pernicious’ means highly injurious or destructive"
+        },
+        {
+          "v": 1,
+          "text": "‘feigned’ means fictitious or deceptive"
+        },
+        {
+          "v": 1,
+          "text": "‘ensample’ means example"
+        },
+        {
+          "v": 1,
+          "text": "‘conversation’ means behavior or conduct"
+        },
+        {
+          "v": 1,
+          "text": "‘wantonness’ means lustfulness or unrestrained behavior"
+        }
       ],
       "approved": "87972258"
     },
@@ -40331,10 +41532,22 @@ window.TU_PLAIN = {
         "And the fruit of righteousness is sown in peace of them that make peace."
       ],
       "notes": [
-        "‘wherever’ is used instead of ‘whithersoever’",
-        "‘chooses’ is used instead of ‘listeth’",
-        "‘With it’ is used instead of ‘Therewith’",
-        "‘conduct’ is used instead of ‘conversation’"
+        {
+          "v": 1,
+          "text": "‘wherever’ is used instead of ‘whithersoever’"
+        },
+        {
+          "v": 1,
+          "text": "‘chooses’ is used instead of ‘listeth’"
+        },
+        {
+          "v": 1,
+          "text": "‘With it’ is used instead of ‘Therewith’"
+        },
+        {
+          "v": 1,
+          "text": "‘conduct’ is used instead of ‘conversation’"
+        }
       ],
       "approved": "3f559289"
     },
@@ -40360,11 +41573,26 @@ window.TU_PLAIN = {
         "Therefore to him that knows to do good, and does it not, to him it is sin."
       ],
       "notes": [
-        "‘where’ is used instead of ‘whence’",
-        "‘Therefore’ is used instead of ‘Wherefore’",
-        "‘near’ is used instead of ‘nigh’",
-        "‘Come now’ is used instead of ‘Go to now’",
-        "‘tomorrow’ is used instead of ‘to morrow’"
+        {
+          "v": 1,
+          "text": "‘where’ is used instead of ‘whence’"
+        },
+        {
+          "v": 1,
+          "text": "‘Therefore’ is used instead of ‘Wherefore’"
+        },
+        {
+          "v": 1,
+          "text": "‘near’ is used instead of ‘nigh’"
+        },
+        {
+          "v": 1,
+          "text": "‘Come now’ is used instead of ‘Go to now’"
+        },
+        {
+          "v": 1,
+          "text": "‘tomorrow’ is used instead of ‘to morrow’"
+        }
       ],
       "approved": "241b627e"
     },
@@ -40393,10 +41621,22 @@ window.TU_PLAIN = {
         "Let him know, that he which converts the sinner from the error of his way will save a soul from death, and will hide a multitude of sins."
       ],
       "notes": [
-        "‘Come now’ is used instead of ‘Go to now’",
-        "‘farmer’ is used instead of ‘husbandman’",
-        "‘yes’ is used instead of ‘yea’",
-        "‘no’ is used instead of ‘nay’"
+        {
+          "v": 1,
+          "text": "‘Come now’ is used instead of ‘Go to now’"
+        },
+        {
+          "v": 1,
+          "text": "‘farmer’ is used instead of ‘husbandman’"
+        },
+        {
+          "v": 1,
+          "text": "‘yes’ is used instead of ‘yea’"
+        },
+        {
+          "v": 1,
+          "text": "‘no’ is used instead of ‘nay’"
+        }
       ],
       "approved": "79669378"
     },
@@ -40447,12 +41687,30 @@ window.TU_PLAIN = {
         "But grow in grace, and in the knowledge of our Lord and Savior Jesus Christ. To Him be glory both now and for ever. Amen."
       ],
       "notes": [
-        "‘slack’ means slow or negligent",
-        "‘slackness’ means slowness or negligence",
-        "‘us-ward’ means toward us",
-        "‘conversation’ means behavior or conduct",
-        "‘hasting’ means hastening or hurrying",
-        "‘wrest’ means twist or distort"
+        {
+          "v": 1,
+          "text": "‘slack’ means slow or negligent"
+        },
+        {
+          "v": 1,
+          "text": "‘slackness’ means slowness or negligence"
+        },
+        {
+          "v": 1,
+          "text": "‘us-ward’ means toward us"
+        },
+        {
+          "v": 1,
+          "text": "‘conversation’ means behavior or conduct"
+        },
+        {
+          "v": 1,
+          "text": "‘hasting’ means hastening or hurrying"
+        },
+        {
+          "v": 1,
+          "text": "‘wrest’ means twist or distort"
+        }
       ],
       "approved": "f87ee78b"
     },
@@ -40490,8 +41748,14 @@ window.TU_PLAIN = {
         "He that has an ear, let him hear what the Spirit says to the churches."
       ],
       "notes": [
-        "‘where’ replaces whence",
-        "‘stumbling block’ replaces stumblingblock"
+        {
+          "v": 1,
+          "text": "‘where’ replaces whence"
+        },
+        {
+          "v": 1,
+          "text": "‘stumbling block’ replaces stumblingblock"
+        }
       ],
       "approved": "ddae2bc2"
     },
@@ -40564,7 +41828,10 @@ window.TU_PLAIN = {
         "He that has an ear, let him hear what the Spirit says to the churches."
       ],
       "notes": [
-        "‘spew’ replaces spue"
+        {
+          "v": 1,
+          "text": "‘spew’ replaces spue"
+        }
       ],
       "approved": "f826a046"
     },
@@ -40625,12 +41892,30 @@ window.TU_PLAIN = {
         "But the word of the Lord endures for ever. And this is the word which by the gospel is preached to you."
       ],
       "notes": [
-        "‘fathered’ is used instead of ‘begotten’",
-        "‘In which’ is used instead of ‘Wherein’",
-        "‘Therefore’ is used instead of ‘Wherefore’",
-        "‘conduct’ is used instead of ‘conversation’",
-        "‘truly’ is used instead of ‘verily’",
-        "‘of it’ is used instead of ‘thereof’"
+        {
+          "v": 1,
+          "text": "‘fathered’ is used instead of ‘begotten’"
+        },
+        {
+          "v": 1,
+          "text": "‘In which’ is used instead of ‘Wherein’"
+        },
+        {
+          "v": 1,
+          "text": "‘Therefore’ is used instead of ‘Wherefore’"
+        },
+        {
+          "v": 1,
+          "text": "‘conduct’ is used instead of ‘conversation’"
+        },
+        {
+          "v": 1,
+          "text": "‘truly’ is used instead of ‘verily’"
+        },
+        {
+          "v": 1,
+          "text": "‘of it’ is used instead of ‘thereof’"
+        }
       ],
       "approved": "7ec3e848"
     },
@@ -40664,11 +41949,26 @@ window.TU_PLAIN = {
         "For you were as sheep going astray, but are now returned to the Shepherd and Bishop of your souls."
       ],
       "notes": [
-        "‘Therefore’ is used instead of ‘Wherefore’",
-        "‘to which’ is used instead of ‘whereunto’",
-        "‘conduct’ is used instead of ‘conversation’",
-        "‘perverse’ is used instead of ‘froward’",
-        "‘to this’ is used instead of ‘hereunto’"
+        {
+          "v": 1,
+          "text": "‘Therefore’ is used instead of ‘Wherefore’"
+        },
+        {
+          "v": 1,
+          "text": "‘to which’ is used instead of ‘whereunto’"
+        },
+        {
+          "v": 1,
+          "text": "‘conduct’ is used instead of ‘conversation’"
+        },
+        {
+          "v": 1,
+          "text": "‘perverse’ is used instead of ‘froward’"
+        },
+        {
+          "v": 1,
+          "text": "‘to this’ is used instead of ‘hereunto’"
+        }
       ],
       "approved": "2b37b4ae"
     },
@@ -40699,12 +41999,30 @@ window.TU_PLAIN = {
         "Who is gone into heaven, and is on the right hand of God, angels and authorities and powers being made subject to Him."
       ],
       "notes": [
-        "‘conduct’ is used instead of ‘conversation’",
-        "‘called to this’ is used instead of ‘thereunto called’",
-        "‘avoid’ is used instead of ‘eschew’",
-        "‘pursue’ is used instead of ‘ensue’",
-        "‘in which’ is used instead of ‘wherein’",
-        "‘to which’ is used instead of ‘whereunto’"
+        {
+          "v": 1,
+          "text": "‘conduct’ is used instead of ‘conversation’"
+        },
+        {
+          "v": 1,
+          "text": "‘called to this’ is used instead of ‘thereunto called’"
+        },
+        {
+          "v": 1,
+          "text": "‘avoid’ is used instead of ‘eschew’"
+        },
+        {
+          "v": 1,
+          "text": "‘pursue’ is used instead of ‘ensue’"
+        },
+        {
+          "v": 1,
+          "text": "‘in which’ is used instead of ‘wherein’"
+        },
+        {
+          "v": 1,
+          "text": "‘to which’ is used instead of ‘whereunto’"
+        }
       ],
       "approved": "c8511893"
     },
@@ -40739,8 +42057,14 @@ window.TU_PLAIN = {
         "“You are worthy, O Lord, to receive glory and honor and power: for you have created all things, and for your pleasure they are and were created.”"
       ],
       "notes": [
-        "‘here’ replaces hither",
-        "‘honor’ replaces honour"
+        {
+          "v": 1,
+          "text": "‘here’ replaces hither"
+        },
+        {
+          "v": 1,
+          "text": "‘honor’ replaces honour"
+        }
       ],
       "approved": "d2b7418b"
     },
@@ -40778,8 +42102,14 @@ window.TU_PLAIN = {
         "If you know that He is righteous, you know that every one that does righteousness is born of Him."
       ],
       "notes": [
-        "‘manifest’ means clear or obvious",
-        "‘unction’ means anointing"
+        {
+          "v": 1,
+          "text": "‘manifest’ means clear or obvious"
+        },
+        {
+          "v": 1,
+          "text": "‘unction’ means anointing"
+        }
       ],
       "approved": "c3eed5aa"
     },
@@ -40807,9 +42137,18 @@ window.TU_PLAIN = {
         "Therefore let them that suffer according to the will of God commit the keeping of their souls to Him in well doing, as to a faithful Creator."
       ],
       "notes": [
-        "‘worked’ is used instead of ‘wrought’",
-        "‘In which’ is used instead of ‘Wherein’",
-        "‘Therefore’ is used instead of ‘Wherefore’"
+        {
+          "v": 1,
+          "text": "‘worked’ is used instead of ‘wrought’"
+        },
+        {
+          "v": 1,
+          "text": "‘In which’ is used instead of ‘Wherein’"
+        },
+        {
+          "v": 1,
+          "text": "‘Therefore’ is used instead of ‘Wherefore’"
+        }
       ],
       "approved": "7f77de94"
     },
@@ -40832,11 +42171,26 @@ window.TU_PLAIN = {
         "Greet you one another with a kiss of charity. Peace be with you all that are in Christ Jesus. Amen."
       ],
       "notes": [
-        "‘of it’ is used instead of ‘thereof’",
-        "‘examples’ is used instead of ‘ensamples’",
-        "‘Yes’ is used instead of ‘Yea’",
-        "‘establish’ is used instead of ‘stablish’",
-        "‘in which’ is used instead of ‘wherein’"
+        {
+          "v": 1,
+          "text": "‘of it’ is used instead of ‘thereof’"
+        },
+        {
+          "v": 1,
+          "text": "‘examples’ is used instead of ‘ensamples’"
+        },
+        {
+          "v": 1,
+          "text": "‘Yes’ is used instead of ‘Yea’"
+        },
+        {
+          "v": 1,
+          "text": "‘establish’ is used instead of ‘stablish’"
+        },
+        {
+          "v": 1,
+          "text": "‘in which’ is used instead of ‘wherein’"
+        }
       ],
       "approved": "94a3bb43"
     },
@@ -40869,7 +42223,10 @@ window.TU_PLAIN = {
         "And he that keeps His commandments dwells in Him, and He in him. And hereby we know that He abides in us, by the Spirit which He has given us."
       ],
       "notes": [
-        "‘manifest’ means clear or obvious"
+        {
+          "v": 1,
+          "text": "‘manifest’ means clear or obvious"
+        }
       ],
       "approved": "9145b515"
     },
@@ -40892,8 +42249,14 @@ window.TU_PLAIN = {
         "And the four beasts said, “Amen.” And the four and twenty elders fell down and worshipped Him that lives for ever and ever."
       ],
       "notes": [
-        "‘odors’ replaces odours",
-        "‘honor’ replaces honour"
+        {
+          "v": 1,
+          "text": "‘odors’ replaces odours"
+        },
+        {
+          "v": 1,
+          "text": "‘honor’ replaces honour"
+        }
       ],
       "approved": "4f0488fb"
     },
@@ -41119,7 +42482,10 @@ window.TU_PLAIN = {
         "And this commandment have we from Him, That he who loves God love his brother also."
       ],
       "notes": [
-        "‘whereof’ means of which"
+        {
+          "v": 1,
+          "text": "‘whereof’ means of which"
+        }
       ],
       "approved": "ea415179"
     },
@@ -41145,7 +42511,10 @@ window.TU_PLAIN = {
         "“For the great day of His wrath is come; and who will be able to stand?”"
       ],
       "notes": [
-        "‘fellow servants’ replaces fellowservants"
+        {
+          "v": 1,
+          "text": "‘fellow servants’ replaces fellowservants"
+        }
       ],
       "approved": "1b42dbcc"
     },
@@ -41199,9 +42568,18 @@ window.TU_PLAIN = {
         "“For the Lamb which is in the midst of the throne will feed them, and will lead them to living fountains of waters: and God will wipe away all tears from their eyes.”"
       ],
       "notes": [
-        "‘a hundred’ replaces an hundred",
-        "‘honor’ replaces honour",
-        "‘from where’ replaces whence"
+        {
+          "v": 1,
+          "text": "‘a hundred’ replaces an hundred"
+        },
+        {
+          "v": 1,
+          "text": "‘honor’ replaces honour"
+        },
+        {
+          "v": 1,
+          "text": "‘from where’ replaces whence"
+        }
       ],
       "approved": "e65299b6"
     },
@@ -41223,9 +42601,18 @@ window.TU_PLAIN = {
         "The children of your elect sister greet you. Amen."
       ],
       "notes": [
-        "‘beseech’ means beg or implore",
-        "‘wrought’ means worked or accomplished",
-        "‘bid him God speed’ means wish him well or greet him"
+        {
+          "v": 1,
+          "text": "‘beseech’ means beg or implore"
+        },
+        {
+          "v": 1,
+          "text": "‘wrought’ means worked or accomplished"
+        },
+        {
+          "v": 1,
+          "text": "‘bid him God speed’ means wish him well or greet him"
+        }
       ],
       "approved": "598e8aeb"
     },
@@ -41248,8 +42635,14 @@ window.TU_PLAIN = {
         "But I trust I shall shortly see you, and we shall speak face to face. Peace be to you. Our friends salute you. Greet the friends by name."
       ],
       "notes": [
-        "‘prating’ means maliciously chattering or gossiping",
-        "‘therewith’ means with that"
+        {
+          "v": 1,
+          "text": "‘prating’ means maliciously chattering or gossiping"
+        },
+        {
+          "v": 1,
+          "text": "‘therewith’ means with that"
+        }
       ],
       "approved": "dc7e5f2f"
     },
@@ -41283,7 +42676,10 @@ window.TU_PLAIN = {
         "To the only wise God our Savior, be glory and majesty, dominion and power, both now and ever. Amen."
       ],
       "notes": [
-        "‘gainsaying’ means rebellion or speaking against"
+        {
+          "v": 1,
+          "text": "‘gainsaying’ means rebellion or speaking against"
+        }
       ],
       "approved": "820f7644"
     }
