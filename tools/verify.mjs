@@ -916,7 +916,8 @@ async function main(scripture, week, pages, online) {
         if ((t.match(/“/g) || []).length !== (t.match(/”/g) || []).length) fail(where, `verse ${i + 1} has unbalanced “quotes”`);
         if (words(t) > words(kjv) * 1.5 + 8) note(`${where}: verse ${i + 1} is ${words(t)} words to the KJV's ${words(kjv)}; check it adds nothing`);
         const left = [...new Set((kjv.match(/[A-Za-z]+/g) || []).filter(w => names.has(w.toLowerCase())))]
-          .filter(w => !new RegExp(`\\b${w}\\b`, 'i').test(t));
+          // another form of the same name counts: Israelites for Israel, Canaanites for Canaanite
+          .filter(w => !new RegExp(`\\b${w.replace(/(itish|ites|ite|s)$/i, '')}`, 'i').test(t));
         if (left.length) note(`${where}: verse ${i + 1} leaves out ${left.join(', ')}`);
         if (/\b(thee|thou|thy|thine|ye|hath|saith|doth|shalt|unto)\b/i.test(t) || /\bLORD\b/.test(t)) note(`${where}: verse ${i + 1} still has KJV English`);
       });
