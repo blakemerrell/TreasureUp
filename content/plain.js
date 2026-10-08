@@ -29376,6 +29376,1570 @@ window.TU_PLAIN = {
         "‘tire’ means turban or headdress"
       ],
       "approved": "49decb2d"
+    },
+    {
+      "ch": "Joel 1",
+      "verses": [
+        "The word of the Lord that came to Joel the son of Pethuel.",
+        "Hear this, you old men, and give ear, all you inhabitants of the land. Has this been in your days, or even in the days of your fathers?",
+        "Tell you your children of it, and let your children tell their children, and their children another generation.",
+        "That which the palmerworm has left has the locust eaten; and that which the locust has left has the cankerworm eaten; and that which the cankerworm has left has the caterpillar eaten.",
+        "Awake, you drunkards, and weep; and howl, all you drinkers of wine, because of the new wine; for it is cut off from your mouth.",
+        "For a nation is come up upon My land, strong, and without number, whose teeth are the teeth of a lion, and he has the cheek teeth of a great lion.",
+        "He has laid My vine waste, and barked My fig tree: he has made it clean bare, and cast it away; the branches of it are made white.",
+        "Lament like a virgin girded with sackcloth for the husband of her youth.",
+        "The food offering and the drink offering is cut off from the house of the Lord; the priests, the Lord’s ministers, mourn.",
+        "The field is wasted, the land mourns; for the corn is wasted: the new wine is dried up, the oil languishes.",
+        "Be you ashamed, O you husbandmen; howl, O you vinedressers, for the wheat and for the barley; because the harvest of the field has perished.",
+        "The vine is dried up, and the fig tree languishes; the pomegranate tree, the palm tree also, and the apple tree, even all the trees of the field, are withered: because joy is withered away from the sons of men.",
+        "Gird yourselves, and lament, you priests: howl, you ministers of the altar: come, lie all night in sackcloth, you ministers of my God: for the food offering and the drink offering is withheld from the house of your God.",
+        "Sanctify you a fast, call a solemn assembly, gather the elders and all the inhabitants of the land into the house of the Lord your God, and cry to the Lord,",
+        "Alas for the day! for the day of the Lord is at hand, and as a destruction from the Almighty shall it come.",
+        "Is not the food cut off before our eyes, yes, joy and gladness from the house of our God?",
+        "The seed is rotten under their clods, the garners are laid desolate, the barns are broken down; for the corn is withered.",
+        "How do the beasts groan! the herds of cattle are perplexed, because they have no pasture; yes, the flocks of sheep are made desolate.",
+        "O Lord, to You will I cry: for the fire has devoured the pastures of the wilderness, and the flame has burned all the trees of the field.",
+        "The beasts of the field cry also to You: for the rivers of waters are dried up, and the fire has devoured the pastures of the wilderness."
+      ],
+      "notes": [
+        "‘barked’ means stripped of bark"
+      ],
+      "approved": "98eb8705"
+    },
+    {
+      "ch": "Zephaniah 1",
+      "verses": [
+        "The word of the Lord which came to Zephaniah the son of Cushi, the son of Gedaliah, the son of Amariah, the son of Hizkiah, in the days of Josiah the son of Amon, king of Judah.",
+        "I will utterly consume all things from off the land, says the Lord.",
+        "I will consume man and beast; I will consume the fowls of the heaven, and the fishes of the sea, and the stumblingblocks with the wicked; and I will cut off man from off the land, says the Lord.",
+        "I will also stretch out My hand upon Judah, and upon all the inhabitants of Jerusalem; and I will cut off the remnant of Baal from this place, and the name of the Chemarims with the priests;",
+        "And them that worship the host of heaven upon the housetops; and them that worship and that swear by the Lord, and that swear by Malcham;",
+        "And them that are turned back from the Lord; and those that have not sought the Lord, nor inquired for Him.",
+        "Hold your peace at the presence of the Lord God: for the day of the Lord is at hand: for the Lord has prepared a sacrifice, He has bid His guests.",
+        "And it shall come to pass in the day of the Lord's sacrifice, that I will punish the princes, and the king's children, and all such as are clothed with strange apparel.",
+        "In the same day also will I punish all those that leap on the threshold, which fill their masters' houses with violence and deceit.",
+        "And it shall come to pass in that day, says the Lord, that there shall be the noise of a cry from the fish gate, and an howling from the second, and a great crashing from the hills.",
+        "Howl, you inhabitants of Maktesh, for all the merchant people are cut down; all they that bear silver are cut off.",
+        "And it shall come to pass at that time, that I will search Jerusalem with candles, and punish the men that are settled on their lees: that say in their heart, The Lord will not do good, neither will He do evil.",
+        "Therefore their goods shall become a booty, and their houses a desolation: they shall also build houses, but not inhabit them; and they shall plant vineyards, but not drink the wine thereof.",
+        "The great day of the Lord is near, it is near, and hastes greatly, even the voice of the day of the Lord: the mighty man shall cry there bitterly.",
+        "That day is a day of wrath, a day of trouble and distress, a day of wasteness and desolation, a day of darkness and gloominess, a day of clouds and thick darkness,",
+        "A day of the trumpet and alarm against the fenced cities, and against the high towers.",
+        "And I will bring distress upon men, that they shall walk like blind men, because they have sinned against the Lord: and their blood shall be poured out as dust, and their flesh as the dung.",
+        "Neither their silver nor their gold shall be able to deliver them in the day of the Lord's wrath; but the whole land shall be devoured by the fire of His jealousy: for He shall make even a speedy riddance of all them that dwell in the land."
+      ],
+      "notes": [],
+      "approved": "8f1a94bc"
+    },
+    {
+      "ch": "Hosea 1",
+      "verses": [
+        "The word of the Lord that came to Hosea, the son of Beeri, in the days of Uzziah, Jotham, Ahaz, and Hezekiah, kings of Judah, and in the days of Jeroboam the son of Joash, king of Israel.",
+        "The beginning of the word of the Lord by Hosea. And the Lord said to Hosea, “Go, take to you a wife of whoredoms and children of whoredoms: for the land has committed great whoredom, departing from the Lord.”",
+        "So he went and took Gomer the daughter of Diblaim, which conceived, and bare him a son.",
+        "And the Lord said to him, “Call his name Jezreel, for yet a little while, and I will avenge the blood of Jezreel on the house of Jehu, and will cause to cease the kingdom of the house of Israel.”",
+        "“And it will come to pass at that day, that I will break the bow of Israel in the valley of Jezreel.”",
+        "And she conceived again, and bare a daughter. And God said to him, “Call her name Lo-ruhamah: for I will no more have mercy on the house of Israel, but I will utterly take them away.”",
+        "“But I will have mercy on the house of Judah, and will save them by the Lord their God, and will not save them by bow, nor by sword, nor by battle, by horses, nor by horsemen.”",
+        "Now when she had weaned Lo-ruhamah, she conceived, and bare a son.",
+        "Then said God, “Call his name Lo-ammi: for you are not My people, and I will not be your God.”",
+        "“Yet the number of the children of Israel will be as the sand of the sea, which can not be measured nor numbered, and it will come to pass, that in the place where it was said to them, ‘You are not My people,’ there it will be said to them, ‘You are the sons of the living God.’”",
+        "“Then will the children of Judah and the children of Israel be gathered together, and appoint themselves one head, and they will come up out of the land: for great will be the day of Jezreel.”"
+      ],
+      "notes": [],
+      "approved": "8bcd6d07"
+    },
+    {
+      "ch": "Hosea 2",
+      "verses": [
+        "Say you to your brothers, “Ammi,” and to your sisters, “Ruhamah.”",
+        "“Plead with your mother, plead: for she is not My wife, neither am I her husband: let her therefore put away her whoredoms out of her sight, and her adulteries from between her breasts:”",
+        "“Lest I strip her naked, and set her as in the day that she was born, and make her as a wilderness, and set her like a dry land, and slay her with thirst.”",
+        "“And I will not have mercy on her children, for they are the children of whoredoms.”",
+        "“For their mother has played the harlot: she that conceived them has done shamefully: for she said, ‘I will go after my lovers, that give me my bread and my water, my wool and my flax, my oil and my drink.’”",
+        "“Therefore, behold, I will hedge up your way with thorns, and make a wall, that she will not find her paths.”",
+        "“And she will follow after her lovers, but she will not overtake them, and she will seek them, but will not find them: then will she say, ‘I will go and return to my first husband, for then was it better with me than now.’”",
+        "“For she did not know that I gave her corn, and wine, and oil, and multiplied her silver and gold, which they prepared for Baal.”",
+        "“Therefore will I return, and take away My corn in its time, and My wine in its season, and will recover My wool and My flax given to cover her nakedness.”",
+        "“And now will I discover her lewdness in the sight of her lovers, and none will deliver her out of My hand.”",
+        "“I will also cause all her mirth to cease, her feast days, her new moons, and her sabbaths, and all her solemn feasts.”",
+        "“And I will destroy her vines and her fig trees, of which she has said, ‘These are my rewards that my lovers have given me:’ and I will make them a forest, and the beasts of the field will eat them.”",
+        "“And I will visit on her the days of Baalim, in which she burned incense to them, and she decked herself with her earrings and her jewels, and she went after her lovers, and forgot Me,” says the Lord.",
+        "“Therefore, behold, I will allure her, and bring her into the wilderness, and speak comfortably to her.”",
+        "“And I will give her her vineyards from there, and the valley of Achor for a door of hope: and she will sing there, as in the days of her youth, and as in the day when she came up out of the land of Egypt.”",
+        "“And it will be at that day,” says the Lord, “that you will call Me Ishi, and will call Me no more Baali.”",
+        "“For I will take away the names of Baalim out of her mouth, and they will no more be remembered by their name.”",
+        "“And in that day will I make a covenant for them with the beasts of the field, and with the fowls of heaven, and with the creeping things of the ground: and I will break the bow and the sword and the battle out of the earth, and will make them to lie down safely.”",
+        "“And I will betroth you to Me forever, yes, I will betroth you to Me in righteousness, and in judgment, and in lovingkindness, and in mercies.”",
+        "“I will even betroth you to Me in faithfulness: and you will know the Lord.”",
+        "“And it will come to pass in that day, I will hear,” says the Lord, “I will hear the heavens, and they will hear the earth,”",
+        "“And the earth will hear the corn, and the wine, and the oil, and they will hear Jezreel.”",
+        "“And I will sow her to Me in the earth, and I will have mercy on her that had not obtained mercy, and I will say to them which were not My people, ‘You are My people,’ and they will say, ‘You are my God.’”"
+      ],
+      "notes": [],
+      "approved": "01975f2b"
+    },
+    {
+      "ch": "Hosea 3",
+      "verses": [
+        "Then said the Lord to me, “Go yet, love a woman beloved of her friend, yet an adulteress, according to the love of the Lord toward the children of Israel, who look to other gods, and love flagons of wine.”",
+        "So I bought her to me for fifteen pieces of silver, and for a homer of barley, and a half homer of barley:",
+        "And I said to her, “You will abide for me many days, you will not play the harlot, and you will not be for another man: so will I also be for you.”",
+        "For the children of Israel will abide many days without a king, and without a prince, and without a sacrifice, and without an image, and without an ephod, and without teraphim:",
+        "Afterward will the children of Israel return, and seek the Lord their God, and David their king, and will fear the Lord and His goodness in the latter days."
+      ],
+      "notes": [],
+      "approved": "7e7bfbfe"
+    },
+    {
+      "ch": "Zephaniah 2",
+      "verses": [
+        "Gather yourselves together, yea, gather together, O nation not desired;",
+        "Before the decree bring forth, before the day pass as the chaff, before the fierce anger of the Lord come upon you, before the day of the Lord's anger come upon you.",
+        "Seek you the Lord, all you meek of the earth, which have wrought His judgment; seek righteousness, seek meekness: it may be you shall be hid in the day of the Lord's anger.",
+        "For Gaza shall be forsaken, and Ashkelon a desolation: they shall drive out Ashdod at the noon day, and Ekron shall be rooted up.",
+        "Woe to the inhabitants of the sea coast, the nation of the Cherethites! the word of the Lord is against you; O Canaan, the land of the Philistines, I will even destroy you, that there shall be no inhabitant.",
+        "And the sea coast shall be dwellings and cottages for shepherds, and folds for flocks.",
+        "And the coast shall be for the remnant of the house of Judah; they shall feed thereupon: in the houses of Ashkelon shall they lie down in the evening: for the Lord their God shall visit them, and turn away their captivity.",
+        "I have heard the reproach of Moab, and the revilings of the children of Ammon, whereby they have reproached My people, and magnified themselves against their border.",
+        "Therefore as I live, says the Lord of hosts, the God of Israel, Surely Moab shall be as Sodom, and the children of Ammon as Gomorrah, even the breeding of nettles, and saltpits, and a perpetual desolation: the residue of My people shall spoil them, and the remnant of My people shall possess them.",
+        "This shall they have for their pride, because they have reproached and magnified themselves against the people of the Lord of hosts.",
+        "The Lord will be terrible to them: for He will famish all the gods of the earth; and men shall worship Him, every one from his place, even all the isles of the heathen.",
+        "You Ethiopians also, you shall be slain by My sword.",
+        "And He will stretch out His hand against the north, and destroy Assyria; and will make Nineveh a desolation, and dry like a wilderness.",
+        "And flocks shall lie down in the midst of her, all the beasts of the nations: both the cormorant and the bittern shall lodge in the upper lintels of it; their voice shall sing in the windows; desolation shall be in the thresholds: for He shall uncover the cedar work.",
+        "This is the rejoicing city that dwelt carelessly, that said in her heart, I am, and there is none beside me: how is she become a desolation, a place for beasts to lie down in! every one that passes by her shall hiss, and wag His hand."
+      ],
+      "notes": [],
+      "approved": "dd7449c4"
+    },
+    {
+      "ch": "Micah 1",
+      "verses": [
+        "The word of the Lord that came to Micah the Morasthite in the days of Jotham, Ahaz, and Hezekiah, kings of Judah, which he saw concerning Samaria and Jerusalem.",
+        "Hear, all you people; hearken, O earth, and all that is in it: and let the Lord God be witness against you, the Lord from His holy temple.",
+        "For, behold, the Lord comes forth out of His place, and will come down, and tread upon the high places of the earth.",
+        "And the mountains will be molten under Him, and the valleys will be cleft, as wax before the fire, and as the waters that are poured down a steep place.",
+        "For the transgression of Jacob is all this, and for the sins of the house of Israel. What is the transgression of Jacob? is it not Samaria? and what are the high places of Judah? are they not Jerusalem?",
+        "Therefore I will make Samaria as a heap of the field, and as plantings of a vineyard: and I will pour down the stones of it into the valley, and I will discover the foundations of it.",
+        "And all the graven images of it will be beaten to pieces, and all the hires of it will be burned with the fire, and all the idols of it will I lay desolate: for she gathered it of the hire of a harlot, and they will return to the hire of a harlot.",
+        "Therefore I will wail and howl, I will go stripped and naked: I will make a wailing like the dragons, and mourning as the owls.",
+        "For her wound is incurable; for it is come to Judah; he is come to the gate of my people, even to Jerusalem.",
+        "Declare you it not at Gath, weep you not at all: in the house of Aphrah roll yourself in the dust.",
+        "Pass you away, you inhabitant of Saphir, having your shame naked: the inhabitant of Zaanan came not forth in the mourning of Beth-ezel; he will receive of you his standing.",
+        "For the inhabitant of Maroth waited carefully for good: but evil came down from the Lord to the gate of Jerusalem.",
+        "O you inhabitant of Lachish, bind the chariot to the swift beast: she is the beginning of the sin to the daughter of Zion: for the transgressions of Israel were found in you.",
+        "Therefore will you give presents to Moresheth-gath: the houses of Achzib will be a lie to the kings of Israel.",
+        "Yet will I bring an heir to you, O inhabitant of Mareshah: he will come to Adullam the glory of Israel.",
+        "Make yourself bald, and poll yourself for your delicate children; enlarge your baldness as the eagle; for they are gone into captivity from you."
+      ],
+      "notes": [],
+      "approved": "93ee28c6"
+    },
+    {
+      "ch": "Zephaniah 3",
+      "verses": [
+        "Woe to her that is filthy and polluted, to the oppressing city!",
+        "She obeyed not the voice; she received not correction; she trusted not in the Lord; she drew not near to her God.",
+        "Her princes within her are roaring lions; her judges are evening wolves; they gnaw not the bones till the morrow.",
+        "Her prophets are light and treacherous persons: her priests have polluted the sanctuary, they have done violence to the law.",
+        "The just Lord is in the midst thereof; He will not do iniquity: every morning does He bring His judgment to light, He fails not; but the unjust knows no shame.",
+        "I have cut off the nations: their towers are desolate; I made their streets waste, that none passes by: their cities are destroyed, so that there is no man, that there is none inhabitant.",
+        "I said, Surely you will fear Me, you will receive instruction; so their dwelling should not be cut off, howsoever I punished them: but they rose early, and corrupted all their doings.",
+        "Therefore wait you upon Me, says the Lord, until the day that I rise up to the prey: for My determination is to gather the nations, that I may assemble the kingdoms, to pour upon them My indignation, even all My fierce anger: for all the earth shall be devoured with the fire of My jealousy.",
+        "For then will I turn to the people a pure language, that they may all call upon the name of the Lord, to serve Him with one consent.",
+        "From beyond the rivers of Ethiopia My suppliants, even the daughter of My dispersed, shall bring My offering.",
+        "In that day shall you not be ashamed for all your doings, in which you have transgressed against Me: for then I will take away out of the midst of you them that rejoice in your pride, and you shall no more be haughty because of My holy mountain.",
+        "I will also leave in the midst of you an afflicted and poor people, and they shall trust in the name of the Lord.",
+        "The remnant of Israel shall not do iniquity, nor speak lies; neither shall a deceitful tongue be found in their mouth: for they shall feed and lie down, and none shall make them afraid.",
+        "Sing, O daughter of Zion; shout, O Israel; be glad and rejoice with all the heart, O daughter of Jerusalem.",
+        "The Lord has taken away your judgments, He has cast out your enemy: the king of Israel, even the Lord, is in the midst of you: you shall not see evil any more.",
+        "In that day it shall be said to Jerusalem, Fear you not: and to Zion, Let not your hands be slack.",
+        "The Lord your God in the midst of you is mighty; He will save, He will rejoice over you with joy; He will rest in His love, He will joy over you with singing.",
+        "I will gather them that are sorrowful for the solemn assembly, who are of you, to whom the reproach of it was a burden.",
+        "Behold, at that time I will undo all that afflict you: and I will save her that halts, and gather her that was driven out; and I will get them praise and fame in every land where they have been put to shame.",
+        "At that time will I bring you again, even in the time that I gather you: for I will make you a name and a praise among all people of the earth, when I turn back your captivity before your eyes, says the Lord."
+      ],
+      "notes": [],
+      "approved": "451f34d5"
+    },
+    {
+      "ch": "Joel 2",
+      "verses": [
+        "Blow you the trumpet in Zion, and sound an alarm in My holy mountain: let all the inhabitants of the land tremble: for the day of the Lord comes, for it is near at hand;",
+        "A day of darkness and of gloominess, a day of clouds and of thick darkness, as the morning spread upon the mountains: a great people and a strong; there has not been ever the like, neither shall be any more after it, even to the years of many generations.",
+        "A fire devours before them; and behind them a flame burns: the land is as the garden of Eden before them, and behind them a desolate wilderness; yes, and nothing shall escape them.",
+        "The appearance of them is as the appearance of horses; and as horsemen, so shall they run.",
+        "Like the noise of chariots on the tops of mountains shall they leap, like the noise of a flame of fire that devours the stubble, as a strong people set in battle array.",
+        "Before their face the people shall be much pained: all faces shall gather blackness.",
+        "They shall run like mighty men; they shall climb the wall like men of war; and they shall march every one on his ways, and they shall not break their ranks:",
+        "Neither shall one thrust another; they shall walk every one in his path: and when they fall upon the sword, they shall not be wounded.",
+        "They shall run to and fro in the city; they shall run upon the wall, they shall climb up upon the houses; they shall enter in at the windows like a thief.",
+        "The earth shall quake before them; the heavens shall tremble: the sun and the moon shall be dark, and the stars shall withdraw their shining:",
+        "And the Lord shall utter His voice before His army: for His camp is very great: for He is strong that executes His word: for the day of the Lord is great and very terrible; and who can abide it?",
+        "“Therefore also now,” says the Lord, “turn you even to Me with all your heart, and with fasting, and with weeping, and with mourning:”",
+        "And rend your heart, and not your garments, and turn to the Lord your God: for He is gracious and merciful, slow to anger, and of great kindness, and repents Him of the evil.",
+        "Who knows if He will return and repent, and leave a blessing behind Him; even a food offering and a drink offering to the Lord your God?",
+        "Blow the trumpet in Zion, sanctify a fast, call a solemn assembly:",
+        "Gather the people, sanctify the congregation, assemble the elders, gather the children, and those that suck the breasts: let the bridegroom go forth of his chamber, and the bride out of her closet.",
+        "Let the priests, the ministers of the Lord, weep between the porch and the altar, and let them say, “Spare Your people, O Lord, and give not Your heritage to reproach, that the heathen should rule over them: wherefore should they say among the people, ‘Where is their God?’”",
+        "Then will the Lord be jealous for His land, and pity His people.",
+        "Yes, the Lord will answer and say to His people, “Behold, I will send you corn, and wine, and oil, and you shall be satisfied with it: and I will no more make you a reproach among the heathen:”",
+        "“But I will remove far off from you the northern army, and will drive him into a land barren and desolate, with his face toward the east sea, and his hinder part toward the utmost sea, and his stink shall come up, and his ill savor shall come up, because he has done great things.”",
+        "Fear not, O land; be glad and rejoice: for the Lord will do great things.",
+        "Be not afraid, you beasts of the field: for the pastures of the wilderness do spring, for the tree bears her fruit, the fig tree and the vine do yield their strength.",
+        "Be glad then, you children of Zion, and rejoice in the Lord your God: for He has given you the former rain moderately, and He will cause to come down for you the rain, the former rain, and the latter rain in the first month.",
+        "And the floors shall be full of wheat, and the vats shall overflow with wine and oil.",
+        "“And I will restore to you the years that the locust has eaten, the cankerworm, and the caterpillar, and the palmerworm, My great army which I sent among you.”",
+        "“And you shall eat in plenty, and be satisfied, and praise the name of the Lord your God, that has dealt wondrously with you: and My people shall never be ashamed.”",
+        "“And you shall know that I am in the midst of Israel, and that I am the Lord your God, and none else: and My people shall never be ashamed.”",
+        "“And it shall come to pass afterward, that I will pour out My spirit upon all flesh; and your sons and your daughters shall prophesy, your old men shall dream dreams, your young men shall see visions:”",
+        "“And also upon the servants and upon the handmaids in those days will I pour out My spirit.”",
+        "“And I will show wonders in the heavens and in the earth, blood, and fire, and pillars of smoke.”",
+        "“The sun shall be turned into darkness, and the moon into blood, before the great and the terrible day of the Lord come.”",
+        "“And it shall come to pass, that whoever shall call on the name of the Lord shall be delivered: for in mount Zion and in Jerusalem shall be deliverance, as the Lord has said, and in the remnant whom the Lord shall call.”"
+      ],
+      "notes": [
+        "‘fats’ means vats",
+        "‘meat offering’ means food offering"
+      ],
+      "approved": "cc900f05"
+    },
+    {
+      "ch": "Haggai 1",
+      "verses": [
+        "In the second year of Darius the king, in the sixth month, in the first day of the month, came the word of the Lord by Haggai the prophet to Zerubbabel the son of Shealtiel, governor of Judah, and to Joshua the son of Josedech, the high priest, saying,",
+        "Thus speaks the Lord of hosts, saying, This people say, The time is not come, the time that the Lord's house should be built.",
+        "Then came the word of the Lord by Haggai the prophet, saying,",
+        "Is it time for you, O you, to dwell in your ceiled houses, and this house lie waste?",
+        "Now therefore thus says the Lord of hosts; Consider your ways.",
+        "You have sown much, and bring in little; you eat, but you have not enough; you drink, but you are not filled with drink; you clothe you, but there is none warm; and he that earns wages earns wages to put it into a bag with holes.",
+        "Thus says the Lord of hosts; Consider your ways.",
+        "Go up to the mountain, and bring wood, and build the house; and I will take pleasure in it, and I will be glorified, says the Lord.",
+        "You looked for much, and, lo, it came to little; and when you brought it home, I did blow upon it. Why? says the Lord of hosts. Because of My house that is waste, and you run every man to his own house.",
+        "Therefore the heaven over you is stayed from dew, and the earth is stayed from her fruit.",
+        "And I called for a drought upon the land, and upon the mountains, and upon the corn, and upon the new wine, and upon the oil, and upon that which the ground brings forth, and upon men, and upon cattle, and upon all the labour of the hands.",
+        "Then Zerubbabel the son of Shealtiel, and Joshua the son of Josedech, the high priest, with all the remnant of the people, obeyed the voice of the Lord their God, and the words of Haggai the prophet, as the Lord their God had sent him, and the people did fear before the Lord.",
+        "Then spoke Haggai the Lord's messenger in the Lord's message to the people, saying, I am with you, says the Lord.",
+        "And the Lord stirred up the spirit of Zerubbabel the son of Shealtiel, governor of Judah, and the spirit of Joshua the son of Josedech, the high priest, and the spirit of all the remnant of the people; and they came and did work in the house of the Lord of hosts, their God,",
+        "In the four and twentieth day of the sixth month, in the second year of Darius the king."
+      ],
+      "notes": [],
+      "approved": "4fc22a47"
+    },
+    {
+      "ch": "Hosea 4",
+      "verses": [
+        "Hear the word of the Lord, you children of Israel: for the Lord has a controversy with the inhabitants of the land, because there is no truth, nor mercy, nor knowledge of God in the land.",
+        "By swearing, and lying, and killing, and stealing, and committing adultery, they break out, and blood touches blood.",
+        "Therefore will the land mourn, and everyone that dwells in it will languish, with the beasts of the field, and with the fowls of heaven, yes, the fishes of the sea also will be taken away.",
+        "Yet let no man strive, nor reprove another: for your people are as they that strive with the priest.",
+        "Therefore will you fall in the day, and the prophet also will fall with you in the night, and I will destroy your mother.",
+        "My people are destroyed for lack of knowledge: because you have rejected knowledge, I will also reject you, that you will be no priest to Me: seeing you have forgotten the law of your God, I will also forget your children.",
+        "As they were increased, so they sinned against Me: therefore will I change their glory into shame.",
+        "They eat up the sin of My people, and they set their heart on their iniquity.",
+        "And there will be, like people, like priest: and I will punish them for their ways, and reward them their doings.",
+        "For they will eat, and not have enough: they will commit whoredom, and will not increase: because they have left off to take heed to the Lord.",
+        "Whoredom and wine and new wine take away the heart.",
+        "My people ask counsel at their stocks, and their staff declares to them: for the spirit of whoredoms has caused them to err, and they have gone a-whoring from under their God.",
+        "They sacrifice on the tops of the mountains, and burn incense on the hills, under oaks and poplars and elms, because the shadow of it is good: therefore your daughters will commit whoredom, and your spouses will commit adultery.",
+        "I will not punish your daughters when they commit whoredom, nor your spouses when they commit adultery: for themselves are separated with whores, and they sacrifice with harlots: therefore the people that does not understand will fall.",
+        "Though you, Israel, play the harlot, yet let not Judah offend, and come not you to Gilgal, neither go you up to Beth-aven, nor swear, “The Lord lives.”",
+        "For Israel slides back as a backsliding heifer: now the Lord will feed them as a lamb in a large place.",
+        "Ephraim is joined to idols: let him alone.",
+        "Their drink is sour: they have committed whoredom continually: her rulers with shame do love, “Give.”",
+        "The wind has bound her up in her wings, and they will be ashamed because of their sacrifices."
+      ],
+      "notes": [
+        "‘Give’ is used instead of ‘Give ye’"
+      ],
+      "approved": "8da31654"
+    },
+    {
+      "ch": "Hosea 5",
+      "verses": [
+        "Hear this, O priests, and listen, you house of Israel, and give ear, O house of the king, for judgment is toward you, because you have been a snare on Mizpah, and a net spread on Tabor.",
+        "And the revolters are profound to make slaughter, though I have been a rebuker of them all.",
+        "I know Ephraim, and Israel is not hid from Me: for now, O Ephraim, you commit whoredom, and Israel is defiled.",
+        "They will not frame their doings to turn to their God: for the spirit of whoredoms is in the midst of them, and they have not known the Lord.",
+        "And the pride of Israel does testify to his face: therefore will Israel and Ephraim fall in their iniquity, Judah also will fall with them.",
+        "They will go with their flocks and with their herds to seek the Lord, but they will not find Him, He has withdrawn Himself from them.",
+        "They have dealt treacherously against the Lord: for they have begotten strange children: now will a month devour them with their portions.",
+        "Blow you the cornet in Gibeah, and the trumpet in Ramah: cry aloud at Beth-aven, after you, O Benjamin.",
+        "Ephraim will be desolate in the day of rebuke: among the tribes of Israel have I made known that which will surely be.",
+        "The princes of Judah were like them that remove the bound: therefore I will pour out My wrath on them like water.",
+        "Ephraim is oppressed and broken in judgment, because he willingly walked after the commandment.",
+        "Therefore will I be to Ephraim as a moth, and to the house of Judah as rottenness.",
+        "When Ephraim saw his sickness, and Judah saw his wound, then went Ephraim to the Assyrian, and sent to king Jareb: yet could he not heal you, nor cure you of your wound.",
+        "For I will be to Ephraim as a lion, and as a young lion to the house of Judah: I, even I, will tear and go away, I will take away, and none will rescue him.",
+        "I will go and return to My place, till they acknowledge their offense, and seek My face: in their affliction they will seek Me early."
+      ],
+      "notes": [
+        "‘listen’ is used instead of ‘hearken’"
+      ],
+      "approved": "347b16a7"
+    },
+    {
+      "ch": "Hosea 6",
+      "verses": [
+        "Come, and let us return to the Lord: for He has torn, and He will heal us, He has smitten, and He will bind us up.",
+        "After two days will He revive us: in the third day He will raise us up, and we will live in His sight.",
+        "Then will we know, if we follow on to know the Lord: His going forth is prepared as the morning, and He will come to us as the rain, as the latter and former rain to the earth.",
+        "O Ephraim, what will I do to you? O Judah, what will I do to you? For your goodness is as a morning cloud, and as the early dew it goes away.",
+        "Therefore have I hewed them by the prophets, I have slain them by the words of My mouth: and your judgments are as the light that goes forth.",
+        "For I desired mercy, and not sacrifice, and the knowledge of God more than burnt offerings.",
+        "But they like men have transgressed the covenant: there have they dealt treacherously against Me.",
+        "Gilead is a city of them that work iniquity, and is polluted with blood.",
+        "And as troops of robbers wait for a man, so the company of priests murder in the way by consent: for they commit lewdness.",
+        "I have seen an horrible thing in the house of Israel: there is the whoredom of Ephraim, Israel is defiled.",
+        "Also, O Judah, He has set a harvest for you, when I returned the captivity of My people."
+      ],
+      "notes": [],
+      "approved": "c8c08e4c"
+    },
+    {
+      "ch": "Micah 2",
+      "verses": [
+        "Woe to them that devise iniquity, and work evil upon their beds! when the morning is light, they practice it, because it is in the power of their hand.",
+        "And they covet fields, and take them by violence; and houses, and take them away: so they oppress a man and his house, even a man and his heritage.",
+        "Therefore thus says the Lord; “Behold, against this family do I devise an evil, from which you will not remove your necks; neither will you go haughtily: for this time is evil.”",
+        "In that day will one take up a parable against you, and lament with a doleful lamentation, and say, “We be utterly spoiled: He has changed the portion of my people: how has He removed it from me! turning away He has divided our fields.”",
+        "Therefore you will have none that will cast a cord by lot in the congregation of the Lord.",
+        "“Prophesy you not,” say they to them that prophesy: “they will not prophesy to them, that they will not take shame.”",
+        "O you that are named the house of Jacob, is the spirit of the Lord straitened? are these His doings? do not My words do good to him that walks uprightly?",
+        "Even of late My people is risen up as an enemy: you pull off the robe with the garment from them that pass by securely as men averse from war.",
+        "The women of My people have you cast out from their pleasant houses; from their children have you taken away My glory for ever.",
+        "Arise you, and depart; for this is not your rest: because it is polluted, it will destroy you, even with a sore destruction.",
+        "If a man walking in the spirit and falsehood do lie, saying, “I will prophesy to you of wine and of strong drink;” he will even be the prophet of this people.",
+        "I will surely assemble, O Jacob, all of you; I will surely gather the remnant of Israel; I will put them together as the sheep of Bozrah, as the flock in the midst of their fold: they will make great noise by reason of the multitude of men.",
+        "The breaker is come up before them: they have broken up, and have passed through the gate, and are gone out by it: and their king will pass before them, and the Lord on the head of them."
+      ],
+      "notes": [
+        "‘practice’ replaces practise"
+      ],
+      "approved": "ab29a84d"
+    },
+    {
+      "ch": "Zechariah 9",
+      "verses": [
+        "The burden of the word of the Lord in the land of Hadrach, and Damascus shall be the rest of it: when the eyes of man, as of all the tribes of Israel, shall be toward the Lord.",
+        "And Hamath also shall border thereby; Tyrus, and Zidon, though it be very wise.",
+        "And Tyrus did build herself a strong hold, and heaped up silver as the dust, and fine gold as the mire of the streets.",
+        "Behold, the Lord will cast her out, and He will smite her power in the sea; and she shall be devoured with fire.",
+        "Ashkelon shall see it, and fear; Gaza also shall see it, and be very sorrowful, and Ekron; for her expectation shall be ashamed; and the king shall perish from Gaza, and Ashkelon shall not be inhabited.",
+        "And a mixed race shall dwell in Ashdod, and I will cut off the pride of the Philistines.",
+        "And I will take away his blood out of his mouth, and his abominations from between his teeth: but he that remains, even he, shall be for our God, and he shall be as a governor in Judah, and Ekron as a Jebusite.",
+        "And I will encamp about My house because of the army, because of him that passes by, and because of him that returns: and no oppressor shall pass through them any more: for now have I seen with My eyes.",
+        "Rejoice greatly, O daughter of Zion; shout, O daughter of Jerusalem: behold, your King comes to you: He is just, and having salvation; lowly, and riding upon a donkey, and upon a colt the foal of a donkey.",
+        "And I will cut off the chariot from Ephraim, and the horse from Jerusalem, and the battle bow shall be cut off: and He shall speak peace to the heathen: and His dominion shall be from sea even to sea, and from the river even to the ends of the earth.",
+        "As for you also, by the blood of your covenant I have sent forth your prisoners out of the pit in which is no water.",
+        "Turn you to the strong hold, you prisoners of hope: even today do I declare that I will render double to you;",
+        "When I have bent Judah for Me, filled the bow with Ephraim, and raised up your sons, O Zion, against your sons, O Greece, and made you as the sword of a mighty man.",
+        "And the Lord shall be seen over them, and His arrow shall go forth as the lightning: and the Lord God shall blow the trumpet, and shall go with whirlwinds of the south.",
+        "The Lord of hosts shall defend them; and they shall devour, and subdue with sling stones; and they shall drink, and make a noise as through wine; and they shall be filled like bowls, and as the corners of the altar.",
+        "And the Lord their God shall save them in that day as the flock of His people: for they shall be as the stones of a crown, lifted up as an ensign upon His land.",
+        "For how great is His goodness, and how great is His beauty! grain shall make the young men cheerful, and new wine the maids."
+      ],
+      "notes": [],
+      "approved": "27497173"
+    },
+    {
+      "ch": "Zechariah 10",
+      "verses": [
+        "Ask you of the Lord rain in the time of the latter rain; so the Lord shall make bright clouds, and give them showers of rain, to every one grass in the field.",
+        "For the idols have spoken vanity, and the diviners have seen a lie, and have told false dreams; they comfort in vain: therefore they went their way as a flock, they were troubled, because there was no shepherd.",
+        "My anger was kindled against the shepherds, and I punished the goats: for the Lord of hosts has visited His flock the house of Judah, and has made them as His goodly horse in the battle.",
+        "Out of him came forth the corner, out of him the nail, out of him the battle bow, out of him every oppressor together.",
+        "And they shall be as mighty men, which tread down their enemies in the mire of the streets in the battle: and they shall fight, because the Lord is with them, and the riders on horses shall be confounded.",
+        "And I will strengthen the house of Judah, and I will save the house of Joseph, and I will bring them again to place them; for I have mercy upon them: and they shall be as though I had not cast them off: for I am the Lord their God, and will hear them.",
+        "And they of Ephraim shall be like a mighty man, and their heart shall rejoice as through wine: yes, their children shall see it, and be glad; their heart shall rejoice in the Lord.",
+        "I will whistle for them, and gather them; for I have redeemed them: and they shall increase as they have increased.",
+        "And I will sow them among the people: and they shall remember Me in far countries; and they shall live with their children, and turn again.",
+        "I will bring them again also out of the land of Egypt, and gather them out of Assyria; and I will bring them into the land of Gilead and Lebanon; and place shall not be found for them.",
+        "And He shall pass through the sea with affliction, and shall smite the waves in the sea, and all the deeps of the river shall dry up: and the pride of Assyria shall be brought down, and the scepter of Egypt shall depart away.",
+        "And I will strengthen them in the Lord; and they shall walk up and down in His name, says the Lord."
+      ],
+      "notes": [],
+      "approved": "82b7f67a"
+    },
+    {
+      "ch": "Zechariah 11",
+      "verses": [
+        "Open your doors, O Lebanon, that the fire may devour your cedars.",
+        "Howl, fir tree; for the cedar is fallen; because the mighty are spoiled: howl, O you oaks of Bashan; for the forest of the vintage is come down.",
+        "There is a voice of the howling of the shepherds; for their glory is spoiled: a voice of the roaring of young lions; for the pride of Jordan is spoiled.",
+        "Thus says the Lord my God; Feed the flock of the slaughter;",
+        "Whose possessors slay them, and hold themselves not guilty: and they that sell them say, Blessed be the Lord; for I am rich: and their own shepherds pity them not.",
+        "For I will no more pity the inhabitants of the land, says the Lord: but, lo, I will deliver the men every one into his neighbor's hand, and into the hand of his king: and they shall smite the land, and out of their hand I will not deliver them.",
+        "And I will feed the flock of slaughter, even you, O poor of the flock. And I took to me two staffs; the one I called Beauty, and the other I called Bands; and I fed the flock.",
+        "Three shepherds also I cut off in one month; and my soul loathed them, and their soul also abhorred me.",
+        "Then said I, I will not feed you: that that dies, let it die; and that that is to be cut off, let it be cut off; and let the rest eat every one the flesh of another.",
+        "And I took my staff, even Beauty, and cut it asunder, that I might break my covenant which I had made with all the people.",
+        "And it was broken in that day: and so the poor of the flock that waited upon me knew that it was the word of the Lord.",
+        "And I said to them, If you think good, give me my price; and if not, forbear. So they weighed for my price thirty pieces of silver.",
+        "And the Lord said to me, Cast it to the potter: a goodly price that I was prized at of them. And I took the thirty pieces of silver, and cast them to the potter in the house of the Lord.",
+        "Then I cut asunder my other staff, even Bands, that I might break the brotherhood between Judah and Israel.",
+        "And the Lord said to me, Take to you yet the instruments of a foolish shepherd.",
+        "For, lo, I will raise up a shepherd in the land, which shall not visit those that be cut off, neither shall seek the young one, nor heal that that is broken, nor feed that that stands still: but he shall eat the flesh of the fat, and tear their claws in pieces.",
+        "Woe to the idol shepherd that leaves the flock! the sword shall be upon his arm, and upon his right eye: his arm shall be clean dried up, and his right eye shall be utterly darkened."
+      ],
+      "notes": [],
+      "approved": "89aa3e42"
+    },
+    {
+      "ch": "Zechariah 12",
+      "verses": [
+        "The burden of the word of the Lord for Israel, says the Lord, which stretches forth the heavens, and lays the foundation of the earth, and forms the spirit of man within him.",
+        "Behold, I will make Jerusalem a cup of trembling to all the people round about, when they shall be in the siege both against Judah and against Jerusalem.",
+        "And in that day will I make Jerusalem a burdensome stone for all people: all that burden themselves with it shall be cut in pieces, though all the people of the earth be gathered together against it.",
+        "In that day, says the Lord, I will smite every horse with astonishment, and his rider with madness: and I will open My eyes upon the house of Judah, and will smite every horse of the people with blindness.",
+        "And the governors of Judah shall say in their heart, The inhabitants of Jerusalem shall be my strength in the Lord of hosts their God.",
+        "In that day will I make the governors of Judah like a hearth of fire among the wood, and like a torch of fire in a sheaf; and they shall devour all the people round about, on the right hand and on the left: and Jerusalem shall be inhabited again in her own place, even in Jerusalem.",
+        "The Lord also shall save the tents of Judah first, that the glory of the house of David and the glory of the inhabitants of Jerusalem do not magnify themselves against Judah.",
+        "In that day shall the Lord defend the inhabitants of Jerusalem; and he that is feeble among them at that day shall be as David; and the house of David shall be as God, as the angel of the Lord before them.",
+        "And it shall come to pass in that day, that I will seek to destroy all the nations that come against Jerusalem.",
+        "And I will pour upon the house of David, and upon the inhabitants of Jerusalem, the spirit of grace and of supplications: and they shall look upon Me whom they have pierced, and they shall mourn for Him, as one mourns for his only son, and shall be in bitterness for Him, as one that is in bitterness for his firstborn.",
+        "In that day shall there be a great mourning in Jerusalem, as the mourning of Hadadrimmon in the valley of Megiddon.",
+        "And the land shall mourn, every family apart; the family of the house of David apart, and their wives apart; the family of the house of Nathan apart, and their wives apart;",
+        "The family of the house of Levi apart, and their wives apart; the family of Shimei apart, and their wives apart;",
+        "All the families that remain, every family apart, and their wives apart."
+      ],
+      "notes": [],
+      "approved": "9010bb15"
+    },
+    {
+      "ch": "Zechariah 13",
+      "verses": [
+        "In that day there shall be a fountain opened to the house of David and to the inhabitants of Jerusalem for sin and for uncleanness.",
+        "And it shall come to pass in that day, says the Lord of hosts, that I will cut off the names of the idols out of the land, and they shall no more be remembered: and also I will cause the prophets and the unclean spirit to pass out of the land.",
+        "And it shall come to pass, that when any shall yet prophesy, then his father and his mother that begot him shall say to him, You shall not live; for you speak lies in the name of the Lord: and his father and his mother that begot him shall thrust him through when he prophesies.",
+        "And it shall come to pass in that day, that the prophets shall be ashamed every one of his vision, when he has prophesied; neither shall they wear a rough garment to deceive:",
+        "But he shall say, I am no prophet, I am a husbandman; for man taught me to keep cattle from my youth.",
+        "And one shall say to him, What are these wounds in your hands? Then he shall answer, Those with which I was wounded in the house of my friends.",
+        "Awake, O sword, against My shepherd, and against the man that is My fellow, says the Lord of hosts: smite the shepherd, and the sheep shall be scattered: and I will turn My hand upon the little ones.",
+        "And it shall come to pass, that in all the land, says the Lord, two parts in it shall be cut off and die; but the third shall be left in it.",
+        "And I will bring the third part through the fire, and will refine them as silver is refined, and will try them as gold is tried: they shall call on My name, and I will hear them: I will say, It is My people: and they shall say, The Lord is my God."
+      ],
+      "notes": [],
+      "approved": "56db9162"
+    },
+    {
+      "ch": "Haggai 2",
+      "verses": [
+        "In the seventh month, in the one and twentieth day of the month, came the word of the Lord by the prophet Haggai, saying,",
+        "Speak now to Zerubbabel the son of Shealtiel, governor of Judah, and to Joshua the son of Josedech, the high priest, and to the residue of the people, saying,",
+        "Who is left among you that saw this house in her first glory? and how do you see it now? is it not in your eyes in comparison of it as nothing?",
+        "Yet now be strong, O Zerubbabel, says the Lord; and be strong, O Joshua, son of Josedech, the high priest; and be strong, all you people of the land, says the Lord, and work: for I am with you, says the Lord of hosts:",
+        "According to the word that I covenanted with you when you came out of Egypt, so My Spirit remains among you: fear you not.",
+        "For thus says the Lord of hosts; Yet once, it is a little while, and I will shake the heavens, and the earth, and the sea, and the dry land;",
+        "And I will shake all nations, and the desire of all nations shall come: and I will fill this house with glory, says the Lord of hosts.",
+        "The silver is Mine, and the gold is Mine, says the Lord of hosts.",
+        "The glory of this latter house shall be greater than of the former, says the Lord of hosts: and in this place will I give peace, says the Lord of hosts.",
+        "In the four and twentieth day of the ninth month, in the second year of Darius, came the word of the Lord by Haggai the prophet, saying,",
+        "Thus says the Lord of hosts; Ask now the priests concerning the law, saying,",
+        "If one bear holy flesh in the skirt of his garment, and with his skirt do touch bread, or pottage, or wine, or oil, or any meat, shall it be holy? And the priests answered and said, No.",
+        "Then said Haggai, If one that is unclean by a dead body touch any of these, shall it be unclean? And the priests answered and said, It shall be unclean.",
+        "Then answered Haggai, and said, So is this people, and so is this nation before Me, says the Lord; and so is every work of their hands; and that which they offer there is unclean.",
+        "And now, I pray you, consider from this day and upward, from before a stone was laid upon a stone in the temple of the Lord:",
+        "Since those days were, when one came to an heap of twenty measures, there were but ten: when one came to the pressfat for to draw out fifty vessels out of the press, there were but twenty.",
+        "I smote you with blasting and with mildew and with hail in all the labours of your hands; yet you turned not to Me, says the Lord.",
+        "Consider now from this day and upward, from the four and twentieth day of the ninth month, even from the day that the foundation of the Lord's temple was laid, consider it.",
+        "Is the seed yet in the barn? yea, as yet the vine, and the fig tree, and the pomegranate, and the olive tree, has not brought forth: from this day will I bless you.",
+        "And again the word of the Lord came to Haggai in the four and twentieth day of the month, saying,",
+        "Speak to Zerubbabel, governor of Judah, saying, I will shake the heavens and the earth;",
+        "And I will overthrow the throne of kingdoms, and I will destroy the strength of the kingdoms of the heathen; and I will overthrow the chariots, and those that ride in them; and the horses and their riders shall come down, every one by the sword of his brother.",
+        "In that day, says the Lord of hosts, will I take you, O Zerubbabel, My servant, the son of Shealtiel, says the Lord, and will make you as a signet: for I have chosen you, says the Lord of hosts."
+      ],
+      "notes": [],
+      "approved": "a55fb138"
+    },
+    {
+      "ch": "Zechariah 14",
+      "verses": [
+        "Behold, the day of the Lord comes, and your spoil shall be divided in the midst of you.",
+        "For I will gather all nations against Jerusalem to battle; and the city shall be taken, and the houses rifled, and the women ravished; and half of the city shall go forth into captivity, and the residue of the people shall not be cut off from the city.",
+        "Then shall the Lord go forth, and fight against those nations, as when He fought in the day of battle.",
+        "And His feet shall stand in that day upon the mount of Olives, which is before Jerusalem on the east, and the mount of Olives shall divide in the midst of it toward the east and toward the west, and there shall be a very great valley; and half of the mountain shall remove toward the north, and half of it toward the south.",
+        "And you shall flee to the valley of the mountains; for the valley of the mountains shall reach to Azal: yes, you shall flee, like as you fled from before the earthquake in the days of Uzziah king of Judah: and the Lord my God shall come, and all the saints with You.",
+        "And it shall come to pass in that day, that the light shall not be clear, nor dark:",
+        "But it shall be one day which shall be known to the Lord, not day, nor night: but it shall come to pass, that at evening time it shall be light.",
+        "And it shall be in that day, that living waters shall go out from Jerusalem; half of them toward the former sea, and half of them toward the hinder sea: in summer and in winter shall it be.",
+        "And the Lord shall be king over all the earth: in that day shall there be one Lord, and His name one.",
+        "All the land shall be turned as a plain from Geba to Rimmon south of Jerusalem: and it shall be lifted up, and inhabited in her place, from Benjamin's gate to the place of the first gate, to the corner gate, and from the tower of Hananeel to the king's winepresses.",
+        "And men shall dwell in it, and there shall be no more utter destruction; but Jerusalem shall be safely inhabited.",
+        "And this shall be the plague with which the Lord will smite all the people that have fought against Jerusalem; Their flesh shall consume away while they stand upon their feet, and their eyes shall consume away in their holes, and their tongue shall consume away in their mouth.",
+        "And it shall come to pass in that day, that a great tumult from the Lord shall be among them; and they shall lay hold every one on the hand of his neighbor, and his hand shall rise up against the hand of his neighbor.",
+        "And Judah also shall fight at Jerusalem; and the wealth of all the heathen round about shall be gathered together, gold, and silver, and apparel, in great abundance.",
+        "And so shall be the plague of the horse, of the mule, of the camel, and of the donkey, and of all the beasts that shall be in these tents, as this plague.",
+        "And it shall come to pass, that every one that is left of all the nations which came against Jerusalem shall even go up from year to year to worship the King, the Lord of hosts, and to keep the feast of tabernacles.",
+        "And it shall be, that whoever will not come up of all the families of the earth to Jerusalem to worship the King, the Lord of hosts, even upon them shall be no rain.",
+        "And if the family of Egypt go not up, and come not, that have no rain; there shall be the plague, with which the Lord will smite the heathen that come not up to keep the feast of tabernacles.",
+        "This shall be the punishment of Egypt, and the punishment of all nations that come not up to keep the feast of tabernacles.",
+        "In that day shall there be upon the bells of the horses, HOLINESS TO THE Lord; and the pots in the Lord's house shall be like the bowls before the altar.",
+        "Yes, every pot in Jerusalem and in Judah shall be holiness to the Lord of hosts: and all they that sacrifice shall come and take of them, and boil in them: and in that day there shall be no more the Canaanite in the house of the Lord of hosts."
+      ],
+      "notes": [],
+      "approved": "01b74b0e"
+    },
+    {
+      "ch": "Joel 3",
+      "verses": [
+        "“For, behold, in those days, and in that time, when I shall bring again the captivity of Judah and Jerusalem,”",
+        "“I will also gather all nations, and will bring them down into the valley of Jehoshaphat, and will plead with them there for My people and for My heritage Israel, whom they have scattered among the nations, and parted My land.”",
+        "“And they have cast lots for My people; and have given a boy for a harlot, and sold a girl for wine, that they might drink.”",
+        "“Yes, and what have you to do with Me, O Tyre, and Zidon, and all the coasts of Palestine? will you render Me a recompense? and if you recompense Me, swiftly and speedily will I return your recompense upon your own head;”",
+        "“Because you have taken My silver and My gold, and have carried into your temples My goodly pleasant things:”",
+        "“The children also of Judah and the children of Jerusalem have you sold to the Grecians, that you might remove them far from their border.”",
+        "“Behold, I will raise them out of the place where you have sold them, and will return your recompense upon your own head:”",
+        "“And I will sell your sons and your daughters into the hand of the children of Judah, and they shall sell them to the Sabeans, to a people far off: for the Lord has spoken it.”",
+        "Proclaim you this among the Gentiles; “Prepare war, wake up the mighty men, let all the men of war draw near; let them come up:”",
+        "“Beat your plowshares into swords, and your pruninghooks into spears: let the weak say, ‘I am strong.’”",
+        "Assemble yourselves, and come, all you heathen, and gather yourselves together round about: there cause Your mighty ones to come down, O Lord.",
+        "“Let the heathen be wakened, and come up to the valley of Jehoshaphat: for there will I sit to judge all the heathen round about.”",
+        "“Put you in the sickle, for the harvest is ripe: come, get you down; for the press is full, the vats overflow; for their wickedness is great.”",
+        "Multitudes, multitudes in the valley of decision: for the day of the Lord is near in the valley of decision.",
+        "The sun and the moon shall be darkened, and the stars shall withdraw their shining.",
+        "The Lord also shall roar out of Zion, and utter His voice from Jerusalem; and the heavens and the earth shall shake: but the Lord will be the hope of His people, and the strength of the children of Israel.",
+        "“So shall you know that I am the Lord your God dwelling in Zion, My holy mountain: then shall Jerusalem be holy, and there shall no strangers pass through her any more.”",
+        "“And it shall come to pass in that day, that the mountains shall drop down new wine, and the hills shall flow with milk, and all the rivers of Judah shall flow with waters, and a fountain shall come forth of the house of the Lord, and shall water the valley of Shittim.”",
+        "“Egypt shall be a desolation, and Edom shall be a desolate wilderness, for the violence against the children of Judah, because they have shed innocent blood in their land.”",
+        "“But Judah shall dwell for ever, and Jerusalem from generation to generation.”",
+        "“For I will cleanse their blood that I have not cleansed: for the Lord dwells in Zion.”"
+      ],
+      "notes": [
+        "‘fats’ means vats"
+      ],
+      "approved": "0569f9a1"
+    },
+    {
+      "ch": "Micah 3",
+      "verses": [
+        "And I said, “Hear, I pray you, O heads of Jacob, and you princes of the house of Israel; Is it not for you to know judgment?”",
+        "“Who hate the good, and love the evil; who pluck off their skin from off them, and their flesh from off their bones;”",
+        "“Who also eat the flesh of my people, and flay their skin from off them; and they break their bones, and chop them in pieces, as for the pot, and as flesh within the cauldron.”",
+        "Then will they cry to the Lord, but He will not hear them: He will even hide His face from them at that time, as they have behaved themselves ill in their doings.",
+        "Thus says the Lord concerning the prophets that make My people err, that bite with their teeth, and cry, “Peace;” and he that puts not into their mouths, they even prepare war against him.",
+        "“Therefore night will be to you, that you will not have a vision; and it will be dark to you, that you will not divine; and the sun will go down over the prophets, and the day will be dark over them.”",
+        "“Then will the seers be ashamed, and the diviners confounded: yes, they will all cover their lips; for there is no answer of God.”",
+        "But truly I am full of power by the spirit of the Lord, and of judgment, and of might, to declare to Jacob his transgression, and to Israel his sin.",
+        "Hear this, I pray you, you heads of the house of Jacob, and princes of the house of Israel, that abhor judgment, and pervert all equity.",
+        "They build up Zion with blood, and Jerusalem with iniquity.",
+        "The heads of it judge for reward, and the priests of it teach for hire, and the prophets of it divine for money: yet will they lean upon the Lord, and say, “Is not the Lord among us? no evil can come upon us.”",
+        "Therefore will Zion for your sake be plowed as a field, and Jerusalem will become heaps, and the mountain of the house as the high places of the forest."
+      ],
+      "notes": [
+        "‘cauldron’ replaces caldron"
+      ],
+      "approved": "4c9aad8c"
+    },
+    {
+      "ch": "Zechariah 1",
+      "verses": [
+        "In the eighth month, in the second year of Darius, came the word of the Lord to Zechariah, the son of Berechiah, the son of Iddo the prophet, saying,",
+        "The Lord has been sore displeased with your fathers.",
+        "Therefore say you to them, Thus says the Lord of hosts; Turn you to Me, says the Lord of hosts, and I will turn to you, says the Lord of hosts.",
+        "Be you not as your fathers, to whom the former prophets have cried, saying, Thus says the Lord of hosts; Turn you now from your evil ways, and from your evil doings: but they did not hear, nor listen to Me, says the Lord.",
+        "Your fathers, where are they? and the prophets, do they live for ever?",
+        "But My words and My statutes, which I commanded My servants the prophets, did they not take hold of your fathers? and they returned and said, Like as the Lord of hosts thought to do to us, according to our ways, and according to our doings, so has He dealt with us.",
+        "Upon the four and twentieth day of the eleventh month, which is the month Sebat, in the second year of Darius, came the word of the Lord to Zechariah, the son of Berechiah, the son of Iddo the prophet, saying,",
+        "I saw by night, and behold a man riding upon a red horse, and he stood among the myrtle trees that were in the bottom; and behind him were there red horses, speckled, and white.",
+        "Then said I, O my lord, what are these? And the angel that talked with me said to me, I will show you what these be.",
+        "And the man that stood among the myrtle trees answered and said, These are they whom the Lord has sent to walk to and fro through the earth.",
+        "And they answered the angel of the Lord that stood among the myrtle trees, and said, We have walked to and fro through the earth, and, behold, all the earth sits still, and is at rest.",
+        "Then the angel of the Lord answered and said, O Lord of hosts, how long will you not have mercy on Jerusalem and on the cities of Judah, against which you have had indignation these threescore and ten years?",
+        "And the Lord answered the angel that talked with me with good words and comfortable words.",
+        "So the angel that communed with me said to Me, Cry you, saying, Thus says the Lord of hosts; I am jealous for Jerusalem and for Zion with a great jealousy.",
+        "And I am very sore displeased with the heathen that are at ease: for I was but a little displeased, and they helped forward the affliction.",
+        "Therefore thus says the Lord; I am returned to Jerusalem with mercies: My house shall be built in it, says the Lord of hosts, and a line shall be stretched forth upon Jerusalem.",
+        "Cry yet, saying, Thus says the Lord of hosts; My cities through prosperity shall yet be spread abroad; and the Lord shall yet comfort Zion, and shall yet choose Jerusalem.",
+        "Then lifted I up my eyes, and saw, and behold four horns.",
+        "And I said to the angel that talked with me, What be these? And he answered me, These are the horns which have scattered Judah, Israel, and Jerusalem.",
+        "And the Lord showed me four carpenters.",
+        "Then said I, What come these to do? And he spoke, saying, These are the horns which have scattered Judah, so that no man did lift up his head: but these are come to fray them, to cast out the horns of the Gentiles, which lifted up their horn over the land of Judah to scatter it."
+      ],
+      "notes": [],
+      "approved": "0c98c9b0"
+    },
+    {
+      "ch": "Zechariah 2",
+      "verses": [
+        "I lifted up my eyes again, and looked, and behold a man with a measuring line in his hand.",
+        "Then said I, Where do you go? And he said to me, To measure Jerusalem, to see what is the breadth thereof, and what is the length thereof.",
+        "And, behold, the angel that talked with me went forth, and another angel went out to meet him,",
+        "And said to him, Run, speak to this young man, saying, Jerusalem shall be inhabited as towns without walls for the multitude of men and cattle therein:",
+        "For I, says the Lord, will be to her a wall of fire round about, and will be the glory in the midst of her.",
+        "Ho, ho, come forth, and flee from the land of the north, says the Lord: for I have spread you abroad as the four winds of the heaven, says the Lord.",
+        "Deliver yourself, O Zion, that dwell with the daughter of Babylon.",
+        "For thus says the Lord of hosts; After the glory has He sent me to the nations which spoiled you: for he that touches you touches the apple of His eye.",
+        "For, behold, I will shake My hand upon them, and they shall be a spoil to their servants: and you shall know that the Lord of hosts has sent me.",
+        "Sing and rejoice, O daughter of Zion: for, lo, I come, and I will dwell in the midst of you, says the Lord.",
+        "And many nations shall be joined to the Lord in that day, and shall be My people: and I will dwell in the midst of you, and you shall know that the Lord of hosts has sent me to you.",
+        "And the Lord shall inherit Judah His portion in the holy land, and shall choose Jerusalem again.",
+        "Be silent, O all flesh, before the Lord: for He is raised up out of His holy habitation."
+      ],
+      "notes": [],
+      "approved": "7ac6e6a8"
+    },
+    {
+      "ch": "Hosea 7",
+      "verses": [
+        "When I would have healed Israel, then the iniquity of Ephraim was discovered, and the wickedness of Samaria: for they commit falsehood, and the thief comes in, and the troop of robbers spoils outside.",
+        "And they consider not in their hearts that I remember all their wickedness: now their own doings have beset them about, they are before My face.",
+        "They make the king glad with their wickedness, and the princes with their lies.",
+        "They are all adulterers, as an oven heated by the baker, who ceases from raising after he has kneaded the dough, until it be leavened.",
+        "In the day of our king the princes have made him sick with bottles of wine, he stretched out his hand with scorners.",
+        "For they have made ready their heart like an oven, while they lie in wait: their baker sleeps all the night, in the morning it burns as a flaming fire.",
+        "They are all hot as an oven, and have devoured their judges, all their kings are fallen: there is none among them that calls to Me.",
+        "Ephraim, he has mixed himself among the people, Ephraim is a cake not turned.",
+        "Strangers have devoured his strength, and he knows it not: yes, gray hairs are here and there on him, yet he knows not.",
+        "And the pride of Israel testifies to his face: and they do not return to the Lord their God, nor seek Him for all this.",
+        "Ephraim also is like a silly dove without heart: they call to Egypt, they go to Assyria.",
+        "When they will go, I will spread My net on them, I will bring them down as the fowls of the heaven, I will chastise them, as their congregation has heard.",
+        "Woe to them! For they have fled from Me: destruction to them! Because they have transgressed against Me: though I have redeemed them, yet they have spoken lies against Me.",
+        "And they have not cried to Me with their heart, when they howled on their beds: they assemble themselves for corn and wine, and they rebel against Me.",
+        "Though I have bound and strengthened their arms, yet do they imagine mischief against Me.",
+        "They return, but not to the most High: they are like a deceitful bow: their princes will fall by the sword for the rage of their tongue: this will be their derision in the land of Egypt."
+      ],
+      "notes": [],
+      "approved": "71f3fe82"
+    },
+    {
+      "ch": "Hosea 8",
+      "verses": [
+        "Set the trumpet to your mouth. He will come as an eagle against the house of the Lord, because they have transgressed My covenant, and trespassed against My law.",
+        "Israel will cry to Me, “My God, we know You.”",
+        "Israel has cast off the thing that is good: the enemy will pursue him.",
+        "They have set up kings, but not by Me: they have made princes, and I knew it not: of their silver and their gold have they made them idols, that they may be cut off.",
+        "Your calf, O Samaria, has cast you off, My anger is kindled against them: how long will it be before they attain to innocence?",
+        "For from Israel was it also: the workman made it, therefore it is not God: but the calf of Samaria will be broken in pieces.",
+        "For they have sown the wind, and they will reap the whirlwind: it has no stalk: the bud will yield no meal: if so be it yield, the strangers will swallow it up.",
+        "Israel is swallowed up: now will they be among the Gentiles as a vessel in which is no pleasure.",
+        "For they are gone up to Assyria, a wild ass alone by himself: Ephraim has hired lovers.",
+        "Yes, though they have hired among the nations, now will I gather them, and they will sorrow a little for the burden of the king of princes.",
+        "Because Ephraim has made many altars to sin, altars will be to him to sin.",
+        "I have written to him the great things of My law, but they were counted as a strange thing.",
+        "They sacrifice flesh for the sacrifices of My offerings, and eat it, but the Lord accepts them not, now will He remember their iniquity, and visit their sins: they will return to Egypt.",
+        "For Israel has forgotten his Maker, and builds temples, and Judah has multiplied fenced cities: but I will send a fire on his cities, and it will devour the palaces of it."
+      ],
+      "notes": [],
+      "approved": "2b322c13"
+    },
+    {
+      "ch": "Hosea 9",
+      "verses": [
+        "Rejoice not, O Israel, for joy, as other people: for you have gone a-whoring from your God, you have loved a reward on every cornfloor.",
+        "The floor and the winepress will not feed them, and the new wine will fail in her.",
+        "They will not dwell in the Lord’s land, but Ephraim will return to Egypt, and they will eat unclean things in Assyria.",
+        "They will not offer wine offerings to the Lord, neither will they be pleasing to Him: their sacrifices will be to them as the bread of mourners, all that eat of it will be polluted: for their bread for their soul will not come into the house of the Lord.",
+        "What will you do in the solemn day, and in the day of the feast of the Lord?",
+        "For, lo, they are gone because of destruction: Egypt will gather them up, Memphis will bury them: the pleasant places for their silver, nettles will possess them: thorns will be in their tabernacles.",
+        "The days of visitation are come, the days of recompense are come, Israel will know it: the prophet is a fool, the spiritual man is mad, for the multitude of your iniquity, and the great hatred.",
+        "The watchman of Ephraim was with my God: but the prophet is a snare of a fowler in all his ways, and hatred in the house of his God.",
+        "They have deeply corrupted themselves, as in the days of Gibeah: therefore He will remember their iniquity, He will visit their sins.",
+        "I found Israel like grapes in the wilderness, I saw your fathers as the firstripe in the fig tree at her first time: but they went to Baal-peor, and separated themselves to that shame, and their abominations were according as they loved.",
+        "As for Ephraim, their glory will fly away like a bird, from the birth, and from the womb, and from the conception.",
+        "Though they bring up their children, yet will I bereave them, that there will not be a man left: yes, woe also to them when I depart from them!",
+        "Ephraim, as I saw Tyrus, is planted in a pleasant place: but Ephraim will bring forth his children to the murderer.",
+        "Give them, O Lord: what will You give? Give them a miscarrying womb and dry breasts.",
+        "All their wickedness is in Gilgal: for there I hated them: for the wickedness of their doings I will drive them out of My house, I will love them no more: all their princes are revolters.",
+        "Ephraim is smitten, their root is dried up, they will bear no fruit: yes, though they bring forth, yet will I slay even the beloved fruit of their womb.",
+        "My God will cast them away, because they did not listen to Him: and they will be wanderers among the nations."
+      ],
+      "notes": [
+        "‘listen’ is used instead of ‘hearken’"
+      ],
+      "approved": "cfb1a52c"
+    },
+    {
+      "ch": "Hosea 10",
+      "verses": [
+        "Israel is an empty vine, he brings forth fruit to himself: according to the multitude of his fruit he has increased the altars, according to the goodness of his land they have made goodly images.",
+        "Their heart is divided, now will they be found faulty: He will break down their altars, He will spoil their images.",
+        "For now they will say, “We have no king, because we feared not the Lord, what then should a king do to us?”",
+        "They have spoken words, swearing falsely in making a covenant: thus judgment springs up as hemlock in the furrows of the field.",
+        "The inhabitants of Samaria will fear because of the calves of Beth-aven: for the people of it will mourn over it, and the priests of it that rejoiced on it, for the glory of it, because it is departed from it.",
+        "It will be also carried to Assyria for a present to king Jareb: Ephraim will receive shame, and Israel will be ashamed of his own counsel.",
+        "As for Samaria, her king is cut off as the foam on the water.",
+        "The high places also of Aven, the sin of Israel, will be destroyed: the thorn and the thistle will come up on their altars, and they will say to the mountains, “Cover us,” and to the hills, “Fall on us.”",
+        "O Israel, you have sinned from the days of Gibeah: there they stood: the battle in Gibeah against the children of iniquity did not overtake them.",
+        "It is in My desire that I should chastise them, and the people will be gathered against them, when they will bind themselves in their two furrows.",
+        "And Ephraim is as a heifer that is taught, and loves to tread out the corn, but I passed over on her fair neck: I will make Ephraim to ride, Judah will plow, and Jacob will break his clods.",
+        "Sow to yourselves in righteousness, reap in mercy, break up your fallow ground: for it is time to seek the Lord, till He come and rain righteousness on you.",
+        "You have plowed wickedness, you have reaped iniquity, you have eaten the fruit of lies: because you did trust in your way, in the multitude of your mighty men.",
+        "Therefore will a tumult arise among your people, and all your fortresses will be spoiled, as Shalman spoiled Beth-arbel in the day of battle: the mother was dashed in pieces on her children.",
+        "So will Beth-el do to you because of your great wickedness: in a morning will the king of Israel utterly be cut off."
+      ],
+      "notes": [],
+      "approved": "a8934c6d"
+    },
+    {
+      "ch": "Amos 1",
+      "verses": [
+        "The words of Amos, who was among the herdmen of Tekoa, which he saw concerning Israel in the days of Uzziah king of Judah, and in the days of Jeroboam the son of Joash king of Israel, two years before the earthquake.",
+        "And he said, “The Lord will roar from Zion, and utter His voice from Jerusalem; and the habitations of the shepherds shall mourn, and the top of Carmel shall wither.”",
+        "Thus says the Lord; “For three transgressions of Damascus, and for four, I will not turn away the punishment of it; because they have threshed Gilead with threshing instruments of iron:”",
+        "“But I will send a fire into the house of Hazael, which shall devour the palaces of Ben-hadad.”",
+        "“I will break also the bar of Damascus, and cut off the inhabitant from the plain of Aven, and him that holds the scepter from the house of Eden: and the people of Syria shall go into captivity to Kir, says the Lord.”",
+        "Thus says the Lord; “For three transgressions of Gaza, and for four, I will not turn away the punishment of it; because they carried away captive the whole captivity, to deliver them up to Edom:”",
+        "“But I will send a fire on the wall of Gaza, which shall devour the palaces of it:”",
+        "“And I will cut off the inhabitant from Ashdod, and him that holds the scepter from Ashkelon, and I will turn My hand against Ekron: and the remnant of the Philistines shall perish, says the Lord God.”",
+        "Thus says the Lord; “For three transgressions of Tyrus, and for four, I will not turn away the punishment of it; because they delivered up the whole captivity to Edom, and remembered not the brotherly covenant:”",
+        "“But I will send a fire on the wall of Tyrus, which shall devour the palaces of it.”",
+        "Thus says the Lord; “For three transgressions of Edom, and for four, I will not turn away the punishment of it; because he did pursue his brother with the sword, and did cast off all pity, and his anger did tear perpetually, and he kept his wrath for ever:”",
+        "“But I will send a fire upon Teman, which shall devour the palaces of Bozrah.”",
+        "Thus says the Lord; “For three transgressions of the children of Ammon, and for four, I will not turn away the punishment of it; because they have ripped up the women with child of Gilead, that they might enlarge their border:”",
+        "“But I will kindle a fire in the wall of Rabbah, and it shall devour the palaces of it, with shouting in the day of battle, with a tempest in the day of the whirlwind:”",
+        "“And their king shall go into captivity, he and his princes together, says the Lord.”"
+      ],
+      "notes": [],
+      "approved": "5c24453e"
+    },
+    {
+      "ch": "Micah 4",
+      "verses": [
+        "But in the last days it will come to pass, that the mountain of the house of the Lord will be established in the top of the mountains, and it will be exalted above the hills; and people will flow to it.",
+        "And many nations will come, and say, “Come, and let us go up to the mountain of the Lord, and to the house of the God of Jacob; and He will teach us of His ways, and we will walk in His paths:” for the law will go forth of Zion, and the word of the Lord from Jerusalem.",
+        "And He will judge among many people, and rebuke strong nations afar off; and they will beat their swords into plowshares, and their spears into pruning hooks: nation will not lift up a sword against nation, neither will they learn war any more.",
+        "But they will sit every man under his vine and under his fig tree; and none will make them afraid: for the mouth of the Lord of hosts has spoken it.",
+        "For all people will walk every one in the name of his god, and we will walk in the name of the Lord our God for ever and ever.",
+        "“In that day,” says the Lord, “will I assemble her that halts, and I will gather her that is driven out, and her that I have afflicted;”",
+        "“And I will make her that halted a remnant, and her that was cast far off a strong nation: and the Lord will reign over them in mount Zion from henceforth, even for ever.”",
+        "“And you, O tower of the flock, the strong hold of the daughter of Zion, to you will it come, even the first dominion; the kingdom will come to the daughter of Jerusalem.”",
+        "“Now why do you cry out aloud? is there no king in you? has your counselor perished? for pangs have taken you as a woman in travail.”",
+        "“Be in pain, and labor to bring forth, O daughter of Zion, like a woman in travail: for now will you go forth out of the city, and you will dwell in the field, and you will go even to Babylon; there will you be delivered; there the Lord will redeem you from the hand of your enemies.”",
+        "“Now also many nations are gathered against you, that say, ‘Let her be defiled, and let our eye look upon Zion.’”",
+        "“But they know not the thoughts of the Lord, neither understand they His counsel: for He will gather them as the sheaves into the floor.”",
+        "“Arise and thresh, O daughter of Zion: for I will make your horn iron, and I will make your hoofs brass: and you will beat in pieces many people: and I will consecrate their gain to the Lord, and their substance to the Lord of the whole earth.”"
+      ],
+      "notes": [
+        "‘labor’ replaces labour",
+        "‘counselor’ replaces counsellor"
+      ],
+      "approved": "6bed7eb5"
+    },
+    {
+      "ch": "Zechariah 3",
+      "verses": [
+        "And he showed me Joshua the high priest standing before the angel of the Lord, and Satan standing at his right hand to resist him.",
+        "And the Lord said to Satan, The Lord rebuke you, O Satan; even the Lord that has chosen Jerusalem rebuke you: is not this a brand plucked out of the fire?",
+        "Now Joshua was clothed with filthy garments, and stood before the angel.",
+        "And he answered and spoke to those that stood before him, saying, Take away the filthy garments from him. And to him he said, Behold, I have caused your iniquity to pass from you, and I will clothe you with change of raiment.",
+        "And I said, Let them set a fair mitre upon his head. So they set a fair mitre upon his head, and clothed him with garments. And the angel of the Lord stood by.",
+        "And the angel of the Lord protested to Joshua, saying,",
+        "Thus says the Lord of hosts; If you will walk in My ways, and if you will keep My charge, then you shall also judge My house, and shall also keep My courts, and I will give you places to walk among these that stand by.",
+        "Hear now, O Joshua the high priest, you, and your fellows that sit before you: for they are men wondered at: for, behold, I will bring forth My servant the BRANCH.",
+        "For behold the stone that I have laid before Joshua; upon one stone shall be seven eyes: behold, I will engrave the graving thereof, says the Lord of hosts, and I will remove the iniquity of that land in one day.",
+        "In that day, says the Lord of hosts, shall you call every man his neighbour under the vine and under the fig tree."
+      ],
+      "notes": [],
+      "approved": "6035c536"
+    },
+    {
+      "ch": "Amos 2",
+      "verses": [
+        "Thus says the Lord; “For three transgressions of Moab, and for four, I will not turn away the punishment of it; because he burned the bones of the king of Edom into lime:”",
+        "“But I will send a fire upon Moab, and it shall devour the palaces of Kerioth: and Moab shall die with tumult, with shouting, and with the sound of the trumpet:”",
+        "“And I will cut off the judge from the midst of it, and will slay all the princes of it with him, says the Lord.”",
+        "Thus says the Lord; “For three transgressions of Judah, and for four, I will not turn away the punishment of it; because they have despised the law of the Lord, and have not kept His commandments, and their lies caused them to err, after the which their fathers have walked:”",
+        "“But I will send a fire upon Judah, and it shall devour the palaces of Jerusalem.”",
+        "Thus says the Lord; “For three transgressions of Israel, and for four, I will not turn away the punishment of it; because they sold the righteous for silver, and the poor for a pair of shoes;”",
+        "“That pant after the dust of the earth on the head of the poor, and turn aside the way of the meek: and a man and his father will go in to the same maid, to profane My holy name:”",
+        "“And they lay themselves down upon clothes laid to pledge by every altar, and they drink the wine of the condemned in the house of their god.”",
+        "“Yet destroyed I the Amorite before them, whose height was like the height of the cedars, and he was strong as the oaks; yet I destroyed his fruit from above, and his roots from beneath.”",
+        "“Also I brought you up from the land of Egypt, and led you forty years through the wilderness, to possess the land of the Amorite.”",
+        "“And I raised up of your sons for prophets, and of your young men for Nazarites. Is it not even thus, O you children of Israel? says the Lord.”",
+        "“But you gave the Nazarites wine to drink; and commanded the prophets, saying, ‘Prophesy not.’”",
+        "“Behold, I am pressed under you, as a cart is pressed that is full of sheaves.”",
+        "“Therefore the flight shall perish from the swift, and the strong shall not strengthen his force, neither shall the mighty deliver himself:”",
+        "“Neither shall he stand that handles the bow; and he that is swift of foot shall not deliver himself: neither shall he that rides the horse deliver himself.”",
+        "“And he that is courageous among the mighty shall flee away naked in that day, says the Lord.”"
+      ],
+      "notes": [],
+      "approved": "f2bef643"
+    },
+    {
+      "ch": "Micah 5",
+      "verses": [
+        "Now gather yourself in troops, O daughter of troops: he has laid siege against us: they will smite the judge of Israel with a rod upon the cheek.",
+        "But you, Beth-lehem Ephratah, though you be little among the thousands of Judah, yet out of you will He come forth to Me that is to be ruler in Israel; whose goings forth have been from of old, from everlasting.",
+        "Therefore will He give them up, until the time that she which travails has brought forth: then the remnant of His brethren will return to the children of Israel.",
+        "And He will stand and feed in the strength of the Lord, in the majesty of the name of the Lord His God; and they will abide: for now will He be great to the ends of the earth.",
+        "And this man will be the peace, when the Assyrian will come into our land: and when he will tread in our palaces, then will we raise against him seven shepherds, and eight principal men.",
+        "And they will waste the land of Assyria with the sword, and the land of Nimrod in the entrances of it: thus will he deliver us from the Assyrian, when he comes into our land, and when he treads within our borders.",
+        "And the remnant of Jacob will be in the midst of many people as a dew from the Lord, as the showers upon the grass, that tarries not for man, nor waits for the sons of men.",
+        "And the remnant of Jacob will be among the Gentiles in the midst of many people as a lion among the beasts of the forest, as a young lion among the flocks of sheep: who, if he go through, both treads down, and tears in pieces, and none can deliver.",
+        "Your hand will be lifted up upon your adversaries, and all your enemies will be cut off.",
+        "“And it will come to pass in that day,” says the Lord, “that I will cut off your horses out of the midst of you, and I will destroy your chariots:”",
+        "“And I will cut off the cities of your land, and throw down all your strong holds:”",
+        "“And I will cut off witchcrafts out of your hand; and you will have no more soothsayers:”",
+        "“Your graven images also will I cut off, and your standing images out of the midst of you; and you will no more worship the work of your hands.”",
+        "“And I will pluck up your groves out of the midst of you: so will I destroy your cities.”",
+        "“And I will execute vengeance in anger and fury upon the heathen, such as they have not heard.”"
+      ],
+      "notes": [],
+      "approved": "6d3fb5e9"
+    },
+    {
+      "ch": "Zechariah 4",
+      "verses": [
+        "And the angel that talked with me came again, and waked me, as a man that is wakened out of his sleep,",
+        "And said to me, What see you? And I said, I have looked, and behold a candlestick all of gold, with a bowl upon the top of it, and his seven lamps thereon, and seven pipes to the seven lamps, which are upon the top thereof:",
+        "And two olive trees by it, one upon the right side of the bowl, and the other upon the left side thereof.",
+        "So I answered and spoke to the angel that talked with me, saying, What are these, my lord?",
+        "Then the angel that talked with me answered and said to me, Know you not what these be? And I said, No, my lord.",
+        "Then he answered and spoke to me, saying, This is the word of the Lord to Zerubbabel, saying, Not by might, nor by power, but by My Spirit, says the Lord of hosts.",
+        "Who are you, O great mountain? before Zerubbabel you shall become a plain: and he shall bring forth the headstone thereof with shoutings, crying, Grace, grace to it.",
+        "Moreover the word of the Lord came to me, saying,",
+        "The hands of Zerubbabel have laid the foundation of this house; his hands shall also finish it; and you shall know that the Lord of hosts has sent me to you.",
+        "For who has despised the day of small things? for they shall rejoice, and shall see the plummet in the hand of Zerubbabel with those seven; they are the eyes of the Lord, which run to and fro through the whole earth.",
+        "Then answered I, and said to him, What are these two olive trees upon the right side of the candlestick and upon the left side thereof?",
+        "And I answered again, and said to him, What be these two olive branches which through the two golden pipes empty the golden oil out of themselves?",
+        "And he answered me and said, Know you not what these be? And I said, No, my lord.",
+        "Then said he, These are the two anointed ones, that stand by the Lord of the whole earth."
+      ],
+      "notes": [],
+      "approved": "a7f22c07"
+    },
+    {
+      "ch": "Zechariah 5",
+      "verses": [
+        "Then I turned, and lifted up my eyes, and looked, and behold a flying roll.",
+        "And he said to me, What see you? And I answered, I see a flying roll; the length thereof is twenty cubits, and the breadth thereof ten cubits.",
+        "Then said he to me, This is the curse that goes forth over the face of the whole earth: for every one that steals shall be cut off as on this side according to it; and every one that swears shall be cut off as on that side according to it.",
+        "I will bring it forth, says the Lord of hosts, and it shall enter into the house of the thief, and into the house of him that swears falsely by My name: and it shall remain in the midst of his house, and shall consume it with the timber thereof and the stones thereof.",
+        "Then the angel that talked with me went forth, and said to me, Lift up now your eyes, and see what is this that goes forth.",
+        "And I said, What is it? And he said, This is an ephah that goes forth. He said moreover, This is their resemblance through all the earth.",
+        "And, behold, there was lifted up a talent of lead: and this is a woman that sits in the midst of the ephah.",
+        "And he said, This is wickedness. And he cast it into the midst of the ephah; and he cast the weight of lead upon the mouth thereof.",
+        "Then lifted I up my eyes, and looked, and, behold, there came out two women, and the wind was in their wings; for they had wings like the wings of a stork: and they lifted up the ephah between the earth and the heaven.",
+        "Then said I to the angel that talked with me, Where do these bear the ephah?",
+        "And he said to me, To build it an house in the land of Shinar: and it shall be established, and set there upon her own base."
+      ],
+      "notes": [],
+      "approved": "1305b2a0"
+    },
+    {
+      "ch": "Malachi 1",
+      "verses": [
+        "The burden of the word of the Lord to Israel by Malachi.",
+        "I have loved you, says the Lord. Yet you say, How have You loved us? Was not Esau Jacob's brother? says the Lord: yet I loved Jacob,",
+        "And I hated Esau, and laid his mountains and his heritage waste for the dragons of the wilderness.",
+        "Whereas Edom says, We are impoverished, but we will return and build the desolate places; thus says the Lord of hosts, They shall build, but I will throw down; and they shall call them, The border of wickedness, and, The people against whom the Lord has indignation forever.",
+        "And your eyes shall see, and you shall say, The Lord will be magnified from the border of Israel.",
+        "A son honors his father, and a servant his master: if then I be a father, where is My honor? and if I be a master, where is My fear? says the Lord of hosts to you, O priests, that despise My name. And you say, How have we despised Your name?",
+        "You offer polluted bread upon My altar; and you say, How have we polluted You? In that you say, The table of the Lord is contemptible.",
+        "And if you offer the blind for sacrifice, is it not evil? and if you offer the lame and sick, is it not evil? offer it now to your governor; will he be pleased with you, or accept your person? says the Lord of hosts.",
+        "And now, I pray you, beseech God that He will be gracious to us: this has been by your means: will He regard your persons? says the Lord of hosts.",
+        "Who is there even among you that would shut the doors for nothing? neither do you kindle fire on My altar for nothing. I have no pleasure in you, says the Lord of hosts, neither will I accept an offering at your hand.",
+        "For from the rising of the sun even to the going down of the same My name shall be great among the Gentiles; and in every place incense shall be offered to My name, and a pure offering: for My name shall be great among the heathen, says the Lord of hosts.",
+        "But you have profaned it, in that you say, The table of the Lord is polluted; and the fruit of it, even his meat, is contemptible.",
+        "You said also, Behold, what a weariness is it! and you have snuffed at it, says the Lord of hosts; and you brought that which was torn, and the lame, and the sick; thus you brought an offering: should I accept this of your hand? says the Lord.",
+        "But cursed be the deceiver, which has in his flock a male, and vows, and sacrifices to the Lord a corrupt thing: for I am a great King, says the Lord of hosts, and My name is dreadful among the heathen."
+      ],
+      "notes": [],
+      "approved": "ff2d1cb0"
+    },
+    {
+      "ch": "Malachi 2",
+      "verses": [
+        "And now, O you priests, this commandment is for you.",
+        "If you will not hear, and if you will not lay it to heart, to give glory to My name, says the Lord of hosts, I will even send a curse upon you, and I will curse your blessings: yes, I have cursed them already, because you do not lay it to heart.",
+        "Behold, I will corrupt your seed, and spread dung upon your faces, even the dung of your solemn feasts; and one shall take you away with it.",
+        "And you shall know that I have sent this commandment to you, that My covenant might be with Levi, says the Lord of hosts.",
+        "My covenant was with him of life and peace; and I gave them to him for the fear with which he feared Me, and was afraid before My name.",
+        "The law of truth was in his mouth, and iniquity was not found in his lips: he walked with Me in peace and equity, and did turn many away from iniquity.",
+        "For the priest's lips should keep knowledge, and they should seek the law at his mouth: for he is the messenger of the Lord of hosts.",
+        "But you are departed out of the way; you have caused many to stumble at the law; you have corrupted the covenant of Levi, says the Lord of hosts.",
+        "Therefore have I also made you contemptible and base before all the people, according as you have not kept My ways, but have been partial in the law.",
+        "Have we not all one father? has not one God created us? why do we deal treacherously every man against his brother, by profaning the covenant of our fathers?",
+        "Judah has dealt treacherously, and an abomination is committed in Israel and in Jerusalem; for Judah has profaned the holiness of the Lord which He loved, and has married the daughter of a strange god.",
+        "The Lord will cut off the man that does this, the master and the scholar, out of the tabernacles of Jacob, and him that offers an offering to the Lord of hosts.",
+        "And this have you done again, covering the altar of the Lord with tears, with weeping, and with crying out, insomuch that He regards not the offering any more, or receives it with good will at your hand.",
+        "Yet you say, Why? Because the Lord has been witness between you and the wife of your youth, against whom you have dealt treacherously: yet is she your companion, and the wife of your covenant.",
+        "And did not He make one? Yet had He the residue of the spirit. And why one? That He might seek a godly seed. Therefore take heed to your spirit, and let none deal treacherously against the wife of his youth.",
+        "For the Lord, the God of Israel, says that He hates putting away: for one covers violence with his garment, says the Lord of hosts: therefore take heed to your spirit, that you deal not treacherously.",
+        "You have wearied the Lord with your words. Yet you say, How have we wearied Him? When you say, Every one that does evil is good in the sight of the Lord, and He delights in them; or, Where is the God of judgment?"
+      ],
+      "notes": [
+        "‘putting away’ means divorce"
+      ],
+      "approved": "449eb66b"
+    },
+    {
+      "ch": "Malachi 3",
+      "verses": [
+        "Behold, I will send My messenger, and he shall prepare the way before Me: and the Lord, whom you seek, shall suddenly come to His temple, even the messenger of the covenant, whom you delight in: behold, he shall come, says the Lord of hosts.",
+        "But who may abide the day of His coming? and who shall stand when He appears? for He is like a refiner's fire, and like fullers' soap:",
+        "And He shall sit as a refiner and purifier of silver: and He shall purify the sons of Levi, and purge them as gold and silver, that they may offer to the Lord an offering in righteousness.",
+        "Then shall the offering of Judah and Jerusalem be pleasant to the Lord, as in the days of old, and as in former years.",
+        "And I will come near to you to judgment; and I will be a swift witness against the sorcerers, and against the adulterers, and against false swearers, and against those that oppress the hireling in his wages, the widow, and the fatherless, and that turn aside the stranger from his right, and fear not Me, says the Lord of hosts.",
+        "For I am the Lord, I change not; therefore you sons of Jacob are not consumed.",
+        "Even from the days of your fathers you are gone away from My ordinances, and have not kept them. Return to Me, and I will return to you, says the Lord of hosts. But you said, How shall we return?",
+        "Will a man rob God? Yet you have robbed Me. But you say, How have we robbed You? In tithes and offerings.",
+        "You are cursed with a curse: for you have robbed Me, even this whole nation.",
+        "Bring you all the tithes into the storehouse, that there may be meat in My house, and prove Me now with this, says the Lord of hosts, if I will not open you the windows of heaven, and pour you out a blessing, that there shall not be room enough to receive it.",
+        "And I will rebuke the devourer for your sakes, and he shall not destroy the fruits of your ground; neither shall your vine cast her fruit before the time in the field, says the Lord of hosts.",
+        "And all nations shall call you blessed: for you shall be a delightsome land, says the Lord of hosts.",
+        "Your words have been stout against Me, says the Lord. Yet you say, What have we spoken so much against You?",
+        "You have said, It is vain to serve God: and what profit is it that we have kept His ordinance, and that we have walked mournfully before the Lord of hosts?",
+        "And now we call the proud happy; yes, they that work wickedness are set up; yes, they that tempt God are even delivered.",
+        "Then they that feared the Lord spoke often one to another: and the Lord listened, and heard it, and a book of remembrance was written before Him for them that feared the Lord, and that thought upon His name.",
+        "And they shall be Mine, says the Lord of hosts, in that day when I make up My jewels; and I will spare them, as a man spares his own son that serves him.",
+        "Then shall you return, and discern between the righteous and the wicked, between him that serves God and him that serves Him not."
+      ],
+      "notes": [],
+      "approved": "e056018e"
+    },
+    {
+      "ch": "Malachi 4",
+      "verses": [
+        "For, behold, the day comes, that shall burn as an oven; and all the proud, yes, and all that do wickedly, shall be stubble: and the day that comes shall burn them up, says the Lord of hosts, that it shall leave them neither root nor branch.",
+        "But to you that fear My name shall the Sun of righteousness arise with healing in His wings; and you shall go forth, and grow up as calves of the stall.",
+        "And you shall tread down the wicked; for they shall be ashes under the soles of your feet in the day that I shall do this, says the Lord of hosts.",
+        "Remember you the law of Moses My servant, which I commanded to him in Horeb for all Israel, with the statutes and judgments.",
+        "Behold, I will send you Elijah the prophet before the coming of the great and dreadful day of the Lord:",
+        "And he shall turn the heart of the fathers to the children, and the heart of the children to their fathers, lest I come and smite the earth with a curse."
+      ],
+      "notes": [],
+      "approved": "03ceaa65"
+    },
+    {
+      "ch": "Amos 3",
+      "verses": [
+        "Hear this word that the Lord has spoken against you, O children of Israel, against the whole family which I brought up from the land of Egypt, saying,",
+        "“You only have I known of all the families of the earth: therefore I will punish you for all your iniquities.”",
+        "Can two walk together, except they be agreed?",
+        "Will a lion roar in the forest, when he has no prey? will a young lion cry out of his den, if he has taken nothing?",
+        "Can a bird fall in a snare upon the earth, where no gin is for him? shall one take up a snare from the earth, and have taken nothing at all?",
+        "Shall a trumpet be blown in the city, and the people not be afraid? shall there be evil in a city, and the Lord has not done it?",
+        "Surely the Lord God will do nothing, but He reveals His secret to His servants the prophets.",
+        "The lion has roared, who will not fear? the Lord God has spoken, who can but prophesy?",
+        "Publish in the palaces at Ashdod, and in the palaces in the land of Egypt, and say, “Assemble yourselves upon the mountains of Samaria, and behold the great tumults in the midst of it, and the oppressed in the midst of it.”",
+        "“For they know not to do right,” says the Lord, “who store up violence and robbery in their palaces.”",
+        "Therefore thus says the Lord God; “An adversary there shall be even round about the land; and he shall bring down your strength from you, and your palaces shall be spoiled.”",
+        "Thus says the Lord; “As the shepherd takes out of the mouth of the lion two legs, or a piece of an ear; so shall the children of Israel be taken out that dwell in Samaria in the corner of a bed, and in Damascus in a couch.”",
+        "“Hear you, and testify in the house of Jacob,” says the Lord God, the God of hosts,",
+        "“That in the day that I shall visit the transgressions of Israel upon him I will also visit the altars of Beth-el: and the horns of the altar shall be cut off, and fall to the ground.”",
+        "“And I will smite the winter house with the summer house; and the houses of ivory shall perish, and the great houses shall have an end,” says the Lord."
+      ],
+      "notes": [
+        "‘gin’ means trap or snare"
+      ],
+      "approved": "4427ac22"
+    },
+    {
+      "ch": "Micah 6",
+      "verses": [
+        "Hear you now what the Lord says; “Arise, contend before the mountains, and let the hills hear your voice.”",
+        "“Hear you, O mountains, the Lord's controversy, and you strong foundations of the earth: for the Lord has a controversy with His people, and He will plead with Israel.”",
+        "“O My people, what have I done to you? and in what have I wearied you? testify against Me.”",
+        "“For I brought you up out of the land of Egypt, and redeemed you out of the house of servants; and I sent before you Moses, Aaron, and Miriam.”",
+        "“O My people, remember now what Balak king of Moab consulted, and what Balaam the son of Beor answered him from Shittim to Gilgal; that you may know the righteousness of the Lord.”",
+        "With what will I come before the Lord, and bow myself before the high God? will I come before Him with burnt offerings, with calves of a year old?",
+        "Will the Lord be pleased with thousands of rams, or with ten thousands of rivers of oil? will I give my firstborn for my transgression, the fruit of my body for the sin of my soul?",
+        "He has showed you, O man, what is good; and what does the Lord require of you, but to do justly, and to love mercy, and to walk humbly with your God?",
+        "The Lord's voice cries to the city, and the man of wisdom will see your name: hear you the rod, and who has appointed it.",
+        "Are there yet the treasures of wickedness in the house of the wicked, and the scant measure that is abominable?",
+        "Will I count them pure with the wicked balances, and with the bag of deceitful weights?",
+        "For the rich men of it are full of violence, and the inhabitants of it have spoken lies, and their tongue is deceitful in their mouth.",
+        "Therefore also will I make you sick in smiting you, in making you desolate because of your sins.",
+        "You will eat, but not be satisfied; and your casting down will be in the midst of you; and you will take hold, but will not deliver; and that which you deliver will I give up to the sword.",
+        "You will sow, but you will not reap; you will tread the olives, but you will not anoint yourself with oil; and sweet wine, but will not drink wine.",
+        "For the statutes of Omri are kept, and all the works of the house of Ahab, and you walk in their counsels; that I should make you a desolation, and the inhabitants of it a hissing: therefore you will bear the reproach of My people."
+      ],
+      "notes": [],
+      "approved": "8cd1d5fa"
+    },
+    {
+      "ch": "Hosea 11",
+      "verses": [
+        "When Israel was a child, then I loved him, and called My son out of Egypt.",
+        "As they called them, so they went from them: they sacrificed to Baalim, and burned incense to graven images.",
+        "I taught Ephraim also to go, taking them by their arms, but they knew not that I healed them.",
+        "I drew them with cords of a man, with bands of love: and I was to them as they that take off the yoke on their jaws, and I laid food to them.",
+        "He will not return into the land of Egypt, but the Assyrian will be his king, because they refused to return.",
+        "And the sword will abide on his cities, and will consume his branches, and devour them, because of their own counsels.",
+        "And My people are bent to backsliding from Me: though they called them to the most High, none at all would exalt Him.",
+        "How will I give you up, Ephraim? How will I deliver you, Israel? How will I make you as Admah? How will I set you as Zeboim? My heart is turned within Me, My repentings are kindled together.",
+        "I will not execute the fierceness of My anger, I will not return to destroy Ephraim: for I am God, and not man, the Holy One in the midst of you: and I will not enter into the city.",
+        "They will walk after the Lord: He will roar like a lion: when He will roar, then the children will tremble from the west.",
+        "They will tremble as a bird out of Egypt, and as a dove out of the land of Assyria: and I will place them in their houses, says the Lord.",
+        "Ephraim compasses Me about with lies, and the house of Israel with deceit: but Judah yet rules with God, and is faithful with the saints."
+      ],
+      "notes": [
+        "‘food’ is used instead of ‘meat’"
+      ],
+      "approved": "d2f626d2"
+    },
+    {
+      "ch": "Hosea 12",
+      "verses": [
+        "Ephraim feeds on wind, and follows after the east wind: he daily increases lies and desolation, and they do make a covenant with the Assyrians, and oil is carried into Egypt.",
+        "The Lord has also a controversy with Judah, and will punish Jacob according to his ways, according to his doings will He recompense him.",
+        "He took his brother by the heel in the womb, and by his strength he had power with God:",
+        "Yes, he had power over the angel, and prevailed: he wept, and made supplication to him: he found Him in Beth-el, and there He spoke with us,",
+        "Even the Lord God of hosts, the Lord is His memorial.",
+        "Therefore turn you to your God: keep mercy and judgment, and wait on your God continually.",
+        "He is a merchant, the balances of deceit are in his hand: he loves to oppress.",
+        "And Ephraim said, “Yet I am become rich, I have found me out substance: in all my labors they will find no iniquity in me that were sin.”",
+        "And I that am the Lord your God from the land of Egypt will yet make you to dwell in tabernacles, as in the days of the solemn feast.",
+        "I have also spoken by the prophets, and I have multiplied visions, and used similitudes, by the ministry of the prophets.",
+        "Is there iniquity in Gilead? Surely they are vanity: they sacrifice bullocks in Gilgal, yes, their altars are as heaps in the furrows of the fields.",
+        "And Jacob fled into the country of Syria, and Israel served for a wife, and for a wife he kept sheep.",
+        "And by a prophet the Lord brought Israel out of Egypt, and by a prophet was he preserved.",
+        "Ephraim provoked Him to anger most bitterly: therefore will He leave his blood on him, and his reproach will his Lord return to him."
+      ],
+      "notes": [],
+      "approved": "e36b46e3"
+    },
+    {
+      "ch": "Hosea 13",
+      "verses": [
+        "When Ephraim spoke trembling, he exalted himself in Israel, but when he offended in Baal, he died.",
+        "And now they sin more and more, and have made them molten images of their silver, and idols according to their own understanding, all of it the work of the craftsmen: they say of them, “Let the men that sacrifice kiss the calves.”",
+        "Therefore they will be as the morning cloud, and as the early dew that passes away, as the chaff that is driven with the whirlwind out of the floor, and as the smoke out of the chimney.",
+        "Yet I am the Lord your God from the land of Egypt, and you will know no god but Me: for there is no savior beside Me.",
+        "I did know you in the wilderness, in the land of great drought.",
+        "According to their pasture, so were they filled, they were filled, and their heart was exalted, therefore have they forgotten Me.",
+        "Therefore I will be to them as a lion: as a leopard by the way will I observe them:",
+        "I will meet them as a bear that is bereaved of her whelps, and will rend the caul of their heart, and there will I devour them like a lion: the wild beast will tear them.",
+        "O Israel, you have destroyed yourself, but in Me is your help.",
+        "I will be your king: where is any other that may save you in all your cities? And your judges of whom you said, “Give me a king and princes”?",
+        "I gave you a king in My anger, and took him away in My wrath.",
+        "The iniquity of Ephraim is bound up, his sin is hid.",
+        "The sorrows of a travailing woman will come on him: he is an unwise son, for he should not stay long in the place of the breaking forth of children.",
+        "I will ransom them from the power of the grave, I will redeem them from death: O death, I will be your plagues, O grave, I will be your destruction: repentance will be hid from My eyes.",
+        "Though he be fruitful among his brothers, an east wind will come, the wind of the Lord will come up from the wilderness, and his spring will become dry, and his fountain will be dried up: he will spoil the treasure of all pleasant vessels.",
+        "Samaria will become desolate, for she has rebelled against her God: they will fall by the sword: their infants will be dashed in pieces, and their women with child will be ripped up."
+      ],
+      "notes": [],
+      "approved": "adfd5a98"
+    },
+    {
+      "ch": "Hosea 14",
+      "verses": [
+        "O Israel, return to the Lord your God, for you have fallen by your iniquity.",
+        "Take with you words, and turn to the Lord: say to Him, “Take away all iniquity, and receive us graciously: so will we render the calves of our lips.”",
+        "“Asshur will not save us, we will not ride on horses: neither will we say any more to the work of our hands, ‘You are our gods:’ for in You the fatherless finds mercy.”",
+        "“I will heal their backsliding, I will love them freely: for My anger is turned away from him.”",
+        "“I will be as the dew to Israel: he will grow as the lily, and cast forth his roots as Lebanon.”",
+        "“His branches will spread, and his beauty will be as the olive tree, and his smell as Lebanon.”",
+        "“They that dwell under his shadow will return, they will revive as the corn, and grow as the vine: the scent of it will be as the wine of Lebanon.”",
+        "Ephraim will say, “What have I to do any more with idols?” I have heard him, and observed him: I am like a green fir tree. From Me is your fruit found.",
+        "Who is wise, and he will understand these things? Prudent, and he will know them? For the ways of the Lord are right, and the just will walk in them: but the transgressors will fall in them."
+      ],
+      "notes": [],
+      "approved": "0e320f0f"
+    },
+    {
+      "ch": "Zechariah 6",
+      "verses": [
+        "And I turned, and lifted up my eyes, and looked, and, behold, there came four chariots out from between two mountains; and the mountains were mountains of brass.",
+        "In the first chariot were red horses; and in the second chariot black horses;",
+        "And in the third chariot white horses; and in the fourth chariot grisled and bay horses.",
+        "Then I answered and said to the angel that talked with me, What are these, my lord?",
+        "And the angel answered and said to me, These are the four spirits of the heavens, which go forth from standing before the Lord of all the earth.",
+        "The black horses which are therein go forth into the north country; and the white go forth after them; and the grisled go forth toward the south country.",
+        "And the bay went forth, and sought to go that they might walk to and fro through the earth: and he said, Get you hence, walk to and fro through the earth. So they walked to and fro through the earth.",
+        "Then cried he upon me, and spoke to me, saying, Behold, these that go toward the north country have quieted My Spirit in the north country.",
+        "And the word of the Lord came to me, saying,",
+        "Take of them of the captivity, even of Heldai, of Tobijah, and of Jedaiah, which are come from Babylon, and come you the same day, and go into the house of Josiah the son of Zephaniah;",
+        "Then take silver and gold, and make crowns, and set them upon the head of Joshua the son of Josedech, the high priest;",
+        "And speak to him, saying, Thus speaks the Lord of hosts, saying, Behold the man whose name is The BRANCH; and he shall grow up out of his place, and he shall build the temple of the Lord:",
+        "Even he shall build the temple of the Lord; and he shall bear the glory, and shall sit and rule upon his throne; and he shall be a priest upon his throne: and the counsel of peace shall be between them both.",
+        "And the crowns shall be to Helem, and to Tobijah, and to Jedaiah, and to Hen the son of Zephaniah, for a memorial in the temple of the Lord.",
+        "And they that are far off shall come and build in the temple of the Lord, and you shall know that the Lord of hosts has sent me to you. And this shall come to pass, if you will diligently obey the voice of the Lord your God."
+      ],
+      "notes": [],
+      "approved": "6f432a0f"
+    },
+    {
+      "ch": "Micah 7",
+      "verses": [
+        "Woe is me! for I am as when they have gathered the summer fruits, as the grape gleanings of the vintage: there is no cluster to eat: my soul desired the first ripe fruit.",
+        "The good man is perished out of the earth: and there is none upright among men: they all lie in wait for blood; they hunt every man his brother with a net.",
+        "That they may do evil with both hands earnestly, the prince asks, and the judge asks for a reward; and the great man, he utters his mischievous desire: so they wrap it up.",
+        "The best of them is as a brier: the most upright is sharper than a thorn hedge: the day of your watchmen and your visitation comes; now will be their perplexity.",
+        "Trust you not in a friend, put you not confidence in a guide: keep the doors of your mouth from her that lies in your bosom.",
+        "For the son dishonors the father, the daughter rises up against her mother, the daughter in law against her mother in law; a man's enemies are the men of his own house.",
+        "Therefore I will look to the Lord; I will wait for the God of my salvation: my God will hear me.",
+        "Rejoice not against me, O my enemy: when I fall, I will arise; when I sit in darkness, the Lord will be a light to me.",
+        "I will bear the indignation of the Lord, because I have sinned against Him, until He plead my cause, and execute judgment for me: He will bring me forth to the light, and I will behold His righteousness.",
+        "Then she that is my enemy will see it, and shame will cover her which said to me, “Where is the Lord your God?” my eyes will behold her: now will she be trodden down as the mire of the streets.",
+        "In the day that your walls are to be built, in that day will the decree be far removed.",
+        "In that day also he will come even to you from Assyria, and from the fortified cities, and from the fortress even to the river, and from sea to sea, and from mountain to mountain.",
+        "Notwithstanding the land will be desolate because of them that dwell in it, for the fruit of their doings.",
+        "Feed your people with your rod, the flock of your heritage, which dwell solitarily in the wood, in the midst of Carmel: let them feed in Bashan and Gilead, as in the days of old.",
+        "According to the days of your coming out of the land of Egypt will I show to him marvelous things.",
+        "The nations will see and be confounded at all their might: they will lay their hand upon their mouth, their ears will be deaf.",
+        "They will lick the dust like a serpent, they will move out of their holes like worms of the earth: they will be afraid of the Lord our God, and will fear because of you.",
+        "Who is a God like to You, that pardons iniquity, and passes by the transgression of the remnant of His heritage? He retains not His anger for ever, because He delights in mercy.",
+        "He will turn again, He will have compassion upon us; He will subdue our iniquities; and You will cast all their sins into the depths of the sea.",
+        "You will perform the truth to Jacob, and the mercy to Abraham, which You have sworn to our fathers from the days of old."
+      ],
+      "notes": [],
+      "approved": "aa1a6b1d"
+    },
+    {
+      "ch": "Zechariah 7",
+      "verses": [
+        "And it came to pass in the fourth year of king Darius, that the word of the Lord came to Zechariah in the fourth day of the ninth month, even in Chisleu;",
+        "When they had sent to the house of God Sherezer and Regem-melech, and their men, to pray before the Lord,",
+        "And to speak to the priests which were in the house of the Lord of hosts, and to the prophets, saying, Should I weep in the fifth month, separating myself, as I have done these so many years?",
+        "Then came the word of the Lord of hosts to me, saying,",
+        "Speak to all the people of the land, and to the priests, saying, When you fasted and mourned in the fifth and seventh month, even those seventy years, did you at all fast to Me, even to Me?",
+        "And when you did eat, and when you did drink, did not you eat for yourselves, and drink for yourselves?",
+        "Should you not hear the words which the Lord has cried by the former prophets, when Jerusalem was inhabited and in prosperity, and the cities thereof round about her, when men inhabited the south and the plain?",
+        "And the word of the Lord came to Zechariah, saying,",
+        "Thus speaks the Lord of hosts, saying, Execute true judgment, and show mercy and compassions every man to his brother:",
+        "And oppress not the widow, nor the fatherless, the stranger, nor the poor; and let none of you imagine evil against his brother in your heart.",
+        "But they refused to listen, and pulled away the shoulder, and stopped their ears, that they should not hear.",
+        "Yea, they made their hearts as an adamant stone, lest they should hear the law, and the words which the Lord of hosts has sent in His Spirit by the former prophets: therefore came a great wrath from the Lord of hosts.",
+        "Therefore it is come to pass, that as He cried, and they would not hear; so they cried, and I would not hear, says the Lord of hosts:",
+        "But I scattered them with a whirlwind among all the nations whom they knew not. Thus the land was desolate after them, that no man passed through nor returned: for they laid the pleasant land desolate."
+      ],
+      "notes": [],
+      "approved": "ceab9786"
+    },
+    {
+      "ch": "Zechariah 8",
+      "verses": [
+        "Again the word of the Lord of hosts came to me, saying,",
+        "Thus says the Lord of hosts; I was jealous for Zion with great jealousy, and I was jealous for her with great fury.",
+        "Thus says the Lord; I am returned to Zion, and will dwell in the midst of Jerusalem: and Jerusalem shall be called a city of truth; and the mountain of the Lord of hosts the holy mountain.",
+        "Thus says the Lord of hosts; There shall yet old men and old women dwell in the streets of Jerusalem, and every man with his staff in his hand for very age.",
+        "And the streets of the city shall be full of boys and girls playing in the streets thereof.",
+        "Thus says the Lord of hosts; If it be marvellous in the eyes of the remnant of this people in these days, should it also be marvellous in My eyes? says the Lord of hosts.",
+        "Thus says the Lord of hosts; Behold, I will save My people from the east country, and from the west country;",
+        "And I will bring them, and they shall dwell in the midst of Jerusalem: and they shall be My people, and I will be their God, in truth and in righteousness.",
+        "Thus says the Lord of hosts; Let your hands be strong, you that hear in these days these words by the mouth of the prophets, which were in the day that the foundation of the house of the Lord of hosts was laid, that the temple might be built.",
+        "For before these days there was no hire for man, nor any hire for beast; neither was there any peace to him that went out or came in because of the affliction: for I set all men every one against his neighbour.",
+        "But now I will not be to the residue of this people as in the former days, says the Lord of hosts.",
+        "For the seed shall be prosperous; the vine shall give her fruit, and the ground shall give her increase, and the heavens shall give their dew; and I will cause the remnant of this people to possess all these things.",
+        "And it shall come to pass, that as you were a curse among the heathen, O house of Judah, and house of Israel; so will I save you, and you shall be a blessing: fear not, but let your hands be strong.",
+        "For thus says the Lord of hosts; As I thought to punish you, when your fathers provoked Me to wrath, says the Lord of hosts, and I repented not:",
+        "So again have I thought in these days to do well to Jerusalem and to the house of Judah: fear you not.",
+        "These are the things that you shall do; Speak you every man the truth to his neighbour; execute the judgment of truth and peace in your gates:",
+        "And let none of you imagine evil in your hearts against his neighbour; and love no false oath: for all these are things that I hate, says the Lord.",
+        "And the word of the Lord of hosts came to me, saying,",
+        "Thus says the Lord of hosts; The fast of the fourth month, and the fast of the fifth, and the fast of the seventh, and the fast of the tenth, shall be to the house of Judah joy and gladness, and cheerful feasts; therefore love the truth and peace.",
+        "Thus says the Lord of hosts; It shall yet come to pass, that there shall come people, and the inhabitants of many cities:",
+        "And the inhabitants of one city shall go to another, saying, Let us go speedily to pray before the Lord, and to seek the Lord of hosts: I will go also.",
+        "Yea, many people and strong nations shall come to seek the Lord of hosts in Jerusalem, and to pray before the Lord.",
+        "Thus says the Lord of hosts; In those days it shall come to pass, that ten men shall take hold out of all languages of the nations, even shall take hold of the skirt of him that is a Jew, saying, We will go with you: for we have heard that God is with you."
+      ],
+      "notes": [],
+      "approved": "83eeabef"
+    },
+    {
+      "ch": "Nahum 1",
+      "verses": [
+        "The burden of Nineveh. The book of the vision of Nahum the Elkoshite.",
+        "God is jealous, and the Lord revenges; the Lord revenges, and is furious; the Lord will take vengeance on His adversaries, and He reserves wrath for His enemies.",
+        "The Lord is slow to anger, and great in power, and will not at all acquit the wicked: the Lord has His way in the whirlwind and in the storm, and the clouds are the dust of His feet.",
+        "He rebukes the sea, and makes it dry, and dries up all the rivers: Bashan languishes, and Carmel, and the flower of Lebanon languishes.",
+        "The mountains quake at Him, and the hills melt, and the earth is burned at His presence, yes, the world, and all that dwell in it.",
+        "Who can stand before His indignation? and who can abide in the fierceness of His anger? His fury is poured out like fire, and the rocks are thrown down by Him.",
+        "The Lord is good, a strong hold in the day of trouble; and He knows them that trust in Him.",
+        "But with an overrunning flood He will make an utter end of the place of it, and darkness will pursue His enemies.",
+        "What do you imagine against the Lord? He will make an utter end: affliction will not rise up the second time.",
+        "For while they be folded together as thorns, and while they are drunken as drunkards, they will be devoured as stubble fully dry.",
+        "There is one come out of you, that imagines evil against the Lord, a wicked counselor.",
+        "Thus says the Lord; “Though they be quiet, and likewise many, yet thus will they be cut down, when he will pass through. Though I have afflicted you, I will afflict you no more.”",
+        "“For now will I break his yoke from off you, and will burst your bonds in sunder.”",
+        "“And the Lord has given a commandment concerning you, that no more of your name be sown: out of the house of your gods will I cut off the graven image and the molten image: I will make your grave; for you are vile.”",
+        "Behold upon the mountains the feet of him that brings good tidings, that publishes peace! O Judah, keep your solemn feasts, perform your vows: for the wicked will no more pass through you; he is utterly cut off."
+      ],
+      "notes": [
+        "‘counselor’ replaces counsellor"
+      ],
+      "approved": "f1dc68ee"
+    },
+    {
+      "ch": "Amos 4",
+      "verses": [
+        "Hear this word, you cows of Bashan, that are in the mountain of Samaria, which oppress the poor, which crush the needy, which say to their masters, “Bring, and let us drink.”",
+        "The Lord God has sworn by His holiness, that, lo, the days shall come upon you, that He will take you away with hooks, and your posterity with fishhooks.",
+        "And you shall go out at the breaches, every cow at that which is before her; and you shall cast them into the palace, says the Lord.",
+        "“Come to Beth-el, and transgress; at Gilgal multiply transgression; and bring your sacrifices every morning, and your tithes after three years:”",
+        "“And offer a sacrifice of thanksgiving with leaven, and proclaim and publish the free offerings: for this likes you, O you children of Israel, says the Lord God.”",
+        "“And I also have given you cleanness of teeth in all your cities, and want of bread in all your places: yet have you not returned to Me, says the Lord.”",
+        "“And also I have withheld the rain from you, when there were yet three months to the harvest: and I caused it to rain upon one city, and caused it not to rain upon another city: one piece was rained upon, and the piece on which it rained not withered.”",
+        "“So two or three cities wandered to one city, to drink water; but they were not satisfied: yet have you not returned to Me, says the Lord.”",
+        "“I have smitten you with blasting and mildew: when your gardens and your vineyards and your fig trees and your olive trees increased, the palmerworm devoured them: yet have you not returned to Me, says the Lord.”",
+        "“I have sent among you the pestilence after the manner of Egypt: your young men have I slain with the sword, and have taken away your horses; and I have made the stink of your camps to come up to your nostrils: yet have you not returned to Me, says the Lord.”",
+        "“I have overthrown some of you, as God overthrew Sodom and Gomorrah, and you were as a firebrand plucked out of the burning: yet have you not returned to Me, says the Lord.”",
+        "“Therefore thus will I do to you, O Israel: and because I will do this to you, prepare to meet your God, O Israel.”",
+        "For, lo, He that forms the mountains, and creates the wind, and declares to man what is His thought, that makes the morning darkness, and treads upon the high places of the earth, The Lord, The God of hosts, is His name."
+      ],
+      "notes": [],
+      "approved": "1b0fdd65"
+    },
+    {
+      "ch": "Nahum 2",
+      "verses": [
+        "He that dashes in pieces is come up before your face: keep the munition, watch the way, make your loins strong, fortify your power mightily.",
+        "For the Lord has turned away the excellency of Jacob, as the excellency of Israel: for the emptiers have emptied them out, and marred their vine branches.",
+        "The shield of his mighty men is made red, the valiant men are in scarlet: the chariots will be with flaming torches in the day of his preparation, and the fir trees will be terribly shaken.",
+        "The chariots will rage in the streets, they will jostle one against another in the broad ways: they will seem like torches, they will run like the lightnings.",
+        "He will recount his worthies: they will stumble in their walk; they will make haste to the wall of it, and the defense will be prepared.",
+        "The gates of the rivers will be opened, and the palace will be dissolved.",
+        "And Huzzab will be led away captive, she will be brought up, and her maids will lead her as with the voice of doves, taboring upon their breasts.",
+        "But Nineveh is of old like a pool of water: yet they will flee away. “Stand, stand,” will they cry; but none will look back.",
+        "Take you the spoil of silver, take the spoil of gold: for there is no end of the store and glory out of all the pleasant furniture.",
+        "She is empty, and void, and waste: and the heart melts, and the knees smite together, and much pain is in all loins, and the faces of them all gather blackness.",
+        "Where is the dwelling of the lions, and the feeding place of the young lions, where the lion, even the old lion, walked, and the lion's whelp, and none made them afraid?",
+        "The lion did tear in pieces enough for his whelps, and strangled for his lionesses, and filled his holes with prey, and his dens with ravin.",
+        "“Behold, I am against you,” says the Lord of hosts, “and I will burn her chariots in the smoke, and the sword will devour your young lions: and I will cut off your prey from the earth, and the voice of your messengers will no more be heard.”"
+      ],
+      "notes": [
+        "‘taboring’ replaces tabering",
+        "‘feeding place’ replaces feedingplace",
+        "‘defense’ replaces defence"
+      ],
+      "approved": "b46b772c"
+    },
+    {
+      "ch": "Amos 5",
+      "verses": [
+        "Hear you this word which I take up against you, even a lamentation, O house of Israel.",
+        "“The virgin of Israel is fallen; she shall no more rise: she is forsaken upon her land; there is none to raise her up.”",
+        "For thus says the Lord God; “The city that went out by a thousand shall leave a hundred, and that which went forth by a hundred shall leave ten, to the house of Israel.”",
+        "For thus says the Lord to the house of Israel, “Seek you Me, and you shall live:”",
+        "“But seek not Beth-el, nor enter into Gilgal, and pass not to Beer-sheba: for Gilgal shall surely go into captivity, and Beth-el shall come to nothing.”",
+        "“Seek the Lord, and you shall live; lest He break out like fire in the house of Joseph, and devour it, and there be none to quench it in Beth-el.”",
+        "“You who turn judgment to wormwood, and leave off righteousness in the earth,”",
+        "“Seek Him that makes the seven stars and Orion, and turns the shadow of death into the morning, and makes the day dark with night: that calls for the waters of the sea, and pours them out upon the face of the earth: The Lord is His name:”",
+        "“That strengthens the spoiled against the strong, so that the spoiled shall come against the fortress.”",
+        "“They hate him that rebukes in the gate, and they abhor him that speaks uprightly.”",
+        "“Forasmuch therefore as your treading is upon the poor, and you take from him burdens of wheat: you have built houses of hewn stone, but you shall not dwell in them; you have planted pleasant vineyards, but you shall not drink wine of them.”",
+        "“For I know your manifold transgressions and your mighty sins: they afflict the just, they take a bribe, and they turn aside the poor in the gate from their right.”",
+        "“Therefore the prudent shall keep silence in that time; for it is an evil time.”",
+        "“Seek good, and not evil, that you may live: and so the Lord, the God of hosts, shall be with you, as you have spoken.”",
+        "“Hate the evil, and love the good, and establish judgment in the gate: it may be that the Lord God of hosts will be gracious to the remnant of Joseph.”",
+        "Therefore the Lord, the God of hosts, the Lord, says thus; “Wailing shall be in all streets; and they shall say in all the highways, ‘Alas! alas!’ and they shall call the husbandman to mourning, and such as are skillful of lamentation to wailing.”",
+        "“And in all vineyards shall be wailing: for I will pass through you, says the Lord.”",
+        "“Woe to you that desire the day of the Lord! to what end is it for you? the day of the Lord is darkness, and not light.”",
+        "“As if a man did flee from a lion, and a bear met him; or went into the house, and leaned his hand on the wall, and a serpent bit him.”",
+        "“Shall not the day of the Lord be darkness, and not light? even very dark, and no brightness in it?”",
+        "“I hate, I despise your feast days, and I will not smell in your solemn assemblies.”",
+        "“Though you offer Me burnt offerings and your food offerings, I will not accept them: neither will I regard the peace offerings of your fat beasts.”",
+        "“Take you away from Me the noise of your songs; for I will not hear the melody of your viols.”",
+        "“But let judgment run down as waters, and righteousness as a mighty stream.”",
+        "“Have you offered to Me sacrifices and offerings in the wilderness forty years, O house of Israel?”",
+        "“But you have borne the tabernacle of your Moloch and Chiun your images, the star of your god, which you made to yourselves.”",
+        "“Therefore will I cause you to go into captivity beyond Damascus, says the Lord, whose name is The God of hosts.”"
+      ],
+      "notes": [
+        "‘viols’ means harps or stringed instruments"
+      ],
+      "approved": "638159cc"
+    },
+    {
+      "ch": "Nahum 3",
+      "verses": [
+        "Woe to the bloody city! it is all full of lies and robbery; the prey departs not;",
+        "The noise of a whip, and the noise of the rattling of the wheels, and of the prancing horses, and of the jumping chariots.",
+        "The horseman lifts up both the bright sword and the glittering spear: and there is a multitude of slain, and a great number of carcasses; and there is no end of their corpses; they stumble upon their corpses:",
+        "Because of the multitude of the whoredoms of the well favored harlot, the mistress of witchcrafts, that sells nations through her whoredoms, and families through her witchcrafts.",
+        "“Behold, I am against you,” says the Lord of hosts; “and I will discover your skirts upon your face, and I will show the nations your nakedness, and the kingdoms your shame.”",
+        "“And I will cast abominable filth upon you, and make you vile, and will set you as a gazing stock.”",
+        "“And it will come to pass, that all they that look upon you will flee from you, and say, ‘Nineveh is laid waste: who will bemoan her? from where will I seek comforters for you?’”",
+        "Are you better than populous No, that was situate among the rivers, that had the waters round about it, whose rampart was the sea, and her wall was from the sea?",
+        "Ethiopia and Egypt were her strength, and it was infinite; Put and Lubim were your helpers.",
+        "Yet was she carried away, she went into captivity: her young children also were dashed in pieces at the top of all the streets: and they cast lots for her honorable men, and all her great men were bound in chains.",
+        "You also will be drunken: you will be hid, you also will seek strength because of the enemy.",
+        "All your strong holds will be like fig trees with the first ripe figs: if they be shaken, they will even fall into the mouth of the eater.",
+        "Behold, your people in the midst of you are women: the gates of your land will be set wide open to your enemies: the fire will devour your bars.",
+        "Draw you waters for the siege, fortify your strong holds: go into clay, and tread the mortar, make strong the brick kiln.",
+        "There will the fire devour you; the sword will cut you off, it will eat you up like the cankerworm: make yourself many as the cankerworm, make yourself many as the locusts.",
+        "You have multiplied your merchants above the stars of heaven: the cankerworm spoils, and flies away.",
+        "Your crowned are as the locusts, and your captains as the great grasshoppers, which camp in the hedges in the cold day, but when the sun arises they flee away, and their place is not known where they are.",
+        "Your shepherds slumber, O king of Assyria: your nobles will dwell in the dust: your people is scattered upon the mountains, and no man gathers them.",
+        "There is no healing of your bruise; your wound is grievous: all that hear the bruit of you will clap the hands over you: for upon whom has not your wickedness passed continually?"
+      ],
+      "notes": [
+        "‘gazing stock’ replaces gazingstock"
+      ],
+      "approved": "e7bf5f39"
+    },
+    {
+      "ch": "Amos 6",
+      "verses": [
+        "Woe to them that are at ease in Zion, and trust in the mountain of Samaria, which are named chief of the nations, to whom the house of Israel came!",
+        "Pass you to Calneh, and see; and from there go you to Hamath the great: then go down to Gath of the Philistines: be they better than these kingdoms? or their border greater than your border?",
+        "You that put far away the evil day, and cause the seat of violence to come near;",
+        "That lie upon beds of ivory, and stretch themselves upon their couches, and eat the lambs out of the flock, and the calves out of the midst of the stall;",
+        "That chant to the sound of the viol, and invent to themselves instruments of music, like David;",
+        "That drink wine in bowls, and anoint themselves with the chief ointments: but they are not grieved for the affliction of Joseph.",
+        "Therefore now shall they go captive with the first that go captive, and the banquet of them that stretched themselves shall be removed.",
+        "The Lord God has sworn by Himself, says the Lord the God of hosts, “I abhor the excellency of Jacob, and hate his palaces: therefore will I deliver up the city with all that is in it.”",
+        "“And it shall come to pass, if there remain ten men in one house, that they shall die.”",
+        "“And a man’s uncle shall take him up, and he that burns him, to bring out the bones out of the house, and shall say to him that is by the sides of the house, ‘Is there yet any with you?’ and he shall say, ‘No.’ Then shall he say, ‘Hold your tongue: for we may not make mention of the name of the Lord.’”",
+        "“For, behold, the Lord commands, and He will smite the great house with breaches, and the little house with clefts.”",
+        "“Shall horses run upon the rock? will one plow there with oxen? for you have turned judgment into gall, and the fruit of righteousness into hemlock:”",
+        "“You which rejoice in a thing of nothing, which say, ‘Have we not taken to us horns by our own strength?’”",
+        "“But, behold, I will raise up against you a nation, O house of Israel,” says the Lord the God of hosts; “and they shall afflict you from the entering in of Hemath to the river of the wilderness.”"
+      ],
+      "notes": [
+        "‘viol’ means harp or stringed instrument"
+      ],
+      "approved": "0bf47552"
+    },
+    {
+      "ch": "Habakkuk 1",
+      "verses": [
+        "The burden which Habakkuk the prophet did see.",
+        "O Lord, how long will I cry, and You will not hear! even cry out to You of violence, and You will not save!",
+        "Why do You show me iniquity, and cause me to behold grievance? for spoiling and violence are before me: and there are that raise up strife and contention.",
+        "Therefore the law is slacked, and judgment does never go forth: for the wicked does compass about the righteous; therefore wrong judgment proceeds.",
+        "“Behold you among the heathen, and regard, and wonder marvelously: for I will work a work in your days, which you will not believe, though it be told you.”",
+        "“For, lo, I raise up the Chaldeans, that bitter and hasty nation, which will march through the breadth of the land, to possess the dwelling places that are not theirs.”",
+        "“They are terrible and dreadful: their judgment and their dignity will proceed of themselves.”",
+        "“Their horses also are swifter than the leopards, and are more fierce than the evening wolves: and their horsemen will spread themselves, and their horsemen will come from far; they will fly as the eagle that hastens to eat.”",
+        "“They will come all for violence: their faces will sup up as the east wind, and they will gather the captivity as the sand.”",
+        "“And they will scoff at the kings, and the princes will be a scorn to them: they will deride every strong hold; for they will heap dust, and take it.”",
+        "“Then will his mind change, and he will pass over, and offend, imputing this his power to his god.”",
+        "Are You not from everlasting, O Lord my God, my Holy One? we will not die. O Lord, You have ordained them for judgment; and, O mighty God, You have established them for correction.",
+        "You are of purer eyes than to behold evil, and can not look on iniquity: why do You look upon them that deal treacherously, and hold Your tongue when the wicked devours the man that is more righteous than he?",
+        "And make men as the fishes of the sea, as the creeping things, that have no ruler over them?",
+        "They take up all of them with the angle, they catch them in their net, and gather them in their drag: therefore they rejoice and are glad.",
+        "Therefore they sacrifice to their net, and burn incense to their drag; because by them their portion is fat, and their meat plenteous.",
+        "Will they therefore empty their net, and not spare continually to slay the nations?"
+      ],
+      "notes": [
+        "‘dwelling places’ replaces dwellingplaces"
+      ],
+      "approved": "3cccc501"
+    },
+    {
+      "ch": "Amos 7",
+      "verses": [
+        "Thus has the Lord God showed to me; and, behold, He formed grasshoppers in the beginning of the shooting up of the latter growth; and, lo, it was the latter growth after the king’s mowings.",
+        "And it came to pass, that when they had made an end of eating the grass of the land, then I said, “O Lord God, forgive, I beg You: by whom shall Jacob arise? for he is small.”",
+        "The Lord repented for this: “It shall not be,” says the Lord.",
+        "Thus has the Lord God showed to me: and, behold, the Lord God called to contend by fire, and it devoured the great deep, and did eat up a part.",
+        "Then said I, “O Lord God, cease, I beg You: by whom shall Jacob arise? for he is small.”",
+        "The Lord repented for this: “This also shall not be,” says the Lord God.",
+        "Thus He showed me: and, behold, the Lord stood upon a wall made by a plumbline, with a plumbline in His hand.",
+        "And the Lord said to me, “Amos, what see you?” And I said, “A plumbline.” Then said the Lord, “Behold, I will set a plumbline in the midst of My people Israel: I will not again pass by them any more:”",
+        "“And the high places of Isaac shall be desolate, and the sanctuaries of Israel shall be laid waste; and I will rise against the house of Jeroboam with the sword.”",
+        "Then Amaziah the priest of Beth-el sent to Jeroboam king of Israel, saying, “Amos has conspired against you in the midst of the house of Israel: the land is not able to bear all his words.”",
+        "“For thus Amos says, ‘Jeroboam shall die by the sword, and Israel shall surely be led away captive out of their own land.’”",
+        "Also Amaziah said to Amos, “O you seer, go, flee you away into the land of Judah, and there eat bread, and prophesy there:”",
+        "“But prophesy not again any more at Beth-el: for it is the king’s chapel, and it is the king’s court.”",
+        "Then answered Amos, and said to Amaziah, “I was no prophet, neither was I a prophet’s son; but I was a herdsman, and a gatherer of sycamore fruit:”",
+        "“And the Lord took me as I followed the flock, and the Lord said to me, ‘Go, prophesy to My people Israel.’”",
+        "“Now therefore hear you the word of the Lord: You say, ‘Prophesy not against Israel, and drop not your word against the house of Isaac.’”",
+        "“Therefore thus says the Lord; ‘Your wife shall be a harlot in the city, and your sons and your daughters shall fall by the sword, and your land shall be divided by line; and you shall die in a polluted land: and Israel shall surely go into captivity forth of his land.’”"
+      ],
+      "notes": [],
+      "approved": "fe017e1c"
+    },
+    {
+      "ch": "Amos 8",
+      "verses": [
+        "Thus has the Lord God showed to me: and behold a basket of summer fruit.",
+        "And He said, “Amos, what see you?” And I said, “A basket of summer fruit.” Then said the Lord to me, “The end is come upon My people of Israel; I will not again pass by them any more.”",
+        "“And the songs of the temple shall be howlings in that day,” says the Lord God: “there shall be many dead bodies in every place; they shall cast them forth with silence.”",
+        "Hear this, O you that swallow up the needy, even to make the poor of the land to fail,",
+        "Saying, “When will the new moon be gone, that we may sell corn? and the sabbath, that we may set forth wheat, making the ephah small, and the shekel great, and falsifying the balances by deceit?”",
+        "“That we may buy the poor for silver, and the needy for a pair of shoes; yes, and sell the refuse of the wheat?”",
+        "The Lord has sworn by the excellency of Jacob, “Surely I will never forget any of their works.”",
+        "“Shall not the land tremble for this, and every one mourn that dwells in it? and it shall rise up wholly as a flood; and it shall be cast out and drowned, as by the flood of Egypt.”",
+        "“And it shall come to pass in that day,” says the Lord God, “that I will cause the sun to go down at noon, and I will darken the earth in the clear day:”",
+        "“And I will turn your feasts into mourning, and all your songs into lamentation; and I will bring up sackcloth upon all loins, and baldness upon every head; and I will make it as the mourning of an only son, and the end of it as a bitter day.”",
+        "“Behold, the days come,” says the Lord God, “that I will send a famine in the land, not a famine of bread, nor a thirst for water, but of hearing the words of the Lord:”",
+        "“And they shall wander from sea to sea, and from the north even to the east, they shall run to and fro to seek the word of the Lord, and shall not find it.”",
+        "“In that day shall the fair virgins and young men faint for thirst.”",
+        "“They that swear by the sin of Samaria, and say, ‘Your god, O Dan, lives;’ and, ‘The manner of Beer-sheba lives;’ even they shall fall, and never rise up again.”"
+      ],
+      "notes": [],
+      "approved": "61374cfd"
+    },
+    {
+      "ch": "Habakkuk 2",
+      "verses": [
+        "I will stand upon my watch, and set me upon the tower, and will watch to see what He will say to me, and what I will answer when I am reproved.",
+        "And the Lord answered me, and said, “Write the vision, and make it plain upon tables, that he may run that reads it.”",
+        "“For the vision is yet for an appointed time, but at the end it will speak, and not lie: though it tarry, wait for it; because it will surely come, it will not tarry.”",
+        "“Behold, his soul which is lifted up is not upright in him: but the just will live by his faith.”",
+        "“Yes also, because he transgresses by wine, he is a proud man, neither keeps at home, who enlarges his desire as hell, and is as death, and cannot be satisfied, but gathers to him all nations, and heaps to him all people:”",
+        "“Will not all these take up a parable against him, and a taunting proverb against him, and say, ‘Woe to him that increases that which is not his! how long? and to him that loads himself with thick clay!’”",
+        "“Will they not rise up suddenly that will bite you, and awake that will vex you, and you will be for booties to them?”",
+        "“Because you have spoiled many nations, all the remnant of the people will spoil you; because of men's blood, and for the violence of the land, of the city, and of all that dwell in it.”",
+        "“Woe to him that covets an evil covetousness to his house, that he may set his nest on high, that he may be delivered from the power of evil!”",
+        "“You have consulted shame to your house by cutting off many people, and have sinned against your soul.”",
+        "“For the stone will cry out of the wall, and the beam out of the timber will answer it.”",
+        "“Woe to him that builds a town with blood, and establishes a city by iniquity!”",
+        "“Behold, is it not of the Lord of hosts that the people will labor in the very fire, and the people will weary themselves for very vanity?”",
+        "“For the earth will be filled with the knowledge of the glory of the Lord, as the waters cover the sea.”",
+        "“Woe to him that gives his neighbor drink, that puts your bottle to him, and makes him drunken also, that you may look on their nakedness!”",
+        "“You are filled with shame for glory: drink you also, and let your foreskin be uncovered: the cup of the Lord's right hand will be turned to you, and shameful spewing will be on your glory.”",
+        "“For the violence of Lebanon will cover you, and the spoil of beasts, which made them afraid, because of men's blood, and for the violence of the land, of the city, and of all that dwell in it.”",
+        "“What profits the graven image that the maker of it has graven it; the molten image, and a teacher of lies, that the maker of his work trusts in it, to make mute idols?”",
+        "“Woe to him that says to the wood, ‘Awake;’ to the mute stone, ‘Arise, it will teach!’ Behold, it is laid over with gold and silver, and there is no breath at all in the midst of it.”",
+        "But the Lord is in His holy temple: let all the earth keep silence before Him."
+      ],
+      "notes": [
+        "‘labor’ replaces labour",
+        "‘neighbor’ replaces neighbour"
+      ],
+      "approved": "f236b916"
+    },
+    {
+      "ch": "Amos 9",
+      "verses": [
+        "I saw the Lord standing upon the altar: and He said, “Smite the lintel of the door, that the posts may shake: and cut them in the head, all of them; and I will slay the last of them with the sword: he that flees of them shall not flee away, and he that escapes of them shall not be delivered.”",
+        "“Though they dig into hell, from there shall My hand take them; though they climb up to heaven, from there will I bring them down:”",
+        "“And though they hide themselves in the top of Carmel, I will search and take them out from there; and though they be hid from My sight in the bottom of the sea, from there will I command the serpent, and he shall bite them:”",
+        "“And though they go into captivity before their enemies, from there will I command the sword, and it shall slay them: and I will set My eyes upon them for evil, and not for good.”",
+        "And the Lord God of hosts is He that touches the land, and it shall melt, and all that dwell in it shall mourn: and it shall rise up wholly like a flood; and shall be drowned, as by the flood of Egypt.",
+        "It is He that builds His stories in the heaven, and has founded His troop in the earth; He that calls for the waters of the sea, and pours them out upon the face of the earth: The Lord is His name.",
+        "“Are you not as children of the Ethiopians to Me, O children of Israel?” says the Lord. “Have not I brought up Israel out of the land of Egypt? and the Philistines from Caphtor, and the Syrians from Kir?”",
+        "“Behold, the eyes of the Lord God are upon the sinful kingdom, and I will destroy it from off the face of the earth; saving that I will not utterly destroy the house of Jacob, says the Lord.”",
+        "“For, lo, I will command, and I will sift the house of Israel among all nations, like as corn is sifted in a sieve, yet shall not the least grain fall upon the earth.”",
+        "“All the sinners of My people shall die by the sword, which say, ‘The evil shall not overtake nor prevent us.’”",
+        "“In that day will I raise up the tabernacle of David that is fallen, and close up the breaches of it; and I will raise up his ruins, and I will build it as in the days of old:”",
+        "“That they may possess the remnant of Edom, and of all the heathen, which are called by My name, says the Lord that does this.”",
+        "“Behold, the days come, says the Lord, that the plowman shall overtake the reaper, and the treader of grapes him that sows seed; and the mountains shall drop sweet wine, and all the hills shall melt.”",
+        "“And I will bring again the captivity of My people of Israel, and they shall build the waste cities, and inhabit them; and they shall plant vineyards, and drink the wine of it; they shall also make gardens, and eat the fruit of them.”",
+        "“And I will plant them upon their land, and they shall no more be pulled up out of their land which I have given them, says the Lord your God.”"
+      ],
+      "notes": [],
+      "approved": "78f8a9c1"
+    },
+    {
+      "ch": "Habakkuk 3",
+      "verses": [
+        "A prayer of Habakkuk the prophet upon Shigionoth.",
+        "O Lord, I have heard Your speech, and was afraid: O Lord, revive Your work in the midst of the years, in the midst of the years make known; in wrath remember mercy.",
+        "God came from Teman, and the Holy One from mount Paran. Selah. His glory covered the heavens, and the earth was full of His praise.",
+        "And His brightness was as the light; He had horns coming out of His hand: and there was the hiding of His power.",
+        "Before Him went the pestilence, and burning coals went forth at His feet.",
+        "He stood, and measured the earth: He beheld, and drove asunder the nations; and the everlasting mountains were scattered, the perpetual hills did bow: His ways are everlasting.",
+        "I saw the tents of Cushan in affliction: and the curtains of the land of Midian did tremble.",
+        "Was the Lord displeased against the rivers? was Your anger against the rivers? was Your wrath against the sea, that You did ride upon Your horses and Your chariots of salvation?",
+        "Your bow was made quite naked, according to the oaths of the tribes, even Your word. Selah. You did cleave the earth with rivers.",
+        "The mountains saw You, and they trembled: the overflowing of the water passed by: the deep uttered his voice, and lifted up his hands on high.",
+        "The sun and moon stood still in their habitation: at the light of Your arrows they went, and at the shining of Your glittering spear.",
+        "You did march through the land in indignation, You did thresh the heathen in anger.",
+        "You went forth for the salvation of Your people, even for salvation with Your anointed; You wounded the head out of the house of the wicked, by discovering the foundation to the neck. Selah.",
+        "You did strike through with his staves the head of his villages: they came out as a whirlwind to scatter me: their rejoicing was as to devour the poor secretly.",
+        "You did walk through the sea with Your horses, through the heap of great waters.",
+        "When I heard, my belly trembled; my lips quivered at the voice: rottenness entered into my bones, and I trembled in myself, that I might rest in the day of trouble: when he comes up to the people, he will invade them with his troops.",
+        "Although the fig tree will not blossom, neither will fruit be in the vines; the labor of the olive will fail, and the fields will yield no meat; the flock will be cut off from the fold, and there will be no herd in the stalls:",
+        "Yet I will rejoice in the Lord, I will joy in the God of my salvation.",
+        "The Lord God is my strength, and He will make my feet like hinds' feet, and He will make me to walk upon my high places. To the chief singer on my stringed instruments."
+      ],
+      "notes": [
+        "‘labor’ replaces labour"
+      ],
+      "approved": "b20eab44"
+    },
+    {
+      "ch": "Obadiah 1",
+      "verses": [
+        "The vision of Obadiah. Thus says the Lord God concerning Edom; “We have heard a rumor from the Lord, and an ambassador is sent among the heathen, ‘Arise you, and let us rise up against her in battle.’”",
+        "“Behold, I have made you small among the heathen: you are greatly despised.”",
+        "“The pride of your heart has deceived you, you that dwell in the clefts of the rock, whose habitation is high; that says in his heart, ‘Who shall bring me down to the ground?’”",
+        "“Though you exalt yourself as the eagle, and though you set your nest among the stars, from there will I bring you down, says the Lord.”",
+        "“If thieves came to you, if robbers by night, (how are you cut off!) would they not have stolen till they had enough? if the grapegatherers came to you, would they not leave some grapes?”",
+        "“How are the things of Esau searched out! how are his hidden things sought up!”",
+        "“All the men of your confederacy have brought you even to the border: the men that were at peace with you have deceived you, and prevailed against you; they that eat your bread have laid a wound under you: there is none understanding in him.”",
+        "“Shall I not in that day,” says the Lord, “even destroy the wise men out of Edom, and understanding out of the mount of Esau?”",
+        "“And your mighty men, O Teman, shall be dismayed, to the end that every one of the mount of Esau may be cut off by slaughter.”",
+        "“For your violence against your brother Jacob shame shall cover you, and you shall be cut off for ever.”",
+        "“In the day that you stood on the other side, in the day that the strangers carried away captive his forces, and foreigners entered into his gates, and cast lots upon Jerusalem, even you were as one of them.”",
+        "“But you should not have looked on the day of your brother in the day that he became a stranger; neither should you have rejoiced over the children of Judah in the day of their destruction; neither should you have spoken proudly in the day of distress.”",
+        "“You should not have entered into the gate of My people in the day of their calamity; yes, you should not have looked on their affliction in the day of their calamity, nor have laid hands on their substance in the day of their calamity;”",
+        "“Neither should you have stood in the crossway, to cut off those of his that did escape; neither should you have delivered up those of his that did remain in the day of distress.”",
+        "“For the day of the Lord is near upon all the heathen: as you have done, it shall be done to you: your reward shall return upon your own head.”",
+        "“For as you have drunk upon My holy mountain, so shall all the heathen drink continually, yes, they shall drink, and they shall swallow down, and they shall be as though they had not been.”",
+        "“But upon mount Zion shall be deliverance, and there shall be holiness; and the house of Jacob shall possess their possessions.”",
+        "“And the house of Jacob shall be a fire, and the house of Joseph a flame, and the house of Esau for stubble, and they shall kindle in them, and devour them; and there shall not be any remaining of the house of Esau; for the Lord has spoken it.”",
+        "And they of the south shall possess the mount of Esau; and they of the plain the Philistines: and they shall possess the fields of Ephraim, and the fields of Samaria: and Benjamin shall possess Gilead.",
+        "And the captivity of this host of the children of Israel shall possess that of the Canaanites, even to Zarephath; and the captivity of Jerusalem, which is in Sepharad, shall possess the cities of the south.",
+        "And saviors shall come up on mount Zion to judge the mount of Esau; and the kingdom shall be the Lord’s."
+      ],
+      "notes": [],
+      "approved": "d0b49d42"
+    },
+    {
+      "ch": "Jonah 1",
+      "verses": [
+        "Now the word of the Lord came to Jonah the son of Amittai, saying,",
+        "“Arise, go to Nineveh, that great city, and cry against it; for their wickedness is come up before Me.”",
+        "But Jonah rose up to flee to Tarshish from the presence of the Lord, and went down to Joppa; and he found a ship going to Tarshish: so he paid the fare of it, and went down into it, to go with them to Tarshish from the presence of the Lord.",
+        "But the Lord sent out a great wind into the sea, and there was a mighty tempest in the sea, so that the ship was like to be broken.",
+        "Then the mariners were afraid, and cried every man to his god, and cast forth the wares that were in the ship into the sea, to lighten it of them. But Jonah was gone down into the sides of the ship; and he lay, and was fast asleep.",
+        "So the shipmaster came to him, and said to him, “What mean you, O sleeper? arise, call upon your God, if so be that God will think upon us, that we perish not.”",
+        "And they said every one to his fellow, “Come, and let us cast lots, that we may know for whose cause this evil is upon us.” So they cast lots, and the lot fell upon Jonah.",
+        "Then said they to him, “Tell us, we pray you, for whose cause this evil is upon us; What is your occupation? and where do you come from? what is your country? and of what people are you?”",
+        "And he said to them, “I am a Hebrew; and I fear the Lord, the God of heaven, which has made the sea and the dry land.”",
+        "Then were the men exceedingly afraid, and said to him, “Why have you done this?” For the men knew that he fled from the presence of the Lord, because he had told them.",
+        "Then said they to him, “What shall we do to you, that the sea may be calm to us?” for the sea wrought, and was tempestuous.",
+        "And he said to them, “Take me up, and cast me forth into the sea; so shall the sea be calm to you: for I know that for my sake this great tempest is upon you.”",
+        "Nevertheless the men rowed hard to bring it to the land; but they could not: for the sea wrought, and was tempestuous against them.",
+        "Therefore they cried to the Lord, and said, “We beg You, O Lord, we beg You, let us not perish for this man’s life, and lay not upon us innocent blood: for You, O Lord, have done as it pleased You.”",
+        "So they took up Jonah, and cast him forth into the sea: and the sea ceased from her raging.",
+        "Then the men feared the Lord exceedingly, and offered a sacrifice to the Lord, and made vows.",
+        "Now the Lord had prepared a great fish to swallow up Jonah. And Jonah was in the belly of the fish three days and three nights."
+      ],
+      "notes": [],
+      "approved": "63037cd8"
+    },
+    {
+      "ch": "Jonah 2",
+      "verses": [
+        "Then Jonah prayed to the Lord his God out of the fish’s belly,",
+        "And said, “I cried by reason of my affliction to the Lord, and He heard me; out of the belly of hell cried I, and You heard my voice.”",
+        "“For You had cast me into the deep, in the midst of the seas; and the floods compassed me about: all Your billows and Your waves passed over me.”",
+        "“Then I said, ‘I am cast out of Your sight; yet I will look again toward Your holy temple.’”",
+        "“The waters compassed me about, even to the soul: the depth closed me round about, the weeds were wrapped about my head.”",
+        "“I went down to the bottoms of the mountains; the earth with her bars was about me for ever: yet have You brought up my life from corruption, O Lord my God.”",
+        "“When my soul fainted within me I remembered the Lord: and my prayer came in to You, into Your holy temple.”",
+        "“They that observe lying vanities forsake their own mercy.”",
+        "“But I will sacrifice to You with the voice of thanksgiving; I will pay that that I have vowed. Salvation is of the Lord.”",
+        "And the Lord spoke to the fish, and it vomited out Jonah upon the dry land."
+      ],
+      "notes": [],
+      "approved": "f2f206df"
+    },
+    {
+      "ch": "Jonah 3",
+      "verses": [
+        "And the word of the Lord came to Jonah the second time, saying,",
+        "“Arise, go to Nineveh, that great city, and preach to it the preaching that I bid you.”",
+        "So Jonah arose, and went to Nineveh, according to the word of the Lord. Now Nineveh was an exceeding great city of three days’ journey.",
+        "And Jonah began to enter into the city a day’s journey, and he cried, and said, “Yet forty days, and Nineveh shall be overthrown.”",
+        "So the people of Nineveh believed God, and proclaimed a fast, and put on sackcloth, from the greatest of them even to the least of them.",
+        "For word came to the king of Nineveh, and he arose from his throne, and he laid his robe from him, and covered him with sackcloth, and sat in ashes.",
+        "And he caused it to be proclaimed and published through Nineveh by the decree of the king and his nobles, saying, “Let neither man nor beast, herd nor flock, taste any thing: let them not feed, nor drink water:”",
+        "“But let man and beast be covered with sackcloth, and cry mightily to God: yes, let them turn every one from his evil way, and from the violence that is in their hands.”",
+        "“Who can tell if God will turn and repent, and turn away from His fierce anger, that we perish not?”",
+        "And God saw their works, that they turned from their evil way; and God repented of the evil, that He had said that He would do to them; and He did it not."
+      ],
+      "notes": [],
+      "approved": "68970103"
+    },
+    {
+      "ch": "Jonah 4",
+      "verses": [
+        "But it displeased Jonah exceedingly, and he was very angry.",
+        "And he prayed to the Lord, and said, “I pray You, O Lord, was not this my saying, when I was yet in my country? Therefore I fled before to Tarshish: for I knew that You are a gracious God, and merciful, slow to anger, and of great kindness, and repent You of the evil.”",
+        "“Therefore now, O Lord, take, I beg You, my life from me; for it is better for me to die than to live.”",
+        "Then said the Lord, “Do you well to be angry?”",
+        "So Jonah went out of the city, and sat on the east side of the city, and there made him a booth, and sat under it in the shadow, till he might see what would become of the city.",
+        "And the Lord God prepared a gourd, and made it to come up over Jonah, that it might be a shadow over his head, to deliver him from his grief. So Jonah was exceeding glad of the gourd.",
+        "But God prepared a worm when the morning rose the next day, and it smote the gourd that it withered.",
+        "And it came to pass, when the sun did arise, that God prepared a vehement east wind; and the sun beat upon the head of Jonah, that he fainted, and wished in himself to die, and said, “It is better for me to die than to live.”",
+        "And God said to Jonah, “Do you well to be angry for the gourd?” And he said, “I do well to be angry, even to death.”",
+        "Then said the Lord, “You have had pity on the gourd, for the which you have not labored, neither made it grow; which came up in a night, and perished in a night:”",
+        "“And should not I spare Nineveh, that great city, in which are more than sixscore thousand persons that cannot discern between their right hand and their left hand; and also much cattle?”"
+      ],
+      "notes": [],
+      "approved": "d1c952ca"
     }
   ]
 };
