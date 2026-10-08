@@ -16,6 +16,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { weekStartOrThrow as weekStart, utahToday } from './week-dates.mjs';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const WEEKS = path.join(ROOT, 'content', 'weeks.js'), PAST = path.join(ROOT, 'content', 'past');
@@ -23,17 +24,10 @@ const MARK = 'window.TU_WEEKS = ';
 const args = process.argv.slice(2);
 const dry = args.includes('--dry-run');
 const at = args.indexOf('--today');
-const d = new Date();
-const today = at >= 0 ? args[at + 1] : `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+// Utah's date: a deploy on Sunday evening there is still Sunday (it's Monday in UTC), and last week stays.
+const today = at >= 0 ? args[at + 1] : utahToday();
 if (!/^\d{4}-\d{2}-\d{2}$/.test(today || '')) throw new Error('--today takes a date like 2026-10-13');
 
-// "September 28–October 4, 2026" -> "2026-09-28" (the app's rule).
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-function weekStart(dates) {
-  const m = /^([A-Z][a-z]+) (\d{1,2})–(?:[A-Z][a-z]+ )?\d{1,2}, (\d{4})$/.exec(dates || '');
-  if (!m || MONTHS.indexOf(m[1]) < 0) throw new Error(`Can't read the dates "${dates}"`);
-  return m[3] + '-' + String(MONTHS.indexOf(m[1]) + 1).padStart(2, '0') + '-' + m[2].padStart(2, '0');
-}
 const numOf = w => {
   const n = Number((/\/(\d+)\?/.exec(w.lesson || '') || [])[1]);
   if (!n) throw new Error(`${w.dates}: its lesson link has no number to name its file by`);
@@ -55,9 +49,19 @@ const index = (() => {
   return w.TU_PAST_INDEX || [];
 })();
 
+const archived = file => { const w = {}; new Function('window', fs.readFileSync(file, 'utf8'))(w); return Object.values(w.TU_PAST || {})[0] || {}; };
+const moved = [];
 for (const w of moving) {
   const num = numOf(w), file = path.join(PAST, `week-${num}.js`);
-  if (fs.existsSync(file)) throw new Error(`content/past/week-${num}.js is already there; weeks.js shouldn't still hold ${w.dates}`);
+  if (fs.existsSync(file)) {
+    // Already archived (developer mode's undo can put a moved week back): its copy in weeks.js goes, the archived one stays.
+    const there = archived(file);
+    if (there.dates !== w.dates) throw new Error(`content/past/week-${num}.js holds ${there.dates}, not ${w.dates}: past weeks are named by lesson number, which starts again each year`);
+    console.log(`${dry ? 'Would drop' : 'Dropping'} ${w.dates} from weeks.js: content/past/week-${num}.js has it already.`);
+    moved.push(w);
+    continue;
+  }
+  moved.push(w);
   console.log(`${dry ? 'Would move' : 'Moving'} ${w.dates} · ${w.title} → content/past/week-${num}.js`);
   if (dry) continue;
   fs.mkdirSync(PAST, { recursive: true });
@@ -75,6 +79,6 @@ fs.writeFileSync(indexFile,
   '// content/weeks.js, oldest first. Each week is in content/past/week-<num>.js,\n' +
   '// which the app loads when Past weeks opens it. Written by that tool.\n' +
   'window.TU_PAST_INDEX = ' + JSON.stringify(index, null, 2) + ';\n');
-const kept = weeks.filter(w => !moving.includes(w));
+const kept = weeks.filter(w => !moved.includes(w));
 fs.writeFileSync(WEEKS, src.slice(0, cut) + MARK + JSON.stringify(kept, null, 2) + ';\n');
 console.log(`weeks.js keeps ${kept.length} ${kept.length === 1 ? 'week' : 'weeks'} (${kept.map(w => w.dates).join(' · ')}); content/past/ has ${index.length}.`);

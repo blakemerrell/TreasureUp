@@ -15129,17 +15129,29 @@ const TreasureUp = (function () {
       if (!f) throw new Error(src + " isn't on the test site either.");
       await gh(`/repos/${DEV.live}/contents/${src}`, { method: 'PUT', body: JSON.stringify({ message: `Add ${src} for ${w.title} (developer mode)`, content: f.content.replace(/\s/g, '') }) });
     }
-    const live = await readWeeksFile(DEV.live);
-    if (!live) throw new Error("The live app doesn't have content/weeks.js yet.");
-    const i = live.weeks.findIndex(x => x.dates === w.dates);
-    if (i >= 0) live.weeks[i] = w; else live.weeks.push(w);
-    live.weeks.sort((a, b) => (weekStart(a.dates) || '').localeCompare(weekStart(b.dates) || ''));
-    const sha = await writeWeeksFile(DEV.live, live, live.weeks, `Publish ${w.title} (${w.dates}) from developer mode (${(dev.access || {}).email})`);
+    // Onto the latest live file, as Save does: the deploy may have moved weeks in or out meanwhile.
+    let sha = null, before = null;
+    for (let attempt = 0; attempt < 3 && !sha; attempt++) {
+      const live = await readWeeksFile(DEV.live);
+      if (!live) throw new Error("The live app doesn't have content/weeks.js yet.");
+      const i = live.weeks.findIndex(x => x.dates === w.dates);
+      before = i >= 0 ? live.weeks[i] : null;
+      if (i >= 0) live.weeks[i] = w; else live.weeks.push(w);
+      live.weeks.sort((a, b) => (weekStart(a.dates) || '').localeCompare(weekStart(b.dates) || ''));
+      try { sha = await writeWeeksFile(DEV.live, live, live.weeks, `Publish ${w.title} (${w.dates}) from developer mode (${(dev.access || {}).email})`); }
+      catch (e) { if (!(e.status === 409 || e.status === 422) || attempt === 2) throw e; }
+    }
     const ok = await devWatch(DEV.live, sha, 'the live app');
     if (ok === false && dev) {
-      // Put the live file back, so the live code and the live app agree.
-      const now = await gh(`/repos/${DEV.live}/contents/${DEV.file}`);
-      await gh(`/repos/${DEV.live}/contents/${DEV.file}`, { method: 'PUT', body: JSON.stringify({ message: `Undo publishing ${w.title}: the content check refused it`, content: b64encode(live.text), sha: now.sha }) });
+      // Put back only this week, on the live file as it is now: putting back the whole old file
+      // undid any week the deploy had moved in or out meanwhile, and then every deploy failed (review, 2026-10-07).
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const now = await readWeeksFile(DEV.live), j = now.weeks.findIndex(x => x.dates === w.dates);
+        if (j < 0) break;                                  // moved to content/past/ meanwhile: nothing here to undo
+        if (before) now.weeks[j] = before; else now.weeks.splice(j, 1);
+        try { await writeWeeksFile(DEV.live, now, now.weeks, `Undo publishing ${w.title}: the content check refused it`); break; }
+        catch (e) { if (!(e.status === 409 || e.status === 422) || attempt === 2) throw e; }
+      }
     }
     dev.busy = false;
     if (dev) { dev.live = await readWeeksFile(DEV.live).catch(() => dev.live); renderDevBar(); renderDev(); }
@@ -15738,14 +15750,17 @@ const TreasureUp = (function () {
 
   // The app holds several weeks and opens on the one whose dates include
   // today, so next week can be added ahead of time and turns on by itself.
-  // "September 21–27, 2026" or "September 28–October 4, 2026" -> "2026-09-21".
-  // (A week that crosses into a new year will need its own format here.)
+  // "September 21–27, 2026" or "September 28–October 4, 2026" -> "2026-09-21";
+  // the New Year week either way the lesson page prints it, "December 28–January 3, 2027"
+  // or "December 28, 2026–January 3, 2027" -> "2026-12-28". The tools' rule too (tools/week-dates.mjs).
   const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
                   'August', 'September', 'October', 'November', 'December'];
   function weekStart(dates) {
-    const m = /^([A-Z][a-z]+) (\d{1,2})–(?:[A-Z][a-z]+ )?\d{1,2}, (\d{4})$/.exec(dates || '');
-    if (!m || MONTHS.indexOf(m[1]) < 0) return null;
-    return m[3] + '-' + String(MONTHS.indexOf(m[1]) + 1).padStart(2, '0') + '-' + m[2].padStart(2, '0');
+    const m = /^([A-Z][a-z]+) (\d{1,2})(?:, (\d{4}))?–(?:([A-Z][a-z]+) )?\d{1,2}, (\d{4})$/.exec(dates || '');
+    if (!m || MONTHS.indexOf(m[1]) < 0 || (m[4] && MONTHS.indexOf(m[4]) < 0)) return null;
+    const mo = MONTHS.indexOf(m[1]), endMo = m[4] ? MONTHS.indexOf(m[4]) : mo;
+    const year = m[3] ? Number(m[3]) : Number(m[5]) - (endMo < mo ? 1 : 0);
+    return year + '-' + String(mo + 1).padStart(2, '0') + '-' + m[2].padStart(2, '0');
   }
   function pickWeek(weeks) {
     const today = dayKey();

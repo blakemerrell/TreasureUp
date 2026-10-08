@@ -193,17 +193,25 @@ if (flag('--dry')) {
     kept[cid] = await pickVoice(cid);
     console.log(kept[cid] ? `${LANG_NAME[cid]}: recording in ${kept[cid]}` : `${LANG_NAME[cid]}: Google offers no ${LANG_CODE[cid]} voice, so the phone's own voice says it`);
   }
+  // A line Google won't record is skipped, not the run: the ones already made are listed and
+  // saved (one failure used to lose them all, and the next deploy paid for them again).
+  const failed = [];
   for (const cid of which.filter(c => !LETTERS[c] || kept[c])) {
     fs.mkdirSync(path.join(DIR, cid), { recursive: true });
     made[cid] = 0;
     for (const x of todo(cid)) {
       const file = fileOf(cid, x.key);
       if (fs.existsSync(file) && !flag('--all')) continue;
-      await record(x.text, x.voice, file, rateOf(cid));
-      made[cid]++;
+      try { await record(x.text, x.voice, file, rateOf(cid)); made[cid]++; }
+      catch (e) { failed.push(`${cid} “${x.text.slice(0, 40)}”: ${e.message}`); if (failed.length >= 5) break; }
     }
+    if (failed.length >= 5) break;   // Google is down: stop asking, keep what's made
   }
   const list = writeList();
+  if (failed.length) {
+    console.log(`${failed.length} line${failed.length === 1 ? '' : 's'} not recorded this time:\n  ` + failed.join('\n  '));
+    if (process.env.GITHUB_ACTIONS) console.log(`::warning title=Wika recordings::${failed.length} line${failed.length === 1 ? '' : 's'} couldn't be recorded (${failed[0].replace(/\n/g, ' ')}); the next deploy tries again`);
+  }
   for (const cid of which) {
     console.log(`${cid}: ${made[cid] || 0} recorded now; ${Object.keys(list[cid]).length} of ${todo(cid).length} lines have a recording (amigo/audio/${cid}/, listed in amigo/audio/index.js)`);
   }

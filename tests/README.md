@@ -9,6 +9,7 @@ changing when the week does.
 | Test | What it checks |
 |---|---|
 | `smoke.test.mjs` | The app opens on today's date with no errors; every tab, Be still and the settings sheet open; the TV page, Wika and Title of Liberty load. |
+| `dates.test.mjs` | The week that crosses New Year opens on its Monday and runs to Sunday, both ways its dates can be printed (with a test copy of `content/weeks.js`). `tools/week-dates.mjs` checks the tools' copy of the rule. |
 | `week.test.mjs` | The live week on one device: Monday to Saturday each through Today's study, XP up and the day kept; Sunday opens; Sunday with nothing read is still kept by “We played!”; a chapter split over two days opens its second day from the reader's “Mark it read in its lesson”. |
 | `family.test.mjs` | On the Firebase emulators with `firestore.rules`: Dad (Google) starts a family, Sam joins on a phone and a Kindle; the rules refuse 8 things a child mustn't do; both devices agree after a study; a save on the Kindle doesn't restart the phone in the middle of Be still; chat, a prize and a finished goal (1,000 XP, paid once) go end to end. |
 
@@ -18,7 +19,7 @@ changing when the week does.
 cd tests
 npm install                 # once: Playwright, the Firebase SDK, the Firebase tools
 npx playwright install chromium
-node run.mjs                # smoke and week (about 3 minutes)
+node run.mjs                # smoke, dates and week (about 3 minutes)
 node run.mjs week           # one test
 npm run test:family         # the family test, under the emulators (needs Java 11 or later)
 ```
@@ -29,5 +30,5 @@ app uses the test project's Firebase settings, pointed at the emulators
 (`firebase.json` at the repo root). A device's clock is set by `fakeNow` in
 its storage; `window.__skip(ms)` moves it on (Be still's minutes).
 
-Every pull request runs all three (`.github/workflows/tests.yml`); the deploy
-runs smoke and week after building the chapters (`pages.yml`).
+Every pull request runs all of them (`.github/workflows/tests.yml`); the deploy
+runs smoke, dates and week after building the chapters (`pages.yml`).

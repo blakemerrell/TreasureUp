@@ -83,7 +83,8 @@ word for word against the scripture text, checks every reference
 exists, and fails the deploy if anything doesn't match.
 
 Week:
-  dates, title, reference   exactly as the lesson page prints them
+  dates, title, reference   exactly as the lesson page prints them; the New Year week either
+                            "December 28–January 3, 2027" or "December 28, 2026–January 3, 2027"
   lesson                    link to the lesson page
   sections                  the lesson's section headings, in order
 

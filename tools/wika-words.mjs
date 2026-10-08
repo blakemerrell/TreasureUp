@@ -19,6 +19,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { weekStartOrThrow as weekStart } from './week-dates.mjs';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -33,13 +34,8 @@ export const { approvalHash, withoutApproval } = (() => {
 })();
 export const isApproved = x => !!x && !!x.approved && x.approved === approvalHash(withoutApproval(x));
 
-// "September 28–October 4, 2026" -> "2026-09-28" (the app's rule, as in tools/archive-weeks.mjs).
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-export function weekStart(dates) {
-  const m = /^([A-Z][a-z]+) (\d{1,2})–(?:[A-Z][a-z]+ )?\d{1,2}, (\d{4})$/.exec(dates || '');
-  if (!m || MONTHS.indexOf(m[1]) < 0) throw new Error(`Can't read the dates "${dates}"`);
-  return m[3] + '-' + String(MONTHS.indexOf(m[1]) + 1).padStart(2, '0') + '-' + m[2].padStart(2, '0');
-}
+// "September 28–October 4, 2026" -> "2026-09-28": the tools' one reader (tools/week-dates.mjs).
+export { weekStartOrThrow as weekStart } from './week-dates.mjs';
 
 // Every week the repo has. A week in more than one place (weeks.js and still
 // waiting in upcoming/) counts once: weeks.js first, then past/, then upcoming/.
