@@ -15616,8 +15616,23 @@ const TreasureUp = (function () {
         rollDay(); save(); refreshHome(); renderHud();
       }
     };
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') checkDay(); });
-    setInterval(checkDay, 60000);
+    // A new version of the app (Blake, 2026-10-08: "Get my app up to date"; a
+    // phone kept the old page in memory for hours): coming back to it, and
+    // every 15 minutes, it asks for its own page again; once the page has
+    // changed, it reloads as soon as nothing is open over Today.
+    const pageSig = t => { let h = 0x811c9dc5; for (let i = 0; i < t.length; i++) { h ^= t.charCodeAt(i); h = Math.imul(h, 0x01000193); } return t.length + ':' + (h >>> 0); };
+    let appSig = null, appNew = false, appAsked = 0;
+    const askPage = () => fetch(location.pathname, { cache: 'no-store' }).then(r => r.ok ? r.text() : null).then(t => t && pageSig(t)).catch(() => null);
+    askPage().then(sg => { appSig = sg; });
+    const checkApp = () => {
+      const busy = lesson || ['view', 'play', 'live', 'risk', 'board', 'fam', 'dev', 'parent', 'snake', 'look', 'stillLayer', 'appSheet'].some(id => $(id) && !$(id).hidden);
+      if (appNew) { if (!busy) location.reload(); return; }
+      if (!appSig || Date.now() - appAsked < 15 * 60000) return;
+      appAsked = Date.now();
+      askPage().then(sg => { if (sg && sg !== appSig) { appNew = true; checkApp(); } });
+    };
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { appAsked = 0; checkDay(); checkApp(); } });
+    setInterval(() => { checkDay(); checkApp(); }, 60000);
   }
 
   /* ---------------- boot ---------------- */
