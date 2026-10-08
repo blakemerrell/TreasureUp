@@ -1537,6 +1537,344 @@ window.TU_PLAIN = {
         }
       ],
       "approved": "5dca94fb"
+    },
+    {
+      "ch": "Genesis 1",
+      "verses": [
+        "In the beginning, God created the heavens and the earth.",
+        "The earth was formless and empty, and darkness was over the surface of the deep waters. And the Spirit of God was hovering over the face of the waters.",
+        "And God said, “Let there be light,” and there was light.",
+        "God saw that the light was good, and God separated the light from the darkness.",
+        "God called the light “Day,” and the darkness He called “Night.” There was evening, and there was morning—the first day.",
+        "Then God said, “Let there be an expanse (the sky) between the waters, and let it divide the waters below from the waters above.”",
+        "So God made the expanse, and separated the waters under the expanse from the waters above the expanse. And it was so.",
+        "God called the expanse “Heaven.” There was evening, and there was morning—the second day.",
+        "Then God said, “Let the waters under the sky be gathered together into one place, and let the dry land appear.” And it was so.",
+        "God called the dry land “Earth,” and the gathered waters He called “Seas.” And God saw that it was good.",
+        "Then God said, “Let the earth bring forth plants: plants that produce seeds, and fruit trees that bear fruit with seeds inside, each after its kind, upon the earth.” And it was so.",
+        "The earth brought forth plants: plants yielding seeds after their kinds, and trees bearing fruit with seeds inside, each after its kind. And God saw that it was good.",
+        "There was evening, and there was morning—the third day.",
+        "Then God said, “Let there be lights in the expanse of the sky to divide the day from the night. Let them be for signs, to mark seasons, days, and years.”",
+        "“And let them be lights in the expanse of the sky to give light upon the earth.” And it was so.",
+        "God made two great lights: the greater light to rule the day, and the lesser light to rule the night. He made the stars as well.",
+        "God placed them in the expanse of the sky to give light on the earth,",
+        "To rule over the day and over the night, and to separate the light from the darkness. And God saw that it was good.",
+        "There was evening, and there was morning—the fourth day.",
+        "Then God said, “Let the waters swarm with living creatures, and let birds fly above the earth across the open expanse of the sky.”",
+        "So God created the great sea creatures and every living thing that moves, which swarmed in the waters after their kind, and every winged bird after its kind. And God saw that it was good.",
+        "God blessed them, saying, “Be fruitful and multiply. Fill the waters in the seas, and let birds multiply on the earth.”",
+        "There was evening, and there was morning—the fifth day.",
+        "Then God said, “Let the earth bring forth living creatures after their kind: livestock, creeping things, and wild animals of the earth after their kind.” And it was so.",
+        "God made the wild animals of the earth after their kind, the livestock after their kind, and everything that creeps on the ground after its kind. And God saw that it was good.",
+        "Then God said, “Let us make man in our image, after our likeness. Let them rule over the fish of the sea, the birds of the sky, the livestock, all the earth, and every creeping thing that crawls on the earth.”",
+        "So God created man in His own image; in the image of God He created him; male and female He created them.",
+        "God blessed them, and God said to them, “Be fruitful and multiply; fill the earth and subdue it. Rule over the fish of the sea, the birds of the sky, and every living thing that moves on the earth.”",
+        "And God said, “Look, I have given you every seed-bearing plant on the face of all the earth, and every tree that has fruit with seed in it. They will be food for you.”",
+        "“And to every animal of the earth, to every bird of the sky, and to everything that creeps on the earth—everything that has the breath of life in it—I have given every green plant for food.” And it was so.",
+        "God saw everything that He had made, and look, it was very good! There was evening, and there was morning—the sixth day."
+      ],
+      "notes": [
+        {
+          "v": 6,
+          "text": "The KJV word “firmament” comes from the Hebrew raqia, meaning a wide, stretched-out expanse. Anciently people pictured the sky as an arch holding back waters above."
+        },
+        {
+          "v": 26,
+          "text": "The Joseph Smith Translation and the Book of Moses record: “And I, God, said unto mine Only Begotten, which was with me from the beginning: Let us make man in our image” (Moses 2:26)."
+        }
+      ],
+      "review": [
+        {
+          "v": 6,
+          "about": "“Firmament” is explained as “an expanse (the sky)” following the Hebrew and BSB."
+        },
+        {
+          "v": 26,
+          "about": "God speaks in the plural (“Let us make man in our image”), matching the Hebrew Elohim and Moses 2:26."
+        }
+      ],
+      "approved": "24fab956"
+    },
+    {
+      "ch": "Genesis 2",
+      "verses": [
+        "Thus the heavens and the earth were finished, along with everything in them.",
+        "By the seventh day, God had finished the work He had done, so He rested on the seventh day from all His work.",
+        "God blessed the seventh day and made it holy, because on it He rested from all the work that He had created and made.",
+        "This is the account of the heavens and the earth when they were created, in the day that the Lord God made the earth and the heavens.",
+        "No shrub of the field was yet on the earth, and no plant of the field had yet sprouted, for the Lord God had not caused it to rain on the earth, and there was no man to cultivate the ground.",
+        "But a mist rose up from the earth and watered the whole surface of the ground.",
+        "And the Lord God formed man from the dust of the ground, and breathed into his nostrils the breath of life; and man became a living soul.",
+        "The Lord God planted a garden eastward in Eden, and there He put the man whom He had formed.",
+        "Out of the ground the Lord God made every tree grow that is pleasant to look at and good for food. In the middle of the garden were the tree of life and the tree of the knowledge of good and evil.",
+        "A river flowed out of Eden to water the garden, and from there it divided into four river branches.",
+        "The name of the first is Pison; it flows around the whole land of Havilah, where there is gold.",
+        "The gold of that land is good, and bdellium (a fragrant resin) and the onyx stone are found there.",
+        "The name of the second river is Gihon; it flows around the whole land of Ethiopia (Cush).",
+        "The name of the third river is Hiddekel (the Tigris); it flows east of Assyria. And the fourth river is the Euphrates.",
+        "The Lord God took the man and placed him in the garden of Eden to work it and take care of it.",
+        "And the Lord God commanded the man, saying, “You may freely eat from every tree of the garden,”",
+        "“But from the tree of the knowledge of good and evil you must not eat, for in the day that you eat of it, you will surely die.”",
+        "Then the Lord God said, “It is not good for the man to be alone. I will make a helper suitable for him (a partner fit for him).”",
+        "Out of the ground the Lord God formed every wild animal and every bird of the sky, and brought them to Adam to see what he would call them. Whatever Adam called each living creature, that became its name.",
+        "Adam gave names to all livestock, to the birds of the sky, and to every wild animal. But for Adam no suitable helper was found.",
+        "So the Lord God caused a deep sleep to fall on Adam, and while he slept, He took one of his ribs and closed up the place with flesh.",
+        "From the rib that the Lord God had taken from the man, He made a woman, and brought her to the man.",
+        "And Adam said, “This is now bone of my bones and flesh of my flesh! She will be called Woman, because she was taken out of Man.”",
+        "Therefore a man will leave his father and his mother and hold fast to his wife, and they will become one flesh.",
+        "Both the man and his wife were naked, and they were not ashamed."
+      ],
+      "notes": [
+        {
+          "v": 5,
+          "text": "The Joseph Smith Translation and the Book of Moses explain the spiritual creation: “For I, the Lord God, created all things, of which I have spoken, spiritually, before they were naturally upon the face of the earth” (Moses 3:5)."
+        },
+        {
+          "v": 14,
+          "text": "Hiddekel is the ancient Hebrew name for the Tigris river."
+        },
+        {
+          "v": 24,
+          "text": "Jesus quoted this verse when teaching about marriage (Matthew 19:4–5)."
+        }
+      ],
+      "review": [
+        {
+          "v": 12,
+          "about": "“Bdellium” is explained as a fragrant resin; onyx is a precious stone."
+        },
+        {
+          "v": 13,
+          "about": "“Ethiopia” is Cush in Hebrew; added as a gloss."
+        },
+        {
+          "v": 18,
+          "about": "“Help meet” is translated as “a helper suitable for him (a partner fit for him)” following the Hebrew ezer kenegdo."
+        }
+      ],
+      "approved": "53ab11eb"
+    },
+    {
+      "ch": "Genesis 3",
+      "verses": [
+        "Now the serpent was more cunning than any wild animal the Lord God had made. He said to the woman, “Did God really say, ‘You must not eat from every tree of the garden’?”",
+        "The woman said to the serpent, “We may eat fruit from the trees of the garden,”",
+        "“But regarding the fruit of the tree in the middle of the garden, God has said, ‘You must not eat of it, nor may you touch it, or you will die.’”",
+        "And the serpent said to the woman, “You will not surely die!”",
+        "“For God knows that in the day you eat of it, your eyes will be opened, and you will be like gods, knowing good and evil.”",
+        "When the woman saw that the tree was good for food, that it was pleasing to the eyes, and desirable for gaining wisdom, she took its fruit and ate it. She also gave some to her husband with her, and he ate it.",
+        "Then the eyes of both of them were opened, and they realized that they were naked; so they sewed fig leaves together and made coverings for themselves.",
+        "And they heard the sound of the Lord God walking in the garden in the cool of the day, and Adam and his wife hid themselves from the presence of the Lord God among the trees of the garden.",
+        "But the Lord God called to Adam and said to him, “Where are you?”",
+        "He answered, “I heard your voice in the garden, and I was afraid because I was naked; so I hid myself.”",
+        "And He said, “Who told you that you were naked? Have you eaten from the tree that I commanded you not to eat from?”",
+        "The man said, “The woman whom you gave to be with me, she gave me fruit from the tree, and I ate.”",
+        "Then the Lord God said to the woman, “What is this that you have done?” The woman said, “The serpent tricked me, and I ate.”",
+        "So the Lord God said to the serpent, “Because you have done this, you are cursed above all livestock and above every wild animal! On your belly you will crawl, and you will eat dust all the days of your life.”",
+        "“And I will put enmity (hostility) between you and the woman, and between your offspring and her offspring; He will crush your head, and you will bruise His heel.”",
+        "To the woman He said, “I will greatly multiply your sorrow in childbearing; in pain you will bring forth children. Your desire will be for your husband, and he will rule over you.”",
+        "And to Adam He said, “Because you listened to the voice of your wife and ate from the tree of which I commanded you, saying, ‘You must not eat of it,’ cursed is the ground because of you; in sorrow you will eat from it all the days of your life.”",
+        "“It will produce thorns and thistles for you, and you will eat the plants of the field.”",
+        "“By the sweat of your face you will eat bread until you return to the ground, because from it you were taken. For dust you are, and to dust you will return.”",
+        "Adam named his wife Eve, because she was the mother of all living.",
+        "The Lord God made coats of skins for Adam and his wife, and clothed them.",
+        "Then the Lord God said, “Behold, the man has become like one of us, knowing good and evil. And now, lest he reach out his hand and take also from the tree of life, and eat, and live forever—”",
+        "Therefore the Lord God sent him out from the garden of Eden to work the ground from which he was taken.",
+        "So He drove the man out; and at the east of the garden of Eden He placed cherubim and a flaming sword turning in every direction, to guard the way to the tree of life."
+      ],
+      "notes": [
+        {
+          "v": 15,
+          "text": "This is known as the first prophecy of the Savior. The woman’s descendant (Jesus Christ) would overcome Satan, though Christ would suffer on the cross (bruising His heel)."
+        },
+        {
+          "v": 20,
+          "text": "The name Eve comes from the Hebrew chavvah, meaning ‘life’ or ‘living one.’"
+        }
+      ],
+      "review": [
+        {
+          "v": 15,
+          "about": "“Enmity” is glossed with “(hostility).” “Seed” is rendered as “offspring” with He/His capitalized for the Messiah."
+        },
+        {
+          "v": 24,
+          "about": "“Cherubims” in KJV is the Hebrew plural cherubim."
+        }
+      ],
+      "approved": "b00ed271"
+    },
+    {
+      "ch": "Genesis 4",
+      "verses": [
+        "And Adam slept with Eve his wife, and she conceived and bore Cain, and said, “I have gotten a man from the Lord.”",
+        "And she again bore his brother Abel. And Abel was a keeper of sheep, but Cain was a tiller of the ground.",
+        "And over time it came to pass, that Cain brought some of the fruit of the ground as an offering to the Lord.",
+        "And Abel also brought some of the firstborn of his flock and of their fat. And the Lord had respect for Abel and his offering,",
+        "But for Cain and his offering He did not have respect. And Cain was very angry, and his countenance fell.",
+        "And the Lord said to Cain, “Why are you angry? And why is your countenance fallen?”",
+        "“If you do well, will you not be accepted? And if you do not do well, sin lies at the door. And its desire will be for you, but you must rule over it.”",
+        "And Cain talked with Abel his brother, and it came to pass, when they were in the field, that Cain rose up against Abel his brother, and killed him.",
+        "And the Lord said to Cain, “Where is Abel your brother?” And he said, “I do not know. Am I my brother’s keeper?”",
+        "And He said, “What have you done? The voice of your brother’s blood cries to Me from the ground.”",
+        "“And now you are cursed from the earth, which has opened its mouth to receive your brother’s blood from your hand.”",
+        "“When you till the ground, it will no longer yield its strength to you. You will be a fugitive and a wanderer in the earth.”",
+        "And Cain said to the Lord, “My punishment is greater than I can bear.”",
+        "“Behold, You have driven me out this day from the face of the earth, and from Your face I will be hidden. And I will be a fugitive and a wanderer in the earth, and it will come to pass, that everyone who finds me will kill me.”",
+        "And the Lord said to him, “Therefore whoever kills Cain, vengeance will be taken on him sevenfold.” And the Lord set a mark on Cain, lest anyone finding him should kill him.",
+        "And Cain went out from the presence of the Lord, and lived in the land of Nod, on the east of Eden.",
+        "And Cain slept with his wife, and she conceived and bore Enoch. And he built a city, and called the name of the city after the name of his son, Enoch.",
+        "And to Enoch was born Irad. And Irad fathered Mehujael, and Mehujael fathered Methusael, and Methusael fathered Lamech.",
+        "And Lamech took two wives for himself: the name of the one was Adah, and the name of the other Zillah.",
+        "And Adah bore Jabal: he was the father of those who dwell in tents, and of those who have cattle.",
+        "And his brother’s name was Jubal: he was the father of all who handle the harp and organ.",
+        "And Zillah also bore Tubal-cain, an instructor of every craftsman in brass and iron. And the sister of Tubal-cain was Naamah.",
+        "And Lamech said to his wives, “Adah and Zillah, hear my voice! You wives of Lamech, listen to my speech! For I have killed a man for wounding me, and a young man for hurting me.”",
+        "“If Cain will be avenged sevenfold, truly Lamech seventy-sevenfold.”",
+        "And Adam slept with his wife again, and she bore a son, and called his name Seth: “For God,” she said, “has appointed me another seed instead of Abel, whom Cain killed.”",
+        "And to Seth also there was born a son, and he called his name Enos. Then men began to call on the name of the Lord."
+      ],
+      "notes": [
+        "‘countenance’ means face or expression",
+        "‘artificer’ means craftsman"
+      ],
+      "approved": "f874e6c5"
+    },
+    {
+      "ch": "Genesis 5",
+      "verses": [
+        "This is the book of the generations of Adam. In the day that God created man, in the likeness of God He made him.",
+        "Male and female He created them, and blessed them, and called their name Adam, in the day when they were created.",
+        "And Adam lived one hundred and thirty years, and fathered a son in his own likeness, after his image, and called his name Seth.",
+        "And the days of Adam after he had fathered Seth were eight hundred years, and he fathered sons and daughters.",
+        "And all the days that Adam lived were nine hundred and thirty years, and he died.",
+        "And Seth lived one hundred and five years, and fathered Enos.",
+        "And Seth lived after he fathered Enos eight hundred and seven years, and fathered sons and daughters.",
+        "And all the days of Seth were nine hundred and twelve years, and he died.",
+        "And Enos lived ninety years, and fathered Cainan.",
+        "And Enos lived after he fathered Cainan eight hundred and fifteen years, and fathered sons and daughters.",
+        "And all the days of Enos were nine hundred and five years, and he died.",
+        "And Cainan lived seventy years, and fathered Mahalaleel.",
+        "And Cainan lived after he fathered Mahalaleel eight hundred and forty years, and fathered sons and daughters.",
+        "And all the days of Cainan were nine hundred and ten years, and he died.",
+        "And Mahalaleel lived sixty-five years, and fathered Jared.",
+        "And Mahalaleel lived after he fathered Jared eight hundred and thirty years, and fathered sons and daughters.",
+        "And all the days of Mahalaleel were eight hundred and ninety-five years, and he died.",
+        "And Jared lived one hundred and sixty-two years, and he fathered Enoch.",
+        "And Jared lived after he fathered Enoch eight hundred years, and fathered sons and daughters.",
+        "And all the days of Jared were nine hundred and sixty-two years, and he died.",
+        "And Enoch lived sixty-five years, and fathered Methuselah.",
+        "And Enoch walked with God after he fathered Methuselah three hundred years, and fathered sons and daughters.",
+        "And all the days of Enoch were three hundred and sixty-five years.",
+        "And Enoch walked with God, and he was not, for God took him.",
+        "And Methuselah lived one hundred and eighty-seven years, and fathered Lamech.",
+        "And Methuselah lived after he fathered Lamech seven hundred and eighty-two years, and fathered sons and daughters.",
+        "And all the days of Methuselah were nine hundred and sixty-nine years, and he died.",
+        "And Lamech lived one hundred and eighty-two years, and fathered a son.",
+        "And he called his name Noah, saying, “This one will comfort us concerning our work and toil of our hands, because of the ground which the Lord has cursed.”",
+        "And Lamech lived after he fathered Noah five hundred and ninety-five years, and fathered sons and daughters.",
+        "And all the days of Lamech were seven hundred and seventy-seven years, and he died.",
+        "And Noah was five hundred years old. And Noah fathered Shem, Ham, and Japheth."
+      ],
+      "notes": [],
+      "approved": "0c2a102e"
+    },
+    {
+      "ch": "Genesis 6",
+      "verses": [
+        "And it came to pass, when men began to multiply on the face of the earth, and daughters were born to them,",
+        "That the sons of God saw the daughters of men that they were beautiful, and they took them wives of all whom they chose.",
+        "And the Lord said, “My Spirit will not always strive with man, for he also is flesh. Yet his days will be one hundred and twenty years.”",
+        "There were giants in the earth in those days, and also after that, when the sons of God came in to the daughters of men, and they bore children to them, the same became mighty men who were of old, men of renown.",
+        "And God saw that the wickedness of man was great in the earth, and that every imagination of the thoughts of his heart was only evil continually.",
+        "And the Lord regretted that He had made man on the earth, and it grieved Him at His heart.",
+        "And the Lord said, “I will destroy man whom I have created from the face of the earth, both man, and beast, and the creeping thing, and the fowls of the air. For I regret that I have made them.”",
+        "But Noah found grace in the eyes of the Lord.",
+        "These are the generations of Noah: Noah was a just man and perfect in his generations, and Noah walked with God.",
+        "And Noah fathered three sons, Shem, Ham, and Japheth.",
+        "The earth also was corrupt before God, and the earth was filled with violence.",
+        "And God looked on the earth, and, behold, it was corrupt, for all flesh had corrupted his way on the earth.",
+        "And God said to Noah, “The end of all flesh has come before Me, for the earth is filled with violence through them. And, behold, I will destroy them with the earth.”",
+        "“Make yourself an ark of gopher wood. You will make rooms in the ark, and you will pitch it inside and outside with pitch.”",
+        "“And this is the fashion which you will make it of: The length of the ark will be three hundred cubits, the breadth of it fifty cubits, and the height of it thirty cubits.”",
+        "“You will make a window to the ark, and in a cubit you will finish it above. And you will set the door of the ark in its side. You will make it with lower, second, and third stories.”",
+        "“And, behold, I, even I, do bring a flood of waters on the earth, to destroy all flesh, in which is the breath of life, from under heaven. And everything that is in the earth will die.”",
+        "“But with you I will establish My covenant. And you will come into the ark, you, and your sons, and your wife, and your sons’ wives with you.”",
+        "“And of every living thing of all flesh, two of every sort you will bring into the ark, to keep them alive with you. They will be male and female.”",
+        "“Of fowls after their kind, and of cattle after their kind, of every creeping thing of the earth after its kind, two of every sort will come to you, to keep them alive.”",
+        "“And take for yourself of all food that is eaten, and you will gather it to yourself, and it will be for food for you, and for them.”",
+        "Thus Noah did; according to all that God commanded him, so he did."
+      ],
+      "notes": [
+        "‘gopher’ wood is likely cypress or similar resinous wood",
+        "‘pitch’ means tar or a waterproof covering",
+        "‘cubit’ is an ancient unit of length, about 18 inches"
+      ],
+      "approved": "5d9a3df8"
+    },
+    {
+      "ch": "Genesis 7",
+      "verses": [
+        "And the Lord said to Noah, “Come, you and all your house, into the ark. For I have seen you righteous before Me in this generation.”",
+        "“Of every clean beast you will take to yourself by sevens, the male and his female. And of beasts that are not clean by two, the male and his female.”",
+        "“Of fowls also of the air by sevens, the male and the female, to keep seed alive on the face of all the earth.”",
+        "“For yet seven days, and I will cause it to rain on the earth forty days and forty nights. And every living substance that I have made I will destroy from off the face of the earth.”",
+        "And Noah did according to all that the Lord commanded him.",
+        "And Noah was six hundred years old when the flood of waters was on the earth.",
+        "And Noah went in, and his sons, and his wife, and his sons’ wives with him, into the ark, because of the waters of the flood.",
+        "Of clean beasts, and of beasts that are not clean, and of fowls, and of everything that creeps on the earth,",
+        "There went in two and two to Noah into the ark, the male and the female, as God had commanded Noah.",
+        "And it came to pass after seven days, that the waters of the flood were on the earth.",
+        "In the six hundredth year of Noah’s life, in the second month, the seventeenth day of the month, the same day were all the fountains of the great deep broken up, and the windows of heaven were opened.",
+        "And the rain was on the earth forty days and forty nights.",
+        "In the selfsame day entered Noah, and Shem, and Ham, and Japheth, the sons of Noah, and Noah’s wife, and the three wives of his sons with them, into the ark.",
+        "They, and every beast after its kind, and all the cattle after their kind, and every creeping thing that creeps on the earth after its kind, and every fowl after its kind, every bird of every sort.",
+        "And they went in to Noah into the ark, two and two of all flesh, in which is the breath of life.",
+        "And they that went in, went in male and female of all flesh, as God had commanded him. And the Lord shut him in.",
+        "And the flood was forty days on the earth. And the waters increased, and bore up the ark, and it was lifted up above the earth.",
+        "And the waters prevailed, and were increased greatly on the earth. And the ark went on the face of the waters.",
+        "And the waters prevailed exceedingly on the earth. And all the high hills, that were under the whole heaven, were covered.",
+        "Fifteen cubits upward did the waters prevail, and the mountains were covered.",
+        "And all flesh died that moved on the earth, both of fowl, and of cattle, and of beast, and of every creeping thing that creeps on the earth, and every man.",
+        "All in whose nostrils was the breath of life, of all that was in the dry land, died.",
+        "And every living substance was destroyed which was on the face of the ground, both man, and cattle, and the creeping things, and the fowl of the heaven. And they were destroyed from the earth, and Noah only remained alive, and they that were with him in the ark.",
+        "And the waters prevailed on the earth one hundred and fifty days."
+      ],
+      "notes": [
+        "‘cubits’ refers to an ancient unit of measurement, about 18 inches"
+      ],
+      "approved": "0acce364"
+    },
+    {
+      "ch": "Genesis 8",
+      "verses": [
+        "And God remembered Noah, and every living thing, and all the cattle that was with him in the ark. And God made a wind to pass over the earth, and the waters abated.",
+        "The fountains also of the deep and the windows of heaven were stopped, and the rain from heaven was restrained.",
+        "And the waters returned from off the earth continually. And after the end of the one hundred and fifty days the waters were abated.",
+        "And the ark rested in the seventh month, on the seventeenth day of the month, on the mountains of Ararat.",
+        "And the waters decreased continually until the tenth month. In the tenth month, on the first day of the month, the tops of the mountains were seen.",
+        "And it came to pass at the end of forty days, that Noah opened the window of the ark which he had made.",
+        "And he sent forth a raven, which went forth to and fro, until the waters were dried up from off the earth.",
+        "Also he sent forth a dove from him, to see if the waters were abated from off the face of the ground.",
+        "But the dove found no rest for the sole of her foot, and she returned to him into the ark, for the waters were on the face of the whole earth. Then he put forth his hand, and took her, and pulled her in to him into the ark.",
+        "And he stayed yet other seven days, and again he sent forth the dove out of the ark.",
+        "And the dove came in to him in the evening, and, behold, in her mouth was an olive leaf plucked off. So Noah knew that the waters were abated from off the earth.",
+        "And he stayed yet other seven days, and sent forth the dove, which returned not again to him any more.",
+        "And it came to pass in the six hundred and first year, in the first month, the first day of the month, the waters were dried up from off the earth. And Noah removed the covering of the ark, and looked, and, behold, the face of the ground was dry.",
+        "And in the second month, on the twenty-seventh day of the month, the earth was dried.",
+        "And God spoke to Noah, saying,",
+        "“Go forth out of the ark, you, and your wife, and your sons, and your sons’ wives with you.”",
+        "“Bring forth with you every living thing that is with you, of all flesh, both of fowl, and of cattle, and of every creeping thing that creeps on the earth. That they may breed abundantly in the earth, and be fruitful, and multiply on the earth.”",
+        "And Noah went forth, and his sons, and his wife, and his sons’ wives with him.",
+        "Every beast, every creeping thing, and every fowl, and whatever creeps on the earth, after their kinds, went forth out of the ark.",
+        "And Noah built an altar to the Lord, and took of every clean beast, and of every clean fowl, and offered burnt offerings on the altar.",
+        "And the Lord smelled a sweet savor. And the Lord said in His heart, “I will not again curse the ground any more for man’s sake, for the imagination of man’s heart is evil from his youth. Neither will I again strike any more everything living, as I have done.”",
+        "“While the earth remains, seedtime and harvest, and cold and heat, and summer and winter, and day and night will not cease.”"
+      ],
+      "notes": [
+        "‘savor’ means smell or aroma"
+      ],
+      "approved": "c87bb506"
     }
   ]
 };
