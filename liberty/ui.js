@@ -341,9 +341,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Only a browser that wipes without a word (Safari on the iPhone) gets the test dot and the once-a-second look.
   // (Chrome's engine, by its name in the browser's description; on an iPhone every browser is Safari's engine underneath.)
   const SAYS_LOST = typeof HTMLCanvasElement !== 'undefined' && 'oncontextlost' in HTMLCanvasElement.prototype &&
-    /(Chrome|Chromium)\/\d/.test(navigator.userAgent) && !/iPhone|iPad|iPod/.test(navigator.userAgent);
+    /(Chrome|Chromium|Silk)\/\d/.test(navigator.userAgent) && !/iPhone|iPad|iPod/.test(navigator.userAgent);
   // A phone with little memory (Chrome tells, rounded down: 4 for a 6 GB phone) starts the ground and the fog a size smaller.
-  const LOW_MEM = !!(navigator.deviceMemory && navigator.deviceMemory <= 4);
+  const LOW_MEM = !!(navigator.deviceMemory && navigator.deviceMemory <= 4) || /Silk|Kindle|KF[A-Z]+/i.test(navigator.userAgent);
   // ?canvas=0.5 on the address makes every big canvas that size, as a phone short of memory would (to test on a computer).
   const FORCE_K = +((location.search.match(/[?&]canvas=([\d.]+)/) || [])[1] || 0);
   function bigCanvas(w, h, sizes, name) {
@@ -4114,15 +4114,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const active = activePoiId === p.id;
       poisHtml += `<g class="poiNode ${active ? 'active' : ''}" data-poi="${p.id}" role="button" tabindex="0" aria-label="${esc(p.name)}">
         <!-- Exact glowing gold text calligraphy directly illuminating city name -->
-        <image href="assets/text_glow_${p.id}.webp" x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" class="poiTextGlow" onerror="this.setAttribute('href','assets/text_glow_${p.id}.png')"/>
+        <image href="assets/text_glow_${p.id}.webp" xlink:href="assets/text_glow_${p.id}.webp" x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" class="poiTextGlow" onerror="this.setAttribute('href','assets/text_glow_${p.id}.png');this.setAttribute('xlink:href','assets/text_glow_${p.id}.png')"/>
         <!-- Generous transparent hit area for easy tapping on touch screens -->
         <rect x="${p.x - 8}" y="${p.y - 6}" width="${p.w + 16}" height="${p.h + 12}" fill="transparent" class="poiHitbox"/>
       </g>`;
     }
 
     return `<div class="campMapWrap">
-      <svg class="campMapSvg" viewBox="0 0 1376 768" preserveAspectRatio="xMidYMid meet">
-        <image href="assets/world_map.webp" x="0" y="0" width="1376" height="768" onerror="this.setAttribute('href','assets/world_map.jpg')"/>
+      <svg class="campMapSvg" viewBox="0 0 1376 768" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <image href="assets/world_map.webp" xlink:href="assets/world_map.webp" x="0" y="0" width="1376" height="768" onerror="this.setAttribute('href','assets/world_map.jpg');this.setAttribute('xlink:href','assets/world_map.jpg')"/>
         ${poisHtml}
       </svg>
     </div>`;
@@ -4183,7 +4183,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
 
     return `<div class="campMapWrap">
-      <svg class="campMapSvg" viewBox="0 0 1376 768" preserveAspectRatio="xMidYMid meet">
+      <svg class="campMapSvg" viewBox="0 0 1376 768" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <defs>
           <!-- Crimson wax seal radial gradient -->
           <radialGradient id="sealWax" cx="40%" cy="35%" r="65%">
@@ -4194,7 +4194,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
         </defs>
 
         <!-- Hand-Painted Tolkien Middle-earth Cartography Painting -->
-        <image href="assets/middle_earth_map.webp" x="0" y="0" width="1376" height="768" onerror="this.setAttribute('href','assets/middle_earth_map.jpg')"/>
+        <image href="assets/middle_earth_map.webp" xlink:href="assets/middle_earth_map.webp" x="0" y="0" width="1376" height="768" onerror="this.setAttribute('href','assets/middle_earth_map.jpg');this.setAttribute('xlink:href','assets/middle_earth_map.jpg')"/>
 
         <!-- Hand-Drawn March Route (Crimson Ink Dotted Trail) -->
         <path d="M 770 535 C 600 660, 300 520, 126 410 C 180 260, 460 170, 675 230 C 580 340, 380 480, 250 600 C 350 690, 460 520, 590 410 C 760 380, 960 350, 1160 330" stroke="#991b1b" stroke-width="4.5" stroke-dasharray="6 8" fill="none" opacity="0.8" stroke-linecap="round"/>
@@ -4831,6 +4831,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   $('iGrain').innerHTML = ICON.grain; $('iTimber').innerHTML = ICON.timber; $('iStone').innerHTML = ICON.stone; $('iPeople').innerHTML = ICON.people;
   window.addEventListener('resize', resize);
+  window.addEventListener('orientationchange', () => { setTimeout(resize, 100); setTimeout(resize, 300); });
+  if (typeof screen !== 'undefined' && screen.orientation && screen.orientation.addEventListener) {
+    screen.orientation.addEventListener('change', () => { setTimeout(resize, 100); setTimeout(resize, 300); });
+  }
   resize();
   home();
   requestAnimationFrame(frame);
