@@ -8582,11 +8582,31 @@ const TreasureUp = (function () {
       async setScores(c, scores) {
         Object.entries(scores).forEach(([u, v]) => { const p = get(c + '.p.' + u); if (p) put(c, c + '.p.' + u, Object.assign(p, v)); });
       },
+      async revealQuestion(c, qi, players, scoreOf) {
+        const answers = keys(c + '.a.' + qi + '_').map(get);
+        await this.setScores(c, scoreOf(answers));
+        await this.updateGame(c, { state: 'reveal' });
+        return answers;
+      },
       async clearAnswers(c) { keys(c + '.a.').forEach(k => { try { localStorage.removeItem(PRE + k); } catch (e) {} }); notify(c); },
       async endGame(c) { keys(c + '.').forEach(k => { try { localStorage.removeItem(PRE + k); } catch (e) {} }); notify(c); }
     };
   }
 
+  // Games nobody ended (a laptop closed mid-game) stay in Firestore: a join over 12 hours
+  // after the game was made is refused, a new game on the same code clears the old one's
+  // players first, and each game carries `expires` (a day on) for a Firestore TTL policy
+  // to delete it (Hosting in the README; review, 2026-10-07).
+  const GAME_EXPIRES = () => firebase.firestore.Timestamp.fromMillis(Date.now() + 864e5);
+  const gameStale = g => { const t = g && g.created && g.created.toMillis ? g.created.toMillis() : 0; return !!t && Date.now() - t > 12 * 3600e3; };
+  async function clearLeftovers(doc, subs) {
+    try {
+      const b = firebase.firestore().batch();
+      let n = 0;
+      for (const sub of subs) (await doc.collection(sub).get()).docs.forEach(d => { b.delete(d.ref); n++; });
+      if (n) await b.commit();
+    } catch (e) { /* the new game still works; its lobby may list an old name until it's played */ }
+  }
   function FirebaseLive() {
     // Anonymous sign-in is enough to play (a signed-in family member plays
     // as themselves). Firestore stamps the question start and every answer
@@ -8610,8 +8630,9 @@ const TreasureUp = (function () {
         try {
           await db.runTransaction(async t => {
             if ((await t.get(gameRef(c))).exists) throw new Error('taken');
-            t.set(gameRef(c), Object.assign({}, game, { host: me().uid, qStart: null, created: FV.serverTimestamp() }));
+            t.set(gameRef(c), Object.assign({}, game, { host: me().uid, qStart: null, created: FV.serverTimestamp(), expires: GAME_EXPIRES() }));
           });
+          await clearLeftovers(gameRef(c), ['answers', 'players']);   // an old game under this code that wasn't ended
           return true;
         } catch (e) { if (e.message === 'taken') return false; throw e; }
       },
@@ -8628,7 +8649,9 @@ const TreasureUp = (function () {
         await gameRef(c).update(patch);
       },
       async join(c, name) {
-        if (!(await gameRef(c).get()).exists) return 'No game with that code.';
+        const g = await gameRef(c).get();
+        if (!g.exists) return 'No game with that code.';
+        if (gameStale(g.data())) return 'That game has ended. Ask for the code on the TV now.';
         const mine = gameRef(c).collection('players').doc(me().uid);
         if ((await mine.get()).exists) await mine.update({ name });
         else await mine.set({ name, score: 0, last: 0 });
@@ -8642,6 +8665,18 @@ const TreasureUp = (function () {
         const b = db.batch();
         Object.entries(scores).forEach(([u, v]) => b.update(gameRef(c).collection('players').doc(u), v));
         await b.commit();
+      },
+      // Each player's answer read, the scores and "reveal" written, as one: an answer that
+      // lands before it counts (the transaction runs again), one after is refused by the
+      // rules (the question is closed), and a TV reload can't score it twice (review, 2026-10-07).
+      async revealQuestion(c, qi, players, scoreOf) {
+        return db.runTransaction(async t => {
+          const snaps = await Promise.all(players.map(p => t.get(gameRef(c).collection('answers').doc(qi + '_' + p.uid))));
+          const answers = snaps.filter(x => x.exists).map(x => { const a = x.data(); return Object.assign(a, { at: ms(a.at) }); });
+          Object.entries(scoreOf(answers)).forEach(([u, v]) => t.update(gameRef(c).collection('players').doc(u), v));
+          t.update(gameRef(c), { state: 'reveal' });
+          return answers;
+        });
       },
       async clearAnswers(c) {
         const b = db.batch();
@@ -8694,6 +8729,7 @@ const TreasureUp = (function () {
     stopLive();
     $('live').hidden = true;
     $('liveExit').textContent = 'Exit';
+    if (was && was.role === 'player') try { sessionStorage.removeItem(NS + 'live.join'); } catch (e) {}
     if (was && was.role === 'host' && was.code) {
       try { sessionStorage.removeItem(NS + 'live.host'); } catch (e) {}
       try { await liveConn().endGame(was.code); } catch (e) {}
@@ -8818,20 +8854,23 @@ const TreasureUp = (function () {
     const g = lv.game, q = liveQuestion(g.qs[g.qi]);
     lv.revealedQi = g.qi;
     clearInterval(lv.tick);
-    const scores = {};
-    lv.players.forEach(p => {
-      const a = lv.answers.find(x => x.uid === p.uid);
-      const right = !!a && a.choice === q.right;
-      let pts = 0;
-      if (right) {
-        const secs = Math.max(0, ((a.at || 0) - (g.qStart || 0)) / 1000);
-        pts = 700 + Math.round(300 * Math.max(0, 1 - secs / LIVE_SECONDS));
-      }
-      scores[p.uid] = { score: (p.score || 0) + pts, last: pts, lastRight: right, lastAnswered: !!a, missed: a ? 0 : (p.missed || 0) + 1 };
-    });
+    const players = lv.players.slice();
+    const scoreOf = answers => {
+      const scores = {};
+      players.forEach(p => {
+        const a = answers.find(x => x.uid === p.uid);
+        const right = !!a && a.choice === q.right;
+        let pts = 0;
+        if (right) {
+          const secs = Math.max(0, ((a.at || 0) - (g.qStart || 0)) / 1000);
+          pts = 700 + Math.round(300 * Math.max(0, 1 - secs / LIVE_SECONDS));
+        }
+        scores[p.uid] = { score: (p.score || 0) + pts, last: pts, lastRight: right, lastAnswered: !!a, missed: a ? 0 : (p.missed || 0) + 1 };
+      });
+      return scores;
+    };
     try {
-      await liveConn().setScores(lv.code, scores);
-      await liveConn().updateGame(lv.code, { state: 'reveal' });
+      lv.answers = await liveConn().revealQuestion(lv.code, g.qi, players, scoreOf);
     } catch (e) {
       if (lv && lv.revealedQi === g.qi) lv.revealedQi = null;   // let the button or the timer try again
       toast("Couldn't reach the game", 'Check the internet and tap Show the answer again');
@@ -8852,7 +8891,8 @@ const TreasureUp = (function () {
       const code = lv.code;
       await L.clearAnswers(code);
       lv.answers = [];
-      await L.setScores(code, Object.fromEntries(lv.players.map(p => [p.uid, { score: 0, last: 0, lastRight: false, lastAnswered: true, missed: 0 }])));
+      // Someone who left (missed 2 in a row) stays left, so the new game doesn't wait 20 seconds on them each question.
+      await L.setScores(code, Object.fromEntries(lv.players.map(p => [p.uid, { score: 0, last: 0, lastRight: false, lastAnswered: true, missed: (p.missed || 0) >= 2 ? p.missed : 0 }])));
       await L.updateGame(code, { state: 'lobby', qi: -1, gid: liveGid(), qs: liveQuestionIds(code + '|' + Date.now()) });
     } else if (act === 'end') {
       await closeLive();
@@ -8953,8 +8993,11 @@ const TreasureUp = (function () {
       </div>`);
   }
 
-  async function joinLive() {
-    const code = $('liveCode').value.trim(), name = $('liveName').value.trim();
+  // What this phone answered in a game, kept for a reload (the answers themselves only the TV can read).
+  const pickedKey = (code, gid) => NS + 'live.picked.' + code + '.' + gid;
+  const pickedOf = (code, gid) => { try { return JSON.parse(sessionStorage.getItem(pickedKey(code, gid)) || '{}'); } catch (e) { return {}; } };
+  async function joinLive(again) {
+    const code = again ? again.code : $('liveCode').value.trim(), name = again ? again.name : $('liveName').value.trim();
     if (!/^\d{4}$/.test(code)) return joinForm(code, 'The code is 4 numbers.');
     if (!name) return joinForm(code, 'Type your name.');
     try { localStorage.setItem(NS + 'live.name', name); } catch (e) {}
@@ -8963,9 +9006,10 @@ const TreasureUp = (function () {
     const err = await L.join(code, name);
     if (err) return joinForm(code, err);
     lv = { role: 'player', code, name, game: null, players: [], picked: {}, unsub: [] };
+    try { sessionStorage.setItem(NS + 'live.join', JSON.stringify({ code, name })); } catch (e) {}   // a reload joins again
     lv.unsub.push(L.watchGame(code, g => {
       if (!lv) return;
-      if (g && lv.gid !== g.gid) { lv.gid = g.gid; lv.picked = {}; }   // "Play again": a new game
+      if (g && lv.gid !== g.gid) { lv.gid = g.gid; lv.picked = pickedOf(code, g.gid); }   // "Play again": a new game
       lv.game = g;
       renderPlayer();
     }));
@@ -8980,7 +9024,21 @@ const TreasureUp = (function () {
     markStudied();               // playing the family game counts for the day (Blake, 2026-10-01), like any answer
     save();
     renderPlayer();
-    await liveConn().answer(lv.code, g.qi, choice);
+    try { sessionStorage.setItem(pickedKey(lv.code, lv.gid), JSON.stringify(lv.picked)); } catch (e) {}
+    // Refused when the question had just closed, or this phone answered it before a reload: either way it's in.
+    try { await liveConn().answer(lv.code, g.qi, choice); } catch (e) {}
+  }
+  // A phone that was playing, reloaded: back into the game, if it's still on.
+  async function liveRejoin() {
+    let j = null;
+    try { j = JSON.parse(sessionStorage.getItem(NS + 'live.join') || 'null'); } catch (e) {}
+    if (!j || !/^\d{4}$/.test(j.code || '') || !j.name) return;
+    const L = liveConn();
+    try { await L.init(); } catch (e) { return; }
+    const g = await new Promise(ok => { const off = L.watchGame(j.code, g => { ok(g); setTimeout(() => off && off(), 0); }); });
+    if (!g || g.state === 'final') { try { sessionStorage.removeItem(NS + 'live.join'); } catch (e) {} return; }
+    openLive();
+    joinLive(j);
   }
 
   function renderPlayer() {
@@ -9072,7 +9130,7 @@ const TreasureUp = (function () {
         return true;
       },
       watchGame: (c, cb) => watch(c, () => get(c + '.game'), cb),
-      async save(c, fields) { const g = get(c + '.game'); if (g) put(c, c + '.game', Object.assign(g, fields)); },
+      async save(c, fields, drop = []) { const g = get(c + '.game'); if (g) put(c, c + '.game', Object.assign(g, fields)); drop.forEach(id => put(c, id, null)); },
       watchPlayers: (c, cb) => watch(c, () => keys(c + '.p.').map(k => Object.assign({ uid: k.split('.p.')[1] }, get(k))), cb),
       async join(c, name) {
         if (!get(c + '.game')) return 'No game with that code.';
@@ -9081,7 +9139,6 @@ const TreasureUp = (function () {
       },
       async move(c, m) { put(c, c + '.m.' + Date.now() + '-' + String(seq++).padStart(4, '0') + '-' + uid, Object.assign({}, m, { uid })); },
       watchMoves: (c, cb) => watch(c, () => keys(c + '.m.').sort().map(k => Object.assign({ id: k }, get(k))).filter(m => m.kind), cb),
-      async dropMove(c, id) { put(c, id, null); },
       async end(c) { keys(c + '.').forEach(k => { try { localStorage.removeItem(PRE + k); } catch (e) {} }); notify(c); }
     };
   }
@@ -9106,23 +9163,31 @@ const TreasureUp = (function () {
         try {
           await db.runTransaction(async t => {
             if ((await t.get(ref(c))).exists) throw new Error('taken');
-            t.set(ref(c), Object.assign({}, game, { host: me().uid, created: FV.serverTimestamp() }));
+            t.set(ref(c), Object.assign({}, game, { host: me().uid, created: FV.serverTimestamp(), expires: GAME_EXPIRES() }));
           });
+          await clearLeftovers(ref(c), ['moves', 'players']);
           return true;
         } catch (e) { if (e.message === 'taken') return false; throw e; }
       },
       watchGame: (c, cb) => ref(c).onSnapshot(s => cb(s.exists ? s.data() : null), () => cb(null)),
-      async save(c, fields) { await ref(c).update(fields); },
+      // The game and the moves it took in, saved as one: a move deleted before the game saved was lost if the map screen reloaded between (review, 2026-10-07).
+      async save(c, fields, drop = []) {
+        const b = db.batch();
+        b.update(ref(c), fields);
+        drop.forEach(id => b.delete(ref(c).collection('moves').doc(id)));
+        await b.commit();
+      },
       watchPlayers: (c, cb) => ref(c).collection('players').onSnapshot(q => cb(q.docs.map(d => Object.assign({ uid: d.id }, d.data()))), () => cb([])),
       async join(c, name) {
-        if (!(await ref(c).get()).exists) return 'No game with that code.';
+        const g = await ref(c).get();
+        if (!g.exists) return 'No game with that code.';
+        if (gameStale(g.data())) return 'That game has ended. Ask for the code on the map screen now.';
         await ref(c).collection('players').doc(me().uid).set({ name });
         return null;
       },
       async move(c, m) { await ref(c).collection('moves').add(Object.assign({}, m, { uid: me().uid, at: FV.serverTimestamp() })); },
       watchMoves: (c, cb) => ref(c).collection('moves').orderBy('at').onSnapshot(q =>
         cb(q.docs.map(d => Object.assign({ id: d.id }, d.data({ serverTimestamps: 'estimate' })))), () => cb([])),
-      async dropMove(c, id) { await ref(c).collection('moves').doc(id).delete(); },
       async end(c) {
         const b = db.batch();
         for (const sub of ['moves', 'players']) (await ref(c).collection(sub).get()).docs.forEach(d => b.delete(d.ref));
@@ -11254,6 +11319,15 @@ const TreasureUp = (function () {
 
   // ----- host: the computer with the map -----
 
+  async function riskResume() {
+    let code = null;
+    try { code = sessionStorage.getItem(NS + 'risk.host'); } catch (e) {}
+    const C = riskConn();
+    try { await C.init(); } catch (e) { return; }
+    const g = code && await new Promise(ok => { const off = C.watchGame(code, g => { ok(g); setTimeout(() => off && off(), 0); }); });
+    if (g && g.host === C.uid()) riskHost();
+    else try { sessionStorage.removeItem(NS + 'risk.host'); } catch (e) {}
+  }
   async function riskHost() {
     stopRisk();
     openRisk();
@@ -11290,27 +11364,26 @@ const TreasureUp = (function () {
     rk.unsub.push(C.watchMoves(code, ms => { if (!rk) return; rk.moves = ms; riskMoves(ms); }));
   }
 
-  async function riskSave() {
+  async function riskSave(drop) {
     const g = rk && rk.g;
     if (!g) return;
     if (g.state === 'play') riskWaitSetup(g);
     const fields = {};
     ['state', 'gid', 'rounds', 'timer', 'insightOn', 'round', 'seats', 'lands', 'bricks', 'deck', 'hands', 'discard', 'played', 'speed', 'boost', 'insight', 'wait', 'fort', 'used', 'turn', 'dice', 'battle', 'told', 'log', 'final', 'say', 'says', 'story', 'order', 'babHeld'].forEach(k => { if (g[k] !== undefined) fields[k] = g[k]; });
-    try { await riskConn().save(rk.code, JSON.parse(JSON.stringify(fields))); }
+    try { await riskConn().save(rk.code, JSON.parse(JSON.stringify(fields)), drop || []); }
     catch (e) { toast("Couldn't reach the game", 'Check the internet'); }
   }
 
   function riskMoves(ms) {
     if (!rk || rk.role !== 'host' || !rk.g) return;
-    let changed = false;
+    const taken = [];
     for (const m of ms) {
       if (rk.done.has(m.id)) continue;
       if (riskApply(rk.g, m) === 'wait') continue;
       rk.done.add(m.id);
-      changed = true;
-      riskConn().dropMove(rk.code, m.id).catch(() => {});
+      taken.push(m.id);
     }
-    if (changed) { riskSave(); renderRiskHost(); }
+    if (taken.length) { riskSave(taken); renderRiskHost(); }
   }
 
   function riskHostAction(act, el) {
@@ -15819,7 +15892,12 @@ const TreasureUp = (function () {
     if (location.hash === '#family') openBoard();
     // …/#host on the TV, …/#join (or #join-1234 with the code) on a phone.
     else if (location.hash === '#host') hostLive();
-    else if (/^#join(-\d{4})?$/.test(location.hash)) joinForm(location.hash.slice(6));
+    // (Reloaded while in that game: back in, not the form again.)
+    else if (/^#join(-\d{4})?$/.test(location.hash)) {
+      let j = null;
+      try { j = JSON.parse(sessionStorage.getItem(NS + 'live.join') || 'null'); } catch (e) {}
+      if (j && j.code === location.hash.slice(6)) liveRejoin(); else joinForm(location.hash.slice(6));
+    }
     // …/TreasureUp-test/#dev: developer mode.
     else if (/^#dev(\/|$)/.test(location.hash)) devFromHash();
     // …/#lesson opens today's lesson.
@@ -15830,6 +15908,10 @@ const TreasureUp = (function () {
     else if (location.hash === '#babylon-here' && BOARD()) riskSoloSetup();
     // A TV tab that was hosting a live game, reloaded: pick the game back up.
     else if ((() => { try { return !!sessionStorage.getItem(NS + 'live.host'); } catch (e) { return false; } })()) liveResume();
+    // A map screen that was hosting Babylon Falls, reloaded, wherever it was opened from (review, 2026-10-07).
+    else if ((() => { try { return !!sessionStorage.getItem(NS + 'risk.host'); } catch (e) { return false; } })() && BOARD()) riskResume();
+    // A phone that was in a live game, reloaded: back in.
+    else if ((() => { try { return !!sessionStorage.getItem(NS + 'live.join'); } catch (e) { return false; } })()) liveRejoin();
 
     familyBoot();
   }
