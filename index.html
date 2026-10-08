@@ -14553,8 +14553,20 @@ const TreasureUp = (function () {
   const libOf = w => ({ title: w.title, plain: w.plain });
   async function readPlainFile(repo) {
     const f = await gh(`/repos/${repo}/contents/${PLAIN_FILE}`);
-    if (!f || !f.content) return null;
-    const text = b64decode(f.content), at = text.indexOf(PLAIN_MARK);
+    if (!f) return null;
+    let text = f.content ? b64decode(f.content) : null;
+    if (!text && f.download_url) {
+      const res = await fetch(f.download_url, { cache: 'no-store' });
+      if (res.ok) text = await res.text();
+    }
+    if (!text) {
+      const res = await fetch(`https://api.github.com/repos/${repo}/contents/${PLAIN_FILE}`, {
+        headers: { Accept: 'application/vnd.github.raw', Authorization: 'Bearer ' + dev.token }
+      });
+      if (res.ok) text = await res.text();
+    }
+    if (!text) return null;
+    const at = text.indexOf(PLAIN_MARK);
     return { sha: f.sha, head: text.slice(0, at), text, lib: JSON.parse(text.slice(at + PLAIN_MARK.length, text.lastIndexOf(';'))) };
   }
   async function writePlainFile(repo, file, lib, message) {
