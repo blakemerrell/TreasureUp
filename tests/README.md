@@ -34,3 +34,9 @@ its storage; `window.__skip(ms)` moves it on (Be still's minutes).
 
 Every pull request runs all of them (`.github/workflows/tests.yml`); the deploy
 runs smoke, dates and week after building the chapters (`pages.yml`).
+
+Two checks read the Scriptures tab's books, which only the deploy builds
+(`tools/build-reading.mjs` writes `content/library.js`, not kept in git): the
+reading-ahead check and the half-read chapter from the Scriptures tab. Without
+the built chapters, as on a pull request, they print a NOTE and are skipped;
+the deploy runs them before anything goes live.
