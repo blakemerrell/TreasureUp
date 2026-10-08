@@ -1612,7 +1612,7 @@
   .still-first { display: flex; align-items: baseline; gap: 8px; width: fit-content; margin: 0 0 10px; padding: 8px 14px; border-radius: 999px; background: rgba(201,151,79,.12); border: 1px solid rgba(232,194,126,.35); color: #f3e3c3; font: inherit; font-weight: 700; font-size: 14px; cursor: pointer; }
   .still-first small { font-weight: 500; font-size: 12px; color: rgba(255,255,255,.55); }
   .sea-still { margin: 6px 0 10px; font-size: 14px; color: #e8c27e; }
-  @media (max-width: 349px) { #fsBtn { display: none !important; } }   /* with 🕊️, a 320px phone has room for ⚙️ (full screen is for the Fire tablets) */
+  @media (max-width: 480px) { #fsBtn { display: none !important; } }   /* full screen is for the Fire tablets: on a phone its room goes to the level badge (2026-10-08) */
   .ls-coming { margin: 2px 0 12px; padding: 11px 13px; border-radius: 14px; background: rgba(252,211,77,.09); border: 1px solid rgba(252,211,77,.3); font-size: 15px; line-height: 1.45; }
   .ls-coming small { display: block; margin-bottom: 3px; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
   .cfm-lines { margin: 10px 0 14px; padding-left: 18px; display: grid; gap: 8px; } .cfm-lines li { font-size: 15.5px; line-height: 1.5; }
@@ -1634,6 +1634,11 @@
   .fl-week b { font-size: 15px; font-weight: 800; } .fl-week small { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.55); }
   /* the header: the XP bar on its own line under the badges */
   #hudRow { flex-wrap: wrap; row-gap: 8px; } #streakBtn { margin-left: auto; }
+  /* The buttons never wrap (Blake, 2026-10-08: "the gear icon has wrapped around and I don't like that"; it pushed the page under the header): the level badge starts from nothing and grows to its own width, so it gives way on a narrow phone, its words cut short */
+  #levelBtn { flex: 1 1 0; min-width: 0; max-width: max-content; }
+  #levelBtn > div:last-child { min-width: 0; overflow: hidden; }
+  #levelTitle, #xpText { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 440px) { #hudRow { column-gap: 8px; } }
   header.hud-pad { background: linear-gradient(180deg, #1c1946 0%, #1d1a4a 88%, rgba(29,26,74,0) 100%); }
   .hud-xp { order: 10; flex: 1 0 100%; display: flex; align-items: center; gap: 10px; }
   .hud-xp > div:first-child { flex: 1; } .hud-xp #nextLevel { margin: 0; font-size: 11px; font-weight: 700; white-space: nowrap; overflow: visible; color: rgba(255,255,255,.6); }
@@ -1690,7 +1695,7 @@
     background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); }
   .lib-book small { display: block; margin-top: 2px; font-size: 11.5px; font-weight: 700; color: #86efac; }
   .lib-book.now { border-color: rgba(252,211,77,.6); }
-  .lib-back { margin: 0 0 10px; padding: 6px 0; border: 0; background: none; cursor: pointer; font: inherit; font-size: 14px; font-weight: 800; color: rgba(255,255,255,.7); }
+  .lib-back { margin: 0 0 12px; padding: 8px 14px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; background: rgba(255,255,255,.07); cursor: pointer; font: inherit; font-size: 14px; font-weight: 800; color: #fff; }
   .lib-chs { display: grid; grid-template-columns: repeat(auto-fill, minmax(48px, 1fr)); gap: 6px; margin-top: 12px; }
   .lib-ch { aspect-ratio: 1; border-radius: 12px; cursor: pointer; font: inherit; font-size: 16px; font-weight: 900; color: #fff;
     background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); }
@@ -15303,6 +15308,7 @@ const TreasureUp = (function () {
       const tb = e.target.closest('[data-tab]');
       if (!tb) return;
       if (tb.dataset.tab !== homeTab && tb.dataset.tab !== 'today') use('tab:' + tb.dataset.tab);
+      if (tb.dataset.tab === 'scriptures' && homeTab === 'scriptures') libBook = null;   // Scriptures again: back to every book
       homeTab = tb.dataset.tab;
       renderHome();
       $('home').scrollTop = 0;
