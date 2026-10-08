@@ -1568,17 +1568,17 @@
   .still-app { box-sizing: border-box; min-height: 100%; max-width: 440px; margin: 0 auto; padding: calc(var(--sat, 0px) + 28px) 20px calc(env(safe-area-inset-bottom, 0px) + 28px); display: flex; flex-direction: column; align-items: center; text-align: center; }
   .still-top { font: 400 13px 'Marcellus', Georgia, serif; letter-spacing: .32em; text-transform: uppercase; color: #8a8174; }
   .still-light { position: relative; margin-top: auto; width: min(80vw, 330px); aspect-ratio: 1; max-width: 100%; display: grid; place-items: center; border-radius: 50%; background: none; }
-  .still-halo, .still-orb { position: absolute; border-radius: 50%; pointer-events: none; }
-  .still-halo { inset: -18%; background: radial-gradient(circle, transparent 50%, rgba(243,210,147,.13) 62%, rgba(201,151,79,.05) 70%, transparent 76%); filter: blur(4px); transform: scale(.8); }
-  .still-orb { inset: 0; border: 2px solid #e8c27e; box-shadow: 0 0 22px rgba(243,210,147,.38), 0 0 60px rgba(201,151,79,.16), inset 0 0 22px rgba(243,210,147,.22); transform: scale(.8); }
+  .still-halo, .still-orb { position: absolute; border-radius: 50%; pointer-events: none; will-change: transform; }
+  .still-halo { inset: -18%; background: radial-gradient(circle, transparent 48%, rgba(243,210,147,.08) 58%, rgba(243,210,147,.16) 63%, rgba(201,151,79,.08) 70%, transparent 78%); transform: translateZ(0) scale(.8); }
+  .still-orb { inset: 0; border: 2px solid #e8c27e; box-shadow: 0 0 18px rgba(243,210,147,.4), inset 0 0 16px rgba(243,210,147,.25); transform: translateZ(0) scale(.8); }
   .still-big { position: relative; font: 400 72px/1 'Marcellus', Georgia, serif; color: #f3d293; font-variant-numeric: tabular-nums; }
   .still-layer.running .still-orb { animation: stillBreathe 10s ease-in-out infinite; }
   .still-layer.running .still-halo { animation: stillHalo 10s ease-in-out infinite; }
   .still-layer.paused .still-orb, .still-layer.paused .still-halo, .still-layer.paused .still-cue i { animation-play-state: paused; }
   /* The breath, inside the ring: "breathe in" as it grows, "breathe out" as it settles, faint as mist. */
   .still-cue { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
-  .still-cue i { grid-area: 1 / 1; font: 400 19px/1 'Marcellus', Georgia, serif; font-style: normal; letter-spacing: .3em; color: #f6e7c8; opacity: 0;
-    text-shadow: 0 0 10px rgba(243,210,147,.7), 0 0 26px rgba(201,151,79,.45); filter: blur(.6px); }
+  .still-cue i { grid-area: 1 / 1; font: 400 19px/1 'Marcellus', Georgia, serif; font-style: normal; letter-spacing: .3em; color: #f6e7c8; opacity: 0; will-change: opacity, transform;
+    text-shadow: 0 0 8px rgba(243,210,147,.6), 0 0 20px rgba(201,151,79,.4); }
   .still-layer.running .still-cue .in { animation: stillIn 10s ease-in-out infinite; }
   .still-layer.running .still-cue .out { animation: stillOut 10s ease-in-out infinite; }
   @keyframes stillIn { 0% { opacity: 0; transform: scale(.96); } 14% { opacity: .3; } 30% { opacity: .3; } 40%, 100% { opacity: 0; transform: scale(1.03); } }
@@ -2989,7 +2989,7 @@ const TreasureUp = (function () {
   // Sound. One AudioContext, made in a tap; a track fetched and decoded while
   // he picks (a tap opened the screen), and let go a while after it closes.
   let still = null;   // the open screen: { view: 'set' | 'starting' | 'run' | 'done', mins, sound, start, nextBowl, paused, pausedAt, tick, ctl, wake, done, note, share }
-  const stillAudio = { ac: null, t: {}, music: null, drop: 0 };   // t: a track's { bytes, buf, decoding, bad } by its id
+  const stillAudio = { ac: null, t: {}, music: null, drop: 0 };   // t: a track's { el } by its id
   function stillCtx() {
     const a = stillAudio;
     if (!a.ac) { const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null; try { a.ac = new AC(); } catch (e) { return null; } }
@@ -3002,16 +3002,13 @@ const TreasureUp = (function () {
     if (!x.src) return null;
     const c = a.t[x.id] || (a.t[x.id] = {});
     clearTimeout(a.drop);
-    if (c.buf) return c.buf;
-    if (c.bad) return null;                        // this browser can't play it: the bowl alone
-    if (!c.bytes) c.bytes = fetch(x.src).then(r => r.ok ? r.arrayBuffer() : null).catch(() => null);
-    const bytes = await c.bytes, ac = stillCtx();
-    if (!bytes) { c.bytes = null; return null; }
-    if (!ac) return null;
-    // Old Safari answers by callback, the rest also by a promise (caught, or it's an error on the page).
-    if (!c.decoding) c.decoding = new Promise(ok => { const r = ac.decodeAudioData(bytes.slice(0), ok, () => ok(null)); if (r && r.catch) r.catch(() => ok(null)); })
-      .then(t => { c.decoding = null; c.buf = t; c.bad = !t; return t; });
-    return c.decoding;
+    if (c.el) return c.el;
+    const el = new Audio();
+    el.src = x.src;
+    el.preload = 'auto';
+    el.playsInline = true;
+    c.el = el;
+    return el;
   }
   // Rain is soft hiss through a band, a brook a deep rumble through a low pass, both from noise the phone makes.
   function stillNoise(ac, kind) {
@@ -3024,28 +3021,60 @@ const TreasureUp = (function () {
     src.connect(f);
     return { src, out: f, level: kind === 'brook' ? 0.5 : 0.1 };
   }
-  // The sound, faded in: a track from its start and then its middle looped, or rain, or the brook.
+  // The sound, faded in: a track streamed and looped, or rain, or the brook.
   function stillMusicStart(id) {
     const a = stillAudio, ac = a.ac, x = stillSound(id);
-    if (!ac || a.music) return;
-    let src, out, level = 1;
+    if (a.music) return;
     if (x.src) {
       const c = a.t[x.id];
-      if (!c || !c.buf) return;                    // without the track (offline, an old phone), the bowl alone
-      src = out = ac.createBufferSource(); src.buffer = c.buf; src.loop = true; src.loopStart = x.loop[0]; src.loopEnd = Math.min(x.loop[1], c.buf.duration);
-    } else if (x.id === 'rain' || x.id === 'brook') ({ src, out, level } = stillNoise(ac, x.id));
-    else return;
-    const g = ac.createGain();
-    g.gain.setValueAtTime(0.0001, ac.currentTime); g.gain.linearRampToValueAtTime(level, ac.currentTime + 4);
-    out.connect(g); g.connect(ac.destination); src.start();
-    a.music = { src, g };
+      if (!c || !c.el) return;
+      const el = c.el;
+      el.currentTime = 0;
+      el.volume = 0;
+      el.ontimeupdate = () => {
+        if (x.loop && el.currentTime >= x.loop[1]) el.currentTime = x.loop[0];
+      };
+      el.play().catch(() => {});
+      let v = 0;
+      const timer = setInterval(() => {
+        if (!a.music || a.music.el !== el) { clearInterval(timer); return; }
+        v = Math.min(1, v + 0.05);
+        el.volume = v;
+        if (v >= 1) clearInterval(timer);
+      }, 200);
+      a.music = { el, timer };
+    } else if (x.id === 'rain' || x.id === 'brook') {
+      if (!ac) return;
+      const { src, out, level } = stillNoise(ac, x.id);
+      const g = ac.createGain();
+      g.gain.setValueAtTime(0.0001, ac.currentTime); g.gain.linearRampToValueAtTime(level, ac.currentTime + 4);
+      out.connect(g); g.connect(ac.destination); src.start();
+      a.music = { src, g };
+    }
   }
   function stillMusicStop(sec) {
     const a = stillAudio, m = a.music, ac = a.ac;
-    if (!m || !ac) return;
+    if (!m) return;
     a.music = null;
-    const t = ac.currentTime;
-    try { m.g.gain.cancelScheduledValues(t); m.g.gain.setValueAtTime(m.g.gain.value, t); m.g.gain.linearRampToValueAtTime(0.0001, t + sec); m.src.stop(t + sec + 0.1); } catch (e) {}
+    if (m.timer) clearInterval(m.timer);
+    if (m.el) {
+      const el = m.el;
+      el.ontimeupdate = null;
+      let v = el.volume;
+      const s = sec || 2;
+      const fadeOut = setInterval(() => {
+        v = Math.max(0, v - (1 / (s * 10)));
+        el.volume = v;
+        if (v <= 0) {
+          clearInterval(fadeOut);
+          el.pause();
+          el.currentTime = 0;
+        }
+      }, 100);
+    } else if (m.src && m.g && ac) {
+      const t = ac.currentTime;
+      try { m.g.gain.cancelScheduledValues(t); m.g.gain.setValueAtTime(m.g.gain.value, t); m.g.gain.linearRampToValueAtTime(0.0001, t + sec); m.src.stop(t + sec + 0.1); } catch (e) {}
+    }
   }
   // A singing bowl in the track's key: out-of-tune partials, each doubled a hair apart so it wavers as it rings; the ring pulses with it.
   function stillBowl(when, gain) {
@@ -3106,7 +3135,7 @@ const TreasureUp = (function () {
     if (!st || st.view !== 'set') return;
     const p = stillPrefs(), x = stillSound(p.sound);
     stillCtx();
-    if (x.src && !(stillAudio.t[x.id] || {}).buf) { st.view = 'starting'; stillDraw(); await stillTrack(x.id); }
+    if (x.src && !(stillAudio.t[x.id] || {}).el) { await stillTrack(x.id); }
     if (still !== st) return;                      // closed while the track loaded
     Object.assign(st, { view: 'run', mins: p.mins, sound: x.id, paused: false, start: Date.now(), nextBowl: p.mins * 60000 });
     stillBowl(0);
@@ -3132,16 +3161,31 @@ const TreasureUp = (function () {
     if (!st.paused) st.ctl = setTimeout(() => { const k = $('stillCtl'); if (k && still && !still.paused) k.hidden = true; }, 3500);
   }
   function stillPause() {
-    const st = still, ac = stillAudio.ac;
+    const st = still, ac = stillAudio.ac, m = stillAudio.music;
     if (!st || st.view !== 'run') return;
-    if (!st.paused) { st.paused = true; st.pausedAt = Date.now(); if (ac) ac.suspend().catch(() => {}); }
-    else { const gap = Date.now() - st.pausedAt; st.paused = false; st.start += gap; if (ac) ac.resume().catch(() => {}); }
+    if (!st.paused) {
+      st.paused = true; st.pausedAt = Date.now();
+      if (ac) ac.suspend().catch(() => {});
+      if (m && m.el) m.el.pause();
+    } else {
+      const gap = Date.now() - st.pausedAt;
+      st.paused = false; st.start += gap;
+      if (ac) ac.resume().catch(() => {});
+      if (m && m.el) m.el.play().catch(() => {});
+    }
     stillDraw();
     if (!st.paused) stillShowCtl();
   }
   async function stillWake() {
     const st = still;
-    try { if (st && navigator.wakeLock) { const w = await navigator.wakeLock.request('screen'); if (still === st && st.view === 'run') st.wake = w; else w.release(); } } catch (e) {}
+    if (!st || /Silk|Kindle|KF[A-Z]+/i.test(navigator.userAgent)) return;
+    try {
+      if (navigator.wakeLock) {
+        const timeout = new Promise((_, reject) => setTimeout(() => reject('timeout'), 1500));
+        const w = await Promise.race([navigator.wakeLock.request('screen'), timeout]);
+        if (still === st && st.view === 'run') st.wake = w; else w.release();
+      }
+    } catch (e) {}
   }
   function stillUnwake(st) { try { if (st.wake) st.wake.release(); } catch (e) {} st.wake = null; }
   // The end, when he ends it: the sound fading, three bowls, and the day
@@ -3173,9 +3217,15 @@ const TreasureUp = (function () {
     still = null;
     const box = $('stillLayer');
     box.hidden = true; box.innerHTML = ''; box.classList.remove('running', 'paused');
-    // Let the decoded track go (it's big) once the bowls have rung out, unless he comes back.
     clearTimeout(stillAudio.drop);
-    stillAudio.drop = setTimeout(() => { if (!still) { for (const c of Object.values(stillAudio.t)) c.buf = null; if (stillAudio.ac) stillAudio.ac.suspend().catch(() => {}); } }, 15000);
+    stillAudio.drop = setTimeout(() => {
+      if (!still) {
+        for (const c of Object.values(stillAudio.t)) {
+          if (c.el) { c.el.pause(); c.el.src = ''; c.el = null; }
+        }
+        if (stillAudio.ac) stillAudio.ac.suspend().catch(() => {});
+      }
+    }, 15000);
   }
   function stillClose() {
     if (still && still.view === 'run') { stillFinish(); if (still && still.view === 'done') return; }   // a minute or more: Well done first
@@ -7517,7 +7567,14 @@ const TreasureUp = (function () {
     html: (text, home) => linkRefs(text, home),
     familyBests: arcadeFamily,
     saveBest: arcadeSaveBest,
-    closed: () => { refreshHome(); renderHud(); }
+    closed: () => { refreshHome(); renderHud(); },
+    db: async () => {
+      if (!window.firebase || !window.firebase.firestore) {
+        await loadScript(FB_SDK + 'firebase-firestore-compat.js');
+      }
+      return firebase.firestore();
+    },
+    fv: () => firebase.firestore.FieldValue
   };
 
   let playing = null;   // 'puzzle' | 'sayings'
