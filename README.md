@@ -592,13 +592,23 @@ straight away (`es`, `tl`, `tl2`, `el` too), and `amigo/?quest=alef` a quest.
 ## Hosting
 
 Every push to `main` redeploys through `.github/workflows/pages.yml` (about
-a minute). Setting it up on a new repo:
+five minutes with the tests). Setting it up on a new repo:
 
 1. The repo must be **public** (Pages on a private repo needs a paid plan, and
    the site itself is public either way).
 2. **Settings → Pages → Source: GitHub Actions.** The workflow can't switch
    this on by itself.
 3. Push to `main`, or re-run the workflow from the Actions tab.
+
+**Tests** (review, 2026-10-07: "Yes, in CI"): before anything else, every
+script the site ships must parse (`tools/check-parse.mjs`); after the chapters
+are built, the browser tests in `tests/` open the app on today's week and do a
+week of study on one device, Monday to Sunday. A failure stops the deploy, and
+the site keeps the last good one. Every pull request runs the same, plus a
+family on the Firebase emulators with `firestore.rules` (`.github/workflows/tests.yml`):
+the rules refuse what a child mustn't do, his two devices agree, chat, a prize
+and a finished goal go end to end. They read the week from `content/weeks.js`,
+so they never need changing when the week does. How to run them: `tests/README.md`.
 
 **On his phone:** open the link in Safari → Share → **Add to Home Screen**. On
 iOS it launches full-screen like an app. On Android, Chrome's **Add to Home
