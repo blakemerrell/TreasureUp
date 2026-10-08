@@ -1267,5 +1267,125 @@
       "more": "Balaam prophesied, “There shall come a Star out of Jacob” (Numbers 24:17). Jesus calls Himself “the bright and morning star” (Revelation 22:16).",
       "approved": "e2700536"
     }
-  ]
+  ],
+  "guide": [
+    {
+      "h": "I rejoice in my Redeemer.",
+      "id": "title3",
+      "ref": "Psalm 35:9; Isaiah 25:8–9; 44:21–24; 51:11; Zephaniah 3:14–20; Moses 5:5–11",
+      "kids": false,
+      "lines": [
+        "Christmas is full of joy because of Jesus Christ. Long before His birth, Old Testament prophets felt that same joy when they wrote about Him.",
+        "Read a few: Moses 5:5–11, Psalm 35:9, Isaiah 25:8–9, Isaiah 44:21–24, Isaiah 51:11, Zephaniah 3:14–20. Why would they mean so much to people waiting for a Savior?",
+        "Isaiah wrote, “we will be glad and rejoice in his salvation” (Isaiah 25:9). Adam said, “in this life I shall have joy” (Moses 5:10). Look for their reasons."
+      ],
+      "ask": "Which of these verses about joy in the Savior means the most to you this Christmas, and why?",
+      "approved": "c5827a3a"
+    },
+    {
+      "h": "Symbols can help me remember Jesus Christ.",
+      "id": "title4",
+      "ref": "Numbers 24:17; Psalm 23; Genesis 22:8; Exodus 17:1–6; 1 Samuel 2:2; Isaiah 11:1–2; Psalm 27:1",
+      "kids": false,
+      "lines": [
+        "Many Christmas traditions, like stars and lights, can point us to Jesus. All year the Old Testament has shown us symbols of Him too.",
+        "Study a few: Star (Numbers 24:17), Shepherd (Psalm 23), Lamb (Genesis 22:8), Water (Exodus 17:1–6), Rock (1 Samuel 2:2), Branch (Isaiah 11:1–2), Light (Psalm 27:1).",
+        "Write down what each one shows you about Jesus Christ. Then watch for other symbols, verses and stories in the scriptures that point to Him."
+      ],
+      "ask": "What symbol of Jesus Christ have you noticed in the scriptures or at Christmas, and what does it show you about Him?",
+      "approved": "dcd81f8f"
+    },
+    {
+      "h": "“His name shall be called Wonderful.”",
+      "id": "title5",
+      "ref": "Psalm 23:1; 83:18; Isaiah 7:14; 9:6; 12:2; 63:16; Amos 4:13; Zechariah 14:16; Moses 7:53",
+      "kids": false,
+      "lines": [
+        "The scriptures call Jesus Christ by many names. Isaiah wrote, “his name shall be called Wonderful, Counsellor, The mighty God” (Isaiah 9:6).",
+        "Hunt for His titles in Psalm 23:1, Psalm 83:18, Isaiah 7:14, Isaiah 12:2, Isaiah 63:16, Zechariah 14:16, Amos 4:13 and Moses 7:53.",
+        "Christmas hymns hold many of His names too. Make a list, and talk about how each one changes the way you see Him.",
+        "Choose one of His names to think about all next year, so you keep remembering Him."
+      ],
+      "ask": "Which name of Jesus Christ means the most to you right now, and which one will you carry into the new year?",
+      "approved": "d4b60bc1"
+    },
+    {
+      "h": "The Old Testament teaches me about Jesus.",
+      "id": "title7",
+      "ref": "Genesis 22:8; Numbers 24:17; Psalm 23:1; 27:1; Isaiah 9:6",
+      "kids": true,
+      "lines": [
+        "Grab a Christmas star, a light or a gift and talk about how each one can remind you of Jesus.",
+        "Read Genesis 22:8; Numbers 24:17; Psalm 23:1; 27:1. Hold up a decoration or picture for each one: lamb, star, shepherd, light.",
+        "Point to baby Jesus in a Nativity picture when someone reads “a child is born” (Isaiah 9:6). Old Testament prophets knew He would be born.",
+        "Before the New Testament next year, look back: which Old Testament stories or prophecies about Jesus stood out to you this year?"
+      ],
+      "ask": "Which Old Testament picture of Jesus do you like best, a lamb, a star, a shepherd or a light, and why?",
+      "approved": "e5dcb041"
+    },
+    {
+      "h": "Christmas traditions can point to Jesus Christ.",
+      "id": "title8",
+      "ref": "Exodus 12",
+      "kids": true,
+      "lines": [
+        "Israel’s families kept the Passover through the generations to remember how the Lord saved them. When children asked, “What mean ye by this service?” (Exodus 12:26), parents explained.",
+        "Which of your Christmas traditions help you think about Jesus? Which ones come from your family history?",
+        "Pick a new one to start: serve someone in need, give the Savior a gift, invite a friend to the First Presidency’s Christmas devotional, or write a Christmas song."
+      ],
+      "ask": "What new Christmas tradition could our family start this year to keep Jesus Christ at the center?",
+      "approved": "04b4c19d"
+    },
+    {
+      "h": "Heavenly Father gave me the gift of His Son to be my Savior.",
+      "id": "title9",
+      "ref": "Matthew 1:18–25; 2:1–12; Luke 1:26–38; 2:1–20; Isaiah 25:8–9; 53:3–5; Hosea 13:14",
+      "kids": true,
+      "lines": [
+        "Read Luke 1:26–38, Luke 2:1–20, Matthew 1:18–25 and Matthew 2:1–12, or watch the video ‘The Christ Child’. Choose one person and share how they felt about Jesus.",
+        "Talk about gifts that brought you joy. Then read Isaiah 25:9 and share why you’re glad Heavenly Father sent a Savior.",
+        "Isaiah 25:8–9, Isaiah 53:3–5 and Hosea 13:14 show how He saves us. He “will swallow up death in victory” (Isaiah 25:8).",
+        "Sing ‘Away in a Manger’ (Children’s Songbook, 42–43) or ‘O Little Town of Bethlehem’ (Hymns, no. 208) and listen for words of God’s love."
+      ],
+      "ask": "Why are you grateful Heavenly Father gave us His Son, and how can you show it this Christmas?",
+      "approved": "6bf06211"
+    }
+  ],
+  "family": {
+    "title": "Symbols of the Savior",
+    "minutes": 20,
+    "from": [
+      "title7",
+      "title8",
+      "title9"
+    ],
+    "steps": [
+      {
+        "k": "open",
+        "text": "Sing ‘Away in a Manger’ (Children’s Songbook, 42–43) or ‘O Little Town of Bethlehem’ (Hymns, no. 208). Then have someone say a prayer."
+      },
+      {
+        "k": "do",
+        "text": "Hunt through the house for Christmas things that can remind you of Jesus: a star, a light, a lamb or shepherd from a Nativity set, a wrapped gift. Bring them to the table."
+      },
+      {
+        "k": "learn",
+        "text": "Take turns reading Genesis 22:8; Numbers 24:17; Psalm 23:1; 27:1. After each one, hold up the item that matches and tell one way Jesus is like it.",
+        "ref": "Genesis 22:8; Numbers 24:17; Psalm 23:1; 27:1"
+      },
+      {
+        "k": "talk",
+        "text": "Talk about a gift that brought you joy. Then read Isaiah 25:9 together. Why do we rejoice that Heavenly Father sent His Son to save us?"
+      },
+      {
+        "k": "do",
+        "text": "Israel kept the Passover as a memorial of what the Lord did for them (Exodus 12:14). Pick one new Christmas tradition that points to Jesus, like serving a neighbor or choosing a gift to give Him."
+      },
+      {
+        "k": "close",
+        "text": "Parents, testify that Old Testament prophets knew Jesus would be born, and that He is our Savior. Invite everyone to live your new tradition before Christmas Day."
+      }
+    ],
+    "approved": "81552185"
+  }
 }

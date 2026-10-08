@@ -2219,5 +2219,151 @@
       "short": "ancient",
       "approved": "539aa490"
     }
-  ]
+  ],
+  "guide": [
+    {
+      "h": "I can trust in the Lord when my faith is tried.",
+      "id": "title3",
+      "ref": "Daniel 1; 3; 6",
+      "kids": false,
+      "lines": [
+        "Like Daniel and his friends far from home in Babylon, we all feel pushed at times to lower our standards and walk away from Christ.",
+        "Watch how they were pressured to do wrong in Daniel 1, 3 and 6, how they answered (Daniel 1:10–13, Daniel 3:15–18 and Daniel 6:10), and what came of their faith.",
+        "Faith doesn’t always bring the rescue we hope for (see Alma 14:8–13). The three friends knew God could save them. “But if not” (Daniel 3:18), they still wouldn’t bow.",
+        "Their faithful choices also moved a proud king to praise God (Daniel 2:47; 3:28–29). Our choices can strengthen the people around us too."
+      ],
+      "ask": "When have you felt pushed to do something wrong, and how did the Lord bless you for choosing right?",
+      "approved": "3d5e69a7"
+    },
+    {
+      "h": "The Church of Jesus Christ of Latter-day Saints is the kingdom of God on earth.",
+      "id": "title4",
+      "ref": "Daniel 2",
+      "kids": false,
+      "lines": [
+        "God showed Daniel that the king’s dream was about kingdoms yet to come, ending with God’s own kingdom, which “shall never be destroyed” (Daniel 2:44).",
+        "President D. Todd Christofferson taught that the Church is that kingdom: set up by God, not by people, and rolling on like the stone until it fills the earth.",
+        "Read about the stone in Daniel 2:34–35 and Daniel 2:44–45. Cut out without hands, it grows into a mountain that fills the whole earth."
+      ],
+      "ask": "What part can each of us play in helping the stone roll forward and fill the earth?",
+      "approved": "7ee7b979"
+    },
+    {
+      "h": "Receiving revelation requires spiritual preparation.",
+      "id": "title5",
+      "ref": "Daniel 2:1–30",
+      "kids": false,
+      "lines": [
+        "The king threatened to kill all his wise men, Daniel included, unless someone could tell his dream (Daniel 2:1–15). Imagine being in Daniel’s place.",
+        "Daniel asked the king for time, then asked his friends to plead with God for mercy (Daniel 2:16–18).",
+        "God had already been preparing him, giving him knowledge and understanding of visions and dreams (Daniel 1:17).",
+        "Once the answer came, Daniel thanked God and gave Him the credit in front of the king (Daniel 2:19–30)."
+      ],
+      "ask": "What can we do now, before we need an answer, so we are ready to receive revelation when it comes?",
+      "approved": "9c73ad0c"
+    },
+    {
+      "h": "Jesus Christ is the Son of the Eternal Father.",
+      "id": "title6",
+      "ref": "Daniel 7:13–14",
+      "kids": false,
+      "lines": [
+        "Daniel saw “one like the Son of man” (Daniel 7:13) come with the clouds to receive a kingdom that never ends. Many Jews in Jesus’ day saw the Messiah here.",
+        "Moses 6:57 tells where the title comes from. Jesus often called Himself the Son of Man (Matthew 25:31; Mark 9:31; Mark 10:45).",
+        "On His last day He used the title before the high priest and the council, and they condemned Him for it (Mark 14:61–64).",
+        "We may be mocked for standing for truth too. Set the promises of Doctrine and Covenants 121:29, 46 beside Daniel 7:13–14."
+      ],
+      "ask": "How does Daniel’s vision of the Son of Man coming in glory change how you feel about what Jesus suffered in Mark 15?",
+      "approved": "5ac14ef8"
+    },
+    {
+      "h": "Jesus will help me do what is right even when it’s hard.",
+      "id": "title8",
+      "ref": "Daniel 1; 3; 6",
+      "kids": true,
+      "lines": [
+        "Find pictures of the stories in Daniel 1, 3 and 6, lay them face down, and take turns flipping one over and telling that story.",
+        "Name times you might feel pushed to choose wrong, as Daniel and his friends were, and share how choosing right when it was hard has blessed you.",
+        "For help retelling them, the lesson points to short Old Testament Stories videos about each one. It also suggests a hymn to sing together."
+      ],
+      "ask": "When is it hard for you to do what’s right, and how can Jesus help you then?",
+      "approved": "2423c289"
+    },
+    {
+      "h": "Heavenly Father wants me to take care of my body.",
+      "id": "title9",
+      "ref": "Daniel 1:1–17",
+      "kids": true,
+      "lines": [
+        "Daniel and his friends turned down the king’s rich food and wine and asked for simple food and water instead (Daniel 1:8–12).",
+        "Their story can open a talk about the Word of Wisdom, God’s law of health for our day (Doctrine and Covenants 89).",
+        "Compare their blessings in Daniel 1:15–17 with the ones promised in Doctrine and Covenants 89:18–21."
+      ],
+      "ask": "What blessings did Daniel and his friends receive, and which blessings does the Lord promise us for keeping the Word of Wisdom?",
+      "approved": "8c12e2a0"
+    },
+    {
+      "h": "The Church of Jesus Christ of Latter-day Saints is the kingdom of God on earth.",
+      "id": "title10",
+      "ref": "Daniel 2",
+      "kids": true,
+      "lines": [
+        "Read Daniel 2:31–35 and Daniel 2:44–45, and draw the king’s dream: the great image of gold, silver, brass, iron and clay, and the stone.",
+        "The stone in the dream is the Church. What does the dream show about it?",
+        "Name things Heavenly Father did to restore His Church in the latter days. Pictures of the Restoration can help."
+      ],
+      "ask": "What did Heavenly Father do to bring back His Church, and how can our family help it grow?",
+      "approved": "b280c07f"
+    },
+    {
+      "h": "Heavenly Father wants me to pray often.",
+      "id": "title11",
+      "ref": "Daniel 6",
+      "kids": true,
+      "lines": [
+        "As you read Daniel 6, talk about why prayer mattered so much to Daniel that he kept praying even when the law said not to.",
+        "Tell each other why prayer matters to you. President Henry B. Eyring’s talk on prayers for peace can add to that.",
+        "Draw yourselves praying in different places and times, then use the pictures to show that we can pray to Heavenly Father anywhere, about anything we need."
+      ],
+      "ask": "Why do you think Daniel never stopped praying, and when could you pray this week that you usually don’t?",
+      "approved": "3e2d6557"
+    }
+  ],
+  "family": {
+    "title": "Brave in Babylon",
+    "minutes": 20,
+    "from": [
+      "title3",
+      "title8",
+      "title11"
+    ],
+    "steps": [
+      {
+        "k": "open",
+        "text": "Look together at Briton Rivière’s painting of Daniel in the lions’ den, shown on this week’s lesson page. What do you notice about Daniel and the lions? Then someone offers the opening prayer."
+      },
+      {
+        "k": "do",
+        "text": "Quickly sketch three scenes on paper: the king’s food (Daniel 1), the fiery furnace (Daniel 3) and the lions’ den (Daniel 6). Mix them up face down. Each person flips one and tells that story, and the others add anything missed."
+      },
+      {
+        "k": "learn",
+        "ref": "Daniel 3:16–18",
+        "text": "Read what Shadrach, Meshach, and Abed-nego told the king. What did they believe God could do? What would they still refuse to do, even if He didn’t save them?"
+      },
+      {
+        "k": "talk",
+        "text": "Name places you might feel pushed to choose wrong, like school, with friends or online. Then share a time choosing right was hard but brought a blessing. How can Jesus help us then?"
+      },
+      {
+        "k": "do",
+        "text": "Read Daniel 6:10. Then each person draws themselves praying somewhere different: in bed, before a test, in the car, when scared. Show your drawings and talk about why Daniel kept praying even with lions waiting."
+      },
+      {
+        "k": "close",
+        "text": "Parents share how Jesus has helped them do right when it was hard. This week, try praying three times a day, like Daniel."
+      }
+    ],
+    "approved": "a8af8886"
+  }
 }

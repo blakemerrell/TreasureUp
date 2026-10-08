@@ -1834,5 +1834,137 @@
       "more": "Jesus Christ is the “Sun of righteousness.” He rises “with healing in his wings,” bringing light and healing to all who fear His name.",
       "approved": "0cd7961a"
     }
-  ]
+  ],
+  "guide": [
+    {
+      "h": "“Return unto me, and I will return unto you.”",
+      "id": "title3",
+      "ref": "Malachi 1–4",
+      "kids": false,
+      "lines": [
+        "The temple in Jerusalem stood again, but the people’s friendship with the Lord still needed rebuilding. Malachi’s book is full of questions going back and forth between them.",
+        "The Lord invited, “Return unto me, and I will return unto you” (Malachi 3:7). The people asked how. In what ways might you need to return?",
+        "Ask yourself questions like theirs: How have I felt His love (Malachi 1:2)? Am I giving Him my best (Malachi 1:6–11)? Am I robbing Him (Malachi 3:8–11)?",
+        "Some grumbled that serving God was pointless (Malachi 3:13–15). Notice how you feel about the Lord when life is hard, and keep turning back toward Him."
+      ],
+      "ask": "Which of Malachi’s questions do you most need to ask yourself this week, and what is one way you could come back to the Lord?",
+      "approved": "65092e94"
+    },
+    {
+      "h": "The Lord asks for “a pure offering.”",
+      "id": "title4",
+      "ref": "Malachi 1:6–14",
+      "kids": false,
+      "lines": [
+        "The priests brought the Lord blind, lame and sick animals (Malachi 1:8). Read Malachi 1:13. What do gifts like that show about how they felt toward Him?",
+        "Still, the Lord looked ahead to a day when people in every place would bring Him “a pure offering” (Malachi 1:11).",
+        "Make a list of things you give the Lord, like prayers, time or service. For each, think what would make it pure or “polluted” (Malachi 1:7)."
+      ],
+      "ask": "What is one offering you give the Lord, and how could you make it more pure and wholehearted this week?",
+      "approved": "78976a28"
+    },
+    {
+      "h": "The Lord opens the windows of heaven as I show my faith by paying tithing.",
+      "id": "title5",
+      "ref": "Malachi 3:8–12",
+      "kids": false,
+      "lines": [
+        "Picture a friend asking why you pay tithing. Read Malachi 3:8–12 and find what you could say back.",
+        "Elder Neil L. Andersen’s talk can help with why the Lord asks for tithing and what gets in the way. Elder David A. Bednar tells of its quiet blessings.",
+        "Stand at a window and ask what windows are for. Why is opening “the windows of heaven” (Malachi 3:10) a good picture of how the Lord blesses us?"
+      ],
+      "ask": "If a friend asked why our family pays tithing, what would you say, and what blessings could you tell them about?",
+      "approved": "1f867078"
+    },
+    {
+      "h": "“I will send you Elijah the prophet.”",
+      "id": "title6",
+      "ref": "Malachi 4:5–6",
+      "kids": false,
+      "lines": [
+        "When Moroni visited Joseph Smith, he quoted these verses a little differently (Joseph Smith—History 1:36–39). Compare the two and see what Moroni’s wording adds.",
+        "Moroni said Elijah would “plant in the hearts of the children the promises made to the fathers” (Joseph Smith—History 1:39). The fathers include Abraham, Isaac and Jacob (Deuteronomy 29:13).",
+        "God promised Abraham that through his family all the families of the earth would be blessed (Abraham 2:9–11). What can you do to help keep those promises?",
+        "Just as Malachi foretold, Elijah came to turn hearts and gave Joseph Smith and Oliver Cowdery priesthood keys (D&C 110:13–16)."
+      ],
+      "ask": "What has helped your heart turn toward your ancestors, and why are you glad Elijah came?",
+      "approved": "2f73f857"
+    },
+    {
+      "h": "The Lord loves me.",
+      "id": "title8",
+      "ref": "Malachi 1:2",
+      "kids": true,
+      "lines": [
+        "The Lord said He loved Israel, and they asked, “Wherein hast thou loved us?” (Malachi 1:2). How would your family answer that?",
+        "Take turns naming ways you know He loves you. Pass a ball around: whoever holds it shares one reason.",
+        "Draw a picture of something that reminds you of His love."
+      ],
+      "ask": "What is one way you have felt the Lord’s love for you this month?",
+      "approved": "e2914169"
+    },
+    {
+      "h": "The Lord will bless me as I pay tithing.",
+      "id": "title9",
+      "ref": "Malachi 3:8–12",
+      "kids": true,
+      "lines": [
+        "Count out 10 coins or beans and set one apart: that one in ten is tithing. Then look in Malachi 3:8–12 for why the Lord asks for it.",
+        "Read Malachi 3:10 standing by a window, and think about blessings pouring down from heaven.",
+        "Parents, share blessings you have seen from paying tithing. Draw them and hang the pictures on or beside a window at home."
+      ],
+      "ask": "Why do you think the Lord asks us to pay tithing, and what blessings have you seen from it?",
+      "approved": "4c90344f"
+    },
+    {
+      "h": "Elijah came to turn our hearts to our families.",
+      "id": "title10",
+      "ref": "Malachi 4:5–6",
+      "kids": true,
+      "lines": [
+        "Read Malachi 4:5–6 like detectives: Who is coming? When? What will he do, and why? Then find where it came true in D&C 110:13–16.",
+        "Sing ‘The Hearts of the Children’ (Children’s Songbook, 92) to remember why Elijah needed to come.",
+        "Try a FamilySearch activity or the My Family booklet to learn about one of your ancestors together."
+      ],
+      "ask": "Which ancestor would you like to know more about, and how could we learn their story together?",
+      "approved": "1e1501df"
+    }
+  ],
+  "family": {
+    "title": "Open the windows of heaven",
+    "minutes": 20,
+    "from": [
+      "title8",
+      "title9",
+      "title5"
+    ],
+    "steps": [
+      {
+        "k": "open",
+        "text": "Sing ‘Count Your Blessings’ (Hymns, no. 241). Then invite someone to offer a prayer."
+      },
+      {
+        "k": "do",
+        "text": "Toss a ball or a pair of rolled-up socks around the room. Whoever catches it names one way they know the Lord loves them. That answers Israel’s question in Malachi 1:2."
+      },
+      {
+        "k": "learn",
+        "text": "Stand by a window and read Malachi 3:8–12 together. Look for what the Lord asks His people to bring, and what He promises to open and pour out.",
+        "ref": "Malachi 3:8–12"
+      },
+      {
+        "k": "do",
+        "text": "Lay out 10 coins, buttons or beans and set one apart: that tenth is tithing. Then everyone draws one blessing from Heavenly Father and tapes it to the window."
+      },
+      {
+        "k": "talk",
+        "text": "Parents, tell about a blessing that came from paying tithing. Then ask: why is opening the windows of heaven a good picture of how the Lord blesses us? What do windows let in?"
+      },
+      {
+        "k": "close",
+        "text": "Share your testimony that the Lord keeps His promises. This week, watch for quiet blessings and add a new drawing to the window each time someone notices one."
+      }
+    ],
+    "approved": "c0302b9d"
+  }
 }
