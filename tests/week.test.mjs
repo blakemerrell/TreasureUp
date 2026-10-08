@@ -3,7 +3,7 @@
 // XP up and the day kept; Sunday kept by one family game even when behind;
 // and a chapter split over two days opens its unread part's day from the
 // reader ("Mark it read in its lesson").
-import { check, note, device, setDay, state, study, txt, wait, liveWeek, weeks, dayAdd } from './lib.mjs';
+import { check, note, device, setDay, state, study, txt, wait, liveWeek, weeks, dayAdd, built } from './lib.mjs';
 
 // The chapters under Today's button: "🕊️ Be still, then Isaiah 59:9–21; 60:1–18 · Come Follow Me · …"
 function refsOf(small) {
@@ -51,6 +51,8 @@ export default async function week({ port }) {
   await behind.ctx.close();
 
   // Reading ahead keeps only the day it's read (Blake, 2026-10-07: "No, only on the day"): the whole week read on Monday.
+  if (!built) note('NOTE', 'the chapters aren’t built here (the deploy builds them): the reading-ahead check is skipped');
+  else {
   const ahead = await device('ahead', { url, day: days[0] + 'T16:30:00' });
   await ahead.page.click('#tabs [data-tab="scriptures"]'); await wait(400);
   if (await ahead.page.locator('#home [data-lib-book=""]').count()) await ahead.page.click('#home [data-lib-book=""]');
@@ -68,6 +70,7 @@ export default async function week({ port }) {
   f = (await state(ahead.page)).filled || {};
   check(!f[days[1]], 'and Tuesday, when it comes, isn’t kept by Monday’s reading');
   await ahead.ctx.close();
+  }
 
   // A chapter split over two days: after the first day, the reader's "Mark it read in its lesson" opens the second day.
   let split = null;

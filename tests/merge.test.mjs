@@ -3,7 +3,7 @@
 // one device did since must count once, never twice and never lost (review,
 // 2026-10-07). Then start-up: a week isn't filed twice, and old things that
 // only matter for a while are trimmed so the family's copy stays under its limit.
-import { check, device, setDay, state, wait } from './lib.mjs';
+import { check, note, device, setDay, state, wait, built } from './lib.mjs';
 
 export default async function merge({ port }) {
   const url = `http://127.0.0.1:${port}/index.html`;
@@ -55,6 +55,8 @@ export default async function merge({ port }) {
   check(!('picked' in s.history[0].rec.answers.q0) && 'picked' in s.history[s.history.length - 1].rec.answers.q11, 'weeks past the last 8 keep whether he was right, not what he picked; the last 8 keep both');
   check(!s.impressions.gone1 && !!s.impressions.gone2, 'a deleted note’s mark goes after 60 days, not before');
   // A chapter half read in a past week (part 1 paid 25), read later from the Scriptures tab: it pays the other 25, not 50.
+  if (!built) note('NOTE', 'the chapters aren’t built here (the deploy builds them): the Scriptures tab check is skipped');
+  else {
   await d.page.evaluate(() => {
     const S = JSON.parse(localStorage.getItem('treasureup.v1'));
     S.history.push({ title: 'A past week', num: 1, right: 0, answered: 0, read: 0, rec: { answers: {}, bonus: {}, deep: {}, read: [], parts: { 'Genesis 1': 25 } } });
@@ -70,6 +72,7 @@ export default async function merge({ port }) {
   if (await d.page.locator('[data-lib-readyes]').count()) { await d.page.click('[data-lib-readyes]'); await wait(300); }
   const x1 = (await state(d.page)).xp || 0;
   check(x1 - x0 === 25, `Genesis 1, half read in a past week, read from the Scriptures tab pays the rest: +${x1 - x0} (want +25)`);
+  }
   check(!d.page.errors.length, 'no page errors' + (d.page.errors.length ? ': ' + d.page.errors.join(' | ') : ''));
   await d.ctx.close();
 }
