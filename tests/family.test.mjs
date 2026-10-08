@@ -4,7 +4,7 @@
 // doesn't restart the other in the middle of Be still; chat, a prize and a
 // finished goal go end to end, the goal's XP paid once.
 // Runs under the emulators: cd tests && npm run test:family
-import { check, device, state, study, txt, wait, loadsDuring } from './lib.mjs';
+import { check, device, state, study, txt, wait, loadsDuring, reopen } from './lib.mjs';
 
 const NS = 'treasureup-test.';
 const fam = dev => dev.page.evaluate(ns => JSON.parse(localStorage.getItem(ns + 'family') || 'null'), NS);
@@ -117,6 +117,19 @@ export default async function family({ port }) {
   await K2.page.reload(); await wait(5000);
   const o1 = Object.values(((await state(K1.page)).shop || {}).orders || {}), o2 = Object.values(((await state(K2.page)).shop || {}).orders || {});
   check(o1.length === 1 && o1[0].status === 'approved' && o2.length === 1 && o2[0].status === 'approved', `both of Sam’s devices hear Dad said yes (${o1.map(o => o.status)} / ${o2.map(o => o.status)})`);
+
+  // A prize asked with no connection, and the app closed before it came back: asked again on opening.
+  await K1.ctx.setOffline(true);
+  await K1.page.click('#levelBtn'); await wait(600);
+  await K1.page.locator('[data-buy]').first().click(); await wait(300); await K1.page.locator('[data-buy-yes]').first().click(); await wait(1500);
+  const asked = Object.keys(((await state(K1.page)).shop || {}).orders || {}).length;
+  const errsBefore = K1.page.errors.slice();
+  await reopen(K1, url, () => K1.ctx.setOffline(false)); await wait(6000);   // closed while still offline: its write never left
+  K1.page.errors.push(...errsBefore);
+  await openHub(P);
+  const waiting = await P.page.locator('#parentBody .req-row', { hasText: 'asked' }).count();
+  check(asked === 2 && waiting === 1, `a prize asked offline, the app closed and opened again: Dad sees it (${waiting} waiting)`);
+  await P.page.click('#parentClose').catch(() => {});
 
   // A finished goal: Sam asks, Dad picks 1,000 XP, paid once on both devices.
   await K1.page.evaluate(ns => {

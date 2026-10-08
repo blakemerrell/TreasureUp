@@ -108,6 +108,16 @@ export async function device(name, { url, day = null, emulators = false, files =
   await page.goto(url); await wait(1500);
   return { name, ctx, page };
 }
+// The app closed and opened again on the same device (its storage kept).
+export async function reopen(dev, url, between) {
+  await dev.page.close();
+  if (between) await between();
+  const page = await dev.ctx.newPage();
+  page.errors = [];
+  page.on('pageerror', e => { page.errors.push(e.message); note('ERR', `[${dev.name}] ${e.message}`); });
+  await page.goto(url); await wait(1500);
+  dev.page = page;
+}
 export async function setDay(dev, day) {
   await dev.page.evaluate(d => (d ? localStorage.setItem('fakeNow', d) : localStorage.removeItem('fakeNow')), day);
   await dev.page.reload(); await wait(1800);
