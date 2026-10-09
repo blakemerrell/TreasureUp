@@ -49,14 +49,14 @@ export default async function smoke({ port }) {
   await p.click('[data-bom-sheet-mark]'); await wait(400);
   check((await txt(p, '#home')).includes('📜 Book of Mormon'), 'Book of Mormon marked read');
 
-  // The Way: Evening Accounting
+  // The Way: Evening Accounting (Return & Report)
   check(await p.locator('[data-open-evening]').count() > 0, 'Evening Accounting card renders');
   await p.click('[data-open-evening]'); await wait(400);
-  check(/Evening (Accounting|Review)/i.test(await txt(p, '#appBody')), 'Evening Accounting sheet opens');
+  check(/Evening (Accounting|Review|Reflection)|Return & Report/i.test(await txt(p, '#appBody')), 'Evening Accounting sheet opens');
   await p.fill('#evMercies', 'Felt peace during our morning study');
   await p.click('[data-ev-save]'); await wait(400);
   const cardTxt = await txt(p, '.evening-card');
-  check(/Evening Report Completed/i.test(cardTxt), 'Evening Accounting saved and reports back');
+  check(/(Evening Report Completed|Return & Report Completed)/i.test(cardTxt), 'Evening Accounting saved and reports back');
 
   await p.click('#stillBtn'); await wait(400);
   check(!(await p.$eval('#stillLayer', e => e.hidden)), 'Be still opens');

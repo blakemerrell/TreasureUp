@@ -1882,20 +1882,44 @@
   .fl-pick { flex: 0 0 auto; padding: 6px 4px; font: inherit; font-size: 12px; font-weight: 800; color: var(--gold); background: none; border: 0; cursor: pointer; }
   .fl-list .more { margin-top: 0; border-bottom: 1px solid rgba(255,255,255,.08); } .fl-list .more summary { padding: 12px 2px; }
   .fl-list .more summary > span:first-child { font-size: 15.5px; font-weight: 700; color: rgba(255,255,255,.75); }
-  /* The day's path (2026-10-07): its steps under the button, and the path's own steps in the lesson. */
-  .pth { list-style: none; margin: 8px 0 0; padding: 0; }
-  .pth li { display: flex; align-items: center; gap: 12px; padding: 10px 2px; border-bottom: 1px solid rgba(255,255,255,.08); }
-  .pth-dot { flex: 0 0 22px; height: 22px; border-radius: 999px; border: 2px solid rgba(255,255,255,.3); display: grid; place-items: center; font-size: 12px; font-weight: 900; }
-  .pth li.ok .pth-dot, .pth-row.ok .pth-dot { background: var(--right); border-color: var(--right); color: #052e16; }
-  .pth li.next .pth-dot { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(252,211,77,.22); }
+  /* The Daily Walk (Micah 6:8 · "Walk humbly with thy God") */
+  .daily-walk { position: relative; margin: 12px 0 16px; }
+  .walk-header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin: 6px 2px 10px; padding-bottom: 6px; border-bottom: 1.5px solid rgba(255,255,255,.08); }
+  .walk-badge { font-size: 13px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 6px; }
+  .daily-walk.kids .walk-badge { color: #67e8f9; }
+  .walk-scripture { font-size: 11.5px; font-weight: 700; color: rgba(255,255,255,.45); }
+  .walk-motto { font-size: 12px; font-style: italic; color: rgba(255,255,255,.55); }
+  .pth { list-style: none; margin: 4px 0 0; padding: 0; position: relative; }
+  .pth::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    left: 11px;
+    width: 2px;
+    background: linear-gradient(to bottom, rgba(252,211,77,.35), rgba(74,222,128,.35));
+    border-radius: 2px;
+    z-index: 0;
+  }
+  .daily-walk.kids .pth::before {
+    width: 3px;
+    left: 10.5px;
+    background: repeating-linear-gradient(to bottom, #06b6d4 0, #06b6d4 6px, transparent 6px, transparent 12px);
+    opacity: .75;
+  }
+  .pth li { position: relative; z-index: 1; display: flex; align-items: center; gap: 12px; padding: 0; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .pth-dot { flex: 0 0 22px; height: 22px; border-radius: 999px; border: 2px solid rgba(255,255,255,.3); background: #131226; display: grid; place-items: center; font-size: 12px; font-weight: 900; transition: all .2s; }
+  .daily-walk.kids .pth-dot { border-color: rgba(6,182,212,.55); background: #0c1829; }
+  .pth li.ok .pth-dot, .pth-row.ok .pth-dot { background: var(--right); border-color: var(--right); color: #052e16; box-shadow: 0 0 8px rgba(74,222,128,.4); }
+  .pth li.next .pth-dot { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(252,211,77,.25), 0 0 10px rgba(252,211,77,.4); }
+  .daily-walk.kids .pth li.next .pth-dot { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,.3), 0 0 10px rgba(56,189,248,.5); }
   .pth-t { flex: 1; min-width: 0; font-size: 15px; font-weight: 700; line-height: 1.3; }
   .pth-t b { display: block; font-weight: 700; } .pth-t small { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.55); }
   .pth li.ok .pth-t b, .pth-row.ok .pth-t b { color: rgba(255,255,255,.6); }
   .pth em { flex: 0 0 auto; font-style: normal; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.45); }
-  /* Every row a tap (2026-10-07), with its XP; a goal step a box to tick */
-  .pth li { padding: 0; }
   .pth-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 2px; font: inherit; color: inherit; text-align: left; background: none; border: 0; cursor: pointer; }
   .pth-dot.box { border-radius: 7px; border-color: rgba(134,239,172,.6); }
+  .daily-walk.kids .pth-dot.box { border-color: rgba(56,189,248,.7); }
   .pth .pth-xp { text-align: right; font-size: 12.5px; font-weight: 900; color: var(--gold); white-space: nowrap; }
   .pth .pth-xp small { display: block; font-size: 10.5px; font-weight: 700; color: rgba(255,255,255,.45); }
   .pth .pth-xp.ok { color: var(--right); }
@@ -3719,8 +3743,8 @@ const TreasureUp = (function () {
     const gratefulHad = gratefulOf(k), grItems = gratefulHad ? (gratefulHad[1].items || []) : (bp.gratitude || []);
     const grText = grItems.slice(0, 3).join('\n');
 
-    return `<div class="sh-title">${kid ? '🌟 My Growth Blueprint' : '🌅 Morning Blueprint'}</div>
-      <p class="sh-small">${kid ? 'Luke 2:52 · Grow in wisdom, stature, and favor with God' : 'Alma 37:37 · Counsel with the Lord in all thy doings'}</p>
+    return `<div class="sh-title">${kid ? '🌟 Morning Council · Walk with Him' : '🌅 Morning Council'}</div>
+      <p class="sh-small">${kid ? 'Alma 37:37 & Luke 2:52 · Counsel with Heavenly Father' : 'Alma 37:37 · Counsel with the Lord in all thy doings'}</p>
       
       <div class="bp-sheet-wrap">
         <!-- 1. The One Thing (Top Priority) -->
@@ -3758,7 +3782,7 @@ const TreasureUp = (function () {
 
       <div class="sea-imp-bar" style="margin-top:16px">
         ${kid ? `<button type="button" class="sh-pill${bpShare ? ' on' : ''}" data-bp-share>${bpShare ? '👀 Share with my parents' : '🔒 Just me'}</button>` : '<span class="sh-small">🔒 Just yours</span>'}
-        <button type="button" class="btn" style="background:var(--gold);color:#1c1406;font-weight:900" data-bp-save>Save Blueprint (+15 XP)</button>
+        <button type="button" class="btn" style="background:var(--gold);color:#1c1406;font-weight:900" data-bp-save>Save Morning Council (+15 XP)</button>
       </div>
 
       <div style="text-align:center;margin-top:14px">
@@ -3798,7 +3822,7 @@ const TreasureUp = (function () {
     });
     closeSheet();
     refreshHome();
-    toast('🌅 Blueprint Created', oneThing ? '“' + oneThing.slice(0, 35) + '…”' : 'Walk with Him today');
+    toast('🌅 Morning Council Set', oneThing ? '“' + oneThing.slice(0, 35) + '…”' : 'Walk with Him today');
   }
 
   // Evening Accounting (Elder Bednar: Report Back · Alma 34:38)
@@ -3834,12 +3858,12 @@ const TreasureUp = (function () {
     const bpHad = blueprintOf(k), bp = bpHad ? bpHad[1] : null;
     const isDoneOne = bp && bp.done && bp.done.oneThing;
     const isDoneUplift = bp && bp.done && bp.done.uplift;
-    return `<div class="sh-title">🌙 ${kid ? 'Evening Review · Report Back' : 'Evening Accounting · Report to Heavenly Father'}</div>
-      <p class="sh-small">“In the evening, we kneel and report back on the blueprint—giving thanks, accounting for our efforts, and receiving counsel.” (Elder David A. Bednar)</p>
+    return `<div class="sh-title">🌙 ${kid ? 'Return & Report · Evening Reflection' : 'Return & Report · Report to Heavenly Father'}</div>
+      <p class="sh-small">“In the evening, we kneel and return and report on our council with Him—giving thanks, accounting for our efforts, and receiving counsel.” (Elder David A. Bednar)</p>
 
       ${bp && (bp.oneThing || bp.uplift) ? `
         <div class="sheet-group" style="padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)">
-          <label style="color:#c4b5fd">Today’s Blueprint Review</label>
+          <label style="color:#c4b5fd">Today’s Morning Council Commitments</label>
           <div class="bp-items" style="margin-top:6px">
             ${bp.oneThing ? `
               <button type="button" class="bp-check-item${isDoneOne ? ' done' : ''}" data-bp-check="oneThing" role="checkbox" aria-checked="${!!isDoneOne}">
@@ -3879,7 +3903,7 @@ const TreasureUp = (function () {
 
       <div class="sea-imp-bar" style="margin-top:16px">
         ${kid ? `<button type="button" class="sh-pill${evShare ? ' on' : ''}" data-ev-share>${evShare ? '👀 Share with my parents' : '🔒 Just me'}</button>` : '<span class="sh-small">🔒 Just yours</span>'}
-        <button type="button" class="btn" style="background:linear-gradient(135deg,#a78bfa,#818cf8);color:#1e1b4b;font-weight:900" data-ev-save>Close Day in Prayer (+20 XP)</button>
+        <button type="button" class="btn" style="background:linear-gradient(135deg,#a78bfa,#818cf8);color:#1e1b4b;font-weight:900" data-ev-save>Close Day in Prayer · Return & Report (+20 XP)</button>
       </div>`;
   }
 
@@ -3904,7 +3928,7 @@ const TreasureUp = (function () {
     });
     closeSheet();
     refreshHome();
-    toast('🌙 Day Reported Back', 'Sleep in His peace tonight');
+    toast('🌙 Returned & Reported', 'Sleep in His peace tonight');
   }
 
   function eveningCardHtml(k) {
@@ -3916,9 +3940,7 @@ const TreasureUp = (function () {
     const isDoneOne = bp && bp.done && bp.done.oneThing;
     const isDoneUplift = bp && bp.done && bp.done.uplift;
     const gr = bp && bp.gratitude && bp.gratitude.length ? bp.gratitude : [];
-    const steps = goalSteps();
-    const otherSteps = steps.filter(x => !bp || x.st.id !== bp.goalStepId);
-    const hasTodos = !!(bp && (bp.oneThing || bp.uplift)) || otherSteps.length > 0;
+    const hasTodos = !!(bp && (bp.oneThing || bp.uplift));
 
     const todosHtml = hasTodos ? `
       <div class="bp-items">
@@ -3938,14 +3960,6 @@ const TreasureUp = (function () {
               <b>${esc(bp.uplift)}</b>
             </div>
           </button>` : ''}
-        ${otherSteps.map(x => `
-          <button type="button" class="bp-check-item${x.on ? ' done' : ''}" data-tick="${esc(x.s.id)}|${esc(x.st.id)}" role="checkbox" aria-checked="${!!x.on}">
-            <span class="bp-check-box">${x.on ? '✓' : ''}</span>
-            <div class="bp-item-text">
-              <small>${areaOf(x.g.area).icon} ${areaOf(x.g.area).name} Goal · ${esc(x.sub)}</small>
-              <b>${esc(x.st.text)}</b>
-            </div>
-          </button>`).join('')}
       </div>` : '';
 
     const grHtml = gr.length ? `<div class="bp-gr-summary" style="margin:6px 0 10px">🙏 Morning Gratitude: ${esc(gr.join(' · '))}</div>` : '';
@@ -3953,29 +3967,29 @@ const TreasureUp = (function () {
     if (!ev || (!ev.mercies && !ev.wins && !ev.improve)) {
       return `<div class="evening-card${kid ? ' kids' : ''}">
         <div class="bp-head">
-          <span class="ev-badge">🌙 ${kid ? 'Evening Review · Report Back' : 'Evening Accounting · Report to Heavenly Father'}</span>
-          ${bp ? `<button type="button" class="bp-edit-btn" data-open-blueprint>Edit Blueprint ✎</button>` : ''}
+          <span class="ev-badge">🌙 ${kid ? 'Return & Report · Evening Reflection' : 'Return & Report · Report to Heavenly Father'}</span>
+          ${bp ? `<button type="button" class="bp-edit-btn" data-open-blueprint>Edit Morning Council ✎</button>` : ''}
         </div>
         ${hasTodos ? `
-          <div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:4px 0 6px">Today’s To-Do’s & Commitments:</div>
+          <div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:4px 0 6px">Today’s Morning Council Commitments:</div>
           ${todosHtml}
           ${grHtml}
         ` : ''}
         <div class="ev-quote">“Live in thanksgiving daily, for the many mercies and blessings…” <small>Alma 34:38</small></div>
-        <p class="ev-desc">${kid ? 'Tonight, talk with Heavenly Father about how your day went, notice His help, and get ready for tomorrow.' : 'Elder Bednar: In the evening, report back to Heavenly Father on your blueprint, notice His mercies, and review today’s wins and lessons.'}</p>
+        <p class="ev-desc">${kid ? 'Tonight, return and report to Heavenly Father: talk about how your day went, notice His help, and get ready for tomorrow.' : 'In the evening, return and report to Heavenly Father on your Morning Council, notice His mercies, and review today’s wins and lessons.'}</p>
         <div class="ev-actions">
-          <button type="button" class="ev-btn" data-open-evening>📝 Report Back & Review (+20 XP)</button>
+          <button type="button" class="ev-btn" data-open-evening>📝 Return & Report (+20 XP)</button>
         </div>
       </div>`;
     }
 
     return `<div class="evening-card${kid ? ' kids' : ''}">
       <div class="ev-head">
-        <span class="ev-badge" style="color:var(--right)">🌙 Evening Report Completed ✓</span>
+        <span class="ev-badge" style="color:var(--right)">🌙 Return & Report Completed ✓</span>
         <button type="button" class="bp-edit-btn" data-open-evening>Review ✎</button>
       </div>
       ${hasTodos ? `
-        <div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:4px 0 6px">Today’s To-Do’s & Commitments:</div>
+        <div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:4px 0 6px">Today’s Morning Council Commitments:</div>
         ${todosHtml}
         ${grHtml}
       ` : ''}
@@ -7585,7 +7599,7 @@ const TreasureUp = (function () {
     if (r.kind === 'part') return r.p.of > 1 ? r.p.key : 'Read ' + r.p.u.ref;
     if (r.kind === 'reels') return r.reels.length === 1 ? r.reels[0].hook : r.reels.length + ' reels';
     if (r.kind === 'goal') return '🌱 ' + r.x.st.text;
-    if (r.kind === 'blueprint') return seasonWho() !== 'adult' ? '🌟 Morning Growth Blueprint' : '🌅 Morning Blueprint';
+    if (r.kind === 'blueprint') return seasonWho() !== 'adult' ? '🌟 Morning Council' : '🌅 Morning Council';
     return { cfm: 'Come Follow Me', bom: '📜 Book of Mormon', gc: 'Conference', thanks: 'Grateful for…', still: '🕊️ Be still' }[r.kind];
   }
   function pathRowSub(r) {
@@ -7604,7 +7618,7 @@ const TreasureUp = (function () {
         if (bp.uplift) parts.push('🤝 ' + bp.uplift);
         return parts.join(' · ');
       }
-      return seasonWho() !== 'adult' ? 'Luke 2:52 · Set today’s focus & someone to lift' : 'Alma 37:37 · Counsel with the Lord · Set today’s focus';
+      return seasonWho() !== 'adult' ? 'Alma 37:37 & Luke 2:52 · Counsel with Heavenly Father' : 'Alma 37:37 · Counsel with the Lord · Set today’s focus';
     }
     const had = r.k && gratefulOf(r.k);
     return had ? (had[1].items || []).join(' · ') : gratefulPrompt(dayKey()).q;
@@ -7658,9 +7672,18 @@ const TreasureUp = (function () {
   }
   function pathListHtml(rows, c) {
     const next = rows.findIndex(r => !r.done && !r.own);
-    return `<ul class="pth">${rows.map((r, i) => `<li class="${r.done ? 'ok' : i === next ? 'next' : ''}"><button type="button" class="pth-btn" ${pathRowAttr(r, c)}>
-      <span class="pth-dot${r.kind === 'goal' ? ' box' : ''}">${r.done ? '✓' : ''}</span><span class="pth-t"><b>${esc(pathRowTitle(r))}</b><small>${esc(pathRowSub(r))}</small></span>
-      ${pathRowXp(r)}${r.kind === 'goal' ? '' : '<span class="pth-go">›</span>'}</button></li>`).join('')}</ul>`;
+    const kid = seasonWho() !== 'adult', name = whoName();
+    const walkTitle = c.isToday ? (kid ? esc(name) + '’s Daily Walk' : 'The Daily Walk') : (DAY_NAMES[c.d] + '’s Path');
+    const walkMotto = c.isToday ? '“Walk humbly with thy God”' : 'Micah 6:8';
+    return `<div class="daily-walk${kid ? ' kids' : ''}">
+      <div class="walk-header">
+        <div class="walk-badge">🚶 ${walkTitle} · <span class="walk-scripture">Micah 6:8</span></div>
+        <div class="walk-motto">${walkMotto}</div>
+      </div>
+      <ul class="pth">${rows.map((r, i) => `<li class="${r.done ? 'ok' : i === next ? 'next' : ''}"><button type="button" class="pth-btn" ${pathRowAttr(r, c)}>
+        <span class="pth-dot${r.kind === 'goal' ? ' box' : ''}">${r.done ? '✓' : ''}</span><span class="pth-t"><b>${esc(pathRowTitle(r))}</b><small>${esc(pathRowSub(r))}</small></span>
+        ${pathRowXp(r)}${r.kind === 'goal' ? '' : '<span class="pth-go">›</span>'}</button></li>`).join('')}</ul>
+    </div>`;
   }
   // Earlier days this week with part of their path left (reading, questions, lesson part).
   const behindDays = () => [0, 1, 2, 3, 4, 5].filter(d => d < todayIndex() && pathLeft(dayPath(d, null)).length);
