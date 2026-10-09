@@ -1664,11 +1664,20 @@
   .bp-power-link { display: inline-flex; align-items: center; gap: 5px; font: inherit; font-size: 13px; font-weight: 700; color: rgba(255,255,255,.6); background: none; border: 0; cursor: pointer; padding: 8px 12px; border-radius: 8px; transition: color .15s ease; }
   .bp-power-link:hover { color: #fff; background: rgba(255,255,255,.06); }
 
-  /* Evening Accounting Card (Report Back to Heavenly Father · Alma 34:38) */
+  /* Goal Achievements & Growth Section (Blake, 2026-10-09) */
+  .goals-section { position: relative; border-radius: 18px; padding: 12px 14px; margin: 12px 0 14px; background: rgba(255,255,255,.03); border: 1.5px solid rgba(255,255,255,.09); }
+  .goals-section.kids { background: linear-gradient(135deg, rgba(6,182,212,.08), rgba(59,130,246,.03)); border-color: rgba(6,182,212,.28); }
+  .goals-header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .goals-badge { font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #a7f3d0; display: flex; align-items: center; gap: 6px; }
+  .goals-section.kids .goals-badge { color: #67e8f9; }
+  .goals-sub { font-size: 11px; font-weight: 700; color: rgba(255,255,255,.45); }
+  .goals-list { display: flex; flex-direction: column; gap: 6px; }
+  .goal-row-wrap { border-radius: 10px; padding: 0 4px; background: rgba(0,0,0,.22); border: 1px solid rgba(255,255,255,.06); }
+  .goal-row-wrap .pth-btn { padding: 8px 4px; }
+
+  /* Return & Report Evening Card (Alma 34:38) */
   .evening-card { position: relative; border-radius: 18px; padding: 14px 16px; margin: 12px 0 14px; background: linear-gradient(135deg, rgba(99,102,241,.12), rgba(139,92,246,.04)); border: 1.5px solid rgba(167,139,250,.3); box-shadow: 0 4px 16px rgba(0,0,0,.25); }
   .evening-card.kids { background: linear-gradient(135deg, rgba(234,179,8,.1), rgba(168,85,247,.08)); border-color: rgba(234,179,8,.35); }
-  .evening-card .bp-items { margin: 6px 0 8px; }
-  .evening-card .bp-check-item { background: rgba(0,0,0,.35); border-color: rgba(255,255,255,.1); }
   .ev-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #c4b5fd; }
   .ev-quote { margin: 6px 0 4px; font-family: Georgia, serif; font-size: 13.5px; line-height: 1.4; color: rgba(255,255,255,.9); font-style: italic; }
   .ev-quote small { font-style: normal; font-size: 11px; font-weight: 700; color: rgba(255,255,255,.55); margin-left: 6px; }
@@ -3332,15 +3341,22 @@ const TreasureUp = (function () {
     }
     if (familyOf(WEEK) && (d === 0 || !isShortDone('family:' + WEEK.title))) extra.push(familyRowHtml(WEEK));
     const tag = isToday ? '' : keptDay(k) ? '✓ Kept' : k > today ? 'Coming up' : '';
+    const isGoalOrThanks = r => r.kind === 'goal' || r.kind === 'thanks';
+    const primaryRows = rows.filter(r => !isGoalOrThanks(r));
+    const goalRows = rows.filter(r => isGoalOrThanks(r));
+    const keepGoing = moreHtml(d);
+    const extraHtml = (extra.length || keepGoing) ? `<div class="fl-list">${extra.join('')}${keepGoing}</div>` : '';
+
     return `<div class="flow">
       ${isToday ? greetingHtml() : ''}
       <div class="fl-date"><b>${DAY_NAMES[d]} · ${esc(shortDay(k))}</b><small>${rows.length ? n + ' of ' + rows.length + ' done' : ''}${tag ? (rows.length ? ' · ' : '') + tag : ''}</small></div>
       ${isToday ? studyModeToggleHtml() : ''}
       ${isToday ? verseHeroHtml() : ''}
       ${button}
-      ${rows.length ? pathListHtml(rows, { d, at, isToday }) : ''}
+      ${primaryRows.length ? pathListHtml(primaryRows, { d, at, isToday }) : ''}
+      ${extraHtml}
+      ${isToday ? goalsSectionHtml(k, goalRows, { d, at, isToday }) : ''}
       ${isToday ? eveningCardHtml(k) : ''}
-      <div class="fl-list">${extra.join('')}${moreHtml(d)}</div>
     </div>`;
   }
 
@@ -3855,35 +3871,8 @@ const TreasureUp = (function () {
 
   function eveningSheetHtml() {
     const k = dayKey(), had = eveningOf(k), ev = had ? had[1] : {}, kid = seasonWho() !== 'adult';
-    const bpHad = blueprintOf(k), bp = bpHad ? bpHad[1] : null;
-    const isDoneOne = bp && bp.done && bp.done.oneThing;
-    const isDoneUplift = bp && bp.done && bp.done.uplift;
-    return `<div class="sh-title">🌙 ${kid ? 'Return & Report · Evening Reflection' : 'Return & Report · Report to Heavenly Father'}</div>
-      <p class="sh-small">“In the evening, we kneel and return and report on our council with Him—giving thanks, accounting for our efforts, and receiving counsel.” (Elder David A. Bednar)</p>
-
-      ${bp && (bp.oneThing || bp.uplift) ? `
-        <div class="sheet-group" style="padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)">
-          <label style="color:#c4b5fd">Today’s Morning Council Commitments</label>
-          <div class="bp-items" style="margin-top:6px">
-            ${bp.oneThing ? `
-              <button type="button" class="bp-check-item${isDoneOne ? ' done' : ''}" data-bp-check="oneThing" role="checkbox" aria-checked="${!!isDoneOne}">
-                <span class="bp-check-box">${isDoneOne ? '✓' : ''}</span>
-                <div class="bp-item-text">
-                  <small>${kid ? (bp.goalStepId && bp.youthArea ? areaOf(bp.youthArea).icon + ' ' + areaOf(bp.youthArea).name + ' Growth' : 'Growth Focus') : '⭐ The One Thing'}${bp.goalStepId ? ' · Season Goal 🎯' : ''}</small>
-                  <b>${esc(bp.oneThing)}</b>
-                </div>
-              </button>` : ''}
-            ${bp.uplift ? `
-              <button type="button" class="bp-check-item${isDoneUplift ? ' done' : ''}" data-bp-check="uplift" role="checkbox" aria-checked="${!!isDoneUplift}">
-                <span class="bp-check-box">${isDoneUplift ? '✓' : ''}</span>
-                <div class="bp-item-text">
-                  <small>🤝 Someone to Uplift</small>
-                  <b>${esc(bp.uplift)}</b>
-                </div>
-              </button>` : ''}
-          </div>
-        </div>
-      ` : ''}
+    return `<div class="sh-title">🌙 Return & Report</div>
+      <p class="sh-small">“In the evening, we kneel and return and report to Heavenly Father—giving thanks, accounting for our efforts, and receiving counsel.” (Elder David A. Bednar)</p>
 
       <div class="sheet-group">
         <label>✨ Noticing His Mercies (Alma 34:38)</label>
@@ -3931,19 +3920,19 @@ const TreasureUp = (function () {
     toast('🌙 Returned & Reported', 'Sleep in His peace tonight');
   }
 
-  function eveningCardHtml(k) {
-    const had = eveningOf(k), ev = had ? had[1] : null;
+  function goalsSectionHtml(k, goalRows, c) {
     const bpHad = blueprintOf(k), bp = bpHad ? bpHad[1] : null, kid = seasonWho() !== 'adult';
-    const isEve = new Date().getHours() >= 17 || !!had || !!bp;
-    if (!isEve) return '';
-
     const isDoneOne = bp && bp.done && bp.done.oneThing;
     const isDoneUplift = bp && bp.done && bp.done.uplift;
-    const gr = bp && bp.gratitude && bp.gratitude.length ? bp.gratitude : [];
-    const hasTodos = !!(bp && (bp.oneThing || bp.uplift));
+    const hasBpTodos = !!(bp && (bp.oneThing || bp.uplift));
+    if (!hasBpTodos && !goalRows.length) return '';
 
-    const todosHtml = hasTodos ? `
-      <div class="bp-items">
+    return `<div class="goals-section${kid ? ' kids' : ''}">
+      <div class="goals-header">
+        <span class="goals-badge">🎯 ${kid ? 'My Growth & Goals' : 'Goal Achievements & Best Self'}</span>
+        <span class="goals-sub">${kid ? 'Daily Steps & Focus' : 'Daily Stewardship'}</span>
+      </div>
+      <div class="goals-list">
         ${bp && bp.oneThing ? `
           <button type="button" class="bp-check-item${isDoneOne ? ' done' : ''}" data-bp-check="oneThing" role="checkbox" aria-checked="${!!isDoneOne}">
             <span class="bp-check-box">${isDoneOne ? '✓' : ''}</span>
@@ -3960,23 +3949,32 @@ const TreasureUp = (function () {
               <b>${esc(bp.uplift)}</b>
             </div>
           </button>` : ''}
-      </div>` : '';
+        ${goalRows.map(r => `
+          <div class="goal-row-wrap">
+            <button type="button" class="pth-btn" ${pathRowAttr(r, c)}>
+              <span class="pth-dot${r.kind === 'goal' ? ' box' : ''}">${r.done ? '✓' : ''}</span>
+              <span class="pth-t"><b>${esc(pathRowTitle(r))}</b><small>${esc(pathRowSub(r))}</small></span>
+              ${pathRowXp(r)}
+            </button>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  }
 
-    const grHtml = gr.length ? `<div class="bp-gr-summary" style="margin:6px 0 10px">🙏 Morning Gratitude: ${esc(gr.join(' · '))}</div>` : '';
+  function eveningCardHtml(k) {
+    const had = eveningOf(k), ev = had ? had[1] : null;
+    const bpHad = blueprintOf(k), bp = bpHad ? bpHad[1] : null, kid = seasonWho() !== 'adult';
+    const isEve = new Date().getHours() >= 17 || !!had || !!bp;
+    if (!isEve) return '';
 
     if (!ev || (!ev.mercies && !ev.wins && !ev.improve)) {
       return `<div class="evening-card${kid ? ' kids' : ''}">
         <div class="bp-head">
-          <span class="ev-badge">🌙 ${kid ? 'Return & Report · Evening Reflection' : 'Return & Report · Report to Heavenly Father'}</span>
+          <span class="ev-badge">🌙 Return & Report</span>
           ${bp ? `<button type="button" class="bp-edit-btn" data-open-blueprint>Edit Morning Council ✎</button>` : ''}
         </div>
-        ${hasTodos ? `
-          <div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:4px 0 6px">Today’s Morning Council Commitments:</div>
-          ${todosHtml}
-          ${grHtml}
-        ` : ''}
         <div class="ev-quote">“Live in thanksgiving daily, for the many mercies and blessings…” <small>Alma 34:38</small></div>
-        <p class="ev-desc">${kid ? 'Tonight, return and report to Heavenly Father: talk about how your day went, notice His help, and get ready for tomorrow.' : 'In the evening, return and report to Heavenly Father on your Morning Council, notice His mercies, and review today’s wins and lessons.'}</p>
+        <p class="ev-desc">${kid ? 'Tonight, return and report to Heavenly Father: talk about how your day went, notice His help, and prepare for tomorrow.' : 'In the evening, return and report to Heavenly Father: notice His mercies, review today’s wins, and record lessons for tomorrow.'}</p>
         <div class="ev-actions">
           <button type="button" class="ev-btn" data-open-evening>📝 Return & Report (+20 XP)</button>
         </div>
@@ -3988,11 +3986,6 @@ const TreasureUp = (function () {
         <span class="ev-badge" style="color:var(--right)">🌙 Return & Report Completed ✓</span>
         <button type="button" class="bp-edit-btn" data-open-evening>Review ✎</button>
       </div>
-      ${hasTodos ? `
-        <div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.5);margin:4px 0 6px">Today’s Morning Council Commitments:</div>
-        ${todosHtml}
-        ${grHtml}
-      ` : ''}
       <div class="ev-summary-box">
         ${ev.mercies ? `<div class="ev-row"><small>✨ Mercies Noticed (Alma 34:38)</small><p>${esc(ev.mercies)}</p></div>` : ''}
         ${ev.wins ? `<div class="ev-row"><small>🏆 Wins & Victories</small><p>${esc(ev.wins)}</p></div>` : ''}

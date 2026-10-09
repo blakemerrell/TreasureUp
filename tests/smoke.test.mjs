@@ -38,9 +38,9 @@ export default async function smoke({ port }) {
   check(homeTxt.includes('Morning sunlight') && homeTxt.includes('Good health'), 'Morning gratitude items saved with Blueprint');
   check(!homeTxt.includes('Excess fourth line'), 'Gratitude capped at 3 items max');
   check(await p.locator('.flow > .blueprint-card').count() === 0, 'No blueprint box at the top of Today');
-  check(await p.locator('.evening-card .bp-check-item').count() >= 2, 'To-dos piped into Evening Review card at bottom');
-  await p.click('.evening-card [data-bp-check="oneThing"]'); await wait(300);
-  check(await p.locator('.evening-card .bp-check-item.done').count() > 0, 'To-do item checkoff works in Evening Review');
+  check(await p.locator('.goals-section .bp-check-item').count() >= 2, 'To-dos piped into Goal Achievements section');
+  await p.click('.goals-section [data-bp-check="oneThing"]'); await wait(300);
+  check(await p.locator('.goals-section .bp-check-item.done').count() > 0, 'To-do item checkoff works in Goal Achievements');
 
   // The Way: Book of Mormon Living Water Micro-Dose
   check(await p.locator('[data-bom-open]').count() > 0, 'Book of Mormon row renders in path');
@@ -52,11 +52,11 @@ export default async function smoke({ port }) {
   // The Way: Evening Accounting (Return & Report)
   check(await p.locator('[data-open-evening]').count() > 0, 'Evening Accounting card renders');
   await p.click('[data-open-evening]'); await wait(400);
-  check(/Evening (Accounting|Review|Reflection)|Return & Report/i.test(await txt(p, '#appBody')), 'Evening Accounting sheet opens');
+  check(/Return & Report/i.test(await txt(p, '#appBody')), 'Evening Accounting sheet opens');
   await p.fill('#evMercies', 'Felt peace during our morning study');
   await p.click('[data-ev-save]'); await wait(400);
   const cardTxt = await txt(p, '.evening-card');
-  check(/(Evening Report Completed|Return & Report Completed)/i.test(cardTxt), 'Evening Accounting saved and reports back');
+  check(/Return & Report Completed/i.test(cardTxt), 'Evening Accounting saved and reports back');
 
   await p.click('#stillBtn'); await wait(400);
   check(!(await p.$eval('#stillLayer', e => e.hidden)), 'Be still opens');
