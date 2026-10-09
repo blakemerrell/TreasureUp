@@ -26,8 +26,17 @@ export default async function smoke({ port }) {
   check(!(await p.$eval('#appSheet', e => e.hidden)), 'Morning Blueprint sheet opens');
   await p.fill('#bpOneThing', 'Be patient and listen to Javan');
   await p.fill('#bpUplift', 'Send an encouraging note to Chantel');
+  await p.fill('#bpGratitude', '- Morning sunlight\n- Peaceful prayer\n- Good health\n- Excess fourth line');
+  if (await p.locator('[data-bp-share]').count() > 0) {
+    await p.click('[data-bp-share]'); await wait(200);
+    const typed = await p.$eval('#bpOneThing', e => e.value);
+    check(typed === 'Be patient and listen to Javan', 'Toggling share preserves typed input in place');
+  }
   await p.click('[data-bp-save]'); await wait(400);
-  check((await txt(p, '#home')).includes('Be patient and listen to Javan'), 'Blueprint saved and renders on Today');
+  const homeTxt = await txt(p, '#home');
+  check(homeTxt.includes('Be patient and listen to Javan'), 'Blueprint saved and renders on Today');
+  check(homeTxt.includes('Morning sunlight') && homeTxt.includes('Good health'), 'Morning gratitude items saved with Blueprint');
+  check(!homeTxt.includes('Excess fourth line'), 'Gratitude capped at 3 items max');
   await p.click('[data-bp-check="oneThing"]'); await wait(300);
   check(await p.locator('.bp-check-item.done').count() > 0, 'Blueprint item checkoff works');
 
@@ -62,6 +71,22 @@ export default async function smoke({ port }) {
   check((await txt(p, '#appBody')).includes('Your Superpower & Focus'), 'Growth Coach superpower step opens');
   await p.click('[data-coach-finish]'); await wait(400);
   check(await p.$eval('#appSheet', e => e.hidden), 'Growth Profile saved and sheet closes');
+
+  // Verify Coach Suggestions in Discover tab
+  await p.click('#tabs [data-tab="season"]'); await wait(400);
+  if (await p.locator('[data-season="discover"]').count() > 0) {
+    await p.click('[data-season="discover"]'); await wait(400);
+    await p.click('[data-season-area="spiritual"]'); await wait(300);
+    const discTxt = await txt(p, '#appBody');
+    check(/Coach Suggestions/i.test(discTxt), 'Coach suggestions render in Discover');
+    check(!discTxt.includes('1 times a week'), 'Coach suggestions use proper frequency phrasing (not 1 times a week)');
+    const cip = p.locator('[data-coach-idea-pick]').first();
+    if (await cip.count() > 0) {
+      await cip.click(); await wait(300);
+      check((await txt(p, '#appBody')).includes('Plan'), 'Picking Coach suggestion opens Plan draft');
+    }
+    await p.click('[data-season="home"]'); await wait(300);
+  }
   check(!p.errors.length, 'no page errors in the app' + (p.errors.length ? ': ' + p.errors.join(' | ') : ''));
   await dev.ctx.close();
 

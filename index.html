@@ -1644,12 +1644,6 @@
   .bp-check-item.done .bp-item-text b { text-decoration: line-through; opacity: .6; }
   .bp-gr-summary { margin-top: 6px; font-size: 12px; color: rgba(255,255,255,.7); padding: 4px 8px; border-radius: 8px; background: rgba(255,255,255,.05); }
 
-  /* Compact Morning Routine Card on Today */
-  .blueprint-card.compact { padding: 10px 14px; margin: 4px 0 10px; }
-  .bp-compact-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-  .bp-compact-text { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-  .bp-compact-title { font-size: 13.5px; font-weight: 700; color: #fff; }
-
   /* Redesigned Clean Morning Blueprint Sheet */
   .bp-sheet-wrap { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
   .bp-sec { border-radius: 14px; padding: 12px 14px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-left-width: 3.5px; transition: border-color .15s ease; }
@@ -1661,13 +1655,13 @@
   .bp-sec-priority .bp-sec-title { color: #fde68a; }
   .bp-sec-uplift .bp-sec-title { color: #bae6fd; }
   .bp-sec-gratitude .bp-sec-title { color: #fbcfe8; }
-  .bp-textarea { width: 100%; box-sizing: border-box; font-family: inherit; font-size: 15.5px; line-height: 1.45; padding: 9px 12px; border-radius: 10px; background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.14); color: #fff; resize: none; overflow: hidden; min-height: 48px; transition: border-color .15s ease, background .15s ease; }
+  .bp-textarea { width: 100%; box-sizing: border-box; font-family: inherit; font-size: 16px; line-height: 1.45; padding: 10px 12px; border-radius: 10px; background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.14); color: #fff; resize: none; overflow: hidden; min-height: 48px; transition: border-color .15s ease, background .15s ease; }
   .bp-textarea:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,.55); }
-  .bp-textarea.sm { min-height: 40px; font-size: 14.5px; }
-  .bp-quick-pills { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 7px; }
-  .bp-quick-pill { font: inherit; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: rgba(255,255,255,.07); color: rgba(255,255,255,.75); border: 1px solid rgba(255,255,255,.12); cursor: pointer; transition: all .15s ease; }
-  .bp-quick-pill:hover { background: rgba(255,255,255,.15); color: #fff; border-color: rgba(255,255,255,.25); }
-  .bp-power-link { display: inline-flex; align-items: center; gap: 5px; font: inherit; font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,.6); background: none; border: 0; cursor: pointer; padding: 6px 10px; border-radius: 8px; transition: color .15s ease; }
+  .bp-textarea.sm { min-height: 42px; font-size: 16px; }
+  .bp-quick-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .bp-quick-pill { font: inherit; font-size: 12.5px; font-weight: 700; padding: 6px 12px; min-height: 34px; border-radius: 999px; background: rgba(255,255,255,.07); color: rgba(255,255,255,.8); border: 1px solid rgba(255,255,255,.15); cursor: pointer; transition: background .15s ease, border-color .15s ease; -webkit-tap-highlight-color: transparent; }
+  @media (hover: hover) { .bp-quick-pill:hover { background: rgba(255,255,255,.16); color: #fff; border-color: rgba(255,255,255,.3); } }
+  .bp-power-link { display: inline-flex; align-items: center; gap: 5px; font: inherit; font-size: 13px; font-weight: 700; color: rgba(255,255,255,.6); background: none; border: 0; cursor: pointer; padding: 8px 12px; border-radius: 8px; transition: color .15s ease; }
   .bp-power-link:hover { color: #fff; background: rgba(255,255,255,.06); }
 
   /* Evening Accounting Card (Report Back to Heavenly Father · Alma 34:38) */
@@ -3287,11 +3281,10 @@ const TreasureUp = (function () {
     if (rows.length && !next) button = isToday ? `<div class="fl-done"><b>✓ Today’s study: done</b><small>${esc(d < 5 ? 'Tomorrow: ' + dayName(d + 1) : 'Tomorrow: church, then a family game')}</small></div>`
       : at >= 0 ? `<button class="fl-next ahead" data-lesson="${d}.${at}"><b>▶ Practice it again</b><small>Already done: nothing new to earn</small></button>` : '';
     else if (next && (isToday || at >= 0)) {
-      // Today's study opens with Be still, then Morning Blueprint, then the lesson, until done.
+      // Today's study opens with Be still, then the lesson (Blake picked both: the first row, and the green button), until he's been still or passed it by today.
       const stillFirst = isToday && !stillOn(k) && !pathDoneOf(k).stillSkip && !started;
-      const bpFirst = isToday && !stillFirst && !blueprintOf(k) && !started;
-      button = `<button class="fl-next${k > today ? ' ahead' : ''}" ${stillFirst ? 'data-still-first' : bpFirst ? 'data-open-blueprint' : `data-lesson="${isToday ? '' : d + '.' + at}"`}><b>▶ ${esc(k > today ? 'Read ahead' : bpFirst ? 'Set Morning Blueprint' : started ? 'Pick up at ' + pathRowTitle(next) : isToday ? 'Today’s study' : 'Finish this day')}</b>
-      <small>${esc((stillFirst ? '🕊️ Be still, then ' : bpFirst ? '🌅 Counsel with the Lord, then ' : '') + (started ? n + ' of ' + rows.length + ' done · about ' + mins(pathLeft(rows)) + ' min left' : what + ' · about ' + mins(rows.filter(r => !r.own)) + ' min'))}</small></button>`;
+      button = `<button class="fl-next${k > today ? ' ahead' : ''}" ${stillFirst ? 'data-still-first' : `data-lesson="${isToday ? '' : d + '.' + at}"`}><b>▶ ${esc(k > today ? 'Read ahead' : started ? 'Pick up at ' + pathRowTitle(next) : isToday ? 'Today’s study' : 'Finish this day')}</b>
+      <small>${esc((stillFirst ? '🕊️ Be still, then ' : '') + (started ? n + ' of ' + rows.length + ' done · about ' + mins(pathLeft(rows)) + ' min left' : what + ' · about ' + mins(rows.filter(r => !r.own)) + ' min'))}</small></button>`;
     }
     const extra = [];
     if (isToday) {
@@ -3556,28 +3549,20 @@ const TreasureUp = (function () {
     return list;
   }
 
+  function fitTextarea(el) {
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = Math.max(el.scrollHeight, Number(el.dataset.minHeight || 44)) + 'px';
+  }
+
   function activeGoalChipsHtml() {
     const s = seasonNow(), rec = seasonRec(s.id), goals = activeGoals(rec);
     if (!goals.length) return '';
     return `<div class="bp-goal-chips"><small style="color:rgba(255,255,255,.5);display:block;width:100%;font-weight:800;letter-spacing:.04em;text-transform:uppercase">Your Active Season Goals:</small>
       ${goals.map(g => {
         const st = (g.steps && g.steps[0]) ? g.steps[0] : { id: g.id, text: g.text };
-        return `<button type="button" class="bp-goal-chip" data-bp-pick-goal="${esc(st.text)}" data-bp-sid="${esc(s.id)}" data-bp-step-id="${esc(st.id)}">${areaOf(g.area).icon} ${esc(st.text)}</button>`;
+        return `<button type="button" class="bp-goal-chip" data-bp-pick-goal="${esc(st.text)}" data-bp-sid="${esc(s.id)}" data-bp-step-id="${esc(st.id)}" data-bp-area="${esc(g.area || '')}">${areaOf(g.area).icon} ${esc(st.text)}</button>`;
       }).join('')}
-    </div>`;
-  }
-
-  let coachIdeasOpen = false;
-
-  function coachIdeaExpanderHtml(area) {
-    const ideas = coachSuggestedIdeas(area).slice(0, 4);
-    if (!ideas.length) return '';
-    return `<div style="margin:8px 0 10px">
-      <button type="button" class="bp-edit-btn" data-coach-toggle-ideas style="color:#38bdf8;font-size:12px;font-weight:800;padding:4px 0">💡 Need an idea? Tap for Coach Suggestions ▾</button>
-      <div id="coachIdeaBox" class="coach-ideas-box" style="display:${coachIdeasOpen ? 'block' : 'none'}">
-        <small style="color:#7dd3fc;display:block;margin-bottom:6px;font-weight:800;letter-spacing:.04em;text-transform:uppercase">Tailored to your interests:</small>
-        ${ideas.map(it => `<button type="button" class="coach-idea-btn" data-bp-pick-goal="${esc(it.step)}"><span>${it.icon}</span> <span><b>${esc(it.title)}</b> · <small style="color:rgba(255,255,255,.6)">${esc(it.step)}</small></span></button>`).join('')}
-      </div>
     </div>`;
   }
 
@@ -3720,10 +3705,9 @@ const TreasureUp = (function () {
   function blueprintSheetHtml() {
     const k = dayKey(), had = blueprintOf(k), bp = had ? had[1] : {}, kid = seasonWho() !== 'adult';
     const gratefulHad = gratefulOf(k), grItems = gratefulHad ? (gratefulHad[1].items || []) : (bp.gratitude || []);
-    const grText = grItems.join('\n');
-    const goals = activeGoals(seasonRec(seasonNow().id));
+    const grText = grItems.slice(0, 3).join('\n');
 
-    return `<div class="sh-title">${kid ? '🌟 Morning Growth Blueprint' : '🌅 Morning Counsel with the Lord'}</div>
+    return `<div class="sh-title">${kid ? '🌟 My Growth Blueprint' : '🌅 Morning Blueprint'}</div>
       <p class="sh-small">${kid ? 'Luke 2:52 · Grow in wisdom, stature, and favor with God' : 'Alma 37:37 · Counsel with the Lord in all thy doings'}</p>
       
       <div class="bp-sheet-wrap">
@@ -3732,8 +3716,8 @@ const TreasureUp = (function () {
           <div class="bp-sec-head">
             <span class="bp-sec-title">🎯 ${kid ? 'My Growth Focus Today' : 'Today’s One Thing'}</span>
           </div>
-          ${goals.length ? activeGoalChipsHtml() : ''}
-          <textarea class="bp-textarea" id="bpOneThing" rows="2" data-min-height="54" placeholder="${kid ? 'What goal or skill will I practice today?' : 'The single priority from the Lord today…'}">${esc(bp.oneThing || '')}</textarea>
+          ${activeGoalChipsHtml()}
+          <textarea class="field bp-textarea" id="bpOneThing" maxlength="200" rows="2" data-min-height="54" placeholder="${kid ? 'What goal or skill will I practice today?' : 'The single priority from the Lord today…'}">${esc(bp.oneThing || '')}</textarea>
           <input type="hidden" id="bpGoalSid" value="${esc(bp.goalSid || '')}">
           <input type="hidden" id="bpGoalStepId" value="${esc(bp.goalStepId || '')}">
         </div>
@@ -3748,7 +3732,7 @@ const TreasureUp = (function () {
                   : ['Chantel (my wife)', 'Javan', 'One of my kids', 'A team member', 'A neighbor']
             ).map(p => `<button type="button" class="bp-quick-pill" data-bp-pick-uplift="${esc(p)}">+ ${esc(p)}</button>`).join('')}
           </div>
-          <textarea class="bp-textarea sm" id="bpUplift" rows="1" data-min-height="40" placeholder="Who can I serve, encourage, text, or pray for?">${esc(bp.uplift || '')}</textarea>
+          <textarea class="field bp-textarea sm" id="bpUplift" maxlength="200" rows="1" data-min-height="42" placeholder="Who can I serve, encourage, text, or pray for?">${esc(bp.uplift || '')}</textarea>
         </div>
 
         <!-- 3. Morning Gratitude -->
@@ -3756,7 +3740,7 @@ const TreasureUp = (function () {
           <div class="bp-sec-head">
             <span class="bp-sec-title">🙏 Morning Gratitude</span>
           </div>
-          <textarea class="bp-textarea" id="bpGratitude" rows="2" data-min-height="54" placeholder="What are you grateful for this morning?">${esc(grText)}</textarea>
+          <textarea class="field bp-textarea" id="bpGratitude" maxlength="600" rows="2" data-min-height="54" placeholder="1–3 things you’re grateful for (one per line)…">${esc(grText)}</textarea>
         </div>
       </div>
 
@@ -3775,10 +3759,7 @@ const TreasureUp = (function () {
     bpShare = !!(had && had[1].share);
     bpYouthArea = (had && had[1].youthArea) || 'spiritual';
     openSheet(blueprintSheetHtml());
-    document.querySelectorAll('#appBody .bp-textarea').forEach(el => {
-      el.style.height = 'auto';
-      el.style.height = Math.max(el.scrollHeight, Number(el.dataset.minHeight || 44)) + 'px';
-    });
+    document.querySelectorAll('#appBody .bp-textarea').forEach(fitTextarea);
     const first = document.querySelector('#appBody #bpOneThing');
     if (first && !had) first.focus();
   }
@@ -3791,10 +3772,7 @@ const TreasureUp = (function () {
     let grList = [];
     if ($('bpGratitude')) {
       const raw = $('bpGratitude').value.trim();
-      if (raw) grList = raw.split(/\n+/).map(s => s.trim().replace(/^[-•*]\s*/, '')).filter(Boolean).map(s => s.slice(0, 200));
-    }
-    if (!grList.length) {
-      grList = [...document.querySelectorAll('#appBody .bp-gr-in')].map(i => i.value.trim()).filter(Boolean).map(t => t.slice(0, 200));
+      if (raw) grList = raw.split(/\n+/).map(s => s.trim().replace(/^[-•*]\s*/, '')).filter(Boolean).slice(0, 3).map(s => s.slice(0, 200));
     }
     if (!oneThing && !uplift && !grList.length) { closeSheet(); return; }
     storeBlueprint({
@@ -3806,9 +3784,6 @@ const TreasureUp = (function () {
       youthArea: bpYouthArea,
       share: bpShare
     });
-    if (grList.length && !gratefulOf(dayKey())) {
-      storeGrateful(grList, bpShare);
-    }
     closeSheet();
     refreshHome();
     toast('🌅 Blueprint Created', oneThing ? '“' + oneThing.slice(0, 35) + '…”' : 'Walk with Him today');
@@ -3821,17 +3796,7 @@ const TreasureUp = (function () {
     const title = kid ? '🌟 My Growth Blueprint' : '🌅 Morning Blueprint';
     const ref = kid ? 'Luke 2:52' : 'Alma 37:37';
 
-    if (!bp || (!bp.oneThing && !bp.uplift)) {
-      return `<div class="blueprint-card compact${kid ? ' kids' : ''}">
-        <div class="bp-compact-row">
-          <div class="bp-compact-text">
-            <span class="bp-badge">${title} · ${ref}</span>
-            <span class="bp-compact-title">Counsel with the Lord</span>
-          </div>
-          <button type="button" class="bp-btn" data-open-blueprint>✍️ Set Focus</button>
-        </div>
-      </div>`;
-    }
+    if (!bp || (!bp.oneThing && !bp.uplift)) return '';
 
     const gr = bp.gratitude && bp.gratitude.length ? bp.gratitude : [];
     return `<div class="blueprint-card${kid ? ' kids' : ''}">
@@ -3844,7 +3809,7 @@ const TreasureUp = (function () {
           <button type="button" class="bp-check-item${isDoneOne ? ' done' : ''}" data-bp-check="oneThing" role="checkbox" aria-checked="${!!isDoneOne}">
             <span class="bp-check-box">${isDoneOne ? '✓' : ''}</span>
             <div class="bp-item-text">
-              <small>${kid ? (bp.youthArea ? areaOf(bp.youthArea).icon + ' ' + areaOf(bp.youthArea).name + ' Growth' : 'Growth Focus') : '⭐ The One Thing'}${bp.goalStepId ? ' · Season Goal 🎯' : ''}</small>
+              <small>${kid ? (bp.goalStepId && bp.youthArea ? areaOf(bp.youthArea).icon + ' ' + areaOf(bp.youthArea).name + ' Growth' : 'Growth Focus') : '⭐ The One Thing'}${bp.goalStepId ? ' · Season Goal 🎯' : ''}</small>
               <b>${esc(bp.oneThing)}</b>
             </div>
           </button>` : ''}
@@ -8687,7 +8652,7 @@ const TreasureUp = (function () {
       ${a ? `
         ${coachList.length ? `
           <div class="eyebrow" style="margin-top:16px;color:#38bdf8">💡 Coach Suggestions (for ${esc(profileOf().name)})</div>
-          <div class="sea-ideas">${coachList.map(x => `<button class="sea-idea" data-coach-idea-pick="${esc(x.title)}|${esc(x.step)}|${x.n || 3}|${esc(x.ref || '')}"><b>${x.icon} ${esc(x.title)}</b><small>${esc(x.step)} · ${x.n === 7 ? 'every day' : (x.n || 3) + ' times a week'}${x.ref ? ' · ' + esc(x.ref) : ''}</small></button>`).join('')}</div>
+          <div class="sea-ideas">${coachList.map(x => `<button class="sea-idea" data-coach-idea-pick="${esc(x.title)}|${esc(x.step)}|${x.n || 3}|${esc(x.ref || '')}"><b>${x.icon} ${esc(x.title)}</b><small>${esc(x.step)} · ${freqWords(x.n || 3)}${x.ref ? ' · ' + esc(x.ref) : ''}</small></button>`).join('')}</div>
         ` : ''}
         <div class="eyebrow" style="margin-top:16px">More Ideas</div>
         <div class="sea-ideas">${SEASON_IDEAS[a].map((x, i) => `<button class="sea-idea" data-season-idea="${i}"><b>${esc(x.t)}</b><small>${esc(x.s)} · ${x.n === 7 ? 'every day' : x.n + (x.n === 1 ? ' time' : ' times') + ' a week'}${x.ref ? ' · ' + esc(x.ref) : ''}</small></button>`).join('')}</div>
@@ -18181,22 +18146,16 @@ const TreasureUp = (function () {
         closeSheet();
         return;
       }
-      if (e.target.closest('[data-coach-toggle-ideas]')) {
-        coachIdeasOpen = !coachIdeasOpen;
-        const box = $('coachIdeaBox');
-        if (box) box.style.display = coachIdeasOpen ? 'block' : 'none';
-        return;
-      }
       const bpg = e.target.closest('[data-bp-pick-goal]');
       if (bpg) {
         const ot = $('bpOneThing');
         if (ot) {
           ot.value = bpg.dataset.bpPickGoal;
-          ot.style.height = 'auto';
-          ot.style.height = Math.max(ot.scrollHeight, Number(ot.dataset.minHeight || 44)) + 'px';
+          fitTextarea(ot);
         }
         if ($('bpGoalSid')) $('bpGoalSid').value = bpg.dataset.bpSid || '';
         if ($('bpGoalStepId')) $('bpGoalStepId').value = bpg.dataset.bpStepId || '';
+        if (bpg.dataset.bpArea) bpYouthArea = bpg.dataset.bpArea;
         document.querySelectorAll('#appBody .bp-goal-chip').forEach(c => c.classList.toggle('on', c === bpg));
         return;
       }
@@ -18205,8 +18164,7 @@ const TreasureUp = (function () {
         const u = $('bpUplift');
         if (u) {
           u.value = 'Encourage ' + bpu.dataset.bpPickUplift;
-          u.style.height = 'auto';
-          u.style.height = Math.max(u.scrollHeight, Number(u.dataset.minHeight || 40)) + 'px';
+          fitTextarea(u);
         }
         return;
       }
@@ -18225,13 +18183,9 @@ const TreasureUp = (function () {
       if (e.target.closest('[data-bp-save]')) { saveBlueprint(); return; }
       if (e.target.closest('[data-bp-share]')) {
         bpShare = !bpShare;
-        openSheet(blueprintSheetHtml());
-        return;
-      }
-      const bpa = e.target.closest('[data-bp-area]');
-      if (bpa) {
-        bpYouthArea = bpa.dataset.bpArea;
-        openSheet(blueprintSheetHtml());
+        const btn = e.target.closest('[data-bp-share]');
+        btn.classList.toggle('on', bpShare);
+        btn.textContent = bpShare ? '👀 Share with my parents' : '🔒 Just me';
         return;
       }
       if (e.target.closest('[data-ev-save]')) { saveEvening(); return; }
@@ -18424,8 +18378,7 @@ const TreasureUp = (function () {
     });
     $('appSheet').addEventListener('input', e => {
       if (e.target && e.target.classList.contains('bp-textarea')) {
-        e.target.style.height = 'auto';
-        e.target.style.height = Math.max(e.target.scrollHeight, Number(e.target.dataset.minHeight || 44)) + 'px';
+        fitTextarea(e.target);
       }
     });
     // An impression, from the end of a chapter in the reader.
