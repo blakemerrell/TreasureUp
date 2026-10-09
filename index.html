@@ -1728,8 +1728,13 @@
   .more[open] summary::after { transform: rotate(180deg); }
   .more-n { font-size: 12px; font-weight: 900; color: rgba(255,255,255,.55); }
   .card-row { display: flex; align-items: center; gap: 10px; width: 100%; margin-top: 6px; padding: 10px 12px; border-radius: 12px; text-align: left; cursor: pointer;
-    font: inherit; color: #fff; background: rgba(196,181,253,.08); border: 1px solid rgba(196,181,253,.25); }
-  .cr-kind { flex: 0 0 56px; font-size: 10.5px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #c4b5fd; }
+    font: inherit; color: #fff; background: rgba(196,181,253,.08); border: 1px solid rgba(196,181,253,.25); transition: border-color .15s, background .15s; }
+  .card-row:hover { border-color: rgba(196,181,253,.5); }
+  .card-row.is-video { background: linear-gradient(135deg, rgba(239,68,68,.12), rgba(30,27,75,.35)); border-color: rgba(239,68,68,.35); }
+  .card-row.is-video:hover { border-color: #ef4444; }
+  .card-row.is-video .cr-kind { color: #fca5a5; }
+  .card-row.is-deep .cr-kind { color: #fcd34d; }
+  .cr-kind { flex: 0 0 auto; min-width: 62px; max-width: 140px; font-size: 10.5px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #c4b5fd; white-space: nowrap; }
   .cr-what { flex: 1; font-size: 14px; line-height: 1.3; }
   .cr-mark { flex: 0 0 auto; font-size: 13px; font-weight: 900; color: var(--right); }
   .card-row.seen { opacity: .75; }
@@ -3006,7 +3011,7 @@ const TreasureUp = (function () {
     // An earlier day still behind brings only what's left of it; today's own steps stay, done or not.
     let rows = entries.flatMap(e => { const from = isToday && flowDay(e) < d, r = entryRows(e, from); return from ? r.filter(x => !x.done) : r; });
     if (d === 6) rows = rows.concat(sundayRows(k));
-    if (d === 0 && familyOf(WEEK)) rows = rows.concat([{ card: 'familynight', done: null, html: familyRowHtml(WEEK) }]);
+    if (familyOf(WEEK) && (d === 0 || !isShortDone('family:' + WEEK.title))) rows = rows.concat([{ card: 'familynight', done: isShortDone('family:' + WEEK.title), html: familyRowHtml(WEEK) }]);
     if (isToday) rows = rows.concat(gratefulRows(), [{ card: 'still', done: stillOn(dayKey()), html: stillRowHtml() }], seasonRows());
     let button;
     if (isToday) button = upNext(entries, rows, d, k);
@@ -3059,7 +3064,13 @@ const TreasureUp = (function () {
       // The Season's other rows: finished goals for a parent to look at, planning a Season, the weekend check-in, looking back.
       seasonRows().filter(r => /^(hub|check|reflect)$/.test(r.card) || (r.card === 'season' && !goalSteps().length)).forEach(r => extra.push(r.html));
     }
-    if (d === 0 && familyOf(WEEK)) extra.push(familyRowHtml(WEEK));
+    const homeGuide = guideOf(WEEK).filter(p => !p.x.kids);
+    const todayMini = homeGuide[d];
+    if (todayMini) {
+      const isDone = isShortDone(todayMini.x.id);
+      extra.push(flowRow(`data-short-id="${esc(todayMini.x.id)}"`, isDone, '⚡ Family mini-lesson: ' + esc(todayMini.x.h), isDone ? 'Done ✓ Family mini-lesson completed' : 'Come, Follow Me · 2 min interactive cards', { icon: '⚡' }));
+    }
+    if (familyOf(WEEK) && (d === 0 || !isShortDone('family:' + WEEK.title))) extra.push(familyRowHtml(WEEK));
     const tag = isToday ? '' : keptDay(k) ? '✓ Kept' : k > today ? 'Coming up' : '';
     return `<div class="flow">
       ${isToday ? greetingHtml() : ''}
@@ -3549,17 +3560,51 @@ const TreasureUp = (function () {
   }
   // This week, from the row at the foot of Today: visual Shorts, 5-day mini-lessons, FHE, Sunday lessons, and Pure Cream.
   function isShortDone(id) {
-    return !!(S && S.shortsDone && S.shortsDone[id]);
+    if (!id) return false;
+    if (S && S.shortsDone && S.shortsDone[id]) return true;
+    if (famHome) {
+      if (famHome.familyShorts && famHome.familyShorts[id]) return true;
+      if (famHome.kids) {
+        for (const kid of Object.values(famHome.kids)) {
+          if (kid && kid.shortsDone && kid.shortsDone[id]) return true;
+        }
+      }
+    }
+    return false;
+  }
+  function shortTitleById(id) {
+    if (!id) return '';
+    if (id.startsWith('family:')) {
+      const f = familyOf(WEEK);
+      return f && f.x ? 'Family Night: ' + f.x.title : 'Family Night';
+    }
+    const p = guideOf(WEEK).find(g => g.x.id === id);
+    if (p && p.x) return p.x.h || p.x.title;
+    return '';
   }
   function markShortDone(id, xp, label) {
     if (!S) return false;
     if (!S.shortsDone) S.shortsDone = {};
     if (!S.shortsDone[id]) {
-      const rec = { day: dayKey() };
-      payXp(rec, xp, label);
+      const rec = { day: dayKey(), at: Date.now() };
+      // Pure family time: family mini-lessons and Family Night do not award individual XP
+      if (xp > 0) payXp(rec, xp, label);
       S.shortsDone[id] = rec;
       save();
       refreshHome();
+      if (famHome && famHome.familyShorts) famHome.familyShorts[id] = true;
+      // If connected to a family, announce in family messages for cross-device sync & chat celebration
+      if (F && F.fid && typeof famCol === 'function') {
+        const title = shortTitleById(id) || label || 'lesson';
+        const text = '🎉 Family Time: Finished "' + title + '" together!';
+        famCol(F.fid, 'messages').add({
+          uid: F.uid,
+          name: F.name || 'Family',
+          text: text.slice(0, 480),
+          at: TS(),
+          hidden: false
+        }).catch(() => {});
+      }
       return true;
     }
     return false;
@@ -3795,11 +3840,18 @@ const TreasureUp = (function () {
   }
 
   function shortBadge(x, isKids) {
+    const cfm = CFM_MEDIA[x.id];
+    if (cfm && cfm.video && cfm.video.channel) {
+      if (cfm.video.channel === 'Latter Day Kids') return '▶ Latter Day Kids';
+      if (cfm.video.channel.includes('Church')) return '▶ Bible Video';
+      return '▶ ' + cfm.video.channel;
+    }
     const t = ((x.h || '') + ' ' + (x.lines || []).join(' ')).toLowerCase();
     if (isKids) {
-      if (t.includes('watchman') || t.includes('river') || t.includes('video') || t.includes('animated')) return 'Thumb Follow Me';
-      if (t.includes('draw') || t.includes('stick') || t.includes('game') || t.includes('walk')) return 'Latter Day Kids';
-      return 'Gospel for Kids';
+      if (t.includes('animated') || t.includes('cartoon')) return 'Animated';
+      if (t.includes('song') || t.includes('sing') || t.includes('music')) return 'Sing-Along';
+      if (t.includes('draw') || t.includes('craft') || t.includes('game') || t.includes('play')) return 'Activity';
+      return 'Kids · 2 Min';
     }
     if (t.includes('covenant') || t.includes('prophet') || t.includes('shepherd')) return 'BibleProject';
     if (t.includes('stick') || t.includes('bible') || t.includes('book of mormon')) return 'Line Upon Line';
@@ -4049,10 +4101,30 @@ const TreasureUp = (function () {
         }
       ]
     },
+    'title8': {
+      video: {
+        title: 'Put on the Armor of God | Animated Scripture Lesson for Kids',
+        channel: 'Latter Day Kids',
+        youtube: 'LCisu_99Xfo',
+        start: 0,
+        end: 280,
+        previewed: true
+      },
+      videoCardIdx: 0
+    },
     'title9': {
+      video: {
+        title: 'The Ant and the Very Big Rock | Animated Scripture Lesson for Kids',
+        channel: 'Latter Day Kids',
+        youtube: '3Twocz_P-Ho',
+        start: 0,
+        end: 272,
+        previewed: true
+      },
+      videoCardIdx: 0,
       images: [
         {
-          cardIdx: 0,
+          cardIdx: 1,
           src: 'media/agnus-dei-zurbaran.jpg',
           alt: 'Lamb of God by Francisco de Zurbarán',
           caption: '🎨 “Agnus Dei (Lamb of God)” · Francisco de Zurbarán'
@@ -4064,6 +4136,17 @@ const TreasureUp = (function () {
           caption: '🎨 “Christ with Children” · Gospel Library'
         }
       ]
+    },
+    'title10': {
+      video: {
+        title: 'Pray Always | Animated Scripture Lesson for Kids',
+        channel: 'Latter Day Kids',
+        youtube: 'QZisTIlGDZw',
+        start: 0,
+        end: 250,
+        previewed: true
+      },
+      videoCardIdx: 0
     }
   };
 
@@ -4082,7 +4165,7 @@ const TreasureUp = (function () {
     let image = null;
 
     if (cfm) {
-      if (cfm.video && (cfm.videoCardIdx === cardIdx || (cfm.videoCardIdx == null && cardIdx === 0))) {
+      if (cfm.video && (cfm.videoCardIdx === cardIdx || (cfm.videoCardIdx == null && cardIdx === 0) || cardIdx === 0)) {
         video = cfm.video;
       }
       if (Array.isArray(cfm.images)) {
@@ -4152,6 +4235,10 @@ const TreasureUp = (function () {
             let h = '';
             if (media.image) h += cardImageHtml(media.image);
             if (media.video) h += clipHtml(media.video);
+            const cfm = CFM_MEDIA[x.id];
+            if (cfm && cfm.video && cfm.videoCardIdx != null && cur !== cfm.videoCardIdx) {
+              h += `<div style="margin:10px 0 6px;text-align:center"><button class="sp-jump-btn" data-short-step="${esc(x.id)}|${cfm.videoCardIdx}" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;background:rgba(239,68,68,.18);border:1px solid rgba(239,68,68,.4);color:#fca5a5;font-size:12px;font-weight:800;cursor:pointer">▶ Watch ${esc(cfm.video.channel)} Video on Card ${cfm.videoCardIdx + 1} ›</button></div>`;
+            }
             return h;
           })()}
 
@@ -4430,6 +4517,19 @@ const TreasureUp = (function () {
       <p class="sh-small" style="margin:2px 0 14px"><b>${esc(WEEK.title)}</b> · ${linkRefs(WEEK.reference)}</p>
 
       <div class="shorts-shelf">
+        ${(() => {
+          const fg = familyStudyGoal(WEEK);
+          if (!fg.total) return '';
+          return `<div class="fam-card" style="margin:0 0 14px;border-color:rgba(252,211,77,.3);background:linear-gradient(145deg, rgba(30,27,75,.4), rgba(49,16,66,.25))">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:800">
+              <span style="color:var(--gold);display:flex;align-items:center;gap:6px"><span>👨‍👩‍👧‍👦</span> Family Study Goal</span>
+              <b style="color:#fff">${fg.done} of ${fg.total} Completed</b>
+            </div>
+            <div class="today-bar" style="margin:8px 0 6px"><div style="width:${fg.pct}%"></div></div>
+            <small style="font-size:12px;color:rgba(255,255,255,.7)">${fg.won ? '🎉 Family Goal Won! Everyone completed all family lessons this week!' : `${fg.total - fg.done} family lesson${fg.total - fg.done === 1 ? '' : 's'} to complete this week`}</small>
+          </div>`;
+        })()}
+
         <!-- Featured Decks: FHE & Sunday Lesson -->
         <div style="display:flex;flex-direction:column;gap:10px">
           ${f ? familyHeroHtml(f) : ''}
@@ -4493,13 +4593,70 @@ const TreasureUp = (function () {
   function familyHtml(week) {
     return familyDeckHtml(0);
   }
+  function familyStudyGoal(week = WEEK) {
+    const parts = guideOf(week);
+    const home = parts.filter(p => !p.x.kids);
+    const f = familyOf(week);
+    const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+    const items = home.map((p, i) => ({
+      id: p.x.id,
+      title: p.x.h,
+      kind: 'mini',
+      sub: (DAYS[i] || 'Day ' + (i + 1)) + ' · ' + (p.x.ref || '2 Min Short'),
+      done: isShortDone(p.x.id)
+    }));
+    if (f) {
+      items.push({
+        id: 'family:' + week.title,
+        title: 'Family Night: ' + f.x.title,
+        kind: 'family',
+        sub: (f.x.minutes || 20) + ' Min Deck for the whole family',
+        done: isShortDone('family:' + week.title)
+      });
+    }
+    const total = items.length;
+    const done = items.filter(it => it.done).length;
+    const pct = total ? Math.round(done / total * 100) : 0;
+    const won = total > 0 && done >= total;
+    return { items, total, done, pct, won };
+  }
+  function familyStudyCardHtml(week = WEEK) {
+    const goal = familyStudyGoal(week);
+    if (!goal.total) return '';
+    return `<div class="fam-card">
+      <div class="eyebrow">👨‍👩‍👧‍👦 Family Study Goal · This Week</div>
+      <div class="fc-goal">
+        <span>Come, Follow Me Mini-Lessons & Family Night</span>
+        <b>${goal.done} of ${goal.total} done</b>
+      </div>
+      <div class="today-bar"><div style="width:${goal.pct}%"></div></div>
+      ${goal.won ? `<p class="fc-goal won" style="margin-top:10px">🎉 Family Goal Met! All ${goal.total} family lessons completed this week!</p>` : ''}
+      <div class="fc-study-list" style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+        ${goal.items.map(it => `
+          <button class="fc-study-row${it.done ? ' done' : ''}" data-study-open="${esc(it.kind)}|${esc(it.id)}" style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border-radius:12px;background:rgba(255,255,255,${it.done ? '.04' : '.08'});border:1px solid rgba(255,255,255,${it.done ? '.08' : '.15'});color:#fff;cursor:pointer;text-align:left;font:inherit">
+            <div style="display:flex;align-items:center;gap:10px;min-width:0">
+              <span style="font-size:16px">${it.done ? '✅' : it.kind === 'family' ? '👨‍👩‍👧‍👦' : '⚡'}</span>
+              <div style="min-width:0">
+                <div style="font-size:13.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;${it.done ? 'color:rgba(255,255,255,.65);text-decoration:line-through' : ''}">${esc(it.title)}</div>
+                <small style="font-size:11px;color:rgba(255,255,255,.5)">${esc(it.sub)}</small>
+              </div>
+            </div>
+            <span style="font-size:12px;font-weight:800;color:${it.done ? '#86efac' : 'var(--gold)'};flex-shrink:0">${it.done ? 'Done ✓' : 'Start ›'}</span>
+          </button>
+        `).join('')}
+      </div>
+    </div>`;
+  }
   function familyRowHtml(week) {
     const f = familyOf(week);
-    return f ? flowRow('data-familynight', false, 'Family night: ' + esc(f.x.title), 'About ' + f.x.minutes + ' minutes, for everyone' + (f.draft ? ' · draft' : ''), { icon: '👨‍👩‍👦' }) : '';
+    const done = isShortDone('family:' + week.title);
+    return f ? flowRow('data-familynight', done, 'Family night: ' + esc(f.x.title), done ? 'Done ✓ Family Night completed' : 'About ' + f.x.minutes + ' minutes, for everyone' + (f.draft ? ' · draft' : ''), { icon: '👨‍👩‍👦' }) : '';
   }
   function weekRowHtml() {
     const units = readingAll(), readN = units.filter(u => S.read[u.ref]).length, total = WEEK.reels.length, answered = WEEK.reels.filter(r => S.answers[r.id]).length;
-    return `<button class="fl-week" data-weeksheet><span><b>This week</b><small>${units.length ? readN + ' of ' + units.length + ' chapters · ' : ''}${guideOf(WEEK).length ? '⚡ Shorts & Family Night' : answered + ' of ' + total + ' reels'}</small></span><span class="fl-go">›</span></button>`;
+    const fg = familyStudyGoal(WEEK);
+    const famPart = fg.total ? ` · 👨‍👩‍👦 ${fg.done}/${fg.total} family` : '';
+    return `<button class="fl-week" data-weeksheet><span><b>This week</b><small>${units.length ? readN + ' of ' + units.length + ' chapters' : ''}${famPart} · ⚡ Shorts & Decks</small></span><span class="fl-go">›</span></button>`;
   }
 
   function dayCardHtml(k) {
@@ -4574,7 +4731,11 @@ const TreasureUp = (function () {
   function cardRowHtml(i) {
     const x = i.x, seen = !!(S.insights || {})[x.id];
     const what = x.kind === 'quote' ? (x.source && x.source.who) + ': “' + x.quote.slice(0, 60) + (x.quote.length > 60 ? '…”' : '”') : x.title;
-    return `<button class="card-row${seen ? ' seen' : ''}" data-card="${esc(x.id)}"><span class="cr-kind">${KIND_NAME[x.kind] || (isJsp(x) ? 'Joseph Smith' : hasDeep(x) ? 'Deep dive' : 'Insight')}</span><span class="cr-what">${esc(what)}</span><span class="cr-mark">${seen ? '✓' : ''}</span></button>`;
+    const isVid = x.kind === 'video';
+    const ch = isVid && x.video && x.video.channel ? x.video.channel : '';
+    const kindLabel = isVid ? `▶ Video${ch ? ' · ' + (ch === 'Latter Day Kids' ? 'Latter Day Kids' : ch.includes('Church') ? 'Bible Video' : ch) : ''}`
+      : KIND_NAME[x.kind] || (isJsp(x) ? 'Joseph Smith' : hasDeep(x) ? '🤿 Deep dive' : 'Insight');
+    return `<button class="card-row${seen ? ' seen' : ''}${isVid ? ' is-video' : hasDeep(x) ? ' is-deep' : ''}" data-card="${esc(x.id)}"><span class="cr-kind">${kindLabel}</span><span class="cr-what">${esc(what)}</span><span class="cr-mark">${seen ? '✓' : (isVid ? '▶' : '')}</span></button>`;
   }
 
   // An earlier week's day: its chapters (read in the reader, marked read at
@@ -4628,22 +4789,206 @@ const TreasureUp = (function () {
   // Study: every card of the week by day, filtered by kind; a tap opens one,
   // and opening it marks it read (✓).
   let studyKind = 'all';
+
+  function weekVideos(week = WEEK) {
+    const list = [];
+    const seenYt = new Set();
+
+    // 1. Video insights in weeks.js
+    for (const i of insightsOf(week)) {
+      if (i.x && i.x.kind === 'video' && i.x.video && i.x.video.youtube) {
+        if (!seenYt.has(i.x.video.youtube)) {
+          seenYt.add(i.x.video.youtube);
+          list.push({
+            id: i.x.id,
+            ref: i.x.ref,
+            title: i.x.title,
+            text: i.x.text,
+            video: i.x.video,
+            cardId: i.x.id,
+            channel: i.x.video.channel || 'YouTube'
+          });
+        }
+      }
+    }
+
+    // 2. CFM_MEDIA videos (including Latter Day Kids)
+    for (const [id, m] of Object.entries(CFM_MEDIA)) {
+      if (m && m.video && m.video.youtube && !seenYt.has(m.video.youtube)) {
+        const guideItem = guideOf(week).find(g => g.x.id === id);
+        if (guideItem) {
+          seenYt.add(m.video.youtube);
+          list.push({
+            id: 'cfm-' + id,
+            ref: guideItem.x.ref,
+            title: m.video.title || guideItem.x.h,
+            text: guideItem.x.h,
+            video: m.video,
+            shortId: id,
+            channel: m.video.channel || 'Latter Day Kids'
+          });
+        }
+      }
+    }
+
+    // 3. Deep dive clips
+    for (const i of insightsOf(week)) {
+      if (i.x && i.x.deep && i.x.deep.listen && i.x.deep.listen.youtube && !seenYt.has(i.x.deep.listen.youtube)) {
+        const l = i.x.deep.listen;
+        if (l.previewed === true || TEST_SITE) {
+          seenYt.add(l.youtube);
+          list.push({
+            id: 'deep-' + i.x.id,
+            ref: i.x.ref,
+            title: l.title || i.x.title,
+            text: i.x.title,
+            video: l,
+            cardId: i.x.id,
+            channel: l.channel || 'Video'
+          });
+        }
+      }
+    }
+
+    return list;
+  }
+
+  function videoShelfHtml(week = WEEK) {
+    const vids = weekVideos(week);
+    if (!vids.length) return '<p class="lb-help">No video lessons for this week yet.</p>';
+    return `<div class="shorts-sec" style="margin-top:10px">
+      <div class="shorts-sec-head">
+        <span class="shorts-sec-title" style="color:#f87171">▶ This Week's Video Lessons (${vids.length})</span>
+        <span class="shorts-sec-hint" style="color:rgba(248,113,113,.75)">Latter Day Kids & Church Media ›</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:6px">
+        ${vids.map(v => `
+          <div class="vid-card" style="padding:14px;border-radius:16px;background:rgba(239,68,68,.08);border:1.5px solid rgba(239,68,68,.25);display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+              <span style="font-size:10px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:#fca5a5;background:rgba(239,68,68,.2);padding:2px 8px;border-radius:6px">▶ ${esc(v.channel)}</span>
+              <span style="font-size:11px;font-family:monospace;color:rgba(255,255,255,.6)">${esc(v.ref)}</span>
+            </div>
+            <div style="font-size:15px;font-weight:800;color:#fff;line-height:1.3">${esc(v.title)}</div>
+            ${v.text && v.text !== v.title ? `<div style="font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.4">${esc(v.text)}</div>` : ''}
+            <div style="margin-top:2px">${clipHtml(v.video)}</div>
+            ${v.shortId ? `<div style="display:flex;justify-content:flex-end"><button class="sp-back-btn" data-short-id="${esc(v.shortId)}" style="margin:0;font-size:11.5px;padding:4px 12px;width:auto">Open 2-Min Interactive Short ›</button></div>` : ''}
+            ${v.cardId ? `<div style="display:flex;justify-content:flex-end"><button class="sp-back-btn" data-card="${esc(v.cardId)}" style="margin:0;font-size:11.5px;padding:4px 12px;width:auto">Open Card Details ›</button></div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+  }
+
+  function studyShortsShelfHtml() {
+    const f = familyOf(WEEK);
+    const yl = youthLessonForWeek(WEEK);
+    const parts = guideOf(WEEK);
+    const home = parts.filter(p => !p.x.kids);
+    const kids = parts.filter(p => p.x.kids);
+    const cream = creamItemsOf(WEEK);
+    const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+    const fg = familyStudyGoal(WEEK);
+
+    return `<div class="shorts-shelf" style="margin:12px 0 20px">
+      ${fg.total ? `
+        <div class="fam-card" style="margin:0 0 10px;border-color:rgba(252,211,77,.3);background:linear-gradient(145deg, rgba(30,27,75,.5), rgba(49,16,66,.35))">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:800">
+            <span style="color:var(--gold);display:flex;align-items:center;gap:6px"><span>👨‍👩‍👧‍👦</span> Family Study Goal</span>
+            <b style="color:#fff">${fg.done} of ${fg.total} Completed</b>
+          </div>
+          <div class="today-bar" style="margin:8px 0 6px"><div style="width:${fg.pct}%"></div></div>
+          <small style="font-size:12px;color:rgba(255,255,255,.7)">${fg.won ? '🎉 Family Goal Won! Everyone completed all family lessons this week!' : `${fg.total - fg.done} family lesson${fg.total - fg.done === 1 ? '' : 's'} to complete this week · Pure family time (no XP)`}</small>
+        </div>` : ''}
+
+      <!-- 1. Daily Come, Follow Me Mini-Lessons (5 Days) -->
+      ${home.length ? `
+        <div class="shorts-sec">
+          <div class="shorts-sec-head">
+            <span class="shorts-sec-title">Daily Mini-Lessons · 5 Days</span>
+            <span class="shorts-sec-hint">Swipe Mon–Fri ›</span>
+          </div>
+          <div class="shorts-tray">
+            ${home.map((p, i) => shortCardHtml(p, false, DAYS[i] || 'Day ' + (i + 1))).join('')}
+          </div>
+        </div>` : ''}
+
+      <!-- 2. For Children · Animated Shorts -->
+      ${kids.length ? `
+        <div class="shorts-sec">
+          <div class="shorts-sec-head">
+            <span class="shorts-sec-title kids">For Children 🧒 · Animated Shorts</span>
+            <span class="shorts-sec-hint" style="color:rgba(103,232,249,.7)">Latter Day Kids & Stories ›</span>
+          </div>
+          <div class="shorts-tray">
+            ${kids.map(p => shortCardHtml(p, true)).join('')}
+          </div>
+        </div>` : ''}
+
+      <!-- Featured Decks: Family Night & Sunday Youth Lesson -->
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:2px">
+        ${f ? familyHeroHtml(f) : ''}
+        ${yl ? sundayHeroHtml(yl) : ''}
+      </div>
+
+      <!-- 3. The Deep Dive · "Pure Cream" -->
+      ${cream.length ? `
+        <div class="shorts-sec" style="margin-top:4px">
+          <div class="shorts-sec-head">
+            <span class="shorts-sec-title" style="color:#fbbf24">🍯 The Deep Dive · Pure Cream</span>
+            <span class="shorts-sec-hint" style="color:rgba(251,191,36,.7)">Scholars & Hebrew Gems ›</span>
+          </div>
+          <div class="shorts-tray">
+            ${cream.map(it => creamCardHtml(it)).join('')}
+          </div>
+        </div>` : ''}
+    </div>`;
+  }
+
   function studyHtml() {
     const sun = sundayStudyHtml();
-    const kinds = [['all', 'All'], ['deep', 'Deep dives'], ['jsp', 'Joseph Smith'], ['insight', 'Insights'], ['quote', 'Quotes'], ['video', 'Videos'], ['sunday', 'Sunday']]
-      .filter(([k]) => (k !== 'deep' || studyCards(WEEK).some(i => hasDeep(i.x))) && (k !== 'jsp' || studyCards(WEEK).some(i => isJsp(i.x))) && (k !== 'sunday' || sun));   // each once the week has one; Sunday once there's Sunday study
-    // Each day with its date (Blake, 2026-10-05: "Need to see dates on these"): Monday, Oct 5 · Isaiah 50.
+    const vids = weekVideos(WEEK);
+    const kinds = [
+      ['all', 'All'],
+      ['shorts', '⚡ Shorts & Decks'],
+      ['video', '▶ Videos' + (vids.length ? ` (${vids.length})` : '')],
+      ['deep', 'Deep dives'],
+      ['jsp', 'Joseph Smith'],
+      ['insight', 'Insights'],
+      ['quote', 'Quotes'],
+      ['sunday', 'Sunday']
+    ].filter(([k]) => {
+      if (k === 'shorts') return guideOf(WEEK).length > 0 || !!familyOf(WEEK);
+      if (k === 'video') return vids.length > 0;
+      if (k === 'deep') return studyCards(WEEK).some(i => hasDeep(i.x));
+      if (k === 'jsp') return studyCards(WEEK).some(i => isJsp(i.x));
+      if (k === 'sunday') return !!sun;
+      return true;
+    });
+
     const monday = weekStart(WEEK.dates), dateOf = d => monday ? ', ' + shortDay(dayAdd(monday, d)) : '';
-    const days = studyKind === 'sunday' ? '' : DAY_NAMES.slice(0, 6).map((name, d) => {
-      const cards = dayInsights(d).filter(i => studyKind === 'all' || (studyKind === 'deep' ? hasDeep(i.x) : studyKind === 'jsp' ? isJsp(i.x) : (i.x.kind || 'insight') === studyKind));
+    const days = (studyKind === 'sunday' || studyKind === 'shorts') ? '' : DAY_NAMES.slice(0, 6).map((name, d) => {
+      const cards = dayInsights(d).filter(i => studyKind === 'all' || (studyKind === 'video' ? i.x.kind === 'video' : studyKind === 'deep' ? hasDeep(i.x) : studyKind === 'jsp' ? isJsp(i.x) : (i.x.kind || 'insight') === studyKind));
       return cards.length ? `<div class="st-day"><div class="eyebrow">${name}${esc(dateOf(d))} · ${esc(unitsLabel(readingPlan()[d]) || '')}</div>${cards.map(i => cardRowHtml(i)).join('')}</div>` : '';
     }).join('');
     const n = studyCards(WEEK).length, read = studyCards(WEEK).filter(i => (S.insights || {})[i.x.id]).length;
+
+    let body = '';
+    if (studyKind === 'shorts') {
+      body = studyShortsShelfHtml();
+    } else if (studyKind === 'video') {
+      body = videoShelfHtml() + (days ? `<div style="margin-top:16px"><div class="eyebrow" style="margin-bottom:8px">Video Insights by Day</div>${days}</div>` : '');
+    } else if (studyKind === 'sunday') {
+      body = sun;
+    } else {
+      const shelf = studyKind === 'all' ? studyShortsShelfHtml() : '';
+      body = shelf + (days || (n ? '<p class="lb-help">None of that kind this week.</p>' : '')) + (studyKind === 'all' && sun ? sun : '');
+    }
+
     return `<div class="eyebrow" style="color:#c4b5fd">Study · ${esc(monday ? shortDay(monday) + ' – ' + shortDay(dayAdd(monday, 6)) : 'for deep-dive days')}</div>
       <h1 class="reel-hook" style="font-size:26px">${esc(WEEK.title)}</h1>
       <p class="lb-help">${n ? `${read} of ${n} cards read. The best of each day are in Today too.` : 'This week has no cards yet.'}</p>
       <div class="st-kinds">${kinds.map(([k, l]) => `<button class="sh-pill${studyKind === k ? ' on' : ''}" data-study-kind="${k}">${l}</button>`).join('')}</div>
-      ${studyKind === 'sunday' ? sun : (days || (n ? '<p class="lb-help">None of that kind this week.</p>' : '')) + (studyKind === 'all' ? sun : '')}`;
+      ${body}`;
   }
   // A card's deep dive (Blake, 2026-10-03: "Longer adult level deep dive
   // would be great! … the quick learn, or the deep dive … With the
@@ -14097,7 +14442,7 @@ const TreasureUp = (function () {
   function watchHome() {
     stopHome();
     if (!F || !FIREBASE_CONFIG) return;
-    const h = famHome = { progress: [], goal: false, kids: {}, watching: {}, errors: [], feedback: [], prizes: null, orders: [], seasons: [], seasonGoal: null, reviews: [], letters: [] };
+    const h = famHome = { progress: [], goal: false, kids: {}, watching: {}, errors: [], feedback: [], prizes: null, orders: [], seasons: [], seasonGoal: null, reviews: [], letters: [], familyShorts: {} };
     sendErrors = flushErrors; flushErrors();
     famHomeOff.push(famDoc(F.fid).onSnapshot(d => {
       h.goal = !!(d.exists && d.data().goal);
@@ -14106,6 +14451,27 @@ const TreasureUp = (function () {
       const sg = d.exists && d.data().seasonGoal;
       h.seasonGoal = sg && typeof sg.text === 'string' && sg.text ? sg : null;
       famRedraw(); if (shopOpen()) openSheet(shopHtml());
+    }, () => {}));
+    // Watch messages for family study completions so any device in the family instantly sees them
+    famHomeOff.push(famCol(F.fid, 'messages').orderBy('at', 'desc').limit(40).onSnapshot(q => {
+      h.familyShorts = h.familyShorts || {};
+      let changed = false;
+      for (const d of q.docs) {
+        const m = d.data();
+        if (m && m.text && m.text.startsWith('🎉 Family Time: Finished "')) {
+          const match = /^🎉 Family Time: Finished "([^"]+)" together!/.exec(m.text);
+          if (match) {
+            const title = match[1];
+            if (title.startsWith('Family Night')) {
+              if (!h.familyShorts['family:' + WEEK.title]) { h.familyShorts['family:' + WEEK.title] = true; changed = true; }
+            } else {
+              const p = guideOf(WEEK).find(g => g.x && (g.x.h === title || g.x.title === title));
+              if (p && p.x && !h.familyShorts[p.x.id]) { h.familyShorts[p.x.id] = true; changed = true; }
+            }
+          }
+        }
+      }
+      if (changed) { famRedraw(); refreshHome(); }
     }, () => {}));
     // Prize requests: a parent sees everyone's; anyone sees their own, which keeps this device's list in step.
     const oq = F.role === 'parent' ? famCol(F.fid, 'orders').orderBy('at', 'desc').limit(60) : famCol(F.fid, 'orders').where('pid', '==', F.pid);
@@ -14264,14 +14630,16 @@ const TreasureUp = (function () {
   function familyTabHtml() {
     if (!F) return `<div class="eyebrow">Family</div><h1 class="reel-hook lib-h">Read together</h1>
       <p class="fam-intro">In a family, everyone sees this week's chapters side by side, there's a family chat, and each person's progress is kept safe across their devices.</p>
+      ${familyStudyCardHtml()}
       <div class="fam-go"><button class="sh-row sh-go" data-fam-open="people"><span>👪 Sign in or join a family<small>A parent signs in and starts one; anyone else joins with a link from a parent</small></span><span>›</span></button></div>`;
     const parent = F.role === 'parent', h = famHome, goal = !!(h && h.goal);
     const board = familyCardHtml() || `<div class="fam-card"><div class="eyebrow">👪 Family · this week's chapters</div><p class="kc-none">${h ? 'Just you so far. Add someone in People.' : 'Connecting…'}</p></div>`;
     const kids = parentCardsHtml();
     return `<div class="eyebrow">Family</div><h1 class="reel-hook lib-h">${esc(F.family || 'Your family')}</h1>
+      ${familyStudyCardHtml()}
       ${board}
       ${seasonFamHtml()}
-      ${parent ? `<div class="fam-goal-set"><span>Family goal<small>Everyone reads all of the week's chapters</small></span><span><button class="sh-pill${goal ? ' on' : ''}" data-fam-goal="1">On</button><button class="sh-pill${goal ? '' : ' on'}" data-fam-goal="0">Off</button></span></div>` : ''}
+      ${parent ? `<div class="fam-goal-set"><span>Family reading goal<small>Everyone reads all of the week's chapters</small></span><span><button class="sh-pill${goal ? ' on' : ''}" data-fam-goal="1">On</button><button class="sh-pill${goal ? '' : ' on'}" data-fam-goal="0">Off</button></span></div>` : ''}
       ${parent ? hubRowHtml() : ''}
       ${parent ? `<div class="eyebrow" style="margin-top:20px">Today, for parents</div>${kids || '<p class="kc-none">A child\u2019s card shows here once their device has joined the family.</p>'}` : ''}
       ${parent ? trialHtml() : ''}
@@ -14296,7 +14664,7 @@ const TreasureUp = (function () {
     const done = rows.filter(r => r.n >= total).length;
     const goal = !h.goal ? '' : done === rows.length
       ? `<p class="fc-goal won">🎉 Everyone read all ${total} chapters this week!</p>`
-      : `<div class="fc-goal"><span>Family goal: everyone reads all ${total} chapters</span><b>${done} of ${rows.length} done</b></div><div class="today-bar"><div style="width:${Math.round(done / rows.length * 100)}%"></div></div>`;
+      : `<div class="fc-goal"><span>Family reading goal: everyone reads all ${total} chapters</span><b>${done} of ${rows.length} done</b></div><div class="today-bar"><div style="width:${Math.round(done / rows.length * 100)}%"></div></div>`;
     return `<div class="fam-card"><div class="eyebrow">👪 Family · this week's chapters</div>
       ${rows.map(r => `<div class="fc-row${r.mine ? ' me' : ''}"><span class="fc-name">${r === top ? '👑 ' : ''}${esc(r.name)}${r.mine ? ' <small>you</small>' : ''}</span>
         <span class="fc-n">${h.goal && r.n >= total ? '✓ ' : ''}${r.n} of ${total}</span><span class="fc-st">${r.streak ? '🔥' + r.streak : ''}</span></div>`).join('')}
@@ -16804,11 +17172,24 @@ const TreasureUp = (function () {
       if (sfin) {
         const id = sfin.dataset.shortFinish;
         markShortDone(id, 0, 'Come, Follow Me Short');
-        toast('🎉 Family lesson completed!', 'Great discussion!');
+        const fg = familyStudyGoal(WEEK);
+        toast('🎉 Family lesson completed!', fg.won ? 'Family Goal Met! All lessons done!' : `Family Goal: ${fg.done} of ${fg.total} done!`);
         const p = guideOf(WEEK).find(g => g.x.id === id);
         if (p) {
           const lastIdx = Math.max(0, shortTotalSlides(p.x) - 1);
           openSheet(shortPlayerHtml(p, lastIdx));
+        }
+        return;
+      }
+      const sto = e.target.closest('[data-study-open]');
+      if (sto) {
+        const [kind, id] = sto.dataset.studyOpen.split('|');
+        stopClips();
+        if (kind === 'family') {
+          return openSheet(familyDeckHtml(0));
+        } else {
+          const p = guideOf(WEEK).find(g => g.x.id === id);
+          if (p) return openSheet(shortPlayerHtml(p, 0));
         }
         return;
       }
@@ -16823,7 +17204,8 @@ const TreasureUp = (function () {
       }
       if (e.target.closest('[data-family-finish]')) {
         markShortDone('family:' + WEEK.title, 0, 'Family Night Deck');
-        toast('👪 Family Night completed!', 'Way to go!');
+        const fg = familyStudyGoal(WEEK);
+        toast('👪 Family Night completed!', fg.won ? 'Family Goal Met! All lessons done!' : `Family Goal: ${fg.done} of ${fg.total} done!`);
         const f = familyOf(WEEK);
         const lastIdx = f && f.x && f.x.steps ? f.x.steps.length - 1 : 0;
         return openSheet(familyDeckHtml(lastIdx));

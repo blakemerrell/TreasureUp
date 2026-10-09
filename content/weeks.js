@@ -3717,6 +3717,22 @@ window.TU_WEEKS = [
         "approved": "b222ffdf"
       },
       {
+        "id": "isa53-v-latterdaykids",
+        "kind": "video",
+        "ref": "Isaiah 53:4",
+        "title": "He Carried Our Sorrows (Latter Day Kids)",
+        "text": "An animated lesson from Latter Day Kids explaining Isaiah 53:4: how Jesus Christ carries our heavy burdens, griefs, and sorrows so we never have to carry them alone.",
+        "video": {
+          "youtube": "3Twocz_P-Ho",
+          "start": 0,
+          "end": 272,
+          "title": "The Ant and the Very Big Rock | Latter Day Kids",
+          "channel": "Latter Day Kids",
+          "previewed": true
+        },
+        "approved": "4182c519"
+      },
+      {
         "id": "isa50-jsp-cast-off",
         "ref": "Isaiah 50:1",
         "title": "Joseph’s Bible: never cast off",
