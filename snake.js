@@ -40,6 +40,7 @@
 
   let host = null, root = null, G = null, raf = 0, last = 0, keyOff = null, ro = null, audio = null;
   const ui = { mode: '1p', names: ['', 'Player 2'], view: 'menu', fam: null };
+  let dbGameRef = null, unsubscribeInputs = null, gameCode = null, myClientId = null, networkConfig = null;
   const C = () => (window.TU_ARCADE && window.TU_ARCADE.snake) || {}, L = () => C().lines || {};
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
   const $ = id => document.getElementById(id);
@@ -133,9 +134,12 @@
 
   // A turn from the keys, the pad or a swipe: kept in order (two at most),
   // never straight back into the neck.
-  function turn(i, name) {
+  function turn(i, name, fromNet) {
+    if (networkConfig && !fromNet && networkConfig.myPlayer === i) {
+      if (dbGameRef) dbGameRef.collection('inputs').add({ sender: myClientId, player: i, dir: name, time: Date.now() });
+    }
     if (!G || G.state !== 'play') return;
-    if (G.reading) return ready(i, name);
+    if (G.reading) return ready(i, name, fromNet);
     const s = G.snakes[i], d = DIRS[name];
     if (!s || !d) return;
     const lastDir = s.queue.length ? s.queue[s.queue.length - 1] : s.dir;
@@ -248,7 +252,10 @@
   }
   // Read it, then go: an arrow, a swipe, the pad, Space, Enter or ▶ Go. With
   // two players, each says they're ready with their own keys (or ▶ Go for both).
-  function ready(i, name) {
+  function ready(i, name, fromNet) {
+    if (networkConfig && !fromNet && i != null && networkConfig.myPlayer === i) {
+      if (dbGameRef) dbGameRef.collection('inputs').add({ sender: myClientId, player: i, ready: true, time: Date.now() });
+    }
     const r = G && G.reading;
     if (!r) return;
     if (i == null) r.ready = r.ready.map(() => true); else r.ready[i] = true;
@@ -610,12 +617,16 @@
       <img class="sn-hero" src="arcade/snake.jpg" width="960" height="480" alt="The camp of Israel at sunrise: families gather manna into baskets, quail fly over, and a snake winds toward the manna.">
       <p class="sn-hook">${host.html(C().hook || '')}</p>
       <div class="sn-modes" role="radiogroup" aria-label="Players">
-        <button class="sn-mode${two ? '' : ' on'}" data-sn="mode" data-v="1p" role="radio" aria-checked="${!two}"><b>1 player</b><small>Arrows or WASD · swipe on a phone</small></button>
-        <button class="sn-mode${two ? ' on' : ''}" data-sn="mode" data-v="2p" role="radio" aria-checked="${two}"><b>2 players, one screen</b><small>2 minutes · most points wins</small></button>
+        <button class="sn-mode${ui.mode === '1p' ? ' on' : ''}" data-sn="mode" data-v="1p" role="radio" aria-checked="${ui.mode === '1p'}"><b>1 player</b><small>Arrows or WASD</small></button>
+        <button class="sn-mode${ui.mode === '2p' ? ' on' : ''}" data-sn="mode" data-v="2p" role="radio" aria-checked="${ui.mode === '2p'}"><b>2 players, local</b><small>Most points wins</small></button>
+        <button class="sn-mode${ui.mode === 'host' ? ' on' : ''}" data-sn="mode" data-v="host" role="radio" aria-checked="${ui.mode === 'host'}"><b>Host Game</b><small>Create room code</small></button>
+        <button class="sn-mode${ui.mode === 'join' ? ' on' : ''}" data-sn="mode" data-v="join" role="radio" aria-checked="${ui.mode === 'join'}"><b>Join Game</b><small>Enter room code</small></button>
       </div>
-      ${two ? `<div class="sn-names">
+      ${ui.mode === '2p' ? `<div class="sn-names">
         <label>${skinDot({ skin: SKIN[0] })}<span>Player 1 · arrow keys${coarse() ? ' · right pad' : ''}</span><input class="field" id="snN0" maxlength="16" value="${esc(ui.names[0] || me || 'Player 1')}"></label>
         <label>${skinDot({ skin: SKIN[1] })}<span>Player 2 · W A S D${coarse() ? ' · left pad' : ''}</span><input class="field" id="snN1" maxlength="16" value="${esc(ui.names[1] || 'Player 2')}"></label></div>` : ''}
+      ${ui.mode === 'host' ? `<div class="sn-names"><label><input type="checkbox" id="snHostPlay" checked> I am Player 1 (uncheck if this is just a TV/Screen)</label></div>` : ''}
+      ${ui.mode === 'join' ? `<div class="sn-names"><label>Room Code: <input class="field" id="snJoinCode" placeholder="4-digit code" maxlength="4" style="text-transform:uppercase;"></label><label><input type="checkbox" id="snJoinScreen" checked> Show game screen (uncheck to use as remote controller only)</label></div>` : ''}
       <div class="board-actions"><button class="btn" data-sn="start">▶ Start</button></div>
       <ul class="sn-how">
         <li><b>Manna</b> grows your snake. Don’t hit the cliffs, the rocks or yourself.</li>
@@ -678,11 +689,12 @@
     if (el._html !== html) { el._html = html; el.innerHTML = html; }
     el.hidden = false;
   }
-  function padsHtml() {
+  function padsHtml(onlyPlayer) {
     const pad = (p, label) => `<div class="sn-pad" data-p="${p}" aria-label="${label}">
       <button data-sn="dir" data-p="${p}" data-d="up" aria-label="Up">▲</button><button data-sn="dir" data-p="${p}" data-d="left" aria-label="Left">◀</button>
       <button data-sn="dir" data-p="${p}" data-d="right" aria-label="Right">▶</button><button data-sn="dir" data-p="${p}" data-d="down" aria-label="Down">▼</button></div>`;
-    return `${G.mode === '2p' ? pad(1, 'Player 2') : ''}${pad(0, G.mode === '2p' ? 'Player 1' : 'Steer')}`;
+    if (onlyPlayer != null) return pad(onlyPlayer, 'Player ' + (onlyPlayer + 1));
+    return `${G && G.mode === '2p' ? pad(1, 'Player 2') : ''}${pad(0, G && G.mode === '2p' ? 'Player 1' : 'Steer')}`;
   }
   const coarse = () => !!(window.matchMedia && window.matchMedia('(any-pointer: coarse)').matches) || !!window.TU_SNAKE_PADS;
 
@@ -692,7 +704,8 @@
     if (!G || ui.view !== 'game') { const best = saved().best || 0; el.innerHTML = best ? `<span class="score-chip">Best ${fmt(best)}</span>` : ''; return; }
     const chips = G.snakes.map(s => `<span class="score-chip sn-chip" style="--k:${s.skin.body}">${G.mode === '2p' ? skinDot(s) + esc(s.name) + ' ' : ''}<b>${fmt(s.score)}</b>${s.streak > 1 ? ` <span class="sn-streak">×${1 + Math.min(s.streak, T.streakMax)}</span>` : ''}${s.brass ? brassIcon : ''}${!s.alive ? ' 💥' : ''}</span>`).join('');
     const left = G.mode === '2p' ? Math.max(0, Math.ceil(T.round2p - G.time / 1000)) : null;
-    el.innerHTML = `${chips}<span class="score-chip">Level ${G.level}</span>${left != null ? `<span class="score-chip${left <= 10 ? ' sn-hot' : ''}">⏱ ${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}</span>` : `<span class="score-chip sn-best">Best ${fmt(Math.max(saved().best || 0, G.snakes[0].score))}</span>`}`;
+    const codeHtml = networkConfig && gameCode ? `<span class="score-chip" style="background:#4ade80; color:#064e3b;">Code: ${gameCode}</span>` : '';
+    el.innerHTML = `${codeHtml}${chips}<span class="score-chip">Level ${G.level}</span>${left != null ? `<span class="score-chip${left <= 10 ? ' sn-hot' : ''}">⏱ ${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}</span>` : `<span class="score-chip sn-best">Best ${fmt(Math.max(saved().best || 0, G.snakes[0].score))}</span>`}`;
   }
   // Above the desert: the question and its jars, then whether it was right and why; otherwise a line from the story.
   function panel() {
@@ -785,6 +798,7 @@
     else if (act === 'resume') pause(false);
     else if (act === 'quit') { pause(false); gameOver(); }
     else if (act === 'go') ready(null);
+    else if (act === 'ready') { if (networkConfig && networkConfig.myPlayer != null) ready(networkConfig.myPlayer, null); }
   }
   // The pads steer on touch, right away (not on the click after it).
   function onPadDown(e) {
@@ -807,12 +821,99 @@
   function onHide() { if (document.hidden && G && G.state === 'play') pause(true); }
 
   function readNames() { const a = $('snN0'), b = $('snN1'); if (a) ui.names[0] = a.value.trim(); if (b) ui.names[1] = b.value.trim(); }
-  function start() {
+  function listenInputs() {
+    if (!dbGameRef) return;
+    unsubscribeInputs = dbGameRef.collection('inputs').orderBy('time').onSnapshot(snap => {
+      snap.docChanges().forEach(change => {
+        if (change.type === 'added') {
+          const data = change.doc.data();
+          if (data.sender !== myClientId) {
+            if (data.ready) ready(data.player, null, true);
+            else if (data.dir) turn(data.player, data.dir, true);
+          }
+        }
+      });
+    });
+  }
+
+  async function start() {
     readNames();
-    newGame(ui.mode);
-    renderGame();
-    fit();
-    last = performance.now();
+    const btn = document.querySelector('[data-sn="start"]');
+    if (btn) btn.disabled = true;
+
+    try {
+      if (ui.mode === 'host') {
+        const isPlay = $('snHostPlay') ? $('snHostPlay').checked : true;
+        gameCode = Math.floor(1000 + Math.random() * 9000).toString();
+        const seed = Date.now();
+        window.TU_SNAKE_SEED = seed;
+        myClientId = Math.random().toString(36).slice(2);
+        
+        const db = await host.db();
+        dbGameRef = db.collection('arcade_snake').doc(gameCode);
+        await dbGameRef.set({ seed, hostIsPlay: isPlay, playersJoined: 0, createdAt: host.fv().serverTimestamp() });
+        
+        networkConfig = { role: 'host', isTV: !isPlay, myPlayer: isPlay ? 0 : null };
+        listenInputs();
+        
+        newGame('2p');
+        renderGame();
+      } else if (ui.mode === 'join') {
+        const code = ($('snJoinCode') ? $('snJoinCode').value : '').toUpperCase();
+        if (!code) { if (btn) btn.disabled = false; return alert('Enter code'); }
+        const showScreen = $('snJoinScreen') ? $('snJoinScreen').checked : true;
+        myClientId = Math.random().toString(36).slice(2);
+        
+        const db = await host.db();
+        dbGameRef = db.collection('arcade_snake').doc(code);
+        const doc = await dbGameRef.get();
+        if (!doc.exists) { if (btn) btn.disabled = false; return alert('Game not found'); }
+        
+        const data = doc.data();
+        const pIndex = (data.playersJoined || 0) + (data.hostIsPlay ? 1 : 0);
+        if (pIndex > 1) { if (btn) btn.disabled = false; return alert('Game full'); }
+        await dbGameRef.update({ playersJoined: (data.playersJoined || 0) + 1 });
+        
+        window.TU_SNAKE_SEED = data.seed;
+        networkConfig = { role: 'join', seeScreen: showScreen, myPlayer: pIndex };
+        gameCode = code;
+        listenInputs();
+        
+        if (showScreen) {
+          newGame('2p');
+          renderGame();
+        } else {
+          renderRemote();
+          return;
+        }
+      } else {
+        networkConfig = null;
+        window.TU_SNAKE_SEED = null;
+        gameCode = null;
+        newGame(ui.mode);
+        renderGame();
+      }
+      fit();
+      last = performance.now();
+    } catch (e) {
+      console.error(e);
+      alert('Network error');
+      if (btn) btn.disabled = false;
+    }
+  }
+
+  function renderRemote() {
+    ui.view = 'remote';
+    shell(`<div class="sn-remote" style="text-align:center; padding: 40px; display:flex; flex-direction:column; align-items:center;">
+      <div class="eyebrow">Remote Controller</div>
+      <h2 style="color:#fff; margin-bottom: 20px;">You are Player ${networkConfig.myPlayer + 1}</h2>
+      <div style="position:relative; width: 160px; height: 160px; margin-bottom: 20px;">
+        ${padsHtml(networkConfig.myPlayer)}
+      </div>
+      <div style="margin-top: 20px;">
+        <button class="btn" data-sn="ready" style="padding: 12px 24px; font-size: 18px;">▶ Ready / Go</button>
+      </div>
+    </div>`);
   }
 
   function frame(now) {
@@ -957,6 +1058,8 @@
     raf = requestAnimationFrame(frame);
   }
   function close() {
+    if (unsubscribeInputs) unsubscribeInputs();
+    unsubscribeInputs = null;
     if (G && G.state === 'play' && G.mode === '1p' && G.snakes[0].score > 0) { G.state = 'play'; gameOver(); }   // a game left early still counts
     cancelAnimationFrame(raf);
     if (keyOff) keyOff();
