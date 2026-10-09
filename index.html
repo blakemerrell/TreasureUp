@@ -2422,7 +2422,7 @@ const TreasureUp = (function () {
     partRead: {},    // parts of a long chapter read (the day's path): ref -> first verse -> { day, base, xp }
     cfm: {},         // the week's Come Follow Me parts done: weekNum.id -> { day, xp }
     pathDone: {},    // the path's own steps done: day -> { gc: { xp }, goals, thanks }
-    studyMode: null, // 'personal' or 'family'; defaults to personal for adult, family for kids
+    studyMode: null, // 'personal' or 'family'; defaults to personal, saved when changed
     weekChapters: 0  // how many chapters this week's reading has, for the year's count
   });
 
@@ -3066,11 +3066,11 @@ const TreasureUp = (function () {
     const isAdult = seasonWho() === 'adult';
     const personalLabel = isAdult ? '📖 Personal Study' : '🌟 My Study';
     const kidsClass = isAdult ? '' : ' kids';
-    return `<div class="mode-toggle" role="tablist" aria-label="Study Mode">
-      <button class="mode-btn${kidsClass}${!fam ? ' active' : ''}" data-study-mode="personal" role="tab" aria-selected="${!fam}">
+    return `<div class="mode-toggle" role="radiogroup" aria-label="Study Mode">
+      <button class="mode-btn${kidsClass}${!fam ? ' active' : ''}" data-study-mode="personal" role="radio" aria-checked="${!fam}">
         ${esc(personalLabel)}
       </button>
-      <button class="mode-btn${kidsClass}${fam ? ' active' : ''}" data-study-mode="family" role="tab" aria-selected="${fam}">
+      <button class="mode-btn${kidsClass}${fam ? ' active' : ''}" data-study-mode="family" role="radio" aria-checked="${fam}">
         👨‍👩‍👧‍👦 Family Study
       </button>
     </div>`;
@@ -3086,15 +3086,26 @@ const TreasureUp = (function () {
       : best.cardId ? `data-card="${esc(best.cardId)}"`
       : `data-clip="${esc(yt)}" data-start="${best.video.start || 0}" data-end="${best.video.end || 0}"`;
     return `<div class="video-hero-card">
-      <div class="video-hero-thumb" ${actionAttr} role="button" tabindex="0" aria-label="Play weekly video: ${esc(best.title)}">
+      <button type="button" class="video-hero-thumb" ${actionAttr} aria-label="Play weekly video: ${esc(best.title)}" style="display:block;width:100%;border:0;padding:0;background:#000;cursor:pointer;text-align:left;color:inherit;font:inherit">
         <img class="video-hero-img" src="${esc(thumb)}" alt="${esc(best.title)}" loading="lazy">
         <div class="video-hero-overlay"></div>
         <div class="video-hero-badge">🎬 ${esc(best.channel || 'Featured Video')}</div>
         <div class="video-hero-play">▶</div>
         <div class="video-hero-title">${esc(best.title)}</div>
-      </div>
+      </button>
       ${best.text ? `<div class="video-hero-prompt"><p><b>Family Discussion:</b> ${linkRefs(cut(best.text, 140), best.ref)}</p></div>` : ''}
     </div>`;
+  }
+
+  function passFamilyTurn() {
+    const list = (famHome && famHome.progress && famHome.progress.length)
+      ? famHome.progress.map(p => p.name)
+      : ['Javan', 'Dad', 'Mom'];
+    shortTurnIdx = (shortTurnIdx + 1) % list.length;
+    const rawName = list[shortTurnIdx];
+    const prefix = rawName === 'Javan' ? '👦 ' : (rawName === 'Blake' || rawName === 'Dad') ? '👨 ' : '👩 ';
+    currentLotName = prefix + rawName;
+    toast('🎲 ' + currentLotName + ' reads next', 'Family reader');
   }
 
   function familyTurnBarHtml() {
@@ -3103,9 +3114,9 @@ const TreasureUp = (function () {
       <div style="display:flex;align-items:center;gap:8px">
         <span style="font-size:16px">🎲</span>
         <span style="font-size:13px;color:rgba(255,255,255,.7)">Tonight’s reader:</span>
-        <span class="sp-dice-text" style="display:inline"><b style="font-size:13.5px;color:var(--gold)">${esc(name)}</b></span>
+        <b style="font-size:13.5px;color:var(--gold)">${esc(name)}</b>
       </div>
-      <button class="sp-dice-btn" data-cast-lots data-dice-action="reads tonight" style="margin:0;padding:6px 14px;font-size:12px;font-weight:800;border-radius:999px;width:auto;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;cursor:pointer">Pass Turn ⇄</button>
+      <button class="sp-dice-btn" data-pass-turn style="margin:0;padding:6px 14px;font-size:12px;font-weight:800;border-radius:999px;width:auto;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;cursor:pointer">Pass Turn ⇄</button>
     </div>`;
   }
 
@@ -3127,7 +3138,7 @@ const TreasureUp = (function () {
       ${todayMini ? `
         <button class="fl-next${isDone ? ' ahead' : ''}" data-short-id="${esc(todayMini.x.id)}">
           <b>▶ ${isDone ? 'Review Today’s Family Lesson' : 'Today’s Family Lesson: ' + esc(todayMini.x.h)}</b>
-          <small>${isDone ? '✓ Completed with family (+15 XP)' : 'Come, Follow Me · 2 min interactive cards'}</small>
+          <small>${isDone ? '✓ Completed with family' : 'Come, Follow Me · 2 min interactive cards'}</small>
         </button>
       ` : ''}
       ${familyTurnBarHtml()}
@@ -17135,10 +17146,14 @@ const TreasureUp = (function () {
         if (p) openSheet(shortPlayerHtml(p, 0));
         return;
       }
-      const lotTarget = e.target.closest('[data-cast-lots], [data-lot-picker], [data-turn-rotate]');
+      if (e.target.closest('[data-pass-turn]')) {
+        passFamilyTurn();
+        refreshHome();
+        return;
+      }
+      const lotTarget = e.target.closest('[data-cast-lots]');
       if (lotTarget) {
-        const picker = lotTarget.closest('[data-lot-picker]') || lotTarget;
-        triggerCastLots(picker);
+        triggerCastLots(lotTarget);
         return;
       }
       // The timeline: a day, or a week of the year (its Monday).
@@ -17453,7 +17468,9 @@ const TreasureUp = (function () {
       if (ap) {
         const id = ap.dataset.arcadePin, a = arcadeLeft();
         if (!P.pin || ($('arcadePin') && $('arcadePin').value) !== P.pin) return openSheet(arcadeLockHtml(id, a || { left: 0, all: 0, ref: '' }, "That PIN isn't right."));
-        S.arcadeOpen = dayKey(); save(); closeSheet(); refreshHome(); toast('🎮 The arcade is open today', 'Opened by a parent'); openArcade(id); return;
+        S.arcadeOpen = dayKey(); save(); closeSheet(); refreshHome(); toast('🎮 The arcade is open today', 'Opened by a parent');
+        if (id === 'liberty') location.href = 'liberty/'; else openArcade(id);
+        return;
       }
       const td = e.target.closest('[data-talkdone]');
       if (td) { markTalk(td.dataset.talkdone); return openTalk(td.dataset.talkdone); }

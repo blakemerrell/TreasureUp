@@ -553,6 +553,7 @@
     }
   }
   function drawSnake(ctx, s, cell, cx, cy, t) {
+    ctx.lineJoin = 'round';
     const b = s.body, sk = s.skin;
     ctx.globalAlpha = ghost(s) ? 0.45 + 0.35 * Math.abs(Math.sin(t / 80)) : 1;
     
@@ -778,7 +779,7 @@
     if (G.mode === '1p') {
       const s = G.snakes[0];
       body = `<div class="sn-menu sn-over">
-        <div class="eyebrow">${G.newBest ? '🏆 New best!' : 'The snake rests'}</div>
+        <div class="eyebrow">${G.newBest ? '🏆 New best!' : 'The caravan rests'}</div>
         <div class="sn-big">${fmt(s.score)}</div>
         <p class="sn-note">${s.right} of ${G.asked} ${G.asked === 1 ? 'question' : 'questions'} right · best streak ${s.bestStreak} · level ${G.level} · length ${s.body.length}</p>
         <p class="sn-hook">${host.html(lines.over || '')}</p>
