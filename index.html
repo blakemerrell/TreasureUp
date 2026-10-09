@@ -4017,6 +4017,87 @@ const TreasureUp = (function () {
     return findBestRef(x.ref, allLines) || x.ref || '';
   }
 
+  const CFM_MEDIA = {
+    'title4': {
+      video: {
+        title: 'My Kingdom Is Not of This World',
+        channel: 'The Church of Jesus Christ of Latter-day Saints',
+        youtube: 'CQL1iqOBZxo',
+        start: 0,
+        end: 325,
+        previewed: true
+      },
+      videoCardIdx: 3, // Card 4
+      images: [
+        {
+          cardIdx: 0, // Card 1
+          src: 'https://www.churchofjesuschrist.org/imgs/bec070a4acb19a4c713b1a165f14daf4af2841c1/full/!500,/0/default',
+          alt: 'His Light — Portrait of Jesus Christ',
+          caption: '🎨 “His Light” · The Church of Jesus Christ of Latter-day Saints'
+        },
+        {
+          cardIdx: 1, // Card 2
+          src: 'media/ecce-homo-ciseri.jpg',
+          alt: 'Ecce Homo by Antonio Ciseri',
+          caption: '🎨 “Ecce Homo” · Jesus before Pilate'
+        },
+        {
+          cardIdx: 3, // Card 4
+          src: 'media/gethsemane-bloch.jpg',
+          alt: 'Gethsemane by Carl Bloch',
+          caption: '🎨 “Gethsemane” by Carl Bloch · Prophecies in Isaiah 53'
+        }
+      ]
+    },
+    'title9': {
+      images: [
+        {
+          cardIdx: 0,
+          src: 'media/agnus-dei-zurbaran.jpg',
+          alt: 'Lamb of God by Francisco de Zurbarán',
+          caption: '🎨 “Agnus Dei (Lamb of God)” · Francisco de Zurbarán'
+        },
+        {
+          cardIdx: 3,
+          src: 'https://www.churchofjesuschrist.org/imgs/090272c3130e11efa003eeeeac1e5954de2cf17c/full/!500,/0/default',
+          alt: 'Jesus Christ with Children',
+          caption: '🎨 “Christ with Children” · Gospel Library'
+        }
+      ]
+    }
+  };
+
+  function cardImageHtml(img) {
+    if (!img || !img.src) return '';
+    return `<div class="sp-card-media">
+      <img src="${esc(img.src)}" alt="${esc(img.alt || '')}" loading="lazy" />
+      ${img.caption ? `<div class="sp-card-media-caption"><span>${esc(img.caption)}</span></div>` : ''}
+    </div>`;
+  }
+
+  function findMediaForCard(x, cardIdx, week) {
+    if (!x) return { video: null, image: null };
+    const cfm = CFM_MEDIA[x.id];
+    let video = null;
+    let image = null;
+
+    if (cfm) {
+      if (cfm.video && (cfm.videoCardIdx === cardIdx || (cfm.videoCardIdx == null && cardIdx === 0))) {
+        video = cfm.video;
+      }
+      if (Array.isArray(cfm.images)) {
+        const found = cfm.images.find(im => im.cardIdx === cardIdx);
+        if (found) image = found;
+      }
+    }
+
+    if (!video && cardIdx === 0) {
+      video = findClipForGuide({ x }, week);
+    }
+
+    return { video, image };
+  }
+
   const shortTotalSlides = x => (x && x.lines ? x.lines.length : 0) + 1;
 
   function shortPlayerHtml(p, curStep = 0) {
@@ -4024,7 +4105,6 @@ const TreasureUp = (function () {
     const isKids = !!x.kids;
     const done = isShortDone(x.id);
     const badge = shortBadge(x, isKids);
-    const clip = findClipForGuide(p, WEEK);
     const lines = x.lines || [];
     const numIdeaCards = lines.length;
     const totalSlides = shortTotalSlides(x);
@@ -4068,13 +4148,20 @@ const TreasureUp = (function () {
           </div>
 
           ${(() => {
+            const media = findMediaForCard(x, cur, WEEK);
+            let h = '';
+            if (media.image) h += cardImageHtml(media.image);
+            if (media.video) h += clipHtml(media.video);
+            return h;
+          })()}
+
+          ${(() => {
             const cardRef = cardRefFor(lines[cur], x, cur, lines);
             return cardRef ? scriptureBlockHtml(cardRef, { kids: isKids, title: '📖 Scripture Focus · ' + cardRef, quote: lines[cur] }) : '';
           })()}
 
           ${lotPickerHtml('reads this scripture')}
 
-          ${cur === 0 && clip ? clipHtml(clip) : ''}
           <a class="sp-gl-link" href="${esc(lessonAt(WEEK, x.id))}" target="_blank" rel="noopener noreferrer">📖 Open section in Gospel Library ↗</a>
         ` : ''}
 
@@ -4092,9 +4179,9 @@ const TreasureUp = (function () {
           ${lotPickerHtml('answers first')}
           <div style="margin-top:8px">
             ${done ? `
-              <button class="sp-action-btn done" disabled style="width:100%;justify-content:center">✓ Short Completed (+10 XP)</button>
+              <button class="sp-action-btn done" disabled style="width:100%;justify-content:center">✓ Family Lesson Completed</button>
             ` : `
-              <button class="sp-action-btn" data-short-finish="${esc(x.id)}" style="width:100%;justify-content:center;font-size:14.5px;padding:12px">Done ✓ Claim +10 XP</button>
+              <button class="sp-action-btn" data-short-finish="${esc(x.id)}" style="width:100%;justify-content:center;font-size:14.5px;padding:12px">Done ✓ Family Complete 🎉</button>
             `}
           </div>
         ` : ''}
@@ -16716,8 +16803,8 @@ const TreasureUp = (function () {
       const sfin = e.target.closest('[data-short-finish]');
       if (sfin) {
         const id = sfin.dataset.shortFinish;
-        markShortDone(id, 10, 'Come, Follow Me Short');
-        toast('🎉 Short completed! +10 XP', 'Nice work!');
+        markShortDone(id, 0, 'Come, Follow Me Short');
+        toast('🎉 Family lesson completed!', 'Great discussion!');
         const p = guideOf(WEEK).find(g => g.x.id === id);
         if (p) {
           const lastIdx = Math.max(0, shortTotalSlides(p.x) - 1);
@@ -16735,8 +16822,8 @@ const TreasureUp = (function () {
         return openSheet(familyDeckHtml(Number(fstep.dataset.familyStep)));
       }
       if (e.target.closest('[data-family-finish]')) {
-        markShortDone('family:' + WEEK.title, 50, 'Family Night Deck');
-        toast('👪 Family Night completed! +50 XP', 'Way to go!');
+        markShortDone('family:' + WEEK.title, 0, 'Family Night Deck');
+        toast('👪 Family Night completed!', 'Way to go!');
         const f = familyOf(WEEK);
         const lastIdx = f && f.x && f.x.steps ? f.x.steps.length - 1 : 0;
         return openSheet(familyDeckHtml(lastIdx));
