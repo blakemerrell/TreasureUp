@@ -73,17 +73,14 @@
     const seed = typeof window.TU_AMMON_SEED === 'number' ? window.TU_AMMON_SEED : Date.now();
     G = { w: portrait ? 16 : 24, rand: rng(seed), time: 0, level: 0, score: 0, state: 'play', ready: manual() ? 0 : T.ready, paused: false,
       stones: T.stones, lost: 0, robbersOff: 0, chiefsOff: 0, gathered: 0, shieldUntil: 0, used: new Set(), power: 0, flashAt: -9, combos: 0, mighties: 0,
-      heroes: [
-      { id: 1, name: 'Ammon', x: 0, y: 0, vy: 0, face: 1, act: 'ready', t: 0, stun: 0, step: 0, chain: 0, chainUntil: 0, counterUntil: 0, lx: 0, hits: 0, k: { left: 'left', right: 'right', up: 'up', block: 'block', strike: 'strike', sling: 'sling', power: 'power' } },
-      { id: 2, name: 'Javan', x: 0, y: 0, vy: 0, face: 1, act: 'ready', t: 0, stun: 0, step: 0, chain: 0, chainUntil: 0, counterUntil: 0, lx: 0, hits: 0, k: { left: 'p2_left', right: 'p2_right', up: 'p2_up', block: 'p2_block', strike: 'p2_strike', sling: 'p2_sling', power: 'p2_power' } }
-    ],
+      me: { x: 0, y: 0, vy: 0, face: 1, act: 'ready', t: 0, stun: 0, step: 0, chain: 0, chainUntil: 0, counterUntil: 0, lx: 0, hits: 0, k: { left: 'left', right: 'right', up: 'up', block: 'block', strike: 'strike', sling: 'sling', power: 'power' } },
       sheep: [], robbers: [], shots: [], drops: [], floats: [], between: 0, banner: null, q: null };
     const home = T.flock, span = (portrait ? home[1] - 1.2 : home[1]) - home[0];
     for (let k = 0; k < T.sheep; k++) {
       const x = home[0] + span * (k + 0.5) / T.sheep;
       G.sheep.push({ home: x, x, state: 'flock', tx: x, row: k % 2, wig: G.rand() * 6 });
     }
-    G.heroes[0].x = home[0] + span + 2; G.heroes[1].x = home[0] + span + 4;
+    G.me.x = home[0] + span + 2;
     nextLevel();
   }
   const alive = () => G.sheep.filter(s => s.state !== 'lost');
@@ -120,51 +117,50 @@
       if (G.between <= 0) askQuestion();
       return;
     }
-    for (const me of G.heroes) {
-        if (me.stun > 0) { me.stun -= dt; me.act = 'stun'; }
-        else if (me.act === 'stun') me.act = 'ready';
-        if (me.lx) { const k = Math.sign(me.lx) * Math.min(Math.abs(me.lx), T.lunge * dt); me.x += k; me.lx -= k; }   // a chained blow or a counter steps in
-        if (me.act === 'strike' || me.act === 'sling') {
-          me.t += dt;
-          if (me.act === 'strike' && !me.landed && me.t >= T.strikeHit[0]) {
-            me.landed = true;
-            const k = me.kind, reach = T.reach + (k === 'air' ? 0.5 : 0);
-            const hit = G.robbers.filter(r => r.act !== 'flee' && Math.sign(r.x - me.x) === me.face && Math.abs(r.x - me.x) < reach + (r.kind === 'chief' ? 0.3 : 0));
-            if (hit.length) me.hits++;
-            const finish = k === 'finish' && me.hits >= 3;
-            let label = null;
-            if (k === 'air') label = 'Overhead!';
-            else if (k === 'counter') { label = 'Counter!'; addPower(T.fill.counter); }
-            else if (finish) { label = `3-hit combo! +${T.combo}`; G.score += T.combo; G.combos++; addPower(T.fill.combo); }
-            else if (hit.length && me.chain === 2 && me.hits >= 2) label = '2 hits!';
-            hit.forEach((r, i) => hurt(r, k === 'strike' ? 1 : 2, me.face, {
-              push: k === 'strike' ? T.chainPush : k === 'finish' ? T.finishPush : T.push, daze: k === 'air' || k === 'counter' ? T.daze : 0, label: i ? null : label }));
-            if (hit.length && label) sound(finish || k === 'counter' ? 'combo' : 'hit');
-          }
-          if (me.act === 'sling' && !me.thrown && me.t >= T.slingAt) {
-            me.thrown = true;
-            G.shots.push({ x: me.x + me.face * 0.6, y: 2.4, vx: me.face * T.stoneSpeed, vy: 3 });
-            sound('sling');
-          }
-          if (me.t >= (me.act === 'strike' ? T.strike : T.sling)) {
-            const was = me.act;
-            me.act = 'ready'; me.t = 0;
-            if (was === 'strike') { if (me.queued) startStrike(me, true); else me.chainUntil = G.time + T.chainWin; }
-          }
-        }
-        const blocking = me.act !== 'stun' && keys.has(me.k.block) && me.y <= 0;
-        if (me.act === 'ready' || me.act === 'walk' || me.act === 'block') me.act = blocking ? 'block' : 'ready';
-        let mx = (keys.has(me.k.right) ? 1 : 0) - (keys.has(me.k.left) ? 1 : 0);
-        if (me.act !== 'stun' && !blocking && me.act !== 'sling') {
-          if (mx) { me.x += mx * T.speed * dt * (me.act === 'strike' ? 0.3 : 1); if (me.act !== 'strike') me.face = mx; if (me.act === 'ready') me.act = 'walk'; me.step += dt * 6; }
-          if (keys.has(me.k.up) && me.y <= 0) { me.vy = T.jump; }
-        }
-        if (me.y > 0 || me.vy > 0) { me.vy -= T.gravity * dt; me.y = Math.max(0, me.y + me.vy * dt); if (me.y <= 0) me.vy = 0; }
-        me.x = Math.max(0.6, Math.min(G.w - 0.6, me.x));
-        // Gathering: walk to a scattered sheep and it runs home.
-        for (const s of G.sheep) if ((s.state === 'stray' || s.state === 'run') && Math.abs(s.x - me.x) < 1 && me.y < 1) {
-          s.state = 'return'; G.gathered++; G.score += 25; float('Gathered! +25', s.x, 2.2, '#bbf7d0'); sound('gather'); addPower(T.fill.gather);
-        }
+    const me = G.me;
+    if (me.stun > 0) { me.stun -= dt; me.act = 'stun'; }
+    else if (me.act === 'stun') me.act = 'ready';
+    if (me.lx) { const k = Math.sign(me.lx) * Math.min(Math.abs(me.lx), T.lunge * dt); me.x += k; me.lx -= k; }   // a chained blow or a counter steps in
+    if (me.act === 'strike' || me.act === 'sling') {
+      me.t += dt;
+      if (me.act === 'strike' && !me.landed && me.t >= T.strikeHit[0]) {
+        me.landed = true;
+        const k = me.kind, reach = T.reach + (k === 'air' ? 0.5 : 0);
+        const hit = G.robbers.filter(r => r.act !== 'flee' && Math.sign(r.x - me.x) === me.face && Math.abs(r.x - me.x) < reach + (r.kind === 'chief' ? 0.3 : 0));
+        if (hit.length) me.hits++;
+        const finish = k === 'finish' && me.hits >= 3;
+        let label = null;
+        if (k === 'air') label = 'Overhead!';
+        else if (k === 'counter') { label = 'Counter!'; addPower(T.fill.counter); }
+        else if (finish) { label = `3-hit combo! +${T.combo}`; G.score += T.combo; G.combos++; addPower(T.fill.combo); }
+        else if (hit.length && me.chain === 2 && me.hits >= 2) label = '2 hits!';
+        hit.forEach((r, i) => hurt(r, k === 'strike' ? 1 : 2, me.face, {
+          push: k === 'strike' ? T.chainPush : k === 'finish' ? T.finishPush : T.push, daze: k === 'air' || k === 'counter' ? T.daze : 0, label: i ? null : label }));
+        if (hit.length && label) sound(finish || k === 'counter' ? 'combo' : 'hit');
+      }
+      if (me.act === 'sling' && !me.thrown && me.t >= T.slingAt) {
+        me.thrown = true;
+        G.shots.push({ x: me.x + me.face * 0.6, y: 2.4, vx: me.face * T.stoneSpeed, vy: 3 });
+        sound('sling');
+      }
+      if (me.t >= (me.act === 'strike' ? T.strike : T.sling)) {
+        const was = me.act;
+        me.act = 'ready'; me.t = 0;
+        if (was === 'strike') { if (me.queued) startStrike(me, true); else me.chainUntil = G.time + T.chainWin; }
+      }
+    }
+    const blocking = me.act !== 'stun' && keys.has(me.k.block) && me.y <= 0;
+    if (me.act === 'ready' || me.act === 'walk' || me.act === 'block') me.act = blocking ? 'block' : 'ready';
+    let mx = (keys.has(me.k.right) ? 1 : 0) - (keys.has(me.k.left) ? 1 : 0);
+    if (me.act !== 'stun' && !blocking && me.act !== 'sling') {
+      if (mx) { me.x += mx * T.speed * dt * (me.act === 'strike' ? 0.3 : 1); if (me.act !== 'strike') me.face = mx; if (me.act === 'ready') me.act = 'walk'; me.step += dt * 6; }
+      if (keys.has(me.k.up) && me.y <= 0) { me.vy = T.jump; }
+    }
+    if (me.y > 0 || me.vy > 0) { me.vy -= T.gravity * dt; me.y = Math.max(0, me.y + me.vy * dt); if (me.y <= 0) me.vy = 0; }
+    me.x = Math.max(0.6, Math.min(G.w - 0.6, me.x));
+    // Gathering: walk to a scattered sheep and it runs home.
+    for (const s of G.sheep) if ((s.state === 'stray' || s.state === 'run') && Math.abs(s.x - me.x) < 1 && me.y < 1) {
+      s.state = 'return'; G.gathered++; G.score += 25; float('Gathered! +25', s.x, 2.2, '#bbf7d0'); sound('gather'); addPower(T.fill.gather);
     }
     // ----- stones -----
     for (const st of G.shots) {
@@ -209,9 +205,9 @@
 
   // A robber (or their leader): to the flock, or at Ammon when he's in the way.
   function robber(r, dt) {
-    let heroTarget = G.heroes[0];
+    let heroTarget = G.me;
     let minDist = 999;
-    for (const h of G.heroes) {
+    for (const h of G.me) {
       if (h.act !== 'stun') {
         const d = Math.abs(h.x - r.x);
         if (d < minDist) { minDist = d; heroTarget = h; }
@@ -303,7 +299,7 @@
   function addPower(n) {
     if (!G || G.power >= T.power) return;
     G.power = Math.min(T.power, G.power + n);
-    if (G.power >= T.power) { float('⚡ Mighty power is ready!', G.heroes[0].x, 4.6, '#fbbf24'); sound('ready'); }
+    if (G.power >= T.power) { float('⚡ Mighty power is ready!', G.me.x, 4.6, '#fbbf24'); sound('ready'); }
   }
   // A sword blow: in the air, an overhead blow; just after a block, a counter; else the next in a chain of three.
   function startStrike(me, chained) {
@@ -453,29 +449,27 @@
         ctx.fillStyle = '#ef4444'; ctx.fillRect(bx, by, bw * Math.max(0, r.hp) / r.hpMax, u * 0.22);
       }
     }
-    for (const me of G.heroes) {
-        const walkFrame = Math.floor(me.step) % 2 ? 'ammon-walk1' : 'ammon-walk2';
-        const name = me.act === 'strike' ? 'ammon-strike' : me.act === 'sling' ? 'ammon-sling' : me.act === 'block' ? 'ammon-block' : me.act === 'walk' && me.y <= 0 ? walkFrame : 'ammon-ready';
-        shadow(me.x, 0.6 - Math.min(0.3, me.y * 0.08));
-        if (G.time < G.shieldUntil) {   // the Lord's protection: a glow round him
-          const gl = ctx.createRadialGradient(X(me.x), gy - u * 1.6 - X(me.y), u * 0.4, X(me.x), gy - u * 1.6 - X(me.y), u * 2.4);
-          gl.addColorStop(0, 'rgba(253,230,138,.45)'); gl.addColorStop(1, 'rgba(253,230,138,0)'); ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(X(me.x), gy - u * 1.6 - X(me.y), u * 2.4, 0, 7); ctx.fill();
-        }
-        ctx.fillStyle = me.id === 1 ? '#60a5fa' : '#34d399'; ctx.font = `bold ${Math.round(u * 0.4)}px 'Courier New', Courier, monospace`; ctx.textAlign = 'center'; ctx.fillText(me.name, X(me.x), gy - u * 3.7 - X(me.y));
+    const me = G.me;
+    const walkFrame = Math.floor(me.step) % 2 ? 'ammon-walk1' : 'ammon-walk2';
+    const name = me.act === 'strike' ? 'ammon-strike' : me.act === 'sling' ? 'ammon-sling' : me.act === 'block' ? 'ammon-block' : me.act === 'walk' && me.y <= 0 ? walkFrame : 'ammon-ready';
+    shadow(me.x, 0.6 - Math.min(0.3, me.y * 0.08));
+    if (G.time < G.shieldUntil) {   // the Lord's protection: a glow round him
+      const gl = ctx.createRadialGradient(X(me.x), gy - u * 1.6 - X(me.y), u * 0.4, X(me.x), gy - u * 1.6 - X(me.y), u * 2.4);
+      gl.addColorStop(0, 'rgba(253,230,138,.45)'); gl.addColorStop(1, 'rgba(253,230,138,0)'); ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(X(me.x), gy - u * 1.6 - X(me.y), u * 2.4, 0, 7); ctx.fill();
+    }
         if (!sprite(ctx, name, X(me.x), gy - X(me.y), u, me.face, me.act === 'stun' && Math.floor(t / 80) % 2 ? 0.45 : 1)) {
-          ctx.fillStyle = me.id === 1 ? '#2563eb' : '#10b981'; ctx.fillRect(X(me.x) - u * 0.4, gy - u * 3.1 - X(me.y), u * 0.8, u * 3.1);
-        }
-        if (me.act === 'stun') { ctx.fillStyle = '#fde68a'; ctx.font = `${Math.round(u * 0.6)}px 'Courier New', Courier, monospace`; ctx.textAlign = 'center'; ctx.fillText('💫', X(me.x), gy - u * 3.5 - X(me.y)); }
-        // The sword's sweep: gold for a finishing blow, a counter or an overhead blow
-        if (me.act === 'strike' && me.t > 0.03 && me.t < 0.24) {
-          const big = me.kind !== 'strike', a = 1 - (me.t - 0.03) / 0.21, cx = X(me.x) + me.face * u * 0.5, cy = gy - u * 1.9 - X(me.y), rad = u * (big ? 1.9 : 1.5);
-          const from = me.kind === 'air' ? -1.5 : -1.1, to = me.kind === 'air' ? 1.3 : 0.9;
-          ctx.save(); ctx.globalAlpha = Math.max(0, a); ctx.lineCap = 'round';
-          ctx.strokeStyle = big ? '#fbbf24' : 'rgba(255,255,255,.85)'; ctx.lineWidth = u * (big ? 0.32 : 0.2);
-          ctx.beginPath();
-          if (me.face > 0) ctx.arc(cx, cy, rad, from, to); else ctx.arc(cx, cy, rad, Math.PI - to, Math.PI - from);
-          ctx.stroke(); ctx.restore();
-        }
+      ctx.fillStyle = '#2563eb'; ctx.fillRect(X(me.x) - u * 0.4, gy - u * 3.1 - X(me.y), u * 0.8, u * 3.1);
+    }
+    if (me.act === 'stun') { ctx.fillStyle = '#fde68a'; ctx.font = `${Math.round(u * 0.6)}px 'Courier New', Courier, monospace`; ctx.textAlign = 'center'; ctx.fillText('💫', X(me.x), gy - u * 3.5 - X(me.y)); }
+    // The sword's sweep: gold for a finishing blow, a counter or an overhead blow
+    if (me.act === 'strike' && me.t > 0.03 && me.t < 0.24) {
+      const big = me.kind !== 'strike', a = 1 - (me.t - 0.03) / 0.21, cx = X(me.x) + me.face * u * 0.5, cy = gy - u * 1.9 - X(me.y), rad = u * (big ? 1.9 : 1.5);
+      const from = me.kind === 'air' ? -1.5 : -1.1, to = me.kind === 'air' ? 1.3 : 0.9;
+      ctx.save(); ctx.globalAlpha = Math.max(0, a); ctx.lineCap = 'round';
+      ctx.strokeStyle = big ? '#fbbf24' : 'rgba(255,255,255,.85)'; ctx.lineWidth = u * (big ? 0.32 : 0.2);
+      ctx.beginPath();
+      if (me.face > 0) ctx.arc(cx, cy, rad, from, to); else ctx.arc(cx, cy, rad, Math.PI - to, Math.PI - from);
+      ctx.stroke(); ctx.restore();
     }
     for (const st of G.shots) {
       if (st.target) { ctx.fillStyle = 'rgba(251,191,36,.45)'; ctx.beginPath(); ctx.ellipse(X(st.x - Math.sign(st.vx) * 0.5), gy - X(st.y), u * 0.7, u * 0.18, 0, 0, 7); ctx.fill(); }
@@ -539,23 +533,15 @@
   }
   function renderGame() {
     root.dataset.view = 'game';
-    const pads = coarse() ? `<div class="am-pads arcade-deck">
+    const pads = coarse() ? `<div class="am-pads arcade-deck" style="justify-content: center; gap: 60px;">
       <div class="am-pad am-left arcade-p1">
         <div class="arcade-joy" id="joy1"><div class="joy-stick"></div><div class="joy-ball red"></div></div>
-        <div class="arcade-btns">
+      </div>
+      <div class="am-pad am-right">
+        <div class="arcade-btns" style="grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
           <button data-tap="strike" class="arcade-btn red">A</button>
           <button data-tap="sling" class="arcade-btn yellow">B</button>
           <button data-hold="block" class="arcade-btn blue">X</button>
-          <button data-tap="power" class="arcade-btn am-power" hidden>⚡</button>
-        </div>
-      </div>
-      <div class="am-pad am-right arcade-p2">
-        <div class="arcade-joy" id="joy2"><div class="joy-stick"></div><div class="joy-ball blue"></div></div>
-        <div class="arcade-btns">
-          <button data-tap="p2_strike" class="arcade-btn blue">A</button>
-          <button data-tap="p2_sling" class="arcade-btn yellow">B</button>
-          <button data-hold="p2_block" class="arcade-btn green">X</button>
-          <button data-tap="p2_power" class="arcade-btn am-power" hidden>⚡</button>
         </div>
       </div>
     </div>` : '';
@@ -593,7 +579,7 @@
     let head, line = '';
     if (G.banner && (G.between > 0 || G.time < (G.banner.until || 0))) { head = `<b class="ok">${esc(G.banner.title)}</b> <small>${esc(G.banner.small || '')}</small>`; line = G.banner.line || ''; }
     else if (G.time - G.flashAt < 4) { head = '<b class="ok">Mighty power!</b> A stone at every robber on the field.'; line = W().mighty || ''; }
-    else if (G.heroes[0].act === 'stun') head = '<b class="no">Stunned!</b> Face the robber and <b>block</b> his club next time.';
+    else if (G.me.act === 'stun') head = '<b class="no">Stunned!</b> Face the robber and <b>block</b> his club next time.';
     else if (strays) head = `<b class="no">${strays} ${strays === 1 ? 'sheep is' : 'sheep are'} scattered!</b> Walk to ${strays === 1 ? 'it' : 'them'} to gather the flock.`;
     else if (G.time < G.shieldUntil) head = '<b class="ok">The Lord’s protection</b> is with you for a few seconds.';
     else if (G.power >= T.power) head = `<b class="ok">⚡ Mighty power is ready!</b> ${coarse() ? 'Tap <b>⚡ POWER</b>' : 'Press <b>J</b> and <b>K</b> together (or <b>E</b>)'} when the robbers come.`;
@@ -620,29 +606,29 @@
   }
 
   // ----- input -----
-  const KEY = { ArrowLeft: 'p2_left', ArrowRight: 'p2_right', ArrowUp: 'p2_up', a: 'left', d: 'right', w: 'up', A: 'left', D: 'right', W: 'up', l: 'p2_block', L: 'p2_block', c: 'block', C: 'block' };
-  const TAP = { j: 'p2_strike', J: 'p2_strike', z: 'strike', Z: 'strike', k: 'p2_sling', K: 'p2_sling', x: 'sling', X: 'sling', e: 'power', E: 'power', i: 'p2_power', I: 'p2_power' };
+  const KEY = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', a: 'left', d: 'right', w: 'up', A: 'left', D: 'right', W: 'up', l: 'block', L: 'block', c: 'block', C: 'block' };
+  const TAP = { j: 'strike', J: 'strike', z: 'strike', Z: 'strike', k: 'sling', K: 'sling', x: 'sling', X: 'sling', e: 'power', E: 'power' };
   function act(what) {
-    if (!G || !G.heroes || G.state !== 'play' || G.paused || G.q || G.ready > 0 || G.between > 0) return;
-    for (const me of G.heroes) {
-      if (me.act === 'stun') continue;
-      if (what === me.k.power) { mighty(me); continue; }
-      
-      const isStrike = what === me.k.strike;
-      const isSling = what === me.k.sling;
-      if (!isStrike && !isSling) continue;
+    if (!G || !G.me || G.state !== 'play' || G.paused || G.q || G.ready > 0 || G.between > 0) return;
+    const me = G.me;
+    if (me.act === 'stun') return;
+    if (what === me.k.power) { mighty(); return; }
+    
+    const isStrike = what === me.k.strike;
+    const isSling = what === me.k.sling;
+    if (!isStrike && !isSling) return;
 
-      if (G.power >= T.power && me.press && ((isStrike && me.press.what === me.k.sling) || (isSling && me.press.what === me.k.strike)) && G.time - me.press.at <= T.together) { mighty(me); continue; }
-      me.press = { what, at: G.time };
-      
-      if (me.act === 'strike') { if (isStrike && me.t >= T.strikeHit[0] && me.kind !== 'air' && me.chain < 3) me.queued = true; continue; }
-      if (me.act === 'sling') continue;
-      
-      if (isStrike) startStrike(me, false);
-      else if (isSling && G.stones > 0) { me.act = 'sling'; me.t = 0; me.thrown = false; G.stones--; hud(); }
-    }
+    if (G.power >= T.power && me.press && ((isStrike && me.press.what === me.k.sling) || (isSling && me.press.what === me.k.strike)) && G.time - me.press.at <= T.together) { mighty(); return; }
+    me.press = { what, at: G.time };
+    
+    if (me.act === 'strike') { if (isStrike && me.t >= T.strikeHit[0] && me.kind !== 'air' && me.chain < 3) me.queued = true; return; }
+    if (me.act === 'sling') return;
+    
+    if (isStrike) startStrike(me, false);
+    else if (isSling && G.stones > 0) { me.act = 'sling'; me.t = 0; me.thrown = false; G.stones--; hud(); }
   }
-  function mighty(me) {
+  function mighty() {
+    const me = G.me;
     if (G.power < T.power) { float('Not ready yet', me.x, 3.6, '#e5e7eb'); return; }
     me.press = null;
     const targets = G.robbers.filter(r => r.act !== 'flee');
@@ -790,15 +776,14 @@
 
   
   const joys = {
-    joy1: { active: false, k: { left: 'left', right: 'right', up: 'up' } },
-    joy2: { active: false, k: { left: 'p2_left', right: 'p2_right', up: 'p2_up' } }
+    joy1: { active: false, k: { left: 'left', right: 'right', up: 'up' } }
   };
   function updateJoys(e) {
     if (!coarse()) return;
     Object.keys(joys).forEach(j => { joys[j].active = false; keys.delete(joys[j].k.left); keys.delete(joys[j].k.right); keys.delete(joys[j].k.up); });
     for (let i = 0; i < e.touches.length; i++) {
       const t = e.touches[i];
-      ['joy1', 'joy2'].forEach(jid => {
+      ['joy1'].forEach(jid => {
         const el = document.getElementById(jid);
         if (!el) return;
         const r = el.getBoundingClientRect();
@@ -814,7 +799,7 @@
         }
       });
     }
-    ['joy1', 'joy2'].forEach(jid => {
+    ['joy1'].forEach(jid => {
       const el = document.getElementById(jid);
       if (el && !joys[jid].active) el.querySelector('.joy-ball').style.transform = `translate(0px, 0px)`;
     });
@@ -868,7 +853,7 @@
       state: () => G, T,
       step(ms = 50) { for (let t = 0; t < ms && G && G.state === 'play' && !G.q; t += 50) update(Math.min(50, ms - t) / 1000); if (G && root.dataset.view === 'game') { hud(); panel(); draw(performance.now()); } },
       key(name, down) { down ? keys.add(name) : keys.delete(name); }, act, hold(on) { G.hold = !!on; },
-      robber(x, opts) { G.robbers.push(Object.assign({ kind: 'robber', x, face: x > G.heroes[0].x ? -1 : 1, hp: 2, act: 'walk', t: 0, kx: 0, speed: 2.3, step: 0 }, opts || {})); G.wave.spawned++; },
+      robber(x, opts) { G.robbers.push(Object.assign({ kind: 'robber', x, face: x > G.me.x ? -1 : 1, hp: 2, act: 'walk', t: 0, kx: 0, speed: 2.3, step: 0 }, opts || {})); G.wave.spawned++; },
       answer, next: afterQuestion, draw: () => draw(performance.now())
     }
   };
