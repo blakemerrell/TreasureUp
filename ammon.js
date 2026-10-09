@@ -75,7 +75,7 @@
     G = { w: portrait ? 16 : 24, rand: rng(seed), time: 0, level: 0, score: 0, state: 'play', ready: manual() ? 0 : T.ready, paused: false,
       stones: T.stones, lost: 0, robbersOff: 0, chiefsOff: 0, gathered: 0, shieldUntil: 0, used: new Set(), power: 0, flashAt: -9, combos: 0, mighties: 0,
       shake: 0, hitstop: 0, sparks: [],
-      me: { x: 0, y: 0, vy: 0, vx: 0, face: 1, act: 'ready', t: 0, stun: 0, step: 0, chain: 0, chainUntil: 0, counterUntil: 0, lx: 0, hits: 0, buffer: null, landTimer: 0, k: { left: 'left', right: 'right', up: 'up', block: 'block', strike: 'strike', sling: 'sling', power: 'power' } },
+      me: { x: 0, y: 0, vy: 0, vx: 0, hp: 100, hpMax: 100, face: 1, act: 'ready', t: 0, stun: 0, step: 0, chain: 0, chainUntil: 0, counterUntil: 0, lx: 0, hits: 0, buffer: null, landTimer: 0, k: { left: 'left', right: 'right', up: 'up', block: 'block', strike: 'strike', sling: 'sling', power: 'power' } },
       sheep: [], robbers: [], shots: [], drops: [], floats: [], between: 0, banner: null, q: null };
     const home = T.flock, span = (portrait ? home[1] - 1.2 : home[1]) - home[0];
     for (let k = 0; k < T.sheep; k++) {
@@ -250,7 +250,7 @@
     me.x = Math.max(0.6, Math.min(G.w - 0.6, me.x));
     // Gathering: walk to a scattered sheep and it runs home.
     for (const s of G.sheep) if ((s.state === 'stray' || s.state === 'run') && Math.abs(s.x - me.x) < 1 && me.y < 1) {
-      s.state = 'return'; G.gathered++; G.score += 25; float('Gathered! +25', s.x, 2.2, '#bbf7d0'); sound('gather'); addPower(T.fill.gather);
+      s.state = 'return'; G.gathered++; G.score += 25; me.hp = Math.min(me.hpMax || 100, (me.hp || 100) + 15); float('Gathered! +15 HP +25', s.x, 2.2, '#bbf7d0'); sound('gather'); addPower(T.fill.gather); hud();
     }
     // ----- stones -----
     
@@ -274,7 +274,7 @@
     G.shots = G.shots.filter(s => !s.done);
     // ----- pouches of stones -----
     for (const d of G.drops) if (!d.taken && Math.abs(d.x - me.x) < 0.9 && me.y < 1) {
-      d.taken = true; const n = Math.min(3, T.stonesMax - G.stones); G.stones += n; float(n ? `+${n} stones` : 'Pouch full', d.x, 1.8, '#e5e7eb');
+      d.taken = true; const n = Math.min(3, T.stonesMax - G.stones); G.stones += n; float(n ? `+${n} stones` : 'Pouch full', d.x, 1.8, '#e5e7eb'); hud();
     }
     G.drops = G.drops.filter(d => !d.taken && G.time - d.at < 12);
     // ----- robbers -----
@@ -335,9 +335,14 @@
             r.kx = -r.face * (chief ? 1 : 1.6); r.act = 'hit'; r.t = 0;
             if (chief) me.x = Math.max(0.6, Math.min(G.w - 0.6, me.x + r.face * 0.6));   // the leader's blow still pushes him back
           } else {
+            const dmg = chief ? 25 : 15;
+            me.hp = Math.max(0, (me.hp != null ? me.hp : 100) - dmg);
             me.stun = chief ? T.chiefStun : T.stun; me.act = 'stun'; me.t = 0;
             me.x = Math.max(0.6, Math.min(G.w - 0.6, me.x + r.face * (chief ? 2.4 : 1.3)));
-            float('Stunned!', me.x, 3.6, '#fca5a5'); sound('stun');
+            G.shake = Math.max(G.shake || 0, chief ? 0.65 : 0.4);
+            float(me.hp <= 0 ? 'Down! Stand firm!' : `Stunned! -${dmg} HP`, me.x, 3.6, '#fca5a5'); sound('stun');
+            if (me.hp <= 0) { me.stun = 2.2; me.hp = 50; }
+            hud();
           }
         }
       }
@@ -350,7 +355,15 @@
         if (Math.abs(me.x - r.x) < 1.2 && me.y < 1.2 && me.act !== 'stun') {
           const front = Math.sign(r.x - me.x) === me.face;
           if (G.time < G.shieldUntil || (blocking && front)) { float('Blocked!', me.x, 3.6, '#fde68a'); sound('block'); r.act = 'hit'; r.t = 0; r.kx = -r.face * 2; if (blocking && front) me.counterUntil = G.time + T.counterWin; }
-          else { me.stun = T.chiefStun; me.act = 'stun'; me.x = Math.max(0.6, Math.min(G.w - 0.6, me.x + r.face * 3)); float('Stunned!', me.x, 3.6, '#fca5a5'); sound('stun'); r.act = 'recover'; r.t = 0; }
+          else {
+            const dmg = 30;
+            me.hp = Math.max(0, (me.hp != null ? me.hp : 100) - dmg);
+            me.stun = T.chiefStun; me.act = 'stun'; me.x = Math.max(0.6, Math.min(G.w - 0.6, me.x + r.face * 3));
+            G.shake = Math.max(G.shake || 0, 0.75);
+            float(me.hp <= 0 ? 'Down! Stand firm!' : `Stunned! -${dmg} HP`, me.x, 3.6, '#fca5a5'); sound('stun'); r.act = 'recover'; r.t = 0;
+            if (me.hp <= 0) { me.stun = 2.2; me.hp = 50; }
+            hud();
+          }
           r.charge = 4;
         }
         if (r.t > 1.2 || r.x < 0.3 || r.x > G.w - 0.3) { r.act = 'recover'; r.t = 0; r.charge = 3.5; r.x = Math.max(0.3, Math.min(G.w - 0.3, r.x)); }
@@ -475,7 +488,7 @@
     if (!q || q.picked != null) return;
     q.picked = i;
     const right = q.choices[i] === q.right;
-    if (right) { G.score += 200; G.stones = Math.min(T.stonesMax, G.stones + 4); G.shieldNext = true; addPower(T.fill.right); sound('right'); }
+    if (right) { G.score += 200; G.stones = Math.min(T.stonesMax, G.stones + 4); G.me.hp = G.me.hpMax || 100; G.shieldNext = true; addPower(T.fill.right); sound('right'); hud(); }
     else sound('wrong');
     renderQuestion();
   }
@@ -753,16 +766,47 @@
   }
   function renderGame() {
     root.dataset.view = 'game';
-    const pads = coarse() ? `<div class="am-pads arcade-deck" style="justify-content: center; gap: 60px;">
-      <div class="am-pad am-left arcade-p1">
-        <div class="arcade-joy" id="joy1"><div class="joy-stick"></div><div class="joy-ball red"></div></div>
-      </div>
-      <div class="am-pad am-right">
-        <div class="arcade-btns" style="grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
-          <button data-tap="strike" class="arcade-btn red">A</button>
-          <button data-tap="sling" class="arcade-btn yellow">B</button>
-          <button data-hold="block" class="arcade-btn blue">X</button>
+    const pads = coarse() ? `<div class="am-pads arcade-deck">
+      <!-- Floating Dynamic Joystick Zone (touch & drag anywhere on left half) -->
+      <div class="am-joy-zone" id="joyZone">
+        <div class="arcade-joy floating-joy" id="joyBase" style="display: none;">
+          <div class="joy-stick"></div>
+          <div class="joy-ball red" id="joyBall"></div>
         </div>
+        <div class="joy-hint" id="joyHint">◀ TOUCH &amp; DRAG TO MOVE ▶</div>
+      </div>
+
+      <!-- Ergonomic Thumb Arc Action Cluster -->
+      <div class="am-btn-cluster" id="btnCluster">
+        <!-- Mighty Power Button (pops up above cluster when 100% full) -->
+        <button data-tap="power" class="arcade-btn am-power-btn" id="amPowerBtn" hidden aria-label="Mighty Power">
+          ⚡ MIGHTY POWER!
+        </button>
+
+        <!-- Top-Left: Dedicated Jump Button -->
+        <button data-hold="up" class="arcade-btn green btn-jump" aria-label="Jump">
+          <span class="btn-lbl">▲</span>
+          <span class="btn-sub">JUMP</span>
+        </button>
+
+        <!-- Top-Right: Sling Button with live Stone Badge -->
+        <button data-tap="sling" class="arcade-btn yellow btn-sling" aria-label="Sling">
+          <span class="btn-lbl">B</span>
+          <span class="btn-sub">SLING</span>
+          <span class="btn-badge" id="btnStoneBadge">${G.stones}</span>
+        </button>
+
+        <!-- Mid-Left: Block Shield Button -->
+        <button data-hold="block" class="arcade-btn blue btn-block" aria-label="Block">
+          <span class="btn-lbl">X</span>
+          <span class="btn-sub">BLOCK</span>
+        </button>
+
+        <!-- Big Primary Anchor: Sword Strike Button -->
+        <button data-tap="strike" class="arcade-btn red btn-strike" aria-label="Sword">
+          <span class="btn-lbl">A</span>
+          <span class="btn-sub">SWORD</span>
+        </button>
       </div>
     </div>` : '';
     shell(`<div id="amPanel" class="am-panel" aria-live="polite"></div>
@@ -786,9 +830,37 @@
     if (!el) return;
     if (!G || root.dataset.view !== 'game') { const best = saved().best || 0; el.innerHTML = best ? `<span class="score-chip">Best ${fmt(best)}</span>` : ''; return; }
     const safe = inFlock(), left = alive().length;
-    el.innerHTML = `<span class="score-chip"><b>${fmt(G.score)}</b></span><span class="score-chip">Level ${G.level}</span>
-      <span class="score-chip" title="Sheep with the flock">🐑 ${safe}/${left}${G.lost ? ` <small class="am-lost">· ${G.lost} lost</small>` : ''}</span><span class="score-chip" title="Sling stones">🪨 ${G.stones}</span>
-      <span class="score-chip am-meter${G.power >= T.power ? ' full' : ''}" title="Mighty power"><i style="width:${Math.round(100 * G.power / T.power)}%"></i><span>⚡ ${G.power >= T.power ? 'Ready!' : Math.round(100 * G.power / T.power) + '%'}</span></span>`;
+    const hp = Math.max(0, G.me.hp != null ? G.me.hp : 100);
+    const hpMax = G.me.hpMax || 100;
+    const hpPct = Math.round(100 * hp / hpMax);
+    const pips = Array.from({ length: T.stonesMax }, (_, i) => `<i class="am-pip${i < G.stones ? ' on' : ''}"></i>`).join('');
+
+    el.innerHTML = `<div class="am-hud-wrap">
+      <div class="am-hud-block am-hp-box" title="Ammon's Health">
+        <div class="am-hud-head"><span class="am-hud-name">❤️ AMMON</span><b class="am-hud-val">${hp}/${hpMax}</b></div>
+        <div class="am-meter-track"><div class="am-hp-fill" style="width:${hpPct}%"></div></div>
+      </div>
+      <div class="am-hud-block am-stone-box${G.stones <= 2 ? ' am-low' : ''}" title="Sling stones">
+        <div class="am-hud-head"><span class="am-hud-name">🪨 STONES</span><b class="am-hud-val">${G.stones}<small>/${T.stonesMax}</small></b></div>
+        <div class="am-stone-pips">${pips}</div>
+      </div>
+      <div class="am-hud-block am-pwr-box${G.power >= T.power ? ' full' : ''}" title="Mighty power">
+        <div class="am-hud-head"><span class="am-hud-name">⚡ POWER</span><b class="am-hud-val">${G.power >= T.power ? 'READY!' : Math.round(100 * G.power / T.power) + '%'}</b></div>
+        <div class="am-meter-track"><div class="am-pwr-fill" style="width:${Math.round(100 * G.power / T.power)}%"></div></div>
+      </div>
+      <div class="am-hud-block am-flock-box${G.lost ? ' am-warn' : ''}" title="Flock Status">
+        <div class="am-hud-head"><span class="am-hud-name">🐑 FLOCK</span><b class="am-hud-val">${safe}/${left}${G.lost ? ` <small class="am-lost">(${G.lost} lost!)</small>` : ''}</b></div>
+      </div>
+      <div class="am-hud-block am-score-box">
+        <div class="am-hud-head"><span class="am-hud-name">LVL ${G.level}</span><b class="am-hud-val">${fmt(G.score)}</b></div>
+      </div>
+    </div>`;
+
+    const sBadge = $('btnStoneBadge');
+    if (sBadge) {
+      sBadge.textContent = G.stones;
+      sBadge.classList.toggle('empty', G.stones === 0);
+    }
     const pw = root.querySelector('[data-tap="power"]');
     if (pw) pw.hidden = G.power < T.power;
   }
@@ -986,61 +1058,152 @@
       #ammon .am-choice b { display: grid; place-items: center; min-width: 1.7em; height: 1.7em; border-radius: 8px; background: rgba(255,255,255,.14); }
       #ammon .am-choice.right { border-color: #4ade80; background: rgba(74,222,128,.18); } #ammon .am-choice.wrong { border-color: #f87171; background: rgba(248,113,113,.15); }
       #ammon .am-why { margin: 0; font-size: 15px; } #ammon .am-why .ok { color: #86efac; } #ammon .am-why .no { color: #fca5a5; }
-      #ammon .am-pads { position: fixed; left: 12px; right: 12px; bottom: calc(var(--sab, 0px) + 14px); display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; z-index: 5; pointer-events: none; }
-      #ammon .arcade-deck { background: #222; border-top: 4px solid #444; padding: 10px; border-radius: 12px 12px 0 0; box-shadow: inset 0 5px 15px rgba(0,0,0,0.5); bottom: 0; display: flex; justify-content: space-between; gap: 20px; align-items: center; }
-      #ammon .am-pad { display: flex; gap: 20px; align-items: center; pointer-events: auto; }
-      #ammon .arcade-joy { position: relative; width: 80px; height: 80px; background: radial-gradient(circle, #111 40%, #222 70%); border-radius: 50%; box-shadow: inset 0 0 10px #000, 0 0 5px #555; touch-action: none; }
-      #ammon .joy-stick { position: absolute; left: 35px; top: 35px; width: 10px; height: 10px; background: #666; border-radius: 5px; box-shadow: 0 0 5px #000; }
-      #ammon .joy-ball { position: absolute; left: 20px; top: 20px; width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle at 10px 10px, #ff6b6b, #c0392b); box-shadow: 0 10px 15px rgba(0,0,0,0.5); transition: transform 0.05s; }
-      #ammon .joy-ball.blue { background: radial-gradient(circle at 10px 10px, #4facfe, #00f2fe); }
-      #ammon .arcade-btns { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px; }
-      #ammon .arcade-btn { width: 50px; height: 50px; border-radius: 50%; border: none; box-shadow: 0 5px 0 #000, 0 8px 10px rgba(0,0,0,0.5); color: #fff; font: 900 18px 'Courier New', Courier, monospace; touch-action: none; user-select: none; -webkit-user-select: none; text-shadow: 1px 1px 0 #000; }
-      #ammon .arcade-btn:active, #ammon .arcade-btn.on { transform: translateY(5px); box-shadow: 0 0 0 #000, 0 3px 5px rgba(0,0,0,0.5); }
-      #ammon .arcade-btn.red { background: radial-gradient(circle, #e74c3c, #c0392b); border: 2px solid #ff7675; }
-      #ammon .arcade-btn.blue { background: radial-gradient(circle, #3498db, #2980b9); border: 2px solid #74b9ff; }
-      #ammon .arcade-btn.yellow { background: radial-gradient(circle, #f1c40f, #f39c12); border: 2px solid #ffeaa7; }
-      #ammon .arcade-btn.green { background: radial-gradient(circle, #2ecc71, #27ae60); border: 2px solid #55efc4; }
-      #ammon .am-power { grid-column: span 2; width: 100%; border-radius: 20px; height: 40px; }
-      #ammon .am-pad button.on, #ammon .am-pad button:active { background: rgba(253,224,71,.55); color: #422006; }
+      /* In-Game HUD Styling */
+      #ammon .am-hud-wrap { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+      #ammon .am-hud-block { background: rgba(18, 14, 34, 0.9); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 10px; padding: 4px 10px; min-height: 40px; display: flex; flex-direction: column; justify-content: center; font-family: 'Courier New', Courier, monospace; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+      #ammon .am-hud-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; }
+      #ammon .am-hud-name { color: rgba(255,255,255,0.7); font-size: 11px; letter-spacing: 0.5px; }
+      #ammon .am-hud-val { color: #fff; font-size: 13px; }
+      #ammon .am-meter-track { width: 100%; height: 8px; background: rgba(0,0,0,0.6); border-radius: 4px; overflow: hidden; margin-top: 3px; border: 1px solid rgba(255,255,255,0.1); }
+      #ammon .am-hp-fill { height: 100%; background: linear-gradient(90deg, #ef4444 0%, #eab308 50%, #22c55e 100%); transition: width 0.2s ease; border-radius: 3px; }
+      #ammon .am-pwr-fill { height: 100%; background: linear-gradient(90deg, #d97706, #fbbf24); transition: width 0.15s ease; border-radius: 3px; }
+      #ammon .am-pwr-box.full { border-color: #fbbf24; box-shadow: 0 0 14px rgba(251,191,36,0.6); }
+      #ammon .am-stone-box.am-low { border-color: #f87171; box-shadow: 0 0 10px rgba(248,113,113,0.5); }
+      #ammon .am-flock-box.am-warn { border-color: #fb923c; }
+      #ammon .am-stone-pips { display: flex; gap: 3px; margin-top: 4px; }
+      #ammon .am-pip { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+      #ammon .am-pip.on { background: #eab308; box-shadow: 0 0 4px #eab308; }
+
+      /* Mobile Controls: Floating Joystick & Thumb Arc */
+      #ammon .am-pads { position: fixed; left: 0; right: 0; bottom: 0; height: 165px; pointer-events: none; z-index: 20; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 16px 16px 16px; box-sizing: border-box; }
+      #ammon .am-joy-zone { position: relative; width: 48vw; height: 160px; pointer-events: auto; touch-action: none; }
+      #ammon .joy-hint { position: absolute; left: 15px; bottom: 15px; font: 900 12px 'Courier New', Courier, monospace; color: rgba(255,255,255,0.45); letter-spacing: 1px; pointer-events: none; transition: opacity 0.3s; }
+      #ammon .floating-joy { position: fixed; width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, rgba(15,15,20,0.85) 40%, rgba(35,35,45,0.7) 70%); border: 3px solid rgba(255,255,255,0.35); box-shadow: 0 0 20px rgba(0,0,0,0.7), inset 0 0 10px rgba(0,0,0,0.8); pointer-events: none; z-index: 30; }
+      #ammon .joy-stick { position: absolute; left: 40px; top: 40px; width: 10px; height: 10px; background: #666; border-radius: 5px; }
+      #ammon .joy-ball { position: absolute; left: 25px; top: 25px; width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle at 10px 10px, #ff6b6b, #c0392b); box-shadow: 0 8px 16px rgba(0,0,0,0.6); pointer-events: none; }
+
+      #ammon .am-btn-cluster { position: relative; width: 165px; height: 145px; pointer-events: auto; }
+      #ammon .am-btn-cluster .arcade-btn { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 50%; border: none; touch-action: none; user-select: none; -webkit-user-select: none; font-family: 'Courier New', Courier, monospace; box-shadow: 0 5px 0 #000, 0 8px 12px rgba(0,0,0,0.5); cursor: pointer; transition: transform 0.05s; }
+      #ammon .am-btn-cluster .arcade-btn:active, #ammon .am-btn-cluster .arcade-btn.on { transform: translateY(4px); box-shadow: 0 1px 0 #000, 0 2px 5px rgba(0,0,0,0.5); }
+
+      #ammon .btn-strike { right: 0; bottom: 0; width: 66px; height: 66px; background: radial-gradient(circle, #ef4444, #b91c1c); border: 3px solid #f87171 !important; z-index: 2; }
+      #ammon .btn-strike .btn-lbl { font-size: 24px; font-weight: 900; line-height: 1; color: #fff; }
+      #ammon .btn-strike .btn-sub { font-size: 9px; font-weight: 800; color: #fecaca; }
+
+      #ammon .btn-sling { right: 0; top: 0; width: 52px; height: 52px; background: radial-gradient(circle, #f59e0b, #d97706); border: 2px solid #fde68a !important; }
+      #ammon .btn-sling .btn-lbl { font-size: 18px; font-weight: 900; line-height: 1; color: #fff; }
+      #ammon .btn-sling .btn-sub { font-size: 8px; font-weight: 800; color: #fef3c7; }
+
+      #ammon .btn-jump { right: 78px; top: 0; width: 52px; height: 52px; background: radial-gradient(circle, #10b981, #059669); border: 2px solid #6ee7b7 !important; }
+      #ammon .btn-jump .btn-lbl { font-size: 18px; font-weight: 900; line-height: 1; color: #fff; }
+      #ammon .btn-jump .btn-sub { font-size: 8px; font-weight: 800; color: #d1fae5; }
+
+      #ammon .btn-block { right: 82px; bottom: 8px; width: 52px; height: 52px; background: radial-gradient(circle, #3b82f6, #1d4ed8); border: 2px solid #93c5fd !important; }
+      #ammon .btn-block .btn-lbl { font-size: 18px; font-weight: 900; line-height: 1; color: #fff; }
+      #ammon .btn-block .btn-sub { font-size: 8px; font-weight: 800; color: #dbeafe; }
+
+      #ammon .btn-badge { position: absolute; top: -5px; right: -5px; background: #eab308; color: #1e1b4b; font-weight: 900; font-size: 12px; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.6); border: 2px solid #fff; }
+      #ammon .btn-badge.empty { background: #ef4444; color: #fff; }
+
+      #ammon .am-power-btn { right: 0; bottom: 155px; width: 165px; height: 38px; border-radius: 19px !important; background: linear-gradient(90deg, #d97706, #fbbf24) !important; border: 2px solid #fef08a !important; color: #1e1b4b !important; font: 900 13px 'Courier New', Courier, monospace !important; box-shadow: 0 0 16px rgba(251,191,36,0.8), 0 3px 0 #92400e !important; text-shadow: none !important; }
+      #ammon .am-power-btn[hidden] { display: none !important; }
+
       @media (max-width: 520px) {
         #ammon .board-title { font-size: 18px; } #ammon .am-name .eyebrow { display: none; }
         #ammon .am-top { display: grid; grid-template-columns: 1fr auto; } #ammon .am-hud { grid-column: 1 / -1; grid-row: 2; margin-left: 0; }
-        #ammon .am-btns .btn { padding: 8px 12px; } #ammon .score-chip { padding: 4px 10px; font-size: 13px; }
-        #ammon .am-pad { gap: 6px; } #ammon .am-pad button { width: 48px; height: 48px; font-size: 17px; } #ammon .am-pad .am-act { width: 56px; height: 56px; font-size: 10px; }
-        #ammon .am-pad .am-act.am-power { width: auto; height: 46px; font-size: 13px; }
+        #ammon .am-btns .btn { padding: 8px 12px; }
+        #ammon .am-btn-cluster { width: 180px; height: 170px; }
+        #ammon .btn-strike { width: 62px; height: 62px; right: 5px; bottom: 5px; }
+        #ammon .btn-sling { width: 48px; height: 48px; right: 5px; top: 15px; }
+        #ammon .btn-jump { width: 48px; height: 48px; right: 75px; top: 5px; }
+        #ammon .btn-block { width: 48px; height: 48px; right: 85px; bottom: 15px; }
+        #ammon .am-power-btn { width: 160px; height: 38px; bottom: 155px; font-size: 12px !important; }
+        #ammon .am-hud-wrap { gap: 4px; }
+        #ammon .am-hud-block { padding: 3px 6px; min-height: 34px; }
+        #ammon .am-hud-name { font-size: 9px; }
+        #ammon .am-hud-val { font-size: 12px; }
+        #ammon .am-meter-track { height: 6px; }
       }`;
     document.head.appendChild(css);
   }
 
   
-  const joys = {
-    joy1: { active: false, k: { left: 'left', right: 'right', up: 'up' } }
-  };
+  let joyTouchId = null, joyStartX = 0, joyStartY = 0;
   function updateJoys(e) {
     if (!coarse()) return;
-    Object.keys(joys).forEach(j => { joys[j].active = false; keys.delete(joys[j].k.left); keys.delete(joys[j].k.right); keys.delete(joys[j].k.up); });
+    const base = document.getElementById('joyBase');
+    const ball = document.getElementById('joyBall');
+    const hint = document.getElementById('joyHint');
+
     for (let i = 0; i < e.touches.length; i++) {
       const t = e.touches[i];
-      ['joy1'].forEach(jid => {
-        const el = document.getElementById(jid);
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        if (t.clientX >= r.left - 20 && t.clientX <= r.right + 20 && t.clientY >= r.top - 20 && t.clientY <= r.bottom + 20) {
-          joys[jid].active = true;
-          const dx = t.clientX - (r.left + r.width/2), dy = t.clientY - (r.top + r.height/2);
-          const maxD = 40; const dist = Math.hypot(dx, dy);
-          const nx = dist > maxD ? dx/dist*maxD : dx, ny = dist > maxD ? dy/dist*maxD : dy;
-          el.querySelector('.joy-ball').style.transform = `translate(${nx}px, ${ny}px)`;
-          if (nx < -15) keys.add(joys[jid].k.left);
-          if (nx > 15) keys.add(joys[jid].k.right);
-          if (ny < -15) keys.add(joys[jid].k.up);
+      // Left side touches: Floating dynamic virtual joystick
+      if (t.clientX < window.innerWidth * 0.52) {
+        if (joyTouchId === null) {
+          joyTouchId = t.identifier;
+          joyStartX = t.clientX;
+          joyStartY = t.clientY;
+          if (base) {
+            base.style.left = (t.clientX - 45) + 'px';
+            base.style.top = (t.clientY - 45) + 'px';
+            base.style.display = 'block';
+          }
+          if (hint) hint.style.opacity = '0';
         }
-      });
+        if (t.identifier === joyTouchId) {
+          const dx = t.clientX - joyStartX;
+          const dy = t.clientY - joyStartY;
+          const maxD = 40;
+          const dist = Math.hypot(dx, dy);
+          const nx = dist > maxD ? dx / dist * maxD : dx;
+          const ny = dist > maxD ? dy / dist * maxD : dy;
+          if (ball) ball.style.transform = `translate(${nx}px, ${ny}px)`;
+
+          if (nx < -14) { keys.add('left'); keys.delete('right'); }
+          else if (nx > 14) { keys.add('right'); keys.delete('left'); }
+          else { keys.delete('left'); keys.delete('right'); }
+
+          if (ny < -18) keys.add('up');
+          else keys.delete('up');
+        }
+      } else {
+        // Right side touches: Thumb-Slide / Roll button detection
+        const target = document.elementFromPoint(t.clientX, t.clientY);
+        if (target) {
+          const tapBtn = target.closest('[data-tap]');
+          if (tapBtn && t._lastTap !== tapBtn) {
+            t._lastTap = tapBtn;
+            tapBtn.classList.add('on');
+            setTimeout(() => tapBtn.classList.remove('on'), 120);
+            act(tapBtn.dataset.tap);
+          }
+          const holdBtn = target.closest('[data-hold]');
+          if (holdBtn && !keys.has(holdBtn.dataset.hold)) {
+            keys.add(holdBtn.dataset.hold);
+            holdBtn.classList.add('on');
+          }
+        }
+      }
     }
-    ['joy1'].forEach(jid => {
-      const el = document.getElementById(jid);
-      if (el && !joys[jid].active) el.querySelector('.joy-ball').style.transform = `translate(0px, 0px)`;
-    });
+  }
+
+  function onTouchEnd(e) {
+    if (!coarse()) return;
+    const base = document.getElementById('joyBase');
+    const ball = document.getElementById('joyBall');
+    const hint = document.getElementById('joyHint');
+
+    let stillActive = false;
+    for (let i = 0; i < e.touches.length; i++) {
+      if (e.touches[i].identifier === joyTouchId) { stillActive = true; break; }
+    }
+    if (!stillActive && joyTouchId !== null) {
+      joyTouchId = null;
+      keys.delete('left'); keys.delete('right'); keys.delete('up');
+      if (base) base.style.display = 'none';
+      if (ball) ball.style.transform = 'translate(0px, 0px)';
+      if (hint) hint.style.opacity = '0.7';
+    }
   }
 
   function open(h) {
@@ -1055,16 +1218,16 @@
     ['sebus', 'ammon-ready', 'ammon-walk1', 'ammon-walk2', 'ammon-strike', 'ammon-sling', 'ammon-block', 'robber-walk', 'robber-attack', 'robber-hit', 'robber-flee',
       'chief-ready', 'chief-charge', 'chief-smash', 'chief-flee', 'sheep-graze', 'sheep-run', 'stone', 'pouch'].forEach(pic);
     renderMenu();
-    const tm = e => updateJoys(e);
+    const tm = e => updateJoys(e), te = e => onTouchEnd(e);
     const kd = e => onKeyDown(e), ku = e => onKeyUp(e), ck = e => onClick(e), dn = e => onDown(e), up = e => onUp(e), vis = () => onHide();
     const blur = () => { keys.clear(); held.clear(); };
-    window.addEventListener('touchstart', tm, {passive:false}); window.addEventListener('touchmove', tm, {passive:false}); window.addEventListener('touchend', tm);
+    window.addEventListener('touchstart', tm, {passive:false}); window.addEventListener('touchmove', tm, {passive:false}); window.addEventListener('touchend', te); window.addEventListener('touchcancel', te);
     window.addEventListener('keydown', kd); window.addEventListener('keyup', ku); window.addEventListener('blur', blur);
     root.addEventListener('click', ck); root.addEventListener('pointerdown', dn);
     window.addEventListener('pointerup', up); window.addEventListener('pointercancel', up);
     document.addEventListener('visibilitychange', vis);
     off = () => {
-      window.removeEventListener('touchstart', tm); window.removeEventListener('touchmove', tm); window.removeEventListener('touchend', tm);
+      window.removeEventListener('touchstart', tm); window.removeEventListener('touchmove', tm); window.removeEventListener('touchend', te); window.removeEventListener('touchcancel', te);
       window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); window.removeEventListener('blur', blur);
       root.removeEventListener('click', ck); root.removeEventListener('pointerdown', dn);
       window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up);
