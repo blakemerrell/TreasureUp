@@ -1665,6 +1665,25 @@
   .sheet-group small { display: block; font-size: 12px; color: rgba(255,255,255,.5); margin-top: 3px; }
   .sheet-in { width: 100%; box-sizing: border-box; }
 
+  /* Growth Profile & Coach Styling */
+  .coach-card { background: linear-gradient(135deg, rgba(56,189,248,.12), rgba(99,102,241,.06)); border: 1.5px solid rgba(56,189,248,.3); border-radius: 18px; padding: 14px 16px; margin: 8px 0 14px; }
+  .coach-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .coach-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: #38bdf8; }
+  .coach-step-bar { display: flex; gap: 6px; margin: 10px 0 14px; }
+  .coach-step-dot { height: 5px; flex: 1; border-radius: 3px; background: rgba(255,255,255,.15); transition: background .2s ease; }
+  .coach-step-dot.on { background: #38bdf8; }
+  .coach-chip-group { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
+  .coach-chip { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 999px; font: inherit; font-size: 12.5px; font-weight: 700; background: rgba(255,255,255,.08); color: rgba(255,255,255,.8); border: 1px solid rgba(255,255,255,.15); cursor: pointer; transition: all .15s ease; user-select: none; }
+  .coach-chip:hover { background: rgba(255,255,255,.16); color: #fff; }
+  .coach-chip.on { background: linear-gradient(135deg, #0284c7, #2563eb); color: #fff; border-color: #38bdf8; box-shadow: 0 2px 8px rgba(2,132,199,.35); }
+  .coach-ideas-box { background: rgba(0,0,0,.28); border: 1px solid rgba(56,189,248,.2); border-radius: 14px; padding: 10px 12px; margin-top: 8px; }
+  .coach-idea-btn { display: flex; align-items: flex-start; gap: 8px; width: 100%; text-align: left; padding: 7px 8px; border-radius: 8px; font: inherit; font-size: 12.5px; color: rgba(255,255,255,.9); background: none; border: 0; cursor: pointer; transition: background .15s ease; }
+  .coach-idea-btn:hover { background: rgba(255,255,255,.1); }
+  .bp-goal-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; }
+  .bp-goal-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 8px; font: inherit; font-size: 12px; font-weight: 700; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); color: #fff; cursor: pointer; }
+  .bp-goal-chip:hover { background: rgba(255,255,255,.18); border-color: #fbbf24; }
+  .bp-goal-chip.on { background: rgba(251,191,36,.22); border-color: #fbbf24; color: #fde68a; }
+
   /* ---- Developer mode ---- */
   .dv-wrap { width: 100%; max-width: 640px; margin: 12px auto 120px; }
   .dv-top { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; font-size: 13px; color: rgba(255,255,255,.65); }
@@ -3372,6 +3391,8 @@ const TreasureUp = (function () {
       kind: 'blueprint',
       day: k,
       oneThing: data.oneThing || '',
+      goalSid: data.goalSid || '',
+      goalStepId: data.goalStepId || '',
       uplift: data.uplift || '',
       gratitude: data.gratitude || [],
       done: data.done || (had ? had[1].done || {} : {}),
@@ -3400,9 +3421,271 @@ const TreasureUp = (function () {
     bp.done = bp.done || {};
     bp.done[field] = !bp.done[field];
     bp.upd = Date.now();
+    if (field === 'oneThing' && bp.goalSid && bp.goalStepId) {
+      tickStep(bp.goalSid, bp.goalStepId, k);
+    }
     save();
     refreshHome();
     if (bp.done[field]) toast('✓ Focus Accomplished', 'Living your blueprint today!');
+  }
+
+  /* ---------------- Growth Profile & Coach Engine ---------------- */
+  const PROFILE_XP = 25;
+  const DEFAULT_KID_INTERESTS = [
+    'Basketball', 'Soccer', 'Pickleball', 'Trumpet', 'Building things / LEGO',
+    'Video Games / VR', 'Making YouTube Videos', 'Outdoor Boys Stuff',
+    'Baking Desserts', 'Art & Drawing', 'Playing with Friends', 'Scripture Adventures'
+  ];
+  const DEFAULT_ADULT_INTERESTS = [
+    'Scripture Feasting', 'Family 1-on-1s', 'Stillness & Meditation',
+    'Fitness & Training', 'Deep Work & Focus', 'Mentoring Team', 'Temple Worship'
+  ];
+
+  function profileOf() {
+    if (S.profile) return S.profile;
+    const who = seasonWho();
+    const isKid = who !== 'adult';
+    const name = (F && F.name) || S.ownerName || (isKid ? 'Javan' : 'Blake');
+    return {
+      name,
+      role: isKid ? 'kid' : 'parent',
+      age: isKid ? 11 : 40,
+      stage: isKid ? 'youth' : 'adult',
+      milestone: isKid ? 'Preparing for Deacons Quorum & Temple at 12' : 'Executive Leadership & Spiritual Discipleship',
+      interests: isKid ? [...DEFAULT_KID_INTERESTS] : [...DEFAULT_ADULT_INTERESTS],
+      superpower: isKid ? 'Creative Builder & Energy' : 'Strategic Clarity & Leadership',
+      who
+    };
+  }
+
+  function saveProfile(data) {
+    const was = profileOf();
+    const p = Object.assign(was, data, { upd: Date.now() });
+    S.profile = p;
+    if (data.who) S.seasonWho = data.who;
+    if (!S.profileXp) {
+      S.profileXp = true;
+      const rec = {}; payXp(rec, PROFILE_XP, 'Growth Profile Setup');
+    }
+    save();
+    refreshHome();
+    toast('🌱 Growth Profile Saved', `${p.name}’s coach is calibrated!`);
+  }
+
+  function profileSummaryHtml() {
+    const p = profileOf();
+    return p.who === 'adult' ? `${esc(p.name)} · Best Self PRO` : `${esc(p.name)} · Age ${p.age} (${(p.interests || []).length} interests)`;
+  }
+
+  function coachSuggestedIdeas(area) {
+    const prof = profileOf(), ints = new Set(prof.interests || []), isKid = prof.who !== 'adult', list = [];
+    if (isKid) {
+      if (area === 'physical' || !area) {
+        if (ints.has('Basketball')) list.push({ icon: '🏀', title: 'Basketball shooting', step: 'Shoot 50 free throws or 15 min ball handling', n: 3 });
+        if (ints.has('Pickleball')) list.push({ icon: '🏓', title: 'Pickleball showdown', step: 'Play a game of pickleball with Dad or a friend', n: 2 });
+        if (ints.has('Soccer')) list.push({ icon: '⚽', title: 'Soccer footwork', step: '15 min soccer passing or juggle drills', n: 3 });
+        if (ints.has('Outdoor Boys Stuff')) list.push({ icon: '🌲', title: 'Outdoor boys adventure', step: '20 min exploring, trail hiking, or fort building', n: 3 });
+      }
+      if (area === 'intellectual' || !area) {
+        if (ints.has('Trumpet')) list.push({ icon: '🎺', title: 'Trumpet practice', step: 'Practice trumpet 15 min (play a song for family)', n: 4 });
+        if (ints.has('Baking Desserts')) list.push({ icon: '🧁', title: 'Bake from scratch', step: 'Bake a dessert from scratch for family or a neighbor', n: 1 });
+        if (ints.has('Building things / LEGO')) list.push({ icon: '🧱', title: 'Master builder', step: 'Build an original LEGO or robotics build for 20 min', n: 3 });
+        if (ints.has('Making YouTube Videos')) list.push({ icon: '🎬', title: 'Creative director', step: 'Storyboard or plan a creative YouTube video idea', n: 2 });
+        if (ints.has('Art & Drawing')) list.push({ icon: '🎨', title: 'Sketchbook creative', step: 'Draw or sketch something new for 15 minutes', n: 3 });
+        if (ints.has('Video Games / VR')) list.push({ icon: '🎮', title: 'Strategy mastermind', step: 'Practice a game strategy or play Title of Liberty', n: 3 });
+      }
+      if (area === 'social' || !area) {
+        if (ints.has('Playing with Friends')) list.push({ icon: '🤝', title: 'True friend', step: 'Invite a friend over or call a friend to encourage them', n: 2 });
+        if (ints.has('Baking Desserts')) list.push({ icon: '🧁', title: 'Deliver treats', step: 'Take a homemade dessert to a neighbor or friend', n: 1 });
+        list.push({ icon: '💬', title: 'Encourage parents', step: 'Say a genuine thank you or compliment to Mom or Dad', n: 5 });
+      }
+      if (area === 'spiritual' || !area) {
+        if (prof.age === 11 || (prof.milestone && prof.milestone.includes('Deacon'))) {
+          list.push({ icon: '🕊️', title: 'Priesthood prep (Age 11)', step: 'Learn one duty of a Deacon to get ready for turning 12', n: 1, ref: 'D&C 20:57' });
+        }
+        if (ints.has('Scripture Adventures')) list.push({ icon: '📜', title: 'Scripture hero power', step: 'Read 1 chapter about Ammon or Captain Moroni', n: 5 });
+        list.push({ icon: '🙏', title: 'Counsel in prayer', step: 'Pray morning and night and ask Heavenly Father for guidance', n: 7, ref: 'Alma 37:37' });
+      }
+    } else {
+      if (area === 'spiritual' || !area) {
+        list.push({ icon: '🕊️', title: 'Morning stillness', step: '10 min stillness & Alma 37:37 counsel before checking email', n: 7, ref: 'Alma 37:37' });
+        list.push({ icon: '📖', title: 'Scripture feast', step: 'Read Come Follow Me & Book of Mormon with focus', n: 6 });
+      }
+      if (area === 'social' || !area) {
+        list.push({ icon: '🤝', title: 'Dad 1-on-1 time', step: '30 min protected 1-on-1 time with Javan', n: 2 });
+        list.push({ icon: '❤️', title: 'Marriage date', step: 'Weekly intentional date night with Chantel', n: 1 });
+      }
+      if (area === 'physical' || !area) {
+        list.push({ icon: '🏃', title: 'Physical conditioning', step: 'Morning training / workout 45 minutes', n: 4 });
+        list.push({ icon: '🌙', title: 'Sleep restoration', step: 'In bed with screens off 30 min before sleep', n: 6 });
+      }
+      if (area === 'intellectual' || !area) {
+        list.push({ icon: '💡', title: 'Deep work leverage', step: '90-minute distraction-free deep work sprint on top priority', n: 5 });
+      }
+    }
+    if (!list.length && area && SEASON_IDEAS[area]) {
+      return SEASON_IDEAS[area].map(x => ({ icon: areaOf(area).icon, title: x.t, step: x.s, n: x.n, ref: x.ref || '' }));
+    }
+    return list;
+  }
+
+  function activeGoalChipsHtml() {
+    const s = seasonNow(), rec = seasonRec(s.id), goals = activeGoals(rec);
+    if (!goals.length) return '';
+    return `<div class="bp-goal-chips"><small style="color:rgba(255,255,255,.5);display:block;width:100%;font-weight:800;letter-spacing:.04em;text-transform:uppercase">Your Active Season Goals:</small>
+      ${goals.map(g => {
+        const st = (g.steps && g.steps[0]) ? g.steps[0] : { id: g.id, text: g.text };
+        return `<button type="button" class="bp-goal-chip" data-bp-pick-goal="${esc(st.text)}" data-bp-sid="${esc(s.id)}" data-bp-step-id="${esc(st.id)}">${areaOf(g.area).icon} ${esc(st.text)}</button>`;
+      }).join('')}
+    </div>`;
+  }
+
+  let coachIdeasOpen = false;
+
+  function coachIdeaExpanderHtml(area) {
+    const ideas = coachSuggestedIdeas(area).slice(0, 4);
+    if (!ideas.length) return '';
+    return `<div style="margin:8px 0 10px">
+      <button type="button" class="bp-edit-btn" data-coach-toggle-ideas style="color:#38bdf8;font-size:12px;font-weight:800;padding:4px 0">💡 Need an idea? Tap for Coach Suggestions ▾</button>
+      <div id="coachIdeaBox" class="coach-ideas-box" style="display:${coachIdeasOpen ? 'block' : 'none'}">
+        <small style="color:#7dd3fc;display:block;margin-bottom:6px;font-weight:800;letter-spacing:.04em;text-transform:uppercase">Tailored to your interests:</small>
+        ${ideas.map(it => `<button type="button" class="coach-idea-btn" data-bp-pick-goal="${esc(it.step)}"><span>${it.icon}</span> <span><b>${esc(it.title)}</b> · <small style="color:rgba(255,255,255,.6)">${esc(it.step)}</small></span></button>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  let coachStep = 1, coachDraft = null;
+
+  function openCoachProfile() {
+    coachStep = 1;
+    coachDraft = JSON.parse(JSON.stringify(profileOf()));
+    openSheet(coachWalkthroughSheetHtml());
+  }
+
+  function coachWalkthroughSheetHtml() {
+    const d = coachDraft || (coachDraft = JSON.parse(JSON.stringify(profileOf())));
+    const isKid = d.who !== 'adult';
+    const allKidInts = [
+      { id: 'Basketball', icon: '🏀' }, { id: 'Soccer', icon: '⚽' }, { id: 'Pickleball', icon: '🏓' },
+      { id: 'Trumpet', icon: '🎺' }, { id: 'Building things / LEGO', icon: '🧱' }, { id: 'Video Games / VR', icon: '🎮' },
+      { id: 'Making YouTube Videos', icon: '🎬' }, { id: 'Outdoor Boys Stuff', icon: '🌲' }, { id: 'Baking Desserts', icon: '🧁' },
+      { id: 'Art & Drawing', icon: '🎨' }, { id: 'Playing with Friends', icon: '👥' }, { id: 'Scripture Adventures', icon: '📜' }
+    ];
+    const allAdultInts = [
+      { id: 'Scripture Feasting', icon: '📖' }, { id: 'Family 1-on-1s', icon: '🤝' }, { id: 'Stillness & Meditation', icon: '🕊️' },
+      { id: 'Fitness & Training', icon: '🏃' }, { id: 'Deep Work & Focus', icon: '💡' }, { id: 'Mentoring Team', icon: '👥' },
+      { id: 'Temple Worship', icon: '🏛️' }
+    ];
+    const available = isKid ? allKidInts : allAdultInts;
+    const selected = new Set(d.interests || []);
+
+    if (coachStep === 1) {
+      return `<div class="sh-title">🧭 Growth Coach Setup</div>
+        <div class="coach-step-bar">
+          <div class="coach-step-dot on"></div>
+          <div class="coach-step-dot"></div>
+          <div class="coach-step-dot"></div>
+        </div>
+        <p class="sh-small">“And Jesus increased in wisdom and stature, and in favour with God and man.” (Luke 2:52)</p>
+
+        <div class="sheet-group">
+          <label>What is your name?</label>
+          <input class="field sheet-in" id="coachName" maxlength="40" value="${esc(d.name)}" placeholder="Your name">
+        </div>
+
+        <div class="sheet-group">
+          <label>Who is this profile for?</label>
+          <div class="coach-chip-group">
+            <button type="button" class="coach-chip${d.who === 'child' ? ' on' : ''}" data-coach-who="child">👦 Child (Primary)</button>
+            <button type="button" class="coach-chip${d.who === 'youth' ? ' on' : ''}" data-coach-who="youth">⚡ Youth (Young Men / Women)</button>
+            <button type="button" class="coach-chip${d.who === 'adult' ? ' on' : ''}" data-coach-who="adult">👔 Adult (Best Self PRO)</button>
+          </div>
+        </div>
+
+        ${isKid ? `
+          <div class="sheet-group">
+            <label>How old are you? (Current Age)</label>
+            <div class="coach-chip-group">
+              ${[8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map(a => `<button type="button" class="coach-chip${d.age === a ? ' on' : ''}" data-coach-age="${a}">${a}</button>`).join('')}
+            </div>
+            ${d.age === 11 ? `
+              <div class="ev-row" style="background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.35);margin-top:6px">
+                <small style="color:var(--gold)">🌟 Age 11 Milestone</small>
+                <p style="color:#fde68a">Turning 12 soon! Preparing for the Aaronic Priesthood (Deacons Quorum) & your Temple Recommend.</p>
+              </div>
+            ` : ''}
+          </div>
+        ` : `
+          <div class="ev-row" style="background:rgba(99,102,241,.12);border-color:rgba(99,102,241,.35);margin-top:6px">
+            <small style="color:#c4b5fd">🌟 Best Self PRO</small>
+            <p style="color:#e0e7ff">Quarterly 13-week horizon, essentialism, morning spiritual blueprint, and deep evening accounting.</p>
+          </div>
+        `}
+
+        <div class="board-actions" style="margin-top:18px">
+          <button type="button" class="btn" data-coach-goto="2">Next: My Favorite Things ›</button>
+        </div>`;
+    }
+
+    if (coachStep === 2) {
+      return `<div class="sh-title">🧭 What do you love to do?</div>
+        <div class="coach-step-bar">
+          <div class="coach-step-dot on"></div>
+          <div class="coach-step-dot on"></div>
+          <div class="coach-step-dot"></div>
+        </div>
+        <p class="sh-small">Tap your favorite hobbies and talents! Your coach uses these to suggest fun, customized goals and daily habits.</p>
+
+        <div class="sheet-group">
+          <label>Interests & Talents (${selected.size} selected)</label>
+          <div class="coach-chip-group">
+            ${available.map(item => `<button type="button" class="coach-chip${selected.has(item.id) ? ' on' : ''}" data-coach-toggle-int="${esc(item.id)}">${item.icon} ${esc(item.id)}</button>`).join('')}
+          </div>
+        </div>
+
+        <div class="sheet-group">
+          <label>Add Another Hobby or Talent</label>
+          <div style="display:flex;gap:6px">
+            <input class="field sheet-in" id="coachCustomInt" maxlength="40" placeholder="e.g. Swimming, Fishing, Guitar...">
+            <button type="button" class="btn ghost" data-coach-add-custom style="white-space:nowrap">+ Add</button>
+          </div>
+        </div>
+
+        <div class="board-actions" style="margin-top:18px">
+          <button type="button" class="btn" data-coach-goto="3">Next: Superpower & Focus ›</button>
+          <button type="button" class="btn ghost" data-coach-goto="1">‹ Back</button>
+        </div>`;
+    }
+
+    // Step 3
+    const superpowers = isKid
+      ? ['Creative Builder', 'Fast Learner', 'Loyal Friend', 'Joyful Energy', 'Peacekeeper', 'Hard Worker']
+      : ['Strategic Clarity', 'Disciple Leader', 'Family Anchor', 'Visionary Builder', 'Resilient Coach'];
+
+    return `<div class="sh-title">🧭 Your Superpower & Focus</div>
+      <div class="coach-step-bar">
+        <div class="coach-step-dot on"></div>
+        <div class="coach-step-dot on"></div>
+        <div class="coach-step-dot on"></div>
+      </div>
+      <p class="sh-small">Heavenly Father has given you unique gifts and talents. What is a superpower or focus you want to strengthen this Season?</p>
+
+      <div class="sheet-group">
+        <label>Pick a Superpower or Strength</label>
+        <div class="coach-chip-group">
+          ${superpowers.map(sp => `<button type="button" class="coach-chip${d.superpower === sp ? ' on' : ''}" data-coach-sp="${esc(sp)}">⚡ ${esc(sp)}</button>`).join('')}
+        </div>
+      </div>
+
+      <div class="sheet-group">
+        <label>Current Season Milestone / Goal</label>
+        <input class="field sheet-in" id="coachMilestone" maxlength="80" value="${esc(d.milestone || '')}" placeholder="${isKid ? 'e.g. Preparing for Deacons Quorum at 12' : 'e.g. Intentional family presence & discipleship'}">
+      </div>
+
+      <div class="board-actions" style="margin-top:20px">
+        <button type="button" class="btn" style="background:var(--gold);color:#1c1406;font-weight:900" data-coach-finish>🚀 Lock In My Profile (+25 XP)</button>
+        <button type="button" class="btn ghost" data-coach-goto="2">‹ Back</button>
+      </div>`;
   }
 
   let bpShare = false, bpYouthArea = 'spiritual';
@@ -3424,12 +3707,21 @@ const TreasureUp = (function () {
 
       <div class="sheet-group">
         <label>${kid ? '⭐ My Growth Focus Today' : '⭐ The One Thing (Top Spiritual Priority)'}</label>
+        ${activeGoalChipsHtml()}
         <input class="field sheet-in" id="bpOneThing" maxlength="200" value="${esc(bp.oneThing || '')}" placeholder="${kid ? 'What goal or skill will I practice today?' : 'Single most important spiritual priority from the Lord today'}">
-        <small>${kid ? 'Pick one thing you want to accomplish today.' : 'What is the Lord directing you to focus on today?'}</small>
+        <input type="hidden" id="bpGoalSid" value="${esc(bp.goalSid || '')}">
+        <input type="hidden" id="bpGoalStepId" value="${esc(bp.goalStepId || '')}">
+        ${coachIdeaExpanderHtml(bpYouthArea)}
+        <small>${kid ? 'Pick an active goal, a coach idea, or write your own.' : 'What is the Lord directing you to focus on today?'}</small>
       </div>
 
       <div class="sheet-group">
         <label>🤝 Someone to Uplift</label>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;margin:4px 0 6px">
+          ${(kid ? ['Mom or Dad', 'A friend at school', 'Brother or sister', 'Someone lonely', 'Teacher / leader']
+                : ['Chantel (my wife)', 'Javan', 'One of my kids', 'A team member', 'A neighbor or friend']
+          ).map(p => `<button type="button" class="coach-chip sm" data-bp-pick-uplift="${esc(p)}" style="font-size:11.5px;padding:3px 9px">${esc(p)}</button>`).join('')}
+        </div>
         <input class="field sheet-in" id="bpUplift" maxlength="200" value="${esc(bp.uplift || '')}" placeholder="Who can I serve, encourage, text, or pray for?">
         <small>Keep an eye out for them as you go through your day.</small>
       </div>
@@ -3457,11 +3749,15 @@ const TreasureUp = (function () {
 
   function saveBlueprint() {
     const oneThing = ($('bpOneThing') ? $('bpOneThing').value.trim() : '').slice(0, 200);
+    const goalSid = $('bpGoalSid') ? $('bpGoalSid').value : '';
+    const goalStepId = $('bpGoalStepId') ? $('bpGoalStepId').value : '';
     const uplift = ($('bpUplift') ? $('bpUplift').value.trim() : '').slice(0, 200);
     const grList = [...document.querySelectorAll('#appBody .bp-gr-in')].map(i => i.value.trim()).filter(Boolean).map(t => t.slice(0, 200));
     if (!oneThing && !uplift && !grList.length) { closeSheet(); return; }
     storeBlueprint({
       oneThing,
+      goalSid,
+      goalStepId,
       uplift,
       gratitude: grList,
       youthArea: bpYouthArea,
@@ -3503,7 +3799,7 @@ const TreasureUp = (function () {
           <button type="button" class="bp-check-item${isDoneOne ? ' done' : ''}" data-bp-check="oneThing" role="checkbox" aria-checked="${!!isDoneOne}">
             <span class="bp-check-box">${isDoneOne ? '✓' : ''}</span>
             <div class="bp-item-text">
-              <small>${kid ? (bp.youthArea ? areaOf(bp.youthArea).icon + ' ' + areaOf(bp.youthArea).name + ' Growth' : 'Growth Focus') : '⭐ The One Thing'}</small>
+              <small>${kid ? (bp.youthArea ? areaOf(bp.youthArea).icon + ' ' + areaOf(bp.youthArea).name + ' Growth' : 'Growth Focus') : '⭐ The One Thing'}${bp.goalStepId ? ' · Season Goal 🎯' : ''}</small>
               <b>${esc(bp.oneThing)}</b>
             </div>
           </button>` : ''}
@@ -7418,6 +7714,7 @@ const TreasureUp = (function () {
     const unread = !$('chatDot').hidden, u = authUser(), who = whoName();
     return `<div class="sh-title">Settings</div>
       <p class="sh-small set-who">${who ? `Signed in as <b>${esc((F && F.name) || who)}</b>${F && F.role ? ' (' + esc(F.role === 'kid' ? 'a kid' : F.role) + ')' : ''}${u && u.email ? ' · ' + esc(u.email) : ''}` : 'Not signed in. Join your family below to keep progress safe and see your name.'}</p>
+      <button class="sh-row sh-go" data-set-go="profile"><span>🌱 My Growth Profile<small>${profileSummaryHtml()}</small></span><span>›</span></button>
       <button class="sh-row sh-go" data-set-go="family"><span>👪 Family${unread ? ' <b class="set-new">· new message</b>' : ''}<small>${F ? 'This week, chat, people, everyone’s Season' : 'Sign in or join your family'}</small></span><span>›</span></button>
       <div class="sh-row"><span>Listen voice</span><span>${pill(voice === 'male', 'data-set-voice="male"', 'Man')}${pill(voice === 'female', 'data-set-voice="female"', 'Woman')}</span></div>
       <div class="sh-row"><span>Verse size</span><span>${[['m', 'Normal'], ['l', 'Large'], ['xl', 'Larger']].map(([k, l]) => pill(textSize() === k, `data-set-text="${k}"`, l)).join('')}</span></div>
@@ -15255,6 +15552,21 @@ const TreasureUp = (function () {
       ${fresh ? `<p class="kc-week">This week: ${week} of ${total} chapters</p>` : ''}
       ${notes.map(n => `<p class="kc-note">✏️ “${esc(n.text)}”<small>${esc(n.hook || '')}</small></p>`).join('')}
       ${kidSeasonHtml(st)}
+      ${(() => {
+        const p = st.profile || (name.toLowerCase().includes('javan') ? { age: 11, milestone: 'Preparing for Deacons Quorum & Temple at 12', interests: DEFAULT_KID_INTERESTS } : null);
+        if (!p) return '';
+        return `<div class="hub-card" style="margin-top:8px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:10px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:11px;font-weight:800;text-transform:uppercase;color:#38bdf8">🌱 Growth Profile · Age ${p.age || 11}</span>
+            <button type="button" class="bp-edit-btn" data-hub-profile="${esc(name)}">Coach ✎</button>
+          </div>
+          <p style="margin:2px 0 4px;font-size:12px;color:#fde68a">${esc(p.milestone || '')}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:4px">
+            ${(p.interests || []).slice(0, 6).map(it => `<span style="font-size:11px;background:rgba(255,255,255,.08);padding:2px 7px;border-radius:999px;color:rgba(255,255,255,.8)">${esc(it)}</span>`).join('')}
+            ${(p.interests || []).length > 6 ? `<span style="font-size:10.5px;color:rgba(255,255,255,.5);padding:2px 4px">+${p.interests.length - 6} more</span>` : ''}
+          </div>
+        </div>`;
+      })()}
       ${ask ? `<p class="kc-ask"><b>Ask about:</b> ${esc(ask)}</p>` : ''}</div>`;
   }
   function parentCardsHtml() {
@@ -17741,7 +18053,82 @@ const TreasureUp = (function () {
     $('setBtn').addEventListener('click', () => openSheet(settingsSheetHtml()));
     $('appSheet').addEventListener('click', e => {
       if (e.target.closest('#appClose') || e.target.id === 'appSheet') { stopClips(); closeSheet(); refreshHome(); return; }
-      if (seasonSheetClick(e) || seasonClick(e)) return;
+      // Growth Coach & Profile handlers
+      const cg = e.target.closest('[data-coach-goto]');
+      if (cg) {
+        if (coachStep === 1 && $('coachName')) coachDraft.name = $('coachName').value.trim() || coachDraft.name;
+        if (coachStep === 3 && $('coachMilestone')) coachDraft.milestone = $('coachMilestone').value.trim() || coachDraft.milestone;
+        coachStep = Number(cg.dataset.coachGoto);
+        openSheet(coachWalkthroughSheetHtml());
+        return;
+      }
+      const cw = e.target.closest('[data-coach-who]');
+      if (cw) {
+        coachDraft.who = cw.dataset.coachWho;
+        if (coachDraft.who === 'adult') coachDraft.interests = [...DEFAULT_ADULT_INTERESTS];
+        else if (!coachDraft.interests || coachDraft.interests.length < 5) coachDraft.interests = [...DEFAULT_KID_INTERESTS];
+        openSheet(coachWalkthroughSheetHtml());
+        return;
+      }
+      const ca = e.target.closest('[data-coach-age]');
+      if (ca) {
+        coachDraft.age = Number(ca.dataset.coachAge);
+        if (coachDraft.age === 11) coachDraft.milestone = 'Preparing for Deacons Quorum & Temple at 12';
+        openSheet(coachWalkthroughSheetHtml());
+        return;
+      }
+      const cti = e.target.closest('[data-coach-toggle-int]');
+      if (cti) {
+        const val = cti.dataset.coachToggleInt;
+        const idx = (coachDraft.interests || []).indexOf(val);
+        if (idx >= 0) coachDraft.interests.splice(idx, 1);
+        else (coachDraft.interests || (coachDraft.interests = [])).push(val);
+        openSheet(coachWalkthroughSheetHtml());
+        return;
+      }
+      if (e.target.closest('[data-coach-add-custom]')) {
+        const val = $('coachCustomInt') ? $('coachCustomInt').value.trim() : '';
+        if (val && !(coachDraft.interests || []).includes(val)) {
+          (coachDraft.interests || (coachDraft.interests = [])).push(val);
+        }
+        openSheet(coachWalkthroughSheetHtml());
+        return;
+      }
+      const csp = e.target.closest('[data-coach-sp]');
+      if (csp) {
+        coachDraft.superpower = csp.dataset.coachSp;
+        openSheet(coachWalkthroughSheetHtml());
+        return;
+      }
+      if (e.target.closest('[data-coach-finish]')) {
+        if ($('coachMilestone')) coachDraft.milestone = $('coachMilestone').value.trim() || coachDraft.milestone;
+        saveProfile(coachDraft);
+        closeSheet();
+        return;
+      }
+      if (e.target.closest('[data-coach-toggle-ideas]')) {
+        coachIdeasOpen = !coachIdeasOpen;
+        const box = $('coachIdeaBox');
+        if (box) box.style.display = coachIdeasOpen ? 'block' : 'none';
+        return;
+      }
+      const bpg = e.target.closest('[data-bp-pick-goal]');
+      if (bpg) {
+        if ($('bpOneThing')) $('bpOneThing').value = bpg.dataset.bpPickGoal;
+        if ($('bpGoalSid')) $('bpGoalSid').value = bpg.dataset.bpSid || '';
+        if ($('bpGoalStepId')) $('bpGoalStepId').value = bpg.dataset.bpStepId || '';
+        document.querySelectorAll('#appBody .bp-goal-chip').forEach(c => c.classList.toggle('on', c === bpg));
+        return;
+      }
+      const bpu = e.target.closest('[data-bp-pick-uplift]');
+      if (bpu) {
+        if ($('bpUplift')) $('bpUplift').value = 'Encourage ' + bpu.dataset.bpPickUplift;
+        return;
+      }
+      const hubProf = e.target.closest('[data-hub-profile]');
+      if (hubProf) { openCoachProfile(); return; }
+
+      // Blueprint and Evening save/toggle
       if (e.target.closest('[data-bp-save]')) { saveBlueprint(); return; }
       if (e.target.closest('[data-bp-share]')) {
         bpShare = !bpShare;
@@ -17762,6 +18149,7 @@ const TreasureUp = (function () {
       }
       const bsm = e.target.closest('[data-bom-sheet-mark]');
       if (bsm) { markBomDone(dayKey(), bsm.dataset.bomSheetMark); return; }
+      if (seasonSheetClick(e) || seasonClick(e)) return;
       if (e.target.closest('[data-back-weeksheet]')) { stopClips(); return openSheet(weekSheetHtml()); }
       const sc = e.target.closest('[data-short-id]');
       if (sc) {
@@ -17933,6 +18321,7 @@ const TreasureUp = (function () {
       if (oc) return setOrder(oc.dataset.orderCancel, 'cancelled');
       if (e.target.closest('[data-shop-parent]')) { closeSheet(); return openParent(); }
       const g = e.target.closest('[data-set-go]');
+      if (g && g.dataset.setGo === 'profile') { openCoachProfile(); return; }
       if (g && g.dataset.setGo === 'feedback') { feedbackFrom = screenName(); return openSheet(feedbackSheetHtml()); }
       if (g && g.dataset.setGo === 'family') { closeSheet(); homeTab = 'family'; renderHome(); $('home').scrollTop = 0; return; }
       if (g) { closeSheet(); return openParent(); }

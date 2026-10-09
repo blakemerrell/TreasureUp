@@ -53,6 +53,15 @@ export default async function smoke({ port }) {
   check(await p.$eval('#stillLayer', e => e.hidden), 'and closes');
   await p.click('#setBtn'); await wait(400);
   check(!(await p.$eval('#appSheet', e => e.hidden)), 'the settings sheet opens');
+  await p.click('[data-set-go="profile"]'); await wait(400);
+  check((await txt(p, '#appBody')).includes('Growth Coach Setup'), 'Growth Coach Profile walkthrough opens from Settings');
+  await p.click('[data-coach-goto="2"]'); await wait(300);
+  check((await txt(p, '#appBody')).includes('What do you love to do?'), 'Growth Coach interests step opens');
+  await p.click('[data-coach-toggle-int="Basketball"]'); await wait(200);
+  await p.click('[data-coach-goto="3"]'); await wait(300);
+  check((await txt(p, '#appBody')).includes('Your Superpower & Focus'), 'Growth Coach superpower step opens');
+  await p.click('[data-coach-finish]'); await wait(400);
+  check(await p.$eval('#appSheet', e => e.hidden), 'Growth Profile saved and sheet closes');
   check(!p.errors.length, 'no page errors in the app' + (p.errors.length ? ': ' + p.errors.join(' | ') : ''));
   await dev.ctx.close();
 
