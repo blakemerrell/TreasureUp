@@ -3966,13 +3966,13 @@ window.TU_WEEKS = [
         "ref": "Isaiah 53",
         "kids": false,
         "lines": [
-          "Few chapters show the Savior’s mission as beautifully as Isaiah 53, and it was written centuries before He was born.",
+          "Few chapters show the Savior’s mission as beautifully as Isaiah 53 (see Isaiah 53:2–4), and it was written centuries before He was born.",
           "Movie heroes usually rescue people by fighting. Compare that with the Savior here: “he was wounded for our transgressions” (Isaiah 53:5).",
-          "Read one verse at a time and pause. Try I and my in place of we and our, and notice your thoughts and feelings.",
-          "Match pictures of His suffering and death to phrases in the chapter, or watch the video ‘My Kingdom Is Not of This World’ in Gospel Library."
+          "Read Isaiah 53:3–6 one verse at a time and pause. Try I and my in place of we and our, and notice your thoughts and feelings.",
+          "Match pictures of His suffering and death to phrases in the chapter (like Isaiah 53:7–9), or watch the video ‘My Kingdom Is Not of This World’ in Gospel Library."
         ],
         "ask": "Which line in Isaiah 53 helps you see that He did this for you personally?",
-        "approved": "5586e632"
+        "approved": "9bcb01f9"
       },
       {
         "h": "Jesus Christ wants me to return to Him.",
