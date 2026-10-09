@@ -1616,6 +1616,55 @@
   .video-hero-prompt { padding: 12px 14px; background: rgba(0,0,0,.35); border-top: 1px solid rgba(255,255,255,.08); font-size: 13.5px; line-height: 1.45; }
   .video-hero-prompt p { margin: 4px 0 0; color: rgba(255,255,255,.85); }
 
+  /* Morning Blueprint Card (The Way · Counsel with the Lord · Alma 37:37) */
+  .blueprint-card { position: relative; border-radius: 18px; padding: 14px 16px; margin: 4px 0 12px; background: linear-gradient(135deg, rgba(251,191,36,.09), rgba(245,158,11,.03)); border: 1.5px solid rgba(251,191,36,.28); box-shadow: 0 4px 16px rgba(0,0,0,.25); }
+  .blueprint-card.kids { background: linear-gradient(135deg, rgba(6,182,212,.12), rgba(59,130,246,.04)); border-color: rgba(6,182,212,.35); }
+  .bp-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--gold); }
+  .blueprint-card.kids .bp-badge { color: #67e8f9; }
+  .bp-quote { margin: 6px 0 4px; font-family: Georgia, serif; font-size: 13.5px; line-height: 1.4; color: rgba(255,255,255,.9); font-style: italic; }
+  .bp-quote small { font-style: normal; font-size: 11px; font-weight: 700; color: rgba(255,255,255,.55); margin-left: 6px; }
+  .bp-desc { margin: 2px 0 10px; font-size: 12.5px; line-height: 1.4; color: rgba(255,255,255,.7); }
+  .bp-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+  .bp-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; font: inherit; font-size: 13px; font-weight: 800; background: var(--gold); color: #1c1406; border: 0; cursor: pointer; box-shadow: 0 2px 8px rgba(252,211,77,.35); transition: transform .15s ease; }
+  .blueprint-card.kids .bp-btn { background: linear-gradient(135deg, #06b6d4, #3b82f6); color: #fff; box-shadow: 0 2px 10px rgba(6,182,212,.4); }
+  .bp-btn:active { transform: scale(.96); }
+  .bp-btn-alt { display: inline-flex; align-items: center; gap: 5px; padding: 8px 13px; border-radius: 999px; font: inherit; font-size: 12.5px; font-weight: 700; background: rgba(255,255,255,.08); color: rgba(255,255,255,.8); border: 1px solid rgba(255,255,255,.14); cursor: pointer; }
+  .bp-btn-alt:hover { background: rgba(255,255,255,.14); color: #fff; }
+  .bp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .bp-edit-btn { background: none; border: 0; font: inherit; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.6); cursor: pointer; padding: 2px 6px; border-radius: 6px; }
+  .bp-edit-btn:hover { color: #fff; background: rgba(255,255,255,.1); }
+  .bp-items { display: flex; flex-direction: column; gap: 6px; margin: 6px 0; }
+  .bp-check-item { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 6px 8px; border-radius: 10px; background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.06); transition: background .15s ease; text-align: left; font: inherit; width: 100%; box-sizing: border-box; }
+  .bp-check-item:hover { background: rgba(0,0,0,.4); }
+  .bp-check-box { flex: 0 0 20px; height: 20px; margin-top: 1px; border-radius: 6px; border: 2px solid rgba(255,255,255,.35); display: grid; place-items: center; font-size: 12px; font-weight: 900; color: transparent; transition: all .15s ease; }
+  .bp-check-item.done .bp-check-box { background: var(--right); border-color: var(--right); color: #052e16; }
+  .bp-item-text { min-width: 0; flex: 1; line-height: 1.35; }
+  .bp-item-text small { display: block; font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: rgba(255,255,255,.5); }
+  .bp-item-text b { display: block; font-size: 13.5px; color: #fff; word-break: break-word; }
+  .bp-check-item.done .bp-item-text b { text-decoration: line-through; opacity: .6; }
+  .bp-gr-summary { margin-top: 6px; font-size: 12px; color: rgba(255,255,255,.7); padding: 4px 8px; border-radius: 8px; background: rgba(255,255,255,.05); }
+
+  /* Evening Accounting Card (Report Back to Heavenly Father · Alma 34:38) */
+  .evening-card { position: relative; border-radius: 18px; padding: 14px 16px; margin: 12px 0 14px; background: linear-gradient(135deg, rgba(99,102,241,.12), rgba(139,92,246,.04)); border: 1.5px solid rgba(167,139,250,.3); box-shadow: 0 4px 16px rgba(0,0,0,.25); }
+  .ev-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #c4b5fd; }
+  .ev-quote { margin: 6px 0 4px; font-family: Georgia, serif; font-size: 13.5px; line-height: 1.4; color: rgba(255,255,255,.9); font-style: italic; }
+  .ev-quote small { font-style: normal; font-size: 11px; font-weight: 700; color: rgba(255,255,255,.55); margin-left: 6px; }
+  .ev-desc { margin: 2px 0 10px; font-size: 12.5px; line-height: 1.4; color: rgba(255,255,255,.7); }
+  .ev-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+  .ev-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; font: inherit; font-size: 13px; font-weight: 800; background: linear-gradient(135deg, #a78bfa, #818cf8); color: #1e1b4b; border: 0; cursor: pointer; box-shadow: 0 2px 10px rgba(167,139,250,.4); transition: transform .15s ease; }
+  .ev-btn:active { transform: scale(.96); }
+  .ev-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .ev-summary-box { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; font-size: 13px; line-height: 1.4; }
+  .ev-row { padding: 6px 10px; border-radius: 10px; background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.06); }
+  .ev-row small { display: block; font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; color: rgba(255,255,255,.5); }
+  .ev-row p { margin: 2px 0 0; color: rgba(255,255,255,.9); }
+
+  /* Sheet Form Styles for The Way */
+  .sheet-group { margin-top: 12px; }
+  .sheet-group label { display: block; font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: rgba(255,255,255,.65); margin-bottom: 5px; }
+  .sheet-group small { display: block; font-size: 12px; color: rgba(255,255,255,.5); margin-top: 3px; }
+  .sheet-in { width: 100%; box-sizing: border-box; }
+
   /* ---- Developer mode ---- */
   .dv-wrap { width: 100%; max-width: 640px; margin: 12px auto 120px; }
   .dv-top { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; font-size: 13px; color: rgba(255,255,255,.65); }
@@ -3221,12 +3270,373 @@ const TreasureUp = (function () {
       ${isToday ? greetingHtml() : ''}
       <div class="fl-date"><b>${DAY_NAMES[d]} · ${esc(shortDay(k))}</b><small>${rows.length ? n + ' of ' + rows.length + ' done' : ''}${tag ? (rows.length ? ' · ' : '') + tag : ''}</small></div>
       ${isToday ? studyModeToggleHtml() : ''}
+      ${isToday ? blueprintCardHtml(k) : ''}
       ${isToday ? verseHeroHtml() : ''}
       ${button}
       ${rows.length ? pathListHtml(rows, { d, at, isToday }) : ''}
+      ${isToday ? eveningCardHtml(k) : ''}
       <div class="fl-list">${extra.join('')}${moreHtml(d)}</div>
     </div>`;
   }
+
+  /* ---------------- "The Way" · Daily Spiritual Blueprint & Reflection ---------------- */
+  const BLUEPRINT_XP = 15, BOM_XP = 10, EVENING_XP = 20;
+
+  // Book of Mormon Daily Micro-Dose Companion (38 curated power passages)
+  const BOM_DAILY = [
+    { ch: '1 Nephi 1', verse: '1 Nephi 1:20', hook: '“The tender mercies of the Lord are over all those whom he hath chosen.”' },
+    { ch: '1 Nephi 3', verse: '1 Nephi 3:7', hook: '“I will go and do the things which the Lord hath commanded.”' },
+    { ch: '1 Nephi 8', verse: '1 Nephi 8:12', hook: 'The Tree of Life: “Partake of the fruit... desirable above all other fruit.”' },
+    { ch: '1 Nephi 11', verse: '1 Nephi 11:25', hook: 'The Living Waters: “The love of God, which sheddeth itself abroad in the hearts.”' },
+    { ch: '2 Nephi 2', verse: '2 Nephi 2:25', hook: '“Adam fell that men might be; and men are, that they might have joy.”' },
+    { ch: '2 Nephi 4', verse: '2 Nephi 4:34', hook: 'Nephi’s Psalm: “O Lord, I have trusted in thee, and I will trust in thee forever.”' },
+    { ch: '2 Nephi 9', verse: '2 Nephi 9:20', hook: '“O how great the holiness of our God! For he knoweth all things.”' },
+    { ch: '2 Nephi 31', verse: '2 Nephi 31:20', hook: '“Press forward with a steadfastness in Christ, having a perfect brightness of hope.”' },
+    { ch: '2 Nephi 32', verse: '2 Nephi 32:3', hook: '“Feast upon the words of Christ; for they will tell you all things what ye should do.”' },
+    { ch: 'Jacob 2', verse: 'Jacob 2:18', hook: '“Before ye seek for riches, seek ye for the kingdom of God.”' },
+    { ch: 'Enos 1', verse: 'Enos 1:4', hook: '“My soul hungered; and I kneeled down before my Maker in mighty prayer.”' },
+    { ch: 'Mosiah 2', verse: 'Mosiah 2:17', hook: '“When ye are in the service of your fellow beings ye are only in the service of your God.”' },
+    { ch: 'Mosiah 3', verse: 'Mosiah 3:19', hook: '“The natural man is an enemy to God... and becometh as a child, submissive, meek, humble.”' },
+    { ch: 'Mosiah 4', verse: 'Mosiah 4:19', hook: '“For behold, are we not all beggars? Do we not all depend upon the same Being?”' },
+    { ch: 'Mosiah 5', verse: 'Mosiah 5:2', hook: '“A mighty change in us, that we have no more disposition to do evil, but to do good continually.”' },
+    { ch: 'Mosiah 18', verse: 'Mosiah 18:8', hook: 'Waters of Mormon: “Desirous to come into the fold of God, and to be called his people.”' },
+    { ch: 'Mosiah 27', verse: 'Mosiah 27:24', hook: 'Alma’s Change: “Marvel not that all mankind... must be born again.”' },
+    { ch: 'Alma 5', verse: 'Alma 5:14', hook: '“Have ye spiritually been born of God? Have ye received his image in your countenances?”' },
+    { ch: 'Alma 7', verse: 'Alma 7:11', hook: '“He will take upon him the pains and sicknesses of his people.”' },
+    { ch: 'Alma 17', verse: 'Alma 17:3', hook: 'Sons of Mosiah: “They had given themselves to much prayer, and fasting.”' },
+    { ch: 'Alma 32', verse: 'Alma 32:28', hook: '“If ye give place, that a seed may be planted in your heart... it will begin to swell.”' },
+    { ch: 'Alma 34', verse: 'Alma 34:38', hook: '“Live in thanksgiving daily, for the many mercies and blessings which he doth bestow upon you.”' },
+    { ch: 'Alma 36', verse: 'Alma 36:18', hook: '“I cried within my heart: O Jesus, thou Son of God, have mercy on me!”' },
+    { ch: 'Alma 37', verse: 'Alma 37:37', hook: '“Counsel with the Lord in all thy doings, and he will direct thee for good.”' },
+    { ch: 'Alma 46', verse: 'Alma 46:12', hook: 'Title of Liberty: “In memory of our God, our religion, and freedom, and our peace.”' },
+    { ch: 'Alma 48', verse: 'Alma 48:17', hook: '“If all men had been, and were, like unto Moroni, hell would have been shaken forever.”' },
+    { ch: 'Alma 53', verse: 'Alma 53:20', hook: 'Stripling Warriors: “Exceedingly valiant for courage, and also for strength and activity.”' },
+    { ch: 'Alma 56', verse: 'Alma 56:47', hook: '“They did not fear death; they had been taught by their mothers, that if they did not doubt, God would deliver them.”' },
+    { ch: 'Helaman 5', verse: 'Helaman 5:12', hook: '“Remember that it is upon the rock of our Redeemer, who is Christ, that ye must build your foundation.”' },
+    { ch: '3 Nephi 11', verse: '3 Nephi 11:10', hook: '“Behold, I am Jesus Christ, whom the prophets testified should come into the world.”' },
+    { ch: '3 Nephi 12', verse: '3 Nephi 12:16', hook: '“Let your light so shine before this people, that they may see your good works and glorify your Father.”' },
+    { ch: '3 Nephi 17', verse: '3 Nephi 17:21', hook: '“He wept, and he took their little children, one by one, and blessed them, and prayed unto the Father for them.”' },
+    { ch: '3 Nephi 18', verse: '3 Nephi 18:19', hook: '“Ye must watch and pray always, lest ye be tempted by the devil.”' },
+    { ch: '3 Nephi 27', verse: '3 Nephi 27:27', hook: '“What manner of men ought ye to be? Verily I say unto you, even as I am.”' },
+    { ch: 'Ether 12', verse: 'Ether 12:27', hook: '“My grace is sufficient for all men that humble themselves before me... then will I make weak things become strong.”' },
+    { ch: 'Moroni 7', verse: 'Moroni 7:47', hook: '“Charity is the pure love of Christ, and it endureth forever; and whoso is found possessed of it at the last day, it shall be well with him.”' },
+    { ch: 'Moroni 8', verse: 'Moroni 8:17', hook: '“Little children are whole, for they are not capable of committing sin; little children are alive in Christ.”' },
+    { ch: 'Moroni 10', verse: 'Moroni 10:4', hook: '“Ask God, the Eternal Father, in the name of Christ, if these things are not true... with a sincere heart, with real intent.”' }
+  ];
+  function bomOf(k) {
+    const day = Math.round(Date.parse((k || dayKey()) + 'T12:00:00Z') / 864e5);
+    return BOM_DAILY[Math.abs(day) % BOM_DAILY.length];
+  }
+
+  function bomSheetHtml(k, ch) {
+    const b = bomOf(k) || { ch, hook: '', verse: ch };
+    const dn = pathDoneOf(k);
+    const done = !!dn.bom;
+    return `<div class="sh-title">📜 Book of Mormon · Living Water</div>
+      <p class="sh-small" style="margin-top:2px">Daily micro-dose companion · 3 min</p>
+      <div style="margin:14px 0;padding:14px;border-radius:14px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);margin-bottom:6px">${esc(b.verse || b.ch)}</div>
+        <div style="font-family:Georgia,serif;font-size:15px;line-height:1.45;color:#fff;font-style:italic">${esc(b.hook)}</div>
+      </div>
+      <p style="font-size:13px;color:rgba(255,255,255,.8);line-height:1.4">“Feast upon the words of Christ; for behold, the words of Christ will tell you all things what ye should do.” <small>(2 Nephi 32:3)</small></p>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px">
+        <button type="button" class="btn" data-lib-ch="${esc(b.ch)}">📖 Read Full Chapter (${esc(b.ch)})</button>
+        <button type="button" class="${done ? 'today-alt' : 'btn'}" style="${done ? '' : 'background:linear-gradient(135deg,#10b981,#059669);color:#fff;'}" data-bom-sheet-mark="${esc(b.ch)}">
+          ${done ? '✓ Completed Today (+10 XP)' : '✓ Mark Micro-Dose Read (+10 XP)'}
+        </button>
+      </div>`;
+  }
+  function openBomSheet(k, ch) {
+    openSheet(bomSheetHtml(k, ch));
+  }
+  function markBomDone(k, ch) {
+    const day = k || dayKey(), dn = pathDoneOf(day);
+    if (!dn.bom) {
+      const rec = {}; payXp(rec, BOM_XP, 'Book of Mormon Living Water'); setPathDone(day, 'bomXp', rec);
+    }
+    setPathDone(day, 'bom', 1);
+    markStudied();
+    save();
+    closeSheet();
+    refreshHome();
+    toast('📜 Book of Mormon Read', 'Living Water for your soul');
+  }
+
+  // Morning Blueprint (Elder Bednar: Pray Always · Alma 37:37)
+  const blueprintOf = k => Object.entries(S.impressions || {}).find(([, x]) => x && !x.gone && x.kind === 'blueprint' && x.day === k) || null;
+
+  function storeBlueprint(data) {
+    const k = dayKey(), had = blueprintOf(k), imps = S.impressions || (S.impressions = {});
+    const id = had ? had[0] : seaId('bp');
+    imps[id] = {
+      kind: 'blueprint',
+      day: k,
+      oneThing: data.oneThing || '',
+      uplift: data.uplift || '',
+      gratitude: data.gratitude || [],
+      done: data.done || (had ? had[1].done || {} : {}),
+      youthArea: data.youthArea || '',
+      at: had ? had[1].at : Date.now(),
+      upd: Date.now(),
+      ref: 'Alma 37:37',
+      share: seasonWho() !== 'adult' && data.share
+    };
+    if (data.gratitude && data.gratitude.length) {
+      storeGrateful(data.gratitude, data.share);
+    }
+    if (!had) {
+      use('blueprint');
+      if (!pathDoneOf(k).blueprintXp) {
+        const rec = {}; payXp(rec, BLUEPRINT_XP, 'Morning Blueprint'); setPathDone(k, 'blueprintXp', rec);
+      }
+    }
+    save();
+  }
+
+  function toggleBlueprintCheck(field) {
+    const k = dayKey(), had = blueprintOf(k);
+    if (!had) return;
+    const bp = had[1];
+    bp.done = bp.done || {};
+    bp.done[field] = !bp.done[field];
+    bp.upd = Date.now();
+    save();
+    refreshHome();
+    if (bp.done[field]) toast('✓ Focus Accomplished', 'Living your blueprint today!');
+  }
+
+  let bpShare = false, bpYouthArea = 'spiritual';
+
+  function blueprintSheetHtml() {
+    const k = dayKey(), had = blueprintOf(k), bp = had ? had[1] : {}, kid = seasonWho() !== 'adult';
+    const gratefulHad = gratefulOf(k), grItems = gratefulHad ? (gratefulHad[1].items || []) : (bp.gratitude || []);
+    return `<div class="sh-title">${kid ? '🌟 My Growth Blueprint' : '🌅 Morning Blueprint · Counsel with the Lord'}</div>
+      <p class="sh-small">${kid ? '“And Jesus increased in wisdom and stature, and in favour with God and man.” (Luke 2:52)' : '“Counsel with the Lord in all thy doings, and he will direct thee for good.” (Alma 37:37)'}</p>
+      
+      ${kid ? `
+        <div class="sheet-group">
+          <label>Growth Area (Luke 2:52)</label>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin:6px 0">
+            ${AREAS.map(a => `<button type="button" class="sh-pill${bpYouthArea === a.id ? ' on' : ''}" data-bp-area="${a.id}">${a.icon} ${a.name}</button>`).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      <div class="sheet-group">
+        <label>${kid ? '⭐ My Growth Focus Today' : '⭐ The One Thing (Top Spiritual Priority)'}</label>
+        <input class="field sheet-in" id="bpOneThing" maxlength="200" value="${esc(bp.oneThing || '')}" placeholder="${kid ? 'What goal or skill will I practice today?' : 'Single most important spiritual priority from the Lord today'}">
+        <small>${kid ? 'Pick one thing you want to accomplish today.' : 'What is the Lord directing you to focus on today?'}</small>
+      </div>
+
+      <div class="sheet-group">
+        <label>🤝 Someone to Uplift</label>
+        <input class="field sheet-in" id="bpUplift" maxlength="200" value="${esc(bp.uplift || '')}" placeholder="Who can I serve, encourage, text, or pray for?">
+        <small>Keep an eye out for them as you go through your day.</small>
+      </div>
+
+      <div class="sheet-group">
+        <label>🙏 Morning Gratitude (1–3 things)</label>
+        ${[0, 1, 2].map(i => `<input class="field sheet-in bp-gr-in" data-bp-gr="${i}" maxlength="200" style="margin-top:${i ? '6px' : '0'}" value="${esc(grItems[i] || '')}" placeholder="${i === 0 ? 'One thing I am grateful for…' : i === 1 ? 'Another blessing…' : 'And one more…'}">`).join('')}
+      </div>
+
+      <div class="sea-imp-bar" style="margin-top:16px">
+        ${kid ? `<button type="button" class="sh-pill${bpShare ? ' on' : ''}" data-bp-share>${bpShare ? '👀 Share with my parents' : '🔒 Just me'}</button>` : '<span class="sh-small">🔒 Just yours</span>'}
+        <button type="button" class="btn" style="background:var(--gold);color:#1c1406;font-weight:900" data-bp-save>Save Blueprint (+15 XP)</button>
+      </div>
+      <p class="sh-small" style="margin-top:12px">Elder Bednar: Morning prayer is where we create a spiritual blueprint with the Lord. In the evening, we report back.</p>`;
+  }
+
+  function openBlueprint() {
+    const had = blueprintOf(dayKey());
+    bpShare = !!(had && had[1].share);
+    bpYouthArea = (had && had[1].youthArea) || 'spiritual';
+    openSheet(blueprintSheetHtml());
+    const first = document.querySelector('#appBody #bpOneThing');
+    if (first && !had) first.focus();
+  }
+
+  function saveBlueprint() {
+    const oneThing = ($('bpOneThing') ? $('bpOneThing').value.trim() : '').slice(0, 200);
+    const uplift = ($('bpUplift') ? $('bpUplift').value.trim() : '').slice(0, 200);
+    const grList = [...document.querySelectorAll('#appBody .bp-gr-in')].map(i => i.value.trim()).filter(Boolean).map(t => t.slice(0, 200));
+    if (!oneThing && !uplift && !grList.length) { closeSheet(); return; }
+    storeBlueprint({
+      oneThing,
+      uplift,
+      gratitude: grList,
+      youthArea: bpYouthArea,
+      share: bpShare
+    });
+    closeSheet();
+    refreshHome();
+    toast('🌅 Blueprint Created', oneThing ? '“' + oneThing.slice(0, 35) + '…”' : 'Walk with Him today');
+  }
+
+  function blueprintCardHtml(k) {
+    const had = blueprintOf(k), bp = had ? had[1] : null, kid = seasonWho() !== 'adult';
+    const isDoneOne = bp && bp.done && bp.done.oneThing;
+    const isDoneUplift = bp && bp.done && bp.done.uplift;
+    const title = kid ? '🌟 My Growth Blueprint' : '🌅 Morning Blueprint';
+    const sub = kid ? '“And Jesus increased in wisdom and stature, and in favour with God and man.”' : '“Counsel with the Lord in all thy doings, and he will direct thee for good.”';
+    const ref = kid ? 'Luke 2:52' : 'Alma 37:37';
+
+    if (!bp || (!bp.oneThing && !bp.uplift)) {
+      return `<div class="blueprint-card${kid ? ' kids' : ''}">
+        <div class="bp-badge">${title} · ${ref}</div>
+        <div class="bp-quote">${sub} <small>${ref}</small></div>
+        <p class="bp-desc">${kid ? 'Set your growth goal for today and choose someone to encourage.' : 'Start your day with Heavenly Father. Set your One Thing, someone to lift, and your morning focus.'}</p>
+        <div class="bp-actions">
+          <button type="button" class="bp-btn" data-open-blueprint>✍️ ${kid ? 'Set My Growth Blueprint' : 'Create Today’s Blueprint'}</button>
+          <button type="button" class="bp-btn-alt" data-still-first>🕊️ Be Still First</button>
+        </div>
+      </div>`;
+    }
+
+    const gr = bp.gratitude && bp.gratitude.length ? bp.gratitude : [];
+    return `<div class="blueprint-card${kid ? ' kids' : ''}">
+      <div class="bp-head">
+        <span class="bp-badge">${title} · ${ref}</span>
+        <button type="button" class="bp-edit-btn" data-open-blueprint>Edit ✎</button>
+      </div>
+      <div class="bp-items">
+        ${bp.oneThing ? `
+          <button type="button" class="bp-check-item${isDoneOne ? ' done' : ''}" data-bp-check="oneThing" role="checkbox" aria-checked="${!!isDoneOne}">
+            <span class="bp-check-box">${isDoneOne ? '✓' : ''}</span>
+            <div class="bp-item-text">
+              <small>${kid ? (bp.youthArea ? areaOf(bp.youthArea).icon + ' ' + areaOf(bp.youthArea).name + ' Growth' : 'Growth Focus') : '⭐ The One Thing'}</small>
+              <b>${esc(bp.oneThing)}</b>
+            </div>
+          </button>` : ''}
+        ${bp.uplift ? `
+          <button type="button" class="bp-check-item${isDoneUplift ? ' done' : ''}" data-bp-check="uplift" role="checkbox" aria-checked="${!!isDoneUplift}">
+            <span class="bp-check-box">${isDoneUplift ? '✓' : ''}</span>
+            <div class="bp-item-text">
+              <small>🤝 Someone to Uplift</small>
+              <b>${esc(bp.uplift)}</b>
+            </div>
+          </button>` : ''}
+      </div>
+      ${gr.length ? `<div class="bp-gr-summary">🙏 Grateful: ${esc(gr.join(' · '))}</div>` : ''}
+    </div>`;
+  }
+
+  // Evening Accounting (Elder Bednar: Report Back · Alma 34:38)
+  const eveningOf = k => Object.entries(S.impressions || {}).find(([, x]) => x && !x.gone && x.kind === 'evening' && x.day === k) || null;
+
+  function storeEvening(data) {
+    const k = dayKey(), had = eveningOf(k), imps = S.impressions || (S.impressions = {});
+    const id = had ? had[0] : seaId('ev');
+    imps[id] = {
+      kind: 'evening',
+      day: k,
+      mercies: data.mercies || '',
+      wins: data.wins || '',
+      improve: data.improve || '',
+      at: had ? had[1].at : Date.now(),
+      upd: Date.now(),
+      ref: 'Alma 34:38',
+      share: seasonWho() !== 'adult' && data.share
+    };
+    if (!had) {
+      use('evening');
+      if (!pathDoneOf(k).eveningXp) {
+        const rec = {}; payXp(rec, EVENING_XP, 'Evening Accounting'); setPathDone(k, 'eveningXp', rec);
+      }
+    }
+    save();
+  }
+
+  let evShare = false;
+
+  function eveningSheetHtml() {
+    const k = dayKey(), had = eveningOf(k), ev = had ? had[1] : {}, kid = seasonWho() !== 'adult';
+    const bpHad = blueprintOf(k), bp = bpHad ? bpHad[1] : null;
+    return `<div class="sh-title">🌙 Evening Accounting · Report to Heavenly Father</div>
+      <p class="sh-small">“In the evening, we kneel and report back on the blueprint—giving thanks, accounting for our efforts, and receiving counsel.” (Elder David A. Bednar)</p>
+
+      ${bp && (bp.oneThing || bp.uplift) ? `
+        <div class="sheet-group" style="padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1)">
+          <label style="color:#c4b5fd">Today’s Blueprint Review</label>
+          ${bp.oneThing ? `<div style="display:flex;align-items:center;gap:8px;margin-top:4px"><span style="color:${bp.done && bp.done.oneThing ? 'var(--right)' : 'rgba(255,255,255,.4)'};font-weight:900">${bp.done && bp.done.oneThing ? '✓ Done' : '○ Focus'}</span> <b>${esc(bp.oneThing)}</b></div>` : ''}
+          ${bp.uplift ? `<div style="display:flex;align-items:center;gap:8px;margin-top:4px"><span style="color:${bp.done && bp.done.uplift ? 'var(--right)' : 'rgba(255,255,255,.4)'};font-weight:900">${bp.done && bp.done.uplift ? '✓ Done' : '○ Uplift'}</span> <b>${esc(bp.uplift)}</b></div>` : ''}
+        </div>
+      ` : ''}
+
+      <div class="sheet-group">
+        <label>✨ Noticing His Mercies (Alma 34:38)</label>
+        <textarea class="field sheet-in" id="evMercies" rows="2" maxlength="500" placeholder="Where did you see Heavenly Father’s hand or tender mercies today?">${esc(ev.mercies || '')}</textarea>
+        <small>“Live in thanksgiving daily, for the many mercies and blessings…”</small>
+      </div>
+
+      <div class="sheet-group">
+        <label>🏆 Today’s Wins & Victories</label>
+        <input class="field sheet-in" id="evWins" maxlength="200" value="${esc(ev.wins || '')}" placeholder="1–2 wins: personal, spiritual, or family victory">
+      </div>
+
+      <div class="sheet-group">
+        <label>🌱 What did today teach you for tomorrow?</label>
+        <input class="field sheet-in" id="evImprove" maxlength="200" value="${esc(ev.improve || '')}" placeholder="A lesson learned or something to do better tomorrow">
+      </div>
+
+      <div class="sea-imp-bar" style="margin-top:16px">
+        ${kid ? `<button type="button" class="sh-pill${evShare ? ' on' : ''}" data-ev-share>${evShare ? '👀 Share with my parents' : '🔒 Just me'}</button>` : '<span class="sh-small">🔒 Just yours</span>'}
+        <button type="button" class="btn" style="background:linear-gradient(135deg,#a78bfa,#818cf8);color:#1e1b4b;font-weight:900" data-ev-save>Close Day in Prayer (+20 XP)</button>
+      </div>`;
+  }
+
+  function openEvening() {
+    const had = eveningOf(dayKey());
+    evShare = !!(had && had[1].share);
+    openSheet(eveningSheetHtml());
+    const first = document.querySelector('#appBody #evMercies');
+    if (first && !had) first.focus();
+  }
+
+  function saveEvening() {
+    const mercies = ($('evMercies') ? $('evMercies').value.trim() : '').slice(0, 500);
+    const wins = ($('evWins') ? $('evWins').value.trim() : '').slice(0, 200);
+    const improve = ($('evImprove') ? $('evImprove').value.trim() : '').slice(0, 200);
+    if (!mercies && !wins && !improve) { closeSheet(); return; }
+    storeEvening({
+      mercies,
+      wins,
+      improve,
+      share: evShare
+    });
+    closeSheet();
+    refreshHome();
+    toast('🌙 Day Reported Back', 'Sleep in His peace tonight');
+  }
+
+  function eveningCardHtml(k) {
+    const had = eveningOf(k), ev = had ? had[1] : null, bp = blueprintOf(k);
+    const isEve = new Date().getHours() >= 17 || !!had || !!bp;
+    if (!isEve) return '';
+
+    if (!ev || (!ev.mercies && !ev.wins && !ev.improve)) {
+      return `<div class="evening-card">
+        <div class="ev-badge">🌙 Evening Accounting · Report to Heavenly Father</div>
+        <div class="ev-quote">“Live in thanksgiving daily, for the many mercies and blessings which he doth bestow upon you.” <small>Alma 34:38</small></div>
+        <p class="ev-desc">Elder Bednar: In the evening, report back to Heavenly Father on your blueprint, notice His mercies, and review today’s wins and lessons.</p>
+        <div class="ev-actions">
+          <button type="button" class="ev-btn" data-open-evening>📝 Report Back & Review (+20 XP)</button>
+        </div>
+      </div>`;
+    }
+
+    return `<div class="evening-card">
+      <div class="ev-head">
+        <span class="ev-badge" style="color:var(--right)">🌙 Evening Report Completed ✓</span>
+        <button type="button" class="bp-edit-btn" data-open-evening>Review ✎</button>
+      </div>
+      <div class="ev-summary-box">
+        ${ev.mercies ? `<div class="ev-row"><small>✨ Mercies Noticed (Alma 34:38)</small><p>${esc(ev.mercies)}</p></div>` : ''}
+        ${ev.wins ? `<div class="ev-row"><small>🏆 Wins & Victories</small><p>${esc(ev.wins)}</p></div>` : ''}
+        ${ev.improve ? `<div class="ev-row"><small>🌱 Lesson for Tomorrow</small><p>${esc(ev.improve)}</p></div>` : ''}
+      </div>
+    </div>`;
+  }
+
   // A daily gratitude prompt (Blake, 2026-10-05: "Add a daily gratitude
   // prompt"; he picked up to three lines, one enough to tick it; a question
   // that changes each day; private unless shared; a row on Today; THANKS_XP once a day, since 2026-10-07).
@@ -3679,7 +4089,10 @@ const TreasureUp = (function () {
     if (t.closest('[data-gr-save]')) saveGrateful();
   }
   // An impression's words, wherever they're listed: a day's gratitude as its lines.
-  const impWords = x => x.kind === 'grateful' ? '🙏 ' + (x.items || []).join(' · ') : x.text;
+  const impWords = x => x.kind === 'grateful' ? '🙏 ' + (x.items || []).join(' · ')
+    : x.kind === 'blueprint' ? '🌅 Blueprint: ' + x.oneThing + (x.uplift ? ' · Uplift: ' + x.uplift : '')
+    : x.kind === 'evening' ? '🌙 Evening: ' + (x.mercies || '') + (x.wins ? ' · Wins: ' + x.wins : '')
+    : x.text;
 
   // Who's using the app, by name (Blake, 2026-10-05: "Make it so the app tells
   // me who is logged in... Hi Blake! Or good morning Javan!"): this device's
@@ -6797,7 +7210,8 @@ const TreasureUp = (function () {
     const c = cfmOf(d);
     if (c) rows.push({ kind: 'cfm', c, done: cfmDone(c) });
     if (k) {
-      const dn = pathDoneOf(k), t = gcOf(k);
+      const dn = pathDoneOf(k), t = gcOf(k), b = bomOf(k);
+      if (b) rows.push({ kind: 'bom', b, k, done: !!dn.bom, own: true });
       if (t) rows.push({ kind: 'gc', t, k, done: !!dn.gc });
       // Each goal step its own row, ticked right there (Blake, 2026-10-07: "I want
       // my goals to be on timeline as separate things so I see them... Same with
@@ -6817,19 +7231,20 @@ const TreasureUp = (function () {
     if (r.kind === 'part') return r.p.of > 1 ? r.p.key : 'Read ' + r.p.u.ref;
     if (r.kind === 'reels') return r.reels.length === 1 ? r.reels[0].hook : r.reels.length + ' reels';
     if (r.kind === 'goal') return '🌱 ' + r.x.st.text;
-    return { cfm: 'Come Follow Me', gc: 'Conference', thanks: 'Grateful for…', still: '🕊️ Be still' }[r.kind];
+    return { cfm: 'Come Follow Me', bom: '📜 Book of Mormon', gc: 'Conference', thanks: 'Grateful for…', still: '🕊️ Be still' }[r.kind];
   }
   function pathRowSub(r) {
     if (r.kind === 'part') return [r.p.of > 1 && 'Part ' + r.p.n + ' of ' + r.p.of, pathRowMin(r) + ' min', r.reels.length && 'then ' + qWord(r.reels.length)].filter(Boolean).join(' · ');
     if (r.kind === 'reels') return 'This week’s reels · ' + qWord(r.reels.length);
     if (r.kind === 'cfm') return r.c.x.h.replace(/^[“"]|[”"]$/g, '').replace(/\.$/, '');
+    if (r.kind === 'bom') return r.b.ch + ' · ' + r.b.hook.replace(/^[“"]|[”"]$/g, '');
     if (r.kind === 'gc') return r.t.t.speaker;
     if (r.kind === 'goal') return 'My Season · ' + r.x.sub;
     if (r.kind === 'still') return stillSub();
     const had = r.k && gratefulOf(r.k);
     return had ? (had[1].items || []).join(' · ') : gratefulPrompt(dayKey()).q;
   }
-  const pathRowMin = r => r.kind === 'part' ? partMin(r.p.pu.words, r.reels.length) : r.kind === 'reels' ? Math.max(1, r.reels.length) : r.kind === 'cfm' ? 2 : 1;
+  const pathRowMin = r => r.kind === 'part' ? partMin(r.p.pu.words, r.reels.length) : r.kind === 'reels' ? Math.max(1, r.reels.length) : r.kind === 'cfm' ? 2 : r.kind === 'bom' ? 3 : 1;
   // Every row a tap (Blake, 2026-10-07: "I want to be able to tap on the row
   // conference, come follow me, read Isaiah 53.... And see that content"): one
   // done opens it again to look over (nothing new to earn), one still to do
@@ -6839,6 +7254,7 @@ const TreasureUp = (function () {
     if (r.kind === 'part') return r.done ? `data-chapter="${esc(r.p.u.ref)}"` : go;
     if (r.kind === 'reels') return r.done && r.reels.length ? `data-view="${esc(r.reels[0].id)}"` : go;
     if (r.kind === 'cfm') return c.at >= 0 ? `data-lesson="${c.d}.${c.at}" data-focus="cfm-${esc(r.c.x.id)}"` : go;
+    if (r.kind === 'bom') return `data-bom-open="${esc(r.b.ch)}"`;
     if (r.kind === 'gc') return `data-path-gc="${esc(r.t.t.id)}"`;
     if (r.kind === 'goal') return `data-tick="${esc(r.x.s.id)}|${esc(r.x.st.id)}" aria-pressed="${!!r.done}"`;
     if (r.kind === 'thanks') return 'data-grateful';
@@ -6849,7 +7265,7 @@ const TreasureUp = (function () {
     const qs = (r.reels || []).filter(x => !S.answers[x.id]).length * XP.firstTry;
     if (r.kind === 'part') return [(partDone(r.p) ? 0 : r.p.of > 1 ? Math.floor(READ_XP / r.p.of) : READ_XP) + qs, qs > 0];
     if (r.kind === 'reels') return [qs, true];
-    return [{ cfm: CFM_XP, gc: GC_XP, goal: GOAL_TICK_XP, thanks: THANKS_XP, still: STILL_XP }[r.kind] || 0, false];
+    return [{ cfm: CFM_XP, bom: BOM_XP, gc: GC_XP, goal: GOAL_TICK_XP, thanks: THANKS_XP, still: STILL_XP }[r.kind] || 0, false];
   }
   // What a done row earned, streak and all, as far as it was kept.
   function pathRowEarned(r) {
@@ -6861,6 +7277,7 @@ const TreasureUp = (function () {
     }
     if (r.kind === 'reels') return asked;
     if (r.kind === 'cfm') return xpOf((S.cfm || {})[cfmKey(r.c)]);
+    if (r.kind === 'bom') return xpOf(dn.bomXp);
     if (r.kind === 'gc') return xpOf(dn.gc);
     if (r.kind === 'goal') return xpOf((S.tickPaid || {})[r.k + '|' + r.x.st.id]);
     if (r.kind === 'thanks') return xpOf(dn.grXp);
@@ -7717,8 +8134,8 @@ const TreasureUp = (function () {
   function seasonNotes(s, print) {
     const inS = d => typeof d === 'string' && d <= s.end && d >= dayAdd(s.start, -7) && noteSeason(d) === s.id;
     const imps = Object.entries(S.impressions || {}).filter(([, x]) => x && !x.gone && inS(x.day) && (!print || nb.priv || x.share))
-      .map(([id, x]) => ({ id, imp: true, icon: x.kind === 'grateful' ? '🙏' : x.kind === 'still' ? '🕊️' : /:\d/.test(x.ref || '') ? '🖍' : '✍️', day: x.day, at: x.at || 0, ref: x.kind === 'grateful' ? '' : x.ref || '',
-        text: x.kind === 'grateful' ? 'Grateful for ' + (x.items || []).join(' · ') : x.text || '', share: !!x.share }));
+      .map(([id, x]) => ({ id, imp: true, icon: x.kind === 'grateful' ? '🙏' : x.kind === 'still' ? '🕊️' : x.kind === 'blueprint' ? '🌅' : x.kind === 'evening' ? '🌙' : /:\d/.test(x.ref || '') ? '🖍' : '✍️', day: x.day, at: x.at || 0, ref: x.kind === 'grateful' ? '' : x.ref || '',
+        text: x.kind === 'grateful' ? 'Grateful for ' + (x.items || []).join(' · ') : x.kind === 'blueprint' ? 'Blueprint: ' + x.oneThing + (x.uplift ? ' · Uplift: ' + x.uplift : '') : x.kind === 'evening' ? 'Evening: ' + (x.mercies || '') + (x.wins ? ' · Wins: ' + x.wins : '') : x.text || '', share: !!x.share }));
     const reels = Object.values(S.notes || {}).filter(n => n && n.text && inS(n.day)).map(n => ({ icon: '✏️', day: n.day, at: n.at || 0, ref: n.ref || '', text: n.text, share: true }));
     return imps.concat(reels).sort((a, b) => b.day.localeCompare(a.day) || b.at - a.at);
   }
@@ -17137,6 +17554,12 @@ const TreasureUp = (function () {
       if (e.target.closest('[data-familynight]')) return openSheet(familyHtml(WEEK));
       const sm = e.target.closest('[data-study-mode]');
       if (sm) { S.studyMode = sm.dataset.studyMode; save(); refreshHome(); return; }
+      if (e.target.closest('[data-open-blueprint]')) { openBlueprint(); return; }
+      if (e.target.closest('[data-open-evening]')) { openEvening(); return; }
+      const bpc = e.target.closest('[data-bp-check]');
+      if (bpc) { toggleBlueprintCheck(bpc.dataset.bpCheck); return; }
+      const bmo = e.target.closest('[data-bom-open]');
+      if (bmo) { openBomSheet(dayKey(), bmo.dataset.bomOpen); return; }
       if (e.target.closest('[data-short-deck="family"]')) { stopClips(); return openSheet(familyDeckHtml(0)); }
       if (e.target.closest('[data-short-deck="sunday"]')) { stopClips(); return openSheet(sundayDeckHtml(0)); }
       const sc = e.target.closest('[data-short-id]');
@@ -17319,6 +17742,26 @@ const TreasureUp = (function () {
     $('appSheet').addEventListener('click', e => {
       if (e.target.closest('#appClose') || e.target.id === 'appSheet') { stopClips(); closeSheet(); refreshHome(); return; }
       if (seasonSheetClick(e) || seasonClick(e)) return;
+      if (e.target.closest('[data-bp-save]')) { saveBlueprint(); return; }
+      if (e.target.closest('[data-bp-share]')) {
+        bpShare = !bpShare;
+        openSheet(blueprintSheetHtml());
+        return;
+      }
+      const bpa = e.target.closest('[data-bp-area]');
+      if (bpa) {
+        bpYouthArea = bpa.dataset.bpArea;
+        openSheet(blueprintSheetHtml());
+        return;
+      }
+      if (e.target.closest('[data-ev-save]')) { saveEvening(); return; }
+      if (e.target.closest('[data-ev-share]')) {
+        evShare = !evShare;
+        openSheet(eveningSheetHtml());
+        return;
+      }
+      const bsm = e.target.closest('[data-bom-sheet-mark]');
+      if (bsm) { markBomDone(dayKey(), bsm.dataset.bomSheetMark); return; }
       if (e.target.closest('[data-back-weeksheet]')) { stopClips(); return openSheet(weekSheetHtml()); }
       const sc = e.target.closest('[data-short-id]');
       if (sc) {
