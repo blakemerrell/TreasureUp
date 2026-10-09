@@ -1644,6 +1644,32 @@
   .bp-check-item.done .bp-item-text b { text-decoration: line-through; opacity: .6; }
   .bp-gr-summary { margin-top: 6px; font-size: 12px; color: rgba(255,255,255,.7); padding: 4px 8px; border-radius: 8px; background: rgba(255,255,255,.05); }
 
+  /* Compact Morning Routine Card on Today */
+  .blueprint-card.compact { padding: 10px 14px; margin: 4px 0 10px; }
+  .bp-compact-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .bp-compact-text { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .bp-compact-title { font-size: 13.5px; font-weight: 700; color: #fff; }
+
+  /* Redesigned Clean Morning Blueprint Sheet */
+  .bp-sheet-wrap { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+  .bp-sec { border-radius: 14px; padding: 12px 14px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-left-width: 3.5px; transition: border-color .15s ease; }
+  .bp-sec-priority { border-left-color: #fbbf24; background: linear-gradient(135deg, rgba(251,191,36,.09), rgba(245,158,11,.02)); }
+  .bp-sec-uplift { border-left-color: #38bdf8; background: linear-gradient(135deg, rgba(56,189,248,.09), rgba(59,130,246,.02)); }
+  .bp-sec-gratitude { border-left-color: #f472b6; background: linear-gradient(135deg, rgba(244,114,182,.09), rgba(236,72,153,.02)); }
+  .bp-sec-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .bp-sec-title { font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: rgba(255,255,255,.9); display: flex; align-items: center; gap: 6px; }
+  .bp-sec-priority .bp-sec-title { color: #fde68a; }
+  .bp-sec-uplift .bp-sec-title { color: #bae6fd; }
+  .bp-sec-gratitude .bp-sec-title { color: #fbcfe8; }
+  .bp-textarea { width: 100%; box-sizing: border-box; font-family: inherit; font-size: 15.5px; line-height: 1.45; padding: 9px 12px; border-radius: 10px; background: rgba(0,0,0,.35); border: 1px solid rgba(255,255,255,.14); color: #fff; resize: none; overflow: hidden; min-height: 48px; transition: border-color .15s ease, background .15s ease; }
+  .bp-textarea:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,.55); }
+  .bp-textarea.sm { min-height: 40px; font-size: 14.5px; }
+  .bp-quick-pills { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 7px; }
+  .bp-quick-pill { font: inherit; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: rgba(255,255,255,.07); color: rgba(255,255,255,.75); border: 1px solid rgba(255,255,255,.12); cursor: pointer; transition: all .15s ease; }
+  .bp-quick-pill:hover { background: rgba(255,255,255,.15); color: #fff; border-color: rgba(255,255,255,.25); }
+  .bp-power-link { display: inline-flex; align-items: center; gap: 5px; font: inherit; font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,.6); background: none; border: 0; cursor: pointer; padding: 6px 10px; border-radius: 8px; transition: color .15s ease; }
+  .bp-power-link:hover { color: #fff; background: rgba(255,255,255,.06); }
+
   /* Evening Accounting Card (Report Back to Heavenly Father · Alma 34:38) */
   .evening-card { position: relative; border-radius: 18px; padding: 14px 16px; margin: 12px 0 14px; background: linear-gradient(135deg, rgba(99,102,241,.12), rgba(139,92,246,.04)); border: 1.5px solid rgba(167,139,250,.3); box-shadow: 0 4px 16px rgba(0,0,0,.25); }
   .ev-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #c4b5fd; }
@@ -3261,10 +3287,11 @@ const TreasureUp = (function () {
     if (rows.length && !next) button = isToday ? `<div class="fl-done"><b>✓ Today’s study: done</b><small>${esc(d < 5 ? 'Tomorrow: ' + dayName(d + 1) : 'Tomorrow: church, then a family game')}</small></div>`
       : at >= 0 ? `<button class="fl-next ahead" data-lesson="${d}.${at}"><b>▶ Practice it again</b><small>Already done: nothing new to earn</small></button>` : '';
     else if (next && (isToday || at >= 0)) {
-      // Today's study opens with Be still, then the lesson (Blake picked both: the first row, and the green button), until he's been still or passed it by today.
+      // Today's study opens with Be still, then Morning Blueprint, then the lesson, until done.
       const stillFirst = isToday && !stillOn(k) && !pathDoneOf(k).stillSkip && !started;
-      button = `<button class="fl-next${k > today ? ' ahead' : ''}" ${stillFirst ? 'data-still-first' : `data-lesson="${isToday ? '' : d + '.' + at}"`}><b>▶ ${esc(k > today ? 'Read ahead' : started ? 'Pick up at ' + pathRowTitle(next) : isToday ? 'Today’s study' : 'Finish this day')}</b>
-      <small>${esc((stillFirst ? '🕊️ Be still, then ' : '') + (started ? n + ' of ' + rows.length + ' done · about ' + mins(pathLeft(rows)) + ' min left' : what + ' · about ' + mins(rows.filter(r => !r.own)) + ' min'))}</small></button>`;
+      const bpFirst = isToday && !stillFirst && !blueprintOf(k) && !started;
+      button = `<button class="fl-next${k > today ? ' ahead' : ''}" ${stillFirst ? 'data-still-first' : bpFirst ? 'data-open-blueprint' : `data-lesson="${isToday ? '' : d + '.' + at}"`}><b>▶ ${esc(k > today ? 'Read ahead' : bpFirst ? 'Set Morning Blueprint' : started ? 'Pick up at ' + pathRowTitle(next) : isToday ? 'Today’s study' : 'Finish this day')}</b>
+      <small>${esc((stillFirst ? '🕊️ Be still, then ' : bpFirst ? '🌅 Counsel with the Lord, then ' : '') + (started ? n + ' of ' + rows.length + ' done · about ' + mins(pathLeft(rows)) + ' min left' : what + ' · about ' + mins(rows.filter(r => !r.own)) + ' min'))}</small></button>`;
     }
     const extra = [];
     if (isToday) {
@@ -3693,49 +3720,54 @@ const TreasureUp = (function () {
   function blueprintSheetHtml() {
     const k = dayKey(), had = blueprintOf(k), bp = had ? had[1] : {}, kid = seasonWho() !== 'adult';
     const gratefulHad = gratefulOf(k), grItems = gratefulHad ? (gratefulHad[1].items || []) : (bp.gratitude || []);
-    return `<div class="sh-title">${kid ? '🌟 My Growth Blueprint' : '🌅 Morning Blueprint · Counsel with the Lord'}</div>
-      <p class="sh-small">${kid ? '“And Jesus increased in wisdom and stature, and in favour with God and man.” (Luke 2:52)' : '“Counsel with the Lord in all thy doings, and he will direct thee for good.” (Alma 37:37)'}</p>
+    const grText = grItems.join('\n');
+    const goals = activeGoals(seasonRec(seasonNow().id));
+
+    return `<div class="sh-title">${kid ? '🌟 Morning Growth Blueprint' : '🌅 Morning Counsel with the Lord'}</div>
+      <p class="sh-small">${kid ? 'Luke 2:52 · Grow in wisdom, stature, and favor with God' : 'Alma 37:37 · Counsel with the Lord in all thy doings'}</p>
       
-      ${kid ? `
-        <div class="sheet-group">
-          <label>Growth Area (Luke 2:52)</label>
-          <div style="display:flex;gap:6px;flex-wrap:wrap;margin:6px 0">
-            ${AREAS.map(a => `<button type="button" class="sh-pill${bpYouthArea === a.id ? ' on' : ''}" data-bp-area="${a.id}">${a.icon} ${a.name}</button>`).join('')}
+      <div class="bp-sheet-wrap">
+        <!-- 1. The One Thing (Top Priority) -->
+        <div class="bp-sec bp-sec-priority">
+          <div class="bp-sec-head">
+            <span class="bp-sec-title">🎯 ${kid ? 'My Growth Focus Today' : 'Today’s One Thing'}</span>
           </div>
+          ${goals.length ? activeGoalChipsHtml() : ''}
+          <textarea class="bp-textarea" id="bpOneThing" rows="2" data-min-height="54" placeholder="${kid ? 'What goal or skill will I practice today?' : 'The single priority from the Lord today…'}">${esc(bp.oneThing || '')}</textarea>
+          <input type="hidden" id="bpGoalSid" value="${esc(bp.goalSid || '')}">
+          <input type="hidden" id="bpGoalStepId" value="${esc(bp.goalStepId || '')}">
         </div>
-      ` : ''}
 
-      <div class="sheet-group">
-        <label>${kid ? '⭐ My Growth Focus Today' : '⭐ The One Thing (Top Spiritual Priority)'}</label>
-        ${activeGoalChipsHtml()}
-        <input class="field sheet-in" id="bpOneThing" maxlength="200" value="${esc(bp.oneThing || '')}" placeholder="${kid ? 'What goal or skill will I practice today?' : 'Single most important spiritual priority from the Lord today'}">
-        <input type="hidden" id="bpGoalSid" value="${esc(bp.goalSid || '')}">
-        <input type="hidden" id="bpGoalStepId" value="${esc(bp.goalStepId || '')}">
-        ${coachIdeaExpanderHtml(bpYouthArea)}
-        <small>${kid ? 'Pick an active goal, a coach idea, or write your own.' : 'What is the Lord directing you to focus on today?'}</small>
-      </div>
-
-      <div class="sheet-group">
-        <label>🤝 Someone to Uplift</label>
-        <div style="display:flex;gap:5px;flex-wrap:wrap;margin:4px 0 6px">
-          ${(kid ? ['Mom or Dad', 'A friend at school', 'Brother or sister', 'Someone lonely', 'Teacher / leader']
-                : ['Chantel (my wife)', 'Javan', 'One of my kids', 'A team member', 'A neighbor or friend']
-          ).map(p => `<button type="button" class="coach-chip sm" data-bp-pick-uplift="${esc(p)}" style="font-size:11.5px;padding:3px 9px">${esc(p)}</button>`).join('')}
+        <!-- 2. Someone to Uplift -->
+        <div class="bp-sec bp-sec-uplift">
+          <div class="bp-sec-head">
+            <span class="bp-sec-title">🤝 Someone to Uplift</span>
+          </div>
+          <div class="bp-quick-pills">
+            ${(kid ? ['Mom or Dad', 'Friend at school', 'Brother / Sister', 'Someone lonely']
+                  : ['Chantel (my wife)', 'Javan', 'One of my kids', 'A team member', 'A neighbor']
+            ).map(p => `<button type="button" class="bp-quick-pill" data-bp-pick-uplift="${esc(p)}">+ ${esc(p)}</button>`).join('')}
+          </div>
+          <textarea class="bp-textarea sm" id="bpUplift" rows="1" data-min-height="40" placeholder="Who can I serve, encourage, text, or pray for?">${esc(bp.uplift || '')}</textarea>
         </div>
-        <input class="field sheet-in" id="bpUplift" maxlength="200" value="${esc(bp.uplift || '')}" placeholder="Who can I serve, encourage, text, or pray for?">
-        <small>Keep an eye out for them as you go through your day.</small>
-      </div>
 
-      <div class="sheet-group">
-        <label>🙏 Morning Gratitude (1–3 things)</label>
-        ${[0, 1, 2].map(i => `<input class="field sheet-in bp-gr-in" data-bp-gr="${i}" maxlength="200" style="margin-top:${i ? '6px' : '0'}" value="${esc(grItems[i] || '')}" placeholder="${i === 0 ? 'One thing I am grateful for…' : i === 1 ? 'Another blessing…' : 'And one more…'}">`).join('')}
+        <!-- 3. Morning Gratitude -->
+        <div class="bp-sec bp-sec-gratitude">
+          <div class="bp-sec-head">
+            <span class="bp-sec-title">🙏 Morning Gratitude</span>
+          </div>
+          <textarea class="bp-textarea" id="bpGratitude" rows="2" data-min-height="54" placeholder="What are you grateful for this morning?">${esc(grText)}</textarea>
+        </div>
       </div>
 
       <div class="sea-imp-bar" style="margin-top:16px">
         ${kid ? `<button type="button" class="sh-pill${bpShare ? ' on' : ''}" data-bp-share>${bpShare ? '👀 Share with my parents' : '🔒 Just me'}</button>` : '<span class="sh-small">🔒 Just yours</span>'}
         <button type="button" class="btn" style="background:var(--gold);color:#1c1406;font-weight:900" data-bp-save>Save Blueprint (+15 XP)</button>
       </div>
-      <p class="sh-small" style="margin-top:12px">Elder Bednar: Morning prayer is where we create a spiritual blueprint with the Lord. In the evening, we report back.</p>`;
+
+      <div style="text-align:center;margin-top:14px">
+        <button type="button" class="bp-power-link" data-go-season-power>📓 Open Season Notebook (Power Mode) ›</button>
+      </div>`;
   }
 
   function openBlueprint() {
@@ -3743,6 +3775,10 @@ const TreasureUp = (function () {
     bpShare = !!(had && had[1].share);
     bpYouthArea = (had && had[1].youthArea) || 'spiritual';
     openSheet(blueprintSheetHtml());
+    document.querySelectorAll('#appBody .bp-textarea').forEach(el => {
+      el.style.height = 'auto';
+      el.style.height = Math.max(el.scrollHeight, Number(el.dataset.minHeight || 44)) + 'px';
+    });
     const first = document.querySelector('#appBody #bpOneThing');
     if (first && !had) first.focus();
   }
@@ -3752,7 +3788,14 @@ const TreasureUp = (function () {
     const goalSid = $('bpGoalSid') ? $('bpGoalSid').value : '';
     const goalStepId = $('bpGoalStepId') ? $('bpGoalStepId').value : '';
     const uplift = ($('bpUplift') ? $('bpUplift').value.trim() : '').slice(0, 200);
-    const grList = [...document.querySelectorAll('#appBody .bp-gr-in')].map(i => i.value.trim()).filter(Boolean).map(t => t.slice(0, 200));
+    let grList = [];
+    if ($('bpGratitude')) {
+      const raw = $('bpGratitude').value.trim();
+      if (raw) grList = raw.split(/\n+/).map(s => s.trim().replace(/^[-•*]\s*/, '')).filter(Boolean).map(s => s.slice(0, 200));
+    }
+    if (!grList.length) {
+      grList = [...document.querySelectorAll('#appBody .bp-gr-in')].map(i => i.value.trim()).filter(Boolean).map(t => t.slice(0, 200));
+    }
     if (!oneThing && !uplift && !grList.length) { closeSheet(); return; }
     storeBlueprint({
       oneThing,
@@ -3763,6 +3806,9 @@ const TreasureUp = (function () {
       youthArea: bpYouthArea,
       share: bpShare
     });
+    if (grList.length && !gratefulOf(dayKey())) {
+      storeGrateful(grList, bpShare);
+    }
     closeSheet();
     refreshHome();
     toast('🌅 Blueprint Created', oneThing ? '“' + oneThing.slice(0, 35) + '…”' : 'Walk with Him today');
@@ -3773,17 +3819,16 @@ const TreasureUp = (function () {
     const isDoneOne = bp && bp.done && bp.done.oneThing;
     const isDoneUplift = bp && bp.done && bp.done.uplift;
     const title = kid ? '🌟 My Growth Blueprint' : '🌅 Morning Blueprint';
-    const sub = kid ? '“And Jesus increased in wisdom and stature, and in favour with God and man.”' : '“Counsel with the Lord in all thy doings, and he will direct thee for good.”';
     const ref = kid ? 'Luke 2:52' : 'Alma 37:37';
 
     if (!bp || (!bp.oneThing && !bp.uplift)) {
-      return `<div class="blueprint-card${kid ? ' kids' : ''}">
-        <div class="bp-badge">${title} · ${ref}</div>
-        <div class="bp-quote">${sub} <small>${ref}</small></div>
-        <p class="bp-desc">${kid ? 'Set your growth goal for today and choose someone to encourage.' : 'Start your day with Heavenly Father. Set your One Thing, someone to lift, and your morning focus.'}</p>
-        <div class="bp-actions">
-          <button type="button" class="bp-btn" data-open-blueprint>✍️ ${kid ? 'Set My Growth Blueprint' : 'Create Today’s Blueprint'}</button>
-          <button type="button" class="bp-btn-alt" data-still-first>🕊️ Be Still First</button>
+      return `<div class="blueprint-card compact${kid ? ' kids' : ''}">
+        <div class="bp-compact-row">
+          <div class="bp-compact-text">
+            <span class="bp-badge">${title} · ${ref}</span>
+            <span class="bp-compact-title">Counsel with the Lord</span>
+          </div>
+          <button type="button" class="bp-btn" data-open-blueprint>✍️ Set Focus</button>
         </div>
       </div>`;
     }
@@ -7515,6 +7560,10 @@ const TreasureUp = (function () {
       // day's study back (a step may be for tonight).
       for (const x of goalSteps()) rows.push({ kind: 'goal', x, k, done: x.on, own: true });
       rows.push({ kind: 'thanks', k, done: !!gratefulOf(k) || !!dn.thanks });
+      // Morning routine in the flow: Blueprint follows Be still
+      const hadBp = blueprintOf(k), bp = hadBp ? hadBp[1] : null;
+      const bpDone = !!(bp && (bp.oneThing || bp.uplift));
+      rows.unshift({ kind: 'blueprint', k, done: bpDone, bp, own: true });
       // Be still leads the day (Blake, 2026-10-07: "Be still at the top? Start out that way?").
       rows.unshift({ kind: 'still', k, done: stillOn(k), own: true });
     }
@@ -7527,6 +7576,7 @@ const TreasureUp = (function () {
     if (r.kind === 'part') return r.p.of > 1 ? r.p.key : 'Read ' + r.p.u.ref;
     if (r.kind === 'reels') return r.reels.length === 1 ? r.reels[0].hook : r.reels.length + ' reels';
     if (r.kind === 'goal') return '🌱 ' + r.x.st.text;
+    if (r.kind === 'blueprint') return seasonWho() !== 'adult' ? '🌟 Morning Growth Blueprint' : '🌅 Morning Blueprint';
     return { cfm: 'Come Follow Me', bom: '📜 Book of Mormon', gc: 'Conference', thanks: 'Grateful for…', still: '🕊️ Be still' }[r.kind];
   }
   function pathRowSub(r) {
@@ -7537,6 +7587,16 @@ const TreasureUp = (function () {
     if (r.kind === 'gc') return r.t.t.speaker;
     if (r.kind === 'goal') return 'My Season · ' + r.x.sub;
     if (r.kind === 'still') return stillSub();
+    if (r.kind === 'blueprint') {
+      const bp = r.bp;
+      if (bp && (bp.oneThing || bp.uplift)) {
+        const parts = [];
+        if (bp.oneThing) parts.push('⭐ ' + bp.oneThing);
+        if (bp.uplift) parts.push('🤝 ' + bp.uplift);
+        return parts.join(' · ');
+      }
+      return seasonWho() !== 'adult' ? 'Luke 2:52 · Set today’s focus & someone to lift' : 'Alma 37:37 · Counsel with the Lord · Set today’s focus';
+    }
     const had = r.k && gratefulOf(r.k);
     return had ? (had[1].items || []).join(' · ') : gratefulPrompt(dayKey()).q;
   }
@@ -7554,6 +7614,7 @@ const TreasureUp = (function () {
     if (r.kind === 'gc') return `data-path-gc="${esc(r.t.t.id)}"`;
     if (r.kind === 'goal') return `data-tick="${esc(r.x.s.id)}|${esc(r.x.st.id)}" aria-pressed="${!!r.done}"`;
     if (r.kind === 'thanks') return 'data-grateful';
+    if (r.kind === 'blueprint') return 'data-open-blueprint';
     return 'data-still';
   }
   // XP a row pays (base, before the streak), and whether that's "up to" (its questions pay when right the first time).
@@ -7561,7 +7622,7 @@ const TreasureUp = (function () {
     const qs = (r.reels || []).filter(x => !S.answers[x.id]).length * XP.firstTry;
     if (r.kind === 'part') return [(partDone(r.p) ? 0 : r.p.of > 1 ? Math.floor(READ_XP / r.p.of) : READ_XP) + qs, qs > 0];
     if (r.kind === 'reels') return [qs, true];
-    return [{ cfm: CFM_XP, bom: BOM_XP, gc: GC_XP, goal: GOAL_TICK_XP, thanks: THANKS_XP, still: STILL_XP }[r.kind] || 0, false];
+    return [{ cfm: CFM_XP, bom: BOM_XP, gc: GC_XP, goal: GOAL_TICK_XP, thanks: THANKS_XP, still: STILL_XP, blueprint: BLUEPRINT_XP }[r.kind] || 0, false];
   }
   // What a done row earned, streak and all, as far as it was kept.
   function pathRowEarned(r) {
@@ -7578,6 +7639,7 @@ const TreasureUp = (function () {
     if (r.kind === 'goal') return xpOf((S.tickPaid || {})[r.k + '|' + r.x.st.id]);
     if (r.kind === 'thanks') return xpOf(dn.grXp);
     if (r.kind === 'still') return xpOf(dn.stillXp);
+    if (r.kind === 'blueprint') return xpOf(dn.blueprintXp);
     return 0;
   }
   function pathRowXp(r) {
@@ -8616,13 +8678,18 @@ const TreasureUp = (function () {
     const thisYear = a => Object.entries(S.seasons || {}).filter(([id]) => id.startsWith(y + '-')).reduce((n, [, r]) => n + liveGoals(r).filter(g => g.area === a).length, 0);
     const qs = who === 'child' ? ['What do you feel you should learn or try?', 'What do you do well?', 'What do you want to do better?']
       : ['How can I develop my talents?', 'What responsibilities do I have right now?', 'What do I want to do better?'];
-    const a = seasonArea;
+    const a = seasonArea, coachList = a ? coachSuggestedIdeas(a) : [];
     return `<div class="sh-title">🔎 Discover</div>
       <p class="sh-small">Before you pick, think about it, and “ask Heavenly Father to help you know what you need to work on right now.”</p>
       <ul class="sea-qs">${qs.map(q => `<li>${esc(q)}</li>`).join('')}</ul>
       <div class="eyebrow" style="margin-top:16px">Pick an area</div>
       <div class="sea-areas">${AREAS.map(x => `<button class="sea-areab${a === x.id ? ' on' : ''}" data-season-area="${x.id}"><b>${x.icon} ${esc(x.name)}</b><small>${esc(x.luke)}${thisYear(x.id) ? ' · ' + thisYear(x.id) + ' this year' : ''}</small></button>`).join('')}</div>
-      ${a ? `<div class="eyebrow" style="margin-top:16px">Ideas</div>
+      ${a ? `
+        ${coachList.length ? `
+          <div class="eyebrow" style="margin-top:16px;color:#38bdf8">💡 Coach Suggestions (for ${esc(profileOf().name)})</div>
+          <div class="sea-ideas">${coachList.map(x => `<button class="sea-idea" data-coach-idea-pick="${esc(x.title)}|${esc(x.step)}|${x.n || 3}|${esc(x.ref || '')}"><b>${x.icon} ${esc(x.title)}</b><small>${esc(x.step)} · ${x.n === 7 ? 'every day' : (x.n || 3) + ' times a week'}${x.ref ? ' · ' + esc(x.ref) : ''}</small></button>`).join('')}</div>
+        ` : ''}
+        <div class="eyebrow" style="margin-top:16px">More Ideas</div>
         <div class="sea-ideas">${SEASON_IDEAS[a].map((x, i) => `<button class="sea-idea" data-season-idea="${i}"><b>${esc(x.t)}</b><small>${esc(x.s)} · ${x.n === 7 ? 'every day' : x.n + (x.n === 1 ? ' time' : ' times') + ' a week'}${x.ref ? ' · ' + esc(x.ref) : ''}</small></button>`).join('')}</div>
         <div class="board-actions"><button class="btn ghost" data-season-own>Write my own</button></div>` : ''}
       <button class="today-alt" data-season="home">Back to my Season</button>`;
@@ -8791,6 +8858,14 @@ const TreasureUp = (function () {
     if (w) { S.seasonWho = w.dataset.seasonWho; save(); refreshHome(); openSeason(liveGoals(seasonRec(seasonNow().id)).length ? 'home' : 'discover'); return true; }
     const a = t.closest('[data-season-area]');
     if (a) { seasonArea = a.dataset.seasonArea; seasonDraw(); return true; }
+    const cip = t.closest('[data-coach-idea-pick]');
+    if (cip) {
+      const [title, step, n, ref] = cip.dataset.coachIdeaPick.split('|');
+      seasonDraft = draftFrom(null, seasonArea);
+      seasonDraft.text = title; seasonDraft.steps[0].text = step; seasonDraft.steps[0].n = Number(n) || 3;
+      if (ref) seasonDraft.why = ref + ': ';
+      seasonView = 'plan'; seasonDraw('', true); return true;
+    }
     const idea = t.closest('[data-season-idea]');
     if (idea) {
       const x = SEASON_IDEAS[seasonArea][Number(idea.dataset.seasonIdea)];
@@ -18114,7 +18189,12 @@ const TreasureUp = (function () {
       }
       const bpg = e.target.closest('[data-bp-pick-goal]');
       if (bpg) {
-        if ($('bpOneThing')) $('bpOneThing').value = bpg.dataset.bpPickGoal;
+        const ot = $('bpOneThing');
+        if (ot) {
+          ot.value = bpg.dataset.bpPickGoal;
+          ot.style.height = 'auto';
+          ot.style.height = Math.max(ot.scrollHeight, Number(ot.dataset.minHeight || 44)) + 'px';
+        }
         if ($('bpGoalSid')) $('bpGoalSid').value = bpg.dataset.bpSid || '';
         if ($('bpGoalStepId')) $('bpGoalStepId').value = bpg.dataset.bpStepId || '';
         document.querySelectorAll('#appBody .bp-goal-chip').forEach(c => c.classList.toggle('on', c === bpg));
@@ -18122,7 +18202,20 @@ const TreasureUp = (function () {
       }
       const bpu = e.target.closest('[data-bp-pick-uplift]');
       if (bpu) {
-        if ($('bpUplift')) $('bpUplift').value = 'Encourage ' + bpu.dataset.bpPickUplift;
+        const u = $('bpUplift');
+        if (u) {
+          u.value = 'Encourage ' + bpu.dataset.bpPickUplift;
+          u.style.height = 'auto';
+          u.style.height = Math.max(u.scrollHeight, Number(u.dataset.minHeight || 40)) + 'px';
+        }
+        return;
+      }
+      const gsp = e.target.closest('[data-go-season-power]');
+      if (gsp) {
+        closeSheet();
+        homeTab = 'season';
+        renderHome();
+        $('home').scrollTop = 0;
         return;
       }
       const hubProf = e.target.closest('[data-hub-profile]');
@@ -18328,6 +18421,12 @@ const TreasureUp = (function () {
       if (g && g.dataset.setGo === 'family') { closeSheet(); homeTab = 'family'; renderHome(); $('home').scrollTop = 0; return; }
       if (g) { closeSheet(); return openParent(); }
       if (e.target.closest('[data-dev-open]')) { e.preventDefault(); closeSheet(); openDev(); }
+    });
+    $('appSheet').addEventListener('input', e => {
+      if (e.target && e.target.classList.contains('bp-textarea')) {
+        e.target.style.height = 'auto';
+        e.target.style.height = Math.max(e.target.scrollHeight, Number(e.target.dataset.minHeight || 44)) + 'px';
+      }
     });
     // An impression, from the end of a chapter in the reader.
     document.addEventListener('click', e => {
