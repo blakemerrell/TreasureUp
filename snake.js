@@ -555,34 +555,71 @@
   function drawSnake(ctx, s, cell, cx, cy, t) {
     const b = s.body, sk = s.skin;
     ctx.globalAlpha = ghost(s) ? 0.45 + 0.35 * Math.abs(Math.sin(t / 80)) : 1;
-    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    const path = () => { ctx.beginPath(); for (let n = b.length - 1; n >= 0; n--) { const p = b[n]; n === b.length - 1 ? ctx.moveTo(cx(p.x), cy(p.y)) : ctx.lineTo(cx(p.x), cy(p.y)); } };
-    ctx.strokeStyle = sk.dark; ctx.lineWidth = cell * 0.8; path(); ctx.stroke();
-    ctx.strokeStyle = sk.body; ctx.lineWidth = cell * 0.66; path(); ctx.stroke();
-    ctx.strokeStyle = sk.belly; ctx.lineWidth = cell * 0.18; ctx.globalAlpha *= 0.55; path(); ctx.stroke(); ctx.globalAlpha = ghost(s) ? 0.6 : 1;
-    // Diamonds down the back
-    ctx.fillStyle = sk.dark;
-    for (let n = 2; n < b.length; n += 2) {
-      const p = b[n], x = cx(p.x), y = cy(p.y), d = cell * 0.16;
-      ctx.beginPath(); ctx.moveTo(x, y - d); ctx.lineTo(x + d, y); ctx.lineTo(x, y + d); ctx.lineTo(x - d, y); ctx.fill();
+    
+    // Draw people from tail to head
+    for (let n = b.length - 1; n >= 0; n--) {
+      const p = b[n], x = cx(p.x), y = cy(p.y);
+      const isHead = n === 0;
+      
+      // Figure out direction this person is facing
+      let dx = 0, dy = 0;
+      if (isHead) {
+        dx = s.dir.x; dy = s.dir.y;
+      } else {
+        const ahead = b[n - 1];
+        dx = ahead.x - p.x; dy = ahead.y - p.y;
+        if (dx === 0 && dy === 0) { dx = s.dir.x; dy = s.dir.y; } // fallback
+      }
+      
+      // Wobble for walking animation
+      const walk = Math.sin((t / 150) + n) * cell * 0.1;
+      
+      // Shoulders/Tunic
+      ctx.fillStyle = sk.body;
+      ctx.strokeStyle = sk.dark;
+      ctx.lineWidth = cell * 0.08;
+      ctx.beginPath();
+      // Ellipse perpendicular to walking direction
+      const angle = Math.atan2(dy, dx);
+      ctx.ellipse(x + dx * walk, y + dy * walk, cell * 0.35, cell * 0.25, angle + Math.PI/2, 0, 7);
+      ctx.fill();
+      ctx.stroke();
+      
+      // Head/Skin
+      ctx.fillStyle = sk.belly;
+      ctx.beginPath();
+      ctx.arc(x + dx * cell * 0.1, y + dy * cell * 0.1, cell * 0.2, 0, 7);
+      ctx.fill();
+      ctx.stroke();
+      
+      // Hair/Headdress
+      ctx.fillStyle = sk.dark;
+      ctx.beginPath();
+      ctx.arc(x + dx * cell * 0.05, y + dy * cell * 0.05, cell * 0.18, angle + Math.PI/2, angle - Math.PI/2, true);
+      ctx.fill();
+      
+      // Leader gets a staff
+      if (isHead) {
+        ctx.strokeStyle = '#6b4423'; // wood brown
+        ctx.lineWidth = cell * 0.1;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        const staffX = x + Math.cos(angle + Math.PI/4) * cell * 0.4;
+        const staffY = y + Math.sin(angle + Math.PI/4) * cell * 0.4;
+        ctx.moveTo(staffX, staffY);
+        ctx.lineTo(staffX + dx * cell * 0.6, staffY + dy * cell * 0.6);
+        ctx.stroke();
+      }
     }
-    // The head: eyes ahead, and a forked tongue now and then
-    const h = b[0], d = s.dir, x = cx(h.x), y = cy(h.y);
-    ctx.fillStyle = sk.body; ctx.strokeStyle = sk.dark; ctx.lineWidth = cell * 0.08;
-    ctx.beginPath(); ctx.ellipse(x + d.x * cell * 0.06, y + d.y * cell * 0.06, cell * 0.46, cell * 0.46, 0, 0, 7); ctx.fill(); ctx.stroke();
-    if ((t % 1100) < 260) {
-      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = Math.max(1.5, cell * 0.07);
-      const tx = x + d.x * cell * 0.5, ty = y + d.y * cell * 0.5, ex = x + d.x * cell * 0.85, ey = y + d.y * cell * 0.85;
-      ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(ex, ey);
-      ctx.moveTo(ex, ey); ctx.lineTo(ex + (d.x - d.y) * cell * 0.12, ey + (d.y + d.x) * cell * 0.12);
-      ctx.moveTo(ex, ey); ctx.lineTo(ex + (d.x + d.y) * cell * 0.12, ey + (d.y - d.x) * cell * 0.12); ctx.stroke();
+    
+    // Brass serpent buff indicator
+    if (s.brass) {
+      const h = b[0];
+      ctx.fillStyle = '#fbbf24';
+      ctx.beginPath();
+      ctx.arc(cx(h.x) - s.dir.x * cell * 0.3, cy(h.y) - s.dir.y * cell * 0.3, cell * 0.12, 0, 7);
+      ctx.fill();
     }
-    for (const side of [-1, 1]) {
-      const ex = x + d.x * cell * 0.18 + -d.y * side * cell * 0.2, ey = y + d.y * cell * 0.18 + d.x * side * cell * 0.2;
-      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(ex, ey, cell * 0.12, 0, 7); ctx.fill();
-      ctx.fillStyle = '#111'; ctx.beginPath(); ctx.arc(ex + d.x * cell * 0.04, ey + d.y * cell * 0.04, cell * 0.065, 0, 7); ctx.fill();
-    }
-    if (s.brass) { ctx.fillStyle = '#fbbf24'; ctx.beginPath(); ctx.arc(x - d.x * cell * 0.3, y - d.y * cell * 0.3, cell * 0.09, 0, 7); ctx.fill(); }
     ctx.globalAlpha = 1;
   }
 
@@ -604,7 +641,7 @@
   function shell(body) {
     root.dataset.view = ui.view; root.dataset.mode = G ? G.mode : ui.mode;
     root.innerHTML = `<div class="sn-top">
-        <div class="sn-name"><div class="eyebrow">Arcade · no XP, just for fun</div><div class="board-title">Wilderness Snake</div></div>
+        <div class="sn-name"><div class="eyebrow">Arcade · no XP, just for fun</div><div class="board-title">Wilderness Caravan</div></div>
         <div id="snHud" class="sn-hud"></div>
         <div class="sn-btns">${G && G.state === 'play' && ui.view === 'game' ? '<button class="btn ghost" data-sn="pause" aria-label="Pause"><svg class="sn-ico2" viewBox="0 0 12 14" aria-hidden="true"><rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/></svg></button>' : ''}${fsBtn()}<button class="btn ghost" data-sn="sound" aria-label="Sound on or off">${saved().muted ? '🔈' : '🔊'}</button><button class="btn ghost" data-sn="exit">Exit</button></div>
       </div>${body}`;
@@ -614,7 +651,7 @@
     ui.view = 'menu';
     const two = ui.mode === '2p', me = host.player().name || '';
     shell(`<div class="sn-menu">
-      <img class="sn-hero" src="arcade/snake.jpg" width="960" height="480" alt="The camp of Israel at sunrise: families gather manna into baskets, quail fly over, and a snake winds toward the manna.">
+      <img class="sn-hero" src="arcade/snake.jpg" width="960" height="480" alt="The camp of Israel at sunrise: families gather manna into baskets, quail fly over, and a caravan winds toward the manna.">
       <p class="sn-hook">${host.html(C().hook || '')}</p>
       <div class="sn-modes" role="radiogroup" aria-label="Players">
         <button class="sn-mode${ui.mode === '1p' ? ' on' : ''}" data-sn="mode" data-v="1p" role="radio" aria-checked="${ui.mode === '1p'}"><b>1 player</b><small>Arrows or WASD</small></button>
@@ -629,7 +666,7 @@
       ${ui.mode === 'join' ? `<div class="sn-names"><label>Room Code: <input class="field" id="snJoinCode" placeholder="4-digit code" maxlength="4" style="text-transform:uppercase;"></label><label><input type="checkbox" id="snJoinScreen" checked> Show game screen (uncheck to use as remote controller only)</label></div>` : ''}
       <div class="board-actions"><button class="btn" data-sn="start">▶ Start</button></div>
       <ul class="sn-how">
-        <li><b>Manna</b> grows your snake. Don’t hit the cliffs, the rocks or yourself.</li>
+        <li><b>Manna</b> grows your caravan. Don’t hit the cliffs, the rocks or yourself.</li>
         <li>Every ${T.qEvery} manna, a <b>question</b> from this week’s reading drops three jars, <b class="sn-a">A</b> <b class="sn-b">B</b> <b class="sn-c">C</b>. Eat the right one: +${T.right} and you grow ${T.grow.right}, more for a streak (up to ×${T.streakMax + 1}). The wrong one: you shrink ${T.shrink}.</li>
         <li>${brassIcon}<b>The brass serpent</b> comes with every 3 right in a row: crash once, and you look and live.</li>
         <li>Each level is faster, then brings rocks, then <b>fiery serpents</b>.</li>
@@ -658,7 +695,7 @@
   function renderGame() {
     ui.view = 'game';
     shell(`<div id="snPanel" class="sn-panel" aria-live="polite"></div>
-      <div id="snStage" class="sn-stage"><div class="sn-frame${coarse() ? ' pads' : ''}"><canvas id="snCanvas" role="img" aria-label="The desert: your snake, manna, and any jars"></canvas>${coarse() ? padsHtml() : ''}<div id="snRead" class="sn-read" hidden></div><div id="snPause" class="sn-pausebox" hidden></div></div></div>`);
+      <div id="snStage" class="sn-stage"><div class="sn-frame${coarse() ? ' pads' : ''}"><canvas id="snCanvas" role="img" aria-label="The desert: your caravan, manna, and any jars"></canvas>${coarse() ? padsHtml() : ''}<div id="snRead" class="sn-read" hidden></div><div id="snPause" class="sn-pausebox" hidden></div></div></div>`);
     bg = null;
     hud(); panel(); readCard();
   }
@@ -713,7 +750,7 @@
     if (!el || !G) return;
     let html;
     if (G.q && G.reading) {
-      html = `<p class="sn-idle">📜 A question! Read it, then go.</p><p class="sn-why">The snake waits while you read.</p>`;
+      html = `<p class="sn-idle">📜 A question! Read it, then go.</p><p class="sn-why">The caravan waits while you read.</p>`;
     } else if (G.q) {
       const wait = G.q.until === Infinity;   // the 3, 2, 1 after reading: the clock hasn't started
       const left = wait ? T.qSeconds : Math.max(0, Math.ceil((G.q.until - G.time) / 1000)), pct = wait ? 100 : Math.max(0, (G.q.until - G.time) / (T.qSeconds * 1000)) * 100;
