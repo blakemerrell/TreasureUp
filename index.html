@@ -1203,6 +1203,86 @@
   .fn-ic { flex: 0 0 28px; font-size: 20px; line-height: 1.2; }
   .fn-steps b { font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--gold); }
   .fn-steps p { margin-top: 3px; font-size: 15px; line-height: 1.45; }
+  /* Shorts & Family Deck Shelf */
+  .shorts-shelf { display: flex; flex-direction: column; gap: 16px; margin-top: 10px; }
+  .shorts-hero { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px;
+    border-radius: 18px; background: linear-gradient(135deg, rgba(245,158,11,.16) 0%, rgba(139,92,246,.2) 50%, rgba(30,27,75,.45) 100%);
+    border: 1.5px solid rgba(252,211,77,.35); cursor: pointer; text-align: left; color: #fff; width: 100%; transition: all .2s; }
+  .shorts-hero:active, .shorts-hero:hover { border-color: var(--gold); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,.4); }
+  .shorts-hero.sunday { background: linear-gradient(135deg, rgba(79,70,229,.2) 0%, rgba(129,140,248,.16) 50%, rgba(30,27,75,.45) 100%); border-color: rgba(129,140,248,.35); }
+  .shorts-hero.sunday:active, .shorts-hero.sunday:hover { border-color: #818cf8; }
+  .sh-hero-ic { font-size: 32px; line-height: 1; flex: 0 0 auto; background: rgba(252,211,77,.15); padding: 8px; border-radius: 14px; }
+  .sh-hero-meta { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); }
+  .sh-hero-badge { background: rgba(252,211,77,.2); color: var(--gold); padding: 2px 6px; border-radius: 6px; font-size: 9px; font-weight: 800; }
+  .sh-hero-title { font-size: 15px; font-weight: 900; line-height: 1.25; margin-top: 3px; color: #fff; }
+  .sh-hero-sub { font-size: 12px; color: rgba(255,255,255,.7); margin-top: 2px; }
+  .sh-hero-go { font-size: 20px; font-weight: 800; color: var(--gold); }
+
+  .shorts-sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+  .shorts-sec-title { font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--gold); }
+  .shorts-sec-title.kids { color: #67e8f9; }
+  .shorts-sec-hint { font-size: 11px; color: rgba(255,255,255,.45); }
+
+  .shorts-tray { display: flex; gap: 11px; overflow-x: auto; padding: 4px 2px 12px; scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .shorts-tray::-webkit-scrollbar { display: none; }
+
+  .short-card { flex: 0 0 142px; height: 202px; border-radius: 18px; position: relative; overflow: hidden;
+    cursor: pointer; scroll-snap-align: start; border: 1.5px solid rgba(255,255,255,.14); display: flex;
+    flex-direction: column; justify-content: space-between; padding: 12px 11px; text-align: left;
+    color: #fff; background: linear-gradient(145deg, #1e1b4b, #311042); transition: all .2s cubic-bezier(0.4, 0, 0.2, 1); }
+  .short-card:hover, .short-card:active { transform: translateY(-3px); border-color: rgba(252,211,77,.65); box-shadow: 0 10px 24px rgba(0,0,0,.6); }
+  .short-card.kids { background: linear-gradient(145deg, #083344, #134e4a); border-color: rgba(103,232,249,.3); }
+  .short-card.kids:hover, .short-card.kids:active { border-color: #67e8f9; box-shadow: 0 10px 24px rgba(6,78,59,.5); }
+  .short-card.done { border-color: rgba(52,211,153,.6); }
+  .short-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,10,20,.95) 0%, rgba(10,10,20,.35) 50%, rgba(10,10,20,.7) 100%); z-index: 1; pointer-events: none; }
+  .short-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+  .short-top { display: flex; align-items: center; justify-content: space-between; }
+  .story-ring { width: 28px; height: 28px; border-radius: 50%; padding: 1.5px; background: linear-gradient(135deg, #fcd34d, #34d399); display: flex; align-items: center; justify-content: center; }
+  .story-ring.kids { background: linear-gradient(135deg, #67e8f9, #38bdf8); }
+  .story-inner { width: 100%; height: 100%; border-radius: 50%; background: #141427; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+  .short-badge { font-size: 9px; font-weight: 800; letter-spacing: .02em; padding: 2px 5px; border-radius: 6px; background: rgba(255,255,255,.14); color: #fff; }
+  .short-badge.done { background: #34d399; color: #022c22; }
+  .short-label { font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--gold); letter-spacing: .04em; }
+  .short-label.kids { color: #67e8f9; }
+  .short-title { font-size: 12.5px; font-weight: 900; line-height: 1.25; margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .short-ref { font-size: 10.5px; font-family: monospace; color: rgba(255,255,255,.65); margin-top: 3px; }
+
+  /* Interactive Short Player view in Sheet */
+  .sp-wrap { display: flex; flex-direction: column; gap: 14px; }
+  .sp-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; }
+  .sp-back-btn { font: inherit; font-size: 12px; font-weight: 800; color: var(--gold); background: rgba(252,211,77,.1); border: 1px solid rgba(252,211,77,.25); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
+  .sp-back-btn:active { background: rgba(252,211,77,.25); }
+  .sp-steps-pills { display: flex; gap: 4px; }
+  .sp-pill { font: inherit; font-size: 10.5px; font-weight: 800; padding: 4px 9px; border-radius: 999px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.6); cursor: pointer; }
+  .sp-pill.on { background: var(--gold); border-color: var(--gold); color: #1c1406; }
+  .sp-pill.kids.on { background: #67e8f9; border-color: #67e8f9; color: #083344; }
+
+  .sp-card { border-radius: 20px; background: rgba(255,255,255,.05); border: 1.5px solid rgba(255,255,255,.12); padding: 18px 16px; display: flex; flex-direction: column; gap: 14px; position: relative; }
+  .sp-card.kids { border-color: rgba(103,232,249,.3); background: rgba(8,51,68,.3); }
+  .sp-card-head { display: flex; align-items: center; justify-content: space-between; }
+  .sp-card-tag { font-size: 10px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); }
+  .sp-card-tag.kids { color: #67e8f9; }
+  .sp-card-ref { font-size: 11.5px; font-family: monospace; color: rgba(255,255,255,.65); }
+  .sp-card-title { font-size: 18px; font-weight: 900; line-height: 1.28; margin: 0; color: #fff; }
+
+  .sp-bullet-list { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .sp-bullet-item { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 12px; background: rgba(255,255,255,.05); font-size: 13.5px; line-height: 1.42; color: rgba(255,255,255,.9); }
+  .sp-bullet-ic { flex: 0 0 16px; font-size: 13px; margin-top: 1px; }
+
+  .sp-ask-box { padding: 14px; border-radius: 14px; background: linear-gradient(135deg, rgba(252,211,77,.12), rgba(245,158,11,.05)); border: 1.5px solid rgba(252,211,77,.3); }
+  .sp-ask-label { font-size: 11px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 4px; }
+  .sp-ask-text { font-size: 14.5px; font-weight: 700; line-height: 1.4; color: #fff; margin: 0; }
+
+  .sp-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; }
+  .sp-turn-btn { font: inherit; font-size: 12px; font-weight: 800; color: #fcd34d; background: rgba(252,211,77,.1); border: 1px solid rgba(252,211,77,.25); border-radius: 10px; padding: 8px 12px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+  .sp-turn-btn:active { background: rgba(252,211,77,.25); }
+  .sp-action-btn { font: inherit; font-size: 13px; font-weight: 900; color: #022c22; background: #34d399; border: 0; border-radius: 12px; padding: 9px 18px; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(52,211,153,.3); transition: all .15s; }
+  .sp-action-btn:active { transform: scale(.97); }
+  .sp-action-btn.done { background: rgba(255,255,255,.1); color: rgba(255,255,255,.6); box-shadow: none; cursor: default; }
+  .sp-gl-link { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 800; color: var(--gold); text-decoration: none; margin-top: 4px; }
+  .sp-gl-link:hover { text-decoration: underline; }
+
   .sh-ladder { margin-top: 14px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
   .sh-ladder div { padding: 10px 4px; border-radius: 12px; text-align: center; background: rgba(255,255,255,.05); border: 1.5px solid rgba(255,255,255,.12); }
   .sh-ladder div.on { background: rgba(252,211,77,.16); border-color: var(--gold); }
@@ -1274,6 +1354,9 @@
   .ls-m.ls-sc { background: rgba(94,234,212,.08); } .ls-m.ls-sc b, .lm-k-sc { color: #5eead4; }
   .ls-m.ls-gl { background: rgba(165,180,252,.09); } .ls-m.ls-gl b, .lm-k-gl { color: #a5b4fc; }
   .ls-m.ls-byu { background: rgba(216,180,254,.09); } .ls-m.ls-byu b, .lm-k-byu { color: #d8b4fe; }
+  .ls-m.ls-fhim { background: rgba(251,191,36,.09); } .ls-m.ls-fhim b, .lm-k-fhim { color: #fbbf24; }
+  .lm-ic { display: inline-flex; align-items: center; justify-content: center; vertical-align: -0.18em; margin-right: 6px; line-height: 1; flex-shrink: 0; }
+  .lm-ic .nic-svg { display: block; }
   .lm-verse { margin: 6px 0 12px; padding-left: 12px; border-left: 2px solid var(--gold); font: italic 15.5px/1.55 Georgia, 'Times New Roman', serif; color: rgba(255,255,255,.75); }
   .lm-verse b { font-style: normal; color: var(--gold); }
   .lm-short { margin: 10px 0 12px; padding: 10px 12px; border-radius: 12px; background: rgba(252,211,77,.1); font-size: 14.5px; line-height: 1.45; }
@@ -3321,20 +3404,583 @@ const TreasureUp = (function () {
     return `<div class="fl-verse"><p>“${esc(r.verse.text)}”</p>
       ${here ? `<button class="fl-vref" data-vod="${esc(ch)}" data-v="${v}">${esc(r.verse.ref)} ›</button>` : `<span class="fl-vref">${linkRefs(r.verse.ref)}</span>`}</div>`;
   }
-  // This week, from the row at the foot of Today: the numbers that were on the page, and the lesson.
-  function weekSheetHtml() {
-    return `<div class="sh-title">This week</div><p class="sh-small"><b>${esc(WEEK.title)}</b> · ${linkRefs(WEEK.reference)}</p>
-      ${familyRowHtml(WEEK)}${guideHtml(WEEK)}
-      ${weekStatsHtml().replace('<div class="eyebrow">Your week</div>', guideOf(WEEK).length ? '<div class="eyebrow" style="margin-top:18px">Your week</div>' : '')}
-      <a class="parent-link" href="${esc(WEEK.lesson)}" target="_blank" rel="noopener noreferrer">Open this week's lesson in Gospel Library ↗</a>`;
+  // This week, from the row at the foot of Today: visual Shorts, 5-day mini-lessons, FHE, Sunday lessons, and Pure Cream.
+  function isShortDone(id) {
+    return !!(S && S.shortsDone && S.shortsDone[id]);
   }
-  // The lesson, part by part (week.guide; Blake, 2026-10-06: "Are you taking
-  // the church manual and breaking it up for us in this app?"): each section of
-  // the week's Come, Follow Me lesson in our own words, a question to talk
-  // about, and the section itself a tap away in Gospel Library. And the week's
-  // family night (week.family): a 15–20 minute plan from the lesson's ideas.
-  // Each shows once approved, or on the test site as a marked draft, like the
-  // plain words.
+  function markShortDone(id, xp, label) {
+    if (!S) return false;
+    if (!S.shortsDone) S.shortsDone = {};
+    if (!S.shortsDone[id]) {
+      const rec = { day: dayKey() };
+      payXp(rec, xp, label);
+      S.shortsDone[id] = rec;
+      save();
+      refreshHome();
+      return true;
+    }
+    return false;
+  }
+
+  let shortTurnIdx = 0;
+  function currentTurnName() {
+    const list = (famHome && famHome.progress && famHome.progress.length)
+      ? famHome.progress.map(p => p.name)
+      : ['Javan', 'Dad', 'Mom'];
+    const name = list[shortTurnIdx % list.length];
+    const prefix = name === 'Javan' ? '👦 ' : (name === 'Blake' || name === 'Dad') ? '👨 ' : '👩 ';
+    return prefix + name;
+  }
+
+  function shortIcon(h, isKids) {
+    const t = (h || '').toLowerCase();
+    if (t.includes('sheep') || t.includes('shepherd')) return '🐑';
+    if (t.includes('temple') || t.includes('house of the lord') || t.includes('holy')) return '🏛️';
+    if (t.includes('river') || t.includes('water') || t.includes('sea') || t.includes('ocean')) return '🌊';
+    if (t.includes('stick') || t.includes('wood') || t.includes('clay') || t.includes('potter')) return '🪵';
+    if (t.includes('watchman') || t.includes('tower') || t.includes('danger') || t.includes('warn')) return '🛡️';
+    if (t.includes('gather') || t.includes('bone') || t.includes('life')) return '✨';
+    if (t.includes('forgive') || t.includes('repent') || t.includes('heart') || t.includes('love')) return '❤️';
+    if (t.includes('prophet') || t.includes('covenant') || t.includes('word')) return '📜';
+    if (t.includes('strength') || t.includes('king') || t.includes('armor')) return '👑';
+    if (t.includes('draw') || t.includes('craft') || t.includes('game') || t.includes('pretend')) return '🎨';
+    return isKids ? '🧒' : '💡';
+  }
+
+  function shortBadge(x, isKids) {
+    const t = ((x.h || '') + ' ' + (x.lines || []).join(' ')).toLowerCase();
+    if (isKids) {
+      if (t.includes('watchman') || t.includes('river') || t.includes('video') || t.includes('animated')) return 'Thumb Follow Me';
+      if (t.includes('draw') || t.includes('stick') || t.includes('game') || t.includes('walk')) return 'Latter Day Kids';
+      return 'Gospel for Kids';
+    }
+    if (t.includes('covenant') || t.includes('prophet') || t.includes('shepherd')) return 'BibleProject';
+    if (t.includes('stick') || t.includes('bible') || t.includes('book of mormon')) return 'Line Upon Line';
+    if (t.includes('dead sea') || t.includes('heal') || t.includes('temple') || t.includes('symbol')) return 'Scripture Central';
+    return '2 Min';
+  }
+
+  function findClipForGuide(p, week) {
+    if (!p || !week) return null;
+    const reels = week.reels || [];
+    const pref = (p.x.ref || '').toLowerCase();
+    const ph = (p.x.h || '').toLowerCase();
+    for (const r of reels) {
+      if (r.clip && r.clip.youtube) {
+        const rref = (r.ref || '').toLowerCase();
+        const rtitle = (r.clip.title || '').toLowerCase();
+        if (rref && pref && (pref.includes(rref) || rref.includes(pref))) return r.clip;
+        if (ph.includes('watch') && (rtitle.includes('watch') || rref.includes('3:17') || rref.includes('33:'))) return r.clip;
+        if (ph.includes('river') && rtitle.includes('river')) return r.clip;
+        if (ph.includes('bone') && rtitle.includes('bone')) return r.clip;
+        if (ph.includes('stick') && rtitle.includes('stick')) return r.clip;
+        if (ph.includes('sheep') && rtitle.includes('sheep')) return r.clip;
+      }
+    }
+    return null;
+  }
+
+  const SHORT_GRADIENTS = [
+    'linear-gradient(145deg, #1e1b4b, #431407)',
+    'linear-gradient(145deg, #0f172a, #1e3a8a)',
+    'linear-gradient(145deg, #022c22, #134e4a)',
+    'linear-gradient(145deg, #311042, #701a75)',
+    'linear-gradient(145deg, #1e293b, #0f766e)'
+  ];
+  const KIDS_GRADIENTS = [
+    'linear-gradient(145deg, #083344, #164e63)',
+    'linear-gradient(145deg, #064e3b, #047857)',
+    'linear-gradient(145deg, #451a03, #78350f)',
+    'linear-gradient(145deg, #312e81, #1e1b4b)',
+    'linear-gradient(145deg, #1e1b4b, #0369a1)'
+  ];
+
+  function shortCardHtml(p, isKids, dayLabel) {
+    const x = p.x;
+    const done = isShortDone(x.id);
+    const hash = (x.id || '').split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+    const grad = isKids ? KIDS_GRADIENTS[hash % KIDS_GRADIENTS.length] : SHORT_GRADIENTS[hash % SHORT_GRADIENTS.length];
+    const ic = shortIcon(x.h, isKids);
+    const badge = shortBadge(x, isKids);
+    const label = isKids ? 'Kids · 2 Min' : (dayLabel ? dayLabel + ' · 2 Min' : 'Short · 2 Min');
+
+    return `<button class="short-card${isKids ? ' kids' : ''}${done ? ' done' : ''}" style="background:${grad}" data-short-id="${esc(x.id)}" aria-label="${esc(x.h)}">
+      <div class="short-overlay"></div>
+      <div class="short-content">
+        <div class="short-top">
+          <div class="story-ring${isKids ? ' kids' : ''}"><div class="story-inner">${ic}</div></div>
+          <span class="short-badge${done ? ' done' : ''}">${done ? '✓ Done' : badge}</span>
+        </div>
+        <div>
+          <span class="short-label${isKids ? ' kids' : ''}">${label}</span>
+          <div class="short-title">${esc(x.h)}</div>
+          <div class="short-ref">${esc(x.ref)}</div>
+        </div>
+      </div>
+    </button>`;
+  }
+
+  function familyHeroHtml(f) {
+    const x = f.x;
+    const done = isShortDone('family:' + WEEK.title);
+    return `<button class="shorts-hero" data-short-deck="family" aria-label="Family Night Deck">
+      <div style="display:flex;align-items:center;gap:12px;min-width:0">
+        <span class="sh-hero-ic">👨‍👩‍👦</span>
+        <div style="min-width:0">
+          <div class="sh-hero-meta">
+            <span>Family Night Deck</span>
+            <span class="sh-hero-badge">${x.minutes || 20} MIN</span>
+            ${done ? '<span class="sh-hero-badge" style="background:#34d399;color:#022c22">✓ DONE</span>' : ''}
+          </div>
+          <div class="sh-hero-title">${esc(x.title)}</div>
+          <div class="sh-hero-sub">${x.steps.length} interactive cards for the whole family</div>
+        </div>
+      </div>
+      <span class="sh-hero-go">›</span>
+    </button>`;
+  }
+
+  function youthLessonForWeek(week) {
+    if (!week || !week.dates) return null;
+    const start = weekStart(week.dates);
+    if (!start) return null;
+    const sunDate = dayAdd(start, 6);
+    const SUN_DATA = SUN();
+    for (const m of SUN_DATA.youth || []) {
+      for (const l of m.lessons || []) {
+        if (l.sunday === sunDate && sunShow(l)) return { m, l };
+      }
+    }
+    const mo = start.slice(0, 7);
+    for (const m of SUN_DATA.youth || []) {
+      if (m.month === mo && (m.lessons || []).length) {
+        const l = m.lessons.find(sunShow) || m.lessons[0];
+        if (l) return { m, l };
+      }
+    }
+    return null;
+  }
+
+  function sundayHeroHtml(yl) {
+    if (!yl) return '';
+    const l = yl.l;
+    const done = isShortDone('sunl:' + l.id);
+    return `<button class="shorts-hero sunday" data-short-deck="sunday" aria-label="Sunday Lesson Deck">
+      <div style="display:flex;align-items:center;gap:12px;min-width:0">
+        <span class="sh-hero-ic" style="background:rgba(129,140,248,.2);color:#818cf8">⛪</span>
+        <div style="min-width:0">
+          <div class="sh-hero-meta" style="color:#818cf8">
+            <span>Sunday Youth Deck</span>
+            <span class="sh-hero-badge" style="background:rgba(129,140,248,.2);color:#818cf8">10 MIN</span>
+            ${done ? '<span class="sh-hero-badge" style="background:#34d399;color:#022c22">✓ DONE</span>' : ''}
+          </div>
+          <div class="sh-hero-title">${esc(l.title)}</div>
+          <div class="sh-hero-sub">Youth · FSY Ch ${yl.m.chapter}: ${esc(yl.m.title)} · ${l.cards.length} cards</div>
+        </div>
+      </div>
+      <span class="sh-hero-go" style="color:#818cf8">›</span>
+    </button>`;
+  }
+
+  function creamItemsOf(week) {
+    if (!week) return [];
+    const res = [];
+    const ins = (week.insights || []).slice(0, 4);
+    for (const it of ins) {
+      res.push({
+        id: 'cream:ins:' + it.id,
+        type: 'insight',
+        badge: (it.source && it.source.by) || 'Scholar Insight',
+        who: (it.source && it.source.who) || '',
+        ref: it.ref || '',
+        title: it.title || '',
+        text: it.text || '',
+        url: it.source && it.source.url,
+        sourceTitle: it.source && it.source.title,
+        icon: '💎'
+      });
+    }
+    const words = (week.treasure || []).slice(0, 2);
+    for (const tr of words) {
+      res.push({
+        id: 'cream:word:' + tr.id,
+        type: 'word',
+        badge: 'Hebrew Gem',
+        ref: tr.ref || '',
+        title: `${tr.word} (${tr.say}) · ${tr.kjv}`,
+        text: `${tr.means} ${tr.more || ''}`,
+        gloss: tr.gloss,
+        strong: tr.strong,
+        icon: '🏺'
+      });
+    }
+    return res;
+  }
+
+  function creamCardHtml(it) {
+    const done = isShortDone(it.id);
+    return `<button class="short-card" style="background:linear-gradient(145deg, #261604, #451a03);border-color:rgba(251,191,36,.35);" data-cream-id="${esc(it.id)}" aria-label="${esc(it.title)}">
+      <div class="short-overlay"></div>
+      <div class="short-content">
+        <div class="short-top">
+          <div class="story-ring" style="background:linear-gradient(135deg, #f59e0b, #fbbf24);"><div class="story-inner">${it.icon}</div></div>
+          <span class="short-badge${done ? ' done' : ''}" style="${done ? '' : 'background:rgba(251,191,36,.2);color:#fbbf24'}">${done ? '✓ Done' : esc(it.badge)}</span>
+        </div>
+        <div>
+          <span class="short-label" style="color:#fbbf24">Pure Cream · 1 Min</span>
+          <div class="short-title" style="color:#fff">${esc(it.title)}</div>
+          <div class="short-ref" style="color:rgba(251,191,36,.8)">${esc(it.ref)}</div>
+        </div>
+      </div>
+    </button>`;
+  }
+
+  function shortPlayerHtml(p, curStep = 0) {
+    const x = p.x;
+    const isKids = !!x.kids;
+    const done = isShortDone(x.id);
+    const badge = shortBadge(x, isKids);
+    const clip = findClipForGuide(p, WEEK);
+
+    return `<div class="sp-wrap">
+      <div class="sp-nav">
+        <button class="sp-back-btn" data-back-weeksheet>‹ Back to Shorts</button>
+        <div class="sp-steps-pills">
+          <button class="sp-pill${curStep === 0 ? ' on' : ''}${isKids ? ' kids' : ''}" data-short-step="${esc(x.id)}|0">1. Idea</button>
+          <button class="sp-pill${curStep === 1 ? ' on' : ''}${isKids ? ' kids' : ''}" data-short-step="${esc(x.id)}|1">2. Verse</button>
+          <button class="sp-pill${curStep === 2 ? ' on' : ''}${isKids ? ' kids' : ''}" data-short-step="${esc(x.id)}|2">3. Talk</button>
+        </div>
+      </div>
+
+      <div class="sp-card${isKids ? ' kids' : ''}">
+        <div class="sp-card-head">
+          <span class="sp-card-tag${isKids ? ' kids' : ''}">${isKids ? '🧒 KIDS SHORT' : '⚡ 2-MIN SHORT'} · ${badge}</span>
+          <span class="sp-card-ref">${esc(x.ref)}</span>
+        </div>
+        <h2 class="sp-card-title">${esc(x.h)}</h2>
+        ${p.draft ? draftTag : ''}
+
+        ${curStep === 0 ? `
+          <ul class="sp-bullet-list">
+            ${x.lines.map((l, i) => `
+              <li class="sp-bullet-item">
+                <span class="sp-bullet-ic">${['🎯', '💡', '🔍', '✨'][i % 4]}</span>
+                <div>${linkRefs(l, x.ref)}</div>
+              </li>
+            `).join('')}
+          </ul>
+          ${clip ? clipHtml(clip) : ''}
+          <a class="sp-gl-link" href="${esc(lessonAt(WEEK, x.id))}" target="_blank" rel="noopener noreferrer">📖 Open section in Gospel Library ↗</a>
+        ` : ''}
+
+        ${curStep === 1 ? `
+          <div style="padding:14px 16px;border-radius:14px;background:rgba(0,0,0,.35);border-left:3px solid ${isKids ? '#67e8f9' : 'var(--gold)'};line-height:1.5">
+            <div style="font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:${isKids ? '#67e8f9' : 'var(--gold)'};margin-bottom:6px">📖 Scripture Focus · ${esc(x.ref)}</div>
+            <p style="margin:0;font-size:15px;line-height:1.55;font-family:Georgia,serif">“${linkRefs(x.lines[0] || x.h, x.ref)}”</p>
+          </div>
+          <button class="sp-turn-btn" data-turn-rotate style="margin-top:4px">
+            <span>${currentTurnName()}’s turn to read</span> ⇄
+          </button>
+          <a class="sp-gl-link" href="${esc(lessonAt(WEEK, x.id))}" target="_blank" rel="noopener noreferrer">📖 Read full verses in Gospel Library ↗</a>
+        ` : ''}
+
+        ${curStep === 2 ? `
+          <div class="sp-ask-box"${isKids ? ' style="background:linear-gradient(135deg, rgba(8,51,68,.35), rgba(6,78,59,.25));border-color:rgba(103,232,249,.4)"' : ''}>
+            <span class="sp-ask-label"${isKids ? ' style="color:#67e8f9"' : ''}>💬 60-Second Family Talk:</span>
+            <p class="sp-ask-text">${linkRefs(x.ask, x.ref)}</p>
+          </div>
+          <button class="sp-turn-btn" data-turn-rotate style="margin-top:4px">
+            <span>${currentTurnName()} answers first</span> ⇄
+          </button>
+          <div style="margin-top:6px">
+            ${done ? `
+              <button class="sp-action-btn done" disabled>✓ Short Completed (+10 XP)</button>
+            ` : `
+              <button class="sp-action-btn" data-short-finish="${esc(x.id)}">Done ✓ +10 XP</button>
+            `}
+          </div>
+        ` : ''}
+
+        <div class="sp-footer">
+          ${curStep > 0 ? `<button class="sp-back-btn" data-short-step="${esc(x.id)}|${curStep - 1}">‹ Previous</button>` : '<div></div>'}
+          ${curStep < 2 ? `<button class="sp-action-btn" data-short-step="${esc(x.id)}|${curStep + 1}" style="font-size:12px;padding:7px 14px">Next Step ›</button>` : ''}
+        </div>
+      </div>
+      ${fixHtml(WEEK.dates, 'guide:' + x.id)}
+    </div>`;
+  }
+
+  function familyDeckHtml(stepIdx = 0) {
+    const f = familyOf(WEEK);
+    if (!f) return '';
+    const x = f.x;
+    const steps = x.steps || [];
+    const idx = Math.max(0, Math.min(steps.length - 1, stepIdx));
+    const s = steps[idx];
+    const [ic, name] = FAMILY_STEP[s.k] || ['•', 'Step ' + (idx + 1)];
+    const done = isShortDone('family:' + WEEK.title);
+
+    return `<div class="sp-wrap">
+      <div class="sp-nav">
+        <button class="sp-back-btn" data-back-weeksheet>‹ Back to Shorts</button>
+        <span style="font-size:11.5px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--gold)">Step ${idx + 1} of ${steps.length}</span>
+      </div>
+
+      <div class="sp-card" style="border-color:rgba(252,211,77,.3);background:linear-gradient(145deg, rgba(30,27,75,.4), rgba(49,16,66,.3))">
+        <div class="sp-card-head">
+          <span class="sp-card-tag">👨‍👩‍👦 FAMILY NIGHT · ${x.minutes || 20} MIN</span>
+          <span class="sp-card-ref">${idx + 1}/${steps.length}</span>
+        </div>
+        <h2 class="sp-card-title">${esc(x.title)}</h2>
+        ${f.draft ? draftTag : ''}
+
+        <div style="padding:16px;border-radius:16px;background:rgba(0,0,0,.35);border:1.5px solid rgba(255,255,255,.1);display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:22px">${ic}</span>
+            <span style="font-size:13px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:var(--gold)">${name}${s.ref ? ' · ' + linkRefs(s.ref) : ''}</span>
+          </div>
+          <p style="margin:0;font-size:15.5px;line-height:1.5;color:#fff">${linkRefs(s.text, s.ref)}</p>
+        </div>
+
+        <button class="sp-turn-btn" data-turn-rotate style="margin-top:2px">
+          <span>${currentTurnName()} leads this step</span> ⇄
+        </button>
+
+        <div class="sp-footer">
+          ${idx > 0 ? `<button class="sp-back-btn" data-family-step="${idx - 1}">‹ Previous</button>` : '<div></div>'}
+          ${idx < steps.length - 1 ? `
+            <button class="sp-action-btn" data-family-step="${idx + 1}">Next Step ›</button>
+          ` : `
+            ${done ? `
+              <button class="sp-action-btn done" disabled>✓ Family Night Done (+50 XP)</button>
+            ` : `
+              <button class="sp-action-btn" data-family-finish="1">Finish Family Night 🎉 +50 XP</button>
+            `}
+          `}
+        </div>
+
+        <a class="sp-gl-link" href="${esc(WEEK.lesson)}" target="_blank" rel="noopener noreferrer" style="margin-top:4px">📖 Open manual in Gospel Library ↗</a>
+      </div>
+      ${fixHtml(WEEK.dates, 'family')}
+    </div>`;
+  }
+
+  function sundayDeckHtml(stepIdx = 0) {
+    const yl = youthLessonForWeek(WEEK);
+    if (!yl) return '';
+    const l = yl.l;
+    const cards = l.cards || [];
+    const idx = Math.max(0, Math.min(cards.length - 1, stepIdx));
+    const c = cards[idx];
+    const done = isShortDone('sunl:' + l.id);
+    const answers = (c.wrong || []).concat([c.right]).sort((a, b) => a.localeCompare(b));
+    const picked = S && S.sunday && S.sunday[c.id];
+
+    return `<div class="sp-wrap">
+      <div class="sp-nav">
+        <button class="sp-back-btn" data-back-weeksheet>‹ Back to Shorts</button>
+        <span style="font-size:11.5px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:#818cf8">Youth · Card ${idx + 1} of ${cards.length}</span>
+      </div>
+
+      <div class="sp-card" style="border-color:rgba(129,140,248,.35);background:linear-gradient(145deg, rgba(30,27,75,.5), rgba(49,16,66,.3))">
+        <div class="sp-card-head">
+          <span class="sp-card-tag" style="color:#818cf8">⛪ SUNDAY CLASS · FSY CH ${yl.m.chapter}</span>
+          <span class="sp-card-ref">${esc(l.sunday)}</span>
+        </div>
+        <h2 class="sp-card-title">${esc(c.hook)}</h2>
+
+        <p style="font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.9);margin:0">${esc(c.body)}</p>
+
+        <div style="padding:14px;border-radius:14px;background:rgba(0,0,0,.35);border:1.5px solid rgba(255,255,255,.1);display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:#818cf8">❓ Quick Check:</div>
+          <p style="margin:0;font-size:14.5px;font-weight:700;line-height:1.4;color:#fff">${esc(c.q)}</p>
+          <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px">
+            ${answers.map(ans => {
+              const isRight = ans === c.right;
+              const isPicked = picked && picked.picked === ans;
+              let style = 'padding:9px 12px;border-radius:10px;text-align:left;font-size:13px;width:100%;cursor:pointer;border:1px solid rgba(255,255,255,.18);color:#fff;background:rgba(255,255,255,.06);';
+              if (picked) {
+                if (isRight) style += 'background:#059669;border-color:#34d399;font-weight:800;';
+                else if (isPicked) style += 'background:#dc2626;border-color:#f87171;';
+                else style += 'opacity:.4;';
+              }
+              return `<button style="${style}" data-sun-answer="${esc(c.id)}|${isRight ? '1' : '0'}|${esc(ans)}|${idx}" ${picked ? 'disabled' : ''}>
+                ${picked && isRight ? '✓ ' : ''}${esc(ans)}
+              </button>`;
+            }).join('')}
+          </div>
+          ${picked ? `<p style="font-size:12.5px;color:rgba(255,255,255,.8);margin:4px 0 0;line-height:1.4"><b>Why:</b> ${esc(c.why)}</p>` : ''}
+        </div>
+
+        <button class="sp-turn-btn" data-turn-rotate style="margin-top:2px">
+          <span>${currentTurnName()} answers first</span> ⇄
+        </button>
+
+        <div class="sp-footer">
+          ${idx > 0 ? `<button class="sp-back-btn" data-sunday-step="${idx - 1}">‹ Previous</button>` : '<div></div>'}
+          ${idx < cards.length - 1 ? `
+            <button class="sp-action-btn" data-sunday-step="${idx + 1}" style="background:#818cf8;color:#0f172a">Next Card ›</button>
+          ` : `
+            ${done ? `
+              <button class="sp-action-btn done" disabled>✓ Sunday Lesson Done (+25 XP)</button>
+            ` : `
+              <button class="sp-action-btn" data-sunday-finish="${esc(l.id)}" style="background:#818cf8;color:#0f172a">Finish Sunday Lesson 🎉 +25 XP</button>
+            `}
+          `}
+        </div>
+
+        <a class="sp-gl-link" href="${esc(l.read)}" target="_blank" rel="noopener noreferrer" style="margin-top:4px">📖 Read FSY chapter in Gospel Library ↗</a>
+      </div>
+    </div>`;
+  }
+
+  function creamPlayerHtml(item, curStep = 0) {
+    const isWord = item.type === 'word';
+    const done = isShortDone(item.id);
+
+    return `<div class="sp-wrap">
+      <div class="sp-nav">
+        <button class="sp-back-btn" data-back-weeksheet>‹ Back to Shorts</button>
+        <div class="sp-steps-pills">
+          <button class="sp-pill${curStep === 0 ? ' on' : ''}" style="${curStep === 0 ? 'background:#f59e0b;color:#1c1406' : ''}" data-cream-step="${esc(item.id)}|0">1. Discovery</button>
+          <button class="sp-pill${curStep === 1 ? ' on' : ''}" style="${curStep === 1 ? 'background:#f59e0b;color:#1c1406' : ''}" data-cream-step="${esc(item.id)}|1">2. Spiritual Truth</button>
+          <button class="sp-pill${curStep === 2 ? ' on' : ''}" style="${curStep === 2 ? 'background:#f59e0b;color:#1c1406' : ''}" data-cream-step="${esc(item.id)}|2">3. Ponder</button>
+        </div>
+      </div>
+
+      <div class="sp-card" style="border-color:rgba(251,191,36,.4);background:linear-gradient(145deg, rgba(38,22,4,.6), rgba(30,27,75,.4))">
+        <div class="sp-card-head">
+          <span class="sp-card-tag" style="color:#fbbf24">${item.icon} ${esc(item.badge)}${item.who ? ' · ' + esc(item.who) : ''}</span>
+          <span class="sp-card-ref">${esc(item.ref)}</span>
+        </div>
+        <h2 class="sp-card-title">${esc(item.title)}</h2>
+
+        ${curStep === 0 ? `
+          <div style="padding:14px 16px;border-radius:14px;background:rgba(0,0,0,.35);border-left:3px solid #f59e0b;line-height:1.55">
+            <div style="font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:#fbbf24;margin-bottom:6px">
+              ${isWord ? '🏺 Original Hebrew Word Discovery' : '🔍 Scholar Context & Discovery'}
+            </div>
+            ${isWord ? `
+              <div style="font-size:32px;font-family:'Noto Serif Hebrew',serif;text-align:center;margin:8px 0;color:#fbbf24">${esc(item.title.split(' ')[0])}</div>
+              <p style="margin:0;font-size:14.5px;color:#fff">${esc(item.text)}</p>
+            ` : `
+              <p style="margin:0;font-size:14.5px;color:rgba(255,255,255,.95);line-height:1.55">“${esc(item.text)}”</p>
+            `}
+          </div>
+          ${item.url ? `
+            <a class="sp-gl-link" href="${esc(item.url)}" target="_blank" rel="noopener noreferrer" style="color:#fbbf24">
+              🏛️ Read source at ${esc(item.badge)} ↗
+            </a>
+          ` : ''}
+        ` : ''}
+
+        ${curStep === 1 ? `
+          <div style="padding:16px;border-radius:14px;background:linear-gradient(135deg, rgba(251,191,36,.12), rgba(245,158,11,.05));border:1.5px solid rgba(251,191,36,.35)">
+            <span style="font-size:11px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:#fbbf24;display:block;margin-bottom:6px">
+              💡 Why This Matters (The Pure Cream):
+            </span>
+            <p style="font-size:15px;font-weight:600;line-height:1.5;color:#fff;margin:0">
+              ${isWord
+                ? `In ancient Israel, words held layers of meaning. Understanding “${esc(item.title.split(' ')[0])}” unlocks what the prophet was really experiencing and teaches us how close God is to us.`
+                : `This deeper perspective shows that God prepares His servants and His covenants for the exact challenges of our time. As scholars note, every detail points back to Jesus Christ.`
+              }
+            </p>
+          </div>
+          <button class="sp-turn-btn" data-turn-rotate style="margin-top:4px">
+            <span>${currentTurnName()}’s turn to read</span> ⇄
+          </button>
+        ` : ''}
+
+        ${curStep === 2 ? `
+          <div class="sp-ask-box" style="border-color:rgba(251,191,36,.4);background:linear-gradient(135deg, rgba(245,158,11,.15), rgba(0,0,0,.4))">
+            <span class="sp-ask-label" style="color:#fbbf24">💭 Ponder This Together:</span>
+            <p class="sp-ask-text">
+              How does this insight from ${esc(item.ref)} change the way you see the Savior’s love and your own discipleship today?
+            </p>
+          </div>
+          <button class="sp-turn-btn" data-turn-rotate style="margin-top:4px">
+            <span>${currentTurnName()} shares an impression</span> ⇄
+          </button>
+          <div style="margin-top:6px">
+            ${done ? `
+              <button class="sp-action-btn done" disabled>✓ Pure Cream Completed (+15 XP)</button>
+            ` : `
+              <button class="sp-action-btn" data-cream-finish="${esc(item.id)}" style="background:#f59e0b;color:#1c1406">Done ✓ +15 XP</button>
+            `}
+          </div>
+        ` : ''}
+
+        <div class="sp-footer">
+          ${curStep > 0 ? `<button class="sp-back-btn" data-cream-step="${esc(item.id)}|${curStep - 1}">‹ Previous</button>` : '<div></div>'}
+          ${curStep < 2 ? `<button class="sp-action-btn" data-cream-step="${esc(item.id)}|${curStep + 1}" style="font-size:12px;padding:7px 14px;background:#f59e0b;color:#1c1406">Next Step ›</button>` : ''}
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function weekSheetHtml() {
+    const f = familyOf(WEEK);
+    const yl = youthLessonForWeek(WEEK);
+    const parts = guideOf(WEEK);
+    const home = parts.filter(p => !p.x.kids);
+    const kids = parts.filter(p => p.x.kids);
+    const cream = creamItemsOf(WEEK);
+    const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+
+    return `<div class="sh-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>⚡ This Week</span>
+        <span style="font-size:11px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--gold);background:rgba(252,211,77,.15);border:1px solid rgba(252,211,77,.3);padding:3px 10px;border-radius:999px">Shorts & Decks</span>
+      </div>
+      <p class="sh-small" style="margin:2px 0 14px"><b>${esc(WEEK.title)}</b> · ${linkRefs(WEEK.reference)}</p>
+
+      <div class="shorts-shelf">
+        <!-- Featured Decks: FHE & Sunday Lesson -->
+        <div style="display:flex;flex-direction:column;gap:10px">
+          ${f ? familyHeroHtml(f) : ''}
+          ${yl ? sundayHeroHtml(yl) : ''}
+        </div>
+
+        <!-- 1. Daily Come, Follow Me Mini-Lessons (5 Days) -->
+        ${home.length ? `
+          <div class="shorts-sec">
+            <div class="shorts-sec-head">
+              <span class="shorts-sec-title">Daily Mini-Lessons · 5 Days</span>
+              <span class="shorts-sec-hint">Swipe Mon–Fri ›</span>
+            </div>
+            <div class="shorts-tray">
+              ${home.map((p, i) => shortCardHtml(p, false, DAYS[i] || 'Day ' + (i + 1))).join('')}
+            </div>
+          </div>` : ''}
+
+        <!-- 2. For Children · Animated Shorts -->
+        ${kids.length ? `
+          <div class="shorts-sec">
+            <div class="shorts-sec-head">
+              <span class="shorts-sec-title kids">For Children 🧒 · Animated Shorts</span>
+              <span class="shorts-sec-hint" style="color:rgba(103,232,249,.7)">Thumb Follow Me & Stories ›</span>
+            </div>
+            <div class="shorts-tray">
+              ${kids.map(p => shortCardHtml(p, true)).join('')}
+            </div>
+          </div>` : ''}
+
+        <!-- 3. The Deep Dive · "Pure Cream" -->
+        ${cream.length ? `
+          <div class="shorts-sec">
+            <div class="shorts-sec-head">
+              <span class="shorts-sec-title" style="color:#fbbf24">🍯 The Deep Dive · Pure Cream</span>
+              <span class="shorts-sec-hint" style="color:rgba(251,191,36,.7)">Scholars & Hebrew Gems ›</span>
+            </div>
+            <div class="shorts-tray">
+              ${cream.map(it => creamCardHtml(it)).join('')}
+            </div>
+          </div>` : ''}
+
+        ${weekStatsHtml().replace('<div class="eyebrow">Your week</div>', '<div class="eyebrow" style="margin-top:14px">Your week</div>')}
+        <a class="parent-link" href="${esc(WEEK.lesson)}" target="_blank" rel="noopener noreferrer">Open this week's full lesson in Gospel Library ↗</a>
+      </div>`;
+  }
+
   function shownOf(x) {
     if (!x) return null;
     const approved = !!x.approved && x.approved === approvalHash(noApproval(x));
@@ -3345,29 +3991,11 @@ const TreasureUp = (function () {
   const lessonAt = (week, id) => week.lesson + (week.lesson.includes('?') ? '&' : '?') + 'id=' + encodeURIComponent(id) + '#' + encodeURIComponent(id);
   const draftTag = '<span class="plain-draft">Draft: not approved yet</span>';
   function guideHtml(week) {
-    const parts = guideOf(week);
-    if (!parts.length) return '';
-    const part = ({ x, draft }) => `<details class="gd-part"><summary><span><b>${esc(x.h)}</b><small>${esc(x.ref)}</small></span></summary>
-        ${draft ? draftTag : ''}<ul>${x.lines.map(l => `<li>${linkRefs(l, x.ref)}</li>`).join('')}</ul>
-        <p class="gd-ask"><b>Talk about it:</b> ${linkRefs(x.ask, x.ref)}</p>
-        <a class="gd-go" href="${esc(lessonAt(week, x.id))}" target="_blank" rel="noopener noreferrer">Read this part in Gospel Library ↗</a>${fixHtml(week.dates, 'guide:' + x.id)}</details>`;
-    const home = parts.filter(p => !p.x.kids), kids = parts.filter(p => p.x.kids);
-    return `<div class="gd"><div class="eyebrow">The lesson, part by part</div>${home.map(part).join('')}
-      ${kids.length ? `<div class="gd-sub">For children</div>${kids.map(part).join('')}` : ''}</div>`;
+    return weekSheetHtml();
   }
   const FAMILY_STEP = { open: ['🎵', 'Begin'], learn: ['📖', 'Read together'], do: ['🧩', 'Do'], talk: ['💬', 'Talk'], close: ['🙏', 'End'] };
   function familyHtml(week) {
-    const f = familyOf(week);
-    if (!f) return '';
-    const x = f.x, from = (week.guide || []).filter(g => (x.from || []).includes(g.id)).map(g => g.h);
-    return `<div class="sh-title">👨‍👩‍👦 Family night</div>
-      <p class="sh-line">${esc(x.title)} · about ${x.minutes} minutes${fixHtml(week.dates, 'family')}</p>${f.draft ? draftTag : ''}
-      <ol class="fn-steps">${x.steps.map(s => {
-        const [ic, name] = FAMILY_STEP[s.k] || ['•', ''];
-        return `<li><span class="fn-ic" aria-hidden="true">${ic}</span><div><b>${name}${s.ref ? ' · ' + linkRefs(s.ref) : ''}</b><p>${linkRefs(s.text, s.ref)}</p></div></li>`;
-      }).join('')}</ol>
-      ${from.length ? `<p class="sh-small">From this week's lesson: ${from.map(esc).join(' · ')}</p>` : ''}
-      <a class="parent-link" href="${esc(week.lesson)}" target="_blank" rel="noopener noreferrer">Open the lesson in Gospel Library ↗</a>`;
+    return familyDeckHtml(0);
   }
   function familyRowHtml(week) {
     const f = familyOf(week);
@@ -3375,7 +4003,7 @@ const TreasureUp = (function () {
   }
   function weekRowHtml() {
     const units = readingAll(), readN = units.filter(u => S.read[u.ref]).length, total = WEEK.reels.length, answered = WEEK.reels.filter(r => S.answers[r.id]).length;
-    return `<button class="fl-week" data-weeksheet><span><b>This week</b><small>${units.length ? readN + ' of ' + units.length + ' chapters · ' : ''}${answered} of ${total} reels · ${guideOf(WEEK).length ? 'the lesson, part by part' : 'more numbers'}</small></span><span class="fl-go">›</span></button>`;
+    return `<button class="fl-week" data-weeksheet><span><b>This week</b><small>${units.length ? readN + ' of ' + units.length + ' chapters · ' : ''}${guideOf(WEEK).length ? '⚡ Shorts & Family Night' : answered + ' of ' + total + ' reels'}</small></span><span class="fl-go">›</span></button>`;
   }
 
   function dayCardHtml(k) {
@@ -4677,8 +5305,10 @@ const TreasureUp = (function () {
     }).filter(Boolean);
   }
   // Where a note is from, by its page: the line's icon, name and color.
-  const NOTE_SRC = [[/josephsmithpapers\.org/, 'jsp', '📜', 'Joseph Smith Papers'], [/scripturecentral\.org/, 'sc', '🏛️', 'Scripture Central'],
-    [/churchofjesuschrist\.org/, 'gl', '📘', 'Gospel Library'], [/followhim\.co/, 'byu', '🎓', 'followHIM'], [/byu\.edu/, 'byu', '🎓', 'BYU']];
+  const ICON_MORONI = `<svg class="nic-svg nic-sc" viewBox="0 0 24 24" width="1.2em" height="1.2em" aria-label="Scripture Central"><polygon points="8.8,5.0 21.5,1.9 21.6,2.7 8.8,5.6" fill="#fde047"/><polygon points="21.3,1.9 23.5,1.1 23.5,3.7 21.4,2.7" fill="#fde047"/><ellipse cx="7.6" cy="4.8" rx="1.5" ry="1.7" fill="#fbbf24"/><path fill="#fbbf24" d="M8.2 6.8 L7.0 8.5 L8.2 9.0 L9.4 6.2 L8.8 5.2 Z"/><path fill="#f59e0b" d="M6.2 7.0 L5.0 10.5 L6.4 11.0 L7.2 7.5 Z"/><rect x="4.4" y="10.2" width="1.8" height="2.8" rx=".3" fill="#fbbf24" transform="rotate(-5 5 11)"/><path fill="#fbbf24" d="M6.2 7.0 L8.8 6.8 L8.4 11.5 L9.6 15.5 L10.2 20.8 L5.4 20.8 L5.8 14.5 L6.4 11.5 Z"/><path fill="#f59e0b" d="M6.8 11.5 L7.5 20.8 L6.2 20.8 L5.8 14.5 Z"/><ellipse cx="7.8" cy="22.2" rx="2.2" ry="1.3" fill="#d97706"/></svg>`;
+  const ICON_BYU = `<svg class="nic-svg nic-byu" viewBox="0 0 24 24" width="1.15em" height="1.15em" aria-label="BYU"><rect width="24" height="24" rx="4.5" fill="#002e5d"/><path fill="#ffffff" d="M4.5 5h5v1.6H8.2l2.6 4.7 2.6-4.7h-1.3V5h5v1.6h-1.3l-3.8 6.4v4.4h1.6V19h-6.4v-1.6h1.6V13L6.4 6.6H4.5V5z"/></svg>`;
+  const NOTE_SRC = [[/josephsmithpapers\.org/, 'jsp', '📜', 'Joseph Smith Papers'], [/scripturecentral\.org/, 'sc', ICON_MORONI, 'Scripture Central'],
+    [/churchofjesuschrist\.org/, 'gl', '📘', 'Gospel Library'], [/followhim\.co/, 'fhim', '🎙️', 'followHIM'], [/byu\.edu/, 'byu', ICON_BYU, 'BYU']];
   function noteSrc(x) {
     const s = x.source || {}, f = NOTE_SRC.find(([re]) => re.test(s.url || ''));
     return f ? { c: f[1], ic: f[2], name: f[3] } : { c: 'gl', ic: '📝', name: s.by || 'Note' };
@@ -4688,7 +5318,7 @@ const TreasureUp = (function () {
   function noteLineHtml(n, u, week, top) {
     const x = n.i.x, k = noteSrc(x), r = /:(\d+)(?:–(\d+))?/.exec(x.ref || ''), from = r ? +r[1] : 0, to = r ? +(r[2] || r[1]) : 0;
     noteKnown.set(x.id, { i: n.i, week, verses: u.verses.filter(v => v.n >= from && v.n <= to) });
-    return `<button type="button" class="ls-note ls-m ls-${k.c}${top ? ' ls-top' : ''}" data-insnote="${esc(x.id)}"><span class="lm-sum"><b>${k.ic} ${esc(k.name)}:</b> ${esc(n.i.m.glance)}` +
+    return `<button type="button" class="ls-note ls-m ls-${k.c}${top ? ' ls-top' : ''}" data-insnote="${esc(x.id)}"><span class="lm-sum"><span class="lm-ic">${k.ic}</span>${esc(n.i.m.glance)}` +
       `${n.i.m.place === 'both' ? '<span class="lm-both">📖 Also a card</span>' : ''}${n.i.m.draft ? ' <span class="plain-draft">Draft</span>' : ''}</span><span class="lm-go" aria-hidden="true">›</span></button>`;
   }
   // Scripture Central's archive (Blake, 2026-10-07: "What about scripture
@@ -4697,12 +5327,12 @@ const TreasureUp = (function () {
   // Donald W. Parry's chapter in Old Testament Minute: Isaiah. Links only:
   // their site is for reading there.
   const parryOf = ch => { const m = /^Isaiah (\d+)$/.exec(ch); return m ? 'https://scripturecentral.org/archive/books/book-chapter/isaiah-' + m[1] + (m[1] === '29' ? '-0' : '') : ''; };
-  const scDoorHtml = ch => `<button type="button" class="ls-note ls-m ls-sc ls-top" data-scdoor="${esc(ch)}"><span class="lm-sum"><b>🏛️ Scripture Central:</b> Search everything they have on ${esc(ch)}${parryOf(ch) ? ', with Donald W. Parry’s verse-by-verse commentary' : ''}.</span><span class="lm-go" aria-hidden="true">›</span></button>`;
+  const scDoorHtml = ch => `<button type="button" class="ls-note ls-m ls-sc ls-top" data-scdoor="${esc(ch)}"><span class="lm-sum"><span class="lm-ic">${ICON_MORONI}</span>Search everything Scripture Central has on ${esc(ch)}${parryOf(ch) ? ', with Donald W. Parry’s verse-by-verse commentary' : ''}.</span><span class="lm-go" aria-hidden="true">›</span></button>`;
   function openScDoor(ch) {
     use('archive');
     const p = parryOf(ch);
-    openSheet(`<div class="ls-kind lm-k-sc">🏛️ Scripture Central</div><div class="sh-title">${esc(ch)} in their archive</div>
-      <p class="reel-body" style="margin-top:8px">KnoWhys, journal articles, books, videos and charts, free to read on their site. The 🏛️ notes in the chapters come from the best of it, in our own words.</p>
+    openSheet(`<div class="ls-kind lm-k-sc"><span class="lm-ic">${ICON_MORONI}</span> Scripture Central</div><div class="sh-title">${esc(ch)} in their archive</div>
+      <p class="reel-body" style="margin-top:8px">KnoWhys, journal articles, books, videos and charts, free to read on their site. The notes in the chapters come from the best of it, in our own words.</p>
       <a class="ins-src" href="https://scripturecentral.org/search?q=${encodeURIComponent(ch)}" target="_blank" rel="noopener noreferrer"><span>Search the whole archive</span> <b>Everything on ${esc(ch)} ↗</b></a>` +
       (p ? `<a class="ins-src" href="${esc(p)}" target="_blank" rel="noopener noreferrer"><span>Donald W. Parry · Old Testament Minute: Isaiah</span> <b>${esc(ch)}, verse by verse ↗</b></a>` : ''));
   }
@@ -4719,7 +5349,7 @@ const TreasureUp = (function () {
       (x.text ? `<p class="reel-body">${linkRefs(x.text, x.ref)}</p>` : '');
     const card = m.place === 'both' && week === WEEK && studyCards(WEEK).some(c => c.x.id === x.id)
       ? `<button type="button" class="lm-card" data-insnote-card="${esc(x.id)}">📖 Open the study card ›<small>${hasDeep(x) ? 'With its deep dive' + (x.deep.listen ? ' and a clip' : '') : 'Opening it marks it read in Study'}</small></button>` : '';
-    openSheet(`<div class="ls-kind lm-k-${src.c}">${src.ic} ${esc(src.name)}</div>${m.draft || i.draft ? '<p class="plain-draft">Draft: not approved yet</p>' : ''}
+    openSheet(`<div class="ls-kind lm-k-${src.c}"><span class="lm-ic">${src.ic}</span> ${esc(src.name)}</div>${m.draft || i.draft ? '<p class="plain-draft">Draft: not approved yet</p>' : ''}
       <div class="sh-title">${esc(x.title || s.who || '')}</div>${verse}${kid ? short : ''}${body}${kid ? '' : short}
       ${s.who ? `<p class="ins-who" style="margin:4px 0 0">${esc(s.who)}</p>` : ''}
       ${s.url ? `<a class="ins-src" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer"><span>Read the whole thing · ${esc(s.by)}</span> <b>${esc(s.title)} ↗</b></a>` : ''}${card}`);
@@ -4759,10 +5389,10 @@ const TreasureUp = (function () {
       const ref = u.ch + ':' + v.n, hl = markOf(ref);
       return `<div class="ls-vv" data-v="${v.n}" data-ref="${esc(ref)}"${hl ? ` data-hl="${hl}"` : ''}>` +
         lines.map(([c, t, l], i) => `<p class="${c}${i ? '' : ' lead'}"${l ? ` lang="${l}"` : ''}>${i ? '' : `<sup>${v.n}</sup>`}${esc(t)}</p>`).join('') +
-        myNotesOf(ref).map(([id, x]) => `<button class="ls-note ls-mine" data-vnote="${esc(ref)}" data-vnote-id="${esc(id)}"><b>✍️ My note:</b> ${esc(x.text)}${x.share ? ' <small>· 👀 shared with your parents</small>' : ''}</button>`).join('') +
+        myNotesOf(ref).map(([id, x]) => `<button class="ls-note ls-mine" data-vnote="${esc(ref)}" data-vnote-id="${esc(id)}"><span class="lm-ic">✍️</span>${esc(x.text)}${x.share ? ' <small>· 👀 shared with your parents</small>' : ''}</button>`).join('') +
         (on.orig ? origHtml(u.ch, v.n, week) : '') +
-        notes.map(n => `<p class="ls-note"><b>Note:</b> ${linkRefs(n.text, u.ch + ':' + v.n)}</p>`).join('') +
-        jsp.map(n => `<p class="ls-note ls-jsp"><b>📜 Joseph Smith Papers:</b> ${linkRefs(n.text, u.ch + ':' + v.n)} <a href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">${esc(n.title)} ↗</a>${n.draft ? ' <span class="plain-draft">Draft</span>' : ''}</p>`).join('') +
+        notes.map(n => `<p class="ls-note"><span class="lm-ic">📝</span>${linkRefs(n.text, u.ch + ':' + v.n)}</p>`).join('') +
+        jsp.map(n => `<p class="ls-note ls-jsp"><span class="lm-ic">📜</span>${linkRefs(n.text, u.ch + ':' + v.n)} <a href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">${esc(n.title)} ↗</a>${n.draft ? ' <span class="plain-draft">Draft</span>' : ''}</p>`).join('') +
         mn.filter(n => n.v === v.n).map(n => noteLineHtml(n, u, week)).join('') + '</div>';
     }).join('') + `<p class="ls-ch-end">End of ${esc(u.ref)}</p>` +
       (lang ? `<p class="ls-orig-credit">${LANGS[on.lang].name}: ${LANGS[on.lang].full} (public domain)</p>` : '') +
@@ -15658,6 +16288,117 @@ const TreasureUp = (function () {
     $('appSheet').addEventListener('click', e => {
       if (e.target.closest('#appClose') || e.target.id === 'appSheet') { stopClips(); closeSheet(); refreshHome(); return; }
       if (seasonSheetClick(e) || seasonClick(e)) return;
+      if (e.target.closest('[data-back-weeksheet]')) { stopClips(); return openSheet(weekSheetHtml()); }
+      const sc = e.target.closest('[data-short-id]');
+      if (sc) {
+        stopClips();
+        const p = guideOf(WEEK).find(g => g.x.id === sc.dataset.shortId);
+        if (p) openSheet(shortPlayerHtml(p, 0));
+        return;
+      }
+      const sstep = e.target.closest('[data-short-step]');
+      if (sstep) {
+        stopClips();
+        const [id, step] = sstep.dataset.shortStep.split('|');
+        const p = guideOf(WEEK).find(g => g.x.id === id);
+        if (p) openSheet(shortPlayerHtml(p, Number(step)));
+        return;
+      }
+      const sfin = e.target.closest('[data-short-finish]');
+      if (sfin) {
+        const id = sfin.dataset.shortFinish;
+        markShortDone(id, 10, 'Come, Follow Me Short');
+        toast('🎉 Short completed! +10 XP', 'Nice work!');
+        const p = guideOf(WEEK).find(g => g.x.id === id);
+        if (p) openSheet(shortPlayerHtml(p, 2));
+        return;
+      }
+      if (e.target.closest('[data-short-deck="family"]')) {
+        stopClips();
+        return openSheet(familyDeckHtml(0));
+      }
+      const fstep = e.target.closest('[data-family-step]');
+      if (fstep) {
+        stopClips();
+        return openSheet(familyDeckHtml(Number(fstep.dataset.familyStep)));
+      }
+      if (e.target.closest('[data-family-finish]')) {
+        markShortDone('family:' + WEEK.title, 50, 'Family Night Deck');
+        toast('👪 Family Night completed! +50 XP', 'Way to go!');
+        const f = familyOf(WEEK);
+        const lastIdx = f && f.x && f.x.steps ? f.x.steps.length - 1 : 0;
+        return openSheet(familyDeckHtml(lastIdx));
+      }
+      if (e.target.closest('[data-short-deck="sunday"]')) {
+        stopClips();
+        return openSheet(sundayDeckHtml(0));
+      }
+      const sunstep = e.target.closest('[data-sunday-step]');
+      if (sunstep) {
+        stopClips();
+        return openSheet(sundayDeckHtml(Number(sunstep.dataset.sundayStep)));
+      }
+      const sunans = e.target.closest('[data-sun-answer]');
+      if (sunans) {
+        const [cardId, isRight, ans, idx] = sunans.dataset.sunAnswer.split('|');
+        if (!S.sunday) S.sunday = {};
+        if (!S.sunday[cardId]) {
+          const rec = { right: isRight === '1', picked: ans, day: dayKey() };
+          if (isRight === '1') {
+            payXp(rec, 5, 'Sunday class check');
+            toast('🎉 Correct! +5 XP', 'Great job!');
+          }
+          S.sunday[cardId] = rec;
+          save();
+        }
+        return openSheet(sundayDeckHtml(Number(idx)));
+      }
+      const sunfin = e.target.closest('[data-sunday-finish]');
+      if (sunfin) {
+        markShortDone('sunl:' + sunfin.dataset.sundayFinish, 25, 'Sunday Youth Lesson');
+        toast('⛪ Sunday Lesson Completed! +25 XP', 'Awesome job!');
+        const yl = youthLessonForWeek(WEEK);
+        const lastIdx = yl && yl.l && yl.l.cards ? yl.l.cards.length - 1 : 0;
+        return openSheet(sundayDeckHtml(lastIdx));
+      }
+
+      const crid = e.target.closest('[data-cream-id]');
+      if (crid) {
+        stopClips();
+        const it = creamItemsOf(WEEK).find(x => x.id === crid.dataset.creamId);
+        if (it) openSheet(creamPlayerHtml(it, 0));
+        return;
+      }
+      const crstep = e.target.closest('[data-cream-step]');
+      if (crstep) {
+        stopClips();
+        const [id, step] = crstep.dataset.creamStep.split('|');
+        const it = creamItemsOf(WEEK).find(x => x.id === id);
+        if (it) openSheet(creamPlayerHtml(it, Number(step)));
+        return;
+      }
+      const crfin = e.target.closest('[data-cream-finish]');
+      if (crfin) {
+        const id = crfin.dataset.creamFinish;
+        markShortDone(id, 15, 'Pure Cream Deep Dive');
+        toast('💎 Pure Cream Completed! +15 XP', 'Deep treasure unlocked!');
+        const it = creamItemsOf(WEEK).find(x => x.id === id);
+        if (it) openSheet(creamPlayerHtml(it, 2));
+        return;
+      }
+      if (e.target.closest('[data-turn-rotate]')) {
+        shortTurnIdx++;
+        document.querySelectorAll('#appSheet .sp-turn-btn').forEach(b => {
+          const span = b.querySelector('span');
+          if (span) {
+            if (span.textContent.includes('turn to read')) span.textContent = currentTurnName() + '’s turn to read';
+            else if (span.textContent.includes('answers first')) span.textContent = currentTurnName() + ' answers first';
+            else if (span.textContent.includes('leads this step')) span.textContent = currentTurnName() + ' leads this step';
+            else span.textContent = currentTurnName();
+          }
+        });
+        return;
+      }
       if (e.target.closest('[data-familynight]')) return openSheet(familyHtml(WEEK));
       const clip = e.target.closest('button.clip');
       if (clip) { playClip(clip); return; }
