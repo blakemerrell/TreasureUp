@@ -36,12 +36,12 @@ export default async function ammon({ port }) {
         q: 'What gave Ammon the strength to defend King Lamoni’s flocks at Sebus?',
         ref: 'Alma 17:35-39',
         choices: [
-          'Faith and trusting in the Lord',
+          'Faith and steadfast courage',
           'A royal army sent by the king',
           'Fear of the Lamanite robbers'
         ],
-        right: 'Faith and trusting in the Lord',
-        why: 'Ammon trusted in the Lord’s promise to his father Mosiah that his sons would be preserved.',
+        right: 'Faith and steadfast courage',
+        why: 'Ammon stood with faith and courage to preserve the king’s flocks.',
         review: 'Alma 17'
       }),
       player: () => ({ name: 'Young Disciple' }),
