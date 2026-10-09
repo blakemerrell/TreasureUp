@@ -262,17 +262,44 @@
     margin-top: 14px; display: flex; align-items: center; gap: 12px;
     width: 100%; padding: 10px 12px; border-radius: 14px; text-align: left;
     font: inherit; color: #fff; cursor: pointer; text-decoration: none;
-    background: rgba(0,0,0,.45); border: 1.5px solid rgba(255,255,255,.22);
+    background: rgba(15, 23, 42, .75); border: 1.5px solid rgba(255, 255, 255, .2);
+    transition: all .2s ease;
   }
+  .clip:hover { background: rgba(30, 41, 59, .9); border-color: rgba(251, 191, 36, .4); }
   .clip:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   .clip-play {
     flex: 0 0 44px; height: 44px; border-radius: 999px;
     display: grid; place-items: center; background: #fff; color: #111; font-size: 16px;
   }
   .clip.watched { border-color: rgba(52,211,153,.6); }
-  .clip.watched .clip-play { background: var(--right); color: #052e1c; font-weight: 900; }
+  .clip.watched .clip-play, .clip.watched .clip-play-badge { background: var(--right); color: #052e1c; font-weight: 900; }
+  .clip-thumb-wrap {
+    position: relative; flex: 0 0 112px; width: 112px; aspect-ratio: 16 / 9;
+    border-radius: 9px; overflow: hidden; background: #000;
+  }
+  .clip-thumb { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .clip-thumb-overlay {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(0, 0, 0, .25);
+  }
+  .clip-play-badge {
+    width: 32px; height: 32px; border-radius: 999px; background: #ef4444;
+    color: #fff; display: grid; place-items: center; font-size: 13px; font-weight: 900;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .6); transition: transform .15s ease;
+  }
+  .clip:hover .clip-play-badge { transform: scale(1.1); background: #dc2626; }
+  .clip-dur {
+    position: absolute; bottom: 3px; right: 4px; font-size: 9.5px; font-weight: 800;
+    background: rgba(0, 0, 0, .85); color: #fff; padding: 1px 4px; border-radius: 3px;
+  }
+  .clip-info { flex: 1; min-width: 0; }
+  .clip-channel-pill {
+    display: inline-block; font-size: 9.5px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: .05em; color: #fca5a5; background: rgba(239, 68, 68, .2);
+    padding: 2px 7px; border-radius: 5px; margin-bottom: 3px;
+  }
   .clip-title { font-size: 14px; font-weight: 800; line-height: 1.25; }
-  .clip-meta  { font-size: 11.5px; color: rgba(255,255,255,.6); margin-top: 2px; }
+  .clip-meta  { font-size: 11.5px; color: rgba(255,255,255,.65); margin-top: 3px; }
   .clip-frame { margin-top: 14px; width: 100%; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; background: #000; }
   .clip-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
 
@@ -2402,6 +2429,7 @@ const TreasureUp = (function () {
     partRead: {},    // parts of a long chapter read (the day's path): ref -> first verse -> { day, base, xp }
     cfm: {},         // the week's Come Follow Me parts done: weekNum.id -> { day, xp }
     pathDone: {},    // the path's own steps done: day -> { gc: { xp }, goals, thanks }
+    readingGoal: 'cfm', // 'cfm' (Come, Follow Me pace) or 'year_ot' (Finish Old Testament by Dec 31)
     weekChapters: 0  // how many chapters this week's reading has, for the year's count
   });
 
@@ -2669,15 +2697,24 @@ const TreasureUp = (function () {
   // Where a page can't embed players (the private preview), the card is a
   // plain link that opens YouTube at the clip's start instead.
   function clipHtml(v) {
+    if (!v || !v.youtube) return '';
+    const dur = (v.end && v.start != null && v.end > v.start) ? fmtTime(v.end - v.start) : (v.duration || '');
     const inner = `
-        <span class="clip-play">▶</span>
-        <span>
-          <span class="clip-title block">${esc(v.title)}</span>
-          <span class="clip-meta block">${fmtTime(v.end - v.start)} clip · ${esc(v.channel)}${window.TU_NO_EMBED ? ' · opens YouTube' : ''}${v.previewed === true ? '' : ' · not approved yet, hidden in the app'}</span>
-        </span>`;
+      <div class="clip-thumb-wrap">
+        <img class="clip-thumb" src="https://img.youtube.com/vi/${encodeURIComponent(v.youtube)}/hqdefault.jpg" alt="${esc(v.title)}" loading="lazy" onerror="this.style.display='none'">
+        <div class="clip-thumb-overlay">
+          <span class="clip-play-badge">▶</span>
+          ${dur ? `<span class="clip-dur">${esc(dur)}</span>` : ''}
+        </div>
+      </div>
+      <div class="clip-info">
+        <span class="clip-channel-pill">${esc(v.channel || 'Video')}</span>
+        <span class="clip-title block">${esc(v.title)}</span>
+        <span class="clip-meta block">${esc(v.channel || 'YouTube')}${window.TU_NO_EMBED ? ' · opens YouTube' : ' · Tap to watch'}</span>
+      </div>`;
     return window.TU_NO_EMBED
-      ? `<a class="clip" href="https://www.youtube.com/watch?v=${encodeURIComponent(v.youtube)}&t=${v.start}s" target="_blank" rel="noopener noreferrer">${inner}</a>`
-      : `<button class="clip" data-clip="${esc(v.youtube)}" data-start="${v.start}" data-end="${v.end}" aria-label="Play clip: ${esc(v.title)}">${inner}</button>`;
+      ? `<a class="clip" href="https://www.youtube.com/watch?v=${encodeURIComponent(v.youtube)}&t=${v.start || 0}s" target="_blank" rel="noopener noreferrer">${inner}</a>`
+      : `<button class="clip" data-clip="${esc(v.youtube)}" data-start="${v.start || 0}" data-end="${v.end || ''}" aria-label="Play clip: ${esc(v.title)}">${inner}</button>`;
   }
 
   // A reel can have one bonus or several; each shows once the one before it
@@ -3077,6 +3114,7 @@ const TreasureUp = (function () {
       <div class="fl-date"><b>${DAY_NAMES[d]} · ${esc(shortDay(k))}</b><small>${rows.length ? n + ' of ' + rows.length + ' done' : ''}${tag ? (rows.length ? ' · ' : '') + tag : ''}</small></div>
       ${isToday ? verseHeroHtml() : ''}
       ${button}
+      ${isToday ? pathDayPaceHtml() : ''}
       ${rows.length ? pathListHtml(rows, { d, at, isToday }) : ''}
       <div class="fl-list">${extra.join('')}${moreHtml(d)}</div>
     </div>`;
@@ -3195,8 +3233,8 @@ const TreasureUp = (function () {
   const STILL_MINS = [1, 3, 5, 10], STILL_LONGEST = 60;   // minutes between bowls; an hour, and it ends itself (a phone left on)
   // A track plays from its start, then loops `loop` (seconds); `bowl`, the bowl's note in its key (Hz).
   const STILL_SOUNDS = [
-    { id: 'fire', name: 'Low Hummed Fire', src: 'media/still/low-hummed-fire.m4a', loop: [10, 212], bowl: 155.56 },   // E-flat
-    { id: 'deep', name: 'Deep Hum', src: 'media/still/deep-hum.m4a', loop: [26, 121], bowl: 138.59 },                 // D-flat; best with headphones
+    { id: 'fire', name: 'Low Hummed Fire', src: 'media/still/low-hummed-fire.m4a', loop: [10, 211], bowl: 155.56 },   // E-flat
+    { id: 'deep', name: 'Deep Hum', src: 'media/still/deep-hum.m4a', loop: [26, 120], bowl: 138.59 },                 // D-flat; best with headphones
     { id: 'rain', name: 'Rain' }, { id: 'brook', name: 'Brook' }, { id: 'bowl', name: 'Bowl only' }];
   const STILL_BOWL_HZ = 155.56;
   const stillSound = id => STILL_SOUNDS.find(x => x.id === id) || STILL_SOUNDS[0];
@@ -3268,8 +3306,16 @@ const TreasureUp = (function () {
       const el = c.el;
       el.currentTime = 0;
       el.volume = 0;
+      const doLoop = () => {
+        if (!x.loop || !a.music || a.music.el !== el) return;
+        el.currentTime = x.loop[0];
+        if (el.paused) el.play().catch(() => {});
+      };
       el.ontimeupdate = () => {
-        if (x.loop && el.currentTime >= x.loop[1]) el.currentTime = x.loop[0];
+        if (x.loop && el.currentTime >= x.loop[1]) doLoop();
+      };
+      el.onended = () => {
+        doLoop();
       };
       el.play().catch(() => {});
       let v = 0;
@@ -3384,11 +3430,18 @@ const TreasureUp = (function () {
   const stillOnMs = st => (st.paused ? st.pausedAt : Date.now()) - st.start;   // time being still, less any pause
   // A bowl at each interval, and on until he ends it (or an hour).
   function stillTick() {
-    const st = still;
+    const st = still, a = stillAudio;
     if (!st || st.view !== 'run' || st.paused) return;
     const on = stillOnMs(st);
     if (on >= STILL_LONGEST * 60000) { stillFinish(); return; }
     if (on >= st.nextBowl) { stillBowl(0, 0.26); while (st.nextBowl <= on) st.nextBowl += st.mins * 60000; }
+    if (a.music && a.music.el) {
+      const el = a.music.el, x = stillSound(st.sound);
+      if (x.loop && (el.ended || el.currentTime >= x.loop[1])) {
+        el.currentTime = x.loop[0];
+        if (el.paused) el.play().catch(() => {});
+      }
+    }
   }
   // A tap while it runs shows Pause and End for a few seconds.
   function stillShowCtl() {
@@ -4147,6 +4200,17 @@ const TreasureUp = (function () {
         previewed: true
       },
       videoCardIdx: 0
+    },
+    'title11': {
+      video: {
+        title: "Don't Lose the Keys | Prophet Isaiah | Bible Stories for Kids",
+        channel: 'Thumb Follow Me',
+        youtube: '02wxxC5AbTQ',
+        start: 0,
+        end: 260,
+        previewed: true
+      },
+      videoCardIdx: 0
     }
   };
 
@@ -4812,20 +4876,20 @@ const TreasureUp = (function () {
       }
     }
 
-    // 2. CFM_MEDIA videos (including Latter Day Kids)
+    // 2. CFM_MEDIA videos (including Latter Day Kids & Thumb Follow Me)
     for (const [id, m] of Object.entries(CFM_MEDIA)) {
       if (m && m.video && m.video.youtube && !seenYt.has(m.video.youtube)) {
-        const guideItem = guideOf(week).find(g => g.x.id === id);
+        const guideItem = (week.guide || []).find(g => g.id === id);
         if (guideItem) {
           seenYt.add(m.video.youtube);
           list.push({
             id: 'cfm-' + id,
-            ref: guideItem.x.ref,
-            title: m.video.title || guideItem.x.h,
-            text: guideItem.x.h,
+            ref: guideItem.ref || week.reference,
+            title: m.video.title || guideItem.h,
+            text: guideItem.h,
             video: m.video,
             shortId: id,
-            channel: m.video.channel || 'Latter Day Kids'
+            channel: m.video.channel || 'Kids Video'
           });
         }
       }
@@ -4855,22 +4919,20 @@ const TreasureUp = (function () {
 
   function videoShelfHtml(week = WEEK) {
     const vids = weekVideos(week);
-    if (!vids.length) return '<p class="lb-help">No video lessons for this week yet.</p>';
-    return `<div class="shorts-sec" style="margin-top:10px">
+    if (!vids.length) return '';
+    return `<div class="shorts-sec" style="margin-top:14px">
       <div class="shorts-sec-head">
-        <span class="shorts-sec-title" style="color:#f87171">▶ This Week's Video Lessons (${vids.length})</span>
-        <span class="shorts-sec-hint" style="color:rgba(248,113,113,.75)">Latter Day Kids & Church Media ›</span>
+        <span class="shorts-sec-title" style="color:#f87171">▶ Video Lessons & Kids Channels (${vids.length})</span>
+        <span class="shorts-sec-hint" style="color:rgba(248,113,113,.75)">Thumb Follow Me & Latter Day Kids ›</span>
       </div>
-      <div style="display:flex;flex-direction:column;gap:12px;margin-top:6px">
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px">
         ${vids.map(v => `
-          <div class="vid-card" style="padding:14px;border-radius:16px;background:rgba(239,68,68,.08);border:1.5px solid rgba(239,68,68,.25);display:flex;flex-direction:column;gap:8px">
+          <div class="vid-card" style="padding:12px 14px;border-radius:16px;background:rgba(239,68,68,.08);border:1.5px solid rgba(239,68,68,.22);display:flex;flex-direction:column;gap:8px">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
               <span style="font-size:10px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:#fca5a5;background:rgba(239,68,68,.2);padding:2px 8px;border-radius:6px">▶ ${esc(v.channel)}</span>
               <span style="font-size:11px;font-family:monospace;color:rgba(255,255,255,.6)">${esc(v.ref)}</span>
             </div>
-            <div style="font-size:15px;font-weight:800;color:#fff;line-height:1.3">${esc(v.title)}</div>
-            ${v.text && v.text !== v.title ? `<div style="font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.4">${esc(v.text)}</div>` : ''}
-            <div style="margin-top:2px">${clipHtml(v.video)}</div>
+            ${clipHtml(v.video)}
             ${v.shortId ? `<div style="display:flex;justify-content:flex-end"><button class="sp-back-btn" data-short-id="${esc(v.shortId)}" style="margin:0;font-size:11.5px;padding:4px 12px;width:auto">Open 2-Min Interactive Short ›</button></div>` : ''}
             ${v.cardId ? `<div style="display:flex;justify-content:flex-end"><button class="sp-back-btn" data-card="${esc(v.cardId)}" style="margin:0;font-size:11.5px;padding:4px 12px;width:auto">Open Card Details ›</button></div>` : ''}
           </div>
@@ -4924,13 +4986,16 @@ const TreasureUp = (function () {
           </div>
         </div>` : ''}
 
+      <!-- 3. Video Lessons & Kids Channels (Thumb Follow Me & Latter Day Kids) -->
+      ${videoShelfHtml(WEEK)}
+
       <!-- Featured Decks: Family Night & Sunday Youth Lesson -->
       <div style="display:flex;flex-direction:column;gap:10px;margin-top:2px">
         ${f ? familyHeroHtml(f) : ''}
         ${yl ? sundayHeroHtml(yl) : ''}
       </div>
 
-      <!-- 3. The Deep Dive · "Pure Cream" -->
+      <!-- 4. The Deep Dive · "Pure Cream" -->
       ${cream.length ? `
         <div class="shorts-sec" style="margin-top:4px">
           <div class="shorts-sec-head">
@@ -5162,6 +5227,124 @@ const TreasureUp = (function () {
     if (S.read[ch] || (S.libRead && S.libRead[ch]) || Object.values(S.late || {}).some(w => w && w.read && w.read[ch])) return true;
     return (S.history || []).some(h => { const r = h.rec && h.rec.read; return !!r && (Array.isArray(r) ? r.includes(ch) : !!r[ch]); });
   }
+  // Pacing statistics for the whole Old Testament (929 chapters) to finish by Dec 31
+  function readingPaceStats() {
+    const lib = window.TU_LIBRARY;
+    if (!lib || !lib[0]) return null;
+    const ot = lib[0];
+    const allChs = ot.books.flatMap(([b, n]) => Array.from({ length: n }, (_, i) => b + ' ' + (i + 1)));
+    const total = allChs.length;
+    const readChs = allChs.filter(everRead);
+    const readCount = readChs.length;
+    const remaining = total - readCount;
+    const today = dayKey();
+    const endYear = '2026-12-31';
+    const daysLeft = Math.max(1, dayDiff(today, endYear) + 1);
+    const targetDaily = Math.max(1, Math.ceil(remaining / daysLeft));
+    const startYear = '2026-01-01';
+    const dayOfYear = Math.max(1, Math.min(365, dayDiff(startYear, today) + 1));
+    const expectedPace = Math.round(total * (dayOfYear / 365));
+    const delta = readCount - expectedPace;
+    const pct = Math.min(100, Math.round((readCount / total) * 100));
+    const readToday = (Object.values(S.libRead || {}).filter(x => x && x.day === today).length)
+      + ((S.read && S.read[today]) ? 1 : 0);
+    const unread = allChs.filter(ch => !everRead(ch));
+    const nextQueue = unread.slice(0, Math.min(4, targetDaily));
+
+    return {
+      total,
+      readCount,
+      remaining,
+      daysLeft,
+      targetDaily,
+      expectedPace,
+      delta,
+      pct,
+      readToday,
+      nextQueue,
+      status: delta >= 5 ? 'ahead' : delta <= -5 ? 'behind' : 'on_track'
+    };
+  }
+
+  function pathDayPaceHtml() {
+    if (S.readingGoal !== 'year_ot') return '';
+    const stats = readingPaceStats();
+    if (!stats) return '';
+    return `<div class="fl-card" style="margin:10px 0;padding:12px 14px;border-radius:14px;background:rgba(251,191,36,.07);border:1.5px solid rgba(251,191,36,.22)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:var(--gold)">📖 Year-End Scripture Pace</span>
+        <span style="font-size:11px;font-weight:700;color:${stats.readToday >= stats.targetDaily ? '#34d399' : 'rgba(255,255,255,.7)'}">${stats.readToday} of ${stats.targetDaily} read today</span>
+      </div>
+      <div style="font-size:13px;color:#fff;line-height:1.4">
+        ${stats.remaining} Old Testament chapters left to Dec 31 · <b>Goal: ${stats.targetDaily} ch/day</b>
+      </div>
+      ${stats.nextQueue.length ? `
+        <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+          ${stats.nextQueue.slice(0, 3).map(ch => `<button class="sp-jump-btn" data-lib-ch="${esc(ch)}" style="padding:4px 11px;font-size:11.5px;font-weight:700;border-radius:999px;background:rgba(251,191,36,.18);color:#fde68a;border:1px solid rgba(251,191,36,.35);cursor:pointer">📖 Read ${esc(ch)} ›</button>`).join('')}
+        </div>
+      ` : ''}
+    </div>`;
+  }
+
+  function readingPaceCardHtml() {
+    const stats = readingPaceStats();
+    const goal = S.readingGoal || 'cfm';
+    if (!stats) return '';
+
+    return `<div class="pace-card" style="margin:12px 0 16px;padding:14px;border-radius:16px;background:linear-gradient(145deg, rgba(30,27,75,.6), rgba(49,16,66,.45));border:1.5px solid rgba(251,191,36,.25)">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:var(--gold)">📅 Reading Pace Goal</span>
+        <div class="pace-pills" style="display:flex;gap:6px">
+          <button class="sh-pill${goal === 'cfm' ? ' on' : ''}" data-reading-goal="cfm" style="font-size:11px;padding:3px 10px">🕊️ Come, Follow Me Pace</button>
+          <button class="sh-pill${goal === 'year_ot' ? ' on' : ''}" data-reading-goal="year_ot" style="font-size:11px;padding:3px 10px">📖 Finish OT by Dec 31</button>
+        </div>
+      </div>
+
+      ${goal === 'year_ot' ? `
+        <div style="margin-top:12px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline">
+            <span style="font-size:15px;font-weight:800;color:#fff">${stats.readCount} of ${stats.total} chapters read</span>
+            <span style="font-size:12px;font-weight:700;color:var(--gold)">${stats.pct}%</span>
+          </div>
+          <div class="today-bar" style="margin:8px 0 10px"><div style="width:${stats.pct}%;background:linear-gradient(90deg, #f59e0b, #fbbf24)"></div></div>
+
+          <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;text-align:center;margin-bottom:12px">
+            <div style="padding:8px 6px;border-radius:10px;background:rgba(255,255,255,.05)">
+              <div style="font-size:16px;font-weight:900;color:#fff">${stats.targetDaily}</div>
+              <div style="font-size:10.5px;color:rgba(255,255,255,.6)">Chapters / day</div>
+            </div>
+            <div style="padding:8px 6px;border-radius:10px;background:rgba(255,255,255,.05)">
+              <div style="font-size:16px;font-weight:900;color:#fff">${stats.remaining}</div>
+              <div style="font-size:10.5px;color:rgba(255,255,255,.6)">Remaining</div>
+            </div>
+            <div style="padding:8px 6px;border-radius:10px;background:rgba(255,255,255,.05)">
+              <div style="font-size:16px;font-weight:900;color:#fff">${stats.daysLeft}</div>
+              <div style="font-size:10.5px;color:rgba(255,255,255,.6)">Days to Dec 31</div>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.75);margin-bottom:8px">
+            <span>${stats.delta >= 0 ? `✨ <b>${stats.delta} chapters ahead</b> of expected pace` : `⚡ <b>${Math.abs(stats.delta)} chapters behind</b> year-end schedule`}</span>
+            <span style="color:#a7f3d0">${stats.readToday ? `✓ ${stats.readToday} read today` : 'None read today yet'}</span>
+          </div>
+
+          ${stats.nextQueue.length ? `
+            <div style="margin-top:10px;padding-top:10px;border-top:1px dashed rgba(255,255,255,.15)">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:6px">Next chapters to read:</div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                ${stats.nextQueue.map(ch => `<button class="sp-jump-btn" data-lib-ch="${esc(ch)}" style="padding:5px 12px;font-size:12px;font-weight:700;border-radius:999px;background:rgba(251,191,36,.18);color:#fde68a;border:1px solid rgba(251,191,36,.35);cursor:pointer">📖 Read ${esc(ch)} ›</button>`).join('')}
+              </div>
+            </div>
+          ` : ''}
+        </div>
+      ` : `
+        <p style="margin:10px 0 0;font-size:12.5px;color:rgba(255,255,255,.7);line-height:1.4">
+          Following standard <b>Come, Follow Me</b> pace (~10 min/day). To read all 929 Old Testament chapters by December 31, switch to <b>Finish OT by Dec 31</b> above.
+        </p>
+      `}
+    </div>`;
+  }
+
   function scripturesHtml() {
     const lib = window.TU_LIBRARY;
     if (!lib) {
@@ -5178,7 +5361,7 @@ const TreasureUp = (function () {
         <div class="lib-chs">${chs.map((ch, i) => `<button class="lib-ch${now.has(ch) ? ' now' : ''}${everRead(ch) ? ' done' : ''}" data-lib-ch="${esc(ch)}" aria-label="${esc(ch)}${everRead(ch) ? ', read' : ''}">${i + 1}</button>`).join('')}</div>`;
     }
     const week = WEEK.reference ? `<button class="lib-week" data-lib-book="${esc((readingAll()[0] || {}).book || '')}"><span>This week<b>${esc(WEEK.reference)}</b></span><span>›</span></button>` : '';
-    return `<div class="eyebrow">Scriptures</div><h1 class="reel-hook lib-h">Every book, chapter and verse</h1>${week}
+    return `<div class="eyebrow">Scriptures</div><h1 class="reel-hook lib-h">Every book, chapter and verse</h1>${readingPaceCardHtml()}${week}
       ${lib.map(v => `<div class="lib-vol"><div class="eyebrow">${esc(v.name)}</div><div class="lib-books">${v.books.map(([name, n]) => {
         const read = Array.from({ length: n }, (_, i) => name + ' ' + (i + 1)).filter(everRead).length;
         return `<button class="lib-book${[...now].some(c => c.startsWith(name + ' ')) ? ' now' : ''}" data-lib-book="${esc(name)}">${esc(name)}${read ? `<small>${read === n ? '✓ all read' : read + ' of ' + n + ' read'}</small>` : ''}</button>`; }).join('')}</div></div>`).join('')}`;
@@ -6950,7 +7133,7 @@ const TreasureUp = (function () {
   // reel, and the moment the clip ends it is replaced by a "Watched" card,
   // so YouTube's grid of suggested videos never appears.
   async function playClip(el) {
-    const v = { id: el.dataset.clip, start: Number(el.dataset.start), end: Number(el.dataset.end) };
+    const v = { id: el.dataset.clip, start: Number(el.dataset.start) || 0, end: el.dataset.end ? Number(el.dataset.end) : null };
     const card = el.cloneNode(true);              // put back when the clip ends
     const frame = document.createElement('div');
     frame.className = 'clip-frame';
@@ -6967,25 +7150,32 @@ const TreasureUp = (function () {
       done = true;
       player._stop();
       card.classList.add('watched');
-      card.querySelector('.clip-play').textContent = '✓';
-      card.querySelector('.clip-meta').textContent = 'Watched · tap to watch again';
+      const badge = card.querySelector('.clip-play-badge') || card.querySelector('.clip-play');
+      if (badge) badge.textContent = '✓';
+      const meta = card.querySelector('.clip-meta');
+      if (meta) meta.textContent = 'Watched · tap to watch again';
       frame.replaceWith(card);
     };
+
+    const playerVars = { start: v.start, autoplay: 1, rel: 0, playsinline: 1, iv_load_policy: 3 };
+    if (v.end) playerVars.end = v.end;
 
     player = new YT.Player(mount, {
       host: 'https://www.youtube-nocookie.com',
       width: '100%', height: '100%',
       videoId: v.id,
-      playerVars: { start: v.start, end: v.end, autoplay: 1, rel: 0, playsinline: 1, iv_load_policy: 3 },
+      playerVars,
       events: { onStateChange: e => { if (e.data === YT.PlayerState.ENDED) finish(); } }
     });
     frame._player = player;
     player._stop = () => { clearInterval(timer); players.delete(player); try { player.destroy(); } catch (e) {} };
     players.add(player);
     // Backstop in case the end event is late: stop at `end` regardless.
-    timer = setInterval(() => {
-      try { if (player.getCurrentTime && player.getCurrentTime() >= v.end - 0.25) finish(); } catch (e) {}
-    }, 400);
+    if (v.end) {
+      timer = setInterval(() => {
+        try { if (player.getCurrentTime && player.getCurrentTime() >= v.end - 0.25) finish(); } catch (e) {}
+      }, 400);
+    }
   }
 
   // Closing a screen (or moving on in a lesson) stops its clip, and the chapter he was listening to.
@@ -17016,6 +17206,8 @@ const TreasureUp = (function () {
       if (lb) { libBook = lb.dataset.libBook || null; renderHome(); $('home').scrollTop = 0; return; }
       const lc = e.target.closest('[data-lib-ch]');
       if (lc) { openLibChapter(lc.dataset.libCh); return; }
+      const rg = e.target.closest('[data-reading-goal]');
+      if (rg) { S.readingGoal = rg.dataset.readingGoal; saveLocal(); refreshHome(); return; }
       const sk = e.target.closest('[data-study-kind]');
       if (sk) { studyKind = sk.dataset.studyKind; refreshHome(); return; }
       const pc = e.target.closest('[data-past-chapter]');
