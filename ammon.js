@@ -113,7 +113,7 @@
       id: 'armor_of_god',
       icon: '🛡️',
       name: 'Breastplate of Faith',
-      tag: 'DIVINE DEFENSE',
+      tag: 'STEADFAST DEFENSE',
       verse: 'Ephesians 6:14 · Alma 43:19',
       desc: '+25 Max HP, instant 100% full heal, and 12 seconds of invulnerable celestial shield aura!',
       apply(G) {
@@ -121,13 +121,13 @@
         G.me.hp = G.me.hpMax;
         G.shieldUntil = G.time + 12;
         G.perks.add('armor');
-        float('🛡️ Armor of God Equipped!', G.me.x, 3.8, '#60a5fa');
+        float('🛡️ Breastplate of Faith Equipped!', G.me.x, 3.8, '#60a5fa');
       }
     },
     spirit_of_might: {
       id: 'spirit_of_might',
       icon: '⚡',
-      name: 'Spirit of the Lord',
+      name: 'Spirit',
       tag: 'POWER SURGE',
       verse: 'Alma 18:35',
       desc: 'Instantly fills Mighty Power to 100% + Power meter fills 50% faster from every hit and block!',
@@ -144,7 +144,7 @@
       name: 'Sword of Strength',
       tag: 'COMBAT MASTERY',
       verse: 'Alma 17:37',
-      desc: '+35% Sword Reach & 3-Hit Combos unleash a Holy Shockwave knocking back all surrounding robbers!',
+      desc: '+35% Sword Reach & 3-Hit Combos unleash a Radiant Shockwave knocking back all surrounding robbers!',
       apply(G) {
         G.radiantBlade = true;
         G.perks.add('radiant');
@@ -288,7 +288,7 @@
             hurt(r, dmg, me.face, { push: pushDist, daze: dazeTime, label: i ? null : label });
           });
           if (finish && G.radiantBlade) {
-            float('✨ HOLY SHOCKWAVE!', me.x, 3.8, '#38bdf8');
+            float('✨ RADIANT SHOCKWAVE!', me.x, 3.8, '#38bdf8');
             sound('mighty');
             G.robbers.forEach(r => {
               if (r.act !== 'flee' && Math.abs(r.x - me.x) < 4.2) {
@@ -634,11 +634,11 @@
     const blessings = getBlessingsForState();
     if (!q) {
       G.q = {
-        q: "The Lord said unto Ammon: Thou art blessed because of thy faith, and I will defend thee and thy flocks.",
-        ref: "Alma 17:35",
-        choices: ["In the strength of the Lord"],
-        right: "In the strength of the Lord",
-        why: "Faith in the Lord gives strength to defend the flock.",
+        q: "What gave Ammon the courage to defend King Lamoni's flocks at the waters of Sebus?",
+        ref: "Alma 17:35-37",
+        choices: ["Faith and courage"],
+        right: "Faith and courage",
+        why: "Faith gave Ammon strength to defend the flock.",
         picked: 0,
         blessings,
         blessingChosen: null
@@ -985,7 +985,7 @@
         <li>Robbers come to <b>scatter the flock</b>. Walk to a scattered sheep to <b>gather it</b> back before it wanders off. Lose ${T.lose} sheep and the game is over.</li>
         <li>Your <b>sword</b> knocks the clubs out of their hands; your <b>sling</b> reaches far, but stones run out (a robber may drop a pouch).</li>
         <li><b>Block</b> a club facing it. Ammon can’t be beaten, but a club stuns him for a moment.</li>
-        <li>Each level ends with the <b>robbers’ leader</b>, then a question from this week: right, and you get stones and the Lord’s protection.</li>
+        <li>Each level ends with the <b>robbers’ leader</b>, then a question from this week: answer right to earn stones and a powerful blessing.</li>
       </ul>
       <div class="am-moves"><div class="eyebrow">Moves & Combos</div><ul>
         <li><b>3-Hit Blade Chain:</b> ${coarse() ? 'Tap <b>A</b>' : 'Sword (<b>J</b> or <b>Z</b>)'} 3× in rhythm. The 3rd hit leaps with a golden finisher (+${T.combo} pts)!</li>
@@ -1107,7 +1107,7 @@
       blessingSection = `<div class="am-mercy-panel">
         <p class="am-why"><b class="no">Not this time.</b> ${q.why ? host.html(q.why, q.ref) : ''}</p>
         <div class="am-mercy-box">
-          <b>🕊️ The Lord's Mercy:</b> Ammon still receives <b>+2 Emergency Stones</b> and <b>+20 HP</b> to keep defending the flock!
+          <b>🕊️ Mercy:</b> Ammon still receives <b>+2 Emergency Stones</b> and <b>+20 HP</b> to keep defending the flock!
         </div>
         <div class="board-actions" style="margin-top: 12px; justify-content: center;">
           <button class="btn" data-am="next">▶ Continue to Level ${G.level + 1}</button>
@@ -1118,8 +1118,8 @@
     box.innerHTML = `<div class="am-card am-quest-card">
       <div class="am-quest-head">
         <div class="am-quest-badge">📜 SCRIPTURE COUNSEL · ${q.review ? 'REVIEW' : 'THIS WEEK'}</div>
-        <h2 class="am-quest-title">Seek the Lord's Counsel</h2>
-        <p class="am-quest-sub">Answer correctly from the scriptures to unlock a <b>Divine Blessing</b> for your flock and weapons!</p>
+        <h2 class="am-quest-title">Scripture Counsel</h2>
+        <p class="am-quest-sub">Answer correctly from the scriptures to unlock a <b>Blessing</b> for your flock and weapons!</p>
       </div>
       <p class="am-q">${host.html(q.q, q.ref)}</p>
       <div class="am-choices">${q.choices.map((c, i) => `<button type="button" class="am-choice${picked ? (c === q.right ? ' right' : i === q.picked ? ' wrong' : '') : ''}" data-ans="${i}"${picked ? ' disabled' : ''}><b>${'ABC'[i]}</b><span>${esc(c)}</span></button>`).join('')}</div>
@@ -1141,7 +1141,7 @@
       const list = [];
       if (G.blazingStones) list.push('🔥 Piercing Sling');
       if (G.radiantBlade) list.push('⚔️ Radiant Blade');
-      if (G.perks.has('armor')) list.push('🛡️ Holy Armor');
+      if (G.perks.has('armor')) list.push('🛡️ Armor of Faith');
       if (G.fastPower) list.push('⚡ Fast Power');
       if (G.sheepRescued) list.push(`🐑 +${G.sheepRescued} Rescued`);
       if (list.length) {
@@ -1192,7 +1192,7 @@
     else if (G.me.act === 'stun') head = '<b class="no">Stunned!</b> Face the robber and <b>block</b> his club next time.';
     else if (strays) head = `<b class="no">${strays} ${strays === 1 ? 'sheep is' : 'sheep are'} scattered!</b> Walk to it to gather!`;
     else if (G.flockShieldUntil > G.time) head = '<b class="ok">🐑 Flock Guardian active!</b> Sheep cannot be scattered.';
-    else if (G.time < G.shieldUntil) head = '<b class="ok">🛡️ The Lord’s protection</b> shields you.';
+    else if (G.time < G.shieldUntil) head = '<b class="ok">🛡️ Armor of Faith</b> shields you.';
     else if (G.power >= T.power) head = `<b class="ok">⚡ Mighty power is ready!</b> ${coarse() ? 'Tap <b>⚡ POWER</b>' : 'Press <b>E</b> or <b>J+K</b>'}`;
 
     if (!head) {
