@@ -37,8 +37,10 @@ export default async function smoke({ port }) {
   check(homeTxt.includes('Be patient and listen to Javan'), 'Blueprint saved and renders on Today');
   check(homeTxt.includes('Morning sunlight') && homeTxt.includes('Good health'), 'Morning gratitude items saved with Blueprint');
   check(!homeTxt.includes('Excess fourth line'), 'Gratitude capped at 3 items max');
-  await p.click('[data-bp-check="oneThing"]'); await wait(300);
-  check(await p.locator('.bp-check-item.done').count() > 0, 'Blueprint item checkoff works');
+  check(await p.locator('.flow > .blueprint-card').count() === 0, 'No blueprint box at the top of Today');
+  check(await p.locator('.evening-card .bp-check-item').count() >= 2, 'To-dos piped into Evening Review card at bottom');
+  await p.click('.evening-card [data-bp-check="oneThing"]'); await wait(300);
+  check(await p.locator('.evening-card .bp-check-item.done').count() > 0, 'To-do item checkoff works in Evening Review');
 
   // The Way: Book of Mormon Living Water Micro-Dose
   check(await p.locator('[data-bom-open]').count() > 0, 'Book of Mormon row renders in path');
@@ -50,7 +52,7 @@ export default async function smoke({ port }) {
   // The Way: Evening Accounting
   check(await p.locator('[data-open-evening]').count() > 0, 'Evening Accounting card renders');
   await p.click('[data-open-evening]'); await wait(400);
-  check((await txt(p, '#appBody')).includes('Evening Accounting'), 'Evening Accounting sheet opens');
+  check(/Evening (Accounting|Review)/i.test(await txt(p, '#appBody')), 'Evening Accounting sheet opens');
   await p.fill('#evMercies', 'Felt peace during our morning study');
   await p.click('[data-ev-save]'); await wait(400);
   const cardTxt = await txt(p, '.evening-card');
