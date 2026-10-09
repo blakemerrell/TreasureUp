@@ -73,14 +73,17 @@
     const seed = typeof window.TU_AMMON_SEED === 'number' ? window.TU_AMMON_SEED : Date.now();
     G = { w: portrait ? 16 : 24, rand: rng(seed), time: 0, level: 0, score: 0, state: 'play', ready: manual() ? 0 : T.ready, paused: false,
       stones: T.stones, lost: 0, robbersOff: 0, chiefsOff: 0, gathered: 0, shieldUntil: 0, used: new Set(), power: 0, flashAt: -9, combos: 0, mighties: 0,
-      me: { x: 0, y: 0, vy: 0, face: 1, act: 'ready', t: 0, stun: 0, step: 0, chain: 0, chainUntil: 0, counterUntil: 0, lx: 0, hits: 0 },
+      heroes: [
+      { id: 1, name: 'Ammon', x: 0, y: 0, vy: 0, face: 1, act: 'ready', t: 0, stun: 0, step: 0, chain: 0, chainUntil: 0, counterUntil: 0, lx: 0, hits: 0, k: { left: 'left', right: 'right', up: 'up', block: 'block', strike: 'strike', sling: 'sling', power: 'power' } },
+      { id: 2, name: 'Javan', x: 0, y: 0, vy: 0, face: 1, act: 'ready', t: 0, stun: 0, step: 0, chain: 0, chainUntil: 0, counterUntil: 0, lx: 0, hits: 0, k: { left: 'p2_left', right: 'p2_right', up: 'p2_up', block: 'p2_block', strike: 'p2_strike', sling: 'p2_sling', power: 'p2_power' } }
+    ],
       sheep: [], robbers: [], shots: [], drops: [], floats: [], between: 0, banner: null, q: null };
     const home = T.flock, span = (portrait ? home[1] - 1.2 : home[1]) - home[0];
     for (let k = 0; k < T.sheep; k++) {
       const x = home[0] + span * (k + 0.5) / T.sheep;
       G.sheep.push({ home: x, x, state: 'flock', tx: x, row: k % 2, wig: G.rand() * 6 });
     }
-    G.me.x = home[0] + span + 2;
+    G.heroes[0].x = home[0] + span + 2; G.heroes[1].x = home[0] + span + 4;
     nextLevel();
   }
   const alive = () => G.sheep.filter(s => s.state !== 'lost');
@@ -117,51 +120,51 @@
       if (G.between <= 0) askQuestion();
       return;
     }
-    const me = G.me;
-    // ----- Ammon -----
-    if (me.stun > 0) { me.stun -= dt; me.act = 'stun'; }
-    else if (me.act === 'stun') me.act = 'ready';
-    if (me.lx) { const k = Math.sign(me.lx) * Math.min(Math.abs(me.lx), T.lunge * dt); me.x += k; me.lx -= k; }   // a chained blow or a counter steps in
-    if (me.act === 'strike' || me.act === 'sling') {
-      me.t += dt;
-      if (me.act === 'strike' && !me.landed && me.t >= T.strikeHit[0]) {
-        me.landed = true;
-        const k = me.kind, reach = T.reach + (k === 'air' ? 0.5 : 0);
-        const hit = G.robbers.filter(r => r.act !== 'flee' && Math.sign(r.x - me.x) === me.face && Math.abs(r.x - me.x) < reach + (r.kind === 'chief' ? 0.3 : 0));
-        if (hit.length) me.hits++;
-        const finish = k === 'finish' && me.hits >= 3;
-        let label = null;
-        if (k === 'air') label = 'Overhead!';
-        else if (k === 'counter') { label = 'Counter!'; addPower(T.fill.counter); }
-        else if (finish) { label = `3-hit combo! +${T.combo}`; G.score += T.combo; G.combos++; addPower(T.fill.combo); }
-        else if (hit.length && me.chain === 2 && me.hits >= 2) label = '2 hits!';
-        hit.forEach((r, i) => hurt(r, k === 'strike' ? 1 : 2, me.face, {
-          push: k === 'strike' ? T.chainPush : k === 'finish' ? T.finishPush : T.push, daze: k === 'air' || k === 'counter' ? T.daze : 0, label: i ? null : label }));
-        if (hit.length && label) sound(finish || k === 'counter' ? 'combo' : 'hit');
-      }
-      if (me.act === 'sling' && !me.thrown && me.t >= T.slingAt) {
-        me.thrown = true;
-        G.shots.push({ x: me.x + me.face * 0.6, y: 2.4, vx: me.face * T.stoneSpeed, vy: 3 });
-        sound('sling');
-      }
-      if (me.t >= (me.act === 'strike' ? T.strike : T.sling)) {
-        const was = me.act;
-        me.act = 'ready'; me.t = 0;
-        if (was === 'strike') { if (me.queued) startStrike(true); else me.chainUntil = G.time + T.chainWin; }
-      }
-    }
-    const blocking = me.act !== 'stun' && keys.has('block') && me.y <= 0;
-    if (me.act === 'ready' || me.act === 'walk' || me.act === 'block') me.act = blocking ? 'block' : 'ready';
-    let mx = (keys.has('right') ? 1 : 0) - (keys.has('left') ? 1 : 0);
-    if (me.act !== 'stun' && !blocking && me.act !== 'sling') {
-      if (mx) { me.x += mx * T.speed * dt * (me.act === 'strike' ? 0.3 : 1); if (me.act !== 'strike') me.face = mx; if (me.act === 'ready') me.act = 'walk'; me.step += dt * 6; }
-      if (keys.has('up') && me.y <= 0) { me.vy = T.jump; }
-    }
-    if (me.y > 0 || me.vy > 0) { me.vy -= T.gravity * dt; me.y = Math.max(0, me.y + me.vy * dt); if (me.y <= 0) me.vy = 0; }
-    me.x = Math.max(0.6, Math.min(G.w - 0.6, me.x));
-    // Gathering: walk to a scattered sheep and it runs home.
-    for (const s of G.sheep) if ((s.state === 'stray' || s.state === 'run') && Math.abs(s.x - me.x) < 1 && me.y < 1) {
-      s.state = 'return'; G.gathered++; G.score += 25; float('Gathered! +25', s.x, 2.2, '#bbf7d0'); sound('gather'); addPower(T.fill.gather);
+    for (const me of G.heroes) {
+        if (me.stun > 0) { me.stun -= dt; me.act = 'stun'; }
+        else if (me.act === 'stun') me.act = 'ready';
+        if (me.lx) { const k = Math.sign(me.lx) * Math.min(Math.abs(me.lx), T.lunge * dt); me.x += k; me.lx -= k; }   // a chained blow or a counter steps in
+        if (me.act === 'strike' || me.act === 'sling') {
+          me.t += dt;
+          if (me.act === 'strike' && !me.landed && me.t >= T.strikeHit[0]) {
+            me.landed = true;
+            const k = me.kind, reach = T.reach + (k === 'air' ? 0.5 : 0);
+            const hit = G.robbers.filter(r => r.act !== 'flee' && Math.sign(r.x - me.x) === me.face && Math.abs(r.x - me.x) < reach + (r.kind === 'chief' ? 0.3 : 0));
+            if (hit.length) me.hits++;
+            const finish = k === 'finish' && me.hits >= 3;
+            let label = null;
+            if (k === 'air') label = 'Overhead!';
+            else if (k === 'counter') { label = 'Counter!'; addPower(T.fill.counter); }
+            else if (finish) { label = `3-hit combo! +${T.combo}`; G.score += T.combo; G.combos++; addPower(T.fill.combo); }
+            else if (hit.length && me.chain === 2 && me.hits >= 2) label = '2 hits!';
+            hit.forEach((r, i) => hurt(r, k === 'strike' ? 1 : 2, me.face, {
+              push: k === 'strike' ? T.chainPush : k === 'finish' ? T.finishPush : T.push, daze: k === 'air' || k === 'counter' ? T.daze : 0, label: i ? null : label }));
+            if (hit.length && label) sound(finish || k === 'counter' ? 'combo' : 'hit');
+          }
+          if (me.act === 'sling' && !me.thrown && me.t >= T.slingAt) {
+            me.thrown = true;
+            G.shots.push({ x: me.x + me.face * 0.6, y: 2.4, vx: me.face * T.stoneSpeed, vy: 3 });
+            sound('sling');
+          }
+          if (me.t >= (me.act === 'strike' ? T.strike : T.sling)) {
+            const was = me.act;
+            me.act = 'ready'; me.t = 0;
+            if (was === 'strike') { if (me.queued) startStrike(me, true); else me.chainUntil = G.time + T.chainWin; }
+          }
+        }
+        const blocking = me.act !== 'stun' && keys.has(me.k.block) && me.y <= 0;
+        if (me.act === 'ready' || me.act === 'walk' || me.act === 'block') me.act = blocking ? 'block' : 'ready';
+        let mx = (keys.has(me.k.right) ? 1 : 0) - (keys.has(me.k.left) ? 1 : 0);
+        if (me.act !== 'stun' && !blocking && me.act !== 'sling') {
+          if (mx) { me.x += mx * T.speed * dt * (me.act === 'strike' ? 0.3 : 1); if (me.act !== 'strike') me.face = mx; if (me.act === 'ready') me.act = 'walk'; me.step += dt * 6; }
+          if (keys.has(me.k.up) && me.y <= 0) { me.vy = T.jump; }
+        }
+        if (me.y > 0 || me.vy > 0) { me.vy -= T.gravity * dt; me.y = Math.max(0, me.y + me.vy * dt); if (me.y <= 0) me.vy = 0; }
+        me.x = Math.max(0.6, Math.min(G.w - 0.6, me.x));
+        // Gathering: walk to a scattered sheep and it runs home.
+        for (const s of G.sheep) if ((s.state === 'stray' || s.state === 'run') && Math.abs(s.x - me.x) < 1 && me.y < 1) {
+          s.state = 'return'; G.gathered++; G.score += 25; float('Gathered! +25', s.x, 2.2, '#bbf7d0'); sound('gather'); addPower(T.fill.gather);
+        }
     }
     // ----- stones -----
     for (const st of G.shots) {
@@ -188,7 +191,7 @@
       const busy = G.robbers.filter(r => r.act !== 'flee').length;
       if (W0.next <= 0 && busy < Math.min(5, 2 + Math.floor(G.level / 2))) { spawnRobber(); W0.next = W0.every; }
     } else if (!W0.chief && !G.robbers.length) spawnChief();
-    for (const r of G.robbers) robber(r, dt, blocking);
+    for (const r of G.robbers) robber(r, dt);
     G.robbers = G.robbers.filter(r => !(r.act === 'flee' && (r.x < -2 || r.x > G.w + 2)));
     // ----- sheep -----
     for (const s of G.sheep) {
@@ -205,8 +208,17 @@
   }
 
   // A robber (or their leader): to the flock, or at Ammon when he's in the way.
-  function robber(r, dt, blocking) {
-    const me = G.me, chief = r.kind === 'chief';
+  function robber(r, dt) {
+    let heroTarget = G.heroes[0];
+    let minDist = 999;
+    for (const h of G.heroes) {
+      if (h.act !== 'stun') {
+        const d = Math.abs(h.x - r.x);
+        if (d < minDist) { minDist = d; heroTarget = h; }
+      }
+    }
+    const me = heroTarget, chief = r.kind === 'chief';
+    const blocking = me.act !== 'stun' && keys.has(me.k.block) && me.y <= 0;
     r.t += dt; r.step += dt * 5;
     if (r.kx) { const k = Math.sign(r.kx) * Math.min(Math.abs(r.kx), 9 * dt); r.x += k; r.kx -= k; }
     if (r.act === 'flee') { r.x += r.face * 6.5 * dt; return; }
@@ -291,11 +303,10 @@
   function addPower(n) {
     if (!G || G.power >= T.power) return;
     G.power = Math.min(T.power, G.power + n);
-    if (G.power >= T.power) { float('⚡ Mighty power is ready!', G.me.x, 4.6, '#fbbf24'); sound('ready'); }
+    if (G.power >= T.power) { float('⚡ Mighty power is ready!', G.heroes[0].x, 4.6, '#fbbf24'); sound('ready'); }
   }
   // A sword blow: in the air, an overhead blow; just after a block, a counter; else the next in a chain of three.
-  function startStrike(chained) {
-    const me = G.me;
+  function startStrike(me, chained) {
     let kind = 'strike';
     if (me.y > 0.25) { kind = 'air'; me.chain = 0; me.hits = 0; }
     else if (G.time < me.counterUntil) { kind = 'counter'; me.chain = 1; me.hits = 0; }
@@ -314,19 +325,7 @@
     }
   }
   // Sword and sling together, with the meter full: a stone "with mighty power" at every robber on the field.
-  function mighty() {
-    const me = G.me;
-    if (G.power < T.power) { float('Not ready yet', me.x, 3.6, '#e5e7eb'); return; }
-    me.press = null;
-    const targets = G.robbers.filter(r => r.act !== 'flee');
-    if (!targets.length) { float('No robbers here yet', me.x, 3.6, '#e5e7eb'); return; }
-    if (me.act === 'sling' && !me.thrown) G.stones++;   // the sling press that began it isn't spent
-    if (me.act === 'strike' || me.act === 'sling') { me.act = 'ready'; me.t = 0; }
-    me.queued = false;
-    G.power = 0; G.flashAt = G.time; G.mighties++;
-    targets.forEach(r => { const dir = Math.sign(r.x - me.x) || me.face; G.shots.push({ x: me.x + dir * 0.4, y: 2, vx: dir * 24, vy: 0, target: r }); });
-    float('Mighty power!', me.x, 4.4, '#fbbf24'); sound('mighty');
-  }
+  
 
   function clearLevel() {
     const flock = inFlock(), bonus = 150 * G.level, sheep = 50 * flock;
@@ -436,7 +435,7 @@
       if (!sprite(ctx, running ? 'sheep-run' : 'sheep-graze', X(s.x), sheepY(s) - bob, u, running ? face : -face)) {
         ctx.fillStyle = '#f5f0e6'; ctx.beginPath(); ctx.ellipse(X(s.x), sheepY(s) - u * 0.6 - bob, u * 0.6, u * 0.42, 0, 0, 7); ctx.fill();
       }
-      if (s.state === 'stray') { ctx.fillStyle = '#fde68a'; ctx.font = `900 ${Math.round(u * 0.5)}px system-ui, sans-serif`; ctx.textAlign = 'center'; ctx.fillText('!', X(s.x), sheepY(s) - u * 1.6); }
+      if (s.state === 'stray') { ctx.fillStyle = '#fde68a'; ctx.font = `900 ${Math.round(u * 0.5)}px 'Courier New', Courier, monospace`; ctx.textAlign = 'center'; ctx.fillText('!', X(s.x), sheepY(s) - u * 1.6); }
     }
     for (const d of G.drops) { shadow(d.x, 0.35); sprite(ctx, 'pouch', X(d.x), gy, u, 1) || (ctx.fillStyle = '#7c4a1e', ctx.fillRect(X(d.x) - u * 0.3, gy - u * 0.6, u * 0.6, u * 0.6)); }
     for (const r of G.robbers) {
@@ -454,28 +453,29 @@
         ctx.fillStyle = '#ef4444'; ctx.fillRect(bx, by, bw * Math.max(0, r.hp) / r.hpMax, u * 0.22);
       }
     }
-    // Ammon
-    const me = G.me;
-    const walkFrame = Math.floor(me.step) % 2 ? 'ammon-walk1' : 'ammon-walk2';
-    const name = me.act === 'strike' ? 'ammon-strike' : me.act === 'sling' ? 'ammon-sling' : me.act === 'block' ? 'ammon-block' : me.act === 'walk' && me.y <= 0 ? walkFrame : 'ammon-ready';
-    shadow(me.x, 0.6 - Math.min(0.3, me.y * 0.08));
-    if (G.time < G.shieldUntil) {   // the Lord's protection: a glow round him
-      const gl = ctx.createRadialGradient(X(me.x), gy - u * 1.6 - X(me.y), u * 0.4, X(me.x), gy - u * 1.6 - X(me.y), u * 2.4);
-      gl.addColorStop(0, 'rgba(253,230,138,.45)'); gl.addColorStop(1, 'rgba(253,230,138,0)'); ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(X(me.x), gy - u * 1.6 - X(me.y), u * 2.4, 0, 7); ctx.fill();
-    }
-    if (!sprite(ctx, name, X(me.x), gy - X(me.y), u, me.face, me.act === 'stun' && Math.floor(t / 80) % 2 ? 0.45 : 1)) {
-      ctx.fillStyle = '#2563eb'; ctx.fillRect(X(me.x) - u * 0.4, gy - u * 3.1 - X(me.y), u * 0.8, u * 3.1);
-    }
-    if (me.act === 'stun') { ctx.fillStyle = '#fde68a'; ctx.font = `${Math.round(u * 0.6)}px system-ui`; ctx.textAlign = 'center'; ctx.fillText('💫', X(me.x), gy - u * 3.5 - X(me.y)); }
-    // The sword's sweep: gold for a finishing blow, a counter or an overhead blow
-    if (me.act === 'strike' && me.t > 0.03 && me.t < 0.24) {
-      const big = me.kind !== 'strike', a = 1 - (me.t - 0.03) / 0.21, cx = X(me.x) + me.face * u * 0.5, cy = gy - u * 1.9 - X(me.y), rad = u * (big ? 1.9 : 1.5);
-      const from = me.kind === 'air' ? -1.5 : -1.1, to = me.kind === 'air' ? 1.3 : 0.9;
-      ctx.save(); ctx.globalAlpha = Math.max(0, a); ctx.lineCap = 'round';
-      ctx.strokeStyle = big ? '#fbbf24' : 'rgba(255,255,255,.85)'; ctx.lineWidth = u * (big ? 0.32 : 0.2);
-      ctx.beginPath();
-      if (me.face > 0) ctx.arc(cx, cy, rad, from, to); else ctx.arc(cx, cy, rad, Math.PI - to, Math.PI - from);
-      ctx.stroke(); ctx.restore();
+    for (const me of G.heroes) {
+        const walkFrame = Math.floor(me.step) % 2 ? 'ammon-walk1' : 'ammon-walk2';
+        const name = me.act === 'strike' ? 'ammon-strike' : me.act === 'sling' ? 'ammon-sling' : me.act === 'block' ? 'ammon-block' : me.act === 'walk' && me.y <= 0 ? walkFrame : 'ammon-ready';
+        shadow(me.x, 0.6 - Math.min(0.3, me.y * 0.08));
+        if (G.time < G.shieldUntil) {   // the Lord's protection: a glow round him
+          const gl = ctx.createRadialGradient(X(me.x), gy - u * 1.6 - X(me.y), u * 0.4, X(me.x), gy - u * 1.6 - X(me.y), u * 2.4);
+          gl.addColorStop(0, 'rgba(253,230,138,.45)'); gl.addColorStop(1, 'rgba(253,230,138,0)'); ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(X(me.x), gy - u * 1.6 - X(me.y), u * 2.4, 0, 7); ctx.fill();
+        }
+        ctx.fillStyle = me.id === 1 ? '#60a5fa' : '#34d399'; ctx.font = `bold ${Math.round(u * 0.4)}px 'Courier New', Courier, monospace`; ctx.textAlign = 'center'; ctx.fillText(me.name, X(me.x), gy - u * 3.7 - X(me.y));
+        if (!sprite(ctx, name, X(me.x), gy - X(me.y), u, me.face, me.act === 'stun' && Math.floor(t / 80) % 2 ? 0.45 : 1)) {
+          ctx.fillStyle = me.id === 1 ? '#2563eb' : '#10b981'; ctx.fillRect(X(me.x) - u * 0.4, gy - u * 3.1 - X(me.y), u * 0.8, u * 3.1);
+        }
+        if (me.act === 'stun') { ctx.fillStyle = '#fde68a'; ctx.font = `${Math.round(u * 0.6)}px 'Courier New', Courier, monospace`; ctx.textAlign = 'center'; ctx.fillText('💫', X(me.x), gy - u * 3.5 - X(me.y)); }
+        // The sword's sweep: gold for a finishing blow, a counter or an overhead blow
+        if (me.act === 'strike' && me.t > 0.03 && me.t < 0.24) {
+          const big = me.kind !== 'strike', a = 1 - (me.t - 0.03) / 0.21, cx = X(me.x) + me.face * u * 0.5, cy = gy - u * 1.9 - X(me.y), rad = u * (big ? 1.9 : 1.5);
+          const from = me.kind === 'air' ? -1.5 : -1.1, to = me.kind === 'air' ? 1.3 : 0.9;
+          ctx.save(); ctx.globalAlpha = Math.max(0, a); ctx.lineCap = 'round';
+          ctx.strokeStyle = big ? '#fbbf24' : 'rgba(255,255,255,.85)'; ctx.lineWidth = u * (big ? 0.32 : 0.2);
+          ctx.beginPath();
+          if (me.face > 0) ctx.arc(cx, cy, rad, from, to); else ctx.arc(cx, cy, rad, Math.PI - to, Math.PI - from);
+          ctx.stroke(); ctx.restore();
+        }
     }
     for (const st of G.shots) {
       if (st.target) { ctx.fillStyle = 'rgba(251,191,36,.45)'; ctx.beginPath(); ctx.ellipse(X(st.x - Math.sign(st.vx) * 0.5), gy - X(st.y), u * 0.7, u * 0.18, 0, 0, 7); ctx.fill(); }
@@ -485,7 +485,7 @@
     if (G.time - G.flashAt < T.flash) { ctx.fillStyle = `rgba(253,230,138,${0.45 * (1 - (G.time - G.flashAt) / T.flash)})`; ctx.fillRect(0, 0, cw, ch); }
     // Words that float up and fade
     ctx.textAlign = 'center'; ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(0,0,0,.6)';
-    ctx.font = `900 ${Math.round(Math.max(12, u * 0.5))}px system-ui, sans-serif`;
+    ctx.font = `900 ${Math.round(Math.max(12, u * 0.5))}px 'Courier New', Courier, monospace`;
     G.floats = G.floats.filter(f => G.time - f.at < 1.2);
     for (const f of G.floats) { const a = 1 - (G.time - f.at) / 1.2, y = gy - X(f.y) - (G.time - f.at) * u * 1.2; ctx.globalAlpha = a; ctx.fillStyle = f.color; ctx.strokeText(f.text, X(f.x), y); ctx.fillText(f.text, X(f.x), y); }
     ctx.globalAlpha = 1;
@@ -494,7 +494,7 @@
       const big = G.ready > 0 ? String(Math.ceil(G.ready)) : G.banner.title;
       ctx.fillStyle = 'rgba(0,0,0,.28)'; ctx.fillRect(0, 0, cw, ch);
       ctx.fillStyle = '#fff'; ctx.strokeStyle = 'rgba(0,0,0,.6)'; ctx.lineWidth = 6;
-      ctx.font = `900 ${Math.round(Math.min(cw, ch) * (G.ready > 0 ? 0.3 : 0.09))}px system-ui, sans-serif`;
+      ctx.font = `900 ${Math.round(Math.min(cw, ch) * (G.ready > 0 ? 0.3 : 0.09))}px 'Courier New', Courier, monospace`;
       ctx.strokeText(big, cw / 2, ch * 0.48); ctx.fillText(big, cw / 2, ch * 0.48);
     }
   }
@@ -539,8 +539,26 @@
   }
   function renderGame() {
     root.dataset.view = 'game';
-    const pads = coarse() ? `<div class="am-pads"><div class="am-pad am-left"><button data-hold="left" aria-label="Left">◀</button><button data-hold="up" aria-label="Jump">▲</button><button data-hold="right" aria-label="Right">▶</button></div>
-      <div class="am-pad am-right"><button data-tap="strike" class="am-act">SWORD</button><button data-tap="sling" class="am-act">SLING</button><button data-hold="block" class="am-act">BLOCK</button><button data-tap="power" class="am-act am-power" hidden>⚡ POWER</button></div></div>` : '';
+    const pads = coarse() ? `<div class="am-pads arcade-deck">
+      <div class="am-pad am-left arcade-p1">
+        <div class="arcade-joy" id="joy1"><div class="joy-stick"></div><div class="joy-ball red"></div></div>
+        <div class="arcade-btns">
+          <button data-tap="strike" class="arcade-btn red">A</button>
+          <button data-tap="sling" class="arcade-btn yellow">B</button>
+          <button data-hold="block" class="arcade-btn blue">X</button>
+          <button data-tap="power" class="arcade-btn am-power" hidden>⚡</button>
+        </div>
+      </div>
+      <div class="am-pad am-right arcade-p2">
+        <div class="arcade-joy" id="joy2"><div class="joy-stick"></div><div class="joy-ball blue"></div></div>
+        <div class="arcade-btns">
+          <button data-tap="p2_strike" class="arcade-btn blue">A</button>
+          <button data-tap="p2_sling" class="arcade-btn yellow">B</button>
+          <button data-hold="p2_block" class="arcade-btn green">X</button>
+          <button data-tap="p2_power" class="arcade-btn am-power" hidden>⚡</button>
+        </div>
+      </div>
+    </div>` : '';
     shell(`<div id="amPanel" class="am-panel" aria-live="polite"></div>
       <div id="amStage" class="am-stage"><div class="am-frame"><canvas id="amCanvas" role="img" aria-label="The waters of Sebus: Ammon, the king's flock and the robbers"></canvas><div id="amBox" class="am-box" hidden></div></div></div>${pads}`);
     hud(); panel();
@@ -575,7 +593,7 @@
     let head, line = '';
     if (G.banner && (G.between > 0 || G.time < (G.banner.until || 0))) { head = `<b class="ok">${esc(G.banner.title)}</b> <small>${esc(G.banner.small || '')}</small>`; line = G.banner.line || ''; }
     else if (G.time - G.flashAt < 4) { head = '<b class="ok">Mighty power!</b> A stone at every robber on the field.'; line = W().mighty || ''; }
-    else if (G.me.act === 'stun') head = '<b class="no">Stunned!</b> Face the robber and <b>block</b> his club next time.';
+    else if (G.heroes[0].act === 'stun') head = '<b class="no">Stunned!</b> Face the robber and <b>block</b> his club next time.';
     else if (strays) head = `<b class="no">${strays} ${strays === 1 ? 'sheep is' : 'sheep are'} scattered!</b> Walk to ${strays === 1 ? 'it' : 'them'} to gather the flock.`;
     else if (G.time < G.shieldUntil) head = '<b class="ok">The Lord’s protection</b> is with you for a few seconds.';
     else if (G.power >= T.power) head = `<b class="ok">⚡ Mighty power is ready!</b> ${coarse() ? 'Tap <b>⚡ POWER</b>' : 'Press <b>J</b> and <b>K</b> together (or <b>E</b>)'} when the robbers come.`;
@@ -602,23 +620,39 @@
   }
 
   // ----- input -----
-  const KEY = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', a: 'left', d: 'right', w: 'up', A: 'left', D: 'right', W: 'up', l: 'block', L: 'block', c: 'block', C: 'block' };
-  const TAP = { j: 'strike', J: 'strike', z: 'strike', Z: 'strike', k: 'sling', K: 'sling', x: 'sling', X: 'sling', e: 'power', E: 'power' };
+  const KEY = { ArrowLeft: 'p2_left', ArrowRight: 'p2_right', ArrowUp: 'p2_up', a: 'left', d: 'right', w: 'up', A: 'left', D: 'right', W: 'up', l: 'p2_block', L: 'p2_block', c: 'block', C: 'block' };
+  const TAP = { j: 'p2_strike', J: 'p2_strike', z: 'strike', Z: 'strike', k: 'p2_sling', K: 'p2_sling', x: 'sling', X: 'sling', e: 'power', E: 'power', i: 'p2_power', I: 'p2_power' };
   function act(what) {
-    const me = G && G.me;
-    if (!me || G.state !== 'play' || G.paused || G.q || G.ready > 0 || G.between > 0 || me.act === 'stun') return;
-    if (what === 'power') return mighty();
-    // Sword and sling pressed together (within a moment), with the meter full
-    const other = { strike: 'sling', sling: 'strike' }[what];
-    if (G.power >= T.power && me.press && me.press.what === other && G.time - me.press.at <= T.together) return mighty();
-    me.press = { what, at: G.time };
-    if (me.act === 'strike') { if (what === 'strike' && me.t >= T.strikeHit[0] && me.kind !== 'air' && me.chain < 3) me.queued = true; return; }   // the next blow of the chain, as this one ends
-    if (me.act === 'sling') return;
-    if (what === 'strike') startStrike(false);
-    else if (what === 'sling') {
-      if (G.stones <= 0) { float('Out of stones!', me.x, 3.6, '#fca5a5'); return; }
-      G.stones--; me.act = 'sling'; me.t = 0; me.thrown = false;
+    if (!G || !G.heroes || G.state !== 'play' || G.paused || G.q || G.ready > 0 || G.between > 0) return;
+    for (const me of G.heroes) {
+      if (me.act === 'stun') continue;
+      if (what === me.k.power) { mighty(me); continue; }
+      
+      const isStrike = what === me.k.strike;
+      const isSling = what === me.k.sling;
+      if (!isStrike && !isSling) continue;
+
+      if (G.power >= T.power && me.press && ((isStrike && me.press.what === me.k.sling) || (isSling && me.press.what === me.k.strike)) && G.time - me.press.at <= T.together) { mighty(me); continue; }
+      me.press = { what, at: G.time };
+      
+      if (me.act === 'strike') { if (isStrike && me.t >= T.strikeHit[0] && me.kind !== 'air' && me.chain < 3) me.queued = true; continue; }
+      if (me.act === 'sling') continue;
+      
+      if (isStrike) startStrike(me, false);
+      else if (isSling && G.stones > 0) { me.act = 'sling'; me.t = 0; me.thrown = false; G.stones--; hud(); }
     }
+  }
+  function mighty(me) {
+    if (G.power < T.power) { float('Not ready yet', me.x, 3.6, '#e5e7eb'); return; }
+    me.press = null;
+    const targets = G.robbers.filter(r => r.act !== 'flee');
+    if (!targets.length) { float('No robbers here yet', me.x, 3.6, '#e5e7eb'); return; }
+    if (me.act === 'sling' && !me.thrown) G.stones++;
+    if (me.act === 'strike' || me.act === 'sling') { me.act = 'ready'; me.t = 0; }
+    me.queued = false;
+    G.power = 0; G.flashAt = G.time; G.mighties++;
+    targets.forEach(r => { const dir = Math.sign(r.x - me.x) || me.face; G.shots.push({ x: me.x + dir * 0.4, y: 2, vx: dir * 24, vy: 0, target: r }); });
+    float('Mighty power!', me.x, 4.4, '#fbbf24'); sound('mighty');
   }
   function onKeyDown(e) {
     if (!root || root.hidden) return;
@@ -729,9 +763,20 @@
       #ammon .am-choice.right { border-color: #4ade80; background: rgba(74,222,128,.18); } #ammon .am-choice.wrong { border-color: #f87171; background: rgba(248,113,113,.15); }
       #ammon .am-why { margin: 0; font-size: 15px; } #ammon .am-why .ok { color: #86efac; } #ammon .am-why .no { color: #fca5a5; }
       #ammon .am-pads { position: fixed; left: 12px; right: 12px; bottom: calc(var(--sab, 0px) + 14px); display: flex; justify-content: space-between; align-items: flex-end; gap: 8px; z-index: 5; pointer-events: none; }
-      #ammon .am-pad { display: flex; gap: 8px; pointer-events: auto; }
-      #ammon .am-pad button { width: 64px; height: 64px; border-radius: 50%; border: 3px solid rgba(253,230,138,.8); background: rgba(120,53,15,.72); color: #fde68a; font: 900 20px system-ui, sans-serif; touch-action: none; user-select: none; -webkit-user-select: none; }
-      #ammon .am-pad .am-act { width: 76px; height: 76px; font-size: 13px; letter-spacing: .04em; }
+      #ammon .arcade-deck { background: #222; border-top: 4px solid #444; padding: 10px; border-radius: 12px 12px 0 0; box-shadow: inset 0 5px 15px rgba(0,0,0,0.5); bottom: 0; display: flex; justify-content: space-between; gap: 20px; align-items: center; }
+      #ammon .am-pad { display: flex; gap: 20px; align-items: center; pointer-events: auto; }
+      #ammon .arcade-joy { position: relative; width: 80px; height: 80px; background: radial-gradient(circle, #111 40%, #222 70%); border-radius: 50%; box-shadow: inset 0 0 10px #000, 0 0 5px #555; touch-action: none; }
+      #ammon .joy-stick { position: absolute; left: 35px; top: 35px; width: 10px; height: 10px; background: #666; border-radius: 5px; box-shadow: 0 0 5px #000; }
+      #ammon .joy-ball { position: absolute; left: 20px; top: 20px; width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle at 10px 10px, #ff6b6b, #c0392b); box-shadow: 0 10px 15px rgba(0,0,0,0.5); transition: transform 0.05s; }
+      #ammon .joy-ball.blue { background: radial-gradient(circle at 10px 10px, #4facfe, #00f2fe); }
+      #ammon .arcade-btns { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px; }
+      #ammon .arcade-btn { width: 50px; height: 50px; border-radius: 50%; border: none; box-shadow: 0 5px 0 #000, 0 8px 10px rgba(0,0,0,0.5); color: #fff; font: 900 18px 'Courier New', Courier, monospace; touch-action: none; user-select: none; -webkit-user-select: none; text-shadow: 1px 1px 0 #000; }
+      #ammon .arcade-btn:active, #ammon .arcade-btn.on { transform: translateY(5px); box-shadow: 0 0 0 #000, 0 3px 5px rgba(0,0,0,0.5); }
+      #ammon .arcade-btn.red { background: radial-gradient(circle, #e74c3c, #c0392b); border: 2px solid #ff7675; }
+      #ammon .arcade-btn.blue { background: radial-gradient(circle, #3498db, #2980b9); border: 2px solid #74b9ff; }
+      #ammon .arcade-btn.yellow { background: radial-gradient(circle, #f1c40f, #f39c12); border: 2px solid #ffeaa7; }
+      #ammon .arcade-btn.green { background: radial-gradient(circle, #2ecc71, #27ae60); border: 2px solid #55efc4; }
+      #ammon .am-power { grid-column: span 2; width: 100%; border-radius: 20px; height: 40px; }
       #ammon .am-pad button.on, #ammon .am-pad button:active { background: rgba(253,224,71,.55); color: #422006; }
       @media (max-width: 520px) {
         #ammon .board-title { font-size: 18px; } #ammon .am-name .eyebrow { display: none; }
@@ -741,6 +786,38 @@
         #ammon .am-pad .am-act.am-power { width: auto; height: 46px; font-size: 13px; }
       }`;
     document.head.appendChild(css);
+  }
+
+  
+  const joys = {
+    joy1: { active: false, k: { left: 'left', right: 'right', up: 'up' } },
+    joy2: { active: false, k: { left: 'p2_left', right: 'p2_right', up: 'p2_up' } }
+  };
+  function updateJoys(e) {
+    if (!coarse()) return;
+    Object.keys(joys).forEach(j => { joys[j].active = false; keys.delete(joys[j].k.left); keys.delete(joys[j].k.right); keys.delete(joys[j].k.up); });
+    for (let i = 0; i < e.touches.length; i++) {
+      const t = e.touches[i];
+      ['joy1', 'joy2'].forEach(jid => {
+        const el = document.getElementById(jid);
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        if (t.clientX >= r.left - 20 && t.clientX <= r.right + 20 && t.clientY >= r.top - 20 && t.clientY <= r.bottom + 20) {
+          joys[jid].active = true;
+          const dx = t.clientX - (r.left + r.width/2), dy = t.clientY - (r.top + r.height/2);
+          const maxD = 40; const dist = Math.hypot(dx, dy);
+          const nx = dist > maxD ? dx/dist*maxD : dx, ny = dist > maxD ? dy/dist*maxD : dy;
+          el.querySelector('.joy-ball').style.transform = `translate(${nx}px, ${ny}px)`;
+          if (nx < -15) keys.add(joys[jid].k.left);
+          if (nx > 15) keys.add(joys[jid].k.right);
+          if (ny < -15) keys.add(joys[jid].k.up);
+        }
+      });
+    }
+    ['joy1', 'joy2'].forEach(jid => {
+      const el = document.getElementById(jid);
+      if (el && !joys[jid].active) el.querySelector('.joy-ball').style.transform = `translate(0px, 0px)`;
+    });
   }
 
   function open(h) {
@@ -755,13 +832,16 @@
     ['sebus', 'ammon-ready', 'ammon-walk1', 'ammon-walk2', 'ammon-strike', 'ammon-sling', 'ammon-block', 'robber-walk', 'robber-attack', 'robber-hit', 'robber-flee',
       'chief-ready', 'chief-charge', 'chief-smash', 'chief-flee', 'sheep-graze', 'sheep-run', 'stone', 'pouch'].forEach(pic);
     renderMenu();
+    const tm = e => updateJoys(e);
     const kd = e => onKeyDown(e), ku = e => onKeyUp(e), ck = e => onClick(e), dn = e => onDown(e), up = e => onUp(e), vis = () => onHide();
     const blur = () => { keys.clear(); held.clear(); };
+    window.addEventListener('touchstart', tm, {passive:false}); window.addEventListener('touchmove', tm, {passive:false}); window.addEventListener('touchend', tm);
     window.addEventListener('keydown', kd); window.addEventListener('keyup', ku); window.addEventListener('blur', blur);
     root.addEventListener('click', ck); root.addEventListener('pointerdown', dn);
     window.addEventListener('pointerup', up); window.addEventListener('pointercancel', up);
     document.addEventListener('visibilitychange', vis);
     off = () => {
+      window.removeEventListener('touchstart', tm); window.removeEventListener('touchmove', tm); window.removeEventListener('touchend', tm);
       window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); window.removeEventListener('blur', blur);
       root.removeEventListener('click', ck); root.removeEventListener('pointerdown', dn);
       window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up);
@@ -788,7 +868,7 @@
       state: () => G, T,
       step(ms = 50) { for (let t = 0; t < ms && G && G.state === 'play' && !G.q; t += 50) update(Math.min(50, ms - t) / 1000); if (G && root.dataset.view === 'game') { hud(); panel(); draw(performance.now()); } },
       key(name, down) { down ? keys.add(name) : keys.delete(name); }, act, hold(on) { G.hold = !!on; },
-      robber(x, opts) { G.robbers.push(Object.assign({ kind: 'robber', x, face: x > G.me.x ? -1 : 1, hp: 2, act: 'walk', t: 0, kx: 0, speed: 2.3, step: 0 }, opts || {})); G.wave.spawned++; },
+      robber(x, opts) { G.robbers.push(Object.assign({ kind: 'robber', x, face: x > G.heroes[0].x ? -1 : 1, hp: 2, act: 'walk', t: 0, kx: 0, speed: 2.3, step: 0 }, opts || {})); G.wave.spawned++; },
       answer, next: afterQuestion, draw: () => draw(performance.now())
     }
   };
