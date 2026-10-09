@@ -11,6 +11,14 @@ export default async function smoke({ port }) {
     await p.click(`#tabs [data-tab="${tab}"]`); await wait(500);
     check((await txt(p, '#home')).length > 20, `the ${tab} tab shows something`);
   }
+  // Family Study toggle on Today
+  await p.click('[data-study-mode="family"]'); await wait(400);
+  check(/Family Study/i.test(await txt(p, '#home .fl-date')), 'Family Study switches on');
+  check(await p.locator('.video-hero-card').count() > 0, 'Family video hero card renders');
+  await p.click('[data-pass-turn]'); await wait(300);
+  check((await txt(p, '#home')).includes('Tonight’s reader:'), 'Family turn rotation works');
+  await p.click('[data-study-mode="personal"]'); await wait(400);
+  check(/(Personal|My) Study/i.test(await txt(p, '[data-study-mode="personal"]')), 'Personal Study switches back');
   await p.click('#stillBtn'); await wait(400);
   check(!(await p.$eval('#stillLayer', e => e.hidden)), 'Be still opens');
   await p.click('#stillClose').catch(() => p.keyboard.press('Escape')); await wait(400);

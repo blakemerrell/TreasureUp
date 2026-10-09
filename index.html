@@ -1596,6 +1596,26 @@
   .ls-stat b { display: block; font-size: 26px; font-weight: 900; }
   .ls-stat span { font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: rgba(255,255,255,.6); }
 
+  /* Study Mode Toggle on Today: Personal Study vs Family Study */
+  .mode-toggle { display: flex; background: rgba(0,0,0,.45); border-radius: 999px; padding: 3px; border: 1px solid rgba(255,255,255,.14); margin: 6px 0 14px; gap: 4px; }
+  .mode-btn { flex: 1; padding: 7px 12px; border-radius: 999px; border: 0; font: inherit; font-size: 13px; font-weight: 800; color: rgba(255,255,255,.65); background: transparent; cursor: pointer; transition: all .2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+  .mode-btn:hover { color: #fff; background: rgba(255,255,255,.05); }
+  .mode-btn.active { background: var(--gold); color: #1c1406; box-shadow: 0 2px 10px rgba(252,211,77,.35); }
+  .mode-btn.kids.active { background: linear-gradient(135deg, #06b6d4, #3b82f6); color: #fff; box-shadow: 0 2px 12px rgba(6,182,212,.4); }
+
+  /* Video Hero Card on Today (Family Study) */
+  .video-hero-card { position: relative; border-radius: 18px; overflow: hidden; background: linear-gradient(145deg, rgba(30,27,75,.85), rgba(15,23,42,.95)); border: 1.5px solid rgba(103,232,249,.35); box-shadow: 0 8px 24px rgba(0,0,0,.5); margin-bottom: 12px; }
+  .video-hero-thumb { position: relative; width: 100%; aspect-ratio: 16 / 9; cursor: pointer; background: #000; overflow: hidden; }
+  .video-hero-img { width: 100%; height: 100%; object-fit: cover; opacity: .88; transition: transform .3s ease; }
+  .video-hero-thumb:hover .video-hero-img { transform: scale(1.03); opacity: 1; }
+  .video-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.85) 0%, transparent 60%); pointer-events: none; }
+  .video-hero-badge { position: absolute; top: 10px; left: 10px; display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; background: rgba(6,182,212,.9); color: #082f49; font-size: 11px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
+  .video-hero-play { position: absolute; inset: 0; margin: auto; width: 48px; height: 48px; border-radius: 50%; background: rgba(6,182,212,.95); color: #082f49; display: grid; place-items: center; font-size: 20px; font-weight: 900; padding-left: 3px; box-shadow: 0 0 20px rgba(6,182,212,.6); transition: transform .15s ease; }
+  .video-hero-thumb:active .video-hero-play { transform: scale(.92); }
+  .video-hero-title { position: absolute; bottom: 10px; left: 12px; right: 12px; font-size: 15px; font-weight: 800; color: #fff; line-height: 1.3; text-shadow: 0 1px 4px rgba(0,0,0,.8); }
+  .video-hero-prompt { padding: 12px 14px; background: rgba(0,0,0,.35); border-top: 1px solid rgba(255,255,255,.08); font-size: 13.5px; line-height: 1.45; }
+  .video-hero-prompt p { margin: 4px 0 0; color: rgba(255,255,255,.85); }
+
   /* ---- Developer mode ---- */
   .dv-wrap { width: 100%; max-width: 640px; margin: 12px auto 120px; }
   .dv-top { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: baseline; font-size: 13px; color: rgba(255,255,255,.65); }
@@ -2205,7 +2225,7 @@
 
 <!-- The arcade: Wilderness Snake (snake.js) and Look and Live (looklive.js),
      each loaded the first time it opens; they draw everything inside these. -->
-<section id="snake" hidden aria-label="Wilderness Snake"></section>
+<section id="snake" hidden aria-label="Wilderness Caravan"></section>
 <section id="look" hidden aria-label="Look and Live"></section>
 <section id="ammon" hidden aria-label="Ammon at Sebus"></section>
 
@@ -2402,6 +2422,7 @@ const TreasureUp = (function () {
     partRead: {},    // parts of a long chapter read (the day's path): ref -> first verse -> { day, base, xp }
     cfm: {},         // the week's Come Follow Me parts done: weekNum.id -> { day, xp }
     pathDone: {},    // the path's own steps done: day -> { gc: { xp }, goals, thanks }
+    studyMode: null, // 'personal' or 'family'; defaults to personal, saved when changed
     weekChapters: 0  // how many chapters this week's reading has, for the year's count
   });
 
@@ -3006,7 +3027,9 @@ const TreasureUp = (function () {
   }
   function dayFlowHtml(d, k) {
     if (d < 6) return pathDayHtml(d, k);
-    const today = dayKey(), isToday = k === today, plan = weekPlan()[d] || [];
+    const today = dayKey(), isToday = k === today;
+    if (isToday && isFamilyStudy()) return familyStudyTodayHtml(d, k);
+    const plan = weekPlan()[d] || [];
     const entries = isToday ? todayEntries() : plan.filter(e => e.kind !== 'family' && e.kind !== 'further');
     // An earlier day still behind brings only what's left of it; today's own steps stay, done or not.
     let rows = entries.flatMap(e => { const from = isToday && flowDay(e) < d, r = entryRows(e, from); return from ? r.filter(x => !x.done) : r; });
@@ -3027,11 +3050,131 @@ const TreasureUp = (function () {
     return `<div class="flow">
       ${isToday ? greetingHtml() : ''}
       <div class="fl-date"><b>${DAY_NAMES[(new Date(k + 'T12:00:00').getDay() + 6) % 7]} · ${esc(shortDay(k))}</b><small>${counted.length ? n + ' of ' + counted.length + ' done' : ''}${tag ? (counted.length ? ' · ' : '') + tag : ''}</small></div>
+      ${isToday ? studyModeToggleHtml() : ''}
       ${isToday ? verseHeroHtml() : ''}
       ${button.html}${isToday ? pickUpHtml() : ''}
       <div class="fl-list">${rows.filter(r => !(button.hide.includes(r.card) && !r.done)).map(r => r.html).join('')}${d < 6 ? moreHtml(d) : ''}${talkDayHtml(k)}</div>
     </div>`;
   }
+
+  function isFamilyStudy() {
+    return S.studyMode === 'family';
+  }
+
+  function studyModeToggleHtml() {
+    const fam = isFamilyStudy();
+    const isAdult = seasonWho() === 'adult';
+    const personalLabel = isAdult ? '📖 Personal Study' : '🌟 My Study';
+    const kidsClass = isAdult ? '' : ' kids';
+    return `<div class="mode-toggle" role="radiogroup" aria-label="Study Mode">
+      <button class="mode-btn${kidsClass}${!fam ? ' active' : ''}" data-study-mode="personal" role="radio" aria-checked="${!fam}">
+        ${esc(personalLabel)}
+      </button>
+      <button class="mode-btn${kidsClass}${fam ? ' active' : ''}" data-study-mode="family" role="radio" aria-checked="${fam}">
+        👨‍👩‍👧‍👦 Family Study
+      </button>
+    </div>`;
+  }
+
+  function familyVideoHeroHtml() {
+    const vids = weekVideos(WEEK);
+    const best = vids.find(v => v.channel === 'Latter Day Kids' || /Thumb Follow Me/i.test(v.title)) || vids[0];
+    if (!best || !best.video || !best.video.youtube) return '';
+    const yt = best.video.youtube;
+    const thumb = `https://img.youtube.com/vi/${yt}/hqdefault.jpg`;
+    const actionAttr = best.shortId ? `data-short-id="${esc(best.shortId)}"`
+      : best.cardId ? `data-card="${esc(best.cardId)}"`
+      : `data-clip="${esc(yt)}" data-start="${best.video.start || 0}" data-end="${best.video.end || 0}"`;
+    return `<div class="video-hero-card">
+      <button type="button" class="video-hero-thumb" ${actionAttr} aria-label="Play weekly video: ${esc(best.title)}" style="display:block;width:100%;border:0;padding:0;background:#000;cursor:pointer;text-align:left;color:inherit;font:inherit">
+        <img class="video-hero-img" src="${esc(thumb)}" alt="${esc(best.title)}" loading="lazy">
+        <div class="video-hero-overlay"></div>
+        <div class="video-hero-badge">🎬 ${esc(best.channel || 'Featured Video')}</div>
+        <div class="video-hero-play">▶</div>
+        <div class="video-hero-title">${esc(best.title)}</div>
+      </button>
+      ${best.text ? `<div class="video-hero-prompt"><p><b>Family Discussion:</b> ${linkRefs(cut(best.text, 140), best.ref)}</p></div>` : ''}
+    </div>`;
+  }
+
+  function passFamilyTurn() {
+    const list = (famHome && famHome.progress && famHome.progress.length)
+      ? famHome.progress.map(p => p.name)
+      : ['Javan', 'Dad', 'Mom'];
+    shortTurnIdx = (shortTurnIdx + 1) % list.length;
+    const rawName = list[shortTurnIdx];
+    const prefix = rawName === 'Javan' ? '👦 ' : (rawName === 'Blake' || rawName === 'Dad') ? '👨 ' : '👩 ';
+    currentLotName = prefix + rawName;
+    toast('🎲 ' + currentLotName + ' reads next', 'Family reader');
+  }
+
+  function familyTurnBarHtml() {
+    const name = currentLotName || currentTurnName();
+    return `<div style="display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:10px 14px;margin:8px 0 12px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:16px">🎲</span>
+        <span style="font-size:13px;color:rgba(255,255,255,.7)">Tonight’s reader:</span>
+        <b style="font-size:13.5px;color:var(--gold)">${esc(name)}</b>
+      </div>
+      <button class="sp-dice-btn" data-pass-turn style="margin:0;padding:6px 14px;font-size:12px;font-weight:800;border-radius:999px;width:auto;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;cursor:pointer">Pass Turn ⇄</button>
+    </div>`;
+  }
+
+  function familyStudyTodayHtml(d, k) {
+    const isSun = d === 6;
+    const homeGuide = guideOf(WEEK).filter(p => !p.x.kids);
+    const todayMini = d < 5 ? homeGuide[d] : null;
+    const isDone = todayMini && isShortDone(todayMini.x.id);
+    const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+    const fg = familyStudyGoal(WEEK);
+    const f = familyOf(WEEK);
+    const yl = youthLessonForWeek(WEEK);
+
+    return `<div class="flow">
+      ${greetingHtml()}
+      <div class="fl-date"><b>${DAY_NAMES[d]} · ${esc(shortDay(k))}</b><small>Family Study · Come, Follow Me</small></div>
+      ${studyModeToggleHtml()}
+      ${familyVideoHeroHtml()}
+      ${todayMini ? `
+        <button class="fl-next${isDone ? ' ahead' : ''}" data-short-id="${esc(todayMini.x.id)}">
+          <b>▶ ${isDone ? 'Review Today’s Family Lesson' : 'Today’s Family Lesson: ' + esc(todayMini.x.h)}</b>
+          <small>${isDone ? '✓ Completed with family' : 'Come, Follow Me · 2 min interactive cards'}</small>
+        </button>
+      ` : ''}
+      ${familyTurnBarHtml()}
+      ${fg.total ? `
+        <div class="fam-card" style="margin:8px 0 12px;border-color:rgba(252,211,77,.3);background:linear-gradient(145deg, rgba(30,27,75,.4), rgba(49,16,66,.25))">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:800">
+            <span style="color:var(--gold);display:flex;align-items:center;gap:6px"><span>👨‍👩‍👧‍👦</span> Family Study Goal</span>
+            <b style="color:#fff">${fg.done} of ${fg.total} Completed</b>
+          </div>
+          <div class="today-bar" style="margin:8px 0 6px"><div style="width:${fg.pct}%"></div></div>
+          <small style="font-size:12px;color:rgba(255,255,255,.7)">${fg.won ? '🎉 Family Goal Won! Everyone completed all family lessons this week!' : `${fg.total - fg.done} family lesson${fg.total - fg.done === 1 ? '' : 's'} to complete this week`}</small>
+        </div>` : ''}
+      ${isSun ? `
+        <div style="display:flex;flex-direction:column;gap:10px;margin:10px 0">
+          ${f ? familyHeroHtml(f) : ''}
+          ${yl ? sundayHeroHtml(yl) : ''}
+        </div>
+      ` : ''}
+      ${homeGuide.length ? `
+        <div class="shorts-sec" style="margin-top:10px">
+          <div class="shorts-sec-head">
+            <span class="shorts-sec-title">🌙 5-Night Mini-Lessons</span>
+            <span class="shorts-sec-hint">${homeGuide.filter(p => isShortDone(p.x.id)).length} of ${homeGuide.length} done</span>
+          </div>
+          <div class="shorts-tray">
+            ${homeGuide.map((p, i) => shortCardHtml(p, false, DAYS[i] || 'Day ' + (i + 1))).join('')}
+          </div>
+        </div>` : ''}
+      <div class="fl-list" style="margin-top:14px">
+        ${!isSun && f ? familyRowHtml(WEEK) : ''}
+        ${isSun ? sundayRows(k).map(r => r.html).join('') : ''}
+        ${d < 6 ? moreHtml(d) : ''}
+      </div>
+    </div>`;
+  }
+
   // A reading day, Monday to Saturday, as one path (Blake, 2026-10-07, from
   // the mockup he tapped through: "that flow is much better"): the date and
   // the day's verse, one button, the day's steps under it, one row for a day
@@ -3039,7 +3182,9 @@ const TreasureUp = (function () {
   // has asked, and More if you want. Another day of the week shows its own
   // reading and lesson part, to read ahead or catch up.
   function pathDayHtml(d, k) {
-    const today = dayKey(), isToday = k === today, rows = dayPath(d, isToday ? k : null), plan = weekPlan()[d] || [];
+    const today = dayKey(), isToday = k === today;
+    if (isToday && isFamilyStudy()) return familyStudyTodayHtml(d, k);
+    const rows = dayPath(d, isToday ? k : null), plan = weekPlan()[d] || [];
     const at = plan.findIndex(e => e.kind === 'day'), n = rows.filter(r => r.done).length, next = pathLeft(rows)[0];
     const mins = list => list.reduce((m, r) => m + pathRowMin(r), 0), started = rows.some(r => r.done && !r.own) || !!(next && next.started);   // his own rows (Be still, goals) don't start the study
     const what = [unitsLabel(readingPlan()[d]) || (dayReels(d).length ? qWord(dayReels(d).length) : ''), rows.some(r => r.kind === 'cfm') && 'Come Follow Me',
@@ -3075,6 +3220,7 @@ const TreasureUp = (function () {
     return `<div class="flow">
       ${isToday ? greetingHtml() : ''}
       <div class="fl-date"><b>${DAY_NAMES[d]} · ${esc(shortDay(k))}</b><small>${rows.length ? n + ' of ' + rows.length + ' done' : ''}${tag ? (rows.length ? ' · ' : '') + tag : ''}</small></div>
+      ${isToday ? studyModeToggleHtml() : ''}
       ${isToday ? verseHeroHtml() : ''}
       ${button}
       ${rows.length ? pathListHtml(rows, { d, at, isToday }) : ''}
@@ -3781,7 +3927,7 @@ const TreasureUp = (function () {
       ? famHome.progress.map(p => p.name)
       : ['Javan', 'Dad', 'Mom'];
 
-    const textEl = btn ? btn.querySelector('.sp-dice-text') : null;
+    const textEl = (btn && btn.querySelector('.sp-dice-text')) || (btn && btn.parentElement && btn.parentElement.querySelector('.sp-dice-text')) || document.querySelector('.sp-dice-text');
     const action = (btn && btn.getAttribute('data-dice-action')) || 'goes next';
 
     let count = 0;
@@ -8910,8 +9056,6 @@ const TreasureUp = (function () {
     let lib = {};
     try { lib = JSON.parse(localStorage.getItem('liberty.v1')) || {}; } catch (e) { /* storage blocked */ }
     const libWon = Object.keys(lib.won || {}).length;
-    const strategy = gameRow('liberty', '🛡️', 'Title of Liberty', 'A strategy game from the Book of Mormon: Captain Moroni at the river Sidon, the Nephites against the Gadianton robbers, and a free battle where you build a city. Read each chapter to open its mission.',
-      libWon ? libWon + (libWon > 1 ? ' missions' : ' mission') + ' won · no XP, just for fun' : 'Read a chapter to open its mission · no XP, just for fun', false);
     // Wika (once Amigo · Kaibigan) lives at amigo/, with its own progress (localStorage amigo.v1).
     let amigo = {};
     try { amigo = JSON.parse(localStorage.getItem('amigo.v1')) || {}; } catch (e) { /* storage blocked */ }
@@ -8919,7 +9063,9 @@ const TreasureUp = (function () {
     const language = gameRow('amigo', '🌎', 'Wika', 'Wika is Tagalog for “language”: Spanish for friends at school, Tagalog from Tatay, and the treasure words in Hebrew and Greek. Five-minute lessons, a streak, and the letters: Baybayin, the alef-bet and Greek.',
       lessonsDone ? lessonsDone + (lessonsDone > 1 ? ' lessons' : ' lesson') + ' done · its own XP, apart from Treasure Up’s' : 'Five minutes a day · its own XP, apart from Treasure Up’s', false);
     const lock = arcadeLeft(), arc = id => lock ? '🔒 ' + arcadeLockLine(lock) : arcadeStatus(id);
-    const arcade = gameRow('snake', '🐍', 'Wilderness Snake', 'Arcade Snake in the camp of Israel: gather manna, and eat the jar with the right answer to this week’s questions. 1 player, or 2 on one screen.', arc('snake'), !!lock)
+    const strategy = gameRow('liberty', '🛡️', 'Title of Liberty', 'A strategy game from the Book of Mormon: Captain Moroni at the river Sidon, the Nephites against the Gadianton robbers, and a free battle where you build a city. Read each chapter to open its mission.',
+      lock ? '🔒 ' + arcadeLockLine(lock) : (libWon ? libWon + (libWon > 1 ? ' missions' : ' mission') + ' won · no XP, just for fun' : 'Read a chapter to open its mission · no XP, just for fun'), !!lock);
+    const arcade = gameRow('snake', '🚶', 'Wilderness Caravan', 'Gather manna in the camp of Israel, and eat the jar with the right answer to this week’s questions. Play locally or over the network.', arc('snake'), !!lock)
       + gameRow('ammon', '⚔️', 'Ammon at Sebus', 'Robbers come to scatter king Lamoni’s flock at the waters of Sebus (Alma 17). Stand against them with your sword and sling, and gather the sheep back. A question from this week after each level.', arc('ammon'), !!lock)
       + gameRow('look', '👀', 'Look and Live', 'Dodge the fiery serpents, and stop to look at the brass serpent on Moses’s pole to heal (Numbers 21). A question from this week after each level.', arc('look'), !!lock);
     return `<div class="games-head">Every day</div>${rows.join('')}<div class="games-head">Arcade</div>${arcade}<div class="games-head">Family night</div>${family.join('')}<div class="games-head">Book of Mormon</div>${strategy}<div class="games-head">Languages</div>${language}`;
@@ -8933,7 +9079,7 @@ const TreasureUp = (function () {
   // A link to the games (Today's "Family games") opens the Games tab.
   function openGames() { homeTab = 'games'; renderHome(); $('home').scrollTop = 0; }
 
-  const GAME_NAMES = { board: 'Showdown', puzzle: 'Puzzle', sayings: 'Who said it?', word: 'Verse Word', climb: 'Climb', live: 'Live game', babylon: 'Babylon Falls', liberty: 'Title of Liberty', amigo: 'Wika', snake: 'Wilderness Snake', look: 'Look and Live', ammon: 'Ammon at Sebus' };
+  const GAME_NAMES = { board: 'Showdown', puzzle: 'Puzzle', sayings: 'Who said it?', word: 'Verse Word', climb: 'Climb', live: 'Live game', babylon: 'Babylon Falls', liberty: 'Title of Liberty', amigo: 'Wika', snake: 'Wilderness Caravan', look: 'Look and Live', ammon: 'Ammon at Sebus' };
   function startGame(id) {
     use('game:' + id);
     if (id === 'board') openBoard();
@@ -8943,7 +9089,7 @@ const TreasureUp = (function () {
     else if (id === 'climb') openClimb();
     else if (id === 'live') liveStart();
     else if (id === 'babylon') riskChooser();
-    else if (id === 'liberty') location.href = 'liberty/';
+    else if (id === 'liberty') { const a = arcadeLeft(); if (a) openSheet(arcadeLockHtml(id, a)); else location.href = 'liberty/'; }
     else if (id === 'amigo') location.href = 'amigo/';
     else if (id === 'snake' || id === 'look' || id === 'ammon') { const a = arcadeLeft(); if (a) openSheet(arcadeLockHtml(id, a)); else openArcade(id); }
   }
@@ -16989,6 +17135,27 @@ const TreasureUp = (function () {
       if (seasonClick(e)) return;
       if (e.target.closest('[data-weeksheet]')) { use('week'); return openSheet(weekSheetHtml()); }
       if (e.target.closest('[data-familynight]')) return openSheet(familyHtml(WEEK));
+      const sm = e.target.closest('[data-study-mode]');
+      if (sm) { S.studyMode = sm.dataset.studyMode; save(); refreshHome(); return; }
+      if (e.target.closest('[data-short-deck="family"]')) { stopClips(); return openSheet(familyDeckHtml(0)); }
+      if (e.target.closest('[data-short-deck="sunday"]')) { stopClips(); return openSheet(sundayDeckHtml(0)); }
+      const sc = e.target.closest('[data-short-id]');
+      if (sc) {
+        stopClips();
+        const p = guideOf(WEEK).find(g => g.x.id === sc.dataset.shortId);
+        if (p) openSheet(shortPlayerHtml(p, 0));
+        return;
+      }
+      if (e.target.closest('[data-pass-turn]')) {
+        passFamilyTurn();
+        refreshHome();
+        return;
+      }
+      const lotTarget = e.target.closest('[data-cast-lots]');
+      if (lotTarget) {
+        triggerCastLots(lotTarget);
+        return;
+      }
       // The timeline: a day, or a week of the year (its Monday).
       const day = e.target.closest('[data-day]');
       if (day) { selDay = day.dataset.day === dayKey() ? null : day.dataset.day; const h = $('home'), y = h.scrollTop; renderHome(); h.scrollTop = y; return; }
@@ -17301,7 +17468,9 @@ const TreasureUp = (function () {
       if (ap) {
         const id = ap.dataset.arcadePin, a = arcadeLeft();
         if (!P.pin || ($('arcadePin') && $('arcadePin').value) !== P.pin) return openSheet(arcadeLockHtml(id, a || { left: 0, all: 0, ref: '' }, "That PIN isn't right."));
-        S.arcadeOpen = dayKey(); save(); closeSheet(); refreshHome(); toast('🎮 The arcade is open today', 'Opened by a parent'); openArcade(id); return;
+        S.arcadeOpen = dayKey(); save(); closeSheet(); refreshHome(); toast('🎮 The arcade is open today', 'Opened by a parent');
+        if (id === 'liberty') location.href = 'liberty/'; else openArcade(id);
+        return;
       }
       const td = e.target.closest('[data-talkdone]');
       if (td) { markTalk(td.dataset.talkdone); return openTalk(td.dataset.talkdone); }
