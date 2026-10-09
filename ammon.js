@@ -67,14 +67,119 @@
   }
   function wakeAudio() { try { if (!audio) audio = new (window.AudioContext || window.webkitAudioContext)(); if (audio.state === 'suspended') audio.resume(); } catch (e) { audio = null; } }
 
+  // ===================== Divine Blessings (Scripture Wisdom Rewards) =====================
+  const BLESSINGS = {
+    restore_sheep: {
+      id: 'restore_sheep',
+      icon: '🐑',
+      name: 'Gather the Scattered',
+      tag: 'FLOCK MIRACLE',
+      verse: 'Alma 17:39',
+      desc: 'Rescues 1 lost sheep back into the fold! (Or shields the flock from scattering for 30s if none lost)',
+      apply(G) {
+        if (G.lost > 0) {
+          G.lost--;
+          const lostSheep = G.sheep.find(s => s.state === 'lost');
+          if (lostSheep) {
+            lostSheep.state = 'return';
+            lostSheep.x = G.w + 1.2;
+            lostSheep.tx = lostSheep.home;
+          }
+          G.sheepRescued = (G.sheepRescued || 0) + 1;
+          float('🐑 Lost Sheep Rescued!', G.me.x, 3.8, '#4ade80');
+        } else {
+          G.flockShieldUntil = G.time + 30;
+          float('🐑 Flock Blessed & Calm!', G.me.x, 3.8, '#4ade80');
+        }
+        G.perks.add('shepherd');
+      }
+    },
+    blazing_stones: {
+      id: 'blazing_stones',
+      icon: '🪨✨',
+      name: 'Stones of the Brook',
+      tag: 'PIERCING WEAPON',
+      verse: '1 Samuel 17:40 · Alma 17:36',
+      desc: '+6 Stones, pouch expands to 16, and stones PIERCE through all robbers in their path with fiery trails!',
+      apply(G) {
+        T.stonesMax = Math.min(16, T.stonesMax + 4);
+        G.stones = Math.min(T.stonesMax, G.stones + 6);
+        G.blazingStones = true;
+        G.perks.add('piercing');
+        float('🪨 Blazing Stones Enchanted!', G.me.x, 3.8, '#fbbf24');
+      }
+    },
+    armor_of_god: {
+      id: 'armor_of_god',
+      icon: '🛡️',
+      name: 'Breastplate of Faith',
+      tag: 'DIVINE DEFENSE',
+      verse: 'Ephesians 6:14 · Alma 43:19',
+      desc: '+25 Max HP, instant 100% full heal, and 12 seconds of invulnerable celestial shield aura!',
+      apply(G) {
+        G.me.hpMax = (G.me.hpMax || 100) + 25;
+        G.me.hp = G.me.hpMax;
+        G.shieldUntil = G.time + 12;
+        G.perks.add('armor');
+        float('🛡️ Armor of God Equipped!', G.me.x, 3.8, '#60a5fa');
+      }
+    },
+    spirit_of_might: {
+      id: 'spirit_of_might',
+      icon: '⚡',
+      name: 'Spirit of the Lord',
+      tag: 'POWER SURGE',
+      verse: 'Alma 18:35',
+      desc: 'Instantly fills Mighty Power to 100% + Power meter fills 50% faster from every hit and block!',
+      apply(G) {
+        G.power = T.power;
+        G.fastPower = true;
+        G.perks.add('might');
+        float('⚡ Mighty Power Ready!', G.me.x, 3.8, '#f59e0b');
+      }
+    },
+    radiant_blade: {
+      id: 'radiant_blade',
+      icon: '⚔️✨',
+      name: 'Sword of Strength',
+      tag: 'COMBAT MASTERY',
+      verse: 'Alma 17:37',
+      desc: '+35% Sword Reach & 3-Hit Combos unleash a Holy Shockwave knocking back all surrounding robbers!',
+      apply(G) {
+        G.radiantBlade = true;
+        G.perks.add('radiant');
+        float('⚔️ Radiant Blade Awakened!', G.me.x, 3.8, '#38bdf8');
+      }
+    }
+  };
+
+  function getBlessingsForState() {
+    const list = [];
+    if (G.lost > 0) list.push(BLESSINGS.restore_sheep);
+    else if (!G.perks.has('shepherd')) list.push(BLESSINGS.restore_sheep);
+
+    if (!G.blazingStones) list.push(BLESSINGS.blazing_stones);
+    if (!G.radiantBlade) list.push(BLESSINGS.radiant_blade);
+    if (!G.fastPower) list.push(BLESSINGS.spirit_of_might);
+    if (G.me.hp < G.me.hpMax || !G.perks.has('armor')) list.push(BLESSINGS.armor_of_god);
+
+    const remaining = Object.values(BLESSINGS).filter(b => !list.includes(b));
+    while (list.length < 3 && remaining.length > 0) {
+      const idx = Math.floor(Math.random() * remaining.length);
+      list.push(remaining.splice(idx, 1)[0]);
+    }
+    return list.slice(0, 3);
+  }
+
   // ===================== the game =====================
 
   function newGame() {
     const portrait = window.innerHeight > window.innerWidth * 1.05;
     const seed = typeof window.TU_AMMON_SEED === 'number' ? window.TU_AMMON_SEED : Date.now();
-    G = { w: portrait ? 16 : 24, rand: rng(seed), time: 0, level: 0, score: 0, state: 'play', ready: manual() ? 0 : T.ready, paused: false,
+    G = { w: portrait ? 18 : 26, rand: rng(seed), time: 0, level: 0, score: 0, state: 'play', ready: manual() ? 0 : T.ready, paused: false,
       stones: T.stones, lost: 0, robbersOff: 0, chiefsOff: 0, gathered: 0, shieldUntil: 0, used: new Set(), power: 0, flashAt: -9, combos: 0, mighties: 0,
       shake: 0, hitstop: 0, sparks: [],
+      perks: new Set(), blazingStones: false, radiantBlade: false, fastPower: false, sheepRescued: 0, flockShieldUntil: 0,
       me: { x: 0, y: 0, vy: 0, vx: 0, hp: 100, hpMax: 100, face: 1, act: 'ready', t: 0, stun: 0, step: 0, chain: 0, chainUntil: 0, counterUntil: 0, lx: 0, hits: 0, buffer: null, landTimer: 0, k: { left: 'left', right: 'right', up: 'up', block: 'block', strike: 'strike', sling: 'sling', power: 'power' } },
       sheep: [], robbers: [], shots: [], drops: [], floats: [], between: 0, banner: null, q: null };
     const home = T.flock, span = (portrait ? home[1] - 1.2 : home[1]) - home[0];
@@ -138,7 +243,7 @@
       if (me.act === 'strike' && !me.landed && me.t >= T.strikeHit[0]) {
         me.landed = true;
         const k = me.kind;
-        const reach = T.reach + (k === 'air' ? 0.6 : k === 'bash' ? 0.7 : k === 'slide' ? 0.9 : k === 'finish' ? 0.6 : 0);
+        const reach = T.reach + (G.radiantBlade ? 0.7 : 0) + (k === 'air' ? 0.6 : k === 'bash' ? 0.7 : k === 'slide' ? 0.9 : k === 'finish' ? 0.6 : 0);
         const hit = G.robbers.filter(r => {
           const frontOrClose = Math.sign(r.x - me.x) === me.face || Math.abs(r.x - me.x) < 0.6;
           return r.act !== 'flee' && frontOrClose && Math.abs(r.x - me.x) < reach + (r.kind === 'chief' ? 0.3 : 0) && (k !== 'air' || Math.abs((r.y || 0) - me.y) < 2.0);
@@ -176,18 +281,29 @@
           G.hitstop = Math.max(G.hitstop || 0, hitstopAmt);
           sound(hitSound);
           hit.forEach((r, i) => {
-            const sparkCol = finish || k === 'counter' ? '#fbbf24' : k === 'bash' ? '#60a5fa' : '#fef08a';
+            const sparkCol = finish || k === 'counter' ? '#fbbf24' : k === 'bash' ? '#60a5fa' : G.radiantBlade ? '#38bdf8' : '#fef08a';
             for (let sp = 0; sp < (finish || k === 'counter' ? 8 : 4); sp++) {
               spark(r.x, 1.6 + (r.y || 0), (Math.random() - 0.5) * 8, Math.random() * 6 + 1, sparkCol, 3, 0.3);
             }
             hurt(r, dmg, me.face, { push: pushDist, daze: dazeTime, label: i ? null : label });
           });
+          if (finish && G.radiantBlade) {
+            float('✨ HOLY SHOCKWAVE!', me.x, 3.8, '#38bdf8');
+            sound('mighty');
+            G.robbers.forEach(r => {
+              if (r.act !== 'flee' && Math.abs(r.x - me.x) < 4.2) {
+                r.kx = Math.sign(r.x - me.x || me.face) * 3.8;
+                r.act = 'hit'; r.t = 0;
+                spark(r.x, 1.5, (r.x - me.x) * 2, 3, '#38bdf8', 4, 0.35);
+              }
+            });
+          }
         }
       }
       if (me.act === 'sling' && !me.thrown && me.t >= (me.isBurst ? 0.08 : T.slingAt)) {
         me.thrown = true;
         const spd = me.isBurst ? T.stoneSpeed * 1.3 : T.stoneSpeed;
-        G.shots.push({ x: me.x + me.face * 0.7, y: 2.2, vx: me.face * spd, vy: me.isBurst ? 1.5 : 3, burst: me.isBurst });
+        G.shots.push({ x: me.x + me.face * 0.7, y: 2.2, vx: me.face * spd, vy: me.isBurst ? 1.5 : 3, burst: me.isBurst, blazing: !!G.blazingStones });
         sound('sling');
         if (me.isBurst) {
           G.shake = Math.max(G.shake || 0, 0.25);
@@ -263,18 +379,42 @@
     }
     for (const st of G.shots) {
       st.x += st.vx * dt; if (!st.target) { st.vy -= 9 * dt; st.y += st.vy * dt; }
-      for (const r of G.robbers) if (!st.done && r.act !== 'flee' && (!st.target || st.target === r) && Math.abs(r.x - st.x) < 0.6 && st.y < 3.2 && st.y > 0.3) {
-        st.done = true;
-        if (st.target) hurt(r, r.kind === 'chief' ? 3 : r.hp, Math.sign(st.vx), { push: T.finishPush, daze: T.daze, mighty: true });
-        else hurt(r, 1, Math.sign(st.vx));
+      if (st.blazing) {
+        spark(st.x, st.y, -st.vx * 0.15, (G.rand() - 0.5) * 2, '#fbbf24', 4, 0.25);
+      }
+      for (const r of G.robbers) if (!st.done && r.act !== 'flee' && (!st.target || st.target === r) && (!st.hitRobbers || !st.hitRobbers.has(r)) && Math.abs(r.x - st.x) < 0.65 && st.y < 3.2 && st.y > 0.3) {
+        if (st.blazing) {
+          if (!st.hitRobbers) st.hitRobbers = new Set();
+          st.hitRobbers.add(r);
+          hurt(r, 2, Math.sign(st.vx), { push: T.finishPush * 0.9, daze: 0.5 });
+          float('BLAZING HIT!', r.x, 3.3, '#fbbf24');
+        } else {
+          st.done = true;
+          if (st.target) hurt(r, r.kind === 'chief' ? 3 : r.hp, Math.sign(st.vx), { push: T.finishPush, daze: T.daze, mighty: true });
+          else hurt(r, 1, Math.sign(st.vx));
+        }
       }
       if (st.target && st.target.act === 'flee' && !st.done) st.done = true;
       if (st.y < 0 || st.x < -1 || st.x > G.w + 1) st.done = true;
     }
     G.shots = G.shots.filter(s => !s.done);
-    // ----- pouches of stones -----
-    for (const d of G.drops) if (!d.taken && Math.abs(d.x - me.x) < 0.9 && me.y < 1) {
-      d.taken = true; const n = Math.min(3, T.stonesMax - G.stones); G.stones += n; float(n ? `+${n} stones` : 'Pouch full', d.x, 1.8, '#e5e7eb'); hud();
+    // ----- pouches & scripture scrolls -----
+    for (const d of G.drops) if (!d.taken && Math.abs(d.x - me.x) < 0.95 && me.y < 1.1) {
+      d.taken = true;
+      if (d.kind === 'scroll') {
+        sound('gather'); sound('right');
+        float('📜 Scroll of Alma! +Blessings', d.x, 2.5, '#fbbf24');
+        G.me.hp = Math.min(G.me.hpMax || 100, (G.me.hp || 100) + 25);
+        G.stones = Math.min(T.stonesMax, G.stones + 4);
+        G.shieldUntil = Math.max(G.shieldUntil || 0, G.time + 6);
+        addPower(35);
+        G.robbers.forEach(rob => {
+          if (rob.act !== 'flee') { rob.act = 'stun'; rob.t = 0; spark(rob.x, 1.5, 0, 3, '#fbbf24', 5, 0.4); }
+        });
+        hud();
+      } else {
+        const n = Math.min(3, T.stonesMax - G.stones); G.stones += n; float(n ? `+${n} stones` : 'Pouch full', d.x, 1.8, '#e5e7eb'); hud();
+      }
     }
     G.drops = G.drops.filter(d => !d.taken && G.time - d.at < 12);
     // ----- robbers -----
@@ -383,6 +523,13 @@
   }
   // A robber at a sheep scatters it: it runs off into the field, away from the flock.
   function scatterAt(r) {
+    if (G && G.flockShieldUntil > G.time) {
+      float('Flock Protected!', r.x, 2.4, '#4ade80');
+      sound('block');
+      r.kx = -r.face * 2.5;
+      r.act = 'hit'; r.t = 0;
+      return;
+    }
     for (const s of G.sheep) {
       if (Math.abs(s.x - r.x) > 0.7) continue;
       if (s.state === 'flock' || s.state === 'return') {
@@ -407,13 +554,18 @@
     if (r.kind === 'chief') G.chiefsOff++; else G.robbersOff++;
     if (!o.mighty) addPower(r.kind === 'chief' ? T.fill.chief : T.fill.robber);   // the meter's own stones don't refill it
     float(`${r.kind === 'chief' ? 'The leader runs!' : 'He runs!'} +${pts}`, r.x, 3.8, '#bbf7d0'); sound('flee');
-    if (r.kind === 'robber' && G.rand() < 0.35) G.drops.push({ x: Math.max(0.8, Math.min(G.w - 0.8, r.x)), at: G.time });
+    if (r.kind === 'chief') {
+      G.drops.push({ kind: 'scroll', x: Math.max(1, Math.min(G.w - 1, r.x)), at: G.time });
+    } else if (G.rand() < 0.35) {
+      G.drops.push({ kind: 'pouch', x: Math.max(0.8, Math.min(G.w - 0.8, r.x)), at: G.time });
+    }
   }
 
   // The meter: driving robbers off, gathering sheep, counters, combos and right answers fill it.
   function addPower(n) {
     if (!G || G.power >= T.power) return;
-    G.power = Math.min(T.power, G.power + n);
+    const mult = G.fastPower ? 1.5 : 1;
+    G.power = Math.min(T.power, G.power + Math.round(n * mult));
     if (G.power >= T.power) { float('⚡ Mighty power is ready!', G.me.x, 4.6, '#fbbf24'); sound('ready'); }
   }
   // Sword combat: 3-hit combo chain, rising launcher uppercut, shield bash, slide sweep, overhead air cleave, and parry counter.
@@ -479,8 +631,22 @@
   // Between levels: a question from this week (the same as the other arcade games).
   function askQuestion() {
     const q = host && host.ask ? host.ask(G.used) : null;
-    if (!q) return afterQuestion();
-    G.q = Object.assign({}, q, { picked: null });
+    const blessings = getBlessingsForState();
+    if (!q) {
+      G.q = {
+        q: "The Lord said unto Ammon: Thou art blessed because of thy faith, and I will defend thee and thy flocks.",
+        ref: "Alma 17:35",
+        choices: ["In the strength of the Lord"],
+        right: "In the strength of the Lord",
+        why: "Faith in the Lord gives strength to defend the flock.",
+        picked: 0,
+        blessings,
+        blessingChosen: null
+      };
+      renderQuestion();
+      return;
+    }
+    G.q = Object.assign({}, q, { picked: null, blessings, blessingChosen: null });
     renderQuestion();
   }
   function answer(i) {
@@ -488,11 +654,35 @@
     if (!q || q.picked != null) return;
     q.picked = i;
     const right = q.choices[i] === q.right;
-    if (right) { G.score += 200; G.stones = Math.min(T.stonesMax, G.stones + 4); G.me.hp = G.me.hpMax || 100; G.shieldNext = true; addPower(T.fill.right); sound('right'); hud(); }
-    else sound('wrong');
+    if (right) {
+      G.score += 250;
+      sound('right');
+      sound('mighty');
+    } else {
+      G.stones = Math.min(T.stonesMax, G.stones + 2);
+      G.me.hp = Math.min(G.me.hpMax || 100, (G.me.hp || 100) + 20);
+      sound('wrong');
+    }
+    hud();
+    renderQuestion();
+  }
+  function chooseBlessing(id) {
+    const q = G && G.q;
+    if (!q || q.blessingChosen) return;
+    const b = BLESSINGS[id];
+    if (!b) return;
+    q.blessingChosen = id;
+    b.apply(G);
+    sound('ready');
+    sound('mighty');
+    hud();
     renderQuestion();
   }
   function afterQuestion() {
+    const q = G.q;
+    if (q && q.picked != null && q.choices[q.picked] === q.right && !q.blessingChosen && q.blessings && q.blessings.length) {
+      chooseBlessing(q.blessings[0].id);
+    }
     const shield = G.shieldNext;
     G.q = null; G.shieldNext = false; G.banner = null;
     nextLevel();
@@ -543,13 +733,27 @@
   function board() {
     const c = $('amCanvas');
     if (!c || !G) return null;
-    const r = $('amStage').getBoundingClientRect();
-    const tall = G.w < 20 ? 11 : 7.5;   // upright, more sky over the same ground
-    const u = Math.max(8, Math.floor(Math.min((r.width - 4) / G.w, (r.height - 4) / tall)));
-    const dpr = Math.min(2, window.devicePixelRatio || 1), cw = G.w * u, ch = Math.round(tall * u);
-    if (c._u !== u || c._dpr !== dpr || c._w !== G.w) {
-      c._u = u; c._dpr = dpr; c._w = G.w;
-      c.width = cw * dpr; c.height = ch * dpr; c.style.width = cw + 'px'; c.style.height = ch + 'px';
+    const stage = $('amStage');
+    if (!stage) return null;
+    const r = stage.getBoundingClientRect();
+    const cw = Math.max(320, Math.round(r.width || window.innerWidth));
+    const ch = Math.max(240, Math.round(r.height || window.innerHeight));
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+
+    const portrait = ch > cw * 1.05;
+    const tall = portrait ? 9.5 : 7.2;
+    const u = ch / tall;
+    G.w = Math.max(portrait ? 16 : 24, cw / u);
+
+    if (c.width !== Math.round(cw * dpr) || c.height !== Math.round(ch * dpr) || c._cw !== cw || c._ch !== ch) {
+      c.width = Math.round(cw * dpr);
+      c.height = Math.round(ch * dpr);
+      c.style.width = cw + 'px';
+      c.style.height = ch + 'px';
+      c._u = u;
+      c._dpr = dpr;
+      c._cw = cw;
+      c._ch = ch;
     }
     return { c, ctx: c.getContext('2d'), u, dpr, cw, ch };
   }
@@ -568,12 +772,16 @@
     const bg = pic('sebus');
     if (bg) {
       const k = Math.max(cw / bg.naturalWidth, ch / bg.naturalHeight), w = bg.naturalWidth * k, h = bg.naturalHeight * k;
-      ctx.drawImage(bg, (cw - w) * 0.15, ch - h, w, h);
+      ctx.drawImage(bg, (cw - w) * 0.5, ch - h, w, h);
     } else {
       const g = ctx.createLinearGradient(0, 0, 0, ch); g.addColorStop(0, '#f6c78b'); g.addColorStop(0.55, '#c7d79a'); g.addColorStop(1, '#a3b26a');
       ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
       ctx.fillStyle = '#3b82c4'; ctx.beginPath(); ctx.ellipse(X(1.5), gy - u * 1.6, X(3), u * 0.6, 0, 0, 7); ctx.fill();
     }
+    // Ground
+    ctx.fillStyle = '#3a2210'; ctx.fillRect(0, gy, cw, ch - gy);
+    ctx.fillStyle = '#264e22'; ctx.fillRect(0, gy - 2, cw, 5);
+
     // Shadows, then the sheep (back row a little higher), pouches, robbers and Ammon, then stones and words
     const shadow = (x, r) => { ctx.fillStyle = 'rgba(40,30,10,.25)'; ctx.beginPath(); ctx.ellipse(X(x), gy + u * 0.05, u * r, u * 0.18, 0, 0, 7); ctx.fill(); };
     const sheepY = s => gy - (s.row ? u * 0.35 : 0);
@@ -587,7 +795,24 @@
       }
       if (s.state === 'stray') { ctx.fillStyle = '#fde68a'; ctx.font = `900 ${Math.round(u * 0.5)}px 'Courier New', Courier, monospace`; ctx.textAlign = 'center'; ctx.fillText('!', X(s.x), sheepY(s) - u * 1.6); }
     }
-    for (const d of G.drops) { shadow(d.x, 0.35); sprite(ctx, 'pouch', X(d.x), gy, u, 1) || (ctx.fillStyle = '#7c4a1e', ctx.fillRect(X(d.x) - u * 0.3, gy - u * 0.6, u * 0.6, u * 0.6)); }
+    for (const d of G.drops) {
+      shadow(d.x, 0.35);
+      if (d.kind === 'scroll') {
+        ctx.save();
+        const pulse = 1 + 0.15 * Math.sin(t * 0.008);
+        ctx.fillStyle = 'rgba(251,191,36,0.35)';
+        ctx.beginPath();
+        ctx.arc(X(d.x), gy - u * 0.5, u * 0.45 * pulse, 0, 7);
+        ctx.fill();
+        ctx.font = `${Math.round(u * 0.75)}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('📜', X(d.x), gy - u * 0.5);
+        ctx.restore();
+      } else {
+        sprite(ctx, 'pouch', X(d.x), gy, u, 1) || (ctx.fillStyle = '#7c4a1e', ctx.fillRect(X(d.x) - u * 0.3, gy - u * 0.6, u * 0.6, u * 0.6));
+      }
+    }
     for (const r of G.robbers) {
       const chief = r.kind === 'chief', set = chief ? 'chief' : 'robber';
       const name = r.act === 'flee' ? `${set}-flee` : r.act === 'hit' ? (chief ? 'chief-ready' : 'robber-hit') : r.act === 'windup' ? (chief ? 'chief-smash' : 'robber-attack')
@@ -618,6 +843,11 @@
     if (G.time < G.shieldUntil) {
       const gl = ctx.createRadialGradient(X(me.x), gy - u * 1.6 - X(me.y), u * 0.4, X(me.x), gy - u * 1.6 - X(me.y), u * 2.4);
       gl.addColorStop(0, 'rgba(253,230,138,.45)'); gl.addColorStop(1, 'rgba(253,230,138,0)'); ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(X(me.x), gy - u * 1.6 - X(me.y), u * 2.4, 0, 7); ctx.fill();
+      ctx.save();
+      const pulse = 0.9 + 0.1 * Math.sin(t * 0.008);
+      ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2.5; ctx.beginPath();
+      ctx.arc(X(me.x), gy - u * 1.6 - X(me.y), u * 2.2 * pulse, 0, 7); ctx.stroke();
+      ctx.restore();
     }
 
     // Procedural animation transforms for Ammon
@@ -677,12 +907,12 @@
         else ctx.arc(cx, cy, u * 1.8, Math.PI - 0.4, Math.PI + 2.1);
         ctx.stroke();
       } else {
-        const big = me.kind === 'finish' || me.kind === 'counter' || me.kind === 'air';
-        const rad = u * (big ? 2.0 : me.kind === 'chain2' ? 1.7 : 1.5);
+        const big = me.kind === 'finish' || me.kind === 'counter' || me.kind === 'air' || G.radiantBlade;
+        const rad = u * (big ? (G.radiantBlade ? 2.3 : 2.0) : me.kind === 'chain2' ? 1.7 : 1.5);
         const from = me.kind === 'air' ? -1.6 : me.kind === 'chain2' ? -0.8 : -1.2;
         const to = me.kind === 'air' ? 1.3 : me.kind === 'chain2' ? 1.2 : 0.9;
-        ctx.strokeStyle = big ? '#fbbf24' : me.kind === 'chain2' ? '#38bdf8' : 'rgba(255,255,255,.9)';
-        ctx.lineWidth = u * (big ? 0.36 : 0.22);
+        ctx.strokeStyle = G.radiantBlade ? '#38bdf8' : (big ? '#fbbf24' : me.kind === 'chain2' ? '#38bdf8' : 'rgba(255,255,255,.9)');
+        ctx.lineWidth = u * (big ? 0.38 : 0.22);
         ctx.beginPath();
         if (me.face > 0) ctx.arc(cx, cy, rad, from, to); else ctx.arc(cx, cy, rad, Math.PI - to, Math.PI - from);
         ctx.stroke();
@@ -702,8 +932,13 @@
       }
     }
     for (const st of G.shots) {
-      if (st.target) { ctx.fillStyle = 'rgba(251,191,36,.45)'; ctx.beginPath(); ctx.ellipse(X(st.x - Math.sign(st.vx) * 0.5), gy - X(st.y), u * 0.7, u * 0.18, 0, 0, 7); ctx.fill(); }
-      sprite(ctx, 'stone', X(st.x), gy - X(st.y), u, 1) || (ctx.fillStyle = '#9ca3af', ctx.beginPath(), ctx.arc(X(st.x), gy - X(st.y), u * 0.2, 0, 7), ctx.fill());
+      if (st.target || st.blazing) {
+        ctx.fillStyle = st.blazing ? 'rgba(251,191,36,.8)' : 'rgba(251,191,36,.45)';
+        ctx.beginPath();
+        ctx.ellipse(X(st.x - Math.sign(st.vx) * 0.5), gy - X(st.y), u * (st.blazing ? 0.9 : 0.7), u * 0.22, 0, 0, 7);
+        ctx.fill();
+      }
+      sprite(ctx, 'stone', X(st.x), gy - X(st.y), u, 1) || (ctx.fillStyle = st.blazing ? '#fbbf24' : '#9ca3af', ctx.beginPath(), ctx.arc(X(st.x), gy - X(st.y), u * (st.blazing ? 0.28 : 0.2), 0, 7), ctx.fill());
     }
     // Mighty power: a flash of gold over the field
     if (G.time - G.flashAt < T.flash) { ctx.fillStyle = `rgba(253,230,138,${0.45 * (1 - (G.time - G.flashAt) / T.flash)})`; ctx.fillRect(0, 0, cw, ch); }
@@ -809,21 +1044,87 @@
         </button>
       </div>
     </div>` : '';
-    shell(`<div id="amPanel" class="am-panel" aria-live="polite"></div>
-      <div id="amStage" class="am-stage"><div class="am-frame"><canvas id="amCanvas" role="img" aria-label="The waters of Sebus: Ammon, the king's flock and the robbers"></canvas><div id="amBox" class="am-box" hidden></div></div></div>${pads}`);
+
+    root.innerHTML = `
+      <div id="amStage" class="am-stage">
+        <canvas id="amCanvas" role="img" aria-label="The waters of Sebus: Ammon, the king's flock and the robbers"></canvas>
+        <div id="amBox" class="am-box" hidden></div>
+      </div>
+
+      <!-- Full-Screen Top Header Bar Overlay -->
+      <header class="am-top-overlay">
+        <div class="am-top-brand">
+          <span class="am-title-tag">⚔️ AMMON</span>
+        </div>
+        <div id="amHud" class="am-hud"></div>
+        <div class="am-btns">
+          <button class="btn ghost am-btn-icon" data-am="pause" aria-label="Pause" title="Pause">⏸</button>
+          <button class="btn ghost am-btn-icon" data-am="sound" aria-label="Sound on or off" title="Sound">${saved().muted ? '🔈' : '🔊'}</button>
+          ${window.TUFull ? TUFull.html('btn ghost am-btn-icon') : ''}
+          <button class="btn ghost am-btn-icon" data-am="exit" title="Exit Game">✕</button>
+        </div>
+      </header>
+
+      <!-- Floating Upper-Sky Status Announcement Ticker -->
+      <div id="amPanel" class="am-panel-ticker" aria-live="polite"></div>
+
+      ${pads}
+    `;
+
     hud(); panel();
   }
   function renderQuestion() {
-    const box = $('amBox'), q = G.q;
+    const box = $('amBox'), q = G && G.q;
     if (!box || !q) return;
     box.hidden = false;
     const picked = q.picked != null, right = picked && q.choices[q.picked] === q.right;
-    box.innerHTML = `<div class="am-card">
-      <div class="eyebrow">${q.review ? 'A review · ' + esc(q.review) : 'From this week'}</div>
+
+    let blessingSection = '';
+    if (picked && right) {
+      blessingSection = `<div class="am-reward-panel">
+        <div class="am-reward-banner">✨ SCRIPTURE WISDOM PROVEN! CHOOSE YOUR BLESSING:</div>
+        <p class="am-why"><b class="ok">Correct! +250 points.</b> ${q.why ? host.html(q.why, q.ref) : ''}</p>
+        <div class="am-blessing-grid">
+          ${(q.blessings || []).map(b => `
+            <button type="button" class="am-blessing-card${q.blessingChosen === b.id ? ' chosen' : ''}" data-blessing="${b.id}"${q.blessingChosen ? ' disabled' : ''}>
+              <div class="am-blessing-top">
+                <span class="am-blessing-icon">${b.icon}</span>
+                <span class="am-blessing-tag">${b.tag}</span>
+              </div>
+              <div class="am-blessing-name">${b.name}</div>
+              <div class="am-blessing-desc">${b.desc}</div>
+              <div class="am-blessing-verse">${b.verse}</div>
+            </button>
+          `).join('')}
+        </div>
+        ${q.blessingChosen ? `
+          <div class="board-actions" style="margin-top: 14px; justify-content: center;">
+            <button class="btn" data-am="next">▶ Enter Level ${G.level + 1} with ${esc(BLESSINGS[q.blessingChosen].name)}</button>
+          </div>
+        ` : `<div class="am-blessing-hint">👆 Tap a blessing above to claim your in-game reward!</div>`}
+      </div>`;
+    } else if (picked && !right) {
+      blessingSection = `<div class="am-mercy-panel">
+        <p class="am-why"><b class="no">Not this time.</b> ${q.why ? host.html(q.why, q.ref) : ''}</p>
+        <div class="am-mercy-box">
+          <b>🕊️ The Lord's Mercy:</b> Ammon still receives <b>+2 Emergency Stones</b> and <b>+20 HP</b> to keep defending the flock!
+        </div>
+        <div class="board-actions" style="margin-top: 12px; justify-content: center;">
+          <button class="btn" data-am="next">▶ Continue to Level ${G.level + 1}</button>
+        </div>
+      </div>`;
+    }
+
+    box.innerHTML = `<div class="am-card am-quest-card">
+      <div class="am-quest-head">
+        <div class="am-quest-badge">📜 SCRIPTURE COUNSEL · ${q.review ? 'REVIEW' : 'THIS WEEK'}</div>
+        <h2 class="am-quest-title">Seek the Lord's Counsel</h2>
+        <p class="am-quest-sub">Answer correctly from the scriptures to unlock a <b>Divine Blessing</b> for your flock and weapons!</p>
+      </div>
       <p class="am-q">${host.html(q.q, q.ref)}</p>
-      <div class="am-choices">${q.choices.map((c, i) => `<button class="am-choice${picked ? (c === q.right ? ' right' : i === q.picked ? ' wrong' : '') : ''}" data-ans="${i}"${picked ? ' disabled' : ''}><b>${'ABC'[i]}</b><span>${esc(c)}</span></button>`).join('')}</div>
-      ${picked ? `<p class="am-why"><b class="${right ? 'ok' : 'no'}">${right ? 'Right! +200, 4 more stones and the Lord’s protection' : 'Not this time.'}</b> ${q.why ? host.html(q.why, q.ref) : ''}</p>
-        <div class="board-actions"><button class="btn" data-am="next">▶ Level ${G.level + 1}</button></div>` : ''}</div>`;
+      <div class="am-choices">${q.choices.map((c, i) => `<button type="button" class="am-choice${picked ? (c === q.right ? ' right' : i === q.picked ? ' wrong' : '') : ''}" data-ans="${i}"${picked ? ' disabled' : ''}><b>${'ABC'[i]}</b><span>${esc(c)}</span></button>`).join('')}</div>
+      ${blessingSection}
+    </div>`;
   }
   function hud() {
     const el = $('amHud');
@@ -834,6 +1135,22 @@
     const hpMax = G.me.hpMax || 100;
     const hpPct = Math.round(100 * hp / hpMax);
     const pips = Array.from({ length: T.stonesMax }, (_, i) => `<i class="am-pip${i < G.stones ? ' on' : ''}"></i>`).join('');
+
+    let perksHtml = '';
+    if (G.perks && G.perks.size > 0) {
+      const list = [];
+      if (G.blazingStones) list.push('🔥 Piercing Sling');
+      if (G.radiantBlade) list.push('⚔️ Radiant Blade');
+      if (G.perks.has('armor')) list.push('🛡️ Holy Armor');
+      if (G.fastPower) list.push('⚡ Fast Power');
+      if (G.sheepRescued) list.push(`🐑 +${G.sheepRescued} Rescued`);
+      if (list.length) {
+        perksHtml = `<div class="am-hud-block am-perks-box" title="Active Scripture Blessings">
+          <div class="am-hud-head"><span class="am-hud-name">✨ BLESSINGS</span></div>
+          <div class="am-perks-list">${list.map(p => `<span class="am-perk-pill">${p}</span>`).join('')}</div>
+        </div>`;
+      }
+    }
 
     el.innerHTML = `<div class="am-hud-wrap">
       <div class="am-hud-block am-hp-box" title="Ammon's Health">
@@ -854,6 +1171,7 @@
       <div class="am-hud-block am-score-box">
         <div class="am-hud-head"><span class="am-hud-name">LVL ${G.level}</span><b class="am-hud-val">${fmt(G.score)}</b></div>
       </div>
+      ${perksHtml}
     </div>`;
 
     const sBadge = $('btnStoneBadge');
@@ -868,17 +1186,22 @@
     const el = $('amPanel');
     if (!el || !G) return;
     const strays = G.sheep.filter(s => s.state === 'stray' || s.state === 'run').length;
-    let head, line = '';
-    if (G.banner && (G.between > 0 || G.time < (G.banner.until || 0))) { head = `<b class="ok">${esc(G.banner.title)}</b> <small>${esc(G.banner.small || '')}</small>`; line = G.banner.line || ''; }
-    else if (G.time - G.flashAt < 4) { head = '<b class="ok">Mighty power!</b> A stone at every robber on the field.'; line = W().mighty || ''; }
+    let head = '';
+    if (G.banner && (G.between > 0 || G.time < (G.banner.until || 0))) { head = `<b class="ok">${esc(G.banner.title)}</b> <small>${esc(G.banner.small || '')}</small>`; }
+    else if (G.time - G.flashAt < 4) { head = '<b class="ok">⚡ Mighty power!</b> A stone at every robber on the field.'; }
     else if (G.me.act === 'stun') head = '<b class="no">Stunned!</b> Face the robber and <b>block</b> his club next time.';
-    else if (strays) head = `<b class="no">${strays} ${strays === 1 ? 'sheep is' : 'sheep are'} scattered!</b> Walk to ${strays === 1 ? 'it' : 'them'} to gather the flock.`;
-    else if (G.time < G.shieldUntil) head = '<b class="ok">The Lord’s protection</b> is with you for a few seconds.';
-    else if (G.power >= T.power) head = `<b class="ok">⚡ Mighty power is ready!</b> ${coarse() ? 'Tap <b>⚡ POWER</b>' : 'Press <b>J</b> and <b>K</b> together (or <b>E</b>)'} when the robbers come.`;
-    else head = 'Keep the robbers away from the flock.';
-    if (!line && G.level === 1 && G.robbersOff === 0) line = W().hook || '';
-    const html = `<p class="am-status">${head}</p>${line ? `<p class="am-line">${host.html(line)}</p>` : ''}`;
-    if (el._html !== html) { el._html = html; el.innerHTML = html; }
+    else if (strays) head = `<b class="no">${strays} ${strays === 1 ? 'sheep is' : 'sheep are'} scattered!</b> Walk to it to gather!`;
+    else if (G.flockShieldUntil > G.time) head = '<b class="ok">🐑 Flock Guardian active!</b> Sheep cannot be scattered.';
+    else if (G.time < G.shieldUntil) head = '<b class="ok">🛡️ The Lord’s protection</b> shields you.';
+    else if (G.power >= T.power) head = `<b class="ok">⚡ Mighty power is ready!</b> ${coarse() ? 'Tap <b>⚡ POWER</b>' : 'Press <b>E</b> or <b>J+K</b>'}`;
+
+    if (!head) {
+      el.style.display = 'none';
+      el._html = '';
+    } else {
+      el.style.display = 'block';
+      if (el._html !== head) { el._html = head; el.innerHTML = head; }
+    }
   }
   function renderOver() {
     root.dataset.view = 'over';
@@ -955,6 +1278,7 @@
     if (G && G.q) {
       const i = { 1: 0, 2: 1, 3: 2, a: 0, b: 1, c: 2, A: 0, B: 1, C: 2 }[e.key];
       if (i != null && G.q.picked == null && i < G.q.choices.length) { e.preventDefault(); answer(i); }
+      else if (i != null && G.q.picked != null && G.q.blessings && i < G.q.blessings.length && !G.q.blessingChosen) { e.preventDefault(); chooseBlessing(G.q.blessings[i].id); }
       else if (e.key === 'Enter' && G.q.picked != null) { e.preventDefault(); afterQuestion(); }
       return;
     }
@@ -968,6 +1292,8 @@
   function onClick(e) {
     const ans = e.target.closest('[data-ans]');
     if (ans) { answer(Number(ans.dataset.ans)); return; }
+    const bl = e.target.closest('[data-blessing]');
+    if (bl) { chooseBlessing(bl.dataset.blessing); return; }
     const b = e.target.closest('[data-am]');
     if (!b) return;
     const a = b.dataset.am;
@@ -1022,18 +1348,11 @@
     css.id = 'amCss';
     css.textContent = `
       #ammon .am-top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-      #ammon .am-hud { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+      #ammon .am-hud { display: flex; gap: 6px; flex-wrap: wrap; }
       #ammon .am-btns { display: flex; gap: 6px; }
       #ammon .am-lost { color: #fca5a5; font-weight: 800; }
-      #ammon .am-meter { position: relative; overflow: hidden; min-width: 84px; text-align: center; }
-      #ammon .am-meter i { position: absolute; left: 0; top: 0; bottom: 0; background: rgba(251,191,36,.35); }
-      #ammon .am-meter span { position: relative; }
-      #ammon .am-meter.full { box-shadow: 0 0 0 2px #fbbf24, 0 0 14px rgba(251,191,36,.7); }
       #ammon .am-moves { padding: 10px 14px; border-radius: 14px; background: rgba(251,191,36,.08); border: 1px solid rgba(251,191,36,.3); }
       #ammon .am-moves ul { margin: 6px 0 0; padding-left: 20px; list-style: disc; display: grid; gap: 5px; font-size: 15px; line-height: 1.4; color: rgba(255,255,255,.88); }
-      #ammon .am-right { position: relative; }
-      #ammon .am-pad .am-act.am-power { position: absolute; right: 0; bottom: calc(100% + 10px); width: auto; height: 52px; padding: 0 16px; border-radius: 26px; background: rgba(217,119,6,.9); color: #fff; font-size: 14px; box-shadow: 0 0 18px rgba(251,191,36,.8); }
-      #ammon .am-pad .am-act.am-power[hidden] { display: none; }
       #ammon .am-menu { max-width: 640px; width: 100%; margin: 14px auto 0; display: grid; gap: 12px; }
       #ammon .am-hero { display: block; width: 100%; height: auto; max-height: 34vh; aspect-ratio: 2 / 1; object-fit: cover; border-radius: 14px; box-shadow: 0 8px 28px rgba(0,0,0,.4); }
       #ammon .am-hook { font-size: 16px; line-height: 1.45; color: rgba(255,255,255,.88); margin: 0; }
@@ -1043,21 +1362,221 @@
       #ammon .am-scores li span::before { content: counter(r) ". "; color: rgba(255,255,255,.55); }
       #ammon .am-note { color: rgba(255,255,255,.7); font-size: 14px; margin: 0; }
       #ammon .am-big { font-size: clamp(36px, 6vw, 64px); font-weight: 900; line-height: 1.1; }
-      #ammon .am-panel { margin-top: 10px; height: 4.6em; overflow-y: auto; padding: 8px 12px; border-radius: 14px; background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.12); font-size: clamp(14px, 1.4vw, 18px); }
-      #ammon .am-status { margin: 0 0 4px; line-height: 1.3; } #ammon .am-status .ok { color: #fde68a; } #ammon .am-status .no { color: #fca5a5; } #ammon .am-status small { color: rgba(255,255,255,.7); }
-      #ammon .am-line { margin: 0; color: rgba(255,255,255,.82); line-height: 1.35; }
+
+      /* Full-Screen Edge-to-Edge Game Mode */
+      #ammon[data-view="game"] {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100dvh !important;
+        max-width: 100vw !important;
+        max-height: 100dvh !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        overflow: hidden !important;
+        background: #06050c !important;
+        display: block !important;
+      }
+      #ammon[data-view="game"] .am-stage {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+        overflow: hidden !important;
+      }
+      #ammon[data-view="game"] .am-frame {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+      }
+      #ammon[data-view="game"] canvas {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+        border-radius: 0 !important;
+        touch-action: none;
+      }
+
+      /* Full-Screen Top Header Bar Overlay */
+      #ammon[data-view="game"] .am-top-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 25;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: max(8px, env(safe-area-inset-top)) 14px 6px 14px;
+        background: linear-gradient(180deg, rgba(8, 6, 18, 0.94) 0%, rgba(8, 6, 18, 0.6) 70%, transparent 100%);
+        pointer-events: none;
+      }
+      #ammon[data-view="game"] .am-top-overlay > * {
+        pointer-events: auto;
+      }
+      #ammon .am-title-tag {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: 900;
+        font-size: 13px;
+        letter-spacing: 1px;
+        color: #fbbf24;
+        text-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+        background: rgba(0,0,0,0.6);
+        padding: 4px 8px;
+        border-radius: 6px;
+        border: 1px solid rgba(251,191,36,0.3);
+        white-space: nowrap;
+      }
+      #ammon .am-btn-icon {
+        min-width: 36px;
+        height: 36px;
+        padding: 0 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+      }
+
+      /* Floating Upper-Sky Status Announcement Ticker */
+      #ammon[data-view="game"] .am-panel-ticker {
+        position: absolute;
+        top: calc(max(8px, env(safe-area-inset-top)) + 58px);
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 22;
+        pointer-events: none;
+        background: rgba(14, 10, 28, 0.92);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(251, 191, 36, 0.35);
+        border-radius: 20px;
+        padding: 5px 16px;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+        max-width: 90vw;
+        text-align: center;
+      }
+      #ammon[data-view="game"] .am-panel-ticker .ok { color: #fde68a; }
+      #ammon[data-view="game"] .am-panel-ticker .no { color: #fca5a5; }
+
       #ammon .am-stage { flex: 1; min-height: 200px; display: grid; place-items: center; margin-top: 10px; }
       #ammon .am-frame { position: relative; border: 6px solid #6b3f1d; border-radius: 10px; box-shadow: 0 0 0 2px #3b220e, 0 10px 30px rgba(0,0,0,.5); line-height: 0; }
       #ammon canvas { display: block; touch-action: none; border-radius: 4px; }
       #ammon .am-box[hidden] { display: none; }
-      #ammon .am-box { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(15,10,5,.6); line-height: 1.35; overflow-y: auto; padding: 10px; }
-      #ammon .am-card { width: min(560px, 100%); display: grid; gap: 10px; padding: 16px; border-radius: 16px; background: rgba(20,16,40,.95); border: 1px solid rgba(255,255,255,.15); }
+      #ammon .am-box { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(10,8,20,.78); backdrop-filter: blur(6px); line-height: 1.35; overflow-y: auto; padding: 10px; z-index: 40; }
+      #ammon .am-card { width: min(620px, 94vw); display: grid; gap: 10px; padding: 18px; border-radius: 18px; background: rgba(18,14,36,.98); border: 2px solid rgba(251,191,36,.35); box-shadow: 0 12px 35px rgba(0,0,0,0.7); }
       #ammon .am-q { margin: 0; font-weight: 800; font-size: clamp(16px, 1.8vw, 21px); line-height: 1.3; }
       #ammon .am-choices { display: grid; gap: 8px; }
       #ammon .am-choice { display: flex; gap: 10px; align-items: center; text-align: left; padding: 10px 12px; border-radius: 12px; border: 2px solid rgba(255,255,255,.18); background: rgba(255,255,255,.06); color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
       #ammon .am-choice b { display: grid; place-items: center; min-width: 1.7em; height: 1.7em; border-radius: 8px; background: rgba(255,255,255,.14); }
       #ammon .am-choice.right { border-color: #4ade80; background: rgba(74,222,128,.18); } #ammon .am-choice.wrong { border-color: #f87171; background: rgba(248,113,113,.15); }
-      #ammon .am-why { margin: 0; font-size: 15px; } #ammon .am-why .ok { color: #86efac; } #ammon .am-why .no { color: #fca5a5; }
+      #ammon .am-why { margin: 6px 0; font-size: 14px; } #ammon .am-why .ok { color: #86efac; } #ammon .am-why .no { color: #fca5a5; }
+
+      /* Blessing Cards & Question Modal Rewards */
+      #ammon .am-quest-head { text-align: center; margin-bottom: 8px; }
+      #ammon .am-quest-badge {
+        display: inline-block;
+        background: rgba(251,191,36,0.18);
+        border: 1px solid #fbbf24;
+        color: #fbbf24;
+        font: 900 11px 'Courier New', Courier, monospace;
+        letter-spacing: 1px;
+        padding: 3px 10px;
+        border-radius: 12px;
+        margin-bottom: 6px;
+      }
+      #ammon .am-quest-title { font-size: 22px; font-weight: 900; margin: 0 0 4px; color: #fff; letter-spacing: 0.5px; }
+      #ammon .am-quest-sub { font-size: 13px; color: rgba(255,255,255,0.75); margin: 0; }
+      #ammon .am-reward-panel {
+        margin-top: 14px;
+        padding: 12px;
+        border-radius: 14px;
+        background: rgba(251,191,36,0.08);
+        border: 1px solid rgba(251,191,36,0.35);
+      }
+      #ammon .am-reward-banner {
+        font: 900 13px 'Courier New', Courier, monospace;
+        color: #fbbf24;
+        text-align: center;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+      }
+      #ammon .am-blessing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 10px;
+        margin-top: 10px;
+      }
+      #ammon .am-blessing-card {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        padding: 12px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.06);
+        border: 2px solid rgba(255,255,255,0.18);
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      #ammon .am-blessing-card:hover {
+        background: rgba(251,191,36,0.15);
+        border-color: #fbbf24;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(251,191,36,0.3);
+      }
+      #ammon .am-blessing-card.chosen {
+        background: rgba(74,222,128,0.2);
+        border-color: #4ade80;
+        box-shadow: 0 0 16px rgba(74,222,128,0.4);
+      }
+      #ammon .am-blessing-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 6px;
+      }
+      #ammon .am-blessing-icon { font-size: 24px; }
+      #ammon .am-blessing-tag {
+        font: 900 9px 'Courier New', Courier, monospace;
+        background: rgba(251,191,36,0.25);
+        color: #fde68a;
+        padding: 2px 6px;
+        border-radius: 6px;
+      }
+      #ammon .am-blessing-name { font-size: 15px; font-weight: 800; color: #fde68a; margin-bottom: 4px; }
+      #ammon .am-blessing-desc { font-size: 12px; line-height: 1.35; color: rgba(255,255,255,0.85); margin-bottom: 6px; flex: 1; }
+      #ammon .am-blessing-verse { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); font-family: 'Courier New', Courier, monospace; }
+      #ammon .am-blessing-hint { text-align: center; font-size: 13px; font-weight: 800; color: #fbbf24; margin-top: 10px; }
+      #ammon .am-mercy-panel { margin-top: 14px; }
+      #ammon .am-mercy-box {
+        background: rgba(59,130,246,0.12);
+        border: 1px solid rgba(96,165,250,0.3);
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-size: 13px;
+        color: #dbeafe;
+        line-height: 1.4;
+        margin-top: 8px;
+      }
+
       /* In-Game HUD Styling */
       #ammon .am-hud-wrap { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
       #ammon .am-hud-block { background: rgba(18, 14, 34, 0.9); border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 10px; padding: 4px 10px; min-height: 40px; display: flex; flex-direction: column; justify-content: center; font-family: 'Courier New', Courier, monospace; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
@@ -1073,6 +1592,18 @@
       #ammon .am-stone-pips { display: flex; gap: 3px; margin-top: 4px; }
       #ammon .am-pip { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.2); }
       #ammon .am-pip.on { background: #eab308; box-shadow: 0 0 4px #eab308; }
+
+      #ammon .am-perks-box { min-height: 38px; padding: 3px 8px; }
+      #ammon .am-perks-list { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 2px; }
+      #ammon .am-perk-pill {
+        font: 900 10px 'Courier New', Courier, monospace;
+        background: rgba(251,191,36,0.22);
+        color: #fef08a;
+        border: 1px solid rgba(251,191,36,0.4);
+        padding: 1px 6px;
+        border-radius: 8px;
+        white-space: nowrap;
+      }
 
       /* Mobile Controls: Floating Joystick & Thumb Arc */
       #ammon .am-pads { position: fixed; left: 0; right: 0; bottom: 0; height: 165px; pointer-events: none; z-index: 20; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 16px 16px 16px; box-sizing: border-box; }
@@ -1108,10 +1639,11 @@
       #ammon .am-power-btn { right: 0; bottom: 155px; width: 165px; height: 38px; border-radius: 19px !important; background: linear-gradient(90deg, #d97706, #fbbf24) !important; border: 2px solid #fef08a !important; color: #1e1b4b !important; font: 900 13px 'Courier New', Courier, monospace !important; box-shadow: 0 0 16px rgba(251,191,36,0.8), 0 3px 0 #92400e !important; text-shadow: none !important; }
       #ammon .am-power-btn[hidden] { display: none !important; }
 
-      @media (max-width: 520px) {
+      @media (max-width: 600px) {
+        #ammon .am-title-tag { display: none; }
         #ammon .board-title { font-size: 18px; } #ammon .am-name .eyebrow { display: none; }
         #ammon .am-top { display: grid; grid-template-columns: 1fr auto; } #ammon .am-hud { grid-column: 1 / -1; grid-row: 2; margin-left: 0; }
-        #ammon .am-btns .btn { padding: 8px 12px; }
+        #ammon .am-btns .btn { padding: 6px 10px; font-size: 12px; }
         #ammon .am-btn-cluster { width: 180px; height: 170px; }
         #ammon .btn-strike { width: 62px; height: 62px; right: 5px; bottom: 5px; }
         #ammon .btn-sling { width: 48px; height: 48px; right: 5px; top: 15px; }
@@ -1123,6 +1655,8 @@
         #ammon .am-hud-name { font-size: 9px; }
         #ammon .am-hud-val { font-size: 12px; }
         #ammon .am-meter-track { height: 6px; }
+        #ammon .am-quest-card { padding: 14px; }
+        #ammon .am-blessing-grid { grid-template-columns: 1fr; }
       }`;
     document.head.appendChild(css);
   }
@@ -1221,14 +1755,17 @@
     const tm = e => updateJoys(e), te = e => onTouchEnd(e);
     const kd = e => onKeyDown(e), ku = e => onKeyUp(e), ck = e => onClick(e), dn = e => onDown(e), up = e => onUp(e), vis = () => onHide();
     const blur = () => { keys.clear(); held.clear(); };
+    const rz = () => { if (G && root && root.dataset.view === 'game') { board(); draw(performance.now()); } };
     window.addEventListener('touchstart', tm, {passive:false}); window.addEventListener('touchmove', tm, {passive:false}); window.addEventListener('touchend', te); window.addEventListener('touchcancel', te);
     window.addEventListener('keydown', kd); window.addEventListener('keyup', ku); window.addEventListener('blur', blur);
+    window.addEventListener('resize', rz); window.addEventListener('orientationchange', rz);
     root.addEventListener('click', ck); root.addEventListener('pointerdown', dn);
     window.addEventListener('pointerup', up); window.addEventListener('pointercancel', up);
     document.addEventListener('visibilitychange', vis);
     off = () => {
       window.removeEventListener('touchstart', tm); window.removeEventListener('touchmove', tm); window.removeEventListener('touchend', te); window.removeEventListener('touchcancel', te);
       window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); window.removeEventListener('blur', blur);
+      window.removeEventListener('resize', rz); window.removeEventListener('orientationchange', rz);
       root.removeEventListener('click', ck); root.removeEventListener('pointerdown', dn);
       window.removeEventListener('pointerup', up); window.removeEventListener('pointercancel', up);
       document.removeEventListener('visibilitychange', vis);
@@ -1251,11 +1788,11 @@
     open, close,
     // For the tests (with window.TU_AMMON_MANUAL set, nothing moves until step()).
     _t: {
-      state: () => G, T,
+      state: () => G, T, BLESSINGS,
       step(ms = 50) { for (let t = 0; t < ms && G && G.state === 'play' && !G.q; t += 50) update(Math.min(50, ms - t) / 1000); if (G && root.dataset.view === 'game') { hud(); panel(); draw(performance.now()); } },
       key(name, down) { down ? keys.add(name) : keys.delete(name); }, act, hold(on) { G.hold = !!on; },
       robber(x, opts) { G.robbers.push(Object.assign({ kind: 'robber', x, y: 0, vy: 0, face: x > G.me.x ? -1 : 1, hp: 2, act: 'walk', t: 0, kx: 0, speed: 2.3, step: 0 }, opts || {})); G.wave.spawned++; },
-      answer, next: afterQuestion, draw: () => draw(performance.now())
+      askQuestion, answer, chooseBlessing, next: afterQuestion, draw: () => draw(performance.now())
     }
   };
 })();
