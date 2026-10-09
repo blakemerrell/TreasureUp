@@ -34,9 +34,9 @@
     // The moves (Blake, 2026-10-04: "What like of combos can we do?"): sword three times in a row (the
     // third a finishing blow), sword in the air (an overhead blow), sword just after a block (a counter),
     // and, with the meter full, sword and sling together (Alma 17:36's "mighty power").
-    chainWin: 0.35, chainPush: 1.2, finishPush: 3.5, combo: 50, counterWin: 0.6, daze: 0.7, lunge: 22,
+    chainWin: 0.38, chainPush: 1.4, finishPush: 3.8, combo: 50, counterWin: 0.65, daze: 0.7, lunge: 22,
     power: 100, together: 0.2, flash: 0.6,
-    fill: { robber: 7, chief: 20, gather: 5, counter: 6, combo: 5, right: 25 }
+    fill: { robber: 7, chief: 20, gather: 5, counter: 8, combo: 6, bash: 5, launch: 6, right: 25 }
   };
   let STORE = 'treasureup.ammon.v1';
   let host = null, root = null, G = null, raf = 0, last = 0, off = null, audio = null;
@@ -54,7 +54,8 @@
     if (saved().muted || !audio) return;
     const notes = { hit: [[150, 0.07]], block: [[880, 0.05]], sling: [[600, 0.04], [900, 0.04]], stun: [[120, 0.2]], flee: [[523, 0.06], [784, 0.08]],
       scatter: [[300, 0.08], [220, 0.12]], combo: [[392, 0.05], [523, 0.05], [784, 0.1]], ready: [[659, 0.07], [988, 0.12]],
-      mighty: [[262, 0.06], [392, 0.06], [523, 0.06], [784, 0.08], [1047, 0.22]], gather: [[659, 0.06], [880, 0.08]], clear: [[523, 0.09], [659, 0.09], [784, 0.09], [1047, 0.2]], over: [[392, 0.2], [330, 0.2], [262, 0.4]], right: [[784, 0.08], [1047, 0.14]], wrong: [[220, 0.2]] }[kind] || [];
+      mighty: [[262, 0.06], [392, 0.06], [523, 0.06], [784, 0.08], [1047, 0.22]], gather: [[659, 0.06], [880, 0.08]], clear: [[523, 0.09], [659, 0.09], [784, 0.09], [1047, 0.2]], over: [[392, 0.2], [330, 0.2], [262, 0.4]], right: [[784, 0.08], [1047, 0.14]], wrong: [[220, 0.2]],
+      slash: [[540, 0.04], [280, 0.04]], bash: [[240, 0.05], [120, 0.07]], launch: [[320, 0.04], [640, 0.07]], dash: [[360, 0.03], [180, 0.04]] }[kind] || [];
     let t = audio.currentTime + 0.01;
     notes.forEach(([f, d]) => {
       const o = audio.createOscillator(), v = audio.createGain();
@@ -73,7 +74,8 @@
     const seed = typeof window.TU_AMMON_SEED === 'number' ? window.TU_AMMON_SEED : Date.now();
     G = { w: portrait ? 16 : 24, rand: rng(seed), time: 0, level: 0, score: 0, state: 'play', ready: manual() ? 0 : T.ready, paused: false,
       stones: T.stones, lost: 0, robbersOff: 0, chiefsOff: 0, gathered: 0, shieldUntil: 0, used: new Set(), power: 0, flashAt: -9, combos: 0, mighties: 0,
-      me: { x: 0, y: 0, vy: 0, face: 1, act: 'ready', t: 0, stun: 0, step: 0, chain: 0, chainUntil: 0, counterUntil: 0, lx: 0, hits: 0, k: { left: 'left', right: 'right', up: 'up', block: 'block', strike: 'strike', sling: 'sling', power: 'power' } },
+      shake: 0, hitstop: 0, sparks: [],
+      me: { x: 0, y: 0, vy: 0, vx: 0, face: 1, act: 'ready', t: 0, stun: 0, step: 0, chain: 0, chainUntil: 0, counterUntil: 0, lx: 0, hits: 0, buffer: null, landTimer: 0, k: { left: 'left', right: 'right', up: 'up', block: 'block', strike: 'strike', sling: 'sling', power: 'power' } },
       sheep: [], robbers: [], shots: [], drops: [], floats: [], between: 0, banner: null, q: null };
     const home = T.flock, span = (portrait ? home[1] - 1.2 : home[1]) - home[0];
     for (let k = 0; k < T.sheep; k++) {
@@ -97,20 +99,29 @@
   }
   function spawnRobber() {
     const L = G.level, left = L >= 3 && G.rand() < 0.3;
-    G.robbers.push({ kind: 'robber', x: left ? -1 : G.w + 1, face: left ? 1 : -1, hp: L >= 4 ? 3 : 2, act: 'walk', t: 0, kx: 0,
+    G.robbers.push({ kind: 'robber', x: left ? -1 : G.w + 1, y: 0, vy: 0, face: left ? 1 : -1, hp: L >= 4 ? 3 : 2, act: 'walk', t: 0, kx: 0,
       speed: Math.min(T.robberMax, T.robberSpeed + (L - 1) * T.robberStep) * (0.85 + G.rand() * 0.3), step: G.rand() });
     G.wave.spawned++;
   }
   function spawnChief() {
     G.wave.chief = true;
-    G.robbers.push({ kind: 'chief', x: G.w + 1.5, face: -1, hp: 5 + 2 * G.level, hpMax: 5 + 2 * G.level, act: 'walk', t: 0, kx: 0, speed: 2.1 + 0.15 * G.level, charge: 2.5, step: 0 });
+    G.robbers.push({ kind: 'chief', x: G.w + 1.5, y: 0, vy: 0, face: -1, hp: 5 + 2 * G.level, hpMax: 5 + 2 * G.level, act: 'walk', t: 0, kx: 0, speed: 2.1 + 0.15 * G.level, charge: 2.5, step: 0 });
     G.banner = { title: 'The robbers’ leader!', small: '', line: W().chief, until: G.time + 2.5 };
   }
 
   function float(text, x, y, color) { G.floats.push({ text, x, y, color, at: G.time }); }
+  function spark(x, y, vx, vy, color, size, life) {
+    if (!G || !G.sparks) return;
+    G.sparks.push({ x, y, vx, vy, color: color || '#fbbf24', size: size || 3, life: life || 0.35, maxLife: life || 0.35 });
+  }
+
 
   function update(dt) {
     if (!G || G.state !== 'play' || G.q) return;
+    if (G.hitstop > 0) {
+      G.hitstop = Math.max(0, G.hitstop - dt);
+      return;
+    }
     G.time += dt;
     if (G.between > 0) {
       G.between -= dt;
@@ -118,6 +129,7 @@
       return;
     }
     const me = G.me;
+    if (me.landTimer > 0) me.landTimer = Math.max(0, me.landTimer - dt);
     if (me.stun > 0) { me.stun -= dt; me.act = 'stun'; }
     else if (me.act === 'stun') me.act = 'ready';
     if (me.lx) { const k = Math.sign(me.lx) * Math.min(Math.abs(me.lx), T.lunge * dt); me.x += k; me.lx -= k; }   // a chained blow or a counter steps in
@@ -125,44 +137,130 @@
       me.t += dt;
       if (me.act === 'strike' && !me.landed && me.t >= T.strikeHit[0]) {
         me.landed = true;
-        const k = me.kind, reach = T.reach + (k === 'air' ? 0.5 : 0);
-        const hit = G.robbers.filter(r => r.act !== 'flee' && Math.sign(r.x - me.x) === me.face && Math.abs(r.x - me.x) < reach + (r.kind === 'chief' ? 0.3 : 0));
+        const k = me.kind;
+        const reach = T.reach + (k === 'air' ? 0.6 : k === 'bash' ? 0.7 : k === 'slide' ? 0.9 : k === 'finish' ? 0.6 : 0);
+        const hit = G.robbers.filter(r => {
+          const frontOrClose = Math.sign(r.x - me.x) === me.face || Math.abs(r.x - me.x) < 0.6;
+          return r.act !== 'flee' && frontOrClose && Math.abs(r.x - me.x) < reach + (r.kind === 'chief' ? 0.3 : 0) && (k !== 'air' || Math.abs((r.y || 0) - me.y) < 2.0);
+        });
         if (hit.length) me.hits++;
         const finish = k === 'finish' && me.hits >= 3;
-        let label = null;
-        if (k === 'air') label = 'Overhead!';
-        else if (k === 'counter') { label = 'Counter!'; addPower(T.fill.counter); }
-        else if (finish) { label = `3-hit combo! +${T.combo}`; G.score += T.combo; G.combos++; addPower(T.fill.combo); }
-        else if (hit.length && me.chain === 2 && me.hits >= 2) label = '2 hits!';
-        hit.forEach((r, i) => hurt(r, k === 'strike' ? 1 : 2, me.face, {
-          push: k === 'strike' ? T.chainPush : k === 'finish' ? T.finishPush : T.push, daze: k === 'air' || k === 'counter' ? T.daze : 0, label: i ? null : label }));
-        if (hit.length && label) sound(finish || k === 'counter' ? 'combo' : 'hit');
+        let label = null, pushDist = T.push, dazeTime = 0, dmg = 1, hitSound = 'hit', shakeAmt = 0.22, hitstopAmt = 0.04;
+
+        if (k === 'air') {
+          const juggled = hit.some(r => (r.y || 0) > 0.3);
+          if (juggled) {
+            label = 'Air Juggle! +75'; G.score += 75; dmg = 2; pushDist = T.finishPush; hitSound = 'combo'; shakeAmt = 0.45; hitstopAmt = 0.07; addPower(T.fill.combo);
+          } else {
+            label = 'Overhead!'; dmg = 2; dazeTime = T.daze; pushDist = 1.4; hitSound = 'hit'; shakeAmt = 0.3;
+          }
+        } else if (k === 'counter') {
+          label = 'Counter! +60'; G.score += 60; dmg = 2; dazeTime = T.daze * 1.5; pushDist = T.push * 1.5; addPower(T.fill.counter); hitSound = 'combo'; shakeAmt = 0.55; hitstopAmt = 0.07;
+        } else if (k === 'bash') {
+          label = 'Shield Bash!'; dmg = 1; dazeTime = 0.6; pushDist = 3.2; hitSound = 'bash'; shakeAmt = 0.35; hitstopAmt = 0.05; addPower(T.fill.bash);
+        } else if (k === 'launcher') {
+          label = 'Rising Uppercut!'; dmg = 2; dazeTime = 0.8; pushDist = 1.2; hitSound = 'launch'; shakeAmt = 0.38; hitstopAmt = 0.05; addPower(T.fill.launch);
+          hit.forEach(r => { r.vy = 9.8; r.y = 0.1; });
+        } else if (k === 'slide') {
+          label = 'Slide Sweep!'; dmg = 1; dazeTime = 0.6; pushDist = 2.0; hitSound = 'hit'; shakeAmt = 0.25; addPower(4);
+        } else if (finish) {
+          label = `3-hit combo! +${T.combo}`; G.score += T.combo; G.combos++; dmg = 2; pushDist = T.finishPush; addPower(T.fill.combo); hitSound = 'combo'; shakeAmt = 0.6; hitstopAmt = 0.07;
+        } else if (k === 'chain2') {
+          label = '2 hits!'; pushDist = 1.2; dmg = 1; shakeAmt = 0.25;
+        } else {
+          pushDist = 0.85; dmg = 1; shakeAmt = 0.18;
+        }
+
+        if (hit.length) {
+          G.shake = Math.max(G.shake || 0, shakeAmt);
+          G.hitstop = Math.max(G.hitstop || 0, hitstopAmt);
+          sound(hitSound);
+          hit.forEach((r, i) => {
+            const sparkCol = finish || k === 'counter' ? '#fbbf24' : k === 'bash' ? '#60a5fa' : '#fef08a';
+            for (let sp = 0; sp < (finish || k === 'counter' ? 8 : 4); sp++) {
+              spark(r.x, 1.6 + (r.y || 0), (Math.random() - 0.5) * 8, Math.random() * 6 + 1, sparkCol, 3, 0.3);
+            }
+            hurt(r, dmg, me.face, { push: pushDist, daze: dazeTime, label: i ? null : label });
+          });
+        }
       }
-      if (me.act === 'sling' && !me.thrown && me.t >= T.slingAt) {
+      if (me.act === 'sling' && !me.thrown && me.t >= (me.isBurst ? 0.08 : T.slingAt)) {
         me.thrown = true;
-        G.shots.push({ x: me.x + me.face * 0.6, y: 2.4, vx: me.face * T.stoneSpeed, vy: 3 });
+        const spd = me.isBurst ? T.stoneSpeed * 1.3 : T.stoneSpeed;
+        G.shots.push({ x: me.x + me.face * 0.7, y: 2.2, vx: me.face * spd, vy: me.isBurst ? 1.5 : 3, burst: me.isBurst });
         sound('sling');
+        if (me.isBurst) {
+          G.shake = Math.max(G.shake || 0, 0.25);
+          for (let sp = 0; sp < 5; sp++) spark(me.x + me.face * 0.7, 2.2, me.face * (Math.random() * 6 + 4), (Math.random() - 0.5) * 4, '#38bdf8', 3, 0.25);
+        }
       }
-      if (me.t >= (me.act === 'strike' ? T.strike : T.sling)) {
+      if (me.t >= (me.act === 'strike' ? T.strike : (me.isBurst ? 0.28 : T.sling))) {
         const was = me.act;
-        me.act = 'ready'; me.t = 0;
-        if (was === 'strike') { if (me.queued) startStrike(me, true); else me.chainUntil = G.time + T.chainWin; }
+        me.act = 'ready'; me.t = 0; me.isBurst = false;
+        if (was === 'strike') {
+          if (me.queued) {
+            startStrike(me, true);
+          } else if (me.buffer && G.time - me.buffer.time < 0.25) {
+            const buf = me.buffer; me.buffer = null;
+            if (buf.what === me.k.strike) {
+              const override = buf.block ? 'bash' : (buf.up ? 'launcher' : (buf.moving && me.y <= 0 ? 'slide' : null));
+              startStrike(me, false, override);
+            } else {
+              act(buf.what);
+            }
+          } else {
+            me.chainUntil = G.time + T.chainWin;
+          }
+        } else if (me.buffer && G.time - me.buffer.time < 0.25) {
+          const buf = me.buffer; me.buffer = null;
+          if (buf.what === me.k.strike) {
+            const override = buf.block ? 'bash' : (buf.up ? 'launcher' : (buf.moving && me.y <= 0 ? 'slide' : null));
+            startStrike(me, false, override);
+          } else {
+            act(buf.what);
+          }
+        }
       }
     }
     const blocking = me.act !== 'stun' && keys.has(me.k.block) && me.y <= 0;
     if (me.act === 'ready' || me.act === 'walk' || me.act === 'block') me.act = blocking ? 'block' : 'ready';
     let mx = (keys.has(me.k.right) ? 1 : 0) - (keys.has(me.k.left) ? 1 : 0);
     if (me.act !== 'stun' && !blocking && me.act !== 'sling') {
-      if (mx) { me.x += mx * T.speed * dt * (me.act === 'strike' ? 0.3 : 1); if (me.act !== 'strike') me.face = mx; if (me.act === 'ready') me.act = 'walk'; me.step += dt * 6; }
+      if (mx) {
+        me.vx = (me.vx || 0) * 0.6 + mx * T.speed * 0.4;
+        me.x += me.vx * dt * (me.act === 'strike' ? (me.kind === 'slide' ? 1.4 : 0.25) : 1);
+        if (me.act !== 'strike') me.face = mx;
+        if (me.act === 'ready') me.act = 'walk';
+        me.step += dt * 6;
+      } else {
+        me.vx = (me.vx || 0) * Math.max(0, 1 - dt * 16);
+        me.x += me.vx * dt;
+      }
       if (keys.has(me.k.up) && me.y <= 0) { me.vy = T.jump; }
+    } else {
+      me.vx = 0;
     }
-    if (me.y > 0 || me.vy > 0) { me.vy -= T.gravity * dt; me.y = Math.max(0, me.y + me.vy * dt); if (me.y <= 0) me.vy = 0; }
+    if (me.y > 0 || me.vy > 0) {
+      me.vy -= T.gravity * dt; me.y = Math.max(0, me.y + me.vy * dt);
+      if (me.y <= 0) {
+        me.vy = 0; me.landTimer = 0.08;
+        if (mx) spark(me.x, 0.1, -mx * 3, 2, '#d1d5db', 2, 0.2);
+      }
+    }
     me.x = Math.max(0.6, Math.min(G.w - 0.6, me.x));
     // Gathering: walk to a scattered sheep and it runs home.
     for (const s of G.sheep) if ((s.state === 'stray' || s.state === 'run') && Math.abs(s.x - me.x) < 1 && me.y < 1) {
       s.state = 'return'; G.gathered++; G.score += 25; float('Gathered! +25', s.x, 2.2, '#bbf7d0'); sound('gather'); addPower(T.fill.gather);
     }
     // ----- stones -----
+    
+    // ----- particle sparks -----
+    if (G.sparks && G.sparks.length) {
+      for (const p of G.sparks) {
+        p.life -= dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vy -= 12 * dt;
+      }
+      G.sparks = G.sparks.filter(p => p.life > 0);
+    }
     for (const st of G.shots) {
       st.x += st.vx * dt; if (!st.target) { st.vy -= 9 * dt; st.y += st.vy * dt; }
       for (const r of G.robbers) if (!st.done && r.act !== 'flee' && (!st.target || st.target === r) && Math.abs(r.x - st.x) < 0.6 && st.y < 3.2 && st.y > 0.3) {
@@ -205,20 +303,24 @@
 
   // A robber (or their leader): to the flock, or at Ammon when he's in the way.
   function robber(r, dt) {
-    let heroTarget = G.me;
-    let minDist = 999;
-    for (const h of G.me) {
-      if (h.act !== 'stun') {
-        const d = Math.abs(h.x - r.x);
-        if (d < minDist) { minDist = d; heroTarget = h; }
-      }
-    }
-    const me = heroTarget, chief = r.kind === 'chief';
+    const me = G.me, chief = r.kind === 'chief';
     const blocking = me.act !== 'stun' && keys.has(me.k.block) && me.y <= 0;
     r.t += dt; r.step += dt * 5;
+
+    // Airborne physics when juggled or launched
+    if (r.vy || (r.y || 0) > 0) {
+      r.vy = (r.vy || 0) - 26 * dt;
+      r.y = Math.max(0, (r.y || 0) + r.vy * dt);
+      if (r.y <= 0) {
+        r.y = 0; r.vy = 0;
+        if (r.act === 'hit') r.t = 0;
+        spark(r.x, 0.1, -r.face * 3, 2, '#d1d5db', 2, 0.2);
+      }
+    }
+
     if (r.kx) { const k = Math.sign(r.kx) * Math.min(Math.abs(r.kx), 9 * dt); r.x += k; r.kx -= k; }
     if (r.act === 'flee') { r.x += r.face * 6.5 * dt; return; }
-    if (r.act === 'hit') { if (r.t > (r.daze || 0.35)) { r.act = 'walk'; r.t = 0; r.daze = 0; } return; }
+    if (r.act === 'hit') { if (r.t > (r.daze || 0.35) && (r.y || 0) <= 0) { r.act = 'walk'; r.t = 0; r.daze = 0; } return; }
     if (r.act === 'recover') { if (r.t > 0.5) { r.act = 'walk'; r.t = 0; } return; }
     const dx = me.x - r.x, near = Math.abs(dx) < (chief ? 2.3 : 1.7) && me.act !== 'stun' && me.y < 1.2;
     if (r.act === 'windup') {
@@ -301,23 +403,51 @@
     G.power = Math.min(T.power, G.power + n);
     if (G.power >= T.power) { float('⚡ Mighty power is ready!', G.me.x, 4.6, '#fbbf24'); sound('ready'); }
   }
-  // A sword blow: in the air, an overhead blow; just after a block, a counter; else the next in a chain of three.
-  function startStrike(me, chained) {
-    let kind = 'strike';
-    if (me.y > 0.25) { kind = 'air'; me.chain = 0; me.hits = 0; }
-    else if (G.time < me.counterUntil) { kind = 'counter'; me.chain = 1; me.hits = 0; }
-    else {
+  // Sword combat: 3-hit combo chain, rising launcher uppercut, shield bash, slide sweep, overhead air cleave, and parry counter.
+  function startStrike(me, chained, overrideKind) {
+    let kind = overrideKind || 'strike';
+    const moving = keys.has(me.k.left) || keys.has(me.k.right);
+    const holdingUp = keys.has(me.k.up);
+    const holdingBlock = keys.has(me.k.block);
+
+    if (overrideKind) {
+      kind = overrideKind;
+    } else if (holdingBlock) {
+      kind = 'bash'; me.chain = 0; me.hits = 0;
+    } else if (holdingUp && me.y <= 0.35) {
+      kind = 'launcher'; me.chain = 0; me.hits = 0;
+    } else if (G.time < me.counterUntil) {
+      kind = 'counter'; me.chain = 1; me.hits = 0;
+    } else if (me.y > 0.25) {
+      kind = 'air'; me.chain = 0; me.hits = 0;
+    } else if (moving && me.y <= 0 && me.chain === 0) {
+      kind = 'slide'; me.chain = 0; me.hits = 0;
+    } else {
       me.chain = (chained || G.time < me.chainUntil) && me.chain > 0 && me.chain < 3 ? me.chain + 1 : 1;
-      if (me.chain === 1) me.hits = 0;
-      if (me.chain === 3) kind = 'finish';
+      if (me.chain === 1) { me.hits = 0; kind = 'strike'; }
+      else if (me.chain === 2) { kind = 'chain2'; }
+      else if (me.chain === 3) { kind = 'finish'; }
     }
     me.act = 'strike'; me.kind = kind; me.t = 0; me.landed = false; me.queued = false; me.chainUntil = 0; me.counterUntil = 0;
-    // A counter or a chained blow steps in to the robber in front, so it reaches him.
+
     if (kind === 'counter' || me.chain > 1) {
-      const range = kind === 'counter' ? 4.2 : 3.2;
+      const range = kind === 'counter' ? 4.5 : 3.8;
       const front = G.robbers.filter(r => r.act !== 'flee' && Math.sign(r.x - me.x) === me.face && Math.abs(r.x - me.x) < range)
         .sort((a, b) => Math.abs(a.x - me.x) - Math.abs(b.x - me.x))[0];
       if (front && Math.abs(front.x - me.x) > 1.35) me.lx = (Math.abs(front.x - me.x) - 1.35) * me.face;
+      sound(kind === 'counter' ? 'combo' : 'slash');
+    } else if (kind === 'slide') {
+      me.lx = me.face * 3.6;
+      sound('dash');
+      spark(me.x, 0.1, -me.face * 5, 2, '#fff', 3, 0.25);
+    } else if (kind === 'bash') {
+      me.lx = me.face * 1.8;
+      sound('bash');
+    } else if (kind === 'launcher') {
+      me.vy = 8.8; me.lx = me.face * 1.2;
+      sound('launch');
+    } else {
+      sound('slash');
     }
   }
   // Sword and sling together, with the meter full: a stone "with mighty power" at every robber on the field.
@@ -380,13 +510,18 @@
     return im.complete && im.naturalWidth ? im : null;
   }
   // A sprite with its torso at x and its feet at the ground (gy), facing face (its pictures face right).
-  function sprite(ctx, name, x, gy, u, face, alpha) {
+  function sprite(ctx, name, x, gy, u, face, alpha, tr) {
     const s = SPR[name], im = pic(name);
     if (!s || !im) return false;
     const k = SCALE[name.split('-')[0]] * u, w = s[0] * k, h = s[1] * k;
     ctx.save();
     if (alpha != null) ctx.globalAlpha = alpha;
     ctx.translate(x, gy);
+    if (tr) {
+      if (tr.dx || tr.dy) ctx.translate(tr.dx || 0, tr.dy || 0);
+      if (tr.rot) ctx.rotate(face < 0 ? -tr.rot : tr.rot);
+      if (tr.sx != null || tr.sy != null) ctx.scale(tr.sx != null ? tr.sx : 1, tr.sy != null ? tr.sy : 1);
+    }
     if (face < 0) ctx.scale(-1, 1);
     ctx.drawImage(im, -s[2] * w, -s[3] * h, w, h);
     ctx.restore();
@@ -410,6 +545,12 @@
     if (!b) return;
     const { ctx, u, dpr, cw, ch } = b, t = now || 0, gy = ch - u * 0.9, X = v => v * u;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Screen shake
+    if (G && G.shake > 0) {
+      G.shake = Math.max(0, G.shake - 0.05);
+      const shakePx = G.shake * u * 0.4;
+      ctx.translate((Math.random() - 0.5) * shakePx * 2, (Math.random() - 0.5) * shakePx * 2);
+    }
     // The waters of Sebus, the picture covering the stage (its ground at the bottom), or a painted sky and field
     const bg = pic('sebus');
     if (bg) {
@@ -440,36 +581,112 @@
         : r.act === 'charge' ? 'chief-charge' : chief ? 'chief-ready' : 'robber-walk';
       const bob = r.act === 'walk' || r.act === 'flee' || r.act === 'charge' ? Math.abs(Math.sin(r.step * 2)) * u * 0.1 : 0;
       shadow(r.x, chief ? 0.8 : 0.6);
-      if (!sprite(ctx, name, X(r.x), gy - bob, u, r.face, r.act === 'hit' && Math.floor(t / 60) % 2 ? 0.6 : 1)) {
-        ctx.fillStyle = chief ? '#7f1d1d' : '#b45309'; ctx.fillRect(X(r.x) - u * 0.4, gy - u * 3, u * 0.8, u * 3);
+      let rTr = null;
+      if (r.act === 'hit') {
+        if ((r.y || 0) > 0.2) rTr = { rot: r.t * 8 * r.face, sx: 1.1, sy: 1.1 };
+        else rTr = { rot: -r.face * 0.24, sx: 1.08, sy: 0.94 };
+      } else if (r.act === 'charge') {
+        rTr = { rot: r.face * 0.18, sx: 1.1, sy: 0.95 };
       }
-      if (chief && r.act !== 'flee') {   // the leader's strength, over his head
-        const bw = u * 2, bx = X(r.x) - bw / 2, by = gy - u * 4.2;
+      const ry = gy - bob - X(r.y || 0);
+      if (!sprite(ctx, name, X(r.x), ry, u, r.face, r.act === 'hit' && Math.floor(t / 60) % 2 ? 0.6 : 1, rTr)) {
+        ctx.fillStyle = chief ? '#7f1d1d' : '#b45309'; ctx.fillRect(X(r.x) - u * 0.4, ry - u * 3, u * 0.8, u * 3);
+      }
+      if (chief && r.act !== 'flee') {
+        const bw = u * 2, bx = X(r.x) - bw / 2, by = ry - u * 4.2;
         ctx.fillStyle = 'rgba(0,0,0,.5)'; ctx.fillRect(bx, by, bw, u * 0.22);
         ctx.fillStyle = '#ef4444'; ctx.fillRect(bx, by, bw * Math.max(0, r.hp) / r.hpMax, u * 0.22);
       }
     }
     const me = G.me;
     const walkFrame = Math.floor(me.step) % 2 ? 'ammon-walk1' : 'ammon-walk2';
-    const name = me.act === 'strike' ? 'ammon-strike' : me.act === 'sling' ? 'ammon-sling' : me.act === 'block' ? 'ammon-block' : me.act === 'walk' && me.y <= 0 ? walkFrame : 'ammon-ready';
+    const name = me.act === 'strike' ? (me.kind === 'bash' ? 'ammon-block' : 'ammon-strike') : me.act === 'sling' ? 'ammon-sling' : me.act === 'block' ? 'ammon-block' : me.act === 'walk' && me.y <= 0 ? walkFrame : 'ammon-ready';
     shadow(me.x, 0.6 - Math.min(0.3, me.y * 0.08));
-    if (G.time < G.shieldUntil) {   // the Lord's protection: a glow round him
+    if (G.time < G.shieldUntil) {
       const gl = ctx.createRadialGradient(X(me.x), gy - u * 1.6 - X(me.y), u * 0.4, X(me.x), gy - u * 1.6 - X(me.y), u * 2.4);
       gl.addColorStop(0, 'rgba(253,230,138,.45)'); gl.addColorStop(1, 'rgba(253,230,138,0)'); ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(X(me.x), gy - u * 1.6 - X(me.y), u * 2.4, 0, 7); ctx.fill();
     }
-        if (!sprite(ctx, name, X(me.x), gy - X(me.y), u, me.face, me.act === 'stun' && Math.floor(t / 80) % 2 ? 0.45 : 1)) {
+
+    // Procedural animation transforms for Ammon
+    let meTr = null;
+    if (me.act === 'strike') {
+      const prog = me.t / T.strike;
+      if (me.kind === 'finish') {
+        const leap = Math.sin(prog * Math.PI) * u * 0.4;
+        meTr = { dy: -leap, rot: 0.26, sx: 1.14, sy: 1.08 };
+      } else if (me.kind === 'launcher') {
+        meTr = { dy: -u * 0.35 * (1 - prog), rot: -0.32, sx: 0.88, sy: 1.22 };
+      } else if (me.kind === 'slide') {
+        meTr = { dy: u * 0.32, rot: 0.45, sx: 1.34, sy: 0.72 };
+      } else if (me.kind === 'bash') {
+        meTr = { dx: me.face * u * 0.32, rot: 0.14, sx: 1.12, sy: 0.96 };
+      } else if (me.kind === 'air') {
+        meTr = { rot: 0.35, sx: 1.05, sy: 1.1 };
+      } else if (me.kind === 'chain2') {
+        meTr = { rot: -0.16, sx: 1.08, sy: 0.98 };
+      } else {
+        meTr = { dx: me.face * u * 0.18, rot: 0.14, sx: 1.06, sy: 1.0 };
+      }
+    } else if (me.act === 'stun') {
+      meTr = { rot: Math.sin(G.time * 22) * 0.22, sx: 0.95, sy: 0.95 };
+    } else if (me.y > 0) {
+      const stretch = me.vy > 0 ? 1.12 : 0.94;
+      meTr = { sx: 1 / Math.sqrt(stretch), sy: stretch };
+    } else if (me.landTimer > 0) {
+      meTr = { sx: 1.15, sy: 0.85 };
+    }
+
+    if (!sprite(ctx, name, X(me.x), gy - X(me.y), u, me.face, me.act === 'stun' && Math.floor(t / 80) % 2 ? 0.45 : 1, meTr)) {
       ctx.fillStyle = '#2563eb'; ctx.fillRect(X(me.x) - u * 0.4, gy - u * 3.1 - X(me.y), u * 0.8, u * 3.1);
     }
     if (me.act === 'stun') { ctx.fillStyle = '#fde68a'; ctx.font = `${Math.round(u * 0.6)}px 'Courier New', Courier, monospace`; ctx.textAlign = 'center'; ctx.fillText('💫', X(me.x), gy - u * 3.5 - X(me.y)); }
-    // The sword's sweep: gold for a finishing blow, a counter or an overhead blow
-    if (me.act === 'strike' && me.t > 0.03 && me.t < 0.24) {
-      const big = me.kind !== 'strike', a = 1 - (me.t - 0.03) / 0.21, cx = X(me.x) + me.face * u * 0.5, cy = gy - u * 1.9 - X(me.y), rad = u * (big ? 1.9 : 1.5);
-      const from = me.kind === 'air' ? -1.5 : -1.1, to = me.kind === 'air' ? 1.3 : 0.9;
+
+    // Dynamic sword sweep effects
+    if (me.act === 'strike' && me.t > 0.02 && me.t < 0.26) {
+      const a = 1 - (me.t - 0.02) / 0.24, cx = X(me.x) + me.face * u * 0.5, cy = gy - u * 1.9 - X(me.y);
       ctx.save(); ctx.globalAlpha = Math.max(0, a); ctx.lineCap = 'round';
-      ctx.strokeStyle = big ? '#fbbf24' : 'rgba(255,255,255,.85)'; ctx.lineWidth = u * (big ? 0.32 : 0.2);
-      ctx.beginPath();
-      if (me.face > 0) ctx.arc(cx, cy, rad, from, to); else ctx.arc(cx, cy, rad, Math.PI - to, Math.PI - from);
-      ctx.stroke(); ctx.restore();
+      if (me.kind === 'bash') {
+        ctx.strokeStyle = '#60a5fa'; ctx.lineWidth = u * 0.35;
+        ctx.beginPath();
+        if (me.face > 0) ctx.ellipse(cx + u * 0.6, cy, u * 0.7, u * 1.6, 0, -1.2, 1.2);
+        else ctx.ellipse(cx - u * 0.6, cy, u * 0.7, u * 1.6, 0, Math.PI - 1.2, Math.PI + 1.2);
+        ctx.stroke();
+      } else if (me.kind === 'slide') {
+        ctx.strokeStyle = '#fef08a'; ctx.lineWidth = u * 0.24;
+        ctx.beginPath();
+        ctx.moveTo(X(me.x) - me.face * u * 0.8, gy - u * 0.3);
+        ctx.lineTo(X(me.x) + me.face * u * 1.8, gy - u * 0.3);
+        ctx.stroke();
+      } else if (me.kind === 'launcher') {
+        ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = u * 0.32;
+        ctx.beginPath();
+        if (me.face > 0) ctx.arc(cx, cy, u * 1.8, -2.1, 0.4);
+        else ctx.arc(cx, cy, u * 1.8, Math.PI - 0.4, Math.PI + 2.1);
+        ctx.stroke();
+      } else {
+        const big = me.kind === 'finish' || me.kind === 'counter' || me.kind === 'air';
+        const rad = u * (big ? 2.0 : me.kind === 'chain2' ? 1.7 : 1.5);
+        const from = me.kind === 'air' ? -1.6 : me.kind === 'chain2' ? -0.8 : -1.2;
+        const to = me.kind === 'air' ? 1.3 : me.kind === 'chain2' ? 1.2 : 0.9;
+        ctx.strokeStyle = big ? '#fbbf24' : me.kind === 'chain2' ? '#38bdf8' : 'rgba(255,255,255,.9)';
+        ctx.lineWidth = u * (big ? 0.36 : 0.22);
+        ctx.beginPath();
+        if (me.face > 0) ctx.arc(cx, cy, rad, from, to); else ctx.arc(cx, cy, rad, Math.PI - to, Math.PI - from);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+    
+    // Render particle sparks
+    if (G.sparks && G.sparks.length) {
+      G.sparks = G.sparks.filter(p => p.life > 0);
+      for (const p of G.sparks) {
+        p.life -= 0.03; p.x += p.vx * 0.03; p.y += p.vy * 0.03; p.vy -= 12 * 0.03;
+        const alpha = Math.max(0, p.life / p.maxLife);
+        ctx.save(); ctx.globalAlpha = alpha; ctx.fillStyle = p.color;
+        ctx.beginPath(); ctx.arc(X(p.x), gy - X(p.y), u * 0.06 * p.size, 0, 7); ctx.fill();
+        ctx.restore();
+      }
     }
     for (const st of G.shots) {
       if (st.target) { ctx.fillStyle = 'rgba(251,191,36,.45)'; ctx.beginPath(); ctx.ellipse(X(st.x - Math.sign(st.vx) * 0.5), gy - X(st.y), u * 0.7, u * 0.18, 0, 0, 7); ctx.fill(); }
@@ -522,11 +739,14 @@
         <li><b>Block</b> a club facing it. Ammon can’t be beaten, but a club stuns him for a moment.</li>
         <li>Each level ends with the <b>robbers’ leader</b>, then a question from this week: right, and you get stones and the Lord’s protection.</li>
       </ul>
-      <div class="am-moves"><div class="eyebrow">Moves</div><ul>
-        <li><b>3-hit combo:</b> ${coarse() ? 'SWORD' : 'sword'} three times in a row. The third blow knocks him far, +${T.combo}.</li>
-        <li><b>Overhead:</b> jump, then ${coarse() ? 'SWORD' : 'sword'} in the air. A double blow, and he’s dazed.</li>
-        <li><b>Counter:</b> block his club, then ${coarse() ? 'SWORD' : 'sword'} right away. A double blow.</li>
-        <li><b>⚡ Mighty power:</b> drive robbers off, gather sheep and answer right to fill the meter. When it’s full, ${coarse() ? 'tap <b>⚡ POWER</b>' : 'press <b>J</b> and <b>K</b> together (or <b>E</b>)'}: a stone at every robber on the field.</li>
+      <div class="am-moves"><div class="eyebrow">Moves & Combos</div><ul>
+        <li><b>3-Hit Blade Chain:</b> ${coarse() ? 'Tap <b>A</b>' : 'Sword (<b>J</b> or <b>Z</b>)'} 3× in rhythm. The 3rd hit leaps with a golden finisher (+${T.combo} pts)!</li>
+        <li><b>Shield Bash (Crowd Control):</b> Hold Block (${coarse() ? '<b>X</b>' : '<b>L</b>'}) + tap Sword (${coarse() ? '<b>A</b>' : '<b>J</b>'}). Ammon shoves with his shield, blasting robbers back!</li>
+        <li><b>Rising Uppercut & Air Juggle:</b> Jump or hold Up + Sword. Launches the robber airborne! Jump up and strike again for an <b>Air Juggle (+75)</b>!</li>
+        <li><b>Slide Sweep:</b> Run forward + Sword while on the ground. Ammon sweeps low, tripping robbers and sliding under clubs!</li>
+        <li><b>Sling Burst (Cancel):</b> Tap Sling (${coarse() ? '<b>B</b>' : '<b>K</b>'}) right after a sword strike for an instant point-blank blast!</li>
+        <li><b>Parry Counter:</b> Hold Block facing a club right as it strikes, then tap Sword right away for a devastating counter-thrust!</li>
+        <li><b>⚡ Mighty Power:</b> Fill the meter, then tap <b>⚡ POWER</b> (or <b>E</b>): an enchanted stone strikes every robber on the field!</li>
       </ul></div>
       <div class="am-scores">${scoresHtml()}</div></div>`);
     hud();
@@ -613,19 +833,37 @@
     const me = G.me;
     if (me.act === 'stun') return;
     if (what === me.k.power) { mighty(); return; }
-    
+
     const isStrike = what === me.k.strike;
     const isSling = what === me.k.sling;
     if (!isStrike && !isSling) return;
 
     if (G.power >= T.power && me.press && ((isStrike && me.press.what === me.k.sling) || (isSling && me.press.what === me.k.strike)) && G.time - me.press.at <= T.together) { mighty(); return; }
     me.press = { what, at: G.time };
-    
-    if (me.act === 'strike') { if (isStrike && me.t >= T.strikeHit[0] && me.kind !== 'air' && me.chain < 3) me.queued = true; return; }
-    if (me.act === 'sling') return;
-    
+
+    // Sword-to-Sling Burst Cancel!
+    if (isSling && me.act === 'strike' && me.t >= T.strikeHit[0] && G.stones > 0) {
+      me.act = 'sling'; me.t = 0; me.thrown = false; me.isBurst = true; G.stones--; hud();
+      float('Sling Burst!', me.x, 3.8, '#38bdf8');
+      return;
+    }
+
+    const moving = keys.has(me.k.left) || keys.has(me.k.right);
+    if (me.act === 'strike') {
+      if (isStrike && me.t >= T.strikeHit[0] && me.kind !== 'air' && me.chain < 3 && !keys.has(me.k.up) && !keys.has(me.k.block)) {
+        me.queued = true;
+      } else {
+        me.buffer = { what, time: G.time, up: keys.has(me.k.up), block: keys.has(me.k.block), moving };
+      }
+      return;
+    }
+    if (me.act === 'sling') {
+      me.buffer = { what, time: G.time, up: keys.has(me.k.up), block: keys.has(me.k.block), moving };
+      return;
+    }
+
     if (isStrike) startStrike(me, false);
-    else if (isSling && G.stones > 0) { me.act = 'sling'; me.t = 0; me.thrown = false; G.stones--; hud(); }
+    else if (isSling && G.stones > 0) { me.act = 'sling'; me.t = 0; me.thrown = false; me.isBurst = false; G.stones--; hud(); }
   }
   function mighty() {
     const me = G.me;
@@ -853,7 +1091,7 @@
       state: () => G, T,
       step(ms = 50) { for (let t = 0; t < ms && G && G.state === 'play' && !G.q; t += 50) update(Math.min(50, ms - t) / 1000); if (G && root.dataset.view === 'game') { hud(); panel(); draw(performance.now()); } },
       key(name, down) { down ? keys.add(name) : keys.delete(name); }, act, hold(on) { G.hold = !!on; },
-      robber(x, opts) { G.robbers.push(Object.assign({ kind: 'robber', x, face: x > G.me.x ? -1 : 1, hp: 2, act: 'walk', t: 0, kx: 0, speed: 2.3, step: 0 }, opts || {})); G.wave.spawned++; },
+      robber(x, opts) { G.robbers.push(Object.assign({ kind: 'robber', x, y: 0, vy: 0, face: x > G.me.x ? -1 : 1, hp: 2, act: 'walk', t: 0, kx: 0, speed: 2.3, step: 0 }, opts || {})); G.wave.spawned++; },
       answer, next: afterQuestion, draw: () => draw(performance.now())
     }
   };
