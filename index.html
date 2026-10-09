@@ -18149,6 +18149,8 @@ const TreasureUp = (function () {
       }
       const bsm = e.target.closest('[data-bom-sheet-mark]');
       if (bsm) { markBomDone(dayKey(), bsm.dataset.bomSheetMark); return; }
+      const lc = e.target.closest('[data-lib-ch]');
+      if (lc) { closeSheet(); openLibChapter(lc.dataset.libCh); return; }
       if (seasonSheetClick(e) || seasonClick(e)) return;
       if (e.target.closest('[data-back-weeksheet]')) { stopClips(); return openSheet(weekSheetHtml()); }
       const sc = e.target.closest('[data-short-id]');
