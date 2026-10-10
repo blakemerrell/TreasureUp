@@ -28,7 +28,7 @@
     sling: 0.42, slingAt: 0.22, stoneSpeed: 15, stones: 6, stonesMax: 12,
     stun: 0.7, chiefStun: 1.1,                // a club's blow stuns, never more
     sheep: 8, lose: 4,                        // the flock, and how many lost ends the game
-    flock: [2.6, 7.2],                        // where the flock grazes (units from the left)
+    flock: [1.4, 4.8],                        // where the flock grazes (units from the left)
     robberSpeed: 2.3, robberStep: 0.25, robberMax: 4.6,
     windup: 0.45, chiefWindup: 0.7, between: 2.4, shield: 8, ready: 3,
     // The moves (Blake, 2026-10-04: "What like of combos can we do?"): sword three times in a row (the
@@ -176,18 +176,19 @@
   function newGame() {
     const portrait = window.innerHeight > window.innerWidth * 1.05;
     const seed = typeof window.TU_AMMON_SEED === 'number' ? window.TU_AMMON_SEED : Date.now();
-    G = { w: portrait ? 18 : 26, rand: rng(seed), time: 0, level: 0, score: 0, state: 'play', ready: manual() ? 0 : T.ready, paused: false,
+    const w = portrait ? 14.5 : 18;
+    G = { w, rand: rng(seed), time: 0, level: 0, score: 0, state: 'play', ready: manual() ? 0 : T.ready, paused: false,
       stones: T.stones, lost: 0, robbersOff: 0, chiefsOff: 0, gathered: 0, shieldUntil: 0, used: new Set(), power: 0, flashAt: -9, combos: 0, mighties: 0,
       shake: 0, hitstop: 0, sparks: [],
       perks: new Set(), blazingStones: false, radiantBlade: false, fastPower: false, sheepRescued: 0, flockShieldUntil: 0,
       me: { x: 0, y: 0, vy: 0, vx: 0, hp: 100, hpMax: 100, face: 1, act: 'ready', t: 0, stun: 0, step: 0, chain: 0, chainUntil: 0, counterUntil: 0, lx: 0, hits: 0, buffer: null, landTimer: 0, k: { left: 'left', right: 'right', up: 'up', block: 'block', strike: 'strike', sling: 'sling', power: 'power' } },
       sheep: [], robbers: [], shots: [], drops: [], floats: [], between: 0, banner: null, q: null };
-    const home = T.flock, span = (portrait ? home[1] - 1.2 : home[1]) - home[0];
+    const home = T.flock, span = home[1] - home[0];
     for (let k = 0; k < T.sheep; k++) {
       const x = home[0] + span * (k + 0.5) / T.sheep;
       G.sheep.push({ home: x, x, state: 'flock', tx: x, row: k % 2, wig: G.rand() * 6 });
     }
-    G.me.x = home[0] + span + 2;
+    G.me.x = home[0] + span + 1.8;
     nextLevel();
   }
   const alive = () => G.sheep.filter(s => s.state !== 'lost');
@@ -741,11 +742,23 @@
     const dpr = Math.min(2, window.devicePixelRatio || 1);
 
     const portrait = ch > cw * 1.05;
-    const tall = portrait ? 9.5 : 7.2;
-    const u = ch / tall;
-    G.w = Math.max(portrait ? 16 : 24, cw / u);
+    let u;
+    if (portrait) {
+      // In portrait: fit the 14.5 units of world width across cw exactly so nothing is cropped!
+      G.w = 14.5;
+      u = cw / G.w;
+    } else {
+      // In landscape: fit vertically with 6.6 units of height, and expand width to fill screen
+      const tall = 6.6;
+      u = Math.min(ch / tall, cw / 16.0);
+      G.w = Math.max(16.0, cw / u);
+    }
 
-    if (c.width !== Math.round(cw * dpr) || c.height !== Math.round(ch * dpr) || c._cw !== cw || c._ch !== ch) {
+    if (G.me) {
+      G.me.x = Math.max(0.6, Math.min(G.w - 0.6, G.me.x));
+    }
+
+    if (c.width !== Math.round(cw * dpr) || c.height !== Math.round(ch * dpr) || c._cw !== cw || c._ch !== ch || c._u !== u) {
       c.width = Math.round(cw * dpr);
       c.height = Math.round(ch * dpr);
       c.style.width = cw + 'px';
@@ -755,12 +768,18 @@
       c._cw = cw;
       c._ch = ch;
     }
-    return { c, ctx: c.getContext('2d'), u, dpr, cw, ch };
+    return { c, ctx: c.getContext('2d'), u, dpr, cw, ch, portrait };
   }
   function draw(now) {
     const b = board();
     if (!b) return;
-    const { ctx, u, dpr, cw, ch } = b, t = now || 0, gy = ch - u * 0.9, X = v => v * u;
+    const { ctx, u, dpr, cw, ch, portrait } = b, t = now || 0;
+    // In portrait on touch screens, raise ground above bottom touch controls (165px)
+    // so Ammon, sheep, and robbers are never hidden under the player's thumbs or buttons!
+    const gy = portrait
+      ? ch - (coarse() ? 175 : Math.max(u * 1.1, 90))
+      : ch - u * 0.9;
+    const X = v => v * u;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     // Screen shake
     if (G && G.shake > 0) {
@@ -771,8 +790,14 @@
     // The waters of Sebus, the picture covering the stage (its ground at the bottom), or a painted sky and field
     const bg = pic('sebus');
     if (bg) {
-      const k = Math.max(cw / bg.naturalWidth, ch / bg.naturalHeight), w = bg.naturalWidth * k, h = bg.naturalHeight * k;
-      ctx.drawImage(bg, (cw - w) * 0.5, ch - h, w, h);
+      if (portrait) {
+        const k = Math.max(cw / bg.naturalWidth, gy / (bg.naturalHeight * 0.85));
+        const w = bg.naturalWidth * k, h = bg.naturalHeight * k;
+        ctx.drawImage(bg, (cw - w) * 0.5, gy - h * 0.85, w, h);
+      } else {
+        const k = Math.max(cw / bg.naturalWidth, ch / bg.naturalHeight), w = bg.naturalWidth * k, h = bg.naturalHeight * k;
+        ctx.drawImage(bg, (cw - w) * 0.5, ch - h, w, h);
+      }
     } else {
       const g = ctx.createLinearGradient(0, 0, 0, ch); g.addColorStop(0, '#f6c78b'); g.addColorStop(0.55, '#c7d79a'); g.addColorStop(1, '#a3b26a');
       ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
@@ -979,9 +1004,11 @@
     shell(`<div class="am-menu">
       <img class="am-hero" src="arcade/ammon.jpg" width="960" height="480" alt="At the waters of Sebus, Ammon whirls his sling in front of the king's flock while the robbers stumble back and run, and the king's servants watch, amazed.">
       <p class="am-hook">${host.html(W().hook || '')}</p>
+      <div style="text-align: center;"><div class="am-orient-badge">📱 Works in Portrait &amp; 🔄 Landscape · Rotate anytime</div></div>
       <div class="board-actions"><button class="btn" data-am="start">▶ Start</button></div>
       <ul class="am-how">
         <li>Play with ${keysHow}.</li>
+        <li>Works in both <b>portrait</b> and <b>landscape</b> — rotate your device anytime for a widescreen view!</li>
         <li>Robbers come to <b>scatter the flock</b>. Walk to a scattered sheep to <b>gather it</b> back before it wanders off. Lose ${T.lose} sheep and the game is over.</li>
         <li>Your <b>sword</b> knocks the clubs out of their hands; your <b>sling</b> reaches far, but stones run out (a robber may drop a pouch).</li>
         <li><b>Block</b> a club facing it. Ammon can’t be beaten, but a club stuns him for a moment.</li>
@@ -1064,6 +1091,12 @@
           <button class="btn ghost am-btn-icon" data-am="exit" title="Exit Game">✕</button>
         </div>
       </header>
+
+      <!-- Orientation Hint for Mobile (shows in portrait) -->
+      <div id="amRotateHint" class="am-rotate-hint" title="Tip: You can play in portrait or flip to landscape anytime">
+        <span class="am-rotate-icon">🔄</span>
+        <span>Flip phone for widescreen view</span>
+      </div>
 
       <!-- Floating Upper-Sky Status Announcement Ticker -->
       <div id="amPanel" class="am-panel-ticker" aria-live="polite"></div>
@@ -1294,6 +1327,8 @@
     if (ans) { answer(Number(ans.dataset.ans)); return; }
     const bl = e.target.closest('[data-blessing]');
     if (bl) { chooseBlessing(bl.dataset.blessing); return; }
+    const rh = e.target.closest('#amRotateHint');
+    if (rh) { rh.style.display = 'none'; return; }
     const b = e.target.closest('[data-am]');
     if (!b) return;
     const a = b.dataset.am;
@@ -1448,6 +1483,142 @@
         align-items: center;
         justify-content: center;
         font-size: 15px;
+      }
+
+      /* Orientation Hint for Mobile (shows in portrait) */
+      #ammon .am-rotate-hint {
+        display: none;
+      }
+      @media (orientation: portrait) and (max-width: 900px) {
+        #ammon[data-view="game"] .am-top-overlay {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          grid-template-rows: auto auto;
+          row-gap: 5px;
+          column-gap: 8px;
+          padding: max(6px, env(safe-area-inset-top)) 10px 4px 10px;
+        }
+        #ammon[data-view="game"] .am-top-brand {
+          grid-column: 1;
+          grid-row: 1;
+          display: flex;
+          align-items: center;
+        }
+        #ammon[data-view="game"] .am-title-tag {
+          display: inline-block !important;
+          font-size: 11px;
+          padding: 3px 6px;
+        }
+        #ammon[data-view="game"] .am-btns {
+          grid-column: 2;
+          grid-row: 1;
+          justify-self: end;
+          display: flex;
+          gap: 4px;
+        }
+        #ammon[data-view="game"] .am-btns .am-btn-icon {
+          min-width: 32px;
+          height: 32px;
+          padding: 0 6px;
+          font-size: 13px;
+        }
+        #ammon[data-view="game"] .am-hud {
+          grid-column: 1 / -1;
+          grid-row: 2;
+          width: 100%;
+        }
+        #ammon[data-view="game"] .am-hud-wrap {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          gap: 4px;
+        }
+        #ammon[data-view="game"] .am-hud-block {
+          flex: 1 1 0;
+          min-width: 0;
+          padding: 3px 5px;
+          min-height: 34px;
+        }
+        #ammon[data-view="game"] .am-hud-head {
+          font-size: 11px;
+          gap: 2px;
+        }
+        #ammon[data-view="game"] .am-hud-name {
+          font-size: 9px;
+        }
+        #ammon[data-view="game"] .am-hud-val {
+          font-size: 11px;
+        }
+        #ammon[data-view="game"] .am-meter-track {
+          height: 5px;
+          margin-top: 2px;
+        }
+        #ammon[data-view="game"] .am-stone-pips {
+          gap: 2px;
+          margin-top: 2px;
+        }
+        #ammon[data-view="game"] .am-pip {
+          width: 5px;
+          height: 5px;
+        }
+        #ammon[data-view="game"] .am-perks-box {
+          flex: 1 1 100%;
+          width: 100%;
+          margin-top: 2px;
+        }
+
+        #ammon[data-view="game"] .am-rotate-hint {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          position: absolute;
+          top: calc(max(6px, env(safe-area-inset-top)) + 84px);
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 22;
+          background: rgba(18, 14, 34, 0.92);
+          border: 1px solid rgba(251, 191, 36, 0.45);
+          color: #fde68a;
+          font-family: 'Courier New', Courier, monospace;
+          font-size: 11px;
+          font-weight: 800;
+          padding: 4px 12px;
+          border-radius: 14px;
+          box-shadow: 0 4px 14px rgba(0,0,0,0.6);
+          pointer-events: auto;
+          cursor: pointer;
+          white-space: nowrap;
+          animation: amHintFade 12s forwards;
+        }
+        #ammon[data-view="game"] .am-rotate-hint .am-rotate-icon {
+          font-size: 14px;
+          animation: amRotateSpin 3s ease-in-out infinite;
+        }
+        #ammon[data-view="game"] .am-panel-ticker {
+          top: calc(max(6px, env(safe-area-inset-top)) + 120px);
+        }
+      }
+      @keyframes amRotateSpin {
+        0%, 70% { transform: rotate(0deg); }
+        85% { transform: rotate(90deg); }
+        100% { transform: rotate(0deg); }
+      }
+      @keyframes amHintFade {
+        0% { opacity: 0; transform: translate(-50%, -6px); }
+        8% { opacity: 1; transform: translate(-50%, 0); }
+        80% { opacity: 1; }
+        100% { opacity: 0; pointer-events: none; }
+      }
+      #ammon .am-orient-badge {
+        font: 800 12px 'Courier New', Courier, monospace;
+        color: #fde68a;
+        background: rgba(251,191,36,0.12);
+        border: 1px solid rgba(251,191,36,0.3);
+        border-radius: 10px;
+        padding: 5px 12px;
+        text-align: center;
+        margin: 4px auto;
+        display: inline-block;
       }
 
       /* Floating Upper-Sky Status Announcement Ticker */
@@ -1788,7 +1959,7 @@
     open, close,
     // For the tests (with window.TU_AMMON_MANUAL set, nothing moves until step()).
     _t: {
-      state: () => G, T, BLESSINGS,
+      board, state: () => G, T, BLESSINGS,
       step(ms = 50) { for (let t = 0; t < ms && G && G.state === 'play' && !G.q; t += 50) update(Math.min(50, ms - t) / 1000); if (G && root.dataset.view === 'game') { hud(); panel(); draw(performance.now()); } },
       key(name, down) { down ? keys.add(name) : keys.delete(name); }, act, hold(on) { G.hold = !!on; },
       robber(x, opts) { G.robbers.push(Object.assign({ kind: 'robber', x, y: 0, vy: 0, face: x > G.me.x ? -1 : 1, hp: 2, act: 'walk', t: 0, kx: 0, speed: 2.3, step: 0 }, opts || {})); G.wave.spawned++; },
