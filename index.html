@@ -3389,7 +3389,7 @@ const TreasureUp = (function () {
     const at = plan.findIndex(e => e.kind === 'day'), n = rows.filter(r => r.done).length, next = pathLeft(rows)[0];
     const mins = list => list.reduce((m, r) => m + pathRowMin(r), 0), started = rows.some(r => r.done && !r.own) || !!(next && next.started);   // his own rows (Be still, goals, thanks) don't start the study
     const what = [unitsLabel(readingPlan()[d]) || (dayReels(d).length ? qWord(dayReels(d).length) : ''), rows.some(r => r.kind === 'cfm') && 'Come Follow Me',
-      rows.some(r => r.kind === 'gc') && 'conference', rows.some(r => r.kind === 'goal') && 'goals', rows.some(r => r.kind === 'thanks') && 'thanks'].filter(Boolean).join(' · ');
+      rows.some(r => r.kind === 'gc') && 'conference', rows.some(r => r.kind === 'fsy') && 'youth study', rows.some(r => r.kind === 'goal') && 'goals', rows.some(r => r.kind === 'thanks') && 'thanks'].filter(Boolean).join(' · ');
     let button = '';
     if (rows.length && !next) button = isToday ? `<div class="fl-done"><b>✓ Today’s study: done</b><small>${esc(d < 5 ? 'Tomorrow: ' + dayName(d + 1) : 'Tomorrow: church, then a family game')}</small></div>`
       : at >= 0 ? `<button class="fl-next ahead" data-lesson="${d}.${at}"><b>▶ Practice it again</b><small>Already done: nothing new to earn</small></button>` : '';
@@ -3517,6 +3517,137 @@ const TreasureUp = (function () {
     closeSheet();
     refreshHome();
     toast('📜 Book of Mormon Read', 'Living Water for your soul');
+  }
+
+  // Javan's Youth Study Plan & FSY Magazine Integration (Blake, 2026-10-10:
+  // feed Javan's FSY guide and magazine readings into his Daily Walk)
+  const FSY_XP = 15;
+  function fsyOf(k) {
+    const yl = youthLessonForWeek(WEEK);
+    if (!yl || !yl.l) return null;
+    const cards = yl.l.cards || [];
+    if (!cards.length) return null;
+    const dayOfWeek = (new Date((k || dayKey()) + 'T12:00:00').getDay() + 6) % 7; // 0=Mon..6=Sun
+    let card = null, kind = 'card';
+    if (dayOfWeek === 4) {
+      // Friday: check for FSY magazine feature deep dive in this week's deep items
+      const ftsoy = (WEEK.deep || []).find(d => d.id && d.id.includes('ftsoy'));
+      if (ftsoy) {
+        card = {
+          id: ftsoy.id,
+          hook: ftsoy.title || 'Strength Training with Isaiah',
+          body: ftsoy.intro || ftsoy.why || '',
+          q: ftsoy.q,
+          right: ftsoy.right,
+          wrong: ftsoy.wrong || [],
+          why: ftsoy.why,
+          read: ftsoy.read || yl.l.read
+        };
+        kind = 'mag';
+      }
+    }
+    if (!card) {
+      const idx = Math.min(cards.length - 1, dayOfWeek % cards.length);
+      card = cards[idx];
+    }
+    return { yl, card, kind, dayOfWeek };
+  }
+
+  function fsySheetHtml(k, cardId) {
+    const y = fsyOf(k);
+    if (!y) return '<div class="sh-title">Youth Study</div><p class="sh-small">No lesson for this week.</p>';
+    const c = (cardId && y.yl.l.cards.find(x => x.id === cardId)) || y.card;
+    const m = y.yl.m;
+    const day = k || dayKey(), dn = pathDoneOf(day);
+    const done = !!dn['fsy_' + (c.id || day)] || !!dn.fsy;
+    const answers = [c.right].concat(c.wrong || []);
+    answers.sort((a, b) => a.localeCompare(b));
+    const cited = extractScriptureRef(c.body) || extractScriptureRef(c.why) || (y.kind === 'mag' ? 'Isaiah 40:31' : null);
+    const glUrl = c.read || y.yl.l.read || m.guide;
+    const glLabel = y.kind === 'mag' ? 'Read article in FSY Magazine ↗' : 'Read FSY chapter in Gospel Library ↗';
+
+    return `<div class="sh-title">${y.kind === 'mag' ? '📖 FSY Magazine Feature' : '⛪ Youth Study · FSY'}</div>
+      <p class="sh-small" style="margin-top:2px">Youth Study Companion · FSY Ch ${m.chapter}: ${esc(m.title)} · 2 min</p>
+
+      <div style="margin:14px 0;padding:14px 16px;border-radius:14px;background:rgba(129,140,248,.08);border:1px solid rgba(129,140,248,.25)">
+        <div style="font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#a5b4fc;margin-bottom:6px">${esc(c.hook)}</div>
+        <p style="font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.9);margin:0">${esc(c.body)}</p>
+      </div>
+
+      ${cited ? `
+        <div style="margin-bottom:14px;padding:10px 14px;border-radius:12px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);font-size:12.5px;color:#fde68a">
+          <span style="font-size:10.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:2px">📖 Scripture Anchor</span>
+          ${esc(cited)}
+        </div>
+      ` : ''}
+
+      <div style="padding:14px;border-radius:14px;background:rgba(0,0,0,.35);border:1.5px solid rgba(255,255,255,.1);display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:#818cf8">❓ Quick Check:</div>
+        <p style="margin:0;font-size:14px;font-weight:700;line-height:1.4;color:#fff">${esc(c.q)}</p>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px">
+          ${answers.map(ans => {
+            const isRight = ans === c.right ? '1' : '0';
+            return `<button type="button" style="padding:9px 12px;border-radius:10px;text-align:left;font-size:13px;width:100%;cursor:pointer;border:1px solid rgba(255,255,255,.18);color:#fff;background:rgba(255,255,255,.06)" data-fsy-answer="${esc(c.id)}|${isRight}|${esc(ans)}">
+              ${esc(ans)}
+            </button>`;
+          }).join('')}
+        </div>
+        <div id="fsyWhy" style="display:none;font-size:12.5px;color:#86efac;margin-top:6px;line-height:1.4"><b>Why:</b> ${esc(c.why)}</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px">
+        ${glUrl ? `<a class="sp-gl-link" href="${esc(glUrl)}" target="_blank" rel="noopener noreferrer">📖 ${esc(glLabel)}</a>` : ''}
+        <button type="button" class="${done ? 'today-alt' : 'btn'}" style="${done ? '' : 'background:linear-gradient(135deg,#818cf8,#6366f1);color:#fff;'}" data-fsy-sheet-mark="${esc(c.id)}">
+          ${done ? '✓ Completed Today (+15 XP)' : '✓ Mark Completed (+15 XP)'}
+        </button>
+      </div>`;
+  }
+
+  function openFsySheet(k, cardId) {
+    openSheet(fsySheetHtml(k, cardId));
+  }
+
+  function handleFsyAnswer(btn) {
+    const [cardId, isRight, ans] = btn.dataset.fsyAnswer.split('|');
+    const parent = btn.parentElement;
+    parent.querySelectorAll('[data-fsy-answer]').forEach(b => b.disabled = true);
+    if (isRight === '1') {
+      btn.style.background = '#059669';
+      btn.style.borderColor = '#34d399';
+      btn.style.fontWeight = '800';
+      btn.textContent = '✓ ' + ans;
+      const whyEl = $('fsyWhy');
+      if (whyEl) whyEl.style.display = 'block';
+      markFsyDone(dayKey(), cardId);
+    } else {
+      btn.style.background = '#dc2626';
+      btn.style.borderColor = '#f87171';
+      btn.style.opacity = '.75';
+      parent.querySelectorAll('[data-fsy-answer]').forEach(b => {
+        const parts = b.dataset.fsyAnswer.split('|');
+        if (parts[1] === '1') {
+          b.style.background = '#059669';
+          b.style.borderColor = '#34d399';
+          b.textContent = '✓ ' + parts[2];
+        }
+      });
+      const whyEl = $('fsyWhy');
+      if (whyEl) whyEl.style.display = 'block';
+    }
+  }
+
+  function markFsyDone(k, cardId) {
+    const day = k || dayKey(), dn = pathDoneOf(day);
+    if (!dn['fsy_' + (cardId || day)] && !dn.fsy) {
+      const rec = {}; payXp(rec, FSY_XP, 'Youth FSY Study');
+      setPathDone(day, 'fsy_' + (cardId || day), rec);
+      setPathDone(day, 'fsyXp', rec);
+    }
+    setPathDone(day, 'fsy', 1);
+    markStudied();
+    save();
+    refreshHome();
+    toast('🎉 Youth Study Done (+15 XP)', 'For the Strength of Youth locked in!');
   }
 
   // Morning Blueprint (Elder Bednar: Pray Always · Alma 37:37)
@@ -8019,7 +8150,12 @@ const TreasureUp = (function () {
     if (k) {
       const dn = pathDoneOf(k), t = gcOf(k), b = bomOf(k);
       if (b) rows.push({ kind: 'bom', b, k, done: !!dn.bom, own: true });
-      if (t) rows.push({ kind: 'gc', t, k, done: !!dn.gc });
+      if (seasonWho() !== 'adult') {
+        const y = fsyOf(k);
+        if (y) rows.push({ kind: 'fsy', y, k, done: !!dn['fsy_' + (y.card.id || k)] || !!dn.fsy });
+      } else {
+        if (t) rows.push({ kind: 'gc', t, k, done: !!dn.gc });
+      }
       // Each goal step its own row, ticked right there (Blake, 2026-10-07: "I want
       // my goals to be on timeline as separate things so I see them... Same with
       // gratitude, and be still"). Those rows (goals, thanks, Be still) are his own: they never hold the
@@ -8043,6 +8179,7 @@ const TreasureUp = (function () {
     if (r.kind === 'reels') return r.reels.length === 1 ? r.reels[0].hook : r.reels.length + ' reels';
     if (r.kind === 'goal') return '🌱 ' + r.x.st.text;
     if (r.kind === 'blueprint') return seasonWho() !== 'adult' ? '🌟 Morning Council' : '🌅 Morning Council';
+    if (r.kind === 'fsy') return r.y.kind === 'mag' ? '📖 FSY Magazine Feature' : '📖 Youth Study · FSY';
     return { cfm: 'Come Follow Me', bom: '📜 Book of Mormon', gc: 'Conference', thanks: 'Grateful for…', still: '🕊️ Be still' }[r.kind];
   }
   function pathRowSub(r) {
@@ -8050,6 +8187,7 @@ const TreasureUp = (function () {
     if (r.kind === 'reels') return 'This week’s reels · ' + qWord(r.reels.length);
     if (r.kind === 'cfm') return r.c.x.h.replace(/^[“"]|[”"]$/g, '').replace(/\.$/, '');
     if (r.kind === 'bom') return r.b.ch + ' · ' + r.b.hook.replace(/^[“"]|[”"]$/g, '');
+    if (r.kind === 'fsy') return `FSY Ch ${r.y.yl.m.chapter}: ${r.y.card.hook.replace(/^[“"]|[”"]$/g, '')} · 2 min`;
     if (r.kind === 'gc') return r.t.t.speaker;
     if (r.kind === 'goal') return 'My Season · ' + r.x.sub;
     if (r.kind === 'still') return stillSub();
@@ -8066,7 +8204,7 @@ const TreasureUp = (function () {
     const had = r.k && gratefulOf(r.k);
     return had ? (had[1].items || []).join(' · ') : gratefulPrompt(dayKey()).q;
   }
-  const pathRowMin = r => r.kind === 'part' ? partMin(r.p.pu.words, r.reels.length) : r.kind === 'reels' ? Math.max(1, r.reels.length) : r.kind === 'cfm' ? 2 : r.kind === 'bom' ? 3 : 1;
+  const pathRowMin = r => r.kind === 'part' ? partMin(r.p.pu.words, r.reels.length) : r.kind === 'reels' ? Math.max(1, r.reels.length) : r.kind === 'cfm' ? 2 : r.kind === 'bom' ? 3 : r.kind === 'fsy' ? 2 : 1;
   // Every row a tap (Blake, 2026-10-07: "I want to be able to tap on the row
   // conference, come follow me, read Isaiah 53.... And see that content"): one
   // done opens it again to look over (nothing new to earn), one still to do
@@ -8077,6 +8215,7 @@ const TreasureUp = (function () {
     if (r.kind === 'reels') return r.done && r.reels.length ? `data-view="${esc(r.reels[0].id)}"` : go;
     if (r.kind === 'cfm') return c.at >= 0 ? `data-lesson="${c.d}.${c.at}" data-focus="cfm-${esc(r.c.x.id)}"` : go;
     if (r.kind === 'bom') return `data-bom-open="${esc(r.b.ch)}"`;
+    if (r.kind === 'fsy') return `data-fsy-open="${esc(r.y.card.id)}"`;
     if (r.kind === 'gc') return `data-path-gc="${esc(r.t.t.id)}"`;
     if (r.kind === 'goal') return `data-tick="${esc(r.x.s.id)}|${esc(r.x.st.id)}" aria-pressed="${!!r.done}"`;
     if (r.kind === 'thanks') return 'data-grateful';
@@ -8088,7 +8227,7 @@ const TreasureUp = (function () {
     const qs = (r.reels || []).filter(x => !S.answers[x.id]).length * XP.firstTry;
     if (r.kind === 'part') return [(partDone(r.p) ? 0 : r.p.of > 1 ? Math.floor(READ_XP / r.p.of) : READ_XP) + qs, qs > 0];
     if (r.kind === 'reels') return [qs, true];
-    return [{ cfm: CFM_XP, bom: BOM_XP, gc: GC_XP, goal: GOAL_TICK_XP, thanks: THANKS_XP, still: STILL_XP, blueprint: BLUEPRINT_XP }[r.kind] || 0, false];
+    return [{ cfm: CFM_XP, bom: BOM_XP, gc: GC_XP, fsy: FSY_XP, goal: GOAL_TICK_XP, thanks: THANKS_XP, still: STILL_XP, blueprint: BLUEPRINT_XP }[r.kind] || 0, false];
   }
   // What a done row earned, streak and all, as far as it was kept.
   function pathRowEarned(r) {
@@ -8101,6 +8240,7 @@ const TreasureUp = (function () {
     if (r.kind === 'reels') return asked;
     if (r.kind === 'cfm') return xpOf((S.cfm || {})[cfmKey(r.c)]);
     if (r.kind === 'bom') return xpOf(dn.bomXp);
+    if (r.kind === 'fsy') return xpOf(dn['fsy_' + (r.y.card.id || r.k)]) || xpOf(dn.fsyXp) || xpOf(dn.fsy);
     if (r.kind === 'gc') return xpOf(dn.gc);
     if (r.kind === 'goal') return xpOf((S.tickPaid || {})[r.k + '|' + r.x.st.id]);
     if (r.kind === 'thanks') return xpOf(dn.grXp);
@@ -18429,6 +18569,8 @@ const TreasureUp = (function () {
       if (bpc) { toggleBlueprintCheck(bpc.dataset.bpCheck); return; }
       const bmo = e.target.closest('[data-bom-open]');
       if (bmo) { openBomSheet(dayKey(), bmo.dataset.bomOpen); return; }
+      const fso = e.target.closest('[data-fsy-open]');
+      if (fso) { openFsySheet(dayKey(), fso.dataset.fsyOpen); return; }
       if (e.target.closest('[data-short-deck="family"]')) { stopClips(); return openSheet(familyDeckHtml(0)); }
       if (e.target.closest('[data-short-deck="sunday"]')) { stopClips(); return openSheet(sundayDeckHtml(0)); }
       const sc = e.target.closest('[data-short-id]');
@@ -18738,6 +18880,10 @@ const TreasureUp = (function () {
       }
       const bsm = e.target.closest('[data-bom-sheet-mark]');
       if (bsm) { markBomDone(dayKey(), bsm.dataset.bomSheetMark); return; }
+      const fsm = e.target.closest('[data-fsy-sheet-mark]');
+      if (fsm) { markFsyDone(dayKey(), fsm.dataset.fsySheetMark); return; }
+      const fsa = e.target.closest('[data-fsy-answer]');
+      if (fsa) { handleFsyAnswer(fsa); return; }
       const lc = e.target.closest('[data-lib-ch]');
       if (lc) { closeSheet(); openLibChapter(lc.dataset.libCh); return; }
       if (seasonSheetClick(e) || seasonClick(e)) return;
