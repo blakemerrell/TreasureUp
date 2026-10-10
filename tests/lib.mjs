@@ -63,6 +63,9 @@ let chromium, browser;
 export async function launch() {
   process.env.PLAYWRIGHT_BROWSERS_PATH = process.env.PLAYWRIGHT_BROWSERS_PATH || (fs.existsSync('/opt/pw-browsers') ? '/opt/pw-browsers' : '');
   if (!process.env.PLAYWRIGHT_BROWSERS_PATH) delete process.env.PLAYWRIGHT_BROWSERS_PATH;
+  // A page's service worker (sw.js) gets the same network as the page: the routes below answer it too, so the
+  // Firebase library it fetches comes from tests/node_modules here as it does from the web on GitHub.
+  process.env.PW_EXPERIMENTAL_SERVICE_WORKER_NETWORK_EVENTS = '1';
   ({ chromium } = require('playwright'));
   browser = await chromium.launch();
   return browser;
@@ -74,8 +77,9 @@ const SDK = (() => { try { return path.dirname(require.resolve('firebase/package
 // (and moving on in real time; window.__skip(ms) jumps it ahead), with
 // Firebase pointed at the emulators when `emulators` is set, and `files`
 // ({ 'content/weeks.js': text }) served in place of the repo's.
-export async function device(name, { url, day = null, emulators = false, files = {} }) {
-  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+export async function device(name, { url, day = null, emulators = false, files = {}, sw = false }) {
+  // The service worker (sw.js) only where a test asks for it: elsewhere it would answer for the network the test controls.
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: sw ? 'allow' : 'block' });
   await ctx.route('**/*', r => {
     const u = r.request().url();
     const own = Object.keys(files).find(f => new URL(u).pathname.endsWith('/' + f));   // a test's own copy of a file
@@ -107,7 +111,7 @@ export async function device(name, { url, day = null, emulators = false, files =
   }, [day, emulators]);
   const page = await ctx.newPage();
   page.errors = [];
-  page.on('pageerror', e => { page.errors.push(e.message); note('ERR', `[${name}] ${e.message}`); });
+  page.on('pageerror', e => { page.errors.push(e.message); note('ERR', `[${name}] ${e.message} :: ${(e.stack || '').split('\n').slice(1, 4).join(' / ')}`); });
   await page.goto(url); await wait(1500);
   return { name, ctx, page };
 }
