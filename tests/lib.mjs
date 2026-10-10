@@ -63,6 +63,9 @@ let chromium, browser;
 export async function launch() {
   process.env.PLAYWRIGHT_BROWSERS_PATH = process.env.PLAYWRIGHT_BROWSERS_PATH || (fs.existsSync('/opt/pw-browsers') ? '/opt/pw-browsers' : '');
   if (!process.env.PLAYWRIGHT_BROWSERS_PATH) delete process.env.PLAYWRIGHT_BROWSERS_PATH;
+  // A page's service worker (sw.js) gets the same network as the page: the routes below answer it too, so the
+  // Firebase library it fetches comes from tests/node_modules here as it does from the web on GitHub.
+  process.env.PW_EXPERIMENTAL_SERVICE_WORKER_NETWORK_EVENTS = '1';
   ({ chromium } = require('playwright'));
   browser = await chromium.launch();
   return browser;
@@ -108,7 +111,7 @@ export async function device(name, { url, day = null, emulators = false, files =
   }, [day, emulators]);
   const page = await ctx.newPage();
   page.errors = [];
-  page.on('pageerror', e => { page.errors.push(e.message); note('ERR', `[${name}] ${e.message}`); });
+  page.on('pageerror', e => { page.errors.push(e.message); note('ERR', `[${name}] ${e.message} :: ${(e.stack || '').split('\n').slice(1, 4).join(' / ')}`); });
   await page.goto(url); await wait(1500);
   return { name, ctx, page };
 }
