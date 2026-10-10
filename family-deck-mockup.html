@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Treasure Up · Family Mini-Lessons Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --ink: #0a0a14;
+    --right: #34d399;
+    --wrong: #fb7185;
+    --gold: #fcd34d;
+    --gold-glow: rgba(252, 211, 77, 0.25);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    margin: 0; padding: 0; min-height: 100%;
+    background: var(--ink); color: #fff;
+    font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Frame imitating phone screen in Treasure Up's background gradient */
+  .device-frame {
+    max-width: 440px;
+    min-height: 100vh;
+    margin: 0 auto;
+    position: relative;
+    background: linear-gradient(165deg, #1e1b4b 0%, #3b1a6e 38%, #0a0a14 88%);
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Treasure Up HUD replica at top */
+  .hud-mock {
+    padding: calc(var(--sat) + 12px) 16px 14px;
+    background: linear-gradient(to bottom, rgba(17,14,42,.97) 0%, rgba(17,14,42,.92) 80%, rgba(17,14,42,0) 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+  }
+  .hud-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .hud-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 10px 4px 4px;
+    border-radius: 999px;
+    background: rgba(0,0,0,.45);
+    border: 1px solid rgba(255,255,255,.15);
+  }
+  .hud-lvl-circle {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: #d97706;
+    color: #1a1003;
+    font-weight: 900;
+    font-size: 13px;
+    display: grid;
+    place-items: center;
+  }
+  .hud-name { font-size: 13px; font-weight: 800; }
+  .hud-stats { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 800; }
+  .hud-stat-flame { color: #fdba74; }
+  .hud-stat-mult { color: #fde047; }
+  .hud-stat-freeze { color: #93c5fd; }
+  .hud-icon-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(0,0,0,.4);
+    border: 1px solid rgba(255,255,255,.15);
+    display: grid; place-items: center;
+    font-size: 15px;
+  }
+
+  /* Content area (Sheet pulled up from bottom) */
+  .sheet-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .ws-card {
+    position: relative;
+    background: #15152a;
+    border-top: 1px solid rgba(255,255,255,.14);
+    border-radius: 24px 24px 0 0;
+    padding: 22px 18px calc(var(--sab) + 30px);
+    box-shadow: 0 -10px 40px rgba(0,0,0,.7);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .ws-drag {
+    width: 38px; height: 4px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.2);
+    margin: -10px auto 4px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .sh-title {
+    font-size: 21px;
+    font-weight: 900;
+    line-height: 1.25;
+    margin: 2px 0 0;
+  }
+  .sh-small {
+    font-size: 13px;
+    line-height: 1.4;
+    color: rgba(255,255,255,.6);
+    margin: 4px 0 0;
+  }
+
+  /* View switcher between "Deck" and original "List" */
+  .view-switch {
+    display: inline-flex;
+    background: rgba(0,0,0,.35);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 2px;
+  }
+  .view-switch button {
+    border: 0;
+    background: none;
+    color: rgba(255,255,255,.6);
+    font: inherit;
+    font-size: 11.5px;
+    font-weight: 800;
+    padding: 5px 11px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .view-switch button.on {
+    background: var(--gold);
+    color: #1c1406;
+  }
+
+  /* Day Selector Tabs (Mon - Fri) */
+  .night-tabs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  .night-tab {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 12px;
+    padding: 7px 2px;
+    text-align: center;
+    color: rgba(255,255,255,.7);
+    cursor: pointer;
+    font: inherit;
+    transition: all .2s;
+  }
+  .night-tab b { display: block; font-size: 12px; font-weight: 800; }
+  .night-tab small { display: block; font-size: 10.5px; opacity: .7; }
+  .night-tab.on {
+    background: rgba(252,211,77,.18);
+    border-color: var(--gold);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(252,211,77,.2);
+  }
+  .night-tab.on b { color: var(--gold); }
+  .night-tab.kids b { color: #67e8f9; }
+  .night-tab.kids.on { border-color: #67e8f9; background: rgba(103,232,249,.15); box-shadow: 0 0 16px rgba(103,232,249,.2); }
+  .night-tab.kids.on b { color: #67e8f9; }
+
+  /* THE FLIP CARD CONTAINER */
+  .card-deck-box {
+    position: relative;
+    background: linear-gradient(175deg, rgba(255,255,255,.07) 0%, rgba(255,255,255,.03) 100%);
+    border: 1.5px solid rgba(252,211,77,.35);
+    border-radius: 20px;
+    padding: 18px 16px;
+    min-height: 330px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 8px 30px rgba(0,0,0,.45);
+    transition: transform .2s ease, opacity .2s ease;
+  }
+  .card-deck-box.kids-theme {
+    border-color: rgba(103,232,249,.4);
+  }
+
+  /* Card step dots */
+  .deck-dots {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .dots-track {
+    display: flex;
+    gap: 6px;
+  }
+  .dot {
+    width: 22px; height: 4px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.15);
+    transition: all .25s;
+  }
+  .dot.active {
+    background: var(--gold);
+    width: 32px;
+  }
+  .card-step-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .card-ref-badge {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: rgba(255,255,255,.5);
+  }
+
+  /* Card Content Styles */
+  .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6px 2px;
+  }
+  .card-heading {
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.35;
+    color: #fff;
+    margin: 0 0 10px;
+  }
+  .card-p {
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: rgba(255,255,255,.82);
+    margin: 0 0 12px;
+  }
+
+  /* Scripture display inside Card 2 */
+  .verse-box {
+    margin: 8px 0;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: rgba(0,0,0,.35);
+    border-left: 3px solid var(--gold);
+    font-size: 15.5px;
+    line-height: 1.5;
+    color: #fff;
+  }
+  .verse-box i { font-style: normal; color: #fef08a; font-weight: 600; }
+  .verse-cite {
+    text-align: right;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--gold);
+    margin-top: 6px;
+  }
+
+  /* Discussion prompt in Card 3 */
+  .ask-box {
+    margin: 8px 0;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: rgba(252,211,77,.1);
+    border: 1px solid rgba(252,211,77,.25);
+  }
+  .ask-box b {
+    display: block;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .ask-box p {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: #fff;
+  }
+
+  /* Bottom Controls inside the Card */
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,.08);
+  }
+
+  /* Turn Rotation Chip */
+  .turn-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.14);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255,255,255,.85);
+    cursor: pointer;
+  }
+  .turn-pill:hover { background: rgba(255,255,255,.12); }
+  .turn-pill small { color: rgba(255,255,255,.45); font-size: 10px; }
+
+  /* Navigation Action Buttons */
+  .btn-nav {
+    font: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 8px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    border: 0;
+    transition: all .15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-ghost {
+    background: rgba(255,255,255,.08);
+    color: rgba(255,255,255,.8);
+    border: 1px solid rgba(255,255,255,.15);
+  }
+  .btn-ghost:disabled { opacity: .25; pointer-events: none; }
+  .btn-gold {
+    background: var(--gold);
+    color: #1c1406;
+    box-shadow: 0 4px 15px rgba(252,211,77,.3);
+  }
+  .btn-gold:active { transform: scale(.96); }
+  .btn-finish {
+    background: var(--right);
+    color: #052e1c;
+    box-shadow: 0 4px 15px rgba(52,211,153,.35);
+  }
+
+  /* ORIGINAL ACCORDION VIEW (for comparison toggle) */
+  .gd-part {
+    margin-top: 8px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+  }
+  .gd-part summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 11px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .gd-part summary::-webkit-details-marker { display: none; }
+  .gd-part summary::after { content: '›'; margin-left: auto; color: rgba(255,255,255,.4); transition: transform .15s; }
+  .gd-part[open] summary::after { transform: rotate(90deg); }
+  .gd-part summary b { display: block; font-size: 15px; line-height: 1.3; }
+  .gd-part summary small { display: block; margin-top: 2px; font-size: 12.5px; color: rgba(255,255,255,.6); }
+  .gd-part > :not(summary) { margin-left: 14px; margin-right: 14px; }
+  .gd-part ul { margin-top: 2px; padding-left: 18px; font-size: 14.5px; line-height: 1.45; }
+  .gd-part li + li { margin-top: 4px; }
+  .gd-ask { margin-top: 10px; font-size: 14.5px; line-height: 1.45; }
+  .gd-go { display: inline-block; margin: 10px 0 12px; font-size: 13px; font-weight: 700; color: var(--gold); text-decoration: none; }
+
+  /* Toast Notification */
+  .toast {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e1b4b;
+    border: 1px solid var(--gold);
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+    box-shadow: 0 8px 24px rgba(0,0,0,.6);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .3s, transform .3s;
+    z-index: 100;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="device-frame">
+
+  <!-- Toast -->
+  <div id="toast" class="toast">✨ Family lesson saved! +15 XP</div>
+
+  <!-- HUD Top Bar (Treasure Up Authentic) -->
+  <header class="hud-mock">
+    <div class="hud-top">
+      <div class="hud-badge">
+        <div class="hud-lvl-circle">10</div>
+        <div>
+          <div class="hud-name">Lamp Bearer</div>
+        </div>
+      </div>
+      <div class="hud-stats">
+        <span class="hud-stat-flame">🔥 18</span>
+        <span class="hud-stat-mult">⚡×2</span>
+        <span class="hud-stat-freeze">❄️ 1</span>
+        <div class="hud-icon-btn">🕊️</div>
+        <div class="hud-icon-btn">⚙️</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sheet Container imitating #appSheet.word-sheet -->
+  <div class="sheet-container">
+    <div class="ws-card">
+      <div class="ws-drag"></div>
+
+      <!-- Sheet Title & View Switcher -->
+      <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
+        <div>
+          <div class="eyebrow">Come, Follow Me · This Week</div>
+          <div class="sh-title">Isaiah 50–57</div>
+          <p class="sh-small">A small lesson for each evening with the family</p>
+        </div>
+        <!-- Toggle to compare Deck vs Original List -->
+        <div class="view-switch" role="group" aria-label="View mode">
+          <button id="viewDeckBtn" class="on" onclick="switchView('deck')">🃏 Deck</button>
+          <button id="viewListBtn" onclick="switchView('list')">📄 List</button>
+        </div>
+      </div>
+
+      <!-- DECK VIEW CONTAINER -->
+      <div id="deckView" style="display: flex; flex-direction: column; gap: 14px;">
+
+        <!-- 5-Night Selector Tabs -->
+        <div class="night-tabs">
+          <button class="night-tab on" id="ntab-0" onclick="pickNight(0)">
+            <b>Mon</b>
+            <small>Part 1</small>
+          </button>
+          <button class="night-tab" id="ntab-1" onclick="pickNight(1)">
+            <b>Tue</b>
+            <small>Part 2</small>
+          </button>
+          <button class="night-tab" id="ntab-2" onclick="pickNight(2)">
+            <b>Wed</b>
+            <small>Part 3</small>
+          </button>
+          <button class="night-tab" id="ntab-3" onclick="pickNight(3)">
+            <b>Thu</b>
+            <small>Part 4</small>
+          </button>
+          <button class="night-tab kids" id="ntab-4" onclick="pickNight(4)">
+            <b>Fri 🧒</b>
+            <small>Kids</small>
+          </button>
+        </div>
+
+        <!-- THE FLIP CARD -->
+        <div class="card-deck-box" id="cardDeckBox">
+          <!-- Top step indicators -->
+          <div class="deck-dots">
+            <div class="dots-track">
+              <div class="dot active" id="dot-0"></div>
+              <div class="dot" id="dot-1"></div>
+              <div class="dot" id="dot-2"></div>
+            </div>
+            <span class="card-step-label" id="cardStepLabel">Card 1 · The Big Idea</span>
+            <span class="card-ref-badge" id="cardRefBadge">Isaiah 50–52</span>
+          </div>
+
+          <!-- Dynamic Card Body -->
+          <div class="card-body" id="cardBody">
+            <!-- Injected via JavaScript -->
+          </div>
+
+          <!-- Bottom Row: Turn rotation + Prev / Next actions -->
+          <div class="card-footer">
+            <button class="turn-pill" onclick="cycleTurn()" title="Tap to rotate who reads or prays">
+              <span id="turnLabel">👦 Javan reads</span>
+              <small>⇄</small>
+            </button>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-nav btn-ghost" id="btnPrev" onclick="prevCard()" disabled>‹ Prev</button>
+              <button class="btn-nav btn-gold" id="btnNext" onclick="nextCard()">Next ›</button>
+              <button class="btn-nav btn-finish" id="btnFinish" onclick="finishLesson()" style="display:none;">Done! ✓</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ORIGINAL LIST VIEW (for comparison) -->
+      <div id="listView" style="display: none;">
+        <div class="eyebrow" style="margin-bottom: 6px;">The lesson, part by part (Original)</div>
+        <details class="gd-part" open>
+          <summary><span><b>The future is bright for the Lord’s people.</b><small>Isaiah 50–52</small></span></summary>
+          <ul>
+            <li>Israel would spend years as captives because of their own poor choices. Still, the Lord asked them to face what was coming with hope.</li>
+            <li>He promised, “the redeemed of the LORD shall return, and come with singing unto Zion” (Isaiah 51:11).</li>
+          </ul>
+          <p class="gd-ask"><b>Talk about it:</b> Which promise in Isaiah 50–52 gives you the most hope for what’s ahead, and why?</p>
+          <a class="gd-go" href="#">Read this part in Gospel Library ↗</a>
+        </details>
+        <details class="gd-part">
+          <summary><span><b>Jesus Christ took upon Himself my sins and sorrows.</b><small>Isaiah 53</small></span></summary>
+          <ul><li>He was wounded for our transgressions, and with His stripes we are healed.</li></ul>
+          <p class="gd-ask"><b>Talk about it:</b> How has Jesus Christ helped you carry a heavy burden?</p>
+        </details>
+        <details class="gd-part">
+          <summary><span><b>Jesus Christ wants me to return to Him.</b><small>Isaiah 54; 57:15–19</small></span></summary>
+        </details>
+        <details class="gd-part">
+          <summary><span><b>The Lord invites all to “take hold of my covenant.”</b><small>Isaiah 55–56</small></span></summary>
+        </details>
+        <div class="eyebrow" style="margin-top: 14px; margin-bottom: 6px; color:#67e8f9;">For children</div>
+        <details class="gd-part">
+          <summary><span><b>The Lord invites me to “put on [my] strength.”</b><small>Isaiah 51–52</small></span></summary>
+        </details>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // 5 Evenings of Mini-Lessons derived from CFM
+  const LESSON_DATA = [
+    {
+      dayName: "Mon",
+      ref: "Isaiah 50–52",
+      kids: false,
+      cards: [
+        {
+          tag: "Card 1 · The Big Idea",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px">Evening Mini-Lesson · 4 Mins</div>
+            <div class="card-heading">The future is bright for the Lord’s people.</div>
+            <p class="card-p">Israel spent years far from home feeling captive and forgotten because of poor choices. But the Lord told them not to give up hope.</p>
+            <div style="padding:10px 12px; border-radius:12px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); font-size:13.5px; color:var(--gold);">
+              ✨ <b>Tonight’s thought:</b> No matter how tough school or work felt today, God has bright things ahead for our family.
+            </div>
+          `
+        },
+        {
+          tag: "Card 2 · Read One Verse",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px">Read Together Out Loud</div>
+            <div class="card-heading">Isaiah 51:11</div>
+            <div class="verse-box">
+              “The redeemed of the LORD shall return, and come with singing unto Zion; and everlasting joy shall be upon their head.”
+              <div class="verse-cite">— Isaiah 51:11</div>
+            </div>
+            <p class="card-p" style="font-size:13px; color:rgba(255,255,255,.6); margin-top:8px;">
+              🗣️ Have someone read this once more with feeling!
+            </p>
+          `
+        },
+        {
+          tag: "Card 3 · Talk & Pray",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px">60-Second Question</div>
+            <div class="ask-box">
+              <b>Talk about it:</b>
+              <p>“When you feel nervous about something coming up, what promise from God gives you hope?”</p>
+            </div>
+            <div style="margin-top:14px; padding:10px 12px; border-radius:12px; background:rgba(52,211,153,.1); border:1px solid rgba(52,211,153,.25); display:flex; align-items:center; gap:8px;">
+              <span style="font-size:18px;">🙏</span>
+              <span style="font-size:13px; font-weight:700; color:#86efac;">Closing prayer: Ask Heavenly Father for hope & peace tonight.</span>
+            </div>
+          `
+        }
+      ]
+    },
+    {
+      dayName: "Tue",
+      ref: "Isaiah 53",
+      kids: false,
+      cards: [
+        {
+          tag: "Card 1 · The Big Idea",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px">Evening Mini-Lesson · 4 Mins</div>
+            <div class="card-heading">Jesus took upon Himself our sorrows.</div>
+            <p class="card-p">Long before Bethlehem, Isaiah wrote one of the most sacred chapters in scripture about how Jesus would heal our broken hearts.</p>
+            <div style="padding:10px 12px; border-radius:12px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); font-size:13.5px; color:var(--gold);">
+              ❤️ <b>Tonight’s thought:</b> You never have to carry hurt, sadness, or mistakes alone.
+            </div>
+          `
+        },
+        {
+          tag: "Card 2 · Read One Verse",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px">Read Together Out Loud</div>
+            <div class="card-heading">Isaiah 53:4–5</div>
+            <div class="verse-box">
+              “Surely he hath borne our griefs, and carried our sorrows... and with his stripes we are healed.”
+              <div class="verse-cite">— Isaiah 53:4–5</div>
+            </div>
+          `
+        },
+        {
+          tag: "Card 3 · Talk & Pray",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px">60-Second Question</div>
+            <div class="ask-box">
+              <b>Talk about it:</b>
+              <p>“How does knowing Jesus carried our sorrows help when someone hurts our feelings?”</p>
+            </div>
+            <div style="margin-top:14px; padding:10px 12px; border-radius:12px; background:rgba(52,211,153,.1); border:1px solid rgba(52,211,153,.25); display:flex; align-items:center; gap:8px;">
+              <span style="font-size:18px;">🙏</span>
+              <span style="font-size:13px; font-weight:700; color:#86efac;">Closing prayer: Thank Heavenly Father for Jesus's love.</span>
+            </div>
+          `
+        }
+      ]
+    },
+    {
+      dayName: "Wed",
+      ref: "Isaiah 54",
+      kids: false,
+      cards: [
+        {
+          tag: "Card 1 · The Big Idea",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px">Evening Mini-Lesson · 4 Mins</div>
+            <div class="card-heading">Everlasting kindness that never leaves.</div>
+            <p class="card-p">Mountains can shake and hills can fall down, but God's love and kindness toward you will never depart.</p>
+            <div style="padding:10px 12px; border-radius:12px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); font-size:13.5px; color:var(--gold);">
+              🕊️ <b>Tonight’s thought:</b> God's mercy is bigger than any bad day or mistake.
+            </div>
+          `
+        },
+        {
+          tag: "Card 2 · Read One Verse",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px">Read Together Out Loud</div>
+            <div class="card-heading">Isaiah 54:10</div>
+            <div class="verse-box">
+              “For the mountains shall depart, and the hills be removed; but my kindness shall not depart from thee.”
+              <div class="verse-cite">— Isaiah 54:10</div>
+            </div>
+          `
+        },
+        {
+          tag: "Card 3 · Talk & Pray",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px">60-Second Question</div>
+            <div class="ask-box">
+              <b>Talk about it:</b>
+              <p>“What is one kind thing someone did for you this week that made you smile?”</p>
+            </div>
+          `
+        }
+      ]
+    },
+    {
+      dayName: "Thu",
+      ref: "Isaiah 55–56",
+      kids: false,
+      cards: [
+        {
+          tag: "Card 1 · The Big Idea",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px">Evening Mini-Lesson · 4 Mins</div>
+            <div class="card-heading">Take hold of My covenant.</div>
+            <p class="card-p">A covenant is a sacred two-way promise. When we hold onto our covenants, God pours out strength into our everyday life.</p>
+          `
+        },
+        {
+          tag: "Card 2 · Read One Verse",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px">Read Together Out Loud</div>
+            <div class="card-heading">Isaiah 55:3</div>
+            <div class="verse-box">
+              “Incline your ear, and come unto me: hear, and your soul shall live; and I will make an everlasting covenant with you.”
+              <div class="verse-cite">— Isaiah 55:3</div>
+            </div>
+          `
+        },
+        {
+          tag: "Card 3 · Talk & Pray",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px">60-Second Question</div>
+            <div class="ask-box">
+              <b>Talk about it:</b>
+              <p>“What is one promise we remember each week during the sacrament?”</p>
+            </div>
+          `
+        }
+      ]
+    },
+    {
+      dayName: "Fri 🧒",
+      ref: "Isaiah 51–52",
+      kids: true,
+      cards: [
+        {
+          tag: "Card 1 · Armor Up!",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px; color:#67e8f9;">Friday Kids Night · Action Mini-Lesson</div>
+            <div class="card-heading">Put on your strength! 🛡️</div>
+            <p class="card-p">Isaiah calls out to everyone: <i>“Awake, awake; put on thy strength, O Zion!”</i></p>
+            <div style="padding:10px 12px; border-radius:12px; background:rgba(103,232,249,.1); border:1px solid rgba(103,232,249,.25); font-size:13.5px; color:#a5f3fc;">
+              ⚔️ <b>Mini-Activity:</b> Everyone stand up and pretend to put on an invisible helmet, breastplate of righteousness, and shoes of peace!
+            </div>
+          `
+        },
+        {
+          tag: "Card 2 · Kid-Friendly Verse",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px; color:#67e8f9;">Kid-Friendly Verse</div>
+            <div class="card-heading">Isaiah 52:1</div>
+            <div class="verse-box" style="border-left-color:#67e8f9;">
+              “Awake, awake; put on thy strength, O Zion; put on thy beautiful garments!”
+              <div class="verse-cite" style="color:#67e8f9;">— Isaiah 52:1</div>
+            </div>
+          `
+        },
+        {
+          tag: "Card 3 · High Five & Pray",
+          html: `
+            <div class="eyebrow" style="margin-bottom:6px; color:#67e8f9;">Weekend Kickoff Question</div>
+            <div class="ask-box" style="border-color:rgba(103,232,249,.3); background:rgba(103,232,249,.08);">
+              <b style="color:#67e8f9;">Talk about it:</b>
+              <p>“What gives you strength when you need to be brave and choose the right?”</p>
+            </div>
+            <div style="margin-top:14px; padding:10px 12px; border-radius:12px; background:rgba(52,211,153,.1); border:1px solid rgba(52,211,153,.25); display:flex; align-items:center; gap:8px;">
+              <span style="font-size:18px;">🎉</span>
+              <span style="font-size:13px; font-weight:700; color:#86efac;">Week finished! High fives all around for family scripture time!</span>
+            </div>
+          `
+        }
+      ]
+    }
+  ];
+
+  let currentNight = 0;
+  let currentStep = 0;
+  const turnRoster = [
+    "👦 Javan reads",
+    "👧 Sister reads",
+    "👨 Blake reads",
+    "👩 Mom reads",
+    "👦 Javan prays",
+    "👧 Sister prays"
+  ];
+  let turnIdx = 0;
+
+  function renderDeck() {
+    const night = LESSON_DATA[currentNight];
+    const card = night.cards[currentStep];
+
+    const box = document.getElementById('cardDeckBox');
+    if (night.kids) box.classList.add('kids-theme');
+    else box.classList.remove('kids-theme');
+
+    // Step dots
+    for (let i = 0; i < 3; i++) {
+      const d = document.getElementById(`dot-${i}`);
+      if (i === currentStep) d.className = 'dot active';
+      else d.className = 'dot';
+      if (night.kids && i === currentStep) d.style.background = '#67e8f9';
+      else if (i === currentStep) d.style.background = 'var(--gold)';
+      else d.style.background = 'rgba(255,255,255,.15)';
+    }
+
+    document.getElementById('cardStepLabel').textContent = card.tag;
+    document.getElementById('cardStepLabel').style.color = night.kids ? '#67e8f9' : 'var(--gold)';
+    document.getElementById('cardRefBadge').textContent = night.ref;
+    document.getElementById('cardBody').innerHTML = card.html;
+
+    // Buttons
+    document.getElementById('btnPrev').disabled = currentStep === 0;
+    if (currentStep === 2) {
+      document.getElementById('btnNext').style.display = 'none';
+      document.getElementById('btnFinish').style.display = 'inline-flex';
+    } else {
+      document.getElementById('btnNext').style.display = 'inline-flex';
+      document.getElementById('btnFinish').style.display = 'none';
+    }
+  }
+
+  function pickNight(idx) {
+    currentNight = idx;
+    currentStep = 0;
+    for (let i = 0; i < 5; i++) {
+      const tab = document.getElementById(`ntab-${i}`);
+      if (i === idx) tab.classList.add('on');
+      else tab.classList.remove('on');
+    }
+    renderDeck();
+  }
+
+  function nextCard() {
+    if (currentStep < 2) {
+      currentStep++;
+      renderDeck();
+    }
+  }
+
+  function prevCard() {
+    if (currentStep > 0) {
+      currentStep--;
+      renderDeck();
+    }
+  }
+
+  function cycleTurn() {
+    turnIdx = (turnIdx + 1) % turnRoster.length;
+    document.getElementById('turnLabel').textContent = turnRoster[turnIdx];
+  }
+
+  function finishLesson() {
+    const toast = document.getElementById('toast');
+    toast.textContent = `✨ ${LESSON_DATA[currentNight].dayName} lesson finished! +15 XP`;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2400);
+
+    if (currentNight < 4) {
+      setTimeout(() => pickNight(currentNight + 1), 600);
+    }
+  }
+
+  function switchView(view) {
+    const deck = document.getElementById('deckView');
+    const list = document.getElementById('listView');
+    const btnDeck = document.getElementById('viewDeckBtn');
+    const btnList = document.getElementById('viewListBtn');
+
+    if (view === 'deck') {
+      deck.style.display = 'flex';
+      list.style.display = 'none';
+      btnDeck.classList.add('on');
+      btnList.classList.remove('on');
+    } else {
+      deck.style.display = 'none';
+      list.style.display = 'block';
+      btnDeck.classList.remove('on');
+      btnList.classList.add('on');
+    }
+  }
+
+  // Initialize
+  renderDeck();
+</script>
+
+</body>
+</html>

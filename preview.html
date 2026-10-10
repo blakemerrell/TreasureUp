@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TreasureUp · Scripture Pace & Daily Flow Showcase</title>
+<style>
+  :root {
+    --ink: #070711;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --gold: #fcd34d;
+    --gold-glow: rgba(252, 211, 77, 0.25);
+    --cyan: #38bdf8;
+    --cyan-dim: rgba(56, 189, 248, 0.15);
+    --green: #34d399;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  body {
+    background: #080713;
+    color: #f1f5f9;
+    padding: 24px 16px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .header-box {
+    max-width: 960px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(99, 102, 241, 0.2);
+    border: 1px solid rgba(129, 140, 248, 0.4);
+    color: #a5b4fc;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  h1 { font-size: 26px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .subtitle { font-size: 13px; color: #94a3b8; max-width: 600px; margin: 0 auto 16px; line-height: 1.4; }
+  
+  .pill-nav {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .pill-btn {
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .pill-btn:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+  .pill-btn.active {
+    background: #4f46e5;
+    border-color: #818cf8;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+  }
+
+  .workbench {
+    display: flex;
+    gap: 28px;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 980px;
+    width: 100%;
+  }
+
+  /* Phone Shell */
+  .device-shell {
+    width: 100%;
+    max-width: 390px;
+    min-height: 740px;
+    background: linear-gradient(180deg, #17142f 0%, #15122b 50%, #0a0918 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    border-radius: 36px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+
+  .status-bar {
+    height: 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .app-header {
+    padding: 10px 16px;
+    background: rgba(10, 9, 24, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .app-user-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #e2e8f0;
+  }
+  .app-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(251, 191, 36, 0.2);
+    border: 1px solid rgba(251, 191, 36, 0.4);
+    color: #fcd34d;
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    font-weight: 900;
+  }
+
+  .app-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .bottom-nav {
+    height: 60px;
+    background: rgba(10, 9, 24, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: #64748b;
+    gap: 4px;
+    cursor: pointer;
+  }
+  .nav-item.active { color: #fcd34d; }
+
+  /* UI Cards */
+  .card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 16px;
+    padding: 14px;
+  }
+  .card-cyan {
+    background: linear-gradient(145deg, rgba(8, 47, 73, 0.4), rgba(15, 23, 42, 0.6));
+    border-color: rgba(56, 189, 248, 0.3);
+  }
+  .card-gold {
+    background: linear-gradient(145deg, rgba(69, 26, 3, 0.35), rgba(15, 23, 42, 0.6));
+    border-color: rgba(245, 158, 11, 0.35);
+  }
+
+  .mode-switch {
+    display: flex;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 999px;
+    padding: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .mode-switch-btn {
+    flex: 1;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: none;
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    background: transparent;
+    cursor: pointer;
+    text-align: center;
+  }
+  .mode-switch-btn.active {
+    background: #4f46e5;
+    color: #fff;
+  }
+  .mode-switch-btn.active.family {
+    background: linear-gradient(90deg, #0284c7, #2563eb);
+    color: #fff;
+  }
+
+  /* Pacing Stats */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 10px 0;
+  }
+  .stat-box {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 8px 4px;
+    text-align: center;
+  }
+  .stat-num { font-size: 16px; font-weight: 800; color: #fff; }
+  .stat-lbl { font-size: 9.5px; color: #94a3b8; margin-top: 2px; }
+
+  .bar-bg {
+    width: 100%;
+    height: 7px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 8px 0;
+  }
+  .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #f59e0b, #fde047);
+    border-radius: 999px;
+  }
+
+  /* Side Rationale Panel */
+  .side-panel {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 24px;
+    padding: 22px;
+  }
+  .side-panel h3 { font-size: 18px; font-weight: 800; margin-bottom: 12px; color: #fff; }
+  .side-panel p { font-size: 12.5px; line-height: 1.6; color: #cbd5e1; margin-bottom: 12px; }
+  .highlight-card {
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin: 12px 0;
+  }
+  .highlight-title { font-size: 12px; font-weight: 800; color: #38bdf8; margin-bottom: 4px; }
+  .highlight-list { padding-left: 18px; font-size: 12px; color: #94a3b8; line-height: 1.5; }
+  .highlight-list li { margin-bottom: 4px; }
+
+  /* Buttons & Chips */
+  .chip {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.35);
+    color: #fde68a;
+    cursor: pointer;
+    margin-right: 4px;
+    margin-top: 4px;
+  }
+  .chip:hover { background: rgba(245, 158, 11, 0.25); }
+
+  /* Video Hero Box */
+  .video-hero {
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    margin-bottom: 8px;
+  }
+  .video-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+  }
+  .play-circle {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #38bdf8;
+    color: #030712;
+    display: grid;
+    place-items: center;
+    font-size: 16px;
+    font-weight: 900;
+    box-shadow: 0 4px 16px rgba(56, 189, 248, 0.6);
+  }
+  .video-tag {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #38bdf8;
+    color: #030712;
+    font-size: 9.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 999px;
+  }
+  .video-dur {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header-box">
+    <div class="badge">Live Dogfood Architecture</div>
+    <h1>Scripture Pace & Daily Spiritual Flow</h1>
+    <div class="subtitle">
+      Inspect all 4 features in action before pushing to production main. Fully self-contained preview.
+    </div>
+
+    <div class="pill-nav">
+      <button id="p1" class="pill-btn active" onclick="showTab('meditation')">1. 🧘 Stillness & Chant Looping</button>
+      <button id="p2" class="pill-btn" onclick="showTab('pace')">2. 📖 Scripture Pace (CFM vs OT Dec 31)</button>
+      <button id="p3" class="pill-btn" onclick="showTab('family')">3. 🎬 Thumb Follow Me & Latter Day Kids</button>
+      <button id="p4" class="pill-btn" onclick="showTab('comprehension')">4. 🧒 11-Year-Old Comprehension</button>
+    </div>
+  </div>
+
+  <div class="workbench">
+
+    <!-- Phone Simulator -->
+    <div class="device-shell">
+      <div class="status-bar">
+        <span>6:30 AM</span>
+        <span>5G 92%</span>
+      </div>
+
+      <div class="app-header">
+        <div class="app-user-pill">
+          <div class="app-avatar">7</div>
+          <span>Blake & Javan</span>
+        </div>
+        <div style="font-size: 11px; font-weight: 700; color: #fcd34d;">
+          🔥 14 Days
+        </div>
+      </div>
+
+      <div id="phoneView" class="app-body">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <div class="bottom-nav">
+        <div class="nav-item active">
+          <span>📖</span>
+          <span>Today</span>
+        </div>
+        <div class="nav-item">
+          <span>⚡</span>
+          <span>Study</span>
+        </div>
+        <div class="nav-item">
+          <span>📚</span>
+          <span>Scriptures</span>
+        </div>
+        <div class="nav-item">
+          <span>🌱</span>
+          <span>Season</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Side Rationale Explanation -->
+    <div id="sideView" class="side-panel">
+      <!-- Injected via JavaScript -->
+    </div>
+
+  </div>
+
+<script>
+  let currentTab = 'meditation';
+  let isPlaying = false;
+  let chantSec = 26;
+  let chantTimer = null;
+  let readingGoal = 'cfm'; // 'cfm' or 'year_ot'
+  let audienceMode = 'family'; // 'personal' or 'family'
+
+  function showTab(tab) {
+    currentTab = tab;
+    ['p1','p2','p3','p4'].forEach((id, i) => {
+      const active = (tab==='meditation' && i===0) || (tab==='pace' && i===1) || (tab==='family' && i===2) || (tab==='comprehension' && i===3);
+      document.getElementById(id).className = 'pill-btn' + (active ? ' active' : '');
+    });
+    render();
+  }
+
+  function toggleAudio() {
+    isPlaying = !isPlaying;
+    if (isPlaying) {
+      chantTimer = setInterval(() => {
+        chantSec += 4;
+        if (chantSec >= 120) {
+          chantSec = 26; // Seamless looping point
+        }
+        const b = document.getElementById('audioFill');
+        const t = document.getElementById('audioTime');
+        if (b) b.style.width = ((chantSec / 120) * 100) + '%';
+        if (t) t.innerText = Math.floor(chantSec/60) + ':' + String(chantSec%60).padStart(2, '0') + ' / 2:00 (Looping ∞)';
+      }, 400);
+    } else {
+      clearInterval(chantTimer);
+    }
+    render();
+  }
+
+  function switchGoal(g) {
+    readingGoal = g;
+    render();
+  }
+
+  function switchAudience(a) {
+    audienceMode = a;
+    render();
+  }
+
+  function render() {
+    const pv = document.getElementById('phoneView');
+    const sv = document.getElementById('sideView');
+
+    if (currentTab === 'meditation') {
+      pv.innerHTML = `
+        <div>
+          <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:0.05em">Morning Stillness</div>
+          <div style="font-size:18px; font-weight:800; color:#fff; margin-top:2px">Sacred Breath & Meditation</div>
+        </div>
+
+        <div class="card card-cyan">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
+            <span style="font-size:11px; font-weight:800; color:#7dd3fc">Tibetan Bowl & Chant</span>
+            <span style="font-size:9.5px; background:rgba(56,189,248,0.2); color:#bae6fd; border:1px solid rgba(56,189,248,0.4); padding:2px 7px; border-radius:999px; font-weight:700">Audio Loop Fixed ✓</span>
+          </div>
+
+          <!-- Circular breathing timer graphic -->
+          <div style="width:130px; height:130px; border-radius:50%; border:2px solid rgba(56,189,248,0.5); margin:12px auto; display:flex; flex-direction:column; align-items:center; justify-content:center; background:rgba(15,23,42,0.8); box-shadow:0 0 24px rgba(56,189,248,0.25)">
+            <div style="font-size:22px; font-weight:900; color:#fff">04:18</div>
+            <div style="font-size:9.5px; font-weight:700; color:#38bdf8; text-transform:uppercase; letter-spacing:0.1em; margin-top:3px">Breathe In</div>
+          </div>
+
+          <!-- Audio track simulation bar -->
+          <div style="background:rgba(0,0,0,0.4); border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.08); margin-top:10px">
+            <div style="display:flex; align-items:center; justify-content:space-between">
+              <div style="display:flex; align-items:center; gap:8px">
+                <button onclick="toggleAudio()" style="width:28px; height:28px; border-radius:50%; background:#38bdf8; color:#030712; border:none; font-size:11px; font-weight:900; cursor:pointer">
+                  ${isPlaying ? '❚❚' : '▶'}
+                </button>
+                <div>
+                  <div style="font-size:11.5px; font-weight:700; color:#fff">Deep Hummed Chant</div>
+                  <div id="audioTime" style="font-size:9.5px; color:#94a3b8">${Math.floor(chantSec/60)}:${String(chantSec%60).padStart(2,'0')} / 2:00 (${isPlaying ? 'Looping ∞' : 'Paused'})</div>
+                </div>
+              </div>
+              <span style="font-size:11px; font-weight:700; color:#7dd3fc">138.5 Hz</span>
+            </div>
+
+            <div class="bar-bg" style="margin-top:8px">
+              <div id="audioFill" class="bar-fill" style="background:#38bdf8; width:${(chantSec/120)*100}%"></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:8.5px; color:#64748b; font-family:monospace">
+              <span>Start 0:26</span>
+              <span style="color:#38bdf8">Seamless Loop Window</span>
+              <span>1:20 - 2:00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="display:flex; justify-content:space-between; align-items:center">
+          <div style="display:flex; align-items:center; gap:8px">
+            <span style="font-size:16px">🕊️</span>
+            <div>
+              <div style="font-size:12px; font-weight:700; color:#fff">Morning Stillness Goal</div>
+              <div style="font-size:10px; color:#94a3b8">5 minutes before scripture reading</div>
+            </div>
+          </div>
+          <span style="font-size:11px; font-weight:700; color:#34d399">Done ✓</span>
+        </div>
+      `;
+
+      sv.innerHTML = `
+        <div class="badge">Fix 1 · Stillness Audio Engine</div>
+        <h3>Morning Chant Loop Fix</h3>
+        <p>
+          <strong>What Happened:</strong> When you meditated using the stillness timer, the background chant track (<code style="color:#7dd3fc">deep-hum.m4a</code>) played once and stopped in the middle of your meditation session, leaving an uncomfortable silence.
+        </p>
+        <div class="highlight-card">
+          <div class="highlight-title">The Engineering Resolution:</div>
+          <ul class="highlight-list">
+            <li>Calibrated the audio loop points for <code style="color:#fcd34d">low-hummed-fire</code> [10s, 211s] and <code style="color:#fcd34d">deep-hum</code> [26s, 120s].</li>
+            <li>Added an explicit <code style="color:#38bdf8">doLoop()</code> trigger to both <code style="color:#cbd5e1">ontimeupdate</code> and <code style="color:#cbd5e1">onended</code> event listeners.</li>
+            <li>Introduced an automatic recovery rewind: if the browser stalls audio playback, it catches and resumes at the start of the ambient loop window without user interaction.</li>
+          </ul>
+        </div>
+        <p style="color:#94a3b8">
+          Click <strong>Play</strong> in the phone mockup above to watch the audio position bar cycle infinitely through the loop window without stopping!
+        </p>
+      `;
+    } else if (currentTab === 'pace') {
+      pv.innerHTML = `
+        <div>
+          <div style="font-size:10px; font-weight:800; color:#f59e0b; text-transform:uppercase; letter-spacing:0.05em">Scriptures Library</div>
+          <div style="font-size:18px; font-weight:800; color:#fff; margin-top:2px">Every Book, Chapter & Verse</div>
+        </div>
+
+        <div class="card card-gold">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
+            <span style="font-size:11px; font-weight:800; color:#fde68a">Reading Goal</span>
+            <div style="display:flex; gap:4px">
+              <button onclick="switchGoal('cfm')" style="padding:3px 8px; border-radius:999px; border:1px solid ${readingGoal==='cfm' ? '#f59e0b':'rgba(255,255,255,0.15)'}; background:${readingGoal==='cfm'?'rgba(245,158,11,0.25)':'transparent'}; color:${readingGoal==='cfm'?'#fde68a':'#94a3b8'}; font-size:10px; font-weight:700; cursor:pointer">🕊️ CFM</button>
+              <button onclick="switchGoal('year_ot')" style="padding:3px 8px; border-radius:999px; border:1px solid ${readingGoal==='year_ot' ? '#f59e0b':'rgba(255,255,255,0.15)'}; background:${readingGoal==='year_ot'?'rgba(245,158,11,0.25)':'transparent'}; color:${readingGoal==='year_ot'?'#fde68a':'#94a3b8'}; font-size:10px; font-weight:700; cursor:pointer">📖 Finish OT</button>
+            </div>
+          </div>
+
+          ${readingGoal === 'year_ot' ? `
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:baseline">
+                <span style="font-size:13px; font-weight:800; color:#fff">412 of 929 chapters read</span>
+                <span style="font-size:12px; font-weight:800; color:#fcd34d">44.3%</span>
+              </div>
+              <div class="bar-bg"><div class="bar-fill" style="width:44.3%"></div></div>
+
+              <div class="stats-grid">
+                <div class="stat-box">
+                  <div class="stat-num">6.3</div>
+                  <div class="stat-lbl">Ch/day needed</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-num">517</div>
+                  <div class="stat-lbl">Remaining</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-num">82</div>
+                  <div class="stat-lbl">Days to Dec 31</div>
+                </div>
+              </div>
+
+              <div style="background:rgba(0,0,0,0.3); padding:8px 10px; border-radius:8px; font-size:11px; display:flex; justify-content:space-between">
+                <span style="color:#fcd34d">⚡ <b>18 ch behind</b> schedule</span>
+                <span style="color:#34d399">✓ 2 read today</span>
+              </div>
+
+              <div style="margin-top:10px; padding-top:8px; border-top:1px dashed rgba(255,255,255,0.1)">
+                <div style="font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase">Next in Queue:</div>
+                <div style="display:flex; gap:4px; flex-wrap:wrap; margin-top:4px">
+                  <span class="chip">📖 Isaiah 53 ›</span>
+                  <span class="chip">📖 Isaiah 54 ›</span>
+                  <span class="chip">📖 Isaiah 55 ›</span>
+                </div>
+              </div>
+            </div>
+          ` : `
+            <div style="font-size:11.5px; color:#cbd5e1; line-height:1.5; background:rgba(0,0,0,0.25); padding:10px; border-radius:10px">
+              🕊️ <strong>Following Come, Follow Me pace</strong> (~10 minutes/day). Relaxed weekly readings without year-end countdown pressure.
+            </div>
+          `}
+        </div>
+
+        <div class="card" style="padding:10px">
+          <div style="font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; margin-bottom:8px">This Week's Chapters (Isaiah 50–57)</div>
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px">
+            <div style="background:rgba(52,211,153,0.15); border:1px solid rgba(52,211,153,0.3); border-radius:8px; padding:8px 4px; text-align:center; font-size:10.5px; color:#6ee7b7; font-weight:700">Ch 50 ✓</div>
+            <div style="background:rgba(52,211,153,0.15); border:1px solid rgba(52,211,153,0.3); border-radius:8px; padding:8px 4px; text-align:center; font-size:10.5px; color:#6ee7b7; font-weight:700">Ch 51 ✓</div>
+            <div style="background:rgba(52,211,153,0.15); border:1px solid rgba(52,211,153,0.3); border-radius:8px; padding:8px 4px; text-align:center; font-size:10.5px; color:#6ee7b7; font-weight:700">Ch 52 ✓</div>
+            <div style="background:rgba(245,158,11,0.2); border:1px solid #f59e0b; border-radius:8px; padding:8px 4px; text-align:center; font-size:10.5px; color:#fde68a; font-weight:800">Ch 53 📖</div>
+          </div>
+        </div>
+      `;
+
+      sv.innerHTML = `
+        <div class="badge">Fix 2 · Scripture Pace Selector</div>
+        <h3>Choice of Pacing Without Guilt</h3>
+        <p>
+          <strong>Your Goal:</strong> <em>"Want to make sure that I'm on schedule to finish the scriptures by the end of the year. I think I want to be able to choose if I want to just follow Come, Follow Me readings or read everything."</em>
+        </p>
+        <div class="highlight-card">
+          <div class="highlight-title">How It's Structured:</div>
+          <ul class="highlight-list">
+            <li><strong>🕊️ Come, Follow Me Pace:</strong> Default restful mode. Follows the Church's 2026 reading schedule. Zero countdown pressure or guilt on the shelf.</li>
+            <li><strong>📖 Finish OT by Dec 31:</strong> Live calculator that computes your current velocity (required chapters per day), days remaining, and ahead/behind count.</li>
+            <li><strong>Jump-to-Read Queue:</strong> One-tap chips to instantly launch into the next unread chapters so you never have to search for where you left off.</li>
+          </ul>
+        </div>
+      `;
+    } else if (currentTab === 'family') {
+      pv.innerHTML = `
+        <div>
+          <div style="font-size:10px; font-weight:800; color:#38bdf8; text-transform:uppercase; letter-spacing:0.05em">Evening Gathering</div>
+          <div style="font-size:18px; font-weight:800; color:#fff; margin-top:2px">Family Lesson & Bedtime Prayer</div>
+        </div>
+
+        <div class="mode-switch">
+          <button class="mode-switch-btn ${audienceMode==='personal'?'active':''}" onclick="switchAudience('personal')">📖 Personal Study</button>
+          <button class="mode-switch-btn family ${audienceMode==='family'?'active':''}" onclick="switchAudience('family')">🧒 Family & Kids</button>
+        </div>
+
+        ${audienceMode === 'family' ? `
+          <!-- Unmissable Thumb Follow Me Hero Video Card -->
+          <div class="card card-cyan" style="padding:10px">
+            <div class="video-hero">
+              <img class="video-thumb" src="https://img.youtube.com/vi/02wxxC5AbTQ/hqdefault.jpg" alt="Thumb Follow Me">
+              <span class="video-tag">🎬 Thumb Follow Me</span>
+              <span class="video-dur">3:20 min</span>
+              <div class="play-circle">▶</div>
+            </div>
+
+            <div style="font-size:13px; font-weight:800; color:#fff">Don't Lose the Keys | Prophet Isaiah</div>
+            <div style="font-size:11px; color:#94a3b8; margin-top:2px">Isaiah 55:8–9 · "My ways are higher than your ways."</div>
+
+            <div style="margin-top:10px; padding:10px; background:rgba(0,0,0,0.4); border-radius:10px; border:1px solid rgba(255,255,255,0.08)">
+              <div style="font-size:10.5px; font-weight:800; color:#7dd3fc; text-transform:uppercase">2-Minute Bedtime Question:</div>
+              <div style="font-size:11.5px; color:#f1f5f9; font-style:italic; margin-top:3px">
+                "When have you learned to trust Heavenly Father's way, even when it wasn't what you expected?"
+              </div>
+              <div style="margin-top:8px; display:flex; justify-content:space-between; font-size:10.5px; color:#94a3b8">
+                <span>Tonight's Prayer: <b>Javan's Turn</b> 🙏</span>
+                <span style="color:#34d399; font-weight:700">5 min sweet gathering</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Latter Day Kids alternative -->
+          <div class="card" style="display:flex; align-items:center; gap:10px; padding:8px 10px">
+            <div style="width:60px; height:40px; border-radius:6px; background:#000; overflow:hidden; flex-shrink:0; position:relative">
+              <img src="https://img.youtube.com/vi/q4xM6jXm72M/hqdefault.jpg" style="width:100%; height:100%; object-fit:cover; opacity:0.8">
+              <span style="position:absolute; inset:0; display:grid; place-items:center; font-size:10px; color:#38bdf8">▶</span>
+            </div>
+            <div style="flex:1; min-width:0">
+              <span style="font-size:9px; background:rgba(239,68,68,0.2); color:#fca5a5; padding:1px 5px; border-radius:4px; font-weight:700">LATTER DAY KIDS</span>
+              <div style="font-size:11px; font-weight:700; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">Trust with All Thine Heart</div>
+            </div>
+          </div>
+        ` : `
+          <div class="card">
+            <div style="font-size:10.5px; font-weight:800; color:#fcd34d; text-transform:uppercase">Dad's Personal Deep Reading</div>
+            <div style="font-size:13px; font-weight:800; color:#fff; margin-top:2px">Isaiah 53:4–5 · The Atonement</div>
+            <p style="font-size:11.5px; color:#cbd5e1; margin-top:4px; line-height:1.5">
+              "Surely he hath borne our griefs, and carried our sorrows." Explores the ancient covenant context of substitutionary atonement.
+            </p>
+          </div>
+        `}
+      `;
+
+      sv.innerHTML = `
+        <div class="badge">Fix 3 · Kids Video & Family Rhythm</div>
+        <h3>Thumb Follow Me & Latter Day Kids</h3>
+        <p>
+          <strong>Why Thumb Follow Me Was Missing:</strong> Previously, any content item flagged with <code style="color:#f87171">kids: true</code> was automatically filtered out of the main guide screen with:
+        </p>
+        <pre style="background:rgba(0,0,0,0.5); padding:8px; border-radius:8px; font-size:10.5px; color:#f87171; overflow-x:auto; margin-bottom:12px">const homeGuide = guideOf(WEEK).filter(p => !p.x.kids);</pre>
+        <p>
+          This hid your favorite channel from the main view!
+        </p>
+        <div class="highlight-card">
+          <div class="highlight-title">The Fix:</div>
+          <ul class="highlight-list">
+            <li><strong>"With My Son" Family Mode:</strong> With 1 tap, kid videos become the prominent top card.</li>
+            <li><strong>Rich 16:9 Cards:</strong> Thumbnail, duration, channel badges, and full-length playback without forced early stopping.</li>
+            <li><strong>Bedtime Prayer Integration:</strong> Directly attaches the 1 sweet discussion question and turn rotation ("Javan's turn to lead prayer") right beneath the video.</li>
+          </ul>
+        </div>
+      `;
+    } else if (currentTab === 'comprehension') {
+      pv.innerHTML = `
+        <div>
+          <div style="font-size:10px; font-weight:800; color:#34d399; text-transform:uppercase; letter-spacing:0.05em">11-Year-Old Comprehension</div>
+          <div style="font-size:18px; font-weight:800; color:#fff; margin-top:2px">Simple, Relatable, Layered</div>
+        </div>
+
+        <!-- Layer 1: Core child-friendly insight -->
+        <div class="card" style="background:linear-gradient(145deg, rgba(6,78,59,0.3), rgba(15,23,42,0.6)); border-color:rgba(52,211,153,0.35)">
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px">
+            <span style="font-size:9.5px; font-weight:800; color:#6ee7b7; text-transform:uppercase">Level 1 · The Big Idea</span>
+            <span style="font-size:9.5px; color:#94a3b8">1 min read</span>
+          </div>
+          <div style="font-size:13.5px; font-weight:800; color:#fff">Jesus Carries What Hurts Us</div>
+          <p style="font-size:11.5px; color:#cbd5e1; line-height:1.5; margin-top:4px">
+            When you skin your knee or feel left out at school, Jesus knows exactly how it feels. He felt it all beforehand so He can be right beside you.
+          </p>
+          <div style="margin-top:8px; font-size:10.5px; font-weight:700; color:#6ee7b7">Scripture: Isaiah 53:4</div>
+        </div>
+
+        <!-- Layer 2: Family discussion prompt -->
+        <div class="card">
+          <div style="font-size:10px; font-weight:800; color:#94a3b8; text-transform:uppercase; margin-bottom:4px">Quick Bedtime Question</div>
+          <div style="font-size:12px; font-weight:700; color:#fff">"What was something hard this week where you want Jesus to help you carry it?"</div>
+          <div style="margin-top:8px; display:flex; gap:6px">
+            <span style="padding:3px 8px; border-radius:6px; background:rgba(255,255,255,0.08); font-size:10px; color:#cbd5e1">Dad shares</span>
+            <span style="padding:3px 8px; border-radius:6px; background:rgba(52,211,153,0.2); border:1px solid rgba(52,211,153,0.4); font-size:10px; font-weight:700; color:#6ee7b7">Javan shares</span>
+          </div>
+        </div>
+
+        <!-- Layer 3: Click down for Dad's deep dive -->
+        <div class="card" style="border:1px dashed rgba(255,255,255,0.2); text-align:center; padding:10px; cursor:pointer">
+          <div style="font-size:11px; font-weight:800; color:#fcd34d">🔍 Click Down for Scholar Deep Dive</div>
+          <div style="font-size:9.5px; color:#94a3b8; margin-top:2px">Hebrew root: נָשָׂא (nasa) · Substitutionary atonement</div>
+        </div>
+      `;
+
+      sv.innerHTML = `
+        <div class="badge">Fix 4 · 11-Year-Old Comprehension</div>
+        <h3>Proven Learning Layouts</h3>
+        <p>
+          <strong>Your Goal:</strong> <em>"Make sure that I'm comprehending and reading and doing the study that the church outlined and feed that into this app way. That's easy to comprehend, especially for my 11-year-old... And then the deep dive simply a click down and I get to see more beautiful things to study."</em>
+        </p>
+        <div class="highlight-card">
+          <div class="highlight-title">The 3-Layer Structure:</div>
+          <ul class="highlight-list">
+            <li><strong>Layer 1 (The Core):</strong> Clear, memorable idea with a modern analogy that clicks instantly for an 11-year-old.</li>
+            <li><strong>Layer 2 (The Conversation):</strong> 1 thoughtful question that sparks real heart-to-heart talk before prayer.</li>
+            <li><strong>Layer 3 (Click Down Deep Dive):</strong> One click opens the deep scholarship, Hebrew words, and BYU RSC papers for Dad.</li>
+          </ul>
+        </div>
+      `;
+    }
+  }
+
+  // Initial load
+  render();
+</script>
+</body>
+</html>

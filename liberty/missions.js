@@ -31,7 +31,7 @@
   function robberBrain(W, u) {
     const o = u.order;
     if (u.surrendered) return;
-    if (o.type === 'retreat' || o.type === 'flee' || o.type === 'hunt') {
+    if (u.mode === 'retreat' || o.type === 'retreat' || o.type === 'flee' || o.type === 'hunt') {
       if (W.mission.onRetreatThink) W.mission.onRetreatThink(W, u);
       return;
     }
@@ -451,7 +451,6 @@
     },
     // A retreating robber caught by your soldiers gives himself up (3 Nephi 4:27).
     onRetreatThink(W, u) {
-      if (u.order.type !== 'retreat') return;
       const near = W.soldiers().filter(s => dist(s, u) < 72);
       if (near.length >= 2 || (near.length && u.hp < u.def.hp * 0.6)) {
         u.surrendered = true; u.untouchable = true; u.team = 'x'; u.weak = false;
@@ -461,6 +460,11 @@
         if (W.stats.prisoners % 5 === 1) W.msg('Robbers yield themselves up as prisoners.', '3 Nephi 4:27', 'good');
         return;
       }
+      if (u.order.type === 'idle') {
+        W.order(u, { type: 'retreat', goal: passExit(nearestPass(u)), near: false });
+        return;
+      }
+      if (u.order.type !== 'retreat') return;
       if (near.length === 1 && dist(near[0], u) < 26) W.order(u, { type: 'attack', target: near[0].id, then: u.order });
     },
     foeBrain: robberBrain,
@@ -812,6 +816,368 @@
     }
   };
 
+  // ------------------------------------------------ Mission 4 · Alma 46
+  // Moroni raises the Title of Liberty upon the towers and halts Amalickiah's dissenters.
+
+  const m4 = {
+    id: 'm4', campaign: 'moroni', chapter: 'Alma 46', title: 'The Standard Raised', year: 'The nineteenth year of the judges',
+    briefing: [
+      ['Amalickiah flatters the lower judges and seeks to make himself king, that he might destroy the foundation of liberty.', 'Alma 46:4–10'],
+      ['Moroni rends his coat and writes upon it: “In memory of our God, our religion, and freedom, and our peace, our wives, and our children”—fastening it upon the end of a pole.', 'Alma 46:12'],
+      ['He goes forth among the people, saying: “whosoever will maintain this title upon the land, let them come forth in the strength of the Lord, and enter into a covenant”', 'Alma 46:20']
+    ],
+    goals: 'Hoist the title of liberty on 4 watchtowers, rally 12 soldiers to covenant, and head Amalickiah’s army before they reach the wilderness.',
+    starsText: '★ Amalickiah’s dissenters headed, ★★ the title of liberty hoisted upon 4 watchtowers, ★★★ all dissenters brought into the covenant of freedom.',
+    setup(W) {
+      W.border = null;
+      W.res = { grain: 240, timber: 260, stone: 80 };
+      this.stronghold = W.addBuilding('stronghold', 'p', CITY.x, CITY.y, true, { name: 'Zarahemla' });
+      const put = (type, tx, ty) => { const [x, y] = W.freeTileNear(tx, ty, 'p'); return W.addUnit(type, 'p', center(x), center(y)); };
+      put('moroni', CITY.x + 1, CITY.y + 4);
+      for (let i = 0; i < 2; i++) put('cart', CITY.x - 1 + i * 3, CITY.y + 5);
+      for (let i = 0; i < 2; i++) put('worker', CITY.x + i * 2, CITY.y + 5);
+      for (let i = 0; i < 4; i++) put('spearman', CITY.x - 2 + i, CITY.y + 6);
+      for (let i = 0; i < 2; i++) put('archer', CITY.x + 2 + i, CITY.y + 6);
+      const dissX = CITY.x - 4, dissY = CITY.y + 14;
+      this.dissentCamp = W.addBuilding('camp', 'r', dissX, dissY, true, { name: "Amalickiah's camp", untouchable: true });
+      this.dissenters = [];
+      const [ax, ay] = W.freeTileNear(dissX + 1, dissY + 3, 'r');
+      this.amalickiah = W.addUnit('amalickiah', 'r', center(ax), center(ay), { mode: 'waiting', spare: true });
+      this.dissenters.push(this.amalickiah);
+      for (let i = 0; i < 8; i++) {
+        const [x, y] = W.freeTileNear(dissX + (i % 4), dissY + 4 + Math.floor(i / 4), 'r');
+        this.dissenters.push(W.addUnit('lamanite', 'r', center(x), center(y), { mode: 'waiting', spare: true }));
+      }
+      this.phase = 'rally';
+      this.towersCount = 0;
+      this.covenantCount = 0;
+      this.flags = {};
+      W.msg('Amalickiah has led away many hearts, seeking to be king over the land.', 'Alma 46:4–10', 'warn');
+      W.msg('Moroni fastens the title of liberty to a pole and calls the people to covenant.', 'Alma 46:12–13', 'good');
+    },
+    objectives(W) {
+      const towers = W.buildings('p', 'watchtower').filter(b => b.built >= 1).length;
+      const army = W.soldiers('p').filter(u => !u.def.hero).length;
+      if (this.phase === 'rally') {
+        return [
+          { text: 'Hoist the title of liberty upon 4 watchtowers', ref: 'Alma 46:36', have: Math.min(4, towers), need: 4 },
+          { text: 'Rally covenant soldiers to the standard', ref: 'Alma 46:21', have: Math.min(12, army), need: 12 }
+        ];
+      }
+      if (this.phase === 'march') {
+        return [
+          { text: 'Head Amalickiah’s army before they reach the wilderness', ref: 'Alma 46:32–33', have: this.flags.headed ? 1 : 0, need: 1 }
+        ];
+      }
+      return [
+        { text: 'Bring dissenters into the covenant of freedom', ref: 'Alma 46:35', have: this.covenantCount, need: 6 }
+      ];
+    },
+    power(W) {
+      if (this.phase === 'rally' && !this.flags.standardCalled) {
+        return { id: 'standard', label: 'Raise the Title of Liberty: Call the People', ref: 'Alma 46:20' };
+      }
+      return null;
+    },
+    usePower(W, id) {
+      if (id === 'standard') {
+        this.flags.standardCalled = true;
+        W.msg('“the people came running together with their armor girded about their loins, rending their garments in token, or as a covenant”', 'Alma 46:21', 'good');
+        for (let i = 0; i < 4; i++) {
+          const [x, y] = W.freeTileNear(CITY.x + i, CITY.y + 7, 'p');
+          const u = W.addUnit('spearman', 'p', center(x), center(y));
+          u.rank = 1;
+        }
+      }
+    },
+    update(W, dt) {
+      if (!alive(this.stronghold)) return this.finish(W, false, 'Zarahemla has fallen.');
+      const towers = W.buildings('p', 'watchtower').filter(b => b.built >= 1).length;
+      const army = W.soldiers('p').filter(u => !u.def.hero).length;
+      if (this.phase === 'rally' && (towers >= 4 && army >= 10)) {
+        this.phase = 'march';
+        W.msg('Amalickiah sees Moroni’s people are more numerous, and takes his followers into the wilderness.', 'Alma 46:29–31', 'warn');
+        this.dissentCamp.untouchable = false;
+        W.remove(this.dissentCamp);
+        for (const u of this.dissenters) {
+          if (alive(u)) {
+            u.mode = 'flee';
+            W.order(u, { type: 'move', tx: CITY.x, ty: D.MAP_H - 2 });
+          }
+        }
+      }
+      if (this.phase === 'march') {
+        const moroni = W.units('p').find(u => u.type === 'moroni');
+        const activeDissenters = this.dissenters.filter(alive);
+        const nearMoroni = activeDissenters.filter(u => moroni && dist(u, moroni) < 5 * TILE);
+        if (nearMoroni.length >= 3 || activeDissenters.some(u => u.hp < u.def.hp * 0.7)) {
+          this.flags.headed = true;
+          this.phase = 'covenant';
+          if (alive(this.amalickiah)) {
+            W.remove(this.amalickiah);
+            W.msg('Amalickiah flees with a few men into the wilderness to join the Lamanites.', 'Alma 46:33', 'warn');
+          }
+          for (const u of activeDissenters) {
+            if (alive(u) && u !== this.amalickiah) {
+              u.surrendered = true;
+              u.mode = 'waiting';
+              W.order(u, { type: 'idle' });
+              this.covenantCount++;
+            }
+          }
+          W.msg('The remainder of Amalickiah’s army enter into a covenant to maintain a free government.', 'Alma 46:35', 'good');
+          W.msg('“thus Moroni planted the standard of liberty among the Nephites.”', 'Alma 46:36', 'good');
+          return this.finish(W, true);
+        }
+        if (activeDissenters.some(u => tileOf(u.y) >= D.MAP_H - 3)) {
+          return this.finish(W, false, 'The dissenters escaped into the wilderness to stir up the Lamanites.');
+        }
+      }
+    },
+    foeBrain(W, u) {
+      if (u.surrendered) return;
+      if (u.mode === 'flee') {
+        const e = W.enemiesNear(u, 'r', 60, true);
+        if (e && W.t - (u.struckAt || -99) < 2) W.order(u, { type: 'attack', target: e.id });
+      }
+    },
+    finish(W, won, why) {
+      if (W.over) return;
+      const towers = W.buildings('p', 'watchtower').filter(b => b.built >= 1).length;
+      W.over = won
+        ? { won: true, stars: 1 + (towers >= 4 ? 1 : 0) + (this.covenantCount >= 6 ? 1 : 0),
+            title: 'The Standard of Liberty Planted',
+            text: '“he caused the title of liberty to be hoisted upon every tower which was in all the land”', ref: 'Alma 46:36',
+            detail: `The dissenters were stopped and brought into the covenant of freedom. ${towers} watchtowers hold the standard of liberty.`,
+            next: 'Coming next: Fortifications of Noah (Alma 48–49).' }
+        : { won: false, title: why || 'The standard fell', text: 'Rally your army with the Title of Liberty and head Amalickiah before he reaches the wilderness.', ref: 'Alma 46:32' };
+    }
+  };
+
+  // ------------------------------------------------ Mission 5 · Alma 48–49
+  // The Fortifications of Noah: deep ditches, earthworks, and parapets hold off the Lamanite host.
+
+  const m5 = {
+    id: 'm5', campaign: 'moroni', chapter: 'Alma 48–49', chapters: ['Alma 48', 'Alma 49'], title: 'The Fortifications of Noah', year: 'The nineteenth year of the judges',
+    map: D.buildMap,
+    briefing: [
+      ['Moroni strengthens the armies of the Nephites: “throwing up banks of earth round about to enclose his armies, and also building walls of stone”', 'Alma 48:8'],
+      ['The Lamanite chief captains march to destroy Noah, swearing an oath to pull down its defenses.', 'Alma 49:13'],
+      ['Noah is made exceedingly strong: “because of the highness of the bank which had been thrown up, and the depth of the ditch which had been dug round about”', 'Alma 49:18']
+    ],
+    goals: 'Fortify Noah with earthworks, a ditch, a reinforced gate, and watchtowers; withstand the assault without losing the city.',
+    starsText: '★ Noah holds against the assault, ★★ the fortified entrance never breached, ★★★ zero Nephite buildings lost.',
+    setup(W) {
+      W.border = null;
+      W.res = { grain: 300, timber: 340, stone: 120 };
+      const noahX = CITY.x, noahY = CITY.y;
+      this.noah = W.addBuilding('stronghold', 'p', noahX, noahY, true, { name: 'City of Noah' });
+      const put = (type, tx, ty) => { const [x, y] = W.freeTileNear(tx, ty, 'p'); return W.addUnit(type, 'p', center(x), center(y)); };
+      put('lehi', noahX + 1, noahY + 4);
+      for (let i = 0; i < 2; i++) put('cart', noahX - 1 + i * 3, noahY + 5);
+      for (let i = 0; i < 3; i++) put('worker', noahX + i, noahY + 5);
+      for (let i = 0; i < 6; i++) put('spearman', noahX - 2 + i, noahY + 6);
+      for (let i = 0; i < 4; i++) put('archer', noahX - 1 + i, noahY + 7);
+
+      this.waves = [
+        { at: 70, list: [['lamanite', 6], ['slinger', 2]], name: 'First Vanguard' },
+        { at: 200, list: [['zoramite', 2], ['lamanite', 8], ['slinger', 4]], name: 'Second Wave' },
+        { at: 340, list: [['zoramite', 3], ['lamanite', 12], ['slinger', 4]], name: 'Final Assault of Chief Captains' }
+      ];
+      this.waveIndex = 0;
+      this.waveUnits = [];
+      this.lostBuildings = 0;
+      this.gateBreached = false;
+      this.phase = 'prepare';
+      W.msg('Moroni has fortified the city of Noah with high banks of earth and deep ditches.', 'Alma 48:8, 49:18');
+      W.msg('Build walls, ditches, and watchtowers to enclose the city before the Lamanite host arrives.', null, 'tip');
+    },
+    objectives(W) {
+      const walls = W.buildings('p').filter(b => b.def.wall && b.built >= 1).length;
+      const towers = W.buildings('p', 'watchtower').filter(b => b.built >= 1).length;
+      const ditches = W.buildings('p').filter(b => b.def.ditch && b.built >= 1).length;
+      if (this.phase === 'prepare') {
+        return [
+          { text: 'Build walls and ditches round about Noah', ref: 'Alma 48:8, 49:18', have: Math.min(12, walls + ditches), need: 12 },
+          { text: 'Erect at least 2 watchtowers', ref: 'Alma 48:9', have: Math.min(2, towers), need: 2 },
+          { text: 'Prepare before the first wave arrives', ref: 'Alma 49:13', have: Math.max(0, Math.floor(70 - W.t)), need: 70 }
+        ];
+      }
+      return [
+        { text: 'Hold Noah against all 3 assaults', ref: 'Alma 49:23', have: this.waveIndex, need: 3 },
+        { text: 'Keep the fortified entrance intact', ref: 'Alma 49:18', have: this.gateBreached ? 0 : 1, need: 1 }
+      ];
+    },
+    onDestroy(W, b) {
+      if (b.team === 'p') {
+        if (!b.def.wall && !b.def.ditch) this.lostBuildings++;
+        if (b.def.gate) this.gateBreached = true;
+      }
+    },
+    update(W, dt) {
+      if (!alive(this.noah)) return this.finish(W, false, 'The city of Noah has fallen.');
+      if (this.waveIndex < this.waves.length) {
+        const nextWave = this.waves[this.waveIndex];
+        if (W.t >= nextWave.at && (!this.waveUnits.length || !this.waveUnits.some(alive))) {
+          this.phase = 'assault';
+          const pass = PASSES[this.waveIndex % PASSES.length];
+          this.waveUnits = spawnRobbers(W, pass, nextWave.list, { mode: 'assault' });
+          W.msg(`The Lamanites launch the ${nextWave.name} from the northern passes!`, 'Alma 49:13', 'warn');
+          this.waveIndex++;
+        }
+      } else if (this.waveUnits.length && !this.waveUnits.some(alive)) {
+        W.msg('“they were swept off by the stones and arrows which were thrown at them”', 'Alma 49:22', 'good');
+        W.msg('“the Lamanites did attempt to destroy the Nephites until their chief captains were all slain”', 'Alma 49:23', 'good');
+        return this.finish(W, true);
+      }
+    },
+    foeBrain: robberBrain,
+    finish(W, won, why) {
+      if (W.over) return;
+      W.over = won
+        ? { won: true, stars: 1 + (!this.gateBreached ? 1 : 0) + (this.lostBuildings === 0 ? 1 : 0),
+            title: 'The Deliverance of Noah',
+            text: '“there was not a single soul of the Nephites which was slain.”', ref: 'Alma 49:23',
+            detail: `All three Lamanite assaults were broken at the ditches and gates of Noah. ${this.lostBuildings ? this.lostBuildings + ' buildings were lost.' : 'Not one building was lost.'}`,
+            next: 'Coming next: The Two Thousand Stripling Warriors (Alma 53, 56).' }
+        : { won: false, title: why || 'Noah has fallen', text: 'Throw up banks of earth and ditches round about, and guard the entrance with your strongest men.', ref: 'Alma 48:8, 49:18' };
+    }
+  };
+
+  // ------------------------------------------------ Mission 6 · Alma 53, 56
+  // The Two Thousand Stripling Warriors: Helaman leads his sons in a decoy march past Antiparah.
+
+  const m6 = {
+    id: 'm6', campaign: 'moroni', chapter: 'Alma 53, 56', chapters: ['Alma 53', 'Alma 56'], title: 'The Two Thousand Stripling Warriors', year: 'The twenty-sixth year of the judges',
+    map: D.buildMap,
+    briefing: [
+      ['Two thousand young Ammonite sons covenant to defend their country: “they were men who were true at all times in whatsoever thing they were entrusted.”', 'Alma 53:20'],
+      ['Helaman marches his two thousand sons past Antiparah as a decoy, drawing the strongest Lamanite army out of their city into the wilderness.', 'Alma 56:30–33'],
+      ['They say unto Helaman: “Father, behold our God is with us, and he will not suffer that we should fall... they had been taught by their mothers, that if they did not doubt, God would deliver them.”', 'Alma 56:46–47']
+    ],
+    goals: 'Lure the Lamanite army away from Antiparah, turn and fight with Helaman’s sons in the strength of God, and liberate Antiparah.',
+    starsText: '★ Antiparah liberated, ★★ not one stripling warrior fallen, ★★★ victory achieved within 12 minutes.',
+    setup(W) {
+      W.border = null;
+      W.res = { grain: 280, timber: 240, stone: 70 };
+      this.judea = W.addBuilding('stronghold', 'p', CITY.x - 6, CITY.y + 4, true, { name: 'City of Judea' });
+      this.antiparah = W.addBuilding('stronghold', 'r', CITY.x + 4, CITY.y - 10, true, { name: 'Antiparah', untouchable: true });
+      const put = (type, tx, ty) => { const [x, y] = W.freeTileNear(tx, ty, 'p'); return W.addUnit(type, 'p', center(x), center(y)); };
+      this.helaman = put('helaman', CITY.x - 4, CITY.y + 6);
+      this.striplings = [];
+      for (let i = 0; i < 10; i++) {
+        const u = put('stripling', CITY.x - 5 + (i % 4), CITY.y + 7 + Math.floor(i / 4));
+        u.rank = 2; u.kills = 8;
+        this.striplings.push(u);
+      }
+      for (let i = 0; i < 2; i++) put('cart', CITY.x - 8 + i * 2, CITY.y + 6);
+      for (let i = 0; i < 2; i++) put('worker', CITY.x - 7 + i, CITY.y + 8);
+      this.garrison = [];
+      for (let i = 0; i < 14; i++) {
+        const [x, y] = W.freeTileNear(CITY.x + 3 + (i % 4), CITY.y - 8 + Math.floor(i / 4), 'r');
+        this.garrison.push(W.addUnit(i < 3 ? 'zoramite' : i < 10 ? 'lamanite' : 'slinger', 'r', center(x), center(y), { mode: 'waiting' }));
+      }
+      this.phase = 'decoy';
+      this.waypoint = { x: CITY.x - 8, y: CITY.y - 4 };
+      this.flags = {};
+      W.msg('Helaman leads his two thousand sons to march near Antiparah as if carrying provisions.', 'Alma 56:30–31');
+      W.msg('March Helaman and his stripling sons toward the decoy point in the northwest.', null, 'tip');
+    },
+    objectives(W) {
+      const aliveStriplings = this.striplings.filter(alive).length;
+      if (this.phase === 'decoy') {
+        const near = this.striplings.filter(u => alive(u) && dist(u, { x: center(this.waypoint.x), y: center(this.waypoint.y) }) < 6 * TILE).length;
+        return [
+          { text: 'March Helaman and his sons to the decoy position', ref: 'Alma 56:31–33', have: Math.min(6, near), need: 6 },
+          { text: 'Preserve all of Helaman’s two thousand sons', ref: 'Alma 56:56', have: aliveStriplings, need: 10 }
+        ];
+      }
+      if (this.phase === 'battle') {
+        return [
+          { text: 'Turn and fight: “they had fought as if with the strength of God”', ref: 'Alma 56:56', have: this.flags.victory ? 1 : 0, need: 1 },
+          { text: 'Preserve all of Helaman’s two thousand sons', ref: 'Alma 56:56', have: aliveStriplings, need: 10 }
+        ];
+      }
+      return [
+        { text: 'Liberate Antiparah from the remaining defenders', ref: 'Alma 57:12', have: alive(this.antiparah) ? 0 : 1, need: 1 }
+      ];
+    },
+    power(W) {
+      if (this.phase === 'battle' && !this.flags.mothersPower) {
+        return { id: 'mothers', label: '“We do not doubt our mothers knew it”', ref: 'Alma 56:48' };
+      }
+      return null;
+    },
+    usePower(W, id) {
+      if (id === 'mothers') {
+        this.flags.mothersPower = true;
+        W.msg('“they had been taught by their mothers, that if they did not doubt, God would deliver them.”', 'Alma 56:47', 'good');
+        W.msg('“they had fought as if with the strength of God; yea, never were men known to have fought with such miraculous strength”', 'Alma 56:56', 'good');
+        for (const u of this.striplings) {
+          if (alive(u)) {
+            u.hp = maxHp(u);
+            u.burstUntil = W.t + 40;
+          }
+        }
+      }
+    },
+    update(W, dt) {
+      if (!alive(this.judea)) return this.finish(W, false, 'Judea has fallen.');
+      const aliveStriplings = this.striplings.filter(alive);
+      if (!aliveStriplings.length) return this.finish(W, false, 'Helaman’s sons have fallen.');
+
+      if (this.phase === 'decoy') {
+        const near = this.striplings.filter(u => alive(u) && dist(u, { x: center(this.waypoint.x), y: center(this.waypoint.y) }) < 6 * TILE).length;
+        if (near >= 6) {
+          this.phase = 'battle';
+          W.msg('The Lamanites march forth out of Antiparah to pursue Helaman!', 'Alma 56:32', 'warn');
+          W.msg('“Father, behold our God is with us, and he will not suffer that we should fall”', 'Alma 56:46', 'good');
+          for (const u of this.garrison) {
+            if (alive(u)) {
+              u.mode = 'assault';
+              W.order(u, { type: 'attack', target: this.helaman.id });
+            }
+          }
+        }
+      }
+      if (this.phase === 'battle') {
+        const activeFoes = this.garrison.filter(alive);
+        if (activeFoes.length <= 3) {
+          this.flags.victory = true;
+          this.phase = 'liberate';
+          this.antiparah.untouchable = false;
+          W.msg('The Lamanites are frightened and surrender: “for this cause did the Lamanites deliver themselves up as prisoners of war.”', 'Alma 56:56', 'good');
+          for (const u of activeFoes) { u.surrendered = true; W.order(u, { type: 'idle' }); }
+          W.msg('March on Antiparah and reclaim the city for the Nephites!', 'Alma 57:12', 'tip');
+        }
+      }
+      if (this.phase === 'liberate') {
+        if (!alive(this.antiparah) || this.antiparah.hp < maxHp(this.antiparah) * 0.2) {
+          return this.finish(W, true);
+        }
+      }
+    },
+    foeBrain(W, u) {
+      if (u.surrendered) return;
+      if (u.mode === 'assault') {
+        const e = W.enemiesNear(u, 'r', 160, true);
+        if (e) W.order(u, { type: 'attack', target: e.id });
+      }
+    },
+    finish(W, won, why) {
+      if (W.over) return;
+      const allSurvived = this.striplings.every(alive);
+      const fast = W.t <= 12 * 60;
+      W.over = won
+        ? { won: true, stars: 1 + (allSurvived ? 1 : 0) + (fast ? 1 : 0),
+            title: 'Victory of the Two Thousand',
+            text: '“there had not one soul of them fallen to the earth; yea, and they had fought as if with the strength of God”', ref: 'Alma 56:56',
+            detail: `Antiparah was liberated in ${Math.floor(W.t / 60)} minutes. ${allSurvived ? 'Not one stripling warrior was lost.' : 'Some stripling warriors were wounded or lost.'}`,
+            next: 'Coming next: Lachoneus and Gidgiddoni (3 Nephi 3).' }
+        : { won: false, title: why || 'The decoy failed', text: 'Stand firm in the faith of the mothers and invoke their strength when the Lamanite host attacks.', ref: 'Alma 56:47' };
+    }
+  };
+
   // ------------------------------------------------ Free battle
 
   // Build a city from nothing and tear down the Lamanite war camp: Red Alert's
@@ -896,9 +1262,9 @@
       // The Freemen: the human plants the standard of liberty; the opponent's city stands from the start, with its guards.
       if (F === 'p') {
         this.standard = put('standard', S0.x + 2, S0.y + 2);
+        this.standard.heroType = caps[this.captain].hero;
         put('cart', S0.x, S0.y + 5); put('worker', S0.x + 1, S0.y + 6); put('worker', S0.x + 2, S0.y + 6);   // (one cart: each storehouse brings another)
         put('spearman', S0.x + 5, S0.y); put('spearman', S0.x + 6, S0.y + 1); put('nslinger', S0.x + 5, S0.y + 2);
-        put(caps[this.captain].hero, S0.x + 4, S0.y + 4);
       } else {
         this.city = W.addBuilding('stronghold', 'r', S0.x + 1, S0.y + 1, true, { name: 'Zarahemla' });
         put('cart', S0.x, S0.y + 5, 'r'); put('worker', S0.x + 1, S0.y + 6, 'r'); put('worker', S0.x + 2, S0.y + 6, 'r');
@@ -1083,6 +1449,7 @@
       const put = (type, x, y) => { const [fx, fy] = W.freeTileNear(x, y, 'p'); return W.addUnit(type, 'p', center(fx), center(fy)); };
       const S0 = WD.START;
       this.standard = put('standard', S0.x + 2, S0.y + 2);
+      this.standard.heroType = 'moroni';
       put('cart', S0.x, S0.y + 5); put('worker', S0.x + 1, S0.y + 6); put('worker', S0.x + 2, S0.y + 6);   // (one cart: each storehouse brings another)
       put('spearman', S0.x + 5, S0.y); put('spearman', S0.x + 6, S0.y + 1); put('nslinger', S0.x + 5, S0.y + 2);
       this.raids = WILD_LENGTHS[this.length].raids;
@@ -1193,7 +1560,7 @@
     { id: 'moroni', title: 'Captain Moroni', about: 'Alma 43 onward: Moroni defends the Nephites against Zerahemnah, Amalickiah and Ammoron.' },
     { id: 'gidgiddoni', title: 'Lachoneus and Gidgiddoni', about: '3 Nephi 3–4: the Nephites gather into one place and outlast the Gadianton robbers.' }
   ];
-  const MISSIONS = [m3, m1, m2];
+  const MISSIONS = [m3, m4, m5, m6, m1, m2];
   const API = { MISSIONS, CAMPAIGNS, FREE_BATTLE: free, WILD: wild, robberBrain, spawnRobbers };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
   else root.LIB_MISSIONS = API;

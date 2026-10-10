@@ -220,6 +220,17 @@ nothing in them is written by hand, so they need no approval either.
   quoted in a note goes in “curly quotes” with its reference, and is checked
   like any quote; another translation's wording goes in ‘single quotes’.
   45 words max.
+- Older manuscripts (Blake, 2026-10-08: "If you have a better source of the
+  Hebrew or Greek then consider that. Make a note of it."). The plain words
+  follow the text the KJV translated (for the New Testament, the Textus
+  Receptus), so they match the verse above them; where older copies read
+  differently in a way that changes the meaning, a note says so. "The oldest
+  Greek manuscripts …" comes from STEPBible's edition data (NA28 against the
+  TR, and NA28's [[double brackets]]); "A Dead Sea Scroll (4Q51) …" comes from
+  the biblical scrolls' transcriptions (ETCBC/dss, Martin Abegg's data, CC
+  BY-NC 4.0), only from letters on the scroll, never from letters editors
+  filled in. At most 3 such notes a chapter, and never saying which reading
+  is right.
 - `review`: `{ v, about }`, the verses Blake should look at first in
   developer mode, and why. Not shown in the app.
 - Every chapter is read against the Hebrew by a second reviewer before it

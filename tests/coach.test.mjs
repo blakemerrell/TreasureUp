@@ -31,10 +31,16 @@ export default async function coach({ port }) {
   const dev = await device('dad', { url, files: FILES });
   await dev.ctx.route('**/content/original/genesis-13.js', r => r.fulfill({ status: 404, body: '' }));   // words that don't come
   let p = dev.page;
+  // The library: volumes, then a volume's books, then a book's chapters.
+  const toGenesis = async ch => {
+    if (await p.locator(`#home [data-lib-ch="${ch}"]`).count()) return;
+    if (!(await p.locator('#home [data-lib-book="Genesis"]').count())) { await p.click('#home [data-lib-vol="Old Testament"]'); await wait(300); }
+    await p.click('#home [data-lib-book="Genesis"]'); await wait(300);
+  };
   const openChapter = async ch => {
     if (!(await p.locator('#view').isHidden())) { await p.click('#viewBack'); await wait(300); }
     await p.click('#tabs [data-tab="scriptures"]'); await wait(800);
-    if (!(await p.locator(`#home [data-lib-ch="${ch}"]`).count())) { await p.click('#home [data-lib-book="Genesis"]'); await wait(300); }
+    await toGenesis(ch);
     await p.click(`#home [data-lib-ch="${ch}"]`); await wait(900);
   };
   const reader = () => p.$eval('#viewBody .ls-chapter', el => el.innerHTML);
@@ -88,8 +94,11 @@ export default async function coach({ port }) {
   // A reload: still there, the chapter marked, and Show mine puts it under the verses.
   await reopen(dev, url); p = dev.page;
   await p.click('#tabs [data-tab="scriptures"]'); await wait(800);
-  if (!(await p.locator('#home [data-lib-ch="Genesis 12"]').count())) { await p.click('#home [data-lib-book="Genesis"]'); await wait(300); }
+  await p.click('#home [data-lib-vol="Old Testament"]'); await wait(300);
+  check(/1 of yours/.test(await p.innerText('#home [data-lib-book="Genesis"]')), 'after a reload, Genesis says it has 1 of his in the Old Testament');
+  await toGenesis('Genesis 12');
   check(await p.locator('#home .lib-ch.own[data-lib-ch="Genesis 12"]').count() === 1, 'after a reload, Genesis 12 is marked in the Scriptures tab');
+  check(/your own version/.test(await p.innerText('#home')), 'with a line saying what the teal mark is');
   await p.click('#home [data-lib-ch="Genesis 12"]'); await wait(900);
   check(/2 of 3 verses/.test(await p.innerText('#viewBody .co-open')), 'the door says how far he got');
   await p.click('#viewBody [data-coach]'); await wait(600);
