@@ -15,8 +15,8 @@
   const FORDS = [9, 31, 51];
 
   const UNITS = {
-    worker:       { name: 'Worker', hp: 40, speed: 56, dmg: 3, range: 18, cd: 1.2, armor: 0, sight: 110, cost: { grain: 40 }, time: 7, builds: true,
-                    about: 'Mends what is broken, and hurries along what is being built. Tap a damaged or unfinished building to send him.' },
+    worker:       { name: 'Worker', hp: 40, speed: 56, dmg: 5, range: 18, cd: 1.2, armor: 0, sight: 110, cost: { grain: 40 }, time: 7, builds: true,
+                    about: 'Mends what is broken, hurries along what is being built, and defends against raiders with his scythe. Tap a damaged or unfinished building to send him.' },
     spearman:     { name: 'Spearman', hp: 95, speed: 58, dmg: 11, range: 20, cd: 1.0, armor: 2, sight: 170, cost: { grain: 45, timber: 25 }, time: 9, soldier: true, beats: ['armored', 'beast'],
                     about: 'A guard who fights up close. Strong against armored captains.' },
     archer:       { name: 'Archer', hp: 65, speed: 58, dmg: 11, range: 165, cd: 1.3, armor: 0, sight: 200, cost: { grain: 35, timber: 35 }, time: 10, soldier: true, ranged: true, beats: 'light',
@@ -60,8 +60,8 @@
                     about: '"A very subtle man to do evil" (Alma 47:4), who by fraud "obtained the kingdom" (Alma 47:35). Warriors near him fight harder.' },
     ammoron:      { name: 'Ammoron', hp: 300, speed: 60, dmg: 17, range: 22, cd: 1.0, armor: 4, sight: 200, foe: true, leader: true, aura: 100, tier: true, color: '#7c2d12', band: '#fcd34d',
                     about: '"The brother of Amalickiah was appointed king over the people; and his name was Ammoron" (Alma 52:3). Warriors near him fight harder.' },
-    standard:     { name: 'Standard of liberty', hp: 220, speed: 42, dmg: 0, range: 0, cd: 1, armor: 3, sight: 160, deploys: true, tier: true,
-                    about: 'Moroni "planted the standard of liberty among the Nephites" (Alma 46:36). Choose open ground and plant it: your city grows from there.' },
+    standard:     { name: 'Standard of liberty', hp: 320, speed: 56, dmg: 14, range: 20, cd: 1.0, armor: 4, sight: 180, deploys: true, hero: true, aura: 130, tier: true,
+                    about: 'Moroni "planted the standard of liberty among the Nephites" (Alma 46:36). Choose open ground and plant it: your city grows from there, and your captain leads the army.' },
     swordsman:    { name: 'Swordsman', hp: 115, speed: 58, dmg: 14, range: 20, cd: 1.0, armor: 2, sight: 170, cost: { grain: 55, timber: 35 }, time: 11, soldier: true, tier: true, needs: ['smithy'], beats: 'ranged',
                     about: 'Armed "with swords, and with cimeters" (Alma 43:18). Strong up close, and against slingers and archers.' },
     nslinger:     { name: 'Slinger', hp: 55, speed: 60, dmg: 6, range: 140, cd: 1.3, armor: 0, sight: 180, cost: { grain: 35, timber: 15 }, time: 7, soldier: true, ranged: true, tier: true, beats: 'light',
@@ -78,12 +78,12 @@
     cumom:        { name: 'Cumom', hp: 480, speed: 28, dmg: 12, range: 26, cd: 2.0, armor: 3, sight: 180, cost: { grain: 140, timber: 60 }, time: 28, foe: true, beast: true, siege: 5, eats: 3, tier: true, needs: ['pavilion'], side: 'kingmen', color: '#78716c', band: '#e7c9a0',
                     about: 'A great horned beast that butts down walls and buildings: "elephants and cureloms and cumoms; all of which were useful unto man" (Ether 9:19). Slow, clumsy against soldiers; spearmen bring it down. Nobody knows what a cumom looked like, and its use in war is imagined.' },
     cart:         { name: 'Horse cart', hp: 90, speed: 78, dmg: 0, range: 0, cd: 1, armor: 1, sight: 140, cost: { grain: 60, timber: 40 }, time: 12, gathers: true, load: 30, quick: 1.5, needs: ['storehouse'],
-                    about: 'Brings in grain and timber on its own, whichever is shorter: it finds the nearest field or forest and hauls the load to a storehouse. With no storehouse it has nowhere to go and waits. Tap it on a field, a forest or a rock face to choose which; stone only comes when you ask. The Nephites had "horses, and their chariots" (3 Nephi 3:22).' },
+                    about: 'Brings in grain and timber on its own, whichever is shorter: it finds the nearest field or forest and hauls the load to a storehouse. Defends itself when attacked: stone carts throw rocks, timber carts drop stakes, and grain carts burst ahead to escape. The Nephites had "horses, and their chariots" (3 Nephi 3:22).' },
     prisoner:     { name: 'Prisoner', hp: 1, speed: 45, dmg: 0, range: 0, cd: 1, armor: 0, sight: 0, about: 'Yielded up as a prisoner (3 Nephi 4:27).' }
   };
 
   const BUILDINGS = {
-    stronghold: { name: 'Zarahemla', w: 4, h: 4, hp: 2400, armor: 4, dmg: 8, range: 130, cd: 1.4, dropoff: 'story', builder: true, trains: ['cart', 'worker'], food: 10, store: 300, about: 'The chief judge\'s hall, where Pahoran was "appointed to fill the judgment-seat" (Alma 50:39): the seat of a free people, and their gathering place (3 Nephi 3:23). Its guards shoot at robbers. Lose it and the mission is lost.' },
+    stronghold: { name: 'Zarahemla', w: 4, h: 4, hp: 2400, armor: 4, dmg: 8, range: 130, cd: 1.4, dropoff: 'story', builder: true, trains: ['cart', 'worker'], research: ['council', 'acropolis'], food: 10, store: 300, about: 'The chief judge\'s hall, where Pahoran was "appointed to fill the judgment-seat" (Alma 50:39): the seat of a free people, and their gathering place (3 Nephi 3:23). Its guards shoot at robbers. Lose it and the mission is lost.' },
     storehouse: { name: 'Storehouse', w: 2, h: 2, hp: 450, armor: 2, cost: { timber: 60 }, work: 18, dropoff: true, brings: 'cart', store: 300, about: 'Where the carts bring grain, timber and stone: with none standing they have nowhere to go. Each one built brings a horse cart, like a refinery in Red Alert.' },
     barracks:   { name: 'Barracks', w: 3, h: 3, hp: 650, armor: 2, cost: { timber: 110 }, work: 30, trains: ['spearman', 'nslinger', 'archer'], research: ['armor'], about: 'Trains the guards.' },
     tower:      { name: 'Watchtower', w: 2, h: 2, hp: 520, armor: 3, cost: { timber: 40, stone: 40 }, work: 26, dmg: 9, range: 150, cd: 1.3, needs: ['barracks'], about: 'Guards "watch them … day and night" (3 Nephi 3:14). Shoots at robbers.' },
@@ -96,6 +96,12 @@
                   about: 'Feeds 8 more people, and grows a little grain. "They did raise grain in abundance" (Helaman 6:12).' },
     granary:    { name: 'Granary', w: 2, h: 2, hp: 380, armor: 2, cost: { timber: 45 }, work: 14, store: 500, tier: true,
                   about: 'Holds 500 more of each: grain, timber and stone. The Nephites "reserved for themselves provisions" (3 Nephi 4:4). From history, not the verses: clay granaries like these have held maize in Mexico since long before the Spanish came.' },
+    sawmill:    { name: 'Timber works', w: 2, h: 2, hp: 400, armor: 1, cost: { timber: 50, grain: 20 }, work: 16, needs: ['storehouse'], dropoff: true, mills: 0.3, tier: true,
+                  about: 'Logs sawn into squared beams and pickets, that they might have "timber to build their houses, yea, their cities" (Helaman 3:9). Serves as a timber dropoff and continuously mills timber.' },
+    quarry:     { name: 'Stone quarry', w: 2, h: 2, hp: 450, armor: 2, cost: { timber: 60, stone: 30 }, work: 18, needs: ['storehouse'], dropoff: true, quarries: 0.3, tier: true,
+                  about: 'Ancient stone quarry and masonry yard where limestone is cut and squared into ashlar blocks for fortifications and temples. Serves as a stone dropoff and constantly chips out stone.' },
+    brickworks: { name: 'Cement kiln', w: 2, h: 2, hp: 420, armor: 2, cost: { timber: 40, stone: 50 }, work: 18, needs: ['quarry'], dropoff: true, bakes: 0.2, cement: true, tier: true,
+                  about: 'The Nephites "became exceedingly expert in the working of cement; therefore they did build houses of cement" (Helaman 3:7). Burns limestone into hydraulic cement plaster and cures adobe bricks, strengthening buildings and walls.' },
     // The Freemen's second tier (design/evolution.md, section 4): the armory keeps the armor; the smithy makes the steel; the training ground makes veterans.
     smithy:     { name: 'Smithy', w: 2, h: 2, hp: 480, armor: 2, cost: { grain: 40, timber: 90, stone: 30 }, work: 22, needs: ['barracks'], trains: ['swordsman'], research: ['cimeters', 'bows'], tier: true,
                   about: 'Nephi "did make tools of the ore" (1 Nephi 17:16) and, after the manner of the sword of Laban, "did make many swords" (2 Nephi 5:14). Arms swordsmen; makes cimeters and bows of fine steel.' },
@@ -202,6 +208,12 @@
     ladders: { name: 'Ladders and cords', cost: { timber: 120 }, time: 25, ref: 'Alma 62:21', ladders: true,
              about: 'Moroni\'s men took Nephihah by night with "strong cords and ladders" (Alma 62:21). Your soldiers climb over enemy walls.',
              done: 'Ladders and cords: your soldiers climb over enemy walls.' },
+    council: { name: 'Civic Council Platform', cost: { timber: 90, stone: 120 }, time: 30, ref: 'Alma 50:39', strongholdTier: 2,
+               about: 'Erect a stepped limestone pyramid platform with smooth lime-cement plaster, fire braziers, and council pillars where the chief judges govern (Alma 50:39). Advances city to Tier 2, increasing city HP and defense.',
+               done: 'The Civic Council Platform is complete: your city advances to Tier 2.' },
+    acropolis: { name: 'Zarahemla Acropolis Citadel', cost: { timber: 160, stone: 260 }, time: 45, ref: 'Helaman 3:7–9', strongholdTier: 3, after: 'council',
+               about: 'Raise the monumental stepped acropolis with grand ceremonial staircases, stone battlements, and elevated colonnades, built by an expert people in cement (Helaman 3:7–9). Advances city to Tier 3, granting maximum strength.',
+               done: 'The Great Zarahemla Acropolis Citadel is complete: your city reaches Tier 3.' },
     // The King-men's (made at their tents; design/evolution.md, section 5).
     lshields: { name: 'Shields and breastplates', cost: { grain: 80, timber: 100 }, time: 25, ref: 'Alma 49:6', armor: 2, side: 'kingmen',
                 about: 'The Lamanites "prepared themselves with shields, and with breastplates" (Alma 49:6). Warriors +2 armor.',
@@ -485,6 +497,44 @@
       { ref: 'Alma 44:19', q: 'Why did Zerahemnah finally promise never to come to war again?', right: 'His army was about to be destroyed', wrong: ['Moroni offered him gold', 'His captains made him promise'] },
       { ref: 'Alma 44:20', q: 'What happened to the Lamanites who made the covenant?', right: 'They were allowed to go into the wilderness', wrong: ['They were kept as prisoners in Manti', 'They were made to serve in Moroni\'s army'] },
       { ref: 'Alma 44:23', q: 'Where did Moroni\'s armies go when the war was over?', right: 'Back to their houses and lands', wrong: ['Into the land of Antionum', 'Up into the land northward'] }
+    ],
+    'Alma 46': [
+      { ref: 'Alma 46:12', q: 'What did Moroni write upon the title of liberty?', right: 'In memory of our God, our religion, and freedom', wrong: ['Peace unto all who dwell in Zarahemla', 'Long live the king of the Nephites'] },
+      { ref: 'Alma 46:13', q: 'What did Moroni do after fastening the title of liberty on a pole?', right: 'Bowed himself to the earth and prayed mightily', wrong: ['Marched immediately to the borders', 'Demanded gold from the judges'] },
+      { ref: 'Alma 46:21', q: 'What did the people do when they ran together to Moroni?', right: 'Rent their garments in token of a covenant', wrong: ['Laid down their weapons of war', 'Demanded new leaders'] },
+      { ref: 'Alma 46:28', q: 'Whose coat did Moroni remind the people of?', right: 'Joseph, whose coat was rent by his brethren', wrong: ['Nephi, who fled from Jerusalem', 'Gideon, who was slain by Nehor'] },
+      { ref: 'Alma 46:33', q: 'What happened to Amalickiah when Moroni intercepted his army?', right: 'He fled with a small number of his men', wrong: ['He was taken prisoner in Zarahemla', 'He made a covenant of peace'] },
+      { ref: 'Alma 46:36', q: 'Where did Moroni cause the title of liberty to be hoisted?', right: 'Upon every tower in all the land', wrong: ['Only over the temple in Zarahemla', 'On the walls of Jershon alone'] }
+    ],
+    'Alma 48': [
+      { ref: 'Alma 48:7', q: 'While Amalickiah obtained power by deceit, what was Moroni doing?', right: 'Preparing the minds of the people to be faithful', wrong: ['Building palaces for the chief judges', 'Trading horses with the Lamanites'] },
+      { ref: 'Alma 48:8', q: 'What fortifications did Moroni erect to protect the cities?', right: 'Banks of earth and walls of stone', wrong: ['High iron fences and deep moats of water', 'Hedges of thorns and wooden towers'] },
+      { ref: 'Alma 48:11', q: 'What kind of man was Captain Moroni described as?', right: 'A man of perfect understanding who did not delight in bloodshed', wrong: ['A fierce warrior who loved battle', 'A silent judge who stayed in his palace'] },
+      { ref: 'Alma 48:14', q: 'What did the Nephites believe about going to war?', right: 'Never to give an offense, only to defend themselves', wrong: ['To conquer other nations before they attacked', 'To gain riches and fame by battle'] },
+      { ref: 'Alma 48:17', q: 'What did Mormon write would happen if all men had been like Moroni?', right: 'The very powers of hell would have been shaken forever', wrong: ['All wars would cease across all the earth', 'Every city would be paved with gold'] }
+    ],
+    'Alma 49': [
+      { ref: 'Alma 49:3', q: 'Why did the Lamanites expect to easily conquer the city of Ammonihah?', right: 'Because it had been destroyed once before', wrong: ['Because the walls had fallen down in an earthquake', 'Because the people had fled into the wilderness'] },
+      { ref: 'Alma 49:4', q: 'Why were the Lamanites disappointed at Ammonihah?', right: 'The ridges of earth were too high for arrows to take effect', wrong: ['The Nephites met them with greater numbers in the field', 'A fire broke out in the Lamanite camp'] },
+      { ref: 'Alma 49:13', q: 'What oath did the Lamanite chief captains make before marching on Noah?', right: 'That they would destroy the people of that city', wrong: ['That they would take Moroni alive', 'That they would burn the temple'] },
+      { ref: 'Alma 49:17', q: 'Who had Moroni appointed chief captain over the city of Noah?', right: 'Lehi', wrong: ['Teancum', 'Helaman'] },
+      { ref: 'Alma 49:22', q: 'What happened when the Lamanites tried to dig down the banks of earth at Noah?', right: 'They were swept off by stones and arrows', wrong: ['Their shovels and picks broke on the stone', 'The walls collapsed inward on the Nephites'] },
+      { ref: 'Alma 49:23', q: 'How many Nephites were slain in the defense of the city of Noah?', right: 'Not a single soul was slain', wrong: ['Fifty soldiers', 'More than a thousand'] }
+    ],
+    'Alma 53': [
+      { ref: 'Alma 53:10', q: 'Why were the people of Ammon reluctant to take up arms?', right: 'They had made an oath never to shed blood', wrong: ['They had no weapons or armor', 'They feared the Lamanite armies'] },
+      { ref: 'Alma 53:14', q: 'Who persuaded the Ammonites not to break their covenant oath?', right: 'Helaman', wrong: ['Moroni', 'Pahoran'] },
+      { ref: 'Alma 53:16', q: 'Who assembled together to fight when their fathers could not?', right: 'Their young sons who had not entered into the covenant', wrong: ['Soldiers hired from the land northward', 'Dissenters from the King-men'] },
+      { ref: 'Alma 53:17', q: 'What covenant did the young men enter into?', right: 'To fight for liberty and never give it up', wrong: ['To destroy all the cities of the Lamanites', 'To never return until the king was slain'] },
+      { ref: 'Alma 53:19', q: 'Whom did the two thousand young men choose to be their leader?', right: 'Helaman', wrong: ['Moroni', 'Lehi'] },
+      { ref: 'Alma 53:20', q: 'What were the two thousand young men noted for in their conduct?', right: 'Exceeding faith and true in all things', wrong: ['Great wealth and royal lineage', 'Skill in horse archery'] }
+    ],
+    'Alma 56': [
+      { ref: 'Alma 56:9', q: 'How many stripling warriors arrived to reinforce Helaman in Judea?', right: 'Two thousand', wrong: ['Ten thousand', 'Five hundred'] },
+      { ref: 'Alma 56:31', q: 'What stratagem did Helaman use to draw the Lamanite army out of Antiparah?', right: 'Marched near the city as if carrying provisions past it', wrong: ['Pretended to be asleep in their camp', 'Set fire to the outer gates'] },
+      { ref: 'Alma 56:46', q: 'What did the young men say when Helaman asked if they would fight?', right: 'Father, behold our God is with us', wrong: ['We must wait for the army of Moroni', 'Let us retreat to the city of Judea'] },
+      { ref: 'Alma 56:47', q: 'What had their mothers taught them about faith?', right: 'That if they did not doubt, God would deliver them', wrong: ['That victory comes to those who fight with hate', 'That they should seek honor in the eyes of men'] },
+      { ref: 'Alma 56:56', q: 'What miraculous outcome occurred among the two thousand striplings?', right: 'Not one soul of them had fallen to the earth', wrong: ['All were wounded but none died', 'The Lamanites fled without striking a blow'] }
     ]
   };
 
@@ -519,7 +569,7 @@
     // Lamanite warrior and wears armor, so a Freemen camp marches with half the heads and without the Lamanites' fierceness;
     // a horse cart hauls two and a half bearers' worth, and farms grow grain besides, so it keeps far fewer haulers.)
     freemen: { name: 'Freemen', people: 'The Nephites', ref: 'Alma 51:6', capital: 'stronghold', hauler: 'cart', builder: 'worker', foodHint: 'build a farm', store: 'storehouse', powers: 'miracles', house: 'Temple', bot: { march: 0.5, strength: 0.8, haulers: 0.4 },
-               build: ['farm', 'granary', 'storehouse', 'barracks', 'wall', 'gate', 'tower', 'armory', 'smithy', 'training', 'stables', 'hall', 'temple'],
+               build: ['farm', 'granary', 'storehouse', 'sawmill', 'quarry', 'brickworks', 'barracks', 'wall', 'gate', 'tower', 'armory', 'smithy', 'training', 'stables', 'hall', 'temple'],
                about: 'Those who "took upon them the name of freemen" (Alma 51:6): the people of liberty, under Moroni\'s title. Fortify, upgrade, and work miracles from the temple.' },
     kingmen: { name: 'King-men', people: 'The Lamanites', ref: 'Alma 51:5', capital: 'warcamp', hauler: 'bearer', builder: 'bearer', foodHint: 'pitch tents', store: 'storetent', powers: 'cunning', house: 'Rameumptom', bot: { march: 1, strength: 1, haulers: 1 },
                build: ['tents', 'storetent', 'muster', 'wall', 'gate', 'lookout', 'shieldtent', 'ladderworks', 'wardance', 'pavilion', 'rameumptom', 'idol'],
@@ -545,7 +595,51 @@
     }
   };
 
-  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, CUNNING, POWERS, ARTIFACTS, SIDES, CAPTAINS, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
+  // Campaign Star Perks & Relics progression (earned via mission stars)
+  const PERKS = {
+    brass_plates: {
+      id: 'brass_plates',
+      name: 'Plates of Brass',
+      stars: 2,
+      ref: '1 Nephi 5:10',
+      about: 'Armory and smithy research works 25% faster.',
+      bonus: { researchSpeed: 1.25 }
+    },
+    moroni_forts: {
+      id: 'moroni_forts',
+      name: "Moroni's Earthworks",
+      stars: 2,
+      ref: 'Alma 48:8',
+      about: 'Fortifications, ditches, walls, and gates cost 20% less timber and stone.',
+      bonus: { wallDiscount: 0.8 }
+    },
+    stripling_covenant: {
+      id: 'stripling_covenant',
+      name: 'Covenant of the Mothers',
+      stars: 3,
+      ref: 'Alma 56:47',
+      about: 'Stripling warriors begin with +20% health and rank 1 veterancy.',
+      bonus: { striplingRank: 1, striplingHp: 1.2 }
+    },
+    joseph_granaries: {
+      id: 'joseph_granaries',
+      name: 'Granaries of Joseph',
+      stars: 2,
+      ref: 'Genesis 41:48',
+      about: 'Storage capacity for grain, timber, and stone increased by +300.',
+      bonus: { extraStore: 300 }
+    },
+    nephite_chariots: {
+      id: 'nephite_chariots',
+      name: 'Nephite Chariots',
+      stars: 2,
+      ref: '3 Nephi 3:22',
+      about: 'Horse carts move 20% faster when hauling harvest.',
+      bonus: { cartSpeed: 1.2 }
+    }
+  };
+
+  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, CUNNING, POWERS, ARTIFACTS, SIDES, CAPTAINS, PERKS, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
   if (typeof module !== 'undefined' && module.exports) module.exports = DATA;
   else root.LIB_DATA = DATA;
 })(this);

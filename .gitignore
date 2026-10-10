@@ -17,3 +17,4 @@ content/library.js
 content/lib/
 # The Firebase emulators (tests/README.md)
 *-debug.log
+/assets/

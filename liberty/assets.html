@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Title of Liberty · Actual In-Game Asset Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #090a0f;
+    --panel: #121520;
+    --card: #181d2c;
+    --border: rgba(255, 255, 255, 0.1);
+    --gold: #f59e0b;
+    --gold-glow: rgba(245, 158, 11, 0.35);
+    --crimson: #dc2626;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --green: #22c55e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+    font-family: 'Outfit', system-ui, sans-serif;
+    min-height: 100vh;
+  }
+  header {
+    background: linear-gradient(180deg, #161b2b, #0d101a);
+    border-bottom: 2px solid #2d3748;
+    padding: 24px 32px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+  }
+  .header-wrap {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand h1 {
+    margin: 0; font-family: 'Cinzel', serif; font-size: 24px; font-weight: 900;
+    letter-spacing: 1px; color: #fff; text-shadow: 0 0 20px var(--gold-glow);
+  }
+  .badge {
+    background: linear-gradient(135deg, var(--gold), #d97706);
+    color: #000; font-weight: 900; font-size: 11px; padding: 4px 10px;
+    border-radius: 6px; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .tabs {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .tab {
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--muted); padding: 8px 16px; border-radius: 8px;
+    font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s;
+  }
+  .tab:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+  .tab.active {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #fff; border-color: #3b82f6; box-shadow: 0 0 15px rgba(59,130,246,0.4);
+  }
+
+  main {
+    max-width: 1400px; margin: 32px auto; padding: 0 24px;
+  }
+  .section-title {
+    font-family: 'Cinzel', serif; font-size: 20px; font-weight: 900;
+    color: var(--gold); border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+    padding-bottom: 8px; margin: 32px 0 20px 0; display: flex; align-items: center; gap: 10px;
+  }
+  .section-title small { font-family: 'Outfit'; font-size: 13px; color: var(--muted); font-weight: normal; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--gold);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.6);
+  }
+
+  /* Isometric preview stage */
+  .stage {
+    height: 180px;
+    background: radial-gradient(circle at center, #232b40 0%, #101420 100%);
+    position: relative;
+    display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: 18px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  /* Isometric checker pattern */
+  .stage::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: 
+      linear-gradient(30deg, rgba(255,255,255,0.03) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.03) 87.5%, rgba(255,255,255,0.03)),
+      linear-gradient(150deg, rgba(255,255,255,0.03) 12%, transparent 12.5%, transparent 87%, rgba(255,255,255,0.03) 87.5%, rgba(255,255,255,0.03));
+    background-size: 40px 24px; opacity: 0.7;
+  }
+  .stage img {
+    position: relative; z-index: 2;
+    image-rendering: pixelated;
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.85));
+    max-height: 140px; max-width: 85%;
+    object-fit: contain;
+  }
+  .stage.tall { height: 260px; }
+  .stage.tall img { max-height: 220px; }
+
+  .card-body {
+    padding: 16px; flex: 1; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .card-head {
+    display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px;
+  }
+  .name {
+    font-size: 16px; font-weight: 800; color: #fff;
+  }
+  .ref {
+    font-size: 12px; font-weight: 700; color: var(--gold);
+  }
+  .file {
+    font-family: monospace; font-size: 11px; color: var(--muted);
+    background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px;
+    display: inline-block; margin-bottom: 8px; width: fit-content;
+  }
+  .desc {
+    font-size: 12px; line-height: 1.45; color: #cbd5e1; margin: 0;
+  }
+  .stats {
+    display: flex; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 11px; color: var(--muted);
+  }
+  .stat { display: flex; align-items: center; gap: 4px; font-weight: 700; }
+  .stat b { color: #fff; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-wrap">
+    <div class="brand">
+      <h1>Title of Liberty</h1>
+      <span class="badge">In-Game Asset Catalog</span>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="filterCat('all', this)">All Assets</button>
+      <button class="tab" onclick="filterCat('heroes', this)">Heroes & Leaders</button>
+      <button class="tab" onclick="filterCat('nephites', this)">Nephite Soldiers</button>
+      <button class="tab" onclick="filterCat('foes', this)">Lamanites & Robbers</button>
+      <button class="tab" onclick="filterCat('buildings', this)">Buildings</button>
+      <button class="tab" onclick="filterCat('forts', this)">Fortifications</button>
+      <button class="tab" onclick="filterCat('economy', this)">Carts & Economy</button>
+    </div>
+  </div>
+</header>
+
+<main id="container">
+
+  <!-- HEROES -->
+  <div class="category-block" data-cat="heroes">
+    <div class="section-title">
+      Heroes & Chief Captains
+      <small>Alma 43–53, 3 Nephi 3</small>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="stage"><img src="assets/moroni.png" alt="Captain Moroni"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Captain Moroni</span><span class="ref">Alma 43:17</span></div>
+          <span class="file">assets/moroni.png (145×188)</span>
+          <p class="desc">Chief captain "only twenty and five years old". Clad in full bronze armor, crested helm, red mantle, holding the Title of Liberty standard.</p>
+          <div class="stats"><div class="stat">HP: <b>320</b></div><div class="stat">Armor: <b>5</b></div><div class="stat">Aura: <b>140</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/lehi.png" alt="Captain Lehi"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Captain Lehi</span><span class="ref">Alma 43:35</span></div>
+          <span class="file">assets/lehi.png (124×150)</span>
+          <p class="desc">Leads the army hidden south of the hill Riplah. "A man who had been with Moroni in the more part of all his battles; like unto Moroni."</p>
+          <div class="stats"><div class="stat">HP: <b>240</b></div><div class="stat">Armor: <b>4</b></div><div class="stat">Aura: <b>110</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/gidgiddoni.png" alt="Gidgiddoni"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Gidgiddoni</span><span class="ref">3 Nephi 3:18</span></div>
+          <span class="file">assets/gidgiddoni.png (88×150)</span>
+          <p class="desc">Commander and prophet of the Nephites. White mantle, bronze headband, holding a tall staff and side sword.</p>
+          <div class="stats"><div class="stat">HP: <b>300</b></div><div class="stat">Armor: <b>4</b></div><div class="stat">Aura: <b>130</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/helaman.png" alt="Helaman"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Helaman</span><span class="ref">Alma 53:22</span></div>
+          <span class="file">assets/helaman.png (117×150)</span>
+          <p class="desc">Marching at the head of his two thousand stripling warriors. Ornate gold breastplate, green cloak, raised sword.</p>
+          <div class="stats"><div class="stat">HP: <b>300</b></div><div class="stat">Armor: <b>4</b></div><div class="stat">Aura: <b>130</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/teancum.png" alt="Teancum"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Teancum</span><span class="ref">Alma 51:34</span></div>
+          <span class="file">assets/teancum.png (98×150)</span>
+          <p class="desc">Stealth javelin specialist who stole into the camp of the king. High ranged burst damage.</p>
+          <div class="stats"><div class="stat">HP: <b>280</b></div><div class="stat">Dmg: <b>22</b></div><div class="stat">Range: <b>95</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/amalickiah.png" alt="Amalickiah"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Amalickiah</span><span class="ref">Alma 47:35</span></div>
+          <span class="file">assets/amalickiah.png</span>
+          <p class="desc">King-men usurper who by fraud and cunning obtained the kingdom. Dark mantle and heavy bronze cuirass.</p>
+          <div class="stats"><div class="stat">HP: <b>320</b></div><div class="stat">Armor: <b>4</b></div><div class="stat">Leader</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/zerahemnah.png" alt="Zerahemnah"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Zerahemnah</span><span class="ref">Alma 43:5</span></div>
+          <span class="file">assets/zerahemnah.png</span>
+          <p class="desc">Leader of the Lamanites at Riplah. Fierce obsidian macuahuitl, war paint, and commander aura.</p>
+          <div class="stats"><div class="stat">HP: <b>520</b></div><div class="stat">Armor: <b>3</b></div><div class="stat">Leader</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEPHITE SOLDIERS -->
+  <div class="category-block" data-cat="nephites">
+    <div class="section-title">
+      Nephite Armies & Warriors
+      <small>Alma 43:19–21</small>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="stage"><img src="assets/spearman.png" alt="Spearman"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Nephite Spearman</span><span class="ref">Alma 43:19</span></div>
+          <span class="file">assets/spearman.png</span>
+          <p class="desc">Foundation house-style benchmark unit. Blue tunic, bronze breastplate, round hide-covered shield, thrusting spear.</p>
+          <div class="stats"><div class="stat">HP: <b>95</b></div><div class="stat">Dmg: <b>11</b></div><div class="stat">Armor: <b>2</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/swordsman.png" alt="Swordsman"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Nephite Swordsman</span><span class="ref">Alma 43:18</span></div>
+          <span class="file">assets/swordsman.png</span>
+          <p class="desc">Armed with swords and cimeters of fine steel. Strong in close-quarters and against light missile troops.</p>
+          <div class="stats"><div class="stat">HP: <b>115</b></div><div class="stat">Dmg: <b>14</b></div><div class="stat">Armor: <b>2</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/archer.png" alt="Archer"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Nephite Archer</span><span class="ref">Alma 43:20</span></div>
+          <span class="file">assets/archer.png</span>
+          <p class="desc">Shoots from parapets and watchtowers. Devastating against enemies without breastplates.</p>
+          <div class="stats"><div class="stat">HP: <b>65</b></div><div class="stat">Dmg: <b>11</b></div><div class="stat">Range: <b>165</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/nslinger.png" alt="Slinger"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Nephite Slinger</span><span class="ref">Alma 2:12</span></div>
+          <span class="file">assets/nslinger.png</span>
+          <p class="desc">Rapid stone slinger. Low cost, long range, effective harasser.</p>
+          <div class="stats"><div class="stat">HP: <b>55</b></div><div class="stat">Dmg: <b>6</b></div><div class="stat">Range: <b>140</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/javelin.png" alt="Javelin Thrower"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Javelin Thrower</span><span class="ref">Jarom 1:8</span></div>
+          <span class="file">assets/javelin.png</span>
+          <p class="desc">Throws heavy atlatl darts. High armor-penetrating puncture damage.</p>
+          <div class="stats"><div class="stat">HP: <b>75</b></div><div class="stat">Dmg: <b>20</b></div><div class="stat">Range: <b>95</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/stripling.png" alt="Stripling Warrior"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Stripling Warrior</span><span class="ref">Alma 53:20</span></div>
+          <span class="file">assets/stripling.png</span>
+          <p class="desc">Valiant sons of the Ammonites. High morale, gold chestplates, extraordinarily durable in battle.</p>
+          <div class="stats"><div class="stat">HP: <b>190</b></div><div class="stat">Armor: <b>4</b></div><div class="stat">Dmg: <b>15</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/curelom.png" alt="Curelom"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Curelom</span><span class="ref">Ether 9:19</span></div>
+          <span class="file">assets/curelom.png</span>
+          <p class="desc">Great ancient beast with soldiers on its back. Enormous health pool and crushing melee power.</p>
+          <div class="stats"><div class="stat">HP: <b>560</b></div><div class="stat">Dmg: <b>26</b></div><div class="stat">Armor: <b>4</b></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOES & ROBBERS -->
+  <div class="category-block" data-cat="foes">
+    <div class="section-title">
+      Lamanite Hosts & Gadianton Robbers
+      <small>Alma 43:20, 3 Nephi 4:7</small>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="stage"><img src="assets/lamanite.png" alt="Lamanite Warrior"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Lamanite Warrior</span><span class="ref">Alma 43:20</span></div>
+          <span class="file">assets/lamanite.png</span>
+          <p class="desc">"Naked, save it were a skin girded about their loins". Red ochre war paint, swift and fierce.</p>
+          <div class="stats"><div class="stat">HP: <b>72</b></div><div class="stat">Dmg: <b>8</b></div><div class="stat">Speed: <b>60</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/lamanite_slinger.png" alt="Lamanite Slinger"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Lamanite Slinger</span><span class="ref">Alma 43:20</span></div>
+          <span class="file">assets/lamanite_slinger.png</span>
+          <p class="desc">Light missile troops supporting the charges of the Lamanite host.</p>
+          <div class="stats"><div class="stat">HP: <b>46</b></div><div class="stat">Dmg: <b>6</b></div><div class="stat">Range: <b>130</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/lamanite_captain.png" alt="Lamanite Captain"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Lamanite Captain</span><span class="ref">Alma 43:6</span></div>
+          <span class="file">assets/lamanite_captain.png</span>
+          <p class="desc">Amalekite/Zoramite chief captain in feathered war mantle and copper breastplate.</p>
+          <div class="stats"><div class="stat">HP: <b>140</b></div><div class="stat">Armor: <b>2</b></div><div class="stat">Dmg: <b>12</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/robber.png" alt="Gadianton Robber"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Gadianton Robber</span><span class="ref">3 Nephi 4:7</span></div>
+          <span class="file">assets/robber.png</span>
+          <p class="desc">"A lamb-skin about their loins, and their heads were shorn, and they had head-plates upon them."</p>
+          <div class="stats"><div class="stat">HP: <b>70</b></div><div class="stat">Dmg: <b>9</b></div><div class="stat">Armor: <b>1</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/robber_chief.png" alt="Gadianton Chieftain"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Robber Chieftain</span><span class="ref">3 Nephi 4:28</span></div>
+          <span class="file">assets/robber_chief.png</span>
+          <p class="desc">Giddianhi / Zemnarihah commanding the siege against the Nephite gathering in Zarahemla.</p>
+          <div class="stats"><div class="stat">HP: <b>420</b></div><div class="stat">Dmg: <b>18</b></div><div class="stat">Armor: <b>3</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/cumom.png" alt="Cumom"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Cumom</span><span class="ref">Ether 9:19</span></div>
+          <span class="file">assets/cumom.png</span>
+          <p class="desc">Massive siege beast used by King-men armies to batter down gates and earthen palisades.</p>
+          <div class="stats"><div class="stat">HP: <b>480</b></div><div class="stat">Siege: <b>5×</b></div><div class="stat">Armor: <b>3</b></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUILDINGS -->
+  <div class="category-block" data-cat="buildings">
+    <div class="section-title">
+      Capital Architecture & Sacred Grounds
+      <small>Alma 50:39, 2 Nephi 5:16, Alma 31:21</small>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="stage tall"><img src="assets/stronghold.png" alt="Stronghold"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Zarahemla Stronghold</span><span class="ref">Alma 50:39</span></div>
+          <span class="file">assets/stronghold.png (4×4)</span>
+          <p class="desc">The judgment-seat and seat of liberty. Tiered Mesoamerican limestone platform with pillared colonnade and council chamber.</p>
+          <div class="stats"><div class="stat">HP: <b>2400</b></div><div class="stat">Armor: <b>4</b></div><div class="stat">Capital</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage tall"><img src="assets/temple.png" alt="Temple"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Solomon's Temple</span><span class="ref">2 Nephi 5:16</span></div>
+          <span class="file">assets/temple.png (4×4)</span>
+          <p class="desc">Built after the manner of Solomon: pale stone house, lower porch with gold doors, free-standing bronze pillars Jachin & Boaz, courtyard altar and lampstand.</p>
+          <div class="stats"><div class="stat">HP: <b>1500</b></div><div class="stat">Miracles</div><div class="stat">Heals: <b>190</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage tall"><img src="assets/rameumptom.png" alt="Rameumptom"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">The Rameumptom</span><span class="ref">Alma 31:13–21</span></div>
+          <span class="file">assets/rameumptom.png (4×4)</span>
+          <p class="desc">The Zoramites' "holy stand" high above the head. Stirred to bloodthirst, stratagem, and cunning.</p>
+          <div class="stats"><div class="stat">HP: <b>1800</b></div><div class="stat">Cunning</div><div class="stat">King-men</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage tall"><img src="assets/warcamp.png" alt="War Camp"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Lamanite War Camp</span><span class="ref">Alma 51:5</span></div>
+          <span class="file">assets/warcamp.png (4×4)</span>
+          <p class="desc">The gathering center of the King-men armies, encircled with hide tents and bearer supply posts.</p>
+          <div class="stats"><div class="stat">HP: <b>1800</b></div><div class="stat">Capital</div><div class="stat">King-men</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/barracks.png" alt="Barracks"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Barracks</span><span class="ref">Alma 43</span></div>
+          <span class="file">assets/barracks.png (3×3)</span>
+          <p class="desc">Trains spearmen, archers, and slingers. Low stone footing with thatched plaster housing.</p>
+          <div class="stats"><div class="stat">HP: <b>650</b></div><div class="stat">Cost: 110 T</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/armory.png" alt="Armory"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Armory</span><span class="ref">Alma 2:12</span></div>
+          <span class="file">assets/armory.png (3×2)</span>
+          <p class="desc">Crafts breastplates, shields, and superior weapons of war for the armies.</p>
+          <div class="stats"><div class="stat">HP: <b>500</b></div><div class="stat">Research</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/smithy.png" alt="Smithy"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Smithy</span><span class="ref">2 Nephi 5:14</span></div>
+          <span class="file">assets/smithy.png (2×2)</span>
+          <p class="desc">Forges tools of the ore and swords of steel after the manner of the sword of Laban.</p>
+          <div class="stats"><div class="stat">HP: <b>480</b></div><div class="stat">Swordsmen</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORTIFICATIONS -->
+  <div class="category-block" data-cat="forts">
+    <div class="section-title">
+      Fortifications & Defensive Lines
+      <small>Alma 49:18, Alma 50:1–6</small>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="stage"><img src="assets/wall_bank.png" alt="Earthwork Wall"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Earthwork Rampart</span><span class="ref">Alma 50:1</span></div>
+          <span class="file">assets/wall_bank.png (1×1)</span>
+          <p class="desc">Level 1: Heaps of earth cast up around the city. Fronted by a defensive ditch.</p>
+          <div class="stats"><div class="stat">HP: <b>260</b></div><div class="stat">Armor: <b>5</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/wall_pickets.png" alt="Timber Pickets"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Timber Pickets</span><span class="ref">Alma 50:2–3</span></div>
+          <span class="file">assets/wall_pickets.png (1×1)</span>
+          <p class="desc">Level 2: Timbers pitched upon timbers and a frame of pickets built upon the breastworks.</p>
+          <div class="stats"><div class="stat">HP: <b>450</b></div><div class="stat">Armor: <b>6</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/wall_stone.png" alt="Stone Wall"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Dressed Stone Wall</span><span class="ref">Alma 48:8</span></div>
+          <span class="file">assets/wall_stone.png (1×1)</span>
+          <p class="desc">Level 3: Impassable ashlar stone masonry. Guards on high parapets cast down stones.</p>
+          <div class="stats"><div class="stat">HP: <b>780</b></div><div class="stat">Armor: <b>8</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/tower.png" alt="Watchtower"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Watchtower</span><span class="ref">Alma 50:5</span></div>
+          <span class="file">assets/tower.png (2×2)</span>
+          <p class="desc">Towers that overlook the ridges of earth and shoot down upon approaching raiders.</p>
+          <div class="stats"><div class="stat">HP: <b>520</b></div><div class="stat">Range: <b>150</b></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ECONOMY & CARTS -->
+  <div class="category-block" data-cat="economy">
+    <div class="section-title">
+      Gathering Carts & Logistics
+      <small>3 Nephi 3:22, Helaman 6:12</small>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="stage"><img src="assets/worker.png" alt="Worker"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Laborer / Worker</span><span class="ref">Alma 1:29</span></div>
+          <span class="file">assets/worker.png</span>
+          <p class="desc">Constructs buildings and quarries stone. Needs a defensive scythe animation.</p>
+          <div class="stats"><div class="stat">HP: <b>35</b></div><div class="stat">Builds</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/cart.png" alt="Horse Cart"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Horse Cart</span><span class="ref">3 Nephi 3:22</span></div>
+          <span class="file">assets/cart.png</span>
+          <p class="desc">Two-wheeled wooden cart pulled by horse/mule. Gathers grain, timber, and stone.</p>
+          <div class="stats"><div class="stat">HP: <b>90</b></div><div class="stat">Speed: <b>78</b></div><div class="stat">Load: <b>30</b></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/cart_grain.png" alt="Grain Cart"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Grain Loaded Cart</span><span class="ref">3 Nephi 4:4</span></div>
+          <span class="file">assets/cart_grain.png</span>
+          <p class="desc">Hauling sacks of golden maize and wheat to the storehouses and granaries.</p>
+          <div class="stats"><div class="stat">Fast</div><div class="stat">Food</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/cart_timber.png" alt="Timber Cart"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Timber Loaded Cart</span><span class="ref">Helaman 3:10</span></div>
+          <span class="file">assets/cart_timber.png</span>
+          <p class="desc">Carrying raw forest logs for ramparts and buildings.</p>
+          <div class="stats"><div class="stat">Stakes</div><div class="stat">Wood</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="stage"><img src="assets/cart_stone.png" alt="Stone Cart"></div>
+        <div class="card-body">
+          <div class="card-head"><span class="name">Stone Loaded Cart</span><span class="ref">Alma 49:22</span></div>
+          <span class="file">assets/cart_stone.png</span>
+          <p class="desc">Hauling heavy quarried stones for defensive curtain walls and towers.</p>
+          <div class="stats"><div class="stat">Rocks</div><div class="stat">Quarry</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+function filterCat(cat, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const blocks = document.querySelectorAll('.category-block');
+  blocks.forEach(b => {
+    if (cat === 'all' || b.dataset.cat === cat) {
+      b.style.display = 'block';
+    } else {
+      b.style.display = 'none';
+    }
+  });
+}
+</script>
+
+</body>
+</html>

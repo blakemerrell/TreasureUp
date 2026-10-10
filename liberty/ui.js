@@ -5,6 +5,7 @@
   'use strict';
   const D = window.LIB_DATA, S = window.LIB_SIM, MISSIONS = window.LIB_MISSIONS.MISSIONS, CAMPAIGNS = window.LIB_MISSIONS.CAMPAIGNS, FREE = window.LIB_MISSIONS.FREE_BATTLE, WILD = window.LIB_MISSIONS.WILD;
   const TEXT = window.LIBERTY_SCRIPTURE || {};
+  const AUDIO = window.LIB_AUDIO;
   const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, QUESTIONS, MIRACLES, POWERS, ARTIFACTS, SIDES, CAPTAINS } = D;
   const { tileOf, dist } = S;
   const WORLD_W = MAP_W * TILE, WORLD_H = MAP_H * TILE;
@@ -60,8 +61,15 @@ const IMG = {
   cartTimber: picture(),
   cartStone: picture(),
   cartWork: picture(),
+  cartParked: picture(),
+  cartGrainParked: picture(),
+  cartTimberParked: picture(),
+  cartStoneParked: picture(),
   unit: picture(),
   stronghold: picture(),
+  encampment: picture(),
+  councilPlatform: picture(),
+  acropolis: picture(),
   barracks: picture(),
   tower: picture(),
   storehouse: picture(),
@@ -101,8 +109,15 @@ IMG.cartGrain.src = 'assets/cart_grain.png?v=1';
 IMG.cartTimber.src = 'assets/cart_timber.png?v=1';
 IMG.cartStone.src = 'assets/cart_stone.png?v=1';
 IMG.cartWork.src = 'assets/cart_loading.png?v=1';
+IMG.cartParked.src = 'assets/cart_parked.png?v=1';
+IMG.cartGrainParked.src = 'assets/cart_grain_parked.png?v=1';
+IMG.cartTimberParked.src = 'assets/cart_timber_parked.png?v=1';
+IMG.cartStoneParked.src = 'assets/cart_stone_parked.png?v=1';
 IMG.unit.src = 'assets/spearman.png?v=13';
 IMG.stronghold.src = 'assets/stronghold.png?v=15';   // the chief judge's palace, in the white stone of the other buildings (020-city-palace.md)
+IMG.encampment.src = 'assets/encampment.png?v=1';
+IMG.councilPlatform.src = 'assets/council_platform.png?v=1';
+IMG.acropolis.src = 'assets/acropolis.png?v=1';
 IMG.barracks.src = 'assets/barracks.png?v=13';
 IMG.tower.src = 'assets/tower.png?v=13';
 IMG.storehouse.src = 'assets/storehouse.png?v=13';
@@ -111,6 +126,9 @@ IMG.granary.src = 'assets/granary.png?v=2';      // and these: 007-buildings.md 
 IMG.stables.src = 'assets/stables.png?v=2';
 IMG.hall.src = 'assets/hall.png?v=2';
 IMG.temple.src = 'assets/temple.png?v=4';           // after the manner of Solomon's: its porch and two great pillars, no tower (023)
+IMG.quarry = picture(); IMG.quarry.src = 'assets/quarry.png?v=1';
+IMG.sawmill = picture(); IMG.sawmill.src = 'assets/sawmill.png?v=1';
+IMG.brickworks = picture(); IMG.brickworks.src = 'assets/brickworks.png?v=1';
 IMG.ruin.src = 'assets/ruin.png?v=1';
 IMG.lamaniteCamp.src = 'assets/lamanite_camp.png?v=1';   // and these: 009-battlefield.md
 IMG.robbersCamp.src = 'assets/robbers_camp.png?v=1';
@@ -151,10 +169,14 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   const KEY = 'liberty.v1';
   const save = (() => {
-    try { return Object.assign({ read: {}, won: {} }, JSON.parse(localStorage.getItem(KEY)) || {}); }
-    catch (e) { return { read: {}, won: {} }; }
+    try { return Object.assign({ read: {}, won: {}, perks: [] }, JSON.parse(localStorage.getItem(KEY)) || {}); }
+    catch (e) { return { read: {}, won: {}, perks: [] }; }
   })();
+  if (!Array.isArray(save.perks)) save.perks = [];
   const store = () => { try { localStorage.setItem(KEY, JSON.stringify(save)); } catch (e) { /* private mode: progress lasts this visit */ } };
+  const totalStars = () => Object.values(save.won || {}).reduce((a, b) => a + (Number(b) || 0), 0);
+  const spentStars = () => (save.perks || []).reduce((a, id) => a + (D.PERKS[id] ? D.PERKS[id].stars : 0), 0);
+  const availableStars = () => Math.max(0, totalStars() - spentStars());
   // Every mission is open (Blake: "read first, then play isn't really working"). Reading its chapter first earns a gift
   // at the start and opens the council's questions; it is suggested, not required.
   const chaptersOf = m => m.chapters || [m.chapter];
@@ -193,7 +215,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
   let armedRemove = null;                            // a building whose Remove was tapped once: a second tap takes it down
   let hover = null;                                  // the mouse's world position
   let infoEnt = null;                                // a robber or village being looked at
-  let boxMode = false, box = null;
+  let box = null, huntMode = false;
+  let glide = null;                                  // a flicked map still sliding: { vx, vy } in screen pixels a second
   let paused = false, speed = 1, modal = false;
   let council = null;                                // { nextAt, queue, right }
   let shownMsgs = 0, endShown = false;
@@ -201,6 +224,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const keys = new Set();
   const pings = [];                                  // where an order was given, for a moment
   const dustAt = new WeakMap();                      // when a helper's blow last raised dust (this page's clock: kept off the unit, which is saved)
+  const unitKinetic = new WeakMap();                 // Westwood RA2 procedural motion engine: displacement, stride, lean, squash-and-stretch, recoil
 
   // ------------------------------------------------------------ 2:1 Isometric Projection
   // Standard Westwood Red Alert 2 dimetric ratio (tile width : height = 2 : 1)
@@ -253,7 +277,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const rightW = () => (sided() && !$('panel').hidden) ? ($('panel').offsetWidth || 236) : 0;
 
   function resize() {
-    dpr = Math.min(2, window.devicePixelRatio || 1);
+    const isLowMem = (typeof navigator !== 'undefined' && ((navigator.deviceMemory && navigator.deviceMemory <= 2) || /Silk|Kindle|Fire/i.test(navigator.userAgent)));
+    dpr = isLowMem ? 1.0 : Math.min(2, window.devicePixelRatio || 1);
     vw = window.innerWidth; vh = window.innerHeight;
     cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr);
     cv.style.width = vw + 'px'; cv.style.height = vh + 'px';
@@ -278,6 +303,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     return { x: (ix - cam.x) * cam.z, y: (iy - cam.y) * cam.z };
   };
   function lookAt(wx, wy) {
+    glide = null;                                    // (a flick still sliding would carry the view off again)
     const { ix, iy } = toIso(wx, wy);
     const usableW = vw - rightW();
     const usableH = vh - topH() - bottomH();
@@ -318,9 +344,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Only a browser that wipes without a word (Safari on the iPhone) gets the test dot and the once-a-second look.
   // (Chrome's engine, by its name in the browser's description; on an iPhone every browser is Safari's engine underneath.)
   const SAYS_LOST = typeof HTMLCanvasElement !== 'undefined' && 'oncontextlost' in HTMLCanvasElement.prototype &&
-    /(Chrome|Chromium)\/\d/.test(navigator.userAgent) && !/iPhone|iPad|iPod/.test(navigator.userAgent);
+    /(Chrome|Chromium|Silk)\/\d/.test(navigator.userAgent) && !/iPhone|iPad|iPod/.test(navigator.userAgent);
   // A phone with little memory (Chrome tells, rounded down: 4 for a 6 GB phone) starts the ground and the fog a size smaller.
-  const LOW_MEM = !!(navigator.deviceMemory && navigator.deviceMemory <= 4);
+  const LOW_MEM = !!(navigator.deviceMemory && navigator.deviceMemory <= 4) || /Silk|Kindle|KF[A-Z]+/i.test(navigator.userAgent);
   // ?canvas=0.5 on the address makes every big canvas that size, as a phone short of memory would (to test on a computer).
   const FORCE_K = +((location.search.match(/[?&]canvas=([\d.]+)/) || [])[1] || 0);
   function bigCanvas(w, h, sizes, name) {
@@ -904,6 +930,98 @@ IMG.farm.src = 'assets/farm.png?v=13';
     particles.push({ ix, iy, vx: (Math.random() - 0.5) * 2.5, vy: (Math.random() - 0.5) * 2.5 - 1, size: 1.5, life: 0, maxLife: 15, spark: true });
   }
 
+  // Sacred Covenant Ripples & Pillar of Light (Alma 46:36)
+  const sacredRipples = [];
+  let camShake = 0;
+  function triggerPlantStandardEffect(city, pos, now) {
+    const { ix, iy } = toIso(pos.x, pos.y);
+    sacredRipples.push({
+      ix, iy,
+      born: now,
+      maxLife: 1500,
+      maxR: 160
+    });
+    camShake = 4.2;
+    // Holy golden light particles ascending to heaven
+    for (let i = 0; i < 28; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 0.8 + Math.random() * 2.4;
+      particles.push({
+        ix: ix + (Math.random() - 0.5) * 10,
+        iy: iy - 14 + (Math.random() - 0.5) * 8,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed * 0.45 - 1.3 - Math.random() * 1.8,
+        size: 2.2 + Math.random() * 2.4,
+        life: 0,
+        maxLife: 35 + Math.floor(Math.random() * 25),
+        gold: true
+      });
+    }
+    // Deep ground impact dust puffs around standard base
+    for (let d = 0; d < 7; d++) {
+      addDust(ix + (Math.random() - 0.5) * 20, iy + 3 + (Math.random() - 0.5) * 8);
+    }
+  }
+
+  function drawSacredRipples(now) {
+    if (!sacredRipples.length) return;
+    for (let i = sacredRipples.length - 1; i >= 0; i--) {
+      const r = sacredRipples[i];
+      const elapsed = now - r.born;
+      if (elapsed >= r.maxLife) {
+        sacredRipples.splice(i, 1);
+        continue;
+      }
+      const p = elapsed / r.maxLife;
+      const curR = r.maxR * Math.sqrt(p);
+      const alpha = (1 - p) * 0.88;
+
+      ctx.save();
+      // Outer golden covenant ring
+      ctx.strokeStyle = `rgba(253, 230, 138, ${alpha})`;
+      ctx.lineWidth = 3.5 * (1 - p * 0.65);
+      ctx.beginPath();
+      ctx.ellipse(r.ix, r.iy, curR, curR * 0.5, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Inner amber resonance ring
+      ctx.strokeStyle = `rgba(217, 119, 6, ${alpha * 0.65})`;
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.ellipse(r.ix, r.iy, curR * 0.72, curR * 0.36, 0, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Soft holy turf illumination
+      ctx.fillStyle = `rgba(254, 240, 138, ${alpha * 0.12})`;
+      ctx.beginPath();
+      ctx.ellipse(r.ix, r.iy, curR, curR * 0.5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  function drawSacredPillars(now) {
+    if (!sacredRipples.length) return;
+    for (const r of sacredRipples) {
+      const elapsed = now - r.born;
+      if (elapsed >= r.maxLife) continue;
+      const p = elapsed / r.maxLife;
+      if (p < 0.65) {
+        const lp = p / 0.65;
+        const beamAlpha = Math.sin(lp * Math.PI) * 0.85;
+        const beamW = 24 * (1 - lp * 0.45);
+        ctx.save();
+        const grad = ctx.createLinearGradient(r.ix, r.iy, r.ix, r.iy - 140);
+        grad.addColorStop(0, `rgba(254, 240, 138, ${beamAlpha * 0.85})`);
+        grad.addColorStop(0.65, `rgba(253, 230, 138, ${beamAlpha * 0.45})`);
+        grad.addColorStop(1, 'rgba(253, 230, 138, 0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(r.ix - beamW * 0.5, r.iy - 140, beamW, 140);
+        ctx.restore();
+      }
+    }
+  }
+
   // ------------------------------------------------------------ drawing
 
   const TEAM = { p: '#1d4ed8', r: '#b91c1c' };
@@ -918,6 +1036,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const z = cam.z * dpr;
     ctx.setTransform(z, 0, 0, z, -cam.x * z, -cam.y * z);
     if (W.t - W.quakeAt < 1.2) { const s = (1.2 - (W.t - W.quakeAt)) * 5; ctx.translate((Math.random() - 0.5) * s, (Math.random() - 0.5) * s); }   // the earthquake
+    if (camShake > 0.05) { ctx.translate((Math.random() - 0.5) * camShake, (Math.random() - 0.5) * camShake); camShake *= 0.88; }
     ctx.drawImage(terrain, -ISO_OFFSET_X, -PAD, TERR_W, TERR_H);
     drawGlints(now);
 
@@ -928,12 +1047,21 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const selSet = new Set(sel);
 
     drawCover();
+    drawSacredRipples(now);
     if (W.border != null && !W.borderOpen) drawBorder();
 
     // Isometric depth sorting: entities with larger (x + y) are closer to camera and drawn on top
-    const isoDepth = e => e.kind === 'building' ? (e.tx + e.w * 0.5 + e.ty + e.h * 0.5) * TILE : (e.x + e.y);
+    const isoDepth = e => e.kind === 'building' ? (e.tx + e.w * 0.5 + e.ty + e.h * 0.5) * TILE : (e.depth != null ? e.depth : (e.x + e.y));
     const ents = [];
-    for (const e of W.ents.values()) if (inView(e) && isVisible(e)) ents.push(e);
+    for (const e of W.ents.values()) {
+      if (inView(e) && isVisible(e)) {
+        ents.push(e);
+        if (e.type === 'cart' && e.order && e.order.type === 'gather' && e.phase === 'work' && !(e.path && e.path.length)) {
+          const hwProxy = getCartHarvesterProxy(e, now);
+          if (hwProxy) ents.push(hwProxy);
+        }
+      }
+    }
     for (const e of ents) if (e.kind === 'building') drawFloor(e);
     for (const t of trees) if (inView(t)) ents.push(t);
     ents.sort((a, b) => isoDepth(a) - isoDepth(b));
@@ -944,6 +1072,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
         drawTree(e);
       } else if (e.kind === 'building') {
         drawBuilding(e, selSet.has(e.id), now);
+      } else if (e.kind === 'cartHarvester') {
+        drawCartHarvesterWorker(e.state, now);
       } else {
         if (selSet.has(e.id)) drawRing(e);
         drawUnit(e, now);
@@ -954,11 +1084,22 @@ IMG.farm.src = 'assets/farm.png?v=13';
       }
     }
 
-    // Dynamic environmental smoke & fire particles
+    drawSacredPillars(now);
+
+    // Dynamic environmental smoke, sparks & specialized industry particles
     for (const e of ents) {
-      if (e.kind === 'building') {
+      if (e.kind === 'building' && e.built >= 1) {
         const { ix, iy } = toIso(e.x, e.y);
-        if (e.type === 'armory' && Math.random() < 0.25) addSmoke(ix + 6, iy - 32, false);
+        if (e.type === 'armory' && Math.random() < 0.25) { addSmoke(ix + 6, iy - 32, false); addSpark(ix + 8, iy - 12); }
+        if (e.type === 'brickworks' && Math.random() < 0.16) addSmoke(ix + 10, iy - 42, true);
+        if (e.type === 'quarry' && Math.random() < 0.18) { addDust(ix + (Math.random() - 0.5) * 22, iy - 6); addSpark(ix + (Math.random() - 0.5) * 22, iy - 10); }
+        if (e.type === 'sawmill' && Math.random() < 0.25) {
+          particles.push({
+            ix: ix + 4, iy: iy - 12,
+            vx: 0.8 + Math.random() * 1.2, vy: -0.8 - Math.random(),
+            size: 2.0, wood: true, life: 0, maxLife: 20
+          });
+        }
         if (e.type === 'warcamp' && Math.random() < 0.3) { addSmoke(ix, iy - 20, false); addFire(ix, iy - 8); }
         if (e.hp < S.maxHp(e) * 0.6 && Math.random() < 0.3) addSmoke(ix, iy - 24, true);
         if (e.hp < S.maxHp(e) * 0.3 && Math.random() < 0.4) { addSmoke(ix, iy - 28, true); addFire(ix, iy - 16); }
@@ -974,6 +1115,22 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (alpha <= 0) { particles.splice(i, 1); continue; }
       if (p.spark) {
         ctx.fillStyle = `rgba(254,240,138,${alpha})`;
+        ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size, 0, 7); ctx.fill();
+      } else if (p.gold) {
+        ctx.fillStyle = `rgba(254,240,138,${alpha * 0.95})`;
+        ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size * (1 - p.life / p.maxLife * 0.4), 0, 7); ctx.fill();
+      } else if (p.wood) {
+        ctx.fillStyle = `rgba(180,83,9,${alpha})`;
+        ctx.save(); ctx.translate(p.ix, p.iy); ctx.rotate(p.life * 0.25);
+        ctx.fillRect(-p.size, -p.size * 0.6, p.size * 2, p.size * 1.2);
+        ctx.restore();
+      } else if (p.chaff) {
+        ctx.fillStyle = `rgba(253,224,71,${alpha * 0.95})`;
+        ctx.save(); ctx.translate(p.ix, p.iy); ctx.rotate(p.life * 0.18);
+        ctx.fillRect(-p.size, -p.size * 0.4, p.size * 2, p.size * 0.8);
+        ctx.restore();
+      } else if (p.transfer) {
+        ctx.fillStyle = p.col || '#fbbf24';
         ctx.beginPath(); ctx.arc(p.ix, p.iy, p.size, 0, 7); ctx.fill();
       } else if (p.dust) {
         ctx.fillStyle = `rgba(214,190,140,${alpha * 0.85})`;
@@ -991,6 +1148,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     drawZones(now);
     drawLiahona();
     drawMarkers(now);
+    drawRallyFlags();
+    drawWaypoints();
+    drawYieldPops();
     drawGhost();
 
     // Something of yours under attack: a red ring on the ground there for a few seconds.
@@ -1040,6 +1200,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const x = Math.min(box.x0, box.x1) * dpr, y = Math.min(box.y0, box.y1) * dpr, w = Math.abs(box.x1 - box.x0) * dpr, h = Math.abs(box.y1 - box.y0) * dpr;
       ctx.fillRect(x, y, w, h); ctx.strokeRect(x, y, w, h);
     }
+    drawHold();
     drawMini();
   }
 
@@ -1150,7 +1311,285 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.restore();
   }
 
-  // Ancient American / Book of Mormon Character Sprites in 2:1 Isometric
+  const ready = img => img && img.complete && img.naturalWidth;
+
+  // Harvester worker logistics attached to parked horse carts
+  function getCartHarvesterProxy(u, now) {
+    if (!u.order || u.order.tx == null || u.order.ty == null) return null;
+    let k = unitKinetic.get(u);
+    if (!k) { k = {}; unitKinetic.set(u, k); }
+
+    const targetTile = W ? W.tile(u.order.tx, u.order.ty) : null;
+    const gatherRes = u.order.res || (targetTile === T.FOREST ? 'timber' : targetTile === T.ROCK ? 'stone' : 'grain');
+
+    // Cart facing and wagon bed tailgate deposit spot
+    const cartFlip = k.lastFlip || 1;
+    const bedWx = u.x + (cartFlip > 0 ? 10 : -10);
+    const bedWy = u.y + (cartFlip > 0 ? 6 : -6);    // Tailgate deposit area at the rear of the wagon bed
+
+    // Direction vector from cart bed to resource tile center
+    const resWx = (u.order.tx + 0.5) * TILE;
+    const resWy = (u.order.ty + 0.5) * TILE;
+    const toResX = resWx - bedWx;
+    const toResY = resWy - bedWy;
+    const toResDist = Math.hypot(toResX, toResY) || 1;
+    const dirX = toResX / toResDist;
+    const dirY = toResY / toResDist;
+
+    // Harvest station: deliberate visual stride of 22 to 28 world pixels away from wagon bed
+    const harvestDist = Math.max(22, Math.min(toResDist - 8, 28));
+    const standWx = bedWx + dirX * harvestDist + 4;
+    const standWy = bedWy + dirY * harvestDist + 8;
+
+    // 2.8 second deliberate RTS logistics loop (100% continuous, zero teleportation)
+    const loopSec = 2.8;
+    const cycle = ((now * 0.001 / loopSec + (u.id * 0.37)) % 1.0);
+
+    let curWx = bedWx, curWy = bedWy;
+    let wAngle = 0;
+    let wBob = 0;
+    let wCarrying = false;
+    let settleBounce = 0;
+
+    if (cycle < 0.28) {
+      // Phase 1: Walking from cart bed tailgate out to resource station (empty hands)
+      const p = cycle / 0.28;
+      const ease = p * p * (3 - 2 * p);
+      curWx = bedWx + (standWx - bedWx) * ease;
+      curWy = bedWy + (standWy - bedWy) * ease;
+      wBob = Math.abs(Math.sin(p * Math.PI * 4)) * 2.2;
+      const wFlip = (standWx >= bedWx) ? 1 : -1;
+      wAngle = 0.07 * wFlip;
+      wCarrying = false;
+    } else if (cycle < 0.64) {
+      // Phase 2: Harvesting at resource (2 heavy, deliberate strikes)
+      curWx = standWx;
+      curWy = standWy;
+      const p = (cycle - 0.28) / 0.36;
+      const swing = (p * 2) % 1.0;
+      const swingIdx = Math.floor(p * 2);
+
+      if (swing < 0.52) {
+        // Slow deliberate windup
+        const wp = swing / 0.52;
+        wAngle = -0.32 * Math.sin(wp * Math.PI * 0.5);
+        wBob = -wp * 1.4;
+      } else if (swing < 0.76) {
+        // Power strike impact
+        const sp = (swing - 0.52) / 0.24;
+        wAngle = -0.32 + sp * 0.68;
+        wBob = sp * 2.4;
+        const strikeId = swingIdx + '_' + Math.floor(now * 0.001 / loopSec);
+        if (sp > 0.60 && k.lastCartStrike !== strikeId) {
+          k.lastCartStrike = strikeId;
+          const { ix: sIsoX, iy: sIsoY } = toIso(standWx, standWy);
+          const wFlip = (resWx >= standWx) ? 1 : -1;
+          if (gatherRes === 'timber') {
+            for (let c = 0; c < 5; c++) {
+              particles.push({
+                ix: sIsoX + 10 * wFlip, iy: sIsoY - 14 + (Math.random() - 0.5) * 6,
+                vx: wFlip * (0.8 + Math.random() * 1.6), vy: -1.4 - Math.random() * 1.2,
+                size: 2.4, wood: true, life: 0, maxLife: 26
+              });
+            }
+          } else if (gatherRes === 'grain') {
+            for (let c = 0; c < 5; c++) {
+              particles.push({
+                ix: sIsoX + 8 * wFlip + (Math.random() - 0.5) * 6, iy: sIsoY - 8,
+                vx: (Math.random() - 0.5) * 1.8, vy: -1.2 - Math.random() * 0.8,
+                size: 2.0, chaff: true, life: 0, maxLife: 26
+              });
+            }
+          } else if (gatherRes === 'stone') {
+            addDust(sIsoX + 10 * wFlip, sIsoY - 6);
+            addSpark(sIsoX + 10 * wFlip, sIsoY - 12);
+          }
+        }
+      } else {
+        // Recovery back to ready position
+        const rp = (swing - 0.76) / 0.24;
+        wAngle = 0.36 * (1 - rp);
+        wBob = 2.4 * (1 - rp);
+      }
+      if (p > 0.85) wCarrying = true; // Bends down and picks up the load
+    } else if (cycle < 0.88) {
+      // Phase 3: Walking back to cart tailgate carrying the resource bundle
+      const p = (cycle - 0.64) / 0.24;
+      const ease = p * p * (3 - 2 * p);
+      curWx = standWx + (bedWx - standWx) * ease;
+      curWy = standWy + (bedWy - standWy) * ease;
+      wBob = Math.abs(Math.sin(p * Math.PI * 4)) * 2.0;
+      const wFlip = (bedWx >= standWx) ? 1 : -1;
+      wAngle = -0.06 * wFlip; // Weight lean
+      wCarrying = true;
+    } else {
+      // Phase 4: Depositing goods into cart bed
+      const p = (cycle - 0.88) / 0.12;
+      curWx = bedWx;
+      curWy = bedWy;
+      const wFlip = (bedWx >= standWx) ? 1 : -1;
+      const dumpCurve = Math.sin(p * Math.PI);
+      wAngle = dumpCurve * 0.38 * wFlip;
+      wBob = dumpCurve * 2.4;
+      settleBounce = Math.sin(p * Math.PI) * 3.4;
+      k.settleBounce = settleBounce;
+      const dumpId = 'dump_' + Math.floor(now * 0.001 / loopSec);
+      if (p > 0.35 && p < 0.75 && k.lastCartDump !== dumpId) {
+        k.lastCartDump = dumpId;
+        const { ix: bIsoX, iy: bIsoY } = toIso(bedWx, bedWy);
+        const col = gatherRes === 'grain' ? '#fde047' : gatherRes === 'stone' ? '#d1d5db' : '#b45309';
+        for (let t = 0; t < 5; t++) {
+          particles.push({
+            ix: bIsoX + (Math.random() - 0.5) * 8, iy: bIsoY - 10,
+            vx: (Math.random() - 0.5) * 1.4, vy: -1.3 - Math.random() * 0.8,
+            size: 2.4, transfer: true, col, life: 0, maxLife: 20
+          });
+        }
+      }
+      if (p < 0.45) wCarrying = true;
+    }
+
+    // Convert to isometric for drawing
+    const { ix, iy } = toIso(curWx, curWy);
+    const wFlip = (cycle < 0.64) ? (standWx >= bedWx ? 1 : -1) : (bedWx >= standWx ? 1 : -1);
+
+    // Natural depth sorting ensures worker renders cleanly relative to nearby trees
+    const sortDepth = curWx + curWy + 2;
+
+    return {
+      kind: 'cartHarvester',
+      cart: u,
+      x: curWx,
+      y: curWy,
+      depth: sortDepth,
+      state: {
+        wx: ix,
+        wy: iy,
+        wFlip,
+        wAngle,
+        wBob,
+        wCarrying,
+        gatherRes,
+        cycle
+      }
+    };
+  }
+
+  function drawCartHarvesterWorker(hw, now) {
+    const { wx, wy, wFlip, wAngle, wBob, wCarrying, gatherRes, cycle } = hw;
+    const wImg = ready(IMG.worker) ? IMG.worker : null;
+
+    // Contact shadow
+    ctx.fillStyle = 'rgba(0,0,0,0.32)';
+    ctx.beginPath();
+    ctx.ellipse(wx, wy + 1, 8, 4, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.save();
+    ctx.translate(wx, wy - wBob);
+    ctx.scale(wFlip, 1);
+    if (wAngle) ctx.rotate(wAngle);
+
+    if (wImg) {
+      ctx.drawImage(wImg, -14, -39, 20, 40);
+    } else {
+      ctx.fillStyle = '#a8814f';
+      ctx.fillRect(-4, -18, 8, 12);
+      ctx.fillStyle = '#d8bd8e';
+      ctx.beginPath(); ctx.arc(0, -22, 4, 0, 7); ctx.fill();
+    }
+
+    // Carried resource or tools in hands
+    if (wCarrying) {
+      if (gatherRes === 'timber') {
+        // Cut timber log held in both arms across chest
+        ctx.fillStyle = '#451a03';
+        ctx.beginPath(); ctx.roundRect(-4, -24, 18, 8, 2); ctx.fill();
+        ctx.fillStyle = '#92400e';
+        ctx.beginPath(); ctx.roundRect(-3, -23, 16, 6, 1.5); ctx.fill();
+        ctx.fillStyle = '#fde68a';
+        ctx.beginPath(); ctx.ellipse(-2, -20, 1.5, 3, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#b45309';
+        ctx.beginPath(); ctx.ellipse(-2, -20, 0.8, 1.8, 0, 0, Math.PI * 2); ctx.fill();
+      } else if (gatherRes === 'grain') {
+        // Golden sheaf of ripe wheat
+        ctx.fillStyle = '#ca8a04'; ctx.beginPath();
+        ctx.ellipse(5, -21, 6, 9, 0.25, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#fde047'; ctx.beginPath();
+        ctx.ellipse(5, -21, 4.5, 7, 0.25, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = '#eab308'; ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.moveTo(4, -26); ctx.lineTo(1, -32); ctx.moveTo(5, -26); ctx.lineTo(5, -33); ctx.moveTo(6, -26); ctx.lineTo(9, -32); ctx.stroke();
+      } else if (gatherRes === 'stone') {
+        // Dressed limestone building block
+        ctx.fillStyle = '#57534e'; ctx.fillRect(-1, -24, 14, 10);
+        ctx.fillStyle = '#a8a29e'; ctx.fillRect(0, -23, 12, 8);
+        ctx.fillStyle = '#e7e5e4'; ctx.fillRect(1, -22, 10, 3);
+      }
+    } else if (cycle >= 0.28 && cycle < 0.64) {
+      // Dynamic tool swing at resource
+      if (gatherRes === 'grain') {
+        // Harvesting scythe
+        ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.0; ctx.beginPath();
+        ctx.moveTo(0, -16); ctx.lineTo(10, -26); ctx.stroke();
+        ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2.2; ctx.beginPath();
+        ctx.arc(12, -28, 7, -1.2, 0.8); ctx.stroke();
+      } else if (gatherRes === 'stone') {
+        // Quarry pickaxe
+        ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.2; ctx.beginPath();
+        ctx.moveTo(0, -18); ctx.lineTo(12, -28); ctx.stroke();
+        ctx.strokeStyle = '#64748b'; ctx.lineWidth = 2.4; ctx.beginPath();
+        ctx.moveTo(7, -30); ctx.lineTo(16, -26); ctx.stroke();
+      }
+    } else if (cycle < 0.28) {
+      // Tool held over shoulder while striding to resource
+      ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.0; ctx.lineCap = 'round'; ctx.beginPath();
+      ctx.moveTo(-2, -18); ctx.lineTo(-12, -28); ctx.stroke();
+      if (gatherRes === 'timber') {
+        ctx.fillStyle = '#cbd5e1'; ctx.beginPath();
+        ctx.moveTo(-11, -30); ctx.lineTo(-16, -27); ctx.lineTo(-12, -25); ctx.closePath(); ctx.fill();
+      } else if (gatherRes === 'grain') {
+        ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2.0; ctx.beginPath();
+        ctx.arc(-11, -28, 5, 2.0, 4.0); ctx.stroke();
+      } else if (gatherRes === 'stone') {
+        ctx.strokeStyle = '#64748b'; ctx.lineWidth = 2.2; ctx.beginPath();
+        ctx.moveTo(-7, -29); ctx.lineTo(-15, -26); ctx.stroke();
+      }
+    }
+
+    ctx.restore();
+  }
+
+  // Stacking isometric 3D cargo in the cart bed (grain sheaves, timber logs, cut limestone blocks)
+  function drawCartCargo(type, amt, maxAmt, flip) {
+    ctx.save();
+    const stacks = Math.min(4, Math.max(1, Math.ceil((amt / maxAmt) * 4)));
+    for (let i = 0; i < stacks; i++) {
+      const cx = -7 + i * 4;
+      const cy = -15 - Math.floor(i / 2) * 3;
+      if (type === 'grain') {
+        ctx.fillStyle = '#f59e0b';
+        ctx.beginPath(); ctx.ellipse(cx, cy, 3.8, 2.8, 0.15, 0, 7); ctx.fill();
+        ctx.strokeStyle = '#b45309'; ctx.lineWidth = 0.8; ctx.stroke();
+        ctx.fillStyle = '#fde68a'; ctx.fillRect(cx - 1, cy - 3.5, 2, 1.8);
+      } else if (type === 'timber') {
+        ctx.fillStyle = '#78350f';
+        ctx.beginPath(); ctx.roundRect(cx - 4, cy - 2, 7.5, 3.5, 1.2); ctx.fill();
+        ctx.fillStyle = '#d97706';
+        ctx.beginPath(); ctx.ellipse(cx - 3.8, cy - 0.2, 1.1, 1.6, 0, 0, 7); ctx.fill();
+        ctx.strokeStyle = '#451a03'; ctx.lineWidth = 0.7; ctx.stroke();
+      } else if (type === 'stone') {
+        ctx.fillStyle = '#e4e4e7';
+        ctx.fillRect(cx - 3, cy - 2.5, 6, 4);
+        ctx.strokeStyle = '#52525b'; ctx.lineWidth = 0.8;
+        ctx.strokeRect(cx - 3, cy - 2.5, 6, 4);
+        ctx.fillStyle = '#a1a1aa';
+        ctx.fillRect(cx - 3, cy - 2.5, 2, 4);
+      }
+    }
+    ctx.restore();
+  }
+
+  // Ancient American / Book of Mormon Character Sprites in 2:1 Isometric (Westwood RA2 Kinetic Engine)
   function drawUnit(u, now) {
     const d = u.def;
     let { ix, iy } = toIso(u.x, u.y);
@@ -1160,34 +1599,369 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const bt = u.order.type === 'build' && W.ents.get(u.order.target);
     const hammering = !!(bt && !bt.dead && !moving && W.nextTo(u, W.rectOf(bt)));   // a helper at work on a building
     const working = (u.order.type === 'gather' && u.phase === 'work') || hammering;
-    const walkCycle = moving ? Math.sin(now * 0.015 + u.id) : 0;
-    const bob = moving ? Math.abs(walkCycle) * 2.2 : (working ? Math.abs(Math.sin(now * 0.02 + u.id)) * 1.5 : 0);
-    const blow = hammering ? Math.max(0, Math.sin(now * 0.011 + u.id * 1.7)) : 0;      // 0 at rest, 1 at the strike
-    if (hammering) { const p = toIso(bt.x, bt.y), dx = p.ix - ix, dy = p.iy - iy, dd = Math.hypot(dx, dy) || 1; ix += dx / dd * 18; iy += dy / dd * 9; }   // drawn up against the work
-    const x = ix, y = iy - (kneel ? -2 : 1) - bob;
-    
-    let flip = 1;
+
+    // --- Westwood RA2 Kinetic Motion Physics ---
+    let k = unitKinetic.get(u);
+    if (!k) {
+      k = {
+        lx: u.x, ly: u.y, lastTime: now,
+        dist: 0, stridePhase: 0, speed: 0,
+        lean: 0, lastFoot: -1,
+        wasSel: false, popAt: 0,
+        lastHp: u.hp, flinchAt: 0,
+        lastStruckAt: u.struckAt || 0, lungeAt: 0
+      };
+      unitKinetic.set(u, k);
+    }
+
+    const dt = Math.max(0.001, Math.min(0.1, (now - (k.lastTime || now)) / 1000));
+    k.lastTime = now;
+
+    // 1. Physical ground displacement (zero moonwalking)
+    const deltaX = u.x - k.lx;
+    const deltaY = u.y - k.ly;
+    const rawDist = Math.hypot(deltaX, deltaY);
+    k.lx = u.x;
+    k.ly = u.y;
+
+    const isWarp = rawDist > 48;
+    const moved = isWarp ? 0 : rawDist;
+    const instantSpeed = moved / dt;
+    k.speed = k.speed * 0.72 + instantSpeed * 0.28;
+    const isPhysicallyMoving = k.speed > 2.2 || (moving && moved > 0.02);
+
+    // 2. Accumulated stride & displacement-locked walk cadence
+    const isCart = u.type === 'cart';
+    const isBeast = u.type === 'curelom' || u.type === 'cumom';
+    const STRIDE_PX = isBeast ? 30 : (isCart ? 22 : 13); // pixels per footstep
+    if (moved > 0.001) {
+      k.dist += moved;
+      k.stridePhase = (k.dist / STRIDE_PX) * Math.PI;
+    } else if (!isPhysicallyMoving) {
+      k.stridePhase = k.stridePhase * 0.82;
+      if (Math.abs(k.stridePhase) < 0.02) k.stridePhase = 0;
+    }
+
+    // 3. Stride vertical bobbing & lateral hip sway
+    const walkCycle = isPhysicallyMoving ? Math.sin(k.stridePhase) : 0;
+    const stepDown = Math.abs(walkCycle); // 0 at passing, 1 at ground impact
+    let bob = 0;
+    let sway = 0;
+    if (isCart) {
+      bob = isPhysicallyMoving ? Math.sin(k.dist * 0.55) * 0.85 : 0; // wheel chassis rumble
+    } else if (isBeast) {
+      bob = isPhysicallyMoving ? stepDown * 3.4 : 0; // deep quadruped ground impacts
+      sway = isPhysicallyMoving ? walkCycle * 1.8 : 0; // heavy head/tusk momentum
+    } else {
+      bob = isPhysicallyMoving ? stepDown * 2.2 : (working ? Math.abs(Math.sin(now * 0.02 + u.id)) * 1.5 : 0);
+      sway = isPhysicallyMoving ? walkCycle * 0.65 : 0;
+    }
+
+    // 4. Westwood Kinetic Squash & Stretch (muscle & armor weight)
+    let scaleX = 1.0;
+    let scaleY = 1.0;
+    if (isPhysicallyMoving && !isCart) {
+      const squash = stepDown * (isBeast ? 0.075 : 0.052);
+      scaleX = 1.0 + squash * 0.75;
+      scaleY = 1.0 - squash;
+    } else if (!working && !isCart) {
+      const breath = Math.sin(now * 0.003 + u.id) * 0.015;
+      scaleX += breath;
+      scaleY -= breath;
+    }
+
+    // 5. Facing orientation & forward body lean (velocity banking)
+    let flip = k.lastFlip || 1;
     if (moving && u.path && u.path.length > 0) {
       const tx = Math.floor(u.x / 32), ty = Math.floor(u.y / 32);
       const nx = u.path[0][0], ny = u.path[0][1];
       const dx = nx - tx, dy = ny - ty;
       if (dx - dy < 0) flip = -1;
+      else if (dx - dy > 0) flip = 1;
+      k.lastFlip = flip;
     } else if (u.order.type === 'attack' && u.order.target) {
       const target = W.ents.get(u.order.target);
       if (target) {
         const dx = target.x - u.x, dy = target.y - u.y;
         if (dx - dy < 0) flip = -1;
+        else if (dx - dy > 0) flip = 1;
+        k.lastFlip = flip;
       }
     } else if (hammering) {
       if (bt.x - u.x - (bt.y - u.y) < 0) flip = -1;
-      if (blow > 0.97 && now - (dustAt.get(u) || -1e9) > 300) {     // the blow lands: dust where it struck
-        dustAt.set(u, now);
-        const a = Math.atan2(bt.y - u.y, bt.x - u.x), p = toIso(u.x + Math.cos(a) * 18, u.y + Math.sin(a) * 18);
-        addDust(p.ix, p.iy - 6); addDust(p.ix, p.iy - 10);
+      else flip = 1;
+      k.lastFlip = flip;
+    }
+
+    const normSpeed = Math.min(1.4, k.speed / Math.max(1, (d.speed || 60)));
+    const targetLean = (isPhysicallyMoving && !isCart) ? ((isBeast ? 0.04 : 0.075) * normSpeed) : 0;
+    k.lean = k.lean * 0.72 + targetLean * 0.28;
+
+    // 6. Tactical Selection "Command Pop" (instant responsiveness)
+    const isSelected = sel.includes(u.id);
+    if (isSelected && !k.wasSel) {
+      k.popAt = now;
+    }
+    k.wasSel = isSelected;
+    let popHop = 0;
+    if (now - (k.popAt || 0) < 160) {
+      const pp = (now - k.popAt) / 160;
+      const pop = Math.sin(pp * Math.PI);
+      scaleX *= (1 + pop * 0.07);
+      scaleY *= (1 + pop * 0.07);
+      popHop = pop * 2.5;
+    }
+
+    // 7. Combat Strike Lunge & Weapon Recoil Kickback
+    if (u.struckAt && u.struckAt !== k.lastStruckAt) {
+      k.lastStruckAt = u.struckAt;
+      k.lungeAt = now;
+    }
+    let combatOffsetX = 0, combatOffsetY = 0;
+    const lungeElapsed = now - (k.lungeAt || 0);
+    if (lungeElapsed < 240) {
+      const lp = lungeElapsed / 240;
+      const curve = Math.sin(lp * Math.PI);
+      const isRanged = (d.range || 1) > 2;
+      const dist = isBeast ? curve * 7.5 : (isRanged ? -curve * 2.8 : curve * 4.5);
+      combatOffsetX = dist * flip;
+      combatOffsetY = dist * 0.25;
+    }
+
+    // 8. Hit Flinch / Damage Shudder
+    if (u.hp < k.lastHp || (u.hitAt && W.t - u.hitAt < 0.16)) {
+      if (u.hp < k.lastHp) k.flinchAt = now;
+      k.lastHp = u.hp;
+    }
+    let flinchX = 0, flinchY = 0;
+    const flinchElapsed = now - (k.flinchAt || 0);
+    if (flinchElapsed < 150) {
+      const fp = flinchElapsed / 150;
+      const amp = (1 - fp) * 2.2;
+      flinchX = Math.sin(fp * Math.PI * 5) * amp;
+      flinchY = -Math.abs(Math.sin(fp * Math.PI * 3)) * amp * 0.6;
+    }
+
+    // 9. Tactile Footfall Dust Puffs & River Sidon Water Droplets
+    const inFord = W && W.tile(tileOf(u.x), tileOf(u.y)) === T.FORD;
+    const currentFoot = Math.floor(k.stridePhase / Math.PI);
+    if (isPhysicallyMoving && currentFoot !== k.lastFoot) {
+      k.lastFoot = currentFoot;
+      if (inFord) {
+        if (Math.random() < 0.65) {
+          particles.push({
+            ix: ix + (Math.random() - 0.5) * 8,
+            iy: iy - 1,
+            vx: (Math.random() - 0.5) * 1.4,
+            vy: -1.2 - Math.random() * 0.8,
+            size: 1.8, life: 0, maxLife: 15
+          });
+        }
+      } else if (isBeast && k.speed > 10) {
+        addDust(ix - 8 * flip, iy + 2);
+        addDust(ix + 6 * flip, iy + 2);
+      } else if (k.speed > 20 && !isCart) {
+        addDust(ix - 4 * flip + (Math.random() - 0.5) * 4, iy + 1);
+      } else if (isCart && k.speed > 15) {
+        addDust(ix - 8 * flip, iy + 2);
       }
     }
 
-    ctx.fillStyle = 'rgba(0,0,0,.32)'; ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 0.95, r * 0.48, 0, 0, 7); ctx.fill();
+    // 10. Harvester Labor Mechanics: Woodcutting Axe, Scythe Reaping & Stone Quarrying (Workers Only)
+    const isWorkerGathering = (u.type === 'worker' || u.type === 'bearer') && u.order.type === 'gather' && u.phase === 'work' && !moving;
+    let workAngle = 0;
+    let workBob = 0;
+    let workSway = 0;
+    if (isWorkerGathering) {
+      const targetTile = W ? W.tile(u.order.tx, u.order.ty) : null;
+      const gatherRes = u.order.res || (targetTile === T.FOREST ? 'timber' : targetTile === T.ROCK ? 'stone' : 'grain');
+      if (gatherRes === 'timber') {
+        // Natural human woodcutting rhythm: 1.4s cycle (60% slow windup, 15% power chop, 25% recovery)
+        const cycle = ((now * 0.0007 + u.id * 0.37) % 1.0);
+        if (cycle < 0.6) {
+          const p = cycle / 0.6;
+          workAngle = -0.16 * Math.sin(p * Math.PI * 0.5);
+          workBob = -p * 1.0;
+        } else if (cycle < 0.75) {
+          const p = (cycle - 0.6) / 0.15;
+          workAngle = -0.16 + p * 0.42;
+          workBob = p * 2.2;
+          if (p > 0.8 && now - (k.lastChopAt || 0) > 400) {
+            k.lastChopAt = now;
+            for (let w = 0; w < 3; w++) {
+              particles.push({
+                ix: ix + 8 * flip, iy: iy - 12 + (Math.random() - 0.5) * 6,
+                vx: flip * (0.8 + Math.random() * 1.4), vy: -1.2 - Math.random() * 1.2,
+                size: 2.2, wood: true, life: 0, maxLife: 22
+              });
+            }
+          }
+        } else {
+          const p = (cycle - 0.75) / 0.25;
+          workAngle = 0.26 * (1 - p);
+          workBob = 2.2 * (1 - p);
+        }
+      } else if (gatherRes === 'grain') {
+        // Natural human scythe harvest: 1.6s broad sweeping arc
+        const cycle = ((now * 0.0006 + u.id * 0.31) % 1.0);
+        if (cycle < 0.5) {
+          const p = cycle / 0.5;
+          workAngle = -0.15 * Math.sin(p * Math.PI);
+          workSway = -1.8 * Math.sin(p * Math.PI);
+        } else if (cycle < 0.8) {
+          const p = (cycle - 0.5) / 0.3;
+          workAngle = 0.22 * Math.sin(p * Math.PI);
+          workSway = 2.0 * Math.sin(p * Math.PI);
+          if (p > 0.5 && now - (k.lastReapAt || 0) > 450) {
+            k.lastReapAt = now;
+            for (let g = 0; g < 3; g++) {
+              particles.push({
+                ix: ix + 6 * flip + (Math.random() - 0.5) * 6, iy: iy - 6,
+                vx: (Math.random() - 0.5) * 1.5, vy: -0.8 - Math.random() * 0.8,
+                size: 1.8, chaff: true, life: 0, maxLife: 24
+              });
+            }
+          }
+        } else {
+          workAngle = 0; workSway = 0;
+        }
+      } else if (gatherRes === 'stone') {
+        // Natural human quarry pickaxe: 1.5s strike
+        const cycle = ((now * 0.00065 + u.id * 0.41) % 1.0);
+        if (cycle < 0.6) {
+          const p = cycle / 0.6;
+          workAngle = -0.18 * Math.sin(p * Math.PI * 0.5);
+          workBob = -p * 1.2;
+        } else if (cycle < 0.75) {
+          const p = (cycle - 0.6) / 0.15;
+          workAngle = -0.18 + p * 0.46;
+          workBob = p * 2.4;
+          if (p > 0.8 && now - (k.lastMineAt || 0) > 400) {
+            k.lastMineAt = now;
+            addDust(ix + 8 * flip, iy - 6);
+            addSpark(ix + 8 * flip, iy - 10);
+          }
+        } else {
+          const p = (cycle - 0.75) / 0.25;
+          workAngle = 0.28 * (1 - p);
+          workBob = 2.4 * (1 - p);
+        }
+      }
+    }
+
+    // 11. Worker Resource Dump & Cart Heavy-Load Suspension Settle
+    let dumpAngle = 0;
+    let dumpY = 0;
+    if (isCart && u.phase === 'dock') {
+      const dp = clamp((u.dockT || 0) / 0.8, 0, 1);
+      const dumpCurve = Math.sin(dp * Math.PI);
+      dumpAngle = -dumpCurve * 0.32 * flip; // wagon tilts backward into storehouse chute
+      dumpY = -dumpCurve * 4.5;
+      if (!k.dockSound && u.dockT < 0.12) {
+        k.dockSound = true;
+        if (AUDIO) AUDIO.play('cartDock');
+      }
+      if (!k.unloadSound && u.dockT >= 0.7) {
+        k.unloadSound = true;
+        if (AUDIO) AUDIO.play('cartUnload');
+      }
+      if (Math.random() < 0.5) {
+        const col = u.carry && u.carry.type === 'grain' ? '#fde047' : u.carry && u.carry.type === 'stone' ? '#e2e8f0' : '#b45309';
+        particles.push({
+          ix: ix - flip * 12 + (Math.random() - 0.5) * 6,
+          iy: iy - 12,
+          vx: -flip * (1.2 + Math.random() * 1.5),
+          vy: -0.6 - Math.random() * 1.2,
+          size: 2.2, transfer: true, col, life: 0, maxLife: 20
+        });
+      }
+    } else if (isCart) {
+      k.dockSound = false;
+      k.unloadSound = false;
+    }
+
+    if (!isCart && u.dumpAt && W.t - u.dumpAt < 0.35) {
+      const dp = (W.t - u.dumpAt) / 0.35;
+      const dumpCurve = Math.sin(dp * Math.PI);
+      dumpAngle = dumpCurve * 0.28 * flip;
+      dumpY = dumpCurve * 3.0;
+      if (!k.dumpSpawned || k.dumpAt !== u.dumpAt) {
+        k.dumpSpawned = true; k.dumpAt = u.dumpAt;
+        const col = u.dumpType === 'grain' ? '#fde047' : u.dumpType === 'stone' ? '#d1d5db' : '#b45309';
+        for (let t = 0; t < 4; t++) {
+          particles.push({
+            ix: ix + (Math.random() - 0.5) * 6, iy: iy - 10,
+            vx: flip * (1.0 + Math.random() * 1.2), vy: -1.6 - Math.random() * 1.0,
+            size: 2.2, transfer: true, col, life: 0, maxLife: 18
+          });
+        }
+      }
+    }
+
+    let cartBounce = 0;
+    const isCartHarvesting = isCart && u.order.type === 'gather' && u.phase === 'work' && !moving;
+    if (isCartHarvesting) {
+      if (AUDIO && (!k.lastHarvestSound || now - k.lastHarvestSound > 750)) {
+        k.lastHarvestSound = now;
+        const res = (u.carry && u.carry.type) || u.workingRes || 'grain';
+        AUDIO.play(res === 'timber' ? 'harvestChop' : res === 'stone' ? 'harvestPick' : 'harvestScythe');
+      }
+      if (Math.random() < 0.35) {
+        const res = (u.carry && u.carry.type) || u.workingRes || 'grain';
+        const col = res === 'grain' ? '#fde047' : res === 'stone' ? '#e2e8f0' : '#92400e';
+        particles.push({
+          ix: ix + flip * 14 + (Math.random() - 0.5) * 8,
+          iy: iy - 4 + (Math.random() - 0.5) * 4,
+          vx: flip * (0.8 + Math.random() * 1.2),
+          vy: -1.2 - Math.random() * 1.2,
+          size: res === 'grain' ? 1.8 : 2.4,
+          col, life: 0, maxLife: 18
+        });
+      }
+    }
+    if (isCart && k.settleBounce) {
+      cartBounce += k.settleBounce;
+      k.settleBounce *= 0.85;
+    } else if (isCart && u.settleAt && W.t - u.settleAt < 0.4) {
+      const sp = (W.t - u.settleAt) / 0.4;
+      cartBounce = Math.sin(sp * Math.PI * 2) * (1 - sp) * 2.8; // subtle 2.8px wooden spring settle
+    }
+
+    const blow = hammering ? Math.max(0, Math.sin(now * 0.011 + u.id * 1.7)) : 0;
+    if (hammering) {
+      const p = toIso(bt.x, bt.y), dx = p.ix - ix, dy = p.iy - iy, dd = Math.hypot(dx, dy) || 1;
+      ix += dx / dd * 18; iy += dy / dd * 9;
+      if (blow > 0.97 && now - (dustAt.get(u) || -1e9) > 300) {     // the blow lands: dust where it struck
+        dustAt.set(u, now);
+        const a = Math.atan2(bt.y - u.y, bt.x - u.x), pt = toIso(u.x + Math.cos(a) * 18, u.y + Math.sin(a) * 18);
+        addDust(pt.ix, pt.iy - 6); addDust(pt.ix, pt.iy - 10);
+      }
+    }
+
+    const x = ix + sway + workSway + combatOffsetX + flinchX;
+    const y = iy - (kneel ? -2 : 1) - bob - workBob - popHop + combatOffsetY + flinchY + dumpY + cartBounce;
+
+    if (inFord) {
+      // Tactical river ford crossing (Alma 43:31–35): animated ripples and splashes over River Sidon
+      const rip1 = (now * 0.0022 + u.id * 0.23) % 1;
+      const rip2 = (now * 0.0022 + u.id * 0.23 + 0.5) % 1;
+      ctx.strokeStyle = `rgba(186, 230, 253, ${0.55 * (1 - rip1)})`; ctx.lineWidth = 1.3;
+      ctx.beginPath(); ctx.ellipse(ix, iy, r * 1.1 + rip1 * 12, (r * 0.55 + rip1 * 6), 0, 0, 7); ctx.stroke();
+      ctx.strokeStyle = `rgba(186, 230, 253, ${0.4 * (1 - rip2)})`; ctx.lineWidth = 1.0;
+      ctx.beginPath(); ctx.ellipse(ix, iy, r * 1.1 + rip2 * 12, (r * 0.55 + rip2 * 6), 0, 0, 7); ctx.stroke();
+      if (moving) {
+        ctx.fillStyle = `rgba(255, 255, 255, ${0.7 + 0.2 * Math.sin(now * 0.02 + u.id)})`;
+        ctx.beginPath(); ctx.arc(ix - 5 * flip, iy - 2, 2.2, 0, 7); ctx.fill();
+        ctx.beginPath(); ctx.arc(ix + 6 * flip, iy - 1, 1.8, 0, 7); ctx.fill();
+      }
+    } else {
+      const shadowScale = isPhysicallyMoving ? (1.0 - (bob / 2.2) * 0.1) : (popHop > 0 ? (1.0 - (popHop / 2.5) * 0.18) : 1.0);
+      ctx.fillStyle = `rgba(0,0,0,${0.32 * shadowScale})`;
+      ctx.beginPath();
+      ctx.ellipse(ix + 2, iy + 2, r * 0.95 * shadowScale, r * 0.48 * shadowScale, 0, 0, 7);
+      ctx.fill();
+    }
+    if (u.type === 'cart' && u.burstUntil > W.t && Math.random() < 0.45) addDust(ix - 12 * flip, iy + 2);
     if (u.thirstUntil > W.t) {                       // bloodthirst (Moroni 9:5): a red glow at his feet
       ctx.fillStyle = `rgba(220,38,38,${0.32 + 0.18 * Math.sin(now * 0.015 + u.id)})`; ctx.beginPath(); ctx.ellipse(ix, iy, r * 1.6, r * 0.8, 0, 0, 7); ctx.fill();
     }
@@ -1200,17 +1974,22 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
     ctx.save();
     ctx.translate(x, y);
-    ctx.scale(flip, 1);
+    ctx.scale(flip * scaleX, scaleY);
     if (hammering) ctx.rotate(blow * 0.24 - 0.07);    // leans into each blow
+    else if (isWorkerGathering) ctx.rotate(workAngle); // woodchopping chop, scythe sweep, or pickaxe strike
+    else if (dumpAngle) ctx.rotate(dumpAngle);        // bending forward to dump goods into cart
+    else if (k.lean) ctx.rotate(k.lean);
 
-    if (u.type === 'standard') {
-      ctx.restore(); if (hid) ctx.globalAlpha = 1;
-      banner(x - 1, y - 30, '#f4f1e6', now, u.id);
-      return;
-    }
     let uImg = IMG.spearman;
     let uw = 28, uh = 44, uox = 11, uoy = 43;
-    if (u.type === 'lehi') {
+    if (u.type === 'standard') {
+      const hType = u.heroType || 'moroni';
+      uImg = ready(IMG[hType]) ? IMG[hType] : IMG.moroni;
+      if (hType === 'lehi') { uw = 40; uh = 48; uox = 24; uoy = 47; }
+      else if (hType === 'gidgiddoni') { uw = 28; uh = 48; uox = 18; uoy = 47; }
+      else if (hType === 'helaman') { uw = 37; uh = 48; uox = 18; uoy = 47; }
+      else { uw = 37; uh = 48; uox = 17; uoy = 47; }
+    } else if (u.type === 'lehi') {
       uImg = IMG.lehi;
       uw = 40; uh = 48; uox = 24; uoy = 47;
     } else if (u.type === 'gidgiddoni') {
@@ -1271,7 +2050,14 @@ IMG.farm.src = 'assets/farm.png?v=13';
       // The cart and its driver: loading at a field, forest or rock face; laden on the way home; else empty.
       // The pictures are kept at three times their size on screen, all scaled alike, so the cart stays one size.
       const load = u.carry && u.carry.amt > 0 ? u.carry.type : null;
-      uImg = working ? IMG.cartWork : load === 'grain' ? IMG.cartGrain : load === 'timber' ? IMG.cartTimber : load === 'stone' ? IMG.cartStone : IMG.cart;
+      if (isCartHarvesting) {
+        uImg = load === 'grain' ? (ready(IMG.cartGrainParked) ? IMG.cartGrainParked : IMG.cartGrain) :
+               load === 'timber' ? (ready(IMG.cartTimberParked) ? IMG.cartTimberParked : IMG.cartTimber) :
+               load === 'stone' ? (ready(IMG.cartStoneParked) ? IMG.cartStoneParked : IMG.cartStone) :
+               (ready(IMG.cartParked) ? IMG.cartParked : IMG.cart);
+      } else {
+        uImg = load === 'grain' ? IMG.cartGrain : load === 'timber' ? IMG.cartTimber : load === 'stone' ? IMG.cartStone : IMG.cart;
+      }
       if (!(uImg.complete && uImg.naturalWidth)) uImg = IMG.cart;
       uw = uImg.naturalWidth / 3; uh = uImg.naturalHeight / 3; uox = uw / 2; uoy = uh - 1;
     } else if (u.type === 'spy') {
@@ -1284,6 +2070,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
     if (uImg && uImg.complete && uImg.naturalWidth) {
       ctx.drawImage(uImg, -uox, -uoy, uw, uh);
+      if (u.type === 'standard') {
+        drawTitleOfLibertyStandard(flip, now, u.id);
+      } else if (u.type === 'worker' && ((u.order && u.order.type === 'attack') || (u.cool && u.cool > 0.6))) {
+        drawWorkerScytheCombat(now, u.id);
+      } else if (u.type === 'cart' && u.carry && u.carry.amt > 0) {
+        drawCartCargo(u.carry.type, u.carry.amt, u.carry.max || (u.def && u.def.carry) || 10, flip);
+      }
     } else {
       ctx.fillStyle = '#451a03';
       ctx.fillRect(-3 + walkCycle * 3, 2, 2.5, 6);
@@ -1293,6 +2086,30 @@ IMG.farm.src = 'assets/farm.png?v=13';
       ctx.fillRect(-4, -6, 8, 8);
       ctx.fillStyle = d.foe ? '#b45309' : '#d8bd8e';
       ctx.beginPath(); ctx.arc(0, -10, 4, 0, 7); ctx.fill();
+      if (u.type === 'standard') {
+        drawTitleOfLibertyStandard(flip, now, u.id);
+      } else if (u.type === 'worker' && ((u.order && u.order.type === 'attack') || (u.cool && u.cool > 0.6))) {
+        drawWorkerScytheCombat(now, u.id);
+      } else if (u.type === 'cart' && u.carry && u.carry.amt > 0) {
+        drawCartCargo(u.carry.type, u.carry.amt, u.carry.max || (u.def && u.def.carry) || 10, flip);
+      }
+    }
+
+    if (u.type === 'cart' && u.burstUntil > W.t) {
+      if (!u.burstSoundPlayed) {
+        u.burstSoundPlayed = true;
+        if (AUDIO) AUDIO.play('cartSpeedBurst');
+      }
+      ctx.strokeStyle = 'rgba(254, 240, 138, 0.7)'; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
+      for (let s = 0; s < 3; s++) {
+        const sy = -8 - s * 6;
+        ctx.beginPath();
+        ctx.moveTo(-uox - 4, sy);
+        ctx.lineTo(-uox - 22 - s * 5, sy);
+        ctx.stroke();
+      }
+    } else if (u.type === 'cart') {
+      u.burstSoundPlayed = false;
     }
     
     ctx.restore();
@@ -1303,20 +2120,253 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const sy = iy - uh - 8 - (u.rank || 0) * 4; ctx.beginPath(); ctx.moveTo(ix + 7, sy - 8); ctx.lineTo(ix + 7, sy + 2); ctx.moveTo(ix + 4, sy); ctx.lineTo(ix + 10, sy); ctx.stroke();
     }
     if (u.rank) {                                   // a veteran's chevrons (Alma 53:20)
-      ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 1.6; ctx.lineCap = 'round';
-      for (let k = 0; k < u.rank; k++) { const cy = iy - uh - 6 - k * 4; ctx.beginPath(); ctx.moveTo(ix - 4, cy); ctx.lineTo(ix, cy + 3); ctx.lineTo(ix + 4, cy); ctx.stroke(); }
+      const rankColor = u.rank >= 2 ? '#fef08a' : '#f59e0b';
+      for (let k = 0; k < u.rank; k++) {
+        const cy = iy - uh - 5 - k * 5;
+        ctx.strokeStyle = 'rgba(15, 9, 4, 0.9)'; ctx.lineWidth = 2.8; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+        ctx.beginPath(); ctx.moveTo(ix - 4, cy + 3); ctx.lineTo(ix, cy - 1); ctx.lineTo(ix + 4, cy + 3); ctx.stroke();
+        ctx.strokeStyle = rankColor; ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.moveTo(ix - 4, cy + 3); ctx.lineTo(ix, cy - 1); ctx.lineTo(ix + 4, cy + 3); ctx.stroke();
+      }
+      if (u.rank >= 2) {
+        const glow = (Math.sin(now / 180 + u.id) + 1) * 0.5;
+        ctx.strokeStyle = `rgba(253, 224, 71, ${0.3 + 0.3 * glow})`; ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.ellipse(ix, iy, r * 1.15, r * 0.58, 0, 0, 7); ctx.stroke();
+      }
     }
     if (u.hp < u.max && (sel.includes(u.id) || u.team === 'r')) {
       const pct = Math.max(0, u.hp / u.max);
-      ctx.fillStyle = 'rgba(0,0,0,0.5)'; ctx.fillRect(ix - 8, iy - 22, 16, 3);
+      const barY = iy - uh - 4 - (u.rank ? u.rank * 5 + 3 : 0);
+      ctx.fillStyle = 'rgba(0,0,0,0.65)'; ctx.fillRect(ix - 10, barY, 20, 3.5);
       ctx.fillStyle = u.team === 'p' ? '#4ade80' : '#f87171';
-      ctx.fillRect(ix - 8, iy - 22, 16 * pct, 3);
+      ctx.fillRect(ix - 9.5, barY + 0.5, 19 * pct, 2.5);
+    }
+    if (u.team === 'p' && u.cohort) {
+      drawCohortBadge(u, ix, iy, uh);
     }
     if (sel.includes(u.id)) {
       ctx.strokeStyle = '#fde047'; ctx.lineWidth = 1; ctx.setLineDash([2, 2]);
       ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 1.2, r * 0.6, 0, 0, 7); ctx.stroke();
       ctx.setLineDash([]);
     }
+  }
+
+  // Cohort Insignia Badge: Roman numeral I (Crimson Vanguard), II (Azure Skirmishers), III (Amber Siege & Supply)
+  function drawCohortBadge(u, ix, iy, uh) {
+    const cId = u.cohort;
+    const badgeColors = { 1: '#ef4444', 2: '#3b82f6', 3: '#f59e0b' };
+    const numerals = { 1: 'I', 2: 'II', 3: 'III' };
+    const col = badgeColors[cId] || '#10b981';
+    const num = numerals[cId] || String(cId);
+    const by = iy - uh - 7 - (u.rank ? u.rank * 5 + 3 : 0) - (u.hp < u.max ? 6 : 0);
+
+    ctx.save();
+    ctx.font = 'bold 9px Outfit, system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const tw = ctx.measureText(num).width;
+    const bw = Math.max(12, tw + 5), bh = 10;
+
+    ctx.fillStyle = 'rgba(15, 9, 4, 0.88)';
+    ctx.beginPath();
+    ctx.roundRect(ix - bw / 2, by - bh / 2, bw, bh, 3);
+    ctx.fill();
+
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+
+    ctx.fillStyle = '#f8fafc';
+    ctx.fillText(num, ix, by + 0.5);
+    ctx.restore();
+  }
+
+  // Floating harvest / production yield popups (+10 Grain, +10 Timber, +10 Stone)
+  function drawYieldPops() {
+    if (!W.yieldPops || !W.yieldPops.length) return;
+    ctx.save();
+    for (const p of W.yieldPops) {
+      const age = W.t - p.t;
+      if (age < 0 || age > 1.6) continue;
+      const progress = age / 1.6;
+      const floatY = progress * 28;
+      const alpha = Math.max(0, 1 - Math.pow(progress, 2));
+      const { ix, iy } = toIso(p.x, p.y);
+      const y = iy - 24 - floatY;
+
+      ctx.font = '800 12px Outfit, system-ui, sans-serif';
+      ctx.textAlign = 'center';
+
+      ctx.fillStyle = `rgba(0, 0, 0, ${alpha * 0.85})`;
+      ctx.fillText(p.text, ix + 1, y + 1);
+
+      const col = p.type === 'grain' ? '#fde047' : (p.type === 'timber' ? '#fed7aa' : (p.type === 'stone' ? '#e2e8f0' : '#fef08a'));
+      ctx.fillStyle = col;
+      ctx.globalAlpha = alpha;
+      ctx.fillText(p.text, ix, y);
+      ctx.globalAlpha = 1;
+    }
+    ctx.restore();
+  }
+
+  // Animated rally flags on the ground with dashed line from selected building
+  let aimingRally = null;
+  function drawRallyFlags() {
+    if (!W.rallyPoints) return;
+    const selectedBuildings = selEnts().filter(e => e.kind === 'building' && e.team === 'p');
+    for (const b of selectedBuildings) {
+      const rally = b.rally || (W.rallyPoints && W.rallyPoints[b.id]);
+      if (!rally) continue;
+      const rx = Array.isArray(rally) ? (rally[0] + 0.5) * TILE : (rally.x != null ? rally.x : (rally.tx + 0.5) * TILE);
+      const ry = Array.isArray(rally) ? (rally[1] + 0.5) * TILE : (rally.y != null ? rally.y : (rally.ty + 0.5) * TILE);
+      const bIso = toIso((b.tx + b.w * 0.5) * TILE, (b.ty + b.h * 0.5) * TILE);
+      const rIso = toIso(rx, ry);
+
+      ctx.save();
+      ctx.strokeStyle = 'rgba(250, 204, 21, 0.75)';
+      ctx.lineWidth = 1.8;
+      ctx.setLineDash([6, 5]);
+      ctx.beginPath();
+      ctx.moveTo(bIso.ix, bIso.iy);
+      ctx.lineTo(rIso.ix, rIso.iy);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      const wave = Math.sin(performance.now() * 0.006) * 3;
+      ctx.strokeStyle = '#78350f';
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      ctx.moveTo(rIso.ix, rIso.iy);
+      ctx.lineTo(rIso.ix, rIso.iy - 22);
+      ctx.stroke();
+
+      ctx.fillStyle = '#ef4444';
+      ctx.beginPath();
+      ctx.moveTo(rIso.ix, rIso.iy - 22);
+      ctx.lineTo(rIso.ix + 12 + wave, rIso.iy - 17);
+      ctx.lineTo(rIso.ix, rIso.iy - 12);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.ellipse(rIso.ix, rIso.iy, 7, 3.5, 0, 0, 7);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+  }
+
+  // Multi-waypoint tactical paths with numbered node markers
+  function drawWaypoints() {
+    const units = selEnts().filter(e => e.kind === 'unit' && e.team === 'p' && e.order && e.order.waypoints && e.order.waypoints.length);
+    if (!units.length) return;
+    ctx.save();
+    const drawn = new Set();
+    for (const u of units) {
+      let curIso = toIso(u.x, u.y);
+      let idx = 1;
+      for (const wp of u.order.waypoints) {
+        const wpIso = toIso(wp.x, wp.y);
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.75)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(curIso.ix, curIso.iy);
+        ctx.lineTo(wpIso.ix, wpIso.iy);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        const wpKey = `${Math.round(wp.x)},${Math.round(wp.y)}`;
+        if (!drawn.has(wpKey)) {
+          drawn.add(wpKey);
+          ctx.fillStyle = '#0284c7';
+          ctx.beginPath();
+          ctx.arc(wpIso.ix, wpIso.iy, 6, 0, 7);
+          ctx.fill();
+          ctx.strokeStyle = '#e0f2fe';
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+
+          ctx.font = 'bold 8.5px Outfit, system-ui, sans-serif';
+          ctx.fillStyle = '#fff';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(String(idx), wpIso.ix, wpIso.iy + 0.5);
+        }
+        idx++;
+        curIso = wpIso;
+      }
+    }
+    ctx.restore();
+  }
+
+  // Tactical formation relative offset calculation
+  function computeFormationOffsets(form, units, heading) {
+    const N = units.length;
+    const offsets = [];
+    const cosH = Math.cos(heading), sinH = Math.sin(heading);
+    const perpX = -sinH, perpY = cosH;
+
+    if (form === 'phalanx') {
+      const melee = [], ranged = [], heavy = [];
+      units.forEach((u, idx) => {
+        if (u.type === 'curelom' || u.type === 'cumom' || u.type === 'cart' || u.type === 'ram') heavy.push(idx);
+        else if (u.def && u.def.ranged) ranged.push(idx);
+        else melee.push(idx);
+      });
+
+      const assignRow = (indices, rowOffset) => {
+        const count = indices.length;
+        indices.forEach((uIdx, col) => {
+          const lateral = (col - (count - 1) / 2) * 22;
+          offsets[uIdx] = {
+            x: perpX * lateral - cosH * rowOffset,
+            y: perpY * lateral - sinH * rowOffset
+          };
+        });
+      };
+
+      assignRow(melee, 0);
+      assignRow(ranged, 24);
+      assignRow(heavy, 48);
+    } else if (form === 'wedge') {
+      offsets[0] = { x: 0, y: 0 };
+      for (let i = 1; i < N; i++) {
+        const side = i % 2 === 1 ? 1 : -1;
+        const row = Math.ceil(i / 2);
+        const lateral = side * row * 18;
+        const depth = -row * 20;
+        offsets[i] = {
+          x: perpX * lateral + cosH * depth,
+          y: perpY * lateral + sinH * depth
+        };
+      }
+    } else if (form === 'line') {
+      for (let i = 0; i < N; i++) {
+        const lateral = (i - (N - 1) / 2) * 22;
+        offsets[i] = { x: perpX * lateral, y: perpY * lateral };
+      }
+    } else if (form === 'column') {
+      for (let i = 0; i < N; i++) {
+        const col = (i % 2 === 0 ? -1 : 1) * 10;
+        const row = Math.floor(i / 2) * -22;
+        offsets[i] = {
+          x: perpX * col + cosH * row,
+          y: perpY * col + sinH * row
+        };
+      }
+    } else {
+      offsets[0] = { x: 0, y: 0 };
+      const ringCount = Math.max(1, N - 1);
+      for (let i = 1; i < N; i++) {
+        const ang = ((i - 1) / ringCount) * Math.PI * 2;
+        const rx = Math.cos(ang) * 28, ry = Math.sin(ang) * 28;
+        offsets[i] = { x: rx, y: ry };
+      }
+    }
+    return offsets;
   }
 
   // ------------------------------------------------------------ buildings
@@ -1327,7 +2377,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // In each picture's own pixels: the middle of its base across, the front
   // corner where it meets the ground, and how wide the base is.
   const SPRITE = {
-    stronghold: { cx: 300, by: 430, span: 600 },
+    stronghold: { cx: 542, by: 701, span: 990 },
+    encampment: { cx: 498, by: 740, span: 996 },
+    councilPlatform: { cx: 488, by: 708, span: 962 },
+    acropolis: { cx: 542, by: 701, span: 990 },
     barracks: { cx: 191, by: 291, span: 331 },
     storehouse: { cx: 187, by: 283, span: 358 },
     tower: { cx: 214, by: 493, span: 428 },
@@ -1353,14 +2406,19 @@ IMG.farm.src = 'assets/farm.png?v=13';
     lamaniteCamp: { cx: 210, by: 240, span: 419 },
     robbersCamp: { cx: 210, by: 242, span: 418 },
     warcamp: { cx: 210, by: 267, span: 419 },
+    quarry: { cx: 488, by: 702, span: 977 },
+    sawmill: { cx: 437, by: 736, span: 875 },
+    brickworks: { cx: 502, by: 848, span: 1004 },
     lamaniteTower: { cx: 199, by: 461, span: 398 },
   };
   // Which picture a building is drawn with: the Lamanites' watchtowers are their own; a camp is the robbers' in 3 Nephi, the Lamanites' elsewhere.
   const pictureOf = b => (b.type === 'tower' && b.team === 'r') || b.type === 'lookout' ? 'lamaniteTower' : b.type === 'warcamp' ? 'warcamp' : b.type === 'idol' ? (b.id % 2 ? 'idol_jaguar' : 'idol_warrior')
-    : b.type === 'camp' ? (mission && mission.campaign === 'gidgiddoni' ? 'robbersCamp' : 'lamaniteCamp') : PICTURE[b.type];
-  const PICTURE = { stronghold: 'stronghold', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables', temple: 'temple', relic: 'ruin',
+    : b.type === 'camp' ? (mission && mission.campaign === 'gidgiddoni' ? 'robbersCamp' : 'lamaniteCamp')
+    : (b.type === 'stronghold') ? (b.tier === 1 ? 'encampment' : b.tier === 2 ? 'councilPlatform' : 'acropolis')
+    : PICTURE[b.type];
+  const PICTURE = { stronghold: 'acropolis', encampment: 'encampment', councilPlatform: 'councilPlatform', acropolis: 'acropolis', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables', temple: 'temple', relic: 'ruin',
+    quarry: 'quarry', sawmill: 'sawmill', brickworks: 'brickworks',
     tents: 'tents', storetent: 'storetent', muster: 'muster', shieldtent: 'shieldtent', ladderworks: 'ladderworks', pavilion: 'pavilion', smithy: 'smithy', training: 'training', wardance: 'wardance', rameumptom: 'rameumptom' };
-  const ready = img => img && img.complete && img.naturalWidth;
   // A building stands on flat ground just above the highest corner of its plot.
   function floorOf(b) {
     let top = -9;
@@ -1404,9 +2462,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // like a flipbook and added as light; incense rises before the idols. Points are in each picture's own pixels.
   const FX = {
     rameumptom: { fire: [[175, 247], [435, 247], [304, 330]] },
+    councilPlatform: { fire: [[200, 435], [788, 435], [500, 580]], fireH: 10 },
     temple: { fire: [[386, 366], [372, 375], [358, 383], [344, 391], [330, 401], [317, 409], [302, 418]], fireH: 9 },   // the great lampstand's seven lamps (023)
     idol_jaguar: { smoke: [[90, 248], [230, 312]] },
-    idol_warrior: { smoke: [[95, 362], [228, 428]] }
+    idol_warrior: { smoke: [[95, 362], [228, 428]] },
+    brickworks: { smoke: [[310, 175]] }
   };
   function drawFx(b, key, ix, frontY, sc, now) {
     const fx = FX[key], sp = SPRITE[key];
@@ -1447,10 +2507,49 @@ IMG.farm.src = 'assets/farm.png?v=13';
     } else if (sp && ready(img)) {
       place();
       if (b.type === 'hall') banner(ix + 6, iy - h * 1.2, '#d4a017', now, b.id);
+      if (b.type === 'stronghold') {
+        const bannerY = b.tier === 1 ? iy - h * 0.45 : b.tier === 2 ? iy - h * 0.65 : iy - h * 0.75;
+        banner(ix + 8, bannerY, '#f4f1e6', now, b.id);
+      }
+      if (b.built >= 1) {
+        const inScreen = ix > cam.x - 100 && ix < cam.x + vw / cam.z + 100 && iy > cam.y - 100 && iy < cam.y + vh / cam.z + 100;
+        if (b.type === 'sawmill') {
+          // Spinning bronze circular saw blade / waterwheel (Helaman 3:9)
+          const sawAngle = (now * 0.008) % (Math.PI * 2);
+          ctx.save();
+          ctx.translate(ix + 6, iy - 16);
+          ctx.rotate(sawAngle);
+          ctx.strokeStyle = '#d97706'; ctx.lineWidth = 2.0;
+          ctx.beginPath(); ctx.arc(0, 0, 7.5, 0, Math.PI * 2); ctx.stroke();
+          ctx.strokeStyle = '#fef08a'; ctx.lineWidth = 1.0;
+          for (let a = 0; a < 4; a++) {
+            const rad = a * Math.PI / 2;
+            ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(Math.cos(rad) * 7.5, Math.sin(rad) * 7.5); ctx.stroke();
+          }
+          ctx.restore();
+          if (inScreen && Math.random() < 0.003 && AUDIO) AUDIO.play('industrySaw');
+        } else if (b.type === 'brickworks') {
+          // Warm pulsating kiln furnace glow in brick archway (Helaman 3:7)
+          const kilnGlow = 0.5 + 0.3 * Math.sin(now * 0.005 + b.id);
+          ctx.fillStyle = `rgba(249, 115, 22, ${kilnGlow})`;
+          ctx.beginPath(); ctx.ellipse(ix + 4, iy - 18, 9, 5.5, 0, 0, 7); ctx.fill();
+          ctx.fillStyle = `rgba(254, 240, 138, ${kilnGlow * 0.8})`;
+          ctx.beginPath(); ctx.ellipse(ix + 4, iy - 18, 4.5, 2.5, 0, 0, 7); ctx.fill();
+        } else if (b.type === 'quarry') {
+          if (inScreen && Math.random() < 0.003 && AUDIO) AUDIO.play('industryChisel');
+        } else if (b.type === 'armory') {
+          if (inScreen && Math.random() < 0.003 && AUDIO) AUDIO.play('industryAnvil');
+        }
+      }
     } else if (b.type === 'smithy' && ready(IMG.armory)) {   // the armory's picture, on the smaller plot, with the forge's glow
       const a = SPRITE.armory, im = IMG.armory, front = isoAt((b.tx + b.w) * TILE, (b.ty + b.h) * TILE, top), sc = (b.w + b.h) * TILE / a.span;
       ctx.drawImage(im, ix - a.cx * sc, front.iy - a.by * sc, im.naturalWidth * sc, im.naturalHeight * sc);
-      if (b.built >= 1) { ctx.fillStyle = `rgba(255, 150, 40, ${0.55 + 0.25 * Math.sin(now / 90 + b.id)})`; ctx.beginPath(); ctx.arc(ix + 4, iy - 14, 4.5, 0, Math.PI * 2); ctx.fill(); }
+      if (b.built >= 1) {
+        ctx.fillStyle = `rgba(255, 150, 40, ${0.55 + 0.25 * Math.sin(now / 90 + b.id)})`;
+        ctx.beginPath(); ctx.arc(ix + 4, iy - 14, 4.5, 0, Math.PI * 2); ctx.fill();
+        const inScreen = ix > cam.x - 100 && ix < cam.x + vw / cam.z + 100 && iy > cam.y - 100 && iy < cam.y + vh / cam.z + 100;
+        if (inScreen && Math.random() < 0.003 && AUDIO) AUDIO.play('industryAnvil');
+      }
     } else if (b.type === 'training') {
       drawTraining(b, now);
     } else { ctx.fillStyle = '#bfa97c'; ctx.fillRect(ix - w * 0.5, iy - h, w, h); }
@@ -1503,6 +2602,148 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.quadraticCurveTo(x + 8, y - 6 + wave, x + 15, y - 3 + wave); ctx.lineTo(x + 15, y + 6 + wave);
     ctx.quadraticCurveTo(x + 8, y + 4 + wave, x + 1, y + 6); ctx.closePath(); ctx.fill();
     ctx.strokeStyle = 'rgba(0,0,0,.35)'; ctx.lineWidth = 0.8; ctx.stroke();
+  }
+
+  // The Title of Liberty (Alma 46:12–13): Captain Moroni's torn coat fastened upon the end of a pole
+  function drawTitleOfLibertyStandard(flip, now, id) {
+    ctx.save();
+    const poleX = -2;
+    const poleBottomY = 4;
+    const poleTopY = -68;
+
+    // 1. Carved Hardwood Spear-Staff
+    ctx.strokeStyle = '#3e2009'; ctx.lineWidth = 2.8; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(poleX, poleBottomY); ctx.lineTo(poleX, poleTopY); ctx.stroke();
+    ctx.strokeStyle = '#78350f'; ctx.lineWidth = 1.6;
+    ctx.beginPath(); ctx.moveTo(poleX - 0.4, poleBottomY); ctx.lineTo(poleX - 0.4, poleTopY); ctx.stroke();
+
+    // Golden grip rings
+    ctx.fillStyle = '#f59e0b';
+    ctx.fillRect(poleX - 2, -26, 4, 3);
+    ctx.fillRect(poleX - 2, -32, 4, 2);
+
+    // Bronze spearhead point atop staff
+    ctx.fillStyle = '#b45309';
+    ctx.beginPath();
+    ctx.moveTo(poleX - 3.5, poleTopY + 2);
+    ctx.lineTo(poleX, poleTopY - 9);
+    ctx.lineTo(poleX + 3.5, poleTopY + 2);
+    ctx.closePath();
+    ctx.fill();
+    ctx.fillStyle = '#fef08a';
+    ctx.beginPath();
+    ctx.moveTo(poleX - 1.2, poleTopY + 1);
+    ctx.lineTo(poleX, poleTopY - 8);
+    ctx.lineTo(poleX + 1.2, poleTopY + 1);
+    ctx.closePath();
+    ctx.fill();
+
+    // 2. Dynamic Aerodynamic Linen Wind Waves
+    const w1 = Math.sin(now * 0.0045 + id) * 4.2;
+    const w2 = Math.sin(now * 0.008 + id * 1.6) * 2.4;
+    const w3 = Math.cos(now * 0.012 + id * 2.2) * 1.8;
+
+    const topY = poleTopY + 4;
+    const bannerH = 30;
+    const bannerL = 34; // length of cloth trailing backward
+
+    // Sacred Covenant Radiant Glow
+    const auraAlpha = 0.32 + 0.16 * Math.sin(now * 0.0035 + id);
+    ctx.strokeStyle = `rgba(253, 230, 138, ${auraAlpha})`;
+    ctx.lineWidth = 3.2;
+    ctx.beginPath();
+    ctx.moveTo(poleX, topY);
+    ctx.bezierCurveTo(poleX - 10, topY + w1, poleX - 22, topY - 2 + w2, poleX - bannerL, topY + w1 + w2);
+    ctx.lineTo(poleX - bannerL, topY + bannerH + w1 + w2 + w3);
+    ctx.bezierCurveTo(poleX - 22, topY + bannerH - 2 + w2, poleX - 10, topY + bannerH + w1, poleX, topY + bannerH);
+    ctx.stroke();
+
+    // 3. Woven Bleached Linen Cloth Body (Moroni's rent coat)
+    ctx.fillStyle = '#faf8f5';
+    ctx.beginPath();
+    ctx.moveTo(poleX, topY);
+    ctx.bezierCurveTo(poleX - 10, topY + w1, poleX - 22, topY - 2 + w2, poleX - bannerL, topY + w1 + w2);
+    
+    // Ragged torn bottom edge (rent coat silhouette)
+    ctx.lineTo(poleX - bannerL, topY + bannerH * 0.75 + w1 + w2);
+    ctx.lineTo(poleX - bannerL + 5, topY + bannerH + w1 + w2);
+    ctx.lineTo(poleX - bannerL + 11, topY + bannerH * 0.85 + w2);
+    ctx.lineTo(poleX - bannerL + 18, topY + bannerH + w1);
+    ctx.lineTo(poleX - bannerL + 25, topY + bannerH * 0.9 + w1);
+    ctx.lineTo(poleX, topY + bannerH);
+    ctx.closePath();
+    ctx.fill();
+
+    // Shading on cloth folds
+    ctx.fillStyle = 'rgba(214, 209, 199, 0.45)';
+    ctx.beginPath();
+    ctx.moveTo(poleX - 12, topY + w1);
+    ctx.quadraticCurveTo(poleX - 18, topY + bannerH * 0.5 + w2, poleX - 14, topY + bannerH * 0.9);
+    ctx.lineTo(poleX - 17, topY + bannerH * 0.9);
+    ctx.quadraticCurveTo(poleX - 21, topY + bannerH * 0.5 + w2, poleX - 15, topY + w1);
+    ctx.closePath();
+    ctx.fill();
+
+    // 4. Crimson & Gold Ornamental Borders
+    ctx.strokeStyle = '#991b1b'; ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    ctx.moveTo(poleX, topY + 1.2);
+    ctx.bezierCurveTo(poleX - 10, topY + 1.2 + w1, poleX - 22, topY - 0.8 + w2, poleX - bannerL, topY + 1.2 + w1 + w2);
+    ctx.stroke();
+    ctx.strokeStyle = '#d97706'; ctx.lineWidth = 1.0;
+    ctx.beginPath();
+    ctx.moveTo(poleX, topY + 2.8);
+    ctx.bezierCurveTo(poleX - 10, topY + 2.8 + w1, poleX - 22, topY + 0.8 + w2, poleX - bannerL, topY + 2.8 + w1 + w2);
+    ctx.stroke();
+
+    // 5. Ancient Reformed Egyptian Script Lines ("In memory of our God...")
+    ctx.strokeStyle = 'rgba(41, 37, 36, 0.7)'; ctx.lineWidth = 1.1; ctx.lineCap = 'butt';
+    for (let r = 0; r < 3; r++) {
+      const lineY = topY + 8 + r * 6.5;
+      const lw1 = (w1 + w2) * (0.4 + r * 0.25);
+      ctx.beginPath();
+      ctx.moveTo(poleX - 4, lineY + lw1 * 0.5);
+      ctx.lineTo(poleX - 9, lineY + lw1 * 0.7);
+      ctx.moveTo(poleX - 11, lineY + lw1 * 0.8);
+      ctx.lineTo(poleX - 18, lineY + lw1 * 0.9);
+      ctx.moveTo(poleX - 20, lineY + lw1);
+      ctx.lineTo(poleX - 27, lineY + lw1);
+      ctx.stroke();
+    }
+
+    // 6. Fluttering Frayed Threads at the Trailing Edge
+    ctx.strokeStyle = '#f4f1e6'; ctx.lineWidth = 0.9;
+    ctx.beginPath();
+    ctx.moveTo(poleX - bannerL, topY + 4 + w1 + w2);
+    ctx.lineTo(poleX - bannerL - 5, topY + 6 + w1 + w2 + w3);
+    ctx.moveTo(poleX - bannerL, topY + bannerH * 0.5 + w2);
+    ctx.lineTo(poleX - bannerL - 6, topY + bannerH * 0.5 + w2 + w1);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  // Worker Scythe Defensive Combat Stance
+  function drawWorkerScytheCombat(now, id) {
+    ctx.save();
+    const cycle = ((now * 0.005 + id) % 1.0);
+    const slash = Math.sin(cycle * Math.PI);
+    // Dynamic sweeping curved scythe blade in local unit coordinates
+    ctx.translate(2, -18);
+    ctx.rotate(slash * 0.65);
+    // Shaft
+    ctx.strokeStyle = '#5c2e0b'; ctx.lineWidth = 2.4; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(-6, 12); ctx.lineTo(12, -14); ctx.stroke();
+    // Silver blade
+    ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 2.8;
+    ctx.beginPath(); ctx.arc(12, -14, 10, -1.2, 0.8); ctx.stroke();
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 1.4;
+    ctx.beginPath(); ctx.arc(12, -14, 10, -0.6, 0.4); ctx.stroke();
+    if (slash > 0.65) {
+      ctx.fillStyle = '#fef08a';
+      ctx.beginPath(); ctx.arc(17, -19, 2.0, 0, 7); ctx.fill();
+    }
+    ctx.restore();
   }
 
   // Earthworks (Alma 50:1–3): a bank of earth with grass on top, joined to the banks beside it, and a frame of pickets
@@ -1748,9 +2989,75 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const gy = p0.iy + (p1.iy - p0.iy) * p;
 
       if (f.kind === 'stone') {
+        if (!f.launchedSound) {
+          f.launchedSound = true;
+          if (AUDIO) AUDIO.play('cartFlingStone');
+        }
         const q = clamp((W.t - f.t) / 0.5, 0, 1), sx = p0.ix + (p1.ix - p0.ix) * q, sy = p0.iy - 26 * (1 - q * q) + (p1.iy - p0.iy) * q;
         if (q < 1) { ctx.fillStyle = '#9ca3af'; ctx.strokeStyle = '#4b5563'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(sx, sy - 4, 3.5, 0, 7); ctx.fill(); ctx.stroke(); }
-        else if (!f.dusted) { f.dusted = true; addDust(p1.ix, p1.iy); addDust(p1.ix + 4, p1.iy); addDust(p1.ix - 4, p1.iy); }
+        else if (!f.dusted) { f.dusted = true; addDust(p1.ix, p1.iy); addDust(p1.ix + 4, p1.iy); addDust(p1.ix - 4, p1.iy); if (AUDIO) AUDIO.play('combatHit'); }
+        continue;
+      }
+      if (f.stake) {
+        if (!f.stakeSound) {
+          f.stakeSound = true;
+          if (AUDIO) AUDIO.play('cartStakes');
+          for (let k = 0; k < 5; k++) {
+            particles.push({
+              ix: p1.ix + (Math.random() - 0.5) * 14, iy: p1.iy + (Math.random() - 0.5) * 8,
+              vx: (Math.random() - 0.5) * 1.5, vy: -1.0 - Math.random() * 1.5,
+              size: 2.0, wood: true, life: 0, maxLife: 20
+            });
+          }
+        }
+        ctx.save();
+        ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.4; ctx.lineCap = 'round';
+        for (let s = -1; s <= 1; s++) {
+          const sx = p1.ix + s * 6, sy = p1.iy;
+          ctx.beginPath();
+          ctx.moveTo(sx, sy);
+          ctx.lineTo(sx - s * 2, sy - 13 + Math.abs(s) * 3);
+          ctx.stroke();
+          ctx.strokeStyle = '#fef08a'; ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          ctx.moveTo(sx - s * 2, sy - 10 + Math.abs(s) * 3);
+          ctx.lineTo(sx - s * 2, sy - 13 + Math.abs(s) * 3);
+          ctx.stroke();
+          ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.4;
+        }
+        ctx.restore();
+        continue;
+      }
+      if (f.scythe && !f.scytheSound) {
+        f.scytheSound = true;
+        if (AUDIO) AUDIO.play('scytheSlash');
+        addSpark(p1.ix, p1.iy - 10);
+      }
+      if (f.kind === 'javelin') {
+        const dist = Math.hypot(p1.ix - p0.ix, p1.iy - p0.iy);
+        const maxH = Math.min(38, dist * 0.25);
+        const h = Math.sin(p * Math.PI) * maxH;
+        // Ground Shadow
+        ctx.fillStyle = `rgba(0,0,0,${0.35 * (1 - h / 45)})`;
+        ctx.beginPath(); ctx.ellipse(gx, gy, 6, 2.5, 0, 0, 7); ctx.fill();
+        // Flying Javelin: heavy wooden spear shaft + bronze spearpoint glint
+        const jx = gx, jy = gy - h;
+        const angle = Math.atan2((p1.iy - p0.iy) - Math.cos(p * Math.PI) * maxH * 0.08, p1.ix - p0.ix);
+        ctx.strokeStyle = '#92400e'; ctx.lineWidth = 2.2; ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(jx - Math.cos(angle) * 13, jy - Math.sin(angle) * 13);
+        ctx.lineTo(jx, jy);
+        ctx.stroke();
+        ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 2.8;
+        ctx.beginPath();
+        ctx.moveTo(jx - Math.cos(angle) * 3, jy - Math.sin(angle) * 3);
+        ctx.lineTo(jx + Math.cos(angle) * 2, jy + Math.sin(angle) * 2);
+        ctx.stroke();
+        if (p >= 0.95 && !f.hitPlayed) {
+          f.hitPlayed = true;
+          if (AUDIO) AUDIO.play('combatHit');
+          addSpark(p1.ix, p1.iy - 10);
+        }
         continue;
       }
       if (f.kind === 'arrow') {
@@ -1768,11 +3075,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
         ctx.moveTo(ax - Math.cos(angle) * 7, ay - Math.sin(angle) * 7);
         ctx.lineTo(ax, ay);
         ctx.stroke();
+        if (p >= 0.95 && !f.hitPlayed) { f.hitPlayed = true; if (AUDIO) AUDIO.play('combatHit'); }
       } else {
         // Hit Impact Spark & Dust
         ctx.fillStyle = `rgba(255,255,255,${0.8 * (1 - p)})`;
         ctx.beginPath(); ctx.arc(gx, gy, 4 + p * 5, 0, 7); ctx.fill();
         if (Math.random() < 0.4) addSpark(gx, gy);
+        if (!f.hitPlayed) { f.hitPlayed = true; if (AUDIO) AUDIO.play('combatHit'); }
       }
     }
   }
@@ -1805,6 +3114,47 @@ IMG.farm.src = 'assets/farm.png?v=13';
           ctx.fillStyle = ok ? 'rgba(74,222,128,.4)' : 'rgba(248,113,113,.45)'; ctx.fill();
           ctx.strokeStyle = ok ? '#4ade80' : '#f87171'; ctx.lineWidth = 1.5; ctx.stroke();
         }
+      }
+    }
+    if (placing !== 'wall' && spots.length) {
+      const [x, y] = spots[0];
+      const ok = W.canPlace(placing, x, y) && KINDS.every(k => left[k] >= 0);
+      const bObj = { tx: x, ty: y, w: def.w, h: def.h, def, type: placing, team: 'p', tier: 1 };
+      const topH = floorOf(bObj);
+      const { ix, iy } = isoAt(x * TILE, y * TILE, topH);
+      const front = isoAt((x + def.w) * TILE, (y + def.h) * TILE, topH);
+      const key = pictureOf(bObj) || placing;
+      const sp = SPRITE[key], img = IMG[key];
+      if (sp && ready(img)) {
+        const sc = (def.w + def.h) * TILE / sp.span;
+        ctx.save();
+        ctx.globalAlpha = ok ? 0.72 : 0.42;
+        if (!ok) ctx.filter = 'grayscale(0.6) brightness(0.85) sepia(0.6) hue-rotate(-50deg)';
+        ctx.drawImage(img, ix - sp.cx * sc, front.iy - sp.by * sc, img.naturalWidth * sc, img.naturalHeight * sc);
+        ctx.restore();
+      }
+      if (touchPlacePos) {
+        const centerIso = toIso((x + def.w / 2) * TILE, (y + def.h / 2) * TILE);
+        const touchIsoX = cam.x + touchPlacePos.x / cam.z;
+        const touchIsoY = cam.y + touchPlacePos.y / cam.z;
+        ctx.save();
+        ctx.strokeStyle = 'rgba(253, 230, 138, 0.8)';
+        ctx.lineWidth = 2 / cam.z;
+        ctx.beginPath();
+        ctx.arc(touchIsoX, touchIsoY, 16 / cam.z, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(253, 230, 138, 0.2)';
+        ctx.fill();
+
+        ctx.strokeStyle = ok ? 'rgba(74, 222, 128, 0.9)' : 'rgba(248, 113, 113, 0.9)';
+        ctx.lineWidth = 2 / cam.z;
+        ctx.setLineDash([4 / cam.z, 4 / cam.z]);
+        ctx.beginPath();
+        ctx.moveTo(touchIsoX, touchIsoY);
+        ctx.lineTo(centerIso.ix, centerIso.iy);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.restore();
       }
     }
     if (def.range && spots.length) {
@@ -1888,7 +3238,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const selectable = e => e && !e.dead && e.team === 'p' && e.type !== 'villager' && e.type !== 'flock';
   const selEnts = () => sel.map(id => W.ents.get(id)).filter(e => e && !e.dead);
   const selUnits = () => selEnts().filter(e => e.kind === 'unit' && selectable(e));
-  function setSel(list) { sel = list.filter(selectable).map(e => e.id); infoEnt = null; placing = null; aiming = null; wallLine = null; wallStart = null; armedRemove = null; refreshPanel(true); }
+  function setSel(list) {
+    const prev = sel.length;
+    sel = list.filter(selectable).map(e => e.id);
+    infoEnt = null; placing = null; aiming = null; wallLine = null; wallStart = null; armedRemove = null; touchSpot = null; touchPlacePos = null;
+    if (sel.length && AUDIO && (!prev || sel.length !== prev)) AUDIO.play('select');
+    refreshPanel(true);
+  }
 
   function entityAt(wx, wy, sx, sy) {
     let best = null, bd = 24;
@@ -1913,6 +3269,20 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
 
   function clickAt(wx, wy, add, double, sx, sy) {
+    if (aimingRally) {
+      const b = W.ents.get(aimingRally);
+      if (b) {
+        b.rally = [tileOf(wx), tileOf(wy)];
+        if (!W.rallyPoints) W.rallyPoints = {};
+        W.rallyPoints[b.id] = { x: (tileOf(wx) + 0.5) * TILE, y: (tileOf(wy) + 0.5) * TILE };
+        ping(wx, wy, '#fde68a');
+        toast(`Rally point set: new ones from ${b.def.name} will march there.`, 'me');
+        if (AUDIO) AUDIO.play('tap');
+      }
+      aimingRally = null;
+      refreshPanel(true);
+      return;
+    }
     if (aiming) return aimAt(wx, wy, sx, sy);
     if (placing) return placeAt(wx, wy, add);
     const e = entityAt(wx, wy, sx, sy);
@@ -1946,12 +3316,14 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const e = entityAt(wx, wy, sx, sy), tx = tileOf(wx), ty = tileOf(wy);
     if (e && e.team === 'r' && !e.untouchable) {
       for (const u of units) if (u.def.dmg) W.order(u, { type: 'attack', target: e.id });
+      if (AUDIO) { AUDIO.play('orderAttack'); AUDIO.unitAcknowledge(units[0], 'attack'); }
       return ping(e.x, e.y, '#f87171');
     }
     const workers = units.filter(u => u.def.builds), rest = units.filter(u => !u.def.builds);
     if (e && e.kind === 'building' && workers.length && W.needsWork(e)) {
       for (const u of workers) W.order(u, { type: 'build', target: e.id });
       if (rest.length) moveGroup(rest, tx, ty);
+      if (AUDIO) { AUDIO.play('orderMove'); AUDIO.unitAcknowledge(workers[0] || units[0], 'move'); }
       return ping(e.x, e.y, '#fde68a');
     }
     const kind = W.isResource(tx, ty, 'timber') ? 'timber' : W.isResource(tx, ty, 'grain') ? 'grain' : W.isResource(tx, ty, 'stone') ? 'stone' : null;
@@ -1959,9 +3331,18 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (kind && carts.length) {
       carts.forEach((u, i) => { u.pref = kind; const f = i ? W.nearestResource(tx, ty, kind, u) || [tx, ty] : [tx, ty]; W.gatherAt(u, f[0], f[1]); });
       if (others.length) moveGroup(others, tx, ty);
+      if (AUDIO) { AUDIO.play('orderMove'); AUDIO.unitAcknowledge(carts[0] || units[0], 'move'); }
       return ping(wx, wy, kind === 'timber' ? '#a3e635' : kind === 'stone' ? '#d6d3d1' : '#fde047');
     }
+    if (huntMode) {
+      moveGroup(units, tx, ty, true);
+      for (const u of units) if (u.order && u.order.type === 'move') u.order.rule = 'hunt';
+      if (AUDIO) { AUDIO.play('orderAttack'); AUDIO.unitAcknowledge(units[0], 'attack'); }
+      setHuntMode(false);
+      return ping(wx, wy, '#f87171');
+    }
     moveGroup(units, tx, ty, true);
+    if (AUDIO) { AUDIO.play('orderMove'); AUDIO.unitAcknowledge(units[0], 'move'); }
     ping(wx, wy, '#86efac');
   }
   // Everyone to their own tile around the spot, nearest first. With `fight`, soldiers fight whatever they meet on the way
@@ -1987,7 +3368,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const def = BUILDINGS[type];
     if (W.whyNotBuild(type)) return toast(W.whyNotBuild(type) + '.', 'warn');
     if (!W.canAfford(def.cost)) return toast(poorText(def.cost), 'warn');
-    placing = type; wallLine = null; wallStart = null; touchSpot = null;
+    placing = type; wallLine = null; wallStart = null; touchSpot = null; touchPlacePos = null;
     toast(type === 'wall' ? (touchy ? 'Tap where the wall starts, then where it ends. Tap Done when you finish.' : 'Drag a line where the wall goes. Tap Done when you finish.') : `Tap where the ${def.name.toLowerCase()} goes.`, 'me');
     refreshPanel(true);
   }
@@ -1998,7 +3379,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (why === 'temple') return toast(`${(SIDES[W.side('p').side] || SIDES.freemen).house === 'Temple' ? 'A temple' : 'The Rameumptom'} must stand first.`, 'warn');
     if (why === 'wait') return toast(`${m.name} can be worked again in ${Math.ceil(W.miracleWait(key))}s.`, 'warn');
     if (m.aim === 'none') { if (W.miracle(key)) { placing = null; aiming = null; refreshPanel(true); } return; }
-    aiming = key; placing = null; wallLine = null; touchSpot = null;
+    aiming = key; placing = null; wallLine = null; touchSpot = null; touchPlacePos = null;
     toast(m.aim === 'foe' ? `Tap the enemy the ${m.name.toLowerCase()} falls on.` : m.aim === 'building' ? `Tap the enemy building the ${m.name.toLowerCase()} falls on.` : `Tap the spot where the ${m.name.toLowerCase()} falls.`, 'me');
     refreshPanel(true);
   }
@@ -2007,16 +3388,17 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (m.aim === 'foe' || m.aim === 'building') {
       const e = entityAt(wx, wy, sx, sy);
       if (!e || e.kind !== (m.aim === 'foe' ? 'unit' : 'building') || e.team === 'p' || e.team === 'n') return toast(m.aim === 'foe' ? 'Tap an enemy.' : 'Tap an enemy building.', 'warn');
-      if (W.miracle(key, e.x, e.y, e.id)) { aiming = null; refreshPanel(true); }
+      if (W.miracle(key, e.x, e.y, e.id)) { aiming = null; if (AUDIO) AUDIO.announce('miracle'); refreshPanel(true); }
       return;
     }
-    if (W.miracle(key, wx, wy)) { aiming = null; refreshPanel(true); ping(wx, wy, '#fde68a'); }
+    if (W.miracle(key, wx, wy)) { aiming = null; if (AUDIO) AUDIO.announce('miracle'); refreshPanel(true); ping(wx, wy, '#fde68a'); }
   }
   function placeAt(wx, wy, keep) {
     const [x, y] = topLeft(placing, wx, wy);
     const b = W.place(placing, x, y, []);
     if (!b) { const why = W.whyNotPlace(placing, x, y); return toast(!why ? poorText(BUILDINGS[placing].cost) : why === 'far' ? 'Too far from your city. Build within reach of what you have.' : 'It can\'t go there. Build on open ground, south of the wilderness.', 'warn'); }
     assignBuilders([b]);
+    if (AUDIO) AUDIO.play('build');
     if (placing !== 'wall' && !keep) { placing = null; refreshPanel(true); }
   }
   function placeLine(tiles) {
@@ -2027,6 +3409,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       made.push(W.place('wall', x, y, []));
     }
     assignBuilders(made);
+    if (made.length && AUDIO) AUDIO.play('build');
   }
   // The chosen workers split the new work between them, nearest first.
   function assignBuilders(list) {
@@ -2061,15 +3444,55 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const ptrs = new Map();
   let gesture = null, lastTap = { t: 0, x: 0, y: 0 };
   let touchSpot = null, touchy = false;                // where a building would go, after a first tap; and whether this is a touch screen
+  let touchPlacePos = null;                            // active touch { x, y } when dragging a building on mobile
+  // A finger works the map as Red Alert's mouse did. A quick drag looks around. Pressed and held still for HOLD ms, a ring fills
+  // under it: then a drag draws a box round people (Red Alert's left-drag), and lifting it where it is is Red Alert's right-click.
+  const HOLD = 300;
+  const panning = () => ({ kind: 'pan', touch: true, t: performance.now(), vx: 0, vy: 0 });
+  // Held still, then lifted: it stops what the next tap would have done (a wall, a miracle's aim, a rally point, Hunt);
+  // with nothing like that, it lets go of who's chosen. (A building being placed is moved by a held finger, so it isn't stopped
+  // this way: it has its Cancel.)
+  function letGo() {
+    if (placing || aiming || aimingRally) { placing = null; aiming = null; aimingRally = null; wallLine = null; wallStart = null; touchSpot = null; refreshPanel(true); }
+    else if (huntMode) setHuntMode(false);
+    else if (sel.length || infoEnt) setSel([]);
+    else return;
+    if (AUDIO) AUDIO.play('tap');
+  }
+  // The ring under a held finger. Green: a drag will draw a box. Red: building or aiming, so lifting stops it.
+  function drawHold() {
+    const g = gesture;
+    if (!g || g.kind !== 'press' || !g.touch) return;
+    const f = (Math.min(1, (performance.now() - g.t0) / HOLD) - .3) / .7;
+    if (f <= 0) return;                                // (a quick tap shows nothing)
+    const x = g.sx * dpr, y = g.sy * dpr, r = 34 * dpr, c = placing || aiming || aimingRally ? '252,165,165' : '134,239,172';
+    ctx.save();
+    ctx.lineWidth = 4 * dpr;
+    ctx.strokeStyle = 'rgba(0,0,0,.45)'; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.stroke();
+    ctx.strokeStyle = `rgb(${c})`; ctx.beginPath(); ctx.arc(x, y, r, -Math.PI / 2, -Math.PI / 2 + f * Math.PI * 2); ctx.stroke();
+    if (g.held) { ctx.fillStyle = `rgba(${c},.16)`; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); }
+    ctx.restore();
+  }
+  // A flicked map slides on and slows, as a phone's lists do.
+  function glideCam(dt) {
+    if (!glide) return;
+    cam.x -= glide.vx * dt / cam.z; cam.y -= glide.vy * dt / cam.z; clampCam();
+    const k = Math.exp(-5 * dt);
+    glide.vx *= k; glide.vy *= k;
+    if (Math.hypot(glide.vx, glide.vy) < 30) glide = null;
+  }
   cv.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('pointerdown', () => { if (AUDIO) AUDIO.wake(); }, { once: true, passive: true });
   cv.addEventListener('pointerdown', e => {
+    if (AUDIO) AUDIO.wake();
     if (!W || modal) return;
+    glide = null;
     cv.setPointerCapture(e.pointerId);
     ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
     touchy = e.pointerType !== 'mouse';
     if (ptrs.size === 2) {
       const [a, b] = [...ptrs.values()];
-      box = null; wallLine = null;
+      box = null; wallLine = null; touchPlacePos = null;
       gesture = { kind: 'pinch', d0: Math.hypot(a.x - b.x, a.y - b.y) || 1, z0: cam.z, mid: { x: cam.x + (a.x + b.x) / 2 / cam.z, y: cam.y + (a.y + b.y) / 2 / cam.z } };
       return;
     }
@@ -2078,7 +3501,23 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (e.button === 2) { gesture = { kind: 'right' }; return; }
     if (e.button === 1) { gesture = { kind: 'pan', lx: e.clientX, ly: e.clientY }; return; }
     if (placing === 'wall' && e.pointerType === 'mouse') { const t = [tileOf(p.x), tileOf(p.y)]; wallLine = [t]; gesture = { kind: 'wall', a: t }; return; }
-    gesture = { kind: 'press', sx: e.clientX, sy: e.clientY, touch: e.pointerType !== 'mouse' };
+    if (placing && placing !== 'wall' && e.pointerType !== 'mouse') {
+      const own = entityAt(p.x, p.y, e.clientX, e.clientY);
+      if (!(selectable(own) && (own.kind === 'unit' || own.def.wall == null))) {
+        // Finger placement on touch: offset upward by 52px so thumb never obscures footprint!
+        const offY = 52;
+        const targetWorld = toWorld(e.clientX, e.clientY - offY);
+        hover = targetWorld;
+        touchPlacePos = { x: e.clientX, y: e.clientY };
+        const spot = topLeft(placing, targetWorld.x, targetWorld.y);
+        const wasPreviewed = touchSpot && spot[0] === touchSpot[0] && spot[1] === touchSpot[1];
+        gesture = { kind: 'place', sx: e.clientX, sy: e.clientY, spot, moved: false, alreadyPreviewed: wasPreviewed };
+        touchSpot = spot;
+        return;
+      }
+    }
+    const g = gesture = { kind: 'press', sx: e.clientX, sy: e.clientY, touch: e.pointerType !== 'mouse', t0: performance.now() };
+    if (g.touch) setTimeout(() => { if (gesture === g) { g.held = true; if (AUDIO) AUDIO.haptic(12); } }, HOLD);
   });
   cv.addEventListener('pointermove', e => {
     if (!W) return;
@@ -2094,12 +3533,29 @@ IMG.farm.src = 'assets/farm.png?v=13';
       cam.x = gesture.mid.x - mx / cam.z; cam.y = gesture.mid.y - my / cam.z; clampCam();
       return;
     }
+    if (gesture.kind === 'place') {
+      if (Math.hypot(e.clientX - gesture.sx, e.clientY - gesture.sy) > 6) gesture.moved = true;
+      const offY = 52;
+      const targetWorld = toWorld(e.clientX, e.clientY - offY);
+      hover = targetWorld;
+      touchPlacePos = { x: e.clientX, y: e.clientY };
+      touchSpot = topLeft(placing, targetWorld.x, targetWorld.y);
+      return;
+    }
     if (gesture.kind === 'press' && Math.hypot(e.clientX - gesture.sx, e.clientY - gesture.sy) > 9) {
       const { sx, sy } = gesture;
-      if (gesture.touch && !boxMode) gesture = { kind: 'pan' };
+      // A finger draws a box only once held (and not while a wall or an aim waits for a tap); before that, it looks around.
+      if (gesture.touch && !(gesture.held && !placing && !aiming && !aimingRally)) gesture = panning();
       else { gesture = { kind: 'box' }; box = { x0: sx, y0: sy, x1: e.clientX, y1: e.clientY }; }
     }
-    if (gesture.kind === 'pan') { cam.x -= (e.clientX - lx) / cam.z; cam.y -= (e.clientY - ly) / cam.z; clampCam(); }
+    if (gesture.kind === 'pan') {
+      const dx = e.clientX - lx, dy = e.clientY - ly;
+      cam.x -= dx / cam.z; cam.y -= dy / cam.z; clampCam();
+      if (gesture.touch) {                             // how fast the finger moves, smoothed over the last ~50 ms: a flick's speed
+        const now = performance.now(), dt = Math.max(1, now - gesture.t) / 1000, k = Math.min(1, dt / .05);
+        gesture.t = now; gesture.vx += (dx / dt - gesture.vx) * k; gesture.vy += (dy / dt - gesture.vy) * k;
+      }
+    }
     else if (gesture.kind === 'box') { box.x1 = e.clientX; box.y1 = e.clientY; }
     else if (gesture.kind === 'wall') { const p = toWorld(e.clientX, e.clientY); wallLine = lineTiles(gesture.a, [tileOf(p.x), tileOf(p.y)]); }
   });
@@ -2107,13 +3563,21 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (!ptrs.has(e.pointerId)) return;
     ptrs.delete(e.pointerId);
     const g = gesture;
-    if (ptrs.size) { if (g && g.kind === 'pinch') gesture = { kind: 'done' }; return; }
+    if (ptrs.size) { if (g && g.kind === 'pinch') gesture = panning(); return; }   // the finger left on the glass goes on looking around
     gesture = null;
+    touchPlacePos = null;
     if (!g || cancelled || !W) { box = null; if (!wallStart) wallLine = null; return; }
+    if (g.kind === 'press' && g.held) return letGo();
+    if (g.kind === 'pan') {
+      // Lifted while still moving: a flick. (A finger that stopped before lifting meant to stop there.)
+      const v = Math.hypot(g.vx, g.vy), k = Math.min(1, 4000 / v);
+      if (g.touch && v > 250 && performance.now() - g.t < 80) glide = { vx: g.vx * k, vy: g.vy * k };
+      return;
+    }
     const p = toWorld(e.clientX, e.clientY);
     // Building something, and you tap one of your own people or buildings: you mean to choose it, not to build there.
     // (Walls aside: you may be drawing next to one. And a gate goes on a wall piece of yours.)
-    if ((g.kind === 'press' || (g.kind === 'wall' && (!wallLine || wallLine.length < 2))) && placing) {
+    if ((g.kind === 'press' || g.kind === 'place' || (g.kind === 'wall' && (!wallLine || wallLine.length < 2))) && placing) {
       const own = entityAt(p.x, p.y, e.clientX, e.clientY);
       if (selectable(own) && (own.kind === 'unit' || own.def.wall == null)) { setSel([own]); return; }
     }
@@ -2122,6 +3586,25 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const t = [tileOf(p.x), tileOf(p.y)];
       if (!wallStart) { wallStart = t; wallLine = [t]; toast('Now tap where the wall ends (the same spot again for one piece).', 'me'); return; }
       placeLine(lineTiles(wallStart, t)); wallStart = null; wallLine = null;
+      return;
+    }
+    if (g.kind === 'place') {
+      if (!placing) return;
+      const spot = touchSpot || (hover && topLeft(placing, hover.x, hover.y));
+      if (!spot) return;
+      const ok = W.canPlace(placing, spot[0], spot[1]);
+      if (!g.moved && g.alreadyPreviewed && ok) {
+        const [cx, cy] = [(spot[0] + BUILDINGS[placing].w / 2) * TILE, (spot[1] + BUILDINGS[placing].h / 2) * TILE];
+        placeAt(cx, cy, false);
+        touchSpot = null;
+        return;
+      }
+      if (ok) {
+        toast('Tap again to build here, or drag to reposition.', 'me');
+      } else {
+        const why = W.whyNotPlace(placing, spot[0], spot[1]);
+        toast(why === 'far' ? 'Too far from your city: build within reach of what you have.' : 'It can\'t go there: pick open ground.', 'warn');
+      }
       return;
     }
     if (g.kind === 'press' && g.touch && placing && placing !== 'wall') {
@@ -2150,7 +3633,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
         return s.x >= bx0 && s.x <= bx1 && s.y >= by0 && s.y <= by1;
       });
       box = null;
-      if (inside.length) { setSel(e.shiftKey ? selEnts().filter(x => x.kind === 'unit').concat(inside) : inside); if (boxMode) setBoxMode(false); }
+      if (inside.length) setSel(e.shiftKey ? selEnts().filter(x => x.kind === 'unit').concat(inside) : inside);
     } else if (g.kind === 'wall') {
       placeLine(wallLine || [g.a]); wallLine = null;
     }
@@ -2177,18 +3660,51 @@ IMG.farm.src = 'assets/farm.png?v=13';
   });
   mini.addEventListener('pointermove', e => { if (miniDrag) { const p = miniPoint(e); lookAt(p.x, p.y); } });
   mini.addEventListener('pointerup', () => { miniDrag = false; });
+  mini.addEventListener('pointercancel', () => { miniDrag = false; });
 
   window.addEventListener('keydown', e => {
     if (!W || e.target.closest && e.target.closest('input, textarea')) return;
     if (e.key === 'Escape') {
       if (modal) return;
-      if (placing || aiming) { placing = null; aiming = null; wallLine = null; refreshPanel(true); }
+      if (placing || aiming || aimingRally) { placing = null; aiming = null; aimingRally = null; wallLine = null; refreshPanel(true); }
       else if (sel.length) setSel([]);
       else openMenu();
       return;
     }
     if (modal) return;
+    if (e.key === '1') {
+      const u = W.cohortUnits('p', 1);
+      if (u.length) { setSel(u); if (AUDIO) AUDIO.play('select'); toast(`Cohort I: Vanguard (${u.length})`, 'me'); }
+      return;
+    }
+    if (e.key === '2') {
+      const u = W.cohortUnits('p', 2);
+      if (u.length) { setSel(u); if (AUDIO) AUDIO.play('select'); toast(`Cohort II: Skirmishers (${u.length})`, 'me'); }
+      return;
+    }
+    if (e.key === '3') {
+      const u = W.cohortUnits('p', 3);
+      if (u.length) { setSel(u); if (AUDIO) AUDIO.play('select'); toast(`Cohort III: Siege & Supply (${u.length})`, 'me'); }
+      return;
+    }
+    if (e.key === 'W' && e.shiftKey) {
+      openWarRoom();
+      return;
+    }
+    if (e.key === 'a' || e.key === 'A') {
+      setHuntMode(!huntMode);
+      return;
+    }
     if (e.key === ' ') { e.preventDefault(); togglePause(); return; }
+    if (e.key === 'm' || e.key === 'M') {
+      if (AUDIO) {
+        AUDIO.wake();
+        AUDIO.toggleMute();
+        updateAudioButton();
+        if (!AUDIO.isMuted()) AUDIO.play('tap');
+      }
+      return;
+    }
     if (e.key === 'h' || e.key === 'H') { for (const u of selUnits()) W.order(u, { type: 'idle' }); return; }
     if (e.key === '+' || e.key === '=') zoomAt(vw / 2, vh / 2, cam.z * 1.2);
     if (e.key === '-') zoomAt(vw / 2, vh / 2, cam.z / 1.2);
@@ -2229,9 +3745,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const DRAWN_AS = { lehi: 'lehi', gidgiddoni: 'gidgiddoni', robber: 'robber', robberArcher: 'robber_archer', giddianhi: 'robber_chief', zemnarihah: 'robber_chief',
     slinger: 'lamanite_slinger', amalekite: 'lamanite_captain', zoramite: 'lamanite_captain', zerahemnah: 'zerahemnah' };
   function picOf(e) {
+    if (e.type === 'standard') {
+      const hType = e.heroType || 'moroni';
+      return `<img class="pic" src="${webp('assets/cameo_' + hType + '.png?v=13')}" alt="">`;
+    }
     const pic = e.kind === 'building' && e.team !== 'p' && IMG[pictureOf(e)];
     const own = pic && (ready(pic) ? pic : e.def.side === 'kingmen' ? IMG.lamaniteCamp : pic);   // (a tent without its picture yet shows the camp's)
-    const c = own ? own.src : CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && 'assets/cameo_stronghold.png?v=3');
+    const c = own ? own.src : CAMEO_MAP[(e.kind === 'unit' ? 'train:' : 'build:') + e.type] || (e.type === 'stronghold' && (e.tier === 1 ? 'assets/cameo_encampment.png?v=1' : e.tier === 2 ? 'assets/cameo_council.png?v=1' : 'assets/cameo_acropolis.png?v=1'));
     if (c) return `<img class="pic" src="${webp(c)}" alt="">`;
     if (DRAWN_AS[e.type]) return `<img class="pic" src="${webp(`assets/${DRAWN_AS[e.type]}.png?v=1`)}" alt="">`;
     if (e.kind === 'unit' && (e.type === 'lamanite' || e.def.foe)) return `<img class="pic" src="${webp('assets/cameo_lamanite.png?v=10')}" alt="">`;
@@ -2244,7 +3764,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const bar = d.hp < 99999 ? `<div class="hp"><em style="width:${Math.max(0, e.hp / S.maxHp(e) * 100)}%"></em></div>` : '';
       const doing = e.kind === 'unit' ? ({ gather: 'Gathering ' + (e.order.res || ''), build: 'Building', attack: 'Fighting', move: 'Marching', idle: 'Waiting for orders' }[e.order.type] || '') : e.built < 1 ? 'Being built: ' + Math.floor(e.built * 100) + '%' : '';
       const pic = picOf(e);
-      return `${pic}<div${pic ? '' : ' style="grid-column: 1 / -1"'}><h3>${esc(e.name && e.kind === 'building' ? e.name : d.name)}</h3>${bar}${doing ? `<div class="doing">${esc(doing)}</div>` : ''}</div>` +
+      const title = e.type === 'standard' ? ((e.heroType && D.UNITS[e.heroType] ? D.UNITS[e.heroType].name : 'Captain Moroni') + ' (Standard-bearer)') : (e.name && e.kind === 'building' ? e.name : d.name);
+      return `${pic}<div${pic ? '' : ' style="grid-column: 1 / -1"'}><h3>${esc(title)}</h3>${bar}${doing ? `<div class="doing">${esc(doing)}</div>` : ''}</div>` +
         (e.about || d.about ? `<p class="about">${esc(e.about || d.about)}</p>` : '');
     }
     const count = {};
@@ -2284,6 +3805,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'build:temple': 'assets/cameo_temple.png?v=5',
     'build:smithy': 'assets/cameo_smithy.png?v=1',
     'build:training': 'assets/cameo_training.png?v=1',
+    'build:sawmill': 'assets/cameo_sawmill.png?v=1',
+    'build:quarry': 'assets/cameo_quarry.png?v=1',
+    'build:brickworks': 'assets/cameo_brickworks.png?v=1',
     'train:bearer': 'assets/cameo_bearer.png?v=1',
     'build:tents': 'assets/cameo_tents.png?v=1',
     'build:storetent': 'assets/cameo_storetent.png?v=1',
@@ -2306,7 +3830,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'research:lcimeters': 'assets/cameo_cimeters.png?v=1',
     'research:bows': 'assets/cameo_bows.png?v=1',
     'research:clothing': 'assets/cameo_clothing.png?v=1',
-    'research:ladders': 'assets/cameo_ladders.png?v=1'
+    'research:ladders': 'assets/cameo_ladders.png?v=1',
+    'research:council': 'assets/cameo_council.png?v=1',
+    'research:acropolis': 'assets/cameo_acropolis.png?v=1'
   };
   const BREAKS = Object.fromEntries(['Store-house', 'Watch-tower', 'Swords-man', 'Spear-man', 'Breast-plates', 'Strip-ling', 'cime-ters', 'Bar-racks', 'Earth-quake', 'Con-fusion',
     'cap-tains', 'Jave-lin', 'Gran-ary', 'Sta-bles', 'Sol-diers', 'war-rior', 'throw-er', 'Train-ing', 'Lad-der', 'Pavil-ion', 'Lama-nite', 'Ama-lekite', 'Zora-mite',
@@ -2355,29 +3881,38 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // The tiles are made once and then changed where they stand, so a tap on one is never lost to a redraw.
   const capitalUp = () => W.buildings('p').some(b => b.def.builder && b.built >= 1 && !b.dead);
   function barTiles() {
-    const build = [], train = [];
+    const forts = [], cohorts = [], siege = [];
     if (capitalUp()) {
       const list = W.tech ? (SIDES[W.side('p').side] || SIDES.freemen).build : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
-      for (const t of list) if (!W.whyNotBuild(t)) build.push('build:' + t);
+      for (const t of list) if (!W.whyNotBuild(t)) forts.push('build:' + t);
     }
     const mine = W.buildings('p').filter(b => b.built >= 1 && !b.dead);
     const seenK = new Set(), seenT = new Set();
-    for (const b of mine) for (const k of W.researchAt(b)) if (!W.researched[k] && !seenK.has(k)) { seenK.add(k); build.push('research:' + k); }
+    for (const b of mine) for (const k of W.researchAt(b)) if (!W.researched[k] && !seenK.has(k)) { seenK.add(k); forts.push('research:' + k); }
     for (const b of mine) for (const t of b.def.trains || []) {
       if (seenT.has(t) || !W.visible(UNITS[t])) continue;
       const why = W.whyNotTrain(t);
       if (why && !why.startsWith('Not enough food')) continue;          // like Red Alert: only what you can make now
-      seenT.add(t); train.push('train:' + t);
+      seenT.add(t);
+      if (t === 'cart' || t === 'curelom' || t === 'cumom' || t === 'ram' || t === 'siege') {
+        siege.push('train:' + t);
+      } else {
+        cohorts.push('train:' + t);
+      }
     }
     const h = W.powerHouse('p');
-    if (h) for (const k of Object.keys(POWERS[h.def.powers] || {})) train.push('miracle:' + k);
-    return { build, train };
+    if (h) for (const k of Object.keys(POWERS[h.def.powers] || {})) cohorts.push('miracle:' + k);
+    const build = forts;
+    const train = cohorts.concat(siege);
+    return { forts, cohorts, siege, build, train };
   }
   const tileName = id => { const [act, arg] = id.split(':'); return act === 'build' ? (arg === 'wall' ? 'Walls' : BUILDINGS[arg].name) : act === 'train' ? UNITS[arg].name : act === 'research' ? RESEARCH[arg].name : W.power(arg).name; };
   // Shorter names where the whole one won't fit on a tile (the whole name shows when you hold the mouse over it).
   const SHORT = { 'build:training': 'Training', 'research:stonewalls': 'Walls of stone', 'research:campditch': 'Ditch and bank', 'build:pavilion': 'Pavilion', 'build:wardance': 'War-dance', 'build:shieldtent': 'Shield tent', 'build:hall': "Captains' hall", 'build:rameumptom': 'Rameumptom',
     'miracle:host': "King's call", 'train:amalekite': 'Amalekite', 'train:zoramite': 'Zoramite', 'train:javelin': 'Javelin', 'train:nslinger': 'Slinger', 'train:slinger': 'Slinger',
-    'miracle:fire': 'Pillar of fire', 'miracle:cloud': 'Darkness', 'research:lladders': 'Ladders', 'research:ladders': 'Ladders' };
+    'miracle:fire': 'Pillar of fire', 'miracle:cloud': 'Darkness', 'research:lladders': 'Ladders', 'research:ladders': 'Ladders',
+    'research:council': 'Council platform', 'research:acropolis': 'Zarahemla acropolis',
+    'build:sawmill': 'Timber works', 'build:quarry': 'Stone quarry', 'build:brickworks': 'Cement kiln' };
   function tileHtml(id) {
     const pic = CAMEO_MAP[id], sign = SIGN[id] || (id.startsWith('research:') ? SIGN.research : '');
     const face = pic ? `<img src="${webp(pic)}" alt="">` : sign ? `<i class="ic">${sign}</i>` : '';
@@ -2411,18 +3946,116 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     return { p, n, small, poor, on, ready, going: p > 0 && p < 1 };
   }
+  let activeCmdTab = 'forts';
   let barKey = '', tileEls = new Map();
-  function updateBar() {
+  function updateBar(force) {
     if (!W) return;
-    const { build, train } = barTiles(), key = build.join() + '|' + train.join(), bar = $('cmds');
-    if (key !== barKey || !bar.classList.contains('bar')) {
+    const { forts, cohorts, siege, build, train } = barTiles();
+    const key = [activeCmdTab, forts.join(), cohorts.join(), siege.join()].join('|');
+    const bar = $('cmds');
+    if (!bar) return;
+
+    if (force || key !== barKey || !bar.classList.contains('bar')) {
       barKey = key; bar.classList.add('bar');
       for (const id of build.concat(train)) noteUnlock(id, true);
       const standard = W.units('p').some(u => u.def.deploys);
-      bar.innerHTML = `<div class="bcol"><h4>Build</h4>${build.length ? build.map(tileHtml).join('') : `<div class="note">${standard ? 'Plant the standard of liberty first: choose it, then <b>Plant it here</b>.' : 'Nothing to build yet.'}</div>`}</div>` +
-        `<div class="bcol"><h4>Train</h4>${train.length ? train.map(tileHtml).join('') : '<div class="note">Your people come out of your buildings.</div>'}</div>`;
+
+      const activeList = activeCmdTab === 'forts' ? forts : (activeCmdTab === 'cohorts' ? cohorts : siege);
+      const emptyNote = activeCmdTab === 'forts' ? (standard ? 'Plant the standard of liberty first: choose it, then <b>Plant it here</b>.' : 'Nothing to build yet.') :
+                        activeCmdTab === 'cohorts' ? 'Your warriors and officers come out of your Barracks and Muster Grounds.' :
+                        'Heavy siege beasts, supply carts and engines are raised at your Stables and Quarries.';
+
+      bar.innerHTML = `<div class="cmd-center">` +
+        `<div class="cmd-tabs" role="tablist">` +
+          `<button class="cmd-tab ${activeCmdTab === 'forts' ? 'active' : ''}" data-tab="forts" title="Fortifications, Buildings & Research">` +
+            `<span class="cmd-tab-icon">🏛️</span>` +
+            `<span class="cmd-tab-name">Forts</span>` +
+            `<span class="cmd-tab-badge" id="tabBadgeForts"></span>` +
+          `</button>` +
+          `<button class="cmd-tab ${activeCmdTab === 'cohorts' ? 'active' : ''}" data-tab="cohorts" title="Infantry, Warriors & Powers">` +
+            `<span class="cmd-tab-icon">⚔️</span>` +
+            `<span class="cmd-tab-name">Cohorts</span>` +
+            `<span class="cmd-tab-badge" id="tabBadgeCohorts"></span>` +
+          `</button>` +
+          `<button class="cmd-tab ${activeCmdTab === 'siege' ? 'active' : ''}" data-tab="siege" title="Carts, Beasts & Engines">` +
+            `<span class="cmd-tab-icon">🦣</span>` +
+            `<span class="cmd-tab-name">Siege</span>` +
+            `<span class="cmd-tab-badge" id="tabBadgeSiege"></span>` +
+          `</button>` +
+        `</div>` +
+        `<div class="cmd-queue-banner" id="cmdQueueBanner">` +
+          `<span class="cmd-queue-text" id="cmdQueueText">Command Center · Ready</span>` +
+        `</div>` +
+        `<div class="cmd-tiles" id="cmdTiles">` +
+          `${activeList.length ? activeList.map(tileHtml).join('') : `<div class="note">${emptyNote}</div>`}` +
+        `</div>` +
+      `</div>`;
+
       tileEls = new Map([...bar.querySelectorAll('.bt')].map(el => [el.dataset.cmd, el]));
     }
+
+    // Dynamic queue badge & banner updates (like Red Alert 2 progress progression)
+    let fortsGoing = 0, fortsProgress = 0, fortsItem = '';
+    const rising = W.buildings('p').filter(b => b.built < 1 && !b.dead);
+    if (rising.length) {
+      fortsGoing = rising.length;
+      const topRising = rising.reduce((a, c) => c.id > a.id ? c : a);
+      fortsProgress = Math.round(topRising.built * 100);
+      fortsItem = topRising.def.name;
+    }
+    const R = W.side('p').researching;
+    if (R) {
+      fortsGoing++;
+      if (!fortsItem) {
+        const rDef = RESEARCH[R.key];
+        fortsProgress = Math.round((1 - R.left / (rDef ? rDef.time : 1)) * 100);
+        fortsItem = rDef ? rDef.name : 'Upgrade';
+      }
+    }
+
+    let cohortsGoing = 0, cohortsProgress = 0, cohortsItem = '';
+    let siegeGoing = 0, siegeProgress = 0, siegeItem = '';
+    for (const b of W.buildings('p')) {
+      for (let i = 0; i < b.queue.length; i++) {
+        const q = b.queue[i];
+        const isSiege = q.type === 'cart' || q.type === 'curelom' || q.type === 'cumom' || q.type === 'ram' || q.type === 'siege';
+        const def = UNITS[q.type];
+        const p = def ? Math.round((1 - q.left / def.time) * 100) : 0;
+        if (isSiege) {
+          siegeGoing++;
+          if (!siegeItem) { siegeItem = def ? def.name : q.type; siegeProgress = p; }
+        } else {
+          cohortsGoing++;
+          if (!cohortsItem) { cohortsItem = def ? def.name : q.type; cohortsProgress = p; }
+        }
+      }
+    }
+
+    const bForts = $('tabBadgeForts');
+    if (bForts) {
+      if (fortsGoing > 0) { bForts.className = 'cmd-tab-badge going'; bForts.textContent = `${fortsProgress}%`; bForts.style.display = 'inline-block'; }
+      else { bForts.style.display = 'none'; }
+    }
+    const bCohorts = $('tabBadgeCohorts');
+    if (bCohorts) {
+      if (cohortsGoing > 0) { bCohorts.className = 'cmd-tab-badge going'; bCohorts.textContent = `${cohortsGoing}`; bCohorts.style.display = 'inline-block'; }
+      else { bCohorts.style.display = 'none'; }
+    }
+    const bSiege = $('tabBadgeSiege');
+    if (bSiege) {
+      if (siegeGoing > 0) { bSiege.className = 'cmd-tab-badge going'; bSiege.textContent = `${siegeGoing}`; bSiege.style.display = 'inline-block'; }
+      else { bSiege.style.display = 'none'; }
+    }
+
+    const qText = $('cmdQueueText');
+    if (qText) {
+      const parts = [];
+      if (fortsItem) parts.push(`🏛️ ${fortsItem} (${fortsProgress}%)`);
+      if (cohortsItem) parts.push(`⚔️ ${cohortsItem} (${cohortsProgress}%)`);
+      if (siegeItem) parts.push(`🦣 ${siegeItem} (${siegeProgress}%)`);
+      qText.textContent = parts.length ? parts.join(' · ') : 'Command Center · Ready (Alma 43:19)';
+    }
+
     const nowMs = performance.now();
     for (const [id, el] of tileEls) {
       const s = tileState(id);
@@ -2434,6 +4067,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (el._n !== nv) { el._n = nv; el.querySelector('.n').textContent = nv; }
       if (el._s !== s.small) { el._s = s.small; el.querySelector('small').innerHTML = s.small; }
     }
+    refreshCohortBar();
   }
   // A tap on a tile: place it, train one more, make it, or work it.
   function useTile(id) {
@@ -2488,17 +4122,25 @@ IMG.farm.src = 'assets/farm.png?v=13';
     takeBack(btn.dataset.cmd);
   });
   $('cmds').addEventListener('click', e => {
+    const tabBtn = e.target.closest('.cmd-tab');
+    if (tabBtn) {
+      activeCmdTab = tabBtn.dataset.tab;
+      if (AUDIO) AUDIO.play('tap');
+      updateBar(true);
+      return;
+    }
     const btn = e.target.closest('.bt');
     if (!btn || !W) return;
     if (held) { held = false; return; }
     holdTouch = false;
     useTile(btn.dataset.cmd);
-    updateBar(); refreshPanel(true);
+    updateBar(true); refreshPanel(true);
   });
 
   // Under the chosen one's card: what can be done with it (and, while building or aiming, how, and how to stop).
   function actsHtml(ents) {
     const a = (id, label, cls) => `<button class="act ${cls || ''}" data-cmd="${id}">${SIGN[id] ? `<i>${SIGN[id]}</i>` : ''}<span>${label}</span></button>`;
+    if (aimingRally) return '<p class="hint">Tap where new troops should gather.</p>' + a('cancel', 'Cancel');
     if (aiming) {
       const m = W.power(aiming);
       return `<p class="hint">${m.aim === 'foe' ? 'Tap the enemy it falls on.' : m.aim === 'building' ? 'Tap the enemy building it falls on.' : 'Tap the spot where it falls.'} <i>${esc(m.ref)}</i></p>` + a('cancel', 'Cancel');
@@ -2508,7 +4150,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       return `<p class="hint">${placing === 'wall' ? (touchy ? (wallStart ? 'Now tap where the wall ends.' : 'Tap where the wall starts, then where it ends.') : 'Drag a line on the map for a wall.') + ' Each piece ' + each + '.' : 'Tap the map where the ' + esc(def.name.toLowerCase()) + ' goes.'} Tap one of your people to stop.</p>` +
         (placing === 'wall' ? a('done', 'Done', 'on') : '') + a('cancel', 'Cancel');
     }
-    if (!ents.length) return `<p class="hint minor">Tap your people (or <b>Soldiers</b>), then where they go or what they fight.</p>`;
+    if (!ents.length) return `<p class="hint minor">Tap your people (or <b>Soldiers</b>), then where they go or what they fight.${touchy ? ' Hold a finger still, then drag, to draw a box round them; hold and lift to let them go.' : ''}</p>`;
     const b = ents[0];
     if (b.team !== 'p') {
       if (b.type === 'village') return `<p class="hint">${b.state === 'waiting' ? 'Send a soldier or worker here. When the proclamation reaches ' + esc(b.name) + ', its people march to Zarahemla.' : 'Its people have gone.'}</p>`;
@@ -2519,11 +4161,42 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     if (ents.some(e => e.kind === 'unit')) {
       const home = W.stronghold(), canFall = home && ents.some(e => e.kind === 'unit' && fighterOf(e));
-      return (ents.length === 1 && b.def.deploys ? a('deploy', 'Plant it here', 'go') : '') + (canFall ? a('fallback', 'Fall back') : '') + a('stop', 'Stop') + a('letgo', 'Let go');
+      const soldiers = ents.filter(e => e.kind === 'unit' && fighterOf(e));
+      const hasMelee = soldiers.some(e => !e.def.ranged);
+      const hasRanged = soldiers.some(e => e.def.ranged);
+      let subFilters = '';
+      if (soldiers.length > 1 && hasMelee && hasRanged) {
+        subFilters = a('filtermelee', '🛡️ Frontline') + a('filterranged', '🏹 Ranged');
+      }
+      return (ents.length === 1 && b.def.deploys ? a('deploy', 'Plant it here', 'go') : '') +
+        subFilters +
+        (canFall ? a('fallback', 'Fall back') : '') + a('stop', 'Stop') + a('letgo', 'Let go');
     }
     let h = '';
     if (b.built < 1) h += `<p class="hint minor">It builds itself. Workers sent to it hurry it along.</p>`;
-    else if (b.def.trains) h += `<p class="hint minor">${b.rally ? 'New ones go to the rally point.' : 'Tap the ground to set where new ones go.'}</p>`;
+    else if (b.def.trains) {
+      h += `<p class="hint minor">${b.rally ? 'New recruits march to rally point.' : 'Tap ground or button below to set rally point.'}</p>`;
+      h += a('setrally', b.rally ? '🚩 Move Rally' : '🚩 Set Rally', aimingRally === b.id ? 'on' : '');
+      const curC = b.autoCohort || (b.type === 'stables' ? 3 : (b.type === 'barracks' ? 1 : 1));
+      h += `<div class="cohort-picker"><small>Auto-Assign:</small>` +
+        `<button class="cohort-choice ${curC === 1 ? 'sel' : ''}" data-cmd="autocohort:1">Cohort I</button>` +
+        `<button class="cohort-choice ${curC === 2 ? 'sel' : ''}" data-cmd="autocohort:2">Cohort II</button>` +
+        `<button class="cohort-choice ${curC === 3 ? 'sel' : ''}" data-cmd="autocohort:3">Cohort III</button></div>`;
+    }
+    if (b.type === 'stronghold' && b.built >= 1 && b.team === 'p') {
+      const rKeys = W.researchAt(b);
+      for (const k of rKeys) {
+        const r = RESEARCH[k], S = W.side(b.team);
+        if (r && !S.researched[k]) {
+          if (S.researching && S.researching.key === k) {
+            h += `<p class="hint">Upgrading to ${esc(r.name)}: ${Math.ceil(S.researching.left)}s left</p>`;
+          } else if (!S.researching) {
+            const cost = r.cost, can = W.canAfford(cost);
+            h += a('upgradestronghold:' + k, `Upgrade: ${r.name} (${costHtml(cost)})`, can ? 'go' : 'poor');
+          }
+        }
+      }
+    }
     if (b.def.cost && !b.untouchable) {
       if (b.type === 'wall' && b.built >= 1) { const c = W.costOf(BUILDINGS.gate, 'p', 'build'), why = W.whyNotBuild('gate'); h += a('gatehere', 'Make a gate here ' + (why ? '' : costHtml(c)), why || !W.canAfford(c) ? 'poor' : ''); }
       const armed = armedRemove === b.id;
@@ -2535,10 +4208,35 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const btn = e.target.closest('.act');
     if (!btn || !W) return;
     const act = btn.dataset.cmd, one = selEnts()[0];
-    if (act === 'done' || act === 'cancel') { placing = null; aiming = null; wallLine = null; wallStart = null; }
-    else if (act === 'stop') for (const u of selUnits()) W.order(u, { type: 'idle' });
+    if (act === 'done' || act === 'cancel') { placing = null; aiming = null; aimingRally = null; wallLine = null; wallStart = null; refreshPanel(true); }
+    else if (act === 'setrally' && one) {
+      aimingRally = one.id;
+      toast(`Tap ground to set rally point for ${one.def.name}.`, 'me');
+      refreshPanel(true);
+      return;
+    }
+    else if (act && act.startsWith('autocohort:') && one) {
+      const cId = parseInt(act.slice('autocohort:'.length));
+      one.autoCohort = cId;
+      toast(`New recruits will auto-join Cohort ${cId}.`, 'me');
+      if (AUDIO) AUDIO.play('tap');
+      refreshPanel(true);
+      return;
+    }
+    else if (act === 'filtermelee') {
+      const m = selUnits().filter(u => fighterOf(u) && !u.def.ranged);
+      if (m.length) { setSel(m); if (AUDIO) AUDIO.play('select'); }
+    }
+    else if (act === 'filterranged') {
+      const r = selUnits().filter(u => u.def.ranged);
+      if (r.length) { setSel(r); if (AUDIO) AUDIO.play('select'); }
+    }
+    else if (act === 'stop') {
+      for (const u of selUnits()) W.order(u, { type: 'idle' });
+      if (AUDIO) AUDIO.play('tap');
+    }
     else if (act === 'fallback') {                 // home without stopping to fight: a retreat
-      const h = W.stronghold(); if (h) { moveGroup(selUnits(), tileOf(h.x), h.ty + h.h + 1, false); ping(h.x, h.y, '#93c5fd'); toast('Falling back to ' + (h.type === 'warcamp' ? 'your camp' : 'your city') + '.', 'me'); }
+      const h = W.stronghold(); if (h) { moveGroup(selUnits(), tileOf(h.x), h.ty + h.h + 1, false); ping(h.x, h.y, '#93c5fd'); toast('Falling back to ' + (h.type === 'warcamp' ? 'your camp' : 'your city') + '.', 'me'); if (AUDIO) AUDIO.announce('fallback'); }
     }
     else if (act === 'letgo') return setSel([]);
     else if (act === 'remove' && one) {
@@ -2551,21 +4249,62 @@ IMG.farm.src = 'assets/farm.png?v=13';
         if (W.sell(one)) { toast(`${name} taken down: ${costText(back)} back.`, 'me'); return setSel([]); }
       }
     }
+    else if (act && act.startsWith('upgradestronghold:') && one) {
+      const k = act.slice('upgradestronghold:'.length);
+      if (W.research(one, k)) {
+        toast(`Beginning upgrade: ${RESEARCH[k].name}.`, 'me');
+      } else {
+        const r = RESEARCH[k];
+        if (r) toast(poorText(r.cost), 'warn');
+      }
+    }
     else if (act === 'gatehere' && one) {
       const g = W.place('gate', one.tx, one.ty, []);
       if (g) { toast('A gate goes in where the wall was: your people pass, robbers must break it.', 'me'); return setSel([g]); }
       toast(W.whyNotBuild('gate') ? W.whyNotBuild('gate') + '.' : poorText(W.costOf(BUILDINGS.gate, 'p', 'build')), 'warn');
     }
     else if (act === 'deploy' && one) {
+      const pos = { x: one.x, y: one.y };
       const city = W.deploy(one);
-      if (city) return setSel([city]);
+      if (city) {
+        triggerPlantStandardEffect(city, pos, performance.now());
+        if (AUDIO) {
+          AUDIO.play('plantStandard');
+          AUDIO.announce('deploy');
+        }
+        camShake = 7.0;
+        toast('“In memory of our God, our religion, and freedom, and our peace, our wives, and our children…” (Alma 46:12)', 'good');
+        return setSel([city]);
+      }
       toast('The city needs open ground, 4 by 4. Move the standard to a clear spot.', 'warn');
     }
     refreshPanel(true);
   });
   function showInfo(e) { sel = []; infoEnt = e; placing = null; aiming = null; refreshPanel(true); }
 
-  $('bArmy').onclick = () => { const s = W && W.soldiers(); if (s && s.length) { setSel(s); } };
+  $('bArmy').onclick = () => {
+    if (!W) return;
+    const all = W.soldiers();
+    if (!all || !all.length) return;
+    const current = selUnits();
+    const isAll = current.length === all.length && current.every(u => all.includes(u));
+    const melee = all.filter(u => !u.def.ranged);
+    const ranged = all.filter(u => u.def.ranged);
+    const isMelee = melee.length && current.length === melee.length && current.every(u => melee.includes(u));
+
+    if (!current.length || (!isAll && !isMelee)) {
+      setSel(all);
+      toast(`All soldiers selected (${all.length}). Tap again for Frontline.`, 'tip');
+    } else if (isAll && melee.length) {
+      setSel(melee);
+      toast(`Frontline selected (${melee.length}). Tap again for Ranged.`, 'tip');
+    } else if (ranged.length) {
+      setSel(ranged);
+      toast(`Ranged selected (${ranged.length}). Tap again for All.`, 'tip');
+    } else {
+      setSel(all);
+    }
+  };
   // Your city, where everything is built from; before it's planted, the standard of liberty.
   $('bCity').onclick = () => {
     if (!W) return;
@@ -2575,8 +4314,14 @@ IMG.farm.src = 'assets/farm.png?v=13';
   };
   $('bTemple').onclick = () => { const t = W && W.temple(); if (t) { setSel([t]); lookAt(t.x, t.y); } };
   $('arts').onclick = e => { const k = e.target.dataset && e.target.dataset.art; if (k && ARTIFACTS[k]) toast(ARTIFACTS[k].name + ': ' + ARTIFACTS[k].about, 'me', ARTIFACTS[k].ref); };
-  function setBoxMode(on) { boxMode = on; $('bBox').classList.toggle('on', on); if (on) toast('Now drag on the map to draw a box around people.', 'me'); }
-  $('bBox').onclick = () => setBoxMode(!boxMode);
+  function setHuntMode(on) {
+    huntMode = on;
+    const btn = $('bHunt');
+    if (btn) btn.classList.toggle('on', on);
+    if (on) toast('Attack-Move armed: tap on ground to march and strike on sight.', 'me');
+  }
+  const bHunt = $('bHunt');
+  if (bHunt) bHunt.onclick = () => setHuntMode(!huntMode);
 
   // ------------------------------------------------------------ top bar
 
@@ -2633,6 +4378,24 @@ IMG.farm.src = 'assets/farm.png?v=13';
     });
   }
   function addMsg(text, kind, ref) {
+    if (AUDIO) {
+      if (text.includes('is finished')) AUDIO.announce('buildDone');
+      else if (text.includes('advances to Tier') || text.includes('reaches Tier') || text.includes('Acropolis Citadel is complete')) {
+        AUDIO.play('upgradeCheer');
+      }
+      else if (text.includes('is ready')) {
+        const name = text.replace(' is ready.', '').trim();
+        AUDIO.announce('unitReady', name);
+      } else if (text.startsWith('A ') && text.includes('comes with')) {
+        AUDIO.announce('unitReady');
+      } else if (text.includes('is a veteran')) {
+        AUDIO.announce('valor');
+      } else if (kind === 'warn' && (text.includes('raid') || text.includes('march') || text.includes('gathering') || text.includes('attack') || text.includes('fallen'))) {
+        AUDIO.announce('baseAttack');
+      } else if (kind === 'rule') {
+        AUDIO.play('tap');
+      }
+    }
     const el = document.createElement('div');
     el.className = 'msg ' + (kind || 'story');
     el.dataset.t = performance.now();
@@ -2719,8 +4482,416 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function hideScreen() { const s = $('screen'); s.hidden = true; s.innerHTML = ''; s.onclick = null; syncModal(); }
   function setGameUi(on) {
     for (const id of ['hud', 'panel', 'goals']) $(id).hidden = !on;
+    if ($('cohortBar')) $('cohortBar').hidden = !on;
     document.body.classList.toggle('playing', on);
     if (!on) { $('cry').hidden = true; $('feed').innerHTML = ''; $('rotate').hidden = true; }
+    if (on) refreshCohortBar();
+  }
+
+  function initCohortBar() {
+    const bar = $('cohortBar');
+    if (!bar) return;
+    bar.addEventListener('click', e => {
+      const btn = e.target.closest('.cohort-btn');
+      if (!btn || !W) return;
+      if (btn.id === 'bWarRoom') {
+        openWarRoom();
+        return;
+      }
+      const cId = parseInt(btn.dataset.cohort);
+      if (!cId) return;
+      const cUnits = W.cohortUnits('p', cId);
+      if (!cUnits.length) {
+        toast(`Cohort ${cId} has no soldiers yet. Recruits auto-join from your buildings.`, 'me');
+        return;
+      }
+      const now = performance.now();
+      const isDbl = (now - (btn._lastTap || 0)) < 350;
+      btn._lastTap = now;
+      const alreadySel = cUnits.length === sel.length && cUnits.every(u => sel.includes(u.id));
+      if (alreadySel || isDbl) {
+        let avgX = 0, avgY = 0;
+        for (const u of cUnits) { avgX += u.x; avgY += u.y; }
+        lookAt(avgX / cUnits.length, avgY / cUnits.length);
+        toast(`Centered on Cohort ${cId} (${W.cohorts[cId] ? W.cohorts[cId].name : ''}).`, 'me');
+      } else {
+        setSel(cUnits);
+        if (AUDIO) AUDIO.play('select');
+        toast(`Selected Cohort ${cId} (${cUnits.length} units).`, 'me');
+      }
+      refreshCohortBar();
+    });
+  }
+
+  function refreshCohortBar() {
+    const bar = $('cohortBar');
+    if (!bar || !W) return;
+    for (const cId of [1, 2, 3]) {
+      const cntEl = $(`cohortCnt${cId}`);
+      if (cntEl) {
+        const n = W.cohortUnits('p', cId).length;
+        cntEl.textContent = String(n);
+      }
+      const btn = bar.querySelector(`[data-cohort="${cId}"]`);
+      if (btn) {
+        const cUnits = W.cohortUnits('p', cId);
+        const isSel = cUnits.length > 0 && cUnits.length === sel.length && cUnits.every(u => sel.includes(u.id));
+        btn.classList.toggle('sel', isSel);
+      }
+    }
+  }
+
+  function openWarRoom() {
+    if (!W) return;
+    let activeWpCohort = 1;
+    let chosenForm = (W.cohorts[1] && W.cohorts[1].formation) || 'phalanx';
+    let chosenSpeed = (W.cohorts[1] && W.cohorts[1].speedLock) ? 'lock' : 'free';
+    let chosenRule = (W.cohorts[1] && W.cohorts[1].rule) || 'hunt';
+    let chosenHp = (W.cohorts[1] && W.cohorts[1].healthThreshold) || 50;
+
+    const cohortWps = { 1: [], 2: [], 3: [] };
+    for (const cId of [1, 2, 3]) {
+      const units = W.cohortUnits('p', cId);
+      if (units.length && units[0].order && units[0].order.waypoints && units[0].order.waypoints.length) {
+        cohortWps[cId] = units[0].order.waypoints.map(wp => ({ x: wp.x, y: wp.y }));
+      }
+    }
+
+    const html = `<div class="dialog warRoomCard">` +
+      `<div class="kicker">Strategic Command · Alma 43:30</div>` +
+      `<h2>Nephite War Room & Strategy Architect</h2>` +
+      `<p class="sub">Organize your cohorts, plot tactical waypoints, and coordinate battle doctrine.</p>` +
+
+      `<div class="war-cohort-tabs" role="tablist">` +
+        `<button class="war-tab ${activeWpCohort === 1 ? 'active' : ''}" data-cohort="1">` +
+          `<span class="c-badge c1">I</span>` +
+          `<b>Cohort I: Vanguard</b>` +
+          `<small>(${W.cohortUnits('p', 1).length} units)</small>` +
+        `</button>` +
+        `<button class="war-tab ${activeWpCohort === 2 ? 'active' : ''}" data-cohort="2">` +
+          `<span class="c-badge c2">II</span>` +
+          `<b>Cohort II: Skirmishers</b>` +
+          `<small>(${W.cohortUnits('p', 2).length} units)</small>` +
+        `</button>` +
+        `<button class="war-tab ${activeWpCohort === 3 ? 'active' : ''}" data-cohort="3">` +
+          `<span class="c-badge c3">III</span>` +
+          `<b>Cohort III: Siege & Supply</b>` +
+          `<small>(${W.cohortUnits('p', 3).length} units)</small>` +
+        `</button>` +
+      `</div>` +
+
+      `<div class="war-map-section">` +
+        `<div class="war-map-header">` +
+          `<span>Tactical Map · Tap to set sequential waypoints</span>` +
+          `<div class="war-map-actions">` +
+            `<button class="btn small" id="bUndoWp" style="padding:2px 8px;font-size:11px;">↶ Undo</button>` +
+            `<button class="btn small" id="bClearWp" style="padding:2px 8px;font-size:11px;">✕ Clear</button>` +
+          `</div>` +
+        `</div>` +
+        `<div class="war-map-wrap">` +
+          `<canvas id="warMapCanvas" width="560" height="240"></canvas>` +
+        `</div>` +
+        `<div class="war-route-info" id="warRouteInfo">` +
+          `Tap anywhere on the tactical map to plot sequential waypoints for Cohort ${activeWpCohort}.` +
+        `</div>` +
+      `</div>` +
+
+      `<div class="war-settings-grid">` +
+        `<div class="war-setting-col">` +
+          `<h4>Formation</h4>` +
+          `<div class="war-btn-group" id="formPicker">` +
+            `<button class="form-btn ${chosenForm === 'phalanx' ? 'sel' : ''}" data-form="phalanx" title="Melee front row, archers behind, curelom in center">🛡️ Phalanx</button>` +
+            `<button class="form-btn ${chosenForm === 'wedge' ? 'sel' : ''}" data-form="wedge" title="Spearhead arrowhead penetration">⚔️ Wedge</button>` +
+            `<button class="form-btn ${chosenForm === 'line' ? 'sel' : ''}" data-form="line" title="Wide battle line abreast">🏹 Line</button>` +
+            `<button class="form-btn ${chosenForm === 'column' ? 'sel' : ''}" data-form="column" title="Double file road march">📜 Column</button>` +
+            `<button class="form-btn ${chosenForm === 'escort' ? 'sel' : ''}" data-form="escort" title="Defensive ring protecting beasts & supply">🦣 Escort</button>` +
+          `</div>` +
+        `</div>` +
+
+        `<div class="war-setting-col">` +
+          `<h4>Pace & Doctrine</h4>` +
+          `<div class="war-btn-group" id="speedPicker">` +
+            `<button class="rule-btn ${chosenSpeed === 'lock' ? 'sel' : ''}" data-speed="lock" title="Squad matches the speed of its slowest unit (e.g. Curelom)">🦣 Lock to Slowest</button>` +
+            `<button class="rule-btn ${chosenSpeed === 'free' ? 'sel' : ''}" data-speed="free" title="Each unit sprints at full speed">⚡ Fast Sprint</button>` +
+          `</div>` +
+          `<div class="war-btn-group" style="margin-top:6px" id="rulePicker">` +
+            `<button class="rule-btn ${chosenRule === 'hunt' ? 'sel' : ''}" data-rule="hunt" title="Engage any enemy sighted on march">⚔️ Aggressive Hunt</button>` +
+            `<button class="rule-btn ${chosenRule === 'speed' ? 'sel' : ''}" data-rule="speed" title="March swiftly past distractions">🏃 Speed March</button>` +
+          `</div>` +
+        `</div>` +
+
+        `<div class="war-setting-col">` +
+          `<h4>Break March HP Threshold</h4>` +
+          `<div class="war-btn-group" id="hpPicker">` +
+            `<button class="rule-btn ${chosenHp === 25 ? 'sel' : ''}" data-hp="25">25% HP</button>` +
+            `<button class="rule-btn ${chosenHp === 50 ? 'sel' : ''}" data-hp="50">50% HP</button>` +
+            `<button class="rule-btn ${chosenHp === 75 ? 'sel' : ''}" data-hp="75">75% HP</button>` +
+          `</div>` +
+          `<small style="display:block;margin-top:4px;color:var(--dim)">If squad health drops below threshold, break march and defend!</small>` +
+        `</div>` +
+      `</div>` +
+
+      `<div class="war-footer">` +
+        `<button class="btn" data-close>Cancel</button>` +
+        `<button class="btn go gold-shofar" id="bExecMission">🎺 Sound Shofar & Execute Mission</button>` +
+      `</div>` +
+    `</div>`;
+
+    const d = openDialog(html);
+    const canvas = d.querySelector('#warMapCanvas');
+    if (!canvas) return;
+    const wctx = canvas.getContext('2d');
+
+    function renderWarMap() {
+      const cw = canvas.width, ch = canvas.height;
+      wctx.fillStyle = '#0f172a';
+      wctx.fillRect(0, 0, cw, ch);
+
+      wctx.drawImage(terrain, 0, 0, cw, ch);
+
+      for (let ty = 0; ty < MAP_H; ty += 2) {
+        for (let tx = 0; tx < MAP_W; tx += 2) {
+          if (!explored[ty * MAP_W + tx]) {
+            const p = toIso((tx + 1) * TILE, (ty + 1) * TILE);
+            const cx = (p.ix / TERR_W) * cw, cy = (p.iy / TERR_H) * ch;
+            wctx.fillStyle = 'rgba(8, 12, 24, 0.75)';
+            wctx.fillRect(cx - 6, cy - 4, 12, 8);
+          }
+        }
+      }
+
+      for (const b of W.buildings('p')) {
+        const bp = toIso((b.tx + b.w * 0.5) * TILE, (b.ty + b.h * 0.5) * TILE);
+        const bx = (bp.ix / TERR_W) * cw, by = (bp.iy / TERR_H) * ch;
+        wctx.fillStyle = '#38bdf8';
+        wctx.beginPath();
+        wctx.arc(bx, by, 3.5, 0, 7);
+        wctx.fill();
+      }
+
+      for (const u of W.units('r')) {
+        if (!inVision(u.x, u.y)) continue;
+        const up = toIso(u.x, u.y);
+        const ux = (up.ix / TERR_W) * cw, uy = (up.iy / TERR_H) * ch;
+        wctx.fillStyle = '#ef4444';
+        wctx.beginPath();
+        wctx.arc(ux, uy, 2.5, 0, 7);
+        wctx.fill();
+      }
+
+      const cohortColors = { 1: '#ef4444', 2: '#3b82f6', 3: '#f59e0b' };
+      for (const cId of [1, 2, 3]) {
+        const units = W.cohortUnits('p', cId);
+        const col = cohortColors[cId];
+        const isCurrent = cId === activeWpCohort;
+
+        let squadX = 0, squadY = 0;
+        if (units.length) {
+          for (const u of units) { squadX += u.x; squadY += u.y; }
+          squadX /= units.length; squadY /= units.length;
+          const sp = toIso(squadX, squadY);
+          const sx = (sp.ix / TERR_W) * cw, sy = (sp.iy / TERR_H) * ch;
+
+          wctx.fillStyle = col;
+          wctx.beginPath();
+          wctx.arc(sx, sy, isCurrent ? 6 : 4, 0, 7);
+          wctx.fill();
+          wctx.strokeStyle = '#fff';
+          wctx.lineWidth = 1.2;
+          wctx.stroke();
+
+          wctx.font = 'bold 8px Outfit, sans-serif';
+          wctx.fillStyle = '#fff';
+          wctx.textAlign = 'center';
+          wctx.textBaseline = 'middle';
+          wctx.fillText(cId === 1 ? 'I' : cId === 2 ? 'II' : 'III', sx, sy);
+
+          const wps = cohortWps[cId] || [];
+          if (wps.length) {
+            wctx.strokeStyle = col;
+            wctx.lineWidth = isCurrent ? 2.2 : 1.2;
+            wctx.setLineDash(isCurrent ? [5, 4] : [3, 3]);
+            wctx.beginPath();
+            wctx.moveTo(sx, sy);
+            for (const wp of wps) {
+              const wpIso = toIso(wp.x, wp.y);
+              wctx.lineTo((wpIso.ix / TERR_W) * cw, (wpIso.iy / TERR_H) * ch);
+            }
+            wctx.stroke();
+            wctx.setLineDash([]);
+
+            wps.forEach((wp, idx) => {
+              const wpIso = toIso(wp.x, wp.y);
+              const wx = (wpIso.ix / TERR_W) * cw, wy = (wpIso.iy / TERR_H) * ch;
+              wctx.fillStyle = col;
+              wctx.beginPath();
+              wctx.arc(wx, wy, isCurrent ? 5 : 3.5, 0, 7);
+              wctx.fill();
+              wctx.strokeStyle = '#fff';
+              wctx.lineWidth = 1;
+              wctx.stroke();
+
+              wctx.font = 'bold 7px Outfit, sans-serif';
+              wctx.fillStyle = '#fff';
+              wctx.textAlign = 'center';
+              wctx.textBaseline = 'middle';
+              wctx.fillText(String(idx + 1), wx, wy);
+            });
+          }
+        }
+      }
+
+      const rInfo = d.querySelector('#warRouteInfo');
+      if (rInfo) {
+        const wps = cohortWps[activeWpCohort] || [];
+        const uCount = W.cohortUnits('p', activeWpCohort).length;
+        if (!wps.length) {
+          rInfo.innerHTML = `Cohort ${activeWpCohort} (${uCount} units): <b>0 waypoints</b>. Tap the map to plot a route.`;
+        } else {
+          rInfo.innerHTML = `Cohort ${activeWpCohort} (${uCount} units): <b>${wps.length} waypoints</b> plotted. Formation: <b>${chosenForm.toUpperCase()}</b> · Pace: <b>${chosenSpeed === 'lock' ? 'Match Slowest' : 'Sprint'}</b>.`;
+        }
+      }
+    }
+
+    renderWarMap();
+
+    canvas.addEventListener('click', e => {
+      const rect = canvas.getBoundingClientRect();
+      const clickCx = (e.clientX - rect.left) * (canvas.width / rect.width);
+      const clickCy = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+      const isoX = (clickCx / canvas.width) * TERR_W;
+      const isoY = (clickCy / canvas.height) * TERR_H;
+
+      const relX = isoX - ISO_OFFSET_X;
+      const relY = isoY - PAD;
+      const worldX = relX + 2 * relY;
+      const worldY = 2 * relY - relX;
+
+      const clampedX = Math.max(16, Math.min(MAP_W * TILE - 16, worldX));
+      const clampedY = Math.max(16, Math.min(MAP_H * TILE - 16, worldY));
+
+      cohortWps[activeWpCohort].push({ x: clampedX, y: clampedY });
+      if (AUDIO) AUDIO.play('tap');
+      renderWarMap();
+    });
+
+    d.querySelectorAll('.war-tab').forEach(b => {
+      b.onclick = () => {
+        activeWpCohort = parseInt(b.dataset.cohort);
+        d.querySelectorAll('.war-tab').forEach(t => t.classList.toggle('active', parseInt(t.dataset.cohort) === activeWpCohort));
+        const cConfig = W.cohorts[activeWpCohort];
+        if (cConfig) {
+          chosenForm = cConfig.formation || 'phalanx';
+          chosenSpeed = cConfig.speedLock ? 'lock' : 'free';
+          chosenRule = cConfig.rule || 'hunt';
+          chosenHp = cConfig.healthThreshold || 50;
+          d.querySelectorAll('.form-btn').forEach(fb => fb.classList.toggle('sel', fb.dataset.form === chosenForm));
+          d.querySelectorAll('#speedPicker .rule-btn').forEach(sb => sb.classList.toggle('sel', sb.dataset.speed === chosenSpeed));
+          d.querySelectorAll('#rulePicker .rule-btn').forEach(rb => rb.classList.toggle('sel', rb.dataset.rule === chosenRule));
+          d.querySelectorAll('#hpPicker .rule-btn').forEach(hb => hb.classList.toggle('sel', parseInt(hb.dataset.hp) === chosenHp));
+        }
+        if (AUDIO) AUDIO.play('tap');
+        renderWarMap();
+      };
+    });
+
+    d.querySelector('#bUndoWp').onclick = () => {
+      cohortWps[activeWpCohort].pop();
+      if (AUDIO) AUDIO.play('tap');
+      renderWarMap();
+    };
+    d.querySelector('#bClearWp').onclick = () => {
+      cohortWps[activeWpCohort] = [];
+      if (AUDIO) AUDIO.play('tap');
+      renderWarMap();
+    };
+
+    d.querySelectorAll('.form-btn').forEach(b => {
+      b.onclick = () => {
+        chosenForm = b.dataset.form;
+        d.querySelectorAll('.form-btn').forEach(fb => fb.classList.toggle('sel', fb === b));
+        if (AUDIO) AUDIO.play('tap');
+        renderWarMap();
+      };
+    });
+
+    d.querySelectorAll('#speedPicker .rule-btn').forEach(b => {
+      b.onclick = () => {
+        chosenSpeed = b.dataset.speed;
+        d.querySelectorAll('#speedPicker .rule-btn').forEach(sb => sb.classList.toggle('sel', sb === b));
+        if (AUDIO) AUDIO.play('tap');
+        renderWarMap();
+      };
+    });
+
+    d.querySelectorAll('#rulePicker .rule-btn').forEach(b => {
+      b.onclick = () => {
+        chosenRule = b.dataset.rule;
+        d.querySelectorAll('#rulePicker .rule-btn').forEach(rb => rb.classList.toggle('sel', rb === b));
+        if (AUDIO) AUDIO.play('tap');
+        renderWarMap();
+      };
+    });
+
+    d.querySelectorAll('#hpPicker .rule-btn').forEach(b => {
+      b.onclick = () => {
+        chosenHp = parseInt(b.dataset.hp);
+        d.querySelectorAll('#hpPicker .rule-btn').forEach(hb => hb.classList.toggle('sel', hb === b));
+        if (AUDIO) AUDIO.play('tap');
+        renderWarMap();
+      };
+    });
+
+    d.querySelector('#bExecMission').onclick = () => {
+      let dispatched = 0;
+      for (const cId of [1, 2, 3]) {
+        const wps = cohortWps[cId];
+        const units = W.cohortUnits('p', cId);
+        if (!wps || !wps.length || !units.length) continue;
+
+        if (!W.cohorts) W.cohorts = {};
+        W.cohorts[cId] = {
+          name: cId === 1 ? 'Vanguard' : cId === 2 ? 'Skirmishers' : 'Siege & Supply',
+          formation: chosenForm,
+          speedLock: chosenSpeed === 'lock',
+          rule: chosenRule,
+          healthThreshold: chosenHp
+        };
+
+        const heading = Math.atan2(wps[0].y - (units[0].y || 0), wps[0].x - (units[0].x || 0));
+        const offsets = computeFormationOffsets(chosenForm, units, heading);
+
+        units.forEach((u, i) => {
+          const off = offsets[i] || { x: 0, y: 0 };
+          const unitWps = wps.map(wp => ({
+            x: Math.max(16, Math.min(MAP_W * TILE - 16, wp.x + off.x)),
+            y: Math.max(16, Math.min(MAP_H * TILE - 16, wp.y + off.y))
+          }));
+          const first = unitWps[0];
+          u.cohort = cId;
+          u.order = {
+            type: 'move',
+            target: null,
+            rule: chosenRule,
+            healthThreshold: chosenHp,
+            waypoints: unitWps.slice(1)
+          };
+          u.path = W.findPath(u.x, u.y, first.x, first.y, u.def.move);
+        });
+        dispatched++;
+      }
+
+      if (dispatched === 0) {
+        toast('Plot at least one waypoint on the map for a cohort before sounding the shofar.', 'warn');
+        return;
+      }
+
+      if (AUDIO) AUDIO.play('cohortHorn');
+      toast(`Shofar sounded! ${dispatched} cohort(s) marching in ${chosenForm.toUpperCase()} formation.`, 'me');
+      closeDialog();
+      refreshPanel(true);
+    };
   }
 
   const starsHtml = n => `<span class="stars">${[1, 2, 3].map(k => `<span class="${k <= n ? '' : 'off'}">★</span>`).join('')}</span>`;
@@ -2757,6 +4928,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Off the battlefield: the game in progress is saved first (it can be continued from the opening page).
   function leaveGame() {
     if (W && !W.over) autosave();
+    if (AUDIO && AUDIO.stopAmbience) AUDIO.stopAmbience();
     W = null; mission = null; sel = []; placing = null; aiming = null;
     setGameUi(false);
     dropGuard();
@@ -2807,6 +4979,224 @@ IMG.farm.src = 'assets/farm.png?v=13';
     };
   }
 
+  let currentMapTab = 'tactical';
+  let activePoiId = null;
+
+  const WORLD_POIS = [
+    {
+      id: 'lehi',
+      x: 50, y: 642, w: 260, h: 88,
+      name: "Lehi's Landing & First Inheritance",
+      ref: 'Alma 22:28 · 1 Nephi 18',
+      chapter: '1 Nephi 18',
+      short: "Lehi's family landed on the Sea West seashore, pitched their tents, and planted seeds in abundance. Here Nephi fled from his brethren upward into the mountains."
+    },
+    {
+      id: 'nephi',
+      x: 672, y: 622, w: 165, h: 58,
+      name: 'City of Lehi-Nephi',
+      ref: '2 Nephi 5:5–8 · Mosiah 9',
+      chapter: '2 Nephi 5',
+      short: 'The ancestral highland valley where Nephi built a temple after the manner of Solomon; later reclaimed by Zeniff, Noah, and Limhi.'
+    },
+    {
+      id: 'mormon',
+      x: 990, y: 615, w: 180, h: 55,
+      name: 'Waters & Forest of Mormon',
+      ref: 'Mosiah 18:4–30',
+      chapter: 'Mosiah 18',
+      short: "A secluded fountain of pure water bordered by a thicket of small trees where Alma preached and baptized 204 souls into Christ's covenant."
+    },
+    {
+      id: 'zarahemla',
+      x: 526, y: 416, w: 118, h: 66,
+      name: 'City of Zarahemla',
+      ref: 'Omni 1:13 · Alma 2:15',
+      chapter: 'Alma 2',
+      short: 'The walled capitol on the west bank of River Sidon, seat of the Chief Judge, and cultural heart of the Nephite nation.'
+    },
+    {
+      id: 'gideon',
+      x: 820, y: 418, w: 140, h: 52,
+      name: 'Valley of Gideon',
+      ref: 'Alma 6:7 · Alma 14',
+      chapter: 'Alma 6',
+      short: 'Fertile valley across the River Sidon on the east bank, named after the faithful patriot who withstood King Noah and Korihor.'
+    },
+    {
+      id: 'noah',
+      x: 450, y: 350, w: 120, h: 46,
+      name: 'City of Noah',
+      ref: 'Alma 49:12–25',
+      chapter: 'Alma 49',
+      short: 'Fortified by Captain Moroni with high earthen ramparts, deep ditches, and timber pickets, completely thwarting the Lamanite assault.'
+    },
+    {
+      id: 'antiparah',
+      x: 275, y: 442, w: 115, h: 34,
+      name: 'Antiparah & Southwest Frontier',
+      ref: 'Alma 53 · Alma 56',
+      chapter: 'Alma 56',
+      short: 'Stone mountain fortress near Sea West where Helaman and his 2,000 stripling warriors led the Lamanites on a decoy march.'
+    },
+    {
+      id: 'neck',
+      x: 550, y: 276, w: 290, h: 36,
+      name: 'The Narrow Neck of Land & Pass',
+      ref: 'Alma 22:32 · Alma 52:9',
+      chapter: 'Alma 22',
+      short: "A day and a half's journey from Sea East to Sea West. The continental chokepoint heavily guarded by Moroni and Teancum."
+    },
+    {
+      id: 'hagoth',
+      x: 382, y: 286, w: 135, h: 42,
+      name: 'Ship of Hagoth & West Sea Launch',
+      ref: 'Alma 63:5–8',
+      chapter: 'Alma 63',
+      short: 'An exceedingly curious man built large ships launched into the West Sea by the narrow neck, carrying Nephites into the land northward.'
+    },
+    {
+      id: 'cumorah',
+      x: 752, y: 168, w: 130, h: 44,
+      name: 'Hill Cumorah & Land of Desolation',
+      ref: 'Mormon 6:6 · Ether 15:11',
+      chapter: 'Mormon 6',
+      short: 'Ancient hill where both the Jaredite and Nephite civilizations made their final stands, and where sacred records were hidden.'
+    }
+  ];
+
+  function worldMapHtml() {
+    let poisHtml = '';
+    for (const p of WORLD_POIS) {
+      const active = activePoiId === p.id;
+      poisHtml += `<g class="poiNode ${active ? 'active' : ''}" data-poi="${p.id}" role="button" tabindex="0" aria-label="${esc(p.name)}">
+        <!-- Exact glowing gold text calligraphy directly illuminating city name -->
+        <image href="assets/text_glow_${p.id}.webp" xlink:href="assets/text_glow_${p.id}.webp" x="${p.x}" y="${p.y}" width="${p.w}" height="${p.h}" class="poiTextGlow" onerror="this.setAttribute('href','assets/text_glow_${p.id}.png');this.setAttribute('xlink:href','assets/text_glow_${p.id}.png')"/>
+        <!-- Generous transparent hit area for easy tapping on touch screens -->
+        <rect x="${p.x - 8}" y="${p.y - 6}" width="${p.w + 16}" height="${p.h + 12}" fill="transparent" class="poiHitbox"/>
+      </g>`;
+    }
+
+    return `<div class="campMapWrap">
+      <svg class="campMapSvg" viewBox="0 0 1376 768" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <image href="assets/world_map.webp" xlink:href="assets/world_map.webp" x="0" y="0" width="1376" height="768" onerror="this.setAttribute('href','assets/world_map.jpg');this.setAttribute('xlink:href','assets/world_map.jpg')"/>
+        ${poisHtml}
+      </svg>
+    </div>`;
+  }
+
+  function activePoiCardHtml() {
+    if (!activePoiId) return '';
+    const p = WORLD_POIS.find(x => x.id === activePoiId);
+    if (!p) return '';
+    return `<div class="poiCard">
+      <h3>
+        <span>📜 ${esc(p.name)}</span>
+        <span class="poiRef">${esc(p.ref)}</span>
+      </h3>
+      <p>${esc(p.short)}</p>
+      <div class="row">
+        ${p.chapter ? `<button class="btn go" data-read="${esc(p.chapter)}">📖 Read ${esc(p.chapter)}</button>` : ''}
+        <button class="btn" data-close-poi>✕ Close</button>
+      </div>
+    </div>`;
+  }
+
+  function campaignMapHtml() {
+    const coords = {
+      m3: { cx: 770, cy: 535, label: 'River Sidon', num: 1, ref: 'Alma 43–44', labelY: 596, refY: 616 },
+      m4: { cx: 126, cy: 410, label: 'Standard Raised', num: 2, ref: 'Alma 46', labelY: 472, refY: 492 },
+      m5: { cx: 675, cy: 230, label: 'City of Noah', num: 3, ref: 'Alma 48–49', labelY: 165, refY: 185 },
+      m6: { cx: 250, cy: 600, label: 'Antiparah', num: 4, ref: 'Alma 53, 56', labelY: 664, refY: 684 },
+      m1: { cx: 590, cy: 410, label: 'Zarahemla', num: 5, ref: '3 Nephi 3', labelY: 345, refY: 365 },
+      m2: { cx: 1160, cy: 330, label: 'Northern Passes', num: 6, ref: '3 Nephi 4', labelY: 265, refY: 285 }
+    };
+
+    let nodes = '';
+    for (const m of MISSIONS) {
+      const pos = coords[m.id];
+      if (!pos) continue;
+      const stars = save.won[m.id] || 0;
+      const active = !stars;
+      const starY = (pos.labelY > pos.cy) ? (pos.cy - 46) : (pos.cy + 52);
+      nodes += `<g class="mapNode ${active ? 'active' : ''}" data-node="${m.id}" role="button" aria-label="${esc(m.title)}">
+        <!-- Glowing candlelight aura -->
+        <circle cx="${pos.cx}" cy="${pos.cy}" r="48" class="sealGlow" fill="rgba(217,119,6,0.28)" opacity="0"/>
+        <!-- Outer Crimson Wax Seal with seal rim edge -->
+        <circle cx="${pos.cx}" cy="${pos.cy}" r="32" fill="url(#sealWax)" stroke="#4a0e0e" stroke-width="2.2"/>
+        <!-- Burnished Gold Inner Rim -->
+        <circle cx="${pos.cx}" cy="${pos.cy}" r="26" class="sealRim" fill="none" stroke="#d97706" stroke-width="2.2"/>
+        <!-- Aged Vellum Core Disc -->
+        <circle cx="${pos.cx}" cy="${pos.cy}" r="22" class="core" fill="#fdfaf3" stroke="#2c1608" stroke-width="1.4"/>
+        <!-- Mission Number in Cinzel Roman Serif -->
+        <text x="${pos.cx}" y="${pos.cy + 7.5}" text-anchor="middle" fill="#2c1608" font-family="'Cinzel', 'Georgia', serif" font-weight="900" font-size="21">${pos.num}</text>
+        <!-- Label above/below with parchment halo -->
+        <text x="${pos.cx}" y="${pos.labelY}" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-weight="800" font-size="18" fill="#2c1608" style="paint-order: stroke fill; stroke: #f6eedb; stroke-width: 6px; stroke-linejoin: round;">${esc(pos.label)}</text>
+        <!-- Scripture Ref with parchment halo in rubricated red -->
+        <text x="${pos.cx}" y="${pos.refY}" text-anchor="middle" font-family="'Cinzel', 'Georgia', serif" font-weight="700" font-size="14.5" fill="#8b1e0f" font-style="italic" style="paint-order: stroke fill; stroke: #f6eedb; stroke-width: 5px; stroke-linejoin: round;">${esc(pos.ref)}</text>
+        <!-- Stars -->
+        ${stars ? `<text x="${pos.cx}" y="${starY}" text-anchor="middle" fill="#b45309" font-size="22" font-weight="900" style="paint-order: stroke fill; stroke: #f6eedb; stroke-width: 4.5px;">${'★'.repeat(stars)}</text>` : ''}
+      </g>`;
+    }
+
+    return `<div class="campMapWrap">
+      <svg class="campMapSvg" viewBox="0 0 1376 768" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <defs>
+          <!-- Crimson wax seal radial gradient -->
+          <radialGradient id="sealWax" cx="40%" cy="35%" r="65%">
+            <stop offset="0%" stop-color="#dc2626"/>
+            <stop offset="55%" stop-color="#991b1b"/>
+            <stop offset="100%" stop-color="#450a0a"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Hand-Painted Tolkien Middle-earth Cartography Painting -->
+        <image href="assets/middle_earth_map.webp" xlink:href="assets/middle_earth_map.webp" x="0" y="0" width="1376" height="768" onerror="this.setAttribute('href','assets/middle_earth_map.jpg');this.setAttribute('xlink:href','assets/middle_earth_map.jpg')"/>
+
+        <!-- Hand-Drawn March Route (Crimson Ink Dotted Trail) -->
+        <path d="M 770 535 C 600 660, 300 520, 126 410 C 180 260, 460 170, 675 230 C 580 340, 380 480, 250 600 C 350 690, 460 520, 590 410 C 760 380, 960 350, 1160 330" stroke="#991b1b" stroke-width="4.5" stroke-dasharray="6 8" fill="none" opacity="0.8" stroke-linecap="round"/>
+
+        <!-- Interactive Mission Wax Seals & Labels -->
+        ${nodes}
+      </svg>
+    </div>`;
+  }
+
+  function perksHtml() {
+    const tot = totalStars(), avail = availableStars(), spent = spentStars();
+    const perkEntries = Object.values(D.PERKS || {});
+    const items = perkEntries.map(p => {
+      const active = (save.perks || []).includes(p.id);
+      const canAfford = avail >= p.stars;
+      const statusBtn = active
+        ? `<button class="btn go perkActive" data-perk-refund="${esc(p.id)}">✓ Active · Reclaim</button>`
+        : canAfford
+          ? `<button class="btn go" data-perk-unlock="${esc(p.id)}">Invoke (${'★'.repeat(p.stars)})</button>`
+          : `<button class="btn disabled" disabled>Needs ${p.stars - avail} more ★</button>`;
+      return `<div class="perkCard ${active ? 'active' : ''}">
+        <div class="perkHead">
+          <b>${esc(p.name)}</b>
+          <span class="perkStars">${'★'.repeat(p.stars)}</span>
+        </div>
+        <div class="perkRef">${refBtn(p.ref)}</div>
+        <p class="perkAbout">${esc(p.about)}</p>
+        <div class="perkAction">${statusBtn}</div>
+      </div>`;
+    }).join('');
+
+    return `<details class="perksDrawer" ${spent > 0 ? 'open' : ''}>
+      <summary class="perksSummary">
+        <span class="pSumTitle">🛡️ Blessings &amp; Relics of Liberty</span>
+        <span class="pSumBadge">★ ${tot} won · <b>★ ${avail} available</b></span>
+      </summary>
+      <div class="perksBody">
+        <p class="perksIntro">Invest stars won in battle to invoke enduring blessings across your campaign missions. You can reclaim your stars anytime to try different combinations.</p>
+        <div class="perksGrid">${items}</div>
+        ${spent > 0 ? `<div class="row" style="margin-top:10px"><button class="btn" id="bResetPerks">Reclaim All Stars (${spent}★)</button></div>` : ''}
+      </div>
+    </details>`;
+  }
+
   // Story missions: the campaigns, each mission a card. Every one is open; reading its chapters first brings a gift.
   function storyScreen() {
     leaveGame();
@@ -2814,7 +5204,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const stars = save.won[m.id] || 0;
       const unread = chaptersOf(m).filter(c => !save.read[c]);
       const why = unread.length ? `Read ${unread.join(' and ')} first: you start with a gift of grain and timber, and the council asks about it.` : '';
-      return `<div class="card">
+      return `<div class="card" id="card-${m.id}">
         <div class="kicker">Mission ${inCampaign(m).indexOf(m) + 1} · ${esc(m.chapter)}</div>
         <h2>${esc(m.title)}</h2>
         ${stars ? starsHtml(stars) : ''}
@@ -2825,13 +5215,88 @@ IMG.farm.src = 'assets/farm.png?v=13';
           ${chaptersOf(m).map(c => `<button class="btn" data-read="${esc(c)}">${save.read[c] ? 'Read ' + esc(c) + ' again' : 'Read ' + esc(c)}</button>`).join('')}
         </div></div>`;
     };
+    const mapSection = `<div class="mapTabs">
+      <button class="mapTab ${currentMapTab === 'tactical' ? 'active' : ''}" data-maptab="tactical">⚔️ Wars of Liberty Campaign</button>
+      <button class="mapTab ${currentMapTab === 'world' ? 'active' : ''}" data-maptab="world">📜 Lands of the Book of Mormon</button>
+    </div>
+    ${currentMapTab === 'tactical' ? campaignMapHtml() : worldMapHtml()}
+    ${currentMapTab === 'world' ? activePoiCardHtml() : ''}`;
     const s = showScreen(`${modeHead(ART.story, 'Follow the chapters', 'Story missions')}<div class="wrap mode">
+      ${mapSection}
+      ${perksHtml()}
       ${CAMPAIGNS.map(c => `<h2 class="camp">${esc(c.title)}</h2><p class="camp-about">${esc(c.about)}</p><div class="cards">${MISSIONS.filter(m => m.campaign === c.id).map(card).join('')}</div>`).join('')}
       <div class="row"><button class="btn" data-how>How to play</button></div></div>`);
     $('mBack').onclick = home;
     s.onclick = e => {
-      const r = e.target.closest('[data-read]'), p = e.target.closest('[data-play]');
+      const r = e.target.closest('[data-read]'), p = e.target.closest('[data-play]'), n = e.target.closest('[data-node]');
+      const pu = e.target.closest('[data-perk-unlock]');
+      const pr = e.target.closest('[data-perk-refund]');
+      const rst = e.target.closest('#bResetPerks');
+      const mt = e.target.closest('[data-maptab]');
+      const poi = e.target.closest('[data-poi]');
+      const cp = e.target.closest('[data-close-poi]');
+      if (mt) {
+        currentMapTab = mt.dataset.maptab;
+        activePoiId = null;
+        if (AUDIO) AUDIO.play('select');
+        storyScreen();
+        return;
+      }
+      if (poi) {
+        activePoiId = (activePoiId === poi.dataset.poi) ? null : poi.dataset.poi;
+        if (AUDIO) AUDIO.play(activePoiId ? 'select' : 'cancel');
+        storyScreen();
+        return;
+      }
+      if (cp) {
+        activePoiId = null;
+        if (AUDIO) AUDIO.play('cancel');
+        storyScreen();
+        return;
+      }
       if (e.target.closest('[data-how]')) return showTips('mission', null, true);
+      if (pu) {
+        const id = pu.dataset.perkUnlock;
+        const perk = D.PERKS[id];
+        if (perk && availableStars() >= perk.stars) {
+          save.perks = save.perks || [];
+          if (!save.perks.includes(id)) {
+            save.perks.push(id);
+            store();
+            AUDIO.play('upgrade');
+            AUDIO.announce('miracle');
+            storyScreen();
+          }
+        }
+        return;
+      }
+      if (pr) {
+        const id = pr.dataset.perkRefund;
+        save.perks = (save.perks || []).filter(x => x !== id);
+        store();
+        AUDIO.play('cancel');
+        storyScreen();
+        return;
+      }
+      if (rst) {
+        save.perks = [];
+        store();
+        AUDIO.play('cancel');
+        storyScreen();
+        return;
+      }
+      if (n) {
+        const id = n.dataset.node;
+        const targetCard = $(`card-${id}`);
+        if (targetCard) {
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          targetCard.classList.remove('highlighted');
+          void targetCard.offsetWidth;
+          targetCard.classList.add('highlighted');
+          if (AUDIO) AUDIO.play('select');
+        }
+        return;
+      }
       if (r) openReader(r.dataset.read);
       else if (p) briefing(MISSIONS.find(m => m.id === p.dataset.play));
     };
@@ -2915,21 +5380,120 @@ IMG.farm.src = 'assets/farm.png?v=13';
     s.onclick = null;
   }
 
+  // Canonical Book of Mormon War Council Dialogues before battle
+  const WAR_COUNCILS = {
+    m3: {
+      title: 'Council at the River Sidon',
+      ref: 'Alma 43:23–24',
+      speakers: [
+        { name: 'Captain Moroni', role: 'Chief Captain', cameo: 'cameo_moroni', quote: 'Inquire of the Lord whether our armies shall go into the wilderness to search out the Lamanites.' },
+        { name: 'Alma the Younger', role: 'High Priest & Prophet', cameo: 'cameo_plates', quote: 'Behold, the Lamanites will cross the river Sidon in the south wilderness, away by the head of the river.' },
+        { name: 'Chief Lehi', role: 'Nephite Commander', cameo: 'cameo_spearman', quote: 'We shall conceal our men in the valley east of Sidon, and fall upon their rear when they pass.' }
+      ]
+    },
+    m4: {
+      title: 'Moroni\'s Covenant Council',
+      ref: 'Alma 46:12–13',
+      speakers: [
+        { name: 'Captain Moroni', role: 'Chief Captain', cameo: 'cameo_moroni', quote: 'In memory of our God, our religion, and freedom, and our peace, our wives, and our children!' },
+        { name: 'Nephite Council', role: 'Voice of the People', cameo: 'cameo_council', quote: 'Whosoever will maintain this title upon the land, let them come forth in the strength of the Lord!' }
+      ]
+    },
+    m5: {
+      title: 'Council on Fortifications',
+      ref: 'Alma 48:8, Alma 49:4',
+      speakers: [
+        { name: 'Captain Moroni', role: 'Chief Captain', cameo: 'cameo_moroni', quote: 'We shall cast up dirt round about to shield our men, and build timber pickets higher than a man\'s stature.' },
+        { name: 'Chief Lehi', role: 'City Commander', cameo: 'cameo_spearman', quote: 'Ammonihah and Noah are fortified; the enemy expects easy plunder, but they shall meet walls of stone and earth.' }
+      ]
+    },
+    m6: {
+      title: 'Covenant of the Two Thousand',
+      ref: 'Alma 53:17, Alma 56:46',
+      speakers: [
+        { name: 'Helaman', role: 'Prophet & Captain', cameo: 'cameo_helaman', quote: 'They entered into a covenant that they never would give up their liberty, but would fight in all cases.' },
+        { name: 'Stripling Warrior', role: 'Son of the Anti-Nephi-Lehies', cameo: 'cameo_stripling', quote: 'Father, behold our God is with us, and he will not suffer that we should fall; our mothers taught us!' }
+      ]
+    },
+    m1: {
+      title: 'The Great Gathering Council',
+      ref: '3 Nephi 3:21–22',
+      speakers: [
+        { name: 'Governor Lachoneus', role: 'Chief Judge', cameo: 'cameo_council', quote: 'Gather together all our people with their flocks and herds into one place, in the land of Zarahemla.' },
+        { name: 'Gidgiddoni', role: 'Chief Captain & Prophet', cameo: 'cameo_moroni', quote: 'Except the Lord bid us, we will not go against them; but we will prepare and wait until they come down upon us.' }
+      ]
+    },
+    m2: {
+      title: 'Council of the Siege',
+      ref: '3 Nephi 4:18–19',
+      speakers: [
+        { name: 'Gidgiddoni', role: 'Chief Captain', cameo: 'cameo_moroni', quote: 'The robbers have no meat save it be in the wilderness; their provisions fail, and famine weakens their host.' },
+        { name: 'Governor Lachoneus', role: 'Chief Judge', cameo: 'cameo_council', quote: 'Hold the strongholds and guard the storehouses! In the strength of the Lord the siege shall be broken.' }
+      ]
+    }
+  };
+
   // What game this is, in a line: the briefing's kicker, and the saved game's on the opening page.
   const kickerOf = m => m.kicker ? m.kicker() : m === FREE ? `Free battle · ${FREE.LEVELS[FREE.level].name} · ${SIDES[FREE.side === 'kingmen' ? 'kingmen' : 'freemen'].name}`
     : `${CAMPAIGNS.find(c => c.id === m.campaign).title} · Mission ${inCampaign(m).indexOf(m) + 1} · ${m.chapter}`;
   function briefing(m) {
+    const councilData = WAR_COUNCILS[m.id];
+    const councilHtml = councilData ? `<div class="councilCard" style="background:rgba(26,20,13,0.88);border:1.5px solid rgba(212,160,23,0.45);border-radius:10px;padding:14px 18px;margin:16px 0;box-shadow:0 4px 16px rgba(0,0,0,0.4)">
+      <div style="font-size:11px;letter-spacing:1.5px;color:#d4a017;text-transform:uppercase;font-weight:700;margin-bottom:10px">📜 War Council · ${esc(councilData.title)} ${refBtn(councilData.ref)}</div>
+      <div style="display:flex;flex-direction:column;gap:11px">
+        ${councilData.speakers.map(s => `
+          <div style="display:flex;gap:12px;align-items:center">
+            <img src="${webp(`assets/${s.cameo}.png?v=5`)}" alt="${esc(s.name)}" style="width:42px;height:42px;border-radius:50%;border:1.5px solid #d4a017;object-fit:cover;flex-shrink:0;background:#2a1c0d">
+            <div style="flex:1">
+              <div style="font-size:12px;font-weight:700;color:#fef08a">${esc(s.name)} <span style="font-weight:400;color:#a8a29e;font-size:11px">(${esc(s.role)})</span></div>
+              <div style="font-size:13px;font-style:italic;color:#e7e5e4;line-height:1.4">&ldquo;${esc(s.quote)}&rdquo;</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>` : '';
+
     showScreen(`<div class="wrap brief">
       <div class="kicker">${esc(kickerOf(m))} · ${esc(m.year)}</div>
       <h2 style="font-size:32px">${esc(m.title)}</h2>
       <ul>${m.briefing.map(([t, r]) => `<li>${esc(t)} ${refBtn(r)}</li>`).join('')}</ul>
+      ${councilHtml}
       ${m === FREE ? `<p class="lede">You are the ${m.side === 'kingmen' ? 'King-men' : 'Freemen'}, under ${esc(CAPTAINS[m.side === 'kingmen' ? 'kingmen' : 'freemen'][m.captain].name)}.</p>` : ''}
       <div class="goalbox"><b>Your goals.</b> ${esc(m.goals)}</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn go" id="bBegin">Begin</button><button class="btn" id="bTips">Tips</button><button class="btn" id="bBack">Back</button></div></div>`);
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn go" id="bBegin">Begin</button>
+        ${m.campaign ? '<button class="btn" id="bMap">View Map</button>' : ''}
+        ${m.id === 'm3' ? '<button class="btn" id="bAncientBriefing" style="background:linear-gradient(180deg,#78350f,#451a03);border:1.5px solid #d97706;color:#fef3c7;font-weight:700">📜 Sacred War Council</button><button class="btn" id="bCinematic" style="background:linear-gradient(180deg,#831843,#500724);border:1.5px solid #f43f5e;color:#ffe4e6;font-weight:700">▶ Red Alert Briefing</button>' : ''}
+        <button class="btn" id="bTips">Tips</button>
+        <button class="btn" id="bBack">Back</button>
+      </div></div>`);
     $('bBegin').onclick = () => askThenBegin(m);
     $('bBack').onclick = () => menuFor(m)();
     $('bTips').onclick = () => showTips(tipsKey(m));
+    if ($('bAncientBriefing')) $('bAncientBriefing').onclick = openAncientBriefing;
+    if ($('bCinematic')) $('bCinematic').onclick = openRaCinematic;
+    if ($('bMap')) $('bMap').onclick = () => storyScreen();
     if (!(save.tips || {})[tipsKey(m)]) showTips(tipsKey(m));
+  }
+
+  function openAncientBriefing() {
+    openDialog(`<div class="card" style="max-width:980px;width:95vw;padding:0;overflow:hidden;background:#0d0905;border:2px solid #c9962e;border-radius:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;background:#1a1007;padding:8px 14px;border-bottom:1px solid rgba(201,150,46,0.35)">
+        <div style="font-family:'Cinzel',Georgia,serif;font-size:12px;color:#ecc764;letter-spacing:1.5px;font-weight:700">✦ WAR COUNCIL OF THE NEPHITES · RECORD OF MORONI (ALMA 43)</div>
+        <button data-close class="btn" style="padding:2px 8px;font-size:12px">Close ✕</button>
+      </div>
+      <iframe src="ancient_briefing.html" style="width:100%;height:min(78vh,580px);border:none;display:block"></iframe>
+    </div>`);
+  }
+
+  function openRaCinematic() {
+    openDialog(`<div class="card" style="max-width:980px;width:95vw;padding:0;overflow:hidden;background:#05070a;border:2px solid #2c3842;border-radius:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;background:#0b0f14;padding:8px 14px;border-bottom:1px solid #1f2a33">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:#39ff14;letter-spacing:1px">🔴 REC · EVA TACTICAL BRIEFING · ALMA 43</div>
+        <button data-close class="btn" style="padding:2px 8px;font-size:12px">Close ✕</button>
+      </div>
+      <iframe src="ra_briefing.html" style="width:100%;height:min(78vh,580px);border:none;display:block"></iframe>
+    </div>`);
   }
 
   // ------------------------------------------------------------ the tips card
@@ -2978,6 +5542,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     noSave = !!(opts && opts.noSave);
     const world = new S.World(undefined, m.map);
     world.mission = m;
+    world.perks = (opts && opts.perks) || (save.perks ? save.perks.slice() : []);
     m.setup(world);
     W = world;
     // Read the chapter first, and the people bring a gift (Blake: reading earns bonuses instead of opening the mission).
@@ -2988,6 +5553,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // The screen around a world, new or loaded (`ui`: what save.js kept of the screen: the council, the camera, what was explored).
   function enterGame(m, ui) {
     loadPictures();                                         // (if the opening page hadn't finished, the game's pictures start now)
+    if (AUDIO && AUDIO.startAmbience) AUDIO.startAmbience();
     mission = m;
     buildHeights();
     sel = []; placing = null; wallLine = null; painted = null; miniDirty = true; endShown = false; particles.length = 0;
@@ -3039,9 +5605,32 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }, 1200);
   }
 
-  function togglePause() { paused = !paused; $('bPause').textContent = paused ? '▶' : '❚❚'; if (paused) toast('Paused. Press Space or ▶ to go on.'); }
+  function togglePause() {
+    paused = !paused;
+    $('bPause').textContent = paused ? '▶' : '❚❚';
+    $('bPause').style.background = paused ? '#f59e0b' : '';
+    $('bPause').style.color = paused ? '#000' : '';
+    if (paused) toast('Game is Paused. Press Space or ▶ to resume.', 'warn');
+  }
   $('bPause').onclick = togglePause;
   $('bSpeed').onclick = () => { speed = speed === 1 ? 2 : 1; $('bSpeed').textContent = speed + '×'; };
+  function updateAudioButton() {
+    if (!$('bAudio')) return;
+    const m = AUDIO && AUDIO.isMuted();
+    $('bAudio').textContent = m ? '🔇' : '🔊';
+    $('bAudio').title = m ? 'Sound: Muted (M)' : 'Sound: On (M)';
+  }
+  if ($('bAudio')) {
+    $('bAudio').onclick = () => {
+      if (AUDIO) {
+        AUDIO.wake();
+        AUDIO.toggleMute();
+        updateAudioButton();
+        if (!AUDIO.isMuted()) AUDIO.play('tap');
+      }
+    };
+    updateAudioButton();
+  }
   let powerNow = null;
   $('cry').onclick = () => { if (W && powerNow) { mission.usePower(W, powerNow.id); $('cry').hidden = true; powerNow = null; shown.cry = null; } };
   document.addEventListener('visibilitychange', () => { if (document.hidden && W && !W.over && !paused) togglePause(); });
@@ -3189,7 +5778,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (n === 10) acc = 0;
       revealShroud();
     }
-    if (!modal) panKeys(dt);
+    if (!modal) { panKeys(dt); glideCam(dt); }
     draw(now);
     hud(now);
     debugBox(now);
@@ -3199,11 +5788,19 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
   $('iGrain').innerHTML = ICON.grain; $('iTimber').innerHTML = ICON.timber; $('iStone').innerHTML = ICON.stone; $('iPeople').innerHTML = ICON.people;
   window.addEventListener('resize', resize);
+  window.addEventListener('orientationchange', () => { setTimeout(resize, 100); setTimeout(resize, 300); });
+  if (typeof screen !== 'undefined' && screen.orientation && screen.orientation.addEventListener) {
+    screen.orientation.addEventListener('change', () => { setTimeout(resize, 100); setTimeout(resize, 300); });
+  }
   resize();
+  initCohortBar();
   home();
   requestAnimationFrame(frame);
   // A window on the game for automated play-throughs in a browser.
-  window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, get sel() { return sel; }, get selEnts() { return selEnts(); }, cam, begin: (id, level, length) => { const m = id === 'free' ? FREE : id === 'wild' ? WILD : MISSIONS.find(m => m.id === id); if (level) m.level = level; if (length) m.length = length; begin(m, { noSave: true }); }, toWorld, lookAt,
+  window.LIB_UI = { get W() { return W; }, get mission() { return mission; }, get sel() { return sel; }, get selEnts() { return selEnts(); }, cam, begin: (id, level, length) => { const m = id === 'free' ? FREE : id === 'wild' ? WILD : MISSIONS.find(m => m.id === id); if (level) m.level = level; if (length) m.length = length; begin(m, { noSave: true }); }, toWorld, lookAt, setSel: s => setSel(s), refreshPanel: () => refreshPanel(true),
+    briefing: (id) => { const m = typeof id === 'string' ? MISSIONS.find(x => x.id === id) : id; briefing(m); },
+    storyScreen: () => storyScreen(),
+    home: () => home(),
     screenOf: (x, y) => toScreen(x, y),
     hidden: () => ({ terrain, shroudCv, trees: TREES }),         // the canvases painted once, for tests that wipe them
     remoteClick: (sx, sy, color) => {
