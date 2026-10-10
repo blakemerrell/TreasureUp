@@ -1,0 +1,855 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EVA Tactical Briefing · Alma 43: River Sidon</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&family=Orbitron:wght@500;700;900&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-dark: #07090b;
+    --metal-dark: #12171c;
+    --metal-border: #2c3842;
+    --eva-green: #39ff14;
+    --eva-green-dim: #1b8a10;
+    --eva-amber: #ffb000;
+    --eva-cyan: #00e5ff;
+    --eva-red: #ff3333;
+    --scanline: rgba(18, 16, 16, 0.45);
+    --gold: #ecc764;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg-dark);
+    color: #e0e6ed;
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    user-select: none;
+    -webkit-user-select: none;
+    overflow-x: hidden;
+  }
+
+  /* Industrial Chassis Bezel */
+  .terminal-frame {
+    width: 100%;
+    max-width: 1060px;
+    background: linear-gradient(180deg, #1b2229 0%, #101418 100%);
+    border: 3px solid var(--metal-border);
+    border-radius: 8px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.9), inset 0 2px 3px rgba(255, 255, 255, 0.1);
+    position: relative;
+    padding: 18px;
+  }
+
+  /* Hazard Stripes Accent */
+  .hazard-bar {
+    height: 8px;
+    background: repeating-linear-gradient(
+      -45deg,
+      #d4a017,
+      #d4a017 12px,
+      #111 12px,
+      #111 24px
+    );
+    border-radius: 3px;
+    margin-bottom: 12px;
+    opacity: 0.85;
+  }
+
+  /* Header Telemetry Bar */
+  .header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0b0f12;
+    border: 1px solid #1f2a33;
+    padding: 8px 14px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    border-radius: 4px;
+  }
+  .rec-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--eva-red);
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .rec-dot {
+    width: 12px;
+    height: 12px;
+    background: var(--eva-red);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--eva-red);
+    animation: blink 1s infinite alternate;
+  }
+  @keyframes blink {
+    0% { opacity: 0.2; }
+    100% { opacity: 1; }
+  }
+  .channel-info {
+    color: var(--eva-cyan);
+    letter-spacing: 1px;
+  }
+  .hq-stamp {
+    color: var(--gold);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+
+  /* Main Viewport + Sidebar Grid */
+  .viewport-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 16px;
+  }
+  @media (max-width: 860px) {
+    .viewport-grid { grid-template-columns: 1fr; }
+  }
+
+  /* CRT Monitor Screen */
+  .crt-container {
+    position: relative;
+    background: #020406;
+    border: 2px solid #202b36;
+    border-radius: 6px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.85);
+  }
+
+  .video-display {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.2s ease;
+  }
+
+  /* Scanline and CRT Overlay */
+  .crt-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%),
+                radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.6) 100%);
+    background-size: 100% 4px, 100% 100%;
+    z-index: 5;
+    opacity: 0.85;
+    transition: opacity 0.2s;
+  }
+  .crt-overlay.disabled {
+    opacity: 0;
+  }
+
+  /* Static Glitch Burst */
+  .static-burst {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-radial-gradient(#fff, #000 10%, #fff 20%);
+    opacity: 0;
+    z-index: 8;
+    mix-blend-mode: overlay;
+    transition: opacity 0.05s linear;
+  }
+  .static-burst.active {
+    opacity: 0.75;
+    animation: staticFlicker 0.15s steps(2) infinite;
+  }
+  @keyframes staticFlicker {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-3px) scale(1.02); }
+    100% { transform: translateY(2px); }
+  }
+
+  /* Corner HUD Brackets */
+  .hud-bracket {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border: 2px solid var(--eva-green);
+    pointer-events: none;
+    z-index: 6;
+  }
+  .bracket-tl { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+  .bracket-tr { top: 10px; right: 10px; border-left: 0; border-bottom: 0; }
+  .bracket-bl { bottom: 10px; left: 10px; border-right: 0; border-top: 0; }
+  .bracket-br { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+
+  /* In-Screen HUD Overlays */
+  .screen-hud-top {
+    position: absolute;
+    top: 14px;
+    left: 40px;
+    right: 40px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--eva-green);
+    text-shadow: 0 0 5px var(--eva-green-dim);
+    z-index: 6;
+    pointer-events: none;
+  }
+
+  /* Rotating Radar Widget */
+  .radar-widget {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    border: 1px solid var(--eva-green-dim);
+    background: rgba(4, 20, 10, 0.65);
+    z-index: 6;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .radar-sweep {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, rgba(57, 255, 20, 0.4) 0deg, transparent 60deg, transparent 360deg);
+    animation: radarSpin 3.5s linear infinite;
+  }
+  .radar-crosshair {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, transparent 49%, var(--eva-green-dim) 50%, transparent 51%),
+                linear-gradient(to bottom, transparent 49%, var(--eva-green-dim) 50%, transparent 51%);
+  }
+  @keyframes radarSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Subtitle Teletype Box */
+  .teletype-box {
+    margin-top: 12px;
+    background: #080d12;
+    border: 1.5px solid var(--metal-border);
+    border-left: 4px solid var(--eva-green);
+    border-radius: 4px;
+    padding: 12px 16px;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.7);
+  }
+  .speaker-tag {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--eva-amber);
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .narration-line {
+    font-size: 15px;
+    line-height: 1.45;
+    color: #f1f5f9;
+    min-height: 22px;
+  }
+  .narration-subline {
+    font-size: 12px;
+    color: var(--eva-cyan);
+    margin-top: 4px;
+  }
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 16px;
+    background: var(--eva-green);
+    margin-left: 4px;
+    vertical-align: -2px;
+    animation: blink 0.6s infinite alternate;
+  }
+
+  /* Sidebar Controls & Tabs */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .deck-card {
+    background: #0c1117;
+    border: 1px solid var(--metal-border);
+    border-radius: 6px;
+    padding: 12px;
+  }
+  .deck-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--eva-amber);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 176, 0, 0.2);
+    padding-bottom: 4px;
+  }
+
+  .scene-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .scene-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    background: #141c24;
+    border: 1px solid #23303d;
+    border-radius: 4px;
+    color: #94a3b8;
+    font-size: 12px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .scene-btn:hover {
+    background: #1c2733;
+    color: #fff;
+    border-color: var(--eva-cyan);
+  }
+  .scene-btn.active {
+    background: linear-gradient(90deg, rgba(57, 255, 20, 0.15), rgba(0, 229, 255, 0.05));
+    border-color: var(--eva-green);
+    color: #fff;
+    font-weight: 700;
+  }
+  .scene-badge {
+    background: #090e13;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    color: var(--eva-green);
+    border: 1px solid #1c3324;
+  }
+
+  /* Mission Objectives Checklist */
+  .obj-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 11.5px;
+    margin-bottom: 8px;
+    line-height: 1.35;
+    color: #cbd5e1;
+  }
+  .obj-check {
+    color: var(--eva-green);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* Bottom Command Bar */
+  .command-bar {
+    margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #1c252e;
+  }
+  .ctrl-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .btn-cmd {
+    background: linear-gradient(180deg, #263340 0%, #151d24 100%);
+    border: 1px solid #3d4f61;
+    color: #e2e8f0;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s ease;
+  }
+  .btn-cmd:hover {
+    background: linear-gradient(180deg, #37495b 0%, #1f2a36 100%);
+    border-color: var(--eva-cyan);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+  }
+  .btn-cmd.primary {
+    background: linear-gradient(180deg, #b91c1c 0%, #7f1d1d 100%);
+    border-color: #ef4444;
+    color: #fee2e2;
+  }
+  .btn-cmd.primary:hover {
+    background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
+    box-shadow: 0 0 14px rgba(239, 68, 68, 0.5);
+  }
+  .btn-cmd.active-state {
+    border-color: var(--eva-green);
+    color: var(--eva-green);
+  }
+
+  .status-diode {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: #64748b;
+  }
+  .diode-light {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--eva-green);
+    box-shadow: 0 0 6px var(--eva-green);
+  }
+</style>
+</head>
+<body>
+
+<div class="terminal-frame">
+  <div class="hazard-bar"></div>
+
+  <!-- Header Telemetry -->
+  <div class="header-bar">
+    <div class="rec-indicator">
+      <div class="rec-dot"></div>
+      <span>REC ● <span id="timecode">00:04:12:08</span></span>
+    </div>
+    <div class="channel-info">COMM-NET: SECURE V-LINK 04 // 142.80 MHz</div>
+    <div class="hq-stamp">NEPHITE HIGH COMMAND</div>
+  </div>
+
+  <!-- Viewport and Sidebar -->
+  <div class="viewport-grid">
+    <!-- Screen Column -->
+    <div class="screen-col">
+      <div class="crt-container" id="crtBox">
+        <img id="videoPlayer" class="video-display" src="assets/cinematics/scene1_loop.webp" alt="EVA Mission Briefing">
+        <div class="crt-overlay" id="crtOverlay"></div>
+        <div class="static-burst" id="staticBurst"></div>
+
+        <!-- HUD Brackets -->
+        <div class="hud-bracket bracket-tl"></div>
+        <div class="hud-bracket bracket-tr"></div>
+        <div class="hud-bracket bracket-bl"></div>
+        <div class="hud-bracket bracket-br"></div>
+
+        <!-- Screen HUD Data -->
+        <div class="screen-hud-top">
+          <span id="hudSceneTitle">SECTOR 01: THEATER WAR ROOM</span>
+          <span id="hudCoords">LAT 14°42'N // ELEV 1,280M</span>
+        </div>
+
+        <!-- Radar Widget -->
+        <div class="radar-widget">
+          <div class="radar-sweep"></div>
+          <div class="radar-crosshair"></div>
+        </div>
+      </div>
+
+      <!-- Teletype Dialogue Box -->
+      <div class="teletype-box">
+        <div class="speaker-tag" id="speakerTag">NEPHITE HIGH COMMAND // INTEL BRIEFING</div>
+        <div class="narration-line"><span id="typedLine1"></span><span class="cursor" id="cursor1"></span></div>
+        <div class="narration-subline" id="typedLine2"></div>
+      </div>
+    </div>
+
+    <!-- Sidebar Controls -->
+    <div class="sidebar">
+      <!-- Scene Selection Deck -->
+      <div class="deck-card">
+        <div class="deck-title">TACTICAL FEEDS (ALMA 43)</div>
+        <div class="scene-list">
+          <button class="scene-btn active" data-scene="0">
+            <span class="scene-badge">01</span>
+            <div>
+              <div>Strategic War Room</div>
+              <small style="color:#64748b">Topographic map briefing</small>
+            </div>
+          </button>
+          <button class="scene-btn" data-scene="1">
+            <span class="scene-badge">02</span>
+            <div>
+              <div>Moroni Comms Dispatch</div>
+              <small style="color:#64748b">Commander direct address</small>
+            </div>
+          </button>
+          <button class="scene-btn" data-scene="2">
+            <span class="scene-badge">03</span>
+            <div>
+              <div>Scout Recon Feed</div>
+              <small style="color:#64748b">Antionum canyon surveillance</small>
+            </div>
+          </button>
+          <button class="scene-btn" data-scene="3">
+            <span class="scene-badge">04</span>
+            <div>
+              <div>Prophetic Stratagem</div>
+              <small style="color:#64748b">Alma inquiry & armory tech</small>
+            </div>
+          </button>
+          <button class="scene-btn" data-scene="4">
+            <span class="scene-badge">05</span>
+            <div>
+              <div>Battle Deployment</div>
+              <small style="color:#64748b">River Sidon encirclement</small>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mission Objectives Checklist -->
+      <div class="deck-card">
+        <div class="deck-title">OPERATION OBJECTIVES</div>
+        <div class="obj-item">
+          <span class="obj-check">✓</span>
+          <span><b>PRIMARY:</b> Shield border cities of Jershon & Manti from invasion host.</span>
+        </div>
+        <div class="obj-item">
+          <span class="obj-check">✓</span>
+          <span><b>TECH STRATAGEM:</b> Forge breastplates, arm-shields, & thick garments.</span>
+        </div>
+        <div class="obj-item">
+          <span class="obj-check">✓</span>
+          <span><b>AMBUSH TACTIC:</b> Conceal Lehi east of Sidon; encircle at Hill Riplah.</span>
+        </div>
+        <div class="obj-item">
+          <span class="obj-check">✓</span>
+          <span><b>COVENANT:</b> Demand oath of peace from Zerahemnah to end bloodshed.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Command Bar -->
+  <div class="command-bar">
+    <div class="ctrl-group">
+      <button class="btn-cmd primary" id="btnPlayAll">▶ AUTO-PLAY ALL</button>
+      <button class="btn-cmd" id="btnPrev">◀ PREV</button>
+      <button class="btn-cmd" id="btnNext">NEXT ▶</button>
+      <button class="btn-cmd" id="btnReplay">🔁 REPLAY SCENE</button>
+    </div>
+
+    <div class="ctrl-group">
+      <button class="btn-cmd active-state" id="btnScanlines">⚡ CRT SCANLINES</button>
+      <button class="btn-cmd" id="btnAudio">🔊 AUDIO FX: ON</button>
+      <a href="index.html" class="btn-cmd" style="text-decoration:none">⚔ TO BATTLEFIELD</a>
+    </div>
+
+    <div class="status-diode">
+      <div class="diode-light"></div>
+      <span>EVA TACTICAL OS ONLINE</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Mission Scene Scripts & Data (Alma 43)
+  const SCENES = [
+    {
+      id: 0,
+      title: "SECTOR 01: THEATER WAR ROOM // ZARAHEMLA",
+      coords: "GRID 48-K // TOPOGRAPHIC RELIEF",
+      speaker: "NEPHITE HIGH COMMAND // WAR ROOM COUNCIL",
+      loop: "assets/cinematics/scene1_loop.webp",
+      still: "assets/cinematics/scene1_strategic_map.jpg",
+      line1: "The Zoramites have defected to the Lamanite alliance (Alma 43:4). Hostile mobilization detected.",
+      line2: "EVA INTEL: Over 40,000 enemy warriors gather along the southern wilderness border.",
+      duration: 7000
+    },
+    {
+      id: 1,
+      title: "SECTOR 02: COMMAND COMM // CHIEF CAPTAIN MORONI",
+      coords: "SECURE SATELLITE COMMS // V-LINK 04",
+      speaker: "CHIEF CAPTAIN MORONI // DISPATCH",
+      loop: "assets/cinematics/scene2_loop.webp",
+      still: "assets/cinematics/scene2_moroni_briefing.jpg",
+      line1: "\"Commander, Zerahemnah leads an overwhelming host to bring our people into bondage.\"",
+      line2: "MORONI: \"We fight not for conquest or glory, but for our God, our religion, and our homes!\"",
+      duration: 7500
+    },
+    {
+      id: 2,
+      title: "SECTOR 03: SCOUT OPTICAL FEED // ANTIONUM CANYON",
+      coords: "ELEV 1,420M // THERMAL RECON",
+      speaker: "FORWARD RECON // SCOUT SURVEILLANCE",
+      loop: "assets/cinematics/scene3_loop.webp",
+      still: "assets/cinematics/scene3_enemy_recon.jpg",
+      line1: "Surveillance confirms enemy vanguard exiting Antionum gorge (Alma 43:18-20).",
+      line2: "EVA ANALYSIS: Armed with cimeters and bows, but completely naked save skins about loins.",
+      duration: 7000
+    },
+    {
+      id: 3,
+      title: "SECTOR 04: PROPHETIC REVELATION // SACRED STRATAGEM",
+      coords: "ALMA TABERNACLE // ARMORY FORGE",
+      speaker: "PROPHETIC INTELLIGENCE // ALMA & MORONI",
+      loop: "assets/cinematics/scene4_loop.webp",
+      still: "assets/cinematics/scene4_prophetic_stratagem.jpg",
+      line1: "Alma inquires of the Lord: \"The Lamanites turn away to strike defenseless Manti\" (Alma 43:23-24).",
+      line2: "TACTICAL UPGRADE: Moroni armors every warrior with breastplates, arm-shields, & thick clothing.",
+      duration: 8000
+    },
+    {
+      id: 4,
+      title: "SECTOR 05: BATTLE DEPLOYMENT // RIVER SIDON",
+      coords: "HILL RIPLAH // BASIN PASS",
+      speaker: "TACTICAL EVA // ENGAGEMENT ORDER",
+      loop: "assets/cinematics/scene5_loop.webp",
+      still: "assets/cinematics/scene5_battle_deployment.jpg",
+      line1: "Moroni conceals Lehi east of Sidon, deploying the armored host behind Hill Riplah.",
+      line2: "BATTLEFIELD CONTROL ONLINE. Encircle Zerahemnah as he crosses the waters of Sidon!",
+      duration: 8500
+    }
+  ];
+
+  let currentSceneIdx = 0;
+  let isAutoPlaying = false;
+  let autoPlayTimer = null;
+  let typeTimer = null;
+  let audioEnabled = true;
+  let scanlinesEnabled = true;
+
+  // Web Audio Synthesizer (Westwood Soundscape)
+  let audioCtx = null;
+  function getAudioCtx() {
+    if (!audioCtx) {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioContext();
+    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  }
+
+  function playTeletypeBeep() {
+    if (!audioEnabled) return;
+    try {
+      const ctx = getAudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(1400 + Math.random() * 400, ctx.currentTime);
+      gain.gain.setValueAtTime(0.04, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.035);
+    } catch (e) {}
+  }
+
+  function playStaticBurst() {
+    if (!audioEnabled) return;
+    try {
+      const ctx = getAudioCtx();
+      const bufferSize = ctx.sampleRate * 0.15;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 1800;
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      noise.start();
+    } catch (e) {}
+  }
+
+  function playSonarPing() {
+    if (!audioEnabled) return;
+    try {
+      const ctx = getAudioCtx();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(980, ctx.currentTime);
+      gain.gain.setValueAtTime(0.06, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.5);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.5);
+    } catch (e) {}
+  }
+
+  // Periodic radar ping
+  setInterval(() => {
+    if (audioEnabled && Math.random() < 0.4) playSonarPing();
+  }, 4500);
+
+  // Timecode update
+  let tcFrames = 1200;
+  setInterval(() => {
+    tcFrames++;
+    const s = Math.floor(tcFrames / 10);
+    const f = (tcFrames % 10) * 3;
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    const str = `00:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}:${String(f).padStart(2, '0')}`;
+    const el = document.getElementById('timecode');
+    if (el) el.textContent = str;
+  }, 100);
+
+  // Scene Switching with Static Glitch Burst
+  function loadScene(idx, isTransition = true) {
+    clearTimeout(typeTimer);
+    currentSceneIdx = idx;
+    const scene = SCENES[idx];
+
+    // Trigger static burst animation & sound
+    const burst = document.getElementById('staticBurst');
+    if (isTransition) {
+      burst.classList.add('active');
+      playStaticBurst();
+      setTimeout(() => burst.classList.remove('active'), 180);
+    }
+
+    // Switch video asset
+    const vid = document.getElementById('videoPlayer');
+    vid.style.opacity = '0.4';
+    setTimeout(() => {
+      vid.src = scene.loop;
+      vid.onerror = () => { vid.src = scene.still; };
+      vid.style.opacity = '1';
+    }, 80);
+
+    // Update Telemetry
+    document.getElementById('hudSceneTitle').textContent = scene.title;
+    document.getElementById('hudCoords').textContent = scene.coords;
+    document.getElementById('speakerTag').textContent = scene.speaker;
+
+    // Update Sidebar Active state
+    document.querySelectorAll('.scene-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', i === idx);
+    });
+
+    // Teletype typewriter effect
+    typewriterDialogue(scene.line1, scene.line2);
+
+    // If auto playing, set timer for next scene
+    if (isAutoPlaying) {
+      clearTimeout(autoPlayTimer);
+      autoPlayTimer = setTimeout(() => {
+        if (currentSceneIdx < SCENES.length - 1) {
+          loadScene(currentSceneIdx + 1);
+        } else {
+          // Finished auto-play
+          isAutoPlaying = false;
+          document.getElementById('btnPlayAll').textContent = '▶ AUTO-PLAY ALL';
+        }
+      }, scene.duration);
+    }
+  }
+
+  function typewriterDialogue(l1, l2) {
+    const el1 = document.getElementById('typedLine1');
+    const el2 = document.getElementById('typedLine2');
+    el1.textContent = '';
+    el2.textContent = '';
+
+    let charIdx = 0;
+    const speed = 25; // ms per char
+
+    function step() {
+      if (charIdx < l1.length) {
+        el1.textContent += l1[charIdx];
+        if (charIdx % 3 === 0) playTeletypeBeep();
+        charIdx++;
+        typeTimer = setTimeout(step, speed);
+      } else {
+        // Line 1 done, show line 2
+        el2.textContent = l2;
+      }
+    }
+    step();
+  }
+
+  // Event Handlers
+  document.querySelectorAll('.scene-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      isAutoPlaying = false;
+      clearTimeout(autoPlayTimer);
+      document.getElementById('btnPlayAll').textContent = '▶ AUTO-PLAY ALL';
+      const idx = parseInt(btn.dataset.scene, 10);
+      loadScene(idx);
+    });
+  });
+
+  document.getElementById('btnNext').addEventListener('click', () => {
+    const next = (currentSceneIdx + 1) % SCENES.length;
+    loadScene(next);
+  });
+
+  document.getElementById('btnPrev').addEventListener('click', () => {
+    const prev = (currentSceneIdx - 1 + SCENES.length) % SCENES.length;
+    loadScene(prev);
+  });
+
+  document.getElementById('btnReplay').addEventListener('click', () => {
+    loadScene(currentSceneIdx, false);
+  });
+
+  document.getElementById('btnPlayAll').addEventListener('click', () => {
+    if (isAutoPlaying) {
+      isAutoPlaying = false;
+      clearTimeout(autoPlayTimer);
+      document.getElementById('btnPlayAll').textContent = '▶ AUTO-PLAY ALL';
+    } else {
+      isAutoPlaying = true;
+      document.getElementById('btnPlayAll').textContent = '❚❚ PAUSE INTRO';
+      loadScene(0);
+    }
+  });
+
+  document.getElementById('btnScanlines').addEventListener('click', () => {
+    scanlinesEnabled = !scanlinesEnabled;
+    const ov = document.getElementById('crtOverlay');
+    ov.classList.toggle('disabled', !scanlinesEnabled);
+    document.getElementById('btnScanlines').classList.toggle('active-state', scanlinesEnabled);
+  });
+
+  document.getElementById('btnAudio').addEventListener('click', () => {
+    audioEnabled = !audioEnabled;
+    const btn = document.getElementById('btnAudio');
+    btn.textContent = audioEnabled ? '🔊 AUDIO FX: ON' : '🔇 AUDIO FX: OFF';
+    btn.classList.toggle('active-state', audioEnabled);
+    if (audioEnabled) {
+      getAudioCtx();
+      playSonarPing();
+    }
+  });
+
+  // Initial Scene Load
+  window.addEventListener('DOMContentLoaded', () => {
+    loadScene(0, false);
+  });
+</script>
+
+</body>
+</html>

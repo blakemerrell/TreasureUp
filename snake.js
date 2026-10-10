@@ -40,6 +40,7 @@
 
   let host = null, root = null, G = null, raf = 0, last = 0, keyOff = null, ro = null, audio = null;
   const ui = { mode: '1p', names: ['', 'Player 2'], view: 'menu', fam: null };
+  let dbGameRef = null, unsubscribeInputs = null, gameCode = null, myClientId = null, networkConfig = null;
   const C = () => (window.TU_ARCADE && window.TU_ARCADE.snake) || {}, L = () => C().lines || {};
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
   const $ = id => document.getElementById(id);
@@ -133,9 +134,12 @@
 
   // A turn from the keys, the pad or a swipe: kept in order (two at most),
   // never straight back into the neck.
-  function turn(i, name) {
+  function turn(i, name, fromNet) {
+    if (networkConfig && !fromNet && networkConfig.myPlayer === i) {
+      if (dbGameRef) dbGameRef.collection('inputs').add({ sender: myClientId, player: i, dir: name, time: Date.now() });
+    }
     if (!G || G.state !== 'play') return;
-    if (G.reading) return ready(i, name);
+    if (G.reading) return ready(i, name, fromNet);
     const s = G.snakes[i], d = DIRS[name];
     if (!s || !d) return;
     const lastDir = s.queue.length ? s.queue[s.queue.length - 1] : s.dir;
@@ -248,7 +252,10 @@
   }
   // Read it, then go: an arrow, a swipe, the pad, Space, Enter or ▶ Go. With
   // two players, each says they're ready with their own keys (or ▶ Go for both).
-  function ready(i, name) {
+  function ready(i, name, fromNet) {
+    if (networkConfig && !fromNet && i != null && networkConfig.myPlayer === i) {
+      if (dbGameRef) dbGameRef.collection('inputs').add({ sender: myClientId, player: i, ready: true, time: Date.now() });
+    }
     const r = G && G.reading;
     if (!r) return;
     if (i == null) r.ready = r.ready.map(() => true); else r.ready[i] = true;
@@ -546,36 +553,74 @@
     }
   }
   function drawSnake(ctx, s, cell, cx, cy, t) {
+    ctx.lineJoin = 'round';
     const b = s.body, sk = s.skin;
     ctx.globalAlpha = ghost(s) ? 0.45 + 0.35 * Math.abs(Math.sin(t / 80)) : 1;
-    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    const path = () => { ctx.beginPath(); for (let n = b.length - 1; n >= 0; n--) { const p = b[n]; n === b.length - 1 ? ctx.moveTo(cx(p.x), cy(p.y)) : ctx.lineTo(cx(p.x), cy(p.y)); } };
-    ctx.strokeStyle = sk.dark; ctx.lineWidth = cell * 0.8; path(); ctx.stroke();
-    ctx.strokeStyle = sk.body; ctx.lineWidth = cell * 0.66; path(); ctx.stroke();
-    ctx.strokeStyle = sk.belly; ctx.lineWidth = cell * 0.18; ctx.globalAlpha *= 0.55; path(); ctx.stroke(); ctx.globalAlpha = ghost(s) ? 0.6 : 1;
-    // Diamonds down the back
-    ctx.fillStyle = sk.dark;
-    for (let n = 2; n < b.length; n += 2) {
-      const p = b[n], x = cx(p.x), y = cy(p.y), d = cell * 0.16;
-      ctx.beginPath(); ctx.moveTo(x, y - d); ctx.lineTo(x + d, y); ctx.lineTo(x, y + d); ctx.lineTo(x - d, y); ctx.fill();
+    
+    // Draw people from tail to head
+    for (let n = b.length - 1; n >= 0; n--) {
+      const p = b[n], x = cx(p.x), y = cy(p.y);
+      const isHead = n === 0;
+      
+      // Figure out direction this person is facing
+      let dx = 0, dy = 0;
+      if (isHead) {
+        dx = s.dir.x; dy = s.dir.y;
+      } else {
+        const ahead = b[n - 1];
+        dx = ahead.x - p.x; dy = ahead.y - p.y;
+        if (dx === 0 && dy === 0) { dx = s.dir.x; dy = s.dir.y; } // fallback
+      }
+      
+      // Wobble for walking animation
+      const walk = Math.sin((t / 150) + n) * cell * 0.1;
+      
+      // Shoulders/Tunic
+      ctx.fillStyle = sk.body;
+      ctx.strokeStyle = sk.dark;
+      ctx.lineWidth = cell * 0.08;
+      ctx.beginPath();
+      // Ellipse perpendicular to walking direction
+      const angle = Math.atan2(dy, dx);
+      ctx.ellipse(x + dx * walk, y + dy * walk, cell * 0.35, cell * 0.25, angle + Math.PI/2, 0, 7);
+      ctx.fill();
+      ctx.stroke();
+      
+      // Head/Skin
+      ctx.fillStyle = sk.belly;
+      ctx.beginPath();
+      ctx.arc(x + dx * cell * 0.1, y + dy * cell * 0.1, cell * 0.2, 0, 7);
+      ctx.fill();
+      ctx.stroke();
+      
+      // Hair/Headdress
+      ctx.fillStyle = sk.dark;
+      ctx.beginPath();
+      ctx.arc(x + dx * cell * 0.05, y + dy * cell * 0.05, cell * 0.18, angle + Math.PI/2, angle - Math.PI/2, true);
+      ctx.fill();
+      
+      // Leader gets a staff
+      if (isHead) {
+        ctx.strokeStyle = '#6b4423'; // wood brown
+        ctx.lineWidth = cell * 0.1;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        const staffX = x + Math.cos(angle + Math.PI/4) * cell * 0.4;
+        const staffY = y + Math.sin(angle + Math.PI/4) * cell * 0.4;
+        ctx.moveTo(staffX, staffY);
+        ctx.lineTo(staffX + dx * cell * 0.6, staffY + dy * cell * 0.6);
+        ctx.stroke();
+      }
     }
-    // The head: eyes ahead, and a forked tongue now and then
-    const h = b[0], d = s.dir, x = cx(h.x), y = cy(h.y);
-    ctx.fillStyle = sk.body; ctx.strokeStyle = sk.dark; ctx.lineWidth = cell * 0.08;
-    ctx.beginPath(); ctx.ellipse(x + d.x * cell * 0.06, y + d.y * cell * 0.06, cell * 0.46, cell * 0.46, 0, 0, 7); ctx.fill(); ctx.stroke();
-    if ((t % 1100) < 260) {
-      ctx.strokeStyle = '#dc2626'; ctx.lineWidth = Math.max(1.5, cell * 0.07);
-      const tx = x + d.x * cell * 0.5, ty = y + d.y * cell * 0.5, ex = x + d.x * cell * 0.85, ey = y + d.y * cell * 0.85;
-      ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(ex, ey);
-      ctx.moveTo(ex, ey); ctx.lineTo(ex + (d.x - d.y) * cell * 0.12, ey + (d.y + d.x) * cell * 0.12);
-      ctx.moveTo(ex, ey); ctx.lineTo(ex + (d.x + d.y) * cell * 0.12, ey + (d.y - d.x) * cell * 0.12); ctx.stroke();
+    
+    // Brass serpent buff indicator
+    if (s.brass) {
+      const h = b[0];
+      ctx.fillStyle = '#fbbf24';
+      ctx.beginPath();
+      ctx.arc(cx(h.x) - s.dir.x * cell * 0.3, cy(h.y) - s.dir.y * cell * 0.3, cell * 0.12, 0, 7);
+      ctx.fill();
     }
-    for (const side of [-1, 1]) {
-      const ex = x + d.x * cell * 0.18 + -d.y * side * cell * 0.2, ey = y + d.y * cell * 0.18 + d.x * side * cell * 0.2;
-      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(ex, ey, cell * 0.12, 0, 7); ctx.fill();
-      ctx.fillStyle = '#111'; ctx.beginPath(); ctx.arc(ex + d.x * cell * 0.04, ey + d.y * cell * 0.04, cell * 0.065, 0, 7); ctx.fill();
-    }
-    if (s.brass) { ctx.fillStyle = '#fbbf24'; ctx.beginPath(); ctx.arc(x - d.x * cell * 0.3, y - d.y * cell * 0.3, cell * 0.09, 0, 7); ctx.fill(); }
     ctx.globalAlpha = 1;
   }
 
@@ -597,7 +642,7 @@
   function shell(body) {
     root.dataset.view = ui.view; root.dataset.mode = G ? G.mode : ui.mode;
     root.innerHTML = `<div class="sn-top">
-        <div class="sn-name"><div class="eyebrow">Arcade · no XP, just for fun</div><div class="board-title">Wilderness Snake</div></div>
+        <div class="sn-name"><div class="eyebrow">Arcade · no XP, just for fun</div><div class="board-title">Wilderness Caravan</div></div>
         <div id="snHud" class="sn-hud"></div>
         <div class="sn-btns">${G && G.state === 'play' && ui.view === 'game' ? '<button class="btn ghost" data-sn="pause" aria-label="Pause"><svg class="sn-ico2" viewBox="0 0 12 14" aria-hidden="true"><rect x="1" y="1" width="3.5" height="12" rx="1" fill="currentColor"/><rect x="7.5" y="1" width="3.5" height="12" rx="1" fill="currentColor"/></svg></button>' : ''}${fsBtn()}<button class="btn ghost" data-sn="sound" aria-label="Sound on or off">${saved().muted ? '🔈' : '🔊'}</button><button class="btn ghost" data-sn="exit">Exit</button></div>
       </div>${body}`;
@@ -607,18 +652,22 @@
     ui.view = 'menu';
     const two = ui.mode === '2p', me = host.player().name || '';
     shell(`<div class="sn-menu">
-      <img class="sn-hero" src="arcade/snake.jpg" width="960" height="480" alt="The camp of Israel at sunrise: families gather manna into baskets, quail fly over, and a snake winds toward the manna.">
+      <img class="sn-hero" src="arcade/snake.jpg" width="960" height="480" alt="The camp of Israel at sunrise: families gather manna into baskets, quail fly over, and a caravan winds toward the manna.">
       <p class="sn-hook">${host.html(C().hook || '')}</p>
       <div class="sn-modes" role="radiogroup" aria-label="Players">
-        <button class="sn-mode${two ? '' : ' on'}" data-sn="mode" data-v="1p" role="radio" aria-checked="${!two}"><b>1 player</b><small>Arrows or WASD · swipe on a phone</small></button>
-        <button class="sn-mode${two ? ' on' : ''}" data-sn="mode" data-v="2p" role="radio" aria-checked="${two}"><b>2 players, one screen</b><small>2 minutes · most points wins</small></button>
+        <button class="sn-mode${ui.mode === '1p' ? ' on' : ''}" data-sn="mode" data-v="1p" role="radio" aria-checked="${ui.mode === '1p'}"><b>1 player</b><small>Arrows or WASD</small></button>
+        <button class="sn-mode${ui.mode === '2p' ? ' on' : ''}" data-sn="mode" data-v="2p" role="radio" aria-checked="${ui.mode === '2p'}"><b>2 players, local</b><small>Most points wins</small></button>
+        <button class="sn-mode${ui.mode === 'host' ? ' on' : ''}" data-sn="mode" data-v="host" role="radio" aria-checked="${ui.mode === 'host'}"><b>Host Game</b><small>Create room code</small></button>
+        <button class="sn-mode${ui.mode === 'join' ? ' on' : ''}" data-sn="mode" data-v="join" role="radio" aria-checked="${ui.mode === 'join'}"><b>Join Game</b><small>Enter room code</small></button>
       </div>
-      ${two ? `<div class="sn-names">
+      ${ui.mode === '2p' ? `<div class="sn-names">
         <label>${skinDot({ skin: SKIN[0] })}<span>Player 1 · arrow keys${coarse() ? ' · right pad' : ''}</span><input class="field" id="snN0" maxlength="16" value="${esc(ui.names[0] || me || 'Player 1')}"></label>
         <label>${skinDot({ skin: SKIN[1] })}<span>Player 2 · W A S D${coarse() ? ' · left pad' : ''}</span><input class="field" id="snN1" maxlength="16" value="${esc(ui.names[1] || 'Player 2')}"></label></div>` : ''}
+      ${ui.mode === 'host' ? `<div class="sn-names"><label><input type="checkbox" id="snHostPlay" checked> I am Player 1 (uncheck if this is just a TV/Screen)</label></div>` : ''}
+      ${ui.mode === 'join' ? `<div class="sn-names"><label>Room Code: <input class="field" id="snJoinCode" placeholder="4-digit code" maxlength="4" style="text-transform:uppercase;"></label><label><input type="checkbox" id="snJoinScreen" checked> Show game screen (uncheck to use as remote controller only)</label></div>` : ''}
       <div class="board-actions"><button class="btn" data-sn="start">▶ Start</button></div>
       <ul class="sn-how">
-        <li><b>Manna</b> grows your snake. Don’t hit the cliffs, the rocks or yourself.</li>
+        <li><b>Manna</b> grows your caravan. Don’t hit the cliffs, the rocks or yourself.</li>
         <li>Every ${T.qEvery} manna, a <b>question</b> from this week’s reading drops three jars, <b class="sn-a">A</b> <b class="sn-b">B</b> <b class="sn-c">C</b>. Eat the right one: +${T.right} and you grow ${T.grow.right}, more for a streak (up to ×${T.streakMax + 1}). The wrong one: you shrink ${T.shrink}.</li>
         <li>${brassIcon}<b>The brass serpent</b> comes with every 3 right in a row: crash once, and you look and live.</li>
         <li>Each level is faster, then brings rocks, then <b>fiery serpents</b>.</li>
@@ -647,7 +696,7 @@
   function renderGame() {
     ui.view = 'game';
     shell(`<div id="snPanel" class="sn-panel" aria-live="polite"></div>
-      <div id="snStage" class="sn-stage"><div class="sn-frame${coarse() ? ' pads' : ''}"><canvas id="snCanvas" role="img" aria-label="The desert: your snake, manna, and any jars"></canvas>${coarse() ? padsHtml() : ''}<div id="snRead" class="sn-read" hidden></div><div id="snPause" class="sn-pausebox" hidden></div></div></div>`);
+      <div id="snStage" class="sn-stage"><div class="sn-frame${coarse() ? ' pads' : ''}"><canvas id="snCanvas" role="img" aria-label="The desert: your caravan, manna, and any jars"></canvas>${coarse() ? padsHtml() : ''}<div id="snRead" class="sn-read" hidden></div><div id="snPause" class="sn-pausebox" hidden></div></div></div>`);
     bg = null;
     hud(); panel(); readCard();
   }
@@ -678,11 +727,12 @@
     if (el._html !== html) { el._html = html; el.innerHTML = html; }
     el.hidden = false;
   }
-  function padsHtml() {
+  function padsHtml(onlyPlayer) {
     const pad = (p, label) => `<div class="sn-pad" data-p="${p}" aria-label="${label}">
       <button data-sn="dir" data-p="${p}" data-d="up" aria-label="Up">▲</button><button data-sn="dir" data-p="${p}" data-d="left" aria-label="Left">◀</button>
       <button data-sn="dir" data-p="${p}" data-d="right" aria-label="Right">▶</button><button data-sn="dir" data-p="${p}" data-d="down" aria-label="Down">▼</button></div>`;
-    return `${G.mode === '2p' ? pad(1, 'Player 2') : ''}${pad(0, G.mode === '2p' ? 'Player 1' : 'Steer')}`;
+    if (onlyPlayer != null) return pad(onlyPlayer, 'Player ' + (onlyPlayer + 1));
+    return `${G && G.mode === '2p' ? pad(1, 'Player 2') : ''}${pad(0, G && G.mode === '2p' ? 'Player 1' : 'Steer')}`;
   }
   const coarse = () => !!(window.matchMedia && window.matchMedia('(any-pointer: coarse)').matches) || !!window.TU_SNAKE_PADS;
 
@@ -692,7 +742,8 @@
     if (!G || ui.view !== 'game') { const best = saved().best || 0; el.innerHTML = best ? `<span class="score-chip">Best ${fmt(best)}</span>` : ''; return; }
     const chips = G.snakes.map(s => `<span class="score-chip sn-chip" style="--k:${s.skin.body}">${G.mode === '2p' ? skinDot(s) + esc(s.name) + ' ' : ''}<b>${fmt(s.score)}</b>${s.streak > 1 ? ` <span class="sn-streak">×${1 + Math.min(s.streak, T.streakMax)}</span>` : ''}${s.brass ? brassIcon : ''}${!s.alive ? ' 💥' : ''}</span>`).join('');
     const left = G.mode === '2p' ? Math.max(0, Math.ceil(T.round2p - G.time / 1000)) : null;
-    el.innerHTML = `${chips}<span class="score-chip">Level ${G.level}</span>${left != null ? `<span class="score-chip${left <= 10 ? ' sn-hot' : ''}">⏱ ${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}</span>` : `<span class="score-chip sn-best">Best ${fmt(Math.max(saved().best || 0, G.snakes[0].score))}</span>`}`;
+    const codeHtml = networkConfig && gameCode ? `<span class="score-chip" style="background:#4ade80; color:#064e3b;">Code: ${gameCode}</span>` : '';
+    el.innerHTML = `${codeHtml}${chips}<span class="score-chip">Level ${G.level}</span>${left != null ? `<span class="score-chip${left <= 10 ? ' sn-hot' : ''}">⏱ ${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}</span>` : `<span class="score-chip sn-best">Best ${fmt(Math.max(saved().best || 0, G.snakes[0].score))}</span>`}`;
   }
   // Above the desert: the question and its jars, then whether it was right and why; otherwise a line from the story.
   function panel() {
@@ -700,7 +751,7 @@
     if (!el || !G) return;
     let html;
     if (G.q && G.reading) {
-      html = `<p class="sn-idle">📜 A question! Read it, then go.</p><p class="sn-why">The snake waits while you read.</p>`;
+      html = `<p class="sn-idle">📜 A question! Read it, then go.</p><p class="sn-why">The caravan waits while you read.</p>`;
     } else if (G.q) {
       const wait = G.q.until === Infinity;   // the 3, 2, 1 after reading: the clock hasn't started
       const left = wait ? T.qSeconds : Math.max(0, Math.ceil((G.q.until - G.time) / 1000)), pct = wait ? 100 : Math.max(0, (G.q.until - G.time) / (T.qSeconds * 1000)) * 100;
@@ -728,7 +779,7 @@
     if (G.mode === '1p') {
       const s = G.snakes[0];
       body = `<div class="sn-menu sn-over">
-        <div class="eyebrow">${G.newBest ? '🏆 New best!' : 'The snake rests'}</div>
+        <div class="eyebrow">${G.newBest ? '🏆 New best!' : 'The caravan rests'}</div>
         <div class="sn-big">${fmt(s.score)}</div>
         <p class="sn-note">${s.right} of ${G.asked} ${G.asked === 1 ? 'question' : 'questions'} right · best streak ${s.bestStreak} · level ${G.level} · length ${s.body.length}</p>
         <p class="sn-hook">${host.html(lines.over || '')}</p>
@@ -785,6 +836,7 @@
     else if (act === 'resume') pause(false);
     else if (act === 'quit') { pause(false); gameOver(); }
     else if (act === 'go') ready(null);
+    else if (act === 'ready') { if (networkConfig && networkConfig.myPlayer != null) ready(networkConfig.myPlayer, null); }
   }
   // The pads steer on touch, right away (not on the click after it).
   function onPadDown(e) {
@@ -807,12 +859,99 @@
   function onHide() { if (document.hidden && G && G.state === 'play') pause(true); }
 
   function readNames() { const a = $('snN0'), b = $('snN1'); if (a) ui.names[0] = a.value.trim(); if (b) ui.names[1] = b.value.trim(); }
-  function start() {
+  function listenInputs() {
+    if (!dbGameRef) return;
+    unsubscribeInputs = dbGameRef.collection('inputs').orderBy('time').onSnapshot(snap => {
+      snap.docChanges().forEach(change => {
+        if (change.type === 'added') {
+          const data = change.doc.data();
+          if (data.sender !== myClientId) {
+            if (data.ready) ready(data.player, null, true);
+            else if (data.dir) turn(data.player, data.dir, true);
+          }
+        }
+      });
+    });
+  }
+
+  async function start() {
     readNames();
-    newGame(ui.mode);
-    renderGame();
-    fit();
-    last = performance.now();
+    const btn = document.querySelector('[data-sn="start"]');
+    if (btn) btn.disabled = true;
+
+    try {
+      if (ui.mode === 'host') {
+        const isPlay = $('snHostPlay') ? $('snHostPlay').checked : true;
+        gameCode = Math.floor(1000 + Math.random() * 9000).toString();
+        const seed = Date.now();
+        window.TU_SNAKE_SEED = seed;
+        myClientId = Math.random().toString(36).slice(2);
+        
+        const db = await host.db();
+        dbGameRef = db.collection('arcade_snake').doc(gameCode);
+        await dbGameRef.set({ seed, hostIsPlay: isPlay, playersJoined: 0, createdAt: host.fv().serverTimestamp() });
+        
+        networkConfig = { role: 'host', isTV: !isPlay, myPlayer: isPlay ? 0 : null };
+        listenInputs();
+        
+        newGame('2p');
+        renderGame();
+      } else if (ui.mode === 'join') {
+        const code = ($('snJoinCode') ? $('snJoinCode').value : '').toUpperCase();
+        if (!code) { if (btn) btn.disabled = false; return alert('Enter code'); }
+        const showScreen = $('snJoinScreen') ? $('snJoinScreen').checked : true;
+        myClientId = Math.random().toString(36).slice(2);
+        
+        const db = await host.db();
+        dbGameRef = db.collection('arcade_snake').doc(code);
+        const doc = await dbGameRef.get();
+        if (!doc.exists) { if (btn) btn.disabled = false; return alert('Game not found'); }
+        
+        const data = doc.data();
+        const pIndex = (data.playersJoined || 0) + (data.hostIsPlay ? 1 : 0);
+        if (pIndex > 1) { if (btn) btn.disabled = false; return alert('Game full'); }
+        await dbGameRef.update({ playersJoined: (data.playersJoined || 0) + 1 });
+        
+        window.TU_SNAKE_SEED = data.seed;
+        networkConfig = { role: 'join', seeScreen: showScreen, myPlayer: pIndex };
+        gameCode = code;
+        listenInputs();
+        
+        if (showScreen) {
+          newGame('2p');
+          renderGame();
+        } else {
+          renderRemote();
+          return;
+        }
+      } else {
+        networkConfig = null;
+        window.TU_SNAKE_SEED = null;
+        gameCode = null;
+        newGame(ui.mode);
+        renderGame();
+      }
+      fit();
+      last = performance.now();
+    } catch (e) {
+      console.error(e);
+      alert('Network error');
+      if (btn) btn.disabled = false;
+    }
+  }
+
+  function renderRemote() {
+    ui.view = 'remote';
+    shell(`<div class="sn-remote" style="text-align:center; padding: 40px; display:flex; flex-direction:column; align-items:center;">
+      <div class="eyebrow">Remote Controller</div>
+      <h2 style="color:#fff; margin-bottom: 20px;">You are Player ${networkConfig.myPlayer + 1}</h2>
+      <div style="position:relative; width: 160px; height: 160px; margin-bottom: 20px;">
+        ${padsHtml(networkConfig.myPlayer)}
+      </div>
+      <div style="margin-top: 20px;">
+        <button class="btn" data-sn="ready" style="padding: 12px 24px; font-size: 18px;">▶ Ready / Go</button>
+      </div>
+    </div>`);
   }
 
   function frame(now) {
@@ -957,6 +1096,8 @@
     raf = requestAnimationFrame(frame);
   }
   function close() {
+    if (unsubscribeInputs) unsubscribeInputs();
+    unsubscribeInputs = null;
     if (G && G.state === 'play' && G.mode === '1p' && G.snakes[0].score > 0) { G.state = 'play'; gameOver(); }   // a game left early still counts
     cancelAnimationFrame(raf);
     if (keyOff) keyOff();

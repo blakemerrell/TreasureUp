@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Treasure Up · "This Week" Learning Shorts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+<style>
+  :root {
+    --ink: #0a0a14;
+    --gold: #fcd34d;
+    --gold-glow: rgba(252, 211, 77, 0.25);
+    --green: #34d399;
+    --cyan: #67e8f9;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    margin: 0; padding: 0; min-height: 100vh;
+    background: #080811; color: #fff;
+    font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+    display: flex; flex-direction: column; align-items: center;
+    padding-bottom: 40px;
+  }
+
+  .device-shell {
+    width: 100%;
+    max-width: 440px;
+    min-height: 880px;
+    background: linear-gradient(165deg, #1e1b4b 0%, #29124e 40%, #0a0a14 88%);
+    box-shadow: 0 0 50px rgba(0,0,0,0.85);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* Sheet Drawer matching appSheet in Treasure Up */
+  .week-sheet {
+    background: #141427;
+    border-top: 1px solid rgba(255,255,255,0.14);
+    border-radius: 24px 24px 0 0;
+    padding: 18px 16px 36px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+  }
+
+  .sheet-drag {
+    width: 36px; height: 4px; border-radius: 999px;
+    background: rgba(255,255,255,0.25);
+    margin: -8px auto 4px;
+    cursor: pointer;
+  }
+
+  /* Horizontal Shorts Tray */
+  .shorts-tray {
+    display: flex;
+    gap: 11px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    padding-top: 2px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .shorts-tray::-webkit-scrollbar { display: none; }
+
+  /* Vertical "Short" Card */
+  .short-card {
+    flex: 0 0 138px;
+    height: 198px;
+    border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    scroll-snap-align: start;
+    border: 1.5px solid rgba(255,255,255,0.12);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px 11px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .short-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(252, 211, 77, 0.55);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.6);
+  }
+  .short-card.kids:hover {
+    border-color: rgba(103, 232, 249, 0.6);
+  }
+
+  .short-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,10,20,0.95) 0%, rgba(10,10,20,0.35) 50%, rgba(10,10,20,0.75) 100%);
+    z-index: 1;
+  }
+
+  .short-content {
+    position: relative; z-index: 2; height: 100%;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+
+  /* Progress ring on story avatar */
+  .story-ring {
+    width: 28px; height: 28px; border-radius: 50%;
+    padding: 1.5px; background: linear-gradient(135deg, #fcd34d, #34d399);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .story-inner {
+    width: 100%; height: 100%; border-radius: 50%;
+    background: #141427; display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+  }
+
+  /* Interactive Player Modal */
+  .player-modal {
+    position: absolute; inset: 0; background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px); z-index: 100;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 16px;
+  }
+  .player-modal.hidden { display: none; }
+
+  .verse-box {
+    padding: 10px 12px; border-radius: 12px;
+    background: rgba(0,0,0,0.45); border-left: 3px solid var(--gold);
+    font-size: 13.5px; line-height: 1.45; color: #fff;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Controls Explanation Banner -->
+  <div class="w-full max-w-xl text-center py-3 px-4">
+    <div class="inline-flex items-center gap-2 bg-amber-500/15 border border-amber-400/30 px-3.5 py-1 rounded-full text-xs font-bold text-amber-300">
+      <span>✨ "This Week" · Pure Shorts View</span>
+    </div>
+    <p class="text-xs text-slate-400 mt-1">Tap on <b>Family Night</b> or any <b>2-Minute Short</b> below to experience the interactive lesson deck.</p>
+  </div>
+
+  <div class="device-shell">
+
+    <!-- THIS WEEK SHEET -->
+    <div class="week-sheet">
+      <div class="sheet-drag"></div>
+
+      <!-- Sheet Header -->
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-[10px] font-extrabold uppercase tracking-widest text-amber-400">This Week · Oct 5–11</div>
+          <h1 class="text-xl font-black text-white leading-tight">Isaiah 50–57</h1>
+          <p class="text-xs text-slate-400 mt-0.5">Quick visual shorts for personal & family study</p>
+        </div>
+        <div class="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-sm font-bold text-slate-300">
+          ✨
+        </div>
+      </div>
+
+      <!-- Top Family Night Featured Hero -->
+      <div onclick="openShort('fhe')" class="p-4 rounded-2xl bg-gradient-to-r from-amber-500/20 via-purple-500/20 to-indigo-500/20 border border-amber-400/40 hover:border-amber-400 cursor-pointer flex items-center justify-between transition shadow-xl group">
+        <div class="flex items-center gap-3">
+          <span class="text-3xl p-2 bg-amber-400/15 rounded-xl">👪</span>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[10px] font-extrabold uppercase tracking-widest text-amber-400">Family Night Deck</span>
+              <span class="px-1.5 py-0.2 bg-amber-400/20 text-amber-300 rounded text-[9px] font-bold">20 MIN</span>
+            </div>
+            <h2 class="text-sm font-black text-white group-hover:text-amber-300 transition mt-0.5">Seek Him; He carries the load</h2>
+            <p class="text-[11px] text-slate-300">Song, scripture, heavy load challenge & talk</p>
+          </div>
+        </div>
+        <span class="text-amber-400 text-lg font-bold">›</span>
+      </div>
+
+      <!-- Section 1: The Lesson Shorts -->
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <span class="text-[11px] font-extrabold uppercase tracking-wider text-amber-300 block">The Lesson · 2-Min Shorts</span>
+            <p class="text-[11px] text-slate-400">One visual touchpoint per evening</p>
+          </div>
+          <span class="text-[10px] font-mono text-slate-400 bg-white/5 px-2 py-0.5 rounded">Swipe →</span>
+        </div>
+
+        <!-- Horizontal Tray of Shorts -->
+        <div class="shorts-tray">
+
+          <!-- Short 1: Monday -->
+          <div onclick="openShort('mon')" class="short-card" style="background: linear-gradient(135deg, #1e1b4b, #431407);">
+            <div class="short-overlay"></div>
+            <div class="short-content">
+              <div class="flex items-center justify-between">
+                <div class="story-ring"><div class="story-inner">🌅</div></div>
+                <span class="text-[9px] font-bold bg-red-600/90 text-white px-1.5 py-0.5 rounded">BibleProject</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-extrabold text-amber-400 uppercase">Mon · 2 Min</span>
+                <h4 class="text-xs font-black text-white leading-snug mt-0.5">The future is bright</h4>
+                <p class="text-[10px] text-slate-300 mt-0.5 font-mono">Isaiah 50–52</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Short 2: Tuesday -->
+          <div onclick="openShort('tue')" class="short-card" style="background: linear-gradient(135deg, #0f172a, #1e3a8a);">
+            <div class="short-overlay"></div>
+            <div class="short-content">
+              <div class="flex items-center justify-between">
+                <div class="story-ring"><div class="story-inner">❤️</div></div>
+                <span class="text-[9px] font-bold bg-blue-600/90 text-white px-1.5 py-0.5 rounded">Church Art</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-extrabold text-blue-300 uppercase">Tue · 2 Min</span>
+                <h4 class="text-xs font-black text-white leading-snug mt-0.5">Borne our griefs</h4>
+                <p class="text-[10px] text-slate-300 mt-0.5 font-mono">Isaiah 53</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Short 3: Wednesday -->
+          <div onclick="openShort('wed')" class="short-card" style="background: linear-gradient(135deg, #022c22, #134e4a);">
+            <div class="short-overlay"></div>
+            <div class="short-content">
+              <div class="flex items-center justify-between">
+                <div class="story-ring"><div class="story-inner">🕊️</div></div>
+                <span class="text-[9px] font-bold bg-emerald-600/90 text-white px-1.5 py-0.5 rounded">Audio</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-extrabold text-emerald-300 uppercase">Wed · 2 Min</span>
+                <h4 class="text-xs font-black text-white leading-snug mt-0.5">Return to Him</h4>
+                <p class="text-[10px] text-slate-300 mt-0.5 font-mono">Isaiah 54</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Short 4: Thursday -->
+          <div onclick="openShort('thu')" class="short-card" style="background: linear-gradient(135deg, #311042, #701a75);">
+            <div class="short-overlay"></div>
+            <div class="short-content">
+              <div class="flex items-center justify-between">
+                <div class="story-ring"><div class="story-inner">🌊</div></div>
+                <span class="text-[9px] font-bold bg-amber-600/90 text-white px-1.5 py-0.5 rounded">Line Upon Line</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-extrabold text-amber-300 uppercase">Thu · 2 Min</span>
+                <h4 class="text-xs font-black text-white leading-snug mt-0.5">Take hold of covenant</h4>
+                <p class="text-[10px] text-slate-300 mt-0.5 font-mono">Isaiah 55–56</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Section 2: For Children Shorts (Kid Friendly with Thumb Follow Me!) -->
+      <div>
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <span class="text-[11px] font-extrabold uppercase tracking-wider text-cyan-300 block">For Children 🧒 · Animated Shorts</span>
+            <p class="text-[11px] text-slate-400">Thumb Follow Me clips & fun kid questions</p>
+          </div>
+          <span class="text-[10px] font-mono text-cyan-300/80 bg-cyan-950/40 px-2 py-0.5 rounded border border-cyan-400/20">Kids Mode</span>
+        </div>
+
+        <div class="shorts-tray">
+
+          <!-- Kid Short 1: Thumb Follow Me -->
+          <div onclick="openShort('kids')" class="short-card kids" style="background: linear-gradient(135deg, #083344, #164e63); border-color: rgba(103,232,249,0.4);">
+            <div class="short-overlay"></div>
+            <div class="short-content">
+              <div class="flex items-center justify-between">
+                <div class="story-ring" style="background: linear-gradient(135deg, #67e8f9, #38bdf8);"><div class="story-inner">👑</div></div>
+                <span class="text-[9px] font-black bg-cyan-400 text-slate-950 px-1.5 py-0.5 rounded">Thumb Follow Me</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-black text-cyan-300 uppercase">Kids · 2 Min</span>
+                <h4 class="text-xs font-black text-white leading-snug mt-0.5">Put on your strength!</h4>
+                <p class="text-[10px] text-cyan-200 mt-0.5 font-mono">Isaiah 51–52</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kid Short 2 -->
+          <div onclick="openShort('tue')" class="short-card kids" style="background: linear-gradient(135deg, #064e3b, #047857);">
+            <div class="short-overlay"></div>
+            <div class="short-content">
+              <div class="flex items-center justify-between">
+                <div class="story-ring"><div class="story-inner">🩹</div></div>
+                <span class="text-[9px] font-bold bg-white/20 text-white px-1.5 py-0.5 rounded">Object Lesson</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-bold text-emerald-300 uppercase">Kids · 2 Min</span>
+                <h4 class="text-xs font-black text-white leading-snug mt-0.5">Healed by His stripes</h4>
+                <p class="text-[10px] text-slate-300 mt-0.5 font-mono">Isaiah 53:3–9</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kid Short 3 -->
+          <div onclick="openShort('thu')" class="short-card kids" style="background: linear-gradient(135deg, #451a03, #78350f);">
+            <div class="short-overlay"></div>
+            <div class="short-content">
+              <div class="flex items-center justify-between">
+                <div class="story-ring"><div class="story-inner">🔍</div></div>
+                <span class="text-[9px] font-bold bg-white/20 text-white px-1.5 py-0.5 rounded">Hunt</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-bold text-amber-300 uppercase">Kids · 2 Min</span>
+                <h4 class="text-xs font-black text-white leading-snug mt-0.5">Seek and call on Him</h4>
+                <p class="text-[10px] text-slate-300 mt-0.5 font-mono">Isaiah 55:6</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kid Short 4 -->
+          <div onclick="openShort('mon')" class="short-card kids" style="background: linear-gradient(135deg, #312e81, #1e1b4b);">
+            <div class="short-overlay"></div>
+            <div class="short-content">
+              <div class="flex items-center justify-between">
+                <div class="story-ring"><div class="story-inner">☁️</div></div>
+                <span class="text-[9px] font-bold bg-white/20 text-white px-1.5 py-0.5 rounded">Drawing</span>
+              </div>
+              <div>
+                <span class="text-[10px] font-bold text-indigo-300 uppercase">Kids · 2 Min</span>
+                <h4 class="text-xs font-black text-white leading-snug mt-0.5">Higher than mine</h4>
+                <p class="text-[10px] text-slate-300 mt-0.5 font-mono">Isaiah 55:8–9</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Section 3: Your Week Stats (Preserved from original) -->
+      <div class="pt-2 border-t border-white/10">
+        <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-2">Your Week</div>
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div class="p-3 rounded-xl bg-white/5 border border-white/5 flex items-center gap-2.5">
+            <span class="text-lg">📜</span>
+            <div>
+              <b class="text-white block text-sm">3 of 7</b>
+              <span class="text-[10px] text-slate-400">Chapters Read</span>
+            </div>
+          </div>
+          <div class="p-3 rounded-xl bg-white/5 border border-white/5 flex items-center gap-2.5">
+            <span class="text-lg">🎬</span>
+            <div>
+              <b class="text-white block text-sm">6 of 11</b>
+              <span class="text-[10px] text-slate-400">Reels Answered</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- QUICK SHORT VIEWER MODAL (When any Short is tapped) -->
+    <div id="playerModal" class="player-modal hidden">
+      <div class="bg-slate-900 border border-white/20 rounded-2xl p-5 flex flex-col gap-3 shadow-2xl relative">
+        <button onclick="closeShort()" class="absolute top-3 right-3 text-slate-400 hover:text-white font-bold text-sm w-7 h-7 rounded-full bg-white/10 flex items-center justify-center">✕</button>
+
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-amber-400 text-slate-950" id="mBadge">Short · 2 Min</span>
+          <span class="text-xs font-mono text-slate-400" id="mRef">Isaiah 50–52</span>
+        </div>
+
+        <h3 class="text-base font-black text-white leading-tight" id="mTitle">The Future Is Bright</h3>
+
+        <!-- Media preview -->
+        <div id="mMedia" class="p-3 rounded-xl bg-black/40 border border-white/10 text-xs">
+          <!-- Dynamic media embed -->
+        </div>
+
+        <p class="text-xs text-slate-200 leading-relaxed" id="mText">
+          Loading lesson card...
+        </p>
+
+        <div class="flex items-center justify-between pt-2 border-t border-white/10 mt-1">
+          <button onclick="rotateTurn()" class="text-xs font-bold text-amber-300 hover:text-amber-200">
+            <span id="turnLabel">👦 Javan's Turn to Read</span> ⇄
+          </button>
+          <button onclick="closeShort()" class="px-4 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs shadow-md">
+            Done ✓ +10 XP
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const turnNames = ["👦 Javan's Turn to Read", "👩 Chantel's Turn to Read", "👨 Blake's Turn to Read", "👦 Javan's Turn to Pray", "👨 Blake's Turn to Pray"];
+    let turnIdx = 0;
+
+    function rotateTurn() {
+      turnIdx = (turnIdx + 1) % turnNames.length;
+      document.getElementById('turnLabel').textContent = turnNames[turnIdx];
+    }
+
+    function openShort(key) {
+      const modal = document.getElementById('playerModal');
+      modal.classList.remove('hidden');
+
+      if (key === 'kids') {
+        document.getElementById('mBadge').textContent = 'Kids Short · Thumb Follow Me';
+        document.getElementById('mBadge').className = 'px-2 py-0.5 rounded text-[10px] font-black uppercase bg-cyan-400 text-slate-950';
+        document.getElementById('mRef').textContent = 'Isaiah 51–52';
+        document.getElementById('mTitle').textContent = 'Put On Thy Strength!';
+        document.getElementById('mMedia').innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-cyan-300">🎬 Thumb Follow Me (60s Kids Clip)</span>
+            <button onclick="alert('Playing Thumb Follow Me!')" class="px-2.5 py-1 bg-cyan-400 text-slate-950 font-black rounded text-[10px]">▶ Play</button>
+          </div>
+        `;
+        document.getElementById('mText').textContent = '“Awake, awake; put on thy strength, O Zion!” Choosing right gives us holy armor to stand tall!';
+      } else if (key === 'fhe') {
+        document.getElementById('mBadge').textContent = 'Full FHE Deck · 20 Min';
+        document.getElementById('mBadge').className = 'px-2 py-0.5 rounded text-[10px] font-black uppercase bg-purple-400 text-slate-950';
+        document.getElementById('mRef').textContent = 'Isaiah 53 & 55';
+        document.getElementById('mTitle').textContent = 'Seek Him; He Carries the Load';
+        document.getElementById('mMedia').innerHTML = `
+          <div class="text-xs text-purple-200">
+            🎵 Song: "Seek the Lord Early" · 📖 Scripture: Isa 55:6 · ⚖️ Heavy Object Lesson · 💬 Family Talk
+          </div>
+        `;
+        document.getElementById('mText').textContent = 'Family night plan ready for tonight! Gather the family, start with prayer, and try the heavy load challenge.';
+      } else if (key === 'tue') {
+        document.getElementById('mBadge').textContent = 'Evening Short · 2 Min';
+        document.getElementById('mBadge').className = 'px-2 py-0.5 rounded text-[10px] font-black uppercase bg-blue-400 text-slate-950';
+        document.getElementById('mRef').textContent = 'Isaiah 53';
+        document.getElementById('mTitle').textContent = 'He Hath Borne Our Griefs';
+        document.getElementById('mMedia').innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-blue-300">🎨 Church Art · Christ the Consoler</span>
+            <button onclick="alert('Viewing artwork details')" class="px-2.5 py-1 bg-blue-500 text-white font-bold rounded text-[10px]">View</button>
+          </div>
+        `;
+        document.getElementById('mText').textContent = '“Surely he hath borne our griefs, and carried our sorrows.” You never have to carry sadness alone.';
+      } else if (key === 'wed') {
+        document.getElementById('mBadge').textContent = 'Evening Short · 2 Min';
+        document.getElementById('mBadge').className = 'px-2 py-0.5 rounded text-[10px] font-black uppercase bg-emerald-400 text-slate-950';
+        document.getElementById('mRef').textContent = 'Isaiah 54';
+        document.getElementById('mTitle').textContent = 'With Everlasting Kindness';
+        document.getElementById('mMedia').innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-emerald-300">🔊 Gospel Library Audio Narration</span>
+            <button onclick="alert('Playing Gospel Library Audio')" class="px-2.5 py-1 bg-emerald-500 text-slate-950 font-black rounded text-[10px]">▶ Listen</button>
+          </div>
+        `;
+        document.getElementById('mText').textContent = '“My kindness shall not depart from thee, neither shall the covenant of my peace be removed.”';
+      } else if (key === 'thu') {
+        document.getElementById('mBadge').textContent = 'Evening Short · 2 Min';
+        document.getElementById('mBadge').className = 'px-2 py-0.5 rounded text-[10px] font-black uppercase bg-amber-400 text-slate-950';
+        document.getElementById('mRef').textContent = 'Isaiah 55–56';
+        document.getElementById('mTitle').textContent = 'Take Hold of My Covenant';
+        document.getElementById('mMedia').innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-amber-300">🎬 Line Upon Line (60s Overview)</span>
+            <button onclick="alert('Playing Line Upon Line clip!')" class="px-2.5 py-1 bg-amber-400 text-slate-950 font-black rounded text-[10px]">▶ Play</button>
+          </div>
+        `;
+        document.getElementById('mText').textContent = '“Seek ye the LORD while he may be found, call ye upon him while he is near.”';
+      } else {
+        document.getElementById('mBadge').textContent = 'Evening Short · 2 Min';
+        document.getElementById('mBadge').className = 'px-2 py-0.5 rounded text-[10px] font-black uppercase bg-amber-400 text-slate-950';
+        document.getElementById('mRef').textContent = 'Isaiah 50–52';
+        document.getElementById('mTitle').textContent = 'The Future Is Bright';
+        document.getElementById('mMedia').innerHTML = `
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-red-300">🎬 BibleProject Clip (48s)</span>
+            <button onclick="alert('Playing BibleProject clip!')" class="px-2.5 py-1 bg-red-600 text-white font-bold rounded text-[10px]">▶ Play</button>
+          </div>
+        `;
+        document.getElementById('mText').textContent = '“The redeemed of the LORD shall return with singing unto Zion.” God has bright things ahead for our family.';
+      }
+    }
+
+    function closeShort() {
+      document.getElementById('playerModal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
