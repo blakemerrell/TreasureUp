@@ -3726,15 +3726,15 @@ const TreasureUp = (function () {
     if (S.profile) return S.profile;
     const who = seasonWho();
     const isKid = who !== 'adult';
-    const name = (F && F.name) || S.ownerName || (isKid ? 'Javan' : 'Blake');
+    const name = (F && F.name) || S.ownerName || '';
     return {
       name,
       role: isKid ? 'kid' : 'parent',
-      age: isKid ? 11 : 40,
+      age: null,   // asked in the profile, never written into the (public) code
       stage: isKid ? 'youth' : 'adult',
-      milestone: isKid ? 'Preparing for Deacons Quorum & Temple at 12' : 'Executive Leadership & Spiritual Discipleship',
+      milestone: '',
       interests: isKid ? [...DEFAULT_KID_INTERESTS] : [...DEFAULT_ADULT_INTERESTS],
-      superpower: isKid ? 'Creative Builder & Energy' : 'Strategic Clarity & Leadership',
+      superpower: '',
       who
     };
   }
@@ -3750,12 +3750,12 @@ const TreasureUp = (function () {
     }
     save();
     refreshHome();
-    toast('🌱 Growth Profile Saved', `${p.name}’s coach is calibrated!`);
+    toast('🌱 Growth Profile Saved', `${p.name ? p.name + '’s' : 'Your'} coach is calibrated!`);
   }
 
   function profileSummaryHtml() {
     const p = profileOf();
-    return p.who === 'adult' ? `${esc(p.name)} · Best Self PRO` : `${esc(p.name)} · Age ${p.age} (${(p.interests || []).length} interests)`;
+    return p.who === 'adult' ? `${esc(p.name || 'My profile')} · Best Self PRO` : `${esc(p.name || 'My profile')}${p.age ? ' · Age ' + p.age : ''} (${(p.interests || []).length} interests)`;
   }
 
   function coachSuggestedIdeas(area) {
@@ -3793,8 +3793,8 @@ const TreasureUp = (function () {
         list.push({ icon: '📖', title: 'Scripture feast', step: 'Read Come Follow Me & Book of Mormon with focus', n: 6 });
       }
       if (area === 'social' || !area) {
-        list.push({ icon: '🤝', title: 'Dad 1-on-1 time', step: '30 min protected 1-on-1 time with Javan', n: 2 });
-        list.push({ icon: '❤️', title: 'Marriage date', step: 'Weekly intentional date night with Chantel', n: 1 });
+        list.push({ icon: '🤝', title: 'Dad 1-on-1 time', step: '30 min protected 1-on-1 time with one of your kids', n: 2 });
+        list.push({ icon: '❤️', title: 'Marriage date', step: 'Weekly intentional date night with your spouse', n: 1 });
       }
       if (area === 'physical' || !area) {
         list.push({ icon: '🏃', title: 'Physical conditioning', step: 'Morning training / workout 45 minutes', n: 4 });
@@ -3990,7 +3990,7 @@ const TreasureUp = (function () {
           </div>
           <div class="bp-quick-pills">
             ${(kid ? ['Mom or Dad', 'Friend at school', 'Brother / Sister', 'Someone lonely']
-                  : ['Chantel (my wife)', 'Javan', 'One of my kids', 'A team member', 'A neighbor']
+                  : ['My spouse', 'One of my kids', 'A team member', 'A neighbor']
             ).map(p => `<button type="button" class="bp-quick-pill" data-bp-pick-uplift="${esc(p)}">+ ${esc(p)}</button>`).join('')}
           </div>
           <textarea class="field bp-textarea sm" id="bpUplift" maxlength="200" rows="1" data-min-height="42" placeholder="Who can I serve, encourage, text, or pray for?">${esc(bp.uplift || '')}</textarea>
@@ -4081,7 +4081,7 @@ const TreasureUp = (function () {
   function eveningSheetHtml() {
     const k = dayKey(), had = eveningOf(k), ev = had ? had[1] : {}, kid = seasonWho() !== 'adult';
     return `<div class="sh-title">🌙 Return & Report</div>
-      <p class="sh-small">“In the evening, we kneel and return and report to Heavenly Father—giving thanks, accounting for our efforts, and receiving counsel.” (Elder David A. Bednar)</p>
+      <p class="sh-small">“At the end of our day, we kneel again and report back to our Father. We review the events of the day and express heartfelt thanks for the blessings and the help we received.” (Elder David A. Bednar, “Pray Always,” October 2008)</p>
 
       <div class="sheet-group">
         <label>✨ Noticing His Mercies (Alma 34:38)</label>
@@ -15758,6 +15758,7 @@ const TreasureUp = (function () {
     for (const k in L.found || {}) if (!has(B.found, k) && has(R.found, k) && L.found[k].right) gained -= xpOf(L.found[k], FIND_XP);
     for (const k in L.sunday || {}) if (!has(B.sunday, k) && has(R.sunday, k) && L.sunday[k].right) gained -= xpOf(L.sunday[k], XP.firstTry);
     for (const k in L.talks || {}) if (!has(B.talks, k) && has(R.talks, k)) gained -= xpOf(L.talks[k], TALK_XP);
+    for (const k in L.shortsDone || {}) if (!has(B.shortsDone, k) && has(R.shortsDone, k) && L.shortsDone[k].xp) gained -= L.shortsDone[k].xp;
     const paid = (o, k) => has(o, k) && !!o[k].xp;
     for (const k in L.readLog || {}) if (paid(L.readLog, k) && !paid(B.readLog, k) && paid(R.readLog, k)) gained -= xpOf(L.readLog[k], READ_XP);
     for (const k in L.notes || {}) {
@@ -15832,11 +15833,13 @@ const TreasureUp = (function () {
     M.impressions = newerById(R.impressions, L.impressions);
     M.marks = newerById(R.marks, L.marks);
     // Settings: one changed on this device since they last met wins; else the family's.
-    for (const key of ['seasonWho', 'stillPrefs', 'sayPos']) {
+    for (const key of ['seasonWho', 'stillPrefs', 'sayPos', 'profile', 'studyMode']) {
       if (JSON.stringify(L[key]) !== JSON.stringify(B[key]) && L[key] !== undefined) M[key] = L[key];
       else if (M[key] === undefined && L[key] !== undefined) M[key] = L[key];
     }
     M.arcadeOpen = [R.arcadeOpen, L.arcadeOpen].filter(Boolean).sort().pop() || '';
+    // This week's shorts and mini-lessons: done on either device stays done, its XP paid once.
+    M.shortsDone = Object.assign({}, L.shortsDone || {}, R.shortsDone || {});
     for (const key of ['answers', 'bonus', 'deep', 'sayings', 'recall', 'sayRecall', 'read', 'found', 'insights', 'sunday', 'talks', 'picks']) M[key] = Object.assign({}, L[key] || {}, R[key] || {});
     // The reading clock: a chapter finished on either device keeps its record.
     M.readLog = Object.assign({}, L.readLog || {}, R.readLog || {});
@@ -16254,7 +16257,7 @@ const TreasureUp = (function () {
         if (!p) return '';
         return `<div class="hub-card" style="margin-top:8px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:10px">
           <div style="display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:11px;font-weight:800;text-transform:uppercase;color:#38bdf8">🌱 Growth Profile · Age ${p.age || 11}</span>
+            <span style="font-size:11px;font-weight:800;text-transform:uppercase;color:#38bdf8">🌱 Growth Profile${p.age ? ' · Age ' + p.age : ''}</span>
             <button type="button" class="bp-edit-btn" data-hub-profile="${esc(name)}">Coach ✎</button>
           </div>
           <p style="margin:2px 0 4px;font-size:12px;color:#fde68a">${esc(p.milestone || '')}</p>
