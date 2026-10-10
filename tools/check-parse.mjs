@@ -17,11 +17,11 @@ const tracked = execFileSync('git', ['ls-files', '*.html', '*.js', '*.mjs'], { c
 const bad = [];
 let n = 0;
 
-// A classic script compiles as one; a module (import/export) checks with `node --check`.
+import os from 'node:os';
 function compile(code, name, module) {
   n++;
   if (module) {
-    const tmp = path.join(fs.mkdtempSync(path.join(process.env.RUNNER_TEMP || '/tmp', 'parse-')), 'x.mjs');
+    const tmp = path.join(fs.mkdtempSync(path.join(process.env.RUNNER_TEMP || os.tmpdir(), 'parse-')), 'x.mjs');
     fs.writeFileSync(tmp, code);
     try { execFileSync(process.execPath, ['--check', tmp], { stdio: 'pipe' }); }
     catch (e) { bad.push(name + ': ' + String(e.stderr || e.message).split('\n').filter(l => /Error/.test(l))[0]); }
