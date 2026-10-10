@@ -9854,6 +9854,7 @@ const TreasureUp = (function () {
     if (!F || F.pending || !FIREBASE_CONFIG) return;
     clearTimeout(seasonSumTimer);
     seasonSumTimer = setTimeout(() => {
+      if (!F || F.pending) return;   // left the family in the meantime (a parent took the device out, or its sign-in went)
       const sum = seasonSummary(), json = JSON.stringify(sum);
       if (!sum.goals.length && !stored(NS + 'seasonSum')) return;
       if (stored(NS + 'seasonSum') === json) return;
