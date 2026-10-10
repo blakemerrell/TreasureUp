@@ -6098,7 +6098,8 @@ const TreasureUp = (function () {
         <div class="lib-chs">${chs.map((ch, i) => `<button class="lib-ch${now.has(ch) ? ' now' : ''}${everRead(ch) ? ' done' : ''}" data-lib-ch="${esc(ch)}" aria-label="${esc(ch)}${everRead(ch) ? ', read' : ''}">${i + 1}</button>`).join('')}</div>`;
     }
     const week = WEEK.reference ? `<button class="lib-week" data-lib-book="${esc((readingAll()[0] || {}).book || '')}"><span>This week<b>${esc(WEEK.reference)}</b></span><span>›</span></button>` : '';
-    return `<div class="eyebrow">Scriptures</div><h1 class="reel-hook lib-h">Every book, chapter and verse</h1>${week}
+    const mockupBanner = `<a href="mockup-scriptures.html" class="lib-week" style="margin-bottom:12px;background:linear-gradient(135deg,rgba(56,189,248,.15),rgba(129,140,248,.1));border-color:rgba(56,189,248,.4);text-decoration:none"><span>✨ New Scripture Library Prototype<b>Dot Matrices · Chapter Grids · Reader</b></span><span>›</span></a>`;
+    return `<div class="eyebrow">Scriptures</div><h1 class="reel-hook lib-h">Every book, chapter and verse</h1>${mockupBanner}${week}
       ${lib.map(v => `<div class="lib-vol"><div class="eyebrow">${esc(v.name)}</div><div class="lib-books">${v.books.map(([name, n]) => {
         const read = Array.from({ length: n }, (_, i) => name + ' ' + (i + 1)).filter(everRead).length;
         return `<button class="lib-book${[...now].some(c => c.startsWith(name + ' ')) ? ' now' : ''}" data-lib-book="${esc(name)}">${esc(name)}${read ? `<small>${read === n ? '✓ all read' : read + ' of ' + n + ' read'}</small>` : ''}</button>`; }).join('')}</div></div>`).join('')}`;
