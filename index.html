@@ -3528,7 +3528,13 @@ const TreasureUp = (function () {
     const what = [unitsLabel(readingPlan()[d]) || (dayReels(d).length ? qWord(dayReels(d).length) : ''), rows.some(r => r.kind === 'cfm') && 'Come Follow Me',
       rows.some(r => r.kind === 'gc') && 'conference', rows.some(r => r.kind === 'fsy') && 'youth study', rows.some(r => r.kind === 'goal') && 'goals', rows.some(r => r.kind === 'thanks') && 'thanks'].filter(Boolean).join(' · ');
     let button = '';
-    if (rows.length && !next) button = isToday ? `<div class="fl-done"><b>✓ Today’s study: done</b><small>${esc(d < 5 ? 'Tomorrow: ' + dayName(d + 1) : 'Tomorrow: church, then a family game')}</small></div>`
+    const keepQ = isToday && rows.length && !next ? keepQueue() : [];
+    if (rows.length && !next && keepQ.length) {
+      // Today's path is done; its extras are still open: the button goes on through them (Keep going).
+      const kw = keepWhat(keepQ);
+      button = `<button class="fl-next" data-keep-going><b>▶ ${keepOn === k ? 'Pick up where you left off' : 'Keep going'}</b><small>${esc('Today’s study ✓ · ' + kw.words)}</small></button>`;
+    }
+    else if (rows.length && !next) button = isToday ? `<div class="fl-done"><b>✓ Today’s study: done</b><small>${esc(d < 5 ? 'Tomorrow: ' + dayName(d + 1) : 'Tomorrow: church, then a family game')}</small></div>`
       : at >= 0 ? `<button class="fl-next ahead" data-lesson="${d}.${at}"><b>▶ Practice it again</b><small>Already done: nothing new to earn</small></button>` : '';
     else if (next && (isToday || at >= 0)) {
       // Today's study opens with Be still, then the lesson (Blake picked both: the first row, and the green button), until he's been still or passed it by today.
@@ -3643,7 +3649,7 @@ const TreasureUp = (function () {
   function openBomSheet(k, ch) {
     openSheet(bomSheetHtml(k, ch));
   }
-  function markBomDone(k, ch) {
+  function bomRecord(k) {
     const day = k || dayKey(), dn = pathDoneOf(day);
     if (!dn.bom) {
       const rec = {}; payXp(rec, BOM_XP, 'Book of Mormon Living Water'); setPathDone(day, 'bomXp', rec);
@@ -3651,6 +3657,9 @@ const TreasureUp = (function () {
     setPathDone(day, 'bom', 1);
     markStudied();
     save();
+  }
+  function markBomDone(k, ch) {
+    bomRecord(k);
     closeSheet();
     refreshHome();
     toast('📜 Book of Mormon Read', 'Living Water for your soul');
@@ -3773,7 +3782,7 @@ const TreasureUp = (function () {
     }
   }
 
-  function markFsyDone(k, cardId) {
+  function fsyRecord(k, cardId) {
     const day = k || dayKey(), dn = pathDoneOf(day);
     if (!dn['fsy_' + (cardId || day)] && !dn.fsy) {
       const rec = {}; payXp(rec, FSY_XP, 'Youth FSY Study');
@@ -3783,6 +3792,9 @@ const TreasureUp = (function () {
     setPathDone(day, 'fsy', 1);
     markStudied();
     save();
+  }
+  function markFsyDone(k, cardId) {
+    fsyRecord(k, cardId);
     refreshHome();
     toast('🎉 Youth Study Done (+15 XP)', 'For the Strength of Youth locked in!');
   }
@@ -8889,6 +8901,38 @@ const TreasureUp = (function () {
   function furtherKey(d) {
     const k = weekPlan()[d].findIndex(e => e.kind === 'further');
     return k >= 0 && furtherItems(d).some(x => !x.done) ? d + '.' + k : null;
+  }
+  // Keep going (Blake, 2026-10-10: the deep dive "outside the normal play
+  // button flow… I would like the option to continue in the flow", and on
+  // coming back, "guide me through all open suggested study cards… until I am
+  // done or exit"): once today's path is done, the day's open extras in the
+  // order Keep going lists them (its Go further, then Friday's deep dive, then
+  // the weekly puzzle), asked once on the 🎉 screen and then played one after
+  // another; Today's button picks it up where he left off. The same for
+  // everyone (Blake's choice). Each card saves when it's done, so stopping
+  // anywhere loses nothing.
+  let keepOn = null;   // the day he said "Keep going": until it changes, one part leads straight to the next
+  function keepQueue() {
+    const d = todayIndex();
+    if (d > 5) return [];
+    return (weekPlan()[d] || []).map((e, i) => ({ e, key: d + '.' + i }))
+      .filter(({ e }) => /^(further|friday|puzzle)$/.test(e.kind) && !(e.kind === 'puzzle' && reelsLeft())
+        && entryItems(e).some(x => !x.done) && buildLesson(e, '').steps.some(st => st.kind !== 'recall' && st.kind !== 'saywarm'));
+  }
+  // About how long: a deeper reading 3 minutes, a note 2, the puzzle 5, anything else 1.
+  const KEEP_MIN = { deep: 3, note: 2, puzzle: 5 };
+  function keepMinutes(q) {
+    return q.reduce((m, { e }) => m + buildLesson(e, '').steps.reduce((n, st) => n + (KEEP_MIN[st.kind] || 1), 0), 0);
+  }
+  function keepWhat(q) {
+    const n = q.reduce((m, { e }) => m + entryItems(e).filter(x => !x.done).length, 0);
+    return { n, words: (n === 1 ? '1 more' : n + ' more') + ' · about ' + keepMinutes(q) + ' min' };
+  }
+  // "Keep going": from here on today, each part leads into the next.
+  function playKeep() {
+    keepOn = dayKey();
+    const q = keepQueue();
+    if (q.length) openLesson(q[0].key);
   }
   const entryName = e => e.kind === 'day' ? dayName(e.d)
     : e.kind === 'further' ? 'Go further · ' + dayName(e.d)
@@ -18093,8 +18137,15 @@ const TreasureUp = (function () {
       const c = cfmOf(d);
       if (c && want('cfm-' + c.x.id) && (practice || !cfmDone(c))) steps.push({ kind: 'cfm', c });
       if (d === todayIndex() && !focus) {
-        const k = dayKey(), dn = pathDoneOf(k), t = gcOf(k);
-        if (t && !dn.gc) steps.push({ kind: 'gc', t });
+        // The rest of Today's path, in its order (dayPath), so the one button plays all of it (Blake, 2026-10-10:
+        // FSY and the Book of Mormon had to be opened from their rows; a youth's "Pick up at" replayed the chapter).
+        const k = dayKey(), dn = pathDoneOf(k), t = gcOf(k), b = bomOf(k);
+        if (b && !dn.bom && !dn.bomSkip) steps.push({ kind: 'bom', b });
+        if (seasonWho() !== 'adult') {
+          const y = fsyOf(k), c = y && y.card;
+          if (c && !dn['fsy_' + (c.id || k)] && !dn.fsy) steps.push(Object.assign({ kind: 'fsy', y, c, id: c.id }, c.q && c.right
+            ? { q: c.q, right: c.right, why: c.why, choices: choicesFor({ right: c.right, wrong: c.wrong || [] }, 'fsy|' + c.id) } : {}));
+        } else if (t && !dn.gc) steps.push({ kind: 'gc', t });
         if (goalSteps().length && !dn.goals) steps.push({ kind: 'goals' });
         if (!gratefulOf(k) && !dn.thanks) steps.push({ kind: 'thanks' });
       }
@@ -18179,6 +18230,7 @@ const TreasureUp = (function () {
       save();
     }
     else if (step.kind === 'deep') recordDeep(step.id, picked);
+    else if (step.kind === 'fsy') fsyRecord(dayKey(), step.id);
     else if (step.kind === 'bonus') recordBonus(step.id, step.n, picked);
     else if (step.kind === 'find' && !step.practice) recordFind(step.id, ok);
     else if (step.kind === 'sunq') recordSun(step.id, picked);
@@ -18186,7 +18238,7 @@ const TreasureUp = (function () {
   }
 
   // "Right first time" on the last screen counts the questions, not the practice.
-  const SCORED = { recall: 1, reel: 1, deep: 1, find: 1, bonus: 1, sunq: 1, say: 1 };
+  const SCORED = { recall: 1, reel: 1, deep: 1, find: 1, bonus: 1, sunq: 1, say: 1, fsy: 1 };
   const LESSON_KIND = { recall: 'Review · remember this?', reel: 'Choose the right answer',
     find: 'Find it in the chapter', say: 'Who said it?', deep: 'Go deeper',
     insight: '💡 Insight', bonus: 'Bonus · find it in the reading · +' + XP.bonus + ' XP', note: 'Write a note · +' + NOTE_XP + ' XP',
@@ -18218,7 +18270,8 @@ const TreasureUp = (function () {
     const min = step.kind === 'chapter' ? minutesOf([step.u]) : 0, part = step.kind === 'chapter' && step.part && step.part.of > 1 ? step.part : null;
     let html = `<div class="ls-kind">${step.retry ? '↻ Try it again' : step.kind === 'read' ? 'Read' : part ? 'Read · part ' + part.n + ' of ' + part.of + (min ? ' · about ' + min + ' min' : '')
       : step.kind === 'chapter' ? 'Read the chapter' + (min ? ' · about ' + min + ' min' : '') : step.kind === 'puzzle' ? 'Saturday'
-      : step.kind === 'cfm' ? 'Come Follow Me · part ' + step.c.n + ' of ' + step.c.of : step.kind === 'gc' ? '🎤 General conference · talk ' + step.t.n + ' of ' + step.t.of
+      : step.kind === 'cfm' ? 'Come Follow Me · part ' + step.c.n + ' of ' + step.c.of : step.kind === 'bom' ? '📜 Book of Mormon · Living Water' : step.kind === 'fsy' ? (step.y.kind === 'mag' ? '📖 FSY Magazine' : '⛪ Youth Study · FSY Ch ' + step.y.yl.m.chapter)
+      : step.kind === 'gc' ? '🎤 General conference · talk ' + step.t.n + ' of ' + step.t.of
       : step.kind === 'goals' ? '🌱 My Season · ' + esc(seasonNow().name) : step.kind === 'thanks' ? '🙏 Grateful for…'
       : step.kind === 'bonus' ? esc('Bonus · find it in ' + sourceLabel(step.q.source) + ' · +' + XP.bonus + ' XP')
       : step.kind === 'insight' ? { quote: '💬 Quote', video: '🎬 Video' }[step.x.kind] || LESSON_KIND.insight : LESSON_KIND[step.kind]}${stepFixHtml(step)}</div>`;
@@ -18321,6 +18374,18 @@ const TreasureUp = (function () {
           <textarea id="cfmNote" class="field" rows="3" maxlength="600" placeholder="Write a line, if you want" aria-label="Your answer">${esc(L.cfmText || '')}</textarea>
           <small>It goes in your Season notebook, with your notes.</small></div>
         <a class="gd-go" href="${esc(lessonAt(WEEK, x.id))}" target="_blank" rel="noopener noreferrer">Read this part in Gospel Library ↗</a>`;
+    } else if (step.kind === 'bom') {
+      // The day's Book of Mormon micro-read (bomSheetHtml): its verse and line, the chapter to read, then he says he read it.
+      const b = step.b;
+      html += `<div class="ls-prompt">${esc(b.verse || b.ch)}</div>
+        ${b.hook ? `<blockquote class="ins-quote">${esc(b.hook)}</blockquote>` : ''}
+        <a class="deep-open" href="${esc(readLink(b.ch))}" target="_blank" rel="noopener noreferrer">Read ${esc(b.ch)} ↗</a>`;
+    } else if (step.kind === 'fsy') {
+      // The youth's FSY card for today (fsySheetHtml): its idea, the chapter or article, then its question.
+      const { y, c } = step, url = c.read || y.yl.l.read || y.yl.m.guide;
+      html += `<div class="ls-prompt">${esc(c.hook)}</div><p class="reel-body">${esc(c.body || '')}</p>
+        ${url ? `<a class="deep-open" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${y.kind === 'mag' ? 'Read it in the FSY magazine' : 'Read FSY chapter ' + esc(String(y.yl.m.chapter))} ↗</a>` : ''}
+        ${step.choices ? `<div class="ls-q">${esc(step.q)}</div>${opts()}` : ''}`;
     } else if (step.kind === 'gc') {
       // A line from conference: the talk a day, one of its quotes, what it teaches (once approved).
       const { t, q } = step.t;
@@ -18361,6 +18426,8 @@ const TreasureUp = (function () {
     let footHtml;
     if (step.kind === 'read' || step.kind === 'insight' || step.kind === 'sunintro' || step.kind === 'sunread') footHtml = `<button class="ls-go" data-ls="next">Continue</button>`;
     else if (step.kind === 'cfm' || step.kind === 'gc' || step.kind === 'goals') footHtml = `<button class="ls-go" data-ls="${step.kind}done">Continue</button>`;
+    else if (step.kind === 'bom') footHtml = `<button class="ls-go" data-ls="bomdone">I read it · +${BOM_XP} XP</button><button class="ls-alt" data-ls="bomskip">Not today</button>`;
+    else if (step.kind === 'fsy' && !step.choices) footHtml = `<button class="ls-go" data-ls="fsydone">Done · +${FSY_XP} XP</button>`;
     else if (step.kind === 'thanks') footHtml = `<button class="ls-go" data-ls="thanks">Finish</button><button class="ls-alt" data-ls="thanksskip">Skip for today</button>`;
     else if (step.kind === 'note') {
       footHtml = L.checked ? `<div class="ls-say">Saved in your notes${L.earned ? ` <span class="ls-earn">+${L.earned} XP</span>` : ''}</div><button class="ls-go" data-ls="next">Continue</button>`
@@ -18401,8 +18468,18 @@ const TreasureUp = (function () {
 
   function renderLessonEnd(body, foot) {
     const L = lesson, e = L.entry, secs = Math.round((Date.now() - L.start) / 1000), xp = S.xp - L.xp0, streak = streakNow(), charge = chargeOf(streak), up = nextCharge(streak);
-    const next = L.practice || (e && e.kind === 'sunday') ? null : lessonNow();
     const name = e ? entryName(e) : "Today's warm-up";
+    // Keep going, once he's said yes today: a part of it done leads straight into the next.
+    const keeping = keepOn === dayKey() && !L.practice && !L.focus && e && /^(further|friday|puzzle)$/.test(e.kind);
+    const queue = !L.practice && !L.focus ? keepQueue() : [];
+    if (keeping && queue.length) {
+      const lvl = L.level;
+      toast('✓ ' + name, (xp ? '+' + xp + ' XP · ' : '') + 'Next: ' + entryName(queue[0].e));
+      closeLesson();
+      if (!lvl) openLesson(queue[0].key);   // a new level shows its moment first; Today's button goes on from there
+      return;
+    }
+    const next = L.practice || (e && e.kind === 'sunday') ? null : lessonNow();
     // After a day's lesson, its Go further while it has something left; after
     // Go further, the bonus questions still waiting on that day's reels.
     const fk = e && e.kind === 'day' ? furtherKey(e.d) : null;
@@ -18410,6 +18487,9 @@ const TreasureUp = (function () {
     // Today's path, all of it: done for the day, and his goals still to tick, if any.
     const todays = e && e.kind === 'day' && e.d === todayIndex() && !pathLeft(dayPath(e.d, dayKey())).length;
     const goalsLeft = todays ? goalSteps().filter(x => !x.on).length : 0;
+    // Today's path done with extras still open: Keep going is the question, asked once; the extras it plays already include the Go further.
+    const ask = todays && queue.length ? keepWhat(queue) : null;
+    const allDone = keepOn === dayKey() && e && /^(further|friday|puzzle)$/.test(e.kind) && !queue.length && !L.practice && !L.focus;
     body.innerHTML = `<div class="ls-done"><div class="big">🎉</div>
       <div class="ls-prompt">${L.practice ? 'Practice done!' : todays ? 'Today’s study: done!' : 'Lesson complete!'}</div>
       <p class="reel-body">${esc(name)}</p>
@@ -18421,13 +18501,17 @@ const TreasureUp = (function () {
       ${streak && up ? `<p class="fam-note" style="margin-top:4px">${up[0] - streak === 1 ? '1 more day' : up[0] - streak + ' more days'} to ⚡ XP ×${up[1]}</p>` : ''}
       ${L.level ? `<p class="ls-news">⭐ Level ${L.level}: ${esc(LEVEL_TITLES[L.level - 1])}</p>` : ''}
       ${L.rewards.map(t => `<p class="ls-news">🎁 Reward unlocked: ${esc(t)} · show a parent</p>`).join('')}
-      ${fk ? `<button class="ls-further" data-ls="further" data-key="${fk}">🔭 Go further<small>${esc(furtherParts(e.d))}</small></button>` : ''}
+      ${fk && !ask ? `<button class="ls-further" data-ls="further" data-key="${fk}">🔭 Go further<small>${esc(furtherParts(e.d))}</small></button>` : ''}
+      ${ask ? `<p class="fam-note">${esc(queue.map(q => q.e.kind === 'further' ? furtherParts(q.e.d) : q.e.kind === 'friday' ? 'the Friday deep dive' : 'the weekly puzzle').join(' · '))}</p>` : ''}
+      ${allDone ? '<p class="ls-news">✓ Everything for today is done</p>' : ''}
       ${locked ? `<p class="fam-note">${locked === 1 ? '1 more bonus question opens' : locked + ' more bonus questions open'} once you answer that day's reels.</p>` : ''}
       ${goalsLeft ? `<p class="fam-note">🌱 ${goalsLeft === 1 ? '1 goal' : goalsLeft + ' goals'} left for today: tick ${goalsLeft === 1 ? 'it' : 'them'} on Today when ${goalsLeft === 1 ? 'it’s' : 'they’re'} done.</p>` : ''}
       ${L.practice ? `<p class="fam-note">Practice: this part was already answered, so nothing new was earned.</p>` : ''}
       ${!next && !L.practice ? `<p class="fam-note">${e && e.kind === 'sunday' ? 'Ready for class.' : "That's today's reading done. Come back tomorrow for the next part."}</p>` : ''}</div>`;
     foot.className = 'ls-foot';
-    foot.innerHTML = `<div class="ls-foot-in">${next ? `<button class="ls-go" data-ls="nextlesson">Next: ${esc(entryName(next))}</button>
+    foot.innerHTML = `<div class="ls-foot-in">${ask ? `<button class="ls-go" data-ls="keep">Keep going · ${esc(ask.words)}</button>
+      ${next ? `<button class="ls-alt" data-ls="nextlesson">Catch up: ${esc(entryName(next))}</button>` : ''}
+      <button class="ls-alt" data-ls="close">Done for now</button>` : next ? `<button class="ls-go" data-ls="nextlesson">Next: ${esc(entryName(next))}</button>
       <button class="ls-alt" data-ls="close">Done for now</button>` : `<button class="ls-go" data-ls="close">Done</button>`}</div>`;
   }
 
@@ -18490,6 +18574,9 @@ const TreasureUp = (function () {
       }
       return keepPlace(renderLesson);
     }
+    if (act === 'bomdone') { bomRecord(k); return on(); }
+    if (act === 'bomskip') { setPathDone(k, 'bomSkip', 1); save(); return on(); }   // its row stays on Today, to read later
+    if (act === 'fsydone') { fsyRecord(k, L.steps[L.at].id); return on(); }
     if (act === 'gcdone') {
       if (!pathDoneOf(k).gc) { const rec = {}; payXp(rec, GC_XP, 'General conference'); setPathDone(k, 'gc', rec); markStudied(); save(); }
       L.gcSaved = false; return on();
@@ -18513,6 +18600,7 @@ const TreasureUp = (function () {
     if (act === 'close') return closeLesson();
     if (act === 'nextlesson') { closeLesson(); return openLesson(''); }
     if (act === 'further') { closeLesson(); return openLesson(el.dataset.key); }
+    if (act === 'keep') { closeLesson(); return playKeep(); }
     if (act === 'puzzle') { closeLesson(); return startGame('puzzle'); }
     // A note in his own words, as on a reel: kept, and its XP the first time.
     if (act === 'savenote') {
@@ -19610,6 +19698,7 @@ const TreasureUp = (function () {
       if (pc) { openPastItem('read', pc.dataset.pastChapter); return; }
       const pr = e.target.closest('[data-past-reel]');
       if (pr) { openPastItem('reel', pr.dataset.pastReel); return; }
+      if (e.target.closest('[data-keep-going]')) { playKeep(); return; }
       const ls = e.target.closest('[data-lesson]');
       if (ls) { openLesson(ls.dataset.lesson, ls.dataset.focus); return; }
       const v = e.target.closest('[data-view]');
