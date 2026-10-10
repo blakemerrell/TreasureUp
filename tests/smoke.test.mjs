@@ -15,10 +15,14 @@ export default async function smoke({ port }) {
   await p.click('[data-study-mode="family"]'); await wait(400);
   check(/Family Study/i.test(await txt(p, '#home .fl-date')), 'Family Study switches on');
   check(await p.locator('.video-hero-card').count() > 0, 'Family video hero card renders');
+  const readerBefore = await p.$eval('[data-pass-turn]', e => e.closest('div').querySelector('b').textContent.trim());
   await p.click('[data-pass-turn]'); await wait(300);
-  check((await txt(p, '#home')).includes('Tonight’s reader:'), 'Family turn rotation works');
+  const readerAfter = await p.$eval('[data-pass-turn]', e => e.closest('div').querySelector('b').textContent.trim());
+  check(readerBefore && readerAfter && readerBefore !== readerAfter, `Family turn rotation advances reader (${readerBefore} → ${readerAfter})`);
+  check(await p.locator('.flow [data-familynight], .flow [data-short-deck="family"]').count() > 0, 'Family Night card/hero renders in Family Study');
   await p.click('[data-study-mode="personal"]'); await wait(400);
   check(/(Personal|My) Study/i.test(await txt(p, '[data-study-mode="personal"]')), 'Personal Study switches back');
+  check(await p.locator('.flow [data-familynight]').count() === 0, 'No Family Night card in Personal Study');
 
   // The Way: Morning Blueprint
   check(await p.locator('[data-open-blueprint]').count() > 0, 'Morning Blueprint card renders');
@@ -57,6 +61,9 @@ export default async function smoke({ port }) {
   await p.click('[data-ev-save]'); await wait(400);
   const cardTxt = await txt(p, '.evening-card');
   check(/Return & Report Completed/i.test(cardTxt), 'Evening Accounting saved and reports back');
+  const flowOrder = await p.$$eval('#home .flow > *', els => els.map(e => e.className.split(' ')[0]));
+  const phaseIdx = ['daily-walk', 'fl-list', 'goals-section', 'evening-card'].map(c => flowOrder.indexOf(c));
+  check(phaseIdx.every((v, i) => v >= 0 && (i === 0 || v > phaseIdx[i - 1])), 'Today flow order: Walk → Keep going → Goals → Return & Report');
 
   await p.click('#stillBtn'); await wait(400);
   check(!(await p.$eval('#stillLayer', e => e.hidden)), 'Be still opens');

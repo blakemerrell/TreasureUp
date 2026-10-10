@@ -1919,19 +1919,19 @@
   .pth li { position: relative; z-index: 1; display: flex; align-items: center; gap: 12px; padding: 0; border-bottom: 1px solid rgba(255,255,255,.06); }
   .pth-dot { flex: 0 0 22px; height: 22px; border-radius: 999px; border: 2px solid rgba(255,255,255,.3); background: #131226; display: grid; place-items: center; font-size: 12px; font-weight: 900; transition: all .2s; }
   .daily-walk.kids .pth-dot { border-color: rgba(6,182,212,.55); background: #0c1829; }
-  .pth li.ok .pth-dot, .pth-row.ok .pth-dot { background: var(--right); border-color: var(--right); color: #052e16; box-shadow: 0 0 8px rgba(74,222,128,.4); }
+  .pth li.ok .pth-dot, .pth-row.ok .pth-dot, .goal-row-wrap.ok .pth-dot { background: var(--right); border-color: var(--right); color: #052e16; box-shadow: 0 0 8px rgba(74,222,128,.4); }
   .pth li.next .pth-dot { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(252,211,77,.25), 0 0 10px rgba(252,211,77,.4); }
   .daily-walk.kids .pth li.next .pth-dot { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,.3), 0 0 10px rgba(56,189,248,.5); }
   .pth-t { flex: 1; min-width: 0; font-size: 15px; font-weight: 700; line-height: 1.3; }
   .pth-t b { display: block; font-weight: 700; } .pth-t small { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,.55); }
-  .pth li.ok .pth-t b, .pth-row.ok .pth-t b { color: rgba(255,255,255,.6); }
-  .pth em { flex: 0 0 auto; font-style: normal; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.45); }
+  .pth li.ok .pth-t b, .pth-row.ok .pth-t b, .goal-row-wrap.ok .pth-t b { color: rgba(255,255,255,.6); }
+  .pth em, .goals-list em { flex: 0 0 auto; font-style: normal; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.45); }
   .pth-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 2px; font: inherit; color: inherit; text-align: left; background: none; border: 0; cursor: pointer; }
   .pth-dot.box { border-radius: 7px; border-color: rgba(134,239,172,.6); }
   .daily-walk.kids .pth-dot.box { border-color: rgba(56,189,248,.7); }
-  .pth .pth-xp { text-align: right; font-size: 12.5px; font-weight: 900; color: var(--gold); white-space: nowrap; }
-  .pth .pth-xp small { display: block; font-size: 10.5px; font-weight: 700; color: rgba(255,255,255,.45); }
-  .pth .pth-xp.ok { color: var(--right); }
+  .pth .pth-xp, .goals-list .pth-xp { text-align: right; font-size: 12.5px; font-weight: 900; color: var(--gold); white-space: nowrap; }
+  .pth .pth-xp small, .goals-list .pth-xp small { display: block; font-size: 10.5px; font-weight: 700; color: rgba(255,255,255,.45); }
+  .pth .pth-xp.ok, .goals-list .pth-xp.ok { color: var(--right); }
   /* More if you want (2026-10-07): the same rows, each a tap. */
   .pth-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 2px; text-align: left; font: inherit; color: #fff; background: none; border: 0; border-bottom: 1px solid rgba(255,255,255,.08); cursor: pointer; }
   .pth-dot.ic { border: 0; font-size: 16px; }
@@ -3158,7 +3158,6 @@ const TreasureUp = (function () {
     // An earlier day still behind brings only what's left of it; today's own steps stay, done or not.
     let rows = entries.flatMap(e => { const from = isToday && flowDay(e) < d, r = entryRows(e, from); return from ? r.filter(x => !x.done) : r; });
     if (d === 6) rows = rows.concat(sundayRows(k));
-    if (familyOf(WEEK) && (d === 0 || !isShortDone('family:' + WEEK.title))) rows = rows.concat([{ card: 'familynight', done: isShortDone('family:' + WEEK.title), html: familyRowHtml(WEEK) }]);
     if (isToday) rows = rows.concat(gratefulRows(), [{ card: 'still', done: stillOn(dayKey()), html: stillRowHtml() }], seasonRows());
     let button;
     if (isToday) button = upNext(entries, rows, d, k);
@@ -3310,7 +3309,7 @@ const TreasureUp = (function () {
     if (isToday && isFamilyStudy()) return familyStudyTodayHtml(d, k);
     const rows = dayPath(d, isToday ? k : null), plan = weekPlan()[d] || [];
     const at = plan.findIndex(e => e.kind === 'day'), n = rows.filter(r => r.done).length, next = pathLeft(rows)[0];
-    const mins = list => list.reduce((m, r) => m + pathRowMin(r), 0), started = rows.some(r => r.done && !r.own) || !!(next && next.started);   // his own rows (Be still, goals) don't start the study
+    const mins = list => list.reduce((m, r) => m + pathRowMin(r), 0), started = rows.some(r => r.done && !r.own) || !!(next && next.started);   // his own rows (Be still, goals, thanks) don't start the study
     const what = [unitsLabel(readingPlan()[d]) || (dayReels(d).length ? qWord(dayReels(d).length) : ''), rows.some(r => r.kind === 'cfm') && 'Come Follow Me',
       rows.some(r => r.kind === 'gc') && 'conference', rows.some(r => r.kind === 'goal') && 'goals', rows.some(r => r.kind === 'thanks') && 'thanks'].filter(Boolean).join(' · ');
     let button = '';
@@ -3339,7 +3338,6 @@ const TreasureUp = (function () {
       const isDone = isShortDone(todayMini.x.id);
       extra.push(flowRow(`data-short-id="${esc(todayMini.x.id)}"`, isDone, '⚡ Family mini-lesson: ' + esc(todayMini.x.h), isDone ? 'Done ✓ Family mini-lesson completed' : 'Come, Follow Me · 2 min interactive cards', { icon: '⚡' }));
     }
-    if (familyOf(WEEK) && (d === 0 || !isShortDone('family:' + WEEK.title))) extra.push(familyRowHtml(WEEK));
     const tag = isToday ? '' : keptDay(k) ? '✓ Kept' : k > today ? 'Coming up' : '';
     const isGoalOrThanks = r => r.kind === 'goal' || r.kind === 'thanks';
     const primaryRows = rows.filter(r => !isGoalOrThanks(r));
@@ -3481,24 +3479,26 @@ const TreasureUp = (function () {
     if (!had) return;
     const bp = had[1];
     bp.done = bp.done || {};
-    bp.done[field] = !bp.done[field];
+    const isLinkedGoal = field === 'oneThing' && bp.goalSid && bp.goalStepId;
+    const curState = isLinkedGoal ? ticked(seasonRec(bp.goalSid), bp.goalStepId, k) : !!bp.done[field];
+    const nextState = !curState;
+    bp.done[field] = nextState;
     bp.upd = Date.now();
-    if (field === 'oneThing' && bp.goalSid && bp.goalStepId) {
+    if (isLinkedGoal) {
       tickStep(bp.goalSid, bp.goalStepId, k);
     }
     save();
     if (el && el.closest('#appSheet')) {
-      const isDone = !!bp.done[field];
-      el.classList.toggle('done', isDone);
-      el.setAttribute('aria-checked', String(isDone));
+      el.classList.toggle('done', nextState);
+      el.setAttribute('aria-checked', String(nextState));
       const box = el.querySelector('.bp-check-box');
-      if (box) box.textContent = isDone ? '✓' : '';
+      if (box) box.textContent = nextState ? '✓' : '';
       refreshHome();
-      if (bp.done[field]) toast('✓ Focus Accomplished', 'Living your blueprint today!');
+      if (nextState) toast('✓ Focus Accomplished', 'Living your blueprint today!');
       return;
     }
     refreshHome();
-    if (bp.done[field]) toast('✓ Focus Accomplished', 'Living your blueprint today!');
+    if (nextState) toast('✓ Focus Accomplished', 'Living your blueprint today!');
   }
 
   /* ---------------- Growth Profile & Coach Engine ---------------- */
@@ -3818,8 +3818,8 @@ const TreasureUp = (function () {
 
   function saveBlueprint() {
     const oneThing = ($('bpOneThing') ? $('bpOneThing').value.trim() : '').slice(0, 200);
-    const goalSid = $('bpGoalSid') ? $('bpGoalSid').value : '';
-    const goalStepId = $('bpGoalStepId') ? $('bpGoalStepId').value : '';
+    const goalSid = oneThing && $('bpGoalSid') ? $('bpGoalSid').value : '';
+    const goalStepId = oneThing && $('bpGoalStepId') ? $('bpGoalStepId').value : '';
     const uplift = ($('bpUplift') ? $('bpUplift').value.trim() : '').slice(0, 200);
     let grList = [];
     if ($('bpGratitude')) {
@@ -3922,10 +3922,13 @@ const TreasureUp = (function () {
 
   function goalsSectionHtml(k, goalRows, c) {
     const bpHad = blueprintOf(k), bp = bpHad ? bpHad[1] : null, kid = seasonWho() !== 'adult';
-    const isDoneOne = bp && bp.done && bp.done.oneThing;
+    const isDoneOne = (bp && bp.goalSid && bp.goalStepId)
+      ? ticked(seasonRec(bp.goalSid), bp.goalStepId, k)
+      : !!(bp && bp.done && bp.done.oneThing);
     const isDoneUplift = bp && bp.done && bp.done.uplift;
     const hasBpTodos = !!(bp && (bp.oneThing || bp.uplift));
-    if (!hasBpTodos && !goalRows.length) return '';
+    const list = goalRows.filter(r => !(r.kind === 'goal' && bp && bp.oneThing && bp.goalStepId && r.x && r.x.st && r.x.st.id === bp.goalStepId));
+    if (!hasBpTodos && !list.length) return '';
 
     return `<div class="goals-section${kid ? ' kids' : ''}">
       <div class="goals-header">
@@ -3949,12 +3952,13 @@ const TreasureUp = (function () {
               <b>${esc(bp.uplift)}</b>
             </div>
           </button>` : ''}
-        ${goalRows.map(r => `
-          <div class="goal-row-wrap">
+        ${list.map(r => `
+          <div class="goal-row-wrap${r.done ? ' ok' : ''}">
             <button type="button" class="pth-btn" ${pathRowAttr(r, c)}>
               <span class="pth-dot${r.kind === 'goal' ? ' box' : ''}">${r.done ? '✓' : ''}</span>
               <span class="pth-t"><b>${esc(pathRowTitle(r))}</b><small>${esc(pathRowSub(r))}</small></span>
               ${pathRowXp(r)}
+              ${r.kind !== 'goal' ? '<span class="pth-go">›</span>' : ''}
             </button>
           </div>`).join('')}
       </div>
@@ -7572,10 +7576,10 @@ const TreasureUp = (function () {
       if (t) rows.push({ kind: 'gc', t, k, done: !!dn.gc });
       // Each goal step its own row, ticked right there (Blake, 2026-10-07: "I want
       // my goals to be on timeline as separate things so I see them... Same with
-      // gratitude, and be still"). Those two are his own: they never hold the
+      // gratitude, and be still"). Those rows (goals, thanks, Be still) are his own: they never hold the
       // day's study back (a step may be for tonight).
       for (const x of goalSteps()) rows.push({ kind: 'goal', x, k, done: x.on, own: true });
-      rows.push({ kind: 'thanks', k, done: !!gratefulOf(k) || !!dn.thanks });
+      rows.push({ kind: 'thanks', k, done: !!gratefulOf(k) || !!dn.thanks, own: true });
       // Morning routine in the flow: Blueprint follows Be still
       const hadBp = blueprintOf(k), bp = hadBp ? hadBp[1] : null;
       const bpDone = !!(bp && (bp.oneThing || bp.uplift));
@@ -7666,7 +7670,7 @@ const TreasureUp = (function () {
   function pathListHtml(rows, c) {
     const next = rows.findIndex(r => !r.done && !r.own);
     const kid = seasonWho() !== 'adult', name = whoName();
-    const walkTitle = c.isToday ? (kid ? esc(name) + '’s Daily Walk' : 'The Daily Walk') : (DAY_NAMES[c.d] + '’s Path');
+    const walkTitle = c.isToday ? (kid && name ? esc(name) + '’s Daily Walk' : 'The Daily Walk') : (DAY_NAMES[c.d] + '’s Path');
     const walkMotto = c.isToday ? '“Walk humbly with thy God”' : 'Micah 6:8';
     return `<div class="daily-walk${kid ? ' kids' : ''}">
       <div class="walk-header">
