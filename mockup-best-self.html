@@ -408,17 +408,17 @@
   <div id="dailyView">
     <!-- Philosophy Banner -->
     <div class="ph-banner">
-      <div class="ph-eyebrow">The Covenant Way · The Wilderness Forty in Q4</div>
-      <div class="ph-title">The Two Hands of Discipleship</div>
-      <div class="ph-quote">“Effort without grace becomes performance; grace without effort is presumption. Hold both, every day.”</div>
+      <div class="ph-eyebrow">The Covenant Way · Following the Living Christ</div>
+      <div class="ph-title">“I follow that Man.”</div>
+      <div class="ph-quote">He has already done the saving. Our part is simply to follow Him, realign when we stumble, and keep walking.</div>
       <div class="two-hands-strip">
         <div class="th-col grace">
-          <h4>✋ The Hand of Grace</h4>
-          <p>Asking for what you cannot manufacture. Bestowed charity (Moroni 7:48). An empty space here is an honest one.</p>
+          <h4>✋ His Hand (Grace)</h4>
+          <p>He broke death and came back alive. He did what we never could. He gives the new heart.</p>
         </div>
         <div class="th-col effort">
-          <h4>✋ The Hand of Effort</h4>
-          <p>Daily practiceable verbs. What you do whatever you feel. You bring the act; He brings the heart.</p>
+          <h4>✋ Our Hand (Effort)</h4>
+          <p>We show up, do our best, and walk in His steps. Not to earn heaven, but because we love Him.</p>
         </div>
       </div>
     </div>
@@ -450,11 +450,11 @@
       <!-- I. Be Still (Hand of Grace) -->
       <div class="sub-sec">
         <div class="sub-sec-head">
-          <div class="sub-sec-label"><span class="num-badge">I.</span> Be Still · The Asking</div>
-          <span style="font-size:11px;color:var(--gold);font-weight:700">Hand of Grace</span>
+          <div class="sub-sec-label"><span class="num-badge">I.</span> Be Still &amp; Realign</div>
+          <span style="font-size:11px;color:var(--gold);font-weight:700">His Hand</span>
         </div>
         <div class="sub-sec-cue" id="cuePetition"></div>
-        <textarea class="field" id="inputStill" placeholder="Write what comes, or nothing. An empty space is an honest one…"></textarea>
+        <textarea class="field" id="inputStill" placeholder="Talk with Him honestly. Tell Him where you need help. An empty space is an honest space…"></textarea>
       </div>
 
       <!-- II. See It (Pre-living the friction) -->
@@ -463,21 +463,21 @@
           <div class="sub-sec-label"><span class="num-badge">II.</span> See It</div>
         </div>
         <div class="sub-sec-cue" id="cueSee"></div>
-        <textarea class="field" id="inputSee" placeholder="Name the moment and the person…"></textarea>
+        <textarea class="field" id="inputSee" placeholder="Where will it be hard to follow Him today? Who will be there?"></textarea>
       </div>
 
       <!-- III. The One Practice (Hand of Effort) -->
       <div class="sub-sec">
         <div class="sub-sec-head">
-          <div class="sub-sec-label"><span class="num-badge">III.</span> The One Practice · Whatever You Feel</div>
-          <span style="font-size:11px;color:#38bdf8;font-weight:700">Hand of Effort</span>
+          <div class="sub-sec-label"><span class="num-badge">III.</span> Follow His Steps · The One Practice</div>
+          <span style="font-size:11px;color:#38bdf8;font-weight:700">Our Hand</span>
         </div>
         <div class="sub-sec-cue" id="cuePractice"></div>
         <div class="practice-action">
           <button class="practice-check" id="practiceCheckBtn" onclick="togglePracticeCheck()">✓</button>
           <div class="practice-text">
             <strong id="practiceTitle">Practice target behavior</strong>
-            <span id="practiceSub">Tick the box when done. The box asks nothing about how you felt.</span>
+            <span id="practiceSub">Do it because you promised. The box asks nothing about how you felt.</span>
           </div>
         </div>
       </div>
@@ -489,7 +489,7 @@
           <span style="font-size:11px;color:var(--txt-muted)">Hardest First</span>
         </div>
         <div class="sub-sec-cue">If only three things happen today, let them be these — each given its hour.</div>
-        <div class="prio-item"><span class="prio-num">1</span><input class="field" id="prio1" placeholder="1. Hardest spiritual or family priority…"></div>
+        <div class="prio-item"><span class="prio-num">1</span><input class="field" id="prio1" placeholder="1. Hardest priority…"></div>
         <div class="prio-item"><span class="prio-num">2</span><input class="field" id="prio2" placeholder="2. Important focus…"></div>
         <div class="prio-item"><span class="prio-num">3</span><input class="field" id="prio3" placeholder="3. Meaningful win…"></div>
       </div>
@@ -515,20 +515,20 @@
           <div class="sub-sec-label"><span class="num-badge">V.</span> His Hand Today</div>
         </div>
         <div class="sub-sec-cue" id="cueHand" style="color:var(--gold);font-weight:600"></div>
-        <textarea class="field" id="inputHand" placeholder="Answer it — or leave it blank. A blank is more honest than a manufactured mercy…"></textarea>
+        <textarea class="field" id="inputHand" placeholder="Where did you see Him today? Answer honestly — or leave it blank. Never make something up…"></textarea>
       </div>
 
       <!-- Tomorrow, Better -->
       <div class="sub-sec" style="margin-bottom:0">
         <div class="sub-sec-head">
-          <div class="sub-sec-label">Tomorrow, Better</div>
+          <div class="sub-sec-label">Realign for Tomorrow</div>
         </div>
-        <input class="field" id="inputImprove" placeholder="One honest sentence for tomorrow…">
+        <input class="field" id="inputImprove" placeholder="Where did you stumble? Hand it to Him, and decide how to walk better tomorrow…">
       </div>
 
       <div style="margin-top:18px">
         <button class="btn-save" style="background:linear-gradient(135deg,#a78bfa,#818cf8);color:#1e1b4b" onclick="saveEveningReport()">Close Day in Prayer · Return &amp; Report (+20 XP)</button>
-        <div class="honest-callout">“A blank is more honest than a manufactured mercy. Across forty days, blanks teach as much as entries.”</div>
+        <div class="honest-callout">“Repentance is just realignment. Turning your face back to Him every night.”</div>
       </div>
     </div>
   </div>
@@ -946,17 +946,17 @@ function saveState() {
 function saveMorningCouncil() {
   saveState();
   renderJournalSpread();
-  alert(`🌅 Morning Council for Day ${activeDay} saved! (+15 XP)\n"You bring the act. He brings the heart."`);
+  alert(`🌅 Morning Council for Day ${activeDay} saved! (+15 XP)\n\n“I follow that Man.” Walk with Him today.`);
 }
 
 function saveEveningReport() {
   saveState();
   renderJournalSpread();
-  alert(`🌙 Return & Report for Day ${activeDay} saved! (+20 XP)\n"Sleep in His peace tonight."`);
+  alert(`🌙 Return & Report for Day ${activeDay} saved! (+20 XP)\n\nRealigned with Him. Sleep in His peace tonight.`);
 }
 
 function startTimer() {
-  alert('🕊️ Be Still: 3-Minute Silent Reverence timer active.\n\nTake three minutes to bring Him what you cannot manufacture.');
+  alert('🕊️ Be Still: 3-Minute Silent Reverence\n\nTake three quiet minutes to remember who He is, and whose you are.');
 }
 
 function renderMovementsGrid() {
@@ -982,13 +982,13 @@ function renderJournalSpread() {
   // Left Page (Verso: The Person / Spiritual Creation)
   const verso = `
     <div class="page">
-      <div class="p-band"><span>Day ${String(n).padStart(2,'0')} · Movement ${m}: ${M[m-1].name}</span><span>Spiritual Creation</span></div>
+      <div class="p-band"><span>Day ${String(n).padStart(2,'0')} · Movement ${m}: ${M[m-1].name}</span><span>Following Him</span></div>
       <div class="p-title">${title}</div>
       <div class="p-verse">“${verse}”</div>
       <div class="p-cite">${cite}${root ? ` · ${root}` : ''}</div>
       <div class="p-def">${def}</div>
 
-      <div class="p-sec"><span class="p-sec-n">I.</span><span class="p-sec-t">Be Still</span><span class="p-sec-ln"></span></div>
+      <div class="p-sec"><span class="p-sec-n">I.</span><span class="p-sec-t">Be Still &amp; Realign</span><span class="p-sec-ln"></span></div>
       <div class="p-cue">${petition}</div>
       <div class="p-dots">${escHtml(dayState.still || '')}</div>
 
@@ -996,20 +996,20 @@ function renderJournalSpread() {
       <div class="p-cue">${see}</div>
       <div class="p-dots">${escHtml(dayState.see || '')}</div>
 
-      <div class="p-sec"><span class="p-sec-n">III.</span><span class="p-sec-t">The One Practice · ${isChecked ? '✓ [DONE]' : '□'}</span><span class="p-sec-ln"></span></div>
+      <div class="p-sec"><span class="p-sec-n">III.</span><span class="p-sec-t">Follow His Steps · ${isChecked ? '✓ [DONE]' : '□'}</span><span class="p-sec-ln"></span></div>
       <div class="p-cue">${practice}</div>
-      <div class="p-dots" style="min-height:36px;font-weight:600">${isChecked ? '✓ Completed behavior' : 'Pencil check when done'}</div>
+      <div class="p-dots" style="min-height:36px;font-weight:600">${isChecked ? '✓ Done because I promised' : 'Pencil check when done'}</div>
 
-      <div class="p-foot"><span>Hesed &amp; Agape</span><span>Day ${n} of 40</span></div>
+      <div class="p-foot"><span>I follow that Man</span><span>Day ${n} of 40</span></div>
     </div>
   `;
 
   // Right Page (Recto: The Day / Natural Accounting)
   const recto = `
     <div class="page recto">
-      <div class="p-band"><span>${title}</span><span>Day ${String(n).padStart(2,'0')} · Recto</span></div>
+      <div class="p-band"><span>${title}</span><span>Day ${String(n).padStart(2,'0')} · Walk &amp; Report</span></div>
       <div class="p-sec"><span class="p-sec-n">IV.</span><span class="p-sec-t">The Day · Top 3 Priorities</span><span class="p-sec-ln"></span></div>
-      <div class="p-cue">If only three things happen today, let them be these — hardest first.</div>
+      <div class="p-cue">If only three things get done today, let them be these — hardest first.</div>
       <div class="p-dots" style="min-height:90px">
         1. ${escHtml(dayState.prio1 || '')}<br>
         2. ${escHtml(dayState.prio2 || '')}<br>
@@ -1020,10 +1020,10 @@ function renderJournalSpread() {
       <div class="p-cue" style="color:var(--paper-accent);font-weight:600">${hand}</div>
       <div class="p-dots" style="flex:2;min-height:80px">${escHtml(dayState.hand || '')}</div>
 
-      <div class="p-sec" style="margin-top:10px"><span class="p-sec-t">Tomorrow, Better</span><span class="p-sec-ln"></span></div>
+      <div class="p-sec" style="margin-top:10px"><span class="p-sec-t">Realign for Tomorrow</span><span class="p-sec-ln"></span></div>
       <div class="p-dots" style="min-height:36px">${escHtml(dayState.improve || '')}</div>
 
-      <div class="p-foot"><span>Moroni 7:48</span><span>${String(n).padStart(2,'0')}</span></div>
+      <div class="p-foot"><span>Realigned in His Peace</span><span>${String(n).padStart(2,'0')}</span></div>
     </div>
   `;
 
