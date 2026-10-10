@@ -215,7 +215,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
   let armedRemove = null;                            // a building whose Remove was tapped once: a second tap takes it down
   let hover = null;                                  // the mouse's world position
   let infoEnt = null;                                // a robber or village being looked at
-  let boxMode = false, box = null, huntMode = false;
+  let box = null, huntMode = false;
+  let glide = null;                                  // a flicked map still sliding: { vx, vy } in screen pixels a second
   let paused = false, speed = 1, modal = false;
   let council = null;                                // { nextAt, queue, right }
   let shownMsgs = 0, endShown = false;
@@ -302,6 +303,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     return { x: (ix - cam.x) * cam.z, y: (iy - cam.y) * cam.z };
   };
   function lookAt(wx, wy) {
+    glide = null;                                    // (a flick still sliding would carry the view off again)
     const { ix, iy } = toIso(wx, wy);
     const usableW = vw - rightW();
     const usableH = vh - topH() - bottomH();
@@ -1198,6 +1200,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       const x = Math.min(box.x0, box.x1) * dpr, y = Math.min(box.y0, box.y1) * dpr, w = Math.abs(box.x1 - box.x0) * dpr, h = Math.abs(box.y1 - box.y0) * dpr;
       ctx.fillRect(x, y, w, h); ctx.strokeRect(x, y, w, h);
     }
+    drawHold();
     drawMini();
   }
 
@@ -3442,11 +3445,48 @@ IMG.farm.src = 'assets/farm.png?v=13';
   let gesture = null, lastTap = { t: 0, x: 0, y: 0 };
   let touchSpot = null, touchy = false;                // where a building would go, after a first tap; and whether this is a touch screen
   let touchPlacePos = null;                            // active touch { x, y } when dragging a building on mobile
+  // A finger works the map as Red Alert's mouse did. A quick drag looks around. Pressed and held still for HOLD ms, a ring fills
+  // under it: then a drag draws a box round people (Red Alert's left-drag), and lifting it where it is is Red Alert's right-click.
+  const HOLD = 300;
+  const panning = () => ({ kind: 'pan', touch: true, t: performance.now(), vx: 0, vy: 0 });
+  // Held still, then lifted: it stops what the next tap would have done (a wall, a miracle's aim, a rally point, Hunt);
+  // with nothing like that, it lets go of who's chosen. (A building being placed is moved by a held finger, so it isn't stopped
+  // this way: it has its Cancel.)
+  function letGo() {
+    if (placing || aiming || aimingRally) { placing = null; aiming = null; aimingRally = null; wallLine = null; wallStart = null; touchSpot = null; refreshPanel(true); }
+    else if (huntMode) setHuntMode(false);
+    else if (sel.length || infoEnt) setSel([]);
+    else return;
+    if (AUDIO) AUDIO.play('tap');
+  }
+  // The ring under a held finger. Green: a drag will draw a box. Red: building or aiming, so lifting stops it.
+  function drawHold() {
+    const g = gesture;
+    if (!g || g.kind !== 'press' || !g.touch) return;
+    const f = (Math.min(1, (performance.now() - g.t0) / HOLD) - .3) / .7;
+    if (f <= 0) return;                                // (a quick tap shows nothing)
+    const x = g.sx * dpr, y = g.sy * dpr, r = 34 * dpr, c = placing || aiming || aimingRally ? '252,165,165' : '134,239,172';
+    ctx.save();
+    ctx.lineWidth = 4 * dpr;
+    ctx.strokeStyle = 'rgba(0,0,0,.45)'; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.stroke();
+    ctx.strokeStyle = `rgb(${c})`; ctx.beginPath(); ctx.arc(x, y, r, -Math.PI / 2, -Math.PI / 2 + f * Math.PI * 2); ctx.stroke();
+    if (g.held) { ctx.fillStyle = `rgba(${c},.16)`; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); }
+    ctx.restore();
+  }
+  // A flicked map slides on and slows, as a phone's lists do.
+  function glideCam(dt) {
+    if (!glide) return;
+    cam.x -= glide.vx * dt / cam.z; cam.y -= glide.vy * dt / cam.z; clampCam();
+    const k = Math.exp(-5 * dt);
+    glide.vx *= k; glide.vy *= k;
+    if (Math.hypot(glide.vx, glide.vy) < 30) glide = null;
+  }
   cv.addEventListener('contextmenu', e => e.preventDefault());
   document.addEventListener('pointerdown', () => { if (AUDIO) AUDIO.wake(); }, { once: true, passive: true });
   cv.addEventListener('pointerdown', e => {
     if (AUDIO) AUDIO.wake();
     if (!W || modal) return;
+    glide = null;
     cv.setPointerCapture(e.pointerId);
     ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
     touchy = e.pointerType !== 'mouse';
@@ -3476,7 +3516,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
         return;
       }
     }
-    gesture = { kind: 'press', sx: e.clientX, sy: e.clientY, touch: e.pointerType !== 'mouse' };
+    const g = gesture = { kind: 'press', sx: e.clientX, sy: e.clientY, touch: e.pointerType !== 'mouse', t0: performance.now() };
+    if (g.touch) setTimeout(() => { if (gesture === g) { g.held = true; if (AUDIO) AUDIO.haptic(12); } }, HOLD);
   });
   cv.addEventListener('pointermove', e => {
     if (!W) return;
@@ -3503,10 +3544,18 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     if (gesture.kind === 'press' && Math.hypot(e.clientX - gesture.sx, e.clientY - gesture.sy) > 9) {
       const { sx, sy } = gesture;
-      if (gesture.touch && !boxMode) gesture = { kind: 'pan' };
+      // A finger draws a box only once held (and not while a wall or an aim waits for a tap); before that, it looks around.
+      if (gesture.touch && !(gesture.held && !placing && !aiming && !aimingRally)) gesture = panning();
       else { gesture = { kind: 'box' }; box = { x0: sx, y0: sy, x1: e.clientX, y1: e.clientY }; }
     }
-    if (gesture.kind === 'pan') { cam.x -= (e.clientX - lx) / cam.z; cam.y -= (e.clientY - ly) / cam.z; clampCam(); }
+    if (gesture.kind === 'pan') {
+      const dx = e.clientX - lx, dy = e.clientY - ly;
+      cam.x -= dx / cam.z; cam.y -= dy / cam.z; clampCam();
+      if (gesture.touch) {                             // how fast the finger moves, smoothed over the last ~50 ms: a flick's speed
+        const now = performance.now(), dt = Math.max(1, now - gesture.t) / 1000, k = Math.min(1, dt / .05);
+        gesture.t = now; gesture.vx += (dx / dt - gesture.vx) * k; gesture.vy += (dy / dt - gesture.vy) * k;
+      }
+    }
     else if (gesture.kind === 'box') { box.x1 = e.clientX; box.y1 = e.clientY; }
     else if (gesture.kind === 'wall') { const p = toWorld(e.clientX, e.clientY); wallLine = lineTiles(gesture.a, [tileOf(p.x), tileOf(p.y)]); }
   });
@@ -3514,10 +3563,17 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (!ptrs.has(e.pointerId)) return;
     ptrs.delete(e.pointerId);
     const g = gesture;
-    if (ptrs.size) { if (g && g.kind === 'pinch') gesture = { kind: 'done' }; return; }
+    if (ptrs.size) { if (g && g.kind === 'pinch') gesture = panning(); return; }   // the finger left on the glass goes on looking around
     gesture = null;
     touchPlacePos = null;
     if (!g || cancelled || !W) { box = null; if (!wallStart) wallLine = null; return; }
+    if (g.kind === 'press' && g.held) return letGo();
+    if (g.kind === 'pan') {
+      // Lifted while still moving: a flick. (A finger that stopped before lifting meant to stop there.)
+      const v = Math.hypot(g.vx, g.vy), k = Math.min(1, 4000 / v);
+      if (g.touch && v > 250 && performance.now() - g.t < 80) glide = { vx: g.vx * k, vy: g.vy * k };
+      return;
+    }
     const p = toWorld(e.clientX, e.clientY);
     // Building something, and you tap one of your own people or buildings: you mean to choose it, not to build there.
     // (Walls aside: you may be drawing next to one. And a gate goes on a wall piece of yours.)
@@ -3577,7 +3633,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
         return s.x >= bx0 && s.x <= bx1 && s.y >= by0 && s.y <= by1;
       });
       box = null;
-      if (inside.length) { setSel(e.shiftKey ? selEnts().filter(x => x.kind === 'unit').concat(inside) : inside); if (boxMode) setBoxMode(false); }
+      if (inside.length) setSel(e.shiftKey ? selEnts().filter(x => x.kind === 'unit').concat(inside) : inside);
     } else if (g.kind === 'wall') {
       placeLine(wallLine || [g.a]); wallLine = null;
     }
@@ -3604,6 +3660,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   });
   mini.addEventListener('pointermove', e => { if (miniDrag) { const p = miniPoint(e); lookAt(p.x, p.y); } });
   mini.addEventListener('pointerup', () => { miniDrag = false; });
+  mini.addEventListener('pointercancel', () => { miniDrag = false; });
 
   window.addEventListener('keydown', e => {
     if (!W || e.target.closest && e.target.closest('input, textarea')) return;
@@ -4093,7 +4150,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       return `<p class="hint">${placing === 'wall' ? (touchy ? (wallStart ? 'Now tap where the wall ends.' : 'Tap where the wall starts, then where it ends.') : 'Drag a line on the map for a wall.') + ' Each piece ' + each + '.' : 'Tap the map where the ' + esc(def.name.toLowerCase()) + ' goes.'} Tap one of your people to stop.</p>` +
         (placing === 'wall' ? a('done', 'Done', 'on') : '') + a('cancel', 'Cancel');
     }
-    if (!ents.length) return `<p class="hint minor">Tap your people (or <b>Soldiers</b>), then where they go or what they fight.</p>`;
+    if (!ents.length) return `<p class="hint minor">Tap your people (or <b>Soldiers</b>), then where they go or what they fight.${touchy ? ' Hold a finger still, then drag, to draw a box round them; hold and lift to let them go.' : ''}</p>`;
     const b = ents[0];
     if (b.team !== 'p') {
       if (b.type === 'village') return `<p class="hint">${b.state === 'waiting' ? 'Send a soldier or worker here. When the proclamation reaches ' + esc(b.name) + ', its people march to Zarahemla.' : 'Its people have gone.'}</p>`;
@@ -4257,8 +4314,6 @@ IMG.farm.src = 'assets/farm.png?v=13';
   };
   $('bTemple').onclick = () => { const t = W && W.temple(); if (t) { setSel([t]); lookAt(t.x, t.y); } };
   $('arts').onclick = e => { const k = e.target.dataset && e.target.dataset.art; if (k && ARTIFACTS[k]) toast(ARTIFACTS[k].name + ': ' + ARTIFACTS[k].about, 'me', ARTIFACTS[k].ref); };
-  function setBoxMode(on) { boxMode = on; $('bBox').classList.toggle('on', on); if (on) toast('Now drag on the map to draw a box around people.', 'me'); }
-  $('bBox').onclick = () => setBoxMode(!boxMode);
   function setHuntMode(on) {
     huntMode = on;
     const btn = $('bHunt');
@@ -5723,7 +5778,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (n === 10) acc = 0;
       revealShroud();
     }
-    if (!modal) panKeys(dt);
+    if (!modal) { panKeys(dt); glideCam(dt); }
     draw(now);
     hud(now);
     debugBox(now);
