@@ -64,8 +64,8 @@ Blake asks you for features directly. Build them, but never on `main`:
 2. **Check before every push.** Run `node tools/check-parse.mjs`,
    `node tools/verify.mjs`, and the browser tests
    (`cd tests && npm install && node run.mjs`). Add or extend a test in
-   `tests/` for what you built. The tests use Playwright; don't add a
-   `package.json` at the root or another test tool.
+   `tests/` for what you built. The tests use Playwright (`tests/`); your
+   own visual checks may use the Puppeteer at the root. Don't add other tools.
 3. **New saved data must survive family sync.** Anything new kept in `S` (the
    saved progress) goes to the family. When two devices both changed,
    `mergeProgress` starts from the family's copy, so a field it doesn't
