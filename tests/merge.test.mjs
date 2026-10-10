@@ -66,6 +66,7 @@ export default async function merge({ port }) {
   await d.page.reload(); await wait(1500);
   const x0 = (await state(d.page)).xp || 0;
   await d.page.click('#tabs [data-tab="scriptures"]'); await wait(800);
+  if (await d.page.locator('[data-lib-vol="Old Testament"]').count()) { await d.page.click('[data-lib-vol="Old Testament"]'); await wait(300); }   // the library by volume, then book
   await d.page.click('[data-lib-book="Genesis"]'); await wait(300);
   await d.page.click('[data-lib-ch="Genesis 1"]'); await wait(1200);
   await d.page.click('[data-lib-mark]'); await wait(300);
