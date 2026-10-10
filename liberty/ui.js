@@ -215,7 +215,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   let armedRemove = null;                            // a building whose Remove was tapped once: a second tap takes it down
   let hover = null;                                  // the mouse's world position
   let infoEnt = null;                                // a robber or village being looked at
-  let boxMode = false, box = null;
+  let boxMode = false, box = null, huntMode = false;
   let paused = false, speed = 1, modal = false;
   let council = null;                                // { nextAt, queue, right }
   let shownMsgs = 0, endShown = false;
@@ -276,7 +276,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const rightW = () => (sided() && !$('panel').hidden) ? ($('panel').offsetWidth || 236) : 0;
 
   function resize() {
-    dpr = Math.min(2, window.devicePixelRatio || 1);
+    const isLowMem = (typeof navigator !== 'undefined' && ((navigator.deviceMemory && navigator.deviceMemory <= 2) || /Silk|Kindle|Fire/i.test(navigator.userAgent)));
+    dpr = isLowMem ? 1.0 : Math.min(2, window.devicePixelRatio || 1);
     vw = window.innerWidth; vh = window.innerHeight;
     cv.width = Math.round(vw * dpr); cv.height = Math.round(vh * dpr);
     cv.style.width = vw + 'px'; cv.style.height = vh + 'px';
@@ -3330,6 +3331,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (AUDIO) { AUDIO.play('orderMove'); AUDIO.unitAcknowledge(carts[0] || units[0], 'move'); }
       return ping(wx, wy, kind === 'timber' ? '#a3e635' : kind === 'stone' ? '#d6d3d1' : '#fde047');
     }
+    if (huntMode) {
+      moveGroup(units, tx, ty, true);
+      for (const u of units) if (u.order && u.order.type === 'move') u.order.rule = 'hunt';
+      if (AUDIO) { AUDIO.play('orderAttack'); AUDIO.unitAcknowledge(units[0], 'attack'); }
+      setHuntMode(false);
+      return ping(wx, wy, '#f87171');
+    }
     moveGroup(units, tx, ty, true);
     if (AUDIO) { AUDIO.play('orderMove'); AUDIO.unitAcknowledge(units[0], 'move'); }
     ping(wx, wy, '#86efac');
@@ -3624,6 +3632,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     if (e.key === 'W' && e.shiftKey) {
       openWarRoom();
+      return;
+    }
+    if (e.key === 'a' || e.key === 'A') {
+      setHuntMode(!huntMode);
       return;
     }
     if (e.key === ' ') { e.preventDefault(); togglePause(); return; }
@@ -4247,6 +4259,14 @@ IMG.farm.src = 'assets/farm.png?v=13';
   $('arts').onclick = e => { const k = e.target.dataset && e.target.dataset.art; if (k && ARTIFACTS[k]) toast(ARTIFACTS[k].name + ': ' + ARTIFACTS[k].about, 'me', ARTIFACTS[k].ref); };
   function setBoxMode(on) { boxMode = on; $('bBox').classList.toggle('on', on); if (on) toast('Now drag on the map to draw a box around people.', 'me'); }
   $('bBox').onclick = () => setBoxMode(!boxMode);
+  function setHuntMode(on) {
+    huntMode = on;
+    const btn = $('bHunt');
+    if (btn) btn.classList.toggle('on', on);
+    if (on) toast('Attack-Move armed: tap on ground to march and strike on sight.', 'me');
+  }
+  const bHunt = $('bHunt');
+  if (bHunt) bHunt.onclick = () => setHuntMode(!huntMode);
 
   // ------------------------------------------------------------ top bar
 
@@ -4430,8 +4450,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
         toast(`Cohort ${cId} has no soldiers yet. Recruits auto-join from your buildings.`, 'me');
         return;
       }
+      const now = performance.now();
+      const isDbl = (now - (btn._lastTap || 0)) < 350;
+      btn._lastTap = now;
       const alreadySel = cUnits.length === sel.length && cUnits.every(u => sel.includes(u.id));
-      if (alreadySel) {
+      if (alreadySel || isDbl) {
         let avgX = 0, avgY = 0;
         for (const u of cUnits) { avgX += u.x; avgY += u.y; }
         lookAt(avgX / cUnits.length, avgY / cUnits.length);
