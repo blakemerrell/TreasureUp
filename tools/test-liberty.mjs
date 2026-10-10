@@ -916,8 +916,8 @@ console.log('Saving a game · Blake\'s "we\'ll lose our progress"');
 {
   // One process plays a game, saving at 3 minutes and again at 5; a fresh one (a page opened again) loads the first save and plays on
   // to 5 minutes. The two must match to the last arrow: the save holds everything the game needs.
-  const { execFileSync } = await import('node:child_process'), fs = await import('node:fs'), os = await import('node:os'), path = await import('node:path');
-  const child = new URL('./liberty-save-child.mjs', import.meta.url).pathname;
+  const { execFileSync } = await import('node:child_process'), fs = await import('node:fs'), os = await import('node:os'), path = await import('node:path'), { fileURLToPath } = await import('node:url');
+  const child = fileURLToPath(new URL('./liberty-save-child.mjs', import.meta.url));
   for (const sc of ['m2', 'm3', 'm4', 'm5', 'm6', 'free:normal:freemen', 'free:hard:kingmen', 'wild:normal']) {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'liberty-save-'));
     const played = JSON.parse(execFileSync('node', [child, 'play', sc, '180', '120', dir]).toString().trim().split('\n').pop());
@@ -1028,13 +1028,13 @@ console.log('Campaign Missions & Star Perks · Meta-Progression');
 // against the verses cited on the same line: the words must be there.
 console.log('Quotes');
 {
-  const fs = await import('node:fs');
+  const fs = await import('node:fs'), { fileURLToPath } = await import('node:url');
   const window = {};
   new Function('window', fs.readFileSync(new URL('../liberty/scripture.js', import.meta.url), 'utf8'))(window);
   const TEXT = Object.assign({}, window.LIBERTY_SCRIPTURE);
   // Quotes from other chapters (the units' descriptions) are checked against the
   // pinned data tools/verify.mjs downloads, when it's there.
-  const cache = process.env.SCRIPTURE_CACHE || new URL('./.scripture-cache', import.meta.url).pathname;
+  const cache = process.env.SCRIPTURE_CACHE || fileURLToPath(new URL('./.scripture-cache', import.meta.url));
   if (fs.existsSync(cache)) for (const f of fs.readdirSync(cache).filter(f => f.endsWith('.json'))) {
     const data = JSON.parse(fs.readFileSync(cache + '/' + f, 'utf8'));
     for (const c of data.sections || data.books.flatMap(b => b.chapters)) for (const v of c.verses) {
@@ -1085,8 +1085,8 @@ console.log('Losing');
 // webp.json notes the picture each was made from).
 console.log('Pictures');
 {
-  const fs = await import('node:fs'), path = await import('node:path'), { createHash } = await import('node:crypto');
-  const dir = path.join(path.dirname(new URL(import.meta.url).pathname), '..', 'liberty', 'assets');
+  const fs = await import('node:fs'), path = await import('node:path'), { createHash } = await import('node:crypto'), { fileURLToPath } = await import('node:url');
+  const dir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'liberty', 'assets');
   const made = JSON.parse(fs.readFileSync(path.join(dir, 'webp.json'), 'utf8'));
   const pics = fs.readdirSync(dir).filter(n => /\.(png|jpg)$/.test(n));
   const missing = pics.filter(n => !fs.existsSync(path.join(dir, n.replace(/\.(png|jpg)$/, '.webp'))));
