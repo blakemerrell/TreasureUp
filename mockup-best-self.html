@@ -105,6 +105,77 @@
   .th-col.grace h4 { color: #f59e0b; }
   .th-col p { margin: 0; font-size: 12px; color: var(--txt-dim); }
 
+  .talk-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid var(--gold-border);
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 12.5px;
+    padding: 7px 15px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .talk-toggle-btn:hover { background: rgba(245, 158, 11, 0.25); color: #fff; }
+
+  .sphere-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .sphere-pill {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    font-size: 11.5px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .sphere-pill:hover { background: var(--gold-dim); border-color: var(--gold-border); color: var(--gold); }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(10px);
+    overflow-y: auto;
+    padding: 24px 16px;
+  }
+  .modal-card {
+    max-width: 680px;
+    margin: 30px auto;
+    background: #11141e;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: 20px;
+    padding: 32px 28px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+    color: #cbd5e1;
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .modal-card h2 { font-size: 26px; color: #fff; margin-top: 0; margin-bottom: 6px; font-weight: 600; }
+  .modal-card h3 { font-size: 17px; color: var(--gold); margin-top: 24px; margin-bottom: 8px; font-weight: 700; font-family: var(--font); text-transform: uppercase; letter-spacing: 0.05em; }
+  .modal-card p { margin-bottom: 14px; }
+  .modal-card strong { color: #fff; }
+  .modal-close-btn {
+    float: right;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 800;
+  }
+
   /* Day Selector Scroller */
   .day-scroller-wrap { margin-bottom: 24px; }
   .scroller-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
@@ -409,17 +480,20 @@
     <!-- Philosophy Banner -->
     <div class="ph-banner">
       <div class="ph-eyebrow">The Covenant Way · A Life of Ministering &amp; Joy</div>
-      <div class="ph-title">Becoming a True Disciple of Jesus Christ</div>
-      <div class="ph-quote">The Savior went about doing good, lifting every soul He met. Discipleship is the joyful journey of following Him—ministering and helping others at home, at work, at church, and in our community.</div>
+      <div class="ph-title">The Relentless Pursuit: Walking with the Living Christ</div>
+      <div class="ph-quote">Nothing we can do in life will save us—no amount of human effort. But One Man has already done it! Jehovah incarnate died, came back alive, and stayed alive with witnesses. We follow that Man.</div>
       <div class="two-hands-strip">
         <div class="th-col grace">
-          <h4>✋ The Savior’s Grace</h4>
-          <p>Jesus Christ has already overcome death and sin. He fills our life with peace, joy, and the power to love others.</p>
+          <h4>✋ Hesed (חֶסֶד) · God’s Relentless Pursuit (Received)</h4>
+          <p>God never divorces His people. He pursues you with fierce, staying covenant love. You are safe in His hands.</p>
         </div>
         <div class="th-col effort">
-          <h4>✋ Our Discipleship</h4>
-          <p>We show up with a willing heart to follow Him: lifting burdens, building people up, and sharing His light everywhere we go.</p>
+          <h4>✋ Agape (ἀγάπη) · Loving as He Loved (Extended)</h4>
+          <p>Discipleship is an active, joyful life of ministering: lifting burdens at home, at work, in church, and in our community.</p>
         </div>
+      </div>
+      <div style="text-align:center;margin-top:14px">
+        <button type="button" class="talk-toggle-btn" onclick="openTalkModal()">📖 Read the Foundation Talk: “The Relentless Pursuit” ›</button>
       </div>
     </div>
 
@@ -463,6 +537,12 @@
           <div class="sub-sec-label"><span class="num-badge">II.</span> Eyes to See · Who Needs a Lift?</div>
         </div>
         <div class="sub-sec-cue" id="cueSee"></div>
+        <div class="sphere-pills">
+          <button type="button" class="sphere-pill" onclick="addSphere('🏡 At Home: ')">+ 🏡 At Home (Wife, Kids)</button>
+          <button type="button" class="sphere-pill" onclick="addSphere('💼 At Work: ')">+ 💼 At Work (Team, Clients)</button>
+          <button type="button" class="sphere-pill" onclick="addSphere('⛪ At Church: ')">+ ⛪ At Church (Ministering)</button>
+          <button type="button" class="sphere-pill" onclick="addSphere('🤝 In Community: ')">+ 🤝 In Community (Neighbor)</button>
+        </div>
         <textarea class="field" id="inputSee" placeholder="Who will cross your path today that needs encouragement? At home, at work, at church, in your neighborhood…"></textarea>
       </div>
 
@@ -565,6 +645,45 @@
     <div class="spread-container">
       <div class="spread-box" id="journalSpread">
         <!-- Verso and Recto pages injected dynamically -->
+      </div>
+    </div>
+  <!-- TALK MODAL -->
+  <div class="modal-overlay" id="talkModal" onclick="if(event.target===this)closeTalkModal()">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeTalkModal()">✕</button>
+      <div style="font-size:11px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Foundation Address</div>
+      <h2>The Relentless Pursuit: Walking with the Living Christ</h2>
+      <div style="font-style:italic;font-size:13.5px;color:#94a3b8;margin-bottom:22px">By Blake Merrell · Becoming a True Disciple of Jesus Christ</div>
+      
+      <h3>The End of Trying to Save Myself</h3>
+      <p>For many years, like a lot of well-meaning people, I think I secretly operated under a quiet misunderstanding. I thought that discipleship was a ladder I had to climb—that if I just mustered enough willpower, checked enough boxes, woke up early enough, and tried hard enough, I could somehow make myself worthy of God.</p>
+      <p>And then, through experience, through fatigue, and through the quiet whisperings of the Spirit, I came to a profound realization: <strong>Nothing I can do in this life will save me. No amount of human effort can bridge that gap.</strong></p>
+      <p>If salvation depended on my flawless performance, I would be lost. But the glorious news of the restored gospel is that our salvation does not rest on our strength. It rests on the finished work of One Man. I know of one Person who has done it. Jehovah incarnate Himself. God become man. He walked the dusty roads of Galilee, knelt in Gethsemane, died on a Roman cross, and then—contrary to everything the world had ever seen—<strong>He came back alive again. And He stayed alive! With witnesses!</strong></p>
+      <p>I follow that Man. Who is infinitely more than a man.</p>
+
+      <h3>Hesed: The God Who Relentlessly Pursues Us</h3>
+      <p>In the Old Testament, the Hebrew prophets used a word for God’s covenant love that is almost impossible to translate with just one English word. That word is <strong>Hesed (חֶסֶד)</strong>. President Russell M. Nelson taught that <em>hesed</em> is the special covenant love God has for those who have bound themselves to Him.</p>
+      <p>What does <em>hesed</em> feel like? It is deep, fierce, loyal love. It is the love I have for my wife, Chantel—a love that has decided in advance: <em>I am staying. I am not leaving. I am with you through thick and thin.</em></p>
+      <p>Yet God’s <em>hesed</em> toward us is even greater than that. <strong>Because God never divorces His people.</strong> God is in <strong>relentless pursuit</strong> of you and me. When we stumble, when we get distracted, when we walk off into the desert, He does not fold His arms in disgust. He comes after us. Knowing that I am relentlessly pursued by God removes all fear. I don't pray in the morning to earn His favor; I pray because I am already held in His hands.</p>
+
+      <h3>Repentance Is Just Realignment</h3>
+      <p>When you know God loves you with <em>hesed</em>, it completely transforms what repentance means. For too long, the adversary has convinced people that repentance is a dark penalty box—a miserable process where you feel terrible until you’ve suffered enough.</p>
+      <p>That is not the gospel of Jesus Christ. <strong>Repentance is simply realignment.</strong> It is the runner on the trail realizing he took a wrong fork, pausing, turning his face back to the Guide, and saying, <em>“Lord, I wandered here. Help me get back on track.”</em> Because Christ has already paid the price and done the work, all that is asked of us now is to do our best to follow Him, and to constantly realign ourselves with Him. We stumble, we ask for help, we shake off the dust, and we just keep trying.</p>
+
+      <h3>Agape: Loving as He Loved</h3>
+      <p>Once your heart is anchored in the reality of God’s relentless pursuit (<em>Hesed</em>), something miraculous happens: your hands are freed to love others. The New Testament calls this <strong>Agape (ἀγάπη)</strong>—charity, the pure love of Christ.</p>
+      <p><em>Agape</em> is not a warm, fuzzy feeling that you wait around to feel. It is <strong>loving as Jesus loved</strong>: stopping for the outcast, washing feet, suffering long with people who frustrate you, refusing to keep a ledger of past grievances, and putting someone else’s legitimate need ahead of your convenience.</p>
+
+      <h3>A Joyful Life of Ministering</h3>
+      <p>This makes discipleship a <strong>joyful journey</strong>, not a chore. Our life is not about self-obsession or self-glorification. It is an adventure of <strong>ministering and helping people</strong>:</p>
+      <p>• <strong>At Home:</strong> Looking at my wife and kids as the primary people God sent me to love. Listening with patience, laughing together, and being reliable.<br>
+      • <strong>At Work:</strong> Treating coworkers and clients with genuine dignity. Solving problems, building people up, and working with integrity.<br>
+      • <strong>In Church:</strong> Showing up with our eyes open to notice the lonely, the overwhelmed mother, or the youth who feels out of place.<br>
+      • <strong>In the Community:</strong> Being a good neighbor. Doing unheralded kindness. Being someone the neighborhood can count on.</p>
+      <p>Jesus <em>“went about doing good”</em> (Acts 10:38). That is the pattern. Simple, active, kind, and joyful.</p>
+
+      <div style="text-align:center;margin-top:28px">
+        <button class="btn-save" style="max-width:240px;margin:0 auto" onclick="closeTalkModal()">Close &amp; Walk with Him</button>
       </div>
     </div>
   </div>
@@ -1042,6 +1161,25 @@ function switchTab(t) {
   document.getElementById('dailyView').style.display = t === 'daily' ? 'block' : 'none';
   document.getElementById('seasonView').style.display = t === 'season' ? 'block' : 'none';
   document.getElementById('journalView').style.display = t === 'journal' ? 'block' : 'none';
+}
+
+function openTalkModal() {
+  document.getElementById('talkModal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTalkModal() {
+  document.getElementById('talkModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function addSphere(prefix) {
+  const el = document.getElementById('inputSee');
+  if (el) {
+    if (el.value.trim() && !el.value.endsWith('\n')) el.value += '\n';
+    el.value += prefix;
+    el.focus();
+  }
 }
 
 init();
