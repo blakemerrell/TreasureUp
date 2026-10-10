@@ -2064,8 +2064,6 @@
   .lib-week { display: flex; justify-content: space-between; align-items: center; width: 100%; margin: 10px 0 4px; padding: 12px 14px; border-radius: 14px; cursor: pointer; text-align: left;
     font: inherit; font-size: 13px; font-weight: 800; color: var(--gold); background: rgba(252,211,77,.1); border: 1px solid rgba(252,211,77,.45); }
   .lib-week b { display: block; font-size: 16px; color: #fff; }
-  .lib-mockup-banner { display: flex; justify-content: space-between; align-items: center; width: 100%; margin: 10px 0 12px; padding: 12px 14px; border-radius: 14px; cursor: pointer; text-align: left; text-decoration: none; font: inherit; font-size: 13px; font-weight: 800; color: #38bdf8; background: linear-gradient(135deg, rgba(56,189,248,.15), rgba(129,140,248,.1)); border: 1.5px solid rgba(56,189,248,.4); box-shadow: 0 4px 14px rgba(0,0,0,.25); }
-  .lib-mockup-banner b { display: block; font-size: 15px; color: #fff; margin-top: 2px; }
   .lib-vol { margin-top: 18px; }
   .lib-books { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; margin-top: 8px; }
   .lib-book { padding: 10px 12px; border-radius: 12px; cursor: pointer; text-align: left; font: inherit; font-size: 14.5px; font-weight: 800; color: #fff;
@@ -6100,8 +6098,7 @@ const TreasureUp = (function () {
         <div class="lib-chs">${chs.map((ch, i) => `<button class="lib-ch${now.has(ch) ? ' now' : ''}${everRead(ch) ? ' done' : ''}" data-lib-ch="${esc(ch)}" aria-label="${esc(ch)}${everRead(ch) ? ', read' : ''}">${i + 1}</button>`).join('')}</div>`;
     }
     const week = WEEK.reference ? `<button class="lib-week" data-lib-book="${esc((readingAll()[0] || {}).book || '')}"><span>This week<b>${esc(WEEK.reference)}</b></span><span>›</span></button>` : '';
-    const mockupBanner = `<a href="mockup-scriptures.html" class="lib-mockup-banner"><span>✨ New Scripture Library Prototype<b>Dot Matrices · Chapter Grids · Reader</b></span><span>›</span></a>`;
-    return `<div class="eyebrow">Scriptures</div><h1 class="reel-hook lib-h">Every book, chapter and verse</h1>${mockupBanner}${week}
+    return `<div class="eyebrow">Scriptures</div><h1 class="reel-hook lib-h">Every book, chapter and verse</h1>${week}
       ${lib.map(v => `<div class="lib-vol"><div class="eyebrow">${esc(v.name)}</div><div class="lib-books">${v.books.map(([name, n]) => {
         const read = Array.from({ length: n }, (_, i) => name + ' ' + (i + 1)).filter(everRead).length;
         return `<button class="lib-book${[...now].some(c => c.startsWith(name + ' ')) ? ' now' : ''}" data-lib-book="${esc(name)}">${esc(name)}${read ? `<small>${read === n ? '✓ all read' : read + ' of ' + n + ' read'}</small>` : ''}</button>`; }).join('')}</div></div>`).join('')}`;
