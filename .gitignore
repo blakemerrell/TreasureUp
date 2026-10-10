@@ -15,6 +15,8 @@ content/audio.js
 content/words/
 content/library.js
 content/lib/
+content/changes/
+content/jsp-bom.js
 # The Firebase emulators (tests/README.md)
 *-debug.log
 /assets/

@@ -1579,6 +1579,34 @@
   .plain-bar.many .lay { font-size: clamp(10px, 3.05vw, 13.5px); padding-left: 1px; padding-right: 1px; }   /* six buttons (ES·TL as well): "Hebrew" still fits a 320px phone */
   .lay.on { color: #fff; background: rgba(255,255,255,.1); border-color: var(--dot); box-shadow: inset 0 -3px 0 var(--dot); }
   .lay-kjv { --dot: #fff; } .lay-plain { --dot: #58cc02; } .lay-bsb { --dot: #60a5fa; } .lay-lang { --dot: #fb923c; } .lay-notes { --dot: #fbbf24; } .lay-orig { --dot: #c084fc; }
+  .lay-changes { --dot: #f472b6; } .lay-jsp { --dot: #93c5fd; }
+  .plain-bar.one .lay { flex: 0 0 auto; padding-left: 22px; padding-right: 22px; }   /* Notes alone (the Doctrine and Covenants) */
+  /* Changes (Book of Mormon): a changed verse marked at its side, what changed under it. */
+  .ls-vv.chg { box-shadow: inset 3px 0 0 rgba(244,114,182,.75); margin-left: -11px; padding-left: 8px; border-radius: 2px; }
+  .ls-chg { margin: 4px 0 0 15px; padding: 7px 12px; border-radius: 10px; background: rgba(244,114,182,.08); font-size: 13.5px; line-height: 1.45; color: rgba(255,255,255,.82); }
+  .ls-chg .chg-l { margin: 2px 0; }
+  .ls-chg .chg-l b { color: #f9a8d4; margin-right: 4px; }
+  .ls-chg .chg-l i { font-style: normal; font-size: 11.5px; font-weight: 700; color: rgba(255,255,255,.5); }
+  .ls-chg .chg-more summary { cursor: pointer; font-size: 12.5px; font-weight: 800; color: #f9a8d4; }
+  .ls-chg .chg-more[open] summary { margin-bottom: 4px; }
+  .ls-chg-top, .ls-jspbox { margin: 0 0 14px; padding: 12px 14px; border-radius: 14px; font-size: 14px; line-height: 1.45; color: rgba(255,255,255,.85); }
+  .ls-chg-top { background: rgba(244,114,182,.08); border: 1px solid rgba(244,114,182,.3); }
+  .ls-chg-top p { margin: 6px 0 0; }
+  .ct-h, .jb-h { font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #f9a8d4; }
+  .ct-all { margin-top: 8px; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(244,114,182,.45); background: none; color: #f9a8d4; font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
+  .ct-all.on { background: rgba(244,114,182,.16); color: #fff; }
+  .ct-eds { margin-top: 8px; }
+  .ct-eds summary { cursor: pointer; font-size: 13px; font-weight: 800; color: #f9a8d4; }
+  .ct-eds p { margin: 5px 0 0; font-size: 13px; } .ct-eds b { color: #f9a8d4; margin-right: 4px; }
+  .ct-eds .ct-by { color: rgba(255,255,255,.6); }
+  .ct-credit { margin: 8px 0 0 !important; font-size: 11.5px; color: rgba(255,255,255,.5); }
+  .ct-wait { margin: 0; font-size: 13px; color: rgba(255,255,255,.6); }
+  .ls-jspbox { background: rgba(147,197,253,.08); border: 1px solid rgba(147,197,253,.3); }
+  .ls-jspbox .jb-h { color: #93c5fd; }
+  .ls-jspbox .jb-link { margin-top: 8px; padding: 9px 12px; }
+  .ls-jspbox .jb-link span { color: #93c5fd; text-transform: none; letter-spacing: 0; font-size: 12.5px; font-weight: 700; }
+  .ls-jspbox .jb-link b { font-size: 14px; }
+  .ls-chg .chg-l i { white-space: nowrap; }
   .plain-draft { flex-basis: 100%; font-size: 12px; font-weight: 800; color: #fbbf24; }
   /* They stay at the top while he reads, so a hard verse can be switched on the
      spot: in the day's reading, and in a chapter opened over the page, under a
@@ -6706,7 +6734,7 @@ const TreasureUp = (function () {
     $('view').hidden = false;
     $('view').scrollTop = 0;
     const box = $('viewBody').querySelector('.ls-chapter');
-    if (box) { needTrans(box); needOrig(box); resumeAt(box, ch); }
+    if (box) { needTrans(box); needOrig(box); needChanges(box); resumeAt(box, ch); }
   }
   // Any chapter beyond the week's reading pays XP too, once (Blake, 2026-10-04:
   // reading more scripture should earn), with the reading clock and the honest
@@ -6914,7 +6942,7 @@ const TreasureUp = (function () {
       <button class="btn" data-mark-lesson="${esc(key)}">Mark it read in its lesson ›</button></div>` : '');
     $('view').hidden = false;
     const box = $('viewBody').querySelector('.ls-chapter');
-    needTrans(box); needOrig(box);
+    needTrans(box); needOrig(box); needChanges(box);
     resumeAt(box, u.ref);
   }
 
@@ -7284,6 +7312,10 @@ const TreasureUp = (function () {
   // 1905 Ang Biblia, both public domain, each verse under the KJV verse it
   // translates (tools/import-bibles.mjs): a tap turns on the Spanish, the
   // next the Tagalog, the next neither. Built and loaded like the BSB.
+  // The Book of Mormon, the Doctrine and Covenants and the Pearl of Great
+  // Price have no KJV button (Blake, 2026-10-10): their text always shows,
+  // and the row has only what can be added to it. The Book of Mormon adds
+  // Changes and JS Papers (below).
   const LAYERS_KEY = NS + 'layers';
   const TEST_SITE = /\/TreasureUp-test\//.test(location.pathname);
   // On the test site, every screen says so: an orange frame with a tab, and
@@ -7298,16 +7330,17 @@ const TreasureUp = (function () {
   }
   const testNoteHtml = () => `<div class="test-note">🧪 <b>Test site.</b> Its progress and family are kept apart from the live app's.
     <a href="${esc(location.origin + '/TreasureUp/')}">Open the live app ›</a></div>`;
-  const LAYERS = [['kjv', 'KJV'], ['plain', 'Plain'], ['bsb', 'BSB'], ['lang', 'ES·TL'], ['notes', 'Notes'], ['orig', 'Hebrew']];
-  const LAYER_NAMES = { kjv: 'King James Version', plain: 'Plain words', bsb: 'Berean Standard Bible', notes: 'Notes' };
+  const LAYERS = [['kjv', 'KJV'], ['plain', 'Plain'], ['bsb', 'BSB'], ['lang', 'ES·TL'], ['notes', 'Notes'], ['orig', 'Hebrew'], ['changes', 'Changes'], ['jsp', 'JS Papers']];
+  const LAYER_NAMES = { kjv: 'King James Version', plain: 'Plain words', bsb: 'Berean Standard Bible', notes: 'Notes', changes: 'Changes since the first edition', jsp: 'Joseph Smith Papers' };
   const LANGS = { es: { label: 'ES', name: 'Spanish', full: 'Reina-Valera 1909', next: 'tl' }, tl: { label: 'TL', name: 'Tagalog', full: 'Ang Biblia 1905', next: '' } };
   const layers = (() => {
     try {
       const saved = JSON.parse(localStorage.getItem(LAYERS_KEY));
-      if (saved && typeof saved === 'object') return { kjv: !!saved.kjv, plain: !!saved.plain, bsb: !!saved.bsb, lang: LANGS[saved.lang] ? saved.lang : '', notes: !!saved.notes, orig: !!saved.orig };
+      if (saved && typeof saved === 'object') return { kjv: !!saved.kjv, plain: !!saved.plain, bsb: !!saved.bsb, lang: LANGS[saved.lang] ? saved.lang : '', notes: !!saved.notes, orig: !!saved.orig,
+        changes: !!saved.changes, chgAll: !!saved.chgAll, jsp: !!saved.jsp };
       const plain = localStorage.getItem(NS + 'plain') === '1';          // the one switch these replaced
-      return { kjv: true, plain, bsb: false, lang: '', notes: true, orig: false };
-    } catch (e) { return { kjv: true, plain: false, bsb: false, lang: '', notes: true, orig: false }; }
+      return { kjv: true, plain, bsb: false, lang: '', notes: true, orig: false, changes: false, chgAll: false, jsp: false };
+    } catch (e) { return { kjv: true, plain: false, bsb: false, lang: '', notes: true, orig: false, changes: false, chgAll: false, jsp: false }; }
   })();
   // Notes on for everyone, once (Blake, 2026-10-07: "Notes for everyone"): the
   // cards that explain a verse live there now. Turned off after that, it stays off.
@@ -7547,6 +7580,79 @@ const TreasureUp = (function () {
   const origLang = ch => { const p = BOOK_PATHS[(/^(.+) \d+$/.exec(ch) || [])[1]] || ''; return /^ot\//.test(p) ? 'he' : /^nt\//.test(p) ? 'el' : null; };
   const origOf = ch => (window.TU_ORIG || {})[ch];
   const origSrc = ch => 'content/original/' + ch.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.js';
+  const isBoM = ch => /^bofm\//.test(BOOK_PATHS[(/^(.+) \d+$/.exec(ch) || [])[1]] || '');
+  // Changes (Blake, 2026-10-10): on a Book of Mormon chapter, the verses whose
+  // wording changed between the first edition (1830) and today's (2013), each
+  // marked, with what changed and in which edition, from BYU Office of Digital
+  // Humanities' OpenScripture data (the editions lined up word by word).
+  // tools/editions.mjs sorts each change into a kind by rules, with nobody
+  // reading them: only wording shows at first; spelling and punctuation,
+  // grammar and typos are a tap away. One file a chapter,
+  // content/changes/<chapter>.js (built at deploy), loaded when first on.
+  // Why a single verse changed is for notes Blake approves, later.
+  const chgOf = ch => (window.TU_CHANGES || {})[ch];
+  const chgSrc = ch => 'content/changes/' + ch.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.js';
+  const chgFailed = new Set();
+  // Each edition in a line, for the chapter's key (and a change's tooltip).
+  // The data has no edition between 1840 and 1879, or between 1879 and 1920,
+  // so a change it first shows in 1879 or 1920 was made "by" then.
+  const CHG_EDITIONS = {
+    1830: 'The first edition, printed in Palmyra, New York.',
+    1837: 'Kirtland, Ohio: Joseph Smith’s edits, mostly grammar.',
+    1840: 'Nauvoo: Joseph Smith’s corrections from the manuscript.',
+    1879: 'Orson Pratt’s edition, with today’s chapters and verses.',
+    1920: 'A committee led by James E. Talmage: two columns, footnotes and some grammar.',
+    1981: 'Corrections from the manuscripts, and some of Joseph Smith’s 1840 edits put back.',
+    2013: 'Small fixes to spelling and punctuation.',
+  };
+  const CHG_BY = ['1879', '1920'];
+  const CHG_KINDS = { s: 'spelling', g: 'grammar', t: 'typo', w: 'wording' };
+  // A spelling-or-punctuation change, named for which it is.
+  const chgKind = c => { const l = x => x.replace(/[^A-Za-z]/g, ''); return c[3] !== 's' ? CHG_KINDS[c[3]] : l(c[1]) === l(c[2]) ? 'punctuation' : l(c[1]).toLowerCase() === l(c[2]).toLowerCase() ? 'capitals' : 'spelling'; };
+  const CHG_CREDIT = 'BYU Office of Digital Humanities (OpenScripture)';
+  const chgEd = ed => (CHG_BY.includes(ed) ? 'By ' : '') + ed;
+  const chgLineHtml = (c, kind) => `<p class="chg-l"><b title="${esc(CHG_EDITIONS[c[0]] || '')}">${chgEd(c[0])}</b> “${esc(c[1])}” → “${esc(c[2])}”${kind && c[3] !== 'w' ? ` <i>${chgKind(c)}</i>` : ''}</p>`;
+  // Under a verse: its wording changes, and all of them a tap away; with
+  // "small changes too" on, a verse with only those has them a tap away too.
+  function chgVerseHtml(ch, n) {
+    const d = chgOf(ch), list = (d && d.v[n]) || [];
+    const w = list.filter(c => c[3] === 'w');
+    if (!list.length || (!w.length && !layers.chgAll)) return '';
+    const all = `<details class="chg-more"><summary>${w.length ? `Show all ${list.length} changes` : `${list.length} small ${list.length === 1 ? 'change' : 'changes'}`}</summary>${list.map(c => chgLineHtml(c, true)).join('')}</details>`;
+    return `<div class="ls-chg">${w.map(c => chgLineHtml(c)).join('')}${w.length === list.length ? '' : all}</div>`;
+  }
+  function chgTopHtml(ch) {
+    const d = chgOf(ch);
+    if (!d) return `<div class="ls-chg-top"><p class="ct-wait">${chgFailed.has(ch) ? 'The changes didn’t open. They need the internet; try again.' : 'Opening the changes…'}</p></div>`;
+    const vs = Object.values(d.v), w = vs.filter(l => l.some(c => c[3] === 'w')).length, small = vs.filter(l => l.length && !l.some(c => c[3] === 'w')).length;
+    return `<div class="ls-chg-top"><div class="ct-h">✎ Changes since 1830</div>
+      <p>${w ? `${w} ${w === 1 ? 'verse' : 'verses'} here changed in wording` : 'No verse here changed in wording'} between the first edition (1830) and today’s (2013)${w ? ': each is marked, with what changed and when' : ''}.${small ? ` ${small} more changed only in small ways: spelling, punctuation, grammar or a typo.` : ''}</p>
+      ${small || vs.some(l => l.some(c => c[3] !== 'w')) ? `<button type="button" class="ct-all${layers.chgAll ? ' on' : ''}" data-layer="chgAll" aria-pressed="${layers.chgAll}">${layers.chgAll ? '✓ Showing small changes too' : 'Show small changes too'}</button>` : ''}
+      <details class="ct-eds"><summary>The editions</summary>${Object.entries(CHG_EDITIONS).map(([y, t]) => `<p><b>${y}</b> ${esc(t)}</p>`).join('')}
+        <p class="ct-by">“By 1879” and “by 1920”: the data skips the editions just before those, so the change was made in one of them or in that one.</p></details>
+      <p class="ct-credit">Changes: ${CHG_CREDIT}, which lines up the editions word by word.</p></div>`;
+  }
+  // JS Papers (Blake, 2026-10-10): links to the chapter's pages at the Joseph
+  // Smith Papers, in a new tab: the 1830 first edition, the printer's
+  // manuscript, and the original manuscript where part of it survives. Only
+  // links: their pages, pictures and words stay on their site (the Church's
+  // terms of use). content/jsp-bom.js, from the table tools/jsp-bom-pages.mjs
+  // made (tools/jsp-bom-pages.json); a page that's an estimate says "around".
+  let jspLoad = null, jspFailed = false;
+  function jspBoxHtml(ch) {
+    const t = window.TU_JSP_BOM, x = t && t.chapters[ch];
+    if (!t) return `<div class="ls-jspbox"><p class="ct-wait">${jspFailed ? 'The Joseph Smith Papers links didn’t open. They need the internet; try again.' : 'Opening the Joseph Smith Papers links…'}</p></div>`;
+    if (!x) return '';
+    const link = (url, about, label) => `<a class="ins-src jb-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"><span>${esc(about)}</span> <b>${esc(label)} ↗</b></a>`;
+    const pages = (a, b) => a === b ? 'p. ' + a : `pp. ${a}–${b}`;
+    const out = [];
+    if (x.e) out.push(link(t.docs.e1830 + (x.e[0] + 6), 'The first edition, printed in Palmyra', `1830 edition, ${x.e[2] ? '' : 'around '}${pages(x.e[0], x.e[1])}`));
+    if (x.p) out.push(link(t.docs.pm + (x.p[0] + 4), 'Copied for the printer, mostly by Oliver Cowdery', `Printer’s manuscript, ${x.p[1] ? '' : 'around '}p. ${x.p[0]}`));
+    (x.o || []).forEach(([seq, page, verses, exact], i) => out.push(link(t.docs.om + seq, i ? 'Another part of it' : 'Written as Joseph Smith translated; only parts survive',
+      `Original manuscript, ${verses ? `verse${/[–,]/.test(verses) ? 's' : ''} ${verses}` : `${exact ? '' : 'around '}p. ${page}`}`)));
+    return `<div class="ls-jspbox"><div class="jb-h">📜 Joseph Smith Papers</div>${out.join('')}
+      <p class="ct-credit">Opens josephsmithpapers.org in a new tab.</p></div>`;
+  }
   // How a word sounds, made easy to read aloud (Blake, 2026-10-06: "Easier
   // Hebrew button"): syllables apart with hyphens, the stressed one in
   // capitals, ch (ח, which kids read as in "church") as kh, the marks for
@@ -7617,10 +7723,11 @@ const TreasureUp = (function () {
   }
   // What a chapter offers, and what shows: the buttons that are on, and the
   // KJV when none of the texts on is there for this chapter. Notes, always:
-  // every chapter has Scripture Central's line at its top.
+  // every chapter has Scripture Central's line at its top. The KJV is a button
+  // only on a Bible chapter; elsewhere the scripture's own text always shows.
   function haveOf(u, week) {
-    const x = plainOf(week, u.ch);
-    return { kjv: true, plain: !!x, bsb: isBible(u.ch), lang: isBible(u.ch), notes: true, orig: !!origLang(u.ch) };
+    const x = plainOf(week, u.ch), bom = isBoM(u.ch);
+    return { kjv: isBible(u.ch), plain: !!x, bsb: isBible(u.ch), lang: isBible(u.ch), notes: true, orig: !!origLang(u.ch), changes: bom, jsp: bom };
   }
   // Notes from the Joseph Smith Papers (Blake, 2026-10-04: "can you add notes
   // to the scripture reading from Joseph Smith papers??? having a directly
@@ -7692,7 +7799,8 @@ const TreasureUp = (function () {
       ${s.who ? `<p class="ins-who" style="margin:4px 0 0">${esc(s.who)}</p>` : ''}
       ${s.url ? `<a class="ins-src" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer"><span>Read the whole thing · ${esc(s.by)}</span> <b>${esc(s.title)} ↗</b></a>` : ''}${card}`);
   }
-  const layersFor = have => ({ kjv: layers.kjv, plain: layers.plain && have.plain, bsb: layers.bsb && have.bsb, lang: have.lang ? layers.lang : '', notes: layers.notes && have.notes, orig: layers.orig && have.orig });
+  const layersFor = have => ({ kjv: have.kjv ? layers.kjv : true, plain: layers.plain && have.plain, bsb: layers.bsb && have.bsb, lang: have.lang ? layers.lang : '', notes: layers.notes && have.notes, orig: layers.orig && have.orig,
+    changes: layers.changes && have.changes, jsp: layers.jsp && have.jsp });
   const textsOn = on => on.kjv || on.plain || on.bsb || !!on.lang;
   function shownLayers(have) {
     const on = layersFor(have);
@@ -7702,7 +7810,7 @@ const TreasureUp = (function () {
   function layersBarHtml(u, week) {
     const x = plainOf(week, u.ch), have = haveOf(u, week), on = shownLayers(have);
     const btns = LAYERS.filter(([k]) => have[k]);
-    return btns.length < 2 ? '' : `<div class="plain-bar${btns.length > 5 ? ' many' : ''}">` +
+    return !btns.length ? '' : `<div class="plain-bar${btns.length > 5 ? ' many' : btns.length === 1 ? ' one' : ''}">` +
       btns.map(([k, label]) => {
         if (k === 'lang') {     // ES·TL: which language is on, and what a tap does next
           const l = LANGS[on.lang], next = l ? LANGS[l.next] : LANGS.es;
@@ -7717,24 +7825,27 @@ const TreasureUp = (function () {
     const tip = on.orig && origOf(u.ch) ? `<p class="ls-orig-tip">${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew reads right to left, but here its'} words are in English order: what each means on top, then the word, then how to say it (the loud part in capitals). Tap a word to learn more${treasureOf(week).length ? '; 💎 is a treasure word' : ''}.</p>` : '';
     const mn = on.notes ? marginNotesOf(week, u.ch) : [];
     const top = on.notes ? `<div class="ls-tops">${scDoorHtml(u.ch)}${mn.filter(n => !n.v).map(n => noteLineHtml(n, u, week, true)).join('')}</div>` : '';
-    return tip + top + u.verses.map(v => {
+    const chg = on.changes && chgOf(u.ch);
+    return tip + (on.jsp ? jspBoxHtml(u.ch) : '') + (on.changes ? chgTopHtml(u.ch) : '') + top + u.verses.map(v => {
       const lines = [];
       if (on.plain && x.p.verses[v.n - 1]) lines.push(['ls-plain', x.p.verses[v.n - 1]]);
       if (bsb && bsb[v.n - 1]) lines.push(['ls-bsb', bsb[v.n - 1]]);
       if (lang && lang[v.n - 1]) lines.push(['ls-lang', lang[v.n - 1], on.lang]);
       if (on.kjv || !lines.length) lines.unshift(['ls-v', v.t]);          // a text not in yet, or without this verse: the KJV
       const notes = on.notes && x ? (x.p.notes || []).filter(n => n.v === v.n) : [], jsp = on.notes ? jspNotesOf(week, u.ch).filter(n => n.v === v.n) : [];
-      const ref = u.ch + ':' + v.n, hl = markOf(ref);
-      return `<div class="ls-vv" data-v="${v.n}" data-ref="${esc(ref)}"${hl ? ` data-hl="${hl}"` : ''}>` +
+      const ref = u.ch + ':' + v.n, hl = markOf(ref), changed = chg && (chg.v[v.n] || []).some(c => c[3] === 'w');
+      return `<div class="ls-vv${changed ? ' chg' : ''}" data-v="${v.n}" data-ref="${esc(ref)}"${hl ? ` data-hl="${hl}"` : ''}>` +
         lines.map(([c, t, l], i) => `<p class="${c}${i ? '' : ' lead'}"${l ? ` lang="${l}"` : ''}>${i ? '' : `<sup>${v.n}</sup>`}${esc(t)}</p>`).join('') +
         myNotesOf(ref).map(([id, x]) => `<button class="ls-note ls-mine" data-vnote="${esc(ref)}" data-vnote-id="${esc(id)}"><span class="lm-ic">✍️</span>${esc(x.text)}${x.share ? ' <small>· 👀 shared with your parents</small>' : ''}</button>`).join('') +
         (on.orig ? origHtml(u.ch, v.n, week) : '') +
+        (chg ? chgVerseHtml(u.ch, v.n) : '') +
         notes.map(n => `<p class="ls-note"><span class="lm-ic">📝</span>${linkRefs(n.text, u.ch + ':' + v.n)}</p>`).join('') +
         jsp.map(n => `<p class="ls-note ls-jsp"><span class="lm-ic">📜</span>${linkRefs(n.text, u.ch + ':' + v.n)} <a href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">${esc(n.title)} ↗</a>${n.draft ? ' <span class="plain-draft">Draft</span>' : ''}</p>`).join('') +
         mn.filter(n => n.v === v.n).map(n => noteLineHtml(n, u, week)).join('') + '</div>';
     }).join('') + `<p class="ls-ch-end">End of ${esc(u.ref)}</p>` +
       (lang ? `<p class="ls-orig-credit">${LANGS[on.lang].name}: ${LANGS[on.lang].full} (public domain)</p>` : '') +
-      (on.orig && origOf(u.ch) ? `<p class="ls-orig-credit">${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew'} words: STEPBible.org, from work at Tyndale House, Cambridge (CC BY 4.0)</p>` : '');
+      (on.orig && origOf(u.ch) ? `<p class="ls-orig-credit">${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew'} words: STEPBible.org, from work at Tyndale House, Cambridge (CC BY 4.0)</p>` : '') +
+      (chg ? `<p class="ls-orig-credit">Changes: ${CHG_CREDIT}</p>` : '');
   }
   // His own highlights and notes, verse by verse (Blake, 2026-10-04: "I
   // need a way to write my own note as I read the scriptures in this app...
@@ -7841,7 +7952,7 @@ const TreasureUp = (function () {
     if (dl) { const x = S.impressions[dl.dataset.vnDel], ref = x && x.ref; S.impressions[dl.dataset.vnDel] = { gone: true, upd: Date.now() }; save(); closeSheet(); if (ref) redrawVerse(ref); refreshHome(); return true; }
     if (t.closest('.vbar')) return false;
     const vv = t.closest('.ls-verses .ls-vv');
-    if (vv && !t.closest('a, button, input, textarea, select, [data-word], [data-treasure]')) {
+    if (vv && !t.closest('a, button, input, textarea, select, [data-word], [data-treasure], .ls-chg')) {
       if (String(window.getSelection ? window.getSelection() : '').trim()) return false;   // choosing words to copy
       verseBar(vv);
       return true;
@@ -7890,12 +8001,30 @@ const TreasureUp = (function () {
     (origLoads[src] || (origLoads[src] = loadScript(src).catch(e => { delete origLoads[src]; throw e; })))
       .then(() => { if (box.isConnected) redrawChapter(box); }).catch(() => {});
   }
+  // With Changes or JS Papers on, a Book of Mormon chapter's changes, and the
+  // table of its pages at the Joseph Smith Papers, load the first time they're needed.
+  const chgLoads = {};
+  function needChanges(box) {
+    const ctx = box && chapterCtx(box);
+    if (!ctx || !isBoM(ctx.u.ch)) return;
+    const ch = ctx.u.ch, redraw = () => { if (box.isConnected) redrawChapter(box); };
+    if (layers.changes && !chgOf(ch)) {
+      const src = chgSrc(ch);
+      (chgLoads[src] || (chgLoads[src] = loadScript(src).catch(e => { delete chgLoads[src]; throw e; })))
+        .then(() => { chgFailed.delete(ch); redraw(); }, () => { chgFailed.add(ch); redraw(); });
+    }
+    if (layers.jsp && !window.TU_JSP_BOM) {
+      (jspLoad || (jspLoad = loadScript('content/jsp-bom.js').catch(e => { jspLoad = null; throw e; })))
+        .then(() => { jspFailed = false; redraw(); }, () => { jspFailed = true; redraw(); });
+    }
+  }
   // A button: that text or the notes on or off, everywhere. The last text on stays on.
   function toggleLayer(btn) {
     const box = btn.closest('.ls-chapter'), ctx = box && chapterCtx(box);
     if (!ctx) return;
     const k = btn.dataset.layer, have = haveOf(ctx.u, ctx.week);
-    if (k === 'lang') layers.lang = (LANGS[shownLayers(have).lang] || { next: 'es' }).next;
+    if (k === 'chgAll') layers.chgAll = !layers.chgAll;          // Changes' "small changes too"
+    else if (k === 'lang') layers.lang = (LANGS[shownLayers(have).lang] || { next: 'es' }).next;
     else layers[k] = !shownLayers(have)[k];
     // The last text on stays on; turning the Spanish or Tagalog off then brings back the KJV.
     if (!textsOn(layersFor(have))) { if (k === 'lang') layers.kjv = true; else layers[k] = true; }
@@ -7903,6 +8032,7 @@ const TreasureUp = (function () {
     redrawChapter(box);
     needTrans(box);
     needOrig(box);
+    needChanges(box);
   }
   // Without a reading plan, a section a day as before.
   // A reel comes on the day its chapter is read; one outside the reading,
@@ -11464,7 +11594,7 @@ const TreasureUp = (function () {
     $('view').classList.toggle('reading', !!u);
     $('viewBody').innerHTML = html;
     $('view').hidden = false;
-    if (u) { const box = $('viewBody').querySelector('.ls-chapter'); needTrans(box); needOrig(box); if (!lateRead(u.ref)) resumeAt(box, u.ref); }
+    if (u) { const box = $('viewBody').querySelector('.ls-chapter'); needTrans(box); needOrig(box); needChanges(box); if (!lateRead(u.ref)) resumeAt(box, u.ref); }
   }
   // One question of a past week, with his try `t` (pastTry). Answered: the
   // right answer and his pick, read-only, and when that was. Not yet: he
@@ -17458,7 +17588,7 @@ const TreasureUp = (function () {
     body.innerHTML = html;
     body.scrollTop = 0;
     if (step.kind === 'chapter') {
-      needTrans(body.querySelector('.ls-chapter')); needOrig(body.querySelector('.ls-chapter'));
+      needTrans(body.querySelector('.ls-chapter')); needOrig(body.querySelector('.ls-chapter')); needChanges(body.querySelector('.ls-chapter'));
       if (!step.resumed) { step.resumed = true; resumeAt(body.querySelector('.ls-chapter'), step.u.ref); }
     }
 
