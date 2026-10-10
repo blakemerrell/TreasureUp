@@ -193,6 +193,63 @@
   .queue span { padding: 2px 6px; border-radius: 6px; background: rgba(255, 255, 255, .08); }
   .queue span:first-of-type { background: linear-gradient(90deg, rgba(236, 199, 100, .5) var(--p, 0%), rgba(255, 255, 255, .08) var(--p, 0%)); }
 
+  /* RA2 3-Section Command Center */
+  #panel #cmds.bar { display: flex; flex-direction: column; gap: 4px; overflow-y: hidden; }
+  .cmd-center { display: flex; flex-direction: column; gap: 4px; width: 100%; min-width: 0; height: 100%; }
+  .cmd-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; background: rgba(0,0,0,0.35); padding: 2px; border-radius: 8px; border: 1px solid var(--line); flex-shrink: 0; }
+  .cmd-tab { display: flex; align-items: center; justify-content: center; gap: 4px; height: 30px; padding: 2px 4px; border: none; border-radius: 6px; background: transparent; color: var(--parch-dim); font-size: 11px; font-weight: 800; cursor: pointer; transition: all .15s ease; position: relative; }
+  .cmd-tab:hover { color: #fff; background: rgba(255,255,255,0.06); }
+  .cmd-tab.active { background: linear-gradient(#3b2918, #25190f); border: 1px solid var(--brass-hi); color: var(--gold); box-shadow: 0 1px 6px rgba(0,0,0,0.5); }
+  .cmd-tab-badge { font-size: 9.5px; padding: 1px 4px; border-radius: 4px; background: #dc2626; color: #fff; font-weight: 900; }
+  .cmd-tab-badge.going { background: #d97706; }
+  .cmd-tab-badge.ready { background: #16a34a; }
+  .cmd-queue-banner { display: flex; align-items: center; justify-content: space-between; padding: 2px 6px; border-radius: 5px; font-size: 10px; font-weight: 700; color: var(--parch-dim); background: rgba(0,0,0,0.28); border-left: 3px solid var(--brass); min-height: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
+  .cmd-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; align-content: start; overflow-y: auto; touch-action: pan-y; flex: 1; min-height: 0; }
+  body.side .cmd-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (max-width: 380px) {
+    .cmd-tiles { grid-template-columns: 1fr; }
+  }
+
+  /* Quick Cohort HUD Dock */
+  .cohort-bar { position: fixed; left: 10px; bottom: 10px; display: flex; align-items: center; gap: 5px; z-index: 18; background: rgba(18, 12, 7, 0.88); backdrop-filter: blur(4px); padding: 4px 6px; border-radius: 10px; border: 1.5px solid var(--brass); box-shadow: 0 4px 14px rgba(0,0,0,0.6); }
+  body:not(.side) .cohort-bar { bottom: calc(var(--drawer, 240px) + 8px); }
+  .cohort-btn { display: inline-flex; align-items: center; gap: 5px; height: 32px; padding: 0 8px; border-radius: 6px; border: 1px solid var(--trim); background: linear-gradient(#3b2918, #25190f); color: var(--parch); font-family: inherit; font-size: 11px; font-weight: 800; cursor: pointer; transition: transform .05s, border-color .15s; }
+  .cohort-btn:active { transform: scale(0.96); }
+  .cohort-btn.sel { border-color: var(--brass-hi); background: linear-gradient(#6b3e15, #3b200b); box-shadow: 0 0 8px rgba(245, 158, 11, 0.45); }
+  .cohort-btn .c-badge { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 4px; font-size: 9.5px; font-weight: 900; color: #fff; }
+  .cohort-btn .c-badge.c1 { background: #dc2626; }
+  .cohort-btn .c-badge.c2 { background: #2563eb; }
+  .cohort-btn .c-badge.c3 { background: #d97706; }
+  .cohort-btn .c-cnt { font-size: 10.5px; color: var(--parch-dim); background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 4px; }
+  .cohort-btn.warroom-btn { background: linear-gradient(#92400e, #78350f); border-color: var(--gold); color: #fef3c7; }
+
+  /* Building Cohort & Rally Actions */
+  .cohort-picker { display: flex; align-items: center; gap: 4px; width: 100%; margin-top: 4px; }
+  .cohort-picker small { color: var(--parch-dim); font-size: 10px; font-weight: 700; margin-right: 2px; }
+  .cohort-choice { padding: 3px 6px; border-radius: 5px; border: 1px solid var(--trim); background: rgba(0,0,0,0.3); color: var(--parch-dim); font-size: 10px; font-weight: 800; cursor: pointer; }
+  .cohort-choice.sel { background: linear-gradient(#92400e, #78350f); color: #fef3c7; border-color: var(--brass-hi); }
+
+  /* War Room & Strategy Architect Modal */
+  .dialog.warRoomCard { max-width: 620px; width: 100%; margin: 20px auto; background: linear-gradient(180deg, #24180e, #140d07); border: 2px solid var(--brass); border-radius: 16px; padding: 18px; box-shadow: 0 16px 48px rgba(0,0,0,0.85); color: var(--parch); }
+  .war-cohort-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 12px 0 10px; }
+  .war-tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px; border-radius: 8px; border: 1px solid var(--trim); background: rgba(0,0,0,0.35); color: var(--parch-dim); font-family: inherit; font-size: 11px; font-weight: 800; cursor: pointer; transition: all .15s; }
+  .war-tab.active { background: linear-gradient(#6b3e15, #3b200b); border-color: var(--brass-hi); color: var(--gold); box-shadow: 0 0 12px rgba(245, 158, 11, 0.35); }
+  .war-tab small { font-size: 9.5px; opacity: 0.8; }
+  .war-map-section { margin: 8px 0 14px; background: rgba(0,0,0,0.4); border-radius: 10px; border: 1px solid var(--line); padding: 8px; }
+  .war-map-header { display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; font-weight: 800; color: var(--gold); margin-bottom: 6px; }
+  .war-map-wrap { position: relative; width: 100%; height: 200px; border-radius: 8px; overflow: hidden; background: #000; border: 1.5px solid var(--line); cursor: crosshair; }
+  #warMapCanvas { display: block; width: 100%; height: 100%; }
+  .war-route-info { margin-top: 6px; font-size: 11px; color: var(--parch-dim); font-style: italic; }
+  .war-settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin: 12px 0 16px; }
+  .war-setting-col { background: rgba(0,0,0,0.25); border-radius: 8px; border: 1px solid var(--line); padding: 8px 10px; }
+  .war-setting-col h4 { margin: 0 0 6px; font-size: 10px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brass-hi); }
+  .war-btn-group { display: flex; flex-wrap: wrap; gap: 4px; }
+  .form-btn, .rule-btn { padding: 4px 7px; border-radius: 5px; border: 1px solid var(--trim); background: rgba(255,255,255,0.06); color: var(--parch); font-family: inherit; font-size: 10.5px; font-weight: 700; cursor: pointer; transition: all .1s; }
+  .form-btn:hover, .rule-btn:hover { background: rgba(255,255,255,0.12); }
+  .form-btn.sel, .rule-btn.sel { background: linear-gradient(#92400e, #78350f); color: #fef3c7; border-color: var(--brass-hi); box-shadow: 0 0 6px rgba(245, 158, 11, 0.4); }
+  .war-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+  .gold-shofar { background: linear-gradient(135deg, #b45309, #d97706) !important; color: #fff !important; font-weight: 900 !important; border-color: #fde047 !important; }
+
   /* ------------------------------------------------ full screens and dialogs */
   #screen { position: fixed; inset: 0; z-index: 20; overflow-y: auto; touch-action: pan-y; background: radial-gradient(ellipse at top, #1d1b3a 0%, var(--ink) 60%); }
   #dialog { position: fixed; inset: 0; z-index: 30; overflow-y: auto; touch-action: pan-y; background: rgba(6, 7, 16, .78); backdrop-filter: blur(3px); padding: 0 12px 40px; }
@@ -488,6 +545,13 @@
 <details id="goals" open hidden><summary>Goals</summary><ul id="goalList"></ul></details>
 <div id="feed" aria-live="polite"></div>
 <div id="rotate" hidden>Turn your phone sideways for more room</div>
+
+<div id="cohortBar" class="cohort-bar" hidden>
+  <button class="cohort-btn" data-cohort="1" title="Cohort I: Vanguard (Melee) · Hotkey 1"><span class="c-badge c1">I</span><span class="c-name">Vanguard</span><span class="c-cnt" id="cohortCnt1">0</span></button>
+  <button class="cohort-btn" data-cohort="2" title="Cohort II: Skirmishers (Ranged) · Hotkey 2"><span class="c-badge c2">II</span><span class="c-name">Skirmish</span><span class="c-cnt" id="cohortCnt2">0</span></button>
+  <button class="cohort-btn" data-cohort="3" title="Cohort III: Siege & Supply · Hotkey 3"><span class="c-badge c3">III</span><span class="c-name">Siege</span><span class="c-cnt" id="cohortCnt3">0</span></button>
+  <button class="cohort-btn warroom-btn" id="bWarRoom" title="War Room: Strategy Architect & Waypoints (W)"><span class="c-icon">📜</span><span class="c-name">War Room</span></button>
+</div>
 
 <footer id="panel" hidden>
   <div id="side">

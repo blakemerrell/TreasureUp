@@ -413,6 +413,106 @@ const LIB_AUDIO = (() => {
         });
         break;
       }
+      case 'cartDock': {
+        haptic(16);
+        // Heavy wooden cart braking and creaking into the depot dock
+        const o1 = ctx.createOscillator(), g1 = ctx.createGain();
+        o1.type = 'sawtooth';
+        o1.frequency.setValueAtTime(95, t);
+        o1.frequency.exponentialRampToValueAtTime(45, t + 0.12);
+        g1.gain.setValueAtTime(0.12, t);
+        g1.gain.exponentialRampToValueAtTime(0.001, t + 0.13);
+        o1.connect(g1).connect(ctx.destination);
+        o1.start(t); o1.stop(t + 0.14);
+
+        const o2 = ctx.createOscillator(), g2 = ctx.createGain();
+        o2.type = 'triangle';
+        o2.frequency.setValueAtTime(150, t);
+        o2.frequency.linearRampToValueAtTime(180, t + 0.04);
+        o2.frequency.exponentialRampToValueAtTime(60, t + 0.15);
+        g2.gain.setValueAtTime(0.08, t);
+        g2.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
+        o2.connect(g2).connect(ctx.destination);
+        o2.start(t); o2.stop(t + 0.16);
+        break;
+      }
+      case 'cartUnload': {
+        haptic(22);
+        // Tumbling cargo sliding down chute into storehouse with rewarding ding
+        [160, 130, 100, 80].forEach((f, i) => {
+          const osc = ctx.createOscillator(), g = ctx.createGain();
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(f, t + i * 0.04);
+          osc.frequency.exponentialRampToValueAtTime(f * 0.7, t + i * 0.04 + 0.06);
+          g.gain.setValueAtTime(0.07, t + i * 0.04);
+          g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.04 + 0.07);
+          osc.connect(g).connect(ctx.destination);
+          osc.start(t + i * 0.04); osc.stop(t + i * 0.04 + 0.08);
+        });
+        // Resource treasure ping
+        const p1 = ctx.createOscillator(), pg = ctx.createGain();
+        p1.type = 'sine';
+        p1.frequency.setValueAtTime(987.77, t + 0.18); // B5
+        p1.frequency.setValueAtTime(1318.51, t + 0.24); // E6
+        pg.gain.setValueAtTime(0.001, t + 0.18);
+        pg.gain.linearRampToValueAtTime(0.09, t + 0.24);
+        pg.gain.exponentialRampToValueAtTime(0.001, t + 0.45);
+        p1.connect(pg).connect(ctx.destination);
+        p1.start(t + 0.18); p1.stop(t + 0.46);
+        break;
+      }
+      case 'harvestScythe': {
+        // Soft rustle of scythe slicing wheat
+        const osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(580, t);
+        osc.frequency.exponentialRampToValueAtTime(240, t + 0.07);
+        g.gain.setValueAtTime(0.05, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.07);
+        osc.connect(g).connect(ctx.destination);
+        osc.start(t); osc.stop(t + 0.075);
+        break;
+      }
+      case 'harvestChop': {
+        // Axe chopping timber
+        const osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(280, t);
+        osc.frequency.exponentialRampToValueAtTime(70, t + 0.08);
+        g.gain.setValueAtTime(0.09, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+        osc.connect(g).connect(ctx.destination);
+        osc.start(t); osc.stop(t + 0.085);
+        break;
+      }
+      case 'harvestPick': {
+        // Chisel / pickaxe striking limestone
+        const osc = ctx.createOscillator(), g = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1864, t);
+        osc.frequency.exponentialRampToValueAtTime(740, t + 0.05);
+        g.gain.setValueAtTime(0.07, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
+        osc.connect(g).connect(ctx.destination);
+        osc.start(t); osc.stop(t + 0.065);
+        break;
+      }
+      case 'cohortHorn': {
+        haptic(35);
+        // Ancient Nephite War Trumpet / Shofar rally call (Alma 43)
+        [220, 277.18, 329.63, 440].forEach((f, i) => {
+          const o = ctx.createOscillator(), g = ctx.createGain();
+          o.type = 'sawtooth';
+          o.frequency.setValueAtTime(f, t + i * 0.09);
+          o.frequency.linearRampToValueAtTime(f * 1.02, t + i * 0.09 + 0.2);
+          g.gain.setValueAtTime(0.001, t + i * 0.09);
+          g.gain.linearRampToValueAtTime(0.12, t + i * 0.09 + 0.04);
+          g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.09 + 0.35);
+          o.connect(g).connect(ctx.destination);
+          o.start(t + i * 0.09); o.stop(t + i * 0.09 + 0.38);
+        });
+        break;
+      }
     }
   }
 

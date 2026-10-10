@@ -702,6 +702,99 @@ console.log('Defensive Carts & Fighting Workers · Blake\'s gameplay evolution')
   }
 }
 
+console.log('Command Center & Tactical Cohort Battalions · Red Alert 2 Evolution');
+{
+  const W = new S.World();
+  W.side('p').res.grain = 1000;
+  W.side('p').res.timber = 1000;
+  W.side('p').res.stone = 1000;
+
+  // 1. Production building auto-cohort assignment
+  const b = W.addBuilding('barracks', 'p', 10, 10, true);
+  b.autoCohort = 1;
+  b.rally = [15, 15];
+  W.train(b, 'spearman');
+  while (b.queue.length > 0) W.step(0.5);
+  const soldier = W.units('p').find(u => u.type === 'spearman');
+  ok(soldier && soldier.cohort === 1, 'barracks recruit auto-joins configured Cohort 1');
+  ok(soldier.order.type === 'move' && soldier.order.tx === 15 && soldier.order.ty === 15, 'new recruit marches to building rally point');
+
+  // 2. Default unit cohort categorization: Melee -> 1, Ranged -> 2, Beasts/Carts -> 3
+  const archerBuilding = W.addBuilding('barracks', 'p', 20, 10, true);
+  W.train(archerBuilding, 'archer');
+  while (archerBuilding.queue.length > 0) W.step(0.5);
+  const archer = W.units('p').find(u => u.type === 'archer');
+  ok(archer && archer.cohort === 2, 'ranged recruit auto-joins Skirmishers (Cohort 2)');
+
+  const stable = W.addBuilding('stables', 'p', 30, 10, true);
+  W.train(stable, 'cart');
+  while (stable.queue.length > 0) W.step(0.5);
+  const cart = W.units('p').find(u => u.type === 'cart');
+  ok(cart && cart.cohort === 3, 'transport cart auto-joins Siege & Supply (Cohort 3)');
+
+  // 3. Cart docking sequence and yield popups (+10 Grain)
+  const storehouse = W.addBuilding('storehouse', 'p', 40, 10, true);
+  const ladenCart = W.addUnit('cart', 'p', storehouse.x + 40, storehouse.y);
+  ladenCart.carry = { type: 'grain', amt: 10, max: 10 };
+  ladenCart.phase = 'dock';
+  ladenCart.dockT = 0;
+  ladenCart.dropoff = storehouse.id;
+  ladenCart.order = { type: 'gather', target: null };
+  const g0 = W.side('p').res.grain;
+  for (let s = 0; s < 9; s++) W.step(0.1);
+  ok(ladenCart.phase !== 'dock' && (!ladenCart.carry || ladenCart.carry.amt === 0), 'cart completes tilting dock and unloads cargo');
+  ok(W.side('p').res.grain >= g0 + 10, 'resources credited to base stores after cart dock');
+  ok(W.yieldPops.some(p => p.text.includes('+10 Grain')), 'floating yield popup created upon cart unloading');
+
+  // 4. Formation speed synchronization: troops in cohort lock speed to slowest member
+  const swordFast = W.addUnit('spearman', 'p', 100, 100);
+  const curelomSlow = W.addUnit('curelom', 'p', 102, 100);
+  swordFast.cohort = 1;
+  curelomSlow.cohort = 1;
+  W.cohorts[1].speedLock = true;
+  const sTx = tileOf(swordFast.x) + 6, sTy = tileOf(swordFast.y);
+  W.moveTo(swordFast, sTx, sTy);
+  W.moveTo(curelomSlow, sTx, sTy);
+
+  const xFast0 = swordFast.x;
+  W.step(0.2);
+  const fastDist = swordFast.x - xFast0;
+  ok(fastDist < (swordFast.def.speed * 0.2 * 0.75), 'fast infantry in cohort synchronizes march speed to slow Curelom');
+
+  // 5. Multi-waypoint route advancement
+  const scout = W.addUnit('worker', 'p', 100, 200);
+  const stx = tileOf(scout.x), sty = tileOf(scout.y);
+  scout.order = {
+    type: 'move',
+    tx: stx + 1,
+    ty: sty,
+    target: null,
+    waypoints: [{ x: stx + 3, y: sty }, { x: stx + 5, y: sty }]
+  };
+  for (let s = 0; s < 15; s++) {
+    W.step(0.1);
+    if (scout.order.waypoints.length === 1) break;
+  }
+  ok(scout.order.waypoints.length === 1, 'unit advances along sequential waypoints');
+
+  // 6. Rules of engagement: break march and defend if HP drops below threshold
+  const soldierMarch = W.addUnit('spearman', 'p', 100, 300);
+  soldierMarch.order = {
+    type: 'move',
+    target: null,
+    healthThreshold: 50,
+    waypoints: [{ x: 200, y: 300 }]
+  };
+  const foe = W.addUnit('lamanite', 'r', 110, 300);
+  const hpMax = soldierMarch.max || soldierMarch.def.hp;
+  W.damage(soldierMarch, hpMax * 0.8, foe);
+  for (let s = 0; s < 5; s++) {
+    W.step(0.1);
+    if (soldierMarch.order.type === 'attack' || soldierMarch.order.healthThreshold == null) break;
+  }
+  ok(soldierMarch.order.type === 'attack' || soldierMarch.order.healthThreshold == null, 'squad breaks march and fights when squad health drops below threshold');
+}
+
 console.log('Specialized Industry Buildings · Ancient Nephite Crafts');
 {
   const W = new S.World();

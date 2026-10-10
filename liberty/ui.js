@@ -1145,6 +1145,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     drawZones(now);
     drawLiahona();
     drawMarkers(now);
+    drawRallyFlags();
+    drawWaypoints();
+    drawYieldPops();
     drawGhost();
 
     // Something of yours under attack: a red ring on the ground there for a few seconds.
@@ -1552,6 +1555,36 @@ IMG.farm.src = 'assets/farm.png?v=13';
     ctx.restore();
   }
 
+  // Stacking isometric 3D cargo in the cart bed (grain sheaves, timber logs, cut limestone blocks)
+  function drawCartCargo(type, amt, maxAmt, flip) {
+    ctx.save();
+    const stacks = Math.min(4, Math.max(1, Math.ceil((amt / maxAmt) * 4)));
+    for (let i = 0; i < stacks; i++) {
+      const cx = -7 + i * 4;
+      const cy = -15 - Math.floor(i / 2) * 3;
+      if (type === 'grain') {
+        ctx.fillStyle = '#f59e0b';
+        ctx.beginPath(); ctx.ellipse(cx, cy, 3.8, 2.8, 0.15, 0, 7); ctx.fill();
+        ctx.strokeStyle = '#b45309'; ctx.lineWidth = 0.8; ctx.stroke();
+        ctx.fillStyle = '#fde68a'; ctx.fillRect(cx - 1, cy - 3.5, 2, 1.8);
+      } else if (type === 'timber') {
+        ctx.fillStyle = '#78350f';
+        ctx.beginPath(); ctx.roundRect(cx - 4, cy - 2, 7.5, 3.5, 1.2); ctx.fill();
+        ctx.fillStyle = '#d97706';
+        ctx.beginPath(); ctx.ellipse(cx - 3.8, cy - 0.2, 1.1, 1.6, 0, 0, 7); ctx.fill();
+        ctx.strokeStyle = '#451a03'; ctx.lineWidth = 0.7; ctx.stroke();
+      } else if (type === 'stone') {
+        ctx.fillStyle = '#e4e4e7';
+        ctx.fillRect(cx - 3, cy - 2.5, 6, 4);
+        ctx.strokeStyle = '#52525b'; ctx.lineWidth = 0.8;
+        ctx.strokeRect(cx - 3, cy - 2.5, 6, 4);
+        ctx.fillStyle = '#a1a1aa';
+        ctx.fillRect(cx - 3, cy - 2.5, 2, 4);
+      }
+    }
+    ctx.restore();
+  }
+
   // Ancient American / Book of Mormon Character Sprites in 2:1 Isometric (Westwood RA2 Kinetic Engine)
   function drawUnit(u, now) {
     const d = u.def;
@@ -1815,6 +1848,34 @@ IMG.farm.src = 'assets/farm.png?v=13';
     // 11. Worker Resource Dump & Cart Heavy-Load Suspension Settle
     let dumpAngle = 0;
     let dumpY = 0;
+    if (isCart && u.phase === 'dock') {
+      const dp = clamp((u.dockT || 0) / 0.8, 0, 1);
+      const dumpCurve = Math.sin(dp * Math.PI);
+      dumpAngle = -dumpCurve * 0.32 * flip; // wagon tilts backward into storehouse chute
+      dumpY = -dumpCurve * 4.5;
+      if (!k.dockSound && u.dockT < 0.12) {
+        k.dockSound = true;
+        if (AUDIO) AUDIO.play('cartDock');
+      }
+      if (!k.unloadSound && u.dockT >= 0.7) {
+        k.unloadSound = true;
+        if (AUDIO) AUDIO.play('cartUnload');
+      }
+      if (Math.random() < 0.5) {
+        const col = u.carry && u.carry.type === 'grain' ? '#fde047' : u.carry && u.carry.type === 'stone' ? '#e2e8f0' : '#b45309';
+        particles.push({
+          ix: ix - flip * 12 + (Math.random() - 0.5) * 6,
+          iy: iy - 12,
+          vx: -flip * (1.2 + Math.random() * 1.5),
+          vy: -0.6 - Math.random() * 1.2,
+          size: 2.2, transfer: true, col, life: 0, maxLife: 20
+        });
+      }
+    } else if (isCart) {
+      k.dockSound = false;
+      k.unloadSound = false;
+    }
+
     if (!isCart && u.dumpAt && W.t - u.dumpAt < 0.35) {
       const dp = (W.t - u.dumpAt) / 0.35;
       const dumpCurve = Math.sin(dp * Math.PI);
@@ -1835,6 +1896,25 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
     let cartBounce = 0;
     const isCartHarvesting = isCart && u.order.type === 'gather' && u.phase === 'work' && !moving;
+    if (isCartHarvesting) {
+      if (AUDIO && (!k.lastHarvestSound || now - k.lastHarvestSound > 750)) {
+        k.lastHarvestSound = now;
+        const res = (u.carry && u.carry.type) || u.workingRes || 'grain';
+        AUDIO.play(res === 'timber' ? 'harvestChop' : res === 'stone' ? 'harvestPick' : 'harvestScythe');
+      }
+      if (Math.random() < 0.35) {
+        const res = (u.carry && u.carry.type) || u.workingRes || 'grain';
+        const col = res === 'grain' ? '#fde047' : res === 'stone' ? '#e2e8f0' : '#92400e';
+        particles.push({
+          ix: ix + flip * 14 + (Math.random() - 0.5) * 8,
+          iy: iy - 4 + (Math.random() - 0.5) * 4,
+          vx: flip * (0.8 + Math.random() * 1.2),
+          vy: -1.2 - Math.random() * 1.2,
+          size: res === 'grain' ? 1.8 : 2.4,
+          col, life: 0, maxLife: 18
+        });
+      }
+    }
     if (isCart && k.settleBounce) {
       cartBounce += k.settleBounce;
       k.settleBounce *= 0.85;
@@ -1990,6 +2070,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
         drawTitleOfLibertyStandard(flip, now, u.id);
       } else if (u.type === 'worker' && ((u.order && u.order.type === 'attack') || (u.cool && u.cool > 0.6))) {
         drawWorkerScytheCombat(now, u.id);
+      } else if (u.type === 'cart' && u.carry && u.carry.amt > 0) {
+        drawCartCargo(u.carry.type, u.carry.amt, u.carry.max || (u.def && u.def.carry) || 10, flip);
       }
     } else {
       ctx.fillStyle = '#451a03';
@@ -2004,6 +2086,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
         drawTitleOfLibertyStandard(flip, now, u.id);
       } else if (u.type === 'worker' && ((u.order && u.order.type === 'attack') || (u.cool && u.cool > 0.6))) {
         drawWorkerScytheCombat(now, u.id);
+      } else if (u.type === 'cart' && u.carry && u.carry.amt > 0) {
+        drawCartCargo(u.carry.type, u.carry.amt, u.carry.max || (u.def && u.def.carry) || 10, flip);
       }
     }
 
@@ -2053,11 +2137,232 @@ IMG.farm.src = 'assets/farm.png?v=13';
       ctx.fillStyle = u.team === 'p' ? '#4ade80' : '#f87171';
       ctx.fillRect(ix - 9.5, barY + 0.5, 19 * pct, 2.5);
     }
+    if (u.team === 'p' && u.cohort) {
+      drawCohortBadge(u, ix, iy, uh);
+    }
     if (sel.includes(u.id)) {
       ctx.strokeStyle = '#fde047'; ctx.lineWidth = 1; ctx.setLineDash([2, 2]);
       ctx.beginPath(); ctx.ellipse(ix + 2, iy + 2, r * 1.2, r * 0.6, 0, 0, 7); ctx.stroke();
       ctx.setLineDash([]);
     }
+  }
+
+  // Cohort Insignia Badge: Roman numeral I (Crimson Vanguard), II (Azure Skirmishers), III (Amber Siege & Supply)
+  function drawCohortBadge(u, ix, iy, uh) {
+    const cId = u.cohort;
+    const badgeColors = { 1: '#ef4444', 2: '#3b82f6', 3: '#f59e0b' };
+    const numerals = { 1: 'I', 2: 'II', 3: 'III' };
+    const col = badgeColors[cId] || '#10b981';
+    const num = numerals[cId] || String(cId);
+    const by = iy - uh - 7 - (u.rank ? u.rank * 5 + 3 : 0) - (u.hp < u.max ? 6 : 0);
+
+    ctx.save();
+    ctx.font = 'bold 9px Outfit, system-ui, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const tw = ctx.measureText(num).width;
+    const bw = Math.max(12, tw + 5), bh = 10;
+
+    ctx.fillStyle = 'rgba(15, 9, 4, 0.88)';
+    ctx.beginPath();
+    ctx.roundRect(ix - bw / 2, by - bh / 2, bw, bh, 3);
+    ctx.fill();
+
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+
+    ctx.fillStyle = '#f8fafc';
+    ctx.fillText(num, ix, by + 0.5);
+    ctx.restore();
+  }
+
+  // Floating harvest / production yield popups (+10 Grain, +10 Timber, +10 Stone)
+  function drawYieldPops() {
+    if (!W.yieldPops || !W.yieldPops.length) return;
+    ctx.save();
+    for (const p of W.yieldPops) {
+      const age = W.t - p.t;
+      if (age < 0 || age > 1.6) continue;
+      const progress = age / 1.6;
+      const floatY = progress * 28;
+      const alpha = Math.max(0, 1 - Math.pow(progress, 2));
+      const { ix, iy } = toIso(p.x, p.y);
+      const y = iy - 24 - floatY;
+
+      ctx.font = '800 12px Outfit, system-ui, sans-serif';
+      ctx.textAlign = 'center';
+
+      ctx.fillStyle = `rgba(0, 0, 0, ${alpha * 0.85})`;
+      ctx.fillText(p.text, ix + 1, y + 1);
+
+      const col = p.type === 'grain' ? '#fde047' : (p.type === 'timber' ? '#fed7aa' : (p.type === 'stone' ? '#e2e8f0' : '#fef08a'));
+      ctx.fillStyle = col;
+      ctx.globalAlpha = alpha;
+      ctx.fillText(p.text, ix, y);
+      ctx.globalAlpha = 1;
+    }
+    ctx.restore();
+  }
+
+  // Animated rally flags on the ground with dashed line from selected building
+  let aimingRally = null;
+  function drawRallyFlags() {
+    if (!W.rallyPoints) return;
+    const selectedBuildings = selEnts().filter(e => e.kind === 'building' && e.team === 'p');
+    for (const b of selectedBuildings) {
+      const rally = b.rally || (W.rallyPoints && W.rallyPoints[b.id]);
+      if (!rally) continue;
+      const rx = Array.isArray(rally) ? (rally[0] + 0.5) * TILE : (rally.x != null ? rally.x : (rally.tx + 0.5) * TILE);
+      const ry = Array.isArray(rally) ? (rally[1] + 0.5) * TILE : (rally.y != null ? rally.y : (rally.ty + 0.5) * TILE);
+      const bIso = toIso((b.tx + b.w * 0.5) * TILE, (b.ty + b.h * 0.5) * TILE);
+      const rIso = toIso(rx, ry);
+
+      ctx.save();
+      ctx.strokeStyle = 'rgba(250, 204, 21, 0.75)';
+      ctx.lineWidth = 1.8;
+      ctx.setLineDash([6, 5]);
+      ctx.beginPath();
+      ctx.moveTo(bIso.ix, bIso.iy);
+      ctx.lineTo(rIso.ix, rIso.iy);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      const wave = Math.sin(performance.now() * 0.006) * 3;
+      ctx.strokeStyle = '#78350f';
+      ctx.lineWidth = 2.2;
+      ctx.beginPath();
+      ctx.moveTo(rIso.ix, rIso.iy);
+      ctx.lineTo(rIso.ix, rIso.iy - 22);
+      ctx.stroke();
+
+      ctx.fillStyle = '#ef4444';
+      ctx.beginPath();
+      ctx.moveTo(rIso.ix, rIso.iy - 22);
+      ctx.lineTo(rIso.ix + 12 + wave, rIso.iy - 17);
+      ctx.lineTo(rIso.ix, rIso.iy - 12);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.strokeStyle = '#facc15';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.ellipse(rIso.ix, rIso.iy, 7, 3.5, 0, 0, 7);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+  }
+
+  // Multi-waypoint tactical paths with numbered node markers
+  function drawWaypoints() {
+    const units = selEnts().filter(e => e.kind === 'unit' && e.team === 'p' && e.order && e.order.waypoints && e.order.waypoints.length);
+    if (!units.length) return;
+    ctx.save();
+    const drawn = new Set();
+    for (const u of units) {
+      let curIso = toIso(u.x, u.y);
+      let idx = 1;
+      for (const wp of u.order.waypoints) {
+        const wpIso = toIso(wp.x, wp.y);
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.75)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(curIso.ix, curIso.iy);
+        ctx.lineTo(wpIso.ix, wpIso.iy);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        const wpKey = `${Math.round(wp.x)},${Math.round(wp.y)}`;
+        if (!drawn.has(wpKey)) {
+          drawn.add(wpKey);
+          ctx.fillStyle = '#0284c7';
+          ctx.beginPath();
+          ctx.arc(wpIso.ix, wpIso.iy, 6, 0, 7);
+          ctx.fill();
+          ctx.strokeStyle = '#e0f2fe';
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+
+          ctx.font = 'bold 8.5px Outfit, system-ui, sans-serif';
+          ctx.fillStyle = '#fff';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(String(idx), wpIso.ix, wpIso.iy + 0.5);
+        }
+        idx++;
+        curIso = wpIso;
+      }
+    }
+    ctx.restore();
+  }
+
+  // Tactical formation relative offset calculation
+  function computeFormationOffsets(form, units, heading) {
+    const N = units.length;
+    const offsets = [];
+    const cosH = Math.cos(heading), sinH = Math.sin(heading);
+    const perpX = -sinH, perpY = cosH;
+
+    if (form === 'phalanx') {
+      const melee = [], ranged = [], heavy = [];
+      units.forEach((u, idx) => {
+        if (u.type === 'curelom' || u.type === 'cumom' || u.type === 'cart' || u.type === 'ram') heavy.push(idx);
+        else if (u.def && u.def.ranged) ranged.push(idx);
+        else melee.push(idx);
+      });
+
+      const assignRow = (indices, rowOffset) => {
+        const count = indices.length;
+        indices.forEach((uIdx, col) => {
+          const lateral = (col - (count - 1) / 2) * 22;
+          offsets[uIdx] = {
+            x: perpX * lateral - cosH * rowOffset,
+            y: perpY * lateral - sinH * rowOffset
+          };
+        });
+      };
+
+      assignRow(melee, 0);
+      assignRow(ranged, 24);
+      assignRow(heavy, 48);
+    } else if (form === 'wedge') {
+      offsets[0] = { x: 0, y: 0 };
+      for (let i = 1; i < N; i++) {
+        const side = i % 2 === 1 ? 1 : -1;
+        const row = Math.ceil(i / 2);
+        const lateral = side * row * 18;
+        const depth = -row * 20;
+        offsets[i] = {
+          x: perpX * lateral + cosH * depth,
+          y: perpY * lateral + sinH * depth
+        };
+      }
+    } else if (form === 'line') {
+      for (let i = 0; i < N; i++) {
+        const lateral = (i - (N - 1) / 2) * 22;
+        offsets[i] = { x: perpX * lateral, y: perpY * lateral };
+      }
+    } else if (form === 'column') {
+      for (let i = 0; i < N; i++) {
+        const col = (i % 2 === 0 ? -1 : 1) * 10;
+        const row = Math.floor(i / 2) * -22;
+        offsets[i] = {
+          x: perpX * col + cosH * row,
+          y: perpY * col + sinH * row
+        };
+      }
+    } else {
+      offsets[0] = { x: 0, y: 0 };
+      const ringCount = Math.max(1, N - 1);
+      for (let i = 1; i < N; i++) {
+        const ang = ((i - 1) / ringCount) * Math.PI * 2;
+        const rx = Math.cos(ang) * 28, ry = Math.sin(ang) * 28;
+        offsets[i] = { x: rx, y: ry };
+      }
+    }
+    return offsets;
   }
 
   // ------------------------------------------------------------ buildings
@@ -2960,6 +3265,20 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
 
   function clickAt(wx, wy, add, double, sx, sy) {
+    if (aimingRally) {
+      const b = W.ents.get(aimingRally);
+      if (b) {
+        b.rally = [tileOf(wx), tileOf(wy)];
+        if (!W.rallyPoints) W.rallyPoints = {};
+        W.rallyPoints[b.id] = { x: (tileOf(wx) + 0.5) * TILE, y: (tileOf(wy) + 0.5) * TILE };
+        ping(wx, wy, '#fde68a');
+        toast(`Rally point set: new ones from ${b.def.name} will march there.`, 'me');
+        if (AUDIO) AUDIO.play('tap');
+      }
+      aimingRally = null;
+      refreshPanel(true);
+      return;
+    }
     if (aiming) return aimAt(wx, wy, sx, sy);
     if (placing) return placeAt(wx, wy, add);
     const e = entityAt(wx, wy, sx, sy);
@@ -3282,12 +3601,31 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (!W || e.target.closest && e.target.closest('input, textarea')) return;
     if (e.key === 'Escape') {
       if (modal) return;
-      if (placing || aiming) { placing = null; aiming = null; wallLine = null; refreshPanel(true); }
+      if (placing || aiming || aimingRally) { placing = null; aiming = null; aimingRally = null; wallLine = null; refreshPanel(true); }
       else if (sel.length) setSel([]);
       else openMenu();
       return;
     }
     if (modal) return;
+    if (e.key === '1') {
+      const u = W.cohortUnits('p', 1);
+      if (u.length) { setSel(u); if (AUDIO) AUDIO.play('select'); toast(`Cohort I: Vanguard (${u.length})`, 'me'); }
+      return;
+    }
+    if (e.key === '2') {
+      const u = W.cohortUnits('p', 2);
+      if (u.length) { setSel(u); if (AUDIO) AUDIO.play('select'); toast(`Cohort II: Skirmishers (${u.length})`, 'me'); }
+      return;
+    }
+    if (e.key === '3') {
+      const u = W.cohortUnits('p', 3);
+      if (u.length) { setSel(u); if (AUDIO) AUDIO.play('select'); toast(`Cohort III: Siege & Supply (${u.length})`, 'me'); }
+      return;
+    }
+    if (e.key === 'W' && e.shiftKey) {
+      openWarRoom();
+      return;
+    }
     if (e.key === ' ') { e.preventDefault(); togglePause(); return; }
     if (e.key === 'm' || e.key === 'M') {
       if (AUDIO) {
@@ -3474,23 +3812,30 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // The tiles are made once and then changed where they stand, so a tap on one is never lost to a redraw.
   const capitalUp = () => W.buildings('p').some(b => b.def.builder && b.built >= 1 && !b.dead);
   function barTiles() {
-    const build = [], train = [];
+    const forts = [], cohorts = [], siege = [];
     if (capitalUp()) {
       const list = W.tech ? (SIDES[W.side('p').side] || SIDES.freemen).build : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
-      for (const t of list) if (!W.whyNotBuild(t)) build.push('build:' + t);
+      for (const t of list) if (!W.whyNotBuild(t)) forts.push('build:' + t);
     }
     const mine = W.buildings('p').filter(b => b.built >= 1 && !b.dead);
     const seenK = new Set(), seenT = new Set();
-    for (const b of mine) for (const k of W.researchAt(b)) if (!W.researched[k] && !seenK.has(k)) { seenK.add(k); build.push('research:' + k); }
+    for (const b of mine) for (const k of W.researchAt(b)) if (!W.researched[k] && !seenK.has(k)) { seenK.add(k); forts.push('research:' + k); }
     for (const b of mine) for (const t of b.def.trains || []) {
       if (seenT.has(t) || !W.visible(UNITS[t])) continue;
       const why = W.whyNotTrain(t);
       if (why && !why.startsWith('Not enough food')) continue;          // like Red Alert: only what you can make now
-      seenT.add(t); train.push('train:' + t);
+      seenT.add(t);
+      if (t === 'cart' || t === 'curelom' || t === 'cumom' || t === 'ram' || t === 'siege') {
+        siege.push('train:' + t);
+      } else {
+        cohorts.push('train:' + t);
+      }
     }
     const h = W.powerHouse('p');
-    if (h) for (const k of Object.keys(POWERS[h.def.powers] || {})) train.push('miracle:' + k);
-    return { build, train };
+    if (h) for (const k of Object.keys(POWERS[h.def.powers] || {})) cohorts.push('miracle:' + k);
+    const build = forts;
+    const train = cohorts.concat(siege);
+    return { forts, cohorts, siege, build, train };
   }
   const tileName = id => { const [act, arg] = id.split(':'); return act === 'build' ? (arg === 'wall' ? 'Walls' : BUILDINGS[arg].name) : act === 'train' ? UNITS[arg].name : act === 'research' ? RESEARCH[arg].name : W.power(arg).name; };
   // Shorter names where the whole one won't fit on a tile (the whole name shows when you hold the mouse over it).
@@ -3532,18 +3877,116 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     return { p, n, small, poor, on, ready, going: p > 0 && p < 1 };
   }
+  let activeCmdTab = 'forts';
   let barKey = '', tileEls = new Map();
-  function updateBar() {
+  function updateBar(force) {
     if (!W) return;
-    const { build, train } = barTiles(), key = build.join() + '|' + train.join(), bar = $('cmds');
-    if (key !== barKey || !bar.classList.contains('bar')) {
+    const { forts, cohorts, siege, build, train } = barTiles();
+    const key = [activeCmdTab, forts.join(), cohorts.join(), siege.join()].join('|');
+    const bar = $('cmds');
+    if (!bar) return;
+
+    if (force || key !== barKey || !bar.classList.contains('bar')) {
       barKey = key; bar.classList.add('bar');
       for (const id of build.concat(train)) noteUnlock(id, true);
       const standard = W.units('p').some(u => u.def.deploys);
-      bar.innerHTML = `<div class="bcol"><h4>Build</h4>${build.length ? build.map(tileHtml).join('') : `<div class="note">${standard ? 'Plant the standard of liberty first: choose it, then <b>Plant it here</b>.' : 'Nothing to build yet.'}</div>`}</div>` +
-        `<div class="bcol"><h4>Train</h4>${train.length ? train.map(tileHtml).join('') : '<div class="note">Your people come out of your buildings.</div>'}</div>`;
+
+      const activeList = activeCmdTab === 'forts' ? forts : (activeCmdTab === 'cohorts' ? cohorts : siege);
+      const emptyNote = activeCmdTab === 'forts' ? (standard ? 'Plant the standard of liberty first: choose it, then <b>Plant it here</b>.' : 'Nothing to build yet.') :
+                        activeCmdTab === 'cohorts' ? 'Your warriors and officers come out of your Barracks and Muster Grounds.' :
+                        'Heavy siege beasts, supply carts and engines are raised at your Stables and Quarries.';
+
+      bar.innerHTML = `<div class="cmd-center">` +
+        `<div class="cmd-tabs" role="tablist">` +
+          `<button class="cmd-tab ${activeCmdTab === 'forts' ? 'active' : ''}" data-tab="forts" title="Fortifications, Buildings & Research">` +
+            `<span class="cmd-tab-icon">🏛️</span>` +
+            `<span class="cmd-tab-name">Forts</span>` +
+            `<span class="cmd-tab-badge" id="tabBadgeForts"></span>` +
+          `</button>` +
+          `<button class="cmd-tab ${activeCmdTab === 'cohorts' ? 'active' : ''}" data-tab="cohorts" title="Infantry, Warriors & Powers">` +
+            `<span class="cmd-tab-icon">⚔️</span>` +
+            `<span class="cmd-tab-name">Cohorts</span>` +
+            `<span class="cmd-tab-badge" id="tabBadgeCohorts"></span>` +
+          `</button>` +
+          `<button class="cmd-tab ${activeCmdTab === 'siege' ? 'active' : ''}" data-tab="siege" title="Carts, Beasts & Engines">` +
+            `<span class="cmd-tab-icon">🦣</span>` +
+            `<span class="cmd-tab-name">Siege</span>` +
+            `<span class="cmd-tab-badge" id="tabBadgeSiege"></span>` +
+          `</button>` +
+        `</div>` +
+        `<div class="cmd-queue-banner" id="cmdQueueBanner">` +
+          `<span class="cmd-queue-text" id="cmdQueueText">Command Center · Ready</span>` +
+        `</div>` +
+        `<div class="cmd-tiles" id="cmdTiles">` +
+          `${activeList.length ? activeList.map(tileHtml).join('') : `<div class="note">${emptyNote}</div>`}` +
+        `</div>` +
+      `</div>`;
+
       tileEls = new Map([...bar.querySelectorAll('.bt')].map(el => [el.dataset.cmd, el]));
     }
+
+    // Dynamic queue badge & banner updates (like Red Alert 2 progress progression)
+    let fortsGoing = 0, fortsProgress = 0, fortsItem = '';
+    const rising = W.buildings('p').filter(b => b.built < 1 && !b.dead);
+    if (rising.length) {
+      fortsGoing = rising.length;
+      const topRising = rising.reduce((a, c) => c.id > a.id ? c : a);
+      fortsProgress = Math.round(topRising.built * 100);
+      fortsItem = topRising.def.name;
+    }
+    const R = W.side('p').researching;
+    if (R) {
+      fortsGoing++;
+      if (!fortsItem) {
+        const rDef = RESEARCH[R.key];
+        fortsProgress = Math.round((1 - R.left / (rDef ? rDef.time : 1)) * 100);
+        fortsItem = rDef ? rDef.name : 'Upgrade';
+      }
+    }
+
+    let cohortsGoing = 0, cohortsProgress = 0, cohortsItem = '';
+    let siegeGoing = 0, siegeProgress = 0, siegeItem = '';
+    for (const b of W.buildings('p')) {
+      for (let i = 0; i < b.queue.length; i++) {
+        const q = b.queue[i];
+        const isSiege = q.type === 'cart' || q.type === 'curelom' || q.type === 'cumom' || q.type === 'ram' || q.type === 'siege';
+        const def = UNITS[q.type];
+        const p = def ? Math.round((1 - q.left / def.time) * 100) : 0;
+        if (isSiege) {
+          siegeGoing++;
+          if (!siegeItem) { siegeItem = def ? def.name : q.type; siegeProgress = p; }
+        } else {
+          cohortsGoing++;
+          if (!cohortsItem) { cohortsItem = def ? def.name : q.type; cohortsProgress = p; }
+        }
+      }
+    }
+
+    const bForts = $('tabBadgeForts');
+    if (bForts) {
+      if (fortsGoing > 0) { bForts.className = 'cmd-tab-badge going'; bForts.textContent = `${fortsProgress}%`; bForts.style.display = 'inline-block'; }
+      else { bForts.style.display = 'none'; }
+    }
+    const bCohorts = $('tabBadgeCohorts');
+    if (bCohorts) {
+      if (cohortsGoing > 0) { bCohorts.className = 'cmd-tab-badge going'; bCohorts.textContent = `${cohortsGoing}`; bCohorts.style.display = 'inline-block'; }
+      else { bCohorts.style.display = 'none'; }
+    }
+    const bSiege = $('tabBadgeSiege');
+    if (bSiege) {
+      if (siegeGoing > 0) { bSiege.className = 'cmd-tab-badge going'; bSiege.textContent = `${siegeGoing}`; bSiege.style.display = 'inline-block'; }
+      else { bSiege.style.display = 'none'; }
+    }
+
+    const qText = $('cmdQueueText');
+    if (qText) {
+      const parts = [];
+      if (fortsItem) parts.push(`🏛️ ${fortsItem} (${fortsProgress}%)`);
+      if (cohortsItem) parts.push(`⚔️ ${cohortsItem} (${cohortsProgress}%)`);
+      if (siegeItem) parts.push(`🦣 ${siegeItem} (${siegeProgress}%)`);
+      qText.textContent = parts.length ? parts.join(' · ') : 'Command Center · Ready (Alma 43:19)';
+    }
+
     const nowMs = performance.now();
     for (const [id, el] of tileEls) {
       const s = tileState(id);
@@ -3555,6 +3998,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (el._n !== nv) { el._n = nv; el.querySelector('.n').textContent = nv; }
       if (el._s !== s.small) { el._s = s.small; el.querySelector('small').innerHTML = s.small; }
     }
+    refreshCohortBar();
   }
   // A tap on a tile: place it, train one more, make it, or work it.
   function useTile(id) {
@@ -3609,17 +4053,25 @@ IMG.farm.src = 'assets/farm.png?v=13';
     takeBack(btn.dataset.cmd);
   });
   $('cmds').addEventListener('click', e => {
+    const tabBtn = e.target.closest('.cmd-tab');
+    if (tabBtn) {
+      activeCmdTab = tabBtn.dataset.tab;
+      if (AUDIO) AUDIO.play('tap');
+      updateBar(true);
+      return;
+    }
     const btn = e.target.closest('.bt');
     if (!btn || !W) return;
     if (held) { held = false; return; }
     holdTouch = false;
     useTile(btn.dataset.cmd);
-    updateBar(); refreshPanel(true);
+    updateBar(true); refreshPanel(true);
   });
 
   // Under the chosen one's card: what can be done with it (and, while building or aiming, how, and how to stop).
   function actsHtml(ents) {
     const a = (id, label, cls) => `<button class="act ${cls || ''}" data-cmd="${id}">${SIGN[id] ? `<i>${SIGN[id]}</i>` : ''}<span>${label}</span></button>`;
+    if (aimingRally) return '<p class="hint">Tap where new troops should gather.</p>' + a('cancel', 'Cancel');
     if (aiming) {
       const m = W.power(aiming);
       return `<p class="hint">${m.aim === 'foe' ? 'Tap the enemy it falls on.' : m.aim === 'building' ? 'Tap the enemy building it falls on.' : 'Tap the spot where it falls.'} <i>${esc(m.ref)}</i></p>` + a('cancel', 'Cancel');
@@ -3653,7 +4105,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     let h = '';
     if (b.built < 1) h += `<p class="hint minor">It builds itself. Workers sent to it hurry it along.</p>`;
-    else if (b.def.trains) h += `<p class="hint minor">${b.rally ? 'New ones go to the rally point.' : 'Tap the ground to set where new ones go.'}</p>`;
+    else if (b.def.trains) {
+      h += `<p class="hint minor">${b.rally ? 'New recruits march to rally point.' : 'Tap ground or button below to set rally point.'}</p>`;
+      h += a('setrally', b.rally ? '🚩 Move Rally' : '🚩 Set Rally', aimingRally === b.id ? 'on' : '');
+      const curC = b.autoCohort || (b.type === 'stables' ? 3 : (b.type === 'barracks' ? 1 : 1));
+      h += `<div class="cohort-picker"><small>Auto-Assign:</small>` +
+        `<button class="cohort-choice ${curC === 1 ? 'sel' : ''}" data-cmd="autocohort:1">Cohort I</button>` +
+        `<button class="cohort-choice ${curC === 2 ? 'sel' : ''}" data-cmd="autocohort:2">Cohort II</button>` +
+        `<button class="cohort-choice ${curC === 3 ? 'sel' : ''}" data-cmd="autocohort:3">Cohort III</button></div>`;
+    }
     if (b.type === 'stronghold' && b.built >= 1 && b.team === 'p') {
       const rKeys = W.researchAt(b);
       for (const k of rKeys) {
@@ -3679,7 +4139,21 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const btn = e.target.closest('.act');
     if (!btn || !W) return;
     const act = btn.dataset.cmd, one = selEnts()[0];
-    if (act === 'done' || act === 'cancel') { placing = null; aiming = null; wallLine = null; wallStart = null; }
+    if (act === 'done' || act === 'cancel') { placing = null; aiming = null; aimingRally = null; wallLine = null; wallStart = null; refreshPanel(true); }
+    else if (act === 'setrally' && one) {
+      aimingRally = one.id;
+      toast(`Tap ground to set rally point for ${one.def.name}.`, 'me');
+      refreshPanel(true);
+      return;
+    }
+    else if (act && act.startsWith('autocohort:') && one) {
+      const cId = parseInt(act.slice('autocohort:'.length));
+      one.autoCohort = cId;
+      toast(`New recruits will auto-join Cohort ${cId}.`, 'me');
+      if (AUDIO) AUDIO.play('tap');
+      refreshPanel(true);
+      return;
+    }
     else if (act === 'filtermelee') {
       const m = selUnits().filter(u => fighterOf(u) && !u.def.ranged);
       if (m.length) { setSel(m); if (AUDIO) AUDIO.play('select'); }
@@ -3933,8 +4407,413 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function hideScreen() { const s = $('screen'); s.hidden = true; s.innerHTML = ''; s.onclick = null; syncModal(); }
   function setGameUi(on) {
     for (const id of ['hud', 'panel', 'goals']) $(id).hidden = !on;
+    if ($('cohortBar')) $('cohortBar').hidden = !on;
     document.body.classList.toggle('playing', on);
     if (!on) { $('cry').hidden = true; $('feed').innerHTML = ''; $('rotate').hidden = true; }
+    if (on) refreshCohortBar();
+  }
+
+  function initCohortBar() {
+    const bar = $('cohortBar');
+    if (!bar) return;
+    bar.addEventListener('click', e => {
+      const btn = e.target.closest('.cohort-btn');
+      if (!btn || !W) return;
+      if (btn.id === 'bWarRoom') {
+        openWarRoom();
+        return;
+      }
+      const cId = parseInt(btn.dataset.cohort);
+      if (!cId) return;
+      const cUnits = W.cohortUnits('p', cId);
+      if (!cUnits.length) {
+        toast(`Cohort ${cId} has no soldiers yet. Recruits auto-join from your buildings.`, 'me');
+        return;
+      }
+      const alreadySel = cUnits.length === sel.length && cUnits.every(u => sel.includes(u.id));
+      if (alreadySel) {
+        let avgX = 0, avgY = 0;
+        for (const u of cUnits) { avgX += u.x; avgY += u.y; }
+        lookAt(avgX / cUnits.length, avgY / cUnits.length);
+        toast(`Centered on Cohort ${cId} (${W.cohorts[cId] ? W.cohorts[cId].name : ''}).`, 'me');
+      } else {
+        setSel(cUnits);
+        if (AUDIO) AUDIO.play('select');
+        toast(`Selected Cohort ${cId} (${cUnits.length} units).`, 'me');
+      }
+      refreshCohortBar();
+    });
+  }
+
+  function refreshCohortBar() {
+    const bar = $('cohortBar');
+    if (!bar || !W) return;
+    for (const cId of [1, 2, 3]) {
+      const cntEl = $(`cohortCnt${cId}`);
+      if (cntEl) {
+        const n = W.cohortUnits('p', cId).length;
+        cntEl.textContent = String(n);
+      }
+      const btn = bar.querySelector(`[data-cohort="${cId}"]`);
+      if (btn) {
+        const cUnits = W.cohortUnits('p', cId);
+        const isSel = cUnits.length > 0 && cUnits.length === sel.length && cUnits.every(u => sel.includes(u.id));
+        btn.classList.toggle('sel', isSel);
+      }
+    }
+  }
+
+  function openWarRoom() {
+    if (!W) return;
+    let activeWpCohort = 1;
+    let chosenForm = (W.cohorts[1] && W.cohorts[1].formation) || 'phalanx';
+    let chosenSpeed = (W.cohorts[1] && W.cohorts[1].speedLock) ? 'lock' : 'free';
+    let chosenRule = (W.cohorts[1] && W.cohorts[1].rule) || 'hunt';
+    let chosenHp = (W.cohorts[1] && W.cohorts[1].healthThreshold) || 50;
+
+    const cohortWps = { 1: [], 2: [], 3: [] };
+    for (const cId of [1, 2, 3]) {
+      const units = W.cohortUnits('p', cId);
+      if (units.length && units[0].order && units[0].order.waypoints && units[0].order.waypoints.length) {
+        cohortWps[cId] = units[0].order.waypoints.map(wp => ({ x: wp.x, y: wp.y }));
+      }
+    }
+
+    const html = `<div class="dialog warRoomCard">` +
+      `<div class="kicker">Strategic Command · Alma 43:30</div>` +
+      `<h2>Nephite War Room & Strategy Architect</h2>` +
+      `<p class="sub">Organize your cohorts, plot tactical waypoints, and coordinate battle doctrine.</p>` +
+
+      `<div class="war-cohort-tabs" role="tablist">` +
+        `<button class="war-tab ${activeWpCohort === 1 ? 'active' : ''}" data-cohort="1">` +
+          `<span class="c-badge c1">I</span>` +
+          `<b>Cohort I: Vanguard</b>` +
+          `<small>(${W.cohortUnits('p', 1).length} units)</small>` +
+        `</button>` +
+        `<button class="war-tab ${activeWpCohort === 2 ? 'active' : ''}" data-cohort="2">` +
+          `<span class="c-badge c2">II</span>` +
+          `<b>Cohort II: Skirmishers</b>` +
+          `<small>(${W.cohortUnits('p', 2).length} units)</small>` +
+        `</button>` +
+        `<button class="war-tab ${activeWpCohort === 3 ? 'active' : ''}" data-cohort="3">` +
+          `<span class="c-badge c3">III</span>` +
+          `<b>Cohort III: Siege & Supply</b>` +
+          `<small>(${W.cohortUnits('p', 3).length} units)</small>` +
+        `</button>` +
+      `</div>` +
+
+      `<div class="war-map-section">` +
+        `<div class="war-map-header">` +
+          `<span>Tactical Map · Tap to set sequential waypoints</span>` +
+          `<div class="war-map-actions">` +
+            `<button class="btn small" id="bUndoWp" style="padding:2px 8px;font-size:11px;">↶ Undo</button>` +
+            `<button class="btn small" id="bClearWp" style="padding:2px 8px;font-size:11px;">✕ Clear</button>` +
+          `</div>` +
+        `</div>` +
+        `<div class="war-map-wrap">` +
+          `<canvas id="warMapCanvas" width="560" height="240"></canvas>` +
+        `</div>` +
+        `<div class="war-route-info" id="warRouteInfo">` +
+          `Tap anywhere on the tactical map to plot sequential waypoints for Cohort ${activeWpCohort}.` +
+        `</div>` +
+      `</div>` +
+
+      `<div class="war-settings-grid">` +
+        `<div class="war-setting-col">` +
+          `<h4>Formation</h4>` +
+          `<div class="war-btn-group" id="formPicker">` +
+            `<button class="form-btn ${chosenForm === 'phalanx' ? 'sel' : ''}" data-form="phalanx" title="Melee front row, archers behind, curelom in center">🛡️ Phalanx</button>` +
+            `<button class="form-btn ${chosenForm === 'wedge' ? 'sel' : ''}" data-form="wedge" title="Spearhead arrowhead penetration">⚔️ Wedge</button>` +
+            `<button class="form-btn ${chosenForm === 'line' ? 'sel' : ''}" data-form="line" title="Wide battle line abreast">🏹 Line</button>` +
+            `<button class="form-btn ${chosenForm === 'column' ? 'sel' : ''}" data-form="column" title="Double file road march">📜 Column</button>` +
+            `<button class="form-btn ${chosenForm === 'escort' ? 'sel' : ''}" data-form="escort" title="Defensive ring protecting beasts & supply">🦣 Escort</button>` +
+          `</div>` +
+        `</div>` +
+
+        `<div class="war-setting-col">` +
+          `<h4>Pace & Doctrine</h4>` +
+          `<div class="war-btn-group" id="speedPicker">` +
+            `<button class="rule-btn ${chosenSpeed === 'lock' ? 'sel' : ''}" data-speed="lock" title="Squad matches the speed of its slowest unit (e.g. Curelom)">🦣 Lock to Slowest</button>` +
+            `<button class="rule-btn ${chosenSpeed === 'free' ? 'sel' : ''}" data-speed="free" title="Each unit sprints at full speed">⚡ Fast Sprint</button>` +
+          `</div>` +
+          `<div class="war-btn-group" style="margin-top:6px" id="rulePicker">` +
+            `<button class="rule-btn ${chosenRule === 'hunt' ? 'sel' : ''}" data-rule="hunt" title="Engage any enemy sighted on march">⚔️ Aggressive Hunt</button>` +
+            `<button class="rule-btn ${chosenRule === 'speed' ? 'sel' : ''}" data-rule="speed" title="March swiftly past distractions">🏃 Speed March</button>` +
+          `</div>` +
+        `</div>` +
+
+        `<div class="war-setting-col">` +
+          `<h4>Break March HP Threshold</h4>` +
+          `<div class="war-btn-group" id="hpPicker">` +
+            `<button class="rule-btn ${chosenHp === 25 ? 'sel' : ''}" data-hp="25">25% HP</button>` +
+            `<button class="rule-btn ${chosenHp === 50 ? 'sel' : ''}" data-hp="50">50% HP</button>` +
+            `<button class="rule-btn ${chosenHp === 75 ? 'sel' : ''}" data-hp="75">75% HP</button>` +
+          `</div>` +
+          `<small style="display:block;margin-top:4px;color:var(--dim)">If squad health drops below threshold, break march and defend!</small>` +
+        `</div>` +
+      `</div>` +
+
+      `<div class="war-footer">` +
+        `<button class="btn" data-close>Cancel</button>` +
+        `<button class="btn go gold-shofar" id="bExecMission">🎺 Sound Shofar & Execute Mission</button>` +
+      `</div>` +
+    `</div>`;
+
+    const d = openDialog(html);
+    const canvas = d.querySelector('#warMapCanvas');
+    if (!canvas) return;
+    const wctx = canvas.getContext('2d');
+
+    function renderWarMap() {
+      const cw = canvas.width, ch = canvas.height;
+      wctx.fillStyle = '#0f172a';
+      wctx.fillRect(0, 0, cw, ch);
+
+      wctx.drawImage(terrain, 0, 0, cw, ch);
+
+      for (let ty = 0; ty < MAP_H; ty += 2) {
+        for (let tx = 0; tx < MAP_W; tx += 2) {
+          if (!explored[ty * MAP_W + tx]) {
+            const p = toIso((tx + 1) * TILE, (ty + 1) * TILE);
+            const cx = (p.ix / TERR_W) * cw, cy = (p.iy / TERR_H) * ch;
+            wctx.fillStyle = 'rgba(8, 12, 24, 0.75)';
+            wctx.fillRect(cx - 6, cy - 4, 12, 8);
+          }
+        }
+      }
+
+      for (const b of W.buildings('p')) {
+        const bp = toIso((b.tx + b.w * 0.5) * TILE, (b.ty + b.h * 0.5) * TILE);
+        const bx = (bp.ix / TERR_W) * cw, by = (bp.iy / TERR_H) * ch;
+        wctx.fillStyle = '#38bdf8';
+        wctx.beginPath();
+        wctx.arc(bx, by, 3.5, 0, 7);
+        wctx.fill();
+      }
+
+      for (const u of W.units('r')) {
+        if (!inVision(u.x, u.y)) continue;
+        const up = toIso(u.x, u.y);
+        const ux = (up.ix / TERR_W) * cw, uy = (up.iy / TERR_H) * ch;
+        wctx.fillStyle = '#ef4444';
+        wctx.beginPath();
+        wctx.arc(ux, uy, 2.5, 0, 7);
+        wctx.fill();
+      }
+
+      const cohortColors = { 1: '#ef4444', 2: '#3b82f6', 3: '#f59e0b' };
+      for (const cId of [1, 2, 3]) {
+        const units = W.cohortUnits('p', cId);
+        const col = cohortColors[cId];
+        const isCurrent = cId === activeWpCohort;
+
+        let squadX = 0, squadY = 0;
+        if (units.length) {
+          for (const u of units) { squadX += u.x; squadY += u.y; }
+          squadX /= units.length; squadY /= units.length;
+          const sp = toIso(squadX, squadY);
+          const sx = (sp.ix / TERR_W) * cw, sy = (sp.iy / TERR_H) * ch;
+
+          wctx.fillStyle = col;
+          wctx.beginPath();
+          wctx.arc(sx, sy, isCurrent ? 6 : 4, 0, 7);
+          wctx.fill();
+          wctx.strokeStyle = '#fff';
+          wctx.lineWidth = 1.2;
+          wctx.stroke();
+
+          wctx.font = 'bold 8px Outfit, sans-serif';
+          wctx.fillStyle = '#fff';
+          wctx.textAlign = 'center';
+          wctx.textBaseline = 'middle';
+          wctx.fillText(cId === 1 ? 'I' : cId === 2 ? 'II' : 'III', sx, sy);
+
+          const wps = cohortWps[cId] || [];
+          if (wps.length) {
+            wctx.strokeStyle = col;
+            wctx.lineWidth = isCurrent ? 2.2 : 1.2;
+            wctx.setLineDash(isCurrent ? [5, 4] : [3, 3]);
+            wctx.beginPath();
+            wctx.moveTo(sx, sy);
+            for (const wp of wps) {
+              const wpIso = toIso(wp.x, wp.y);
+              wctx.lineTo((wpIso.ix / TERR_W) * cw, (wpIso.iy / TERR_H) * ch);
+            }
+            wctx.stroke();
+            wctx.setLineDash([]);
+
+            wps.forEach((wp, idx) => {
+              const wpIso = toIso(wp.x, wp.y);
+              const wx = (wpIso.ix / TERR_W) * cw, wy = (wpIso.iy / TERR_H) * ch;
+              wctx.fillStyle = col;
+              wctx.beginPath();
+              wctx.arc(wx, wy, isCurrent ? 5 : 3.5, 0, 7);
+              wctx.fill();
+              wctx.strokeStyle = '#fff';
+              wctx.lineWidth = 1;
+              wctx.stroke();
+
+              wctx.font = 'bold 7px Outfit, sans-serif';
+              wctx.fillStyle = '#fff';
+              wctx.textAlign = 'center';
+              wctx.textBaseline = 'middle';
+              wctx.fillText(String(idx + 1), wx, wy);
+            });
+          }
+        }
+      }
+
+      const rInfo = d.querySelector('#warRouteInfo');
+      if (rInfo) {
+        const wps = cohortWps[activeWpCohort] || [];
+        const uCount = W.cohortUnits('p', activeWpCohort).length;
+        if (!wps.length) {
+          rInfo.innerHTML = `Cohort ${activeWpCohort} (${uCount} units): <b>0 waypoints</b>. Tap the map to plot a route.`;
+        } else {
+          rInfo.innerHTML = `Cohort ${activeWpCohort} (${uCount} units): <b>${wps.length} waypoints</b> plotted. Formation: <b>${chosenForm.toUpperCase()}</b> · Pace: <b>${chosenSpeed === 'lock' ? 'Match Slowest' : 'Sprint'}</b>.`;
+        }
+      }
+    }
+
+    renderWarMap();
+
+    canvas.addEventListener('click', e => {
+      const rect = canvas.getBoundingClientRect();
+      const clickCx = (e.clientX - rect.left) * (canvas.width / rect.width);
+      const clickCy = (e.clientY - rect.top) * (canvas.height / rect.height);
+
+      const isoX = (clickCx / canvas.width) * TERR_W;
+      const isoY = (clickCy / canvas.height) * TERR_H;
+
+      const relX = isoX - ISO_OFFSET_X;
+      const relY = isoY - PAD;
+      const worldX = relX + 2 * relY;
+      const worldY = 2 * relY - relX;
+
+      const clampedX = Math.max(16, Math.min(MAP_W * TILE - 16, worldX));
+      const clampedY = Math.max(16, Math.min(MAP_H * TILE - 16, worldY));
+
+      cohortWps[activeWpCohort].push({ x: clampedX, y: clampedY });
+      if (AUDIO) AUDIO.play('tap');
+      renderWarMap();
+    });
+
+    d.querySelectorAll('.war-tab').forEach(b => {
+      b.onclick = () => {
+        activeWpCohort = parseInt(b.dataset.cohort);
+        d.querySelectorAll('.war-tab').forEach(t => t.classList.toggle('active', parseInt(t.dataset.cohort) === activeWpCohort));
+        const cConfig = W.cohorts[activeWpCohort];
+        if (cConfig) {
+          chosenForm = cConfig.formation || 'phalanx';
+          chosenSpeed = cConfig.speedLock ? 'lock' : 'free';
+          chosenRule = cConfig.rule || 'hunt';
+          chosenHp = cConfig.healthThreshold || 50;
+          d.querySelectorAll('.form-btn').forEach(fb => fb.classList.toggle('sel', fb.dataset.form === chosenForm));
+          d.querySelectorAll('#speedPicker .rule-btn').forEach(sb => sb.classList.toggle('sel', sb.dataset.speed === chosenSpeed));
+          d.querySelectorAll('#rulePicker .rule-btn').forEach(rb => rb.classList.toggle('sel', rb.dataset.rule === chosenRule));
+          d.querySelectorAll('#hpPicker .rule-btn').forEach(hb => hb.classList.toggle('sel', parseInt(hb.dataset.hp) === chosenHp));
+        }
+        if (AUDIO) AUDIO.play('tap');
+        renderWarMap();
+      };
+    });
+
+    d.querySelector('#bUndoWp').onclick = () => {
+      cohortWps[activeWpCohort].pop();
+      if (AUDIO) AUDIO.play('tap');
+      renderWarMap();
+    };
+    d.querySelector('#bClearWp').onclick = () => {
+      cohortWps[activeWpCohort] = [];
+      if (AUDIO) AUDIO.play('tap');
+      renderWarMap();
+    };
+
+    d.querySelectorAll('.form-btn').forEach(b => {
+      b.onclick = () => {
+        chosenForm = b.dataset.form;
+        d.querySelectorAll('.form-btn').forEach(fb => fb.classList.toggle('sel', fb === b));
+        if (AUDIO) AUDIO.play('tap');
+        renderWarMap();
+      };
+    });
+
+    d.querySelectorAll('#speedPicker .rule-btn').forEach(b => {
+      b.onclick = () => {
+        chosenSpeed = b.dataset.speed;
+        d.querySelectorAll('#speedPicker .rule-btn').forEach(sb => sb.classList.toggle('sel', sb === b));
+        if (AUDIO) AUDIO.play('tap');
+        renderWarMap();
+      };
+    });
+
+    d.querySelectorAll('#rulePicker .rule-btn').forEach(b => {
+      b.onclick = () => {
+        chosenRule = b.dataset.rule;
+        d.querySelectorAll('#rulePicker .rule-btn').forEach(rb => rb.classList.toggle('sel', rb === b));
+        if (AUDIO) AUDIO.play('tap');
+        renderWarMap();
+      };
+    });
+
+    d.querySelectorAll('#hpPicker .rule-btn').forEach(b => {
+      b.onclick = () => {
+        chosenHp = parseInt(b.dataset.hp);
+        d.querySelectorAll('#hpPicker .rule-btn').forEach(hb => hb.classList.toggle('sel', hb === b));
+        if (AUDIO) AUDIO.play('tap');
+        renderWarMap();
+      };
+    });
+
+    d.querySelector('#bExecMission').onclick = () => {
+      let dispatched = 0;
+      for (const cId of [1, 2, 3]) {
+        const wps = cohortWps[cId];
+        const units = W.cohortUnits('p', cId);
+        if (!wps || !wps.length || !units.length) continue;
+
+        if (!W.cohorts) W.cohorts = {};
+        W.cohorts[cId] = {
+          name: cId === 1 ? 'Vanguard' : cId === 2 ? 'Skirmishers' : 'Siege & Supply',
+          formation: chosenForm,
+          speedLock: chosenSpeed === 'lock',
+          rule: chosenRule,
+          healthThreshold: chosenHp
+        };
+
+        const heading = Math.atan2(wps[0].y - (units[0].y || 0), wps[0].x - (units[0].x || 0));
+        const offsets = computeFormationOffsets(chosenForm, units, heading);
+
+        units.forEach((u, i) => {
+          const off = offsets[i] || { x: 0, y: 0 };
+          const unitWps = wps.map(wp => ({
+            x: Math.max(16, Math.min(MAP_W * TILE - 16, wp.x + off.x)),
+            y: Math.max(16, Math.min(MAP_H * TILE - 16, wp.y + off.y))
+          }));
+          const first = unitWps[0];
+          u.cohort = cId;
+          u.order = {
+            type: 'move',
+            target: null,
+            rule: chosenRule,
+            healthThreshold: chosenHp,
+            waypoints: unitWps.slice(1)
+          };
+          u.path = W.findPath(u.x, u.y, first.x, first.y, u.def.move);
+        });
+        dispatched++;
+      }
+
+      if (dispatched === 0) {
+        toast('Plot at least one waypoint on the map for a cohort before sounding the shofar.', 'warn');
+        return;
+      }
+
+      if (AUDIO) AUDIO.play('cohortHorn');
+      toast(`Shofar sounded! ${dispatched} cohort(s) marching in ${chosenForm.toUpperCase()} formation.`, 'me');
+      closeDialog();
+      refreshPanel(true);
+    };
   }
 
   const starsHtml = n => `<span class="stars">${[1, 2, 3].map(k => `<span class="${k <= n ? '' : 'off'}">★</span>`).join('')}</span>`;
@@ -4836,6 +5715,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     screen.orientation.addEventListener('change', () => { setTimeout(resize, 100); setTimeout(resize, 300); });
   }
   resize();
+  initCohortBar();
   home();
   requestAnimationFrame(frame);
   // A window on the game for automated play-throughs in a browser.

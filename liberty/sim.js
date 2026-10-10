@@ -66,7 +66,17 @@
       this.effects = [];                           // arrows and the like, for drawing
       this.lastBorderMsg = -99;
       this.perks = [];                             // campaign star perks and relics (data.js: PERKS)
+      this.yieldPops = [];                         // floating harvest/production yield text popups: [{ x, y, text, type, t }]
+      this.cohorts = {
+        1: { name: 'Vanguard', formation: 'phalanx', speedLock: true, rule: 'hunt', healthThreshold: 50 },
+        2: { name: 'Skirmishers', formation: 'line', speedLock: true, rule: 'hunt', healthThreshold: 50 },
+        3: { name: 'Siege & Supply', formation: 'escort', speedLock: true, rule: 'speed', healthThreshold: 40 }
+      };
+      this.rallyPoints = {};                       // { buildingId: { x, y } }
     }
+
+    setCohort(u, cohortId) { if (u) u.cohort = cohortId; }
+    cohortUnits(team, cohortId) { return this.units(team).filter(u => u.cohort === cohortId); }
 
     hasPerk(id) { return Array.isArray(this.perks) && this.perks.includes(id); }
 
@@ -470,6 +480,14 @@
       if (target.spare) a = Math.min(a, Math.max(0, target.hp - 1));   // his part in the story isn't over
       target.hp -= a;
       target.hitAt = this.t;
+      if (target.hp > 0 && unit && target.order && target.order.type === 'move' && target.order.healthThreshold && (target.hp / (target.max || target.def.hp)) * 100 < target.order.healthThreshold) {
+        this.order(target, { type: 'idle' });
+        this.autoAcquire(target, target.def.sight);
+        if (target.team === this.me && this.t - (target.breakMsgAt || -99) > 10) {
+          target.breakMsgAt = this.t;
+          this.msg('Cohort breaks march: taking defensive stand!', null, 'warn');
+        }
+      }
       if (target.kind === 'building') target.lastHitBy = from ? from.id : null;
       if (target.kind === 'unit' && from && from.team === this.me && target.team !== this.me) target.lastHitBy = from.id;
       if (target.team === this.me && from && from.team !== this.me) { this.callHelp(target, from); this.alarm(target); }
@@ -794,6 +812,7 @@
       }
       this.effects = this.effects.filter(f => this.t - f.t < (f.kind === 'stone' ? 0.6 : 0.35));   // (a stone cast down takes a little longer to land)
       this.zones = this.zones.filter(z => this.t < z.until);
+      this.yieldPops = (this.yieldPops || []).filter(p => this.t - p.t < 1.6);
       // A Jaredite ruin: someone of yours beside it finds what it holds (Mosiah 8:9-11).
       for (const b of this.buildings('n')) if (b.def.relic && !b.dead && b.artifact) for (const team in this.sides) if (this.units(team).some(u => (team === this.me || !u.def.foe) && this.nextTo(u, this.rectOf(b)))) { const key = b.artifact; this.remove(b); this.grant(key, 'ruin', team, b); break; }   // (an army marching past takes nothing; that's for 5c)
       if (this.t - (this.swordCheckAt || -99) > 2) { this.swordCheckAt = this.t; for (const team in this.sides) if (this.sides[team].artifacts.sword && !this.units(team).some(u => u.sword)) this.swordTo(null, team); }
@@ -850,7 +869,17 @@
             if (own.some(t => t.def.fierce)) u.fierceUntil = this.t + 45;      // from the war-dance: faster and harder for a while
           }
           if (b.team === this.me) this.trained[q.type] = (this.trained[q.type] || 0) + 1;
-          if (b.rally) this.moveTo(u, b.rally[0], b.rally[1]);
+          if (b.autoCohort) u.cohort = b.autoCohort;
+          else if (u.type === 'cart' || u.type === 'curelom' || u.type === 'cumom' || (u.def && u.def.siege)) {
+            u.cohort = 3;
+          } else if (fighter(u.def)) {
+            u.cohort = u.def.ranged ? 2 : 1;
+          }
+          if (b.rally) {
+            const rx = Array.isArray(b.rally) ? b.rally[0] : (b.rally.tx != null ? b.rally.tx : tileOf(b.rally.x));
+            const ry = Array.isArray(b.rally) ? b.rally[1] : (b.rally.ty != null ? b.rally.ty : tileOf(b.rally.y));
+            this.moveTo(u, rx, ry);
+          }
         }
       }
       if (this.guarded(b)) {                        // the wall's guard: a heavy stone on whoever is close below
@@ -922,10 +951,18 @@
         }
         // (An army lying hidden holds still until it's ordered, or found.)
         else if (mine && u.order.type === 'idle' && u.def.dmg && !u.def.gathers && !u.def.builds && (!this.hidden(u) || this.t - (u.hitAt || -99) < 2)) this.autoAcquire(u, u.def.sight);
-        else if (mine && u.order.type === 'move' && u.order.attackMove) this.autoAcquire(u, u.def.sight, true);
+        else if (mine && u.order.type === 'move' && (u.order.attackMove || u.order.rule === 'hunt')) this.autoAcquire(u, u.def.sight, true);
         else if (mine && u.order.type === 'idle' && (u.def.gathers || u.def.builds) && u.hitAt && this.t - u.hitAt < 1.5) this.autoAcquire(u, 60);
         // A cart with nothing to do goes and hauls, like a harvester in Red Alert.
         else if (mine && u.order.type === 'idle' && u.def.gathers && u.def.load) this.autoHaul(u);
+        if (mine && u.order.type === 'move' && u.order.healthThreshold && (u.hp / (u.max || u.def.hp)) * 100 < u.order.healthThreshold) {
+          this.order(u, { type: 'idle' });
+          this.autoAcquire(u, u.def.sight);
+          if (u.team === this.me && this.t - (u.breakMsgAt || -99) > 10) {
+            u.breakMsgAt = this.t;
+            this.msg('Cohort breaks march: taking defensive stand!', null, 'warn');
+          }
+        }
       }
       const o = u.order;
       switch (o.type) {
@@ -1013,6 +1050,21 @@
       if (u.burstUntil > this.t) sp *= 1.4;
       if (u.carry && u.carry.amt) sp *= 0.9;
       if (u.type === 'cart' && u.team === this.me && this.hasPerk('nephite_chariots')) sp *= 1.2;
+
+      // Formation speed synchronization: troops in the same cohort match the slowest unit's speed
+      if (u.cohort && this.cohorts && this.cohorts[u.cohort] && this.cohorts[u.cohort].speedLock && !u.charging) {
+        const cohortMoving = this.cohortUnits(u.team, u.cohort).filter(v => !v.dead && v.order && v.order.type === 'move');
+        if (cohortMoving.length > 1) {
+          let minSp = sp;
+          for (const m of cohortMoving) {
+            let msp = m.def.speed * (m.slow || 1);
+            if (m.carry && m.carry.amt) msp *= 0.9;
+            if (msp < minSp) minSp = msp;
+          }
+          sp = Math.min(sp, minSp);
+        }
+      }
+
       const s = sp * dt;
       // Close is close enough: units crowding one tile push each other off its exact middle.
       const reach = u.path.length === 1 ? 12 : 9;
@@ -1023,7 +1075,18 @@
     arrive(u) {
       const o = u.order;
       if (this.mission && this.mission.onArrive && this.mission.onArrive(this, u)) return;
-      if (o.type === 'move') this.order(u, { type: 'idle' });
+      if (o.type === 'move') {
+        if (o.waypoints && o.waypoints.length > 0) {
+          const wp = o.waypoints.shift();
+          const wx = wp.x != null ? wp.x : wp[0];
+          const wy = wp.y != null ? wp.y : wp[1];
+          o.tx = wx;
+          o.ty = wy;
+          u.path = null;
+          return;
+        }
+        this.order(u, { type: 'idle' });
+      }
     }
 
     // Units don't stand on each other.
@@ -1082,6 +1145,8 @@
         if (this.amt[i] <= 0) { u.phase = u.carry && u.carry.amt ? 'back' : 'go'; return; }
         const t = this.tiles[i], kind = t === T.FOREST ? 'timber' : t === T.ROCK ? 'stone' : 'grain';
         if (u.carry && u.carry.amt && u.carry.type !== kind) { u.phase = 'back'; u.path = null; return; }   // bring home what it holds first
+        u.workingRes = kind;
+        u.workingAt = { tx: o.tx, ty: o.ty };
         u.work += dt;
         const each = (kind === 'grain' ? 0.6 : kind === 'timber' ? 0.45 : 0.75) / (u.def.quick || 1);   // seconds a unit takes
         if (u.work >= each) {
@@ -1089,12 +1154,23 @@
           if (!u.carry || u.carry.type !== kind) u.carry = { type: kind, amt: 0 };
           u.carry.amt += 1; this.amt[i] -= 1;
           if (this.amt[i] <= 0) { if (t === T.ROCK) this.terrainDirty = true; else this.setTile(o.tx, o.ty, T.GRASS); }   // a worked-out face stays rock
-          if (u.carry.amt >= (u.def.load || 10)) { u.phase = 'back'; u.path = null; }
+          if (u.carry.amt >= (u.def.load || 10)) { u.phase = 'back'; u.path = null; u.workingRes = null; }
         }
       } else if (u.phase === 'back') {
+        u.workingRes = null;
         const drop = this.nearestDropoff(u);
         if (!drop) { this.order(u, { type: 'idle' }); return; }
         if (this.nextTo(u, this.rectOf(drop))) {
+          if (u.type === 'cart') {
+            u.phase = 'dock';
+            u.dockT = 0;
+            u.dockDrop = drop.id;
+            u.path = null;
+            const targetX = drop.kind === 'building' ? (drop.tx + drop.w / 2) * TILE : drop.x;
+            const targetY = drop.kind === 'building' ? (drop.ty + drop.h / 2) * TILE : drop.y;
+            u.face = Math.atan2(targetY - u.y, targetX - u.x);
+            return;
+          }
           if (u.carry) {
             this.gain(u.carry.type, u.carry.amt, u.team);
             u.dumpAt = this.t;
@@ -1111,6 +1187,30 @@
         if (this.follow(u, dt) && !this.nextTo(u, this.rectOf(drop))) {
           u.tries = (u.tries || 0) + 1;              // walled off from it
           if (u.tries > 4) this.order(u, { type: 'idle' });
+        }
+      } else if (u.phase === 'dock') {
+        const drop = this.ents.get(u.dockDrop) || this.nearestDropoff(u);
+        u.dockT = (u.dockT || 0) + dt;
+        if (u.dockT >= 0.8 || !drop) {
+          if (u.carry && u.carry.amt) {
+            const amt = u.carry.amt, type = u.carry.type;
+            this.gain(type, amt, u.team);
+            u.dumpAt = this.t;
+            u.dumpType = type;
+            u.dumpAmt = amt;
+            u.dumpTo = drop ? drop.id : null;
+            if (drop) {
+              if (drop.type === 'cart') drop.settleAt = this.t;
+              if (!this.yieldPops) this.yieldPops = [];
+              const dx = drop.kind === 'building' ? (drop.tx + drop.w / 2) * TILE : drop.x;
+              const dy = drop.kind === 'building' ? drop.ty * TILE - 8 : drop.y - 12;
+              this.yieldPops.push({ x: dx, y: dy, text: `+${amt} ${type[0].toUpperCase() + type.slice(1)}`, type, t: this.t });
+            }
+            u.carry = null;
+          }
+          u.dockT = 0;
+          if (!u.pref && u.def.load) { this.order(u, { type: 'idle' }); return; }
+          u.phase = 'go'; u.path = null; u.tries = 0; return;
         }
       }
     }
