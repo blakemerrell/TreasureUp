@@ -1,6 +1,6 @@
 # 005 · The heroes: Lehi, Gidgiddoni and Helaman
 
-**Status: open.** 3 pictures.
+**Status: done.** All three (`lehi.png`, `gidgiddoni.png`, `helaman.png`) are in the game.
 
 ## What it's for
 

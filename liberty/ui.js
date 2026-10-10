@@ -129,6 +129,8 @@ IMG.temple.src = 'assets/temple.png?v=4';           // after the manner of Solom
 IMG.quarry = picture(); IMG.quarry.src = 'assets/quarry.png?v=1';
 IMG.sawmill = picture(); IMG.sawmill.src = 'assets/sawmill.png?v=1';
 IMG.brickworks = picture(); IMG.brickworks.src = 'assets/brickworks.png?v=1';
+IMG.standard = picture(); IMG.standard.src = 'assets/standard.png?v=1';
+IMG.workerScythe = picture(); IMG.workerScythe.src = 'assets/worker_scythe.png?v=1';
 IMG.ruin.src = 'assets/ruin.png?v=1';
 IMG.lamaniteCamp.src = 'assets/lamanite_camp.png?v=1';   // and these: 009-battlefield.md
 IMG.robbersCamp.src = 'assets/robbers_camp.png?v=1';
@@ -1984,11 +1986,16 @@ IMG.farm.src = 'assets/farm.png?v=13';
     let uw = 28, uh = 44, uox = 11, uoy = 43;
     if (u.type === 'standard') {
       const hType = u.heroType || 'moroni';
-      uImg = ready(IMG[hType]) ? IMG[hType] : IMG.moroni;
-      if (hType === 'lehi') { uw = 40; uh = 48; uox = 24; uoy = 47; }
-      else if (hType === 'gidgiddoni') { uw = 28; uh = 48; uox = 18; uoy = 47; }
-      else if (hType === 'helaman') { uw = 37; uh = 48; uox = 18; uoy = 47; }
-      else { uw = 37; uh = 48; uox = 17; uoy = 47; }
+      if (hType === 'moroni' && ready(IMG.standard)) {
+        uImg = IMG.standard;
+        uw = 38; uh = 48; uox = 18; uoy = 47;
+      } else {
+        uImg = ready(IMG[hType]) ? IMG[hType] : IMG.moroni;
+        if (hType === 'lehi') { uw = 40; uh = 48; uox = 24; uoy = 47; }
+        else if (hType === 'gidgiddoni') { uw = 28; uh = 48; uox = 18; uoy = 47; }
+        else if (hType === 'helaman') { uw = 37; uh = 48; uox = 18; uoy = 47; }
+        else { uw = 37; uh = 48; uox = 17; uoy = 47; }
+      }
     } else if (u.type === 'lehi') {
       uImg = IMG.lehi;
       uw = 40; uh = 48; uox = 24; uoy = 47;
@@ -2064,16 +2071,22 @@ IMG.farm.src = 'assets/farm.png?v=13';
       uImg = IMG.spy;                            // 76 × 150 like the worker
       uw = 20; uh = 40; uox = 10; uoy = 39;
     } else if (u.type === 'worker') {
-      uImg = IMG.worker;                         // 76 × 150, cropped to the figure: feet on the ground
-      uw = 20; uh = 40; uox = 14; uoy = 39;
+      const isFighting = (u.order && u.order.type === 'attack') || (u.cool && u.cool > 0.6);
+      if (isFighting && ready(IMG.workerScythe)) {
+        uImg = IMG.workerScythe;
+        uw = 38; uh = 48; uox = 19; uoy = 47;
+      } else {
+        uImg = IMG.worker;                         // 76 × 150, cropped to the figure: feet on the ground
+        uw = 20; uh = 40; uox = 14; uoy = 39;
+      }
     }
 
     if (uImg && uImg.complete && uImg.naturalWidth) {
       ctx.drawImage(uImg, -uox, -uoy, uw, uh);
       if (u.type === 'standard') {
-        drawTitleOfLibertyStandard(flip, now, u.id);
+        if (uImg !== IMG.standard) drawTitleOfLibertyStandard(flip, now, u.id);
       } else if (u.type === 'worker' && ((u.order && u.order.type === 'attack') || (u.cool && u.cool > 0.6))) {
-        drawWorkerScytheCombat(now, u.id);
+        if (uImg !== IMG.workerScythe) drawWorkerScytheCombat(now, u.id);
       } else if (u.type === 'cart' && u.carry && u.carry.amt > 0) {
         drawCartCargo(u.carry.type, u.carry.amt, u.carry.max || (u.def && u.def.carry) || 10, flip);
       }
@@ -2087,9 +2100,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
       ctx.fillStyle = d.foe ? '#b45309' : '#d8bd8e';
       ctx.beginPath(); ctx.arc(0, -10, 4, 0, 7); ctx.fill();
       if (u.type === 'standard') {
-        drawTitleOfLibertyStandard(flip, now, u.id);
+        if (uImg !== IMG.standard) drawTitleOfLibertyStandard(flip, now, u.id);
       } else if (u.type === 'worker' && ((u.order && u.order.type === 'attack') || (u.cool && u.cool > 0.6))) {
-        drawWorkerScytheCombat(now, u.id);
+        if (uImg !== IMG.workerScythe) drawWorkerScytheCombat(now, u.id);
       } else if (u.type === 'cart' && u.carry && u.carry.amt > 0) {
         drawCartCargo(u.carry.type, u.carry.amt, u.carry.max || (u.def && u.def.carry) || 10, flip);
       }

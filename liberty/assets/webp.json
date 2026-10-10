@@ -106,6 +106,7 @@
  "lamanite_captain.png": "3a9250618db34c41af94907bd742a7db3e344dfeb29ae0db4f6b481be368715e",
  "lamanite_slinger.png": "45bd942194ac8aeb3227c893029c663a7a8be8bec1167b785517dcb7af5767f0",
  "lamanite_tower.png": "b08566e5bf102cb3ffe9af1cd946a407ebf77ddbf01eb02c340b80459c69ceaa",
+ "leader_moroni.png": "84006aff9d1ef4917a86ab7cffe66025ffdb2245c75a7100e1b88c2f7d07ea11",
  "lehi.png": "3620f1e6d864708f323209462cdf369b8201770c81333cfd919d85a935ed1db7",
  "middle_earth_map.jpg": "49888dce2b4a3117da34cccb6d0672a0cd84856d89113905e80e91fb8962e830",
  "moroni.png": "73ca60df9d56d9545bc2d2ed4be70ddeaff81f5fadfea3059f4ca0c3f17a4beb",
@@ -125,6 +126,7 @@
  "spearman.png": "42a290e08ee7687bab1a5c96d9ae51bf5579ea2de659cfdf219aa19fe4d03e61",
  "spy.png": "bdc63268c0087263e7cd488fd9a28955ee408be289d526ae5c77a8eec77777ad",
  "stables.png": "70a516a5025f5746be06de0f8f3a80cd9a8c1a460acb34d12949ad537a5d3d79",
+ "standard.png": "84006aff9d1ef4917a86ab7cffe66025ffdb2245c75a7100e1b88c2f7d07ea11",
  "storehouse.png": "edb14ba1adaefe9b00f87989d63f2d6b58b1857180e5476cd15fd0a645a25574",
  "storetent.png": "8ffea8a84292883947eb5913ea2b1ee8caa659c7fc4249f610d47a473ad8f0f4",
  "stripling.png": "be71c3cc22e848b55b737195f3ae01dc5ae4b75cdf80b0c4196e2c94e99cdc7b",
@@ -165,6 +167,7 @@
  "wardance.png": "71b493b6f8245f629104c1e78f5dc5c115aacce45b472222321c04c631d7768f",
  "wheat_seamless.png": "88fa815a8d61bc62d3e0099b92dbfba6ac227874c434a5334164c1684a8deeaf",
  "worker.png": "85f4c8e8272d6ed1f445cebc9aab8d088f1419cf2eead53099c92e52e7cc5fc9",
+ "worker_scythe.png": "9967c01b13dfba5e65f07c17c33d54e6e576225590e7982af7fbee8f497d2360",
  "world_map.jpg": "77c73ee0cefc466a9c296d712ae069ea690b33792d45a2fe7f73596687e38407",
  "zerahemnah.png": "c1ec9cf43fe6cc081dc63e30f1870208c4ed06661e5bad43093c1ae68c57c54c"
 }
