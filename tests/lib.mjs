@@ -161,14 +161,23 @@ export async function runLesson(page, opts = {}) {
     const k = await stepKind();
     if (!k) break;
     seen.push(k);
-    if (k === 'end') { await foot('close').click().catch(() => {}); await wait(500); break; }
+    if (k === 'end') { if (!opts.stayAtEnd) { await foot('close').click().catch(() => {}); await wait(500); } break; }
     if (k === 'chapter') {
       await page.evaluate(() => { const b = document.getElementById('lessonBody'); b.scrollTop = b.scrollHeight; b.dispatchEvent(new Event('scroll')); }); await wait(250);
       await foot('readdone').click(); await wait(480);
       if (await foot('readyes').count()) { await foot('readyes').click(); await wait(480); }
       await foot('next').click(); await wait(480);
-    } else if (k === 'reel' || k === 'recall' || k === 'find') { await answer(k); await foot('next').click().catch(() => {}); await wait(480); }
+    } else if (k === 'reel' || k === 'recall' || k === 'find' || k === 'deep' || k === 'bonus' || k === 'say') { await answer(k); await foot('next').click().catch(() => {}); await wait(480); }
     else if (k === 'read' || k === 'insight') { await foot('next').click(); await wait(480); }
+    else if (k === 'bom') { await foot('bomdone').click(); await wait(480); }
+    else if (k === 'fsy') {
+      if (await foot('fsydone').count()) await foot('fsydone').click(); else { await answer(k); await foot('next').click().catch(() => {}); }
+      await wait(480);
+    }
+    else if (k === 'note') {
+      await page.fill('#lsNote', opts.note || 'This verse reminds me that the Lord carries what I cannot carry, so I can keep going.');
+      await foot('savenote').click(); await wait(480); await foot('next').click(); await wait(480);
+    }
     else if (k === 'cfm') { await foot('cfmdone').click(); await wait(480); }
     else if (k === 'gc') { await foot('gcdone').click(); await wait(480); }
     else if (k === 'goals') { await foot('goalsdone').click(); await wait(480); }
@@ -178,10 +187,10 @@ export async function runLesson(page, opts = {}) {
   return seen;
 }
 // Today's study: the green button (through Be still, which opens first), then the path.
-export async function study(dev) {
+export async function study(dev, opts) {
   const btn = dev.page.locator('#home .fl-next');
   if (!(await btn.count())) return null;
   await btn.click(); await wait(900);
   if (await dev.page.locator('#stillLayer:not([hidden]) [data-still-onward]').count()) { await dev.page.click('#stillLayer [data-still-onward]'); await wait(900); }
-  return runLesson(dev.page);
+  return runLesson(dev.page, opts);
 }
