@@ -616,6 +616,8 @@ five minutes with the tests). Setting it up on a new repo:
    this on by itself.
 3. Push to `main`, or re-run the workflow from the Actions tab.
 
+**Family names** (2026-10-11: "my family names can come out of the public code"): every pull request also runs `tools/check-names.mjs`, which fails if a family first name is in any tracked file. The names come only from the repo secret **NAMES_PATTERN** (Settings → Secrets and variables → Actions; a regex such as `Name1|Name2|Name3`), so the list is never in the code; a hit prints only the file and line, since the Actions log is public. Scripture's own use of a name (a verse in `content/`, or a line that says it's the Bible's, as Genesis 10 or the Hebrew for Greece) is allowed. Without the secret (a fork, or a run on your computer) the check says so and passes; locally: `NAMES_PATTERN='…' node tools/check-names.mjs`. Write "the owner", "a parent", "Mom", "Dad" or "the kids" instead. The owner's sign-in email stays in `firestore.rules` and `index.html` on purpose: it's the developer-mode check.
+
 **Tests** (review, 2026-10-07: "Yes, in CI"): before anything else, every
 script the site ships must parse (`tools/check-parse.mjs`); after the chapters
 are built, the browser tests in `tests/` open the app on today's week, check
