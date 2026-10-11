@@ -3871,8 +3871,33 @@ const TreasureUp = (function () {
     'Fitness & Training', 'Deep Work & Focus', 'Mentoring Team', 'Temple Worship'
   ];
 
+  // A birthday month ("2015-04") gives the age and the Children and Youth stage:
+  // Primary until January of the year a child turns 12, then youth through the
+  // year they turn 18 (2026-10-11: "will turn 12 next April"; the stage moves
+  // on by itself in January, as the Church's does). Asked in the profile, kept
+  // in his saved progress, never written into the code.
+  function ageFrom(born, k = dayKey()) {
+    const [y, m] = String(born).split('-').map(Number), [ty, tm] = k.split('-').map(Number);
+    return ty - y - (tm < m ? 1 : 0);
+  }
+  function stageFrom(born, k = dayKey()) {
+    const y = Number(String(born).slice(0, 4)), ty = Number(k.slice(0, 4));
+    return ty < y + 12 ? 'child' : ty <= y + 18 ? 'youth' : 'adult';
+  }
+  const profileAge = p => p && p.born ? ageFrom(p.born) : p && p.age || null;
+  function stageNote(born) {
+    const y = Number(String(born).slice(0, 4)), st = stageFrom(born);
+    return `Age ${ageFrom(born)} · ` + (st === 'child' ? `Primary until January ${y + 12}, then Youth (it moves on by itself)` : st === 'youth' ? `Youth through ${y + 18}` : 'Adult');
+  }
+  // The year before his twelfth: getting ready for the priesthood or the temple, and for the youth program.
+  const turning12 = p => !!(p && p.born && stageFrom(p.born) === 'child' && Number(dayKey().slice(0, 4)) === Number(p.born.slice(0, 4)) + 11);
   function profileOf() {
-    if (S.profile) return S.profile;
+    if (S.profile) {
+      // His stage today, from the birthday (or a stage picked in the Season this year): a copy, so
+      // reading it never looks like an edit to the family's merge.
+      const who = S.profile.who === 'adult' || !S.profile.born ? S.profile.who : S.stagePin && S.stagePin.y === dayKey().slice(0, 4) ? S.stagePin.who : stageFrom(S.profile.born);
+      return who === S.profile.who ? S.profile : Object.assign({}, S.profile, { who });
+    }
     const who = seasonWho();
     const isKid = who !== 'adult';
     const name = (F && F.name) || S.ownerName || '';
@@ -3882,7 +3907,7 @@ const TreasureUp = (function () {
       age: null,   // asked in the profile, never written into the (public) code
       stage: isKid ? 'youth' : 'adult',
       milestone: '',
-      interests: isKid ? [...DEFAULT_KID_INTERESTS] : [...DEFAULT_ADULT_INTERESTS],
+      interests: [],   // he picks them (2026-10-11): all twelve picked for him made every suggestion show
       superpower: '',
       who
     };
@@ -3892,7 +3917,7 @@ const TreasureUp = (function () {
     const was = profileOf();
     const p = Object.assign(was, data, { upd: Date.now() });
     S.profile = p;
-    if (data.who) S.seasonWho = data.who;
+    if (data.who) { S.seasonWho = data.who; S.stagePin = null; }
     if (!S.profileXp) {
       S.profileXp = true;
       const rec = {}; payXp(rec, PROFILE_XP, 'Growth Profile Setup');
@@ -3904,7 +3929,7 @@ const TreasureUp = (function () {
 
   function profileSummaryHtml() {
     const p = profileOf();
-    return p.who === 'adult' ? `${esc(p.name || 'My profile')} · Best Self PRO` : `${esc(p.name || 'My profile')}${p.age ? ' · Age ' + p.age : ''} (${(p.interests || []).length} interests)`;
+    return p.who === 'adult' ? `${esc(p.name || 'My profile')} · Best Self PRO` : `${esc(p.name || 'My profile')}${profileAge(p) ? ' · Age ' + profileAge(p) : ''} (${(p.interests || []).length} interests)`;
   }
 
   function coachSuggestedIdeas(area) {
@@ -3930,8 +3955,18 @@ const TreasureUp = (function () {
         list.push({ icon: '💬', title: 'Encourage parents', step: 'Say a genuine thank you or compliment to Mom or Dad', n: 5 });
       }
       if (area === 'spiritual' || !area) {
-        if (prof.age === 11 || (prof.milestone && prof.milestone.includes('Deacon'))) {
-          list.push({ icon: '🕊️', title: 'Priesthood prep (Age 11)', step: 'Learn one duty of a Deacon to get ready for turning 12', n: 1, ref: 'D&C 20:57' });
+        // The year he turns 12 (from his birthday), then the youth years (2026-10-11, written for review).
+        if (turning12(prof)) {
+          list.push({ icon: '🕊️', title: 'Getting ready for 12', step: 'Learn one thing a deacons quorum or Young Women class does, and ask someone who is 12 about it', n: 1, ref: 'D&C 20:57–59' });
+          list.push({ icon: '🏛️', title: 'Temple prep', step: 'Find one family name to take to the temple, or learn what happens at baptisms for the dead', n: 1, ref: 'D&C 128:15' });
+        }
+        if (prof.who === 'youth') {
+          list.push({ icon: '🤲', title: 'Serve with my quorum or class', step: 'Do one act of service with or for someone in my quorum or class', n: 1 });
+          list.push({ icon: '🏛️', title: 'Temple trip', step: 'Plan or go on a temple trip, or do 15 min of family history for it', n: 1, ref: 'D&C 128:15' });
+          list.push({ icon: '📘', title: 'For the Strength of Youth', step: 'Read one section of For the Strength of Youth and live one thing from it', n: 1 });
+          list.push({ icon: '🗣️', title: 'Youth theme', step: 'Say the youth theme from memory and think about one line of it', n: 2 });
+          list.push({ icon: '📖', title: 'Seminary ready', step: 'Read 10 min before school, the way seminary will', n: 5 });
+          list.push({ icon: '💬', title: 'Share my testimony', step: 'Tell someone one thing I know is true, at home or church', n: 1 });
         }
         if (ints.has('Scripture Adventures')) list.push({ icon: '📜', title: 'Scripture hero power', step: 'Read 1 chapter about Ammon or Captain Moroni', n: 5 });
         list.push({ icon: '🙏', title: 'Counsel in prayer', step: 'Pray morning and night and ask Heavenly Father for guidance', n: 7, ref: 'Alma 37:37' });
@@ -3953,6 +3988,9 @@ const TreasureUp = (function () {
         list.push({ icon: '💡', title: 'Deep work leverage', step: '90-minute distraction-free deep work sprint on top priority', n: 5 });
       }
     }
+    // Ones typed in by hand, and the superpower, for anyone (2026-10-11: the coach asked for both and used neither).
+    if (area === 'intellectual' || !area) for (const it of ints) if (!DEFAULT_KID_INTERESTS.includes(it) && !DEFAULT_ADULT_INTERESTS.includes(it)) list.push({ icon: '⭐', title: `Get better at ${it}`, step: `Practice ${it} for 20 minutes`, n: 3 });
+    if ((area === 'social' || !area) && prof.superpower) list.push({ icon: '⚡', title: `My strength: ${prof.superpower}`, step: 'Do one thing this week that uses it to help someone', n: 1 });
     if (!list.length && area && SEASON_IDEAS[area]) {
       return SEASON_IDEAS[area].map(x => ({ icon: areaOf(area).icon, title: x.t, step: x.s, n: x.n, ref: x.ref || '' }));
     }
@@ -4000,6 +4038,8 @@ const TreasureUp = (function () {
     ];
     const available = isKid ? allKidInts : allAdultInts;
     const selected = new Set(d.interests || []);
+    const [bornY, bornM] = d.born ? d.born.split('-').map(Number) : [0, 0], thisY = Number(dayKey().slice(0, 4));
+    const bornYears = Array.from({ length: 13 }, (_, i) => thisY - 6 - i);
 
     if (coachStep === 1) {
       return `<div class="sh-title">🧭 Growth Coach Setup</div>
@@ -4026,14 +4066,16 @@ const TreasureUp = (function () {
 
         ${isKid ? `
           <div class="sheet-group">
-            <label>How old are you? (Current Age)</label>
-            <div class="coach-chip-group">
-              ${[8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18].map(a => `<button type="button" class="coach-chip${d.age === a ? ' on' : ''}" data-coach-age="${a}">${a}</button>`).join('')}
+            <label>When is your birthday?</label>
+            <div style="display:flex;gap:6px">
+              <select class="field sheet-in" id="coachBornM" aria-label="Birthday month"><option value="">Month</option>${MONTHS.map((m, i) => `<option value="${i + 1}"${bornM === i + 1 ? ' selected' : ''}>${m}</option>`).join('')}</select>
+              <select class="field sheet-in" id="coachBornY" aria-label="Birthday year"><option value="">Year</option>${bornYears.map(y => `<option value="${y}"${bornY === y ? ' selected' : ''}>${y}</option>`).join('')}</select>
             </div>
-            ${d.age === 11 ? `
+            ${d.born ? `<p class="sh-small" id="coachStage">${esc(stageNote(d.born))}</p>` : ''}
+            ${turning12(d) ? `
               <div class="ev-row" style="background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.35);margin-top:6px">
-                <small style="color:var(--gold)">🌟 Age 11 Milestone</small>
-                <p style="color:#fde68a">Turning 12 soon! Preparing for the Aaronic Priesthood (Deacons Quorum) & your Temple Recommend.</p>
+                <small style="color:var(--gold)">🌟 Turning 12 this year</small>
+                <p style="color:#fde68a">Getting ready for the Aaronic Priesthood or Young Women, the temple, and the youth program in January.</p>
               </div>
             ` : ''}
           </div>
@@ -4361,9 +4403,8 @@ const TreasureUp = (function () {
   // that changes each day; private unless shared; a row on Today; THANKS_XP once a day, since 2026-10-07).
   // A day's is an impression of its own kind (kind: 'grateful', its lines in
   // items), so it's kept, synced and shared like one and shows with his
-  // impressions in the Season tab. It counts in "n of m done", pays nothing
-  // (like a Season tick: nobody is paid to be grateful), and doesn't keep the
-  // day for the streak.
+  // impressions in the Season tab. It counts in "n of m done" and doesn't keep
+  // the day for the streak.
   const GRATEFUL_QS = [
     'Who helped you today?', 'What made you smile today?', 'Something small you’d miss if it were gone?',
     'Someone in your family you’re thankful for, and why?', 'WEEK', 'A prayer that was answered, big or small?',
@@ -9394,9 +9435,9 @@ const TreasureUp = (function () {
   // few times a decade), so the family's run together and January's starts
   // with the Children and Youth year. Each goal's small steps are habits ticked on Today; a
   // weekend check-in (Progressing, I need help, Try something different, the
-  // guidebook's Act step) pays 20 XP and the Season's reflection 150. Blake
-  // chose XP for check-ins only: a tick pays nothing, so nobody is paid to
-  // pray. Some goals are private ("allowing the child or youth to keep some
+  // guidebook's Act step) pays 20 XP and the Season's reflection 150. A tick
+  // pays GOAL_TICK_XP (5), once a step a day: a small reward for doing it
+  // (2026-10-11, "some kind of rewardable tics"), not a price on prayer. Some goals are private ("allowing the child or youth to keep some
   // goals between himself or herself and the Lord", the program's FAQ): the
   // family sees a 🔒 and its progress, not its words. Impressions are his
   // unless he shares one with his parents. Both live in his saved progress,
@@ -9495,7 +9536,8 @@ const TreasureUp = (function () {
     if (liveGoals(seasonRec(cur.id)).length && !seasonRec(cur.id).reflected && dayDiff(today, cur.end) < 14) return cur;
     return null;
   }
-  const seasonWho = () => S.seasonWho || (F && F.role !== 'kid' ? 'adult' : 'youth');
+  // A stage picked by hand in the Season holds for the rest of that year; otherwise the birthday decides.
+  const seasonWho = () => S.seasonWho === 'adult' ? 'adult' : S.stagePin && S.stagePin.y === dayKey().slice(0, 4) ? S.stagePin.who : S.profile && S.profile.born ? stageFrom(S.profile.born) : S.seasonWho || (F && F.role !== 'kid' ? 'adult' : 'youth');
   const weekOfSeason = (s, k) => Math.min(s.weeks, Math.max(1, Math.floor(dayDiff(s.start, k) / 7) + 1));
   // A tick is a day's time (+) or its undoing (−), so two devices' ticks merge
   // by the later one. A Season long gone keeps each step's days as one line
@@ -10446,7 +10488,7 @@ const TreasureUp = (function () {
     const t = e.target;
     if (nbClick(t)) return true;
     const w = t.closest('[data-season-who]');
-    if (w) { S.seasonWho = w.dataset.seasonWho; save(); refreshHome(); openSeason(liveGoals(seasonRec(seasonNow().id)).length ? 'home' : 'discover'); return true; }
+    if (w) { S.seasonWho = w.dataset.seasonWho; S.stagePin = w.dataset.seasonWho === 'adult' ? null : { who: w.dataset.seasonWho, y: dayKey().slice(0, 4) }; save(); refreshHome(); openSeason(liveGoals(seasonRec(seasonNow().id)).length ? 'home' : 'discover'); return true; }
     const a = t.closest('[data-season-area]');
     if (a) { seasonArea = a.dataset.seasonArea; seasonDraw(); return true; }
     const cip = t.closest('[data-coach-idea-pick]');
@@ -16806,7 +16848,7 @@ const TreasureUp = (function () {
     M.impressions = newerById(R.impressions, L.impressions);
     M.marks = newerById(R.marks, L.marks);
     // Settings: one changed on this device since they last met wins; else the family's.
-    for (const key of ['seasonWho', 'proMode', 'stillPrefs', 'sayPos', 'profile', 'studyMode']) {
+    for (const key of ['seasonWho', 'stagePin', 'proMode', 'stillPrefs', 'sayPos', 'profile', 'studyMode']) {
       if (JSON.stringify(L[key]) !== JSON.stringify(B[key]) && L[key] !== undefined) M[key] = L[key];
       else if (M[key] === undefined && L[key] !== undefined) M[key] = L[key];
     }
@@ -17227,11 +17269,11 @@ const TreasureUp = (function () {
       ${notes.map(n => `<p class="kc-note">✏️ “${esc(n.text)}”<small>${esc(n.hook || '')}</small></p>`).join('')}
       ${kidSeasonHtml(st)}
       ${(() => {
-        const p = st.profile || (name.toLowerCase().includes('javan') ? { age: 11, milestone: 'Preparing for Deacons Quorum & Temple at 12', interests: DEFAULT_KID_INTERESTS } : null);
+        const p = st.profile || null;   // his own, from the coach; nothing guessed from a name
         if (!p) return '';
         return `<div class="hub-card" style="margin-top:8px;padding:8px 10px;background:rgba(255,255,255,.04);border-radius:10px">
           <div style="display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:11px;font-weight:800;text-transform:uppercase;color:#38bdf8">🌱 Growth Profile${p.age ? ' · Age ' + p.age : ''}</span>
+            <span style="font-size:11px;font-weight:800;text-transform:uppercase;color:#38bdf8">🌱 Growth Profile${profileAge(p) ? ' · Age ' + profileAge(p) : ''}</span>
             <button type="button" class="bp-edit-btn" data-hub-profile="${esc(name)}">Coach ✎</button>
           </div>
           <p style="margin:2px 0 4px;font-size:12px;color:#fde68a">${esc(p.milestone || '')}</p>
@@ -19844,15 +19886,9 @@ const TreasureUp = (function () {
       const cw = e.target.closest('[data-coach-who]');
       if (cw) {
         coachDraft.who = cw.dataset.coachWho;
-        if (coachDraft.who === 'adult') coachDraft.interests = [...DEFAULT_ADULT_INTERESTS];
-        else if (!coachDraft.interests || coachDraft.interests.length < 5) coachDraft.interests = [...DEFAULT_KID_INTERESTS];
-        openSheet(coachWalkthroughSheetHtml());
-        return;
-      }
-      const ca = e.target.closest('[data-coach-age]');
-      if (ca) {
-        coachDraft.age = Number(ca.dataset.coachAge);
-        if (coachDraft.age === 11) coachDraft.milestone = 'Preparing for Deacons Quorum & Temple at 12';
+        // Switching to or from adult clears the other list's picks; nothing is picked for anyone (2026-10-11).
+        const list = (coachDraft.who === 'adult' ? DEFAULT_ADULT_INTERESTS : DEFAULT_KID_INTERESTS);
+        coachDraft.interests = (coachDraft.interests || []).filter(x => list.includes(x) || ![...DEFAULT_KID_INTERESTS, ...DEFAULT_ADULT_INTERESTS].includes(x));
         openSheet(coachWalkthroughSheetHtml());
         return;
       }
@@ -19866,7 +19902,7 @@ const TreasureUp = (function () {
         return;
       }
       if (e.target.closest('[data-coach-add-custom]')) {
-        const val = $('coachCustomInt') ? $('coachCustomInt').value.trim() : '';
+        const val = $('coachCustomInt') ? $('coachCustomInt').value.trim().replace(/\|/g, '/') : '';   // a | would split the idea's button data
         if (val && !(coachDraft.interests || []).includes(val)) {
           (coachDraft.interests || (coachDraft.interests = [])).push(val);
         }
@@ -20127,6 +20163,18 @@ const TreasureUp = (function () {
       if (e.target && e.target.classList.contains('bp-textarea')) {
         fitTextarea(e.target);
       }
+    });
+    // The coach's birthday: month and year give the stage (Primary, then Youth in January of the year he turns 12).
+    $('appSheet').addEventListener('change', e => {
+      if (!coachDraft || !e.target.closest('#coachBornM, #coachBornY')) return;
+      const m = Number($('coachBornM').value), y = Number($('coachBornY').value);
+      if (!m || !y) return;
+      if ($('coachName')) coachDraft.name = $('coachName').value.trim() || coachDraft.name;
+      coachDraft.born = `${y}-${String(m).padStart(2, '0')}`;
+      coachDraft.age = ageFrom(coachDraft.born);
+      if (coachDraft.who !== 'adult') coachDraft.who = stageFrom(coachDraft.born);
+      if (turning12(coachDraft) && !coachDraft.milestone) coachDraft.milestone = 'Getting ready for 12: the priesthood or Young Women, and the temple';
+      openSheet(coachWalkthroughSheetHtml());
     });
     // An impression, from the end of a chapter in the reader.
     document.addEventListener('click', e => {
