@@ -12,6 +12,7 @@ changing when the week does.
 | `dates.test.mjs` | The week that crosses New Year opens on its Monday and runs to Sunday, both ways its dates can be printed (with a test copy of `content/weeks.js`). `tools/week-dates.mjs` checks the tools' copy of the rule. |
 | `week.test.mjs` | The live week on one device: Monday to Saturday each through Today's study, XP up and the day kept; Sunday opens; Sunday with nothing read is still kept by “We played!”; a chapter split over two days opens its second day from the reader's “Mark it read in its lesson”. |
 | `sunday.test.mjs` | Sunday's Today opens with Be still and the Morning Council at the top of its own list, like every other day: the Council opens, saves and pays 15 XP once (saved again, still once), its to-dos in Goal Achievements and Return & Report under the list; neither keeps the day nor holds it back (a family game still keeps it); a youth's and a grown-up's titles; neither in Family Study or on Sunday seen from Saturday; `mergeProgress` keeps a Sunday Council. |
+| `talks.test.mjs` | A conference talk as cards, with the test's own `content/sunday.js`: without its own cards, the title, a card a point, the speaker's words and the questions; to the end, studied for 20 XP once (played again, nothing); with its own cards approved, Grown-ups and Kids on the first card, the talk's quote with the card it goes with, Back, the question (25 XP right the first time), the kids' cards, and the whole talk on one page from the last card; a grown-up's Today's study plays the day's talk as its cards and question, then the talk is studied and the day's conference step done. |
 | `coach.test.mjs` | Try my own: off at first; turned on in the Parent hub, a Bible chapter opens it with each verse's KJV, its Hebrew word by word and a box; the hints (a name left out, KJV English, a verse much shorter); Save keeps it on the device and out of his progress, through a reload; the chapter marked, Show mine under the verses; a chapter whose words don't load still opens; off again, the reader exactly as before. With its own chapters, so it needs no build. |
 | `growth.test.mjs` | The Growth Coach: a birthday, not an age (April 2015 in October 2026 is 11, Primary until January 2027, with the turning-12 note); no interests picked for him; one typed in and his superpower become Season ideas, and the turning-12 ones; in January 2027 the youth ideas, with nothing changed by hand. |
 | `reader.test.mjs` | The reader's buttons: a Book of Mormon chapter has no KJV button, keeps Notes and has Changes, 1830 and JS Papers (in that order), in one row that fits, a 320px phone too; Changes on shows 1 Nephi 11:18's 1837 change, marked and credited; 1830 on shows 11:18's 1830 line with “which” pink and ‸ before “God”, “whom” and “the Son of” underlined in today's text, and its p. 25 link to the Joseph Smith Papers, and turned off leaves the chapter exactly as before; JS Papers links to the Joseph Smith Papers in a new tab (the data checks run when the deploy's files are built; stand-ins otherwise); a Bible chapter keeps its KJV and has none of them; the Doctrine and Covenants has Notes and no KJV. |
@@ -29,7 +30,7 @@ changing when the week does.
 cd tests
 npm install                 # once: Playwright, the Firebase SDK, the Firebase tools
 npx playwright install chromium
-node run.mjs                # smoke, dates, merge, week, sunday, keep, coach, growth, pro, reader, questions and offline (about 10 minutes)
+node run.mjs                # smoke, dates, merge, week, sunday, talks, keep, coach, growth, pro, reader, questions and offline (about 10 minutes)
 node run.mjs week           # one test
 npm run test:family         # the family and games tests, under the emulators (needs Java 11 or later)
 ```
@@ -41,7 +42,7 @@ app uses the test project's Firebase settings, pointed at the emulators
 its storage; `window.__skip(ms)` moves it on (Be still's minutes).
 
 Every pull request runs all of them (`.github/workflows/tests.yml`); the deploy
-runs `node run.mjs` (smoke, dates, merge, week, sunday, keep, coach, growth, pro, reader, questions and offline) after building the chapters (`pages.yml`).
+runs `node run.mjs` (smoke, dates, merge, week, sunday, talks, keep, coach, growth, pro, reader, questions and offline) after building the chapters (`pages.yml`).
 
 Some checks read the chapters, which only the deploy builds
 (`tools/build-reading.mjs` writes `content/reading.js` and `content/library.js`,

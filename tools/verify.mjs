@@ -1528,6 +1528,63 @@ if (sunday) {
       }
       sundayCounts.talks++;
     }
+    // A talk as cards (2026-10-11: "Slide decks or something. Easier to
+    // digest"; "Both, two levels"; a question at the end): the conference's
+    // `slides`, one for a talk, by its id, approved on its own. Grown-ups'
+    // cards and kids' cards, each an idea in a few lines with, if it goes
+    // with one, the talk's quote (`quote`, its number in the talk's quotes);
+    // a question to talk about for each, and one to answer. In our own words:
+    // with --online, no 8 words in a row from the talk outside a “quote”, and
+    // what's quoted is on its page.
+    if (conf.slides !== undefined && !Array.isArray(conf.slides)) fail(where, 'slides must be a list');
+    const slideIds = new Set();
+    for (const x of Array.isArray(conf.slides) ? conf.slides : []) {
+      const t = x && talks.find(y => y && y.id === x.id), sw = where + ' · cards for ' + ((x && x.id) || '?');
+      if (!t) { fail(sw, 'id must be one of the conference’s talks'); continue; }
+      if (slideIds.has(x.id)) fail(sw, 'a talk has one set of cards');
+      slideIds.add(x.id);
+      const page = online ? pages.get(t.url) : null, wordsOf = v => String(v || '').toLowerCase().replace(/[‘’]/g, "'").match(/[a-z0-9']+/g) || [];
+      const grams = page ? (() => { const w = wordsOf(page), g = new Set(); for (let i = 0; i + 8 <= w.length; i++) g.add(w.slice(i, i + 8).join(' ')); return g; })() : null;
+      const ours = (label, v, grownUp) => {
+        ownWords(sw, label, v, grownUp);
+        for (const q of (String(v || '').match(/“[^”]*”/g) || []).map(q => q.slice(1, -1))) {
+          if (words(q) > 15) fail(sw, `${label}: “${q}” is ${words(q)} words; a quote is 15 at most`);
+          if (page && onPage(t.url, q) === false && !/\d+:\d+/.test(v)) fail(sw, `${label}: “${q}” is not on ${t.url}`);
+        }
+        if (grams) for (const part of String(v || '').split(/“[^”]*”/)) {
+          const w = wordsOf(part);
+          for (let i = 0; i + 8 <= w.length; i++) { const g = w.slice(i, i + 8).join(' '); if (grams.has(g)) { fail(sw, `${label}: “${g}…” is the talk’s own words; say it in ours, or quote it`); break; } }
+        }
+      };
+      const deck = (list, name, min, max, lo, hi, grownUp) => {
+        if (!Array.isArray(list) || list.length < min || list.length > max) return fail(sw, `${name}: ${min} to ${max} cards`);
+        list.forEach((c, k) => {
+          const at = `${name} ${k + 1}`;
+          if (!c || typeof c.h !== 'string' || !c.h.trim() || c.h.length > 60) fail(sw, `${at}: h, a heading of 60 characters or fewer`);
+          if (words(c && c.text) < lo || words(c && c.text) > hi) fail(sw, `${at}: text is ${words(c && c.text)} words (${lo} to ${hi})`);
+          if (c && c.quote !== undefined && !(Number.isInteger(c.quote) && c.quote >= 0 && c.quote < quotesOf(t).length)) fail(sw, `${at}: quote must be the number of one of the talk’s quotes (0 to ${quotesOf(t).length - 1})`);
+          if (c && c.ref !== undefined) {
+            const m = new RegExp(`^(${linkable}) (\\d+)(?::(\\d+)(?:[–-](\\d+))?)?$`).exec(c.ref || '');
+            if (!m || !refExists(m[1], m[2], m[3]) || (m[4] && !refExists(m[1], m[2], m[4]))) fail(sw, `${at}: ref "${c.ref}" isn't a verse or chapter of the standard works`);
+          }
+          if (c) { ours(at + ' heading', c.h, grownUp); ours(at, c.text, grownUp); }
+        });
+      };
+      const quotesOf = y => Array.isArray(y.quotes) ? y.quotes : [];
+      deck(x.cards, 'card', 3, 6, 12, 50, true);
+      deck(x.kids, 'kids card', 3, 5, 8, 35, false);
+      for (const [f, grownUp] of [['ask', true], ['askKids', false]]) {
+        if (typeof x[f] !== 'string' || !/\?$/.test(x[f].trim()) || words(x[f]) > 30) fail(sw, `${f}: a question to talk about, 30 words or fewer, ending with “?”`);
+        else ours(f, x[f], grownUp);
+      }
+      const q = x.quiz;
+      if (!q || typeof q.q !== 'string' || !/\?$/.test(q.q.trim())) fail(sw, 'quiz: { q, right, wrong, why }, q ending with “?”');
+      else {
+        if (!q.right || !Array.isArray(q.wrong) || q.wrong.length < 2 || q.wrong.length > 3 || q.wrong.includes(q.right)) fail(sw, 'quiz: right and 2 or 3 different wrong answers');
+        if (words(q.why) < 5 || words(q.why) > 40) fail(sw, `quiz: why is ${words(q.why)} words (5 to 40)`);
+        for (const f of ['q', 'right', 'why']) ours('quiz ' + f, q[f], false);
+      }
+    }
   }
   weekLabel = '';
 }

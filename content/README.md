@@ -614,6 +614,30 @@ a talk a day from `from`. Each talk:
   talk over, 30 words at most each) and `deep`, a deep dive as an insight
   card's (`paras`, `find`), its quotes found on the talk's page.
 
+A talk opens as cards to swipe through (2026-10-11: "turn these conference
+sections in to more readable content. Slide decks or something. Easier to
+digest"). Until its own cards are approved, the app makes them from the talk
+as it is: what it's about, a card a point, the speaker's words, then the
+questions and scriptures. Its own cards are the conference's **`slides`**, one
+for a talk, approved on their own in developer mode (so approving them never
+touches the talk's approval): `{ id, cards, ask, kids, askKids, quiz }`.
+
+- `id`: the talk's id.
+- `cards`, for grown-ups: 3 to 6, an idea each in the talk's order, `{ h, text,
+  quote?, ref? }`: `h` 60 characters at most, `text` 12 to 50 words. `quote`
+  is the number (0 is the first) of the talk's quote that goes with the card,
+  shown big under it. `ref` is a scripture the card rests on, one the talk uses.
+- `kids`: 3 to 5 cards the same way, `text` 8 to 35 words, for ages 8–12, with
+  no KJV English outside a quote. The app starts a youth or child on these and a
+  grown-up on `cards`; Grown-ups and Kids switch on the first card.
+- `ask` and `askKids`: a question each to talk about, 30 words at most.
+- `quiz`: one question, `{ q, right, wrong, why }`, answered on the cards of
+  both levels, with 2 or 3 `wrong` answers and `why` 5 to 40 words. It pays the bonus XP
+  once; getting to the end of the cards counts the talk as studied.
+- In our own words: with `--online`, no 8 words in a row from the talk outside
+  a “quote”, and a quote not of a scripture found on its page. Nothing beyond
+  what the talk says.
+
 Which talk each Sunday's class does is picked in the app by anyone in the
 family (2026-10-03: "You pick it"), one for elders quorum and one for
 Relief Society, kept with the family; until it's picked the app suggests the
