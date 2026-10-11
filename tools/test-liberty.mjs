@@ -1095,5 +1095,16 @@ console.log('Pictures');
   ok(!stale.length, `every WebP was made from its picture as it is now${stale.length ? ' (run python3 tools/liberty-webp.py: ' + stale.join(', ') + ')' : ''}`);
 }
 
+// The offline copy keeps a versioned file for good, so a file changed under the same ?v= never reaches a device that has
+// played: an old sim.js beside a new ui.js broke the game in October 2026.
+console.log('Versions · the offline copy');
+{
+  const { check } = await import('./liberty-versions.mjs');
+  const { missing, changed, unnoted } = check();
+  ok(!missing.length, `every versioned file the game asks for is there${missing.length ? ' (missing: ' + missing.join(', ') + ')' : ''}`);
+  ok(!changed.length, `no file changed without a new ?v=${changed.length ? ' (give these a new version: ' + changed.join(', ') + ')' : ''}`);
+  ok(!unnoted.length, `every versioned file is noted in liberty/versions.json${unnoted.length ? ' (run node tools/liberty-versions.mjs: ' + unnoted.slice(0, 6).join(', ') + (unnoted.length > 6 ? '…' : '') + ')' : ''}`);
+}
+
 console.log(failed ? `\n${failed} failed` : '\nall passed');
 process.exit(failed ? 1 : 0);

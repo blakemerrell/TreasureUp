@@ -279,7 +279,13 @@ on their address are kept until a newer version replaces them. GitHub Pages
 on its own lets a browser keep a file only 10 minutes. After adding or
 changing a picture in `liberty/assets/`, run `python3 tools/liberty-webp.py`
 (Pillow), which makes its WebP; `node tools/test-liberty.mjs` fails if any
-WebP is missing or was made from an older picture. `?nosw=1` on the address
+WebP is missing or was made from an older picture. Because a versioned file is
+kept for good, a file changed under the same `?v=` never reaches a device that
+has played, and an old `sim.js` beside a new `ui.js` breaks the game (it did,
+in October 2026). So after changing a file the game asks for with `?v=`, raise
+its number and run `node tools/liberty-versions.mjs`, which notes each
+address's file in `liberty/versions.json` and refuses one changed under an
+address it already had; `node tools/test-liberty.mjs` fails on either. `?nosw=1` on the address
 leaves the offline copy out; to take it off every device, publish an `sw.js`
 whose install handler unregisters it.
 

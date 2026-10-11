@@ -85,6 +85,13 @@ Blake asks you for features directly. Build them, but never on `main`:
 7. **Quotes are exact.** Words in quotation marks are the speaker's exact
    words, with the source. Otherwise say it in your own words, without
    quotation marks.
+8. **In Title of Liberty, a changed file gets a new `?v=`.** The game keeps
+   an offline copy of every file it asks for with `?v=` on its address and
+   never asks for that address again. Change `sim.js`, a picture or any
+   such file, and raise its number where it's asked for (`sim.js?v=31` in
+   `liberty/index.html` becomes `sim.js?v=32`), or devices that have played
+   keep the old file beside the new ones and the game breaks. Then run
+   `node tools/liberty-versions.mjs` and `node tools/test-liberty.mjs`.
 
 ## House style
 
