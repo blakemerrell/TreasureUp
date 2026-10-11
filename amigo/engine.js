@@ -47,7 +47,7 @@
     return save.courses[id] || (save.courses[id] = { done: {}, mem: {}, streak: { last: null, count: 0 }, xp: 0 });
   }
   // The lessons of a course, in order. `units` may leave some out (the live
-  // app shows a Tagalog unit only once Blake has checked it).
+  // app shows a Tagalog unit only once the owner has checked it).
   function path(course, units = course.units) {
     return units.flatMap(u => Array.from({ length: LESSONS_PER_UNIT }, (_, n) => ({ unit: u, n, key: u.id + ':' + (n + 1) })));
   }
@@ -224,7 +224,7 @@
       .map(([id], i) => { const { u, w } = byId.get(id); return Object.assign((i % 2 ? pickStep : seeStep)(course, u, w, seed + 'r' + i), { review: true }); });
     return [...due.slice(0, 2), ...steps, ...due.slice(2)];
   }
-  // A words course as the live app shows it: only words Blake approved (their
+  // A words course as the live app shows it: only words the owner approved (their
   // fingerprint matches, which tools/wika-words.mjs works out), and only weeks
   // with enough of them for the lessons. The test site shows them all, marked.
   function liveWords(course) {

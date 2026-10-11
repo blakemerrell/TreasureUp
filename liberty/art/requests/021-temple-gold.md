@@ -1,13 +1,13 @@
 # 021 · The temple, after the manner of Solomon's: stone and gold, lit, with its lampstand
 
-**Replaced in request 023:** Blake found the porch tower odd, so the temple now has Solomon's porch lower than the house, with its two great pillars, and no tower.
+**Replaced in request 023:** The owner found the porch tower odd, so the temple now has Solomon's porch lower than the house, with its two great pillars, and no tower.
 
-**Status: done.** Made with Gemini through Blake's n8n backup (executions
+**Status: done.** Made with Gemini through the owner's n8n backup (executions
 13477–13479, three billed to the Merit3D Gemini account). Two layouts were
 painted from the temple of request 018 set on a tall magenta canvas: one
 with the porch tower at the end of the long house, one with the house across
 the back and an open court in front. Shown in the game at their true size,
-Blake chose the first, touched up: the porch tower raised about three times
+The owner chose the first, touched up: the porch tower raised about three times
 higher and the lampstand made twice as big (edited from the first painting
 padded with magenta above, so the tower had room). Cut out, de-spilled at
 the outline only, scaled to 150 px a square of plot (4 × 4), with the soft
@@ -20,7 +20,7 @@ its plot looked empty; the new one stands on its own 4 × 4.
 
 ## What it's for
 
-Blake: "Let's make the temple more to the dimensions in the Bible and make
+The owner: "Let's make the temple more to the dimensions in the Bible and make
 the whole thing more gold with seriphs, huge light lamp stand, alters, etc
 ... Golden outside to make it really standout?" Decided with him, one
 question at a time:

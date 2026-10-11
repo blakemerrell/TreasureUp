@@ -605,8 +605,8 @@ console.log('Free battle · build a city, tear down the war camp');
 }
 
 // ------------------------------------------------------------ out of the wilderness
-// ------------------------------------------------------------ Blake's gameplay review: fighting on the way, falling back, the levels
-console.log('Fighting on the way · Blake\'s gameplay review');
+// ------------------------------------------------------------ the owner's gameplay review: fighting on the way, falling back, the levels
+console.log('Fighting on the way · the owner\'s gameplay review');
 {
   const FB = require('../liberty/missions.js').FREE_BATTLE;
   FB.level = 'normal'; FB.side = 'freemen'; FB.captain = Object.keys(D.CAPTAINS.freemen)[0];
@@ -658,7 +658,7 @@ console.log('Fighting on the way · Blake\'s gameplay review');
     'the King-men\'s ladder-works makes swords and cimeters: +2 for warriors who fight up close (the Nephites\' steel gives +3)');
 }
 
-console.log('Defensive Carts & Fighting Workers · Blake\'s gameplay evolution');
+console.log('Defensive Carts & Fighting Workers · the owner\'s gameplay evolution');
 {
   const W = new S.World();
   const man = (type, team, x, y) => W.addUnit(type, team, x, y);
@@ -911,8 +911,8 @@ console.log('Out of the Wilderness · build a city, hold off the raids');
   }
 }
 
-// ------------------------------------------------------------ saving a game (Blake: "prevent us accidentally exiting the game ... we'll lose our progress")
-console.log('Saving a game · Blake\'s "we\'ll lose our progress"');
+// ------------------------------------------------------------ saving a game (the owner: "prevent us accidentally exiting the game ... we'll lose our progress")
+console.log('Saving a game · the owner\'s "we\'ll lose our progress"');
 {
   // One process plays a game, saving at 3 minutes and again at 5; a fresh one (a page opened again) loads the first save and plays on
   // to 5 minutes. The two must match to the last arrow: the save holds everything the game needs.

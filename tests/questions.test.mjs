@@ -37,7 +37,7 @@ const APPROVED = [
   q('fx-bom', 'bom', 'friend', 'Fixture question about the Book of Mormon?'),
   q('fx-history', 'history', 'school', 'Fixture question about Church history?', { more: [] })
 ];
-const DRAFT = q('fx-draft', 'bom', 'online', 'Fixture draft nobody approved?', { approve: false, review: ['Fixture note for Blake: check the second source.'],
+const DRAFT = q('fx-draft', 'bom', 'online', 'Fixture draft nobody approved?', { approve: false, review: ['Fixture note for the owner: check the second source.'],
   more: [{ t: 'Fixture Church History Matters episode', kind: 'podcast', u: 'https://scripturecentral.org/podcast/fixture' }] });
 
 const built = f => fs.existsSync(path.join(ROOT, f));

@@ -1,8 +1,8 @@
 # Game start pictures
 
-The pictures at the top of each game's start screen (Blake, 2026-10-04:
+The pictures at the top of each game's start screen (2026-10-04:
 "better start screens with art. Like we have with snake"). Painted by Gemini
-(`gemini-3.1-flash-image-preview`) through Blake's n8n workflow **Title of
+(`gemini-3.1-flash-image-preview`) through the owner's n8n workflow **Title of
 Liberty — Gemini Art (backup)**, the same way as Wilderness Snake's and Look and
 Live's (`arcade/README.md`): each is an edit of a Title of Liberty picture
 (`liberty/assets/`), so they share its painted style. Each picture is billed to

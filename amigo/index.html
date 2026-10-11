@@ -216,7 +216,7 @@
   .chart button small { color: var(--soft); font-size: 11px; line-height: 1.2; padding: 0 2px; }
   .chart.wide { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
   .baylist button:disabled { opacity: .45; }
-  /* The Tagalog list for Blake to check (test site) */
+  /* The Tagalog list for the owner to check (test site) */
   .check { display: grid; gap: 6px; }
   .check .row { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; display: grid; gap: 2px; }
   .check .row b { font-size: 16px; } .check .row span { color: var(--soft); font-size: 13px; }
@@ -244,10 +244,10 @@
   const E = window.AMIGO_ENGINE, BAY = window.AMIGO_BAYBAYIN, ALEF = window.AMIGO_ALEFBET, GRK = window.AMIGO_GREEK, COURSES = window.AMIGO_COURSES;
   const app = document.getElementById('app');
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  // The test site shows the Tagalog Blake hasn't checked yet, marked; the live app waits for his check.
+  // The test site shows the Tagalog the owner hasn't checked yet, marked; the live app waits for the owner's check.
   const TEST_SITE = /\/TreasureUp-test\//.test(location.pathname);
   const ACCENT = { es: 'var(--es)', tl: 'var(--tl)', tl2: 'var(--tl2)', bay: 'var(--bay)', he: 'var(--he)', el: 'var(--el)', alef: 'var(--alef)', greek: 'var(--greek)' };
-  // The live app has only the Hebrew and Greek words Blake approved (their
+  // The live app has only the Hebrew and Greek words the owner approved (their
   // fingerprint matching), and a week only with enough of them; the test site
   // has them all, marked.
   for (const cid of ['he', 'el']) if (COURSES[cid] && !TEST_SITE) COURSES[cid] = E.liveWords(COURSES[cid]);
@@ -277,7 +277,7 @@
   const questSave = qid => save[qid] || (save[qid] = { done: {}, xp: 0 });
   const baySave = () => questSave('bay');
 
-  // What shows: all the Spanish; the Tagalog Blake has checked (all of it on the test site).
+  // What shows: all the Spanish; the Tagalog the owner has checked (all of it on the test site).
   const shows = x => !!x && (TEST_SITE || !!x.checked);
   const unitsOf = C => C.id === 'tl' ? C.units.filter(shows) : C.units;
   const notChecked = x => TEST_SITE && !x.checked;
@@ -403,7 +403,7 @@
     try { q = new URLSearchParams(location.search); } catch (e) { return; }
     const c = q.get('course'), k = q.get('quest');
     if (c && COURSES[c]) Object.assign(state, { view: 'course', cid: c });
-    else if (k && QUESTS[k]) Object.assign(state, { view: 'quest', qid: k, bayText: k === 'bay' ? 'Tatay' : 'Javan' });
+    else if (k && QUESTS[k]) Object.assign(state, { view: 'quest', qid: k, bayText: k === 'bay' ? 'Tatay' : 'David' });
   })();
   if (window.AMIGO_TEST) window.AMIGO_TEST.state = state;          // the browser test reads the lesson from here
   function go(view, extra) {
@@ -751,7 +751,7 @@
         ${notChecked(TL.baybayin) ? '<p class="foot-note"><span class="chip warn">Not checked yet</span> The reading words.</p>' : ''}`;
     } else if (tab === 'write') {
       const r = BAY.spell(state.bayText), quick = shows(TL.tatay) ? TL.tatay.words.map(w => w[0]) : ['Tatay', 'Nanay'];
-      body = `<label class="note" for="bayIn">Type a name or a message the way it sounds (Blake → Bleyk).</label>
+      body = `<label class="note" for="bayIn">Type a name or a message the way it sounds (Kate → Keyt).</label>
         <input id="bayIn" class="field" value="${esc(state.bayText)}" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="60">
         <div class="bay-out" lang="tl" id="bayOut">${esc(r.text) || '&nbsp;'}</div>
         <div class="bay-parts" id="bayParts">${r.parts.map(p => `<span>${esc(p)}</span>`).join('')}</div>
@@ -775,8 +775,8 @@
     const nextN = M.LESSONS.findIndex(l => !b.done[l.id]), he = qid === 'alef';
     const rd = reader(C), anyRec = AUDIO[C.id] && Object.keys(AUDIO[C.id]).length;
     const voiceNote = rd || anyRec ? '' : `<p class="novoice">This phone has no ${LANG_NAME[Q.lang]} voice yet, so the letters can’t be heard here. The recordings are coming.</p>`;
-    const fact = `<p class="fact">💡 ${he ? `Your name is Hebrew! ${native('יָוָן', 'he')} (Genesis 10:2), Yavan: Javan was Noah’s grandson, and his name became the Old Testament’s name for Greece.`
-      : `Your name is in the Old Testament: ${native('יָוָן', 'he')}, Javan (Genesis 10:2), is its name for Greece. This is Javan’s alphabet.`}</p>`;
+    const fact = `<p class="fact">💡 ${he ? `Javan (${native('יָוָן', 'he')}, Yavan, Genesis 10:2) was Noah’s grandson, and his name became the Old Testament’s name for Greece.`
+      : `The Old Testament’s name for Greece is ${native('יָוָן', 'he')}, Javan (Genesis 10:2), after a grandson of Noah: the land these letters come from.`}</p>`;
     let body = '';
     if (tab === 'learn') {
       body = `${fact}<p class="note">${he ? 'Hebrew reads right to left. Its letters are consonants; the vowels are dots and dashes under them.' : 'The New Testament was first written in these letters. Many look like ours.'} Each lesson opens once the one before it is done.</p>
@@ -795,7 +795,7 @@
         <p class="foot-note">${he ? 'It’s approximate: Hebrew writes a name from another language by its sound, and there’s more than one way to do it. A Bible name is spelled the Bible’s way.'
           : 'It’s approximate: Greek writes a name from another language by its sound.'}</p>
         <button class="go ghost" data-copy>Copy it</button>
-        <div class="mini">${['Javan', 'Blake', 'Mom', 'Dad'].map(w => `<button class="word" data-bay-word="${esc(w)}"><b>${esc(w)}</b></button>`).join('')}</div>`;
+        <div class="mini">${['Mom', 'Dad', 'David', 'Sarah'].map(w => `<button class="word" data-bay-word="${esc(w)}"><b>${esc(w)}</b></button>`).join('')}</div>`;
     } else {
       const cell = (glyph, name, sound, said) => `<button data-say-q="${esc(said)}" aria-label="${esc(name)}"><b class="${sc.cls}" lang="${Q.lang}">${esc(glyph)}</b><small>${esc(name)}</small><small>${esc(sound)}</small></button>`;
       body = he ? `<p class="note">Right to left: א is the first letter. Tap a letter to hear its name.</p>${voiceNote}
@@ -813,7 +813,7 @@
       </div>`;
   }
 
-  // ------------------------------------------------------------ the Tagalog, for Blake to check (test site)
+  // ------------------------------------------------------------ the Tagalog, for the owner to check (test site)
   function checkPage() {
     const row = (t, en, extra) => `<div class="row"><b lang="tl">${esc(t)}</b><span>${esc(en)}${extra ? ' · ' + esc(extra) : ''}</span></div>`;
     const status = x => x.checked ? `<span class="chip">✓ Checked ${esc(x.checked)}</span>` : '<span class="chip warn">Not checked yet</span>';
@@ -854,7 +854,7 @@
     const d = b.dataset, r = state.run;
     if (d.course) return go('course', { cid: d.course });
     if (d.home != null) return go('home');
-    if (d.quest) return go('quest', { qid: d.quest, bayTab: 'learn', bayText: d.quest === 'bay' ? 'Tatay' : 'Javan' });
+    if (d.quest) return go('quest', { qid: d.quest, bayTab: 'learn', bayText: d.quest === 'bay' ? 'Tatay' : 'David' });
     if (d.sayQ) return speak(d.sayQ, COURSES[QUESTS[state.qid].course]);
     if (d.check != null) return go('check');
     if (d.tab) { state.bayTab = d.tab; return render(); }

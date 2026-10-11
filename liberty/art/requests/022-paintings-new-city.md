@@ -1,8 +1,8 @@
 # 022 · The opening paintings: the new palace and the gold temple in the city
 
-**Replaced in request 023:** Blake found the pasted-in buildings looked bad, so the city in all three paintings was painted fresh, with the palace and Solomon's temple without the tower.
+**Replaced in request 023:** The owner found the pasted-in buildings looked bad, so the city in all three paintings was painted fresh, with the palace and Solomon's temple without the tower.
 
-**Status: done.** Made with Gemini through Blake's n8n backup (executions
+**Status: done.** Made with Gemini through the owner's n8n backup (executions
 13480–13485, six billed to the Merit3D Gemini account). Each painting was
 touched up, not repainted: the game's own `stronghold.png` and `temple.png`
 were pasted over the old buildings, Gemini painted them in, and only the
@@ -24,7 +24,7 @@ After the city became a white stone palace (request 020) and the temple
 stone and gold (request 021), the opening page still showed the old
 buildings: a long red-roofed hall in the opening painting, the Story tile
 and the Free tile, and a plain white tower for the temple in the opening
-painting. Decided with Blake, one question at a time: all three paintings,
+painting. Decided with the owner, one question at a time: all three paintings,
 and touch up the city only.
 
 ## The changes

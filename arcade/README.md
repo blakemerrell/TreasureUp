@@ -1,8 +1,8 @@
 # Arcade pictures
 
 The pictures in Wilderness Snake (`snake.js`) and Look and Live (`looklive.js`).
-Blake asked for better art on 2026-10-04, drawn with "your bin tools" (the n8n
-workflow that drew Title of Liberty's pictures). They were painted by Gemini (`gemini-3.1-flash-image-preview`) through Blake's n8n
+The owner asked for better art on 2026-10-04, drawn with "your bin tools" (the n8n
+workflow that drew Title of Liberty's pictures). They were painted by Gemini (`gemini-3.1-flash-image-preview`) through the owner's n8n
 workflow **Title of Liberty — Gemini Art (backup)**. Each one is an edit of a
 Title of Liberty picture (`liberty/assets/`), so the arcade matches its painted
 style. Each picture is billed to the Gemini API key.
@@ -57,7 +57,7 @@ Each prompt begins "Turn this game sprite / picture into …" and asks for the s
 
 ## Ammon at Sebus (`ammon.js`, `arcade/ammon/`)
 
-Blake asked for it on 2026-10-04 ("Street fighter style game. Ammon against the
+The owner asked for it on 2026-10-04 ("Street fighter style game. Ammon against the
 robbers. Protect the sheep."). Drawn the same way, through the same workflow, as
 side-view sprite sheets on magenta, then cut out by a script that keys out the
 magenta, un-blends the fringe and finds each figure as its own piece. Each

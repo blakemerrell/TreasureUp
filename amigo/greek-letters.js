@@ -119,7 +119,7 @@
 
   const API = { LETTERS, LESSONS, FIXED, BY_SMALL, allowed, fits, firstLesson, letters, bare, readingWords, lessonSteps, spell,
     name: 'Greek letters', lang: 'el', dir: 'ltr',
-    fact: 'Javan’s name is Hebrew, יָוָן (Genesis 10:2), and it’s the Old Testament’s name for Greece: his name means the land these letters come from.' };
+    fact: 'The Old Testament’s name for Greece is יָוָן, Javan (Genesis 10:2), after a grandson of Noah: the land these letters come from.' };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
   else root.AMIGO_GREEK = API;
 })(this);

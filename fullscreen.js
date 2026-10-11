@@ -1,4 +1,4 @@
-// Full screen for the whole app (Blake, 2026-10-04: "Need full screen button for
+// Full screen for the whole app (2026-10-04: "Need full screen button for
 // Amazon silk browser for whole app"). Any button with data-fs toggles it: the
 // main page's top bar, the arcade games, Title of Liberty's bar and Amigo's home.
 // It shows only where the browser offers full screen (Silk on a Fire tablet,

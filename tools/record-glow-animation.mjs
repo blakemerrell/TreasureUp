@@ -1,9 +1,10 @@
 import http from 'http';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import puppeteer from 'puppeteer';
 
-const ROOT = '/Users/blakemerrell/TreasureUp';
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PORT = 8099;
 const FRAME_DIR = '/tmp/map_frames';
 

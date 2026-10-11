@@ -1,5 +1,5 @@
 // Plain words and notes for chapters no week reads, shown in the Scriptures tab once approved
-// (Blake, 2026-10-02: "the notes and plain translation for all of Isaiah"). Developer mode
+// (2026-10-02: "the notes and plain translation for all of Isaiah"). Developer mode
 // edits this file; tools/verify.mjs checks it.
 window.TU_PLAIN = {
   "title": "Plain words for chapters no week reads",
@@ -402,7 +402,7 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 14,
-          "about": "Blake’s decision: the plain words follow the Hebrew (“a young woman,” the word for a young woman of age to marry), with a note giving the KJV’s “virgin” and the Matthew 1:23 and 2 Nephi 17:14 quotes. He, His and Him stay capitalized for the child in verses 14–15, because Matthew says it is Jesus."
+          "about": "The owner’s decision: the plain words follow the Hebrew (“a young woman,” the word for a young woman of age to marry), with a note giving the KJV’s “virgin” and the Matthew 1:23 and 2 Nephi 17:14 quotes. He, His and Him stay capitalized for the child in verses 14–15, because Matthew says it is Jesus."
         },
         {
           "v": 15,
@@ -413,7 +413,7 @@ window.TU_PLAIN = {
           "about": "The Hebrew can be read two ways. The KJV and 2 Nephi 17:25 say the fear of briers will not come to the hills; the BSB says people will not go there for fear of the briers. The plain words follow the KJV."
         }
       ],
-      "approved": "77b225e4"
+      "approved": "61aa1a9b"
     },
     {
       "ch": "Isaiah 8",
@@ -6813,10 +6813,10 @@ window.TU_PLAIN = {
         },
         {
           "v": 44,
-          "about": "Slavery law (vv. 44–46) rendered plainly as written, without softening; Javan may need a parent’s explanation."
+          "about": "Slavery law (vv. 44–46) rendered plainly as written, without softening; a child may need a parent’s explanation."
         }
       ],
-      "approved": "206f6e1f"
+      "approved": "91671754"
     },
     {
       "ch": "Leviticus 9",
@@ -9636,10 +9636,10 @@ window.TU_PLAIN = {
         },
         {
           "v": 21,
-          "about": "Adult subject matter in vv. 13–30 (virginity, adultery, rape). Translated plainly and accurately without graphic detail; you may want to look at the wording before Javan reads it."
+          "about": "Adult subject matter in vv. 13–30 (virginity, adultery, rape). Translated plainly and accurately without graphic detail; you may want to look at the wording before a child reads it."
         }
       ],
-      "approved": "6beb2f16"
+      "approved": "8fdea2a5"
     },
     {
       "ch": "Deuteronomy 29",
@@ -11296,7 +11296,7 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 20,
-          "about": "“It was of the LORD to harden their hearts”: the Hebrew says the Lord “strengthened” their hearts so they would fight. I kept it plainly as the Lord making their hearts stubborn, without explaining it away; a doctrine point you may want to talk through with Javan."
+          "about": "“It was of the LORD to harden their hearts”: the Hebrew says the Lord “strengthened” their hearts so they would fight. I kept it plainly as the Lord making their hearts stubborn, without explaining it away; a doctrine point you may want to talk through with the kids."
         },
         {
           "v": 21,
@@ -11307,7 +11307,7 @@ window.TU_PLAIN = {
           "about": "Left the KJV’s “stood still in their strength”: the Hebrew tel means a mound (a town’s hill), so “stood on their mounds”, with a KJV note."
         }
       ],
-      "approved": "4d634d13"
+      "approved": "75ad20c3"
     },
     {
       "ch": "Joshua 6",
@@ -11617,10 +11617,10 @@ window.TU_PLAIN = {
         },
         {
           "v": 34,
-          "about": "The name ‘Ed’ is not in the Masoretic Hebrew (KJV supplies it in italics). Kept ‘Ed (which means witness)’ to match the KJV; check if Blake prefers to drop it."
+          "about": "The name ‘Ed’ is not in the Masoretic Hebrew (KJV supplies it in italics). Kept ‘Ed (which means witness)’ to match the KJV; check if the owner prefers to drop it."
         }
       ],
-      "approved": "5a5935f7"
+      "approved": "bbdd8640"
     },
     {
       "ch": "Joshua 7",
@@ -12327,10 +12327,10 @@ window.TU_PLAIN = {
         },
         {
           "v": 16,
-          "about": "Lowercase ‘he/me/your’ for the angel of the Lord, as the BSB does; v22 Manoah calls it seeing God. Blake may want to explain who the angel was."
+          "about": "Lowercase ‘he/me/your’ for the angel of the Lord, as the BSB does; v22 Manoah calls it seeing God. A parent may want to explain who the angel was."
         }
       ],
-      "approved": "c8efb715"
+      "approved": "1024378d"
     },
     {
       "ch": "Judges 5",
@@ -12525,10 +12525,10 @@ window.TU_PLAIN = {
         },
         {
           "v": 23,
-          "about": "‘God sent an evil spirit’: kept as the Hebrew says (BSB ‘a spirit of animosity’); a doctrine point Blake may want to talk through."
+          "about": "‘God sent an evil spirit’: kept as the Hebrew says (BSB ‘a spirit of animosity’); a doctrine point a parent may want to talk through."
         }
       ],
-      "approved": "b4ea5a9d"
+      "approved": "5266e72f"
     },
     {
       "ch": "Judges 14",
@@ -12942,14 +12942,14 @@ window.TU_PLAIN = {
         },
         {
           "v": 39,
-          "about": "‘Did with her according to his vow’ plus ‘she knew no man’: the text doesn’t say plainly what happened to her (sacrifice or a life unmarried and given to the Lord). I kept it as vague as the Hebrew; doctrine Blake may want to discuss."
+          "about": "‘Did with her according to his vow’ plus ‘she knew no man’: the text doesn’t say plainly what happened to her (sacrifice or a life unmarried and given to the Lord). I kept it as vague as the Hebrew; doctrine a parent may want to discuss."
         },
         {
           "v": 40,
           "about": "KJV ‘to lament’; the Hebrew word can mean ‘to recount’ or ‘to commemorate’. I kept the KJV sense ‘to mourn for’."
         }
       ],
-      "approved": "20ca6a24"
+      "approved": "ed32eedc"
     },
     {
       "ch": "Judges 16",
@@ -14504,14 +14504,14 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 14,
-          "about": "KJV 'an evil spirit from the LORD'; the Hebrew ra'ah can mean 'evil' or 'harmful/distressing' (BSB 'a spirit of distress'). I kept 'evil spirit' as the KJV has it, also in v15, v16 and v23. A doctrine point Blake may want to talk through with Javan."
+          "about": "KJV 'an evil spirit from the LORD'; the Hebrew ra'ah can mean 'evil' or 'harmful/distressing' (BSB 'a spirit of distress'). I kept 'evil spirit' as the KJV has it, also in v15, v16 and v23. A doctrine point a parent may want to talk through with the kids."
         },
         {
           "v": 12,
           "about": "KJV 'of a beautiful countenance'; the Hebrew says 'beautiful of eyes'. I followed the Hebrew: 'beautiful eyes.'"
         }
       ],
-      "approved": "49ebe412"
+      "approved": "9fe183ec"
     },
     {
       "ch": "1 Samuel 30",
@@ -16006,7 +16006,7 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 1,
-          "about": "The Hebrew says the Lord stirred David up to count Israel; 1 Chronicles 21:1 says Satan did. I kept the KJV/Hebrew wording and added the Chronicles note. Doctrine worth discussing with Javan."
+          "about": "The Hebrew says the Lord stirred David up to count Israel; 1 Chronicles 21:1 says Satan did. I kept the KJV/Hebrew wording and added the Chronicles note. Doctrine worth discussing with the kids."
         },
         {
           "v": 23,
@@ -16017,7 +16017,7 @@ window.TU_PLAIN = {
           "about": "No Dead Sea Scroll notes in this chapter: the D: lines for v16–20 (4Q51) show only small differences (an added ‘standing’, ‘to David’ for ‘to the king’); the longer additions known from 4Q51 aren’t in the scroll’s own letters here."
         }
       ],
-      "approved": "94d40258"
+      "approved": "1f0320a8"
     },
     {
       "ch": "2 Samuel 4",
@@ -19988,14 +19988,14 @@ window.TU_PLAIN = {
         },
         {
           "v": 25,
-          "about": "‘Went a whoring’ (literally ‘played the prostitute’) kept as an image: ‘Like a prostitute, they chased after the gods.’ Check the wording suits Javan."
+          "about": "‘Went a whoring’ (literally ‘played the prostitute’) kept as an image: ‘Like a prostitute, they chased after the gods.’ Check the wording suits a child."
         },
         {
           "v": 26,
           "about": "Hebrew ‘and’ between Pul and Tilgath-pilneser: KJV reads two kings, BSB reads one king (‘that is’). Followed the KJV; added a BSB note."
         }
       ],
-      "approved": "10a39c86"
+      "approved": "c2892461"
     },
     {
       "ch": "1 Chronicles 18",
@@ -20623,14 +20623,14 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 18,
-          "about": "KJV “pardon”: the Hebrew is the word for making atonement (BSB ‘provide atonement’). Plain words say “forgive”; Blake may prefer “make atonement for.”"
+          "about": "KJV “pardon”: the Hebrew is the word for making atonement (BSB ‘provide atonement’). Plain words say “forgive”; the owner may prefer “make atonement for.”"
         },
         {
           "v": 22,
           "about": "“taught the good knowledge” and “making confession” can also be read “showed good understanding” and “giving thanks” (BSB). Both readings are possible, so the plain words now keep the KJV’s."
         }
       ],
-      "approved": "986e9de8"
+      "approved": "6d17fb71"
     },
     {
       "ch": "2 Chronicles 24",
@@ -22267,10 +22267,10 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 3,
-          "about": "‘for fear was upon them because of the people of those countries’ is read here as the reason they set up the altar (KJV, Hebrew ‘for’); the BSB reads it as ‘even though they feared’. Check which sense Blake prefers."
+          "about": "‘for fear was upon them because of the people of those countries’ is read here as the reason they set up the altar (KJV, Hebrew ‘for’); the BSB reads it as ‘even though they feared’. Check which sense the owner prefers."
         }
       ],
-      "approved": "f108a56b"
+      "approved": "24db6c5e"
     },
     {
       "ch": "Esther 9",
@@ -28812,14 +28812,14 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 1,
-          "about": "Left the KJV’s ‘my strength’ for the Hebrew ‘my Rock’ (tsur), with a note. The KJV’s word is a figure for the same idea, so Blake may prefer to keep ‘my strength’."
+          "about": "Left the KJV’s ‘my strength’ for the Hebrew ‘my Rock’ (tsur), with a note. The KJV’s word is a figure for the same idea, so the owner may prefer to keep ‘my strength’."
         },
         {
           "v": 14,
           "about": "‘No breaking in, nor going out’ is read as no breach in the walls and no one going into captivity (BSB). The Hebrew for ‘going out’ could also mean a miscarriage of the cattle."
         }
       ],
-      "approved": "49d94a95"
+      "approved": "90d25bfe"
     },
     {
       "ch": "Psalms 145",
@@ -29426,10 +29426,10 @@ window.TU_PLAIN = {
         },
         {
           "v": 10,
-          "about": "KJV ‘hell’ is Hebrew Sheol; I wrote ‘the grave’ (Blake’s Sheol rule) with a note that Acts 2:27 keeps ‘hell’. ‘Holy One’ (literally ‘faithful one’) kept, capitalized because Acts 2:27 applies it to Christ."
+          "about": "KJV ‘hell’ is Hebrew Sheol; I wrote ‘the grave’ (the owner’s Sheol rule) with a note that Acts 2:27 keeps ‘hell’. ‘Holy One’ (literally ‘faithful one’) kept, capitalized because Acts 2:27 applies it to Christ."
         }
       ],
-      "approved": "eb929dfe"
+      "approved": "7d864e27"
     },
     {
       "ch": "Psalms 17",
@@ -30836,14 +30836,14 @@ window.TU_PLAIN = {
         },
         {
           "v": 5,
-          "about": "Family tone: I kept ‘breasts’, the word the KJV itself prints right above (also 7:3, 7:7–8, 8:8, 8:10), rather than soften it; Song 1:13’s writer used ‘chest’. The rest of the chapter (the locked garden, v12–16) is kept as close to the imagery as the KJV. Your call for Javan."
+          "about": "Family tone: I kept ‘breasts’, the word the KJV itself prints right above (also 7:3, 7:7–8, 8:8, 8:10), rather than soften it; Song 1:13’s writer used ‘chest’. The rest of the chapter (the locked garden, v12–16) is kept as close to the imagery as the KJV. Your call for a child."
         },
         {
           "v": 8,
           "about": "KJV ‘look from the top of Amana’; the Hebrew verb can mean ‘look’ or ‘come down’, so I kept ‘Look down from’. v9 adds ‘(a tender name for his bride)’ after ‘my sister’ so an 11-year-old isn’t confused."
         }
       ],
-      "approved": "de3060a6"
+      "approved": "b27a2c91"
     },
     {
       "ch": "Solomon's Song 5",
@@ -30873,14 +30873,14 @@ window.TU_PLAIN = {
         },
         {
           "v": 4,
-          "about": "Family tone: v2–6 is a night scene (he knocks, puts his hand through the opening of the door, ‘my bowels were moved’). The plain words keep it literal and modest (‘my heart was stirred for him’); check it reads well for Javan."
+          "about": "Family tone: v2–6 is a night scene (he knocks, puts his hand through the opening of the door, ‘my bowels were moved’). The plain words keep it literal and modest (‘my heart was stirred for him’); check it reads well for a child."
         },
         {
           "v": 6,
           "about": "KJV ‘my soul failed when he spake’; the BSB reads the Hebrew as ‘at his departure’. The Hebrew can be read either way, so I kept the KJV’s ‘when he spoke’."
         }
       ],
-      "approved": "0965749f"
+      "approved": "995131f4"
     },
     {
       "ch": "Solomon's Song 6",
@@ -32576,10 +32576,10 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 10,
-          "about": "Jeremiah's words to God are strong in the Hebrew too ('You have surely deceived this people'). I kept 'deceived' as the KJV and Hebrew have it rather than softening it; check you're comfortable with how it reads for Javan."
+          "about": "Jeremiah's words to God are strong in the Hebrew too ('You have surely deceived this people'). I kept 'deceived' as the KJV and Hebrew have it rather than softening it; check you're comfortable with how it reads for a child."
         }
       ],
-      "approved": "385f3080"
+      "approved": "37954049"
     },
     {
       "ch": "Jeremiah 5",
@@ -34173,10 +34173,10 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 9,
-          "about": "‘I the Lord have deceived that prophet’: the Hebrew says this plainly (BSB ‘enticed’). I translated it as it stands (‘fooled’) without explaining it; Blake may want to look at this one for doctrine."
+          "about": "‘I the Lord have deceived that prophet’: the Hebrew says this plainly (BSB ‘enticed’). I translated it as it stands (‘fooled’) without explaining it; the owner may want to look at this one for doctrine."
         }
       ],
-      "approved": "6a0d035d"
+      "approved": "b7080b30"
     },
     {
       "ch": "Ezekiel 38",
@@ -36096,14 +36096,14 @@ window.TU_PLAIN = {
         },
         {
           "v": 6,
-          "about": "KJV “scum” (also v11–12): the Hebrew word is usually taken as rust or corrosion on the pot. The plain words say “rust” with no note; Blake may want “scum” kept or a KJV note."
+          "about": "KJV “scum” (also v11–12): the Hebrew word is usually taken as rust or corrosion on the pot. The plain words say “rust” with no note; the owner may want “scum” kept or a KJV note."
         },
         {
           "v": 17,
           "about": "KJV “cover not thy lips” is literally “do not cover the mustache,” a sign of mourning; “bread of men” is taken as the food neighbors bring to mourners (as the BSB does). I put both meanings into the plain words."
         }
       ],
-      "approved": "9b1b80e6"
+      "approved": "4cccb62b"
     },
     {
       "ch": "Hosea 7",
@@ -36423,10 +36423,10 @@ window.TU_PLAIN = {
         },
         {
           "v": 12,
-          "about": "Eunuchs: glossed as “men who cannot father children” and kept “made themselves eunuchs” literally (the BSB says “live like eunuchs”). Check the wording suits Javan."
+          "about": "Eunuchs: glossed as “men who cannot father children” and kept “made themselves eunuchs” literally (the BSB says “live like eunuchs”). Check the wording suits a child."
         }
       ],
-      "approved": "18edb7b1"
+      "approved": "378b1d30"
     },
     {
       "ch": "Mark 3",
@@ -36531,10 +36531,10 @@ window.TU_PLAIN = {
         },
         {
           "v": 25,
-          "about": "“Knew her not” is said as “they did not come together as husband and wife,” echoing v18. Check the wording suits Javan."
+          "about": "“Knew her not” is said as “they did not come together as husband and wife,” echoing v18. Check the wording suits a child."
         }
       ],
-      "approved": "d81ab9ca"
+      "approved": "b1972f47"
     },
     {
       "ch": "Matthew 2",
@@ -37583,10 +37583,10 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 30,
-          "about": "Translated plainly as the text reads (“they do not marry and are not given in marriage”); a doctrine verse Blake may want to talk through with Javan."
+          "about": "Translated plainly as the text reads (“they do not marry and are not given in marriage”); a doctrine verse a parent may want to talk through with the kids."
         }
       ],
-      "approved": "551d97ad"
+      "approved": "46ac63e3"
     },
     {
       "ch": "Matthew 13",
@@ -38272,7 +38272,7 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 25,
-          "about": "Translated literally: in the resurrection they “don’t marry or get given in marriage.” No interpretation added. Doctrine you may want to discuss with Javan."
+          "about": "Translated literally: in the resurrection they “don’t marry or get given in marriage.” No interpretation added. Doctrine you may want to discuss with the kids."
         },
         {
           "v": 40,
@@ -38283,7 +38283,7 @@ window.TU_PLAIN = {
           "about": "The KJV says “the common people”; the Greek means “the large crowd.” Used “the large crowd.” Check you’re happy with that."
         }
       ],
-      "approved": "1e284677"
+      "approved": "d96a40f7"
     },
     {
       "ch": "Mark 13",
@@ -38756,10 +38756,10 @@ window.TU_PLAIN = {
         },
         {
           "v": 34,
-          "about": "“This generation will not pass away” translated plainly without explaining which generation; a doctrine verse Blake may want to talk through."
+          "about": "“This generation will not pass away” translated plainly without explaining which generation; a doctrine verse a parent may want to talk through."
         }
       ],
-      "approved": "6b6b2bd2"
+      "approved": "7004ca1e"
     },
     {
       "ch": "Matthew 16",
@@ -39368,14 +39368,14 @@ window.TU_PLAIN = {
         },
         {
           "v": 12,
-          "about": "KJV ‘sons of God’ (and ‘power’); the Greek is ‘tekna’, children, and ‘exousia’, authority or right. Plain words have ‘children of God’ and ‘authority’ (Blake’s exousia rule). Check you’re happy leaving ‘sons’."
+          "about": "KJV ‘sons of God’ (and ‘power’); the Greek is ‘tekna’, children, and ‘exousia’, authority or right. Plain words have ‘children of God’ and ‘authority’ (the owner’s exousia rule). Check you’re happy leaving ‘sons’."
         },
         {
           "v": 28,
           "about": "BSB has ‘Bethany beyond the Jordan’ (a different Greek reading, no V: line given). Kept the KJV’s Bethabara, which 1 Nephi 10:9 also has."
         }
       ],
-      "approved": "d8f9494b"
+      "approved": "b4da9724"
     },
     {
       "ch": "John 2",
@@ -39648,10 +39648,10 @@ window.TU_PLAIN = {
         },
         {
           "v": 36,
-          "about": "The Greek for 'believeth not' (apeitheo) literally means 'does not obey' or 'refuses'. Kept 'does not believe' to match the KJV; Blake may want 'refuses to obey'."
+          "about": "The Greek for 'believeth not' (apeitheo) literally means 'does not obey' or 'refuses'. Kept 'does not believe' to match the KJV; the owner may want 'refuses to obey'."
         }
       ],
-      "approved": "40048b07"
+      "approved": "6c5e92de"
     },
     {
       "ch": "Luke 18",
@@ -39865,14 +39865,14 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 24,
-          "about": "The Greek has no 'a': it reads 'God is spirit' (BSB 'God is Spirit'). Kept the KJV's 'God is a Spirit'. Doctrine Blake may want to check against what the family is taught about God's nature."
+          "about": "The Greek has no 'a': it reads 'God is spirit' (BSB 'God is Spirit'). Kept the KJV's 'God is a Spirit'. Doctrine the owner may want to check against what the family is taught about God's nature."
         },
         {
           "v": 6,
           "about": "'The sixth hour' explained as about noon (hours counted from sunrise, about 6 a.m.); likewise the seventh hour in v52 as about 1 p.m. Some think John counts from midnight."
         }
       ],
-      "approved": "f86bccf3"
+      "approved": "eb3705de"
     },
     {
       "ch": "Luke 1",
@@ -40673,7 +40673,7 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 35,
-          "about": "Marriage in the resurrection: translated word for word (“counted worthy to have a place in that world … don’t marry and aren’t given in marriage”) with no interpretation added. Blake may want to check how it reads for Javan."
+          "about": "Marriage in the resurrection: translated word for word (“counted worthy to have a place in that world … don’t marry and aren’t given in marriage”) with no interpretation added. The owner may want to check how it reads for a child."
         },
         {
           "v": 47,
@@ -40684,7 +40684,7 @@ window.TU_PLAIN = {
           "about": "Kept the KJV’s “equal to the angels” (Greek isangeloi, “like/equal to angels”); the BSB says “like the angels.”"
         }
       ],
-      "approved": "008ec334"
+      "approved": "95065484"
     },
     {
       "ch": "Luke 4",
@@ -41691,7 +41691,7 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 44,
-          "about": "Greek hōsei (“as it were, like”) great drops of blood. Kept “like great drops of blood,” as the KJV has it; the Mosiah 3:7 note gives the Book of Mormon’s plainer statement. Blake should check this reads right doctrinally."
+          "about": "Greek hōsei (“as it were, like”) great drops of blood. Kept “like great drops of blood,” as the KJV has it; the Mosiah 3:7 note gives the Book of Mormon’s plainer statement. The owner should check this reads right doctrinally."
         },
         {
           "v": 51,
@@ -41702,7 +41702,7 @@ window.TU_PLAIN = {
           "about": "Left the KJV’s ‘new testament’ for ‘new covenant’ (Greek diathēkē), with a note, as in Matthew 26:28."
         }
       ],
-      "approved": "53513615"
+      "approved": "f77e93da"
     },
     {
       "ch": "John 11",
@@ -43793,7 +43793,7 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 29,
-          "about": "‘Predestinate’ is said as ‘chose ahead of time (predestined)’. Doctrine-sensitive; Blake may prefer ‘foreordained’ language."
+          "about": "‘Predestinate’ is said as ‘chose ahead of time (predestined)’. Doctrine-sensitive; the owner may prefer ‘foreordained’ language."
         },
         {
           "v": 16,
@@ -43804,7 +43804,7 @@ window.TU_PLAIN = {
           "about": "‘and for sin’ (Greek peri hamartias) is said as ‘to deal with sin’; the BSB reads it as ‘as an offering for sin’, which is a possible meaning but more than the words say."
         }
       ],
-      "approved": "76708cf9"
+      "approved": "21206bc2"
     },
     {
       "ch": "Acts 23",
@@ -44203,10 +44203,10 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 4,
-          "about": "‘The end of the law’ keeps the KJV’s word; the Greek telos can mean ‘end’ or ‘goal’, and Blake may want to look at how it reads."
+          "about": "‘The end of the law’ keeps the KJV’s word; the Greek telos can mean ‘end’ or ‘goal’, and the owner may want to look at how it reads."
         }
       ],
-      "approved": "88757bcc"
+      "approved": "ca6d504f"
     },
     {
       "ch": "Romans 11",
@@ -44269,7 +44269,7 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 7,
-          "about": "KJV ‘blinded’ (also v. 25 ‘blindness’) is the Greek pōroō, ‘harden, make dull’ (the BSB says ‘hardened’). Kept ‘blinded’: the meaning (unable to see the truth) is close, and v. 8 goes on about eyes that don’t see. Blake may prefer ‘hardened’."
+          "about": "KJV ‘blinded’ (also v. 25 ‘blindness’) is the Greek pōroō, ‘harden, make dull’ (the BSB says ‘hardened’). Kept ‘blinded’: the meaning (unable to see the truth) is close, and v. 8 goes on about eyes that don’t see. The owner may prefer ‘hardened’."
         },
         {
           "v": 13,
@@ -44280,7 +44280,7 @@ window.TU_PLAIN = {
           "about": "KJV ‘not believed’ (also vv. 31–32) is the Greek apeitheō, usually ‘disobey’ (the BSB says ‘disobeyed’), but it can also mean refusing to believe. Kept ‘believe’ as a possible reading."
         }
       ],
-      "approved": "c1552eb7"
+      "approved": "63098842"
     },
     {
       "ch": "Romans 12",
@@ -44368,10 +44368,10 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 9,
-          "about": "‘Thou shalt not kill’ is now ‘Do not murder’ (Greek phoneuō), matching Blake’s rule for Exodus 20:13, with a KJV note."
+          "about": "‘Thou shalt not kill’ is now ‘Do not murder’ (Greek phoneuō), matching the owner’s rule for Exodus 20:13, with a KJV note."
         }
       ],
-      "approved": "3c43336b"
+      "approved": "f178fac4"
     },
     {
       "ch": "Romans 14",
@@ -46050,10 +46050,10 @@ window.TU_PLAIN = {
         },
         {
           "v": 11,
-          "about": "Verses 11–12: ‘silence’ (hēsuchia) means ‘quietness’ and ‘subjection’ means ‘submissiveness’; kept literal, no interpretation added. Doctrine Blake may want to check."
+          "about": "Verses 11–12: ‘silence’ (hēsuchia) means ‘quietness’ and ‘subjection’ means ‘submissiveness’; kept literal, no interpretation added. Doctrine the owner may want to check."
         }
       ],
-      "approved": "912b8328"
+      "approved": "3438a557"
     },
     {
       "ch": "2 Corinthians 4",
@@ -46090,10 +46090,10 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 14,
-          "about": "KJV ‘raise up us also by Jesus’; the Greek is ‘with Jesus’. Rendered ‘through Jesus’ to stay with the KJV; Blake may prefer ‘with Jesus’."
+          "about": "KJV ‘raise up us also by Jesus’; the Greek is ‘with Jesus’. Rendered ‘through Jesus’ to stay with the KJV; the owner may prefer ‘with Jesus’."
         }
       ],
-      "approved": "828933d7"
+      "approved": "a64ff9ac"
     },
     {
       "ch": "1 Timothy 3",
@@ -46534,10 +46534,10 @@ window.TU_PLAIN = {
         },
         {
           "v": 23,
-          "about": "Greek and KJV both say “wine”; kept as written. You may want to talk about it with Javan alongside the Word of Wisdom."
+          "about": "Greek and KJV both say “wine”; kept as written. You may want to talk about it with the kids alongside the Word of Wisdom."
         }
       ],
-      "approved": "4c133a23"
+      "approved": "85e9d0a3"
     },
     {
       "ch": "2 Corinthians 6",
@@ -46633,10 +46633,10 @@ window.TU_PLAIN = {
         },
         {
           "v": 16,
-          "about": "“No one has ever seen Him, and no one can see Him” is kept exactly as the Greek and KJV say. Restoration teaching has people who saw God, so you may want to talk this verse through with Javan."
+          "about": "“No one has ever seen Him, and no one can see Him” is kept exactly as the Greek and KJV say. Restoration teaching has people who saw God, so you may want to talk this verse through with the kids."
         }
       ],
-      "approved": "4ca6d81c"
+      "approved": "4e0ceeac"
     },
     {
       "ch": "Ephesians 6",
@@ -48286,14 +48286,14 @@ window.TU_PLAIN = {
       "review": [
         {
           "v": 34,
-          "about": "Hard passage on women keeping silent; translated as the text says, with no softening or explanation added. You may want to discuss it with Javan."
+          "about": "Hard passage on women keeping silent; translated as the text says, with no softening or explanation added. You may want to discuss it with the kids."
         },
         {
           "v": 38,
           "about": "KJV ‘let him be ignorant’; many Greek manuscripts read ‘he is ignored’ (by God). No V: line here, so no note; followed the KJV."
         }
       ],
-      "approved": "a4a52678"
+      "approved": "262453ba"
     },
     {
       "ch": "1 Corinthians 15",

@@ -32,17 +32,17 @@ export default async function smoke({ port }) {
   check(await p.locator('[data-open-blueprint]').count() > 0, 'Morning Blueprint card renders');
   await p.click('[data-open-blueprint]'); await wait(400);
   check(!(await p.$eval('#appSheet', e => e.hidden)), 'Morning Blueprint sheet opens');
-  await p.fill('#bpOneThing', 'Be patient and listen to Javan');
-  await p.fill('#bpUplift', 'Send an encouraging note to Chantel');
+  await p.fill('#bpOneThing', 'Be patient and listen to the kids');
+  await p.fill('#bpUplift', 'Send an encouraging note to Mom');
   await p.fill('#bpGratitude', '- Morning sunlight\n- Peaceful prayer\n- Good health\n- Excess fourth line');
   if (await p.locator('[data-bp-share]').count() > 0) {
     await p.click('[data-bp-share]'); await wait(200);
     const typed = await p.$eval('#bpOneThing', e => e.value);
-    check(typed === 'Be patient and listen to Javan', 'Toggling share preserves typed input in place');
+    check(typed === 'Be patient and listen to the kids', 'Toggling share preserves typed input in place');
   }
   await p.click('[data-bp-save]'); await wait(400);
   const homeTxt = await txt(p, '#home');
-  check(homeTxt.includes('Be patient and listen to Javan'), 'Blueprint saved and renders on Today');
+  check(homeTxt.includes('Be patient and listen to the kids'), 'Blueprint saved and renders on Today');
   check(homeTxt.includes('Morning sunlight') && homeTxt.includes('Good health'), 'Morning gratitude items saved with Blueprint');
   check(!homeTxt.includes('Excess fourth line'), 'Gratitude capped at 3 items max');
   check(await p.locator('.flow > .blueprint-card').count() === 0, 'No blueprint box at the top of Today');

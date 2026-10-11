@@ -138,8 +138,8 @@ service cloud.firestore {
         && request.resource.data.created == request.time
         && getAfter(memberPath(request.auth.uid)).data.role == 'parent';
       // A parent turns the family goal on or off (everyone reads all of the
-      // week's chapters; Blake, 2026-10-02), saves the rewards shop's prizes
-      // (Blake, 2026-10-04), or sets the family's goal for a Season (My
+      // week's chapters; 2026-10-02), saves the rewards shop's prizes
+      // (2026-10-04), or sets the family's goal for a Season (My
       // Season, 2026-10-04). Nothing else about a family changes.
       allow update: if isParent() && (
         (changes(['goal']) && request.resource.data.goal is bool)
@@ -191,7 +191,7 @@ service cloud.firestore {
         allow delete: if (isParent() || (signedIn() && request.auth.uid == uid)) && uid != founder();
       }
 
-      // Each Sunday's conference talks (Blake, 2026-10-03: "You pick it"):
+      // Each Sunday's conference talks (2026-10-03: "You pick it"):
       // one doc a Sunday, "2026-10-11", with the elders quorum's and the
       // Relief Society's talk. Any grown-up in the family picks; everyone
       // reads them.
@@ -295,7 +295,7 @@ service cloud.firestore {
         allow delete: if isParent();
       }
 
-      // While the family tries the app out (Blake, 2026-10-02): errors on a
+      // While the family tries the app out (2026-10-02): errors on a
       // member's device and notes sent from Settings, under their own name,
       // stamped with the server's clock. Only parents read or clear them.
       match /errors/{id} {
@@ -311,7 +311,7 @@ service cloud.firestore {
           && request.resource.data.ua is string && request.resource.data.ua.size() <= 200
           && request.resource.data.at == request.time;
       }
-      // The rewards shop's prize requests (Blake, 2026-10-04): someone asks for a
+      // The rewards shop's prize requests (2026-10-04): someone asks for a
       // prize for themselves; a parent says yes, marks it given, or says no
       // (its XP goes back). The one who asked can take back a request nobody
       // has answered, and a request answered with the parent PIN on the
@@ -459,10 +459,10 @@ service cloud.firestore {
     }
 
     // ---------------- developer mode ----------------
-    // Reviewing and changing content (…/TreasureUp-test/#dev) is for Blake
+    // Reviewing and changing content (…/TreasureUp-test/#dev) is for the owner
     // and the people he adds by name and email, each signed in with Google.
     // The GitHub token developer mode saves content with is readable only by
-    // them, and only Blake can change the list or the token.
+    // them, and only the owner can change the list or the token.
     function google() {
       return signedIn() && request.auth.token.firebase.sign_in_provider == 'google.com'
         && request.auth.token.email_verified == true;

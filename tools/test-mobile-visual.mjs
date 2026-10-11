@@ -1,10 +1,15 @@
 import http from 'http';
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
+import { fileURLToPath } from 'url';
 import puppeteer from 'puppeteer';
 
-const ROOT = '/Users/blakemerrell/TreasureUp';
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PORT = 8093;
+const ARTIFACT_DIR = process.env.ARTIFACT_DIR || path.join(os.tmpdir(), 'treasureup-artifacts');
+
+if (!fs.existsSync(ARTIFACT_DIR)) fs.mkdirSync(ARTIFACT_DIR, { recursive: true });
 
 const MIME = {
   '.html': 'text/html',
@@ -98,7 +103,7 @@ server.listen(PORT, async () => {
 
     await new Promise(r => setTimeout(r, 600));
 
-    const outPath = '/Users/blakemerrell/.gemini/antigravity/brain/712c72b4-2fe7-4275-a6c2-f8d78eb1924d/game_assets/mobile_placement_ghost_live.png';
+    const outPath = path.join(ARTIFACT_DIR, 'mobile_placement_ghost_live.png');
     await page.screenshot({ path: outPath });
     console.log(`Captured screenshot to ${outPath}`);
 
@@ -116,7 +121,7 @@ server.listen(PORT, async () => {
     });
     await new Promise(r => setTimeout(r, 600));
 
-    const redPath = '/Users/blakemerrell/.gemini/antigravity/brain/712c72b4-2fe7-4275-a6c2-f8d78eb1924d/game_assets/mobile_placement_obstructed_live.png';
+    const redPath = path.join(ARTIFACT_DIR, 'mobile_placement_obstructed_live.png');
     await page.screenshot({ path: redPath });
     console.log(`Captured obstructed screenshot to ${redPath}`);
 

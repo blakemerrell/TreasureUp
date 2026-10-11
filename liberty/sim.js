@@ -523,7 +523,7 @@
           }
         }
       }
-      // Your soldiers sent against a building strike back at whoever strikes them on the way, then go on (Blake's review:
+      // Your soldiers sent against a building strike back at whoever strikes them on the way, then go on (the owner's review:
       // they used to walk on into the defenders). A plain march (Fall back) keeps walking. A chase that lands no blow for 8 s is
       // given up (a slinger across a river can't be reached), and then he doesn't turn again for 10 s, so he can't be led to and fro.
       if (target.hp > 0 && unit && target.team === this.me && (canFight(target.def) || target.type === 'worker') && from && from.kind === 'unit' && !from.dead && from.team !== target.team
@@ -1252,7 +1252,7 @@
     autoHaul(u) {
       if (!this.nearestDropoff(u)) {                 // nowhere to bring it: wait, and say so now and then
         const S = D.SIDES && D.SIDES[this.side(u.team).side];
-        if (u.team === this.me && S && this.t - (this.noStoreAt || -99) > 90) {   // (now and then, not every forty seconds: Blake's review)
+        if (u.team === this.me && S && this.t - (this.noStoreAt || -99) > 90) {   // (now and then, not every forty seconds: the owner's review)
           this.noStoreAt = this.t; this.msg(`Your ${UNITS[u.type].name.toLowerCase()}s have nowhere to bring the harvest: build a ${BUILDINGS[S.store].name.toLowerCase()}.`, null, 'warn'); }
         return false;
       }

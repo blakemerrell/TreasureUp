@@ -1,11 +1,11 @@
 # 013 · Treasures: five artifacts and a Jaredite ruin
 
-**Status: done.** Six pictures made with Gemini through Blake's n8n backup,
+**Status: done.** Six pictures made with Gemini through the owner's n8n backup,
 6 billed to the Merit3D Gemini account, all usable on the first try.
 
 ## What it's for
 
-Blake asked for artifacts "like the Liahona" that give a general insight,
+The owner asked for artifacts "like the Liahona" that give a general insight,
 and chose to find them both in ruins on the map and through the council.
 Limhi's men found a land "covered with ruins of buildings of every kind"
 (Mosiah 8:8) and in it plates, breastplates and swords (8:9–11): so three

@@ -1,4 +1,4 @@
-// Pro Mode in the Season notebook (Blake, 2026-10-08): Simple as it was;
+// Pro Mode in the Season notebook (2026-10-08): Simple as it was;
 // ✨ Pro on, roles and a mission, a goal for the year and a 90-day goal under
 // it, Sunday's plan for the week, Monday's top 3 (from the plan and typed)
 // ticked in the notebook and on Today, the month's review; Simple again is

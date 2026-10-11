@@ -1,4 +1,4 @@
-// The reader's buttons on the Book of Mormon (Blake, 2026-10-10): no KJV
+// The reader's buttons on the Book of Mormon (2026-10-10): no KJV
 // button there (its text always shows), Notes still there, and Changes, 1830
 // and JS Papers, which a Bible chapter doesn't have; Changes on shows what
 // changed in a verse since 1830, 1830 on its 1830 wording with today's added
