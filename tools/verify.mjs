@@ -23,6 +23,7 @@
 //   - every insight card is about verses of the week's reading, comes from a page on one of
 //     the sites Blake chose (INSIGHT_SITES), and (with --online) that page has the words it
 //     says the point comes from, and any words it quotes from the page
+//   - content/questions.js (Questions friends ask) keeps the rules in tools/questions.mjs
 //
 // Scripture text comes from the public-domain bcbooks/scriptures-json data,
 // pinned to one commit so a check today gives the same answer as tomorrow.
@@ -34,7 +35,8 @@ import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { loadOriginal, langOf } from './original.mjs';
 import { loadEditions, textOf, BOM_BOOKS, line1830 } from './editions.mjs';
-import { weekStart, utahToday } from './week-dates.mjs';   // "September 28–October 4, 2026" -> "2026-09-28" (the app's rule; the New Year week too)
+import { weekStart, utahToday } from './week-dates.mjs';
+import { checkQuestions } from './questions.mjs';   // content/questions.js's rules (tools/add-questions.mjs uses them too)   // "September 28–October 4, 2026" -> "2026-09-28" (the app's rule; the New Year week too)
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CACHE = process.env.SCRIPTURE_CACHE || path.join(ROOT, 'tools', '.scripture-cache');
@@ -1738,6 +1740,27 @@ if (treasureCount) console.log(`✓ Treasure words: ${treasureCount} in ${treasu
   if (old) note(`content/weeks.js holds ${old} ${old === 1 ? 'week' : 'weeks'} older than last week: node tools/archive-weeks.mjs moves ${old === 1 ? 'it' : 'them'} to content/past/, where Past weeks still opens ${old === 1 ? 'it' : 'them'}`);
 }
 
+// content/questions.js: Questions friends ask, a shelf in the Scriptures tab.
+// Each answer shows once Blake approves it in developer mode (the test site
+// shows drafts), so none of it ever holds a deploy back. The rules are in
+// tools/questions.mjs: ids, area and where, the short answer 60 to 130 words
+// and Go deeper 180 to 450, 2 to 4 sources with https links, up to 4 `more`
+// links to Scripture Central (a known kind, on scripturecentral.org, YouTube
+// or Apple Podcasts, none twice), 3 review notes at most, anything in
+// quotation marks 25 words at most, and parent true or false.
+let questionCounts = null;
+{
+  const f = path.join(ROOT, 'content', 'questions.js');
+  if (fs.existsSync(f)) {
+    const box = {};
+    try { new Function('window', fs.readFileSync(f, 'utf8'))(box); } catch (e) { failures.push('content/questions.js: ' + e.message); }
+    const r = checkQuestions(box.TU_QUESTIONS);
+    r.failures.forEach(x => failures.push('content/questions.js · ' + x));
+    r.notes.forEach(x => notes.push('content/questions.js · ' + x));
+    questionCounts = r;
+  }
+}
+
 for (const n of notes) console.log('  · ' + n);
 if (unreached.length && process.env.GITHUB_ACTIONS) {
   const hosts = [...new Set(unreached.map(u => new URL(u).host))].join(', ');
@@ -1765,6 +1788,7 @@ for (const week of weeks) {
     (extras.length ? `, plus ${extras.join(' and ')}` : ''));
 }
 if (sundayCounts) console.log(`✓ content/sunday.js: ${sundayCounts.lessons} Sunday ${sundayCounts.lessons === 1 ? 'lesson' : 'lessons'} for the youth, ${sundayCounts.talks} conference ${sundayCounts.talks === 1 ? 'talk' : 'talks'}`);
+if (questionCounts) console.log(`✓ content/questions.js: ${questionCounts.count} ${questionCounts.count === 1 ? 'question' : 'questions'}, ${questionCounts.approved} approved`);
 if (libraryPlain) console.log(`✓ content/plain.js: plain words for ${libraryPlain} ${libraryPlain === 1 ? 'chapter' : 'chapters'} no week reads`);
 if (bsbChapters) console.log(`✓ BSB: the ${bsbChapters} Bible chapters of the reading, verse for verse with the KJV`);
 if (langChapters.es || langChapters.tl) console.log(`✓ ES·TL: the ${langChapters.es} Bible chapters of the reading in Spanish (Reina-Valera 1909), the ${langChapters.tl} in Tagalog (Ang Biblia 1905), each verse under its KJV verse`);
