@@ -1571,6 +1571,36 @@
   .lay.on { color: #fff; background: rgba(255,255,255,.1); border-color: var(--dot); box-shadow: inset 0 -3px 0 var(--dot); }
   .lay-kjv { --dot: #fff; } .lay-plain { --dot: #58cc02; } .lay-bsb { --dot: #60a5fa; } .lay-lang { --dot: #fb923c; } .lay-notes { --dot: #fbbf24; } .lay-orig { --dot: #c084fc; }
   .plain-draft { flex-basis: 100%; font-size: 12px; font-weight: 800; color: #fbbf24; }
+  /* Try my own (a grown-up's switch in the Parent hub): its door above a Bible
+     chapter's buttons, his own lines under the verses in teal, and its screen:
+     each verse's KJV, the Hebrew or Greek word by word, his box, quiet hints. */
+  .co-row { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; }
+  .co-open { flex: 1 1 auto; min-width: 0; padding: 9px 12px; border-radius: 12px; cursor: pointer; text-align: left; font: inherit; font-size: 14px; font-weight: 800; color: #99f6e4;
+    background: rgba(45,212,191,.08); border: 1px solid rgba(45,212,191,.35); }
+  .co-open small { display: block; margin-top: 1px; font-size: 12px; font-weight: 600; color: rgba(255,255,255,.55); }
+  .co-show { flex: 0 0 auto; }
+  .co-show.on { color: #042f2e; background: #5eead4; border-color: #5eead4; }
+  .ls-own { padding-left: 12px; border-left: 3px solid #2dd4bf; font-size: 16px; line-height: 1.5; color: rgba(255,255,255,.85); white-space: pre-wrap; }
+  .ls-own b { margin-right: 6px; font-size: 11px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #5eead4; }
+  html[data-text="l"] .ls-own { font-size: 18.5px; } html[data-text="xl"] .ls-own { font-size: 21px; }
+  .lib-ch.own { box-shadow: inset 0 -3px 0 #2dd4bf; }
+  .lib-bi-own { color: #5eead4; } .lib-bi-meta:has(.lib-bi-own) { flex-wrap: wrap; gap: 0 8px; }
+  #coach { position: fixed; inset: 0; z-index: 95; overflow-y: auto; -webkit-overflow-scrolling: touch; background: #1c1917; }
+  #coach[hidden] { display: none; }
+  .co-top { position: sticky; top: 0; z-index: 4; display: flex; align-items: center; gap: 10px; padding: calc(var(--sat) + 12px) 12px 10px; background: #1c1917; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .co-top .view-back { position: static; }
+  .co-top b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 15px; font-weight: 900; }
+  .co-in { max-width: 640px; margin: 0 auto; padding: 16px 16px calc(var(--sab) + 96px); }
+  .co-tip { margin: 6px 0 16px; font-size: 13.5px; line-height: 1.45; color: rgba(255,255,255,.65); }
+  .co-miss { margin: 0 0 16px; padding: 10px 12px; border-radius: 12px; font-size: 13.5px; line-height: 1.45; color: rgba(255,255,255,.8); background: rgba(255,255,255,.06); }
+  .co-v { margin: 0 0 20px; padding-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .co-v .ls-orig { margin-top: 8px; }
+  .co-text { display: block; margin-top: 10px; line-height: 1.5; }
+  .co-hints { margin: 6px 0 0; padding: 0; list-style: none; font-size: 12.5px; line-height: 1.45; color: rgba(255,255,255,.6); }
+  .co-hints li::before { content: '💡 '; }
+  .co-foot { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 10px 16px calc(var(--sab) + 12px); background: rgba(28,25,23,.97); border-top: 1px solid rgba(255,255,255,.1); }
+  .co-said { min-width: 0; font-size: 12.5px; line-height: 1.35; color: rgba(255,255,255,.6); }
   /* They stay at the top while he reads, so a hard verse can be switched on the
      spot: in the day's reading, and in a chapter opened over the page, under a
      strip that keeps the verses from scrolling behind its Back button. */
@@ -2291,6 +2321,12 @@
 <section id="view" hidden aria-label="Look back">
   <button id="viewBack" class="view-back" aria-label="Back">‹ Back</button>
   <div id="viewBody"></div>
+</section>
+<!-- Try my own: his own version of a Bible chapter, over the reader (a grown-up's switch in the Parent hub). -->
+<section id="coach" hidden aria-label="Try my own">
+  <div class="co-top"><button id="coachBack" class="view-back" aria-label="Back">‹ Back</button><b id="coachTitle"></b></div>
+  <div id="coachBody" class="co-in"></div>
+  <div class="co-foot"><span id="coachSaid" class="co-said"></span><button id="coachSave" class="btn">Save</button></div>
 </section>
 
 <!-- ==================== OVERLAYS ==================== -->
@@ -6514,11 +6550,13 @@ const TreasureUp = (function () {
         <div class="lib-chs">${chs.map((ch, i) => {
           const isChNow = now.has(ch);
           const isDone = everRead(ch);
-          return `<button class="lib-ch${isChNow ? ' now' : ''}${isDone ? ' done' : ''}" data-lib-ch="${esc(ch)}" aria-label="${esc(ch)}${isDone ? ', read' : ''}">
+          const own = coachOn() && ownOf(ch);
+          return `<button class="lib-ch${isChNow ? ' now' : ''}${isDone ? ' done' : ''}${own ? ' own' : ''}" data-lib-ch="${esc(ch)}" aria-label="${esc(ch)}${isDone ? ', read' : ''}${own ? ', with your own version' : ''}">
             <span class="lib-ch-num">${i + 1}</span>
             ${isChNow ? '<span class="lib-ch-star">★</span>' : (isDone ? '<span class="lib-ch-check">✓</span>' : '')}
           </button>`;
         }).join('')}</div>
+        ${coachOn() && chs.some(ownOf) ? '<p class="lb-help">A teal line: your own version (✍️ Try my own).</p>' : ''}
       `;
     }
 
@@ -6550,6 +6588,7 @@ const TreasureUp = (function () {
           const isNow = [...now].some(c => c.startsWith(name + ' '));
           const isDone = read === n;
           const pct = Math.round((read / n) * 100);
+          const own = coachOn() ? Object.keys(ownAll()).filter(ch => ch.startsWith(name + ' ') && /^\d+$/.test(ch.slice(name.length + 1)) && ownOf(ch)).length : 0;
           return `
             <button class="lib-book-item${isNow ? ' now' : ''}${isDone ? ' done' : ''}" data-lib-book="${esc(name)}">
               <div class="lib-bi-top">
@@ -6559,6 +6598,7 @@ const TreasureUp = (function () {
               <div class="lib-bi-meta">
                 <span>${n === 1 ? '1 chapter' : n + (name === 'Doctrine and Covenants' ? ' sections' : ' chs')}</span>
                 ${read ? `<span class="lib-bi-read">${isDone ? 'All read' : read + ' read'}</span>` : ''}
+                ${own ? `<span class="lib-bi-own">✍️ ${own} of yours</span>` : ''}
               </div>
               ${read > 0 && !isDone ? `<div class="today-bar lib-bi-bar"><div style="width:${pct}%"></div></div>` : ''}
             </button>
@@ -7661,7 +7701,7 @@ const TreasureUp = (function () {
   function versesHtml(u, week) {
     const x = plainOf(week, u.ch), on = shownLayers(haveOf(u, week)), bsb = on.bsb && bsbOf(week, u.ch), lang = on.lang && transOf(on.lang, week, u.ch);
     const tip = on.orig && origOf(u.ch) ? `<p class="ls-orig-tip">${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew reads right to left, but here its'} words are in English order: what each means on top, then the word, then how to say it (the loud part in capitals). Tap a word to learn more${treasureOf(week).length ? '; 💎 is a treasure word' : ''}.</p>` : '';
-    const mn = on.notes ? marginNotesOf(week, u.ch) : [];
+    const mn = on.notes ? marginNotesOf(week, u.ch) : [], own = ownLinesOf(u.ch);
     const top = on.notes ? `<div class="ls-tops">${scDoorHtml(u.ch)}${mn.filter(n => !n.v).map(n => noteLineHtml(n, u, week, true)).join('')}</div>` : '';
     return tip + top + u.verses.map(v => {
       const lines = [];
@@ -7673,6 +7713,7 @@ const TreasureUp = (function () {
       const ref = u.ch + ':' + v.n, hl = markOf(ref);
       return `<div class="ls-vv" data-v="${v.n}" data-ref="${esc(ref)}"${hl ? ` data-hl="${hl}"` : ''}>` +
         lines.map(([c, t, l], i) => `<p class="${c}${i ? '' : ' lead'}"${l ? ` lang="${l}"` : ''}>${i ? '' : `<sup>${v.n}</sup>`}${esc(t)}</p>`).join('') +
+        (own && String(own.v[v.n] || '').trim() ? `<p class="ls-own"><b>Mine</b>${esc(own.v[v.n])}</p>` : '') +
         myNotesOf(ref).map(([id, x]) => `<button class="ls-note ls-mine" data-vnote="${esc(ref)}" data-vnote-id="${esc(id)}"><span class="lm-ic">✍️</span>${esc(x.text)}${x.share ? ' <small>· 👀 shared with your parents</small>' : ''}</button>`).join('') +
         (on.orig ? origHtml(u.ch, v.n, week) : '') +
         notes.map(n => `<p class="ls-note"><span class="lm-ic">📝</span>${linkRefs(n.text, u.ch + ':' + v.n)}</p>`).join('') +
@@ -7829,12 +7870,11 @@ const TreasureUp = (function () {
   }
   // With the Hebrew or Greek on, a chapter's words load the first time they're needed.
   const origLoads = {};
+  const loadOrig = ch => { const src = origSrc(ch); return origLoads[src] || (origLoads[src] = loadScript(src).catch(e => { delete origLoads[src]; throw e; })); };
   function needOrig(box) {
     const ctx = box && chapterCtx(box);
     if (!ctx || !layers.orig || !origLang(ctx.u.ch) || origOf(ctx.u.ch)) return;
-    const src = origSrc(ctx.u.ch);
-    (origLoads[src] || (origLoads[src] = loadScript(src).catch(e => { delete origLoads[src]; throw e; })))
-      .then(() => { if (box.isConnected) redrawChapter(box); }).catch(() => {});
+    loadOrig(ctx.u.ch).then(() => { if (box.isConnected) redrawChapter(box); }).catch(() => {});
   }
   // A button: that text or the notes on or off, everywhere. The last text on stays on.
   function toggleLayer(btn) {
@@ -7850,6 +7890,178 @@ const TreasureUp = (function () {
     needTrans(box);
     needOrig(box);
   }
+  // Try my own (Blake, 2026-10-08: "a simple tool that I could tag on if I
+  // ever wanted to try to do a translation myself"; for him only, off unless
+  // a grown-up turns it on in the Parent hub, behind the PIN on a child's
+  // device). A Bible chapter in the reader gets ✍️ Try my own: each verse's
+  // KJV, then its Hebrew or Greek word by word with what each word means
+  // (content/original, as under the Hebrew button), then a box for his own
+  // version, with quiet hints like the checks the plain words pass: a name
+  // the KJV has that his doesn't, KJV English left in, a verse much longer
+  // or shorter than the KJV's, and an empty one between verses he wrote.
+  // Hints never stop a save. His versions
+  // stay on this device (NS + 'own': chapter -> { v: verse -> text, upd }),
+  // never in his progress, which a family's parents can read. "Show mine"
+  // puts them under the verses everywhere, like the plain words, and the
+  // Scriptures tab marks the chapters he has one of. Off, none of it shows.
+  const COACH_KEY = NS + 'coach', OWN_KEY = NS + 'own', OWN_SHOW_KEY = NS + 'ownShow';
+  const coachOn = () => { try { return localStorage.getItem(COACH_KEY) === '1'; } catch (e) { return false; } };
+  let ownCache = null;
+  function ownAll() {
+    if (ownCache) return ownCache;
+    try { const o = JSON.parse(localStorage.getItem(OWN_KEY) || '{}'); ownCache = o && typeof o === 'object' ? o : {}; } catch (e) { ownCache = {}; }
+    return ownCache;
+  }
+  const ownOf = ch => { const x = ownAll()[ch]; return x && x.v && Object.values(x.v).some(t => String(t || '').trim()) ? x : null; };
+  const ownShown = () => { try { return localStorage.getItem(OWN_SHOW_KEY) === '1'; } catch (e) { return false; } };
+  // His lines in the reader: with the switch on, Show mine on, and a version of this chapter.
+  const ownLinesOf = ch => coachOn() && ownShown() ? ownOf(ch) : null;
+  // One chapter's verses, kept (an empty box is left out; no verse at all forgets the chapter): true once saved.
+  function saveOwn(ch, v) {
+    const all = Object.assign({}, ownAll()), keep = {};
+    for (const [n, t] of Object.entries(v)) if (String(t || '').trim()) keep[n] = String(t).trim().slice(0, 2000);
+    if (Object.keys(keep).length) all[ch] = { v: keep, upd: Date.now() }; else delete all[ch];
+    try { localStorage.setItem(OWN_KEY, JSON.stringify(all)); } catch (e) { return false; }
+    ownCache = all;
+    return true;
+  }
+  // The door, above a Bible chapter's buttons, and Show mine once he has a version.
+  function coachRowHtml(u) {
+    if (!coachOn() || !u.verses || !origLang(u.ch)) return '';
+    const x = ownOf(u.ch), n = x ? u.verses.filter(v => String(x.v[v.n] || '').trim()).length : 0;
+    return `<div class="co-row"><button class="co-open" data-coach="${esc(u.ch)}">✍️ Try my own<small>${n ? `Yours so far: ${n} of ${u.verses.length} ${u.verses.length === 1 ? 'verse' : 'verses'}` : `The ${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew'} word by word, then your own words`}</small></button>` +
+      (x ? `<button class="sh-pill co-show${ownShown() ? ' on' : ''}" data-own-show aria-pressed="${ownShown()}">Show mine</button>` : '') + '</div>';
+  }
+  function toggleOwnShow(btn) {
+    try { localStorage.setItem(OWN_SHOW_KEY, ownShown() ? '0' : '1'); } catch (e) {}
+    const box = btn.closest('.ls-chapter');
+    if (box) redrawCoachRow(box);
+  }
+  function redrawCoachRow(box) {
+    const ctx = chapterCtx(box), row = box.querySelector('.co-row');
+    if (!ctx) return;
+    if (row) row.outerHTML = coachRowHtml(ctx.u);
+    redrawChapter(box);
+  }
+
+  // The hints. Names: a word the chapter's KJV capitalizes straight after
+  // another word (so not a sentence's first word, or a saying's after its
+  // comma: "unto Abram, Get thee out") and never writes in small letters, and
+  // not God's titles, which he may well put another way.
+  const OLD_WORDS = /(?<!-)\b(thee|thou|thy|thine|ye|hath|hast|saith|doth|dost|shalt|wilt|unto|verily|whosoever|whatsoever|wherefore|thereof|whereof|wherein|whereby|hither|thither|yea|nay|lo|behold|begat|beseech|wist|wot|ere|betwixt|spake|sware|durst|didst|wast|wert)\b(?!-)/gi;
+  const OLD_WORD = new RegExp(OLD_WORDS.source, 'i');   // one word, tested on its own
+  const OLD_ETH = /(?<!-)\b(?!teeth\b|beneath\b|seth\b|[a-z]*ieth\b)[a-z]{2,}eth\b/g;   // -eth verbs (names are capitalized)
+  const NOT_NAMES = new Set(['god', 'lord', 'spirit', 'holy', 'ghost', 'father', 'son', 'almighty', 'most', 'high', 'highest', 'creator', 'saviour', 'redeemer', 'i', 'o', 'oh', 'amen', 'selah']);
+  function namesOf(verses) {
+    const lower = new Set(verses.flatMap(v => v.t.match(/\b[a-z][a-z]*\b/g) || []));
+    const names = new Set();
+    for (const v of verses) {
+      const toks = v.t.split(/\s+/);
+      toks.forEach((tok, i) => {
+        const m = /^[(“‘"']?([A-Z][a-z]+)(?:['’]s)?[^A-Za-z]*$/.exec(tok), w = m && m[1].toLowerCase();
+        if (!m || !i || !/[a-z]$/i.test(toks[i - 1]) || NOT_NAMES.has(w) || lower.has(w) || OLD_WORD.test(w)) return;
+        names.add(m[1]);
+      });
+    }
+    return [...names];
+  }
+  const normWords = t => String(t).toLowerCase().replace(/[‘’']/g, "'").replace(/[^a-z0-9' ]+/g, ' ').replace(/\s+/g, ' ').trim();
+  // A verse's hints: kjv its KJV, mine what he wrote, names the chapter's, gap whether a verse after it is written.
+  function coachHints(kjv, mine, names, gap) {
+    const t = String(mine || '').trim();
+    if (!t) return gap ? ['Still empty.'] : [];
+    const out = [], said = t.replace(/“[^”]*”/g, ' ');          // words he puts in quotation marks are left alone
+    const miss = names.filter(n => new RegExp('\\b' + n + '\\b').test(kjv) && !new RegExp('\\b' + n, 'i').test(t));
+    if (miss.length) out.push(`${andList(miss.map(n => `“${n}”`))} ${miss.length === 1 ? 'is' : 'are'} in the KJV but not in yours.`);
+    // "thou knowest", "sayest thou": the -est words the KJV has with "thou"
+    const est = new Set([...kjv.matchAll(/\bthou\s+([a-z]+(?:est|st))\b|\b([a-z]+(?:est|st))\s+thou\b/gi)].map(m => (m[1] || m[2]).toLowerCase()));
+    const old = [...new Set([...said.matchAll(OLD_WORDS)].map(m => m[0].toLowerCase()))];
+    const ends = [...new Set([...[...said.matchAll(OLD_ETH)].map(m => m[0]), ...(said.match(/\b[a-z]+\b/gi) || []).filter(w => est.has(w.toLowerCase()))].map(w => w.toLowerCase()))].filter(w => !old.includes(w));
+    if (old.length) out.push(`${andList(old.map(w => `“${w}”`))}: KJV English. How would you say it today?`);
+    if (ends.length) out.push(`${andList(ends.map(w => `“${w}”`))}: the KJV’s old -eth or -est ending.`);
+    const a = countWords(t), b = countWords(kjv);
+    if (a > b * 1.5 + 8) out.push(`Much longer than the KJV (${a} words to its ${b}). Anything added?`);
+    else if (a < b * 0.45 && b > 8) out.push(`Much shorter than the KJV (${a} words to its ${b}). Anything left out?`);
+    if (b > 4 && normWords(t) === normWords(kjv)) out.push('This is the KJV word for word.');
+    return out;
+  }
+
+  // His screen, over the reader: coach = { u, week, box, words: 'ok' | 'wait' | 'miss', names }.
+  let coach = null;
+  function openCoach(box) {
+    const ctx = box && chapterCtx(box);
+    if (!coachOn() || !ctx || !ctx.u.verses || !origLang(ctx.u.ch)) return;
+    const u = ctx.u, x = ownOf(u.ch);
+    coach = { u, week: ctx.week, box, words: origOf(u.ch) ? 'ok' : 'wait', names: namesOf(u.verses) };
+    $('coachTitle').textContent = u.ref;
+    $('coachBody').innerHTML = `<div class="eyebrow">✍️ Try my own</div><h2 class="reel-hook">${esc(u.ref)}</h2>
+      <p class="co-tip">Each verse: the King James, then the ${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew'} word by word with what each word means (tap one to learn more), then your own words. The hints under a box are only hints. 🔒 Kept on this device, just for you.</p>
+      <p id="coachMsg" class="co-miss"${coach.words === 'wait' ? '' : ' hidden'}>Opening the ${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew'} words…</p>` +
+      u.verses.map(v => `<div class="co-v" data-co-v="${v.n}"><p class="ls-v"><sup>${v.n}</sup>${esc(v.t)}</p><div class="co-words">${origHtml(u.ch, v.n, ctx.week)}</div>
+        <textarea class="field co-text" data-co-in="${v.n}" rows="3" maxlength="2000" aria-label="Your version of verse ${v.n}" placeholder="Verse ${v.n} in your own words">${esc(x ? x.v[v.n] || '' : '')}</textarea>
+        <ul class="co-hints" data-co-h="${v.n}" aria-live="polite"></ul></div>`).join('') +
+      `<p class="ls-orig-credit">${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew'} words: STEPBible.org, from work at Tyndale House, Cambridge (CC BY 4.0)</p>`;
+    $('coach').hidden = false;
+    $('coach').scrollTop = 0;
+    coachCheck();
+    if (coach.words === 'wait') {
+      const c = coach;
+      loadOrig(u.ch).then(() => coachWords(c, 'ok')).catch(() => coachWords(c, 'miss'));
+    }
+  }
+  // The words came (or didn't): each verse's row of them, or a short line why not.
+  function coachWords(c, how) {
+    if (coach !== c || $('coach').hidden) return;
+    c.words = origOf(c.u.ch) ? how : 'miss';
+    $('coachBody').querySelectorAll('.co-v').forEach(el => { el.querySelector('.co-words').innerHTML = origHtml(c.u.ch, Number(el.dataset.coV), c.week); });
+    const msg = $('coachMsg');
+    msg.hidden = c.words === 'ok';
+    msg.textContent = `The ${origLang(c.u.ch) === 'el' ? 'Greek' : 'Hebrew'} words didn’t open; they need the internet. You can still write, and they’ll be here next time.`;
+  }
+  const coachTyped = () => Object.fromEntries([...$('coachBody').querySelectorAll('[data-co-in]')].map(t => [t.dataset.coIn, t.value]));
+  // Every verse's hints again, and how many he has written.
+  function coachCheck() {
+    if (!coach) return;
+    const typed = coachTyped(), vs = coach.u.verses, last = Math.max(0, ...vs.filter(v => String(typed[v.n] || '').trim()).map(v => v.n));
+    for (const v of vs) {
+      const ul = $('coachBody').querySelector(`[data-co-h="${v.n}"]`);
+      if (ul) ul.innerHTML = coachHints(v.t, typed[v.n], coach.names, v.n < last).map(h => `<li>${esc(h)}</li>`).join('');
+    }
+    const n = vs.filter(v => String(typed[v.n] || '').trim()).length;
+    $('coachSaid').textContent = (n ? `${n} of ${vs.length} ${vs.length === 1 ? 'verse' : 'verses'} written` : 'Nothing written yet') + (coach.dirty ? '' : n ? ' · saved' : '');
+  }
+  let coachTimer = null;
+  function coachInput() {
+    if (!coach) return;
+    coach.dirty = true;
+    clearTimeout(coachTimer);
+    coachTimer = setTimeout(coachCheck, 250);
+  }
+  // Save: what he wrote, on this device, then back to the chapter (with it under the verses, if Show mine is on).
+  function coachSave(close) {
+    if (!coach) return;
+    clearTimeout(coachTimer);
+    const ch = coach.u.ch, typed = coachTyped();
+    // A part of a chapter (a day's reading) keeps the chapter's other verses as they were.
+    const v = Object.assign({}, (ownAll()[ch] || {}).v || {});
+    for (const x of coach.u.verses) v[x.n] = typed[x.n] || '';
+    if (!saveOwn(ch, v)) { toast('Not saved', 'This browser isn’t keeping anything (a private window?)'); return; }
+    coach.dirty = false;
+    if (!close) return coachCheck();
+    closeCoach();
+    toast('✍️ ' + (ownOf(ch) ? 'Saved on this device' : 'Cleared'), ownOf(ch) ? 'Just yours. “Show mine” puts it under the verses.' : 'Your version of ' + ch + ' is gone');
+  }
+  function closeCoach() {
+    if ($('coach').hidden) return;
+    const c = coach;
+    if (c && c.dirty) coachSave(false);           // Back keeps what he wrote too
+    coach = null;
+    clearTimeout(coachTimer);
+    $('coach').hidden = true;
+    $('coachBody').innerHTML = '';
+    if (c && c.box && c.box.isConnected) redrawCoachRow(c.box);
+  }
+
   // Without a reading plan, a section a day as before.
   // A reel comes on the day its chapter is read; one outside the reading,
   // with its section's other reels. A week with no chapters to read
@@ -9873,6 +10085,15 @@ const TreasureUp = (function () {
     renderParent();
   }
 
+  // Try my own's switch (a grown-up's, so here behind the PIN rather than in
+  // Settings), and the chapters he has a version of, each a tap from the reader.
+  function coachHubHtml() {
+    const mine = Object.keys(ownAll()).filter(ownOf).sort((a, b) => (ownAll()[b].upd || 0) - (ownAll()[a].upd || 0));
+    return `<details class="hub-set" data-set="coach"${hubOpen.coach ? ' open' : ''}><summary>✍️ Try my own <small>${coachOn() ? 'On' : 'Off'} on this device</small></summary>
+        <p class="text-[12px] text-white/50 mt-2">For a grown-up who'd like to try translating: a Bible chapter in 📖 Scriptures gets ✍️ Try my own, with each verse in the KJV, its Hebrew or Greek word by word with what each word means, and a box for your own version, with gentle hints as you write. What you write stays on this device, just for you: it isn't sent to the family or kept with your progress.</p>
+        ${mine.length ? `<p class="text-[12px] text-white/60 mt-3">Yours so far:</p><div class="flex flex-wrap gap-2 mt-2">${mine.map(ch => `<button class="sh-pill" data-act="coach-open" data-ch="${esc(ch)}">${esc(ch)}</button>`).join('')}</div>` : ''}
+        <div class="board-actions"><button class="btn ghost" data-act="coach">${coachOn() ? 'Turn it off' : 'Turn it on'}</button></div></details>`;
+  }
   function openParent() {
     parentUnlocked = hubFam();
     if (parentUnlocked) { draft = P.rewards.length ? P.rewards.map(r => Object.assign({}, r)) : [{ xp: 0, text: '', claimed: false }]; prizeDraft = prizes().map(p => Object.assign({}, p)); }
@@ -9955,6 +10176,7 @@ const TreasureUp = (function () {
         <label class="block mt-3 text-[12px] text-white/60" for="pinAgain">Type it again</label>
         <input id="pinAgain" class="field" type="password" inputmode="numeric" maxlength="4" autocomplete="off">
         <div class="board-actions"><button class="btn ghost" data-act="setpin">Change the PIN</button></div></details>`}
+      ${coachHubHtml()}
       ${/\/TreasureUp-test\//.test(location.pathname) ? '<a class="parent-link" href="#dev" data-act="dev">Developer mode: review and change content ›</a>' : ''}`;
     for (const [id, v] of Object.entries(typed)) { const el = $(id); if (el && el.tagName !== 'SELECT') el.value = v; }
     body.querySelectorAll('details.hub-set').forEach(d => d.addEventListener('toggle', () => { hubOpen[d.dataset.set] = d.open; }));
@@ -10018,6 +10240,8 @@ const TreasureUp = (function () {
     if (act === 'rv-noback') { rvNy[rid] = false; return renderParent(); }
     if (act === 'rv-nosend') return answerReview(rid, 'notyet');
     if (act === 'letter') return saveLetter(el.dataset.pid, el.dataset.name);
+    if (act === 'coach') { try { localStorage.setItem(COACH_KEY, coachOn() ? '0' : '1'); } catch (e) {} hubOpen.coach = true; refreshHome(); return renderParent(coachOn() ? 'Try my own is on, on this device: open a Bible chapter in 📖 Scriptures.' : 'Try my own is off. What you wrote is still kept here.'); }
+    if (act === 'coach-open') { closeParent(); return openLibChapter(el.dataset.ch); }
     if (['addprize', 'starter', 'saveprizes'].includes(act)) hubOpen.prizes = true;
     if (['add', 'save'].includes(act)) hubOpen.miles = true;
     if (act === 'order') { setOrder(el.dataset.oid, el.dataset.st, !(F && F.role === 'parent')); return renderParent(el.dataset.st === 'declined' ? 'Said no: his XP is back.' : el.dataset.st === 'given' ? 'Marked given. 🎉' : 'Said yes. Mark it given once he has it.'); }
@@ -11468,7 +11692,7 @@ const TreasureUp = (function () {
         <div class="eyebrow">${esc(week.title)}</div>
         <h2 class="reel-hook">${esc(u.ref)}${chapterFixHtml(week, u.ch)}</h2>
         ${listenHtml(u)}
-        ${u.verses ? stillFirstHtml() + tldrHtml(u, week) + treasureStripHtml(u, week) + layersBarHtml(u, week) + `<div class="ls-verses">${versesHtml(u, week)}</div>`
+        ${u.verses ? stillFirstHtml() + tldrHtml(u, week) + treasureStripHtml(u, week) + coachRowHtml(u) + layersBarHtml(u, week) + `<div class="ls-verses">${versesHtml(u, week)}</div>`
           : link ? `<a class="deep-open" href="${esc(link)}" target="_blank" rel="noopener noreferrer">Read ${esc(u.ref)} in Gospel Library ↗</a>` : ''}
         ${end || ''}
         <button class="today-alt sea-impress" data-impress="${esc(u.ref)}">✍️ Write an impression about ${esc(u.ref)}</button>
@@ -16049,7 +16273,7 @@ const TreasureUp = (function () {
   const BACK_LAYERS = [   // topmost first: each screen, and what closes it
     ['stillLayer', '#stillClose'], ['wordSheet', '#wordClose'], ['appSheet', '#appClose'], ['dev', '#devExit'], ['parent', '#parentClose'], ['lesson', '#lessonExit'],
     ['fam', '#famExit'], ['ammon', 'am'], ['look', 'lk'], ['snake', 'sn'],
-    ['risk', '#riskExit'], ['live', '#liveExit'], ['play', '#playExit'], ['board', '#boardExit'], ['view', '#viewBack'], ['past', '#pastBack']
+    ['risk', '#riskExit'], ['live', '#liveExit'], ['play', '#playExit'], ['board', '#boardExit'], ['coach', '#coachBack'], ['view', '#viewBack'], ['past', '#pastBack']
   ];
   let backAt = (history.state && history.state.tu) || 0, backGoing = false, backPopping = false, backTapAt = 0;
   const backOpen = () => BACK_LAYERS.filter(([id]) => { const el = $(id); return el && !el.hidden; });
@@ -18581,6 +18805,10 @@ const TreasureUp = (function () {
     $('view').addEventListener('click', e => {
       const layer = e.target.closest('[data-layer]');
       if (layer) { toggleLayer(layer); return; }
+      const co = e.target.closest('[data-coach]');
+      if (co) { openCoach(co.closest('.ls-chapter')); return; }
+      const os = e.target.closest('[data-own-show]');
+      if (os) { toggleOwnShow(os); return; }
       const ml = e.target.closest('[data-mark-lesson]');
       if (ml) { const key = ml.dataset.markLesson; closeView(); openLesson(key); return; }
       const lc = e.target.closest('[data-lib-ch]');
@@ -19003,6 +19231,11 @@ const TreasureUp = (function () {
       if (e.target.closest('#listenFab') && listen.ch) toggleListen(listen.ch);
     });
 
+    // Try my own: Back and Save, and the hints as he types.
+    $('coachBack').addEventListener('click', closeCoach);
+    $('coachSave').addEventListener('click', () => coachSave(true));
+    $('coachBody').addEventListener('input', e => { if (e.target.closest('[data-co-in]')) coachInput(); });
+
     $('lesson').addEventListener('click', e => {
       const clip = e.target.closest('button.clip');
       if (clip) { playClip(clip); return; }
@@ -19115,6 +19348,7 @@ const TreasureUp = (function () {
         if (e.key === 'Backspace') { e.preventDefault(); wordKey('back'); return; }
         if (/^[a-z]$/i.test(e.key)) { wordKey(e.key.toUpperCase()); return; }
       }
+      if (e.key === 'Escape' && !$('coach').hidden && $('wordSheet').hidden && $('appSheet').hidden) { closeCoach(); return; }
       if (e.key === 'Escape') { closeParent(); closeBoard(); closeFam(); if ($('view').hidden) closePast(); closeView(); if (!$('lesson').hidden) closeLesson(); if (!$('play').hidden) closePlay(); if (!$('live').hidden) liveExit(); }
     });
 
