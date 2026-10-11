@@ -4,8 +4,8 @@ import { check, device, txt, wait } from './lib.mjs';
 
 export default async function smoke({ port }) {
   const base = `http://127.0.0.1:${port}/`;
-  // A Sunday has no reading of its own, so no Be still or Morning Council rows to
-  // test: on a Sunday the run opens on the Saturday before (CI runs any day).
+  // A Sunday has no reading path of its own (no Daily Walk, Book of Mormon row or Goal steps to
+  // test; sunday.test.mjs has Sunday's): on a Sunday the run opens on the Saturday before (CI runs any day).
   const now = new Date(), sat = now.getDay() === 0 ? new Date(now - 864e5) : null;
   const day = sat && `${sat.getFullYear()}-${String(sat.getMonth() + 1).padStart(2, '0')}-${String(sat.getDate()).padStart(2, '0')}T09:00:00`;
   const dev = await device('phone', { url: base + 'index.html', day });

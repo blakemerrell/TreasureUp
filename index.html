@@ -3368,7 +3368,9 @@ const TreasureUp = (function () {
     // An earlier day still behind brings only what's left of it; today's own steps stay, done or not.
     let rows = entries.flatMap(e => { const from = isToday && flowDay(e) < d, r = entryRows(e, from); return from ? r.filter(x => !x.done) : r; });
     if (d === 6) rows = rows.concat(sundayRows(k));
-    if (isToday) rows = rows.concat(gratefulRows(), [{ card: 'still', done: stillOn(dayKey()), html: stillRowHtml() }], seasonRows());
+    // Sunday opens with the morning routine too, its rows built as on the other days (they're never the green button: no `go`).
+    if (isToday) rows = morningRows(k).map(r => ({ card: r.kind, done: r.done, html: flowRow(pathRowAttr(r, { d, isToday }), r.done, esc(pathRowTitle(r)), esc(pathRowSub(r))) }))
+      .concat(rows, gratefulRows(), seasonRows());
     let button;
     if (isToday) button = upNext(entries, rows, d, k);
     else {
@@ -3380,6 +3382,8 @@ const TreasureUp = (function () {
     }
     const counted = rows.filter(r => r.done !== null), n = counted.filter(r => r.done).length;
     const tag = isToday ? '' : keptDay(k) ? '✓ Kept' : k > today ? 'Coming up' : '';
+    // Under the list, as on the other days: the Morning Council's to-dos in Goal Achievements (Sunday's goal
+    // steps are ticked in its list already, so none go there), then Return & Report.
     return `<div class="flow">
       ${isToday ? greetingHtml() : ''}
       <div class="fl-date"><b>${DAY_NAMES[(new Date(k + 'T12:00:00').getDay() + 6) % 7]} · ${esc(shortDay(k))}</b><small>${counted.length ? n + ' of ' + counted.length + ' done' : ''}${tag ? (counted.length ? ' · ' : '') + tag : ''}</small></div>
@@ -3387,6 +3391,7 @@ const TreasureUp = (function () {
       ${isToday ? verseHeroHtml() : ''}
       ${button.html}${isToday ? pickUpHtml() : ''}
       <div class="fl-list">${rows.filter(r => !(button.hide.includes(r.card) && !r.done)).map(r => r.html).join('')}${d < 6 ? moreHtml(d) : ''}${talkDayHtml(k)}</div>
+      ${isToday ? goalsSectionHtml(k, [], { d, isToday }) + eveningCardHtml(k) : ''}
     </div>`;
   }
 
@@ -4474,7 +4479,6 @@ const TreasureUp = (function () {
     return m ? `${m} quiet ${m === 1 ? 'minute' : 'minutes'} today` + (n > 1 ? ` · ${n} days in a row` : '')
       : 'A few quiet minutes with Heavenly Father' + (n ? ` · ${n} ${n === 1 ? 'day' : 'days'} in a row` : '');
   }
-  const stillRowHtml = () => flowRow('data-still', stillOn(dayKey()), '🕊️ Be still', esc(stillSub()));
   const stillFirstHtml = () => stillOn(dayKey()) ? '' : '<button class="still-first" data-still>🕊️ Be still first <small>a quiet minute before you read</small></button>';
   function stillSeasonHtml(s) {
     const n = stillStreak(), days = Object.keys(S.still || {}).filter(d => stillOn(d) && d >= s.start && d <= s.end).length;
@@ -8705,14 +8709,16 @@ const TreasureUp = (function () {
       }
       for (const x of goalSteps()) rows.push({ kind: 'goal', x, k, done: x.on, own: true });
       rows.push({ kind: 'thanks', k, done: !!gratefulOf(k) || !!dn.thanks, own: true });
-      // Morning routine in the flow: Blueprint follows Be still
-      const hadBp = blueprintOf(k), bp = hadBp ? hadBp[1] : null;
-      const bpDone = !!(bp && (bp.oneThing || bp.uplift));
-      rows.unshift({ kind: 'blueprint', k, done: bpDone, bp, own: true });
-      // Be still leads the day (Blake, 2026-10-07: "Be still at the top? Start out that way?").
-      rows.unshift({ kind: 'still', k, done: stillOn(k), own: true });
+      rows.unshift(...morningRows(k));
     }
     return rows;
+  }
+  // The morning routine, at the top of the day: Be still leads it (Blake, 2026-10-07: "Be still at the
+  // top? Start out that way?"), then the Morning Council. Every day's, Sunday's too (Blake, 2026-10-11:
+  // "Add them on Sundays"). His own, like the goals: they never hold the day's study back.
+  function morningRows(k) {
+    const hadBp = blueprintOf(k), bp = hadBp ? hadBp[1] : null;
+    return [{ kind: 'still', k, done: stillOn(k), own: true }, { kind: 'blueprint', k, done: !!(bp && (bp.oneThing || bp.uplift)), bp, own: true }];
   }
   // What's left of a day's study: its rows not done, but for his own (goals, Be still).
   const pathLeft = rows => rows.filter(r => !r.done && !r.own);
