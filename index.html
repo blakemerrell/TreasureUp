@@ -2254,6 +2254,44 @@
   .lib-book-summary-card { padding: 14px 16px; border-radius: 14px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); margin: 10px 0 14px; }
   .lib-book-summary-text { font-size: 14px; line-height: 1.45; color: rgba(255,255,255,.85); margin: 0; }
   .lib-book-prog-box { padding: 12px 14px; border-radius: 12px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); }
+
+  /* Questions friends ask: the shelf's card, the page by area, a question */
+  .qa-card { border-color: rgba(252,211,77,.35); background: linear-gradient(145deg, rgba(252,211,77,.1), rgba(255,255,255,.03)); }
+  .qa-card .lib-vc-title-row { align-items: flex-start; }
+  .qa-draft { flex-basis: auto; white-space: nowrap; }
+  .qa-list { display: grid; gap: 8px; }
+  .qa-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; border-radius: 14px; cursor: pointer; text-align: left;
+    font: inherit; color: #fff; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); }
+  .qa-row:active { transform: scale(0.99); }
+  .qa-where { flex-shrink: 0; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 10px; background: rgba(255,255,255,.08); font-size: 16px; }
+  .qa-heard { flex: 1; min-width: 0; font-size: 15px; font-weight: 800; line-height: 1.3; }
+  .qa-heard .plain-draft { display: block; margin-top: 3px; }
+  .qa-go { font-size: 20px; font-weight: 700; color: rgba(255,255,255,.3); }
+  .qa-none { margin: 0; font-size: 13px; }
+  .qa-h { font-size: 24px; line-height: 1.2; }
+  .qa-h .fix-link { margin-left: 8px; font-size: 16px; vertical-align: middle; }
+  .qa-parent { display: flex; gap: 12px; align-items: flex-start; margin: 12px 0 4px; padding: 12px 14px; border-radius: 14px;
+    background: rgba(252,211,77,.1); border: 1px solid rgba(252,211,77,.45); }
+  .qa-parent > span { font-size: 22px; line-height: 1.2; }
+  .qa-parent p { margin: 0; font-size: 13.5px; line-height: 1.4; color: rgba(255,255,255,.85); }
+  .qa-parent b { display: block; font-size: 14.5px; color: var(--gold); }
+  .qa-kid { margin: 12px 0 0; padding: 16px 18px; border-radius: 18px; background: linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.03)); border: 1px solid rgba(255,255,255,.12); }
+  .qa-p { margin: 0; font-size: 16px; line-height: 1.55; color: rgba(255,255,255,.92); }
+  .qa-p + .qa-p { margin-top: 10px; }
+  .qa-p a { color: var(--gold); }
+  .qa-more { display: flex; align-items: center; gap: 10px; width: 100%; margin-top: 12px; padding: 12px 14px; border-radius: 14px; cursor: pointer; text-align: left;
+    font: inherit; font-size: 15px; font-weight: 800; color: #fff; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); }
+  .qa-more small { flex: 1; font-size: 12px; font-weight: 700; color: rgba(255,255,255,.5); }
+  .qa-more-go { font-size: 20px; color: var(--gold); transition: transform .15s ease; }
+  .qa-more[aria-expanded="true"] .qa-more-go { transform: rotate(90deg); }
+  .qa-deeper { margin-top: 8px; padding: 14px 16px; border-radius: 14px; background: rgba(255,255,255,.04); border-left: 3px solid var(--gold); }
+  .qa-deeper .qa-p { font-size: 15px; }
+  .qa-sources { display: grid; gap: 8px; }
+  .qa-src { position: relative; display: block; padding: 10px 36px 10px 14px; border-radius: 12px; text-decoration: none; color: #fff;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); }
+  .qa-src small { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--gold); }
+  .qa-src span:not(.qa-src-go) { display: block; margin-top: 2px; font-size: 14px; font-weight: 700; line-height: 1.3; }
+  .qa-src-go { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,.45); }
   @media (min-width: 760px) {
     .home-in { max-width: 1100px; }
     .tt-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 28px; align-items: start; }
@@ -6368,6 +6406,87 @@ const TreasureUp = (function () {
   const libSlug = ch => ch.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   const libLoads = {};
   const loadOnce = src => libLoads[src] || (libLoads[src] = loadScript(src).catch(e => { delete libLoads[src]; throw e; }));
+
+  // Questions friends ask (content/questions.js): youth-friendly, faithful and
+  // candid answers to questions he hears at school, online or from friends, a
+  // shelf under the Standard Works. Each shows once Blake approves it in
+  // developer mode (the test site shows drafts, marked); with none approved,
+  // the shelf isn't there. `libQ` is where he is: null (the shelf), 'all'
+  // (every question by area) or a question's id; the back gesture steps back
+  // through them (backSync).
+  const QA_AREAS = [['god', 'God & Jesus', '✨'], ['bible', 'The Bible', '📜'], ['bom', 'The Book of Mormon', '📘'], ['history', 'Church history', '🏛️']];
+  const QA_WHERE = { school: ['🏫', 'Heard at school'], online: ['📱', 'Seen online'], friend: ['💬', 'From a friend'] };
+  const QA_HOOK = 'Heard it at school or on TikTok? Here’s a faithful, honest answer.';
+  let libQ = null, qaAsked = false;
+  const qaDepth = () => homeTab === 'scriptures' && libQ ? (libQ === 'all' ? 1 : 2) : 0;
+  // The questions the app shows: approved ones (their fingerprint matches), and on the test site drafts too.
+  function qaShown() {
+    if (!window.TU_QUESTIONS && !qaAsked) { qaAsked = true; loadOnce('content/questions.js').then(refreshHome).catch(() => {}); }
+    const all = (window.TU_QUESTIONS && Array.isArray(window.TU_QUESTIONS.questions)) ? window.TU_QUESTIONS.questions : [];
+    return all.filter(x => x && x.id && QA_AREAS.some(a => a[0] === x.area) && Array.isArray(x.kid))
+      .map(x => ({ x, draft: !(x.approved && x.approved === approvalHash(noApproval(x))) }))
+      .filter(q => !q.draft || TEST_SITE);
+  }
+  const qaParas = (list, cls) => (Array.isArray(list) ? list : []).map(t => `<p class="${cls}">${linkRefs(t)}</p>`).join('');
+  // The shelf's card, under the Standard Works.
+  function qaShelfHtml() {
+    const qs = qaShown();
+    if (!qs.length) return '';
+    const drafts = qs.filter(q => q.draft).length;
+    return `<div class="eyebrow" style="margin:22px 0 8px">Questions friends ask</div>
+      <div class="lib-vol-card card qa-card" data-qa-open="all" role="button" tabindex="0" aria-label="Questions friends ask: ${qs.length} ${qs.length === 1 ? 'question' : 'questions'}">
+        <div class="lib-vc-main">
+          <div class="lib-vc-icon">🤔</div>
+          <div class="lib-vc-info">
+            <div class="lib-vc-title-row"><h2 class="lib-vc-title">Hard questions</h2>${drafts ? `<span class="plain-draft qa-draft">${drafts} ${drafts === 1 ? 'draft' : 'drafts'}</span>` : ''}</div>
+            <p class="lib-vc-hook">${esc(QA_HOOK)}</p>
+            <div class="lib-vc-stats"><span>${qs.length} ${qs.length === 1 ? 'question' : 'questions'} · 4 topics</span><span style="color:rgba(255,255,255,.45)">Tap to open ›</span></div>
+          </div>
+          <div class="lib-vc-arrow">›</div>
+        </div>
+      </div>`;
+  }
+  // The page: the four areas, each with its questions as he'd hear them.
+  function qaListHtml(qs) {
+    return `<button class="lib-back" data-qa-back>‹ Scriptures</button>
+      <div class="eyebrow">Scriptures</div>
+      <h1 class="reel-hook lib-h">Questions friends ask</h1>
+      <p class="lb-help" style="margin:2px 0 6px;font-size:13.5px">${esc(QA_HOOK)} A short answer first, and more if you want to go deeper.</p>
+      ${QA_AREAS.map(([area, title, icon]) => {
+        const its = qs.filter(q => q.x.area === area);
+        return `<section class="qa-area" data-qa-area="${area}"><div class="eyebrow" style="margin:18px 0 8px">${icon} ${esc(title)}</div>
+          ${its.length ? `<div class="qa-list">${its.map(({ x, draft }) => {
+            const w = QA_WHERE[x.where] || ['❓', ''];
+            return `<button class="qa-row" data-qa-open="${esc(x.id)}"><span class="qa-where" role="img" aria-label="${esc(w[1])}" title="${esc(w[1])}">${w[0]}</span>
+              <span class="qa-heard">${esc(x.heard)}${draft ? '<span class="plain-draft">Draft: not approved yet</span>' : ''}</span><span class="qa-go" aria-hidden="true">›</span></button>`;
+          }).join('')}</div>` : '<p class="lb-help qa-none">More answers are on the way.</p>'}</section>`;
+      }).join('')}`;
+  }
+  // A question: as he heard it, the short answer, Go deeper, and where it comes from.
+  function qaPageHtml(q) {
+    const { x, draft } = q, w = QA_WHERE[x.where] || ['❓', ''], area = QA_AREAS.find(a => a[0] === x.area);
+    const sources = (Array.isArray(x.sources) ? x.sources : []).filter(s => s && /^https:\/\//.test(s.u || ''));
+    return `<button class="lib-back" data-qa-back>‹ Questions friends ask</button>
+      <div class="eyebrow">${w[0]} ${esc(w[1])} · ${esc(area[1])}</div>
+      <h1 class="reel-hook lib-h qa-h">${esc(x.heard)}${fixHtml(QAW, 'qa:' + x.id)}</h1>
+      ${draft ? '<p class="plain-draft">Draft: not approved yet</p>' : ''}
+      ${x.parent === true ? `<div class="qa-parent"><span aria-hidden="true">👨‍👩‍👦</span><p><b>Talk with Mom or Dad</b>This is a big one. Read it, then talk it over with Mom or Dad: they’d love to hear what you think.</p></div>` : ''}
+      <div class="qa-kid card">${qaParas(x.kid, 'qa-p')}</div>
+      ${(Array.isArray(x.deeper) && x.deeper.length) ? `<button class="qa-more" data-qa-deeper aria-expanded="false"><span>🤿 Go deeper</span><small>${Math.max(1, Math.round(x.deeper.join(' ').split(/\s+/).length / 200))} min read</small><span class="qa-more-go" aria-hidden="true">›</span></button>
+      <div class="qa-deeper" hidden>${qaParas(x.deeper, 'qa-p')}</div>` : ''}
+      ${sources.length ? `<div class="eyebrow" style="margin:20px 0 8px">Where this comes from</div>
+      <div class="qa-sources">${sources.map(s => `<a class="qa-src" href="${esc(s.u)}" target="_blank" rel="noopener noreferrer"><small>${esc(s.by)}</small><span>${esc(s.t)}</span><span class="qa-src-go" aria-hidden="true">↗</span></a>`).join('')}</div>` : ''}`;
+  }
+  // The Scriptures tab while he's in the questions: the page, or a question (a question gone from the list: back to it).
+  function qaHtml() {
+    const qs = qaShown();
+    if (libQ !== 'all') {
+      const q = qs.find(y => y.x.id === libQ);
+      if (q) return qaPageHtml(q);
+      libQ = 'all';
+    }
+    return qaListHtml(qs);
+  }
   // Whether he has read a chapter, any week: this one's, a past one's, or caught up since.
   function everRead(ch) {
     if (S.read[ch] || (S.libRead && S.libRead[ch]) || Object.values(S.late || {}).some(w => w && w.read && w.read[ch])) return true;
@@ -6607,6 +6726,7 @@ const TreasureUp = (function () {
   }
 
   function scripturesHtml() {
+    if (libQ) return qaHtml();
     const lib = window.TU_LIBRARY;
     if (!lib) {
       loadOnce('content/library.js').then(refreshHome).catch(() => { libLoads.failed = true; refreshHome(); });
@@ -6752,6 +6872,7 @@ const TreasureUp = (function () {
           `;
         }).join('')}
       </div>
+      ${qaShelfHtml()}
     `;
   }
   // A chapter from the library: this week's opens as from its day (its reading
@@ -16915,7 +17036,7 @@ const TreasureUp = (function () {
   const backAway = () => homeTab !== 'today' || (!!selDay && selDay !== dayKey());
   function backSync() {
     if (backGoing) return;
-    const want = 1 + (backAway() ? 1 : 0) + backOpen().length, ua = navigator.userActivation;
+    const want = 1 + (backAway() ? 1 : 0) + qaDepth() + backOpen().length, ua = navigator.userActivation;
     if (backAt > want) { backGoing = true; history.go(want - backAt); return; }
     const tapped = ua ? ua.isActive : Date.now() - backTapAt < 2000;
     if (backAt < want && !backPopping && tapped) while (backAt < want) history.pushState({ tu: ++backAt }, '');
@@ -16928,7 +17049,8 @@ const TreasureUp = (function () {
       const btn = how[0] === '#' ? el.querySelector(how)
         : !el.querySelector(`[data-${how}="resume"]`) && el.querySelector(`[data-${how}="pause"]`) || el.querySelector(`[data-${how}="exit"]`);
       if (btn) btn.click();
-    } else if (backAway()) { homeTab = 'today'; selDay = null; renderHome(); $('home').scrollTop = 0; }
+    } else if (qaDepth()) { libQ = libQ === 'all' ? null : 'all'; renderHome(); $('home').scrollTop = 0; }   // a question, then the questions, then the shelf
+    else if (backAway()) { homeTab = 'today'; selDay = null; renderHome(); $('home').scrollTop = 0; }
     if (!backAt) toast('Swipe back again to leave', 'or tap to stay');
   }
   function backWire() {
@@ -18461,11 +18583,33 @@ const TreasureUp = (function () {
     const r = await gh(`/repos/${repo}/contents/${SUNDAY_FILE}`, { method: 'PUT', body: JSON.stringify(Object.assign({ message, content: b64encode(head + SUNDAY_MARK + JSON.stringify(sun, null, 2) + ';\n') }, file ? { sha: file.sha } : {})) });
     return r.commit.sha;
   }
-  // The weeks, and the plain-words and Sunday entries after them when there are.
-  function devSetWeeks(weeks, plainFile, sundayFile) {
+  // Questions friends ask (content/questions.js): one more entry in the list,
+  // a piece per question (with the notes for Blake to look at, `review`), saved to its own file.
+  const QA_FILE = 'content/questions.js', QA_MARK = 'window.TU_QUESTIONS = ', QAW = 'questions';
+  const qaWeek = qa => ({ dates: QAW, title: 'Questions friends ask', questions: true, reels: [], sections: [], qa: clone(qa || { questions: [] }) });
+  const devOwnFile = w => !!(w.library || w.sunday || w.questions);   // an entry that is its own file, not a week
+  async function readQaFile(repo) {
+    const f = await gh(`/repos/${repo}/contents/${QA_FILE}`);
+    if (!f) return null;
+    let text = f.content ? b64decode(f.content) : null;
+    if (!text && f.download_url) { const res = await fetch(f.download_url, { cache: 'no-store' }); if (res.ok) text = await res.text(); }   // over 1 MB, the API leaves the content out
+    if (!text) return null;
+    const at = text.indexOf(QA_MARK);
+    const qa = JSON.parse(text.slice(at + QA_MARK.length, text.lastIndexOf(';')));
+    if (!Array.isArray(qa.questions)) qa.questions = [];
+    return { sha: f.sha, head: text.slice(0, at), text, qa };
+  }
+  async function writeQaFile(repo, file, qa, message) {
+    const head = file ? file.head : '// Questions friends ask: answers for the Scriptures tab, each shown once approved.\n// Developer mode edits this file; tools/verify.mjs checks it.\n';
+    const r = await gh(`/repos/${repo}/contents/${QA_FILE}`, { method: 'PUT', body: JSON.stringify(Object.assign({ message, content: b64encode(head + QA_MARK + JSON.stringify(qa, null, 2) + ';\n') }, file ? { sha: file.sha } : {})) });
+    return r.commit.sha;
+  }
+  // The weeks, and the plain-words, Sunday and questions entries after them when there are.
+  function devSetWeeks(weeks, plainFile, sundayFile, qaFile) {
     dev.plainFile = plainFile;
     dev.sundayFile = sundayFile;
-    dev.weeks = weeks.concat(plainFile ? [libWeek(plainFile.lib)] : [], sundayFile ? [sunWeek(sundayFile.sun)] : []);
+    dev.qaFile = qaFile;
+    dev.weeks = weeks.concat(plainFile ? [libWeek(plainFile.lib)] : [], sundayFile ? [sunWeek(sundayFile.sun)] : [], qaFile ? [qaWeek(qaFile.qa)] : []);
     dev.draft = clone(dev.weeks);
     // Its chapters' KJV and BSB, for the preview.
     if (plainFile) Promise.all(plainFile.lib.plain.map(p => loadOnce('content/lib/' + libSlug(p.ch) + '.js').catch(() => {}))).then(() => { if (dev && dev.week === LIB) renderDev(); });
@@ -18487,7 +18631,10 @@ const TreasureUp = (function () {
     lines: 'Lines (one per line, each ending with its verses, like (verses 4–5))', also: 'Under the card: the Book of Mormon copy the heading names',
     by: 'From (Scripture Central, BYU Speeches, General Conference…)', who: 'Speaker or author', url: 'Page link',
     h: 'Heading (as the lesson has it)', kids: 'For children (from Ideas for Teaching Children)', ask: 'Question to talk about',
-    minutes: 'Minutes', from: 'Lesson parts it draws on (their ids, one per line)', steps: 'Steps', k: 'Kind: open, learn, do, talk or close'
+    minutes: 'Minutes', from: 'Lesson parts it draws on (their ids, one per line)', steps: 'Steps', k: 'Kind: open, learn, do, talk or close',
+    area: 'Area: god, bible, bom or history', heard: 'The question, as he hears it', where: 'Where he hears it: school, online or friend',
+    kid: 'The short answer (60–130 words, a paragraph per line)', deeper: 'Go deeper (180–450 words, a paragraph per line)',
+    parent: 'Talk with Mom or Dad (shows the note)', sources: 'Sources (2 to 4)', t: 'Title', u: 'Link (https)', checked: 'How it was checked'
   };
   let dev = null;
   const devTest = () => !FIREBASE_CONFIG && window.TU_DEV_TEST;   // the tests' stand-in for GitHub and sign-in
@@ -18512,7 +18659,8 @@ const TreasureUp = (function () {
   // The pieces a week is reviewed in, as tools/verify.mjs counts them.
   function devItems(w) {
     const out = [], add = (key, label, obj, approved, of) => out.push({ key, label, obj, approved, hash: approvalHash(of) });
-    if (!w.library && !w.sunday) add('week', 'The week', weekMeta(w), w.approved, weekMeta(w));
+    if (!devOwnFile(w)) add('week', 'The week', weekMeta(w), w.approved, weekMeta(w));
+    if (w.questions) (w.qa.questions || []).forEach(x => add('qa:' + x.id, ((QA_AREAS.find(a => a[0] === x.area) || [])[1] || 'Question') + ' · ' + x.id, x, x.approved, noApproval(x)));
     if (w.sunday) {
       sunLessonsOf(w).forEach(l => add('sunl:' + l.id, 'Youth · ' + l.sunday + ' · ' + l.title, l, l.approved, noApproval(l)));
       sunTalksOf(w).forEach(t => add('talk:' + t.id, 'Talk · ' + t.speaker, t, t.approved, noApproval(t)));
@@ -18539,12 +18687,12 @@ const TreasureUp = (function () {
   // Plain words, short versions and insight cards never hold a week back:
   // each shows in the app only once it's approved, so a week publishes without them.
   // So do the lesson part by part and family night.
-  const OPTIONAL = /^(plain|tldr|insight|sunl|talk|guide):/;
+  const OPTIONAL = /^(plain|tldr|insight|sunl|talk|guide|qa):/;
   const devNeeded = items => items.filter(i => !OPTIONAL.test(i.key) && i.key !== 'family');
   // A kind of piece's list in a week, and a piece's name in it (plain words and short versions go by chapter).
   const devList = (w, kind) => kind === 'reel' ? w.reels : kind === 'deep' ? w.deep : kind === 'plain' ? (w.plain || []) : kind === 'tldr' ? (w.tldr || [])
     : kind === 'treasure' ? (w.treasure || []) : kind === 'insight' ? (w.insights || []) : kind === 'sunl' ? sunLessonsOf(w) : kind === 'talk' ? sunTalksOf(w)
-    : kind === 'guide' ? (w.guide || []) : w.sayings;
+    : kind === 'guide' ? (w.guide || []) : kind === 'qa' ? (w.qa.questions || []) : w.sayings;
   const devIdOf = (kind, x) => kind === 'plain' || kind === 'tldr' ? x.ch : x.id;
   function devGet(w, key) {
     if (key === 'week') return weekMeta(w);
@@ -18702,10 +18850,10 @@ const TreasureUp = (function () {
   }
   async function devLoad() {
     dev.view = 'loading'; renderDev();
-    const [t, l, tp, lp, ts, ls] = await Promise.all([readWeeksFile(DEV.test), readWeeksFile(DEV.live), readPlainFile(DEV.test), readPlainFile(DEV.live), readSundayFile(DEV.test), readSundayFile(DEV.live)]);
+    const [t, l, tp, lp, ts, ls, tq, lq] = await Promise.all([readWeeksFile(DEV.test), readWeeksFile(DEV.live), readPlainFile(DEV.test), readPlainFile(DEV.live), readSundayFile(DEV.test), readSundayFile(DEV.live), readQaFile(DEV.test), readQaFile(DEV.live)]);
     if (!t) throw new Error("Couldn't find content/weeks.js on the test site.");
-    Object.assign(dev, { file: t, live: l, livePlain: lp, liveSunday: ls, view: dev.week ? 'week' : 'weeks' });
-    devSetWeeks(t.weeks, tp, ts);
+    Object.assign(dev, { file: t, live: l, livePlain: lp, liveSunday: ls, liveQa: lq, view: dev.week ? 'week' : 'weeks' });
+    devSetWeeks(t.weeks, tp, ts, tq);
     renderDev();
   }
 
@@ -18766,9 +18914,10 @@ const TreasureUp = (function () {
 
   // A week as the live app has it (a plain-words or Sunday entry: its file), and whether that's the same as here.
   function devLiveOf(w) {
-    return w.library ? dev.livePlain && libWeek(dev.livePlain.lib) : w.sunday ? dev.liveSunday && sunWeek(dev.liveSunday.sun) : dev.live && dev.live.weeks.find(x => x.dates === w.dates);
+    return w.library ? dev.livePlain && libWeek(dev.livePlain.lib) : w.sunday ? dev.liveSunday && sunWeek(dev.liveSunday.sun)
+      : w.questions ? dev.liveQa && qaWeek(dev.liveQa.qa) : dev.live && dev.live.weeks.find(x => x.dates === w.dates);
   }
-  const devPart = (w, x) => w.library ? libOf(x) : w.sunday ? x.sun : x;
+  const devPart = (w, x) => w.library ? libOf(x) : w.sunday ? x.sun : w.questions ? x.qa : x;
   const devLiveSame = w => { const lw = devLiveOf(w); return !!lw && canon(devPart(w, lw)) === canon(devPart(w, w)); };
   // A week's one button (Blake, 2026-10-05: "at a glance i just approve all"):
   // approve what's left, save, check and publish; or, with nothing left to
@@ -18777,7 +18926,7 @@ const TreasureUp = (function () {
     const n = devLeft(w).length, saved = dev.weeks.find(x => x.dates === w.dates);
     if (n) return { go: `Approve ${n} and publish`, sure: `Tap again: approve ${n} and publish` };
     if (!saved || devLiveSame(saved)) return null;
-    if (!saved.library && !saved.sunday && devNeeded(devItems(saved)).some(i => i.state !== 'ok')) return null;
+    if (!devOwnFile(saved) && devNeeded(devItems(saved)).some(i => i.state !== 'ok')) return null;
     return { go: 'Publish', sure: 'Tap again to publish' };
   }
   // Saving or publishing (one at a time: two at once could collide, or one's undo could drop the other's week).
@@ -18793,7 +18942,7 @@ const TreasureUp = (function () {
         const items = devItems(w), ok = items.filter(i => i.state === 'ok').length, saved = dev.weeks.find(x => x.dates === w.dates);
         const live = !devLiveOf(w) ? 'Not on the live app yet' : devLiveSame(saved || w) ? 'On the live app' : 'On the live app (an older version)';
         return `<div class="dv-week-row"><button class="dv-week" data-dev="open" data-week="${esc(w.dates)}">
-          <b>${esc(w.title)}</b><small>${w.library ? 'Chapters no week reads' : w.sunday ? 'Youth lessons and conference talks' : esc(w.dates)} · ${ok} of ${items.length} approved · ${live}</small></button>${devShipBtn(w, 'shipweek')}</div>`;
+          <b>${esc(w.title)}</b><small>${w.library ? 'Chapters no week reads' : w.sunday ? 'Youth lessons and conference talks' : w.questions ? 'Answers in the Scriptures tab' : esc(w.dates)} · ${ok} of ${items.length} approved · ${live}</small></button>${devShipBtn(w, 'shipweek')}</div>`;
       }).join('');
   }
 
@@ -18828,9 +18977,11 @@ const TreasureUp = (function () {
                     ['Plain words', i => i.key.startsWith('plain:')], ['The short version', i => i.key.startsWith('tldr:')],
                     ['Treasure words', i => i.key.startsWith('treasure:')],
                     ['Insights', i => i.key.startsWith('insight:')],
-                    ['Youth Sunday lessons', i => i.key.startsWith('sunl:')], ['Conference talks', i => i.key.startsWith('talk:')]];
+                    ['Youth Sunday lessons', i => i.key.startsWith('sunl:')], ['Conference talks', i => i.key.startsWith('talk:')],
+                    ...QA_AREAS.map(([area, title]) => [title, i => i.key.startsWith('qa:') && i.obj.area === area]),
+                    ['Questions with no area', i => i.key.startsWith('qa:') && !QA_AREAS.some(a => a[0] === i.obj.area)]];
     return devTopHtml(true) + `
-      <p class="board-help" style="margin-top:12px">${w.library ? 'Chapters no week reads, in the Scriptures tab' : w.sunday ? 'The Sunday classes: the youth’s lessons and the conference talks' : esc(w.dates)} · ${ok} of ${items.length} approved.
+      <p class="board-help" style="margin-top:12px">${w.library ? 'Chapters no week reads, in the Scriptures tab' : w.sunday ? 'The Sunday classes: the youth’s lessons and the conference talks' : w.questions ? 'Questions friends ask, a shelf in the Scriptures tab' : esc(w.dates)} · ${ok} of ${items.length} approved.
         <a href="./" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Open the test site ↗</a></p>${all}${clipNote}` +
       groups.filter(([, f]) => items.some(f)).map(([name, f]) => {
         // Only what's waiting, and a line for the rest; a part with nothing waiting is that one line.
@@ -18852,7 +19003,8 @@ const TreasureUp = (function () {
     'treasure:': 'A Hebrew or Greek word from the week’s chapters, for the top of its chapter, the Word of the day and Wika. The checker found it in its verse. It shows in the app once it’s approved.',
     'insight:': 'A card in its day’s Go further: a point from the page it credits, in our words. Open the page to check it says so. It shows in the app once it’s approved.',
     'sunl:': 'A Sunday’s mini-lesson on its card, from For the Strength of Youth, in our words. Open its page to check it says so. It shows in the app once it’s approved.',
-    'talk:': 'The talk shows already with its speaker’s own words and its scriptures; what it teaches, the questions and the deep dive, in our words, show once it’s approved.'
+    'talk:': 'The talk shows already with its speaker’s own words and its scriptures; what it teaches, the questions and the deep dive, in our words, show once it’s approved.',
+    'qa:': 'A question he might hear, with the short answer, Go deeper and its sources, under Questions friends ask in the Scriptures tab. Open the sources to check them. It shows in the app once it’s approved.'
   };
   // One line on what a piece is, for its row.
   function devSummary(it) {
@@ -18870,6 +19022,7 @@ const TreasureUp = (function () {
     if (k.startsWith('insight:')) return o.title || o.quote || '';
     if (k.startsWith('sunl:')) return (o.title || '') + ' · ' + n((o.cards || []).length, 'card', 'cards');
     if (k.startsWith('talk:')) return (o.title || '') + ' · ' + (o.speaker || '');
+    if (k.startsWith('qa:')) return ((QA_WHERE[o.where] || [''])[0] + ' ' + (o.heard || '')).trim() + ((o.review || []).length ? ' · ' + o.review.length + ' to look at first' : '') + (o.parent ? ' · 👨‍👩‍👦' : '');
     return '';
   }
   function devItemHtml(w, it) {
@@ -18967,6 +19120,15 @@ const TreasureUp = (function () {
         list('What it teaches', o.points) + list('To talk over', o.discuss) +
         (o.deep ? `<div class="dv-deep"><p class="dv-small">🤿 Deep dive:</p>${(o.deep.paras || []).map(t => `<p>${esc(t)}</p>`).join('')}<p class="dv-small">On the page: ${[].concat(o.deep.find || []).map(f => `“${esc(f)}”`).join(' · ')}</p></div>` : '');
     }
+    if (it.key.startsWith('qa:')) {
+      // A question: Blake's notes to look at first, then the page as he'll see it, and its sources.
+      const look = o.review || [], w = QA_WHERE[o.where] || ['❓', o.where], area = QA_AREAS.find(a => a[0] === o.area), words = t => (Array.isArray(t) ? t.join(' ') : '').split(/\s+/).filter(Boolean).length;
+      return (look.length ? `<div class="dv-look"><b>Look at these first</b>${look.map(x => `<p class="dv-small">${esc(x)}</p>`).join('')}</div>` : '') +
+        `<p class="dv-small">${w[0]} ${esc(w[1])} · ${esc(area ? area[1] : o.area)}${o.parent ? ' · 👨‍👩‍👦 Talk with Mom or Dad' : ''}</p><div class="dv-hook">${esc(o.heard)}</div>` +
+        `<p class="dv-small" style="margin-top:6px;font-weight:800">The short answer (${words(o.kid)} words)</p>${(o.kid || []).map(t => `<p>${esc(t)}</p>`).join('')}` +
+        `<div class="dv-deep"><p class="dv-small">🤿 Go deeper (${words(o.deeper)} words):</p>${(o.deeper || []).map(t => `<p>${esc(t)}</p>`).join('')}</div>` +
+        `<p class="dv-small" style="margin-top:6px;font-weight:800">Sources</p><ul class="dv-small" style="padding-left:18px">${(o.sources || []).map(x => `<li>${esc(x.by)}: <a href="${esc(x.u)}" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">${esc(x.t)} ↗</a>${x.checked ? ' · checked by ' + esc(x.checked) : ''}</li>`).join('')}</ul>`;
+    }
     if (it.key.startsWith('guide:')) return `<div class="dv-hook">${esc(o.h)}</div><p class="dv-small">${esc(o.ref)}${o.kids ? ' · For children' : ''} · <a href="${esc(lessonAt(w, o.id))}" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">the section ↗</a></p>
       <ul style="padding-left:18px;margin-top:6px">${(o.lines || []).map(l => `<li>${esc(l)}</li>`).join('')}</ul><p class="dv-small" style="margin-top:6px">Talk about it: ${esc(o.ask || '')}</p>`;
     if (it.key === 'family') return `<div class="dv-hook">${esc(o.title)}</div><p class="dv-small">About ${esc(String(o.minutes))} minutes · from ${esc((o.from || []).map(id => ((w.guide || []).find(g => g.id === id) || {}).h || id).join(' · '))}</p>
@@ -19037,7 +19199,12 @@ const TreasureUp = (function () {
     let publish = '';
     if (dev.view === 'week' && !n && savedWeek()) {
       const w = savedWeek(), items = devNeeded(devItems(w)), ok = items.filter(i => i.state === 'ok').length;
-      const lw = w.library || w.sunday ? null : dev.live && dev.live.weeks.find(x => x.dates === w.dates);
+      const lw = devOwnFile(w) ? null : dev.live && dev.live.weeks.find(x => x.dates === w.dates);
+      if (w.questions) {
+        const same = dev.liveQa && canon(dev.liveQa.qa) === canon(w.qa);
+        publish = same ? '<p class="dv-small">✓ The questions are on the live app, exactly as they are here.</p>'
+          : `<button class="btn" data-dev="publish"${devBusy() ? ' disabled' : ''}>Publish to the live app</button><p class="dv-small">Only the approved questions show in the app.</p>`;
+      }
       if (w.sunday) {
         const same = dev.liveSunday && canon(dev.liveSunday.sun) === canon(w.sun);
         publish = same ? '<p class="dv-small">✓ The Sunday classes are on the live app, exactly as they are here.</p>'
@@ -19050,7 +19217,7 @@ const TreasureUp = (function () {
       }
       const later = [(w.plain || []).length && 'the plain words', (w.tldr || []).length && 'the short versions'].filter(Boolean);
       const wait = later.length ? '; ' + later.join(' and ') + ' can wait' : '';
-      if (!w.library && !w.sunday) publish = ok < items.length ? devLeft(devWeek()).length ? '' : `<p class="dv-small">Approve every piece to publish this week (${ok} of ${items.length} approved${wait}).</p>`
+      if (!devOwnFile(w)) publish = ok < items.length ? devLeft(devWeek()).length ? '' : `<p class="dv-small">Approve every piece to publish this week (${ok} of ${items.length} approved${wait}).</p>`
         : lw && canon(lw) === canon(w) ? '<p class="dv-small">✓ This week is on the live app, exactly as it is here.</p>'
         : `<button class="btn" data-dev="publish"${devBusy() ? ' disabled' : ''}>Publish this week to the live app</button>`;
     }
@@ -19088,8 +19255,9 @@ const TreasureUp = (function () {
     const week = devWeek();
     const message = `Developer mode: ${[edits && edits + ' change' + (edits > 1 ? 's' : ''), approvals && approvals + ' approval' + (approvals > 1 ? 's' : '')].filter(Boolean).join(', ')} in ${week ? week.title : 'content'} (${(dev.access || {}).email})`;
     let sha = null;
-    const weekChanges = changes.filter(c => c.dates !== LIB && c.dates !== SUNW), libChanges = changes.filter(c => c.dates === LIB), sunChanges = changes.filter(c => c.dates === SUNW);
-    let weeksNow = dev.weeks.filter(w => !w.library && !w.sunday), plainNow = dev.plainFile, sundayNow = dev.sundayFile;
+    const weekChanges = changes.filter(c => c.dates !== LIB && c.dates !== SUNW && c.dates !== QAW), libChanges = changes.filter(c => c.dates === LIB), sunChanges = changes.filter(c => c.dates === SUNW);
+    const qaChanges = changes.filter(c => c.dates === QAW);
+    let weeksNow = dev.weeks.filter(w => !devOwnFile(w)), plainNow = dev.plainFile, sundayNow = dev.sundayFile, qaNow = dev.qaFile;
     for (let attempt = 0; attempt < 3 && weekChanges.length && !sha; attempt++) {
       // Always onto the latest file, so nobody's changes are lost.
       const fresh = await readWeeksFile(DEV.test);
@@ -19113,8 +19281,15 @@ const TreasureUp = (function () {
       try { sunSha = await writeSundayFile(DEV.test, fresh, w.sun, message.replace(/ in .* \(/, ' in the Sunday classes (')); sundayNow = { head: fresh ? fresh.head : '', sun: w.sun }; }
       catch (e) { if (!(e.status === 409 || e.status === 422) || attempt === 2) throw e; }
     }
-    sha = sunSha || libSha || sha;
-    devSetWeeks(weeksNow, plainNow, sundayNow);
+    let qaSha = null;
+    for (let attempt = 0; attempt < 3 && qaChanges.length && !qaSha; attempt++) {
+      const fresh = await readQaFile(DEV.test), w = qaWeek(fresh ? fresh.qa : null);
+      qaChanges.forEach(c => devSet(w, c.key, c.obj, c.approved));
+      try { qaSha = await writeQaFile(DEV.test, fresh, w.qa, message.replace(/ in .* \(/, ' in Questions friends ask (')); qaNow = { head: fresh ? fresh.head : '', qa: w.qa }; }
+      catch (e) { if (!(e.status === 409 || e.status === 422) || attempt === 2) throw e; }
+    }
+    sha = qaSha || sunSha || libSha || sha;
+    devSetWeeks(weeksNow, plainNow, sundayNow, qaNow);
     // Only this week's own change can move it: another week's waiting change
     // mustn't, or a week's button would go on to publish that other week.
     const moved = changes.find(c => c.key === 'week' && c.dates === dev.week);
@@ -19142,7 +19317,7 @@ const TreasureUp = (function () {
       if (dev.changes.size && await devSave() !== true) return;     // the checker's findings, or still going, are in the bar
       if (!dev) return;
       const w = savedWeek();
-      if (!w.library && !w.sunday) {
+      if (!devOwnFile(w)) {
         const short = devNeeded(devItems(w)).filter(i => i.state !== 'ok').length;
         if (short) { dev.status = { kind: 'bad', text: `Saved. ${short} more to approve before it can go live: a reel's clip has to be watched first. Open it, watch the clip, approve it, then publish.` }; return; }
       }
@@ -19156,6 +19331,7 @@ const TreasureUp = (function () {
   async function devPublish() {
     if (savedWeek() && savedWeek().library) return devPublishPlain();
     if (savedWeek() && savedWeek().sunday) return devPublishSunday();
+    if (savedWeek() && savedWeek().questions) return devPublishQa();
     const w = clone(savedWeek());
     dev.busy = true; dev.status = { kind: 'wait', text: 'Publishing…' }; renderDevBar();
     // Pictures the live app doesn't have yet go first.
@@ -19221,6 +19397,21 @@ const TreasureUp = (function () {
     if (dev) { dev.liveSunday = await readSundayFile(DEV.live).catch(() => dev.liveSunday); renderDevBar(); renderDev(); }
   }
 
+  // Questions friends ask, as they are on the test site, to the live app (only the approved ones show there).
+  async function devPublishQa() {
+    dev.busy = true; dev.status = { kind: 'wait', text: 'Publishing…' }; renderDevBar();
+    const test = await readQaFile(DEV.test), live = await readQaFile(DEV.live);
+    if (!test) throw new Error("The test site doesn't have content/questions.js.");
+    const sha = await writeQaFile(DEV.live, live, test.qa, `Publish Questions friends ask from developer mode (${(dev.access || {}).email})`);
+    const ok = await devWatch(DEV.live, sha, 'the live app');
+    if (ok === false && dev && live) {
+      const now = await gh(`/repos/${DEV.live}/contents/${QA_FILE}`);
+      await gh(`/repos/${DEV.live}/contents/${QA_FILE}`, { method: 'PUT', body: JSON.stringify({ message: 'Undo publishing Questions friends ask: the content check refused it', content: b64encode(live.text), sha: now.sha }) });
+    }
+    dev.busy = false;
+    if (dev) { dev.liveQa = await readQaFile(DEV.live).catch(() => dev.liveQa); renderDevBar(); renderDev(); }
+  }
+
   async function devPeople() {
     dev.people = devTest() ? (window.TU_DEV_TEST.people || []) : (await fs().collection('devs').get()).docs.map(d => Object.assign({ id: d.id }, d.data()));
   }
@@ -19276,7 +19467,7 @@ const TreasureUp = (function () {
         let obj;
         if (dev.raw) { try { obj = JSON.parse($('devJson').value); } catch (e) { return say("That isn't valid JSON: " + e.message); } }
         else obj = devReadForm(el.closest('.dv-editor'), key === 'words' ? before : noApproval(before));
-        if (/^(reel|deep|say|insight|guide):/.test(key)) obj.id = before.id;                                         // ids stay put: answers are saved by id
+        if (/^(reel|deep|say|insight|guide|qa):/.test(key)) obj.id = before.id;                                         // ids stay put: answers are saved by id
         if (key.startsWith('plain:') || key.startsWith('tldr:')) obj.ch = before.ch;                        // plain words and short versions stay with their chapter
         if (key === 'week') obj.dates = before.dates;                                                        // and the dates are the week itself
         dev.editing = null;
@@ -19360,6 +19551,17 @@ const TreasureUp = (function () {
       if (td) { trialDone(td.dataset.trialDone); return; }
       const fo = e.target.closest('[data-fam-open]');
       if (fo) { openFam(fo.dataset.famOpen); return; }
+      // Questions friends ask: the page, a question, back, and Go deeper.
+      const qo = e.target.closest('[data-qa-open]');
+      if (qo) { libQ = qo.dataset.qaOpen; renderHome(); $('home').scrollTop = 0; return; }
+      if (e.target.closest('[data-qa-back]')) { libQ = libQ && libQ !== 'all' ? 'all' : null; renderHome(); $('home').scrollTop = 0; return; }
+      const qd = e.target.closest('[data-qa-deeper]');
+      if (qd) {
+        const box = qd.nextElementSibling, open = qd.getAttribute('aria-expanded') !== 'true';
+        qd.setAttribute('aria-expanded', String(open));
+        if (box) box.hidden = !open;
+        return;
+      }
       const lv = e.target.closest('[data-lib-vol]');
       if (lv) { libVol = lv.dataset.libVol || null; libBook = null; renderHome(); $('home').scrollTop = 0; return; }
       const la = e.target.closest('[data-lib-all]');
@@ -19420,7 +19622,7 @@ const TreasureUp = (function () {
       const tb = e.target.closest('[data-tab]');
       if (!tb) return;
       if (tb.dataset.tab !== homeTab && tb.dataset.tab !== 'today') use('tab:' + tb.dataset.tab);
-      if (tb.dataset.tab === 'scriptures' && homeTab === 'scriptures') { libBook = null; libVol = null; }   // Scriptures again: back to library shelf
+      if (tb.dataset.tab === 'scriptures' && homeTab === 'scriptures') { libBook = null; libVol = null; libQ = null; }   // Scriptures again: back to library shelf
       homeTab = tb.dataset.tab;
       renderHome();
       $('home').scrollTop = 0;
