@@ -22,6 +22,7 @@ changing when the week does.
 | `keep.test.mjs` | Today's path from the one button (the Book of Mormon micro-read and a youth's FSY card included), then the 🎉 screen's Keep going · N more: the day's extras play to “Everything for today is done”; stopped at the first one and opened again, Today's ▶ Keep going goes on to the end. |
 | `offline.test.mjs` | The app opened once with a connection, then with no Wi-Fi: it opens, Today's study runs with the chapter, coming back to it offline doesn't reload it (the app's self-update finds the same page), a family device starts with no errors, and the live app and the test site (one address on github.io) keep separate copies (`sw.js`). |
 | `family.test.mjs` | On the Firebase emulators with `firestore.rules`: Dad (Google) starts a family, Sam joins on a phone and a Kindle; the rules refuse 8 things a child mustn't do; both devices agree after a study; a save on the Kindle doesn't restart the phone in the middle of Be still; chat, a prize and a finished goal (1,000 XP, paid once) go end to end. |
+| `journal.test.mjs` | On the emulators: a grown-up's Pro moves out of their saved progress into `journals/{uid}` (one document per day, week and month, the 200-day-old day too) and out of the family's copy; a child, a stranger, and a fifth kind of page are refused; their tablet (same Google account) gets it all and a role added there comes back; a change made offline goes up when back online; a child's Pro stays in their progress; Erase empties the cloud and the phone, the tablet drops its copy, and what's written after is kept. |
 
 ## Running them
 
@@ -31,7 +32,7 @@ npm install                 # once: Playwright, the Firebase SDK, the Firebase t
 npx playwright install chromium
 node run.mjs                # smoke, dates, merge, week, sunday, keep, coach, growth, pro, reader, questions and offline (about 10 minutes)
 node run.mjs week           # one test
-npm run test:family         # the family and games tests, under the emulators (needs Java 11 or later)
+npm run test:family         # the family, games and journal tests, under the emulators (needs Java 11 or later)
 ```
 
 The repo is served at `http://127.0.0.1:8131/` (`TEST_PORT` changes it). The
