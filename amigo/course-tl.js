@@ -1,5 +1,5 @@
-// Amigo · Kaibigan: Tagalog, Blake's mission language (the Philippines,
-// 2002–2004). Blake checks every Tagalog line: a unit shows on the live app
+// Amigo · Kaibigan: Tagalog, a parent's mission language (the Philippines,
+// 2002–2004). The owner checks every Tagalog line: a unit shows on the live app
 // only once it has `checked` (the date he did), and so do the words on the
 // home screen and the Baybayin reading words. The test site shows them all,
 // marked. The rules are in amigo/README.md; tools/test-amigo.mjs checks them.

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Records Wika's Tagalog in Filipino voices, and its Spanish in a
 // Latin American Spanish voice, once, so they play on every phone (no iPhone
-// has a Tagalog voice of its own, and Javan's Kindle has no Spanish one:
-// Blake, 2026-10-04, "javan can't hear the spanish on this kindle, but he can
+// has a Tagalog voice of its own, and a child's Kindle has no Spanish one:
+// 2026-10-04, "[he] can't hear the spanish on this kindle, but he can
 // hear the tagalog"). Each line of
 // amigo/course-tl.js (phrases, the answers in scenes, words, the praise, the
 // words from Tatay, the Baybayin reading words, and each build-it tile's word,
@@ -17,7 +17,7 @@
 // amigo/audio/index.js, so later lines are in the same one). amigo/audio/index.js
 // lists them for the game. Only lines without a recording are made; a changed
 // line gets a new key.
-// Hebrew and Greek (Blake, 2026-10-06: "Add the 2 other languages") are
+// Hebrew and Greek (2026-10-06: "Add the 2 other languages") are
 // recorded the same way, as amigo/audio/he/ and amigo/audio/el/: each treasure
 // word (amigo/course-he.js, course-el.js, made by tools/wika-words.mjs), each
 // letter's name (amigo/alefbet.js, greek-letters.js) and each reading word, in
@@ -32,7 +32,7 @@
 // (~/keys/google-tts.key, or $GOOGLE_TTS_KEY). Never in the app or the repo.
 //   node tools/amigo-voice.mjs --dry              what it would record, and how many characters
 //   node tools/amigo-voice.mjs --samples <dir>    one line in every Filipino voice, to pick one (--course es: every Spanish one)
-//   node tools/amigo-voice.mjs [--voice <name>]   record what's missing (the first course in fil-ph-Neural2-D unless named: Blake's pick)
+//   node tools/amigo-voice.mjs [--voice <name>]   record what's missing (the first course in fil-ph-Neural2-D unless named: the owner's pick)
 //   … --voice-es <name>                           the Spanish in that voice (es-US-Neural2-B, say) instead of the one kept
 //   … --all                                       record every line again (after picking another voice)
 //   … --voice-he <name>, --voice-el <name>        Hebrew or Greek in that voice instead of the one kept
@@ -119,7 +119,7 @@ async function record(text, voice, file, rate = 0.9) {
   fs.writeFileSync(file, Buffer.from(r.audioContent, 'base64'));
 }
 // What each course says: [{ key (what audioKey is taken of), text, voice }].
-const tlVoice = opt('--voice') || 'fil-ph-Neural2-D';                 // a man's voice, Blake's pick (2026-09-30)
+const tlVoice = opt('--voice') || 'fil-ph-Neural2-D';                 // a man's voice, the owner's pick (2026-09-30)
 // The Spanish voice: the one named, else the one its recordings are already
 // in (amigo/audio/index.js), else picked from Google's list when first needed.
 const before = (() => { try { const w = {}; new Function('window', fs.readFileSync(LIST, 'utf8'))(w); return w.AMIGO_AUDIO || {}; } catch (e) { return {}; } })();
@@ -178,7 +178,7 @@ if (flag('--dry')) {
   fs.mkdirSync(dir, { recursive: true });
   const es = which.includes('es') && which.length === 1, other = which.length === 1 && LANG_CODE[which[0]];
   const { voices = [] } = await google(es ? 'voices?languageCode=es' : other ? 'voices?languageCode=' + other : 'voices?languageCode=fil-PH');
-  const line = es ? '¡Hola! ¿Cómo estás? Me llamo Javan. ¿Quieres jugar conmigo?' : other === 'he-IL' ? 'שָׁלוֹם! קוֹרְאִים לִי יָוָן.' : other === 'el-GR' ? 'Γεια σου! Με λένε Ιαβάν. Χαρά μεγάλη.'
+  const line = es ? '¡Hola! ¿Cómo estás? Me llamo David. ¿Quieres jugar conmigo?' : other === 'he-IL' ? 'שָׁלוֹם! קוֹרְאִים לִי דָּוִד.' : other === 'el-GR' ? 'Γεια σου! Με λένε Δαβίδ. Χαρά μεγάλη.'
     : 'Kumusta po kayo? Kain tayo! Salamat po sa pagkain.';
   const these = es ? voices.filter(v => /^es-(MX|US)$/i.test(langOfVoice(v.name))) : other ? voices.filter(v => langOfVoice(v.name) === other) : voices;
   for (const v of these) {

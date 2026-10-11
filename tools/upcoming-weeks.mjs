@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Brings the weeks written ahead into content/weeks.js as room allows (Blake,
-// 2026-10-05: "lets get the rest of the year ... populated with as much
+// Brings the weeks written ahead into content/weeks.js as room allows
+// (2026-10-05: "lets get the rest of the year ... populated with as much
 // content as we can"; he approves a week at a time). Developer mode reads and
 // writes weeks.js through the GitHub API, which stops at 1 MB, so weeks
 // written further ahead wait in content/upcoming/, one file a week
@@ -8,9 +8,9 @@
 // first while weeks.js stays under BUDGET. tools/archive-weeks.mjs makes the
 // room, moving weeks that ended before last week to content/past/. Both
 // sites' deploys run both and save the result back to the repo (the live one
-// since 2026-10-05, when Blake had the rest of 2026 approved at once: "Get it
+// since 2026-10-05, when the owner had the rest of 2026 approved at once: "Get it
 // all live"). On the test site a week that came in is a draft, like any other,
-// until Blake approves it; the live deploy refuses a week that isn't approved.
+// until the owner approves it; the live deploy refuses a week that isn't approved.
 // Developer mode publishes a week into the live weeks.js, so a week can be in
 // weeks.js and still waiting here: the one in weeks.js is the one developer
 // mode wrote, so it stays and the waiting copy goes. (To change a week that's
@@ -26,8 +26,8 @@ import { weekStartOrThrow as weekStart } from './week-dates.mjs';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const WEEKS = path.join(ROOT, 'content', 'weeks.js'), UP = path.join(ROOT, 'content', 'upcoming');
 const MARK = 'window.TU_WEEKS = ';
-// Under the API's 1 MB, with room for a week to grow: Blake's approvals and
-// edits, and its lesson part by part and family night (Blake, 2026-10-06),
+// Under the API's 1 MB, with room for a week to grow: the owner's approvals and
+// edits, and its lesson part by part and family night (2026-10-06),
 // published from developer mode (about 10 KB a week).
 const BUDGET = 900 * 1000;   // bytes
 const dry = process.argv.includes('--dry-run');

@@ -1,4 +1,4 @@
-// Saving a game in progress, and loading it back. Blake: "find a way to prevent us accidentally exiting the game. If I hit the
+// Saving a game in progress, and loading it back. The owner: "find a way to prevent us accidentally exiting the game. If I hit the
 // wrong gesture or something, it will exit the game and we'll lose our progress."
 //
 // The whole battle is written down as plain data: every unit and building, both sides' stores and upgrades, the mission's story

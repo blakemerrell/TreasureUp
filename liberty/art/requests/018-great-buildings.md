@@ -1,6 +1,6 @@
 # 018 · The great buildings: the chief judge's hall, the temple, the Rameumptom and the idols
 
-**Status: done.** Made with Gemini through Blake's n8n backup (executions
+**Status: done.** Made with Gemini through the owner's n8n backup (executions
 13439–13450, twelve billed to the Merit3D Gemini account). The judge's hall,
 both idols and the six flame frames were right the first time. The
 Rameumptom came back once with its braziers outside its square and was asked
@@ -15,7 +15,7 @@ pictures made with `mkcameo.py`.
 
 ## What it's for
 
-Blake's play-test: Zarahemla's huge red pyramid, the start building, stood
+The owner's play-test: Zarahemla's huge red pyramid, the start building, stood
 taller than the temple. He asked for a beautiful, large temple like
 Solomon's, and for the King-men a Rameumptom and huge idols. Decided with him
 one question at a time (`liberty/design/evolution.md`, section 13c).
@@ -47,7 +47,7 @@ plot a diamond twice as wide as tall, light from the upper left.
   fruit, maize and incense at their feet. The game alternates the two.
 - **`flames.png`**: six frames of one flame on black, flipped like a
   flipbook and added as light. They burn in the Rameumptom's braziers (and in
-  the "Fire and Frames" demo Blake asked for).
+  the "Fire and Frames" demo the owner asked for).
 
 Not used: no feathered serpent anywhere, since some see Christ in that
 figure.

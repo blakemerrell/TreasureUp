@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Makes tools/jsp-bom-pages.json, the table behind the reader's Joseph Smith
-// Papers button (Blake, 2026-10-10): for each of today's Book of Mormon
+// Papers button (2026-10-10): for each of today's Book of Mormon
 // chapters, where it is in the 1830 first edition, the printer's manuscript
 // and what survives of the original manuscript, as their pages on
 // josephsmithpapers.org. Run by hand, once (never at deploy); the table is

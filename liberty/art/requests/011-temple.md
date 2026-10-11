@@ -1,11 +1,11 @@
 # 011 · The temple
 
-**Status: done.** One picture made with Gemini through Blake's n8n backup,
+**Status: done.** One picture made with Gemini through the owner's n8n backup,
 1 billed to the Merit3D Gemini account, usable on the first try.
 
 ## What it's for
 
-Blake asked for stone "to make temples that give great power for Jehovah
+The owner asked for stone "to make temples that give great power for Jehovah
 worship", and chose what the temple does: your people near it are made
 whole, the council comes back sooner and gives double, and miracles are
 worked from it. It needs the hall of the captains and costs mostly stone.

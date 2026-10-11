@@ -1186,7 +1186,7 @@
   // The camp's difficulty (camp.js): how many bearers it keeps hauling, what it starts with, when it may first march,
   // how long at most between marches, how big an army it gathers before marching (and how much bigger each time),
   // and how long a tent it loses waits before going up again.
-  // (Retuned after Blake's gameplay review, 54 simulated games, three a cell: Easy is won by a casual player most times on either side,
+  // (Retuned after the owner's gameplay review, 54 simulated games, three a cell: Easy is won by a casual player most times on either side,
   // Normal by a strong player every time and one who upgrades about half the time, Hard by a strong one about one time in three.
   // Before, Hard was never won. No clock: a skirmish lasts until one side falls, as in Red Alert.)
   const LEVELS = {
@@ -1271,7 +1271,7 @@
         const g = Math.round(L.guards * ((D.SIDES.freemen.bot || {}).march || 1));   // (the table counts Lamanite heads; see data.js: SIDES.bot)
         guard(this.city, [['spearman', Math.ceil(g * 0.5)], ['archer', Math.floor(g * 0.3)], ['nslinger', Math.max(1, Math.floor(g * 0.2))]], 'r');
         put(theirs[this.theirCaptain].hero, S0.x + 4, S0.y + 4, 'r', { mode: 'guard', home: this.city });
-        // Watchtowers round Zarahemla, as the war camp has its lookouts (Blake's review: a rush took the city in five minutes).
+        // Watchtowers round Zarahemla, as the war camp has its lookouts (the owner's review: a rush took the city in five minutes).
         const spots = [[6, -1], [-3, 2], [2, 6]];
         for (let i = 0; i < (L.cityTowers != null ? L.cityTowers : L.towers); i++) {
           const [dx, dy] = spots[i];

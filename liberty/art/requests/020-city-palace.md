@@ -1,16 +1,16 @@
 # 020 · The city: the chief judge's palace, in white stone
 
-**Status: done.** Made with Gemini through Blake's n8n backup (executions
+**Status: done.** Made with Gemini through the owner's n8n backup (executions
 13475 and 13476, two billed to the Merit3D Gemini account), with the hall of
 the captains (`hall.png`) as the reference for the look. Two versions were
-painted at once and shown to Blake in the game; he chose the first. It was
+painted at once and shown to the owner in the game; he chose the first. It was
 cut out of the magenta, de-spilled at the outline only, scaled to 150 px a
 square of plot (4 × 4) and given the soft cast shadow the other buildings
 have. Button picture made with `mkcameo.py`.
 
 ## What it's for
 
-Blake, playing Out of the Wilderness: "Need a different art object for this.
+The owner, playing Out of the Wilderness: "Need a different art object for this.
 Does not seem to fit the style of the area." The judge's hall from request
 018 was a Roman-looking villa (red tile roof, tan stone columns, a fenced
 garden on a bank of earth), while every other Nephite building is white

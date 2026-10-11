@@ -21,7 +21,7 @@
 //     3 minutes, and has been watched by a parent (previewed: true)
 //   - every lesson section has a reel, every question is well formed, reels stay short
 //   - every insight card is about verses of the week's reading, comes from a page on one of
-//     the sites Blake chose (INSIGHT_SITES), and (with --online) that page has the words it
+//     the sites the owner chose (INSIGHT_SITES), and (with --online) that page has the words it
 //     says the point comes from, and any words it quotes from the page
 //   - content/questions.js (Questions friends ask) keeps the rules in tools/questions.mjs
 //
@@ -46,7 +46,7 @@ const VOLUMES = ['old-testament', 'new-testament', 'book-of-mormon', 'doctrine-a
 
 const LIMITS = { bodyWords: 75, hookChars: 60, whyWords: 40, choiceChars: 60, noteWords: 45, tldrWords: 30 };
 const MEDIA = {
-  // A picture on any reel it fits (Blake, 2026-09-24: "most reels should get
+  // A picture on any reel it fits (2026-09-24: "most reels should get
   // a pic"), one per reel. Clips stay few: a lesson, not a video feed.
   maxClipsPerWeek: 2,
   maxImageKB: 150,
@@ -55,14 +55,14 @@ const MEDIA = {
   imageHosts: ['www.churchofjesuschrist.org', 'commons.wikimedia.org'],
   // YouTube channels a clip may come from, exactly as YouTube names them.
   // Add one only after deciding it's a source you trust for him.
-  // Approved by Blake 2026-09-24: Come, Follow Me series and the Church's own channel.
+  // Approved by the owner 2026-09-24: Come, Follow Me series and the Church's own channel.
   channels: [
     'The Church of Jesus Christ of Latter-day Saints',   // @churchofjesuschrist, the official channel (confirmed 2026-09-24)
     'Scripture Central',       // John Hilton III and others
     'followHIM Podcast',       // Hank Smith & John Bytheway
     "Don't Miss This",         // Emily Belle Freeman & David Butler
     'Talking Scripture',
-    // Added by Blake 2026-09-24 (names confirmed with YouTube):
+    // Added by the owner 2026-09-24 (names confirmed with YouTube):
     'BibleProject',            // not Latter-day Saint: watch for readings that differ from the lesson
     'Church History Matters Podcast',
     'Gospel For Kids',
@@ -73,7 +73,7 @@ const MEDIA = {
   ]
 };
 
-// Where insight cards come from (Blake, 2026-10-01: "Church manuals,
+// Where insight cards come from (2026-10-01: "Church manuals,
 // Scripture Central, Follow Him, BYU"), and the name each is credited by.
 // The Church's pages are credited by their publication (Old Testament
 // Student Manual, General Conference, the Liahona…).
@@ -83,7 +83,7 @@ const INSIGHT_SITES = {
   'rsc.byu.edu': { by: 'BYU Religious Studies Center' },
   'speeches.byu.edu': { by: 'BYU Speeches' },
   'followhim.co': { by: 'followHIM' },
-  // Blake, 2026-10-04: "can you add notes to the scripture reading from Joseph
+  // 2026-10-04: "can you add notes to the scripture reading from Joseph
   // Smith papers??? having a directly source to that would be amazing".
   'www.josephsmithpapers.org': { by: 'Joseph Smith Papers' }
 };
@@ -160,7 +160,7 @@ const BOOK_ALIAS = { 'Psalm': 'Psalms', 'Song of Solomon': "Solomon's Song", 'So
 // for the app (which would otherwise pick today's week and start up).
 // ---------- approval (developer mode) ----------
 // Each piece of a week carries `approved`: a fingerprint of its content
-// when Blake approved it in developer mode. Any later change makes the
+// when the owner approved it in developer mode. Any later change makes the
 // fingerprint stop matching. Must match the app's approvalHash exactly.
 const canonJson = v => Array.isArray(v) ? '[' + v.map(canonJson).join(',') + ']'
   : v && typeof v === 'object' ? '{' + Object.keys(v).filter(k => v[k] !== undefined).sort().map(k => JSON.stringify(k) + ':' + canonJson(v[k])).join(',') + '}'
@@ -741,7 +741,7 @@ async function main(scripture, week, pages, online) {
       }
       if (!im.alt || im.alt.length < 20) fail(where, 'image needs an alt description he could picture (20+ characters)');
       // A picture of the Savior never goes on a reel about Satan: next to
-      // that headline it reads as a picture of him. (Found by Blake on the
+      // that headline it reads as a picture of him. (Found by the owner on the
       // Lucifer reel, 2026-09-24.)
       const showsChrist = /\b(Jesus|Christ|Christus|Savior|Saviour|Messiah)\b/i.test((im.alt || '') + ' ' + (im.credit || ''));
       const aboutSatan = /\b(Lucifer|Satan|devil|adversary)\b/i.test([r.hook, r.body, r.verse && r.verse.text].join(' '));
@@ -893,7 +893,7 @@ async function main(scripture, week, pages, online) {
   // Plain words (week.plain): chapters of the reading in plain English, each
   // verse shown under its KJV verse when he turns them on. One line per verse
   // of the chapter, and notes on real verses whose quotes and references
-  // check out like everything else he reads. Wording is Blake's call when he
+  // check out like everything else he reads. Wording is the owner's call when he
   // approves; what can be counted is counted here: a much longer verse than
   // the KJV's, a name left out, or KJV English left in is a note to look at.
   if (week.plain !== undefined) checkPlain(week.plain, new Set(block || []));
@@ -941,7 +941,7 @@ async function main(scripture, week, pages, online) {
   // The short version (week.tldr): two to four lines at the top of a
   // chapter, each ending with the verses it covers, "(verses 4–5)", which the
   // app makes a jump to them. Written from the Church's chapter heading, the
-  // week's lesson and the verses; the wording is Blake's call when he
+  // week's lesson and the verses; the wording is the owner's call when he
   // approves. Counted here: the lines, their length, their verses in order,
   // their references, and any quote, which must be the KJV's words in the
   // verses the line names.
@@ -994,7 +994,7 @@ async function main(scripture, week, pages, online) {
 
   // A short version that says a bonus or Go-deeper answer: he can answer it
   // from the card at the top of the chapter without reading. A note, not a
-  // failure (Blake approved the cards that do; 2026-10-01): a new card
+  // failure (the owner approved the cards that do; 2026-10-01): a new card
   // should say that part another way.
   if (Array.isArray(week.tldr)) {
     const said = norm(week.tldr.map(t => (Array.isArray(t.lines) ? t.lines.join(' ') : '') + ' ' + (t.also || '')).join(' '));
@@ -1010,7 +1010,7 @@ async function main(scripture, week, pages, online) {
   // Church's terms cover personal and family use. With --online, each
   // heading must be on the lesson page, and no 8 words in a row (outside a
   // “scripture quote”) may match it. Whether it's faithful to the lesson is
-  // Blake's call when he approves.
+  // the owner's call when he approves.
   const lessonPage = online ? pages.get(week.lesson) : null;
   const wordsOf = t => String(t || '').toLowerCase().replace(/[‘’]/g, "'").match(/[a-z0-9']+/g) || [];
   const pageGrams = lessonPage ? (() => { const w = wordsOf(lessonPage), g = new Set(); for (let i = 0; i + 8 <= w.length; i++) g.add(w.slice(i, i + 8).join(' ')); return g; })() : null;
@@ -1078,7 +1078,7 @@ async function main(scripture, week, pages, online) {
   // on that page where the point is, checked with --online (a page that
   // won't load is a note, not a failure). A quote is either the KJV's words
   // in the card's verses, or the page's own: one, short, checked online.
-  // Whether the card is faithful to the page is Blake's call when he approves.
+  // Whether the card is faithful to the page is the owner's call when he approves.
   if (week.insights !== undefined) {
     const chapters = new Set(block || []), seen = new Set();
     const count = t => (String(t || '').match(/\S+/g) || []).length;
@@ -1157,7 +1157,7 @@ async function main(scripture, week, pages, online) {
       const own = (String(x.text || '').match(/“[^”]*”/g) || []).map(q => q.slice(1, -1)).filter(q => !(refText && quoteMatches(q, refText)));
       if (own.length > 1) fail(where, `quotes the page ${own.length} times; once at most (a scripture quote must be the KJV's words in ${x.ref})`);
       for (const q of own) if (count(q) > 15) fail(where, `“${q}” is ${count(q)} words; a quote from the page is 15 at most (a scripture quote must be the KJV's words in ${x.ref})`);
-      // Its page: on one of the sites Blake chose, credited by its name.
+      // Its page: on one of the sites the owner chose, credited by its name.
       const s = x.source && typeof x.source === 'object' ? x.source : {};
       let url = null;
       try { url = new URL(s.url); } catch (e) {}
@@ -1198,7 +1198,7 @@ async function main(scripture, week, pages, online) {
         }
         if (home) checkRefs(w3, 'note', v, home);
       }
-      // Its note in the reader (Blake, 2026-10-07): `glance`, one sentence
+      // Its note in the reader (2026-10-07): `glance`, one sentence
       // under its first verse (5 to 24 words); `short`, "In a sentence", what
       // a child or youth reads first (5 to 30 words); `place`, 'note' (it
       // leaves the Study tab) or 'both'. Our own words: a quote is the verses'
@@ -1228,7 +1228,7 @@ async function main(scripture, week, pages, online) {
         }
         if (!g.approved || g.approved !== approvalHash(withoutApproval(g))) note(`${w4}: ${g.approved ? 'changed since it was approved' : 'not approved yet'}; the card shows without it until it is`);
       }
-      // Its deep dive (Blake, 2026-10-03: "Longer adult level deep dive would
+      // Its deep dive (2026-10-03: "Longer adult level deep dive would
       // be great!"), folded under the card: the same point at length for a
       // grown-up, from the same page, in our own words. 2 to 6 paragraphs,
       // 80 to 450 words in all. Quotes: the verses' words, or the page's, 3
@@ -1309,9 +1309,9 @@ const waiting = new Set();
   }
 }
 const boards = loadBoards();
-// content/sunday.js: the Sunday classes' study (Blake, 2026-10-03: "We need
-// to incorporate sunday lesson study as well.... Javan needs to study YM
-// lessons, and Chantel and I the conference talks").
+// content/sunday.js: the Sunday classes' study (2026-10-03: "We need
+// to incorporate sunday lesson study as well.... [our son] needs to study YM
+// lessons, and [Mom] and I the conference talks").
 const sunday = (() => {
   const f = path.join(ROOT, 'content', 'sunday.js');
   if (!fs.existsSync(f)) return null;
@@ -1355,7 +1355,7 @@ for (const week of weeks) {
   // tools/archive-weeks.mjs names a past week's file by this number, and stops the deploy without it.
   if (!num) failures.push(`${week.title} (${week.dates}): its lesson link must end with the lesson's number, like …/come-follow-me-…/41?lang=eng`);
   await main(scripture, week, pages, online);
-  // The live app only takes weeks Blake approved in developer mode. Plain
+  // The live app only takes weeks the owner approved in developer mode. Plain
   // words, short versions, insight cards, treasure words, the lesson part by
   // part and family night are the exception: the app shows each only once
   // it's approved, so they never hold a week back.
@@ -1368,8 +1368,8 @@ for (const week of weeks) {
 }
 weekLabel = '';
 
-// content/plain.js: plain words for chapters no week reads (Blake,
-// 2026-10-02: "the notes and plain translation for all of Isaiah"), shown in
+// content/plain.js: plain words for chapters no week reads
+// (2026-10-02: "the notes and plain translation for all of Isaiah"), shown in
 // the Scriptures tab once approved, checked like a week's.
 let libraryPlain = 0;
 {
@@ -1391,8 +1391,8 @@ let libraryPlain = 0;
   }
 }
 
-// content/sunday.js (Blake, 2026-10-03: "Javan needs to study YM lessons,
-// and Chantel and I the conference talks"; everyone sees all of it). Since
+// content/sunday.js (2026-10-03: "[our son] needs to study YM lessons,
+// and [Mom] and I the conference talks"; everyone sees all of it). Since
 // September 6, 2026 every class meets each Sunday: Aaronic Priesthood
 // quorums and Young Women classes learn from For the Strength of Youth: A
 // Guide for Making Choices, a chapter a month; elders quorums and Relief
@@ -1407,7 +1407,7 @@ let libraryPlain = 0;
 //     its speaker's own words (`quotes`, found word for word on its page),
 //     the scriptures it uses, and in our own words what it teaches and
 //     questions to talk over, with a deep dive under it as an insight card's.
-// Our own words show once Blake approves them in developer mode (drafts on
+// Our own words show once the owner approves them in developer mode (drafts on
 // the test site), so none of it ever holds a deploy back.
 let sundayCounts = null;
 if (sunday) {
@@ -1664,9 +1664,9 @@ let editionVerses = 0, jspChapters = 0, lines1830 = 0, notUnderlined = [];
   }
 }
 
-// Treasure words (Blake, 2026-10-06, of the Hebrew: "What about super easy to
+// Treasure words (2026-10-06, of the Hebrew: "What about super easy to
 // understand version"): five to seven Hebrew or Greek words a week, each
-// explained for Javan, shown in the reader, as the Word of the Day on Today
+// explained for a child, shown in the reader, as the Word of the Day on Today
 // and in Wika's Hebrew and Greek courses (tools/wika-words.mjs). Each is the
 // word that verse really has in STEPBible's data, with that Strong's number,
 // and the KJV words it's translated by are in the verse; a word is taught in
@@ -1741,7 +1741,7 @@ if (treasureCount) console.log(`✓ Treasure words: ${treasureCount} in ${treasu
 }
 
 // content/questions.js: Questions friends ask, a shelf in the Scriptures tab.
-// Each answer shows once Blake approves it in developer mode (the test site
+// Each answer shows once the owner approves it in developer mode (the test site
 // shows drafts), so none of it ever holds a deploy back. The rules are in
 // tools/questions.mjs: ids, area and where, the short answer 60 to 130 words
 // and Go deeper 180 to 450, 2 to 4 sources with https links, up to 4 `more`
@@ -1770,7 +1770,7 @@ if (failures.length) {
   console.error(`✗ ${failures.length} problem${failures.length === 1 ? '' : 's'}:\n`);
   for (const f of failures) console.error('  - ' + f);
   // In GitHub Actions each problem is also an annotation on the commit,
-  // which is how developer mode shows Blake what the checker found.
+  // which is how developer mode shows the owner what the checker found.
   if (process.env.GITHUB_ACTIONS) {
     const clean = t => t.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
     for (const f of failures.slice(0, 10)) console.log(`::error title=Content check::${clean(f)}`);

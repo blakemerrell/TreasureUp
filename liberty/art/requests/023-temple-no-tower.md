@@ -1,6 +1,6 @@
 # 023 · The temple without the tower: Solomon's porch and two great pillars
 
-**Status: done.** Made with Gemini through Blake's n8n backup (executions
+**Status: done.** Made with Gemini through the owner's n8n backup (executions
 13488–13501, fourteen billed to the Merit3D Gemini account; 13486–13487 were
 turned away before Gemini because their reference was a JPEG, and the
 workflow only takes PNGs).
@@ -9,14 +9,14 @@ workflow only takes PNGs).
   021 (on its magenta canvas): one only took the tower away (13488), one
   redrew the house to Solomon's proportions (13489). The first turned the
   house itself into a tall block and set the porch roof on the pillars, so
-  the second was chosen. Blake: "2 is good. Why the weird corner": Gemini
+  the second was chosen. The owner: "2 is good. Why the weird corner": Gemini
   had cut the back corner of the house's roof off at an angle, which the
   walls below did not follow, and a touch-up squared it (13490, nothing else
   changed). Cut out, de-spilled at the outline only, scaled to 150 px a
   square of plot (4 × 4), with the soft cast shadow; button picture made
   with `mkcameo.py`; the lampstand's seven flames moved to its new lamps.
 - **The three paintings, painted fresh.** A first try pasted the new temple
-  into the paintings and had Gemini blend it (13491–13496). Blake: "The
+  into the paintings and had Gemini blend it (13491–13496). The owner: "The
   temple in the background with the other building looks so bad": both
   buildings still looked like game pieces stuck on a painting. So the city
   was repainted instead, from the original paintings of request 019: Gemini
@@ -39,13 +39,13 @@ The drafts and pastes (`liberty/art/incoming/pr97/`) were removed once done.
 
 ## What it's for
 
-Blake: "Let's re-do that temple. I'm not in love with it. The tower seems
+The owner: "Let's re-do that temple. I'm not in love with it. The tower seems
 weird." The tower came from 2 Chronicles 3:4, where the porch's height is
 "an hundred and twenty" cubits (180 ft, four times the house). 1 Kings 6
 gives the porch no height, and some ancient copies read twenty, so most
 drawings of Solomon's temple have no tower at all. Shown the three drawn to
 one scale (a 120-cubit porch, a 20-cubit porch, and Herod's temple of
-Jesus' day), Blake chose Solomon's with a 20-cubit porch: truest to "after
+Jesus' day), the owner chose Solomon's with a 20-cubit porch: truest to "after
 the manner of the temple of Solomon" (2 Nephi 5:16), since the Nephites
 never saw Herod's.
 

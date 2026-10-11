@@ -1,5 +1,5 @@
 // How the Book of Mormon's wording changed from the first edition to today's,
-// for the reader's Changes button (Blake, 2026-10-10): BYU Office of Digital
+// for the reader's Changes button (2026-10-10): BYU Office of Digital
 // Humanities' OpenScripture data (github.com/BYU-ODH/OpenScripture), which
 // lines up the 1830, 1837, 1840, 1841, 1879, 1920, 1981 and 2013 editions
 // word by word under today's chapters and verses. One file a book, a row a
@@ -16,7 +16,7 @@
 // one of those: the app says "by 1879", "by 1920" (BY_EDITIONS).
 //
 // Each change is classified by these rules, with no one reading them yet
-// (the "why" notes for single verses come later, for Blake to approve):
+// (the "why" notes for single verses come later, for the owner to approve):
 //   s  spelling or punctuation: the same letters, or a spelling of the same
 //      word (honour → honor, a name spelled another way)
 //   t  a typo fixed (or made): a word found nowhere else, a letter or two from the other
@@ -193,7 +193,7 @@ export function verseChanges(rows, vocab) {
   return out;
 }
 
-// ---- the 1830 button (Blake, 2026-10-11, mockup A) ----
+// ---- the 1830 button (2026-10-11, mockup A) ----
 // A verse's words for comparing: letters and digits, apostrophes kept inside a
 // word, compared lowercased without them ("father’s" = "fathers"). The app
 // splits its own text the same way (TOKEN_1830 in index.html).

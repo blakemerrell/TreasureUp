@@ -1,7 +1,7 @@
 # Title of Liberty: how a skirmish evolves
 
 The foundation for free battle, and for the story missions that will run on it.
-Decided with Blake on 3 October 2026 and kept current as the pieces land. Each
+Decided with the owner on 3 October 2026 and kept current as the pieces land. Each
 section says what is **settled**, what is **proposed** (built as written unless
 play says otherwise), and what is **open**.
 
@@ -77,7 +77,7 @@ something on its own as well as opening the next: nothing is a bare gate.
 | 3 | **Hall of the captains** (needs armory and smithy): javelin thrower, stripling warrior; ladders and cords (Alma 62:21). | **Chief captain's pavilion** (needs shield-makers' tent): Zoramite captain, the chosen because they were "the most acquainted with the strength of the Nephites" (Alma 48:5); the side's hero. |
 | 4 | **Temple** (needs hall): healing near it, double council, miracles. | **King's court** (needs pavilion): Amalickiah's cunning; cheaper warriors ("the greatness of their numbers", Alma 49:6). *(5c)* |
 
-Where a soldier with a ladder comes from, as Blake asked: barracks, then armory
+Where a soldier with a ladder comes from, as the owner asked: barracks, then armory
 and smithy, then the hall, then the research. Three buildings deep on both
 sides. In 5b the swordsman moved from the barracks to the smithy and the spy
 to the training ground; a tile wears "New" for a while the first time it can
@@ -242,7 +242,7 @@ round every store, or its own haulers can't get in. With these, a steady
 King-men player on Normal takes Zarahemla in about 13 minutes, as a steady
 Freemen player takes the war camp in about 14.
 
-## 13b. Walls that level up, and the great beasts (decided with Blake)
+## 13b. Walls that level up, and the great beasts (decided with the owner)
 
 Walls have three levels per side, and every piece changes at once when the
 side makes the next (research, like Red Alert's upgrades you can see):
@@ -269,9 +269,9 @@ them. A fourth Jaredite ruin, between the camps, holds one tame. The
 opponents train a few, save for their walls' levels once half their army is
 gathered, and quarry the stone the Freemen's third level needs.
 
-## 13c. The great buildings: the temple, the Rameumptom and the idols (decided with Blake)
+## 13c. The great buildings: the temple, the Rameumptom and the idols (decided with the owner)
 
-Blake's play-test: the start building, Zarahemla's huge red pyramid, stood
+The owner's play-test: the start building, Zarahemla's huge red pyramid, stood
 taller than the temple. Decided with him, one question at a time:
 
 - **Zarahemla becomes the chief judge's hall**, the judgment-seat (Alma
@@ -282,13 +282,13 @@ taller than the temple. Decided with him, one question at a time:
   temple of Solomon" (2 Nephi 5:16): two pillars of brass before a porch
   (1 Kings 7:15), an altar, and the basin on twelve oxen. It is the tallest
   thing on the field. At first the porch rose far above the house, from
-  "an hundred and twenty" cubits in 2 Chronicles 3:4; Blake found the tower
+  "an hundred and twenty" cubits in 2 Chronicles 3:4; the owner found the tower
   odd, and since some ancient copies read twenty, the porch is now lower
   than the house and the two pillars are the landmark (art request 023).
 - **The King-men's Rameumptom replaces the king's court** as their great
   house, 4 × 4: the Zoramites' "holy stand", "high above the head" (Alma
   31:13, 21). Honest note: it was the Zoramites', but the Zoramites fight
-  on the King-men's side. Blake: "It's the anti to the temple."
+  on the King-men's side. The owner: "It's the anti to the temple."
 - **Its works are wicked men stirred up, not magic.** The scriptures call
   the idols "dumb" (Alma 31:1), so no idol has power of its own. New:
   **Poison** "by degrees" (Alma 47:18): one enemy, even a captain, loses
@@ -315,18 +315,18 @@ All five pictures are Gemini's (art/requests/018). The Rameumptom's braziers
 burn with six painted flame frames, flipped like a flipbook and added as
 light; incense smoke rises before the idols.
 
-## 13d. Blake's gameplay review: open play, a tips card, fighting on the way (decided with Blake)
+## 13d. The owner's gameplay review: open play, a tips card, fighting on the way (decided with the owner)
 
-The review played Javan's first hour on a phone and ran 78 simulated games
+The review played an 11-year-old's first hour on a phone and ran 78 simulated games
 across both sides, three levels and five styles of play. What it found, and
 what was decided, one question at a time:
 
-- **Reading first wasn't working.** Blake: "The read first then play isn't
+- **Reading first wasn't working.** The owner: "The read first then play isn't
   really working." Every mission and skirmish is open now (the 3 Nephi 4
   mission no longer waits for 3 Nephi 3 to be won). Reading a mission's
   chapters first brings a gift when it starts, 100 grain and 100 timber,
   and the council asks about every chapter read (none read: no council).
-- **A tips card**, Blake: "a card that we can really quickly that teaches
+- **A tips card**, the owner: "a card that we can really quickly that teaches
   things about the gameplay." Four or five tips with a picture each, shown
   before each kind of game until **Don't show again**; **How to play** on
   the menu opens them all. The briefings shrank to a verse or two and the
@@ -336,7 +336,7 @@ what was decided, one question at a time:
   enemy, or into it. Now a march fights whoever it meets, then goes on;
   soldiers sent against a building turn on whoever strikes them; **Fall
   back** is a plain march home that stops for nothing.
-- **No clock in a skirmish.** Blake: "In RA skirmish I don't ever remember
+- **No clock in a skirmish.** The owner: "In RA skirmish I don't ever remember
   a time limit. But stories seemed. Like they did sometimes." The story
   missions keep their clocks; a skirmish lasts until one side falls, and
   nothing breaks a stalemate.

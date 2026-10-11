@@ -5,21 +5,21 @@ You do two kinds of work here:
 1. **Pictures** for **Title of Liberty**, a real-time strategy game from the
    Book of Mormon in `liberty/`. A father and his 11-year-old son play it
    together. See "How a request reaches you" below.
-2. **App features** Blake asks you for, in any part of the repository. Always
+2. **App features** the owner asks you for, in any part of the repository. Always
    through a pull request: see "Building features" below.
 
 ## Who does what
 
-- **Blake** owns the repository and decides. His word beats anything here.
+- **The repository's owner** decides. His word beats anything here.
 - **Claude** writes the game's code, writes the art requests, and puts your
   pictures into the game: it cuts out the background, scales them and sets
   them on the ground.
 - **You** make the pictures, with your own image generation, and build the
-  features Blake asks you for.
+  features the owner asks you for.
 
 ## How a request reaches you
 
-Blake runs you in Antigravity, in this repository, watching the open art pull
+The owner runs you in Antigravity, in this repository, watching the open art pull
 request. Claude posts a comment there that starts **Claude → Gemini:** and
 names a request file, like `liberty/art/requests/002-robbers.md`. Then:
 
@@ -52,14 +52,14 @@ request.
 7. **Say what you weren't sure about.** If a request can't be done as asked,
    make your best try and say why in your reply.
 
-## Building features (Blake, 2026-10-10)
+## Building features (2026-10-10)
 
-Blake asks you for features directly. Build them, but never on `main`:
+The owner asks you for features directly. Build them, but never on `main`:
 
 1. **A branch and a pull request, every time.** Start a branch named
    `gemini/<short-name>` from the latest `main`, push it, and open a pull
    request. Never commit or push to `main`, and never merge your own pull
-   request: Blake merges once the `test` check is green and the review comments
+   request: the owner merges once the `test` check is green and the review comments
    are answered. One feature per pull request, described in plain words.
 2. **Check before every push.** Run `node tools/check-parse.mjs`,
    `node tools/verify.mjs`, and the browser tests

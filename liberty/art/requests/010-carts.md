@@ -1,13 +1,13 @@
 # 010 · The horse cart: a driver, a picture per load, and loading
 
-**Status: done.** Five pictures made with Gemini through Blake's n8n backup,
+**Status: done.** Five pictures made with Gemini through the owner's n8n backup,
 5 billed to the Merit3D Gemini account, all usable on the first try.
 
 ## What it's for
 
 After the Red Alert rules (pull request #68) the carts are the harvesters:
 they find a field or a forest on their own, fill up and haul the load home.
-Blake, after a round on his Pixel, asked for new cart art, with a driver who
+The owner, after a round on his Pixel, asked for new cart art, with a driver who
 "drives the cart and gets out and gathers". The old `cart.png` was a small
 horse and hay cart with nobody on it, and it looked the same empty or full.
 

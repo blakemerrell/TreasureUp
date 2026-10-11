@@ -125,7 +125,7 @@ if (pastIndex.length) console.log(`content/past/: the chapters of ${pastIndex.le
 // text file (bereanbible.com/bsb.txt, 2026-09-28), which its header says
 // "has been dedicated to the public domain". Kept in the repo, so the words
 // never change under us; its books and verses line up with the KJV's.
-// And the same for the reader's ES·TL button (Blake, 2026-10-03: "Using the
+// And the same for the reader's ES·TL button (2026-10-03: "Using the
 // Spanish and Tagalog bible sounds great where we can!"): the Reina-Valera
 // 1909 (content/es.js, content/past/es-<num>.js) and the 1905 Ang Biblia
 // (content/tl.js, content/past/tl-<num>.js), both public domain, from
@@ -169,7 +169,7 @@ for (const t of TRANSLATIONS) {
   }
 }
 
-// The library, for the Scriptures tab (Blake, 2026-10-02: "add another tab
+// The library, for the Scriptures tab (2026-10-02: "add another tab
 // where we can see our version of the scriptures. orgainzed by book,
 // chapter, and verse"): content/library.js, every book of the five
 // volumes with its chapter count, and content/lib/<chapter>.js, one file a
@@ -267,14 +267,14 @@ const library = [];
   } catch (e) { console.warn('⚠ The Hebrew and Greek words:', e.message, '(the reader goes without them)'); }
 }
 
-// The Book of Mormon's Changes button (Blake, 2026-10-10): for every chapter,
+// The Book of Mormon's Changes button (2026-10-10): for every chapter,
 // content/changes/<chapter>.js, its verses' changes from the 1830 edition to
 // 2013, edition by edition, each sorted into a kind (tools/editions.mjs, from
 // BYU Office of Digital Humanities' OpenScripture data, pinned to one
 // commit), loaded when he opens the chapter with the button on. And its JS
 // Papers button: content/jsp-bom.js, the table of each chapter's pages at
 // the Joseph Smith Papers kept in tools/jsp-bom-pages.json (links only).
-// And its 1830 button (Blake, 2026-10-11, mockup A): content/e1830/<chapter>.js,
+// And its 1830 button (2026-10-11, mockup A): content/e1830/<chapter>.js,
 // each verse's 1830 wording (OpenScripture's 1830 column) with the words today's
 // edition doesn't have and the places it adds words (tools/editions.mjs
 // line1830), the words of our text added since (only where our text is the
@@ -337,7 +337,7 @@ const library = [];
 }
 
 // The Church's own recordings of each chapter, a man's voice and a woman's,
-// for the reader's Listen button (Blake, 2026-10-02, from the Scripture
+// for the reader's Listen button (2026-10-02, from the Scripture
 // Central app): content/audio.js, a link to each MP3 on the Church's site,
 // which the app plays from there. Looked up at deploy in the content Gospel
 // Library itself loads. A chapter without one just has no Listen button.

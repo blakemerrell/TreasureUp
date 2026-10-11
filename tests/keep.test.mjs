@@ -1,4 +1,4 @@
-// Keep going (Blake, 2026-10-10: "the option to continue in the flow", and on
+// Keep going (2026-10-10: "the option to continue in the flow", and on
 // coming back, "guide me through all open suggested study cards… until I am
 // done or exit"): after today's path, the 🎉 screen asks once; yes plays the
 // day's extras (its Go further, the Friday deep dive, the puzzle) one after

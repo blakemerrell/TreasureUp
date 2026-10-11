@@ -75,7 +75,7 @@
 
   // ===================== the game =====================
 
-  // The grid takes the shape of the space it has (Blake, 2026-10-04: "Snake
+  // The grid takes the shape of the space it has (2026-10-04: "Snake
   // needs to fill the screen"), with about as many squares as before: 448
   // across a wide screen (28 × 16), 300 down a tall one (15 × 20).
   function gridFor(w, h) {
@@ -216,7 +216,7 @@
     G.mannaSinceQ = 0;
     if (!q || !q.choices || q.choices.length < 2) return;
     G.asked++;
-    // Everything stops while the question is read (Javan: hard "to read the
+    // Everything stops while the question is read (a child playing it: hard "to read the
     // question and play the game at the same time"); its clock starts on Go.
     G.q = Object.assign({}, q, { opened: G.time, until: Infinity });
     G.reading = { ready: G.snakes.map(x => !x.alive) };
@@ -261,7 +261,7 @@
     if (i == null) r.ready = r.ready.map(() => true); else r.ready[i] = true;
     if (!r.ready.every(Boolean)) return;
     G.reading = null;
-    // Then 3, 2, 1 before the snake goes again (Javan: "a little countdown timer
+    // Then 3, 2, 1 before the snake goes again (a child playing it: "a little countdown timer
     // to know … when I'm going to start again"). The question's clock starts after it.
     if (manual()) { if (G.q && G.q.until === Infinity) G.q.until = G.time + T.qSeconds * 1000; }
     else { G.ready = T.resumeMs; G.readyTip = 'Get ready… then eat the right jar!'; sound('tick'); }

@@ -76,7 +76,7 @@ jobs:
       # the GitHub API: weeks that ended before last week move to content/past/
       # (tools/archive-weeks.mjs), and the weeks written ahead come in from
       # content/upcoming/ as room allows (tools/upcoming-weeks.mjs): on the live
-      # app too since Blake had the rest of 2026 approved at once (2026-10-05).
+      # app too since the owner had the rest of 2026 approved at once (2026-10-05).
       # Committed here, and saved back to the repo only once every check below
       # has passed (Save the moved weeks), so a week that fails a check never
       # reaches main. The week's date is Utah's (tools/week-dates.mjs).

@@ -1,4 +1,4 @@
-// The app opens with no Wi-Fi (Blake, 2026-10-07: "Yes, add it"): once it has
+// The app opens with no Wi-Fi (2026-10-07: "Yes, add it"): once it has
 // been open with a connection, sw.js keeps a copy, so it starts offline, Today's
 // study runs with the week's chapters, and a family device starts too.
 import { check, note, device, loadsDuring, study, txt, wait, built } from './lib.mjs';

@@ -1,4 +1,6 @@
 import fs from 'fs';
+import os from 'os';
+import path from 'path';
 
 let content = fs.readFileSync('liberty/mockup.html', 'utf8');
 
@@ -17,5 +19,7 @@ content = content.replace(
 );
 
 fs.writeFileSync('liberty/mockup.html', content);
-fs.writeFileSync('/Users/blakemerrell/.gemini/antigravity/brain/712c72b4-2fe7-4275-a6c2-f8d78eb1924d/terrain_mockup.html', content);
+const ARTIFACT_DIR = process.env.ARTIFACT_DIR || path.join(os.tmpdir(), 'treasureup-artifacts');
+fs.mkdirSync(ARTIFACT_DIR, { recursive: true });
+fs.writeFileSync(path.join(ARTIFACT_DIR, 'terrain_mockup.html'), content);
 console.log('Updated camera in mockup.html');

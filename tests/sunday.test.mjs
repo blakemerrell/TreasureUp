@@ -1,4 +1,4 @@
-// Sunday's Today opens with the morning routine, like every other day (Blake, 2026-10-11: "Add them on
+// Sunday's Today opens with the morning routine, like every other day (2026-10-11: "Add them on
 // Sundays"): Be still and the Morning Council at the top of Sunday's own list, the Council saved once and
 // paid once, its to-dos in Goal Achievements and Return & Report under the list; neither holds the day back
 // (a family game still keeps it); a youth's and a grown-up's titles; not in Family Study or on another day's

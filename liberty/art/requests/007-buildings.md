@@ -3,8 +3,8 @@
 **Status: done.** All three (pull request #60) are in the game, as
 `liberty/assets/granary.png`, `stables.png` and `hall.png`. Their Build buttons
 are `cameo_granary.png`, `cameo_stables.png` and `cameo_hall.png`. Gemini in
-Antigravity hadn't answered after an hour, so at Blake's request Claude made
-them with Gemini through Blake's n8n backup.
+Antigravity hadn't answered after an hour, so at the owner's request Claude made
+them with Gemini through the owner's n8n backup.
 
 ## What it's for
 

@@ -99,7 +99,7 @@ export function checkQuestions(data) {
       });
     }
     if (x.review !== undefined) {
-      if (!Array.isArray(x.review) || x.review.some(r => typeof r !== 'string' || !r.trim())) fail(where, 'review: a list of notes for Blake');
+      if (!Array.isArray(x.review) || x.review.some(r => typeof r !== 'string' || !r.trim())) fail(where, 'review: a list of notes for the owner');
       else if (x.review.length > QA_LIMITS.review) fail(where, `review has ${x.review.length} notes (${QA_LIMITS.review} at most)`);
     }
     for (const k of Object.keys(x)) if (!FIELDS.has(k)) notes.push(`${where}: "${k}" isn't a field the app uses`);

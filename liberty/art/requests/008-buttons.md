@@ -23,7 +23,7 @@ cut-out and framing as `cameo_worker.png`:
   - the whole picture for `cameo_farm`, `cameo_storehouse`,
     `cameo_barracks`, `cameo_tower`, `cameo_armory`, `cameo_stronghold` and
     `cameo_cart`.
-- **Painted by Gemini through Blake's n8n backup** (6 pictures billed to the
+- **Painted by Gemini through the owner's n8n backup** (6 pictures billed to the
   Merit3D Gemini account, all usable on the first try):
   - `cameo_wall`: a ridge of earth with pickets;
   - `cameo_gate`: a timber gate in the ridge;

@@ -1,6 +1,6 @@
 # 017 · Walls that level up, the wall guard, and the great beasts
 
-**Status: done.** Seventeen pictures made with Gemini through Blake's n8n
+**Status: done.** Seventeen pictures made with Gemini through the owner's n8n
 backup (17 billed to the Merit3D Gemini account). Fifteen were usable on the
 first try; the stone and King-men ditch sections came back short and deep
 and were asked for again as long thin strips. Everything was cut out of the
@@ -11,7 +11,7 @@ and for the new upgrades were made with `mkcameo.py`.
 
 ## What it's for
 
-Blake asked for walls you can see grow stronger, and a slow, strong unit.
+The owner asked for walls you can see grow stronger, and a slow, strong unit.
 Decided with him, one question at a time (`liberty/design/evolution.md`,
 section 13b): three levels of walls per side, a ditch that slows attackers,
 a guard on every fourth piece who casts stones down; a curelom for the

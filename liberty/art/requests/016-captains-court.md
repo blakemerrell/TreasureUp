@@ -1,6 +1,6 @@
 # 016 · The captains, the war-dance ground and the king's court
 
-**Status: done.** Six pictures made with Gemini through Blake's n8n backup
+**Status: done.** Six pictures made with Gemini through the owner's n8n backup
 (6 billed to the Merit3D Gemini account): Teancum twice (the first came out
 in a Roman cuirass and was asked for again in Nephite dress), Amalickiah,
 Ammoron, the war-dance ground and the king's court; all cut out of the

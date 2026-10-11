@@ -1,4 +1,4 @@
-// Treasure Up opens with no Wi-Fi (Blake, 2026-10-07: "Yes, add it"; the
+// Treasure Up opens with no Wi-Fi (2026-10-07: "Yes, add it"; the
 // tracer found a Kindle opened offline got only the browser's offline page).
 //
 // The app and its content come from the network first, as before, so every
