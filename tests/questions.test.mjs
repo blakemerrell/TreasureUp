@@ -2,7 +2,8 @@
 // Works in the Scriptures tab, with the test's own questions (never the
 // committed ones): no shelf with none approved, or with only a draft; with
 // one approved, the card, the four areas, a question's short answer, Go
-// deeper, its sources in a new tab, the Talk with Mom or Dad note, and the
+// deeper, Learn more from Scripture Central (a podcast in a new tab; none
+// without `more`), its sources in a new tab, the Talk with Mom or Dad note, and the
 // back gesture a step at a time. The test site shows a draft, marked. Then
 // developer mode (with a stand-in for GitHub): a draft's notes to look at,
 // Approve and save (the fingerprint tools/verify.mjs checks), and Publish
@@ -14,7 +15,7 @@ import { qaHash } from '../tools/questions.mjs';
 
 const filler = (what, n) => Array.from({ length: n }, (_, i) => i ? 'word' : what).join(' ') + '.';
 // A question in the shape content/README.md describes, approved or a draft.
-function q(id, area, where, heard, { parent = false, approve = true, review } = {}) {
+function q(id, area, where, heard, { parent = false, approve = true, review, more } = {}) {
   const x = {
     id, area, heard, where,
     kid: [filler(`Short answer for ${id}`, 40), filler('Second short paragraph', 30)],
@@ -22,6 +23,7 @@ function q(id, area, where, heard, { parent = false, approve = true, review } = 
     parent,
     sources: [{ t: 'Fixture page one', by: 'Fixture Source', u: 'https://example.org/one' }, { t: 'Fixture page two', by: 'Another Source', u: 'https://example.org/two', checked: 'search' }]
   };
+  if (more) x.more = more;
   if (review) x.review = review;
   if (approve) x.approved = qaHash(x);
   return x;
@@ -29,11 +31,14 @@ function q(id, area, where, heard, { parent = false, approve = true, review } = 
 const file = questions => '// The questions test\'s own content/questions.js.\nwindow.TU_QUESTIONS = ' + JSON.stringify({ questions }, null, 2) + ';\n';
 const APPROVED = [
   q('fx-god', 'god', 'online', 'Fixture question about God?', { parent: true }),
-  q('fx-bible', 'bible', 'school', 'Fixture question about the Bible?'),
+  q('fx-bible', 'bible', 'school', 'Fixture question about the Bible?', { more: [
+    { t: 'Fixture podcast episode', kind: 'podcast', u: 'https://podcasts.apple.com/us/podcast/fixture-episode/id1' },
+    { t: 'Fixture KnoWhy', kind: 'knowhy', u: 'https://scripturecentral.org/knowhy/fixture' }] }),
   q('fx-bom', 'bom', 'friend', 'Fixture question about the Book of Mormon?'),
-  q('fx-history', 'history', 'school', 'Fixture question about Church history?')
+  q('fx-history', 'history', 'school', 'Fixture question about Church history?', { more: [] })
 ];
-const DRAFT = q('fx-draft', 'bom', 'online', 'Fixture draft nobody approved?', { approve: false, review: ['Fixture note for Blake: check the second source.'] });
+const DRAFT = q('fx-draft', 'bom', 'online', 'Fixture draft nobody approved?', { approve: false, review: ['Fixture note for Blake: check the second source.'],
+  more: [{ t: 'Fixture Church History Matters episode', kind: 'podcast', u: 'https://scripturecentral.org/podcast/fixture' }] });
 
 const built = f => fs.existsSync(path.join(ROOT, f));
 // The Scriptures tab's shelf needs content/library.js, which only the deploy builds: a stand-in otherwise.
@@ -89,12 +94,29 @@ export default async function questions({ port }) {
   await p.click('#home [data-qa-deeper]'); await wait(200);
   check(await deeper.isVisible() && /Deeper reading for fx-bible/.test(await deeper.innerText()) && await p.getAttribute('#home [data-qa-deeper]', 'aria-expanded') === 'true', 'questions: Go deeper opens the longer answer');
 
+  // Learn more from Scripture Central: after Go deeper and before the sources, each with its kind; a podcast opens in a new tab.
+  const learn = await p.evaluate(() => {
+    const sec = document.querySelector('#home .qa-learn'), d = document.querySelector('#home .qa-deeper'), src = [...document.querySelectorAll('#home .eyebrow')].find(e => /Where this comes from/.test(e.textContent));
+    return { order: !!(sec && d && src && (d.compareDocumentPosition(sec) & Node.DOCUMENT_POSITION_FOLLOWING) && (sec.compareDocumentPosition(src) & Node.DOCUMENT_POSITION_FOLLOWING)),
+      head: sec ? sec.querySelector('.eyebrow').textContent : '', rows: sec ? [...sec.querySelectorAll('a')].map(a => ({ kind: a.dataset.kind, text: a.textContent, target: a.target })) : [] };
+  });
+  check(learn.order && /Learn more from Scripture Central/.test(learn.head), 'questions: Learn more from Scripture Central comes after Go deeper and before the sources');
+  check(learn.rows.length === 2 && /🎧/.test(learn.rows[0].text) && /Podcast/.test(learn.rows[0].text) && /Fixture podcast episode/.test(learn.rows[0].text) && /💡/.test(learn.rows[1].text) && /KnoWhy/.test(learn.rows[1].text) && learn.rows.every(r => r.target === '_blank'),
+    `questions: each Learn more row has its kind's icon and label and its title (${learn.rows.map(r => r.text.replace(/\s+/g, ' ').trim()).join(' · ')})`);
+  {
+    const asked = dev.ctx.waitForEvent('request', { predicate: r => r.url().startsWith('https://podcasts.apple.com/us/podcast/fixture-episode'), timeout: 5000 }).catch(() => null);
+    const [tab] = await Promise.all([dev.ctx.waitForEvent('page', { timeout: 5000 }).catch(() => null), p.click('#home .qa-learn a[data-kind="podcast"]')]);
+    const req = await asked;
+    check(!!tab && tab !== p && !!req && req.frame().page() === tab && await p.locator('#home .qa-h').count() === 1, 'questions: a podcast row opens the episode in a new tab');
+    if (tab) await tab.close();
+  }
+
   // Sources: each its publisher and title, opening in a new tab.
-  const links = await p.$$eval('#home .qa-src', els => els.map(a => ({ href: a.href, target: a.target, rel: a.rel, text: a.textContent })));
+  const links = await p.$$eval('#home .qa-src:not(.qa-more-link)', els => els.map(a => ({ href: a.href, target: a.target, rel: a.rel, text: a.textContent })));
   check(links.length === 2 && links.every(l => l.target === '_blank' && /noopener/.test(l.rel)) && /Fixture Source/.test(links[0].text) && /Fixture page one/.test(links[0].text), 'questions: the sources show who and what, as links to a new tab');
   // (The stand-in browser reaches no other site, so the new tab asks for the page and stops there.)
   const asked = dev.ctx.waitForEvent('request', { predicate: r => r.url().startsWith('https://example.org/one'), timeout: 5000 }).catch(() => null);
-  const [tab] = await Promise.all([dev.ctx.waitForEvent('page', { timeout: 5000 }).catch(() => null), p.click('#home .qa-src >> nth=0')]);
+  const [tab] = await Promise.all([dev.ctx.waitForEvent('page', { timeout: 5000 }).catch(() => null), p.click('#home .qa-src:not(.qa-more-link) >> nth=0')]);
   const req = await asked;
   check(!!tab && tab !== p && !!req && req.frame().page() === tab, 'questions: tapping a source opens it in a new tab');
   if (tab) await tab.close();
@@ -111,6 +133,10 @@ export default async function questions({ port }) {
   await p.click('#home [data-qa-open="fx-god"]'); await wait(400);
   const parentFirst = await p.evaluate(() => { const n = document.querySelector('#home .qa-parent'), k = document.querySelector('#home .qa-kid'); return !!(n && k && (n.compareDocumentPosition(k) & Node.DOCUMENT_POSITION_FOLLOWING)); });
   check(parentFirst && /Talk with Mom or Dad/.test(await txt(p, '#home .qa-parent')), 'questions: parent: true shows Talk with Mom or Dad above the answer');
+  check(await p.locator('#home .qa-learn').count() === 0, 'questions: no Learn more section for a question without `more`');
+  await p.click('#home [data-qa-back]'); await wait(400);
+  await p.click('#home [data-qa-open="fx-history"]'); await wait(400);
+  check(await p.locator('#home .qa-h').count() === 1 && await p.locator('#home .qa-learn').count() === 0, 'questions: no Learn more section when `more` is empty');
   check(!p.errors.length, `questions: no errors on the live app (${p.errors.join(' | ') || 'none'})`);
   await dev.ctx.close();
 
@@ -155,11 +181,13 @@ export default async function questions({ port }) {
   const item = g.locator('#devBody .dv-item[data-item="qa:fx-draft"]');
   const itemText = await item.innerText().catch(() => '');
   check(/Look at these first/.test(itemText) && /check the second source/.test(itemText) && /Fixture draft nobody approved/.test(itemText) && /Draft/.test(itemText), 'questions: developer mode shows a draft with its notes to look at first');
+  check(/Learn more from Scripture Central/.test(itemText) && /Fixture Church History Matters episode/.test(itemText), 'questions: developer mode shows its Learn more links');
   await g.click('#devBody [data-dev="approve"][data-key="qa:fx-draft"]'); await wait(300);
   await g.click('#devBar [data-dev="save"]'); await wait(1500);
   const saved = (() => { const box = {}; new Function('window', repos['blakemerrell/TreasureUp-test']['content/questions.js'])(box); return box.TU_QUESTIONS.questions; })();
   const x = saved.find(y => y.id === 'fx-draft');
   check(!!x && x.approved === qaHash(x) && saved.length === 5, 'questions: Approve and Save puts its fingerprint on the test site (the one tools/verify.mjs checks)');
+  check(!!x && (x.more || []).length === 1 && qaHash(Object.assign({}, x, { more: [] })) !== x.approved, 'questions: the fingerprint covers `more`, so changing its links needs approving again');
   check(/Checked, and on the test site/.test(await txt(g, '#devBar')), 'questions: developer mode says it was checked and is on the test site');
   await g.click('#devBar [data-dev="publish"]'); await wait(1500);
   const read = text => { const box = {}; new Function('window', text || '')(box); return box.TU_QUESTIONS; };

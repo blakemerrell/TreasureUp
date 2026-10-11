@@ -637,15 +637,25 @@ question:
   deeper: ['paragraph', …],  // Go deeper, 180 to 450 words in all
   parent: false,             // true shows a gentle "Talk with Mom or Dad" note at the top
   sources: [{ t: 'title', by: 'Gospel Topics Essay', u: 'https://…', checked: 'search' }],   // 2 to 4; checked is optional
+  more: [{ t: 'title', kind: 'podcast', u: 'https://…' }],   // optional, 4 at most: Learn more from Scripture Central
   review: ['…'],             // optional, 3 at most: for Blake in developer mode, never shown in the app
   approved: '<hash>'         // set by Approve in developer mode
 }
 ```
 
+- `sources` back up the answer; `more` is where to go learn more at
+  Scripture Central (Blake: especially its podcast, Church History Matters).
+  It shows after Go deeper as **Learn more from Scripture Central**, a row a
+  link, each opening in a new tab with its kind: `podcast` 🎧, `knowhy` 💡,
+  `evidence` 🔎, `video` ▶️ or `article` 📄. Each link is https, on
+  scripturecentral.org, youtube.com, youtu.be or podcasts.apple.com (where
+  Church History Matters episodes are too), and none twice in a question.
+  Empty or missing, the section isn't there. It's part of the fingerprint
+  like every other field: changing a link needs approving again.
 - Anything in quotation marks (“ ” or " ") is someone's exact words, from a
   source listed, and 25 words at most; otherwise say it in your own words.
 - `tools/verify.mjs` checks all of the above (the rules are in
-  `tools/questions.mjs`). A field the app doesn't use, or a question changed
+  `tools/questions.mjs`), `more` included. A field the app doesn't use, or a question changed
   since it was approved, is a note, not a failure.
 - A question shows in the app only once it's approved, so none ever holds a
   deploy back; with none approved the shelf isn't there. The test site shows

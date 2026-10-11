@@ -2,12 +2,18 @@
 // shared by tools/verify.mjs (every deploy) and tools/add-questions.mjs
 // (loading drafts). content/README.md says what each field means.
 //
-//   { id, area, heard, where, kid: [...], deeper: [...], parent, sources: [{ t, by, u, checked? }], review?: [...], approved? }
+//   { id, area, heard, where, kid: [...], deeper: [...], parent, sources: [{ t, by, u, checked? }],
+//     more?: [{ t, kind, u }], review?: [...], approved? }
+// `sources` back up the answer; `more` is "go learn more" from Scripture
+// Central (its KnoWhys, Evidences, videos and the Church History Matters podcast).
 
 export const QA_AREAS = { god: 'God & Jesus', bible: 'The Bible', bom: 'The Book of Mormon', history: 'Church history' };
 export const QA_WHERE = ['school', 'online', 'friend'];
-export const QA_LIMITS = { kid: [60, 130], deeper: [180, 450], sources: [2, 4], review: 3, quoteWords: 25 };
-const FIELDS = new Set(['id', 'area', 'heard', 'where', 'kid', 'deeper', 'parent', 'sources', 'review', 'approved']);
+export const QA_LIMITS = { kid: [60, 130], deeper: [180, 450], sources: [2, 4], more: 4, review: 3, quoteWords: 25 };
+export const QA_MORE_KINDS = ['podcast', 'knowhy', 'evidence', 'video', 'article'];
+// Where a `more` link may go: Scripture Central, or where its videos and podcast episodes live.
+export const QA_MORE_HOSTS = ['scripturecentral.org', 'youtube.com', 'youtu.be', 'podcasts.apple.com'];
+const FIELDS = new Set(['id', 'area', 'heard', 'where', 'kid', 'deeper', 'parent', 'sources', 'more', 'review', 'approved']);
 export const QA_MARK = 'window.TU_QUESTIONS = ';
 
 const words = t => (String(t || '').match(/\S+/g) || []).length;
@@ -75,6 +81,23 @@ export function checkQuestions(data) {
       if (s.checked !== undefined && (typeof s.checked !== 'string' || !s.checked.trim())) fail(sw, 'checked: how it was checked, like "search"');
       for (const k of Object.keys(s)) if (!['t', 'by', 'u', 'checked'].includes(k)) notes.push(`${sw}: "${k}" isn't a field the app uses`);
     });
+    if (x.more !== undefined) {
+      if (!Array.isArray(x.more)) fail(where, 'more: a list of { t, kind, u }');
+      else if (x.more.length > QA_LIMITS.more) fail(where, `more has ${x.more.length} links (${QA_LIMITS.more} at most)`);
+      const seen = new Set();
+      (Array.isArray(x.more) ? x.more : []).forEach((m, i) => {
+        const mw = `${where} · more ${i + 1}`;
+        if (!m || typeof m !== 'object' || Array.isArray(m)) { fail(mw, 'must be { t, kind, u }'); return; }
+        if (typeof m.t !== 'string' || !m.t.trim()) fail(mw, 't: the title');
+        if (!QA_MORE_KINDS.includes(m.kind)) fail(mw, `kind "${m.kind}" must be one of ${QA_MORE_KINDS.join(', ')}`);
+        let host = null;
+        if (typeof m.u === 'string' && /^https:\/\/\S+$/.test(m.u)) { try { host = new URL(m.u).hostname.toLowerCase(); } catch (e) { host = null; } }
+        if (!host) fail(mw, `u "${m.u}" must be an https:// link`);
+        else if (!QA_MORE_HOSTS.some(h => host === h || host.endsWith('.' + h))) fail(mw, `u "${m.u}" must be on scripturecentral.org, youtube.com, youtu.be or podcasts.apple.com`);
+        if (typeof m.u === 'string') { if (seen.has(m.u)) fail(mw, `${m.u} is linked twice`); seen.add(m.u); }
+        for (const k of Object.keys(m)) if (!['t', 'kind', 'u'].includes(k)) notes.push(`${mw}: "${k}" isn't a field the app uses`);
+      });
+    }
     if (x.review !== undefined) {
       if (!Array.isArray(x.review) || x.review.some(r => typeof r !== 'string' || !r.trim())) fail(where, 'review: a list of notes for Blake');
       else if (x.review.length > QA_LIMITS.review) fail(where, `review has ${x.review.length} notes (${QA_LIMITS.review} at most)`);

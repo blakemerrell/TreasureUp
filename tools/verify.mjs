@@ -1744,8 +1744,10 @@ if (treasureCount) console.log(`✓ Treasure words: ${treasureCount} in ${treasu
 // Each answer shows once Blake approves it in developer mode (the test site
 // shows drafts), so none of it ever holds a deploy back. The rules are in
 // tools/questions.mjs: ids, area and where, the short answer 60 to 130 words
-// and Go deeper 180 to 450, 2 to 4 sources with https links, 3 review notes at
-// most, anything in quotation marks 25 words at most, and parent true or false.
+// and Go deeper 180 to 450, 2 to 4 sources with https links, up to 4 `more`
+// links to Scripture Central (a known kind, on scripturecentral.org, YouTube
+// or Apple Podcasts, none twice), 3 review notes at most, anything in
+// quotation marks 25 words at most, and parent true or false.
 let questionCounts = null;
 {
   const f = path.join(ROOT, 'content', 'questions.js');

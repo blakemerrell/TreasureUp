@@ -2290,8 +2290,11 @@
   .qa-src { position: relative; display: block; padding: 10px 36px 10px 14px; border-radius: 12px; text-decoration: none; color: #fff;
     background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); }
   .qa-src small { display: block; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--gold); }
-  .qa-src span:not(.qa-src-go) { display: block; margin-top: 2px; font-size: 14px; font-weight: 700; line-height: 1.3; }
+  .qa-src span:not(.qa-src-go):not(.qa-kind-ic) { display: block; margin-top: 2px; font-size: 14px; font-weight: 700; line-height: 1.3; }
   .qa-src-go { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,.45); }
+  .qa-more-link { padding-left: 52px; min-height: 52px; }
+  .qa-kind-ic { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; display: grid; place-items: center;
+    border-radius: 9px; background: rgba(252,211,77,.12); font-size: 15px; }
   @media (min-width: 760px) {
     .home-in { max-width: 1100px; }
     .tt-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 28px; align-items: start; }
@@ -6417,6 +6420,9 @@ const TreasureUp = (function () {
   const QA_AREAS = [['god', 'God & Jesus', '✨'], ['bible', 'The Bible', '📜'], ['bom', 'The Book of Mormon', '📘'], ['history', 'Church history', '🏛️']];
   const QA_WHERE = { school: ['🏫', 'Heard at school'], online: ['📱', 'Seen online'], friend: ['💬', 'From a friend'] };
   const QA_HOOK = 'Heard it at school or on TikTok? Here’s a faithful, honest answer.';
+  // `more`: where to go learn more at Scripture Central (Blake: its podcast Church History Matters especially),
+  // apart from `sources`, which back up the answer.
+  const QA_MORE = { podcast: ['🎧', 'Podcast'], knowhy: ['💡', 'KnoWhy'], evidence: ['🔎', 'Evidence'], video: ['▶️', 'Video'], article: ['📄', 'Article'] };
   let libQ = null, qaAsked = false;
   const qaDepth = () => homeTab === 'scriptures' && libQ ? (libQ === 'all' ? 1 : 2) : 0;
   // The questions the app shows: approved ones (their fingerprint matches), and on the test site drafts too.
@@ -6466,6 +6472,7 @@ const TreasureUp = (function () {
   function qaPageHtml(q) {
     const { x, draft } = q, w = QA_WHERE[x.where] || ['❓', ''], area = QA_AREAS.find(a => a[0] === x.area);
     const sources = (Array.isArray(x.sources) ? x.sources : []).filter(s => s && /^https:\/\//.test(s.u || ''));
+    const more = (Array.isArray(x.more) ? x.more : []).filter(m => m && QA_MORE[m.kind] && /^https:\/\//.test(m.u || ''));
     return `<button class="lib-back" data-qa-back>‹ Questions friends ask</button>
       <div class="eyebrow">${w[0]} ${esc(w[1])} · ${esc(area[1])}</div>
       <h1 class="reel-hook lib-h qa-h">${esc(x.heard)}${fixHtml(QAW, 'qa:' + x.id)}</h1>
@@ -6474,6 +6481,8 @@ const TreasureUp = (function () {
       <div class="qa-kid card">${qaParas(x.kid, 'qa-p')}</div>
       ${(Array.isArray(x.deeper) && x.deeper.length) ? `<button class="qa-more" data-qa-deeper aria-expanded="false"><span>🤿 Go deeper</span><small>${Math.max(1, Math.round(x.deeper.join(' ').split(/\s+/).length / 200))} min read</small><span class="qa-more-go" aria-hidden="true">›</span></button>
       <div class="qa-deeper" hidden>${qaParas(x.deeper, 'qa-p')}</div>` : ''}
+      ${more.length ? `<section class="qa-learn"><div class="eyebrow" style="margin:20px 0 8px">Learn more from Scripture Central</div>
+      <div class="qa-sources">${more.map(m => `<a class="qa-src qa-more-link" data-kind="${esc(m.kind)}" href="${esc(m.u)}" target="_blank" rel="noopener noreferrer"><span class="qa-kind-ic" aria-hidden="true">${QA_MORE[m.kind][0]}</span><small>${QA_MORE[m.kind][1]}</small><span>${esc(m.t)}</span><span class="qa-src-go" aria-hidden="true">↗</span></a>`).join('')}</div></section>` : ''}
       ${sources.length ? `<div class="eyebrow" style="margin:20px 0 8px">Where this comes from</div>
       <div class="qa-sources">${sources.map(s => `<a class="qa-src" href="${esc(s.u)}" target="_blank" rel="noopener noreferrer"><small>${esc(s.by)}</small><span>${esc(s.t)}</span><span class="qa-src-go" aria-hidden="true">↗</span></a>`).join('')}</div>` : ''}`;
   }
@@ -18634,7 +18643,7 @@ const TreasureUp = (function () {
     minutes: 'Minutes', from: 'Lesson parts it draws on (their ids, one per line)', steps: 'Steps', k: 'Kind: open, learn, do, talk or close',
     area: 'Area: god, bible, bom or history', heard: 'The question, as he hears it', where: 'Where he hears it: school, online or friend',
     kid: 'The short answer (60–130 words, a paragraph per line)', deeper: 'Go deeper (180–450 words, a paragraph per line)',
-    parent: 'Talk with Mom or Dad (shows the note)', sources: 'Sources (2 to 4)', t: 'Title', u: 'Link (https)', checked: 'How it was checked'
+    parent: 'Talk with Mom or Dad (shows the note)', sources: 'Sources (2 to 4)', kind: 'Kind', t: 'Title', u: 'Link (https)', checked: 'How it was checked'
   };
   let dev = null;
   const devTest = () => !FIREBASE_CONFIG && window.TU_DEV_TEST;   // the tests' stand-in for GitHub and sign-in
@@ -19127,6 +19136,7 @@ const TreasureUp = (function () {
         `<p class="dv-small">${w[0]} ${esc(w[1])} · ${esc(area ? area[1] : o.area)}${o.parent ? ' · 👨‍👩‍👦 Talk with Mom or Dad' : ''}</p><div class="dv-hook">${esc(o.heard)}</div>` +
         `<p class="dv-small" style="margin-top:6px;font-weight:800">The short answer (${words(o.kid)} words)</p>${(o.kid || []).map(t => `<p>${esc(t)}</p>`).join('')}` +
         `<div class="dv-deep"><p class="dv-small">🤿 Go deeper (${words(o.deeper)} words):</p>${(o.deeper || []).map(t => `<p>${esc(t)}</p>`).join('')}</div>` +
+        ((o.more || []).length ? `<p class="dv-small" style="margin-top:6px;font-weight:800">Learn more from Scripture Central</p><ul class="dv-small" style="padding-left:18px">${o.more.map(m => `<li>${esc((QA_MORE[m.kind] || ['', m.kind])[0] + ' ' + (QA_MORE[m.kind] || ['', m.kind])[1])}: <a href="${esc(m.u)}" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">${esc(m.t)} ↗</a></li>`).join('')}</ul>` : '') +
         `<p class="dv-small" style="margin-top:6px;font-weight:800">Sources</p><ul class="dv-small" style="padding-left:18px">${(o.sources || []).map(x => `<li>${esc(x.by)}: <a href="${esc(x.u)}" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">${esc(x.t)} ↗</a>${x.checked ? ' · checked by ' + esc(x.checked) : ''}</li>`).join('')}</ul>`;
     }
     if (it.key.startsWith('guide:')) return `<div class="dv-hook">${esc(o.h)}</div><p class="dv-small">${esc(o.ref)}${o.kids ? ' · For children' : ''} · <a href="${esc(lessonAt(w, o.id))}" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">the section ↗</a></p>

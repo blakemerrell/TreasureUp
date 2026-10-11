@@ -5,7 +5,8 @@
 //   node tools/add-questions.mjs --check drafts.json            only check them; the file stays as it is
 //
 // Each file holds one question, a list of them, or { questions: [...] }, in
-// the shape content/README.md describes. A draft whose id is in the file
+// the shape content/README.md describes, every field kept as it is (`more`,
+// `review`…). A draft whose id is in the file
 // already replaces it (and needs approving again if its words changed); any `approved` a draft
 // brings is dropped, since only developer mode approves. Nothing is written
 // unless every question in the result keeps the rules in tools/questions.mjs.
