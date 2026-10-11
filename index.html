@@ -1625,7 +1625,19 @@
   .plain-bar.many .lay { font-size: clamp(10px, 3.05vw, 13.5px); padding-left: 1px; padding-right: 1px; }   /* six buttons (ES·TL as well): "Hebrew" still fits a 320px phone */
   .lay.on { color: #fff; background: rgba(255,255,255,.1); border-color: var(--dot); box-shadow: inset 0 -3px 0 var(--dot); }
   .lay-kjv { --dot: #fff; } .lay-plain { --dot: #58cc02; } .lay-bsb { --dot: #60a5fa; } .lay-lang { --dot: #fb923c; } .lay-notes { --dot: #fbbf24; } .lay-orig { --dot: #c084fc; }
-  .lay-changes { --dot: #f472b6; } .lay-jsp { --dot: #93c5fd; }
+  .lay-changes { --dot: #f472b6; } .lay-e1830 { --dot: #e7c79a; } .lay-jsp { --dot: #93c5fd; }
+  /* The Book of Mormon's row (Plain · Notes · Changes · 1830 · JS Papers): the short names take less room, so "JS Papers" fits a 320px phone. */
+  .plain-bar.bom .lay-e1830, .plain-bar.bom .lay-plain { flex-grow: .62; }
+  .plain-bar.bom .lay { padding-left: 1px; padding-right: 1px; }
+  .plain-bar.bom.five .lay { font-size: clamp(10.5px, 3.25vw, 13.5px); }
+  /* 1830 (Book of Mormon, mockup A): the first edition's words under each verse; pink, ‸, and today's words underlined. */
+  .ls-1830-key { margin: 0 0 12px; font-size: 12.5px; line-height: 1.45; color: rgba(255,255,255,.6); }
+  .ls-vv > p.ls-1830 { margin: 4px 0 6px; padding-left: 12px; border-left: 3px solid #e7c79a; font-family: Georgia, 'Times New Roman', serif; font-size: 16px; line-height: 1.5; color: rgba(255,255,255,.8); }
+  .l1830 { margin-right: 6px; font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif; font-size: 10.5px; font-weight: 900; letter-spacing: .1em; color: #e7c79a; }
+  .ls-1830 .was, .ls-1830-key .was { background: rgba(244,114,182,.22); color: #fbcfe8; border-radius: 4px; padding: 0 2px; }
+  .ls-1830 .ins, .ls-1830-key .ins { margin: 0 1px; color: #f472b6; font-weight: 900; }
+  .u1830 { text-decoration: underline; text-decoration-color: #f472b6; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  .p1830 { margin-left: 6px; white-space: nowrap; font-family: 'Outfit', ui-sans-serif, system-ui, sans-serif; font-size: 12px; font-weight: 800; color: #93c5fd; text-decoration: none; }
   .plain-bar.one .lay { flex: 0 0 auto; padding-left: 22px; padding-right: 22px; }   /* Notes alone (the Doctrine and Covenants) */
   /* Changes (Book of Mormon): a changed verse marked at its side, what changed under it. */
   .ls-vv.chg { box-shadow: inset 3px 0 0 rgba(244,114,182,.75); margin-left: -11px; padding-left: 8px; border-radius: 2px; }
@@ -7371,17 +7383,17 @@ const TreasureUp = (function () {
   }
   const testNoteHtml = () => `<div class="test-note">🧪 <b>Test site.</b> Its progress and family are kept apart from the live app's.
     <a href="${esc(location.origin + '/TreasureUp/')}">Open the live app ›</a></div>`;
-  const LAYERS = [['kjv', 'KJV'], ['plain', 'Plain'], ['bsb', 'BSB'], ['lang', 'ES·TL'], ['notes', 'Notes'], ['orig', 'Hebrew'], ['changes', 'Changes'], ['jsp', 'JS Papers']];
-  const LAYER_NAMES = { kjv: 'King James Version', plain: 'Plain words', bsb: 'Berean Standard Bible', notes: 'Notes', changes: 'Changes since the first edition', jsp: 'Joseph Smith Papers' };
+  const LAYERS = [['kjv', 'KJV'], ['plain', 'Plain'], ['bsb', 'BSB'], ['lang', 'ES·TL'], ['notes', 'Notes'], ['orig', 'Hebrew'], ['changes', 'Changes'], ['e1830', '1830'], ['jsp', 'JS Papers']];
+  const LAYER_NAMES = { kjv: 'King James Version', plain: 'Plain words', bsb: 'Berean Standard Bible', notes: 'Notes', changes: 'Changes since the first edition', e1830: 'The 1830 first edition', jsp: 'Joseph Smith Papers' };
   const LANGS = { es: { label: 'ES', name: 'Spanish', full: 'Reina-Valera 1909', next: 'tl' }, tl: { label: 'TL', name: 'Tagalog', full: 'Ang Biblia 1905', next: '' } };
   const layers = (() => {
     try {
       const saved = JSON.parse(localStorage.getItem(LAYERS_KEY));
       if (saved && typeof saved === 'object') return { kjv: !!saved.kjv, plain: !!saved.plain, bsb: !!saved.bsb, lang: LANGS[saved.lang] ? saved.lang : '', notes: !!saved.notes, orig: !!saved.orig,
-        changes: !!saved.changes, chgAll: !!saved.chgAll, jsp: !!saved.jsp };
+        changes: !!saved.changes, chgAll: !!saved.chgAll, e1830: !!saved.e1830, jsp: !!saved.jsp };
       const plain = localStorage.getItem(NS + 'plain') === '1';          // the one switch these replaced
-      return { kjv: true, plain, bsb: false, lang: '', notes: true, orig: false, changes: false, chgAll: false, jsp: false };
-    } catch (e) { return { kjv: true, plain: false, bsb: false, lang: '', notes: true, orig: false, changes: false, chgAll: false, jsp: false }; }
+      return { kjv: true, plain, bsb: false, lang: '', notes: true, orig: false, changes: false, chgAll: false, e1830: false, jsp: false };
+    } catch (e) { return { kjv: true, plain: false, bsb: false, lang: '', notes: true, orig: false, changes: false, chgAll: false, e1830: false, jsp: false }; }
   })();
   // Notes on for everyone, once (Blake, 2026-10-07: "Notes for everyone"): the
   // cards that explain a verse live there now. Turned off after that, it stays off.
@@ -7762,13 +7774,52 @@ const TreasureUp = (function () {
         return `<button type="button" class="ow${tw ? ' ow-tw' : ''}"${act} aria-label="${esc(w)}: ${esc(m)}${tw ? ', treasure word' : strong ? ', word study' : ''}"><span class="ow-m">${tw ? '💎 ' : ''}${esc(m)}</span><span class="ow-w">${esc(w)}</span><span class="ow-s">${soundHtml(s, o.lang)}</span></button>`;
       }).join('') + '</div>';
   }
+  // 1830 (Blake, 2026-10-11, from mockup A): under each Book of Mormon verse,
+  // the first edition's wording (OpenScripture's 1830 column), pink where
+  // today's edition has other words, ‸ where it adds words, and the words of
+  // today's text added since underlined; then a link to the printed page the
+  // verse starts on at the Joseph Smith Papers. Words only: punctuation and
+  // capitals aren't marked (Changes has those). content/e1830/<chapter>.js,
+  // built at deploy by tools/build-reading.mjs (tools/editions.mjs line1830),
+  // loaded when first on. A verse whose text here isn't the data's 2013 word
+  // for word gets no underlines (there are none today), but keeps its 1830 line.
+  const e1830Of = ch => (window.TU_1830 || {})[ch];
+  const e1830Src = ch => 'content/e1830/' + ch.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.js';
+  const e1830Failed = new Set();
+  const TOKEN_1830 = /[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)*/g;            // the same words as tools/editions.mjs TOKEN
+  const KEY_1830 = '<span class="was">pink</span> = changed after 1830 · <span class="ins">‸</span> = words added later, <span class="u1830">underlined</span> in today’s text';
+  function e1830KeyHtml(ch) {
+    const d = e1830Of(ch);
+    return `<p class="ls-1830-key">${d ? KEY_1830 : e1830Failed.has(ch) ? 'The 1830 text didn’t open. It needs the internet; try again.' : 'Opening the 1830 text…'}</p>`;
+  }
+  function e1830LineHtml(ch, n) {
+    const d = e1830Of(ch), t = d && d.t[n - 1];
+    if (!t) return '';
+    const page = d.p[n - 1];
+    return `<p class="ls-1830"><span class="l1830">1830</span>${t.map(x => x === 0 ? '<span class="ins">‸</span>' : Array.isArray(x) ? `<span class="was">${esc(x[0])}</span>` : esc(x)).join('')}` +
+      (page && d.url ? `<a class="p1830" href="${esc(d.url + (page + 6))}" target="_blank" rel="noopener noreferrer">p. ${page} ↗</a>` : '') + '</p>';
+  }
+  // Today's text with the words added since 1830 underlined, a run of them as one.
+  function underline1830(text, idx) {
+    const on = new Set(idx), toks = [...String(text).matchAll(TOKEN_1830)];
+    let out = '', from = 0;
+    toks.forEach((m, k) => {
+      if (!on.has(k) || on.has(k - 1)) return;
+      let last = k;
+      while (on.has(last + 1) && toks[last + 1]) last++;
+      const end = toks[last].index + toks[last][0].length;
+      out += esc(text.slice(from, m.index)) + `<span class="u1830">${esc(text.slice(m.index, end))}</span>`;
+      from = end;
+    });
+    return out + esc(text.slice(from));
+  }
   // What a chapter offers, and what shows: the buttons that are on, and the
   // KJV when none of the texts on is there for this chapter. Notes, always:
   // every chapter has Scripture Central's line at its top. The KJV is a button
   // only on a Bible chapter; elsewhere the scripture's own text always shows.
   function haveOf(u, week) {
     const x = plainOf(week, u.ch), bom = isBoM(u.ch);
-    return { kjv: isBible(u.ch), plain: !!x, bsb: isBible(u.ch), lang: isBible(u.ch), notes: true, orig: !!origLang(u.ch), changes: bom, jsp: bom };
+    return { kjv: isBible(u.ch), plain: !!x, bsb: isBible(u.ch), lang: isBible(u.ch), notes: true, orig: !!origLang(u.ch), changes: bom, e1830: bom, jsp: bom };
   }
   // Notes from the Joseph Smith Papers (Blake, 2026-10-04: "can you add notes
   // to the scripture reading from Joseph Smith papers??? having a directly
@@ -7841,7 +7892,7 @@ const TreasureUp = (function () {
       ${s.url ? `<a class="ins-src" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer"><span>Read the whole thing · ${esc(s.by)}</span> <b>${esc(s.title)} ↗</b></a>` : ''}${card}`);
   }
   const layersFor = have => ({ kjv: have.kjv ? layers.kjv : true, plain: layers.plain && have.plain, bsb: layers.bsb && have.bsb, lang: have.lang ? layers.lang : '', notes: layers.notes && have.notes, orig: layers.orig && have.orig,
-    changes: layers.changes && have.changes, jsp: layers.jsp && have.jsp });
+    changes: layers.changes && have.changes, e1830: layers.e1830 && have.e1830, jsp: layers.jsp && have.jsp });
   const textsOn = on => on.kjv || on.plain || on.bsb || !!on.lang;
   function shownLayers(have) {
     const on = layersFor(have);
@@ -7851,7 +7902,7 @@ const TreasureUp = (function () {
   function layersBarHtml(u, week) {
     const x = plainOf(week, u.ch), have = haveOf(u, week), on = shownLayers(have);
     const btns = LAYERS.filter(([k]) => have[k]);
-    return !btns.length ? '' : `<div class="plain-bar${btns.length > 5 ? ' many' : btns.length === 1 ? ' one' : ''}">` +
+    return !btns.length ? '' : `<div class="plain-bar${btns.length > 5 ? ' many' : btns.length === 1 ? ' one' : ''}${have.changes ? ' bom' + (btns.length > 4 ? ' five' : '') : ''}">` +
       btns.map(([k, label]) => {
         if (k === 'lang') {     // ES·TL: which language is on, and what a tap does next
           const l = LANGS[on.lang], next = l ? LANGS[l.next] : LANGS.es;
@@ -7866,8 +7917,8 @@ const TreasureUp = (function () {
     const tip = on.orig && origOf(u.ch) ? `<p class="ls-orig-tip">${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew reads right to left, but here its'} words are in English order: what each means on top, then the word, then how to say it (the loud part in capitals). Tap a word to learn more${treasureOf(week).length ? '; 💎 is a treasure word' : ''}.</p>` : '';
     const mn = on.notes ? marginNotesOf(week, u.ch) : [], own = ownLinesOf(u.ch);
     const top = on.notes ? `<div class="ls-tops">${scDoorHtml(u.ch)}${mn.filter(n => !n.v).map(n => noteLineHtml(n, u, week, true)).join('')}</div>` : '';
-    const chg = on.changes && chgOf(u.ch);
-    return tip + (on.jsp ? jspBoxHtml(u.ch) : '') + (on.changes ? chgTopHtml(u.ch) : '') + top + u.verses.map(v => {
+    const chg = on.changes && chgOf(u.ch), e18 = on.e1830 && e1830Of(u.ch);
+    return tip + (on.jsp ? jspBoxHtml(u.ch) : '') + (on.changes ? chgTopHtml(u.ch) : '') + (on.e1830 ? e1830KeyHtml(u.ch) : '') + top + u.verses.map(v => {
       const lines = [];
       if (on.plain && x.p.verses[v.n - 1]) lines.push(['ls-plain', x.p.verses[v.n - 1]]);
       if (bsb && bsb[v.n - 1]) lines.push(['ls-bsb', bsb[v.n - 1]]);
@@ -7876,7 +7927,8 @@ const TreasureUp = (function () {
       const notes = on.notes && x ? (x.p.notes || []).filter(n => n.v === v.n) : [], jsp = on.notes ? jspNotesOf(week, u.ch).filter(n => n.v === v.n) : [];
       const ref = u.ch + ':' + v.n, hl = markOf(ref), changed = chg && (chg.v[v.n] || []).some(c => c[3] === 'w');
       return `<div class="ls-vv${changed ? ' chg' : ''}" data-v="${v.n}" data-ref="${esc(ref)}"${hl ? ` data-hl="${hl}"` : ''}>` +
-        lines.map(([c, t, l], i) => `<p class="${c}${i ? '' : ' lead'}"${l ? ` lang="${l}"` : ''}>${i ? '' : `<sup>${v.n}</sup>`}${esc(t)}</p>`).join('') +
+        lines.map(([c, t, l], i) => `<p class="${c}${i ? '' : ' lead'}"${l ? ` lang="${l}"` : ''}>${i ? '' : `<sup>${v.n}</sup>`}${c === 'ls-v' && e18 && e18.u[v.n - 1] ? underline1830(t, e18.u[v.n - 1]) : esc(t)}</p>`).join('') +
+        (e18 ? e1830LineHtml(u.ch, v.n) : '') +
         (own && String(own.v[v.n] || '').trim() ? `<p class="ls-own"><b>Mine</b>${esc(own.v[v.n])}</p>` : '') +
         myNotesOf(ref).map(([id, x]) => `<button class="ls-note ls-mine" data-vnote="${esc(ref)}" data-vnote-id="${esc(id)}"><span class="lm-ic">✍️</span>${esc(x.text)}${x.share ? ' <small>· 👀 shared with your parents</small>' : ''}</button>`).join('') +
         (on.orig ? origHtml(u.ch, v.n, week) : '') +
@@ -7887,7 +7939,8 @@ const TreasureUp = (function () {
     }).join('') + `<p class="ls-ch-end">End of ${esc(u.ref)}</p>` +
       (lang ? `<p class="ls-orig-credit">${LANGS[on.lang].name}: ${LANGS[on.lang].full} (public domain)</p>` : '') +
       (on.orig && origOf(u.ch) ? `<p class="ls-orig-credit">${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew'} words: STEPBible.org, from work at Tyndale House, Cambridge (CC BY 4.0)</p>` : '') +
-      (chg ? `<p class="ls-orig-credit">Changes: ${CHG_CREDIT}</p>` : '');
+      (chg && e18 ? '<p class="ls-orig-credit">Changes and 1830 text: BYU Office of Digital Humanities, OpenScripture.</p>'
+        : chg ? `<p class="ls-orig-credit">Changes: ${CHG_CREDIT}</p>` : e18 ? '<p class="ls-orig-credit">1830 text: BYU Office of Digital Humanities, OpenScripture.</p>' : '');
   }
   // His own highlights and notes, verse by verse (Blake, 2026-10-04: "I
   // need a way to write my own note as I read the scriptures in this app...
@@ -8042,8 +8095,8 @@ const TreasureUp = (function () {
     if (!ctx || !layers.orig || !origLang(ctx.u.ch) || origOf(ctx.u.ch)) return;
     loadOrig(ctx.u.ch).then(() => { if (box.isConnected) redrawChapter(box); }).catch(() => {});
   }
-  // With Changes or JS Papers on, a Book of Mormon chapter's changes, and the
-  // table of its pages at the Joseph Smith Papers, load the first time they're needed.
+  // With Changes, 1830 or JS Papers on, a Book of Mormon chapter's changes, its
+  // 1830 text, and the table of its pages at the Joseph Smith Papers load the first time they're needed.
   const chgLoads = {};
   function needChanges(box) {
     const ctx = box && chapterCtx(box);
@@ -8053,6 +8106,11 @@ const TreasureUp = (function () {
       const src = chgSrc(ch);
       (chgLoads[src] || (chgLoads[src] = loadScript(src).catch(e => { delete chgLoads[src]; throw e; })))
         .then(() => { chgFailed.delete(ch); redraw(); }, () => { chgFailed.add(ch); redraw(); });
+    }
+    if (layers.e1830 && !e1830Of(ch)) {
+      const src = e1830Src(ch);
+      (chgLoads[src] || (chgLoads[src] = loadScript(src).catch(e => { delete chgLoads[src]; throw e; })))
+        .then(() => { e1830Failed.delete(ch); redraw(); }, () => { e1830Failed.add(ch); redraw(); });
     }
     if (layers.jsp && !window.TU_JSP_BOM) {
       (jspLoad || (jspLoad = loadScript('content/jsp-bom.js').catch(e => { jspLoad = null; throw e; })))

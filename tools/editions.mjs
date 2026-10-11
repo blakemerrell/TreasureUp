@@ -192,3 +192,54 @@ export function verseChanges(rows, vocab) {
   }
   return out;
 }
+
+// ---- the 1830 button (Blake, 2026-10-11, mockup A) ----
+// A verse's words for comparing: letters and digits, apostrophes kept inside a
+// word, compared lowercased without them ("father’s" = "fathers"). The app
+// splits its own text the same way (TOKEN_1830 in index.html).
+export const TOKEN = /[A-Za-z0-9]+(?:['’][A-Za-z0-9]+)*/g;
+const tokensOf = s => [...String(s).matchAll(TOKEN)].map(m => ({ w: m[0].toLowerCase().replace(/['’]/g, ''), at: m.index, end: m.index + m[0].length }));
+// The longest common subsequence of two word lists, each word matched as early
+// as it can be ("mother of God" / "mother of the Son of God": the words added
+// are "the Son of", before "God"): [[i, j], …].
+function lcs(a, b) {
+  const n = a.length, m = b.length, dp = Array.from({ length: n + 1 }, () => new Uint16Array(m + 1));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+  const out = [];
+  for (let i = 0, j = 0; i < n && j < m;) {
+    if (a[i] === b[j]) { out.push([i, j]); i++; j++; }
+    else if (dp[i + 1][j] >= dp[i][j + 1]) i++; else j++;
+  }
+  return out;
+}
+// A verse's 1830 line, and what to underline in today's: { t, u }.
+//   t: the 1830 text in pieces: a string as it is, [word] a word today's
+//      edition doesn't have (pink), 0 where today's has words added (‸).
+//   u: the words of `app` (our text) that weren't in 1830, by their number
+//      among its words; null when our text isn't the data's 2013 word for word.
+export function line1830(rows, app) {
+  const old = textOf(rows, '1830'), now = textOf(rows, '2013');
+  if (!old) return null;
+  const a = tokensOf(old), b = tokensOf(now), pairs = lcs(a.map(x => x.w), b.map(x => x.w));
+  const keptA = new Set(pairs.map(p => p[0])), keptB = new Set(pairs.map(p => p[1]));
+  const caretAt = new Set();                       // a's word numbers that have words added before them (a.length: at the end)
+  let pi = -1, pj = -1;
+  for (const [i, j] of [...pairs, [a.length, b.length]]) {
+    if (i - pi === 1 && j - pj > 1) caretAt.add(i);
+    pi = i; pj = j;
+  }
+  const t = [];
+  let from = 0;
+  const text = s => { if (!s) return; if (typeof t[t.length - 1] === 'string') t[t.length - 1] += s; else t.push(s); };
+  a.forEach((x, i) => {
+    text(old.slice(from, x.at));
+    if (caretAt.has(i)) t.push(0);
+    if (keptA.has(i)) text(old.slice(x.at, x.end)); else t.push([old.slice(x.at, x.end)]);
+    from = x.end;
+  });
+  if (caretAt.has(a.length)) { const last = a.length ? a[a.length - 1].end : 0; text(old.slice(from, last)); t.push(0); from = Math.max(from, last); }
+  text(old.slice(from));
+  const mine = tokensOf(app || '').map(x => x.w);
+  const same = mine.length === b.length && mine.every((w, k) => w === b[k].w);
+  return { t, u: same ? b.map((x, k) => k).filter(k => !keptB.has(k)) : null };
+}

@@ -33,7 +33,7 @@ import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { loadOriginal, langOf } from './original.mjs';
-import { loadEditions, textOf, BOM_BOOKS } from './editions.mjs';
+import { loadEditions, textOf, BOM_BOOKS, line1830 } from './editions.mjs';
 import { weekStart, utahToday } from './week-dates.mjs';   // "September 28–October 4, 2026" -> "2026-09-28" (the app's rule; the New Year week too)
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -1616,7 +1616,10 @@ let origChapters = 0;
 // verse for verse (but for its curly apostrophes and a name in capitals), so
 // every change shows under the verse it's about. And its JS Papers button:
 // tools/jsp-bom-pages.json has every chapter, on pages the documents have.
-let editionVerses = 0, jspChapters = 0;
+// The 1830 button: every verse has its 1830 wording, and a printed page to link
+// to; a verse whose text here isn't the data's 2013 word for word gets no
+// underlines (a note, not a failure: its 1830 line still shows).
+let editionVerses = 0, jspChapters = 0, lines1830 = 0, notUnderlined = [];
 {
   let all = null;
   try { all = await loadEditions(CACHE); } catch (e) { failures.push('The Book of Mormon\'s editions (OpenScripture): ' + e.message); }
@@ -1637,13 +1640,24 @@ let editionVerses = 0, jspChapters = 0;
       }
     }
     if (all.size !== bomChapters.size) off.push(`${all.size} chapters there, ${bomChapters.size} here`);
+    const no1830 = [];
+    for (const [ch, n] of bomChapters) for (let v = 1; v <= n; v++) {
+      const rows = (all.get(ch) || [])[v - 1], x = rows && line1830(rows, scripture.verses.get(`${ch}:${v}`));
+      if (!x) { no1830.push(`${ch}:${v}`); continue; }
+      lines1830++;
+      if (!x.u) notUnderlined.push(`${ch}:${v}`);
+    }
+    if (no1830.length) failures.push(`The Book of Mormon's 1830 text (OpenScripture): none for ${no1830.slice(0, 5).join(', ')}${no1830.length > 5 ? ` and ${no1830.length - 5} more` : ''}`);
+    if (notUnderlined.length) note(`1830: ${notUnderlined.length} verses aren't the data's 2013 text word for word, so their words added since 1830 aren't underlined (${notUnderlined.slice(0, 5).join(', ')})`);
     if (off.length) failures.push(`The Book of Mormon's editions (OpenScripture): its 2013 text isn't ours at ${off.slice(0, 5).join('; ')}${off.length > 5 ? ` and ${off.length - 5} more` : ''}`);
   }
   let t = null;
   try { t = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'jsp-bom-pages.json'), 'utf8')); } catch (e) { failures.push('tools/jsp-bom-pages.json: ' + e.message); }
   if (t) for (const ch of bomChapters.keys()) {
     const x = t.chapters[ch], ok = x && Array.isArray(x.e) && x.e[0] >= 5 && x.e[0] <= x.e[1] && x.e[1] <= 588
-      && Array.isArray(x.p) && x.p[0] >= 1 && x.p[0] <= 464 && (x.o || []).every(o => o[0] >= 1 && o[0] <= 231);
+      && Array.isArray(x.p) && x.p[0] >= 1 && x.p[0] <= 464 && (x.o || []).every(o => o[0] >= 1 && o[0] <= 231)
+      // each verse's page (1830): new pages in order, inside the chapter's pages
+      && (x.s || []).every(([v, pg], k, a) => v >= 2 && v <= bomChapters.get(ch) && pg > (k ? a[k - 1][1] : x.e[0]) && pg <= x.e[1] && (!k || v > a[k - 1][0]));
     if (ok) jspChapters++; else failures.push(`tools/jsp-bom-pages.json: no good pages for ${ch} (node tools/jsp-bom-pages.mjs makes it)`);
   }
 }
@@ -1755,7 +1769,7 @@ if (libraryPlain) console.log(`✓ content/plain.js: plain words for ${libraryPl
 if (bsbChapters) console.log(`✓ BSB: the ${bsbChapters} Bible chapters of the reading, verse for verse with the KJV`);
 if (langChapters.es || langChapters.tl) console.log(`✓ ES·TL: the ${langChapters.es} Bible chapters of the reading in Spanish (Reina-Valera 1909), the ${langChapters.tl} in Tagalog (Ang Biblia 1905), each verse under its KJV verse`);
 if (origChapters) console.log(`✓ Hebrew and Greek: the ${origChapters} Bible chapters of the reading, every KJV verse word by word (STEPBible.org, Tyndale House)`);
-if (editionVerses) console.log(`✓ Changes: OpenScripture's 2013 text is ours in all ${editionVerses} Book of Mormon verses (BYU Office of Digital Humanities); JS Papers: the pages of ${jspChapters} chapters`);
+if (editionVerses) console.log(`✓ Changes: OpenScripture's 2013 text is ours in all ${editionVerses} Book of Mormon verses (BYU Office of Digital Humanities); JS Papers: the pages of ${jspChapters} chapters; 1830: ${lines1830} verses${notUnderlined.length ? ` (${notUnderlined.length} without underlines)` : ', every one underlined where words were added'}`);
 if (boards.length) console.log(`✓ ${boards.map(b => `${b.title}: ${b.lands.length} lands, ${b.links.length} borders, ${b.kingdoms.length} kingdoms`).join('; ')}`);
 if (online) {
   const loaded = [...pages.values()].filter(t => t != null).length;

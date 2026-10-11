@@ -208,7 +208,10 @@ them. The Book of Mormon adds **Changes** (each verse's changes from the 1830
 edition to 2013, from BYU Office of Digital Humanities' OpenScripture data
 through `tools/editions.mjs`, sorted into kinds by rules) and **JS Papers**
 (links to the chapter's pages at the Joseph Smith Papers, from
-`tools/jsp-bom-pages.json`). Neither is written by hand, so they need no
+`tools/jsp-bom-pages.json`), and **1830** (each verse as the 1830 edition
+has it, from the same OpenScripture data, with its printed page linked at the
+Joseph Smith Papers; the words changed or added since are marked by
+comparing the editions word for word). None of these is written by hand, so they need no
 approval; the one line on each edition (`CHG_EDITIONS` in `index.html`) is
 reviewed in its pull request. A note on why one verse changed would be written
 by hand, and would wait for Blake's approval like any note.
