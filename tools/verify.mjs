@@ -1398,11 +1398,11 @@ let libraryPlain = 0;
 // Guide for Making Choices, a chapter a month; elders quorums and Relief
 // Societies from the most recent general conference.
 //   youth: [{ month, chapter, title, guide, lessons: [{ id, sunday, title,
-//     read, intro, cards: [{ id, hook, body, find, q, right, wrong, why }] }] }]
+//     read, intro, cards: [{ id, hook, body, find, q, right, wrong, why, kind? }], try?, reflect? }] }]
 //     A mini-lesson for each Sunday, in our own words from its page (`read`,
 //     Gospel Library), each card's point found there (`find`, --online).
 //   conference: [{ id, title, from, talks: [{ id, speaker, title, url,
-//     session, quick, points, quotes, scriptures, discuss, deep }] }]
+//     session, quick, story?, invite?, points, try?, quotes, scriptures, discuss, deep }] }]
 //     Every talk, in the order it was given (the talk-a-day plan from `from`):
 //     its speaker's own words (`quotes`, found word for word on its page),
 //     the scriptures it uses, and in our own words what it teaches and
@@ -1410,6 +1410,7 @@ let libraryPlain = 0;
 // Our own words show once the owner approves them in developer mode (drafts on
 // the test site), so none of it ever holds a deploy back.
 let sundayCounts = null;
+const SUN_KINDS = ['scenario', 'verse', 'recall'];
 if (sunday) {
   const words = t => (String(t || '').match(/\S+/g) || []).length;
   const isDate = d => /^\d{4}-\d{2}-\d{2}$/.test(d || '') && !isNaN(Date.parse(d + 'T12:00:00Z'));
@@ -1469,11 +1470,17 @@ if (sunday) {
         if (!c.right || !Array.isArray(c.wrong) || c.wrong.length < 2 || c.wrong.length > 3 || c.wrong.includes(c.right)) fail(cw, 'needs right and 2 or 3 different wrong answers');
         if (words(c.why) > 40) fail(cw, `why is ${words(c.why)} words (40 at most)`);
         for (const f of ['hook', 'body', 'q', 'right', 'why']) ownWords(cw, f, c[f]);
+        if (c.kind !== undefined && !SUN_KINDS.includes(c.kind)) fail(cw, `kind "${c.kind}" must be ${SUN_KINDS.join(', ')}`);
         if (online && GOSPEL_LIBRARY.test(l.read || '')) {
           if (onPage(l.read, c.find || '') === false) fail(cw, `"${c.find}" is not on ${l.read}`);
           for (const q of quotes) if (onPage(l.read, q) === false) fail(cw, `“${q}” is not on ${l.read}`);
         } else if (!online) note(`${cw}: ${l.read} not checked (run with --online)`);
       }
+      // The new parts (2026-10-11, optional): with any card's kind set, a scenario card; then
+      // something to try this week and a question to think about, at the lesson's end.
+      if (cards.some(c => c && c.kind !== undefined) && !cards.some(c => c && c.kind === 'scenario')) fail(lw, 'has kinds on its cards but no "scenario" card (at least one is needed)');
+      if (l.try !== undefined) { if (!words(l.try) || words(l.try) > 30) fail(lw, `try is ${words(l.try)} words (1 to 30)`); ownWords(lw, 'try', l.try); }
+      if (l.reflect !== undefined) { if (!words(l.reflect) || words(l.reflect) > 25) fail(lw, `reflect is ${words(l.reflect)} words (1 to 25)`); ownWords(lw, 'reflect', l.reflect); }
       sundayCounts.lessons++;
     }
   }
@@ -1500,6 +1507,20 @@ if (sunday) {
         if (/"/.test(q) || /^“/.test(String(q).trim())) fail(tw, 'a quote goes without its own quote marks (the app adds them)');
         if (online && pages.get(t.url) != null && !quoteMatches(String(q).replace(/[‘’]/g, "'"), pages.get(t.url).replace(/[‘’]/g, "'"))) fail(tw, `the quote “${String(q).slice(0, 50)}…” isn't on ${t.url} word for word`);
       }
+      // The invitation and the promise tied to it (optional): the speaker's own words, as the quotes.
+      if (t.invite !== undefined) {
+        const invite = Array.isArray(t.invite) ? t.invite : [];
+        if (invite.length < 1 || invite.length > 2) fail(tw, `invite has ${invite.length} items (1 or 2)`);
+        for (const x of invite) {
+          if (!x || typeof x !== 'object') { fail(tw, 'invite: each item is { ask, promise }, promise null if there is none'); continue; }
+          for (const [f, q] of [['ask', x.ask], ['promise', x.promise]]) {
+            if (f === 'promise' && (q === null || q === undefined || q === '')) continue;
+            if (typeof q !== 'string' || words(q) < 8 || words(q) > 40) { fail(tw, `invite ${f} “${String(q).slice(0, 40)}…” is ${words(q)} words (8 to 40)`); continue; }
+            if (/"/.test(q) || /^“/.test(q.trim())) fail(tw, `invite ${f} goes without its own quote marks (the app adds them)`);
+            if (online && pages.get(t.url) != null && !quoteMatches(q.replace(/[‘’]/g, "'"), pages.get(t.url).replace(/[‘’]/g, "'"))) fail(tw, `invite ${f} “${q.slice(0, 50)}…” isn't on ${t.url} word for word`);
+          }
+        }
+      }
       if (!online) note(`${tw}: ${t.url} not checked (run with --online)`);
       for (const r of Array.isArray(t.scriptures) ? t.scriptures : []) {
         const m = new RegExp(`^(${linkable}) (\\d+)(?::(\\d+)(?:[–-](\\d+))?)?$`).exec(r || '');
@@ -1507,6 +1528,13 @@ if (sunday) {
       }
       // Our own words, which wait for approval: what it teaches, and questions to talk over.
       if (t.quick !== undefined) { if (words(t.quick) < 25 || words(t.quick) > 90) fail(tw, `quick is ${words(t.quick)} words (25 to 90)`); ownWords(tw, 'quick', t.quick, true); }
+      if (t.story !== undefined) {
+        const st = t.story && typeof t.story === 'object' ? t.story : {};
+        if (!words(st.title) || words(st.title) > 8) fail(tw, `story title is ${words(st.title)} words (1 to 8)`);
+        if (words(st.text) < 40 || words(st.text) > 110) fail(tw, `story text is ${words(st.text)} words (40 to 110)`);
+        ownWords(tw, 'story title', st.title, true); ownWords(tw, 'story', st.text, true);
+      }
+      if (t.try !== undefined) { if (!words(t.try) || words(t.try) > 30) fail(tw, `try is ${words(t.try)} words (1 to 30)`); ownWords(tw, 'try', t.try, true); }
       const points = t.points === undefined ? [] : t.points;
       if (!Array.isArray(points) || points.length > 5 || points.some(x => words(x) < 4 || words(x) > 40)) fail(tw, 'points: up to 5, each 4 to 40 words');
       else points.forEach((x, k) => ownWords(tw, `point ${k + 1}`, x, true));
