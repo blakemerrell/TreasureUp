@@ -3893,31 +3893,37 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Each tile shows its own progress swept over its picture, like Red Alert's clock, and a people tile how many are waiting.
   // The tiles are made once and then changed where they stand, so a tap on one is never lost to a redraw.
   const capitalUp = () => W.buildings('p').some(b => b.def.builder && b.built >= 1 && !b.dead);
+  // Blake: "a simple way to see what can be built ... and how many of them I can build with the infrastructure I have".
+  // Two lists, Build and Train, with everything your side can ever make: what you can't make yet stays on the list, locked,
+  // saying what it needs, and each tile counts how many you could start right now.
+  const buildList = () => W.tech ? (SIDES[W.side('p').side] || SIDES.freemen).build : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
+  // Who trains each kind of person: your city, the buildings on your list, and any other building you hold.
+  function trainers() {
+    const types = [W.capitalType('p'), ...buildList(), ...W.buildings('p').map(b => b.type)], at = new Map();
+    for (const bt of types) for (const t of (BUILDINGS[bt] && BUILDINGS[bt].trains) || []) if (W.visible(UNITS[t]) && !at.has(t)) at.set(t, bt);
+    return at;
+  }
+  // Fighters first (what Blake looks for), then beasts and engines, then the city's workers and carts.
+  const trainRank = t => { const d = UNITS[t]; return d.gathers || d.builds || t === 'cart' || t === 'bearer' ? 2 : t === 'curelom' || t === 'cumom' || t === 'ram' || t === 'siege' ? 1 : 0; };
   function barTiles() {
-    const forts = [], cohorts = [], siege = [];
-    if (capitalUp()) {
-      const list = W.tech ? (SIDES[W.side('p').side] || SIDES.freemen).build : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
-      for (const t of list) if (!W.whyNotBuild(t)) forts.push('build:' + t);
-    }
-    const mine = W.buildings('p').filter(b => b.built >= 1 && !b.dead);
-    const seenK = new Set(), seenT = new Set();
-    for (const b of mine) for (const k of W.researchAt(b)) if (!W.researched[k] && !seenK.has(k)) { seenK.add(k); forts.push('research:' + k); }
-    for (const b of mine) for (const t of b.def.trains || []) {
-      if (seenT.has(t) || !W.visible(UNITS[t])) continue;
-      const why = W.whyNotTrain(t);
-      if (why && !why.startsWith('Not enough food')) continue;          // like Red Alert: only what you can make now
-      seenT.add(t);
-      if (t === 'cart' || t === 'curelom' || t === 'cumom' || t === 'ram' || t === 'siege') {
-        siege.push('train:' + t);
-      } else {
-        cohorts.push('train:' + t);
-      }
-    }
+    const build = capitalUp() ? buildList().filter(t => BUILDINGS[t] && W.visible(BUILDINGS[t])).map(t => 'build:' + t) : [];
+    const mine = W.buildings('p').filter(b => b.built >= 1 && !b.dead), seenK = new Set();
+    for (const b of mine) for (const k of W.researchAt(b)) if (!W.researched[k] && !seenK.has(k)) { seenK.add(k); build.push('research:' + k); }
+    const train = [...trainers().keys()].map((t, i) => [t, i]).sort((a, b) => trainRank(a[0]) - trainRank(b[0]) || a[1] - b[1]).map(([t]) => 'train:' + t);
     const h = W.powerHouse('p');
-    if (h) for (const k of Object.keys(POWERS[h.def.powers] || {})) cohorts.push('miracle:' + k);
-    const build = forts;
-    const train = cohorts.concat(siege);
-    return { forts, cohorts, siege, build, train };
+    if (h) for (const k of Object.keys(POWERS[h.def.powers] || {})) train.push('miracle:' + k);
+    return { build, train };
+  }
+  // How many of a cost your stores pay for now (99 at most), and what's short when it's none.
+  function howMany(cost) {
+    const res = W.side('p').res; let n = 99;
+    for (const k of KINDS) if (cost && cost[k] > 0) n = Math.min(n, Math.floor((res[k] || 0) / cost[k]));
+    return Math.max(0, n);
+  }
+  function shortOf(cost) {
+    const res = W.side('p').res, short = {};
+    for (const k of KINDS) if (cost && cost[k] > (res[k] || 0)) short[k] = Math.ceil(cost[k] - (res[k] || 0));
+    return 'Need ' + costHtml(short) + ' more';
   }
   const tileName = id => { const [act, arg] = id.split(':'); return act === 'build' ? (arg === 'wall' ? 'Walls' : BUILDINGS[arg].name) : act === 'train' ? UNITS[arg].name : act === 'research' ? RESEARCH[arg].name : W.power(arg).name; };
   // Shorter names where the whole one won't fit on a tile (the whole name shows when you hold the mouse over it).
@@ -3930,23 +3936,32 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const pic = CAMEO_MAP[id], sign = SIGN[id] || (id.startsWith('research:') ? SIGN.research : '');
     const face = pic ? `<img src="${webp(pic)}" alt="">` : sign ? `<i class="ic">${sign}</i>` : '';
     const shown = esc(SHORT[id] || tileName(id)).replace(/[A-Za-z]{7,}/g, w => BREAKS[w] || w);     // (long words break where they would in print)
-    return `<button class="bt" data-cmd="${id}" title="${esc(tileName(id))}"><span class="pic">${face}<i class="sweep"></i><em class="n"></em></span><span class="tx"><b>${shown}</b><small></small></span></button>`;
+    return `<button class="bt" data-cmd="${id}" title="${esc(tileName(id))}"><span class="pic">${face}<i class="sweep"></i><em class="n"></em><em class="can"></em></span><span class="tx"><b>${shown}</b><small></small></span></button>`;
   }
   // How a tile stands now: its progress (0 to 1), how many wait, what its small line says, and whether it can be used.
   function tileState(id) {
     const [act, arg] = id.split(':');
-    let p = 0, n = 0, small = '', poor = false, on = false, ready = false;
+    let p = 0, n = 0, small = '', poor = false, on = false, ready = false, locked = '', can = -1;
     if (act === 'build') {
       const cost = W.costOf(BUILDINGS[arg], 'p', 'build'), rising = W.buildings('p', arg).filter(b => b.built < 1 && !b.dead);
       on = placing === arg;
       if (rising.length) { p = rising.reduce((a, c) => c.id > a.id ? c : a).built; n = rising.length > 1 ? rising.length : 0; }
-      poor = !W.canAfford(cost);
-      small = on ? 'Tap the map' : costHtml(cost) + (arg === 'wall' ? ' each' : '');
+      locked = W.whyNotBuild(arg);
+      can = locked ? -1 : howMany(cost);
+      poor = !locked && !can;
+      small = on ? 'Tap the map' : locked || (can ? costHtml(cost) + (arg === 'wall' ? ' each' : '') : shortOf(cost));
     } else if (act === 'train') {
-      const def = UNITS[arg], cost = W.costOf(def, 'p', 'train'), why = W.whyNotTrain(arg);
+      const def = UNITS[arg], cost = W.costOf(def, 'p', 'train'), why = W.whyNotTrain(arg), home = trainers().get(arg);
       for (const b of W.buildings('p')) b.queue.forEach((q, i) => { if (q.type !== arg) return; n++; if (i === 0) p = Math.max(p, 1 - q.left / def.time); });
-      poor = !!why || !W.canAfford(cost);
-      small = why ? 'Not enough food' : costHtml(cost);
+      // Locked: nothing you hold trains them yet, or the free battle's tech tree wants another building first.
+      if (!W.buildings('p').some(b => b.built >= 1 && !b.dead && (b.def.trains || []).includes(arg))) locked = 'Needs ' + (BUILDINGS[home] ? BUILDINGS[home].name : 'a building');
+      else if (why && !why.startsWith('Not enough food')) locked = why;
+      if (!locked) {
+        const room = W.tech ? Math.floor((W.foodCap('p') - W.foodUsed('p')) / (def.eats || 1)) : 99;
+        can = Math.max(0, Math.min(howMany(cost), room));
+        small = can ? costHtml(cost) : room <= 0 ? 'Need food: ' + W.foodHint('p') : shortOf(cost);
+      } else small = locked;
+      poor = !locked && !can;
     } else if (act === 'research') {
       const r = RESEARCH[arg], R = W.side('p').researching;
       if (R && R.key === arg) { p = 1 - R.left / r.time; small = 'Making: ' + Math.ceil(R.left) + 's'; }
@@ -3957,48 +3972,30 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (wait > 0) { p = Math.max(0.01, 1 - wait / full); poor = true; small = 'in ' + Math.ceil(wait) + 's'; }
       else { ready = true; small = on ? 'Tap where' : 'Ready'; }
     }
-    return { p, n, small, poor, on, ready, going: p > 0 && p < 1 };
+    return { p, n, small, poor, on, ready, locked, can, going: p > 0 && p < 1 };
   }
-  let activeCmdTab = 'forts';
+  let activeCmdTab = 'build';
   let barKey = '', tileEls = new Map();
   function updateBar(force) {
     if (!W) return;
-    const { forts, cohorts, siege, build, train } = barTiles();
-    const key = [activeCmdTab, forts.join(), cohorts.join(), siege.join()].join('|');
+    const { build, train } = barTiles();
+    const key = [activeCmdTab, build.join(), train.join()].join('|');
     const bar = $('cmds');
     if (!bar) return;
 
     if (force || key !== barKey || !bar.classList.contains('bar')) {
       barKey = key; bar.classList.add('bar');
-      for (const id of build.concat(train)) noteUnlock(id, true);
       const standard = W.units('p').some(u => u.def.deploys);
-
-      const activeList = activeCmdTab === 'forts' ? forts : (activeCmdTab === 'cohorts' ? cohorts : siege);
-      const emptyNote = activeCmdTab === 'forts' ? (standard ? 'Plant the standard of liberty first: choose it, then <b>Plant it here</b>.' : 'Nothing to build yet.') :
-                        activeCmdTab === 'cohorts' ? 'Your warriors and officers come out of your Barracks and Muster Grounds.' :
-                        'Heavy siege beasts, supply carts and engines are raised at your Stables and Quarries.';
-
+      const activeList = activeCmdTab === 'build' ? build : train;
+      const emptyNote = activeCmdTab === 'build' ? (standard ? 'Plant the standard of liberty first: choose it, then <b>Plant it here</b>.' : 'Nothing to build yet.') : 'Nothing to train yet.';
+      const tab = (id, icon, name, about) => `<button class="cmd-tab ${activeCmdTab === id ? 'active' : ''}" data-tab="${id}" title="${about}">` +
+        `<span class="cmd-tab-icon">${icon}</span><span class="cmd-tab-name">${name}</span><span class="cmd-tab-badge" id="tabBadge${name}"></span></button>`;
       bar.innerHTML = `<div class="cmd-center">` +
         `<div class="cmd-tabs" role="tablist">` +
-          `<button class="cmd-tab ${activeCmdTab === 'forts' ? 'active' : ''}" data-tab="forts" title="Fortifications, Buildings & Research">` +
-            `<span class="cmd-tab-icon">🏛️</span>` +
-            `<span class="cmd-tab-name">Forts</span>` +
-            `<span class="cmd-tab-badge" id="tabBadgeForts"></span>` +
-          `</button>` +
-          `<button class="cmd-tab ${activeCmdTab === 'cohorts' ? 'active' : ''}" data-tab="cohorts" title="Infantry, Warriors & Powers">` +
-            `<span class="cmd-tab-icon">⚔️</span>` +
-            `<span class="cmd-tab-name">Cohorts</span>` +
-            `<span class="cmd-tab-badge" id="tabBadgeCohorts"></span>` +
-          `</button>` +
-          `<button class="cmd-tab ${activeCmdTab === 'siege' ? 'active' : ''}" data-tab="siege" title="Carts, Beasts & Engines">` +
-            `<span class="cmd-tab-icon">🦣</span>` +
-            `<span class="cmd-tab-name">Siege</span>` +
-            `<span class="cmd-tab-badge" id="tabBadgeSiege"></span>` +
-          `</button>` +
+          tab('build', '🏛️', 'Build', 'Buildings, walls and upgrades') +
+          tab('train', '⚔️', 'Train', 'Soldiers, beasts, carts and workers') +
         `</div>` +
-        `<div class="cmd-queue-banner" id="cmdQueueBanner">` +
-          `<span class="cmd-queue-text" id="cmdQueueText">Command Center · Ready</span>` +
-        `</div>` +
+        `<div class="cmd-queue-banner" id="cmdQueueBanner"><span class="cmd-queue-text" id="cmdQueueText"></span></div>` +
         `<div class="cmd-tiles" id="cmdTiles">` +
           `${activeList.length ? activeList.map(tileHtml).join('') : `<div class="note">${emptyNote}</div>`}` +
         `</div>` +
@@ -4026,65 +4023,47 @@ IMG.farm.src = 'assets/farm.png?v=13';
       }
     }
 
-    let cohortsGoing = 0, cohortsProgress = 0, cohortsItem = '';
-    let siegeGoing = 0, siegeProgress = 0, siegeItem = '';
-    for (const b of W.buildings('p')) {
-      for (let i = 0; i < b.queue.length; i++) {
-        const q = b.queue[i];
-        const isSiege = q.type === 'cart' || q.type === 'curelom' || q.type === 'cumom' || q.type === 'ram' || q.type === 'siege';
-        const def = UNITS[q.type];
-        const p = def ? Math.round((1 - q.left / def.time) * 100) : 0;
-        if (isSiege) {
-          siegeGoing++;
-          if (!siegeItem) { siegeItem = def ? def.name : q.type; siegeProgress = p; }
-        } else {
-          cohortsGoing++;
-          if (!cohortsItem) { cohortsItem = def ? def.name : q.type; cohortsProgress = p; }
-        }
-      }
+    let trainGoing = 0, trainProgress = 0, trainItem = '';
+    for (const b of W.buildings('p')) for (const q of b.queue) {
+      const def = UNITS[q.type];
+      trainGoing++;
+      if (!trainItem) { trainItem = def ? def.name : q.type; trainProgress = def ? Math.round((1 - q.left / def.time) * 100) : 0; }
     }
-
-    const bForts = $('tabBadgeForts');
-    if (bForts) {
-      if (fortsGoing > 0) { bForts.className = 'cmd-tab-badge going'; bForts.textContent = `${fortsProgress}%`; bForts.style.display = 'inline-block'; }
-      else { bForts.style.display = 'none'; }
-    }
-    const bCohorts = $('tabBadgeCohorts');
-    if (bCohorts) {
-      if (cohortsGoing > 0) { bCohorts.className = 'cmd-tab-badge going'; bCohorts.textContent = `${cohortsGoing}`; bCohorts.style.display = 'inline-block'; }
-      else { bCohorts.style.display = 'none'; }
-    }
-    const bSiege = $('tabBadgeSiege');
-    if (bSiege) {
-      if (siegeGoing > 0) { bSiege.className = 'cmd-tab-badge going'; bSiege.textContent = `${siegeGoing}`; bSiege.style.display = 'inline-block'; }
-      else { bSiege.style.display = 'none'; }
-    }
+    const badge = (el, n, text) => { if (!el) return; el.className = 'cmd-tab-badge going'; el.textContent = text; el.style.display = n > 0 ? 'inline-block' : 'none'; };
+    badge($('tabBadgeBuild'), fortsGoing, `${fortsProgress}%`);
+    badge($('tabBadgeTrain'), trainGoing, `${trainGoing}`);
 
     const qText = $('cmdQueueText');
     if (qText) {
       const parts = [];
       if (fortsItem) parts.push(`🏛️ ${fortsItem} (${fortsProgress}%)`);
-      if (cohortsItem) parts.push(`⚔️ ${cohortsItem} (${cohortsProgress}%)`);
-      if (siegeItem) parts.push(`🦣 ${siegeItem} (${siegeProgress}%)`);
-      qText.textContent = parts.length ? parts.join(' · ') : 'Command Center · Ready (Alma 43:19)';
+      if (trainItem) parts.push(`⚔️ ${trainItem} (${trainProgress}%)${trainGoing > 1 ? ' +' + (trainGoing - 1) : ''}`);
+      const t = parts.length ? parts.join(' · ') : 'Nothing being made right now';
+      if (qText.textContent !== t) qText.textContent = t;
     }
 
     const nowMs = performance.now();
     for (const [id, el] of tileEls) {
       const s = tileState(id);
-      const cls = 'bt' + (s.poor ? ' poor' : '') + (s.on ? ' on' : '') + (s.ready ? ' ready' : '') + (s.going ? ' going' : '') + (newUntil[id] > nowMs ? ' new' : '');
+      noteUnlock(id, !s.locked);
+      const cls = 'bt' + (s.locked ? ' locked' : '') + (s.poor ? ' poor' : '') + (s.on ? ' on' : '') + (s.ready ? ' ready' : '') + (s.going ? ' going' : '') + (newUntil[id] > nowMs ? ' new' : '');
       if (el.className !== cls) el.className = cls;
       const pv = s.going ? s.p.toFixed(3) : '0';
       if (el._p !== pv) { el._p = pv; el.style.setProperty('--p', pv); }
       const nv = s.n ? String(s.n) : '';
       if (el._n !== nv) { el._n = nv; el.querySelector('.n').textContent = nv; }
       if (el._s !== s.small) { el._s = s.small; el.querySelector('small').innerHTML = s.small; }
+      // How many you could start now: ×4, or a lock when it can't be made yet.
+      const cv = s.locked ? '🔒' : s.can >= 0 ? '×' + s.can : '';
+      if (el._c !== cv) { el._c = cv; el.querySelector('.can').textContent = cv; }
     }
     refreshCohortBar();
   }
   // A tap on a tile: place it, train one more, make it, or work it.
   function useTile(id) {
     const [act, arg] = id.split(':');
+    const lock = (act === 'build' || act === 'train') && tileState(id).locked;
+    if (lock) { toast(`${tileName(id)}: ${lock.charAt(0).toLowerCase() + lock.slice(1)}.`, 'warn'); return; }
     if (act === 'build') { if (placing === arg) { placing = null; wallLine = null; wallStart = null; refreshPanel(true); } else startPlacing(arg); }
     else if (act === 'train') trainOne(arg);
     else if (act === 'research') {
