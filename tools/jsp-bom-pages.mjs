@@ -12,7 +12,8 @@
 // notes are © Intellectual Reserve and may not be copied (the Church's terms
 // of use), so this keeps page numbers, which are facts, and nothing else.
 //
-//   - 1830 edition: each chapter's first and last printed page, found by
+//   - 1830 edition: each chapter's first and last printed page, and the page
+//     each of its verses starts on (for the reader's 1830 button), found by
 //     looking for its verses' 1830 wording (OpenScripture's 1830 column) in
 //     J. Max Wilson's page-by-page transcription of the 1830 edition (MIT;
 //     github.com/lds-restoration-documents/1830-grandin-palmyra-book-of-mormon,
@@ -115,10 +116,10 @@ for (let i = 0; i < order.length; i++) {
     if (hits.length) { found[i] = hits[0] - off; p = found[i]; break; }
   }
 }
-let missing = 0;
+const missing = new Set();   // verses whose start wasn't found word for word: placed between their neighbours
 const pageOfVerse = i => {
   if (found[i] != null) return { page: mitPage[found[i]], exact: true };
-  missing++;
+  missing.add(order[i].ref);
   let a = i, b = i;
   while (a > 0 && found[a] == null) a--;
   while (b < order.length - 1 && found[b] == null) b++;
@@ -167,6 +168,13 @@ for (const [ch, n] of chapters) {
   const [, book, c] = /^(.+) (\d+)$/.exec(ch), first = at.get(`${ch}:1`), last = at.get(`${ch}:${n}`);
   const e = pageOfVerse(first), endPage = verseEndPage(last);
   const row = { e: [e.page, Math.max(e.page, endPage), e.exact ? 1 : 0] };
+  // The page each verse starts on, for the 1830 button: [verse, page] where a new page starts (verse 1 is on e[0]).
+  const s = [];
+  for (let v = 2, was = e.page; v <= n; v++) {
+    const pg = pageOfVerse(at.get(`${ch}:${v}`)).page;
+    if (pg !== was) { s.push([v, pg]); was = pg; }
+  }
+  if (s.length) row.s = s;
   // The printer's manuscript part (1830 chapter) it starts in.
   const pp = pmParts.filter(x => x.from <= first).pop();
   if (pp) {
@@ -188,10 +196,10 @@ for (const [ch, n] of chapters) {
 const file = path.join(ROOT, 'tools', 'jsp-bom-pages.json');
 fs.writeFileSync(file, JSON.stringify({
   about: 'Where each Book of Mormon chapter is on josephsmithpapers.org: made by tools/jsp-bom-pages.mjs; page numbers only (links, never their text or images). '
-    + 'e: [first, last printed page of the 1830 edition, 1 if found word for word]; p: [printer\'s manuscript page, 1 if exact (else "around")]; '
+    + 'e: [first, last printed page of the 1830 edition, 1 if found word for word]; s: [verse, printed page] where a verse starts a new page; p: [printer\'s manuscript page, 1 if exact (else "around")]; '
     + 'o: original manuscript parts: [image, page, verses ("" for the whole chapter), 1 if exact (else "around")].',
   docs: Object.fromEntries(Object.entries(DOCS).map(([k, v]) => [k, JSP + v + '/'])),
   chapters: out,
 }, null, 0).replace(/,"(\d? ?[A-Z][^"]* \d+)":/g, ',\n"$1":') + '\n');
-console.log(`tools/jsp-bom-pages.json: ${Object.keys(out).length} chapters; ${Object.values(out).filter(x => x.o).length} with part of the original manuscript; ${missing} verse starts placed by estimate`);
+console.log(`tools/jsp-bom-pages.json: ${Object.keys(out).length} chapters; ${Object.values(out).filter(x => x.o).length} with part of the original manuscript; ${missing.size} verse starts placed by estimate${missing.size ? ` (${[...missing].join(', ')})` : ''}`);
 for (const x of problems) console.log('⚠', x);

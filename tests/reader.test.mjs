@@ -1,8 +1,9 @@
 // The reader's buttons on the Book of Mormon (Blake, 2026-10-10): no KJV
-// button there (its text always shows), Notes still there, and Changes and
-// JS Papers, which a Bible chapter doesn't have; Changes on shows what
-// changed in a verse since 1830 (when content/changes/ has been built by
-// tools/build-reading.mjs), and JS Papers links to the Joseph Smith Papers.
+// button there (its text always shows), Notes still there, and Changes, 1830
+// and JS Papers, which a Bible chapter doesn't have; Changes on shows what
+// changed in a verse since 1830, 1830 on its 1830 wording with today's added
+// words underlined (when content/changes/ and content/e1830/ have been built
+// by tools/build-reading.mjs), and JS Papers links to the Joseph Smith Papers.
 // Without the built chapters (a pull request's run), small stand-ins for
 // them are served, so the buttons are still checked.
 import fs from 'node:fs';
@@ -76,18 +77,55 @@ export default async function reader({ port }) {
     check(links.some(([h, , t]) => /book-of-mormon-1830\/29$/.test(h) && /pp\. 23–26/.test(t)), 'the 1830 edition\'s pages for 1 Nephi 11 (pp. 23–26)');
   } else note('NOTE', 'reader: content/jsp-bom.js isn\'t built, so the links weren\'t checked');
   await p.click('#viewBody [data-layer="jsp"]'); await wait(300);
+
+  // 1830 (mockup A): after Changes, before JS Papers; the first edition's words under each verse.
+  b = await buttons();
+  check(b.indexOf('notes') < b.indexOf('changes') && b.indexOf('changes') < b.indexOf('e1830') && b.indexOf('e1830') < b.indexOf('jsp'), `1830 is between Changes and JS Papers (${b.join(', ')})`);
+  const verses = () => p.$eval('#viewBody .ls-verses', e => e.innerHTML);
+  const off = await verses();
+  await p.click('#viewBody [data-layer="e1830"]'); await wait(900);
+  if (built('content/e1830/1-nephi-11.js')) {
+    const v = '#viewBody .ls-vv[data-v="18"]';
+    const was = await p.$$eval(`${v} .ls-1830 .was`, els => els.map(e => e.textContent));
+    check(/^1830/.test(await txt(p, `${v} .ls-1830`)) && was.join(' ') === 'which' && await p.locator(`${v} .ls-1830 .ins`).count() === 1,
+      `1830 on: 1 Nephi 11:18's 1830 line marks “which” and ‸ (${was.join(', ')})`);
+    check(await p.$eval(`${v} .ls-1830`, e => /mother of ‸God/.test(e.textContent)), 'the ‸ is before “God”');
+    const under = await p.$$eval(`${v} p.lead .u1830`, els => els.map(e => e.textContent));
+    check(under.join('|') === 'whom|the Son of', `today's text underlines “whom” and “the Son of” (${under.join(' | ')})`);
+    const link = await p.$eval(`${v} .ls-1830 a.p1830`, a => [a.href, a.target, a.textContent]);
+    check(link[0] === 'https://www.josephsmithpapers.org/paper-summary/book-of-mormon-1830/31' && link[1] === '_blank' && /^p\. 25/.test(link[2]),
+      `its page link: ${link[2]} → ${link[0]}`);
+    check(await p.$eval('#viewBody .ls-vv[data-v="20"] .ls-1830 .was', e => e.textContent) === 'chid', '1 Nephi 11:20: the 1830 typo “chid” is marked');
+    check(/1830 text: BYU Office of Digital Humanities, OpenScripture/.test(await txt(p, '#viewBody')), 'the 1830 text is credited');
+    check(await p.locator('#viewBody .ls-1830-key .was, #viewBody .ls-1830-key .ins, #viewBody .ls-1830-key .u1830').count() === 3, 'its key is at the top');
+    // With Changes on too: both under the verse, one credit.
+    await p.click('#viewBody [data-layer="changes"]'); await wait(900);
+    check(await p.locator(`${v} .ls-1830`).count() === 1 && await p.locator(`${v} .ls-chg`).count() === 1 && /Changes and 1830 text/.test(await txt(p, '#viewBody')),
+      'with Changes on too, the verse has both and one credit');
+    await p.click('#viewBody [data-layer="changes"]'); await wait(300);
+  } else note('NOTE', 'reader: content/e1830/ isn\'t built, so the 1830 lines weren\'t checked');
+  await p.click('#viewBody [data-layer="e1830"]'); await wait(300);
+  check(await verses() === off, 'turned off, the chapter is exactly as before');
+  // The row fits a 320px phone, even with Plain words too.
+  await p.setViewportSize({ width: 320, height: 700 }); await wait(300);
+  const tight = await p.$eval('#viewBody .plain-bar', bar => {
+    if (!bar.querySelector('.lay-plain')) { const x = bar.querySelector('.lay-notes').cloneNode(); x.className = 'lay lay-plain'; x.textContent = 'Plain'; bar.prepend(x); bar.classList.add('five'); }
+    return [...bar.querySelectorAll('.lay')].filter(x => x.scrollWidth > x.clientWidth || x.getBoundingClientRect().top !== bar.querySelector('.lay').getBoundingClientRect().top).map(x => x.textContent);
+  });
+  check(!tight.length, `on a 320px phone the row fits, Plain words too${tight.length ? ' (too tight: ' + tight.join(', ') + ')' : ''}`);
+  await p.setViewportSize({ width: 390, height: 844 }); await wait(200);
   await close();
 
   // A Bible chapter: the KJV button as before, and neither of the Book of Mormon's.
   await open('Genesis 1');
   b = await buttons();
-  check(b.includes('kjv') && !b.includes('changes') && !b.includes('jsp'), `Genesis 1 keeps its KJV button and has no Changes or JS Papers (${b.join(', ')})`);
+  check(b.includes('kjv') && !b.includes('changes') && !b.includes('e1830') && !b.includes('jsp'), `Genesis 1 keeps its KJV button and has no Changes, 1830 or JS Papers (${b.join(', ')})`);
   await close();
 
   // The Doctrine and Covenants: no KJV button either; Notes stays.
   await open('Doctrine and Covenants 4');
   b = await buttons();
-  check(!b.includes('kjv') && b.includes('notes') && !b.includes('changes'), `Doctrine and Covenants 4: Notes, no KJV (${b.join(', ')})`);
+  check(!b.includes('kjv') && b.includes('notes') && !b.includes('changes') && !b.includes('e1830'), `Doctrine and Covenants 4: Notes, no KJV or 1830 (${b.join(', ')})`);
   check(await p.locator('#viewBody .ls-vv p.lead').count() > 0, 'and its verses show');
   await close();
   check(!p.errors.length, 'no errors');
