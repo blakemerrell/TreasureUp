@@ -279,7 +279,13 @@ on their address are kept until a newer version replaces them. GitHub Pages
 on its own lets a browser keep a file only 10 minutes. After adding or
 changing a picture in `liberty/assets/`, run `python3 tools/liberty-webp.py`
 (Pillow), which makes its WebP; `node tools/test-liberty.mjs` fails if any
-WebP is missing or was made from an older picture. `?nosw=1` on the address
+WebP is missing or was made from an older picture. Because a versioned file is
+kept for good, a file changed under the same `?v=` never reaches a device that
+has played, and an old `sim.js` beside a new `ui.js` breaks the game (it did,
+in October 2026). So after changing a file the game asks for with `?v=`, raise
+its number and run `node tools/liberty-versions.mjs`, which notes each
+address's file in `liberty/versions.json` and refuses one changed under an
+address it already had; `node tools/test-liberty.mjs` fails on either. `?nosw=1` on the address
 leaves the offline copy out; to take it off every device, publish an `sw.js`
 whose install handler unregisters it.
 
@@ -483,9 +489,14 @@ attack-move); sent against a building, they turn on whoever strikes them
 first. **Fall back** (under a chosen army's card) brings them home without
 stopping to fight. Everything is built
 from Zarahemla (walls go in from where you tap first to where you tap next; with a mouse, drag a line; tap one of your people to stop) and rises on its own; workers
-mend and hurry it; carts haul on their own; the barracks trains guards. The side panel is Red Alert's build bar: two columns that are always
-there, buildings and upgrades on the left, people and powers on the right, only what you can make now (a tile wears New when it first
-opens). Each tile shows its own progress swept over its picture like Red Alert's clock, with a thin bar under it: a building rising,
+mend and hurry it; carts haul on their own; the barracks trains guards. The side panel is Red Alert's build bar, on the right on a
+tablet or a phone held sideways and at the bottom on a phone held upright, with two tabs: **Build** (buildings, walls and upgrades) and
+**Train** (soldiers first, then beasts and engines, then workers and carts, then the powers). Each lists everything your side can ever
+make (Blake, 2026-10-11: "a simple way to see what can be built ... and how many of them I can build with the current infrastructure"):
+the gold number on a tile's picture is how many you could start right now (×4: what your grain, timber and stone pay for, and for people
+the room your food leaves); at ×0 its line says what's short ("Need 25 more", or "Need food: build a farm"); and what you can't make yet
+stays on the list, locked, saying what it needs ("Needs Smithy"), and says it again when tapped. A tile wears New when it first
+opens. Each tile shows its own progress swept over its picture like Red Alert's clock, with a thin bar under it: a building rising,
 someone training, an upgrade being made, a power coming back. Tap a people tile again to queue more (the number on it is how many are
 waiting; they come from whichever building has the shortest line), and hold a tile (or right-click it) to take one back with what it
 cost, or to stop the newest building of that kind. What can be done with the one you chose (Stop, Fall back, Let go, Plant it here, Remove, Make a
