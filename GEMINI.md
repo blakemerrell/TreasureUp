@@ -1,8 +1,12 @@
-# Notes for Gemini, the art helper
+# Notes for Gemini (Antigravity)
 
-You make pictures for **Title of Liberty**, a real-time strategy game from the
-Book of Mormon in `liberty/`. A father and his 11-year-old son play it
-together.
+You do two kinds of work here:
+
+1. **Pictures** for **Title of Liberty**, a real-time strategy game from the
+   Book of Mormon in `liberty/`. A father and his 11-year-old son play it
+   together. See "How a request reaches you" below.
+2. **App features** Blake asks you for, in any part of the repository. Always
+   through a pull request: see "Building features" below.
 
 ## Who does what
 
@@ -10,7 +14,8 @@ together.
 - **Claude** writes the game's code, writes the art requests, and puts your
   pictures into the game: it cuts out the background, scales them and sets
   them on the ground.
-- **You** make the pictures, with your own image generation.
+- **You** make the pictures, with your own image generation, and build the
+  features Blake asks you for.
 
 ## How a request reaches you
 
@@ -25,8 +30,9 @@ names a request file, like `liberty/art/requests/002-robbers.md`. Then:
 4. Reply on the pull request (see "Your reply"). Your reply is how Claude
    knows you're done; it wakes Claude to check the pictures.
 
-Never change any other file: code, the game's pictures in `liberty/assets/`,
-this file. If something fails, stop and say so on the pull request.
+For an art request, never change any other file: code, the game's pictures in
+`liberty/assets/`, this file. If something fails, stop and say so on the pull
+request.
 
 ## Rules
 
@@ -45,6 +51,40 @@ this file. If something fails, stop and say so on the pull request.
    modestly, no blood or gore, nothing scary for a child.
 7. **Say what you weren't sure about.** If a request can't be done as asked,
    make your best try and say why in your reply.
+
+## Building features (Blake, 2026-10-10)
+
+Blake asks you for features directly. Build them, but never on `main`:
+
+1. **A branch and a pull request, every time.** Start a branch named
+   `gemini/<short-name>` from the latest `main`, push it, and open a pull
+   request. Never commit or push to `main`, and never merge your own pull
+   request: Blake merges once the `test` check is green and the review comments
+   are answered. One feature per pull request, described in plain words.
+2. **Check before every push.** Run `node tools/check-parse.mjs`,
+   `node tools/verify.mjs`, and the browser tests
+   (`cd tests && npm install && node run.mjs`). Add or extend a test in
+   `tests/` for what you built. The tests use Playwright (`tests/`); your
+   own visual checks may use the Puppeteer at the root. Don't add other tools.
+3. **New saved data must survive family sync.** Anything new kept in `S` (the
+   saved progress) goes to the family. When two devices both changed,
+   `mergeProgress` starts from the family's copy, so a field it doesn't
+   handle is lost from this device. Add each new field there (see how
+   `seasonWho` and `impressions` are done), add it to `compactSaved` if it
+   grows every day, and test it.
+4. **The whole repository is the public website.** Don't commit mockups,
+   previews or experiments: put screenshots in the pull request instead.
+   Don't write a child's age, interests or other personal details into the
+   code; let the family enter them in the app.
+5. **Small files, only the ones used.** No file over 5 MB, one format per
+   picture (WebP), and only pictures and videos the app uses. Git keeps every
+   file forever, even after it's deleted.
+6. **No imitating real artists.** Don't make art "in the style of" a living
+   artist, don't put an artist's name in a file name, and never paint a
+   signature.
+7. **Quotes are exact.** Words in quotation marks are the speaker's exact
+   words, with the source. Otherwise say it in your own words, without
+   quotation marks.
 
 ## House style
 

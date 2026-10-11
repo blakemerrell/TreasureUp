@@ -3,14 +3,14 @@
 // one device did since must count once, never twice and never lost (review,
 // 2026-10-07). Then start-up: a week isn't filed twice, and old things that
 // only matter for a while are trimmed so the family's copy stays under its limit.
-import { check, device, setDay, state, wait } from './lib.mjs';
+import { check, note, device, setDay, state, wait, built } from './lib.mjs';
 
 export default async function merge({ port }) {
   const url = `http://127.0.0.1:${port}/index.html`;
   const d = await device('merge', { url });
   const run = cases => d.page.evaluate(cases => cases.map(([R, L, B]) => TreasureUp.mergeProgress(R, L, B)), cases);
   const day = '2026-10-15', base = { xp: 1000 };
-  const [still, recall, climb, won, back, both, who1, who2, hist] = await run([
+  const [still, recall, climb, won, back, both, who1, who2, hist, prof, shorts] = await run([
     // Be still: 10 minutes when they last met; 15 on the family's copy, 13 here.
     [{ ...base, still: { [day]: 15 } }, { ...base, still: { [day]: 13 } }, { ...base, still: { [day]: 10 } }],
     // The warm-up's question answered right on both devices the same day: paid on both.
@@ -29,6 +29,10 @@ export default async function merge({ port }) {
     [{ ...base, seasonWho: 'adult' }, { ...base, seasonWho: 'youth' }, { ...base, seasonWho: 'youth' }],
     // Two years' week 39: different weeks, both kept.
     [{ ...base, history: [{ num: 39, title: 'Lesson 39 of 2026' }] }, { ...base, history: [{ num: 39, title: 'Lesson 39 of 2027' }] }, { ...base, history: [] }],
+    // The growth profile and the study mode changed here; the family's copy changed something else.
+    [{ ...base, xp: 1010, talks: { t1: { xp: 10 } } }, { ...base, profile: { name: 'Sam', upd: 2 }, studyMode: 'family' }, { ...base }],
+    // A short finished on both devices since they met (10 XP each), another only here.
+    [{ ...base, xp: 1010, shortsDone: { s1: { day, xp: 10 } } }, { ...base, xp: 1030, shortsDone: { s1: { day, xp: 10 }, s2: { day, xp: 20 } } }, { ...base }],
   ]);
   check(still.still[day] === 18, `Be still: 15 on the family's copy and 13 here, from 10, make 18 (${still.still[day]})`);
   check(recall.xp === 1015, `the warm-up's question answered on both devices pays once (${recall.xp}, want 1015)`);
@@ -37,6 +41,8 @@ export default async function merge({ port }) {
   check(back.freezes === 1 && !(back.frozen || {})['2026-10-13'], `a freeze given back here is given back once (freezes ${back.freezes}, still frozen: ${!!(back.frozen || {})['2026-10-13']})`);
   check(both.freezes === 0, `both devices using a freeze for the same day costs one (left: ${both.freezes}, want 0)`);
   check(who1.seasonWho === 'adult' && who2.seasonWho === 'adult', `a setting changed on either device is kept (${who1.seasonWho}, ${who2.seasonWho})`);
+  check(prof.profile && prof.profile.name === 'Sam' && prof.studyMode === 'family', `the growth profile and study mode changed here aren't lost (${JSON.stringify(prof.profile)}, ${prof.studyMode})`);
+  check(!!(shorts.shortsDone || {}).s1 && !!(shorts.shortsDone || {}).s2 && shorts.xp === 1030, `shorts done on either device are kept, paid once (${Object.keys(shorts.shortsDone || {})}, xp ${shorts.xp}, want 1030)`);
   check(hist.history.length === 2, `2026's and 2027's week 39 are both kept (${hist.history.length})`);
 
   // Start-up: last week filed in history already (a merge brought its title back) isn't filed again;
@@ -54,6 +60,26 @@ export default async function merge({ port }) {
   check(s.history.filter(h => h.title === 'Week 11').length === 1, `a week already in history isn't filed again (${s.history.filter(h => h.title === 'Week 11').length})`);
   check(!('picked' in s.history[0].rec.answers.q0) && 'picked' in s.history[s.history.length - 1].rec.answers.q11, 'weeks past the last 8 keep whether he was right, not what he picked; the last 8 keep both');
   check(!s.impressions.gone1 && !!s.impressions.gone2, 'a deleted note’s mark goes after 60 days, not before');
+  // A chapter half read in a past week (part 1 paid 25), read later from the Scriptures tab: it pays the other 25, not 50.
+  if (!built) note('NOTE', 'the chapters aren’t built here (the deploy builds them): the Scriptures tab check is skipped');
+  else {
+  await d.page.evaluate(() => {
+    const S = JSON.parse(localStorage.getItem('treasureup.v1'));
+    S.history.push({ title: 'A past week', num: 1, right: 0, answered: 0, read: 0, rec: { answers: {}, bonus: {}, deep: {}, read: [], parts: { 'Genesis 1': 25 } } });
+    S.streak = 0; S.days = {}; S.filled = {};
+    localStorage.setItem('treasureup.v1', JSON.stringify(S));
+  });
+  await d.page.reload(); await wait(1500);
+  const x0 = (await state(d.page)).xp || 0;
+  await d.page.click('#tabs [data-tab="scriptures"]'); await wait(800);
+  if (await d.page.locator('[data-lib-vol="Old Testament"]').count()) { await d.page.click('[data-lib-vol="Old Testament"]'); await wait(300); }   // the library by volume, then book
+  await d.page.click('[data-lib-book="Genesis"]'); await wait(300);
+  await d.page.click('[data-lib-ch="Genesis 1"]'); await wait(1200);
+  await d.page.click('[data-lib-mark]'); await wait(300);
+  if (await d.page.locator('[data-lib-readyes]').count()) { await d.page.click('[data-lib-readyes]'); await wait(300); }
+  const x1 = (await state(d.page)).xp || 0;
+  check(x1 - x0 === 25, `Genesis 1, half read in a past week, read from the Scriptures tab pays the rest: +${x1 - x0} (want +25)`);
+  }
   check(!d.page.errors.length, 'no page errors' + (d.page.errors.length ? ': ' + d.page.errors.join(' | ') : ''));
   await d.ctx.close();
 }
