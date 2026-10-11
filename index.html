@@ -2345,6 +2345,19 @@
   .talk-list { margin: 6px 0 0; padding-left: 20px; list-style: disc; font-size: 15.5px; line-height: 1.5; color: rgba(255,255,255,.88); }
   .talk-list li { margin-top: 4px; }
   .talk-refs { margin-top: 6px; font-size: 15px; line-height: 1.6; }
+  /* A talk as cards (the lesson player): one idea a card, big and short. */
+  .tk-card { animation: tkIn .22s ease-out; }
+  .tk-card.back { animation-name: tkBack; }
+  @keyframes tkIn { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+  @keyframes tkBack { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .tk-card { animation: none; } }
+  .tk-eye, .tk-n { font-size: 11.5px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #c4b5fd; margin-bottom: 10px; }
+  .tk-title { font-size: 28px; line-height: 1.15; }
+  .tk-point { font-size: 21px; line-height: 1.35; font-weight: 700; }
+  .tk-quote { font-size: 22px; line-height: 1.35; margin-top: 14px; }
+  .tk-level { display: flex; gap: 8px; margin-top: 14px; }
+  .tk-head .ls-hint { margin-top: 14px; }
+  .tk-all { display: block; margin-top: 20px; font: inherit; font-size: 14px; font-weight: 800; color: var(--gold); background: none; border: 0; padding: 6px 0; cursor: pointer; text-align: left; }
   /* A card's deep dive, folded under it: for a grown-up who wants the point at length */
   .ins-deep { margin-top: 14px; border-radius: 14px; background: rgba(56,189,248,.07); border: 1px solid rgba(56,189,248,.28); }
   .ins-deep summary { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 12px 14px; cursor: pointer; list-style: none; font-weight: 900; color: #7dd3fc; }
@@ -6430,6 +6443,69 @@ const TreasureUp = (function () {
     payXp(T[id], TALK_XP, 'Studied a conference talk');
     save();
   }
+  // A talk as cards to swipe through (2026-10-11: "turn these conference
+  // sections in to more readable content. Slide decks or something. Easier to
+  // digest"; then "Quick first, rewrite later", "Both, two levels" and a quiz
+  // at the end). Its slides (the conference's `slides`, by talk id), once
+  // approved: a card an idea, each with the speaker's words that go with it,
+  // a version for kids, a question to talk about and one to answer. Without
+  // them, the cards come from the talk as it is: what it's about, a card a
+  // point, the speaker's words, then the questions and scriptures. The whole
+  // talk on one page (openTalk) is a tap from the last card.
+  const slidesOf = t => { const c = curConf(), s = t && c && (c.slides || []).find(x => x && x.id === t.id); return s && sunShow(s) ? s : null; };
+  function talkSteps(t, kids) {
+    const own = sunShow(t), s = slidesOf(t), out = [], card = o => out.push(Object.assign({ kind: 'talkcard', t, s }, o));
+    card({ head: true });
+    if (s) {
+      const list = kids && (s.kids || []).length ? s.kids : s.cards || [];
+      list.forEach((x, i) => card({ x, n: i + 1, of: list.length }));
+      card({ ask: kids && s.askKids ? s.askKids : s.ask });
+      if (s.quiz) out.push({ kind: 'talkq', id: t.id, t, s, q: s.quiz.q, right: s.quiz.right, why: s.quiz.why, choices: choicesFor(s.quiz, 'talk|' + t.id) });
+    } else {
+      if (own) (t.points || []).forEach((p, i, a) => card({ point: p, n: i + 1, of: a.length }));
+      if ((t.quotes || []).length) card({ quotes: true });
+      if ((own && (t.discuss || []).length) || (t.scriptures || []).length) card({ talkover: true });
+    }
+    return out;
+  }
+  const talkQuote = q => `<blockquote class="ins-quote tk-quote">“${esc(String(q).replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote>`;
+  function talkCardHtml(step, L) {
+    const t = step.t, s = step.s, c = curConf(), own = sunShow(t);
+    const draft = (s ? !sunApproved(s) : own && !sunApproved(t)) ? '<p class="plain-draft">Draft: not approved yet</p>' : '';
+    const last = !L.steps.slice(L.at + 1).some(x => x.kind === 'talkcard');
+    const all = last ? `<button class="tk-all" data-ls="talkall">${own && t.deep ? 'The deep dive and the whole talk on one page' : 'The whole talk on one page'} ›</button>` : '';
+    if (step.head) {
+      const n = L.steps.filter(x => x.kind === 'talkcard').length - 1, kidsToo = s && (s.kids || []).length;
+      return `<div class="tk-card tk-head"><div class="tk-eye">🎤 ${esc(c ? c.title : 'General conference')} · ${esc(t.session || '')}</div>
+        <div class="ls-prompt tk-title">${esc(t.title)}</div><p class="ins-who">${esc(t.speaker)}</p>${draft}
+        ${!s && own && t.quick ? `<p class="reel-body">${linkRefs(t.quick)}</p>` : ''}
+        ${kidsToo ? `<div class="tk-level" role="group" aria-label="Who it’s for"><button class="sh-pill${L.kids ? '' : ' on'}" data-ls="talklevel" data-level="adult" aria-pressed="${!L.kids}">Grown-ups</button><button class="sh-pill${L.kids ? ' on' : ''}" data-ls="talklevel" data-level="kids" aria-pressed="${!!L.kids}">Kids</button></div>` : ''}
+        <p class="ls-hint">${n ? n + ' cards · swipe or tap Next' : ''}${s && s.quiz ? ' · then a question' : ''}</p>
+        ${t.url ? `<a class="deep-open" href="${esc(t.url)}" target="_blank" rel="noopener noreferrer">Watch or read it ↗</a>` : ''}${all}</div>`;
+    }
+    const top = h => `<div class="tk-n">${h}</div>`;
+    if (step.x) {
+      const x = step.x, q = x.quote != null && (t.quotes || [])[x.quote];
+      return `<div class="tk-card">${top(step.n + ' of ' + step.of)}${draft}<div class="ls-prompt">${esc(x.h)}</div><p class="reel-body">${linkRefs(x.text, x.ref)}</p>
+        ${q ? talkQuote(q) + `<p class="ins-who">${esc(t.speaker)}</p>` : ''}${x.ref ? `<p class="talk-refs">${linkRefs(x.ref)}</p>` : ''}${all}</div>`;
+    }
+    if (step.ask != null) return `<div class="tk-card">${top('Talk about it')}${draft}<div class="ls-prompt">${linkRefs(step.ask || '')}</div>
+      ${(t.scriptures || []).length ? `<div class="talk-h">Scriptures it uses</div><p class="talk-refs">${t.scriptures.map(r => linkRefs(r)).join(' · ')}</p>` : ''}${all}</div>`;
+    if (step.point) return `<div class="tk-card">${top('What it teaches · ' + step.n + ' of ' + step.of)}${draft}<div class="ls-prompt tk-point">${linkRefs(step.point)}</div>${all}</div>`;
+    if (step.quotes) return `<div class="tk-card">${top('In ' + esc(t.speaker) + '’s words')}${(t.quotes || []).map(talkQuote).join('')}${all}</div>`;
+    const list = xs => `<ul class="talk-list">${xs.map(x => `<li>${linkRefs(x)}</li>`).join('')}</ul>`;
+    return `<div class="tk-card">${top('Talk it over')}${draft}${own && (t.discuss || []).length ? list(t.discuss) : ''}
+      ${(t.scriptures || []).length ? `<div class="talk-h">Scriptures it uses</div><p class="talk-refs">${t.scriptures.map(r => linkRefs(r)).join(' · ')}</p>` : ''}${all}</div>`;
+  }
+  // The talk's question, the first answer only, under the talk's own record.
+  function recordTalkQ(id, ok) {
+    const T = S.talks || (S.talks = {}), k = 'q:' + id;
+    if (T[k]) return;
+    T[k] = { day: dayKey(), right: !!ok, xp: 0 };   // its XP, so syncing two phones counts it right
+    if (ok) payXp(T[k], XP.bonus, 'A conference talk’s question');
+    markStudied();
+    save();
+  }
   // Picking a Sunday's talk for a class: kept with the family (any grown-up
   // in it picks, everyone sees it; families/{fid}/talks/{sunday}), or on this
   // phone outside a family.
@@ -8921,6 +8997,7 @@ const TreasureUp = (function () {
     if (e.kind === 'friday') return fridayItems().map(d => ({ card: 'deep-' + d.id, done: !!S.deep[d.id] }));
     if (e.kind === 'puzzle') return [{ card: 'puzzle', done: !!S.puzzle && S.puzzle.week === WEEK.title && S.puzzle.status === 'won' }];
     if (e.kind === 'sunday') return sunCards(e.l).map(c => ({ card: 'sun-' + c.id, done: !!(S.sunday || {})[c.id] }));
+    if (e.kind === 'talk') return [{ card: 'talk-' + e.t.id, done: !!(S.talks || {})[e.t.id] }];
     return [];
   }
   // A day's Go further (2026-10-01: the extra content shouldn't be
@@ -8986,7 +9063,8 @@ const TreasureUp = (function () {
   const entryName = e => e.kind === 'day' ? dayName(e.d)
     : e.kind === 'further' ? 'Go further · ' + dayName(e.d)
     : e.kind === 'friday' ? "Deep dive: the children's lesson and a magazine piece"
-    : e.kind === 'puzzle' ? 'The weekly puzzle' : e.kind === 'sunday' ? 'Sunday: ' + e.l.title : 'Church, then a family game';
+    : e.kind === 'puzzle' ? 'The weekly puzzle' : e.kind === 'sunday' ? 'Sunday: ' + e.l.title
+    : e.kind === 'talk' ? e.t.title + ' · ' + e.t.speaker : 'Church, then a family game';
   // A day of the plan by its reading ("Read Isaiah 40–41"), or, with no
   // reading that day, by its reels' section.
   function dayName(d) {
@@ -18164,10 +18242,10 @@ const TreasureUp = (function () {
   // `focus` is one thing of a part, from a row of More if you want: an item's
   // key ("deep-<id>"), or all of a kind ("bonus-", "note-").
   function buildLesson(entry, focus) {
-    const steps = [], further = !!entry && entry.kind === 'further', sunday = !!entry && entry.kind === 'sunday';
+    const steps = [], further = !!entry && entry.kind === 'further', sunday = !!entry && entry.kind === 'sunday', talk = !!entry && entry.kind === 'talk';
     const want = c => !focus || c === focus || (focus.endsWith('-') && c.startsWith(focus));
-    // The day's review question comes first, but not in Go further (extra, after the lesson) or a Sunday class's lesson.
-    if (!further && !sunday && !focus) warmupsLeft().map(reelById).filter(Boolean).forEach(r => steps.push({
+    // The day's review question comes first, but not in Go further (extra, after the lesson), a Sunday class's lesson or a talk.
+    if (!further && !sunday && !talk && !focus) warmupsLeft().map(reelById).filter(Boolean).forEach(r => steps.push({
       kind: 'recall', id: r.id, r, home: r.verse.ref, q: r.question.q, right: r.question.right, why: r.question.why, choices: choicesFor(r.question, r.id + '|' + S.daily.day) }));
     const practice = !!entry && entryItems(entry).filter(i => want(i.card)).every(i => i.done);
     if (entry && entry.kind === 'day') {
@@ -18213,6 +18291,9 @@ const TreasureUp = (function () {
       if (say && want('say-' + say.id) && (practice || !S.sayings[say.id])) steps.push(sayStep(d));
       const r = want('note-' + d) && open.find(y => !S.notes[y.id]);
       if (r) steps.push({ kind: 'note', r });
+    } else if (talk) {
+      // A conference talk, card by card (talkSteps).
+      talkSteps(entry.t, entry.kids).forEach(x => steps.push(x));
     } else if (sunday) {
       // The youth's Sunday class: what it's about and where to read it, then
       // each card and its question.
@@ -18231,15 +18312,17 @@ const TreasureUp = (function () {
   // ("sun:<id>"), or '' for today's; `focus`, one thing of it (buildLesson).
   function openLesson(key, focus) {
     use('lesson');
-    const m = /^(\d)\.(\d+)$/.exec(key || ''), sun = /^sun:(.+)$/.exec(key || '');
-    const plan = weekPlan(), found = sun && sunLessonById(sun[1]);
-    if (sun && !found) return;
+    const m = /^(\d)\.(\d+)$/.exec(key || ''), sun = /^sun:(.+)$/.exec(key || ''), tk = /^talk:(.+)$/.exec(key || '');
+    const plan = weekPlan(), found = sun && sunLessonById(sun[1]), talk = tk && talkById(tk[1]);
+    if ((sun && !found) || (tk && !talk)) return;
     if (sun) use('sunday');
+    if (talk) { use('talk'); if (!$('appSheet').hidden) closeSheet(); }
     // Today's: the next unfinished part; the warm-up alone if that's all
     // that's left; with nothing left, today's part again as practice.
-    const entry = found ? { kind: 'sunday', l: found.l, m: found.m } : m ? (plan[m[1]] || [])[m[2]]
+    const entry = found ? { kind: 'sunday', l: found.l, m: found.m } : talk ? { kind: 'talk', t: talk, kids: seasonWho() !== 'adult' } : m ? (plan[m[1]] || [])[m[2]]
       : lessonNow() || (warmupsLeft().length ? null : plan[todayIndex()].find(e => e.kind !== 'family')) || null;
     const L = buildLesson(entry || null, focus || '');
+    if (entry && entry.kind === 'talk') L.kids = entry.kids;
     if (!L.steps.length && entry && entry.kind === 'further') {
       if (focus === 'note-' && dayReels(entry.d).some(r => S.answers[r.id])) toast('✓ Note saved', 'It’s on the Notes page of your notebook');
       else toast('Do the day’s lesson first', focus === 'note-' ? 'A note comes after its questions' : 'Its bonus questions open after its reels');
@@ -18284,15 +18367,17 @@ const TreasureUp = (function () {
     else if (step.kind === 'bonus') recordBonus(step.id, step.n, picked);
     else if (step.kind === 'find' && !step.practice) recordFind(step.id, ok);
     else if (step.kind === 'sunq') recordSun(step.id, picked);
+    else if (step.kind === 'talkq') recordTalkQ(step.id, ok);
     return S.xp - before;
   }
 
   // "Right first time" on the last screen counts the questions, not the practice.
-  const SCORED = { recall: 1, reel: 1, deep: 1, find: 1, bonus: 1, sunq: 1, say: 1, fsy: 1 };
+  const SCORED = { recall: 1, reel: 1, deep: 1, find: 1, bonus: 1, sunq: 1, say: 1, fsy: 1, talkq: 1 };
   const LESSON_KIND = { recall: 'Review · remember this?', reel: 'Choose the right answer',
     find: 'Find it in the chapter', say: 'Who said it?', deep: 'Go deeper',
     insight: '💡 Insight', bonus: 'Bonus · find it in the reading · +' + XP.bonus + ' XP', note: 'Write a note · +' + NOTE_XP + ' XP',
-    sunintro: 'Sunday class · For the Strength of Youth', sunread: 'Read', sunq: 'Choose the right answer' };
+    sunintro: 'Sunday class · For the Strength of Youth', sunread: 'Read', sunq: 'Choose the right answer',
+    talkcard: '🎤 General conference', talkq: 'One question · +' + XP.bonus + ' XP' };
 
   // The piece of the week a lesson step comes from, for the owner's ✏️ (fixHtml).
   function stepFixHtml(s) {
@@ -18301,6 +18386,7 @@ const TreasureUp = (function () {
     if (s.kind === 'deep') return fixHtml(WEEK.dates, 'deep:' + s.id);
     if (s.kind === 'insight') return fixHtml(WEEK.dates, 'insight:' + s.x.id);
     if (s.kind === 'sunintro') return fixHtml(SUNW, 'sunl:' + s.l.id);
+    if (s.kind === 'talkcard' || s.kind === 'talkq') return fixHtml(SUNW, (s.s ? 'slides:' : 'talk:') + s.t.id);
     const id = s.r ? s.r.id : ['reel', 'recall', 'bonus', 'find'].includes(s.kind) ? s.id : null;
     return id ? fixHtml(WEEK.dates, 'reel:' + id) : '';
   }
@@ -18322,6 +18408,7 @@ const TreasureUp = (function () {
       : step.kind === 'chapter' ? 'Read the chapter' + (min ? ' · about ' + min + ' min' : '') : step.kind === 'puzzle' ? 'Saturday'
       : step.kind === 'cfm' ? 'Come Follow Me · part ' + step.c.n + ' of ' + step.c.of : step.kind === 'bom' ? '📜 Book of Mormon · Living Water' : step.kind === 'fsy' ? (step.y.kind === 'mag' ? '📖 FSY Magazine' : '⛪ Youth Study · FSY Ch ' + step.y.yl.m.chapter)
       : step.kind === 'gc' ? '🎤 General conference · talk ' + step.t.n + ' of ' + step.t.of
+      : step.kind === 'talkcard' && !step.head ? '🎤 ' + esc(step.t.speaker) : step.kind === 'talkcard' ? ''
       : step.kind === 'goals' ? '🌱 My Season · ' + esc(seasonNow().name) : step.kind === 'thanks' ? '🙏 Grateful for…'
       : step.kind === 'bonus' ? esc('Bonus · find it in ' + sourceLabel(step.q.source) + ' · +' + XP.bonus + ' XP')
       : step.kind === 'insight' ? { quote: '💬 Quote', video: '🎬 Video' }[step.x.kind] || LESSON_KIND.insight : LESSON_KIND[step.kind]}${stepFixHtml(step)}</div>`;
@@ -18360,9 +18447,12 @@ const TreasureUp = (function () {
       html += `<div class="ls-prompt">${esc(l.title)}</div><p class="ls-hint">Chapter ${m.chapter}: ${esc(m.title)} · ${esc(shortDay(l.sunday))}</p>
         <p class="reel-body">${linkRefs(l.intro)}</p>
         <a class="deep-open" href="${esc(l.read)}" target="_blank" rel="noopener noreferrer">Open the lesson in Gospel Library ↗</a>`;
+    } else if (step.kind === 'talkcard') {
+      html += talkCardHtml(step, L).replace('class="tk-card', 'class="tk-card' + (L.back ? ' back' : ''));
+      L.back = false;
     } else if (step.kind === 'sunread') {
       html += `<div class="ls-read"><div class="ls-prompt">${linkRefs(step.c.hook)}</div><p class="reel-body">${linkRefs(step.c.body)}</p></div>`;
-    } else if (step.kind === 'reel' || step.kind === 'recall' || step.kind === 'sunq') {
+    } else if (step.kind === 'reel' || step.kind === 'recall' || step.kind === 'sunq' || step.kind === 'talkq') {
       html += `<div class="ls-prompt">${step.kind === 'recall' && !L.checked ? esc(step.q) : linkRefs(step.q, step.home)}</div>${step.kind === 'recall' && !step.retry ? '<p class="ls-hint">From earlier this week. No peeking.</p>' : ''}${opts()}`;
     } else if (step.kind === 'say') {
       html += `<div class="ls-prompt">“${esc(step.text)}”</div>${opts()}`;
@@ -18475,6 +18565,10 @@ const TreasureUp = (function () {
     // The bottom: Continue, Check, or how it went.
     let footHtml;
     if (step.kind === 'read' || step.kind === 'insight' || step.kind === 'sunintro' || step.kind === 'sunread') footHtml = `<button class="ls-go" data-ls="next">Continue</button>`;
+    else if (step.kind === 'talkcard') {
+      const more = L.steps.slice(L.at + 1).some(x => x.kind === 'talkcard' || x.kind === 'talkq');
+      footHtml = `<button class="ls-go" data-ls="next">${more ? 'Next' : 'Done'}</button>${L.at && L.steps[L.at - 1].kind === 'talkcard' ? '<button class="ls-alt" data-ls="prev">Back</button>' : ''}`;
+    }
     else if (step.kind === 'cfm' || step.kind === 'gc' || step.kind === 'goals') footHtml = `<button class="ls-go" data-ls="${step.kind}done">Continue</button>`;
     else if (step.kind === 'bom') footHtml = `<button class="ls-go" data-ls="bomdone">I read it · +${BOM_XP} XP</button><button class="ls-alt" data-ls="bomskip">Not today</button>`;
     else if (step.kind === 'fsy' && !step.choices) footHtml = `<button class="ls-go" data-ls="fsydone">Done · +${FSY_XP} XP</button>`;
@@ -18517,6 +18611,7 @@ const TreasureUp = (function () {
   }
 
   function renderLessonEnd(body, foot) {
+    if (lesson.entry && lesson.entry.kind === 'talk') markTalk(lesson.entry.t.id);   // to the end of its cards: studied, once
     const L = lesson, e = L.entry, secs = Math.round((Date.now() - L.start) / 1000), xp = S.xp - L.xp0, streak = streakNow(), charge = chargeOf(streak), up = nextCharge(streak);
     const name = e ? entryName(e) : "Today's warm-up";
     // Keep going, once he's said yes today: a part of it done leads straight into the next.
@@ -18529,7 +18624,7 @@ const TreasureUp = (function () {
       if (!lvl) openLesson(queue[0].key);   // a new level shows its moment first; Today's button goes on from there
       return;
     }
-    const next = L.practice || (e && e.kind === 'sunday') ? null : lessonNow();
+    const next = L.practice || (e && (e.kind === 'sunday' || e.kind === 'talk')) ? null : lessonNow();
     // After a day's lesson, its Go further while it has something left; after
     // Go further, the bonus questions still waiting on that day's reels.
     const fk = e && e.kind === 'day' ? furtherKey(e.d) : null;
@@ -18557,7 +18652,7 @@ const TreasureUp = (function () {
       ${locked ? `<p class="fam-note">${locked === 1 ? '1 more bonus question opens' : locked + ' more bonus questions open'} once you answer that day's reels.</p>` : ''}
       ${goalsLeft ? `<p class="fam-note">🌱 ${goalsLeft === 1 ? '1 goal' : goalsLeft + ' goals'} left for today: tick ${goalsLeft === 1 ? 'it' : 'them'} on Today when ${goalsLeft === 1 ? 'it’s' : 'they’re'} done.</p>` : ''}
       ${L.practice ? `<p class="fam-note">Practice: this part was already answered, so nothing new was earned.</p>` : ''}
-      ${!next && !L.practice ? `<p class="fam-note">${e && e.kind === 'sunday' ? 'Ready for class.' : "That's today's reading done. Come back tomorrow for the next part."}</p>` : ''}</div>`;
+      ${!next && !L.practice ? `<p class="fam-note">${e && e.kind === 'sunday' ? 'Ready for class.' : e && e.kind === 'talk' ? '✓ Talk studied' : "That's today's reading done. Come back tomorrow for the next part."}</p>` : ''}</div>`;
     foot.className = 'ls-foot';
     foot.innerHTML = `<div class="ls-foot-in">${ask ? `<button class="ls-go" data-ls="keep">Keep going · ${esc(ask.words)}</button>
       ${next ? `<button class="ls-alt" data-ls="nextlesson">Catch up: ${esc(entryName(next))}</button>` : ''}
@@ -18616,6 +18711,13 @@ const TreasureUp = (function () {
       save(); L.cfmText = ''; return on();
     }
     if (act === 'gctalk') { openTalk(step.t.t.id); return; }
+    // A talk's cards: back a card, Grown-ups or Kids (from the start), the whole talk on one page.
+    if (act === 'prev') { if (L.at && L.steps[L.at - 1].kind === 'talkcard') { L.at--; L.back = true; lessonReset(); renderLesson(); } return; }
+    if (act === 'talklevel' && L.entry && L.entry.kind === 'talk') {
+      L.kids = L.entry.kids = el.dataset.level === 'kids';
+      L.steps = talkSteps(L.entry.t, L.kids); L.at = 0; L.bar = 0; lessonReset(); return renderLesson();
+    }
+    if (act === 'talkall' && L.entry && L.entry.kind === 'talk') { openTalk(L.entry.t.id); return; }
     if (act === 'gcsave') {
       if (!L.gcSaved) {
         const t = step.t.t;
@@ -18726,6 +18828,7 @@ const TreasureUp = (function () {
   const sunWeek = sun => ({ dates: SUNW, title: 'Sunday classes', sunday: true, reels: [], sections: [], sun: clone(sun || { youth: [], conference: [] }) });
   const sunLessonsOf = w => (w.sun.youth || []).flatMap(m => m.lessons || []);
   const sunTalksOf = w => (w.sun.conference || []).flatMap(c => c.talks || []);
+  const sunSlidesOf = w => (w.sun.conference || []).flatMap(c => c.slides || []);
   async function readSundayFile(repo) {
     const f = await gh(`/repos/${repo}/contents/${SUNDAY_FILE}`);
     if (!f || !f.content) return null;
@@ -18784,7 +18887,8 @@ const TreasureUp = (function () {
     review: 'For your review (not shown in the app)', about: 'What to look at',
     lines: 'Lines (one per line, each ending with its verses, like (verses 4–5))', also: 'Under the card: the Book of Mormon copy the heading names',
     by: 'From (Scripture Central, BYU Speeches, General Conference…)', who: 'Speaker or author', url: 'Page link',
-    h: 'Heading (as the lesson has it)', kids: 'For children (from Ideas for Teaching Children)', ask: 'Question to talk about',
+    h: 'Heading', kids: 'For children', ask: 'Question to talk about', askKids: 'Question to talk about (kids)',
+    cards: 'Cards (grown-ups)', quiz: 'The question to answer', quote: 'The talk’s quote that goes with it (0 is the first)',
     minutes: 'Minutes', from: 'Lesson parts it draws on (their ids, one per line)', steps: 'Steps', k: 'Kind: open, learn, do, talk or close',
     area: 'Area: god, bible, bom or history', heard: 'The question, as he hears it', where: 'Where he hears it: school, online or friend',
     kid: 'The short answer (60–130 words, a paragraph per line)', deeper: 'Go deeper (180–450 words, a paragraph per line)',
@@ -18818,6 +18922,7 @@ const TreasureUp = (function () {
     if (w.sunday) {
       sunLessonsOf(w).forEach(l => add('sunl:' + l.id, 'Youth · ' + l.sunday + ' · ' + l.title, l, l.approved, noApproval(l)));
       sunTalksOf(w).forEach(t => add('talk:' + t.id, 'Talk · ' + t.speaker, t, t.approved, noApproval(t)));
+      sunSlidesOf(w).forEach(x => { const t = sunTalksOf(w).find(y => y.id === x.id) || {}; add('slides:' + x.id, 'Cards · ' + (t.speaker || x.id), x, x.approved, noApproval(x)); });
     }
     w.reels.forEach((r, n) => add('reel:' + r.id, 'Reel ' + (n + 1) + ' · ' + (w.sections[r.section] || ''), r, r.approved, noApproval(r)));
     (w.deep || []).forEach(d => add('deep:' + d.id, d.day === 'friday' ? 'Friday deep dive' : 'Go deeper · ' + (w.sections[d.section] || ''), d, d.approved, noApproval(d)));
@@ -18841,12 +18946,12 @@ const TreasureUp = (function () {
   // Plain words, short versions and insight cards never hold a week back:
   // each shows in the app only once it's approved, so a week publishes without them.
   // So do the lesson part by part and family night.
-  const OPTIONAL = /^(plain|tldr|insight|sunl|talk|guide|qa):/;
+  const OPTIONAL = /^(plain|tldr|insight|sunl|talk|slides|guide|qa):/;
   const devNeeded = items => items.filter(i => !OPTIONAL.test(i.key) && i.key !== 'family');
   // A kind of piece's list in a week, and a piece's name in it (plain words and short versions go by chapter).
   const devList = (w, kind) => kind === 'reel' ? w.reels : kind === 'deep' ? w.deep : kind === 'plain' ? (w.plain || []) : kind === 'tldr' ? (w.tldr || [])
     : kind === 'treasure' ? (w.treasure || []) : kind === 'insight' ? (w.insights || []) : kind === 'sunl' ? sunLessonsOf(w) : kind === 'talk' ? sunTalksOf(w)
-    : kind === 'guide' ? (w.guide || []) : kind === 'qa' ? (w.qa.questions || []) : w.sayings;
+    : kind === 'slides' ? sunSlidesOf(w) : kind === 'guide' ? (w.guide || []) : kind === 'qa' ? (w.qa.questions || []) : w.sayings;
   const devIdOf = (kind, x) => kind === 'plain' || kind === 'tldr' ? x.ch : x.id;
   function devGet(w, key) {
     if (key === 'week') return weekMeta(w);
@@ -18866,7 +18971,8 @@ const TreasureUp = (function () {
     else {
       const kind = key.slice(0, key.indexOf(':')), id = key.slice(key.indexOf(':') + 1);
       // A Sunday lesson or talk sits in its month's or conference's list.
-      const lists = kind === 'sunl' ? (w.sun.youth || []).map(m => m.lessons || []) : kind === 'talk' ? (w.sun.conference || []).map(c => c.talks || []) : [devList(w, kind)];
+      const lists = kind === 'sunl' ? (w.sun.youth || []).map(m => m.lessons || []) : kind === 'talk' ? (w.sun.conference || []).map(c => c.talks || [])
+        : kind === 'slides' ? (w.sun.conference || []).map(c => c.slides || []) : [devList(w, kind)];
       for (const list of lists) { const i = list.findIndex(x => devIdOf(kind, x) === id); if (i >= 0) list[i] = obj; }
     }
     const target = key === 'week' ? w : key === 'words' ? null : devGet(w, key);
@@ -19132,6 +19238,7 @@ const TreasureUp = (function () {
                     ['Treasure words', i => i.key.startsWith('treasure:')],
                     ['Insights', i => i.key.startsWith('insight:')],
                     ['Youth Sunday lessons', i => i.key.startsWith('sunl:')], ['Conference talks', i => i.key.startsWith('talk:')],
+                    ['Conference talks as cards', i => i.key.startsWith('slides:')],
                     ...QA_AREAS.map(([area, title]) => [title, i => i.key.startsWith('qa:') && i.obj.area === area]),
                     ['Questions with no area', i => i.key.startsWith('qa:') && !QA_AREAS.some(a => a[0] === i.obj.area)]];
     return devTopHtml(true) + `
@@ -19158,6 +19265,7 @@ const TreasureUp = (function () {
     'insight:': 'A card in its day’s Go further: a point from the page it credits, in our words. Open the page to check it says so. It shows in the app once it’s approved.',
     'sunl:': 'A Sunday’s mini-lesson on its card, from For the Strength of Youth, in our words. Open its page to check it says so. It shows in the app once it’s approved.',
     'talk:': 'The talk shows already with its speaker’s own words and its scriptures; what it teaches, the questions and the deep dive, in our words, show once it’s approved.',
+    'slides:': 'A talk as cards to swipe: a card an idea, each with the speaker’s words that go with it, a version for kids, a question to talk about and one to answer. Open the talk to check it says so. Until it’s approved, the talk’s cards come from the talk as it is.',
     'qa:': 'A question he might hear, with the short answer, Go deeper and its sources, under Questions friends ask in the Scriptures tab. Open the sources to check them. It shows in the app once it’s approved.'
   };
   // One line on what a piece is, for its row.
@@ -19176,6 +19284,7 @@ const TreasureUp = (function () {
     if (k.startsWith('insight:')) return o.title || o.quote || '';
     if (k.startsWith('sunl:')) return (o.title || '') + ' · ' + n((o.cards || []).length, 'card', 'cards');
     if (k.startsWith('talk:')) return (o.title || '') + ' · ' + (o.speaker || '');
+    if (k.startsWith('slides:')) return ((o.cards || [])[0] || {}).h + ' · ' + n((o.cards || []).length, 'card', 'cards') + ', ' + n((o.kids || []).length, 'for kids', 'for kids') + (o.quiz ? ', a question' : '');
     if (k.startsWith('qa:')) return ((QA_WHERE[o.where] || [''])[0] + ' ' + (o.heard || '')).trim() + ((o.review || []).length ? ' · ' + o.review.length + ' to look at first' : '') + (o.parent ? ' · 👨‍👩‍👦' : '');
     return '';
   }
@@ -19273,6 +19382,15 @@ const TreasureUp = (function () {
         `<p class="dv-small" style="margin-top:8px">In our words (shown once approved):</p>${o.quick ? `<p>${esc(o.quick)}</p>` : ''}` +
         list('What it teaches', o.points) + list('To talk over', o.discuss) +
         (o.deep ? `<div class="dv-deep"><p class="dv-small">🤿 Deep dive:</p>${(o.deep.paras || []).map(t => `<p>${esc(t)}</p>`).join('')}<p class="dv-small">On the page: ${[].concat(o.deep.find || []).map(f => `“${esc(f)}”`).join(' · ')}</p></div>` : '');
+    }
+    if (it.key.startsWith('slides:')) {
+      // A talk's cards: each with the speaker's words it goes with, the kids' cards, the questions.
+      const t = sunTalksOf(w).find(y => y.id === o.id) || {}, cardHtml = x => `<div class="dv-pv"><div class="dv-hook" style="font-size:15px">${esc(x.h)}</div><p>${esc(x.text)}</p>` +
+        (x.quote != null && (t.quotes || [])[x.quote] ? `<div class="dv-verse">“${esc(t.quotes[x.quote])}”<span>${esc(t.speaker || '')}</span></div>` : '') + (x.ref ? `<p class="dv-small">${esc(x.ref)}</p>` : '') + '</div>';
+      return `<div class="dv-hook">${esc(t.title || o.id)}</div><p class="dv-small">${esc(t.speaker || '')} · <a href="${esc(t.url || '')}" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">the talk ↗</a></p>` +
+        `<p class="dv-small" style="margin-top:6px;font-weight:800">Grown-ups</p>${(o.cards || []).map(cardHtml).join('')}<p class="dv-small">Talk about it: ${esc(o.ask || '')}</p>` +
+        `<p class="dv-small" style="margin-top:8px;font-weight:800">Kids</p>${(o.kids || []).map(cardHtml).join('')}<p class="dv-small">Talk about it: ${esc(o.askKids || '')}</p>` +
+        (o.quiz ? `<p class="dv-small" style="margin-top:8px;font-weight:800">The question</p>${devQHtml(o.quiz)}` : '');
     }
     if (it.key.startsWith('qa:')) {
       // A question: the owner's notes to look at first, then the page as he'll see it, and its sources.
@@ -19694,10 +19812,10 @@ const TreasureUp = (function () {
       if (pg) {
         const k = dayKey();
         if (!pathDoneOf(k).gc) { const rec = {}; payXp(rec, GC_XP, 'General conference'); setPathDone(k, 'gc', rec); markStudied(); save(); refreshHome(); }
-        openTalk(pg.dataset.pathGc); return;
+        openLesson('talk:' + pg.dataset.pathGc); return;
       }
       const tk = e.target.closest('[data-talk]');
-      if (tk) { openTalk(tk.dataset.talk); return; }
+      if (tk) { openLesson('talk:' + tk.dataset.talk); return; }
       const tp = e.target.closest('[data-talkpick]');
       if (tp) { const [slot, k] = tp.dataset.talkpick.split('|'); openTalkPick(slot, k); return; }
       const fg = e.target.closest('[data-fam-goal]');
@@ -20248,6 +20366,21 @@ const TreasureUp = (function () {
       const el = e.target.closest('[data-ls]');
       if (el && !el.disabled) lessonAction(el);
     });
+    // A talk's cards swipe: left for the next card, right for the one before.
+    {
+      let sx = null, sy = 0;
+      const body = $('lessonBody');
+      body.addEventListener('touchstart', e => { const t = e.touches[0]; sx = e.touches.length === 1 ? t.clientX : null; sy = t.clientY; }, { passive: true });
+      body.addEventListener('touchend', e => {
+        const step = lesson && lesson.steps[lesson.at], t = e.changedTouches[0];
+        if (sx == null || !step || step.kind !== 'talkcard') return;
+        const dx = t.clientX - sx, dy = t.clientY - sy;
+        sx = null;
+        if (Math.abs(dx) < 60 || Math.abs(dx) < 2 * Math.abs(dy)) return;
+        const b = document.querySelector(`#lessonFoot [data-ls="${dx < 0 ? 'next' : 'prev'}"]`);
+        if (b) lessonAction(b);
+      }, { passive: true });
+    }
 
     // Babylon Falls: the map screen's buttons, a phone's buttons, and its map.
     $('riskExit').addEventListener('click', riskExit);
