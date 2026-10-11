@@ -3,7 +3,7 @@
 // http://127.0.0.1:8131/. The family test needs the Firebase emulators and
 // runs only under them (see tests/README.md); the others need nothing.
 //
-//   node tests/run.mjs                 smoke, dates, merge, week and reader
+//   node tests/run.mjs                 smoke, dates, merge, week, coach, pro and reader
 //   node tests/run.mjs week            one of them
 //   npm run test:family                (the family test, under the Firebase emulators: firebase.json)
 import { serve, launch, closeBrowser, results, note } from './lib.mjs';
@@ -11,7 +11,7 @@ import { serve, launch, closeBrowser, results, note } from './lib.mjs';
 const port = Number(process.env.TEST_PORT || 8131);
 const emulators = !!process.env.FIRESTORE_EMULATOR_HOST;
 const asked = process.argv.slice(2);
-const names = asked.length ? asked : ['smoke', 'dates', 'merge', 'week', 'reader', ...(emulators ? ['family', 'games'] : [])];
+const names = asked.length ? asked : ['smoke', 'dates', 'merge', 'week', 'coach', 'pro', 'reader', ...(emulators ? ['family', 'games'] : [])];
 
 const server = await serve(port);
 await launch();

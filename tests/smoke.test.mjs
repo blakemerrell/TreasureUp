@@ -1,10 +1,14 @@
-// The app opens on today's date with no errors; every tab, Be still and the
+// The app opens on today's date (a Sunday: the Saturday before) with no errors; every tab, Be still and the
 // settings sheet open; the TV page, Wika and Title of Liberty load.
 import { check, device, txt, wait } from './lib.mjs';
 
 export default async function smoke({ port }) {
   const base = `http://127.0.0.1:${port}/`;
-  const dev = await device('phone', { url: base + 'index.html' });
+  // A Sunday has no reading of its own, so no Be still or Morning Council rows to
+  // test: on a Sunday the run opens on the Saturday before (CI runs any day).
+  const now = new Date(), sat = now.getDay() === 0 ? new Date(now - 864e5) : null;
+  const day = sat && `${sat.getFullYear()}-${String(sat.getMonth() + 1).padStart(2, '0')}-${String(sat.getDate()).padStart(2, '0')}T09:00:00`;
+  const dev = await device('phone', { url: base + 'index.html', day });
   const p = dev.page;
   check(/\w/.test(await txt(p, '#home .fl-date')) || /\w/.test(await txt(p, '#home')), 'Today opens: ' + (await txt(p, '#home .fl-date')).slice(0, 60));
   for (const tab of ['study', 'scriptures', 'games', 'season', 'today']) {

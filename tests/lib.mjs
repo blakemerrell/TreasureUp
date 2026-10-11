@@ -11,6 +11,9 @@ import { fileURLToPath } from 'node:url';
 const require = createRequire(import.meta.url);
 export const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const wait = ms => new Promise(r => setTimeout(r, ms));
+// The Scriptures tab's books (content/library.js, content/lib/) are built by the deploy
+// (tools/build-reading.mjs), not kept in git: a check that reads them runs where they're built.
+export const built = fs.existsSync(path.join(ROOT, 'content', 'library.js'));
 
 // ---- results ----
 export const results = { pass: 0, fail: 0, lines: [] };
