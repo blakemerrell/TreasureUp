@@ -536,6 +536,61 @@
   .nb-spine { flex: 0 0 16px; background: linear-gradient(90deg, #5b3fd9, #7c5cff 60%, #5b3fd9); } .nb-book.now .nb-spine { background: linear-gradient(90deg, #3fae2a, #58cc02 60%, #3fae2a); }
   .nb-bk { flex: 1; min-width: 0; padding: 12px 14px; } .nb-bk b { display: block; font-size: 17px; font-weight: 900; } .nb-bk small { display: block; margin-top: 1px; font-size: 12.5px; font-weight: 600; color: #6b6578; }
   .nb-chips { display: block; margin-top: 6px; font-size: 13px; font-weight: 700; line-height: 1.5; }
+  /* Pro Mode (2026-10-08): the planner's pages on the same paper. A box to
+     tick, a role's tag, and plain boxes to type in; Today and the week list
+     what to do before anything to plan. */
+  .nb-mode { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 12px; font-size: 12px; font-weight: 800; color: rgba(255,255,255,.55); }
+  .nb-mode button { display: flex; padding: 2px; border-radius: 99px; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.05); font: inherit; cursor: pointer; }
+  .nb-mode b { padding: 4px 11px; border-radius: 99px; font-size: 12.5px; font-weight: 800; color: rgba(255,255,255,.7); }
+  .nb-mode b.on { background: #fff; color: #1b1736; } .nb-mode [aria-checked="true"] b.on { background: var(--gold); color: #1c1406; }
+  .nb-mode + .nb-tabs { margin-top: 8px; }
+  .nb-tabs button.pro { border-color: rgba(252,211,77,.38); color: #fde68a; }
+  .nb-tabs button.pro[aria-selected="true"] { background: var(--gold); border-color: var(--gold); color: #1c1406; }
+  .pro-list { list-style: none; margin: 6px 0 0; padding: 0; }
+  .pro-item { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 0; border-bottom: 1px solid #ebe5d6; }
+  .pro-box { flex: 0 0 28px; width: 28px; height: 28px; display: grid; place-items: center; padding: 0; border-radius: 8px; border: 2px solid #b9b19d; background: #fff; color: #fff; font: inherit; font-size: 16px; font-weight: 900; cursor: pointer; }
+  .pro-box.sm { flex-basis: 24px; width: 24px; height: 24px; font-size: 14px; }
+  .pro-box[aria-pressed="true"] { background: #3fae2a; border-color: #3fae2a; }
+  .pro-txt { flex: 1; min-width: 0; font-size: 15.5px; font-weight: 700; line-height: 1.3; overflow-wrap: anywhere; }
+  .pro-txt.big { font-size: 17px; font-weight: 900; }
+  .pro-txt small { display: block; margin-top: 3px; font-size: 12px; font-weight: 700; color: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pro-item.ok > .pro-txt .pro-t { color: var(--soft); text-decoration: line-through; text-decoration-thickness: 1.5px; }
+  .pro-num { flex: 0 0 16px; font-size: 20px; font-weight: 900; color: #c8901a; text-align: center; }
+  .pro-role { display: inline-block; padding: 1px 8px; border-radius: 99px; background: #efe9da; color: var(--ink); font-size: 11px; font-weight: 800; letter-spacing: .04em; text-decoration: none; }
+  .pro-x { flex: 0 0 auto; min-width: 32px; min-height: 32px; padding: 0 6px; border: 0; border-radius: 8px; background: none; color: var(--soft); font: inherit; font-size: 14px; font-weight: 800; cursor: pointer; }
+  .pro-pick { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; padding: 9px 12px; border: 1.5px dashed #c9c2b0; border-radius: 10px; background: #fff; color: var(--ink); font: inherit; font-size: 15px; font-weight: 700; text-align: left; cursor: pointer; }
+  .pro-pick small { margin-left: 4px; padding: 0 6px; border-radius: 99px; background: #fff3cd; color: #6b4a00; font-size: 11px; font-weight: 800; }
+  .pro-pick.quiet { margin-top: 16px; background: none; font-size: 14px; color: var(--soft); }
+  .pro-add { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; }
+  .pro-add.end { justify-content: flex-end; } .pro-add.end .nb-tally { margin: 0 auto 0 0; }
+  .pro-in { flex: 1 1 140px; min-width: 0; height: 40px; padding: 0 10px; border: 1.5px solid #d5cfbf; border-radius: 10px; background: #fff; color: var(--ink); font: inherit; font-size: 16px; }
+  .pro-in::placeholder, .pro-ta::placeholder { color: #9b95a8; }
+  .pro-sel { flex: 1 1 auto; min-width: 0; max-width: 100%; height: 40px; padding: 0 6px; border: 1.5px solid #d5cfbf; border-radius: 10px; background: #fff; color: var(--ink); font: inherit; font-size: 14px; }
+  .pro-sel.sm { flex: 0 0 auto; width: 76px; height: 32px; font-size: 12.5px; }
+  .pro-go { flex: 0 0 auto; height: 40px; padding: 0 16px; border: 0; border-radius: 10px; background: var(--ink); color: #fff; font: inherit; font-size: 14px; font-weight: 800; cursor: pointer; }
+  .pro-in:focus-visible, .pro-sel:focus-visible, .pro-ta:focus-visible, .pro-box:focus-visible, .pro-pick:focus-visible, .pro-x:focus-visible, .pro-seg:focus-visible, .pro-chip:focus-visible { outline: 2px dashed #c8901a; outline-offset: 2px; }
+  .pro-ta { display: block; width: 100%; min-height: calc(var(--line) * 4); margin-top: 6px; padding: 0 2px; border: 0; resize: vertical;
+    background: linear-gradient(180deg, transparent 27px, var(--rule) 27px) 0 0 / 100% var(--line); }
+  .pro-ta.short { min-height: calc(var(--line) * 3); }
+  .pro-gap { display: block; margin-top: 18px; }
+  .pro-segs { display: flex; gap: 4px; margin: 8px 0 4px; padding: 3px; border-radius: 12px; background: #efe9da; }
+  .pro-seg { flex: 1; min-width: 0; height: 32px; border: 0; border-radius: 9px; background: none; color: var(--soft); font: inherit; font-size: 13px; font-weight: 800; cursor: pointer; }
+  .pro-seg[aria-pressed="true"] { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+  .pro-day { margin-top: 14px; }
+  .pro-day h3 { font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: var(--soft); }
+  .pro-day.now { padding: 10px 12px 4px; border-radius: 12px; background: #fff7dd; border: 1.5px solid #f1d27a; }
+  .pro-day.now h3 { color: #a16f0c; } .pro-day.now .pro-item:last-child { border-bottom: 0; }
+  .pro-day.past h3 { opacity: .7; }
+  .pro-rolebox { margin-top: 12px; padding: 10px 12px 12px; border-radius: 12px; background: #f6f2e8; }
+  .pro-rh { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; } .pro-rh b { font-size: 16px; font-weight: 900; } .pro-rh small { font-size: 12.5px; font-weight: 700; color: var(--soft); }
+  .pro-qs { margin-top: 4px; font-size: 13px; font-weight: 700; color: #6d4bb8; }
+  .pro-goal { border-bottom: 1px solid #ebe5d6; padding-bottom: 8px; } .pro-goal > .pro-item { border-bottom: 0; }
+  .pro-qlist { margin: 0 0 0 38px; } .pro-qlist .pro-item { min-height: 38px; } .pro-qlist .pro-item:last-child { border-bottom: 0; }
+  .pro-qadd { margin: 4px 0 0 38px; } .pro-qadd .pro-in { height: 36px; font-size: 15px; } .pro-qadd .pro-go { height: 36px; }
+  .pro-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .pro-chip { padding: 6px 11px; border: 1.5px solid #d5cfbf; border-radius: 99px; background: #fff; color: var(--ink); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+  .pro-got { margin-top: 8px; font-size: 14px; line-height: 1.45; } .pro-got small { color: var(--soft); }
+  @media (max-width: 380px) { .pro-qlist, .pro-qadd { margin-left: 22px; } }
   /* The Parent hub: what's waiting first, then each child, the letter, setup. */
   .hub-eyebrow { display: flex; align-items: center; gap: 8px; margin: 22px 2px 8px; font-size: 12px; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; color: rgba(255,255,255,.62); }
   .hub-badge { min-width: 20px; padding: 1px 7px; border-radius: 99px; background: #ff5a5f; color: #fff; font-size: 11.5px; letter-spacing: 0; text-align: center; }
@@ -2661,7 +2716,7 @@ const TreasureUp = (function () {
   // read it), the last 60 days kept. Nothing else is recorded.
   const USE_NAMES = { 'tab:study': 'Study tab', 'tab:scriptures': 'Scriptures tab', 'tab:family': 'Family tab', lesson: 'Lessons',
     chapter: 'Chapters opened', library: 'Scripture chapters', card: 'Cards', word: 'Word studies', listen: 'Listen',
-    sunday: 'Sunday lessons', talk: 'Conference talks', shop: 'Rewards shop', season: 'My Season', seasonTick: 'Season ticks', impression: 'Impressions', highlight: 'Highlights', verseNote: 'Verse notes', grateful: 'Gratitude', shelf: 'Past Seasons', seasonPrint: 'Season printed' };
+    sunday: 'Sunday lessons', talk: 'Conference talks', shop: 'Rewards shop', season: 'My Season', seasonTick: 'Season ticks', impression: 'Impressions', highlight: 'Highlights', verseNote: 'Verse notes', grateful: 'Gratitude', shelf: 'Past Seasons', seasonPrint: 'Season printed', proOn: 'Pro turned on', proOff: 'Pro turned off', proTop: 'Top 3 ticks', proMonth: 'Monthly reviews' };
   function use(key) {
     if (!S) return;
     const u = S.usage || (S.usage = {}), d = dayKey(), day = u[d] || (u[d] = {});
@@ -8324,6 +8379,12 @@ const TreasureUp = (function () {
       // my goals to be on timeline as separate things so I see them... Same with
       // gratitude, and be still"). Those rows (goals, thanks, Be still) are his own: they never hold the
       // day's study back (a step may be for tonight).
+      // Pro's top 3 (2026-10-08), his own like the goal steps: each one to tick, or a row to pick them.
+      if (proOn()) {
+        const top = proTop(k);
+        if (top.length) top.forEach((x, i) => rows.push({ kind: 'pro', x, i, k, done: proItemDone(x), own: true }));
+        else rows.push({ kind: 'pro', pick: true, k, done: false, own: true });
+      }
       for (const x of goalSteps()) rows.push({ kind: 'goal', x, k, done: x.on, own: true });
       rows.push({ kind: 'thanks', k, done: !!gratefulOf(k) || !!dn.thanks, own: true });
       // Morning routine in the flow: Blueprint follows Be still
@@ -8342,6 +8403,7 @@ const TreasureUp = (function () {
     if (r.kind === 'part') return r.p.of > 1 ? r.p.key : 'Read ' + r.p.u.ref;
     if (r.kind === 'reels') return r.reels.length === 1 ? r.reels[0].hook : r.reels.length + ' reels';
     if (r.kind === 'goal') return '🌱 ' + r.x.st.text;
+    if (r.kind === 'pro') return r.pick ? '⭐ My top 3' : '⭐ ' + proItemText(r.x);
     if (r.kind === 'blueprint') return seasonWho() !== 'adult' ? '🌟 Morning Council' : '🌅 Morning Council';
     if (r.kind === 'fsy') return r.y.kind === 'mag' ? '📖 FSY Magazine Feature' : '📖 Youth Study · FSY';
     return { cfm: 'Come Follow Me', bom: '📜 Book of Mormon', gc: 'Conference', thanks: 'Grateful for…', still: '🕊️ Be still' }[r.kind];
@@ -8354,6 +8416,7 @@ const TreasureUp = (function () {
     if (r.kind === 'fsy') return `FSY Ch ${r.y.yl.m.chapter}: ${r.y.card.hook.replace(/^[“"]|[”"]$/g, '')} · 2 min`;
     if (r.kind === 'gc') return r.t.t.speaker;
     if (r.kind === 'goal') return 'My Season · ' + r.x.sub;
+    if (r.kind === 'pro') return r.pick ? 'Pick today’s three most important things' : ['My top 3', proItemRole(r.x)].filter(Boolean).join(' · ');
     if (r.kind === 'still') return stillSub();
     if (r.kind === 'blueprint') {
       const bp = r.bp;
@@ -8382,6 +8445,7 @@ const TreasureUp = (function () {
     if (r.kind === 'fsy') return `data-fsy-open="${esc(r.y.card.id)}"`;
     if (r.kind === 'gc') return `data-path-gc="${esc(r.t.t.id)}"`;
     if (r.kind === 'goal') return `data-tick="${esc(r.x.s.id)}|${esc(r.x.st.id)}" aria-pressed="${!!r.done}"`;
+    if (r.kind === 'pro') return r.pick ? 'data-pro-tab="ptoday"' : `data-pro-top="${r.i}" aria-pressed="${!!r.done}"`;
     if (r.kind === 'thanks') return 'data-grateful';
     if (r.kind === 'blueprint') return 'data-open-blueprint';
     return 'data-still';
@@ -8428,8 +8492,8 @@ const TreasureUp = (function () {
         <div class="walk-motto">${walkMotto}</div>
       </div>
       <ul class="pth">${rows.map((r, i) => `<li class="${r.done ? 'ok' : i === next ? 'next' : ''}"><button type="button" class="pth-btn" ${pathRowAttr(r, c)}>
-        <span class="pth-dot${r.kind === 'goal' ? ' box' : ''}">${r.done ? '✓' : ''}</span><span class="pth-t"><b>${esc(pathRowTitle(r))}</b><small>${esc(pathRowSub(r))}</small></span>
-        ${pathRowXp(r)}${r.kind === 'goal' ? '' : '<span class="pth-go">›</span>'}</button></li>`).join('')}</ul>
+        <span class="pth-dot${r.kind === 'goal' || (r.kind === 'pro' && !r.pick) ? ' box' : ''}">${r.done ? '✓' : ''}</span><span class="pth-t"><b>${esc(pathRowTitle(r))}</b><small>${esc(pathRowSub(r))}</small></span>
+        ${pathRowXp(r)}${r.kind === 'goal' || (r.kind === 'pro' && !r.pick) ? '' : '<span class="pth-go">›</span>'}</button></li>`).join('')}</ul>
     </div>`;
   }
   // Earlier days this week with part of their path left (reading, questions, lesson part).
@@ -9189,7 +9253,12 @@ const TreasureUp = (function () {
     const chk = cur ? checkWeek() : null, refl = seasonToReflect(), was = chk && chk.s.id === s.id && ((rec && rec.checks) || {})[chk.w];
     const due = (chk && chk.s.id === s.id ? `<button class="nb-due${was ? ' done' : ''}" data-season="check"><span>🗓️ ${was ? 'This week’s check-in' : 'Weekend check-in'}<small>${was ? 'Done · change it' : 'How’s it going? · ' + SEASON_CHECK_XP + ' XP'}</small></span><span>›</span></button>` : '')
       + (refl ? `<button class="nb-due" data-season="reflect"><span>🌟 Look back on ${esc(refl.name)}<small>Three questions for each goal · ${SEASON_REFLECT_XP} XP</small></span><span>›</span></button>` : '');
-    const page = { goals: nbGoalsHtml, notes: nbNotesHtml, look: nbLookHtml, numbers: nbNumbersHtml, letter: nbLetterHtml }[nb.tab] || nbGoalsHtml;
+    // Pro (proOn): its five pages first, on this Season's notebook only; it opens on ⭐ Today.
+    const pro = cur && proOn();
+    if (pro && !nb.proSeen) { nb.proSeen = true; if (nb.tab === 'goals') nb.tab = proRoles().length ? 'ptoday' : 'pmission'; }
+    if (!pro && isProTab(nb.tab)) nb.tab = 'goals';
+    const page = { goals: nbGoalsHtml, notes: nbNotesHtml, look: nbLookHtml, numbers: nbNumbersHtml, letter: nbLetterHtml,
+      ptoday: proTodayHtml, pweek: proWeekHtml, pyear: proYearHtml, pmission: proMissionHtml, pmonth: proMonthHtml }[nb.tab] || nbGoalsHtml;
     return `<div class="nb-head"><div><div class="sh-title">${cur ? '🌱 My Season' : '📚 ' + esc(s.name)}</div>
         <p class="sh-small">${cur ? `<b>${esc(s.name)}</b> · ` : ''}${esc(seasonDates(s))} · ${s.end < today ? 'finished' : started ? 'week ' + weekOfSeason(s, today) + ' of ' + s.weeks : 'starts ' + esc(mdShort(s.start))}</p></div>
         <button class="nb-hb" data-nb-shelf aria-label="Past Seasons">📚 Past</button><button class="nb-hb" data-nb-printbox aria-label="Print or save as PDF" aria-expanded="${nb.printing}">🖨</button></div>
@@ -9197,8 +9266,9 @@ const TreasureUp = (function () {
         : '<div class="nb-old"><span>📖 An old notebook, just as you left it.</span><button data-nb-book="">← This Season</button></div>'}
       ${fg ? `<p class="sea-fam">👪 Family goal this Season: <b>${esc(fg)}</b></p>` : ''}
       ${cur ? stillSeasonHtml(s) : ''}
-      ${due}
-      <div class="nb-tabs" role="tablist">${NB_TABS.map(([k, i, l]) => `<button role="tab" aria-selected="${nb.tab === k}" data-nb-tab="${k}"><span aria-hidden="true">${i}</span>${l}</button>`).join('')}</div>
+      ${due}${pro ? proDueHtml() : ''}
+      ${cur ? `<div class="nb-mode"><span>My journal</span><button data-pro-mode role="switch" aria-checked="${proOn()}" aria-label="Pro planner"><b${proOn() ? '' : ' class="on"'}>Simple</b><b${proOn() ? ' class="on"' : ''}>✨ Pro</b></button></div>` : ''}
+      <div class="nb-tabs" role="tablist">${(pro ? PRO_TABS : []).concat(NB_TABS).map(([k, i, l]) => `<button role="tab"${isProTab(k) ? ' class="pro"' : ''} aria-selected="${nb.tab === k}" data-nb-tab="${k}"><span aria-hidden="true">${i}</span>${l}</button>`).join('')}</div>
       ${nb.printing ? nbPrintBoxHtml(s, rec) : ''}
       ${page({ s, rec, cur })}`;
   }
@@ -9421,6 +9491,373 @@ const TreasureUp = (function () {
     window.addEventListener('afterprint', done);
     window.print();
   }
+  // ----- Pro Mode (Blake, 2026-10-08: "A Pro Mode for the best self journal.
+  // A support good and simple one for grow goals like it is now.... But if I
+  // want Pro let me do more planning and best self stuff"). Simple stays just
+  // as it is. Pro is a switch for each person (S.proMode, ✨ Pro in the
+  // notebook's head), so the children can stay on Simple, and it adds five
+  // planner pages in front of the notebook's own: ⭐ Today (the day's top 3,
+  // picked from the day's big rocks or typed), 🗓️ Week (the Sunday plan: each
+  // role's big rocks, put on days), 🎯 Year (year goals by role, each broken
+  // into 90-day goals for the Season), 🧭 Mission (his roles and a mission
+  // statement) and 📅 Month (the monthly review: what worked, what didn't,
+  // what to change, and what got done). Switched back to Simple, the pages go
+  // and what's on them stays. Blake accepted that a planner can turn into
+  // planning instead of doing, so nothing is required, each page is a few
+  // taps, Today and the week show what to do first, and none of it pays XP.
+  // It lives in his saved progress, so it syncs and is kept like the rest of
+  // his notebook: each record by its id with its time (upd), merged by the
+  // later change (mergePro); one removed is marked gone.
+  //   S.pro = { mission: { text, upd },
+  //     roles:  id -> { name, at, upd, gone },
+  //     goals:  id -> { lvl: 'year' | 'q', role, text, year, sid (a 90-day goal's Season), up (its year goal), done (the day), at, upd, gone },
+  //     rocks:  id -> { wk (its week's Monday), text, role, goal (a 90-day goal), day ('' for any day), done (the day), at, upd, gone },
+  //     tops:   day -> { items: [{ text, role, done } or { rock }], upd }   (a big rock's item is done when the rock is),
+  //     months: 'YYYY-MM' -> { worked, didnt, change, day, got: { rocks, of, tops, topOf }, upd } }
+  const proOn = () => !!S.proMode;
+  const PRO_TABS = [['ptoday', '⭐', 'Today'], ['pweek', '🗓️', 'Week'], ['pyear', '🎯', 'Year'], ['pmission', '🧭', 'Mission'], ['pmonth', '📅', 'Month']];
+  const isProTab = t => PRO_TABS.some(([k]) => k === t);
+  const ROLE_IDEAS = ['Disciple of Christ', 'Husband', 'Wife', 'Father', 'Mother', 'Son', 'Daughter', 'Brother', 'Sister', 'Friend', 'Student', 'Business owner', 'Employee', 'Myself'];
+  const PRO_KEEP = 120;   // days of tops and rocks kept (a month's review keeps its own count)
+  const proData = () => S.pro || (S.pro = { mission: { text: '', upd: 0 }, roles: {}, goals: {}, rocks: {}, tops: {}, months: {} });
+  // A kind's records still there, oldest first, each with its id.
+  const proList = kind => Object.entries(proData()[kind] || {}).filter(([, x]) => x && !x.gone).map(([id, x]) => Object.assign({ id }, x)).sort((a, b) => (a.at || 0) - (b.at || 0));
+  const proRoles = () => proList('roles');
+  const roleName = id => { const r = id && (proData().roles || {})[id]; return r && !r.gone ? r.name : ''; };
+  const proGoal = id => { const g = id && (proData().goals || {})[id]; return g && !g.gone ? Object.assign({ id }, g) : null; };
+  const proRocks = mon => proList('rocks').filter(r => r.wk === mon);
+  const proTop = k => (((proData().tops || {})[k] || {}).items || []).filter(x => !x.rock || ((proData().rocks || {})[x.rock] && !proData().rocks[x.rock].gone));
+  const proItemDone = x => x.rock ? !!(proData().rocks[x.rock] || {}).done : !!x.done;
+  const proItemText = x => x.rock ? (proData().rocks[x.rock] || {}).text || '' : x.text || '';
+  const proItemRole = x => roleName(x.rock ? (proData().rocks[x.rock] || {}).role : x.role);
+  // A record added or changed, with its time; one removed keeps only that it's gone.
+  function proPut(kind, id, fields) {
+    const m = proData()[kind] || (proData()[kind] = {}), now = Date.now();
+    m[id] = fields.gone ? { gone: true, upd: now } : Object.assign(m[id] && !m[id].gone ? m[id] : { at: now }, fields, { upd: now });
+    save();
+  }
+  function setTop(k, items) {
+    (proData().tops || (proData().tops = {}))[k] = { items, upd: Date.now() };
+    save();
+  }
+  // Two devices' Pro data: each record's later change, and the later mission.
+  function mergePro(R, L) {
+    if (!R && !L) return undefined;
+    const r = R || {}, l = L || {}, out = {};
+    for (const k of ['roles', 'goals', 'rocks', 'tops', 'months']) out[k] = newerById(r[k], l[k]);
+    out.mission = ((l.mission || {}).upd || 0) > ((r.mission || {}).upd || 0) ? l.mission : r.mission || l.mission || { text: '', upd: 0 };
+    return out;
+  }
+
+  // The week the plan shows: picked, or on Sunday the one coming (Sunday's the day to plan it), else this one.
+  const proThisMon = () => mondayOf(dayKey());
+  const proWeekMon = () => nb.proWk || (new Date(dayKey() + 'T12:00:00').getDay() === 0 ? dayAdd(proThisMon(), 7) : proThisMon());
+  const dowShort = k => new Date(k + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short' });
+  const dayLabel = k => dowShort(k) + ' ' + Number(k.slice(8));
+  const monthOf = k => k.slice(0, 7);
+  const monthStart = mk => mk + '-01';
+  const monthEnd = mk => { const d = new Date(mk + '-15T12:00:00'); d.setMonth(d.getMonth() + 1, 0); return dayKey(d); };
+  const monthName = mk => new Date(mk + '-15T12:00:00').toLocaleDateString('en-US', { month: 'long' });
+  const prevMonth = mk => monthOf(dayAdd(monthStart(mk), -1));
+  // The month to look back on: last month for its first week if it isn't written yet, else this one.
+  const proMonthOf = () => {
+    if (nb.proMo) return nb.proMo;
+    const k = dayKey(), last = prevMonth(monthOf(k));
+    return Number(k.slice(8)) <= 7 && !(proData().months || {})[last] && proHadMonth(last) ? last : monthOf(k);
+  };
+  const proHadMonth = mk => proList('rocks').some(r => monthOf(r.day || r.wk) === mk) || Object.keys(proData().tops || {}).some(d => monthOf(d) === mk);
+
+  const roleTag = name => name ? `<span class="pro-role">${esc(name)}</span>` : '';
+  const roleOpts = sel => '<option value="">No role</option>' + proRoles().map(r => `<option value="${esc(r.id)}"${r.id === sel ? ' selected' : ''}>${esc(r.name)}</option>`).join('');
+  const weekDays = mon => Array.from({ length: 7 }, (_, i) => dayAdd(mon, i));
+  const dayOpts = (mon, sel) => '<option value="">Any day</option>' + weekDays(mon).map(d => `<option value="${d}"${d === sel ? ' selected' : ''}>${esc(dayLabel(d))}</option>`).join('');
+  const noRolesHtml = what => `<p class="nb-sub">${esc(what)}</p><button class="pro-pick" data-pro-tab="pmission">🧭 First, list your roles <span>›</span></button>`;
+  const proRun = (l, r) => `<div class="nb-run"><span>${esc(l)}</span><span>${esc(r)}</span></div>`;
+
+  // A big rock on the week's page: a box to tick, its role and 90-day goal, its day, and ✕.
+  function proRockHtml(r, withDay) {
+    const g = proGoal(r.goal), done = !!r.done;
+    return `<li class="pro-item${done ? ' ok' : ''}"><button class="pro-box" data-pro-rock="${esc(r.id)}" aria-pressed="${done}" aria-label="${esc(r.text)}${done ? ', done' : ''}">${done ? '✓' : ''}</button>
+      <span class="pro-txt"><span class="pro-t">${esc(r.text)}</span>${roleName(r.role) || g ? `<small>${roleTag(roleName(r.role))}${g ? ' 🎯 ' + esc(g.text) : ''}</small>` : ''}</span>
+      ${withDay ? `<select class="pro-sel sm" data-pro-rock-day="${esc(r.id)}" aria-label="Day for ${esc(r.text)}">${dayOpts(r.wk, r.day)}</select>` : ''}
+      <button class="pro-x" data-pro-del="rocks|${esc(r.id)}" aria-label="Remove ${esc(r.text)}">✕</button></li>`;
+  }
+
+  // ⭐ Today: the three that matter most, done first. One tap takes a big rock
+  // planned for today (or for any day this week); anything else is typed.
+  function proTodayHtml() {
+    const k = dayKey(), items = proTop(k), done = items.filter(proItemDone).length;
+    const left = proRocks(proThisMon()).filter(r => !r.done && !items.some(x => x.rock === r.id));
+    const picks = left.filter(r => r.day === k).concat(left.filter(r => !r.day)).slice(0, 6);
+    const y = proTop(dayAdd(k, -1)), yDone = y.filter(proItemDone).length;
+    const item = (x, i) => { const on = proItemDone(x), role = proItemRole(x);
+      return `<li class="pro-item${on ? ' ok' : ''}"><span class="pro-num">${i + 1}</span><button class="pro-box" data-pro-top="${i}" aria-pressed="${on}" aria-label="${esc(proItemText(x))}${on ? ', done' : ''}">${on ? '✓' : ''}</button>
+        <span class="pro-txt"><span class="pro-t">${esc(proItemText(x))}</span>${role ? `<small>${roleTag(role)}</small>` : ''}</span>
+        <button class="pro-x" data-pro-top-del="${i}" aria-label="Take ${esc(proItemText(x))} off">✕</button></li>`; };
+    return `<section class="nb-page">${proRun('My top 3', dowShort(k) + ', ' + mdShort(k))}<h2 class="nb-h">Today’s top 3</h2>
+      <p class="nb-sub">${items.length ? (done === items.length && items.length === 3 ? '🎉 All three done. That’s a good day.' : `${done} of ${items.length} done. Do these first.`) : 'The three things that matter most today. Pick them, then do them first.'}</p>
+      ${items.length ? `<ol class="pro-list">${items.map(item).join('')}</ol>` : ''}
+      ${items.length < 3 ? `${picks.length ? `<div class="nb-lbl">From this week’s plan</div>${picks.map(r => `<button class="pro-pick" data-pro-top-rock="${esc(r.id)}"><span>＋ ${esc(r.text)}${r.day === k ? ' <small>today</small>' : ''}</span>${roleTag(roleName(r.role))}</button>`).join('')}` : ''}
+        <div class="nb-lbl">${picks.length ? 'Or something else' : 'Add one'}</div>
+        <div class="pro-add"><input id="proTop" class="pro-in" maxlength="120" data-pro-enter placeholder="${items.length ? 'Another thing that matters today' : 'What matters most today?'}" aria-label="One of today's top 3">
+          ${proRoles().length ? `<select id="proTopRole" class="pro-sel" aria-label="Role">${roleOpts('')}</select>` : ''}<button class="pro-go" data-pro-top-add>Add</button></div>` : ''}
+      ${!proRocks(proThisMon()).length ? `<button class="pro-pick quiet" data-pro-tab="pweek">🗓️ Plan this week’s big rocks, to pick from here <span>›</span></button>` : ''}
+      ${y.length ? `<p class="nb-tally">Yesterday: ${yDone} of ${y.length} done</p>` : ''}</section>`;
+  }
+
+  // 🗓️ Week: what to do today first, then the week day by day, then each role
+  // to plan for (Sunday's plan: a big rock or two for each, put on a day).
+  function proWeekHtml() {
+    const today = dayKey(), mon = proWeekMon(), thisMon = proThisMon(), isThis = mon === thisMon, rocks = proRocks(mon), roles = proRoles();
+    const done = rocks.filter(r => r.done).length, s = seasonAt(mon), qs = proList('goals').filter(g => g.lvl === 'q' && g.sid === s.id);
+    const sw = [[dayAdd(thisMon, -7), 'Last week'], [thisMon, 'This week'], [dayAdd(thisMon, 7), 'Next week']]
+      .map(([m, l]) => `<button class="pro-seg" data-pro-wk="${m}" aria-pressed="${m === mon}">${l}</button>`).join('');
+    const todays = isThis ? rocks.filter(r => r.day === today) : [];
+    const days = weekDays(mon).filter(d => !(isThis && d === today)).map(d => [d, rocks.filter(r => r.day === d)]).filter(([, rs]) => rs.length);
+    const any = rocks.filter(r => !r.day);
+    const roleBox = r => {
+      const mine = rocks.filter(x => x.role === r.id), q = qs.filter(g => g.role === r.id);
+      return `<div class="pro-rolebox"><div class="pro-rh"><b>${esc(r.name)}</b><small>${mine.length ? mine.length + (mine.length === 1 ? ' big rock' : ' big rocks') : 'nothing yet'}</small></div>
+        ${q.length ? `<p class="pro-qs">🎯 ${q.map(g => esc(g.text)).join(' · ')}</p>` : ''}
+        <div class="pro-add"><input id="proRk-${esc(r.id)}" class="pro-in" maxlength="120" data-pro-enter placeholder="A big rock for ${esc(r.name)}" aria-label="A big rock for ${esc(r.name)}">
+          ${q.length ? `<select id="proRkG-${esc(r.id)}" class="pro-sel" aria-label="Toward which 90-day goal"><option value="">No 90-day goal</option>${q.map(g => `<option value="${esc(g.id)}">🎯 ${esc(g.text)}</option>`).join('')}</select>` : ''}
+          <select id="proRkD-${esc(r.id)}" class="pro-sel" aria-label="Which day">${dayOpts(mon, isThis ? today : '')}</select><button class="pro-go" data-pro-rock-add="${esc(r.id)}">Add</button></div></div>`;
+    };
+    return `<section class="nb-page">${proRun('My week', mdShort(mon) + ' – ' + mdShort(dayAdd(mon, 6)))}<h2 class="nb-h">${mon > thisMon ? 'Plan next week' : isThis ? 'This week' : 'Last week'}</h2>
+      <div class="pro-segs" role="group" aria-label="Which week">${sw}</div>
+      <p class="nb-sub">${rocks.length ? `${done} of ${rocks.length} big ${rocks.length === 1 ? 'rock' : 'rocks'} done.` : 'Look at each role. Pick one or two big rocks for each: the steps that matter most this week.'}</p>
+      ${!roles.length ? noRolesHtml('A week plan is a few big rocks for each of your roles.') : ''}
+      ${isThis ? `<div class="pro-day now"><h3>Today · ${esc(dayLabel(today))}</h3>${todays.length ? `<ul class="pro-list">${todays.map(r => proRockHtml(r, false)).join('')}</ul>` : '<p class="nb-tally">Nothing planned for today.</p>'}</div>` : ''}
+      ${days.map(([d, rs]) => `<div class="pro-day${d < today ? ' past' : ''}"><h3>${esc(dayLabel(d))}</h3><ul class="pro-list">${rs.map(r => proRockHtml(r, true)).join('')}</ul></div>`).join('')}
+      ${any.length ? `<div class="pro-day"><h3>Any day this week</h3><ul class="pro-list">${any.map(r => proRockHtml(r, true)).join('')}</ul></div>` : ''}
+      ${roles.length ? `<div class="nb-lbl pro-gap">Plan by role</div>${roles.map(roleBox).join('')}` : ''}</section>`;
+  }
+
+  // 🎯 Year: each role's big goals for the year, each broken into 90-day goals for this Season.
+  function proYearHtml() {
+    const s = seasonNow(), year = s.year, roles = proRoles(), goals = proList('goals'), mon = proThisMon(), rocks = proRocks(mon);
+    const ys = goals.filter(g => g.lvl === 'year' && g.year === year);
+    const box = (g, kind) => `<button class="pro-box${kind === 'q' ? ' sm' : ''}" data-pro-goal-done="${esc(g.id)}" aria-pressed="${!!g.done}" aria-label="${esc(g.text)}${g.done ? ', done' : ''}">${g.done ? '✓' : ''}</button>`;
+    const del = g => `<button class="pro-x" data-pro-del="goals|${esc(g.id)}" aria-label="Remove ${esc(g.text)}">✕</button>`;
+    const qOf = g => goals.filter(q => q.lvl === 'q' && q.up === g.id && q.sid === s.id);
+    const yearGoal = g => `<li class="pro-goal"><div class="pro-item${g.done ? ' ok' : ''}">${box(g)}<span class="pro-txt big"><span class="pro-t">${esc(g.text)}</span>${g.done ? `<small>🏆 Done ${esc(mdShort(g.done))}</small>` : ''}</span>${del(g)}</div>
+        <ul class="pro-list pro-qlist">${qOf(g).map(q => { const n = rocks.filter(r => r.goal === q.id).length;
+          return `<li class="pro-item${q.done ? ' ok' : ''}">${box(q, 'q')}<span class="pro-txt"><span class="pro-t">${esc(q.text)}</span><small>90 days${n ? ' · ' + n + (n === 1 ? ' big rock' : ' big rocks') + ' this week' : ''}${q.done ? ' · done ' + esc(mdShort(q.done)) : ''}</small></span>${del(q)}</li>`; }).join('')}</ul>
+        ${g.done ? '' : `<div class="pro-add pro-qadd"><input id="proQ-${esc(g.id)}" class="pro-in" maxlength="120" data-pro-enter placeholder="A 90-day goal toward it" aria-label="A 90-day goal toward ${esc(g.text)}"><button class="pro-go" data-pro-q-add="${esc(g.id)}">Add</button></div>`}</li>`;
+    const orphan = ys.filter(g => !roleName(g.role));
+    return `<section class="nb-page">${proRun('My goals', String(year))}<h2 class="nb-h">${year}, by role</h2>
+      <p class="nb-sub">A big goal or two for the year in each role, broken into 90-day goals for ${esc(s.name)} (${esc(seasonDates(s))}). The week’s big rocks come from these.</p>
+      ${!roles.length ? noRolesHtml('Each goal belongs to one of your roles.') : ''}
+      ${roles.map(r => { const mine = ys.filter(g => g.role === r.id);
+        return `<div class="pro-rolebox"><div class="pro-rh"><b>${esc(r.name)}</b><small>${mine.length ? mine.length + (mine.length === 1 ? ' goal' : ' goals') : ''}</small></div>
+          ${mine.length ? `<ul class="pro-list">${mine.map(yearGoal).join('')}</ul>` : ''}
+          <div class="pro-add"><input id="proY-${esc(r.id)}" class="pro-in" maxlength="120" data-pro-enter placeholder="A big goal for ${year}" aria-label="A goal for ${year} as ${esc(r.name)}"><button class="pro-go" data-pro-y-add="${esc(r.id)}">Add</button></div></div>`; }).join('')}
+      ${orphan.length ? `<div class="pro-rolebox"><div class="pro-rh"><b>No role now</b></div><ul class="pro-list">${orphan.map(yearGoal).join('')}</ul></div>` : ''}</section>`;
+  }
+
+  // 🧭 Mission: who he wants to be, in a line or two, and the roles he lives it in.
+  function proMissionHtml() {
+    const m = proData().mission || {}, roles = proRoles(), have = new Set(roles.map(r => r.name.toLowerCase()));
+    const ideas = ROLE_IDEAS.filter(x => !have.has(x.toLowerCase())).slice(0, roles.length ? 8 : 14);
+    return `<section class="nb-page">${proRun('My mission', roles.length + (roles.length === 1 ? ' role' : ' roles'))}<h2 class="nb-h">My mission</h2>
+      <p class="nb-sub">Who I want to be, in a sentence or two. Short is good: “Love God, lift my family, do honest work.”</p>
+      <textarea id="proMission" class="pro-ta nb-hand" maxlength="600" aria-label="My mission statement" placeholder="I want to…">${esc(m.text || '')}</textarea>
+      <div class="pro-add end">${m.upd ? `<small class="nb-tally">Saved ${esc(mdShort(dayKey(new Date(m.upd))))}</small>` : ''}<button class="pro-go" data-pro-mission>Save</button></div>
+      <div class="nb-lbl pro-gap">My roles</div>
+      <p class="nb-sub">The parts of life I’m responsible for. Each Pro goal and big rock belongs to one.</p>
+      ${roles.length ? `<ul class="pro-list">${roles.map(r => `<li class="pro-item"><span class="pro-txt big">${esc(r.name)}</span><button class="pro-x" data-pro-role-del="${esc(r.id)}" aria-label="Remove ${esc(r.name)}">✕</button></li>`).join('')}</ul>` : ''}
+      <div class="pro-add"><input id="proRole" class="pro-in" maxlength="40" data-pro-enter placeholder="A role, like Father or Friend" aria-label="Add a role"><button class="pro-go" data-pro-role-add>Add</button></div>
+      ${ideas.length && roles.length < 10 ? `<div class="pro-chips">${ideas.map(x => `<button class="pro-chip" data-pro-role-idea="${esc(x)}">＋ ${esc(x)}</button>`).join('')}</div>` : ''}</section>`;
+  }
+
+  // What got done in a month, from the Pro pages and the Season's ticks.
+  function proMonthGot(mk) {
+    const from = monthStart(mk), to = monthEnd(mk), inM = d => !!d && d >= from && d <= to;
+    const rocks = proList('rocks').filter(r => inM(r.day || r.wk)), done = rocks.filter(r => r.done);
+    const tops = Object.entries(proData().tops || {}).filter(([d]) => inM(d)).map(([d]) => proTop(d)).filter(x => x.length);
+    const goals = proList('goals').filter(g => inM(g.done));
+    let ticks = 0;
+    for (const [id, rec] of Object.entries(S.seasons || {})) if (seasonById(id)) for (const g of liveGoals(rec)) for (const st of g.steps || []) ticks += ticksIn(rec, st.id, from, to);
+    return { rocks, done, goals, ticks, days: tops.length, tops: tops.reduce((n, x) => n + x.filter(proItemDone).length, 0), topOf: tops.reduce((n, x) => n + x.length, 0) };
+  }
+  // 📅 Month: what got done, then three questions.
+  function proMonthHtml() {
+    const k = dayKey(), mk = proMonthOf(), cur = monthOf(k), rec = (proData().months || {})[mk] || {}, g = proMonthGot(mk), was = rec.got || {};
+    const rocksN = g.rocks.length || was.of || 0, doneN = g.rocks.length ? g.done.length : was.rocks || 0;
+    const topN = g.topOf ? g.tops : was.tops || 0, topOf = g.topOf || was.topOf || 0;
+    const byRole = new Map();
+    for (const r of g.done) { const n = roleName(r.role) || 'No role'; if (!byRole.has(n)) byRole.set(n, []); byRole.get(n).push(r.text); }
+    const sw = [[prevMonth(cur), monthName(prevMonth(cur))], [cur, monthName(cur)]].map(([m, l]) => `<button class="pro-seg" data-pro-mo="${m}" aria-pressed="${m === mk}">${esc(l)}</button>`).join('');
+    const qs = [['worked', 'What worked?', 'What helped me most this month'], ['didnt', 'What didn’t?', 'What got in the way'], ['change', 'What will I change?', 'One thing to do differently next month']];
+    const tiles = [[doneN + ' of ' + rocksN, 'big rocks done'], [topN + ' of ' + topOf, 'top-3 things done'], [g.goals.length, g.goals.length === 1 ? 'goal finished' : 'goals finished'], [g.ticks, g.ticks === 1 ? 'tick on Season goals' : 'ticks on Season goals']];
+    return `<section class="nb-page">${proRun('Monthly review', monthName(mk) + ' ' + mk.slice(0, 4))}<h2 class="nb-h">${esc(monthName(mk))} in review</h2>
+      <div class="pro-segs" role="group" aria-label="Which month">${sw}</div>
+      <div class="nb-lbl">What got done</div>
+      <div class="nb-tiles">${tiles.map(([v, l]) => `<div class="nb-tile"><b>${esc(typeof v === 'number' ? fmtN(v) : v)}</b><small>${esc(l)}</small></div>`).join('')}</div>
+      ${byRole.size ? [...byRole].map(([n, ts]) => `<p class="pro-got"><b>${esc(n)}:</b> ${esc(ts.slice(0, 8).join(' · '))}${ts.length > 8 ? ` <small>and ${ts.length - 8} more</small>` : ''}</p>`).join('') : ''}
+      ${g.goals.length ? `<p class="pro-got"><b>🏆 Finished:</b> ${esc(g.goals.map(x => x.text).join(' · '))}</p>` : ''}
+      ${qs.map(([key, q, ph]) => `<label class="nb-q pro-gap" for="proMo-${key}">${esc(q)}</label><textarea id="proMo-${key}" class="pro-ta nb-hand short" maxlength="600" placeholder="${esc(ph)}">${esc(rec[key] || '')}</textarea>`).join('')}
+      <div class="pro-add end">${rec.day ? `<small class="nb-tally">Saved ${esc(mdShort(rec.day))}</small>` : ''}<button class="pro-go" data-pro-month="${mk}">Save my review</button></div></section>`;
+  }
+
+  // In Pro, what's due goes with the notebook's own cards: Sunday's plan, and the month's review.
+  function proDueHtml() {
+    const k = dayKey(), wd = new Date(k + 'T12:00:00').getDay(), thisMon = proThisMon(), out = [];
+    if (!proRoles().length) return '';
+    if (wd === 0 && !proRocks(dayAdd(thisMon, 7)).length && nb.tab !== 'pweek') out.push(['pweek', '', '🗓️ Plan next week', 'It’s Sunday: a few big rocks for each role']);
+    else if ((wd === 1 || wd === 2) && !proRocks(thisMon).length && nb.tab !== 'pweek') out.push(['pweek', thisMon, '🗓️ Plan this week', 'A few big rocks for each role']);
+    const cur = monthOf(k), last = prevMonth(cur), mo = proData().months || {};
+    const mk = dayDiff(k, monthEnd(cur)) <= 1 && !mo[cur] ? cur : Number(k.slice(8)) <= 7 && !mo[last] && proHadMonth(last) ? last : '';
+    if (mk && nb.tab !== 'pmonth') out.push(['pmonth', mk, '📅 Look back on ' + monthName(mk), 'What worked, what didn’t, what to change']);
+    return out.map(([t, at, b, sm]) => `<button class="nb-due" data-pro-tab="${t}"${t === 'pweek' && at ? ` data-pro-wk="${at}"` : ''}${t === 'pmonth' ? ` data-pro-mo="${at}"` : ''}><span>${b}<small>${sm}</small></span><span>›</span></button>`).join('');
+  }
+
+  // Redraw after a change, keeping what's typed in the other boxes (and the box to type in next).
+  function proDraw(clear, focus) {
+    const typed = [...document.querySelectorAll('.nb-page [id^="pro"]')].filter(el => el.id !== clear && el.tagName !== 'SELECT' && el.value).map(el => [el.id, el.value]);
+    seasonDraw();
+    for (const [id, v] of typed) { const el = $(id); if (el && !el.value) el.value = v; }
+    const f = focus && $(focus); if (f) f.focus();
+  }
+  const proVal = id => { const el = $(id); return el ? el.value.trim() : ''; };
+  // Pro's taps, on the Season tab, in the Season sheet, and on Today (the top 3's rows).
+  function proClick(t) {
+    const md = t.closest('[data-pro-mode]');
+    if (md) {
+      S.proMode = !S.proMode;
+      if (S.proMode) nb.tab = proRoles().length ? 'ptoday' : 'pmission'; else if (isProTab(nb.tab)) nb.tab = 'goals';
+      Object.assign(nb, { book: null, shelf: false, printing: false, proWk: null, proMo: null });
+      use(S.proMode ? 'proOn' : 'proOff'); save(); refreshHome();
+      seasonDraw(S.proMode ? '✨ Pro is on: Today, Week, Year, Mission and Month are in front. Your Season’s pages are all still here.' : 'Back to Simple. Your Pro plans are kept for when you turn Pro on again.', true);
+      return true;
+    }
+    const tb = t.closest('[data-pro-tab]');
+    if (tb) {
+      nb.tab = tb.dataset.proTab; nb.book = null; nb.shelf = false; nb.printing = false;
+      if (nb.tab === 'pweek') nb.proWk = tb.dataset.proWk || null;
+      if (nb.tab === 'pmonth') nb.proMo = tb.dataset.proMo || null;
+      openSeason('home');
+      return true;
+    }
+    const wk = t.closest('[data-pro-wk]');
+    if (wk) { nb.proWk = wk.dataset.proWk; proDraw(); return true; }
+    const mo = t.closest('[data-pro-mo]');
+    if (mo) { nb.proMo = mo.dataset.proMo; seasonDraw(); return true; }
+    // ⭐ Today's top 3: tick (on Today's list too), take off, pick a big rock, or type one.
+    const tp = t.closest('[data-pro-top]');
+    if (tp) {
+      const k = dayKey(), items = proTop(k).slice(), x = items[Number(tp.dataset.proTop)];
+      if (!x) return true;
+      if (x.rock) { const r = proData().rocks[x.rock]; proPut('rocks', x.rock, { done: r.done ? '' : k }); }
+      else { items[Number(tp.dataset.proTop)] = Object.assign({}, x, { done: x.done ? '' : k }); setTop(k, items); }
+      use('proTop');
+      if (homeTab === 'season' || seasonOpen()) proDraw(); else refreshHome();
+      return true;
+    }
+    const td = t.closest('[data-pro-top-del]');
+    if (td) { const k = dayKey(), items = proTop(k).slice(); items.splice(Number(td.dataset.proTopDel), 1); setTop(k, items); proDraw(); return true; }
+    const tr = t.closest('[data-pro-top-rock]');
+    if (tr) { const k = dayKey(), items = proTop(k); if (items.length < 3) setTop(k, items.concat({ rock: tr.dataset.proTopRock })); proDraw(); return true; }
+    if (t.closest('[data-pro-top-add]')) {
+      const k = dayKey(), items = proTop(k), text = proVal('proTop');
+      if (!text) { const el = $('proTop'); if (el) el.focus(); return true; }
+      if (items.length < 3) setTop(k, items.concat({ text: text.slice(0, 120), role: proVal('proTopRole') }));
+      proDraw('proTop', proTop(k).length < 3 ? 'proTop' : null);
+      return true;
+    }
+    // 🗓️ The week's big rocks.
+    const rk = t.closest('[data-pro-rock]');
+    if (rk) { const r = proData().rocks[rk.dataset.proRock]; if (r) { proPut('rocks', rk.dataset.proRock, { done: r.done ? '' : dayKey() }); proDraw(); } return true; }
+    const ra = t.closest('[data-pro-rock-add]');
+    if (ra) {
+      const rid = ra.dataset.proRockAdd, id = 'proRk-' + rid, text = proVal(id);
+      if (!text) { const el = $(id); if (el) el.focus(); return true; }
+      proPut('rocks', seaId('k'), { wk: proWeekMon(), text: text.slice(0, 120), role: rid, goal: proVal('proRkG-' + rid), day: proVal('proRkD-' + rid), done: '' });
+      proDraw(id, id);
+      return true;
+    }
+    // 🎯 Goals for the year and for 90 days, and done.
+    const ya = t.closest('[data-pro-y-add]');
+    if (ya) {
+      const rid = ya.dataset.proYAdd, id = 'proY-' + rid, text = proVal(id);
+      if (!text) { const el = $(id); if (el) el.focus(); return true; }
+      proPut('goals', seaId('y'), { lvl: 'year', role: rid, text: text.slice(0, 120), year: seasonNow().year, up: '', sid: '', done: '' });
+      proDraw(id);
+      return true;
+    }
+    const qa = t.closest('[data-pro-q-add]');
+    if (qa) {
+      const up = proGoal(qa.dataset.proQAdd), id = 'proQ-' + qa.dataset.proQAdd, text = proVal(id);
+      if (!up) return true;
+      if (!text) { const el = $(id); if (el) el.focus(); return true; }
+      proPut('goals', seaId('q'), { lvl: 'q', role: up.role, text: text.slice(0, 120), year: up.year, up: up.id, sid: seasonNow().id, done: '' });
+      proDraw(id, id);
+      return true;
+    }
+    const gd = t.closest('[data-pro-goal-done]');
+    if (gd) { const g = proGoal(gd.dataset.proGoalDone); if (g) { proPut('goals', g.id, { done: g.done ? '' : dayKey() }); proDraw(); } return true; }
+    const dl = t.closest('[data-pro-del]');
+    if (dl) {
+      const [kind, id] = dl.dataset.proDel.split('|'), x = (proData()[kind] || {})[id];
+      // A goal with 90-day goals under it, or a year's: a second tap first.
+      if (kind === 'goals' && x && x.lvl === 'year' && dl.dataset.sure !== '1') { dl.dataset.sure = '1'; dl.textContent = 'Remove?'; return true; }
+      proPut(kind, id, { gone: true });
+      if (kind === 'goals') for (const q of proList('goals')) if (q.up === id) proPut('goals', q.id, { gone: true });
+      proDraw();
+      return true;
+    }
+    // 🧭 The mission and the roles.
+    if (t.closest('[data-pro-mission]')) {
+      const el = $('proMission');
+      if (el) { proData().mission = { text: el.value.trim().slice(0, 600), upd: Date.now() }; save(); }
+      seasonDraw();
+      toast('🧭 Mission saved', 'It shows on your week plan.');
+      return true;
+    }
+    const ri = t.closest('[data-pro-role-idea]');
+    if (ri || t.closest('[data-pro-role-add]')) {
+      const name = (ri ? ri.dataset.proRoleIdea : proVal('proRole')).slice(0, 40);
+      if (!name) { const el = $('proRole'); if (el) el.focus(); return true; }
+      if (!proRoles().some(r => r.name.toLowerCase() === name.toLowerCase())) proPut('roles', seaId('r'), { name });
+      proDraw(ri ? null : 'proRole', ri ? null : 'proRole');
+      return true;
+    }
+    const rd = t.closest('[data-pro-role-del]');
+    if (rd) {
+      if (rd.dataset.sure !== '1') { rd.dataset.sure = '1'; rd.textContent = 'Remove?'; return true; }
+      proPut('roles', rd.dataset.proRoleDel, { gone: true });
+      proDraw();
+      return true;
+    }
+    // 📅 The month's review.
+    const ms = t.closest('[data-pro-month]');
+    if (ms) {
+      const mk = ms.dataset.proMonth, g = proMonthGot(mk), was = (proData().months || {})[mk];
+      const got = g.rocks.length || g.topOf || !was ? { rocks: g.done.length, of: g.rocks.length, tops: g.tops, topOf: g.topOf } : was.got;
+      proPut('months', mk, { worked: proVal('proMo-worked').slice(0, 600), didnt: proVal('proMo-didnt').slice(0, 600), change: proVal('proMo-change').slice(0, 600), day: dayKey(), got });
+      use('proMonth');
+      seasonDraw();
+      toast('📅 Review saved', monthName(mk) + ' is written in your notebook.');
+      return true;
+    }
+    return false;
+  }
+  // A big rock moved to another day.
+  function proChange(e) {
+    const s = e.target.closest && e.target.closest('[data-pro-rock-day]');
+    if (!s) return false;
+    proPut('rocks', s.dataset.proRockDay, { day: s.value });
+    proDraw();
+    return true;
+  }
+  // Enter in a Pro box adds it.
+  function proEnter(e) {
+    if (e.key !== 'Enter' || !e.target.matches || !e.target.matches('input[data-pro-enter]')) return false;
+    const go = e.target.closest('.pro-add') && e.target.closest('.pro-add').querySelector('.pro-go');
+    if (go) { e.preventDefault(); go.click(); }
+    return true;
+  }
+
   // The notebook's own taps: its pages, the shelf, an old notebook, print, Keep going.
   function nbClick(t) {
     const tb = t.closest('[data-nb-tab]');
@@ -9620,6 +10057,7 @@ const TreasureUp = (function () {
   // The Season's clicks, on Today, the Family tab and the sheet.
   function seasonClick(e) {
     const t = e.target;
+    if (proClick(t)) return true;
     const tk = t.closest('[data-tick]');
     if (tk) {
       const [sid, step, day] = tk.dataset.tick.split('|');
@@ -15897,6 +16335,13 @@ const TreasureUp = (function () {
     for (const k in S.libClock || {}) if ((S.libRead || {})[k] || (S.libClock[k] || 0) < cut) delete S.libClock[k];
     // The day's treasure word he opened: only today's is looked at.
     for (const d in S.twSeen || {}) if (d < old) delete S.twSeen[d];
+    // Pro's top 3s and big rocks: the last PRO_KEEP days (a month's review keeps its own count); a removed record's mark after 60 days.
+    if (S.pro) {
+      const p = S.pro, keep = dayAdd(dayKey(), -PRO_KEEP);
+      for (const d in p.tops || {}) if (d < keep) delete p.tops[d];
+      for (const k in p.rocks || {}) { const r = p.rocks[k]; if (!r || (r.gone ? (r.upd || 0) < cut : (r.wk || '') < keep)) delete p.rocks[k]; }
+      for (const m of ['roles', 'goals', 'months']) for (const k in p[m] || {}) if (p[m][k] && p[m][k].gone && (p[m][k].upd || 0) < cut) delete p[m][k];
+    }
   }
   // Said once if the family's copy is too big for its rule (the size it can't pass).
   const SAVE_LIMIT = 500000;
@@ -15979,6 +16424,8 @@ const TreasureUp = (function () {
     M.libClock = Object.assign({}, L.libClock || {}, R.libClock || {});
     M.weekBonus = [L.weekBonus, R.weekBonus].find(b => b && b.week === WEEK.title) || R.weekBonus || L.weekBonus || null;
     M.seasons = mergeSeasons(R.seasons, L.seasons);
+    const pro = mergePro(R.pro, L.pro);
+    if (pro) M.pro = pro;
     // Be still: each device's minutes since they last met, added (the larger alone lost the other's).
     M.still = Object.assign({}, R.still || {});
     for (const d in L.still || {}) {
@@ -15990,7 +16437,7 @@ const TreasureUp = (function () {
     M.impressions = newerById(R.impressions, L.impressions);
     M.marks = newerById(R.marks, L.marks);
     // Settings: one changed on this device since they last met wins; else the family's.
-    for (const key of ['seasonWho', 'stillPrefs', 'sayPos', 'profile', 'studyMode']) {
+    for (const key of ['seasonWho', 'proMode', 'stillPrefs', 'sayPos', 'profile', 'studyMode']) {
       if (JSON.stringify(L[key]) !== JSON.stringify(B[key]) && L[key] !== undefined) M[key] = L[key];
       else if (M[key] === undefined && L[key] !== undefined) M[key] = L[key];
     }
@@ -19196,6 +19643,9 @@ const TreasureUp = (function () {
     document.addEventListener('click', gratefulClick);
     document.addEventListener('click', stillClick);
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && still && still.view === 'run' && !still.paused && !still.wake) stillWake(); });
+    // Pro's day pickers, and Enter in its boxes, wherever the notebook is (the Season tab or a sheet).
+    document.addEventListener('change', proChange);
+    document.addEventListener('keydown', proEnter);
     document.addEventListener('keydown', e => {
       const i = e.key === 'Enter' && e.target.closest && e.target.closest('#appBody .gr-in');
       if (!i) return;
