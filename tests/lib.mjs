@@ -180,6 +180,13 @@ export async function runLesson(page, opts = {}) {
     }
     else if (k === 'cfm') { await foot('cfmdone').click(); await wait(480); }
     else if (k === 'gc') { await foot('gcdone').click(); await wait(480); }
+    else if (k === 'talkcard') { await foot('next').click(); await wait(480); }   // the day's talk as cards (a grown-up's path)
+    else if (k === 'talkq') {
+      const q = (await page.locator('#lessonBody .ls-prompt').first().innerText().catch(() => '')).trim();
+      const right = await page.evaluate(q => { for (const c of (window.TU_SUNDAY || {}).conference || []) for (const x of c.slides || []) if (x.quiz && x.quiz.q === q) return x.quiz.right; return null; }, q);
+      await page.locator(right != null ? `#lessonBody [data-ls="pick"][data-v="${right}"]` : '#lessonBody [data-ls="pick"]').first().click(); await wait(120);
+      await foot('check').click(); await wait(480); await foot('next').click(); await wait(480);
+    }
     else if (k === 'goals') { await foot('goalsdone').click(); await wait(480); }
     else if (k === 'thanks') { await page.fill('#lsGr0', opts.thanks || 'My family'); await foot('thanks').click(); await wait(480); }
     else { note('NOTE', 'lesson: a step this test doesn’t know: ' + k); await page.click('#lessonExit').catch(() => {}); break; }

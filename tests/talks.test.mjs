@@ -1,10 +1,11 @@
 // A conference talk as cards to swipe (2026-10-11: "Slide decks or something. Easier to digest"),
 // with the test's own copy of content/sunday.js: without its own cards, the talk's points, quotes and
 // questions as cards; to the end, studied and 20 XP once; with its own cards approved, Grown-ups and
-// Kids, the quote that goes with a card, Back, the question (25 XP once), and the whole talk on one page.
+// Kids, the quote that goes with a card, Back, the question (25 XP once), and the whole talk on one page;
+// and a grown-up's Today's study plays the day's talk as its cards ("Swap the quote for the cards").
 import fs from 'node:fs';
 import path from 'node:path';
-import { check, device, state, txt, wait, ROOT } from './lib.mjs';
+import { check, device, state, txt, wait, ROOT, study } from './lib.mjs';
 
 const MARK = 'window.TU_SUNDAY = ';
 const canon = v => Array.isArray(v) ? '[' + v.map(canon).join(',') + ']' : v && typeof v === 'object'
@@ -89,6 +90,19 @@ export default async function talks({ port }) {
   for (let i = 0; i < 8; i++) { if (await p.locator('#lessonBody .tk-all').count()) break; await next(p); }
   await p.click('#lessonBody .tk-all'); await wait(400);
   check(!(await p.$eval('#appSheet', e => e.hidden)) && (await txt(p, '#appBody')).includes(t.title), 'the last card opens the whole talk on one page');
+  check(!p.errors.length, 'no page errors (' + p.errors.length + ')');
+  await dev.ctx.close();
+
+  // 3. A grown-up's Today's study, on the day of a talk not yet studied: the talk as its cards, then the path goes on.
+  const k = conf.talks.indexOf(t), on = new Date(new Date(conf.from + 'T12:00:00Z').getTime() + k * 864e5).toISOString().slice(0, 10);
+  dev = await device('talks-today', { url, day: on + 'T19:00:00', files: { 'content/sunday.js': file(slides) } });
+  p = dev.page;
+  await p.evaluate(() => { const key = Object.keys(localStorage).find(x => /v1$/.test(x) && !x.includes('@')); const st = JSON.parse(localStorage.getItem(key)); st.seasonWho = 'adult'; localStorage.setItem(key, JSON.stringify(st)); });
+  await p.reload(); await wait(1500);
+  const seen = await study(dev) || [];
+  check(seen.includes('talkcard') && seen.includes('talkq') && !seen.includes('gc'), 'Today’s study plays the day’s talk as its cards and question: ' + seen.join(' '));
+  s = await state(p);
+  check(s.talks && s.talks[t.id] && ((s.pathDone || {})[on] || {}).gc, 'the talk is studied and the day’s conference step done');
   check(!p.errors.length, 'no page errors (' + p.errors.length + ')');
   await dev.ctx.close();
 }

@@ -6472,16 +6472,17 @@ const TreasureUp = (function () {
   function talkCardHtml(step, L) {
     const t = step.t, s = step.s, c = curConf(), own = sunShow(t);
     const draft = (s ? !sunApproved(s) : own && !sunApproved(t)) ? '<p class="plain-draft">Draft: not approved yet</p>' : '';
-    const last = !L.steps.slice(L.at + 1).some(x => x.kind === 'talkcard');
+    const last = !L.steps.slice(L.at + 1).some(x => x.kind === 'talkcard' && x.t === t);
     const all = last ? `<button class="tk-all" data-ls="talkall">${own && t.deep ? 'The deep dive and the whole talk on one page' : 'The whole talk on one page'} ›</button>` : '';
     if (step.head) {
-      const n = L.steps.filter(x => x.kind === 'talkcard').length - 1, kidsToo = s && (s.kids || []).length;
+      const n = L.steps.filter(x => x.kind === 'talkcard' && x.t === t).length - 1, kidsToo = s && (s.kids || []).length && !step.path;
       return `<div class="tk-card tk-head"><div class="tk-eye">🎤 ${esc(c ? c.title : 'General conference')} · ${esc(t.session || '')}</div>
         <div class="ls-prompt tk-title">${esc(t.title)}</div><p class="ins-who">${esc(t.speaker)}</p>${draft}
         ${!s && own && t.quick ? `<p class="reel-body">${linkRefs(t.quick)}</p>` : ''}
         ${kidsToo ? `<div class="tk-level" role="group" aria-label="Who it’s for"><button class="sh-pill${L.kids ? '' : ' on'}" data-ls="talklevel" data-level="adult" aria-pressed="${!L.kids}">Grown-ups</button><button class="sh-pill${L.kids ? ' on' : ''}" data-ls="talklevel" data-level="kids" aria-pressed="${!!L.kids}">Kids</button></div>` : ''}
         <p class="ls-hint">${n ? n + ' cards · swipe or tap Next' : ''}${s && s.quiz ? ' · then a question' : ''}</p>
-        ${t.url ? `<a class="deep-open" href="${esc(t.url)}" target="_blank" rel="noopener noreferrer">Watch or read it ↗</a>` : ''}${all}</div>`;
+        ${t.url ? `<a class="deep-open" href="${esc(t.url)}" target="_blank" rel="noopener noreferrer">Watch or read it ↗</a>` : ''}
+        ${step.gc ? `<div class="gc-acts"><button class="gc-btn${L.gcSaved ? ' on' : ''}" data-ls="gcsave"${L.gcSaved ? ' disabled' : ''}>${L.gcSaved ? '♥ Today’s quote is in your notebook' : '♡ Save today’s quote to my notebook'}</button></div>` : ''}${all}</div>`;
     }
     const top = h => `<div class="tk-n">${h}</div>`;
     if (step.x) {
@@ -18273,7 +18274,12 @@ const TreasureUp = (function () {
           const y = fsyOf(k), c = y && y.card;
           if (c && !dn['fsy_' + (c.id || k)] && !dn.fsy) steps.push(Object.assign({ kind: 'fsy', y, c, id: c.id }, c.q && c.right
             ? { q: c.q, right: c.right, why: c.why, choices: choicesFor({ right: c.right, wrong: c.wrong || [] }, 'fsy|' + c.id) } : {}));
-        } else if (t && !dn.gc) steps.push({ kind: 'gc', t });
+        } else if (t && !dn.gc) {
+          // The day's talk as its cards (2026-10-11: "Swap the quote for the cards"); a talk already
+          // studied (the plan goes round again) keeps the one quote.
+          if ((S.talks || {})[t.t.id]) steps.push({ kind: 'gc', t });
+          else talkSteps(t.t, false).forEach((x, i) => steps.push(Object.assign(x, { path: k }, i ? {} : { gc: t })));
+        }
         if (goalSteps().length && !dn.goals) steps.push({ kind: 'goals' });
         if (!gratefulOf(k) && !dn.thanks) steps.push({ kind: 'thanks' });
       }
@@ -18566,7 +18572,7 @@ const TreasureUp = (function () {
     let footHtml;
     if (step.kind === 'read' || step.kind === 'insight' || step.kind === 'sunintro' || step.kind === 'sunread') footHtml = `<button class="ls-go" data-ls="next">Continue</button>`;
     else if (step.kind === 'talkcard') {
-      const more = L.steps.slice(L.at + 1).some(x => x.kind === 'talkcard' || x.kind === 'talkq');
+      const more = L.steps.slice(L.at + 1).some(x => (x.kind === 'talkcard' || x.kind === 'talkq') && x.t === step.t) || !!step.path;
       footHtml = `<button class="ls-go" data-ls="next">${more ? 'Next' : 'Done'}</button>${L.at && L.steps[L.at - 1].kind === 'talkcard' ? '<button class="ls-alt" data-ls="prev">Back</button>' : ''}`;
     }
     else if (step.kind === 'cfm' || step.kind === 'gc' || step.kind === 'goals') footHtml = `<button class="ls-go" data-ls="${step.kind}done">Continue</button>`;
@@ -18717,11 +18723,11 @@ const TreasureUp = (function () {
       L.kids = L.entry.kids = el.dataset.level === 'kids';
       L.steps = talkSteps(L.entry.t, L.kids); L.at = 0; L.bar = 0; lessonReset(); return renderLesson();
     }
-    if (act === 'talkall' && L.entry && L.entry.kind === 'talk') { openTalk(L.entry.t.id); return; }
+    if (act === 'talkall' && step && step.t) { openTalk(step.t.id); return; }
     if (act === 'gcsave') {
       if (!L.gcSaved) {
-        const t = step.t.t;
-        (S.impressions = S.impressions || {})[seaId('i')] = { text: '“' + step.t.q + '” (' + t.speaker + ', ' + t.title + ')', day: k, at: Date.now(), upd: Date.now(), ref: '', share: false };
+        const g = step.gc || step.t, t = g.t;
+        (S.impressions = S.impressions || {})[seaId('i')] = { text: '“' + g.q + '” (' + t.speaker + ', ' + t.title + ')', day: k, at: Date.now(), upd: Date.now(), ref: '', share: false };
         use('impression'); save(); L.gcSaved = true;
       }
       return keepPlace(renderLesson);
@@ -18765,6 +18771,11 @@ const TreasureUp = (function () {
       return renderLesson();
     }
     if (act === 'next') {
+      // The day's talk, its last card or its question passed: the path's conference step is done, and the talk studied.
+      if (step && step.path && !step.retry && /^talk(card|q)$/.test(step.kind) && !L.steps.slice(L.at + 1).some(x => x.path && x.t === step.t && !x.retry)) {
+        if (!pathDoneOf(step.path).gc) { const rec = {}; payXp(rec, GC_XP, 'General conference'); setPathDone(step.path, 'gc', rec); markStudied(); }
+        markTalk(step.t.id); L.gcSaved = false; save();
+      }
       // An insight card he has seen counts in its day's Go further.
       if (step && step.kind === 'insight' && !(S.insights || {})[step.x.id]) { (S.insights = S.insights || {})[step.x.id] = dayKey(); save(); }
       stopClips(); L.at++; lessonReset(); return renderLesson();
