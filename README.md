@@ -496,7 +496,24 @@ make (Blake, 2026-10-11: "a simple way to see what can be built ... and how many
 the gold number on a tile's picture is how many you could start right now (×4: what your grain, timber and stone pay for, and for people
 the room your food leaves); at ×0 its line says what's short ("Need 25 more", or "Need food: build a farm"); and what you can't make yet
 stays on the list, locked, saying what it needs ("Needs Smithy"), and says it again when tapped. A tile wears New when it first
-opens. Each tile shows its own progress swept over its picture like Red Alert's clock, with a thin bar under it: a building rising,
+opens.
+
+**Regiments** (Blake, 2026-10-11: "build regiment one and it includes a curelom and five archers, ten swordsmen ... like buying a
+package", and RA2's hotkeyed groups sent "anywhere on the map"). Each side starts with four (data.js `REGIMENTS`; the Freemen's Spear
+Wall, Archer Line, Moroni's Guard and Stripling Band), shown as badges in a bar over the map: numeral, name where there's room, how many
+stand of how many (and +N in training). A tap on a badge chooses them all (tap again, or twice quickly, to look at them; keys 1 to 6
+do the same); a regiment no one stands in yet, or a badge held, opens its card: + and – for each kind your side can train (what can't
+be trained yet says what it needs), how it marches (Block, Line or Wedge), and one button, **Build 8** or **Refill 2**, with what
+it costs. Every missing soldier goes into training at the building with the shortest line for his kind (a regiment may queue past
+the five a tile allows), paid as he goes in; a kind that can't be trained yet is skipped and says why, and the rest still go in. Each
+recruit comes out marked with his regiment's numeral and marches to join it. Someone trained from a tile on his own belongs to no
+regiment. With a regiment chosen, **Refill** (only the missing) and **Regiment I** (its card) sit under its card. Any group sent
+somewhere now forms up there instead of crowding one spot (Blake: they "clump or tangle"): spears and swords in front, bows and
+slings behind, beasts and carts at the back, facing the way they march, each to a tile of his own. **Path** (any chosen soldiers;
+RA2's waypoints: "I'll click on dots and it would draw lines and my guys would follow"): tap the map, or the small map, for each
+point, then **Go**; they march through them in order in formation, fighting what they meet and going on after. Regiments replace
+Antigravity's three cohorts (Vanguard, Skirmish, Siege), their War Room, whose small map put waypoints in screen pixels where the
+march read map tiles (why Blake's taps sent soldiers "all over the place"), and the barracks' auto-assign picker. Each tile shows its own progress swept over its picture like Red Alert's clock, with a thin bar under it: a building rising,
 someone training, an upgrade being made, a power coming back. Tap a people tile again to queue more (the number on it is how many are
 waiting; they come from whichever building has the shortest line), and hold a tile (or right-click it) to take one back with what it
 cost, or to stop the newest building of that kind. What can be done with the one you chose (Stop, Fall back, Let go, Plant it here, Remove, Make a

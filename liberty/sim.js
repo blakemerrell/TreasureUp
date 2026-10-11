@@ -67,16 +67,58 @@
       this.lastBorderMsg = -99;
       this.perks = [];                             // campaign star perks and relics (data.js: PERKS)
       this.yieldPops = [];                         // floating harvest/production yield text popups: [{ x, y, text, type, t }]
-      this.cohorts = {
-        1: { name: 'Vanguard', formation: 'phalanx', speedLock: true, rule: 'hunt', healthThreshold: 50 },
-        2: { name: 'Skirmishers', formation: 'line', speedLock: true, rule: 'hunt', healthThreshold: 50 },
-        3: { name: 'Siege & Supply', formation: 'escort', speedLock: true, rule: 'speed', healthThreshold: 40 }
-      };
+      this.cohorts = {};                           // your regiments, by number: { name, mix: { kind: how many }, formation, speedLock } (regiments())
       this.rallyPoints = {};                       // { buildingId: { x, y } }
     }
 
     setCohort(u, cohortId) { if (u) u.cohort = cohortId; }
     cohortUnits(team, cohortId) { return this.units(team).filter(u => u.cohort === cohortId); }
+
+    // --- regiments (Blake: "build regiment one and it includes a curelom and five archers, ten swordsmen ... like buying a
+    // package"). A regiment is a mix of kinds; u.cohort is the number of the regiment a soldier marches with (none when he
+    // was trained on his own). Your side's starting regiments come from data.js (REGIMENTS), the first time they're asked for.
+    regiments() {
+      if (!Object.values(this.cohorts || {}).some(r => r && r.mix)) {          // (a game saved before regiments had cohorts without mixes)
+        const side = (this.side(this.me) && this.side(this.me).side) || 'freemen';
+        this.cohorts = {};
+        (D.REGIMENTS[side] || D.REGIMENTS.freemen).forEach((r, i) => { this.cohorts[i + 1] = { name: r.name, mix: Object.assign({}, r.mix), formation: r.formation, speedLock: true }; });
+      }
+      return Object.keys(this.cohorts).map(Number).filter(id => this.cohorts[id] && this.cohorts[id].mix).sort((a, b) => a - b).map(id => Object.assign({ id }, this.cohorts[id]));
+    }
+    // Who is missing from a regiment: its mix less those standing and those already in training for it. Kinds this mission
+    // doesn't have don't count.
+    regimentMissing(id, team) {
+      team = team || this.me;
+      const R = this.cohorts[id], want = {};
+      if (!R || !R.mix) return want;
+      for (const t of Object.keys(R.mix)) if (UNITS[t] && this.visible(UNITS[t]) && R.mix[t] > 0) want[t] = R.mix[t];
+      for (const u of this.units(team)) if (u.cohort === id && want[u.type] > 0) want[u.type]--;
+      for (const b of this.buildings(team)) for (const q of b.queue) if (q.reg === id && want[q.type] > 0) want[q.type]--;
+      for (const t of Object.keys(want)) if (!want[t]) delete want[t];
+      return want;
+    }
+    // Build a regiment, or fill its ranks: every missing soldier goes into training at the building with the shortest line
+    // for his kind, paid for as he's put in, as with one tapped tile. A kind that can't be trained (too poor, no food, or nothing
+    // standing that trains it) is skipped and the others still go in. Returns how many went in, how many are still missing, and
+    // why the first that couldn't.
+    fillRegiment(id, team) {
+      team = team || this.me;
+      const want = this.regimentMissing(id, team);
+      let queued = 0, left = 0, why = '';
+      for (const t of Object.keys(want)) for (let i = 0; i < want[t]; i++) {
+        const at = this.buildings(team).filter(b => b.built >= 1 && !b.dead && (b.def.trains || []).includes(t)).sort((a, b) => a.queue.length - b.queue.length)[0];
+        const no = !at ? 'Needs ' + (this.trainerName(t) || 'a building') : this.train(at, t, id) ? '' :
+          this.whyNotTrain(t, team) || (this.canAfford(this.costOf(UNITS[t], team, 'train'), team) ? 'The lines are full' : 'Not enough to pay for them');
+        if (no) { why = why || UNITS[t].name + ': ' + no.charAt(0).toLowerCase() + no.slice(1); left += want[t] - i; break; }   // (the rest of this kind; the other kinds still go in)
+        queued++;
+      }
+      return { queued, left, why };
+    }
+    trainerName(type) {
+      const side = (this.side(this.me) && this.side(this.me).side) || 'freemen', S = D.SIDES[side] || D.SIDES.freemen;
+      for (const b of [S.capital, ...(S.build || [])]) if (BUILDINGS[b] && (BUILDINGS[b].trains || []).includes(type)) return BUILDINGS[b].name;
+      return '';
+    }
 
     hasPerk(id) { return Array.isArray(this.perks) && this.perks.includes(id); }
 
@@ -414,12 +456,13 @@
       for (const u of builders || []) if (u.def.builds) this.order(u, { type: 'build', target: b.id });
       return b;
     }
-    train(b, type) {
+    // `reg`: for a regiment (fillRegiment), whose line may run longer than the five you can tap in one at a time.
+    train(b, type, reg) {
       const def = UNITS[type];
       const cost = this.costOf(def, b.team, 'train');
-      if (b.built < 1 || !b.def.trains || !b.def.trains.includes(type) || this.whyNotTrain(type, b.team) || !this.canAfford(cost, b.team) || b.queue.length >= 5) return false;
+      if (b.built < 1 || !b.def.trains || !b.def.trains.includes(type) || this.whyNotTrain(type, b.team) || !this.canAfford(cost, b.team) || b.queue.length >= (reg ? 24 : 5)) return false;
       this.pay(cost, b.team);
-      b.queue.push({ type, left: def.time });
+      b.queue.push(reg ? { type, left: def.time, reg } : { type, left: def.time });
       return true;
     }
     // What a thing costs this side: a captain's gift, or the Rameumptom, may make it cheaper (data.js: CAPTAINS).
@@ -869,13 +912,14 @@
             if (own.some(t => t.def.fierce)) u.fierceUntil = this.t + 45;      // from the war-dance: faster and harder for a while
           }
           if (b.team === this.me) this.trained[q.type] = (this.trained[q.type] || 0) + 1;
-          if (b.autoCohort) u.cohort = b.autoCohort;
-          else if (u.type === 'cart' || u.type === 'curelom' || u.type === 'cumom' || (u.def && u.def.siege)) {
-            u.cohort = 3;
-          } else if (fighter(u.def)) {
-            u.cohort = u.def.ranged ? 2 : 1;
-          }
-          if (b.rally) {
+          // A regiment's recruit marches to join those of his regiment already standing; anyone else goes to the rally point.
+          const mates = q.reg ? this.cohortUnits(b.team, q.reg).filter(m => m !== u) : [];
+          if (q.reg) u.cohort = q.reg;
+          if (mates.length) {
+            const mx = mates.reduce((a, m) => a + m.x, 0) / mates.length, my = mates.reduce((a, m) => a + m.y, 0) / mates.length;
+            const [jx, jy] = this.freeTileNear(tileOf(mx), tileOf(my), b.team);
+            this.moveTo(u, jx, jy);
+          } else if (b.rally) {
             const rx = Array.isArray(b.rally) ? b.rally[0] : (b.rally.tx != null ? b.rally.tx : tileOf(b.rally.x));
             const ry = Array.isArray(b.rally) ? b.rally[1] : (b.rally.ty != null ? b.rally.ty : tileOf(b.rally.y));
             this.moveTo(u, rx, ry);
