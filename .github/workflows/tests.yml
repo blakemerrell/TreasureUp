@@ -33,6 +33,13 @@ jobs:
           node tools/check-parse.mjs
           node tools/week-dates.mjs
 
+      # The family's first names stay out of the public code; the list is the
+      # NAMES_PATTERN secret, never the repo (README, Family names).
+      - name: No family names
+        env:
+          NAMES_PATTERN: ${{ secrets.NAMES_PATTERN }}
+        run: node tools/check-names.mjs
+
       - name: Install the test packages and the browser
         working-directory: tests
         run: |
