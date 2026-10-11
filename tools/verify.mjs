@@ -33,6 +33,7 @@ import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { loadOriginal, langOf } from './original.mjs';
+import { loadEditions, textOf, BOM_BOOKS } from './editions.mjs';
 import { weekStart, utahToday } from './week-dates.mjs';   // "September 28–October 4, 2026" -> "2026-09-28" (the app's rule; the New Year week too)
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -1610,6 +1611,43 @@ let origChapters = 0;
   }
 }
 
+// The Book of Mormon's Changes button (tools/editions.mjs, built by
+// tools/build-reading.mjs at deploy): OpenScripture's 2013 column is our text,
+// verse for verse (but for its curly apostrophes and a name in capitals), so
+// every change shows under the verse it's about. And its JS Papers button:
+// tools/jsp-bom-pages.json has every chapter, on pages the documents have.
+let editionVerses = 0, jspChapters = 0;
+{
+  let all = null;
+  try { all = await loadEditions(CACHE); } catch (e) { failures.push('The Book of Mormon\'s editions (OpenScripture): ' + e.message); }
+  const same = t => String(t).replace(/[’‘]/g, "'").toLowerCase();
+  const bomChapters = new Map();     // "1 Nephi 11" -> verse count
+  for (const ref of scripture.verses.keys()) {
+    const m = /^(.+) (\d+):(\d+)$/.exec(ref);
+    if (m && BOM_BOOKS.includes(m[1])) bomChapters.set(m[1] + ' ' + m[2], Math.max(bomChapters.get(m[1] + ' ' + m[2]) || 0, Number(m[3])));
+  }
+  if (all) {
+    const off = [];
+    for (const [ch, n] of bomChapters) {
+      const vs = all.get(ch) || [];
+      if (vs.length !== n) { off.push(`${ch} has ${vs.length} verses there, ${n} here`); continue; }
+      for (let v = 1; v <= n; v++) {
+        if (vs[v - 1] && same(textOf(vs[v - 1], '2013')) === same(scripture.verses.get(`${ch}:${v}`))) editionVerses++;
+        else off.push(`${ch}:${v}`);
+      }
+    }
+    if (all.size !== bomChapters.size) off.push(`${all.size} chapters there, ${bomChapters.size} here`);
+    if (off.length) failures.push(`The Book of Mormon's editions (OpenScripture): its 2013 text isn't ours at ${off.slice(0, 5).join('; ')}${off.length > 5 ? ` and ${off.length - 5} more` : ''}`);
+  }
+  let t = null;
+  try { t = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'jsp-bom-pages.json'), 'utf8')); } catch (e) { failures.push('tools/jsp-bom-pages.json: ' + e.message); }
+  if (t) for (const ch of bomChapters.keys()) {
+    const x = t.chapters[ch], ok = x && Array.isArray(x.e) && x.e[0] >= 5 && x.e[0] <= x.e[1] && x.e[1] <= 588
+      && Array.isArray(x.p) && x.p[0] >= 1 && x.p[0] <= 464 && (x.o || []).every(o => o[0] >= 1 && o[0] <= 231);
+    if (ok) jspChapters++; else failures.push(`tools/jsp-bom-pages.json: no good pages for ${ch} (node tools/jsp-bom-pages.mjs makes it)`);
+  }
+}
+
 // Treasure words (Blake, 2026-10-06, of the Hebrew: "What about super easy to
 // understand version"): five to seven Hebrew or Greek words a week, each
 // explained for Javan, shown in the reader, as the Word of the Day on Today
@@ -1717,6 +1755,7 @@ if (libraryPlain) console.log(`✓ content/plain.js: plain words for ${libraryPl
 if (bsbChapters) console.log(`✓ BSB: the ${bsbChapters} Bible chapters of the reading, verse for verse with the KJV`);
 if (langChapters.es || langChapters.tl) console.log(`✓ ES·TL: the ${langChapters.es} Bible chapters of the reading in Spanish (Reina-Valera 1909), the ${langChapters.tl} in Tagalog (Ang Biblia 1905), each verse under its KJV verse`);
 if (origChapters) console.log(`✓ Hebrew and Greek: the ${origChapters} Bible chapters of the reading, every KJV verse word by word (STEPBible.org, Tyndale House)`);
+if (editionVerses) console.log(`✓ Changes: OpenScripture's 2013 text is ours in all ${editionVerses} Book of Mormon verses (BYU Office of Digital Humanities); JS Papers: the pages of ${jspChapters} chapters`);
 if (boards.length) console.log(`✓ ${boards.map(b => `${b.title}: ${b.lands.length} lands, ${b.links.length} borders, ${b.kingdoms.length} kingdoms`).join('; ')}`);
 if (online) {
   const loaded = [...pages.values()].filter(t => t != null).length;

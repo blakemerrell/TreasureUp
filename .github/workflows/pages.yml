@@ -92,9 +92,10 @@ jobs:
           echo "MOVED=1" >> "$GITHUB_ENV"
 
       # The scripture data the checks and the chapters are built from (about
-      # 120 MB, pinned to one commit of each source): kept between runs.
+      # 150 MB, pinned to one commit of each source, the Book of Mormon's
+      # editions too, tools/editions.mjs): kept between runs.
       - name: Name the scripture data by its commits
-        run: echo "DATA_KEY=$(grep -ho "_COMMIT = '[0-9a-f]*'" tools/verify.mjs tools/original.mjs | sha1sum | cut -c1-16)" >> "$GITHUB_ENV"
+        run: echo "DATA_KEY=$(grep -ho "_COMMIT = '[0-9a-f]*'" tools/verify.mjs tools/original.mjs tools/editions.mjs | sha1sum | cut -c1-16)" >> "$GITHUB_ENV"
       - uses: actions/cache@v6
         with:
           path: ${{ runner.temp }}/scripture
