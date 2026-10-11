@@ -35,6 +35,11 @@ name and email, each signed in with Google; the Firebase rules enforce that.
 - **Insights** are a piece per card: the card, the page it comes from (a
   link to check it says so), the words to find there, and its verses. Like
   plain words, a card shows only once it's approved.
+- **Questions friends ask** (`content/questions.js`, below) is one more entry
+  after the weeks: a piece per question, its notes to look at first
+  (`review`), then the question as he'll see it and its sources. Approve,
+  Undo approval, Edit, Save and Publish to the live app work as for the
+  Sunday classes; the app shows a question once it's approved.
 - **Publish to the live app** appears once every piece of a week is approved.
   It copies any pictures the live app lacks, then the week, to the live repo.
   The live deploy runs the check with `--require-approval` (weeks from
@@ -613,3 +618,63 @@ Which talk each Sunday's class does is picked in the app by anyone in the
 family (Blake, 2026-10-03: "You pick it"), one for elders quorum and one for
 Relief Society, kept with the family; until it's picked the app suggests the
 next talk in the plan. tools/verify.mjs checks all of the above.
+
+## Questions friends ask (`content/questions.js`)
+
+Youth-friendly, faithful and candid answers to questions he hears at school,
+online or from friends, a shelf under the Standard Works in the Scriptures
+tab. `window.TU_QUESTIONS = { questions: [...] }`, JSON after the equals sign
+as in `content/weeks.js`, since developer mode reads and writes it. Each
+question:
+
+```js
+{
+  id: 'bom-horses',          // unique: lowercase letters, numbers and dashes
+  area: 'bom',               // 'god' (God & Jesus), 'bible' (The Bible), 'bom' (The Book of Mormon), 'history' (Church history)
+  heard: '…the question as a kid hears it…',   // the row in its area, and the page's title
+  where: 'online',           // 'school' 🏫, 'online' 📱 or 'friend' 💬
+  kid: ['paragraph', …],     // the short answer, 60 to 130 words in all
+  deeper: ['paragraph', …],  // Go deeper, 180 to 450 words in all
+  parent: false,             // true shows a gentle "Talk with Mom or Dad" note at the top
+  sources: [{ t: 'title', by: 'Gospel Topics Essay', u: 'https://…', checked: 'search' }],   // 2 to 4; checked is optional
+  more: [{ t: 'title', kind: 'podcast', u: 'https://…' }],   // optional, 4 at most: Learn more from Scripture Central
+  review: ['…'],             // optional, 3 at most: for Blake in developer mode, never shown in the app
+  approved: '<hash>'         // set by Approve in developer mode
+}
+```
+
+- `sources` back up the answer; `more` is where to go learn more at
+  Scripture Central (Blake: especially its podcast, Church History Matters).
+  It shows after Go deeper as **Learn more from Scripture Central**, a row a
+  link, each opening in a new tab with its kind: `podcast` 🎧, `knowhy` 💡,
+  `evidence` 🔎, `video` ▶️ or `article` 📄. Each link is https, on
+  scripturecentral.org, youtube.com, youtu.be or podcasts.apple.com (where
+  Church History Matters episodes are too), and none twice in a question.
+  Empty or missing, the section isn't there. It's part of the fingerprint
+  like every other field: changing a link needs approving again.
+- Anything in quotation marks (“ ” or " ") is someone's exact words, from a
+  source listed, and 25 words at most; otherwise say it in your own words.
+- `tools/verify.mjs` checks all of the above (the rules are in
+  `tools/questions.mjs`), `more` included. A field the app doesn't use, or a question changed
+  since it was approved, is a note, not a failure.
+- A question shows in the app only once it's approved, so none ever holds a
+  deploy back; with none approved the shelf isn't there. The test site shows
+  drafts, marked "Draft: not approved yet".
+- `approved` is the same fingerprint as every other piece: the question
+  without `approved` (its `review` notes included), so editing it or its
+  notes after approval hides it until it's approved again.
+
+**Adding drafts.** Developer mode reviews and edits questions but doesn't
+start new ones. Put the drafts in a JSON file (one question, a list, or
+`{ questions: [...] }`), then, in a clone of TreasureUp-test (pull first):
+
+```bash
+node tools/add-questions.mjs --check drafts.json   # only check them
+node tools/add-questions.mjs drafts.json           # add them (a draft with an id already there replaces it)
+node tools/verify.mjs
+git add content/questions.js && git commit -m "Questions friends ask: drafts for review" && git push
+```
+
+The script drops any `approved` a draft brings, keeps one whose words are
+unchanged, and writes nothing unless every question keeps the rules. Once the
+test site has deployed, they're in developer mode under Questions friends ask.
