@@ -14,22 +14,24 @@ export default async function sunday({ port }) {
   const p = dev.page;
   check(/SUNDAY/i.test(await txt(p, '#home .fl-date')), 'Sunday opens: ' + (await txt(p, '#home .fl-date')));
 
-  // The two rows lead Sunday's list; Sunday's own rows are still there under them.
-  const top = await p.$$eval('#home .fl-list > *', els => els.slice(0, 2).map(e => ({ still: e.hasAttribute('data-still'), bp: e.hasAttribute('data-open-blueprint'), t: e.innerText })));
-  check(top.length === 2 && top[0].still && /Be still/.test(top[0].t), 'Be still is the first row of Sunday’s list: ' + (top[0] && top[0].t.split('\n')[0]));
+  // The two cards make Sunday's Morning section, the first of its path; Sunday's own rows are still there under them.
+  const secs = await p.$$eval('#home .tday > .tsec', els => els.map(e => e.dataset.sec));
+  check(secs[0] === 'morning' && secs.includes('classes') && secs.includes('goals') && secs.indexOf('evening') > secs.indexOf('goals'), 'Sunday is the same path of sections: ' + secs.join(' → '));
+  const top = await p.$$eval('#home .tsec[data-sec="morning"] .tsec-list > *', els => els.slice(0, 2).map(e => ({ still: e.hasAttribute('data-still'), bp: e.hasAttribute('data-open-blueprint'), t: e.innerText })));
+  check(top.length === 2 && top[0].still && /Be still/.test(top[0].t), 'Be still is the first card of Sunday’s path: ' + (top[0] && top[0].t.split('\n')[0]));
   check(top.length === 2 && top[1].bp && /🌟 Morning Council/.test(top[1].t), 'the Morning Council is the second, a youth’s: ' + (top[1] && top[1].t.split('\n')[0]));
-  check(await p.locator('#home .fl-list [data-still]').count() === 1, 'Be still is listed once');
-  check(await p.locator(`#home .fl-list [data-played="${sun}"]`).count() === 1, 'Sunday keeps its own rows (a family game)');
+  check(await p.locator('#home .tday [data-still]').count() === 1, 'Be still is listed once');
+  check(await p.locator(`#home .tsec[data-sec="goals"] [data-played="${sun}"]`).count() === 1, 'Sunday keeps its own rows (a family game)');
   check(!/Be still|Morning Council/.test(await txt(p, '#home .fl-next, #home .fl-done')), 'neither is the green button: ' + (await txt(p, '#home .fl-next, #home .fl-done')).slice(0, 50));
 
   // Be still opens from its row.
-  await p.click('#home .fl-list [data-still]'); await wait(400);
+  await p.click('#home .tday [data-still]'); await wait(400);
   check(!(await p.$eval('#stillLayer', e => e.hidden)), 'the Be still row opens Be still');
   await p.click('#stillClose').catch(() => p.keyboard.press('Escape')); await wait(400);
 
   // The Morning Council: opened, saved, paid once.
   const xp0 = (await state(p)).xp || 0;
-  await p.click('#home .fl-list [data-open-blueprint]'); await wait(400);
+  await p.click('#home .tday [data-open-blueprint]'); await wait(400);
   check(!(await p.$eval('#appSheet', e => e.hidden)) && /Morning Council/.test(await txt(p, '#appBody')), 'the Morning Council opens on Sunday');
   await p.fill('#bpOneThing', 'Listen in sacrament meeting');
   await p.fill('#bpUplift', 'Visit Grandma');
@@ -38,17 +40,17 @@ export default async function sunday({ port }) {
   const bps = Object.values(s.impressions || {}).filter(x => x && x.kind === 'blueprint' && x.day === sun);
   check(bps.length === 1 && bps[0].oneThing === 'Listen in sacrament meeting', 'saved with his impressions, for Sunday');
   check((s.xp || 0) - xp0 === 15 && ((s.pathDone || {})[sun] || {}).blueprintXp, `paid 15 XP (${(s.xp || 0) - xp0})`);
-  const row = await txt(p, '#home .fl-list [data-open-blueprint]');
+  const row = await txt(p, '#home .tday [data-open-blueprint]');
   check(/✓/.test(row) && /Listen in sacrament meeting/.test(row), 'its row is ticked and shows the One Thing: ' + row.slice(0, 70));
-  check(await p.locator('#home .goals-section .bp-check-item').count() === 2, 'its to-dos are in Goal Achievements');
-  check(await p.locator('#home .evening-card [data-open-evening]').count() === 1, 'Return & Report shows under them');
+  check(await p.locator('#home .tsec[data-sec="goals"] .bp-check-item').count() === 2, 'its to-dos are in Goal Achievements');
+  check(await p.locator('#home .tsec[data-sec="evening"] .evening-card[data-open-evening]').count() === 1, 'Return & Report shows in the Evening, under them');
   check(!(s.days || {})[sun], 'saving it doesn’t keep the day by itself (the streak works as before)');
 
-  await p.click('#home .goals-section [data-bp-check="uplift"]'); await wait(300);
-  check(await p.locator('#home .goals-section .bp-check-item.done').count() === 1, 'a to-do ticks in Goal Achievements');
+  await p.click('#home .tsec[data-sec="goals"] [data-bp-check="uplift"]'); await wait(300);
+  check(await p.locator('#home .tsec[data-sec="goals"] .bp-check-item.done').count() === 1, 'a to-do ticks in Goal Achievements');
 
   // Saved again: changed, not paid twice.
-  await p.click('#home .fl-list [data-open-blueprint]'); await wait(400);
+  await p.click('#home .tday [data-open-blueprint]'); await wait(400);
   await p.fill('#bpOneThing', 'Listen in sacrament meeting, and take notes');
   await p.click('[data-bp-save]'); await wait(500);
   s = await state(p);
@@ -61,18 +63,18 @@ export default async function sunday({ port }) {
   // A grown-up's title, after a reload (it's kept).
   await p.evaluate(() => { const k = Object.keys(localStorage).find(x => /v1$/.test(x) && !x.includes('@')); const s = JSON.parse(localStorage.getItem(k)); s.seasonWho = 'adult'; localStorage.setItem(k, JSON.stringify(s)); });
   await p.reload(); await wait(1500);
-  const bpRow = await txt(p, '#home .fl-list [data-open-blueprint]');
+  const bpRow = await txt(p, '#home .tday [data-open-blueprint]');
   check(/🌅 Morning Council/.test(bpRow) && /✓/.test(bpRow), 'a grown-up’s: 🌅 Morning Council, still ticked after a reload');
 
   // Family Study has neither, as on the other days.
   await p.click('[data-study-mode="family"]'); await wait(400);
-  check(await p.locator('#home .flow [data-open-blueprint], #home .flow .fl-list [data-still]').count() === 0, 'Family Study on Sunday: neither row, as on the other days');
+  check(await p.locator('#home .flow [data-open-blueprint], #home .flow [data-still]').count() === 0, 'Family Study on Sunday: neither row, as on the other days');
   await p.click('[data-study-mode="personal"]'); await wait(400);
 
   // Sunday looked at from another day: its own rows, no morning routine (that's today's).
   await setDay(dev, sat + 'T09:00:00');
   await p.click(`#home .strip [data-day="${sun}"]`); await wait(500);
-  check(/SUNDAY/i.test(await txt(p, '#home .fl-date')) && await p.locator('#home .fl-list [data-open-blueprint], #home .fl-list [data-still]').count() === 0, 'Sunday seen from Saturday: no morning routine rows');
+  check(/SUNDAY/i.test(await txt(p, '#home .fl-date')) && await p.locator('#home .fl-list [data-open-blueprint], #home .tday [data-still]').count() === 0, 'Sunday seen from Saturday: no morning routine rows');
 
   // Two devices: the family's copy without the Council, this one with it: merged, it's kept.
   const imp = { kind: 'blueprint', day: sun, oneThing: 'Visit Grandma', at: 1, upd: 2 };

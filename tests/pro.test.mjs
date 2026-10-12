@@ -105,10 +105,10 @@ export default async function pro({ port }) {
   await p.click('#home [data-pro-top="0"]'); await wait(350);
   check(!!(((await pro()).rocks || {})[by('Breakfast date with Sam').id] || {}).done, 'ticking a big rock in the top 3 ticks it on the week too');
   await p.click('#tabs [data-tab="today"]'); await wait(600);
-  const rows = await p.locator('#home .pth-btn[data-pro-top]').allInnerTexts();
+  const rows = await p.locator('#home [data-pro-top]').allInnerTexts();
   check(rows.length === 3 && /Breakfast date/.test(rows[0]), `Today lists the top 3 (${rows.length})`);
-  await p.click('#home .pth-btn[data-pro-top="2"]'); await wait(500);
-  check(!!(((await pro()).tops[MONDAY].items[2]) || {}).done && (await p.getAttribute('#home .pth-btn[data-pro-top="2"]', 'aria-pressed')) === 'true', 'and ticks one there');
+  await p.click('#home [data-pro-top="2"]'); await wait(500);
+  check(!!(((await pro()).tops[MONDAY].items[2]) || {}).done && (await p.getAttribute('#home [data-pro-top="2"]', 'aria-pressed')) === 'true', 'and ticks one there');
   await season(); await tab('pweek');
   check(/This week/.test(await p.innerText('#home .nb-page .nb-h')) && /Breakfast date/.test(await p.innerText('#home .pro-day.now')), 'the week shows today’s big rocks first');
 
