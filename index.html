@@ -3426,7 +3426,7 @@ const TreasureUp = (function () {
     return { hide: [], html: `<div class="fl-done"><b>✓ Done for today</b><small>${counted.length ? counted.filter(r => r.done).length + ' of ' + counted.length + ' · ' : ''}${d === 6 ? 'church, then a family game' : 'more from this day below, if you want it'}</small></div>` };
   }
   function dayFlowHtml(d, k) {
-    if (d < 6) return pathDayHtml(d, k);
+    if (d < readDays()) return pathDayHtml(d, k);
     const today = dayKey(), isToday = k === today;
     if (isToday && isFamilyStudy()) return familyStudyTodayHtml(d, k);
     const plan = weekPlan()[d] || [];
@@ -3469,12 +3469,14 @@ const TreasureUp = (function () {
       : r.card === 'grateful' ? 'evening' : r.card === 'season' && /data-season="home"/.test(r.html) ? 'ahead'
       : r.card === 'family' || /^(tick-|hub$|check$|reflect$|season$)/.test(r.card) ? 'goals' : 'study';
     // What's left from the week is one card, as on the other days (its rows would be a list of the whole week).
-    const of = id => rows.filter(r => sec(r) === id), talk = talkDayCard(k), up = catchUpRow(false);
+    // Sunday has scripture study too (2026-10-12): the Book of Mormon and a look at next week.
+    const of = id => rows.filter(r => sec(r) === id), gem = gemCard(k), up = catchUpRow(false), b = bomOf(k), ahead = previewCard(k);
+    const bom = b ? [pathCard({ kind: 'bom', b, k, done: !!pathDoneOf(k).bom, own: true }, { d: 6, isToday: true }, false)] : [];
     return [
       tsecHtml('morning', 'Morning', of('morning')),
-      tsecHtml('study', 'Scripture study', up ? [{ html: up, done: null }] : []),
+      tsecHtml('study', 'Scripture study', (up ? [{ html: up, done: null }] : []).concat(bom, ahead ? [ahead] : [])),
       tsecHtml('classes', 'Sunday classes', of('classes')),
-      tsecHtml('conference', 'Conference', talk ? [talk] : []),
+      tsecHtml('conference', 'Conference', gem ? [gem] : []),
       tsecHtml('goals', 'Goals', goalsCards(k, []).concat(of('goals'))),
       tsecHtml('evening', 'Evening', of('evening').concat(eveningCards(k))),
       tsecHtml('ahead', 'Look ahead', of('ahead'))
@@ -3620,7 +3622,7 @@ const TreasureUp = (function () {
       const kw = keepWhat(keepQ);
       button = `<button class="fl-next" data-keep-going><b>▶ ${keepOn === k ? 'Pick up where you left off' : 'Keep going'}</b><small>${esc('Today’s study ✓ · ' + kw.words)}</small></button>`;
     }
-    else if (rows.length && !next) button = isToday ? `<div class="fl-done"><b>✓ Today’s study: done</b><small>${esc(d < 5 ? 'Tomorrow: ' + dayName(d + 1) : 'Tomorrow: church, then a family game')}</small></div>`
+    else if (rows.length && !next) button = isToday ? `<div class="fl-done"><b>✓ Today’s study: done</b><small>${esc(d + 1 < readDays() ? 'Tomorrow: ' + dayName(d + 1) : d === 6 ? 'Tomorrow: a new week' : 'Tomorrow: church, then a family game')}</small></div>`
       : at >= 0 ? `<button class="fl-next ahead" data-lesson="${d}.${at}"><b>▶ Practice it again</b><small>Already done: nothing new to earn</small></button>` : '';
     else if (next && (isToday || at >= 0)) {
       // Today's study opens with Be still, then the lesson (the owner picked both: the first row, and the green button), until he's been still or passed it by today.
@@ -3646,14 +3648,17 @@ const TreasureUp = (function () {
     // One path of cards in sections (2026-10-12): the morning, the scriptures, conference, his goals,
     // the evening, then Go further, folded. Another day of the week shows its study and Go further.
     const cards = rows.map(r => pathCard(r, { d, at, isToday }, r === next)), of = (...ks) => cards.filter(x => ks.includes(x.kind));
-    const study = extra.map(html => ({ html, done: null })).concat(of('part', 'reels', 'cfm', 'bom', 'fsy'), mini ? [mini] : []);
+    const sun = isToday && d === 6 ? sundayRows(k) : [], sunOf = re => sun.filter(r => re.test(r.card));
+    const ahead = isToday && d === 6 ? previewCard(k) : null, gem = of('gc').length ? of('gc') : isToday ? [gemCard(k)].filter(Boolean) : [];
+    const study = extra.map(html => ({ html, done: null })).concat(of('part', 'reels', 'cfm', 'bom', 'fsy'), mini ? [mini] : [], ahead ? [ahead] : []);
     const kid = seasonWho() !== 'adult', name = whoName();
     const walk = isToday ? `<div class="walk-line">🚶 ${kid && name ? esc(name) + '’s Daily Walk' : 'The Daily Walk'} · Micah 6:8</div>` : '';
     const secs = isToday ? [
       tsecHtml('morning', 'Morning', of('still', 'blueprint')),
       tsecHtml('study', 'Scripture study', study),
-      tsecHtml('conference', 'Conference', of('gc')),
-      tsecHtml('goals', 'Goals', goalsCards(k, of('pro', 'goal')).concat(seasonExtra.map(html => ({ html, done: null })))),
+      tsecHtml('classes', 'Sunday classes', sunOf(/^(sun-|talk-)/)),
+      tsecHtml('conference', 'Conference', gem),
+      tsecHtml('goals', 'Goals', goalsCards(k, of('pro', 'goal')).concat(sunOf(/^family$/), seasonExtra.map(html => ({ html, done: null })))),
       tsecHtml('evening', 'Evening', of('thanks').concat(eveningCards(k)))
     ] : [tsecHtml('study', 'Scripture study', study)];
 
@@ -6126,7 +6131,7 @@ const TreasureUp = (function () {
       pastWeekData({ num: w.num, dates: w.dates, title: w.title, week: null }).then(x => { pastLoaded[w.num] = x; refreshHome(); }).catch(() => {});
       return `<div class="day-card">${head}<p class="dc-note">Opening that week…</p></div>`;
     }
-    if (d === 6) return `<div class="day-card">${head}<div class="dc-head">Church, then a family game</div>${weekRow}</div>`;
+    if (d >= readDaysOf(data.week)) return `<div class="day-card">${head}<div class="dc-head">Church, then a family game</div>${weekRow}</div>`;
     // Done as the whole week shows it (2026-10-05: "Why can't I see
     // these checked off when I complete them?"): a chapter read that week, since,
     // or in the library; a question answered then or since, ✓ or ✕.
@@ -6147,7 +6152,7 @@ const TreasureUp = (function () {
   }
   // A later week's day: what it will read, and when it opens.
   function laterDayHtml(w, k) {
-    const d = dayDiff(w.start, k), units = d < 6 && w.week ? planOf(w.week, window.TU_READING)[d] || [] : [];
+    const d = dayDiff(w.start, k), units = d < readDaysOf(w.week) && w.week ? planOf(w.week, window.TU_READING)[d] || [] : [];
     return `<div class="day-card">${dcTitle(k, '<span class="dc-tag">Coming up</span>')}<div class="dc-week">${esc(w.title)}</div>
       ${units.length ? `<div class="dc-chips">${units.map(u => `<span class="ch-chip later">${esc(u.ref)}</span>`).join('')}</div>` : d === 6 ? '<div class="dc-head">Church, then a family game</div>' : ''}
       <p class="dc-note">Opens Monday, ${esc(shortDay(w.start))}.</p></div>`;
@@ -7378,7 +7383,13 @@ const TreasureUp = (function () {
   // are the ones about what he just read. The text is content/reading.js,
   // built at deploy from the scripture data the checker uses
   // (tools/build-reading.mjs); without it, each chapter opens in Gospel Library.
-  const READING_DAYS = 6;             // Monday to Saturday; Sunday is church
+  // The days a week's chapters are read: Monday to Saturday, and from the week of October 19
+  // Sunday too (2026-10-12: "scripture study for each day of the week, including come follow me
+  // chapters and study, and book of mormon"). A week begun before then keeps its six, so no day
+  // he has read moves.
+  const SEVEN_FROM = '2026-10-19';
+  const readDaysOf = week => (weekStart((week || {}).dates) || '') >= SEVEN_FROM ? 7 : 6;
+  const readDays = () => readDaysOf(WEEK);
   const READ_WPM = 120;               // for "about 7 min": a steady pace for an 11-year-old in the KJV
   // Reading a chapter pays the most XP of anything (2026-09-30). A
   // clock starts the first time he opens it, and runs while he reads it in
@@ -7447,13 +7458,13 @@ const TreasureUp = (function () {
     const cached = (planOf.weeks = planOf.weeks || new Map()).get(week);
     if (cached && cached.key === key) return cached.days;
     text = text || {};
-    const units = readingUnits(week.reference, text), days = DAY_NAMES.map(() => []);
+    const units = readingUnits(week.reference, text), days = DAY_NAMES.map(() => []), nd = readDaysOf(week);
     const words = units.length && units.every(x => x.words);
     if (units.length && (!words || (weekStart(week.dates) || '') < PARTS_FROM)) {
       // By whole chapters: each chapter's words, with its reels and Go-deeper readings.
       const extra = u => READ_ITEM_WORDS * (week.reels.filter(r => r.verse.ref.replace(/:.*/, '') === u.ch).length +
         (week.deep || []).filter(x => deepPassage(x) && deepPassage(x).replace(/:.*/, '') === u.ch).length);
-      minMax(units.map(u => words ? u.words + extra(u) : 1)).cuts.forEach(([a, b], d) => { days[d] = units.slice(a, b); });
+      minMax(units.map(u => words ? u.words + extra(u) : 1), nd).cuts.forEach(([a, b], d) => { days[d] = units.slice(a, b); });
     } else if (units.length) {
       // Atoms: each chapter, or each of its parts, in the path's minutes; c, the chapter's index.
       const reelsIn = (ch, a, b) => week.reels.filter(r => chOfRef(r.verse.ref) === ch && (a == null || (verseNo(r.verse.ref) >= a && verseNo(r.verse.ref) <= b))).length;
@@ -7464,10 +7475,10 @@ const TreasureUp = (function () {
         else atoms.push({ c, p: null, w: partMin(u.words, reelsIn(u.ch, u.whole ? null : u.from, u.to)) });
       });
       const whole = units.map((u, c) => atoms.filter(a => a.c === c).reduce((n, a) => n + a.w, 0));
-      const chapters = minMax(whole), parts = atoms.length > units.length ? minMax(atoms.map(a => a.w)) : null;
+      const chapters = minMax(whole, nd), parts = atoms.length > units.length ? minMax(atoms.map(a => a.w), nd) : null;
       if (parts && chapters.max - parts.max >= SPLIT_MIN) {
         // As few chapters split as that longest day allows, then the days as even as can be.
-        const cuts = fewestSplits(atoms, parts.max);
+        const cuts = fewestSplits(atoms, parts.max, nd);
         cuts.forEach(([a, b], d) => { days[d] = piecesOf(units, atoms.slice(a, b)); });
       } else chapters.cuts.forEach(([a, b], d) => { days[d] = units.slice(a, b); });
     }
@@ -7477,8 +7488,8 @@ const TreasureUp = (function () {
   }
   // Items of weight w over min(6, n) days in order, the longest day as short
   // as it can be: { max, cuts: [[from, to), …] }.
-  function minMax(w) {
-    const n = w.length, k = Math.min(READING_DAYS, n), pre = [0];
+  function minMax(w, days = 6) {
+    const n = w.length, k = Math.min(days, n), pre = [0];
     w.forEach(x => pre.push(pre[pre.length - 1] + x));
     // best[j][i]: the longest day when the first i items go in j days; cut[j][i]: where day j starts.
     const best = [[0].concat(Array(n).fill(Infinity))], cut = [[]];
@@ -7495,8 +7506,8 @@ const TreasureUp = (function () {
   }
   // The atoms over min(6, n) days, none longer than max: the fewest chapters
   // cut between two days, then the evenest days (the least sum of squares).
-  function fewestSplits(atoms, max) {
-    const n = atoms.length, k = Math.min(READING_DAYS, n), pre = [0];
+  function fewestSplits(atoms, max, days = 6) {
+    const n = atoms.length, k = Math.min(days, n), pre = [0];
     atoms.forEach(a => pre.push(pre[pre.length - 1] + a.w));
     const less = (x, y) => x[0] < y[0] || (x[0] === y[0] && x[1] < y[1]);
     const best = [[[0, 0]].concat(Array(n).fill(null))], cut = [[]];
@@ -7576,12 +7587,12 @@ const TreasureUp = (function () {
     const m = /^(.+? \d+)(?::(\d+))?/.exec(ref || ''), plan = readingPlan();
     if (!m) return -1;
     const v = m[2] ? Number(m[2]) : null;
-    for (let d = 0; d < READING_DAYS; d++) {
+    for (let d = 0; d < readDays(); d++) {
       if (plan[d].some(u => u.ch === m[1] && (v == null || u.whole || (v >= u.from && v <= u.to)))) return d;
     }
     return -1;
   }
-  const lastReadingDay = () => { const p = readingPlan(); for (let d = READING_DAYS - 1; d >= 0; d--) if (p[d].length) return d; return 0; };
+  const lastReadingDay = () => { const p = readingPlan(); for (let d = readDays() - 1; d >= 0; d--) if (p[d].length) return d; return 0; };
 
   // What he reads in a chapter: any mix of the KJV, the plain words, the
   // Berean Standard Bible and the notes, each a button at the top of the
@@ -8546,7 +8557,7 @@ const TreasureUp = (function () {
   function reelDay(r) {
     if (!readingAll().length) {
       const order = WEEK.reels.map((x, i) => [x, i]).sort((a, b) => (a[0].section - b[0].section) || (a[1] - b[1])).map(p => p[0]);
-      return Math.floor(order.indexOf(r) * READING_DAYS / Math.max(1, order.length));
+      return Math.floor(order.indexOf(r) * readDays() / Math.max(1, order.length));
     }
     const d = readingDayOf(r.verse.ref);
     if (d >= 0) return d;
@@ -8572,7 +8583,7 @@ const TreasureUp = (function () {
     const ch = String(i.x.ref || '').replace(/:.*/, ''), r = WEEK.reels.find(x => x.verse.ref.replace(/:.*/, '') === ch);
     if (r) return reelDay(r);
     const all = WEEK.insights || [], k = all.findIndex(x => x && x.id === i.x.id);
-    return Math.floor(Math.max(0, k) * READING_DAYS / Math.max(1, all.length));
+    return Math.floor(Math.max(0, k) * readDays() / Math.max(1, all.length));
   };
   const dayInsights = d => studyCards(WEEK).filter(i => insightDay(i) === d);
   // A day's best cards, about three (2026-10-02: "Fewer, better
@@ -8730,8 +8741,9 @@ const TreasureUp = (function () {
     const text = window.TU_READING || {};
     if (cfmPlan.c && cfmPlan.c.week === WEEK && cfmPlan.c.text === text) return cfmPlan.c.days;
     const parts = guideOf(WEEK).filter(g => !g.x.kids), plan = readingPlan();
-    const days = DAY_NAMES.map(() => null), reading = [0, 1, 2, 3, 4, 5].filter(d => plan[d].length);
-    const open = reading.length ? reading : [0, 1, 2, 3, 4, 5];
+    const all = DAY_NAMES.map((_, d) => d).filter(d => d < readDays());
+    const days = DAY_NAMES.map(() => null), reading = all.filter(d => plan[d].length);
+    const open = reading.length ? reading : all;
     parts.forEach((g, i) => {
       const chs = new Set(readingUnits(g.x.ref, text).map(u => u.ch).concat(String(g.x.ref).split(';').map(x => chOfRef(x.trim()))));
       const fit = open.find(d => !days[d] && plan[d].some(u => chs.has(u.ch))), d = fit != null ? fit : open.find(d => !days[d]);
@@ -8829,7 +8841,8 @@ const TreasureUp = (function () {
     if (r.kind === 'pro') return r.pick ? '⭐ My top 3' : '⭐ ' + proItemText(r.x);
     if (r.kind === 'blueprint') return seasonWho() !== 'adult' ? '🌟 Morning Council' : '🌅 Morning Council';
     if (r.kind === 'fsy') return r.y.kind === 'mag' ? '📖 FSY Magazine Feature' : '📖 Youth Study · FSY';
-    return { cfm: 'Come Follow Me', bom: '📜 Book of Mormon', gc: 'Conference', thanks: 'Grateful for…', still: '🕊️ Be still' }[r.kind];
+    if (r.kind === 'gc') return '🎤 “' + cut(firstSentence(r.t.q), 110) + '”';
+    return { cfm: 'Come Follow Me', bom: '📜 Book of Mormon', thanks: 'Grateful for…', still: '🕊️ Be still' }[r.kind];
   }
   function pathRowSub(r) {
     if (r.kind === 'part') return [r.p.of > 1 && 'Part ' + r.p.n + ' of ' + r.p.of, pathRowMin(r) + ' min', r.reels.length && 'then ' + qWord(r.reels.length)].filter(Boolean).join(' · ');
@@ -8837,7 +8850,7 @@ const TreasureUp = (function () {
     if (r.kind === 'cfm') return r.c.x.h.replace(/^[“"]|[”"]$/g, '').replace(/\.$/, '');
     if (r.kind === 'bom') return r.b.ch + ' · ' + r.b.hook.replace(/^[“"]|[”"]$/g, '');
     if (r.kind === 'fsy') return `FSY Ch ${r.y.yl.m.chapter}: ${r.y.card.hook.replace(/^[“"]|[”"]$/g, '')} · 2 min`;
-    if (r.kind === 'gc') return r.t.t.speaker;
+    if (r.kind === 'gc') return r.t.t.title + ' · ' + r.t.t.speaker + ' · talk ' + r.t.n + ' of ' + r.t.of;
     if (r.kind === 'goal') return 'My Season · ' + r.x.sub;
     if (r.kind === 'pro') return r.pick ? 'Pick today’s three most important things' : ['My top 3', proItemRole(r.x)].filter(Boolean).join(' · ');
     if (r.kind === 'still') return stillSub();
@@ -8919,8 +8932,24 @@ const TreasureUp = (function () {
     const days = behind.map(x => DAY_NAMES[x]);
     return flowRow(`data-lesson="${b}.${ba}"`, false, '↩ Catch up: ' + (days.length > 2 ? days.length + ' days, from ' + days[0] : days.join(' and ')), esc(what + (after ? ' · after today’s' : '')));
   }
+  // The Conference gem (2026-10-12: "general conference talk gem with deep dive option"): the talk a
+  // day as one of its lines, on one card, for everyone; a tap pays for it and opens the talk, where
+  // its deep dive is. A day without a line has the talk itself.
+  function gemCard(k) {
+    const g = gcOf(k);
+    if (!g) return talkDayCard(k);
+    const done = !!pathDoneOf(k).gc;
+    return { done, kind: 'gc', html: tcRow(`data-path-gc="${esc(g.t.id)}"`, { done, title: esc('🎤 “' + cut(firstSentence(g.q), 110) + '”'), sub: esc(g.t.title + ' · ' + g.t.speaker + ' · talk ' + g.n + ' of ' + g.of), xp: done ? '' : `<em class="pth-xp">+${GC_XP} XP</em>` }) };
+  }
+  // Sunday looks ahead (2026-10-12): next week's Come Follow Me, a tap to its Monday.
+  function previewCard(k) {
+    const w = allWeeks().find(x => x.start > k && dayDiff(k, x.start) <= 7);
+    if (!w) return null;
+    const first = w.week && guideOf(w.week).find(g => !g.x.kids);
+    return { done: null, html: tcRow(`data-day="${w.start}"`, { icon: '🔭', title: 'Next week: ' + esc(w.title), sub: esc([w.week && w.week.reference, first && first.x.h.replace(/^[“"]|[”"]$/g, '')].filter(Boolean).join(' · ')) }) };
+  }
   // Earlier days this week with part of their path left (reading, questions, lesson part).
-  const behindDays = () => [0, 1, 2, 3, 4, 5].filter(d => d < todayIndex() && pathLeft(dayPath(d, null)).length);
+  const behindDays = () => DAY_NAMES.map((_, d) => d).filter(d => d < readDays() && d < todayIndex() && pathLeft(dayPath(d, null)).length);
 
   /* ---------------- the week's plan and Go deeper ---------------- */
 
@@ -8936,8 +8965,8 @@ const TreasureUp = (function () {
   // day's lesson is done, never part of Today's.
   function weekPlan() {
     const days = DAY_NAMES.map(() => []), plan = readingPlan();
-    for (let d = 0; d < 6; d++) if (plan[d].length || dayReels(d).length || cfmOf(d)) days[d].push({ kind: 'day', d });
-    for (let d = 0; d < 6; d++) if (furtherItems(d).length) days[d].push({ kind: 'further', d });
+    for (let d = 0; d < readDays(); d++) if (plan[d].length || dayReels(d).length || cfmOf(d)) days[d].push({ kind: 'day', d });
+    for (let d = 0; d < readDays(); d++) if (furtherItems(d).length) days[d].push({ kind: 'further', d });
     if (fridayItems().length) days[4].push({ kind: 'friday' });
     if (WEEK.puzzle) days[5].push({ kind: 'puzzle' });
     days[6].push({ kind: 'family' });
