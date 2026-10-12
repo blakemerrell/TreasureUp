@@ -595,6 +595,13 @@ question, the next):
   `read`, where the card's point is (checked with `--online`, as the quote
   is); `q` a question its body answers, with `right` and 2 or 3 `wrong`;
   `why` 40 words at most.
+- Optional (2026-10-11; a lesson without them shows exactly as before):
+  `kind` on a card, `"scenario"` (its `q` is a real-life situation),
+  `"verse"` (about the verses the lesson assigns) or `"recall"`, labelled on
+  its question "Real life", "In the verses" or nothing; a lesson with any
+  `kind` needs a `"scenario"` card. `try` (30 words at most, one thing to do
+  this week) and `reflect` (25 words at most, a question with no answer)
+  show at the lesson's end as ✅ Try this week and 💭 Think about it.
 
 **`conference`**, a conference each: `{ id: "2026-10", title, from, talks }`.
 `talks` in the order they were given, which is the talk-a-day plan's order,
@@ -613,6 +620,14 @@ a talk a day from `from`. Each talk:
   `points` (up to 5, 4 to 40 words each), `discuss` (up to 3 questions to
   talk over, 30 words at most each) and `deep`, a deep dive as an insight
   card's (`paras`, `find`), its quotes found on the talk's page.
+- Optional (2026-10-11; a talk without them shows exactly as before):
+  `story` `{ title, text }` (8 words at most, and 40 to 110 words in our own
+  words), 📖 The story after `quick`, once approved; `invite`, 1 or 2
+  `{ ask, promise }`, 🙋 The invitation and ✨ The promise under it (`promise`
+  null if there is none), the speaker's own words, 8 to 40 words each, found on
+  the talk's page word for word (`--online`), shown once approved (2026-10-12:
+  which promise goes with which invitation is our choice); `try` (30 words at most), ✅ Try this week after the questions,
+  once approved.
 
 Which talk each Sunday's class does is picked in the app by anyone in the
 family (2026-10-03: "You pick it"), one for elders quorum and one for

@@ -2391,6 +2391,8 @@
   .talk-list { margin: 6px 0 0; padding-left: 20px; list-style: disc; font-size: 15.5px; line-height: 1.5; color: rgba(255,255,255,.88); }
   .talk-list li { margin-top: 4px; }
   .talk-refs { margin-top: 6px; font-size: 15px; line-height: 1.6; }
+  .sun-kind { display: inline-block; align-self: flex-start; margin: 0 0 8px; padding: 2px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #c4b5fd; background: rgba(124,58,237,.18); border: 1px solid rgba(167,139,250,.35); }
+  .sun-after { margin-top: 16px; text-align: left; } .sun-after > * + * { margin-top: 10px; } .sun-after .cfm-ask p { margin: 0; }
   /* A card's deep dive, folded under it: for a grown-up who wants the point at length */
   .ins-deep { margin-top: 14px; border-radius: 14px; background: rgba(56,189,248,.07); border: 1px solid rgba(56,189,248,.28); }
   .ins-deep summary { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 12px 14px; cursor: pointer; list-style: none; font-weight: 900; color: #7dd3fc; }
@@ -5756,7 +5758,7 @@ const TreasureUp = (function () {
         })()}
 
         <div style="padding:14px;border-radius:14px;background:rgba(0,0,0,.35);border:1.5px solid rgba(255,255,255,.1);display:flex;flex-direction:column;gap:8px">
-          <div style="font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:#818cf8">❓ Quick Check:</div>
+          <div style="font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:#818cf8">❓ Quick Check:</div>${sunKindHtml(c.kind)}
           <p style="margin:0;font-size:14.5px;font-weight:700;line-height:1.4;color:#fff">${esc(c.q)}</p>
           <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px">
             ${answers.map(ans => {
@@ -5776,7 +5778,7 @@ const TreasureUp = (function () {
           ${picked ? `<p style="font-size:12.5px;color:rgba(255,255,255,.8);margin:4px 0 0;line-height:1.4"><b>Why:</b> ${esc(c.why)}</p>` : ''}
         </div>
 
-        ${lotPickerHtml('answers first')}
+        ${idx === cards.length - 1 ? sunAfterHtml(l) : ''}${lotPickerHtml('answers first')}
 
         <div class="sp-footer">
           ${idx > 0 ? `<button class="sp-back-btn" data-sunday-step="${idx - 1}">‹ Previous</button>` : '<div></div>'}
@@ -6421,6 +6423,18 @@ const TreasureUp = (function () {
   }
   const sunCards = l => (l && Array.isArray(l.cards) ? l.cards : []);
   const sunDone = l => sunCards(l).filter(c => (S.sunday || {})[c.id]).length;
+  // The study cards' new parts (2026-10-11), each optional: content without them shows as before.
+  // A talk's story and something to try this week are our words (shown once approved); its
+  // invitation and promise are the speaker's own, found on its page word for word (--online), so
+  // they show as its `quotes` do. A youth card's `kind` labels its question; a lesson's `try` and
+  // `reflect` come at its end.
+  const SUN_KIND = { scenario: 'Real life', verse: 'In the verses' };
+  const sunKindHtml = k => SUN_KIND[k] ? `<span class="sun-kind">${SUN_KIND[k]}</span>` : '';
+  const talkQuote = q => `<blockquote class="ins-quote">“${esc(String(q).replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote>`;
+  const talkStoryHtml = t => t.story && t.story.text ? `<div class="talk-story"><div class="talk-h">📖 The story</div><p class="reel-body" style="margin-top:6px">${t.story.title ? `<b>${esc(t.story.title)}</b><br>` : ''}${linkRefs(t.story.text)}</p></div>` : '';
+  const talkInviteHtml = t => (Array.isArray(t.invite) ? t.invite : []).filter(x => x && x.ask).map(x => `<div class="talk-invite"><div class="talk-h">🙋 The invitation</div>${talkQuote(x.ask)}${x.promise ? `<div class="talk-promise"><div class="talk-h">✨ The promise</div>${talkQuote(x.promise)}</div>` : ''}</div>`).join('');
+  const talkTryHtml = t => t.try ? `<div class="talk-try"><div class="talk-h">✅ Try this week</div><p class="reel-body" style="margin-top:6px">${linkRefs(t.try)}</p></div>` : '';
+  const sunAfterHtml = l => l.try || l.reflect ? `<div class="sun-after">${l.try ? `<div class="ls-coming sun-try"><small>✅ Try this week</small>${linkRefs(l.try)}</div>` : ''}${l.reflect ? `<div class="cfm-ask sun-reflect"><b>💭 Think about it</b><p>${linkRefs(l.reflect)}</p></div>` : ''}</div>` : '';
   // The Sunday on or before a day, and the one after.
   const sundayOf = k => dayAdd(k, -new Date(k + 'T12:00:00').getDay());
   const sundaysAround = () => { const s0 = sundayOf(dayKey()); return [s0, dayAdd(s0, 7)]; };
@@ -6452,11 +6466,11 @@ const TreasureUp = (function () {
     const list = (h, xs) => xs && xs.length ? `<div class="talk-h">${h}</div><ul class="talk-list">${xs.map(x => `<li>${linkRefs(x)}</li>`).join('')}</ul>` : '';
     openSheet(`<div class="ls-kind">🎤 ${esc(c.title)} · ${esc(t.session)}</div>${draft ? '<p class="plain-draft">Draft: not approved yet</p>' : ''}
       <div class="sh-title">${esc(t.title)}</div><p class="ins-who" style="margin-top:2px">${esc(t.speaker)}</p>
-      ${own && t.quick ? `<p class="reel-body" style="margin-top:10px">${linkRefs(t.quick)}</p>` : ''}
-      ${(t.quotes || []).map(q => `<blockquote class="ins-quote">“${esc(String(q).replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote>`).join('')}
+      ${own && t.quick ? `<p class="reel-body" style="margin-top:10px">${linkRefs(t.quick)}</p>` : ''}${own ? talkStoryHtml(t) : ''}
+      ${(t.quotes || []).map(q => `<blockquote class="ins-quote">“${esc(String(q).replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote>`).join('')}${own ? talkInviteHtml(t) : ''}
       ${own ? list('What it teaches', t.points) : ''}
       ${(t.scriptures || []).length ? `<div class="talk-h">Scriptures it uses</div><p class="talk-refs">${t.scriptures.map(r => linkRefs(r)).join(' · ')}</p>` : ''}
-      ${own ? list('To talk over', t.discuss) : ''}
+      ${own ? list('To talk over', t.discuss) : ''}${own ? talkTryHtml(t) : ''}
       ${own && t.deep ? diveHtml({ deep: t.deep }) : ''}
       <a class="ins-src" href="${esc(t.url)}" target="_blank" rel="noopener noreferrer"><span>Read, watch or listen</span> <b>${esc(t.title)} in Gospel Library ↗</b></a>
       ${seen ? '<p class="fam-note" style="margin-top:14px">✓ Studied</p>' : `<div class="board-actions"><button class="btn" data-talkdone="${esc(t.id)}">✓ I studied this talk · +${TALK_XP} XP</button></div>`}`);
@@ -18444,7 +18458,7 @@ const TreasureUp = (function () {
       steps.push({ kind: 'sunintro', l: entry.l, m: entry.m });
       sunCards(entry.l).filter(c => practice || !(S.sunday || {})[c.id]).forEach(c => {
         steps.push({ kind: 'sunread', c });
-        steps.push({ kind: 'sunq', id: c.id, q: c.q, right: c.right, why: c.why, choices: choicesFor(c, 'sun|' + c.id) });
+        steps.push({ kind: 'sunq', id: c.id, sunKind: c.kind, q: c.q, right: c.right, why: c.why, choices: choicesFor(c, 'sun|' + c.id) });
       });
     } else if (entry && entry.kind === 'friday') {
       fridayItems().filter(d => want('deep-' + d.id) && (practice || !S.deep[d.id])).forEach(d => steps.push(deepStep(d)));
@@ -18588,7 +18602,7 @@ const TreasureUp = (function () {
     } else if (step.kind === 'sunread') {
       html += `<div class="ls-read"><div class="ls-prompt">${linkRefs(step.c.hook)}</div><p class="reel-body">${linkRefs(step.c.body)}</p></div>`;
     } else if (step.kind === 'reel' || step.kind === 'recall' || step.kind === 'sunq') {
-      html += `<div class="ls-prompt">${step.kind === 'recall' && !L.checked ? esc(step.q) : linkRefs(step.q, step.home)}</div>${step.kind === 'recall' && !step.retry ? '<p class="ls-hint">From earlier this week. No peeking.</p>' : ''}${opts()}`;
+      html += `${step.kind === 'sunq' ? sunKindHtml(step.sunKind) : ''}<div class="ls-prompt">${step.kind === 'recall' && !L.checked ? esc(step.q) : linkRefs(step.q, step.home)}</div>${step.kind === 'recall' && !step.retry ? '<p class="ls-hint">From earlier this week. No peeking.</p>' : ''}${opts()}`;
     } else if (step.kind === 'say') {
       html += `<div class="ls-prompt">“${esc(step.text)}”</div>${opts()}`;
     } else if (step.kind === 'deep') {
@@ -18767,7 +18781,7 @@ const TreasureUp = (function () {
     const allDone = keepOn === dayKey() && e && /^(further|friday|puzzle)$/.test(e.kind) && !queue.length && !L.practice && !L.focus;
     body.innerHTML = `<div class="ls-done"><div class="big">🎉</div>
       <div class="ls-prompt">${L.practice ? 'Practice done!' : todays ? 'Today’s study: done!' : 'Lesson complete!'}</div>
-      <p class="reel-body">${esc(name)}</p>
+      <p class="reel-body">${esc(name)}</p>${e && e.kind === 'sunday' ? sunAfterHtml(e.l) : ''}
       <div class="ls-stats">
         <div class="ls-stat"><b>+${xp}</b><span>XP</span></div>
         <div class="ls-stat"><b>${L.scored ? Math.round(L.right / L.scored * 100) : 100}%</b><span>Right first time</span></div>
@@ -19013,7 +19027,9 @@ const TreasureUp = (function () {
     minutes: 'Minutes', from: 'Lesson parts it draws on (their ids, one per line)', steps: 'Steps', k: 'Kind: open, learn, do, talk or close',
     area: 'Area: god, bible, bom or history', heard: 'The question, as he hears it', where: 'Where he hears it: school, online or friend',
     kid: 'The short answer (60–130 words, a paragraph per line)', deeper: 'Go deeper (180–450 words, a paragraph per line)',
-    parent: 'Talk with Mom or Dad (shows the note)', sources: 'Sources (2 to 4)', kind: 'Kind', t: 'Title', u: 'Link (https)', checked: 'How it was checked'
+    parent: 'Talk with Mom or Dad (shows the note)', sources: 'Sources (2 to 4)', kind: 'Kind', t: 'Title', u: 'Link (https)', checked: 'How it was checked',
+    story: 'The story (our words: a title of 8 words at most, 40 to 110 words)', invite: 'The invitation', promise: 'The promise tied to it (exact words; empty if none)',
+    try: 'Try this week (30 words at most)', reflect: 'Think about it (25 words at most, no answer)'
   };
   let dev = null;
   const devTest = () => !FIREBASE_CONFIG && window.TU_DEV_TEST;   // the tests' stand-in for GitHub and sign-in
@@ -19487,16 +19503,22 @@ const TreasureUp = (function () {
     if (it.key.startsWith('sunl:')) {
       // The youth's Sunday lesson: what it's about, then each card and its question.
       return `<div class="dv-hook">${esc(o.title)}</div><p class="dv-small">${esc(o.sunday)} · <a href="${esc(o.read)}" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">its page ↗</a></p><p>${esc(o.intro)}</p>` +
-        (o.cards || []).map(c => `<div class="dv-pv"><div class="dv-hook" style="font-size:15px">${esc(c.hook)}</div><p>${esc(c.body)}</p>${devQHtml(c)}<p class="dv-small">On the page: “${esc(c.find)}”</p></div>`).join('');
+        (o.cards || []).map(c => `<div class="dv-pv"><div class="dv-hook" style="font-size:15px">${esc(c.hook)}</div>${c.kind ? `<p class="dv-small">Kind: ${esc(c.kind)}${SUN_KIND[c.kind] ? ' · labelled “' + SUN_KIND[c.kind] + '”' : ' · no label'}</p>` : ''}<p>${esc(c.body)}</p>${devQHtml(c)}<p class="dv-small">On the page: “${esc(c.find)}”</p></div>`).join('') +
+        (o.try ? `<p class="dv-small" style="margin-top:6px;font-weight:800">✅ Try this week (at the end)</p><p>${esc(o.try)}</p>` : '') +
+        (o.reflect ? `<p class="dv-small" style="margin-top:6px;font-weight:800">💭 Think about it (at the end, no answer)</p><p>${esc(o.reflect)}</p>` : '');
     }
     if (it.key.startsWith('talk:')) {
       // A talk: the speaker's own words and its scriptures (shown already), and ours (once approved).
       const list = (h, xs) => xs && xs.length ? `<p class="dv-small" style="margin-top:6px;font-weight:800">${h}</p><ul class="dv-small" style="padding-left:18px">${xs.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '';
       return `<div class="dv-hook">${esc(o.title)}</div><p class="dv-small">${esc(o.speaker)} · ${esc(o.session)} · <a href="${esc(o.url)}" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">the talk ↗</a></p>` +
         (o.quotes || []).map(q => `<div class="dv-verse">“${esc(q)}”<span>found word for word on the talk’s page</span></div>`).join('') +
+        (Array.isArray(o.invite) ? o.invite : []).map(x => x ? `<div class="dv-verse">🙋 “${esc(x.ask)}”<span>the invitation · found word for word on the talk’s page</span></div>` +
+          (x.promise ? `<div class="dv-verse">✨ “${esc(x.promise)}”<span>the promise · found word for word on the talk’s page</span></div>` : '') : '').join('') +
         ((o.scriptures || []).length ? `<p class="dv-small">Scriptures: ${o.scriptures.map(esc).join(' · ')}</p>` : '') +
         `<p class="dv-small" style="margin-top:8px">In our words (shown once approved):</p>${o.quick ? `<p>${esc(o.quick)}</p>` : ''}` +
+        (o.story ? `<p class="dv-small" style="margin-top:6px;font-weight:800">📖 The story: ${esc(o.story.title || '')}</p><p>${esc(o.story.text || '')}</p>` : '') +
         list('What it teaches', o.points) + list('To talk over', o.discuss) +
+        (o.try ? `<p class="dv-small" style="margin-top:6px;font-weight:800">✅ Try this week</p><p>${esc(o.try)}</p>` : '') +
         (o.deep ? `<div class="dv-deep"><p class="dv-small">🤿 Deep dive:</p>${(o.deep.paras || []).map(t => `<p>${esc(t)}</p>`).join('')}<p class="dv-small">On the page: ${[].concat(o.deep.find || []).map(f => `“${esc(f)}”`).join(' · ')}</p></div>` : '');
     }
     if (it.key.startsWith('qa:')) {
@@ -19529,7 +19551,7 @@ const TreasureUp = (function () {
   // A form built from the piece itself: every field it has, labeled.
   function devField(path, kind, val) {
     const key = path.split('.').filter(x => !/^\d+$/.test(x)).pop() || '';
-    const lab = esc(DEV_LABELS[key] || key);
+    const lab = esc(/(^|\.)invite\.\d+\.ask$/.test(path) ? 'The invitation (the speaker’s exact words)' : /(^|\.)cards\.\d+\.kind$/.test(path) ? 'Kind: scenario, verse or recall' : DEV_LABELS[key] || key);
     if (kind === 'bool') return `<label class="dv-f dv-check"><input type="checkbox" data-path="${esc(path)}" data-kind="bool"${val ? ' checked' : ''}> ${lab}</label>`;
     const text = String(val == null ? '' : val), long = kind === 'lines' || text.length > 48;
     return `<label class="dv-f"><span>${lab}</span>${long
@@ -19566,7 +19588,7 @@ const TreasureUp = (function () {
         : kind === 'lines' ? el.value.split('\n').map(x => x.trim()).filter(Boolean) : el.value;
       let at = out;
       parts.slice(0, -1).forEach(k => { at = at[k]; });
-      if (parts.length) at[parts[parts.length - 1]] = val;
+      if (parts.length) at[parts[parts.length - 1]] = val === '' && at[parts[parts.length - 1]] === null ? null : val;   // an empty field left empty stays null (a talk's invitation with no promise)
     });
     return out;
   }
