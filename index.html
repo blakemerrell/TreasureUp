@@ -2074,6 +2074,52 @@
   .pth-dot.ic { border: 0; font-size: 16px; }
   .pth-go { flex: 0 0 auto; font-size: 18px; color: rgba(255,255,255,.4); }
   .more-list { margin: 0; } .more-list .pth-row:last-child { border-bottom: 0; }
+  /* Today as one path of cards (2026-10-12: "a clear unified path of cards… I like the different
+     icons, but keep the card boxes the same"): every step is the same card, in sections on one line
+     (Morning, Scripture study, Conference, Goals, Evening, Go further); a done card stays where it
+     is, dimmed and slim. */
+  .tday { margin: 14px 0 16px; }
+  .walk-line { margin: 0 4px 2px; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.45); }
+  .tsec { margin-top: 18px; }
+  .tsec-h { display: flex; align-items: center; gap: 12px; padding: 0 4px 0 14px; margin-bottom: 8px; list-style: none; cursor: default; }
+  .tsec-h::-webkit-details-marker { display: none; }
+  .tsec-h > i { flex: 0 0 28px; display: grid; place-items: center; }
+  .tsec-h > i::before { content: ''; width: 10px; height: 10px; border-radius: 2px; transform: rotate(45deg); background: var(--gold); }
+  .tsec-h > b { flex: 1; min-width: 0; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+  .tsec-h > b small { display: block; margin-top: 2px; font-size: 12px; font-weight: 600; letter-spacing: 0; text-transform: none; color: rgba(255,255,255,.5); }
+  .tsec-h > span { flex: 0 0 auto; font-size: 12.5px; font-weight: 700; color: rgba(255,255,255,.55); }
+  .tday.kids .tsec-h > b, .tday.kids .tsec-h > i::before { color: #67e8f9; background: #67e8f9; }
+  .tday.kids .tsec-h > b { background: none; }
+  details.tsec > .tsec-h { cursor: pointer; }
+  details.tsec > .tsec-h::after { content: '▾'; color: var(--gold); font-size: 15px; transition: transform .15s; }
+  details.tsec[open] > .tsec-h::after { transform: rotate(180deg); }
+  .tsec-list, .fl-list { position: relative; display: flex; flex-direction: column; gap: 8px; }
+  .tsec-list::before { content: ''; position: absolute; left: 27px; top: 24px; bottom: 24px; width: 2px; background: rgba(255,255,255,.14); }
+  .tc, .tc-pair { position: relative; display: flex; align-items: center; gap: 12px; width: 100%; box-sizing: border-box; min-height: 64px; padding: 10px 14px; text-align: left; font: inherit; color: #fff; background: #241a4a; border: 1px solid rgba(255,255,255,.09); border-radius: 16px; cursor: pointer; text-decoration: none; }
+  .tc-pair { padding: 0 14px 0 0; gap: 8px; }
+  .tc-pair > .tc { flex: 1; min-width: 0; border: 0; background: none; }
+  .tc:active { transform: scale(.985); }
+  .tc-dot { flex: 0 0 28px; width: 28px; height: 28px; box-sizing: border-box; border-radius: 999px; border: 2px solid rgba(255,255,255,.38); background: #241a4a; display: grid; place-items: center; font-size: 13px; font-weight: 900; color: #052e16; }
+  .tc-dot.ic { border: 0; background: none; font-size: 19px; }
+  .tc.next { border-color: rgba(252,211,77,.85); box-shadow: 0 0 0 3px rgba(252,211,77,.12); }
+  .tc.next .tc-dot { border-color: var(--gold); }
+  .tday.kids .tc.next { border-color: rgba(56,189,248,.85); box-shadow: 0 0 0 3px rgba(56,189,248,.14); }
+  .tday.kids .tc.next .tc-dot { border-color: #38bdf8; }
+  .tc-t { flex: 1; min-width: 0; font-size: 16px; font-weight: 700; line-height: 1.28; }
+  .tc-t b { display: block; font-weight: 700; } .tc-t small { display: block; margin-top: 2px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.6); }
+  .tc-go { flex: 0 0 auto; font-size: 18px; color: rgba(255,255,255,.4); }
+  .tc-act { flex: 0 0 auto; padding: 10px 4px; font: inherit; font-size: 13.5px; font-weight: 800; color: var(--gold); background: none; border: 0; cursor: pointer; }
+  .tc .pth-xp { flex: 0 0 auto; font-style: normal; text-align: right; font-size: 12.5px; font-weight: 900; color: var(--gold); white-space: nowrap; }
+  .tc .pth-xp small { display: block; font-size: 10.5px; font-weight: 700; color: rgba(255,255,255,.45); }
+  .tc .pth-xp.ok { color: var(--right); }
+  .tc.muted .tc-t b { font-weight: 600; color: rgba(255,255,255,.75); }
+  /* Done: where it was, dimmed and slim (its line under the title on one line). */
+  .tc.ok, .tc-pair:has(> .tc.ok) { min-height: 48px; padding-top: 7px; padding-bottom: 7px; background: #1d153d; }
+  .tc-pair:has(> .tc.ok) { padding-top: 0; padding-bottom: 0; }
+  .tc.ok .tc-dot { background: var(--right); border-color: var(--right); }
+  .tc.ok.wrong .tc-dot { background: rgba(251,113,133,.85); border-color: transparent; color: #fff; }
+  .tc.ok .tc-t { font-size: 15px; } .tc.ok .tc-t b { color: rgba(255,255,255,.62); }
+  .tc.ok .tc-t small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: rgba(255,255,255,.42); }
   /* Be still (2026-10-06; the bronze timer, 2026-10-07): one quiet screen over every other, a bronze light in the middle. Deliberately one dark look. */
   .still-layer { position: fixed; inset: 0; z-index: 130; overflow-y: auto; overflow-x: hidden; color: #ece5d9; background: radial-gradient(110% 75% at 50% 42%, #17130f, #0b0a08 70%); background-color: #0b0a08; -webkit-tap-highlight-color: transparent; }
   .still-x { position: absolute; z-index: 1; top: calc(var(--sat, 0px) + 12px); right: 14px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.06); color: #8a8174; font-size: 17px; }
@@ -3243,8 +3289,27 @@ const TreasureUp = (function () {
   // missed question comes back first as a day's warm-up review.
   function flowRow(attrs, done, title, sub, opt) {
     opt = opt || {};
-    const mark = opt.icon ? `<span class="fl-ic" aria-hidden="true">${opt.icon}</span>` : opt.box ? `<span class="fl-box">${done ? '✓' : ''}</span>` : `<span class="fl-c">${done ? (opt.wrong ? '✕' : '✓') : ''}</span>`;
-    return `<button class="fl-row${done ? ' done' : ''}${opt.muted ? ' muted' : ''}${opt.wrong ? ' wrong' : ''}" ${attrs}${opt.box ? ` aria-pressed="${!!done}"` : ''}>${mark}<span class="fl-t">${title}${sub ? `<small>${sub}</small>` : ''}</span>${opt.box ? '' : '<span class="fl-go">›</span>'}</button>`;
+    return tcRow(attrs + (opt.box ? ` aria-pressed="${!!done}"` : ''), { done, title, sub, icon: opt.icon, muted: opt.muted, wrong: opt.wrong, go: opt.box ? '' : '›' });
+  }
+  // One kind of card on Today (2026-10-12: "a clear unified path of cards… I like the different
+  // icons, but keep the card boxes the same"): a status ring (an icon for a way in), a title, one
+  // line under it, what it pays, and an arrow. Done, it stays where it is, dimmed and slim.
+  // title, sub and xp are HTML; href makes it a link out.
+  function tcRow(attrs, o) {
+    o = o || {};
+    const cls = ['tc', o.done && 'ok', o.next && !o.done && 'next', o.wrong && 'wrong', o.muted && 'muted', o.cls].filter(Boolean).join(' ');
+    const dot = o.icon ? `<span class="tc-dot ic" aria-hidden="true">${o.icon}</span>` : `<span class="tc-dot">${o.done ? (o.wrong ? '✕' : '✓') : ''}</span>`;
+    const inner = `${dot}<span class="tc-t"><b>${o.title}</b>${o.sub ? `<small>${o.sub}</small>` : ''}</span>${o.xp || ''}${o.go === '' ? '' : `<span class="tc-go" aria-hidden="true">${o.go || '›'}</span>`}`;
+    return o.href ? `<a class="${cls}" href="${o.href}" target="_blank" rel="noopener noreferrer" ${attrs || ''}>${inner}</a>` : `<button type="button" class="${cls}" ${attrs || ''}>${inner}</button>`;
+  }
+  // A card with its own action on the right ("Pick", "Games ›").
+  const tcPair = (card, act) => `<div class="tc-pair">${card}${act}</div>`;
+  // A section of Today: its label on the path, how many of its cards are done, and its cards
+  // ({ html, done: true | false | null for one not counted }).
+  function tsecHtml(id, label, cards) {
+    if (!cards.length) return '';
+    const counted = cards.filter(c => c.done != null), n = counted.filter(c => c.done).length;
+    return `<section class="tsec" data-sec="${id}"><div class="tsec-h"><i aria-hidden="true"></i><b>${label}</b><span>${counted.length ? n + ' of ' + counted.length : ''}</span></div><div class="tsec-list">${cards.map(c => c.html).join('')}</div></section>`;
   }
   // One part of the plan as rows: { card, done (null: not counted), html }.
   function entryRows(e, from) {
@@ -3281,7 +3346,7 @@ const TreasureUp = (function () {
         const n = sunCards(l).length, done = sunDone(l) === n;
         rows.push({ card: 'sun-' + l.id, done, go: { attr: `data-sunlesson="${esc(l.id)}"`, title: 'Sunday class: ' + l.title, sub: n + ' cards' },
           html: flowRow(`data-sunlesson="${esc(l.id)}"`, done, '⛪ Sunday class: ' + esc(l.title), 'Aaronic Priesthood and Young Women · Chapter ' + m.chapter + (done ? ' · done' : ' · ' + n + ' cards')) });
-      } else rows.push({ card: 'sun-guide', done: null, html: `<a class="fl-row" href="${esc(m.guide)}" target="_blank" rel="noopener noreferrer"><span class="fl-c"></span><span class="fl-t">⛪ Youth · Chapter ${m.chapter}: ${esc(m.title)}<small>For the Strength of Youth, this month’s chapter</small></span><span class="fl-go">↗</span></a>` });
+      } else rows.push({ card: 'sun-guide', done: null, html: tcRow('', { href: esc(m.guide), title: `⛪ Youth · Chapter ${m.chapter}: ${esc(m.title)}`, sub: 'For the Strength of Youth, this month’s chapter', go: '↗' }) });
     }
     if (c) {
       const p = pickOf(k);
@@ -3289,14 +3354,14 @@ const TreasureUp = (function () {
         const t = talkById(p[slot]), show = t || suggestTalk(k, slot);
         if (!show) continue;
         const done = !!(S.talks || {})[show.id];
-        rows.push({ card: 'talk-' + slot, done: null, html: `<div class="fl-pair">${flowRow(`data-talk="${esc(show.id)}"`, done, '🎤 ' + name + (t ? '' : ' <em>· suggested</em>'), esc(show.title) + ' · ' + esc(show.speaker))}<button class="fl-pick" data-talkpick="${slot}|${k}">${t ? 'Change' : 'Pick'}</button></div>` });
+        rows.push({ card: 'talk-' + slot, done: null, html: tcPair(flowRow(`data-talk="${esc(show.id)}"`, done, '🎤 ' + name + (t ? '' : ' <em>· suggested</em>'), esc(show.title) + ' · ' + esc(show.speaker)), `<button class="tc-act" data-talkpick="${slot}|${k}">${t ? 'Change' : 'Pick'}</button>`) });
       }
     }
     // A family game, ticked when it's played (2026-10-04: "I want to
     // mark these complete! … I played games with [our son]"); Games › opens them.
     if (k <= dayKey()) {
       const on = playedOn(k);
-      rows.push({ card: 'family', done: on, html: `<div class="fl-pair">${flowRow(`data-played="${k}"`, on, '🎮 A family game', on ? 'We played!' : 'Tap when you’ve played · Showdown, Babylon Falls, the arcade…', { box: true })}<button class="fl-pick" data-games>Games ›</button></div>` });
+      rows.push({ card: 'family', done: on, html: tcPair(flowRow(`data-played="${k}"`, on, '🎮 A family game', on ? 'We played!' : 'Tap when you’ve played · Showdown, Babylon Falls, the arcade…', { box: true }), '<button class="tc-act" data-games>Games ›</button>') });
     } else rows.push({ card: 'family', done: null, html: flowRow('data-games', false, '🎮 A family game', 'Showdown, Babylon Falls, the arcade…') });
     return rows;
   }
@@ -3383,17 +3448,37 @@ const TreasureUp = (function () {
     }
     const counted = rows.filter(r => r.done !== null), n = counted.filter(r => r.done).length;
     const tag = isToday ? '' : keptDay(k) ? '✓ Kept' : k > today ? 'Coming up' : '';
-    // Under the list, as on the other days: the Morning Council's to-dos in Goal Achievements (Sunday's goal
-    // steps are ticked in its list already, so none go there), then Return & Report.
+    // Today's Sunday is the same path of cards as the other days (2026-10-12): the morning, what's left
+    // to study, Sunday's classes, conference, his goals (the family game with them) and the evening.
+    const shown = rows.filter(r => !(button.hide.includes(r.card) && !r.done));
     return `<div class="flow">
       ${isToday ? greetingHtml() : ''}
       <div class="fl-date"><b>${DAY_NAMES[(new Date(k + 'T12:00:00').getDay() + 6) % 7]} · ${esc(shortDay(k))}</b><small>${counted.length ? n + ' of ' + counted.length + ' done' : ''}${tag ? (counted.length ? ' · ' : '') + tag : ''}</small></div>
       ${isToday ? studyModeToggleHtml() : ''}
       ${isToday ? verseHeroHtml() : ''}
       ${button.html}${isToday ? pickUpHtml() : ''}
-      <div class="fl-list">${rows.filter(r => !(button.hide.includes(r.card) && !r.done)).map(r => r.html).join('')}${d < 6 ? moreHtml(d) : ''}${talkDayHtml(k)}</div>
-      ${isToday ? goalsSectionHtml(k, [], { d, isToday }) + eveningCardHtml(k) : ''}
+      ${isToday ? `<div class="tday${seasonWho() !== 'adult' ? ' kids' : ''}">${sundaySecs(shown, k)}</div>` : `<div class="fl-list">${shown.map(r => r.html).join('')}${d < 6 ? moreHtml(d) : ''}</div>`}
     </div>`;
+  }
+
+  // Sunday's rows in the path's sections, by their card: the morning routine, Sunday's classes and
+  // talks, the Season's ticks and the family game in Goals, gratitude in the Evening, the way into
+  // My Season last; anything else (what's left from Saturday) is study.
+  function sundaySecs(rows, k) {
+    const sec = r => /^(still|blueprint)$/.test(r.card) ? 'morning' : /^(sun-|talk-)/.test(r.card) ? 'classes'
+      : r.card === 'grateful' ? 'evening' : r.card === 'season' && /data-season="home"/.test(r.html) ? 'ahead'
+      : r.card === 'family' || /^(tick-|hub$|check$|reflect$|season$)/.test(r.card) ? 'goals' : 'study';
+    // What's left from the week is one card, as on the other days (its rows would be a list of the whole week).
+    const of = id => rows.filter(r => sec(r) === id), talk = talkDayCard(k), up = catchUpRow(false);
+    return [
+      tsecHtml('morning', 'Morning', of('morning')),
+      tsecHtml('study', 'Scripture study', up ? [{ html: up, done: null }] : []),
+      tsecHtml('classes', 'Sunday classes', of('classes')),
+      tsecHtml('conference', 'Conference', talk ? [talk] : []),
+      tsecHtml('goals', 'Goals', goalsCards(k, []).concat(of('goals'))),
+      tsecHtml('evening', 'Evening', of('evening').concat(eveningCards(k))),
+      tsecHtml('ahead', 'Look ahead', of('ahead'))
+    ].join('');
   }
 
   function isFamilyStudy() {
@@ -3543,29 +3628,34 @@ const TreasureUp = (function () {
       button = `<button class="fl-next${k > today ? ' ahead' : ''}" ${stillFirst ? 'data-still-first' : `data-lesson="${isToday ? '' : d + '.' + at}"`}><b>▶ ${esc(k > today ? 'Read ahead' : started ? 'Pick up at ' + pathRowTitle(next) : isToday ? 'Today’s study' : 'Finish this day')}</b>
       <small>${esc((stillFirst ? '🕊️ Be still, then ' : '') + (started ? n + ' of ' + rows.length + ' done · about ' + mins(pathLeft(rows)) + ' min left' : what + ' · about ' + mins(rows.filter(r => !r.own)) + ' min'))}</small></button>`;
     }
-    const extra = [];
+    const extra = [], seasonExtra = [];
     if (isToday) {
-      const behind = behindDays();
-      if (behind.length) {
-        const b = behind[0], ba = (weekPlan()[b] || []).findIndex(e => e.kind === 'day'), bl = dayPath(b, null).filter(r => !r.done);
-        const what = [unitsLabel(readingPlan()[b].filter(u => !unitRead(u))), bl.length === 1 ? '1 step' : bl.length + ' steps', 'about ' + mins(bl) + ' min'].filter(Boolean).join(' · ');
-        extra.push(flowRow(`data-lesson="${b}.${ba}"`, false, '↩ Catch up: ' + behind.map(x => DAY_NAMES[x]).join(' and '), esc(what + (next ? ' · after today’s' : ''))));
-      }
-      // The Season's other rows: finished goals for a parent to look at, planning a Season, the weekend check-in, looking back.
-      seasonRows().filter(r => /^(hub|check|reflect)$/.test(r.card) || (r.card === 'season' && !goalSteps().length)).forEach(r => extra.push(r.html));
+      const up = catchUpRow(!!next);
+      if (up) extra.push(up);
+      // The Season's other rows, in Goals: finished goals for a parent to look at, planning a Season, the weekend check-in, looking back.
+      seasonRows().filter(r => /^(hub|check|reflect)$/.test(r.card) || (r.card === 'season' && !goalSteps().length)).forEach(r => seasonExtra.push(r.html));
     }
     const homeGuide = guideOf(WEEK).filter(p => !p.x.kids);
     const todayMini = homeGuide[d];
+    let mini = null;
     if (todayMini) {
       const isDone = isShortDone(todayMini.x.id);
-      extra.push(flowRow(`data-short-id="${esc(todayMini.x.id)}"`, isDone, '⚡ Family mini-lesson: ' + esc(todayMini.x.h), isDone ? 'Done ✓ Family mini-lesson completed' : 'Come, Follow Me · 2 min interactive cards', { icon: '⚡' }));
+      mini = { done: isDone, html: flowRow(`data-short-id="${esc(todayMini.x.id)}"`, isDone, '⚡ Family mini-lesson: ' + esc(todayMini.x.h), isDone ? 'Done ✓ Family mini-lesson completed' : 'Come, Follow Me · 2 min interactive cards') };
     }
     const tag = isToday ? '' : keptDay(k) ? '✓ Kept' : k > today ? 'Coming up' : '';
-    const isGoalOrThanks = r => r.kind === 'goal' || r.kind === 'thanks';
-    const primaryRows = rows.filter(r => !isGoalOrThanks(r));
-    const goalRows = rows.filter(r => isGoalOrThanks(r));
-    const keepGoing = moreHtml(d);
-    const extraHtml = (extra.length || keepGoing) ? `<div class="fl-list">${extra.join('')}${keepGoing}</div>` : '';
+    // One path of cards in sections (2026-10-12): the morning, the scriptures, conference, his goals,
+    // the evening, then Go further, folded. Another day of the week shows its study and Go further.
+    const cards = rows.map(r => pathCard(r, { d, at, isToday }, r === next)), of = (...ks) => cards.filter(x => ks.includes(x.kind));
+    const study = extra.map(html => ({ html, done: null })).concat(of('part', 'reels', 'cfm', 'bom', 'fsy'), mini ? [mini] : []);
+    const kid = seasonWho() !== 'adult', name = whoName();
+    const walk = isToday ? `<div class="walk-line">🚶 ${kid && name ? esc(name) + '’s Daily Walk' : 'The Daily Walk'} · Micah 6:8</div>` : '';
+    const secs = isToday ? [
+      tsecHtml('morning', 'Morning', of('still', 'blueprint')),
+      tsecHtml('study', 'Scripture study', study),
+      tsecHtml('conference', 'Conference', of('gc')),
+      tsecHtml('goals', 'Goals', goalsCards(k, of('pro', 'goal')).concat(seasonExtra.map(html => ({ html, done: null })))),
+      tsecHtml('evening', 'Evening', of('thanks').concat(eveningCards(k)))
+    ] : [tsecHtml('study', 'Scripture study', study)];
 
     return `<div class="flow">
       ${isToday ? greetingHtml() : ''}
@@ -3573,10 +3663,7 @@ const TreasureUp = (function () {
       ${isToday ? studyModeToggleHtml() : ''}
       ${isToday ? verseHeroHtml() : ''}
       ${button}
-      ${primaryRows.length ? pathListHtml(primaryRows, { d, at, isToday }) : ''}
-      ${extraHtml}
-      ${isToday ? goalsSectionHtml(k, goalRows, { d, at, isToday }) : ''}
-      ${isToday ? eveningCardHtml(k) : ''}
+      <div class="tday${kid ? ' kids' : ''}">${walk}${secs.join('')}${moreHtml(d)}</div>
     </div>`;
   }
 
@@ -4321,83 +4408,33 @@ const TreasureUp = (function () {
     toast('🌙 Returned & Reported', 'Sleep in His peace tonight');
   }
 
-  function goalsSectionHtml(k, goalRows, c) {
-    const bpHad = blueprintOf(k), bp = bpHad ? bpHad[1] : null, kid = seasonWho() !== 'adult';
+  // The Goals section's cards: the Morning Council's One Thing and Someone to uplift (each ticked
+  // here), then the path's goal rows (pathCard), less the Season step the One Thing already is.
+  function goalsCards(k, goalRows) {
+    const bpHad = blueprintOf(k), bp = bpHad ? bpHad[1] : null, kid = seasonWho() !== 'adult', out = [];
     const isDoneOne = (bp && bp.goalSid && bp.goalStepId)
       ? ticked(seasonRec(bp.goalSid), bp.goalStepId, k)
       : !!(bp && bp.done && bp.done.oneThing);
-    const isDoneUplift = bp && bp.done && bp.done.uplift;
-    const hasBpTodos = !!(bp && (bp.oneThing || bp.uplift));
-    const list = goalRows.filter(r => !(r.kind === 'goal' && bp && bp.oneThing && bp.goalStepId && r.x && r.x.st && r.x.st.id === bp.goalStepId));
-    if (!hasBpTodos && !list.length) return '';
-
-    return `<div class="goals-section${kid ? ' kids' : ''}">
-      <div class="goals-header">
-        <span class="goals-badge">🎯 ${kid ? 'My Growth & Goals' : 'Goal Achievements & Best Self'}</span>
-        <span class="goals-sub">${kid ? 'Daily Steps & Focus' : 'Daily Stewardship'}</span>
-      </div>
-      <div class="goals-list">
-        ${bp && bp.oneThing ? `
-          <button type="button" class="bp-check-item${isDoneOne ? ' done' : ''}" data-bp-check="oneThing" role="checkbox" aria-checked="${!!isDoneOne}">
-            <span class="bp-check-box">${isDoneOne ? '✓' : ''}</span>
-            <div class="bp-item-text">
-              <small>${kid ? (bp.goalStepId && bp.youthArea ? areaOf(bp.youthArea).icon + ' ' + areaOf(bp.youthArea).name + ' Growth' : 'Growth Focus') : '⭐ The One Thing'}${bp.goalStepId ? ' · Season Goal 🎯' : ''}</small>
-              <b>${esc(bp.oneThing)}</b>
-            </div>
-          </button>` : ''}
-        ${bp && bp.uplift ? `
-          <button type="button" class="bp-check-item${isDoneUplift ? ' done' : ''}" data-bp-check="uplift" role="checkbox" aria-checked="${!!isDoneUplift}">
-            <span class="bp-check-box">${isDoneUplift ? '✓' : ''}</span>
-            <div class="bp-item-text">
-              <small>🤝 Someone to Uplift</small>
-              <b>${esc(bp.uplift)}</b>
-            </div>
-          </button>` : ''}
-        ${list.map(r => `
-          <div class="goal-row-wrap${r.done ? ' ok' : ''}">
-            <button type="button" class="pth-btn" ${pathRowAttr(r, c)}>
-              <span class="pth-dot${r.kind === 'goal' ? ' box' : ''}">${r.done ? '✓' : ''}</span>
-              <span class="pth-t"><b>${esc(pathRowTitle(r))}</b><small>${esc(pathRowSub(r))}</small></span>
-              ${pathRowXp(r)}
-              ${r.kind !== 'goal' ? '<span class="pth-go">›</span>' : ''}
-            </button>
-          </div>`).join('')}
-      </div>
-    </div>`;
+    const isDoneUplift = !!(bp && bp.done && bp.done.uplift);
+    const bpCard = (what, done, label, text) => ({ done, html: tcRow(`data-bp-check="${what}" role="checkbox" aria-checked="${done}"`,
+      { done, cls: 'bp-check-item' + (done ? ' done' : ''), title: esc(text), sub: label, go: '' }) });
+    if (bp && bp.oneThing) out.push(bpCard('oneThing', !!isDoneOne, (kid ? (bp.goalStepId && bp.youthArea ? areaOf(bp.youthArea).icon + ' ' + esc(areaOf(bp.youthArea).name) + ' growth' : 'Growth focus') : '⭐ The one thing') + (bp.goalStepId ? ' · Season goal' : ''), bp.oneThing));
+    if (bp && bp.uplift) out.push(bpCard('uplift', isDoneUplift, '🤝 Someone to uplift', bp.uplift));
+    return out.concat(goalRows.filter(x => !(x.kind === 'goal' && bp && bp.oneThing && bp.goalStepId && x.r && x.r.x && x.r.x.st && x.r.x.st.id === bp.goalStepId)));
   }
 
-  function eveningCardHtml(k) {
-    const had = eveningOf(k), ev = had ? had[1] : null;
-    const bpHad = blueprintOf(k), bp = bpHad ? bpHad[1] : null, kid = seasonWho() !== 'adult';
-    const isEve = new Date().getHours() >= 17 || !!had || !!bp;
-    if (!isEve) return '';
-
-    if (!ev || (!ev.mercies && !ev.wins && !ev.improve)) {
-      return `<div class="evening-card${kid ? ' kids' : ''}">
-        <div class="bp-head">
-          <span class="ev-badge">🌙 Return & Report</span>
-          ${bp ? `<button type="button" class="bp-edit-btn" data-open-blueprint>Edit Morning Council ✎</button>` : ''}
-        </div>
-        <div class="ev-quote">“Live in thanksgiving daily, for the many mercies and blessings…” <small>Alma 34:38</small></div>
-        <p class="ev-desc">${kid ? 'Tonight, return and report to Heavenly Father: talk about how your day went, notice His help, and prepare for tomorrow.' : 'In the evening, return and report to Heavenly Father: notice His mercies, review today’s wins, and record lessons for tomorrow.'}</p>
-        <div class="ev-actions">
-          <button type="button" class="ev-btn" data-open-evening>📝 Return & Report (+20 XP)</button>
-        </div>
-      </div>`;
-    }
-
-    return `<div class="evening-card${kid ? ' kids' : ''}">
-      <div class="ev-head">
-        <span class="ev-badge" style="color:var(--right)">🌙 Return & Report Completed ✓</span>
-        <button type="button" class="bp-edit-btn" data-open-evening>Review ✎</button>
-      </div>
-      <div class="ev-summary-box">
-        ${ev.mercies ? `<div class="ev-row"><small>✨ Mercies Noticed (Alma 34:38)</small><p>${esc(ev.mercies)}</p></div>` : ''}
-        ${ev.wins ? `<div class="ev-row"><small>🏆 Wins & Victories</small><p>${esc(ev.wins)}</p></div>` : ''}
-        ${ev.improve ? `<div class="ev-row"><small>🌱 Lesson for Tomorrow</small><p>${esc(ev.improve)}</p></div>` : ''}
-      </div>
-    </div>`;
+  // Return & Report, a card of the Evening section like the rest: it opens its sheet; done, it says
+  // what he noticed (the sheet shows it all, to review).
+  function eveningCards(k) {
+    const had = eveningOf(k), ev = had ? had[1] : null, kid = seasonWho() !== 'adult';
+    const done = !!(ev && (ev.mercies || ev.wins || ev.improve));
+    const ch = chargeOf(streakNow());
+    const sub = done ? esc(ev.mercies || ev.wins || ev.improve) : kid ? 'Tonight: talk with Heavenly Father about your day' : 'Notice His mercies · review today’s wins · a lesson for tomorrow';
+    const got = ((pathDoneOf(k).eveningXp) || {}).xp;
+    const xp = done ? (got ? `<em class="pth-xp ok">+${got}<small>earned</small></em>` : '') : `<em class="pth-xp">+${Math.round(EVENING_XP * ch)}${ch > 1 ? ' ⚡' : ' XP'}</em>`;
+    return [{ done, html: tcRow('data-open-evening', { done, cls: 'evening-card', title: '🌙 Return &amp; Report', sub, xp }) }];
   }
+
 
   // A daily gratitude prompt (2026-10-05: "Add a daily gratitude
   // prompt"; he picked up to three lines, one enough to tick it; a question
@@ -6024,8 +6061,7 @@ const TreasureUp = (function () {
   // Friday's deep dive and Saturday's puzzle too; each a row like the path's
   // (the owner: "The same list and green check box ... keep it standard even as
   // I deep dive"), a tap opening that one thing.
-  const moreRow = (attr, done, title, sub, icon) => `<button class="pth-row${done ? ' ok' : ''}" ${attr}><span class="pth-dot${icon ? ' ic' : ''}">${icon || (done ? '✓' : '')}</span>
-    <span class="pth-t"><b>${esc(title)}</b><small>${esc(sub)}</small></span><span class="pth-go" aria-hidden="true">›</span></button>`;
+  const moreRow = (attr, done, title, sub, icon) => tcRow(attr, { done, title: esc(title), sub: esc(sub), icon });
   const cut = (t, n) => t.length > n ? t.slice(0, n).replace(/\s+\S*$/, '').replace(/[\s.,;:!?…]+$/, '') + '…' : t;
   function moreHtml(d) {
     const best = bestCards(d), all = dayInsights(d), plan = weekPlan()[d] || [], fk = furtherKey(d) || plan.map((e, i) => e.kind === 'further' ? d + '.' + i : '').find(Boolean);
@@ -6062,8 +6098,9 @@ const TreasureUp = (function () {
     if (pz >= 0) { const won = entryItems(plan[pz]).every(x => x.done); rows.push(moreRow(`data-lesson="5.${pz}" data-focus="puzzle"`, won, 'The weekly puzzle', won ? 'Solved' : reelsLeft() ? 'Opens when every reel is answered' : PUZZLE_XP + ' XP and a streak freeze')); }
     if (all.length > best.length) rows.push(moreRow('data-tab="study"', false, 'All ' + all.length + ' cards for this day', 'In the Study tab', '💡'));
     const key = WEEK.title + '|' + d;
-    return `<details class="more" data-more="${esc(key)}"${moreOpen === key ? ' open' : ''}><summary><span>Keep going ›<small>${esc([furtherParts(d), fri >= 0 && 'the Friday deep dive', pz >= 0 && 'the weekly puzzle'].filter(Boolean).join(' · '))}</small></span><span class="more-n">${!total ? '' : done === total ? '✓' : done + '/' + total}</span></summary>
-      <div class="more-list">${rows.join('')}</div>
+    // Go further (it was Keep going ›, and More if you want before that): one section of the path, folded.
+    return `<details class="more tsec" data-sec="further" data-more="${esc(key)}"${moreOpen === key ? ' open' : ''}><summary class="tsec-h"><i aria-hidden="true"></i><b>Go further<small>${esc([furtherParts(d), fri >= 0 && 'the Friday deep dive', pz >= 0 && 'the weekly puzzle'].filter(Boolean).join(' · '))}</small></b><span class="more-n">${!total ? '' : done === total ? '✓' : done + '/' + total}</span></summary>
+      <div class="tsec-list more-list">${rows.join('')}</div>
     </details>`;
   }
   const KIND_NAME = { quote: 'Quote', video: 'Video' };
@@ -6398,11 +6435,11 @@ const TreasureUp = (function () {
   }
   // The talk a day (the owner: "Both"): the conference's talks in order, one a
   // day from the conference's `from`.
-  function talkDayHtml(k) {
+  function talkDayCard(k) {
     const c = curConf(), i = c && c.from ? dayDiff(c.from, k) : -1, t = c && i >= 0 && c.talks[i];
-    if (!t) return '';
-    return `<button class="dc-row talk-day" data-talk="${esc(t.id)}"><span class="st">${(S.talks || {})[t.id] ? '✓' : ''}</span>
-      <span>🎤 Talk a day · ${i + 1} of ${c.talks.length}<small>${esc(t.title)} · ${esc(t.speaker)}</small></span><span class="go">›</span></button>`;
+    if (!t) return null;
+    const done = !!(S.talks || {})[t.id];
+    return { done, html: tcRow(`data-talk="${esc(t.id)}"`, { done, title: `🎤 Talk a day · ${i + 1} of ${c.talks.length}`, sub: esc(t.title) + ' · ' + esc(t.speaker) }) };
   }
   // A talk on its own: what it teaches, the speaker's own words, its
   // scriptures (each a tap from the reader), questions to talk over, a deep
@@ -8867,20 +8904,20 @@ const TreasureUp = (function () {
     const [base, upTo] = pathRowBase(r), ch = chargeOf(streakNow());
     return base ? `<em class="pth-xp">${upTo ? '<small>up to</small>' : ''}+${Math.round(base * ch)}${ch > 1 ? ' ⚡' : ' XP'}</em>` : '';
   }
-  function pathListHtml(rows, c) {
-    const next = rows.findIndex(r => !r.done && !r.own);
-    const kid = seasonWho() !== 'adult', name = whoName();
-    const walkTitle = c.isToday ? (kid && name ? esc(name) + '’s Daily Walk' : 'The Daily Walk') : (DAY_NAMES[c.d] + '’s Path');
-    const walkMotto = c.isToday ? '“Walk humbly with thy God”' : 'Micah 6:8';
-    return `<div class="daily-walk${kid ? ' kids' : ''}">
-      <div class="walk-header">
-        <div class="walk-badge">🚶 ${walkTitle} · <span class="walk-scripture">Micah 6:8</span></div>
-        <div class="walk-motto">${walkMotto}</div>
-      </div>
-      <ul class="pth">${rows.map((r, i) => `<li class="${r.done ? 'ok' : i === next ? 'next' : ''}"><button type="button" class="pth-btn" ${pathRowAttr(r, c)}>
-        <span class="pth-dot${r.kind === 'goal' || (r.kind === 'pro' && !r.pick) ? ' box' : ''}">${r.done ? '✓' : ''}</span><span class="pth-t"><b>${esc(pathRowTitle(r))}</b><small>${esc(pathRowSub(r))}</small></span>
-        ${pathRowXp(r)}${r.kind === 'goal' || (r.kind === 'pro' && !r.pick) ? '' : '<span class="pth-go">›</span>'}</button></li>`).join('')}</ul>
-    </div>`;
+  // A path row as a card of Today ({ html, done, kind, r }); next: the step the green button plays next.
+  function pathCard(r, c, next) {
+    const box = r.kind === 'goal' || (r.kind === 'pro' && !r.pick);
+    return { kind: r.kind, r, done: !!r.done, html: tcRow(pathRowAttr(r, c), { done: r.done, next, title: esc(pathRowTitle(r)), sub: esc(pathRowSub(r)), xp: pathRowXp(r), go: box ? '' : '›' }) };
+  }
+  // One row for the days left behind ("↩ Catch up: Monday and Tuesday"), the first of them to play;
+  // after: today's own study comes first.
+  function catchUpRow(after) {
+    const behind = behindDays();
+    if (!behind.length) return '';
+    const b = behind[0], ba = (weekPlan()[b] || []).findIndex(e => e.kind === 'day'), bl = dayPath(b, null).filter(r => !r.done), min = bl.reduce((m, r) => m + pathRowMin(r), 0);
+    const what = [unitsLabel(readingPlan()[b].filter(u => !unitRead(u))), bl.length === 1 ? '1 step' : bl.length + ' steps', 'about ' + min + ' min'].filter(Boolean).join(' · ');
+    const days = behind.map(x => DAY_NAMES[x]);
+    return flowRow(`data-lesson="${b}.${ba}"`, false, '↩ Catch up: ' + (days.length > 2 ? days.length + ' days, from ' + days[0] : days.join(' and ')), esc(what + (after ? ' · after today’s' : '')));
   }
   // Earlier days this week with part of their path left (reading, questions, lesson part).
   const behindDays = () => [0, 1, 2, 3, 4, 5].filter(d => d < todayIndex() && pathLeft(dayPath(d, null)).length);

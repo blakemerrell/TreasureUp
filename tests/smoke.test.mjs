@@ -46,9 +46,9 @@ export default async function smoke({ port }) {
   check(homeTxt.includes('Morning sunlight') && homeTxt.includes('Good health'), 'Morning gratitude items saved with Blueprint');
   check(!homeTxt.includes('Excess fourth line'), 'Gratitude capped at 3 items max');
   check(await p.locator('.flow > .blueprint-card').count() === 0, 'No blueprint box at the top of Today');
-  check(await p.locator('.goals-section .bp-check-item').count() >= 2, 'To-dos piped into Goal Achievements section');
-  await p.click('.goals-section [data-bp-check="oneThing"]'); await wait(300);
-  check(await p.locator('.goals-section .bp-check-item.done').count() > 0, 'To-do item checkoff works in Goal Achievements');
+  check(await p.locator('.tsec[data-sec="goals"] .bp-check-item').count() >= 2, 'To-dos are cards in the Goals section');
+  await p.click('.tsec[data-sec="goals"] [data-bp-check="oneThing"]'); await wait(300);
+  check(await p.locator('.tsec[data-sec="goals"] .bp-check-item.done').count() > 0, 'a to-do ticks in Goals');
 
   // The Way: Book of Mormon Living Water Micro-Dose
   check(await p.locator('[data-bom-open]').count() > 0, 'Book of Mormon row renders in path');
@@ -63,11 +63,13 @@ export default async function smoke({ port }) {
   check(/Return & Report/i.test(await txt(p, '#appBody')), 'Evening Accounting sheet opens');
   await p.fill('#evMercies', 'Felt peace during our morning study');
   await p.click('[data-ev-save]'); await wait(400);
-  const cardTxt = await txt(p, '.evening-card');
-  check(/Return & Report Completed/i.test(cardTxt), 'Evening Accounting saved and reports back');
-  const flowOrder = await p.$$eval('#home .flow > *', els => els.map(e => e.className.split(' ')[0]));
-  const phaseIdx = ['daily-walk', 'fl-list', 'goals-section', 'evening-card'].map(c => flowOrder.indexOf(c));
-  check(phaseIdx.every((v, i) => v >= 0 && (i === 0 || v > phaseIdx[i - 1])), 'Today flow order: Walk → Keep going → Goals → Return & Report');
+  const cardTxt = await txt(p, '.tsec[data-sec="evening"] .evening-card.ok');
+  check(/Felt peace during our morning study/.test(cardTxt), 'Evening Accounting saved: its card is ticked and says what he noticed');
+  // One path of cards (2026-10-12): the sections in their order, every step the same card, Go further last.
+  const secs = await p.$$eval('#home .tday > .tsec', els => els.map(e => e.dataset.sec));
+  const want = ['morning', 'study', 'conference', 'goals', 'evening', 'further'].filter(x => secs.includes(x));
+  check(secs.join() === want.join() && ['morning', 'study', 'goals', 'evening', 'further'].every(x => secs.includes(x)), 'Today’s sections in order: ' + secs.join(' → '));
+  check(await p.locator('#home .tday .tsec-list > :not(.tc):not(.tc-pair)').count() === 0, 'every step on the path is the same card');
 
   await p.click('#stillBtn'); await wait(400);
   check(!(await p.$eval('#stillLayer', e => e.hidden)), 'Be still opens');
