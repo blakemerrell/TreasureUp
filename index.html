@@ -2766,7 +2766,8 @@ const TreasureUp = (function () {
     queueSeasonSum();
   }
   function saveLocal() {
-    try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); } catch (e) {}
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(famCopy(S))); } catch (e) {}
+    journalSaveLocal();
   }
 
   /* ---------------- dates ---------------- */
@@ -9967,6 +9968,171 @@ const TreasureUp = (function () {
     return out;
   }
 
+  /* ---- The Pro journal: a grown-up's own, kept apart from the family's copy ----
+     2026-10-11: full history to look back on and count, and "Only me". In a
+     family a grown-up's Pro pages (S.pro) live in Firestore under
+     journals/{their uid}/{plan|weeks|days|months}/{id}, which only their own
+     sign-in can read or write (firestore.rules), and on this device
+     under NS + 'journal.' + uid. They're left out of the saved progress the
+     family keeps (backup/{pid}, which any parent can read) and never trimmed.
+     A child's Pro, and Pro on a device in no family, stay in S as before.
+     Each document holds its part of S.pro as one JSON string (v): the plan
+     (mission, roles, goals), a week's big rocks, a day's top 3, a month's
+     review; two devices' copies merge by each record's upd (mergePro). */
+  const journalUid = () => (F && !F.pending && F.role !== 'kid' && F.uid && F.uid === F.pid && S && (S.owner == null || S.owner === F.pid) ? F.uid : null);
+  const J_KEY = uid => NS + 'journal.' + uid, J_SYNCED = uid => NS + 'journal.synced.' + uid, J_PULLED = uid => NS + 'journal.pulled.' + uid;
+  const J_COLLS = ['plan', 'weeks', 'days', 'months'], J_ERASED = 'plan/erased';
+  let jTimer = null, jChain = Promise.resolve(), jPulledAt = 0;
+  // S as the family keeps it: without a grown-up's journal.
+  const famCopy = st => (journalUid() && st && st.pro ? Object.assign({}, st, { pro: undefined }) : st);
+  // S.pro in its documents: path -> the part of S.pro it holds.
+  function jSplit(pro) {
+    const out = { 'plan/main': { mission: pro.mission || { text: '', upd: 0 }, roles: pro.roles || {}, goals: pro.goals || {} } };
+    for (const [d, t] of Object.entries(pro.tops || {})) out['days/' + d] = { tops: { [d]: t } };
+    for (const [id, r] of Object.entries(pro.rocks || {})) { const p = 'weeks/' + ((r && r.wk) || 'none'); (out[p] = out[p] || { rocks: {} }).rocks[id] = r; }
+    for (const [m, x] of Object.entries(pro.months || {})) out['months/' + m] = { months: { [m]: x } };
+    return out;
+  }
+  const jSynced = uid => { try { return JSON.parse(stored(J_SYNCED(uid)) || '{}'); } catch (e) { return {}; } };
+  // Nothing written yet (the Mission page makes an empty one just to show): not kept, not sent.
+  const jBlank = pro => !pro || (!(pro.mission && pro.mission.text) && ['roles', 'goals', 'rocks', 'tops', 'months'].every(k => !Object.keys(pro[k] || {}).length));
+  // After an Erase (on any of their devices) only what was written later is kept.
+  function jAfter(pro, at) {
+    if (!pro) return pro;
+    const keep = o => Object.fromEntries(Object.entries(o || {}).filter(([, r]) => r && (r.upd || r.at || 0) > at));
+    const out = { mission: ((pro.mission || {}).upd || 0) > at ? pro.mission : { text: '', upd: 0 } };
+    for (const k of ['roles', 'goals', 'rocks', 'tops', 'months']) out[k] = keep(pro[k]);
+    return jBlank(out) ? undefined : out;
+  }
+  // An Erase this device hasn't applied yet (its time is kept in the synced map): drop what's older here.
+  function jApplyErase(at, synced) {
+    if (!at || at <= Number(synced[J_ERASED] || 0)) return false;
+    S.pro = jAfter(S.pro, at);
+    for (const p of Object.keys(synced)) delete synced[p];
+    synced[J_ERASED] = String(at);
+    return true;
+  }
+  const jErasedAt = async uid => { const d = await jRef(uid, J_ERASED).get(); try { return d.exists ? JSON.parse(d.data().v).erased || 0 : 0; } catch (e) { return 0; } };
+  // On this device: the journal is put back into S (an older copy of S may still hold Pro: kept, merged in).
+  function journalAttach() {
+    const uid = journalUid();
+    if (!uid) return;
+    let mine = null;
+    try { mine = JSON.parse(stored(J_KEY(uid)) || 'null'); } catch (e) {}
+    const was = S.pro;
+    S.pro = mergePro(mine, was) || undefined;
+    if (S.pro) store(J_KEY(uid), JSON.stringify(S.pro));
+    if (was) saveLocal();   // S without it from now on
+  }
+  function journalSaveLocal() {
+    const uid = journalUid();
+    if (uid && !jBlank(S.pro)) { store(J_KEY(uid), JSON.stringify(S.pro)); journalQueue(); }
+  }
+  function journalQueue(ms) {
+    if (!journalUid() || jTimer) return;
+    jTimer = setTimeout(() => { jTimer = null; journalNow(); }, ms == null ? 2500 : ms);
+  }
+  function journalNow() { jChain = jChain.then(journalPush).catch(journalFailed); return jChain; }
+  const jRef = (uid, path) => fs().collection('journals').doc(uid).collection(path.split('/')[0]).doc(path.split('/')[1]);
+  const jReady = uid => { const u = authUser(); return !!u && u.uid === uid && !!FIREBASE_CONFIG; };
+  // Each document that changed here is written, merged with the other device's if it changed there too.
+  async function journalPush() {
+    const uid = journalUid();
+    if (!uid || jBlank(S.pro) || !jReady(uid)) return;
+    const synced = jSynced(uid);
+    if (jApplyErase(await jErasedAt(uid), synced)) {   // erased on another device while this one was away
+      store(J_SYNCED(uid), JSON.stringify(synced));
+      store(J_KEY(uid), jBlank(S.pro) ? null : JSON.stringify(S.pro));
+      if (jBlank(S.pro)) S.pro = undefined;
+      refreshHome();
+      if (!S.pro) return;
+    }
+    const docs = jSplit(S.pro);
+    const dirty = Object.keys(docs).filter(p => canon(docs[p]) !== synced[p]);
+    let got = null;
+    for (const p of dirty) {
+      const ref = jRef(uid, p);
+      let wrote = null;
+      await fs().runTransaction(async t => {
+        const snap = await t.get(ref), theirs = snap.exists ? snap.data().v : null;
+        let part = docs[p];
+        if (theirs && theirs !== synced[p] && theirs !== canon(part)) { const m = mergePro(JSON.parse(theirs), part); part = jSplit(m)[p] || part; got = mergePro(got, m); }
+        wrote = canon(part);
+        if (wrote !== theirs) t.set(ref, { v: wrote, upd: TS() });
+      });
+      synced[p] = wrote;
+      store(J_SYNCED(uid), JSON.stringify(synced));
+    }
+    if (got) { S.pro = mergePro(got, S.pro); store(J_KEY(uid), JSON.stringify(S.pro)); refreshHome(); }
+  }
+  function journalFailed(e) {
+    // No connection, or not signed in yet: the journal is safe on this device, and goes up at the next change or start.
+    if (e && e.code === 'permission-denied') console.warn('journal: not allowed', e.message);
+  }
+  // What the other devices wrote since this one last looked.
+  async function journalPull() {
+    const uid = journalUid();
+    if (!uid || !jReady(uid) || Date.now() - jPulledAt < 60000) return;
+    jPulledAt = Date.now();
+    const since = Number(stored(J_PULLED(uid)) || 0), synced = jSynced(uid);
+    let got = null, newest = since, erased = 0;
+    const came = [];
+    for (const c of J_COLLS) {
+      const snap = await fs().collection('journals').doc(uid).collection(c).where('upd', '>', firebase.firestore.Timestamp.fromMillis(since)).get();
+      snap.forEach(d => {
+        const x = d.data(), at = x.upd && x.upd.toMillis ? x.upd.toMillis() : 0;
+        if (at > newest) newest = at;
+        try {
+          const v = JSON.parse(x.v);
+          if (c + '/' + d.id === J_ERASED) erased = Math.max(erased, v.erased || 0);
+          else came.push([c + '/' + d.id, v, x.v]);
+        } catch (e) {}
+      });
+    }
+    const before = canon(S.pro || null);
+    jApplyErase(erased, synced);   // erased on another device: only what's newer stays here, and that goes up again
+    for (const [p, v, raw] of came) { got = mergePro(got, v); synced[p] = raw; }
+    store(J_SYNCED(uid), JSON.stringify(synced));
+    store(J_PULLED(uid), String(newest));
+    if (got) S.pro = mergePro(got, S.pro);
+    if (canon(S.pro || null) !== before) {
+      store(J_KEY(uid), jBlank(S.pro) ? null : JSON.stringify(S.pro));
+      if (jBlank(S.pro)) S.pro = undefined;
+      refreshHome();
+    }
+    journalQueue(0);   // anything here the cloud doesn't have yet (the first time: all of it)
+  }
+  // The whole journal, as a file to keep.
+  function journalExport() {
+    const blob = new Blob([JSON.stringify({ kind: 'TreasureUp Pro journal', exported: new Date().toISOString(), pro: S.pro || null }, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'treasureup-journal-' + dayKey() + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  }
+  // Erased for real: every document, this device's copy, and S.pro.
+  // Its other devices see the note it leaves (plan/erased) and drop their copies the next time they look.
+  async function journalErase() {
+    const uid = journalUid();
+    // The cloud first: if that can't be done (offline), nothing is erased and it can be tried again.
+    if (uid) {
+      if (!jReady(uid) || !navigator.onLine) throw new Error('offline');
+      clearTimeout(jTimer); jTimer = null;
+      await jChain.catch(() => {});
+      for (const c of J_COLLS) {
+        const snap = await fs().collection('journals').doc(uid).collection(c).get({ source: 'server' });
+        let b = fs().batch(), n = 0;
+        for (const d of snap.docs) { b.delete(d.ref); if (++n === 400) { await b.commit(); b = fs().batch(); n = 0; } }
+        if (n) await b.commit();
+      }
+      const at = Date.now();
+      await jRef(uid, J_ERASED).set({ v: JSON.stringify({ erased: at }), upd: TS() });
+      store(J_KEY(uid), null); store(J_SYNCED(uid), JSON.stringify({ [J_ERASED]: String(at) }));
+    }
+    S.pro = undefined;
+    save();
+  }
+
   // The week the plan shows: picked, or on Sunday the one coming (Sunday's the day to plan it), else this one.
   const proThisMon = () => mondayOf(dayKey());
   const proWeekMon = () => nb.proWk || (new Date(dayKey() + 'T12:00:00').getDay() === 0 ? dayAdd(proThisMon(), 7) : proThisMon());
@@ -10085,7 +10251,16 @@ const TreasureUp = (function () {
       <p class="nb-sub">The parts of life I’m responsible for. Each Pro goal and big rock belongs to one.</p>
       ${roles.length ? `<ul class="pro-list">${roles.map(r => `<li class="pro-item"><span class="pro-txt big">${esc(r.name)}</span><button class="pro-x" data-pro-role-del="${esc(r.id)}" aria-label="Remove ${esc(r.name)}">✕</button></li>`).join('')}</ul>` : ''}
       <div class="pro-add"><input id="proRole" class="pro-in" maxlength="40" data-pro-enter placeholder="A role, like Father or Friend" aria-label="Add a role"><button class="pro-go" data-pro-role-add>Add</button></div>
-      ${ideas.length && roles.length < 10 ? `<div class="pro-chips">${ideas.map(x => `<button class="pro-chip" data-pro-role-idea="${esc(x)}">＋ ${esc(x)}</button>`).join('')}</div>` : ''}</section>`;
+      ${ideas.length && roles.length < 10 ? `<div class="pro-chips">${ideas.map(x => `<button class="pro-chip" data-pro-role-idea="${esc(x)}">＋ ${esc(x)}</button>`).join('')}</div>` : ''}
+      ${proJournalHtml()}</section>`;
+  }
+  // Where the Pro pages are kept, a file of them, and erasing them (two taps).
+  function proJournalHtml() {
+    const own = !!journalUid();
+    return `<div class="nb-lbl pro-gap">My journal</div>
+      <p class="nb-sub" data-pro-where>${own ? '🔒 Kept for you only, with your Google sign-in, and never trimmed: the family’s copy of your progress leaves it out.' : F ? 'Kept in your saved progress, which your family’s parents can see.' : 'Kept on this device.'}</p>
+      <div class="pro-add end"><button class="pro-go" data-pro-export>⬇ Save a copy</button>${nb.proErase ? '<button class="pro-go" data-pro-erase-yes>Erase it all, for good</button><button class="pro-go" data-pro-erase-no>Keep it</button>' : '<button class="pro-go" data-pro-erase>Erase…</button>'}</div>
+      ${nb.proErase ? '<p class="nb-sub">This erases your mission, roles, goals, big rocks, top 3s and reviews, here, in the cloud, and on your other devices the next time they connect. It can’t be undone; save a copy first if you might want it.</p>' : ''}`;
   }
 
   // What got done in a month, from the Pro pages and the Season's ticks.
@@ -10147,6 +10322,14 @@ const TreasureUp = (function () {
       Object.assign(nb, { book: null, shelf: false, printing: false, proWk: null, proMo: null });
       use(S.proMode ? 'proOn' : 'proOff'); save(); refreshHome();
       seasonDraw(S.proMode ? '✨ Pro is on: Today, Week, Year, Mission and Month are in front. Your Season’s pages are all still here.' : 'Back to Simple. Your Pro plans are kept for when you turn Pro on again.', true);
+      return true;
+    }
+    if (t.closest('[data-pro-export]')) { journalExport(); return true; }
+    if (t.closest('[data-pro-erase]')) { nb.proErase = true; seasonDraw(); return true; }
+    if (t.closest('[data-pro-erase-no]')) { nb.proErase = false; seasonDraw(); return true; }
+    if (t.closest('[data-pro-erase-yes]')) {
+      nb.proErase = false;
+      journalErase().then(() => seasonDraw('Your Pro journal is erased.', true), () => seasonDraw('Couldn’t reach the cloud, so nothing was erased. Try again when you’re online.', true));
       return true;
     }
     const tb = t.closest('[data-pro-tab]');
@@ -16477,9 +16660,9 @@ const TreasureUp = (function () {
     // internet coming back, reconnects (the first try may have been offline).
     document.addEventListener('visibilitychange', () => {
       if (!F || !FIREBASE_CONFIG) return;
-      if (document.visibilityState === 'hidden') syncNow();
+      if (document.visibilityState === 'hidden') { syncNow(); if (journalUid()) journalNow(); }
       else if (!authUser()) famConnect();
-      else queueSync(500);
+      else { queueSync(500); journalPull().catch(journalFailed); }
     });
     window.addEventListener('online', () => { if (F && FIREBASE_CONFIG) famConnect(); });
   }
@@ -16523,6 +16706,7 @@ const TreasureUp = (function () {
     if (!F && u) await findMyFamily(u);
     if (F) await checkMembership();
     if (F) { watchLatest(); if (claimProgress()) { watchBackup(); await syncNow(); } }
+    if (F) journalPull().catch(journalFailed);
     const raw = q.get('invite') || stored(NS + 'pendingInvite');
     if (raw && fam) await loadInvite(raw);
     famUid = authUser() ? authUser().uid : null;
@@ -16664,10 +16848,10 @@ const TreasureUp = (function () {
     const u = authUser();
     if (!F || F.pending || !u || u.uid !== F.uid || S.owner !== F.pid) return;
     const ref = famCol(F.fid, 'backup').doc(F.pid), sumRef = famCol(F.fid, 'progress').doc(F.pid);
-    const mine = canon(S), base = synced();
-    let wrote = null, take = null;
+    const mine = canon(famCopy(S)), base = synced();
+    let wrote = null, take = null, absorbed = null;
     await fs().runTransaction(async t => {
-      wrote = take = null;
+      wrote = take = absorbed = null;
       const snap = await t.get(ref);
       const theirs = snap.exists ? snap.data().state : null;
       if (theirs === mine) return;
@@ -16676,6 +16860,8 @@ const TreasureUp = (function () {
       else if (mine === base) { take = theirs; return; }                                  // only the family's copy changed
       else next = mergeProgress(JSON.parse(theirs), S, base ? JSON.parse(base) : null);    // both changed
       next = Object.assign({}, next, { owner: F.pid, ownerName: F.name });
+      // A grown-up's journal stays out of the family's copy (an older copy of it may still hold some: kept, in the journal).
+      if (journalUid()) { absorbed = next.pro || null; next = famCopy(next); }
       wrote = canon(next);
       if (wrote.length >= SAVE_LIMIT) {
         if (!sizeWarned) { sizeWarned = true; toast('👪 Not saved to the family', 'This progress is too big to save now. A parent can see why in 👪 People.'); }
@@ -16684,6 +16870,7 @@ const TreasureUp = (function () {
       t.set(ref, { xp: next.xp, state: wrote, by: F.uid, updated: TS() });
       t.set(sumRef, summaryOf(next));
     });
+    if (absorbed && absorbed !== S.pro) { S.pro = mergePro(absorbed, S.pro); journalSaveLocal(); }
     if (take) { adopt(take, mine, 'Progress synced|From your other device'); return; }
     setSynced(mine);                   // the family's copy now includes everything here
     if (wrote && wrote !== mine) adopt(wrote, mine, 'Progress merged|With your other device');
@@ -16719,7 +16906,7 @@ const TreasureUp = (function () {
     clearTimeout(adoptTimer);
     const a = pendingAdopt;
     if (!a || !F) return;
-    if (canon(S) !== a.from) { pendingAdopt = null; queueSync(0); return; }
+    if (canon(famCopy(S)) !== a.from) { pendingAdopt = null; queueSync(0); return; }
     const typing = [...document.querySelectorAll('textarea, input.field')].some(t => t.value.trim() && !t.readOnly);
     // Any screen over the tabs waits: a restart under Be still ended his quiet time and lost its minutes (tracer, 2026-10-07).
     const busy = ['play', 'live', 'board', 'parent', 'lesson', 'view', 'risk', 'snake', 'look', 'ammon', 'past', 'fam', 'dev', 'stillLayer', 'appSheet', 'wordSheet'].some(id => !$(id).hidden) || typing || !!$('party');
@@ -16755,7 +16942,8 @@ const TreasureUp = (function () {
     // The day's treasure word he opened: only today's is looked at.
     for (const d in S.twSeen || {}) if (d < old) delete S.twSeen[d];
     // Pro's top 3s and big rocks: the last PRO_KEEP days (a month's review keeps its own count); a removed record's mark after 60 days.
-    if (S.pro) {
+    // A grown-up's journal in a family isn't trimmed: it lives apart from the family's copy (journalUid), whole.
+    if (S.pro && !journalUid()) {
       const p = S.pro, keep = dayAdd(dayKey(), -PRO_KEEP);
       for (const d in p.tops || {}) if (d < keep) delete p.tops[d];
       for (const k in p.rocks || {}) { const r = p.rocks[k]; if (!r || (r.gone ? (r.upd || 0) < cut : (r.wk || '') < keep)) delete p.rocks[k]; }
@@ -17774,7 +17962,7 @@ const TreasureUp = (function () {
   function savedLine() {
     if (S.owner !== F.pid) return 'This device saves to the family once the question about its progress is answered.';
     const at = Number(stored(NS + 'savedAt')) || 0;
-    if (canon(S) === synced()) return "This device's progress is saved to the family" + (at ? ' (' + when(at) + ').' : '.');
+    if (canon(famCopy(S)) === synced()) return "This device's progress is saved to the family" + (at ? ' (' + when(at) + ').' : '.');
     if (sizeWarned) return `This device's progress is too big to save to the family (the family's limit is ${fmtN(SAVE_LIMIT)} characters). It's all still on this device; it needs a cleanup in the app's code.`;
     return "Some progress on this device isn't saved to the family yet" + (at ? ' (last saved ' + when(at) + ')' : '') +
       '. It saves by itself when there’s a connection.';
@@ -20395,12 +20583,13 @@ const TreasureUp = (function () {
     F = loadFam();
     // A family saved by the other site (live vs test) belongs to its Firebase project.
     if (F && FIREBASE_CONFIG && F.project && F.project !== FIREBASE_CONFIG.projectId) F = null;
+    journalAttach();   // a grown-up's Pro journal, kept on its own (it isn't in S's saved copy)
     // Progress saved before it had an owner: a device already in a family
     // was saving it as that person's, and the family's copy matched it.
     if (S.owner === undefined) {
       S.owner = F ? F.pid : null;
       S.ownerName = F ? F.name : null;
-      if (F && !stored(syncKey(F.pid))) store(syncKey(F.pid), canon(S));
+      if (F && !stored(syncKey(F.pid))) store(syncKey(F.pid), canon(famCopy(S)));
     }
 
     // A new week: keep a one-line summary of the last one for the year trail,

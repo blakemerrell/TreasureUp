@@ -490,6 +490,23 @@ service cloud.firestore {
         && request.resource.data.updated == request.time;
     }
 
+    // ---------------- a grown-up's Pro journal ----------------
+    // 2026-10-11: "Only me". A grown-up's Pro pages (mission, roles, goals,
+    // each week's big rocks, each day's top 3, each month's review) are kept
+    // under their own account, not the family's: only the person signed in
+    // as {uid} reads or writes them; no other parent, no child, not the
+    // family's saved copy. Each document is one JSON string (v), stamped with
+    // the server's clock (upd) so another device can ask what changed since.
+    match /journals/{uid}/{part}/{id} {
+      allow read, delete: if signedIn() && request.auth.uid == uid;
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && part in ['plan', 'weeks', 'days', 'months']
+        && id.size() <= 40
+        && request.resource.data.keys().hasOnly(['v', 'upd'])
+        && request.resource.data.v is string && request.resource.data.v.size() < 500000
+        && request.resource.data.upd == request.time;
+    }
+
     // Nothing else is readable or writable.
     match /{document=**} {
       allow read, write: if false;
