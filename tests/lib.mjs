@@ -144,7 +144,8 @@ export async function runLesson(page, opts = {}) {
   const foot = a => page.locator(`#lessonFoot [data-ls="${a}"]:not([disabled])`);
   const stepKind = () => page.evaluate(() => { const b = document.getElementById('lessonBody'); return b && !document.getElementById('lesson').hidden ? b.dataset.step : null; });
   const answer = async kind => {
-    const q = (await page.locator('#lessonBody .ls-prompt').first().innerText().catch(() => '')).trim();
+    // Read at once: a Go deeper or bonus step has no .ls-prompt, and waiting for one cost 30 s a step.
+    const q = await page.evaluate(() => ((document.querySelector('#lessonBody .ls-prompt') || {}).innerText || '').trim());
     const right = await page.evaluate(([kind, q]) => {
       for (const w of window.TU_WEEKS) for (const r of w.reels) {
         if (kind === 'find' ? (r.seek || r.hook) === q : r.question.q === q) return kind === 'find' ? String(Number(/:(\d+)/.exec(r.verse.ref)[1])) : r.question.right;
