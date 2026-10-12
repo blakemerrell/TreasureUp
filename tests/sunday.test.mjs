@@ -194,10 +194,11 @@ async function cards({ port, sun }) {
   const stripped = await p.evaluate(html => { const d = document.createElement('div'); d.innerHTML = html; d.querySelectorAll('.talk-story, .talk-invite, .talk-try').forEach(e => e.remove()); return d.innerHTML; }, withNew);
   check(stripped === without, 'cards: a talk without the new fields renders exactly as before (the same HTML as one with them, less their blocks)');
 
-  // Not approved: the speaker's invitation and promise show, as quotes do; our story and Try this week wait.
+  // Not approved: the invitation and promise wait too (Blake, 2026-10-12: which promise goes with which
+  // invitation is our choice), with our story and Try this week; the speaker's quotes still show.
   await openTalkSheet(p, 'fx-talk-draft');
-  check(await p.locator('#appBody .talk-invite').count() === 2 && await p.locator('#appBody .talk-story, #appBody .talk-try').count() === 0,
-    'cards: a talk not yet approved shows the speaker’s invitation and promise, but not our story or Try this week');
+  check(await p.locator('#appBody .talk-invite, #appBody .talk-story, #appBody .talk-try').count() === 0 && await p.locator('#appBody blockquote.ins-quote').count() > 0,
+    'cards: a talk not yet approved shows the speaker’s quotes, but not the invitation, promise, story or Try this week');
   // Approved, then its `try` changed: the fingerprint covers it, so our words wait for approval again.
   await openTalkSheet(p, 'fx-talk-changed');
   check(await p.locator('#appBody .talk-story, #appBody .talk-try').count() === 0 && !/Prayer can be more than words/.test(await txt(p, '#appBody')),

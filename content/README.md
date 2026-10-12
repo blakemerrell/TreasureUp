@@ -625,8 +625,8 @@ a talk a day from `from`. Each talk:
   words), 📖 The story after `quick`, once approved; `invite`, 1 or 2
   `{ ask, promise }`, 🙋 The invitation and ✨ The promise under it (`promise`
   null if there is none), the speaker's own words, 8 to 40 words each, found on
-  the talk's page word for word (`--online`) and shown without approval as
-  `quotes` are; `try` (30 words at most), ✅ Try this week after the questions,
+  the talk's page word for word (`--online`), shown once approved (2026-10-12:
+  which promise goes with which invitation is our choice); `try` (30 words at most), ✅ Try this week after the questions,
   once approved.
 
 Which talk each Sunday's class does is picked in the app by anyone in the

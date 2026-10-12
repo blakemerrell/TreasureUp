@@ -6429,7 +6429,7 @@ const TreasureUp = (function () {
     openSheet(`<div class="ls-kind">🎤 ${esc(c.title)} · ${esc(t.session)}</div>${draft ? '<p class="plain-draft">Draft: not approved yet</p>' : ''}
       <div class="sh-title">${esc(t.title)}</div><p class="ins-who" style="margin-top:2px">${esc(t.speaker)}</p>
       ${own && t.quick ? `<p class="reel-body" style="margin-top:10px">${linkRefs(t.quick)}</p>` : ''}${own ? talkStoryHtml(t) : ''}
-      ${(t.quotes || []).map(q => `<blockquote class="ins-quote">“${esc(String(q).replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote>`).join('')}${talkInviteHtml(t)}
+      ${(t.quotes || []).map(q => `<blockquote class="ins-quote">“${esc(String(q).replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote>`).join('')}${own ? talkInviteHtml(t) : ''}
       ${own ? list('What it teaches', t.points) : ''}
       ${(t.scriptures || []).length ? `<div class="talk-h">Scriptures it uses</div><p class="talk-refs">${t.scriptures.map(r => linkRefs(r)).join(' · ')}</p>` : ''}
       ${own ? list('To talk over', t.discuss) : ''}${own ? talkTryHtml(t) : ''}
