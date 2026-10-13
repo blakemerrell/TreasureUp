@@ -20080,6 +20080,13 @@ const TreasureUp = (function () {
         if (p) openSheet(shortPlayerHtml(p, 0));
         return;
       }
+      const crid = e.target.closest('[data-cream-id]');
+      if (crid) {
+        stopClips();
+        const it = creamItemsOf(WEEK).find(x => x.id === crid.dataset.creamId);
+        if (it) openSheet(creamPlayerHtml(it, 0));
+        return;
+      }
       if (e.target.closest('[data-pass-turn]')) {
         passFamilyTurn();
         refreshHome();

@@ -57,4 +57,5 @@ TreasureUp is a vanilla HTML/JS/CSS offline-first web application.
 - **Latest Work**:
   - Implemented 3-way scripture translation toggle (`Plain English`, `KJV`, `BSB`) with single-flight network retry and fallback protection.
   - Chunked and verified Week 42 (October 12–18, 2026) family lesson cards with interactive activities.
+  - Wired `[data-cream-id]` click event delegation to `#home` container so Deep Dive cards in the Study tab shelf open the 3-step interactive player.
   - Fully green on `tools/check-parse.mjs` and `tools/verify.mjs`.
