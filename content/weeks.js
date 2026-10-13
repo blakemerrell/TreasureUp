@@ -4570,13 +4570,13 @@ window.TU_WEEKS = [
         "ref": "Isaiah 58:3–12",
         "kids": false,
         "lines": [
-          "Why would anyone skip meals with food right there in the kitchen? Isaiah 58 gives the Lord’s reasons for fasting. Think about yours, too.",
-          "Fasting can start to feel like a burden (Isaiah 58:3–5). The Lord’s kind of fast is meant “to loose the bands of wickedness” (Isaiah 58:6).",
-          "It reaches others too, like feeding the hungry and helping the poor (Isaiah 58:7). Then He promises light, healing and guidance (Isaiah 58:8–12).",
-          "President Henry B. Eyring has told of several people blessed by fasting and fast offerings."
+          "Why would anyone skip meals on purpose? Israel complained God wasn’t listening, but they were just being selfish and grumpy (Isaiah 58:3–4).",
+          "God’s true fast isn’t about looking miserable. It’s about undoing heavy burdens and sharing your food with the hungry (Isaiah 58:6–7).",
+          "When you fast to lift others, God promises your light will break out like the morning sun and He will answer: “Here I am” (Isaiah 58:8–9).",
+          "President Henry B. Eyring taught that fasting blesses both the giver and the receiver, promising the Lord will guide you continually (Isaiah 58:11)."
         ],
-        "ask": "When has fasting, or a fast offering, blessed you or someone you know?",
-        "approved": "1b6c7aca"
+        "ask": "When has fasting blessed you or someone you know? What is one thing our family can dedicate our next fast for?",
+        "approved": "a09fbdb3"
       },
       {
         "h": "Honoring the Lord on the Sabbath brings joy.",

@@ -323,6 +323,10 @@ it). Each section is `{ h, id, ref, kids, lines, ask }`.
 - `kids`: `true` for a section from "Ideas for Teaching Children".
 - `lines`: 2 to 4 lines on what the section teaches and invites the family
   to do, 30 words max each. Write for an 11-year-old and his parents.
+  **Chunk scriptures for kids**: Each line should cite its own 1–2 verse
+  chunk in parentheses, e.g. `(Isaiah 58:3–4)` on line 1, `(Isaiah 58:6–7)`
+  on line 2. The shorts card engine uses these citations to display bite-sized
+  scripture focus blocks on each card instead of one long wall of text.
   References are links. Quote only scripture, in the KJV's own words with
   its reference.
 - `ask`: one question to talk about, from the section's own invitation. 25
