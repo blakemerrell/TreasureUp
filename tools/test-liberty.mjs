@@ -1023,6 +1023,103 @@ console.log('Campaign Missions & Star Perks · Meta-Progression');
   }
 }
 
+// ------------------------------------------------------------ skirmish frontier economy
+console.log('Skirmish Economy & Frontier Loop');
+{
+  // 1. Living Farm: completing a farm seeds surrounding T.GRASS into T.FIELD and regrows over time
+  {
+    const W = new S.World();
+    W.tech = true;
+    W.res = { grain: 500, timber: 500, stone: 500 };
+    W.addBuilding('stronghold', 'p', 10, 10, true);
+    const farm = W.place('farm', 15, 10, [], 'p');
+    ok(farm, 'farm placed near stronghold');
+    run(W, 25); // let farm self-build to completion
+    ok(farm.built >= 1, 'farm finished building');
+    let fieldsAround = 0;
+    for (let dy = -1; dy <= farm.h; dy++) for (let dx = -1; dx <= farm.w; dx++) {
+      if (dx >= 0 && dx < farm.w && dy >= 0 && dy < farm.h) continue;
+      if (W.tile(farm.tx + dx, farm.ty + dy) === D.T.FIELD) fieldsAround++;
+    }
+    ok(fieldsAround === 8, `completed farm tilled 8 surrounding grass tiles into grain fields (got ${fieldsAround})`);
+    // Deplete one adjacent field back to grass and verify farm regrows it
+    W.setTile(14, 10, D.T.GRASS, 0);
+    farm.growAt = 0;
+    W.step(3.5);
+    ok(W.tile(14, 10) === D.T.FIELD && W.amt[10 * D.MAP_W + 14] >= 45, 'living farm regrows harvested adjacent tile back into field');
+  }
+
+  // 2. Wandering Flocks: claiming, herding arrival (+75 grain), 35% armor discount, and zero soft-lock fallback
+  {
+    const W = new S.World();
+    W.tech = true;
+    W.res = { grain: 100, timber: 200, stone: 200 };
+    W.addBuilding('stronghold', 'p', 10, 10, true);
+    const baseBreastCost = D.RESEARCH.breastplates.cost.grain;
+    ok(!W.hasFlockBonus('p') && W.researchCost('breastplates', 'p').grain === baseBreastCost, 'base armor research cost without flock');
+
+    const flock = W.addUnit('flock', 'n', 16 * D.TILE, 11 * D.TILE);
+    const scout = W.addUnit('hunter', 'p', 15.5 * D.TILE, 11 * D.TILE);
+    W.step(0.5);
+    ok(flock.team === 'p' && flock.order.type === 'herd', 'walking friendly unit near neutral flock claims it and herds it toward camp');
+
+    const g0 = W.res.grain;
+    run(W, 12);
+    ok(W.side('p').flocks === 1 && W.res.grain >= g0 + 75, `herded flock grants +75 grain burst and increments flocks (${W.res.grain} vs ${g0})`);
+    const discCost = W.researchCost('breastplates', 'p').grain;
+    ok(W.hasFlockBonus('p') && discCost === Math.round(baseBreastCost * 0.65), `flock bonus grants 35% discount on armor research (${discCost} vs ${baseBreastCost})`);
+
+    // Zero soft-lock fallback: stables or 2 farms also grants the bonus
+    const W2 = new S.World();
+    W2.tech = true;
+    W2.addBuilding('stables', 'p', 10, 10, true);
+    ok(W2.hasFlockBonus('p'), 'stables satisfies flock armor bonus as zero soft-lock fallback');
+  }
+
+  // 3. Hunters (eats: 0), Frontier Builds outside base REACH, Auto-Hunt, Campfire Dropoff & Ranger Evolution
+  {
+    const W = new S.World();
+    W.tech = true;
+    W.res = { grain: 100, timber: 200, stone: 100 };
+    W.addBuilding('stronghold', 'p', 10, 10, true);
+    const h = W.addUnit('hunter', 'p', 40 * D.TILE, 40 * D.TILE);
+    ok(W.foodUsed('p') === 0, 'hunter eats 0 food supply (lives off the wilderness)');
+
+    // Build a campfire far outside stronghold REACH (at tile 41, 40)
+    ok(W.canPlace('campfire', 41, 40, 'p'), 'frontier campfire can be placed far outside base REACH');
+    const fire = W.place('campfire', 41, 40, [h], 'p');
+    run(W, 10);
+    ok(fire && fire.built >= 1, 'hunter builds frontier campfire in the wilderness');
+
+    // Damage hunter and verify campfire heals him
+    h.hp = 40;
+    W.step(2);
+    ok(h.hp > 40, `campfire warms and heals nearby friendly units (${h.hp.toFixed(1)} > 40)`);
+
+    // Spawn 3 wild game deer near the hunter; let him hunt & unload at the campfire, evolving into Ranger!
+    const gStart = W.res.grain;
+    for (let k = 0; k < 3; k++) {
+      W.addUnit('game', 'n', (39 + k * 0.4) * D.TILE, 40 * D.TILE);
+      run(W, 12);
+    }
+    ok(W.res.grain >= gStart + 75, `hunter unloaded hunted game meat at frontier campfire (+${W.res.grain - gStart} grain)`);
+    ok(h.type === 'ranger' && h.max >= 115, `hunter auto-evolved into Wilderness Ranger after 3 hunts (type=${h.type}, maxHp=${h.max})`);
+
+    // Build a Tree Lookout (blind) next to the Ranger and verify stealth
+    const blind = W.addBuilding('blind', 'p', tileOf(h.x) + 1, tileOf(h.y), true);
+    h.struckAt = -10;
+    ok(blind && W.hidden(h), 'ranger is concealed when standing beside a Tree Lookout (blind)');
+
+    // Build Sharpened Stakes and verify trap slow + damage on an enemy
+    const stakes = W.addBuilding('stakes', 'p', 30, 30, true);
+    const foe = W.addUnit('lamanite', 'r', 30.5 * D.TILE, 30.5 * D.TILE);
+    const hp0 = foe.hp;
+    W.step(2);
+    ok(foe.hp < hp0 && foe.slowUntil > W.t, `sharpened stakes trap slows and damages enemies (${foe.hp} < ${hp0})`);
+  }
+}
+
+
 // ------------------------------------------------------------ quotes
 // Every quotation in the game, in its text or its comments, is checked
 // against the verses cited on the same line: the words must be there.

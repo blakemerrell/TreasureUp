@@ -1318,6 +1318,11 @@
         for (let yy = spot[1] - 1; yy <= spot[1] + 2; yy++) for (let xx = spot[0] - 1; xx <= spot[0] + 2; xx++) if (W.tile(xx, yy) === T.GRASS) W.setTile(xx, yy, T.RUIN);
         W.addBuilding('relic', 'n', spot[0], spot[1], true, { artifact: key });
       }
+      // Wilderness frontier: a starting Hunter for the player, plus wandering flocks (Enos 1:21) and wild game (1 Nephi 16:31).
+      if (F === 'p') put('hunter', S0.x + 4, S0.y + 5, 'p', { think: 0.2 });
+      else put('hunter', this.warcamp.tx + 4, this.warcamp.ty + this.warcamp.h + 1, 'p', { think: 0.2 });
+      for (const [fx, fy] of [[16, 22], [32, 34], [24, 12], [44, 28]]) put('flock', fx, fy, 'n', { think: 0.25 });
+      for (const [gx, gy] of [[18, 30], [28, 42], [20, 16], [38, 32], [46, 20], [14, 18]]) put('game', gx, gy, 'n', { think: 0.3 });
       this.foretold = 0; this.planted = K === 'p'; this.nextFierce = 300;
       const c = caps[this.captain];
       W.msg(`${c.name} leads you: ${c.gift.toLowerCase()}.`, c.ref, 'good');
@@ -1446,12 +1451,12 @@
       W.tech = true; W.border = null;
       W.res = { grain: 200, timber: 250, stone: 50 };
       W.boost.r = L.strength; W.foeArmor = L.armor;
-      const put = (type, x, y) => { const [fx, fy] = W.freeTileNear(x, y, 'p'); return W.addUnit(type, 'p', center(fx), center(fy)); };
+      const put = (type, x, y, team, extra) => { const [fx, fy] = W.freeTileNear(x, y, team || 'p'); return W.addUnit(type, team || 'p', center(fx), center(fy), extra); };
       const S0 = WD.START;
       this.standard = put('standard', S0.x + 2, S0.y + 2);
       this.standard.heroType = 'moroni';
       put('cart', S0.x, S0.y + 5); put('worker', S0.x + 1, S0.y + 6); put('worker', S0.x + 2, S0.y + 6);   // (one cart: each storehouse brings another)
-      put('spearman', S0.x + 5, S0.y); put('spearman', S0.x + 6, S0.y + 1); put('nslinger', S0.x + 5, S0.y + 2);
+      put('spearman', S0.x + 5, S0.y); put('hunter', S0.x + 6, S0.y + 1, 'p', { think: 0.2 }); put('nslinger', S0.x + 5, S0.y + 2);
       this.raids = WILD_LENGTHS[this.length].raids;
       this.raid = 0;                     // raids that have come down
       this.nextAt = L.first;             // when the next one comes
@@ -1462,6 +1467,8 @@
       const open = (x, y) => W.passable(x, y, 'r'), key = (x, y) => y * D.MAP_W + x;
       const valley = new Set([key(S0.x, S0.y)]), q = [[S0.x, S0.y]];
       while (q.length) { const [x, y] = q.pop(); for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) if (open(x + dx, y + dy) && !valley.has(key(x + dx, y + dy))) { valley.add(key(x + dx, y + dy)); q.push([x + dx, y + dy]); } }
+      for (const [fx, fy] of [[S0.x - 11, S0.y + 4], [S0.x + 14, S0.y + 5]]) if (valley.has(key(fx, fy))) put('flock', fx, fy, 'n', { think: 0.25 });
+      for (const [gx, gy] of [[S0.x - 10, S0.y - 6], [S0.x + 13, S0.y - 5], [S0.x - 9, S0.y + 10]]) if (valley.has(key(gx, gy))) put('game', gx, gy, 'n', { think: 0.3 });
       this.spawns = WD.WAYS.map(w => {
         const out = [], seen = new Set([key(w.x, w.y)]), wq = [[w.x, w.y]];
         while (wq.length && out.length < 30) {
