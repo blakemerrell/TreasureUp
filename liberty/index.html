@@ -218,43 +218,41 @@
   }
 
   /* Quick Cohort HUD Dock */
-  .cohort-bar { position: fixed; left: 10px; bottom: 10px; display: flex; align-items: center; gap: 5px; z-index: 18; background: rgba(18, 12, 7, 0.88); backdrop-filter: blur(4px); padding: 4px 6px; border-radius: 10px; border: 1.5px solid var(--brass); box-shadow: 0 4px 14px rgba(0,0,0,0.6); }
+  .cohort-bar { position: fixed; left: 10px; bottom: 10px; display: flex; align-items: center; gap: 5px; max-width: calc(100vw - 20px); overflow-x: auto; scrollbar-width: none; z-index: 18; background: rgba(18, 12, 7, 0.88); backdrop-filter: blur(4px); padding: 4px 6px; border-radius: 10px; border: 1.5px solid var(--brass); box-shadow: 0 4px 14px rgba(0,0,0,0.6); }
   body:not(.side) .cohort-bar { bottom: calc(var(--drawer, 240px) + 8px); }
+  body.side .cohort-bar { max-width: calc(100vw - var(--sidebar-w, 260px) - 20px); }   /* the map's width, not under the side panel */
+  @media (max-width: 1100px) { body.side .cohort-bar .c-name { display: none; } }
   .cohort-btn { display: inline-flex; align-items: center; gap: 5px; height: 32px; padding: 0 8px; border-radius: 6px; border: 1px solid var(--trim); background: linear-gradient(#3b2918, #25190f); color: var(--parch); font-family: inherit; font-size: 11px; font-weight: 800; cursor: pointer; transition: transform .05s, border-color .15s; }
   .cohort-btn:active { transform: scale(0.96); }
   .cohort-btn.sel { border-color: var(--brass-hi); background: linear-gradient(#6b3e15, #3b200b); box-shadow: 0 0 8px rgba(245, 158, 11, 0.45); }
   .cohort-btn .c-badge { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; border-radius: 4px; font-size: 9.5px; font-weight: 900; color: #fff; }
-  .cohort-btn .c-badge.c1 { background: #dc2626; }
-  .cohort-btn .c-badge.c2 { background: #2563eb; }
-  .cohort-btn .c-badge.c3 { background: #d97706; }
+  .cohort-btn.empty { opacity: .78; border-style: dashed; }
+  .cohort-btn .c-cnt i { font-style: normal; color: #fde68a; }
+  @media (max-width: 640px) { .cohort-btn .c-name { display: none; } .cohort-btn { padding: 0 6px; } }
+  .regCard { max-width: 520px; width: 100%; margin: 16px auto; background: linear-gradient(180deg, #24180e, #140d07); border: 2px solid var(--brass); border-radius: 16px; padding: 16px; color: var(--parch); }
+  .regCard .kicker { display: flex; align-items: center; gap: 6px; }
+  .regCard .c-badge, .cohort-btn .c-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 17px; height: 17px; padding: 0 3px; border-radius: 4px; font-size: 9.5px; font-weight: 900; color: #fff; }
+  .reg-rows { display: flex; flex-direction: column; gap: 5px; margin: 10px 0; max-height: 46vh; overflow-y: auto; }
+  .reg-row { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 4px 6px 4px 4px; border-radius: 9px; background: rgba(0, 0, 0, .25); border: 1px solid var(--line); }
+  .reg-row .pic { width: 40px; height: 40px; border-radius: 7px; overflow: hidden; background: #2a1c10; } .reg-row .pic img { width: 100%; height: 100%; object-fit: cover; }
+  .reg-row .tx { display: flex; flex-direction: column; min-width: 0; } .reg-row .tx b { font-size: 13px; } .reg-row .tx small { font-size: 11px; color: var(--parch-dim); }
+  .reg-row.locked .pic img { filter: grayscale(1) brightness(.5); } .reg-row.locked small { font-style: italic; }
+  .reg-row .step { display: flex; align-items: center; gap: 6px; } .reg-row .step b { min-width: 20px; text-align: center; font-size: 15px; }
+  .reg-row .step .btn { min-width: 34px; height: 34px; padding: 0; font-size: 18px; }
+  .reg-form { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 6px 0 12px; } .reg-form small { color: var(--parch-dim); margin-right: 4px; }
+  .reg-foot [data-regfill] { white-space: nowrap; font-size: 15px; } .reg-foot [data-regfill] svg { filter: brightness(.4); }
+  @media (max-height: 640px) { .regCard { margin: 6px auto; padding: 10px 12px; } .regCard .sub { display: none; } .regCard h2 { margin: 2px 0; font-size: 20px; } .reg-rows { max-height: calc(100vh - 290px); margin: 6px 0; } .reg-form { margin: 4px 0 8px; } }
+  .regCard .c { display: inline-flex; align-items: center; gap: 2px; white-space: nowrap; } .regCard .c svg { width: 1em; height: 1em; }
+  .reg-foot { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; align-items: center; } .reg-foot .hint { margin: 0 auto 0 0; }
   .cohort-btn .c-cnt { font-size: 10.5px; color: var(--parch-dim); background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 4px; }
-  .cohort-btn.warroom-btn { background: linear-gradient(#92400e, #78350f); border-color: var(--gold); color: #fef3c7; }
 
   /* Building Cohort & Rally Actions */
-  .cohort-picker { display: flex; align-items: center; gap: 4px; width: 100%; margin-top: 4px; }
-  .cohort-picker small { color: var(--parch-dim); font-size: 10px; font-weight: 700; margin-right: 2px; }
-  .cohort-choice { padding: 3px 6px; border-radius: 5px; border: 1px solid var(--trim); background: rgba(0,0,0,0.3); color: var(--parch-dim); font-size: 10px; font-weight: 800; cursor: pointer; }
-  .cohort-choice.sel { background: linear-gradient(#92400e, #78350f); color: #fef3c7; border-color: var(--brass-hi); }
 
   /* War Room & Strategy Architect Modal */
-  .dialog.warRoomCard { max-width: 620px; width: 100%; margin: 20px auto; background: linear-gradient(180deg, #24180e, #140d07); border: 2px solid var(--brass); border-radius: 16px; padding: 18px; box-shadow: 0 16px 48px rgba(0,0,0,0.85); color: var(--parch); }
-  .war-cohort-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 12px 0 10px; }
-  .war-tab { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px; border-radius: 8px; border: 1px solid var(--trim); background: rgba(0,0,0,0.35); color: var(--parch-dim); font-family: inherit; font-size: 11px; font-weight: 800; cursor: pointer; transition: all .15s; }
-  .war-tab.active { background: linear-gradient(#6b3e15, #3b200b); border-color: var(--brass-hi); color: var(--gold); box-shadow: 0 0 12px rgba(245, 158, 11, 0.35); }
-  .war-tab small { font-size: 9.5px; opacity: 0.8; }
-  .war-map-section { margin: 8px 0 14px; background: rgba(0,0,0,0.4); border-radius: 10px; border: 1px solid var(--line); padding: 8px; }
-  .war-map-header { display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; font-weight: 800; color: var(--gold); margin-bottom: 6px; }
-  .war-map-wrap { position: relative; width: 100%; height: 200px; border-radius: 8px; overflow: hidden; background: #000; border: 1.5px solid var(--line); cursor: crosshair; }
   #warMapCanvas { display: block; width: 100%; height: 100%; }
-  .war-route-info { margin-top: 6px; font-size: 11px; color: var(--parch-dim); font-style: italic; }
-  .war-settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin: 12px 0 16px; }
-  .war-setting-col { background: rgba(0,0,0,0.25); border-radius: 8px; border: 1px solid var(--line); padding: 8px 10px; }
-  .war-setting-col h4 { margin: 0 0 6px; font-size: 10px; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; color: var(--brass-hi); }
-  .war-btn-group { display: flex; flex-wrap: wrap; gap: 4px; }
   .form-btn, .rule-btn { padding: 4px 7px; border-radius: 5px; border: 1px solid var(--trim); background: rgba(255,255,255,0.06); color: var(--parch); font-family: inherit; font-size: 10.5px; font-weight: 700; cursor: pointer; transition: all .1s; }
   .form-btn:hover, .rule-btn:hover { background: rgba(255,255,255,0.12); }
   .form-btn.sel, .rule-btn.sel { background: linear-gradient(#92400e, #78350f); color: #fef3c7; border-color: var(--brass-hi); box-shadow: 0 0 6px rgba(245, 158, 11, 0.4); }
-  .war-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
   .gold-shofar { background: linear-gradient(135deg, #b45309, #d97706) !important; color: #fff !important; font-weight: 900 !important; border-color: #fde047 !important; }
 
   /* ------------------------------------------------ full screens and dialogs */
@@ -459,7 +457,7 @@
   .end h1 { font-size: 40px; }
   .quote { font-family: Georgia, serif; font-size: 19px; line-height: 1.5; margin: 14px 0 4px; color: rgba(255, 255, 255, .92); }
 
-  #rotate { position: fixed; left: 50%; bottom: calc(var(--drawer) + 10px); transform: translateX(-50%); z-index: 11; font-size: 12px;
+  #rotate { position: fixed; left: 50%; bottom: calc(var(--drawer) + 56px); transform: translateX(-50%); z-index: 11; font-size: 12px;
     background: var(--panel); padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; pointer-events: none; }
 
   
@@ -553,12 +551,7 @@
 <div id="feed" aria-live="polite"></div>
 <div id="rotate" hidden>Turn your phone sideways for more room</div>
 
-<div id="cohortBar" class="cohort-bar" hidden>
-  <button class="cohort-btn" data-cohort="1" title="Cohort I: Vanguard (Melee) · Hotkey 1"><span class="c-badge c1">I</span><span class="c-name">Vanguard</span><span class="c-cnt" id="cohortCnt1">0</span></button>
-  <button class="cohort-btn" data-cohort="2" title="Cohort II: Skirmishers (Ranged) · Hotkey 2"><span class="c-badge c2">II</span><span class="c-name">Skirmish</span><span class="c-cnt" id="cohortCnt2">0</span></button>
-  <button class="cohort-btn" data-cohort="3" title="Cohort III: Siege & Supply · Hotkey 3"><span class="c-badge c3">III</span><span class="c-name">Siege</span><span class="c-cnt" id="cohortCnt3">0</span></button>
-  <button class="cohort-btn warroom-btn" id="bWarRoom" title="War Room: Strategy Architect & Waypoints (W)"><span class="c-icon">📜</span><span class="c-name">War Room</span></button>
-</div>
+<div id="cohortBar" class="cohort-bar" hidden aria-label="Your regiments: tap one to choose them all, hold it for its card"></div>
 
 <footer id="panel" hidden>
   <div id="side">
@@ -609,13 +602,13 @@
 <script src="../vendor/qrcode.js"></script>
 <script src="webrtc.js?v=15"></script>
 <script src="multi.js?v=15"></script>
-<script src="data.js?v=33"></script>
-<script src="sim.js?v=32"></script>
+<script src="data.js?v=34"></script>
+<script src="sim.js?v=33"></script>
 <script src="camp.js?v=7"></script>
 <script src="missions.js?v=31"></script>
 <script src="save.js?v=3"></script>
 <script src="scripture.js?v=16"></script>
 <script src="audio.js?v=2"></script>
-<script src="ui.js?v=60"></script>
+<script src="ui.js?v=61"></script>
 </body>
 </html>
