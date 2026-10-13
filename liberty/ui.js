@@ -212,6 +212,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   let sel = [];                                      // selected entity ids
   let placing = null;                                // a building type waiting for a spot
   let aiming = null;                                 // a miracle waiting for its spot
+  let pathing = null;                                // a path being drawn for the chosen (Path): [[tx, ty], ...]
   let wallLine = null;                               // [[x, y], ...] while dragging a wall
   let wallStart = null;                              // on a touch screen, where the wall starts (the next tap is where it ends)
   let armedRemove = null;                            // a building whose Remove was tapped once: a second tap takes it down
@@ -2164,13 +2165,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
   }
 
-  // Cohort Insignia Badge: Roman numeral I (Crimson Vanguard), II (Azure Skirmishers), III (Amber Siege & Supply)
+  // A regiment's numeral over each of its soldiers, in its color.
+  const NUMERALS = ['', 'I', 'II', 'III', 'IV', 'V', 'VI'];
+  const REG_COLORS = ['#10b981', '#ef4444', '#3b82f6', '#f59e0b', '#a855f7', '#14b8a6', '#ec4899'];
   function drawCohortBadge(u, ix, iy, uh) {
     const cId = u.cohort;
-    const badgeColors = { 1: '#ef4444', 2: '#3b82f6', 3: '#f59e0b' };
-    const numerals = { 1: 'I', 2: 'II', 3: 'III' };
-    const col = badgeColors[cId] || '#10b981';
-    const num = numerals[cId] || String(cId);
+    const col = REG_COLORS[cId] || '#10b981';
+    const num = NUMERALS[cId] || String(cId);
     const by = iy - uh - 7 - (u.rank ? u.rank * 5 + 3 : 0) - (u.hp < u.max ? 6 : 0);
 
     ctx.save();
@@ -2271,115 +2272,30 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
   }
 
-  // Multi-waypoint tactical paths with numbered node markers
+  // A chosen group's path: where it's heading and the points after (u.order.waypoints, in tiles), drawn from the first of them;
+  // while a path is being drawn (Path), the points tapped so far.
   function drawWaypoints() {
-    const units = selEnts().filter(e => e.kind === 'unit' && e.team === 'p' && e.order && e.order.waypoints && e.order.waypoints.length);
-    if (!units.length) return;
+    const lead = selEnts().find(e => e.kind === 'unit' && e.team === 'p' && e.order && e.order.type === 'move' && e.order.waypoints && e.order.waypoints.length);
+    const lines = [];
+    if (lead) lines.push({ from: lead, pts: [[lead.order.tx, lead.order.ty], ...lead.order.waypoints.map(w => [w.x, w.y])], col: 'rgba(56, 189, 248, 0.75)', dot: '#0284c7' });
+    const units = selUnits();
+    if (pathing && units.length) lines.push({ from: { x: units.reduce((a, u) => a + u.x, 0) / units.length, y: units.reduce((a, u) => a + u.y, 0) / units.length }, pts: pathing, col: 'rgba(253, 224, 71, 0.9)', dot: '#ca8a04' });
+    if (!lines.length) return;
     ctx.save();
-    const drawn = new Set();
-    for (const u of units) {
-      let curIso = toIso(u.x, u.y);
-      let idx = 1;
-      for (const wp of u.order.waypoints) {
-        const wpIso = toIso(wp.x, wp.y);
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.75)';
-        ctx.lineWidth = 1.5;
-        ctx.setLineDash([4, 4]);
-        ctx.beginPath();
-        ctx.moveTo(curIso.ix, curIso.iy);
-        ctx.lineTo(wpIso.ix, wpIso.iy);
-        ctx.stroke();
-        ctx.setLineDash([]);
-
-        const wpKey = `${Math.round(wp.x)},${Math.round(wp.y)}`;
-        if (!drawn.has(wpKey)) {
-          drawn.add(wpKey);
-          ctx.fillStyle = '#0284c7';
-          ctx.beginPath();
-          ctx.arc(wpIso.ix, wpIso.iy, 6, 0, 7);
-          ctx.fill();
-          ctx.strokeStyle = '#e0f2fe';
-          ctx.lineWidth = 1.2;
-          ctx.stroke();
-
-          ctx.font = 'bold 8.5px Outfit, system-ui, sans-serif';
-          ctx.fillStyle = '#fff';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(String(idx), wpIso.ix, wpIso.iy + 0.5);
-        }
-        idx++;
-        curIso = wpIso;
-      }
+    ctx.font = 'bold 8.5px Outfit, system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for (const L of lines) {
+      let cur = toIso(L.from.x, L.from.y);
+      L.pts.forEach(([tx, ty], i) => {
+        const p = toIso((tx + 0.5) * TILE, (ty + 0.5) * TILE);
+        ctx.strokeStyle = L.col; ctx.lineWidth = 1.8; ctx.setLineDash([5, 4]);
+        ctx.beginPath(); ctx.moveTo(cur.ix, cur.iy); ctx.lineTo(p.ix, p.iy); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = L.dot; ctx.beginPath(); ctx.arc(p.ix, p.iy, 6, 0, 7); ctx.fill();
+        ctx.strokeStyle = '#fefce8'; ctx.lineWidth = 1.2; ctx.stroke();
+        ctx.fillStyle = '#fff'; ctx.fillText(String(i + 1), p.ix, p.iy + 0.5);
+        cur = p;
+      });
     }
     ctx.restore();
-  }
-
-  // Tactical formation relative offset calculation
-  function computeFormationOffsets(form, units, heading) {
-    const N = units.length;
-    const offsets = [];
-    const cosH = Math.cos(heading), sinH = Math.sin(heading);
-    const perpX = -sinH, perpY = cosH;
-
-    if (form === 'phalanx') {
-      const melee = [], ranged = [], heavy = [];
-      units.forEach((u, idx) => {
-        if (u.type === 'curelom' || u.type === 'cumom' || u.type === 'cart' || u.type === 'ram') heavy.push(idx);
-        else if (u.def && u.def.ranged) ranged.push(idx);
-        else melee.push(idx);
-      });
-
-      const assignRow = (indices, rowOffset) => {
-        const count = indices.length;
-        indices.forEach((uIdx, col) => {
-          const lateral = (col - (count - 1) / 2) * 22;
-          offsets[uIdx] = {
-            x: perpX * lateral - cosH * rowOffset,
-            y: perpY * lateral - sinH * rowOffset
-          };
-        });
-      };
-
-      assignRow(melee, 0);
-      assignRow(ranged, 24);
-      assignRow(heavy, 48);
-    } else if (form === 'wedge') {
-      offsets[0] = { x: 0, y: 0 };
-      for (let i = 1; i < N; i++) {
-        const side = i % 2 === 1 ? 1 : -1;
-        const row = Math.ceil(i / 2);
-        const lateral = side * row * 18;
-        const depth = -row * 20;
-        offsets[i] = {
-          x: perpX * lateral + cosH * depth,
-          y: perpY * lateral + sinH * depth
-        };
-      }
-    } else if (form === 'line') {
-      for (let i = 0; i < N; i++) {
-        const lateral = (i - (N - 1) / 2) * 22;
-        offsets[i] = { x: perpX * lateral, y: perpY * lateral };
-      }
-    } else if (form === 'column') {
-      for (let i = 0; i < N; i++) {
-        const col = (i % 2 === 0 ? -1 : 1) * 10;
-        const row = Math.floor(i / 2) * -22;
-        offsets[i] = {
-          x: perpX * col + cosH * row,
-          y: perpY * col + sinH * row
-        };
-      }
-    } else {
-      offsets[0] = { x: 0, y: 0 };
-      const ringCount = Math.max(1, N - 1);
-      for (let i = 1; i < N; i++) {
-        const ang = ((i - 1) / ringCount) * Math.PI * 2;
-        const rx = Math.cos(ang) * 28, ry = Math.sin(ang) * 28;
-        offsets[i] = { x: rx, y: ry };
-      }
-    }
-    return offsets;
   }
 
   // ------------------------------------------------------------ buildings
@@ -3327,6 +3243,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const units = selUnits();
     if (!units.length) return;
     const e = entityAt(wx, wy, sx, sy), tx = tileOf(wx), ty = tileOf(wy);
+    if (pathing) { addPathPoint(tx, ty); return ping(wx, wy, '#fde047'); }
     if (e && e.team === 'r' && !e.untouchable) {
       for (const u of units) if (u.def.dmg) W.order(u, { type: 'attack', target: e.id });
       if (AUDIO) { AUDIO.play('orderAttack'); AUDIO.unitAcknowledge(units[0], 'attack'); }
@@ -3358,20 +3275,71 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (AUDIO) { AUDIO.play('orderMove'); AUDIO.unitAcknowledge(units[0], 'move'); }
     ping(wx, wy, '#86efac');
   }
-  // Everyone to their own tile around the spot, nearest first. With `fight`, soldiers fight whatever they meet on the way
-  // (the owner's review: they used to walk past the enemy); Fall back passes no `fight`, so they keep walking.
+  // Everyone to their own place in a formation at the spot (the owner: they "clump or tangle"): spears and swords in front, bows and
+  // slings behind them, beasts and carts at the back, facing the way they march. A regiment keeps its own formation (its card);
+  // anyone else forms a block. With `fight`, soldiers fight whatever they meet on the way (the owner's review: they used to walk
+  // past the enemy); Fall back passes no `fight`, so they keep walking.
   function moveGroup(units, tx, ty, fight) {
     if (W.border != null && !W.borderOpen && ty < W.border) { W.moveTo(units[0], tx, ty, fight && fighterOf(units[0])); ty = W.border; }
-    const spots = [];
-    for (let r = 0; spots.length < units.length && r < 9; r++) {
-      for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
-        if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
-        if (W.passable(tx + dx, ty + dy, 'p')) spots.push([tx + dx, ty + dy]);
-      }
+    const spots = formationSpots(units, tx, ty);
+    spots.forEach(([u, s]) => W.moveTo(u, s[0], s[1], fight && fighterOf(u)));
+  }
+  // Path (the owner: RA2's "waypoint tracker: I'll click on dots and it would draw lines and my guys would follow those lines"):
+  // each tap adds a point; Go sends the chosen through them in order, each to his own place in the formation at every point,
+  // fighting what they meet on the way.
+  function addPathPoint(tx, ty) {
+    if (!pathing || !W.inBounds(tx, ty)) return;
+    if (pathing.length >= 12) return toast('Twelve points at most.', 'warn');
+    pathing.push([tx, ty]);
+    if (AUDIO) AUDIO.play('tap');
+    refreshPanel(true);
+  }
+  function sendPath() {
+    const units = selUnits(), pts = pathing || [];
+    pathing = null;
+    if (!units.length || !pts.length) return refreshPanel(true);
+    const legs = new Map(units.map(u => [u, []]));
+    let from = null;
+    for (const [tx, ty] of pts) {
+      for (const [u, spot] of formationSpots(units, tx, ty, from)) legs.get(u).push(spot);
+      from = [tx + 0.5, ty + 0.5];
     }
-    const cx = (tx + 0.5) * TILE, cy = (ty + 0.5) * TILE;
-    units.slice().sort((a, b) => Math.hypot(a.x - cx, a.y - cy) - Math.hypot(b.x - cx, b.y - cy))
-      .forEach((u, i) => { const s = spots[i] || [tx, ty]; W.moveTo(u, s[0], s[1], fight && fighterOf(u)); });
+    for (const [u, spots] of legs) {
+      W.moveTo(u, spots[0][0], spots[0][1], fighterOf(u));
+      if (u.order.type === 'move') u.order.waypoints = spots.slice(1).map(([x, y]) => ({ x, y }));
+    }
+    if (AUDIO) { AUDIO.play('orderMove'); AUDIO.unitAcknowledge(units[0], 'move'); }
+    toast(`Marching through ${pts.length} ${pts.length === 1 ? 'point' : 'points'}.`, 'me');
+    refreshPanel(true);
+  }
+  // [unit, [tx, ty]] for each: rows across the way from `from` (their middle, unless given) to the spot. Tiles that can't be
+  // stood on, or are taken, give way to the nearest free one.
+  function formationSpots(units, tx, ty, from) {
+    const reg = units[0] && units[0].cohort && units.every(u => u.cohort === units[0].cohort) && W.cohorts[units[0].cohort];
+    const form = (reg && reg.formation) || 'block', n = units.length;
+    const fx = from ? from[0] : units.reduce((a, u) => a + u.x, 0) / n / TILE, fy = from ? from[1] : units.reduce((a, u) => a + u.y, 0) / n / TILE;
+    let hx = tx + 0.5 - fx, hy = ty + 0.5 - fy; const hl = Math.hypot(hx, hy) || 1; hx /= hl; hy /= hl;   // the way they face
+    const px = -hy, py = hx;                                                                           // across it
+    const rank = u => u.def.ranged ? 1 : (S.canFight(u.def) && !u.def.load && u.type !== 'curelom' && u.type !== 'cumom') ? 0 : 2;
+    const order = units.slice().sort((a, b) => rank(a) - rank(b) || Math.hypot(a.x / TILE - tx, a.y / TILE - ty) - Math.hypot(b.x / TILE - tx, b.y / TILE - ty));
+    const cols = form === 'line' ? n : Math.max(2, Math.min(n, Math.ceil(Math.sqrt(n * 2))));
+    const place = i => {                                              // [across, back] in tiles, for the i-th in the formation
+      if (form === 'wedge') { const row = Math.floor((Math.sqrt(8 * i + 1) - 1) / 2), j = i - row * (row + 1) / 2; return [j - row / 2, row]; }
+      const row = Math.floor(i / cols), inRow = Math.min(cols, n - row * cols);
+      return [(i % cols) - (inRow - 1) / 2, row];
+    };
+    const taken = new Set(), out = [];
+    order.forEach((u, i) => {
+      const [a, back] = place(i);
+      let sx = Math.floor(tx + 0.5 + px * a - hx * back), sy = Math.floor(ty + 0.5 + py * a - hy * back), got = null;
+      for (let r = 0; !got && r < 7; r++) for (let dy = -r; dy <= r && !got; dy++) for (let dx = -r; dx <= r && !got; dx++) {
+        if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
+        const k = (sx + dx) + ',' + (sy + dy);
+        if (!taken.has(k) && W.passable(sx + dx, sy + dy, 'p')) { got = [sx + dx, sy + dy]; taken.add(k); }
+      }
+      out.push([u, got || [tx, ty]]);
+    });
+    return out;
   }
   const fighterOf = u => S.canFight(u.def);
   function ping(wx, wy, color) { pings.push({ wx, wy, color, t: performance.now(), type: color === '#f87171' ? 'attack' : 'move' }); }
@@ -3669,6 +3637,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (!W) return;
     const p = miniPoint(e);
     if (e.button === 2) return command(p.x, p.y);
+    if (pathing) return addPathPoint(tileOf(p.x), tileOf(p.y));
     miniDrag = true; mini.setPointerCapture(e.pointerId); lookAt(p.x, p.y);
   });
   mini.addEventListener('pointermove', e => { if (miniDrag) { const p = miniPoint(e); lookAt(p.x, p.y); } });
@@ -3679,31 +3648,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (!W || e.target.closest && e.target.closest('input, textarea')) return;
     if (e.key === 'Escape') {
       if (modal) return;
-      if (placing || aiming || aimingRally) { placing = null; aiming = null; aimingRally = null; wallLine = null; refreshPanel(true); }
+      if (placing || aiming || aimingRally || pathing) { placing = null; aiming = null; aimingRally = null; wallLine = null; pathing = null; refreshPanel(true); }
       else if (sel.length) setSel([]);
       else openMenu();
       return;
     }
     if (modal) return;
-    if (e.key === '1') {
-      const u = W.cohortUnits('p', 1);
-      if (u.length) { setSel(u); if (AUDIO) AUDIO.play('select'); toast(`Cohort I: Vanguard (${u.length})`, 'me'); }
-      return;
-    }
-    if (e.key === '2') {
-      const u = W.cohortUnits('p', 2);
-      if (u.length) { setSel(u); if (AUDIO) AUDIO.play('select'); toast(`Cohort II: Skirmishers (${u.length})`, 'me'); }
-      return;
-    }
-    if (e.key === '3') {
-      const u = W.cohortUnits('p', 3);
-      if (u.length) { setSel(u); if (AUDIO) AUDIO.play('select'); toast(`Cohort III: Siege & Supply (${u.length})`, 'me'); }
-      return;
-    }
-    if (e.key === 'W' && e.shiftKey) {
-      openWarRoom();
-      return;
-    }
+    if (/^[1-6]$/.test(e.key) && W.cohorts[+e.key] && W.cohorts[+e.key].mix) { pickRegiment(+e.key); return; }   // a regiment's number chooses it
     if (e.key === 'a' || e.key === 'A') {
       setHuntMode(!huntMode);
       return;
@@ -4133,6 +4084,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function actsHtml(ents) {
     const a = (id, label, cls) => `<button class="act ${cls || ''}" data-cmd="${id}">${SIGN[id] ? `<i>${SIGN[id]}</i>` : ''}<span>${label}</span></button>`;
     if (aimingRally) return '<p class="hint">Tap where new troops should gather.</p>' + a('cancel', 'Cancel');
+    if (pathing) return `<p class="hint">${pathing.length ? pathing.length + (pathing.length === 1 ? ' point' : ' points') + '. Tap the next, or Go.' : 'Tap the map (or the small map) for each point they march through, in order.'} They fight what they meet on the way.</p>` +
+      (pathing.length ? a('pathgo', 'Go', 'go') + a('pathundo', 'Undo') : '') + a('cancel', 'Cancel');
     if (aiming) {
       const m = W.power(aiming);
       return `<p class="hint">${m.aim === 'foe' ? 'Tap the enemy it falls on.' : m.aim === 'building' ? 'Tap the enemy building it falls on.' : 'Tap the spot where it falls.'} <i>${esc(m.ref)}</i></p>` + a('cancel', 'Cancel');
@@ -4160,7 +4113,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (soldiers.length > 1 && hasMelee && hasRanged) {
         subFilters = a('filtermelee', '🛡️ Frontline') + a('filterranged', '🏹 Ranged');
       }
+      const reg = selectedRegiment(), miss = reg && regCost(reg);
       return (ents.length === 1 && b.def.deploys ? a('deploy', 'Plant it here', 'go') : '') +
+        (miss && miss.n ? a('regfill', `Refill ${miss.n} ${costHtml(miss.cost)}`, W.canAfford(miss.cost) ? 'go' : 'poor') : '') +
+        (reg ? a('regcard', 'Regiment ' + NUMERALS[reg]) : '') +
+        (soldiers.length ? a('path', 'Path') : '') +
         subFilters +
         (canFall ? a('fallback', 'Fall back') : '') + a('stop', 'Stop') + a('letgo', 'Let go');
     }
@@ -4169,11 +4126,6 @@ IMG.farm.src = 'assets/farm.png?v=13';
     else if (b.def.trains) {
       h += `<p class="hint minor">${b.rally ? 'New recruits march to rally point.' : 'Tap ground or button below to set rally point.'}</p>`;
       h += a('setrally', b.rally ? '🚩 Move Rally' : '🚩 Set Rally', aimingRally === b.id ? 'on' : '');
-      const curC = b.autoCohort || (b.type === 'stables' ? 3 : (b.type === 'barracks' ? 1 : 1));
-      h += `<div class="cohort-picker"><small>Auto-Assign:</small>` +
-        `<button class="cohort-choice ${curC === 1 ? 'sel' : ''}" data-cmd="autocohort:1">Cohort I</button>` +
-        `<button class="cohort-choice ${curC === 2 ? 'sel' : ''}" data-cmd="autocohort:2">Cohort II</button>` +
-        `<button class="cohort-choice ${curC === 3 ? 'sel' : ''}" data-cmd="autocohort:3">Cohort III</button></div>`;
     }
     if (b.type === 'stronghold' && b.built >= 1 && b.team === 'p') {
       const rKeys = W.researchAt(b);
@@ -4200,18 +4152,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const btn = e.target.closest('.act');
     if (!btn || !W) return;
     const act = btn.dataset.cmd, one = selEnts()[0];
-    if (act === 'done' || act === 'cancel') { placing = null; aiming = null; aimingRally = null; wallLine = null; wallStart = null; refreshPanel(true); }
+    if (act === 'done' || act === 'cancel') { placing = null; aiming = null; aimingRally = null; wallLine = null; wallStart = null; pathing = null; refreshPanel(true); }
+    else if (act === 'regfill') { const r = selectedRegiment(); if (r) fillReg(r); return; }
+    else if (act === 'regcard') { const r = selectedRegiment(); if (r) openRegiment(r); return; }
+    else if (act === 'path') { pathing = []; setHuntMode(false); refreshPanel(true); return; }
+    else if (act === 'pathundo') { if (pathing) pathing.pop(); refreshPanel(true); return; }
+    else if (act === 'pathgo') { sendPath(); return; }
     else if (act === 'setrally' && one) {
       aimingRally = one.id;
       toast(`Tap ground to set rally point for ${one.def.name}.`, 'me');
-      refreshPanel(true);
-      return;
-    }
-    else if (act && act.startsWith('autocohort:') && one) {
-      const cId = parseInt(act.slice('autocohort:'.length));
-      one.autoCohort = cId;
-      toast(`New recruits will auto-join Cohort ${cId}.`, 'me');
-      if (AUDIO) AUDIO.play('tap');
       refreshPanel(true);
       return;
     }
@@ -4480,410 +4429,110 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (on) refreshCohortBar();
   }
 
+  // ------------------------------------------------------------ regiments (the owner, 2026-10-11)
+  // "Build regiment one and it includes a curelom and five archers, ten swordsmen ... like buying a package", and "hit a hotkey
+  // and it would select them". The bar over the map has a badge for each regiment: its numeral, its name where there's room,
+  // and how many stand of how many it should have (and how many are in training). Tap: choose them all; tap again, or twice
+  // quickly: look at them. A regiment no one stands in yet, or a badge held (or right-clicked): its card. Keys 1 to 6 choose.
+  const FORMS = { block: 'Block', line: 'Line', wedge: 'Wedge' };
+  const regSize = R => Object.keys(R.mix).reduce((n, t) => n + (UNITS[t] && W.visible(UNITS[t]) ? R.mix[t] : 0), 0);
+  const regTraining = id => W.buildings('p').reduce((n, b) => n + b.queue.filter(q => q.reg === id).length, 0);
+  // The regiment the chosen are, if they're all of one.
+  function selectedRegiment() {
+    const units = selUnits();
+    const id = units.length && units[0].cohort;
+    return id && units.every(u => u.cohort === id) && W.cohorts[id] && W.cohorts[id].mix ? id : null;
+  }
+  // What the missing of a regiment would cost, and how many they are.
+  function regCost(id) {
+    const want = W.regimentMissing(id), cost = {}; let n = 0;
+    for (const t of Object.keys(want)) { const c = W.costOf(UNITS[t], 'p', 'train') || {}; for (const k of KINDS) if (c[k]) cost[k] = (cost[k] || 0) + c[k] * want[t]; n += want[t]; }
+    return { cost, n };
+  }
+  function fillReg(id) {
+    const R = W.cohorts[id], f = W.fillRegiment(id);
+    if (f.queued) { if (AUDIO) AUDIO.play('tap'); toast(`${R.name}: ${f.queued} into training${f.left ? `; ${f.left} can't be yet (${f.why}).` : ', to join the rest.'}`, f.left ? 'warn' : 'me'); }
+    else toast(f.left ? `${R.name}: ${f.why}.` : `${R.name} is at full strength.`, 'warn');
+    barSig = ''; updateBar(true); refreshPanel(true);
+  }
   function initCohortBar() {
     const bar = $('cohortBar');
     if (!bar) return;
+    let holdT = null, held = false;
+    bar.addEventListener('pointerdown', e => {
+      const btn = e.target.closest('[data-reg]');
+      if (!btn) return;
+      held = false; clearTimeout(holdT);
+      holdT = setTimeout(() => { held = true; openRegiment(+btn.dataset.reg); }, 550);
+    });
+    for (const ev of ['pointerup', 'pointercancel', 'pointerleave']) bar.addEventListener(ev, () => clearTimeout(holdT));
+    bar.addEventListener('contextmenu', e => { const btn = e.target.closest('[data-reg]'); if (!btn) return; e.preventDefault(); openRegiment(+btn.dataset.reg); });
     bar.addEventListener('click', e => {
-      const btn = e.target.closest('.cohort-btn');
+      const btn = e.target.closest('[data-reg]');
       if (!btn || !W) return;
-      if (btn.id === 'bWarRoom') {
-        openWarRoom();
-        return;
-      }
-      const cId = parseInt(btn.dataset.cohort);
-      if (!cId) return;
-      const cUnits = W.cohortUnits('p', cId);
-      if (!cUnits.length) {
-        toast(`Cohort ${cId} has no soldiers yet. Recruits auto-join from your buildings.`, 'me');
-        return;
-      }
-      const now = performance.now();
-      const isDbl = (now - (btn._lastTap || 0)) < 350;
-      btn._lastTap = now;
-      const alreadySel = cUnits.length === sel.length && cUnits.every(u => sel.includes(u.id));
-      if (alreadySel || isDbl) {
-        let avgX = 0, avgY = 0;
-        for (const u of cUnits) { avgX += u.x; avgY += u.y; }
-        lookAt(avgX / cUnits.length, avgY / cUnits.length);
-        toast(`Centered on Cohort ${cId} (${W.cohorts[cId] ? W.cohorts[cId].name : ''}).`, 'me');
-      } else {
-        setSel(cUnits);
-        if (AUDIO) AUDIO.play('select');
-        toast(`Selected Cohort ${cId} (${cUnits.length} units).`, 'me');
-      }
-      refreshCohortBar();
+      if (held) { held = false; return; }
+      pickRegiment(+btn.dataset.reg, btn);
     });
   }
-
+  function pickRegiment(id, btn) {
+    if (!W.cohorts[id]) return;
+    const men = W.cohortUnits('p', id);
+    if (!men.length) return openRegiment(id);
+    const now = performance.now(), again = btn && now - (btn._lastTap || 0) < 350;
+    if (btn) btn._lastTap = now;
+    const already = men.length === sel.length && men.every(u => sel.includes(u.id));
+    if (already || again) lookAt(men.reduce((a, u) => a + u.x, 0) / men.length, men.reduce((a, u) => a + u.y, 0) / men.length);
+    else { setSel(men); if (AUDIO) AUDIO.play('select'); }
+    refreshCohortBar();
+  }
+  let barSig = '';
   function refreshCohortBar() {
     const bar = $('cohortBar');
     if (!bar || !W) return;
-    for (const cId of [1, 2, 3]) {
-      const cntEl = $(`cohortCnt${cId}`);
-      if (cntEl) {
-        const n = W.cohortUnits('p', cId).length;
-        cntEl.textContent = String(n);
-      }
-      const btn = bar.querySelector(`[data-cohort="${cId}"]`);
-      if (btn) {
-        const cUnits = W.cohortUnits('p', cId);
-        const isSel = cUnits.length > 0 && cUnits.length === sel.length && cUnits.every(u => sel.includes(u.id));
-        btn.classList.toggle('sel', isSel);
-      }
-    }
+    const chosen = selectedRegiment();
+    const rows = W.regiments().filter(R => regSize(R) > 0).map(R => ({ R, n: W.cohortUnits('p', R.id).length, size: regSize(R), tr: regTraining(R.id) }));
+    const sig = rows.map(r => [r.R.id, r.R.name, r.n, r.size, r.tr].join(':')).join('|') + '|' + chosen;
+    if (sig === barSig) return;
+    barSig = sig;
+    bar.innerHTML = rows.map(({ R, n, size, tr }) => `<button class="cohort-btn ${chosen === R.id ? 'sel' : ''} ${n ? '' : 'empty'}" data-reg="${R.id}" title="Regiment ${NUMERALS[R.id]}: ${esc(R.name)} · key ${R.id}. Hold for its card.">` +
+      `<span class="c-badge" style="background:${REG_COLORS[R.id] || '#10b981'}">${NUMERALS[R.id] || R.id}</span><span class="c-name">${esc(R.name)}</span>` +
+      `<span class="c-cnt">${n}/${size}${tr ? ` <i>+${tr}</i>` : ''}</span></button>`).join('');
   }
-
-  function openWarRoom() {
-    if (!W) return;
-    let activeWpCohort = 1;
-    let chosenForm = (W.cohorts[1] && W.cohorts[1].formation) || 'phalanx';
-    let chosenSpeed = (W.cohorts[1] && W.cohorts[1].speedLock) ? 'lock' : 'free';
-    let chosenRule = (W.cohorts[1] && W.cohorts[1].rule) || 'hunt';
-    let chosenHp = (W.cohorts[1] && W.cohorts[1].healthThreshold) || 50;
-
-    const cohortWps = { 1: [], 2: [], 3: [] };
-    for (const cId of [1, 2, 3]) {
-      const units = W.cohortUnits('p', cId);
-      if (units.length && units[0].order && units[0].order.waypoints && units[0].order.waypoints.length) {
-        cohortWps[cId] = units[0].order.waypoints.map(wp => ({ x: wp.x, y: wp.y }));
-      }
-    }
-
-    const html = `<div class="dialog warRoomCard">` +
-      `<div class="kicker">Strategic Command · Alma 43:30</div>` +
-      `<h2>Nephite War Room & Strategy Architect</h2>` +
-      `<p class="sub">Organize your cohorts, plot tactical waypoints, and coordinate battle doctrine.</p>` +
-
-      `<div class="war-cohort-tabs" role="tablist">` +
-        `<button class="war-tab ${activeWpCohort === 1 ? 'active' : ''}" data-cohort="1">` +
-          `<span class="c-badge c1">I</span>` +
-          `<b>Cohort I: Vanguard</b>` +
-          `<small>(${W.cohortUnits('p', 1).length} units)</small>` +
-        `</button>` +
-        `<button class="war-tab ${activeWpCohort === 2 ? 'active' : ''}" data-cohort="2">` +
-          `<span class="c-badge c2">II</span>` +
-          `<b>Cohort II: Skirmishers</b>` +
-          `<small>(${W.cohortUnits('p', 2).length} units)</small>` +
-        `</button>` +
-        `<button class="war-tab ${activeWpCohort === 3 ? 'active' : ''}" data-cohort="3">` +
-          `<span class="c-badge c3">III</span>` +
-          `<b>Cohort III: Siege & Supply</b>` +
-          `<small>(${W.cohortUnits('p', 3).length} units)</small>` +
-        `</button>` +
-      `</div>` +
-
-      `<div class="war-map-section">` +
-        `<div class="war-map-header">` +
-          `<span>Tactical Map · Tap to set sequential waypoints</span>` +
-          `<div class="war-map-actions">` +
-            `<button class="btn small" id="bUndoWp" style="padding:2px 8px;font-size:11px;">↶ Undo</button>` +
-            `<button class="btn small" id="bClearWp" style="padding:2px 8px;font-size:11px;">✕ Clear</button>` +
-          `</div>` +
-        `</div>` +
-        `<div class="war-map-wrap">` +
-          `<canvas id="warMapCanvas" width="560" height="240"></canvas>` +
-        `</div>` +
-        `<div class="war-route-info" id="warRouteInfo">` +
-          `Tap anywhere on the tactical map to plot sequential waypoints for Cohort ${activeWpCohort}.` +
-        `</div>` +
-      `</div>` +
-
-      `<div class="war-settings-grid">` +
-        `<div class="war-setting-col">` +
-          `<h4>Formation</h4>` +
-          `<div class="war-btn-group" id="formPicker">` +
-            `<button class="form-btn ${chosenForm === 'phalanx' ? 'sel' : ''}" data-form="phalanx" title="Melee front row, archers behind, curelom in center">🛡️ Phalanx</button>` +
-            `<button class="form-btn ${chosenForm === 'wedge' ? 'sel' : ''}" data-form="wedge" title="Spearhead arrowhead penetration">⚔️ Wedge</button>` +
-            `<button class="form-btn ${chosenForm === 'line' ? 'sel' : ''}" data-form="line" title="Wide battle line abreast">🏹 Line</button>` +
-            `<button class="form-btn ${chosenForm === 'column' ? 'sel' : ''}" data-form="column" title="Double file road march">📜 Column</button>` +
-            `<button class="form-btn ${chosenForm === 'escort' ? 'sel' : ''}" data-form="escort" title="Defensive ring protecting beasts & supply">🦣 Escort</button>` +
-          `</div>` +
-        `</div>` +
-
-        `<div class="war-setting-col">` +
-          `<h4>Pace & Doctrine</h4>` +
-          `<div class="war-btn-group" id="speedPicker">` +
-            `<button class="rule-btn ${chosenSpeed === 'lock' ? 'sel' : ''}" data-speed="lock" title="Squad matches the speed of its slowest unit (e.g. Curelom)">🦣 Lock to Slowest</button>` +
-            `<button class="rule-btn ${chosenSpeed === 'free' ? 'sel' : ''}" data-speed="free" title="Each unit sprints at full speed">⚡ Fast Sprint</button>` +
-          `</div>` +
-          `<div class="war-btn-group" style="margin-top:6px" id="rulePicker">` +
-            `<button class="rule-btn ${chosenRule === 'hunt' ? 'sel' : ''}" data-rule="hunt" title="Engage any enemy sighted on march">⚔️ Aggressive Hunt</button>` +
-            `<button class="rule-btn ${chosenRule === 'speed' ? 'sel' : ''}" data-rule="speed" title="March swiftly past distractions">🏃 Speed March</button>` +
-          `</div>` +
-        `</div>` +
-
-        `<div class="war-setting-col">` +
-          `<h4>Break March HP Threshold</h4>` +
-          `<div class="war-btn-group" id="hpPicker">` +
-            `<button class="rule-btn ${chosenHp === 25 ? 'sel' : ''}" data-hp="25">25% HP</button>` +
-            `<button class="rule-btn ${chosenHp === 50 ? 'sel' : ''}" data-hp="50">50% HP</button>` +
-            `<button class="rule-btn ${chosenHp === 75 ? 'sel' : ''}" data-hp="75">75% HP</button>` +
-          `</div>` +
-          `<small style="display:block;margin-top:4px;color:var(--dim)">If squad health drops below threshold, break march and defend!</small>` +
-        `</div>` +
-      `</div>` +
-
-      `<div class="war-footer">` +
-        `<button class="btn" data-close>Cancel</button>` +
-        `<button class="btn go gold-shofar" id="bExecMission">🎺 Sound Shofar & Execute Mission</button>` +
-      `</div>` +
-    `</div>`;
-
-    const d = openDialog(html);
-    const canvas = d.querySelector('#warMapCanvas');
-    if (!canvas) return;
-    const wctx = canvas.getContext('2d');
-
-    function renderWarMap() {
-      const cw = canvas.width, ch = canvas.height;
-      wctx.fillStyle = '#0f172a';
-      wctx.fillRect(0, 0, cw, ch);
-
-      wctx.drawImage(terrain, 0, 0, cw, ch);
-
-      for (let ty = 0; ty < MAP_H; ty += 2) {
-        for (let tx = 0; tx < MAP_W; tx += 2) {
-          if (!explored[ty * MAP_W + tx]) {
-            const p = toIso((tx + 1) * TILE, (ty + 1) * TILE);
-            const cx = (p.ix / TERR_W) * cw, cy = (p.iy / TERR_H) * ch;
-            wctx.fillStyle = 'rgba(8, 12, 24, 0.75)';
-            wctx.fillRect(cx - 6, cy - 4, 12, 8);
-          }
-        }
-      }
-
-      for (const b of W.buildings('p')) {
-        const bp = toIso((b.tx + b.w * 0.5) * TILE, (b.ty + b.h * 0.5) * TILE);
-        const bx = (bp.ix / TERR_W) * cw, by = (bp.iy / TERR_H) * ch;
-        wctx.fillStyle = '#38bdf8';
-        wctx.beginPath();
-        wctx.arc(bx, by, 3.5, 0, 7);
-        wctx.fill();
-      }
-
-      for (const u of W.units('r')) {
-        if (!inVision(u.x, u.y)) continue;
-        const up = toIso(u.x, u.y);
-        const ux = (up.ix / TERR_W) * cw, uy = (up.iy / TERR_H) * ch;
-        wctx.fillStyle = '#ef4444';
-        wctx.beginPath();
-        wctx.arc(ux, uy, 2.5, 0, 7);
-        wctx.fill();
-      }
-
-      const cohortColors = { 1: '#ef4444', 2: '#3b82f6', 3: '#f59e0b' };
-      for (const cId of [1, 2, 3]) {
-        const units = W.cohortUnits('p', cId);
-        const col = cohortColors[cId];
-        const isCurrent = cId === activeWpCohort;
-
-        let squadX = 0, squadY = 0;
-        if (units.length) {
-          for (const u of units) { squadX += u.x; squadY += u.y; }
-          squadX /= units.length; squadY /= units.length;
-          const sp = toIso(squadX, squadY);
-          const sx = (sp.ix / TERR_W) * cw, sy = (sp.iy / TERR_H) * ch;
-
-          wctx.fillStyle = col;
-          wctx.beginPath();
-          wctx.arc(sx, sy, isCurrent ? 6 : 4, 0, 7);
-          wctx.fill();
-          wctx.strokeStyle = '#fff';
-          wctx.lineWidth = 1.2;
-          wctx.stroke();
-
-          wctx.font = 'bold 8px Outfit, sans-serif';
-          wctx.fillStyle = '#fff';
-          wctx.textAlign = 'center';
-          wctx.textBaseline = 'middle';
-          wctx.fillText(cId === 1 ? 'I' : cId === 2 ? 'II' : 'III', sx, sy);
-
-          const wps = cohortWps[cId] || [];
-          if (wps.length) {
-            wctx.strokeStyle = col;
-            wctx.lineWidth = isCurrent ? 2.2 : 1.2;
-            wctx.setLineDash(isCurrent ? [5, 4] : [3, 3]);
-            wctx.beginPath();
-            wctx.moveTo(sx, sy);
-            for (const wp of wps) {
-              const wpIso = toIso(wp.x, wp.y);
-              wctx.lineTo((wpIso.ix / TERR_W) * cw, (wpIso.iy / TERR_H) * ch);
-            }
-            wctx.stroke();
-            wctx.setLineDash([]);
-
-            wps.forEach((wp, idx) => {
-              const wpIso = toIso(wp.x, wp.y);
-              const wx = (wpIso.ix / TERR_W) * cw, wy = (wpIso.iy / TERR_H) * ch;
-              wctx.fillStyle = col;
-              wctx.beginPath();
-              wctx.arc(wx, wy, isCurrent ? 5 : 3.5, 0, 7);
-              wctx.fill();
-              wctx.strokeStyle = '#fff';
-              wctx.lineWidth = 1;
-              wctx.stroke();
-
-              wctx.font = 'bold 7px Outfit, sans-serif';
-              wctx.fillStyle = '#fff';
-              wctx.textAlign = 'center';
-              wctx.textBaseline = 'middle';
-              wctx.fillText(String(idx + 1), wx, wy);
-            });
-          }
-        }
-      }
-
-      const rInfo = d.querySelector('#warRouteInfo');
-      if (rInfo) {
-        const wps = cohortWps[activeWpCohort] || [];
-        const uCount = W.cohortUnits('p', activeWpCohort).length;
-        if (!wps.length) {
-          rInfo.innerHTML = `Cohort ${activeWpCohort} (${uCount} units): <b>0 waypoints</b>. Tap the map to plot a route.`;
-        } else {
-          rInfo.innerHTML = `Cohort ${activeWpCohort} (${uCount} units): <b>${wps.length} waypoints</b> plotted. Formation: <b>${chosenForm.toUpperCase()}</b> · Pace: <b>${chosenSpeed === 'lock' ? 'Match Slowest' : 'Sprint'}</b>.`;
-        }
-      }
-    }
-
-    renderWarMap();
-
-    canvas.addEventListener('click', e => {
-      const rect = canvas.getBoundingClientRect();
-      const clickCx = (e.clientX - rect.left) * (canvas.width / rect.width);
-      const clickCy = (e.clientY - rect.top) * (canvas.height / rect.height);
-
-      const isoX = (clickCx / canvas.width) * TERR_W;
-      const isoY = (clickCy / canvas.height) * TERR_H;
-
-      const relX = isoX - ISO_OFFSET_X;
-      const relY = isoY - PAD;
-      const worldX = relX + 2 * relY;
-      const worldY = 2 * relY - relX;
-
-      const clampedX = Math.max(16, Math.min(MAP_W * TILE - 16, worldX));
-      const clampedY = Math.max(16, Math.min(MAP_H * TILE - 16, worldY));
-
-      cohortWps[activeWpCohort].push({ x: clampedX, y: clampedY });
-      if (AUDIO) AUDIO.play('tap');
-      renderWarMap();
-    });
-
-    d.querySelectorAll('.war-tab').forEach(b => {
-      b.onclick = () => {
-        activeWpCohort = parseInt(b.dataset.cohort);
-        d.querySelectorAll('.war-tab').forEach(t => t.classList.toggle('active', parseInt(t.dataset.cohort) === activeWpCohort));
-        const cConfig = W.cohorts[activeWpCohort];
-        if (cConfig) {
-          chosenForm = cConfig.formation || 'phalanx';
-          chosenSpeed = cConfig.speedLock ? 'lock' : 'free';
-          chosenRule = cConfig.rule || 'hunt';
-          chosenHp = cConfig.healthThreshold || 50;
-          d.querySelectorAll('.form-btn').forEach(fb => fb.classList.toggle('sel', fb.dataset.form === chosenForm));
-          d.querySelectorAll('#speedPicker .rule-btn').forEach(sb => sb.classList.toggle('sel', sb.dataset.speed === chosenSpeed));
-          d.querySelectorAll('#rulePicker .rule-btn').forEach(rb => rb.classList.toggle('sel', rb.dataset.rule === chosenRule));
-          d.querySelectorAll('#hpPicker .rule-btn').forEach(hb => hb.classList.toggle('sel', parseInt(hb.dataset.hp) === chosenHp));
-        }
-        if (AUDIO) AUDIO.play('tap');
-        renderWarMap();
-      };
-    });
-
-    d.querySelector('#bUndoWp').onclick = () => {
-      cohortWps[activeWpCohort].pop();
-      if (AUDIO) AUDIO.play('tap');
-      renderWarMap();
+  // A regiment's card: who it should have (+ and – for each kind your side can train; what can't be trained yet says what it
+  // needs), its formation, and one button to build or fill it, with what that costs.
+  function openRegiment(id) {
+    const R = W.cohorts[id];
+    if (!R || !R.mix) return;
+    const men = W.cohortUnits('p', id), have = {};
+    for (const u of men) have[u.type] = (have[u.type] || 0) + 1;
+    const kinds = [...new Set([...trainers().keys()].filter(t => S.canFight(UNITS[t]) || UNITS[t].siege).concat(Object.keys(R.mix).filter(t => UNITS[t] && W.visible(UNITS[t]))))]
+      .sort((a, b) => trainRank(a) - trainRank(b));
+    const { cost, n } = regCost(id), size = regSize(R), tr = regTraining(id);
+    const row = t => {
+      const st = tileState('train:' + t), pic = CAMEO_MAP['train:' + t];
+      return `<div class="reg-row ${st.locked ? 'locked' : ''}"><span class="pic">${pic ? `<img src="${webp(pic)}" alt="">` : ''}</span>` +
+        `<span class="tx"><b>${esc(UNITS[t].name)}</b><small>${st.locked ? esc(st.locked) : costHtml(W.costOf(UNITS[t], 'p', 'train'))}${have[t] ? ` · ${have[t]} standing` : ''}</small></span>` +
+        `<span class="step"><button class="btn" data-mix="${t}:-1" aria-label="One fewer">–</button><b>${R.mix[t] || 0}</b><button class="btn" data-mix="${t}:1" aria-label="One more">+</button></span></div>`;
     };
-    d.querySelector('#bClearWp').onclick = () => {
-      cohortWps[activeWpCohort] = [];
-      if (AUDIO) AUDIO.play('tap');
-      renderWarMap();
-    };
-
-    d.querySelectorAll('.form-btn').forEach(b => {
-      b.onclick = () => {
-        chosenForm = b.dataset.form;
-        d.querySelectorAll('.form-btn').forEach(fb => fb.classList.toggle('sel', fb === b));
-        if (AUDIO) AUDIO.play('tap');
-        renderWarMap();
-      };
-    });
-
-    d.querySelectorAll('#speedPicker .rule-btn').forEach(b => {
-      b.onclick = () => {
-        chosenSpeed = b.dataset.speed;
-        d.querySelectorAll('#speedPicker .rule-btn').forEach(sb => sb.classList.toggle('sel', sb === b));
-        if (AUDIO) AUDIO.play('tap');
-        renderWarMap();
-      };
-    });
-
-    d.querySelectorAll('#rulePicker .rule-btn').forEach(b => {
-      b.onclick = () => {
-        chosenRule = b.dataset.rule;
-        d.querySelectorAll('#rulePicker .rule-btn').forEach(rb => rb.classList.toggle('sel', rb === b));
-        if (AUDIO) AUDIO.play('tap');
-        renderWarMap();
-      };
-    });
-
-    d.querySelectorAll('#hpPicker .rule-btn').forEach(b => {
-      b.onclick = () => {
-        chosenHp = parseInt(b.dataset.hp);
-        d.querySelectorAll('#hpPicker .rule-btn').forEach(hb => hb.classList.toggle('sel', hb === b));
-        if (AUDIO) AUDIO.play('tap');
-        renderWarMap();
-      };
-    });
-
-    d.querySelector('#bExecMission').onclick = () => {
-      let dispatched = 0;
-      for (const cId of [1, 2, 3]) {
-        const wps = cohortWps[cId];
-        const units = W.cohortUnits('p', cId);
-        if (!wps || !wps.length || !units.length) continue;
-
-        if (!W.cohorts) W.cohorts = {};
-        W.cohorts[cId] = {
-          name: cId === 1 ? 'Vanguard' : cId === 2 ? 'Skirmishers' : 'Siege & Supply',
-          formation: chosenForm,
-          speedLock: chosenSpeed === 'lock',
-          rule: chosenRule,
-          healthThreshold: chosenHp
-        };
-
-        const heading = Math.atan2(wps[0].y - (units[0].y || 0), wps[0].x - (units[0].x || 0));
-        const offsets = computeFormationOffsets(chosenForm, units, heading);
-
-        units.forEach((u, i) => {
-          const off = offsets[i] || { x: 0, y: 0 };
-          const unitWps = wps.map(wp => ({
-            x: Math.max(16, Math.min(MAP_W * TILE - 16, wp.x + off.x)),
-            y: Math.max(16, Math.min(MAP_H * TILE - 16, wp.y + off.y))
-          }));
-          const first = unitWps[0];
-          u.cohort = cId;
-          u.order = {
-            type: 'move',
-            target: null,
-            rule: chosenRule,
-            healthThreshold: chosenHp,
-            waypoints: unitWps.slice(1)
-          };
-          u.path = W.findPath(u.x, u.y, first.x, first.y, u.def.move);
-        });
-        dispatched++;
+    const d = openDialog(`<div class="dialog regCard">` +
+      `<div class="kicker"><span class="c-badge" style="background:${REG_COLORS[id]}">${NUMERALS[id]}</span> Regiment ${NUMERALS[id]}</div>` +
+      `<h2>${esc(R.name)}</h2>` +
+      `<p class="sub">${men.length} of ${size} standing${tr ? `, ${tr} in training` : ''}. Tap + and – to change who it has; a tap on its badge chooses them all.</p>` +
+      `<div class="reg-rows">${kinds.map(row).join('')}</div>` +
+      `<div class="reg-form"><small>Marches as</small>${Object.keys(FORMS).map(f => `<button class="btn ${(R.formation || 'block') === f ? 'go' : ''}" data-form="${f}">${FORMS[f]}</button>`).join('')}</div>` +
+      `<div class="reg-foot">${n ? `<button class="btn go big" data-regfill>${men.length || tr ? 'Refill' : 'Build'} ${n} · ${costHtml(cost)}</button>` : `<p class="hint">${size ? 'At full strength.' : 'Add someone with +.'}</p>`}<button class="btn" data-close>Close</button></div>` +
+      `</div>`);
+    d.querySelector('.regCard').addEventListener('click', e => {
+      const m = e.target.closest('[data-mix]'), f = e.target.closest('[data-form]');
+      if (m) {
+        const [t, by] = m.dataset.mix.split(':');
+        R.mix[t] = Math.max(0, Math.min(20, (R.mix[t] || 0) + Number(by)));
+        if (!R.mix[t]) delete R.mix[t];
+        barSig = ''; refreshCohortBar(); return openRegiment(id);
       }
-
-      if (dispatched === 0) {
-        toast('Plot at least one waypoint on the map for a cohort before sounding the shofar.', 'warn');
-        return;
-      }
-
-      if (AUDIO) AUDIO.play('cohortHorn');
-      toast(`Shofar sounded! ${dispatched} cohort(s) marching in ${chosenForm.toUpperCase()} formation.`, 'me');
-      closeDialog();
-      refreshPanel(true);
-    };
+      if (f) { R.formation = f.dataset.form; return openRegiment(id); }
+      if (e.target.closest('[data-regfill]')) { closeDialog(); fillReg(id); }
+    });
   }
 
   const starsHtml = n => `<span class="stars">${[1, 2, 3].map(k => `<span class="${k <= n ? '' : 'off'}">★</span>`).join('')}</span>`;

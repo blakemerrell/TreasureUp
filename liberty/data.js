@@ -575,6 +575,23 @@
                build: ['tents', 'storetent', 'muster', 'wall', 'gate', 'lookout', 'shieldtent', 'ladderworks', 'wardance', 'pavilion', 'rameumptom', 'idol'],
                about: 'Those who "were called king-men" (Alma 51:5): all who fought for Amalickiah\'s crown, the Lamanite armies and the dissenters with them. Numbers, fierce captains, and wicked works stirred up from the Rameumptom.' }
   };
+  // Regiments (the owner, 2026-10-11: "build regiment one and it includes a curelom and five archers, ten swordsmen ... like buying a
+  // package"): each side starts with these, and any of them can be changed. One tap trains all who are missing; they march to
+  // join those already standing, and the regiment's badge selects them all. Kinds the mission doesn't have are left out.
+  const REGIMENTS = {
+    freemen: [
+      { name: 'Spear Wall', mix: { spearman: 6, archer: 2 }, formation: 'block' },
+      { name: 'Archer Line', mix: { archer: 6, nslinger: 2 }, formation: 'line' },
+      { name: "Moroni's Guard", mix: { curelom: 1, archer: 5, swordsman: 10 }, formation: 'block' },
+      { name: 'Stripling Band', mix: { stripling: 6, javelin: 2 }, formation: 'wedge' }
+    ],
+    kingmen: [
+      { name: 'War Band', mix: { lamanite: 8, slinger: 2 }, formation: 'block' },
+      { name: 'Slingers', mix: { slinger: 8 }, formation: 'line' },
+      { name: "Captain's Host", mix: { amalekite: 1, zoramite: 1, lamanite: 10, cumom: 1 }, formation: 'block' },
+      { name: 'Raiders', mix: { lamanite: 6, slinger: 4 }, formation: 'wedge' }
+    ]
+  };
   // Pick a side, then a captain (design/evolution.md, section 7): each brings a hero and one gift.
   const CAPTAINS = {
     freemen: {
@@ -639,7 +656,7 @@
     }
   };
 
-  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, CUNNING, POWERS, ARTIFACTS, SIDES, CAPTAINS, PERKS, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
+  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, CUNNING, POWERS, ARTIFACTS, SIDES, REGIMENTS, CAPTAINS, PERKS, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
   if (typeof module !== 'undefined' && module.exports) module.exports = DATA;
   else root.LIB_DATA = DATA;
 })(this);
