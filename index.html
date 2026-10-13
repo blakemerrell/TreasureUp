@@ -1996,8 +1996,8 @@
   .card-row.is-video:hover { border-color: #ef4444; }
   .card-row.is-video .cr-kind { color: #fca5a5; }
   .card-row.is-deep .cr-kind { color: #fcd34d; }
-  .cr-kind { flex: 0 0 auto; min-width: 62px; max-width: 140px; font-size: 10.5px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #c4b5fd; white-space: nowrap; }
-  .cr-what { flex: 1; font-size: 14px; line-height: 1.3; }
+  .cr-kind { flex: 0 0 auto; min-width: 62px; font-size: 10.5px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #c4b5fd; white-space: nowrap; }
+  .cr-what { flex: 1; min-width: 0; font-size: 14px; line-height: 1.3; }
   .cr-mark { flex: 0 0 auto; font-size: 13px; font-weight: 900; color: var(--right); }
   .card-row.seen { opacity: .75; }
   .fold { margin-top: 12px; padding: 12px 16px; border-radius: 16px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); }
@@ -6263,8 +6263,7 @@ const TreasureUp = (function () {
     const x = i.x, seen = !!(S.insights || {})[x.id];
     const what = x.kind === 'quote' ? (x.source && x.source.who) + ': “' + x.quote.slice(0, 60) + (x.quote.length > 60 ? '…”' : '”') : x.title;
     const isVid = x.kind === 'video';
-    const ch = isVid && x.video && x.video.channel ? x.video.channel : '';
-    const kindLabel = isVid ? `▶ Video${ch ? ' · ' + (ch === 'Latter Day Kids' ? 'Latter Day Kids' : ch.includes('Church') ? 'Bible Video' : ch) : ''}`
+    const kindLabel = isVid ? '▶ Video'
       : KIND_NAME[x.kind] || (isJsp(x) ? 'Joseph Smith' : hasDeep(x) ? '🤿 Deep dive' : 'Insight');
     return `<button class="card-row${seen ? ' seen' : ''}${isVid ? ' is-video' : hasDeep(x) ? ' is-deep' : ''}" data-card="${esc(x.id)}"><span class="cr-kind">${kindLabel}</span><span class="cr-what">${esc(what)}</span><span class="cr-mark">${seen ? '✓' : (isVid ? '▶' : '')}</span></button>`;
   }
@@ -20083,8 +20082,17 @@ const TreasureUp = (function () {
       const crid = e.target.closest('[data-cream-id]');
       if (crid) {
         stopClips();
-        const it = creamItemsOf(WEEK).find(x => x.id === crid.dataset.creamId);
-        if (it) openSheet(creamPlayerHtml(it, 0));
+        const id = crid.dataset.creamId;
+        if (!isShortDone(id)) {
+          markShortDone(id, 15, 'Deep Dive');
+          toast('🔍 Deep Dive Read! +15 XP', 'Deep treasure unlocked!');
+        }
+        if (id.startsWith('cream:ins:')) {
+          openCard(id.replace('cream:ins:', ''));
+        } else if (id.startsWith('cream:word:')) {
+          treasureOf(WEEK);
+          openTreasure(id.replace('cream:word:', ''));
+        }
         return;
       }
       if (e.target.closest('[data-pass-turn]')) {
@@ -20498,8 +20506,17 @@ const TreasureUp = (function () {
       const crid = e.target.closest('[data-cream-id]');
       if (crid) {
         stopClips();
-        const it = creamItemsOf(WEEK).find(x => x.id === crid.dataset.creamId);
-        if (it) openSheet(creamPlayerHtml(it, 0));
+        const id = crid.dataset.creamId;
+        if (!isShortDone(id)) {
+          markShortDone(id, 15, 'Deep Dive');
+          toast('🔍 Deep Dive Read! +15 XP', 'Deep treasure unlocked!');
+        }
+        if (id.startsWith('cream:ins:')) {
+          openCard(id.replace('cream:ins:', ''));
+        } else if (id.startsWith('cream:word:')) {
+          treasureOf(WEEK);
+          openTreasure(id.replace('cream:word:', ''));
+        }
         return;
       }
       const crstep = e.target.closest('[data-cream-step]');
