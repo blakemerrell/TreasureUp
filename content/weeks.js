@@ -4573,10 +4573,10 @@ window.TU_WEEKS = [
           "Why would anyone skip meals on purpose? Israel complained God wasn’t listening, but they were just being selfish and grumpy (Isaiah 58:3–4).",
           "God’s true fast isn’t about looking miserable. It’s about undoing heavy burdens and sharing your food with the hungry (Isaiah 58:6–7).",
           "When you fast to lift others, God promises your light will break out like the morning sun and He will answer: “Here I am” (Isaiah 58:8–9).",
-          "President Henry B. Eyring taught that fasting blesses both the giver and the receiver, promising the Lord will guide you continually (Isaiah 58:11)."
+          "When we fast to lift others, the Lord promises to “guide thee continually” (Isaiah 58:11) and satisfy our soul even in times of drought."
         ],
-        "ask": "When has fasting blessed you or someone you know? What is one thing our family can dedicate our next fast for?",
-        "approved": "30e18b71"
+        "ask": "How has a time of sincere fasting and prayer blessed your life?",
+        "approved": "cfd73605"
       },
       {
         "h": "Honoring the Lord on the Sabbath brings joy.",
@@ -4594,16 +4594,16 @@ window.TU_WEEKS = [
       {
         "h": "Jesus Christ is my Savior and Redeemer.",
         "id": "title5",
-        "ref": "Isaiah 59:9–21; 61:1–3; 63:7–9",
+        "ref": "Isaiah 59:9–21; 61:1–3; 63:7–9; Luke 4:16–21",
         "kids": false,
         "lines": [
           "The prophet promises that when people turn from wrongdoing, “the Redeemer shall come to Zion” (Isaiah 59:20).",
-          "In Nazareth, Jesus said He was anointed “to preach good tidings unto the meek” (Isaiah 61:1) and to heal the brokenhearted.",
+          "In Nazareth, Jesus declared He was sent “to preach the gospel to the poor” (Luke 4:18) and heal the brokenhearted.",
           "The Savior comforts all who mourn, giving them “beauty for ashes” (Isaiah 61:3) and replacing sorrow with the garment of praise.",
-          "Isaiah remembers all the lovingkindnesses of the Lord, knowing He redeems and carries us (Isaiah 63:7)."
+          "Isaiah remembers all the lovingkindnesses of the Lord, knowing He redeems and carries us (Isaiah 63:7–9)."
         ],
         "ask": "Which blessing in Isaiah 61:1–3 have you seen the Savior give to you or someone you love?",
-        "approved": "0c62f950"
+        "approved": "a750e0a9"
       },
       {
         "h": "“The Lord shall be unto thee an everlasting light.”",
@@ -4641,11 +4641,11 @@ window.TU_WEEKS = [
         "lines": [
           "The fast Heavenly Father chose is undoing heavy burdens and letting people who hurt go free (Isaiah 58:6).",
           "It means sharing your bread with someone who is hungry and giving clothes to people in need (Isaiah 58:7).",
-          "Then your light will break out like the morning sun, and when you pray, God answers: “Here I am” (Isaiah 58:8–9).",
-          "The Lord promises to guide you continually, making your soul like a well-watered garden (Isaiah 58:11)."
+          "When you fast to lift others, God promises your light will rise and He will answer: “Here I am” (Isaiah 58:8–9).",
+          "Tell about a time someone in our family was blessed through fasting, or plan who we can help next fast."
         ],
         "ask": "If a friend asked you why we fast, what would you say?",
-        "approved": "0fdf4d1b"
+        "approved": "03062c04"
       },
       {
         "h": "The Sabbath can be a delight to me.",
@@ -4653,12 +4653,12 @@ window.TU_WEEKS = [
         "ref": "Isaiah 58:13–14",
         "kids": true,
         "lines": [
-          "When we turn from our own pleasures and “call the sabbath a delight” (Isaiah 58:13), Sunday becomes holy to the Lord.",
+          "Turning from our own work and play helps us “call the sabbath a delight, the holy of the LORD” (Isaiah 58:13).",
           "When we honor His holy day, the Lord promises: “then shalt thou delight thyself in the LORD” (Isaiah 58:14).",
-          "Share your favorite Sunday activities that help you feel close to Jesus. What could we do together this Sunday?"
+          "Draw or name your favorite Sunday activities, and keep them in a box of Sabbath delights for this week."
         ],
         "ask": "What’s something you love doing on Sunday that helps you feel close to the Lord?",
-        "approved": "916713c6"
+        "approved": "802782c2"
       },
       {
         "h": "The Savior is like a light for me.",
@@ -4667,11 +4667,11 @@ window.TU_WEEKS = [
         "kids": true,
         "lines": [
           "The prophet calls out: “Arise, shine; for thy light is come, and the glory of the LORD is risen upon thee” (Isaiah 60:1).",
-          "Even when darkness covers the world, the Lord’s light rises upon you and guides your steps (Isaiah 60:2–3).",
-          "Jesus Christ is our light. How does following Him bring peace and happiness into our home?"
+          "Close your eyes and listen to Isaiah 60:1–3: open them at the word light, and squeeze shut at darkness.",
+          "Jesus Christ is our light, guiding our family through darkness and showing us the way home to God."
         ],
         "ask": "When has following Jesus helped you see what to do, like a light in a dark room?",
-        "approved": "c26d820a"
+        "approved": "ca6c7f6f"
       },
       {
         "h": "When Jesus comes again, He will bring peace and joy.",
@@ -4680,12 +4680,11 @@ window.TU_WEEKS = [
         "kids": true,
         "lines": [
           "The Lord promises to create a new earth where former sadness is forgotten and replaced with joy (Isaiah 65:17–18).",
-          "When Jesus reigns, the voice of weeping and crying will no longer be heard (Isaiah 65:19).",
-          "Even wolves and lambs will feed together in peace, and nothing will hurt or destroy (Isaiah 65:25).",
+          "Act out one peaceful change from Isaiah 65:25, like a wolf and lamb sharing lunch or a gentle lion.",
           "Sing ‘When the Savior Comes Again’ (number 1002 in Hymns for Home and Church) together."
         ],
         "ask": "What are you most excited about for when Jesus comes again, and how can we prepare?",
-        "approved": "6605bbc5"
+        "approved": "8478de42"
       }
     ],
     "family": {
