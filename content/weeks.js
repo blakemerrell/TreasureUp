@@ -4576,7 +4576,7 @@ window.TU_WEEKS = [
           "President Henry B. Eyring taught that fasting blesses both the giver and the receiver, promising the Lord will guide you continually (Isaiah 58:11)."
         ],
         "ask": "When has fasting blessed you or someone you know? What is one thing our family can dedicate our next fast for?",
-        "approved": "a09fbdb3"
+        "approved": "30e18b71"
       },
       {
         "h": "Honoring the Lord on the Sabbath brings joy.",
@@ -4584,12 +4584,12 @@ window.TU_WEEKS = [
         "ref": "Isaiah 58:13–14",
         "kids": false,
         "lines": [
-          "The Lord asks His people to “call the sabbath a delight, the holy of the LORD, honourable” (Isaiah 58:13). Is it a delight for you?",
-          "Think about what it means to set your own plans aside on His day, and to find your joy in Him instead.",
-          "President Russell M. Nelson taught about making the Sabbath a delight. What could help your family enjoy it more?"
+          "The Lord invites us to turn from our own pleasures and “call the sabbath a delight, the holy of the LORD” (Isaiah 58:13).",
+          "When we honor His holy day, the Lord promises: “then shalt thou delight thyself in the LORD” (Isaiah 58:14).",
+          "President Russell M. Nelson taught that the Sabbath is a sign of our love for God. What makes Sunday feel special?"
         ],
         "ask": "What’s one change that would make next Sunday more of a delight for our family?",
-        "approved": "5bfd65d7"
+        "approved": "05ccf5f7"
       },
       {
         "h": "Jesus Christ is my Savior and Redeemer.",
@@ -4597,13 +4597,13 @@ window.TU_WEEKS = [
         "ref": "Isaiah 59:9–21; 61:1–3; 63:7–9",
         "kids": false,
         "lines": [
-          "These chapters keep pointing to the Savior. Watch for His titles and how He’s described, like “the Redeemer shall come to Zion” (Isaiah 59:20).",
-          "No one could rescue the people from the darkness of Isaiah 59:9–15. In Isaiah 59:16–21, the Lord steps in Himself as their intercessor.",
-          "In Nazareth, Jesus read Isaiah 61:1–2 and said it was about Him (Luke 4:16–21). Where has He given you “beauty for ashes” (Isaiah 61:3)?",
-          "In Isaiah 63:7–9, Isaiah remembers how the Lord has cared for His people. What would you add from your own life?"
+          "The prophet promises that when people turn from wrongdoing, “the Redeemer shall come to Zion” (Isaiah 59:20).",
+          "In Nazareth, Jesus said He was anointed “to preach good tidings unto the meek” (Isaiah 61:1) and to heal the brokenhearted.",
+          "The Savior comforts all who mourn, giving them “beauty for ashes” (Isaiah 61:3) and replacing sorrow with the garment of praise.",
+          "Isaiah remembers all the lovingkindnesses of the Lord, knowing He redeems and carries us (Isaiah 63:7)."
         ],
         "ask": "Which blessing in Isaiah 61:1–3 have you seen the Savior give to you or someone you love?",
-        "approved": "a8ec4d8c"
+        "approved": "0c62f950"
       },
       {
         "h": "“The Lord shall be unto thee an everlasting light.”",
@@ -4611,12 +4611,13 @@ window.TU_WEEKS = [
         "ref": "Isaiah 60; 62",
         "kids": false,
         "lines": [
-          "Isaiah 60 and Isaiah 62 are full of light and darkness, eyes and seeing. They show the Savior’s gospel blessing the whole world in the latter days.",
-          "Look for those ideas in Isaiah 60:1–5, 19–20 and Isaiah 62:1–2, like “darkness shall cover the earth… but the LORD shall arise upon thee” (Isaiah 60:2).",
-          "The Lord is bringing His children out of darkness into His light. What can you do to help?"
+          "The Lord calls His people to rise up: “Arise, shine; for thy light is come, and the glory of the LORD is risen upon thee” (Isaiah 60:1).",
+          "Even when darkness covers the earth, the Lord’s light shines on His covenant people and guides nations to Him (Isaiah 60:2–3).",
+          "The Lord promises that the sun and moon will fade compared to His presence, for He will be “an everlasting light” (Isaiah 60:19).",
+          "In the latter days, God’s people will shine as a crown of glory in His hand (Isaiah 62:1–3)."
         ],
         "ask": "Who could our family help come a little closer to the Lord’s light this week?",
-        "approved": "b1918543"
+        "approved": "9dd4eb6e"
       },
       {
         "h": "Christ will reign on earth during the Millennium.",
@@ -4624,12 +4625,13 @@ window.TU_WEEKS = [
         "ref": "Isaiah 64:1–5; 65:17–25; 66",
         "kids": false,
         "lines": [
-          "Isaiah saw a day when “the former troubles are forgotten” (Isaiah 65:16). This promise comes true more than once, but most fully when Jesus Christ comes again.",
-          "Read Isaiah 64:1–5, Isaiah 65:17–25 and Isaiah 66, and count words like rejoice and joy as you go.",
-          "The Lord says, “be ye glad and rejoice for ever in that which I create” (Isaiah 65:18)."
+          "Isaiah prays for the Lord to come down, knowing God works wonders for those who wait for Him (Isaiah 64:1–4).",
+          "The Lord promises to create a new earth where former troubles are forgotten and replaced with joy (Isaiah 65:17–18).",
+          "In that day of peace, prayers will be answered before they are finished: “before they call, I will answer” (Isaiah 65:24).",
+          "Even wolves and lambs will feed together in peace, and nothing will destroy on God’s holy mountain (Isaiah 65:25)."
         ],
         "ask": "Why will the day Jesus comes again be a joyful day for you, and how can you get ready for it?",
-        "approved": "2702d2fe"
+        "approved": "27dc1335"
       },
       {
         "h": "Fasting blesses me and others in need.",
@@ -4637,12 +4639,13 @@ window.TU_WEEKS = [
         "ref": "Isaiah 58:6–11",
         "kids": true,
         "lines": [
-          "Knowing the Lord’s reasons may be the best help in getting ready to fast. Read Isaiah 58:6–11 together to find why we fast, and how.",
-          "The Guide to the Scriptures has an entry on fasting that can help, too.",
-          "Parents, if fasting has ever meant a lot to you, tell the story."
+          "The fast Heavenly Father chose is undoing heavy burdens and letting people who hurt go free (Isaiah 58:6).",
+          "It means sharing your bread with someone who is hungry and giving clothes to people in need (Isaiah 58:7).",
+          "Then your light will break out like the morning sun, and when you pray, God answers: “Here I am” (Isaiah 58:8–9).",
+          "The Lord promises to guide you continually, making your soul like a well-watered garden (Isaiah 58:11)."
         ],
         "ask": "If a friend asked you why we fast, what would you say?",
-        "approved": "13dbb869"
+        "approved": "0fdf4d1b"
       },
       {
         "h": "The Sabbath can be a delight to me.",
@@ -4650,12 +4653,12 @@ window.TU_WEEKS = [
         "ref": "Isaiah 58:13–14",
         "kids": true,
         "lines": [
-          "After reading Isaiah 58:13–14, say the days of the week together on a calendar. When you reach Sunday, call it “a delight” (Isaiah 58:13).",
-          "Parents, tell why Sunday is a delight to you.",
-          "Share ways to “delight thyself in the LORD” (Isaiah 58:14) on Sunday. Draw your ideas and save them for a Sunday when you need something to do."
+          "When we turn from our own pleasures and “call the sabbath a delight” (Isaiah 58:13), Sunday becomes holy to the Lord.",
+          "When we honor His holy day, the Lord promises: “then shalt thou delight thyself in the LORD” (Isaiah 58:14).",
+          "Share your favorite Sunday activities that help you feel close to Jesus. What could we do together this Sunday?"
         ],
         "ask": "What’s something you love doing on Sunday that helps you feel close to the Lord?",
-        "approved": "53705829"
+        "approved": "916713c6"
       },
       {
         "h": "The Savior is like a light for me.",
@@ -4663,11 +4666,12 @@ window.TU_WEEKS = [
         "ref": "Isaiah 60:1–3",
         "kids": true,
         "lines": [
-          "Close your eyes while someone reads Isaiah 60:1–3. Open them at the word light, and shut them again at darkness.",
-          "Jesus Christ and His gospel work like a light, showing us the way home to Heavenly Father."
+          "The prophet calls out: “Arise, shine; for thy light is come, and the glory of the LORD is risen upon thee” (Isaiah 60:1).",
+          "Even when darkness covers the world, the Lord’s light rises upon you and guides your steps (Isaiah 60:2–3).",
+          "Jesus Christ is our light. How does following Him bring peace and happiness into our home?"
         ],
         "ask": "When has following Jesus helped you see what to do, like a light in a dark room?",
-        "approved": "8627a8fb"
+        "approved": "c26d820a"
       },
       {
         "h": "When Jesus comes again, He will bring peace and joy.",
@@ -4675,12 +4679,13 @@ window.TU_WEEKS = [
         "ref": "Isaiah 65:17–25",
         "kids": true,
         "lines": [
-          "Isaiah 65:17–25 pictures life after the Savior returns. Read it together and look for what will be different on the “new earth” (Isaiah 65:17).",
-          "No more crying (Isaiah 65:19), and even animals at peace (Isaiah 65:25). Why is it a time to “rejoice for ever” (Isaiah 65:18)?",
+          "The Lord promises to create a new earth where former sadness is forgotten and replaced with joy (Isaiah 65:17–18).",
+          "When Jesus reigns, the voice of weeping and crying will no longer be heard (Isaiah 65:19).",
+          "Even wolves and lambs will feed together in peace, and nothing will hurt or destroy (Isaiah 65:25).",
           "Sing ‘When the Savior Comes Again’ (number 1002 in Hymns for Home and Church) together."
         ],
         "ask": "What are you most excited about for when Jesus comes again, and how can we prepare?",
-        "approved": "edf4f7c4"
+        "approved": "6605bbc5"
       }
     ],
     "family": {
