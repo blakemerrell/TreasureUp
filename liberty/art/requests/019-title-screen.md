@@ -1,6 +1,6 @@
 # 019 · The opening page: Moroni raises the title of liberty, and three tiles
 
-**Status: done.** Made with Gemini through Blake's n8n backup (executions
+**Status: done.** Made with Gemini through the owner's n8n backup (executions
 13452–13457, six billed to the Merit3D Gemini account). Each painting was
 repainted from a rough layout built from the game's own sprites, so the
 shape, the layout and the people match the game. The three tiles were right
@@ -13,7 +13,7 @@ done. Saved as JPEG (quality 80): the title 1376 × 768, the tiles 900 × 604.
 
 ## What it's for
 
-Blake: "The opening page.. can you add some art!? And better layout the game
+The owner: "The opening page.. can you add some art!? And better layout the game
 options cleaner." Decided with him, one question at a time: a painting of
 Moroni raising the title of liberty at the top; under it three big tiles
 (Story missions, Free battle, Out of the Wilderness), each with its own

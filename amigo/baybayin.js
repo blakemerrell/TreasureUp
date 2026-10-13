@@ -3,7 +3,7 @@
 // consonant with "a", or a vowel on its own. A mark above (kudlit) makes it
 // e or i, a mark below makes it o or u, and the cross (krus-kudlit) drops
 // the vowel. Words are spelled the way they sound: letters Baybayin never
-// had become the nearest sound it did (Blake → Bleyk).
+// had become the nearest sound it did (Kate → Keyt).
 // Tested by tools/test-amigo.mjs.
 (function (root) {
   'use strict';
@@ -77,7 +77,7 @@
   }
   const others = (list, not, k, seed) => shuffled(list.filter(x => x !== not), seed).slice(0, k);
 
-  // Lesson n's steps. words: [[tagalog, english]] that Blake has checked.
+  // Lesson n's steps. words: [[tagalog, english]] that the owner has checked.
   function lessonSteps(n, words, seed) {
     const L = LESSONS[n], a = allowed(n), steps = [], s = (seed || '') + ':' + L.id;
     const known = [...a.chars];

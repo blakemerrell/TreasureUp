@@ -8,8 +8,8 @@
 // Hebrew lexicon, TBESH, by tools/test-amigo.mjs where it has the file). A
 // writer spells a name in Hebrew letters by its sound: an approximation, as
 // Hebrew spells names from other languages.
-// Fun fact: Javan's name is Hebrew, יָוָן (Genesis 10:2), and it's the Old
-// Testament's name for Greece.
+// Fun fact: Javan (יָוָן, Genesis 10:2) was Noah's grandson, and his name
+// became the Old Testament's name for Greece.
 // Tested by tools/test-amigo.mjs.
 (function (root) {
   'use strict';
@@ -131,18 +131,18 @@
   // for o, u, i, ey), alef to hold a vowel at the start, j as ג׳, ch as צ׳,
   // and the final forms at the end. A name the Bible has is spelled its way.
   const BIBLE = {
-    javan: ['יָוָן', 'Javan is a Bible name: Genesis 10:2 spells it יָוָן (ya-VAHN), and it’s the Old Testament’s name for Greece.'],
     david: ['דָּוִד', 'David is a Bible name: this is how the Bible spells it.'], sarah: ['שָׂרָה', 'Sarah is a Bible name: this is how the Bible spells it.'],
     adam: ['אָדָם', 'Adam is a Bible name: this is how the Bible spells it.'], noah: ['נֹחַ', 'Noah is a Bible name: this is how the Bible spells it.'],
     eve: ['חַוָּה', 'Eve is a Bible name: Chavah, this is how the Bible spells it.'], levi: ['לֵוִי', 'Levi is a Bible name: this is how the Bible spells it.'],
     moses: ['מֹשֶׁה', 'Moses is a Bible name: Moshe, this is how the Bible spells it.'], abraham: ['אַבְרָהָם', 'Abraham is a Bible name: this is how the Bible spells it.'],
     israel: ['יִשְׂרָאֵל', 'Israel is a Bible name: this is how the Bible spells it.'],
+    javan: ['יָוָן', 'Javan is a Bible name: Genesis 10:2 spells it יָוָן (ya-VAHN), and it’s the Old Testament’s name for Greece.'],
   };
   const CONS = { b: 'בּ', v: 'ו', g: 'ג', d: 'ד', h: 'ה', w: 'ו', z: 'ז', t: 'ט', y: 'י', k: 'ק', c: 'ק', q: 'ק', l: 'ל', m: 'מ', n: 'נ', s: 'ס', f: 'פ', p: 'פּ', r: 'ר',
     sh: 'שׁ', ch: 'צ׳', j: 'ג׳', th: 'ת', ts: 'צ', kh: 'ח', x: 'קס' };
   const FINAL_OF = { 'מ': 'ם', 'נ': 'ן', 'פ': 'ף', 'צ': 'ץ', 'כ': 'ך' };
   const POINT = { a: 'ַ', e: 'ֶ', i: 'ִ', o: 'ֹ', u: 'ֻ' };
-  // English spelling to sounds: "Blake" → b l ey k (a magic e), "Kim" → k i m.
+  // English spelling to sounds: "Jake" → j ey k (a magic e), "Kim" → k i m.
   function sounds(word) {
     let w = word.toLowerCase().replace(/[^a-z]/g, '');
     w = w.replace(/a([^aeiouy])e$/, 'ey$1').replace(/i([^aeiouy])e$/, 'ay$1').replace(/o([^aeiouy])e$/, 'o$1').replace(/u([^aeiouy])e$/, 'u$1')
@@ -197,7 +197,7 @@
 
   const API = { LETTERS, FINALS, VOWELS, LESSONS, FIXED, BY_GLYPH, allowed, fits, firstLesson, letters, strip, readingWords, lessonSteps, spell,
     name: 'Alef-bet', lang: 'he', dir: 'rtl',
-    fact: 'Javan’s name is Hebrew: יָוָן (Genesis 10:2). He was a grandson of Noah, and his name became the Old Testament’s name for Greece.' };
+    fact: 'Javan (יָוָן, Genesis 10:2) was a grandson of Noah, and his name became the Old Testament’s name for Greece.' };
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
   else root.AMIGO_ALEFBET = API;
 })(this);

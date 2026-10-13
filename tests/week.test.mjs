@@ -50,7 +50,7 @@ export default async function week({ port }) {
   } else note('NOTE', 'Sunday has no family game row to tap: skipped');
   await behind.ctx.close();
 
-  // Reading ahead keeps only the day it's read (Blake, 2026-10-07: "No, only on the day"): the whole week read on Monday.
+  // Reading ahead keeps only the day it's read (2026-10-07: "No, only on the day"): the whole week read on Monday.
   if (!built) note('NOTE', 'the chapters aren’t built here (the deploy builds them): the reading-ahead check is skipped');
   else {
   const ahead = await device('ahead', { url, day: days[0] + 'T16:30:00' });

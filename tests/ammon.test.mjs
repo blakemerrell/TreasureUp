@@ -4,10 +4,12 @@
 // 3. Scripture Wisdom & Divine Blessing rewards between levels
 import { check, device, wait } from './lib.mjs';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 
 export default async function ammon({ port }) {
-  const artifactDir = '/Users/blakemerrell/.gemini/antigravity/brain/b127422c-cc54-4d5f-b98e-1d4c33b9403a';
+  const artifactDir = process.env.ARTIFACT_DIR || path.join(os.tmpdir(), 'treasureup-artifacts');
+  fs.mkdirSync(artifactDir, { recursive: true });
   const base = `http://127.0.0.1:${port}/`;
 
   // Test tablet/mobile view

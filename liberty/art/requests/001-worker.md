@@ -9,7 +9,7 @@ Workers gather grain and timber and build. Until now they were drawn with the
 spearman's picture, so you couldn't tell them from soldiers. On the map a
 worker is about 40 pixels tall; it must read as "not a soldier" at that size.
 
-## The request (sent from Blake's Gemini CLI)
+## The request (sent from the owner's Gemini CLI)
 
 Start from `liberty/assets/spearman.png` as the style reference.
 Keep the same size, pose, viewing angle, light from the upper left and painted

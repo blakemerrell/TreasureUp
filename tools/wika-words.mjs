@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Wika's Hebrew and Greek courses, made from the weeks' treasure words (Blake,
-// 2026-10-06: "Change the name … to … wika", "Add the 2 other languages").
+// Wika's Hebrew and Greek courses, made from the weeks' treasure words
+// (2026-10-06: "Change the name … to … wika", "Add the 2 other languages").
 // Every week (content/weeks.js, content/past/*.js, content/upcoming/*.json)
 // can have a `treasure` list of five to seven words from its chapters; this
 // writes them as amigo/course-he.js (Hebrew: a Strong's number starting with

@@ -21,8 +21,9 @@
 //     3 minutes, and has been watched by a parent (previewed: true)
 //   - every lesson section has a reel, every question is well formed, reels stay short
 //   - every insight card is about verses of the week's reading, comes from a page on one of
-//     the sites Blake chose (INSIGHT_SITES), and (with --online) that page has the words it
+//     the sites the owner chose (INSIGHT_SITES), and (with --online) that page has the words it
 //     says the point comes from, and any words it quotes from the page
+//   - content/questions.js (Questions friends ask) keeps the rules in tools/questions.mjs
 //
 // Scripture text comes from the public-domain bcbooks/scriptures-json data,
 // pinned to one commit so a check today gives the same answer as tomorrow.
@@ -33,8 +34,9 @@ import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { loadOriginal, langOf } from './original.mjs';
-import { loadEditions, textOf, BOM_BOOKS } from './editions.mjs';
-import { weekStart, utahToday } from './week-dates.mjs';   // "September 28–October 4, 2026" -> "2026-09-28" (the app's rule; the New Year week too)
+import { loadEditions, textOf, BOM_BOOKS, line1830 } from './editions.mjs';
+import { weekStart, utahToday } from './week-dates.mjs';
+import { checkQuestions } from './questions.mjs';   // content/questions.js's rules (tools/add-questions.mjs uses them too)   // "September 28–October 4, 2026" -> "2026-09-28" (the app's rule; the New Year week too)
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CACHE = process.env.SCRIPTURE_CACHE || path.join(ROOT, 'tools', '.scripture-cache');
@@ -44,7 +46,7 @@ const VOLUMES = ['old-testament', 'new-testament', 'book-of-mormon', 'doctrine-a
 
 const LIMITS = { bodyWords: 75, hookChars: 60, whyWords: 40, choiceChars: 60, noteWords: 45, tldrWords: 30 };
 const MEDIA = {
-  // A picture on any reel it fits (Blake, 2026-09-24: "most reels should get
+  // A picture on any reel it fits (2026-09-24: "most reels should get
   // a pic"), one per reel. Clips stay few: a lesson, not a video feed.
   maxClipsPerWeek: 2,
   maxImageKB: 150,
@@ -53,14 +55,14 @@ const MEDIA = {
   imageHosts: ['www.churchofjesuschrist.org', 'commons.wikimedia.org'],
   // YouTube channels a clip may come from, exactly as YouTube names them.
   // Add one only after deciding it's a source you trust for him.
-  // Approved by Blake 2026-09-24: Come, Follow Me series and the Church's own channel.
+  // Approved by the owner 2026-09-24: Come, Follow Me series and the Church's own channel.
   channels: [
     'The Church of Jesus Christ of Latter-day Saints',   // @churchofjesuschrist, the official channel (confirmed 2026-09-24)
     'Scripture Central',       // John Hilton III and others
     'followHIM Podcast',       // Hank Smith & John Bytheway
     "Don't Miss This",         // Emily Belle Freeman & David Butler
     'Talking Scripture',
-    // Added by Blake 2026-09-24 (names confirmed with YouTube):
+    // Added by the owner 2026-09-24 (names confirmed with YouTube):
     'BibleProject',            // not Latter-day Saint: watch for readings that differ from the lesson
     'Church History Matters Podcast',
     'Gospel For Kids',
@@ -71,7 +73,7 @@ const MEDIA = {
   ]
 };
 
-// Where insight cards come from (Blake, 2026-10-01: "Church manuals,
+// Where insight cards come from (2026-10-01: "Church manuals,
 // Scripture Central, Follow Him, BYU"), and the name each is credited by.
 // The Church's pages are credited by their publication (Old Testament
 // Student Manual, General Conference, the Liahona…).
@@ -81,7 +83,7 @@ const INSIGHT_SITES = {
   'rsc.byu.edu': { by: 'BYU Religious Studies Center' },
   'speeches.byu.edu': { by: 'BYU Speeches' },
   'followhim.co': { by: 'followHIM' },
-  // Blake, 2026-10-04: "can you add notes to the scripture reading from Joseph
+  // 2026-10-04: "can you add notes to the scripture reading from Joseph
   // Smith papers??? having a directly source to that would be amazing".
   'www.josephsmithpapers.org': { by: 'Joseph Smith Papers' }
 };
@@ -158,7 +160,7 @@ const BOOK_ALIAS = { 'Psalm': 'Psalms', 'Song of Solomon': "Solomon's Song", 'So
 // for the app (which would otherwise pick today's week and start up).
 // ---------- approval (developer mode) ----------
 // Each piece of a week carries `approved`: a fingerprint of its content
-// when Blake approved it in developer mode. Any later change makes the
+// when the owner approved it in developer mode. Any later change makes the
 // fingerprint stop matching. Must match the app's approvalHash exactly.
 const canonJson = v => Array.isArray(v) ? '[' + v.map(canonJson).join(',') + ']'
   : v && typeof v === 'object' ? '{' + Object.keys(v).filter(k => v[k] !== undefined).sort().map(k => JSON.stringify(k) + ':' + canonJson(v[k])).join(',') + '}'
@@ -739,7 +741,7 @@ async function main(scripture, week, pages, online) {
       }
       if (!im.alt || im.alt.length < 20) fail(where, 'image needs an alt description he could picture (20+ characters)');
       // A picture of the Savior never goes on a reel about Satan: next to
-      // that headline it reads as a picture of him. (Found by Blake on the
+      // that headline it reads as a picture of him. (Found by the owner on the
       // Lucifer reel, 2026-09-24.)
       const showsChrist = /\b(Jesus|Christ|Christus|Savior|Saviour|Messiah)\b/i.test((im.alt || '') + ' ' + (im.credit || ''));
       const aboutSatan = /\b(Lucifer|Satan|devil|adversary)\b/i.test([r.hook, r.body, r.verse && r.verse.text].join(' '));
@@ -891,7 +893,7 @@ async function main(scripture, week, pages, online) {
   // Plain words (week.plain): chapters of the reading in plain English, each
   // verse shown under its KJV verse when he turns them on. One line per verse
   // of the chapter, and notes on real verses whose quotes and references
-  // check out like everything else he reads. Wording is Blake's call when he
+  // check out like everything else he reads. Wording is the owner's call when he
   // approves; what can be counted is counted here: a much longer verse than
   // the KJV's, a name left out, or KJV English left in is a note to look at.
   if (week.plain !== undefined) checkPlain(week.plain, new Set(block || []));
@@ -939,7 +941,7 @@ async function main(scripture, week, pages, online) {
   // The short version (week.tldr): two to four lines at the top of a
   // chapter, each ending with the verses it covers, "(verses 4–5)", which the
   // app makes a jump to them. Written from the Church's chapter heading, the
-  // week's lesson and the verses; the wording is Blake's call when he
+  // week's lesson and the verses; the wording is the owner's call when he
   // approves. Counted here: the lines, their length, their verses in order,
   // their references, and any quote, which must be the KJV's words in the
   // verses the line names.
@@ -992,7 +994,7 @@ async function main(scripture, week, pages, online) {
 
   // A short version that says a bonus or Go-deeper answer: he can answer it
   // from the card at the top of the chapter without reading. A note, not a
-  // failure (Blake approved the cards that do; 2026-10-01): a new card
+  // failure (the owner approved the cards that do; 2026-10-01): a new card
   // should say that part another way.
   if (Array.isArray(week.tldr)) {
     const said = norm(week.tldr.map(t => (Array.isArray(t.lines) ? t.lines.join(' ') : '') + ' ' + (t.also || '')).join(' '));
@@ -1008,7 +1010,7 @@ async function main(scripture, week, pages, online) {
   // Church's terms cover personal and family use. With --online, each
   // heading must be on the lesson page, and no 8 words in a row (outside a
   // “scripture quote”) may match it. Whether it's faithful to the lesson is
-  // Blake's call when he approves.
+  // the owner's call when he approves.
   const lessonPage = online ? pages.get(week.lesson) : null;
   const wordsOf = t => String(t || '').toLowerCase().replace(/[‘’]/g, "'").match(/[a-z0-9']+/g) || [];
   const pageGrams = lessonPage ? (() => { const w = wordsOf(lessonPage), g = new Set(); for (let i = 0; i + 8 <= w.length; i++) g.add(w.slice(i, i + 8).join(' ')); return g; })() : null;
@@ -1076,7 +1078,7 @@ async function main(scripture, week, pages, online) {
   // on that page where the point is, checked with --online (a page that
   // won't load is a note, not a failure). A quote is either the KJV's words
   // in the card's verses, or the page's own: one, short, checked online.
-  // Whether the card is faithful to the page is Blake's call when he approves.
+  // Whether the card is faithful to the page is the owner's call when he approves.
   if (week.insights !== undefined) {
     const chapters = new Set(block || []), seen = new Set();
     const count = t => (String(t || '').match(/\S+/g) || []).length;
@@ -1155,7 +1157,7 @@ async function main(scripture, week, pages, online) {
       const own = (String(x.text || '').match(/“[^”]*”/g) || []).map(q => q.slice(1, -1)).filter(q => !(refText && quoteMatches(q, refText)));
       if (own.length > 1) fail(where, `quotes the page ${own.length} times; once at most (a scripture quote must be the KJV's words in ${x.ref})`);
       for (const q of own) if (count(q) > 15) fail(where, `“${q}” is ${count(q)} words; a quote from the page is 15 at most (a scripture quote must be the KJV's words in ${x.ref})`);
-      // Its page: on one of the sites Blake chose, credited by its name.
+      // Its page: on one of the sites the owner chose, credited by its name.
       const s = x.source && typeof x.source === 'object' ? x.source : {};
       let url = null;
       try { url = new URL(s.url); } catch (e) {}
@@ -1196,7 +1198,7 @@ async function main(scripture, week, pages, online) {
         }
         if (home) checkRefs(w3, 'note', v, home);
       }
-      // Its note in the reader (Blake, 2026-10-07): `glance`, one sentence
+      // Its note in the reader (2026-10-07): `glance`, one sentence
       // under its first verse (5 to 24 words); `short`, "In a sentence", what
       // a child or youth reads first (5 to 30 words); `place`, 'note' (it
       // leaves the Study tab) or 'both'. Our own words: a quote is the verses'
@@ -1226,7 +1228,7 @@ async function main(scripture, week, pages, online) {
         }
         if (!g.approved || g.approved !== approvalHash(withoutApproval(g))) note(`${w4}: ${g.approved ? 'changed since it was approved' : 'not approved yet'}; the card shows without it until it is`);
       }
-      // Its deep dive (Blake, 2026-10-03: "Longer adult level deep dive would
+      // Its deep dive (2026-10-03: "Longer adult level deep dive would
       // be great!"), folded under the card: the same point at length for a
       // grown-up, from the same page, in our own words. 2 to 6 paragraphs,
       // 80 to 450 words in all. Quotes: the verses' words, or the page's, 3
@@ -1307,9 +1309,9 @@ const waiting = new Set();
   }
 }
 const boards = loadBoards();
-// content/sunday.js: the Sunday classes' study (Blake, 2026-10-03: "We need
-// to incorporate sunday lesson study as well.... Javan needs to study YM
-// lessons, and Chantel and I the conference talks").
+// content/sunday.js: the Sunday classes' study (2026-10-03: "We need
+// to incorporate sunday lesson study as well.... [our son] needs to study YM
+// lessons, and [Mom] and I the conference talks").
 const sunday = (() => {
   const f = path.join(ROOT, 'content', 'sunday.js');
   if (!fs.existsSync(f)) return null;
@@ -1353,7 +1355,7 @@ for (const week of weeks) {
   // tools/archive-weeks.mjs names a past week's file by this number, and stops the deploy without it.
   if (!num) failures.push(`${week.title} (${week.dates}): its lesson link must end with the lesson's number, like …/come-follow-me-…/41?lang=eng`);
   await main(scripture, week, pages, online);
-  // The live app only takes weeks Blake approved in developer mode. Plain
+  // The live app only takes weeks the owner approved in developer mode. Plain
   // words, short versions, insight cards, treasure words, the lesson part by
   // part and family night are the exception: the app shows each only once
   // it's approved, so they never hold a week back.
@@ -1366,8 +1368,8 @@ for (const week of weeks) {
 }
 weekLabel = '';
 
-// content/plain.js: plain words for chapters no week reads (Blake,
-// 2026-10-02: "the notes and plain translation for all of Isaiah"), shown in
+// content/plain.js: plain words for chapters no week reads
+// (2026-10-02: "the notes and plain translation for all of Isaiah"), shown in
 // the Scriptures tab once approved, checked like a week's.
 let libraryPlain = 0;
 {
@@ -1389,25 +1391,26 @@ let libraryPlain = 0;
   }
 }
 
-// content/sunday.js (Blake, 2026-10-03: "Javan needs to study YM lessons,
-// and Chantel and I the conference talks"; everyone sees all of it). Since
+// content/sunday.js (2026-10-03: "[our son] needs to study YM lessons,
+// and [Mom] and I the conference talks"; everyone sees all of it). Since
 // September 6, 2026 every class meets each Sunday: Aaronic Priesthood
 // quorums and Young Women classes learn from For the Strength of Youth: A
 // Guide for Making Choices, a chapter a month; elders quorums and Relief
 // Societies from the most recent general conference.
 //   youth: [{ month, chapter, title, guide, lessons: [{ id, sunday, title,
-//     read, intro, cards: [{ id, hook, body, find, q, right, wrong, why }] }] }]
+//     read, intro, cards: [{ id, hook, body, find, q, right, wrong, why, kind? }], try?, reflect? }] }]
 //     A mini-lesson for each Sunday, in our own words from its page (`read`,
 //     Gospel Library), each card's point found there (`find`, --online).
 //   conference: [{ id, title, from, talks: [{ id, speaker, title, url,
-//     session, quick, points, quotes, scriptures, discuss, deep }] }]
+//     session, quick, story?, invite?, points, try?, quotes, scriptures, discuss, deep }] }]
 //     Every talk, in the order it was given (the talk-a-day plan from `from`):
 //     its speaker's own words (`quotes`, found word for word on its page),
 //     the scriptures it uses, and in our own words what it teaches and
 //     questions to talk over, with a deep dive under it as an insight card's.
-// Our own words show once Blake approves them in developer mode (drafts on
+// Our own words show once the owner approves them in developer mode (drafts on
 // the test site), so none of it ever holds a deploy back.
 let sundayCounts = null;
+const SUN_KINDS = ['scenario', 'verse', 'recall'];
 if (sunday) {
   const words = t => (String(t || '').match(/\S+/g) || []).length;
   const isDate = d => /^\d{4}-\d{2}-\d{2}$/.test(d || '') && !isNaN(Date.parse(d + 'T12:00:00Z'));
@@ -1467,11 +1470,17 @@ if (sunday) {
         if (!c.right || !Array.isArray(c.wrong) || c.wrong.length < 2 || c.wrong.length > 3 || c.wrong.includes(c.right)) fail(cw, 'needs right and 2 or 3 different wrong answers');
         if (words(c.why) > 40) fail(cw, `why is ${words(c.why)} words (40 at most)`);
         for (const f of ['hook', 'body', 'q', 'right', 'why']) ownWords(cw, f, c[f]);
+        if (c.kind !== undefined && !SUN_KINDS.includes(c.kind)) fail(cw, `kind "${c.kind}" must be ${SUN_KINDS.join(', ')}`);
         if (online && GOSPEL_LIBRARY.test(l.read || '')) {
           if (onPage(l.read, c.find || '') === false) fail(cw, `"${c.find}" is not on ${l.read}`);
           for (const q of quotes) if (onPage(l.read, q) === false) fail(cw, `“${q}” is not on ${l.read}`);
         } else if (!online) note(`${cw}: ${l.read} not checked (run with --online)`);
       }
+      // The new parts (2026-10-11, optional): with any card's kind set, a scenario card; then
+      // something to try this week and a question to think about, at the lesson's end.
+      if (cards.some(c => c && c.kind !== undefined) && !cards.some(c => c && c.kind === 'scenario')) fail(lw, 'has kinds on its cards but no "scenario" card (at least one is needed)');
+      if (l.try !== undefined) { if (!words(l.try) || words(l.try) > 30) fail(lw, `try is ${words(l.try)} words (1 to 30)`); ownWords(lw, 'try', l.try); }
+      if (l.reflect !== undefined) { if (!words(l.reflect) || words(l.reflect) > 25) fail(lw, `reflect is ${words(l.reflect)} words (1 to 25)`); ownWords(lw, 'reflect', l.reflect); }
       sundayCounts.lessons++;
     }
   }
@@ -1498,6 +1507,20 @@ if (sunday) {
         if (/"/.test(q) || /^“/.test(String(q).trim())) fail(tw, 'a quote goes without its own quote marks (the app adds them)');
         if (online && pages.get(t.url) != null && !quoteMatches(String(q).replace(/[‘’]/g, "'"), pages.get(t.url).replace(/[‘’]/g, "'"))) fail(tw, `the quote “${String(q).slice(0, 50)}…” isn't on ${t.url} word for word`);
       }
+      // The invitation and the promise tied to it (optional): the speaker's own words, as the quotes.
+      if (t.invite !== undefined) {
+        const invite = Array.isArray(t.invite) ? t.invite : [];
+        if (invite.length < 1 || invite.length > 2) fail(tw, `invite has ${invite.length} items (1 or 2)`);
+        for (const x of invite) {
+          if (!x || typeof x !== 'object') { fail(tw, 'invite: each item is { ask, promise }, promise null if there is none'); continue; }
+          for (const [f, q] of [['ask', x.ask], ['promise', x.promise]]) {
+            if (f === 'promise' && (q === null || q === undefined || q === '')) continue;
+            if (typeof q !== 'string' || words(q) < 8 || words(q) > 40) { fail(tw, `invite ${f} “${String(q).slice(0, 40)}…” is ${words(q)} words (8 to 40)`); continue; }
+            if (/"/.test(q) || /^“/.test(q.trim())) fail(tw, `invite ${f} goes without its own quote marks (the app adds them)`);
+            if (online && pages.get(t.url) != null && !quoteMatches(q.replace(/[‘’]/g, "'"), pages.get(t.url).replace(/[‘’]/g, "'"))) fail(tw, `invite ${f} “${q.slice(0, 50)}…” isn't on ${t.url} word for word`);
+          }
+        }
+      }
       if (!online) note(`${tw}: ${t.url} not checked (run with --online)`);
       for (const r of Array.isArray(t.scriptures) ? t.scriptures : []) {
         const m = new RegExp(`^(${linkable}) (\\d+)(?::(\\d+)(?:[–-](\\d+))?)?$`).exec(r || '');
@@ -1505,6 +1528,13 @@ if (sunday) {
       }
       // Our own words, which wait for approval: what it teaches, and questions to talk over.
       if (t.quick !== undefined) { if (words(t.quick) < 25 || words(t.quick) > 90) fail(tw, `quick is ${words(t.quick)} words (25 to 90)`); ownWords(tw, 'quick', t.quick, true); }
+      if (t.story !== undefined) {
+        const st = t.story && typeof t.story === 'object' ? t.story : {};
+        if (!words(st.title) || words(st.title) > 8) fail(tw, `story title is ${words(st.title)} words (1 to 8)`);
+        if (words(st.text) < 40 || words(st.text) > 110) fail(tw, `story text is ${words(st.text)} words (40 to 110)`);
+        ownWords(tw, 'story title', st.title, true); ownWords(tw, 'story', st.text, true);
+      }
+      if (t.try !== undefined) { if (!words(t.try) || words(t.try) > 30) fail(tw, `try is ${words(t.try)} words (1 to 30)`); ownWords(tw, 'try', t.try, true); }
       const points = t.points === undefined ? [] : t.points;
       if (!Array.isArray(points) || points.length > 5 || points.some(x => words(x) < 4 || words(x) > 40)) fail(tw, 'points: up to 5, each 4 to 40 words');
       else points.forEach((x, k) => ownWords(tw, `point ${k + 1}`, x, true));
@@ -1616,7 +1646,10 @@ let origChapters = 0;
 // verse for verse (but for its curly apostrophes and a name in capitals), so
 // every change shows under the verse it's about. And its JS Papers button:
 // tools/jsp-bom-pages.json has every chapter, on pages the documents have.
-let editionVerses = 0, jspChapters = 0;
+// The 1830 button: every verse has its 1830 wording, and a printed page to link
+// to; a verse whose text here isn't the data's 2013 word for word gets no
+// underlines (a note, not a failure: its 1830 line still shows).
+let editionVerses = 0, jspChapters = 0, lines1830 = 0, notUnderlined = [];
 {
   let all = null;
   try { all = await loadEditions(CACHE); } catch (e) { failures.push('The Book of Mormon\'s editions (OpenScripture): ' + e.message); }
@@ -1637,20 +1670,31 @@ let editionVerses = 0, jspChapters = 0;
       }
     }
     if (all.size !== bomChapters.size) off.push(`${all.size} chapters there, ${bomChapters.size} here`);
+    const no1830 = [];
+    for (const [ch, n] of bomChapters) for (let v = 1; v <= n; v++) {
+      const rows = (all.get(ch) || [])[v - 1], x = rows && line1830(rows, scripture.verses.get(`${ch}:${v}`));
+      if (!x) { no1830.push(`${ch}:${v}`); continue; }
+      lines1830++;
+      if (!x.u) notUnderlined.push(`${ch}:${v}`);
+    }
+    if (no1830.length) failures.push(`The Book of Mormon's 1830 text (OpenScripture): none for ${no1830.slice(0, 5).join(', ')}${no1830.length > 5 ? ` and ${no1830.length - 5} more` : ''}`);
+    if (notUnderlined.length) note(`1830: ${notUnderlined.length} verses aren't the data's 2013 text word for word, so their words added since 1830 aren't underlined (${notUnderlined.slice(0, 5).join(', ')})`);
     if (off.length) failures.push(`The Book of Mormon's editions (OpenScripture): its 2013 text isn't ours at ${off.slice(0, 5).join('; ')}${off.length > 5 ? ` and ${off.length - 5} more` : ''}`);
   }
   let t = null;
   try { t = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools', 'jsp-bom-pages.json'), 'utf8')); } catch (e) { failures.push('tools/jsp-bom-pages.json: ' + e.message); }
   if (t) for (const ch of bomChapters.keys()) {
     const x = t.chapters[ch], ok = x && Array.isArray(x.e) && x.e[0] >= 5 && x.e[0] <= x.e[1] && x.e[1] <= 588
-      && Array.isArray(x.p) && x.p[0] >= 1 && x.p[0] <= 464 && (x.o || []).every(o => o[0] >= 1 && o[0] <= 231);
+      && Array.isArray(x.p) && x.p[0] >= 1 && x.p[0] <= 464 && (x.o || []).every(o => o[0] >= 1 && o[0] <= 231)
+      // each verse's page (1830): new pages in order, inside the chapter's pages
+      && (x.s || []).every(([v, pg], k, a) => v >= 2 && v <= bomChapters.get(ch) && pg > (k ? a[k - 1][1] : x.e[0]) && pg <= x.e[1] && (!k || v > a[k - 1][0]));
     if (ok) jspChapters++; else failures.push(`tools/jsp-bom-pages.json: no good pages for ${ch} (node tools/jsp-bom-pages.mjs makes it)`);
   }
 }
 
-// Treasure words (Blake, 2026-10-06, of the Hebrew: "What about super easy to
+// Treasure words (2026-10-06, of the Hebrew: "What about super easy to
 // understand version"): five to seven Hebrew or Greek words a week, each
-// explained for Javan, shown in the reader, as the Word of the Day on Today
+// explained for a child, shown in the reader, as the Word of the Day on Today
 // and in Wika's Hebrew and Greek courses (tools/wika-words.mjs). Each is the
 // word that verse really has in STEPBible's data, with that Strong's number,
 // and the KJV words it's translated by are in the verse; a word is taught in
@@ -1724,6 +1768,27 @@ if (treasureCount) console.log(`✓ Treasure words: ${treasureCount} in ${treasu
   if (old) note(`content/weeks.js holds ${old} ${old === 1 ? 'week' : 'weeks'} older than last week: node tools/archive-weeks.mjs moves ${old === 1 ? 'it' : 'them'} to content/past/, where Past weeks still opens ${old === 1 ? 'it' : 'them'}`);
 }
 
+// content/questions.js: Questions friends ask, a shelf in the Scriptures tab.
+// Each answer shows once the owner approves it in developer mode (the test site
+// shows drafts), so none of it ever holds a deploy back. The rules are in
+// tools/questions.mjs: ids, area and where, the short answer 60 to 130 words
+// and Go deeper 180 to 450, 2 to 4 sources with https links, up to 4 `more`
+// links to Scripture Central (a known kind, on scripturecentral.org, YouTube
+// or Apple Podcasts, none twice), 3 review notes at most, anything in
+// quotation marks 25 words at most, and parent true or false.
+let questionCounts = null;
+{
+  const f = path.join(ROOT, 'content', 'questions.js');
+  if (fs.existsSync(f)) {
+    const box = {};
+    try { new Function('window', fs.readFileSync(f, 'utf8'))(box); } catch (e) { failures.push('content/questions.js: ' + e.message); }
+    const r = checkQuestions(box.TU_QUESTIONS);
+    r.failures.forEach(x => failures.push('content/questions.js · ' + x));
+    r.notes.forEach(x => notes.push('content/questions.js · ' + x));
+    questionCounts = r;
+  }
+}
+
 for (const n of notes) console.log('  · ' + n);
 if (unreached.length && process.env.GITHUB_ACTIONS) {
   const hosts = [...new Set(unreached.map(u => new URL(u).host))].join(', ');
@@ -1733,7 +1798,7 @@ if (failures.length) {
   console.error(`✗ ${failures.length} problem${failures.length === 1 ? '' : 's'}:\n`);
   for (const f of failures) console.error('  - ' + f);
   // In GitHub Actions each problem is also an annotation on the commit,
-  // which is how developer mode shows Blake what the checker found.
+  // which is how developer mode shows the owner what the checker found.
   if (process.env.GITHUB_ACTIONS) {
     const clean = t => t.replace(/%/g, '%25').replace(/\r/g, '%0D').replace(/\n/g, '%0A');
     for (const f of failures.slice(0, 10)) console.log(`::error title=Content check::${clean(f)}`);
@@ -1751,11 +1816,12 @@ for (const week of weeks) {
     (extras.length ? `, plus ${extras.join(' and ')}` : ''));
 }
 if (sundayCounts) console.log(`✓ content/sunday.js: ${sundayCounts.lessons} Sunday ${sundayCounts.lessons === 1 ? 'lesson' : 'lessons'} for the youth, ${sundayCounts.talks} conference ${sundayCounts.talks === 1 ? 'talk' : 'talks'}`);
+if (questionCounts) console.log(`✓ content/questions.js: ${questionCounts.count} ${questionCounts.count === 1 ? 'question' : 'questions'}, ${questionCounts.approved} approved`);
 if (libraryPlain) console.log(`✓ content/plain.js: plain words for ${libraryPlain} ${libraryPlain === 1 ? 'chapter' : 'chapters'} no week reads`);
 if (bsbChapters) console.log(`✓ BSB: the ${bsbChapters} Bible chapters of the reading, verse for verse with the KJV`);
 if (langChapters.es || langChapters.tl) console.log(`✓ ES·TL: the ${langChapters.es} Bible chapters of the reading in Spanish (Reina-Valera 1909), the ${langChapters.tl} in Tagalog (Ang Biblia 1905), each verse under its KJV verse`);
 if (origChapters) console.log(`✓ Hebrew and Greek: the ${origChapters} Bible chapters of the reading, every KJV verse word by word (STEPBible.org, Tyndale House)`);
-if (editionVerses) console.log(`✓ Changes: OpenScripture's 2013 text is ours in all ${editionVerses} Book of Mormon verses (BYU Office of Digital Humanities); JS Papers: the pages of ${jspChapters} chapters`);
+if (editionVerses) console.log(`✓ Changes: OpenScripture's 2013 text is ours in all ${editionVerses} Book of Mormon verses (BYU Office of Digital Humanities); JS Papers: the pages of ${jspChapters} chapters; 1830: ${lines1830} verses${notUnderlined.length ? ` (${notUnderlined.length} without underlines)` : ', every one underlined where words were added'}`);
 if (boards.length) console.log(`✓ ${boards.map(b => `${b.title}: ${b.lands.length} lands, ${b.links.length} borders, ${b.kingdoms.length} kingdoms`).join('; ')}`);
 if (online) {
   const loaded = [...pages.values()].filter(t => t != null).length;

@@ -1,7 +1,7 @@
 // Ammon at Sebus (🎮 → Arcade): the king's flocks at the waters of Sebus
 // (Alma 17). Robbers come to scatter the flock; Ammon stands against them
 // alone, with his sword and his sling, and gathers back the sheep they scatter.
-// Side view, like a fighting game, 1 player (Blake, 2026-10-04: "Street
+// Side view, like a fighting game, 1 player (2026-10-04: "Street
 // fighter style game. Ammon against the robbers. Protect the sheep.").
 //
 // Ammon can't be beaten: the king's servants said "he cannot be slain by the
@@ -31,7 +31,7 @@
     flock: [1.4, 4.8],                        // where the flock grazes (units from the left)
     robberSpeed: 2.3, robberStep: 0.25, robberMax: 4.6,
     windup: 0.45, chiefWindup: 0.7, between: 2.4, shield: 8, ready: 3,
-    // The moves (Blake, 2026-10-04: "What like of combos can we do?"): sword three times in a row (the
+    // The moves (2026-10-04: "What like of combos can we do?"): sword three times in a row (the
     // third a finishing blow), sword in the air (an overhead blow), sword just after a block (a counter),
     // and, with the meter full, sword and sling together (Alma 17:36's "mighty power").
     chainWin: 0.38, chainPush: 1.4, finishPush: 3.8, combo: 50, counterWin: 0.65, daze: 0.7, lunge: 22,

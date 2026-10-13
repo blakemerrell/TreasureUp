@@ -605,8 +605,8 @@ console.log('Free battle · build a city, tear down the war camp');
 }
 
 // ------------------------------------------------------------ out of the wilderness
-// ------------------------------------------------------------ Blake's gameplay review: fighting on the way, falling back, the levels
-console.log('Fighting on the way · Blake\'s gameplay review');
+// ------------------------------------------------------------ the owner's gameplay review: fighting on the way, falling back, the levels
+console.log('Fighting on the way · the owner\'s gameplay review');
 {
   const FB = require('../liberty/missions.js').FREE_BATTLE;
   FB.level = 'normal'; FB.side = 'freemen'; FB.captain = Object.keys(D.CAPTAINS.freemen)[0];
@@ -658,7 +658,7 @@ console.log('Fighting on the way · Blake\'s gameplay review');
     'the King-men\'s ladder-works makes swords and cimeters: +2 for warriors who fight up close (the Nephites\' steel gives +3)');
 }
 
-console.log('Defensive Carts & Fighting Workers · Blake\'s gameplay evolution');
+console.log('Defensive Carts & Fighting Workers · the owner\'s gameplay evolution');
 {
   const W = new S.World();
   const man = (type, team, x, y) => W.addUnit(type, team, x, y);
@@ -709,7 +709,7 @@ console.log('Command Center & Tactical Cohort Battalions · Red Alert 2 Evolutio
   W.side('p').res.timber = 1000;
   W.side('p').res.stone = 1000;
 
-  // 1. A soldier trained on his own joins no regiment (Blake chose regiments: a package bought as one), and marches to the rally point.
+  // 1. A soldier trained on his own joins no regiment (the owner chose regiments: a package bought as one), and marches to the rally point.
   const b = W.addBuilding('barracks', 'p', 10, 10, true);
   b.rally = [15, 15];
   W.train(b, 'spearman');
@@ -911,8 +911,8 @@ console.log('Out of the Wilderness · build a city, hold off the raids');
   }
 }
 
-// ------------------------------------------------------------ saving a game (Blake: "prevent us accidentally exiting the game ... we'll lose our progress")
-console.log('Saving a game · Blake\'s "we\'ll lose our progress"');
+// ------------------------------------------------------------ saving a game (the owner: "prevent us accidentally exiting the game ... we'll lose our progress")
+console.log('Saving a game · the owner\'s "we\'ll lose our progress"');
 {
   // One process plays a game, saving at 3 minutes and again at 5; a fresh one (a page opened again) loads the first save and plays on
   // to 5 minutes. The two must match to the last arrow: the save holds everything the game needs.
@@ -1083,9 +1083,9 @@ console.log('Losing');
 // The game shows each picture's WebP, so a WebP made from an older picture would quietly show the old one. Every PNG and
 // JPG in liberty/assets/ needs a WebP made from it as it is now (python3 tools/liberty-webp.py writes them, and
 // webp.json notes the picture each was made from).
-// Regiments (Blake, 2026-10-11): "build regiment one and it includes a curelom and five archers, ten swordsmen ... like buying a
+// Regiments (the owner, 2026-10-11): "build regiment one and it includes a curelom and five archers, ten swordsmen ... like buying a
 // package"; a Refill pays only for the missing.
-console.log("Regiments · Blake's package of soldiers");
+console.log("Regiments · a package of soldiers");
 {
   const FB = require('../liberty/missions.js').FREE_BATTLE;
   FB.level = 'normal'; FB.side = 'freemen'; FB.captain = null;

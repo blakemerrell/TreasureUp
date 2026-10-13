@@ -179,7 +179,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const totalStars = () => Object.values(save.won || {}).reduce((a, b) => a + (Number(b) || 0), 0);
   const spentStars = () => (save.perks || []).reduce((a, id) => a + (D.PERKS[id] ? D.PERKS[id].stars : 0), 0);
   const availableStars = () => Math.max(0, totalStars() - spentStars());
-  // Every mission is open (Blake: "read first, then play isn't really working"). Reading its chapter first earns a gift
+  // Every mission is open (the owner: "read first, then play isn't really working"). Reading its chapter first earns a gift
   // at the start and opens the council's questions; it is suggested, not required.
   const chaptersOf = m => m.chapters || [m.chapter];
   const allRead = m => chaptersOf(m).every(c => save.read[c]);
@@ -343,7 +343,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Chrome (and Silk on the Fire tablet, and Edge and Samsung's browser, all built on it) says when it drops a canvas, so there
   // the game never reads a canvas back to check. Reading back is worse than it looks: after a couple of reads Chrome moves the
   // canvas off the graphics chip ("Multiple readback operations using getImageData..."), and then the ground and the fog,
-  // copied to the screen every frame, cost the phone dearly. Blake's Android phone: "Chrome isn't responding" 16 s in.
+  // copied to the screen every frame, cost the phone dearly. The owner's Android phone: "Chrome isn't responding" 16 s in.
   // Only a browser that wipes without a word (Safari on the iPhone) gets the test dot and the once-a-second look.
   // (Chrome's engine, by its name in the browser's description; on an iPhone every browser is Safari's engine underneath.)
   const SAYS_LOST = typeof HTMLCanvasElement !== 'undefined' && 'oncontextlost' in HTMLCanvasElement.prototype &&
@@ -377,7 +377,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     return true;
   }
   // A big canvas is drawn on at its own scale (bigCanvas). A phone that wipes a canvas to save memory (an iPhone does it without
-  // a word; Chrome says 'contextlost') resets that scale with it, and the next painting came out magnified and shifted: Blake's
+  // a word; Chrome says 'contextlost') resets that scale with it, and the next painting came out magnified and shifted: the owner's
   // screenshot, the ground slid off to one side, the fog gone, "too far from your city". So every painting sets the scale first.
   const fit = (cv, c) => c.setTransform(cv.k || 1, 0, 0, cv.k || 1, 0, 0);
   // The fog is soft at its edges, so half size looks the same and leaves the ground the room to be sharp.
@@ -2497,7 +2497,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (helpers) drawHelpers(ix, iy - 41, helpers, false);
     }
   }
-  // A small hammer over a building's bar for each helper at work on it, and how much faster it goes (Blake's play-test).
+  // A small hammer over a building's bar for each helper at work on it, and how much faster it goes (the owner's play-test).
   function drawHelpers(cx, y, n, rising) {         // (rising: it builds itself too, so each helper adds as much again)
     const shown = Math.min(n, 4), w = shown * 11 + (rising ? 22 : 0), x0 = cx - w / 2;
     ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x0 - 2, y - 11, w + 4, 12);
@@ -3275,16 +3275,16 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (AUDIO) { AUDIO.play('orderMove'); AUDIO.unitAcknowledge(units[0], 'move'); }
     ping(wx, wy, '#86efac');
   }
-  // Everyone to their own place in a formation at the spot (Blake: they "clump or tangle"): spears and swords in front, bows and
+  // Everyone to their own place in a formation at the spot (the owner: they "clump or tangle"): spears and swords in front, bows and
   // slings behind them, beasts and carts at the back, facing the way they march. A regiment keeps its own formation (its card);
-  // anyone else forms a block. With `fight`, soldiers fight whatever they meet on the way (Blake's review: they used to walk
+  // anyone else forms a block. With `fight`, soldiers fight whatever they meet on the way (the owner's review: they used to walk
   // past the enemy); Fall back passes no `fight`, so they keep walking.
   function moveGroup(units, tx, ty, fight) {
     if (W.border != null && !W.borderOpen && ty < W.border) { W.moveTo(units[0], tx, ty, fight && fighterOf(units[0])); ty = W.border; }
     const spots = formationSpots(units, tx, ty);
     spots.forEach(([u, s]) => W.moveTo(u, s[0], s[1], fight && fighterOf(u)));
   }
-  // Path (Blake: RA2's "waypoint tracker: I'll click on dots and it would draw lines and my guys would follow those lines"):
+  // Path (the owner: RA2's "waypoint tracker: I'll click on dots and it would draw lines and my guys would follow those lines"):
   // each tap adds a point; Go sends the chosen through them in order, each to his own place in the formation at every point,
   // fighting what they meet on the way.
   function addPathPoint(tx, ty) {
@@ -3839,12 +3839,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const n = Math.max(6, ...shown.split(/[\s\u00ad]+/).map(w => w.length));
     return `<button class="cmd ${cls || ''}" data-cmd="${act}" data-label="${name}" style="--n:${n}"><span class="face">${face}<b>${shown}</b></span>${cost ? `<small>${cost}</small>` : ''}</button>`;
   };
-  // ------------------------------------------------------------ the side panel: Red Alert's build bar (Blake's play-test)
+  // ------------------------------------------------------------ the side panel: Red Alert's build bar (the owner's play-test)
   // Two columns that are always there: what you can build and make on the left, who you can train and the powers on the right.
   // Each tile shows its own progress swept over its picture, like Red Alert's clock, and a people tile how many are waiting.
   // The tiles are made once and then changed where they stand, so a tap on one is never lost to a redraw.
   const capitalUp = () => W.buildings('p').some(b => b.def.builder && b.built >= 1 && !b.dead);
-  // Blake: "a simple way to see what can be built ... and how many of them I can build with the infrastructure I have".
+  // The owner: "a simple way to see what can be built ... and how many of them I can build with the infrastructure I have".
   // Two lists, Build and Train, with everything your side can ever make: what you can't make yet stays on the list, locked,
   // saying what it needs, and each tile counts how many you could start right now.
   const buildList = () => W.tech ? (SIDES[W.side('p').side] || SIDES.freemen).build : ['wall', 'gate', 'tower', 'barracks', 'storehouse'];
@@ -3854,7 +3854,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     for (const bt of types) for (const t of (BUILDINGS[bt] && BUILDINGS[bt].trains) || []) if (W.visible(UNITS[t]) && !at.has(t)) at.set(t, bt);
     return at;
   }
-  // Fighters first (what Blake looks for), then beasts and engines, then the city's workers and carts.
+  // Fighters first (what the owner looks for), then beasts and engines, then the city's workers and carts.
   const trainRank = t => { const d = UNITS[t]; return d.gathers || d.builds || t === 'cart' || t === 'bearer' ? 2 : t === 'curelom' || t === 'cumom' || t === 'ram' || t === 'siege' ? 1 : 0; };
   function barTiles() {
     const build = capitalUp() ? buildList().filter(t => BUILDINGS[t] && W.visible(BUILDINGS[t])).map(t => 'build:' + t) : [];
@@ -4429,7 +4429,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (on) refreshCohortBar();
   }
 
-  // ------------------------------------------------------------ regiments (Blake, 2026-10-11)
+  // ------------------------------------------------------------ regiments (the owner, 2026-10-11)
   // "Build regiment one and it includes a curelom and five archers, ten swordsmen ... like buying a package", and "hit a hotkey
   // and it would select them". The bar over the map has a badge for each regiment: its numeral, its name where there's room,
   // and how many stand of how many it should have (and how many are in training). Tap: choose them all; tap again, or twice
@@ -4557,7 +4557,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   $('bMenu').onclick = openMenu;
 
   // ------------------------------------------------------------ the opening page
-  // Blake: "The opening page.. can you add some art!? And better layout the game options cleaner." A painting of Moroni raising
+  // The owner: "The opening page.. can you add some art!? And better layout the game options cleaner." A painting of Moroni raising
   // the title of liberty (art/requests/019), then three big tiles, each opening a screen with only its own choices.
   const ART = { title: 'assets/title.jpg?v=2', story: 'assets/tile_story.jpg?v=2', free: 'assets/tile_free.jpg?v=2', wild: 'assets/tile_wild.jpg?v=1' };
   const menuFor = m => m === WILD ? wildScreen : m && m.free ? freeScreen : storyScreen;
@@ -5138,7 +5138,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
 
   // ------------------------------------------------------------ the tips card
-  // Blake: "a card that we can read really quickly that teaches things about the gameplay." Four or five tips, a picture each;
+  // The owner: "a card that we can read really quickly that teaches things about the gameplay." Four or five tips, a picture each;
   // it shows over the briefing before each kind of game until "Don't show again", and from How to play on the menu.
   const TIPS = {
     'free-freemen': { title: 'Free battle · the Freemen', tips: [
@@ -5186,7 +5186,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     world.perks = (opts && opts.perks) || (save.perks ? save.perks.slice() : []);
     m.setup(world);
     W = world;
-    // Read the chapter first, and the people bring a gift (Blake: reading earns bonuses instead of opening the mission).
+    // Read the chapter first, and the people bring a gift (the owner: reading earns bonuses instead of opening the mission).
     if (!m.free && m !== WILD && allRead(m)) { W.gain('grain', 100); W.gain('timber', 100); W.msg(`You read ${chaptersOf(m).join(' and ')}: the people bring 100 grain and 100 timber.`, null, 'good'); }
     enterGame(m, null);
     autosave();
@@ -5277,7 +5277,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   document.addEventListener('visibilitychange', () => { if (document.hidden && W && !W.over && !paused) togglePause(); });
 
   // ------------------------------------------------------------ keeping a game safe
-  // Blake: "find a way to prevent us accidentally exiting the game. If I hit the wrong gesture or something, it will exit the game
+  // The owner: "find a way to prevent us accidentally exiting the game. If I hit the wrong gesture or something, it will exit the game
   // and we'll lose our progress." A game in progress saves itself (save.js) every 15 seconds, when it starts, and whenever the page
   // is hidden or left; the opening page offers to continue it. A back swipe or the back button opens the pause menu instead of
   // leaving; a refresh or a closing tab asks first, where the browser lets a page ask (iPhones don't: the save covers them).

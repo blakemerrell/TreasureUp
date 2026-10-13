@@ -200,7 +200,7 @@
     G.between = T.between;
     sound('clear');
   }
-  // Between levels: a question from this week, as in the other arcade games (Blake, 2026-10-07: "heavily
+  // Between levels: a question from this week, as in the other arcade games (2026-10-07: "heavily
   // encorporate learning into the start and throughout the games"). Right: +200, and no serpent can bite
   // for the next level's first seconds.
   function askQuestion() {

@@ -1,7 +1,7 @@
 # 009 · The battlefield: camps, a war camp, Lamanite watchtowers, walls and a gate
 
 **Status: done** (phase 2 of finishing free battle). All five pictures were
-made with Gemini through Blake's n8n backup: 5 billed to the Merit3D Gemini
+made with Gemini through the owner's n8n backup: 5 billed to the Merit3D Gemini
 account, all usable on the first try.
 
 ## What it's for

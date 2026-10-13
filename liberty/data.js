@@ -575,7 +575,7 @@
                build: ['tents', 'storetent', 'muster', 'wall', 'gate', 'lookout', 'shieldtent', 'ladderworks', 'wardance', 'pavilion', 'rameumptom', 'idol'],
                about: 'Those who "were called king-men" (Alma 51:5): all who fought for Amalickiah\'s crown, the Lamanite armies and the dissenters with them. Numbers, fierce captains, and wicked works stirred up from the Rameumptom.' }
   };
-  // Regiments (Blake, 2026-10-11: "build regiment one and it includes a curelom and five archers, ten swordsmen ... like buying a
+  // Regiments (the owner, 2026-10-11: "build regiment one and it includes a curelom and five archers, ten swordsmen ... like buying a
   // package"): each side starts with these, and any of them can be changed. One tap trains all who are missing; they march to
   // join those already standing, and the regiment's badge selects them all. Kinds the mission doesn't have are left out.
   const REGIMENTS = {

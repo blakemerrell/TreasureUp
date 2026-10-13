@@ -1,14 +1,14 @@
 # Wika: how a course is written
 
-*Wika* is Tagalog for "language" (Blake, 2026-10-06: "Change the name … to …
+*Wika* is Tagalog for "language" (2026-10-06: "Change the name … to …
 wika", "Add the 2 other languages"). It was Amigo · Kaibigan, and keeps that
-game's address (`amigo/`) and progress (localStorage `amigo.v1`), so Javan's
+game's address (`amigo/`) and progress (localStorage `amigo.v1`), so the kids'
 lessons and streaks carry on and old links still work.
 
-Spanish for his friends at school; Tagalog, Blake's mission language (the
+Spanish for his friends at school; Tagalog, a parent's mission language (the
 Philippines, 2002–2004); and the Bible's own Hebrew and Greek, from the
 weeks' treasure words. Each course is a file: `course-es.js` and
-`course-tl.js`, Blake's own `course-tl2.js` (Tagalog past the basics, below),
+`course-tl.js`, the owner's own `course-tl2.js` (Tagalog past the basics, below),
 and `course-he.js` and `course-el.js` (Hebrew and Greek, made by a tool,
 below). Three scripts are side quests: Baybayin, the alef-bet and the Greek
 letters. `node tools/test-amigo.mjs` checks every rule below that can be
@@ -53,7 +53,7 @@ line for how kids there really talk.
 ## Tagalog
 
 *Po* and *opo* with elders, and the way Filipinos really greet each other
-and eat together. **Blake checks every Tagalog line.** Until he has, a unit
+and eat together. **The owner checks every Tagalog line.** Until he has, a unit
 shows only on the test site, marked "Not checked yet"; its full list is under
 **Check the Tagalog** there. Once he says it's right, give the unit
 `checked: 'YYYY-MM-DD'` (the date), and it shows on the live app. The same
@@ -62,7 +62,7 @@ words).
 
 ## Tagalog past the basics (`course-tl2.js`)
 
-Blake's own course: rusty mission Tagalog, and he asked for everyday
+The owner's own course: rusty mission Tagalog, and he asked for everyday
 conversation, listening at native speed, and the grammar that's slipped. It
 has `kind: 'conversation'`, and each unit is a real conversation between two
 people and the grammar it uses, in three lessons: **Listen** (the whole
@@ -91,7 +91,7 @@ review. A unit:
   luto.”), so a form about a little word (*na*, *pa*, *din*) has none.
 - A sentence to pick a form for, build or say, and a scene's answer, is in
   one unit only (a scene may answer with one of its unit's sentences to say).
-- It isn't held back for Blake's check: he is the one learning it, and it
+- It isn't held back for the owner's check: he is the one learning it, and it
   goes live once he has tried it on the test site.
 
 ## Hebrew and Greek: the treasure words (`course-he.js`, `course-el.js`)
@@ -139,8 +139,8 @@ Side quests like Baybayin, each with Learn, Your name and Chart:
   (on bet: a, e, i, o, u, the sheva, the dot that makes ב a b); Zayin to
   Lamed; Mem to Tsadi; Qof to Tav; the five final forms (ך ם ן ף ץ). Each
   letter by sight and by name; the chart is right to left, and a tap says its
-  name. The fun fact: Javan's name is Hebrew, יָוָן (Genesis 10:2), and it's
-  the Old Testament's name for Greece.
+  name. The fun fact: Javan (יָוָן, Genesis 10:2) was Noah's grandson, and his
+  name became the Old Testament's name for Greece.
 - **The Greek letters** (`greek-letters.js`): all 24 in five lessons (Alpha to
   Epsilon, Zeta to Kappa, Lambda to Omicron, Pi to Upsilon, Phi to Omega,
   with the breathing marks), capital and small.
@@ -152,9 +152,9 @@ Side quests like Baybayin, each with Learn, Your name and Chart:
   `/home/user/drafts/treasure/lex`). A word appears only once every letter
   (and, in Hebrew, its vowel points) has been taught.
 - **Write your name**: by its sound, an approximation, and the screen says
-  so. Hebrew: a letter with its vowel point (Blake → בְּלֵיק), and a Bible name
-  the Bible's way (Javan → יָוָן). Greek: Blake → Βλεικ, and a J name starts
-  with Iota, like Ἰησοῦς (Javan → Ιαβαν).
+  so. Hebrew: a letter with its vowel point (Jake → גֵ׳יק), and a Bible name
+  the Bible's way (David → דָּוִד). Greek: David → Δαβιδ, and a J name starts
+  with Iota, like Ἰησοῦς (Jake → Ιεικ).
 
 ## Voices
 
@@ -162,7 +162,7 @@ A line is said, in this order, by:
 
 1. **Its recording**, if it has one: `amigo/audio/tl/<key>.mp3`, listed in
    `amigo/audio/index.js`, in Google's Filipino voice fil-ph-Neural2-D (a
-   man's; Blake's pick). It plays on every phone. Past the basics is in
+   man's; the owner's pick). It plays on every phone. Past the basics is in
    `amigo/audio/tl2/`: each conversation line in its speaker's voice
    (fil-ph-Neural2-D, fil-ph-Neural2-A), listed by `engine.js`
    `voiceLines`. **The test site's deploy
@@ -173,7 +173,7 @@ A line is said, in this order, by:
    `~/keys`: `--dry` lists what isn't recorded, `--samples <dir>` says one
    line in every Filipino voice, `--voice <name>` picks one, `--all`
    records everything again.
-   **Spanish** is recorded the same way (Blake, 2026-10-04: "javan can't hear
+   **Spanish** is recorded the same way (2026-10-04: "[he] can't hear
    the spanish on this kindle, but he can hear the tagalog"): each line of
    `course-es.js` the game can say, as `amigo/audio/es/<key>.mp3`, in a man's
    Latin American Spanish voice, a little slow (Mexican if Google has one,

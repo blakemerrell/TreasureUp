@@ -178,7 +178,7 @@ for (const [id, C] of Object.entries(COURSES)) {
   ok(!problems.length, `${C.units.length} units: ${n('phrases')} phrases, ${n('words')} words and ${n('scenes')} scenes follow the rules`, problems);
   if (id === 'tl') {
     const checked = C.units.filter(u => u.checked).length;
-    console.log(`    (${checked} of ${C.units.length} units checked by Blake${C.tatay.checked ? ', the home words checked' : ''}${C.baybayin.checked ? ', the Baybayin words checked' : ''}; the live app shows only those)`);
+    console.log(`    (${checked} of ${C.units.length} units checked by the owner${C.tatay.checked ? ', the home words checked' : ''}${C.baybayin.checked ? ', the Baybayin words checked' : ''}; the live app shows only those)`);
   }
 }
 
@@ -275,9 +275,9 @@ lessonChecks('he', E.liveWords(COURSES.he), 'Hebrew as the live app has it: the 
 console.log('Baybayin');
 {
   const SPELL = { Tatay: 'ᜆᜆᜌ᜔', Nanay: 'ᜈᜈᜌ᜔', Kaibigan: 'ᜃᜁᜊᜒᜄᜈ᜔', Mabuhay: 'ᜋᜊᜓᜑᜌ᜔', Salamat: 'ᜐᜎᜋᜆ᜔', anak: 'ᜀᜈᜃ᜔', araw: 'ᜀᜇᜏ᜔',
-    Pilipinas: 'ᜉᜒᜎᜒᜉᜒᜈᜐ᜔', Bleyk: 'ᜊ᜔ᜎᜒᜌ᜔ᜃ᜔', mga: 'ᜋᜅ', ng: 'ᜈᜅ', 'mahal kita': 'ᜋᜑᜎ᜔ ᜃᜒᜆ', ngayon: 'ᜅᜌᜓᜈ᜔', Juan: 'ᜑᜓᜀᜈ᜔' };
+    Pilipinas: 'ᜉᜒᜎᜒᜉᜒᜈᜐ᜔', Keyt: 'ᜃᜒᜌ᜔ᜆ᜔', mga: 'ᜋᜅ', ng: 'ᜈᜅ', 'mahal kita': 'ᜋᜑᜎ᜔ ᜃᜒᜆ', ngayon: 'ᜅᜌᜓᜈ᜔', Juan: 'ᜑᜓᜀᜈ᜔' };
   const wrong = Object.entries(SPELL).filter(([w, want]) => BAY.spell(w).text !== want).map(([w, want]) => `${w}: ${BAY.spell(w).text} (want ${want})`);
-  ok(!wrong.length, `${Object.keys(SPELL).length} words spelled right (Kaibigan → ${BAY.spell('Kaibigan').text}, Bleyk → ${BAY.spell('Bleyk').text})`, wrong);
+  ok(!wrong.length, `${Object.keys(SPELL).length} words spelled right (Kaibigan → ${BAY.spell('Kaibigan').text}, Keyt → ${BAY.spell('Keyt').text})`, wrong);
   const words = COURSES.tl.baybayin.words, problems = [], sizes = [];
   const never = words.filter(([w]) => BAY.firstLesson(w) < 0).map(([w]) => w);
   if (never.length) problems.push(`never readable: ${never.join(', ')}`);
@@ -365,7 +365,7 @@ console.log('Recordings (amigo/audio/, made by tools/amigo-voice.mjs)');
     [...missing2.map(k => 'no file for tl2/' + k), ...(strict ? unrecorded2.map(t => `no recording of “${t}”`) : [])]);
   if (!strict && unrecorded2.length) console.log(`    (not recorded yet: ${unrecorded2.slice(0, 4).join(' · ')}${unrecorded2.length > 4 ? ' …' : ''}. The test site's deploy records them.)`);
 
-  // Spanish, recorded like the first Tagalog course (Blake, 2026-10-04: Javan's
+  // Spanish, recorded like the first Tagalog course (2026-10-04: a child's
   // Kindle has no Spanish voice). What its lessons can say, for the same two
   // learners, is all in what tools/amigo-voice.mjs records. Not yet required on
   // the live app: its recordings come from the test site's deploy, and until a
@@ -400,7 +400,7 @@ console.log('The treasure words: tools/wika-words.mjs, on made-up weeks');
   const fs = require('node:fs'), os = require('node:os'), path = require('node:path');
   const W = await import('./wika-words.mjs');
   const approve = x => Object.assign(x, { approved: W.approvalHash(W.withoutApproval(x)) });
-  const he = (id, word, gloss, say) => ({ id, ref: 'Isaiah 1:1', word, form: word, strong: 'H' + (1000 + id.length), gloss, say, kjv: gloss, means: 'What ' + gloss + ' means, in a sentence for Javan.' });
+  const he = (id, word, gloss, say) => ({ id, ref: 'Isaiah 1:1', word, form: word, strong: 'H' + (1000 + id.length), gloss, say, kjv: gloss, means: 'What ' + gloss + ' means, in a sentence for a child.' });
   const el = (id, word, gloss, say) => Object.assign(he(id, word, gloss, say), { strong: 'G' + (2000 + id.length) });
   const week = (dates, reference, title, treasure) => ({ dates, reference, title, lesson: 'https://example.org/x/1?lang=eng', sections: [], treasure });
   // Week 2 (in weeks.js): all approved. Week 1 (past): one changed since it was approved, one never approved.
@@ -476,15 +476,15 @@ function letterChecks(name, M, all, words, firstReading) {
   ok(ALEF.LETTERS.length === 22 && ALEF.FINALS.length === 5 && ALEF.LESSONS.some(l => l.vowels) && ALEF.LESSONS.length >= 5 && ALEF.LESSONS.length <= 7, '22 letters, 5 final forms and a lesson on the vowel points, in about 6 lessons');
   const tw = heWords.filter(w => !ALEF.FIXED.some(f => f.word === w.word));
   ok(tw.length > 0 && ALEF.LESSONS.some((_, n) => ALEF.lessonSteps(n, heWords, 'test').some(s => s.type === 'bread' && tw.some(w => w.word === s.glyph))), `the treasure words are read where the letters allow (${tw.length} of them)`);
-  const nm = { Javan: 'יָוָן', Blake: 'בְּלֵיק', Bleyk: 'בְּלֵיק', Mom: 'מוֹם' };
+  const nm = { Javan: 'יָוָן', David: 'דָּוִד', Jake: 'גֵ׳יק', Jeyk: 'גֵ׳יק', Mom: 'מוֹם' };
   const wrongH = Object.entries(nm).filter(([w, want]) => ALEF.spell(w).text.normalize('NFC') !== want.normalize('NFC')).map(([w, want]) => `${w}: ${ALEF.spell(w).text} (want ${want})`);
-  ok(!wrongH.length && /Genesis 10:2/.test(ALEF.spell('Javan').note) && /Greece/.test(ALEF.fact), `the name writer: Javan → ${ALEF.spell('Javan').text} (the Bible’s spelling, Genesis 10:2), Blake → ${ALEF.spell('Blake').text}`, wrongH);
+  ok(!wrongH.length && /Genesis 10:2/.test(ALEF.spell('Javan').note) && /Greece/.test(ALEF.fact), `the name writer: Javan → ${ALEF.spell('Javan').text} (the Bible’s spelling, Genesis 10:2), Jake → ${ALEF.spell('Jake').text}`, wrongH);
   const grWords = GRK.readingWords(E.liveWords(COURSES.el).units.flatMap(u => u.words.map(w => ({ word: w.word, say: w.say, en: w.gloss }))));
   letterChecks('The Greek letters (amigo/greek-letters.js)', GRK, GRK.LETTERS.map(l => l.glyph), grWords, 2);
   ok(GRK.LETTERS.length === 24 && GRK.LESSONS.length >= 4 && GRK.LESSONS.length <= 6, '24 letters in about 5 lessons');
-  const ng = { Javan: 'Ιαβαν', Blake: 'Βλεικ', Bleyk: 'Βλεικ', Mom: 'Μομ' };
+  const ng = { David: 'Δαβιδ', Jake: 'Ιεικ', Jeyk: 'Ιεικ', Mom: 'Μομ' };
   const wrongG = Object.entries(ng).filter(([w, want]) => GRK.spell(w).text !== want).map(([w, want]) => `${w}: ${GRK.spell(w).text} (want ${want})`);
-  ok(!wrongG.length && /no j/.test(GRK.spell('Javan').note), `the name writer: Javan → ${GRK.spell('Javan').text}, Blake → ${GRK.spell('Blake').text}`, wrongG);
+  ok(!wrongG.length && /no j/.test(GRK.spell('Jake').note), `the name writer: Jake → ${GRK.spell('Jake').text}, David → ${GRK.spell('David').text}`, wrongG);
   // The fixed reading words, each in STEPBible's lexicon with that Strong's number and spelling (accents aside).
   const fs = require('node:fs'), path = require('node:path');
   const lexDir = [process.env.STEP_LEX, '/home/user/drafts/treasure/lex'].find(d => d && fs.existsSync(path.join(d, 'tbesh.txt')));

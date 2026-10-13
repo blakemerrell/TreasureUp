@@ -1,5 +1,5 @@
 // The word study behind a tap on a Hebrew or Greek word in the reader
-// (Blake, 2026-10-02: "connect to strongs and when i click a word ... i get a
+// (2026-10-02: "connect to strongs and when i click a word ... i get a
 // deeper word study"): its root word, what it means, its grammar in plain
 // words, and every other verse that uses it. From STEPBible.org's data, from
 // work at Tyndale House Cambridge (CC BY 4.0, credited in the app), pinned to

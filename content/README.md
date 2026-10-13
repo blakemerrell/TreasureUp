@@ -8,7 +8,7 @@ editing by hand.
 ## Developer mode
 
 `https://blakemerrell.github.io/TreasureUp-test/#dev` (also linked from the
-Parents screen on the test site). It is for Blake and the people he adds by
+Parents screen on the test site). It is for the owner and the people he adds by
 name and email, each signed in with Google; the Firebase rules enforce that.
 
 - Every week the test site has, each piece shown as he'll see it: the week
@@ -35,13 +35,18 @@ name and email, each signed in with Google; the Firebase rules enforce that.
 - **Insights** are a piece per card: the card, the page it comes from (a
   link to check it says so), the words to find there, and its verses. Like
   plain words, a card shows only once it's approved.
+- **Questions friends ask** (`content/questions.js`, below) is one more entry
+  after the weeks: a piece per question, its notes to look at first
+  (`review`), then the question as he'll see it and its sources. Approve,
+  Undo approval, Edit, Save and Publish to the live app work as for the
+  Sunday classes; the app shows a question once it's approved.
 - **Publish to the live app** appears once every piece of a week is approved.
   It copies any pictures the live app lacks, then the week, to the live repo.
   The live deploy runs the check with `--require-approval` (weeks from
   October 5, 2026 on); if it refuses, developer mode puts the live file back.
-- The GitHub token Blake connects (Contents: Read and write on TreasureUp and
+- The GitHub token the owner connects (Contents: Read and write on TreasureUp and
   TreasureUp-test) is kept in the test Firebase project, readable only by the
-  people on the list. Only Blake can change the list or the token.
+  people on the list. Only the owner can change the list or the token.
 
 Developer mode commits straight to the repos, so **before editing content in
 git, pull first**: `git fetch test origin` and merge `test/main` (and
@@ -67,12 +72,12 @@ on both sites, runs  node tools/archive-weeks.mjs  and then
 node tools/upcoming-weeks.mjs, which brings the waiting weeks in, oldest
 first, while weeks.js stays under 900 KB; the deploy saves the result back
 to the repo, and runs every Monday too, so about three weeks ahead are always
-in weeks.js for Blake to approve. A week grows once it's in (approvals,
+in weeks.js for the owner to approve. A week grows once it's in (approvals,
 edits, its lesson part by part and family night), so when weeks.js is over
 900 KB the weeks furthest ahead go back to waiting, the latest first, until
 it's under again; this week and next always stay. tools/verify.mjs checks the waiting weeks
 like the others, so a mistake shows when a week is written, not the day it
-comes in. The live repo has waiting weeks too since Blake had the rest of
+comes in. The live repo has waiting weeks too since the owner had the rest of
 2026 approved at once (2026-10-05: "Get it all live"); the live deploy still
 refuses a week that isn't approved. A week developer mode publishes while
 the live copy is still waiting goes into weeks.js, and the waiting copy is
@@ -191,7 +196,7 @@ treasure (optional): five to seven Hebrew (or Greek) words from the week's
 
 ## Plain words (`plain`)
 
-Every week gets plain words for its whole reading (Blake, 2026-09-29: "and
+Every week gets plain words for its whole reading (2026-09-29: "and
 onward"). A week's `plain` is a list of chapters from its reading, each
 `{ ch, verses, notes, review }`. In a chapter he picks what he reads with
 buttons: **KJV**, **Plain words**, **BSB**, **Notes**, and **Hebrew** (Old
@@ -208,10 +213,13 @@ them. The Book of Mormon adds **Changes** (each verse's changes from the 1830
 edition to 2013, from BYU Office of Digital Humanities' OpenScripture data
 through `tools/editions.mjs`, sorted into kinds by rules) and **JS Papers**
 (links to the chapter's pages at the Joseph Smith Papers, from
-`tools/jsp-bom-pages.json`). Neither is written by hand, so they need no
+`tools/jsp-bom-pages.json`), and **1830** (each verse as the 1830 edition
+has it, from the same OpenScripture data, with its printed page linked at the
+Joseph Smith Papers; the words changed or added since are marked by
+comparing the editions word for word). None of these is written by hand, so they need no
 approval; the one line on each edition (`CHG_EDITIONS` in `index.html`) is
 reviewed in its pull request. A note on why one verse changed would be written
-by hand, and would wait for Blake's approval like any note.
+by hand, and would wait for the owner's approval like any note.
 
 - `ch`: a chapter of the week's reading ("Isaiah 40"). `verses`: one plain
   line for every verse of that chapter, in order.
@@ -230,7 +238,7 @@ by hand, and would wait for Blake's approval like any note.
   quoted in a note goes in “curly quotes” with its reference, and is checked
   like any quote; another translation's wording goes in ‘single quotes’.
   45 words max.
-- Older manuscripts (Blake, 2026-10-08: "If you have a better source of the
+- Older manuscripts (2026-10-08: "If you have a better source of the
   Hebrew or Greek then consider that. Make a note of it."). The plain words
   follow the text the KJV translated (for the New Testament, the Textus
   Receptus), so they match the verse above them; where older copies read
@@ -241,7 +249,7 @@ by hand, and would wait for Blake's approval like any note.
   BY-NC 4.0), only from letters on the scroll, never from letters editors
   filled in. At most 3 such notes a chapter, and never saying which reading
   is right.
-- `review`: `{ v, about }`, the verses Blake should look at first in
+- `review`: `{ v, about }`, the verses the owner should look at first in
   developer mode, and why. Not shown in the app.
 - Every chapter is read against the Hebrew by a second reviewer before it
   goes in. The checker counts what can be counted: a verse per verse, notes
@@ -250,8 +258,8 @@ by hand, and would wait for Blake's approval like any note.
 
 ## Plain words beyond the weeks (`content/plain.js`)
 
-Chapters no week reads can have plain words and notes too (Blake,
-2026-10-02: "the notes and plain translation for all of Isaiah"), for the
+Chapters no week reads can have plain words and notes too
+(2026-10-02: "the notes and plain translation for all of Isaiah"), for the
 Scriptures tab. `content/plain.js` sets `window.TU_PLAIN = { title, plain }`,
 where `plain` is a list of chapters exactly like a week's (`{ ch, verses,
 notes, review, approved }`), written and reviewed by the same rules above.
@@ -267,7 +275,7 @@ A card at the top of every chapter he reads (the day's reading and Past
 weeks), above the KJV / Plain words / BSB / Notes buttons: "The short
 version", two to four lines on what the chapter says, each ending with the
 verses it covers. Tapping those verses takes him down to them. Every week
-gets them for its whole reading, with its plain words (Blake, 2026-09-29:
+gets them for its whole reading, with its plain words (2026-09-29:
 "Yeah. Go ahead."). A week's `tldr` is a list of chapters from its reading,
 each `{ ch, lines, review }`.
 
@@ -289,7 +297,7 @@ each `{ ch, lines, review }`.
   2 Nephi 23"), one sentence under the lines saying who quotes it there:
   "Nephi quotes this chapter in the Book of Mormon (2 Nephi 23)." The lines
   themselves stay on the chapter.
-- `review`: `{ v, about }`, what Blake should look at first in developer
+- `review`: `{ v, about }`, what the owner should look at first in developer
   mode. Not shown in the app.
 - Each week's cards are read against the verses, the heading and the lesson
   by a second reviewer before they go in. The checker counts the lines,
@@ -297,7 +305,7 @@ each `{ ch, lines, review }`.
 
 ## The lesson, part by part (`guide`)
 
-Blake, 2026-10-06: "Are you taking the church manual and breaking it up for
+2026-10-06: "Are you taking the church manual and breaking it up for
 us in this app? Can you?" The week's Come, Follow Me lesson, section by
 section, in **This week** (the week sheet): what each section teaches and
 asks, a question to talk about, and a link to that section in Gospel Library.
@@ -325,7 +333,7 @@ it). Each section is `{ h, id, ref, kids, lines, ask }`.
 - **Shown once approved.** Each section shows once it's approved in
   developer mode, like the plain words; the test site shows drafts, marked.
   It never holds a week back.
-- **Every section covered** (Blake, 2026-10-06: "Check nothing's missed").
+- **Every section covered** (2026-10-06: "Check nothing's missed").
   Each section of "Ideas for Learning at Home and at Church" has at least one
   reel on its idea. Each "Ideas for Teaching Children" section has a reel,
   or the week's family night or Friday deep dive.
@@ -333,7 +341,7 @@ it). Each section is `{ h, id, ref, kids, lines, ask }`.
 ## Family night (`family`)
 
 One plan a week for the whole family, 15 to 20 minutes, from the lesson's
-ideas, most often its "Ideas for Teaching Children" (Blake, 2026-10-06: "A
+ideas, most often its "Ideas for Teaching Children" (2026-10-06: "A
 family night plan"). It shows on Monday's card and in This week, and is
 `{ title, minutes, from, steps }`.
 
@@ -357,7 +365,7 @@ family night plan"). It shows on Monday's card and in This week, and is
 
 A day's best insight cards (three at most: one of each kind first) show
 under More from this day on its card and start its Go further; all of them
-are in the Study tab (Blake, 2026-10-01: "where can I get faithful commentary for this
+are in the Study tab (2026-10-01: "where can I get faithful commentary for this
 app? Follow him, scripture Central, gospel living? Byu? Make that into
 additional insight cards"; "As many as are good"). A week's `insights` is a
 list of cards, each `{ id, ref, title, text, source: { by, who, title, url }, find }`.
@@ -368,7 +376,7 @@ list of cards, each `{ id, ref, title, text, source: { by, who, title, url }, fi
   25 to 90 words (aim for 35–80). It says only what the page says. A quote
   is either the KJV's own words in `ref`, or the page's own: once at most,
   15 words or fewer, saying who said it.
-- `source`: a page on one of the sites Blake chose (`INSIGHT_SITES` in
+- `source`: a page on one of the sites the owner chose (`INSIGHT_SITES` in
   tools/verify.mjs): the Church's Gospel Library pages (manuals, general
   conference, the magazines), Scripture Central, BYU's Religious Studies
   Center and Speeches, followHIM, the Joseph Smith Papers (below). `by` is the site's name, or for a Church
@@ -383,9 +391,9 @@ list of cards, each `{ id, ref, title, text, source: { by, who, title, url }, fi
   is anywhere in the app, cards included).
 - Writers draft each week's cards from pages they've read; a second
   reviewer opens every page and checks each card against it before they go
-  in; Blake approves each in developer mode.
+  in; the owner approves each in developer mode.
 
-An insight card can also carry a **deep dive** (Blake, 2026-10-03: "Longer
+An insight card can also carry a **deep dive** (2026-10-03: "Longer
 adult level deep dive would be great! … the quick learn, or the deep dive …
 With the expand"), `deep: { paras, find, listen }`: the card stays the quick
 learn, for him, and under it, folded (🤿 Deep dive ▾, in its sheet, in Go
@@ -406,14 +414,14 @@ whoever wants more opens it.
   clip: 10 minutes at most, from an approved channel (asked of YouTube), and
   shown only once a parent has watched it (approving the card marks it
   watched).
-- It's part of the card: Blake approves the two together in developer mode,
+- It's part of the card: the owner approves the two together in developer mode,
   which shows the deep dive under the card. It carries its own approval mark
   (`deep.approved`), and the card's fingerprint leaves the deep dive out, so a
-  deep dive added to a card already approved waits for Blake while the card
+  deep dive added to a card already approved waits for the owner while the card
   stays in the app (developer mode lists the card again, "its new deep
   dive"); off the test site an unapproved deep dive is left off the card.
 
-**Joseph Smith Papers cards** (Blake, 2026-10-04: "can you add notes to the
+**Joseph Smith Papers cards** (2026-10-04: "can you add notes to the
 scripture reading from Joseph Smith papers??? having a directly source to
 that would be amazing"; both kinds, under the verse and as a card, the
 coming weeks first) are insight cards whose `source` is a page on
@@ -431,7 +439,7 @@ note adds the original source; it doesn't repeat what the chapter's own notes
 already say. Where Joseph's wording differs from the KJV the KJV stays the
 scripture, and the note says plainly that the change is Joseph's.
 
-**Notes in the reader** (Blake, 2026-10-07, from a mockup: "Let's try folding
+**Notes in the reader** (2026-10-07, from a mockup: "Let's try folding
 it all into the current format of the notes. Simple version at a glance. Tap
 for expanded info"; then "Anything that should go to study cards instead of
 notes?" and the split below). Any insight card except a video can carry
@@ -441,7 +449,7 @@ notes?" and the split below). Any insight card except a video can carry
   (a whole chapter's, at the chapter's top) when **Notes** is on, after its
   source's name: "🏛️ Scripture Central: …". A tap opens the sheet: the verse,
   the whole card, the page ("Read the whole thing ↗").
-- `short`: **In a sentence**, 5 to 30 words, said for Javan; on a child's or
+- `short`: **In a sentence**, 5 to 30 words, said for the kids; on a child's or
   youth's phone it shows first in the sheet, on a grown-up's after the card.
 - `place`: `note` or `both`.
   - `note`: what explains a verse's words: a fact, a word's meaning, a
@@ -468,7 +476,7 @@ sheet that searches their whole archive for the chapter
 chapter in *Old Testament Minute: Isaiah*. Links only: their site's terms are
 for reading there, so the notes are our summaries of the pages they credit.
 
-Two more kinds go in the same list (Blake, 2026-10-02, from the Scripture
+Two more kinds go in the same list (2026-10-02, from the Scripture
 Central app):
 
 - **A quote card**, `{ id, kind: 'quote', ref, quote, text, source: { by, who, title, url } }`:
@@ -479,8 +487,8 @@ Central app):
   `--online` the checker finds the quote on the page word for word (…
   marks left-out words). `text`, optional, 40 words at most: which verse
   it's about and what to notice. One from a Gospel Library page shows
-  without approval (Blake, 2026-10-02: "Quotes only"), its `text` hidden
-  until Blake approves the card; one from BYU Speeches waits for approval
+  without approval (2026-10-02: "Quotes only"), its `text` hidden
+  until the owner approves the card; one from BYU Speeches waits for approval
   like the rest.
 - **A video card**, `{ id, kind: 'video', ref, title, text, video: { youtube, start, end, title, channel, previewed } }`:
   one a week, 10 minutes at most (`start`/`end` in seconds), from a channel
@@ -560,15 +568,15 @@ neighbouring outlines meet, with no gaps or overlaps.
 
 ## Sunday classes (`content/sunday.js`)
 
-Blake, 2026-10-03: "We need to incorporate sunday lesson study as well....
-Javan needs to study YM lessons, and Chantel and I the conference talks."
+2026-10-03: "We need to incorporate sunday lesson study as well....
+[our son] needs to study YM lessons, and [Mom] and I the conference talks."
 Since September 6, 2026 every class meets each Sunday (25 minutes): Sunday
 School keeps Come, Follow Me (the rest of the app); Aaronic Priesthood
 quorums and Young Women classes learn from *For the Strength of Youth: A
 Guide for Making Choices*, a chapter a month, with lesson pages in that
 month's magazine; elders quorums and Relief Societies from the most recent
 general conference, the talks their presidencies choose. Everyone sees all
-of it (Blake's choice): no setting for who's in which class.
+of it (the owner's choice): no setting for who's in which class.
 
 `window.TU_SUNDAY = { youth: [...], conference: [...] }`.
 
@@ -587,6 +595,13 @@ question, the next):
   `read`, where the card's point is (checked with `--online`, as the quote
   is); `q` a question its body answers, with `right` and 2 or 3 `wrong`;
   `why` 40 words at most.
+- Optional (2026-10-11; a lesson without them shows exactly as before):
+  `kind` on a card, `"scenario"` (its `q` is a real-life situation),
+  `"verse"` (about the verses the lesson assigns) or `"recall"`, labelled on
+  its question "Real life", "In the verses" or nothing; a lesson with any
+  `kind` needs a `"scenario"` card. `try` (30 words at most, one thing to do
+  this week) and `reflect` (25 words at most, a question with no answer)
+  show at the lesson's end as ✅ Try this week and 💭 Think about it.
 
 **`conference`**, a conference each: `{ id: "2026-10", title, from, talks }`.
 `talks` in the order they were given, which is the talk-a-day plan's order,
@@ -600,13 +615,81 @@ a talk a day from `from`. Each talk:
   quote card: they're the speaker's.
 - `scriptures`: the verses or chapters the talk uses (`"Moroni 10:32"`),
   each a tap from the reader.
-- In our own words, shown once Blake approves the talk in developer mode
+- In our own words, shown once the owner approves the talk in developer mode
   (drafts on the test site): `quick` (25 to 90 words, what it teaches),
   `points` (up to 5, 4 to 40 words each), `discuss` (up to 3 questions to
   talk over, 30 words at most each) and `deep`, a deep dive as an insight
   card's (`paras`, `find`), its quotes found on the talk's page.
+- Optional (2026-10-11; a talk without them shows exactly as before):
+  `story` `{ title, text }` (8 words at most, and 40 to 110 words in our own
+  words), 📖 The story after `quick`, once approved; `invite`, 1 or 2
+  `{ ask, promise }`, 🙋 The invitation and ✨ The promise under it (`promise`
+  null if there is none), the speaker's own words, 8 to 40 words each, found on
+  the talk's page word for word (`--online`), shown once approved (2026-10-12:
+  which promise goes with which invitation is our choice); `try` (30 words at most), ✅ Try this week after the questions,
+  once approved.
 
 Which talk each Sunday's class does is picked in the app by anyone in the
-family (Blake, 2026-10-03: "You pick it"), one for elders quorum and one for
+family (2026-10-03: "You pick it"), one for elders quorum and one for
 Relief Society, kept with the family; until it's picked the app suggests the
 next talk in the plan. tools/verify.mjs checks all of the above.
+
+## Questions friends ask (`content/questions.js`)
+
+Youth-friendly, faithful and candid answers to questions he hears at school,
+online or from friends, a shelf under the Standard Works in the Scriptures
+tab. `window.TU_QUESTIONS = { questions: [...] }`, JSON after the equals sign
+as in `content/weeks.js`, since developer mode reads and writes it. Each
+question:
+
+```js
+{
+  id: 'bom-horses',          // unique: lowercase letters, numbers and dashes
+  area: 'bom',               // 'god' (God & Jesus), 'bible' (The Bible), 'bom' (The Book of Mormon), 'history' (Church history)
+  heard: '…the question as a kid hears it…',   // the row in its area, and the page's title
+  where: 'online',           // 'school' 🏫, 'online' 📱 or 'friend' 💬
+  kid: ['paragraph', …],     // the short answer, 60 to 130 words in all
+  deeper: ['paragraph', …],  // Go deeper, 180 to 450 words in all
+  parent: false,             // true shows a gentle "Talk with Mom or Dad" note at the top
+  sources: [{ t: 'title', by: 'Gospel Topics Essay', u: 'https://…', checked: 'search' }],   // 2 to 4; checked is optional
+  more: [{ t: 'title', kind: 'podcast', u: 'https://…' }],   // optional, 4 at most: Learn more from Scripture Central
+  review: ['…'],             // optional, 3 at most: for the owner in developer mode, never shown in the app
+  approved: '<hash>'         // set by Approve in developer mode
+}
+```
+
+- `sources` back up the answer; `more` is where to go learn more at
+  Scripture Central (the owner: especially its podcast, Church History Matters).
+  It shows after Go deeper as **Learn more from Scripture Central**, a row a
+  link, each opening in a new tab with its kind: `podcast` 🎧, `knowhy` 💡,
+  `evidence` 🔎, `video` ▶️ or `article` 📄. Each link is https, on
+  scripturecentral.org, youtube.com, youtu.be or podcasts.apple.com (where
+  Church History Matters episodes are too), and none twice in a question.
+  Empty or missing, the section isn't there. It's part of the fingerprint
+  like every other field: changing a link needs approving again.
+- Anything in quotation marks (“ ” or " ") is someone's exact words, from a
+  source listed, and 25 words at most; otherwise say it in your own words.
+- `tools/verify.mjs` checks all of the above (the rules are in
+  `tools/questions.mjs`), `more` included. A field the app doesn't use, or a question changed
+  since it was approved, is a note, not a failure.
+- A question shows in the app only once it's approved, so none ever holds a
+  deploy back; with none approved the shelf isn't there. The test site shows
+  drafts, marked "Draft: not approved yet".
+- `approved` is the same fingerprint as every other piece: the question
+  without `approved` (its `review` notes included), so editing it or its
+  notes after approval hides it until it's approved again.
+
+**Adding drafts.** Developer mode reviews and edits questions but doesn't
+start new ones. Put the drafts in a JSON file (one question, a list, or
+`{ questions: [...] }`), then, in a clone of TreasureUp-test (pull first):
+
+```bash
+node tools/add-questions.mjs --check drafts.json   # only check them
+node tools/add-questions.mjs drafts.json           # add them (a draft with an id already there replaces it)
+node tools/verify.mjs
+git add content/questions.js && git commit -m "Questions friends ask: drafts for review" && git push
+```
+
+The script drops any `approved` a draft brings, keeps one whose words are
+unchanged, and writes nothing unless every question keeps the rules. Once the
+test site has deployed, they're in developer mode under Questions friends ask.

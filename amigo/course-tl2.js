@@ -1,4 +1,4 @@
-// Amigo · Kaibigan: Tagalog past the basics, for Blake (rusty mission Tagalog,
+// Amigo · Kaibigan: Tagalog past the basics, for the owner (rusty mission Tagalog,
 // the Philippines 2002–2004). He asked for everyday conversation, listening at
 // native speed, and the grammar that's slipped. Each unit is a real
 // conversation between two people, recorded in two Filipino voices at native

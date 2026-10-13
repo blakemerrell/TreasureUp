@@ -63,6 +63,9 @@ let chromium, browser;
 export async function launch() {
   process.env.PLAYWRIGHT_BROWSERS_PATH = process.env.PLAYWRIGHT_BROWSERS_PATH || (fs.existsSync('/opt/pw-browsers') ? '/opt/pw-browsers' : '');
   if (!process.env.PLAYWRIGHT_BROWSERS_PATH) delete process.env.PLAYWRIGHT_BROWSERS_PATH;
+  // A page's service worker (sw.js) gets the same network as the page: the routes below answer it too, so the
+  // Firebase library it fetches comes from tests/node_modules here as it does from the web on GitHub.
+  process.env.PW_EXPERIMENTAL_SERVICE_WORKER_NETWORK_EVENTS = '1';
   ({ chromium } = require('playwright'));
   browser = await chromium.launch();
   return browser;
@@ -74,8 +77,9 @@ const SDK = (() => { try { return path.dirname(require.resolve('firebase/package
 // (and moving on in real time; window.__skip(ms) jumps it ahead), with
 // Firebase pointed at the emulators when `emulators` is set, and `files`
 // ({ 'content/weeks.js': text }) served in place of the repo's.
-export async function device(name, { url, day = null, emulators = false, files = {} }) {
-  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+export async function device(name, { url, day = null, emulators = false, files = {}, sw = false }) {
+  // The service worker (sw.js) only where a test asks for it: elsewhere it would answer for the network the test controls.
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: sw ? 'allow' : 'block' });
   await ctx.route('**/*', r => {
     const u = r.request().url();
     const own = Object.keys(files).find(f => new URL(u).pathname.endsWith('/' + f));   // a test's own copy of a file
@@ -107,7 +111,7 @@ export async function device(name, { url, day = null, emulators = false, files =
   }, [day, emulators]);
   const page = await ctx.newPage();
   page.errors = [];
-  page.on('pageerror', e => { page.errors.push(e.message); note('ERR', `[${name}] ${e.message}`); });
+  page.on('pageerror', e => { page.errors.push(e.message); note('ERR', `[${name}] ${e.message} :: ${(e.stack || '').split('\n').slice(1, 4).join(' / ')}`); });
   await page.goto(url); await wait(1500);
   return { name, ctx, page };
 }
@@ -140,7 +144,8 @@ export async function runLesson(page, opts = {}) {
   const foot = a => page.locator(`#lessonFoot [data-ls="${a}"]:not([disabled])`);
   const stepKind = () => page.evaluate(() => { const b = document.getElementById('lessonBody'); return b && !document.getElementById('lesson').hidden ? b.dataset.step : null; });
   const answer = async kind => {
-    const q = (await page.locator('#lessonBody .ls-prompt').first().innerText().catch(() => '')).trim();
+    // Read at once: a Go deeper or bonus step has no .ls-prompt, and waiting for one cost 30 s a step.
+    const q = await page.evaluate(() => ((document.querySelector('#lessonBody .ls-prompt') || {}).innerText || '').trim());
     const right = await page.evaluate(([kind, q]) => {
       for (const w of window.TU_WEEKS) for (const r of w.reels) {
         if (kind === 'find' ? (r.seek || r.hook) === q : r.question.q === q) return kind === 'find' ? String(Number(/:(\d+)/.exec(r.verse.ref)[1])) : r.question.right;
@@ -157,14 +162,23 @@ export async function runLesson(page, opts = {}) {
     const k = await stepKind();
     if (!k) break;
     seen.push(k);
-    if (k === 'end') { await foot('close').click().catch(() => {}); await wait(500); break; }
+    if (k === 'end') { if (!opts.stayAtEnd) { await foot('close').click().catch(() => {}); await wait(500); } break; }
     if (k === 'chapter') {
       await page.evaluate(() => { const b = document.getElementById('lessonBody'); b.scrollTop = b.scrollHeight; b.dispatchEvent(new Event('scroll')); }); await wait(250);
       await foot('readdone').click(); await wait(480);
       if (await foot('readyes').count()) { await foot('readyes').click(); await wait(480); }
       await foot('next').click(); await wait(480);
-    } else if (k === 'reel' || k === 'recall' || k === 'find') { await answer(k); await foot('next').click().catch(() => {}); await wait(480); }
+    } else if (k === 'reel' || k === 'recall' || k === 'find' || k === 'deep' || k === 'bonus' || k === 'say') { await answer(k); await foot('next').click().catch(() => {}); await wait(480); }
     else if (k === 'read' || k === 'insight') { await foot('next').click(); await wait(480); }
+    else if (k === 'bom') { await foot('bomdone').click(); await wait(480); }
+    else if (k === 'fsy') {
+      if (await foot('fsydone').count()) await foot('fsydone').click(); else { await answer(k); await foot('next').click().catch(() => {}); }
+      await wait(480);
+    }
+    else if (k === 'note') {
+      await page.fill('#lsNote', opts.note || 'This verse reminds me that the Lord carries what I cannot carry, so I can keep going.');
+      await foot('savenote').click(); await wait(480); await foot('next').click(); await wait(480);
+    }
     else if (k === 'cfm') { await foot('cfmdone').click(); await wait(480); }
     else if (k === 'gc') { await foot('gcdone').click(); await wait(480); }
     else if (k === 'goals') { await foot('goalsdone').click(); await wait(480); }
@@ -174,10 +188,10 @@ export async function runLesson(page, opts = {}) {
   return seen;
 }
 // Today's study: the green button (through Be still, which opens first), then the path.
-export async function study(dev) {
+export async function study(dev, opts) {
   const btn = dev.page.locator('#home .fl-next');
   if (!(await btn.count())) return null;
   await btn.click(); await wait(900);
   if (await dev.page.locator('#stillLayer:not([hidden]) [data-still-onward]').count()) { await dev.page.click('#stillLayer [data-still-onward]'); await wait(900); }
-  return runLesson(dev.page);
+  return runLesson(dev.page, opts);
 }

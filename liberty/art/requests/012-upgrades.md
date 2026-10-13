@@ -1,11 +1,11 @@
 # 012 · The spy, and three upgrades at the armory
 
-**Status: done.** Four pictures made with Gemini through Blake's n8n backup,
+**Status: done.** Four pictures made with Gemini through the owner's n8n backup,
 4 billed to the Merit3D Gemini account, all usable on the first try.
 
 ## What it's for
 
-Blake's list after the temple: ways to upgrade units, "steel bow vs wood
+The owner's list after the temple: ways to upgrade units, "steel bow vs wood
 bow", "ladders to climb over walls", and spies. These are the pictures for
 the barracks' new unit and the armory's three new upgrades.
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Makes tools/rv1909.txt.gz and tools/tagalog1905.txt.gz, the Spanish and
-// Tagalog Bibles for the reader's ES·TL button (Blake, 2026-10-03: "Using
+// Tagalog Bibles for the reader's ES·TL button (2026-10-03: "Using
 // the Spanish and Tagalog bible sounds great where we can!"), each verse
 // under the KJV verse it translates. Run once by hand; the files are kept in
 // the repo like tools/bsb.txt.gz, so the words never change under us, and

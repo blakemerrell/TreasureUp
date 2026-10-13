@@ -1,7 +1,7 @@
 # 006 · The Lamanites: slinger, captain and Zerahemnah, and Helaman
 
 **Status: done.** Pull request #57 has two sets of all four. The first came
-from Gemini through Blake's n8n backup, while Gemini in Antigravity was out of
+from Gemini through the owner's n8n backup, while Gemini in Antigravity was out of
 image allowance. The second came from Gemini in Antigravity after its allowance
 refreshed. The game keeps the better picture for each figure:
 

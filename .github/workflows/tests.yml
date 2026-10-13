@@ -33,6 +33,13 @@ jobs:
           node tools/check-parse.mjs
           node tools/week-dates.mjs
 
+      # The family's first names stay out of the public code; the list is the
+      # NAMES_PATTERN secret, never the repo (README, Family names).
+      - name: No family names
+        env:
+          NAMES_PATTERN: ${{ secrets.NAMES_PATTERN }}
+        run: node tools/check-names.mjs
+
       - name: Install the test packages and the browser
         working-directory: tests
         run: |
@@ -54,4 +61,4 @@ jobs:
           key: firebase-emulators-${{ hashFiles('tests/package-lock.json') }}
 
       - name: A family on the Firebase emulators
-        run: tests/node_modules/.bin/firebase emulators:exec --only auth,firestore --project scripturetok-test "node tests/run.mjs family games"
+        run: tests/node_modules/.bin/firebase emulators:exec --only auth,firestore --project scripturetok-test "node tests/run.mjs family games journal"

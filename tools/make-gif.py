@@ -1,4 +1,5 @@
 import os
+import tempfile
 import glob
 from PIL import Image
 
@@ -22,7 +23,7 @@ for f in frames:
     im_resized = im.resize((target_width, target_height), Image.Resampling.LANCZOS)
     imgs.append(im_resized)
 
-out_dir = '/Users/blakemerrell/.gemini/antigravity/brain/712c72b4-2fe7-4275-a6c2-f8d78eb1924d/game_assets'
+out_dir = os.environ.get('ARTIFACT_DIR') or os.path.join(tempfile.gettempdir(), 'treasureup-artifacts')
 os.makedirs(out_dir, exist_ok=True)
 
 # Save as animated WebP (ultra-crisp with alpha / 24-bit color)

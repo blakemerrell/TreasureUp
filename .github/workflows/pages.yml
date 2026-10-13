@@ -76,7 +76,7 @@ jobs:
       # the GitHub API: weeks that ended before last week move to content/past/
       # (tools/archive-weeks.mjs), and the weeks written ahead come in from
       # content/upcoming/ as room allows (tools/upcoming-weeks.mjs): on the live
-      # app too since Blake had the rest of 2026 approved at once (2026-10-05).
+      # app too since the owner had the rest of 2026 approved at once (2026-10-05).
       # Committed here, and saved back to the repo only once every check below
       # has passed (Save the moved weeks), so a week that fails a check never
       # reaches main. The week's date is Utah's (tools/week-dates.mjs).
@@ -166,6 +166,11 @@ jobs:
       # (GitHub Pages lets a phone keep a file for 10 minutes).
       - name: Stamp this deploy on Wika's scripts
         run: sed -i "s/?v=dev\"/?v=${GITHUB_SHA::8}\"/g" amigo/index.html
+
+      # The app's offline copy (sw.js) is named by this deploy, so a phone
+      # that opens it with a connection keeps this deploy's, not an older one.
+      - name: Stamp this deploy on the offline copy
+        run: sed -i "s/const VERSION = 'dev';/const VERSION = '${GITHUB_SHA::8}';/" sw.js && grep -q "VERSION = '${GITHUB_SHA::8}'" sw.js
 
       - uses: actions/configure-pages@v6
 

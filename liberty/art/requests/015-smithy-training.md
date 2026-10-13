@@ -1,6 +1,6 @@
 # 015 · The Freemen's smithy and training ground
 
-**Status: done.** Two pictures made with Gemini through Blake's n8n backup,
+**Status: done.** Two pictures made with Gemini through the owner's n8n backup,
 2 billed to the Merit3D Gemini account, both usable on the first try; the
 two cameos are made from them with `mkcameo.py whole`. The drawn stand-ins
 (the armory's picture with a forge glow, the posts and the straw dummy)
