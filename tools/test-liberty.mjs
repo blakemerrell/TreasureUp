@@ -1189,6 +1189,59 @@ console.log('Skirmish Economy & Frontier Loop');
     const dRoad = runnerRoad.x - 18.5 * D.TILE;
     const dGrass = runnerGrass.x - 18.5 * D.TILE;
     ok(dRoad > dGrass * 1.18, `unit marching along T.ROAD moves ~25% faster than on grass (${dRoad.toFixed(1)}px vs ${dGrass.toFixed(1)}px)`);
+
+    // 6. Phase 2 Skirmish Map Pack (all 4 C&C maps build valid worlds with reachable bases & plateaus/roads)
+    const FREE = require('../liberty/missions.js').FREE_BATTLE;
+    const mapIds = Object.keys(D.SKIRMISH_MAPS || {});
+    ok(mapIds.length === 4, `4 skirmish maps defined in D.SKIRMISH_MAPS (${mapIds.join(', ')})`);
+    for (const mid of mapIds) {
+      const meta = D.SKIRMISH_MAPS[mid];
+      FREE.mapId = mid;
+      FREE.customMap = undefined;
+      FREE.side = 'freemen';
+      FREE.level = 'normal';
+      const MW = new S.World(19, FREE.map);
+      MW.mission = FREE;
+      FREE.setup(MW);
+      let hasPlateau = false, hasRamp = false, hasRoad = false;
+      for (let i = 0; i < MW.tiles.length; i++) {
+        if (MW.tiles[i] === D.T.PLATEAU) hasPlateau = true;
+        else if (MW.tiles[i] === D.T.RAMP) hasRamp = true;
+        else if (MW.tiles[i] === D.T.ROAD) hasRoad = true;
+      }
+      ok(hasPlateau && hasRamp && hasRoad, `skirmish map '${mid}' (${meta.name}) includes plateaus, ramps, and roads`);
+      const path = MW.findPath(
+        { x: (meta.START.x + 2) * D.TILE + 16, y: (meta.START.y + 2) * D.TILE + 16, team: 'p', def: D.UNITS.spearman },
+        { x0: meta.WARCAMP.x, y0: meta.WARCAMP.y, x1: meta.WARCAMP.x + 3, y1: meta.WARCAMP.y + 3 },
+        true
+      );
+      ok(path && path.length > 10, `skirmish map '${mid}' has a valid A* march path between START and WARCAMP (${path ? path.length : 0} steps)`);
+    }
+
+    // 7. Custom Map Builder RLE encode/decode round-trip and setup
+    const base = D.buildSkirmishMap('twin_bluffs');
+    base.tiles[20 * D.MAP_W + 20] = D.T.PLATEAU;
+    base.tiles[20 * D.MAP_W + 21] = D.T.RAMP;
+    base.tiles[25 * D.MAP_W + 30] = D.T.BRIDGE;
+    base.amt[25 * D.MAP_W + 30] = D.BRIDGE_HP;
+    const encoded = D.encodeCustomMap({
+      name: 'Moroni Mesa Test',
+      tiles: base.tiles,
+      amt: base.amt,
+      START: { x: 10, y: 36 },
+      WARCAMP: { x: 50, y: 4 },
+      CAMPS: [{ x: 40, y: 6 }, { x: 56, y: 12 }, { x: 46, y: 13 }]
+    });
+    const decoded = D.decodeCustomMap(encoded);
+    ok(decoded && decoded.name === 'Moroni Mesa Test' && decoded.tiles[20 * D.MAP_W + 20] === D.T.PLATEAU && decoded.tiles[20 * D.MAP_W + 21] === D.T.RAMP && decoded.amt[25 * D.MAP_W + 30] === D.BRIDGE_HP, 'encodeCustomMap & decodeCustomMap round-trip custom terrain and bridge HP');
+    FREE.mapId = 'custom';
+    FREE.customMap = encoded;
+    const CW = new S.World(23, FREE.map);
+    CW.mission = FREE;
+    FREE.setup(CW);
+    ok(CW.tile(20, 20) === D.T.PLATEAU && CW.buildings('r', 'warcamp').length === 1, 'Free Battle loads and sets up custom Map Builder map');
+    delete FREE.mapId;
+    delete FREE.customMap;
   }
 }
 

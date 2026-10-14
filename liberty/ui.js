@@ -4992,10 +4992,17 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const starsHtml = n => `<span class="stars">${[1, 2, 3].map(k => `<span class="${k <= n ? '' : 'off'}">★</span>`).join('')}</span>`;
   // Pick a side, then a captain, for free battle (design/evolution.md, section 7); the last pick is remembered.
   // The last choices on the free battle and wilderness screens are remembered too (Easy and short until changed).
+  function loadCustomMap() {
+    try { return JSON.parse(localStorage.getItem('liberty.customMap') || 'null'); } catch (e) { return null; }
+  }
+  function saveCustomMap(spec) {
+    try { localStorage.setItem('liberty.customMap', JSON.stringify(spec)); } catch (e) { /* no store */ }
+  }
   const pick = (() => {
     let p = {}; try { p = JSON.parse(localStorage.getItem('liberty.pick') || '{}') || {}; } catch (e) { /* no store */ }
     if (!(CAPTAINS[p.side] && CAPTAINS[p.side][p.captain])) { p.side = 'freemen'; p.captain = 'moroni'; }
     if (!FREE.LEVELS[p.level]) p.level = 'easy';
+    if (!(D.SKIRMISH_MAPS && D.SKIRMISH_MAPS[p.mapId]) && !(p.mapId === 'custom' && loadCustomMap())) p.mapId = 'sidon';
     if (!WILD.LEVELS[p.wild]) p.wild = 'easy';
     if (!WILD.LENGTHS[p.length]) p.length = Object.keys(WILD.LENGTHS)[0];
     return p;
@@ -5397,17 +5404,126 @@ IMG.farm.src = 'assets/farm.png?v=13';
     };
   }
 
-  // Free battle: a side, a captain, a level, then Play. Only these choices on the screen.
+  // Render a crisp C&C tactical preview of a 64x48 tile grid onto a canvas (used by Free Battle mini-map & Map Builder).
+  function drawMapPreviewCanvas(cv, tiles, startPos, warcampPos, campsPos) {
+    if (!cv || !tiles) return;
+    const ctx = cv.getContext('2d');
+    const cw = cv.width, ch = cv.height;
+    const tw = cw / MAP_W, th = ch / MAP_H;
+    ctx.clearRect(0, 0, cw, ch);
+    const tileAt = (x, y) => (x >= 0 && y >= 0 && x < MAP_W && y < MAP_H) ? tiles[y * MAP_W + x] : T.GRASS;
+    for (let y = 0; y < MAP_H; y++) {
+      for (let x = 0; x < MAP_W; x++) {
+        const t = tiles[y * MAP_W + x];
+        const px = x * tw, py = y * th;
+        if (t === T.WATER) ctx.fillStyle = ((x + y) & 1) ? '#1a5a85' : '#1e6493';
+        else if (t === T.FORD) ctx.fillStyle = '#4ea5c7';
+        else if (t === T.BRIDGE) ctx.fillStyle = '#a87542';
+        else if (t === T.BROKEN_BRIDGE) ctx.fillStyle = '#3b566b';
+        else if (t === T.PLATEAU) ctx.fillStyle = ((x + y) & 1) ? '#98896d' : '#908165';
+        else if (t === T.RAMP) ctx.fillStyle = '#ba9f6e';
+        else if (t === T.ROAD) ctx.fillStyle = '#cbb792';
+        else if (t === T.FOREST) ctx.fillStyle = ((x + y) & 1) ? '#274d1e' : '#2f5924';
+        else if (t === T.FIELD) ctx.fillStyle = ((x + y) & 1) ? '#d6a224' : '#c7941c';
+        else if (t === T.ROCK) ctx.fillStyle = '#787e85';
+        else if (t === T.RUIN) ctx.fillStyle = '#a3957c';
+        else ctx.fillStyle = ((x + y) & 1) ? '#557436' : '#5b7a3b';
+        ctx.fillRect(px, py, Math.ceil(tw), Math.ceil(th));
+        // Auto-tiled cliff edges on plateaus
+        if (t === T.PLATEAU) {
+          const s = tileAt(x, y + 1), e = tileAt(x + 1, y), n = tileAt(x, y - 1), w = tileAt(x - 1, y);
+          ctx.fillStyle = '#342b1e';
+          if (s !== T.PLATEAU && s !== T.RAMP) ctx.fillRect(px, py + th - Math.max(1.5, th * 0.3), Math.ceil(tw), Math.max(1.5, th * 0.3));
+          if (e !== T.PLATEAU && e !== T.RAMP) ctx.fillRect(px + tw - Math.max(1.5, tw * 0.3), py, Math.max(1.5, tw * 0.3), Math.ceil(th));
+          ctx.fillStyle = '#d4c6a9';
+          if (n !== T.PLATEAU && n !== T.RAMP) ctx.fillRect(px, py, Math.ceil(tw), Math.max(1, th * 0.18));
+          if (w !== T.PLATEAU && w !== T.RAMP) ctx.fillRect(px, py, Math.max(1, tw * 0.18), Math.ceil(th));
+        } else if (t === T.RAMP && tw >= 5) {
+          ctx.fillStyle = '#6e5835';
+          ctx.fillRect(px + tw * 0.2, py + th * 0.3, tw * 0.6, Math.max(1, th * 0.15));
+          ctx.fillRect(px + tw * 0.2, py + th * 0.65, tw * 0.6, Math.max(1, th * 0.15));
+        } else if (t === T.BRIDGE && tw >= 4) {
+          ctx.fillStyle = '#5c3c1b';
+          ctx.fillRect(px, py, Math.ceil(tw), Math.max(1, th * 0.2));
+          ctx.fillRect(px, py + th - Math.max(1, th * 0.2), Math.ceil(tw), Math.max(1, th * 0.2));
+        }
+      }
+    }
+    // Draw outer camps
+    if (Array.isArray(campsPos)) {
+      for (const c of campsPos) {
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.75)';
+        ctx.strokeStyle = '#450a0a';
+        ctx.lineWidth = Math.max(1, tw * 0.2);
+        ctx.beginPath();
+        ctx.arc((c.x + 1.5) * tw, (c.y + 1.5) * th, Math.max(3, tw * 1.4), 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+      }
+    }
+    // Draw Freemen Start (SW) and King-men Warcamp (NE)
+    if (startPos) {
+      ctx.fillStyle = '#38bdf8';
+      ctx.strokeStyle = '#fef08a';
+      ctx.lineWidth = Math.max(1.5, tw * 0.28);
+      ctx.beginPath();
+      ctx.arc((startPos.x + 2) * tw, (startPos.y + 2) * th, Math.max(4, tw * 2.1), 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
+    if (warcampPos) {
+      ctx.fillStyle = '#dc2626';
+      ctx.strokeStyle = '#fef08a';
+      ctx.lineWidth = Math.max(1.5, tw * 0.28);
+      ctx.beginPath();
+      ctx.arc((warcampPos.x + 2) * tw, (warcampPos.y + 2) * th, Math.max(4, tw * 2.1), 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+
+  function activeSkirmishMapMeta(mapId) {
+    const custom = loadCustomMap();
+    if (mapId === 'custom' && custom) return D.decodeCustomMap(custom);
+    return (D.SKIRMISH_MAPS && D.SKIRMISH_MAPS[mapId]) || D.SKIRMISH_MAPS.sidon;
+  }
+
+  // Free battle: a side, a captain, a battlefield map, a level, then Play.
   function freeScreen() {
     leaveGame();
+    const renderPreview = () => {
+      const cv = $('freeMapPreview');
+      if (!cv) return;
+      const custom = loadCustomMap();
+      const meta = activeSkirmishMapMeta(pick.mapId);
+      const built = D.buildSkirmishMap(pick.mapId, custom);
+      drawMapPreviewCanvas(cv, built.tiles, meta.START, meta.WARCAMP, meta.CAMPS);
+    };
     const opts = () => {
       const S = SIDES[pick.side], caps = CAPTAINS[pick.side], c = caps[pick.captain], L = FREE.LEVELS;
+      const maps = Object.values(D.SKIRMISH_MAPS || {});
+      const custom = loadCustomMap();
+      const curMap = activeSkirmishMapMeta(pick.mapId);
       return `<h3 class="sec">Your side</h3>
         <div class="seg sides">${Object.keys(SIDES).map(k => `<button class="btn ${pick.side === k ? 'go' : ''}" data-side="${k}"><img src="${webp(`assets/cameo_${k === 'kingmen' ? 'lamanite' : 'spearman'}.png?v=1`)}" alt="">${esc(SIDES[k].name)}</button>`).join('')}</div>
         <p class="small">${esc(S.about)}</p>
         <h3 class="sec">Your captain</h3>
         <div class="seg caps">${Object.keys(caps).map(k => `<button class="btn cap ${pick.captain === k ? 'go' : ''}" data-captain="${k}"><img src="${webp(`assets/cameo_${caps[k].hero}.png?v=1`)}" alt="">${esc(caps[k].name)}</button>`).join('')}</div>
         <p class="small"><b>${esc(c.gift)}.</b> ${esc(c.about)}</p>
+        <h3 class="sec">Battlefield map</h3>
+        <div class="seg" style="flex-wrap:wrap">
+          ${maps.map(m => `<button class="btn ${pick.mapId === m.id ? 'go' : ''}" data-map="${m.id}">${esc(m.name)}</button>`).join('')}
+          ${custom ? `<button class="btn ${pick.mapId === 'custom' ? 'go' : ''}" data-map="custom">★ ${esc(custom.name || 'Custom Map')}</button>` : ''}
+          <button class="btn" data-map-editor style="border-color:#d4a017;color:#92400e;font-weight:700">🗺️ Map Builder</button>
+        </div>
+        <div style="display:flex;gap:14px;align-items:center;margin:8px 0 4px;flex-wrap:wrap">
+          <canvas id="freeMapPreview" width="192" height="144" style="width:160px;height:120px;border-radius:8px;border:2px solid #8a6d3b;background:#243319;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.25)"></canvas>
+          <div style="flex:1;min-width:180px">
+            <div style="font-weight:700;font-size:15px">${esc(curMap.name)} ${curMap.ref ? refBtn(curMap.ref) : ''}</div>
+            <p class="small" style="margin:4px 0 6px">${esc(curMap.about)}</p>
+            <div style="font-size:11.5px;color:#6b5b45">🔵 SW: Freemen Start · 🔴 NE: King-men Camp · ⛰️ Brown: High Plateaus · 🌉 Tan: Bridges &amp; Roads</div>
+          </div>
+        </div>
         <h3 class="sec">Level</h3>
         ${segHtml(Object.keys(L), pick.level, 'data-level', l => `${esc(L[l].name)} <span class="lv">${'★'.repeat(L[l].stars)}</span>`)}`;
     };
@@ -5416,18 +5532,315 @@ IMG.farm.src = 'assets/farm.png?v=13';
       <p class="lede">Build up your city or camp, and tear down the enemy's. The council asks about every chapter you've read.</p>
       <div id="freeOpts">${opts()}</div>
       ${councilNote()}
-      <div class="row play"><button class="btn go big" id="bPlay">Play</button><button class="btn" data-how>How to play</button></div></div>`);
+      <div class="row play"><button class="btn go big" id="bPlay">Play</button><button class="btn" data-map-editor>🗺️ Map Builder</button><button class="btn" data-how>How to play</button></div></div>`);
+    renderPreview();
     $('mBack').onclick = home;
-    $('bPlay').onclick = () => { FREE.level = pick.level; FREE.side = pick.side; FREE.captain = pick.captain; briefing(FREE); };
+    $('bPlay').onclick = () => {
+      FREE.level = pick.level;
+      FREE.side = pick.side;
+      FREE.captain = pick.captain;
+      FREE.mapId = pick.mapId || 'sidon';
+      FREE.customMap = FREE.mapId === 'custom' ? loadCustomMap() : undefined;
+      briefing(FREE);
+    };
     s.onclick = e => {
-      const sd = e.target.closest('[data-side]'), cp = e.target.closest('[data-captain]'), lv = e.target.closest('[data-level]');
+      const sd = e.target.closest('[data-side]'), cp = e.target.closest('[data-captain]'), lv = e.target.closest('[data-level]'), mp = e.target.closest('[data-map]');
       if (e.target.closest('[data-how]')) return showTips('free-' + pick.side, null, true);
+      if (e.target.closest('[data-map-editor]')) return openMapEditor();
       if (sd) { pick.side = sd.dataset.side; pick.captain = Object.keys(CAPTAINS[pick.side])[0]; }
       else if (cp) pick.captain = cp.dataset.captain;
       else if (lv) pick.level = lv.dataset.level;
+      else if (mp) pick.mapId = mp.dataset.map;
       else return;
-      savePick(); $('freeOpts').innerHTML = opts();
+      savePick(); $('freeOpts').innerHTML = opts(); renderPreview();
     };
+  }
+
+  // C&C Red Alert 2-style Auto-Tile Battlefield Map Builder modal.
+  function openMapEditor() {
+    const existing = loadCustomMap();
+    const startMapId = (pick.mapId && pick.mapId !== 'custom') ? pick.mapId : 'sidon';
+    const baseMeta = (existing && pick.mapId === 'custom') ? D.decodeCustomMap(existing) : activeSkirmishMapMeta(startMapId);
+    const baseBuilt = (existing && pick.mapId === 'custom') ? { tiles: baseMeta.tiles, amt: baseMeta.amt } : D.buildSkirmishMap(startMapId);
+
+    const state = {
+      name: (existing && existing.name) || 'Custom Sidon Frontier',
+      tiles: new Uint8Array(baseBuilt.tiles),
+      amt: new Int16Array(baseBuilt.amt),
+      START: { x: baseMeta.START.x, y: baseMeta.START.y },
+      WARCAMP: { x: baseMeta.WARCAMP.x, y: baseMeta.WARCAMP.y },
+      CAMPS: baseMeta.CAMPS.map(c => ({ x: c.x, y: c.y })),
+      brush: 'plateau',
+      size: 2,
+      mirror: true
+    };
+
+    const BRUSHES = [
+      { id: 'plateau', label: '⛰️ Plateau (Cliff)', tile: T.PLATEAU, amt: 0, hint: 'High ground (+20% dmg, +1 range). Auto-tiles sheer cliff walls.' },
+      { id: 'ramp',    label: '🪜 Cliff Ramp',      tile: T.RAMP,    amt: 0, hint: 'Place on a plateau edge so armies can climb up and down.' },
+      { id: 'water',   label: '🌊 River / Water',   tile: T.WATER,   amt: 0, hint: 'Deep impassable water. Cross with a Bridge or Ford.' },
+      { id: 'bridge',  label: '🌉 Timber Bridge',   tile: T.BRIDGE,  amt: D.BRIDGE_HP || 250, hint: 'Spans water. Can be demolished and repaired by workers!' },
+      { id: 'ford',    label: '🪨 Shallow Ford',    tile: T.FORD,    amt: 0, hint: 'Wading river crossing (troops move slightly slower).' },
+      { id: 'road',    label: '🛤️ Paved Road',      tile: T.ROAD,    amt: 0, hint: 'Auto-connecting flagstone road (+25% march & cart speed).' },
+      { id: 'forest',  label: '🌲 Forest Timber',   tile: T.FOREST,  amt: 120, hint: 'Trees for timber harvesting and wilderness ambush cover.' },
+      { id: 'field',   label: '🌾 Grain Field',     tile: T.FIELD,   amt: 300, hint: 'Fertile grain crop for carts and bearers.' },
+      { id: 'rock',    label: '⛏️ Stone Quarry',    tile: T.ROCK,    amt: 120, hint: 'Impassable rock face that carts quarry for stone.' },
+      { id: 'grass',   label: '🌿 Open Grass',      tile: T.GRASS,   amt: 0, hint: 'Clear open meadow for building and marching.' },
+      { id: 'start',   label: '🔵 Freemen Base',    special: 'start',   hint: 'Click to relocate the Freemen starting standard (SW).' },
+      { id: 'warcamp', label: '🔴 King-men Camp',   special: 'warcamp', hint: 'Click to relocate the King-men warcamp & 3 outer camps (NE).' }
+    ];
+
+    const d = openDialog(`<div class="dialog" style="max-width:940px;width:96vw;padding:16px 18px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+        <div>
+          <div class="kicker">C&amp;C Auto-Tile Terrain Workshop</div>
+          <h2 style="margin:0">🗺️ Battlefield Map Builder</h2>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+          <label style="font-size:12px;font-weight:700">Map Name:</label>
+          <input id="meName" type="text" value="${esc(state.name)}" maxlength="36" style="padding:5px 8px;border-radius:6px;border:1px solid #8a6d3b;background:#fdfaf3;color:#2c1608;font-weight:700;width:185px">
+        </div>
+      </div>
+
+      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:8px;font-size:12px">
+        <b>Start from template:</b>
+        <button class="btn" data-tpl="sidon" style="padding:4px 8px;font-size:12px">Sidon Crossing</button>
+        <button class="btn" data-tpl="twin_bluffs" style="padding:4px 8px;font-size:12px">Twin Bluffs</button>
+        <button class="btn" data-tpl="bountiful_isles" style="padding:4px 8px;font-size:12px">Ripliancum Isles</button>
+        <button class="btn" data-tpl="highland_citadel" style="padding:4px 8px;font-size:12px">Citadel of Teancum</button>
+        <button class="btn" data-tpl="blank" style="padding:4px 8px;font-size:12px">🌿 Blank Meadow</button>
+        <span style="margin-left:auto;display:flex;gap:8px;align-items:center">
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-weight:700">
+            <input type="checkbox" id="meMirror" checked> Mirror 1v1 (SW ↔ NE)
+          </label>
+          <b>Size:</b>
+          <button class="btn meSz" data-sz="1" style="padding:3px 8px;font-size:12px">1×1</button>
+          <button class="btn go meSz" data-sz="2" style="padding:3px 8px;font-size:12px">2×2</button>
+          <button class="btn meSz" data-sz="3" style="padding:3px 8px;font-size:12px">3×3</button>
+        </span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:minmax(190px,220px) 1fr;gap:14px;align-items:start">
+        <div id="meBrushes" style="display:flex;flex-direction:column;gap:4px">
+          ${BRUSHES.map(b => `<button class="btn ${state.brush === b.id ? 'go' : ''}" data-brush="${b.id}" style="text-align:left;padding:6px 10px;font-size:12.5px;justify-content:flex-start">${b.label}</button>`).join('')}
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center">
+          <canvas id="meCanvas" width="512" height="384" style="width:100%;max-width:576px;aspect-ratio:4/3;border:2px solid #8a6d3b;border-radius:8px;background:#243319;cursor:crosshair;touch-action:none;box-shadow:0 4px 14px rgba(0,0,0,0.3)"></canvas>
+          <div id="meHint" style="font-size:12px;color:#5c4938;margin-top:6px;text-align:center;min-height:18px"></div>
+          <div id="meStatus" style="font-size:12px;font-weight:700;margin-top:4px;text-align:center"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:10px;border-top:1px solid rgba(138,109,59,0.3)">
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn" id="meExport" style="font-size:12px">📋 Copy Map JSON</button>
+          <button class="btn" id="meImport" style="font-size:12px">📥 Paste Map JSON</button>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" data-close>Cancel</button>
+          <button class="btn" id="meSave">Save &amp; Select</button>
+          <button class="btn go" id="mePlay">Save &amp; Play Now</button>
+        </div>
+      </div>
+    </div>`);
+
+    const cv = $('meCanvas'), hintEl = $('meHint'), statusEl = $('meStatus');
+    const clearApron = (cx, cy, rad) => {
+      for (let y = Math.max(0, cy - rad); y <= Math.min(MAP_H - 1, cy + rad); y++) {
+        for (let x = Math.max(0, cx - rad); x <= Math.min(MAP_W - 1, cx + rad); x++) {
+          if (Math.hypot(x - cx, y - cy) <= rad) {
+            state.tiles[y * MAP_W + x] = T.GRASS;
+            state.amt[y * MAP_W + x] = 0;
+          }
+        }
+      }
+    };
+    const isBaseProtected = (x, y) => Math.hypot(x - (state.START.x + 2), y - (state.START.y + 2)) < 4.5 ||
+      Math.hypot(x - (state.WARCAMP.x + 2), y - (state.WARCAMP.y + 2)) < 4.5 ||
+      state.CAMPS.some(c => Math.hypot(x - (c.x + 1), y - (c.y + 1)) < 2.8);
+
+    const checkConnectivity = () => {
+      const testW = new S.World(1, () => ({ tiles: new Uint8Array(state.tiles), amt: new Int16Array(state.amt) }));
+      const path = testW.findPath(
+        { x: (state.START.x + 2) * TILE + 16, y: (state.START.y + 2) * TILE + 16, team: 'p', def: UNITS.spearman },
+        { x0: state.WARCAMP.x, y0: state.WARCAMP.y, x1: state.WARCAMP.x + 3, y1: state.WARCAMP.y + 3 },
+        true
+      );
+      let bridges = 0, plateaus = 0, ramps = 0, forests = 0, fields = 0;
+      for (let i = 0; i < state.tiles.length; i++) {
+        const t = state.tiles[i];
+        if (t === T.BRIDGE) bridges++;
+        else if (t === T.PLATEAU) plateaus++;
+        else if (t === T.RAMP) ramps++;
+        else if (t === T.FOREST) forests++;
+        else if (t === T.FIELD) fields++;
+      }
+      const stats = `Bridges: ${bridges} · Plateau tiles: ${plateaus} · Ramps: ${ramps} · Forests: ${forests} · Fields: ${fields}`;
+      if (path && path.length > 0) {
+        statusEl.style.color = '#15803d';
+        statusEl.textContent = `✓ Valid march route between bases (${path.length} tiles) · ${stats}`;
+        return true;
+      } else {
+        statusEl.style.color = '#b91c1c';
+        statusEl.textContent = `⚠️ Bases are cut off by water or cliffs! Add a Bridge, Ford, or Cliff Ramp · ${stats}`;
+        return false;
+      }
+    };
+
+    const refreshEditor = () => {
+      const b = BRUSHES.find(x => x.id === state.brush) || BRUSHES[0];
+      hintEl.textContent = b.hint;
+      drawMapPreviewCanvas(cv, state.tiles, state.START, state.WARCAMP, state.CAMPS);
+    };
+
+    const paintAt = (tx, ty) => {
+      const b = BRUSHES.find(x => x.id === state.brush) || BRUSHES[0];
+      if (b.special === 'start') {
+        state.START = { x: Math.max(3, Math.min(MAP_W - 8, tx - 2)), y: Math.max(3, Math.min(MAP_H - 8, ty - 2)) };
+        clearApron(state.START.x + 2, state.START.y + 2, 5.5);
+        refreshEditor(); checkConnectivity();
+        return;
+      }
+      if (b.special === 'warcamp') {
+        state.WARCAMP = { x: Math.max(4, Math.min(MAP_W - 8, tx - 2)), y: Math.max(2, Math.min(MAP_H - 12, ty - 2)) };
+        state.CAMPS = [
+          { x: Math.max(2, Math.min(MAP_W - 6, state.WARCAMP.x - 9)), y: Math.max(2, Math.min(MAP_H - 6, state.WARCAMP.y + 2)) },
+          { x: Math.max(2, Math.min(MAP_W - 6, state.WARCAMP.x + 7)), y: Math.max(2, Math.min(MAP_H - 6, state.WARCAMP.y + 8)) },
+          { x: Math.max(2, Math.min(MAP_W - 6, state.WARCAMP.x - 3)), y: Math.max(2, Math.min(MAP_H - 6, state.WARCAMP.y + 9)) }
+        ];
+        clearApron(state.WARCAMP.x + 2, state.WARCAMP.y + 2, 5.5);
+        for (const c of state.CAMPS) clearApron(c.x + 1, c.y + 1, 3.2);
+        refreshEditor(); checkConnectivity();
+        return;
+      }
+      const stampOne = (cx, cy) => {
+        const off = Math.floor((state.size - 1) / 2);
+        for (let dy = 0; dy < state.size; dy++) {
+          for (let dx = 0; dx < state.size; dx++) {
+            const x = cx - off + dx, y = cy - off + dy;
+            if (x < 0 || y < 0 || x >= MAP_W || y >= MAP_H) continue;
+            if (b.tile !== T.GRASS && b.tile !== T.ROAD && isBaseProtected(x, y)) continue;
+            state.tiles[y * MAP_W + x] = b.tile;
+            state.amt[y * MAP_W + x] = b.amt || 0;
+          }
+        }
+      };
+      stampOne(tx, ty);
+      if (state.mirror) stampOne(MAP_W - 1 - tx, MAP_H - 1 - ty);
+      refreshEditor();
+    };
+
+    let painting = false;
+    const coordsFromEvent = e => {
+      const r = cv.getBoundingClientRect();
+      const tx = Math.max(0, Math.min(MAP_W - 1, Math.floor((e.clientX - r.left) / r.width * MAP_W)));
+      const ty = Math.max(0, Math.min(MAP_H - 1, Math.floor((e.clientY - r.top) / r.height * MAP_H)));
+      return [tx, ty];
+    };
+    cv.addEventListener('pointerdown', e => {
+      painting = true;
+      cv.setPointerCapture(e.pointerId);
+      const [tx, ty] = coordsFromEvent(e);
+      paintAt(tx, ty);
+    });
+    cv.addEventListener('pointermove', e => {
+      if (!painting) return;
+      const b = BRUSHES.find(x => x.id === state.brush);
+      if (b && b.special) return;
+      const [tx, ty] = coordsFromEvent(e);
+      paintAt(tx, ty);
+    });
+    const stopPaint = () => { if (painting) { painting = false; checkConnectivity(); } };
+    cv.addEventListener('pointerup', stopPaint);
+    cv.addEventListener('pointercancel', stopPaint);
+
+    d.addEventListener('click', e => {
+      const br = e.target.closest('[data-brush]'), sz = e.target.closest('[data-sz]'), tpl = e.target.closest('[data-tpl]');
+      if (br) {
+        state.brush = br.dataset.brush;
+        d.querySelectorAll('[data-brush]').forEach(el => el.classList.toggle('go', el.dataset.brush === state.brush));
+        refreshEditor();
+      } else if (sz) {
+        state.size = Number(sz.dataset.sz) || 1;
+        d.querySelectorAll('.meSz').forEach(el => el.classList.toggle('go', Number(el.dataset.sz) === state.size));
+      } else if (tpl) {
+        const tid = tpl.dataset.tpl;
+        if (tid === 'blank') {
+          state.tiles.fill(T.GRASS);
+          state.amt.fill(0);
+          state.START = { x: 11, y: 37 };
+          state.WARCAMP = { x: 50, y: 3 };
+          state.CAMPS = [{ x: 41, y: 5 }, { x: 57, y: 11 }, { x: 47, y: 12 }];
+          // Add starter forest, field, and rock near each base so AI and player have resources right away
+          const st = D.createMapStamps(state.tiles, state.amt);
+          for (const [fx, fy] of [[5, 32], [19, 42], [48, 39], [58, 20]]) for (let dy = 0; dy < 3; dy++) for (let dx = 0; dx < 3; dx++) { state.tiles[(fy + dy) * MAP_W + (fx + dx)] = T.FOREST; state.amt[(fy + dy) * MAP_W + (fx + dx)] = 120; }
+          for (const [fx, fy] of [[17, 34], [8, 43], [36, 14], [54, 16]]) for (let dy = 0; dy < 2; dy++) for (let dx = 0; dx < 3; dx++) { state.tiles[(fy + dy) * MAP_W + (fx + dx)] = T.FIELD; state.amt[(fy + dy) * MAP_W + (fx + dx)] = 300; }
+          for (const [rx, ry] of [[20, 26], [44, 26]]) for (let dy = 0; dy < 2; dy++) for (let dx = 0; dx < 2; dx++) { state.tiles[(ry + dy) * MAP_W + (rx + dx)] = T.ROCK; state.amt[(ry + dy) * MAP_W + (rx + dx)] = 120; }
+          st.road([[16, 36], [46, 10]]);
+        } else {
+          const m = D.SKIRMISH_MAPS[tid] || D.SKIRMISH_MAPS.sidon;
+          const b = D.buildSkirmishMap(tid);
+          state.tiles = new Uint8Array(b.tiles);
+          state.amt = new Int16Array(b.amt);
+          state.START = { x: m.START.x, y: m.START.y };
+          state.WARCAMP = { x: m.WARCAMP.x, y: m.WARCAMP.y };
+          state.CAMPS = m.CAMPS.map(c => ({ x: c.x, y: c.y }));
+        }
+        refreshEditor(); checkConnectivity();
+      }
+    });
+    $('meMirror').onchange = e => { state.mirror = !!e.target.checked; };
+
+    const commitMap = () => {
+      state.name = ($('meName').value || '').trim() || 'Custom Battlefield';
+      const spec = D.encodeCustomMap(state);
+      saveCustomMap(spec);
+      pick.mapId = 'custom';
+      savePick();
+      return spec;
+    };
+    $('meSave').onclick = () => { commitMap(); closeDialog(); freeScreen(); };
+    $('mePlay').onclick = () => {
+      const spec = commitMap();
+      closeDialog();
+      FREE.level = pick.level;
+      FREE.side = pick.side;
+      FREE.captain = pick.captain;
+      FREE.mapId = 'custom';
+      FREE.customMap = spec;
+      briefing(FREE);
+    };
+    $('meExport').onclick = () => {
+      const json = JSON.stringify(commitMap());
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(json).then(() => { statusEl.style.color = '#15803d'; statusEl.textContent = '✓ Custom Map JSON copied to clipboard!'; });
+      } else {
+        window.prompt('Copy your Custom Map JSON:', json);
+      }
+    };
+    $('meImport').onclick = () => {
+      const raw = window.prompt('Paste Custom Map JSON:');
+      if (!raw) return;
+      try {
+        const parsed = JSON.parse(raw);
+        const dec = D.decodeCustomMap(parsed);
+        if (!dec) throw new Error('Invalid map');
+        state.name = dec.name || 'Imported Map';
+        $('meName').value = state.name;
+        state.tiles = new Uint8Array(dec.tiles);
+        state.amt = new Int16Array(dec.amt);
+        state.START = dec.START;
+        state.WARCAMP = dec.WARCAMP;
+        state.CAMPS = dec.CAMPS;
+        refreshEditor(); checkConnectivity();
+      } catch (err) {
+        statusEl.style.color = '#b91c1c';
+        statusEl.textContent = '⚠️ Could not parse Map JSON.';
+      }
+    };
+
+    refreshEditor();
+    checkConnectivity();
   }
 
   // Out of the Wilderness: how long, how hard, then Play.

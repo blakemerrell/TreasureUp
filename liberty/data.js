@@ -441,6 +441,228 @@
     return { tiles, amt };
   }
 
+  // Skirmish Map Pack (Phase 2): 4 C&C Red Alert 2-style tactical maps + Custom Map Builder support.
+  const SKIRMISH_MAPS = {
+    sidon: {
+      id: 'sidon',
+      name: 'Sidon River Crossing',
+      ref: 'Alma 43:35',
+      about: 'The river Sidon divides the valley, spanned by a central timber bridge, two shallow fords, and high-ground overlook bluffs.',
+      START: FREE.START,
+      WARCAMP: FREE.WARCAMP,
+      CAMPS: FREE.CAMPS,
+      RELICS: [[54, 45, 'sword'], [37, 24, 'liahona'], [7, 7, 'breastplate'], [27, 18, 'beast']],
+      FLOCKS: [[16, 22], [32, 34], [24, 12], [44, 28]],
+      GAME: [[18, 30], [28, 42], [20, 16], [38, 32], [46, 20], [14, 18]]
+    },
+    twin_bluffs: {
+      id: 'twin_bluffs',
+      name: 'Twin Bluffs Canyon',
+      ref: 'Alma 49:18–22',
+      about: 'Two elevated limestone mesas command the central paved trade highway and twin bridges over a winding canyon gorge.',
+      START: { x: 10, y: 36 },
+      WARCAMP: { x: 50, y: 4 },
+      CAMPS: [{ x: 40, y: 6 }, { x: 56, y: 12 }, { x: 46, y: 13 }],
+      RELICS: [[52, 42, 'sword'], [33, 23, 'liahona'], [9, 8, 'breastplate'], [28, 17, 'beast']],
+      FLOCKS: [[18, 22], [34, 34], [24, 13], [44, 28]],
+      GAME: [[16, 29], [28, 40], [22, 16], [38, 32], [46, 20], [14, 18]]
+    },
+    bountiful_isles: {
+      id: 'bountiful_isles',
+      name: 'Waters of Ripliancum',
+      ref: 'Ether 15:8',
+      about: 'Wide waters divide the battlefield into island strongholds linked by four destructible bridges and one outer shallow ford.',
+      START: { x: 11, y: 37 },
+      WARCAMP: { x: 50, y: 3 },
+      CAMPS: [{ x: 41, y: 5 }, { x: 57, y: 11 }, { x: 47, y: 12 }],
+      RELICS: [[54, 44, 'sword'], [32, 23, 'liahona'], [8, 8, 'breastplate'], [30, 18, 'beast']],
+      FLOCKS: [[16, 22], [35, 34], [24, 12], [44, 28]],
+      GAME: [[18, 30], [27, 42], [20, 16], [38, 32], [46, 20], [14, 18]]
+    },
+    highland_citadel: {
+      id: 'highland_citadel',
+      name: 'Citadel of Teancum',
+      ref: 'Alma 52:19',
+      about: 'A massive central high-ground plateau with four corner ramps holds rich stone, grain, and the Jaredite relics, ringed by a fast paved road.',
+      START: { x: 10, y: 37 },
+      WARCAMP: { x: 50, y: 3 },
+      CAMPS: [{ x: 41, y: 5 }, { x: 57, y: 11 }, { x: 47, y: 12 }],
+      RELICS: [[29, 21, 'sword'], [35, 25, 'liahona'], [28, 25, 'breastplate'], [34, 21, 'beast']],
+      FLOCKS: [[16, 22], [32, 37], [24, 10], [45, 28]],
+      GAME: [[18, 30], [28, 42], [20, 14], [40, 32], [46, 20], [14, 18]]
+    }
+  };
+
+  function encodeCustomMap(spec) {
+    const tiles = Array.from(spec.tiles || []);
+    const amt = Array.from(spec.amt || []);
+    // Compact run-length encoding for tiles and amt
+    const rle = arr => {
+      const out = [];
+      for (let i = 0; i < arr.length; ) {
+        const v = arr[i];
+        let c = 1;
+        while (i + c < arr.length && arr[i + c] === v && c < 4095) c++;
+        out.push(v, c);
+        i += c;
+      }
+      return out;
+    };
+    return {
+      v: 1,
+      name: spec.name || 'Custom Battlefield',
+      START: spec.START || { x: 11, y: 37 },
+      WARCAMP: spec.WARCAMP || { x: 50, y: 3 },
+      CAMPS: spec.CAMPS || [{ x: 41, y: 5 }, { x: 57, y: 11 }, { x: 47, y: 12 }],
+      RELICS: spec.RELICS || SKIRMISH_MAPS.sidon.RELICS,
+      FLOCKS: spec.FLOCKS || SKIRMISH_MAPS.sidon.FLOCKS,
+      GAME: spec.GAME || SKIRMISH_MAPS.sidon.GAME,
+      tilesRle: rle(tiles),
+      amtRle: rle(amt)
+    };
+  }
+
+  function decodeCustomMap(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    const tiles = new Uint8Array(MAP_W * MAP_H);
+    const amt = new Int16Array(MAP_W * MAP_H);
+    const unrle = (src, dst) => {
+      if (!Array.isArray(src)) return;
+      let k = 0;
+      for (let i = 0; i < src.length && k < dst.length; i += 2) {
+        const v = src[i] | 0, c = Math.max(1, src[i + 1] | 0);
+        for (let j = 0; j < c && k < dst.length; j++) dst[k++] = v;
+      }
+    };
+    if (Array.isArray(raw.tilesRle)) unrle(raw.tilesRle, tiles);
+    else if (raw.tiles && raw.tiles.length === MAP_W * MAP_H) tiles.set(raw.tiles);
+    if (Array.isArray(raw.amtRle)) unrle(raw.amtRle, amt);
+    else if (raw.amt && raw.amt.length === MAP_W * MAP_H) amt.set(raw.amt);
+    // Ensure default resource amounts if tile was painted without explicit amt
+    for (let i = 0; i < tiles.length; i++) {
+      if (tiles[i] === T.FOREST && amt[i] <= 0) amt[i] = 120;
+      else if (tiles[i] === T.FIELD && amt[i] <= 0) amt[i] = 300;
+      else if (tiles[i] === T.BRIDGE && amt[i] <= 0) amt[i] = BRIDGE_HP;
+    }
+    const START = raw.START && Number.isFinite(raw.START.x) ? { x: raw.START.x | 0, y: raw.START.y | 0 } : { x: 11, y: 37 };
+    const WARCAMP = raw.WARCAMP && Number.isFinite(raw.WARCAMP.x) ? { x: raw.WARCAMP.x | 0, y: raw.WARCAMP.y | 0 } : { x: 50, y: 3 };
+    const CAMPS = Array.isArray(raw.CAMPS) && raw.CAMPS.length === 3 ? raw.CAMPS.map(c => ({ x: c.x | 0, y: c.y | 0 })) : [
+      { x: Math.max(2, Math.min(MAP_W - 6, WARCAMP.x - 9)), y: Math.max(2, Math.min(MAP_H - 6, WARCAMP.y + 2)) },
+      { x: Math.max(2, Math.min(MAP_W - 6, WARCAMP.x + 7)), y: Math.max(2, Math.min(MAP_H - 6, WARCAMP.y + 8)) },
+      { x: Math.max(2, Math.min(MAP_W - 6, WARCAMP.x - 3)), y: Math.max(2, Math.min(MAP_H - 6, WARCAMP.y + 9)) }
+    ];
+    return {
+      id: 'custom',
+      name: raw.name || 'Custom Battlefield',
+      ref: 'Alma 48:8',
+      about: 'Custom skirmish battlefield crafted in the Map Builder.',
+      START,
+      WARCAMP,
+      CAMPS,
+      RELICS: Array.isArray(raw.RELICS) ? raw.RELICS : SKIRMISH_MAPS.sidon.RELICS,
+      FLOCKS: Array.isArray(raw.FLOCKS) ? raw.FLOCKS : SKIRMISH_MAPS.sidon.FLOCKS,
+      GAME: Array.isArray(raw.GAME) ? raw.GAME : SKIRMISH_MAPS.sidon.GAME,
+      tiles,
+      amt
+    };
+  }
+
+  function buildSkirmishMap(mapId, customSpec) {
+    if (!mapId || mapId === 'sidon') return buildFreeMap();
+    if (mapId === 'custom' && customSpec) {
+      const dec = decodeCustomMap(customSpec);
+      if (dec) return { tiles: dec.tiles, amt: dec.amt };
+    }
+    const meta = SKIRMISH_MAPS[mapId] || SKIRMISH_MAPS.sidon;
+    const r = rng(mapId === 'twin_bluffs' ? 71 : mapId === 'bountiful_isles' ? 83 : 97);
+    const tiles = new Uint8Array(MAP_W * MAP_H);
+    const amt = new Int16Array(MAP_W * MAP_H);
+    const inb = (x, y) => x >= 0 && y >= 0 && x < MAP_W && y < MAP_H;
+    const set = (x, y, t, a) => { if (inb(x, y)) { tiles[y * MAP_W + x] = t; amt[y * MAP_W + x] = a || 0; } };
+    const get = (x, y) => inb(x, y) ? tiles[y * MAP_W + x] : T.ROCK;
+    const clear = (x, y) => Math.hypot(x - meta.START.x - 2, y - meta.START.y - 2) < 6.5 ||
+      Math.hypot(x - meta.WARCAMP.x - 2, y - meta.WARCAMP.y - 2) < 6.5 ||
+      meta.CAMPS.some(c => Math.hypot(x - c.x - 1, y - c.y - 1) < 3.5);
+    const stamps = createMapStamps(tiles, amt, clear);
+    const blob = (cx, cy, rad, t, a) => {
+      for (let y = Math.floor(cy - rad - 1); y <= cy + rad + 1; y++) for (let x = Math.floor(cx - rad - 1); x <= cx + rad + 1; x++) {
+        if (Math.hypot(x - cx, y - cy) <= rad - 0.3 + r() * 0.8 && get(x, y) === T.GRASS && !clear(x, y)) set(x, y, t, a);
+      }
+    };
+    const field = (x0, y0, w, h) => {
+      for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) if (get(x, y) === T.GRASS && !clear(x, y)) set(x, y, T.FIELD, 300);
+    };
+
+    if (mapId === 'twin_bluffs') {
+      // Diagonal canyon gorge running NW to SE, crossed by twin bridges and a central ford
+      for (let y = 0; y < MAP_H; y++) {
+        const rx = Math.round(31 + 3 * Math.cos(y / 7));
+        for (let x = rx; x < rx + 2; x++) {
+          if (!clear(x, y)) set(x, y, (y >= 22 && y <= 23) ? T.FORD : T.WATER);
+        }
+      }
+      for (let y = 11; y <= 12; y++) { const rx = Math.round(31 + 3 * Math.cos(y / 7)); stamps.bridge(rx, y, rx + 1, y); }
+      for (let y = 34; y <= 35; y++) { const rx = Math.round(31 + 3 * Math.cos(y / 7)); stamps.bridge(rx, y, rx + 1, y); }
+      // Two large elevated plateaus overlooking the crossings, each with wide ramps
+      stamps.plateau(18, 12, 8, 6, [[21, 18], [22, 18], [26, 15], [17, 15]]);
+      stamps.plateau(38, 28, 8, 6, [[41, 27], [42, 27], [37, 31], [46, 31]]);
+      // Paved canyon road linking SW base -> south bridge -> north bridge -> NE camp
+      stamps.road([[15, 35], [36, 35], [44, 24], [36, 12], [44, 10]]);
+      [[19, 27, 2.2], [45, 20, 2.4], [22, 6, 1.8], [42, 42, 2.0]].forEach(([x, y, rad]) => blob(x, y, rad, T.ROCK));
+      [[4, 28, 2.6], [19, 43, 2.5], [5, 44, 2.2], [12, 16, 2.8], [39, 38, 2.8], [50, 41, 2.6], [58, 22, 2.5], [35, 3, 2.2], [56, 30, 2.2], [8, 21, 2.2]].forEach(([x, y, rad]) => blob(x, y, rad, T.FOREST, 120));
+      [[16, 33, 3, 2], [7, 42, 3, 2], [24, 32, 3, 2], [35, 15, 3, 2], [53, 17, 3, 2], [13, 27, 3, 2]].forEach(f => field(...f));
+    } else if (mapId === 'bountiful_isles') {
+      // Twin river channels creating a central island linked by 4 bridges + 1 outer ford
+      for (let y = 0; y < MAP_H; y++) {
+        const w1 = Math.round(25 + 1.5 * Math.sin(y / 8));
+        const w2 = Math.round(38 - 1.5 * Math.sin(y / 8));
+        for (let x = w1; x < w1 + 2; x++) if (!clear(x, y)) set(x, y, (y >= 41 && y <= 42) ? T.FORD : T.WATER);
+        for (let x = w2; x < w2 + 2; x++) if (!clear(x, y)) set(x, y, (y >= 6 && y <= 7) ? T.FORD : T.WATER);
+      }
+      // 4 bridges linking West Bank <-> Central Island <-> East Bank
+      for (let y = 14; y <= 15; y++) {
+        const w1 = Math.round(25 + 1.5 * Math.sin(y / 8));
+        const w2 = Math.round(38 - 1.5 * Math.sin(y / 8));
+        stamps.bridge(w1, y, w1 + 1, y);
+        stamps.bridge(w2, y, w2 + 1, y);
+      }
+      for (let y = 31; y <= 32; y++) {
+        const w1 = Math.round(25 + 1.5 * Math.sin(y / 8));
+        const w2 = Math.round(38 - 1.5 * Math.sin(y / 8));
+        stamps.bridge(w1, y, w1 + 1, y);
+        stamps.bridge(w2, y, w2 + 1, y);
+      }
+      // Central island high-ground citadel overlooking the bridges
+      stamps.plateau(29, 20, 6, 6, [[31, 19], [32, 19], [31, 26], [32, 26]]);
+      stamps.road([[18, 31], [44, 31]]);
+      stamps.road([[20, 15], [44, 15]]);
+      [[18, 25, 2.2], [45, 26, 2.4], [31, 10, 1.8], [32, 38, 1.8]].forEach(([x, y, rad]) => blob(x, y, rad, T.ROCK));
+      [[4, 30, 2.5], [19, 43, 2.5], [5, 45, 2], [14, 13, 2.5], [49, 40, 3], [59, 22, 2.5], [57, 30, 2], [9, 22, 2], [31, 35, 2.2], [31, 12, 2.2]].forEach(([x, y, rad]) => blob(x, y, rad, T.FOREST, 120));
+      [[16, 34, 3, 2], [8, 43, 3, 2], [14, 28, 3, 2], [42, 14, 3, 2], [54, 16, 3, 2], [29, 28, 3, 2]].forEach(f => field(...f));
+    } else if (mapId === 'highland_citadel') {
+      // Outer stream on the flanks with wide central plateau citadel
+      for (let y = 0; y < MAP_H; y++) {
+        const rx = Math.round(58 + 1.5 * Math.sin(y / 6));
+        if (rx < MAP_W - 1 && !clear(rx, y)) set(rx, y, T.WATER);
+      }
+      // Great central high-ground citadel plateau (12x10) with 4 cardinal ramps
+      stamps.plateau(26, 19, 12, 10, [
+        [31, 18], [32, 18], // North ramp
+        [31, 29], [32, 29], // South ramp
+        [25, 23], [25, 24], // West ramp
+        [38, 23], [38, 24]  // East ramp
+      ]);
+      // Perimeter highway ring around the citadel + spokes to both bases
+      stamps.road([[22, 15], [41, 15], [41, 32], [22, 32], [22, 15]]);
+      stamps.road([[15, 36], [22, 32]]);
+      stamps.road([[41, 15], [46, 10]]);
+      [[20, 26, 2.2], [44, 22, 2.4], [31, 23, 1.8], [24, 8, 1.8], [40, 40, 1.8]].forEach(([x, y, rad]) => blob(x, y, rad, T.ROCK));
+      [[4, 30, 2.5], [20, 43, 2.5], [5, 45, 2], [15, 13, 2.8], [38, 37, 2.8], [49, 40, 3], [54, 24, 2.5], [37, 3, 2.2], [9, 22, 2.2]].forEach(([x, y, rad]) => blob(x, y, rad, T.FOREST, 120));
+      [[17, 34, 3, 2], [8, 43, 3, 2], [14, 28, 3, 2], [35, 11, 3, 2], [52, 16, 3, 2], [27, 20, 3, 2], [34, 26, 3, 2]].forEach(f => field(...f));
+    }
+    return { tiles, amt };
+  }
+
   // Out of the Wilderness: an open valley with your standard in the middle,
   // and four ways in for raiders: two passes through the mountains on the
   // north, the forest on the west, and the fords of the river on the east.
@@ -725,7 +947,7 @@
     }
   };
 
-  const DATA = { TILE, MAP_W, MAP_H, T, BRIDGE_HP, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, CUNNING, POWERS, ARTIFACTS, SIDES, REGIMENTS, CAPTAINS, PERKS, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, createMapStamps, rng };
+  const DATA = { TILE, MAP_W, MAP_H, T, BRIDGE_HP, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, CUNNING, POWERS, ARTIFACTS, SIDES, REGIMENTS, CAPTAINS, PERKS, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, SKIRMISH_MAPS, buildMap, buildSidonMap, buildFreeMap, buildWildMap, buildSkirmishMap, encodeCustomMap, decodeCustomMap, createMapStamps, rng };
   if (typeof module !== 'undefined' && module.exports) module.exports = DATA;
   else root.LIB_DATA = DATA;
 })(this);
