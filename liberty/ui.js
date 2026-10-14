@@ -148,6 +148,8 @@ for (const k of ['smithy', 'training']) { IMG[k] = picture(); IMG[k].src = `asse
 for (const k of ['helaman', 'teancum', 'amalickiah', 'ammoron', 'wardance']) { IMG[k] = picture(); IMG[k].src = `assets/${k}.png?v=1`; }
 // The Rameumptom and the idols (018), and the painted flames that burn in its braziers (the 'Fire and Frames' demo).
 for (const k of ['rameumptom', 'idol_jaguar', 'idol_warrior', 'flames']) { IMG[k] = picture(); IMG[k].src = `assets/${k}.png?v=1`; }
+// Frontier scouts, wildlife, and wilderness structures (025).
+for (const k of ['hunter', 'ranger', 'game', 'flock', 'campfire', 'blind', 'stakes']) { IMG[k] = picture(); IMG[k].src = `assets/${k}.png?v=1`; }
 IMG.gate.src = 'assets/gate.png?v=1';
 IMG.farm.src = 'assets/farm.png?v=13';
                                 // the simulation's tick, as in the tests
@@ -242,18 +244,46 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Hills: every corner of the tile grid has a height, in steps of LEVEL
   // pixels on the screen. They're only drawn: sim.js sees flat ground, so
   // where people can walk and build is the same as without them.
-  const LEVEL = 8, WATER_LVL = -0.45;
+  const LEVEL = 8, WATER_LVL = -0.45, PLATEAU_H = 2.8;
   const PAD = 112, SKIRT = 64;                        // room on the ground canvas above the map for hills, and below it for the slab's earth
   const TERR_W = WORLD_ISO_W, TERR_H = WORLD_ISO_H + PAD + SKIRT;
   const VW = MAP_W + 1;
   const hts = new Float32Array(VW * (MAP_H + 1));
   let hilly = false;                                 // heights made for this map
   const hv = (x, y) => hts[clamp(y, 0, MAP_H) * VW + clamp(x, 0, MAP_W)];
+  function vTouchesPlateau(vx, vy) {
+    if (!W) return false;
+    for (let dy = -1; dy <= 0; dy++) for (let dx = -1; dx <= 0; dx++) {
+      if (W.tile(vx + dx, vy + dy) === T.PLATEAU) return true;
+    }
+    return false;
+  }
+  function cornerElev(x, y) {
+    if (!W) return [0, 0, 0, 0];
+    const t = W.tile(x, y);
+    if (t === T.PLATEAU) return [PLATEAU_H, PLATEAU_H, PLATEAU_H, PLATEAU_H];
+    if (t === T.RAMP) return [
+      vTouchesPlateau(x, y) ? PLATEAU_H : 0,
+      vTouchesPlateau(x + 1, y) ? PLATEAU_H : 0,
+      vTouchesPlateau(x + 1, y + 1) ? PLATEAU_H : 0,
+      vTouchesPlateau(x, y + 1) ? PLATEAU_H : 0
+    ];
+    return [0, 0, 0, 0];
+  }
   function heightAt(wx, wy) {
     if (!hilly) return 0;
     const fx = clamp(wx / TILE, 0, MAP_W - 1e-3), fy = clamp(wy / TILE, 0, MAP_H - 1e-3);
     const x = Math.floor(fx), y = Math.floor(fy), u = fx - x, v = fy - y, i = y * VW + x;
-    return (hts[i] * (1 - u) + hts[i + 1] * u) * (1 - v) + (hts[i + VW] * (1 - u) + hts[i + VW + 1] * u) * v;
+    const base = (hts[i] * (1 - u) + hts[i + 1] * u) * (1 - v) + (hts[i + VW] * (1 - u) + hts[i + VW + 1] * u) * v;
+    if (!W) return base;
+    const t = W.tile(x, y);
+    if (t === T.PLATEAU) return base + PLATEAU_H;
+    if (t === T.RAMP) {
+      const E = cornerElev(x, y);
+      return base + (E[0] * (1 - u) + E[1] * u) * (1 - v) + (E[3] * (1 - u) + E[2] * u) * v;
+    }
+    if (t === T.BRIDGE) return Math.max(base, 0.14);
+    return base;
   }
   const toIso = (wx, wy) => ({ ix: (wx - wy), iy: (wx + wy) * 0.5 - heightAt(wx, wy) * LEVEL });
   const isoAt = (wx, wy, h) => ({ ix: (wx - wy), iy: (wx + wy) * 0.5 - h * LEVEL });
@@ -493,7 +523,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     return (a + (b - a) * su) * (1 - sv) + (c + (d - c) * su) * sv;
   }
   const fbm = (x, y, k) => noise(x, y, k) * 0.57 + noise(x * 2.1, y * 2.1, k + 7) * 0.29 + noise(x * 4.3, y * 4.3, k + 13) * 0.14;
-  const isWet = t => t === T.WATER || t === T.FORD;
+  const isWet = t => t === T.WATER || t === T.FORD || t === T.BRIDGE || t === T.BROKEN_BRIDGE;
   let seed = 1;
   let shore = null, dry = null, wetTiles = [];       // tiles from the water; tiles from the land; where the water is
 
@@ -632,9 +662,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // What a tile looks like, so it's painted again only when that changes.
   function look(i) {
     const t = W.tiles[i], a = W.amt[i];
-    if (t === T.FOREST) return t * 4 + (a > 80 ? 2 : a > 35 ? 1 : 0);
-    if (t === T.FIELD) return t * 4 + (a > 150 ? 2 : a > 60 ? 1 : 0);
-    return t * 4;
+    if (t === T.FOREST) return t * 8 + (a > 80 ? 2 : a > 35 ? 1 : 0);
+    if (t === T.FIELD) return t * 8 + (a > 150 ? 2 : a > 60 ? 1 : 0);
+    if (t === T.BRIDGE) return t * 8 + (a > 160 ? 2 : a > 80 ? 1 : 0);
+    if (t === T.BROKEN_BRIDGE) return t * 8 + (a > 125 ? 1 : 0);
+    return t * 8;
   }
   function paintTerrain() {
     if (!DBG.on) return paintTerrainNow();
@@ -652,7 +684,18 @@ IMG.farm.src = 'assets/farm.png?v=13';
     for (let s = 0; s <= MAP_W + MAP_H - 2; s++) {
       for (let x = Math.max(0, s - MAP_H + 1); x <= Math.min(MAP_W - 1, s); x++) {
         const y = s - x, i = y * MAP_W + x, l = look(i);
-        if (painted[i] !== l) { painted[i] = l; paintTile(x, y); changed = true; }
+        if (painted[i] !== l) {
+          painted[i] = l;
+          paintTile(x, y);
+          changed = true;
+          for (const [dx, dy] of [[1, 0], [0, 1], [1, 1]]) {
+            const nx = x + dx, ny = y + dy;
+            if (nx < MAP_W && ny < MAP_H) {
+              const nt = W.tiles[ny * MAP_W + nx];
+              if (nt === T.PLATEAU || nt === T.RAMP || nt === T.BRIDGE || nt === T.BROKEN_BRIDGE) painted[ny * MAP_W + nx] = -1;
+            }
+          }
+        }
       }
     }
     if (whole) paintSides();
@@ -690,6 +733,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     else if (t === T.FOREST) paintTreeShadows(c, P, x, y, a);
     else if (t === T.RUIN) paintRuin(c, P, h);
     else if (t === T.ROCK) { paintBoulders(c, P, h, shade); if (a > 0 && (W.border == null || W.borderOpen || y >= W.border)) paintQuarry(c, P, h); }
+    else if (t === T.ROAD) paintRoad(c, P, x, y, shade, h);
+    else if (t === T.PLATEAU) { paintPlateau(c, x, y, H, P, col, shade, h); return; }
+    else if (t === T.RAMP) { paintRamp(c, x, y, H, P, col, shade, h); return; }
     else if (h(5) < 0.1) {                            // a few wild flowers
       c.fillStyle = h(6) < 0.5 ? '#f3d250' : '#e8eef0';
       for (let k = 0; k < 3; k++) { const [fx, fy] = inTile(P, 0.2 + 0.6 * h(7 + k), 0.2 + 0.6 * h(10 + k)); c.fillRect(fx, fy, 1.6, 1.6); }
@@ -701,6 +747,235 @@ IMG.farm.src = 'assets/farm.png?v=13';
     // The tile grid, faintly, as SimCity 2000 showed it.
     c.strokeStyle = 'rgba(30, 40, 16, .09)'; c.lineWidth = 1;
     c.beginPath(); c.moveTo(P[3][0], P[3][1]); c.lineTo(P[0][0], P[0][1]); c.lineTo(P[1][0], P[1][1]); c.stroke();
+  }
+
+  // C&C Auto-Tile: Ancient Nephite limestone flagstone road with 4-neighbor auto-connection bitmask.
+  function paintRoad(c, P, x, y, shade, h) {
+    const roadLike = (tx, ty) => {
+      if (tx < 0 || ty < 0 || tx >= MAP_W || ty >= MAP_H) return false;
+      const nt = W.tiles[ty * MAP_W + tx];
+      return nt === T.ROAD || nt === T.BRIDGE || nt === T.BROKEN_BRIDGE || nt === T.RAMP || !!W.occ[ty * MAP_W + tx];
+    };
+    const N = roadLike(x, y - 1), E = roadLike(x + 1, y), S = roadLike(x, y + 1), W_ = roadLike(x - 1, y);
+    c.save();
+    poly(c, P); c.clip();
+    const curb = rgb([112, 102, 86], shade), stone = rgb([184, 171, 147], shade), lightStone = rgb([210, 198, 174], shade);
+    const drawBand = (u0, v0, u1, v1, col) => {
+      poly(c, [inTile(P, u0, v0), inTile(P, u1, v0), inTile(P, u1, v1), inTile(P, u0, v1)]);
+      c.fillStyle = col; c.fill();
+    };
+    // Outer stone curb border + inner paved limestone roadbed
+    drawBand(0.18, 0.18, 0.82, 0.82, curb);
+    if (N) drawBand(0.18, 0.0, 0.82, 0.24, curb);
+    if (S) drawBand(0.18, 0.76, 0.82, 1.0, curb);
+    if (W_) drawBand(0.0, 0.18, 0.24, 0.82, curb);
+    if (E) drawBand(0.76, 0.18, 1.0, 0.82, curb);
+
+    drawBand(0.24, 0.24, 0.76, 0.76, stone);
+    if (N) drawBand(0.24, 0.0, 0.76, 0.26, stone);
+    if (S) drawBand(0.24, 0.74, 0.76, 1.0, stone);
+    if (W_) drawBand(0.0, 0.24, 0.26, 0.76, stone);
+    if (E) drawBand(0.74, 0.24, 1.0, 0.76, stone);
+
+    // Chiseled flagstone courses & mortar joints
+    c.strokeStyle = 'rgba(72, 64, 52, .45)'; c.lineWidth = 0.9;
+    for (let k = 0; k < 4; k++) {
+      const f = 0.28 + k * 0.15;
+      const a = inTile(P, f, N ? 0.05 : 0.26), b = inTile(P, f, S ? 0.95 : 0.74);
+      c.beginPath(); c.moveTo(a[0], a[1]); c.lineTo(b[0], b[1]); c.stroke();
+      const d = inTile(P, W_ ? 0.05 : 0.26, f), e = inTile(P, E ? 0.95 : 0.74, f);
+      c.beginPath(); c.moveTo(d[0], d[1]); c.lineTo(e[0], e[1]); c.stroke();
+    }
+    // Sunlit flagstone highlights
+    c.fillStyle = lightStone;
+    for (let k = 0; k < 3; k++) {
+      const [sx, sy] = inTile(P, 0.32 + 0.34 * h(80 + k), 0.32 + 0.34 * h(85 + k));
+      c.fillRect(sx - 2, sy - 1, 4, 2);
+    }
+    c.restore();
+  }
+
+  // C&C Auto-Tile: Walkable High-Ground Plateau (flat tabletop + stratified limestone cliff walls).
+  function paintPlateau(c, x, y, H, P, baseCol, shade, h) {
+    const Ptop = [
+      [canX(x, y), canY(x, y, H[0] + PLATEAU_H)],
+      [canX(x + 1, y), canY(x + 1, y, H[1] + PLATEAU_H)],
+      [canX(x + 1, y + 1), canY(x + 1, y + 1, H[2] + PLATEAU_H)],
+      [canX(x, y + 1), canY(x, y + 1, H[3] + PLATEAU_H)]
+    ];
+    const isPlat = (tx, ty) => W.tile(tx, ty) === T.PLATEAU;
+    const isHighOrRamp = (tx, ty) => { const nt = W.tile(tx, ty); return nt === T.PLATEAU || nt === T.RAMP; };
+    const drawCliffWall = (topA, topB, botB, botA, light) => {
+      poly(c, [topA, topB, botB, botA]);
+      c.fillStyle = rgb([128, 120, 108], light); c.fill();
+      overlay(c, [topA, topB, botB, botA], TEX.rock, 0.65);
+      // Horizontal limestone strata courses
+      c.strokeStyle = `rgba(54, 48, 42, ${0.55})`; c.lineWidth = 1.1;
+      for (const f of [0.28, 0.56, 0.82]) {
+        const ax = topA[0] + (botA[0] - topA[0]) * f, ay = topA[1] + (botA[1] - topA[1]) * f;
+        const bx = topB[0] + (botB[0] - topB[0]) * f, by = topB[1] + (botB[1] - topB[1]) * f;
+        c.beginPath(); c.moveTo(ax, ay); c.lineTo(bx, by); c.stroke();
+      }
+      // Vertical rock joint fissures
+      for (const u of [0.33, 0.67]) {
+        const tx = topA[0] + (topB[0] - topA[0]) * u, ty = topA[1] + (topB[1] - topA[1]) * u;
+        const bx = botA[0] + (botB[0] - botA[0]) * u, by = botA[1] + (botB[1] - botA[1]) * u;
+        c.beginPath(); c.moveTo(tx, ty + 2); c.lineTo(bx, by - 2); c.stroke();
+      }
+      // Dark ground shadow along the foot of the cliff
+      c.strokeStyle = 'rgba(20, 18, 14, .5)'; c.lineWidth = 2.2;
+      c.beginPath(); c.moveTo(botA[0], botA[1]); c.lineTo(botB[0], botB[1]); c.stroke();
+    };
+    if (!isPlat(x + 1, y)) drawCliffWall(Ptop[1], Ptop[2], P[2], P[1], 0.74);
+    if (!isPlat(x, y + 1)) drawCliffWall(Ptop[3], Ptop[2], P[2], P[3], 0.96);
+
+    // Flat highland mesa tabletop
+    const topCol = mix(baseCol, PAL.sand, 0.24);
+    poly(c, Ptop); c.fillStyle = rgb(topCol, clamp(shade * 1.08, 0.7, 1.35)); c.fill();
+    overlay(c, Ptop, TEX.grass, 0.45);
+    overlay(c, Ptop, TEX.rock, 0.25);
+
+    // Chiseled limestone parapet lip along non-ramp cliff edges so impassable edges read unmistakably
+    const lipEdge = (A, B, lit) => {
+      c.strokeStyle = lit ? 'rgba(232, 224, 204, .92)' : 'rgba(176, 168, 150, .88)';
+      c.lineWidth = 2.4;
+      c.beginPath(); c.moveTo(A[0], A[1]); c.lineTo(B[0], B[1]); c.stroke();
+      c.strokeStyle = 'rgba(58, 52, 44, .65)';
+      c.lineWidth = 1.0;
+      c.beginPath(); c.moveTo(A[0], A[1] + 1.3); c.lineTo(B[0], B[1] + 1.3); c.stroke();
+    };
+    if (!isHighOrRamp(x, y - 1)) lipEdge(Ptop[0], Ptop[1], true);
+    if (!isHighOrRamp(x - 1, y)) lipEdge(Ptop[3], Ptop[0], true);
+    if (!isHighOrRamp(x + 1, y)) lipEdge(Ptop[1], Ptop[2], false);
+    if (!isHighOrRamp(x, y + 1)) lipEdge(Ptop[2], Ptop[3], false);
+
+    c.strokeStyle = 'rgba(30, 40, 16, .11)'; c.lineWidth = 1;
+    c.beginPath(); c.moveTo(Ptop[3][0], Ptop[3][1]); c.lineTo(Ptop[0][0], Ptop[0][1]); c.lineTo(Ptop[1][0], Ptop[1][1]); c.stroke();
+  }
+
+  // C&C Auto-Tile: Sloped stone-and-earth ramp connecting low ground to a walkable plateau.
+  function paintRamp(c, x, y, H, P, baseCol, shade, h) {
+    const E = cornerElev(x, y);
+    const Pramp = [
+      [canX(x, y), canY(x, y, H[0] + E[0])],
+      [canX(x + 1, y), canY(x + 1, y, H[1] + E[1])],
+      [canX(x + 1, y + 1), canY(x + 1, y + 1, H[2] + E[2])],
+      [canX(x, y + 1), canY(x, y + 1, H[3] + E[3])]
+    ];
+    // Side retaining wall aprons where ramp corners rise above base ground
+    if (E[1] > 0 || E[2] > 0) {
+      poly(c, [Pramp[1], Pramp[2], P[2], P[1]]);
+      c.fillStyle = rgb([124, 116, 102], 0.78); c.fill();
+      overlay(c, [Pramp[1], Pramp[2], P[2], P[1]], TEX.rock, 0.5);
+    }
+    if (E[2] > 0 || E[3] > 0) {
+      poly(c, [Pramp[3], Pramp[2], P[2], P[3]]);
+      c.fillStyle = rgb([148, 138, 122], 0.95); c.fill();
+      overlay(c, [Pramp[3], Pramp[2], P[2], P[3]], TEX.rock, 0.5);
+    }
+    // Sloped earth-and-flagstone ramp deck
+    const rShade = shadeOf(H[0] + E[0], H[1] + E[1], H[2] + E[2], H[3] + E[3]);
+    poly(c, Pramp);
+    c.fillStyle = rgb(mix(baseCol, [186, 172, 146], 0.65), rShade); c.fill();
+    overlay(c, Pramp, TEX.rock, 0.5);
+
+    // Chiseled stone steps across the incline
+    const alongU = Math.abs((E[1] + E[2]) - (E[0] + E[3])) >= Math.abs((E[2] + E[3]) - (E[0] + E[1]));
+    for (let s = 1; s <= 5; s++) {
+      const t = s / 6;
+      const A = alongU ? inTile(Pramp, t, 0.1) : inTile(Pramp, 0.1, t);
+      const B = alongU ? inTile(Pramp, t, 0.9) : inTile(Pramp, 0.9, t);
+      c.strokeStyle = 'rgba(230, 220, 198, .85)'; c.lineWidth = 1.8;
+      c.beginPath(); c.moveTo(A[0], A[1]); c.lineTo(B[0], B[1]); c.stroke();
+      c.strokeStyle = 'rgba(68, 60, 48, .65)'; c.lineWidth = 1.0;
+      c.beginPath(); c.moveTo(A[0], A[1] + 1.2); c.lineTo(B[0], B[1] + 1.2); c.stroke();
+    }
+    // Low stone side curbs along the ramp edges
+    c.strokeStyle = 'rgba(120, 110, 94, .85)'; c.lineWidth = 2.0;
+    const c1 = alongU ? [inTile(Pramp, 0.04, 0.08), inTile(Pramp, 0.96, 0.08)] : [inTile(Pramp, 0.08, 0.04), inTile(Pramp, 0.08, 0.96)];
+    const c2 = alongU ? [inTile(Pramp, 0.04, 0.92), inTile(Pramp, 0.96, 0.92)] : [inTile(Pramp, 0.92, 0.04), inTile(Pramp, 0.92, 0.96)];
+    c.beginPath(); c.moveTo(c1[0][0], c1[0][1]); c.lineTo(c1[1][0], c1[1][1]); c.stroke();
+    c.beginPath(); c.moveTo(c2[0][0], c2[0][1]); c.lineTo(c2[1][0], c2[1][1]); c.stroke();
+  }
+
+  // C&C Auto-Tile: Timber & dressed-stone bridge over river water (intact or demolished).
+  function paintBridge(c, x, y, h, broken) {
+    const { P: Pwater } = tileCorners(x, y, WATER_LVL);
+    const { P } = tileCorners(x, y, 0.14);
+    const isSpan = (tx, ty) => {
+      if (tx < 0 || ty < 0 || tx >= MAP_W || ty >= MAP_H) return false;
+      const nt = W.tiles[ty * MAP_W + tx];
+      return nt === T.BRIDGE || nt === T.BROKEN_BRIDGE || !isWet(nt);
+    };
+    const alongU = (isSpan(x - 1, y) || isSpan(x + 1, y)) && !(W.tile(x - 1, y) === T.WATER && W.tile(x + 1, y) === T.WATER);
+
+    if (broken) {
+      // Destroyed bridge: jagged timber pilings sticking out of the river, whitewater foam, and broken abutment stubs
+      const posts = [[0.2, 0.22], [0.8, 0.22], [0.2, 0.78], [0.8, 0.78], [0.48, 0.52]];
+      for (const [u, v] of posts) {
+        const [wx, wy] = inTile(Pwater, u, v);
+        c.strokeStyle = 'rgba(236, 246, 248, .65)'; c.lineWidth = 1.2;
+        c.beginPath(); c.ellipse(wx, wy + 1, 5.5, 2.6, 0, 0, Math.PI * 2); c.stroke();
+        c.fillStyle = '#3b2614'; c.fillRect(wx - 2.2, wy - 8, 4.4, 9);
+        c.fillStyle = '#78502b'; c.fillRect(wx - 1.6, wy - 9, 3.2, 2.5);
+      }
+      // Splintered plank remnants near the banks
+      c.strokeStyle = '#6b4423'; c.lineWidth = 2.2;
+      for (let k = 0; k < 3; k++) {
+        const A = inTile(Pwater, 0.15 + 0.2 * k, 0.28 + 0.18 * k), B = inTile(Pwater, 0.32 + 0.22 * k, 0.44 + 0.16 * k);
+        c.beginPath(); c.moveTo(A[0], A[1]); c.lineTo(B[0], B[1]); c.stroke();
+      }
+      return;
+    }
+
+    // Water shadow beneath intact bridge span
+    poly(c, Pwater.map(([px, py]) => [px, py + 2]));
+    c.fillStyle = 'rgba(10, 28, 36, .42)'; c.fill();
+
+    // Trestle piers plunging from deck down into the water
+    for (const [u, v] of [[0.18, 0.85], [0.82, 0.85], [0.85, 0.18]]) {
+      const top = inTile(P, u, v), bot = inTile(Pwater, u, v);
+      c.strokeStyle = 'rgba(236, 246, 248, .55)'; c.lineWidth = 1.1;
+      c.beginPath(); c.ellipse(bot[0], bot[1] + 1, 4.5, 2.2, 0, 0, Math.PI * 2); c.stroke();
+      c.fillStyle = '#4a321c';
+      c.fillRect(top[0] - 2.2, top[1], 4.4, Math.max(4, bot[1] - top[1] + 1));
+    }
+
+    // Bridge deck apron & weathered cedar planks
+    const d0 = alongU ? inTile(P, 0, 0.12) : inTile(P, 0.12, 0);
+    const d1 = alongU ? inTile(P, 1, 0.12) : inTile(P, 0.88, 0);
+    const d2 = alongU ? inTile(P, 1, 0.88) : inTile(P, 0.88, 1);
+    const d3 = alongU ? inTile(P, 0, 0.88) : inTile(P, 0.12, 1);
+    poly(c, [d0, d1, d2, d3]);
+    c.fillStyle = '#825a34'; c.fill();
+    c.strokeStyle = '#3e2714'; c.lineWidth = 1.2; c.stroke();
+
+    // Transverse timber deck planks
+    for (let k = 1; k <= 6; k++) {
+      const t = k / 7;
+      const A = alongU ? inTile(P, t, 0.14) : inTile(P, 0.14, t);
+      const B = alongU ? inTile(P, t, 0.86) : inTile(P, 0.86, t);
+      c.strokeStyle = k % 2 ? 'rgba(54, 34, 16, .65)' : 'rgba(176, 134, 84, .55)';
+      c.lineWidth = 1.2;
+      c.beginPath(); c.moveTo(A[0], A[1]); c.lineTo(B[0], B[1]); c.stroke();
+    }
+
+    // Raised stone-and-timber guardrails & posts along both edges of the crossing
+    const drawRail = (vOff) => {
+      const rA = alongU ? inTile(P, 0.02, vOff) : inTile(P, vOff, 0.02);
+      const rB = alongU ? inTile(P, 0.98, vOff) : inTile(P, vOff, 0.98);
+      c.strokeStyle = '#4a3019'; c.lineWidth = 3.2;
+      c.beginPath(); c.moveTo(rA[0], rA[1] - 3.5); c.lineTo(rB[0], rB[1] - 3.5); c.stroke();
+      c.strokeStyle = '#c8aa78'; c.lineWidth = 1.4;
+      c.beginPath(); c.moveTo(rA[0], rA[1] - 4.5); c.lineTo(rB[0], rB[1] - 4.5); c.stroke();
+      for (const s of [0.06, 0.5, 0.94]) {
+        const pt = alongU ? inTile(P, s, vOff) : inTile(P, vOff, s);
+        c.fillStyle = '#5c3b1e'; c.fillRect(pt[0] - 2, pt[1] - 6.5, 4, 7);
+        c.fillStyle = '#d6c7ae'; c.fillRect(pt[0] - 2.2, pt[1] - 7.5, 4.4, 2);
+      }
+    };
+    drawRail(0.13);
+    drawRail(0.87);
   }
 
   function paintWater(x, y, t) {
@@ -738,6 +1013,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (land(x - 1, y)) edge(P[3], P[0]);
     if (land(x + 1, y)) edge(P[1], P[2]);
     if (land(x, y + 1)) edge(P[2], P[3]);
+    if (t === T.BRIDGE || t === T.BROKEN_BRIDGE) paintBridge(c, x, y, h, t === T.BROKEN_BRIDGE);
   }
 
   // Rows of grain, ripe gold while there's plenty to reap, stubble when it's nearly gone.
@@ -2068,12 +2344,18 @@ IMG.farm.src = 'assets/farm.png?v=13';
       }
       if (!(uImg.complete && uImg.naturalWidth)) uImg = IMG.cart;
       uw = uImg.naturalWidth / 3; uh = uImg.naturalHeight / 3; uox = uw / 2; uoy = uh - 1;
-    } else if (u.type === 'hunter' || u.type === 'ranger') {
-      uImg = IMG.archer;
-      uw = 23; uh = 44; uox = 9; uoy = 43;
-    } else if (u.type === 'game' || u.type === 'flock') {
-      uImg = null;
-      uw = 24; uh = 24; uox = 12; uoy = 23;
+    } else if (u.type === 'hunter') {
+      uImg = ready(IMG.hunter) ? IMG.hunter : IMG.archer;
+      uw = 22; uh = 44; uox = 11; uoy = 43;
+    } else if (u.type === 'ranger') {
+      uImg = ready(IMG.ranger) ? IMG.ranger : IMG.archer;
+      uw = 24; uh = 44; uox = 12; uoy = 43;
+    } else if (u.type === 'game') {
+      uImg = ready(IMG.game) ? IMG.game : null;
+      uw = 26; uh = 38; uox = 13; uoy = 36;
+    } else if (u.type === 'flock') {
+      uImg = ready(IMG.flock) ? IMG.flock : null;
+      uw = 34; uh = 32; uox = 17; uoy = 30;
     } else if (u.type === 'spy') {
       uImg = IMG.spy;                            // 76 × 150 like the worker
       uw = 20; uh = 40; uox = 10; uoy = 39;
@@ -2088,8 +2370,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
       }
     }
 
-    if (u.type === 'game') {
-      // Wild forest deer with antlers
+    if (u.type === 'game' && !(uImg && uImg.complete && uImg.naturalWidth)) {
+      // Wild forest deer with antlers (procedural fallback)
       ctx.fillStyle = '#5c3a21';
       ctx.fillRect(-5 + walkCycle * 2, -6, 1.8, 6);
       ctx.fillRect(3 - walkCycle * 2, -6, 1.8, 6);
@@ -2102,8 +2384,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
       ctx.beginPath(); ctx.ellipse(8.5, -17, 3, 2, 0.2, 0, 7); ctx.fill();
       ctx.strokeStyle = '#d6d3d1'; ctx.lineWidth = 1.2;
       ctx.beginPath(); ctx.moveTo(7.5, -18.5); ctx.lineTo(6, -23); ctx.moveTo(7, -21); ctx.lineTo(9.5, -22.5); ctx.stroke();
-    } else if (u.type === 'flock') {
-      // Cluster of three woolly sheep/goats
+    } else if (u.type === 'flock' && !(uImg && uImg.complete && uImg.naturalWidth)) {
+      // Cluster of three woolly sheep/goats (procedural fallback)
       for (const [ox, oy, sc] of [[-5, -2, 0.88], [5, -1, 0.92], [0, 2, 1]]) {
         ctx.save(); ctx.translate(ox, oy); ctx.scale(sc, sc);
         ctx.fillStyle = '#44403c';
@@ -2118,12 +2400,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     } else if (uImg && uImg.complete && uImg.naturalWidth) {
       ctx.drawImage(uImg, -uox, -uoy, uw, uh);
       if (u.type === 'hunter' || u.type === 'ranger') {
-        // Buckskin or forest ranger mantle + feather crest
-        ctx.fillStyle = u.type === 'ranger' ? 'rgba(21, 128, 61, 0.78)' : 'rgba(146, 64, 14, 0.72)';
-        ctx.beginPath(); ctx.ellipse(-1, -24, 5.5, 8, -0.15, 0, 7); ctx.fill();
-        if (u.type === 'ranger') {
-          ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 1.6;
-          ctx.beginPath(); ctx.moveTo(-1, -38); ctx.quadraticCurveTo(-5, -44, -8, -42); ctx.stroke();
+        if (uImg === IMG.archer) {
+          ctx.fillStyle = u.type === 'ranger' ? 'rgba(21, 128, 61, 0.78)' : 'rgba(146, 64, 14, 0.72)';
+          ctx.beginPath(); ctx.ellipse(-1, -24, 5.5, 8, -0.15, 0, 7); ctx.fill();
         }
         if (u.carry && u.carry.amt > 0) {
           ctx.fillStyle = '#991b1b';
@@ -2386,6 +2665,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     sawmill: { cx: 437, by: 736, span: 875 },
     brickworks: { cx: 502, by: 848, span: 1004 },
     lamaniteTower: { cx: 199, by: 461, span: 398 },
+    campfire: { cx: 110, by: 162, span: 220 },
+    blind: { cx: 110, by: 318, span: 220 },
+    stakes: { cx: 110, by: 144, span: 220 },
   };
   // Which picture a building is drawn with: the Lamanites' watchtowers are their own; a camp is the robbers' in 3 Nephi, the Lamanites' elsewhere.
   const pictureOf = b => (b.type === 'tower' && b.team === 'r') || b.type === 'lookout' ? 'lamaniteTower' : b.type === 'warcamp' ? 'warcamp' : b.type === 'idol' ? (b.id % 2 ? 'idol_jaguar' : 'idol_warrior')
@@ -2393,12 +2675,13 @@ IMG.farm.src = 'assets/farm.png?v=13';
     : (b.type === 'stronghold') ? (b.tier === 1 ? 'encampment' : b.tier === 2 ? 'councilPlatform' : 'acropolis')
     : PICTURE[b.type];
   const PICTURE = { stronghold: 'acropolis', encampment: 'encampment', councilPlatform: 'councilPlatform', acropolis: 'acropolis', barracks: 'barracks', hall: 'hall', tower: 'tower', armory: 'armory', storehouse: 'storehouse', granary: 'granary', stables: 'stables', temple: 'temple', relic: 'ruin',
-    quarry: 'quarry', sawmill: 'sawmill', brickworks: 'brickworks',
+    quarry: 'quarry', sawmill: 'sawmill', brickworks: 'brickworks', campfire: 'campfire', blind: 'blind', stakes: 'stakes',
     tents: 'tents', storetent: 'storetent', muster: 'muster', shieldtent: 'shieldtent', ladderworks: 'ladderworks', pavilion: 'pavilion', smithy: 'smithy', training: 'training', wardance: 'wardance', rameumptom: 'rameumptom' };
   // A building stands on flat ground just above the highest corner of its plot.
   function floorOf(b) {
     let top = -9;
-    for (let y = b.ty; y <= b.ty + b.h; y++) for (let x = b.tx; x <= b.tx + b.w; x++) top = Math.max(top, hv(x, y));
+    const pl = W && W.tile(b.tx, b.ty) === T.PLATEAU ? PLATEAU_H : 0;
+    for (let y = b.ty; y <= b.ty + b.h; y++) for (let x = b.tx; x <= b.tx + b.w; x++) top = Math.max(top, hv(x, y) + pl);
     return top + 0.15;
   }
   const isoPt = (x, y, h) => { const p = isoAt(x * TILE, y * TILE, h); return [p.ix, p.iy]; };
@@ -2472,51 +2755,61 @@ IMG.farm.src = 'assets/farm.png?v=13';
       drawFx(b, key, ix, front.iy, sc, now);
     };
     if (b.type === 'stakes') {
-      // Angled sharpened wooden stakes trap (Alma 49:19)
-      for (const [ox, oy, dx, dy] of [[-7, 1, -4, -12], [-2, 3, -1, -13], [3, 2, 2, -13], [7, 0, 5, -12], [0, -2, 0, -11]]) {
-        ctx.strokeStyle = '#5c3a21'; ctx.lineWidth = 2.6; ctx.lineCap = 'round';
-        ctx.beginPath(); ctx.moveTo(ix + ox, iy + oy); ctx.lineTo(ix + ox + dx, iy + oy + dy); ctx.stroke();
-        ctx.fillStyle = '#fde68a';
-        ctx.beginPath();
-        ctx.moveTo(ix + ox + dx - 1.5, iy + oy + dy + 2);
-        ctx.lineTo(ix + ox + dx + dx * 0.22, iy + oy + dy - 3);
-        ctx.lineTo(ix + ox + dx + 1.5, iy + oy + dy + 2);
-        ctx.closePath(); ctx.fill();
+      if (sp && ready(img)) {
+        place();
+      } else {
+        for (const [ox, oy, dx, dy] of [[-7, 1, -4, -12], [-2, 3, -1, -13], [3, 2, 2, -13], [7, 0, 5, -12], [0, -2, 0, -11]]) {
+          ctx.strokeStyle = '#5c3a21'; ctx.lineWidth = 2.6; ctx.lineCap = 'round';
+          ctx.beginPath(); ctx.moveTo(ix + ox, iy + oy); ctx.lineTo(ix + ox + dx, iy + oy + dy); ctx.stroke();
+          ctx.fillStyle = '#fde68a';
+          ctx.beginPath();
+          ctx.moveTo(ix + ox + dx - 1.5, iy + oy + dy + 2);
+          ctx.lineTo(ix + ox + dx + dx * 0.22, iy + oy + dy - 3);
+          ctx.lineTo(ix + ox + dx + 1.5, iy + oy + dy + 2);
+          ctx.closePath(); ctx.fill();
+        }
       }
     } else if (b.type === 'campfire') {
-      // Frontier campfire: stone hearth, crossed timber logs, flickering flame & warm healing ring
       if (b.built >= 1) {
         const pulse = 0.14 + 0.06 * Math.sin(now * 0.004 + b.id);
         ctx.strokeStyle = `rgba(251, 191, 36, ${pulse})`; ctx.lineWidth = 1.4;
         ctx.beginPath(); ctx.ellipse(ix, iy, 38, 19, 0, 0, 7); ctx.stroke();
       }
-      ctx.fillStyle = '#57534e';
-      for (let a = 0; a < 7; a++) {
-        const ang = a * Math.PI * 2 / 7;
-        ctx.beginPath(); ctx.ellipse(ix + Math.cos(ang) * 8, iy + Math.sin(ang) * 4, 2.5, 1.8, 0, 0, 7); ctx.fill();
-      }
-      ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.6; ctx.lineCap = 'round';
-      ctx.beginPath(); ctx.moveTo(ix - 6, iy + 2); ctx.lineTo(ix + 6, iy - 3); ctx.moveTo(ix - 5, iy - 3); ctx.lineTo(ix + 5, iy + 2); ctx.stroke();
-      if (b.built >= 1) {
-        const flick = Math.sin(now / 85 + b.id) * 1.8;
-        ctx.fillStyle = 'rgba(249, 115, 22, 0.92)'; blob(ctx, ix, iy - 6 - flick * 0.4, 5, 7.5 + flick);
-        ctx.fillStyle = 'rgba(254, 240, 138, 0.95)'; blob(ctx, ix, iy - 4.5, 2.6, 4.5 + flick * 0.5);
-        if (Math.random() < 0.08) addSmoke(ix, iy - 12, false);
+      if (sp && ready(img)) {
+        place();
+        if (b.built >= 1 && Math.random() < 0.08) addSmoke(ix, iy - 12, false);
+      } else {
+        ctx.fillStyle = '#57534e';
+        for (let a = 0; a < 7; a++) {
+          const ang = a * Math.PI * 2 / 7;
+          ctx.beginPath(); ctx.ellipse(ix + Math.cos(ang) * 8, iy + Math.sin(ang) * 4, 2.5, 1.8, 0, 0, 7); ctx.fill();
+        }
+        ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.6; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(ix - 6, iy + 2); ctx.lineTo(ix + 6, iy - 3); ctx.moveTo(ix - 5, iy - 3); ctx.lineTo(ix + 5, iy + 2); ctx.stroke();
+        if (b.built >= 1) {
+          const flick = Math.sin(now / 85 + b.id) * 1.8;
+          ctx.fillStyle = 'rgba(249, 115, 22, 0.92)'; blob(ctx, ix, iy - 6 - flick * 0.4, 5, 7.5 + flick);
+          ctx.fillStyle = 'rgba(254, 240, 138, 0.95)'; blob(ctx, ix, iy - 4.5, 2.6, 4.5 + flick * 0.5);
+          if (Math.random() < 0.08) addSmoke(ix, iy - 12, false);
+        }
       }
     } else if (b.type === 'blind') {
-      // Camouflaged tree lookout platform & brush screen
-      ctx.strokeStyle = '#5c3a21'; ctx.lineWidth = 2.2;
-      for (const [px, py] of [[-6, 2], [6, 2], [-4, -3], [4, -3]]) {
-        ctx.beginPath(); ctx.moveTo(ix + px, iy + py); ctx.lineTo(ix + px, iy + py - 18); ctx.stroke();
+      if (sp && ready(img)) {
+        place();
+      } else {
+        ctx.strokeStyle = '#5c3a21'; ctx.lineWidth = 2.2;
+        for (const [px, py] of [[-6, 2], [6, 2], [-4, -3], [4, -3]]) {
+          ctx.beginPath(); ctx.moveTo(ix + px, iy + py); ctx.lineTo(ix + px, iy + py - 18); ctx.stroke();
+        }
+        ctx.fillStyle = '#78350f';
+        ctx.fillRect(ix - 8, iy - 18, 16, 4);
+        ctx.fillStyle = '#365314';
+        for (const [bx, by, br] of [[-6, -20, 6], [0, -23, 7], [6, -20, 6], [-3, -16, 5], [4, -16, 5]]) {
+          ctx.beginPath(); ctx.arc(ix + bx, iy + by, br, 0, 7); ctx.fill();
+        }
+        ctx.fillStyle = '#4d7c0f';
+        ctx.beginPath(); ctx.arc(ix - 2, iy - 23, 4.5, 0, 7); ctx.arc(ix + 4, iy - 21, 4, 0, 7); ctx.fill();
       }
-      ctx.fillStyle = '#78350f';
-      ctx.fillRect(ix - 8, iy - 18, 16, 4);
-      ctx.fillStyle = '#365314';
-      for (const [bx, by, br] of [[-6, -20, 6], [0, -23, 7], [6, -20, 6], [-3, -16, 5], [4, -16, 5]]) {
-        ctx.beginPath(); ctx.arc(ix + bx, iy + by, br, 0, 7); ctx.fill();
-      }
-      ctx.fillStyle = '#4d7c0f';
-      ctx.beginPath(); ctx.arc(ix - 2, iy - 23, 4.5, 0, 7); ctx.arc(ix + 4, iy - 21, 4, 0, 7); ctx.fill();
     } else if (b.def.wall != null) { if (!drawWallArt(b)) drawEarthwork(b); }
     else if (b.type === 'camp' || b.type === 'warcamp' || (b.def.side === 'kingmen' && !(sp && ready(img)))) {
       if (sp && ready(img)) { place(); if (b.type === 'warcamp') banner(ix + 4, iy - h * 0.9, '#9f1239', now, b.id); }
@@ -3367,6 +3660,28 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (AUDIO) { AUDIO.play('orderMove'); AUDIO.unitAcknowledge(workers[0] || units[0], 'move'); }
       return ping(e.x, e.y, '#fde68a');
     }
+    const findBridgeTile = want => {
+      if (W.tile(tx, ty) === want) return [tx, ty];
+      for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+        if (W.tile(tx + dx, ty + dy) === want) return [tx + dx, ty + dy];
+      }
+      return null;
+    };
+    const brokenSpot = workers.length && findBridgeTile(T.BROKEN_BRIDGE);
+    if (brokenSpot) {
+      for (const u of workers) W.order(u, { type: 'mendbridge', tx: brokenSpot[0], ty: brokenSpot[1] });
+      if (rest.length) moveGroup(rest, tx, ty);
+      toast('Workers sent to mend the broken bridge.', 'me');
+      if (AUDIO) { AUDIO.play('orderMove'); AUDIO.unitAcknowledge(workers[0] || units[0], 'move'); }
+      return ping((brokenSpot[0] + 0.5) * TILE, (brokenSpot[1] + 0.5) * TILE, '#fde68a');
+    }
+    if ((huntMode || units.every(u => u.type === 'cumom')) && W.tile(tx, ty) === T.BRIDGE) {
+      for (const u of units) if (u.def.dmg) W.order(u, { type: 'demolish', tx, ty });
+      if (AUDIO) { AUDIO.play('orderAttack'); AUDIO.unitAcknowledge(units[0], 'attack'); }
+      if (huntMode) setHuntMode(false);
+      toast('Demolishing the bridge!', 'warn');
+      return ping(wx, wy, '#f87171');
+    }
     const kind = W.isResource(tx, ty, 'timber') ? 'timber' : W.isResource(tx, ty, 'grain') ? 'grain' : W.isResource(tx, ty, 'stone') ? 'stone' : null;
     const carts = units.filter(u => u.def.gathers), others = units.filter(u => !u.def.gathers);
     if (kind && carts.length) {
@@ -3819,7 +4134,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
   // The picture on the card: its button picture if it has one, or else the picture it's drawn with.
   const DRAWN_AS = { lehi: 'lehi', gidgiddoni: 'gidgiddoni', robber: 'robber', robberArcher: 'robber_archer', giddianhi: 'robber_chief', zemnarihah: 'robber_chief',
-    slinger: 'lamanite_slinger', amalekite: 'lamanite_captain', zoramite: 'lamanite_captain', zerahemnah: 'zerahemnah' };
+    slinger: 'lamanite_slinger', amalekite: 'lamanite_captain', zoramite: 'lamanite_captain', zerahemnah: 'zerahemnah', game: 'game', flock: 'flock' };
   function picOf(e) {
     if (e.type === 'standard') {
       const hType = e.heroType || 'moroni';
@@ -3855,8 +4170,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const CAMEO_MAP = {
     'deploy': 'assets/cameo_moroni.png?v=10',
     'train:worker': 'assets/cameo_worker.png?v=1',
-    'train:hunter': 'assets/cameo_archer.png?v=1',
-    'train:ranger': 'assets/cameo_archer.png?v=1',
+    'train:hunter': 'assets/cameo_hunter.png?v=1',
+    'train:ranger': 'assets/cameo_ranger.png?v=1',
+    'train:flock': 'assets/cameo_flock.png?v=1',
     'train:spearman': 'assets/cameo_spearman.png?v=10',
     'train:nslinger': 'assets/cameo_nslinger.png?v=1',
     'train:archer': 'assets/cameo_archer.png?v=1',
@@ -3888,6 +4204,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
     'build:sawmill': 'assets/cameo_sawmill.png?v=1',
     'build:quarry': 'assets/cameo_quarry.png?v=1',
     'build:brickworks': 'assets/cameo_brickworks.png?v=1',
+    'build:campfire': 'assets/cameo_campfire.png?v=1',
+    'build:blind': 'assets/cameo_blind.png?v=1',
+    'build:stakes': 'assets/cameo_stakes.png?v=1',
+    'frontier:campfire': 'assets/cameo_campfire.png?v=1',
+    'frontier:blind': 'assets/cameo_blind.png?v=1',
+    'frontier:stakes': 'assets/cameo_stakes.png?v=1',
     'train:bearer': 'assets/cameo_bearer.png?v=1',
     'build:tents': 'assets/cameo_tents.png?v=1',
     'build:storetent': 'assets/cameo_storetent.png?v=1',

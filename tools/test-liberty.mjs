@@ -1117,7 +1117,81 @@ console.log('Skirmish Economy & Frontier Loop');
     W.step(2);
     ok(foe.hp < hp0 && foe.slowUntil > W.t, `sharpened stakes trap slows and damages enemies (${foe.hp} < ${hp0})`);
   }
+
+  console.log('C&C Auto-Tile Terrain · Plateaus, Ramps, Bridges & Roads');
+  {
+    const W = new S.World();
+    W.tech = true;
+    W.res = { grain: 500, timber: 500, stone: 500 };
+    W.addBuilding('stronghold', 'p', 16, 32, true);
+
+    const stamp = D.createMapStamps(W.tiles, W.amt);
+    // Stamp a 3x3 plateau at (21..23, 33..35) with a single ramp on the south edge (22, 36)
+    stamp.plateau(21, 33, 3, 3);
+    stamp.ramp(22, 36, 1, 1);
+
+    // 1. Strict cliff-edge blocking & ramp pathfinding
+    ok(!W.canStep(22, 32, 22, 33), 'strict cliff edge blocks direct step from low grass (22,32) onto north plateau (22,33)');
+    ok(W.canStep(22, 37, 22, 36) && W.canStep(22, 36, 22, 35), 'ramp tile (22,36) bridges elevation 0 -> 0.5 -> 1.0 onto plateau');
+    const climber = W.addUnit('swordsman', 'p', 22.5 * D.TILE, 32.5 * D.TILE);
+    const pathToPlateau = W.findPath(climber, { x0: 22, y0: 34, x1: 22, y1: 34 }, false);
+    ok(pathToPlateau && pathToPlateau.some(([px, py]) => px === 22 && py === 36), 'A* pathfinder routes around north cliff face to climb via south ramp (22,36)');
+    let prev = [22, 32];
+    for (const [px, py] of pathToPlateau) {
+      ok(W.canStep(prev[0], prev[1], px, py), `step (${prev[0]},${prev[1]}) -> (${px},${py}) respects canStep`);
+      prev = [px, py];
+    }
+    climber.hp = 0;
+
+    // 2. Building cliff-straddle validation
+    ok(!W.whyNotPlace('barracks', 21, 33, 'p'), '2x2 barracks can be placed wholly on top of plateau (21,33)');
+    ok(W.whyNotPlace('barracks', 20, 33, 'p') === 'ground', '2x2 building cannot straddle a cliff edge between low ground (20,33) and plateau (21,33)');
+
+    // 3. High-ground range (+32px) and damage (+20%) advantage
+    const hiBow = W.addUnit('archer', 'p', 22.5 * D.TILE, 33.5 * D.TILE);
+    const loBow = W.addUnit('archer', 'p', 19.5 * D.TILE, 33.5 * D.TILE);
+    const targetLo = W.addUnit('lamanite', 'r', 22.5 * D.TILE, 31.5 * D.TILE);
+    ok(W.rangeOf(hiBow, targetLo) === W.rangeOf(loBow, targetLo) + D.TILE, `high-ground archer gains +${D.TILE}px (+1 tile) range vs low-ground target`);
+    const hpBefore = targetLo.hp;
+    W.damage(targetLo, 10, hiBow);
+    const dmgHi = hpBefore - targetLo.hp;
+    const hpBefore2 = targetLo.hp;
+    W.damage(targetLo, 10, loBow);
+    const dmgLo = hpBefore2 - targetLo.hp;
+    ok(Math.abs(dmgHi / dmgLo - 1.2) < 0.01, `high-ground attack deals +20% bonus damage (${dmgHi.toFixed(1)} vs ${dmgLo.toFixed(1)})`);
+    hiBow.hp = 0; loBow.hp = 0; targetLo.hp = 0;
+
+    // 4. Destructible & repairable bridges
+    for (let y = 32; y <= 34; y++) W.setTile(26, y, D.T.WATER, 0);
+    stamp.bridge(26, 33, 1, 1);
+    ok(W.tile(26, 33) === D.T.BRIDGE && W.passable(26, 33), 'intact bridge over water is walkable');
+    const victim = W.addUnit('lamanite', 'r', 26.5 * D.TILE, 33.5 * D.TILE);
+    W.damageBridge(26, 33, D.BRIDGE_HP + 10, null);
+    ok(W.tile(26, 33) === D.T.BROKEN_BRIDGE && !W.passable(26, 33), 'demolished bridge collapses into impassable T.BROKEN_BRIDGE');
+    ok(victim.dead && victim.hp <= 0, 'unit standing on collapsing bridge span perishes in the river');
+
+    const mender = W.addUnit('worker', 'p', 25.5 * D.TILE, 33.5 * D.TILE);
+    mender.order = { type: 'mendbridge', tx: 26, ty: 33 };
+    run(W, 6);
+    ok(W.tile(26, 33) === D.T.BRIDGE && W.passable(26, 33), 'worker ordered with mendbridge repairs broken span back to walkable T.BRIDGE');
+    mender.hp = 0;
+
+    // 5. Ancient Nephite Road speed bonus (+25%)
+    for (let x = 18; x <= 25; x++) {
+      W.setTile(x, 38, D.T.ROAD, 0);
+      W.setTile(x, 39, D.T.GRASS, 0);
+    }
+    const runnerRoad = W.addUnit('swordsman', 'p', 18.5 * D.TILE, 38.5 * D.TILE);
+    const runnerGrass = W.addUnit('swordsman', 'p', 18.5 * D.TILE, 39.5 * D.TILE);
+    W.order(runnerRoad, { type: 'move', tx: 25, ty: 38 });
+    W.order(runnerGrass, { type: 'move', tx: 25, ty: 39 });
+    run(W, 1.0);
+    const dRoad = runnerRoad.x - 18.5 * D.TILE;
+    const dGrass = runnerGrass.x - 18.5 * D.TILE;
+    ok(dRoad > dGrass * 1.18, `unit marching along T.ROAD moves ~25% faster than on grass (${dRoad.toFixed(1)}px vs ${dGrass.toFixed(1)}px)`);
+  }
 }
+
 
 
 // ------------------------------------------------------------ quotes
