@@ -445,7 +445,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     for (const b of W.buildings('p')) if (b.def.wall == null) punch(b.x, b.y, 110 + Math.max(b.w, b.h) * TILE * 0.5);
     for (const b of W.buildings('p')) {
       const bx = (b.tx + b.w * 0.5) * TILE, by = (b.ty + b.h * 0.5) * TILE;
-      punch(bx, by, b.def.range ? b.def.range + 60 : 210);
+      punch(bx, by, b.def.sight || (b.def.range ? b.def.range + 60 : 210));
     }
     miniDirty = true;
   }
@@ -456,7 +456,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     }
     for (const b of W.buildings('p')) {
       const bx = (b.tx + b.w * 0.5) * TILE, by = (b.ty + b.h * 0.5) * TILE;
-      if (Math.hypot(bx - wx, by - wy) <= (b.def.range ? b.def.range + 50 : 200)) return true;
+      if (Math.hypot(bx - wx, by - wy) <= (b.def.sight || (b.def.range ? b.def.range + 50 : 200))) return true;
     }
     return false;
   };
@@ -2068,6 +2068,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
       }
       if (!(uImg.complete && uImg.naturalWidth)) uImg = IMG.cart;
       uw = uImg.naturalWidth / 3; uh = uImg.naturalHeight / 3; uox = uw / 2; uoy = uh - 1;
+    } else if (u.type === 'hunter' || u.type === 'ranger') {
+      uImg = IMG.archer;
+      uw = 23; uh = 44; uox = 9; uoy = 43;
+    } else if (u.type === 'game' || u.type === 'flock') {
+      uImg = null;
+      uw = 24; uh = 24; uox = 12; uoy = 23;
     } else if (u.type === 'spy') {
       uImg = IMG.spy;                            // 76 × 150 like the worker
       uw = 20; uh = 40; uox = 10; uoy = 39;
@@ -2082,8 +2088,49 @@ IMG.farm.src = 'assets/farm.png?v=13';
       }
     }
 
-    if (uImg && uImg.complete && uImg.naturalWidth) {
+    if (u.type === 'game') {
+      // Wild forest deer with antlers
+      ctx.fillStyle = '#5c3a21';
+      ctx.fillRect(-5 + walkCycle * 2, -6, 1.8, 6);
+      ctx.fillRect(3 - walkCycle * 2, -6, 1.8, 6);
+      ctx.fillStyle = '#92400e';
+      ctx.beginPath(); ctx.ellipse(0, -9, 7, 4.2, -0.08, 0, 7); ctx.fill();
+      ctx.fillStyle = '#fef3c7';
+      ctx.beginPath(); ctx.arc(-6.5, -10, 2, 0, 7); ctx.fill(); // white tail
+      ctx.fillStyle = '#78350f';
+      ctx.beginPath(); ctx.moveTo(4, -10); ctx.lineTo(7, -17); ctx.lineTo(9.5, -15); ctx.lineTo(6.5, -8); ctx.closePath(); ctx.fill();
+      ctx.beginPath(); ctx.ellipse(8.5, -17, 3, 2, 0.2, 0, 7); ctx.fill();
+      ctx.strokeStyle = '#d6d3d1'; ctx.lineWidth = 1.2;
+      ctx.beginPath(); ctx.moveTo(7.5, -18.5); ctx.lineTo(6, -23); ctx.moveTo(7, -21); ctx.lineTo(9.5, -22.5); ctx.stroke();
+    } else if (u.type === 'flock') {
+      // Cluster of three woolly sheep/goats
+      for (const [ox, oy, sc] of [[-5, -2, 0.88], [5, -1, 0.92], [0, 2, 1]]) {
+        ctx.save(); ctx.translate(ox, oy); ctx.scale(sc, sc);
+        ctx.fillStyle = '#44403c';
+        ctx.fillRect(-3.5, -4, 1.4, 4); ctx.fillRect(2, -4, 1.4, 4);
+        ctx.fillStyle = u.team === 'p' ? '#fef9c3' : '#f5f5f4';
+        ctx.beginPath(); ctx.ellipse(0, -7, 5.5, 4, 0, 0, 7); ctx.fill();
+        ctx.strokeStyle = 'rgba(120, 113, 108, 0.5)'; ctx.lineWidth = 0.8; ctx.stroke();
+        ctx.fillStyle = '#57534e';
+        ctx.beginPath(); ctx.arc(4.8, -8.5, 2.3, 0, 7); ctx.fill();
+        ctx.restore();
+      }
+    } else if (uImg && uImg.complete && uImg.naturalWidth) {
       ctx.drawImage(uImg, -uox, -uoy, uw, uh);
+      if (u.type === 'hunter' || u.type === 'ranger') {
+        // Buckskin or forest ranger mantle + feather crest
+        ctx.fillStyle = u.type === 'ranger' ? 'rgba(21, 128, 61, 0.78)' : 'rgba(146, 64, 14, 0.72)';
+        ctx.beginPath(); ctx.ellipse(-1, -24, 5.5, 8, -0.15, 0, 7); ctx.fill();
+        if (u.type === 'ranger') {
+          ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 1.6;
+          ctx.beginPath(); ctx.moveTo(-1, -38); ctx.quadraticCurveTo(-5, -44, -8, -42); ctx.stroke();
+        }
+        if (u.carry && u.carry.amt > 0) {
+          ctx.fillStyle = '#991b1b';
+          ctx.beginPath(); ctx.ellipse(-5, -22, 4, 3, 0.3, 0, 7); ctx.fill();
+          ctx.strokeStyle = '#fef3c7'; ctx.lineWidth = 0.9; ctx.stroke();
+        }
+      }
       if (u.type === 'standard') {
         if (uImg !== IMG.standard) drawTitleOfLibertyStandard(flip, now, u.id);
       } else if (u.type === 'worker' && ((u.order && u.order.type === 'attack') || (u.cool && u.cool > 0.6))) {
@@ -2095,7 +2142,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       ctx.fillStyle = '#451a03';
       ctx.fillRect(-3 + walkCycle * 3, 2, 2.5, 6);
       ctx.fillRect(1 - walkCycle * 3, 2, 2.5, 6);
-      let tunicColor = d.foe ? '#7f1d1d' : (u.type === 'worker' ? '#a8814f' : (d.hero ? '#b45309' : '#4ade80'));
+      let tunicColor = d.foe ? '#7f1d1d' : (u.type === 'worker' ? '#a8814f' : (u.type === 'hunter' ? '#92400e' : (u.type === 'ranger' ? '#15803d' : (d.hero ? '#b45309' : '#4ade80'))));
       ctx.fillStyle = tunicColor;
       ctx.fillRect(-4, -6, 8, 8);
       ctx.fillStyle = d.foe ? '#b45309' : '#d8bd8e';
@@ -2360,7 +2407,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   // Under a building: a flat earthen floor, with its sides showing where the ground falls away.
   // Camps and villages sit on trodden ground instead; earthworks need nothing.
   function drawFloor(b) {
-    if (b.def.wall != null) return;
+    if (b.def.wall != null || b.type === 'campfire' || b.type === 'blind') return;
     const x0 = b.tx, y0 = b.ty, x1 = b.tx + b.w, y1 = b.ty + b.h;
     if (b.type === 'camp' || b.type === 'warcamp' || b.type === 'village' || b.def.side === 'kingmen' || (b.type === 'training' && !ready(IMG.training))) {
       const P = [];
@@ -2424,7 +2471,53 @@ IMG.farm.src = 'assets/farm.png?v=13';
       ctx.drawImage(img, ix - sp.cx * sc, front.iy - sp.by * sc, img.naturalWidth * sc, img.naturalHeight * sc);
       drawFx(b, key, ix, front.iy, sc, now);
     };
-    if (b.def.wall != null) { if (!drawWallArt(b)) drawEarthwork(b); }
+    if (b.type === 'stakes') {
+      // Angled sharpened wooden stakes trap (Alma 49:19)
+      for (const [ox, oy, dx, dy] of [[-7, 1, -4, -12], [-2, 3, -1, -13], [3, 2, 2, -13], [7, 0, 5, -12], [0, -2, 0, -11]]) {
+        ctx.strokeStyle = '#5c3a21'; ctx.lineWidth = 2.6; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(ix + ox, iy + oy); ctx.lineTo(ix + ox + dx, iy + oy + dy); ctx.stroke();
+        ctx.fillStyle = '#fde68a';
+        ctx.beginPath();
+        ctx.moveTo(ix + ox + dx - 1.5, iy + oy + dy + 2);
+        ctx.lineTo(ix + ox + dx + dx * 0.22, iy + oy + dy - 3);
+        ctx.lineTo(ix + ox + dx + 1.5, iy + oy + dy + 2);
+        ctx.closePath(); ctx.fill();
+      }
+    } else if (b.type === 'campfire') {
+      // Frontier campfire: stone hearth, crossed timber logs, flickering flame & warm healing ring
+      if (b.built >= 1) {
+        const pulse = 0.14 + 0.06 * Math.sin(now * 0.004 + b.id);
+        ctx.strokeStyle = `rgba(251, 191, 36, ${pulse})`; ctx.lineWidth = 1.4;
+        ctx.beginPath(); ctx.ellipse(ix, iy, 38, 19, 0, 0, 7); ctx.stroke();
+      }
+      ctx.fillStyle = '#57534e';
+      for (let a = 0; a < 7; a++) {
+        const ang = a * Math.PI * 2 / 7;
+        ctx.beginPath(); ctx.ellipse(ix + Math.cos(ang) * 8, iy + Math.sin(ang) * 4, 2.5, 1.8, 0, 0, 7); ctx.fill();
+      }
+      ctx.strokeStyle = '#78350f'; ctx.lineWidth = 2.6; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(ix - 6, iy + 2); ctx.lineTo(ix + 6, iy - 3); ctx.moveTo(ix - 5, iy - 3); ctx.lineTo(ix + 5, iy + 2); ctx.stroke();
+      if (b.built >= 1) {
+        const flick = Math.sin(now / 85 + b.id) * 1.8;
+        ctx.fillStyle = 'rgba(249, 115, 22, 0.92)'; blob(ctx, ix, iy - 6 - flick * 0.4, 5, 7.5 + flick);
+        ctx.fillStyle = 'rgba(254, 240, 138, 0.95)'; blob(ctx, ix, iy - 4.5, 2.6, 4.5 + flick * 0.5);
+        if (Math.random() < 0.08) addSmoke(ix, iy - 12, false);
+      }
+    } else if (b.type === 'blind') {
+      // Camouflaged tree lookout platform & brush screen
+      ctx.strokeStyle = '#5c3a21'; ctx.lineWidth = 2.2;
+      for (const [px, py] of [[-6, 2], [6, 2], [-4, -3], [4, -3]]) {
+        ctx.beginPath(); ctx.moveTo(ix + px, iy + py); ctx.lineTo(ix + px, iy + py - 18); ctx.stroke();
+      }
+      ctx.fillStyle = '#78350f';
+      ctx.fillRect(ix - 8, iy - 18, 16, 4);
+      ctx.fillStyle = '#365314';
+      for (const [bx, by, br] of [[-6, -20, 6], [0, -23, 7], [6, -20, 6], [-3, -16, 5], [4, -16, 5]]) {
+        ctx.beginPath(); ctx.arc(ix + bx, iy + by, br, 0, 7); ctx.fill();
+      }
+      ctx.fillStyle = '#4d7c0f';
+      ctx.beginPath(); ctx.arc(ix - 2, iy - 23, 4.5, 0, 7); ctx.arc(ix + 4, iy - 21, 4, 0, 7); ctx.fill();
+    } else if (b.def.wall != null) { if (!drawWallArt(b)) drawEarthwork(b); }
     else if (b.type === 'camp' || b.type === 'warcamp' || (b.def.side === 'kingmen' && !(sp && ready(img)))) {
       if (sp && ready(img)) { place(); if (b.type === 'warcamp') banner(ix + 4, iy - h * 0.9, '#9f1239', now, b.id); }
       else drawCamp(b, now);
@@ -3045,6 +3138,24 @@ IMG.farm.src = 'assets/farm.png?v=13';
         }
       }
     }
+    if (placing === 'farm' && spots.length) {
+      const [x, y] = spots[0];
+      const cropTiles = W.farmFieldTiles({ tx: x, ty: y, w: def.w, h: def.h, team: 'p' }).slice(0, 8);
+      ctx.save();
+      ctx.setLineDash([4, 3]);
+      for (const [cx, cy] of cropTiles) {
+        const top = toIso(cx * TILE, cy * TILE);
+        const right = toIso((cx + 1) * TILE, cy * TILE);
+        const bottom = toIso((cx + 1) * TILE, (cy + 1) * TILE);
+        const left = toIso(cx * TILE, (cy + 1) * TILE);
+        ctx.beginPath();
+        ctx.moveTo(top.ix, top.iy); ctx.lineTo(right.ix, right.iy); ctx.lineTo(bottom.ix, bottom.iy); ctx.lineTo(left.ix, left.iy); ctx.closePath();
+        ctx.fillStyle = 'rgba(250, 204, 21, 0.24)'; ctx.fill();
+        ctx.strokeStyle = 'rgba(234, 179, 8, 0.85)'; ctx.lineWidth = 1.3; ctx.stroke();
+      }
+      ctx.setLineDash([]);
+      ctx.restore();
+    }
     if (placing !== 'wall' && spots.length) {
       const [x, y] = spots[0];
       const ok = W.canPlace(placing, x, y) && KINDS.every(k => left[k] >= 0);
@@ -3086,11 +3197,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
         ctx.restore();
       }
     }
-    if (def.range && spots.length) {
-      const [x, y] = spots[0];
+    if ((def.range || def.sight) && spots.length) {
+      const [x, y] = spots[0], rad = def.range || def.sight;
       const { ix, iy } = toIso((x + def.w / 2) * TILE, (y + def.h / 2) * TILE);
       ctx.strokeStyle = 'rgba(255,255,255,.35)'; ctx.setLineDash([6, 6]);
-      ctx.beginPath(); ctx.ellipse(ix, iy, def.range, def.range * 0.5, 0, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+      ctx.beginPath(); ctx.ellipse(ix, iy, rad, rad * 0.5, 0, 0, 7); ctx.stroke(); ctx.setLineDash([]);
     }
   }
   const topLeft = (type, wx, wy) => { const d = BUILDINGS[type]; return [tileOf(wx) - Math.floor((d.w - 1) / 2), tileOf(wy) - Math.floor((d.h - 1) / 2)]; };
@@ -3237,19 +3348,19 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (e) showInfo(e);
     else setSel([]);
   }
-  const canWorkOn = (units, b) => units.some(u => u.def.builds) && W.needsWork(b);
+  const canWorkOn = (units, b) => units.some(u => u.def.builds || u.def.hunter) && W.needsWork(b);
 
   function command(wx, wy, sx, sy) {
     const units = selUnits();
     if (!units.length) return;
     const e = entityAt(wx, wy, sx, sy), tx = tileOf(wx), ty = tileOf(wy);
     if (pathing) { addPathPoint(tx, ty); return ping(wx, wy, '#fde047'); }
-    if (e && e.team === 'r' && !e.untouchable) {
+    if (e && ((e.team === 'r' && !e.untouchable) || (e.def && e.def.prey))) {
       for (const u of units) if (u.def.dmg) W.order(u, { type: 'attack', target: e.id });
       if (AUDIO) { AUDIO.play('orderAttack'); AUDIO.unitAcknowledge(units[0], 'attack'); }
       return ping(e.x, e.y, '#f87171');
     }
-    const workers = units.filter(u => u.def.builds), rest = units.filter(u => !u.def.builds);
+    const workers = units.filter(u => u.def.builds || u.def.hunter), rest = units.filter(u => !u.def.builds && !u.def.hunter);
     if (e && e.kind === 'building' && workers.length && W.needsWork(e)) {
       for (const u of workers) W.order(u, { type: 'build', target: e.id });
       if (rest.length) moveGroup(rest, tx, ty);
@@ -3394,7 +3505,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
   }
   // The chosen workers split the new work between them, nearest first.
   function assignBuilders(list) {
-    const ws = selUnits().filter(u => u.def.builds);
+    const ws = selUnits().filter(u => u.def.builds || u.def.hunter);
     if (!ws.length || !list.length) return;
     ws.forEach((u, i) => {
       const b = list.length === 1 ? list[0] : list.slice().sort((a, c) => dist(a, u) - dist(c, u))[Math.min(i, list.length - 1) % list.length];
@@ -3698,9 +3809,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const info = $('selInfo');
     if (!info.querySelector('.selcard')) info.innerHTML = '<div class="selcard"></div><div class="acts"></div>';
     const cardKey = [sel.join(','), ents.length && ents[0].id, one && one.kind === 'building' ? [Math.floor(one.built * 20), Math.ceil(one.hp / S.maxHp(one) * 20)].join() : '',
-      one && one.kind === 'unit' ? Math.ceil(one.hp / S.maxHp(one) * 20) + one.order.type : '', ents.length > 1 ? ents.map(e => e.type).join() : ''].join('|');
+      one && one.kind === 'unit' ? Math.ceil(one.hp / S.maxHp(one) * 20) + one.order.type + (one.hunts || 0) + (one.kills || 0) : '', ents.length > 1 ? ents.map(e => e.type).join() : ''].join('|');
+    const hasHunter = ents.some(e => e.kind === 'unit' && e.def.hunter);
     const actKey = [sel.join(','), ents.length && ents[0].id, placing, aiming, wallStart && wallStart.join(), armedRemove, touchy, one && one.built >= 1, one && one.rally ? 1 : 0,
-      one && one.type === 'wall' && W.canAfford(W.costOf(BUILDINGS.gate, 'p', 'build')), one && one.state].join('|');
+      one && one.type === 'wall' && W.canAfford(W.costOf(BUILDINGS.gate, 'p', 'build')), hasHunter ? Math.floor((W.res.timber || 0) / 5) : 0, one && one.state].join('|');
     if (force || cardKey !== panelKey) { panelKey = cardKey; info.querySelector('.selcard').innerHTML = infoHtml(ents); }
     if (force || actKey !== actsKey) { actsKey = actKey; info.querySelector('.acts').innerHTML = actsHtml(ents); }
     updateBar();
@@ -3726,7 +3838,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (ents.length === 1) {
       const e = ents[0], d = e.def;
       const bar = d.hp < 99999 ? `<div class="hp"><em style="width:${Math.max(0, e.hp / S.maxHp(e) * 100)}%"></em></div>` : '';
-      const doing = e.kind === 'unit' ? ({ gather: 'Gathering ' + (e.order.res || ''), build: 'Building', attack: 'Fighting', move: 'Marching', idle: 'Waiting for orders' }[e.order.type] || '') : e.built < 1 ? 'Being built: ' + Math.floor(e.built * 100) + '%' : '';
+      let doing = e.kind === 'unit' ? ({ gather: 'Gathering ' + (e.order.res || ''), unload: 'Bringing meat to camp', herd: 'Herding to camp', build: 'Building', attack: 'Fighting', move: 'Marching', idle: 'Waiting for orders' }[e.order.type] || '') : e.built < 1 ? 'Being built: ' + Math.floor(e.built * 100) + '%' : '';
+      if (e.type === 'hunter') doing += (doing ? ' · ' : '') + `${Math.min(3, (e.hunts || 0) + (e.kills || 0))}/3 hunts to Ranger`;
+      else if (e.type === 'ranger' && W.hidden(e)) doing += (doing ? ' · ' : '') + 'Hidden in cover';
       const pic = picOf(e);
       const title = e.type === 'standard' ? ((e.heroType && D.UNITS[e.heroType] ? D.UNITS[e.heroType].name : 'Captain Moroni') + ' (Standard-bearer)') : (e.name && e.kind === 'building' ? e.name : d.name);
       return `${pic}<div${pic ? '' : ' style="grid-column: 1 / -1"'}><h3>${esc(title)}</h3>${bar}${doing ? `<div class="doing">${esc(doing)}</div>` : ''}</div>` +
@@ -3741,6 +3855,8 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const CAMEO_MAP = {
     'deploy': 'assets/cameo_moroni.png?v=10',
     'train:worker': 'assets/cameo_worker.png?v=1',
+    'train:hunter': 'assets/cameo_archer.png?v=1',
+    'train:ranger': 'assets/cameo_archer.png?v=1',
     'train:spearman': 'assets/cameo_spearman.png?v=10',
     'train:nslinger': 'assets/cameo_nslinger.png?v=1',
     'train:archer': 'assets/cameo_archer.png?v=1',
@@ -3812,6 +3928,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
     gatehere: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V9l8-5 8 5v12M8 21v-8h8v8M12 13v8"/></svg>',
     deploy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 21V3M6 4h11l-3 4 3 4H6"/></svg>',
     research: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l6 6-9 9H5v-6z"/><path d="M12 6l6 6"/></svg>',
+    'frontier:campfire': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c1.2 4.2 5 5.8 5 10.2a5 5 0 0 1-10 0c0-2.2 1-3.5 2.2-4.6 0 2 1 3.2 2 3.2 0-3.2-1-6 0.8-8.8z"/><path d="M5 20l14-4M5 16l14 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+    'frontier:blind': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3L4 12h5l-3 6h12l-3-6h5L12 3z"/><path d="M9 18v4M15 18v4"/></svg>',
+    'frontier:stakes': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20L9 6l2 14M10 20l5-14 2 14M15 20l5-12"/></svg>',
     // the temple's miracles
     'miracle:poison': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10M8 3v3a6 6 0 0 0 1 3.5L7 13a6 6 0 1 0 10 0l-2-3.5A6 6 0 0 0 16 6V3"/><circle cx="10.5" cy="16" r="1" fill="currentColor"/><circle cx="13.5" cy="18" r="1" fill="currentColor"/></svg>',
     'miracle:bloodthirst': '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2s6 7.2 6 12a6 6 0 0 1-12 0c0-4.8 6-12 6-12z"/></svg>',
@@ -3908,15 +4027,16 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (!W.buildings('p').some(b => b.built >= 1 && !b.dead && (b.def.trains || []).includes(arg))) locked = 'Needs ' + (BUILDINGS[home] ? BUILDINGS[home].name : 'a building');
       else if (why && !why.startsWith('Not enough food')) locked = why;
       if (!locked) {
-        const room = W.tech ? Math.floor((W.foodCap('p') - W.foodUsed('p')) / (def.eats || 1)) : 99;
+        const eats = def.eats != null ? def.eats : 1;
+        const room = W.tech && eats > 0 ? Math.floor((W.foodCap('p') - W.foodUsed('p')) / eats) : 99;
         can = Math.max(0, Math.min(howMany(cost), room));
         small = can ? costHtml(cost) : room <= 0 ? 'Need food: ' + W.foodHint('p') : shortOf(cost);
       } else small = locked;
       poor = !locked && !can;
     } else if (act === 'research') {
-      const r = RESEARCH[arg], R = W.side('p').researching;
+      const r = RESEARCH[arg], cost = W.researchCost(arg, 'p'), R = W.side('p').researching;
       if (R && R.key === arg) { p = 1 - R.left / r.time; small = 'Making: ' + Math.ceil(R.left) + 's'; }
-      else { poor = !!R || !W.canAfford(r.cost); small = R ? 'One at a time' : costHtml(r.cost); }
+      else { poor = !!R || !W.canAfford(cost); small = R ? 'One at a time' : costHtml(cost) + (r.needsFlock && W.hasFlockBonus('p') ? ' 🐑' : ''); }
     } else if (act === 'miracle') {
       const m = W.power(arg), wait = W.miracleWait(arg), cap = W.side('p').captain, full = m.wait * ((cap && cap.bonus.powerWait) || 1);
       on = aiming === arg;
@@ -4020,7 +4140,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     else if (act === 'research') {
       const b = W.buildings('p').find(b => b.built >= 1 && W.researchAt(b).includes(arg));
       if (b && W.research(b, arg)) toast(RESEARCH[arg].about, 'me', RESEARCH[arg].ref);
-      else toast(W.researching ? 'One thing at a time: wait until this is made.' : poorText(RESEARCH[arg].cost), 'warn');
+      else toast(W.researching ? 'One thing at a time: wait until this is made.' : poorText(W.researchCost(arg, 'p')), 'warn');
     }
     else if (act === 'miracle') startAiming(arg);
   }
@@ -4113,8 +4233,16 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (soldiers.length > 1 && hasMelee && hasRanged) {
         subFilters = a('filtermelee', '🛡️ Frontline') + a('filterranged', '🏹 Ranged');
       }
+      let frontierBtns = '';
+      if (ents.some(e => e.kind === 'unit' && e.def.hunter)) {
+        for (const fk of ['campfire', 'blind', 'stakes']) {
+          const fd = BUILDINGS[fk], fc = W.costOf(fd, 'p', 'build'), fok = !W.whyNotBuild(fk) && W.canAfford(fc);
+          frontierBtns += a('frontier:' + fk, `${fd.name} (${costHtml(fc)})`, fok ? 'go' : 'poor');
+        }
+      }
       const reg = selectedRegiment(), miss = reg && regCost(reg);
       return (ents.length === 1 && b.def.deploys ? a('deploy', 'Plant it here', 'go') : '') +
+        frontierBtns +
         (miss && miss.n ? a('regfill', `Refill ${miss.n} ${costHtml(miss.cost)}`, W.canAfford(miss.cost) ? 'go' : 'poor') : '') +
         (reg ? a('regcard', 'Regiment ' + NUMERALS[reg]) : '') +
         (soldiers.length ? a('path', 'Path') : '') +
@@ -4153,6 +4281,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
     if (!btn || !W) return;
     const act = btn.dataset.cmd, one = selEnts()[0];
     if (act === 'done' || act === 'cancel') { placing = null; aiming = null; aimingRally = null; wallLine = null; wallStart = null; pathing = null; refreshPanel(true); }
+    else if (act && act.startsWith('frontier:')) {
+      startPlacing(act.slice('frontier:'.length));
+      return;
+    }
     else if (act === 'regfill') { const r = selectedRegiment(); if (r) fillReg(r); return; }
     else if (act === 'regcard') { const r = selectedRegiment(); if (r) openRegiment(r); return; }
     else if (act === 'path') { pathing = []; setHuntMode(false); refreshPanel(true); return; }

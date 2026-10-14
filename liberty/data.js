@@ -79,11 +79,17 @@
                     about: 'A great horned beast that butts down walls and buildings: "elephants and cureloms and cumoms; all of which were useful unto man" (Ether 9:19). Slow, clumsy against soldiers; spearmen bring it down. Nobody knows what a cumom looked like, and its use in war is imagined.' },
     cart:         { name: 'Horse cart', hp: 90, speed: 78, dmg: 0, range: 0, cd: 1, armor: 1, sight: 140, cost: { grain: 60, timber: 40 }, time: 12, gathers: true, load: 30, quick: 1.5, needs: ['storehouse'],
                     about: 'Brings in grain and timber on its own, whichever is shorter: it finds the nearest field or forest and hauls the load to a storehouse. Defends itself when attacked: stone carts throw rocks, timber carts drop stakes, and grain carts burst ahead to escape. The Nephites had "horses, and their chariots" (3 Nephi 3:22).' },
+    hunter:       { name: 'Hunter', hp: 70, speed: 66, dmg: 9, range: 135, cd: 1.25, armor: 0, sight: 210, cost: { grain: 35, timber: 15 }, time: 8, ranged: true, scout: true, hunter: true, load: 25, eats: 0, tier: true, beats: 'light',
+                    about: 'Arms himself with a bow and goes forth into the wilderness to "slay wild beasts" and "obtain food" (1 Nephi 16:23, 31). Hunts wild game, herds flocks, and builds campfires, lookouts and stake traps anywhere on the frontier. After 3 hunts or kills, evolves into a Wilderness Ranger.' },
+    ranger:       { name: 'Wilderness ranger', hp: 115, speed: 72, dmg: 14, range: 175, cd: 1.1, armor: 1, sight: 245, cost: { grain: 55, timber: 35 }, time: 12, ranged: true, scout: true, hunter: true, ranger: true, load: 30, eats: 0, tier: true, beats: 'light',
+                    about: 'A seasoned hunter of the wilderness: goes unseen beside trees or a lookout, shoots far with a fine bow, and raises frontier works anywhere.' },
+    game:         { name: 'Wild game', hp: 30, speed: 46, dmg: 0, range: 0, cd: 1, armor: 0, sight: 60, carries: 55, game: true, prey: true, meat: 25,
+                    about: 'Wild beasts of the forest to "obtain food for our families" (1 Nephi 16:31). Send a hunter to bring in the meat.' },
     prisoner:     { name: 'Prisoner', hp: 1, speed: 45, dmg: 0, range: 0, cd: 1, armor: 0, sight: 0, about: 'Yielded up as a prisoner (3 Nephi 4:27).' }
   };
 
   const BUILDINGS = {
-    stronghold: { name: 'Zarahemla', w: 4, h: 4, hp: 2400, armor: 4, dmg: 8, range: 130, cd: 1.4, dropoff: 'story', builder: true, trains: ['cart', 'worker'], research: ['council', 'acropolis'], food: 10, store: 300, about: 'The chief judge\'s hall, where Pahoran was "appointed to fill the judgment-seat" (Alma 50:39): the seat of a free people, and their gathering place (3 Nephi 3:23). Its guards shoot at robbers. Lose it and the mission is lost.' },
+    stronghold: { name: 'Zarahemla', w: 4, h: 4, hp: 2400, armor: 4, dmg: 8, range: 130, cd: 1.4, dropoff: 'story', builder: true, trains: ['cart', 'worker', 'hunter'], research: ['council', 'acropolis'], food: 10, store: 300, about: 'The chief judge\'s hall, where Pahoran was "appointed to fill the judgment-seat" (Alma 50:39): the seat of a free people, and their gathering place (3 Nephi 3:23). Its guards shoot at robbers. Lose it and the mission is lost.' },
     storehouse: { name: 'Storehouse', w: 2, h: 2, hp: 450, armor: 2, cost: { timber: 60 }, work: 18, dropoff: true, brings: 'cart', store: 300, about: 'Where the carts bring grain, timber and stone: with none standing they have nowhere to go. Each one built brings a horse cart, like a refinery in Red Alert.' },
     barracks:   { name: 'Barracks', w: 3, h: 3, hp: 650, armor: 2, cost: { timber: 110 }, work: 30, trains: ['spearman', 'nslinger', 'archer'], research: ['armor'], about: 'Trains the guards.' },
     tower:      { name: 'Watchtower', w: 2, h: 2, hp: 520, armor: 3, cost: { timber: 40, stone: 40 }, work: 26, dmg: 9, range: 150, cd: 1.3, needs: ['barracks'], about: 'Guards "watch them … day and night" (3 Nephi 3:14). Shoots at robbers.' },
@@ -93,7 +99,13 @@
     camp:       { name: "Robbers' camp", w: 3, h: 3, hp: 380, armor: 2, food: 8, about: 'Part of the siege round about the city (3 Nephi 4:16).' },
     // Free battle.
     farm:       { name: 'Farm', w: 2, h: 2, hp: 300, armor: 1, cost: { timber: 50 }, work: 14, food: 8, grows: 0.25, tier: true,
-                  about: 'Feeds 8 more people, and grows a little grain. "They did raise grain in abundance" (Helaman 6:12).' },
+                  about: 'Feeds 8 more people, tills surrounding open ground into corn and wheat fields, and regrows them for your carts to harvest. "They did raise grain in abundance" (Helaman 6:12).' },
+    campfire:   { name: 'Hunting campfire', w: 1, h: 1, hp: 180, armor: 0, cost: { timber: 25 }, work: 6, dropoff: true, heals: 95, frontier: true, tier: true,
+                  about: 'A frontier fire where hunters dress their game and warm the watch: serves as a field dropoff and gently mends nearby people.' },
+    blind:      { name: 'Tree lookout', w: 1, h: 1, hp: 200, armor: 1, cost: { timber: 30 }, work: 7, sight: 250, frontier: true, tier: true,
+                  about: '"Moroni sent spies into the wilderness to watch their camp" (Alma 43:23): sees far across passes and fords, and hides friendly hunters standing beside it.' },
+    stakes:     { name: 'Sharpened stakes', w: 1, h: 1, hp: 220, armor: 2, cost: { timber: 15 }, work: 5, wall: true, trap: true, frontier: true, tier: true,
+                  about: 'Pointed timber stakes planted in a ford or pass: slows enemies close by and pierces those who press against them.' },
     granary:    { name: 'Granary', w: 2, h: 2, hp: 380, armor: 2, cost: { timber: 45 }, work: 14, store: 500, tier: true,
                   about: 'Holds 500 more of each: grain, timber and stone. The Nephites "reserved for themselves provisions" (3 Nephi 4:4). From history, not the verses: clay granaries like these have held maize in Mexico since long before the Spanish came.' },
     sawmill:    { name: 'Timber works', w: 2, h: 2, hp: 400, armor: 1, cost: { timber: 50, grain: 20 }, work: 16, needs: ['storehouse'], dropoff: true, mills: 0.3, tier: true,
@@ -138,7 +150,7 @@
                   about: 'The Zoramites bowed "down to dumb idols" (Alma 31:1). An idol has no power of its own, but the people\'s zeal for it stirs up the Rameumptom: each one standing, up to three, brings its works back a sixth sooner. Pull them down and the zeal goes with them.' },
     pavilion:   { name: 'Chief captain\'s pavilion', w: 3, h: 3, hp: 700, armor: 3, cost: { grain: 80, timber: 140 }, work: 32, needs: ['shieldtent'], trains: ['amalekite', 'zoramite', 'cumom'], research: ['campditch'], side: 'kingmen', tier: true,
                   about: 'Zerahemnah "appointed chief captains over the Lamanites, and they were all Amalekites and Zoramites" (Alma 43:6).' },
-    warcamp:    { name: 'Lamanite war camp', w: 4, h: 4, hp: 1800, armor: 3, tier: true, dropoff: 'story', builder: true, trains: ['bearer'], food: 40, store: 300, side: 'kingmen',
+    warcamp:    { name: 'Lamanite war camp', w: 4, h: 4, hp: 1800, armor: 3, tier: true, dropoff: 'story', builder: true, trains: ['bearer', 'hunter'], food: 40, store: 300, side: 'kingmen',
                   about: 'Where the Lamanite armies gather and the bearers are sent out from. Its provisions go to the store tents. Tear it down to win.' }
   };
 
