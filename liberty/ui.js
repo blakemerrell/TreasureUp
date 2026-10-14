@@ -2863,9 +2863,9 @@ IMG.farm.src = 'assets/farm.png?v=13';
       fillPoly([P(cx - FOOT, cy + FOOT, 0), P(cx + FOOT, cy + FOOT, 0), P(cx + TOP, cy + TOP, H), P(cx - TOP, cy + TOP, H)], '#9a7447');
       fillPoly([P(cx - TOP, cy - TOP, H), P(cx + TOP, cy - TOP, H), P(cx + TOP, cy + TOP, H), P(cx - TOP, cy + TOP, H)], '#86a04c');
     };
-    for (const [dx, dy] of links.filter(([dx, dy]) => dx + dy < 0)) stretch(dx, dy);       // the stretches going away from us first
+    for (const [dx, dy] of links) if (dx + dy < 0) stretch(dx, dy);       // the stretches going away from us first
     heap();
-    for (const [dx, dy] of links.filter(([dx, dy]) => dx + dy > 0)) stretch(dx, dy);
+    for (const [dx, dy] of links) if (dx + dy > 0) stretch(dx, dy);
     if (b.type === 'gate') {
       // the gate's picture runs along y (lower left to upper right on the screen); a bank along x gets it mirrored
       if (!ready(IMG.gate)) return;
