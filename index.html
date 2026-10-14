@@ -12021,11 +12021,10 @@ const TreasureUp = (function () {
     saveBest: arcadeSaveBest,
     closed: () => { refreshHome(); renderHud(); },
     db: async () => {
-      if (!window.firebase || !window.firebase.firestore) {
-        await loadScript(FB_SDK + 'firebase-firestore-compat.js');
-      }
+      await fbUser();
       return firebase.firestore();
     },
+    uid: () => (window.firebase && firebase.auth && firebase.auth().currentUser && firebase.auth().currentUser.uid) || '',
     fv: () => firebase.firestore.FieldValue
   };
 

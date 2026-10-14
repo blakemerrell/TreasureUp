@@ -40,7 +40,7 @@
 
   let host = null, root = null, G = null, raf = 0, last = 0, keyOff = null, ro = null, audio = null;
   const ui = { mode: '1p', names: ['', 'Player 2'], view: 'menu', fam: null };
-  let dbGameRef = null, unsubscribeInputs = null, gameCode = null, myClientId = null, networkConfig = null;
+  let dbGameRef = null, unsubscribeInputs = null, gameCode = null, myClientId = null, networkConfig = null, netSeq = 0, lastSeenSeq = 0;
   const C = () => (window.TU_ARCADE && window.TU_ARCADE.snake) || {}, L = () => C().lines || {};
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
   const $ = id => document.getElementById(id);
@@ -132,11 +132,31 @@
   // A moment for the panel (the brass serpent, a level): it shows first, and an answer's why shows after it.
   function banner(text, line, ms) { G.banner = { text, line, until: G.time + ms }; if (G.fb) G.fb.until += ms; }
 
+  function sendNetInput(player, dir, isReady) {
+    if (!dbGameRef || !networkConfig) return;
+    if (networkConfig.role === 'host') {
+      netSeq++;
+      dbGameRef.update({
+        lastInput: { sender: myClientId, player: Number(player), dir: dir || '', ready: !!isReady, seq: netSeq }
+      }).catch(() => {});
+    } else {
+      const uid = (host && host.uid && host.uid()) || (window.firebase && firebase.auth && firebase.auth().currentUser && firebase.auth().currentUser.uid) || '';
+      dbGameRef.collection('moves').add({
+        uid,
+        kind: isReady ? 'ready' : String(dir || 'up'),
+        a: myClientId,
+        b: '',
+        n: Number(player),
+        at: host.fv().serverTimestamp()
+      }).catch(() => {});
+    }
+  }
+
   // A turn from the keys, the pad or a swipe: kept in order (two at most),
   // never straight back into the neck.
   function turn(i, name, fromNet) {
     if (networkConfig && !fromNet && networkConfig.myPlayer === i) {
-      if (dbGameRef) dbGameRef.collection('inputs').add({ sender: myClientId, player: i, dir: name, time: Date.now() });
+      sendNetInput(i, name, false);
     }
     if (!G || G.state !== 'play') return;
     if (G.reading) return ready(i, name, fromNet);
@@ -254,7 +274,7 @@
   // two players, each says they're ready with their own keys (or ▶ Go for both).
   function ready(i, name, fromNet) {
     if (networkConfig && !fromNet && i != null && networkConfig.myPlayer === i) {
-      if (dbGameRef) dbGameRef.collection('inputs').add({ sender: myClientId, player: i, ready: true, time: Date.now() });
+      sendNetInput(i, null, true);
     }
     const r = G && G.reading;
     if (!r) return;
@@ -553,75 +573,171 @@
     }
   }
   function drawSnake(ctx, s, cell, cx, cy, t) {
-    ctx.lineJoin = 'round';
     const b = s.body, sk = s.skin;
+    if (!b.length) return;
+    ctx.save();
     ctx.globalAlpha = ghost(s) ? 0.45 + 0.35 * Math.abs(Math.sin(t / 80)) : 1;
-    
-    // Draw people from tail to head
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    // Compute smooth billowed points along the garment train from tail to head
+    const pts = [];
     for (let n = b.length - 1; n >= 0; n--) {
-      const p = b[n], x = cx(p.x), y = cy(p.y);
-      const isHead = n === 0;
-      
-      // Figure out direction this person is facing
-      let dx = 0, dy = 0;
-      if (isHead) {
-        dx = s.dir.x; dy = s.dir.y;
+      const p = b[n];
+      let x = cx(p.x), y = cy(p.y);
+      if (n === 0) {
+        // Anchor the top of the train at the Israelite's shoulders/back
+        x -= s.dir.x * cell * 0.08;
+        y += cell * 0.04;
       } else {
         const ahead = b[n - 1];
-        dx = ahead.x - p.x; dy = ahead.y - p.y;
-        if (dx === 0 && dy === 0) { dx = s.dir.x; dy = s.dir.y; } // fallback
+        const vx = ahead.x - p.x, vy = ahead.y - p.y;
+        const px = -vy, py = vx;
+        const wave = Math.sin(t / 130 - n * 0.85) * cell * 0.055 * Math.min(1, n / 2);
+        x += px * wave;
+        y += py * wave;
       }
-      
-      // Wobble for walking animation
-      const walk = Math.sin((t / 150) + n) * cell * 0.1;
-      
-      // Shoulders/Tunic
+      pts.push({ x, y, n });
+    }
+
+    const traceTrain = (ox, oy) => {
+      ctx.beginPath();
+      for (let i = 0; i < pts.length; i++) {
+        const px = pts[i].x + (ox || 0), py = pts[i].y + (oy || 0);
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+    };
+
+    // 1. Soft ground shadow under the billowing train
+    ctx.strokeStyle = 'rgba(55, 32, 10, 0.26)';
+    ctx.lineWidth = cell * 0.76;
+    traceTrain(cell * 0.06, cell * 0.12);
+    ctx.stroke();
+
+    // 2. Outer woven hem (dark border)
+    ctx.strokeStyle = sk.dark;
+    ctx.lineWidth = cell * 0.74;
+    traceTrain(0, 0);
+    ctx.stroke();
+
+    // 3. Main mantle fabric
+    ctx.strokeStyle = sk.body;
+    ctx.lineWidth = cell * 0.60;
+    traceTrain(0, 0);
+    ctx.stroke();
+
+    // 4. "Ribband of blue" along both borders (Numbers 15:38)
+    ctx.strokeStyle = '#1d4ed8';
+    ctx.lineWidth = cell * 0.42;
+    traceTrain(0, 0);
+    ctx.stroke();
+
+    ctx.strokeStyle = sk.body;
+    ctx.lineWidth = cell * 0.30;
+    traceTrain(0, 0);
+    ctx.stroke();
+
+    // 5. Center embroidered tapestry runner
+    ctx.strokeStyle = sk.belly;
+    ctx.lineWidth = cell * 0.14;
+    traceTrain(0, 0);
+    ctx.stroke();
+
+    // 6. Woven pleats & gold diamond motifs along the train
+    for (let i = 0; i < pts.length - 1; i++) {
+      const cur = pts[i], nxt = pts[i + 1];
+      const dx = nxt.x - cur.x, dy = nxt.y - cur.y, len = Math.hypot(dx, dy) || 1;
+      const nx = -dy / len, ny = dx / len;
+      // Subtle fold line across the cloth
+      ctx.strokeStyle = 'rgba(60, 35, 10, 0.18)';
+      ctx.lineWidth = Math.max(1, cell * 0.04);
+      ctx.beginPath();
+      ctx.moveTo(cur.x - nx * cell * 0.24, cur.y - ny * cell * 0.24);
+      ctx.lineTo(cur.x + nx * cell * 0.24, cur.y + ny * cell * 0.24);
+      ctx.stroke();
+
+      // Woven diamond on every other segment
+      if (cur.n >= 2 && cur.n % 2 === 0) {
+        const d = cell * 0.11;
+        ctx.fillStyle = sk.dark;
+        ctx.beginPath();
+        ctx.moveTo(cur.x, cur.y - d);
+        ctx.lineTo(cur.x + d, cur.y);
+        ctx.lineTo(cur.x, cur.y + d);
+        ctx.lineTo(cur.x - d, cur.y);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+
+    // 7. Fringes / tassels (tzitzit) fluttering at the tail hem
+    if (pts.length >= 2) {
+      const tail = pts[0], prev = pts[1];
+      const dx = tail.x - prev.x, dy = tail.y - prev.y, len = Math.hypot(dx, dy) || 1;
+      const tx = dx / len, ty = dy / len, px = -ty, py = tx;
+      for (const sgn of [-1, 0, 1]) {
+        const bx = tail.x + tx * cell * 0.32 + px * sgn * cell * 0.18;
+        const by = tail.y + ty * cell * 0.32 + py * sgn * cell * 0.18;
+        const sway = Math.sin(t / 95 + sgn * 2) * cell * 0.08;
+        const ex = bx + tx * cell * 0.22 + px * sway;
+        const ey = by + ty * cell * 0.22 + py * sway;
+        ctx.strokeStyle = '#f8fafc';
+        ctx.lineWidth = Math.max(1.5, cell * 0.055);
+        ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(ex, ey); ctx.stroke();
+        ctx.strokeStyle = '#2563eb';
+        ctx.lineWidth = Math.max(1, cell * 0.03);
+        ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo((bx + ex) / 2, (by + ey) / 2); ctx.stroke();
+        ctx.fillStyle = '#fbbf24';
+        ctx.beginPath(); ctx.arc(bx, by, cell * 0.045, 0, 7); ctx.fill();
+      }
+    }
+
+    // 8. The Israelite leading at the head
+    const h = b[0], hx = cx(h.x), hy = cy(h.y);
+    if (s.dir.x > 0) s.side = 1;
+    else if (s.dir.x < 0) s.side = -1;
+    else if (!s.side) s.side = 1;
+
+    const bob = Math.abs(Math.sin(t / 110)) * cell * 0.07;
+
+    // Brass serpent protection halo
+    if (s.brass) {
+      const halo = ctx.createRadialGradient(hx, hy, cell * 0.1, hx, hy, cell * 0.75);
+      halo.addColorStop(0, 'rgba(251, 191, 36, 0.55)');
+      halo.addColorStop(1, 'rgba(251, 191, 36, 0)');
+      ctx.fillStyle = halo;
+      ctx.beginPath(); ctx.arc(hx, hy, cell * 0.75, 0, 7); ctx.fill();
+    }
+
+    // Foot shadow on the sand
+    ctx.fillStyle = 'rgba(40, 25, 8, 0.32)';
+    ctx.beginPath();
+    ctx.ellipse(hx, hy + cell * 0.36, cell * 0.36, cell * 0.14, 0, 0, 7);
+    ctx.fill();
+
+    const im = pic('israelite.png');
+    if (im) {
+      stand(ctx, im, hx, hy + cell * 0.44 - bob, cell * 1.62, s.side > 0);
+    } else {
+      // Fallback figure while sprite loads
       ctx.fillStyle = sk.body;
       ctx.strokeStyle = sk.dark;
-      ctx.lineWidth = cell * 0.08;
+      ctx.lineWidth = cell * 0.07;
       ctx.beginPath();
-      // Ellipse perpendicular to walking direction
-      const angle = Math.atan2(dy, dx);
-      ctx.ellipse(x + dx * walk, y + dy * walk, cell * 0.35, cell * 0.25, angle + Math.PI/2, 0, 7);
-      ctx.fill();
-      ctx.stroke();
-      
-      // Head/Skin
-      ctx.fillStyle = sk.belly;
+      ctx.ellipse(hx, hy + cell * 0.05 - bob, cell * 0.32, cell * 0.26, 0, 0, 7);
+      ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#e6b88a';
       ctx.beginPath();
-      ctx.arc(x + dx * cell * 0.1, y + dy * cell * 0.1, cell * 0.2, 0, 7);
-      ctx.fill();
-      ctx.stroke();
-      
-      // Hair/Headdress
-      ctx.fillStyle = sk.dark;
+      ctx.arc(hx, hy - cell * 0.18 - bob, cell * 0.18, 0, 7);
+      ctx.fill(); ctx.stroke();
+      ctx.fillStyle = '#f8fafc';
       ctx.beginPath();
-      ctx.arc(x + dx * cell * 0.05, y + dy * cell * 0.05, cell * 0.18, angle + Math.PI/2, angle - Math.PI/2, true);
-      ctx.fill();
-      
-      // Leader gets a staff
-      if (isHead) {
-        ctx.strokeStyle = '#6b4423'; // wood brown
-        ctx.lineWidth = cell * 0.1;
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        const staffX = x + Math.cos(angle + Math.PI/4) * cell * 0.4;
-        const staffY = y + Math.sin(angle + Math.PI/4) * cell * 0.4;
-        ctx.moveTo(staffX, staffY);
-        ctx.lineTo(staffX + dx * cell * 0.6, staffY + dy * cell * 0.6);
-        ctx.stroke();
-      }
-    }
-    
-    // Brass serpent buff indicator
-    if (s.brass) {
-      const h = b[0];
-      ctx.fillStyle = '#fbbf24';
-      ctx.beginPath();
-      ctx.arc(cx(h.x) - s.dir.x * cell * 0.3, cy(h.y) - s.dir.y * cell * 0.3, cell * 0.12, 0, 7);
+      ctx.arc(hx, hy - cell * 0.22 - bob, cell * 0.18, Math.PI, 0);
       ctx.fill();
     }
-    ctx.globalAlpha = 1;
+
+    ctx.restore();
   }
 
   // ===================== the screens =====================
@@ -667,7 +783,7 @@
       ${ui.mode === 'join' ? `<div class="sn-names"><label>Room Code: <input class="field" id="snJoinCode" placeholder="4-digit code" maxlength="4" style="text-transform:uppercase;"></label><label><input type="checkbox" id="snJoinScreen" checked> Show game screen (uncheck to use as remote controller only)</label></div>` : ''}
       <div class="board-actions"><button class="btn" data-sn="start">▶ Start</button></div>
       <ul class="sn-how">
-        <li><b>Manna</b> grows your caravan. Don’t hit the cliffs, the rocks or yourself.</li>
+        <li><b>Manna</b> grows your robe’s train. Don’t hit the cliffs, the rocks or your own train.</li>
         <li>Every ${T.qEvery} manna, a <b>question</b> from this week’s reading drops three jars, <b class="sn-a">A</b> <b class="sn-b">B</b> <b class="sn-c">C</b>. Eat the right one: +${T.right} and you grow ${T.grow.right}, more for a streak (up to ×${T.streakMax + 1}). The wrong one: you shrink ${T.shrink}.</li>
         <li>${brassIcon}<b>The brass serpent</b> comes with every 3 right in a row: crash once, and you look and live.</li>
         <li>Each level is faster, then brings rocks, then <b>fiery serpents</b>.</li>
@@ -800,6 +916,7 @@
   function pause(on) {
     if (!G || G.state !== 'play') return;
     G.paused = on;
+    if (!on) { G.waitingForJoin = false; last = performance.now(); }
     const box = $('snPause');
     if (box) {
       box.hidden = !on;
@@ -860,18 +977,47 @@
 
   function readNames() { const a = $('snN0'), b = $('snN1'); if (a) ui.names[0] = a.value.trim(); if (b) ui.names[1] = b.value.trim(); }
   function listenInputs() {
-    if (!dbGameRef) return;
-    unsubscribeInputs = dbGameRef.collection('inputs').orderBy('time').onSnapshot(snap => {
-      snap.docChanges().forEach(change => {
-        if (change.type === 'added') {
-          const data = change.doc.data();
-          if (data.sender !== myClientId) {
-            if (data.ready) ready(data.player, null, true);
-            else if (data.dir) turn(data.player, data.dir, true);
+    if (unsubscribeInputs) { unsubscribeInputs(); unsubscribeInputs = null; }
+    if (!dbGameRef || !networkConfig) return;
+    if (networkConfig.role === 'host') {
+      unsubscribeInputs = dbGameRef.collection('moves').onSnapshot(snap => {
+        snap.docChanges().forEach(change => {
+          if (change.type === 'added') {
+            const data = change.doc.data();
+            if (data.kind === 'join') {
+              networkConfig.joinedCount = (networkConfig.joinedCount || 0) + 1;
+              dbGameRef.update({ playersJoined: networkConfig.joinedCount }).catch(() => {});
+              if (G && G.waitingForJoin) {
+                G.waitingForJoin = false;
+                G.paused = false;
+                const box = $('snPause');
+                if (box) { box.hidden = true; box.innerHTML = ''; }
+                G.ready = 3000; G.time = 0; G.tickN = 0; G.acc = 0;
+                last = performance.now();
+              }
+            } else if (data.a && data.a !== myClientId) {
+              if (data.kind === 'ready') ready(data.n, null, true);
+              else if (DIRS[data.kind]) turn(data.n, data.kind, true);
+              if (networkConfig.isTV) {
+                netSeq++;
+                dbGameRef.update({
+                  lastInput: { sender: data.a, player: Number(data.n), dir: data.kind === 'ready' ? '' : data.kind, ready: data.kind === 'ready', seq: netSeq }
+                }).catch(() => {});
+              }
+            }
           }
+        });
+      });
+    } else {
+      unsubscribeInputs = dbGameRef.onSnapshot(doc => {
+        const d = doc.data();
+        if (d && d.lastInput && d.lastInput.seq !== lastSeenSeq && d.lastInput.sender !== myClientId) {
+          lastSeenSeq = d.lastInput.seq;
+          if (d.lastInput.ready) ready(d.lastInput.player, null, true);
+          else if (d.lastInput.dir) turn(d.lastInput.player, d.lastInput.dir, true);
         }
       });
-    });
+    }
   }
 
   async function start() {
@@ -886,37 +1032,66 @@
         const seed = Date.now();
         window.TU_SNAKE_SEED = seed;
         myClientId = Math.random().toString(36).slice(2);
-        
+        netSeq = 0; lastSeenSeq = 0;
+
         const db = await host.db();
-        dbGameRef = db.collection('arcade_snake').doc(gameCode);
-        await dbGameRef.set({ seed, hostIsPlay: isPlay, playersJoined: 0, createdAt: host.fv().serverTimestamp() });
-        
-        networkConfig = { role: 'host', isTV: !isPlay, myPlayer: isPlay ? 0 : null };
+        const uid = (host && host.uid && host.uid()) || (window.firebase && firebase.auth && firebase.auth().currentUser && firebase.auth().currentUser.uid) || '';
+        dbGameRef = db.collection('risk').doc(gameCode);
+        await dbGameRef.set({
+          host: uid,
+          state: 'lobby',
+          kind: 'snake',
+          seed,
+          hostIsPlay: isPlay,
+          playersJoined: 0,
+          createdAt: host.fv().serverTimestamp()
+        });
+
+        networkConfig = { role: 'host', isTV: !isPlay, myPlayer: isPlay ? 0 : null, joinedCount: 0 };
         listenInputs();
-        
+
         newGame('2p');
         renderGame();
+        fit();
+        G.waitingForJoin = true;
+        G.paused = true;
+        const box = $('snPause');
+        if (box) {
+          box.hidden = false;
+          box.innerHTML = `<div class="sn-pausecard"><div class="eyebrow">Room Code</div><b style="font-size:38px;letter-spacing:4px;color:#4ade80">${esc(gameCode)}</b><p style="margin:4px 0 8px;font-size:14px;color:rgba(255,255,255,.85)">On the other device, tap <b>Join Game</b> and enter <b>${esc(gameCode)}</b>.</p><div class="board-actions"><button class="btn" data-sn="resume">▶ Start now</button><button class="btn ghost" data-sn="quit">Cancel</button></div></div>`;
+        }
+        last = performance.now();
+        return;
       } else if (ui.mode === 'join') {
-        const code = ($('snJoinCode') ? $('snJoinCode').value : '').toUpperCase();
+        const code = ($('snJoinCode') ? $('snJoinCode').value.trim() : '').toUpperCase();
         if (!code) { if (btn) btn.disabled = false; return alert('Enter code'); }
         const showScreen = $('snJoinScreen') ? $('snJoinScreen').checked : true;
         myClientId = Math.random().toString(36).slice(2);
-        
+        netSeq = 0; lastSeenSeq = 0;
+
         const db = await host.db();
-        dbGameRef = db.collection('arcade_snake').doc(code);
+        const uid = (host && host.uid && host.uid()) || (window.firebase && firebase.auth && firebase.auth().currentUser && firebase.auth().currentUser.uid) || '';
+        dbGameRef = db.collection('risk').doc(code);
         const doc = await dbGameRef.get();
         if (!doc.exists) { if (btn) btn.disabled = false; return alert('Game not found'); }
-        
+
         const data = doc.data();
         const pIndex = (data.playersJoined || 0) + (data.hostIsPlay ? 1 : 0);
         if (pIndex > 1) { if (btn) btn.disabled = false; return alert('Game full'); }
-        await dbGameRef.update({ playersJoined: (data.playersJoined || 0) + 1 });
-        
+        await dbGameRef.collection('moves').add({
+          uid,
+          kind: 'join',
+          a: myClientId,
+          b: '',
+          n: pIndex,
+          at: host.fv().serverTimestamp()
+        });
+
         window.TU_SNAKE_SEED = data.seed;
         networkConfig = { role: 'join', seeScreen: showScreen, myPlayer: pIndex };
         gameCode = code;
         listenInputs();
-        
+
         if (showScreen) {
           newGame('2p');
           renderGame();
@@ -935,7 +1110,7 @@
       last = performance.now();
     } catch (e) {
       console.error(e);
-      alert('Network error');
+      alert('Network error: ' + (e && e.message ? e.message : e));
       if (btn) btn.disabled = false;
     }
   }
