@@ -4,10 +4,10 @@
 (function (root) {
   'use strict';
   const D = root.LIB_DATA || require('./data.js');
-  const { TILE, MAP_W, MAP_H, T, UNITS, BUILDINGS, RESEARCH, MIRACLES, ARTIFACTS } = D;
+  const { TILE, MAP_W, MAP_H, T, BRIDGE_HP, UNITS, BUILDINGS, RESEARCH, MIRACLES, ARTIFACTS } = D;
   const REACH = 8;
   const KINDS = ['grain', 'timber', 'stone'];      // what the carts bring in
-  const QUARRY = 100, OPEN = new Set([T.GRASS, T.FIELD, T.RUIN, T.FORD]);   // stone in a rock face beside open ground                                      // how many squares from your buildings a new one may stand
+  const QUARRY = 100, OPEN = new Set([T.GRASS, T.FIELD, T.RUIN, T.FORD, T.PLATEAU, T.RAMP, T.BRIDGE, T.ROAD]);   // stone in a rock face beside open ground                                      // how many squares from your buildings a new one may stand
   const idx = (x, y) => y * MAP_W + x;
   const center = t => t * TILE + TILE / 2;
   const tileOf = p => Math.floor(p / TILE);
@@ -151,11 +151,16 @@
     inBounds(x, y) { return x >= 0 && y >= 0 && x < MAP_W && y < MAP_H; }
     tile(x, y) { return this.inBounds(x, y) ? this.tiles[idx(x, y)] : T.ROCK; }
     setTile(x, y, t, a) { this.tiles[idx(x, y)] = t; this.amt[idx(x, y)] = a || 0; this.terrainDirty = true; }
+    // High-ground elevation: 1 on a flat plateau, 0.5 on a sloped ramp, 0 on low ground.
+    // Units cannot step directly between low ground (0) and plateau (1); they must climb a ramp (0.5).
+    elevOf(x, y) { const t = this.tile(x, y); return t === T.PLATEAU ? 1 : t === T.RAMP ? 0.5 : 0; }
+    elevAt(e) { return e ? this.elevOf(tileOf(e.x), tileOf(e.y)) : 0; }
+    canStep(x0, y0, x1, y1) { return Math.abs(this.elevOf(x0, y0) - this.elevOf(x1, y1)) <= 0.5; }
     // Can this team stand on (x, y)? Robbers can also plan through walls, which they then break.
     passable(x, y, team, throughWalls) {
       if (!this.inBounds(x, y)) return false;
       const t = this.tiles[idx(x, y)];
-      if (t === T.WATER || t === T.ROCK || t === T.FOREST) return false;
+      if (t === T.WATER || t === T.ROCK || t === T.FOREST || t === T.BROKEN_BRIDGE) return false;
       const b = this.occ[idx(x, y)];
       if (b) {
         const e = this.ents.get(b);
@@ -221,10 +226,15 @@
 
     // Nearest free tile to (tx, ty) this team can stand on.
     freeTileNear(tx, ty, team) {
-      for (let r = 0; r < 12; r++) {
-        for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
-          if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
-          if (this.passable(tx + dx, ty + dy, team)) return [tx + dx, ty + dy];
+      const e0 = this.elevOf(tx, ty);
+      for (let pass = 0; pass < 2; pass++) {
+        for (let r = 0; r < 12; r++) {
+          for (let dy = -r; dy <= r; dy++) for (let dx = -r; dx <= r; dx++) {
+            if (Math.max(Math.abs(dx), Math.abs(dy)) !== r) continue;
+            if (!this.passable(tx + dx, ty + dy, team)) continue;
+            if (pass === 0 && Math.abs(e0 - this.elevOf(tx + dx, ty + dy)) > 0.5) continue;
+            return [tx + dx, ty + dy];
+          }
         }
       }
       return [tx, ty];
@@ -261,7 +271,10 @@
         let c = 1;
         const b = this.occ[idx(x, y)];
         if (b && walls) c += 10;                    // breaking through takes a while
-        if (this.tiles[idx(x, y)] === T.FORD) c += 0.5;
+        const t = this.tiles[idx(x, y)];
+        if (t === T.FORD) c += 0.5;
+        else if (t === T.ROAD) c = Math.max(0.2, c - 0.2);
+        else if (t === T.BRIDGE) c = Math.max(0.2, c - 0.1);
         return c;
       };
       const s = idx(sx, sy);
@@ -279,12 +292,14 @@
           if (!dx && !dy) continue;
           const nx = x + dx, ny = y + dy;
           if (!this.inBounds(nx, ny)) continue;
+          if (!this.canStep(x, y, nx, ny)) continue;
           const j = idx(nx, ny);
           if (closed[j]) continue;
           let c = cost(nx, ny);
           if (c === Infinity) continue;
-          if (dx && dy) {                          // diagonal: both sides must be open
+          if (dx && dy) {                          // diagonal: both sides must be open and cliff-safe
             if (cost(x + dx, y) === Infinity || cost(x, y + dy) === Infinity) continue;
+            if (!this.canStep(x, y, x + dx, y) || !this.canStep(x, y, x, y + dy)) continue;
             c *= 1.414;
           }
           const ng = g[i] + c;
@@ -306,11 +321,12 @@
     approach(u, px, py, dt) {
       const dx = px - u.x, dy = py - u.y, d = Math.hypot(dx, dy);
       if (d < 1) return;
-      let sp = u.def.speed * (u.slow || 1);
+      const ux = tileOf(u.x), uy = tileOf(u.y), curT = this.tile(ux, uy);
+      let sp = u.def.speed * (u.slow || 1) * (curT === T.ROAD ? 1.25 : curT === T.FORD ? 0.7 : 1);
       if (u.type === 'cart' && u.team === this.me && this.hasPerk('nephite_chariots')) sp *= 1.2;
       const s = Math.min(d, sp * dt);
-      const nx = u.x + dx / d * s, ny = u.y + dy / d * s;
-      if (this.passable(tileOf(nx), tileOf(ny), u.team)) { u.x = nx; u.y = ny; u.face = Math.atan2(dy, dx); }
+      const nx = u.x + dx / d * s, ny = u.y + dy / d * s, ntx = tileOf(nx), nty = tileOf(ny);
+      if (this.passable(ntx, nty, u.team) && this.canStep(ux, uy, ntx, nty)) { u.x = nx; u.y = ny; u.face = Math.atan2(dy, dx); }
     }
 
     // --- orders (what a player's click, or the robbers' plans, ask for)
@@ -429,10 +445,12 @@
     whyNotPlace(type, tx, ty, team) {
       const def = BUILDINGS[type];
       team = team || this.me;
+      const e0 = this.elevOf(tx, ty);
       for (let y = ty; y < ty + def.h; y++) for (let x = tx; x < tx + def.w; x++) {
         if (!this.inBounds(x, y)) return 'ground';
         const t = this.tile(x, y);
-        if (t !== T.GRASS && t !== T.FIELD && t !== T.RUIN) return 'ground';
+        if (t !== T.GRASS && t !== T.FIELD && t !== T.RUIN && t !== T.PLATEAU && t !== T.ROAD) return 'ground';
+        if (this.elevOf(x, y) !== e0) return 'ground';
         if (this.occ[idx(x, y)] && !(def.gate && this.wallAt(x, y, team))) return 'ground';   // (a gate may take the place of your own wall piece)
         if (team === this.me && this.border != null && y < this.border) return 'ground';
       }
@@ -557,6 +575,7 @@
       if (from && from.rank) a *= 1 + 0.15 * from.rank;                                   // a veteran strikes harder
       if (from && from.sword) a *= 1.5;                                                   // the sword of Laban (1 Nephi 4:9)
       if (from && from.def.foe && from.weak) a *= 0.6;
+      if (from && target && this.elevAt(from) > this.elevAt(target)) a *= 1.2;            // high ground overlook advantage (Alma 49:19)
       const TS = this.side(target.team), unit = target.kind === 'unit';
       // Each kind of fighter is strong against another (data.js: `beats`).
       if (from && from.kind === 'unit' && unit && from.def.beats && [].concat(from.def.beats).includes(kindOf(target.def))) a *= 1.5;
@@ -623,6 +642,48 @@
         }
       }
       if (target.hp <= 0) this.kill(target, from);
+    }
+    // Destructible and repairable bridges (C&C Red Alert style):
+    // Demolishing a bridge tile collapses its river span into T.BROKEN_BRIDGE and drowns anyone standing on it.
+    damageBridge(tx, ty, amount, from) {
+      if (!this.inBounds(tx, ty) || this.tile(tx, ty) !== T.BRIDGE) return false;
+      const i = idx(tx, ty);
+      const cur = this.amt[i] > 0 ? this.amt[i] : (BRIDGE_HP || 250);
+      const next = Math.max(0, cur - amount);
+      this.amt[i] = next;
+      if (next > 0) return false;
+      const span = [[tx, ty]];
+      for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+        if (this.tile(tx + dx, ty + dy) === T.BRIDGE) span.push([tx + dx, ty + dy]);
+      }
+      for (const [bx, by] of span) this.setTile(bx, by, T.BROKEN_BRIDGE, 0);
+      for (const u of [...this.units()]) {
+        if (u.dead) continue;
+        const ux = tileOf(u.x), uy = tileOf(u.y);
+        if (span.some(([bx, by]) => bx === ux && by === uy)) { u.hp = 0; this.kill(u, from || null); }
+      }
+      if (this.t - (this.bridgeMsgAt || -99) > 4) {
+        this.bridgeMsgAt = this.t;
+        this.msg('The bridge has collapsed into the river! Send a worker to mend the crossing.', null, 'warn');
+      }
+      return true;
+    }
+    mendBridge(tx, ty, amount, team) {
+      if (!this.inBounds(tx, ty) || this.tile(tx, ty) !== T.BROKEN_BRIDGE) return false;
+      const i = idx(tx, ty), max = BRIDGE_HP || 250;
+      const next = Math.min(max, Math.max(0, this.amt[i]) + amount);
+      this.amt[i] = next;
+      if (next < max) return false;
+      const span = [[tx, ty]];
+      for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+        if (this.tile(tx + dx, ty + dy) === T.BROKEN_BRIDGE) span.push([tx + dx, ty + dy]);
+      }
+      for (const [bx, by] of span) this.setTile(bx, by, T.BRIDGE, max);
+      if ((!team || team === this.me) && this.t - (this.bridgeMsgAt || -99) > 4) {
+        this.bridgeMsgAt = this.t;
+        this.msg('The bridge is mended and open again.', null, 'good');
+      }
+      return true;
     }
     // Something of yours is attacked: idle soldiers nearby come to defend it.
     callHelp(target, from) {
@@ -706,6 +767,12 @@
         this.zones.push({ kind: 'quake', team, x, y, r: m.r, until: this.t + 1.5 }); this.quakeAt = this.t;
         for (const b of [...this.ents.values()]) if (b.kind === 'building' && b.team !== team && !b.dead && !b.untouchable && !b.def.neutral && this.distToRect({ x, y }, b) < m.r) this.damage(b, maxHp(b) * (b.def.wall != null ? 1 : 0.4) / (this.shield[b.team] || 1), null);
         for (const u of [...this.ents.values()]) if (u.kind === 'unit' && !u.dead && Math.hypot(u.x - x, u.y - y) < m.r) u.kneelUntil = this.t + 3;
+        const rTiles = Math.ceil(m.r / TILE) + 1, qx = tileOf(x), qy = tileOf(y);
+        for (let by = Math.max(0, qy - rTiles); by <= Math.min(MAP_H - 1, qy + rTiles); by++) {
+          for (let bx = Math.max(0, qx - rTiles); bx <= Math.min(MAP_W - 1, qx + rTiles); bx++) {
+            if (this.tile(bx, by) === T.BRIDGE && Math.hypot(center(bx) - x, center(by) - y) < m.r) this.damageBridge(bx, by, BRIDGE_HP || 250, null);
+          }
+        }
       } else if (key === 'sleep') {
         this.zones.push({ kind: 'sleep', team, x, y, r: m.r, until: this.t + m.last });
         for (const u of foesIn(m.r)) { if (thirsty(u)) continue; u.sleepUntil = this.t + m.last; this.order(u, { type: 'idle' }); }
@@ -924,9 +991,13 @@
       const dx = Math.max(x0 - p.x, 0, p.x - x1), dy = Math.max(y0 - p.y, 0, p.y - y1);
       return Math.hypot(dx, dy);
     }
-    reachOf(u, target) { return (target.kind === 'building' ? this.distToRect(u, target) : dist(u, target) - 10) <= this.rangeOf(u) + 6; }
-    // How far a unit strikes: archers farther with bows of fine steel (1 Nephi 16:18).
-    rangeOf(u) { const S = this.side(u.team); return u.def.range + (u.type === 'archer' && S.bows ? 40 : 0) + (u.type === 'javelin' && S.captain && S.captain.bonus.javelin ? S.captain.bonus.javelin : 0); }
+    reachOf(u, target) { return (target.kind === 'building' ? this.distToRect(u, target) : dist(u, target) - 10) <= this.rangeOf(u, target) + 6; }
+    // How far a unit strikes: archers farther with bows of fine steel (1 Nephi 16:18), and ranged shooters +1 tile from high ground.
+    rangeOf(u, target) {
+      const S = this.side(u.team);
+      const high = target && u.def.ranged && this.elevAt(u) > this.elevAt(target) ? TILE : 0;
+      return u.def.range + (u.type === 'archer' && S.bows ? 40 : 0) + (u.type === 'javelin' && S.captain && S.captain.bonus.javelin ? S.captain.bonus.javelin : 0) + high;
+    }
     // Who can go over an enemy wall: those who brought ladders, or a side's fighters once it has made ladders (Alma 62:21).
     // A wall of the third level, with its ditch, belonging to someone other than `team`, on that square.
     ditchAt(x, y, team) {
@@ -1115,10 +1186,11 @@
           } else b.cool = 0.4;
         }
       }
-      if (b.def.dmg) {                              // a watchtower
+      if (b.def.dmg) {                              // a watchtower (+1 tile range on a plateau)
         b.cool -= dt;
         if (b.cool <= 0) {
-          const e = this.enemiesNear(b, b.team, b.def.range);
+          const r = b.def.range + (this.elevAt(b) > 0 ? TILE : 0);
+          const e = this.enemiesNear(b, b.team, r);
           if (e && e.kind === 'unit') { this.shoot(b, e, b.def.dmg); b.cool = b.def.cd; }
           else b.cool = 0.3;
         }
@@ -1282,6 +1354,38 @@
           }
           break;
         }
+        case 'demolish': {
+          if (this.tile(o.tx, o.ty) !== T.BRIDGE) { this.order(u, { type: 'idle' }); break; }
+          const g = { x0: o.tx, y0: o.ty, x1: o.tx, y1: o.ty };
+          const bx = center(o.tx), by = center(o.ty);
+          if (this.nextTo(u, g) || Math.hypot(bx - u.x, by - u.y) <= this.rangeOf(u) + 12) {
+            u.path = null;
+            u.face = Math.atan2(by - u.y, bx - u.x);
+            if (u.cool <= 0) {
+              const dmg = (u.def.dmg || 10) * (u.def.siege || 1);
+              this.effects.push({ t: this.t, x0: u.x, y0: u.y, x1: bx, y1: by, kind: u.def.ranged ? 'arrow' : 'hit', team: u.team });
+              this.damageBridge(o.tx, o.ty, dmg, u);
+              u.cool = u.def.cd || 1.2;
+            }
+          } else {
+            if (!u.path) u.path = this.findPath(u, g, true);
+            if (this.follow(u, dt) && !this.nextTo(u, g)) this.order(u, { type: 'idle' });
+          }
+          break;
+        }
+        case 'mendbridge': {
+          if (this.tile(o.tx, o.ty) !== T.BROKEN_BRIDGE) { this.order(u, { type: 'idle' }); break; }
+          const g = { x0: o.tx, y0: o.ty, x1: o.tx, y1: o.ty };
+          if (this.nextTo(u, g)) {
+            u.path = null;
+            u.face = Math.atan2(center(o.ty) - u.y, center(o.tx) - u.x);
+            this.mendBridge(o.tx, o.ty, 65 * dt, u.team);
+          } else {
+            if (!u.path) u.path = this.findPath(u, g, true);
+            if (this.follow(u, dt) && !this.nextTo(u, g)) this.order(u, { type: 'idle' });
+          }
+          break;
+        }
         case 'gather': this.stepGather(u, dt); break;
         case 'build': this.stepBuild(u, dt); break;
         case 'idle': default: break;
@@ -1311,7 +1415,9 @@
       if (!u.path) return false;
       if (!u.path.length) { u.path = null; return true; }
       const [tx, ty] = u.path[0];
+      const ux = tileOf(u.x), uy = tileOf(u.y);
       u.climbing = false;
+      if (!this.canStep(ux, uy, tx, ty)) { u.path = null; return false; }
       if (!this.passable(tx, ty, u.team)) {
         const b = this.occ[idx(tx, ty)] && this.ents.get(this.occ[idx(tx, ty)]);
         if (b && b.def.wall && b.team !== u.team && this.canClimb(u)) u.climbing = true;                  // over it, slowly
@@ -1320,7 +1426,8 @@
       }
       const cx = center(tx), cy = center(ty);
       const dx = cx - u.x, dy = cy - u.y, d = Math.hypot(dx, dy);
-      let sp = u.def.speed * (u.slow || 1) * (this.tile(tileOf(u.x), tileOf(u.y)) === T.FORD ? 0.7 : 1);
+      const curT = this.tile(ux, uy);
+      let sp = u.def.speed * (u.slow || 1) * (curT === T.FORD ? 0.7 : curT === T.ROAD ? 1.25 : 1);
       if (u.climbing) sp *= this.ditchAt(tx, ty, u.team) ? 0.25 : 0.4;
       else if (this.ditchNear(u)) sp *= 0.6;                 // down into the ditch and up again (Alma 49:18)
       if (u.fierceUntil > this.t) sp *= 1.15;
@@ -1404,8 +1511,9 @@
       }
     }
     nudge(u, dx, dy) {
-      const nx = u.x + dx, ny = u.y + dy;
-      if (this.passable(tileOf(nx), tileOf(ny), u.team) || !this.passable(tileOf(u.x), tileOf(u.y), u.team)) { u.x = nx; u.y = ny; }
+      const nx = u.x + dx, ny = u.y + dy, ux = tileOf(u.x), uy = tileOf(u.y), ntx = tileOf(nx), nty = tileOf(ny);
+      if (!this.canStep(ux, uy, ntx, nty)) return;
+      if (this.passable(ntx, nty, u.team) || !this.passable(ux, uy, u.team)) { u.x = nx; u.y = ny; }
     }
 
     // --- gathering: out to the field or the trees, back to the storehouse

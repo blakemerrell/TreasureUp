@@ -7,7 +7,9 @@
   const TILE = 32;
   const MAP_W = 64, MAP_H = 48;
   // Terrain. Forest and fields hold timber and grain; water, rock and forest block the way.
-  const T = { GRASS: 0, FOREST: 1, WATER: 2, FORD: 3, ROCK: 4, FIELD: 5, RUIN: 6 };
+  // Plateaus are high ground walkable via Ramps; Bridges span water and can be broken/repaired; Roads speed up carts and troops.
+  const T = { GRASS: 0, FOREST: 1, WATER: 2, FORD: 3, ROCK: 4, FIELD: 5, RUIN: 6, PLATEAU: 7, RAMP: 8, BRIDGE: 9, BROKEN_BRIDGE: 10, ROAD: 11 };
+  const BRIDGE_HP = 250;
   // North of this row is the wilderness, the robbers' own lands (3 Nephi 3:20–21).
   const BORDER_Y = 10;
   // The three ways down out of the mountains, and the river's three crossings.
@@ -359,6 +361,50 @@
     return { tiles, amt };
   }
 
+  // Declarative C&C / Red Alert puzzle-tile stamps for plateaus, ramps, bridges, and roads.
+  function createMapStamps(tiles, amt, clear) {
+    const inb = (x, y) => x >= 0 && y >= 0 && x < MAP_W && y < MAP_H;
+    const set = (x, y, t, a) => { if (inb(x, y)) { tiles[y * MAP_W + x] = t; amt[y * MAP_W + x] = a || 0; } };
+    const get = (x, y) => inb(x, y) ? tiles[y * MAP_W + x] : T.ROCK;
+    const isClear = (x, y) => clear && clear(x, y);
+    return {
+      plateau(x0, y0, w, h, ramps) {
+        for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) {
+          if (!inb(x, y) || isClear(x, y)) continue;
+          const t = get(x, y);
+          if (t === T.WATER || t === T.FORD || t === T.BRIDGE) continue;
+          set(x, y, T.PLATEAU, 0);
+        }
+        for (const [rx, ry] of ramps || []) {
+          if (inb(rx, ry)) set(rx, ry, T.RAMP, 0);
+        }
+      },
+      ramp(x0, y0, w = 1, h = 1) {
+        for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) {
+          if (inb(x, y)) set(x, y, T.RAMP, 0);
+        }
+      },
+      bridge(x0, y0, x1, y1) {
+        const ax = Math.min(x0, x1), bx = Math.max(x0, x1), ay = Math.min(y0, y1), by = Math.max(y0, y1);
+        for (let y = ay; y <= by; y++) for (let x = ax; x <= bx; x++) {
+          if (!inb(x, y)) continue;
+          set(x, y, T.BRIDGE, BRIDGE_HP);
+        }
+      },
+      road(points) {
+        for (let i = 0; i < points.length - 1; i++) {
+          let [x, y] = points[i], [tx, ty] = points[i + 1];
+          const steps = Math.max(Math.abs(tx - x), Math.abs(ty - y), 1);
+          for (let s = 0; s <= steps; s++) {
+            const cx = Math.round(x + (tx - x) * s / steps), cy = Math.round(y + (ty - y) * s / steps);
+            if (!inb(cx, cy) || isClear(cx, cy)) continue;
+            if (get(cx, cy) === T.GRASS) set(cx, cy, T.ROAD, 0);
+          }
+        }
+      }
+    };
+  }
+
   // Free battle: your standard in the south-west, the Lamanite war camp in the
   // north-east, the river Sidon between, with timber, fields and hills to fight over.
   const FREE = {
@@ -385,6 +431,13 @@
     [[4, 30, 2.5], [20, 43, 2.5], [5, 45, 2], [24, 19, 3], [38, 33, 3], [15, 13, 2.5], [49, 40, 3], [59, 22, 2.5], [39, 1, 2], [57, 30, 2], [9, 22, 2]].forEach(([x, y, rad]) => blob(x, y, rad, T.FOREST, 120));
     const field = (x0, y0, w, h) => { for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) if (get(x, y) === T.GRASS && !clear(x, y)) set(x, y, T.FIELD, 300); };
     [[17, 34, 3, 2], [8, 43, 3, 2], [25, 33, 3, 2], [36, 14, 3, 2], [54, 16, 3, 2], [14, 28, 3, 2]].forEach(f => field(...f));
+    // C&C Auto-Tile Stamps: central bridge over the Sidon, high-ground overlook plateaus with ramps, and paved trade road.
+    const stamps = createMapStamps(tiles, amt, clear);
+    for (let y = 24; y <= 25; y++) { const rx = FREE.river(y); stamps.bridge(rx, y, rx + 1, y); }
+    stamps.plateau(5, 15, 4, 3, [[9, 16], [6, 18]]);
+    stamps.plateau(51, 34, 4, 3, [[50, 35], [52, 33]]);
+    stamps.road([[27, 24], [30, 24]]);
+    stamps.road([[34, 24], [37, 24]]);
     return { tiles, amt };
   }
 
@@ -441,6 +494,10 @@
     [[17, 33, 2.5], [35, 25, 2.5], [31, 39, 2.2], [11, 38, 2.2], [40, 30, 2], [22, 18, 2.2], [46, 41, 2]].forEach(([x, y, rad]) => blob(x, y, rad, T.FOREST, 120));
     const field = (x0, y0, w, h) => { for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) if (get(x, y) === T.GRASS && !clear(x, y)) set(x, y, T.FIELD, 300); };
     [[19, 26, 3, 2], [33, 31, 3, 2], [27, 37, 3, 2], [30, 20, 3, 2], [14, 28, 2, 3]].forEach(f => field(...f));
+    const stamps = createMapStamps(tiles, amt, clear);
+    for (let y = 13; y <= 14; y++) { const rx = WILD.river(y); stamps.bridge(rx, y, rx + 1, y); }
+    stamps.plateau(43, 22, 3, 3, [[42, 23], [46, 23]]);
+    stamps.road([[47, 14], [50, 14]]);
     return { tiles, amt };
   }
 
@@ -668,7 +725,7 @@
     }
   };
 
-  const DATA = { TILE, MAP_W, MAP_H, T, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, CUNNING, POWERS, ARTIFACTS, SIDES, REGIMENTS, CAPTAINS, PERKS, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, rng };
+  const DATA = { TILE, MAP_W, MAP_H, T, BRIDGE_HP, BORDER_Y, PASSES, FORDS, UNITS, BUILDINGS, RESEARCH, MIRACLES, CUNNING, POWERS, ARTIFACTS, SIDES, REGIMENTS, CAPTAINS, PERKS, CITY, VILLAGES, QUESTIONS, SIDON, FREE, WILD, buildMap, buildSidonMap, buildFreeMap, buildWildMap, createMapStamps, rng };
   if (typeof module !== 'undefined' && module.exports) module.exports = DATA;
   else root.LIB_DATA = DATA;
 })(this);
