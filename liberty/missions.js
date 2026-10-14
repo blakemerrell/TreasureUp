@@ -1225,7 +1225,8 @@
   }
 
   const free = {
-    id: 'free', campaign: 'free', title: 'Free battle', chapter: 'Any chapter you have read', free: true, map: D.buildFreeMap,
+    id: 'free', campaign: 'free', title: 'Free battle', chapter: 'Any chapter you have read', free: true,
+    map() { return D.buildSkirmishMap(free.mapId, free.customMap); },
     year: 'In the days of Captain Moroni', level: 'normal', LEVELS,
     goals: 'Pick a side and a captain, build up your camp, and tear down the enemy\'s. The Freemen plant the standard of liberty; the King-men raise Amalickiah\'s banner.',
     starsText: '★ won on Easy, ★★ on Normal, ★★★ on Hard.',
@@ -1258,7 +1259,8 @@
       const guard = (home, list, team) => { let k = 0; for (const [type, n] of list) for (let i = 0; i < n; i++, k++) put(type, home.tx + (k % 4), home.ty + home.h + Math.floor(k / 4), team, { mode: 'guard', home }); };
       // The Freemen's ground is the south-west, the King-men's the north-east, whoever holds them.
       const F = this.side === 'freemen' ? 'p' : 'r', K = F === 'p' ? 'r' : 'p';
-      const S0 = FR.START, WC = FR.WARCAMP;
+      const M = (this.mapId === 'custom' && this.customMap && D.decodeCustomMap(this.customMap)) || D.SKIRMISH_MAPS[this.mapId] || D.SKIRMISH_MAPS.sidon;
+      const S0 = M.START || FR.START, WC = M.WARCAMP || FR.WARCAMP, MCAMPS = M.CAMPS || FR.CAMPS;
       // The Freemen: the human plants the standard of liberty; the opponent's city stands from the start, with its guards.
       if (F === 'p') {
         this.standard = put('standard', S0.x + 2, S0.y + 2);
@@ -1288,7 +1290,7 @@
           if (W.whyNotPlace('wall', x, y) === 'ground') continue;
           W.addBuilding('wall', K, x, y, true);
         } }
-      this.camps = FR.CAMPS.map(c => W.addBuilding('camp', K, c.x, c.y, true, { name: 'Lamanite camp', about: K === 'p' ? 'A camp of yours: it feeds eight, and your warriors gather here.' : 'Lamanite warriors gather here to march on your city.' }));
+      this.camps = MCAMPS.map(c => W.addBuilding('camp', K, c.x, c.y, true, { name: 'Lamanite camp', about: K === 'p' ? 'A camp of yours: it feeds eight, and your warriors gather here.' : 'Lamanite warriors gather here to march on your city.' }));
       put('bearer', this.warcamp.tx + 1, this.warcamp.ty + this.warcamp.h, K); put('bearer', this.warcamp.tx + 2, this.warcamp.ty + this.warcamp.h, K);
       if (K === 'r') {
         this.guardList = [['lamanite', Math.ceil(L.guards * 0.6)], ['slinger', Math.floor(L.guards * 0.3)], ['amalekite', 1], ['zoramite', L.stars > 1 ? 1 : 0]];
@@ -1311,7 +1313,7 @@
       this.camp = new CAMP.Camp(W, 'r', K === 'r' ? this.warcamp : this.city, L);
       // Jaredite ruins, each holding something (Mosiah 8:8-11): the sword of Laban far to the south-east, the Liahona across the ford, breastplates in the north-west.
       // (and a fourth, between the two camps, where a great beast waits tame: Ether 9:19)
-      for (const [x, y, key] of [[54, 45, 'sword'], [37, 24, 'liahona'], [7, 7, 'breastplate'], [27, 18, 'beast']]) {
+      for (const [x, y, key] of (M.RELICS || [[54, 45, 'sword'], [37, 24, 'liahona'], [7, 7, 'breastplate'], [27, 18, 'beast']])) {
         let spot = null;
         for (let r = 0; r < 6 && !spot; r++) for (let dy = -r; dy <= r && !spot; dy++) for (let dx = -r; dx <= r && !spot; dx++) if (W.whyNotPlace('relic', x + dx, y + dy) !== 'ground') spot = [x + dx, y + dy];
         if (!spot) continue;
@@ -1321,8 +1323,8 @@
       // Wilderness frontier: a starting Hunter for the player, plus wandering flocks (Enos 1:21) and wild game (1 Nephi 16:31).
       if (F === 'p') put('hunter', S0.x + 4, S0.y + 5, 'p', { think: 0.2 });
       else put('hunter', this.warcamp.tx + 4, this.warcamp.ty + this.warcamp.h + 1, 'p', { think: 0.2 });
-      for (const [fx, fy] of [[16, 22], [32, 34], [24, 12], [44, 28]]) put('flock', fx, fy, 'n', { think: 0.25 });
-      for (const [gx, gy] of [[18, 30], [28, 42], [20, 16], [38, 32], [46, 20], [14, 18]]) put('game', gx, gy, 'n', { think: 0.3 });
+      for (const [fx, fy] of (M.FLOCKS || [[16, 22], [32, 34], [24, 12], [44, 28]])) put('flock', fx, fy, 'n', { think: 0.25 });
+      for (const [gx, gy] of (M.GAME || [[18, 30], [28, 42], [20, 16], [38, 32], [46, 20], [14, 18]])) put('game', gx, gy, 'n', { think: 0.3 });
       this.foretold = 0; this.planted = K === 'p'; this.nextFierce = 300;
       const c = caps[this.captain];
       W.msg(`${c.name} leads you: ${c.gift.toLowerCase()}.`, c.ref, 'good');
