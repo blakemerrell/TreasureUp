@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Blake's Best Self PRO · Core Values Board &amp; System</title>
+  <style>
+    :root {
+      --bg: #0b081d;
+      --card-bg: #151132;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --gold: #fbbf24;
+      --gold-glow: rgba(251, 191, 36, 0.25);
+      --purple-accent: #a78bfa;
+      --blue-accent: #38bdf8;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --danger: #f87171;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0;
+      padding: 20px 16px 80px;
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 520px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 24px;
+      font-weight: 800;
+      margin: 0 0 6px;
+      background: linear-gradient(135deg, #fef08a, var(--gold), #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .header p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    .tab-bar {
+      display: flex;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 20px;
+      border: 1px solid var(--card-border);
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 10px 4px;
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: #241d4c;
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .view-panel { display: none; }
+    .view-panel.active { display: block; animation: fadeIn 0.25s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Card Frame */
+    .card-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+    .card-title {
+      font-size: 17px;
+      font-weight: 800;
+      margin: 0 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0 0 16px;
+      line-height: 1.4;
+    }
+
+    /* Pillars Grid */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .pillar-card {
+      background: #19143a;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      border-radius: 14px;
+      padding: 14px 10px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .pillar-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--blue-accent));
+    }
+    .pillar-icon {
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+    .pillar-title {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+    .pillar-sublist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 11px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+    .pillar-sublist li {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 2px 0;
+    }
+    .pillar-sublist li:last-child { border-bottom: none; }
+
+    /* Strengths Chips */
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .chip {
+      padding: 7px 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .chip.selected {
+      background: #2a2060;
+      border-color: var(--gold);
+      color: #fef08a;
+      box-shadow: 0 0 10px var(--gold-glow);
+    }
+    .chip .del-x {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      margin-left: 2px;
+      padding: 2px 4px;
+      border-radius: 50%;
+    }
+    .chip .del-x:hover {
+      color: var(--danger);
+      background: rgba(248, 113, 113, 0.2);
+    }
+
+    /* Touchstone Morning Banner */
+    .values-banner {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(56, 189, 248, 0.15));
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .values-banner-icon { font-size: 18px; }
+    .values-banner-text {
+      font-size: 12px;
+      color: #e2e8f0;
+      line-height: 1.4;
+    }
+    .values-banner-text b {
+      color: var(--gold);
+      letter-spacing: 0.02em;
+    }
+
+    /* Action Button */
+    .action-btn {
+      background: linear-gradient(135deg, var(--gold), #f59e0b);
+      color: #171105;
+      font-weight: 800;
+      font-size: 13px;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .action-btn:active { transform: scale(0.97); }
+
+    /* Area Bar */
+    .area-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .area-opt {
+      flex: 1;
+      padding: 7px 4px;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-muted);
+      cursor: pointer;
+      text-align: center;
+    }
+    .area-opt.active {
+      background: #3b2d75;
+      border-color: var(--purple-accent);
+      color: #fff;
+    }
+    .field-row { display: flex; gap: 8px; }
+    .input-field {
+      flex: 1;
+      background: #0f0c25;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>Blake's Best Self PRO</h1>
+      <p>Faith · Adventure · Integrity</p>
+    </div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="showTab('pillars')">🌟 My Core Values Board</button>
+      <button class="tab-btn" onclick="showTab('morning')">🌅 Morning Planning</button>
+      <button class="tab-btn" onclick="showTab('interests')">🏷️ Custom Interests</button>
+    </div>
+
+    <!-- TAB 1: THE 3 PILLARS BOARD -->
+    <div id="tab-pillars" class="view-panel active">
+      <div class="card-box">
+        <div class="card-title">💎 Your Core Values Triad</div>
+        <div style="text-align:center;margin-bottom:16px;border-radius:12px;overflow:hidden;border:1px solid var(--card-border)">
+          <img src="media/blake_core_values_board.png" alt="Blake's Core Values Board: Faith, Adventure, Integrity" style="width:100%;height:auto;display:block">
+        </div>
+
+        <div class="pillars-grid">
+          <!-- Pillar 1: FAITH -->
+          <div class="pillar-card">
+            <div class="pillar-icon">🕊️</div>
+            <div class="pillar-title">FAITH</div>
+            <ul class="pillar-sublist">
+              <li><b>Jesus Christ</b></li>
+              <li>Kindness</li>
+              <li>Spiritual</li>
+              <li>Family</li>
+              <li>Humility</li>
+              <li>Ethics</li>
+              <li>Hope</li>
+              <li>Friendship</li>
+            </ul>
+          </div>
+
+          <!-- Pillar 2: ADVENTURE -->
+          <div class="pillar-card">
+            <div class="pillar-icon">🧭</div>
+            <div class="pillar-title">ADVENTURE</div>
+            <ul class="pillar-sublist">
+              <li><b>Awe</b></li>
+              <li>Wonder</li>
+              <li>Fun</li>
+              <li>Learning</li>
+              <li>Risk Taking</li>
+              <li>Independence</li>
+              <li>Overcome Obstacles</li>
+            </ul>
+          </div>
+
+          <!-- Pillar 3: INTEGRITY -->
+          <div class="pillar-card">
+            <div class="pillar-icon">🏛️</div>
+            <div class="pillar-title">INTEGRITY</div>
+            <ul class="pillar-sublist">
+              <li><b>Honesty</b></li>
+              <li>Loyal</li>
+              <li>Truth</li>
+              <li>Authentic</li>
+              <li>Trustworthy</li>
+              <li>Free of Deception</li>
+              <li>Open</li>
+              <li>Leadership</li>
+              <li>Accountable</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid var(--card-border);padding-top:16px">
+          <div style="font-size:12px;font-weight:800;color:var(--gold);text-transform:uppercase;margin-bottom:8px">⚡ Gallup CliftonStrengths (Signature Talents)</div>
+          <div class="chip-group">
+            <button class="chip selected" onclick="this.classList.toggle('selected')">♟️ Strategic</button>
+            <button class="chip selected" onclick="this.classList.toggle('selected')">🚀 Futuristic</button>
+            <button class="chip selected" onclick="this.classList.toggle('selected')">🤝 Relator</button>
+            <button class="chip" onclick="this.classList.toggle('selected')">⚡ Maximizer</button>
+            <button class="chip" onclick="this.classList.toggle('selected')">🏆 Achiever</button>
+            <button class="chip" onclick="this.classList.toggle('selected')">💡 Ideation</button>
+            <button class="chip" onclick="this.classList.toggle('selected')">🎯 Focus</button>
+          </div>
+        </div>
+
+        <div style="margin-top:14px">
+          <div style="font-size:12px;font-weight:800;color:var(--gold);text-transform:uppercase;margin-bottom:6px">🎯 Current Season Milestone</div>
+          <input class="input-field" style="width:100%" value="Intentional family presence, discipleship &amp; business leverage">
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: MORNING PLANNING INTEGRATION -->
+    <div id="tab-morning" class="view-panel">
+      <div class="card-box">
+        <div class="card-title">🌅 Morning Planning</div>
+        <p class="card-desc">Here is how your Core Values board actively anchors your daily planning:</p>
+
+        <!-- The Values Touchstone Banner -->
+        <div class="values-banner">
+          <span class="values-banner-icon">✨</span>
+          <div class="values-banner-text">
+            Living My Core Values Today:<br>
+            <b>FAITH</b> (Christ &amp; Family) · <b>ADVENTURE</b> (Awe &amp; Learning) · <b>INTEGRITY</b> (Truth &amp; Leadership)
+          </div>
+        </div>
+
+        <!-- The ONE Thing (In the spirit of Gary Keller's The ONE Thing) -->
+        <div style="background:#0e0a25;border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.08);margin-bottom:14px">
+          <div style="font-size:12px;color:var(--gold);font-weight:800;text-transform:uppercase;margin-bottom:6px">🎯 Today’s ONE Thing</div>
+          <p style="font-size:13px;color:#e2e8f0;margin:0 0 10px;line-height:1.4">
+            <b>The focusing question:</b> What is the single most important thing that will make everything else easier or better if you get it done today?
+          </p>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <span style="font-size:12px;background:#24194d;border:1px solid var(--purple-accent);color:#e9d5ff;padding:4px 10px;border-radius:14px">🕊️ Faith: Morning Stillness &amp; Scripture Feast</span>
+            <span style="font-size:12px;background:#182b48;border:1px solid var(--blue-accent);color:#bae6fd;padding:4px 10px;border-radius:14px">🧭 Adventure: Protect 1-on-1 with Javan</span>
+            <span style="font-size:12px;background:#241d38;border:1px solid var(--gold);color:#fef08a;padding:4px 10px;border-radius:14px">🏛️ Integrity: 90-min Deep Work Sprint</span>
+          </div>
+        </div>
+
+        <!-- Someone to Uplift -->
+        <div style="background:#0e0a25;border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,0.08)">
+          <div style="font-size:12px;color:var(--blue-accent);font-weight:800;text-transform:uppercase;margin-bottom:6px">🤝 Someone to Uplift (Kindness &amp; Connection)</div>
+          <div style="display:flex;gap:6px">
+            <button class="chip selected">+ My spouse</button>
+            <button class="chip selected">+ Javan</button>
+            <button class="chip">+ Team member</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: CUSTOM INTERESTS -->
+    <div id="tab-interests" class="view-panel">
+      <div class="card-box">
+        <div class="card-title">🏷️ Custom Interests &amp; Area Assignment</div>
+        <p class="card-desc">With visible chips and immediate Luke 2:52 quadrant mapping:</p>
+
+        <div class="chip-group" id="interestChipGroup">
+          <span class="chip selected">📖 Scripture Feasting</span>
+          <span class="chip selected">🤝 Family 1-on-1s</span>
+          <span class="chip selected">🕊️ Stillness &amp; Meditation</span>
+          <span class="chip selected">🏃 Fitness &amp; Training</span>
+          <span class="chip selected">💡 Deep Work &amp; Focus</span>
+          <span class="chip selected">👥 Mentoring Team</span>
+          <span class="chip selected">🏛️ Temple Worship</span>
+          <span class="chip selected">💼 Business / Building</span>
+          <span class="chip selected">✍️ Writing / Creating</span>
+          <span class="chip selected">💰 Financial Stewardship</span>
+        </div>
+
+        <div style="margin-top:16px;border-top:1px solid var(--card-border);padding-top:14px">
+          <div style="font-size:12px;font-weight:800;color:var(--gold);text-transform:uppercase;margin-bottom:8px">Add Your Own Custom Interest</div>
+          <div class="area-bar" id="areaPicker">
+            <div class="area-opt active" onclick="pickArea(this, 'physical')">🏃 Physical</div>
+            <div class="area-opt" onclick="pickArea(this, 'intellectual')">💡 Intellectual</div>
+            <div class="area-opt" onclick="pickArea(this, 'spiritual')">🕊️ Spiritual</div>
+            <div class="area-opt" onclick="pickArea(this, 'social')">🤝 Social</div>
+          </div>
+          <div class="field-row">
+            <input class="input-field" id="newInterestInput" placeholder="e.g. Real Estate, Guitar, Swimming...">
+            <button class="action-btn" onclick="addCustomInterest()">+ Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let activeArea = 'physical';
+
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+      
+      const btn = event ? event.target : document.querySelector(`[onclick="showTab('${tabId}')"]`);
+      if (btn) btn.classList.add('active');
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    function pickArea(el, area) {
+      document.querySelectorAll('.area-opt').forEach(a => a.classList.remove('active'));
+      el.classList.add('active');
+      activeArea = area;
+    }
+
+    function addCustomInterest() {
+      const input = document.getElementById('newInterestInput');
+      const val = input.value.trim();
+      if (!val) return;
+
+      const areaIcons = { physical: '🏃', intellectual: '💡', spiritual: '🕊️', social: '🤝' };
+      const icon = areaIcons[activeArea] || '⭐';
+
+      const group = document.getElementById('interestChipGroup');
+      const chip = document.createElement('span');
+      chip.className = 'chip selected';
+      chip.style.borderColor = 'var(--purple-accent)';
+      chip.style.background = '#25184a';
+      chip.innerHTML = `${icon} ${val} <span class="del-x" onclick="this.parentElement.remove()">✕</span>`;
+      group.appendChild(chip);
+
+      input.value = '';
+    }
+  </script>
+</body>
+</html>

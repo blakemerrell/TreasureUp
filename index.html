@@ -1325,7 +1325,12 @@
   /* Interactive Scripture Block in Cards & Players */
   .sp-sc-block { padding: 13px 15px; border-radius: 14px; background: rgba(0,0,0,.45); border-left: 3.5px solid var(--gold); border-top: 1px solid rgba(255,255,255,.08); border-right: 1px solid rgba(255,255,255,.08); border-bottom: 1px solid rgba(255,255,255,.08); box-shadow: 0 4px 16px rgba(0,0,0,.3); margin: 6px 0; text-align: left; }
   .sp-sc-block.kids { border-left-color: #67e8f9; }
-  .sp-sc-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .sp-sc-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,.08); flex-wrap: wrap; }
+  .sp-trans-pills { display: inline-flex; align-items: center; gap: 4px; background: rgba(255,255,255,.09); padding: 3px 4px; border-radius: 999px; }
+  .sp-trans-pill { font: inherit; font-size: 11px; font-weight: 800; color: rgba(255,255,255,.75); background: transparent; border: 0; padding: 8px 12px; min-height: 38px; border-radius: 999px; cursor: pointer; transition: all .15s ease; text-transform: uppercase; letter-spacing: .03em; line-height: 1.2; white-space: nowrap; touch-action: manipulation; display: inline-flex; align-items: center; justify-content: center; }
+  .sp-trans-pill:hover { color: #fff; background: rgba(255,255,255,.15); }
+  .sp-trans-pill.active { color: #000; background: var(--gold); font-weight: 900; }
+  .sp-sc-block.kids .sp-trans-pill.active { background: #67e8f9; color: #083344; }
   .sp-sc-title { font-size: 11px; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; color: var(--gold); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sp-sc-link { font-size: 10.5px; font-weight: 700; color: rgba(255,255,255,.8); text-decoration: none; white-space: nowrap; padding: 2px 7px; border-radius: 6px; background: rgba(255,255,255,.08); transition: all .15s ease; }
   .sp-sc-link:hover { color: #fff; background: rgba(255,255,255,.18); }
@@ -1991,8 +1996,8 @@
   .card-row.is-video:hover { border-color: #ef4444; }
   .card-row.is-video .cr-kind { color: #fca5a5; }
   .card-row.is-deep .cr-kind { color: #fcd34d; }
-  .cr-kind { flex: 0 0 auto; min-width: 62px; max-width: 140px; font-size: 10.5px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #c4b5fd; white-space: nowrap; }
-  .cr-what { flex: 1; font-size: 14px; line-height: 1.3; }
+  .cr-kind { flex: 0 0 auto; min-width: 62px; font-size: 10.5px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; color: #c4b5fd; white-space: nowrap; }
+  .cr-what { flex: 1; min-width: 0; font-size: 14px; line-height: 1.3; }
   .cr-mark { flex: 0 0 auto; font-size: 13px; font-weight: 900; color: var(--right); }
   .card-row.seen { opacity: .75; }
   .fold { margin-top: 12px; padding: 12px 16px; border-radius: 16px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); }
@@ -3064,7 +3069,14 @@ const TreasureUp = (function () {
   // Where a page can't embed players (the private preview), the card is a
   // plain link that opens YouTube at the clip's start instead.
   function clipHtml(v) {
-    if (!v || !v.youtube) return '';
+    if (!v) return '';
+    if (v.src) {
+      return `<div class="clip-video-wrap" style="margin:8px 0 10px;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#000">
+        <video controls playsinline preload="metadata" style="width:100%;display:block;max-height:240px;border-radius:14px" src="${esc(v.src)}"></video>
+        ${v.title ? `<div style="padding:7px 12px;font-size:12px;font-weight:700;color:#fff;background:rgba(0,0,0,.5)">${esc(v.title)}</div>` : ''}
+      </div>`;
+    }
+    if (!v.youtube) return '';
     const dur = (v.end && v.start != null && v.end > v.start) ? fmtTime(v.end - v.start) : (v.duration || '');
     const inner = `
       <div class="clip-thumb-wrap">
@@ -5019,25 +5031,132 @@ const TreasureUp = (function () {
     return { book, chNum, ch: book + ' ' + chNum, from, to, hasVerse, raw: clean };
   }
 
-  function getVersesData(ref) {
+  function availableTransForRef(ref) {
+    const p = parseScriptureRef(ref);
+    if (!p) return [{ id: 'kjv', label: 'KJV' }];
+    const hasPlain = !!(
+      (typeof plainOf === 'function' && typeof WEEK !== 'undefined' && plainOf(WEEK, p.ch)) ||
+      (window.TU_PLAIN && Array.isArray(window.TU_PLAIN.plain) && window.TU_PLAIN.plain.some(x => x && x.ch === p.ch))
+    );
+    const hasBsb = (typeof isBible === 'function' && isBible(p.ch)) || !!((window.TU_BSB || {})[p.ch]);
+    const list = [];
+    if (hasPlain) list.push({ id: 'plain', label: 'Plain' });
+    list.push({ id: 'kjv', label: 'KJV' });
+    if (hasBsb) list.push({ id: 'bsb', label: 'BSB' });
+    return list;
+  }
+
+  const TRANS_KEY = NS + 'trans';
+  function getPreferredTrans() {
+    try {
+      const s = localStorage.getItem(TRANS_KEY);
+      if (s) return s;
+    } catch (e) {}
+    return '';
+  }
+  function setPreferredTrans(t) {
+    try { localStorage.setItem(TRANS_KEY, t); } catch (e) {}
+  }
+
+  const _scriptureLoadAttempted = new Set();
+
+  function getVersesData(ref, transKey) {
     const p = parseScriptureRef(ref);
     if (!p) return null;
-    let chVerses = (window.TU_READING || {})[p.ch];
-    if (!chVerses && window.TU_LIB && window.TU_LIB[p.ch]) {
-      chVerses = window.TU_LIB[p.ch].v;
+    const transList = availableTransForRef(ref);
+    let trans = transKey || getPreferredTrans() || (transList.some(t => t.id === 'plain') ? 'plain' : 'kjv');
+    if (!transList.some(t => t.id === trans)) trans = 'kjv';
+
+    let chVerses = null;
+    if (trans === 'plain') {
+      const pl = (typeof plainOf === 'function' && typeof WEEK !== 'undefined') ? plainOf(WEEK, p.ch) : null;
+      if (pl && pl.p && Array.isArray(pl.p.verses)) {
+        chVerses = pl.p.verses;
+      } else if (window.TU_PLAIN && Array.isArray(window.TU_PLAIN.plain)) {
+        const found = window.TU_PLAIN.plain.find(x => x && x.ch === p.ch);
+        if (found && Array.isArray(found.verses)) {
+          const shown = typeof shownOf === 'function' ? shownOf(found) : found;
+          if (shown) chVerses = shown.x ? shown.x.verses : shown.verses;
+        }
+      }
+    } else if (trans === 'bsb') {
+      if (typeof bsbOf === 'function' && typeof WEEK !== 'undefined') {
+        chVerses = bsbOf(WEEK, p.ch);
+      }
+      if (!chVerses && window.TU_BSB && window.TU_BSB[p.ch]) {
+        chVerses = window.TU_BSB[p.ch];
+      }
+      if (!chVerses && window.TU_LIB && window.TU_LIB[p.ch] && window.TU_LIB[p.ch].b) {
+        chVerses = window.TU_LIB[p.ch].b;
+      }
+      if (!chVerses) {
+        const bsbKey = 'bsb:' + p.ch;
+        if (!_scriptureLoadAttempted.has(bsbKey)) {
+          _scriptureLoadAttempted.add(bsbKey);
+          const inReading = typeof WEEK !== 'undefined' && Array.isArray(WEEK.plain) && WEEK.plain.some(x => x && x.ch === p.ch);
+          const prms = (inReading && typeof loadBsb === 'function' && typeof transSrcOf === 'function')
+            ? loadBsb(transSrcOf('bsb', WEEK))
+            : (typeof loadOnce === 'function' ? loadOnce('content/lib/' + libSlug(p.ch) + '.js') : Promise.resolve());
+          prms.then(() => {
+            const hasData = (typeof bsbOf === 'function' && typeof WEEK !== 'undefined' && bsbOf(WEEK, p.ch))
+              || (window.TU_BSB && window.TU_BSB[p.ch])
+              || (window.TU_LIB && window.TU_LIB[p.ch] && window.TU_LIB[p.ch].b);
+            if (hasData) {
+              document.querySelectorAll('.sp-sc-block').forEach(el => {
+                if (el.getAttribute('data-sc-ch') === p.ch) {
+                  const r = el.getAttribute('data-sc-ref');
+                  const k = el.getAttribute('data-sc-kids') === '1';
+                  const accent = el.getAttribute('data-sc-accent');
+                  const title = el.getAttribute('data-sc-title');
+                  const quote = el.getAttribute('data-sc-quote');
+                  if (r) el.outerHTML = scriptureBlockHtml(r, { kids: k, accent, title, quote, trans: 'bsb' });
+                }
+              });
+            } else {
+              _scriptureLoadAttempted.delete(bsbKey);
+            }
+          }).catch(err => {
+            _scriptureLoadAttempted.delete(bsbKey);
+            console.warn('BSB scripture load failed for', p.ch, err);
+          });
+        }
+      }
     }
+
+    let transUsed = trans;
     if (!chVerses || !Array.isArray(chVerses)) {
-      if (typeof loadOnce === 'function') {
+      transUsed = 'kjv';
+      chVerses = (window.TU_READING || {})[p.ch];
+      if (!chVerses && window.TU_LIB && window.TU_LIB[p.ch]) {
+        chVerses = window.TU_LIB[p.ch].v;
+      }
+    }
+
+    if (!chVerses || !Array.isArray(chVerses)) {
+      const libKey = 'lib:' + p.ch;
+      if (typeof loadOnce === 'function' && !_scriptureLoadAttempted.has(libKey)) {
+        _scriptureLoadAttempted.add(libKey);
         const slug = libSlug(p.ch);
         loadOnce('content/lib/' + slug + '.js').then(() => {
-          document.querySelectorAll(`[data-sc-ch="${esc(p.ch)}"]`).forEach(el => {
-            const r = el.getAttribute('data-sc-ref');
-            const k = el.getAttribute('data-sc-kids') === '1';
-            const accent = el.getAttribute('data-sc-accent');
-            const title = el.getAttribute('data-sc-title');
-            if (r) el.outerHTML = scriptureBlockHtml(r, { kids: k, accent, title });
-          });
-        }).catch(() => {});
+          const hasKjv = (window.TU_READING || {})[p.ch] || (window.TU_LIB && window.TU_LIB[p.ch] && window.TU_LIB[p.ch].v);
+          if (hasKjv) {
+            document.querySelectorAll('.sp-sc-block').forEach(el => {
+              if (el.getAttribute('data-sc-ch') === p.ch) {
+                const r = el.getAttribute('data-sc-ref');
+                const k = el.getAttribute('data-sc-kids') === '1';
+                const accent = el.getAttribute('data-sc-accent');
+                const title = el.getAttribute('data-sc-title');
+                const quote = el.getAttribute('data-sc-quote');
+                if (r) el.outerHTML = scriptureBlockHtml(r, { kids: k, accent, title, quote });
+              }
+            });
+          } else {
+            _scriptureLoadAttempted.delete(libKey);
+          }
+        }).catch(err => {
+          _scriptureLoadAttempted.delete(libKey);
+          console.warn('Library scripture load failed for', p.ch, err);
+        });
       }
       return null;
     }
@@ -5048,7 +5167,7 @@ const TreasureUp = (function () {
     for (let i = from; i <= to; i++) {
       if (chVerses[i - 1]) list.push({ n: i, t: chVerses[i - 1] });
     }
-    return { p, ref: p.ch + (p.hasVerse ? ':' + from + (to !== from ? '–' + to : '') : ''), verses: list };
+    return { p, ref: p.ch + (p.hasVerse ? ':' + from + (to !== from ? '–' + to : '') : ''), verses: list, transUsed };
   }
 
   function findBestRef(ref, lines) {
@@ -5089,7 +5208,12 @@ const TreasureUp = (function () {
   function scriptureBlockHtml(rawRef, opts = {}) {
     if (!rawRef) return '';
     const p = parseScriptureRef(rawRef);
-    const data = getVersesData(rawRef);
+    const transList = availableTransForRef(rawRef);
+    let preferred = opts.trans || getPreferredTrans() || (transList.some(t => t.id === 'plain') ? 'plain' : 'kjv');
+    if (!transList.some(t => t.id === preferred)) preferred = 'kjv';
+
+    const data = getVersesData(rawRef, preferred);
+    const transUsed = (data && data.transUsed) || preferred;
     const glUrl = readLink(rawRef) || (p ? scriptureUrl(p.book, p.chNum, p.hasVerse ? p.from : null) : null);
     const isKids = !!opts.kids;
     const borderCol = opts.accent || (isKids ? '#67e8f9' : 'var(--gold)');
@@ -5107,10 +5231,18 @@ const TreasureUp = (function () {
       versesHtml = `<p class="sp-sc-p" style="opacity:.85;font-style:italic">Loading scripture verses for ${esc(titleRef)}…</p>`;
     }
 
-    return `<div class="sp-sc-block${isKids ? ' kids' : ''}" data-sc-ch="${p ? esc(p.ch) : ''}" data-sc-ref="${esc(rawRef)}" data-sc-kids="${isKids ? '1' : '0'}" ${opts.accent ? `data-sc-accent="${esc(opts.accent)}"` : ''} ${opts.title ? `data-sc-title="${esc(opts.title)}"` : ''} style="border-left-color:${borderCol}">
+    const pillsHtml = transList.length > 1 ? `
+      <div class="sp-trans-pills" role="group" aria-label="Scripture translation">
+        ${transList.map(t => `<button type="button" class="sp-trans-pill${t.id === transUsed ? ' active' : ''}" data-card-trans="${t.id}" data-sc-ref="${esc(rawRef)}">${t.id === 'plain' ? '🧒 ' : ''}${t.label}</button>`).join('')}
+      </div>` : '';
+
+    return `<div class="sp-sc-block${isKids ? ' kids' : ''}" data-sc-ch="${p ? esc(p.ch) : ''}" data-sc-ref="${esc(rawRef)}" data-sc-kids="${isKids ? '1' : '0'}" ${opts.accent ? `data-sc-accent="${esc(opts.accent)}"` : ''} ${opts.title ? `data-sc-title="${esc(opts.title)}"` : ''} ${opts.quote ? `data-sc-quote="${esc(opts.quote)}"` : ''} style="border-left-color:${borderCol}">
       <div class="sp-sc-head">
         <span class="sp-sc-title" style="color:${borderCol}">${esc(title)}</span>
-        ${glUrl ? `<a class="sp-sc-link" href="${esc(glUrl)}" target="_blank" rel="noopener noreferrer">Gospel Library ↗</a>` : ''}
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px">
+          ${pillsHtml}
+          ${glUrl ? `<a class="sp-sc-link" href="${esc(glUrl)}" target="_blank" rel="noopener noreferrer">Gospel Library ↗</a>` : ''}
+        </div>
       </div>
       <div class="sp-sc-body">
         ${versesHtml}
@@ -5222,7 +5354,7 @@ const TreasureUp = (function () {
   }
 
   function shortBadge(x, isKids) {
-    const cfm = CFM_MEDIA[x.id];
+    const cfm = getCfmMedia(x, typeof WEEK !== 'undefined' ? WEEK : null);
     if (cfm && cfm.video && cfm.video.channel) {
       if (cfm.video.channel === 'Latter Day Kids') return '▶ Latter Day Kids';
       if (cfm.video.channel.includes('Church')) return '▶ Bible Video';
@@ -5448,7 +5580,7 @@ const TreasureUp = (function () {
   }
 
   const CFM_MEDIA = {
-    'title4': {
+    'October 5–11, 2026:title4': {
       video: {
         title: 'My Kingdom Is Not of This World',
         channel: 'The Church of Jesus Christ of Latter-day Saints',
@@ -5479,7 +5611,7 @@ const TreasureUp = (function () {
         }
       ]
     },
-    'title8': {
+    'October 5–11, 2026:title8': {
       video: {
         title: 'Put on the Armor of God | Animated Scripture Lesson for Kids',
         channel: 'Latter Day Kids',
@@ -5490,7 +5622,7 @@ const TreasureUp = (function () {
       },
       videoCardIdx: 0
     },
-    'title9': {
+    'October 5–11, 2026:title9': {
       video: {
         title: 'The Ant and the Very Big Rock | Animated Scripture Lesson for Kids',
         channel: 'Latter Day Kids',
@@ -5515,7 +5647,7 @@ const TreasureUp = (function () {
         }
       ]
     },
-    'title10': {
+    'October 5–11, 2026:title10': {
       video: {
         title: 'Pray Always | Animated Scripture Lesson for Kids',
         channel: 'Latter Day Kids',
@@ -5525,8 +5657,29 @@ const TreasureUp = (function () {
         previewed: true
       },
       videoCardIdx: 0
+    },
+    'October 12–18, 2026:title9': {
+      video: {
+        title: 'Fasting and Prayer | Animated Scripture Lesson for Kids',
+        channel: 'Latter Day Kids',
+        youtube: 'dTumAHk7vBQ',
+        start: 0,
+        end: 225,
+        previewed: true
+      },
+      videoCardIdx: 0
     }
   };
+
+  function getCfmMedia(x, week) {
+    if (!x || !x.id) return null;
+    const wk = week || (typeof WEEK !== 'undefined' ? WEEK : null);
+    if (wk && wk.dates) {
+      const scoped = CFM_MEDIA[wk.dates + ':' + x.id];
+      if (scoped) return scoped;
+    }
+    return CFM_MEDIA[x.id] || null;
+  }
 
   function cardImageHtml(img) {
     if (!img || !img.src) return '';
@@ -5538,7 +5691,7 @@ const TreasureUp = (function () {
 
   function findMediaForCard(x, cardIdx, week) {
     if (!x) return { video: null, image: null };
-    const cfm = CFM_MEDIA[x.id];
+    const cfm = getCfmMedia(x, week);
     let video = null;
     let image = null;
 
@@ -5613,7 +5766,7 @@ const TreasureUp = (function () {
             let h = '';
             if (media.image) h += cardImageHtml(media.image);
             if (media.video) h += clipHtml(media.video);
-            const cfm = CFM_MEDIA[x.id];
+            const cfm = getCfmMedia(x, WEEK);
             if (cfm && cfm.video && cfm.videoCardIdx != null && cur !== cfm.videoCardIdx) {
               h += `<div style="margin:10px 0 6px;text-align:center"><button class="sp-jump-btn" data-short-step="${esc(x.id)}|${cfm.videoCardIdx}" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;background:rgba(239,68,68,.18);border:1px solid rgba(239,68,68,.4);color:#fca5a5;font-size:12px;font-weight:800;cursor:pointer">▶ Watch ${esc(cfm.video.channel)} Video on Card ${cfm.videoCardIdx + 1} ›</button></div>`;
             }
@@ -6110,8 +6263,7 @@ const TreasureUp = (function () {
     const x = i.x, seen = !!(S.insights || {})[x.id];
     const what = x.kind === 'quote' ? (x.source && x.source.who) + ': “' + x.quote.slice(0, 60) + (x.quote.length > 60 ? '…”' : '”') : x.title;
     const isVid = x.kind === 'video';
-    const ch = isVid && x.video && x.video.channel ? x.video.channel : '';
-    const kindLabel = isVid ? `▶ Video${ch ? ' · ' + (ch === 'Latter Day Kids' ? 'Latter Day Kids' : ch.includes('Church') ? 'Bible Video' : ch) : ''}`
+    const kindLabel = isVid ? '▶ Video'
       : KIND_NAME[x.kind] || (isJsp(x) ? 'Joseph Smith' : hasDeep(x) ? '🤿 Deep dive' : 'Insight');
     return `<button class="card-row${seen ? ' seen' : ''}${isVid ? ' is-video' : hasDeep(x) ? ' is-deep' : ''}" data-card="${esc(x.id)}"><span class="cr-kind">${kindLabel}</span><span class="cr-what">${esc(what)}</span><span class="cr-mark">${seen ? '✓' : (isVid ? '▶' : '')}</span></button>`;
   }
@@ -6191,8 +6343,14 @@ const TreasureUp = (function () {
     }
 
     // 2. CFM_MEDIA videos (including Latter Day Kids)
-    for (const [id, m] of Object.entries(CFM_MEDIA)) {
+    for (const [key, m] of Object.entries(CFM_MEDIA)) {
       if (m && m.video && m.video.youtube && !seenYt.has(m.video.youtube)) {
+        const colonIdx = key.indexOf(':');
+        const weekDates = colonIdx >= 0 ? key.slice(0, colonIdx) : null;
+        const id = colonIdx >= 0 ? key.slice(colonIdx + 1) : key;
+        if (weekDates && week && week.dates && week.dates !== weekDates) {
+          continue;
+        }
         const guideItem = guideOf(week).find(g => g.x.id === id);
         if (guideItem) {
           seenYt.add(m.video.youtube);
@@ -17099,6 +17257,7 @@ const TreasureUp = (function () {
       if (JSON.stringify(L[key]) !== JSON.stringify(B[key]) && L[key] !== undefined) M[key] = L[key];
       else if (M[key] === undefined && L[key] !== undefined) M[key] = L[key];
     }
+    delete M.preferredTrans;
     M.arcadeOpen = [R.arcadeOpen, L.arcadeOpen].filter(Boolean).sort().pop() || '';
     // This week's shorts and mini-lessons: done on either device stays done, its XP paid once.
     M.shortsDone = Object.assign({}, L.shortsDone || {}, R.shortsDone || {});
@@ -19920,6 +20079,22 @@ const TreasureUp = (function () {
         if (p) openSheet(shortPlayerHtml(p, 0));
         return;
       }
+      const crid = e.target.closest('[data-cream-id]');
+      if (crid) {
+        stopClips();
+        const id = crid.dataset.creamId;
+        if (!isShortDone(id)) {
+          markShortDone(id, 15, 'Deep Dive');
+          toast('🔍 Deep Dive Read! +15 XP', 'Deep treasure unlocked!');
+        }
+        if (id.startsWith('cream:ins:')) {
+          openCard(id.replace('cream:ins:', ''));
+        } else if (id.startsWith('cream:word:')) {
+          treasureOf(WEEK);
+          openTreasure(id.replace('cream:word:', ''));
+        }
+        return;
+      }
       if (e.target.closest('[data-pass-turn]')) {
         passFamilyTurn();
         refreshHome();
@@ -20331,8 +20506,17 @@ const TreasureUp = (function () {
       const crid = e.target.closest('[data-cream-id]');
       if (crid) {
         stopClips();
-        const it = creamItemsOf(WEEK).find(x => x.id === crid.dataset.creamId);
-        if (it) openSheet(creamPlayerHtml(it, 0));
+        const id = crid.dataset.creamId;
+        if (!isShortDone(id)) {
+          markShortDone(id, 15, 'Deep Dive');
+          toast('🔍 Deep Dive Read! +15 XP', 'Deep treasure unlocked!');
+        }
+        if (id.startsWith('cream:ins:')) {
+          openCard(id.replace('cream:ins:', ''));
+        } else if (id.startsWith('cream:word:')) {
+          treasureOf(WEEK);
+          openTreasure(id.replace('cream:word:', ''));
+        }
         return;
       }
       const crstep = e.target.closest('[data-cream-step]');
@@ -20435,6 +20619,23 @@ const TreasureUp = (function () {
     document.addEventListener('click', e => {
       const im = e.target.closest('[data-impress]');
       if (im) openSeason('home', { ref: im.dataset.impress });
+    });
+    // Scripture translation toggle on cards (Plain English, KJV, BSB).
+    document.addEventListener('click', e => {
+      const btn = e.target.closest('[data-card-trans]');
+      if (!btn) return;
+      const t = btn.getAttribute('data-card-trans');
+      if (!t) return;
+      setPreferredTrans(t);
+      const block = btn.closest('.sp-sc-block');
+      if (block) {
+        const r = block.getAttribute('data-sc-ref');
+        const k = block.getAttribute('data-sc-kids') === '1';
+        const accent = block.getAttribute('data-sc-accent');
+        const title = block.getAttribute('data-sc-title');
+        const quote = block.getAttribute('data-sc-quote');
+        if (r) block.outerHTML = scriptureBlockHtml(r, { kids: k, accent, title, quote, trans: t });
+      }
     });
     // A verse, tapped: the bar under it; its highlight and note.
     document.addEventListener('click', verseClick);

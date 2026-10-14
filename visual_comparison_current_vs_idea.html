@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>TreasureUp · Visual Comparison: Current Code vs. Our Idea</title>
+<style>
+  :root {
+    --bg: #0b0d14;
+    --panel-bg: #121624;
+    --card: #181e30;
+    --card-border: rgba(255, 255, 255, 0.08);
+    --gold: #f59e0b;
+    --gold-light: #fef3c7;
+    --gold-dim: rgba(245, 158, 11, 0.15);
+    --gold-border: rgba(245, 158, 11, 0.35);
+    --blue: #38bdf8;
+    --blue-dim: rgba(56, 189, 248, 0.15);
+    --green: #10b981;
+    --green-dim: rgba(16, 185, 129, 0.15);
+    --purple: #a855f7;
+    --purple-dim: rgba(168, 85, 247, 0.15);
+    --txt: #f8fafc;
+    --txt-dim: #94a3b8;
+    --txt-muted: #64748b;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--txt);
+    font-family: var(--font);
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(11, 13, 20, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--card-border);
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; color: var(--gold); }
+  .brand small { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: var(--gold-dim); border: 1px solid var(--gold-border); color: var(--gold); }
+
+  .nav-pills { display: flex; gap: 4px; background: rgba(255,255,255,0.06); padding: 3px; border-radius: 999px; }
+  .nav-btn {
+    background: none;
+    border: none;
+    padding: 7px 15px;
+    border-radius: 999px;
+    color: var(--txt-dim);
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .nav-btn.active {
+    background: var(--gold);
+    color: #171003;
+    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.35);
+  }
+
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 80px; }
+
+  /* Mode Switcher Banner */
+  .view-banner {
+    background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(18,22,36,0.8));
+    border: 1px solid var(--gold-border);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .vb-text h2 { margin: 0 0 4px; font-size: 18px; color: #fff; font-weight: 800; }
+  .vb-text p { margin: 0; font-size: 13px; color: var(--txt-dim); }
+
+  .view-toggle {
+    display: inline-flex;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 4px;
+  }
+  .vt-btn {
+    border: none;
+    background: none;
+    color: var(--txt-dim);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .vt-btn.active {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+  }
+  .vt-btn.active.ideal {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #1a1306;
+  }
+
+  /* Comparison Grid */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  @media (max-width: 820px) {
+    .comp-grid { grid-template-columns: 1fr; }
+  }
+
+  .col-box {
+    background: var(--panel-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .col-box.enhanced {
+    border-color: var(--gold-border);
+    box-shadow: 0 8px 30px rgba(245, 158, 11, 0.08);
+  }
+
+  .col-head {
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .col-title { font-size: 14px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
+  .col-title.now { color: #94a3b8; }
+  .col-title.ideal { color: var(--gold); }
+  .col-badge {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+  .col-badge.now { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; }
+  .col-badge.ideal { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); }
+
+  .col-body { padding: 18px; flex: 1; }
+
+  /* Device Simulator Frame */
+  .device-mock {
+    max-width: 440px;
+    margin: 0 auto;
+    background: #000;
+    border: 3px solid #2d3348;
+    border-radius: 36px;
+    padding: 16px 12px 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  }
+  .device-notch {
+    width: 110px;
+    height: 18px;
+    background: #2d3348;
+    border-radius: 0 0 12px 12px;
+    margin: -16px auto 14px;
+  }
+
+  /* Current Today UI elements */
+  .fl-date {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0 6px 10px;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--txt);
+  }
+  .fl-date small { color: var(--txt-dim); font-weight: 600; font-size: 12px; }
+
+  /* Green Up-Next Button */
+  .fl-next {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, #10b981, #059669);
+    border: none;
+    border-radius: 14px;
+    padding: 12px 16px;
+    text-align: left;
+    color: #fff;
+    cursor: pointer;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+  }
+  .fl-next b { display: block; font-size: 14.5px; }
+  .fl-next small { color: rgba(255,255,255,0.85); font-size: 12px; }
+
+  /* Sections in Today (tsec) */
+  .tsec {
+    margin-bottom: 16px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 14px;
+    padding: 10px 12px;
+  }
+  .tsec-h {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--txt-muted);
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    margin-bottom: 8px;
+  }
+  .tsec-h b { color: #cbd5e1; }
+
+  /* Uniform tcRow Card */
+  .tc {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 9px 12px;
+    margin-bottom: 6px;
+    text-align: left;
+    width: 100%;
+    color: inherit;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .tc:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+  .tc-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .tc-dot.ic { border: none; font-size: 14px; }
+  .tc.ok .tc-dot { background: var(--green); border-color: var(--green); }
+  .tc-t { flex: 1; min-width: 0; }
+  .tc-t b { display: block; font-size: 13px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tc-t small { display: block; font-size: 11.5px; color: var(--txt-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tc-go { color: var(--txt-muted); font-size: 14px; font-weight: 800; }
+  .pth-xp { font-style: normal; font-size: 11px; font-weight: 800; color: var(--gold); }
+
+  /* Two Hands Strip on Enhanced Today */
+  .two-hands-hero {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(56, 189, 248, 0.1));
+    border: 1px solid var(--gold-border);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+  }
+  .th-eyebrow {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    justify-content: space-between;
+  }
+  .th-content {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #e2e8f0;
+    margin: 4px 0 8px;
+    font-style: italic;
+  }
+  .th-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    background: rgba(0,0,0,0.3);
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .th-cell h5 { margin: 0; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .th-cell.grace h5 { color: #f59e0b; }
+  .th-cell.effort h5 { color: #38bdf8; }
+  .th-cell p { margin: 2px 0 0; font-size: 11px; color: var(--txt-dim); }
+
+  /* Sheet Mockup (Modal Preview) */
+  .sheet-frame {
+    background: #111420;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 18px;
+    padding: 18px;
+    margin-top: 10px;
+  }
+  .sh-title { font-size: 17px; font-weight: 800; color: #fff; margin-bottom: 2px; }
+  .sh-small { font-size: 12px; color: var(--txt-dim); margin-top: 0; margin-bottom: 14px; }
+
+  .field-label { display: block; font-size: 11.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); margin-bottom: 4px; }
+  .field-input {
+    width: 100%;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 8px 12px;
+    color: #fff;
+    font-size: 12.5px;
+    margin-bottom: 12px;
+    font-family: inherit;
+  }
+  textarea.field-input { resize: none; min-height: 50px; }
+
+  .pill-row { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+  .mini-pill {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #cbd5e1;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 999px;
+  }
+
+  .btn-save-sheet {
+    width: 100%;
+    background: var(--gold);
+    color: #171003;
+    font-weight: 800;
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  .diff-note {
+    background: rgba(56, 189, 248, 0.08);
+    border-left: 3px solid #38bdf8;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #bae6fd;
+    margin-bottom: 14px;
+    border-radius: 0 8px 8px 0;
+  }
+  .diff-note b { color: #fff; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <span>🧭 TreasureUp</span>
+    <small>Visual Comparison</small>
+  </div>
+  <div class="nav-pills">
+    <button class="nav-btn active" onclick="showTab('today')">1. Today Layout</button>
+    <button class="nav-btn" onclick="showTab('morning')">2. Morning Council</button>
+    <button class="nav-btn" onclick="showTab('evening')">3. Return &amp; Report</button>
+    <button class="nav-btn" onclick="showTab('pro')">4. Pro Planner</button>
+    <button class="nav-btn" onclick="showTab('child')">5. 👦 Child &amp; Youth Flow</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ==================== TAB 1: TODAY LAYOUT ==================== -->
+  <section id="tab-today">
+    <div class="view-banner">
+      <div class="vb-text">
+        <h2>Comparison: The Today Screen ("The Way")</h2>
+        <p>Current code uses uniform <code>.tc</code> card rows grouped into Bednar's 5 daily sections. Our enhancement adds the <b>Two Hands of Discipleship</b> context directly into the flow.</p>
+      </div>
+    </div>
+
+    <div class="comp-grid">
+      <!-- LEFT: CURRENT ON MAIN -->
+      <div class="col-box">
+        <div class="col-head">
+          <span class="col-title now">Current Code on `main`</span>
+          <span class="col-badge now">PR #159 Live</span>
+        </div>
+        <div class="col-body">
+          <div class="diff-note">
+            <b>Current Design:</b> Everything is a uniform <code>tcRow</code> card. Minimalist, flat, and linear.
+          </div>
+
+          <div class="device-mock">
+            <div class="device-notch"></div>
+            <div class="fl-date">
+              <b>MONDAY · OCT 12</b>
+              <small>0 of 9 done</small>
+            </div>
+
+            <!-- Green Action Button -->
+            <button class="fl-next">
+              <b>▶ 🕊️ Be still, then Today’s study</b>
+              <small>Come Follow Me · about 12 min</small>
+            </button>
+
+            <!-- 1. MORNING SECTION -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Morning</b><span>0 of 2</span></div>
+              <div class="tc"><span class="tc-dot ic">🕊️</span><span class="tc-t"><b>Be still</b><small>10 min quiet · Psalm 46:10</small></span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">🌅</span><span class="tc-t"><b>Morning Council</b><small>Alma 37:37 · counsel with Him</small></span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- 2. SCRIPTURE STUDY SECTION -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Scripture study</b><span>0 of 4</span></div>
+              <div class="tc"><span class="tc-dot"></span><span class="tc-t"><b>Read Isaiah 50–51</b><small>9 min · +20 XP</small></span><span class="pth-xp">+20 XP</span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot"></span><span class="tc-t"><b>Awake, awake, put on strength</b><small>A question · Isaiah 51</small></span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">📜</span><span class="tc-t"><b>Book of Mormon</b><small>Mosiah 2:17 · Living Water micro-dose</small></span><span class="pth-xp">+10 XP</span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">⚡</span><span class="tc-t"><b>Family mini-lesson</b><small>2 min interactive cards</small></span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- 3. CONFERENCE SECTION -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Conference</b><span>0 of 1</span></div>
+              <div class="tc"><span class="tc-dot ic">🎤</span><span class="tc-t"><b>“Look to God and live”</b><small>Elder Gong · Oct 2026 Conference Gem</small></span><span class="pth-xp">+15 XP</span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- 4. GOALS SECTION -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Goals</b><span>0 of 2</span></div>
+              <div class="tc"><span class="tc-dot ic">⭐</span><span class="tc-t"><b>Breakfast date with Sam</b><small>My top 3 · Father</small></span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">🌱</span><span class="tc-t"><b>Pray morning and night</b><small>My Season · 2 of 7 days</small></span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- 5. EVENING SECTION -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Evening</b><span>0 of 2</span></div>
+              <div class="tc"><span class="tc-dot ic">🙏</span><span class="tc-t"><b>Grateful for…</b><small>Tap to add gratitude</small></span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">🌙</span><span class="tc-t"><b>Return &amp; Report</b><small>Alma 34:38 · evening accounting</small></span><span class="pth-xp">+20 XP</span><span class="tc-go">›</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: PROPOSED ENHANCED VISION -->
+      <div class="col-box enhanced">
+        <div class="col-head">
+          <span class="col-title ideal">Enhanced with Hesed &amp; Agape</span>
+          <span class="col-badge ideal">Spiritual Heart Added</span>
+        </div>
+        <div class="col-body">
+          <div class="diff-note">
+            <b>The Enhancement:</b> Keeps the clean `.tc` card structure, but crowns Today with the <b>Two Hands of Discipleship</b> banner, anchoring daily effort in Christ's saving grace.
+          </div>
+
+          <div class="device-mock">
+            <div class="device-notch"></div>
+            <div class="fl-date">
+              <b>MONDAY · OCT 12</b>
+              <small>0 of 9 done</small>
+            </div>
+
+            <!-- TWO HANDS SPIRITUAL HERO (Added) -->
+            <div class="two-hands-hero">
+              <div class="th-eyebrow">
+                <span>The Two Hands of Discipleship</span>
+                <span style="color:#fff">Micah 6:8</span>
+              </div>
+              <div class="th-content">
+                “Effort without grace becomes performance; grace without effort is presumption. Hold both, every day.”
+              </div>
+              <div class="th-grid">
+                <div class="th-cell grace">
+                  <h5>✋ Hand of Grace (Hesed)</h5>
+                  <p>God’s relentless covenant love holding you.</p>
+                </div>
+                <div class="th-cell effort">
+                  <h5>✋ Hand of Effort (Agape)</h5>
+                  <p>Joyful ministering at home, work, and church.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Green Action Button -->
+            <button class="fl-next" style="background:linear-gradient(135deg, #f59e0b, #d97706);color:#1a1306;">
+              <b style="color:#1a1306">▶ 🕊️ Morning Council: Spiritual Creation</b>
+              <small style="color:#3e2a07">Center with God before building the day</small>
+            </button>
+
+            <!-- 1. MORNING SECTION -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Morning · Spiritual Creation</b><span>0 of 2</span></div>
+              <div class="tc"><span class="tc-dot ic">🕊️</span><span class="tc-t"><b>Be still &amp; Receive Peace</b><small>Psalm 46:10 · 3 min stillness</small></span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">🌅</span><span class="tc-t"><b>Morning Council · The Two Hands</b><small>Grace &amp; Effort · Today’s One Practice</small></span><span class="pth-xp">+15 XP</span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- 2. SCRIPTURE STUDY SECTION -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Scripture study</b><span>0 of 4</span></div>
+              <div class="tc"><span class="tc-dot"></span><span class="tc-t"><b>Read Isaiah 50–51</b><small>9 min · +20 XP</small></span><span class="pth-xp">+20 XP</span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot"></span><span class="tc-t"><b>Awake, awake, put on strength</b><small>A question · Isaiah 51</small></span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">📜</span><span class="tc-t"><b>Book of Mormon · Living Water</b><small>Mosiah 2:17 · When ye are in the service...</small></span><span class="pth-xp">+10 XP</span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">⚡</span><span class="tc-t"><b>Family mini-lesson</b><small>5-Night Come Follow Me discussion</small></span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- 3. CONFERENCE SECTION -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Conference</b><span>0 of 1</span></div>
+              <div class="tc"><span class="tc-dot ic">🎤</span><span class="tc-t"><b>“Look to God and live”</b><small>Elder Gong · Oct 2026 Conference Gem</small></span><span class="pth-xp">+15 XP</span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- 4. GOALS SECTION -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Walk in Love · Today's Practices</b><span>0 of 2</span></div>
+              <div class="tc"><span class="tc-dot ic">🤝</span><span class="tc-t"><b>At Home: Breakfast date with Sam</b><small>Role: Father · Top priority</small></span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">🌱</span><span class="tc-t"><b>Pray morning and night</b><small>My Season · 2 of 7 days</small></span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- 5. EVENING SECTION -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Evening · Return &amp; Report</b><span>0 of 2</span></div>
+              <div class="tc"><span class="tc-dot ic">🙏</span><span class="tc-t"><b>Grateful for…</b><small>Notice the mercies of today</small></span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">🌙</span><span class="tc-t"><b>Return &amp; Report · Day 13</b><small>“What went right that wasn’t up to you?”</small></span><span class="pth-xp">+20 XP</span><span class="tc-go">›</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 2: MORNING COUNCIL ==================== -->
+  <section id="tab-morning" style="display:none">
+    <div class="view-banner">
+      <div class="vb-text">
+        <h2>Comparison: Morning Council Sheet</h2>
+        <p>What opens when you tap <b>Morning Council</b>. The current sheet focuses on productivity inputs. The enhanced sheet organizes the inputs around the <b>Two Hands (Grace &amp; Effort)</b> and life spheres (Home, Work, Church, Community).</p>
+      </div>
+    </div>
+
+    <div class="comp-grid">
+      <!-- CURRENT SHEET -->
+      <div class="col-box">
+        <div class="col-head">
+          <span class="col-title now">Current Sheet Code (`index.html`)</span>
+          <span class="col-badge now">Lines 4252–4297</span>
+        </div>
+        <div class="col-body">
+          <div class="sheet-frame">
+            <div class="sh-title">🌅 Morning Council</div>
+            <p class="sh-small">Alma 37:37 · Counsel with the Lord in all thy doings</p>
+
+            <!-- 1. The One Thing -->
+            <span class="field-label">🎯 Today’s One Thing</span>
+            <div class="pill-row">
+              <span class="mini-pill">Talk with Heavenly Father every day</span>
+            </div>
+            <textarea class="field-input" placeholder="The single priority from the Lord today…">Be patient and listen to the kids</textarea>
+
+            <!-- 2. Someone to Uplift -->
+            <span class="field-label">🤝 Someone to Uplift</span>
+            <div class="pill-row">
+              <span class="mini-pill">+ My spouse</span>
+              <span class="mini-pill">+ One of my kids</span>
+              <span class="mini-pill">+ A team member</span>
+              <span class="mini-pill">+ A neighbor</span>
+            </div>
+            <input class="field-input" placeholder="Who can I serve, encourage, text, or pray for?" value="Send an encouraging text to Mom">
+
+            <!-- 3. Morning Gratitude -->
+            <span class="field-label">🙏 Morning Gratitude</span>
+            <textarea class="field-input" placeholder="1–3 things you’re grateful for (one per line)…">- Morning sunlight&#10;- Peaceful prayer&#10;- Good health</textarea>
+
+            <button class="btn-save-sheet">Save Morning Council (+15 XP)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ENHANCED SHEET -->
+      <div class="col-box enhanced">
+        <div class="col-head">
+          <span class="col-title ideal">Enhanced Two-Hands Council</span>
+          <span class="col-badge ideal">Spiritual Creation</span>
+        </div>
+        <div class="col-body">
+          <div class="sheet-frame">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div>
+                <div class="sh-title">🌅 Morning Council · The Two Hands</div>
+                <p class="sh-small">Spiritual creation precedes natural creation · Alma 37:37</p>
+              </div>
+              <span style="font-size:11px;padding:3px 8px;border-radius:6px;background:var(--gold-dim);color:var(--gold);font-weight:800">Day 13: Logizetai</span>
+            </div>
+
+            <!-- I. Hand of Grace -->
+            <div style="background:rgba(245,158,11,0.08);border:1px solid var(--gold-border);border-radius:10px;padding:10px 12px;margin-bottom:12px">
+              <span class="field-label" style="color:var(--gold)">✋ Hand of Grace · Be Still &amp; Receive His Peace</span>
+              <p style="font-size:11.5px;color:#fde68a;margin:2px 0 6px">Ask for what you cannot manufacture: charity, patience, His Spirit.</p>
+              <textarea class="field-input" style="min-height:44px" placeholder="Breathe in His love. What help do you need from Him today?">Lord, help me feel Thy love for my team and my family so I don't operate out of stress.</textarea>
+            </div>
+
+            <!-- II. Hand of Effort -->
+            <div style="background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.25);border-radius:10px;padding:10px 12px;margin-bottom:12px">
+              <span class="field-label" style="color:#38bdf8">✋ Hand of Effort · Eyes to See (Ministering)</span>
+              <p style="font-size:11.5px;color:#bae6fd;margin:2px 0 6px">Who will cross your path today who needs to be lifted?</p>
+              <div class="pill-row">
+                <span class="mini-pill" style="color:#38bdf8;border-color:rgba(56,189,248,0.3)">🏡 At Home (Wife, Kids)</span>
+                <span class="mini-pill" style="color:#38bdf8;border-color:rgba(56,189,248,0.3)">💼 At Work (Team)</span>
+                <span class="mini-pill" style="color:#38bdf8;border-color:rgba(56,189,248,0.3)">⛪ At Church</span>
+                <span class="mini-pill" style="color:#38bdf8;border-color:rgba(56,189,248,0.3)">🤝 In Community</span>
+              </div>
+              <input class="field-input" placeholder="Who needs a lift today?" value="At Home: Give Chantel an uninterrupted 30 minutes tonight">
+            </div>
+
+            <!-- III. The Day: Top 3 Priorities -->
+            <span class="field-label">🎯 Today’s Top 3 (Hardest First)</span>
+            <input class="field-input" style="margin-bottom:6px" value="1. Finish the quote tool for Merit3D (Work)">
+            <input class="field-input" style="margin-bottom:6px" value="2. Breakfast date with Sam (Family)">
+            <input class="field-input" style="margin-bottom:12px" value="3. Call Bishop regarding youth activity (Church)">
+
+            <button class="btn-save-sheet" style="background:linear-gradient(135deg, #f59e0b, #d97706);color:#1a1306">
+              Lock In Morning Council (+15 XP)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 3: RETURN & REPORT ==================== -->
+  <section id="tab-evening" style="display:none">
+    <div class="view-banner">
+      <div class="vb-text">
+        <h2>Comparison: Return &amp; Report (Evening Accounting)</h2>
+        <p>Current code uses <b>the exact same 3 static questions every night</b>. Our enhancement uses <b>40 rotating, un-clichéd questions</b> from the Wilderness Forty that make you genuinely pause, notice His hand, and celebrate goodness without guilt.</p>
+      </div>
+    </div>
+
+    <div class="comp-grid">
+      <!-- CURRENT EVENING SHEET -->
+      <div class="col-box">
+        <div class="col-head">
+          <span class="col-title now">Current Sheet Code (`index.html`)</span>
+          <span class="col-badge now">Lines 4364–4386 (Static)</span>
+        </div>
+        <div class="col-body">
+          <div class="sheet-frame">
+            <div class="sh-title">🌙 Return &amp; Report</div>
+            <p class="sh-small">“At the end of our day, we kneel again and report back to our Father...” (Elder Bednar)</p>
+
+            <!-- Question 1: Always identical -->
+            <span class="field-label">✨ Noticing His Mercies (Alma 34:38)</span>
+            <small style="color:var(--txt-muted);display:block;margin-bottom:4px">Always asks: “Where did you see Heavenly Father’s hand or tender mercies today?”</small>
+            <textarea class="field-input" placeholder="Where did you see Heavenly Father’s hand or tender mercies today?">Felt peace during our morning study</textarea>
+
+            <!-- Question 2: Wins -->
+            <span class="field-label">🏆 Today’s Wins &amp; Victories</span>
+            <input class="field-input" placeholder="1–2 wins: personal, spiritual, or family victory" value="Got the kids to bed on time">
+
+            <!-- Question 3: Improvement -->
+            <span class="field-label">🌱 What did today teach you for tomorrow?</span>
+            <input class="field-input" placeholder="A lesson learned or something to do better tomorrow" value="Don't check email after 8 PM">
+
+            <button class="btn-save-sheet" style="background:linear-gradient(135deg,#a78bfa,#818cf8);color:#1e1b4b">
+              Close Day in Prayer (+20 XP)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ENHANCED DYNAMIC EVENING SHEET -->
+      <div class="col-box enhanced">
+        <div class="col-head">
+          <span class="col-title ideal">Enhanced 40-Day Rotating Questions</span>
+          <span class="col-badge ideal">Fresh Every Night</span>
+        </div>
+        <div class="col-body">
+          <div class="sheet-frame">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div>
+                <div class="sh-title">🌙 Return &amp; Report · Day 13 of 40</div>
+                <p class="sh-small">Report back on your blueprint &amp; celebrate His goodness · Alma 34:38</p>
+              </div>
+              <span style="font-size:11px;padding:3px 8px;border-radius:6px;background:rgba(168,85,247,0.15);color:#c084fc;font-weight:800">Dynamic Mirror</span>
+            </div>
+
+            <!-- Dynamic Question Rotator (Sample) -->
+            <div style="background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.3);border-radius:10px;padding:12px 14px;margin-bottom:14px">
+              <span class="field-label" style="color:#d8b4fe">✨ Tonight’s Question (Day 13):</span>
+              <p style="font-size:14px;font-weight:700;color:#fff;margin:4px 0 6px">
+                “What went right today that you had absolutely nothing to do with?”
+              </p>
+              <textarea class="field-input" style="background:rgba(0,0,0,0.5);border-color:rgba(168,85,247,0.3)" placeholder="Write your honest observation...">The client signed the contract out of the blue, and Sam came up and hugged me without being asked. God was already taking care of things before I even worried about them.</textarea>
+            </div>
+
+            <!-- Honest Space Callout -->
+            <div style="font-size:11.5px;color:var(--txt-muted);font-style:italic;margin-bottom:12px;text-align:center">
+              💡 “An empty space is an honest space. Better to leave it blank than to invent a false mercy.”
+            </div>
+
+            <!-- Tomorrow's Light -->
+            <span class="field-label" style="color:var(--gold)">🌱 Tomorrow’s Carry-Over</span>
+            <input class="field-input" placeholder="What brought joy today that you want to carry into tomorrow?" value="The peaceful breakfast with Sam. Do that again.">
+
+            <button class="btn-save-sheet" style="background:linear-gradient(135deg,#a78bfa,#818cf8);color:#1e1b4b">
+              Close Day in Prayer · Return &amp; Report (+20 XP)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 4: PRO PLANNER ==================== -->
+  <section id="tab-pro" style="display:none">
+    <div class="view-banner">
+      <div class="vb-text">
+        <h2>Comparison: Pro Mode in Season Notebook</h2>
+        <p>Claude built the tactical <b>Franklin-Covey / Best Self Planner structure</b> with private Firestore storage. Our idea is to embed the <b>40-Day Wilderness Track (Hesed &amp; Agape)</b> right into this engine.</p>
+      </div>
+    </div>
+
+    <div class="comp-grid">
+      <!-- CURRENT PRO PLANNER -->
+      <div class="col-box">
+        <div class="col-head">
+          <span class="col-title now">Current Pro Mode on `main`</span>
+          <span class="col-badge now">PR #157 Live</span>
+        </div>
+        <div class="col-body">
+          <div class="diff-note">
+            <b>5 Planner Pages:</b> Mission, Year, Week, Today, Month. Private Firestore sync (under <code>journals/{uid}</code>).
+          </div>
+
+          <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px">
+            <div style="display:flex;gap:4px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:8px;margin-bottom:10px">
+              <span class="mini-pill" style="background:var(--gold);color:#000;font-weight:800">⭐ Today</span>
+              <span class="mini-pill">🗓️ Week</span>
+              <span class="mini-pill">🎯 Year</span>
+              <span class="mini-pill">🧭 Mission</span>
+              <span class="mini-pill">📅 Month</span>
+            </div>
+            <div style="font-size:12.5px;color:#fff;font-weight:700;margin-bottom:6px">Today’s Top 3 (from Big Rocks):</div>
+            <div class="tc"><span class="tc-dot">✓</span><span class="tc-t"><b>Breakfast date with Sam</b><small>Role: Father · Goal: Weekly 1-on-1</small></span></div>
+            <div class="tc"><span class="tc-dot"></span><span class="tc-t"><b>Finish quote tool</b><small>Role: Business owner</small></span></div>
+            <div class="tc"><span class="tc-dot"></span><span class="tc-t"><b>Temple trip</b><small>Role: Disciple of Christ</small></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FUSED PRO PLANNER -->
+      <div class="col-box enhanced">
+        <div class="col-head">
+          <span class="col-title ideal">The Unified Fusion (Tactical + Spiritual)</span>
+          <span class="col-badge ideal">Best of Both</span>
+        </div>
+        <div class="col-body">
+          <div class="diff-note">
+            <b>The Fusion:</b> Keep Claude's 5 planner pages and private storage, but add the <b>40-Day Wilderness Track</b> as an active companion, supplying daily virtues &amp; dynamic evening mirrors.
+          </div>
+
+          <div style="background:rgba(255,255,255,0.03);border:1px solid var(--gold-border);border-radius:12px;padding:12px">
+            <div style="display:flex;gap:4px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:8px;margin-bottom:10px">
+              <span class="mini-pill" style="background:var(--gold);color:#000;font-weight:800">⭐ Today</span>
+              <span class="mini-pill">🗓️ Week</span>
+              <span class="mini-pill">🎯 Year</span>
+              <span class="mini-pill">🧭 Mission</span>
+              <span class="mini-pill" style="border-color:var(--gold);color:var(--gold)">📜 Wilderness 40</span>
+            </div>
+            
+            <div style="background:linear-gradient(135deg, rgba(245,158,11,0.1), rgba(0,0,0,0.3));border:1px solid var(--gold-border);border-radius:8px;padding:8px 10px;margin-bottom:10px">
+              <div style="display:flex;justify-content:space-between;align-items:center">
+                <span style="font-size:11px;font-weight:800;color:var(--gold)">MOVEMENT II · DAY 13 OF 40</span>
+                <span style="font-size:11px;color:#38bdf8">1 Cor 13:5</span>
+              </div>
+              <b style="display:block;font-size:13px;color:#fff;margin:2px 0">“Thinketh No Evil” (Logizetai)</b>
+              <small style="font-size:11px;color:var(--txt-dim)">Practice: Refuse to open or update the mental ledger of grievances.</small>
+            </div>
+
+            <div style="font-size:12.5px;color:#fff;font-weight:700;margin-bottom:6px">Today’s Top 3 (Ministering &amp; Work):</div>
+            <div class="tc"><span class="tc-dot">✓</span><span class="tc-t"><b>Breakfast date with Sam</b><small>At Home · Father</small></span></div>
+            <div class="tc"><span class="tc-dot"></span><span class="tc-t"><b>Finish quote tool for team</b><small>At Work · Honest labor</small></span></div>
+            <div class="tc"><span class="tc-dot"></span><span class="tc-t"><b>Ministering call to Brother Jensen</b><small>At Church · Elder</small></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 5: CHILD & YOUTH FLOW ==================== -->
+  <section id="tab-child" style="display:none">
+    <div class="view-banner">
+      <div class="vb-text">
+        <h2>Comparison: Child &amp; Youth Flow (e.g. Javan · 11 turning 12)</h2>
+        <p>How the flow adapts dynamically when <code>seasonWho() !== 'adult'</code>. No heavy corporate or theological jargon—anchored in <b>Luke 2:52</b>, joyful ministering, personal interests (Basketball, LEGO, Trumpet), and gamified motivation.</p>
+      </div>
+    </div>
+
+    <div class="comp-grid">
+      <!-- CURRENT CHILD FLOW ON MAIN -->
+      <div class="col-box">
+        <div class="col-head">
+          <span class="col-title now">Current Child Flow (`index.html`)</span>
+          <span class="col-badge now">PR #159 + #160 Live</span>
+        </div>
+        <div class="col-body">
+          <div class="diff-note">
+            <b>Current Code on `main`:</b> Personal Study switches to <i>“🌟 My Study”</i>, walk title becomes <i>“🚶 Javan’s Daily Walk”</i>, adds FSY youth cards and parent sharing toggle.
+          </div>
+
+          <div class="device-mock">
+            <div class="device-notch"></div>
+            <div class="fl-date">
+              <b>MONDAY · OCT 12</b>
+              <small>0 of 6 done</small>
+            </div>
+
+            <!-- Mode Toggle: Kid labels -->
+            <div style="display:flex;gap:4px;background:rgba(255,255,255,0.06);padding:3px;border-radius:10px;margin-bottom:12px">
+              <button style="flex:1;border:none;background:var(--gold);color:#000;font-weight:800;padding:6px;border-radius:8px;font-size:12px">🌟 My Study</button>
+              <button style="flex:1;border:none;background:none;color:var(--txt-dim);padding:6px;border-radius:8px;font-size:12px">👨‍👩‍👧‍👦 Family Study</button>
+            </div>
+
+            <div style="font-size:12px;font-weight:800;color:var(--gold);margin-bottom:10px">
+              🚶 Javan’s Daily Walk · Micah 6:8
+            </div>
+
+            <button class="fl-next">
+              <b>▶ 🕊️ Morning Council: Walk with Him</b>
+              <small>Counsel with Heavenly Father · Alma 37:37</small>
+            </button>
+
+            <!-- 1. MORNING SECTION -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Morning</b><span>0 of 2</span></div>
+              <div class="tc"><span class="tc-dot ic">🕊️</span><span class="tc-t"><b>Be still</b><small>3 min quiet meditation</small></span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">🌟</span><span class="tc-t"><b>Morning Council</b><small>Focus &amp; uplift someone today</small></span><span class="pth-xp">+15 XP</span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- 2. SCRIPTURE STUDY (YOUTH) -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Scripture study</b><span>0 of 3</span></div>
+              <div class="tc"><span class="tc-dot"></span><span class="tc-t"><b>Read Isaiah 50–51</b><small>9 min · Chapter story</small></span><span class="pth-xp">+20 XP</span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">📜</span><span class="tc-t"><b>Book of Mormon</b><small>Mosiah 2:17 · Serving others is serving God</small></span><span class="pth-xp">+10 XP</span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">📖</span><span class="tc-t"><b>Youth Study · FSY</b><small>Chapter 3: Walk in God’s Light · 2 min</small></span><span class="pth-xp">+15 XP</span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- 3. GOALS (CHILDREN & YOUTH) -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Growth Goals</b><span>0 of 1</span></div>
+              <div class="tc"><span class="tc-dot ic">🏀</span><span class="tc-t"><b>Basketball shooting</b><small>Shoot 50 free throws · 3 of 3 this week</small></span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- 4. EVENING -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Evening</b><span>0 of 1</span></div>
+              <div class="tc"><span class="tc-dot ic">🌙</span><span class="tc-t"><b>Return &amp; Report</b><small>Notice blessings &amp; close in prayer</small></span><span class="pth-xp">+20 XP</span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- ARCADE UNLOCK -->
+            <div style="background:rgba(245,158,11,0.12);border:1px dashed var(--gold);border-radius:12px;padding:10px 12px;text-align:center;font-size:12px;color:#fde68a">
+              🔒 <b>Arcade locked:</b> Finish today's walk to unlock <i>Title of Liberty</i> &amp; <i>Babylon Falls</i>!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ENHANCED JOYFUL CHILD FLOW -->
+      <div class="col-box enhanced">
+        <div class="col-head">
+          <span class="col-title ideal">Enhanced Child / Youth Experience</span>
+          <span class="col-badge ideal">Luke 2:52 + Joyful Discipleship</span>
+        </div>
+        <div class="col-body">
+          <div class="diff-note">
+            <b>The Kid Enhancement:</b> Translates the "Two Hands" into kid language: <i>“Heavenly Father loves you no matter what (Grace) + Who can you be a hero for today? (Effort)”</i>. Integrates turning 12 milestones, life spheres (Home, School, Friends), and instant parent praise.
+          </div>
+
+          <div class="device-mock">
+            <div class="device-notch"></div>
+            <div class="fl-date">
+              <b>MONDAY · OCT 12</b>
+              <small>0 of 6 done</small>
+            </div>
+
+            <!-- KID TWO HANDS HERO -->
+            <div style="background:linear-gradient(135deg, rgba(245,158,11,0.18), rgba(56,189,248,0.12));border:1px solid var(--gold-border);border-radius:14px;padding:12px;margin-bottom:12px">
+              <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:800;text-transform:uppercase;color:var(--gold)">
+                <span>🌟 The Two Hands of a Hero</span>
+                <span style="color:#fff">Luke 2:52</span>
+              </div>
+              <div style="font-size:12.5px;color:#fff;font-weight:700;margin:4px 0 6px">
+                “Following Jesus is an adventure of helping people!”
+              </div>
+              <div class="th-grid">
+                <div class="th-cell grace">
+                  <h5>✋ Hand 1: God Loves You</h5>
+                  <p>He is with you today and always cheers for you.</p>
+                </div>
+                <div class="th-cell effort">
+                  <h5>✋ Hand 2: Be a Hero</h5>
+                  <p>Help at home, school, and with your friends!</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Green Action Button -->
+            <button class="fl-next" style="background:linear-gradient(135deg, #10b981, #059669)">
+              <b>▶ 🌟 Morning Council · Walk with Him</b>
+              <small>Pick your growth focus &amp; someone to lift today</small>
+            </button>
+
+            <!-- 1. MORNING SECTION -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Morning</b><span>0 of 2</span></div>
+              <div class="tc"><span class="tc-dot ic">🕊️</span><span class="tc-t"><b>Be still &amp; Talk to Him</b><small>2 min quiet prayer · Ask for His light</small></span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">🌟</span><span class="tc-t"><b>Morning Council</b><small>Focus &amp; uplift · Share with Mom &amp; Dad</small></span><span class="pth-xp">+15 XP</span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- 2. SCRIPTURES & HEROES -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Scripture Feast</b><span>0 of 3</span></div>
+              <div class="tc"><span class="tc-dot"></span><span class="tc-t"><b>Isaiah 50–51 &amp; Reels</b><small>Interactive story questions · +20 XP</small></span><span class="pth-xp">+20 XP</span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">📜</span><span class="tc-t"><b>Stripling Warriors Power</b><small>Alma 56:47 · “They did not doubt”</small></span><span class="pth-xp">+10 XP</span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">📖</span><span class="tc-t"><b>FSY Quick Check</b><small>Real-life scenario · 2 min</small></span><span class="pth-xp">+15 XP</span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- 3. CHILDREN & YOUTH 4 AREAS -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Grow Like Jesus (Luke 2:52)</b><span>0 of 2</span></div>
+              <div class="tc"><span class="tc-dot ic">🏀</span><span class="tc-t"><b>Physical: Basketball shooting</b><small>Shoot 50 free throws with Dad</small></span><span class="tc-go">›</span></div>
+              <div class="tc"><span class="tc-dot ic">🏛️</span><span class="tc-t"><b>Turning 12: Temple &amp; Priesthood</b><small>Learn 1 thing a Deacons Quorum does</small></span><span class="pth-xp">+10 XP</span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- 4. BEDTIME REPORT -->
+            <div class="tsec">
+              <div class="tsec-h"><b>Bedtime · Return &amp; Report</b><span>0 of 1</span></div>
+              <div class="tc"><span class="tc-dot ic">🌙</span><span class="tc-t"><b>Bedtime Report</b><small>“What was awesome today?” · Share with Mom &amp; Dad</small></span><span class="pth-xp">+20 XP</span><span class="tc-go">›</span></div>
+            </div>
+
+            <!-- UNLOCKED ARCADE -->
+            <div style="background:rgba(16,185,129,0.15);border:1px solid #10b981;border-radius:12px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <b style="color:#6ee7b7;font-size:12.5px;display:block">🎮 Arcade Unlocked!</b>
+                <small style="color:var(--txt-dim);font-size:11px">Title of Liberty, Ammon at Sebus &amp; Babylon</small>
+              </div>
+              <button style="border:none;background:#10b981;color:#000;font-weight:800;padding:5px 12px;border-radius:8px;font-size:12px;cursor:pointer">Play ›</button>
+            </div>
+          </div>
+
+          <!-- KID SHEET PREVIEW INLINE -->
+          <div class="sheet-frame" style="margin-top:16px">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div class="sh-title" style="font-size:15px">🌟 Javan’s Morning Council Sheet</div>
+              <span style="font-size:11px;padding:2px 7px;border-radius:6px;background:rgba(16,185,129,0.15);color:#34d399;font-weight:800">Age 11 · Primary</span>
+            </div>
+            
+            <div style="margin:10px 0">
+              <span class="field-label" style="font-size:11px">🎯 My Growth Goal Today:</span>
+              <div class="pill-row">
+                <span class="mini-pill" style="border-color:var(--gold);color:var(--gold)">🏀 Basketball Free Throws</span>
+                <span class="mini-pill">🎺 Trumpet Practice</span>
+                <span class="mini-pill">🏛️ Turning 12 Prep</span>
+              </div>
+              <input class="field-input" value="Shoot 50 free throws with Dad before dinner">
+            </div>
+
+            <div style="margin:10px 0">
+              <span class="field-label" style="font-size:11px">🤝 Be a Hero: Who can I lift today?</span>
+              <div class="pill-row">
+                <span class="mini-pill">+ Mom or Dad</span>
+                <span class="mini-pill">+ Friend at school</span>
+                <span class="mini-pill">+ Brother / Sister</span>
+                <span class="mini-pill">+ Someone lonely</span>
+              </div>
+              <input class="field-input" value="Friend at school: Sit with the new kid at lunch">
+            </div>
+
+            <!-- PARENT SHARE PILL -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.08)">
+              <button type="button" class="mini-pill" style="background:rgba(129,140,248,0.2);border-color:#818cf8;color:#a5b4fc;font-weight:800;padding:5px 12px">
+                👀 Share with Mom &amp; Dad (Parent Hub)
+              </button>
+              <button class="btn-save-sheet" style="width:auto;padding:6px 14px;font-size:12px">Save (+15 XP)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('main > section').forEach(s => s.style.display = 'none');
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    const sec = document.getElementById('tab-' + name);
+    if (sec) sec.style.display = 'block';
+    const btn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(name));
+    if (btn) btn.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

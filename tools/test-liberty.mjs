@@ -709,28 +709,27 @@ console.log('Command Center & Tactical Cohort Battalions · Red Alert 2 Evolutio
   W.side('p').res.timber = 1000;
   W.side('p').res.stone = 1000;
 
-  // 1. Production building auto-cohort assignment
+  // 1. A soldier trained on his own joins no regiment (the owner chose regiments: a package bought as one), and marches to the rally point.
   const b = W.addBuilding('barracks', 'p', 10, 10, true);
-  b.autoCohort = 1;
   b.rally = [15, 15];
   W.train(b, 'spearman');
   while (b.queue.length > 0) W.step(0.5);
   const soldier = W.units('p').find(u => u.type === 'spearman');
-  ok(soldier && soldier.cohort === 1, 'barracks recruit auto-joins configured Cohort 1');
+  ok(soldier && !soldier.cohort, 'a recruit trained on his own belongs to no regiment');
   ok(soldier.order.type === 'move' && soldier.order.tx === 15 && soldier.order.ty === 15, 'new recruit marches to building rally point');
 
-  // 2. Default unit cohort categorization: Melee -> 1, Ranged -> 2, Beasts/Carts -> 3
+  // 2. Archers and carts trained one at a time stay free too: only a regiment's own recruits join it.
   const archerBuilding = W.addBuilding('barracks', 'p', 20, 10, true);
   W.train(archerBuilding, 'archer');
   while (archerBuilding.queue.length > 0) W.step(0.5);
   const archer = W.units('p').find(u => u.type === 'archer');
-  ok(archer && archer.cohort === 2, 'ranged recruit auto-joins Skirmishers (Cohort 2)');
+  ok(archer && !archer.cohort, 'an archer trained on his own belongs to no regiment');
 
   const stable = W.addBuilding('stables', 'p', 30, 10, true);
   W.train(stable, 'cart');
   while (stable.queue.length > 0) W.step(0.5);
   const cart = W.units('p').find(u => u.type === 'cart');
-  ok(cart && cart.cohort === 3, 'transport cart auto-joins Siege & Supply (Cohort 3)');
+  ok(cart && !cart.cohort, 'a cart belongs to no regiment');
 
   // 3. Cart docking sequence and yield popups (+10 Grain)
   const storehouse = W.addBuilding('storehouse', 'p', 40, 10, true);
@@ -749,6 +748,7 @@ console.log('Command Center & Tactical Cohort Battalions · Red Alert 2 Evolutio
   // 4. Formation speed synchronization: troops in cohort lock speed to slowest member
   const swordFast = W.addUnit('spearman', 'p', 100, 100);
   const curelomSlow = W.addUnit('curelom', 'p', 102, 100);
+  W.regiments();
   swordFast.cohort = 1;
   curelomSlow.cohort = 1;
   W.cohorts[1].speedLock = true;
@@ -1180,6 +1180,40 @@ console.log('Losing');
 // The game shows each picture's WebP, so a WebP made from an older picture would quietly show the old one. Every PNG and
 // JPG in liberty/assets/ needs a WebP made from it as it is now (python3 tools/liberty-webp.py writes them, and
 // webp.json notes the picture each was made from).
+// Regiments (the owner, 2026-10-11): "build regiment one and it includes a curelom and five archers, ten swordsmen ... like buying a
+// package"; a Refill pays only for the missing.
+console.log("Regiments · a package of soldiers");
+{
+  const FB = require('../liberty/missions.js').FREE_BATTLE;
+  FB.level = 'normal'; FB.side = 'freemen'; FB.captain = null;
+  const W = new S.World(undefined, FB.map); W.mission = FB; FB.setup(W);
+  const city = W.deploy(W.units('p').find(u => u.def.deploys));
+  const regs = W.regiments(), guard = regs.find(r => r.name === "Moroni's Guard");
+  ok(regs.length === 4 && guard && guard.mix.curelom === 1 && guard.mix.archer === 5 && guard.mix.swordsman === 10, "the Freemen start with four regiments, Moroni's Guard among them: a curelom, five archers and ten swordsmen");
+  const spot = (t, dx, dy) => { for (let r = 0; r < 14; r++) for (let oy = -r; oy <= r; oy++) for (let ox = -r; ox <= r; ox++) if (W.canPlace(t, city.tx + dx + ox, city.ty + dy + oy)) return [city.tx + dx + ox, city.ty + dy + oy]; return null; };
+  for (const [t, dx, dy] of [['barracks', 6, 0], ['farm', -6, 0], ['farm', -6, 5], ['farm', 0, 7], ['farm', 6, 7]]) { const p = spot(t, dx, dy); if (p) W.addBuilding(t, 'p', p[0], p[1], true); }
+  W.res.grain = 2000; W.res.timber = 2000;
+  const wall = regs.find(r => r.name === 'Spear Wall'), before = W.res.grain;
+  const f = W.fillRegiment(wall.id);
+  ok(f.queued === 8 && f.left === 0 && W.res.grain === before - 6 * 45 - 2 * 35, `one tap puts the whole Spear Wall into training, paid as it goes in (${f.queued} queued: 6 spearmen, 2 archers)`);
+  for (let i = 0; i < 2400 && W.cohortUnits('p', wall.id).length < 8; i++) W.step(0.1);
+  const men = W.cohortUnits('p', wall.id);
+  ok(men.length === 8 && men.filter(u => u.type === 'spearman').length === 6 && !Object.keys(W.regimentMissing(wall.id)).length, 'they come out marked as the Spear Wall, eight of them, none missing');
+  W.remove(men[0]); W.remove(men[1]);
+  const g = W.res.grain, refill = W.fillRegiment(wall.id);
+  ok(refill.queued === 2 && g - W.res.grain <= 2 * 45, 'two fall: Refill trains only those two');
+  const g2 = W.fillRegiment(guard.id);
+  ok(g2.queued === 5 && g2.left === 11 && /needs /.test(g2.why), `Moroni's Guard without a smithy or stables: the five archers go in, and it says what the rest need ("${g2.why}")`);
+  const b = W.buildings('p', 'barracks')[0], n = W.units('p').length;
+  W.train(b, 'spearman');
+  for (let i = 0; i < 600 && W.units('p').length <= n + 7; i++) W.step(0.1);
+  ok(W.units('p').filter(u => u.type === 'spearman' && !u.cohort).length >= 1, 'a spearman trained on his own belongs to no regiment');
+  FB.side = 'kingmen';
+  const K = new S.World(undefined, FB.map); K.mission = FB; FB.setup(K);
+  ok(K.regiments()[0].name === 'War Band', 'the King-men start with their own (the War Band first)');
+  FB.side = 'freemen';
+}
+
 console.log('Pictures');
 {
   const fs = await import('node:fs'), path = await import('node:path'), { createHash } = await import('node:crypto'), { fileURLToPath } = await import('node:url');

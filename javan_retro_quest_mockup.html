@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>TreasureUp · Javan’s Quest · Playful &amp; Colorful Child Experience</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-dark: #0d111c;
+    --card-bg: #161c2e;
+    --border: rgba(255, 255, 255, 0.1);
+    
+    /* 4 Children & Youth Booklet Colors */
+    --c-spiritual: #fbbf24;       /* Gold / Favour with God */
+    --c-spiritual-dim: rgba(251, 191, 36, 0.18);
+    --c-social: #10b981;          /* Emerald Green / Favour with Man */
+    --c-social-dim: rgba(16, 185, 129, 0.18);
+    --c-physical: #f43f5e;        /* Ruby Coral / Stature */
+    --c-physical-dim: rgba(244, 63, 94, 0.18);
+    --c-intellectual: #38bdf8;    /* Electric Cyan / Wisdom */
+    --c-intellectual-dim: rgba(56, 189, 248, 0.18);
+
+    --font: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --pixel: 'Press Start 2P', monospace;
+  }
+
+  /* Theme: Modern Switch / Playful */
+  body.theme-switch {
+    --bg: #0f172a;
+    --panel: #1e293b;
+    --card: #334155;
+    --accent: #f59e0b;
+    --radius: 20px;
+    --font-heading: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  /* Theme: Retro 16-Bit RPG */
+  body.theme-retro {
+    --bg: #0a0c16;
+    --panel: #131728;
+    --card: #1c223a;
+    --accent: #fbbf24;
+    --radius: 8px;
+    --font-heading: 'Press Start 2P', monospace;
+  }
+
+  /* Theme: Vibrant Booklet */
+  body.theme-booklet {
+    --bg: #181824;
+    --panel: #242436;
+    --card: #2f2f48;
+    --accent: #38bdf8;
+    --radius: 24px;
+    --font-heading: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: #fff;
+    font-family: var(--font);
+    font-size: 14.5px;
+    line-height: 1.5;
+    transition: background .2s ease;
+  }
+
+  /* Header */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--border);
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 16px; color: #fbbf24; }
+  .badge-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--c-spiritual-dim);
+    border: 1px solid var(--c-spiritual);
+    color: var(--c-spiritual);
+    font-weight: 800;
+  }
+
+  .theme-pills { display: flex; gap: 6px; background: rgba(0,0,0,0.4); padding: 4px; border-radius: 999px; }
+  .th-btn {
+    border: none;
+    background: none;
+    color: #94a3b8;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .th-btn.active { background: #38bdf8; color: #000; box-shadow: 0 2px 10px rgba(56,189,248,0.4); }
+
+  main { max-width: 680px; margin: 0 auto; padding: 20px 14px 80px; }
+
+  /* Hero HUD / Stats Bar */
+  .hud-banner {
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+    border: 2px solid rgba(251, 191, 36, 0.4);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .hud-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .hud-player { display: flex; align-items: center; gap: 12px; }
+  .hud-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f59e0b, #ec4899);
+    border: 2px solid #fff;
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+  }
+  .hud-name h2 { margin: 0; font-size: 17px; font-weight: 900; color: #fff; letter-spacing: -0.01em; }
+  .hud-name small { font-size: 12px; color: #94a3b8; font-weight: 700; display: block; margin-top: 1px; }
+
+  .hud-stats { display: flex; gap: 12px; align-items: center; }
+  .hud-chip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(0,0,0,0.4);
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 900;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .hud-chip.streak { color: #f97316; border-color: rgba(249, 115, 22, 0.3); }
+  .hud-chip.xp { color: #fbbf24; border-color: rgba(251, 191, 36, 0.3); }
+
+  /* XP Level Progress Bar */
+  .level-bar-wrap { margin-top: 8px; }
+  .level-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #cbd5e1;
+    margin-bottom: 4px;
+  }
+  .level-track {
+    height: 12px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.12);
+    overflow: hidden;
+    position: relative;
+  }
+  .level-fill {
+    height: 100%;
+    width: 68%;
+    background: linear-gradient(90deg, #10b981, #38bdf8, #f59e0b);
+    border-radius: 999px;
+    transition: width .3s ease;
+  }
+
+  /* 4 Areas Power Gems (Luke 2:52) */
+  .areas-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .gem-card {
+    background: rgba(255,255,255,0.03);
+    border: 1.5px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: 12px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform .15s ease, border-color .15s ease;
+  }
+  .gem-card:hover { transform: translateY(-3px); }
+  .gem-card.spiritual { border-color: var(--c-spiritual); background: var(--c-spiritual-dim); }
+  .gem-card.social { border-color: var(--c-social); background: var(--c-social-dim); }
+  .gem-card.physical { border-color: var(--c-physical); background: var(--c-physical-dim); }
+  .gem-card.intellectual { border-color: var(--c-intellectual); background: var(--c-intellectual-dim); }
+
+  .gem-icon { font-size: 24px; display: block; margin-bottom: 4px; }
+  .gem-title { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.05em; display: block; }
+  .gem-sub { font-size: 10px; color: rgba(255,255,255,0.7); display: block; margin-top: 1px; }
+
+  /* Section Header */
+  .sec-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 24px 0 10px;
+    padding: 0 4px;
+  }
+  .sec-heading h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sec-badge { font-size: 11px; padding: 2px 8px; border-radius: 999px; background: rgba(255,255,255,0.08); font-weight: 800; color: #cbd5e1; }
+
+  /* Quest Cards */
+  .quest-card {
+    background: var(--panel-bg);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all .15s ease;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    position: relative;
+    overflow: hidden;
+  }
+  .quest-card:hover { border-color: rgba(255,255,255,0.3); transform: scale(1.01); }
+  .quest-card.done { opacity: 0.65; border-color: var(--c-social); }
+  .quest-card.hero {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(16, 185, 129, 0.1));
+    border-color: var(--c-spiritual);
+  }
+
+  .quest-dot {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: rgba(0,0,0,0.4);
+    border: 2px solid rgba(255,255,255,0.15);
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .quest-info { flex: 1; min-width: 0; }
+  .quest-tag { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; display: block; }
+  .quest-info h4 { margin: 0; font-size: 14.5px; font-weight: 800; color: #fff; }
+  .quest-info p { margin: 2px 0 0; font-size: 12px; color: #94a3b8; }
+  .quest-xp {
+    background: var(--c-spiritual-dim);
+    color: var(--c-spiritual);
+    border: 1px solid var(--c-spiritual);
+    font-size: 11.5px;
+    font-weight: 900;
+    padding: 4px 9px;
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+
+  /* Two Hands Adventure Banner */
+  .hands-box {
+    background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(56,189,248,0.15));
+    border: 2px solid var(--c-spiritual);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin-bottom: 18px;
+  }
+  .hands-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--c-spiritual);
+    letter-spacing: 0.08em;
+  }
+  .hands-title { font-size: 16px; font-weight: 900; color: #fff; margin: 4px 0 8px; }
+  .hands-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .hand-pill {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 10px 12px;
+  }
+  .hand-pill.grace h5 { color: var(--c-spiritual); margin: 0; font-size: 11.5px; font-weight: 900; text-transform: uppercase; }
+  .hand-pill.effort h5 { color: var(--c-intellectual); margin: 0; font-size: 11.5px; font-weight: 900; text-transform: uppercase; }
+  .hand-pill p { margin: 3px 0 0; font-size: 11.5px; color: #cbd5e1; line-height: 1.35; }
+
+  /* Arcade Loot Chest */
+  .arcade-banner {
+    background: linear-gradient(135deg, #4f46e5, #9333ea);
+    border: 2px solid #a855f7;
+    border-radius: var(--radius);
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    box-shadow: 0 8px 24px rgba(168, 85, 247, 0.35);
+  }
+  .arcade-left b { display: block; font-size: 15px; color: #fff; }
+  .arcade-left small { font-size: 12px; color: rgba(255,255,255,0.8); }
+  .arcade-btn {
+    background: #fbbf24;
+    color: #1c1406;
+    font-weight: 900;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+  }
+
+  /* Interactive Modal Sheet Mockup */
+  .modal-demo {
+    background: #1e2538;
+    border: 2px solid var(--c-spiritual);
+    border-radius: 24px;
+    padding: 20px;
+    margin-top: 24px;
+  }
+  .modal-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .modal-title { font-size: 17px; font-weight: 900; color: #fff; margin: 0; }
+  .pills-group { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
+  .choice-pill {
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(255,255,255,0.12);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .choice-pill:hover, .choice-pill.on {
+    background: var(--c-spiritual);
+    color: #000;
+    border-color: var(--c-spiritual);
+  }
+  .input-box {
+    width: 100%;
+    background: rgba(0,0,0,0.4);
+    border: 1.5px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 10px 14px;
+    color: #fff;
+    font-size: 13.5px;
+    margin-bottom: 14px;
+    font-family: inherit;
+  }
+  .share-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(129, 140, 248, 0.2);
+    border: 1.5px solid #818cf8;
+    color: #c7d2fe;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body class="theme-switch">
+
+<header>
+  <div class="brand">
+    <span>⚔️ Javan’s Quest</span>
+    <span class="badge-tag">Luke 2:52</span>
+  </div>
+
+  <div class="theme-pills">
+    <button class="th-btn active" onclick="setTheme('switch')">🎮 Nintendo</button>
+    <button class="th-btn" onclick="setTheme('retro')">👾 16-Bit RPG</button>
+    <button class="th-btn" onclick="setTheme('booklet')">📘 Booklet</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- 1. HERO HUD & XP PROGRESS -->
+  <div class="hud-banner">
+    <div class="hud-top">
+      <div class="hud-player">
+        <div class="hud-avatar">👦</div>
+        <div class="hud-name">
+          <h2>Javan Merrell</h2>
+          <small>Age 11 · Preparing for Deacons Quorum in April</small>
+        </div>
+      </div>
+      <div class="hud-stats">
+        <div class="hud-chip streak">🔥 5 Days</div>
+        <div class="hud-chip xp">⭐ 240 XP</div>
+      </div>
+    </div>
+
+    <div class="level-bar-wrap">
+      <div class="level-info">
+        <span>Level 4 Stripling Warrior</span>
+        <span>240 / 300 XP (Next Level: Arcade Skin)</span>
+      </div>
+      <div class="level-track">
+        <div class="level-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. THE 4 POWER GEMS (CHILDREN & YOUTH BOOKLET) -->
+  <div class="areas-grid">
+    <div class="gem-card spiritual" onclick="pickArea('spiritual')">
+      <span class="gem-icon">🕊️</span>
+      <span class="gem-title" style="color:var(--c-spiritual)">Spiritual</span>
+      <span class="gem-sub">God’s Love</span>
+    </div>
+    <div class="gem-card social" onclick="pickArea('social')">
+      <span class="gem-icon">🤝</span>
+      <span class="gem-title" style="color:var(--c-social)">Social</span>
+      <span class="gem-sub">Friendship</span>
+    </div>
+    <div class="gem-card physical" onclick="pickArea('physical')">
+      <span class="gem-icon">🏀</span>
+      <span class="gem-title" style="color:var(--c-physical)">Physical</span>
+      <span class="gem-sub">Strength</span>
+    </div>
+    <div class="gem-card intellectual" onclick="pickArea('intellectual')">
+      <span class="gem-icon">🎺</span>
+      <span class="gem-title" style="color:var(--c-intellectual)">Wisdom</span>
+      <span class="gem-sub">Skills</span>
+    </div>
+  </div>
+
+  <!-- 3. THE TWO HANDS OF A HERO (KID TRANSLATION) -->
+  <div class="hands-box">
+    <div class="hands-head">
+      <span>The Hero's Secret Weapon</span>
+      <span>Luke 2:52</span>
+    </div>
+    <div class="hands-title">“Following Jesus is an adventure of helping people!”</div>
+    <div class="hands-grid">
+      <div class="hand-pill grace">
+        <h5>✋ Hand 1: God Loves You Always</h5>
+        <p>Heavenly Father has your back today. Breathe in His peace before starting.</p>
+      </div>
+      <div class="hand-pill effort">
+        <h5>✋ Hand 2: Be a Hero</h5>
+        <p>Do one act of kindness today: at home, at school, and with friends.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. TODAY'S QUEST LOG -->
+  <div class="sec-heading">
+    <h3>⚔️ Today’s Quests</h3>
+    <span class="sec-badge">1 of 5 Completed</span>
+  </div>
+
+  <!-- Quest 1: Morning Council -->
+  <div class="quest-card hero" onclick="toggleDemoModal()">
+    <div class="quest-dot" style="border-color:var(--c-spiritual)">🌟</div>
+    <div class="quest-info">
+      <span class="quest-tag" style="color:var(--c-spiritual)">Spiritual Creation · Morning</span>
+      <h4>Morning Council: Set Your Mission</h4>
+      <p>Pick today’s skill &amp; secret agent kindness mission</p>
+    </div>
+    <div class="quest-xp">+15 XP</div>
+  </div>
+
+  <!-- Quest 2: Stripling Warriors Scripture Power -->
+  <div class="quest-card">
+    <div class="quest-dot" style="border-color:var(--c-spiritual)">📜</div>
+    <div class="quest-info">
+      <span class="quest-tag" style="color:var(--c-spiritual)">Book of Mormon Hero</span>
+      <h4>Stripling Warriors Power (Alma 56:47)</h4>
+      <p>“They had been taught by their mothers that if they did not doubt, God would deliver them.”</p>
+    </div>
+    <div class="quest-xp">+10 XP</div>
+  </div>
+
+  <!-- Quest 3: FSY Youth Challenge -->
+  <div class="quest-card">
+    <div class="quest-dot" style="border-color:var(--c-intellectual)">📖</div>
+    <div class="quest-info">
+      <span class="quest-tag" style="color:var(--c-intellectual)">Youth Study Companion</span>
+      <h4>FSY Real-Life Check: Walk in the Light</h4>
+      <p>Quick 2-minute scenario quiz</p>
+    </div>
+    <div class="quest-xp">+15 XP</div>
+  </div>
+
+  <!-- Quest 4: Physical Skill Practice -->
+  <div class="quest-card">
+    <div class="quest-dot" style="border-color:var(--c-physical)">🏀</div>
+    <div class="quest-info">
+      <span class="quest-tag" style="color:var(--c-physical)">Physical Stature</span>
+      <h4>Basketball Shooting Practice</h4>
+      <p>Shoot 50 free throws or 15 min ball handling with Dad</p>
+    </div>
+    <div class="quest-xp">+15 XP</div>
+  </div>
+
+  <!-- Quest 5: Bedtime Report -->
+  <div class="quest-card">
+    <div class="quest-dot" style="border-color:var(--c-social)">🌙</div>
+    <div class="quest-info">
+      <span class="quest-tag" style="color:var(--c-social)">Bedtime Victory</span>
+      <h4>Return &amp; Report: What was awesome today?</h4>
+      <p>Celebrate with God before sleep</p>
+    </div>
+    <div class="quest-xp">+20 XP</div>
+  </div>
+
+  <!-- 5. ARCADE UNLOCK BANNER -->
+  <div class="arcade-banner">
+    <div class="arcade-left">
+      <b>🎮 Title of Liberty &amp; Arcade</b>
+      <small>Complete 2 more quests today to unlock gaming!</small>
+    </div>
+    <button class="arcade-btn">Arcade Hub ›</button>
+  </div>
+
+  <!-- 6. INTERACTIVE MORNING COUNCIL PREVIEW -->
+  <div class="modal-demo" id="demoModal">
+    <div class="modal-top">
+      <h3 class="modal-title">🌟 Javan’s Morning Council</h3>
+      <span class="badge-tag">Discover &amp; Plan</span>
+    </div>
+
+    <!-- Step 1: Pick Growth Skill -->
+    <div style="margin-bottom:14px">
+      <b style="font-size:12px;color:var(--c-spiritual);text-transform:uppercase;display:block;margin-bottom:4px">
+        1. 🎯 What skill or talent will you practice today?
+      </b>
+      <div class="pills-group">
+        <button class="choice-pill on">🏀 Shoot 50 Free Throws</button>
+        <button class="choice-pill">🎺 Practice Trumpet</button>
+        <button class="choice-pill">🧱 LEGO Robotics Build</button>
+        <button class="choice-pill">🏛️ Deacons Prep (Turning 12)</button>
+      </div>
+      <input class="input-box" value="Shoot 50 free throws with Dad before dinner">
+    </div>
+
+    <!-- Step 2: Secret Agent Kindness -->
+    <div style="margin-bottom:14px">
+      <b style="font-size:12px;color:var(--c-social);text-transform:uppercase;display:block;margin-bottom:4px">
+        2. 🤝 Secret Agent Mission: Who can you lift today?
+      </b>
+      <div class="pills-group">
+        <button class="choice-pill on">🏫 Friend at school</button>
+        <button class="choice-pill">🏡 Mom or Dad</button>
+        <button class="choice-pill">👦 Brother</button>
+        <button class="choice-pill">💬 Someone lonely</button>
+      </div>
+      <input class="input-box" value="Sit with the new kid at lunch and ask about his favorite game">
+    </div>
+
+    <!-- Step 3: Gratitude -->
+    <div style="margin-bottom:14px">
+      <b style="font-size:12px;color:var(--c-physical);text-transform:uppercase;display:block;margin-bottom:4px">
+        3. 🙏 Two things you're thankful for today:
+      </b>
+      <input class="input-box" value="My family &amp; sunny weather for basketball">
+    </div>
+
+    <!-- Bottom Actions -->
+    <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1.5px solid rgba(255,255,255,0.1)">
+      <button class="share-pill">👀 Share with Mom &amp; Dad</button>
+      <button class="arcade-btn" style="background:#10b981;color:#fff">Lock In Quest (+15 XP)</button>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function setTheme(t) {
+    document.body.className = 'theme-' + t;
+    document.querySelectorAll('.th-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+  }
+
+  function pickArea(a) {
+    alert('Selected Children & Youth Area: ' + a.toUpperCase() + ' (Luke 2:52)');
+  }
+
+  function toggleDemoModal() {
+    const el = document.getElementById('demoModal');
+    el.scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
