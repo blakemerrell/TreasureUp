@@ -471,7 +471,7 @@
       id: 'bountiful_isles',
       name: 'Waters of Ripliancum',
       ref: 'Ether 15:8',
-      about: 'Wide waters divide the battlefield into island strongholds linked by four destructible bridges and one outer shallow ford.',
+      about: 'Wide waters divide the battlefield into island strongholds linked by four destructible bridges and two outer shallow fords.',
       START: { x: 11, y: 37 },
       WARCAMP: { x: 50, y: 3 },
       CAMPS: [{ x: 41, y: 5 }, { x: 57, y: 11 }, { x: 47, y: 12 }],
@@ -483,7 +483,7 @@
       id: 'highland_citadel',
       name: 'Citadel of Teancum',
       ref: 'Alma 52:19',
-      about: 'A massive central high-ground plateau with four corner ramps holds rich stone, grain, and the Jaredite relics, ringed by a fast paved road.',
+      about: 'A massive central high-ground plateau with four corner ramps holds the four Jaredite relics, ringed by rich stone, grain, and a fast paved road.',
       START: { x: 10, y: 37 },
       WARCAMP: { x: 50, y: 3 },
       CAMPS: [{ x: 41, y: 5 }, { x: 57, y: 11 }, { x: 47, y: 12 }],
@@ -538,30 +538,37 @@
     else if (raw.tiles && raw.tiles.length === MAP_W * MAP_H) tiles.set(raw.tiles);
     if (Array.isArray(raw.amtRle)) unrle(raw.amtRle, amt);
     else if (raw.amt && raw.amt.length === MAP_W * MAP_H) amt.set(raw.amt);
-    // Ensure default resource amounts if tile was painted without explicit amt
+    // Clamp tile IDs to valid range and ensure default resource amounts
     for (let i = 0; i < tiles.length; i++) {
+      if (tiles[i] > T.ROAD) tiles[i] = T.GRASS;
       if (tiles[i] === T.FOREST && amt[i] <= 0) amt[i] = 120;
       else if (tiles[i] === T.FIELD && amt[i] <= 0) amt[i] = 300;
       else if (tiles[i] === T.BRIDGE && amt[i] <= 0) amt[i] = BRIDGE_HP;
     }
-    const START = raw.START && Number.isFinite(raw.START.x) ? { x: raw.START.x | 0, y: raw.START.y | 0 } : { x: 11, y: 37 };
-    const WARCAMP = raw.WARCAMP && Number.isFinite(raw.WARCAMP.x) ? { x: raw.WARCAMP.x | 0, y: raw.WARCAMP.y | 0 } : { x: 50, y: 3 };
-    const CAMPS = Array.isArray(raw.CAMPS) && raw.CAMPS.length === 3 ? raw.CAMPS.map(c => ({ x: c.x | 0, y: c.y | 0 })) : [
-      { x: Math.max(2, Math.min(MAP_W - 6, WARCAMP.x - 9)), y: Math.max(2, Math.min(MAP_H - 6, WARCAMP.y + 2)) },
-      { x: Math.max(2, Math.min(MAP_W - 6, WARCAMP.x + 7)), y: Math.max(2, Math.min(MAP_H - 6, WARCAMP.y + 8)) },
-      { x: Math.max(2, Math.min(MAP_W - 6, WARCAMP.x - 3)), y: Math.max(2, Math.min(MAP_H - 6, WARCAMP.y + 9)) }
-    ];
+    const clampX = x => Math.max(2, Math.min(MAP_W - 6, x | 0));
+    const clampY = y => Math.max(2, Math.min(MAP_H - 6, y | 0));
+    const START = raw.START && Number.isFinite(raw.START.x) && Number.isFinite(raw.START.y) ? { x: clampX(raw.START.x), y: clampY(raw.START.y) } : { x: 11, y: 37 };
+    const WARCAMP = raw.WARCAMP && Number.isFinite(raw.WARCAMP.x) && Number.isFinite(raw.WARCAMP.y) ? { x: clampX(raw.WARCAMP.x), y: clampY(raw.WARCAMP.y) } : { x: 50, y: 3 };
+    const CAMPS = Array.isArray(raw.CAMPS) && raw.CAMPS.length === 3 && raw.CAMPS.every(c => c && Number.isFinite(c.x) && Number.isFinite(c.y))
+      ? raw.CAMPS.map(c => ({ x: clampX(c.x), y: clampY(c.y) }))
+      : [
+          { x: clampX(WARCAMP.x - 9), y: clampY(WARCAMP.y + 2) },
+          { x: clampX(WARCAMP.x + 7), y: clampY(WARCAMP.y + 8) },
+          { x: clampX(WARCAMP.x - 3), y: clampY(WARCAMP.y + 9) }
+        ];
+    const validRelics = Array.isArray(raw.RELICS) && raw.RELICS.length > 0 && raw.RELICS.every(r => Array.isArray(r) && Number.isFinite(r[0]) && Number.isFinite(r[1]) && typeof r[2] === 'string' && ARTIFACTS[r[2]]);
+    const validPairs = arr => Array.isArray(arr) && arr.length > 0 && arr.every(p => Array.isArray(p) && Number.isFinite(p[0]) && Number.isFinite(p[1]));
     return {
       id: 'custom',
-      name: raw.name || 'Custom Battlefield',
+      name: String(raw.name || 'Custom Battlefield').slice(0, 40),
       ref: 'Alma 48:8',
       about: 'Custom skirmish battlefield crafted in the Map Builder.',
       START,
       WARCAMP,
       CAMPS,
-      RELICS: Array.isArray(raw.RELICS) ? raw.RELICS : SKIRMISH_MAPS.sidon.RELICS,
-      FLOCKS: Array.isArray(raw.FLOCKS) ? raw.FLOCKS : SKIRMISH_MAPS.sidon.FLOCKS,
-      GAME: Array.isArray(raw.GAME) ? raw.GAME : SKIRMISH_MAPS.sidon.GAME,
+      RELICS: validRelics ? raw.RELICS.map(r => [clampX(r[0]), clampY(r[1]), r[2]]) : SKIRMISH_MAPS.sidon.RELICS,
+      FLOCKS: validPairs(raw.FLOCKS) ? raw.FLOCKS.map(p => [clampX(p[0]), clampY(p[1])]) : SKIRMISH_MAPS.sidon.FLOCKS,
+      GAME: validPairs(raw.GAME) ? raw.GAME.map(p => [clampX(p[0]), clampY(p[1])]) : SKIRMISH_MAPS.sidon.GAME,
       tiles,
       amt
     };
@@ -612,7 +619,7 @@
       [[4, 28, 2.6], [19, 43, 2.5], [5, 44, 2.2], [12, 16, 2.8], [39, 38, 2.8], [50, 41, 2.6], [58, 22, 2.5], [35, 3, 2.2], [56, 30, 2.2], [8, 21, 2.2]].forEach(([x, y, rad]) => blob(x, y, rad, T.FOREST, 120));
       [[16, 33, 3, 2], [7, 42, 3, 2], [24, 32, 3, 2], [35, 15, 3, 2], [53, 17, 3, 2], [13, 27, 3, 2]].forEach(f => field(...f));
     } else if (mapId === 'bountiful_isles') {
-      // Twin river channels creating a central island linked by 4 bridges + 1 outer ford
+      // Twin river channels creating a central island linked by 4 bridges + 2 outer fords
       for (let y = 0; y < MAP_H; y++) {
         const w1 = Math.round(25 + 1.5 * Math.sin(y / 8));
         const w2 = Math.round(38 - 1.5 * Math.sin(y / 8));
@@ -656,9 +663,9 @@
       stamps.road([[22, 15], [41, 15], [41, 32], [22, 32], [22, 15]]);
       stamps.road([[15, 36], [22, 32]]);
       stamps.road([[41, 15], [46, 10]]);
-      [[20, 26, 2.2], [44, 22, 2.4], [31, 23, 1.8], [24, 8, 1.8], [40, 40, 1.8]].forEach(([x, y, rad]) => blob(x, y, rad, T.ROCK));
+      [[20, 26, 2.2], [44, 22, 2.4], [24, 17, 1.8], [39, 30, 1.8], [24, 8, 1.8], [40, 40, 1.8]].forEach(([x, y, rad]) => blob(x, y, rad, T.ROCK));
       [[4, 30, 2.5], [20, 43, 2.5], [5, 45, 2], [15, 13, 2.8], [38, 37, 2.8], [49, 40, 3], [54, 24, 2.5], [37, 3, 2.2], [9, 22, 2.2]].forEach(([x, y, rad]) => blob(x, y, rad, T.FOREST, 120));
-      [[17, 34, 3, 2], [8, 43, 3, 2], [14, 28, 3, 2], [35, 11, 3, 2], [52, 16, 3, 2], [27, 20, 3, 2], [34, 26, 3, 2]].forEach(f => field(...f));
+      [[17, 34, 3, 2], [8, 43, 3, 2], [14, 28, 3, 2], [35, 11, 3, 2], [52, 16, 3, 2], [26, 16, 3, 2], [35, 30, 3, 2]].forEach(f => field(...f));
     }
     return { tiles, amt };
   }

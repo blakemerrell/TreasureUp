@@ -575,7 +575,7 @@
       if (from && from.rank) a *= 1 + 0.15 * from.rank;                                   // a veteran strikes harder
       if (from && from.sword) a *= 1.5;                                                   // the sword of Laban (1 Nephi 4:9)
       if (from && from.def.foe && from.weak) a *= 0.6;
-      if (from && target && this.elevAt(from) > this.elevAt(target)) a *= 1.2;            // high ground overlook advantage (Alma 49:19)
+      if (from && target && this.elevAt(from) >= 1 && this.elevAt(from) > this.elevAt(target)) a *= 1.2;   // high ground plateau advantage (Alma 49:19)
       const TS = this.side(target.team), unit = target.kind === 'unit';
       // Each kind of fighter is strong against another (data.js: `beats`).
       if (from && from.kind === 'unit' && unit && from.def.beats && [].concat(from.def.beats).includes(kindOf(target.def))) a *= 1.5;
@@ -643,19 +643,33 @@
       }
       if (target.hp <= 0) this.kill(target, from);
     }
+    // Flood-fill all connected tiles of a bridge span (intact or broken).
+    bridgeSpan(tx, ty, want) {
+      want = want != null ? want : this.tile(tx, ty);
+      if (want !== T.BRIDGE && want !== T.BROKEN_BRIDGE) return [[tx, ty]];
+      const out = [], seen = new Set([idx(tx, ty)]), q = [[tx, ty]];
+      while (q.length && out.length < 16) {
+        const [x, y] = q.shift();
+        out.push([x, y]);
+        for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
+          const nx = x + dx, ny = y + dy;
+          if (!this.inBounds(nx, ny)) continue;
+          const k = idx(nx, ny);
+          if (!seen.has(k) && this.tiles[k] === want) { seen.add(k); q.push([nx, ny]); }
+        }
+      }
+      return out;
+    }
     // Destructible and repairable bridges (C&C Red Alert style):
-    // Demolishing a bridge tile collapses its river span into T.BROKEN_BRIDGE and drowns anyone standing on it.
+    // Demolishing a bridge tile collapses its entire connected river span into T.BROKEN_BRIDGE and drowns anyone standing on it.
     damageBridge(tx, ty, amount, from) {
       if (!this.inBounds(tx, ty) || this.tile(tx, ty) !== T.BRIDGE) return false;
+      const span = this.bridgeSpan(tx, ty, T.BRIDGE);
       const i = idx(tx, ty);
       const cur = this.amt[i] > 0 ? this.amt[i] : (BRIDGE_HP || 250);
       const next = Math.max(0, cur - amount);
-      this.amt[i] = next;
+      for (const [bx, by] of span) this.amt[idx(bx, by)] = next;
       if (next > 0) return false;
-      const span = [[tx, ty]];
-      for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
-        if (this.tile(tx + dx, ty + dy) === T.BRIDGE) span.push([tx + dx, ty + dy]);
-      }
       for (const [bx, by] of span) this.setTile(bx, by, T.BROKEN_BRIDGE, 0);
       for (const u of [...this.units()]) {
         if (u.dead) continue;
@@ -670,14 +684,11 @@
     }
     mendBridge(tx, ty, amount, team) {
       if (!this.inBounds(tx, ty) || this.tile(tx, ty) !== T.BROKEN_BRIDGE) return false;
+      const span = this.bridgeSpan(tx, ty, T.BROKEN_BRIDGE);
       const i = idx(tx, ty), max = BRIDGE_HP || 250;
       const next = Math.min(max, Math.max(0, this.amt[i]) + amount);
-      this.amt[i] = next;
+      for (const [bx, by] of span) this.amt[idx(bx, by)] = next;
       if (next < max) return false;
-      const span = [[tx, ty]];
-      for (const [dx, dy] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) {
-        if (this.tile(tx + dx, ty + dy) === T.BROKEN_BRIDGE) span.push([tx + dx, ty + dy]);
-      }
       for (const [bx, by] of span) this.setTile(bx, by, T.BRIDGE, max);
       if ((!team || team === this.me) && this.t - (this.bridgeMsgAt || -99) > 4) {
         this.bridgeMsgAt = this.t;
@@ -991,11 +1002,14 @@
       const dx = Math.max(x0 - p.x, 0, p.x - x1), dy = Math.max(y0 - p.y, 0, p.y - y1);
       return Math.hypot(dx, dy);
     }
-    reachOf(u, target) { return (target.kind === 'building' ? this.distToRect(u, target) : dist(u, target) - 10) <= this.rangeOf(u, target) + 6; }
-    // How far a unit strikes: archers farther with bows of fine steel (1 Nephi 16:18), and ranged shooters +1 tile from high ground.
+    reachOf(u, target) {
+      if (!u.def.ranged && Math.abs(this.elevAt(u) - this.elevAt(target)) > 0.5) return false;
+      return (target.kind === 'building' ? this.distToRect(u, target) : dist(u, target) - 10) <= this.rangeOf(u, target) + 6;
+    }
+    // How far a unit strikes: archers farther with bows of fine steel (1 Nephi 16:18), and ranged shooters +1 tile from a plateau.
     rangeOf(u, target) {
       const S = this.side(u.team);
-      const high = target && u.def.ranged && this.elevAt(u) > this.elevAt(target) ? TILE : 0;
+      const high = target && u.def.ranged && this.elevAt(u) >= 1 && this.elevAt(u) > this.elevAt(target) ? TILE : 0;
       return u.def.range + (u.type === 'archer' && S.bows ? 40 : 0) + (u.type === 'javelin' && S.captain && S.captain.bonus.javelin ? S.captain.bonus.javelin : 0) + high;
     }
     // Who can go over an enemy wall: those who brought ladders, or a side's fighters once it has made ladders (Alma 62:21).
@@ -1189,7 +1203,7 @@
       if (b.def.dmg) {                              // a watchtower (+1 tile range on a plateau)
         b.cool -= dt;
         if (b.cool <= 0) {
-          const r = b.def.range + (this.elevAt(b) > 0 ? TILE : 0);
+          const r = b.def.range + (this.elevAt(b) >= 1 ? TILE : 0);
           const e = this.enemiesNear(b, b.team, r);
           if (e && e.kind === 'unit') { this.shoot(b, e, b.def.dmg); b.cool = b.def.cd; }
           else b.cool = 0.3;
@@ -1356,9 +1370,12 @@
         }
         case 'demolish': {
           if (this.tile(o.tx, o.ty) !== T.BRIDGE) { this.order(u, { type: 'idle' }); break; }
-          const g = { x0: o.tx, y0: o.ty, x1: o.tx, y1: o.ty };
+          const span = this.bridgeSpan(o.tx, o.ty, T.BRIDGE);
+          const ux = tileOf(u.x), uy = tileOf(u.y);
           const bx = center(o.tx), by = center(o.ty);
-          if (this.nextTo(u, g) || Math.hypot(bx - u.x, by - u.y) <= this.rangeOf(u) + 12) {
+          const onBank = this.tile(ux, uy) !== T.BRIDGE && span.some(([sx, sy]) => Math.abs(ux - sx) <= 1 && Math.abs(uy - sy) <= 1);
+          const inReach = u.def.ranged ? Math.hypot(bx - u.x, by - u.y) <= this.rangeOf(u) + 12 : onBank;
+          if (inReach) {
             u.path = null;
             u.face = Math.atan2(by - u.y, bx - u.x);
             if (u.cool <= 0) {
@@ -1368,21 +1385,57 @@
               u.cool = u.def.cd || 1.2;
             }
           } else {
-            if (!u.path) u.path = this.findPath(u, g, true);
-            if (this.follow(u, dt) && !this.nextTo(u, g)) this.order(u, { type: 'idle' });
+            if (!u.path) {
+              if (u.def.ranged) {
+                u.path = this.findPath(u, { x0: o.tx, y0: o.ty, x1: o.tx, y1: o.ty }, true);
+              } else {
+                let best = null, bestD = 1e9;
+                for (const [sx, sy] of span) {
+                  for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+                    const nx = sx + dx, ny = sy + dy;
+                    if (!this.inBounds(nx, ny) || this.tile(nx, ny) === T.BRIDGE || !this.passable(nx, ny, u.team)) continue;
+                    const d = Math.hypot(nx - ux, ny - uy);
+                    if (d < bestD) { bestD = d; best = [nx, ny]; }
+                  }
+                }
+                u.path = best ? this.findPath(u, { x0: best[0], y0: best[1], x1: best[0], y1: best[1] }, false) : null;
+              }
+            }
+            if (this.follow(u, dt)) {
+              const nux = tileOf(u.x), nuy = tileOf(u.y);
+              const nowOnBank = this.tile(nux, nuy) !== T.BRIDGE && span.some(([sx, sy]) => Math.abs(nux - sx) <= 1 && Math.abs(nuy - sy) <= 1);
+              if (!nowOnBank) this.order(u, { type: 'idle' });
+            }
           }
           break;
         }
         case 'mendbridge': {
           if (this.tile(o.tx, o.ty) !== T.BROKEN_BRIDGE) { this.order(u, { type: 'idle' }); break; }
-          const g = { x0: o.tx, y0: o.ty, x1: o.tx, y1: o.ty };
-          if (this.nextTo(u, g)) {
+          const span = this.bridgeSpan(o.tx, o.ty, T.BROKEN_BRIDGE);
+          const ux = tileOf(u.x), uy = tileOf(u.y);
+          const adj = span.some(([sx, sy]) => Math.abs(ux - sx) <= 1 && Math.abs(uy - sy) <= 1);
+          if (adj) {
             u.path = null;
             u.face = Math.atan2(center(o.ty) - u.y, center(o.tx) - u.x);
             this.mendBridge(o.tx, o.ty, 65 * dt, u.team);
           } else {
-            if (!u.path) u.path = this.findPath(u, g, true);
-            if (this.follow(u, dt) && !this.nextTo(u, g)) this.order(u, { type: 'idle' });
+            if (!u.path) {
+              let best = null, bestD = 1e9;
+              for (const [sx, sy] of span) {
+                for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+                  const nx = sx + dx, ny = sy + dy;
+                  if (!this.inBounds(nx, ny) || !this.passable(nx, ny, u.team)) continue;
+                  const d = Math.hypot(nx - ux, ny - uy);
+                  if (d < bestD) { bestD = d; best = [nx, ny]; }
+                }
+              }
+              u.path = best ? this.findPath(u, { x0: best[0], y0: best[1], x1: best[0], y1: best[1] }, false) : null;
+            }
+            if (this.follow(u, dt)) {
+              const nux = tileOf(u.x), nuy = tileOf(u.y);
+              const nowAdj = span.some(([sx, sy]) => Math.abs(nux - sx) <= 1 && Math.abs(nuy - sy) <= 1);
+              if (!nowAdj) this.order(u, { type: 'idle' });
+            }
           }
           break;
         }
@@ -1441,7 +1494,8 @@
         if (cohortMoving.length > 1) {
           let minSp = sp;
           for (const m of cohortMoving) {
-            let msp = m.def.speed * (m.slow || 1);
+            const mt = this.tile(tileOf(m.x), tileOf(m.y));
+            let msp = m.def.speed * (m.slow || 1) * (mt === T.FORD ? 0.7 : mt === T.ROAD ? 1.25 : 1);
             if (m.carry && m.carry.amt) msp *= 0.9;
             if (msp < minSp) minSp = msp;
           }

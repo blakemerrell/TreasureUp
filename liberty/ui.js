@@ -290,6 +290,11 @@ IMG.farm.src = 'assets/farm.png?v=13';
   const fromIso = (ix, iy) => ({ x: (ix + 2 * iy) * 0.5, y: (2 * iy - ix) * 0.5 });   // the flat ground under a point
   // The ground under a point on the screen, hills and all: settle onto the height there.
   function groundAt(ix, iy) {
+    if (W && hilly) {
+      let ph = fromIso(ix, iy + PLATEAU_H * LEVEL);
+      for (let k = 0; k < 4; k++) ph = fromIso(ix, iy + heightAt(ph.x, ph.y) * LEVEL);
+      if (W.tile(Math.floor(ph.x / TILE), Math.floor(ph.y / TILE)) === T.PLATEAU) return ph;
+    }
     let p = fromIso(ix, iy);
     for (let k = 0; k < 6; k++) {
       const q = fromIso(ix, iy + heightAt(p.x, p.y) * LEVEL);
@@ -551,7 +556,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const rockIn = distance(t => t !== T.ROCK);
     shore = distance(isWet); dry = distance(t => !isWet(t));
     wetTiles = [];
-    for (let i = 0; i < MAP_W * MAP_H; i++) if (isWet(W.tiles[i])) wetTiles.push([i % MAP_W, Math.floor(i / MAP_W)]);
+    for (let i = 0; i < MAP_W * MAP_H; i++) if (W.tiles[i] === T.WATER || W.tiles[i] === T.FORD) wetTiles.push([i % MAP_W, Math.floor(i / MAP_W)]);
     for (let vy = 0; vy <= MAP_H; vy++) for (let vx = 0; vx <= MAP_W; vx++) {
       let n = 0, wet = 0, rock = 0, rockDeep = 0, near = 99;
       for (let k = 0; k < 4; k++) {
@@ -2692,18 +2697,19 @@ IMG.farm.src = 'assets/farm.png?v=13';
   function drawFloor(b) {
     if (b.def.wall != null || b.type === 'campfire' || b.type === 'blind') return;
     const x0 = b.tx, y0 = b.ty, x1 = b.tx + b.w, y1 = b.ty + b.h;
+    const pl = W && W.tile(b.tx, b.ty) === T.PLATEAU ? PLATEAU_H : 0;
     if (b.type === 'camp' || b.type === 'warcamp' || b.type === 'village' || b.def.side === 'kingmen' || (b.type === 'training' && !ready(IMG.training))) {
       const P = [];
-      for (let x = x0; x <= x1; x++) P.push(isoPt(x, y0, hv(x, y0)));
-      for (let y = y0 + 1; y <= y1; y++) P.push(isoPt(x1, y, hv(x1, y)));
-      for (let x = x1 - 1; x >= x0; x--) P.push(isoPt(x, y1, hv(x, y1)));
-      for (let y = y1 - 1; y > y0; y--) P.push(isoPt(x0, y, hv(x0, y)));
+      for (let x = x0; x <= x1; x++) P.push(isoPt(x, y0, hv(x, y0) + pl));
+      for (let y = y0 + 1; y <= y1; y++) P.push(isoPt(x1, y, hv(x1, y) + pl));
+      for (let x = x1 - 1; x >= x0; x--) P.push(isoPt(x, y1, hv(x, y1) + pl));
+      for (let y = y1 - 1; y > y0; y--) P.push(isoPt(x0, y, hv(x0, y) + pl));
       fillPoly(P, b.type === 'village' ? 'rgba(150, 120, 80, .55)' : 'rgba(110, 86, 60, .6)');
       return;
     }
     const top = floorOf(b);
-    for (let x = x0; x < x1; x++) fillPoly([isoPt(x, y1, top), isoPt(x + 1, y1, top), isoPt(x + 1, y1, hv(x + 1, y1)), isoPt(x, y1, hv(x, y1))], '#8a6d4a');
-    for (let y = y0; y < y1; y++) fillPoly([isoPt(x1, y, top), isoPt(x1, y + 1, top), isoPt(x1, y + 1, hv(x1, y + 1)), isoPt(x1, y, hv(x1, y))], '#6b5238');
+    for (let x = x0; x < x1; x++) fillPoly([isoPt(x, y1, top), isoPt(x + 1, y1, top), isoPt(x + 1, y1, hv(x + 1, y1) + pl), isoPt(x, y1, hv(x, y1) + pl)], '#8a6d4a');
+    for (let y = y0; y < y1; y++) fillPoly([isoPt(x1, y, top), isoPt(x1, y + 1, top), isoPt(x1, y + 1, hv(x1, y + 1) + pl), isoPt(x1, y, hv(x1, y) + pl)], '#6b5238');
     const F = [isoPt(x0, y0, top), isoPt(x1, y0, top), isoPt(x1, y1, top), isoPt(x0, y1, top)];
     fillPoly(F, b.type === 'farm' ? '#6a4a30' : '#ad9168');
     ctx.strokeStyle = 'rgba(60, 44, 26, .55)'; ctx.lineWidth = 1; ctx.stroke();
@@ -3198,7 +3204,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
     const hide = war ? '#b8956a' : '#93402f', dark = war ? '#7c6040' : '#5e281e';
     const stakes = (pts) => {
       for (const [x, y] of pts) {
-        const p = isoPt(x, y, hv(Math.round(x), Math.round(y)));
+        const p = isoPt(x, y, heightAt(x * TILE, y * TILE));
         ctx.strokeStyle = '#4a3220'; ctx.lineWidth = 2.6; ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(p[0], p[1] - 13); ctx.stroke();
         ctx.fillStyle = '#c8a878'; ctx.beginPath(); ctx.moveTo(p[0] - 1.3, p[1] - 13); ctx.lineTo(p[0], p[1] - 16); ctx.lineTo(p[0] + 1.3, p[1] - 13); ctx.fill();
       }
@@ -3675,10 +3681,10 @@ IMG.farm.src = 'assets/farm.png?v=13';
       if (AUDIO) { AUDIO.play('orderMove'); AUDIO.unitAcknowledge(workers[0] || units[0], 'move'); }
       return ping((brokenSpot[0] + 0.5) * TILE, (brokenSpot[1] + 0.5) * TILE, '#fde68a');
     }
-    if ((huntMode || units.every(u => u.type === 'cumom')) && W.tile(tx, ty) === T.BRIDGE) {
+    if (huntMode && W.tile(tx, ty) === T.BRIDGE) {
       for (const u of units) if (u.def.dmg) W.order(u, { type: 'demolish', tx, ty });
       if (AUDIO) { AUDIO.play('orderAttack'); AUDIO.unitAcknowledge(units[0], 'attack'); }
-      if (huntMode) setHuntMode(false);
+      setHuntMode(false);
       toast('Demolishing the bridge!', 'warn');
       return ping(wx, wy, '#f87171');
     }
@@ -5661,11 +5667,15 @@ IMG.farm.src = 'assets/farm.png?v=13';
 
     const checkConnectivity = () => {
       const testW = new S.World(1, () => ({ tiles: new Uint8Array(state.tiles), amt: new Int16Array(state.amt) }));
+      testW.border = null;
+      const goal = { x0: state.WARCAMP.x, y0: state.WARCAMP.y, x1: state.WARCAMP.x + 3, y1: state.WARCAMP.y + 3 };
       const path = testW.findPath(
         { x: (state.START.x + 2) * TILE + 16, y: (state.START.y + 2) * TILE + 16, team: 'p', def: UNITS.spearman },
-        { x0: state.WARCAMP.x, y0: state.WARCAMP.y, x1: state.WARCAMP.x + 3, y1: state.WARCAMP.y + 3 },
+        goal,
         true
       );
+      const last = path && path.length ? path[path.length - 1] : null;
+      const reached = !!(last && last[0] >= goal.x0 - 1 && last[0] <= goal.x1 + 1 && last[1] >= goal.y0 - 1 && last[1] <= goal.y1 + 1);
       let bridges = 0, plateaus = 0, ramps = 0, forests = 0, fields = 0;
       for (let i = 0; i < state.tiles.length; i++) {
         const t = state.tiles[i];
@@ -5676,7 +5686,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
         else if (t === T.FIELD) fields++;
       }
       const stats = `Bridges: ${bridges} · Plateau tiles: ${plateaus} · Ramps: ${ramps} · Forests: ${forests} · Fields: ${fields}`;
-      if (path && path.length > 0) {
+      if (reached) {
         statusEl.style.color = '#15803d';
         statusEl.textContent = `✓ Valid march route between bases (${path.length} tiles) · ${stats}`;
         return true;
@@ -5791,9 +5801,12 @@ IMG.farm.src = 'assets/farm.png?v=13';
     });
     $('meMirror').onchange = e => { state.mirror = !!e.target.checked; };
 
-    const commitMap = () => {
+    const buildSpec = () => {
       state.name = ($('meName').value || '').trim() || 'Custom Battlefield';
-      const spec = D.encodeCustomMap(state);
+      return D.encodeCustomMap(state);
+    };
+    const commitMap = () => {
+      const spec = buildSpec();
       saveCustomMap(spec);
       pick.mapId = 'custom';
       savePick();
@@ -5811,7 +5824,7 @@ IMG.farm.src = 'assets/farm.png?v=13';
       briefing(FREE);
     };
     $('meExport').onclick = () => {
-      const json = JSON.stringify(commitMap());
+      const json = JSON.stringify(buildSpec());
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(json).then(() => { statusEl.style.color = '#15803d'; statusEl.textContent = '✓ Custom Map JSON copied to clipboard!'; });
       } else {
