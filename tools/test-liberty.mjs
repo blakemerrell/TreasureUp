@@ -1147,11 +1147,17 @@ console.log('Skirmish Economy & Frontier Loop');
     ok(!W.whyNotPlace('barracks', 21, 33, 'p'), '2x2 barracks can be placed wholly on top of plateau (21,33)');
     ok(W.whyNotPlace('barracks', 20, 33, 'p') === 'ground', '2x2 building cannot straddle a cliff edge between low ground (20,33) and plateau (21,33)');
 
-    // 3. High-ground range (+32px) and damage (+20%) advantage
+    // 3. High-ground range (+32px), damage (+20%), ramp exclusion, and sheer-cliff melee blocking
     const hiBow = W.addUnit('archer', 'p', 22.5 * D.TILE, 33.5 * D.TILE);
+    const rampBow = W.addUnit('archer', 'p', 22.5 * D.TILE, 36.5 * D.TILE);
     const loBow = W.addUnit('archer', 'p', 19.5 * D.TILE, 33.5 * D.TILE);
     const targetLo = W.addUnit('lamanite', 'r', 22.5 * D.TILE, 31.5 * D.TILE);
-    ok(W.rangeOf(hiBow, targetLo) === W.rangeOf(loBow, targetLo) + D.TILE, `high-ground archer gains +${D.TILE}px (+1 tile) range vs low-ground target`);
+    ok(W.rangeOf(hiBow, targetLo) === W.rangeOf(loBow, targetLo) + D.TILE, `high-ground archer on plateau gains +${D.TILE}px (+1 tile) range vs low-ground target`);
+    ok(W.rangeOf(rampBow, targetLo) === W.rangeOf(loBow, targetLo), 'unit on ramp (elev 0.5) does not get plateau range bonus');
+    const cliffSwordsman = W.addUnit('swordsman', 'p', 22.5 * D.TILE, 33.1 * D.TILE);
+    const baseEnemy = W.addUnit('lamanite', 'r', 22.5 * D.TILE, 32.9 * D.TILE);
+    ok(!W.reachOf(cliffSwordsman, baseEnemy), 'melee unit cannot strike across a sheer cliff edge without a ramp');
+    cliffSwordsman.hp = 0; baseEnemy.hp = 0; rampBow.hp = 0;
     const hpBefore = targetLo.hp;
     W.damage(targetLo, 10, hiBow);
     const dmgHi = hpBefore - targetLo.hp;
@@ -1161,19 +1167,32 @@ console.log('Skirmish Economy & Frontier Loop');
     ok(Math.abs(dmgHi / dmgLo - 1.2) < 0.01, `high-ground attack deals +20% bonus damage (${dmgHi.toFixed(1)} vs ${dmgLo.toFixed(1)})`);
     hiBow.hp = 0; loBow.hp = 0; targetLo.hp = 0;
 
-    // 4. Destructible & repairable bridges
-    for (let y = 32; y <= 34; y++) W.setTile(26, y, D.T.WATER, 0);
-    stamp.bridge(26, 33, 1, 1);
-    ok(W.tile(26, 33) === D.T.BRIDGE && W.passable(26, 33), 'intact bridge over water is walkable');
-    const victim = W.addUnit('lamanite', 'r', 26.5 * D.TILE, 33.5 * D.TILE);
-    W.damageBridge(26, 33, D.BRIDGE_HP + 10, null);
-    ok(W.tile(26, 33) === D.T.BROKEN_BRIDGE && !W.passable(26, 33), 'demolished bridge collapses into impassable T.BROKEN_BRIDGE');
-    ok(victim.dead && victim.hp <= 0, 'unit standing on collapsing bridge span perishes in the river');
+    // 4. Destructible & repairable 2x2 bridge span (melee demolisher stays safely on bank)
+    for (let y = 32; y <= 35; y++) for (let x = 26; x <= 27; x++) W.setTile(x, y, D.T.WATER, 0);
+    stamp.bridge(26, 33, 27, 33);
+    stamp.bridge(26, 34, 27, 34);
+    ok(W.tile(26, 33) === D.T.BRIDGE && W.tile(27, 34) === D.T.BRIDGE && W.passable(26, 33), 'intact 2x2 bridge over water is walkable');
+    const victim = W.addUnit('lamanite', 'r', 27.5 * D.TILE, 34.5 * D.TILE);
+    const demolisher = W.addUnit('cumom', 'p', 24.5 * D.TILE, 33.5 * D.TILE);
+    W.order(demolisher, { type: 'demolish', tx: 27, ty: 33 });
+    run(W, 12);
+    ok(
+      W.tile(26, 33) === D.T.BROKEN_BRIDGE && W.tile(27, 33) === D.T.BROKEN_BRIDGE &&
+      W.tile(26, 34) === D.T.BROKEN_BRIDGE && W.tile(27, 34) === D.T.BROKEN_BRIDGE && !W.passable(26, 33),
+      'entire connected 2x2 bridge span collapses into impassable T.BROKEN_BRIDGE'
+    );
+    ok(victim.dead && victim.hp <= 0, 'unit standing on collapsing 2x2 bridge span perishes in the river');
+    ok(!demolisher.dead && demolisher.hp > 0, 'melee demolisher attacks from the riverbank and survives the bridge collapse');
+    demolisher.hp = 0;
 
     const mender = W.addUnit('worker', 'p', 25.5 * D.TILE, 33.5 * D.TILE);
-    mender.order = { type: 'mendbridge', tx: 26, ty: 33 };
+    W.order(mender, { type: 'mendbridge', tx: 27, ty: 34 });
     run(W, 6);
-    ok(W.tile(26, 33) === D.T.BRIDGE && W.passable(26, 33), 'worker ordered with mendbridge repairs broken span back to walkable T.BRIDGE');
+    ok(
+      W.tile(26, 33) === D.T.BRIDGE && W.tile(27, 33) === D.T.BRIDGE &&
+      W.tile(26, 34) === D.T.BRIDGE && W.tile(27, 34) === D.T.BRIDGE && W.passable(27, 34),
+      'worker ordered with mendbridge repairs the entire 2x2 broken span back to walkable T.BRIDGE'
+    );
     mender.hp = 0;
 
     // 5. Ancient Nephite Road speed bonus (+25%)
@@ -1190,7 +1209,7 @@ console.log('Skirmish Economy & Frontier Loop');
     const dGrass = runnerGrass.x - 18.5 * D.TILE;
     ok(dRoad > dGrass * 1.18, `unit marching along T.ROAD moves ~25% faster than on grass (${dRoad.toFixed(1)}px vs ${dGrass.toFixed(1)}px)`);
 
-    // 6. Phase 2 Skirmish Map Pack (all 4 C&C maps build valid worlds with reachable bases & plateaus/roads)
+    // 6. Phase 2 Skirmish Map Pack (all 4 C&C maps build valid worlds with reachable WARCAMP & plateaus/roads)
     const FREE = require('../liberty/missions.js').FREE_BATTLE;
     const mapIds = Object.keys(D.SKIRMISH_MAPS || {});
     ok(mapIds.length === 4, `4 skirmish maps defined in D.SKIRMISH_MAPS (${mapIds.join(', ')})`);
@@ -1203,6 +1222,7 @@ console.log('Skirmish Economy & Frontier Loop');
       const MW = new S.World(19, FREE.map);
       MW.mission = FREE;
       FREE.setup(MW);
+      MW.border = null;
       let hasPlateau = false, hasRamp = false, hasRoad = false;
       for (let i = 0; i < MW.tiles.length; i++) {
         if (MW.tiles[i] === D.T.PLATEAU) hasPlateau = true;
@@ -1210,15 +1230,26 @@ console.log('Skirmish Economy & Frontier Loop');
         else if (MW.tiles[i] === D.T.ROAD) hasRoad = true;
       }
       ok(hasPlateau && hasRamp && hasRoad, `skirmish map '${mid}' (${meta.name}) includes plateaus, ramps, and roads`);
+      const goal = { x0: meta.WARCAMP.x, y0: meta.WARCAMP.y, x1: meta.WARCAMP.x + 3, y1: meta.WARCAMP.y + 3 };
       const path = MW.findPath(
         { x: (meta.START.x + 2) * D.TILE + 16, y: (meta.START.y + 2) * D.TILE + 16, team: 'p', def: D.UNITS.spearman },
-        { x0: meta.WARCAMP.x, y0: meta.WARCAMP.y, x1: meta.WARCAMP.x + 3, y1: meta.WARCAMP.y + 3 },
+        goal,
         true
       );
-      ok(path && path.length > 10, `skirmish map '${mid}' has a valid A* march path between START and WARCAMP (${path ? path.length : 0} steps)`);
+      const last = path && path.length ? path[path.length - 1] : null;
+      const reached = !!(last && last[0] >= goal.x0 - 1 && last[0] <= goal.x1 + 1 && last[1] >= goal.y0 - 1 && last[1] <= goal.y1 + 1);
+      ok(reached, `skirmish map '${mid}' A* march path genuinely reaches WARCAMP (${path ? path.length : 0} steps, end=${last ? last.join(',') : 'none'})`);
+      if (mid === 'highland_citadel') {
+        let plateauIntact = true;
+        for (let y = 19; y < 29; y++) for (let x = 26; x < 38; x++) {
+          const t = MW.tile(x, y);
+          if (t !== D.T.PLATEAU && t !== D.T.RAMP) plateauIntact = false;
+        }
+        ok(plateauIntact, 'Highland Citadel central 12x10 plateau has no low-ground resource holes');
+      }
     }
 
-    // 7. Custom Map Builder RLE encode/decode round-trip and setup
+    // 7. Custom Map Builder RLE encode/decode round-trip, setup, and malformed JSON sanitization
     const base = D.buildSkirmishMap('twin_bluffs');
     base.tiles[20 * D.MAP_W + 20] = D.T.PLATEAU;
     base.tiles[20 * D.MAP_W + 21] = D.T.RAMP;
@@ -1234,6 +1265,14 @@ console.log('Skirmish Economy & Frontier Loop');
     });
     const decoded = D.decodeCustomMap(encoded);
     ok(decoded && decoded.name === 'Moroni Mesa Test' && decoded.tiles[20 * D.MAP_W + 20] === D.T.PLATEAU && decoded.tiles[20 * D.MAP_W + 21] === D.T.RAMP && decoded.amt[25 * D.MAP_W + 30] === D.BRIDGE_HP, 'encodeCustomMap & decodeCustomMap round-trip custom terrain and bridge HP');
+    const dirty = D.decodeCustomMap({
+      tilesRle: [99, 10, 200, 10],
+      START: { x: -999, y: 9999 },
+      WARCAMP: { x: 'bad', y: null },
+      CAMPS: [null, 'bad'],
+      RELICS: 'not-an-array'
+    });
+    ok(dirty && dirty.tiles[0] === D.T.GRASS && dirty.START.x >= 2 && dirty.WARCAMP.x >= 2 && dirty.CAMPS.length === 3 && Array.isArray(dirty.RELICS), 'decodeCustomMap sanitizes out-of-range tiles and malformed coordinates');
     FREE.mapId = 'custom';
     FREE.customMap = encoded;
     const CW = new S.World(23, FREE.map);
