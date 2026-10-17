@@ -812,11 +812,13 @@ async function main(scripture, week, pages, online) {
   const readingQs = week.reels.flatMap(r => bonusesOf(r)).concat(week.deep || []).filter(x => x && x.right);
 
   // Weekly puzzle: 4 groups of 4, one per section, every tile from this week's reading.
+  // A week with only three sections has 3 groups (2026-10-17: "3 groups of 4").
   if (week.puzzle) {
     const where = 'puzzle';
     const block = new Set(blockChapters(week.reference, verses) || []);   // "Jeremiah 31–33; 36–39; Lamentations 1; 3": every book's chapters
     const groups = week.puzzle.groups || [];
-    if (groups.length !== 4) fail(where, `needs exactly 4 groups (has ${groups.length})`);
+    const want = (week.sections || []).length === 3 ? 3 : 4;
+    if (groups.length !== want) fail(where, `needs exactly ${want} groups (has ${groups.length})${want === 3 ? ': the week has 3 sections' : ''}`);
     const secs = new Set(), texts = new Set();
     for (const [gi, g] of groups.entries()) {
       if (!week.sections[g.section]) fail(where, `group ${gi + 1}: section must be an index into sections`);

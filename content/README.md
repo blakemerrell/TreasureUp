@@ -177,7 +177,8 @@ treasure (optional): five to seven Hebrew (or Greek) words from the week's
 ## The games' fields
 
 - `puzzle.groups`: exactly 4 groups of 4 tiles, one group per lesson
-  section. Each tile is `{ text, ref }`; the ref must be inside the week's
+  section; a week with only 3 sections has 3 groups (2026-10-17: "3 groups
+  of 4"). Each tile is `{ text, ref }`; the ref must be inside the week's
   reading. A tile must not hand over a reading question's answer (the
   checker flags a tile sharing two main words with one).
 - `sayings`: at least 6 `{ id, text, ref, speaker, wrong: [two], why }`.

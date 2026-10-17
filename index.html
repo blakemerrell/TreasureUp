@@ -12071,7 +12071,7 @@ const TreasureUp = (function () {
       rows.push(`<button class="game-row" data-treasure="${esc(x.id)}"><span class="gi">💎</span><span><span class="gt block">Word of the day</span><span class="gd block">${twWordHtml(x, 'tw-inline')} · ${esc(x.say)} · “${esc(x.kjv)}”</span><span class="gs block">${seen ? '✓ Seen today' : 'A Hebrew or Greek word from this week'}</span></span></button>`);
     }
     if (WEEK.puzzle) {
-      rows.push(gameRow('puzzle', '🧩', 'Weekly puzzle', "Sort 16 ideas into this week's 4 lesson sections.", puzzleStatus(), reelsLeft() > 0));
+      rows.push(gameRow('puzzle', '🧩', 'Weekly puzzle', `Sort ${WEEK.puzzle.groups.length * 4} ideas into this week's ${WEEK.puzzle.groups.length} lesson sections.`, puzzleStatus(), reelsLeft() > 0));
     }
     if (WEEK.sayings && WEEK.sayings.length) {
       const got = WEEK.sayings.filter(x => S.sayings[x.id] && S.sayings[x.id].right).length;
@@ -12233,7 +12233,7 @@ const TreasureUp = (function () {
   const GAME_START = {
     puzzle: { alt: 'A grandfather, a boy and his little sister sort clay tablets and scroll pieces into four baskets tied with yellow, green, blue and purple ribbons.',
       hook: 'Isaiah taught the Lord’s word “line upon line, line upon line; here a little, and there a little” (Isaiah 28:10). Sort this week’s ideas into the lesson’s sections.',
-      how: ['<b>16 ideas</b> from this week, and <b>4 sections</b> of the lesson. Put each idea where it belongs.', '<b>Easy</b>: one idea at a time, with its verse and a few “place one for me” helps. <b>Hard</b>: find a whole group of four at once, with 4 mistakes a day.', 'Solve it for XP and a <b>❄️ streak freeze</b>.'] },
+      get how() { const n = ((WEEK && WEEK.puzzle && WEEK.puzzle.groups) || []).length || 4; return [`<b>${n * 4} ideas</b> from this week, and <b>${n} sections</b> of the lesson. Put each idea where it belongs.`, '<b>Easy</b>: one idea at a time, with its verse and a few “place one for me” helps. <b>Hard</b>: find a whole group of four at once, with 4 mistakes a day.', 'Solve it for XP and a <b>❄️ streak freeze</b>.']; } },
     sayings: { alt: 'Isaiah speaks on the steps of a gate of Jerusalem to a king, a shepherd, a mother and child, a merchant and a boy who listens closely.',
       hook: '“Hear, O heavens, and give ear, O earth: for the LORD hath spoken” (Isaiah 1:2). Who said each line in this week’s reading: the Lord, a prophet, or a king?',
       how: ['Read a <b>line</b> from this week, and pick <b>who said it</b>.', 'Each right answer is <b>XP</b>, the first time.', 'One line comes back in each day’s warm-up.'] },
@@ -12276,6 +12276,7 @@ const TreasureUp = (function () {
   }
 
   /* ----- weekly puzzle: four groups of four, one per lesson section ----- */
+  // A week with only three sections has three groups of four (2026-10-17: "3 groups of 4").
 
   // Two ways to play (2026-10-04: "The daily puzzle is to hard. I
   // can't figure it out"). Easy, the first: tap an idea, then the section it
@@ -12287,6 +12288,7 @@ const TreasureUp = (function () {
   const PZ_GIVES = 3;
   let pzSel = [], pzOrder = null, pzMsg = '', pzVerses = false;
   const pzMode = () => S.pzMode === 'hard' ? 'hard' : 'easy';
+  const pzHowMany = () => ['', 'one', 'two', 'three', 'four'][WEEK.puzzle.groups.length] || String(WEEK.puzzle.groups.length);
   const pzGroupOf = t => WEEK.puzzle.groups.findIndex(g => g.tiles.some(x => x.text === t));
   const pzTile = t => WEEK.puzzle.groups.flatMap(g => g.tiles).find(x => x.text === t);
   // Where an idea has been put (Easy), or its group, once found (Hard); null if not yet.
@@ -12383,7 +12385,7 @@ const TreasureUp = (function () {
         <div class="pz-wrap">
           ${modes}
           <p class="clue-q">Out of tries for today</p>
-          <p class="board-help">Hard comes back tomorrow with 4 more tries, or try it the easy way now. The four sections to sort into:</p>
+          <p class="board-help">Hard comes back tomorrow with 4 more tries, or try it the easy way now. The ${pzHowMany()} sections to sort into:</p>
           <ul class="pz-targets">${groups.map((g, gi) => `<li class="${solved.includes(gi) ? 'done' : ''}">${solved.includes(gi) ? '✓ ' : ''}${esc(WEEK.sections[g.section])}</li>`).join('')}</ul>
           <div style="margin-top:14px">${solved.map(gi => solvedBox(gi, false)).join('')}</div>
           <div class="board-actions"><button class="btn" data-pz="easy">Try it the easy way</button><button class="btn ghost" data-pz="exit">Back</button></div>
@@ -12397,7 +12399,7 @@ const TreasureUp = (function () {
     body.innerHTML = `
       <div class="pz-wrap">
         ${modes}
-        <p class="board-help">Find four groups of four. Each group is one of this week's lesson sections:</p>
+        <p class="board-help">Find ${pzHowMany()} groups of four. Each group is one of this week's lesson sections:</p>
         <ul class="pz-targets">${groups.map((g, gi) => `<li class="${solved.includes(gi) ? 'done' : ''}">${solved.includes(gi) ? '✓ ' : ''}${esc(WEEK.sections[g.section])}</li>`).join('')}</ul>
         <div style="margin-top:12px">${solved.map(gi => solvedBox(gi, false)).join('')}</div>
         <div class="pz-grid">${pzOrder.map(t =>
@@ -19057,7 +19059,7 @@ const TreasureUp = (function () {
       const left = reelsLeft();
       html += `<div class="ls-prompt">The weekly puzzle</div>
         <p class="reel-body">${left ? `It opens once the week's reels are answered: ${left === 1 ? '1 is' : left + ' are'} left.`
-          : `Sixteen ideas from this week. Put each one in its lesson section, for ${PUZZLE_XP} XP and a streak freeze.`}</p>`;
+          : `${WEEK.puzzle.groups.length === 3 ? 'Twelve' : 'Sixteen'} ideas from this week. Put each one in its lesson section, for ${PUZZLE_XP} XP and a streak freeze.`}</p>`;
     }
     body.innerHTML = html;
     body.scrollTop = 0;

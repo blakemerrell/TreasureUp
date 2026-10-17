@@ -11,7 +11,7 @@ import { serve, launch, closeBrowser, results, note } from './lib.mjs';
 const port = Number(process.env.TEST_PORT || 8131);
 const emulators = !!process.env.FIRESTORE_EMULATOR_HOST;
 const asked = process.argv.slice(2);
-const names = asked.length ? asked : ['smoke', 'dates', 'merge', 'week', 'sunday', 'keep', 'coach', 'growth', 'pro', 'reader', 'questions', 'offline', ...(emulators ? ['family', 'games', 'journal'] : [])];
+const names = asked.length ? asked : ['smoke', 'dates', 'merge', 'week', 'sunday', 'keep', 'coach', 'growth', 'pro', 'reader', 'questions', 'offline', 'puzzle', ...(emulators ? ['family', 'games', 'journal'] : [])];
 
 const server = await serve(port);
 await launch();
