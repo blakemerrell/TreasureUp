@@ -2437,6 +2437,70 @@
   .report-row .go { margin-left: auto; color: rgba(255,255,255,.35); }
 
 
+  /* Core Daily Walk Banner & Swipeable Story Decks (2026-10-16) */
+  .core-walk-banner {
+    margin: 10px 0 8px; padding: 12px 15px; border-radius: 16px;
+    background: linear-gradient(135deg, rgba(16,185,129,.16), rgba(6,78,59,.35));
+    border: 1.5px solid rgba(52,211,153,.42);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .core-walk-banner.done {
+    background: linear-gradient(135deg, rgba(16,185,129,.26), rgba(5,46,22,.65));
+    border-color: rgba(52,211,153,.7);
+    box-shadow: 0 8px 24px rgba(16,185,129,.18);
+  }
+  .core-walk-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; font-weight: 900; color: #6ee7b7; }
+  .core-walk-sub { font-size: 12.5px; color: rgba(255,255,255,.78); line-height: 1.4; }
+  .core-walk-bar { height: 6px; border-radius: 999px; background: rgba(255,255,255,.12); overflow: hidden; }
+  .core-walk-bar > div { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #10b981, #34d399); transition: width .25s ease; }
+
+  .ins-deck { display: flex; flex-direction: column; gap: 10px; }
+  .ins-deck-bars { display: flex; gap: 6px; }
+  .ins-deck-bar { flex: 1; height: 5px; border-radius: 999px; background: rgba(255,255,255,.16); border: 0; padding: 0; cursor: pointer; transition: background .2s ease; }
+  .ins-deck-bar.on { background: var(--gold); box-shadow: 0 0 8px rgba(251,191,36,.45); }
+  .ins-deck-pills { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .ins-deck-pills::-webkit-scrollbar { display: none; }
+  .ins-deck-pill {
+    flex: 0 0 auto; padding: 5px 11px; border-radius: 999px; font-size: 11.5px; font-weight: 800;
+    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.75); cursor: pointer;
+  }
+  .ins-deck-pill.on { background: var(--gold); color: #1c1406; border-color: var(--gold); }
+  .ins-deck-track {
+    display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory;
+    scroll-behavior: smooth; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .ins-deck-track::-webkit-scrollbar { display: none; }
+  .ins-deck-slide {
+    flex: 0 0 100%; min-width: 0; scroll-snap-align: center; scroll-snap-stop: always;
+    padding: 16px; border-radius: 18px;
+    background: linear-gradient(155deg, rgba(30,27,75,.68), rgba(15,23,42,.88));
+    border: 1.5px solid rgba(251,191,36,.32);
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .ins-deck-kicker {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    font-size: 11px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; color: var(--gold);
+  }
+  .ins-deck-para {
+    padding: 12px 14px; border-radius: 13px; background: rgba(0,0,0,.32);
+    border-left: 3px solid var(--gold); font-size: 15px; line-height: 1.58; color: rgba(255,255,255,.93); margin: 0;
+  }
+  .ins-deck-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 2px; }
+  .ins-save-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 9px 14px; border-radius: 12px; font-size: 13px; font-weight: 800;
+    background: rgba(52,211,153,.16); border: 1px solid rgba(52,211,153,.45); color: #6ee7b7; cursor: pointer;
+  }
+  .lm-note-card {
+    margin-top: 10px; padding: 14px 16px; border-radius: 16px;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14);
+  }
+  .lm-note-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .shop-tier-h {
+    margin: 14px 0 6px; font-size: 11px; font-weight: 900; letter-spacing: .07em;
+    text-transform: uppercase; color: var(--gold); display: flex; align-items: center; justify-content: space-between;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
     .blob { animation: none; }
@@ -3634,7 +3698,7 @@ const TreasureUp = (function () {
       const kw = keepWhat(keepQ);
       button = `<button class="fl-next" data-keep-going><b>▶ ${keepOn === k ? 'Pick up where you left off' : 'Keep going'}</b><small>${esc('Today’s study ✓ · ' + kw.words)}</small></button>`;
     }
-    else if (rows.length && !next) button = isToday ? `<div class="fl-done"><b>✓ Today’s study: done</b><small>${esc(d < 5 ? 'Tomorrow: ' + dayName(d + 1) : 'Tomorrow: church, then a family game')}</small></div>`
+    else if (rows.length && !next) button = isToday ? `<div class="fl-done"><b>🎉 ✓ Today’s study: done!</b><small>${esc(d < 5 ? 'Streak locked in · Tomorrow: ' + dayName(d + 1) : 'Streak locked in · Tomorrow: church, then a family game')}</small></div>`
       : at >= 0 ? `<button class="fl-next ahead" data-lesson="${d}.${at}"><b>▶ Practice it again</b><small>Already done: nothing new to earn</small></button>` : '';
     else if (next && (isToday || at >= 0)) {
       // Today's study opens with Be still, then the lesson (the owner picked both: the first row, and the green button), until he's been still or passed it by today.
@@ -3662,7 +3726,18 @@ const TreasureUp = (function () {
     const cards = rows.map(r => pathCard(r, { d, at, isToday }, r === next)), of = (...ks) => cards.filter(x => ks.includes(x.kind));
     const study = extra.map(html => ({ html, done: null })).concat(of('part', 'reels', 'cfm', 'bom', 'fsy'), mini ? [mini] : []);
     const kid = seasonWho() !== 'adult', name = whoName();
-    const walk = isToday ? `<div class="walk-line">🚶 ${kid && name ? esc(name) + '’s Daily Walk' : 'The Daily Walk'} · Micah 6:8</div>` : '';
+    const walkPct = rows.length ? Math.round((n / rows.length) * 100) : 0;
+    const walk = isToday ? `<div class="walk-line">🚶 ${kid && name ? esc(name) + '’s Daily Walk' : 'The Daily Walk'} · Micah 6:8</div>
+      <div class="core-walk-banner${!next && rows.length ? ' done' : ''}">
+        <div class="core-walk-top">
+          <span>${!next && rows.length ? '🎉 Today’s Core Walk Complete!' : '✨ Core Daily Walk'}</span>
+          <span>${n}/${rows.length} steps · ${walkPct}%</span>
+        </div>
+        <div class="core-walk-bar"><div style="width:${walkPct}%"></div></div>
+        <div class="core-walk-sub">${!next && rows.length
+          ? 'Daily streak locked in! Everything in Go Further below is bonus explorer credit whenever you have extra time.'
+          : 'Finish these core steps to lock in today’s streak. Go Further below is always optional bonus XP.'}</div>
+      </div>` : '';
     const secs = isToday ? [
       tsecHtml('morning', 'Morning', of('still', 'blueprint')),
       tsecHtml('study', 'Scripture study', study),
@@ -5503,26 +5578,37 @@ const TreasureUp = (function () {
     for (const it of ins) {
       res.push({
         id: 'cream:ins:' + it.id,
+        rawId: it.id,
         type: 'insight',
+        kind: it.kind || 'insight',
         badge: (it.source && it.source.by) || 'Scholar Insight',
         who: (it.source && it.source.who) || '',
         ref: it.ref || '',
-        title: it.title || '',
+        title: it.title || (it.source && it.source.who) || 'Scholar Insight',
         text: it.text || '',
+        quote: it.quote || '',
+        deep: it.deep || null,
+        video: it.video || (it.deep && it.deep.listen) || null,
         url: it.source && it.source.url,
         sourceTitle: it.source && it.source.title,
-        icon: '💎'
+        icon: it.kind === 'video' ? '🎬' : it.kind === 'quote' ? '💬' : '💎'
       });
     }
     const words = (week.treasure || []).slice(0, 2);
     for (const tr of words) {
       res.push({
         id: 'cream:word:' + tr.id,
+        rawId: tr.id,
         type: 'word',
         badge: 'Hebrew Gem',
         ref: tr.ref || '',
+        word: tr.word || '',
+        say: tr.say || '',
+        kjv: tr.kjv || '',
+        means: tr.means || '',
+        more: tr.more || '',
         title: `${tr.word} (${tr.say}) · ${tr.kjv}`,
-        text: `${tr.means} ${tr.more || ''}`,
+        text: tr.means || '',
         gloss: tr.gloss,
         strong: tr.strong,
         icon: '🏺'
@@ -5954,14 +6040,19 @@ const TreasureUp = (function () {
   function creamPlayerHtml(item, curStep = 0) {
     const isWord = item.type === 'word';
     const done = isShortDone(item.id);
+    const paras = item.deep && Array.isArray(item.deep.paras) ? item.deep.paras : [];
+    const vid = item.video && item.video.youtube && (item.video.previewed === true || TEST_SITE) ? clipHtml(item.video) : '';
 
     return `<div class="sp-wrap">
+      <div class="sp-story-bars">
+        ${[0, 1, 2].map(i => `<button class="sp-story-bar${i < curStep ? ' on' : i === curStep ? ' current' : ''}" style="${i <= curStep ? 'background:#f59e0b;box-shadow:0 0 8px rgba(245,158,11,.5)' : ''}" data-cream-step="${esc(item.id)}|${i}" aria-label="Slide ${i + 1} of 3"></button>`).join('')}
+      </div>
       <div class="sp-nav">
         <button class="sp-back-btn" data-back-weeksheet>‹ Back to Shorts</button>
         <div class="sp-steps-pills">
-          <button class="sp-pill${curStep === 0 ? ' on' : ''}" style="${curStep === 0 ? 'background:#f59e0b;color:#1c1406' : ''}" data-cream-step="${esc(item.id)}|0">1. Discovery</button>
-          <button class="sp-pill${curStep === 1 ? ' on' : ''}" style="${curStep === 1 ? 'background:#f59e0b;color:#1c1406' : ''}" data-cream-step="${esc(item.id)}|1">2. Spiritual Truth</button>
-          <button class="sp-pill${curStep === 2 ? ' on' : ''}" style="${curStep === 2 ? 'background:#f59e0b;color:#1c1406' : ''}" data-cream-step="${esc(item.id)}|2">3. Ponder</button>
+          <button class="sp-pill${curStep === 0 ? ' on' : ''}" style="${curStep === 0 ? 'background:#f59e0b;color:#1c1406' : ''}" data-cream-step="${esc(item.id)}|0">1. Hook & Verse</button>
+          <button class="sp-pill${curStep === 1 ? ' on' : ''}" style="${curStep === 1 ? 'background:#f59e0b;color:#1c1406' : ''}" data-cream-step="${esc(item.id)}|1">2. ${isWord ? 'Hebrew Root' : 'Deep Discovery'}</button>
+          <button class="sp-pill${curStep === 2 ? ' on' : ''}" style="${curStep === 2 ? 'background:#f59e0b;color:#1c1406' : ''}" data-cream-step="${esc(item.id)}|2">3. Takeaway</button>
         </div>
       </div>
 
@@ -5975,58 +6066,65 @@ const TreasureUp = (function () {
         ${curStep === 0 ? `
           <div style="padding:14px 16px;border-radius:14px;background:rgba(0,0,0,.35);border-left:3px solid #f59e0b;line-height:1.55">
             <div style="font-size:11px;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:#fbbf24;margin-bottom:6px">
-              ${isWord ? '🏺 Original Hebrew Word Discovery' : '🔍 Scholar Context & Discovery'}
+              ${isWord ? '🏺 Original Hebrew Word Discovery' : '🔍 Key Insight'}
             </div>
             ${isWord ? `
-              <div style="font-size:32px;font-family:'Noto Serif Hebrew',serif;text-align:center;margin:8px 0;color:#fbbf24">${esc(item.title.split(' ')[0])}</div>
-              <p style="margin:0;font-size:14.5px;color:#fff">${esc(item.text)}</p>
+              <div style="font-size:34px;font-family:'Noto Serif Hebrew',serif;text-align:center;margin:8px 0;color:#fbbf24" dir="rtl">${esc(item.word || item.title.split(' ')[0])}</div>
+              <div style="text-align:center;margin-bottom:8px;font-size:13px;color:rgba(255,255,255,.8)">${esc(item.say || '')} ${item.rawId ? `<button class="tw-play" data-tw-say="${esc(item.rawId)}" aria-label="Hear it">🔊</button>` : ''}</div>
+              <p style="margin:0;font-size:15px;color:#fff">${esc(item.means || item.text)}</p>
+            ` : item.quote ? `
+              <blockquote class="ins-quote" style="margin:0 0 8px">“${esc(item.quote.replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote>
+              ${item.text ? `<p style="margin:0;font-size:14.5px;color:rgba(255,255,255,.92);line-height:1.55">${linkRefs(item.text, item.ref)}</p>` : ''}
             ` : `
-              <p style="margin:0;font-size:14.5px;color:rgba(255,255,255,.95);line-height:1.55">“${esc(item.text)}”</p>
+              <p style="margin:0;font-size:15px;color:rgba(255,255,255,.95);line-height:1.55">${linkRefs(item.text, item.ref)}</p>
             `}
           </div>
           ${item.ref ? scriptureBlockHtml(item.ref, { accent: '#fbbf24', title: '📖 Scripture Anchor · ' + item.ref }) : ''}
-          ${item.url ? `
-            <a class="sp-gl-link" href="${esc(item.url)}" target="_blank" rel="noopener noreferrer" style="color:#fbbf24;margin-top:6px">
-              🏛️ Read source at ${esc(item.badge)} ↗
-            </a>
-          ` : ''}
         ` : ''}
 
         ${curStep === 1 ? `
-          <div style="padding:16px;border-radius:14px;background:linear-gradient(135deg, rgba(251,191,36,.12), rgba(245,158,11,.05));border:1.5px solid rgba(251,191,36,.35)">
-            <span style="font-size:11px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:#fbbf24;display:block;margin-bottom:6px">
-              💡 Why This Matters (Deep Dive):
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-size:11px;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:#fbbf24;display:block">
+              ${isWord ? '💎 Deeper Covenant Meaning' : '🤿 Scholar Deep Dive'}
             </span>
-            <p style="font-size:15px;font-weight:600;line-height:1.5;color:#fff;margin:0">
-              ${isWord
-                ? `In ancient Israel, words held layers of meaning. Understanding “${esc(item.title.split(' ')[0])}” unlocks what the prophet was really experiencing and teaches us how close God is to us.`
-                : `This deeper perspective shows that God prepares His servants and His covenants for the exact challenges of our time. As scholars note, every detail points back to Jesus Christ.`
-              }
-            </p>
+            ${isWord ? `
+              <p class="ins-deck-para">${esc(item.more || item.means || item.text)}</p>
+              <a class="btn tw-wika" href="amigo/?course=he" style="margin-top:4px">🗣️ Practice ${esc(item.word || 'this word')} in Wika ›</a>
+            ` : paras.length ? paras.map(t => `<p class="ins-deck-para">${linkRefs(t, item.ref)}</p>`).join('') : `
+              <p class="ins-deck-para">${linkRefs(item.text, item.ref)}</p>
+            `}
+            ${vid}
+            ${item.url ? `
+              <a class="ins-src" href="${esc(item.url)}" target="_blank" rel="noopener noreferrer">
+                <span>From ${esc(item.badge)}${item.who ? ' · ' + esc(item.who) : ''}</span>
+                <b>${esc(item.sourceTitle || 'Read full article')} ↗</b>
+              </a>
+            ` : ''}
           </div>
-          ${lotPickerHtml('reads this truth')}
+          ${lotPickerHtml('reads this discovery')}
         ` : ''}
 
         ${curStep === 2 ? `
           <div class="sp-ask-box" style="border-color:rgba(251,191,36,.4);background:linear-gradient(135deg, rgba(245,158,11,.15), rgba(0,0,0,.4))">
-            <span class="sp-ask-label" style="color:#fbbf24">💭 Ponder This Together:</span>
+            <span class="sp-ask-label" style="color:#fbbf24">💭 1-Tap Takeaway & Reflection:</span>
             <p class="sp-ask-text">
-              How does this insight from ${esc(item.ref)} change the way you see the Savior’s love and your own discipleship today?
+              What stands out to you most from ${esc(item.ref || item.title)} today?
             </p>
           </div>
+          ${item.ref && readLink(item.ref) ? `<a class="sp-gl-link" href="${esc(readLink(item.ref))}" target="_blank" rel="noopener noreferrer">📖 Open ${esc(item.ref)} in Gospel Library ↗</a>` : ''}
           ${lotPickerHtml('shares an impression')}
-          <div style="margin-top:6px">
+          <div style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap">
             ${done ? `
-              <button class="sp-action-btn done" disabled>✓ Deep Dive Completed (+15 XP)</button>
+              <button class="sp-action-btn done" disabled style="flex:1;justify-content:center">✓ Deep Dive Completed (+15 XP)</button>
             ` : `
-              <button class="sp-action-btn" data-cream-finish="${esc(item.id)}" style="background:#f59e0b;color:#1c1406">Done ✓ +15 XP</button>
+              <button class="sp-action-btn" data-cream-finish="${esc(item.id)}" style="flex:1;justify-content:center;background:#f59e0b;color:#1c1406">Done ✓ +15 XP</button>
             `}
           </div>
         ` : ''}
 
         <div class="sp-footer">
           ${curStep > 0 ? `<button class="sp-back-btn" data-cream-step="${esc(item.id)}|${curStep - 1}">‹ Previous</button>` : '<div></div>'}
-          ${curStep < 2 ? `<button class="sp-action-btn" data-cream-step="${esc(item.id)}|${curStep + 1}" style="font-size:12px;padding:7px 14px;background:#f59e0b;color:#1c1406">Next Step ›</button>` : ''}
+          ${curStep < 2 ? `<button class="sp-action-btn" data-cream-step="${esc(item.id)}|${curStep + 1}" style="font-size:12px;padding:7px 14px;background:#f59e0b;color:#1c1406">Next Slide ›</button>` : ''}
         </div>
       </div>
     </div>`;
@@ -6541,7 +6639,7 @@ const TreasureUp = (function () {
     return `<details class="ins-deep"><summary><span>🤿 Deep dive</span><small>${Math.max(1, Math.round(words / 200))} min read${clip ? ' · and a clip' : ''}${d.draft ? ' · draft' : ''}</small></summary>` +
       d.paras.map(t => `<p>${linkRefs(t, x.ref)}</p>`).join('') + clip + '</details>';
   }
-  // One card on its own, from the bottom: as in Go further, and read once opened.
+  // One card on its own, from the bottom: rendered as a swipeable Story Deck, and marked read once opened.
   function openCard(id) {
     const i = insightsOf(WEEK).find(y => y.x.id === id);
     if (!i) return;
@@ -6549,12 +6647,96 @@ const TreasureUp = (function () {
     const x = i.x, s = x.source || {};
     const draft = i.draft ? '<p class="plain-draft">Draft: not approved yet</p>' : '';
     const src = s.url ? `<a class="ins-src" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer"><span>From ${esc(s.by)}${s.who ? ' · ' + esc(s.who) : ''}</span> <b>${esc(s.title)} ↗</b></a>` : '';
-    const body = x.kind === 'quote'
-      ? `<blockquote class="ins-quote">“${esc(x.quote.replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote><p class="ins-who">${esc(s.who || s.by)}</p>${x.text ? `<p class="reel-body">${linkRefs(x.text, x.ref)}</p>` : ''}${src}`
-      : x.kind === 'video' ? `<div class="sh-title">${esc(x.title)}</div><p class="reel-body">${linkRefs(x.text, x.ref)}</p>${clipHtml(x.video)}`
-      : `<div class="sh-title">${esc(x.title)}</div><p class="reel-body" style="margin-top:8px">${linkRefs(x.text, x.ref)}</p>${diveHtml(x)}${src}`;
-    openSheet(`<div class="ls-kind">${{ quote: '💬 Quote', video: '🎬 Video' }[x.kind] || (isJsp(x) ? '📜 Joseph Smith Papers' : '💡 Insight')} · ${linkRefs(x.ref)}</div>${draft}${body}`);
+    const glUrl = x.ref ? readLink(x.ref) : '';
+    const glLink = glUrl ? `<a class="sp-gl-link" href="${esc(glUrl)}" target="_blank" rel="noopener noreferrer">📖 Open ${esc(x.ref)} in Gospel Library ↗</a>` : '';
+    const kindBadge = { quote: '💬 Quote', video: '🎬 Video' }[x.kind] || (isJsp(x) ? '📜 Joseph Smith Papers' : '💡 Scholar Insight');
+    const deep = hasDeep(x) ? x.deep : null;
+    const deepClip = deep && deep.listen && deep.listen.youtube && (deep.listen.previewed === true || TEST_SITE) ? clipHtml(deep.listen) : '';
+
+    const slides = [];
+    // Slide 1: Hook & Scripture Anchor
+    slides.push({
+      label: '1. Hook & Verse',
+      html: `<div class="ins-deck-kicker"><span>${kindBadge}${s.by ? ' · ' + esc(s.by) : ''}</span><span>${esc(x.ref || '')}</span></div>
+        ${x.title ? `<div class="sh-title" style="margin:0">${esc(x.title)}</div>` : ''}
+        ${x.kind === 'quote'
+          ? `<blockquote class="ins-quote" style="margin:4px 0">“${esc(x.quote.replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote><p class="ins-who">${esc(s.who || s.by)}</p>${x.text ? `<p class="ins-deck-para">${linkRefs(x.text, x.ref)}</p>` : ''}`
+          : x.kind === 'video'
+            ? `<p class="ins-deck-para">${linkRefs(x.text, x.ref)}</p>${clipHtml(x.video)}`
+            : `<p class="ins-deck-para">${linkRefs(x.text, x.ref)}</p>`}
+        ${x.ref ? scriptureBlockHtml(x.ref, { accent: '#fbbf24', title: '📖 Scripture Anchor · ' + x.ref }) : ''}`
+    });
+
+    // Slide 2: Deep Discovery (when scholar deep-dive paragraphs exist)
+    if (deep) {
+      const words = deep.paras.join(' ').split(/\s+/).filter(Boolean).length;
+      slides.push({
+        label: `2. Deep Dive (${Math.max(1, Math.round(words / 200))}m)`,
+        html: `<div class="ins-deck-kicker"><span>🤿 Deep Discovery${deep.draft ? ' · draft' : ''}</span><span>${esc(s.by || '')}</span></div>
+          ${deep.paras.map(t => `<p class="ins-deck-para">${linkRefs(t, x.ref)}</p>`).join('')}
+          ${deepClip}`
+      });
+    }
+
+    // Final Slide: Sources & 1-Tap Takeaway
+    slides.push({
+      label: `${slides.length + 1}. Sources & Takeaway`,
+      html: `<div class="ins-deck-kicker"><span>🏛️ Sources & Reflection</span><span>${esc(x.ref || '')}</span></div>
+        <div class="sp-ask-box" style="margin:0;border-color:rgba(251,191,36,.38);background:linear-gradient(135deg, rgba(245,158,11,.14), rgba(0,0,0,.35))">
+          <span class="sp-ask-label" style="color:#fbbf24">💭 Quick Takeaway</span>
+          <p class="sp-ask-text">What is one truth from ${esc(x.title || x.ref || 'this card')} you want to remember or share today?</p>
+        </div>
+        ${src}
+        ${glLink}
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+          <button type="button" class="ins-save-btn" data-save-card-note="${esc(x.id)}">✍️ Save Takeaway to My Notes</button>
+        </div>`
+    });
+
+    const deckHtml = `<div class="ins-deck" data-ins-deck="${esc(x.id)}">
+      <div class="ls-kind" style="margin-bottom:2px">${kindBadge} · ${linkRefs(x.ref)}</div>
+      ${draft}
+      <div class="ins-deck-bars">
+        ${slides.map((_, idx) => `<button type="button" class="ins-deck-bar${idx === 0 ? ' on' : ''}" data-deck-goto="${idx}" aria-label="Slide ${idx + 1} of ${slides.length}"></button>`).join('')}
+      </div>
+      <div class="ins-deck-pills">
+        ${slides.map((sl, idx) => `<button type="button" class="ins-deck-pill${idx === 0 ? ' on' : ''}" data-deck-goto="${idx}">${esc(sl.label)}</button>`).join('')}
+      </div>
+      <div class="ins-deck-track">
+        ${slides.map((sl, idx) => `<div class="ins-deck-slide" data-slide-idx="${idx}">${sl.html}</div>`).join('')}
+      </div>
+      <div class="ins-deck-foot">
+        <button type="button" class="sp-back-btn" data-deck-step="-1">‹ Swipe / Prev</button>
+        <span style="font-size:12px;font-weight:800;color:rgba(255,255,255,.65)" data-deck-indicator>Slide 1 of ${slides.length}</span>
+        <button type="button" class="sp-action-btn" data-deck-step="1" style="font-size:12px;padding:7px 14px;background:#f59e0b;color:#1c1406">Next Slide ›</button>
+      </div>
+    </div>`;
+
+    openSheet(deckHtml);
+    wireInsDeck();
     if (!(S.insights || {})[x.id]) { (S.insights = S.insights || {})[x.id] = dayKey(); save(); }
+  }
+  function wireInsDeck() {
+    const deck = $('appBody') && $('appBody').querySelector('.ins-deck');
+    if (!deck) return;
+    const track = deck.querySelector('.ins-deck-track');
+    if (!track) return;
+    const slides = [...track.querySelectorAll('.ins-deck-slide')];
+    const bars = [...deck.querySelectorAll('.ins-deck-bar')];
+    const pills = [...deck.querySelectorAll('.ins-deck-pill')];
+    const ind = deck.querySelector('[data-deck-indicator]');
+    const sync = idx => {
+      const i = Math.max(0, Math.min(slides.length - 1, idx));
+      bars.forEach((b, k) => b.classList.toggle('on', k <= i));
+      pills.forEach((p, k) => p.classList.toggle('on', k === i));
+      if (ind) ind.textContent = `Slide ${i + 1} of ${slides.length}`;
+      deck.dataset.curSlide = String(i);
+    };
+    track.addEventListener('scroll', () => {
+      if (!track.clientWidth) return;
+      sync(Math.round(track.scrollLeft / track.clientWidth));
+    }, { passive: true });
+    sync(0);
   }
   // Sunday classes (content/sunday.js; 2026-10-03: "We need to
   // incorporate sunday lesson study as well.... [our son] needs to study YM
@@ -8278,22 +8460,29 @@ const TreasureUp = (function () {
       <a class="ins-src" href="https://scripturecentral.org/search?q=${encodeURIComponent(ch)}" target="_blank" rel="noopener noreferrer"><span>Search the whole archive</span> <b>Everything on ${esc(ch)} ↗</b></a>` +
       (p ? `<a class="ins-src" href="${esc(p)}" target="_blank" rel="noopener noreferrer"><span>Donald W. Parry · Old Testament Minute: Isaiah</span> <b>${esc(ch)}, verse by verse ↗</b></a>` : ''));
   }
-  // A note, tapped: the verse, the whole card, "In a sentence" (first for a
-  // child or youth), the page, and for one that's also a card, the card.
+  // A note, tapped: clean single-voice explanation without repeating the verse or "In a sentence",
+  // plus deep dive (if any), source link, and 1-tap Save to My Notes.
   function openInsNote(id) {
     const k = noteKnown.get(id);
     if (!k) return;
     use('note');
-    const { i, week } = k, x = i.x, m = i.m, s = x.source || {}, src = noteSrc(x), kid = seasonWho() !== 'adult';
-    const vs = k.verses.slice(0, 2), verse = vs.length ? `<p class="lm-verse"><b>${esc(x.ref)}</b> ${esc(vs.map(v => v.t).join(' '))}${k.verses.length > 2 ? ' …' : ''}</p>` : '';
-    const short = `<p class="lm-short"><b>In a sentence:</b> ${esc(m.short)}</p>`;
+    const { i, week } = k, x = i.x, m = i.m, s = x.source || {}, src = noteSrc(x);
+    const hasMain = !!(x.text || x.quote);
     const body = (x.kind === 'quote' ? `<blockquote class="ins-quote">“${esc(x.quote.replace(/“/g, '‘').replace(/”/g, '’'))}”</blockquote>` : '') +
-      (x.text ? `<p class="reel-body">${linkRefs(x.text, x.ref)}</p>` : '');
+      (x.text ? `<p class="reel-body" style="margin-top:6px">${linkRefs(x.text, x.ref)}</p>` : '') +
+      (!hasMain && m && m.short ? `<p class="reel-body" style="margin-top:6px">${esc(m.short)}</p>` : '');
     const card = m.place === 'both' && week === WEEK && studyCards(WEEK).some(c => c.x.id === x.id)
-      ? `<button type="button" class="lm-card" data-insnote-card="${esc(x.id)}">📖 Open the study card ›<small>${hasDeep(x) ? 'With its deep dive' + (x.deep.listen ? ' and a clip' : '') : 'Opening it marks it read in Study'}</small></button>` : '';
-    openSheet(`<div class="ls-kind lm-k-${src.c}"><span class="lm-ic">${src.ic}</span> ${esc(src.name)}</div>${m.draft || i.draft ? '<p class="plain-draft">Draft: not approved yet</p>' : ''}
-      <div class="sh-title">${esc(x.title || s.who || '')}</div>${verse}${kid ? short : ''}${body}${kid ? '' : short}
-      ${s.who ? `<p class="ins-who" style="margin:4px 0 0">${esc(s.who)}</p>` : ''}
+      ? `<button type="button" class="lm-card" data-insnote-card="${esc(x.id)}">📖 Open as Story Deck ›<small>${hasDeep(x) ? 'Swipe through deep dive' + (x.deep.listen ? ' & video clip' : '') : 'Marks it read in Study'}</small></button>` : '';
+    openSheet(`<div class="ls-kind lm-k-${src.c}"><span class="lm-ic">${src.ic}</span> ${esc(src.name)} · ${linkRefs(x.ref || '')}</div>${m.draft || i.draft ? '<p class="plain-draft">Draft: not approved yet</p>' : ''}
+      <div class="lm-note-card">
+        <div class="sh-title" style="margin:0 0 6px">${esc(x.title || s.who || m.glance || '')}</div>
+        ${body}
+        ${s.who ? `<p class="ins-who" style="margin:6px 0 0">${esc(s.who)}</p>` : ''}
+        ${diveHtml(x)}
+        <div class="lm-note-actions">
+          <button type="button" class="ins-save-btn" data-save-card-note="${esc(x.id)}">✍️ Save to My Notes</button>
+        </div>
+      </div>
       ${s.url ? `<a class="ins-src" href="${esc(s.url)}" target="_blank" rel="noopener noreferrer"><span>Read the whole thing · ${esc(s.by)}</span> <b>${esc(s.title)} ↗</b></a>` : ''}${card}`);
   }
   const layersFor = have => ({ kjv: have.kjv ? layers.kjv : true, plain: layers.plain && have.plain, bsb: layers.bsb && have.bsb, lang: have.lang ? layers.lang : '', notes: layers.notes && have.notes, orig: layers.orig && have.orig,
@@ -8329,7 +8518,8 @@ const TreasureUp = (function () {
       if (bsb && bsb[v.n - 1]) lines.push(['ls-bsb', bsb[v.n - 1]]);
       if (lang && lang[v.n - 1]) lines.push(['ls-lang', lang[v.n - 1], on.lang]);
       if (on.kjv || !lines.length) lines.unshift(['ls-v', v.t]);          // a text not in yet, or without this verse: the KJV
-      const notes = on.notes && x ? (x.p.notes || []).filter(n => n.v === v.n) : [], jsp = on.notes ? jspNotesOf(week, u.ch).filter(n => n.v === v.n) : [];
+      const vMn = mn.filter(n => n.v === v.n), jsp = on.notes ? jspNotesOf(week, u.ch).filter(n => n.v === v.n) : [];
+      const notes = on.notes && x && !vMn.length && !jsp.length ? (x.p.notes || []).filter(n => n.v === v.n) : [];
       const ref = u.ch + ':' + v.n, hl = markOf(ref), changed = chg && (chg.v[v.n] || []).some(c => c[3] === 'w');
       return `<div class="ls-vv${changed ? ' chg' : ''}" data-v="${v.n}" data-ref="${esc(ref)}"${hl ? ` data-hl="${hl}"` : ''}>` +
         lines.map(([c, t, l], i) => `<p class="${c}${i ? '' : ' lead'}"${l ? ` lang="${l}"` : ''}>${i ? '' : `<sup>${v.n}</sup>`}${c === 'ls-v' && e18 && e18.u[v.n - 1] ? underline1830(t, e18.u[v.n - 1]) : esc(t)}</p>`).join('') +
@@ -8340,7 +8530,7 @@ const TreasureUp = (function () {
         (chg ? chgVerseHtml(u.ch, v.n) : '') +
         notes.map(n => `<p class="ls-note"><span class="lm-ic">📝</span>${linkRefs(n.text, u.ch + ':' + v.n)}</p>`).join('') +
         jsp.map(n => `<p class="ls-note ls-jsp"><span class="lm-ic">📜</span>${linkRefs(n.text, u.ch + ':' + v.n)} <a href="${esc(n.url)}" target="_blank" rel="noopener noreferrer">${esc(n.title)} ↗</a>${n.draft ? ' <span class="plain-draft">Draft</span>' : ''}</p>`).join('') +
-        mn.filter(n => n.v === v.n).map(n => noteLineHtml(n, u, week)).join('') + '</div>';
+        vMn.map(n => noteLineHtml(n, u, week)).join('') + '</div>';
     }).join('') + `<p class="ls-ch-end">End of ${esc(u.ref)}</p>` +
       (lang ? `<p class="ls-orig-credit">${LANGS[on.lang].name}: ${LANGS[on.lang].full} (public domain)</p>` : '') +
       (on.orig && origOf(u.ch) ? `<p class="ls-orig-credit">${origLang(u.ch) === 'el' ? 'Greek' : 'Hebrew'} words: STEPBible.org, from work at Tyndale House, Cambridge (CC BY 4.0)</p>` : '') +
@@ -9518,15 +9708,15 @@ const TreasureUp = (function () {
   // the parent PIN on his own device. Parents change the prizes behind the PIN;
   // in a family, a parent's list is everyone's (the family's `prizes`).
   const STARTER_PRIZES = [
-    { id: 'sc15', emoji: '📱', name: '15 minutes of extra screen time', cost: 300, limit: 3 },
-    { id: 'sc30', emoji: '🎮', name: '30 minutes of extra screen time', cost: 500, limit: 2 },
-    { id: 'movie', emoji: '🎬', name: 'Pick the family movie', cost: 800, limit: 1 },
-    { id: 'ice', emoji: '🍦', name: 'Ice cream', cost: 1000, limit: 1 },
-    { id: 'late', emoji: '🌙', name: 'Stay up 30 minutes later', cost: 1200, limit: 1 },
-    { id: 'dinner', emoji: '🍕', name: "Pick what's for dinner", cost: 1500, limit: 1 },
-    { id: 'mcd', emoji: '🍟', name: "A McDonald's trip", cost: 2500, limit: 1 },
-    { id: 'five', emoji: '💵', name: '$5 to spend', cost: 3000, limit: 0 },
-    { id: 'big', emoji: '🎉', name: 'A friend sleepover or a big outing', cost: 8000, limit: 0 }
+    { id: 'treat', emoji: '🍬', name: 'Favorite treat, soda, or gas station run', cost: 1200, limit: 2 },
+    { id: 'chore', emoji: '🧹', name: 'Free chore pass coupon (skip 1 daily chore)', cost: 1500, limit: 1 },
+    { id: 'coldstone', emoji: '🍦', name: 'Cold Stone ice cream trip', cost: 2500, limit: 1 },
+    { id: 'pizza', emoji: '🍕', name: 'Little Caesars pizza & Crazy Bread night', cost: 3000, limit: 1 },
+    { id: 'credits', emoji: '🎮', name: '$5 in-game credits (Robux / V-Bucks / VR)', cost: 4500, limit: 0 },
+    { id: 'cash5', emoji: '💵', name: '$5 cash reward', cost: 5000, limit: 0 },
+    { id: 'restaurant', emoji: '🍔', name: 'Pick the sit-down restaurant', cost: 7500, limit: 0 },
+    { id: 'game10', emoji: '🕹️', name: '$10 game / LEGO / gear boost', cost: 9000, limit: 0 },
+    { id: 'party', emoji: '🎉', name: 'Pizza party with friends / big outing', cost: 12000, limit: 0 }
   ];
   const fmtN = n => Number(n || 0).toLocaleString('en-US');
   const ORDER_LIVE = o => !!o && (o.status === 'pending' || o.status === 'approved' || o.status === 'given');
@@ -9556,6 +9746,13 @@ const TreasureUp = (function () {
       return `<div class="shop-row${(short > 0 || full) && shopAsk !== p.id ? ' dim' : ''}"><span class="shop-ico">${esc(p.emoji || '🎁')}</span>
         <span class="shop-name">${esc(p.name)}<small>${fmtN(p.cost)} XP${p.limit > 0 ? ` · up to ${p.limit === 1 ? 'once' : p.limit + ' times'} a week` : ''}</small></span>${right}</div>`;
     };
+    const allPrizes = prizes();
+    const t1 = allPrizes.filter(p => p.cost <= 2000), t2 = allPrizes.filter(p => p.cost > 2000 && p.cost <= 5500), t3 = allPrizes.filter(p => p.cost > 5500);
+    const groupedHtml = (t1.length && t2.length)
+      ? `${t1.length ? `<div class="shop-tier-h"><span>⚡ Weekly Favorites</span><span>1–2 Weeks</span></div>` + t1.map(row).join('') : ''}
+         ${t2.length ? `<div class="shop-tier-h"><span>🔥 Mid-Tier Rewards</span><span>3–5 Weeks</span></div>` + t2.map(row).join('') : ''}
+         ${t3.length ? `<div class="shop-tier-h"><span>🏆 Epic Milestone Rewards</span><span>6–10 Weeks</span></div>` + t3.map(row).join('') : ''}`
+      : allPrizes.map(row).join('');
     const mine = myOrders().sort((a, b) => (b.at || 0) - (a.at || 0)).slice(0, 12).map(o => `<div class="shop-mine ${esc(o.status)}">
       <span>${esc(o.emoji || '🎁')} ${esc(o.prize)}<small>${fmtN(o.cost)} XP · ${esc(shortDay(o.day || dayKey()))}</small></span>
       <span>${ORDER_WORDS[o.status] || ''}${o.status === 'pending' ? ` <button class="today-alt" data-order-cancel="${esc(o.id)}">Take back</button>` : ''}</span></div>`).join('');
@@ -9563,7 +9760,7 @@ const TreasureUp = (function () {
       <div class="shop-have"><b>${fmtN(have)}</b><span>XP to spend</span></div>
       <p class="sh-small">Level ${L} · ${esc(LEVEL_TITLES[L - 1])} · ${fmtN(S.xp)} XP earned in all. Spending never lowers your level.</p>
       ${msg ? `<p class="shop-msg">${msg}</p>` : ''}
-      <div class="shop-list">${prizes().map(row).join('')}</div>
+      <div class="shop-list">${groupedHtml}</div>
       ${mine ? `<div class="eyebrow" style="margin-top:16px">Your prizes</div>${mine}` : ''}
       ${milestonesHtml()}
       <button class="parent-link" data-shop-parent>Parents: say yes, or change the prizes</button>`;
@@ -20082,14 +20279,13 @@ const TreasureUp = (function () {
       if (crid) {
         stopClips();
         const id = crid.dataset.creamId;
-        if (!isShortDone(id)) {
-          markShortDone(id, 15, 'Deep Dive');
-          toast('🔍 Deep Dive Read! +15 XP', 'Deep treasure unlocked!');
-        }
-        if (id.startsWith('cream:ins:')) {
+        treasureOf(WEEK);
+        const it = creamItemsOf(WEEK).find(x => x.id === id);
+        if (it) {
+          openSheet(creamPlayerHtml(it, 0));
+        } else if (id.startsWith('cream:ins:')) {
           openCard(id.replace('cream:ins:', ''));
         } else if (id.startsWith('cream:word:')) {
-          treasureOf(WEEK);
           openTreasure(id.replace('cream:word:', ''));
         }
         return;
@@ -20502,18 +20698,55 @@ const TreasureUp = (function () {
         return openSheet(sundayDeckHtml(lastIdx));
       }
 
+      const dgoto = e.target.closest('[data-deck-goto]');
+      if (dgoto) {
+        const deck = dgoto.closest('.ins-deck');
+        const track = deck && deck.querySelector('.ins-deck-track');
+        if (track) {
+          const idx = Number(dgoto.dataset.deckGoto) || 0;
+          track.scrollTo({ left: idx * track.clientWidth, behavior: 'smooth' });
+        }
+        return;
+      }
+      const dstep = e.target.closest('[data-deck-step]');
+      if (dstep) {
+        const deck = dstep.closest('.ins-deck');
+        const track = deck && deck.querySelector('.ins-deck-track');
+        if (track) {
+          const slides = track.querySelectorAll('.ins-deck-slide').length;
+          const cur = Number(deck.dataset.curSlide || 0);
+          const next = Math.max(0, Math.min(slides - 1, cur + Number(dstep.dataset.deckStep)));
+          track.scrollTo({ left: next * track.clientWidth, behavior: 'smooth' });
+        }
+        return;
+      }
+      const scn = e.target.closest('[data-save-card-note]');
+      if (scn) {
+        const cid = scn.dataset.saveCardNote;
+        const found = insightsOf(WEEK).find(y => y.x.id === cid) || (noteKnown.get(cid) && noteKnown.get(cid).i);
+        if (found && found.x) {
+          const x = found.x;
+          const txtVal = (x.title ? x.title + ': ' : '') + (x.text || x.quote || '');
+          const imps = S.impressions || (S.impressions = {});
+          imps[seaId('i')] = { text: txtVal.slice(0, 1000), day: dayKey(), at: Date.now(), upd: Date.now(), ref: x.ref || '', share: false };
+          save();
+          scn.textContent = '✓ Saved to My Notes';
+          scn.disabled = true;
+          toast('✍️ Saved to My Notes!', 'Added to your Season notebook.');
+        }
+        return;
+      }
       const crid = e.target.closest('[data-cream-id]');
       if (crid) {
         stopClips();
         const id = crid.dataset.creamId;
-        if (!isShortDone(id)) {
-          markShortDone(id, 15, 'Deep Dive');
-          toast('🔍 Deep Dive Read! +15 XP', 'Deep treasure unlocked!');
-        }
-        if (id.startsWith('cream:ins:')) {
+        treasureOf(WEEK);
+        const it = creamItemsOf(WEEK).find(x => x.id === id);
+        if (it) {
+          openSheet(creamPlayerHtml(it, 0));
+        } else if (id.startsWith('cream:ins:')) {
           openCard(id.replace('cream:ins:', ''));
         } else if (id.startsWith('cream:word:')) {
-          treasureOf(WEEK);
           openTreasure(id.replace('cream:word:', ''));
         }
         return;
@@ -20522,6 +20755,7 @@ const TreasureUp = (function () {
       if (crstep) {
         stopClips();
         const [id, step] = crstep.dataset.creamStep.split('|');
+        treasureOf(WEEK);
         const it = creamItemsOf(WEEK).find(x => x.id === id);
         if (it) openSheet(creamPlayerHtml(it, Number(step)));
         return;
@@ -20531,6 +20765,7 @@ const TreasureUp = (function () {
         const id = crfin.dataset.creamFinish;
         markShortDone(id, 15, 'Deep Dive');
         toast('🔍 Deep Dive Completed! +15 XP', 'Deep treasure unlocked!');
+        treasureOf(WEEK);
         const it = creamItemsOf(WEEK).find(x => x.id === id);
         if (it) openSheet(creamPlayerHtml(it, 2));
         return;

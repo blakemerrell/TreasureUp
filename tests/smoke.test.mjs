@@ -102,6 +102,28 @@ export default async function smoke({ port }) {
     }
     await p.click('[data-season="home"]'); await wait(300);
   }
+
+  // Verify Core Daily Walk banner, swipeable Story Deck cards, and updated 9-tier Rewards Shop
+  await p.click('#tabs [data-tab="today"]'); await wait(400);
+  check(await p.locator('#home .core-walk-banner').count() === 1, 'Core Daily Walk progress banner renders on Today');
+  const firstCard = p.locator('#home .more-list [data-card]').first();
+  if (await firstCard.count() > 0) {
+    await p.evaluate(() => { const m = document.querySelector('#home details.more'); if (m) m.open = true; });
+    await firstCard.click(); await wait(350);
+    check(await p.locator('#appBody .ins-deck .ins-deck-track .ins-deck-slide').count() >= 2, 'Insight card opens as a multi-slide horizontal Story Deck');
+    const saveBtn = p.locator('#appBody [data-save-card-note]');
+    if (await saveBtn.count() > 0) {
+      await saveBtn.click(); await wait(200);
+      check((await txt(p, '#appBody [data-save-card-note]')).includes('Saved to My Notes'), '1-tap Save Takeaway to My Notes saves impression');
+    }
+    await p.click('#appClose').catch(() => p.keyboard.press('Escape')); await wait(300);
+  }
+  await p.click('#levelBtn'); await wait(350);
+  const shopTxt = await txt(p, '#appBody');
+  check(/Cold Stone ice cream trip/.test(shopTxt) && /Little Caesars pizza/.test(shopTxt) && !/extra screen time/i.test(shopTxt), 'Rewards Shop shows updated non-screen-time tiers');
+  check(await p.locator('#appBody .shop-tier-h').count() === 3, 'Rewards Shop groups prizes into 3 milestone tiers');
+  await p.click('#appClose').catch(() => p.keyboard.press('Escape')); await wait(300);
+
   check(!p.errors.length, 'no page errors in the app' + (p.errors.length ? ': ' + p.errors.join(' | ') : ''));
   await dev.ctx.close();
 
