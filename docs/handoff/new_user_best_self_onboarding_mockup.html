@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best Self Discovery — Authentic Values Card Sort &amp; CliftonStrengths Engine</title>
+<style>
+  :root {
+    --bg: #f4f1ea;
+    --card: #ffffff;
+    --ink: #1a202c;
+    --muted: #646b78;
+    --line: #e2dcd0;
+    --gold: #b47d12;
+    --gold-light: #fdf6e7;
+    --gold-border: #e6c687;
+    --accent: #1e3a5f;
+    --accent-light: #ebf2f9;
+    --green: #236c4e;
+    --green-light: #e6f4ed;
+    --coral: #c05621;
+    --coral-light: #feebc8;
+    --purple: #553c9a;
+    --purple-light: #f3ebff;
+    --radius: 16px;
+    --shadow: 0 10px 28px rgba(26, 32, 44, 0.08);
+    --font-serif: 'Georgia', 'Times New Roman', serif;
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  /* Child / Youth Theme Overrides */
+  body.mode-youth.theme-nintendo {
+    --bg: #eef4ff;
+    --card: #ffffff;
+    --ink: #1b2538;
+    --muted: #5a6982;
+    --line: #d4e0f5;
+    --gold: #ff9f1c;
+    --gold-light: #fff4e0;
+    --gold-border: #ffd180;
+    --accent: #e63946;
+    --accent-light: #ffe8ea;
+    --green: #2ec4b6;
+    --green-light: #e6faf8;
+    --radius: 20px;
+  }
+  body.mode-youth.theme-rpg {
+    --bg: #1e1b2e;
+    --card: #2b2740;
+    --ink: #f4f1de;
+    --muted: #b8b2cc;
+    --line: #524b75;
+    --gold: #ffd166;
+    --gold-light: #3b3322;
+    --gold-border: #ffd166;
+    --accent: #06d6a0;
+    --accent-light: #193835;
+    --green: #4cc9f0;
+    --green-light: #1d3145;
+    --radius: 8px;
+    --font-sans: 'Courier New', Courier, monospace;
+  }
+  body.mode-youth.theme-booklet {
+    --bg: #f8f5ec;
+    --card: #ffffff;
+    --ink: #2c3539;
+    --muted: #6c757d;
+    --line: #dee2e6;
+    --gold: #d97706;
+    --gold-light: #fef3c7;
+    --gold-border: #f59e0b;
+    --accent: #0284c7;
+    --accent-light: #e0f2fe;
+    --green: #16a34a;
+    --green-light: #dcfce7;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+
+  /* Top Bar */
+  .proto-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #141c24;
+    color: #fff;
+    padding: 10px 18px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.22);
+  }
+  .proto-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .proto-badge {
+    background: #d97706;
+    color: #fff;
+    padding: 3px 9px;
+    border-radius: 99px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .proto-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .proto-btn {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 12px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .proto-btn:hover { background: rgba(255,255,255,0.22); }
+  .proto-btn.active {
+    background: #f59e0b;
+    color: #111;
+    border-color: #f59e0b;
+  }
+
+  .wrap {
+    max-width: 1020px;
+    margin: 22px auto 64px;
+    padding: 0 16px;
+  }
+
+  /* Stepper */
+  .stepper {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 720px) {
+    .stepper { grid-template-columns: 1fr 1fr; }
+  }
+  .step-tab {
+    background: var(--card);
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    padding: 10px 12px;
+    text-align: left;
+    cursor: pointer;
+    color: var(--ink);
+    transition: all 0.15s;
+  }
+  .step-tab:hover { border-color: var(--gold); }
+  .step-tab.active {
+    background: var(--gold-light);
+    border-color: var(--gold);
+    box-shadow: 0 4px 12px rgba(180, 125, 18, 0.14);
+  }
+  .step-num {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    display: block;
+  }
+  .step-title {
+    font-size: 13px;
+    font-weight: 800;
+    margin-top: 2px;
+    display: block;
+  }
+
+  /* Panels */
+  .panel {
+    background: var(--card);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  .panel-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .panel-title {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 4px;
+  }
+  .panel-sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+    max-width: 680px;
+  }
+
+  /* Truth Callout Banner (Psychology / Non-Performative) */
+  .truth-callout {
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .truth-callout strong {
+    color: var(--accent);
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1.5px solid var(--line);
+    background: var(--card);
+    color: var(--ink);
+    transition: all 0.15s;
+  }
+  .btn:hover { border-color: var(--gold); transform: translateY(-1px); }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .btn-gold {
+    background: var(--gold);
+    color: #fff;
+    border-color: var(--gold);
+  }
+  .btn-sm { padding: 6px 11px; font-size: 12px; border-radius: 8px; }
+
+  /* Round Pills */
+  .round-pills {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .round-pill {
+    padding: 8px 14px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 800;
+    border: 1.5px solid var(--line);
+    background: var(--card);
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .round-pill.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  /* Physical Value Card Styling (Miller UNM + BestSelf Style) */
+  .deck-stage {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 20px;
+    align-items: stretch;
+  }
+  @media (max-width: 760px) {
+    .deck-stage { grid-template-columns: 1fr; }
+  }
+  .physical-card {
+    background: #fffdf9;
+    border: 2px solid #2d3748;
+    border-radius: 18px;
+    padding: 28px 24px 22px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 310px;
+    box-shadow: 0 12px 0 #d5cbb8, 0 16px 32px rgba(0,0,0,0.12);
+    position: relative;
+  }
+  .card-top-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 8px;
+  }
+  .card-main-word {
+    font-family: var(--font-serif);
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    margin: 18px 0 8px;
+    color: #1a202c;
+  }
+  .card-def {
+    font-size: 16px;
+    color: #4a5568;
+    font-style: italic;
+    margin: 0 auto 12px;
+    max-width: 340px;
+  }
+  .card-truth-prompt {
+    font-size: 12px;
+    background: var(--bg);
+    padding: 8px 12px;
+    border-radius: 8px;
+    color: var(--muted);
+    margin: 0 auto 18px;
+    max-width: 380px;
+  }
+  .sort-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .sort-btn {
+    padding: 12px 8px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 12px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.1s;
+  }
+  .sort-btn:hover { transform: translateY(-2px); }
+  .sort-btn.core {
+    background: var(--green-light);
+    color: var(--green);
+    border-color: var(--green);
+  }
+  .sort-btn.imp {
+    background: var(--gold-light);
+    color: var(--gold);
+    border-color: var(--gold-border);
+  }
+  .sort-btn.pass {
+    background: var(--bg);
+    color: var(--muted);
+    border-color: var(--line);
+  }
+
+  /* Piles Column */
+  .piles-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .pile-box {
+    background: var(--bg);
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 12px 14px;
+  }
+  .pile-box.core-pile {
+    background: var(--green-light);
+    border-color: var(--green);
+  }
+  .pile-hdr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+  .pile-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-height: 115px;
+    overflow-y: auto;
+  }
+  .val-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 700;
+    background: var(--card);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .val-chip:hover { border-color: var(--gold); }
+  .val-chip.pillar-selected {
+    background: var(--gold);
+    color: #fff;
+    border-color: var(--gold);
+  }
+
+  /* Grid of All Cards with Category Filter */
+  .cat-filter-bar {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .all-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+    gap: 8px;
+    max-height: 420px;
+    overflow-y: auto;
+    padding: 4px;
+  }
+  .mini-val-card {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1.5px solid var(--line);
+    background: var(--card);
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .mini-val-card:hover { border-color: var(--gold); }
+  .mini-val-card.is-core {
+    background: var(--green-light);
+    border-color: var(--green);
+  }
+  .mini-val-name {
+    font-weight: 800;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: block;
+  }
+  .mini-val-desc {
+    font-size: 11px;
+    color: var(--muted);
+    display: block;
+    margin-top: 3px;
+  }
+
+  /* 3-Pillar Board */
+  .triad-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 16px 0;
+  }
+  @media (max-width: 720px) {
+    .triad-board { grid-template-columns: 1fr; }
+  }
+  .pillar-col {
+    background: var(--bg);
+    border: 2px solid var(--gold-border);
+    border-radius: 16px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .pillar-top-card {
+    background: linear-gradient(135deg, #1e3a5f, #12243b);
+    color: #fff;
+    padding: 16px 14px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.14);
+  }
+  .pillar-slot-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #f6ad55;
+    font-weight: 800;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .pillar-top-name {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .subval-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 110px;
+  }
+  .subval-card {
+    background: var(--card);
+    border: 1.5px solid var(--line);
+    border-left: 4px solid var(--gold);
+    border-radius: 9px;
+    padding: 8px 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .subval-remove {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 15px;
+  }
+
+  /* CliftonStrengths Paired-Statement Assessment UI */
+  .pair-row {
+    background: var(--bg);
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+  .pair-num {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .pair-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 12px;
+    align-items: center;
+  }
+  @media (max-width: 760px) {
+    .pair-grid { grid-template-columns: 1fr; }
+  }
+  .pair-stmt {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    padding: 10px 12px;
+    background: var(--card);
+    border-radius: 10px;
+    border: 1px solid var(--line);
+  }
+  .pair-scale {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+  }
+  .scale-btn {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--line);
+    background: var(--card);
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.12s;
+  }
+  .scale-btn:hover { border-color: var(--accent); }
+  .scale-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+
+  /* 34 CliftonStrengths Explorer with Genius + Blind Spot */
+  .domains-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 720px) {
+    .domains-grid { grid-template-columns: 1fr; }
+  }
+  .domain-card {
+    background: var(--bg);
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+  }
+  .theme-detail-card {
+    background: var(--card);
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .theme-detail-card:hover { border-color: var(--gold); }
+  .theme-detail-card.selected {
+    border-color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .field-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .field-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1.5px solid var(--line);
+    background: var(--card);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+</style>
+</head>
+<body class="mode-adult">
+
+<div class="proto-bar">
+  <div class="proto-bar-left">
+    <span class="proto-badge">Research-Grounded Prototype</span>
+    <span>Authentic Values Card Sort (UNM / BestSelf / Dare to Lead) + CliftonStrengths &amp; SIGN Engine</span>
+  </div>
+  <div class="proto-controls">
+    <button class="proto-btn active" id="btnModeAdult" onclick="setPersona('adult')">👨 Adult Discovery</button>
+    <button class="proto-btn" id="btnModeYouth" onclick="setPersona('youth')">👦 Youth Discovery (Age 11)</button>
+    <button class="proto-btn" onclick="loadBlakeExactBoard()">⚡ Load Blake’s Exact Board</button>
+    <button class="proto-btn" onclick="startFreshSort()">🔄 Start Fresh Blank Sort</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="stepper" id="stepperBar"></div>
+  <div id="stepContent"></div>
+</div>
+
+<script>
+  // =========================================================================
+  // 1. RESEARCH-GROUNDED 68-CARD PERSONAL VALUES DECK
+  // Combines:
+  //  - Miller, C'de Baca, Matthews & Wilbourne (UNM Personal Values Card Sort)
+  //  - Gary Keller's The ONE Thing / BestSelf Core Values Deck
+  //  - Brené Brown's Dare to Lead Values List
+  //  - Every single card on Blake's physical board (Faith, Adventure, Integrity + all 24 sub-values)
+  // =========================================================================
+  const ADULT_VALUE_DECK = [
+    // Character & Integrity
+    { id: 'integrity', name: 'Integrity', cat: 'Character & Truth', desc: 'To act according to my deepest principles, in private and in public.' },
+    { id: 'honesty', name: 'Honesty', cat: 'Character & Truth', desc: 'To be honest, direct, and truthful with myself and others.' },
+    { id: 'authentic', name: 'Authentic / Genuineness', cat: 'Character & Truth', desc: 'To act in a manner that is real and true to who I actually am.' },
+    { id: 'truth', name: 'Truth & Accuracy', cat: 'Character & Truth', desc: 'To seek objective truth and be accurate in my beliefs and actions.' },
+    { id: 'free_of_deception', name: 'Candor (Free of Deception)', cat: 'Character & Truth', desc: 'To speak plainly without spin, hidden agendas, or pretense.' },
+    { id: 'trustworthy', name: 'Trustworthy & Dependable', cat: 'Character & Truth', desc: 'To be reliable and keep my word once I give it.' },
+    { id: 'loyal', name: 'Loyal / Faithfulness', cat: 'Character & Truth', desc: 'To stand steadfastly beside the people and promises I commit to.' },
+    { id: 'accountable', name: 'Accountable / Responsibility', cat: 'Character & Truth', desc: 'To own my choices, my mistakes, and my results without excuses.' },
+    { id: 'humility', name: 'Humility', cat: 'Character & Truth', desc: 'To stay grounded, teachable, and free from arrogance.' },
+    { id: 'ethics', name: 'Ethics & Justice', cat: 'Character & Truth', desc: 'To do what is fair, moral, and right even when it costs me.' },
+    { id: 'courage', name: 'Courage', cat: 'Character & Truth', desc: 'To face fear, difficulty, or uncertainty without backing down.' },
+    { id: 'duty', name: 'Duty', cat: 'Character & Truth', desc: 'To carry out my obligations and responsibilities faithfully.' },
+
+    // Adventure, Vitality & Autonomy
+    { id: 'adventure', name: 'Adventure', cat: 'Adventure & Autonomy', desc: 'To seek out new, daring, and exciting experiences.' },
+    { id: 'awe', name: 'Awe', cat: 'Adventure & Autonomy', desc: 'To experience moments of breathtaking vastness that stop me in my tracks.' },
+    { id: 'wonder', name: 'Wonder & Curiosity', cat: 'Adventure & Autonomy', desc: 'To stay fascinated by how the world works and never stop exploring.' },
+    { id: 'fun', name: 'Fun & Play', cat: 'Adventure & Autonomy', desc: 'To play, laugh, and enjoy life rather than making everything heavy.' },
+    { id: 'risk_taking', name: 'Risk Taking', cat: 'Adventure & Autonomy', desc: 'To take bold chances and step into the unknown.' },
+    { id: 'independence', name: 'Independence / Autonomy', cat: 'Adventure & Autonomy', desc: 'To be self-determined, self-reliant, and free to chart my own course.' },
+    { id: 'overcome_obstacles', name: 'Overcome Obstacles (Grit)', cat: 'Adventure & Autonomy', desc: 'To take on hard problems and break through barriers.' },
+    { id: 'open', name: 'Openness', cat: 'Adventure & Autonomy', desc: 'To stay open to new experiences, fresh ideas, and better ways.' },
+    { id: 'flexibility', name: 'Flexibility / Adaptability', cat: 'Adventure & Autonomy', desc: 'To adjust to new or unexpected circumstances with agility.' },
+    { id: 'non_conformity', name: 'Non-Conformity', cat: 'Adventure & Autonomy', desc: 'To think for myself and question conventional assumptions.' },
+    { id: 'humor', name: 'Humor', cat: 'Adventure & Autonomy', desc: 'To see the humorous side of myself and the world.' },
+    { id: 'passion', name: 'Passion', cat: 'Adventure & Autonomy', desc: 'To feel deeply and bring intense energy to ideas, work, and people.' },
+
+    // Relationships, Love & Contribution
+    { id: 'family', name: 'Family', cat: 'Connection & Impact', desc: 'To build a happy, loving, deeply connected home and family.' },
+    { id: 'friendship', name: 'Friendship', cat: 'Connection & Impact', desc: 'To have close, supportive, ride-or-die friends.' },
+    { id: 'kindness', name: 'Kindness & Caring', cat: 'Connection & Impact', desc: 'To treat people with warmth, generosity, and care.' },
+    { id: 'loving', name: 'Love & Intimacy', cat: 'Connection & Impact', desc: 'To give love deeply and share my innermost life with those closest to me.' },
+    { id: 'generosity', name: 'Generosity', cat: 'Connection & Impact', desc: 'To share what I have—time, resources, and credit—freely with others.' },
+    { id: 'compassion', name: 'Compassion', cat: 'Connection & Impact', desc: 'To feel and act on genuine concern for people who are hurting.' },
+    { id: 'forgiveness', name: 'Forgiveness', cat: 'Connection & Impact', desc: 'To let go of resentment and extend grace when people fall short.' },
+    { id: 'service', name: 'Service & Helpfulness', cat: 'Connection & Impact', desc: 'To be useful and make life lighter for the people around me.' },
+    { id: 'contribution', name: 'Contribution & Legacy', cat: 'Connection & Impact', desc: 'To build something that matters and outlasts me.' },
+    { id: 'cooperation', name: 'Cooperation & Teamwork', cat: 'Connection & Impact', desc: 'To work collaboratively with others toward a shared win.' },
+    { id: 'leadership', name: 'Leadership', cat: 'Connection & Impact', desc: 'To step up, set direction, and take responsibility for the group.' },
+
+    // Growth, Mastery & Work
+    { id: 'learning', name: 'Learning & Growth', cat: 'Mastery & Growth', desc: 'To keep changing, evolving, and mastering new skills.' },
+    { id: 'knowledge', name: 'Knowledge & Wisdom', cat: 'Mastery & Growth', desc: 'To understand how things work deeply and exercise sound judgment.' },
+    { id: 'mastery', name: 'Mastery & Craftsmanship', cat: 'Mastery & Growth', desc: 'To be exceptionally capable and excellent at my craft.' },
+    { id: 'achievement', name: 'Achievement', cat: 'Mastery & Growth', desc: 'To accomplish significant, measurable results.' },
+    { id: 'industry', name: 'Industry (Hard Work)', cat: 'Mastery & Growth', desc: 'To work hard and well at my life tasks.' },
+    { id: 'creativity', name: 'Creativity', cat: 'Mastery & Growth', desc: 'To invent original ideas, systems, or works of art.' },
+    { id: 'self_control', name: 'Self-Control & Discipline', cat: 'Mastery & Growth', desc: 'To govern my own impulses and follow through on daily habits.' },
+    { id: 'realism', name: 'Realism & Practicality', cat: 'Mastery & Growth', desc: 'To see reality clearly as it is and act practically.' },
+    { id: 'rationality', name: 'Rationality & Logic', cat: 'Mastery & Growth', desc: 'To think clearly and be guided by reason and evidence.' },
+    { id: 'wealth', name: 'Wealth & Financial Freedom', cat: 'Mastery & Growth', desc: 'To build financial abundance, security, and options.' },
+
+    // Meaning, Faith & Inner State
+    { id: 'faith', name: 'Faith', cat: 'Meaning & Peace', desc: 'To walk with deep trust in God and eternal purpose.' },
+    { id: 'jesus_christ', name: 'Jesus Christ / God’s Will', cat: 'Meaning & Peace', desc: 'To anchor my life in Christ and seek God’s direction.' },
+    { id: 'spiritual', name: 'Spirituality', cat: 'Meaning & Peace', desc: 'To nurture my inner spirit and connection with the divine.' },
+    { id: 'hope', name: 'Hope & Optimism', cat: 'Meaning & Peace', desc: 'To maintain a bright, hopeful outlook even in dark seasons.' },
+    { id: 'purpose', name: 'Purpose', cat: 'Meaning & Peace', desc: 'To have clear meaning and overarching direction in my life.' },
+    { id: 'inner_peace', name: 'Inner Peace', cat: 'Meaning & Peace', desc: 'To experience calm and quiet confidence inside.' },
+    { id: 'simplicity', name: 'Simplicity', cat: 'Meaning & Peace', desc: 'To live simply, cutting out noise and unnecessary clutter.' },
+    { id: 'solitude', name: 'Solitude', cat: 'Meaning & Peace', desc: 'To have quiet time and space apart from others to think and recharge.' },
+    { id: 'health', name: 'Health & Fitness', cat: 'Meaning & Peace', desc: 'To feel physically strong, energetic, and well.' },
+    { id: 'stability', name: 'Stability & Order', cat: 'Meaning & Peace', desc: 'To have a life that is well-ordered, predictable, and secure.' },
+    { id: 'leisure', name: 'Leisure & Rest', cat: 'Meaning & Peace', desc: 'To make unhurried time to relax, recover, and enjoy life.' },
+    { id: 'self_knowledge', name: 'Self-Knowledge', cat: 'Meaning & Peace', desc: 'To have a deep, honest, unfiltered understanding of myself.' }
+  ];
+
+  // =========================================================================
+  // 2. ALL 34 GALLUP CLIFTONSTRENGTHS (WITH REAL GENIUS & BLIND SPOT)
+  // =========================================================================
+  const CLIFTON_34 = [
+    // EXECUTING (9)
+    { name: 'Achiever', domain: 'Executing', genius: 'High stamina; loves completing tangible tasks every single day.', blindSpot: 'Can feel guilty resting; may value checking boxes over whether the box mattered.' },
+    { name: 'Arranger', domain: 'Executing', genius: 'Juggles complex moving parts and reconfigures people/resources in real time.', blindSpot: 'Constant reorganizing can confuse people who crave static routines.' },
+    { name: 'Belief', domain: 'Executing', genius: 'Driven by unchanging core values; work must have real meaning.', blindSpot: 'Can come across as rigid or judgmental when others don’t share the same convictions.' },
+    { name: 'Consistency', domain: 'Executing', genius: 'Creates fair rules, clear expectations, and a level playing field.', blindSpot: 'May struggle with exceptions or customize too little for unique individuals.' },
+    { name: 'Deliberative', domain: 'Executing', genius: 'Spots hidden mines and assesses risk carefully before stepping forward.', blindSpot: 'Can seem slow to decide, guarded, or overly skeptical of new ideas.' },
+    { name: 'Discipline', domain: 'Executing', genius: 'Builds repeatable routines, timelines, and order out of mess.', blindSpot: 'Gets frustrated when plans are disrupted or when others work messy.' },
+    { name: 'Focus', domain: 'Executing', genius: 'Locks onto a target and filters out distractions until the goal is hit.', blindSpot: 'Can become tunnel-visioned and impatient with detours or brainstorming.' },
+    { name: 'Responsibility', domain: 'Executing', genius: 'Total psychological ownership—if you say you’ll do it, it gets done.', blindSpot: 'Says yes to too much and carries other people’s monkeys on your back.' },
+    { name: 'Restorative', domain: 'Executing', genius: 'Energized by diagnosing broken things, bugs, or crises and fixing them.', blindSpot: 'Can dwell on what is flawed or broken instead of celebrating what works.' },
+
+    // INFLUENCING (8)
+    { name: 'Activator', domain: 'Influencing', genius: 'Turns talk into immediate action; learns by starting now.', blindSpot: 'Leaps before looking; gets impatient with long planning sessions.' },
+    { name: 'Command', domain: 'Influencing', genius: 'Unafraid of confrontation; brings clarity and decisive presence in a crisis.', blindSpot: 'Can intimidate quieter voices if not tempered with listening.' },
+    { name: 'Communication', domain: 'Influencing', genius: 'Brings ideas to life through vivid stories, images, and plain words.', blindSpot: 'Can talk past people or think out loud before the thought is baked.' },
+    { name: 'Competition', domain: 'Influencing', genius: 'Measures score against the best and elevates performance to win.', blindSpot: 'Takes losing hard; may turn collaborative moments into a scoreboard.' },
+    { name: 'Maximizer', domain: 'Influencing', genius: 'Takes something already good and polishes it into world-class excellence.', blindSpot: 'Hates fixing broken baselines; can tinker endlessly when "good enough" is needed.' },
+    { name: 'Self-Assurance', domain: 'Influencing', genius: 'Deep inner compass; steady and confident when the road is uncharted.', blindSpot: 'May seem like you don’t need anyone else’s input or counsel.' },
+    { name: 'Significance', domain: 'Influencing', genius: 'Wants to do big, visible work that leaves a real mark on the world.', blindSpot: 'Can feel deflated if hard work goes unnoticed or feels small.' },
+    { name: 'Woo', domain: 'Influencing', genius: 'Wins others over quickly; energized by strangers and breaking the ice.', blindSpot: 'May favor breadth of connections over deep, long-term follow-through.' },
+
+    // RELATIONSHIP BUILDING (9)
+    { name: 'Adaptability', domain: 'Relationship', genius: 'Calm in the present moment; pivots smoothly when the day blows up.', blindSpot: 'Can drift without long-term structure if nobody sets the destination.' },
+    { name: 'Connectedness', domain: 'Relationship', genius: 'Sees the invisible threads linking people, events, and a larger purpose.', blindSpot: 'Can sound abstract when someone just wants a quick tactical fix.' },
+    { name: 'Developer', domain: 'Relationship', genius: 'Spots raw potential in people and celebrates every small step of growth.', blindSpot: 'Can over-invest in someone who isn’t willing to do their own work.' },
+    { name: 'Empathy', domain: 'Relationship', genius: 'Instantly senses the emotional temperature of a person or room.', blindSpot: 'Can absorb other people’s stress and struggle to make tough, unpopular calls.' },
+    { name: 'Harmony', domain: 'Relationship', genius: 'Finds practical common ground and defuses unproductive friction.', blindSpot: 'May avoid necessary conflict or silence your own opinion just to keep peace.' },
+    { name: 'Includer', domain: 'Relationship', genius: 'Notices who is standing on the outside and widens the circle.', blindSpot: 'Can struggle when a group needs to stay small or selective.' },
+    { name: 'Individualization', domain: 'Relationship', genius: 'Sees what makes each person one-of-a-kind and how to bring out their best.', blindSpot: 'Can customize so much that group-wide standards get blurry.' },
+    { name: 'Positivity', domain: 'Relationship', genius: 'Brings contagious warmth, humor, and hope to heavy rooms.', blindSpot: 'Can make cynical or exhausted people feel their real pain is being glossed over.' },
+    { name: 'Relator', domain: 'Relationship', genius: 'Builds deep, authentic, loyal trust with a close inner circle.', blindSpot: 'Hates small talk; can seem cliquish or hard to get to know at first.' },
+
+    // STRATEGIC THINKING (8)
+    { name: 'Analytical', domain: 'Strategic', genius: 'Cuts through hype by asking "Show me the data and the root cause."', blindSpot: 'Analysis paralysis; can sound overly critical of intuitive ideas.' },
+    { name: 'Context', domain: 'Strategic', genius: 'Understands the present by knowing how we got here and what worked before.', blindSpot: 'Can resist new approaches if you don’t understand the history behind them.' },
+    { name: 'Futuristic', domain: 'Strategic', genius: 'Paints a vivid picture of what life/business could look like 3–5 years out.', blindSpot: 'Can live so far in tomorrow that today’s messy execution feels boring.' },
+    { name: 'Ideation', domain: 'Strategic', genius: 'Loves blank whiteboards; connects unrelated dots into fresh concepts.', blindSpot: 'Generates 20 new ideas before the team finishes executing the first one.' },
+    { name: 'Input', domain: 'Strategic', genius: 'Voracious collector of useful tools, books, facts, and resources.', blindSpot: 'Can hoard information without distilling or acting on it.' },
+    { name: 'Intellection', domain: 'Strategic', genius: 'Deep, philosophical thinker who needs quiet time to wrestle with ideas.', blindSpot: 'Can seem aloof or lost in your own head during fast-moving meetings.' },
+    { name: 'Learner', domain: 'Strategic', genius: 'Energized by the steep part of the learning curve and mastering new domains.', blindSpot: 'Can lose interest once a skill is mastered and becomes routine maintenance.' },
+    { name: 'Strategic', domain: 'Strategic', genius: 'Spots patterns in complexity and asks "What if?" to find the best path fast.', blindSpot: 'Skips steps when explaining your conclusion, leaving others wondering how you got there.' }
+  ];
+
+  // =========================================================================
+  // 3. GALLUP-STYLE PAIRED INSTINCT ASSESSMENT (10 FORCED-CHOICE PAIRS)
+  // Both sides are good. Forced choice reveals instinctive wiring.
+  // =========================================================================
+  const INSTINCT_PAIRS = [
+    {
+      id: 1,
+      leftText: 'When a new project starts, I want to jump in immediately and learn by testing things in motion.',
+      leftThemes: ['Activator', 'Adaptability'],
+      rightText: 'When a new project starts, I want to step back, see the whole board, and map the smartest route first.',
+      rightThemes: ['Strategic', 'Deliberative']
+    },
+    {
+      id: 2,
+      leftText: 'I get a bigger kick out of taking something broken or stuck and figuring out how to fix it.',
+      leftThemes: ['Restorative', 'Analytical'],
+      rightText: 'I get a bigger kick out of taking something already strong and making it exceptional.',
+      rightThemes: ['Maximizer', 'Futuristic']
+    },
+    {
+      id: 3,
+      leftText: 'I do my best work when my day has a clear, predictable routine and structure.',
+      leftThemes: ['Discipline', 'Focus', 'Consistency'],
+      rightText: 'I do my best work when I’m orchestrating multiple moving pieces and adjusting on the fly.',
+      rightThemes: ['Arranger', 'Adaptability']
+    },
+    {
+      id: 4,
+      leftText: 'In social settings, I’d much rather go deep one-on-one with a few people I truly trust.',
+      leftThemes: ['Relator', 'Individualization'],
+      rightText: 'In social settings, I love the energy of meeting new people and winning a room over.',
+      rightThemes: ['Woo', 'Communication', 'Includer']
+    },
+    {
+      id: 5,
+      leftText: 'When tension rises, my instinct is to confront the issue head-on and speak the plain truth.',
+      leftThemes: ['Command', 'Self-Assurance', 'Belief'],
+      rightText: 'When tension rises, my instinct is to lower the temperature and find common ground everyone can agree on.',
+      rightThemes: ['Harmony', 'Empathy', 'Positivity']
+    },
+    {
+      id: 6,
+      leftText: 'A great day for me means checking off tangible accomplishments and producing visible output.',
+      leftThemes: ['Achiever', 'Responsibility', 'Competition'],
+      rightText: 'A great day for me means diving down a rabbit hole to learn, think, or invent a new idea.',
+      rightThemes: ['Learner', 'Ideation', 'Intellection', 'Input']
+    },
+    {
+      id: 7,
+      leftText: 'When making a big call, I look to proven data, root causes, and lessons from the past.',
+      leftThemes: ['Analytical', 'Context', 'Deliberative'],
+      rightText: 'When making a big call, I look to a bold vision of what the future could become.',
+      rightThemes: ['Futuristic', 'Strategic', 'Significance']
+    },
+    {
+      id: 8,
+      leftText: 'People count on me most because my word is ironclad—I will carry the load across the finish line.',
+      leftThemes: ['Responsibility', 'Belief', 'Achiever'],
+      rightText: 'People count on me most because I spot their unique gifts and coach them to grow.',
+      rightThemes: ['Developer', 'Individualization', 'Connectedness']
+    }
+  ];
+
+  // =========================================================================
+  // 4. STATE
+  // =========================================================================
+  let state = {
+    persona: 'adult',
+    step: 2,
+    name: 'Blake',
+    seasonFocus: 'Intentional family presence, discipleship & business leverage',
+
+    // Step 2: Values Card Sort State
+    cardRound: 1, // 1 = Sort, 2 = Truth Filter & Pillars, 3 = 3-Pillar Board
+    viewMode: 'deal', // 'deal' | 'grid'
+    catFilter: 'All',
+    dealIdx: 0,
+    piles: {
+      core: [
+        'faith', 'adventure', 'integrity',
+        'jesus_christ', 'kindness', 'spiritual', 'family', 'humility', 'ethics', 'hope', 'friendship',
+        'awe', 'wonder', 'fun', 'learning', 'risk_taking', 'independence', 'overcome_obstacles',
+        'honesty', 'loyal', 'truth', 'authentic', 'trustworthy', 'free_of_deception', 'open', 'leadership', 'accountable'
+      ],
+      important: ['mastery', 'creativity', 'health', 'simplicity'],
+      pass: []
+    },
+    pillars: ['faith', 'adventure', 'integrity'],
+    subValues: {
+      faith: ['jesus_christ', 'kindness', 'spiritual', 'family', 'humility', 'ethics', 'hope', 'friendship'],
+      adventure: ['awe', 'wonder', 'fun', 'learning', 'risk_taking', 'independence', 'overcome_obstacles'],
+      integrity: ['honesty', 'loyal', 'truth', 'authentic', 'trustworthy', 'free_of_deception', 'open', 'leadership', 'accountable']
+    },
+    activeTargetPillar: 'faith',
+    peakMomentNote: 'Building something real with my hands and mind while staying present and honest with my family.',
+
+    // Step 3: CliftonStrengths + SIGN State
+    strengthSubTab: 'pairs', // 'pairs' | 'sign' | 'all34'
+    pairScores: { 1: 2, 2: 2, 3: 1, 4: -2, 5: -1, 6: -1, 7: 2, 8: -1 }, // -2 (Strong Left), -1 (Lean Left), 1 (Lean Right), 2 (Strong Right)
+    domainFilter: 'All',
+    topStrengths: ['Strategic', 'Futuristic', 'Relator', 'Achiever', 'Ideation'],
+    signEnergize: 'Designing systems, solving root-cause bottlenecks, and coaching people one-on-one.',
+    signDrain: 'Repetitive administrative status updates without clear leverage.',
+
+    // Step 4: Roles & 90-Day Goals
+    roles: [
+      { role: 'Husband, Father & Covenant Man', pillar: 'FAITH', goal90: 'Unrushed family dinners, morning stillness & weekly 1-on-1 with Javan' },
+      { role: 'Explorer & Lifelong Learner', pillar: 'ADVENTURE', goal90: 'Build & ship creative projects and plan one outdoor family adventure a month' },
+      { role: 'Builder & Executive (Merit3D)', pillar: 'INTEGRITY', goal90: 'Zero-spin customer trust, predictable floor ops & 90-min daily deep work' }
+    ],
+
+    // Step 5: Daily ONE Thing & Plain-English Reflection
+    oneThingToday: '90-minute deep work sprint on the highest-leverage bottleneck before 11 AM',
+    onePersonToHelp: 'Protect 1-on-1 time with Javan after school',
+    morningScriptureNote: 'Stay grounded in truth and take the next faithful step.',
+    eveningWhereWorked: 'Finished the deep work block early and kept my promise on a hard call.',
+    eveningEnergyAudit: 'Energized by building and problem-solving; drained by context-switching.',
+    eveningLetGo: 'Tomorrow’s unknowns—handing them over so I can rest.'
+  };
+
+  function cardById(id) {
+    return ADULT_VALUE_DECK.find(c => c.id === id) || { id, name: id.replace(/_/g, ' '), cat: 'Custom', desc: 'Personal value card' };
+  }
+
+  function loadBlakeExactBoard() {
+    state.pillars = ['faith', 'adventure', 'integrity'];
+    state.subValues = {
+      faith: ['jesus_christ', 'kindness', 'spiritual', 'family', 'humility', 'ethics', 'hope', 'friendship'],
+      adventure: ['awe', 'wonder', 'fun', 'learning', 'risk_taking', 'independence', 'overcome_obstacles'],
+      integrity: ['honesty', 'loyal', 'truth', 'authentic', 'trustworthy', 'free_of_deception', 'open', 'leadership', 'accountable']
+    };
+    state.piles.core = [
+      'faith', 'adventure', 'integrity',
+      ...state.subValues.faith,
+      ...state.subValues.adventure,
+      ...state.subValues.integrity
+    ];
+    state.step = 2;
+    state.cardRound = 3;
+    render();
+  }
+
+  function startFreshSort() {
+    state.dealIdx = 0;
+    state.piles = { core: [], important: [], pass: [] };
+    state.pillars = [];
+    state.subValues = {};
+    state.step = 2;
+    state.cardRound = 1;
+    state.viewMode = 'deal';
+    render();
+  }
+
+  function setPersona(p) {
+    state.persona = p;
+    document.getElementById('btnModeAdult').classList.toggle('active', p === 'adult');
+    document.getElementById('btnModeYouth').classList.toggle('active', p === 'youth');
+    render();
+  }
+
+  function setStep(s) {
+    state.step = s;
+    render();
+  }
+
+  // =========================================================================
+  // 5. RENDER ENGINE
+  // =========================================================================
+  function render() {
+    renderStepper();
+    const el = document.getElementById('stepContent');
+    if (state.step === 1) el.innerHTML = renderStep1();
+    else if (state.step === 2) el.innerHTML = renderStep2Values();
+    else if (state.step === 3) el.innerHTML = renderStep3Strengths();
+    else if (state.step === 4) el.innerHTML = renderStep4Goals();
+    else if (state.step === 5) el.innerHTML = renderStep5Daily();
+  }
+
+  function renderStepper() {
+    const steps = [
+      { n: 1, title: '1. Why Truth Matters' },
+      { n: 2, title: '2. Values Card Sort (57)' },
+      { n: 3, title: '3. Strengths & SIGN' },
+      { n: 4, title: '4. Roles & 90-Day Rocks' },
+      { n: 5, title: '5. Daily ONE Thing' }
+    ];
+    document.getElementById('stepperBar').innerHTML = steps.map(s => `
+      <button class="step-tab ${state.step === s.n ? 'active' : ''}" onclick="setStep(${s.n})">
+        <span class="step-num">Step ${s.n}</span>
+        <span class="step-title">${s.title}</span>
+      </button>
+    `).join('');
+  }
+
+  // -------------------------------------------------------------------------
+  // STEP 1: WHY SELF-KNOWLEDGE MATTERS (PRACTICED VS. ASPIRATIONAL)
+  // -------------------------------------------------------------------------
+  function renderStep1() {
+    return `
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">🧭 Discovering the Truth About How You Are Wired</h2>
+            <p class="panel-sub">Most self-improvement fails because people build plans for who they think they <em>"should"</em> be instead of who they actually are.</p>
+          </div>
+        </div>
+
+        <div class="truth-callout">
+          <strong>The #1 Rule of This Walkthrough (Brené Brown &amp; Marcus Buckingham):</strong><br>
+          Watch out for <strong>"Aspirational Values"</strong>—words you pick just because they sound noble or expected. We are looking for your <strong>Practiced Values</strong> (what you actually stand for under pressure) and your <strong>Instinctive Strengths</strong> (what genuinely gives you energy rather than draining you).
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+          <div>
+            <label class="field-label">Your Name</label>
+            <input class="field-input" value="${state.name}" oninput="state.name=this.value">
+          </div>
+          <div>
+            <label class="field-label">Current Season Headline</label>
+            <input class="field-input" value="${state.seasonFocus}" oninput="state.seasonFocus=this.value">
+          </div>
+        </div>
+
+        <label class="field-label">🔥 Peak Moment Truth Check (Before You Sort a Single Card)</label>
+        <p style="font-size:13px; color:var(--muted); margin:0 0 8px;">
+          Think of a specific moment in the last 1–2 years when you felt most alive, proud, and completely yourself. What were you doing, and what made it feel so right?
+        </p>
+        <input class="field-input" value="${state.peakMomentNote}" oninput="state.peakMomentNote=this.value">
+
+        <div style="display:flex; justify-content:flex-end; margin-top:14px;">
+          <button class="btn btn-primary" onclick="setStep(2)">Start the 57-Card Values Sort →</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // -------------------------------------------------------------------------
+  // STEP 2: THE AUTHENTIC 3-ROUND VALUES CARD SORT
+  // -------------------------------------------------------------------------
+  function renderStep2Values() {
+    const deck = ADULT_VALUE_DECK;
+    const currentCard = deck[state.dealIdx % deck.length];
+
+    return `
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">🃏 The Personal Values Card Sort</h2>
+            <p class="panel-sub">Based on the University of New Mexico Personal Values Card Sort (Miller et al.) &amp; <em>The ONE Thing</em> / BestSelf Deck.</p>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button class="btn btn-sm" onclick="startFreshSort()">🔄 Empty Table &amp; Sort from Scratch</button>
+            <button class="btn btn-sm btn-gold" onclick="loadBlakeExactBoard()">⚡ Load Blake’s Exact Board</button>
+          </div>
+        </div>
+
+        <div class="round-pills">
+          <button class="round-pill ${state.cardRound === 1 ? 'active' : ''}" onclick="state.cardRound=1; render();">
+            Round 1: Gut-Instinct Sort (${state.piles.core.length} in Core Pile)
+          </button>
+          <button class="round-pill ${state.cardRound === 2 ? 'active' : ''}" onclick="state.cardRound=2; render();">
+            Round 2: Truth Filter &amp; Pick 3 Pillars (${state.pillars.length}/3)
+          </button>
+          <button class="round-pill ${state.cardRound === 3 ? 'active' : ''}" onclick="state.cardRound=3; render();">
+            Round 3: Cluster Sub-Values Under Your 3 Pillars
+          </button>
+        </div>
+
+        ${state.cardRound === 1 ? renderValuesRound1(deck, currentCard) : ''}
+        ${state.cardRound === 2 ? renderValuesRound2() : ''}
+        ${state.cardRound === 3 ? renderValuesRound3() : ''}
+
+        <div style="display:flex; justify-content:space-between; margin-top:22px; padding-top:16px; border-top:1px solid var(--line);">
+          <button class="btn" onclick="setStep(1)">← Back</button>
+          ${state.cardRound < 3
+            ? `<button class="btn btn-primary" onclick="state.cardRound++; render();">Next: Round ${state.cardRound + 1} →</button>`
+            : `<button class="btn btn-primary" onclick="setStep(3)">Save Values Board &amp; Go to CliftonStrengths →</button>`
+          }
+        </div>
+      </div>
+    `;
+  }
+
+  function renderValuesRound1(deck, currentCard) {
+    const categories = ['All', ...new Set(deck.map(c => c.cat))];
+    const filteredDeck = state.catFilter === 'All' ? deck : deck.filter(c => c.cat === state.catFilter);
+
+    return `
+      <div class="truth-callout">
+        <strong>How to Sort Honestly:</strong> Don’t ask <em>"Is this a good thing?"</em> (Almost every card is a good thing!) Ask: <strong>"If I couldn’t have this in my life, would I stop feeling like myself?"</strong> Put only your true non-negotiables in <strong>🔥 Very Important to Me</strong>.
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:14px;">
+        <span style="font-size:13px; font-weight:700; color:var(--muted);">
+          Card ${state.dealIdx + 1} of ${deck.length}
+        </span>
+        <div style="display:flex; gap:6px;">
+          <button class="btn btn-sm ${state.viewMode === 'deal' ? 'btn-primary' : ''}" onclick="state.viewMode='deal'; render();">🃏 Flip One-by-One</button>
+          <button class="btn btn-sm ${state.viewMode === 'grid' ? 'btn-primary' : ''}" onclick="state.viewMode='grid'; render();">⊞ Spread All ${deck.length} Cards on Table</button>
+        </div>
+      </div>
+
+      ${state.viewMode === 'deal' ? `
+        <div class="deck-stage">
+          <div class="physical-card">
+            <div class="card-top-meta">
+              <span>${currentCard.cat}</span>
+              <span>Card #${state.dealIdx + 1} / ${deck.length}</span>
+            </div>
+            <div>
+              <h3 class="card-main-word">${currentCard.name}</h3>
+              <p class="card-def">"${currentCard.desc}"</p>
+              <div class="card-truth-prompt">
+                <strong>Gut check:</strong> Does this drive your real decisions when nobody is watching, or does it just sound nice?
+              </div>
+            </div>
+            <div class="sort-actions">
+              <button class="sort-btn core" onclick="sortCard('core')">🔥 Very Important<br><span style="font-weight:500; font-size:10px;">(Core to Who I Am)</span></button>
+              <button class="sort-btn imp" onclick="sortCard('important')">👍 Important<br><span style="font-weight:500; font-size:10px;">(Nice to Have)</span></button>
+              <button class="sort-btn pass" onclick="sortCard('pass')">👋 Not My Core<br><span style="font-weight:500; font-size:10px;">(Discard Pile)</span></button>
+            </div>
+          </div>
+
+          <div class="piles-col">
+            <div class="pile-box core-pile">
+              <div class="pile-hdr">
+                <span>🔥 "Very Important to Me" Pile</span>
+                <span>${state.piles.core.length} cards</span>
+              </div>
+              <div class="pile-chips">
+                ${state.piles.core.map(id => `<span class="val-chip" onclick="removeFromCore('${id}')" title="Click to remove">${cardById(id).name} ×</span>`).join('')}
+                ${state.piles.core.length === 0 ? `<span style="font-size:12px; color:var(--muted);">Flip through the cards on the left to build your shortlist...</span>` : ''}
+              </div>
+            </div>
+
+            <div class="pile-box">
+              <div class="pile-hdr">
+                <span>👍 "Important to Me" Pile</span>
+                <span>${state.piles.important.length} cards</span>
+              </div>
+              <div class="pile-chips">
+                ${state.piles.important.map(id => `<span class="val-chip" onclick="promoteToCore('${id}')" title="Promote to Core">${cardById(id).name} ↑</span>`).join('')}
+              </div>
+            </div>
+
+            <div style="display:flex; gap:8px; margin-top:auto;">
+              <input id="customValInput" class="field-input" style="margin:0;" placeholder="Write in a custom value card (blank card)...">
+              <button class="btn btn-sm" onclick="addCustomValue()">+ Add Card</button>
+            </div>
+          </div>
+        </div>
+      ` : `
+        <div class="cat-filter-bar">
+          ${categories.map(cat => `
+            <button class="btn btn-sm ${state.catFilter === cat ? 'btn-primary' : ''}" onclick="state.catFilter='${cat}'; render();">${cat}</button>
+          `).join('')}
+        </div>
+        <div class="all-cards-grid">
+          ${filteredDeck.map(c => {
+            const isCore = state.piles.core.includes(c.id);
+            return `
+              <div class="mini-val-card ${isCore ? 'is-core' : ''}" onclick="toggleCoreCard('${c.id}')">
+                <span class="mini-val-name">${isCore ? '🔥 ' : ''}${c.name}</span>
+                <span class="mini-val-desc">${c.desc}</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `}
+    `;
+  }
+
+  function renderValuesRound2() {
+    return `
+      <div class="truth-callout">
+        <strong>The Trade-Off Test (Gary Keller &amp; Jim Collins):</strong><br>
+        Look at all the cards in your shortlist below. You can’t have 20 #1 priorities. Ask yourself: <strong>"Which 3 of these cards are the 'parent' umbrella values (your 3 Anchor Pillars), and which ones are the supporting expressions that fit underneath them?"</strong>
+      </div>
+
+      <div style="margin-bottom:18px;">
+        <div style="font-size:13px; font-weight:800; margin-bottom:8px;">
+          Tap 3 cards from your Core pile to make them your 3 Anchor Pillars (${state.pillars.length}/3 selected):
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          ${state.piles.core.map(id => {
+            const c = cardById(id);
+            const isPillar = state.pillars.includes(id);
+            return `
+              <button class="val-chip ${isPillar ? 'pillar-selected' : ''}" style="padding:9px 15px; font-size:13px;" onclick="togglePillar('${id}')">
+                ${isPillar ? '🏛️ PILLAR: ' : ''}${c.name}
+              </button>
+            `;
+          }).join('')}
+        </div>
+      </div>
+
+      <div class="triad-board">
+        ${[0, 1, 2].map(i => {
+          const pid = state.pillars[i];
+          const c = pid ? cardById(pid) : null;
+          return `
+            <div class="pillar-top-card" style="opacity:${c ? 1 : 0.45}">
+              <span class="pillar-slot-label">Anchor Pillar #${i + 1}</span>
+              <div class="pillar-top-name">${c ? c.name : 'Select a card above'}</div>
+              ${c ? `<div style="font-size:12px; opacity:0.85; margin-top:4px;">${c.desc}</div>` : ''}
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+
+  function renderValuesRound3() {
+    const assigned = new Set([...state.pillars, ...Object.values(state.subValues).flat()]);
+    const unassigned = state.piles.core.filter(id => !assigned.has(id));
+    const activePillar = state.activeTargetPillar || state.pillars[0] || 'faith';
+
+    return `
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+          <div>
+            <h3 style="margin:0; font-size:18px;">Cluster Your Supporting Values Under Your 3 Pillars</h3>
+            <p style="margin:2px 0 0; font-size:13px; color:var(--muted);">
+              This defines what each Pillar means <em>to you personally</em>. Click a Pillar column below to select it, then tap cards in the tray to tuck them underneath.
+            </p>
+          </div>
+          ${unassigned.length > 0 ? `<button class="btn btn-sm" onclick="autoDistributeSubvalues()">✨ Auto-Group Remaining (${unassigned.length})</button>` : ''}
+        </div>
+
+        <!-- Unassigned Cards Tray -->
+        <div style="background:var(--bg); border:1.5px dashed var(--gold-border); border-radius:12px; padding:12px 14px; margin-bottom:16px;">
+          <div style="font-size:12px; font-weight:800; color:var(--muted); margin-bottom:8px;">
+            REMAINING CORE CARDS — Tap any card to tuck it under <strong>${cardById(activePillar).name.toUpperCase()}</strong>:
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px;">
+            ${unassigned.length > 0 ? unassigned.map(id => `
+              <button class="val-chip" onclick="assignSubValue('${id}')">+ ${cardById(id).name}</button>
+            `).join('') : `<span style="font-size:13px; color:var(--green); font-weight:700;">✓ All ${state.piles.core.length} cards from your Core pile are organized onto your 3-Pillar Board!</span>`}
+          </div>
+        </div>
+
+        <!-- 3-Column Board -->
+        <div class="triad-board">
+          ${state.pillars.map((pid, idx) => {
+            const pCard = cardById(pid);
+            const subs = state.subValues[pid] || [];
+            const isTarget = activePillar === pid;
+            return `
+              <div class="pillar-col" style="${isTarget ? 'box-shadow: 0 0 0 3px var(--gold);' : ''}" onclick="state.activeTargetPillar='${pid}'; render();">
+                <div class="pillar-top-card">
+                  <span class="pillar-slot-label">Pillar ${idx + 1} ${isTarget ? '· Active Target' : '(Tap to select)'}</span>
+                  <div class="pillar-top-name">${pCard.name}</div>
+                </div>
+                <div class="subval-list">
+                  ${subs.map(sid => {
+                    const sc = cardById(sid);
+                    return `
+                      <div class="subval-card" title="${sc.desc}">
+                        <span>${sc.name}</span>
+                        <button class="subval-remove" onclick="event.stopPropagation(); removeSubValue('${pid}', '${sid}')">×</button>
+                      </div>
+                    `;
+                  }).join('')}
+                  ${subs.length === 0 ? `<div style="font-size:12px; color:var(--muted); text-align:center; padding:20px 8px;">Tap cards in the tray above to tuck them under ${pCard.name}</div>` : ''}
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // -------------------------------------------------------------------------
+  // STEP 3: AUTHENTIC CLIFTONSTRENGTHS + MARCUS BUCKINGHAM'S SIGN FRAMEWORK
+  // -------------------------------------------------------------------------
+  function renderStep3Strengths() {
+    return `
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">⚡ CliftonStrengths &amp; The "SIGN" Truth Discovery</h2>
+            <p class="panel-sub">A real strength isn’t just what you’re good at—many capable people burn out doing things they are good at that secretly drain them. A true strength <strong>energizes</strong> you.</p>
+          </div>
+        </div>
+
+        <!-- Sub-navigation for Strengths -->
+        <div class="round-pills">
+          <button class="round-pill ${state.strengthSubTab === 'pairs' ? 'active' : ''}" onclick="state.strengthSubTab='pairs'; render();">
+            1. Paired-Instinct Trade-Offs (Gallup Method)
+          </button>
+          <button class="round-pill ${state.strengthSubTab === 'all34' ? 'active' : ''}" onclick="state.strengthSubTab='all34'; render();">
+            2. All 34 Themes (Genius + Blind Spot Check)
+          </button>
+          <button class="round-pill ${state.strengthSubTab === 'sign' ? 'active' : ''}" onclick="state.strengthSubTab='sign'; render();">
+            3. Energy Audit (Buckingham’s S.I.G.N. Test)
+          </button>
+        </div>
+
+        <!-- Current Top 5 Summary -->
+        <div style="background:var(--gold-light); border:1.5px solid var(--gold-border); border-radius:12px; padding:12px 16px; margin-bottom:18px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px;">
+          <div>
+            <div style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--gold);">Your Top 5 Signature Strengths (${state.topStrengths.length}/5)</div>
+            <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:6px;">
+              ${state.topStrengths.map(s => `<span class="val-chip pillar-selected" onclick="toggleStrength('${s}')">${s} ×</span>`).join('')}
+            </div>
+          </div>
+          <button class="btn btn-sm btn-gold" onclick="scorePairedInstincts()">✨ Score My Paired Instincts → Top 5</button>
+        </div>
+
+        ${state.strengthSubTab === 'pairs' ? renderInstinctPairs() : ''}
+        ${state.strengthSubTab === 'all34' ? renderAll34Explorer() : ''}
+        ${state.strengthSubTab === 'sign' ? renderSignFramework() : ''}
+
+        <div style="display:flex; justify-content:space-between; margin-top:22px; padding-top:16px; border-top:1px solid var(--line);">
+          <button class="btn" onclick="setStep(2)">← Back to Values Sort</button>
+          <button class="btn btn-primary" onclick="setStep(4)">Next: Roles &amp; 90-Day Rocks →</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderInstinctPairs() {
+    return `
+      <div>
+        <div class="truth-callout">
+          <strong>Why Paired Statements Work (The Gallup Method):</strong><br>
+          When you look at a list of positive traits, everything looks good. Gallup’s assessment forces two healthy human instincts head-to-head. Don’t overthink it—pick whichever side describes your <strong>automatic default</strong> when the clock is ticking.
+        </div>
+
+        ${INSTINCT_PAIRS.map(p => {
+          const val = state.pairScores[p.id] || 0;
+          return `
+            <div class="pair-row">
+              <span class="pair-num">Instinct Trade-Off #${p.id} of ${INSTINCT_PAIRS.length}</span>
+              <div class="pair-grid">
+                <div class="pair-stmt" style="${val < 0 ? 'border-color:var(--accent); background:var(--accent-light);' : ''}">
+                  ${p.leftText}
+                  <div style="font-size:11px; color:var(--muted); margin-top:4px; font-weight:600;">Signals: ${p.leftThemes.join(', ')}</div>
+                </div>
+
+                <div class="pair-scale">
+                  <button class="scale-btn ${val === -2 ? 'active' : ''}" onclick="setPairScore(${p.id}, -2)">Strongly Left</button>
+                  <button class="scale-btn ${val === -1 ? 'active' : ''}" onclick="setPairScore(${p.id}, -1)">Lean Left</button>
+                  <button class="scale-btn ${val === 1 ? 'active' : ''}" onclick="setPairScore(${p.id}, 1)">Lean Right</button>
+                  <button class="scale-btn ${val === 2 ? 'active' : ''}" onclick="setPairScore(${p.id}, 2)">Strongly Right</button>
+                </div>
+
+                <div class="pair-stmt" style="${val > 0 ? 'border-color:var(--accent); background:var(--accent-light);' : ''}">
+                  ${p.rightText}
+                  <div style="font-size:11px; color:var(--muted); margin-top:4px; font-weight:600;">Signals: ${p.rightThemes.join(', ')}</div>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+
+  function renderAll34Explorer() {
+    const domains = ['All', 'Executing', 'Influencing', 'Relationship', 'Strategic'];
+    const list = state.domainFilter === 'All' ? CLIFTON_34 : CLIFTON_34.filter(t => t.domain === state.domainFilter);
+
+    return `
+      <div>
+        <div class="truth-callout">
+          <strong>The "Genius + Blind Spot" Truth Test:</strong><br>
+          You know a CliftonStrengths theme is truly yours when <strong>both</strong> its <em>Genius</em> AND its <em>Blind Spot (Basement)</em> make you wince and say, <em>"Yep, I do that."</em> Tap any theme below to toggle it in your Top 5.
+        </div>
+
+        <div class="cat-filter-bar">
+          ${domains.map(d => `
+            <button class="btn btn-sm ${state.domainFilter === d ? 'btn-primary' : ''}" onclick="state.domainFilter='${d}'; render();">${d}</button>
+          `).join('')}
+        </div>
+
+        <div class="domains-grid">
+          ${list.map(t => {
+            const sel = state.topStrengths.includes(t.name);
+            return `
+              <div class="theme-detail-card ${sel ? 'selected' : ''}" onclick="toggleStrength('${t.name}')">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                  <strong style="font-size:15px;">${sel ? '✓ ' : ''}${t.name}</strong>
+                  <span style="font-size:11px; font-weight:800; color:var(--gold); text-transform:uppercase;">${t.domain}</span>
+                </div>
+                <div style="font-size:12px; color:var(--green); margin-bottom:3px;"><strong>★ Genius:</strong> ${t.genius}</div>
+                <div style="font-size:12px; color:var(--muted);"><strong>⚠️ Blind Spot:</strong> ${t.blindSpot}</div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderSignFramework() {
+    return `
+      <div>
+        <div class="truth-callout">
+          <strong>Marcus Buckingham’s 4 Signs of a True Strength (S.I.G.N.):</strong><br>
+          Don’t confuse <em>competence</em> with a <em>strength</em>. If you are good at something, but doing it for 3 hours makes you feel hollowed out and irritable, that’s a learned skill—not a core strength.
+        </div>
+
+        <div class="domains-grid" style="margin-bottom:18px;">
+          <div class="domain-card">
+            <strong>S — Success (Effectiveness)</strong>
+            <p style="font-size:13px; color:var(--muted); margin:4px 0 0;">When you do it, you naturally produce real results without feeling like you’re swimming upstream.</p>
+          </div>
+          <div class="domain-card">
+            <strong>I — Instinct (Before You Think)</strong>
+            <p style="font-size:13px; color:var(--muted); margin:4px 0 0;">You feel a magnetic pull toward it before anyone even asks—you "can’t help yourself."</p>
+          </div>
+          <div class="domain-card">
+            <strong>G — Growth (Flow State)</strong>
+            <p style="font-size:13px; color:var(--muted); margin:4px 0 0;">While doing it, you pick up nuances fast, ask better questions, and lose track of time.</p>
+          </div>
+          <div class="domain-card">
+            <strong>N — Needs (Soul Payoff)</strong>
+            <p style="font-size:13px; color:var(--muted); margin:4px 0 0;">Even if it leaves you physically tired, you finish feeling fulfilled, alive, and stronger.</p>
+          </div>
+        </div>
+
+        <label class="field-label" style="color:var(--green);">🟢 Green Zone: What activities in your week give you energy (all 4 SIGN markers)?</label>
+        <input class="field-input" value="${state.signEnergize}" oninput="state.signEnergize=this.value">
+
+        <label class="field-label" style="color:var(--coral);">🔴 Red Zone (Competent Trap): What are you "good at" that secretly drains you?</label>
+        <input class="field-input" value="${state.signDrain}" oninput="state.signDrain=this.value">
+      </div>
+    `;
+  }
+
+  // -------------------------------------------------------------------------
+  // STEP 4: ROLES & 90-DAY ROCKS
+  // -------------------------------------------------------------------------
+  function renderStep4Goals() {
+    return `
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">🎯 Aligning Roles &amp; 90-Day Rocks to Your Real Wiring</h2>
+            <p class="panel-sub">Now that you know your 3 Core Value Pillars and your Top 5 Strengths, define 1 concrete 90-Day outcome for each major area of your life.</p>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          ${state.roles.map((r, i) => `
+            <div style="background:var(--bg); border:1.5px solid var(--line); border-radius:14px; padding:16px; display:grid; grid-template-columns: 1fr 150px 1.5fr; gap:12px; align-items:center;">
+              <div>
+                <label class="field-label">Role / Arena</label>
+                <input class="field-input" style="margin:0" value="${r.role}" oninput="state.roles[${i}].role=this.value">
+              </div>
+              <div>
+                <label class="field-label">Core Pillar</label>
+                <input class="field-input" style="margin:0; font-weight:800; color:var(--gold);" value="${r.pillar}" oninput="state.roles[${i}].pillar=this.value">
+              </div>
+              <div>
+                <label class="field-label">90-Day Outcome (Rock)</label>
+                <input class="field-input" style="margin:0" value="${r.goal90}" oninput="state.roles[${i}].goal90=this.value">
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:20px;">
+          <button class="btn" onclick="setStep(3)">← Back to Strengths</button>
+          <button class="btn btn-primary" onclick="setStep(5)">Next: Daily ONE Thing &amp; Evening Check-In →</button>
+        </div>
+      </div>
+    `;
+  }
+
+  // -------------------------------------------------------------------------
+  // STEP 5: DAILY MORNING & EVENING (PLAIN ENGLISH + THE ONE THING)
+  // -------------------------------------------------------------------------
+  function renderStep5Daily() {
+    const pillarNames = state.pillars.map(id => cardById(id).name.toUpperCase());
+    return `
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">☀️🌙 Daily Rhythm: Grounded, Real &amp; Plain English</h2>
+            <p class="panel-sub">Your Core Values Triad + Gary Keller’s <em>The ONE Thing</em> focusing question + an honest evening review.</p>
+          </div>
+        </div>
+
+        <div style="background:var(--gold-light); border:1.5px solid var(--gold-border); border-radius:12px; padding:12px 16px; margin-bottom:18px; display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:11px; font-weight:800; text-transform:uppercase; color:var(--gold); display:block;">✨ Living My Core Values Today</span>
+            <strong style="font-size:16px;">${pillarNames.join('  ·  ')}</strong>
+          </div>
+          <div style="font-size:12px; color:var(--muted);">
+            Leading with Strengths: <strong>${state.topStrengths.slice(0, 5).join(' · ')}</strong>
+          </div>
+        </div>
+
+        <div class="domains-grid">
+          <div class="domain-card">
+            <h3 style="margin:0 0 10px; font-family:var(--font-serif);">🌅 Morning Planning</h3>
+            <label class="field-label" style="color:var(--gold);">🎯 Today’s ONE Thing (Gary Keller’s Focusing Question)</label>
+            <p style="font-size:12px; color:var(--muted); margin:0 0 6px;">
+              "What is the single most important thing that will make everything else easier or better if I get it done today?"
+            </p>
+            <input class="field-input" value="${state.oneThingToday}" oninput="state.oneThingToday=this.value">
+
+            <label class="field-label">📖 Morning Takeaway / Anchor Thought</label>
+            <input class="field-input" value="${state.morningScriptureNote}" oninput="state.morningScriptureNote=this.value">
+
+            <label class="field-label">🤝 Someone to Uplift Today (Kindness &amp; Connection)</label>
+            <input class="field-input" style="margin-bottom:0;" value="${state.onePersonToHelp}" oninput="state.onePersonToHelp=this.value">
+          </div>
+
+          <div class="domain-card">
+            <h3 style="margin:0 0 10px; font-family:var(--font-serif);">🌙 Evening Return &amp; Report</h3>
+            <label class="field-label" style="color:var(--green);">✓ How did I live my Core Values (${pillarNames.join('/')}) today?</label>
+            <input class="field-input" value="${state.eveningWhereWorked}" oninput="state.eveningWhereWorked=this.value">
+
+            <label class="field-label">⚡ Energy Check: Where did I feel energized vs. drained today?</label>
+            <input class="field-input" value="${state.eveningEnergyAudit}" oninput="state.eveningEnergyAudit=this.value">
+
+            <label class="field-label">🕊️ What unfinished thing am I setting down tonight so I can rest?</label>
+            <input class="field-input" style="margin-bottom:0;" value="${state.eveningLetGo}" oninput="state.eveningLetGo=this.value">
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // =========================================================================
+  // 6. INTERACTION HANDLERS
+  // =========================================================================
+  function sortCard(targetPile) {
+    const card = ADULT_VALUE_DECK[state.dealIdx % ADULT_VALUE_DECK.length];
+    ['core', 'important', 'pass'].forEach(p => {
+      state.piles[p] = state.piles[p].filter(id => id !== card.id);
+    });
+    state.piles[targetPile].push(card.id);
+    state.dealIdx = (state.dealIdx + 1) % ADULT_VALUE_DECK.length;
+    render();
+  }
+
+  function toggleCoreCard(id) {
+    if (state.piles.core.includes(id)) {
+      state.piles.core = state.piles.core.filter(x => x !== id);
+    } else {
+      state.piles.core.push(id);
+    }
+    render();
+  }
+
+  function removeFromCore(id) {
+    state.piles.core = state.piles.core.filter(x => x !== id);
+    state.pillars = state.pillars.filter(x => x !== id);
+    render();
+  }
+
+  function promoteToCore(id) {
+    state.piles.important = state.piles.important.filter(x => x !== id);
+    if (!state.piles.core.includes(id)) state.piles.core.push(id);
+    render();
+  }
+
+  function addCustomValue() {
+    const inp = document.getElementById('customValInput');
+    const val = (inp && inp.value || '').trim();
+    if (!val) return;
+    const id = val.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+    ADULT_VALUE_DECK.push({ id, name: val, cat: 'Custom', desc: 'Personal core value card.' });
+    if (!state.piles.core.includes(id)) state.piles.core.push(id);
+    inp.value = '';
+    render();
+  }
+
+  function togglePillar(id) {
+    if (state.pillars.includes(id)) {
+      state.pillars = state.pillars.filter(x => x !== id);
+    } else {
+      if (state.pillars.length >= 3) state.pillars.shift();
+      state.pillars.push(id);
+      if (!state.subValues[id]) state.subValues[id] = [];
+    }
+    state.activeTargetPillar = state.pillars[0] || 'faith';
+    render();
+  }
+
+  function assignSubValue(id) {
+    const target = state.activeTargetPillar || state.pillars[0];
+    if (!target) return;
+    Object.keys(state.subValues).forEach(k => {
+      state.subValues[k] = (state.subValues[k] || []).filter(x => x !== id);
+    });
+    if (!state.subValues[target]) state.subValues[target] = [];
+    state.subValues[target].push(id);
+    render();
+  }
+
+  function removeSubValue(pillarId, subId) {
+    state.subValues[pillarId] = (state.subValues[pillarId] || []).filter(x => x !== subId);
+    render();
+  }
+
+  function autoDistributeSubvalues() {
+    const assigned = new Set([...state.pillars, ...Object.values(state.subValues).flat()]);
+    const unassigned = state.piles.core.filter(id => !assigned.has(id));
+    unassigned.forEach((id, idx) => {
+      const p = state.pillars[idx % state.pillars.length];
+      if (p) {
+        if (!state.subValues[p]) state.subValues[p] = [];
+        state.subValues[p].push(id);
+      }
+    });
+    render();
+  }
+
+  function setPairScore(pairId, score) {
+    state.pairScores[pairId] = score;
+    render();
+  }
+
+  function scorePairedInstincts() {
+    const scores = {};
+    INSTINCT_PAIRS.forEach(p => {
+      const val = state.pairScores[p.id] || 0;
+      if (val < 0) {
+        const weight = Math.abs(val);
+        p.leftThemes.forEach(t => { scores[t] = (scores[t] || 0) + weight; });
+      } else if (val > 0) {
+        const weight = val;
+        p.rightThemes.forEach(t => { scores[t] = (scores[t] || 0) + weight; });
+      }
+    });
+    const ranked = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+    if (ranked.length >= 5) {
+      state.topStrengths = ranked.slice(0, 5);
+    }
+    render();
+  }
+
+  function toggleStrength(s) {
+    if (state.topStrengths.includes(s)) {
+      state.topStrengths = state.topStrengths.filter(x => x !== s);
+    } else if (state.topStrengths.length < 5) {
+      state.topStrengths.push(s);
+    }
+    render();
+  }
+
+  render();
+</script>
+</body>
+</html>
