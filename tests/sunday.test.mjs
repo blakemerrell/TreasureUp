@@ -247,18 +247,35 @@ async function cards({ port, sun }) {
   check(!p.errors.length, 'cards: no page errors' + (p.errors.length ? ': ' + p.errors.join(' | ') : ''));
   await dev.ctx.close();
 
-  // The committed content (no new fields yet): none of the new blocks anywhere.
+  // The committed content: each talk and lesson shows its new blocks exactly when it has them and (a talk)
+  // is approved, so this holds before and after the rewritten cards are published.
   {
     const d = await device('cards-committed', { url: live, day: sun + 'T09:00:00' });
     const q = d.page;
     await q.click('#tabs [data-tab="study"]'); await wait(700);
     const talks = await q.$$eval('#home [data-talk]', els => els.map(e => e.dataset.talk));
-    let extra = 0;
-    for (const id of talks.slice(0, 5)) { await openTalkSheet(q, id); extra += await q.locator('#appBody .talk-story, #appBody .talk-invite, #appBody .talk-try').count(); }
+    const talkOf = id => q.evaluate(id => { for (const c of window.TU_SUNDAY.conference || []) for (const t of c.talks || []) if (t.id === id) return t; return null; }, id);
+    const wrong = [];
+    let withNew = 0;
+    for (const id of talks.slice(0, 5)) {
+      const t = await talkOf(id);
+      const has = !!(t && ((t.story && t.story.text) || (Array.isArray(t.invite) && t.invite.some(x => x && x.ask)) || t.try));
+      const want = has && t.approved === fingerprint(t);
+      await openTalkSheet(q, id);
+      const got = await q.locator('#appBody .talk-story, #appBody .talk-invite, #appBody .talk-try').count() > 0;
+      if (got !== want) wrong.push(`${id}: ${got ? 'shows' : 'hides'} them`);
+      if (want) withNew++;
+    }
     await closeSheet(q);
     const lesson = await q.$$eval('#home [data-sunlesson]', els => els.map(e => e.dataset.sunlesson)[0]);
-    if (lesson) await playLesson(q, lesson, async () => { extra += await q.locator('#lessonBody .sun-kind, #lessonBody .sun-after').count(); });
-    check(talks.length > 0 && extra === 0, `cards: the committed content/sunday.js shows none of the new blocks (${Math.min(5, talks.length)} talks, ${lesson ? 'a lesson' : 'no lesson'})`);
+    if (lesson) {
+      const l = await q.evaluate(id => { for (const m of window.TU_SUNDAY.youth || []) for (const x of m.lessons || []) if (x.id === id) return x; return null; }, lesson);
+      const want = !!(l && (l.try || l.reflect || (l.cards || []).some(c => c.kind === 'scenario' || c.kind === 'verse')));
+      let extra = 0;
+      await playLesson(q, lesson, async () => { extra += await q.locator('#lessonBody .sun-kind, #lessonBody .sun-after').count(); });
+      if ((extra > 0) !== want) wrong.push(`${lesson}: ${extra ? 'shows' : 'hides'} them`);
+    }
+    check(talks.length > 0 && !wrong.length, `cards: the committed content/sunday.js shows the new blocks just where a card has them, approved (${Math.min(5, talks.length)} talks, ${withNew} with them; ${lesson ? 'a lesson' : 'no lesson'})${wrong.length ? ': ' + wrong.join('; ') : ''}`);
     await d.ctx.close();
   }
 
